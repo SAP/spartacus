@@ -416,11 +416,13 @@ describe('UserConsentService', () => {
     describe('withdrawConsent', () => {
       it('should dispatch an action', () => {
         const consentCode = 'xxx';
-        service.withdrawConsent(consentCode);
+        const consentId = 'yyy';
+        service.withdrawConsent(consentCode, consentId);
         expect(store.dispatch).toHaveBeenCalledWith(
           new UserActions.WithdrawUserConsent({
             userId,
             consentCode,
+            consentId,
           })
         );
       });

@@ -1,4 +1,3 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   Component,
   EventEmitter,
@@ -7,16 +6,17 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
 import {
   I18nTestingModule,
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
 import { TicketList } from '@spartacus/customer-ticketing/root';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
 
 const mockTicketList: TicketList = {
   pagination: {
@@ -129,7 +129,7 @@ class MockRoutingService {
 
 class MockTranslationService {
   translate(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 

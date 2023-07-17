@@ -37,16 +37,16 @@ import {
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
+  PDFModule,
   PageTitleModule,
   PaymentMethodsModule,
-  PDFModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
   ProductFacetNavigationModule,
   ProductImagesModule,
   ProductIntroModule,
-  ProductListingPageModule,
   ProductListModule,
+  ProductListingPageModule,
   ProductPageEventModule,
   ProductReferencesModule,
   ProductSummaryModule,
@@ -87,6 +87,7 @@ import { VariantsFeatureModule } from './features/product/product-variants-featu
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
+import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
@@ -123,8 +124,8 @@ if (environment.epdVisualization) {
 if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);
 }
-if (environment.cdp) {
-  featureModules.push(CdpFeatureModule);
+if (environment.segmentRefs) {
+  featureModules.push(SegmentRefsFeatureModule);
 }
 
 @NgModule({

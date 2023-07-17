@@ -11,8 +11,8 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import { Injectable, isDevMode } from '@angular/core';
-import { OccEndpointsService, WindowRef } from '@spartacus/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { LoggerService, OccEndpointsService, WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { PersonalizationConfig } from '../config/personalization-config';
@@ -23,6 +23,8 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
   private requestHeader?: string;
   private enabled = false;
   protected readonly PERSONALIZATION_ID_KEY = 'personalization-id';
+
+  protected logger = inject(LoggerService);
 
   constructor(
     private config: PersonalizationConfig,
@@ -36,7 +38,7 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
 
       if (this.enabled) {
         if (!this.config.personalization?.httpHeaderName && isDevMode()) {
-          console.warn(
+          this.logger.warn(
             `There is no httpHeaderName configured in Personalization`
           );
         }

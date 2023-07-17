@@ -15,5 +15,5 @@ export interface Environment {
   digitalPayments: boolean;
   epdVisualization: boolean;
   s4om: boolean;
-  cdp: boolean;
+  segmentRefs: boolean;
 }

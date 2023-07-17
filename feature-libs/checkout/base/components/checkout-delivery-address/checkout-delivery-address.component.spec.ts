@@ -12,9 +12,11 @@ import {
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
+  FeaturesConfig,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;
@@ -33,7 +35,7 @@ class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
   createAndSetAddress = createSpy().and.returnValue(of({}));
-  setDeliveryAddress = createSpy().and.returnValue(of());
+  setDeliveryAddress = createSpy().and.returnValue(EMPTY);
   getDeliveryAddressState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: undefined })
   );
@@ -114,7 +116,7 @@ class MockCardComponent {
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  clearCheckoutDeliveryMode = createSpy().and.returnValue(of());
+  clearCheckoutDeliveryMode = createSpy().and.returnValue(EMPTY);
 }
 
 describe('CheckoutDeliveryAddressComponent', () => {
@@ -130,7 +132,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
+        imports: [I18nTestingModule, FeaturesConfigModule],
         declarations: [
           CheckoutDeliveryAddressComponent,
           MockAddressFormComponent,
@@ -150,6 +152,12 @@ describe('CheckoutDeliveryAddressComponent', () => {
           {
             provide: CheckoutDeliveryModesFacade,
             useClass: MockCheckoutDeliveryModesFacade,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '6.3' },
+            },
           },
         ],
       })

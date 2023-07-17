@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
   AuthService,
+  BaseSite,
   BaseSiteService,
   GlobalMessageService,
   GlobalMessageType,
@@ -10,9 +11,13 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { Observable, of, Subscription } from 'rxjs';
+import { EMPTY, Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
+import {
+  CdcConsentsLocalStorageService,
+  CdcSiteConsentTemplate,
+} from '../consent-management';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 import { CdcJsService } from './cdc-js.service';
 import createSpy = jasmine.createSpy;
@@ -33,11 +38,20 @@ class BaseSiteServiceStub implements Partial<BaseSiteService> {
   getActive(): Observable<string> {
     return of('electronics-spa');
   }
+  get(_siteUid?: string): Observable<BaseSite | undefined> {
+    return of({ uid: 'electronics-spa', channel: 'B2C' });
+  }
 }
 class LanguageServiceStub implements Partial<LanguageService> {
   getActive(): Observable<string> {
-    return of();
+    return EMPTY;
   }
+}
+
+class MockCdcConsentsLocalStorageService
+  implements Partial<CdcConsentsLocalStorageService>
+{
+  persistCdcConsentsToStorage(_siteConsent: CdcSiteConsentTemplate) {}
 }
 
 declare var window: Window;
@@ -61,11 +75,12 @@ class MockCdcAuthFacade implements Partial<CdcAuthFacade> {
 
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   coreLogout(): Promise<void> {
     return Promise.resolve();
   }
+  logout(): void {}
 }
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
@@ -123,6 +138,7 @@ describe('CdcJsService', () => {
   let winRef: WindowRef;
   let authService: AuthService;
   let globalMessageService: GlobalMessageService;
+  let store: CdcConsentsLocalStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -137,6 +153,10 @@ describe('CdcJsService', () => {
         { provide: Subscription, useValue: MockSubscription },
         { provide: AuthService, useClass: MockAuthService },
         { provide: GlobalMessageService, useValue: mockedGlobalMessageService },
+        {
+          provide: CdcConsentsLocalStorageService,
+          useClass: MockCdcConsentsLocalStorageService,
+        },
       ],
     });
 
@@ -149,6 +169,7 @@ describe('CdcJsService', () => {
     authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    store = TestBed.inject(CdcConsentsLocalStorageService);
     service['gigyaSDK'] = mockedWindowRef.nativeWindow.gigya;
   });
 
@@ -392,6 +413,7 @@ describe('CdcJsService', () => {
           password: 'password',
           firstName: 'fname',
           lastName: 'lname',
+          preferences: {},
         },
         { regToken: 'TOKEN' }
       ).subscribe({
@@ -403,6 +425,7 @@ describe('CdcJsService', () => {
               firstName: 'fname',
               lastName: 'lname',
             },
+            preferences: {},
             regToken: 'TOKEN',
             regSource: 'https://spartacus.cx',
             finalizeRegistration: true,
@@ -422,6 +445,7 @@ describe('CdcJsService', () => {
 
   describe('loginUserWithoutScreenSet', () => {
     it('should login user without screenset', (done) => {
+      expect(service['getCurrentBaseSite']()).toBe('electronics-spa');
       spyOn(service['gigyaSDK'].accounts, 'login').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
@@ -432,6 +456,8 @@ describe('CdcJsService', () => {
         expect(service['gigyaSDK'].accounts.login).toHaveBeenCalledWith({
           loginID: 'uid',
           password: 'password',
+          include: 'missing-required-fields',
+          ignoreInterruptions: true,
           sessionExpiry: sampleCdcConfig.cdc[0].sessionExpiration,
           callback: jasmine.any(Function),
         });
@@ -459,12 +485,27 @@ describe('CdcJsService', () => {
           expect(service['gigyaSDK'].accounts.login).toHaveBeenCalledWith({
             loginID: 'uid',
             password: 'password',
+            include: 'missing-required-fields',
+            ignoreInterruptions: true,
             context: 'RESET_EMAIL',
             sessionExpiry: sampleCdcConfig?.cdc[0]?.sessionExpiration,
             callback: jasmine.any(Function),
           });
           done();
         });
+    });
+    it('should raise reconsent event in case of error code 206001', () => {
+      spyOn(service['gigyaSDK'].accounts, 'login').and.callFake(
+        (options: { callback: Function }) => {
+          options.callback({ status: 'NOT OK', errorCode: 206001 });
+        }
+      );
+      spyOn(service, 'raiseCdcReconsentEvent').and.stub();
+      service.loginUserWithoutScreenSet('uid', 'password').subscribe({
+        error: () => {
+          expect(service.raiseCdcReconsentEvent).toHaveBeenCalled();
+        },
+      });
     });
   });
 
@@ -580,7 +621,7 @@ describe('CdcJsService', () => {
   });
 
   describe('handleResetPassResponse', () => {
-    it('should not show Error with no response', () => {
+    it('should Error with no response', () => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
       service['handleResetPassResponse'](null);
@@ -588,6 +629,18 @@ describe('CdcJsService', () => {
         {
           key: 'httpHandlers.unknownError',
         },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+    });
+
+    it('should not show the Error with error response', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      const errorResponse = { errorMessage: 'ERROR' };
+      service['handleResetPassResponse'](errorResponse);
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        errorResponse.errorMessage,
         GlobalMessageType.MSG_TYPE_ERROR
       );
       expect(globalMessageService.remove).not.toHaveBeenCalled();
@@ -645,6 +698,22 @@ describe('CdcJsService', () => {
     it('should return the configured value of the base site', () => {
       spyOn(baseSiteService, 'getActive').and.returnValue(of(''));
       expect(service['getCurrentBaseSite']()).toBe('');
+    });
+  });
+
+  describe('getCurrentBaseSiteChannel', () => {
+    it('should return the channel value of the base site - B2C', () => {
+      spyOn(baseSiteService, 'get').and.returnValue(
+        of({ uid: 'electronics-spa', channel: 'B2C' })
+      );
+      expect(service['getCurrentBaseSiteChannel']()).toBe('B2C');
+    });
+
+    it('should return the channel of the base site - B2B', () => {
+      spyOn(baseSiteService, 'get').and.returnValue(
+        of({ uid: 'powertools-spa', channel: 'B2B' })
+      );
+      expect(service['getCurrentBaseSiteChannel']()).toBe('B2B');
     });
   });
 
@@ -744,6 +813,30 @@ describe('CdcJsService', () => {
           done();
         });
     });
+
+    it('should call accounts.setAccountInfo, but not throw error user in case CDC call to update password fails', (done) => {
+      spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').and.callFake(
+        (options: { callback: Function }) => {
+          options.callback({ status: 'ERROR' });
+        }
+      );
+      expect(service.updateUserPasswordWithoutScreenSet).toBeTruthy();
+      let oldPass = 'OldPass123!';
+      let newPass = 'Password1!';
+
+      service.updateUserPasswordWithoutScreenSet(oldPass, newPass).subscribe({
+        error: () => {
+          expect(
+            service['gigyaSDK']?.accounts.setAccountInfo
+          ).toHaveBeenCalledWith({
+            password: oldPass,
+            newPassword: newPass,
+            callback: jasmine.any(Function),
+          });
+          done();
+        },
+      });
+    });
   });
 
   describe('updateUserEmailWithoutScreenSet', () => {
@@ -797,11 +890,43 @@ describe('CdcJsService', () => {
             uid: newEmail,
           })
           .subscribe(() => {
-            expect(authService.coreLogout).toHaveBeenCalled();
+            expect(authService.logout).toHaveBeenCalled();
             expect(service['gigyaSDK'].accounts.logout).toHaveBeenCalled();
             done();
           });
         done();
+      });
+    });
+
+    it('should call accounts.setAccountInfo, but not logout the user in case CDC call to update email fails', () => {
+      spyOn(service['gigyaSDK']?.accounts, 'setAccountInfo').and.callFake(
+        (options: { callback: Function }) => {
+          options.callback({ status: 'OK' });
+        }
+      );
+      spyOn(service['gigyaSDK']?.accounts, 'login').and.callFake(
+        (options: { callback: Function }) => {
+          options.callback({ status: 'ERROR' });
+        }
+      );
+
+      expect(service.updateUserEmailWithoutScreenSet).toBeTruthy();
+      let pass = 'Password123!';
+
+      service.updateUserEmailWithoutScreenSet(pass, newEmail).subscribe(() => {
+        expect(
+          service['gigyaSDK']?.accounts.setAccountInfo
+        ).toHaveBeenCalledWith({
+          profile: {
+            email: newEmail,
+          },
+          callback: jasmine.any(Function),
+        });
+        expect(userProfileFacade.update).not.toHaveBeenCalledWith({
+          uid: newEmail,
+        });
+        expect(authService.logout).not.toHaveBeenCalled();
+        expect(service['gigyaSDK'].accounts.logout).not.toHaveBeenCalled();
       });
     });
   });
@@ -873,6 +998,7 @@ describe('CdcJsService', () => {
         profile: {
           firstName: 'firstName',
           lastName: 'lastName',
+          email: newEmail,
         },
       };
 
@@ -881,6 +1007,7 @@ describe('CdcJsService', () => {
       expect(userProfileFacade.update).toHaveBeenCalledWith({
         firstName: response.profile.firstName,
         lastName: response.profile.lastName,
+        uid: response.profile.email,
       });
     });
 
@@ -888,6 +1015,30 @@ describe('CdcJsService', () => {
       service.onProfileUpdateEventHandler();
 
       expect(userProfileFacade.update).not.toHaveBeenCalled();
+    });
+
+    it('should update personal details and logout the user when response has an updated email', () => {
+      const response = {
+        profile: {
+          firstName: 'firstName',
+          lastName: 'lastName',
+          email: 'email@mail.com', //email updated
+        },
+      };
+      userProfileFacade.get = createSpy().and.returnValue(
+        of({ uid: newEmail })
+      );
+      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
+      spyOn(authService, 'logout');
+      service.onProfileUpdateEventHandler(response);
+
+      expect(userProfileFacade.update).toHaveBeenCalledWith({
+        firstName: response.profile.firstName,
+        lastName: response.profile.lastName,
+        uid: response.profile.email,
+      });
+      expect(authService.logout).toHaveBeenCalled();
+      expect(service['invokeAPI']).toHaveBeenCalledWith('accounts.logout', {});
     });
   });
 
@@ -991,6 +1142,72 @@ describe('CdcJsService', () => {
       expect(
         typeof service['getSdkFunctionFromName']('some.random.apiName')
       ).not.toEqual('function');
+    });
+  });
+
+  describe('logoutUser', () => {
+    it('should logout the user from CDC and Commerce when invoked', () => {
+      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
+      spyOn(authService, 'logout');
+      service['logoutUser']();
+      expect(authService.logout).toHaveBeenCalled();
+      expect(service['invokeAPI']).toHaveBeenCalledWith('accounts.logout', {});
+    });
+  });
+
+  describe('setUserConsentPreferences', () => {
+    var mockUser = 'sampleuser@mail.com';
+    var userPreference = {
+      others: {
+        survey: {
+          isConsentGranted: false,
+        },
+      },
+    };
+    var lang = 'en';
+    it('should set cdc consents for a user', (done) => {
+      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
+      service.setUserConsentPreferences(mockUser, lang, userPreference);
+      expect(service['invokeAPI']).toHaveBeenCalled();
+      expect(service.setUserConsentPreferences).toBeTruthy();
+      done();
+    });
+    it('should throw error', (done) => {
+      spyOn(service as any, 'invokeAPI').and.returnValue(
+        of({ status: 'ERROR' })
+      );
+      service.setUserConsentPreferences(mockUser, lang, userPreference);
+      expect(service['invokeAPI']).toHaveBeenCalled();
+      expect(service.setUserConsentPreferences).toBeTruthy();
+      expect(service.setUserConsentPreferences).toThrowError();
+      done();
+    });
+  });
+
+  describe('getSiteConsentDetails()', () => {
+    it('fetch consents from the current site without persisting into Local Storage', () => {
+      spyOn(baseSiteService, 'getActive').and.returnValue(
+        of('electronics-spa')
+      );
+      spyOn(store, 'persistCdcConsentsToStorage').and.stub();
+      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
+      service.getSiteConsentDetails(false).subscribe(() => {
+        expect(store.persistCdcConsentsToStorage).not.toHaveBeenCalled();
+      });
+      expect(service['invokeAPI']).toHaveBeenCalled();
+      expect(service.getSiteConsentDetails).toBeTruthy();
+    });
+    it('fetch consents from the current site, persisting into Local Storage', () => {
+      spyOn(baseSiteService, 'getActive').and.returnValue(
+        of('electronics-spa')
+      );
+      spyOn(store, 'persistCdcConsentsToStorage').and.stub();
+      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
+      service.getSiteConsentDetails(true).subscribe(() => {
+        expect(store.persistCdcConsentsToStorage).toHaveBeenCalled();
+      });
+      expect(service['invokeAPI']).toHaveBeenCalled();
+      expect(service.getSiteConsentDetails).toBeTruthy();
     });
   });
 });

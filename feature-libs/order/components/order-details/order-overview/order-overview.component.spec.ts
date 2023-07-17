@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Card, CmsComponentData } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponent } from './order-overview.component';
 
@@ -112,7 +112,7 @@ const mockFormattedAddress = 'test1, test2, test3, test4';
 
 class MockTranslationService {
   translate(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 

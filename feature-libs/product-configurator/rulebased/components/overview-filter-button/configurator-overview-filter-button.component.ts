@@ -26,7 +26,28 @@ export class ConfiguratorOverviewFilterButtonComponent {
   @ViewChild('filterButton') filterButton: ElementRef;
   @HostBinding('class.ghost') ghostStyle = true;
 
+  //TODO(CXSPA-3392) remove this member in next major, it is not used
+  /**
+   * @deprecated since 6.1. Use configurationWithOv$ instead
+   */
   config$: Observable<Configurator.Configuration> =
+    this.configRouterExtractorService.extractRouterData().pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
+      ),
+      // filter 'strict null check safe'
+      filter(
+        (configuration) => configuration.overview != null
+      ) as OperatorFunction<
+        Configurator.Configuration,
+        Configurator.ConfigurationWithOverview
+      >,
+      tap(() => {
+        this.ghostStyle = false;
+      })
+    );
+
+  configurationWithOv$: Observable<Configurator.ConfigurationWithOverview> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService.getConfiguration(routerData.owner)

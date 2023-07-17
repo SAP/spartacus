@@ -16,7 +16,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "build:schematics": "npm run clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
-    "clean:schematics": "../../node_modules/.bin/rimraf \"src/schematics/**/*.js\" \"src/schematics/**/*.js.map\" \"src/schematics/**/*.d.ts\"",
+    "clean:schematics": "../../node_modules/.bin/rimraf --glob \"src/schematics/**/*.js\" \"src/schematics/**/*.js.map\" \"src/schematics/**/*.d.ts\"",
     "test:schematics": "npm --prefix ../../projects/schematics/ run clean && npm run clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {

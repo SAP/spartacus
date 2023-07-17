@@ -1,17 +1,17 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
-import { SpinnerModule } from '@spartacus/storefront';
 import { StoreFinderService } from '@spartacus/storefinder/core';
-import { of } from 'rxjs';
+import { SpinnerModule } from '@spartacus/storefront';
+import { EMPTY } from 'rxjs';
+import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
 import createSpy = jasmine.createSpy;
 
 class MockStoreFinderService implements Partial<StoreFinderService> {
   viewAllStores = createSpy('viewAllStores');
   getViewAllStoresEntities = createSpy(
     'getViewAllStoresEntities'
-  ).and.returnValue(of());
+  ).and.returnValue(EMPTY);
   getViewAllStoresLoading = createSpy('getViewAllStoresLoading');
 }
 
