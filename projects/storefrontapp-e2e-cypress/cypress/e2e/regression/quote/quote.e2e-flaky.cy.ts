@@ -31,24 +31,19 @@ context('Quote', () => {
   describe('Request quote process', () => {
     it('should display a message and disable submit button if threshold is not met', () => {
       quote.requestQuote(POWERTOOLS, testProductHammerDrilling, '1');
-      quote.checkGlobalMessageDisplayed(true);
-      quote.checkSubmitButton(false);
+      quote.checkQuoteInDraftState(false, testProductHammerDrilling);
     });
 
-    it('should display no message and enable submit button if threshold is met', () => {
+    it('should be possible(submit) if threshold is met', () => {
       quote.requestQuote(POWERTOOLS, testProductHammerDrilling, '30');
-      quote.checkGlobalMessageDisplayed(false);
-      quote.checkSubmitButton(true);
-    });
+      quote.checkQuoteInDraftState(true, testProductHammerDrilling);
 
-    it('should result in a quote in draft state', () => {
-      quote.requestQuote(POWERTOOLS, testProductHammerDrilling, '30');
-      cy.get('.cx-quote-details-header-status').should('contain.text', 'Draft');
-    });
+      // add comment
+      // check comment displayed
 
-    it('should display quote entry details like product ID', () => {
-      quote.requestQuote(POWERTOOLS, testProductHammerDrilling, '1');
-      cy.get('.cx-code').should('contain.text', testProductHammerDrilling);
+      // submit
+
+      // check comment not editable
     });
   });
 

@@ -120,3 +120,13 @@ export function navigateToQuoteListFromQuoteDetails() {
       });
   });
 }
+
+export function checkQuoteInDraftState(
+  meetsThreshold: boolean,
+  productId: string
+) {
+  cy.get('.cx-quote-details-header-status').should('contain.text', 'Draft');
+  this.checkGlobalMessageDisplayed(!meetsThreshold);
+  this.checkSubmitButton(meetsThreshold);
+  cy.get('.cx-code').should('contain.text', productId);
+}
