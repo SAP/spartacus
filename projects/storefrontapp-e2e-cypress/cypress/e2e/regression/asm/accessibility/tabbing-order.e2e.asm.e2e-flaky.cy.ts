@@ -4,12 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
+import { tabbingOrderConfig as config } from '../../../../helpers/accessibility/tabbing-order.config';
 import {
+  asmTabbingOrderNoSelectedUser,
+  asmTabbingOrderNotLoggedIn,
   asmTabbingOrderWithCreateCustomerForm,
   asmTabbingOrderWithCustomerList,
   asmTabbingOrderWithSaveInactiveCartDialog,
-} from '../../helpers/accessibility/tabbing-order/asm';
+  asmTabbingOrderWithSelectedUser,
+} from '../../../../helpers/accessibility/tabbing-order/asm';
 
 describe('Tabbing order for ASM', () => {
   before(() => {
@@ -17,6 +20,18 @@ describe('Tabbing order for ASM', () => {
   });
 
   context('ASM', () => {
+    it('should allow to navigate with tab key (not logged in)', () => {
+      asmTabbingOrderNotLoggedIn(config.asmNotLoggedIn);
+    });
+
+    it('should allow to navigate with tab key (no user selected)', () => {
+      asmTabbingOrderNoSelectedUser(config.asmNoSelectedUser);
+    });
+
+    it('should allow to navigate with tab key (with user selected)', () => {
+      asmTabbingOrderWithSelectedUser(config.asmWithSelectedUser);
+    });
+
     it('should allow to navigate with tab key for customer List （CXSPA-1595）', () => {
       asmTabbingOrderWithCustomerList(config.asmWithCustomerLists, 'asagent');
     });

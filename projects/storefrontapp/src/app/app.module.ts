@@ -49,8 +49,8 @@ if (!environment.production) {
     EffectsModule.forRoot([]),
     SpartacusModule,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
-    TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
     ErrorHandlingModule.forRoot(), // custom error handling that delegates to LoggerService. Remove for 7.0 as it will be the part of BaseCoreModule (CXSPA-3680).
+    TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
   ],
