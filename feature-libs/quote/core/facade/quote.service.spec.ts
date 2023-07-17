@@ -229,13 +229,12 @@ describe('QuoteService', () => {
 
   it('should call createQuote command', () => {
     service
-      .createQuote(mockMetadata, mockComment)
+      .createQuote(mockMetadata)
       .pipe(take(1))
       .subscribe((quote) => {
         expect(connector.createQuote).toHaveBeenCalled();
         expect(quote.code).toEqual(mockQuote.code);
         expect(connector.editQuote).toHaveBeenCalled();
-        expect(connector.addComment).toHaveBeenCalled();
         expect(multiCartFacade.loadCart).toHaveBeenCalled();
         expect(eventService.dispatch).toHaveBeenCalled();
       });
