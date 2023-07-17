@@ -6,7 +6,6 @@
 >
   <a
     actions
-    *ngIf="isUpdatingUnitAllowed"
     class="link edit"
     [class.disabled]="!model.active || (isInEditMode$ | async)"
     [routerLink]="{ cxRoute: 'orgUnitEdit', params: model } | cxUrl"
@@ -17,7 +16,6 @@
   <cx-org-toggle-status
     actions
     key="uid"
-    *ngIf="isUpdatingUnitAllowed"
     i18nRoot="orgUnit"
   ></cx-org-toggle-status>
 
@@ -80,7 +78,6 @@
     <ng-container *ngIf="model.uid">
       <a
         class="link"
-        *ngIf="isUpdatingUnitAllowed"
         [routerLink]="{ cxRoute: 'orgUnitChildren', params: model } | cxUrl"
         routerLinkActive="is-current"
       >

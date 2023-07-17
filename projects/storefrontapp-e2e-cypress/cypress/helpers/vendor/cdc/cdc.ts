@@ -7,14 +7,8 @@
 import { editedAddress } from '../../../helpers/address-book';
 import { fillRegistrationForm, login } from '../../../helpers/auth-forms';
 import * as loginHelper from '../../../helpers/login';
-import { generateMail, randomString } from '../../../helpers/user';
-import {
-  getSampleUser,
-  SampleOrg,
-  SampleUser,
-} from '../../../sample-data/checkout-flow';
+import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { AddressData, fillShippingAddress } from '../../checkout-forms';
-import * as alerts from '../../global-message';
 import { listenForTokenRevocationRequest } from '../../login';
 
 export const updatedName = ' updated';
@@ -28,17 +22,9 @@ export function registerUser(cdcUser) {
   registerCDC(cdcUser);
 }
 
-export const user = getSampleUser(); //screenset UI user
+export const user = getSampleUser();
 export const nativeUser = getSampleUser();
-export const b2cConsentTestUser = {
-  email: 'consenttester@xyz.com',
-  password: 'Password123.',
-  fullName: 'Consent Tester',
-  encodedEmail: 'consenttester%40xyz.com',
-  stuntDoubleEmail: 'stuntdouble@xyz.com',
-  stuntDoublePassword: 'Password123.',
-  encodedStuntDoubleEmail: 'stuntdouble%40xyz.com',
-};
+
 export const b2bUser = getSampleB2BUser();
 export const updatedFirstAddress = {
   ...editedAddress,
@@ -152,35 +138,12 @@ export function loginUser(email: string, password: string) {
   });
 }
 
-export function registerOrg(user: SampleUser, org: SampleOrg) {
-  cy.get('[id="gigya-org-register-form"]').within(() => {
-    cy.get('[name="organization.name"]').type(org.companyName);
-    cy.get('[name="organization.street_address"]').type(org.address);
-    cy.get('[name="organization.city"]').type(org.city);
-    cy.get('[name="organization.state"]').type(org.state);
-    cy.get('[name="organization.zip_code"]').type(org.zipCode);
-    cy.get('[name="organization.country"]').type(org.country);
-    cy.get('[name="requester.firstName"]').type(user.firstName);
-    cy.get('[name="requester.lastName"]').type(user.lastName);
-    cy.get('[name="requester.email"]').type(user.email);
-    cy.get('[name="requester.phone"]').type(user.phone);
-    cy.get('[class="gigya-input-submit"]').click();
-  });
-}
-
 export function loginWithoutScreenSet(email: string, password: string) {
   login(email, password);
 }
 
 export function verifyLoginOrRegistrationSuccess(fullName: string) {
   cy.get('[class="cx-login-greet"]').should('contain', fullName);
-}
-
-export function verifyOrgRegistrationRequestReceived() {
-  cy.get('[id="gigya-org-register-success-screen"]').should(
-    'contain',
-    "We have received your request to register as a Customer. You'll receive an email once your request is approved."
-  );
 }
 
 export function interceptCDCSDKMethod(methodName: string) {
@@ -241,36 +204,6 @@ export function updateUserProfile(lastName: string = updatedName) {
   });
 }
 
-export function updateUserProfilePassword(
-  oldPass: string,
-  newPass: string = updatedPassword
-) {
-  cy.get('[id="gigya-profile-form"]').within(() => {
-    cy.get('[data-switch-screen="gigya-change-password-screen"]')
-      .last()
-      .click();
-    cy.get('[name="password"]').type(oldPass);
-    cy.get('[name="newPassword"]').type(newPass);
-    cy.get('[name="passwordRetype"]').type(newPass);
-    cy.get('[class="gigya-input-submit"]').click();
-  });
-  logoutUser();
-}
-
-export function updateUserProfileEmail(email: string = updatedEmail) {
-  const tokenRevocationAlias = listenForTokenRevocationRequest();
-  cy.get('[id="gigya-profile-form"]').within(() => {
-    cy.get('[name="email"]')
-      .should('be.visible')
-      .invoke('val')
-      .should('not.be.empty'); //not empty
-    cy.get('[name="email"]').clear();
-    cy.get('[name="email"]').type(email);
-    cy.get('[class="gigya-input-submit"]').click();
-  });
-  cy.wait(tokenRevocationAlias);
-}
-
 export function updateUserProfileWithoutScreenset(
   lastName: string = updatedName
 ) {
@@ -301,33 +234,17 @@ export function restoreUserLastName(cdcUser) {
 
 export function updateEmailWithoutScreenset(
   email: string = updatedEmail,
-  password: string = b2bUser.password,
-  isErrorTestCase: boolean = false
+  password: string = b2bUser.password
 ) {
-  const cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
-
+  let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
   cy.get('cx-update-email form').within(() => {
     cy.get('[name="email"]').type(email);
     cy.get('[name="confirmEmail"]').type(email);
     cy.get('[name="password"]').type(password);
     cy.get('[class="btn btn-block btn-primary"]').click();
   });
-  if (!isErrorTestCase) {
-    //only for sucess scenario
-    const tokenRevocationAlias = listenForTokenRevocationRequest();
-    verifyCDCSDKInvocation(cdcInterceptName);
-    cy.wait(tokenRevocationAlias);
-  }
-}
-
-export function verifyUpdateEmailError() {
-  //verify error message is shown.
-  const alert = alerts.getErrorAlert();
-  alert.should('contain', 'Password entered is not valid');
-  //check for no route change
-  cy.location().should((location) => {
-    expect(location.pathname).to.match(/\/my-account\/update-email$/);
-  });
+  verifyCDCSDKInvocation(cdcInterceptName);
+  listenForTokenRevocationRequest();
 }
 
 export function verifyUpdateEmailSuccess(
@@ -345,36 +262,21 @@ export function restoreUserEmail(cdcUser) {
   cy.selectUserMenuOption({
     option: 'Email Address',
   });
-  updateEmailWithoutScreenset(cdcUser.email, cdcUser.password);
+  updateEmailWithoutScreenset(cdcUser.email);
 }
 
 export function updatePasswordWithoutScreenset(
   oldPass: string = b2bUser.password,
-  newPass: string = updatedPassword,
-  isErrorTestCase: boolean = false
+  newPass: string = updatedPassword
 ) {
-  const cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
+  let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
   cy.get('cx-update-password form').within(() => {
     cy.get('[name="oldPassword"]').type(oldPass);
     cy.get('[name="newPassword"]').type(newPass);
     cy.get('[name="newPasswordConfirm"]').type(newPass);
     cy.get('[class="btn btn-block btn-primary"]').click();
-  });
-  if (!isErrorTestCase) {
-    //only for sucess scenario
-    const tokenRevocationAlias = listenForTokenRevocationRequest();
     verifyCDCSDKInvocation(cdcInterceptName);
-    cy.wait(tokenRevocationAlias);
-  }
-}
-
-export function verifyUpdatePasswordError() {
-  //verify error message is shown.
-  const alert = alerts.getErrorAlert();
-  alert.should('contain', 'invalid loginID or password');
-  //check for no route change
-  cy.location().should((location) => {
-    expect(location.pathname).to.match(/\/my-account\/update-password$/);
+    listenForTokenRevocationRequest();
   });
 }
 
@@ -461,74 +363,8 @@ export function verifyDeleteAllAddressSuccess() {
   });
 }
 
-export function forgotPassword(email: string) {
-  cy.visit('/cdc/login');
-  cy.findByText('Forgot password?').click();
-  cy.get('[id="gigya-reset-password-form"]').within(() => {
-    cy.get('[id="gigya-textbox-loginID"]').clear();
-    cy.get('[id="gigya-textbox-loginID"]').type(email);
-    cy.get('[class="gigya-input-submit"]').click();
-  });
-}
-
-export function forgotPasswordWithoutScreenset(email: string) {
-  cy.visit('/login/forgot-password');
-  cy.get('input[type="email"]').type(email);
-  cy.findByText('Submit').click();
-}
-
-export function verifyForgotPasswordError() {
-  //verify error message is shown.
-  cy.get('[role="alert"]').should(
-    'contain',
-    'There is no user with that username or email'
-  );
-  //check for no route change
-  cy.location().should((location) => {
-    expect(location.pathname).to.match(/\/cdc\/login$/);
-  });
-}
-
-export function verifyForgotPasswordSuccess() {
-  cy.get('.gigya-message').should(
-    'contain',
-    'An email regarding your password change has been sent to your email address.'
-  );
-  //check for no route change
-  cy.location().should((location) => {
-    expect(location.pathname).to.match(/\/cdc\/login$/);
-  });
-}
-
-export function verifyForgotPasswordWithoutScreensetError() {
-  //verify error message is shown.
-  const alert = alerts.getErrorAlert();
-  alert.should('contain', 'loginID does not exist');
-  //check for no route change
-  cy.location().should((location) => {
-    expect(location.pathname).to.match(/\/login\/forgot-password$/);
-  });
-}
-
-export function verifyForgotPasswordWithoutScreensetSuccess() {
-  //verify error message is shown.
-  const alert = alerts.getSuccessAlert();
-  alert.should(
-    'contain',
-    'An email has been sent to you with information on how to reset your password.'
-  );
-  //check for no route change
-  cy.location().should((location) => {
-    expect(location.pathname).to.match(/\/login$/);
-  });
-}
-
 export function logoutUser() {
   loginHelper.signOutUser();
-}
-
-export function generateRandomEmail() {
-  return generateMail(randomString(), true);
 }
 
 export function getSampleB2BUser() {
@@ -559,6 +395,5 @@ export function getSampleB2BUser() {
       cvv: '123',
     },
     customerId: '991b7846-8ee3-49d9-8600-37fed93f445c',
-    orgUnit: '111',
   };
 }

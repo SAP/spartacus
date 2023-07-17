@@ -5,8 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsBannerComponent,
   CmsService,
-  FeaturesConfig,
-  FeaturesConfigModule,
   Page,
   PageContext,
   SemanticPathService,
@@ -30,21 +28,6 @@ const mockBannerData: CmsBannerComponent = {
     url: '/medias/logo-hybris.jpg',
   },
   urlLink: '/logo',
-};
-
-const mockNoLinkBannerData: CmsBannerComponent = {
-  uid: 'SiteLogoComponent',
-  typeCode: 'SimpleBannerComponent',
-  name: 'Site Logo Component',
-  container: 'false',
-  external: 'false',
-  media: {
-    code: '/images/theme/logo_hybris.jpg',
-    mime: 'image/svg+xml',
-    altText: 'hybris Accelerator',
-    url: '/medias/logo-hybris.jpg',
-  },
-  urlLink: '',
 };
 
 const data$: BehaviorSubject<CmsBannerComponent> = new BehaviorSubject(
@@ -83,7 +66,7 @@ describe('BannerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, FeaturesConfigModule],
+      imports: [RouterTestingModule],
       declarations: [BannerComponent, MockMediaComponent, GenericLinkComponent],
       providers: [
         {
@@ -92,12 +75,6 @@ describe('BannerComponent', () => {
         },
         { provide: CmsService, useClass: MockCmsService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '6.3' },
-          },
-        },
       ],
     }).compileComponents();
 
@@ -170,14 +147,6 @@ describe('BannerComponent', () => {
       expect(bannerComponent['setRouterLink']).toHaveBeenCalledWith(
         mockBannerDataWithCategory
       );
-    });
-
-    it('should show content even there is no link', () => {
-      bannerComponent.routerLink = undefined;
-      data$.next(mockNoLinkBannerData);
-      fixture.detectChanges();
-
-      expect(el.query(By.css('.no-link'))).toBeTruthy();
     });
   });
 

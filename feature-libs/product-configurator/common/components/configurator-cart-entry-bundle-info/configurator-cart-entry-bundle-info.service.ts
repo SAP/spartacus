@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject, isDevMode } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { LoggerService } from '@spartacus/core';
 import {
   ConfigurationInfo,
   ConfigurationInfoFields,
@@ -19,8 +18,6 @@ import { LineItem } from './configurator-cart-entry-bundle-info.model';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartEntryBundleInfoService {
-  protected logger = inject(LoggerService);
-
   /**
    * Retrieves the CPQ line items for an order entry
    *
@@ -177,7 +174,7 @@ export class ConfiguratorCartEntryBundleInfoService {
 
   protected logWarning(text: string): void {
     if (isDevMode()) {
-      this.logger.warn(text);
+      console.warn(text);
     }
   }
 }

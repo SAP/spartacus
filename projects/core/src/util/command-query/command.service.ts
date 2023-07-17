@@ -5,20 +5,12 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
+import { Observable, ReplaySubject, Subject, Subscription, zip } from 'rxjs';
 import {
-  EMPTY,
-  Observable,
-  ReplaySubject,
-  Subject,
-  Subscription,
-  defer,
-  zip,
-} from 'rxjs';
-import {
-  catchError,
   concatMap,
   finalize,
   mergeMap,
+  retry,
   switchMap,
   tap,
 } from 'rxjs/operators';
@@ -47,46 +39,38 @@ export class CommandService implements OnDestroy {
   }
 
   create<PARAMS = undefined, RESULT = unknown>(
-    commandFactory: (command: PARAMS) => Observable<RESULT>,
+    commandFactory: (command: PARAMS) => Observable<any>,
     options?: { strategy?: CommandStrategy }
   ): Command<PARAMS, RESULT> {
     const commands$ = new Subject<PARAMS>();
     const results$ = new Subject<ReplaySubject<RESULT>>();
 
-    let process$: Observable<unknown>;
+    let process$: Observable<any>;
 
     switch (options?.strategy) {
       case CommandStrategy.CancelPrevious:
       case CommandStrategy.ErrorPrevious:
         process$ = zip(commands$, results$).pipe(
           switchMap(([cmd, notifier$]) =>
-            defer(() => commandFactory(cmd)).pipe(
+            commandFactory(cmd).pipe(
               tap(notifier$),
-              catchError(() => EMPTY),
-              finalize(() => {
-                // do not overwrite existing existing ending state
-                if (!notifier$.closed && !notifier$.hasError) {
-                  // command has not ended yet, so close notifier$ according to strategy
-                  if (options.strategy === CommandStrategy.ErrorPrevious) {
-                    notifier$.error(new Error('Canceled by next command'));
-                  } else {
-                    notifier$.complete();
-                  }
-                }
-              })
+              finalize(() =>
+                options.strategy === CommandStrategy.CancelPrevious
+                  ? notifier$.complete()
+                  : notifier$.error(new Error('Canceled by next command'))
+              )
             )
-          )
+          ),
+          retry()
         );
         break;
 
       case CommandStrategy.Parallel:
         process$ = zip(commands$, results$).pipe(
           mergeMap(([cmd, notifier$]) =>
-            defer(() => commandFactory(cmd)).pipe(
-              tap(notifier$),
-              catchError(() => EMPTY)
-            )
-          )
+            commandFactory(cmd).pipe(tap(notifier$))
+          ),
+          retry()
         );
         break;
 
@@ -94,22 +78,17 @@ export class CommandService implements OnDestroy {
       default:
         process$ = zip(commands$, results$).pipe(
           concatMap(([cmd, notifier$]) =>
-            defer(() => commandFactory(cmd)).pipe(
-              tap(notifier$),
-              catchError(() => EMPTY)
-            )
-          )
+            commandFactory(cmd).pipe(tap(notifier$))
+          ),
+          retry()
         );
         break;
     }
 
     this.subscriptions.add(process$.subscribe());
 
-    const command: Command<PARAMS, RESULT> = new (class extends Command<
-      PARAMS,
-      RESULT
-    > {
-      execute = (parameters: PARAMS) => {
+    const command: Command<PARAMS, RESULT> = new (class extends Command {
+      execute = (parameters: PARAMS | undefined) => {
         const result$ = new ReplaySubject<RESULT>();
         results$.next(result$);
         commands$.next(parameters);

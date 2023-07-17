@@ -13,7 +13,7 @@ import {
   UserAddressConnector,
   UserAddressService,
 } from 'projects/core/src/user';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import * as fromUserAddressesEffect from './cdc-user-addresses.effect';
 import { CdcUserAddressesEffects } from './cdc-user-addresses.effect';
 import createSpy = jasmine.createSpy;
@@ -30,7 +30,7 @@ class MockUserIdService implements Partial<UserIdService> {
 
 class MockUserAddressService {
   getDeliveryCountries(): Observable<Country[]> {
-    return EMPTY;
+    return of();
   }
 
   loadDeliveryCountries(): void {}

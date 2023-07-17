@@ -9,7 +9,7 @@ const cartMock: Cart = {
 
 class MockActiveCartService {
   getActive(): Observable<Cart> {
-    return of(cartMock);
+    return of<Cart>(cartMock);
   }
 }
 

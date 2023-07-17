@@ -1,12 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterState, RoutingService } from '@spartacus/core';
-import { Observable, Subscription, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ConfiguratorCartService } from '../configurator-cart.service';
 import { ConfiguratorRouterListener } from './configurator-router.listener';
-import { ConfiguratorQuantityService } from '../../services/configurator-quantity.service';
 
-const QUANTITY = 99;
 class MockConfiguratorCartService {
   removeCartBoundConfigurations() {}
 }
@@ -48,13 +46,6 @@ class MockRoutingService {
   }
 }
 
-class MockConfiguratorQuantityService {
-  getQuantity(): Observable<number> {
-    return of(QUANTITY);
-  }
-  setQuantity(): void {}
-}
-
 let mockConfiguratorCartService: MockConfiguratorCartService =
   new MockConfiguratorCartService();
 
@@ -62,7 +53,6 @@ let mockRoutingService: MockRoutingService = new MockRoutingService();
 
 describe('ConfiguratorRouterListener', () => {
   let configuratorCartService: ConfiguratorCartService;
-  let configuratorQuantityService: ConfiguratorQuantityService;
 
   beforeEach(
     waitForAsync(() => {
@@ -76,10 +66,6 @@ describe('ConfiguratorRouterListener', () => {
             provide: RoutingService,
             useValue: mockRoutingService,
           },
-          {
-            provide: ConfiguratorQuantityService,
-            useClass: MockConfiguratorQuantityService,
-          },
         ],
       }).compileComponents();
     })
@@ -88,15 +74,11 @@ describe('ConfiguratorRouterListener', () => {
     configuratorCartService = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
     );
-    configuratorQuantityService = TestBed.inject(
-      ConfiguratorQuantityService as Type<ConfiguratorQuantityService>
-    );
 
     spyOn(
       configuratorCartService,
       'removeCartBoundConfigurations'
     ).and.callThrough();
-    spyOn(configuratorQuantityService, 'setQuantity').and.callThrough();
   });
 
   describe('observeRouterChanges', () => {
@@ -128,25 +110,6 @@ describe('ConfiguratorRouterListener', () => {
       expect(
         configuratorCartService.removeCartBoundConfigurations
       ).toHaveBeenCalledTimes(0);
-    });
-
-    it('should reset quantity if quantity service available', () => {
-      routerState = routerStateCartRoute;
-      TestBed.inject(
-        ConfiguratorRouterListener as Type<ConfiguratorRouterListener>
-      );
-      expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(1);
-    });
-  });
-
-  describe('ngOnDestroy', () => {
-    it('should unsubscribe subscription', () => {
-      const classUnderTest = TestBed.inject(
-        ConfiguratorRouterListener as Type<ConfiguratorRouterListener>
-      );
-      const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
-      classUnderTest.ngOnDestroy();
-      expect(spyUnsubscribe).toHaveBeenCalled();
     });
   });
 });

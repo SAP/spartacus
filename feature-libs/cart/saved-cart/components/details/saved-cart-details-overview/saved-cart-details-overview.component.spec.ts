@@ -9,7 +9,8 @@ import {
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
+import { Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview.component';
 
@@ -44,7 +45,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return EMPTY;
+    return of();
   }
 }
 
@@ -215,10 +216,16 @@ describe('SavedCartDetailsOverviewComponent', () => {
   describe('Accessibility', () => {
     it("should contain button with 'aria-label' attribute", () => {
       const editButton: HTMLButtonElement =
-        el.nativeElement.querySelector('.cx-edit-cart');
-
-      expect(editButton.attributes?.hasOwnProperty('aria-label')).toBe(true);
-      expect(editButton.ariaLabel).toEqual('savedCartDetails.editSavedCart');
+        el.nativeElement.querySelector('.cx-edit-container');
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        editButton,
+        'button',
+        'cx-edit-cart',
+        undefined,
+        'aria-label',
+        'savedCartDetails.editSavedCart'
+      );
     });
   });
 });

@@ -2,9 +2,8 @@ import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { LoggerService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { EMPTY } from 'rxjs';
+import { of } from 'rxjs';
 import { PagedListComponent } from './paged-list.component';
 
 @Component({
@@ -80,21 +79,19 @@ describe('PagedList Component', () => {
     });
 
     it('should log an error when there is no header template given', () => {
-      const logger = TestBed.inject(LoggerService);
-      spyOn(logger, 'error');
+      spyOn(console, 'error');
       component.template = template;
       component.ngOnInit();
-      expect(logger.error).toHaveBeenCalledWith(
+      expect(console.error).toHaveBeenCalledWith(
         'No template reference provided to render the header for the `cx-epd-visualization-paged-list`'
       );
     });
 
     it('should log an error when there is no template given', () => {
-      const logger = TestBed.inject(LoggerService);
-      spyOn(logger, 'error');
+      spyOn(console, 'error');
       component.headerTemplate = headerTemplate;
       component.ngOnInit();
-      expect(logger.error).toHaveBeenCalledWith(
+      expect(console.error).toHaveBeenCalledWith(
         'No template reference provided to render the items for the `cx-epd-visualization-paged-list`'
       );
     });
@@ -151,7 +148,7 @@ describe('PagedList Component', () => {
     describe('list title', () => {
       beforeEach(() => {
         component.itemsPerSlide = 1;
-        component.items = [EMPTY];
+        component.items = [of()];
       });
 
       it('should have h3 with title', () => {
@@ -179,7 +176,7 @@ describe('PagedList Component', () => {
     describe('list buttons', () => {
       beforeEach(() => {
         component.itemsPerSlide = 4;
-        component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
+        component.items = [of(), of(), of(), of(), of()];
         component.ngOnInit();
         fixture.detectChanges();
       });
@@ -278,7 +275,7 @@ describe('PagedList Component', () => {
     describe('list with 5 items divided by 2 slides', () => {
       beforeEach(() => {
         component.itemsPerSlide = 4;
-        component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
+        component.items = [of(), of(), of(), of(), of()];
         component.ngOnInit();
         fixture.detectChanges();
       });
@@ -305,7 +302,7 @@ describe('PagedList Component', () => {
       beforeEach(() => {
         component.itemsPerSlide = 3;
         component.title = 'test list with title';
-        component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
+        component.items = [of(), of(), of(), of(), of(), of(), of()];
         component.ngOnInit();
         fixture.detectChanges();
       });
@@ -332,7 +329,7 @@ describe('PagedList Component', () => {
       beforeEach(() => {
         component.itemsPerSlide = 3;
         component.title = 'test list with title';
-        component.items = [EMPTY, EMPTY, EMPTY];
+        component.items = [of(), of(), of()];
         component.ngOnInit();
         fixture.detectChanges();
       });

@@ -7,11 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  FeaturesConfigModule,
-  I18nModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -31,7 +27,6 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
     ReactiveFormsModule,
     ConfiguratorAttributeQuantityModule,
     ConfiguratorPriceModule,
-    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{

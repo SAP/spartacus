@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Injectable } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EMPTY, Observable, of } from 'rxjs';
-import { BREAKPOINT, BreakpointService } from '../../../../layout';
+import { BREAKPOINT, BreakpointService } from 'projects/storefrontlib/layout';
+import { Observable, of } from 'rxjs';
 import { SplitViewService } from '../split-view.service';
 import { SplitViewComponent } from './split-view.component';
 import createSpy = jasmine.createSpy;
@@ -10,13 +10,13 @@ import createSpy = jasmine.createSpy;
 class MockSplitViewService {
   updateSplitView = createSpy('updateSplitView');
   getActiveView() {
-    return EMPTY;
+    return of();
   }
 }
 
 class MockBreakpointService {
   get breakpoint$(): Observable<BREAKPOINT> {
-    return EMPTY;
+    return of();
   }
 }
 

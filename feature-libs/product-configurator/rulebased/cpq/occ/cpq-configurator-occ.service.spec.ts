@@ -26,13 +26,6 @@ import {
   CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './converters/cpq-configurator-occ.converters';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
-import {
-  CPQ_CONFIGURATOR_NORMALIZER,
-  CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
-  CPQ_CONFIGURATOR_SERIALIZER,
-  CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
-} from '../common/converters/cpq-configurator.converters';
-import { Cpq } from '../common/cpq.models';
 
 describe('CpqConfigurationOccService', () => {
   const configId = '1234-56-7890';
@@ -79,7 +72,7 @@ describe('CpqConfigurationOccService', () => {
       },
     };
 
-  const readConfigCartEntryParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+  const readConfigCartParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
     {
       userId: userId,
       cartId: documentId,
@@ -110,45 +103,6 @@ describe('CpqConfigurationOccService', () => {
         configuratorType: ConfiguratorType.CPQ,
       },
     };
-
-  const errorMessages = ['error message 1', 'error message 2'];
-  const numberOfConflicts = 2;
-  const attributeCode = '111';
-  const attributeValueId = 'abc';
-  const tabId = '11';
-
-  const cpqConfiguration: Cpq.Configuration = {
-    productSystemId: productCode,
-    currencyISOCode: 'USD',
-    errorMessages: errorMessages,
-    numberOfConflicts: numberOfConflicts,
-    configurationId: configId,
-  };
-
-  const configuration: Configurator.Configuration = {
-    ...ConfiguratorTestUtils.createConfiguration(
-      configId,
-      ConfiguratorModelUtils.createInitialOwner()
-    ),
-    productCode: productCode,
-  };
-
-  const updateAttribute: Cpq.UpdateAttribute = {
-    configurationId: configId,
-    standardAttributeCode: attributeCode,
-    changeAttributeValue: {
-      attributeValueIds: attributeValueId,
-    },
-    tabId: tabId,
-  };
-
-  const updateValue: Cpq.UpdateValue = {
-    configurationId: configId,
-    standardAttributeCode: attributeCode,
-    attributeValueId: attributeValueId,
-    quantity: 5,
-    tabId: tabId,
-  };
 
   class MockOccEndpointsService {
     buildUrl(
@@ -191,6 +145,7 @@ describe('CpqConfigurationOccService', () => {
       CpqConfiguratorOccService as Type<CpqConfiguratorOccService>
     );
 
+    spyOn(converterService, 'convert').and.callThrough();
     spyOn(occEnpointsService, 'buildUrl').and.callThrough();
     spyOn(converterService, 'pipeable').and.callThrough();
   });
@@ -200,7 +155,6 @@ describe('CpqConfigurationOccService', () => {
   });
 
   it('should call addToCart endpoint', () => {
-    spyOn(converterService, 'convert').and.callThrough();
     serviceUnderTest.addToCart(addToCartParams).subscribe((response) => {
       expect(response).toBe(cartResponse);
     });
@@ -231,7 +185,7 @@ describe('CpqConfigurationOccService', () => {
 
   it('should call readCpqConfigurationForCartEntry endpoint', () => {
     serviceUnderTest
-      .getConfigIdForCartEntry(readConfigCartEntryParams)
+      .getConfigIdForCartEntry(readConfigCartParams)
       .subscribe((response) => {
         expect(response).toBe(configId);
       });
@@ -282,7 +236,6 @@ describe('CpqConfigurationOccService', () => {
   });
 
   it('should call upateCart endpoint', () => {
-    spyOn(converterService, 'convert').and.callThrough();
     serviceUnderTest.updateCartEntry(updateCartParams).subscribe((response) => {
       expect(response).toBe(cartResponse);
     });
@@ -309,231 +262,6 @@ describe('CpqConfigurationOccService', () => {
           userId: userId,
           cartId: documentId,
           cartEntryNumber: '3',
-        },
-      }
-    );
-  });
-
-  it('should create a configuration and call normalizer', () => {
-    serviceUnderTest.createConfiguration(productCode).subscribe((config) => {
-      expect(config.errorMessages).toBe(errorMessages);
-    });
-
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'createCpqConfiguration';
-    });
-    mockReq.flush(cpqConfiguration);
-
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      CPQ_CONFIGURATOR_NORMALIZER
-    );
-
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'createCpqConfiguration',
-      {
-        urlParams: {
-          productCode: productCode,
-        },
-      }
-    );
-  });
-
-  it('should read the default configuration tab and call normalizer', () => {
-    serviceUnderTest.readConfiguration(configId).subscribe((config) => {
-      expect(config.errorMessages).toBe(errorMessages);
-    });
-
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'readCpqConfiguration';
-    });
-    mockReq.flush(cpqConfiguration);
-
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      CPQ_CONFIGURATOR_NORMALIZER
-    );
-
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'readCpqConfiguration',
-      {
-        urlParams: {
-          configurationId: configId,
-        },
-        queryParams: undefined,
-      }
-    );
-  });
-
-  it('should read the desired configuration tab and call normalizer', () => {
-    serviceUnderTest.readConfiguration(configId, tabId).subscribe((config) => {
-      expect(config.errorMessages).toBe(errorMessages);
-    });
-
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'readCpqConfiguration';
-    });
-    mockReq.flush(cpqConfiguration);
-
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      CPQ_CONFIGURATOR_NORMALIZER
-    );
-
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'readCpqConfiguration',
-      {
-        urlParams: {
-          configurationId: configId,
-        },
-        queryParams: {
-          tabId: tabId,
-        },
-      }
-    );
-  });
-
-  it('should read the configuration overview and call the overview normalizer', () => {
-    serviceUnderTest.readConfigurationOverview(configId).subscribe((config) => {
-      expect(config.numberOfConflicts).toBe(numberOfConflicts);
-    });
-
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'readCpqConfigurationOverview';
-    });
-    mockReq.flush(cpqConfiguration);
-
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER
-    );
-
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'readCpqConfigurationOverview',
-      {
-        urlParams: {
-          configurationId: configId,
-        },
-      }
-    );
-  });
-
-  it('should call serializer, update an attribute, retrieve configuration and call normalizer', () => {
-    spyOn(converterService, 'convert').and.returnValue(updateAttribute);
-    serviceUnderTest.updateAttribute(configuration).subscribe((config) => {
-      expect(config.errorMessages).toBe(errorMessages);
-    });
-
-    expect(converterService.convert).toHaveBeenCalledWith(
-      configuration,
-      CPQ_CONFIGURATOR_SERIALIZER
-    );
-
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'PATCH' && req.url === 'updateCpqAttribute';
-    });
-    mockReq.flush(cpqConfiguration);
-
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      CPQ_CONFIGURATOR_NORMALIZER
-    );
-
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'updateCpqAttribute',
-      {
-        urlParams: {
-          configurationId: configId,
-          attributeCode: attributeCode,
-        },
-        queryParams: {
-          tabId: tabId,
-        },
-      }
-    );
-  });
-
-  it('should call serializer, update an attribute value quantity, retrieve configuration and call normalizer', () => {
-    spyOn(converterService, 'convert').and.returnValue(updateValue);
-    serviceUnderTest.updateValueQuantity(configuration).subscribe((config) => {
-      expect(config.errorMessages).toBe(errorMessages);
-    });
-
-    expect(converterService.convert).toHaveBeenCalledWith(
-      configuration,
-      CPQ_CONFIGURATOR_QUANTITY_SERIALIZER
-    );
-
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'PATCH' && req.url === 'updateCpqAttributeValueQuantity'
-      );
-    });
-    mockReq.flush(cpqConfiguration);
-
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      CPQ_CONFIGURATOR_NORMALIZER
-    );
-
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'updateCpqAttributeValueQuantity',
-      {
-        urlParams: {
-          configurationId: configId,
-          attributeCode: attributeCode,
-          attributeValueId: attributeValueId,
-        },
-        queryParams: {
-          tabId: tabId,
-        },
-      }
-    );
-  });
-
-  it('should read the configuration for a cart entry and call normalizer', () => {
-    serviceUnderTest
-      .readConfigurationForCartEntry(readConfigCartEntryParams)
-      .subscribe((config) => {
-        expect(config.errorMessages).toBe(errorMessages);
-      });
-
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'GET' &&
-        req.url === 'readCpqConfigurationForCartEntryFull'
-      );
-    });
-    mockReq.flush(cpqConfiguration);
-
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'readCpqConfigurationForCartEntryFull',
-      {
-        urlParams: {
-          userId: userId,
-          cartId: documentId,
-          cartEntryNumber: '3',
-        },
-      }
-    );
-  });
-
-  it('should read the configuration for an order entry and call normalizer', () => {
-    serviceUnderTest
-      .readConfigurationForOrderEntry(readConfigOrderEntryParams)
-      .subscribe((config) => {
-        expect(config.errorMessages).toBe(errorMessages);
-      });
-
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'GET' &&
-        req.url === 'readCpqConfigurationForOrderEntryFull'
-      );
-    });
-    mockReq.flush(cpqConfiguration);
-
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'readCpqConfigurationForOrderEntryFull',
-      {
-        urlParams: {
-          userId: userId,
-          orderId: documentId,
-          orderEntryNumber: '3',
         },
       }
     );

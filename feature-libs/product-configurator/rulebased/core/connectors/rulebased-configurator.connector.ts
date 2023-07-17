@@ -4,15 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { ConfiguratorCoreConfig } from '../config/configurator-core.config';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 
@@ -23,27 +21,10 @@ export class RulebasedConfiguratorConnector {
     RulebasedConfiguratorAdapter[]
   >('ConfiguratorAdapterList');
 
-  // TODO(CXSPA-3392): make config a required dependency
-  constructor(
-    adapters: RulebasedConfiguratorAdapter[],
-    configUtilsService: CommonConfiguratorUtilsService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    config: ConfiguratorCoreConfig
-  );
-
-  /**
-   * @deprecated since 6.3
-   */
-  constructor(
-    adapters: RulebasedConfiguratorAdapter[],
-    configUtilsService: CommonConfiguratorUtilsService
-  );
-
   constructor(
     @Inject(RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST)
     protected adapters: RulebasedConfiguratorAdapter[],
-    protected configUtilsService: CommonConfiguratorUtilsService,
-    @Optional() protected config?: ConfiguratorCoreConfig
+    protected configUtilsService: CommonConfiguratorUtilsService
   ) {}
 
   createConfiguration(
@@ -147,8 +128,8 @@ export class RulebasedConfiguratorConnector {
   }
 
   protected getAdapter(configuratorType: string): RulebasedConfiguratorAdapter {
-    const adapterResult = this.adapters.find((adapter) =>
-      this.isAdapterMatching(adapter, configuratorType)
+    const adapterResult = this.adapters.find(
+      (adapter) => adapter.getConfiguratorType() === configuratorType
     );
     if (adapterResult) {
       return adapterResult;
@@ -157,20 +138,5 @@ export class RulebasedConfiguratorConnector {
         'No adapter found for configurator type: ' + configuratorType
       );
     }
-  }
-
-  protected isAdapterMatching(
-    adapter: RulebasedConfiguratorAdapter,
-    configuratorType: string
-  ): boolean {
-    let matching = adapter.getConfiguratorType() === configuratorType;
-    if (matching && ConfiguratorType.CPQ === configuratorType) {
-      const isCpqOverOccRequested =
-        this.config?.productConfigurator?.cpqOverOcc ?? false;
-      const isCpqOverOccSupported =
-        !!adapter.supportsCpqOverOcc && adapter.supportsCpqOverOcc();
-      matching = isCpqOverOccRequested === isCpqOverOccSupported;
-    }
-    return matching;
   }
 }

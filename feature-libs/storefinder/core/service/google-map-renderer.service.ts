@@ -5,8 +5,8 @@
  */
 
 /// <reference types="@types/google.maps" />
-import { Injectable, inject, isDevMode } from '@angular/core';
-import { LoggerService, ScriptLoader } from '@spartacus/core';
+import { Injectable, isDevMode } from '@angular/core';
+import { ScriptLoader } from '@spartacus/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderService } from '../facade/store-finder.service';
@@ -17,8 +17,6 @@ import { StoreFinderService } from '../facade/store-finder.service';
 export class GoogleMapRendererService {
   private googleMap: google.maps.Map = null;
   private markers: google.maps.Marker[];
-
-  protected logger = inject(LoggerService);
 
   constructor(
     protected config: StoreFinderConfig,
@@ -60,7 +58,7 @@ export class GoogleMapRendererService {
       }
     } else {
       if (isDevMode()) {
-        this.logger.warn(
+        console.warn(
           'A Google Maps api key is required in the store finder configuration to display the Google map.'
         );
       }

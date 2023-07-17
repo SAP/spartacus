@@ -13,62 +13,78 @@ import {
   products,
 } from '../../../../sample-data/b2b-checkout';
 import { user } from '../../../../sample-data/checkout-flow';
+import { isolateTests } from '../../../../support/utils/test-isolation';
 
-context('B2B - Credit Card Checkout flow', () => {
+context('B2B - Credit Card Checkout flow', { testIsolation: false }, () => {
+  isolateTests();
   before(() => {
+    cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
   });
 
-  it('should checkout using a credit card', () => {
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
+
+  it('should login to b2b user', () => {
     b2bCheckout.loginB2bUser();
+  });
 
-    cy.log('🛒 Adding product to cart');
+  it('should add a product to cart', () => {
     b2bCheckout.addB2bProductToCartAndCheckout();
+  });
 
-    cy.log('💳 Selecting credit card payment type');
+  it('should select Credit Card payment type', () => {
     b2bCheckout.enterPONumber();
     b2bCheckout.selectCreditCardPayment();
+  });
 
-    cy.log('💳 Checking total in order summary');
+  it('should check total in order summary', () => {
     checkout.checkSummaryAmount(cartWithB2bProduct);
+  });
 
-    cy.log(
-      '💳 Preventing navigation to payment method if shipping address form is empty'
-    );
+  it('should prevent navigation to payment method if shipping address form is empty', () => {
     checkout.proceedWithEmptyShippingAdressForm();
+  });
 
-    cy.log(
-      '💳 Preventing navigation to payment method if shipping address for has errors'
-    );
+  it('should prevent navigation to payment method if shipping address for has errors', () => {
     checkout.proceedWithIncorrectShippingAddressForm({
       ...user,
       firstName: '',
     });
+  });
 
-    cy.log('💳 Entering shipping address');
+  it('should enter shipping address', () => {
     checkout.fillAddressFormWithCheapProduct({ firstName: user.firstName });
+  });
 
-    cy.log('💳 Selecting delivery mode');
+  it('should select delivery mode', () => {
     checkout.verifyDeliveryMethod();
+  });
 
-    cy.log('💳 Preventing navigation to review order if payment form is empty');
+  it('should prevent navigation to review order if payment form is empty', () => {
     checkout.proceedWithEmptyPaymentForm();
+  });
 
-    cy.log(
-      '💳 Preventing navigation to review order if payment form has errors'
-    );
+  it('should prevent navigation to review order if payment form has errors', () => {
     checkout.proceedWithIncorrectPaymentForm({
       ...user,
       payment: { ...user.payment, number: '' },
     });
+  });
 
-    cy.log('💳 Entering payment method');
+  it('should enter payment method', () => {
     checkout.fillPaymentFormWithCheapProduct(
       { payment: { number: user.payment.number } },
       undefined
     );
+  });
 
-    cy.log('💳 Reviewing and placing order');
+  it('should review and place order', () => {
     b2bCheckout.reviewB2bReviewOrderPage(
       user,
       cartWithB2bProduct,
@@ -77,8 +93,9 @@ context('B2B - Credit Card Checkout flow', () => {
     );
 
     b2bCheckout.placeOrder('/order-confirmation');
+  });
 
-    cy.log('💳 Displaying order confirmation');
+  it('should display summary page', () => {
     b2bCheckout.reviewB2bOrderConfirmation(
       user,
       products[0],

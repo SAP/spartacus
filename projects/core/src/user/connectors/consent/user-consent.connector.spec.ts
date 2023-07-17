@@ -46,13 +46,12 @@ describe('UserConsentConnector', () => {
   it('withdrawConsent should call adapter', () => {
     let result;
     service
-      .withdrawConsent('userId', 'consentCode', 'consentId')
+      .withdrawConsent('userId', 'consentCode')
       .subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.withdrawConsent).toHaveBeenCalledWith(
       'userId',
-      'consentCode',
-      'consentId'
+      'consentCode'
     );
   });
 });

@@ -45,8 +45,8 @@ export class ConfiguratorAttributeNumericInputFieldService {
     numberTotalPlaces: number,
     numberDecimalPlaces: number
   ): boolean {
-    const regexEscape = '\\';
-    const search: RegExp = new RegExp(regexEscape + groupingSeparator, 'g');
+    const escape = '\\';
+    const search: RegExp = new RegExp(escape + groupingSeparator, 'g');
     const woGrouping = input.replace(search, '');
     const splitParts = woGrouping.split(decimalSeparator);
 
@@ -130,7 +130,6 @@ export class ConfiguratorAttributeNumericInputFieldService {
       minValueIncluded: false,
       maxValueIncluded: false,
     };
-
     if (!value || !value.name || value.selected) {
       return undefined;
     }
@@ -191,8 +190,6 @@ export class ConfiguratorAttributeNumericInputFieldService {
     ) {
       minVal = valueName;
       maxVal = valueName;
-      interval.maxValueIncluded = true;
-      interval.minValueIncluded = true;
     }
     return { minVal, maxVal };
   }
@@ -220,7 +217,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
 
   /**
    * Get pattern for the message that is displayed when the validation fails. This message e.g. looks like
-   * 'Enter the number in the following format: ##,###,###.##'
+   * 'Wrong format, this numerical attribute should be entered according to pattern ##,###,###.##'
    * for the 'en' locale for an attribute with total length of 10 and 2 decimal places.
    *
    * @param decimalPlaces Number of decimal places
@@ -274,173 +271,47 @@ export class ConfiguratorAttributeNumericInputFieldService {
     negativeAllowed: boolean
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const input = control.value?.trim();
+      const input: string = control.value;
       if (input) {
-        return this.getValidationErrorsNumericFormat(
-          input,
+        //allowed: only numbers and separators
+
+        const groupingSeparator = getLocaleNumberSymbol(
           locale,
-          numberDecimalPlaces,
-          numberTotalPlaces,
-          negativeAllowed
+          NumberSymbol.Group
+        );
+        const decimalSeparator = getLocaleNumberSymbol(
+          locale,
+          NumberSymbol.Decimal
+        );
+        const expressionPrefix = negativeAllowed ? '^-?' : '^';
+        const expressionOnlyNumericalInput: RegExp = new RegExp(
+          expressionPrefix +
+            '[0123456789' +
+            groupingSeparator +
+            decimalSeparator +
+            ']*$'
+        );
+
+        if (!expressionOnlyNumericalInput.test(input)) {
+          return this.createValidationError(true);
+        }
+        return this.createValidationError(
+          this.performValidationAccordingToMetaData(
+            input,
+            groupingSeparator,
+            decimalSeparator,
+            numberTotalPlaces + (input.includes('-') ? 1 : 0),
+            numberDecimalPlaces
+          )
         );
       }
       return null;
     };
-  }
-
-  protected getValidationErrorsNumericFormat(
-    input: string,
-    locale: string,
-    numberDecimalPlaces: number,
-    numberTotalPlaces: number,
-    negativeAllowed: boolean
-  ): { [key: string]: any } | null {
-    //allowed: only numbers and separators
-
-    const groupingSeparator = getLocaleNumberSymbol(locale, NumberSymbol.Group);
-    const decimalSeparator = getLocaleNumberSymbol(
-      locale,
-      NumberSymbol.Decimal
-    );
-    const expressionPrefix = negativeAllowed ? '^-?' : '^';
-    const expressionOnlyNumericalInput: RegExp = new RegExp(
-      expressionPrefix +
-        '[0123456789' +
-        groupingSeparator +
-        decimalSeparator +
-        ']*$'
-    );
-
-    if (!expressionOnlyNumericalInput.test(input)) {
-      return this.createValidationError(true);
-    }
-    return this.createValidationError(
-      this.performValidationAccordingToMetaData(
-        input,
-        groupingSeparator,
-        decimalSeparator,
-        numberTotalPlaces + (input.includes('-') ? 1 : 0),
-        numberDecimalPlaces
-      )
-    );
-  }
-
-  /**
-   * Returns the interval validator for the input component that represents numeric input.
-   * It becomes active only if intervals are provided (they originate from the attribute's values),
-   * and matches the input with the list of intervals.
-   * It also becomes active only if the validation for the numeric format itself is fine, in order
-   * to avoid multiple validation messages.
-   *
-   * @param locale The locale
-   * @param numberDecimalPlaces Number of decimal places
-   * @param numberTotalPlaces  Total number of digits
-   * @param negativeAllowed: Do we allow negative input?
-   * @returns {ValidatorFn} The validator
-   */
-
-  getIntervalValidator(
-    locale: string,
-    numberDecimalPlaces: number,
-    numberTotalPlaces: number,
-    negativeAllowed: boolean,
-    intervals: ConfiguratorAttributeNumericInterval[],
-    currentValue?: string
-  ): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const input = control.value?.trim();
-      if (
-        input &&
-        input !== currentValue && //this is to ensure that selected interval consisting of only one value will not lead to a validation error
-        // in the next roundtrip, when this value has been removed from the list of intervals
-        intervals.length !== 0 && // perform validation only if intervals exist
-        this.getValidationErrorsNumericFormat(
-          input,
-          locale,
-          numberDecimalPlaces,
-          numberTotalPlaces,
-          negativeAllowed
-        ) == null
-      ) {
-        return this.createIntervalValidationError(
-          !this.checkIfPartOfIntervals(input, locale, intervals)
-        );
-      }
-      return null;
-    };
-  }
-
-  protected checkIfPartOfIntervals(
-    input: string,
-    locale: string,
-    intervals: ConfiguratorAttributeNumericInterval[]
-  ): boolean {
-    return (
-      intervals.find((interval) =>
-        this.inputMatchesInterval(input, locale, interval)
-      ) !== undefined
-    );
-  }
-
-  protected inputMatchesInterval(
-    input: string,
-    locale: string,
-    interval: ConfiguratorAttributeNumericInterval
-  ): boolean {
-    const inputNum: number = this.parseInput(input, locale);
-
-    let matchesLower: boolean = true;
-    if (interval.minValue) {
-      matchesLower = interval.minValueIncluded
-        ? interval.minValue <= inputNum
-        : interval.minValue < inputNum;
-    }
-
-    let matchesHigher: boolean = true;
-    if (interval.maxValue) {
-      matchesHigher = interval.maxValueIncluded
-        ? interval.maxValue >= inputNum
-        : interval.maxValue > inputNum;
-    }
-
-    return matchesLower && matchesHigher;
-  }
-
-  protected parseInput(input: string, locale: string): number {
-    const groupingSeparator = getLocaleNumberSymbol(locale, NumberSymbol.Group);
-    const decimalSeparator = getLocaleNumberSymbol(
-      locale,
-      NumberSymbol.Decimal
-    );
-    return this.parseInputForSeparators(
-      input,
-      groupingSeparator,
-      decimalSeparator
-    );
-  }
-
-  protected parseInputForSeparators(
-    input: string,
-    groupingSeparator: string,
-    decimalSeparator: string
-  ) {
-    const escapeString = '\\';
-    const search: RegExp = new RegExp(escapeString + groupingSeparator, 'g');
-    const normalizedInput = input
-      .replace(search, '')
-      .replace(decimalSeparator, '.');
-    return parseFloat(normalizedInput);
   }
 
   protected createValidationError(
     isError: boolean
   ): { [key: string]: any } | null {
     return isError ? { wrongFormat: {} } : null;
-  }
-
-  protected createIntervalValidationError(
-    isError: boolean
-  ): { [key: string]: any } | null {
-    return isError ? { intervalNotMet: {} } : null;
   }
 }

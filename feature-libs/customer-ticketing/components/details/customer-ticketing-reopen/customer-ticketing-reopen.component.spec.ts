@@ -8,7 +8,7 @@ import {
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { CustomerTicketingReopenComponent } from './customer-ticketing-reopen.component';
@@ -24,7 +24,7 @@ describe('CustomerTicketingReopenComponent', () => {
       _openElement?: ElementRef,
       _vcr?: ViewContainerRef
     ) {
-      return EMPTY;
+      return of();
     }
   }
 

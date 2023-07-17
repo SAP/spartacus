@@ -250,21 +250,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(loadingState[2]).toBe(false); // loading done
   });
 
-  describe('getAttributeName', () => {
-    it('should return attribute name if present', () => {
-      expect(component.attributeName).toBe(
-        component.productCardOptions.attributeName
-      );
-    });
-
-    it('should fall back to attribute ID in case name is not present', () => {
-      component.productCardOptions.attributeName = undefined;
-      expect(component.attributeName).toBe(
-        component.productCardOptions.attributeId.toString()
-      );
-    });
-  });
-
   describe('Buttons constellation', () => {
     it('should button be enabled when card actions are disabled and card is no selected', () => {
       const button = fixture.debugElement.query(
@@ -643,28 +628,26 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   });
 
   describe('isValueCodeDefined', () => {
-    it('should return `false` when value code equals `###RETRACT_VALUE_CODE##`', () => {
-      expect(component.isValueCodeDefined(Configurator.RetractValueCode)).toBe(
-        false
-      );
+    it('should return true when value code equals zero', () => {
+      expect(component.isValueCodeDefined('0')).toBe(false);
     });
 
-    it('should return `false` when value code is `null`', () => {
+    it('should return true when value code is null', () => {
       expect(component.isValueCodeDefined(null)).toBe(false);
     });
 
-    it('should return `false` when value code is `undefined`', () => {
+    it('should return true when value code is undefined', () => {
       expect(component.isValueCodeDefined(undefined)).toBe(false);
     });
 
-    it('should return `true` when value code is defined', () => {
+    it('should return true when value code is defined', () => {
       expect(component.isValueCodeDefined('888')).toBe(true);
     });
   });
 
   describe('if "No Option Selected" is selected / not selected for not required single-selection-bundle', () => {
     it('should not show "Deselect" button', () => {
-      value.valueCode = Configurator.RetractValueCode;
+      value.valueCode = '0';
       setProductBoundValueAttributes(component);
       fixture.detectChanges();
 
@@ -676,7 +659,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should show "Select" button', () => {
-      value.valueCode = Configurator.RetractValueCode;
+      value.valueCode = '0';
       setProductBoundValueAttributes(component, false);
       fixture.detectChanges();
 
@@ -1022,9 +1005,8 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it("should return 'configurator.a11y.selectNoItemOfAttribute' if there is valueCode=`###RETRACT_VALUE_CODE###` for the productBoundValue", () => {
-      component.productCardOptions.productBoundValue.valueCode =
-        Configurator.RetractValueCode;
+    it("should return 'configurator.a11y.selectNoItemOfAttribute' if there is valueCode=0 for the productBoundValue", () => {
+      component.productCardOptions.productBoundValue.valueCode = '0';
       const itemIndex = component.productCardOptions.itemIndex + 1;
       expect(component.getAriaLabelSingleUnselected(product)).toBe(
         'configurator.a11y.selectNoItemOfAttribute attribute:' +

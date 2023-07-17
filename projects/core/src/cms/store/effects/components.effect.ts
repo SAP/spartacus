@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable, from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { catchError, groupBy, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
-import { LoggerService } from '../../../logger';
 import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
@@ -23,8 +22,6 @@ import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class ComponentsEffects {
-  protected logger = inject(LoggerService);
-
   constructor(
     private actions$: Actions,
     private cmsComponentConnector: CmsComponentConnector
@@ -106,7 +103,7 @@ export class ComponentsEffects {
             (uid) =>
               new CmsActions.LoadCmsComponentFail({
                 uid,
-                error: normalizeHttpError(error, this.logger),
+                error: normalizeHttpError(error),
                 pageContext,
               })
           )

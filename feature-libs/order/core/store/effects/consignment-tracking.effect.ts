@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { normalizeHttpError } from '@spartacus/core';
 import { ConsignmentTracking } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -15,8 +15,6 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class ConsignmentTrackingEffects {
-  protected logger = inject(LoggerService);
-
   loadConsignmentTracking$: Observable<OrderActions.ConsignmentTrackingAction> =
     createEffect(() =>
       this.actions$.pipe(
@@ -37,7 +35,7 @@ export class ConsignmentTrackingEffects {
               catchError((error) =>
                 of(
                   new OrderActions.LoadConsignmentTrackingFail(
-                    normalizeHttpError(error, this.logger)
+                    normalizeHttpError(error)
                   )
                 )
               )

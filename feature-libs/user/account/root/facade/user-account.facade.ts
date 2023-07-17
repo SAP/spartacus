@@ -5,10 +5,10 @@
  */
 
 import { Injectable } from '@angular/core';
-import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { USER_ACCOUNT_CORE_FEATURE } from '../feature-name';
 import { User } from '../model/user.model';
+import { facadeFactory } from '@spartacus/core';
+import { USER_ACCOUNT_CORE_FEATURE } from '../feature-name';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +16,9 @@ import { User } from '../model/user.model';
     facadeFactory({
       facade: UserAccountFacade,
       feature: USER_ACCOUNT_CORE_FEATURE,
-      methods: ['get', 'getById'],
+      methods: ['get'],
     }),
 })
 export abstract class UserAccountFacade {
   abstract get(): Observable<User | undefined>;
-  abstract getById(userId: string): Observable<User | undefined>;
 }

@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
   OCC_USER_ID_CURRENT,
@@ -37,8 +37,7 @@ export class ConfiguratorCartService {
   ) {}
 
   /**
-   * Reads a configuration that is attached to a cart entry, dispatching the respective action.
-   *
+   * Reads a configuratiom that is attached to a cart entry, dispatching the respective action
    * @param owner Configuration owner
    * @returns Observable of product configurations
    */
@@ -101,10 +100,8 @@ export class ConfiguratorCartService {
       )
     );
   }
-
   /**
-   * Reads a configuration that is attached to an order entry, dispatching the respective action.
-   *
+   * Reads a configuratiom that is attached to an order entry, dispatching the respective action
    * @param owner Configuration owner
    * @returns Observable of product configurations
    */
@@ -155,14 +152,12 @@ export class ConfiguratorCartService {
    *
    * @param productCode - Product code
    * @param configId - Configuration ID
-   * @param owner - Configuration owner
-   * @param quantity - Quantity
+   * @param owner Configuration owner
    */
   addToCart(
     productCode: string,
     configId: string,
-    owner: CommonConfigurator.Owner,
-    quantity?: number
+    owner: CommonConfigurator.Owner
   ): void {
     this.activeCartService
       .requireLoadedCart()
@@ -176,7 +171,7 @@ export class ConfiguratorCartService {
               userId: userId,
               cartId: this.commonConfigUtilsService.getCartId(cart),
               productCode: productCode,
-              quantity: quantity ?? 1,
+              quantity: 1,
               configId: configId,
               owner: owner,
             };
@@ -217,10 +212,8 @@ export class ConfiguratorCartService {
           });
       });
   }
-
   /**
    * Can be used to check if the active cart has any product configuration issues.
-   *
    * @returns True if and only if there is at least one cart entry with product configuration issues
    */
   activeCartHasIssues(): Observable<boolean> {
@@ -236,28 +229,6 @@ export class ConfiguratorCartService {
           : []
       ),
       map((entries) => entries.length > 0)
-    );
-  }
-
-  /**
-   * Retrieves cart entry by a cart entry number.
-   *
-   * @param {string} entryNumber - Entry number
-   * @returns {Observable<OrderEntry | undefined>} - Cart entry
-   */
-  getEntry(entryNumber: string): Observable<OrderEntry | undefined> {
-    return this.activeCartService.requireLoadedCart().pipe(
-      map((cart) => {
-        return cart.entries ? cart.entries : [];
-      }),
-      map((entries) => {
-        const filteredEntries = entries.filter(
-          (entry) => entry.entryNumber?.toString() === entryNumber
-        );
-        return filteredEntries
-          ? filteredEntries[filteredEntries.length - 1]
-          : undefined;
-      })
     );
   }
 

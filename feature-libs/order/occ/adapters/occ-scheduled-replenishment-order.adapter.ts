@@ -5,20 +5,19 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
-  ConverterService,
-  LoggerService,
-  OccEndpointsService,
   backOff,
+  ConverterService,
   isJaloError,
   normalizeHttpError,
+  OccEndpointsService,
 } from '@spartacus/core';
 import { ScheduledReplenishmentOrderAdapter } from '@spartacus/order/core';
 import {
+  ReplenishmentOrder,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
-  ReplenishmentOrder,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
 import { Observable, throwError } from 'rxjs';
@@ -28,8 +27,6 @@ import { catchError } from 'rxjs/operators';
 export class OccScheduledReplenishmentOrderAdapter
   implements ScheduledReplenishmentOrderAdapter
 {
-  protected logger = inject(LoggerService);
-
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -60,9 +57,7 @@ export class OccScheduledReplenishmentOrderAdapter
         { headers }
       )
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => throwError(normalizeHttpError(error))),
         backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER)
       );

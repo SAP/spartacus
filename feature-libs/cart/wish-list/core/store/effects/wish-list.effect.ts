@@ -4,26 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Action, Store, select } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 import {
   CartActions,
   CartConnector,
+  getCartIdByUserId,
   MultiCartSelectors,
   StateWithMultiCart,
-  getCartIdByUserId,
 } from '@spartacus/cart/base/core';
 import { CartType } from '@spartacus/cart/base/root';
 import {
-  LoggerService,
+  isNotUndefined,
+  normalizeHttpError,
   SiteContextActions,
   StateUtils,
   UserIdService,
-  isNotUndefined,
-  normalizeHttpError,
 } from '@spartacus/core';
-import { EMPTY, Observable, from } from 'rxjs';
+import { EMPTY, from, Observable } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -36,8 +35,6 @@ import { WishListActions } from '../actions';
 
 @Injectable()
 export class WishListEffects {
-  protected logger = inject(LoggerService);
-
   createWishList$: Observable<
     WishListActions.CreateWishListSuccess | WishListActions.CreateWishListFail
   > = createEffect(() =>
@@ -65,7 +62,7 @@ export class WishListEffects {
                   from([
                     new WishListActions.CreateWishListFail({
                       cartId: cart.code ?? '',
-                      error: normalizeHttpError(error, this.logger),
+                      error: normalizeHttpError(error),
                     }),
                   ])
                 )
@@ -111,7 +108,7 @@ export class WishListEffects {
             from([
               new WishListActions.LoadWishListFail({
                 cartId: cartId,
-                error: normalizeHttpError(error, this.logger),
+                error: normalizeHttpError(error),
               }),
             ])
           )
@@ -148,7 +145,7 @@ export class WishListEffects {
               from([
                 new WishListActions.LoadWishListFail({
                   cartId: wishListId,
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                 }),
               ])
             )

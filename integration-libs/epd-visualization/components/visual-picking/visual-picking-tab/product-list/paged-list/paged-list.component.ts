@@ -13,9 +13,7 @@ import {
   OnInit,
   Output,
   TemplateRef,
-  inject,
 } from '@angular/core';
-import { LoggerService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 /**
@@ -75,20 +73,18 @@ export class PagedListComponent implements OnInit {
     this.activeSlideStartIndexChange.emit(activeSlideStartIndex);
   }
 
-  protected logger = inject(LoggerService);
-
   constructor(protected el: ElementRef) {}
 
   ngOnInit() {
     if (!this.headerTemplate) {
-      this.logger.error(
+      console.error(
         'No template reference provided to render the header for the `cx-epd-visualization-paged-list`'
       );
       return;
     }
 
     if (!this.template) {
-      this.logger.error(
+      console.error(
         'No template reference provided to render the items for the `cx-epd-visualization-paged-list`'
       );
       return;

@@ -5,22 +5,22 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { ClearCartComponent } from './clear-cart.component';
+import { By } from '@angular/platform-browser';
 
-const mockCartEmpty$: Observable<Cart> = of({
+const mockCartEmpty$: Observable<Cart> = of<Cart>({
   code: 'cart-empty',
   totalItems: 0,
-} as Cart);
+});
 
-const mockCartNonEmpty$: Observable<Cart> = of({
+const mockCartNonEmpty$: Observable<Cart> = of<Cart>({
   code: 'cart-non-empty',
   totalItems: 1,
-} as Cart);
+});
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -28,12 +28,12 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return EMPTY;
+    return of();
   }
 }
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
-    return EMPTY;
+    return of();
   }
 }
 

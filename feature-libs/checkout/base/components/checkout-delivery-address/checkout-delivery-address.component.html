@@ -18,21 +18,8 @@
       <p class="cx-checkout-text">
         {{ 'checkoutAddress.selectYourDeliveryAddress' | cxTranslate }}
       </p>
-      <ng-container *cxFeatureLevel="'!6.3'">
-        <div class="cx-checkout-btns row">
-          <div class="col-sm-12 col-md-12 col-lg-6">
-            <button
-              class="btn btn-block btn-secondary"
-              (click)="showNewAddressForm()"
-            >
-              {{ 'checkoutAddress.addNewAddress' | cxTranslate }}
-            </button>
-          </div>
-        </div>
-      </ng-container>
-
-      <ng-container *cxFeatureLevel="'6.3'">
-        <div class="cx-checkout-btns cx-checkout-btns-top">
+      <div class="cx-checkout-btns row">
+        <div class="col-sm-12 col-md-12 col-lg-6">
           <button
             class="btn btn-block btn-secondary"
             (click)="showNewAddressForm()"
@@ -40,7 +27,7 @@
             {{ 'checkoutAddress.addNewAddress' | cxTranslate }}
           </button>
         </div>
-      </ng-container>
+      </div>
 
       <div class="cx-checkout-body row">
         <div
@@ -61,17 +48,6 @@
           </div>
         </div>
       </div>
-
-      <ng-container *cxFeatureLevel="'6.3'">
-        <div class="cx-checkout-btns cx-checkout-btns-bottom">
-          <button
-            class="btn btn-block btn-secondary"
-            (click)="showNewAddressForm()"
-          >
-            {{ 'checkoutAddress.addNewAddress' | cxTranslate }}
-          </button>
-        </div>
-      </ng-container>
 
       <div class="cx-checkout-btns row">
         <div class="col-md-12 col-lg-6">
@@ -102,7 +78,6 @@
         <cx-address-form
           [showTitleCode]="true"
           [setAsDefaultField]="!isGuestCheckout"
-          [addressData]="selectedAddress"
           cancelBtnLabel="{{ backBtnText | cxTranslate }}"
           (backToAddress)="hideNewAddressForm(true)"
           (submitAddress)="addAddress($event)"

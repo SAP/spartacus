@@ -7,22 +7,18 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CartAdapter } from '@spartacus/cart/base/core';
-import {
-  CART_NORMALIZER,
-  Cart,
-  SaveCartResult,
-} from '@spartacus/cart/base/root';
+import { Cart, CART_NORMALIZER } from '@spartacus/cart/base/root';
 import {
   ConverterService,
   InterceptorUtil,
-  OCC_CART_ID_CURRENT,
-  OCC_USER_ID_ANONYMOUS,
   Occ,
   OccEndpointsService,
+  OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
 @Injectable()
 export class OccCartAdapter implements CartAdapter {
@@ -38,7 +34,8 @@ export class OccCartAdapter implements CartAdapter {
         this.occEndpointsService.buildUrl('carts', { urlParams: { userId } })
       )
       .pipe(
-        map((cartList) => cartList.carts ?? []),
+        pluck('carts'),
+        map((carts) => carts ?? []),
         this.converterService.pipeableMany(CART_NORMALIZER)
       );
   }
@@ -113,10 +110,12 @@ export class OccCartAdapter implements CartAdapter {
         saveCartDescription,
       },
     });
-    return this.http.patch<Occ.Cart>(endpoint, cartId).pipe(
-      map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
-      this.converterService.pipeable(CART_NORMALIZER)
-    );
+    return this.http
+      .patch<Occ.Cart>(endpoint, cartId)
+      .pipe(
+        pluck('savedCartData'),
+        this.converterService.pipeable(CART_NORMALIZER)
+      );
   }
 
   addEmail(userId: string, cartId: string, email: string): Observable<{}> {

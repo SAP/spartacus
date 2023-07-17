@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -14,9 +14,9 @@ import {
   UserAddressService,
   UserService,
 } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { LaunchDialogService } from '../../../../layout';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { FormErrorsModule } from '../../../../shared/index';
 import { AddressFormComponent } from './address-form.component';
 import createSpy = jasmine.createSpy;
@@ -74,7 +74,7 @@ const mockAddress: Address = {
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
-    return EMPTY;
+    return of();
   }
 
   loadTitles(): void {}
@@ -82,13 +82,13 @@ class MockUserService {
 
 class MockUserAddressService {
   getDeliveryCountries(): Observable<Country[]> {
-    return EMPTY;
+    return of();
   }
 
   loadDeliveryCountries(): void {}
 
   getRegions(): Observable<Region[]> {
-    return EMPTY;
+    return of();
   }
 
   getAddresses(): Observable<Address[]> {
@@ -102,7 +102,7 @@ const dialogClose$ = new BehaviorSubject<any>('');
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe() {
-    return EMPTY;
+    return of();
   }
   get dialogClose() {
     return dialogClose$.asObservable();

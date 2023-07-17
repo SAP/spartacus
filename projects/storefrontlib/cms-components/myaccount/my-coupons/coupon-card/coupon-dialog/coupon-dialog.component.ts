@@ -5,16 +5,16 @@
  */
 
 import {
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
+  ChangeDetectionStrategy,
   HostListener,
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { CustomerCoupon } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { FocusConfig, LaunchDialogService } from '../../../../../layout/index';
 
 @Component({
@@ -49,9 +49,7 @@ export class CouponDialogComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.subscription.add(
       this.launchDialogService.data$.subscribe((data) => {
-        if (data) {
-          this.coupon = data.coupon;
-        }
+        this.coupon = data.coupon;
       })
     );
   }

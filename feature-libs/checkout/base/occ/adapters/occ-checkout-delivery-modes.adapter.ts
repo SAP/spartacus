@@ -5,30 +5,27 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryModesAdapter,
   DELIVERY_MODE_NORMALIZER,
 } from '@spartacus/checkout/base/core';
 import {
-  ConverterService,
-  LoggerService,
-  Occ,
-  OccEndpointsService,
   backOff,
+  ConverterService,
   isJaloError,
   normalizeHttpError,
+  Occ,
+  OccEndpointsService,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, pluck } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutDeliveryModesAdapter
   implements CheckoutDeliveryModesAdapter
 {
-  protected logger = inject(LoggerService);
-
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -43,9 +40,7 @@ export class OccCheckoutDeliveryModesAdapter
     return this.http
       .put(this.getSetDeliveryModeEndpoint(userId, cartId, deliveryModeId), {})
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => throwError(normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         })
@@ -73,13 +68,11 @@ export class OccCheckoutDeliveryModesAdapter
     return this.http
       .get<Occ.DeliveryModeList>(this.getDeliveryModesEndpoint(userId, cartId))
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => throwError(normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         }),
-        map((listResponse) => listResponse.deliveryModes),
+        pluck('deliveryModes'),
         map((modes) => modes ?? []),
         this.converter.pipeableMany(DELIVERY_MODE_NORMALIZER)
       );
@@ -98,9 +91,7 @@ export class OccCheckoutDeliveryModesAdapter
     return this.http
       .delete<unknown>(this.getClearDeliveryModeEndpoint(userId, cartId))
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => throwError(normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         })

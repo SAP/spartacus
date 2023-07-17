@@ -26,7 +26,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { mapTo, switchMap, take, tap } from 'rxjs/operators';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 
 @Component({
@@ -70,10 +70,7 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.eventSercvice
         .get(DeleteSavedCartSuccessEvent)
-        .pipe(
-          take(1),
-          map(() => true)
-        )
+        .pipe(take(1), mapTo(true))
         .subscribe((success) => this.onDeleteComplete(success))
     );
 

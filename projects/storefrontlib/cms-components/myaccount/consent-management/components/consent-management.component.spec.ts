@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AnonymousConsentsConfig,
@@ -19,8 +19,7 @@ import {
   Translatable,
   UserConsentService,
 } from '@spartacus/core';
-import { EMPTY, Observable, of } from 'rxjs';
-import { ConsentManagementComponentService } from '../consent-management-component.service';
+import { Observable, of } from 'rxjs';
 import { ConsentManagementComponent } from './consent-management.component';
 
 @Component({
@@ -48,22 +47,22 @@ class MockConsentManagementFormComponent {
 class UserConsentServiceMock {
   loadConsents(): void {}
   getConsentsResultLoading(): Observable<boolean> {
-    return EMPTY;
+    return of();
   }
   getGiveConsentResultLoading(): Observable<boolean> {
-    return EMPTY;
+    return of();
   }
   getGiveConsentResultSuccess(): Observable<boolean> {
-    return EMPTY;
+    return of();
   }
   getWithdrawConsentResultLoading(): Observable<boolean> {
-    return EMPTY;
+    return of();
   }
   getWithdrawConsentResultSuccess(): Observable<boolean> {
-    return EMPTY;
+    return of();
   }
   getConsents(): Observable<ConsentTemplate[]> {
-    return EMPTY;
+    return of();
   }
   giveConsent(
     _consentTemplateId: string,
@@ -134,7 +133,6 @@ describe('ConsentManagementComponent', () => {
           ConsentManagementComponent,
         ],
         providers: [
-          ConsentManagementComponentService,
           { provide: UserConsentService, useClass: UserConsentServiceMock },
           { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
           {
@@ -414,8 +412,7 @@ describe('ConsentManagementComponent', () => {
           });
 
           expect(userService.withdrawConsent).toHaveBeenCalledWith(
-            mockConsentTemplate.currentConsent.code,
-            mockConsentTemplate.id
+            mockConsentTemplate.currentConsent.code
           );
           expect(userService.giveConsent).not.toHaveBeenCalled();
         });
@@ -527,8 +524,7 @@ describe('ConsentManagementComponent', () => {
           component.rejectAll([mockConsentTemplate]);
 
           expect(userService.withdrawConsent).toHaveBeenCalledWith(
-            mockConsentTemplate.currentConsent.code,
-            mockConsentTemplate.id
+            mockConsentTemplate.currentConsent.code
           );
           expect(userService.withdrawConsent).toHaveBeenCalledTimes(1);
         });

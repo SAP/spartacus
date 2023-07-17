@@ -5,21 +5,20 @@
  */
 
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { CART_NORMALIZER, Cart, PaymentType } from '@spartacus/cart/base/root';
+import { Injectable } from '@angular/core';
+import { Cart, CART_NORMALIZER, PaymentType } from '@spartacus/cart/base/root';
 import {
-  CHECKOUT_PAYMENT_TYPE_NORMALIZER,
   CheckoutPaymentTypeAdapter,
+  CHECKOUT_PAYMENT_TYPE_NORMALIZER,
 } from '@spartacus/checkout/b2b/core';
 import {
-  ConverterService,
-  LoggerService,
-  OCC_HTTP_TOKEN,
-  Occ,
-  OccEndpointsService,
   backOff,
+  ConverterService,
   isJaloError,
   normalizeHttpError,
+  Occ,
+  OccEndpointsService,
+  OCC_HTTP_TOKEN,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -28,8 +27,6 @@ import { catchError, map } from 'rxjs/operators';
 export class OccCheckoutPaymentTypeAdapter
   implements CheckoutPaymentTypeAdapter
 {
-  protected logger = inject(LoggerService);
-
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -44,9 +41,7 @@ export class OccCheckoutPaymentTypeAdapter
     return this.http
       .get<Occ.PaymentTypeList>(this.getPaymentTypesEndpoint(), { context })
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => throwError(normalizeHttpError(error))),
         backOff({ shouldRetry: isJaloError }),
         map((paymentTypeList) => paymentTypeList.paymentTypes ?? []),
         this.converter.pipeableMany(CHECKOUT_PAYMENT_TYPE_NORMALIZER)
@@ -74,9 +69,7 @@ export class OccCheckoutPaymentTypeAdapter
         {}
       )
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => throwError(normalizeHttpError(error))),
         backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(CART_NORMALIZER)
       );

@@ -6,7 +6,7 @@ import {
   Input,
   Renderer2,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -14,7 +14,7 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
-import { EMPTY, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import {
   FacetCollapseState,
@@ -56,7 +56,7 @@ class MockFacetService {
   facetList$ = of(mockFacetList);
 
   getState() {
-    return EMPTY;
+    return of();
   }
   toggleExpand() {}
 }

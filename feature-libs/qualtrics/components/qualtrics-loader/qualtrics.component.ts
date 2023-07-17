@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject, isDevMode } from '@angular/core';
-import { LoggerService } from '@spartacus/core';
+import { Component, isDevMode } from '@angular/core';
 import { QualtricsConfig } from './config/qualtrics-config';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 /**
@@ -17,8 +16,6 @@ import { QualtricsLoaderService } from './qualtrics-loader.service';
   template: '',
 })
 export class QualtricsComponent {
-  protected logger = inject(LoggerService);
-
   constructor(
     protected qualtricsLoader: QualtricsLoaderService,
     protected config: QualtricsConfig
@@ -26,7 +23,7 @@ export class QualtricsComponent {
     if (this.config.qualtrics?.scriptSource) {
       this.qualtricsLoader.addScript(this.config.qualtrics.scriptSource);
     } else if (isDevMode()) {
-      this.logger.warn(
+      console.warn(
         `We're unable to add the Qualtrics deployment code as there is no script source defined in config.qualtrics.scriptSource.`
       );
     }

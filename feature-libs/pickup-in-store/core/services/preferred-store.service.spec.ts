@@ -173,7 +173,5 @@ export class MockPreferredStoreService {
   }
   setPreferredStore(_preferredStore: PointOfServiceNames): void {}
   clearPreferredStore(): void {}
-  getPreferredStoreWithProductInStock(): Observable<PointOfServiceNames> {
-    return of({ name: 'London School', displayName: 'London School' });
-  }
+  getPreferredStoreWithProductInStock(): void {}
 }

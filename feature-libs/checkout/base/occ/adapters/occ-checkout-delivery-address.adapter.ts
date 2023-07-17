@@ -5,19 +5,18 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CheckoutDeliveryAddressAdapter } from '@spartacus/checkout/base/core';
 import {
+  Address,
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
-  Address,
-  ConverterService,
-  LoggerService,
-  Occ,
-  OccEndpointsService,
   backOff,
+  ConverterService,
   isJaloError,
   normalizeHttpError,
+  Occ,
+  OccEndpointsService,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -26,8 +25,6 @@ import { catchError } from 'rxjs/operators';
 export class OccCheckoutDeliveryAddressAdapter
   implements CheckoutDeliveryAddressAdapter
 {
-  protected logger = inject(LoggerService);
-
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -50,9 +47,7 @@ export class OccCheckoutDeliveryAddressAdapter
         }
       )
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => throwError(normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         }),
@@ -83,9 +78,7 @@ export class OccCheckoutDeliveryAddressAdapter
         {}
       )
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => throwError(normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         })
@@ -110,9 +103,7 @@ export class OccCheckoutDeliveryAddressAdapter
     return this.http
       .delete<unknown>(this.getRemoveDeliveryAddressEndpoint(userId, cartId))
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => throwError(normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         })

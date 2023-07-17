@@ -25,9 +25,6 @@ describe('ConsentManagementFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConsentManagementFormComponent);
     component = fixture.componentInstance;
-    component.consentTemplate = {};
-    component.requiredConsents = [];
-    component.consent = null;
     el = fixture.debugElement;
 
     fixture.detectChanges();

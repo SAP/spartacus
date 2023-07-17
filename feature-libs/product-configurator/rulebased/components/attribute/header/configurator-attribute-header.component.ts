@@ -7,22 +7,21 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
   isDevMode,
   OnInit,
-  Optional,
 } from '@angular/core';
-import { FeatureConfigService, LoggerService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
-import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
-import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
+import {
+  ConfiguratorCommonsService,
+  ConfiguratorGroupsService,
+} from '../../../core';
 import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
 @Component({
@@ -44,37 +43,12 @@ export class ConfiguratorAttributeHeaderComponent
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
 
-  protected logger = inject(LoggerService);
-
-  constructor(
-    configUtils: ConfiguratorStorefrontUtilsService,
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configuratorGroupsService: ConfiguratorGroupsService,
-    configuratorUiSettings: ConfiguratorUISettingsConfig,
-    attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfigService?: FeatureConfigService
-  );
-
-  /**
-   * @deprecated since 6.2
-   */
-  constructor(
-    configUtils: ConfiguratorStorefrontUtilsService,
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configuratorGroupsService: ConfiguratorGroupsService,
-    configuratorUiSettings: ConfiguratorUISettingsConfig,
-    attributeComponentContext: ConfiguratorAttributeCompositionContext
-  );
-
   constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configuratorUiSettings: ConfiguratorUISettingsConfig,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    // TODO (CXSPA-3392): for next major release remove featureConfigService
-    @Optional() protected featureConfigService?: FeatureConfigService
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
@@ -85,7 +59,7 @@ export class ConfiguratorAttributeHeaderComponent
       Configurator.GroupType.ATTRIBUTE_GROUP;
     this.expMode = attributeComponentContext.expMode;
     this.isNavigationToGroupEnabled =
-      attributeComponentContext.isNavigationToGroupEnabled ?? false;
+      attributeComponentContext.isNavigationToGroupEnabled;
   }
 
   ngOnInit(): void {
@@ -94,7 +68,7 @@ export class ConfiguratorAttributeHeaderComponent
      */
     this.showRequiredMessageForDomainAttribute$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(map((result) => result && this.needsRequiredAttributeErrorMsg()));
+      .pipe(map((result) => result && this.isRequiredAttributeWithDomain()));
   }
 
   /**
@@ -109,6 +83,7 @@ export class ConfiguratorAttributeHeaderComponent
     } else if (this.isMultiSelection) {
       return 'configurator.attribute.multiSelectRequiredMessage';
     } else {
+      //input attribute types
       return 'configurator.attribute.singleSelectRequiredMessage';
     }
   }
@@ -130,7 +105,9 @@ export class ConfiguratorAttributeHeaderComponent
       case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT:
       case Configurator.UiType.RADIOBUTTON_PRODUCT:
       case Configurator.UiType.CHECKBOX:
+      case Configurator.UiType.DROPDOWN:
       case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT:
+      case Configurator.UiType.DROPDOWN_PRODUCT:
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
         return true;
       }
@@ -138,57 +115,15 @@ export class ConfiguratorAttributeHeaderComponent
     return false;
   }
 
-  protected isAttributeWithoutErrorMsg(
-    uiType: Configurator.UiType | undefined
-  ): boolean {
-    switch (uiType) {
-      case Configurator.UiType.NOT_IMPLEMENTED:
-      case Configurator.UiType.STRING:
-      case Configurator.UiType.NUMERIC:
-      case Configurator.UiType.CHECKBOX:
-      case Configurator.UiType.DROPDOWN:
-      case Configurator.UiType.DROPDOWN_PRODUCT: {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  protected isAttributeWithDomain(
-    uiType: Configurator.UiType | undefined
-  ): boolean {
-    switch (uiType) {
-      case Configurator.UiType.NOT_IMPLEMENTED:
-      case Configurator.UiType.STRING:
-      case Configurator.UiType.NUMERIC:
-      case Configurator.UiType.CHECKBOX: {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  // TODO (CXSPA-3392): for next major release remove featureConfigService
-  protected needsRequiredAttributeErrorMsg(): boolean {
-    if (this.featureConfigService?.isLevel('6.2')) {
-      // TODO: for next major release this condition should be proved
-      return this.isRequiredAttributeWithoutErrorMsg();
-    } else {
-      return this.isRequiredAttributeWithDomain();
-    }
-  }
-
   protected isRequiredAttributeWithDomain(): boolean {
+    const uiType = this.attribute.uiType;
     return (
-      this.isRequiredErrorMsg(this.attribute) &&
-      this.isAttributeWithDomain(this.attribute.uiType)
-    );
-  }
-
-  protected isRequiredAttributeWithoutErrorMsg(): boolean {
-    return (
-      this.isRequiredErrorMsg(this.attribute) &&
-      this.isAttributeWithoutErrorMsg(this.attribute.uiType)
+      (this.attribute.required &&
+        this.attribute.incomplete &&
+        uiType !== Configurator.UiType.NOT_IMPLEMENTED &&
+        uiType !== Configurator.UiType.STRING &&
+        uiType !== Configurator.UiType.NUMERIC) ??
+      false
     );
   }
 
@@ -303,7 +238,7 @@ export class ConfiguratorAttributeHeaderComponent
 
   protected logError(text: string): void {
     if (isDevMode()) {
-      this.logger.error(text);
+      console.error(text);
     }
   }
 

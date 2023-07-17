@@ -41,7 +41,7 @@ export class LanguageStatePersistenceService {
     }
 
     if (!this.initialized$.closed) {
-      this.initialized$.next(undefined);
+      this.initialized$.next();
       this.initialized$.complete();
     }
   }

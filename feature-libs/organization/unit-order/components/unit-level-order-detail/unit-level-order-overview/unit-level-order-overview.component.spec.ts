@@ -4,12 +4,12 @@ import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   Address,
   I18nTestingModule,
-  RequiredPick,
   TranslationService,
+  RequiredPick,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service';
 import { UnitLevelOrderOverviewComponent } from './unit-level-order-overview.component';
 
@@ -109,7 +109,7 @@ const mockFormattedAddress = 'test1, test2, test3, test4';
 
 class MockTranslationService {
   translate(): Observable<string> {
-    return EMPTY;
+    return of();
   }
 }
 

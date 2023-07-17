@@ -683,7 +683,7 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   describe('forceNewConfiguration', () => {
-    it('should call create action', () => {
+    it('should call matching action', () => {
       spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest.forceNewConfiguration(OWNER_PRODUCT);
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -691,16 +691,6 @@ describe('ConfiguratorCommonsService', () => {
           owner: OWNER_PRODUCT,
           configIdTemplate: undefined,
           forceReset: true,
-        })
-      );
-    });
-
-    it('should remove configuration from state', () => {
-      spyOn(store, 'dispatch').and.callThrough();
-      serviceUnderTest.forceNewConfiguration(OWNER_PRODUCT);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.RemoveConfiguration({
-          ownerKey: OWNER_PRODUCT.key,
         })
       );
     });

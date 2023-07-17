@@ -7,10 +7,10 @@ import {
   OrganizationItemStatus,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { UnitFormService } from '../../../form/unit-form.service';
-import { CurrentUnitChildService } from './current-unit-child.service';
 import { UnitChildItemService } from './unit-child-item.service';
+import { CurrentUnitChildService } from './current-unit-child.service';
 import createSpy = jasmine.createSpy;
 
 const mockCode = 'u1';
@@ -20,7 +20,7 @@ class MockRoutingService {
 const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 class MockOrgUnitService {
   get() {
-    return EMPTY;
+    return of();
   }
   loadBudget() {}
   update() {}
@@ -33,7 +33,7 @@ class MockOrgUnitService {
 class MockUnitFormService {}
 class MockCurrentUnitChildService {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = createSpy('load').and.returnValue(of());
   error$ = of(false);
 }
 describe('UnitChildItemService', () => {

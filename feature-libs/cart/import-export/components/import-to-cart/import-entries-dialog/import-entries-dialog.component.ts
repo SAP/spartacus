@@ -19,7 +19,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, pluck } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -47,9 +47,7 @@ export class ImportEntriesDialogComponent {
   });
 
   context$: Observable<AddOrderEntriesContext> =
-    this.launchDialogService.data$.pipe(
-      map((data) => data.orderEntriesContext)
-    );
+    this.launchDialogService.data$.pipe(pluck('orderEntriesContext'));
 
   constructor(protected launchDialogService: LaunchDialogService) {}
 

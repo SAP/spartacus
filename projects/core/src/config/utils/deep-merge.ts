@@ -8,13 +8,6 @@ export function isObject(item: any): boolean {
   return item && typeof item === 'object' && !Array.isArray(item);
 }
 
-/**
- * Returns true if the key is restricted for a deep merge
- */
-function isRestricted(key: string): boolean {
-  return key === '__proto__' || key === 'constructor';
-}
-
 export function deepMerge(
   target: Record<string, unknown> = {},
   ...sources: any[]
@@ -24,24 +17,18 @@ export function deepMerge(
   }
   const source = sources.shift() || {};
 
-  if (!isObject(source)) {
-    return deepMerge(target, ...sources);
-  }
-
-  for (const key in source) {
-    if (isRestricted(key)) {
-      continue;
-    }
-
-    if (source[key] instanceof Date) {
-      target[key] = source[key];
-    } else if (isObject(source[key])) {
-      if (!isObject(target[key])) {
-        target[key] = {};
+  if (isObject(source)) {
+    for (const key in source) {
+      if (source[key] instanceof Date) {
+        target[key] = source[key];
+      } else if (isObject(source[key])) {
+        if (!target[key] || !isObject(target[key])) {
+          target[key] = {};
+        }
+        deepMerge(target[key] as Record<string, unknown>, source[key]);
+      } else {
+        target[key] = source[key];
       }
-      deepMerge(target[key] as Record<string, unknown>, source[key]);
-    } else {
-      target[key] = source[key];
     }
   }
 

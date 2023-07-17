@@ -9,17 +9,17 @@ import {
   SemanticPathService,
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
-import { EMPTY, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
 import createSpy = jasmine.createSpy;
 
 class AuthServiceStub implements Partial<AuthService> {
-  isUserLoggedIn = createSpy().and.returnValue(EMPTY);
+  isUserLoggedIn = createSpy().and.returnValue(of());
 }
 
 class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
-  getAssignedUser = createSpy().and.returnValue(EMPTY);
+  getAssignedUser = createSpy().and.returnValue(of());
   isGuestCart = createSpy().and.returnValue(of(true));
   isStable = createSpy().and.returnValue(of(true));
 }

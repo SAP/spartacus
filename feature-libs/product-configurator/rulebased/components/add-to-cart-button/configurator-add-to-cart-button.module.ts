@@ -6,23 +6,11 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  CmsConfig,
-  FeaturesConfigModule,
-  I18nModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
-import { IconModule, ItemCounterModule } from '@spartacus/storefront';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    ItemCounterModule,
-    IconModule,
-    FeaturesConfigModule,
-  ],
+  imports: [CommonModule, I18nModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

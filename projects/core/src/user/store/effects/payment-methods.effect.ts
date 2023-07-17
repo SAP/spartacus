@@ -4,23 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
-import { GlobalMessageType } from '../../../global-message/models/global-message.model';
-import { LoggerService } from '../../../logger';
 import { PaymentDetails } from '../../../model/payment.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
 import { UserActions } from '../actions/index';
+import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 
 @Injectable()
 export class UserPaymentMethodsEffects {
-  protected logger = inject(LoggerService);
-
   loadUserPaymentMethods$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.LOAD_USER_PAYMENT_METHODS),
@@ -33,7 +30,7 @@ export class UserPaymentMethodsEffects {
           catchError((error) =>
             of(
               new UserActions.LoadUserPaymentMethodsFail(
-                normalizeHttpError(error, this.logger)
+                normalizeHttpError(error)
               )
             )
           )
@@ -57,7 +54,7 @@ export class UserPaymentMethodsEffects {
             catchError((error) =>
               of(
                 new UserActions.SetDefaultUserPaymentMethodFail(
-                  normalizeHttpError(error, this.logger)
+                  normalizeHttpError(error)
                 )
               )
             )
@@ -87,7 +84,7 @@ export class UserPaymentMethodsEffects {
             catchError((error) =>
               of(
                 new UserActions.DeleteUserPaymentMethodFail(
-                  normalizeHttpError(error, this.logger)
+                  normalizeHttpError(error)
                 )
               )
             )

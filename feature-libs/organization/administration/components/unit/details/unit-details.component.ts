@@ -6,7 +6,6 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';
@@ -31,12 +30,5 @@ export class UnitDetailsComponent {
   );
   isInEditMode$ = this.itemService.isInEditMode$;
 
-  readonly isUpdatingUnitAllowed = this.orgUnitService
-    ? this.orgUnitService.isUpdatingUnitAllowed()
-    : true;
-
-  constructor(
-    protected itemService: ItemService<B2BUnit>,
-    protected orgUnitService?: OrgUnitService
-  ) {}
+  constructor(protected itemService: ItemService<B2BUnit>) {}
 }

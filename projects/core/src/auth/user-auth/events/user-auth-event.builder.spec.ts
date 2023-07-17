@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject, StoreModule } from '@ngrx/store';
 import { TokenResponse } from 'angular-oauth2-oidc';
-import { Subject } from 'rxjs';
+import { UserAccountFacade } from 'feature-libs/user/account/root/facade';
+import { of, Subject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { EventService } from '../../../event/event.service';
+import { User } from '../../../model/misc.model';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
@@ -22,6 +24,9 @@ class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn = () =>
     token$.asObservable().pipe(map((token) => !!token.access_token));
   logout = () => token$.next(anonymousUser);
+}
+class MockUserAccountFacade implements Partial<UserAccountFacade> {
+  get = () => of({} as User);
 }
 
 class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
@@ -44,6 +49,7 @@ describe('UserAuthEventBuilder', () => {
       providers: [
         { provide: ActionsSubject, useValue: actions$ },
         { provide: AuthService, useClass: MockAuthService },
+        { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         {
           provide: OAuthLibWrapperService,
           useClass: MockOAuthLibWrapperService,

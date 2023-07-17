@@ -1,22 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { PermissionService } from '@spartacus/organization/administration/core';
-import { EMPTY } from 'rxjs';
+import { of } from 'rxjs';
 import { CurrentPermissionService } from '..';
 
 class MockRoutingService {
   getParams() {
-    return EMPTY;
+    return of();
   }
 
   getRouterState() {
-    return EMPTY;
+    return of();
   }
 }
 
 class MockPermissionService implements Partial<PermissionService> {
   get() {
-    return EMPTY;
+    return of();
   }
 }
 

@@ -12,6 +12,7 @@ import {
   filter,
   map,
   observeOn,
+  pluck,
   shareReplay,
   switchMap,
   take,
@@ -259,7 +260,8 @@ export class CmsService {
         }
         return Boolean(entity.success || (entity.error && !entity.loading));
       }),
-      map((loaderState) => !!loaderState.success),
+      pluck('success'),
+      map((success) => !!success),
       catchError(() => of(false))
     );
   }

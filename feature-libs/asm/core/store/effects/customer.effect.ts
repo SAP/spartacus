@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CustomerSearchPage } from '@spartacus/asm/root';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { AsmConnector } from '../../connectors/asm.connector';
@@ -15,8 +15,6 @@ import { AsmActions } from '../actions/index';
 
 @Injectable()
 export class CustomerEffects {
-  protected logger = inject(LoggerService);
-
   customerSearch$: Observable<AsmActions.CustomerAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(AsmActions.CUSTOMER_SEARCH),
@@ -27,11 +25,7 @@ export class CustomerEffects {
             return new AsmActions.CustomerSearchSuccess(customerSearchResults);
           }),
           catchError((error) =>
-            of(
-              new AsmActions.CustomerSearchFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
+            of(new AsmActions.CustomerSearchFail(normalizeHttpError(error)))
           )
         )
       )
@@ -53,7 +47,7 @@ export class CustomerEffects {
             catchError((error) =>
               of(
                 new AsmActions.CustomerListCustomersSearchFail(
-                  normalizeHttpError(error, this.logger)
+                  normalizeHttpError(error)
                 )
               )
             )

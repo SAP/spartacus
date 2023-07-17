@@ -1,14 +1,18 @@
 import { Component, ElementRef, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { ImageGroup, Product } from '@spartacus/core';
-import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
+import { Product } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
   CurrentProductService,
 } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import { ProductImageZoomViewComponent } from './product-image-zoom-view.component';
 
 const firstImage = {
@@ -54,7 +58,7 @@ const mockDataWithoutPrimaryPictures: Product = {
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return EMPTY;
+    return of();
   }
 }
 
@@ -133,7 +137,7 @@ describe('ProductImageZoomViewComponent', () => {
     });
 
     it('should have mainImage$', () => {
-      let result: ImageGroup;
+      let result: any;
       productImageZoomViewComponent.mainImage$
         .subscribe((value) => (result = value))
         .unsubscribe();
@@ -149,38 +153,13 @@ describe('ProductImageZoomViewComponent', () => {
       })
     );
 
-    it(
-      'should have thumb with url in first product',
-      waitForAsync(() => {
-        let thumbs: Observable<ThumbnailsGroup>[];
-        productImageZoomViewComponent.thumbnails$.subscribe(
-          (i) => (thumbs = i)
-        );
-        let thumb: any;
-        thumbs[0].subscribe((p) => (thumb = p));
-        expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
-      })
-    );
-
-    it('should zoom on click', () => {
-      const defaultImageElement = fixture.debugElement.query(
-        By.css('.cx-default-image-zoom')
-      ).nativeElement as HTMLElement;
-
-      defaultImageElement.dispatchEvent(new MouseEvent('click'));
-
-      expect(productImageZoomViewComponent.isZoomed).toBe(true);
-    });
-
-    it('should zoom on doubleclick', () => {
-      const defaultImageElement = fixture.debugElement.query(
-        By.css('.cx-default-image-zoom')
-      ).nativeElement as HTMLElement;
-
-      defaultImageElement.dispatchEvent(new MouseEvent('dblclick'));
-
-      expect(productImageZoomViewComponent.isZoomed).toBe(true);
-    });
+    it('should have thumb with url in first product', async(() => {
+      let thumbs: Observable<ThumbnailsGroup>[];
+      productImageZoomViewComponent.thumbnails$.subscribe((i) => (thumbs = i));
+      let thumb: any;
+      thumbs[0].subscribe((p) => (thumb = p));
+      expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
+    }));
   });
 
   describe('with one pictures', () => {
@@ -205,14 +184,11 @@ describe('ProductImageZoomViewComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it(
-      'should not have thumbnails in case there is only one GALLERY image',
-      waitForAsync(() => {
-        let items: Observable<ThumbnailsGroup>[];
-        productImageZoomViewComponent.thumbnails$.subscribe((i) => (items = i));
-        expect(items.length).toBe(0);
-      })
-    );
+    it('should not have thumbnails in case there is only one GALLERY image', async(() => {
+      let items: Observable<ThumbnailsGroup>[];
+      productImageZoomViewComponent.thumbnails$.subscribe((i) => (items = i));
+      expect(items.length).toBe(0);
+    }));
   });
 
   describe('without pictures', () => {

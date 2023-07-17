@@ -10,7 +10,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AddedToCartDialogEventListener } from '@spartacus/cart/base/components';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { CmsComponent, I18nTestingModule, Product } from '@spartacus/core';
 import {
@@ -21,7 +20,8 @@ import {
   LAUNCH_CALLER,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { AddedToCartDialogEventListener } from 'feature-libs/cart/base/components/added-to-cart-dialog';
+import { Observable, of } from 'rxjs';
 import { CompactAddToCartComponent } from './compact-add-to-cart.component';
 
 const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
@@ -49,25 +49,25 @@ const mockNoStockProduct: Product = {
 class MockActiveCartService {
   addEntry(_productCode: string, _quantity: number): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
-    return EMPTY;
+    return of();
   }
   isStable(): Observable<boolean> {
-    return EMPTY;
+    return of();
   }
   getActive(): Observable<Cart> {
-    return EMPTY;
+    return of();
   }
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
   }
   getLastEntry(_productCode: string): Observable<OrderEntry> {
-    return EMPTY;
+    return of();
   }
 }
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return EMPTY;
+    return of();
   }
 }
 
@@ -77,7 +77,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return EMPTY;
+    return of();
   }
   closeDialog(_reason: string): void {}
 }

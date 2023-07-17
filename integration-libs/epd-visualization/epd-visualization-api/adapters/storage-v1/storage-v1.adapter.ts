@@ -5,15 +5,11 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { ConverterService, normalizeHttpError } from '@spartacus/core';
 import {
-  ConverterService,
-  LoggerService,
-  normalizeHttpError,
-} from '@spartacus/core';
-import {
-  NODES_RESPONSE_NORMALIZER,
   NodesResponse,
+  NODES_RESPONSE_NORMALIZER,
   SceneAdapter,
 } from '@spartacus/epd-visualization/core';
 import {
@@ -32,8 +28,6 @@ import { catchError } from 'rxjs/operators';
  */
 @Injectable()
 export class StorageV1Adapter implements SceneAdapter {
-  protected logger = inject(LoggerService);
-
   constructor(
     protected http: HttpClient,
     protected epdVisualizationConfig: EpdVisualizationConfig,
@@ -98,9 +92,7 @@ export class StorageV1Adapter implements SceneAdapter {
     return this.http
       .get(this.getUrl(sceneId, nodeIds, $expand, $filter, contentType))
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => throwError(normalizeHttpError(error))),
         this.converter.pipeable(NODES_RESPONSE_NORMALIZER)
       );
   }

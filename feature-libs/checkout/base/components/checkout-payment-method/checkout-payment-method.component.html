@@ -18,22 +18,8 @@
     <p class="cx-checkout-text">
       {{ 'paymentForm.choosePaymentMethod' | cxTranslate }}
     </p>
-
-    <ng-container *cxFeatureLevel="'!6.3'">
-      <div class="cx-checkout-btns row">
-        <div class="col-md-12 col-lg-6">
-          <button
-            class="btn btn-block btn-secondary"
-            (click)="showNewPaymentForm()"
-          >
-            {{ 'paymentForm.addNewPayment' | cxTranslate }}
-          </button>
-        </div>
-      </div>
-    </ng-container>
-
-    <ng-container *cxFeatureLevel="'6.3'">
-      <div class="cx-checkout-btns cx-checkout-btns-top">
+    <div class="cx-checkout-btns row">
+      <div class="col-md-12 col-lg-6">
         <button
           class="btn btn-block btn-secondary"
           (click)="showNewPaymentForm()"
@@ -41,7 +27,7 @@
           {{ 'paymentForm.addNewPayment' | cxTranslate }}
         </button>
       </div>
-    </ng-container>
+    </div>
 
     <div class="cx-checkout-body row">
       <div
@@ -62,17 +48,6 @@
         </div>
       </div>
     </div>
-
-    <ng-container *cxFeatureLevel="'6.3'">
-      <div class="cx-checkout-btns cx-checkout-btns-bottom">
-        <button
-          class="btn btn-block btn-secondary"
-          (click)="showNewPaymentForm()"
-        >
-          {{ 'paymentForm.addNewPayment' | cxTranslate }}
-        </button>
-      </div>
-    </ng-container>
 
     <div class="row cx-checkout-btns">
       <div class="col-md-12 col-lg-6">

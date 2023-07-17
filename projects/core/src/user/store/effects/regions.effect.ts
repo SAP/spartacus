@@ -4,12 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { LoggerService } from '../../../logger';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
 import { StateUtils } from '../../../state/utils/index';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
@@ -18,8 +17,6 @@ import { REGIONS } from '../user-state';
 
 @Injectable()
 export class RegionsEffects {
-  protected logger = inject(LoggerService);
-
   loadRegions$: Observable<UserActions.RegionsAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.LOAD_REGIONS),
@@ -36,11 +33,7 @@ export class RegionsEffects {
               })
           ),
           catchError((error) =>
-            of(
-              new UserActions.LoadRegionsFail(
-                normalizeHttpError(error, this.logger)
-              )
-            )
+            of(new UserActions.LoadRegionsFail(normalizeHttpError(error)))
           )
         );
       })

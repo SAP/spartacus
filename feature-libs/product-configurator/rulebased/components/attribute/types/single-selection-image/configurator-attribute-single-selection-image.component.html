@@ -57,12 +57,12 @@
         class="form-check-label form-radio-label"
       >
         <img
-          *ngIf="getImage(value)"
+          *ngIf="value.images[0]"
           class="cx-img"
-          src="{{ getImage(value)?.url }}"
-          alt="{{ getImage(value)?.altText }}"
+          src="{{ value.images[0].url }}"
+          alt="{{ value.images[0].altText }}"
         />
-        <div *ngIf="!getImage(value)" class="cx-img-dummy"></div>
+        <div *ngIf="!value.images[0]" class="cx-img-dummy"></div>
         {{ getLabel(expMode, value.valueDisplay, value.valueCode) }}
         <cx-configurator-price
           [formula]="extractValuePriceFormulaParameters(value)"

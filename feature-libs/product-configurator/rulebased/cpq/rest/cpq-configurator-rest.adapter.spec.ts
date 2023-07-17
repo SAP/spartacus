@@ -284,8 +284,4 @@ describe('CpqConfiguratorRestAdapter', () => {
         );
       });
   });
-
-  it("shouldn't support CPQ over OCC mode", () => {
-    expect(adapterUnderTest.supportsCpqOverOcc()).toBe(false);
-  });
 });

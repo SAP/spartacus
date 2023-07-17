@@ -4,15 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Inject, Injectable, isDevMode, Optional } from '@angular/core';
+import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
-import { LoggerService } from '../../logger';
+import { filter, mapTo, take } from 'rxjs/operators';
 import { Config, RootConfig } from '../config-tokens';
 import { deepMerge } from '../utils/deep-merge';
 import {
-  CONFIG_INITIALIZER_FORROOT_GUARD,
   ConfigInitializer,
+  CONFIG_INITIALIZER_FORROOT_GUARD,
 } from './config-initializer';
 
 /**
@@ -22,8 +21,6 @@ import {
   providedIn: 'root',
 })
 export class ConfigInitializerService {
-  protected logger = inject(LoggerService);
-
   constructor(
     protected config: Config,
     @Optional()
@@ -65,7 +62,7 @@ export class ConfigInitializerService {
           !!ongoingScopes && this.areReady(scopes, ongoingScopes)
       ),
       take(1),
-      map(() => this.config)
+      mapTo(this.config)
     );
   }
 
@@ -146,7 +143,7 @@ export class ConfigInitializerService {
       }
 
       if (isDevMode() && !this.areReady(initializer.scopes, ongoingScopes)) {
-        this.logger.warn(
+        console.warn(
           'More than one CONFIG_INITIALIZER is initializing the same config scope.'
         );
       }

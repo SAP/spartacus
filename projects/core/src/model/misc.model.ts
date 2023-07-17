@@ -53,8 +53,6 @@ export interface User {
   uid?: string;
   roles?: string[];
   orgUnit?: B2BUnit;
-  lastCartId?: string;
-  hasOrder?: boolean;
 }
 
 export interface ListModel {

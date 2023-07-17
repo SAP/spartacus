@@ -11,7 +11,7 @@ import {
   ResponsiveTableConfiguration,
   TableLayout,
 } from '@spartacus/storefront';
-import { EMPTY, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ListService } from '../list/list.service';
 import { BaseItem } from '../organization.model';
 
@@ -33,14 +33,14 @@ export abstract class SubListService<
 
   // TODO: abstract
   assign?(_key: string, ..._args: any): Observable<OrganizationItemStatus<T>> {
-    return EMPTY;
+    return of();
   }
 
   unassign?(
     _key: string,
     ..._args: any
   ): Observable<OrganizationItemStatus<T>> {
-    return EMPTY;
+    return of();
   }
 
   /**

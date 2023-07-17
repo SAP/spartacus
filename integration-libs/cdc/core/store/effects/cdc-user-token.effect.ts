@@ -4,12 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  LoggerService,
   normalizeHttpError,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -20,8 +19,6 @@ import { CdcAuthActions } from '../actions/index';
 
 @Injectable()
 export class CdcUserTokenEffects {
-  protected logger = inject(LoggerService);
-
   loadCdcUserToken$: Observable<CdcAuthActions.CdcUserTokenAction> =
     createEffect(() =>
       this.actions$.pipe(
@@ -48,7 +45,7 @@ export class CdcUserTokenEffects {
                 );
                 return of(
                   new CdcAuthActions.LoadCdcUserTokenFail({
-                    error: normalizeHttpError(error, this.logger),
+                    error: normalizeHttpError(error),
                     initialActionPayload: payload,
                   })
                 );

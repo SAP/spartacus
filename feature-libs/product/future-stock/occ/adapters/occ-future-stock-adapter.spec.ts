@@ -127,12 +127,13 @@ describe('OccFutureStockAdapter', () => {
       service
         .getFutureStock(userId, productCode)
         .pipe(take(1))
-        .subscribe({
-          error: (err) => {
+        .subscribe(
+          () => {},
+          (err) => {
             expect(err.status).toEqual(mockErrorResponse.status);
             done();
-          },
-        });
+          }
+        );
 
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
@@ -171,12 +172,13 @@ describe('OccFutureStockAdapter', () => {
       service
         .getFutureStocks(userId, productCode)
         .pipe(take(1))
-        .subscribe({
-          error: (err) => {
+        .subscribe(
+          () => {},
+          (err) => {
             expect(err.status).toEqual(mockErrorResponse.status);
             done();
-          },
-        });
+          }
+        );
 
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';

@@ -1,20 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  CdsMerchandisingUserContextService,
-  ConsentChangedPushEvent,
-  MerchandisingUserContext,
-  ProfileTagEventService,
-  ProfileTagLifecycleService,
-} from '@spartacus/cds';
-import {
   PageContext,
   PageType,
   ProductSearchPage,
   ProductSearchService,
   RoutingService,
 } from '@spartacus/core';
-import { FacetList, FacetService } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import {
+  ProfileTagEventService,
+  MerchandisingUserContext,
+  CdsMerchandisingUserContextService,
+  ConsentChangedPushEvent,
+  ProfileTagLifecycleService,
+} from '@spartacus/cds';
+import { FacetService, FacetList } from '@spartacus/storefront';
 
 const consentReference = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const emptyPageSearchResults: ProductSearchPage = {};
@@ -24,17 +24,17 @@ const consentGrantedEvent: ConsentChangedPushEvent =
   new ConsentChangedPushEvent(true);
 class RoutingServiceStub {
   getPageContext(): Observable<PageContext> {
-    return EMPTY;
+    return of();
   }
 }
 class ProductSearchServiceStub {
   getResults(): Observable<ProductSearchPage> {
-    return EMPTY;
+    return of();
   }
 }
 class ProfileTagEventServiceStub {
   getConsentReference(): Observable<string> {
-    return EMPTY;
+    return of();
   }
   handleConsentWithdrawn(): void {}
 }
@@ -44,7 +44,7 @@ class ProfileTagLifecycleServiceStub {
   }
 }
 class FacetServiceStub {
-  facetList$ = EMPTY;
+  facetList$ = of();
 }
 describe('CdsMerchandisingUserContextService', () => {
   let cdsMerchandisingUserContextService: CdsMerchandisingUserContextService;

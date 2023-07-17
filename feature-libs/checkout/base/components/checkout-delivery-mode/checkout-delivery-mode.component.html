@@ -27,20 +27,9 @@
           class="cx-delivery-label form-check-label form-radio-label"
           for="deliveryMode-{{ mode.code }}"
         >
-          <ng-container *cxFeatureLevel="'!6.3'">
-            <div class="cx-delivery-mode">
-              {{ mode.name }} ({{ mode.description }})
-            </div>
-          </ng-container>
-
-          <ng-container *cxFeatureLevel="'6.3'">
-            <div class="cx-delivery-mode">
-              {{ mode.name }}
-              <span class="cx-delivery-mode-description"
-                >({{ mode.description }})</span
-              >
-            </div>
-          </ng-container>
+          <div class="cx-delivery-mode">
+            {{ mode.name }} ({{ mode.description }})
+          </div>
           <div class="cx-delivery-price">
             {{ mode.deliveryCost?.formattedValue }}
           </div>
@@ -83,7 +72,7 @@
   <div class="col-md-12 col-lg-6">
     <button
       class="btn btn-block btn-primary"
-      [disabled]="deliveryModeInvalid || (isSetDeliveryModeHttpError$ | async)"
+      [disabled]="deliveryModeInvalid"
       (click)="next()"
     >
       {{ 'common.continue' | cxTranslate }}

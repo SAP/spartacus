@@ -1,14 +1,8 @@
-import { ChangeDetectorRef, Injectable } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { EMPTY, of } from 'rxjs';
-import { MockTranslationService } from './testing/mock-translation.service';
+import { ChangeDetectorRef } from '@angular/core';
+import { of } from 'rxjs';
 import { TranslatePipe } from './translate.pipe';
 import { TranslationService } from './translation.service';
-
-@Injectable()
-class MockChangeDetectorRef implements Partial<ChangeDetectorRef> {
-  markForCheck() {}
-}
+import createSpy = jasmine.createSpy;
 
 describe('TranslatePipe', () => {
   let pipe: TranslatePipe;
@@ -16,16 +10,11 @@ describe('TranslatePipe', () => {
   let cd: ChangeDetectorRef;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        TranslatePipe,
-        { provide: TranslationService, useClass: MockTranslationService },
-        { provide: ChangeDetectorRef, useClass: MockChangeDetectorRef },
-      ],
-    });
-    pipe = TestBed.inject(TranslatePipe);
-    service = TestBed.inject(TranslationService);
-    cd = TestBed.inject(ChangeDetectorRef);
+    service = {
+      translate: () => {},
+    } as any;
+    cd = { markForCheck: createSpy('markForCheck') } as any;
+    pipe = new TranslatePipe(service, cd);
   });
 
   describe('transform', () => {
@@ -51,7 +40,7 @@ describe('TranslatePipe', () => {
     });
 
     it('should translate with merged params from the first and the second argument', () => {
-      spyOn(service, 'translate').and.returnValue(EMPTY);
+      spyOn(service, 'translate').and.returnValue(of());
       pipe.transform(
         { key: 'testKey', params: { param1: 'value1' } },
         { param2: 'value2' }
@@ -64,21 +53,21 @@ describe('TranslatePipe', () => {
     });
 
     it('should NOT call service.translate twice if pipe.transform was called twice with the same arguments', () => {
-      spyOn(service, 'translate').and.returnValue(EMPTY);
+      spyOn(service, 'translate').and.returnValue(of());
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKey', { param: 'param1' });
       expect(service.translate).toHaveBeenCalledTimes(1);
     });
 
     it('should call service.translate every time pipe.transform was called with different keys', () => {
-      spyOn(service, 'translate').and.returnValue(EMPTY);
+      spyOn(service, 'translate').and.returnValue(of());
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKeyOther', { param: 'param1' });
       expect(service.translate).toHaveBeenCalledTimes(2);
     });
 
     it('should call service.translate every time pipe.transform was called with different options', () => {
-      spyOn(service, 'translate').and.returnValue(EMPTY);
+      spyOn(service, 'translate').and.returnValue(of());
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKey', { param: 'param2' });
       pipe.transform('testKey', { param: 'param2', otherParam: 'otherParam1' });
@@ -86,14 +75,13 @@ describe('TranslatePipe', () => {
     });
 
     it('should call cd.markForCheck every time when service.translate emits value', () => {
-      const markForCheckSpy = spyOn(cd, 'markForCheck').and.callThrough();
       spyOn(service, 'translate').and.returnValues(
         of('value1', 'value2'),
         of('value3')
       );
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKey', { param: 'param2' });
-      expect(markForCheckSpy).toHaveBeenCalledTimes(3);
+      expect(cd.markForCheck).toHaveBeenCalledTimes(3);
     });
   });
 });

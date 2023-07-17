@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, LoggerService, Product } from '@spartacus/core';
+import { I18nTestingModule, Product } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
 
@@ -13,7 +13,7 @@ class MockCarouselService {
     _nativeElement: HTMLElement,
     _itemWidth: number
   ): Observable<number> {
-    return EMPTY;
+    return of();
   }
 }
 
@@ -80,10 +80,9 @@ describe('Carousel Component', () => {
     });
 
     it('should log an error when there is no render template given', () => {
-      const logger = TestBed.inject(LoggerService);
-      spyOn(logger, 'error');
+      spyOn(console, 'error');
       component.ngOnInit();
-      expect(logger.error).toHaveBeenCalledWith(
+      expect(console.error).toHaveBeenCalledWith(
         'No template reference provided to render the carousel items for the `cx-carousel`'
       );
     });
@@ -135,7 +134,7 @@ describe('Carousel Component', () => {
     describe('carousel title', () => {
       beforeEach(() => {
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(1));
-        component.items = [EMPTY];
+        component.items = [of()];
       });
 
       it('should have h2 with title', () => {
@@ -163,7 +162,7 @@ describe('Carousel Component', () => {
     describe('carousel buttons', () => {
       beforeEach(() => {
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
-        component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
+        component.items = [of(), of(), of(), of(), of()];
         component.ngOnInit();
         fixture.detectChanges();
       });
@@ -262,7 +261,7 @@ describe('Carousel Component', () => {
     describe('carousel with 5 items divided by 2 slides', () => {
       beforeEach(() => {
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
-        component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
+        component.items = [of(), of(), of(), of(), of()];
         component.ngOnInit();
         fixture.detectChanges();
       });
@@ -300,16 +299,7 @@ describe('Carousel Component', () => {
       beforeEach(() => {
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(3));
         component.title = 'test carousel with title';
-        component.items = [
-          EMPTY,
-          EMPTY,
-          EMPTY,
-          EMPTY,
-          EMPTY,
-          EMPTY,
-          EMPTY,
-          EMPTY,
-        ];
+        component.items = [of(), of(), of(), of(), of(), of(), of(), of()];
         component.ngOnInit();
         fixture.detectChanges();
       });
@@ -347,7 +337,7 @@ describe('Carousel Component', () => {
       beforeEach(() => {
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(3));
         component.title = 'test carousel with title';
-        component.items = [EMPTY, EMPTY, EMPTY];
+        component.items = [of(), of(), of()];
         component.ngOnInit();
         fixture.detectChanges();
       });

@@ -7,13 +7,13 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import {
-  EMPTY,
-  Observable,
-  Subject,
-  Subscription,
   combineLatest,
   defer,
+  EMPTY,
+  Observable,
   queueScheduler,
+  Subject,
+  Subscription,
   using,
 } from 'rxjs';
 import {
@@ -276,7 +276,7 @@ export class AuthHttpHeaderService implements OnDestroy {
             token?.access_token === requestToken?.access_token &&
             !refreshTriggered
           ) {
-            this.refreshTokenTrigger$.next(token as AuthToken); // TODO: CXSPA-3088 Type incongruity
+            this.refreshTokenTrigger$.next(token);
           }
           refreshTriggered = true;
         }),

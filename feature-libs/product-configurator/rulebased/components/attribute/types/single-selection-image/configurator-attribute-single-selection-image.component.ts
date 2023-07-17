@@ -59,10 +59,12 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
 
   extractValuePriceFormulaParameters(
     value?: Configurator.Value
-  ): ConfiguratorPriceComponentOptions {
-    return {
-      price: value?.valuePrice,
-      isLightedUp: value ? value.selected : false,
-    };
+  ): ConfiguratorPriceComponentOptions | undefined {
+    if (value) {
+      return {
+        price: value.valuePrice,
+        isLightedUp: value.selected,
+      };
+    }
   }
 }

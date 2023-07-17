@@ -91,7 +91,7 @@ export class ConfiguratorGroupComponent {
    *
    * @returns {Observable<boolean> | undefined } - 'True' if the expert mode is active, otherwise 'false'.
    */
-  get expMode(): Observable<boolean> {
+  get expMode(): Observable<boolean> | undefined {
     return this.configExpertModeService.getExpModeActive();
   }
 

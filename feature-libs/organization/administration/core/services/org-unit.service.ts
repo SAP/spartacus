@@ -54,52 +54,51 @@ export class OrgUnitService {
   }
 
   load(orgUnitId: string): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
         ),
-      error: () => {
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   loadList(): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(new OrgUnitActions.LoadOrgUnitNodes({ userId })),
-      error: () => {
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   loadTree(): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
-        this.store.dispatch(new OrgUnitActions.LoadTree({ userId })),
-      error: () => {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => this.store.dispatch(new OrgUnitActions.LoadTree({ userId })),
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   loadApprovalProcesses(): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new OrgUnitActions.LoadApprovalProcesses({ userId })
         ),
-      error: () => {
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   loadUsers(orgUnitId: string, roleId: string, params: SearchConfig): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new OrgUnitActions.LoadAssignedUsers({
             userId,
@@ -108,10 +107,10 @@ export class OrgUnitService {
             params,
           })
         ),
-      error: () => {
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   loadAddresses(orgUnitId: string): void {
@@ -119,15 +118,15 @@ export class OrgUnitService {
     // this.store.dispatch(
     //   new OrgUnitActions.LoadAddresses({ userId, orgUnitId })
     // );
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
         ),
-      error: () => {
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   private getOrgUnit(
@@ -305,25 +304,25 @@ export class OrgUnitService {
   }
 
   create(unit: B2BUnit): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(new OrgUnitActions.CreateUnit({ userId, unit })),
-      error: () => {
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   update(unitCode: string, unit: B2BUnit): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new OrgUnitActions.UpdateUnit({ userId, unitCode, unit })
         ),
-      error: () => {
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   getLoadingStatus(
@@ -333,8 +332,8 @@ export class OrgUnitService {
   }
 
   assignRole(orgCustomerId: string, roleId: string): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new OrgUnitActions.AssignRole({
             userId,
@@ -342,15 +341,15 @@ export class OrgUnitService {
             roleId,
           })
         ),
-      error: () => {
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   unassignRole(orgCustomerId: string, roleId: string): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new OrgUnitActions.UnassignRole({
             userId,
@@ -358,10 +357,10 @@ export class OrgUnitService {
             roleId,
           })
         ),
-      error: () => {
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   assignApprover(
@@ -369,8 +368,8 @@ export class OrgUnitService {
     orgCustomerId: string,
     roleId: string
   ): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new OrgUnitActions.AssignApprover({
             orgUnitId,
@@ -379,10 +378,10 @@ export class OrgUnitService {
             roleId,
           })
         ),
-      error: () => {
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   unassignApprover(
@@ -390,8 +389,8 @@ export class OrgUnitService {
     orgCustomerId: string,
     roleId: string
   ): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new OrgUnitActions.UnassignApprover({
             orgUnitId,
@@ -400,15 +399,15 @@ export class OrgUnitService {
             roleId,
           })
         ),
-      error: () => {
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   createAddress(orgUnitId: string, address: Address): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new OrgUnitActions.CreateAddress({
             userId,
@@ -416,10 +415,10 @@ export class OrgUnitService {
             address,
           })
         ),
-      error: () => {
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   getAddresses(
@@ -454,8 +453,8 @@ export class OrgUnitService {
   }
 
   updateAddress(orgUnitId: string, addressId: string, address: Address): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new OrgUnitActions.UpdateAddress({
             userId,
@@ -464,10 +463,10 @@ export class OrgUnitService {
             address,
           })
         ),
-      error: () => {
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   getAddressLoadingStatus(
@@ -477,8 +476,8 @@ export class OrgUnitService {
   }
 
   deleteAddress(orgUnitId: string, addressId: string): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) =>
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new OrgUnitActions.DeleteAddress({
             userId,
@@ -486,19 +485,15 @@ export class OrgUnitService {
             addressId,
           })
         ),
-      error: () => {
+      () => {
         // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      }
+    );
   }
 
   private getOrgUnitState(
     orgUnitId: string
   ): Observable<StateUtils.LoaderState<B2BUnit>> {
     return this.store.select(getOrgUnitState(orgUnitId));
-  }
-
-  isUpdatingUnitAllowed(): boolean {
-    return true;
   }
 }

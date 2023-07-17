@@ -9,15 +9,13 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  FeaturesConfig,
-  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   QueryState,
   UserPaymentService,
 } from '@spartacus/core';
 import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
 import createSpy = jasmine.createSpy;
@@ -75,17 +73,17 @@ const mockPayments: PaymentDetails[] = [
 class MockUserPaymentService implements Partial<UserPaymentService> {
   loadPaymentMethods(): void {}
   getPaymentMethods(): Observable<PaymentDetails[]> {
-    return EMPTY;
+    return of();
   }
   getPaymentMethodsLoading(): Observable<boolean> {
-    return EMPTY;
+    return of();
   }
 }
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
-  setPaymentDetails = createSpy().and.returnValue(EMPTY);
+  setPaymentDetails = createSpy().and.returnValue(of());
   createPaymentDetails(_paymentDetails: PaymentDetails): Observable<unknown> {
-    return EMPTY;
+    return of();
   }
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
@@ -93,7 +91,7 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   paymentProcessSuccess() {}
 
   getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {
-    return EMPTY;
+    return of();
   }
 }
 class MockCheckoutDeliveryFacade
@@ -170,7 +168,7 @@ describe('CheckoutPaymentMethodComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, FeaturesConfigModule],
+        imports: [I18nTestingModule],
         declarations: [
           CheckoutPaymentMethodComponent,
           MockPaymentFormComponent,
@@ -195,12 +193,6 @@ describe('CheckoutPaymentMethodComponent', () => {
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '6.3' },
-            },
-          },
         ],
       }).compileComponents();
 

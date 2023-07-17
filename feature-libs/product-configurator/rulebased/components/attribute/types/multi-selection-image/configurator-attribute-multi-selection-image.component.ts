@@ -82,7 +82,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
 
   extractValuePriceFormulaParameters(
     value: Configurator.Value
-  ): ConfiguratorPriceComponentOptions {
+  ): ConfiguratorPriceComponentOptions | undefined {
     return {
       quantity: value.quantity,
       price: value.valuePrice,

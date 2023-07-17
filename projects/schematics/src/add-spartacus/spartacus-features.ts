@@ -93,8 +93,6 @@ function configureSpartacusModules(
         'BreadcrumbModule,',
         'ScrollToTopModule,',
         'PageTitleModule',
-        'VideoModule',
-        'PDFModule',
       ].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
@@ -114,8 +112,6 @@ function configureSpartacusModules(
                 'BreadcrumbModule',
                 'ScrollToTopModule',
                 'PageTitleModule',
-                'VideoModule',
-                'PDFModule',
               ],
             },
           ],

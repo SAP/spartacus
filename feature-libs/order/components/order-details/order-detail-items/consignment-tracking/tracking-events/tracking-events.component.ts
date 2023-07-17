@@ -49,9 +49,7 @@ export class TrackingEventsComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.subscription.add(
       this.launchDialogService.data$.subscribe((data) => {
-        if (data) {
-          this.init(data.tracking$, data.shipDate);
-        }
+        this.init(data.tracking$, data.shipDate);
       })
     );
   }

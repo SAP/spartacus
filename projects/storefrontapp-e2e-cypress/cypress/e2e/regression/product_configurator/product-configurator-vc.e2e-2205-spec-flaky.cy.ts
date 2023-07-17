@@ -11,19 +11,19 @@ const radioGroup = 'radioGroup';
 const CAMERA_MODE = 'CAMERA_MODE';
 
 context('Variant Carousel for Product Configuration', () => {
-  let configuratorCoreConfig: any;
+  let configUISettings: any;
 
   beforeEach(() => {
-    configuratorCoreConfig = {
+    configUISettings = {
       productConfigurator: {
         enableVariantSearch: false, // disable variant search
       },
     };
-    cy.cxConfig(configuratorCoreConfig);
+    cy.cxConfig(configUISettings);
   });
 
   afterEach(() => {
-    configuratorCoreConfig.productConfigurator.enableVariantSearch = false; // disable variant search
+    configUISettings.productConfigurator.enableVariantSearch = false; // disable variant search
   });
 
   describe('Disable variant search', () => {
@@ -39,8 +39,8 @@ context('Variant Carousel for Product Configuration', () => {
 
   describe('Enable variant search', () => {
     it('should display variant carousel', () => {
-      configuratorCoreConfig.productConfigurator.enableVariantSearch = true; // enable variant search
-      cy.cxConfig(configuratorCoreConfig);
+      configUISettings.productConfigurator.enableVariantSearch = true; // enable variant search
+      cy.cxConfig(configUISettings);
       //Go to the configuration
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       // Verify whether attribute is displayed

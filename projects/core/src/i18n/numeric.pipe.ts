@@ -5,14 +5,11 @@
  */
 
 import { DecimalPipe, getLocaleId } from '@angular/common';
-import { Pipe, PipeTransform, inject, isDevMode } from '@angular/core';
-import { LoggerService } from '../logger';
+import { isDevMode, Pipe, PipeTransform } from '@angular/core';
 import { LanguageService } from '../site-context/facade/language.service';
 
 @Pipe({ name: 'cxNumeric' })
 export class CxNumericPipe extends DecimalPipe implements PipeTransform {
-  protected logger = inject(LoggerService);
-
   constructor(protected language: LanguageService) {
     super('');
   }
@@ -45,7 +42,7 @@ export class CxNumericPipe extends DecimalPipe implements PipeTransform {
 
   protected reportMissingLocaleData(lang: string): void {
     if (isDevMode()) {
-      this.logger.warn(
+      console.warn(
         `cxNumeric pipe: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
       );
     }

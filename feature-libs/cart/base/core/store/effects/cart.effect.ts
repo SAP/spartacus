@@ -4,19 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
 import {
-  LoggerService,
-  OCC_CART_ID_CURRENT,
-  SiteContextActions,
   isNotUndefined,
   normalizeHttpError,
+  OCC_CART_ID_CURRENT,
+  SiteContextActions,
   withdrawOn,
 } from '@spartacus/core';
-import { Observable, from, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -41,8 +40,6 @@ export class CartEffects {
       SiteContextActions.LANGUAGE_CHANGE
     )
   );
-
-  protected logger = inject(LoggerService);
 
   loadCart$: Observable<
     | CartActions.LoadCartFail
@@ -132,7 +129,7 @@ export class CartEffects {
     return of(
       new CartActions.LoadCartFail({
         ...payload,
-        error: normalizeHttpError(error, this.logger),
+        error: normalizeHttpError(error),
       })
     );
   }
@@ -177,7 +174,7 @@ export class CartEffects {
               of(
                 new CartActions.CreateCartFail({
                   ...payload,
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                 })
               )
             )
@@ -301,7 +298,7 @@ export class CartEffects {
               from([
                 new CartActions.AddEmailToCartFail({
                   ...payload,
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                 }),
                 new CartActions.LoadCart({
                   userId: payload.userId,
@@ -332,7 +329,7 @@ export class CartEffects {
             from([
               new CartActions.DeleteCartFail({
                 ...payload,
-                error: normalizeHttpError(error, this.logger),
+                error: normalizeHttpError(error),
               }),
               // Error might happen in higher backend layer and cart could still be removed.
               // When load fail with NotFound error then RemoveCart action will kick in and clear that cart in our state.

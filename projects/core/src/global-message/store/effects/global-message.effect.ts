@@ -7,13 +7,14 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   concatMap,
   delay,
   filter,
   map,
+  pluck,
   switchMap,
   take,
   withLatestFrom,
@@ -22,6 +23,7 @@ import { Translatable } from '../../../i18n/translatable';
 import { ObjectComparisonUtils } from '../../../util/object-comparison-utils';
 import { isNotUndefined } from '../../../util/type-guards';
 import { GlobalMessageConfig } from '../../config/global-message-config';
+import { GlobalMessage } from '../../models/global-message.model';
 import { GlobalMessageActions } from '../actions/index';
 import { StateWithGlobalMessage } from '../global-message-state';
 import { GlobalMessageSelectors } from '../selectors/index';
@@ -32,8 +34,8 @@ export class GlobalMessageEffect {
     createEffect(() =>
       this.actions$.pipe(
         ofType(GlobalMessageActions.ADD_MESSAGE),
-        map((action) => (action as GlobalMessageActions.AddMessage).payload),
-        switchMap((message) =>
+        pluck('payload'),
+        switchMap((message: GlobalMessage) =>
           of(message.text).pipe(
             withLatestFrom(
               this.store.pipe(
@@ -73,8 +75,8 @@ export class GlobalMessageEffect {
     isPlatformBrowser(this.platformId) // we don't want to run this logic when doing SSR
       ? this.actions$.pipe(
           ofType(GlobalMessageActions.ADD_MESSAGE),
-          map((action) => (action as GlobalMessageActions.AddMessage).payload),
-          concatMap((message) => {
+          pluck('payload'),
+          concatMap((message: GlobalMessage) => {
             const config = this.config.globalMessages?.[message.type];
             return this.store.pipe(
               select(

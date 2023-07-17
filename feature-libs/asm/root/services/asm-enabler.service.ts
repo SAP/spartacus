@@ -45,7 +45,7 @@ export class AsmEnablerService {
         this.winRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
       }
     }
-    return this.isLaunched() || this.isUsedBefore() || this.isEmulateInURL();
+    return this.isLaunched() || this.isUsedBefore();
   }
 
   /**
@@ -55,13 +55,6 @@ export class AsmEnablerService {
   protected isLaunched(): boolean {
     const params = this.location.path().split('?')[1];
     return !!params && params.split('&').includes('asm=true');
-  }
-
-  /**
-   * check whether try to emulate customer from deeplink
-   * */
-  isEmulateInURL(): boolean {
-    return this.location.path().indexOf('assisted-service/emulate?') > 0;
   }
 
   /**

@@ -9,7 +9,7 @@ import {
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { UnitApproverListService } from './unit-approver-list.service';
 
 const mockCostCenterEntities: EntitiesModel<B2BUser> = {
@@ -102,7 +102,7 @@ describe('UnitApproverListService', () => {
   });
 
   it('should load users with "b2bapprovergroup" role', () => {
-    spyOn(unitService, 'getUsers').and.returnValue(EMPTY);
+    spyOn(unitService, 'getUsers').and.returnValue(of());
 
     service.getData('u1').subscribe().unsubscribe();
 

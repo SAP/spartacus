@@ -80,7 +80,7 @@ class MockCurrentLocationService {
   }
 }
 
-describe('PdpPickupOptionsComponent', () => {
+describe('PickupOptionsComponent', () => {
   let component: PdpPickupOptionsContainerComponent;
   let fixture: ComponentFixture<PdpPickupOptionsContainerComponent>;
   let launchDialogService: LaunchDialogService;

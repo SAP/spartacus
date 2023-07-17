@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { LoggerService } from '../../../logger';
 import { CountryType } from '../../../model/address.model';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
@@ -16,8 +15,6 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class BillingCountriesEffect {
-  protected logger = inject(LoggerService);
-
   loadBillingCountries$: Observable<UserActions.BillingCountriesAction> =
     createEffect(() =>
       this.actions$.pipe(
@@ -31,7 +28,7 @@ export class BillingCountriesEffect {
             catchError((error) =>
               of(
                 new UserActions.LoadBillingCountriesFail(
-                  normalizeHttpError(error, this.logger)
+                  normalizeHttpError(error)
                 )
               )
             )

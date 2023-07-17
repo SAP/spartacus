@@ -5,7 +5,17 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject, isDevMode } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
+import { merge, Observable, of } from 'rxjs';
+import {
+  catchError,
+  filter,
+  map,
+  mergeAll,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import {
   AddOrderEntriesContext,
   GetOrderEntriesContext,
@@ -16,17 +26,7 @@ import {
   ProductImportStatus,
 } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { LoggerService, Product, ProductConnector } from '@spartacus/core';
-import { Observable, merge, of } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  mergeAll,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { Product, ProductConnector } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +35,6 @@ export class QuickOrderOrderEntriesContext
   implements AddOrderEntriesContext, GetOrderEntriesContext
 {
   readonly type = OrderEntriesSource.QUICK_ORDER;
-  protected logger = inject(LoggerService);
 
   constructor(
     protected quickOrderService: QuickOrderFacade,
@@ -121,7 +120,7 @@ export class QuickOrderOrderEntriesContext
       };
     } else {
       if (isDevMode()) {
-        this.logger.warn(
+        console.warn(
           'Unrecognized cart add entry action type while mapping messages',
           response
         );

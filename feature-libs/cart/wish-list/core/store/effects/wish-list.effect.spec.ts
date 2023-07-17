@@ -10,9 +10,9 @@ import {
 } from '@spartacus/cart/base/core';
 import { Cart, CartType } from '@spartacus/cart/base/root';
 import { SiteContextActions, UserIdService } from '@spartacus/core';
+import { getMultiCartReducers } from 'feature-libs/cart/base/core/store';
 import { cold, hot } from 'jasmine-marbles';
-import { EMPTY, Observable, of } from 'rxjs';
-import { getMultiCartReducers } from '../../../../base/core/store';
+import { Observable, of } from 'rxjs';
 import { getWishlistName } from '../../utils/utils';
 import { WishListActions } from '../actions';
 import * as fromEffects from './wish-list.effect';
@@ -56,7 +56,7 @@ class MockCartConnector {
   create = createSpy().and.returnValue(of(testCart));
   load = createSpy().and.returnValue(of(wishList));
   loadAll(): Observable<Cart[]> {
-    return EMPTY;
+    return of();
   }
   save = createSpy().and.returnValue(of(savedCart));
 }

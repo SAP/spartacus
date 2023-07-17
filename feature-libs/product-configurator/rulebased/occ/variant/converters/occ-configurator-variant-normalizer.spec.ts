@@ -1039,7 +1039,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should set incomplete for radio button type with retract option correctly', () => {
-      attributeRBWithValues.selectedSingleValue = Configurator.RetractValueCode;
+      attributeRBWithValues.selectedSingleValue =
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE;
       occConfiguratorVariantNormalizer.compileAttributeIncomplete(
         attributeRBWithValues
       );
@@ -1060,7 +1061,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should set incomplete for drop-down type with retract option correctly', () => {
-      attributeDDWithValues.selectedSingleValue = Configurator.RetractValueCode;
+      attributeDDWithValues.selectedSingleValue =
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE;
       occConfiguratorVariantNormalizer.compileAttributeIncomplete(
         attributeDDWithValues
       );
@@ -1323,7 +1325,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
         values
       );
       expect(values.length).toEqual(1);
-      expect(values[0].valueCode).toEqual(Configurator.RetractValueCode);
+      expect(values[0].valueCode).toEqual(
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+      );
       expect(values[0].valueDisplay).toEqual(
         'configurator.attribute.dropDownSelectMsg'
       );
@@ -1342,7 +1346,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
         values
       );
       expect(values.length).toEqual(1);
-      expect(values[0].valueCode).toEqual(Configurator.RetractValueCode);
+      expect(values[0].valueCode).toEqual(
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+      );
       expect(values[0].valueDisplay).toEqual(
         'configurator.attribute.noOptionSelectedMsg'
       );
@@ -1406,7 +1412,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
         values
       );
       expect(values.length).toEqual(1);
-      expect(values[0].valueCode).toEqual(Configurator.RetractValueCode);
+      expect(values[0].valueCode).toEqual(
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+      );
       expect(values[0].valueDisplay).toEqual(
         'configurator.attribute.dropDownSelectMsg'
       );
@@ -1441,7 +1449,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
         values
       );
       expect(values.length).toEqual(1);
-      expect(values[0].valueCode).toEqual(Configurator.RetractValueCode);
+      expect(values[0].valueCode).toEqual(
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+      );
       expect(values[0].valueDisplay).toEqual(
         'configurator.attribute.noOptionSelectedMsg'
       );
@@ -1476,7 +1486,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
         values
       );
       expect(values.length).toEqual(1);
-      expect(values[0].valueCode).toEqual(Configurator.RetractValueCode);
+      expect(values[0].valueCode).toEqual(
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+      );
       expect(values[0].valueDisplay).toEqual(
         'configurator.attribute.noOptionSelectedMsg'
       );

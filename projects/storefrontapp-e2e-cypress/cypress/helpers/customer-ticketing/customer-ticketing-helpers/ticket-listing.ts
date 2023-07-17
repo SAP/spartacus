@@ -181,7 +181,7 @@ export function verifyCertainNumberOfTicketsSortedById(
   }
 }
 
-export function getIdInRow(rowNumber: number) {
+function getIdInRow(rowNumber: number) {
   return cy
     .get('cx-customer-ticketing-list')
     .get('tbody')

@@ -9,7 +9,7 @@ import {
   LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { TrackingEventsComponent } from './tracking-events.component';
 
 const shipDate = new Date('2019-02-11T13:05:12+0000');
@@ -71,21 +71,21 @@ describe('TrackingEventsComponent', () => {
   });
 
   it('should show loading spinner', () => {
-    component.tracking$ = EMPTY;
+    component.tracking$ = of();
     fixture.detectChanges();
     expect(el.query(By.css('.cx-tracking-loading'))).toBeTruthy();
   });
 
   it('should show no tracking', () => {
-    component.tracking$ = of({
+    component.tracking$ = of<ConsignmentTracking>({
       trackingID: '1234567890',
-    } as ConsignmentTracking);
+    });
     fixture.detectChanges();
     expect(el.query(By.css('.cx-no-tracking-heading'))).toBeTruthy();
   });
 
   it('should show tracking info', () => {
-    component.tracking$ = of({
+    component.tracking$ = of<ConsignmentTracking>({
       carrierDetails: {
         code: 'MockCarrier',
         name: 'MockCarrier',
@@ -111,7 +111,7 @@ describe('TrackingEventsComponent', () => {
           referenceCode: 'IN_TRANSIT',
         },
       ],
-    } as ConsignmentTracking);
+    });
     fixture.detectChanges();
     expect(el.query(By.css('.cx-shipment-heading'))).toBeTruthy();
     expect(el.queryAll(By.css('.cx-tracking-event-body')).length).toBe(3);

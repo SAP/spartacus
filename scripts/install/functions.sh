@@ -65,6 +65,7 @@ function prepare_install {
     ng config -g cli.packageManager npm
 
     mkdir -p ${INSTALLATION_DIR}
+    ng analytics off
 }
 
 function clone_repo {

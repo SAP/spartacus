@@ -18,7 +18,7 @@
                 role="tab"
                 [attr.aria-selected]="false"
                 [attr.aria-label]="
-                  isConflictGroupTypeAllowingUndefined(parentGroup.groupType)
+                  isConflictGroupType(parentGroup.groupType)
                     ? ('configurator.a11y.conflictBack' | cxTranslate)
                     : ('configurator.a11y.groupBack' | cxTranslate)
                 "
@@ -47,9 +47,7 @@
                 }}"
                 role="tab"
                 [class.DISABLED]="!group.configurable"
-                [class.cx-menu-conflict]="
-                  isConflictGroupTypeAllowingUndefined(group.groupType)
-                "
+                [class.cx-menu-conflict]="isConflictGroupType(group.groupType)"
                 [class.active]="isGroupSelected(group.id, currentGroup.id)"
                 [class.disable]="!group.configurable"
                 [attr.aria-describedby]="

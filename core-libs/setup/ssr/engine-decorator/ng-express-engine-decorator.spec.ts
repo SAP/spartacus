@@ -1,18 +1,15 @@
 import { NgSetupOptions, RenderOptions } from '@nguniversal/express-engine';
 import { SERVER_REQUEST_URL } from '@spartacus/core';
-import { EXPRESS_SERVER_LOGGER, LegacyExpressServerLogger } from '../logger';
 import {
+  decorateExpressEngine,
   NgExpressEngine,
   NgExpressEngineDecorator,
   NgExpressEngineInstance,
-  decorateExpressEngine,
 } from './ng-express-engine-decorator';
 
 jest.mock('fs', () => ({
   readFileSync: () => '',
 }));
-
-jest.spyOn(console, 'log').mockImplementation(() => {});
 
 describe('NgExpressEngineDecorator', () => {
   describe('get', () => {
@@ -103,10 +100,9 @@ describe('decorateExpressEngine', () => {
         get: jest.fn(() => 'site.com'),
         app,
         connection: {},
-        res: <Partial<Response>>{
-          set: jest.fn(() => {}),
-          locals: {},
-        },
+      },
+      res: <Partial<Response>>{
+        set: jest.fn(() => {}),
       },
     } as any;
 
@@ -188,91 +184,7 @@ describe('decorateExpressEngine', () => {
     it(`should pass parameters to the original engine instance`, () => {
       expect(originalEngineInstance).toHaveBeenCalledWith(
         mockPath,
-        {
-          ...mockOptions,
-          providers: [
-            {
-              provide: EXPRESS_SERVER_LOGGER,
-              useValue: new LegacyExpressServerLogger(),
-            },
-          ],
-        },
-        expect.any(Function)
-      );
-    });
-
-    it(`should apply optimization wrapper`, () => {
-      // we check that callback is not the original one
-      expect(originalEngineInstance).not.toHaveBeenCalledWith(
-        mockPath,
         mockOptions,
-        mockCallback
-      );
-    });
-
-    it(`should pass setup options to the original engine`, () => {
-      expect(originalEngine).toHaveBeenCalledWith(
-        expect.objectContaining({
-          bootstrap: 'TestModule',
-          providers: expect.arrayContaining([
-            { provide: 'testToken', useValue: 'testValue' },
-          ]),
-        })
-      );
-    });
-
-    it(`should add SERVER_REQUEST_URL to providers in the setup options passed to the original engine`, () => {
-      expect(originalEngine).toHaveBeenCalledWith(
-        expect.objectContaining({
-          providers: expect.arrayContaining([
-            expect.objectContaining({
-              provide: SERVER_REQUEST_URL,
-            }),
-          ]),
-        })
-      );
-    });
-
-    it(`should be called only once per request with caching`, () => {
-      const mockOptions2 = {
-        ...mockOptions,
-        req: { ...mockOptions.req, originalUrl: 'aaa' },
-      };
-      const mockOptions3 = {
-        ...mockOptions,
-        req: { ...mockOptions.req, originalUrl: 'ccc' },
-      };
-      engineInstance(mockPath, mockOptions, mockCallback);
-      engineInstance('aaa', mockOptions2, mockCallback);
-      engineInstance(mockPath, mockOptions, mockCallback);
-      engineInstance('aaa', mockOptions2, mockCallback);
-      engineInstance('ccc', mockOptions3, mockCallback);
-      expect(originalEngineInstance).toHaveBeenCalledTimes(3);
-    });
-  });
-
-  describe('with optimizations not specified on 2nd argument', () => {
-    beforeEach(() => {
-      const engine = decorateExpressEngine(
-        originalEngine
-        // 2nd argument not specified (but not explicitly "undefined"!)
-      );
-      engineInstance = engine(mockEngineOptions);
-      engineInstance(mockPath, mockOptions, mockCallback);
-    });
-
-    it(`should pass parameters to the original engine instance`, () => {
-      expect(originalEngineInstance).toHaveBeenCalledWith(
-        mockPath,
-        {
-          ...mockOptions,
-          providers: [
-            {
-              provide: EXPRESS_SERVER_LOGGER,
-              useValue: new LegacyExpressServerLogger(),
-            },
-          ],
-        },
         expect.any(Function)
       );
     });

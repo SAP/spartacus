@@ -289,15 +289,11 @@
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
       "@spartacus/user/profile/root": ["dist/user/profile/root"],
-      "@spartacus/cdc/assets": ["dist/cdc/assets"],
       "@spartacus/cdc/components": ["dist/cdc/components"],
       "@spartacus/cdc/core": ["dist/cdc/core"],
       "@spartacus/cdc": ["dist/cdc"],
       "@spartacus/cdc/organization/administration": [
         "dist/cdc/organization/administration"
-      ],
-      "@spartacus/cdc/organization/user-registration": [
-        "dist/cdc/organization/user-registration"
       ],
       "@spartacus/cdc/root": ["dist/cdc/root"],
       "@spartacus/cdc/user-account": ["dist/cdc/user-account"],
@@ -322,8 +318,6 @@
       "@spartacus/s4om/assets": ["dist/s4om/assets"],
       "@spartacus/s4om": ["dist/s4om"],
       "@spartacus/s4om/root": ["dist/s4om/root"],
-      "@spartacus/segment-refs": ["dist/segment-refs"],
-      "@spartacus/segment-refs/root": ["dist/segment-refs/root"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]

@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   AsmAdapter,
   CUSTOMER_LISTS_NORMALIZER,
@@ -15,7 +15,6 @@ import {
   AsmConfig,
   BindCartParams,
   CustomerListsPage,
-  CustomerRegistrationForm,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/root';
@@ -23,11 +22,9 @@ import {
   BaseSiteService,
   ConverterService,
   InterceptorUtil,
-  LoggerService,
+  normalizeHttpError,
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-  User,
-  normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -35,8 +32,6 @@ import { catchError } from 'rxjs/operators';
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {
   private activeBaseSite: string;
-
-  protected logger = inject(LoggerService);
 
   constructor(
     protected http: HttpClient,
@@ -75,7 +70,7 @@ export class OccAsmAdapter implements AsmAdapter {
     );
 
     return this.http.get<CustomerListsPage>(url, { headers, params }).pipe(
-      catchError((error) => throwError(normalizeHttpError(error, this.logger))),
+      catchError((error) => throwError(normalizeHttpError(error))),
       this.converterService.pipeable(CUSTOMER_LISTS_NORMALIZER)
     );
   }
@@ -123,7 +118,7 @@ export class OccAsmAdapter implements AsmAdapter {
     );
 
     return this.http.get<CustomerSearchPage>(url, { headers, params }).pipe(
-      catchError((error) => throwError(normalizeHttpError(error, this.logger))),
+      catchError((error) => throwError(normalizeHttpError(error))),
       this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER)
     );
   }
@@ -150,34 +145,6 @@ export class OccAsmAdapter implements AsmAdapter {
 
     return this.http
       .post<void>(url, {}, { headers, params })
-      .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        )
-      );
-  }
-
-  createCustomer(user: CustomerRegistrationForm): Observable<User> {
-    const headers = this.getHeaders();
-    const params: HttpParams = new HttpParams().set(
-      'baseSite',
-      this.activeBaseSite
-    );
-
-    const url = this.occEndpointsService.buildUrl(
-      'asmCreateCustomer',
-      {},
-      {
-        baseSite: false,
-        prefix: false,
-      }
-    );
-    return this.http
-      .post<User>(url, user, { headers, params })
-      .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        )
-      );
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 }

@@ -6,14 +6,13 @@
 
 import { isPlatformBrowser } from '@angular/common';
 import {
-  inject,
   Inject,
   Injectable,
   isDevMode,
   OnDestroy,
   PLATFORM_ID,
 } from '@angular/core';
-import { LoggerService, ScriptLoader, WindowRef } from '@spartacus/core';
+import { ScriptLoader, WindowRef } from '@spartacus/core';
 import { EMPTY, fromEvent, Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
@@ -42,8 +41,6 @@ interface QualtricsWindow extends Window {
 export class QualtricsLoaderService implements OnDestroy {
   protected subscription = new Subscription();
 
-  protected logger = inject(LoggerService);
-
   /**
    * Reference to the QSI API.
    */
@@ -55,7 +52,7 @@ export class QualtricsLoaderService implements OnDestroy {
   private qsiLoaded$: Observable<any> =
     isPlatformBrowser(this.platformId) && this.window
       ? fromEvent(this.window, QUALTRICS_EVENT_NAME)
-      : EMPTY;
+      : of();
 
   /**
    * Emits the Qualtrics Site Intercept (QSI) JavaScript API whenever available.
@@ -123,7 +120,7 @@ export class QualtricsLoaderService implements OnDestroy {
   protected run(reload = false): void {
     if (!this.qsiApi?.API) {
       if (isDevMode()) {
-        this.logger.log('The QSI api is not available');
+        console.log('The QSI api is not available');
       }
       return;
     }

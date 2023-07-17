@@ -12,10 +12,9 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { NEVER, Observable, TimeoutError, of } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { NEVER, Observable, of, TimeoutError } from 'rxjs';
 import { catchError, startWith, switchMap, timeout } from 'rxjs/operators';
-import { LoggerService } from '../../logger';
 import { OccConfig } from '../../occ/config/occ-config';
 import { WindowRef } from '../../window/window-ref';
 import { HTTP_TIMEOUT_CONFIG } from './http-timeout.config';
@@ -25,8 +24,6 @@ import { HTTP_TIMEOUT_CONFIG } from './http-timeout.config';
  */
 @Injectable({ providedIn: 'root' })
 export class HttpTimeoutInterceptor implements HttpInterceptor {
-  protected logger = inject(LoggerService);
-
   constructor(protected windowRef: WindowRef, protected config: OccConfig) {}
 
   /**
@@ -115,7 +112,7 @@ export class HttpTimeoutInterceptor implements HttpInterceptor {
 
     // If an HTTP call times out, it is considered an unexpected error.
     // To assist with troubleshooting, the error is logged to the console.
-    this.logger.warn(message);
+    console.warn(message);
 
     return new Error(message);
   }

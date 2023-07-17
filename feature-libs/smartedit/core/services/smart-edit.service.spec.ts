@@ -8,14 +8,14 @@ import {
   RoutingService,
   ScriptLoader,
 } from '@spartacus/core';
-import { EMPTY, Observable, of } from 'rxjs';
-import { defaultSmartEditConfig } from '../../root/config/default-smart-edit-config';
-import { SmartEditConfig } from '../../root/config/smart-edit-config';
+import { defaultSmartEditConfig } from 'feature-libs/smartedit/root/config/default-smart-edit-config';
+import { SmartEditConfig } from 'feature-libs/smartedit/root/config/smart-edit-config';
+import { Observable, of } from 'rxjs';
 import { SmartEditService } from './smart-edit.service';
 
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
-    return EMPTY;
+    return of();
   }
   refreshLatestPage() {}
   refreshPageById() {}
@@ -23,13 +23,13 @@ class MockCmsService {
 }
 class MockRoutingService {
   getRouterState(): Observable<any> {
-    return EMPTY;
+    return of();
   }
   go() {}
 }
 class MockBaseSiteService {
   get(): Observable<BaseSite> {
-    return EMPTY;
+    return of();
   }
 }
 

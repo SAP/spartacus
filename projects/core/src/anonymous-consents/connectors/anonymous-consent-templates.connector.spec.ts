@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AnonymousConsent, ConsentTemplate } from '../../model/index';
 import { AnonymousConsentTemplatesAdapter } from './anonymous-consent-templates.adapter';
 import { AnonymousConsentTemplatesConnector } from './anonymous-consent-templates.connector';
 
 class MockAnonymousConsentTemplatesAdapter {
   loadAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
-    return EMPTY;
+    return of();
   }
   loadAnonymousConsents(): Observable<AnonymousConsent[]> {
-    return EMPTY;
+    return of();
   }
 }
 

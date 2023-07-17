@@ -5,7 +5,7 @@
  */
 
 import { Observable, OperatorFunction } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
+import { startWith, switchMapTo } from 'rxjs/operators';
 
 /**
  *
@@ -20,8 +20,5 @@ export function withdrawOn<T>(
   notifier: Observable<any>
 ): OperatorFunction<T, T> {
   return (source: Observable<T>) =>
-    notifier.pipe(
-      startWith(undefined),
-      switchMap(() => source)
-    );
+    notifier.pipe(startWith(undefined), switchMapTo(source));
 }

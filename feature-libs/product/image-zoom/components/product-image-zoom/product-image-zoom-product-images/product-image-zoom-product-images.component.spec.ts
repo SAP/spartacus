@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, ImageGroup, Product } from '@spartacus/core';
+import { ImageGroup, Product, I18nTestingModule } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
+import { take } from 'rxjs/operators';
 
 const firstImage = {
   zoom: {
@@ -59,7 +59,7 @@ const mockDataWitoutPrimaryPictures: Product = {
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return EMPTY;
+    return of();
   }
 }
 

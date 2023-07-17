@@ -8,7 +8,6 @@ import * as configuration from '../../../helpers/product-configurator';
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
-import * as common from '../../../helpers/common';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';
@@ -97,7 +96,7 @@ context('Product Configuration', () => {
 
     it('should be able to navigate from the product details page', () => {
       clickAllowAllFromBanner();
-      common.goToPDPage(electronicsShop, testProduct);
+      configurationVc.goToPDPage(electronicsShop, testProduct);
       configurationVc.clickOnConfigureBtnInCatalog(testProduct);
     });
 
@@ -498,40 +497,6 @@ context('Product Configuration', () => {
           Conflict_msg_gaming_console
         );
       }
-    });
-    it('should display a success message on conflict resolution (CXSPA-2374)', () => {
-      configurationVc.goToConfigurationPage(
-        electronicsShop,
-        testProductMultiLevel
-      );
-      configurationVc.registerConfigurationUpdateRoute();
-      configurationVc.clickOnNextBtnAndWait(PROJECTOR);
-      configurationVc.selectAttributeAndWait(
-        PROJECTOR_TYPE,
-        radioGroup,
-        PROJECTOR_LCD,
-        commerceRelease.isPricingEnabled
-      );
-      configurationVc.clickOnPreviousBtnAndWait(GENERAL);
-      configurationVc.clickOnGroupAndWait(3);
-
-      configurationVc.selectConflictingValueAndWait(
-        GAMING_CONSOLE,
-        radioGroup,
-        GAMING_CONSOLE_YES,
-        1,
-        commerceRelease.isPricingEnabled
-      );
-      configurationVc.checkGlobalMessageNotDisplayed();
-      configurationVc.deselectConflictingValueAndWait(
-        GAMING_CONSOLE,
-        radioGroup,
-        GAMING_CONSOLE_NO,
-        commerceRelease.isPricingEnabled
-      );
-      configurationVc.checkGlobalMessageContains(
-        `Conflicts have been resolved`
-      );
     });
   });
 });

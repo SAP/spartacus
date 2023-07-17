@@ -12,17 +12,11 @@ import {
   SPARTACUS_CDC_ROOT,
   USER_PROFILE_FEATURE_NAME,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
-  ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
   SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION,
-  SPARTACUS_CDC_ASSETS,
-  SPARTACUS_CDC_ORGANIZATION_REGISTRATION,
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
-import {
-  ADMINISTRATION_MODULE,
-  ORGANIZATION_USER_REGISTRATION_MODULE,
-} from '../organization-schematics-config';
+import { ADMINISTRATION_MODULE } from '../organization-schematics-config';
 import {
   USER_ACCOUNT_MODULE,
   USER_PROFILE_MODULE,
@@ -46,10 +40,6 @@ export const CDC_USER_ACCOUNT_MODULE = 'CDCUserAccountModule';
 
 export const CDC_USER_PROFILE_MODULE = 'CDCUserProfileModule';
 export const CDC_ADMINISTRATION_MODULE = 'CdcAdministrationModule';
-export const CDC_B2B_REGISTER_MODULE = 'CDCB2BRegisterModule';
-
-export const CDC_TRANSLATION_CHUNKS_CONFIG = 'cdcTranslationChunksConfig';
-export const CDC_TRANSLATIONS = 'cdcTranslations';
 
 export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
@@ -75,10 +65,6 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
       name: CDC_ADMINISTRATION_MODULE,
       importPath: SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION,
     },
-    {
-      name: CDC_B2B_REGISTER_MODULE,
-      importPath: SPARTACUS_CDC_ORGANIZATION_REGISTRATION,
-    },
   ],
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_CDC_ROOT,
@@ -90,15 +76,9 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     content: `${CDC_ROOT_MODULE}`,
   },
   customConfig: buildCdcConfig,
-  i18n: {
-    resources: CDC_TRANSLATIONS,
-    chunks: CDC_TRANSLATION_CHUNKS_CONFIG,
-    importPath: SPARTACUS_CDC_ASSETS,
-  },
   dependencyFeatures: [
     USER_PROFILE_FEATURE_NAME,
     ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
-    ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
   ],
   importAfter: [
     {
@@ -112,10 +92,6 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     {
       markerModuleName: ADMINISTRATION_MODULE,
       featureModuleName: CDC_ADMINISTRATION_MODULE,
-    },
-    {
-      markerModuleName: ORGANIZATION_USER_REGISTRATION_MODULE,
-      featureModuleName: CDC_B2B_REGISTER_MODULE,
     },
   ],
 };

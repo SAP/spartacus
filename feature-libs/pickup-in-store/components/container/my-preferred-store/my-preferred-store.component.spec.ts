@@ -14,10 +14,10 @@ import {
   PickupLocationsSearchFacade,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
-import { StoreFinderService } from '@spartacus/storefinder/core';
 import { StoreFinderFacade } from '@spartacus/storefinder/root';
 import { CardModule, IconTestingModule } from '@spartacus/storefront';
-import { EMPTY, Observable } from 'rxjs';
+import { MockStoreFinderService } from 'feature-libs/storefinder/components/abstract-store-item/abstract-store-item.component.spec';
+import { Observable, of } from 'rxjs';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { MyPreferredStoreComponent } from './my-preferred-store.component';
@@ -28,27 +28,11 @@ class MockRoutingService implements Partial<RoutingService> {
 
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
-    return EMPTY;
+    return of();
   }
   refreshLatestPage() {}
   refreshPageById() {}
   refreshComponent() {}
-}
-
-export class MockStoreFinderService implements Partial<StoreFinderService> {
-  getStoreLatitude(): number {
-    return 1;
-  }
-
-  getStoreLongitude(): number {
-    return 1;
-  }
-  getDirections(): string {
-    const google_map_url = 'https://www.google.com/maps/dir/Current+Location/';
-    const latitude = this.getStoreLatitude();
-    const longitude = this.getStoreLongitude();
-    return google_map_url + latitude + ',' + longitude;
-  }
 }
 
 describe('MyPreferredStoreComponent', () => {

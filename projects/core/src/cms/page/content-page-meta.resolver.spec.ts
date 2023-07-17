@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { BasePageMetaResolver, CanonicalUrlOptions } from '..';
 import { I18nTestingModule } from '../../i18n';
 import { PageMetaService } from '../facade';
@@ -8,22 +8,22 @@ import { ContentPageMetaResolver } from './content-page-meta.resolver';
 
 class MockBasePageMetaResolver implements Partial<BasePageMetaResolver> {
   resolveCanonicalUrl(_options?: CanonicalUrlOptions): Observable<string> {
-    return EMPTY;
+    return of();
   }
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[] | undefined> {
-    return EMPTY;
+    return of();
   }
 
   resolveRobots(): Observable<PageRobotsMeta[]> {
-    return EMPTY;
+    return of();
   }
 
   resolveTitle(): Observable<string> {
-    return EMPTY;
+    return of();
   }
 
   resolveDescription(): Observable<string> {
-    return EMPTY;
+    return of();
   }
 }
 

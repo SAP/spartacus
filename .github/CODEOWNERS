@@ -48,12 +48,7 @@
 # ================================================
 #  ASM
 # ================================================
-/feature-libs/asm/          @SAP/spartacus-codeowners @SAP/spartacus-holidays
-
-# ================================================
-#  User domain
-# ================================================
-/feature-libs/user/          @SAP/spartacus-codeowners @SAP/spartacus-holidays
+/feature-libs/asm/          @SAP/spartacus-codeowners @SAP/spartacus-iceman
 
 # ================================================
 #  Product Configurator and CPQ integration
@@ -65,13 +60,8 @@
 # ================================================
 /integration-libs/cds/          @SAP/spartacus-codeowners @SAP/spartacus-CDS
 
-# ================================================
-#  (CDC)
-# ================================================
-/integration-libs/cdc/          @SAP/spartacus-codeowners @SAP/spartacus-CDC
 
 # ================================================
-#  BOPIS
+#  BOPIS Feature
 # ================================================
 /feature-libs/pickup-in-store/         @SAP/spartacus-codeowners @SAP/spartacus-colossus
-

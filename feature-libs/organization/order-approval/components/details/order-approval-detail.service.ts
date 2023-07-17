@@ -8,7 +8,14 @@ import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
-import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  pluck,
+  shareReplay,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';
 
@@ -32,7 +39,7 @@ export class OrderApprovalDetailService {
   );
 
   protected order$: Observable<Order> = this.orderApproval$.pipe(
-    map((orderApproval) => orderApproval?.order as Order)
+    pluck('order')
   );
 
   constructor(

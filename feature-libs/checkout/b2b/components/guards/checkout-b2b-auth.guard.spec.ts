@@ -12,20 +12,20 @@ import {
   SemanticPathService,
 } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CheckoutB2BAuthGuard } from './checkout-b2b-auth.guard';
 
 import createSpy = jasmine.createSpy;
 
 class AuthServiceStub implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
-    return EMPTY;
+    return of();
   }
 }
 
 class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
   getAssignedUser(): Observable<User> {
-    return EMPTY;
+    return of();
   }
   isGuestCart(): Observable<boolean> {
     return of(true);

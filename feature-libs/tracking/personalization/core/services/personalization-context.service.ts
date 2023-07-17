@@ -4,13 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject, isDevMode } from '@angular/core';
-import {
-  CmsService,
-  ContentSlotComponentData,
-  LoggerService,
-  Page,
-} from '@spartacus/core';
+import { Injectable, isDevMode } from '@angular/core';
+import { CmsService, ContentSlotComponentData, Page } from '@spartacus/core';
 import { PersonalizationConfig } from '@spartacus/tracking/personalization/root';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -20,8 +15,6 @@ import { PersonalizationContext } from '../model/personalization-context.model';
   providedIn: 'root',
 })
 export class PersonalizationContextService {
-  protected logger = inject(LoggerService);
-
   constructor(
     protected config: PersonalizationConfig,
     protected cmsService: CmsService
@@ -30,7 +23,7 @@ export class PersonalizationContextService {
   getPersonalizationContext(): Observable<PersonalizationContext | undefined> {
     if (!this.config.personalization?.context) {
       if (isDevMode()) {
-        this.logger.warn(`There is no context configured in Personalization.`);
+        console.warn(`There is no context configured in Personalization.`);
       }
       return EMPTY;
     } else {

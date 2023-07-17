@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable, isDevMode, OnDestroy } from '@angular/core';
+import { Injectable, isDevMode, OnDestroy } from '@angular/core';
 import {
   CmsService,
   isNotUndefined,
-  LoggerService,
   Page,
   UnifiedInjector,
 } from '@spartacus/core';
@@ -21,7 +20,7 @@ import {
   LayoutSlotConfig,
   SlotConfig,
 } from '../../../layout/config/layout-config';
-import { PAGE_LAYOUT_HANDLER, PageLayoutHandler } from './page-layout-handler';
+import { PageLayoutHandler, PAGE_LAYOUT_HANDLER } from './page-layout-handler';
 
 @Injectable({
   providedIn: 'root',
@@ -29,8 +28,6 @@ import { PAGE_LAYOUT_HANDLER, PageLayoutHandler } from './page-layout-handler';
 export class PageLayoutService implements OnDestroy {
   protected handlers: PageLayoutHandler[];
   protected subscription = new Subscription();
-
-  protected logger = inject(LoggerService);
 
   constructor(
     private cms: CmsService,
@@ -260,7 +257,8 @@ export class PageLayoutService implements OnDestroy {
     }
     if (page.template && !this.logSlots[page.template]) {
       // the info log is not printed in production
-      this.logger.info(
+      // eslint-disable-next-line no-console
+      console.info(
         `Available CMS page slots: '${(page.slots
           ? Object.keys(page.slots)
           : []
@@ -271,7 +269,7 @@ export class PageLayoutService implements OnDestroy {
 
     const cacheKey = section || page.template;
     if (cacheKey && !this.warnLogMessages[cacheKey]) {
-      this.logger.warn(
+      console.warn(
         `No layout config found for ${cacheKey}, you can configure a 'LayoutConfig' to control the rendering of page slots.`
       );
       this.warnLogMessages[cacheKey] = true;

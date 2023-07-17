@@ -5,9 +5,8 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
-  LoggerService,
   normalizeHttpError,
   OccEndpointsService,
   Stock,
@@ -23,8 +22,6 @@ import { catchError } from 'rxjs/operators';
  */
 @Injectable()
 export class OccStockAdapter implements StockAdapter {
-  protected logger = inject(LoggerService);
-
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService
@@ -43,11 +40,7 @@ export class OccStockAdapter implements StockAdapter {
           queryParams: { ...location, fields: 'FULL' },
         })
       )
-      .pipe(
-        catchError((error: any) =>
-          throwError(normalizeHttpError(error, this.logger))
-        )
-      );
+      .pipe(catchError((error: any) => throwError(normalizeHttpError(error))));
   }
 
   loadStockLevelAtStore(
@@ -60,10 +53,6 @@ export class OccStockAdapter implements StockAdapter {
           urlParams: { productCode, storeName },
         })
       )
-      .pipe(
-        catchError((error: any) =>
-          throwError(normalizeHttpError(error, this.logger))
-        )
-      );
+      .pipe(catchError((error: any) => throwError(normalizeHttpError(error))));
   }
 }

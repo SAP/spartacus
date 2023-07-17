@@ -5,14 +5,13 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CartActions, CartConnector } from '@spartacus/cart/base/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  LoggerService,
   normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -22,8 +21,6 @@ import { SavedCartActions } from '../actions/index';
 
 @Injectable()
 export class SavedCartEffects {
-  protected logger = inject(LoggerService);
-
   loadSavedCart$: Observable<
     | CartActions.LoadCartSuccess
     | SavedCartActions.LoadSavedCartFail
@@ -49,7 +46,7 @@ export class SavedCartEffects {
               new SavedCartActions.LoadSavedCartFail({
                 userId,
                 cartId,
-                error: normalizeHttpError(error, this.logger),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -78,7 +75,7 @@ export class SavedCartEffects {
             of(
               new SavedCartActions.LoadSavedCartsFail({
                 userId,
-                error: normalizeHttpError(error, this.logger),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -150,7 +147,7 @@ export class SavedCartEffects {
               new SavedCartActions.RestoreSavedCartFail({
                 userId,
                 cartId,
-                error: normalizeHttpError(error, this.logger),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -196,7 +193,7 @@ export class SavedCartEffects {
                   cartId,
                   saveCartName,
                   saveCartDescription,
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                 })
               )
             )
@@ -240,7 +237,7 @@ export class SavedCartEffects {
                   cartId,
                   saveCartName,
                   saveCartDescription,
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                 })
               )
             )
@@ -283,7 +280,7 @@ export class SavedCartEffects {
                   userId,
                   cartId,
                   saveCartName,
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                 })
               )
             )

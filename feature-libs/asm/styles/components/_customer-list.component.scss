@@ -4,13 +4,7 @@ $sapFioriContent_LabelColor: #6a6d70;
 
 %cx-customer-list {
   .cx-modal-content {
-    @include forVersion(1, 6) {
-      min-height: 426px;
-    }
-
-    @include forVersion(6.1) {
-      min-height: 352px;
-    }
+    min-height: 424px;
   }
 
   .cx-dialog-header {
@@ -24,11 +18,9 @@ $sapFioriContent_LabelColor: #6a6d70;
       font-size: 1.25rem;
       font-weight: 900;
     }
-    @include forVersion(1, 6) {
-      .close {
-        font-size: 1rem;
-        color: $sapFioriTextColor;
-      }
+    .close {
+      font-size: 1rem;
+      color: $sapFioriTextColor;
     }
   }
 
@@ -39,49 +31,11 @@ $sapFioriContent_LabelColor: #6a6d70;
     padding-inline-start: 1.75rem;
     border-width: 0;
     display: flex;
-    .cx-header-select {
-      display: flex;
-      .cx-total {
-        padding: 0.6875rem 1rem;
-      }
-    }
-    .cx-header-select.mobile {
-      flex-direction: column;
-    }
     .cx-header-actions {
       display: flex;
       label {
         margin: 0;
       }
-      .search-wrapper {
-        position: relative;
-        margin-inline-start: 1rem;
-
-        .form-control {
-          padding-inline-end: 46px;
-          &:hover,
-          &:focus {
-            border: 2px solid #004da5;
-            box-shadow: 0px 0px 1px rgba(120, 143, 166, 0.72);
-            outline: none;
-            background-color: #ffffff;
-          }
-        }
-        @include forVersion(6.1) {
-          .form-control::-webkit-input-placeholder {
-            color: #74777a;
-            font-style: italic;
-          }
-        }
-
-        cx-icon {
-          position: absolute;
-          top: 17px;
-          right: 17px;
-          cursor: pointer;
-        }
-      }
-
       .cx-pagination-buttons {
         display: flex;
         align-items: center;
@@ -149,25 +103,10 @@ $sapFioriContent_LabelColor: #6a6d70;
     flex-direction: column;
   }
 
-  .asm-mobile-pagination {
-    flex-direction: row-reverse;
-  }
-
   .cx-dialog-body {
     padding-top: 0;
-    @include forVersion(6.1) {
-      padding-bottom: 0;
-    }
     max-height: calc(100vh - 260px);
-    @include media-breakpoint-down(xs) {
-      max-height: calc(100vh - 470px);
-    }
     overflow-y: auto;
-  }
-
-  .cx-dialog-foot {
-    display: flex;
-    flex-direction: row-reverse;
   }
 
   .table {
@@ -202,32 +141,22 @@ $sapFioriContent_LabelColor: #6a6d70;
     min-height: 1.15rem;
     width: fit-content;
   }
-
-  @include forVersion(6.1) {
-    .cx-avatar-cell {
-      width: 65px;
-      vertical-align: top;
-    }
-  }
-
-  @include forVersion(1, 6) {
-    .cx-avatar-cell {
-      width: 65px;
-      vertical-align: top;
-      .cx-avatar {
-        width: 44px;
-        height: 44px;
-        line-height: 44px;
-        border-radius: 50%;
-        color: #fff;
-        text-align: center;
-        background: #9259cd;
-        text-transform: uppercase;
-        margin-top: 2px;
-        margin-inline-end: 10px;
-        margin-bottom: 2px;
-        margin-inline-start: 0;
-      }
+  .cx-avatar-cell {
+    width: 65px;
+    vertical-align: top;
+    .cx-avatar {
+      width: 44px;
+      height: 44px;
+      line-height: 44px;
+      border-radius: 50%;
+      color: #fff;
+      text-align: center;
+      background: #9259cd;
+      text-transform: uppercase;
+      margin-top: 2px;
+      margin-inline-end: 10px;
+      margin-bottom: 2px;
+      margin-inline-start: 0;
     }
   }
 
@@ -236,31 +165,6 @@ $sapFioriContent_LabelColor: #6a6d70;
     align-items: center;
     min-height: 44px;
     padding: 5px 0;
-    .cx-avatar {
-      img,
-      .cx-avatar-text {
-        width: 44px;
-        height: 44px;
-        line-height: 44px;
-        border-radius: 50%;
-        text-align: center;
-        text-transform: uppercase;
-        margin-top: 2px;
-        margin-inline-end: 10px;
-        margin-bottom: 2px;
-        margin-inline-start: 0;
-      }
-      .cx-avatar-text {
-        background: #9259cd;
-        color: #fff;
-        border-radius: 50%;
-      }
-    }
-    @include forVersion(6.1) {
-      .cx-cart {
-        padding-inline-end: 18px;
-      }
-    }
   }
 
   .cx-action-color {
@@ -303,124 +207,6 @@ $sapFioriContent_LabelColor: #6a6d70;
     .ng-value-label {
       font-weight: 700;
       color: $sapFioriLinkColor;
-    }
-  }
-
-  @include forVersion(6.1) {
-    cx-pagination {
-      float: right;
-      a {
-        margin-top: 10px;
-        width: 24px;
-        height: 26px;
-        font-family: '72';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 16px;
-        color: #0064d9;
-        border-color: #ffffff;
-        &:first-child {
-          width: 48px;
-          height: 26px;
-          font-family: 'SAP-icons';
-          font-style: normal;
-          font-weight: 800;
-          font-size: 20px;
-          line-height: 16px;
-          text-align: center;
-          color: #0064d9;
-          margin-top: 8px;
-        }
-        &:last-child {
-          width: 48px;
-          height: 26px;
-          font-family: 'SAP-icons';
-          font-style: normal;
-          font-weight: 800;
-          font-size: 20px;
-          line-height: 16px;
-          text-align: center;
-          color: #0064d9;
-          border-color: #ffffff;
-          margin-top: 8px;
-        }
-        &.current {
-          width: 32px;
-          height: 26px;
-          font-family: '72';
-          font-style: normal;
-          font-weight: 700;
-          font-size: 14px;
-          line-height: 16px;
-          text-align: center;
-          color: #1d2d3e;
-          background: #eaecee;
-          border-radius: 8px;
-          border-color: #ffffff;
-        }
-      }
-    }
-  }
-
-  @include forVersion(6.1) {
-    .cx-asm-create-customer-btn {
-      background-color: #eaecee;
-      border-color: #eaecee;
-      border-radius: 8px;
-      padding: 0px 10px 0px 10px;
-      color: #1d2d3e;
-      text-decoration: none;
-      font-family: '72';
-      font-style: normal;
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 16px;
-      min-height: 42px;
-      min-width: 70px;
-
-      cx-icon {
-        color: #1d2d3e;
-        margin-inline-end: 3px;
-      }
-
-      &:hover {
-        background-color: #ffffff;
-        border-width: 1px;
-        border-color: #d6dade;
-        border-style: solid;
-      }
-
-      &:focus {
-        box-shadow: none;
-      }
-    }
-
-    .cx-asm-customer-list-btn-cancel {
-      color: #0064d8;
-      font-family: '72';
-      font-style: normal;
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 19px;
-      border-radius: 8px;
-      border-color: #ffffff;
-      min-height: 42px;
-
-      margin: 0px 20px 0px 0px;
-      padding: 0px 10px 0px 10px;
-
-      &:hover {
-        color: #0064d8;
-        background-color: #d9d9d9;
-      }
-
-      &:focus {
-        box-shadow: none;
-      }
-    }
-    .ng-dropdown-panel {
-      width: auto;
     }
   }
 }

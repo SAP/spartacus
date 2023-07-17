@@ -6,18 +6,18 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AnonymousConsentManagementBannerComponent } from './anonymous-consent-management-banner.component';
 
 class MockAnonymousConsentsService {
   isBannerVisible(): Observable<boolean> {
-    return EMPTY;
+    return of();
   }
   giveAllConsents(): Observable<ConsentTemplate[]> {
-    return EMPTY;
+    return of();
   }
   getTemplatesUpdated(): Observable<boolean> {
-    return EMPTY;
+    return of();
   }
   toggleBannerDismissed(_dismissed: boolean): void {}
 }
@@ -28,7 +28,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return EMPTY;
+    return of();
   }
 }
 

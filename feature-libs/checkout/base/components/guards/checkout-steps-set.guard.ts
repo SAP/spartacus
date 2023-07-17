@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable, isDevMode, OnDestroy } from '@angular/core';
+import { Injectable, isDevMode, OnDestroy } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
@@ -19,7 +19,7 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { LoggerService, RoutingConfigService } from '@spartacus/core';
+import { RoutingConfigService } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -35,7 +35,6 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 })
 export class CheckoutStepsSetGuard implements CanActivate, OnDestroy {
   protected subscription: Subscription;
-  protected logger = inject(LoggerService);
 
   constructor(
     protected checkoutStepService: CheckoutStepService,
@@ -93,7 +92,7 @@ export class CheckoutStepsSetGuard implements CanActivate, OnDestroy {
           return this.isStepSet(steps[currentIndex - 1]);
         } else {
           if (isDevMode()) {
-            this.logger.warn(
+            console.warn(
               `Missing step with route '${currentRouteUrl}' in checkout configuration or this step is disabled.`
             );
           }

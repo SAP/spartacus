@@ -4,19 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { LoggerService } from '../../../logger';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserNotificationPreferenceConnector } from '../../connectors/notification-preference/user-notification-preference.connector';
 import { UserActions } from '../actions/index';
 
 @Injectable()
 export class NotificationPreferenceEffects {
-  protected logger = inject(LoggerService);
-
   loadPreferences$: Observable<UserActions.NotificationPreferenceAction> =
     createEffect(() =>
       this.actions$.pipe(
@@ -33,7 +30,7 @@ export class NotificationPreferenceEffects {
             catchError((error) =>
               of(
                 new UserActions.LoadNotificationPreferencesFail(
-                  normalizeHttpError(error, this.logger)
+                  normalizeHttpError(error)
                 )
               )
             )
@@ -60,7 +57,7 @@ export class NotificationPreferenceEffects {
             catchError((error) =>
               of(
                 new UserActions.UpdateNotificationPreferencesFail(
-                  normalizeHttpError(error, this.logger)
+                  normalizeHttpError(error)
                 )
               )
             )

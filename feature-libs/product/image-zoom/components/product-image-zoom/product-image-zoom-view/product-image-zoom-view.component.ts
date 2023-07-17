@@ -9,12 +9,12 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
+  EventEmitter,
 } from '@angular/core';
 import { ImageGroup, isNotNullable, Product } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
@@ -39,6 +39,7 @@ import {
   map,
   shareReplay,
   switchMap,
+  switchMapTo,
   tap,
 } from 'rxjs/operators';
 
@@ -293,11 +294,11 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   private clickOrDoubleClick(element: ElementRef): Observable<any>[] {
     return [
       fromEvent(element.nativeElement, 'click').pipe(
-        switchMap(() => this.breakpointService.isUp(BREAKPOINT.md)),
+        switchMapTo(this.breakpointService.isUp(BREAKPOINT.md)),
         filter(Boolean)
       ),
       fromEvent(element.nativeElement, 'dblclick').pipe(
-        switchMap(() => this.breakpointService.isDown(BREAKPOINT.lg)),
+        switchMapTo(this.breakpointService.isDown(BREAKPOINT.lg)),
         filter(Boolean)
       ),
     ];

@@ -10,11 +10,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
-import {
-  FeatureConfigService,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -27,9 +23,6 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-inpu
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { Observable, of } from 'rxjs';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {
@@ -69,20 +62,6 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
-let showRequiredErrorMessage: boolean;
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(showRequiredErrorMessage);
-  }
-}
-
-let testVersion: string;
-class MockFeatureConfigService {
-  isLevel(version: string): boolean {
-    return version === testVersion;
-  }
-}
-
 describe('ConfigAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
   let htmlElem: HTMLElement;
@@ -93,43 +72,11 @@ describe('ConfigAttributeDropDownComponent', () => {
   const groupId = 'theGroupId';
   const selectedValue = 'selectedValue';
 
-  const value1 = createValue(
-    Configurator.RetractValueCode,
-    'Please select a value',
-    true
-  );
+  const value1 = createValue('1', 'val1', true);
   const value2 = createValue('2', 'val2', false);
   const value3 = createValue('3', 'val3', false);
 
   const values: Configurator.Value[] = [value1, value2, value3];
-
-  function createComponentWithData(
-    releaseVersion: string,
-    isCartEntryOrGroupVisited: boolean = true
-  ): ConfiguratorAttributeDropDownComponent {
-    testVersion = releaseVersion;
-    showRequiredErrorMessage = isCartEntryOrGroupVisited;
-
-    fixture = TestBed.createComponent(ConfiguratorAttributeDropDownComponent);
-    htmlElem = fixture.nativeElement;
-    component = fixture.componentInstance;
-    component.attribute = {
-      name: name,
-      label: name,
-      attrCode: 444,
-      dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
-      uiType: Configurator.UiType.DROPDOWN,
-      selectedSingleValue: selectedValue,
-      quantity: 1,
-      groupId: groupId,
-      required: true,
-      incomplete: true,
-      values,
-    };
-
-    fixture.detectChanges();
-    return component;
-  }
 
   beforeEach(
     waitForAsync(() => {
@@ -141,7 +88,6 @@ describe('ConfigAttributeDropDownComponent', () => {
           MockFocusDirective,
           MockConfiguratorAttributeQuantityComponent,
           MockConfiguratorPriceComponent,
-          MockFeatureLevelDirective,
         ],
         imports: [
           ReactiveFormsModule,
@@ -160,11 +106,6 @@ describe('ConfigAttributeDropDownComponent', () => {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
           },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         ],
       })
         .overrideComponent(ConfiguratorAttributeDropDownComponent, {
@@ -176,37 +117,33 @@ describe('ConfigAttributeDropDownComponent', () => {
     })
   );
 
-  afterEach(() => {
-    document.body.removeChild(htmlElem);
-    fixture.destroy();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ConfiguratorAttributeDropDownComponent);
+    htmlElem = fixture.nativeElement;
+    component = fixture.componentInstance;
+    component.attribute = {
+      name: name,
+      label: name,
+      attrCode: 444,
+      dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
+      uiType: Configurator.UiType.DROPDOWN,
+      selectedSingleValue: selectedValue,
+      quantity: 1,
+      groupId: groupId,
+      values,
+    };
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-    createComponentWithData('6.2');
     expect(component).toBeTruthy();
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'select.cx-required-error-msg'
-    );
-  });
-
-  it('should render an empty component because showRequiredErrorMessage$ is `false`', () => {
-    createComponentWithData('6.1', false);
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'select.cx-required-error-msg'
-    );
   });
 
   it('should set selectedSingleValue on init', () => {
-    createComponentWithData('6.2');
     expect(component.attributeDropDownForm.value).toEqual(selectedValue);
   });
 
   it('should call updateConfiguration on select', () => {
-    createComponentWithData('6.2');
     component.ownerKey = ownerKey;
     spyOn(
       component['configuratorCommonsService'],
@@ -226,10 +163,6 @@ describe('ConfigAttributeDropDownComponent', () => {
   });
 
   describe('attribute level', () => {
-    beforeEach(() => {
-      createComponentWithData('6.2');
-    });
-
     it('should not display quantity and no price', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
@@ -280,10 +213,6 @@ describe('ConfigAttributeDropDownComponent', () => {
   });
 
   describe('value level', () => {
-    beforeEach(() => {
-      createComponentWithData('6.2');
-    });
-
     it('should not display quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
@@ -320,10 +249,6 @@ describe('ConfigAttributeDropDownComponent', () => {
   });
 
   describe('Rendering for additional value', () => {
-    beforeEach(() => {
-      createComponentWithData('6.2');
-    });
-
     it('should provide input field for alpha numeric value ', () => {
       component.attribute.uiType =
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
@@ -352,10 +277,6 @@ describe('ConfigAttributeDropDownComponent', () => {
   });
 
   describe('Accessibility', () => {
-    beforeEach(() => {
-      createComponentWithData('6.2');
-    });
-
     it("should contain label element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

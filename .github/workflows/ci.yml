@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - develop
-      - develop-*
       - release/**
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
@@ -41,14 +40,12 @@ jobs:
         run: |
           source ci-scripts/validate-e2e-execution.sh
           echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
-  unit_tests:
+  unit_tests_core:
     needs: no_retries
-    name: Unit tests
+    name: Unit tests for core Spartacus libs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - name: Setup node
         uses: actions/setup-node@v2
         with:
@@ -63,9 +60,38 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@15
       - name: Package installation
         run: npm ci
-      - name: Run unit tests
+      - name: Run unit tests for Spartacus libs
+        run: |
+          ci-scripts/unit-tests-core-lib.sh
+  unit_tests_libs:
+    needs: no_retries
+    name: Unit tests for integration libs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@15
+      - name: Package installation
+        run: npm ci
+      - name: Run unit tests for integration libs
         run: |
           ci-scripts/unit-tests.sh
   sonarqube_scan:
@@ -106,6 +132,8 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@15
       - name: Package installation
         run: npm ci
       - name: Run linting validation
@@ -217,7 +245,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
-    needs: [no_retries, unit_tests, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, sonarqube_scan]
+    needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, sonarqube_scan]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -229,7 +257,8 @@ jobs:
             core.setFailed('Build failed')
         if: |
           needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' ||
-          needs.unit_tests.result == 'failure' || needs.unit_tests.result == 'cancelled' ||
+          needs.unit_tests_core.result == 'failure' || needs.unit_tests_core.result == 'cancelled' ||
+          needs.unit_tests_libs.result == 'failure' || needs.unit_tests_libs.result == 'cancelled' ||
           needs.sonarqube_scan.result == 'failure' || needs.sonarqube_scan.result == 'cancelled' ||
           needs.linting.result == 'failure' || needs.linting.result == 'cancelled' ||
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
@@ -237,16 +266,10 @@ jobs:
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled'
   send_slack_message:
     needs: build_conclusion
-    name: Slack message for failed CI build in Spartacus
+    name: Slack message for failed develop CI build in Spartacus
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
-      - run: |
-          echo "Context Info:"
-          echo "  Event = ${{ github.event_name }}"
-          echo "  Build Result = ${{ needs.build_conclusion.result }}"
-          echo "  Branch = ${{ github.ref_name }}"
-          echo "  Default branch = ${{ github.event.repository.default_branch }}"
       - name: Notify the slack channel of when build conclusion failed
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
@@ -260,7 +283,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ":nuclear-bomb: :fireduck: *Broken build on ${{ github.ref_name }}*"
+                    "text": ":nuclear-bomb: :fireduck: *Broken build in develop*"
                   }
                 },
                 {
@@ -306,4 +329,4 @@ jobs:
         if: |
           needs.build_conclusion.result == 'failure' &&
           github.event_name == 'push' &&
-          github.ref_name == github.event.repository.default_branch
+          github.ref_name == 'develop'

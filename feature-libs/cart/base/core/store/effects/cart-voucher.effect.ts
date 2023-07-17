@@ -4,23 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  LoggerService,
   normalizeHttpError,
 } from '@spartacus/core';
-import { Observable, from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.connector';
 import { CartActions } from '../actions/index';
 
 @Injectable()
 export class CartVoucherEffects {
-  protected logger = inject(LoggerService);
-
   constructor(
     private actions$: Actions,
     private cartVoucherConnector: CartVoucherConnector,
@@ -53,7 +50,7 @@ export class CartVoucherEffects {
               from([
                 new CartActions.CartAddVoucherFail({
                   ...payload,
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                 }),
                 new CartActions.CartProcessesDecrement(payload.cartId),
                 new CartActions.LoadCart({
@@ -92,7 +89,7 @@ export class CartVoucherEffects {
             catchError((error) =>
               from([
                 new CartActions.CartRemoveVoucherFail({
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                   cartId: payload.cartId,
                   userId: payload.userId,
                   voucherId: payload.voucherId,

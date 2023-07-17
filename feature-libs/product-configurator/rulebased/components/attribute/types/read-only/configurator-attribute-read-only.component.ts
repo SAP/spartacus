@@ -70,12 +70,6 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
             value.valuePrice?.formattedValue
           );
         }
-      } else {
-        ariaLabel = this.translate(
-          'configurator.a11y.readOnlyValueOfAttributeFull',
-          valueName,
-          attribute
-        );
       }
     } else {
       const valueName = this.getCurrentValueName(attribute);

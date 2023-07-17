@@ -14,9 +14,6 @@ export class OccConfiguratorVariantSerializer
   implements
     Converter<Configurator.Configuration, OccConfigurator.Configuration>
 {
-  /**
-   * @deprecated since 6.2
-   */
   static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
 
   convert(
@@ -68,7 +65,10 @@ export class OccConfiguratorVariantSerializer
   }
 
   protected isRetractValue(attribute: Configurator.Attribute): boolean {
-    return attribute.selectedSingleValue === Configurator.RetractValueCode;
+    return (
+      attribute.selectedSingleValue ===
+      OccConfiguratorVariantSerializer.RETRACT_VALUE_CODE
+    );
   }
 
   protected getRetractedValue(

@@ -9,12 +9,12 @@ import { RoutesConfig, RoutingConfig } from '@spartacus/core';
 export const cdcRoutesConfig: RoutesConfig = {
   cdcLogin: {
     paths: ['/cdc/login'],
-    protected: true,
+    protected: false,
     authFlow: true,
   },
   cdcCheckoutLogin: {
     paths: ['/cdc/checkout-login'],
-    protected: true,
+    protected: false,
     authFlow: true,
   },
 };

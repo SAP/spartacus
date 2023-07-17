@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { EMPTY } from 'rxjs';
+import { of } from 'rxjs';
 import { ItemService } from '../../../shared';
 import { DisableInfoModule } from '../../../shared/detail/disable-info/disable-info.module';
 import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.module';
@@ -14,7 +14,7 @@ class MockUnitCostCenterListService {}
 class MockCurrentUnitService implements Partial<CurrentUnitService> {}
 
 class MockItemService {
-  current$ = EMPTY;
+  current$ = of();
 }
 
 describe('UnitCostCenterListComponent', () => {

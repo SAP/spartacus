@@ -25,7 +25,6 @@ export class ConfiguratorAttributeCheckBoxComponent
   group: string;
   ownerKey: string;
   expMode: boolean;
-  attributeValue: Configurator.Value;
 
   attributeCheckBoxForm = new UntypedFormControl('');
 
@@ -42,7 +41,6 @@ export class ConfiguratorAttributeCheckBoxComponent
 
   ngOnInit() {
     this.attributeCheckBoxForm.setValue(this.attribute.selectedSingleValue);
-    this.attributeValue = this.getValueFromAttribute();
   }
 
   /**
@@ -61,24 +59,19 @@ export class ConfiguratorAttributeCheckBoxComponent
     );
   }
 
-  protected getValueFromAttribute(): Configurator.Value {
-    //we can assume that for this component, value is always present
-    //otherwise attribute type would not be correct,
-    //could only happen in exceptional cases, on wrong modifications e.g.
-    return this.attribute.values ? this.attribute.values[0] : { valueCode: '' };
-  }
-
   protected assembleSingleValue(): Configurator.Value[] {
     const localAssembledValues: Configurator.Value[] = [];
-    const value = this.getValueFromAttribute();
+    const value = this.attribute.values ? this.attribute.values[0] : undefined;
+    //we can assume that for this component, value is always present
+    if (value) {
+      const localAttributeValue: Configurator.Value = {
+        valueCode: value.valueCode,
+      };
 
-    const localAttributeValue: Configurator.Value = {
-      valueCode: value.valueCode,
-    };
-
-    localAttributeValue.name = value.name;
-    localAttributeValue.selected = this.attributeCheckBoxForm.value;
-    localAssembledValues.push(localAttributeValue);
+      localAttributeValue.name = value.name;
+      localAttributeValue.selected = this.attributeCheckBoxForm.value;
+      localAssembledValues.push(localAttributeValue);
+    }
 
     return localAssembledValues;
   }
@@ -92,7 +85,7 @@ export class ConfiguratorAttributeCheckBoxComponent
    */
   extractValuePriceFormulaParameters(
     value: Configurator.Value
-  ): ConfiguratorPriceComponentOptions {
+  ): ConfiguratorPriceComponentOptions | undefined {
     return {
       quantity: value.quantity,
       price: value.valuePrice,

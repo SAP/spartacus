@@ -4,16 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject, isDevMode } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Injectable, isDevMode } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { LoggerService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
@@ -23,8 +22,6 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCommonsService {
-  protected logger = inject(LoggerService);
-
   constructor(
     protected store: Store<StateWithConfigurator>,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
@@ -141,13 +138,11 @@ export class ConfiguratorCommonsService {
             take(1),
             tap((stable) => {
               if (isDevMode() && cart.code && !stable) {
-                this.logger.warn(
-                  'Cart is busy, no configuration updates possible'
-                );
+                console.warn('Cart is busy, no configuration updates possible');
               }
             }),
             filter((stable) => !cart.code || stable),
-            switchMap(() =>
+            switchMapTo(
               this.store.pipe(
                 select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
                 take(1)
@@ -265,11 +260,6 @@ export class ConfiguratorCommonsService {
    * @param owner - Configuration owner
    */
   forceNewConfiguration(owner: CommonConfigurator.Owner): void {
-    this.store.dispatch(
-      new ConfiguratorActions.RemoveConfiguration({
-        ownerKey: owner.key,
-      })
-    );
     this.store.dispatch(
       new ConfiguratorActions.CreateConfiguration({
         owner: owner,

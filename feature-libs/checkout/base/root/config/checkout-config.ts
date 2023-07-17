@@ -36,10 +36,6 @@ export abstract class CheckoutConfig {
      * Allow for guest checkout.
      */
     guest?: boolean;
-    /**
-     * Use delivery address saved in cart for pre-filling delivery address form.
-     */
-    guestUseSavedAddress?: boolean;
   };
 }
 

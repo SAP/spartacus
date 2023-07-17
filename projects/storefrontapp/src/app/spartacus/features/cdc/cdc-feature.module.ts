@@ -6,11 +6,8 @@
 
 import { NgModule } from '@angular/core';
 import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
-import {
-  cdcTranslations,
-  cdcTranslationChunksConfig,
-} from '@spartacus/cdc/assets';
+import { CmsConfig, provideConfig } from '@spartacus/core';
+
 @NgModule({
   imports: [CdcRootModule],
   providers: [
@@ -35,13 +32,6 @@ import {
         [CDC_FEATURE]: {
           module: () => import('@spartacus/cdc').then((m) => m.CdcModule),
         },
-      },
-    }),
-    provideConfig(<I18nConfig>{
-      i18n: {
-        resources: cdcTranslations,
-        chunks: cdcTranslationChunksConfig,
-        fallbackLang: 'en',
       },
     }),
   ],

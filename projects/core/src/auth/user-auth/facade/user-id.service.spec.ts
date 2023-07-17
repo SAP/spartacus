@@ -94,41 +94,41 @@ describe('UserIdService', () => {
   describe('takeUserId', () => {
     it('should emit last value and completes', (done) => {
       service.clearUserId();
-      service.takeUserId().subscribe({
-        next: (id) => expect(id).toEqual(OCC_USER_ID_ANONYMOUS),
-        error: () => {},
-        complete: () => {
+      service.takeUserId().subscribe(
+        (id) => expect(id).toEqual(OCC_USER_ID_ANONYMOUS),
+        () => {},
+        () => {
           done();
-        },
-      });
+        }
+      );
     });
 
     it('should throw error when anonymous value in loggedIn mode', (done) => {
       service.clearUserId();
-      let userId: string;
-      service.takeUserId(true).subscribe({
-        next: (id) => (userId = id),
-        error: (error: Error) => {
+      let userId;
+      service.takeUserId(true).subscribe(
+        (id) => (userId = id),
+        (error: Error) => {
           expect(userId).toBeUndefined();
           expect(error.message).toEqual(
             'Requested user id for logged user while user is not logged in.'
           );
           done();
-        },
-      });
+        }
+      );
     });
 
     it('should emit logged in value and completes', (done) => {
       service.setUserId('someId');
-      service.takeUserId(true).subscribe({
-        next: (id) => {
+      service.takeUserId(true).subscribe(
+        (id) => {
           expect(id).toEqual('someId');
         },
-        error: () => {},
-        complete: () => {
+        () => {},
+        () => {
           done();
-        },
-      });
+        }
+      );
     });
   });
 });

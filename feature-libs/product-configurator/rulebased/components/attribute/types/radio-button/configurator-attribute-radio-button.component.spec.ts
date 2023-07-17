@@ -23,7 +23,6 @@ import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configu
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { Observable, of } from 'rxjs';
 
 const VALUE_NAME_2 = 'val2';
 
@@ -61,14 +60,6 @@ class MockConfiguratorAttributeQuantityComponent {
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
-
-const isCartEntryOrGroupVisited = true;
-class MockConfigUtilsService {
-  isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
-  }
-}
-
 describe('ConfigAttributeRadioButtonComponent', () => {
   let component: ConfiguratorAttributeRadioButtonComponent;
   let htmlElem: HTMLElement;
@@ -111,10 +102,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
           {
             provide: ConfiguratorAttributeCompositionContext,
             useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
           },
         ],
       })

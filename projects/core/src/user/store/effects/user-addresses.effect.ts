@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
@@ -12,7 +12,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message/index';
-import { LoggerService } from '../../../logger';
 import { Address } from '../../../model/address.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
@@ -21,8 +20,6 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserAddressesEffects {
-  protected logger = inject(LoggerService);
-
   loadUserAddresses$: Observable<UserActions.UserAddressesAction> =
     createEffect(() =>
       this.actions$.pipe(
@@ -35,9 +32,7 @@ export class UserAddressesEffects {
             }),
             catchError((error) =>
               of(
-                new UserActions.LoadUserAddressesFail(
-                  normalizeHttpError(error, this.logger)
-                )
+                new UserActions.LoadUserAddressesFail(normalizeHttpError(error))
               )
             )
           );
@@ -59,9 +54,7 @@ export class UserAddressesEffects {
               }),
               catchError((error) =>
                 of(
-                  new UserActions.AddUserAddressFail(
-                    normalizeHttpError(error, this.logger)
-                  )
+                  new UserActions.AddUserAddressFail(normalizeHttpError(error))
                 )
               )
             );
@@ -81,17 +74,13 @@ export class UserAddressesEffects {
               map(() => {
                 return new UserActions.UpdateUserAddressSuccess(payload);
               }),
-              catchError((error) => {
-                this.showGlobalMessage(
-                  'addressForm.invalidAddress',
-                  GlobalMessageType.MSG_TYPE_ERROR
-                );
-                return of(
+              catchError((error) =>
+                of(
                   new UserActions.UpdateUserAddressFail(
-                    normalizeHttpError(error, this.logger)
+                    normalizeHttpError(error)
                   )
-                );
-              })
+                )
+              )
             );
         })
       )
@@ -112,7 +101,7 @@ export class UserAddressesEffects {
               catchError((error) =>
                 of(
                   new UserActions.DeleteUserAddressFail(
-                    normalizeHttpError(error, this.logger)
+                    normalizeHttpError(error)
                   )
                 )
               )
@@ -186,10 +175,10 @@ export class UserAddressesEffects {
   /**
    * Show global confirmation message with provided text
    */
-  private showGlobalMessage(key: string, type?: GlobalMessageType) {
+  private showGlobalMessage(text: string) {
     this.messageService.add(
-      { key },
-      type ?? GlobalMessageType.MSG_TYPE_CONFIRMATION
+      { key: text },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }
 

@@ -112,15 +112,12 @@ export abstract class RulebasedConfiguratorAdapter {
   ): Observable<Configurator.Overview>;
 
   /**
-   * Abstract method to get the supported configurator type
+   * Abstract method to get configuration overview
    *
+   * @param configId configuration id
+   * @param owner configuration owner
    */
   abstract getConfiguratorType(): string;
-
-  /**
-   * Abstract method to check if the adapter supports to call CPQ over OCC. Only relevant for adapters supporting @see ConfiguratorType.CPQ
-   */
-  abstract supportsCpqOverOcc?(): boolean;
 
   /**
    * Searches for variants that are matching the configuration identified by its id.

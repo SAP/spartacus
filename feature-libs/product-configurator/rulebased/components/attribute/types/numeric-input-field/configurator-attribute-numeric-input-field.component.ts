@@ -8,31 +8,24 @@ import { getLocaleId } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
   isDevMode,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import {
-  FeatureConfigService,
-  LoggerService,
-  TranslationService,
-} from '@spartacus/core';
+import { TranslationService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { timer } from 'rxjs';
 import { debounce, take } from 'rxjs/operators';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 class DefaultSettings {
   numDecimalPlaces: number;
@@ -55,49 +48,14 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   intervals: ConfiguratorAttributeNumericInterval[] = [];
   language: string;
 
-  protected logger = inject(LoggerService);
-
-  constructor(
-    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    config: ConfiguratorUISettingsConfig,
-    translation: TranslationService,
-    attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    configuratorCommonsService: ConfiguratorCommonsService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfigService: FeatureConfigService
-  );
-
-  /**
-   * @deprecated since 6.2
-   */
-  constructor(
-    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    config: ConfiguratorUISettingsConfig,
-    translation: TranslationService,
-    attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    configuratorCommonsService: ConfiguratorCommonsService
-  );
-
-  // TODO (CXSPA-3392): make ConfiguratorStorefrontUtilsService a required dependency
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
     protected config: ConfiguratorUISettingsConfig,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    @Optional()
-    protected configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService,
-    // TODO:(CXSPA-3392) for next major release remove feature config service
-    @Optional() protected featureConfigService?: FeatureConfigService
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
-    super(
-      config,
-      attributeComponentContext,
-      configuratorCommonsService,
-      configuratorStorefrontUtilsService
-    );
+    super(config, attributeComponentContext, configuratorCommonsService);
     this.language = attributeComponentContext.language;
   }
 
@@ -112,45 +70,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     return wrongFormat;
   }
 
-  /**
-   * Do we need to display a validation message concerning intervals
-   */
-  mustDisplayIntervalMessage(): boolean {
-    const intervalNotMet: boolean =
-      (this.attributeInputForm.dirty || this.attributeInputForm.touched) &&
-      this.attributeInputForm.errors?.intervalNotMet;
-    return intervalNotMet;
-  }
-
   ngOnInit() {
-    this.initializeValidation();
-
-    if (this.attribute.userInput) {
-      this.attributeInputForm.setValue(this.attribute.userInput);
-    }
-
-    if (
-      this.ownerType === CommonConfigurator.OwnerType.CART_ENTRY &&
-      this.attribute.required &&
-      this.attribute.incomplete &&
-      !this.attributeInputForm.value
-    ) {
-      this.attributeInputForm.markAsTouched();
-    }
-
-    this.sub = this.attributeInputForm.valueChanges
-      .pipe(
-        debounce(() =>
-          timer(
-            this.config.productConfigurator?.updateDebounceTime?.input ??
-              this.FALLBACK_DEBOUNCE_TIME
-          )
-        )
-      )
-      .subscribe(() => this.onChange());
-  }
-
-  protected initializeValidation() {
     //locales are available as 'languages' in the commerce backend
     this.locale = this.getInstalledLocale(this.language);
 
@@ -171,42 +91,20 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       numTotalLength = defaultSettings.numTotalLength;
       negativeAllowed = defaultSettings.negativeAllowed;
       if (isDevMode()) {
-        this.logger.warn(
+        console.warn(
           'Meta data for numeric attribute not present, falling back to defaults'
         );
       }
     }
-    if (this.attribute.intervalInDomain) {
-      this.intervals =
-        this.configAttributeNumericInputFieldService.getIntervals(
-          this.attribute.values
-        );
-    }
 
-    const numberFormatValidator =
+    this.attributeInputForm = new UntypedFormControl('', [
       this.configAttributeNumericInputFieldService.getNumberFormatValidator(
         this.locale,
         numDecimalPlaces,
         numTotalLength,
         negativeAllowed
-      );
-
-    // TODO (CXSPA-3392): for next major release remove feature level
-    const validatorArray = this.featureConfigService?.isLevel('6.2')
-      ? [
-          numberFormatValidator,
-          this.configAttributeNumericInputFieldService.getIntervalValidator(
-            this.locale,
-            numDecimalPlaces,
-            numTotalLength,
-            negativeAllowed,
-            this.intervals,
-            this.attribute.userInput
-          ),
-        ]
-      : [numberFormatValidator];
-
-    this.attributeInputForm = new UntypedFormControl('', validatorArray);
+      ),
+    ]);
 
     this.numericFormatPattern =
       this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
@@ -215,6 +113,36 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         negativeAllowed,
         this.locale
       );
+    if (this.attribute.userInput) {
+      this.attributeInputForm.setValue(this.attribute.userInput);
+    }
+
+    if (
+      this.ownerType === CommonConfigurator.OwnerType.CART_ENTRY &&
+      this.attribute.required &&
+      this.attribute.incomplete &&
+      !this.attributeInputForm.value
+    ) {
+      this.attributeInputForm.markAsTouched();
+    }
+
+    if (this.attribute.intervalInDomain) {
+      this.intervals =
+        this.configAttributeNumericInputFieldService.getIntervals(
+          this.attribute.values
+        );
+    }
+
+    this.sub = this.attributeInputForm.valueChanges
+      .pipe(
+        debounce(() =>
+          timer(
+            this.config.productConfigurator?.updateDebounceTime?.input ??
+              this.FALLBACK_DEBOUNCE_TIME
+          )
+        )
+      )
+      .subscribe(() => this.onChange());
   }
 
   ngOnDestroy() {
@@ -438,7 +366,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   protected reportMissingLocaleData(lang: string): void {
     if (isDevMode()) {
-      this.logger.warn(
+      console.warn(
         `ConfigAttributeNumericInputFieldComponent: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
       );
     }

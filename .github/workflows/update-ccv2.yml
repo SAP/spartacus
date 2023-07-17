@@ -6,12 +6,14 @@ on:
         default: spa_p4
         required: true
       source_branch_to_deploy:
-        description: source branch to deploy on ccv2 (repo default branch if left empty)
+        description: source branch to deploy on ccv2
+        default: develop
+        required: true
 
 name: Update ccv2 repo with unreleased Spartacus
 
 env:
-  DEFAULT_BRANCH_TO_DEPLOY: ${{ github.event.repository.default_branch }}
+  DEFAULT_BRANCH_TO_DEPLOY: 'develop'
 
 jobs:
   deploy_to_ccv2: 
@@ -34,6 +36,8 @@ jobs:
             node_modules
           key: nodemodules-${{ steps.branch-to-deploy-commit-id.outputs.commit_hash }}
           restore-keys: nodemodules-${{ steps.branch-to-deploy-commit-id.outputs.commit_hash }}
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@15
       - name: Package installation
         run: npm ci
       - name: Update ccv2 environment with source

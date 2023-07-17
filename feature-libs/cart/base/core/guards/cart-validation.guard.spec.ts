@@ -12,7 +12,7 @@ import {
   RouterState,
   SemanticPathService,
 } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import { CartConfigService } from '../services/cart-config.service';
 import { CartValidationStateService } from '../services/cart-validation-state.service';
 import { CartValidationGuard } from './cart-validation.guard';
@@ -70,7 +70,7 @@ class MockCartValidationStateService
   navigationIdCount = 0;
 
   cartValidationResult$ = new ReplaySubject<CartModification[]>();
-  checkForValidationResultClear$ = EMPTY as Observable<
+  checkForValidationResultClear$ = of() as Observable<
     [RouterState, CartModification[]]
   >;
 

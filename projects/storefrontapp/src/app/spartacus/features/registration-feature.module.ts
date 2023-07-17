@@ -22,9 +22,9 @@ import {
       featureModules: {
         [ORGANIZATION_USER_REGISTRATION_FEATURE]: {
           module: () =>
-            import(
-              './organization/organization-user-registration-wrapper.module'
-            ).then((m) => m.OrganizationUserRegistrationWrapperModule),
+            import('@spartacus/organization/user-registration').then(
+              (m) => m.OrganizationUserRegistrationModule
+            ),
         },
       },
     }),

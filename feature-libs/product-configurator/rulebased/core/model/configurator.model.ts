@@ -281,5 +281,4 @@ export namespace Configurator {
   export const ConflictIdPrefix = 'CONFLICT';
   export const ConflictHeaderId = 'CONFLICT_HEADER';
   export const CustomUiTypeIndicator = '___';
-  export const RetractValueCode = '###RETRACT_VALUE_CODE###';
 }

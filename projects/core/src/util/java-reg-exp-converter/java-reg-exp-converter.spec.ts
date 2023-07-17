@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { LoggerService } from '../../logger';
 import { JavaRegExpConverter } from './java-reg-exp-converter';
 
 /**
@@ -15,7 +14,6 @@ import { JavaRegExpConverter } from './java-reg-exp-converter';
  */
 describe(`JavaRegExpConverter`, () => {
   let converter: JavaRegExpConverter;
-  let logger: LoggerService;
 
   /**
    * Given the regexp input, it compares the result regexp with the expected one, using the `toString()` method.
@@ -38,9 +36,6 @@ describe(`JavaRegExpConverter`, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({});
     converter = TestBed.inject(JavaRegExpConverter);
-    logger = TestBed.inject(LoggerService);
-
-    spyOn(logger, 'warn');
   });
 
   describe(`toJsRegExp`, () => {
@@ -56,17 +51,13 @@ describe(`JavaRegExpConverter`, () => {
     });
 
     it(`should return null for unsupported JS modifiers`, () => {
+      spyOn(console, 'warn');
       test_toJsRegExp({ input: '(?iX)pattern', expected: null });
-      expect(logger.warn).toHaveBeenCalledWith(
-        'WARNING: Could not convert Java regexp into Javascript. Original regexp: (?iX)pattern \nMessage: SyntaxError: Invalid regular expression: /(?iX)pattern/: Invalid group'
-      );
     });
 
     it(`should return null for unsupported JS regexp features`, () => {
+      spyOn(console, 'warn');
       test_toJsRegExp({ input: 'x*+', expected: null });
-      expect(logger.warn).toHaveBeenCalledWith(
-        'WARNING: Could not convert Java regexp into Javascript. Original regexp: x*+ \nMessage: SyntaxError: Invalid regular expression: /x*+/: Nothing to repeat'
-      );
     });
 
     it(`should convert regexp when it's compatible in JS - with meta characters`, () => {

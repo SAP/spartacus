@@ -7,18 +7,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
   isDevMode,
   OnInit,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { LoggerService } from '@spartacus/core';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox-list',
@@ -32,8 +30,6 @@ export class ConfiguratorAttributeCheckBoxListComponent
   attributeCheckBoxForms = new Array<UntypedFormControl>();
 
   group: string;
-
-  protected logger = inject(LoggerService);
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
@@ -108,7 +104,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
 
     if (!value) {
       if (isDevMode()) {
-        this.logger.warn('no value for event:', eventObject);
+        console.warn('no value for event:', eventObject);
       }
 
       return;

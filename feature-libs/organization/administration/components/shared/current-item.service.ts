@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
 
 /**
  * Abstract Base class for all organization entities. This class simplifies
@@ -27,10 +27,9 @@ export abstract class CurrentItemService<T> {
    * To allow for specific ("semantic") route parameters, the route parameter _key_ is
    * retrieved from the `getParamKey`.
    */
-  readonly key$: Observable<string> = this.routingService.getParams().pipe(
-    map((params) => params[this.getParamKey()]),
-    distinctUntilChanged()
-  );
+  readonly key$: Observable<string> = this.routingService
+    .getParams()
+    .pipe(pluck(this.getParamKey()), distinctUntilChanged());
 
   /**
    * Observes the active item.
@@ -44,10 +43,9 @@ export abstract class CurrentItemService<T> {
   /**
    * Observes the b2bUnit based on the unitCode route parameter.
    */
-  readonly b2bUnit$: Observable<string> = this.routingService.getParams().pipe(
-    map((params) => params[ROUTE_PARAMS.unitCode]),
-    distinctUntilChanged()
-  );
+  readonly b2bUnit$: Observable<string> = this.routingService
+    .getParams()
+    .pipe(pluck(ROUTE_PARAMS.unitCode), distinctUntilChanged());
 
   /**
    * Returns the route parameter key for the item. The route parameter key differs

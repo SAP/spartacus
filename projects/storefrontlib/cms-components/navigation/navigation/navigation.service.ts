@@ -11,7 +11,7 @@ import {
   CmsService,
   SemanticPathService,
 } from '@spartacus/core';
-import { combineLatest, EMPTY, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { NavigationNode } from './navigation-node.model';
 
@@ -46,7 +46,7 @@ export class NavigationService {
     data$: Observable<CmsNavigationComponent>
   ): Observable<NavigationNode> {
     if (!data$) {
-      return EMPTY;
+      return of();
     }
     return data$.pipe(
       filter((data) => !!data),

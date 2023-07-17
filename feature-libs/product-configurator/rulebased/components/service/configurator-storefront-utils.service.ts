@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject, isDevMode } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { LoggerService, WindowRef } from '@spartacus/core';
+import { WindowRef } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -28,8 +28,6 @@ export class ConfiguratorStorefrontUtilsService {
    * See _configurator-add-to-cart-button.scss
    */
   protected readonly ADD_TO_CART_BUTTON_HEIGHT = 82;
-
-  protected logger = inject(LoggerService);
 
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
@@ -84,7 +82,7 @@ export class ConfiguratorStorefrontUtilsService {
         localAssembledValues.push(localAttributeValue);
       } else {
         if (isDevMode()) {
-          this.logger.warn(
+          console.warn(
             'ControlArray does not match values, at least one value could not been found'
           );
         }
@@ -460,7 +458,8 @@ export class ConfiguratorStorefrontUtilsService {
     if (element && container) {
       if (element.offsetTop > container.scrollTop) {
         const offsetBottom = element.offsetTop + element.offsetHeight;
-        if (offsetBottom > container.scrollTop) {
+        const containerBottom = container.scrollTop + container.offsetHeight;
+        if (offsetBottom > containerBottom) {
           container.scrollTop = offsetBottom - container.offsetHeight;
         }
       } else {

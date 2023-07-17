@@ -5,23 +5,22 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   AuthActions,
   B2BUser,
   B2BUserRole,
   EntitiesModel,
-  LoggerService,
+  normalizeHttpError,
   RouterState,
   RoutingService,
   StateUtils,
   User,
   UserIdService,
-  normalizeHttpError,
 } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, from, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import {
   catchError,
   groupBy,
@@ -37,16 +36,14 @@ import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';
 import {
   B2BUserActions,
-  OrgUnitActions,
   OrganizationActions,
+  OrgUnitActions,
   PermissionActions,
   UserGroupActions,
 } from '../actions/index';
 
 @Injectable()
 export class B2BUserEffects {
-  protected logger = inject(LoggerService);
-
   loadB2BUser$: Observable<
     B2BUserActions.LoadB2BUserSuccess | B2BUserActions.LoadB2BUserFail
   > = createEffect(() =>
@@ -62,7 +59,7 @@ export class B2BUserEffects {
             of(
               new B2BUserActions.LoadB2BUserFail({
                 orgCustomerId,
-                error: normalizeHttpError(error, this.logger),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -116,7 +113,7 @@ export class B2BUserEffects {
             from([
               new B2BUserActions.CreateB2BUserFail({
                 orgCustomerId: orgCustomer.customerId ?? '',
-                error: normalizeHttpError(error, this.logger),
+                error: normalizeHttpError(error),
               }),
               new OrganizationActions.OrganizationClearData(),
             ])
@@ -161,7 +158,7 @@ export class B2BUserEffects {
               from([
                 new B2BUserActions.UpdateB2BUserFail({
                   orgCustomerId: orgCustomer.customerId ?? '',
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -227,7 +224,7 @@ export class B2BUserEffects {
             of(
               new B2BUserActions.LoadB2BUsersFail({
                 params: payload.params,
-                error: normalizeHttpError(error, this.logger),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -276,7 +273,7 @@ export class B2BUserEffects {
                     new B2BUserActions.LoadB2BUserApproversFail({
                       orgCustomerId: payload.orgCustomerId,
                       params: payload.params,
-                      error: normalizeHttpError(error, this.logger),
+                      error: normalizeHttpError(error),
                     })
                   )
                 )
@@ -327,7 +324,7 @@ export class B2BUserEffects {
                     new B2BUserActions.LoadB2BUserPermissionsFail({
                       orgCustomerId: payload.orgCustomerId,
                       params: payload.params,
-                      error: normalizeHttpError(error, this.logger),
+                      error: normalizeHttpError(error),
                     })
                   )
                 )
@@ -378,7 +375,7 @@ export class B2BUserEffects {
                     new B2BUserActions.LoadB2BUserUserGroupsFail({
                       orgCustomerId: payload.orgCustomerId,
                       params: payload.params,
-                      error: normalizeHttpError(error, this.logger),
+                      error: normalizeHttpError(error),
                     })
                   )
                 )
@@ -419,7 +416,7 @@ export class B2BUserEffects {
                 new B2BUserActions.AssignB2BUserApproverFail({
                   orgCustomerId: payload.orgCustomerId,
                   approverId: payload.approverId,
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -459,7 +456,7 @@ export class B2BUserEffects {
                 new B2BUserActions.UnassignB2BUserApproverFail({
                   orgCustomerId: payload.orgCustomerId,
                   approverId: payload.approverId,
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -497,7 +494,7 @@ export class B2BUserEffects {
                 new B2BUserActions.AssignB2BUserPermissionFail({
                   orgCustomerId: payload.orgCustomerId,
                   permissionId: payload.permissionId,
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -535,7 +532,7 @@ export class B2BUserEffects {
                 new B2BUserActions.UnassignB2BUserPermissionFail({
                   orgCustomerId: payload.orgCustomerId,
                   permissionId: payload.permissionId,
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -573,7 +570,7 @@ export class B2BUserEffects {
                 new B2BUserActions.AssignB2BUserUserGroupFail({
                   orgCustomerId: payload.orgCustomerId,
                   userGroupId: payload.userGroupId,
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -619,7 +616,7 @@ export class B2BUserEffects {
                 new B2BUserActions.UnassignB2BUserUserGroupFail({
                   orgCustomerId: payload.orgCustomerId,
                   userGroupId: payload.userGroupId,
-                  error: normalizeHttpError(error, this.logger),
+                  error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])

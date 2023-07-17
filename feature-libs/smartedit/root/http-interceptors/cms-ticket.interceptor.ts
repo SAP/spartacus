@@ -22,10 +22,7 @@ export class CmsTicketInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (
-      this.service.cmsTicketId &&
-      (request.url.includes('/cms/') || request.url.includes('/products/'))
-    ) {
+    if (this.service.cmsTicketId && request.url.includes('/cms/')) {
       request = request.clone({
         setParams: {
           cmsTicketId: this.service.cmsTicketId,

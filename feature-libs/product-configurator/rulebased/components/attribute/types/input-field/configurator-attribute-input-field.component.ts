@@ -9,18 +9,17 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { Observable, of, Subscription, timer } from 'rxjs';
-import { debounce, map } from 'rxjs/operators';
+import { Subscription, timer } from 'rxjs';
+import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-attribute-input-field',
@@ -36,11 +35,8 @@ export class ConfiguratorAttributeInputFieldComponent
 
   attribute: Configurator.Attribute;
   group: string;
-  owner: CommonConfigurator.Owner;
   ownerKey: string;
   ownerType: CommonConfigurator.OwnerType;
-
-  showRequiredErrorMessage$: Observable<boolean> = of(false);
 
   /**
    * In case no config is injected, or when the debounce time is not configured at all,
@@ -48,52 +44,16 @@ export class ConfiguratorAttributeInputFieldComponent
    */
   protected readonly FALLBACK_DEBOUNCE_TIME = 500;
 
-  // TODO (CXSPA-3392): make ConfiguratorStorefrontUtilsService a required dependency
-  constructor(
-    config: ConfiguratorUISettingsConfig,
-    attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    configuratorCommonsService: ConfiguratorCommonsService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService
-  );
-
-  /**
-   * @deprecated since 6.2
-   */
-  constructor(
-    config: ConfiguratorUISettingsConfig,
-    attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    configuratorCommonsService: ConfiguratorCommonsService
-  );
-
-  // TODO (CXSPA-3392): make ConfiguratorStorefrontUtilsService a required dependency
   constructor(
     protected config: ConfiguratorUISettingsConfig,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    @Optional()
-    protected configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super();
-
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
-    this.owner = attributeComponentContext.owner;
     this.ownerKey = attributeComponentContext.owner.key;
     this.ownerType = attributeComponentContext.owner.type;
-
-    if (this.configuratorStorefrontUtilsService) {
-      this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
-        .isCartEntryOrGroupVisited(this.owner, this.group)
-        .pipe(
-          map((result) =>
-            result
-              ? this.isRequiredErrorMsg(this.attribute) &&
-                this.isUserInput(this.attribute)
-              : false
-          )
-        );
-    }
   }
 
   ngOnInit() {
@@ -139,23 +99,14 @@ export class ConfiguratorAttributeInputFieldComponent
   }
 
   /**
-   * Verifies if the user input has a non-blank value.
-   * @returns {boolean} - 'True' if the user input is undefined, empty or contains only blanks, otherwise 'false'.
-   */
-  get isUserInputEmpty(): boolean {
-    return (
-      !this.attribute.userInput || this.attribute.userInput.trim().length === 0
-    );
-  }
-
-  /**
    * Checks if the component needs to be marked as required.
    * This is never the case if it is used as sub component for an attribute type which allows an additional value
    * @returns Required?
    */
   get isRequired(): boolean {
-    return this.isUserInput(this.attribute)
-      ? this.attribute.required ?? false
-      : false;
+    const isNonDomainAttributeType =
+      this.attribute.uiType === Configurator.UiType.STRING ||
+      this.attribute.uiType === Configurator.UiType.NUMERIC;
+    return isNonDomainAttributeType ? this.attribute.required ?? false : false;
   }
 }

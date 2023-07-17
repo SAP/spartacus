@@ -9,14 +9,9 @@ import {
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  I18nTestingModule,
-  QueryState,
-} from '@spartacus/core';
+import { I18nTestingModule, QueryState } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
@@ -42,11 +37,11 @@ class MockCheckoutDeliveryModeService
   implements Partial<CheckoutDeliveryModesFacade>
 {
   loadSupportedDeliveryModes = createSpy();
-  setDeliveryMode = createSpy().and.returnValue(EMPTY);
+  setDeliveryMode = createSpy().and.returnValue(of());
   getSupportedDeliveryModes = () => supportedDeliveryModes$.asObservable();
   getSelectedDeliveryModeState = () =>
     selectedDeliveryModeState$.asObservable();
-  getLoadSupportedDeliveryModeProcess = createSpy().and.returnValue(EMPTY);
+  getLoadSupportedDeliveryModeProcess = createSpy().and.returnValue(of());
 }
 
 const preferredDeliveryMode$ = new BehaviorSubject<string | undefined>('');
@@ -93,17 +88,11 @@ class MockCartService implements Partial<ActiveCartFacade> {
   getPickupEntries = createSpy().and.returnValue(of([]));
 }
 
-class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add() {}
-}
-
 describe('CheckoutDeliveryModeComponent', () => {
   let component: CheckoutDeliveryModeComponent;
   let fixture: ComponentFixture<CheckoutDeliveryModeComponent>;
   let checkoutConfigService: CheckoutConfigService;
   let checkoutStepService: CheckoutStepService;
-  let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
-  let globalMessageService: GlobalMessageService;
 
   beforeEach(
     waitForAsync(() => {
@@ -122,13 +111,10 @@ describe('CheckoutDeliveryModeComponent', () => {
           },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
           { provide: ActiveCartFacade, useClass: MockCartService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
       }).compileComponents();
 
       checkoutConfigService = TestBed.inject(CheckoutConfigService);
-      checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
-      globalMessageService = TestBed.inject(GlobalMessageService);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
@@ -165,25 +151,6 @@ describe('CheckoutDeliveryModeComponent', () => {
     );
     expect(component.mode.controls['deliveryModeId'].value).toBe(
       mockDeliveryMode1.code
-    );
-  });
-
-  it('should show error message if setDeliveryMode fail', () => {
-    const showErrorMessageSpy = spyOn(
-      globalMessageService,
-      'add'
-    ).and.callThrough();
-    checkoutDeliveryModesFacade.setDeliveryMode = createSpy().and.returnValue(
-      throwError('error')
-    );
-
-    component.changeMode('pickup');
-
-    expect(showErrorMessageSpy).toHaveBeenCalledWith(
-      {
-        key: 'setDeliveryMode.unknownError',
-      },
-      GlobalMessageType.MSG_TYPE_ERROR
     );
   });
 
@@ -258,18 +225,6 @@ describe('CheckoutDeliveryModeComponent', () => {
 
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
-    });
-
-    it('should be disabled when setDeliveryMode failed', () => {
-      checkoutDeliveryModesFacade.setDeliveryMode = createSpy().and.returnValue(
-        throwError('error')
-      );
-
-      component.changeMode('pickup');
-
-      fixture.detectChanges();
-
-      expect(getContinueBtn().nativeElement.disabled).toBe(true);
     });
 
     it('should call "next" function after being clicked', () => {

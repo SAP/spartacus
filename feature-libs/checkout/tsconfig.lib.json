@@ -92,8 +92,7 @@
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
     "enableResourceInlining": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": false
+    "strictInputAccessModifiers": true
   },
   "exclude": ["test.ts", "setup-jest.ts", "**/*.spec.ts"]
 }

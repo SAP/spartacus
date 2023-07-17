@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject, isDevMode } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import {
   ProductImportInfo,
   ProductImportStatus,
 } from '@spartacus/cart/base/root';
-import { LoggerService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CartActions } from '../store/actions';
@@ -20,7 +19,6 @@ import { CartActions } from '../store/actions';
   providedIn: 'root',
 })
 export class ProductImportInfoService {
-  protected logger = inject(LoggerService);
   protected constructor(protected actionsSubject: ActionsSubject) {}
 
   /**
@@ -81,7 +79,7 @@ export class ProductImportInfoService {
       }
     }
     if (isDevMode()) {
-      this.logger.warn(
+      console.warn(
         'Unrecognized cart add entry action type while mapping messages',
         action
       );
