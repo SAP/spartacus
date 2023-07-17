@@ -5,6 +5,7 @@ exports[`Spartacus CDC schematics: ng-add CDC feature eager loading should impor
 import { CdcModule } from "@spartacus/cdc";
 import { cdcTranslationChunksConfig, cdcTranslations } from "@spartacus/cdc/assets";
 import { CdcAdministrationModule } from "@spartacus/cdc/organization/administration";
+import { CDCB2BRegisterModule } from "@spartacus/cdc/organization/user-registration";
 import { CdcConfig, CdcRootModule } from "@spartacus/cdc/root";
 import { CDCUserAccountModule } from "@spartacus/cdc/user-account";
 import { CDCUserProfileModule } from "@spartacus/cdc/user-profile";
@@ -17,7 +18,8 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
     CdcModule,
     CDCUserAccountModule,
     CDCUserProfileModule,
-    CdcAdministrationModule
+    CdcAdministrationModule,
+    CDCB2BRegisterModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
@@ -125,6 +127,22 @@ import { AdministrationModule } from "@spartacus/organization/administration";
   ]
 })
 export class AdministrationWrapperModule { }
+"
+`;
+
+exports[`Spartacus CDC schematics: ng-add CDC feature general setup should install the appropriate dependencies 4`] = `
+"import { NgModule } from '@angular/core';
+import { CDCB2BRegisterModule } from "@spartacus/cdc/organization/user-registration";
+import { OrganizationUserRegistrationModule } from "@spartacus/organization/user-registration";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    OrganizationUserRegistrationModule,
+    CDCB2BRegisterModule
+  ]
+})
+export class OrganizationUserRegistrationWrapperModule { }
 "
 `;
 
