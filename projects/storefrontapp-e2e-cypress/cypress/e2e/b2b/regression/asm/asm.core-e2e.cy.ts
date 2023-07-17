@@ -42,7 +42,7 @@ context('B2B - Assisted Service Module', () => {
 
       register(user, true);
 
-      asm.agentLogin('asagent', 'pw4all');
+      asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
 
       asm.startCustomerEmulation(user, true);
 
