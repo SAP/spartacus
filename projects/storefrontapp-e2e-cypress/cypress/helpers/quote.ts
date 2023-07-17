@@ -147,8 +147,10 @@ export function addCommentAndWait(text: string) {
   cy.wait(GET_QUOTE_ALIAS);
 }
 
-export function checkComment(index: number, text: string){
-  cy.get('cx-quote-details-comment .cx-message-card div[role="listitem"]').eq(index).should('contain.text', text);
+export function checkComment(index: number, text: string) {
+  cy.get('cx-quote-details-comment .cx-message-card div[role="listitem"]')
+    .eq(index)
+    .should('contain.text', text);
 }
 /**
  * Register quote route.
