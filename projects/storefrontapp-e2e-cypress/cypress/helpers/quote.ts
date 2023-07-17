@@ -4,8 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { POWERTOOLS_BASESITE } from '../sample-data/b2b-checkout';
 import * as authentication from './auth-forms';
 import * as common from './common';
+
+export const GET_QUOTE_ALIAS = '@GET_QUOTE';
 
 /**
  * Sets quantity on PDP
@@ -121,6 +124,11 @@ export function navigateToQuoteListFromQuoteDetails() {
   });
 }
 
+/**
+ *
+ * @param meetsThreshold
+ * @param productId
+ */
 export function checkQuoteInDraftState(
   meetsThreshold: boolean,
   productId: string
@@ -129,4 +137,25 @@ export function checkQuoteInDraftState(
   this.checkGlobalMessageDisplayed(!meetsThreshold);
   this.checkSubmitButton(meetsThreshold);
   cy.get('.cx-code').should('contain.text', productId);
+}
+
+export function addCommentAndWait(text: string) {
+  cy.get('cx-quote-details-comment .cx-message-input').within(() => {
+    cy.get('input').type(text);
+    cy.get('button').click();
+  });
+  cy.wait(GET_QUOTE_ALIAS);
+}
+
+export function checkComment(index: number, text: string){
+  cy.get('cx-quote-details-comment .cx-message-card div[role="listitem"]').eq(index).should('contain.text', text);
+}
+/**
+ * Register quote route.
+ */
+export function registerGetQuoteRoute(shopName: string) {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/current/quotes/*`,
+  }).as(GET_QUOTE_ALIAS.substring(1)); // strip the '@'
 }

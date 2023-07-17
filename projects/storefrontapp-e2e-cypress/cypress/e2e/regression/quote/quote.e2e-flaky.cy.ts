@@ -26,6 +26,7 @@ context('Quote', () => {
     cy.cxConfig(globalMessageSettings);
     cy.visit('/');
     quote.login(EMAIL, PASSWORD, USER);
+    quote.registerGetQuoteRoute(POWERTOOLS);
   });
 
   describe('Request quote process', () => {
@@ -37,14 +38,14 @@ context('Quote', () => {
     it('should be possible(submit) if threshold is met', () => {
       quote.requestQuote(POWERTOOLS, testProductHammerDrilling, '30');
       quote.checkQuoteInDraftState(true, testProductHammerDrilling);
+      quote.addCommentAndWait("Can you please make me a good offer for this large volume of goods?");
+      quote.checkComment(0,"Can you please make me a good offer for this large volume of goods?");
 
-      // add comment
-
-      // check comment displayed
-
-      // submit
-
+      // submit quote
+      
+      // check quote status
       // check comment not editable
+
     });
   });
 
