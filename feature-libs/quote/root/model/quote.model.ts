@@ -12,7 +12,7 @@ export interface OccQuote {
   allowedActions?: QuoteActionType[];
   cartId?: string;
   code: string;
-  comments: Comment[];
+  comments?: Comment[];
   creationTime?: Date;
   description: string;
   entries?: OrderEntry[];

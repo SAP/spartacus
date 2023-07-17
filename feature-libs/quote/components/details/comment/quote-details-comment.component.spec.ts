@@ -16,6 +16,7 @@ import {
 import { Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
+import { cold } from 'jasmine-marbles';
 
 const QUOTE_CODE = 'q123';
 
@@ -129,6 +130,7 @@ describe('QuoteDetailsVendorContactComponent', () => {
   });
 
   it('should pipe quote comments to message events', () => {
+    quote.comments = [];
     quote.comments.push({});
     quote.comments.push({});
     component.messageEvents$
@@ -246,6 +248,13 @@ describe('QuoteDetailsVendorContactComponent', () => {
       expect(component.messagingConfigs.newMessagePlaceHolder).toEqual(
         'quote.comments.invalidComment'
       );
+    });
+  });
+
+  describe('prepareMessageEvents', () => {
+    it('should be able to handle undefined comments in model', () => {
+      const eventsObs = component['prepareMessageEvents']();
+      expect(eventsObs).toBeObservable(cold('(a|)', { a: [] }));
     });
   });
 });

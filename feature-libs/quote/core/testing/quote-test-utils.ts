@@ -16,7 +16,6 @@ export function createEmptyQuote(): Quote {
     name: 'Quote',
     allowedActions: [],
     totalPrice: {},
-    comments: [],
     description: 'Quote description',
     isEditable: true,
   };
