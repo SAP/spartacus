@@ -26,6 +26,7 @@ describe('Asm360Service', () => {
             rating: '3',
             reviewStatus: '',
             reviewText: '',
+            localizedReviewStatus: '',
           },
         ],
       },
