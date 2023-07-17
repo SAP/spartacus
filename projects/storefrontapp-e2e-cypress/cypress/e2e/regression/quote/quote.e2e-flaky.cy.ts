@@ -48,7 +48,7 @@ context('Quote', () => {
     });
   });
 
-  // these test should be removed, as soon as Quote list navigation is part of the above process tests
+  // these tests should be removed, as soon as the quote list navigation is part of the above process tests
   describe('Quote list', () => {
     it('should be accessible from My Account', () => {
       quote.navigateToQuoteListFromMyAccount();
