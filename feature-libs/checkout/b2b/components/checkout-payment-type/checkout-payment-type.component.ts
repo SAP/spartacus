@@ -47,6 +47,7 @@ export class CheckoutPaymentTypeComponent {
   protected busy$ = new BehaviorSubject<boolean>(false);
 
   typeSelected?: string;
+  paymentTypesError = false;
 
   isUpdating$ = combineLatest([
     this.busy$,
@@ -61,6 +62,7 @@ export class CheckoutPaymentTypeComponent {
   paymentTypes$: Observable<PaymentType[]> = this.checkoutPaymentTypeFacade
     .getPaymentTypes()
     .pipe(
+      tap(() => (this.paymentTypesError = false)),
       catchError((error: HttpErrorModel) => {
         if (
           error.details?.[0]?.type === OccHttpErrorType.CLASS_MISMATCH_ERROR
@@ -69,6 +71,7 @@ export class CheckoutPaymentTypeComponent {
             { key: 'httpHandlers.forbidden' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
+          this.paymentTypesError = true;
         }
         return of([]);
       })
