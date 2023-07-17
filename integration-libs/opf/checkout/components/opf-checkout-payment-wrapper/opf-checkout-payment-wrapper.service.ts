@@ -68,20 +68,10 @@ export class OpfCheckoutPaymentWrapperService {
      * Verify first if customer is still on the payment and review page.
      * Then execute script extracted from HTML to render payment provider gateway.
      */
-    this.routingService
-      .getRouterState()
-      .pipe(
-        take(1),
-        filter(
-          (route) =>
-            route.state.semanticRoute === this.CHECKOUT_REVIEW_SEMANTIC_ROUTE
-        )
-      )
-      .subscribe(() => {
-        setTimeout(() => {
-          this.opfResourceLoaderService.executeScriptFromHtml(html);
-        });
-      });
+
+    setTimeout(() => {
+      this.opfResourceLoaderService.executeScriptFromHtml(html);
+    });
   }
 
   getRenderPaymentMethodEvent(): Observable<OpfRenderPaymentMethodEvent> {
