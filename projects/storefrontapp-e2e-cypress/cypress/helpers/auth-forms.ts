@@ -69,14 +69,21 @@ export function registerWithCaptcha(
   hiddenConsent?
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.get('button[type="submit"]').click();
+  // Register a user without confirming captcha will have an error.
+  cy.get('cx-form-errors').should('contain', 'This field is required');
+  cy.intercept('POST', /\.*\/userverify\?k=.*/).as('confirm');
+  // Confirming captcha
   cy.get('iframe')
     .first()
     .then((recaptchaIframe) => {
       const body = recaptchaIframe.contents();
       cy.wrap(body).find('#recaptcha-anchor').click();
     });
-  cy.wait(3000);
+  cy.wait('@confirm');
   cy.get('button[type="submit"]').click();
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function login(username: string, password: string) {
