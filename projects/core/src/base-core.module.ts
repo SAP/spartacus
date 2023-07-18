@@ -20,6 +20,7 @@ import { ProcessModule } from './process/process.module';
 import { SiteContextModule } from './site-context/site-context.module';
 import { StateModule } from './state/state.module';
 import { HttpErrorHandlerModule } from './error-handling';
+import { EffectsErrorHandlerModule } from "./error-handling/effects-error-handler/effects-error-handler.module";
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { HttpErrorHandlerModule } from './error-handling';
 
     /* This module should be imported by default starting from version 7.0 (CXSPA-3680)*/
     //ErrorHandlingModule.forRoot(),
+    EffectsErrorHandlerModule.forRoot()
   ],
 })
 export class BaseCoreModule {
