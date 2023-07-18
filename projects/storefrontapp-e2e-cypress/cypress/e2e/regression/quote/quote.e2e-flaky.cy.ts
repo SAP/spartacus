@@ -45,11 +45,9 @@ context('Quote', () => {
         0,
         'Can you please make me a good offer for this large volume of goods?'
       );
-
-      // submit quote
-
-      // check quote status
-      // check comment not editable
+      quote.submitQuote();
+      quote.checkQuoteState('Submitted');
+      quote.checkCommentsNotEditable();
     });
   });
 

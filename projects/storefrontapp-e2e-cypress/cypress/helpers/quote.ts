@@ -60,6 +60,30 @@ export function requestQuote(
   this.clickOnRequestQuoteInCart();
 }
 
+export function submitQuote(): void {
+  clickOnSubmitQuoteBtnOnQD();
+  clickOnYesBtnOnQuoteSubmitPopUp();
+}
+
+/**
+ * Clicks on 'Submit Quote' on the quote overview page.
+ */
+export function clickOnSubmitQuoteBtnOnQD(): void {
+  cy.get('cx-quote-actions-by-role button.btn-primary')
+    .click()
+    .then(() => {
+      cy.get('cx-quote-confirm-request-dialog').should('be.visible');
+    });
+}
+
+/**
+ * Clicks on 'Yes' on the quote confirm request dialog  popup.
+ */
+export function clickOnYesBtnOnQuoteSubmitPopUp(): void {
+  cy.get('div.cx-dialog-item button.btn-primary').click();
+  cy.wait(GET_QUOTE_ALIAS);
+}
+
 /**
  * Checks on the global message on the top of the page.
  */
@@ -80,6 +104,10 @@ export function checkSubmitButton(isEnabled: boolean): void {
   } else {
     cy.get('button.btn-primary').should('be.disabled');
   }
+}
+
+export function checkCommentsNotEditable(): void {
+  cy.get('cx-quote-details-comment .cx-message-input').should('not.exist');
 }
 
 /**
@@ -133,10 +161,14 @@ export function checkQuoteInDraftState(
   meetsThreshold: boolean,
   productId: string
 ) {
-  cy.get('.cx-quote-details-header-status').should('contain.text', 'Draft');
+  checkQuoteState('Draft');
   this.checkGlobalMessageDisplayed(!meetsThreshold);
   this.checkSubmitButton(meetsThreshold);
   cy.get('.cx-code').should('contain.text', productId);
+}
+
+export function checkQuoteState(status: string) {
+  cy.get('cx-quote-details-overview h3.status').contains(status);
 }
 
 /**
