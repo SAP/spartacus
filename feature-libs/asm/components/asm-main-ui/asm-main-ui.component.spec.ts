@@ -472,6 +472,9 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
       'testuser'
     );
+    spyOn(asmComponentService, 'getDeepLinkUrlParams').and.returnValue({
+      customerId: 'testuser',
+    });
 
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
@@ -489,6 +492,9 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmComponentService, 'isEmulatedByDeepLink').and.returnValue(
       new BehaviorSubject(false)
     );
+    spyOn(asmComponentService, 'getDeepLinkUrlParams').and.returnValue({
+      customerId: 'newuser',
+    });
 
     const oldUser = { customerId: 'olduser', name: 'Test old User' } as User;
     const newUser = { customerId: 'newuser', name: 'Test new User' } as User;
@@ -513,6 +519,9 @@ describe('AsmMainUiComponent', () => {
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     spyOn(asmComponentService, 'logoutCustomer').and.stub();
+    spyOn(asmComponentService, 'getDeepLinkUrlParams').and.returnValue({
+      customerId: testCustomerId,
+    });
     spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
       testCustomerId
     );
@@ -545,33 +554,35 @@ describe('AsmMainUiComponent', () => {
     }, 200);
   });
 
-  it('should call naviate to home page when isEmulatedByDeepLink return true', () => {
+  it('should call navigate to home page when isEmulatedByDeepLink return true', () => {
     spyOn(routingService, 'go').and.stub();
     dialogClose$.next({
       selectedUser: {},
       actionType: null,
     });
-    spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
+    spyOn(asmComponentService, 'isEmulateInURL').and.returnValue(true);
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
     spyOn(asmEnablerService, 'isEmulateInURL').and.returnValue(true);
     component.ngOnInit();
     expect(routingService.go).toHaveBeenCalledWith('/');
   });
 
-  it('should not call naviate to home page when isEmulatedByDeepLink return false', () => {
+  it('should not call navigate to home page when isEmulatedByDeepLink return false', () => {
     spyOn(routingService, 'go').and.stub();
     dialogClose$.next({
       selectedUser: {},
       actionType: null,
     });
-    spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
+    spyOn(asmComponentService, 'isEmulateInURL').and.returnValue(false);
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
     spyOn(asmEnablerService, 'isEmulateInURL').and.returnValue(false);
     component.ngOnInit();
     expect(routingService.go).not.toHaveBeenCalledWith('/');
   });
 
-  it('should call naviate to order details when starting session with orderId in parameters', () => {
+  it('should call navigate to order details when starting session with orderId in parameters', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.startCustomerEmulationSession(
@@ -585,7 +596,7 @@ describe('AsmMainUiComponent', () => {
     });
   });
 
-  it('should call naviate to order details when starting session with orderId and ticketId in parameters', () => {
+  it('should call navigate to order details when starting session with orderId and ticketId in parameters', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.startCustomerEmulationSession(
@@ -599,7 +610,7 @@ describe('AsmMainUiComponent', () => {
     });
   });
 
-  it('should call naviate to support ticket details when starting session with ticketId in parameters', () => {
+  it('should call navigate to support ticket details when starting session with ticketId in parameters', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.startCustomerEmulationSession(
@@ -613,7 +624,7 @@ describe('AsmMainUiComponent', () => {
     });
   });
 
-  it('should call naviate to saved cart when starting session with savedCartId in parameters', () => {
+  it('should call navigate to saved cart when starting session with savedCartId in parameters', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.startCustomerEmulationSession(
@@ -624,7 +635,7 @@ describe('AsmMainUiComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
   });
 
-  it('should call naviate to saved cart when starting session with savedCartId and ticketId in parameters', () => {
+  it('should call navigate to saved cart when starting session with savedCartId and ticketId in parameters', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.startCustomerEmulationSession(
@@ -646,7 +657,7 @@ describe('AsmMainUiComponent', () => {
     expect(routingService.go).not.toHaveBeenCalled();
   });
 
-  it('should not call naviate when starting session with inactive cartId and ticketId in parameters', () => {
+  it('should not call navigate when starting session with inactive cartId and ticketId in parameters', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.startCustomerEmulationSession(
