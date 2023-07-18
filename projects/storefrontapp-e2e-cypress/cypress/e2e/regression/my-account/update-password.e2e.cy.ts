@@ -101,13 +101,20 @@ describe('My Account - Update Password', () => {
       });
 
       it('should display server error if agent try to modify customer password', () => {
+        const customer = {
+          fullName:
+            standardUser.registrationData.firstName +
+            ' ' +
+            standardUser.registrationData.lastName,
+          email: standardUser.registrationData.email,
+        };
         cy.log('--> Agent logging in');
         checkout.visitHomePage('asm=true');
         cy.get('cx-asm-main-ui').should('exist');
         cy.get('cx-asm-main-ui').should('be.visible');
         asm.agentLogin('asagent', 'pw4all');
         cy.log('--> Starting customer emulation');
-        startCustomerEmulation(standardUser.registrationData);
+        asm.startCustomerEmulation(customer);
 
         cy.selectUserMenuOption({
           option: 'Password',
@@ -134,31 +141,3 @@ describe('My Account - Update Password', () => {
     });
   });
 });
-
-export function startCustomerEmulation(customer, b2b = false): void {
-  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
-  const userDetailsRequestAlias = asm.listenForUserDetailsRequest(b2b);
-
-  cy.get('cx-csagent-login-form').should('not.exist');
-  cy.get('cx-customer-selection').should('exist');
-  cy.get('cx-customer-selection form').within(() => {
-    cy.get('[formcontrolname="searchTerm"]')
-      .should('not.be.disabled')
-      .type(customer.email);
-    cy.get('[formcontrolname="searchTerm"]').should(
-      'have.value',
-      `${customer.email}`
-    );
-  });
-  cy.wait(customerSearchRequestAlias)
-    .its('response.statusCode')
-    .should('eq', 200);
-
-  cy.get('cx-customer-selection div.asm-results button').click();
-  cy.get('cx-customer-selection button[type="submit"]').click();
-
-  cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
-  cy.get('cx-csagent-login-form').should('not.exist');
-  cy.get('cx-customer-selection').should('not.exist');
-  cy.get('cx-customer-emulation').should('be.visible');
-}
