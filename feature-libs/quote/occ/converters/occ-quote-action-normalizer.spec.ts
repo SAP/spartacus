@@ -75,9 +75,8 @@ describe('OccQuoteActionNormalizer', () => {
 
     it('should set isEditable to false if edit is allowed by backend, but would require status change', () => {
       occQuote.allowedActions = [QuoteActionType.EDIT];
-      (quoteCoreConfig.quote?.actions?.actionsOrderByState ?? {}).BUYER_DRAFT = [
-        QuoteActionType.EDIT,
-      ];
+      (quoteCoreConfig.quote?.actions?.actionsOrderByState ?? {}).BUYER_DRAFT =
+        [QuoteActionType.EDIT];
       expect(service.convert(occQuote).isEditable).toBe(false);
     });
 
