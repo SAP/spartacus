@@ -16,6 +16,7 @@ context('Assisted Service Module', () => {
   });
 
   describe('Create Customer', () => {
+    const user = getSampleUser();
     it('should be able to create a new customer by agent click button (CXSPA-1594)', () => {
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
@@ -35,7 +36,6 @@ context('Assisted Service Module', () => {
       asm.asmOpenCreateCustomerDialogOnCustomerListDialog();
 
       cy.log('--> fill form');
-      let user = getSampleUser();
       asm.fillCreateCustomerForm(user);
 
       cy.log('--> submit form');
@@ -45,8 +45,6 @@ context('Assisted Service Module', () => {
         .should('eq', 201);
 
       cy.get('cx-customer-emulation').should('be.visible');
-
-      asm.agentSignOut();
 
       const backOfficeUrl =
         Cypress.env('BACK_OFFICE_URL') + Cypress.env('BACK_OFFICE_PREFIX');
@@ -120,7 +118,9 @@ context('Assisted Service Module', () => {
           'Saved items'
         );
       });
+    });
 
+    it('vertify login to Spartacus (CXSPA-1594)', () => {
       cy.log('--> Return to Spartacus to verify login');
       checkout.visitHomePage();
       cy.log('--> Log in to Spartacus');
@@ -150,8 +150,6 @@ context('Assisted Service Module', () => {
 
       cy.log('--> close create customer dialog');
       asm.asmCloseCreateCustomerDialog();
-
-      asm.agentSignOut();
     });
     it('should be not able to create a new customer with invalid user data by agent (CXSPA-1594)', () => {
       cy.log('--> Agent logging in');
@@ -206,8 +204,6 @@ context('Assisted Service Module', () => {
 
       cy.log('--> close create customer dialog');
       asm.asmCloseCreateCustomerDialog();
-
-      asm.agentSignOut();
     });
   });
 });
