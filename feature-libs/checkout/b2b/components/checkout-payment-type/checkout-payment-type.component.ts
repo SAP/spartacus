@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -65,7 +66,8 @@ export class CheckoutPaymentTypeComponent {
       tap(() => (this.paymentTypesError = false)),
       catchError((error: HttpErrorModel) => {
         if (
-          error.details?.[0]?.type === OccHttpErrorType.CLASS_MISMATCH_ERROR
+          error.details?.[0]?.type === OccHttpErrorType.CLASS_MISMATCH_ERROR &&
+          this.globalMessageService
         ) {
           this.globalMessageService.add(
             { key: 'httpHandlers.forbidden' },
@@ -138,7 +140,7 @@ export class CheckoutPaymentTypeComponent {
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
     protected activatedRoute: ActivatedRoute,
-    protected globalMessageService: GlobalMessageService
+    @Optional() protected globalMessageService?: GlobalMessageService
   ) {}
 
   changeType(code: string): void {
