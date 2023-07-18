@@ -6,7 +6,6 @@
 
 import * as quote from '../../../helpers/quote';
 import * as cart from '../../../helpers/cart';
-import * as common from '../../../helpers/common';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as configuratorOverview from '../../../helpers/product-configurator-overview';
 
@@ -26,10 +25,11 @@ context('Quote<->Configurator integration', () => {
 
   describe('Request quote process with VC configurable product', () => {
     it('should not allow to request quote if configuration has issues', () => {
-      common.goToPDPage(POWERTOOLS, testProductConfigurableWithIssues);
-      quote.setQtyOnPD('1');
-      common.clickOnAddToCartBtnOnPD();
-      common.clickOnViewCartBtnOnPD();
+      quote.addProductToCartForQuotePreparation(
+        POWERTOOLS,
+        testProductConfigurableWithIssues,
+        '1'
+      );
       quote.clickOnRequestQuoteInCart();
 
       //we are still in cart, for now just check that

@@ -57,11 +57,19 @@ export function requestQuote(
   productName: string,
   quantity: string
 ): void {
+  this.addProductToCartForQuotePreparation(shopName, productName, quantity);
+  this.clickOnRequestQuoteInCartAndExpectQuotePage();
+}
+
+export function addProductToCartForQuotePreparation(
+  shopName,
+  productName: string,
+  quantity: string
+): void {
   common.goToPDPage(shopName, productName);
   this.setQtyOnPD(quantity);
   common.clickOnAddToCartBtnOnPD();
   common.clickOnViewCartBtnOnPD();
-  this.clickOnRequestQuoteInCartAndExpectQuotePage();
 }
 
 /**
