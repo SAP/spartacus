@@ -13,7 +13,6 @@ import {
   HttpResponseStatus,
   RoutingService,
   UserIdService,
-  WindowRef,
 } from '@spartacus/core';
 import {
   OpfOrderFacade,
@@ -29,8 +28,8 @@ import {
 } from '@spartacus/opf/checkout/root';
 import {
   BehaviorSubject,
-  Observable,
   combineLatest,
+  Observable,
   of,
   throwError,
 } from 'rxjs';
@@ -57,8 +56,7 @@ export class OpfCheckoutPaymentWrapperService {
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected opfOrderFacade: OpfOrderFacade,
-    protected opfService: OpfService,
-    protected winRef: WindowRef
+    protected opfService: OpfService
   ) {}
 
   protected readonly CHECKOUT_REVIEW_SEMANTIC_ROUTE = 'checkoutReviewOrder';
