@@ -21,6 +21,8 @@ import { Observable } from 'rxjs';
 import { finalize, map, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config';
 
+const DEFAULT_COMMENT_MAX_CHARS = 1000;
+
 @Component({
   selector: 'cx-quote-details-comment',
   templateUrl: './quote-details-comment.component.html',
@@ -70,7 +72,9 @@ export class QuoteDetailsCommentComponent {
 
   protected prepareMessagingConfigs(): MessagingConfigs {
     return {
-      charactersLimit: this.quoteUiConfig.quote?.maxCharsForComments ?? 1000,
+      charactersLimit:
+        this.quoteUiConfig.quote?.maxCharsForComments ??
+        DEFAULT_COMMENT_MAX_CHARS,
       displayAddMessageSection: this.quoteDetails$.pipe(
         map((quote) => quote.isEditable)
       ),
