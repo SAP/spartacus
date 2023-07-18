@@ -1,13 +1,82 @@
 %cx-delivery-address {
   @include checkout-media-style();
 
+  @include forVersion(6.3) {
+    border: 1px solid var(--cx-color-medium);
+    border-radius: 10px;
+    margin-top: 32px;
+    margin-bottom: 30px;
+    padding-inline-start: 1.875rem;
+    padding-inline-end: 1.875rem;
+    padding-top: 1.875rem;
+
+    @include media-breakpoint-down(md) {
+      background-color: var(--cx-color-transparent);
+    }
+
+    cx-address-form {
+      @include media-breakpoint-down(md) {
+        background-color: var(--cx-color-transparent);
+      }
+      form {
+        background-color: var(--cx-color-transparent);
+        padding: 13px 0px 13px 0px;
+        margin-bottom: 0;
+      }
+    }
+  }
+
   .cx-delivery-address-card {
     padding-bottom: 30px;
+
+    @include forVersion(6.3) {
+      padding-inline-start: 0;
+      padding-inline-end: 0;
+
+      @include media-breakpoint-up(lg) {
+        &:nth-child(odd) {
+          padding-inline-end: 15px;
+        }
+        &:nth-child(even) {
+          padding-inline-start: 15px;
+        }
+      }
+    }
 
     .cx-delivery-address-card-inner {
       height: 100%;
       background-color: var(--cx-color-inverse);
       cursor: pointer;
+    }
+  }
+
+  @include forVersion(6.3) {
+    .cx-checkout-btns-top {
+      display: flex;
+      justify-content: flex-end;
+      padding-inline-start: 1.875rem;
+
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+
+      .btn {
+        width: 50%;
+      }
+    }
+  }
+
+  @include forVersion(6.3) {
+    .cx-checkout-btns-bottom {
+      padding-bottom: 0;
+
+      @include media-breakpoint-up(lg) {
+        display: none;
+      }
+
+      .btn-secondary {
+        margin-bottom: 0;
+      }
     }
   }
 }

@@ -122,6 +122,8 @@ const multiSelectionProductValues: Cpq.Value[] = [
 
 const CURRENCY = 'USD';
 
+const configurationId = '1234-56-7890';
+
 class MockLanguageService {
   getActive(): Observable<string> {
     return of('en-US');
@@ -164,6 +166,17 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
 
   it('should map product code', () => {
     expect(serviceUnderTest.convert(input).productCode).toEqual(PRODUCT_CODE);
+  });
+
+  it('should set empty configuration id if not provided', () => {
+    expect(serviceUnderTest.convert(input).configId).toBe('');
+  });
+
+  it('should set configuration id if provided', () => {
+    expect(
+      serviceUnderTest.convert({ ...input, configurationId: configurationId })
+        .configId
+    ).toBe(configurationId);
   });
 
   it('should calculate total number of issues', () => {
