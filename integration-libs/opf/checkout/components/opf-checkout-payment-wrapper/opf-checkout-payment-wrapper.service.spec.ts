@@ -21,6 +21,8 @@ import {
 } from '../../root/model';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
+const mockUrl = 'https://sap.com';
+
 describe('OpfCheckoutPaymentWrapperService', () => {
   let service: OpfCheckoutPaymentWrapperService;
   let opfCheckoutFacadeMock: jasmine.SpyObj<OpfCheckoutFacade>;
@@ -130,7 +132,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     routingServiceMock.getRouterState.and.returnValue(
       of({ state: { semanticRoute: 'checkoutReviewOrder' } } as RouterState)
     );
-    routingServiceMock.getFullUrl.and.returnValue('http://sap.com');
+    routingServiceMock.getFullUrl.and.returnValue(mockUrl);
     opfServiceMock.updateOpfMetadataState.and.stub();
     opfResourceLoaderServiceMock.loadProviderResources.and.returnValue(
       Promise.resolve()
@@ -143,8 +145,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         config: {
           configurationId: mockPaymentOptionId.toString(),
           cartId: mockCartId,
-          resultURL: 'http://sap.com',
-          cancelURL: 'http://sap.com',
+          resultURL: mockUrl,
+          cancelURL: mockUrl,
         },
       });
 
@@ -191,7 +193,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
 
   it('should render payment gateway with destination URL', () => {
     const mockPaymentSessionData: PaymentSessionData = {
-      destination: { url: 'http://sap.com' },
+      destination: { url: mockUrl },
     };
 
     service['renderPaymentGateway'](mockPaymentSessionData);
@@ -200,7 +202,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       isLoading: false,
       isError: false,
       renderType: OpfPaymentMethodType.DESTINATION,
-      data: 'http://sap.com',
+      data: mockUrl,
     });
   });
 
@@ -252,7 +254,6 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     const mockOtpKey = 'otpKey';
     const mockPaymentOptionId = 123;
     const mockActiveCartId = 'cartId';
-    const mockUrl = 'test.url';
     service['activeCartId'] = mockActiveCartId;
     routingServiceMock.getFullUrl.and.returnValue(mockUrl);
 
