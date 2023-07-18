@@ -165,7 +165,9 @@ describe('QuoteDetailsCommentComponent', () => {
       quoteUiConfig.quote = undefined;
       // re-create component so changed config is evaluated
       fixture = TestBed.createComponent(QuoteDetailsCommentComponent);
-      expect(fixture.componentInstance.messagingConfigs.charactersLimit).toBe(1000);
+      expect(fixture.componentInstance.messagingConfigs.charactersLimit).toBe(
+        1000
+      );
     });
     it('should set chars limit from config', () => {
       expect(component.messagingConfigs.charactersLimit).toBe(5000);

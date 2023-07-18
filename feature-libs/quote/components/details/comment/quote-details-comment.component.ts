@@ -9,13 +9,13 @@ import { EventService, TranslationService } from '@spartacus/core';
 import {
   Comment,
   QuoteDetailsReloadQueryEvent,
-  QuoteFacade
+  QuoteFacade,
 } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
   MessageEvent,
   MessagingComponent,
-  MessagingConfigs
+  MessagingConfigs,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { finalize, map, take } from 'rxjs/operators';
@@ -39,7 +39,7 @@ export class QuoteDetailsCommentComponent {
     protected quoteFacade: QuoteFacade,
     protected eventService: EventService,
     protected translationService: TranslationService,
-    protected quoteUiConfig: QuoteUIConfig,
+    protected quoteUiConfig: QuoteUIConfig
   ) {}
 
   onSend(event: { message: string }, code: string) {
