@@ -137,6 +137,23 @@ export class CheckoutPaymentTypeComponent {
     );
 
   constructor(
+    checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
+    checkoutStepService: CheckoutStepService,
+    activatedRoute: ActivatedRoute,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    globalMessageService?: GlobalMessageService
+  );
+  /**
+   * @depreccated since 6.3
+   */
+  constructor(
+    checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
+    checkoutStepService: CheckoutStepService,
+    activatedRoute: ActivatedRoute,
+    globalMessageService: GlobalMessageService
+  );
+
+  constructor(
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
     protected activatedRoute: ActivatedRoute,
