@@ -86,10 +86,13 @@ export class QuoteDetailsOverviewComponent {
             },
           ],
 
+          // TODO: make it possible with actions => fix styling
+          /**
           actions: [
-            { event: 'cancel', name: 'Cancel' },
             { event: 'save', name: 'Save' },
+            { event: 'cancel', name: 'Cancel' },
           ],
+           */
         };
       })
     );

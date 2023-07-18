@@ -72,7 +72,7 @@
                   [maxLength]="charactersLimit"
                   class="form-control"
                   formControlName="message"
-                  rows="5"
+                  rows="2"
                 ></textarea>
               </ng-container>
             </ng-container>
@@ -102,24 +102,22 @@
         </button>
       </div>
     </div>
-    <!--
-    <div *ngIf='saveMode' class='row cx-card-body-save'>
-      <div class='col-md-6'>
-        <button
-          [cxAtMessage]="'assistiveMessage.actionCancelled' | cxTranslate"
-          class='btn btn-block btn-secondary'
-          (click)='cancelSave()'
-        >
-          {{ 'common.cancel' | cxTranslate }}
-        </button>
-      </div>
-      <div class='col-md-6' [cxFocus]='{ autofocus: true }'>
-        <button class='btn btn-block btn-primary' (click)='save()'>
-          Save
-        </button>
-      </div>
+    <div *ngIf="saveMode" class="cx-card-body-save">
+      <button
+        class="btn btn-block btn-secondary"
+        [cxFocus]="{ autofocus: true }"
+        (click)="save()"
+      >
+        Save
+      </button>
+      <button
+        [cxAtMessage]="'assistiveMessage.actionCancelled' | cxTranslate"
+        class="btn btn-tertiary"
+        (click)="cancelSave()"
+      >
+        {{ 'common.cancel' | cxTranslate }}
+      </button>
     </div>
-    -->
     <!-- Actions -->
     <div *ngIf="content.actions && !editMode" class="cx-card-actions">
       <div *ngFor="let action of content.actions">
@@ -162,20 +160,22 @@
             >
               {{ action.name }}
             </button>
+            // TODO: make it possible with actions => fix styling
             <ng-container *ngIf="saveMode">
               <button
                 type="button"
-                *ngSwitchCase="'cancel'"
-                class="link cx-action-link"
-                (click)="cancel()"
+                *ngSwitchCase="'save'"
+                class="btn btn-block btn-secondary"
+                [cxFocus]="{ autofocus: true }"
+                (click)="save()"
               >
                 {{ action.name }}
               </button>
               <button
                 type="button"
-                *ngSwitchCase="'save'"
-                class="link cx-action-link"
-                (click)="save()"
+                *ngSwitchCase="'cancel'"
+                class="btn btn-tertiary"
+                (click)="cancel()"
               >
                 {{ action.name }}
               </button>

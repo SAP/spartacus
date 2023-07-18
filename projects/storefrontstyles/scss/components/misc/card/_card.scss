@@ -69,7 +69,23 @@
   }
 
   .cx-card-body-save {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     padding-block-start: 1rem;
+
+    .btn {
+      @include media-breakpoint-up(sm) {
+        width: fit-content;
+      }
+    }
+
+    .btn-secondary,
+    .btn-tertiary {
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+      }
+    }
   }
 
   .cx-card-delete-msg {
