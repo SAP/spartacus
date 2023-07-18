@@ -22,7 +22,7 @@ export interface OccQuote {
   previousEstimatedTotal?: Price;
   productDiscounts?: Price;
   quoteDiscounts?: Price;
-  state?: QuoteState;
+  state: QuoteState;
   subTotalWithDiscounts?: Price;
   threshold?: number;
   totalItems?: number;
