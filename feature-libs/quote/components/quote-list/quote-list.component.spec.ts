@@ -215,12 +215,6 @@ describe('QuoteListComponent', () => {
   });
 
   describe('isResponsible', () => {
-    it("should return 'false' in case state is undefined", () => {
-      expect(
-        component['isResponsible'](ResponsiblePersonPrefix.BUYER, undefined)
-      ).toBe(false);
-    });
-
     it("should return 'true' in case state contains 'BUYER'", () => {
       expect(
         component['isResponsible'](
@@ -246,6 +240,38 @@ describe('QuoteListComponent', () => {
           QuoteState.SELLERAPPROVER_APPROVED
         )
       ).toBe(true);
+    });
+  });
+
+  describe('getBuyerQuoteStatus', () => {
+    it('should return an empty string in case state is not a buyer one', () => {
+      expect(component['getBuyerQuoteStatus'](QuoteState.SELLER_DRAFT)).toBe(
+        ''
+      );
+    });
+  });
+
+  describe('getSellerQuoteStatus', () => {
+    it('should return an empty string in case state is not a seller one', () => {
+      expect(component['getSellerQuoteStatus'](QuoteState.BUYER_DRAFT)).toBe(
+        ''
+      );
+    });
+  });
+
+  describe('getSellerApproverQuoteStatus', () => {
+    it('should return an empty string in case state is not a seller approver one', () => {
+      expect(
+        component['getSellerApproverQuoteStatus'](QuoteState.BUYER_DRAFT)
+      ).toBe('');
+    });
+  });
+
+  describe('getGeneralQuoteStatus', () => {
+    it('should return an empty string in case state is not a general one', () => {
+      expect(component['getGeneralQuoteStatus'](QuoteState.BUYER_DRAFT)).toBe(
+        ''
+      );
     });
   });
 
@@ -533,29 +559,6 @@ describe('QuoteListComponent', () => {
       );
 
       expect(quoteStateLinks[0].attributes.class).toContain('quote-expired');
-    });
-
-    it('should not apply a class quote status because quote state is undefined', () => {
-      //given
-      mockQuoteListState$.next({
-        ...mockQuoteListState,
-        data: {
-          ...mockQuoteList,
-          quotes: [{ ...mockQuote, state: undefined }],
-        },
-      });
-      //when
-      fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
-
-      expect(quoteStateLinks[0].attributes.class).toBeUndefined();
-    });
-
-    it('should return an empty string', () => {
-      expect(component.getQuoteStateClass('unknown-state')).toBe('');
     });
   });
 });

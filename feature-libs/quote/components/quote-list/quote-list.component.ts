@@ -40,7 +40,7 @@ export class QuoteListComponent {
     this.quoteListService.setCurrentPage(page);
   }
 
-  protected getBuyerQuoteStatus(state: string): string | undefined {
+  protected getBuyerQuoteStatus(state: QuoteState): string {
     switch (state) {
       case QuoteState.BUYER_DRAFT:
         return 'quote-draft';
@@ -56,10 +56,12 @@ export class QuoteListComponent {
         return 'quote-offer';
       case QuoteState.BUYER_ORDERED:
         return 'quote-ordered';
+      default:
+        return '';
     }
   }
 
-  protected getSellerQuoteStatus(state: string): string | undefined {
+  protected getSellerQuoteStatus(state: QuoteState): string {
     switch (state) {
       case QuoteState.SELLER_DRAFT:
         return 'quote-draft';
@@ -67,10 +69,12 @@ export class QuoteListComponent {
         return 'quote-submitted';
       case QuoteState.SELLER_REQUEST:
         return 'quote-request';
+      default:
+        return '';
     }
   }
 
-  protected getSellerApproverQuoteStatus(state: string): string | undefined {
+  protected getSellerApproverQuoteStatus(state: QuoteState): string {
     switch (state) {
       case QuoteState.SELLERAPPROVER_APPROVED:
         return 'quote-approved';
@@ -78,41 +82,43 @@ export class QuoteListComponent {
         return 'quote-rejected';
       case QuoteState.SELLERAPPROVER_PENDING:
         return 'quote-pending';
+      default:
+        return '';
     }
   }
 
-  protected getGeneralQuoteStatus(state: string): string | undefined {
+  protected getGeneralQuoteStatus(state: QuoteState): string {
     switch (state) {
       case QuoteState.CANCELLED:
         return 'quote-cancelled';
       case QuoteState.EXPIRED:
         return 'quote-expired';
+      default:
+        return '';
     }
   }
 
   protected isResponsible(
     responsiblePersonPrefix: string,
-    state: string
+    state: QuoteState
   ): boolean {
-    if (state && state.indexOf(responsiblePersonPrefix) >= 0) {
+    if (state.indexOf(responsiblePersonPrefix) >= 0) {
       return true;
     }
     return false;
   }
 
-  getQuoteStateClass(state: string): string {
-    let quoteStateClass;
+  getQuoteStateClass(state: QuoteState): string {
     if (this.isResponsible(ResponsiblePersonPrefix.BUYER, state)) {
-      quoteStateClass = this.getBuyerQuoteStatus(state);
+      return this.getBuyerQuoteStatus(state);
     } else if (this.isResponsible(ResponsiblePersonPrefix.SELLER, state)) {
-      quoteStateClass = this.getSellerQuoteStatus(state);
+      return this.getSellerQuoteStatus(state);
     } else if (
       this.isResponsible(ResponsiblePersonPrefix.SELLERAPPROVER, state)
     ) {
-      quoteStateClass = this.getSellerApproverQuoteStatus(state);
+      return this.getSellerApproverQuoteStatus(state);
     } else {
-      quoteStateClass = this.getGeneralQuoteStatus(state);
+      return this.getGeneralQuoteStatus(state);
     }
-    return quoteStateClass ?? '';
   }
 }
