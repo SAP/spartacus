@@ -59,6 +59,13 @@ export const asm = {
       },
       createAccountAlert:
         'The customer session starts once you create the customer account.',
+      validationErrors: {
+        firstName: 'Enter a valid first name.',
+        lastName: 'Enter a valid last name.',
+        emailAddress: 'Enter a valid email address.',
+      },
+      badRequestDuplicatedEmail:
+        'Enter a different email address as {{ emailAddress }} already exists.',
     },
     customerList: {
       title: 'Customer List',
@@ -103,6 +110,15 @@ export const asm = {
         'The customer lists could not be retrieved. Please try again later.',
       searchBox: 'Search',
       enterSearchBox: 'Enter customer name or email',
+    },
+    switchCustomer: {
+      dialog: {
+        title: 'Warning',
+        body: 'Clicking "Switch Customer" will end the emulation for "{{ customerA }}" and start for "{{ customerB }}". Any unsaved changes for "{{ customerA }}" will be lost.',
+        actions: {
+          switch: 'Switch Customer',
+        },
+      },
     },
     saveCart: {
       saveCartBtn: 'Save for Later',

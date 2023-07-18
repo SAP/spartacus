@@ -245,7 +245,7 @@ describe('CustomerSelectionComponent', () => {
     expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(1);
     const createAccountButton = el.query(By.css('div.asm-results button'));
     expect(createAccountButton.nativeElement.innerText).toEqual(
-      'asm.customerSearch.noMatchResult asm.customerSearch.createCustomer'
+      'asm.customerSearch.noMatchResultasm.customerSearch.createCustomer'
     );
     createAccountButton.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(asmService.customerSearchReset).toHaveBeenCalled();
