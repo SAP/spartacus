@@ -99,15 +99,21 @@ export class QuoteListComponent {
   }
 
   protected isResponsible(
-    responsiblePersonPrefix: string,
+    prefix: ResponsiblePersonPrefix,
     state: QuoteState
   ): boolean {
-    if (state.indexOf(responsiblePersonPrefix) >= 0) {
+    if (state.indexOf(prefix) >= 0) {
       return true;
     }
     return false;
   }
 
+  /**
+   * Retrieves the class name for the quote state.
+   *
+   * @param {QuoteState} state - quote state
+   * @returns {string} - if the quote state is known then returns a class name, otherwise returns an empty string.
+   */
   getQuoteStateClass(state: QuoteState): string {
     if (this.isResponsible(ResponsiblePersonPrefix.BUYER, state)) {
       return this.getBuyerQuoteStatus(state);
