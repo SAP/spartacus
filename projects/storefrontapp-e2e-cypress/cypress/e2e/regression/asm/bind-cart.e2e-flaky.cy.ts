@@ -13,14 +13,14 @@ import { getSampleUser } from '../../../sample-data/checkout-flow';
 
 context('Assisted Service Module', () => {
   describe('Bind cart', () => {
-    it('should be able to bind anonymous cart to customer (CXSAP-153)', () => {
-      const customer = getSampleUser();
+    const customerForBindCart = getSampleUser();
+    let anonymousCartCodeForBindCart: string;
 
-      let anonymousCartCode: string;
+    it('should be able to bind anonymous cart to customer (CXSAP-153)', () => {
       checkout.visitHomePage();
       cy.get('cx-asm-main-ui').should('not.exist');
 
-      checkout.registerUser(false, customer);
+      checkout.registerUser(false, customerForBindCart);
 
       cy.log('--> Add to cart as an anonymous user');
       cart.addProductAsAnonymous();
@@ -32,7 +32,7 @@ context('Assisted Service Module', () => {
         .then(($cartId) => {
           // localStorage contains anonymous cart uid, read code from UI
           const text = $cartId.text();
-          anonymousCartCode = text.replace('Cart #', '').trim();
+          anonymousCartCodeForBindCart = text.replace('Cart #', '').trim();
 
           cy.log('--> Agent logging in');
           checkout.visitHomePage('asm=true');
@@ -41,12 +41,12 @@ context('Assisted Service Module', () => {
           asm.agentLogin('asagent', 'pw4all');
 
           cy.log('--> Starting customer emulation');
-          asm.startCustomerEmulation(customer);
+          asm.startCustomerEmulation(customerForBindCart);
 
           cy.log('--> Enter users cart number');
           cy.get(
             'cx-customer-emulation input[formcontrolname="cartNumber"]'
-          ).type(anonymousCartCode);
+          ).type(anonymousCartCodeForBindCart);
         });
 
       cy.log('--> Agent binding cart');
@@ -58,22 +58,17 @@ context('Assisted Service Module', () => {
         const customerCartCode = JSON.parse(
           window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
         ).active;
-        expect(customerCartCode).to.equal(anonymousCartCode);
+        expect(customerCartCode).to.equal(anonymousCartCodeForBindCart);
       });
+    });
 
-      cy.log(
-        '--> Stop customer emulation using the end emulation button in the ASM UI'
-      );
-      asm.agentSignOut();
-
-      cy.get('cx-asm-main-ui').should('exist');
-
+    it(`Verify anonymous cart is now the user's active cart for bind cart (CXSAP-153)`, () => {
       cy.log('--> Log in as customer');
       const loginPage = waitForPage('/login', 'getLoginPage');
       cy.visit('/login');
       cy.wait(`@${loginPage}`);
-      login(customer.email, customer.password);
-      cy.wait('@csAgentAuthentication');
+      login(customerForBindCart.email, customerForBindCart.password);
+      cy.get('cx-login .cx-login-greet').should('be.visible');
 
       cy.log("--> Verify anonymous cart is now the user's active cart");
       cart.goToCart();
@@ -81,17 +76,17 @@ context('Assisted Service Module', () => {
         const customerCartCode = JSON.parse(
           window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
         ).active;
-        expect(customerCartCode).to.equal(anonymousCartCode);
+        expect(customerCartCode).to.equal(anonymousCartCodeForBindCart);
       });
     });
 
+    const customerForReplaceBindCart = getSampleUser();
+    let anonymousCartCodeForReplaceBindCart: string;
     it('should be able to replace current customer cart with anonymous cart (CXSAP-153)', () => {
-      const customer = getSampleUser();
-
       checkout.visitHomePage();
       cy.get('cx-asm-main-ui').should('not.exist');
 
-      checkout.registerUser(false, customer);
+      checkout.registerUser(false, customerForReplaceBindCart);
 
       cy.log('--> Add to cart as an anonymous user');
       cart.addProductAsAnonymous();
@@ -103,8 +98,10 @@ context('Assisted Service Module', () => {
         .then(($cartId) => {
           // localStorage contains anonymous cart uid, but need cart code.  read cart code from UI
           const text = $cartId.text();
-          const anonymousCartCode = text.replace('Cart #', '').trim();
-          cy.wrap(anonymousCartCode).as('anonymousCartCode');
+          anonymousCartCodeForReplaceBindCart = text
+            .replace('Cart #', '')
+            .trim();
+          cy.wrap(anonymousCartCodeForReplaceBindCart).as('anonymousCartCode');
         });
       cy.get<string>('@anonymousCartCode').then((anonymousCartCode) => {
         cy.log(`--> Anonymous cart id: ${anonymousCartCode}`);
@@ -117,7 +114,7 @@ context('Assisted Service Module', () => {
       asm.agentLogin('asagent', 'pw4all');
 
       cy.log('--> Starting customer emulation');
-      asm.startCustomerEmulation(customer);
+      asm.startCustomerEmulation(customerForReplaceBindCart);
 
       cy.log('--> Create current active cart');
       cart.addProductFromPdp(cart.products[1].code).then(() => {
@@ -155,20 +152,18 @@ context('Assisted Service Module', () => {
           expect(customerCartCode).to.equal(anonymousCartCode);
         });
       });
+    });
 
-      cy.log(
-        '--> Stop customer emulation using the end emulation button in the ASM UI'
-      );
-      asm.agentSignOut();
-
-      cy.get('cx-asm-main-ui').should('exist');
-
+    it(`Verify anonymous cart is now the user's active cart for replace bind cart (CXSAP-153)`, () => {
       cy.log('--> Log in as customer');
       const loginPage = waitForPage('/login', 'getLoginPage');
       cy.visit('/login');
       cy.wait(`@${loginPage}`);
-      login(customer.email, customer.password);
-      cy.wait('@csAgentAuthentication');
+      login(
+        customerForReplaceBindCart.email,
+        customerForReplaceBindCart.password
+      );
+      cy.get('cx-login .cx-login-greet').should('be.visible');
 
       cy.log("--> Verify anonymous cart is now the user's active cart");
       cart.goToCart();
@@ -176,9 +171,7 @@ context('Assisted Service Module', () => {
         const customerCartCode = JSON.parse(
           window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
         ).active;
-        cy.get<string>('@anonymousCartCode').then((anonymousCartCode) => {
-          expect(customerCartCode).to.equal(anonymousCartCode);
-        });
+        expect(customerCartCode).to.equal(anonymousCartCodeForReplaceBindCart);
       });
     });
   });

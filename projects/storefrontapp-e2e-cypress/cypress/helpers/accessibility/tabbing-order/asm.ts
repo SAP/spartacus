@@ -109,7 +109,6 @@ export function asmTabbingOrderWithSaveInactiveCartDialog(
         cy.get('button[id=asm-save-inactive-cart-btn]').click();
         verifyTabbingOrder(containerSelectorForInactiveCartDialog, config);
         cy.findByText(/Cancel/i).click();
-        asm.agentSignOut();
       });
   });
 }
