@@ -4,15 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ConfigurationInfo } from '@spartacus/product-configurator/common';
 import '@spartacus/storefront';
-
-import { Comment } from './quote.model';
 
 declare module '@spartacus/cart/base/root' {
   interface OrderEntry {
     comments?: Comment[];
-    configurationInfos?: ConfigurationInfo[];
   }
 }
 

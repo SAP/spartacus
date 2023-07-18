@@ -32,6 +32,10 @@ declare module '@spartacus/core' {
      */
     readCpqConfigurationForOrderEntry?: string | OccEndpoint;
     /**
+     * Endpoint for reading a CPQ configuration attached to a given quote entry
+     */
+    readCpqConfigurationForQuoteEntry?: string | OccEndpoint;
+    /**
      * Endpoint for creation a CPQ configuration over OCC
      */
     createCpqConfiguration?: string | OccEndpoint;
@@ -59,5 +63,9 @@ declare module '@spartacus/core' {
      * Endpoint for reading a CPQ configuration attached to a given order entry over OCC
      */
     readCpqConfigurationForOrderEntryFull?: string | OccEndpoint;
+    /**
+     * Endpoint for reading a CPQ configuration attached to a given quote entry over OCC
+     */
+    readCpqConfigurationForQuoteEntryFull?: string | OccEndpoint;
   }
 }

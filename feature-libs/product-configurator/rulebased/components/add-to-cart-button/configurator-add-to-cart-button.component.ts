@@ -371,6 +371,11 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         CommonConfigurator.OwnerType.ORDER_ENTRY
       ) {
         this.goToOrderDetails(container.routerData.owner);
+      } else if (
+        container.routerData.owner.type ===
+        CommonConfigurator.OwnerType.QUOTE_ENTRY
+      ) {
+        this.goToQuoteDetails(container.routerData.owner);
       } else {
         this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
       }
@@ -390,6 +395,16 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       .subscribe((order: Order) =>
         this.routingService.go({ cxRoute: 'orderDetails', params: order })
       );
+  }
+
+  protected goToQuoteDetails(owner: CommonConfigurator.Owner): void {
+    const entryKeys = this.commonConfiguratorUtilsService.decomposeOwnerId(
+      owner.id
+    );
+    this.routingService.go({
+      cxRoute: 'quoteDetails',
+      params: { quoteId: entryKeys.documentId },
+    });
   }
 
   extractConfigPrices(configuration: Configurator.Configuration) {

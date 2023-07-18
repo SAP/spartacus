@@ -111,6 +111,17 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
     );
   }
 
+  readConfigurationForQuoteEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.readConfigurationForQuoteEntry(parameters).pipe(
+      map((configResponse) => {
+        configResponse.owner = parameters.owner;
+        return configResponse;
+      })
+    );
+  }
+
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {

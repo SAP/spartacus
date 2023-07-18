@@ -79,6 +79,14 @@ const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderE
     owner: owner,
   };
 
+const readConfigQuoteEntryParams: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
+  {
+    userId: userId,
+    quoteId: documentId,
+    quoteEntryNumber: '3',
+    owner: owner,
+  };
+
 const asSpy = (f: any) => <jasmine.Spy>f;
 
 describe('CpqConfiguratorOccAdapter', () => {
@@ -98,6 +106,7 @@ describe('CpqConfiguratorOccAdapter', () => {
       'readConfigurationOverview',
       'readConfigurationForCartEntry',
       'readConfigurationForOrderEntry',
+      'readConfigurationForQuoteEntry',
     ]);
 
     asSpy(mockedOccService.createConfiguration).and.callFake(() => {
@@ -136,6 +145,9 @@ describe('CpqConfiguratorOccAdapter', () => {
       return of(productConfiguration);
     });
     asSpy(mockedOccService.readConfigurationForOrderEntry).and.callFake(() => {
+      return of(productConfiguration);
+    });
+    asSpy(mockedOccService.readConfigurationForQuoteEntry).and.callFake(() => {
       return of(productConfiguration);
     });
 
@@ -269,6 +281,18 @@ describe('CpqConfiguratorOccAdapter', () => {
         expect(
           mockedOccService.readConfigurationForOrderEntry
         ).toHaveBeenCalledWith(readConfigOrderEntryParams);
+      });
+  });
+
+  it('should delegate readConfigurationForQuoteEntry to OCC service', () => {
+    adapterUnderTest
+      .readConfigurationForQuoteEntry(readConfigQuoteEntryParams)
+      .subscribe((response) => {
+        expect(response).toBe(productConfiguration);
+        expect(response.owner).toBe(readConfigQuoteEntryParams.owner);
+        expect(
+          mockedOccService.readConfigurationForQuoteEntry
+        ).toHaveBeenCalledWith(readConfigQuoteEntryParams);
       });
   });
 
