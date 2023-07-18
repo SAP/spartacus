@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Customer360CouponList } from '@spartacus/asm/customer-360/root';
 // import { UrlCommand } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import {
   CartVoucherFacade,
 } from '@spartacus/cart/base/root';
@@ -26,9 +26,9 @@ import { CustomerTableColumn } from '../../asm-customer-table/asm-customer-table
   templateUrl: './asm-customer-coupon.component.html',
 })
 export class AsmCustomerCouponComponent implements OnInit {
+  showErrorAlert$ = new BehaviorSubject<boolean>(false);
+  // showErrorAlert$ = false;
   entries$: Observable<Array<CouponEntry>>;
-  entryPages: Array<Array<CouponEntry>>;
-  @Input() pageSize: number;
   columns: Array<CustomerTableColumn> = [
     {
       property: 'applied',
@@ -51,7 +51,6 @@ export class AsmCustomerCouponComponent implements OnInit {
 
   ngOnInit(): void {
     let entries: Array<CouponEntry> = [];
-
     this.entries$ = combineLatest([this.context.data$]).pipe(
       map(([data]) => {
         entries = [];
@@ -62,46 +61,22 @@ export class AsmCustomerCouponComponent implements OnInit {
             code: coupon.code,
             name: coupon.name,
           });
+        // throw new Error("Error");
         });
         return entries;
+      }),
+      catchError(() => {
+        this.showErrorAlert$.next(true);
+        return of([]);
       })
     );
   }
 
-  applyCoupon(code: string,cartId: string){
-    this.cartVoucherService.addVoucher(code,cartId);
+  get errorAlert$(): Observable<boolean> {
+    return this.showErrorAlert$.asObservable();
   }
 
-  removeCoupon(code: string,cartId: string){
-    this.cartVoucherService.removeVoucher(code,cartId);
+  closeErrorAlert(): void {
+    this.showErrorAlert$.next(false);
   }
-
-  // itemSelected(entry: ActivityEntry | undefined): void {
-  //   if (entry) {
-  //     let urlCommand: UrlCommand;
-  //     if (entry.type?.code === TypeCodes.SavedCart) {
-  //       urlCommand = {
-  //         cxRoute: 'savedCartsDetails',
-  //         params: { savedCartId: entry?.associatedTypeId },
-  //       };
-  //     } else if (entry.type?.code === TypeCodes.Cart) {
-  //       urlCommand = {
-  //         cxRoute: 'cart',
-  //       };
-  //     } else if (entry.type?.code === TypeCodes.Order) {
-  //       urlCommand = {
-  //         cxRoute: 'orderDetails',
-  //         params: { code: entry?.associatedTypeId },
-  //       };
-  //     } else if (entry.type?.code === TypeCodes.Ticket) {
-  //       urlCommand = {
-  //         cxRoute: 'supportTicketDetails',
-  //         params: { ticketCode: entry?.associatedTypeId },
-  //       };
-  //     }
-  //     if (urlCommand) {
-  //       this.context.navigate$.next(urlCommand);
-  //     }
-  //   }
-  // }
 }

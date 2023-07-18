@@ -11,6 +11,9 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  GlobalMessageType,
+} from '@spartacus/core';
+import {
   ActiveCartFacade,
   CartVoucherFacade,
 } from '@spartacus/cart/base/root';
@@ -27,7 +30,9 @@ export class AsmCustomerPromotionListingComponent implements OnInit{
   @Input() headerText: string;
   @Input() emptyStateText: string;
   @Input() entries: Array<PromotionListEntry>;
+  @Input() showAlert: boolean;
   activeCartId = '';
+  globalMessageType = GlobalMessageType;
   protected subscription = new Subscription();
 
   constructor(

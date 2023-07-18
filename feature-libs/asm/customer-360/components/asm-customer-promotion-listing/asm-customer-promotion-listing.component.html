@@ -3,6 +3,14 @@
     {{ headerText }}
   </h4>
 </div> 
+<div class="message-container">
+  <cx-message
+  *ngIf="showAlert"
+  [text]="'customer360.alertErrorMessage' | cxTranslate"
+  [type]="globalMessageType.MSG_TYPE_ERROR"
+  ></cx-message>
+</div>
+
 <table>
   <tr *ngFor="let entry of entries">
     <td>
