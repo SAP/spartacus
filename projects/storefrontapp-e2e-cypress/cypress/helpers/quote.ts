@@ -6,8 +6,6 @@
 
 import * as authentication from './auth-forms';
 import * as common from './common';
-import * as cart from './cart';
-import * as alerts from './global-message';
 
 /**
  * Sets quantity on PDP
@@ -93,18 +91,6 @@ export function checkSubmitButton(isEnabled: boolean): void {
  */
 export function checkQuoteListPresent() {
   cy.get('cx-quote-list').should('exist');
-}
-
-/**
- * Clears active cart
- */
-export function clearCart() {
-  cart.goToCart();
-  cart.clearActiveCart();
-  alerts
-    .getSuccessAlert()
-    .should('contain', `Active cart cleared successfully.`);
-  cart.validateEmptyCart();
 }
 
 /**

@@ -5,6 +5,7 @@
  */
 
 import * as quote from '../../../helpers/quote';
+import * as cart from '../../../helpers/cart';
 import * as common from '../../../helpers/common';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as configuratorOverview from '../../../helpers/product-configurator-overview';
@@ -24,11 +25,6 @@ context('Quote<->Configurator integration', () => {
   });
 
   describe('Request quote process with VC configurable product', () => {
-    it('should result in a quote in draft state if default configuration has no issues', () => {
-      quote.requestQuote(POWERTOOLS, testProductConfigurable, '1');
-      quote.checkQuoteIsDraft();
-    });
-
     it('should not allow to request quote if configuration has issues', () => {
       common.goToPDPage(POWERTOOLS, testProductConfigurableWithIssues);
       quote.setQtyOnPD('1');
@@ -39,25 +35,34 @@ context('Quote<->Configurator integration', () => {
       //we are still in cart, for now just check that
       //TODO check for messages once https://jira.tools.sap/browse/CXSPA-4079 is done
       cy.get('cx-cart-details').should('exist');
-      quote.clearCart();
+
+      //remove conflicting entry
+      cart.removeCartItem({ name: testProductConfigurableWithIssues });
     });
 
-    it('should show navigation link to configurator on quote details page and allow to navigate to OV page', () => {
+    it('should support creation of a draft quote including VC configurable product', () => {
       quote.requestQuote(POWERTOOLS, testProductConfigurable, '1');
+
+      //check: quote is in status draft
+      quote.checkQuoteIsDraft();
+
+      //check: we can navigate to the VC overview page
       configurationCart.clickOnDisplayConfigurationLink(0);
       cy.get('cx-configurator-overview-sidebar').should('be.visible');
+
+      //check: back navigation is possible
       configuratorOverview.clickContinueToCartBtnOnOPAndExpectQuote();
     });
   });
 
   describe('Request quote process with textfield configurable product', () => {
-    it('should result in a quote in draft state', () => {
+    it('should support creation of a draft quote including textfield configurable product', () => {
       quote.requestQuote(POWERTOOLS, testProductConfigurableTextfield, '1');
-      quote.checkQuoteIsDraft();
-    });
 
-    it('should show navigation link to configurator on quote details and allow to navigate to textfield form', () => {
-      quote.requestQuote(POWERTOOLS, testProductConfigurableTextfield, '1');
+      //check: quote is in status draft
+      quote.checkQuoteIsDraft();
+
+      //check: we can navigate to the textfield configurator form
       configurationCart.clickOnDisplayConfigurationLink(0);
       cy.get('cx-configurator-textfield-form').should('be.visible');
     });
