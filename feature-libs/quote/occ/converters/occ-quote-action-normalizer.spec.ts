@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { QuoteConfig } from '@spartacus/quote/core';
+import { QuoteCoreConfig } from '@spartacus/quote/core';
 import {
   OccQuote,
   Quote,
@@ -18,14 +18,14 @@ describe('OccQuoteActionNormalizer', () => {
   let service: OccQuoteActionNormalizer;
   let occQuote: OccQuote;
   let expectedQuote: Quote;
-  let quoteConfig: QuoteConfig;
+  let quoteCoreConfig: QuoteCoreConfig;
 
   beforeEach(() => {
     initTestData();
     TestBed.configureTestingModule({
       providers: [
         OccQuoteActionNormalizer,
-        { provide: QuoteConfig, useValue: quoteConfig },
+        { provide: QuoteCoreConfig, useValue: quoteCoreConfig },
       ],
     });
 
@@ -46,7 +46,7 @@ describe('OccQuoteActionNormalizer', () => {
       ],
       isEditable: false,
     };
-    quoteConfig = {
+    quoteCoreConfig = {
       quote: {
         actions: {
           actionsOrderByState: {
@@ -75,7 +75,7 @@ describe('OccQuoteActionNormalizer', () => {
 
     it('should set isEditable to false if edit is allowed by backend, but would require status change', () => {
       occQuote.allowedActions = [QuoteActionType.EDIT];
-      (quoteConfig.quote?.actions?.actionsOrderByState ?? {}).BUYER_DRAFT = [
+      (quoteCoreConfig.quote?.actions?.actionsOrderByState ?? {}).BUYER_DRAFT = [
         QuoteActionType.EDIT,
       ];
       expect(service.convert(occQuote).isEditable).toBe(false);
@@ -104,7 +104,7 @@ describe('OccQuoteActionNormalizer', () => {
       ]);
     });
     it('should return unsorted list if no quote config is given', () => {
-      quoteConfig.quote = undefined;
+      quoteCoreConfig.quote = undefined;
       const orderedActions = service['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
         SUBMIT_AND_CANCEL_UNORDERED
@@ -112,7 +112,7 @@ describe('OccQuoteActionNormalizer', () => {
       expect(orderedActions).toEqual(SUBMIT_AND_CANCEL_UNORDERED);
     });
     it('should return unsorted list if no actions are defined in the config', () => {
-      (quoteConfig?.quote ?? {}).actions = undefined;
+      (quoteCoreConfig?.quote ?? {}).actions = undefined;
       const orderedActions = service['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
         SUBMIT_AND_CANCEL_UNORDERED
@@ -121,7 +121,7 @@ describe('OccQuoteActionNormalizer', () => {
     });
 
     it('should return unsorted list if no actions by state are defined in the config', () => {
-      (quoteConfig.quote?.actions ?? {}).actionsOrderByState = undefined;
+      (quoteCoreConfig.quote?.actions ?? {}).actionsOrderByState = undefined;
       const orderedActions = service['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
         SUBMIT_AND_CANCEL_UNORDERED
@@ -150,17 +150,17 @@ describe('OccQuoteActionNormalizer', () => {
       });
     });
     it('should set isPrimary to false if no quote config is given', () => {
-      quoteConfig.quote = undefined;
+      quoteCoreConfig.quote = undefined;
       const actualResult = service['getActionCategory'](QuoteActionType.SUBMIT);
       expect(actualResult).toEqual(SUBMIT_NOT_PRIMARY_ACTION);
     });
     it('should set isPrimary to false if no actions are defined in the config', () => {
-      (quoteConfig?.quote ?? {}).actions = undefined;
+      (quoteCoreConfig?.quote ?? {}).actions = undefined;
       const actualResult = service['getActionCategory'](QuoteActionType.SUBMIT);
       expect(actualResult).toEqual(SUBMIT_NOT_PRIMARY_ACTION);
     });
     it('should set isPrimary to false if no primaryActions are defined in the config', () => {
-      (quoteConfig?.quote?.actions ?? {}).primaryActions = undefined;
+      (quoteCoreConfig?.quote?.actions ?? {}).primaryActions = undefined;
       const actualResult = service['getActionCategory'](QuoteActionType.SUBMIT);
       expect(actualResult).toEqual(SUBMIT_NOT_PRIMARY_ACTION);
     });

@@ -6,7 +6,7 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { QuoteConfig } from '@spartacus/quote/core';
+import { QuoteCoreConfig } from '@spartacus/quote/core';
 import {
   QuoteFacade,
   QuoteActionType,
@@ -48,7 +48,7 @@ export class QuoteRequestDialogComponent {
   constructor(
     protected quoteFacade: QuoteFacade,
     protected routingService: RoutingService,
-    protected config: QuoteConfig,
+    protected config: QuoteCoreConfig,
     protected launchDialogService: LaunchDialogService
   ) {}
 

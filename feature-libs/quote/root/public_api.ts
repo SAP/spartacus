@@ -9,3 +9,7 @@ export * from './quote-root.module';
 export * from './model/index';
 export * from './facade/index';
 export * from './events/index';
+
+/** AUGMENTABLE_TYPES_START */
+export { QuoteConfig } from './config/quote.config';
+/** AUGMENTABLE_TYPES_END */

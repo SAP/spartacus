@@ -9,16 +9,17 @@ import { EventService, TranslationService } from '@spartacus/core';
 import {
   Comment,
   QuoteDetailsReloadQueryEvent,
-  QuoteFacade,
+  QuoteFacade
 } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
   MessageEvent,
   MessagingComponent,
-  MessagingConfigs,
+  MessagingConfigs
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { finalize, map, take } from 'rxjs/operators';
+import { QuoteUIConfig } from '../../config';
 
 @Component({
   selector: 'cx-quote-details-comment',
@@ -27,7 +28,7 @@ import { finalize, map, take } from 'rxjs/operators';
 export class QuoteDetailsCommentComponent {
   @ViewChild(MessagingComponent) commentsComponent: MessagingComponent;
 
-  showVendorContact = true;
+  showComments = true;
   iconTypes = ICON_TYPE;
 
   quoteDetails$ = this.quoteFacade.getQuoteDetails();
@@ -37,7 +38,8 @@ export class QuoteDetailsCommentComponent {
   constructor(
     protected quoteFacade: QuoteFacade,
     protected eventService: EventService,
-    protected translationService: TranslationService
+    protected translationService: TranslationService,
+    protected quoteUiConfig: QuoteUIConfig,
   ) {}
 
   onSend(event: { message: string }, code: string) {
@@ -68,7 +70,7 @@ export class QuoteDetailsCommentComponent {
 
   protected prepareMessagingConfigs(): MessagingConfigs {
     return {
-      charactersLimit: 1000,
+      charactersLimit: this.quoteUiConfig.quote?.maxCharsForComments ?? 1000,
       displayAddMessageSection: this.quoteDetails$.pipe(
         map((quote) => quote.isEditable)
       ),

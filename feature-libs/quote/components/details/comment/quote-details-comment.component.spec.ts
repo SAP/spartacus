@@ -13,10 +13,11 @@ import {
   MessagingComponent,
   MessagingConfigs,
 } from '@spartacus/storefront';
+import { cold } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
+import { QuoteUIConfig } from '../../config';
 import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
-import { cold } from 'jasmine-marbles';
 
 const QUOTE_CODE = 'q123';
 
@@ -46,6 +47,7 @@ describe('QuoteDetailsCommentComponent', () => {
   let component: QuoteDetailsCommentComponent;
   let mockedQuoteFacade: QuoteFacade;
   let mockedEventService: EventService;
+  let quoteUiConfig: QuoteUIConfig;
 
   let quote: Quote;
 
@@ -69,6 +71,10 @@ describe('QuoteDetailsCommentComponent', () => {
             provide: EventService,
             useValue: mockedEventService,
           },
+          {
+            provide: QuoteUIConfig,
+            useValue: quoteUiConfig,
+          },
         ],
       }).compileComponents();
     })
@@ -85,6 +91,9 @@ describe('QuoteDetailsCommentComponent', () => {
   function initTestData() {
     quote = createEmptyQuote();
     quote.code = QUOTE_CODE;
+    quoteUiConfig = {
+      quote: { maxCharsForComments: 5000 },
+    };
   }
 
   function initMocks() {
@@ -152,8 +161,14 @@ describe('QuoteDetailsCommentComponent', () => {
     it('should be provided', () => {
       expect(component.messagingConfigs).toBeDefined();
     });
-    it('should set 1.000 chars limit', () => {
-      expect(component.messagingConfigs.charactersLimit).toBe(1000);
+    it('should set chars limit to default 1000 when not provided via config', () => {
+      quoteUiConfig.quote = undefined;
+      // re-create component so changed config is evaluated
+      fixture = TestBed.createComponent(QuoteDetailsCommentComponent);
+      expect(fixture.componentInstance.messagingConfigs.charactersLimit).toBe(1000);
+    });
+    it('should set chars limit from config', () => {
+      expect(component.messagingConfigs.charactersLimit).toBe(5000);
     });
     it('should define a date format', () => {
       expect(component.messagingConfigs.dateFormat).toBe(
