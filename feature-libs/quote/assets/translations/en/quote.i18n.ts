@@ -48,7 +48,7 @@ export const quote = {
       cart: 'Cart',
     },
     comments: {
-      contactVendor: 'Contact Vendor',
+      title: 'Contact',
       invalidComment: 'Invalid Input - Please type again...',
     },
     details: {

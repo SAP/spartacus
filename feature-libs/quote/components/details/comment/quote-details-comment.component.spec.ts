@@ -41,7 +41,7 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-describe('QuoteDetailsVendorContactComponent', () => {
+describe('QuoteDetailsCommentComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsCommentComponent>;
   let component: QuoteDetailsCommentComponent;
   let mockedQuoteFacade: QuoteFacade;
@@ -110,14 +110,14 @@ describe('QuoteDetailsVendorContactComponent', () => {
     expect(fixture.debugElement.query(By.css('cx-messaging'))).not.toBeNull();
   });
 
-  it('should hide the vendor contact area when clicking the toggle', () => {
-    clickVendorContactToggle(fixture);
+  it('should hide the comments area when clicking the toggle', () => {
+    clickCommentsToggle(fixture);
     expect(fixture.debugElement.query(By.css('cx-messaging'))).toBeNull();
   });
 
-  it('should show the vendor contact area when clicking the toggle', () => {
-    component.showVendorContact = false;
-    clickVendorContactToggle(fixture);
+  it('should show the comments area when clicking the toggle', () => {
+    component.showComments = false;
+    clickCommentsToggle(fixture);
     expect(fixture.debugElement.query(By.css('cx-messaging'))).not.toBeNull();
   });
 
@@ -140,7 +140,7 @@ describe('QuoteDetailsVendorContactComponent', () => {
       .unsubscribe();
   });
 
-  function clickVendorContactToggle(
+  function clickCommentsToggle(
     fixture: ComponentFixture<QuoteDetailsCommentComponent>
   ) {
     fixture.debugElement
