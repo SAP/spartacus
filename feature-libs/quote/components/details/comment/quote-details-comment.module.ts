@@ -13,7 +13,6 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { ChatMessagingModule, IconModule } from '@spartacus/storefront';
-import { defaultQuoteUIConfig } from '../../config/default-quote-ui.config';
 import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
 
 @NgModule({
