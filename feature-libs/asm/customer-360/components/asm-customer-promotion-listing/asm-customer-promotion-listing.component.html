@@ -1,5 +1,5 @@
-<div class="cx-asm-customer-table-heading" *ngIf="headerText">
-  <h4 class="cx-asm-customer-table-heading-text">
+<div class="cx-asm-customer-promotion-listing-heading" *ngIf="headerText">
+  <h4 class="cx-asm-customer-promotion-listing-heading-text">
     {{ headerText }}
   </h4>
 </div> 
@@ -10,26 +10,28 @@
   [type]="globalMessageType.MSG_TYPE_ERROR"
   ></cx-message>
 </div>
-
 <table>
-  <tr *ngFor="let entry of entries">
-    <td>
-      <tr>{{entry.code}}</tr>
-      <tr>{{entry.name}}</tr>
-    </td>
-    <td id="couponStatus">
-      <ng-container *ngIf="!entry.applied">
-        <button
-        (click)="this.cartVoucherService.addVoucher(entry.code,this.activeCartId)">apply</button>
-      </ng-container>
-      <ng-container *ngIf="entry.applied">
-        <button
-        (click)="this.cartVoucherService.removeVoucher(entry.code,this.activeCartId)">remove</button>
-      </ng-container>
-    </td>
-
-  </tr>
+  <ng-container *ngFor="let entry of entries">
+    <hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
+    <tr>
+      <td>
+        <tr>{{entry.code}}</tr>
+        <tr>{{entry.name}}</tr>
+      </td>
+      <td id="couponStatus">
+        <ng-container *ngIf="!entry.applied">
+          <button
+          (click)="this.cartVoucherService.addVoucher(entry.code,this.activeCartId)">apply</button>
+        </ng-container>
+        <ng-container *ngIf="entry.applied">
+          <button
+          (click)="this.cartVoucherService.removeVoucher(entry.code,this.activeCartId)">remove</button>
+        </ng-container>
+      </td>
+    </tr>
+  </ng-container>
 </table>
-<div class="cx-asm-customer-table-empty" *ngIf="!entries">
+<hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
+<div class="cx-asm-customer-promotion-listing-empty" *ngIf="entries.length===0">
   {{ emptyStateText }}
 </div>

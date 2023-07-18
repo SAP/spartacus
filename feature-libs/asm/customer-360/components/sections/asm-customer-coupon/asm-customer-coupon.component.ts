@@ -61,7 +61,6 @@ export class AsmCustomerCouponComponent implements OnInit {
             code: coupon.code,
             name: coupon.name,
           });
-        // throw new Error("Error");
         });
         return entries;
       }),
