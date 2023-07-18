@@ -27,7 +27,6 @@ import { QuoteDetailsCommentComponent } from './quote-details-comment.component'
         },
       },
     }),
-    provideDefaultConfig(defaultQuoteUIConfig),
   ],
   declarations: [QuoteDetailsCommentComponent],
   exports: [QuoteDetailsCommentComponent],

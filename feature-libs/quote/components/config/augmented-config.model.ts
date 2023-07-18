@@ -6,6 +6,6 @@
 
 import { QuoteUIConfig } from './quote-ui.config';
 
-declare module '@spartacus/quote/root' {
+declare module '@spartacus/core' {
   interface Config extends QuoteUIConfig {}
 }

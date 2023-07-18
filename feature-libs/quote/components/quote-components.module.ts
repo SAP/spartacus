@@ -17,6 +17,8 @@ import {
   QuoteDetailsOverviewModule,
   QuoteDetailsCommentModule,
 } from './details';
+import { provideDefaultConfig } from '@spartacus/core';
+import { defaultQuoteUIConfig } from './config/default-quote-ui.config';
 
 @NgModule({
   imports: [
@@ -31,5 +33,6 @@ import {
     QuoteDetailsCommentModule,
     ListNavigationModule,
   ],
+  providers: [provideDefaultConfig(defaultQuoteUIConfig)],
 })
 export class QuoteComponentsModule {}
