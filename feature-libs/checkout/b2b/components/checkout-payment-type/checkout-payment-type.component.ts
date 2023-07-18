@@ -136,6 +136,7 @@ export class CheckoutPaymentTypeComponent {
       distinctUntilChanged()
     );
 
+  // TODO(CXSPA-3334): make globalMessageService a required dependency
   constructor(
     checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     checkoutStepService: CheckoutStepService,
@@ -143,8 +144,9 @@ export class CheckoutPaymentTypeComponent {
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     globalMessageService?: GlobalMessageService
   );
+
   /**
-   * @depreccated since 6.3
+   * @deprecated since 6.3
    */
   constructor(
     checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
