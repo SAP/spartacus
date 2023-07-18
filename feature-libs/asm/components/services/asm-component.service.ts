@@ -8,6 +8,8 @@ import { Injectable, Optional } from '@angular/core';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
+  AsmDeepLinkParameters,
+  AsmDeepLinkService,
   AsmEnablerService,
 } from '@spartacus/asm/root';
 import { AuthService, WindowRef } from '@spartacus/core';
@@ -27,10 +29,11 @@ export class AsmComponentService {
     csAgentAuthService: CsAgentAuthService,
     winRef: WindowRef,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    asmEnablerService: AsmEnablerService
+    asmEnablerService: AsmEnablerService,
+    asmDeepLinkService: AsmDeepLinkService
   );
   /**
-   * @deprecated since 7.0
+   * @deprecated since 7.0 (CXSPA-3090)
    */
   constructor(
     authService: AuthService,
@@ -41,13 +44,23 @@ export class AsmComponentService {
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
     protected winRef: WindowRef,
-    @Optional() protected asmEnablerService?: AsmEnablerService
+    // TODO(CXSPA-3090): Remove optional flag in 7.0 where service is used
+    @Optional() protected asmEnablerService?: AsmEnablerService,
+    @Optional() protected asmDeepLinkService?: AsmDeepLinkService
   ) {
+    // TODO(CXSPA-3090): We can remove this in 7.0 and use asmDeepLinkService instead.
     this.searchparam = new URLSearchParams(this.winRef?.location?.search);
   }
 
-  getSearchParameter(key: string): string | null {
-    return this.searchparam.get(key);
+  /**
+   * Returns a deep link parameter value if it is in the url.
+   */
+  getSearchParameter(key: string): string | undefined | null {
+    // TODO(CXSPA-3090): Use asmDeepLinkService only in 7.0
+    return (
+      this.asmDeepLinkService?.getSearchParameter(key) ??
+      this.searchparam.get(key)
+    );
   }
 
   isEmulatedByDeepLink(): BehaviorSubject<boolean> {
@@ -95,6 +108,26 @@ export class AsmComponentService {
    * check whether try to emulate customer from deeplink
    */
   isEmulateInURL(): boolean {
-    return this.asmEnablerService?.isEmulateInURL() || false;
+    // TODO(CXSPA-3090): Use asmDeepLinkService only in 7.0
+    return (
+      (this.asmDeepLinkService?.isEmulateInURL() ??
+        this.asmEnablerService?.isEmulateInURL()) ||
+      false
+    );
+  }
+
+  /**
+   * Returns valid deep link parameters in the url.
+   */
+  getDeepLinkUrlParams(): AsmDeepLinkParameters | undefined {
+    return this.asmDeepLinkService?.getParamsInUrl();
+  }
+
+  /**
+   * Handles the navigation based on deep link parameters in the URL
+   * or passed parameter.
+   */
+  handleDeepLinkNavigation(parameters = this.getDeepLinkUrlParams()): void {
+    this.asmDeepLinkService?.handleNavigation(parameters);
   }
 }
