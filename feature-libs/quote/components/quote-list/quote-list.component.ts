@@ -100,20 +100,18 @@ export class QuoteListComponent {
     return false;
   }
 
-  getQuoteStateClass(state: string | undefined): string {
+  getQuoteStateClass(state: string): string {
     let quoteStateClass;
-    if (state) {
-      if (this.isResponsible(ResponsiblePersonPrefix.BUYER, state)) {
-        quoteStateClass = this.getBuyerQuoteStatus(state);
-      } else if (this.isResponsible(ResponsiblePersonPrefix.SELLER, state)) {
-        quoteStateClass = this.getSellerQuoteStatus(state);
-      } else if (
-        this.isResponsible(ResponsiblePersonPrefix.SELLERAPPROVER, state)
-      ) {
-        quoteStateClass = this.getSellerApproverQuoteStatus(state);
-      } else {
-        quoteStateClass = this.getGeneralQuoteStatus(state);
-      }
+    if (this.isResponsible(ResponsiblePersonPrefix.BUYER, state)) {
+      quoteStateClass = this.getBuyerQuoteStatus(state);
+    } else if (this.isResponsible(ResponsiblePersonPrefix.SELLER, state)) {
+      quoteStateClass = this.getSellerQuoteStatus(state);
+    } else if (
+      this.isResponsible(ResponsiblePersonPrefix.SELLERAPPROVER, state)
+    ) {
+      quoteStateClass = this.getSellerApproverQuoteStatus(state);
+    } else {
+      quoteStateClass = this.getGeneralQuoteStatus(state);
     }
     return quoteStateClass ?? '';
   }

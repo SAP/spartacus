@@ -53,11 +53,11 @@
                 [routerLink]="
                   {
                     cxRoute: 'quoteDetails',
-                    params: { quoteId: quote?.code }
+                    params: { quoteId: quote.code }
                   } | cxUrl
                 "
               >
-                {{ quote?.name }}
+                {{ quote.name }}
               </a>
             </td>
             <td role="cell" class="cx-code">
@@ -68,11 +68,11 @@
                 [routerLink]="
                   {
                     cxRoute: 'quoteDetails',
-                    params: { quoteId: quote?.code }
+                    params: { quoteId: quote.code }
                   } | cxUrl
                 "
               >
-                {{ quote?.code }}
+                {{ quote.code }}
               </a>
             </td>
             <td role="cell" class="cx-status">
@@ -83,12 +83,12 @@
                 [routerLink]="
                   {
                     cxRoute: 'quoteDetails',
-                    params: { quoteId: quote?.code }
+                    params: { quoteId: quote.code }
                   } | cxUrl
                 "
-                [ngClass]="getQuoteStateClass(quote?.state)"
+                [ngClass]="getQuoteStateClass(quote.state)"
               >
-                {{ 'quote.states.' + quote?.state | cxTranslate }}
+                {{ 'quote.states.' + quote.state | cxTranslate }}
               </a>
             </td>
             <td role="cell" class="cx-updated-date">
@@ -99,7 +99,7 @@
                 [routerLink]="
                   {
                     cxRoute: 'quoteDetails',
-                    params: { quoteId: quote?.code }
+                    params: { quoteId: quote.code }
                   } | cxUrl
                 "
               >
@@ -111,7 +111,7 @@
                 [routerLink]="
                   {
                     cxRoute: 'quoteDetails',
-                    params: { quoteId: quote?.code }
+                    params: { quoteId: quote.code }
                   } | cxUrl
                 "
               >

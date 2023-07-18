@@ -553,5 +553,9 @@ describe('QuoteListComponent', () => {
 
       expect(quoteStateLinks[0].attributes.class).toBeUndefined();
     });
+
+    it('should return an empty string', () => {
+      expect(component.getQuoteStateClass('unknown-state')).toBe('');
+    });
   });
 });

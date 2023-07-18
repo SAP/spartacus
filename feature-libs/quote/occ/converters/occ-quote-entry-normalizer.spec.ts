@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
+import { QuoteState } from '@spartacus/quote/root';
 import { OccQuoteEntryNormalizer } from './occ-quote-entry-normalizer';
 
 class MockConverterService {
@@ -33,6 +34,7 @@ describe('OccQuoteEntryNormalizer', () => {
     const quote = {
       allowedActions: [],
       code: 'testquote',
+      state: QuoteState.BUYER_DRAFT,
       comments: [],
       description: 'test description',
       entries: [{ product }],
