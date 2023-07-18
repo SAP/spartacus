@@ -35,7 +35,7 @@ import {
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { Observable, of, Subscription, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -191,7 +191,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         //Always route to home page to avoid 404
         this.routingService.go('/');
       }
-      const parameters = {
+      // TODO(CXSPA-3090): Use asmDeepLinkService only in 7.0.
+      const parameters = this.asmComponentService.getDeepLinkUrlParams() ?? {
         customerId: this.asmComponentService.getSearchParameter('customerId'),
         orderId: this.asmComponentService.getSearchParameter('orderId'),
         ticketId: this.asmComponentService.getSearchParameter('ticketId'),
@@ -210,8 +211,12 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
             if (!isEmulatedByDeepLink && userLoggedin) {
               this.confirmSwitchCustomer(parameters.customerId);
             } else {
-              parameters.emulated = isEmulatedByDeepLink;
-              setTimeout(() => this.startSessionWithParameters(parameters));
+              setTimeout(() =>
+                this.startSessionWithParameters({
+                  ...parameters,
+                  emulated: isEmulatedByDeepLink,
+                })
+              );
             }
           }
         })
@@ -299,7 +304,16 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
       if (parameters) {
-        this.handleDeepLinkParamsAfterStartSession(parameters);
+        // TODO(CXSPA-3090): Remove feature flag in 7.0
+        if (this.featureConfig?.isLevel('6.3')) {
+          this.asmComponentService.handleDeepLinkNavigation({
+            customerId,
+            ...parameters,
+          });
+        } else {
+          // TODOi(CXSPA-3090): Remove this implementation in 7.0
+          this.handleDeepLinkParamsAfterStartSession(parameters);
+        }
       }
     } else {
       this.globalMessageService.add(
