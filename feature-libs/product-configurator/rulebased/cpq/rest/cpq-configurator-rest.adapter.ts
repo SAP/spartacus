@@ -32,6 +32,10 @@ export class CpqConfiguratorRestAdapter
     return ConfiguratorType.CPQ;
   }
 
+  supportsCpqOverOcc(): boolean {
+    return false;
+  }
+
   createConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
