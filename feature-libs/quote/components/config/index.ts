@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './quote-core.config';
+export * from './quote-ui.config';
+import './augmented-config.model';

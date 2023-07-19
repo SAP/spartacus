@@ -47,7 +47,7 @@ export class QuoteDetailsOverviewComponent {
    * @returns 'Total' price if quote is in final state, 'Estimated total' otherwise
    */
   getTotalPriceDescription(quote: Quote): string {
-    const readyToSubmit = quote.allowedActions?.find(
+    const readyToSubmit = quote.allowedActions.find(
       (action) => action.type === QuoteActionType.CHECKOUT
     );
     return readyToSubmit

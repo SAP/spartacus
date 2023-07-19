@@ -32,7 +32,7 @@ export function defaultQuoteComponentsConfig() {
           'QuoteActionLinksComponent',
           'QuoteActionsByRoleComponent',
           'CommerceQuotesCartSummaryComponent', //TODO CHHI probably not needed
-          'QuoteContactVendorComponent',
+          'QuoteDetailsCommentComponent',
         ],
       },
     },

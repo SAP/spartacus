@@ -17,7 +17,7 @@ export function createEmptyQuote(): Quote {
     state: QuoteState.BUYER_DRAFT,
     allowedActions: [],
     totalPrice: {},
-    comments: [],
     description: 'Quote description',
+    isEditable: true,
   };
 }

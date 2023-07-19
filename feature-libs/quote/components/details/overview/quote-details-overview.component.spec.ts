@@ -36,6 +36,7 @@ const mockQuote: Quote = {
   state: QuoteState.BUYER_ORDERED,
   name: 'Name',
   totalPrice: { value: 20, formattedValue: totalPriceFormattedValue },
+  isEditable: true,
 };
 
 export class MockQuoteFacade implements Partial<QuoteFacade> {
@@ -170,13 +171,6 @@ describe('QuoteDetailsOverviewComponent', () => {
       };
       expect(component.getTotalPriceDescription(quoteInOfferState)).toBe(
         'quote.details.total'
-      );
-    });
-
-    it('should be able to deal with undefined actions', () => {
-      const quoteWoActions: Quote = { ...mockQuote, allowedActions: undefined };
-      expect(component.getTotalPriceDescription(quoteWoActions)).toBe(
-        'quote.details.estimatedTotal'
       );
     });
   });

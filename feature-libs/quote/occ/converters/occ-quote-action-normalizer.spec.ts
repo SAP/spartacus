@@ -1,122 +1,167 @@
-import { inject, TestBed } from '@angular/core/testing';
-import { QuoteConfig } from '@spartacus/quote/core';
+import { TestBed } from '@angular/core/testing';
+import { QuoteCoreConfig } from '@spartacus/quote/core';
 import {
   OccQuote,
   Quote,
-  QuoteActionsByState,
   QuoteActionType,
   QuoteState,
 } from '@spartacus/quote/root';
-import { OccQuoteActionNormalizer } from './occ-quote-action-normalizer';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { OccQuoteActionNormalizer } from './occ-quote-action-normalizer';
 
-const mockActionOrderByState: Partial<QuoteActionsByState> = {
-  BUYER_DRAFT: [QuoteActionType.CANCEL, QuoteActionType.SUBMIT],
-};
-const mockPrimaryAction = QuoteActionType.SUBMIT;
-const mockState = QuoteState.BUYER_DRAFT;
-const mockAllowedActions = [QuoteActionType.SUBMIT, QuoteActionType.CANCEL];
+const SUBMIT_AND_CANCEL_UNORDERED = [
+  QuoteActionType.SUBMIT,
+  QuoteActionType.CANCEL,
+];
 
-const mockQuote: OccQuote = {
-  ...createEmptyQuote(),
-  allowedActions: mockAllowedActions,
-  state: mockState,
-};
-
-const mockConvertedQuote: Quote = {
-  ...mockQuote,
-  allowedActions: [
-    { type: QuoteActionType.CANCEL, isPrimary: false },
-    { type: QuoteActionType.SUBMIT, isPrimary: true },
-  ],
-};
-
-const MockCQConfig: Partial<QuoteConfig> = {
-  quote: {
-    actions: {
-      actionsOrderByState: mockActionOrderByState,
-      primaryActions: [mockPrimaryAction],
-    },
-  },
-};
-
-describe('BudgetNormalizer', () => {
+describe('OccQuoteActionNormalizer', () => {
   let service: OccQuoteActionNormalizer;
+  let occQuote: OccQuote;
+  let expectedQuote: Quote;
+  let quoteCoreConfig: QuoteCoreConfig;
 
   beforeEach(() => {
+    initTestData();
     TestBed.configureTestingModule({
       providers: [
         OccQuoteActionNormalizer,
-        { provide: QuoteConfig, useValue: MockCQConfig },
+        { provide: QuoteCoreConfig, useValue: quoteCoreConfig },
       ],
     });
 
     service = TestBed.inject(OccQuoteActionNormalizer);
   });
 
-  it('should inject OccQuoteActionNormalizer', inject(
-    [OccQuoteActionNormalizer],
-    (budgetNormalizer: OccQuoteActionNormalizer) => {
-      expect(budgetNormalizer).toBeTruthy();
-    }
-  ));
-
-  it('should convert budget', () => {
-    const result = service.convert(mockQuote);
-    expect(result).toEqual(mockConvertedQuote);
-  });
-
-  it('should return unsorted list if order is not present', () => {
-    service['quoteConfig'] = {
-      quote: undefined,
+  function initTestData() {
+    occQuote = {
+      ...createEmptyQuote(),
+      allowedActions: SUBMIT_AND_CANCEL_UNORDERED,
+      state: QuoteState.BUYER_DRAFT,
     };
-    expect(service['getOrderedActions'](mockState, mockAllowedActions)).toEqual(
-      mockAllowedActions
-    );
-
-    service['quoteConfig'] = {
-      quote: {
-        actions: undefined,
-      },
+    expectedQuote = {
+      ...occQuote,
+      allowedActions: [
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+      ],
+      isEditable: false,
     };
-    expect(service['getOrderedActions'](mockState, mockAllowedActions)).toEqual(
-      mockAllowedActions
-    );
-
-    service['quoteConfig'] = {
+    quoteCoreConfig = {
       quote: {
         actions: {
-          actionsOrderByState: undefined,
+          actionsOrderByState: {
+            BUYER_DRAFT: [QuoteActionType.CANCEL, QuoteActionType.SUBMIT],
+          },
+          primaryActions: [QuoteActionType.SUBMIT],
         },
       },
     };
-    expect(service['getOrderedActions'](mockState, mockAllowedActions)).toEqual(
-      mockAllowedActions
-    );
+  }
+
+  it('should inject OccQuoteActionNormalizer', () => {
+    expect(service).toBeDefined();
   });
 
-  it('should set isPrimary to false if primaryActions config is not defined', () => {
-    const result = { type: mockAllowedActions[0], isPrimary: false };
+  describe('convert', () => {
+    it('should convert OccQuote to Quote', () => {
+      const result = service.convert(occQuote);
+      expect(result).toEqual(expectedQuote);
+    });
 
-    service['quoteConfig'] = {
-      quote: undefined,
-    };
-    expect(service['getActionCategory'](mockAllowedActions[0])).toEqual(result);
+    it('should set isEditable to true if edit is allowed by backend', () => {
+      occQuote.allowedActions = [QuoteActionType.EDIT];
+      expect(service.convert(occQuote).isEditable).toBe(true);
+    });
 
-    service['quoteConfig'] = {
-      quote: {
-        actions: undefined,
-      },
-    };
-    expect(service['getActionCategory'](mockAllowedActions[0])).toEqual(result);
+    it('should set isEditable to false if edit is allowed by backend, but would require status change', () => {
+      occQuote.allowedActions = [QuoteActionType.EDIT];
+      (quoteCoreConfig.quote?.actions?.actionsOrderByState ?? {}).BUYER_DRAFT =
+        [QuoteActionType.EDIT];
+      expect(service.convert(occQuote).isEditable).toBe(false);
+    });
 
-    service['quoteConfig'] = {
-      quote: {
-        actions: {
-          primaryActions: undefined,
-        },
-      },
+    it('should set isEditable to false in case occ does not return allowedActions', () => {
+      occQuote.allowedActions = undefined;
+      expect(service.convert(occQuote).isEditable).toBe(false);
+    });
+
+    it('should set allowedActions in quote to empty array in case occ does not return allowedActions', () => {
+      occQuote.allowedActions = undefined;
+      expect(service.convert(occQuote).allowedActions).toEqual([]);
+    });
+  });
+
+  describe('getOrderedActions', () => {
+    it('should return sorted list according to config', () => {
+      const orderedActions = service['getOrderedActions'](
+        QuoteState.BUYER_DRAFT,
+        SUBMIT_AND_CANCEL_UNORDERED
+      );
+      expect(orderedActions).toEqual([
+        QuoteActionType.CANCEL,
+        QuoteActionType.SUBMIT,
+      ]);
+    });
+    it('should return unsorted list if no quote config is given', () => {
+      quoteCoreConfig.quote = undefined;
+      const orderedActions = service['getOrderedActions'](
+        QuoteState.BUYER_DRAFT,
+        SUBMIT_AND_CANCEL_UNORDERED
+      );
+      expect(orderedActions).toEqual(SUBMIT_AND_CANCEL_UNORDERED);
+    });
+    it('should return unsorted list if no actions are defined in the config', () => {
+      (quoteCoreConfig?.quote ?? {}).actions = undefined;
+      const orderedActions = service['getOrderedActions'](
+        QuoteState.BUYER_DRAFT,
+        SUBMIT_AND_CANCEL_UNORDERED
+      );
+      expect(orderedActions).toEqual(SUBMIT_AND_CANCEL_UNORDERED);
+    });
+
+    it('should return unsorted list if no actions by state are defined in the config', () => {
+      (quoteCoreConfig.quote?.actions ?? {}).actionsOrderByState = undefined;
+      const orderedActions = service['getOrderedActions'](
+        QuoteState.BUYER_DRAFT,
+        SUBMIT_AND_CANCEL_UNORDERED
+      );
+      expect(orderedActions).toEqual(SUBMIT_AND_CANCEL_UNORDERED);
+    });
+  });
+
+  describe('getActionCategory', () => {
+    const SUBMIT_NOT_PRIMARY_ACTION = {
+      type: QuoteActionType.SUBMIT,
+      isPrimary: false,
     };
-    expect(service['getActionCategory'](mockAllowedActions[0])).toEqual(result);
+    it('should set isPrimary to true if action is defined as primary in the config', () => {
+      const actualResult = service['getActionCategory'](QuoteActionType.SUBMIT);
+      expect(actualResult).toEqual({
+        type: QuoteActionType.SUBMIT,
+        isPrimary: true,
+      });
+    });
+    it('should set isPrimary to false action is not defined as primary in the config', () => {
+      const actualResult = service['getActionCategory'](QuoteActionType.CANCEL);
+      expect(actualResult).toEqual({
+        type: QuoteActionType.CANCEL,
+        isPrimary: false,
+      });
+    });
+    it('should set isPrimary to false if no quote config is given', () => {
+      quoteCoreConfig.quote = undefined;
+      const actualResult = service['getActionCategory'](QuoteActionType.SUBMIT);
+      expect(actualResult).toEqual(SUBMIT_NOT_PRIMARY_ACTION);
+    });
+    it('should set isPrimary to false if no actions are defined in the config', () => {
+      (quoteCoreConfig?.quote ?? {}).actions = undefined;
+      const actualResult = service['getActionCategory'](QuoteActionType.SUBMIT);
+      expect(actualResult).toEqual(SUBMIT_NOT_PRIMARY_ACTION);
+    });
+    it('should set isPrimary to false if no primaryActions are defined in the config', () => {
+      (quoteCoreConfig?.quote?.actions ?? {}).primaryActions = undefined;
+      const actualResult = service['getActionCategory'](QuoteActionType.SUBMIT);
+      expect(actualResult).toEqual(SUBMIT_NOT_PRIMARY_ACTION);
+    });
   });
 });

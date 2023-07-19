@@ -11,12 +11,12 @@ import {
 } from '@spartacus/quote/assets';
 import { provideConfig } from '@spartacus/core';
 import { QuoteRootModule, QUOTE_FEATURE } from '@spartacus/quote/root';
-import { QuoteConfig } from '@spartacus/quote/core';
+import { QuoteCoreConfig } from '@spartacus/quote/core';
 
 @NgModule({
   imports: [QuoteRootModule],
   providers: [
-    provideConfig(<QuoteConfig>{
+    provideConfig(<QuoteCoreConfig>{
       quote: {
         //TODO CHHI: Delete when decision has been taken about quote request dialog
         // tresholds: {

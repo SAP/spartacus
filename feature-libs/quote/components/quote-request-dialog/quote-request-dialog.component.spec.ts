@@ -158,14 +158,9 @@ describe('QuoteRequestDialogComponent', () => {
       .query(By.css('button.btn-action'))
       .nativeElement.click();
 
-    expect(quoteFacade.createQuote).toHaveBeenCalledWith(
-      {
-        name: testForm.name,
-      },
-      {
-        text: testForm.comment,
-      }
-    );
+    expect(quoteFacade.createQuote).toHaveBeenCalledWith({
+      name: testForm.name,
+    });
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'quoteDetails',
       params: { quoteId: quoteCode },
@@ -192,14 +187,9 @@ describe('QuoteRequestDialogComponent', () => {
       .query(By.css('button.btn-primary'))
       .nativeElement.click();
 
-    expect(quoteFacade.createQuote).toHaveBeenCalledWith(
-      {
-        name: testForm.name,
-      },
-      {
-        text: testForm.comment,
-      }
-    );
+    expect(quoteFacade.createQuote).toHaveBeenCalledWith({
+      name: testForm.name,
+    });
 
     expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
       quoteCode,
