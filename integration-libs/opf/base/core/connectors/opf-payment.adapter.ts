@@ -34,6 +34,10 @@ export abstract class OpfPaymentAdapter {
     paymentSessionId: string
   ): Observable<SubmitResponse>;
 
+  /**
+   * Abstract method used to submit-complete payment for hosted-fields pattern
+   */
+
   abstract submitCompletePayment(
     submitRequest: SubmitCompleteRequest,
     otpKey: string,

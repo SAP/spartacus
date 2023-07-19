@@ -8,6 +8,7 @@ import { InjectionToken } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import {
   OpfPaymentVerificationResponse,
+  SubmitCompleteResponse,
   SubmitResponse,
 } from '@spartacus/opf/base/root';
 
@@ -20,5 +21,5 @@ export const OPF_PAYMENT_SUBMIT_NORMALIZER = new InjectionToken<
 >('OpfPaymentSubmitNormalizer');
 
 export const OPF_PAYMENT_SUBMIT_COMPLETE_NORMALIZER = new InjectionToken<
-  Converter<any, SubmitResponse>
+  Converter<any, SubmitCompleteResponse>
 >('OpfPaymentSubmitCompleteNormalizer');

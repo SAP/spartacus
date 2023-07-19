@@ -93,19 +93,19 @@ export enum PaymentMethod {
   GOOGLE_PAY = 'GOOGLE_PAY',
 }
 export interface SubmitResponse {
-  cartId?: string;
-  status?: SubmitStatus;
-  reasonCode?: string;
+  cartId: string;
+  status: SubmitStatus;
+  reasonCode: string;
   paymentMethod: PaymentMethod;
-  authorizedAmount?: number;
-  customFields?: Array<KeyValuePair>;
+  authorizedAmount: number;
+  customFields: Array<KeyValuePair>;
 }
 
 export interface SubmitCompleteResponse {
-  cartId?: string;
-  status?: SubmitStatus;
-  paymentMethod?: PaymentMethod;
-  customFields?: Array<KeyValuePair>;
+  cartId: string;
+  status: SubmitStatus;
+  reasonCode: number;
+  customFields: Array<KeyValuePair>;
 }
 
 export interface SubmitCompleteRequest {
@@ -119,5 +119,4 @@ export interface SubmitCompleteInput {
   cartId: string;
   callbackArray: [MerchantCallback, MerchantCallback, MerchantCallback];
   returnPath?: Array<string>;
-  paymentMethod?: PaymentMethod;
 }

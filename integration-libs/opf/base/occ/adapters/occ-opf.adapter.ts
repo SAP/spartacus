@@ -102,7 +102,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     submitCompleteRequest: SubmitCompleteRequest,
     otpKey: string,
     paymentSessionId: string
-  ): Observable<SubmitResponse> {
+  ): Observable<SubmitCompleteResponse> {
     const headers = new HttpHeaders(this.header)
       .set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '')
       .set(OPF_CC_OTP_KEY, otpKey || '');
