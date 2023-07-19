@@ -1,16 +1,23 @@
-%cx-quote-details-vendor-contact {
-  .vendor-contact-toggle {
+%cx-quote-details-comment {
+  .quote-comment-toggle {
     cursor: pointer;
     user-select: none;
+
     cx-icon {
       margin-inline-start: 0.5rem;
       font-size: var(--cx-font-size, 1.125rem);
       font-weight: var(--cx-font-weight-semi);
     }
 
-    .vendor-contact-text {
+    .quote-comment-text {
       font-size: var(--cx-font-size, 1.125rem);
       font-weight: var(--cx-font-weight-semi);
+    }
+  }
+
+  cx-messaging {
+    .container {
+      min-height: 0px;
     }
   }
 }

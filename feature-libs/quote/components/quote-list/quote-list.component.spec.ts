@@ -23,9 +23,13 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { QuoteListComponentService } from './quote-list-component.service';
-import { QuoteListComponent } from './quote-list.component';
+import {
+  QuoteListComponent,
+  ResponsiblePersonPrefix,
+} from './quote-list.component';
 import createSpy = jasmine.createSpy;
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 const mockCartId = '1234';
 const mockPagination: PaginationModel = {
@@ -85,6 +89,14 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
 class MockCommerceQuotesListComponentService
   implements Partial<QuoteListComponentService>
 {
@@ -115,6 +127,7 @@ describe('QuoteListComponent', () => {
         MockUrlPipe,
         MockPaginationComponent,
         MockSortingComponent,
+        MockCxIconComponent,
       ],
       providers: [
         {
@@ -177,7 +190,7 @@ describe('QuoteListComponent', () => {
 
     //when
     fixture.detectChanges();
-    const header = fixture.debugElement.query(By.css('.cx-quote-list-empty'));
+    const header = fixture.debugElement.query(By.css('.cx-empty'));
 
     //then
     expect(header.nativeElement.textContent.trim()).toEqual('quote.list.empty');
@@ -201,32 +214,351 @@ describe('QuoteListComponent', () => {
     expect(elements.length).toEqual(1);
   });
 
+  describe('isResponsible', () => {
+    it("should return 'true' in case state contains 'BUYER'", () => {
+      expect(
+        component['isResponsible'](
+          ResponsiblePersonPrefix.BUYER,
+          QuoteState.BUYER_ACCEPTED
+        )
+      ).toBe(true);
+    });
+
+    it("should return 'true' in case state contains 'SELLER'", () => {
+      expect(
+        component['isResponsible'](
+          ResponsiblePersonPrefix.SELLER,
+          QuoteState.SELLER_DRAFT
+        )
+      ).toBe(true);
+    });
+
+    it("should return 'true' in case state contains 'SELLERAPPROVER'", () => {
+      expect(
+        component['isResponsible'](
+          ResponsiblePersonPrefix.SELLERAPPROVER,
+          QuoteState.SELLERAPPROVER_APPROVED
+        )
+      ).toBe(true);
+    });
+  });
+
+  describe('getBuyerQuoteStatus', () => {
+    it('should return an empty string in case state is not a buyer one', () => {
+      expect(component['getBuyerQuoteStatus'](QuoteState.SELLER_DRAFT)).toBe(
+        ''
+      );
+    });
+  });
+
+  describe('getSellerQuoteStatus', () => {
+    it('should return an empty string in case state is not a seller one', () => {
+      expect(component['getSellerQuoteStatus'](QuoteState.BUYER_DRAFT)).toBe(
+        ''
+      );
+    });
+  });
+
+  describe('getSellerApproverQuoteStatus', () => {
+    it('should return an empty string in case state is not a seller approver one', () => {
+      expect(
+        component['getSellerApproverQuoteStatus'](QuoteState.BUYER_DRAFT)
+      ).toBe('');
+    });
+  });
+
+  describe('getGeneralQuoteStatus', () => {
+    it('should return an empty string in case state is not a general one', () => {
+      expect(component['getGeneralQuoteStatus'](QuoteState.BUYER_DRAFT)).toBe(
+        ''
+      );
+    });
+  });
+
   describe('getQuoteStateClass', () => {
-    it('should apply the quote class depending on the given quote state', () => {
+    it("should apply a class for 'BUYER_DRAFT' quote status", () => {
       //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
           ...mockQuoteList,
-          quotes: [
-            { ...mockQuote, state: QuoteState.BUYER_DRAFT },
-            { ...mockQuote, cartId: '1235', state: QuoteState.BUYER_REJECTED },
-            { ...mockQuote, cartId: '1235', state: QuoteState.CANCELLED },
-            { ...mockQuote, cartId: '1235', state: QuoteState.BUYER_SUBMITTED },
-          ],
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_DRAFT }],
         },
       });
       //when
       fixture.detectChanges();
       //then
       const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-quote-list-quote-status a')
+        By.css('.cx-status a')
       );
 
       expect(quoteStateLinks[0].attributes.class).toContain('quote-draft');
-      expect(quoteStateLinks[1].attributes.class).toContain('quote-rejected');
-      expect(quoteStateLinks[2].attributes.class).toContain('quote-cancelled');
-      expect(quoteStateLinks[3].attributes.class).toContain('quote-submitted');
+    });
+
+    it("should apply a class for 'SELLER_DRAFT' quote status", () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.SELLER_DRAFT }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-draft');
+    });
+
+    it("should apply a class for 'BUYER_SUBMITTED' quote status", () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_SUBMITTED }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-submitted');
+    });
+
+    it("should apply a class for 'SELLER_SUBMITTED' quote status", () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.SELLER_SUBMITTED }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-submitted');
+    });
+
+    it("should apply a class for 'BUYER_ACCEPTED' quote status", () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_ACCEPTED }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-accepted');
+    });
+
+    it("should apply a class for 'BUYER_APPROVED' quote status", () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_APPROVED }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-approved');
+    });
+
+    it("should apply a class for 'SELLERAPPROVER_APPROVED' quote status", () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.SELLERAPPROVER_APPROVED }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-approved');
+    });
+
+    it("should apply a class for 'BUYER_REJECTED' quote status", () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_REJECTED }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-rejected');
+    });
+
+    it("should apply a class for 'SELLERAPPROVER_REJECTED' quote status", () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.SELLERAPPROVER_REJECTED }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-rejected');
+    });
+
+    it("should apply a class for 'BUYER_OFFER' quote status", () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_OFFER }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-offer');
+    });
+
+    it("should apply a class for 'BUYER_ORDERED' quote status", () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_ORDERED }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-ordered');
+    });
+
+    it("should apply a class for 'SELLER_REQUEST' quote status", () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.SELLER_REQUEST }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-request');
+    });
+
+    it("should apply a class for 'SELLERAPPROVER_PENDING' quote status", () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.SELLERAPPROVER_PENDING }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-pending');
+    });
+
+    it("should apply a class for 'CANCELLED' quote status", () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.CANCELLED }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-cancelled');
+    });
+
+    it("should apply a class for 'EXPIRED' quote status", () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.EXPIRED }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-expired');
     });
   });
 });

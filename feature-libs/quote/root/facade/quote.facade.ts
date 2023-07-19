@@ -46,10 +46,7 @@ export abstract class QuoteFacade {
   /**
    * Create quote with name and comment.
    */
-  abstract createQuote(
-    quoteMetadata: QuoteMetadata,
-    quoteComment: Comment
-  ): Observable<Quote>;
+  abstract createQuote(quoteMetadata: QuoteMetadata): Observable<Quote>;
 
   /**
    * Edit quote name, description or expiry date.

@@ -9,10 +9,10 @@ import { PaginationModel, Price, Principal, SortModel } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 export interface OccQuote {
-  allowedActions: QuoteActionType[];
+  allowedActions?: QuoteActionType[];
   cartId?: string;
   code: string;
-  comments: Comment[];
+  comments?: Comment[];
   creationTime?: Date;
   description: string;
   entries?: OrderEntry[];
@@ -22,7 +22,7 @@ export interface OccQuote {
   previousEstimatedTotal?: Price;
   productDiscounts?: Price;
   quoteDiscounts?: Price;
-  state?: QuoteState;
+  state: QuoteState;
   subTotalWithDiscounts?: Price;
   threshold?: number;
   totalItems?: number;
@@ -33,7 +33,8 @@ export interface OccQuote {
 }
 
 export type Quote = Omit<OccQuote, 'allowedActions'> & {
-  allowedActions?: QuoteAction[];
+  isEditable: boolean;
+  allowedActions: QuoteAction[];
 };
 
 export interface QuoteAction {

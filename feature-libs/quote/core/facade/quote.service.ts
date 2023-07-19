@@ -53,12 +53,9 @@ export class QuoteService implements QuoteFacade {
   protected isActionPerforming$ = new BehaviorSubject<boolean>(false);
 
   protected createQuoteCommand: Command<
-    { quoteMetadata: QuoteMetadata; quoteComment: Comment },
+    { quoteMetadata: QuoteMetadata },
     Quote
-  > = this.commandService.create<
-    { quoteMetadata: QuoteMetadata; quoteComment: Comment },
-    Quote
-  >(
+  > = this.commandService.create<{ quoteMetadata: QuoteMetadata }, Quote>(
     (payload) =>
       combineLatest([
         this.userIdService.takeUserId(),
@@ -75,11 +72,6 @@ export class QuoteService implements QuoteFacade {
                 userId,
                 quote.code,
                 payload.quoteMetadata
-              ),
-              this.quoteConnector.addComment(
-                userId,
-                quote.code,
-                payload.quoteComment
               ),
             ]),
             of(userId),
@@ -255,13 +247,9 @@ export class QuoteService implements QuoteFacade {
     protected multiCartService: MultiCartFacade
   ) {}
 
-  createQuote(
-    quoteMetadata: QuoteMetadata,
-    quoteComment: Comment
-  ): Observable<Quote> {
+  createQuote(quoteMetadata: QuoteMetadata): Observable<Quote> {
     return this.createQuoteCommand.execute({
       quoteMetadata,
-      quoteComment,
     });
   }
 

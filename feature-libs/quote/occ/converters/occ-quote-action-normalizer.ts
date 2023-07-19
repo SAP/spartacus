@@ -5,23 +5,23 @@
  */
 
 import { Injectable } from '@angular/core';
-import { QuoteConfig } from '@spartacus/quote/core';
+import { Converter } from '@spartacus/core';
+import { QuoteCoreConfig } from '@spartacus/quote/core';
 import {
-  QuoteAction,
   OccQuote,
   Quote,
+  QuoteAction,
   QuoteActionType,
   QuoteState,
 } from '@spartacus/quote/root';
-import { Converter } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
-  constructor(private quoteConfig: QuoteConfig) {}
+  constructor(protected quoteConfig: QuoteCoreConfig) {}
 
   convert(source: OccQuote, target?: Quote): Quote {
     if (!target) {
-      target = { ...(source as any) } as Quote;
+      target = { ...source, allowedActions: [], isEditable: false };
     }
 
     if (source.allowedActions && source.state) {
@@ -30,6 +30,13 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
         source.allowedActions
       ).map((action) => this.getActionCategory(action));
     }
+    const switchToEditModeRequired = target.allowedActions?.find(
+      (quoteAction) => quoteAction.type === QuoteActionType.EDIT
+    );
+
+    target.isEditable =
+      !!source.allowedActions?.includes(QuoteActionType.EDIT) &&
+      !switchToEditModeRequired;
 
     //TODO CONFIG_INTEGRATION have this code in a dedicated entry normalizer
     //TODO CONFIG_INTEGRATION introduce constant for quote in model (no enum)
@@ -48,10 +55,10 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
   protected getOrderedActions(state: QuoteState, list: QuoteActionType[]) {
     const order = this.quoteConfig.quote?.actions?.actionsOrderByState?.[state];
 
-    return !order
+    return order
       ? list
-      : list
           .filter((item) => order.includes(item))
-          .sort((a, b) => order.indexOf(a) - order.indexOf(b));
+          .sort((a, b) => order.indexOf(a) - order.indexOf(b))
+      : list;
   }
 }

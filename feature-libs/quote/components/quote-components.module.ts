@@ -15,8 +15,10 @@ import { QuoteRequestDialogModule } from './quote-request-dialog/quote-request-d
 import {
   QuoteDetailsCartModule,
   QuoteDetailsOverviewModule,
-  QuoteDetailsVendorContactModule,
+  QuoteDetailsCommentModule,
 } from './details';
+import { provideDefaultConfig } from '@spartacus/core';
+import { defaultQuoteUIConfig } from './config/default-quote-ui.config';
 
 @NgModule({
   imports: [
@@ -28,8 +30,9 @@ import {
     QuoteRequestDialogModule,
     QuoteActionLinksModule,
     QuoteActionsByRoleModule,
-    QuoteDetailsVendorContactModule,
+    QuoteDetailsCommentModule,
     ListNavigationModule,
   ],
+  providers: [provideDefaultConfig(defaultQuoteUIConfig)],
 })
 export class QuoteComponentsModule {}

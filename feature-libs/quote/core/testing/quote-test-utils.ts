@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Quote } from '@spartacus/quote/root';
+import { Quote, QuoteState } from '@spartacus/quote/root';
 
 /**
  * Quote test utils
@@ -14,9 +14,10 @@ export function createEmptyQuote(): Quote {
   return {
     code: QUOTE_CODE,
     name: 'Quote',
+    state: QuoteState.BUYER_DRAFT,
     allowedActions: [],
     totalPrice: {},
-    comments: [],
     description: 'Quote description',
+    isEditable: true,
   };
 }

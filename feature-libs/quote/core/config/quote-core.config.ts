@@ -29,7 +29,7 @@ export interface QuoteActionsConfig {
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class QuoteConfig {
+export abstract class QuoteCoreConfig {
   /**
    * Commerce quotes config
    */
@@ -40,5 +40,5 @@ export abstract class QuoteConfig {
 }
 
 declare module '@spartacus/core' {
-  interface Config extends QuoteConfig {}
+  interface Config extends QuoteCoreConfig {}
 }

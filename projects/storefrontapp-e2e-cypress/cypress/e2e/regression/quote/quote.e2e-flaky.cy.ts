@@ -26,32 +26,32 @@ context('Quote', () => {
     cy.cxConfig(globalMessageSettings);
     cy.visit('/');
     quote.login(EMAIL, PASSWORD, USER);
+    quote.registerGetQuoteRoute(POWERTOOLS);
   });
 
   describe('Request quote process', () => {
     it('should display a message and disable submit button if threshold is not met', () => {
       quote.requestQuote(POWERTOOLS, testProductHammerDrilling, '1');
-      quote.checkGlobalMessageDisplayed(true);
-      quote.checkSubmitButton(false);
+      quote.checkQuoteInDraftState(false, testProductHammerDrilling);
     });
 
-    it('should display no message and enable submit button if threshold is met', () => {
+    it('should be possible(submit) if threshold is met', () => {
       quote.requestQuote(POWERTOOLS, testProductHammerDrilling, '30');
-      quote.checkGlobalMessageDisplayed(false);
-      quote.checkSubmitButton(true);
-    });
-
-    it('should result in a quote in draft state', () => {
-      quote.requestQuote(POWERTOOLS, testProductHammerDrilling, '30');
-      quote.checkQuoteIsDraft();
-    });
-
-    it('should display quote entry details like product ID', () => {
-      quote.requestQuote(POWERTOOLS, testProductHammerDrilling, '1');
-      cy.get('.cx-code').should('contain.text', testProductHammerDrilling);
+      quote.checkQuoteInDraftState(true, testProductHammerDrilling);
+      quote.addCommentAndWait(
+        'Can you please make me a good offer for this large volume of goods?'
+      );
+      quote.checkComment(
+        0,
+        'Can you please make me a good offer for this large volume of goods?'
+      );
+      quote.submitQuote();
+      quote.checkQuoteState('Submitted');
+      quote.checkCommentsNotEditable();
     });
   });
 
+  // these tests should be removed, as soon as the quote list navigation is part of the above process tests
   describe('Quote list', () => {
     it('should be accessible from My Account', () => {
       quote.navigateToQuoteListFromMyAccount();

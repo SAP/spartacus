@@ -44,7 +44,7 @@ context('Quote<->Configurator integration', () => {
       quote.requestQuote(POWERTOOLS, testProductConfigurable, '1');
 
       //check: quote is in status draft
-      quote.checkQuoteIsDraft();
+      quote.checkQuoteInDraftState(false, testProductConfigurable);
 
       //check: we can navigate to the VC overview page
       configurationCart.clickOnDisplayConfigurationLink(0);
@@ -60,7 +60,7 @@ context('Quote<->Configurator integration', () => {
       quote.requestQuote(POWERTOOLS, testProductConfigurableTextfield, '1');
 
       //check: quote is in status draft
-      quote.checkQuoteIsDraft();
+      quote.checkQuoteInDraftState(false, testProductConfigurableTextfield);
 
       //check: we can navigate to the textfield configurator form
       configurationCart.clickOnDisplayConfigurationLink(0);

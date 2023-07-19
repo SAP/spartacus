@@ -7,6 +7,9 @@
 import * as authentication from './auth-forms';
 import * as common from './common';
 
+/** alias for GET Quote Route */
+export const GET_QUOTE_ALIAS = '@GET_QUOTE';
+
 /**
  * Sets quantity on PDP
  */
@@ -72,6 +75,30 @@ export function addProductToCartForQuotePreparation(
   common.clickOnViewCartBtnOnPD();
 }
 
+export function submitQuote(): void {
+  clickOnSubmitQuoteBtnOnQD();
+  clickOnYesBtnOnQuoteSubmitPopUp();
+}
+
+/**
+ * Clicks on 'Submit Quote' on the quote overview page.
+ */
+export function clickOnSubmitQuoteBtnOnQD(): void {
+  cy.get('cx-quote-actions-by-role button.btn-primary')
+    .click()
+    .then(() => {
+      cy.get('cx-quote-confirm-request-dialog').should('be.visible');
+    });
+}
+
+/**
+ * Clicks on 'Yes' on the quote confirm request dialog  popup.
+ */
+export function clickOnYesBtnOnQuoteSubmitPopUp(): void {
+  cy.get('div.cx-dialog-item button.btn-primary').click();
+  cy.wait(GET_QUOTE_ALIAS);
+}
+
 /**
  * Checks on the global message on the top of the page.
  */
@@ -92,6 +119,10 @@ export function checkSubmitButton(isEnabled: boolean): void {
   } else {
     cy.get('button.btn-primary').should('be.disabled');
   }
+}
+
+export function checkCommentsNotEditable(): void {
+  cy.get('cx-quote-details-comment .cx-message-input').should('not.exist');
 }
 
 /**
@@ -137,9 +168,53 @@ export function navigateToQuoteListFromQuoteDetails() {
 }
 
 /**
- * Checks quote is in draft status
+ * Checks the displayed quote, assuming that it is in draft state.
+ * @param meetsThreshold does the quote meet the threshold
+ * @param productId product id of a product which is part of the quote
  */
+export function checkQuoteInDraftState(
+  meetsThreshold: boolean,
+  productId: string
+) {
+  checkQuoteState('Draft');
+  this.checkGlobalMessageDisplayed(!meetsThreshold);
+  this.checkSubmitButton(meetsThreshold);
+  cy.get('.cx-code').should('contain.text', productId);
+}
 
-export function checkQuoteIsDraft() {
-  cy.get('.cx-quote-details-header-status').should('contain.text', 'Draft');
+export function checkQuoteState(status: string) {
+  cy.get('cx-quote-details-overview h3.status').contains(status);
+}
+
+/**
+ * Adds a header comment to the quote assuming that the quote is currently in edit mode
+ * @param text text to add
+ */
+export function addCommentAndWait(text: string) {
+  cy.get('cx-quote-details-comment .cx-message-input').within(() => {
+    cy.get('input').type(text);
+    cy.get('button').click();
+  });
+  cy.wait(GET_QUOTE_ALIAS);
+}
+
+/**
+ * checks whether the given header comment is displayed on the given position
+ * @param index position of the comment, starting with 0 for the first comment.
+ * @param text text to be displayed
+ */
+export function checkComment(index: number, text: string) {
+  cy.get('cx-quote-details-comment .cx-message-card div[role="listitem"]')
+    .eq(index)
+    .should('contain.text', text);
+}
+
+/**
+ * Register GET quote route.
+ */
+export function registerGetQuoteRoute(shopName: string) {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/current/quotes/*`,
+  }).as(GET_QUOTE_ALIAS.substring(1)); // strip the '@'
 }
