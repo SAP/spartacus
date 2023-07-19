@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   Address,
   CmsOrderDetailOverviewComponent,
   CostCenter,
   TranslationService,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { Card, CmsComponentData } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -36,7 +37,9 @@ export class OrderOverviewComponent {
   constructor(
     protected translation: TranslationService,
     protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>
+    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>,
+    // TODO:(CXSPA-3330) for next major release remove feature level
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {}
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
@@ -215,6 +218,11 @@ export class OrderOverviewComponent {
       }),
     ]).pipe(
       filter(() => Boolean(payment)),
+      filter(() =>
+        this.featureConfigService?.isLevel('6.3')
+          ? this.isPaymentInfoCardFull(payment)
+          : true
+      ),
       map(
         ([textTitle, textExpires]) =>
           ({
@@ -223,6 +231,15 @@ export class OrderOverviewComponent {
             text: [payment.cardNumber, textExpires],
           } as Card)
       )
+    );
+  }
+
+  protected isPaymentInfoCardFull(payment: PaymentDetails): boolean {
+    return (
+      !!payment?.cardNumber &&
+      !!payment?.expiryMonth &&
+      !!payment?.expiryYear &&
+      !!payment?.accountHolderName
     );
   }
 
