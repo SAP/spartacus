@@ -1,0 +1,173 @@
+%cx-asm-customer-promotion-listing {
+    display: block;
+    padding: 0 18px;
+  
+    .cx-asm-customer-promotion-listing {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      margin-top: 5px;
+  
+      &-heading {
+        width: 100%;
+        font-size: 0.875rem;
+        justify-content: space-between;
+        display: flex;
+  
+        &-text {
+          font-size: 1.125rem;
+          font-weight: var(--cx-font-weight-semi);
+          padding: 28px 0 32px 30px;
+        }
+      }
+
+      &-subheader {
+        font-size: 1rem;
+        font-weight: var(--cx-font-weight-bold);
+        padding: 15px 10px 0px 10px;
+        color: $asmMainTextColor;
+        display: flex;
+      }
+
+      &-description {
+        font-size: 0.875rem;
+        font-weight: var(--cx-font-weight-normal);
+        padding: 0px 10px 15px 10px;
+        color: var(--cx-color-secondary);
+        display: flex;
+      }
+
+      &-separator {
+        border: none;
+        border-bottom: 1px solid $asmBorderColor;
+        margin: 0;
+      }
+  
+      &-empty {
+        padding-top: 14px;
+      }
+  
+      &-row {
+        width: 100%;
+        // border: none;
+        border-top: 1px solid $asmBorderColor;
+  
+    //     &-header {
+    //       border: none;
+    //     }
+  
+    //     &:nth-child(2n + 2) {
+    //       background: $asmTableBackgroundAltColor;
+    //     }
+      }
+      &-action {
+        float: right;
+      }
+      &-apply-button{
+        font-weight: var(--cx-font-weight-semi);
+        font-size: 1.125rem;
+        background-color: #0070F2;
+        color: #FFFFFF;
+        float: right;
+        border-radius: 20%;
+        border-color: #0070F2;
+        height: inherit;
+      }
+      &-remove-button {
+        color: #AA0808;
+        font-weight: var(--cx-font-weight-semi);
+        font-size: 1.125rem;
+        background: white;
+        border: none;
+      }
+      &-action-separator{
+        color: #747881;
+      }
+      &-applied{
+        font-weight: var(--cx-font-weight-semi);
+        font-size: 1.125rem;
+      }
+    //   th,
+    //   td {
+    //     text-align: start;
+    //     vertical-align: top;
+    //     padding: 19px 10px;
+    //   }
+    //   th:first-child,
+    //   td:first-child {
+    //     padding-inline-start: 24px;
+    //   }
+  
+    //   td {
+    //     color: $asmMainTextColor;
+    //     white-space: nowrap;
+    //     overflow: hidden;
+    //     text-overflow: ellipsis;
+    //     font-size: 1rem;
+    //     font-weight: var(--cx-font-weight-normal);
+    //     button {
+    //       font-weight: bold;
+    //       color: $asmLinkColor;
+    //     }
+    //   }
+  
+    //   th {
+    //     font-size: 1rem;
+    //     font-weight: var(--cx-font-weight-semi);
+    //     color: $asmMainTextColor;
+    //     cursor: pointer;
+    //     user-select: none;
+  
+    //     &:hover,
+    //     &.active {
+    //       color: $asmLinkColor;
+    //     }
+  
+    //     &.active {
+    //       &.desc::after,
+    //       &.asc::after {
+    //         content: '';
+    //         margin-inline-start: 8px;
+    //         border-color: transparent;
+    //         border-style: solid;
+    //         border-left-width: 5px;
+    //         border-right-width: 5px;
+    //         position: relative;
+    //       }
+  
+    //       &.desc::after {
+    //         border-bottom: 5px solid $asmLinkColor;
+    //         bottom: 11px;
+    //       }
+  
+    //       &.asc::after {
+    //         border-top: 5px solid $asmLinkColor;
+    //         top: 13px;
+    //       }
+    //     }
+    //   }
+  
+    //   th.text-start,
+    //   td.text-start {
+    //     text-align: start;
+    //     button {
+    //       text-align: start;
+    //     }
+    //   }
+    //   th.text-center,
+    //   td.text-center {
+    //     text-align: center;
+    //     button {
+    //       text-align: center;
+    //     }
+    //   }
+    //   th.text-end,
+    //   td.text-end {
+    //     text-align: end;
+    //     button {
+    //       text-align: end;
+    //     }
+    //   }
+    }
+  }
+  

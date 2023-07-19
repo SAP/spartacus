@@ -10,22 +10,29 @@
   [type]="globalMessageType.MSG_TYPE_ERROR"
   ></cx-message>
 </div>
-<table>
+<table class="cx-asm-customer-promotion-listing">
   <ng-container *ngFor="let entry of entries">
-    <hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
-    <tr>
+    <tr
+    class="cx-asm-customer-promotion-listing-row">
       <td>
-        <tr>{{entry.code}}</tr>
-        <tr>{{entry.name}}</tr>
+        <tr class="cx-asm-customer-promotion-listing-subheader" tabindex="-1">{{entry.code}}</tr>
+        <tr class="cx-asm-customer-promotion-listing-description">{{entry.name}}</tr>
       </td>
       <td id="couponStatus">
         <ng-container *ngIf="!entry.applied">
-          <button
-          (click)="this.cartVoucherService.addVoucher(entry.code,this.activeCartId)">apply</button>
+          <button class="cx-asm-customer-promotion-listing-apply-button"
+          (click)="this.cartVoucherService.addVoucher(entry.code,this.activeCartId)">Apply to Cart</button>
         </ng-container>
-        <ng-container *ngIf="entry.applied">
-          <button
-          (click)="this.cartVoucherService.removeVoucher(entry.code,this.activeCartId)">remove</button>
+        <ng-container *ngIf="entry.applied" >
+          <tr class="cx-asm-customer-promotion-listing-action">
+            <td class="cx-asm-customer-promotion-listing-applied">Coupon Applied</td>
+            <td class="cx-asm-customer-promotion-listing-action-separator">|</td>
+            <td>
+            
+            <button class="cx-asm-customer-promotion-listing-remove-button"
+            (click)="this.cartVoucherService.removeVoucher(entry.code,this.activeCartId)">remove</button>
+          </td>
+          </tr>
         </ng-container>
       </td>
     </tr>
