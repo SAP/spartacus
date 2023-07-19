@@ -18,9 +18,9 @@ export function setQtyOnPD(quantity: string): void {
 }
 
 /**
- * Clicks on 'Request Quote' on the cart page.
+ * Clicks on 'Request Quote' on the cart page and checks for quote page
  */
-export function clickOnRequestQuoteInCart(): void {
+export function clickOnRequestQuoteInCartAndExpectQuotePage(): void {
   cy.get('cx-quote-request-button button')
     .click()
     .then(() => {
@@ -30,6 +30,13 @@ export function clickOnRequestQuoteInCart(): void {
     .then(() => {
       cy.get('cx-quote-actions-by-role').should('be.visible');
     });
+}
+
+/**
+ * Clicks on 'Request Quote' on the cart page.
+ */
+export function clickOnRequestQuoteInCart(): void {
+  cy.get('cx-quote-request-button button').click();
 }
 
 export function login(email: string, password: string, name: string): void {
@@ -53,11 +60,19 @@ export function requestQuote(
   productName: string,
   quantity: string
 ): void {
+  this.addProductToCartForQuotePreparation(shopName, productName, quantity);
+  this.clickOnRequestQuoteInCartAndExpectQuotePage();
+}
+
+export function addProductToCartForQuotePreparation(
+  shopName,
+  productName: string,
+  quantity: string
+): void {
   common.goToPDPage(shopName, productName);
   this.setQtyOnPD(quantity);
   common.clickOnAddToCartBtnOnPD();
   common.clickOnViewCartBtnOnPD();
-  this.clickOnRequestQuoteInCart();
 }
 
 export function submitQuote(): void {
