@@ -27,7 +27,7 @@ export interface PaymentBrowserInfo {
   screenHeight?: number;
   screenWidth?: number;
   userAgent?: string;
-  timezoneOffset?: number;
+  timeZoneOffset?: number;
   ipAddress?: string;
   originUrl?: string;
 }
