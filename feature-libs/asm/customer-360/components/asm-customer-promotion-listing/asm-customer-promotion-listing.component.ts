@@ -10,13 +10,8 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import {
-  GlobalMessageType,
-} from '@spartacus/core';
-import {
-  ActiveCartFacade,
-  CartVoucherFacade,
-} from '@spartacus/cart/base/root';
+import { GlobalMessageType } from '@spartacus/core';
+import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/base/root';
 import { PromotionListEntry } from './asm-customer-promotion-listing.model';
 import { Customer360Config } from '../../root/config';
 import { Subscription } from 'rxjs';
@@ -25,8 +20,8 @@ import { Subscription } from 'rxjs';
   selector: 'cx-asm-customer-promotion-listing',
   templateUrl: './asm-customer-promotion-listing.component.html',
 })
-export class AsmCustomerPromotionListingComponent implements OnInit{
-// export class AsmCustomerPromotionListingComponent implements OnChanges, AfterViewChecked {
+export class AsmCustomerPromotionListingComponent implements OnInit {
+  // export class AsmCustomerPromotionListingComponent implements OnChanges, AfterViewChecked {
   @Input() headerText: string;
   @Input() emptyStateText: string;
   @Input() entries: Array<PromotionListEntry>;
@@ -38,7 +33,7 @@ export class AsmCustomerPromotionListingComponent implements OnInit{
   constructor(
     protected customer360Config: Customer360Config,
     protected cartVoucherService: CartVoucherFacade,
-    protected activeCartFacade: ActiveCartFacade,
+    protected activeCartFacade: ActiveCartFacade
   ) {}
 
   ngOnInit(): void {

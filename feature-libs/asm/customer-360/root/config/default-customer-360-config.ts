@@ -113,7 +113,7 @@ export const defaultCustomer360Config: Customer360Config = {
             },
           },
         ],
-      }
+      },
     ],
   },
 };

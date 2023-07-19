@@ -89,7 +89,7 @@ export const customer360 = {
       emptyDescription: 'There are currently no support tickets',
     },
     coupons: {
-      headerText:'Coupons',
+      headerText: 'Coupons',
       emptyDescription: 'There are currently no coupons',
     },
     maps: {

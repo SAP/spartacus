@@ -11,4 +11,3 @@ export interface CouponEntry extends Customer360Coupon {
   code: string;
   name?: string;
 }
-

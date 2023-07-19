@@ -9,9 +9,7 @@ import { Customer360CouponList } from '@spartacus/asm/customer-360/root';
 // import { UrlCommand } from '@spartacus/core';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import {
-  CartVoucherFacade,
-} from '@spartacus/cart/base/root';
+import { CartVoucherFacade } from '@spartacus/cart/base/root';
 // import {
 //   CustomerTableColumn,
 //   CustomerTableTextAlign,
@@ -41,7 +39,7 @@ export class AsmCustomerCouponComponent implements OnInit {
     {
       property: 'name',
       i18nTextKey: 'customer360.coupons.name',
-    }
+    },
   ];
 
   constructor(

@@ -222,7 +222,7 @@ export type Customer360Data =
   | Customer360SavedCart
   | Customer360Overview
   | Customer360ActivityList
-  | Customer360CouponList;;
+  | Customer360CouponList;
 
 export interface Customer360Response {
   value: Array<Customer360Data>;
