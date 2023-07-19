@@ -23,6 +23,9 @@ import {
   OpfPaymentVerificationResponse,
   PaymentErrorType,
   PaymentMethod,
+  SubmitCompleteInput,
+  SubmitCompleteRequest,
+  SubmitCompleteResponse,
   SubmitInput,
   SubmitRequest,
   SubmitResponse,
@@ -104,9 +107,60 @@ export class OpfPaymentService implements OpfPaymentFacade {
         )
       ),
       concatMap((response: SubmitResponse) =>
-        this.submitPaymentResponseHandler(
+        this.paymentResponseHandler(response, payload.submitInput.callbackArray)
+      ),
+      tap((order: Order) => {
+        if (order) {
+          this.routingService.go({ cxRoute: 'orderConfirmation' });
+        }
+      }),
+      map((order: Order) => (order ? true : false)),
+      catchError((error: OpfPaymentError | undefined) => {
+        this.opfPaymentErrorHandlerService.handlePaymentError(
+          error,
+          returnPath
+        );
+        return throwError(error);
+      })
+    );
+  });
+
+  protected submitCompletePaymentCommand: Command<
+    {
+      submitCompleteInput: SubmitCompleteInput;
+    },
+    boolean
+  > = this.commandService.create((payload) => {
+    const { cartId, additionalData, paymentSessionId, returnPath } =
+      payload.submitCompleteInput;
+
+    const submitCompleteRequest: SubmitCompleteRequest = {
+      cartId,
+      additionalData,
+      paymentSessionId,
+    };
+
+    return combineLatest([
+      this.userIdService.getUserId(),
+      this.activeCartFacade.getActiveCartId(),
+    ]).pipe(
+      switchMap(([userId, activeCartId]: [string, string]) => {
+        submitCompleteRequest.cartId = activeCartId;
+        return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
+      }),
+      filter((response) => Boolean(response?.value)),
+      take(1),
+      concatMap(({ value: otpKey }) =>
+        this.opfPaymentConnector.submitCompletePayment(
+          submitCompleteRequest,
+          otpKey,
+          paymentSessionId
+        )
+      ),
+      concatMap((response: SubmitCompleteResponse) =>
+        this.paymentResponseHandler(
           response,
-          payload.submitInput.callbackArray
+          payload.submitCompleteInput.callbackArray
         )
       ),
       tap((order: Order) => {
@@ -125,8 +179,8 @@ export class OpfPaymentService implements OpfPaymentFacade {
     );
   });
 
-  protected submitPaymentResponseHandler(
-    response: SubmitResponse,
+  protected paymentResponseHandler(
+    response: SubmitResponse | SubmitCompleteResponse,
     [submitSuccess, submitPending, submitFailure]: [
       MerchantCallback,
       MerchantCallback,
@@ -190,5 +244,11 @@ export class OpfPaymentService implements OpfPaymentFacade {
 
   submitPayment(submitInput: SubmitInput): Observable<boolean> {
     return this.submitPaymentCommand.execute({ submitInput });
+  }
+
+  submitCompletePayment(
+    submitCompleteInput: SubmitCompleteInput
+  ): Observable<boolean> {
+    return this.submitCompletePaymentCommand.execute({ submitCompleteInput });
   }
 }

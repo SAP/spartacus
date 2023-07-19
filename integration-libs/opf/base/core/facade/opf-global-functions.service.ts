@@ -39,6 +39,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     vcr?: ViewContainerRef
   ): void {
     this.registerSubmit(paymentSessionId, vcr);
+    this.registerSubmitComplete(paymentSessionId, vcr);
     this._isGlobalServiceInit = true;
   }
 
@@ -109,6 +110,71 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
             callbackArray,
             paymentMethod,
             returnPath: undefined,
+          })
+          .pipe(
+            finalize(() => {
+              if (overlayedSpinner) {
+                overlayedSpinner
+                  .subscribe((component) => {
+                    this.launchDialogService.clear(
+                      LAUNCH_CALLER.PLACE_ORDER_SPINNER
+                    );
+                    if (component) {
+                      component.destroy();
+                    }
+                  })
+                  .unsubscribe();
+              }
+            })
+          )
+          .toPromise();
+      });
+    };
+  }
+
+  protected registerSubmitComplete(
+    paymentSessionId: string,
+    vcr?: ViewContainerRef
+  ): void {
+    this.getGlobalFunctionContainer().submitComplete = ({
+      cartId,
+      additionalData,
+      submitSuccess = (): void => {
+        // this is intentional
+      },
+      submitPending = (): void => {
+        // this is intentional
+      },
+      submitFailure = (): void => {
+        // this is intentional
+      },
+    }: {
+      cartId: string;
+      additionalData: Array<KeyValuePair>;
+      submitSuccess: MerchantCallback;
+      submitPending: MerchantCallback;
+      submitFailure: MerchantCallback;
+    }): Promise<boolean> => {
+      return this.ngZone.run(() => {
+        let overlayedSpinner: void | Observable<ComponentRef<any> | undefined>;
+        if (vcr) {
+          overlayedSpinner = this.launchDialogService.launch(
+            LAUNCH_CALLER.PLACE_ORDER_SPINNER,
+            vcr
+          );
+        }
+        const callbackArray: [
+          MerchantCallback,
+          MerchantCallback,
+          MerchantCallback
+        ] = [submitSuccess, submitPending, submitFailure];
+
+        return this.opfPaymentFacade
+          .submitCompletePayment({
+            additionalData,
+            paymentSessionId,
+            cartId,
+            callbackArray,
           })
           .pipe(
             finalize(() => {

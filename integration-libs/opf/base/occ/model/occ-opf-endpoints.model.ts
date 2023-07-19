@@ -17,5 +17,9 @@ declare module '@spartacus/core' {
      * Endpoint to submit payment for Hosted Fields pattern.
      */
     submitPayment?: string | OccEndpoint;
+    /**
+     * Endpoint to submit-complete payment for Hosted Fields pattern.
+     */
+    submitCompletePayment?: string | OccEndpoint;
   }
 }

@@ -18,3 +18,7 @@ export const OPF_PAYMENT_VERIFICATION_NORMALIZER = new InjectionToken<
 export const OPF_PAYMENT_SUBMIT_NORMALIZER = new InjectionToken<
   Converter<any, SubmitResponse>
 >('OpfPaymentSubmitNormalizer');
+
+export const OPF_PAYMENT_SUBMIT_COMPLETE_NORMALIZER = new InjectionToken<
+  Converter<any, SubmitResponse>
+>('OpfPaymentSubmitCompleteNormalizer');

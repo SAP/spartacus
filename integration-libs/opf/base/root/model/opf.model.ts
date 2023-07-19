@@ -28,7 +28,7 @@ export interface KeyValuePair {
 }
 
 export type MerchantCallback = (
-  response?: SubmitResponse
+  response?: SubmitResponse | SubmitCompleteResponse
 ) => void | Promise<void>;
 
 export interface GlobalOpfPaymentMethods {
@@ -39,6 +39,13 @@ export interface GlobalOpfPaymentMethods {
     submitPending: MerchantCallback;
     submitFailure: MerchantCallback;
     paymentMethod: PaymentMethod;
+  }): Promise<boolean>;
+  submitComplete?(options: {
+    cartId: string;
+    additionalData: Array<KeyValuePair>;
+    submitSuccess: MerchantCallback;
+    submitPending: MerchantCallback;
+    submitFailure: MerchantCallback;
   }): Promise<boolean>;
 }
 
@@ -51,7 +58,7 @@ export interface PaymentBrowserInfo {
   screenHeight?: number;
   screenWidth?: number;
   userAgent?: string;
-  timeZoneOffset?: number;
+  timezoneOffset?: number;
   ipAddress?: string;
   originUrl?: string;
 }
@@ -91,7 +98,13 @@ export interface SubmitResponse {
   reasonCode?: string;
   paymentMethod: PaymentMethod;
   authorizedAmount?: number;
+  customFields?: Array<KeyValuePair>;
+}
 
+export interface SubmitCompleteResponse {
+  cartId?: string;
+  status?: SubmitStatus;
+  paymentMethod?: PaymentMethod;
   customFields?: Array<KeyValuePair>;
 }
 
@@ -99,5 +112,12 @@ export interface SubmitCompleteRequest {
   paymentSessionId?: string;
   additionalData?: Array<KeyValuePair>;
   cartId?: string;
-  otpKey?: string;
+}
+export interface SubmitCompleteInput {
+  additionalData: Array<KeyValuePair>;
+  paymentSessionId: string;
+  cartId: string;
+  callbackArray: [MerchantCallback, MerchantCallback, MerchantCallback];
+  returnPath?: Array<string>;
+  paymentMethod?: PaymentMethod;
 }
