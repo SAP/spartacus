@@ -17,7 +17,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
-  constructor(private quoteConfig: QuoteCoreConfig) {}
+  constructor(protected quoteConfig: QuoteCoreConfig) {}
 
   convert(source: OccQuote, target?: Quote): Quote {
     if (!target) {
