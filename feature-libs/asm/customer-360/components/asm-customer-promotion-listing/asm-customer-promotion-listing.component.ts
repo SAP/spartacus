@@ -7,8 +7,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
 import { GlobalMessageType, UserIdService } from '@spartacus/core';
 import { ActiveCartFacade, Cart, CartVoucherFacade, MultiCartFacade } from '@spartacus/cart/base/root';
@@ -21,14 +23,12 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './asm-customer-promotion-listing.component.html',
 })
 export class AsmCustomerPromotionListingComponent implements OnInit {
-  // export class AsmCustomerPromotionListingComponent implements OnChanges, AfterViewChecked {
   @Input() headerText: string;
   @Input() emptyStateText: string;
   @Input() entries: Array<PromotionListEntry>;
   @Input() showAlert: boolean;
-  currentCartId: string| undefined;
-  userId = '';
-  createcart: string| undefined;
+  @Output() apply = new EventEmitter<PromotionListEntry>();
+  @Output() remove = new EventEmitter<PromotionListEntry>();
   cart = Observable<Cart>;
   globalMessageType = GlobalMessageType;
   protected subscription = new Subscription();
@@ -42,19 +42,5 @@ export class AsmCustomerPromotionListingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
-    this.userIdService.getUserId().subscribe((user)=>{
-      this.userId= user ?? '';
-    });
-    this.activeCartFacade.requireLoadedCart().subscribe((cart)=>{
-      this.currentCartId = cart?.code;
-    });
-  }
-  applyCouponToCustomer(code: string) {
-    this.cartVoucherService.addVoucher(code, this.currentCartId);
-  }
-
-  removeCouponToCustomer(code: string){
-    this.cartVoucherService.removeVoucher(code, this.currentCartId);
   }
 }

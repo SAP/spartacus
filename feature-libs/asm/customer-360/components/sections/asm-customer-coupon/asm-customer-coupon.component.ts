@@ -6,14 +6,10 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Customer360CouponList } from '@spartacus/asm/customer-360/root';
-// import { UrlCommand } from '@spartacus/core';
+import { UserIdService } from '@spartacus/core';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { CartVoucherFacade } from '@spartacus/cart/base/root';
-// import {
-//   CustomerTableColumn,
-//   CustomerTableTextAlign,
-// } from '../../asm-customer-table/asm-customer-table.model';
+import { ActiveCartFacade, CartVoucherFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { CouponEntry } from './asm-customer-coupon.model';
 import { CustomerTableColumn } from '../../asm-customer-table/asm-customer-table.model';
@@ -25,7 +21,9 @@ import { CustomerTableColumn } from '../../asm-customer-table/asm-customer-table
 })
 export class AsmCustomerCouponComponent implements OnInit {
   showErrorAlert$ = new BehaviorSubject<boolean>(false);
-  // showErrorAlert$ = false;
+  currentCartId: string| undefined;
+  userId = '';
+  createcart: string| undefined;
   entries$: Observable<Array<CouponEntry>>;
   columns: Array<CustomerTableColumn> = [
     {
@@ -44,10 +42,27 @@ export class AsmCustomerCouponComponent implements OnInit {
 
   constructor(
     protected context: Customer360SectionContext<Customer360CouponList>,
-    protected cartVoucherService: CartVoucherFacade
+    protected cartVoucherService: CartVoucherFacade,
+    protected userIdService: UserIdService,
+    protected multiCartFacade: MultiCartFacade,
+    protected activeCartFacade: ActiveCartFacade,
   ) {}
 
   ngOnInit(): void {
+    this.userIdService.getUserId().subscribe((user)=>{
+      this.userId= user ?? '';
+    });
+    this.activeCartFacade.requireLoadedCart().subscribe((cart)=>{
+      this.currentCartId = cart?.code;
+    });
+    this.fetchCoupons();
+  }
+
+  get errorAlert$(): Observable<boolean> {
+    return this.showErrorAlert$.asObservable();
+  }
+
+  fetchCoupons(){
     let entries: Array<CouponEntry> = [];
     this.entries$ = combineLatest([this.context.data$]).pipe(
       map(([data]) => {
@@ -68,22 +83,17 @@ export class AsmCustomerCouponComponent implements OnInit {
       })
     );
   }
-
-  get errorAlert$(): Observable<boolean> {
-    return this.showErrorAlert$.asObservable();
-  }
-
   closeErrorAlert(): void {
     this.showErrorAlert$.next(false);
   }
 
-  // applyCouponToCustomer(code: string, cartId: string){
-  //   this.cartVoucherService.addVoucher(code, cartId);
-  //   this.ngOnInit();
-  // }
+  applyCouponToCustomer(code: string) {
+    this.cartVoucherService.addVoucher(code, this.currentCartId);
+    this.fetchCoupons;
+  }
 
-  // removeCouponToCustomer(code: string, cartId: string){
-  //   this.cartVoucherService.removeVoucher(code, cartId);
-  //   this.ngOnInit();
-  // }
+  removeCouponToCustomer(code: string){
+    this.cartVoucherService.removeVoucher(code, this.currentCartId);
+    this.fetchCoupons;
+  }
 }

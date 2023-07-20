@@ -3,5 +3,7 @@
   [headerText]="'customer360.coupons.headerText' | cxTranslate"
   [entries]="entries$ | async"
   [showAlert]="showErrorAlert$ | async"
+  (apply)="applyCouponToCustomer($event)"
+  (remove)="removeCouponToCustomer($event)"
 >
 </cx-asm-customer-promotion-listing>
