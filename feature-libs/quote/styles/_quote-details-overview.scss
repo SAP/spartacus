@@ -15,11 +15,15 @@ cx-quote-details-overview {
         padding: 0 1.25rem;
       }
       @include media-breakpoint-down(sm) {
+        max-width: 100%;
         flex-direction: column;
         padding: 0 1.25rem;
       }
 
       .cx-summary-card {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
         flex: 1;
         padding: 0 15px;
         border: 1px solid var(--cx-color-medium);
@@ -38,6 +42,18 @@ cx-quote-details-overview {
           margin: 0.625rem 0;
         }
 
+        .cx-content {
+          width: 90%;
+        }
+
+        .cx-edit-step {
+          width: 10%;
+
+          button {
+            padding: 0;
+          }
+        }
+
         .cx-card-title {
           @include type('4');
           font-weight: bold;
@@ -47,6 +63,14 @@ cx-quote-details-overview {
         .cx-card-description {
           max-width: 100%;
           word-break: break-word;
+        }
+
+        .cx-card-paragraph {
+          padding-inline-start: 0;
+
+          .cx-card-paragraph-text {
+            font-weight: var(--cx-font-weight-bold);
+          }
         }
       }
     }

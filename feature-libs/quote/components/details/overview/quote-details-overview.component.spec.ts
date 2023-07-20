@@ -36,7 +36,6 @@ const mockQuote: Quote = {
   state: QuoteState.BUYER_ORDERED,
   name: 'Name',
   totalPrice: { value: 20, formattedValue: totalPriceFormattedValue },
-  isEditable: true,
 };
 
 export class MockQuoteFacade implements Partial<QuoteFacade> {
@@ -105,18 +104,14 @@ describe('QuoteDetailsOverviewComponent', () => {
     fixture.detectChanges();
 
     //then
-    const titleElements = fixture.debugElement.queryAll(
-      By.css('.cx-card-title')
+    const cards = fixture.debugElement.queryAll(By.css('cx-card'));
+    const cardTitles = fixture.debugElement.queryAll(By.css('.cx-card-title'));
+    const cardContainers = fixture.debugElement.queryAll(
+      By.css('.cx-card-container')
     );
-    const contentElements = fixture.debugElement.queryAll(
-      By.css('.cx-card-label')
-    );
-    const descriptionElement = fixture.debugElement.query(
-      By.css('.truncated-text')
-    );
-    expect(titleElements.length).toEqual(7);
-    expect(contentElements.length).toEqual(6);
-    expect(descriptionElement.nativeElement.innerHTML).toBeDefined();
+    expect(cards.length).toEqual(3);
+    expect(cardTitles.length).toEqual(3);
+    expect(cardContainers.length).toEqual(3);
   });
 
   it('should return object with title and text if value is defined when getCardContent', () => {
@@ -145,7 +140,9 @@ describe('QuoteDetailsOverviewComponent', () => {
 
   describe('getTotalPrice', () => {
     it('should return the total price formatted value in case it is available', () => {
-      expect(component.getTotalPrice(mockQuote)).toBe(totalPriceFormattedValue);
+      expect(component['getTotalPrice'](mockQuote)).toBe(
+        totalPriceFormattedValue
+      );
     });
 
     it('should return null in case no formatted value is available', () => {
@@ -153,13 +150,13 @@ describe('QuoteDetailsOverviewComponent', () => {
         ...mockQuote,
         totalPrice: {},
       };
-      expect(component.getTotalPrice(quoteWOPrices)).toBe(null);
+      expect(component['getTotalPrice'](quoteWOPrices)).toBe(null);
     });
   });
 
   describe('getTotalPriceDescription', () => {
     it('should name total price as estimated as long as final status not reached', () => {
-      expect(component.getTotalPriceDescription(mockQuote)).toBe(
+      expect(component['getTotalPriceDescription'](mockQuote)).toBe(
         'quote.details.estimatedTotal'
       );
     });
@@ -169,8 +166,15 @@ describe('QuoteDetailsOverviewComponent', () => {
         ...mockQuote,
         allowedActions: [{ type: QuoteActionType.CHECKOUT, isPrimary: true }],
       };
-      expect(component.getTotalPriceDescription(quoteInOfferState)).toBe(
+      expect(component['getTotalPriceDescription'](quoteInOfferState)).toBe(
         'quote.details.total'
+      );
+    });
+
+    it('should be able to deal with undefined actions', () => {
+      const quoteWoActions: Quote = { ...mockQuote, allowedActions: undefined };
+      expect(component['getTotalPriceDescription'](quoteWoActions)).toBe(
+        'quote.details.estimatedTotal'
       );
     });
   });

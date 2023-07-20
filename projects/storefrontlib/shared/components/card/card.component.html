@@ -18,7 +18,11 @@
     {{ content.header }}
   </div>
   <!-- Card Body -->
-  <div class="card-body cx-card-body" [class.cx-card-delete]="editMode">
+  <div
+    class="card-body cx-card-body"
+    [class.cx-card-delete]="editMode"
+    [class.cx-card-save]="saveMode"
+  >
     <!-- Edit message -->
     <div *ngIf="editMode" role="alert" class="cx-card-delete-msg">
       {{ content.deleteMsg }}
@@ -54,9 +58,24 @@
         <div class="cx-card-paragraph" *ngFor="let item of content.paragraphs">
           <div class="cx-card-paragraph-title">{{ item.title }}</div>
           <div *ngFor="let text of item.text">
-            <div class="cx-card-paragraph-text">
-              {{ text }}
-            </div>
+            <ng-container *ngIf="!saveMode">
+              <div class="cx-card-paragraph-text">
+                {{ text }}
+              </div>
+            </ng-container>
+            <ng-container *ngIf="saveMode">
+              <ng-container *ngIf="!item.isTextArea">
+                <input class="cx-card-paragraph-input" value="{{ text }}" />
+              </ng-container>
+              <ng-container *ngIf="item.isTextArea">
+                <textarea
+                  [maxLength]="charactersLimit"
+                  class="form-control"
+                  formControlName="message"
+                  rows="2"
+                ></textarea>
+              </ng-container>
+            </ng-container>
           </div>
         </div>
         <ng-content select="[label_container_bottom]"></ng-content>
@@ -82,6 +101,22 @@
           {{ 'common.delete' | cxTranslate }}
         </button>
       </div>
+    </div>
+    <div *ngIf="saveMode" class="cx-card-body-save">
+      <button
+        class="btn btn-block btn-secondary"
+        [cxFocus]="{ autofocus: true }"
+        (click)="save()"
+      >
+        Save
+      </button>
+      <button
+        [cxAtMessage]="'assistiveMessage.actionCancelled' | cxTranslate"
+        class="btn btn-tertiary"
+        (click)="cancelSave()"
+      >
+        {{ 'common.cancel' | cxTranslate }}
+      </button>
     </div>
     <!-- Actions -->
     <div *ngIf="content.actions && !editMode" class="cx-card-actions">
@@ -125,6 +160,26 @@
             >
               {{ action.name }}
             </button>
+            // TODO: make it possible with actions => fix styling
+            <ng-container *ngIf="saveMode">
+              <button
+                type="button"
+                *ngSwitchCase="'save'"
+                class="btn btn-block btn-secondary"
+                [cxFocus]="{ autofocus: true }"
+                (click)="save()"
+              >
+                {{ action.name }}
+              </button>
+              <button
+                type="button"
+                *ngSwitchCase="'cancel'"
+                class="btn btn-tertiary"
+                (click)="cancel()"
+              >
+                {{ action.name }}
+              </button>
+            </ng-container>
           </ng-container>
           <a
             *ngIf="isCardLinkAction(action)"

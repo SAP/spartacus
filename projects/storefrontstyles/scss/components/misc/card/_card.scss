@@ -33,6 +33,12 @@
     .cx-card-paragraph-title {
       padding-top: 0.7em;
     }
+
+    textarea,
+    input {
+      width: 100%;
+      border: 1px solid var(--cx-color-medium);
+    }
   }
 
   .cx-card-fit-to-container {
@@ -58,6 +64,26 @@
     .btn-secondary {
       @include media-breakpoint-down(sm) {
         margin: 0 0 1rem;
+      }
+    }
+  }
+
+  .cx-card-body-save {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-block-start: 1rem;
+
+    .btn {
+      @include media-breakpoint-up(sm) {
+        width: fit-content;
+      }
+    }
+
+    .btn-secondary,
+    .btn-tertiary {
+      @include media-breakpoint-down(sm) {
+        width: 100%;
       }
     }
   }

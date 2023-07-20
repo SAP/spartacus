@@ -52,12 +52,16 @@ export const quote = {
       invalidComment: 'Invalid Input - Please type again...',
     },
     details: {
+      information: 'Quote Information',
       code: 'Quote ID',
+      name: 'Quote Name',
       created: 'Created',
       lastUpdated: 'Last Updated',
       estimatedTotal: 'Estimated Total',
       total: 'Total',
       description: 'Description',
+      estimateAndDate: 'Estimated & Date',
+      update: 'Update',
       expiryDate: 'Expiry Date',
     },
     links: {
