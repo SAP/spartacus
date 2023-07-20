@@ -14,6 +14,12 @@ import {
   SyncedOpfState,
 } from './opf-state-persistence.service';
 
+const mockOpfMetadata: OpfPaymentMetadata = {
+  isPaymentInProgress: true,
+  selectedPaymentOptionId: 111,
+  termsAndConditionsChecked: true,
+};
+
 describe('OpfStatePersistenceService', () => {
   let service: OpfStatePersistenceService;
   let statePersistenceServiceMock: jasmine.SpyObj<StatePersistenceService>;
@@ -51,12 +57,6 @@ describe('OpfStatePersistenceService', () => {
   });
 
   it('should initialize the synchronization with state and browser storage', () => {
-    const mockOpfMetadata: OpfPaymentMetadata = {
-      isPaymentInProgress: true,
-      selectedPaymentOptionId: 111,
-      termsAndConditionsChecked: true,
-    };
-
     const mockSyncedOpfState: SyncedOpfState = {
       metadata: mockOpfMetadata,
     };
@@ -74,12 +74,6 @@ describe('OpfStatePersistenceService', () => {
   });
 
   it('should get and transform Opf state', (done) => {
-    const mockOpfMetadata: OpfPaymentMetadata = {
-      isPaymentInProgress: true,
-      selectedPaymentOptionId: 111,
-      termsAndConditionsChecked: true,
-    };
-
     const stateObservable = new BehaviorSubject<OpfPaymentMetadata>(
       mockOpfMetadata
     );
@@ -94,12 +88,6 @@ describe('OpfStatePersistenceService', () => {
   });
 
   it('should update OpfPaymentMetadataStoreService when onRead is called', () => {
-    const mockOpfMetadata: OpfPaymentMetadata = {
-      isPaymentInProgress: true,
-      selectedPaymentOptionId: 111,
-      termsAndConditionsChecked: true,
-    };
-
     const mockSyncedOpfState: SyncedOpfState = {
       metadata: mockOpfMetadata,
     };

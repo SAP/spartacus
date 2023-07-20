@@ -14,6 +14,12 @@ const initialState = {
   isPaymentInProgress: false,
 };
 
+const state: OpfPaymentMetadata = {
+  isPaymentInProgress: true,
+  selectedPaymentOptionId: 111,
+  termsAndConditionsChecked: true,
+};
+
 describe('OpfPaymentMetadataStoreService', () => {
   let service: OpfPaymentMetadataStoreService;
 
@@ -34,12 +40,6 @@ describe('OpfPaymentMetadataStoreService', () => {
   });
 
   it('should return the current opfPaymentMetadataState as an observable', (done) => {
-    const state: OpfPaymentMetadata = {
-      isPaymentInProgress: true,
-      selectedPaymentOptionId: 111,
-      termsAndConditionsChecked: true,
-    };
-
     service.opfPaymentMetadataState.next(state);
 
     service.getOpfMetadataState().subscribe((state) => {
@@ -49,13 +49,12 @@ describe('OpfPaymentMetadataStoreService', () => {
   });
 
   it('should update opfPaymentMetadataState with the given payload', () => {
-    const state: OpfPaymentMetadata = {
+    const mockedState: OpfPaymentMetadata = {
+      ...state,
       isPaymentInProgress: false,
-      selectedPaymentOptionId: 111,
-      termsAndConditionsChecked: true,
     };
 
-    service.opfPaymentMetadataState.next(state);
+    service.opfPaymentMetadataState.next(mockedState);
 
     const updatedPayload = {
       isPaymentInProgress: true,
@@ -65,7 +64,7 @@ describe('OpfPaymentMetadataStoreService', () => {
     service.updateOpfMetadata(updatedPayload);
 
     expect(service.opfPaymentMetadataState.value).toEqual({
-      ...state,
+      ...mockedState,
       ...updatedPayload,
     });
   });
