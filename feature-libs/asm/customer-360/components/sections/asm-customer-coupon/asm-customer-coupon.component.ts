@@ -76,4 +76,14 @@ export class AsmCustomerCouponComponent implements OnInit {
   closeErrorAlert(): void {
     this.showErrorAlert$.next(false);
   }
+
+  // applyCouponToCustomer(code: string, cartId: string){
+  //   this.cartVoucherService.addVoucher(code, cartId);
+  //   this.ngOnInit();
+  // }
+
+  // removeCouponToCustomer(code: string, cartId: string){
+  //   this.cartVoucherService.removeVoucher(code, cartId);
+  //   this.ngOnInit();
+  // }
 }

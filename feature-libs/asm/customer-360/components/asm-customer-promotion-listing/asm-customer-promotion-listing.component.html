@@ -29,9 +29,7 @@
         <ng-container *ngIf="!entry.applied">
           <button
             class="cx-asm-customer-promotion-listing-apply-button"
-            (click)="
-              this.cartVoucherService.addVoucher(entry.code, this.activeCartId)
-            "
+            (click)="applyCouponToCustomer(entry.code)"
           >
             Apply to Cart
           </button>
@@ -51,10 +49,7 @@
               <button
                 class="cx-asm-customer-promotion-listing-remove-button"
                 (click)="
-                  this.cartVoucherService.removeVoucher(
-                    entry.code,
-                    this.activeCartId
-                  )
+                  this.cartVoucherService.removeVoucher(entry.code)
                 "
               >
                 Remove

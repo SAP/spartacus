@@ -10,11 +10,11 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { GlobalMessageType } from '@spartacus/core';
-import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/base/root';
+import { GlobalMessageType, UserIdService } from '@spartacus/core';
+import { ActiveCartFacade, Cart, CartVoucherFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import { PromotionListEntry } from './asm-customer-promotion-listing.model';
 import { Customer360Config } from '../../root/config';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-promotion-listing',
@@ -26,29 +26,35 @@ export class AsmCustomerPromotionListingComponent implements OnInit {
   @Input() emptyStateText: string;
   @Input() entries: Array<PromotionListEntry>;
   @Input() showAlert: boolean;
-  activeCartId = '';
+  activeCartId: string| undefined;
+  userId = '';
+  createcart: string| undefined;
+  cart = Observable<Cart>;
   globalMessageType = GlobalMessageType;
   protected subscription = new Subscription();
 
   constructor(
     protected customer360Config: Customer360Config,
     protected cartVoucherService: CartVoucherFacade,
-    protected activeCartFacade: ActiveCartFacade
+    protected userIdService: UserIdService,
+    protected multiCartFacade: MultiCartFacade,
+    protected activeCartFacade: ActiveCartFacade,
   ) {}
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.activeCartFacade.getActiveCartId().subscribe((response) => {
-        this.activeCartId = response ?? '';
-      })
-    );
+
+    this.userIdService.getUserId().subscribe((user)=>{
+      this.userId= user ?? '';
+    });
+    this.activeCartFacade.requireLoadedCart(false).subscribe((newCreatedCart)=>{
+      this.activeCartId = newCreatedCart?.code;
+    });
+  }
+  applyCouponToCustomer(code: string) {
+    this.cartVoucherService.addVoucher(code, this.activeCartId);
   }
 
-  // applyCouponToCustomer(code: string){
-  //   this.cartVoucherService.addVoucher(code,this.activeCartId);
-  // }
-
-  // removeCouponToCustomer(code: string){
-  //   this.cartVoucherService.removeVoucher(code,this.activeCartId);
-  // }
+  removeCouponToCustomer(code: string){
+    this.cartVoucherService.removeVoucher(code, this.activeCartId);
+  }
 }
