@@ -13,11 +13,10 @@ import {
   QuoteFacade,
 } from '@spartacus/quote/root';
 import { TranslationService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { Card, SaveCardEvent } from '@spartacus/storefront';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SaveCardEvent } from '../../../../../projects/storefrontlib/shared';
 
 @Component({
   selector: 'cx-quote-details-overview',
