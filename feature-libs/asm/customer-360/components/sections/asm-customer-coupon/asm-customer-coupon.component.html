@@ -5,5 +5,8 @@
   [showAlert]="showErrorAlert$ | async"
   (apply)="applyCouponToCustomer($event)"
   (remove)="removeCouponToCustomer($event)"
+  [applyButtonText]="'customer360.coupons.applyButtonText' | cxTranslate"
+  [applied]="'customer360.coupons.applied' | cxTranslate"
+  [removeButtonText]="'customer360.coupons.removeButtonText' | cxTranslate"
 >
 </cx-asm-customer-promotion-listing>

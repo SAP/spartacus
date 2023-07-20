@@ -29,9 +29,9 @@
         <ng-container *ngIf="!entry.applied">
           <button
             class="cx-asm-customer-promotion-listing-apply-button"
-            (click)="apply.emit(entry.code)"
+            (click)="apply.emit(entry)"
           >
-            Apply to Cart
+            {{ applyButtonText }}
           </button>
         </ng-container>
         <ng-container *ngIf="entry.applied">
@@ -40,7 +40,7 @@
               <cx-icon class="success" type="SUCCESS"></cx-icon>
             </td>
             <td class="cx-asm-customer-promotion-listing-applied">
-              Coupon Applied
+              {{ applied }}
             </td>
             <td class="cx-asm-customer-promotion-listing-action-separator">
               |
@@ -48,9 +48,9 @@
             <td>
               <button
                 class="cx-asm-customer-promotion-listing-remove-button"
-                (click)="remove.emit(entry.code)"
+                (click)="remove.emit(entry)"
               >
-                Remove
+                {{ removeButtonText }}
               </button>
             </td>
           </tr>
@@ -62,7 +62,7 @@
 <hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
 <div
   class="cx-asm-customer-promotion-listing-empty"
-  *ngIf="entries.length === 0"
+  *ngIf="entries.length === 0 && !showAlert"
 >
   {{ emptyStateText }}
 </div>
