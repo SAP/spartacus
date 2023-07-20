@@ -77,7 +77,7 @@
 </ng-container>
 
 <ng-template #loading>
-  <div class="cx-spinner">
+  <div class="cx-spinner" *ngIf="!paymentTypesError">
     <cx-spinner></cx-spinner>
   </div>
 </ng-template>
