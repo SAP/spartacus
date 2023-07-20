@@ -26,7 +26,7 @@ export class AsmCustomerPromotionListingComponent implements OnInit {
   @Input() emptyStateText: string;
   @Input() entries: Array<PromotionListEntry>;
   @Input() showAlert: boolean;
-  activeCartId: string| undefined;
+  currentCartId: string| undefined;
   userId = '';
   createcart: string| undefined;
   cart = Observable<Cart>;
@@ -46,15 +46,15 @@ export class AsmCustomerPromotionListingComponent implements OnInit {
     this.userIdService.getUserId().subscribe((user)=>{
       this.userId= user ?? '';
     });
-    this.activeCartFacade.requireLoadedCart(false).subscribe((newCreatedCart)=>{
-      this.activeCartId = newCreatedCart?.code;
+    this.activeCartFacade.requireLoadedCart().subscribe((cart)=>{
+      this.currentCartId = cart?.code;
     });
   }
   applyCouponToCustomer(code: string) {
-    this.cartVoucherService.addVoucher(code, this.activeCartId);
+    this.cartVoucherService.addVoucher(code, this.currentCartId);
   }
 
   removeCouponToCustomer(code: string){
-    this.cartVoucherService.removeVoucher(code, this.activeCartId);
+    this.cartVoucherService.removeVoucher(code, this.currentCartId);
   }
 }
