@@ -43,6 +43,7 @@ describe('Asm360Service', () => {
     get(): Observable<User> {
       return of({
         uid: 'customer001',
+        customerId: 'customer1234',
       });
     }
   }
@@ -104,7 +105,7 @@ describe('Asm360Service', () => {
             },
           ],
           options: {
-            userId: 'customer001',
+            userId: 'customer1234',
           },
         });
 
