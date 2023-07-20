@@ -9,7 +9,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ArgsPipe } from '@spartacus/asm/core';
 import {
-  Customer360Config,
   Customer360ReviewList,
   Customer360Type,
 } from '@spartacus/asm/customer-360/root';
@@ -28,37 +27,6 @@ import { Customer360SectionContext } from '../customer-360-section-context.model
 import { AsmCustomerProductReviewsComponent } from './asm-customer-product-reviews.component';
 
 describe('AsmCustomerProductReviewsComponent', () => {
-  const mockAsmConfig: Customer360Config = {
-    customer360: {
-      dateFormat: 'MM-dd-yyyy',
-      dateTimeFormat: 'dd-MM-yy hh:mm a',
-      tabs: [
-        {
-          i18nNameKey: 'customer360.overviewTab',
-          components: [
-            {
-              component: 'AsmCustomer360OverviewComponent',
-            },
-          ],
-        },
-        {
-          i18nNameKey: 'customer360.profileTab',
-          components: [
-            {
-              component: 'AsmCustomer360ProfileComponent',
-            },
-            {
-              component: 'AsmCustomer360ProductReviewsComponent',
-              requestData: {
-                type: Customer360Type.REVIEW_LIST,
-              },
-              config: { pageSize: 5 },
-            },
-          ],
-        },
-      ],
-    },
-  };
   class MockLanguageService {
     getActive(): Observable<string> {
       return of('en-US');
@@ -108,6 +76,7 @@ describe('AsmCustomerProductReviewsComponent', () => {
         rating: '3.5',
         reviewStatus: 'Complete',
         reviewText: 'review text shirts',
+        localizedReviewStatus: 'Complete',
       },
       {
         productName: 'Shoes',
@@ -117,6 +86,7 @@ describe('AsmCustomerProductReviewsComponent', () => {
         rating: '4',
         reviewStatus: 'Complete',
         reviewText: 'review text shoes',
+        localizedReviewStatus: 'Complete',
       },
     ],
   };
@@ -140,7 +110,6 @@ describe('AsmCustomerProductReviewsComponent', () => {
           useExisting: Customer360SectionContextSource,
         },
         { provide: LanguageService, useClass: MockLanguageService },
-        { provide: Customer360Config, useValue: mockAsmConfig },
       ],
     }).compileComponents();
   });

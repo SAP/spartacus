@@ -48,7 +48,7 @@ export class Customer360Service implements Customer360Facade {
             const request: Customer360Request = {
               queries,
               options: {
-                userId: customer?.uid ?? '',
+                userId: customer?.customerId ?? '',
               },
             };
             return this.customer360Connector.getCustomer360Data(request);

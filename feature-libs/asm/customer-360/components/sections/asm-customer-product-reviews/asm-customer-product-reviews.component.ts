@@ -74,7 +74,7 @@ export class AsmCustomerProductReviewsComponent implements OnInit {
           ...entry,
           item: `${entry.productName}, ${skuLabel}: ${entry.productCode}`,
           dateAndStatus: `${this.getLongDate(new Date(entry.createdAt))} / ${
-            entry.reviewStatus
+            entry.localizedReviewStatus
           }`,
         }));
       })
