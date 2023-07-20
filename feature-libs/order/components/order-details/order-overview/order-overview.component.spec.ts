@@ -4,7 +4,6 @@ import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   Address,
   CmsOrderDetailOverviewComponent,
-  FeatureConfigService,
   I18nTestingModule,
   TranslationService,
 } from '@spartacus/core';
@@ -134,12 +133,6 @@ const MockCmsComponentData = <CmsComponentData<any>>{
   data$: of(mockData),
 };
 
-class MockFeatureConfigService {
-  isLevel() {
-    return true;
-  }
-}
-
 describe('OrderOverviewComponent', () => {
   let component: OrderOverviewComponent;
   let fixture: ComponentFixture<OrderOverviewComponent>;
@@ -154,7 +147,6 @@ describe('OrderOverviewComponent', () => {
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
   });
@@ -419,22 +411,13 @@ describe('OrderOverviewComponent', () => {
       );
     });
 
-    it('should getPaymentInfoCardContent be null when partial paymentInfo ', () => {
-      const paymentInfoPartialyEmpty = {
-        ...mockOrder.paymentInfo,
-        expiryMonth: undefined,
-      };
-
-      expect(component.isPaymentInfoCardFull(paymentInfoPartialyEmpty)).toEqual(
-        false
-      );
-
-      component
-        .getPaymentInfoCardContent(paymentInfoPartialyEmpty)
-        .subscribe((data) => {
-          expect(data).toBeFalsy();
+    it('should isPaymentInfoCardFull be falsy when partial paymentInfo ', () => {
+      expect(
+        component.isPaymentInfoCardFull({
+          ...mockOrder.paymentInfo,
+          expiryMonth: undefined,
         })
-        .unsubscribe();
+      ).toBeFalsy();
     });
 
     it('should call getBillingAddressCardContent(billingAddress: Address)', () => {
