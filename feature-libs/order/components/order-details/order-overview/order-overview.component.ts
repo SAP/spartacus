@@ -4,16 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   Address,
   CmsOrderDetailOverviewComponent,
   CostCenter,
+  FeatureConfigService,
   TranslationService,
 } from '@spartacus/core';
 import { Card, CmsComponentData } from '@spartacus/storefront';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
@@ -23,7 +24,25 @@ import { OrderDetailsService } from '../order-details.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderOverviewComponent {
-  order$: Observable<any> = this.orderDetailsService.getOrderDetails();
+  order$: Observable<any> = this.orderDetailsService.getOrderDetails().pipe(
+    map((order) => {
+      // const o = { ...order };
+      if (order?.paymentInfo && !order.paymentInfo?.billingAddress) {
+        const b = {
+          title: 'My Addr',
+          formattedAddress: 'my formatted addr',
+          firstName: 'my first name',
+          lastName: 'my lastaneme',
+        };
+        return {
+          ...order,
+          paymentInfo: { ...order.paymentInfo, billingAddress: b },
+        };
+      }
+      return { ...order };
+    })
+  );
+
   isOrderLoading$: Observable<boolean> =
     typeof this.orderDetailsService.isOrderDetailsLoading === 'function'
       ? this.orderDetailsService.isOrderDetailsLoading()
@@ -34,9 +53,28 @@ export class OrderOverviewComponent {
   );
 
   constructor(
+    translation: TranslationService,
+    orderDetailsService: OrderDetailsService,
+    component: CmsComponentData<CmsOrderDetailOverviewComponent>,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfig?: FeatureConfigService
+  );
+
+  /**
+   * @deprecated since 6.3
+   */
+  constructor(
+    translation: TranslationService,
+    orderDetailsService: OrderDetailsService,
+    component: CmsComponentData<CmsOrderDetailOverviewComponent>
+  );
+
+  constructor(
     protected translation: TranslationService,
     protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>
+    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>,
+    // TODO:(CXSPA-3330) for next major release remove feature level
+    @Optional() protected featureConfig?: FeatureConfigService
   ) {}
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
@@ -206,7 +244,13 @@ export class OrderOverviewComponent {
     );
   }
 
-  getPaymentInfoCardContent(payment: PaymentDetails): Observable<Card> {
+  getPaymentInfoCardContent(payment: PaymentDetails): Observable<Card | null> {
+    if (
+      this.featureConfig?.isLevel('6.3') &&
+      !this.isPaymentInfoCardFull(payment)
+    ) {
+      return of(null);
+    }
     return combineLatest([
       this.translation.translate('paymentForm.payment'),
       this.translation.translate('paymentCard.expires', {
@@ -223,6 +267,12 @@ export class OrderOverviewComponent {
             text: [payment.cardNumber, textExpires],
           } as Card)
       )
+    );
+  }
+
+  isPaymentInfoCardFull(payment: PaymentDetails): boolean {
+    return (
+      !!payment?.cardNumber && !!payment?.expiryMonth && !!payment?.expiryYear
     );
   }
 
