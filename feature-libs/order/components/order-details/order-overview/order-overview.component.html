@@ -104,9 +104,13 @@
               isPaymentInfoCardFull(order?.paymentInfo)
             "
           >
-            <cx-card
-              [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
-            ></cx-card>
+            <ng-container *ngIf="isPaymentInfoCardFull(order?.paymentInfo)">
+              <cx-card
+                [content]="
+                  getPaymentInfoCardContent(order?.paymentInfo) | async
+                "
+              ></cx-card>
+            </ng-container>
 
             <cx-card
               [content]="
