@@ -101,7 +101,7 @@
             class="cx-summary-card"
             *ngIf="
               order?.paymentInfo?.billingAddress ||
-              (getPaymentInfoCardContent(order?.paymentInfo) | async)
+              isPaymentInfoCardFull(order?.paymentInfo)
             "
           >
             <cx-card

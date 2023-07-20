@@ -10,11 +10,11 @@ import {
   Address,
   CmsOrderDetailOverviewComponent,
   CostCenter,
-  TranslationService,
   FeatureConfigService,
+  TranslationService,
 } from '@spartacus/core';
 import { Card, CmsComponentData } from '@spartacus/storefront';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
@@ -35,11 +35,28 @@ export class OrderOverviewComponent {
   );
 
   constructor(
+    translation: TranslationService,
+    orderDetailsService: OrderDetailsService,
+    component: CmsComponentData<CmsOrderDetailOverviewComponent>,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfig?: FeatureConfigService
+  );
+
+  /**
+   * @deprecated since 6.3
+   */
+  constructor(
+    translation: TranslationService,
+    orderDetailsService: OrderDetailsService,
+    component: CmsComponentData<CmsOrderDetailOverviewComponent>
+  );
+
+  constructor(
     protected translation: TranslationService,
     protected orderDetailsService: OrderDetailsService,
     protected component: CmsComponentData<CmsOrderDetailOverviewComponent>,
     // TODO:(CXSPA-3330) for next major release remove feature level
-    @Optional() protected featureConfigService?: FeatureConfigService
+    @Optional() protected featureConfig?: FeatureConfigService
   ) {}
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
@@ -209,7 +226,13 @@ export class OrderOverviewComponent {
     );
   }
 
-  getPaymentInfoCardContent(payment: PaymentDetails): Observable<Card> {
+  getPaymentInfoCardContent(payment: PaymentDetails): Observable<Card | null> {
+    if (
+      this.featureConfig?.isLevel('6.3') &&
+      !this.isPaymentInfoCardFull(payment)
+    ) {
+      return of(null);
+    }
     return combineLatest([
       this.translation.translate('paymentForm.payment'),
       this.translation.translate('paymentCard.expires', {
@@ -218,11 +241,6 @@ export class OrderOverviewComponent {
       }),
     ]).pipe(
       filter(() => Boolean(payment)),
-      filter(() =>
-        this.featureConfigService?.isLevel('6.3')
-          ? this.isPaymentInfoCardFull(payment)
-          : true
-      ),
       map(
         ([textTitle, textExpires]) =>
           ({
@@ -234,12 +252,9 @@ export class OrderOverviewComponent {
     );
   }
 
-  protected isPaymentInfoCardFull(payment: PaymentDetails): boolean {
+  isPaymentInfoCardFull(payment: PaymentDetails): boolean {
     return (
-      !!payment?.cardNumber &&
-      !!payment?.expiryMonth &&
-      !!payment?.expiryYear &&
-      !!payment?.accountHolderName
+      !!payment?.cardNumber && !!payment?.expiryMonth && !!payment?.expiryYear
     );
   }
 
