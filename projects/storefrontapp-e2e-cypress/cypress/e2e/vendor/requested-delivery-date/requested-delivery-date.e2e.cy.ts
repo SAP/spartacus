@@ -7,7 +7,7 @@
 import * as b2bCheckout from '../../../helpers/b2b/b2b-checkout';
 import {
   interceptOrdersEndpoint,
-  waitForResponse,
+  waitForResponse
 } from '../../../helpers/order-history';
 import * as rddHelper from '../../../helpers/vendor/requested-delivery-date/requested-delivery-date';
 import * as s4Helper from '../../../helpers/vendor/s4om/s4om';
@@ -15,7 +15,7 @@ import {
   ORDER_REQUEST_ENDPOINT,
   order_type,
   POWERTOOLS_BASESITE,
-  USER_REQUEST_ENDPOINT,
+  USER_REQUEST_ENDPOINT
 } from '../../../sample-data/b2b-checkout';
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
@@ -120,7 +120,11 @@ describe('Requested Delivery Date', { testIsolation: false }, () => {
         s4Helper.s4omB2BUnit
       );
       rddHelper.verifyRDDOrderDetailPage(formattedDate);
+<<<<<<< HEAD
       rddHelper.setOrderConfirmationIdInSessionStorage();
+=======
+      s4Helper.setOrderConfirmationIdInSessionStorage('rddOrderId');
+>>>>>>> 849a72b5f1438f77b7f4009ff64ed4d102d024c9
     });
   });
 
@@ -131,13 +135,11 @@ describe('Requested Delivery Date', { testIsolation: false }, () => {
       waitForResponse(ordersAlias);
 
       const rddOrderId = window.sessionStorage.getItem('rddOrderId');
-      cy.wrap(rddOrderId).should('not.be.undefined');
-      cy.get('cx-order-history h2').should('contain', 'Order history');
-      cy.get('#order-history-table').should('contain', rddOrderId);
-      cy.get('.cx-order-history-po a').should('contain', rddHelper.poNumber);
-      cy.get('.cx-order-history-cost-center a').should(
-        'contain',
-        s4Helper.s4omCostCenter
+      cy.wrap(rddOrderId).should('not.be.null');
+      s4Helper.findRowInOrderHistoryTable(
+        ordersAlias,
+        rddOrderId,
+        rddHelper.poNumber
       );
     });
 

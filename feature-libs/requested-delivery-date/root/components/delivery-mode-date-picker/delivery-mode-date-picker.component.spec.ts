@@ -15,7 +15,7 @@ import {
   DatePickerModule,
   OutletContextData,
 } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { RequestedDeliveryDateFacade } from '../../facade/requested-delivery-date.facade';
 import { DeliveryModeDatePickerComponent } from './delivery-mode-date-picker.component';
 
@@ -184,7 +184,7 @@ describe('DeliveryModeDatePickerComponent', () => {
     ).toHaveBeenCalled();
   });
 
-  it('should call setRequestedDeliveryDate when form value changes and show info message', (done) => {
+  it('should call setRequestedDeliveryDate when form value changes and show info message on success', (done) => {
     spyOn(component['globalMessageService'], 'add');
     const requestedRetrievalAt = '2023-05-03';
     const earliestRetrievalAt = '2023-09-15';
@@ -226,6 +226,55 @@ describe('DeliveryModeDatePickerComponent', () => {
           GlobalMessageType.MSG_TYPE_INFO
         );
         done();
+      });
+  });
+
+  it('should show error message when backend OCC API returns UnknownResourceError', (done) => {
+    spyOn(component['globalMessageService'], 'add');
+
+    component['requestedDelDateFacade'].setRequestedDeliveryDate = jasmine
+      .createSpy('setRequestedDeliveryDate')
+      .and.returnValue(
+        throwError({
+          error: {
+            errors: [
+              {
+                message:
+                  'There is no resource for path /occ/v2/powertools-spa/users/user.lname%40sap-cx.com/carts/0000003004/requestedretrievaldate',
+                type: 'UnknownResourceError',
+              },
+            ],
+          },
+        })
+      );
+
+    const earliestRetrievalAt = '2023-09-15';
+    component['cartEntry'] = {
+      earliestRetrievalAt,
+      code: '123',
+      user: {
+        uid: 'current',
+      },
+    } as any;
+    component.ngOnInit();
+    expect(component['requestedRetrievalAt']).toEqual(earliestRetrievalAt);
+    expect(component['form'].get('requestDeliveryDate')?.value).toEqual(
+      earliestRetrievalAt
+    );
+    expect(
+      component['requestedDelDateFacade'].setRequestedDeliveryDate
+    ).toHaveBeenCalled();
+
+    component['requestedDelDateFacade']
+      .setRequestedDeliveryDate('current', '123', earliestRetrievalAt)
+      .subscribe({
+        error: () => {
+          expect(component['globalMessageService'].add).toHaveBeenCalledWith(
+            { key: 'requestedDeliveryDate.errorMessage' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          done();
+        },
       });
   });
 

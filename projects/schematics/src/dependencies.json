@@ -216,13 +216,13 @@
     "@angular/common": "^15.2.4",
     "@angular/core": "^15.2.4",
     "@angular/forms": "^15.2.4",
-    "@spartacus/cart": "5.0.0",
-    "@spartacus/checkout": "5.0.0",
-    "@spartacus/core": "5.0.0",
-    "@spartacus/order": "5.0.0",
-    "@spartacus/schematics": "5.0.0",
-    "@spartacus/storefront": "5.0.0",
-    "@spartacus/styles": "5.0.0",
+    "@spartacus/cart": "6.3.0-1",
+    "@spartacus/checkout": "6.3.0-1",
+    "@spartacus/core": "6.3.0-1",
+    "@spartacus/order": "6.3.0-1",
+    "@spartacus/schematics": "6.3.0-1",
+    "@spartacus/storefront": "6.3.0-1",
+    "@spartacus/styles": "6.3.0-1",
     "rxjs": "^6.6.0"
   },
   "@spartacus/smartedit": {
@@ -339,7 +339,8 @@
     "@spartacus/schematics": "6.3.0-1",
     "@spartacus/storefront": "6.3.0-1",
     "@spartacus/styles": "6.3.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "@spartacus/requested-delivery-date": "6.3.0-1"
   },
   "@spartacus/segment-refs": {
     "@angular-devkit/schematics": "^15.2.4",

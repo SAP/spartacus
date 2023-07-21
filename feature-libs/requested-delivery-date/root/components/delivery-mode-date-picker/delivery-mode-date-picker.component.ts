@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Cart } from '@spartacus/cart/base/root';
 import { CheckoutSupportedDeliveryModesQueryReloadEvent } from '@spartacus/checkout/base/root';
 import {
   CxDatePipe,
+  ErrorModel,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -119,16 +121,32 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.requestedDelDateFacade
         .setRequestedDeliveryDate(userId, cartId, requestedDate)
-        .subscribe(() => {
-          this.eventService.dispatch(
-            {},
-            CheckoutSupportedDeliveryModesQueryReloadEvent
-          );
-          this.globalMessageService.add(
-            { key: 'requestedDeliveryDate.successMessage' },
-            GlobalMessageType.MSG_TYPE_INFO
-          );
+        .subscribe({
+          next: () => {
+            this.eventService.dispatch(
+              {},
+              CheckoutSupportedDeliveryModesQueryReloadEvent
+            );
+            this.globalMessageService.add(
+              { key: 'requestedDeliveryDate.successMessage' },
+              GlobalMessageType.MSG_TYPE_INFO
+            );
+          },
+          error: (error: HttpErrorResponse) => {
+            if (error && this.getErrors(error)?.length) {
+              this.globalMessageService.add(
+                { key: 'requestedDeliveryDate.errorMessage' },
+                GlobalMessageType.MSG_TYPE_ERROR
+              );
+            }
+          },
         })
+    );
+  }
+
+  getErrors(response: HttpErrorResponse): ErrorModel[] {
+    return (response.error?.errors).filter(
+      (error: any) => error?.type === 'UnknownResourceError'
     );
   }
 

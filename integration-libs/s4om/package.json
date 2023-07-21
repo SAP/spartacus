@@ -28,7 +28,8 @@
     "@spartacus/schematics": "6.3.0-1",
     "@spartacus/storefront": "6.3.0-1",
     "@spartacus/styles": "6.3.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "@spartacus/requested-delivery-date": "6.3.0-1"
   },
   "publishConfig": {
     "access": "public"
