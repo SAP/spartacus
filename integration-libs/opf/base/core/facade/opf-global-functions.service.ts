@@ -63,6 +63,24 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     return window.Opf.payments;
   }
 
+  protected startLoaderSpinner(vcr: ViewContainerRef) {
+    return this.launchDialogService.launch(
+      LAUNCH_CALLER.PLACE_ORDER_SPINNER,
+      vcr
+    );
+  }
+
+  protected stopLoaderSpinner(overlayedSpinner: Observable<ComponentRef<any>>) {
+    overlayedSpinner
+      .subscribe((component) => {
+        this.launchDialogService.clear(LAUNCH_CALLER.PLACE_ORDER_SPINNER);
+        if (component) {
+          component.destroy();
+        }
+      })
+      .unsubscribe();
+  }
+
   protected registerSubmit(
     paymentSessionId: string,
     vcr?: ViewContainerRef
@@ -91,10 +109,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       return this.ngZone.run(() => {
         let overlayedSpinner: void | Observable<ComponentRef<any> | undefined>;
         if (vcr) {
-          overlayedSpinner = this.launchDialogService.launch(
-            LAUNCH_CALLER.PLACE_ORDER_SPINNER,
-            vcr
-          );
+          overlayedSpinner = this.startLoaderSpinner(vcr);
         }
         const callbackArray: [
           MerchantCallback,
@@ -114,16 +129,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
           .pipe(
             finalize(() => {
               if (overlayedSpinner) {
-                overlayedSpinner
-                  .subscribe((component) => {
-                    this.launchDialogService.clear(
-                      LAUNCH_CALLER.PLACE_ORDER_SPINNER
-                    );
-                    if (component) {
-                      component.destroy();
-                    }
-                  })
-                  .unsubscribe();
+                this.stopLoaderSpinner(overlayedSpinner);
               }
             })
           )
@@ -158,10 +164,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       return this.ngZone.run(() => {
         let overlayedSpinner: void | Observable<ComponentRef<any> | undefined>;
         if (vcr) {
-          overlayedSpinner = this.launchDialogService.launch(
-            LAUNCH_CALLER.PLACE_ORDER_SPINNER,
-            vcr
-          );
+          overlayedSpinner = this.startLoaderSpinner(vcr);
         }
         const callbackArray: [
           MerchantCallback,
@@ -179,16 +182,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
           .pipe(
             finalize(() => {
               if (overlayedSpinner) {
-                overlayedSpinner
-                  .subscribe((component) => {
-                    this.launchDialogService.clear(
-                      LAUNCH_CALLER.PLACE_ORDER_SPINNER
-                    );
-                    if (component) {
-                      component.destroy();
-                    }
-                  })
-                  .unsubscribe();
+                this.stopLoaderSpinner(overlayedSpinner);
               }
             })
           )
