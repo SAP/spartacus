@@ -3,6 +3,7 @@ import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import {
   AuthRedirectService,
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -10,7 +11,7 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import createSpy = jasmine.createSpy;
 
@@ -42,6 +43,7 @@ describe('UpdatePasswordComponentService', () => {
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
   let authService: AuthService;
+  let featureConfig: FeatureConfigService;
 
   let oldPassword: AbstractControl;
   let newPassword: AbstractControl;
@@ -83,6 +85,7 @@ describe('UpdatePasswordComponentService', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     authRedirectService = TestBed.inject(AuthRedirectService);
     authService = TestBed.inject(AuthService);
+    featureConfig = TestBed.inject(FeatureConfigService);
 
     oldPassword = service.form.controls.oldPassword;
     newPassword = service.form.controls.newPassword;
@@ -166,13 +169,40 @@ describe('UpdatePasswordComponentService', () => {
     });
 
     describe('error', () => {
-      it('should not update the password', () => {
+      it('should not update the password when old password is empty', () => {
         newPassword.setValue('testpassword123');
         service.updatePassword();
         expect(userPasswordFacade.update).not.toHaveBeenCalled();
         expect(globalMessageService.add).not.toHaveBeenCalled();
         expect(routingService.go).not.toHaveBeenCalled();
         expect(authService.coreLogout).not.toHaveBeenCalled();
+      });
+      it('should get access denied error message text with agent modifying customer password when feature level is above 6.3', () => {
+        spyOn(featureConfig, 'isLevel').and.returnValue(true);
+        (userPasswordFacade.update as jasmine.Spy).and.returnValue(
+          throwError({ details: [{ type: 'AccessDeniedError' }] })
+        );
+
+        oldPassword.setValue('Old123!');
+        newPassword.setValue('New123!');
+        newPasswordConfirm.setValue('New123!');
+        service.updatePassword();
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: 'updatePasswordForm.accessDeniedError' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+      it('should not get access denied error message text with agent modifying customer password when feature level is below 6.3', () => {
+        spyOn(featureConfig, 'isLevel').and.returnValue(false);
+        (userPasswordFacade.update as jasmine.Spy).and.returnValue(
+          throwError({ details: [{ type: 'AccessDeniedError' }] })
+        );
+
+        oldPassword.setValue('Old123!');
+        newPassword.setValue('New123!');
+        newPasswordConfirm.setValue('New123!');
+        service.updatePassword();
+        expect(globalMessageService.add).not.toHaveBeenCalled();
       });
     });
   });
