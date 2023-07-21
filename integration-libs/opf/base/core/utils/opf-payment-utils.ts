@@ -19,6 +19,6 @@ export function getBrowserInfo(
     screenWidth: nativeWindow?.screen?.width,
     userAgent: nativeWindow?.navigator?.userAgent,
     originUrl: nativeWindow?.location?.origin,
-    timeZoneOffset: new Date().getTimezoneOffset(),
+    timezoneOffset: new Date().getTimezoneOffset(),
   };
 }
