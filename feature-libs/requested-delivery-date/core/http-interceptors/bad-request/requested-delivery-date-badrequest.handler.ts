@@ -20,6 +20,12 @@ import {
 export class RequestedDeliveryDateBadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
+  hasMatch(errorResponse: HttpErrorResponse): boolean {
+    return (
+      super.hasMatch(errorResponse) && this.getErrors(errorResponse)?.length > 0
+    );
+  }
+
   handleError(request: HttpRequest<any>, response: HttpErrorResponse) {
     if (request && this.getErrors(response)?.length) {
       this.globalMessageService.add(
@@ -31,7 +37,9 @@ export class RequestedDeliveryDateBadRequestHandler extends HttpErrorHandler {
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors).filter(
-      (error: any) => error?.type === 'ValidationError'
+      (error: any) =>
+        error?.type === 'ValidationError' &&
+        error?.message === 'checkout.multi.requestedretrievaldatevalid.error'
     );
   }
 

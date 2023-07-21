@@ -24,7 +24,7 @@ import * as alerts from '../../global-message';
 
 export const poNumber = '777';
 
-export const rddTabbingConfig: TabbingOrderConfig = {
+export const rddDeliveryModeTabbingConfig: TabbingOrderConfig = {
   ...tabbingOrderConfig,
   deliveryMode: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
@@ -68,7 +68,7 @@ export function selectAccountDeliveryMode() {
     // Accessibility
     verifyTabbingOrder(
       'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      rddTabbingConfig.deliveryMode
+      rddDeliveryModeTabbingConfig.deliveryMode
     );
   });
   cy.wait(`@cart_refresh`).then((xhr) => {
@@ -170,20 +170,4 @@ export function interceptPutRequestedRetrievalAtEndpoint() {
       'BASE_SITE'
     )}/**/requestedretrievaldate?requestedRetrievalAt=*`,
   }).as('putRetrievalAt');
-}
-
-export function setOrderConfirmationIdInSessionStorage() {
-  cy.get('cx-order-overview .container').within(() => {
-    cy.get('.cx-summary-card:nth-child(1)').within(() => {
-      cy.get('cx-card:nth-child(1)')
-        .first()
-        .within(() => {
-          cy.get('.cx-card-title').should('contain', 'Order Number');
-          cy.get('.cx-card-label').then(($el) => {
-            Cypress.env('rddOrderId', $el.text());
-            window.sessionStorage.setItem('rddOrderId', $el.text().trim());
-          });
-        });
-    });
-  });
 }

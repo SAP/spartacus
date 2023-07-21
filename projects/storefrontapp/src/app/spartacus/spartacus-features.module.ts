@@ -37,16 +37,16 @@ import {
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
-  PDFModule,
   PageTitleModule,
   PaymentMethodsModule,
+  PDFModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
   ProductFacetNavigationModule,
   ProductImagesModule,
   ProductIntroModule,
-  ProductListModule,
   ProductListingPageModule,
+  ProductListModule,
   ProductPageEventModule,
   ProductReferencesModule,
   ProductSummaryModule,
@@ -85,12 +85,12 @@ import { ImageZoomFeatureModule } from './features/product/product-image-zoom-fe
 import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
+import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
 
 const featureModules = [];
 
