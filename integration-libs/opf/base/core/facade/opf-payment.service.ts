@@ -33,6 +33,28 @@ export class OpfPaymentService implements OpfPaymentFacade {
     )
   );
 
+  protected submitPaymentCommand: Command<
+    {
+      submitInput: SubmitInput;
+    },
+    boolean
+  > = this.commandService.create((payload) => {
+    return this.opfPaymentHostedFieldsService.submitPayment(
+      payload.submitInput
+    );
+  });
+
+  submitCompletePaymentCommand: Command<
+    {
+      submitCompleteInput: SubmitCompleteInput;
+    },
+    boolean
+  > = this.commandService.create((payload) => {
+    return this.opfPaymentHostedFieldsService.submitCompletePayment(
+      payload.submitCompleteInput
+    );
+  });
+
   constructor(
     protected commandService: CommandService,
     protected opfPaymentConnector: OpfPaymentConnector,
@@ -51,7 +73,7 @@ export class OpfPaymentService implements OpfPaymentFacade {
   }
 
   submitPayment(submitInput: SubmitInput): Observable<boolean> {
-    return this.opfPaymentHostedFieldsService.submitPaymentCommand.execute({
+    return this.submitPaymentCommand.execute({
       submitInput,
     });
   }
@@ -59,8 +81,6 @@ export class OpfPaymentService implements OpfPaymentFacade {
   submitCompletePayment(
     submitCompleteInput: SubmitCompleteInput
   ): Observable<boolean> {
-    return this.opfPaymentHostedFieldsService.submitCompletePaymentCommand.execute(
-      { submitCompleteInput }
-    );
+    return this.submitCompletePaymentCommand.execute({ submitCompleteInput });
   }
 }

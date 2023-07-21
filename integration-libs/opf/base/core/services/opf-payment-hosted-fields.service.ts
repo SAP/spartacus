@@ -7,7 +7,6 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
-  Command,
   CommandService,
   GlobalMessageService,
   RoutingService,
@@ -16,7 +15,7 @@ import {
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 
-import { EMPTY, combineLatest, from, throwError } from 'rxjs';
+import { EMPTY, Observable, combineLatest, from, throwError } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -60,19 +59,14 @@ export class OpfPaymentHostedFieldsService {
     protected opfPaymentErrorHandlerService: OpfPaymentErrorHandlerService
   ) {}
 
-  submitPaymentCommand: Command<
-    {
-      submitInput: SubmitInput;
-    },
-    boolean
-  > = this.commandService.create((payload) => {
+  submitPayment(submitInput: SubmitInput): Observable<boolean> {
     const {
       paymentMethod,
       cartId,
       additionalData,
       paymentSessionId,
       returnPath,
-    } = payload.submitInput;
+    } = submitInput;
 
     const submitRequest: SubmitRequest = {
       paymentMethod,
@@ -103,7 +97,7 @@ export class OpfPaymentHostedFieldsService {
         )
       ),
       concatMap((response: SubmitResponse) =>
-        this.paymentResponseHandler(response, payload.submitInput.callbackArray)
+        this.paymentResponseHandler(response, submitInput.callbackArray)
       ),
       tap((order: Order) => {
         if (order) {
@@ -119,16 +113,11 @@ export class OpfPaymentHostedFieldsService {
         return throwError(error);
       })
     );
-  });
+  }
 
-  submitCompletePaymentCommand: Command<
-    {
-      submitCompleteInput: SubmitCompleteInput;
-    },
-    boolean
-  > = this.commandService.create((payload) => {
+  submitCompletePayment(submitCompleteInput: SubmitCompleteInput) {
     const { cartId, additionalData, paymentSessionId, returnPath } =
-      payload.submitCompleteInput;
+      submitCompleteInput;
 
     const submitCompleteRequest: SubmitCompleteRequest = {
       cartId,
@@ -154,10 +143,7 @@ export class OpfPaymentHostedFieldsService {
         )
       ),
       concatMap((response: SubmitCompleteResponse) =>
-        this.paymentResponseHandler(
-          response,
-          payload.submitCompleteInput.callbackArray
-        )
+        this.paymentResponseHandler(response, submitCompleteInput.callbackArray)
       ),
       tap((order: Order) => {
         if (order) {
@@ -173,7 +159,7 @@ export class OpfPaymentHostedFieldsService {
         return throwError(error);
       })
     );
-  });
+  }
 
   protected paymentResponseHandler(
     response: SubmitResponse | SubmitCompleteResponse,
