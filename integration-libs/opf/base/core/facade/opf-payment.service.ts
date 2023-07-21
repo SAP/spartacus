@@ -44,7 +44,7 @@ export class OpfPaymentService implements OpfPaymentFacade {
     );
   });
 
-  submitCompletePaymentCommand: Command<
+  protected submitCompletePaymentCommand: Command<
     {
       submitCompleteInput: SubmitCompleteInput;
     },
