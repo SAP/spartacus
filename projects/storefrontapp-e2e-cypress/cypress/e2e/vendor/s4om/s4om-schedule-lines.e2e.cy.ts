@@ -88,7 +88,6 @@ describe('S4HANA Order management', { testIsolation: false }, () => {
         s4omHelper.s4omProduct,
         s4omHelper.cartWithS4OMB2bProductAndPremiumShipping,
         true,
-        s4omHelper.s4omPONumber,
         null,
         s4omHelper.s4omPONumber,
         s4omHelper.s4omCostCenter,
