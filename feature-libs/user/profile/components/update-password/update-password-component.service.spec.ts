@@ -177,7 +177,7 @@ describe('UpdatePasswordComponentService', () => {
         expect(routingService.go).not.toHaveBeenCalled();
         expect(authService.coreLogout).not.toHaveBeenCalled();
       });
-      it('should get access denied error message text with agent modifying customer password when feature level is above 6.3', () => {
+      it('should get access denied error message text with agent modifying customer password when feature level is true', () => {
         spyOn(featureConfig, 'isLevel').and.returnValue(true);
         (userPasswordFacade.update as jasmine.Spy).and.returnValue(
           throwError({ details: [{ type: 'AccessDeniedError' }] })
@@ -192,7 +192,7 @@ describe('UpdatePasswordComponentService', () => {
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });
-      it('should not get access denied error message text with agent modifying customer password when feature level is below 6.3', () => {
+      it('should not get access denied error message text with agent modifying customer password when feature level is false', () => {
         spyOn(featureConfig, 'isLevel').and.returnValue(false);
         (userPasswordFacade.update as jasmine.Spy).and.returnValue(
           throwError({ details: [{ type: 'AccessDeniedError' }] })
