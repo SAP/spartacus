@@ -14,7 +14,6 @@ export const MULTI_CART_DATA = '[Multi Cart] Multi Cart Data';
  * Add voucher process const
  */
 export const ADD_VOUCHER_PROCESS_ID = 'addVoucher';
-export const REMOVE_VOUCHER_PROCESS_ID = 'removeVoucher';
 
 export interface StateWithMultiCart {
   [MULTI_CART_FEATURE]: MultiCartState;

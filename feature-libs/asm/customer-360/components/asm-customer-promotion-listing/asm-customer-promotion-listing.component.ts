@@ -31,7 +31,7 @@ export class AsmCustomerPromotionListingComponent implements OnInit {
   @Input() applyButtonText: string;
   @Input() applied: string;
   @Input() removeButtonText: string;
-  @Input() entries: Array<undefined>|null;
+  @Input() entries: Array<undefined> | null;
   @Input() showAlert: boolean | null;
   @Output() apply = new EventEmitter<undefined>();
   @Output() remove = new EventEmitter<undefined>();

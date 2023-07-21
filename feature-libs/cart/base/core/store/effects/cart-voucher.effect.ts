@@ -13,7 +13,7 @@ import {
   normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, from } from 'rxjs';
-import { catchError, concatMap, map } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.connector';
 import { CartActions } from '../actions/index';
 
@@ -35,7 +35,7 @@ export class CartVoucherEffects {
     this.actions$.pipe(
       ofType(CartActions.CART_ADD_VOUCHER),
       map((action: CartActions.CartAddVoucher) => action.payload),
-      concatMap((payload) => {
+      mergeMap((payload) => {
         return this.cartVoucherConnector
           .add(payload.userId, payload.cartId, payload.voucherId)
           .pipe(
@@ -73,7 +73,7 @@ export class CartVoucherEffects {
     this.actions$.pipe(
       ofType(CartActions.CART_REMOVE_VOUCHER),
       map((action: CartActions.CartRemoveVoucher) => action.payload),
-      concatMap((payload) => {
+      mergeMap((payload) => {
         return this.cartVoucherConnector
           .remove(payload.userId, payload.cartId, payload.voucherId)
           .pipe(
@@ -84,11 +84,6 @@ export class CartVoucherEffects {
                 GlobalMessageType.MSG_TYPE_INFO
               );
               return new CartActions.CartRemoveVoucherSuccess({
-                userId: payload.userId,
-                cartId: payload.cartId,
-                voucherId: payload.voucherId,
-              }),
-              new CartActions.CartRemoveProcessVoucherSuccess({
                 userId: payload.userId,
                 cartId: payload.cartId,
                 voucherId: payload.voucherId,
