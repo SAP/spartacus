@@ -411,7 +411,7 @@ describe('OrderOverviewComponent', () => {
       );
     });
 
-    it('should isPaymentInfoCardFull be falsy when partial paymentInfo ', () => {
+    it('should isPaymentInfoCardFull be falsy when paymentInfo is partial', () => {
       expect(
         component.isPaymentInfoCardFull({
           ...mockOrder.paymentInfo,
