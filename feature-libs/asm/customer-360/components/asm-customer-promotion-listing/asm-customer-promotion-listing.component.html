@@ -8,6 +8,7 @@
     *ngIf="showAlert"
     [text]="'customer360.alertErrorMessage' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_ERROR"
+    (closeMessage)="removeAlertAction.emit()"
   ></cx-message>
 </div>
 <table class="cx-asm-customer-promotion-listing">
@@ -62,7 +63,7 @@
 <hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
 <div
   class="cx-asm-customer-promotion-listing-empty"
-  *ngIf="entries.length === 0 && !showAlert"
+  *ngIf="entries?.length === 0 && !showAlert"
 >
   {{ emptyStateText }}
 </div>

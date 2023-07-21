@@ -207,4 +207,27 @@ context('Assisted Service Module', () => {
       });
     });
   });
+
+  describe('Promotion', () => {
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+      checkout.visitHomePage('asm=true');
+      cy.get('button.cx-360-button').click();
+      cy.get('button.cx-tab-header').contains('Promotio').click();
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+
+    it('should contain coupon list (CXSPA-3906)', () => {
+      // cy.get('cx-asm-customer-map').within(() => {
+      //   cy.get('iframe')
+      //     .invoke('attr', 'src')
+      //     .then(($src) => {
+      //       expect($src).contain('google.com/maps');
+      //     });
+      // });
+    });
+  });
 });

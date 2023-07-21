@@ -20,6 +20,7 @@ import { CART_BASE_CORE_FEATURE } from '../feature-name';
         'removeVoucher',
         'getAddVoucherResultError',
         'getAddVoucherResultSuccess',
+        'getRemoveVoucherResultSuccess',
         'getAddVoucherResultLoading',
         'resetAddVoucherProcessingState',
       ],
@@ -40,6 +41,11 @@ export abstract class CartVoucherFacade {
    * Get add voucher process success flag
    */
   abstract getAddVoucherResultSuccess(): Observable<boolean>;
+
+  /**
+   * Get remove voucher process success flag
+   */
+  abstract getRemoveVoucherResultSuccess(): Observable<boolean>;
 
   /**
    * Get add voucher process loading flag

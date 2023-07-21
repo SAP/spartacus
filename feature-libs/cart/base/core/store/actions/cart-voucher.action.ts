@@ -5,7 +5,7 @@
  */
 
 import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
-import { ADD_VOUCHER_PROCESS_ID, MULTI_CART_DATA } from '../multi-cart-state';
+import { ADD_VOUCHER_PROCESS_ID, MULTI_CART_DATA, REMOVE_VOUCHER_PROCESS_ID } from '../multi-cart-state';
 
 export const CART_ADD_VOUCHER = '[Cart-voucher] Add Cart Vouchers';
 export const CART_ADD_VOUCHER_FAIL = '[Cart-voucher] Add Cart Voucher Fail';
@@ -95,6 +95,15 @@ export class CartRemoveVoucherSuccess extends StateUtils.EntityProcessesDecremen
   }
 }
 
+export class CartRemoveProcessVoucherSuccess extends StateUtils.EntitySuccessAction {
+  readonly type = CART_REMOVE_VOUCHER_SUCCESS;
+  constructor(
+    public payload: { userId: string; cartId: string; voucherId: string }
+  ) {
+    super(PROCESS_FEATURE, REMOVE_VOUCHER_PROCESS_ID);
+  }
+}
+
 // action types
 export type CartVoucherAction =
   | CartAddVoucher
@@ -103,4 +112,5 @@ export type CartVoucherAction =
   | CartResetAddVoucher
   | CartRemoveVoucher
   | CartRemoveVoucherFail
-  | CartRemoveVoucherSuccess;
+  | CartRemoveVoucherSuccess
+  | CartRemoveProcessVoucherSuccess;

@@ -18,7 +18,7 @@ import {
   CartVoucherFacade,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { PromotionListEntry } from './asm-customer-promotion-listing.model';
+// import { PromotionListEntry } from './asm-customer-promotion-listing.model';
 import { Customer360Config } from '../../root/config';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,11 +31,13 @@ export class AsmCustomerPromotionListingComponent implements OnInit {
   @Input() applyButtonText: string;
   @Input() applied: string;
   @Input() removeButtonText: string;
-  @Input() entries: Array<PromotionListEntry>;
+  @Input() entries: Array<undefined>|null;
   @Input() showAlert: boolean | null;
-  @Output() apply = new EventEmitter<PromotionListEntry>();
-  @Output() remove = new EventEmitter<PromotionListEntry>();
+  @Output() apply = new EventEmitter<undefined>();
+  @Output() remove = new EventEmitter<undefined>();
+  @Output() removeAlertAction = new EventEmitter<undefined>();
   globalMessageType = GlobalMessageType;
+  // showErrorAlert$: any;
 
   constructor(
     protected customer360Config: Customer360Config,
@@ -46,4 +48,8 @@ export class AsmCustomerPromotionListingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
+
+  // closeErrorAlert(): void {
+  //   this.showErrorAlert$.next(false);
+  // }
 }
