@@ -230,7 +230,7 @@ context('Assisted Service Module', () => {
           cy.intercept('POST', /\.*\/vouchers\?voucherId=.*/).as('applyCoupon');
           cy.get('button').contains('Apply to Cart').click();
           cy.wait('@applyCoupon').its('response.statusCode').should('eq', 200);
-          cy.get('button').should('not.contain','Apply to Cart');
+          cy.get('button').should('not.contain', 'Apply to Cart');
           cy.get('button').contains('remove').should('be.visible');
         });
     });
@@ -241,7 +241,7 @@ context('Assisted Service Module', () => {
           cy.intercept('DELETE', /\.*\/vouchers\.*/).as('removeCoupon');
           cy.get('button').contains('remove').click();
           cy.wait('@removeCoupon').its('response.statusCode').should('eq', 204);
-          cy.get('button').should('not.contain','remove');
+          cy.get('button').should('not.contain', 'remove');
           cy.get('button').contains('Apply to Cart').should('be.visible');
         });
     });

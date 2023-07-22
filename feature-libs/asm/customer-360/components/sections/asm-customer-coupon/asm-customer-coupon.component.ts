@@ -31,7 +31,6 @@ import {
 } from '@spartacus/cart/base/root';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { CouponEntry } from './asm-customer-coupon.model';
-import { CustomerTableColumn } from '../../asm-customer-table/asm-customer-table.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,25 +40,9 @@ import { CustomerTableColumn } from '../../asm-customer-table/asm-customer-table
 export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
   showErrorAlert$ = new BehaviorSubject<boolean>(false);
   currentCartId: string | undefined;
-  userId = '';
-  flag$: boolean;
-  createcart: string | undefined;
+  userId: string;
   entries$: Observable<Array<CouponEntry>>;
   subscription = new Subscription();
-  columns: Array<CustomerTableColumn> = [
-    {
-      property: 'applied',
-      i18nTextKey: 'customer360.coupons.applied',
-    },
-    {
-      property: 'code',
-      i18nTextKey: 'customer360.coupons.code',
-    },
-    {
-      property: 'name',
-      i18nTextKey: 'customer360.coupons.name',
-    },
-  ];
 
   constructor(
     protected context: Customer360SectionContext<Customer360CouponList>,
@@ -89,6 +72,17 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
         }
       })
     );
+    this.subscription.add(
+      this.cartVoucherService
+        .getDeleteVoucherResultError()
+        .subscribe((error) => {
+          if (error) {
+            this.refreshComponent();
+            this.showErrorAlert$.next(true);
+          }
+        })
+    );
+    this.showErrorAlert$.next(false);
     this.fetchCoupons();
   }
 
@@ -157,25 +151,20 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
 
   applyCouponToCustomer(entry: CouponEntry) {
     this.cartVoucherService.addVoucher(entry?.code, this.currentCartId);
-    this.entries$ = this.entries$.pipe(
-      map((entries) => {
-        entries.forEach((item) => {
-          if (item.code === entry?.code) {
-            item.applied = true;
-          }
-        });
-        return entries;
-      })
-    );
+    this.refreshActionButton(true, entry?.code);
   }
 
-  async removeCouponToCustomer(entry: CouponEntry) {
+  removeCouponToCustomer(entry: CouponEntry) {
     this.cartVoucherService.removeVoucher(entry?.code, this.currentCartId);
+    this.refreshActionButton(false, entry?.code);
+  }
+
+  refreshActionButton(state: boolean, voucherCode: string) {
     this.entries$ = this.entries$.pipe(
       map((entries) => {
         entries.forEach((item) => {
-          if (item.code === entry?.code) {
-            item.applied = false;
+          if (item.code === voucherCode) {
+            item.applied = state;
           }
         });
         return entries;

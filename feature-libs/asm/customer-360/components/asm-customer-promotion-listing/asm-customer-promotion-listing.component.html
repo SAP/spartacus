@@ -43,10 +43,13 @@
             <td class="cx-asm-customer-promotion-listing-applied">
               {{ applied }}
             </td>
-            <td class="cx-asm-customer-promotion-listing-action-separator">
+            <td
+              *ngIf="isCoupon"
+              class="cx-asm-customer-promotion-listing-action-separator"
+            >
               |
             </td>
-            <td>
+            <td *ngIf="isCoupon">
               <button
                 class="cx-asm-customer-promotion-listing-remove-button"
                 (click)="remove.emit(entry)"

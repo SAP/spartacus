@@ -15,7 +15,10 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CartActions } from '../store/actions/index';
-import { ADD_VOUCHER_PROCESS_ID } from '../store/multi-cart-state';
+import {
+  ADD_VOUCHER_PROCESS_ID,
+  DELETE_VOUCHER_PROCESS_ID,
+} from '../store/multi-cart-state';
 
 @Injectable()
 export class CartVoucherService implements CartVoucherFacade {
@@ -55,6 +58,15 @@ export class CartVoucherService implements CartVoucherFacade {
   getAddVoucherResultError(): Observable<boolean> {
     return this.store.pipe(
       select(ProcessSelectors.getProcessErrorFactory(ADD_VOUCHER_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Get delete voucher process error flag
+   */
+  getDeleteVoucherResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(ProcessSelectors.getProcessErrorFactory(DELETE_VOUCHER_PROCESS_ID))
     );
   }
 
