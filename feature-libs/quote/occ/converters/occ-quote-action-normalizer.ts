@@ -5,6 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
+import { QuoteCartService } from '@spartacus/cart/base/root';
 import { Converter } from '@spartacus/core';
 import { QuoteCoreConfig } from '@spartacus/quote/core';
 import {
@@ -14,10 +15,12 @@ import {
   QuoteActionType,
   QuoteState,
 } from '@spartacus/quote/root';
+import { combineLatest } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
-  constructor(protected quoteConfig: QuoteCoreConfig) {}
+  constructor(protected quoteConfig: QuoteCoreConfig, protected quoteCartService: QuoteCartService) {}
 
   convert(source: OccQuote, target?: Quote): Quote {
     if (!target) {
@@ -27,7 +30,7 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
     if (source.allowedActions && source.state) {
       target.allowedActions = this.getOrderedActions(
         source.state,
-        source.allowedActions
+        source.allowedActions, source.code
       ).map((action) => this.getActionCategory(action));
     }
     const switchToEditModeRequired = target.allowedActions?.find(
@@ -52,8 +55,12 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
     return { type, isPrimary: primaryActions.includes(type) };
   }
 
-  protected getOrderedActions(state: QuoteState, list: QuoteActionType[]) {
+  protected getOrderedActions(state: QuoteState, list: QuoteActionType[], quoteId: string) {
     const order = this.quoteConfig.quote?.actions?.actionsOrderByState?.[state];
+    // combineLatest([this.quoteCartService.getQuoteCartActive(),this.quoteCartService.getQuoteId]).pipe(
+    //   take(1)).subscribe(([a,b])=> {
+    //     if (a)
+    //   });
 
     return order
       ? list
