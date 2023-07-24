@@ -45,7 +45,6 @@ context('Assisted Service Module', () => {
 
       asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
       asm.asmB2bCustomerLists();
-      asm.agentSignOut();
     });
 
     it('checking pagination (CXSPA-2109)', () => {
@@ -61,7 +60,6 @@ context('Assisted Service Module', () => {
 
       asm.agentLogin('jules.hasson@acme.com', 'pw4all');
       asm.asmB2bCustomerListPagination();
-      asm.agentSignOut();
     });
   });
 });
