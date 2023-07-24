@@ -5,7 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  MultiCartFacade,
+  QuoteCartService,
+} from '@spartacus/cart/base/root';
 import {
   Comment,
   QuoteFacade,
@@ -86,6 +90,8 @@ export class QuoteService implements QuoteFacade {
               active: true,
             },
           });
+          this.quoteCartService.setQuoteCartActive(true);
+          this.quoteCartService.setQuoteId(quote.code);
           this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
         }),
         map(([_, _userId, quote]) => quote)
@@ -159,6 +165,9 @@ export class QuoteService implements QuoteFacade {
         tap(() => {
           this.isActionPerforming$.next(false);
           this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+          if (payload.quoteAction === QuoteActionType.SUBMIT) {
+            this.quoteCartService.setQuoteCartActive(false);
+          }
         })
       );
     },
@@ -244,7 +253,8 @@ export class QuoteService implements QuoteFacade {
     protected commandService: CommandService,
     protected activeCartService: ActiveCartFacade,
     protected routingService: RoutingService,
-    protected multiCartService: MultiCartFacade
+    protected multiCartService: MultiCartFacade,
+    protected quoteCartService: QuoteCartService
   ) {}
 
   createQuote(quoteMetadata: QuoteMetadata): Observable<Quote> {

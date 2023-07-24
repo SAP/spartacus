@@ -11,6 +11,7 @@ import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutGuard } from '../guards/checkout.guard';
 import { CheckoutOrchestratorComponent } from './checkout-orchestrator.component';
+import { QuoteCartGuard } from '@spartacus/cart/base/root';
 
 @NgModule({
   imports: [CommonModule],
@@ -19,7 +20,12 @@ import { CheckoutOrchestratorComponent } from './checkout-orchestrator.component
       cmsComponents: {
         CheckoutOrchestrator: {
           component: CheckoutOrchestratorComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CheckoutGuard],
+          guards: [
+            QuoteCartGuard,
+            CheckoutAuthGuard,
+            CartNotEmptyGuard,
+            CheckoutGuard,
+          ],
         },
       },
     }),

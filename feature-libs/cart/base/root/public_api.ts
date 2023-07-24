@@ -12,6 +12,7 @@ export * from './facade/index';
 export * from './feature-name';
 export * from './models/index';
 export * from './tokens/index';
+export * from './guards/index';
 
 /** AUGMENTABLE_TYPES_START */
 export { Cart, DeliveryMode, OrderEntry } from './models/cart.model';

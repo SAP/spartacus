@@ -22,6 +22,7 @@ import {
   MINI_CART_FEATURE,
 } from './feature-name';
 import { ActiveCartOrderEntriesContextToken } from './tokens/context';
+import { QuoteCartGuard } from './guards/quote-cart.guard';
 
 export function defaultCartComponentsConfig() {
   const config = {
@@ -63,7 +64,7 @@ export function defaultCartComponentsConfig() {
       {
         // @ts-ignore
         path: null,
-        canActivate: [CmsPageGuard],
+        canActivate: [CmsPageGuard, QuoteCartGuard],
         component: PageLayoutComponent,
         data: {
           cxRoute: 'cart',
