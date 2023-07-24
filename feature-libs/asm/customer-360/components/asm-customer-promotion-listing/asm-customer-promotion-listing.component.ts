@@ -25,7 +25,8 @@ export class AsmCustomerPromotionListingComponent {
   @Input() removeButtonText: string;
   @Input() entries: Array<undefined> | null;
   @Input() showAlert: boolean | null;
-  @Input() isCoupon: boolean;
+  @Input() showRemoveButton: boolean;
+  @Input() showApplyButton: boolean;
   @Output() apply = new EventEmitter<undefined>();
   @Output() remove = new EventEmitter<undefined>();
   @Output() removeAlertAction = new EventEmitter<undefined>();

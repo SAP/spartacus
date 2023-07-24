@@ -40,16 +40,19 @@
             <td>
               <cx-icon class="success" type="SUCCESS"></cx-icon>
             </td>
-            <td class="cx-asm-customer-promotion-listing-applied">
+            <td
+              *ngIf="showApplyButton"
+              class="cx-asm-customer-promotion-listing-applied"
+            >
               {{ applied }}
             </td>
             <td
-              *ngIf="isCoupon"
+              *ngIf="showRemoveButton"
               class="cx-asm-customer-promotion-listing-action-separator"
             >
               |
             </td>
-            <td *ngIf="isCoupon">
+            <td *ngIf="showRemoveButton">
               <button
                 class="cx-asm-customer-promotion-listing-remove-button"
                 (click)="remove.emit(entry)"
