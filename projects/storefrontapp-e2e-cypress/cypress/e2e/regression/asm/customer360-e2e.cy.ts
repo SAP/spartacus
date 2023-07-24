@@ -213,7 +213,7 @@ context('Assisted Service Module', () => {
       cy.restoreLocalStorage();
       checkout.visitHomePage('asm=true');
       cy.get('button.cx-360-button').click();
-      cy.get('button.cx-tab-header').contains('Promotio').click();
+      cy.get('button.cx-tab-header').contains('Promotion').click();
     });
 
     afterEach(() => {
