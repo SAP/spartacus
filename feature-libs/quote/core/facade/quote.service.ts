@@ -111,6 +111,7 @@ export class QuoteService implements QuoteFacade {
     (payload) =>
       this.userIdService.takeUserId().pipe(
         take(1),
+
         switchMap((userId) =>
           this.quoteConnector.editQuote(
             userId,
@@ -206,8 +207,24 @@ export class QuoteService implements QuoteFacade {
         this.routingService.getRouterState().pipe(
           withLatestFrom(this.userIdService.takeUserId()),
           switchMap(([{ state }, userId]) =>
-            this.quoteConnector.getQuote(userId, state.params.quoteId)
-          )
+            zip(
+              this.quoteConnector.getQuote(userId, state.params.quoteId),
+              of(userId)
+            )
+          ),
+          //TODO CHHI only if user explictly triggered edit for this quote
+          tap(([quote, userId]) => {
+            this.multiCartService.loadCart({
+              userId: userId,
+              cartId: quote.cartId as string,
+              extraData: {
+                active: true,
+              },
+            });
+            this.quoteCartService.setQuoteCartActive(true);
+            this.quoteCartService.setQuoteId(quote.code);
+          }),
+          map(([quote, _]) => quote)
         ),
       {
         reloadOn: [QuoteDetailsReloadQueryEvent, LoginEvent],

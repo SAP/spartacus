@@ -20,7 +20,10 @@ import { take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
-  constructor(protected quoteConfig: QuoteCoreConfig, protected quoteCartService: QuoteCartService) {}
+  constructor(
+    protected quoteConfig: QuoteCoreConfig,
+    protected quoteCartService: QuoteCartService
+  ) {}
 
   convert(source: OccQuote, target?: Quote): Quote {
     if (!target) {
@@ -30,7 +33,8 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
     if (source.allowedActions && source.state) {
       target.allowedActions = this.getOrderedActions(
         source.state,
-        source.allowedActions, source.code
+        source.allowedActions,
+        source.code
       ).map((action) => this.getActionCategory(action));
     }
     const switchToEditModeRequired = target.allowedActions?.find(
@@ -55,17 +59,37 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
     return { type, isPrimary: primaryActions.includes(type) };
   }
 
-  protected getOrderedActions(state: QuoteState, list: QuoteActionType[], quoteId: string) {
+  protected getOrderedActions(
+    state: QuoteState,
+    list: QuoteActionType[],
+    quoteId: string
+  ) {
     const order = this.quoteConfig.quote?.actions?.actionsOrderByState?.[state];
-    // combineLatest([this.quoteCartService.getQuoteCartActive(),this.quoteCartService.getQuoteId]).pipe(
-    //   take(1)).subscribe(([a,b])=> {
-    //     if (a)
-    //   });
-
-    return order
-      ? list
-          .filter((item) => order.includes(item))
-          .sort((a, b) => order.indexOf(a) - order.indexOf(b))
-      : list;
+    if (order) {
+      //deep copy order list
+      const clonedActionList = order.map((actionType) => actionType);
+      combineLatest([
+        this.quoteCartService.getQuoteCartActive(),
+        this.quoteCartService.getQuoteId(),
+      ])
+        .pipe(take(1))
+        .subscribe(([isQuoteCartActive, cartQuoteId]) => {
+          console.log('CHHI cart quote id: ' + cartQuoteId);
+          console.log('CHHI current quote id: ' + quoteId);
+          if (isQuoteCartActive && cartQuoteId === quoteId) {
+            const editIndex = clonedActionList.indexOf(QuoteActionType.EDIT);
+            if (editIndex > -1) {
+              clonedActionList.splice(editIndex, 1);
+            }
+          }
+        });
+      return list
+        .filter((item) => clonedActionList.includes(item))
+        .sort(
+          (a, b) => clonedActionList.indexOf(a) - clonedActionList.indexOf(b)
+        );
+    } else {
+      return list;
+    }
   }
 }

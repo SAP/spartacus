@@ -5,23 +5,21 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { CanActivate, UrlTree } from '@angular/router';
 
 import { Observable, combineLatest } from 'rxjs';
 import { QuoteCartService } from './quote-cart.service';
 import { map } from 'rxjs/operators';
+import { RoutingService } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuoteCartGuard implements CanActivate {
   constructor(
-    protected router: Router,
+    protected routingService: RoutingService,
     protected quoteCartService: QuoteCartService
-  ) {
-    this.quoteCartService.setQuoteCartActive(false);
-    this.quoteCartService.setQuoteId('');
-  }
+  ) {}
   canActivate(): Observable<boolean | UrlTree> {
     return combineLatest([
       this.quoteCartService.getQuoteCartActive(),
@@ -29,7 +27,10 @@ export class QuoteCartGuard implements CanActivate {
     ]).pipe(
       map(([isQuoteCartActive, quoteId]) => {
         if (isQuoteCartActive) {
-          this.router.navigateByUrl('my-account/quote/' + quoteId);
+          this.routingService.go({
+            cxRoute: 'quoteDetails',
+            params: { quoteId: quoteId },
+          });
           return false;
         }
         return true;

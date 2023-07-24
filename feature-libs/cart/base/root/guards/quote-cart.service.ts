@@ -14,16 +14,21 @@ export class QuoteCartService {
   private quoteId: Observable<string> = new ReplaySubject<string>(1);
   private quoteCartActive: Observable<boolean> = new ReplaySubject<boolean>(1);
 
-  public setQuoteId(expMode: string): void {
-    (this.quoteId as ReplaySubject<string>).next(expMode);
+  constructor() {
+    (this.quoteCartActive as ReplaySubject<boolean>).next(false);
+    (this.quoteId as ReplaySubject<string>).next('');
+  }
+
+  public setQuoteId(quoteId: string): void {
+    (this.quoteId as ReplaySubject<string>).next(quoteId);
   }
 
   public getQuoteId(): Observable<string> {
     return this.quoteId;
   }
 
-  public setQuoteCartActive(expMode: boolean): void {
-    (this.quoteCartActive as ReplaySubject<boolean>).next(expMode);
+  public setQuoteCartActive(quoteCartActive: boolean): void {
+    (this.quoteCartActive as ReplaySubject<boolean>).next(quoteCartActive);
   }
 
   public getQuoteCartActive(): Observable<boolean> {
