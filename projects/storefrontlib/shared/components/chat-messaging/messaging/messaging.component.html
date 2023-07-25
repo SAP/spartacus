@@ -33,7 +33,7 @@
                   | cxTranslate
                     : {
                         author: message?.author!,
-                        text: getMessageText(message)!,
+                        text: getMessageText(message),
                         date:
                           (message?.createdAt
                             | cxDate: messagingConfigs?.dateFormat) ??
@@ -47,7 +47,7 @@
                 (click)="onItemClicked(message)"
                 >{{ message.item.name }}:</a
               >
-              {{ message?.text! }}
+              {{ message.text }}
             </div>
             <a
               *ngFor="let attachment of message?.attachments ?? []"
@@ -81,7 +81,7 @@
         <span>
           {{ 'chatMessaging.addNewMessage' | cxTranslate }}
           <select
-            *ngIf="messagingConfigs?.itemList | async as itemList"
+            *ngIf="messagingConfigs?.itemList$ | async as itemList"
             class="cx-message-item-selection"
             formControlName="item"
           >

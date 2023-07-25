@@ -28,7 +28,7 @@ export interface MessagingConfigs {
   enableFileUploadOption?: boolean;
   dateFormat?: string;
   displayAddMessageSection?: Observable<boolean>;
-  itemList?: Observable<Array<Item>>;
+  itemList$?: Observable<Array<Item>>;
 }
 
 export interface AttachmentRestrictions {

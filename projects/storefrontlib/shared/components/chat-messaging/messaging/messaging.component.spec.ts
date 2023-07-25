@@ -127,7 +127,7 @@ describe('MessagingComponent', () => {
     });
 
     it('should render an item DDLB when there are items provided', () => {
-      (component.messagingConfigs ?? {}).itemList = of(mockItemList);
+      (component.messagingConfigs ?? {}).itemList$ = of(mockItemList);
       fixture.detectChanges();
       expect(
         fixture.debugElement.queryAll(
@@ -138,7 +138,7 @@ describe('MessagingComponent', () => {
 
     it('should emit selected itemId when adding a new message', () => {
       spyOn(component.send, 'emit');
-      (component.messagingConfigs ?? {}).itemList = of(mockItemList);
+      (component.messagingConfigs ?? {}).itemList$ = of(mockItemList);
       fixture.detectChanges();
 
       const itemDDLB = fixture.debugElement.query(
