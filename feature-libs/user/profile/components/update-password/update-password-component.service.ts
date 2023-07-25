@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { Injectable } from '@angular/core';
 import {
   UntypedFormControl,
@@ -13,7 +7,6 @@ import {
 import {
   AuthRedirectService,
   AuthService,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -27,32 +20,11 @@ import { tap } from 'rxjs/operators';
 @Injectable()
 export class UpdatePasswordComponentService {
   constructor(
-    userPasswordService: UserPasswordFacade,
-    routingService: RoutingService,
-    globalMessageService: GlobalMessageService,
-    authRedirectService?: AuthRedirectService,
-    authService?: AuthService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfigService?: FeatureConfigService
-  );
-  /**
-   * @deprecated since 7.0
-   */
-  constructor(
-    userPasswordService: UserPasswordFacade,
-    routingService: RoutingService,
-    globalMessageService: GlobalMessageService,
-    authRedirectService?: AuthRedirectService,
-    authService?: AuthService
-  );
-
-  constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected authRedirectService?: AuthRedirectService,
-    protected authService?: AuthService,
-    protected featureConfigService?: FeatureConfigService
+    protected authService?: AuthService
   ) {}
 
   protected busy$ = new BehaviorSubject(false);
@@ -92,17 +64,10 @@ export class UpdatePasswordComponentService {
     const oldPassword = this.form.get('oldPassword')?.value;
     const newPassword = this.form.get('newPassword')?.value;
 
-    if (this.featureConfigService?.isLevel('6.3')) {
-      this.userPasswordService.update(oldPassword, newPassword).subscribe({
-        next: () => this.onSuccess(),
-        error: (error: HttpErrorModel) => this.onNewError(error),
-      });
-    } else {
-      this.userPasswordService.update(oldPassword, newPassword).subscribe({
-        next: () => this.onSuccess(),
-        error: (error: Error) => this.onError(error),
-      });
-    }
+    this.userPasswordService.update(oldPassword, newPassword).subscribe({
+      next: () => this.onSuccess(),
+      error: (error: HttpErrorModel | Error) => this.onError(error),
+    });
   }
 
   protected onSuccess(): void {
@@ -123,13 +88,11 @@ export class UpdatePasswordComponentService {
     });
   }
 
-  protected onError(_error: Error): void {
-    this.busy$.next(false);
-    this.form.reset();
-  }
-
-  protected onNewError(error: HttpErrorModel): void {
-    if (error.details?.[0].type === 'AccessDeniedError') {
+  protected onError(_error: HttpErrorModel | Error): void {
+    if (
+      _error instanceof HttpErrorModel &&
+      _error.details?.[0].type === 'AccessDeniedError'
+    ) {
       this.globalMessageService.add(
         { key: 'updatePasswordForm.accessDeniedError' },
         GlobalMessageType.MSG_TYPE_ERROR
