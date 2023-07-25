@@ -4,6 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './cx-error-handler';
-export * from './error-handling.module';
-export * from './http-error-handler';
+export * from './http-error-handler.interceptor';
+export * from './http-error-handler.module';
