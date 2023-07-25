@@ -39,7 +39,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   @Output() send = new EventEmitter<{
     files: File | undefined;
     message: string;
-    item?: Item;
+    itemId?: string;
   }>();
 
   @Output() itemClicked = new EventEmitter<{
@@ -109,6 +109,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
       this.send.emit({
         files: this.form.get('file')?.value,
         message: this.form.get('message')?.value,
+        itemId: this.form.get('item')?.value
       });
     }
   }
@@ -148,6 +149,10 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
         this.filesFormValidators.maxEntries(this.maxEntries),
         this.filesFormValidators.allowedTypes(this.allowedTypes),
       ])
+    );
+    form.setControl(
+      'item',
+      new UntypedFormControl('')
     );
     this.form = form;
   }

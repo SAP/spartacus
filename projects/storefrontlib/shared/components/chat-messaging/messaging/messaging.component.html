@@ -45,7 +45,7 @@
                 *ngIf="message.item"
                 class="cx-message-item-link"
                 (click)="onItemClicked(message)"
-                >{{message.item.name}}:</a
+                >{{ message.item.name }}:</a
               >
               {{ message.text! }}
             </div>
@@ -80,6 +80,13 @@
       <label class="cx-footer-label">
         <span>
           {{ 'chatMessaging.addNewMessage' | cxTranslate }}
+          <select
+            *ngIf="messagingConfigs?.itemList | async as itemList"
+            class="cx-message-item-selection"
+            formControlName="item"
+          >
+            <option *ngFor="let item of itemList" value="{{item.id}}">{{item.name}}</option>
+          </select>
         </span>
         <div class="cx-message-input">
           <input

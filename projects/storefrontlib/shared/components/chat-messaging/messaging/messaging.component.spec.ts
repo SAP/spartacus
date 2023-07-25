@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { IconModule } from '../../../../cms-components';
 import { FileUploadModule, FormErrorsModule } from '../../form';
 import { MessagingComponent } from './messaging.component';
-import { MessageEvent } from './messaging.model';
+import { MessageEvent, Item } from './messaging.model';
 
 const mockMessageEvent: MessageEvent = {
   rightAlign: false,
@@ -23,6 +23,12 @@ const mockMessageEventWithItem: MessageEvent = {
 const mockMessageEvents: Array<MessageEvent> = [
   mockMessageEvent,
   mockMessageEventWithItem,
+];
+
+const mockItemList: Item[] = [
+  { id: '', name: 'NO SELECTION' },
+  { id: 'p1', name: 'Product 1' },
+  { id: 'p2', name: 'Product 2' },
 ];
 
 describe('MessagingComponent', () => {
@@ -71,6 +77,7 @@ describe('MessagingComponent', () => {
     expect(component.send.emit).toHaveBeenCalledWith({
       files: '' as unknown as File,
       message: 'mockMessage',
+      itemId: '',
     });
   });
 
@@ -86,29 +93,73 @@ describe('MessagingComponent', () => {
     });
   });
 
-  it('should not render an item link when there is no item attached to the message', () => {
-    expect(
-      fixture.debugElement.query(
-        By.css('.cx-message-card:nth-child(1) .cx-message-item-link')
-      )
-    ).toBeNull();
-  });
+  describe('with item support', () => {
+    it('should not render an item link when there is no item attached to the message', () => {
+      expect(
+        fixture.debugElement.query(
+          By.css('.cx-message-card:nth-child(1) .cx-message-item-link')
+        )
+      ).toBeNull();
+    });
 
-  it('should render an item link when there is an item attached to the message', () => {
-    expect(
-      fixture.debugElement.query(
-        By.css('.cx-message-card:nth-child(2) .cx-message-item-link')
-      ).nativeElement.text
-    ).toEqual('Product 123:');
-  });
+    it('should render an item link when there is an item attached to the message', () => {
+      expect(
+        fixture.debugElement.query(
+          By.css('.cx-message-card:nth-child(2) .cx-message-item-link')
+        ).nativeElement.text
+      ).toEqual('Product 123:');
+    });
 
-  it('should fire itemClicked event when clicking item link', () => {
-    spyOn(component.itemClicked, 'emit');
-    fixture.debugElement
-      .query(By.css('.cx-message-card:nth-child(2) .cx-message-item-link'))
-      .nativeElement.click();
-    expect(component.itemClicked.emit).toHaveBeenCalledWith({
-      item: mockMessageEventWithItem.item,
+    it('should fire itemClicked event when clicking item link', () => {
+      spyOn(component.itemClicked, 'emit');
+      fixture.debugElement
+        .query(By.css('.cx-message-card:nth-child(2) .cx-message-item-link'))
+        .nativeElement.click();
+      expect(component.itemClicked.emit).toHaveBeenCalledWith({
+        item: mockMessageEventWithItem.item,
+      });
+    });
+
+    it('should not render an item DDLB when there no items provided', () => {
+      expect(
+        fixture.debugElement.query(By.css('.cx-message-item-selection'))
+      ).toBeNull();
+    });
+
+    it('should render an item DDLB when there are items provided', () => {
+      (component.messagingConfigs ?? {}).itemList = of(mockItemList);
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.queryAll(
+          By.css('.cx-message-item-selection option')
+        ).length
+      ).toBe(mockItemList.length);
+    });
+
+    it('should emit selected itemId when adding a new message', () => {
+      spyOn(component.send, 'emit');
+      (component.messagingConfigs ?? {}).itemList = of(mockItemList);
+      fixture.detectChanges();
+
+      const itemDDLB= fixture.debugElement.query(
+        By.css('.cx-message-item-selection')
+      ).nativeElement;
+      itemDDLB.value = 'p1';
+      itemDDLB.dispatchEvent(new Event('change'));
+
+      const messageInput = fixture.debugElement.query(
+        By.css('.cx-message-input input')
+      ).nativeElement;
+      messageInput.value = 'yet another text';
+      messageInput.dispatchEvent(new Event('input'));
+      fixture.debugElement.query(By.css('.btn-primary')).nativeElement.click();
+
+      fixture.detectChanges();
+      expect(component.send.emit).toHaveBeenCalledWith({
+        files: '' as unknown as File,
+        message: 'yet another text',
+        itemId: 'p1',
+      });
     });
   });
 
