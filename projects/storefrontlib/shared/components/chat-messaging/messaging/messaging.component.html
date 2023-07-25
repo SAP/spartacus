@@ -85,7 +85,9 @@
             class="cx-message-item-selection"
             formControlName="item"
           >
-            <option *ngFor="let item of itemList" value="{{item.id}}">{{item.name}}</option>
+            <option *ngFor="let item of itemList" value="{{ item.id }}">
+              {{ item.name }}
+            </option>
           </select>
         </span>
         <div class="cx-message-input">

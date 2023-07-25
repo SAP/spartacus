@@ -109,7 +109,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
       this.send.emit({
         files: this.form.get('file')?.value,
         message: this.form.get('message')?.value,
-        itemId: this.form.get('item')?.value
+        itemId: this.form.get('item')?.value,
       });
     }
   }
@@ -150,10 +150,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
         this.filesFormValidators.allowedTypes(this.allowedTypes),
       ])
     );
-    form.setControl(
-      'item',
-      new UntypedFormControl('')
-    );
+    form.setControl('item', new UntypedFormControl(''));
     this.form = form;
   }
 

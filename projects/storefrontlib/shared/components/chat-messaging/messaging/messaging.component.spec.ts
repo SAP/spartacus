@@ -141,7 +141,7 @@ describe('MessagingComponent', () => {
       (component.messagingConfigs ?? {}).itemList = of(mockItemList);
       fixture.detectChanges();
 
-      const itemDDLB= fixture.debugElement.query(
+      const itemDDLB = fixture.debugElement.query(
         By.css('.cx-message-item-selection')
       ).nativeElement;
       itemDDLB.value = 'p1';
