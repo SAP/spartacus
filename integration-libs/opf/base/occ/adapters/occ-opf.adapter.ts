@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, backOff, isJaloError } from '@spartacus/core';
 import {
+  OPF_PAYMENT_SUBMIT_COMPLETE_NORMALIZER,
   OPF_PAYMENT_SUBMIT_NORMALIZER,
   OPF_PAYMENT_VERIFICATION_NORMALIZER,
   OpfEndpointsService,
@@ -19,6 +20,8 @@ import {
   OpfConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
+  SubmitCompleteRequest,
+  SubmitCompleteResponse,
   SubmitRequest,
   SubmitResponse,
 } from '@spartacus/opf/base/root';
@@ -95,6 +98,32 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     );
   }
 
+  submitCompletePayment(
+    submitCompleteRequest: SubmitCompleteRequest,
+    otpKey: string,
+    paymentSessionId: string
+  ): Observable<SubmitCompleteResponse> {
+    const headers = new HttpHeaders(this.header)
+      .set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '')
+      .set(OPF_CC_OTP_KEY, otpKey || '');
+
+    const url = this.getSubmitCompletePaymentEndpoint(paymentSessionId);
+
+    return this.http
+      .post<SubmitCompleteResponse>(url, submitCompleteRequest, { headers })
+      .pipe(
+        catchError((error) => throwError(error)),
+        backOff({
+          shouldRetry: isJaloError,
+        }),
+        backOff({
+          shouldRetry: isHttp500Error,
+          maxTries: 2,
+        }),
+        this.converter.pipeable(OPF_PAYMENT_SUBMIT_COMPLETE_NORMALIZER)
+      );
+  }
+
   protected verifyPaymentEndpoint(paymentSessionId: string): string {
     return this.opfEndpointsService.buildUrl('verifyPayment', {
       urlParams: { paymentSessionId },
@@ -103,6 +132,12 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
 
   protected getSubmitPaymentEndpoint(paymentSessionId: string): string {
     return this.opfEndpointsService.buildUrl('submitPayment', {
+      urlParams: { paymentSessionId },
+    });
+  }
+
+  protected getSubmitCompletePaymentEndpoint(paymentSessionId: string): string {
+    return this.opfEndpointsService.buildUrl('submitCompletePayment', {
       urlParams: { paymentSessionId },
     });
   }

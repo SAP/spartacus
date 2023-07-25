@@ -11,6 +11,7 @@ import { OPF_BASE_FEATURE } from '../feature-name';
 import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
+  SubmitCompleteInput,
   SubmitInput,
 } from '../model';
 
@@ -41,4 +42,13 @@ export abstract class OpfPaymentFacade {
    * @param submitInput
    */
   abstract submitPayment(submitInput: SubmitInput): Observable<boolean>;
+
+  /**
+   * abstract method to submit-complete payment for Hosted Fields pattern.
+   *
+   * @param submitInput
+   */
+  abstract submitCompletePayment(
+    submitCompleteInput: SubmitCompleteInput
+  ): Observable<boolean>;
 }
