@@ -3,44 +3,56 @@ const http = require('http');
 
 const proxy = httpProxy.createProxyServer({ secure: false });
 
+// TODO: Use environment variable instead
+// const BACKEND_BASE_URL = process.env.OCC_URL;
 const BACKEND_BASE_URL = 'https://40.76.109.9:9002';
+
 const REQUEST_OPTIONS = {
   host: 'localhost',
-  path: '/',
   port: 4201,
 };
 
 describe('SSR E2E', () => {
+  let server;
+
+  afterEach(async () => {
+    await server.close();
+  });
+
   it('should receive success response with request', async () => {
-    const server = await startProxyServer({
+    server = await startProxyServer({
       target: BACKEND_BASE_URL,
     });
-    const response = await sendRequest();
+    const response = await sendRequest('/');
     expect(response.statusCode).toEqual(200);
-    await server.close();
   });
 
   it('should receive 500 error response with request', async () => {
-    const server = await startProxyServer({
+    server = await startProxyServer({
       target: BACKEND_BASE_URL,
+      throwStatus: 500,
     });
-    proxy.on('proxyRes', function (proxyRes, req, res) {
+    server.on('proxyRes', function (proxyRes, req, res) {
       proxyRes.statusCode = 500;
+      console.log(proxyRes.statusCode);
     });
-    const response = await sendRequest();
+    const response = await sendRequest('/');
     expect(response.statusCode).toEqual(500);
-    await server.close();
+
+    // TODO: Assert ssr server log for error
   });
 
+  // Note: Currently, the ssr server still responds with 200 quickly despite the proxy delay
   it('should receive 500 error response with timed-out request', async () => {
-    const server = await startProxyServer({
+    server = await startProxyServer({
       target: BACKEND_BASE_URL,
       delay: 10000,
     });
-    const response = await sendRequest();
+    const response = await sendRequest('/');
     expect(response.statusCode).toEqual(500);
-    await server.close();
-  });
+
+    // TODO: Assert ssr server log for timeout error
+  }, 15000);
 });
 
 /**
@@ -75,9 +87,10 @@ async function startProxyServer(options) {
   });
 }
 
-async function sendRequest() {
+// TODO: Assert ssr server receives request and sends to proxy server
+async function sendRequest(path) {
   return new Promise((resolve) => {
-    var req = http.get(REQUEST_OPTIONS, function (res) {
+    var req = http.get({ ...REQUEST_OPTIONS, path }, function (res) {
       // Buffer the body entirely for processing as a whole.
       var bodyChunks = [];
       res
