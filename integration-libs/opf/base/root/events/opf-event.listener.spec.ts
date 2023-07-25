@@ -18,7 +18,7 @@ class MockEventService implements Partial<EventService> {
   get = createSpy().and.returnValue(mockEventStream$.asObservable());
 }
 
-fdescribe(`OpfEventListenerService`, () => {
+describe(`OpfEventListenerService`, () => {
   let opfService: OpfService;
 
   beforeEach(() => {
