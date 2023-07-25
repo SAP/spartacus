@@ -39,6 +39,7 @@ import { CouponEntry } from './asm-customer-coupon.model';
 })
 export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
   showErrorAlert$ = new BehaviorSubject<boolean>(false);
+  showErrorAlertForApplyAction$ = new BehaviorSubject<boolean>(false);
   currentCartId: string | undefined;
   userId: string;
   entries$: Observable<Array<CouponEntry>>;
@@ -68,7 +69,7 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
       this.cartVoucherService.getAddVoucherResultError().subscribe((error) => {
         if (error) {
           this.refreshComponent();
-          this.showErrorAlert$.next(true);
+          this.showErrorAlertForApplyAction$.next(true);
         }
       })
     );
@@ -78,11 +79,12 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
         .subscribe((error) => {
           if (error) {
             this.refreshComponent();
-            this.showErrorAlert$.next(true);
+            this.showErrorAlertForApplyAction$.next(true);
           }
         })
     );
     this.showErrorAlert$.next(false);
+    this.showErrorAlertForApplyAction$.next(false);
     this.fetchCoupons();
   }
 
@@ -113,6 +115,10 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
 
   closeErrorAlert(): void {
     this.showErrorAlert$.next(false);
+  }
+
+  closeErrorAlertForApplyAction(): void {
+    this.showErrorAlertForApplyAction$.next(false);
   }
 
   refreshComponent() {

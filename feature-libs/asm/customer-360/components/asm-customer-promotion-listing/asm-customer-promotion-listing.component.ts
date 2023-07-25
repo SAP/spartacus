@@ -25,10 +25,12 @@ export class AsmCustomerPromotionListingComponent {
   @Input() removeButtonText: string;
   @Input() entries: Array<undefined> | null;
   @Input() showAlert: boolean | null;
+  @Input() showAlertForApplyAction: boolean | null;
   @Input() showRemoveButton: boolean;
   @Input() showApplyButton: boolean;
   @Output() apply = new EventEmitter<undefined>();
   @Output() remove = new EventEmitter<undefined>();
-  @Output() removeAlertAction = new EventEmitter<undefined>();
+  @Output() removeAlert = new EventEmitter<undefined>();
+  @Output() removeAlertForApplyAction = new EventEmitter<undefined>();
   globalMessageType = GlobalMessageType;
 }
