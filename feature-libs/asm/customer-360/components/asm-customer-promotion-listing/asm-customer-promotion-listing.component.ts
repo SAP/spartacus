@@ -12,6 +12,7 @@ import {
   Output,
 } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
+import { PromotionListEntry } from './asm-customer-promotion-listing.model';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-promotion-listing',
@@ -23,7 +24,7 @@ export class AsmCustomerPromotionListingComponent {
   @Input() applyButtonText: string;
   @Input() applied: string;
   @Input() removeButtonText: string;
-  @Input() entries: Array<undefined> | null;
+  @Input() entries: Array<PromotionListEntry> | null;
   @Input() showAlert: boolean | null;
   @Input() showAlertForApplyAction: boolean | null;
   @Input() showRemoveButton: boolean;

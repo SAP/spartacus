@@ -94,9 +94,6 @@ export const defaultCustomer360Config: Customer360Config = {
             requestData: {
               type: Customer360Type.COUPON_LIST,
             },
-            config: {
-              pageSize: 10,
-            },
           },
         ],
       },

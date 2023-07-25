@@ -2441,9 +2441,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Cancel',
     },
   ],
-  asmCustomer360CouponList:[
-    {type:TabbingOrderTypes.BUTTON},
-    {type:TabbingOrderTypes.BUTTON},
-    {type:TabbingOrderTypes.BUTTON}
+  asmCustomer360CouponList: [
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
   ],
 };

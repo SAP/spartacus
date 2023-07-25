@@ -115,7 +115,7 @@ export function asmTabbingOrderWithSaveInactiveCartDialog(
   });
 }
 
-export function asmTabbingOrderForCustomer360CouponList (config: TabElement[]) {
+export function asmTabbingOrderForCustomer360CouponList(config: TabElement[]) {
   cy.visit('/?asm=true');
   asm.agentLogin('asagent', 'pw4all');
 

@@ -11,11 +11,11 @@
     (closeMessage)="removeAlert.emit()"
   ></cx-message>
   <cx-message
-  *ngIf="showAlertForApplyAction"
-  [text]="'customer360.alertErrorMessageForApplyAction' | cxTranslate"
-  [type]="globalMessageType.MSG_TYPE_ERROR"
-  (closeMessage)="removeAlertForApplyAction.emit()"
-></cx-message>
+    *ngIf="showAlertForApplyAction"
+    [text]="'customer360.alertErrorMessageForApplyAction' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_ERROR"
+    (closeMessage)="removeAlertForApplyAction.emit()"
+  ></cx-message>
 </div>
 <table class="cx-asm-customer-promotion-listing">
   <ng-container *ngFor="let entry of entries">
