@@ -13,9 +13,16 @@ const mockMessageEvent: MessageEvent = {
   text: 'mockMessage',
   author: 'Mark Rivers',
 };
+
+const mockMessageEventWithItem: MessageEvent = {
+  rightAlign: true,
+  text: 'mockMessage',
+  author: 'Mark Rivers',
+  item: { id: 'p123', name: 'Product 123' },
+};
 const mockMessageEvents: Array<MessageEvent> = [
   mockMessageEvent,
-  mockMessageEvent,
+  mockMessageEventWithItem,
 ];
 
 describe('MessagingComponent', () => {
@@ -76,6 +83,43 @@ describe('MessagingComponent', () => {
       messageCode: 'mockCode',
       attachmentId: 'mockId',
       fileName: 'mockName',
+    });
+  });
+
+  it('should not render an item link when there is no item attached to the message', () => {
+    expect(
+      fixture.debugElement.query(
+        By.css('.cx-message-card:nth-child(1) .cx-message-item-link')
+      )
+    ).toBeNull();
+  });
+
+  it('should render an item link when there is an item attached to the message', () => {
+    expect(
+      fixture.debugElement.query(
+        By.css('.cx-message-card:nth-child(2) .cx-message-item-link')
+      ).nativeElement.text
+    ).toEqual('Product 123:');
+  });
+
+  it('should fire itemClicked event when clicking item link', () => {
+    spyOn(component.itemClicked, 'emit');
+    fixture.debugElement
+      .query(By.css('.cx-message-card:nth-child(2) .cx-message-item-link'))
+      .nativeElement.click();
+    expect(component.itemClicked.emit).toHaveBeenCalledWith({
+      item: mockMessageEventWithItem.item,
+    });
+  });
+
+  describe('getMessageText', () => {
+    it('should return only message text if no item is provided', () => {
+      expect(component.getMessageText(mockMessageEvent)).toEqual('mockMessage');
+    });
+    it('should prefix item name to the message text if an item is provided', () => {
+      expect(component.getMessageText(mockMessageEventWithItem)).toEqual(
+        'Product 123: mockMessage'
+      );
     });
   });
 });

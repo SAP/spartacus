@@ -190,6 +190,18 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  getMessageText(message: MessageEvent) {
+    return message.item
+      ? message.item.name + ': ' + message.text
+      : message.text;
+  }
+
+  onItemClicked(message: MessageEvent): void {
+    this.itemClicked.emit({
+      item: message.item,
+    });
+  }
+
   protected observeScroll(): void {
     const element = this.windowRef.document.querySelector('.cx-messages');
     if (element) {

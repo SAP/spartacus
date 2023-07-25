@@ -33,7 +33,7 @@
                   | cxTranslate
                     : {
                         author: message?.author!,
-                        text: message?.text!,
+                        text: getMessageText(message)!,
                         date:
                           (message?.createdAt
                             | cxDate: messagingConfigs?.dateFormat) ??
@@ -41,7 +41,13 @@
                       }
               "
             >
-              {{ message?.text! }}
+              <a
+                *ngIf="message.item"
+                class="cx-message-item-link"
+                (click)="onItemClicked(message)"
+                >{{message.item.name}}:</a
+              >
+              {{ message.text! }}
             </div>
             <a
               *ngFor="let attachment of message?.attachments ?? []"

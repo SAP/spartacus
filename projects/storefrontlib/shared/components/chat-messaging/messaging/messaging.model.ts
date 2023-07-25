@@ -38,6 +38,6 @@ export interface AttachmentRestrictions {
 }
 
 export interface Item {
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
 }
