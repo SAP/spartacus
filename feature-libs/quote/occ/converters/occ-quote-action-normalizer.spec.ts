@@ -6,7 +6,10 @@ import {
   QuoteActionType,
   QuoteState,
 } from '@spartacus/quote/root';
-import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import {
+  createEmptyQuote,
+  QUOTE_CODE,
+} from '../../core/testing/quote-test-utils';
 import { OccQuoteActionNormalizer } from './occ-quote-action-normalizer';
 
 const SUBMIT_AND_CANCEL_UNORDERED = [
@@ -95,7 +98,8 @@ describe('OccQuoteActionNormalizer', () => {
     it('should return sorted list according to config', () => {
       const orderedActions = service['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
-        SUBMIT_AND_CANCEL_UNORDERED
+        SUBMIT_AND_CANCEL_UNORDERED,
+        QUOTE_CODE
       );
       expect(orderedActions).toEqual([
         QuoteActionType.CANCEL,
@@ -106,7 +110,8 @@ describe('OccQuoteActionNormalizer', () => {
       quoteCoreConfig.quote = undefined;
       const orderedActions = service['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
-        SUBMIT_AND_CANCEL_UNORDERED
+        SUBMIT_AND_CANCEL_UNORDERED,
+        QUOTE_CODE
       );
       expect(orderedActions).toEqual(SUBMIT_AND_CANCEL_UNORDERED);
     });
@@ -114,7 +119,8 @@ describe('OccQuoteActionNormalizer', () => {
       (quoteCoreConfig?.quote ?? {}).actions = undefined;
       const orderedActions = service['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
-        SUBMIT_AND_CANCEL_UNORDERED
+        SUBMIT_AND_CANCEL_UNORDERED,
+        QUOTE_CODE
       );
       expect(orderedActions).toEqual(SUBMIT_AND_CANCEL_UNORDERED);
     });
@@ -123,7 +129,8 @@ describe('OccQuoteActionNormalizer', () => {
       (quoteCoreConfig.quote?.actions ?? {}).actionsOrderByState = undefined;
       const orderedActions = service['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
-        SUBMIT_AND_CANCEL_UNORDERED
+        SUBMIT_AND_CANCEL_UNORDERED,
+        QUOTE_CODE
       );
       expect(orderedActions).toEqual(SUBMIT_AND_CANCEL_UNORDERED);
     });

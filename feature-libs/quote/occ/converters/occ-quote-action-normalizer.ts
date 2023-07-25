@@ -74,8 +74,6 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
       ])
         .pipe(take(1))
         .subscribe(([isQuoteCartActive, cartQuoteId]) => {
-          console.log('CHHI cart quote id: ' + cartQuoteId);
-          console.log('CHHI current quote id: ' + quoteId);
           if (isQuoteCartActive && cartQuoteId === quoteId) {
             const editIndex = clonedActionList.indexOf(QuoteActionType.EDIT);
             if (editIndex > -1) {

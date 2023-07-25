@@ -169,6 +169,10 @@ export class QuoteService implements QuoteFacade {
           if (payload.quoteAction === QuoteActionType.SUBMIT) {
             this.quoteCartService.setQuoteCartActive(false);
           }
+          if (payload.quoteAction === QuoteActionType.EDIT) {
+            this.quoteCartService.setQuoteCartActive(true);
+            this.quoteCartService.setQuoteId(payload.quoteCode);
+          }
         })
       );
     },
@@ -209,20 +213,21 @@ export class QuoteService implements QuoteFacade {
           switchMap(([{ state }, userId]) =>
             zip(
               this.quoteConnector.getQuote(userId, state.params.quoteId),
+              this.quoteCartService.getQuoteCartActive(),
+              this.quoteCartService.getQuoteId(),
               of(userId)
             )
           ),
-          //TODO CHHI only if user explictly triggered edit for this quote
-          tap(([quote, userId]) => {
-            this.multiCartService.loadCart({
-              userId: userId,
-              cartId: quote.cartId as string,
-              extraData: {
-                active: true,
-              },
-            });
-            this.quoteCartService.setQuoteCartActive(true);
-            this.quoteCartService.setQuoteId(quote.code);
+          tap(([quote, isActive, quoteId, userId]) => {
+            if (isActive && quote.code === quoteId) {
+              this.multiCartService.loadCart({
+                userId: userId,
+                cartId: quote.cartId as string,
+                extraData: {
+                  active: true,
+                },
+              });
+            }
           }),
           map(([quote, _]) => quote)
         ),
