@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Command, CommandService, WindowRef } from '@spartacus/core';
+import { Command, CommandService } from '@spartacus/core';
 import {
   OpfPaymentFacade,
   OpfPaymentVerificationPayload,
@@ -13,7 +13,6 @@ import {
   SubmitCompleteInput,
   SubmitInput,
 } from '@spartacus/opf/base/root';
-
 import { Observable } from 'rxjs';
 import { OpfPaymentConnector } from '../connectors/opf-payment.connector';
 import { OpfPaymentHostedFieldsService } from '../services/opf-payment-hosted-fields.service';
@@ -58,7 +57,6 @@ export class OpfPaymentService implements OpfPaymentFacade {
   constructor(
     protected commandService: CommandService,
     protected opfPaymentConnector: OpfPaymentConnector,
-    protected winRef: WindowRef,
     protected opfPaymentHostedFieldsService: OpfPaymentHostedFieldsService
   ) {}
 

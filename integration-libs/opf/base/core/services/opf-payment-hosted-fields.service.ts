@@ -7,7 +7,6 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
-  CommandService,
   GlobalMessageService,
   RoutingService,
   UserIdService,
@@ -25,9 +24,11 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { OpfOrderFacade, OpfOtpFacade } from '../../root/facade';
+
 import {
   MerchantCallback,
+  OpfOrderFacade,
+  OpfOtpFacade,
   OpfPaymentError,
   PaymentErrorType,
   PaymentMethod,
@@ -39,15 +40,14 @@ import {
   SubmitResponse,
   SubmitStatus,
   defaultError,
-} from '../../root/model';
+} from '@spartacus/opf/base/root';
 import { OpfPaymentConnector } from '../connectors/opf-payment.connector';
 import { OpfPaymentErrorHandlerService } from '../services/opf-payment-error-handler.service';
 import { getBrowserInfo } from '../utils/opf-payment-utils';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class OpfPaymentHostedFieldsService {
   constructor(
-    protected commandService: CommandService,
     protected opfPaymentConnector: OpfPaymentConnector,
     protected winRef: WindowRef,
     protected opfOtpFacade: OpfOtpFacade,
