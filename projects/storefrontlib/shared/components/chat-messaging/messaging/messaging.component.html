@@ -47,7 +47,7 @@
                 (click)="onItemClicked(message)"
                 >{{ message.item.name }}:</a
               >
-              {{ message.text! }}
+              {{ message?.text! }}
             </div>
             <a
               *ngFor="let attachment of message?.attachments ?? []"
