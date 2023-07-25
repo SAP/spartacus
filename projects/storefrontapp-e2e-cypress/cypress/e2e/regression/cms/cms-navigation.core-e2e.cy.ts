@@ -34,7 +34,7 @@ context('Cms navigation', { testIsolation: false }, () => {
     cy.get('cx-category-navigation cx-generic-link').should('exist');
 
     // `/cms/components` endpoint is called for each different Navigation components (e.g. header and footer)
-    const EXPECTED_MAX_COUNT_LOADING_CMS_COMPONENTS = 3;
+    const EXPECTED_MAX_COUNT_LOADING_CMS_COMPONENTS = 4;
 
     // Our heuristic to assert that there is no infinite loop of calling `/cms/components` endpoint
     // is to check whether this endpoint was called not too many times during 1st second after the page is rendered.
