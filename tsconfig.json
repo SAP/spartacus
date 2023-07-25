@@ -463,12 +463,9 @@
       "@spartacus/cdc/organization/administration": [
         "integration-libs/cdc/organization/administration/public_api"
       ],
-<<<<<<< HEAD
       "@spartacus/cdc/organization/user-registration": [
         "integration-libs/cdc/organization/user-registration/public_api"
       ],
-=======
->>>>>>> 849a72b5f1438f77b7f4009ff64ed4d102d024c9
       "@spartacus/cdc/root": ["integration-libs/cdc/root/public_api"],
       "@spartacus/cdc/user-account": [
         "integration-libs/cdc/user-account/public_api"

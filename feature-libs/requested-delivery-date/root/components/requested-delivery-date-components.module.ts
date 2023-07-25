@@ -20,18 +20,6 @@ import { OrderOverviewDeliveryDateComponent } from './order-overview-delivery-da
     ReactiveFormsModule,
     CardModule,
   ],
-  // providers: [
-  //   provideOutlet({
-  //     id: CartOutlets.DELIVERY_MODE, //CartOutlets.ORDER_SUMMARY
-  //     position: OutletPosition.AFTER,
-  //     component: DeliveryModeDatePickerComponent,
-  //   }),
-  //   provideOutlet({
-  //     id: CartOutlets.ORDER_OVERVIEW,
-  //     position: OutletPosition.AFTER,
-  //     component: OrderOverviewDeliveryDateComponent,
-  //   }),
-  // ],
   declarations: [
     DeliveryModeDatePickerComponent,
     OrderOverviewDeliveryDateComponent,
