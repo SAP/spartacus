@@ -14,6 +14,7 @@
     "cy:open:mcs": "cypress open --config baseUrl=https://spartacusstore.cg79x9wuu9-ecdhcomme2-s1-public.model-t.myhybris.cloud --env API_URL=https://api.cg79x9wuu9-ecdhcomme2-s1-public.model-t.myhybris.cloud",
     "cy:run": "cypress run",
     "cy:run:b2b": "cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers",
+    "cy:run:updatepassword": "cypress run --env API_URL=https://api.cg79x9wuu9-eccommerc1-p1-public.model-t.myhybris.cloud/ --spec \"cypress/e2e/regression/my-account/update-password.e2e.cy.ts\"",
     "cy:run:core": "cypress run --spec \"cypress/e2e/**/*.core-e2e.cy.ts\"",
     "cy:run:product-configurator-vc": "cypress run --spec \"cypress/e2e/**/*-configurator*.*e2e.cy.ts\"",
     "cy:run:cpq": "cypress run --config-file cypress.config.ci.ts --config baseUrl=https://jsapps.cpce-teamtiger1-d2-public.model-t.cc.commerce.ondemand.com,defaultCommandTimeout=100000,requestTimeout=1000000,responseTimeout=1000000,pageLoadTimeout=1000000 --reporter junit --reporter-options mochaFile=results/test-results-[hash].xml --env API_URL=https://api.cpce-teamtiger1-d2-public.model-t.cc.commerce.ondemand.com --spec \"cypress/e2e/**/cpq-configuration.core-e2e.cy.ts\"",
