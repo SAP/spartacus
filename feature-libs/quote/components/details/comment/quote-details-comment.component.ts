@@ -89,10 +89,10 @@ export class QuoteDetailsCommentComponent {
             .subscribe((text) => (name = text));
           const itemList: Item[] = [{ id: '', name: name }];
           quote.entries?.forEach((entry) => {
-            if (entry.product?.code) {
+            if (entry.entryNumber) {
               itemList.push({
-                id: entry.product.code,
-                name: entry.product.name ?? entry.product.code,
+                id: entry.entryNumber.toString(),
+                name: entry.product?.name ?? entry.product?.code ?? entry.entryNumber.toString(),
               });
             }
           });

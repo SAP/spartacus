@@ -206,21 +206,25 @@ describe('QuoteDetailsCommentComponent', () => {
     });
     it("should provide 'All Products' item as well as one item per valid quote entry", () => {
       quote.entries = [
-        { product: { code: 'p1', name: 'Product 1' } }, // valid
-        { product: { code: 'p2' } }, // valid, if product name is missing, code is used instead
-        { product: { name: 'Product 3' } }, // invalid, no product code
-        {}, // invalid, no product
+        { entryNumber: 1, product: { code: 'p1', name: 'Product 1' } }, // valid
+        { entryNumber: 2, product: { code: 'p2' } }, // valid, if product name is missing, code is used instead
+        { entryNumber: 3, }, // valid, if neither product code nor name are there use entry number
+        {}, // invalid, no entry number
       ];
       (component.messagingConfigs.itemList$ ?? of([]))
         .subscribe((itemList) => {
-          expect(itemList.length).toBe(3);
+          expect(itemList.length).toBe(4);
           expect(itemList[1]).toEqual({
-            id: 'p1',
+            id: '1',
             name: 'Product 1',
           });
           expect(itemList[2]).toEqual({
-            id: 'p2',
+            id: '2',
             name: 'p2',
+          });
+          expect(itemList[3]).toEqual({
+            id: '3',
+            name: '3',
           });
         })
         .unsubscribe();
