@@ -11,18 +11,18 @@
       <ng-container *ngFor="let message of messageEvents; let i = index">
         <div
           class="cx-message-card"
-          [ngClass]="{ 'cx-message-display': message?.rightAlign ?? false }"
+          [ngClass]="{ 'cx-message-display': message.rightAlign ?? false }"
         >
-          <cx-avatar [message]="message!"> </cx-avatar>
+          <cx-avatar [message]="message"> </cx-avatar>
 
           <div>
             <label>{{
-              (message?.createdAt | cxDate: messagingConfigs?.dateFormat) ??
+              (message.createdAt | cxDate: messagingConfigs?.dateFormat) ??
                 dateFormat
             }}</label>
             <div
               [ngClass]="
-                message?.rightAlign ?? false
+                message.rightAlign ?? false
                   ? 'cx-message-right-align-text'
                   : 'cx-message-left-align-text'
               "
@@ -32,10 +32,10 @@
                 'chatMessaging.informationLabel'
                   | cxTranslate
                     : {
-                        author: message?.author!,
+                        author: message.author,
                         text: getMessageText(message),
                         date:
-                          (message?.createdAt
+                          (message.createdAt
                             | cxDate: messagingConfigs?.dateFormat) ??
                           dateFormat
                       }
@@ -50,13 +50,13 @@
               {{ message.text }}
             </div>
             <a
-              *ngFor="let attachment of message?.attachments ?? []"
+              *ngFor="let attachment of message.attachments ?? []"
               class="cx-attachment"
               (click)="
                 triggerDownload(
-                  message?.code,
-                  attachment?.id,
-                  attachment?.filename
+                  message.code,
+                  attachment.id,
+                  attachment.filename
                 )
               "
               target="_blank"
