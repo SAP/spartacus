@@ -8,7 +8,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { CreateCartEvent } from '@spartacus/cart/base/root';
 import { EventService, LoginEvent } from '@spartacus/core';
 import { OrderPlacedEvent } from '@spartacus/order/root';
-import { merge, Subscription } from 'rxjs';
+import { Subscription, merge } from 'rxjs';
 import { OpfService } from '../services';
 
 @Injectable({
