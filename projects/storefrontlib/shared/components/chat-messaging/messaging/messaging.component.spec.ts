@@ -173,17 +173,21 @@ describe('MessagingComponent', () => {
       );
     });
   });
-
   describe('resetForm', () => {
-    it("should remove all files uploaded", () => {
-      spyOn(component.fileUploadComponent, 'removeFile');
+    beforeEach(() => {
+      component.fileUploadComponent = jasmine.createSpyObj(
+        'fileUploadComponent',
+        ['removeFile']
+      );
+    });
+    it('should remove all files uploaded', () => {
       component.resetForm();
       expect(component.fileUploadComponent.removeFile).toHaveBeenCalled();
     });
     it("should reset item DDLB to default entry with key ''", () => {
       spyOn(component.form, 'reset');
       component.resetForm();
-      expect(component.form.reset).toHaveBeenCalledWith({item:''});
+      expect(component.form.reset).toHaveBeenCalledWith({ item: '' });
     });
   });
 });
