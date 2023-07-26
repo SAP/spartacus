@@ -12,6 +12,7 @@
 
     @include media-breakpoint-down(md) {
       background-color: var(--cx-color-transparent);
+      padding-top: 1.5rem;
     }
 
     cx-address-form {
