@@ -50,6 +50,7 @@ export const quote = {
     comments: {
       title: 'Contact',
       invalidComment: 'Invalid Input - Please type again...',
+      allProducts: 'All Products',
     },
     details: {
       code: 'Quote ID',

@@ -13,6 +13,7 @@ import {
 } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
+  Item,
   MessageEvent,
   MessagingComponent,
   MessagingConfigs,
@@ -79,6 +80,25 @@ export class QuoteDetailsCommentComponent {
         map((quote) => quote.isEditable)
       ),
       dateFormat: 'MMMM d, yyyy h:mm aa',
+      itemList$: this.quoteDetails$.pipe(
+        map((quote) => {
+          let name: string = 'quote.comments.allProducts';
+          this.translationService
+            .translate(name)
+            .pipe(take(1))
+            .subscribe((text) => (name = text));
+          const itemList: Item[] = [{ id: '', name: name }];
+          quote.entries?.forEach((entry) => {
+            if (entry.product?.code) {
+              itemList.push({
+                id: entry.product.code,
+                name: entry.product.name ?? entry.product.code,
+              });
+            }
+          });
+          return itemList;
+        })
+      ),
     };
   }
 
@@ -100,6 +120,7 @@ export class QuoteDetailsCommentComponent {
       text: comment.text,
       createdAt: comment.creationDate?.toString(),
       rightAlign: !comment.fromCustomer,
+      item: { id: 'dummyId', name: 'Dummy Name' },
     };
     return messages;
   }

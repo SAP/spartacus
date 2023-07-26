@@ -193,6 +193,38 @@ describe('QuoteDetailsCommentComponent', () => {
         })
         .unsubscribe();
     });
+    it("should only provide 'All Products' item if quote has no entries", () => {
+      (component.messagingConfigs.itemList$ ?? of([]))
+        .subscribe((itemList) => {
+          expect(itemList.length).toBe(1);
+          expect(itemList[0]).toEqual({
+            id: '',
+            name: 'quote.comments.allProducts',
+          });
+        })
+        .unsubscribe();
+    });
+    it("should provide 'All Products' item as well as one item per valid quote entry", () => {
+      quote.entries = [
+        { product: { code: 'p1', name: 'Product 1' } }, // valid
+        { product: { code: 'p2' } }, // valid, if product name is missing, code is used instead
+        { product: { name: 'Product 3' } }, // invalid, no product code
+        {}, // invalid, no product
+      ];
+      (component.messagingConfigs.itemList$ ?? of([]))
+        .subscribe((itemList) => {
+          expect(itemList.length).toBe(3);
+          expect(itemList[1]).toEqual({
+            id: 'p1',
+            name: 'Product 1',
+          });
+          expect(itemList[2]).toEqual({
+            id: 'p2',
+            name: 'p2',
+          });
+        })
+        .unsubscribe();
+    });
   });
 
   describe('mapCommentToMessageEvent', () => {
