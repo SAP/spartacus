@@ -45,9 +45,10 @@ export class QuoteDetailsCommentComponent {
     protected quoteUiConfig: QuoteUIConfig
   ) {}
 
-  onSend(event: { message: string }, code: string) {
+  onSend(event: { message: string; itemId: string }, code: string) {
+    console.log(event);
     this.quoteFacade
-      .addQuoteComment(code, { text: event.message })
+      .addQuoteComment(code, { text: event.message }, event.itemId)
       .pipe(
         take(1),
         // do for error and success
@@ -89,10 +90,13 @@ export class QuoteDetailsCommentComponent {
             .subscribe((text) => (name = text));
           const itemList: Item[] = [{ id: '', name: name }];
           quote.entries?.forEach((entry) => {
-            if (entry.entryNumber) {
+            if (entry.entryNumber !== undefined) {
               itemList.push({
                 id: entry.entryNumber.toString(),
-                name: entry.product?.name ?? entry.product?.code ?? entry.entryNumber.toString(),
+                name:
+                  entry.product?.name ??
+                  entry.product?.code ??
+                  entry.entryNumber.toString(),
               });
             }
           });

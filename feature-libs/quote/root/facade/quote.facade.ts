@@ -57,11 +57,13 @@ export abstract class QuoteFacade {
   ): Observable<unknown>;
 
   /**
-   * Add comment to a quote.
+   * Adds a comment to a quote. If an entry number is provided,
+   * it will be added as item comment for this entry, otherwise as header comment.
    */
   abstract addQuoteComment(
     quoteCode: string,
-    quoteComment: Comment
+    quoteComment: Comment,
+    entryNumber?: string
   ): Observable<unknown>;
 
   /**

@@ -206,25 +206,25 @@ describe('QuoteDetailsCommentComponent', () => {
     });
     it("should provide 'All Products' item as well as one item per valid quote entry", () => {
       quote.entries = [
-        { entryNumber: 1, product: { code: 'p1', name: 'Product 1' } }, // valid
-        { entryNumber: 2, product: { code: 'p2' } }, // valid, if product name is missing, code is used instead
-        { entryNumber: 3, }, // valid, if neither product code nor name are there use entry number
+        { entryNumber: 0, product: { code: 'p1', name: 'Product 1' } }, // valid
+        { entryNumber: 1, product: { code: 'p2' } }, // valid, if product name is missing, code is used instead
+        { entryNumber: 2 }, // valid, if neither product code nor name are there use entry number
         {}, // invalid, no entry number
       ];
       (component.messagingConfigs.itemList$ ?? of([]))
         .subscribe((itemList) => {
           expect(itemList.length).toBe(4);
           expect(itemList[1]).toEqual({
-            id: '1',
+            id: '0',
             name: 'Product 1',
           });
           expect(itemList[2]).toEqual({
-            id: '2',
+            id: '1',
             name: 'p2',
           });
           expect(itemList[3]).toEqual({
-            id: '3',
-            name: '3',
+            id: '2',
+            name: '2',
           });
         })
         .unsubscribe();
@@ -271,24 +271,35 @@ describe('QuoteDetailsCommentComponent', () => {
   });
 
   describe('onSend', () => {
-    it('should add a quote comment with the given text', () => {
-      component.onSend({ message: 'test comment' }, QUOTE_CODE);
+    it('should add a header quote comment with the given text', () => {
+      component.onSend({ message: 'test comment', itemId: '' }, QUOTE_CODE);
       expect(mockedQuoteFacade.addQuoteComment).toHaveBeenCalledWith(
         QUOTE_CODE,
         {
           text: 'test comment',
-        }
+        },
+        ''
+      );
+    });
+    it('should add a item quote comment with the given text', () => {
+      component.onSend({ message: 'test comment', itemId: '3' }, QUOTE_CODE);
+      expect(mockedQuoteFacade.addQuoteComment).toHaveBeenCalledWith(
+        QUOTE_CODE,
+        {
+          text: 'test comment',
+        },
+        '3'
       );
     });
     it('should refresh the quote to display the just added comment', () => {
-      component.onSend({ message: 'test comment' }, QUOTE_CODE);
+      component.onSend({ message: 'test comment', itemId: '' }, QUOTE_CODE);
       expect(mockedEventService.dispatch).toHaveBeenCalledWith(
         {},
         QuoteDetailsReloadQueryEvent
       );
     });
     it('should reset message input text', () => {
-      component.onSend({ message: 'test comment' }, QUOTE_CODE);
+      component.onSend({ message: 'test comment', itemId: '' }, QUOTE_CODE);
       expect(component.commentsComponent.resetForm).toHaveBeenCalled();
       expect(component.messagingConfigs.newMessagePlaceHolder).toBeUndefined();
     });
@@ -296,7 +307,7 @@ describe('QuoteDetailsCommentComponent', () => {
       asSpy(mockedQuoteFacade.addQuoteComment).and.returnValue(
         throwError(new Error('test error'))
       );
-      component.onSend({ message: 'test comment' }, QUOTE_CODE);
+      component.onSend({ message: 'test comment', itemId: '' }, QUOTE_CODE);
       expect(component.commentsComponent.resetForm).toHaveBeenCalled();
       expect(component.messagingConfigs.newMessagePlaceHolder).toEqual(
         'quote.comments.invalidComment'

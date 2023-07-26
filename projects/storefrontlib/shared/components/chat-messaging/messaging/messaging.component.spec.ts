@@ -173,4 +173,17 @@ describe('MessagingComponent', () => {
       );
     });
   });
+
+  describe('resetForm', () => {
+    it("should remove all files uploaded", () => {
+      spyOn(component.fileUploadComponent, 'removeFile');
+      component.resetForm();
+      expect(component.fileUploadComponent.removeFile).toHaveBeenCalled();
+    });
+    it("should reset item DDLB to default entry with key ''", () => {
+      spyOn(component.form, 'reset');
+      component.resetForm();
+      expect(component.form.reset).toHaveBeenCalledWith({item:''});
+    });
+  });
 });
