@@ -18,6 +18,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../../config';
 import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
+import { OrderEntry } from '@spartacus/cart/base/root';
 
 const QUOTE_CODE = 'q123';
 
@@ -239,8 +240,8 @@ describe('QuoteDetailsCommentComponent', () => {
       author: { uid: 'cust_1', name: 'John Doe' },
     };
 
-    function mapCommentToMessageEvent(comment: Comment) {
-      return component['mapCommentToMessageEvent'](comment);
+    function mapCommentToMessageEvent(comment: Comment, entry?: OrderEntry) {
+      return component['mapCommentToMessageEvent'](comment, entry);
     }
 
     it('should map comment text', () => {
@@ -267,6 +268,17 @@ describe('QuoteDetailsCommentComponent', () => {
     });
     it("shouldn't map anything to attachments", () => {
       expect(mapCommentToMessageEvent(comment).attachments).toBeUndefined();
+    });
+    it('should extract item data from entry', () => {
+      expect(
+        mapCommentToMessageEvent(comment, {
+          entryNumber: 0,
+          product: { name: 'Product Name' },
+        }).item
+      ).toEqual({ id: '0', name: 'Product Name' });
+    });
+    it("shouldn't map anything to item if no entry is provided", () => {
+      expect(mapCommentToMessageEvent(comment).item).toBeUndefined();
     });
   });
 

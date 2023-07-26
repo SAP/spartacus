@@ -5,6 +5,7 @@
  */
 
 import { Component, ViewChild } from '@angular/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, TranslationService } from '@spartacus/core';
 import {
   Comment,
@@ -90,20 +91,27 @@ export class QuoteDetailsCommentComponent {
             .subscribe((text) => (name = text));
           const itemList: Item[] = [{ id: '', name: name }];
           quote.entries?.forEach((entry) => {
-            if (entry.entryNumber !== undefined) {
-              itemList.push({
-                id: entry.entryNumber.toString(),
-                name:
-                  entry.product?.name ??
-                  entry.product?.code ??
-                  entry.entryNumber.toString(),
-              });
+            const item = this.convertToItem(entry);
+            if (item) {
+              itemList.push(item);
             }
           });
           return itemList;
         })
       ),
     };
+  }
+
+  private convertToItem(entry: OrderEntry | undefined): Item | undefined {
+    if (entry?.entryNumber !== undefined) {
+      return {
+        id: entry.entryNumber.toString(),
+        name:
+          entry.product?.name ??
+          entry.product?.code ??
+          entry.entryNumber.toString(),
+      };
+    }
   }
 
   protected prepareMessageEvents(): Observable<MessageEvent[]> {
@@ -113,18 +121,32 @@ export class QuoteDetailsCommentComponent {
         quote.comments?.forEach((comment) =>
           messageEvents.push(this.mapCommentToMessageEvent(comment))
         );
+        quote.entries?.forEach((entry) => {
+          entry.comments?.forEach((comment) =>
+            messageEvents.push(this.mapCommentToMessageEvent(comment, entry))
+          );
+        });
+        messageEvents.sort((eventA, eventB) => {
+          return (
+            new Date(eventA?.createdAt ?? 0).getTime() -
+            new Date(eventB?.createdAt ?? 0).getTime()
+          );
+        });
         return messageEvents;
       })
     );
   }
 
-  protected mapCommentToMessageEvent(comment: Comment): MessageEvent {
+  protected mapCommentToMessageEvent(
+    comment: Comment,
+    entry?: OrderEntry
+  ): MessageEvent {
     const messages: MessageEvent = {
       author: comment.author?.name,
       text: comment.text,
       createdAt: comment.creationDate?.toString(),
       rightAlign: !comment.fromCustomer,
-      item: { id: 'dummyId', name: 'Dummy Name' },
+      item: this.convertToItem(entry),
     };
     return messages;
   }
