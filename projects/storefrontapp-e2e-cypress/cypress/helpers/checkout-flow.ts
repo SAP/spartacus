@@ -322,7 +322,7 @@ export function goToPaymentDetails() {
 }
 
 export function clickAddNewPayment() {
-  cy.findByText('Add New Payment').click();
+  cy.contains('Add New Payment').click();
 }
 
 export function goToCheapProductDetailsPage(
