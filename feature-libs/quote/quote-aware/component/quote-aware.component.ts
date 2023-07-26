@@ -4,16 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
- 
-} from '@angular/core';
- 
- 
+import { Component } from '@angular/core';
 
 @Component({
   templateUrl: './quote-aware.component.html',
 })
-export class QuoteAwareComponent{
- 
-}
+export class QuoteAwareComponent {}
