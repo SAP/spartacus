@@ -34,8 +34,13 @@ describe('OpfPaymentConnector', () => {
   });
 
   it('should call adapter', () => {
-    service.verifyPayment('1', {responseMap: [{key: 'test', value: 'value'}]}).pipe(take(1)).subscribe();
-    expect(adapter.verifyPayment).toHaveBeenCalledWith('1', {responseMap: [{key: 'test', value: 'value'}]});
+    service
+      .verifyPayment('1', { responseMap: [{ key: 'test', value: 'value' }] })
+      .pipe(take(1))
+      .subscribe();
+    expect(adapter.verifyPayment).toHaveBeenCalledWith('1', {
+      responseMap: [{ key: 'test', value: 'value' }],
+    });
   });
 
   it('should call adapter', () => {
