@@ -24,10 +24,7 @@ import {
   of,
 } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import {
-  ActiveCartFacade,
-  CartVoucherFacade,
-} from '@spartacus/cart/base/root';
+import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/base/root';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { CouponEntry } from './asm-customer-coupon.model';
 
