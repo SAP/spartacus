@@ -29,6 +29,7 @@ export interface MessagingConfigs {
   dateFormat?: string;
   displayAddMessageSection?: Observable<boolean>;
   itemList$?: Observable<Array<Item>>;
+  defaultItemId?: string;
 }
 
 export interface AttachmentRestrictions {

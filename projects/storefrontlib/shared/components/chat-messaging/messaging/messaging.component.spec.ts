@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { IconModule } from '../../../../cms-components';
 import { FileUploadModule, FormErrorsModule } from '../../form';
 import { MessagingComponent } from './messaging.component';
-import { MessageEvent, Item } from './messaging.model';
+import { MessageEvent, Item, MessagingConfigs } from './messaging.model';
 
 const mockMessageEvent: MessageEvent = {
   rightAlign: false,
@@ -34,6 +34,7 @@ const mockItemList: Item[] = [
 describe('MessagingComponent', () => {
   let component: MessagingComponent;
   let fixture: ComponentFixture<MessagingComponent>;
+  let messagingConfig: MessagingConfigs;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -52,7 +53,9 @@ describe('MessagingComponent', () => {
     fixture = TestBed.createComponent(MessagingComponent);
     component = fixture.componentInstance;
     component.messageEvents$ = of(mockMessageEvents);
-    component.messagingConfigs = { displayAddMessageSection: of(true) };
+    component.messagingConfigs = messagingConfig = {
+      displayAddMessageSection: of(true),
+    };
     fixture.detectChanges();
   });
 
@@ -77,7 +80,6 @@ describe('MessagingComponent', () => {
     expect(component.send.emit).toHaveBeenCalledWith({
       files: '' as unknown as File,
       message: 'mockMessage',
-      itemId: '',
     });
   });
 
@@ -127,7 +129,7 @@ describe('MessagingComponent', () => {
     });
 
     it('should render an item DDLB when there are items provided', () => {
-      (component.messagingConfigs ?? {}).itemList$ = of(mockItemList);
+      messagingConfig.itemList$ = of(mockItemList);
       fixture.detectChanges();
       expect(
         fixture.debugElement.queryAll(
@@ -136,9 +138,16 @@ describe('MessagingComponent', () => {
       ).toBe(mockItemList.length);
     });
 
+    it('should set the default item accordingly to provided config', () => {
+      messagingConfig.itemList$ = of(mockItemList);
+      messagingConfig.defaultItemId = mockItemList[2].id;
+      component.ngOnInit(); // so the just changed config is considered
+      expect(component.form.get('item')?.value).toEqual(mockItemList[2].id);
+    });
+
     it('should emit selected itemId when adding a new message', () => {
       spyOn(component.send, 'emit');
-      (component.messagingConfigs ?? {}).itemList$ = of(mockItemList);
+      messagingConfig.itemList$ = of(mockItemList);
       fixture.detectChanges();
 
       const itemDDLB = fixture.debugElement.query(
@@ -184,10 +193,14 @@ describe('MessagingComponent', () => {
       component.resetForm();
       expect(component.fileUploadComponent.removeFile).toHaveBeenCalled();
     });
-    it("should reset item DDLB to default entry with key ''", () => {
+    it('should reset item DDLB to default entry', () => {
+      const defaultItemId = 'default';
+      messagingConfig.defaultItemId = defaultItemId;
       spyOn(component.form, 'reset');
       component.resetForm();
-      expect(component.form.reset).toHaveBeenCalledWith({ item: '' });
+      expect(component.form.reset).toHaveBeenCalledWith({
+        item: defaultItemId,
+      });
     });
   });
 });

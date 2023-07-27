@@ -29,6 +29,7 @@ import { QuoteDetailsCommentComponent } from './quote-details-comment.component'
 import { QuoteDetailsCartService } from '../cart';
 
 const QUOTE_CODE = 'q123';
+const ALL_PRODUCTS_ID = '';
 
 @Component({
   selector: 'cx-messaging',
@@ -242,7 +243,7 @@ describe('QuoteDetailsCommentComponent', () => {
         .subscribe((itemList) => {
           expect(itemList.length).toBe(1);
           expect(itemList[0]).toEqual({
-            id: '',
+            id: ALL_PRODUCTS_ID,
             name: 'quote.comments.allProducts',
           });
         })
@@ -272,6 +273,9 @@ describe('QuoteDetailsCommentComponent', () => {
           });
         })
         .unsubscribe();
+    });
+    it('should provide ALL_PRODUCTS_ID as default item', () => {
+      expect(component.messagingConfigs.defaultItemId).toEqual(ALL_PRODUCTS_ID);
     });
   });
 
@@ -327,13 +331,16 @@ describe('QuoteDetailsCommentComponent', () => {
 
   describe('onSend', () => {
     it('should add a header quote comment with the given text', () => {
-      component.onSend({ message: 'test comment', itemId: '' }, QUOTE_CODE);
+      component.onSend(
+        { message: 'test comment', itemId: ALL_PRODUCTS_ID },
+        QUOTE_CODE
+      );
       expect(mockedQuoteFacade.addQuoteComment).toHaveBeenCalledWith(
         QUOTE_CODE,
         {
           text: 'test comment',
         },
-        ''
+        ALL_PRODUCTS_ID
       );
     });
     it('should add a item quote comment with the given text', () => {
@@ -347,14 +354,20 @@ describe('QuoteDetailsCommentComponent', () => {
       );
     });
     it('should refresh the quote to display the just added comment', () => {
-      component.onSend({ message: 'test comment', itemId: '' }, QUOTE_CODE);
+      component.onSend(
+        { message: 'test comment', itemId: ALL_PRODUCTS_ID },
+        QUOTE_CODE
+      );
       expect(mockedEventService.dispatch).toHaveBeenCalledWith(
         {},
         QuoteDetailsReloadQueryEvent
       );
     });
     it('should reset message input text', () => {
-      component.onSend({ message: 'test comment', itemId: '' }, QUOTE_CODE);
+      component.onSend(
+        { message: 'test comment', itemId: ALL_PRODUCTS_ID },
+        QUOTE_CODE
+      );
       expect(component.commentsComponent.resetForm).toHaveBeenCalled();
       expect(component.messagingConfigs.newMessagePlaceHolder).toBeUndefined();
     });
@@ -362,7 +375,10 @@ describe('QuoteDetailsCommentComponent', () => {
       asSpy(mockedQuoteFacade.addQuoteComment).and.returnValue(
         throwError(new Error('test error'))
       );
-      component.onSend({ message: 'test comment', itemId: '' }, QUOTE_CODE);
+      component.onSend(
+        { message: 'test comment', itemId: ALL_PRODUCTS_ID },
+        QUOTE_CODE
+      );
       expect(component.commentsComponent.resetForm).toHaveBeenCalled();
       expect(component.messagingConfigs.newMessagePlaceHolder).toEqual(
         'quote.comments.invalidComment'

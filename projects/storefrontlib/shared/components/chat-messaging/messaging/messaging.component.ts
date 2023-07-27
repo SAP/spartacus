@@ -106,16 +106,24 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
 
   onSend(): void {
     if (this.form.valid) {
-      this.send.emit({
+      const event: {
+        files: File | undefined;
+        message: string;
+        itemId?: string;
+      } = {
         files: this.form.get('file')?.value,
         message: this.form.get('message')?.value,
-        itemId: this.form.get('item')?.value,
-      });
+      };
+      const itemId = this.form.get('item')?.value;
+      if (itemId) {
+        event.itemId = itemId;
+      }
+      this.send.emit(event);
     }
   }
 
   resetForm(): void {
-    this.form.reset({ item: '' });
+    this.form.reset({ item: this.messagingConfigs?.defaultItemId });
     this.fileUploadComponent.removeFile();
   }
 
@@ -150,7 +158,10 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
         this.filesFormValidators.allowedTypes(this.allowedTypes),
       ])
     );
-    form.setControl('item', new UntypedFormControl(''));
+    form.setControl(
+      'item',
+      new UntypedFormControl(this.messagingConfigs?.defaultItemId)
+    );
     this.form = form;
   }
 

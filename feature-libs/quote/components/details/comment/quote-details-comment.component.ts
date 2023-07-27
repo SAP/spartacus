@@ -26,6 +26,7 @@ import { QuoteUIConfig } from '../../config/quote-ui.config';
 import { QuoteDetailsCartService } from '../cart/quote-details-cart.service';
 
 const DEFAULT_COMMENT_MAX_CHARS = 1000;
+const ALL_PRODUCTS_ID = '';
 
 @Component({
   selector: 'cx-quote-details-comment',
@@ -101,6 +102,7 @@ export class QuoteDetailsCommentComponent {
         map((quote) => quote.isEditable)
       ),
       dateFormat: 'MMMM d, yyyy h:mm aa',
+      defaultItemId: ALL_PRODUCTS_ID,
       itemList$: this.quoteDetails$.pipe(
         map((quote) => {
           let name: string = 'quote.comments.allProducts';
@@ -108,7 +110,7 @@ export class QuoteDetailsCommentComponent {
             .translate(name)
             .pipe(take(1))
             .subscribe((text) => (name = text));
-          const itemList: Item[] = [{ id: '', name: name }];
+          const itemList: Item[] = [{ id: ALL_PRODUCTS_ID, name: name }];
           quote.entries?.forEach((entry) => {
             const item = this.convertToItem(entry);
             if (item) {
