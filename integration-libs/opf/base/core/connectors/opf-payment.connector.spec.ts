@@ -1,40 +1,45 @@
-// TODO: Add unit tests
+import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { take } from 'rxjs/operators';
+import createSpy = jasmine.createSpy;
+import { OpfPaymentAdapter } from './opf-payment.adapter';
+import { OpfPaymentConnector } from './opf-payment.connector';
 
-// import { TestBed } from '@angular/core/testing';
-// import { ActiveConfiguration } from '@spartacus/opf/root';
-// import { EMPTY, Observable } from 'rxjs';
-// import { OpfCheckoutConnector } from './opf-checkout.connector';
-// import { OpfAdapter } from './opf.adapter';
+class MockOpfPaymentAdapter implements OpfPaymentAdapter {
+  verifyPayment = createSpy().and.returnValue(of({}));
+  submitPayment = createSpy().and.returnValue(of({}));
+}
 
-// class MockOpfAdapter implements Partial<OpfAdapter> {
-//   getActiveConfigurations(): Observable<ActiveConfiguration[]> {
-//     return EMPTY;
-//   }
-// }
+describe('OpfPaymentConnector', () => {
+  let service: OpfPaymentConnector;
+  let adapter: OpfPaymentAdapter;
 
-// describe('OpfCheckoutConnector', () => {
-//   let service: OpfCheckoutConnector;
-//   let adapter: OpfAdapter;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        OpfPaymentConnector,
+        {
+          provide: OpfPaymentAdapter,
+          useClass: MockOpfPaymentAdapter,
+        },
+      ],
+    });
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       providers: [
-//         OpfCheckoutConnector,
-//         { provide: OpfAdapter, useClass: MockOpfAdapter },
-//       ],
-//     });
+    service = TestBed.inject(OpfPaymentConnector);
+    adapter = TestBed.inject(OpfPaymentAdapter);
+  });
 
-//     service = TestBed.inject(OpfCheckoutConnector);
-//     adapter = TestBed.inject(OpfAdapter);
-//   });
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 
-//   it('should be created', () => {
-//     expect(service).toBeTruthy();
-//   });
+  it('should call adapter', () => {
+    service.verifyPayment('1', {responseMap: [{key: 'test', value: 'value'}]}).pipe(take(1)).subscribe();
+    expect(adapter.verifyPayment).toHaveBeenCalledWith('1', {responseMap: [{key: 'test', value: 'value'}]});
+  });
 
-//   it('getActiveConfigurations should call adapter', () => {
-//     spyOn(adapter, 'getActiveConfigurations').and.stub();
-//     service.getActiveConfigurations();
-//     expect(adapter.getActiveConfigurations).toHaveBeenCalled();
-//   });
-// });
+  it('should call adapter', () => {
+    service.submitPayment({}, '1', '2').pipe(take(1)).subscribe();
+    expect(adapter.submitPayment).toHaveBeenCalledWith({}, '1', '2');
+  });
+});
