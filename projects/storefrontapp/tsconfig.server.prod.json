@@ -335,6 +335,7 @@
       "@spartacus/quote/core": ["../../dist/quote/core"],
       "@spartacus/quote/occ": ["../../dist/quote/occ"],
       "@spartacus/quote/root": ["../../dist/quote/root"],
+      "@spartacus/quote/quote-aware": ["dist/quote/quote-aware"],
 
       "@spartacus/cdc/assets": ["../../dist/cdc/assets"],
 

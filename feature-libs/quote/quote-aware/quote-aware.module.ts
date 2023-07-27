@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { QuoteAwareComponentModule } from './component/quote-aware.component.module';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [QuoteAwareComponentModule],
 })
 export class QuoteAwareModule {}

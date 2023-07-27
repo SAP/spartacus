@@ -18,7 +18,7 @@ import {
   PageLayoutComponent,
 } from '@spartacus/storefront';
 import { QuoteEventModule } from './events/quote-event.module';
-import { QUOTE_FEATURE } from './feature-name';
+import { QUOTE_AWARE_FEATURE, QUOTE_FEATURE } from './feature-name';
 
 export function defaultQuoteComponentsConfig() {
   return {
@@ -34,6 +34,16 @@ export function defaultQuoteComponentsConfig() {
           'CommerceQuotesCartSummaryComponent', //TODO CHHI probably not needed
           'QuoteDetailsCommentComponent',
         ],
+      },
+    },
+  };
+}
+
+export function defaultQuoteAwareComponentsConfig() {
+  return {
+    featureModules: {
+      [QUOTE_AWARE_FEATURE]: {
+        cmsComponents: ['QuoteAwareComponent'],
       },
     },
   };
@@ -91,6 +101,7 @@ export const defaultQuoteConfigLayoutConfig: LayoutConfig = {
   ],
   providers: [
     provideDefaultConfigFactory(defaultQuoteComponentsConfig),
+    provideDefaultConfigFactory(defaultQuoteAwareComponentsConfig),
     provideDefaultConfig(defaultQuoteRoutingConfig),
     provideDefaultConfig(defaultQuoteConfigLayoutConfig),
   ],

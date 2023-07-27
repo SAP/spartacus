@@ -5,4 +5,3 @@
  */
 
 export * from './quote-aware.module';
-

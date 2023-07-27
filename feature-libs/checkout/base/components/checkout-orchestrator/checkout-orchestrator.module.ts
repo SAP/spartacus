@@ -7,11 +7,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
-import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
-import { CheckoutGuard } from '../guards/checkout.guard';
 import { CheckoutOrchestratorComponent } from './checkout-orchestrator.component';
-import { QuoteCartGuard } from '@spartacus/cart/base/root';
+import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
+import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
+import { CheckoutGuard } from '../guards/checkout.guard';
 
 @NgModule({
   imports: [CommonModule],
@@ -20,12 +19,7 @@ import { QuoteCartGuard } from '@spartacus/cart/base/root';
       cmsComponents: {
         CheckoutOrchestrator: {
           component: CheckoutOrchestratorComponent,
-          guards: [
-            QuoteCartGuard,
-            CheckoutAuthGuard,
-            CartNotEmptyGuard,
-            CheckoutGuard,
-          ],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CheckoutGuard],
         },
       },
     }),
