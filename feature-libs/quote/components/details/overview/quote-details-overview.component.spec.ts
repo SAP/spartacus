@@ -21,6 +21,7 @@ const mockCartId = '1234';
 const mockAction = { type: QuoteActionType.CREATE, isPrimary: true };
 const mockQuote: Quote = {
   allowedActions: [mockAction],
+  isEditable: true,
   comments: [],
   cartId: mockCartId,
   code: '00001233',
