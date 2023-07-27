@@ -122,7 +122,7 @@ describe('MessagingComponent', () => {
       });
     });
 
-    it('should not render an item DDLB when there no items provided', () => {
+    it('should not render an item DDLB when there are no items provided', () => {
       expect(
         fixture.debugElement.query(By.css('.cx-message-item-selection'))
       ).toBeNull();
@@ -193,7 +193,7 @@ describe('MessagingComponent', () => {
       component.resetForm();
       expect(component.fileUploadComponent.removeFile).toHaveBeenCalled();
     });
-    it('should reset item DDLB to default entry', () => {
+    it('should reset item DDLB to the default entry', () => {
       const defaultItemId = 'default';
       messagingConfig.defaultItemId = defaultItemId;
       spyOn(component.form, 'reset');
