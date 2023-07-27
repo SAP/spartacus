@@ -27,7 +27,6 @@ import { catchError, map } from 'rxjs/operators';
 import {
   ActiveCartFacade,
   CartVoucherFacade,
-  MultiCartFacade,
 } from '@spartacus/cart/base/root';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { CouponEntry } from './asm-customer-coupon.model';
@@ -49,7 +48,6 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
     protected context: Customer360SectionContext<Customer360CouponList>,
     protected cartVoucherService: CartVoucherFacade,
     protected userIdService: UserIdService,
-    protected multiCartFacade: MultiCartFacade,
     protected activeCartFacade: ActiveCartFacade,
     protected customer360Facade: Customer360Facade
   ) {}

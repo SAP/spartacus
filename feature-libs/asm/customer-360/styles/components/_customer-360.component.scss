@@ -124,17 +124,17 @@
       flex-direction: row;
       overflow-x: auto;
       border-bottom: 1px solid $asmBorderColor;
-      padding: 2rem 0 0 2rem;
+      padding: 2rem 0 0 0;
     }
     .cx-tab-header {
       text-align: center;
-      color: $asmTabTextColor;
+      color: #333333;
       font-weight: var(--cx-font-weight-semi);
       border: 1px solid #fff;
       background-color: #fff;
       margin-inline-start: 1rem;
       padding: 0 1rem 1rem;
-      text-transform: uppercase;
+      font-size: 1.125rem;
       &.active {
         cursor: default;
         color: $asmVisualFocusColor;

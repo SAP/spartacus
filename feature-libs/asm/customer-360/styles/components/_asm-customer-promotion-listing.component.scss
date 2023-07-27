@@ -60,17 +60,19 @@
       background-color: #0070f2;
       color: #ffffff;
       float: right;
-      border-radius: var(--cx-buttons-border-radius);
-      border: none;
-      height: inherit;
-      padding: 12px 24px;
+      border-radius: 8px;
+      padding: 6px 10px;
+      border: 1px solid #0070f2;
     }
     &-remove-button {
       color: #aa0808;
+      background-color: #FFD6E9;
       font-weight: var(--cx-font-weight-semi);
       font-size: 1.125rem;
-      background: white;
-      border: none;
+      border-radius: 8px;
+      padding: 6px 10px;
+      border-width: 1px;
+      border:1px solid #FFC1DF ;
     }
     &-action-separator {
       color: #747881;

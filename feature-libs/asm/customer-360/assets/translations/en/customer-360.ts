@@ -104,7 +104,7 @@ export const customer360 = {
     profileTab: 'Profile',
     activityTab: 'Activity',
     feedbackTab: 'Feedback',
-    promotionsTab: 'Promotion',
+    promotionsTab: 'Promotions',
     mapsTab: 'Maps',
     aria: {
       activeCartCode: 'Active Cart {{code}}',

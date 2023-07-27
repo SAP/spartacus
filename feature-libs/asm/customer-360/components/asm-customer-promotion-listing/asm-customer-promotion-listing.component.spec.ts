@@ -1,17 +1,9 @@
-import { Component, DebugElement, Directive, Input } from '@angular/core';
-import { FocusConfig } from '@spartacus/storefront';
+import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AsmCustomerPromotionListingComponent } from './asm-customer-promotion-listing.component';
 import { I18nTestingModule } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 import { PromotionListEntry } from './asm-customer-promotion-listing.model';
-
-@Directive({
-  selector: '[cxFocus]',
-})
-export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
-}
 
 describe('AsmCustomerPromotionListingComponent', () => {
   const mockEntries: Array<PromotionListEntry> = [
@@ -42,8 +34,8 @@ describe('AsmCustomerPromotionListingComponent', () => {
         [emptyStateText]="emptyStateText"
         [headerText]="headerText"
         [entries]="entries"
-        [showAlert]="showErrorAlert"
-        [showAlertForApplyAction]="showErrorAlertForApplyAction"
+        [showAlert]="showAlert"
+        [showAlertForApplyAction]="showAlertForApplyAction"
         (apply)="applyCouponToCustomer($event)"
         (remove)="removeCouponToCustomer($event)"
         (removeAlert)="closeErrorAlert()"
@@ -135,5 +127,17 @@ describe('AsmCustomerPromotionListingComponent', () => {
     );
 
     expect(emptyMessage).toBeTruthy();
+  });
+
+  it('should show meaasge when entries loaded failed', () => {
+    testHost.showAlert = true;
+    fixture.detectChanges();
+    expect(el.query(By.css('cx-message'))).not.toBeNull();
+  });
+
+  it('should show meaasge when action perform failed', () => {
+    testHost.showAlertForApplyAction = true;
+    fixture.detectChanges();
+    expect(el.query(By.css('cx-message'))).not.toBeNull();
   });
 });
