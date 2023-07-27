@@ -96,18 +96,45 @@
       </div>
 
       <ng-container *ngIf="order.paymentInfo">
-        <div class="cx-summary-card">
-          <cx-card
-            [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
-          ></cx-card>
-
-          <cx-card
-            [content]="
-              getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
-                | async
+        <ng-container *cxFeatureLevel="'6.3'">
+          <div
+            class="cx-summary-card"
+            *ngIf="
+              order?.paymentInfo?.billingAddress ||
+              isPaymentInfoCardFull(order?.paymentInfo)
             "
-          ></cx-card>
-        </div>
+          >
+            <ng-container *ngIf="isPaymentInfoCardFull(order?.paymentInfo)">
+              <cx-card
+                [content]="
+                  getPaymentInfoCardContent(order?.paymentInfo) | async
+                "
+              ></cx-card>
+            </ng-container>
+
+            <cx-card
+              [content]="
+                getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
+                  | async
+              "
+            ></cx-card>
+          </div>
+        </ng-container>
+
+        <ng-container *cxFeatureLevel="'!6.3'">
+          <div class="cx-summary-card">
+            <cx-card
+              [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
+            ></cx-card>
+
+            <cx-card
+              [content]="
+                getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
+                  | async
+              "
+            ></cx-card>
+          </div>
+        </ng-container>
       </ng-container>
     </div>
 
