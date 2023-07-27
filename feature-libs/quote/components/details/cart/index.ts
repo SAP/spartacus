@@ -6,4 +6,5 @@
 
 export * from './quote-details-cart.component';
 export * from './quote-details-cart.module';
+export * from './quote-details-cart.service';
 export * from './summary';

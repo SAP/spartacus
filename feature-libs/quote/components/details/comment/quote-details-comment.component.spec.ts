@@ -1,6 +1,12 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
@@ -20,6 +26,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../../config';
 import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
+import { QuoteDetailsCartService } from '../cart';
 
 const QUOTE_CODE = 'q123';
 
@@ -366,6 +373,7 @@ describe('QuoteDetailsCommentComponent', () => {
   describe('onItemClicked', () => {
     let aTagProduct1: { textContent: string; scrollIntoView: Function };
     let aTagProduct2: { textContent: string; scrollIntoView: Function };
+    let quoteDetailsCartService: QuoteDetailsCartService;
 
     beforeEach(() => {
       aTagProduct1 = createElementMock('Product 1');
@@ -373,6 +381,8 @@ describe('QuoteDetailsCommentComponent', () => {
       const mockedATags = [aTagProduct1, aTagProduct2];
       const document = TestBed.inject(DOCUMENT);
       spyOn(document, 'getElementsByTagName').and.returnValue(<any>mockedATags);
+      quoteDetailsCartService = TestBed.inject(QuoteDetailsCartService);
+      spyOn(quoteDetailsCartService, 'setQuoteEntriesExpanded');
     });
 
     function createElementMock(textContent: string) {
@@ -381,17 +391,21 @@ describe('QuoteDetailsCommentComponent', () => {
       return elem;
     }
 
-    it('should call scrollIntoView on the corresponding cart item in the document', () => {
+    it('should expand cart and call scrollIntoView on the corresponding cart item in the document', fakeAsync(() => {
       component.onItemClicked({ item: { id: 'P2', name: 'Product 2' } });
+      expect(quoteDetailsCartService.setQuoteEntriesExpanded).toHaveBeenCalledWith(true);
+      tick(); //because of delay(0)
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
       expect(aTagProduct2.scrollIntoView).toHaveBeenCalled();
-    });
+    }));
 
-    it('should do nothing if the cart item is not found in the document', () => {
+    it('should only expand the cart but not scroll if the target item is not found in the document', fakeAsync(() => {
       component.onItemClicked({ item: { id: 'P3', name: 'Product 3' } });
+      expect(quoteDetailsCartService.setQuoteEntriesExpanded).toHaveBeenCalledWith(true);
+      tick(); //because of delay(0)
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
       expect(aTagProduct2.scrollIntoView).not.toHaveBeenCalled();
-    });
+    }));
   });
 
   describe('prepareMessageEvents', () => {

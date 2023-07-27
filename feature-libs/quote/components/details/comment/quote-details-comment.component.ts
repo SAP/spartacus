@@ -21,8 +21,9 @@ import {
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { finalize, map, take } from 'rxjs/operators';
+import { delay, finalize, map, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config/quote-ui.config';
+import { QuoteDetailsCartService } from '../cart/quote-details-cart.service';
 
 const DEFAULT_COMMENT_MAX_CHARS = 1000;
 
@@ -45,7 +46,8 @@ export class QuoteDetailsCommentComponent {
     protected eventService: EventService,
     protected translationService: TranslationService,
     protected quoteUiConfig: QuoteUIConfig,
-    @Inject(DOCUMENT) protected document: Document
+    @Inject(DOCUMENT) protected document: Document,
+    protected quoteDetailsCartService: QuoteDetailsCartService
   ) {}
 
   onSend(event: { message: string; itemId: string }, code: string) {
@@ -75,13 +77,19 @@ export class QuoteDetailsCommentComponent {
   }
 
   onItemClicked(event: { item: Item }) {
-    const aTags = this.document.getElementsByTagName('a');
-    for (let ii = 0; ii < aTags.length; ii++) {
-      if (aTags[ii].textContent === event.item.name) {
-        aTags[ii].scrollIntoView();
-        return;
-      }
-    }
+    this.quoteDetailsCartService.setQuoteEntriesExpanded(true);
+    this.quoteDetailsCartService
+      .getQuoteEntriesExpanded()
+      .pipe(take(1), delay(0)) // delay this task until the UI has expanded
+      .subscribe(() => {
+        const aTags = this.document.getElementsByTagName('a');
+        for (let ii = 0; ii < aTags.length; ii++) {
+          if (aTags[ii].textContent === event.item.name) {
+            aTags[ii].scrollIntoView();
+            return;
+          }
+        }
+      });
   }
 
   protected prepareMessagingConfigs(): MessagingConfigs {
