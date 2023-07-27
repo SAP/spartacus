@@ -137,13 +137,6 @@ export class CardComponent implements OnInit {
     this.editCard.emit(4);
   }
 
-  cancel(): void {
-    this.saveMode = false;
-    const saveCardEvent: SaveCardEvent = { saveMode: this.saveMode };
-    this.saveCard.emit(saveCardEvent);
-    this.cancelCard.emit(5);
-  }
-
   save(): void {
     if (!this.saveForm.valid) {
       this.saveForm.markAllAsTouched();
@@ -151,10 +144,8 @@ export class CardComponent implements OnInit {
     }
 
     this.saveMode = false;
-    let saveCardEvent: SaveCardEvent = {
+    const saveCardEvent: SaveCardEvent = {
       saveMode: this.saveMode,
-      //name: this.saveForm.get('name')?.value,
-      //description: this.saveForm.get('description')?.value
     };
 
     Object.keys(this.saveForm.controls).forEach((control) => {
@@ -181,9 +172,11 @@ export class CardComponent implements OnInit {
     return (action as CardLinkAction).link !== undefined;
   }
 
-  calculateLeftCharacters(value: string) {
-    const currentLength = value.length;
-    this.leftCharacters = this.charactersLimit - currentLength;
+  protected getInputCharacterLeft(formControlName: string): number {
+    return (
+      this.charactersLimit -
+      (this.saveForm.get(formControlName)?.value?.length || 0)
+    );
   }
 
   constructor() {

@@ -44,7 +44,7 @@ export class QuoteDetailsOverviewComponent {
   }
 
   protected defineQuoteMetaData(saveCardEvent: SaveCardEvent): QuoteMetadata {
-    let metaData: QuoteMetadata = this.defineEmptyQuoteMetaData();
+    const metaData: QuoteMetadata = this.defineEmptyQuoteMetaData();
     const metaDataPropertyNames = Object.getOwnPropertyNames(metaData);
     const saveCardEventPropertyNames =
       Object.getOwnPropertyNames(saveCardEvent);
@@ -64,7 +64,7 @@ export class QuoteDetailsOverviewComponent {
 
   editQuote(quote: Quote, saveCardEvent: SaveCardEvent) {
     this.saveMode = false;
-    let metaData = this.defineQuoteMetaData(saveCardEvent);
+    const metaData = this.defineQuoteMetaData(saveCardEvent);
 
     this.quoteFacade
       .editQuote(quote.code, metaData)
@@ -114,12 +114,6 @@ export class QuoteDetailsOverviewComponent {
               isTextArea: true,
             },
           ],
-          /**
-           actions: [
-           { event: 'save', name: 'Save' },
-           { event: 'cancel', name: 'Cancel' },
-           ],
-           */
         };
       })
     );

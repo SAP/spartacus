@@ -71,7 +71,7 @@
                 <div class="form-group">
                   <ng-container *ngIf="!item.isTextArea">
                     <input
-                      class="cx-card-paragraph-input form-control"
+                      class="form-control cx-card-paragraph-input"
                       type="text"
                       name="{{ setFormControlName(item.title, i) }}"
                       formControlName="{{ setFormControlName(item.title, i) }}"
@@ -79,12 +79,23 @@
                   </ng-container>
                   <ng-container *ngIf="item.isTextArea">
                     <textarea
-                      class="form-control"
+                      class="form-control cx-card-paragraph-textarea"
                       [maxLength]="charactersLimit"
                       rows="4"
                       name="{{ setFormControlName(item.title, i) }}"
                       formControlName="{{ setFormControlName(item.title, i) }}"
                     ></textarea>
+                    <p class="cx-card-paragraph-info-text">
+                      {{
+                        'common.charactersLeft'
+                          | cxTranslate
+                            : {
+                                count: getInputCharacterLeft(
+                                  setFormControlName(item.title, i)
+                                )
+                              }
+                      }}
+                    </p>
                   </ng-container>
                 </div>
               </ng-container>
@@ -116,7 +127,9 @@
       </div>
     </div>
     <div *ngIf="saveMode" class="cx-card-body-save">
-      <button class="btn btn-block btn-secondary" (click)="save()">Save</button>
+      <button class="btn btn-block btn-secondary" (click)="save()">
+        {{ 'common.save' | cxTranslate }}
+      </button>
       <button
         [cxAtMessage]="'assistiveMessage.actionCancelled' | cxTranslate"
         class="btn btn-tertiary"
@@ -167,25 +180,6 @@
             >
               {{ action.name }}
             </button>
-            <ng-container *ngIf="saveMode">
-              <button
-                type="button"
-                *ngSwitchCase="'save'"
-                class="btn btn-block btn-secondary"
-                [cxFocus]="{ autofocus: true }"
-                (click)="save()"
-              >
-                {{ action.name }}
-              </button>
-              <button
-                type="button"
-                *ngSwitchCase="'cancel'"
-                class="btn btn-tertiary"
-                (click)="cancel()"
-              >
-                {{ action.name }}
-              </button>
-            </ng-container>
           </ng-container>
           <a
             *ngIf="isCardLinkAction(action)"
