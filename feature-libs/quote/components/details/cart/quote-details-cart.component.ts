@@ -27,7 +27,6 @@ export class QuoteDetailsCartComponent {
   ) {}
 
   onToggleShowCart(showCart: boolean) {
-    console.log('toggle cart: '+showCart);
     this.quoteDetailsCartService.setQuoteEntriesExpanded(!showCart);
   }
 }

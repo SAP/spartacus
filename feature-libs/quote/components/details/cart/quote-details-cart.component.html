@@ -1,4 +1,4 @@
-<ng-container *ngIf="{showCart: showCart$ | async} as state">
+<ng-container *ngIf="{ showCart: showCart$ | async } as state">
   <div class="cart-toggle" (click)="onToggleShowCart(state.showCart)">
     <cx-icon
       aria-hidden="false"
@@ -10,7 +10,9 @@
     }}</span>
   </div>
 
-  <ng-container *ngIf="state.showCart && (quoteDetails$ | async) as quoteDetails">
+  <ng-container
+    *ngIf="state.showCart && (quoteDetails$ | async) as quoteDetails"
+  >
     <ng-template
       [cxOutlet]="cartOutlets.CART_ITEM_LIST"
       [cxOutletContext]="{

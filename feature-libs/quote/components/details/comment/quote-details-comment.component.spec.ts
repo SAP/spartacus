@@ -393,7 +393,9 @@ describe('QuoteDetailsCommentComponent', () => {
 
     it('should expand cart and call scrollIntoView on the corresponding cart item in the document', fakeAsync(() => {
       component.onItemClicked({ item: { id: 'P2', name: 'Product 2' } });
-      expect(quoteDetailsCartService.setQuoteEntriesExpanded).toHaveBeenCalledWith(true);
+      expect(
+        quoteDetailsCartService.setQuoteEntriesExpanded
+      ).toHaveBeenCalledWith(true);
       tick(); //because of delay(0)
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
       expect(aTagProduct2.scrollIntoView).toHaveBeenCalled();
@@ -401,7 +403,9 @@ describe('QuoteDetailsCommentComponent', () => {
 
     it('should only expand the cart but not scroll if the target item is not found in the document', fakeAsync(() => {
       component.onItemClicked({ item: { id: 'P3', name: 'Product 3' } });
-      expect(quoteDetailsCartService.setQuoteEntriesExpanded).toHaveBeenCalledWith(true);
+      expect(
+        quoteDetailsCartService.setQuoteEntriesExpanded
+      ).toHaveBeenCalledWith(true);
       tick(); //because of delay(0)
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
       expect(aTagProduct2.scrollIntoView).not.toHaveBeenCalled();
