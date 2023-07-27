@@ -392,7 +392,6 @@ describe('QuoteDetailsCommentComponent', () => {
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
       expect(aTagProduct2.scrollIntoView).not.toHaveBeenCalled();
     });
-
   });
 
   describe('prepareMessageEvents', () => {
