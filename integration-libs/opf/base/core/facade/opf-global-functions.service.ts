@@ -63,14 +63,21 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     return window.Opf.payments;
   }
 
-  protected startLoaderSpinner(vcr: ViewContainerRef) {
+  protected startLoaderSpinner(
+    vcr: ViewContainerRef
+  ): void | Observable<ComponentRef<any> | undefined> {
     return this.launchDialogService.launch(
       LAUNCH_CALLER.PLACE_ORDER_SPINNER,
       vcr
     );
   }
 
-  protected stopLoaderSpinner(overlayedSpinner: Observable<ComponentRef<any>>) {
+  protected stopLoaderSpinner(
+    overlayedSpinner: void | Observable<ComponentRef<any> | undefined>
+  ): void {
+    if (!overlayedSpinner) {
+      return;
+    }
     overlayedSpinner
       .subscribe((component) => {
         this.launchDialogService.clear(LAUNCH_CALLER.PLACE_ORDER_SPINNER);
