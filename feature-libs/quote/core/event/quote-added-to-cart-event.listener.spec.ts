@@ -4,8 +4,10 @@ import {
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { QuoteAddedToCartEventListener } from './quote-added-to-cart-event.listener';
+import createSpy = jasmine.createSpy;
+import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/root';
 
 const mockEventStream$ = new BehaviorSubject<CxEvent>({});
 
@@ -13,7 +15,7 @@ class MockEventService implements Partial<EventService> {
   get(): Observable<any> {
     return mockEventStream$.asObservable();
   }
-  dispatch() {}
+  dispatch = createSpy();
 }
 
 const mockEvent = new CartUiEventAddToCart();
@@ -27,6 +29,7 @@ mockFailEvent.error = {};
 
 describe('AddToCartDialogEventListener', () => {
   let listener: QuoteAddedToCartEventListener;
+  let eventService: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,12 +43,21 @@ describe('AddToCartDialogEventListener', () => {
     });
 
     listener = TestBed.inject(QuoteAddedToCartEventListener);
+    eventService = TestBed.inject(EventService);
   });
 
-  describe('onAddToCart', () => {
-    it('Should ', () => {
-      expect(listener).toBeDefined();
-      mockEventStream$.next(mockEvent);
-    });
+  it('should dispatch QuoteDetailsReloadQueryEvent on CartUiEventAddToCart event ', () => {
+    expect(listener).toBeDefined();
+    mockEventStream$.next(mockEvent);
+    expect(eventService.dispatch).toHaveBeenCalledWith(
+      {},
+      QuoteDetailsReloadQueryEvent
+    );
+  });
+
+  it('should unsubscribe on ngOnDestroy', () => {
+    const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
+    listener.ngOnDestroy();
+    expect(spyUnsubscribe).toHaveBeenCalled();
   });
 });
