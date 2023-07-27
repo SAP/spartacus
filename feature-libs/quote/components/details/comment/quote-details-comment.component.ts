@@ -126,7 +126,6 @@ export class QuoteDetailsCommentComponent {
           );
         });
         messageEvents.sort((eventA, eventB) => {
-          console.log(eventA?.createdAt ?? 0 + '-' + eventB?.createdAt ?? 0);
           return (
             new Date(eventA?.createdAt ?? 0).getTime() -
             new Date(eventB?.createdAt ?? 0).getTime()
