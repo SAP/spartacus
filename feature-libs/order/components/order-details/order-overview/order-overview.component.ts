@@ -13,7 +13,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { Card, CmsComponentData } from '@spartacus/storefront';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
@@ -223,6 +223,12 @@ export class OrderOverviewComponent {
             text: [payment.cardNumber, textExpires],
           } as Card)
       )
+    );
+  }
+
+  isPaymentInfoCardFull(payment: PaymentDetails): boolean {
+    return (
+      !!payment?.cardNumber && !!payment?.expiryMonth && !!payment?.expiryYear
     );
   }
 
