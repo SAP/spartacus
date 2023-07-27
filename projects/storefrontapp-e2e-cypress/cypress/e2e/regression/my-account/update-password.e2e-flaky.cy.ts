@@ -42,7 +42,7 @@ describe('My Account - Update Password', () => {
         cy.visit('/');
       });
 
-      it('should display server error if agent try to modify customer password', () => {
+      it('should display server error if agent try to modify customer password(CXSPA-3399)', () => {
         const customer = {
           fullName:
             standardUser.registrationData.firstName +
