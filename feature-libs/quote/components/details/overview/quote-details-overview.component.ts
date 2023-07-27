@@ -12,11 +12,13 @@ import {
   QuoteMetadata,
   QuoteFacade,
 } from '@spartacus/quote/root';
-import { TranslationService } from '@spartacus/core';
+import { EventService, TranslationService } from '@spartacus/core';
 import { Card, SaveCardEvent } from '@spartacus/storefront';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
+import { QuoteState } from '../../../root/model';
+import { QuoteDetailsReloadQueryEvent } from '../../../root/events/quote-list.events';
 
 @Component({
   selector: 'cx-quote-details-overview',
@@ -29,39 +31,67 @@ export class QuoteDetailsOverviewComponent {
 
   constructor(
     protected quoteFacade: QuoteFacade,
+    protected eventService: EventService,
     protected translationService: TranslationService
   ) {}
 
-  editQuote(quote: Quote) {
-    const metaData: QuoteMetadata = {
-      description: 'Edit',
-      name: 'Edit',
+  protected defineEmptyQuoteMetaData(): QuoteMetadata {
+    return {
+      description: '',
+      expirationTime: null,
+      name: '',
     };
-    this.quoteFacade.editQuote(quote.code, metaData);
+  }
+
+  protected defineQuoteMetaData(saveCardEvent: SaveCardEvent): QuoteMetadata {
+    let metaData: QuoteMetadata = this.defineEmptyQuoteMetaData();
+    const metaDataPropertyNames = Object.getOwnPropertyNames(metaData);
+    const saveCardEventPropertyNames =
+      Object.getOwnPropertyNames(saveCardEvent);
+
+    metaDataPropertyNames?.forEach((name) => {
+      const index = saveCardEventPropertyNames.findIndex((element) =>
+        element.includes(name + '_')
+      );
+      if (index >= 0) {
+        const propertyName = saveCardEventPropertyNames[index];
+        metaData[name] = saveCardEvent[propertyName];
+      }
+    });
+
+    return metaData;
+  }
+
+  editQuote(quote: Quote, saveCardEvent: SaveCardEvent) {
+    this.saveMode = false;
+    let metaData = this.defineQuoteMetaData(saveCardEvent);
+
+    this.quoteFacade
+      .editQuote(quote.code, metaData)
+      .pipe(take(1))
+      .subscribe(
+        // success
+        () => {
+          this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+        }
+      );
   }
 
   isSaveMode(): boolean {
     return this.saveMode;
   }
 
-  setSaveMode() {
-    this.saveMode = !this.saveMode;
+  isEditable(quote: Quote): boolean {
+    return (
+      (quote.state &&
+        (quote.state === QuoteState.BUYER_DRAFT ||
+          quote.state === QuoteState.SELLER_DRAFT)) ||
+      quote.isEditable
+    );
   }
 
-  saveQuoteInformation(quote: Quote): void {
-    this.saveMode = false;
-    const event: SaveCardEvent = {
-      saveMode: this.saveMode,
-      name: 'Test',
-      description: 'Test',
-    };
-    if (event) {
-      const quoteMetadata: QuoteMetadata = {
-        name: 'TEST',
-        description: 'TEST',
-      };
-      this.quoteFacade.editQuote(quote.code, quoteMetadata);
-    }
+  setSaveMode() {
+    this.saveMode = !this.saveMode;
   }
 
   getQuoteInformation(name?: string, description?: string): Observable<Card> {
@@ -84,8 +114,6 @@ export class QuoteDetailsOverviewComponent {
               isTextArea: true,
             },
           ],
-
-          // TODO: make it possible with actions => fix styling
           /**
            actions: [
            { event: 'save', name: 'Save' },
@@ -156,6 +184,7 @@ export class QuoteDetailsOverviewComponent {
       }))
     );
   }
+
   /**
    * Returns total price as formatted string
    * @param quote Quote

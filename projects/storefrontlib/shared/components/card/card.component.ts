@@ -4,13 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 
 export interface SaveCardEvent {
   saveMode: boolean;
-  name?: string;
-  description?: string;
+  [key: string]: any;
 }
 
 export interface CardAction {
@@ -44,10 +51,12 @@ export interface Card {
 @Component({
   selector: 'cx-card',
   templateUrl: './card.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardComponent implements OnInit {
   iconTypes = ICON_TYPE;
   leftCharacters: number;
+  saveForm: UntypedFormGroup;
 
   @Output()
   deleteCard: EventEmitter<number> = new EventEmitter();
@@ -136,13 +145,30 @@ export class CardComponent implements OnInit {
   }
 
   save(): void {
+    if (!this.saveForm.valid) {
+      this.saveForm.markAllAsTouched();
+      return;
+    }
+
     this.saveMode = false;
-    const saveCardEvent: SaveCardEvent = {
+    let saveCardEvent: SaveCardEvent = {
       saveMode: this.saveMode,
-      name: 'test',
-      description: 'test',
+      //name: this.saveForm.get('name')?.value,
+      //description: this.saveForm.get('description')?.value
     };
+
+    Object.keys(this.saveForm.controls).forEach((control) => {
+      const value = this.saveForm.get(control)?.value;
+      if (value) {
+        saveCardEvent[control] = value;
+      }
+    });
+
     this.saveCard.emit(saveCardEvent);
+  }
+
+  setFormControlName(name: string, index: number): string {
+    return name.toLocaleLowerCase().replace(/\s/g, '_') + '_' + index;
   }
 
   isCardAction(action: CardAction | CardLinkAction): action is CardAction {
@@ -165,6 +191,19 @@ export class CardComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Intentional empty method
+    this.saveForm = new UntypedFormGroup({});
+
+    this.content?.paragraphs?.forEach((paragraph) => {
+      paragraph.text?.forEach((text, index) => {
+        if (paragraph.title && text) {
+          const formControlName = this.setFormControlName(
+            paragraph.title,
+            index
+          );
+          this.saveForm.addControl(formControlName, new UntypedFormControl(''));
+          this.saveForm.get(formControlName)?.setValue(text);
+        }
+      });
+    });
   }
 }

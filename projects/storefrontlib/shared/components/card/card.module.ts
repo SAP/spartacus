@@ -6,6 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { TruncateTextPopoverModule } from '../truncate-text-popover/truncate-text-popover.module';
@@ -21,6 +22,7 @@ import { AtMessageModule } from '../assistive-technology-message/assistive-techn
     IconModule,
     TruncateTextPopoverModule,
     KeyboardFocusModule,
+    ReactiveFormsModule,
   ],
   declarations: [CardComponent],
   exports: [CardComponent],

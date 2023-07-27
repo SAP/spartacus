@@ -55,29 +55,42 @@
             ></cx-truncate-text-popover>
           </ng-template>
         </div>
-        <div class="cx-card-paragraph" *ngFor="let item of content.paragraphs">
-          <div class="cx-card-paragraph-title">{{ item.title }}</div>
-          <div *ngFor="let text of item.text">
-            <ng-container *ngIf="!saveMode">
-              <div class="cx-card-paragraph-text">
-                {{ text }}
-              </div>
-            </ng-container>
-            <ng-container *ngIf="saveMode">
-              <ng-container *ngIf="!item.isTextArea">
-                <input class="cx-card-paragraph-input" value="{{ text }}" />
+        <form [formGroup]="saveForm">
+          <div
+            class="cx-card-paragraph"
+            *ngFor="let item of content.paragraphs"
+          >
+            <div class="cx-card-paragraph-title">{{ item.title }}</div>
+            <div *ngFor="let text of item.text; let i = index">
+              <ng-container *ngIf="!saveMode">
+                <div class="cx-card-paragraph-text">
+                  {{ text }}
+                </div>
               </ng-container>
-              <ng-container *ngIf="item.isTextArea">
-                <textarea
-                  [maxLength]="charactersLimit"
-                  class="form-control"
-                  formControlName="message"
-                  rows="2"
-                ></textarea>
+              <ng-container *ngIf="saveMode">
+                <div class="form-group">
+                  <ng-container *ngIf="!item.isTextArea">
+                    <input
+                      class="cx-card-paragraph-input form-control"
+                      type="text"
+                      name="{{ setFormControlName(item.title, i) }}"
+                      formControlName="{{ setFormControlName(item.title, i) }}"
+                    />
+                  </ng-container>
+                  <ng-container *ngIf="item.isTextArea">
+                    <textarea
+                      class="form-control"
+                      [maxLength]="charactersLimit"
+                      rows="4"
+                      name="{{ setFormControlName(item.title, i) }}"
+                      formControlName="{{ setFormControlName(item.title, i) }}"
+                    ></textarea>
+                  </ng-container>
+                </div>
               </ng-container>
-            </ng-container>
+            </div>
           </div>
-        </div>
+        </form>
         <ng-content select="[label_container_bottom]"></ng-content>
       </div>
       <!-- Image -->
@@ -103,13 +116,7 @@
       </div>
     </div>
     <div *ngIf="saveMode" class="cx-card-body-save">
-      <button
-        class="btn btn-block btn-secondary"
-        [cxFocus]="{ autofocus: true }"
-        (click)="save()"
-      >
-        Save
-      </button>
+      <button class="btn btn-block btn-secondary" (click)="save()">Save</button>
       <button
         [cxAtMessage]="'assistiveMessage.actionCancelled' | cxTranslate"
         class="btn btn-tertiary"
@@ -160,7 +167,6 @@
             >
               {{ action.name }}
             </button>
-            // TODO: make it possible with actions => fix styling
             <ng-container *ngIf="saveMode">
               <button
                 type="button"

@@ -19,12 +19,12 @@
                 | async
             "
             [saveMode]="isSaveMode()"
-            (saveCard)="saveQuoteInformation(quoteDetails)"
             [truncateText]="true"
             [charactersLimit]="225"
+            (saveCard)="editQuote(quoteDetails, $event)"
           ></cx-card>
         </div>
-        <div *ngIf="!saveMode" class="cx-edit-step">
+        <div *ngIf="!saveMode && isEditable(quoteDetails)" class="cx-edit-step">
           <button class="btn btn-link cx-action-link" (click)="setSaveMode()">
             <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
           </button>
