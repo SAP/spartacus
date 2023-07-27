@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ViewChild } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, TranslationService } from '@spartacus/core';
 import {
@@ -21,7 +22,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { finalize, map, take } from 'rxjs/operators';
-import { QuoteUIConfig } from '../../config';
+import { QuoteUIConfig } from '../../config/quote-ui.config';
 
 const DEFAULT_COMMENT_MAX_CHARS = 1000;
 
@@ -43,7 +44,8 @@ export class QuoteDetailsCommentComponent {
     protected quoteFacade: QuoteFacade,
     protected eventService: EventService,
     protected translationService: TranslationService,
-    protected quoteUiConfig: QuoteUIConfig
+    protected quoteUiConfig: QuoteUIConfig,
+    @Inject(DOCUMENT) protected document: Document
   ) {}
 
   onSend(event: { message: string; itemId: string }, code: string) {
@@ -70,6 +72,16 @@ export class QuoteDetailsCommentComponent {
             );
         }
       );
+  }
+
+  onItemClicked(event: { item: Item }) {
+    const aTags = this.document.getElementsByTagName('a');
+    for (var i = 0; i < aTags.length; i++) {
+      if (aTags[i].textContent === event.item.name) {
+        aTags[i].scrollIntoView();
+        return;
+      }
+    }
   }
 
   protected prepareMessagingConfigs(): MessagingConfigs {

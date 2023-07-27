@@ -1,6 +1,8 @@
+import { DOCUMENT } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
 import {
   Comment,
@@ -18,7 +20,6 @@ import { Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../../config';
 import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
-import { OrderEntry } from '@spartacus/cart/base/root';
 
 const QUOTE_CODE = 'q123';
 
@@ -192,6 +193,7 @@ describe('QuoteDetailsCommentComponent', () => {
       .nativeElement.click();
     fixture.detectChanges();
   }
+
   describe('messagingConfigs', () => {
     it('should be provided', () => {
       expect(component.messagingConfigs).toBeDefined();
@@ -359,6 +361,38 @@ describe('QuoteDetailsCommentComponent', () => {
         'quote.comments.invalidComment'
       );
     });
+  });
+
+  describe('onItemClicked', () => {
+    let aTagProduct1: { textContent: string; scrollIntoView: Function };
+    let aTagProduct2: { textContent: string; scrollIntoView: Function };
+
+    beforeEach(() => {
+      aTagProduct1 = createElementMock('Product 1');
+      aTagProduct2 = createElementMock('Product 2');
+      const mockedATags = [aTagProduct1, aTagProduct2];
+      const document = TestBed.inject(DOCUMENT);
+      spyOn(document, 'getElementsByTagName').and.returnValue(<any>mockedATags);
+    });
+
+    function createElementMock(textContent: string) {
+      const elem = { textContent: textContent, scrollIntoView: function () {} };
+      spyOn(elem, 'scrollIntoView');
+      return elem;
+    }
+
+    it('should call scrollIntoView on the corresponding cart item in the document', () => {
+      component.onItemClicked({ item: { id: 'P2', name: 'Product 2' } });
+      expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
+      expect(aTagProduct2.scrollIntoView).toHaveBeenCalled();
+    });
+
+    it('should do nothing if the cart item is not found in the document', () => {
+      component.onItemClicked({ item: { id: 'P3', name: 'Product 3' } });
+      expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
+      expect(aTagProduct2.scrollIntoView).not.toHaveBeenCalled();
+    });
+
   });
 
   describe('prepareMessageEvents', () => {
