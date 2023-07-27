@@ -13,8 +13,7 @@ import {
   QuoteFacade,
 } from '@spartacus/quote/root';
 import { EventService, TranslationService } from '@spartacus/core';
-import { Card, SaveCardEvent } from '@spartacus/storefront';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { Card, ICON_TYPE, SaveCardEvent } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { QuoteState } from '../../../root/model';
@@ -37,9 +36,9 @@ export class QuoteDetailsOverviewComponent {
 
   protected defineEmptyQuoteMetaData(): QuoteMetadata {
     return {
-      description: '',
-      expirationTime: null,
-      name: '',
+      description: undefined,
+      expirationTime: undefined,
+      name: undefined,
     };
   }
 

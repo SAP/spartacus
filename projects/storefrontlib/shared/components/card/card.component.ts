@@ -138,20 +138,19 @@ export class CardComponent implements OnInit {
   }
 
   save(): void {
-    if (!this.saveForm.valid) {
-      this.saveForm.markAllAsTouched();
-      return;
-    }
-
     this.saveMode = false;
     const saveCardEvent: SaveCardEvent = {
       saveMode: this.saveMode,
     };
 
     Object.keys(this.saveForm.controls).forEach((control) => {
-      const value = this.saveForm.get(control)?.value;
-      if (value) {
-        saveCardEvent[control] = value;
+      if (this.saveForm.get(control)?.touched) {
+        const value = this.saveForm.get(control)?.value;
+        if (value) {
+          saveCardEvent[control] = value;
+        }
+        this.saveForm.get(control)?.markAsUntouched();
+        this.saveForm.get(control)?.markAsPristine();
       }
     });
 
