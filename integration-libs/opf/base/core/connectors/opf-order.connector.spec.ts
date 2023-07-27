@@ -6,7 +6,7 @@ import { OpfOrderConnector } from './opf-order.connector';
 
 class MockOpfOrderAdapter implements OpfOrderAdapter {
   placeOpfOrder = createSpy('placeOpfOrder').and.callFake(
-    (userId, cartId, termsChecked) =>
+    (userId: string, cartId: string, termsChecked: boolean) =>
       of(`load-${userId}-${cartId}-${termsChecked}`)
   );
 }
