@@ -122,21 +122,23 @@ export class QuoteService implements QuoteFacade {
     quoteCode: string;
     quoteComment: Comment;
     entryNumber?: string;
-  }> = this.commandService.create<{ quoteCode: string; quoteComment: Comment; entryNumber: string }>(
+  }> = this.commandService.create<{
+    quoteCode: string;
+    quoteComment: Comment;
+    entryNumber: string;
+  }>(
     (payload) =>
       this.userIdService.takeUserId().pipe(
         take(1),
         switchMap((userId) => {
           if (payload.entryNumber) {
-            console.log("add entry comment");
             return this.quoteConnector.addCartEntryComment(
               userId,
               payload.quoteCode,
               payload.entryNumber,
-              payload.quoteComment,
+              payload.quoteComment
             );
           } else {
-            console.log("add header comment");
             return this.quoteConnector.addComment(
               userId,
               payload.quoteCode,
@@ -277,7 +279,11 @@ export class QuoteService implements QuoteFacade {
     quoteComment: Comment,
     entryNumber?: string
   ): Observable<unknown> {
-    return this.addQuoteCommentCommand.execute({ quoteCode, quoteComment, entryNumber });
+    return this.addQuoteCommentCommand.execute({
+      quoteCode,
+      quoteComment,
+      entryNumber,
+    });
   }
 
   performQuoteAction(

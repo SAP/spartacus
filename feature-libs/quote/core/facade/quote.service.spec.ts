@@ -275,7 +275,7 @@ describe('QuoteService', () => {
         expect(connector.addComment).toHaveBeenCalledWith(
           mockUserId,
           mockQuote.code,
-          mockComment,
+          mockComment
         );
       });
   });

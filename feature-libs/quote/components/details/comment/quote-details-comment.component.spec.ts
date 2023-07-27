@@ -153,10 +153,26 @@ describe('QuoteDetailsCommentComponent', () => {
   it('should merge header and item quote comments and sort the resulting message events by date', () => {
     quote.comments = [];
     quote.entries = [];
-    quote.comments.push({text: 'header #1', creationDate: new Date('2022-10-01 10:00')});
-    quote.comments.push({text: 'header #4', creationDate: new Date('2022-10-04 10:00')});
-    quote.entries.push({entryNumber: 0, comments:[{text: 'item 0 #3', creationDate: new Date('2022-10-02 09:30')}] });
-    quote.entries.push({entryNumber: 1, comments:[{text: 'item 1 #2', creationDate: new Date('2022-10-01 10:30')}] });
+    quote.comments.push({
+      text: 'header #1',
+      creationDate: new Date('2022-10-01 10:00'),
+    });
+    quote.comments.push({
+      text: 'header #4',
+      creationDate: new Date('2022-10-04 10:00'),
+    });
+    quote.entries.push({
+      entryNumber: 0,
+      comments: [
+        { text: 'item 0 #3', creationDate: new Date('2022-10-02 09:30') },
+      ],
+    });
+    quote.entries.push({
+      entryNumber: 1,
+      comments: [
+        { text: 'item 1 #2', creationDate: new Date('2022-10-01 10:30') },
+      ],
+    });
     component.messageEvents$
       .subscribe((messageEvent) => {
         expect(messageEvent.length).toBe(4);

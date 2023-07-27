@@ -47,7 +47,6 @@ export class QuoteDetailsCommentComponent {
   ) {}
 
   onSend(event: { message: string; itemId: string }, code: string) {
-    console.log(event);
     this.quoteFacade
       .addQuoteComment(code, { text: event.message }, event.itemId)
       .pipe(
@@ -127,6 +126,7 @@ export class QuoteDetailsCommentComponent {
           );
         });
         messageEvents.sort((eventA, eventB) => {
+          console.log(eventA?.createdAt ?? 0 + '-' + eventB?.createdAt ?? 0);
           return (
             new Date(eventA?.createdAt ?? 0).getTime() -
             new Date(eventB?.createdAt ?? 0).getTime()
