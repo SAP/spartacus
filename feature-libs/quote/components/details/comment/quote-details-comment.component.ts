@@ -76,9 +76,9 @@ export class QuoteDetailsCommentComponent {
 
   onItemClicked(event: { item: Item }) {
     const aTags = this.document.getElementsByTagName('a');
-    for (var i = 0; i < aTags.length; i++) {
-      if (aTags[i].textContent === event.item.name) {
-        aTags[i].scrollIntoView();
+    for (let ii = 0; ii < aTags.length; ii++) {
+      if (aTags[ii].textContent === event.item.name) {
+        aTags[ii].scrollIntoView();
         return;
       }
     }
