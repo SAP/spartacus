@@ -161,8 +161,6 @@ export class QuoteService implements QuoteFacade {
           )
         ),
         tap(() => {
-          this.isActionPerforming$.next(false);
-          this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
           if (payload.quoteAction === QuoteActionType.SUBMIT) {
             this.quoteCartService.setQuoteCartActive(false);
           }
@@ -170,6 +168,8 @@ export class QuoteService implements QuoteFacade {
             this.quoteCartService.setQuoteCartActive(true);
             this.quoteCartService.setQuoteId(payload.quoteCode);
           }
+          this.isActionPerforming$.next(false);
+          this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
         })
       );
     },
