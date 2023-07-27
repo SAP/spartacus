@@ -10,11 +10,7 @@ import { Observable, of } from 'rxjs';
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { AsmCustomerCouponComponent } from './asm-customer-coupon.component';
-import {
-  ActiveCartFacade,
-  Cart,
-  CartVoucherFacade,
-} from '@spartacus/cart/base/root';
+import {  ActiveCartFacade, Cart, CartVoucherFacade } from '@spartacus/cart/base/root';
 import { AsmCustomerPromotionListingComponent } from '../../asm-customer-promotion-listing/asm-customer-promotion-listing.component';
 
 describe('AsmCustomerCouponComponent', () => {
@@ -22,8 +18,8 @@ describe('AsmCustomerCouponComponent', () => {
   let component: AsmCustomerCouponComponent;
   let fixture: ComponentFixture<AsmCustomerCouponComponent>;
   let context: Customer360SectionContextSource<Customer360CouponList>;
-  const mockCart: Cart = {
-    code: 'cartId',
+  const mockCart: Cart={
+    code:'cartId'
   };
   const mockCouponList: Customer360CouponList = {
     type: Customer360Type.COUPON_LIST,
@@ -43,7 +39,7 @@ describe('AsmCustomerCouponComponent', () => {
         name: 'NAME OF COUPON_3',
         applied: false,
       },
-    ],
+    ]
   };
   const mockReloadedCouponList: Customer360CouponList = {
     type: Customer360Type.COUPON_LIST,
@@ -63,11 +59,9 @@ describe('AsmCustomerCouponComponent', () => {
         name: 'NAME OF COUPON_3',
         applied: false,
       },
-    ],
+    ]
   };
-  const mockReloadedCustomer360Response: Customer360Response = {
-    value: [mockReloadedCouponList],
-  };
+  const mockReloadedCustomer360Response: Customer360Response = {value: [mockReloadedCouponList]};
   class MockCustomer360Facade implements Partial<Customer360Facade> {
     get360Data(): Observable<Customer360Response> {
       return of(mockReloadedCustomer360Response);
@@ -75,25 +69,27 @@ describe('AsmCustomerCouponComponent', () => {
   }
   class MockCartVoucherFacade implements Partial<CartVoucherFacade> {
     getAddVoucherResultError(): Observable<boolean> {
-      return of(true);
+        return of (true);
     }
 
     getDeleteVoucherResultError(): Observable<boolean> {
-      return of(true);
+        return of (true);
     }
 
-    addVoucher(_voucherId: string, _cartId?: string | undefined): void {}
+    addVoucher(_voucherId: string, _cartId?: string | undefined): void {
+    }
 
-    removeVoucher(_voucherId: string, _cartId?: string | undefined): void {}
+    removeVoucher(_voucherId: string, _cartId?: string | undefined): void {
+    }
   }
   class MockUserIdService implements Partial<UserIdService> {
     getUserId(): Observable<string> {
-      return of('userId');
+      return of ('userId');
     }
   }
   class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-    requireLoadedCart(): Observable<Cart> {
-      return of(mockCart);
+    requireLoadedCart(): Observable<Cart>{
+      return of (mockCart);
     }
   }
   beforeEach(async () => {
@@ -124,7 +120,7 @@ describe('AsmCustomerCouponComponent', () => {
         {
           provide: Customer360Facade,
           useClass: MockCustomer360Facade,
-        },
+        }
       ],
     }).compileComponents();
     cartVoucherService = TestBed.inject(CartVoucherFacade);
@@ -144,23 +140,23 @@ describe('AsmCustomerCouponComponent', () => {
   });
 
   it('should fetch coupon list from context at init', () => {
-    component.entries$.subscribe((value) => {
+    component.entries$.subscribe((value)=>{
       expect(value).toEqual(mockCouponList.coupons);
     });
   });
 
   it('should not display error message alert at init', () => {
-    component.showErrorAlert$.subscribe((value) => {
+    component.showErrorAlert$.subscribe((value)=>{
       expect(value).toBe(false);
     });
-    component.showErrorAlertForApplyAction$.subscribe((value) => {
+    component.showErrorAlertForApplyAction$.subscribe((value)=>{
       expect(value).toBe(false);
     });
   });
 
   it('should be able to reload coupon list', () => {
     component.refreshComponent();
-    component.entries$.subscribe((entries) => {
+    component.entries$.subscribe((entries)=>{
       expect(entries).toEqual(mockReloadedCouponList.coupons);
     });
   });
@@ -180,7 +176,7 @@ describe('AsmCustomerCouponComponent', () => {
     expect(couponEntry.applied).toBe(false);
     component.applyCouponToCustomer(couponEntry);
     expect(cartVoucherService.addVoucher).toHaveBeenCalled();
-    component.entries$.subscribe((entries) => {
+    component.entries$.subscribe((entries)=>{
       expect(entries[1].applied).toBe(true);
     });
   });
@@ -191,47 +187,36 @@ describe('AsmCustomerCouponComponent', () => {
     expect(couponEntry.applied).toBe(true);
     component.removeCouponToCustomer(couponEntry);
     expect(cartVoucherService.removeVoucher).toHaveBeenCalled();
-    component.entries$.subscribe((entries) => {
+    component.entries$.subscribe((entries)=>{
       expect(entries[0].applied).toBe(false);
     });
   });
 
   it('should show error message alert when applying coupon action failed', () => {
-    spyOn(cartVoucherService, 'getAddVoucherResultError').and.returnValue(
-      of(true)
-    );
+    spyOn(cartVoucherService,'getAddVoucherResultError').and.returnValue(of(true));
     spyOn(cartVoucherService, 'addVoucher').and.callThrough();
     const couponEntry = mockCouponList.coupons[0];
     component.applyCouponToCustomer(couponEntry);
     expect(cartVoucherService.getAddVoucherResultError).toHaveBeenCalled();
-    component.showErrorAlertForApplyAction$.subscribe((value) => {
+    component.showErrorAlertForApplyAction$.subscribe((value)=>{
       expect(value).toBe(true);
     });
+
   });
 
   it('should show error message alert when removing coupon action failed', () => {
-    spyOn(cartVoucherService, 'getDeleteVoucherResultError').and.callThrough();
+    spyOn(cartVoucherService,'getDeleteVoucherResultError').and.callThrough();
     const couponEntry = mockCouponList.coupons[1];
     component.removeCouponToCustomer(couponEntry);
-    component.showErrorAlertForApplyAction$.subscribe((value) => {
+    component.showErrorAlertForApplyAction$.subscribe((value)=>{
       expect(value).toBe(true);
     });
   });
-
-  // it('should show error message alert when loading data from context failed', () => {
-  //   component.fetchCoupons();
-  //   component.entries$.subscribe((entries) => {
-  //     expect(entries.length).toBe(0);
-  //   });
-  //   component.showErrorAlert$.subscribe((value)=>{
-  //     expect(value).toBe(true);
-  //   });
-  // });
 
   it('should close error message alert of loading data when click close button', () => {
     component.showErrorAlert$.next(true);
     component.closeErrorAlert();
-    component.showErrorAlert$.subscribe((value) => {
+    component.showErrorAlert$.subscribe((value)=>{
       expect(value).toBe(false);
     });
   });
@@ -239,7 +224,7 @@ describe('AsmCustomerCouponComponent', () => {
   it('should close error message alert of applying action when click close button', () => {
     component.showErrorAlertForApplyAction$.next(true);
     component.closeErrorAlertForApplyAction();
-    component.showErrorAlertForApplyAction$.subscribe((value) => {
+    component.showErrorAlertForApplyAction$.subscribe((value)=>{
       expect(value).toBe(false);
     });
   });

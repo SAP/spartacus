@@ -162,8 +162,7 @@
 
     <!-- Modal Body -->
     <div class="cx-dialog-body">
-      <ng-container *cxFeatureLevel="'!6.5'">
-        <div class="cx-tab-headers" role="tablist">
+        <div class="cx-tab-headers" role="tablist" *cxFeatureLevel="'!6.5'">
           <ng-container *ngFor="let tabHeader of tabs; let i = index">
             <button
               #tabHeaderItem
@@ -180,9 +179,7 @@
             </button>
           </ng-container>
         </div>
-      </ng-container>
-      <ng-container *cxFeatureLevel="'6.5'">
-        <div class="cx-tab-headers" role="tablist">
+        <div class="cx-tab-headers" role="tablist" *cxFeatureLevel="'6.5'">
           <button
             #tabHeaderItem
             *ngFor="let tabHeader of tabs; let i = index"
@@ -197,7 +194,6 @@
             {{ tabHeader.i18nNameKey | cxTranslate }}
           </button>
         </div>
-      </ng-container>
       <div id="asm-customer-360-tab-panel" class="cx-tab-content modal-body">
         <ng-container *ngIf="showErrorTab$ | async; else tabContent">
           <div class="cx-tab-error">
