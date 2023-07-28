@@ -57,11 +57,20 @@ export class MediaService {
       ? mediaContainer
       : this.resolveMedia(mediaContainer as MediaContainer, format);
 
+    console.log({
+      src: this.resolveAbsoluteUrl(mainMedia?.url ?? ''),
+      alt: alt ?? mainMedia?.altText,
+      role: role ?? mainMedia?.role,
+      srcset: this.resolveSrcSet(mediaContainer, format),
+      sizes: this.resolveSizes(mediaContainer, format),
+    });
+
     return {
       src: this.resolveAbsoluteUrl(mainMedia?.url ?? ''),
       alt: alt ?? mainMedia?.altText,
       role: role ?? mainMedia?.role,
       srcset: this.resolveSrcSet(mediaContainer, format),
+      sizes: this.resolveSizes(mediaContainer, format),
     };
   }
 
@@ -170,14 +179,63 @@ export class MediaService {
         if (set) {
           set += ', ';
         }
-        set += `${this.resolveAbsoluteUrl(image.url ?? '')} ${
-          format.size.width
-        }w`;
+
+        if (!set.length) {
+          set += `${this.resolveAbsoluteUrl(image.url ?? '')} 3x`;
+        } else {
+          set += `${this.resolveAbsoluteUrl(image.url ?? '')} ${
+            format.size.width
+          }w`;
+        }
       }
       return set;
     }, '');
 
     return srcset === '' ? undefined : srcset;
+  }
+
+  protected resolveSizes(
+    media: MediaContainer | Image,
+    maxFormat?: string
+  ): string | undefined {
+    if (!media) {
+      return undefined;
+    }
+
+    // Only create srcset images that are smaller than the given `maxFormat` (if any)
+    let formats = this.sortedFormats;
+    const max: number = formats.findIndex((f) => f.code === maxFormat);
+    if (max > -1) {
+      formats = formats.slice(0, max + 1);
+    }
+
+    const imagesWithFormats = formats
+      .filter((format) => !!(media as MediaContainer)[format.code])
+      .map((el) => el.size.width);
+
+    const srcset = formats.reduce((set, format) => {
+      const image = (media as MediaContainer)[format.code];
+      if (!!image) {
+        if (set) {
+          set += ', ';
+        }
+        set += `(max-width: ${format.size.width}px) 100vw`;
+      }
+      return set;
+    }, '');
+
+    return srcset === ''
+      ? undefined
+      : srcset
+          .split(',')
+          .map((el, i) => {
+            if (i === imagesWithFormats.length - 1) {
+              el = ` ${imagesWithFormats[imagesWithFormats.length - 1]}px`;
+            }
+
+            return el;
+          })
+          .join();
   }
 
   /**

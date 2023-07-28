@@ -29,6 +29,8 @@ export interface Media {
    * readers or magnifiers
    */
   role?: string;
+
+  sizes: string;
 }
 
 /**

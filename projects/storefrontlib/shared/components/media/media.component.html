@@ -1,7 +1,23 @@
+<!-- <img
+  src="https://40.76.109.9:9002/medias/Elec-1400x440-HomeSpeed-EN-01-1400W.jpg?context=bWFzdGVyfGltYWdlc3w4MTk4OHxpbWFnZS9qcGVnfGFXMWhaMlZ6TDJobU1pOW9OR0V2T0RjNU56TTFOVGd6TlRReU1pNXFjR2N8YjllMGU0N2U1MzMwOWI3YjdiNGQ4MzMzODI4YTM0ZWFhZjVlNGI3M2U4MWM1ZWNhYjQ1YzExNGNhNWI2MDljNg"
+  srcset="
+    https://40.76.109.9:9002/medias/Elec-480x320-HomeSpeed-EN-01-480W.jpg?context=bWFzdGVyfGltYWdlc3wzMzkzMnxpbWFnZS9qcGVnfGFXMWhaMlZ6TDJoa1pDOW9NV012T0RjNU56TTFOakF6TWpBek1DNXFjR2N8NzNiYjVjNDM2MzY0OTAzZjc1M2M1NmYzMmMzMjAzOTI0ZWE2Yjc5OTU4NzIzODk3OTQ0ZDg4ZGU0ZGM0MzkwZg    3x,
+    https://40.76.109.9:9002/medias/Elec-770x350-HomeSpeed-EN-01-770W.jpg?context=bWFzdGVyfGltYWdlc3w1MzAzOHxpbWFnZS9qcGVnfGFXMWhaMlZ6TDJnelpDOW9ZelV2T0RjNU56TTFOakE1TnpVMk5pNXFjR2N8ZDgyMGFlMDc0ZTQ4YWZjZmE3MjQwYzRmNDBmMTVmNDgzODU0YWQ4ODIyMzcwOGIzZDhhZmYwY2M0ZDg1YjljOA    770w,
+    https://40.76.109.9:9002/medias/Elec-960x330-HomeSpeed-EN-01-960W.jpg?context=bWFzdGVyfGltYWdlc3w1MzE2M3xpbWFnZS9qcGVnfGFXMWhaMlZ6TDJoaU5DOW9NV1l2T0RjNU56TTFOakl5T0RZek9DNXFjR2N8NzJkMjRkODZhOTQ5NjNhODI3MGFlYmIwNTE2NWQ2NTVlNDhiYTMwNTMxZDg5MzdhM2ZmY2JhNDIyMDFjNjU5ZQ   1140w,
+    https://40.76.109.9:9002/medias/Elec-1400x440-HomeSpeed-EN-01-1400W.jpg?context=bWFzdGVyfGltYWdlc3w4MTk4OHxpbWFnZS9qcGVnfGFXMWhaMlZ6TDJobU1pOW9OR0V2T0RjNU56TTFOVGd6TlRReU1pNXFjR2N8YjllMGU0N2U1MzMwOWI3YjdiNGQ4MzMzODI4YTM0ZWFhZjVlNGI3M2U4MWM1ZWNhYjQ1YzExNGNhNWI2MDljNg 1400w,
+  "
+  alt="Save Big On Select SLR &amp; DSLR Cameras"
+  sizes="(max-width: 480px) 100vw ,
+  (max-width: 770px) 100vw,
+  (max-width: 960px) 100vw,
+  1400px"
+/> -->
+
 <img
   *ngIf="media && media.src"
   [attr.src]="media.src"
   [attr.srcset]="media.srcset"
+  [attr.sizes]="media.sizes"
   [attr.alt]="media.alt"
   [attr.role]="media.role"
   [attr.loading]="loading"
