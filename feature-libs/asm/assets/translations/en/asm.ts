@@ -16,6 +16,8 @@ export const asm = {
     saveInactiveCartAlertInfo:
       'The identified cart is an inactive cart. To take further actions on this cart, save it first.',
     activeCartAlertInfo: 'The identified cart is an active cart.',
+    startCustomerEmulationAlertInfo:
+      'Customer emulation has started. Any actions you do will reflect the effects on the customer account.',
     toggleUi: {
       collapse: 'Hide ASM',
       expand: 'Show ASM',
