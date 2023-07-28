@@ -78,10 +78,6 @@ describe('AsmCustomerCouponComponent', () => {
       return of(true);
     }
 
-    getDeleteVoucherResultError(): Observable<boolean> {
-      return of(true);
-    }
-
     addVoucher(_voucherId: string, _cartId?: string | undefined): void {}
 
     removeVoucher(_voucherId: string, _cartId?: string | undefined): void {}
@@ -131,7 +127,6 @@ describe('AsmCustomerCouponComponent', () => {
   });
 
   beforeEach(() => {
-    // spyOn(cartVoucherService, 'getDeleteVoucherResultError').and.returnValue(of(true));
     fixture = TestBed.createComponent(AsmCustomerCouponComponent);
     component = fixture.componentInstance;
     context = TestBed.inject(Customer360SectionContextSource);
@@ -204,15 +199,6 @@ describe('AsmCustomerCouponComponent', () => {
     const couponEntry = mockCouponList.coupons[0];
     component.applyCouponToCustomer(couponEntry);
     expect(cartVoucherService.getAddVoucherResultError).toHaveBeenCalled();
-    component.showErrorAlertForApplyAction$.subscribe((value) => {
-      expect(value).toBe(true);
-    });
-  });
-
-  it('should show error message alert when removing coupon action failed', () => {
-    spyOn(cartVoucherService, 'getDeleteVoucherResultError').and.callThrough();
-    const couponEntry = mockCouponList.coupons[1];
-    component.removeCouponToCustomer(couponEntry);
     component.showErrorAlertForApplyAction$.subscribe((value) => {
       expect(value).toBe(true);
     });

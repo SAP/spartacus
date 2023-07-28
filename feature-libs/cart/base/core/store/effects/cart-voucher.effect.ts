@@ -97,12 +97,6 @@ export class CartVoucherEffects {
                   userId: payload.userId,
                   voucherId: payload.voucherId,
                 }),
-                new CartActions.CartDeleteVoucherFail({
-                  error: normalizeHttpError(error, this.logger),
-                  cartId: payload.cartId,
-                  userId: payload.userId,
-                  voucherId: payload.voucherId,
-                }),
                 new CartActions.LoadCart({
                   userId: payload.userId,
                   cartId: payload.cartId,

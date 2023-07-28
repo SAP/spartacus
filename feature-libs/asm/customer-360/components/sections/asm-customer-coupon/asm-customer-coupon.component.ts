@@ -68,16 +68,6 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
         }
       })
     );
-    this.subscription.add(
-      this.cartVoucherService
-        .getDeleteVoucherResultError()
-        .subscribe((error) => {
-          if (error) {
-            this.refreshComponent();
-            this.showErrorAlertForApplyAction$.next(true);
-          }
-        })
-    );
     this.showErrorAlert$.next(false);
     this.showErrorAlertForApplyAction$.next(false);
     this.fetchCoupons();
