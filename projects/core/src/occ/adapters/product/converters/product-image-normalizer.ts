@@ -37,7 +37,7 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
     const images: Images = {};
     if (source) {
       for (const image of source) {
-        const isList = this.hasGalleryIndex(image);
+        const isList = isNaN(Number(image.galleryIndex));
         if (image.imageType) {
           if (!images.hasOwnProperty(image.imageType)) {
             images[image.imageType] = isList ? [] : {};
@@ -97,10 +97,5 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
         this.config.backend?.occ?.baseUrl ||
         '') + url
     );
-  }
-
-  private hasGalleryIndex(image: Occ.Image) {
-    const galleryIndex = image.galleryIndex ?? false;
-    return !isNaN(Number(image.galleryIndex));
   }
 }
