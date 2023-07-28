@@ -45,6 +45,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors/quote.connector';
+import { CartUtilsService } from '../services/cart-utils.service';
 
 @Injectable()
 export class QuoteService implements QuoteFacade {
@@ -161,8 +162,12 @@ export class QuoteService implements QuoteFacade {
           )
         ),
         tap(() => {
-          if (payload.quoteAction === QuoteActionType.SUBMIT) {
+          if (
+            payload.quoteAction === QuoteActionType.SUBMIT ||
+            payload.quoteAction === QuoteActionType.CANCEL
+          ) {
             this.quoteCartService.setQuoteCartActive(false);
+            this.cartUtilsService.createNewCartAndGoToQuoteList();
           }
           if (payload.quoteAction === QuoteActionType.EDIT) {
             this.quoteCartService.setQuoteCartActive(true);
@@ -273,7 +278,8 @@ export class QuoteService implements QuoteFacade {
     protected activeCartService: ActiveCartFacade,
     protected routingService: RoutingService,
     protected multiCartService: MultiCartFacade,
-    protected quoteCartService: QuoteCartService
+    protected quoteCartService: QuoteCartService,
+    protected cartUtilsService: CartUtilsService
   ) {}
 
   createQuote(quoteMetadata: QuoteMetadata): Observable<Quote> {

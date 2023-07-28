@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import { Observable, of } from 'rxjs';
 import { UserIdService, RoutingService } from '@spartacus/core';
-import { QuoteActionLinksService } from './quote-action-links.service';
+import { CartUtilsService } from './cart-utils.service';
 import createSpy = jasmine.createSpy;
 
 const newCart: Cart = {};
@@ -14,7 +14,7 @@ class MockMultiCartFacade implements Partial<MultiCartFacade> {
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  getUserId(): Observable<string> {
+  takeUserId(): Observable<string> {
     return of();
   }
 }
@@ -23,8 +23,8 @@ class MockRoutingService implements Partial<RoutingService> {
   go = createSpy();
 }
 
-describe('QuoteActionLinksService', () => {
-  let service: QuoteActionLinksService;
+describe('CartUtilsService', () => {
+  let service: CartUtilsService;
   let userIdService: UserIdService;
   let routingService: RoutingService;
 
@@ -37,10 +37,10 @@ describe('QuoteActionLinksService', () => {
       ],
     }).compileComponents();
 
-    service = TestBed.inject(QuoteActionLinksService);
+    service = TestBed.inject(CartUtilsService);
     userIdService = TestBed.inject(UserIdService);
     routingService = TestBed.inject(RoutingService);
-    spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
+    spyOn(userIdService, 'takeUserId').and.returnValue(of('current'));
   });
 
   it('should be created', () => {
@@ -51,7 +51,7 @@ describe('QuoteActionLinksService', () => {
     it('should create a new cart ', (done) => {
       service['createNewCart']().subscribe((cart) => {
         expect(cart).toBe(newCart);
-        expect(userIdService.getUserId).toHaveBeenCalled();
+        expect(userIdService.takeUserId).toHaveBeenCalled();
         done();
       });
     });

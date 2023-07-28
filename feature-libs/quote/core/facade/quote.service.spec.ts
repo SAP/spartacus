@@ -28,6 +28,7 @@ import { QuoteConnector } from '../connectors';
 import { QuoteService } from './quote.service';
 import { createEmptyQuote } from '../testing/quote-test-utils';
 import createSpy = jasmine.createSpy;
+import { CartUtilsService } from '../services/cart-utils.service';
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = '1234';
@@ -115,6 +116,11 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
   loadCart = createSpy();
+  createCart = createSpy().and.returnValue(of({}));
+}
+
+class MockCartUtilsService implements Partial<CartUtilsService> {
+  createNewCartAndGoToQuoteList = createSpy();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -130,6 +136,7 @@ describe('QuoteService', () => {
   let multiCartFacade: MultiCartFacade;
   let routingService: RoutingService;
   let quoteCartService: QuoteCartService;
+  let cartUtilsService: CartUtilsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -147,6 +154,7 @@ describe('QuoteService', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: QuoteCartService, useClass: MockQuoteCartService },
+        { provide: CartUtilsService, useClass: MockCartUtilsService },
       ],
     });
 
@@ -157,6 +165,7 @@ describe('QuoteService', () => {
     multiCartFacade = TestBed.inject(MultiCartFacade);
     routingService = TestBed.inject(RoutingService);
     quoteCartService = TestBed.inject(QuoteCartService);
+    cartUtilsService = TestBed.inject(CartUtilsService);
 
     isQuoteCartActive = false;
     quoteId = '';
@@ -332,13 +341,30 @@ describe('QuoteService', () => {
         });
     });
 
-    it('should reset cart quote mode on submit', (done) => {
+    it('should reset cart quote mode on submit, create new cart and navigate to quote list', (done) => {
       service
         .performQuoteAction(mockQuote.code, QuoteActionType.SUBMIT)
         .subscribe(() => {
           expect(quoteCartService.setQuoteCartActive).toHaveBeenCalledWith(
             false
           );
+          expect(
+            cartUtilsService.createNewCartAndGoToQuoteList
+          ).toHaveBeenCalled();
+          done();
+        });
+    });
+
+    it('should reset cart quote mode on cancel, create new cart and navigate to quote list', (done) => {
+      service
+        .performQuoteAction(mockQuote.code, QuoteActionType.CANCEL)
+        .subscribe(() => {
+          expect(quoteCartService.setQuoteCartActive).toHaveBeenCalledWith(
+            false
+          );
+          expect(
+            cartUtilsService.createNewCartAndGoToQuoteList
+          ).toHaveBeenCalled();
           done();
         });
     });

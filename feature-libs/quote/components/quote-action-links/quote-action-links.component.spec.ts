@@ -10,10 +10,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { QuoteActionLinksComponent } from './quote-action-links.component';
-import { QuoteActionLinksService } from './quote-action-links.service';
+import { CartUtilsService } from '@spartacus/quote/core';
 import createSpy = jasmine.createSpy;
 
-class MockActionLinksService implements Partial<QuoteActionLinksService> {
+class MockActionLinksService implements Partial<CartUtilsService> {
   goToNewCart = createSpy();
 }
 
@@ -22,7 +22,7 @@ const mockRoutes = [{ path: 'cxRoute:quotes', component: {} }] as Routes;
 describe('QuoteActionLinksComponent', () => {
   let fixture: ComponentFixture<QuoteActionLinksComponent>;
   let component: QuoteActionLinksComponent;
-  let actionLinksService: QuoteActionLinksService;
+  let actionLinksService: CartUtilsService;
   let router: Router;
 
   beforeEach(() => {
@@ -35,7 +35,7 @@ describe('QuoteActionLinksComponent', () => {
       declarations: [QuoteActionLinksComponent],
       providers: [
         {
-          provide: QuoteActionLinksService,
+          provide: CartUtilsService,
           useClass: MockActionLinksService,
         },
       ],
@@ -44,7 +44,7 @@ describe('QuoteActionLinksComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteActionLinksComponent);
-    actionLinksService = TestBed.inject(QuoteActionLinksService);
+    actionLinksService = TestBed.inject(CartUtilsService);
     router = TestBed.inject(Router);
     component = fixture.componentInstance;
   });

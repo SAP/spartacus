@@ -14,7 +14,7 @@ import { tap, take, switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class QuoteActionLinksService {
+export class CartUtilsService {
   constructor(
     protected userIdService: UserIdService,
     protected multiCartFacade: MultiCartFacade,
@@ -23,8 +23,7 @@ export class QuoteActionLinksService {
   ) {}
 
   protected createNewCart(): Observable<Cart> {
-    return this.userIdService.getUserId().pipe(
-      take(1),
+    return this.userIdService.takeUserId().pipe(
       switchMap((userId) =>
         this.multiCartFacade.createCart({
           userId,
@@ -40,8 +39,18 @@ export class QuoteActionLinksService {
   }
 
   goToNewCart(): void {
-    this.createNewCart().subscribe(() => {
-      this.routingService.go({ cxRoute: 'cart' });
-    });
+    this.createNewCart()
+      .pipe(take(1))
+      .subscribe(() => {
+        this.routingService.go({ cxRoute: 'cart' });
+      });
+  }
+
+  createNewCartAndGoToQuoteList(): void {
+    this.createNewCart()
+      .pipe(take(1))
+      .subscribe(() => {
+        this.routingService.go({ cxRoute: 'quotes' });
+      });
   }
 }
