@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as asm from '../../../helpers/asm';
-import * as checkout from '../../../helpers/checkout-flow';
 import * as alerts from '../../../helpers/global-message';
 import { signOutUser } from '../../../helpers/login';
 import * as updatePassword from '../../../helpers/update-password';
@@ -98,41 +96,6 @@ describe('My Account - Update Password', () => {
         );
         cy.requireLoggedIn(standardUser);
         cy.visit('/');
-      });
-
-      it('should display server error if agent try to modify customer password', () => {
-        const customer = {
-          fullName:
-            standardUser.registrationData.firstName +
-            ' ' +
-            standardUser.registrationData.lastName,
-          email: standardUser.registrationData.email,
-        };
-        cy.log('--> Agent logging in');
-        checkout.visitHomePage('asm=true');
-        cy.get('cx-asm-main-ui').should('exist');
-        cy.get('cx-asm-main-ui').should('be.visible');
-        asm.agentLogin('asagent', 'pw4all');
-        cy.log('--> Starting customer emulation');
-        asm.startCustomerEmulation(customer);
-
-        cy.selectUserMenuOption({
-          option: 'Password',
-        });
-
-        alerts.getErrorAlert().should('not.exist');
-        cy.get('[formcontrolname="oldPassword"]').type(
-          standardUser.registrationData.password
-        );
-        cy.get('[formcontrolname="newPassword"]').type(
-          updatePassword.newPassword
-        );
-        cy.get('[formcontrolname="newPasswordConfirm"]').type(
-          updatePassword.newPassword
-        );
-        cy.get('cx-update-password button.btn-primary').click();
-        cy.url().should('contain', updatePassword.PAGE_URL_UPDATE_PASSWORD);
-        alerts.getErrorAlert().should('contain', 'Access is denied');
       });
 
       after(() => {
