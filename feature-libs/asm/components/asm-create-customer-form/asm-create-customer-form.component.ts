@@ -138,17 +138,13 @@ export class AsmCreateCustomerFormComponent {
             `asm.createCustomerForm.validationErrors.${errorDetail.subject}`
           );
           break;
-        case 'AssistedServiceError':
-          if (errorDetail.message === 'Duplicate User id') {
-            this.addErrorMessage(
-              'asm.createCustomerForm.badRequestDuplicatedEmail',
-              {
-                emailAddress: this.createdCustomer.email,
-              }
-            );
-          } else {
-            this.addErrorMessage(unknownError);
-          }
+        case 'AssistedServiceDuplicatedUidError':
+          this.addErrorMessage(
+            'asm.createCustomerForm.badRequestDuplicatedEmail',
+            {
+              emailAddress: this.createdCustomer.email,
+            }
+          );
           break;
         default:
           this.addErrorMessage(unknownError);
