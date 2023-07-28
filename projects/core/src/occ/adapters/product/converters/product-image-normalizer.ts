@@ -37,7 +37,7 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
     const images: Images = {};
     if (source) {
       for (const image of source) {
-        const isList = image.hasOwnProperty('galleryIndex');
+        const isList = !isNaN(Number(image.galleryIndex));
         if (image.imageType) {
           if (!images.hasOwnProperty(image.imageType)) {
             images[image.imageType] = isList ? [] : {};
