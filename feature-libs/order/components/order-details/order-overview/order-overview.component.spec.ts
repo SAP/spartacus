@@ -411,6 +411,15 @@ describe('OrderOverviewComponent', () => {
       );
     });
 
+    it('should isPaymentInfoCardFull be falsy when paymentInfo is partial', () => {
+      expect(
+        component.isPaymentInfoCardFull({
+          ...mockOrder.paymentInfo,
+          expiryMonth: undefined,
+        })
+      ).toBeFalsy();
+    });
+
     it('should call getBillingAddressCardContent(billingAddress: Address)', () => {
       spyOn(component, 'getBillingAddressCardContent').and.callThrough();
 

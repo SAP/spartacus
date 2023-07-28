@@ -31,11 +31,11 @@ import {
 } from '@spartacus/core';
 import {
   ICON_TYPE,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, of, Subscription, combineLatest } from 'rxjs';
+import { Observable, Subscription, combineLatest, of } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -70,11 +70,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   deeplinkCartAlertKey: string = '';
 
   showCreateCustomerSuccessfullyAlert = false;
+
   globalMessageType = GlobalMessageType;
 
   @HostBinding('class.hidden') disabled = false;
 
   protected startingCustomerSession = false;
+  showCustomerEmulationInfoAlert = true;
 
   subscription: Subscription = new Subscription();
 
@@ -303,6 +305,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     if (customerId) {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
+      this.showCustomerEmulationInfoAlert = true;
       if (parameters) {
         // TODO(CXSPA-3090): Remove feature flag in 7.0
         if (this.featureConfig?.isLevel('6.3')) {
@@ -381,6 +384,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   closeDeeplinkCartInfoAlert(): void {
     this.asmComponentService.setShowDeeplinkCartInfoAlert(false);
+  }
+
+  closeCustomerEmulationInfoAlert(): void {
+    this.showCustomerEmulationInfoAlert = false;
   }
 
   ngOnDestroy() {
