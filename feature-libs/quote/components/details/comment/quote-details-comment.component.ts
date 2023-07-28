@@ -86,7 +86,7 @@ export class QuoteDetailsCommentComponent {
         const aTags = Array.from(this.document.getElementsByTagName('a'));
         for (const aTag of aTags) {
           if (aTag.textContent === event.item.name) {
-            aTag.scrollIntoView();
+            aTag.scrollIntoView({ block: 'center' });
             return;
           }
         }

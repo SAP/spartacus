@@ -414,7 +414,9 @@ describe('QuoteDetailsCommentComponent', () => {
       ).toHaveBeenCalledWith(true);
       tick(); //because of delay(0)
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
-      expect(aTagProduct2.scrollIntoView).toHaveBeenCalled();
+      expect(aTagProduct2.scrollIntoView).toHaveBeenCalledWith({
+        block: 'center',
+      });
     }));
 
     it('should only expand the cart but not scroll if the target item is not found in the document', fakeAsync(() => {
