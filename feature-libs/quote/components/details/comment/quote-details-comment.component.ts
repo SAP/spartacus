@@ -84,7 +84,7 @@ export class QuoteDetailsCommentComponent {
       .pipe(take(1), delay(0)) // delay this task until the UI has expanded
       .subscribe(() => {
         const aTags = Array.from(this.document.getElementsByTagName('a'));
-        for (let aTag of aTags) {
+        for (const aTag of aTags) {
           if (aTag.textContent === event.item.name) {
             aTag.scrollIntoView();
             return;
