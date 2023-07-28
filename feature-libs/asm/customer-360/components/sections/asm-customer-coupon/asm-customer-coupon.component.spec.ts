@@ -75,7 +75,7 @@ describe('AsmCustomerCouponComponent', () => {
   }
   class MockCartVoucherFacade implements Partial<CartVoucherFacade> {
     getAddVoucherResultError(): Observable<boolean> {
-      return of(true);
+      return of();
     }
 
     addVoucher(_voucherId: string, _cartId?: string | undefined): void {}
@@ -191,17 +191,14 @@ describe('AsmCustomerCouponComponent', () => {
     });
   });
 
-  it('should show error message alert when applying coupon action failed', () => {
+  it('should reload coupon list when applying coupon failed', () => {
     spyOn(cartVoucherService, 'getAddVoucherResultError').and.returnValue(
       of(true)
     );
-    spyOn(cartVoucherService, 'addVoucher').and.callThrough();
-    const couponEntry = mockCouponList.coupons[0];
-    component.applyCouponToCustomer(couponEntry);
-    expect(cartVoucherService.getAddVoucherResultError).toHaveBeenCalled();
-    component.showErrorAlertForApplyAction$.subscribe((value) => {
-      expect(value).toBe(true);
-    });
+    spyOn(component, 'refreshComponent').and.callThrough();
+    component.ngOnInit();
+    cartVoucherService.getAddVoucherResultError();
+    expect(component.refreshComponent).toHaveBeenCalled();
   });
 
   it('should close error message alert of loading data when click close button', () => {
