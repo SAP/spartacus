@@ -7,8 +7,10 @@
 import { Component } from '@angular/core';
 import {
   Quote,
+  QuoteState,
   QuoteAction,
   QuoteActionType,
+  QuoteDetailsReloadQueryEvent,
   QuoteMetadata,
   QuoteFacade,
 } from '@spartacus/quote/root';
@@ -16,8 +18,6 @@ import { EventService, TranslationService } from '@spartacus/core';
 import { Card, ICON_TYPE, SaveCardEvent } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { QuoteState } from '../../../root/model';
-import { QuoteDetailsReloadQueryEvent } from '../../../root/events/quote-list.events';
 
 @Component({
   selector: 'cx-quote-details-overview',
@@ -57,7 +57,6 @@ export class QuoteDetailsOverviewComponent {
         metaData[name] = saveCardEvent[propertyName];
       }
     });
-
     return metaData;
   }
 
@@ -111,6 +110,7 @@ export class QuoteDetailsOverviewComponent {
               title: descriptionTitle,
               text: [description ?? '-'],
               isTextArea: true,
+              charactersLimit: 550,
             },
           ],
         };

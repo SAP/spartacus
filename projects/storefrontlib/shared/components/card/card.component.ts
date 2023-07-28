@@ -4,20 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 
 export interface SaveCardEvent {
   saveMode: boolean;
-  [key: string]: any;
+  [key: string]: string | any;
 }
 
 export interface CardAction {
@@ -39,6 +32,7 @@ export interface Card {
     title?: string;
     text?: Array<string>;
     isTextArea?: boolean;
+    charactersLimit?: number;
   }>;
   img?: string;
   actions?: Array<CardAction | CardLinkAction>;
@@ -51,11 +45,9 @@ export interface Card {
 @Component({
   selector: 'cx-card',
   templateUrl: './card.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardComponent implements OnInit {
   iconTypes = ICON_TYPE;
-  leftCharacters: number;
   saveForm: UntypedFormGroup;
 
   @Output()
@@ -157,8 +149,11 @@ export class CardComponent implements OnInit {
     this.saveCard.emit(saveCardEvent);
   }
 
-  setFormControlName(name: string, index: number): string {
-    return name.toLocaleLowerCase().replace(/\s/g, '_') + '_' + index;
+  setFormControlName(name: string | undefined, index: number): string {
+    if (name) {
+      return name.toLocaleLowerCase().replace(/\s/g, '_') + '_' + index;
+    }
+    return '';
   }
 
   isCardAction(action: CardAction | CardLinkAction): action is CardAction {
@@ -171,10 +166,12 @@ export class CardComponent implements OnInit {
     return (action as CardLinkAction).link !== undefined;
   }
 
-  protected getInputCharacterLeft(formControlName: string): number {
+  protected getInputCharacterLeft(
+    formControlName: string,
+    charactersLimit: number
+  ): number {
     return (
-      this.charactersLimit -
-      (this.saveForm.get(formControlName)?.value?.length || 0)
+      charactersLimit - (this.saveForm.get(formControlName)?.value?.length || 0)
     );
   }
 

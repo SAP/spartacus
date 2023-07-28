@@ -1,9 +1,17 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, Directive, Input } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
 import { Card, CardComponent, CardLinkAction } from './card.component';
+import { AtMessageModule } from '../assistive-technology-message/assistive-technology-message.module';
+import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-icon',
@@ -13,6 +21,22 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config: any;
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy().and.stub();
+  get = createSpy().and.returnValue(of([GlobalMessageType.MSG_TYPE_ASSISTIVE]));
+}
+
+const mockCard: Card = {
+  title: 'CardComponent test',
+};
+
 describe('CardComponent', () => {
   let component: CardComponent;
   let fixture: ComponentFixture<CardComponent>;
@@ -21,8 +45,14 @@ describe('CardComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [CardComponent, MockCxIconComponent],
+        declarations: [CardComponent, MockFocusDirective, MockCxIconComponent],
+        imports: [AtMessageModule, I18nTestingModule, ReactiveFormsModule],
+        providers: [
+          {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
+          },
+        ],
       }).compileComponents();
     })
   );
@@ -31,6 +61,8 @@ describe('CardComponent', () => {
     fixture = TestBed.createComponent(CardComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
+
+    component.content = mockCard;
     fixture.detectChanges();
 
     spyOn(component.deleteCard, 'emit').and.callThrough();
@@ -38,6 +70,7 @@ describe('CardComponent', () => {
     spyOn(component.setDefaultCard, 'emit').and.callThrough();
     spyOn(component.sendCard, 'emit').and.callThrough();
     spyOn(component.editCard, 'emit').and.callThrough();
+    spyOn(component.saveCard, 'emit').and.callThrough();
   });
 
   it('should create', () => {
@@ -48,11 +81,7 @@ describe('CardComponent', () => {
     function getBorderClass(elem: DebugElement) {
       return elem.query(By.css('.cx-card-border'));
     }
-    const mockCard: Card = {
-      text: ['hello'],
-    };
     component.border = true;
-    component.content = mockCard;
     fixture.detectChanges();
     expect(getBorderClass(el)).toBeTruthy();
   });
@@ -61,11 +90,8 @@ describe('CardComponent', () => {
     function getFitToContainerClass(elem: DebugElement) {
       return elem.query(By.css('.cx-card-fit-to-container'));
     }
-    const mockCard: Card = {
-      text: ['hello'],
-    };
+    component.content.text = ['hello'];
     component.fitToContainer = true;
-    component.content = mockCard;
     fixture.detectChanges();
     expect(getFitToContainerClass(el)).toBeTruthy();
   });

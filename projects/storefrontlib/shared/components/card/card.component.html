@@ -80,18 +80,21 @@
                   <ng-container *ngIf="item.isTextArea">
                     <textarea
                       class="form-control cx-card-paragraph-textarea"
-                      [maxLength]="charactersLimit"
+                      [maxLength]="item.charactersLimit"
                       rows="4"
                       name="{{ setFormControlName(item.title, i) }}"
                       formControlName="{{ setFormControlName(item.title, i) }}"
                     ></textarea>
+                  </ng-container>
+                  <ng-container *ngIf="item.charactersLimit">
                     <p class="cx-card-paragraph-info-text">
                       {{
                         'common.charactersLeft'
                           | cxTranslate
                             : {
                                 count: getInputCharacterLeft(
-                                  setFormControlName(item.title, i)
+                                  setFormControlName(item.title, i),
+                                  item.charactersLimit
                                 )
                               }
                       }}
@@ -126,6 +129,7 @@
         </button>
       </div>
     </div>
+    <!-- Save Mode Actions -->
     <div *ngIf="saveMode" class="cx-card-body-save">
       <button class="btn btn-block btn-secondary" (click)="save()">
         {{ 'common.save' | cxTranslate }}
