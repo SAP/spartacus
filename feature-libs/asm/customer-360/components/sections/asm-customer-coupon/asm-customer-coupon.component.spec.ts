@@ -25,6 +25,7 @@ describe('AsmCustomerCouponComponent', () => {
   const mockCart: Cart = {
     code: 'cartId',
   };
+  const mockUserId = 'userId';
   const mockCouponList: Customer360CouponList = {
     type: Customer360Type.COUPON_LIST,
     coupons: [
@@ -84,7 +85,7 @@ describe('AsmCustomerCouponComponent', () => {
   }
   class MockUserIdService implements Partial<UserIdService> {
     getUserId(): Observable<string> {
-      return of('userId');
+      return of(mockUserId);
     }
   }
   class MockActiveCartFacade implements Partial<ActiveCartFacade> {
@@ -130,18 +131,11 @@ describe('AsmCustomerCouponComponent', () => {
     fixture = TestBed.createComponent(AsmCustomerCouponComponent);
     component = fixture.componentInstance;
     context = TestBed.inject(Customer360SectionContextSource);
-    // context.data$.next(mockCouponList);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should fetch coupon list from context at init', () => {
-    component.entries$.subscribe((value) => {
-      expect(value).toEqual(mockCouponList.coupons);
-    });
   });
 
   it('should not display error message alert at init', () => {
@@ -151,6 +145,14 @@ describe('AsmCustomerCouponComponent', () => {
     component.showErrorAlertForApplyAction$.subscribe((value) => {
       expect(value).toBe(false);
     });
+  });
+
+  it('should get current cartId at init', () => {
+    expect(component.currentCartId).toEqual(mockCart.code);
+  });
+
+  it('should get userId at init', () => {
+    expect(component.userId).toEqual(mockUserId);
   });
 
   it('should be able to reload coupon list', () => {
