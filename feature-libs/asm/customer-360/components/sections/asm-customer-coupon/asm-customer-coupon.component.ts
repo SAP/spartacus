@@ -76,7 +76,7 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
   fetchCoupons() {
     this.entries$ = combineLatest([this.context.data$]).pipe(
       map(([data]) => {
-        let entries: Array<CouponEntry> = [];
+        const entries: Array<CouponEntry> = [];
         data.coupons.forEach((coupon) => {
           entries.push({
             ...coupon,
@@ -111,7 +111,6 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
       ])
       .pipe(
         map((response) => {
-          console.log(response);
           const couponList = response?.value?.find(
             (item) => item.type === Customer360Type.COUPON_LIST
           ) as Customer360CouponList;
@@ -128,8 +127,7 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
           }
           return newEntries;
         }),
-        catchError((error) => {
-          console.log(error);
+        catchError(() => {
           this.showErrorAlert$.next(true);
           return of([]);
         })
