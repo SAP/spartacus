@@ -83,10 +83,10 @@ export class QuoteDetailsCommentComponent {
       .getQuoteEntriesExpanded()
       .pipe(take(1), delay(0)) // delay this task until the UI has expanded
       .subscribe(() => {
-        const aTags = this.document.getElementsByTagName('a');
-        for (let ii = 0; ii < aTags.length; ii++) {
-          if (aTags[ii].textContent === event.item.name) {
-            aTags[ii].scrollIntoView();
+        const aTags = Array.from(this.document.getElementsByTagName('a'));
+        for (let aTag of aTags) {
+          if (aTag.textContent === event.item.name) {
+            aTag.scrollIntoView();
             return;
           }
         }
