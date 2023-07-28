@@ -103,24 +103,29 @@ export class QuoteDetailsCommentComponent {
       ),
       dateFormat: 'MMMM d, yyyy h:mm aa',
       defaultItemId: ALL_PRODUCTS_ID,
-      itemList$: this.quoteDetails$.pipe(
-        map((quote) => {
-          let name: string = 'quote.comments.allProducts';
-          this.translationService
-            .translate(name)
-            .pipe(take(1))
-            .subscribe((text) => (name = text));
-          const itemList: Item[] = [{ id: ALL_PRODUCTS_ID, name: name }];
-          quote.entries?.forEach((entry) => {
-            const item = this.convertToItem(entry);
-            if (item) {
-              itemList.push(item);
-            }
-          });
-          return itemList;
-        })
-      ),
+      itemList$: this.prepareItemList(),
     };
+  }
+
+  private prepareItemList(): Observable<Item[]> | undefined {
+    let allProducts: string = 'quote.comments.allProducts';
+    this.translationService
+      .translate(allProducts)
+      .pipe(take(1))
+      .subscribe((text) => (allProducts = text));
+
+    return this.quoteDetails$.pipe(
+      map((quote) => {
+        const itemList: Item[] = [{ id: ALL_PRODUCTS_ID, name: allProducts }];
+        quote.entries?.forEach((entry) => {
+          const item = this.convertToItem(entry);
+          if (item) {
+            itemList.push(item);
+          }
+        });
+        return itemList;
+      })
+    );
   }
 
   private convertToItem(entry: OrderEntry | undefined): Item | undefined {
