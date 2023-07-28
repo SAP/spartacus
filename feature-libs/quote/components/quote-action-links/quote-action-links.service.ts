@@ -12,6 +12,7 @@ import {
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
 import { EventService, RoutingService, UserIdService } from '@spartacus/core';
+import { QuoteCartService } from '@spartacus/quote/root';
 import { Observable, merge } from 'rxjs';
 import { tap, take, withLatestFrom, switchMap, mapTo } from 'rxjs/operators';
 
@@ -24,15 +25,20 @@ export class QuoteActionLinksService {
     protected userIdService: UserIdService,
     protected multiCartFacade: MultiCartFacade,
     protected routingService: RoutingService,
-    protected eventService: EventService
+    protected eventService: EventService,
+    protected quoteCartService: QuoteCartService
   ) {}
 
   clearCart(): Observable<boolean> {
     return this.activeCartFacade.getActiveCartId().pipe(
       withLatestFrom(this.userIdService.getUserId()),
       take(1),
+      //TODO switch to create cart , in tap only disable quote cart
       tap(([cartId, userId]) => {
-        this.multiCartFacade.deleteCart(cartId, userId);
+        this.multiCartFacade.createCart({userId, oldCartId:undefined, toMergeCartGuid:undefined,extraData:{active:true}});
+        console.log("CHHI old id: "+ cartId);
+        //this.multiCartFacade.deleteCart(cartId, userId);
+        this.quoteCartService.setQuoteCartActive(false);
       }),
       switchMap(() =>
         merge(
