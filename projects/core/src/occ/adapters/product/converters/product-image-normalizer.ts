@@ -101,6 +101,6 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
 
   private hasGalleryIndex(image: Occ.Image) {
     const galleryIndex = image.galleryIndex ?? false;
-    return galleryIndex !== false;
+    return !isNaN(Number(image.galleryIndex));
   }
 }
