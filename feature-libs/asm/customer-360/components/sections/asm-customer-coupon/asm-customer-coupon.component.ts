@@ -73,10 +73,6 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
     this.fetchCoupons();
   }
 
-  get errorAlert$(): Observable<boolean> {
-    return this.showErrorAlert$.asObservable();
-  }
-
   fetchCoupons() {
     this.entries$ = combineLatest([this.context.data$]).pipe(
       map(([data]) => {
