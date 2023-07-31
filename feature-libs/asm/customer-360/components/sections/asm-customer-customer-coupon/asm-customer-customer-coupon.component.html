@@ -1,0 +1,17 @@
+<cx-asm-customer-promotion-listing
+  [emptyStateText]="'customer360.coupons.emptyDescription' | cxTranslate"
+  [headerText]="'customer360.coupons.headerText' | cxTranslate"
+  [entries]="entries$ | async"
+  [showAlert]="false"
+  [showAlertForApplyAction]="false"
+  (apply)="applyCouponToCustomer($event)"
+  (remove)="removeCouponToCustomer($event)"
+  (removeAlert)="closeErrorAlert()"
+  (removeAlertForApplyAction)="closeErrorAlertForApplyAction()"
+  [applyButtonText]="'customer360.customerCoupons.applyButtonText' | cxTranslate"
+  [applied]="'customer360.coupons.applied' | cxTranslate"
+  [removeButtonText]="'customer360.customerCoupons.removeButtonText' | cxTranslate"
+  [showRemoveButton]="true"
+  [showApplyButton]="true"
+>
+</cx-asm-customer-promotion-listing>
