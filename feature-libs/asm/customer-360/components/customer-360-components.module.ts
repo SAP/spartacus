@@ -42,6 +42,7 @@ import {
 } from './sections/components';
 import { AsmCustomerCouponComponent } from './sections/asm-customer-coupon/asm-customer-coupon.component';
 import { AsmCustomerCouponComponentModule } from './sections/asm-customer-coupon/asm-customer-coupon.module';
+import { AsmCustomerCustomerCouponComponent } from './sections/asm-customer-customer-coupon/asm-customer-customer-coupon.component';
 
 @NgModule({
   imports: [
@@ -62,6 +63,7 @@ import { AsmCustomerCouponComponentModule } from './sections/asm-customer-coupon
     AsmCustomerMapComponentModule,
     AsmCustomerProductReviewsComponentModule,
     AsmCustomerSupportTicketsComponentModule,
+    AsmCustomerCouponComponentModule,
     AsmCustomerCouponComponentModule,
     FeaturesConfigModule,
   ],
@@ -99,6 +101,9 @@ import { AsmCustomerCouponComponentModule } from './sections/asm-customer-coupon
         },
         AsmCustomer360CouponComponent: {
           component: AsmCustomerCouponComponent,
+        },
+        AsmCustomer360CustomerCouponComponent: {
+          component: AsmCustomerCustomerCouponComponent,
         },
       },
     }),
