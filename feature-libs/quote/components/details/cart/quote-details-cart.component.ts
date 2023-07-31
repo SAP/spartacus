@@ -26,7 +26,7 @@ export class QuoteDetailsCartComponent {
     protected quoteDetailsCartService: QuoteDetailsCartService
   ) {}
 
-  onToggleShowCart(showCart: boolean) {
+  onToggleShowOrHideCart(showCart: boolean) {
     this.quoteDetailsCartService.setQuoteEntriesExpanded(!showCart);
   }
 }

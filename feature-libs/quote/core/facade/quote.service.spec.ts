@@ -267,7 +267,7 @@ describe('QuoteService', () => {
       });
   });
 
-  it('should call addQuoteComment command when called with empty string a entry number', () => {
+  it('should call addQuoteComment command when called with empty string of an entry number', () => {
     service
       .addQuoteComment(mockQuote.code, mockComment, '')
       .pipe(take(1))
