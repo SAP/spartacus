@@ -11,6 +11,7 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  Customer360Coupon,
   Customer360CouponList,
   Customer360Facade,
   Customer360Type,
@@ -26,7 +27,6 @@ import {
 import { catchError, map } from 'rxjs/operators';
 import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/base/root';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
-import { CouponEntry } from './asm-customer-coupon.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,7 +38,7 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
   showErrorAlertForApplyAction$ = new BehaviorSubject<boolean>(false);
   currentCartId: string | undefined;
   userId: string;
-  entries$: Observable<Array<CouponEntry>>;
+  entries$: Observable<Array<Customer360Coupon>>;
   subscription = new Subscription();
 
   constructor(
@@ -76,7 +76,7 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
   fetchCoupons() {
     this.entries$ = combineLatest([this.context.data$]).pipe(
       map(([data]) => {
-        const entries: Array<CouponEntry> = [];
+        const entries: Array<Customer360Coupon> = [];
         data.coupons.forEach((coupon) => {
           entries.push({
             ...coupon,
@@ -111,7 +111,7 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
           const couponList = response?.value?.find(
             (item) => item.type === Customer360Type.COUPON_LIST
           ) as Customer360CouponList;
-          const newEntries: Array<CouponEntry> = [];
+          const newEntries: Array<Customer360Coupon> = [];
           if (couponList.coupons) {
             couponList.coupons.forEach((coupon) => {
               newEntries.push({
@@ -128,12 +128,12 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
       );
   }
 
-  applyCouponToCustomer(entry: CouponEntry) {
+  applyCouponToCustomer(entry: Customer360Coupon) {
     this.cartVoucherService.addVoucher(entry?.code, this.currentCartId);
     this.refreshActionButton(true, entry?.code);
   }
 
-  removeCouponToCustomer(entry: CouponEntry) {
+  removeCouponToCustomer(entry: Customer360Coupon) {
     this.cartVoucherService.removeVoucher(entry?.code, this.currentCartId);
     this.refreshActionButton(false, entry?.code);
   }
