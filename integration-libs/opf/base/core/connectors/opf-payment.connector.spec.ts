@@ -9,7 +9,6 @@ class MockOpfPaymentAdapter implements OpfPaymentAdapter {
   verifyPayment = createSpy().and.returnValue(of({}));
   submitPayment = createSpy().and.returnValue(of({}));
   submitCompletePayment = createSpy().and.returnValue(of({}));
-  
 }
 
 describe('OpfPaymentConnector', () => {
