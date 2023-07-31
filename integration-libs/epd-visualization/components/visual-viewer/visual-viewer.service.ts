@@ -1104,22 +1104,17 @@ export class VisualViewerService implements OnDestroy {
       this.windowRef.document
         .getElementsByTagName('head')[0]
         .appendChild(script);
-
-      (this.windowRef.document as any).onUi5Bootstrapped = () => {
+      script.onload = () => {
         subscriber.next();
         subscriber.complete();
       };
-
       script.onerror = (error: any) => {
         subscriber.error(error);
         subscriber.complete();
       };
-
       script.id = 'sap-ui-bootstrap';
       script.type = 'text/javascript';
       script.setAttribute('data-sap-ui-compatVersion', 'edge');
-      script.setAttribute('data-sap-ui-async', 'true');
-      script.setAttribute('data-sap-ui-onInit', 'document.onUi5Bootstrapped()');
       script.src = ui5Config.bootstrapUrl;
     });
   }

@@ -32,12 +32,7 @@ export class VisualPickingTabComponent implements AfterViewInit {
     );
   }
 
-  public get selectedProductCodes() {
-    return this.visualPickingTabService.selectedProductCodes;
-  }
-  public set selectedProductCodes(selectedProducts: string[]) {
-    this.visualPickingTabService.selectedProductCodes = selectedProducts;
-  }
+  selectedProductCodes: string[] = [];
 
   @ViewChild(VisualViewerComponent, { read: VisualViewerService })
   visualViewerService: VisualViewerService;
