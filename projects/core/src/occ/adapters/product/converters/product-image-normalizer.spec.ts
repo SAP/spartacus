@@ -138,7 +138,6 @@ describe('ProductImageNormalizer', () => {
 
   it('should convert product image', () => {
     const result = service.convert(product);
-    console.log('result', result);
     expect(result).toEqual(convertedProduct);
   });
 });
