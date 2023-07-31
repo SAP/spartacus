@@ -79,7 +79,7 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
         const entries: Array<CouponEntry> = [];
         data.coupons.forEach((coupon) => {
           entries.push({
-            ...coupon
+            ...coupon,
           });
         });
         return entries;
@@ -115,7 +115,7 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
           if (couponList.coupons) {
             couponList.coupons.forEach((coupon) => {
               newEntries.push({
-                ...coupon
+                ...coupon,
               });
             });
           }
