@@ -17,6 +17,16 @@
     (closeMessage)="removeAlertForApplyAction.emit()"
   ></cx-message>
 </div>
+<div class="cx-tab-headers" role="tablist" *ngIf="isCustomerCoupon">
+  <button [textContent]="'customer360.customerCoupons.availableTab'  | cxTranslate">
+  </button>
+  <button [textContent]="'customer360.customerCoupons.sentTab'  | cxTranslate">
+  </button>
+</div>
+<ng-container *ngIf="isCustomerCoupon">
+  <hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
+  <cx-searchbox></cx-searchbox>
+</ng-container>
 <table class="cx-asm-customer-promotion-listing">
   <ng-container *ngFor="let entry of entries">
     <tr class="cx-asm-customer-promotion-listing-row">
@@ -44,16 +54,16 @@
         <ng-container *ngIf="entry.applied">
           <tr class="cx-asm-customer-promotion-listing-action">
             <td>
-              <cx-icon class="success" type="SUCCESS"></cx-icon>
+              <cx-icon class="success" type="SUCCESS" *ngIf="!isCustomerCoupon"></cx-icon>
             </td>
             <td
-              *ngIf="showApplyButton"
+              *ngIf="showApplyButton&&!isCustomerCoupon"
               class="cx-asm-customer-promotion-listing-applied"
             >
               {{ applied }}
             </td>
             <td
-              *ngIf="showRemoveButton"
+              *ngIf="showRemoveButton&&!isCustomerCoupon"
               class="cx-asm-customer-promotion-listing-action-separator"
             >
               |

@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import {
   Customer360CouponList,
-  Customer360CustomerCoupon,
+  Customer360CustomerCouponList,
   Customer360Facade,
   Customer360Type,
 } from '@spartacus/asm/customer-360/root';
@@ -43,7 +43,7 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
 
   constructor(
-    protected context: Customer360SectionContext<Customer360CouponList>,
+    protected context: Customer360SectionContext<Customer360CustomerCouponList>,
     protected cartVoucherService: CartVoucherFacade,
     protected userIdService: UserIdService,
     protected activeCartFacade: ActiveCartFacade,
@@ -51,36 +51,39 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.userIdService.getUserId().subscribe((user) => {
-        this.userId = user ?? '';
-      })
-    );
-    this.subscription.add(
-      this.activeCartFacade.requireLoadedCart().subscribe((cart) => {
-        this.currentCartId = cart?.code;
-      })
-    );
-    this.subscription.add(
-      this.cartVoucherService.getAddVoucherResultError().subscribe((error) => {
-        if (error) {
-          this.refreshComponent();
-          this.showErrorAlertForApplyAction$.next(true);
-        }
-      })
-    );
-    this.showErrorAlert$.next(false);
-    this.showErrorAlertForApplyAction$.next(false);
+    // this.subscription.add(
+    //   this.userIdService.getUserId().subscribe((user) => {
+    //     this.userId = user ?? '';
+    //   })
+    // );
+    // this.subscription.add(
+    //   this.activeCartFacade.requireLoadedCart().subscribe((cart) => {
+    //     this.currentCartId = cart?.code;
+    //   })
+    // );
+    // this.subscription.add(
+    //   this.cartVoucherService.getAddVoucherResultError().subscribe((error) => {
+    //     if (error) {
+    //       this.refreshComponent();
+    //       this.showErrorAlertForApplyAction$.next(true);
+    //     }
+    //   })
+    // );
+    // this.showErrorAlert$.next(false);
+    // this.showErrorAlertForApplyAction$.next(false);
     this.fetchCoupons();
   }
 
   fetchCoupons() {
     this.entries$ = combineLatest([this.context.data$]).pipe(
       map(([data]) => {
-        const entries: Array<Customer360CustomerCoupon> = [];
-        data.coupons.forEach((customerCoupon) => {
+        const entries: Array<CustomerCouponEntry> = [];
+        data.customerCoupons.forEach((customerCoupon) => {
           entries.push({
-            ...customerCoupon,
+            code:customerCoupon.name,
+            name:customerCoupon.description,
+            codeForApplyAction:customerCoupon.code,
+            applied:false,
           });
         });
         return entries;
@@ -112,7 +115,7 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
           const couponList = response?.value?.find(
             (item) => item.type === Customer360Type.COUPON_LIST
           ) as Customer360CouponList;
-          const newEntries: Array<CouponEntry> = [];
+          const newEntries: Array<CustomerCouponEntry> = [];
           if (couponList.coupons) {
             couponList.coupons.forEach((coupon) => {
               newEntries.push({
@@ -129,28 +132,28 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
       );
   }
 
-  applyCouponToCustomer(entry: CouponEntry) {
+  applyCouponToCustomer(entry: CustomerCouponEntry) {
     this.cartVoucherService.addVoucher(entry?.code, this.currentCartId);
-    this.refreshActionButton(true, entry?.code);
+    // this.refreshActionButton(true, entry?.code);
   }
 
-  removeCouponToCustomer(entry: CouponEntry) {
+  removeCouponToCustomer(entry: CustomerCouponEntry) {
     this.cartVoucherService.removeVoucher(entry?.code, this.currentCartId);
-    this.refreshActionButton(false, entry?.code);
+    // this.refreshActionButton(false, entry?.code);
   }
 
-  refreshActionButton(state: boolean, voucherCode: string) {
-    this.entries$ = this.entries$.pipe(
-      map((entries) => {
-        entries.forEach((item) => {
-          if (item.code === voucherCode) {
-            item.applied = state;
-          }
-        });
-        return entries;
-      })
-    );
-  }
+  // refreshActionButton(state: boolean, voucherCode: string) {
+  //   this.entries$ = this.entries$.pipe(
+  //     map((entries) => {
+  //       entries.forEach((item) => {
+  //         if (item.code === voucherCode) {
+  //           item.applied = state;
+  //         }
+  //       });
+  //       return entries;
+  //     })
+  //   );
+  // }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

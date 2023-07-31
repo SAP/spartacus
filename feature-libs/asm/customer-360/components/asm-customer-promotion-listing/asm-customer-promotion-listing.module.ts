@@ -12,19 +12,21 @@ import {
   StarRatingModule,
   IconModule,
   MessageComponentModule,
+  SearchBoxModule,
 } from '@spartacus/storefront';
 import { AsmCustomerPromotionListingComponent } from './asm-customer-promotion-listing.component';
 
 @NgModule({
-  declarations: [AsmCustomerPromotionListingComponent],
-  exports: [AsmCustomerPromotionListingComponent],
-  imports: [
-    CommonModule,
-    I18nModule,
-    ArgsModule,
-    StarRatingModule,
-    MessageComponentModule,
-    IconModule,
-  ],
+    declarations: [AsmCustomerPromotionListingComponent],
+    exports: [AsmCustomerPromotionListingComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        ArgsModule,
+        StarRatingModule,
+        MessageComponentModule,
+        IconModule,
+        SearchBoxModule
+    ]
 })
 export class AsmCustomerPromotionListingModule {}

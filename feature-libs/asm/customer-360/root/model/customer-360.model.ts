@@ -42,7 +42,7 @@ export interface Customer360Coupon {
 }
 
 export interface Customer360CustomerCoupon {
-  code: string;
+  code?: string;
   name?: string;
   description?: string;
 }
@@ -200,7 +200,7 @@ export interface Customer360CouponList {
 
 export interface Customer360CustomerCouponList {
   type: Customer360Type.CUSTOMER_COUPON_LIST;
-  coupons: Array<Customer360CustomerCoupon>;
+  customerCoupons: Array<Customer360CustomerCoupon>;
 }
 
 export interface Customer360Params {

@@ -12,4 +12,5 @@ export interface GeneralEntry extends PromotionListEntry {
   applied: boolean;
   code: string;
   name?: string;
+  description?: string;
 }

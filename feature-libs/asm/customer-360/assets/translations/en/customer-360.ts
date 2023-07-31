@@ -102,6 +102,8 @@ export const customer360 = {
       emptyDescription: 'There are currently no customer coupons',
       applyButtonText: 'Assign to Customer',
       removeButtonText: 'Remove',
+      availableTab: 'Available',
+      sentTab: 'Sent'
     },
     maps: {
       storeClosed: 'Close',
