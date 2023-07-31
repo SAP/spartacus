@@ -12,7 +12,7 @@
   ></cx-message>
   <cx-message
     *ngIf="showAlertForApplyAction"
-    [text]="'customer360.alertErrorMessageForApplyAction' | cxTranslate"
+    [text]="'customer360.applyActionAlter' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_ERROR"
     (closeMessage)="removeAlertForApplyAction.emit()"
   ></cx-message>
@@ -32,7 +32,7 @@
           }}
         </tr>
       </td>
-      <td id="couponStatus">
+      <td>
         <ng-container *ngIf="!entry.applied">
           <button
             class="cx-asm-customer-promotion-listing-apply-button"
