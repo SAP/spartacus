@@ -14,7 +14,8 @@ export function getTestConfig(): EpdVisualizationConfig {
           'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com',
       },
       ui5: {
-        bootstrapUrl: 'https://ui5.sap.com/1.108/resources/sap-ui-core.js',
+        bootstrapUrl:
+          'https://sapui5.hana.ondemand.com/1.108.14/resources/sap-ui-core.js',
       },
     },
   };
