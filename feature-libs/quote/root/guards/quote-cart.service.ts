@@ -13,9 +13,11 @@ import { Observable, ReplaySubject } from 'rxjs';
 export class QuoteCartService {
   private quoteId: Observable<string> = new ReplaySubject<string>(1);
   private quoteCartActive: Observable<boolean> = new ReplaySubject<boolean>(1);
+  private checkoutAllowed: Observable<boolean> = new ReplaySubject<boolean>(1);
 
   constructor() {
     (this.quoteCartActive as ReplaySubject<boolean>).next(false);
+    (this.checkoutAllowed as ReplaySubject<boolean>).next(false);
     (this.quoteId as ReplaySubject<string>).next('');
   }
 
@@ -33,5 +35,13 @@ export class QuoteCartService {
 
   public getQuoteCartActive(): Observable<boolean> {
     return this.quoteCartActive;
+  }
+
+  public setCheckoutAllowed(checkoutAllowed: boolean): void {
+    (this.checkoutAllowed as ReplaySubject<boolean>).next(checkoutAllowed);
+  }
+
+  public isCheckoutAllowed(): Observable<boolean> {
+    return this.checkoutAllowed;
   }
 }

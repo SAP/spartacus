@@ -169,9 +169,16 @@ export class QuoteService implements QuoteFacade {
             this.quoteCartService.setQuoteCartActive(false);
             this.cartUtilsService.createNewCartAndGoToQuoteList();
           }
-          if (payload.quoteAction === QuoteActionType.EDIT) {
+          if (
+            payload.quoteAction === QuoteActionType.EDIT ||
+            payload.quoteAction === QuoteActionType.CHECKOUT
+          ) {
             this.quoteCartService.setQuoteCartActive(true);
             this.quoteCartService.setQuoteId(payload.quoteCode);
+          }
+
+          if (payload.quoteAction === QuoteActionType.CHECKOUT) {
+            this.quoteCartService.setCheckoutAllowed(true);
           }
           this.isActionPerforming$.next(false);
           this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
