@@ -15,7 +15,12 @@ import {
   QuoteFacade,
 } from '@spartacus/quote/root';
 import { EventService, TranslationService } from '@spartacus/core';
-import { Card, ICON_TYPE, SaveCardEvent } from '@spartacus/storefront';
+import {
+  Card,
+  FocusConfig,
+  ICON_TYPE,
+  SaveCardEvent,
+} from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
@@ -34,6 +39,13 @@ export class QuoteDetailsOverviewComponent {
     protected translationService: TranslationService
   ) {}
 
+  focusConfig: FocusConfig = {
+    trap: false,
+    block: true,
+    autofocus: 'input',
+    focusOnEscape: false,
+  };
+
   protected defineEmptyQuoteMetaData(): QuoteMetadata {
     return {
       description: undefined,
@@ -44,6 +56,8 @@ export class QuoteDetailsOverviewComponent {
 
   protected defineQuoteMetaData(saveCardEvent: SaveCardEvent): QuoteMetadata {
     const metaData: QuoteMetadata = this.defineEmptyQuoteMetaData();
+    console.log(saveCardEvent);
+
     const metaDataPropertyNames = Object.getOwnPropertyNames(metaData);
     const saveCardEventPropertyNames =
       Object.getOwnPropertyNames(saveCardEvent);

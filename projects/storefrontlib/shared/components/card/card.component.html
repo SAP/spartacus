@@ -58,10 +58,12 @@
         <form [formGroup]="saveForm">
           <div
             class="cx-card-paragraph"
-            *ngFor="let item of content.paragraphs"
+            *ngFor="let item of content.paragraphs; trackBy: trackByFn"
           >
             <div class="cx-card-paragraph-title">{{ item.title }}</div>
-            <div *ngFor="let text of item.text; let i = index">
+            <div
+              *ngFor="let text of item.text; let i = index; trackBy: trackByFn"
+            >
               <ng-container *ngIf="!saveMode">
                 <div class="cx-card-paragraph-text">
                   {{ text }}

@@ -156,6 +156,10 @@ export class CardComponent implements OnInit {
     return '';
   }
 
+  trackByFn(index: any) {
+    return index;
+  }
+
   isCardAction(action: CardAction | CardLinkAction): action is CardAction {
     return (action as CardAction).event !== undefined;
   }
