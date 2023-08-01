@@ -56,8 +56,6 @@ export class QuoteDetailsOverviewComponent {
 
   protected defineQuoteMetaData(saveCardEvent: SaveCardEvent): QuoteMetadata {
     const metaData: QuoteMetadata = this.defineEmptyQuoteMetaData();
-    console.log(saveCardEvent);
-
     const metaDataPropertyNames = Object.getOwnPropertyNames(metaData);
     const saveCardEventPropertyNames =
       Object.getOwnPropertyNames(saveCardEvent);

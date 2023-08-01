@@ -3,13 +3,14 @@ import { QuoteDetailsCartComponent } from './quote-details-cart.component';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
 
 import { I18nTestingModule } from '@spartacus/core';
-import { IconTestingModule } from '@spartacus/storefront';
+import { IconTestingModule, OutletDirective } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import {
   QUOTE_CODE,
   createEmptyQuote,
 } from '../../../core/testing/quote-test-utils';
 import { By } from '@angular/platform-browser';
+import { Directive, Input } from '@angular/core';
 
 const quote: Quote = createEmptyQuote();
 
@@ -19,11 +20,19 @@ class MockQuoteFacade implements Partial<QuoteFacade> {
   }
 }
 
+@Directive({
+  selector: '[cxOutlet]',
+})
+class MockOutletDirective implements Partial<OutletDirective> {
+  @Input() cxOutlet: string;
+  @Input() cxOutletContext: {};
+}
+
 describe('QuoteDetailsCartComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, IconTestingModule],
-      declarations: [QuoteDetailsCartComponent],
+      declarations: [QuoteDetailsCartComponent, MockOutletDirective],
       providers: [
         {
           provide: QuoteFacade,

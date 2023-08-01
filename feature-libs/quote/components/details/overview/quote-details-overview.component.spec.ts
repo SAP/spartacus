@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -9,7 +9,7 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
-import { CardModule } from '@spartacus/storefront';
+import { CardModule, ICON_TYPE } from '@spartacus/storefront';
 
 import { Observable, of } from 'rxjs';
 import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
@@ -59,6 +59,14 @@ class MockTranslationService implements Partial<TranslationService> {
 })
 export class MockQuoteActionLinksComponent {}
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
 describe('QuoteDetailsOverviewComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsOverviewComponent>;
   let component: QuoteDetailsOverviewComponent;
@@ -68,6 +76,7 @@ describe('QuoteDetailsOverviewComponent', () => {
       imports: [I18nTestingModule, CardModule, RouterTestingModule],
       declarations: [
         QuoteDetailsOverviewComponent,
+        MockCxIconComponent,
         MockQuoteActionLinksComponent,
       ],
       providers: [
