@@ -127,7 +127,7 @@ if (environment.s4om) {
 }
 if (environment.opf) {
   featureModules.push(OpfFeatureModule);
-}  
+}
 if (environment.segmentRefs) {
   featureModules.push(SegmentRefsFeatureModule);
 }

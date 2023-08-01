@@ -492,6 +492,38 @@
       "@spartacus/epd-visualization/root": [
         "../../integration-libs/epd-visualization/root/public_api"
       ],
+      "@spartacus/opf/base/assets": [
+        "../../integration-libs/opf/base/assets/public_api"
+      ],
+      "@spartacus/opf/base/core": [
+        "../../integration-libs/opf/base/core/public_api"
+      ],
+      "@spartacus/opf/base": ["../../integration-libs/opf/base/public_api"],
+      "@spartacus/opf/base/occ": [
+        "../../integration-libs/opf/base/occ/public_api"
+      ],
+      "@spartacus/opf/base/root": [
+        "../../integration-libs/opf/base/root/public_api"
+      ],
+      "@spartacus/opf/checkout/assets": [
+        "../../integration-libs/opf/checkout/assets/public_api"
+      ],
+      "@spartacus/opf/checkout/components": [
+        "../../integration-libs/opf/checkout/components/public_api"
+      ],
+      "@spartacus/opf/checkout/core": [
+        "../../integration-libs/opf/checkout/core/public_api"
+      ],
+      "@spartacus/opf/checkout": [
+        "../../integration-libs/opf/checkout/public_api"
+      ],
+      "@spartacus/opf/checkout/occ": [
+        "../../integration-libs/opf/checkout/occ/public_api"
+      ],
+      "@spartacus/opf/checkout/root": [
+        "../../integration-libs/opf/checkout/root/public_api"
+      ],
+      "@spartacus/opf": ["../../integration-libs/opf/public_api"],
       "@spartacus/s4om/assets": [
         "../../integration-libs/s4om/assets/public_api"
       ],
