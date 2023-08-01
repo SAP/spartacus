@@ -213,17 +213,8 @@
       "@spartacus/customer-ticketing/root": [
         "feature-libs/customer-ticketing/root/public_api"
       ],
-      "@spartacus/order/assets": [
-        "feature-libs/order/assets/public_api"
-      ],
-      "@spartacus/order/components": [
-        "feature-libs/order/components/public_api"
-      ],
       "@spartacus/order/core": [
         "feature-libs/order/core/public_api"
-      ],
-      "@spartacus/order": [
-        "feature-libs/order/public_api"
       ],
       "@spartacus/opf": ["integration-libs/opf/public_api"],
       "@spartacus/opf/checkout": ["integration-libs/opf/checkout/public_api"],
@@ -253,6 +244,7 @@
       "@spartacus/order/assets": ["feature-libs/order/assets/public_api"],
       "@spartacus/order/components": [
         "feature-libs/order/components/public_api"
+      ],
       "@spartacus/order/occ": [
         "feature-libs/order/occ/public_api"
       ],
