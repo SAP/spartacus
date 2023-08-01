@@ -57,14 +57,6 @@ export class MediaService {
       ? mediaContainer
       : this.resolveMedia(mediaContainer as MediaContainer, format);
 
-    console.log({
-      src: this.resolveAbsoluteUrl(mainMedia?.url ?? ''),
-      alt: alt ?? mainMedia?.altText,
-      role: role ?? mainMedia?.role,
-      srcset: this.resolveSrcSet(mediaContainer, format),
-      sizes: this.resolveSizes(mediaContainer, format),
-    });
-
     return {
       src: this.resolveAbsoluteUrl(mainMedia?.url ?? ''),
       alt: alt ?? mainMedia?.altText,
@@ -189,11 +181,10 @@ export class MediaService {
 
     const hasMobile =
       formats.filter((format) => format.code === 'mobile').length > 0;
+    const image = (media as MediaContainer)['mobile'];
 
-    if (hasMobile) {
-      srcset += `, ${this.resolveAbsoluteUrl(
-        (media as MediaContainer)['mobile'].url ?? ''
-      )} 3x`;
+    if (hasMobile && !!image) {
+      srcset += `, ${this.resolveAbsoluteUrl(image.url ?? '')} 3x`;
     }
 
     return srcset === '' ? undefined : srcset;
