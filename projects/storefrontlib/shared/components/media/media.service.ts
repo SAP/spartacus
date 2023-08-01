@@ -224,7 +224,7 @@ export class MediaService {
         if (set) {
           set += ', ';
         }
-        set += `(max-width: ${format.size.width}px) 100vw`;
+        set += `(max-width: ${format.size.width}px) ${format.size.width}px`;
       }
       return set;
     }, '');
