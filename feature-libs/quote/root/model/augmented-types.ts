@@ -5,6 +5,7 @@
  */
 
 import '@spartacus/storefront';
+import { Comment } from './quote.model';
 
 declare module '@spartacus/cart/base/root' {
   interface OrderEntry {

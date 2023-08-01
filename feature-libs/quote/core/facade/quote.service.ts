@@ -121,17 +121,31 @@ export class QuoteService implements QuoteFacade {
   protected addQuoteCommentCommand: Command<{
     quoteCode: string;
     quoteComment: Comment;
-  }> = this.commandService.create<{ quoteCode: string; quoteComment: Comment }>(
+    entryNumber?: string;
+  }> = this.commandService.create<{
+    quoteCode: string;
+    quoteComment: Comment;
+    entryNumber: string;
+  }>(
     (payload) =>
       this.userIdService.takeUserId().pipe(
         take(1),
-        switchMap((userId) =>
-          this.quoteConnector.addComment(
-            userId,
-            payload.quoteCode,
-            payload.quoteComment
-          )
-        )
+        switchMap((userId) => {
+          if (payload.entryNumber) {
+            return this.quoteConnector.addCartEntryComment(
+              userId,
+              payload.quoteCode,
+              payload.entryNumber,
+              payload.quoteComment
+            );
+          } else {
+            return this.quoteConnector.addComment(
+              userId,
+              payload.quoteCode,
+              payload.quoteComment
+            );
+          }
+        })
       ),
     {
       strategy: CommandStrategy.CancelPrevious,
@@ -262,9 +276,14 @@ export class QuoteService implements QuoteFacade {
 
   addQuoteComment(
     quoteCode: string,
-    quoteComment: Comment
+    quoteComment: Comment,
+    entryNumber?: string
   ): Observable<unknown> {
-    return this.addQuoteCommentCommand.execute({ quoteCode, quoteComment });
+    return this.addQuoteCommentCommand.execute({
+      quoteCode,
+      quoteComment,
+      entryNumber,
+    });
   }
 
   performQuoteAction(
