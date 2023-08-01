@@ -23,7 +23,7 @@ import {
 import { Observable } from 'rxjs';
 import { delay, finalize, map, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config/quote-ui.config';
-import { QuoteDetailsCartService } from '../cart/quote-details-cart.service';
+import { QuoteDetailsCartComponentService } from '../cart/quote-details-cart.component.service';
 
 const DEFAULT_COMMENT_MAX_CHARS = 1000;
 const ALL_PRODUCTS_ID = '';
@@ -48,7 +48,7 @@ export class QuoteDetailsCommentComponent {
     protected translationService: TranslationService,
     protected quoteUiConfig: QuoteUIConfig,
     @Inject(DOCUMENT) protected document: Document,
-    protected quoteDetailsCartService: QuoteDetailsCartService
+    protected quoteDetailsCartComponentService: QuoteDetailsCartComponentService
   ) {}
 
   onSend(event: { message: string; itemId: string }, code: string) {
@@ -78,8 +78,8 @@ export class QuoteDetailsCommentComponent {
   }
 
   onItemClicked(event: { item: Item }) {
-    this.quoteDetailsCartService.setQuoteEntriesExpanded(true);
-    this.quoteDetailsCartService
+    this.quoteDetailsCartComponentService.setQuoteEntriesExpanded(true);
+    this.quoteDetailsCartComponentService
       .getQuoteEntriesExpanded()
       .pipe(take(1), delay(0)) // delay this task until the UI has expanded
       .subscribe(() => {
@@ -107,7 +107,7 @@ export class QuoteDetailsCommentComponent {
     };
   }
 
-  private prepareItemList(): Observable<Item[]> | undefined {
+  protected prepareItemList(): Observable<Item[]> {
     let allProducts: string = 'quote.comments.allProducts';
     this.translationService
       .translate(allProducts)
@@ -118,26 +118,26 @@ export class QuoteDetailsCommentComponent {
       map((quote) => {
         const itemList: Item[] = [{ id: ALL_PRODUCTS_ID, name: allProducts }];
         quote.entries?.forEach((entry) => {
-          const item = this.convertToItem(entry);
-          if (item) {
-            itemList.push(item);
-          }
+          itemList.push(this.convertToItem(entry));
         });
         return itemList;
       })
     );
   }
 
-  private convertToItem(entry: OrderEntry | undefined): Item | undefined {
-    if (entry?.entryNumber !== undefined) {
-      return {
-        id: entry.entryNumber.toString(),
-        name:
-          entry.product?.name ??
-          entry.product?.code ??
-          entry.entryNumber.toString(),
-      };
+  protected convertToItem(entry: OrderEntry): Item {
+    if (entry.entryNumber === undefined) {
+      throw Error(
+        'entryNumber may not be undefined, entry: ' + JSON.stringify(entry)
+      );
     }
+    return {
+      id: entry.entryNumber.toString(),
+      name:
+        entry.product?.name ??
+        entry.product?.code ??
+        entry.entryNumber.toString(),
+    };
   }
 
   protected prepareMessageEvents(): Observable<MessageEvent[]> {
@@ -172,7 +172,7 @@ export class QuoteDetailsCommentComponent {
       text: comment.text,
       createdAt: comment.creationDate?.toString(),
       rightAlign: !comment.fromCustomer,
-      item: this.convertToItem(entry),
+      item: entry ? this.convertToItem(entry) : undefined,
     };
     return messages;
   }

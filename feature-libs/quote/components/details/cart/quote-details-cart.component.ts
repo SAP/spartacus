@@ -9,7 +9,7 @@ import { CartOutlets } from '@spartacus/cart/base/root';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { QuoteDetailsCartService } from './quote-details-cart.service';
+import { QuoteDetailsCartComponentService } from './quote-details-cart.component.service';
 
 @Component({
   selector: 'cx-quote-details-cart',
@@ -23,7 +23,7 @@ export class QuoteDetailsCartComponent {
 
   constructor(
     protected quoteFacade: QuoteFacade,
-    protected quoteDetailsCartService: QuoteDetailsCartService
+    protected quoteDetailsCartService: QuoteDetailsCartComponentService
   ) {}
 
   onToggleShowOrHideCart(showCart: boolean) {

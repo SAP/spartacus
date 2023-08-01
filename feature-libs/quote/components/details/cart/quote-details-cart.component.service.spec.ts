@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { QuoteDetailsCartService } from './quote-details-cart.service';
+import { QuoteDetailsCartComponentService } from './quote-details-cart.component.service';
 
-describe('QuoteDetailsCartService', () => {
-  let classUnderTest: QuoteDetailsCartService;
+describe('QuoteDetailsCartComponentService', () => {
+  let classUnderTest: QuoteDetailsCartComponentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [QuoteDetailsCartService],
+      providers: [QuoteDetailsCartComponentService],
     });
-    classUnderTest = TestBed.inject(QuoteDetailsCartService);
+    classUnderTest = TestBed.inject(QuoteDetailsCartComponentService);
   });
 
   it('should create', () => {

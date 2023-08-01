@@ -26,7 +26,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../../config';
 import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
-import { QuoteDetailsCartService } from '../cart';
+import { QuoteDetailsCartComponentService } from '../cart';
 
 const QUOTE_CODE = 'q123';
 const ALL_PRODUCTS_ID = '';
@@ -254,7 +254,6 @@ describe('QuoteDetailsCommentComponent', () => {
         { entryNumber: 0, product: { code: 'p1', name: 'Product 1' } }, // valid
         { entryNumber: 1, product: { code: 'p2' } }, // valid, if product name is missing, code is used instead
         { entryNumber: 2 }, // valid, if neither product code nor name are there use entry number
-        {}, // invalid, no entry number
       ];
       (component.messagingConfigs.itemList$ ?? of([]))
         .subscribe((itemList) => {
@@ -327,6 +326,9 @@ describe('QuoteDetailsCommentComponent', () => {
     it("shouldn't map anything to item if no entry is provided", () => {
       expect(mapCommentToMessageEvent(comment).item).toBeUndefined();
     });
+    it('should throw an error if there is an entry but without entry number', () => {
+      expect(() => mapCommentToMessageEvent(comment, {})).toThrowError();
+    });
   });
 
   describe('onSend', () => {
@@ -389,7 +391,7 @@ describe('QuoteDetailsCommentComponent', () => {
   describe('onItemClicked', () => {
     let aTagProduct1: { textContent: string; scrollIntoView: Function };
     let aTagProduct2: { textContent: string; scrollIntoView: Function };
-    let quoteDetailsCartService: QuoteDetailsCartService;
+    let quoteDetailsCartComponentService: QuoteDetailsCartComponentService;
 
     beforeEach(() => {
       aTagProduct1 = createElementMock('Product 1');
@@ -397,8 +399,10 @@ describe('QuoteDetailsCommentComponent', () => {
       const mockedATags = [aTagProduct1, aTagProduct2];
       const document = TestBed.inject(DOCUMENT);
       spyOn(document, 'getElementsByTagName').and.returnValue(<any>mockedATags);
-      quoteDetailsCartService = TestBed.inject(QuoteDetailsCartService);
-      spyOn(quoteDetailsCartService, 'setQuoteEntriesExpanded');
+      quoteDetailsCartComponentService = TestBed.inject(
+        QuoteDetailsCartComponentService
+      );
+      spyOn(quoteDetailsCartComponentService, 'setQuoteEntriesExpanded');
     });
 
     function createElementMock(textContent: string) {
@@ -410,7 +414,7 @@ describe('QuoteDetailsCommentComponent', () => {
     it('should expand cart and call scrollIntoView on the corresponding cart item in the document', fakeAsync(() => {
       component.onItemClicked({ item: { id: 'P2', name: 'Product 2' } });
       expect(
-        quoteDetailsCartService.setQuoteEntriesExpanded
+        quoteDetailsCartComponentService.setQuoteEntriesExpanded
       ).toHaveBeenCalledWith(true);
       tick(); //because of delay(0)
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
@@ -422,7 +426,7 @@ describe('QuoteDetailsCommentComponent', () => {
     it('should only expand the cart but not scroll if the target item is not found in the document', fakeAsync(() => {
       component.onItemClicked({ item: { id: 'P3', name: 'Product 3' } });
       expect(
-        quoteDetailsCartService.setQuoteEntriesExpanded
+        quoteDetailsCartComponentService.setQuoteEntriesExpanded
       ).toHaveBeenCalledWith(true);
       tick(); //because of delay(0)
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
