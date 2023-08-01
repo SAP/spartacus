@@ -35,6 +35,7 @@
       <td>
         <ng-container *ngIf="!entry.applied">
           <button
+            *ngIf="showApplyButton"
             class="cx-asm-customer-promotion-listing-apply-button"
             (click)="apply.emit(entry)"
           >
@@ -46,10 +47,7 @@
             <td>
               <cx-icon class="success" type="SUCCESS"></cx-icon>
             </td>
-            <td
-              *ngIf="showApplyButton"
-              class="cx-asm-customer-promotion-listing-applied"
-            >
+            <td class="cx-asm-customer-promotion-listing-applied">
               {{ applied }}
             </td>
             <td
@@ -72,7 +70,11 @@
     </tr>
   </ng-container>
 </table>
-<hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
+<hr
+  class="cx-asm-customer-promotion-listing-separator"
+  aria-hidden="true"
+  *ngIf="!showAlert"
+/>
 <div
   class="cx-asm-customer-promotion-listing-empty"
   *ngIf="entries?.length === 0 && !showAlert"
