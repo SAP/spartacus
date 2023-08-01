@@ -23,7 +23,7 @@ import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { FilesFormValidators } from '../../../services/file/files-form-validators';
 import { FileUploadComponent } from '../../form';
-import { MessageEvent, MessagingConfigs } from './messaging.model';
+import { Item, MessageEvent, MessagingConfigs } from './messaging.model';
 
 @Component({
   selector: 'cx-messaging',
@@ -39,6 +39,11 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   @Output() send = new EventEmitter<{
     files: File | undefined;
     message: string;
+    itemId?: string;
+  }>();
+
+  @Output() itemClicked = new EventEmitter<{
+    item: Item;
   }>();
 
   @Output() downloadAttachment = new EventEmitter<{
@@ -101,15 +106,24 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
 
   onSend(): void {
     if (this.form.valid) {
-      this.send.emit({
+      const event: {
+        files: File | undefined;
+        message: string;
+        itemId?: string;
+      } = {
         files: this.form.get('file')?.value,
         message: this.form.get('message')?.value,
-      });
+      };
+      const itemId = this.form.get('item')?.value;
+      if (itemId) {
+        event.itemId = itemId;
+      }
+      this.send.emit(event);
     }
   }
 
   resetForm(): void {
-    this.form.reset();
+    this.form.reset({ item: this.messagingConfigs?.defaultItemId });
     this.fileUploadComponent.removeFile();
   }
 
@@ -143,6 +157,10 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
         this.filesFormValidators.maxEntries(this.maxEntries),
         this.filesFormValidators.allowedTypes(this.allowedTypes),
       ])
+    );
+    form.setControl(
+      'item',
+      new UntypedFormControl(this.messagingConfigs?.defaultItemId)
     );
     this.form = form;
   }
@@ -183,6 +201,18 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
         results[focusedIndex - 1].focus();
       }
     }
+  }
+
+  getMessageText(message: MessageEvent) {
+    return message.item
+      ? message.item.name + ': ' + message.text
+      : message.text;
+  }
+
+  onItemClicked(item: Item): void {
+    this.itemClicked.emit({
+      item: item,
+    });
   }
 
   protected observeScroll(): void {

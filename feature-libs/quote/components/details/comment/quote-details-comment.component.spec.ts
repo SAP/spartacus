@@ -1,6 +1,14 @@
+import { DOCUMENT } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
 import {
   Comment,
@@ -18,8 +26,10 @@ import { Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../../config';
 import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
+import { QuoteDetailsCartComponentService } from '../cart';
 
 const QUOTE_CODE = 'q123';
+const ALL_PRODUCTS_ID = '';
 
 @Component({
   selector: 'cx-messaging',
@@ -149,6 +159,40 @@ describe('QuoteDetailsCommentComponent', () => {
       .unsubscribe();
   });
 
+  it('should merge header and item quote comments and sort the resulting message events by date', () => {
+    quote.comments = [];
+    quote.entries = [];
+    quote.comments.push({
+      text: 'header #1',
+      creationDate: new Date('2022-10-01 10:00'),
+    });
+    quote.comments.push({
+      text: 'header #4',
+      creationDate: new Date('2022-10-04 10:00'),
+    });
+    quote.entries.push({
+      entryNumber: 0,
+      comments: [
+        { text: 'item 0 #3', creationDate: new Date('2022-10-02 09:30') },
+      ],
+    });
+    quote.entries.push({
+      entryNumber: 1,
+      comments: [
+        { text: 'item 1 #2', creationDate: new Date('2022-10-01 10:30') },
+      ],
+    });
+    component.messageEvents$
+      .subscribe((messageEvent) => {
+        expect(messageEvent.length).toBe(4);
+        expect(messageEvent[0].text).toEqual('header #1');
+        expect(messageEvent[1].text).toEqual('item 1 #2');
+        expect(messageEvent[2].text).toEqual('item 0 #3');
+        expect(messageEvent[3].text).toEqual('header #4');
+      })
+      .unsubscribe();
+  });
+
   function clickCommentsToggle(
     fixture: ComponentFixture<QuoteDetailsCommentComponent>
   ) {
@@ -157,6 +201,7 @@ describe('QuoteDetailsCommentComponent', () => {
       .nativeElement.click();
     fixture.detectChanges();
   }
+
   describe('messagingConfigs', () => {
     it('should be provided', () => {
       expect(component.messagingConfigs).toBeDefined();
@@ -193,6 +238,44 @@ describe('QuoteDetailsCommentComponent', () => {
         })
         .unsubscribe();
     });
+    it("should only provide 'All Products' item if quote has no entries", () => {
+      (component.messagingConfigs.itemList$ ?? of([]))
+        .subscribe((itemList) => {
+          expect(itemList.length).toBe(1);
+          expect(itemList[0]).toEqual({
+            id: ALL_PRODUCTS_ID,
+            name: 'quote.comments.allProducts',
+          });
+        })
+        .unsubscribe();
+    });
+    it("should provide 'All Products' item as well as one item per valid quote entry", () => {
+      quote.entries = [
+        { entryNumber: 0, product: { code: 'p1', name: 'Product 1' } }, // valid
+        { entryNumber: 1, product: { code: 'p2' } }, // valid, if product name is missing, code is used instead
+        { entryNumber: 2 }, // valid, if neither product code nor name are there use entry number
+      ];
+      (component.messagingConfigs.itemList$ ?? of([]))
+        .subscribe((itemList) => {
+          expect(itemList.length).toBe(4);
+          expect(itemList[1]).toEqual({
+            id: '0',
+            name: 'Product 1',
+          });
+          expect(itemList[2]).toEqual({
+            id: '1',
+            name: 'p2',
+          });
+          expect(itemList[3]).toEqual({
+            id: '2',
+            name: '2',
+          });
+        })
+        .unsubscribe();
+    });
+    it('should provide ALL_PRODUCTS_ID as default item', () => {
+      expect(component.messagingConfigs.defaultItemId).toEqual(ALL_PRODUCTS_ID);
+    });
   });
 
   describe('mapCommentToMessageEvent', () => {
@@ -203,8 +286,8 @@ describe('QuoteDetailsCommentComponent', () => {
       author: { uid: 'cust_1', name: 'John Doe' },
     };
 
-    function mapCommentToMessageEvent(comment: Comment) {
-      return component['mapCommentToMessageEvent'](comment);
+    function mapCommentToMessageEvent(comment: Comment, entry?: OrderEntry) {
+      return component['mapCommentToMessageEvent'](comment, entry);
     }
 
     it('should map comment text', () => {
@@ -232,27 +315,61 @@ describe('QuoteDetailsCommentComponent', () => {
     it("shouldn't map anything to attachments", () => {
       expect(mapCommentToMessageEvent(comment).attachments).toBeUndefined();
     });
+    it('should extract item data from entry', () => {
+      expect(
+        mapCommentToMessageEvent(comment, {
+          entryNumber: 0,
+          product: { name: 'Product Name' },
+        }).item
+      ).toEqual({ id: '0', name: 'Product Name' });
+    });
+    it("shouldn't map anything to item if no entry is provided", () => {
+      expect(mapCommentToMessageEvent(comment).item).toBeUndefined();
+    });
+    it('should throw an error if there is an entry but without entry number', () => {
+      expect(() => mapCommentToMessageEvent(comment, {})).toThrowError();
+    });
   });
 
   describe('onSend', () => {
-    it('should add a quote comment with the given text', () => {
-      component.onSend({ message: 'test comment' }, QUOTE_CODE);
+    it('should add a header quote comment with the given text', () => {
+      component.onSend(
+        { message: 'test comment', itemId: ALL_PRODUCTS_ID },
+        QUOTE_CODE
+      );
       expect(mockedQuoteFacade.addQuoteComment).toHaveBeenCalledWith(
         QUOTE_CODE,
         {
           text: 'test comment',
-        }
+        },
+        ALL_PRODUCTS_ID
+      );
+    });
+    it('should add a item quote comment with the given text', () => {
+      component.onSend({ message: 'test comment', itemId: '3' }, QUOTE_CODE);
+      expect(mockedQuoteFacade.addQuoteComment).toHaveBeenCalledWith(
+        QUOTE_CODE,
+        {
+          text: 'test comment',
+        },
+        '3'
       );
     });
     it('should refresh the quote to display the just added comment', () => {
-      component.onSend({ message: 'test comment' }, QUOTE_CODE);
+      component.onSend(
+        { message: 'test comment', itemId: ALL_PRODUCTS_ID },
+        QUOTE_CODE
+      );
       expect(mockedEventService.dispatch).toHaveBeenCalledWith(
         {},
         QuoteDetailsReloadQueryEvent
       );
     });
     it('should reset message input text', () => {
-      component.onSend({ message: 'test comment' }, QUOTE_CODE);
+      component.onSend(
+        { message: 'test comment', itemId: ALL_PRODUCTS_ID },
+        QUOTE_CODE
+      );
       expect(component.commentsComponent.resetForm).toHaveBeenCalled();
       expect(component.messagingConfigs.newMessagePlaceHolder).toBeUndefined();
     });
@@ -260,12 +377,61 @@ describe('QuoteDetailsCommentComponent', () => {
       asSpy(mockedQuoteFacade.addQuoteComment).and.returnValue(
         throwError(new Error('test error'))
       );
-      component.onSend({ message: 'test comment' }, QUOTE_CODE);
+      component.onSend(
+        { message: 'test comment', itemId: ALL_PRODUCTS_ID },
+        QUOTE_CODE
+      );
       expect(component.commentsComponent.resetForm).toHaveBeenCalled();
       expect(component.messagingConfigs.newMessagePlaceHolder).toEqual(
         'quote.comments.invalidComment'
       );
     });
+  });
+
+  describe('onItemClicked', () => {
+    let aTagProduct1: { textContent: string; scrollIntoView: Function };
+    let aTagProduct2: { textContent: string; scrollIntoView: Function };
+    let quoteDetailsCartComponentService: QuoteDetailsCartComponentService;
+
+    beforeEach(() => {
+      aTagProduct1 = createElementMock('Product 1');
+      aTagProduct2 = createElementMock('Product 2');
+      const mockedATags = [aTagProduct1, aTagProduct2];
+      const document = TestBed.inject(DOCUMENT);
+      spyOn(document, 'getElementsByTagName').and.returnValue(<any>mockedATags);
+      quoteDetailsCartComponentService = TestBed.inject(
+        QuoteDetailsCartComponentService
+      );
+      spyOn(quoteDetailsCartComponentService, 'setQuoteEntriesExpanded');
+    });
+
+    function createElementMock(textContent: string) {
+      const elem = { textContent: textContent, scrollIntoView: function () {} };
+      spyOn(elem, 'scrollIntoView');
+      return elem;
+    }
+
+    it('should expand cart and call scrollIntoView on the corresponding cart item in the document', fakeAsync(() => {
+      component.onItemClicked({ item: { id: 'P2', name: 'Product 2' } });
+      expect(
+        quoteDetailsCartComponentService.setQuoteEntriesExpanded
+      ).toHaveBeenCalledWith(true);
+      tick(); //because of delay(0)
+      expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
+      expect(aTagProduct2.scrollIntoView).toHaveBeenCalledWith({
+        block: 'center',
+      });
+    }));
+
+    it('should only expand the cart but not scroll if the target item is not found in the document', fakeAsync(() => {
+      component.onItemClicked({ item: { id: 'P3', name: 'Product 3' } });
+      expect(
+        quoteDetailsCartComponentService.setQuoteEntriesExpanded
+      ).toHaveBeenCalledWith(true);
+      tick(); //because of delay(0)
+      expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
+      expect(aTagProduct2.scrollIntoView).not.toHaveBeenCalled();
+    }));
   });
 
   describe('prepareMessageEvents', () => {

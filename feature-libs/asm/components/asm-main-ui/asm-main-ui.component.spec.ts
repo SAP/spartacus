@@ -22,7 +22,7 @@ import {
   RoutingService,
   User,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
@@ -674,5 +674,20 @@ describe('AsmMainUiComponent', () => {
     expect(
       asmComponentService.setShowDeeplinkCartInfoAlert
     ).toHaveBeenCalledWith(false);
+  });
+
+  it('should enable start customer emulation session meaasge and also can close the message', () => {
+    component.showCustomerEmulationInfoAlert = false;
+
+    spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
+    const testCustomerId = 'customerid1234567890';
+    component.startCustomerEmulationSession({ customerId: testCustomerId });
+    expect(
+      csAgentAuthService.startCustomerEmulationSession
+    ).toHaveBeenCalledWith(testCustomerId);
+
+    expect(component.showCustomerEmulationInfoAlert).toBeTruthy;
+    component.closeCustomerEmulationInfoAlert();
+    expect(component.showCustomerEmulationInfoAlert).toBeFalsy;
   });
 });
