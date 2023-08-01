@@ -16,7 +16,7 @@ import {
   Customer360Facade,
   Customer360Type,
 } from '@spartacus/asm/customer-360/root';
-import { UserIdService } from '@spartacus/core';
+import { CustomerCouponService, UserIdService } from '@spartacus/core';
 import {
   BehaviorSubject,
   Observable,
@@ -41,37 +41,25 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
   userId: string;
   entries$: Observable<Array<CustomerCouponEntry>>;
   subscription = new Subscription();
+  currentTabIsAssignable = true;
 
   constructor(
     protected context: Customer360SectionContext<Customer360CustomerCouponList>,
     protected cartVoucherService: CartVoucherFacade,
     protected userIdService: UserIdService,
     protected activeCartFacade: ActiveCartFacade,
-    protected customer360Facade: Customer360Facade
+    protected customer360Facade: Customer360Facade,
+    protected customerCouponService: CustomerCouponService,
   ) {}
 
   ngOnInit(): void {
-    // this.subscription.add(
-    //   this.userIdService.getUserId().subscribe((user) => {
-    //     this.userId = user ?? '';
-    //   })
-    // );
-    // this.subscription.add(
-    //   this.activeCartFacade.requireLoadedCart().subscribe((cart) => {
-    //     this.currentCartId = cart?.code;
-    //   })
-    // );
-    // this.subscription.add(
-    //   this.cartVoucherService.getAddVoucherResultError().subscribe((error) => {
-    //     if (error) {
-    //       this.refreshComponent();
-    //       this.showErrorAlertForApplyAction$.next(true);
-    //     }
-    //   })
-    // );
-    // this.showErrorAlert$.next(false);
-    // this.showErrorAlertForApplyAction$.next(false);
+    this.subscription.add(
+      this.userIdService.getUserId().subscribe((user) => {
+        this.userId = user ?? '';
+      })
+    );
     this.fetchCustomerCoupons();
+    this.currentTabIsAssignable = true;
   }
 
   fetchCustomerCoupons() {
@@ -95,13 +83,19 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
     );
   }
 
-  changeTab(assignable: boolean){
+  changeTab(assignable: boolean|undefined, searchQuery: string|undefined){
+    if (assignable===undefined){
+      assignable = this.currentTabIsAssignable;
+    }else{
+      this.currentTabIsAssignable = assignable;
+    }
     this.entries$ = this.customer360Facade
       .get360Data([
         {
           requestData: { type: Customer360Type.CUSTOMER_COUPON_LIST ,
             additionalRequestParameters: {
               assignable: assignable,
+              searchQuery: searchQuery,
             },},
 
         }
@@ -168,28 +162,19 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
       );
   }
 
-  applyCouponToCustomer(entry: CustomerCouponEntry) {
-    this.cartVoucherService.addVoucher(entry?.code, this.currentCartId);
-    // this.refreshActionButton(true, entry?.code);
+  claimCouponToCustomer(entry: CustomerCouponEntry){
+    if(entry?.codeForApplyAction){
+      this.customerCouponService.claimCustomerCoupon(entry.codeForApplyAction);
+      this.changeTab(this.currentTabIsAssignable,undefined);
+    }
   }
 
-  removeCouponToCustomer(entry: CustomerCouponEntry) {
-    this.cartVoucherService.removeVoucher(entry?.code, this.currentCartId);
-    // this.refreshActionButton(false, entry?.code);
+  disclaimCouponToCustomer(entry: CustomerCouponEntry){
+    if(entry?.codeForApplyAction){
+      this.customerCouponService.disclaimCustomerCoupon(entry.codeForApplyAction);
+      this.changeTab(this.currentTabIsAssignable,undefined);
+    }
   }
-
-  // refreshActionButton(state: boolean, voucherCode: string) {
-  //   this.entries$ = this.entries$.pipe(
-  //     map((entries) => {
-  //       entries.forEach((item) => {
-  //         if (item.code === voucherCode) {
-  //           item.applied = state;
-  //         }
-  //       });
-  //       return entries;
-  //     })
-  //   );
-  // }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

@@ -19,23 +19,23 @@
 </div>
 <div class="cx-tab-headers" role="tablist" *ngIf="isCustomerCoupon">
   <button [textContent]="'customer360.customerCoupons.availableTab'  | cxTranslate"
-  (click)="refreshCustomerCouponList.emit(true)">
+  (click)="refreshCustomerCouponList.emit({assignable:true,searchQuery: undefined})">
   </button>
   <button [textContent]="'customer360.customerCoupons.sentTab'  | cxTranslate"
-  (click)="refreshCustomerCouponList.emit(false)">
+  (click)="refreshCustomerCouponList.emit({assignable:false,searchQuery: undefined})">
   </button>
 </div>
 <ng-container *ngIf="isCustomerCoupon">
   <hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
   <div class="form-group search-wrapper">
-    <input
-    type="text"
+    <input #searchBox
     class="form-control"
-    />
+    placeholder="{{ 'customer360.customerCoupons.searchBox' | cxTranslate }}"
+    (keydown.enter)="refreshCustomerCouponList.emit({assignable:undefined,searchQuery: searchBox.value}); searchBox.value = ''"/>
     <cx-icon
       [type]="iconTypes.SEARCH"
       role="button"
-      class="search"
+      (click)="refreshCustomerCouponList.emit({assignable:undefined,searchQuery: searchBox.value}); searchBox.value = ''"
     ></cx-icon>
   </div>
 </ng-container>

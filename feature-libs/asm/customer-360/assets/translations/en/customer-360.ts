@@ -103,7 +103,8 @@ export const customer360 = {
       applyButtonText: 'Assign to Customer',
       removeButtonText: 'Remove',
       availableTab: 'Available',
-      sentTab: 'Sent'
+      sentTab: 'Sent',
+      searchBox: 'Coupon'
     },
     maps: {
       storeClosed: 'Close',

@@ -25,7 +25,9 @@
   [showRemoveButton]="true"
   [showApplyButton]="true"
   [isCustomerCoupon]="true"
-  (refreshCustomerCouponList)="changeTab(false)"
+  (refreshCustomerCouponList)="changeTab($event.assignable,$event.searchQuery)"
+  (apply)="claimCouponToCustomer($event)"
+  (remove)="disclaimCouponToCustomer($event)"
 >
 </cx-asm-customer-promotion-listing>
 <!-- <div>aaa</div> -->
