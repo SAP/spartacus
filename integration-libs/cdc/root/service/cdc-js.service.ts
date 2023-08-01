@@ -124,7 +124,7 @@ export class CdcJsService implements OnDestroy {
                 (this.winRef.nativeWindow as { [key: string]: any })[
                   '__gigyaConf'
                 ] = {
-                  include: 'id_token, missing-required-fields',
+                  include: 'id_token',
                 };
               }
             }
@@ -265,6 +265,7 @@ export class CdcJsService implements OnDestroy {
         return this.invokeAPI('accounts.login', {
           loginID: email,
           password: password,
+          include: 'missing-required-fields',
           ignoreInterruptions: ignoreInterruptions,
           ...(context && { context: context }),
           sessionExpiry: sessionExpiration,
