@@ -157,7 +157,6 @@ export class MediaService {
     if (!media) {
       return undefined;
     }
-
     // Only create srcset images that are smaller than the given `maxFormat` (if any)
     let formats = this.sortedFormats;
     const max: number = formats.findIndex((f) => f.code === maxFormat);
@@ -179,12 +178,13 @@ export class MediaService {
       return set;
     }, '');
 
-    const hasMobile =
+    const hasMobileFormat =
       formats.filter((format) => format.code === 'mobile').length > 0;
-    const image = (media as MediaContainer)['mobile'];
+    const mobileImage = (media as MediaContainer)['mobile'];
+    const isMobileImageExists = !!mobileImage;
 
-    if (hasMobile && !!image) {
-      srcset += `, ${this.resolveAbsoluteUrl(image.url ?? '')} 3x`;
+    if (hasMobileFormat && isMobileImageExists) {
+      srcset += `, ${this.resolveAbsoluteUrl(mobileImage.url ?? '')} 3x`;
     }
 
     return srcset === '' ? undefined : srcset;
