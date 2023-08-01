@@ -59,7 +59,8 @@ export const CLAIM_CUSTOMER_COUPON_FAIL = '[User] Claim Customer Fail';
 export const CLAIM_CUSTOMER_COUPON_SUCCESS = '[User] Claim Customer Success';
 export const DISCLAIM_CUSTOMER_COUPON = '[User] Disclaim Customer';
 export const DISCLAIM_CUSTOMER_COUPON_FAIL = '[User] Disclaim Customer Fail';
-export const DISCLAIM_CUSTOMER_COUPON_SUCCESS = '[User] Disclaim Customer Success';
+export const DISCLAIM_CUSTOMER_COUPON_SUCCESS =
+  '[User] Disclaim Customer Success';
 
 export class LoadCustomerCoupons extends LoaderLoadAction {
   readonly type = LOAD_CUSTOMER_COUPONS;

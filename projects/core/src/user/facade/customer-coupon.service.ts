@@ -206,16 +206,16 @@ export class CustomerCouponService {
    * Disclaim a CustomerCoupon
    * @param couponCode a customer coupon code
    */
-    disclaimCustomerCoupon(couponCode: string): void {
-      this.userIdService.takeUserId().subscribe((userId) => {
-        this.store.dispatch(
-          new UserActions.DisclaimCustomerCoupon({
-            userId,
-            couponCode,
-          })
-        );
-      });
-    }
+  disclaimCustomerCoupon(couponCode: string): void {
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.DisclaimCustomerCoupon({
+          userId,
+          couponCode,
+        })
+      );
+    });
+  }
 
   /**
    * Returns the claim customer coupon notification process success flag
@@ -238,18 +238,36 @@ export class CustomerCouponService {
   /**
    * Returns the disclaim customer coupon notification process success flag
    */
-    getDisclaimCustomerCouponResultSuccess(): Observable<boolean> {
-      return (<Store<StateWithProcess<void>>>this.store).pipe(
-        select(getProcessSuccessFactory(DISCLAIM_CUSTOMER_COUPON_PROCESS_ID))
-      );
-    }
+  getDisclaimCustomerCouponResultSuccess(): Observable<boolean> {
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
+      select(getProcessSuccessFactory(DISCLAIM_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
 
-    /**
-     * Returns the disclaim customer coupon notification process loading flag
-     */
-    getDisclaimCustomerCouponResultLoading(): Observable<boolean> {
-      return (<Store<StateWithProcess<void>>>this.store).pipe(
-        select(getProcessLoadingFactory(DISCLAIM_CUSTOMER_COUPON_PROCESS_ID))
-      );
-    }
+  /**
+   * Returns the disclaim customer coupon notification process loading flag
+   */
+  getDisclaimCustomerCouponResultLoading(): Observable<boolean> {
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
+      select(getProcessLoadingFactory(DISCLAIM_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the claim customer coupon notification process error flag
+   */
+  getClaimCustomerCouponResultError(): Observable<boolean> {
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
+      select(getProcessErrorFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the disclaim customer coupon notification process error flag
+   */
+  getDisclaimCustomerCouponResultError(): Observable<boolean> {
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
+      select(getProcessErrorFactory(DISCLAIM_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
 }

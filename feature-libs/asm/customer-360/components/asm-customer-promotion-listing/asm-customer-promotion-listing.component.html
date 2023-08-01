@@ -3,6 +3,54 @@
     {{ headerText }}
   </h4>
 </div>
+<ng-container *ngIf="isCustomerCoupon">
+  <div class="cx-tab-headers" role="tablist">
+    <button
+      [textContent]="'customer360.customerCoupons.availableTab' | cxTranslate"
+      (click)="
+        refreshCustomerCouponList.emit({
+          assignable: true,
+          searchQuery: undefined
+        })
+      "
+    ></button>
+    <button
+      [textContent]="'customer360.customerCoupons.sentTab' | cxTranslate"
+      (click)="
+        refreshCustomerCouponList.emit({
+          assignable: false,
+          searchQuery: undefined
+        })
+      "
+    ></button>
+  </div>
+  <hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
+  <div class="form-group search-wrapper">
+    <input
+      #searchBox
+      class="form-control"
+      placeholder="{{ 'customer360.customerCoupons.searchBox' | cxTranslate }}"
+      (keydown.enter)="
+        refreshCustomerCouponList.emit({
+          assignable: undefined,
+          searchQuery: searchBox.value
+        });
+        searchBox.value = ''
+      "
+    />
+    <cx-icon
+      [type]="iconTypes.SEARCH"
+      role="button"
+      (click)="
+        refreshCustomerCouponList.emit({
+          assignable: undefined,
+          searchQuery: searchBox.value
+        });
+        searchBox.value = ''
+      "
+    ></cx-icon>
+  </div>
+</ng-container>
 <div class="message-container">
   <cx-message
     *ngIf="showAlert"
@@ -17,28 +65,6 @@
     (closeMessage)="removeAlertForApplyAction.emit()"
   ></cx-message>
 </div>
-<div class="cx-tab-headers" role="tablist" *ngIf="isCustomerCoupon">
-  <button [textContent]="'customer360.customerCoupons.availableTab'  | cxTranslate"
-  (click)="refreshCustomerCouponList.emit({assignable:true,searchQuery: undefined})">
-  </button>
-  <button [textContent]="'customer360.customerCoupons.sentTab'  | cxTranslate"
-  (click)="refreshCustomerCouponList.emit({assignable:false,searchQuery: undefined})">
-  </button>
-</div>
-<ng-container *ngIf="isCustomerCoupon">
-  <hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
-  <div class="form-group search-wrapper">
-    <input #searchBox
-    class="form-control"
-    placeholder="{{ 'customer360.customerCoupons.searchBox' | cxTranslate }}"
-    (keydown.enter)="refreshCustomerCouponList.emit({assignable:undefined,searchQuery: searchBox.value}); searchBox.value = ''"/>
-    <cx-icon
-      [type]="iconTypes.SEARCH"
-      role="button"
-      (click)="refreshCustomerCouponList.emit({assignable:undefined,searchQuery: searchBox.value}); searchBox.value = ''"
-    ></cx-icon>
-  </div>
-</ng-container>
 <table class="cx-asm-customer-promotion-listing">
   <ng-container *ngFor="let entry of entries">
     <tr class="cx-asm-customer-promotion-listing-row">
@@ -66,16 +92,20 @@
         <ng-container *ngIf="entry.applied">
           <tr class="cx-asm-customer-promotion-listing-action">
             <td>
-              <cx-icon class="success" type="SUCCESS" *ngIf="!isCustomerCoupon"></cx-icon>
+              <cx-icon
+                class="success"
+                type="SUCCESS"
+                *ngIf="!isCustomerCoupon"
+              ></cx-icon>
             </td>
             <td
-              *ngIf="showApplyButton&&!isCustomerCoupon"
+              *ngIf="showApplyButton && !isCustomerCoupon"
               class="cx-asm-customer-promotion-listing-applied"
             >
               {{ applied }}
             </td>
             <td
-              *ngIf="showRemoveButton&&!isCustomerCoupon"
+              *ngIf="showRemoveButton && !isCustomerCoupon"
               class="cx-asm-customer-promotion-listing-action-separator"
             >
               |
@@ -94,7 +124,11 @@
     </tr>
   </ng-container>
 </table>
-<hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
+<hr
+  class="cx-asm-customer-promotion-listing-separator"
+  aria-hidden="true"
+  *ngIf="!showAlert"
+/>
 <div
   class="cx-asm-customer-promotion-listing-empty"
   *ngIf="entries?.length === 0 && !showAlert"

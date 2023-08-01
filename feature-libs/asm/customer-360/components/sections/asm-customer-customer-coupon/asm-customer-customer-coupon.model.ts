@@ -7,7 +7,7 @@
 import { Customer360CustomerCoupon } from '@spartacus/asm/customer-360/root';
 
 export interface CustomerCouponEntry extends Customer360CustomerCoupon {
-  code?: string|undefined;
+  code?: string | undefined;
   applied: boolean;
   codeForApplyAction?: string;
 }

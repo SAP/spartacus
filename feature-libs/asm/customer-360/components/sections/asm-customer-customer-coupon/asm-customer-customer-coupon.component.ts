@@ -11,12 +11,11 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  Customer360CouponList,
   Customer360CustomerCouponList,
   Customer360Facade,
   Customer360Type,
 } from '@spartacus/asm/customer-360/root';
-import { CustomerCouponService, UserIdService } from '@spartacus/core';
+import { CustomerCouponService } from '@spartacus/core';
 import {
   BehaviorSubject,
   Observable,
@@ -25,7 +24,6 @@ import {
   of,
 } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/base/root';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { CustomerCouponEntry } from './asm-customer-customer-coupon.model';
 
@@ -37,29 +35,41 @@ import { CustomerCouponEntry } from './asm-customer-customer-coupon.model';
 export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
   showErrorAlert$ = new BehaviorSubject<boolean>(false);
   showErrorAlertForApplyAction$ = new BehaviorSubject<boolean>(false);
-  currentCartId: string | undefined;
-  userId: string;
   entries$: Observable<Array<CustomerCouponEntry>>;
   subscription = new Subscription();
   currentTabIsAssignable = true;
 
   constructor(
     protected context: Customer360SectionContext<Customer360CustomerCouponList>,
-    protected cartVoucherService: CartVoucherFacade,
-    protected userIdService: UserIdService,
-    protected activeCartFacade: ActiveCartFacade,
     protected customer360Facade: Customer360Facade,
-    protected customerCouponService: CustomerCouponService,
+    protected customerCouponService: CustomerCouponService
   ) {}
 
   ngOnInit(): void {
     this.subscription.add(
-      this.userIdService.getUserId().subscribe((user) => {
-        this.userId = user ?? '';
-      })
+      this.customerCouponService
+        .getClaimCustomerCouponResultError()
+        .subscribe((error) => {
+          if (error) {
+            this.changeTab(undefined, undefined);
+            this.showErrorAlertForApplyAction$.next(true);
+          }
+        })
+    );
+    this.subscription.add(
+      this.customerCouponService
+        .getDisclaimCustomerCouponResultError()
+        .subscribe((error) => {
+          if (error) {
+            this.changeTab(undefined, undefined);
+            this.showErrorAlertForApplyAction$.next(true);
+          }
+        })
     );
     this.fetchCustomerCoupons();
     this.currentTabIsAssignable = true;
+    this.showErrorAlert$.next(false);
+    this.showErrorAlertForApplyAction$.next(false);
   }
 
   fetchCustomerCoupons() {
@@ -68,10 +78,10 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
         const entries: Array<CustomerCouponEntry> = [];
         data.customerCoupons.forEach((customerCoupon) => {
           entries.push({
-            code:customerCoupon.name,
-            name:customerCoupon.description,
-            codeForApplyAction:customerCoupon.code,
-            applied:false,
+            code: customerCoupon.name,
+            name: customerCoupon.description,
+            codeForApplyAction: customerCoupon.code,
+            applied: false,
           });
         });
         return entries;
@@ -83,22 +93,25 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
     );
   }
 
-  changeTab(assignable: boolean|undefined, searchQuery: string|undefined){
-    if (assignable===undefined){
+  changeTab(assignable: boolean | undefined, searchQuery: string | undefined) {
+    this.showErrorAlert$.next(false);
+    this.showErrorAlertForApplyAction$.next(false);
+    if (assignable === undefined) {
       assignable = this.currentTabIsAssignable;
-    }else{
+    } else {
       this.currentTabIsAssignable = assignable;
     }
     this.entries$ = this.customer360Facade
       .get360Data([
         {
-          requestData: { type: Customer360Type.CUSTOMER_COUPON_LIST ,
+          requestData: {
+            type: Customer360Type.CUSTOMER_COUPON_LIST,
             additionalRequestParameters: {
               assignable: assignable,
               searchQuery: searchQuery,
-            },},
-
-        }
+            },
+          },
+        },
       ])
       .pipe(
         map((response) => {
@@ -109,9 +122,9 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
           if (couponList.customerCoupons) {
             couponList.customerCoupons.forEach((customerCoupon) => {
               newEntries.push({
-                code:customerCoupon.name,
-                name:customerCoupon.description,
-                codeForApplyAction:customerCoupon.code,
+                code: customerCoupon.name,
+                name: customerCoupon.description,
+                codeForApplyAction: customerCoupon.code,
                 applied: !assignable,
               });
             });
@@ -133,47 +146,31 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
     this.showErrorAlertForApplyAction$.next(false);
   }
 
-  refreshComponent() {
-    this.entries$ = this.customer360Facade
-      .get360Data([
-        {
-          requestData: { type: Customer360Type.COUPON_LIST },
-        },
-      ])
-      .pipe(
-        map((response) => {
-          const couponList = response?.value?.find(
-            (item) => item.type === Customer360Type.COUPON_LIST
-          ) as Customer360CouponList;
-          const newEntries: Array<CustomerCouponEntry> = [];
-          if (couponList.coupons) {
-            couponList.coupons.forEach((coupon) => {
-              newEntries.push({
-                ...coupon,
-              });
-            });
-          }
-          return newEntries;
-        }),
-        catchError(() => {
-          this.showErrorAlert$.next(true);
-          return of([]);
-        })
-      );
-  }
-
-  claimCouponToCustomer(entry: CustomerCouponEntry){
-    if(entry?.codeForApplyAction){
+  claimCouponToCustomer(entry: CustomerCouponEntry) {
+    if (entry?.codeForApplyAction) {
       this.customerCouponService.claimCustomerCoupon(entry.codeForApplyAction);
-      this.changeTab(this.currentTabIsAssignable,undefined);
+      this.refreshActionButton(entry?.codeForApplyAction);
     }
   }
 
-  disclaimCouponToCustomer(entry: CustomerCouponEntry){
-    if(entry?.codeForApplyAction){
-      this.customerCouponService.disclaimCustomerCoupon(entry.codeForApplyAction);
-      this.changeTab(this.currentTabIsAssignable,undefined);
+  disclaimCouponToCustomer(entry: CustomerCouponEntry) {
+    if (entry?.codeForApplyAction) {
+      this.customerCouponService.disclaimCustomerCoupon(
+        entry.codeForApplyAction
+      );
+      this.refreshActionButton(entry?.codeForApplyAction);
     }
+  }
+
+  refreshActionButton(couponCode: string) {
+    this.entries$ = this.entries$.pipe(
+      map((entries) => {
+        const filteredEntries = entries.filter(
+          (item) => item.codeForApplyAction !== couponCode
+        );
+        return filteredEntries;
+      })
+    );
   }
 
   ngOnDestroy(): void {

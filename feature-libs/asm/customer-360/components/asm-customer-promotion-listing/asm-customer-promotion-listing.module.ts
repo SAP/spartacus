@@ -17,16 +17,16 @@ import {
 import { AsmCustomerPromotionListingComponent } from './asm-customer-promotion-listing.component';
 
 @NgModule({
-    declarations: [AsmCustomerPromotionListingComponent],
-    exports: [AsmCustomerPromotionListingComponent],
-    imports: [
-        CommonModule,
-        I18nModule,
-        ArgsModule,
-        StarRatingModule,
-        MessageComponentModule,
-        IconModule,
-        SearchBoxModule
-    ]
+  declarations: [AsmCustomerPromotionListingComponent],
+  exports: [AsmCustomerPromotionListingComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    ArgsModule,
+    StarRatingModule,
+    MessageComponentModule,
+    IconModule,
+    SearchBoxModule,
+  ],
 })
 export class AsmCustomerPromotionListingModule {}
