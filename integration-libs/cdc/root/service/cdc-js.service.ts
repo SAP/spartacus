@@ -35,10 +35,10 @@ import {
 } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
-import { CdcConsentsLocalStorageService } from '../consent-management';
-import { CdcSiteConsentTemplate } from '../consent-management/model/index';
-import { CdcReConsentEvent } from '../events';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
+import { CdcReConsentEvent } from '../events';
+import { CdcSiteConsentTemplate } from '../consent-management/model/index';
+import { CdcConsentsLocalStorageService } from '../consent-management';
 
 const defaultSessionTimeOut = 3600;
 const setAccountInfoAPI = 'accounts.setAccountInfo';
