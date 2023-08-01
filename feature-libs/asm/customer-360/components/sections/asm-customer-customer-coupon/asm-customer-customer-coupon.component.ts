@@ -71,10 +71,10 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
     // );
     // this.showErrorAlert$.next(false);
     // this.showErrorAlertForApplyAction$.next(false);
-    this.fetchCoupons();
+    this.fetchCustomerCoupons();
   }
 
-  fetchCoupons() {
+  fetchCustomerCoupons() {
     this.entries$ = combineLatest([this.context.data$]).pipe(
       map(([data]) => {
         const entries: Array<CustomerCouponEntry> = [];
@@ -93,6 +93,42 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
         return of([]);
       })
     );
+  }
+
+  changeTab(assignable: boolean){
+    this.entries$ = this.customer360Facade
+      .get360Data([
+        {
+          requestData: { type: Customer360Type.CUSTOMER_COUPON_LIST ,
+            additionalRequestParameters: {
+              assignable: assignable,
+            },},
+
+        }
+      ])
+      .pipe(
+        map((response) => {
+          const couponList = response?.value?.find(
+            (item) => item.type === Customer360Type.CUSTOMER_COUPON_LIST
+          ) as Customer360CustomerCouponList;
+          const newEntries: Array<CustomerCouponEntry> = [];
+          if (couponList.customerCoupons) {
+            couponList.customerCoupons.forEach((customerCoupon) => {
+              newEntries.push({
+                code:customerCoupon.name,
+                name:customerCoupon.description,
+                codeForApplyAction:customerCoupon.code,
+                applied: !assignable,
+              });
+            });
+          }
+          return newEntries;
+        }),
+        catchError(() => {
+          this.showErrorAlert$.next(true);
+          return of([]);
+        })
+      );
   }
 
   closeErrorAlert(): void {

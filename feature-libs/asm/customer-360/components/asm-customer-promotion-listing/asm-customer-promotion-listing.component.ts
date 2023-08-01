@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
 import { PromotionListEntry } from './asm-customer-promotion-listing.model';
+import { ICON_TYPE } from '@spartacus/storefront';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-promotion-listing',
@@ -34,5 +35,7 @@ export class AsmCustomerPromotionListingComponent {
   @Output() remove = new EventEmitter<undefined>();
   @Output() removeAlert = new EventEmitter<undefined>();
   @Output() removeAlertForApplyAction = new EventEmitter<undefined>();
+  @Output() refreshCustomerCouponList = new EventEmitter<boolean>();
   globalMessageType = GlobalMessageType;
+  iconTypes = ICON_TYPE;
 }

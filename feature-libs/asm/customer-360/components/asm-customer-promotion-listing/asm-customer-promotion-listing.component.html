@@ -18,14 +18,26 @@
   ></cx-message>
 </div>
 <div class="cx-tab-headers" role="tablist" *ngIf="isCustomerCoupon">
-  <button [textContent]="'customer360.customerCoupons.availableTab'  | cxTranslate">
+  <button [textContent]="'customer360.customerCoupons.availableTab'  | cxTranslate"
+  (click)="refreshCustomerCouponList.emit(true)">
   </button>
-  <button [textContent]="'customer360.customerCoupons.sentTab'  | cxTranslate">
+  <button [textContent]="'customer360.customerCoupons.sentTab'  | cxTranslate"
+  (click)="refreshCustomerCouponList.emit(false)">
   </button>
 </div>
 <ng-container *ngIf="isCustomerCoupon">
   <hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
-  <cx-searchbox></cx-searchbox>
+  <div class="form-group search-wrapper">
+    <input
+    type="text"
+    class="form-control"
+    />
+    <cx-icon
+      [type]="iconTypes.SEARCH"
+      role="button"
+      class="search"
+    ></cx-icon>
+  </div>
 </ng-container>
 <table class="cx-asm-customer-promotion-listing">
   <ng-container *ngFor="let entry of entries">
