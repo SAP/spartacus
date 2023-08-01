@@ -204,9 +204,63 @@ export function addCommentAndWait(text: string) {
  * @param text text to be displayed
  */
 export function checkComment(index: number, text: string) {
-  cy.get('cx-quote-details-comment .cx-message-card div[role="listitem"]')
-    .eq(index)
-    .should('contain.text', text);
+  cy.get(
+    `cx-quote-details-comment .cx-message-card:nth-child(${index})`
+  ).should('contain.text', text);
+}
+
+/**
+ * Adds a header comment with a selected item to the quote assuming that the quote is currently in edit mode
+ * @param item name of the item
+ * @param text text to add
+ */
+export function addItemCommentAndWait(item: string, text: string) {
+  cy.get('cx-quote-details-comment .cx-footer-label').within(() => {
+    cy.get('select').select(item);
+  });
+  cy.get('cx-quote-details-comment .cx-message-input').within(() => {
+    cy.get('input').type(text);
+    cy.get('button').click();
+  });
+  cy.wait(GET_QUOTE_ALIAS);
+}
+
+/**
+ * checks whether the given header comment with item link is displayed on the given position
+ * @param index index of the comment containing the link within the comment section
+ * @param item name of the item
+ * @param text text to be displayed
+ */
+export function checkItemComment(index: number, item: string, text: string) {
+  cy.get(
+    `cx-quote-details-comment .cx-message-card:nth-child(${index})`
+  ).should('contain.text', text);
+  cy.get(
+    `cx-quote-details-comment .cx-message-card:nth-child(${index}) .cx-message-item-link`
+  ).contains(item);
+}
+
+/**
+ * clicks on the item link provided in the comment.
+ * @param index index of the comment containing the link within the comment section
+ * @param item name of the item
+ */
+export function clickItemLinkInComment(index: number, item: string) {
+  cy.get(
+    `cx-quote-details-comment .cx-message-card:nth-child(${index}) .cx-message-item-link`
+  )
+    .contains(item)
+    .click();
+}
+
+/**
+ * checks if the item at the given index in the quote details cart is visible within the viewport
+ * @param index index of the quote details cart row.
+ */
+export function checkLinkedItemInViewport(index: number) {
+  cy.get(`cx-quote-details-cart .cx-item-list-row:nth-child(${index})`).should(
+    'be.visible'
+  );
 }
 
 /**
