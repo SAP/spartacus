@@ -15,7 +15,8 @@ export class QuoteListComponentService {
   protected sort = new BehaviorSubject('byCode');
   protected currentPage = new BehaviorSubject(0);
 
-  //TODO: temporary solution caused by gaps in the API
+  //TODO: temporary solution caused by gaps in the API. Refer to
+  //https://jira.tools.sap/browse/CXEC-31715
   sorts: SortModel[] = [
     { code: 'byDate' },
     { code: 'byCode' },
@@ -33,7 +34,6 @@ export class QuoteListComponentService {
     .pipe(
       tap((quotesState: QueryState<QuoteList | undefined>) => {
         if (quotesState.data?.sorts) {
-          //TODO CHHI how to cover that
           this.sorts = quotesState.data.sorts;
         }
       })
