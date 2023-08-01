@@ -28,6 +28,7 @@ import {
   OPF_CHECKOUT_SCHEMATICS_CONFIG,
 } from './lib-configs/integration-libs/opf-schematics-config';
 import { S4OM_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/s4om-schematics-config';
+import { SEGMENT_REFS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/segment-refs-schematics-config';
 import { ORDER_SCHEMATICS_CONFIG } from './lib-configs/order-schematics-config';
 import {
   ORGANIZATION_ACCOUNT_SUMMARY_SCHEMATICS_CONFIG,
@@ -128,6 +129,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
 
   OPF_CHECKOUT_SCHEMATICS_CONFIG,
   OPF_BASE_SCHEMATICS_CONFIG,
+
+  SEGMENT_REFS_SCHEMATICS_CONFIG,
 ];
 
 /**

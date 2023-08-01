@@ -6,8 +6,8 @@
 
 import * as login from './login';
 import * as configurationCartVc from './product-configurator-cart-vc';
-//import * as configurationCart from './product-configurator-cart';
 import * as productSearch from './product-search';
+import * as common from './common';
 import { verifyGlobalMessageAfterRegistration } from './register';
 
 const nextBtnSelector =
@@ -367,9 +367,11 @@ export function checkValueSelected(
     );
   } else {
     if (uiType === 'dropdownProduct') {
-      if (valueName === '0') {
-        // no product card for 'no option selected'
-        cy.get(`#${valueId} .cx-product-card`).should('not.exist');
+      if (valueName.includes('RETRACT_VALUE_CODE')) {
+        // No product card for 'No option selected'
+        // The RETRACT_VALUE_CODE constant contains special sing, namely `#`, that should be masked accordingly `\\#`
+        const newValueId = valueId.replaceAll('#', '\\#');
+        cy.get(`#${newValueId} .cx-product-card`).should('not.exist');
       } else {
         cy.get(`#${valueId} .cx-product-card`).should('be.visible');
       }
@@ -486,38 +488,6 @@ export function checkHamburgerDisplayed(): void {
 }
 
 /**
- * Clicks on 'Add to cart' on the product details page.
- */
-export function clickOnAddToCartBtnOnPD(): void {
-  cy.get('cx-add-to-cart button.btn-primary')
-    .contains('Add to cart')
-    .click()
-    .then(() => {
-      cy.get('cx-added-to-cart-dialog').should('be.visible');
-      cy.get('div.cx-dialog-body').should('be.visible');
-      cy.get('div.cx-dialog-buttons a.btn-primary')
-        .contains('view cart')
-        .should('be.visible');
-      cy.get('div.cx-dialog-buttons a.btn-secondary')
-        .contains('proceed to checkout')
-        .should('be.visible');
-    });
-}
-
-/**
- * Clicks on 'View Cart' on the product details page.
- */
-export function clickOnViewCartBtnOnPD(): void {
-  cy.get('div.cx-dialog-buttons a.btn-primary')
-    .contains('view cart')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/cart');
-      cy.get('cx-cart-details').should('be.visible');
-    });
-}
-
-/**
  * Clicks on 'Proceed to Checkout' on the product details page.
  */
 export function clickOnProceedToCheckoutBtnOnPD(): void {
@@ -567,7 +537,7 @@ export function completeOrderProcess(productName: string): void {
   login.loginUser();
   cy.wait(tokenAuthRequestAlias).its('response.statusCode').should('eq', 200);
   this.searchForProduct(productName);
-  this.clickOnAddToCartBtnOnPD();
+  common.clickOnAddToCartBtnOnPD();
   this.clickOnProceedToCheckoutBtnOnPD();
   configurationCartVc.checkout();
   //TODO: activate after 22.05

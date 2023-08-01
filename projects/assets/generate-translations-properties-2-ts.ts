@@ -72,4 +72,5 @@ Object.keys(translations).forEach((lang) => {
   }
 });
 
+/* eslint-disable-next-line no-console */
 console.log(`properties files are converted to json files`);

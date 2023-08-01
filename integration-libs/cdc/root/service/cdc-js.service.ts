@@ -16,6 +16,7 @@ import {
 import {
   AuthService,
   BaseSiteService,
+  EventService,
   GlobalMessageService,
   GlobalMessageType,
   LanguageService,
@@ -23,6 +24,7 @@ import {
   User,
   WindowRef,
 } from '@spartacus/core';
+import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import { UserProfileFacade, UserSignUp } from '@spartacus/user/profile/root';
 import {
   combineLatest,
@@ -35,6 +37,9 @@ import {
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
+import { CdcReConsentEvent } from '../events';
+import { CdcSiteConsentTemplate } from '../consent-management/model/index';
+import { CdcConsentsLocalStorageService } from '../consent-management';
 
 const defaultSessionTimeOut = 3600;
 const setAccountInfoAPI = 'accounts.setAccountInfo';
@@ -58,7 +63,9 @@ export class CdcJsService implements OnDestroy {
     protected zone: NgZone,
     protected userProfileFacade: UserProfileFacade,
     @Inject(PLATFORM_ID) protected platform: any,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected eventService: EventService,
+    protected consentStore: CdcConsentsLocalStorageService
   ) {}
 
   /**
@@ -105,6 +112,7 @@ export class CdcJsService implements OnDestroy {
                 attributes: { type: 'text/javascript' },
                 callback: () => {
                   this.registerEventListeners(baseSite);
+                  this.getSiteConsentDetails(true).subscribe(); //fetch CDC consents and persist to local storage
                   this.loaded$.next(true);
                   this.errorLoading$.next(false);
                 },
@@ -222,6 +230,7 @@ export class CdcJsService implements OnDestroy {
           firstName: user.firstName,
           lastName: user.lastName,
         },
+        preferences: user.preferences,
         regSource: regSource,
         regToken: response.regToken,
         finalizeRegistration: true,
@@ -246,22 +255,101 @@ export class CdcJsService implements OnDestroy {
     password: string,
     context?: any
   ): Observable<{ status: string }> {
+    const missingConsentErrorCode = 206001;
+    let ignoreInterruptions = false;
+    const channel = this.getCurrentBaseSiteChannel();
+    if (channel && channel === 'B2C') {
+      ignoreInterruptions = true;
+    }
     return this.getSessionExpirationValue().pipe(
       switchMap((sessionExpiration) => {
         return this.invokeAPI('accounts.login', {
           loginID: email,
           password: password,
+          include: 'missing-required-fields',
+          ignoreInterruptions: ignoreInterruptions,
           ...(context && { context: context }),
           sessionExpiry: sessionExpiration,
         }).pipe(
           take(1),
           tap({
-            error: (response) => this.handleLoginError(response),
+            error: (response) => {
+              if (response.errorCode !== missingConsentErrorCode) {
+                this.handleLoginError(response);
+              } else {
+                this.raiseCdcReconsentEvent(
+                  email,
+                  password,
+                  response.missingRequiredFields,
+                  response.errorMessage,
+                  response.regToken
+                );
+              }
+            },
           })
         );
       })
     );
   }
+
+  /**
+   * Trigger CDC Organisation registration using CDC APIs.
+   *
+   * @param orgInfo
+   */
+  registerOrganisationWithoutScreenSet(
+    orgInfo: OrganizationUserRegistrationForm
+  ): Observable<{ status: string }> {
+    if (
+      !orgInfo?.companyName ||
+      !orgInfo?.email ||
+      !orgInfo?.firstName ||
+      !orgInfo?.lastName
+    ) {
+      return throwError(null);
+    } else {
+      const regSource: string = this.winRef.nativeWindow?.location?.href || '';
+      const message = orgInfo.message;
+      let department = null;
+      let position = null;
+      if (message) {
+        const msgList = message.replace('\n', '').split(';');
+        for (const msg of msgList) {
+          if (msg.trim().toLowerCase().search('department') === 0) {
+            department = msg.split(':')[1].trim();
+          } else if (msg.trim().toLowerCase().search('position') === 0) {
+            position = msg.split(':')[1].trim();
+          }
+        }
+      }
+
+      return this.invokeAPI('accounts.b2b.registerOrganization', {
+        organization: {
+          name: orgInfo.companyName,
+          street_address: orgInfo.addressLine1 + ' ' + orgInfo.addressLine2,
+          city: orgInfo.town,
+          state: orgInfo.region,
+          zip_code: orgInfo.postalCode,
+          country: orgInfo.country,
+        },
+        requester: {
+          firstName: orgInfo.firstName,
+          lastName: orgInfo.lastName,
+          email: orgInfo.email,
+          phone: orgInfo.phoneNumber,
+          department: department,
+          jobFunction: position,
+        },
+        regSource: regSource,
+      }).pipe(
+        take(1),
+        tap({
+          error: (errorResponse) => this.handleRegisterError(errorResponse),
+        })
+      );
+    }
+  }
+
   /**
    * Retrieves the organization selected by the logged in user
    *
@@ -342,6 +430,16 @@ export class CdcJsService implements OnDestroy {
       .pipe(take(1))
       .subscribe((data) => (baseSite = data));
     return baseSite;
+  }
+
+  private getCurrentBaseSiteChannel(): string {
+    let channel: string = '';
+    const baseSiteUid: string = this.getCurrentBaseSite();
+    this.baseSiteService
+      .get(baseSiteUid)
+      .pipe(take(1))
+      .subscribe((data) => (channel = data?.channel ?? ''));
+    return channel;
   }
 
   /**
@@ -616,6 +714,97 @@ export class CdcJsService implements OnDestroy {
         },
       });
     });
+  }
+
+  /**
+   * Retrieves consent statements for logged in CDC site (based on CDC site API Key)
+   * @param persistToLocalStorage - set this to true, if you want to save the fetched CDC consents to a local storage
+   * @returns - Observable with site consent details
+   */
+  getSiteConsentDetails(
+    persistToLocalStorage: boolean = false
+  ): Observable<CdcSiteConsentTemplate> {
+    const baseSite: string = this.getCurrentBaseSite();
+    const javascriptURL: string = this.getJavascriptUrlForCurrentSite(baseSite);
+    const queryParams = new URLSearchParams(
+      javascriptURL.substring(javascriptURL.indexOf('?'))
+    );
+    const siteApiKey: string | null = queryParams.get('apikey');
+    return this.invokeAPI('accounts.getSiteConsentDetails', {
+      apiKey: siteApiKey,
+    }).pipe(
+      tap({
+        next: (response) => {
+          if (persistToLocalStorage) {
+            this.consentStore.persistCdcConsentsToStorage(response);
+          }
+        },
+      })
+    );
+  }
+
+  /**
+   * Triggers the update (give/withdraw) of a CDC consent for a user
+   * @param uid - user ID of the logged in user
+   * @param lang - current storefront language
+   * @param preferences - object containing the preference details
+   * @param regToken - optional parameter, which is necessary when reconsent is provided during login scenario
+   * @returns - returns Observable with error code and status
+   */
+  setUserConsentPreferences(
+    uid: string,
+    lang: string,
+    preferences: any,
+    regToken?: string
+  ): Observable<{ errorCode: number; errorMessage: string }> {
+    const regSource: string = this.winRef.nativeWindow?.location?.href || '';
+    return this.invokeAPI(setAccountInfoAPI, {
+      uid: uid,
+      lang: lang,
+      preferences: preferences,
+      regSource: regSource,
+      regToken: regToken,
+    }).pipe(
+      tap({
+        error: (error) => {
+          throwError(error);
+        },
+      })
+    );
+  }
+
+  /**
+   * Dispatch an event when reconsent is required during login. This will be listened
+   * by reconsent module to show reconsent pop-up
+   * @param user - user ID provided in login screen
+   * @param password - password provided in login screen
+   * @param reconsentIds - missing required cdc consent IDs
+   * @param errorMessage - error message indicating that reconsent is required
+   * @param regToken - token of the login session
+   */
+  raiseCdcReconsentEvent(
+    user: string,
+    password: string,
+    reconsentIds: string[],
+    errorMessage: string,
+    regToken: string
+  ): void {
+    const consentIds: string[] = [];
+    reconsentIds.forEach((template) => {
+      const removePreference = template.replace('preferences.', '');
+      const removeIsConsentGranted = removePreference.replace(
+        '.isConsentGranted',
+        ''
+      );
+      consentIds.push(removeIsConsentGranted);
+    });
+    const newReConsentEvent = new CdcReConsentEvent();
+    newReConsentEvent.user = user;
+    newReConsentEvent.password = password;
+    newReConsentEvent.consentIds = consentIds;
+    newReConsentEvent.errorMessage = errorMessage;
+    newReConsentEvent.regToken = regToken;
+    this.eventService.dispatch(newReConsentEvent);
   }
 
   protected logoutUser() {

@@ -13,24 +13,27 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  FeaturesConfig,
+  FeaturesConfigModule,
   FeatureConfigService,
   I18nTestingModule,
   LanguageService,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
-import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 
 @Directive({
   selector: '[cxFocus]',
@@ -103,6 +106,12 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
+const isCartEntryOrGroupVisited = true;
+class MockConfigUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(isCartEntryOrGroupVisited);
+  }
+}
 class MockFeatureConfigService {
   isLevel(version: string): boolean {
     return version === testVersion;
@@ -139,7 +148,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           MockFocusDirective,
           MockCxIconComponent,
         ],
-        imports: [ReactiveFormsModule, I18nTestingModule],
+        imports: [ReactiveFormsModule, I18nTestingModule, FeaturesConfigModule],
         providers: [
           { provide: LanguageService, useValue: mockLanguageService },
           {
@@ -154,7 +163,17 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
           },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
+          },
           { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '*' },
+            },
+          },
         ],
       })
         .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
@@ -223,6 +242,12 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should not consider empty required input field as invalid, despite that it will be marked as error on the UI, so that engine is still called', () => {
+    component.attribute.required = true;
+    fixture.detectChanges();
+    expect(component.attributeInputForm.valid).toBe(true);
   });
 
   describe('ngOnInit', () => {
@@ -336,7 +361,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     });
 
     it('should display no issue if input does not match interval but feature config service is not available', () => {
-      component['featureConfigservice'] = undefined;
+      component['featureConfigService'] = undefined;
       checkForIntervalValidity(VALUE_OUTSIDE_ALL_INTERVALS, 0);
     });
 
@@ -451,6 +476,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       component.attribute.userInput = '123';
       fixture.detectChanges();
       component.ngOnInit();
+      htmlElem = fixture.debugElement.nativeElement;
       tick(DEBOUNCE_TIME);
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

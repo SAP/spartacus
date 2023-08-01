@@ -49,6 +49,8 @@ export const organizationOrderApprovalFeatureModulePath =
   'src/app/spartacus/features/organization/organization-order-approval-feature.module.ts';
 export const organizationUserRegistrationFeatureModulePath =
   'src/app/spartacus/features/organization/organization-user-registration-feature.module.ts';
+export const organizationUserRegistrationWrapperModulePath =
+  'src/app/spartacus/features/organization/organization-user-registration-wrapper.module.ts';
 export const organizationUnitOrderFeatureModulePath =
   'src/app/spartacus/features/organization/organization-unit-order-feature.module.ts';
 export const organizationAccountSummaryFeatureModulePath =
@@ -92,6 +94,8 @@ export const epdFeatureModulePath =
   'src/app/spartacus/features/epd-visualization/epd-visualization-feature.module.ts';
 export const opfFeatureModulePath =
   'src/app/spartacus/features/opf/opf-feature.module.ts';
+export const segmentRefsFeatureModulePath =
+  'src/app/spartacus/features/segment-refs/segment-refs-feature.module.ts';
 
 export function writeFile(
   host: TempScopedNodeJsSyncHost,
