@@ -30,7 +30,7 @@ export interface Media {
    */
   role?: string;
 
-  sizes: string;
+  sizes?: string;
 }
 
 /**

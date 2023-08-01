@@ -173,23 +173,28 @@ export class MediaService {
       formats = formats.slice(0, max + 1);
     }
 
-    const srcset = formats.reduce((set, format) => {
+    let srcset = formats.reduce((set, format) => {
       const image = (media as MediaContainer)[format.code];
       if (!!image) {
         if (set) {
           set += ', ';
         }
 
-        if (!set.length) {
-          set += `${this.resolveAbsoluteUrl(image.url ?? '')} 3x`;
-        } else {
-          set += `${this.resolveAbsoluteUrl(image.url ?? '')} ${
-            format.size.width
-          }w`;
-        }
+        set += `${this.resolveAbsoluteUrl(image.url ?? '')} ${
+          format.size.width
+        }w`;
       }
       return set;
     }, '');
+
+    const hasMobile =
+      formats.filter((format) => format.code === 'mobile').length > 0;
+
+    if (hasMobile) {
+      srcset += `, ${this.resolveAbsoluteUrl(
+        (media as MediaContainer)['mobile'].url ?? ''
+      )} 3x`;
+    }
 
     return srcset === '' ? undefined : srcset;
   }
