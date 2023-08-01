@@ -51,7 +51,7 @@ export class QuoteDetailsCommentComponent {
     protected quoteDetailsCartComponentService: QuoteDetailsCartComponentService
   ) {}
 
-  onSend(event: { message: string; itemId: string }, code: string) {
+  onSend(event: { message: string; itemId?: string }, code: string) {
     this.quoteFacade
       .addQuoteComment(code, { text: event.message }, event.itemId)
       .pipe(

@@ -44,7 +44,7 @@
               <a
                 *ngIf="message.item"
                 class="cx-message-item-link"
-                (click)="onItemClicked(message)"
+                (click)="onItemClicked(message.item)"
                 >{{ message.item.name }}:</a
               >
               {{ message.text }}

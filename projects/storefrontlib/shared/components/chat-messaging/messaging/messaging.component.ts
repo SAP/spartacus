@@ -43,7 +43,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   }>();
 
   @Output() itemClicked = new EventEmitter<{
-    item?: Item;
+    item: Item;
   }>();
 
   @Output() downloadAttachment = new EventEmitter<{
@@ -209,9 +209,9 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
       : message.text;
   }
 
-  onItemClicked(message: MessageEvent): void {
+  onItemClicked(item: Item): void {
     this.itemClicked.emit({
-      item: message.item,
+      item: item,
     });
   }
 
