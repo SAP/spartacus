@@ -7,7 +7,6 @@
     "node": "^14.20.0 || ^16.13.0 || ^18.10.0"
   },
   "scripts": {
-    "delete:me": "testing release, delete after",
     "build:analyze": "npm run build --stats-json && npx --yes webpack-bundle-analyzer dist/storefrontapp/stats.json",
     "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV nx build storefrontapp --configuration production",
     "build:core": "nx build core --configuration production",
