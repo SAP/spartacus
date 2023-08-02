@@ -83,6 +83,7 @@
       <td>
         <ng-container *ngIf="!entry.applied">
           <button
+            *ngIf="showApplyButton"
             class="cx-asm-customer-promotion-listing-apply-button"
             (click)="apply.emit(entry)"
           >
@@ -99,7 +100,7 @@
               ></cx-icon>
             </td>
             <td
-              *ngIf="showApplyButton && !isCustomerCoupon"
+              *ngIf="!isCustomerCoupon"
               class="cx-asm-customer-promotion-listing-applied"
             >
               {{ applied }}
