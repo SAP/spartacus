@@ -1,11 +1,14 @@
 const httpProxy = require('http-proxy');
 const http = require('http');
+const fs = require('fs');
 
 const proxy = httpProxy.createProxyServer({ secure: false });
 
 // TODO: Use environment variable instead
 // const BACKEND_BASE_URL = process.env.OCC_URL;
 const BACKEND_BASE_URL = 'https://40.76.109.9:9002';
+
+const SSR_LOG_PATH = './ssr-e2e/ssr.log';
 
 const REQUEST_OPTIONS = {
   host: 'localhost',
@@ -15,8 +18,16 @@ const REQUEST_OPTIONS = {
 describe('SSR E2E', () => {
   let server;
 
+  beforeEach(() => {
+    clearSsrLogFile();
+  });
+
   afterEach(async () => {
     await server.close();
+  });
+
+  afterAll(() => {
+    // deleteSsrLogFile();
   });
 
   it('should receive success response with request', async () => {
@@ -106,4 +117,12 @@ async function sendRequest(path) {
       console.log('ERROR: ' + e.message);
     });
   });
+}
+
+function deleteSsrLogFile() {
+  fs.unlinkSync(SSR_LOG_PATH);
+}
+
+function clearSsrLogFile() {
+  fs.writeFileSync(SSR_LOG_PATH, '');
 }
