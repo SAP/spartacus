@@ -41,4 +41,5 @@ export class AsmCustomerPromotionListingComponent {
   }>();
   globalMessageType = GlobalMessageType;
   iconTypes = ICON_TYPE;
+  activeTab = 0;
 }

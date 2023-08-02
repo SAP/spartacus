@@ -4,23 +4,29 @@
   </h4>
 </div>
 <ng-container *ngIf="isCustomerCoupon">
-  <div class="cx-tab-headers" role="tablist">
+  <div class="cx-asm-customer-promotion-listing-tabs">
     <button
+      class="cx-tab-header"
+      [class.active]="activeTab === 0"
       [textContent]="'customer360.customerCoupons.availableTab' | cxTranslate"
       (click)="
         refreshCustomerCouponList.emit({
           assignable: true,
           searchQuery: undefined
-        })
+        });
+        activeTab = 0
       "
     ></button>
     <button
+      class="cx-tab-header"
+      [class.active]="activeTab === 1"
       [textContent]="'customer360.customerCoupons.sentTab' | cxTranslate"
       (click)="
         refreshCustomerCouponList.emit({
           assignable: false,
           searchQuery: undefined
-        })
+        });
+        activeTab = 1
       "
     ></button>
   </div>
