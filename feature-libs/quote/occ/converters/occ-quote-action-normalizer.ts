@@ -69,7 +69,7 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
       //deep copy order list
       const clonedActionList = structuredClone(order);
       combineLatest([
-        this.quoteCartService.getQuoteCartActive(),
+        this.quoteCartService.isQuoteCartActive(),
         this.quoteCartService.getQuoteId(),
       ])
         .pipe(take(1))

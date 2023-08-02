@@ -236,7 +236,7 @@ export class QuoteService implements QuoteFacade {
           switchMap(([{ state }, userId]) =>
             zip(
               this.quoteConnector.getQuote(userId, state.params.quoteId),
-              this.quoteCartService.getQuoteCartActive(),
+              this.quoteCartService.isQuoteCartActive(),
               this.quoteCartService.getQuoteId(),
               of(userId)
             )

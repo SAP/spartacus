@@ -15,9 +15,8 @@ import { Observable, ReplaySubject } from 'rxjs';
 export class QuoteCartService {
   private quoteId = new ReplaySubject<string>(1);
   private quoteCartActive = new ReplaySubject<boolean>(1);
- private checkoutAllowed = new ReplaySubject<boolean>(1);
+  private checkoutAllowed = new ReplaySubject<boolean>(1);
 
-  
   constructor() {
     this.quoteCartActive.next(false);
     this.checkoutAllowed.next(false);
@@ -36,7 +35,7 @@ export class QuoteCartService {
     this.quoteCartActive.next(quoteCartActive);
   }
 
-  public getQuoteCartActive(): Observable<boolean> {
+  public isQuoteCartActive(): Observable<boolean> {
     return this.quoteCartActive.asObservable();
   }
 

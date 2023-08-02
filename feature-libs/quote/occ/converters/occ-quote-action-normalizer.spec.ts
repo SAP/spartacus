@@ -28,7 +28,7 @@ const SUBMIT_EDIT_CANCEL_UNORDERED = [
 let isQuoteCartActive: any;
 let quoteId: any;
 class MockQuoteCartService {
-  getQuoteCartActive() {
+  isQuoteCartActive() {
     return of(isQuoteCartActive);
   }
   getQuoteId() {

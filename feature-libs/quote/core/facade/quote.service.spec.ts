@@ -89,7 +89,8 @@ let quoteId: any;
 class MockQuoteCartService {
   setQuoteCartActive = createSpy();
   setQuoteId = createSpy();
-  getQuoteCartActive() {
+  setCheckoutAllowed = createSpy();
+  isQuoteCartActive() {
     return of(isQuoteCartActive);
   }
   getQuoteId() {
@@ -379,6 +380,23 @@ describe('QuoteService', () => {
           );
           expect(quoteCartService.setQuoteId).toHaveBeenCalledWith(
             mockQuote.code
+          );
+          done();
+        });
+    });
+
+    it('should set cart quote mode on checkout and signal that checkout is allowed', (done) => {
+      service
+        .performQuoteAction(mockQuote.code, QuoteActionType.CHECKOUT)
+        .subscribe(() => {
+          expect(quoteCartService.setQuoteCartActive).toHaveBeenCalledWith(
+            true
+          );
+          expect(quoteCartService.setQuoteId).toHaveBeenCalledWith(
+            mockQuote.code
+          );
+          expect(quoteCartService.setCheckoutAllowed).toHaveBeenCalledWith(
+            true
           );
           done();
         });

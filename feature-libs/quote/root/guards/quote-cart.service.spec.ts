@@ -31,8 +31,18 @@ describe('QuoteCartService', () => {
   describe('setQuoteCartActive', () => {
     it('should trigger emission of new state', (done) => {
       quoteCartService.setQuoteCartActive(true);
-      quoteCartService.getQuoteCartActive().subscribe((isActive) => {
+      quoteCartService.isQuoteCartActive().subscribe((isActive) => {
         expect(isActive).toBe(true);
+        done();
+      });
+    });
+  });
+
+  describe('setCheckoutActive', () => {
+    it('should trigger emission of new state', (done) => {
+      quoteCartService.setCheckoutAllowed(true);
+      quoteCartService.isCheckoutAllowed().subscribe((isAllowed) => {
+        expect(isAllowed).toBe(true);
         done();
       });
     });

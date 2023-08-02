@@ -22,16 +22,17 @@ export class QuoteCartGuard implements CanActivate {
   ) {}
   canActivate(): Observable<boolean | UrlTree> {
     return combineLatest([
-      this.quoteCartService.getQuoteCartActive(),
+      this.quoteCartService.isQuoteCartActive(),
       this.quoteCartService.getQuoteId(),
       this.quoteCartService.isCheckoutAllowed(),
-      this.routingService.getRouterState()
+      this.routingService.getRouterState(),
     ]).pipe(
       map(([isQuoteCartActive, quoteId, isCheckoutAllowed, routerState]) => {
-        console.log("CHHI routerState: " + JSON.stringify(routerState));
-        console.log("CHHI isCheckoutAllowed: " + isCheckoutAllowed);
-        const noCheckoutBlocking = routerState.nextState?.semanticRoute?.startsWith('checkout') || routerState.state.semanticRoute?.startsWith('checkout') && isCheckoutAllowed;
-        if (isQuoteCartActive && (!noCheckoutBlocking)) {
+        const noCheckoutBlocking =
+          routerState.nextState?.semanticRoute?.startsWith('checkout') ||
+          (routerState.state.semanticRoute?.startsWith('checkout') &&
+            isCheckoutAllowed);
+        if (isQuoteCartActive && !noCheckoutBlocking) {
           this.routingService.go({
             cxRoute: 'quoteDetails',
             params: { quoteId: quoteId },
