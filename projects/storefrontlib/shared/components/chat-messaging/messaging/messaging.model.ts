@@ -13,6 +13,7 @@ export interface MessageEvent {
   text?: string;
   attachments?: Array<Attachment>;
   code?: string;
+  item?: Item;
 }
 
 export interface Attachment {
@@ -27,10 +28,17 @@ export interface MessagingConfigs {
   enableFileUploadOption?: boolean;
   dateFormat?: string;
   displayAddMessageSection?: Observable<boolean>;
+  itemList$?: Observable<Array<Item>>;
+  defaultItemId?: string;
 }
 
 export interface AttachmentRestrictions {
   maxSize?: number;
   maxEntries?: number;
   allowedTypes?: Array<string>;
+}
+
+export interface Item {
+  id: string;
+  name: string;
 }

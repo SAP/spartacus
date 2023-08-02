@@ -10,38 +10,41 @@ import { Observable, ReplaySubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
+//TODO in the course of https://jira.tools.sap/browse/CXSPA-4208:
+//Either remove this service or have it populated by cart calls
 export class QuoteCartService {
-  private quoteId: Observable<string> = new ReplaySubject<string>(1);
-  private quoteCartActive: Observable<boolean> = new ReplaySubject<boolean>(1);
-  private checkoutAllowed: Observable<boolean> = new ReplaySubject<boolean>(1);
+  private quoteId = new ReplaySubject<string>(1);
+  private quoteCartActive = new ReplaySubject<boolean>(1);
+ private checkoutAllowed = new ReplaySubject<boolean>(1);
 
+  
   constructor() {
-    (this.quoteCartActive as ReplaySubject<boolean>).next(false);
-    (this.checkoutAllowed as ReplaySubject<boolean>).next(false);
-    (this.quoteId as ReplaySubject<string>).next('');
+    this.quoteCartActive.next(false);
+    this.checkoutAllowed.next(false);
+    this.quoteId.next('');
   }
 
   public setQuoteId(quoteId: string): void {
-    (this.quoteId as ReplaySubject<string>).next(quoteId);
+    this.quoteId.next(quoteId);
   }
 
   public getQuoteId(): Observable<string> {
-    return this.quoteId;
+    return this.quoteId.asObservable();
   }
 
   public setQuoteCartActive(quoteCartActive: boolean): void {
-    (this.quoteCartActive as ReplaySubject<boolean>).next(quoteCartActive);
+    this.quoteCartActive.next(quoteCartActive);
   }
 
   public getQuoteCartActive(): Observable<boolean> {
-    return this.quoteCartActive;
+    return this.quoteCartActive.asObservable();
   }
 
   public setCheckoutAllowed(checkoutAllowed: boolean): void {
-    (this.checkoutAllowed as ReplaySubject<boolean>).next(checkoutAllowed);
+    this.checkoutAllowed.next(checkoutAllowed);
   }
 
   public isCheckoutAllowed(): Observable<boolean> {
-    return this.checkoutAllowed;
+    return this.checkoutAllowed.asObservable();
   }
 }

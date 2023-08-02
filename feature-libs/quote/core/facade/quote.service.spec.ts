@@ -106,6 +106,7 @@ class MockCommerceQuotesConnector implements Partial<QuoteConnector> {
   createQuote = createSpy().and.returnValue(of(mockQuote));
   editQuote = createSpy().and.returnValue(of(EMPTY));
   addComment = createSpy().and.returnValue(of(EMPTY));
+  addCartEntryComment = createSpy().and.returnValue(of(EMPTY));
   performQuoteAction = createSpy().and.returnValue(of(EMPTY));
 }
 
@@ -382,6 +383,33 @@ describe('QuoteService', () => {
           done();
         });
     });
+  });
+
+  it('should call addQuoteComment command when called with empty string of an entry number', () => {
+    service
+      .addQuoteComment(mockQuote.code, mockComment, '')
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(connector.addComment).toHaveBeenCalledWith(
+          mockUserId,
+          mockQuote.code,
+          mockComment
+        );
+      });
+  });
+
+  it('should call addCartEntryComment command when an entry number is provided', () => {
+    service
+      .addQuoteComment(mockQuote.code, mockComment, '0')
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(connector.addCartEntryComment).toHaveBeenCalledWith(
+          mockUserId,
+          mockQuote.code,
+          '0',
+          mockComment
+        );
+      });
   });
 
   it('should call requote command and return new quote', () => {

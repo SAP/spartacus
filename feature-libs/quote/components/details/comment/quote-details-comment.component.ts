@@ -4,7 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ViewChild } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, ViewChild } from '@angular/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, TranslationService } from '@spartacus/core';
 import {
   Comment,
@@ -13,15 +15,18 @@ import {
 } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
+  Item,
   MessageEvent,
   MessagingComponent,
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { finalize, map, take } from 'rxjs/operators';
-import { QuoteUIConfig } from '../../config';
+import { delay, finalize, map, take } from 'rxjs/operators';
+import { QuoteUIConfig } from '../../config/quote-ui.config';
+import { QuoteDetailsCartComponentService } from '../cart/quote-details-cart.component.service';
 
 const DEFAULT_COMMENT_MAX_CHARS = 1000;
+const ALL_PRODUCTS_ID = '';
 
 @Component({
   selector: 'cx-quote-details-comment',
@@ -41,12 +46,14 @@ export class QuoteDetailsCommentComponent {
     protected quoteFacade: QuoteFacade,
     protected eventService: EventService,
     protected translationService: TranslationService,
-    protected quoteUiConfig: QuoteUIConfig
+    protected quoteUiConfig: QuoteUIConfig,
+    @Inject(DOCUMENT) protected document: Document,
+    protected quoteDetailsCartComponentService: QuoteDetailsCartComponentService
   ) {}
 
-  onSend(event: { message: string }, code: string) {
+  onSend(event: { message: string; itemId?: string }, code: string) {
     this.quoteFacade
-      .addQuoteComment(code, { text: event.message })
+      .addQuoteComment(code, { text: event.message }, event.itemId)
       .pipe(
         take(1),
         // do for error and success
@@ -70,6 +77,22 @@ export class QuoteDetailsCommentComponent {
       );
   }
 
+  onItemClicked(event: { item: Item }) {
+    this.quoteDetailsCartComponentService.setQuoteEntriesExpanded(true);
+    this.quoteDetailsCartComponentService
+      .getQuoteEntriesExpanded()
+      .pipe(take(1), delay(0)) // delay this task until the UI has expanded
+      .subscribe(() => {
+        const aTags = Array.from(this.document.getElementsByTagName('a'));
+        for (const aTag of aTags) {
+          if (aTag.textContent === event.item.name) {
+            aTag.scrollIntoView({ block: 'center' });
+            return;
+          }
+        }
+      });
+  }
+
   protected prepareMessagingConfigs(): MessagingConfigs {
     return {
       charactersLimit:
@@ -79,6 +102,41 @@ export class QuoteDetailsCommentComponent {
         map((quote) => quote.isEditable)
       ),
       dateFormat: 'MMMM d, yyyy h:mm aa',
+      defaultItemId: ALL_PRODUCTS_ID,
+      itemList$: this.prepareItemList(),
+    };
+  }
+
+  protected prepareItemList(): Observable<Item[]> {
+    let allProducts: string = 'quote.comments.allProducts';
+    this.translationService
+      .translate(allProducts)
+      .pipe(take(1))
+      .subscribe((text) => (allProducts = text));
+
+    return this.quoteDetails$.pipe(
+      map((quote) => {
+        const itemList: Item[] = [{ id: ALL_PRODUCTS_ID, name: allProducts }];
+        quote.entries?.forEach((entry) => {
+          itemList.push(this.convertToItem(entry));
+        });
+        return itemList;
+      })
+    );
+  }
+
+  protected convertToItem(entry: OrderEntry): Item {
+    if (entry.entryNumber === undefined) {
+      throw Error(
+        'entryNumber may not be undefined, entry: ' + JSON.stringify(entry)
+      );
+    }
+    return {
+      id: entry.entryNumber.toString(),
+      name:
+        entry.product?.name ??
+        entry.product?.code ??
+        entry.entryNumber.toString(),
     };
   }
 
@@ -89,17 +147,32 @@ export class QuoteDetailsCommentComponent {
         quote.comments?.forEach((comment) =>
           messageEvents.push(this.mapCommentToMessageEvent(comment))
         );
+        quote.entries?.forEach((entry) => {
+          entry.comments?.forEach((comment) =>
+            messageEvents.push(this.mapCommentToMessageEvent(comment, entry))
+          );
+        });
+        messageEvents.sort((eventA, eventB) => {
+          return (
+            new Date(eventA?.createdAt ?? 0).getTime() -
+            new Date(eventB?.createdAt ?? 0).getTime()
+          );
+        });
         return messageEvents;
       })
     );
   }
 
-  protected mapCommentToMessageEvent(comment: Comment): MessageEvent {
+  protected mapCommentToMessageEvent(
+    comment: Comment,
+    entry?: OrderEntry
+  ): MessageEvent {
     const messages: MessageEvent = {
       author: comment.author?.name,
       text: comment.text,
       createdAt: comment.creationDate?.toString(),
       rightAlign: !comment.fromCustomer,
+      item: entry ? this.convertToItem(entry) : undefined,
     };
     return messages;
   }
