@@ -209,6 +209,9 @@
       "@spartacus/quote/root": [
         "feature-libs/quote/root/public_api"
       ],
+      "@spartacus/quote/quote-aware": [
+        "feature-libs/quote/quote-aware/public_api"
+      ],      
       "@spartacus/order/assets": [
         "feature-libs/order/assets/public_api"],
       "@spartacus/customer-ticketing/assets": [

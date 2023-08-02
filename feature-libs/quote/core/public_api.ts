@@ -8,3 +8,4 @@ export * from './quote-core.module';
 export * from './connectors/index';
 export * from './facade/index';
 export * from './config/index';
+export * from './services/index';

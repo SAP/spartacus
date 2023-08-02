@@ -5,6 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
+import { QuoteCartService } from '@spartacus/quote/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   Comment,
@@ -44,6 +45,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors/quote.connector';
+import { CartUtilsService } from '../services/cart-utils.service';
 
 @Injectable()
 export class QuoteService implements QuoteFacade {
@@ -86,6 +88,8 @@ export class QuoteService implements QuoteFacade {
               active: true,
             },
           });
+          this.quoteCartService.setQuoteCartActive(true);
+          this.quoteCartService.setQuoteId(quote.code);
           this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
         }),
         map(([_, _userId, quote]) => quote)
@@ -105,6 +109,7 @@ export class QuoteService implements QuoteFacade {
     (payload) =>
       this.userIdService.takeUserId().pipe(
         take(1),
+
         switchMap((userId) =>
           this.quoteConnector.editQuote(
             userId,
@@ -171,6 +176,24 @@ export class QuoteService implements QuoteFacade {
           )
         ),
         tap(() => {
+          if (
+            payload.quoteAction === QuoteActionType.SUBMIT ||
+            payload.quoteAction === QuoteActionType.CANCEL
+          ) {
+            this.quoteCartService.setQuoteCartActive(false);
+            this.cartUtilsService.createNewCartAndGoToQuoteList();
+          }
+          if (
+            payload.quoteAction === QuoteActionType.EDIT ||
+            payload.quoteAction === QuoteActionType.CHECKOUT
+          ) {
+            this.quoteCartService.setQuoteCartActive(true);
+            this.quoteCartService.setQuoteId(payload.quoteCode);
+          }
+
+          if (payload.quoteAction === QuoteActionType.CHECKOUT) {
+            this.quoteCartService.setCheckoutAllowed(true);
+          }
           this.isActionPerforming$.next(false);
           this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
         })
@@ -211,8 +234,25 @@ export class QuoteService implements QuoteFacade {
         this.routingService.getRouterState().pipe(
           withLatestFrom(this.userIdService.takeUserId()),
           switchMap(([{ state }, userId]) =>
-            this.quoteConnector.getQuote(userId, state.params.quoteId)
-          )
+            zip(
+              this.quoteConnector.getQuote(userId, state.params.quoteId),
+              this.quoteCartService.isQuoteCartActive(),
+              this.quoteCartService.getQuoteId(),
+              of(userId)
+            )
+          ),
+          tap(([quote, isActive, quoteId, userId]) => {
+            if (isActive && quote.code === quoteId) {
+              this.multiCartService.loadCart({
+                userId: userId,
+                cartId: quote.cartId as string,
+                extraData: {
+                  active: true,
+                },
+              });
+            }
+          }),
+          map(([quote, _]) => quote)
         ),
       {
         reloadOn: [QuoteDetailsReloadQueryEvent, LoginEvent],
@@ -258,7 +298,9 @@ export class QuoteService implements QuoteFacade {
     protected commandService: CommandService,
     protected activeCartService: ActiveCartFacade,
     protected routingService: RoutingService,
-    protected multiCartService: MultiCartFacade
+    protected multiCartService: MultiCartFacade,
+    protected quoteCartService: QuoteCartService,
+    protected cartUtilsService: CartUtilsService
   ) {}
 
   createQuote(quoteMetadata: QuoteMetadata): Observable<Quote> {

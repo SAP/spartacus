@@ -4,15 +4,37 @@ import {
   OccQuote,
   Quote,
   QuoteActionType,
+  QuoteCartService,
   QuoteState,
 } from '@spartacus/quote/root';
-import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import {
+  createEmptyQuote,
+  QUOTE_CODE,
+} from '../../core/testing/quote-test-utils';
 import { OccQuoteActionNormalizer } from './occ-quote-action-normalizer';
+import { of } from 'rxjs';
 
 const SUBMIT_AND_CANCEL_UNORDERED = [
   QuoteActionType.SUBMIT,
   QuoteActionType.CANCEL,
 ];
+
+const SUBMIT_EDIT_CANCEL_UNORDERED = [
+  QuoteActionType.SUBMIT,
+  QuoteActionType.EDIT,
+  QuoteActionType.CANCEL,
+];
+
+let isQuoteCartActive: any;
+let quoteId: any;
+class MockQuoteCartService {
+  isQuoteCartActive() {
+    return of(isQuoteCartActive);
+  }
+  getQuoteId() {
+    return of(quoteId);
+  }
+}
 
 describe('OccQuoteActionNormalizer', () => {
   let service: OccQuoteActionNormalizer;
@@ -26,10 +48,13 @@ describe('OccQuoteActionNormalizer', () => {
       providers: [
         OccQuoteActionNormalizer,
         { provide: QuoteCoreConfig, useValue: quoteCoreConfig },
+        { provide: QuoteCartService, useClass: MockQuoteCartService },
       ],
     });
 
     service = TestBed.inject(OccQuoteActionNormalizer);
+    isQuoteCartActive = false;
+    quoteId = '';
   });
 
   function initTestData() {
@@ -50,7 +75,11 @@ describe('OccQuoteActionNormalizer', () => {
       quote: {
         actions: {
           actionsOrderByState: {
-            BUYER_DRAFT: [QuoteActionType.CANCEL, QuoteActionType.SUBMIT],
+            BUYER_DRAFT: [
+              QuoteActionType.CANCEL,
+              QuoteActionType.EDIT,
+              QuoteActionType.SUBMIT,
+            ],
           },
           primaryActions: [QuoteActionType.SUBMIT],
         },
@@ -68,7 +97,14 @@ describe('OccQuoteActionNormalizer', () => {
       expect(result).toEqual(expectedQuote);
     });
 
-    it('should set isEditable to true if edit is allowed by backend', () => {
+    it('should set isEditable to false if edit is allowed by backend but quote cart has not been loaded', () => {
+      occQuote.allowedActions = [QuoteActionType.EDIT];
+      expect(service.convert(occQuote).isEditable).toBe(false);
+    });
+
+    it('should set isEditable to true if edit is allowed by backend and quote cart has been loaded', () => {
+      isQuoteCartActive = true;
+      quoteId = occQuote.code;
       occQuote.allowedActions = [QuoteActionType.EDIT];
       expect(service.convert(occQuote).isEditable).toBe(true);
     });
@@ -95,7 +131,8 @@ describe('OccQuoteActionNormalizer', () => {
     it('should return sorted list according to config', () => {
       const orderedActions = service['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
-        SUBMIT_AND_CANCEL_UNORDERED
+        SUBMIT_AND_CANCEL_UNORDERED,
+        QUOTE_CODE
       );
       expect(orderedActions).toEqual([
         QuoteActionType.CANCEL,
@@ -106,7 +143,8 @@ describe('OccQuoteActionNormalizer', () => {
       quoteCoreConfig.quote = undefined;
       const orderedActions = service['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
-        SUBMIT_AND_CANCEL_UNORDERED
+        SUBMIT_AND_CANCEL_UNORDERED,
+        QUOTE_CODE
       );
       expect(orderedActions).toEqual(SUBMIT_AND_CANCEL_UNORDERED);
     });
@@ -114,7 +152,8 @@ describe('OccQuoteActionNormalizer', () => {
       (quoteCoreConfig?.quote ?? {}).actions = undefined;
       const orderedActions = service['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
-        SUBMIT_AND_CANCEL_UNORDERED
+        SUBMIT_AND_CANCEL_UNORDERED,
+        QUOTE_CODE
       );
       expect(orderedActions).toEqual(SUBMIT_AND_CANCEL_UNORDERED);
     });
@@ -123,9 +162,37 @@ describe('OccQuoteActionNormalizer', () => {
       (quoteCoreConfig.quote?.actions ?? {}).actionsOrderByState = undefined;
       const orderedActions = service['getOrderedActions'](
         QuoteState.BUYER_DRAFT,
-        SUBMIT_AND_CANCEL_UNORDERED
+        SUBMIT_AND_CANCEL_UNORDERED,
+        QUOTE_CODE
       );
       expect(orderedActions).toEqual(SUBMIT_AND_CANCEL_UNORDERED);
+    });
+
+    it('should retain edit action in case no quote cart is present', () => {
+      const orderedActions = service['getOrderedActions'](
+        QuoteState.BUYER_DRAFT,
+        SUBMIT_EDIT_CANCEL_UNORDERED,
+        QUOTE_CODE
+      );
+      expect(orderedActions).toEqual([
+        QuoteActionType.CANCEL,
+        QuoteActionType.EDIT,
+        QuoteActionType.SUBMIT,
+      ]);
+    });
+
+    it('should remove edit action in case quote cart is linked to current quote', () => {
+      isQuoteCartActive = true;
+      quoteId = QUOTE_CODE;
+      const orderedActions = service['getOrderedActions'](
+        QuoteState.BUYER_DRAFT,
+        SUBMIT_EDIT_CANCEL_UNORDERED,
+        QUOTE_CODE
+      );
+      expect(orderedActions).toEqual([
+        QuoteActionType.CANCEL,
+        QuoteActionType.SUBMIT,
+      ]);
     });
   });
 

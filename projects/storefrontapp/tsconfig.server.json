@@ -459,6 +459,9 @@
       "@spartacus/quote/core": ["../../feature-libs/quote/core/public_api"],
       "@spartacus/quote/occ": ["../../feature-libs/quote/occ/public_api"],
       "@spartacus/quote/root": ["../../feature-libs/quote/root/public_api"],
+      "@spartacus/quote/quote-aware": [
+        "../../feature-libs/quote/quote-aware/public_api"
+      ],
 
       "@spartacus/cdc/assets": ["../../integration-libs/cdc/assets/public_api"],
 

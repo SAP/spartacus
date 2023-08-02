@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { QuoteActionLinksService } from './quote-action-links.service';
+import { CartUtilsService } from '@spartacus/quote/core';
 
 @Component({
   selector: 'cx-quote-action-links',
@@ -13,9 +13,9 @@ import { QuoteActionLinksService } from './quote-action-links.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteActionLinksComponent {
-  constructor(protected actionLinksService: QuoteActionLinksService) {}
+  constructor(protected cartUtilsService: CartUtilsService) {}
 
   goToNewCart(): void {
-    this.actionLinksService.goToNewCart();
+    this.cartUtilsService.goToNewCart();
   }
 }
