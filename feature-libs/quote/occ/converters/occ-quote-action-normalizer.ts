@@ -5,31 +5,49 @@
  */
 
 import { Injectable } from '@angular/core';
-import { QuoteConfig } from '@spartacus/quote/core';
+import { QuoteCartService } from '@spartacus/quote/root';
+import { Converter } from '@spartacus/core';
+import { QuoteCoreConfig } from '@spartacus/quote/core';
 import {
-  QuoteAction,
   OccQuote,
   Quote,
+  QuoteAction,
   QuoteActionType,
   QuoteState,
 } from '@spartacus/quote/root';
-import { Converter } from '@spartacus/core';
+import { combineLatest } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
-  constructor(private quoteConfig: QuoteConfig) {}
+  constructor(
+    protected quoteConfig: QuoteCoreConfig,
+    protected quoteCartService: QuoteCartService
+  ) {}
 
   convert(source: OccQuote, target?: Quote): Quote {
     if (!target) {
-      target = { ...(source as any) } as Quote;
+      target = { ...source, allowedActions: [], isEditable: false };
     }
 
     if (source.allowedActions && source.state) {
       target.allowedActions = this.getOrderedActions(
         source.state,
-        source.allowedActions
+        source.allowedActions,
+        source.code
       ).map((action) => this.getActionCategory(action));
     }
+    const switchToEditModeRequired = target.allowedActions?.find(
+      (quoteAction) => quoteAction.type === QuoteActionType.EDIT
+    );
+
+    target.isEditable =
+      !!source.allowedActions?.includes(QuoteActionType.EDIT) &&
+      !switchToEditModeRequired;
+
+    //TODO CONFIG_INTEGRATION have this code in a dedicated entry normalizer
+    //TODO CONFIG_INTEGRATION introduce constant for quote in model (no enum)
+    target.entries?.forEach((entry) => (entry.quoteCode = source.code));
 
     return target;
   }
@@ -41,13 +59,35 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
     return { type, isPrimary: primaryActions.includes(type) };
   }
 
-  protected getOrderedActions(state: QuoteState, list: QuoteActionType[]) {
+  protected getOrderedActions(
+    state: QuoteState,
+    list: QuoteActionType[],
+    quoteId: string
+  ) {
     const order = this.quoteConfig.quote?.actions?.actionsOrderByState?.[state];
-
-    return !order
-      ? list
-      : list
-          .filter((item) => order.includes(item))
-          .sort((a, b) => order.indexOf(a) - order.indexOf(b));
+    if (order) {
+      //deep copy order list
+      const clonedActionList = structuredClone(order);
+      combineLatest([
+        this.quoteCartService.isQuoteCartActive(),
+        this.quoteCartService.getQuoteId(),
+      ])
+        .pipe(take(1))
+        .subscribe(([isQuoteCartActive, cartQuoteId]) => {
+          if (isQuoteCartActive && cartQuoteId === quoteId) {
+            const editIndex = clonedActionList.indexOf(QuoteActionType.EDIT);
+            if (editIndex > -1) {
+              clonedActionList.splice(editIndex, 1);
+            }
+          }
+        });
+      return list
+        .filter((item) => clonedActionList.includes(item))
+        .sort(
+          (a, b) => clonedActionList.indexOf(a) - clonedActionList.indexOf(b)
+        );
+    } else {
+      return list;
+    }
   }
 }

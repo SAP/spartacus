@@ -27,7 +27,6 @@ context('Assisted Service Module', () => {
 
       asm.agentLogin('asagent', 'pw4all');
       asm.asmCustomerLists();
-      asm.agentSignOut();
     });
 
     it('checking pagination (CXSPA-2109)', () => {
@@ -37,7 +36,6 @@ context('Assisted Service Module', () => {
 
       asm.agentLogin('asagent', 'pw4all');
       asm.asmCustomerListPagination();
-      asm.agentSignOut();
     });
   });
 });

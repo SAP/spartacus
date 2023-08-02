@@ -48,6 +48,11 @@ const ownerOrderRelated = ConfiguratorModelUtils.createOwner(
   ORDER_NUMBER + '+' + ORDER_ENTRY_NUMBER
 );
 
+const ownerQuoteRelated = ConfiguratorModelUtils.createOwner(
+  CommonConfigurator.OwnerType.QUOTE_ENTRY,
+  ORDER_NUMBER + '+' + ORDER_ENTRY_NUMBER
+);
+
 const readFromCartEntryParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
   {
     userId: 'anonymous',
@@ -62,6 +67,14 @@ const readFromOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderEnt
     orderId: ORDER_NUMBER,
     orderEntryNumber: ORDER_ENTRY_NUMBER,
     owner: ownerOrderRelated,
+  };
+
+const readFromQuoteEntryParams: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
+  {
+    userId: OCC_USER_ID_CURRENT,
+    quoteId: ORDER_NUMBER,
+    quoteEntryNumber: ORDER_ENTRY_NUMBER,
+    owner: ownerQuoteRelated,
   };
 
 const productConfiguration: ConfiguratorTextfield.Configuration = {
@@ -257,6 +270,26 @@ describe('ConfiguratorTextfieldService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorTextfieldActions.ReadOrderEntryConfiguration(
         readFromOrderEntryParams
+      )
+    );
+  });
+
+  it('should dispatch the correct action when readConfigurationForQuoteEntry is called', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(mockConfigReturned);
+    const configurationFromStore =
+      serviceUnderTest.readConfigurationForQuoteEntry(ownerQuoteRelated);
+
+    expect(configurationFromStore).toBeDefined();
+
+    configurationFromStore
+      .subscribe((configuration) =>
+        expect(configuration.configurationInfos.length).toBe(1)
+      )
+      .unsubscribe();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorTextfieldActions.ReadQuoteEntryConfiguration(
+        readFromQuoteEntryParams
       )
     );
   });

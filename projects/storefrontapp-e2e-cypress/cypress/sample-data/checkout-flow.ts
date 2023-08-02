@@ -68,7 +68,7 @@ export function getSampleUser() {
     fullName: 'Cypress customer',
     password: 'Password123.',
     email: generateMail(randomString(), true),
-    phone: '555 555 555',
+    phone: '+919555555555',
     cellphone: '123 456 7899',
     address: {
       city: 'Los Angeles',

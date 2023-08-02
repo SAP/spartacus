@@ -5,3 +5,4 @@
  */
 
 export const QUOTE_FEATURE = 'quote';
+export const QUOTE_AWARE_FEATURE = 'quote_aware';

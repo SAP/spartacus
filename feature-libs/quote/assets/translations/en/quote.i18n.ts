@@ -46,18 +46,23 @@ export const quote = {
       status: 'Status',
       creationSuccess: 'Quote #{{ code }} created successfully',
       cart: 'Cart',
-      contactVendor: 'Contact Vendor',
+    },
+    comments: {
+      title: 'Contact',
+      invalidComment: 'Invalid Input - Please type again...',
+      allProducts: 'All Products',
     },
     details: {
       information: 'Quote Information',
       name: 'Quote Name',
       code: 'Quote ID',
+      created: 'Created',
+      lastUpdated: 'Last Updated',
+      total: 'Total',
       description: 'Description',
       estimateAndDate: 'Estimated & Date',
       estimatedTotal: 'Estimated Total',
-      created: 'Created',
       update: 'Update',
-      lastUpdated: 'Last Updated',
       expiryDate: 'Expiry Date',
     },
     links: {
@@ -75,7 +80,7 @@ export const quote = {
       confirmSubmitOption: { yes: 'Yes', no: 'No' },
     },
     requestDialog: {
-      requestQuote: 'Request a Quote',
+      requestQuote: 'Request Quote',
       title: 'Request Quote',
       continueToEdit: 'Continue to Edit',
       form: {

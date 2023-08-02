@@ -459,6 +459,9 @@
       "@spartacus/quote/core": ["../../feature-libs/quote/core/public_api"],
       "@spartacus/quote/occ": ["../../feature-libs/quote/occ/public_api"],
       "@spartacus/quote/root": ["../../feature-libs/quote/root/public_api"],
+      "@spartacus/quote/quote-aware": [
+        "../../feature-libs/quote/quote-aware/public_api"
+      ],
 
       "@spartacus/cdc/assets": ["../../integration-libs/cdc/assets/public_api"],
 
@@ -469,6 +472,9 @@
       "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
       "@spartacus/cdc/organization/administration": [
         "../../integration-libs/cdc/organization/administration/public_api"
+      ],
+      "@spartacus/cdc/organization/user-registration": [
+        "../../integration-libs/cdc/organization/user-registration/public_api"
       ],
       "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cdc/user-account": [
@@ -507,6 +513,12 @@
       ],
       "@spartacus/s4om": ["../../integration-libs/s4om/public_api"],
       "@spartacus/s4om/root": ["../../integration-libs/s4om/root/public_api"],
+      "@spartacus/segment-refs": [
+        "../../integration-libs/segment-refs/public_api"
+      ],
+      "@spartacus/segment-refs/root": [
+        "../../integration-libs/segment-refs/root/public_api"
+      ],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]

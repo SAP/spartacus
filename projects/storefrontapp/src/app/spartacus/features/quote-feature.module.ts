@@ -10,13 +10,17 @@ import {
   quoteTranslations,
 } from '@spartacus/quote/assets';
 import { provideConfig } from '@spartacus/core';
-import { QuoteRootModule, QUOTE_FEATURE } from '@spartacus/quote/root';
-import { QuoteConfig } from '@spartacus/quote/core';
+import {
+  QuoteRootModule,
+  QUOTE_FEATURE,
+  QUOTE_AWARE_FEATURE,
+} from '@spartacus/quote/root';
+import { QuoteCoreConfig } from '@spartacus/quote/core';
 
 @NgModule({
   imports: [QuoteRootModule],
   providers: [
-    provideConfig(<QuoteConfig>{
+    provideConfig(<QuoteCoreConfig>{
       quote: {
         //TODO CHHI: Delete when decision has been taken about quote request dialog
         // tresholds: {
@@ -34,6 +38,16 @@ import { QuoteConfig } from '@spartacus/quote/core';
       i18n: {
         resources: quoteTranslations,
         chunks: quoteTranslationChunksConfig,
+      },
+    }),
+    provideConfig({
+      featureModules: {
+        [QUOTE_AWARE_FEATURE]: {
+          module: () =>
+            import('@spartacus/quote/quote-aware').then(
+              (m) => m.QuoteAwareModule
+            ),
+        },
       },
     }),
   ],

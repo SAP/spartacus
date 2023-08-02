@@ -6,18 +6,27 @@
 
 import { Component } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
-import { QuoteFacade } from '@spartacus/quote/root';
+import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { QuoteDetailsCartComponentService } from './quote-details-cart.component.service';
 
 @Component({
   selector: 'cx-quote-details-cart',
   templateUrl: './quote-details-cart.component.html',
 })
 export class QuoteDetailsCartComponent {
-  quoteDetails$ = this.quoteFacade.getQuoteDetails();
+  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
-  showCart = true;
   readonly cartOutlets = CartOutlets;
+  showCart$ = this.quoteDetailsCartService.getQuoteEntriesExpanded();
 
-  constructor(protected quoteFacade: QuoteFacade) {}
+  constructor(
+    protected quoteFacade: QuoteFacade,
+    protected quoteDetailsCartService: QuoteDetailsCartComponentService
+  ) {}
+
+  onToggleShowOrHideCart(showCart: boolean) {
+    this.quoteDetailsCartService.setQuoteEntriesExpanded(!showCart);
+  }
 }

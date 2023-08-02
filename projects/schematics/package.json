@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "6.2.0-1",
+  "version": "6.3.0-1",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -18,7 +18,7 @@
   "dependencies": {
     "@angular/pwa": "^15.2.4",
     "@nguniversal/express-engine": "^15.2.0",
-    "semver": "^7.5.0",
+    "semver": "^7.5.2",
     "ts-morph": "^9.1.0",
     "tslib": "^2.4.0"
   },

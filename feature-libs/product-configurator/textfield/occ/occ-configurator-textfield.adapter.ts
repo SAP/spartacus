@@ -131,6 +131,34 @@ export class OccConfiguratorTextfieldAdapter
       })
     );
   }
+
+  readConfigurationForQuoteEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
+  ): Observable<ConfiguratorTextfield.Configuration> {
+    const url = this.occEndpointsService.buildUrl(
+      'readTextfieldConfigurationForQuoteEntry',
+      {
+        urlParams: {
+          userId: parameters.userId,
+          quoteId: parameters.quoteId,
+          quoteEntryNumber: parameters.quoteEntryNumber,
+        },
+      }
+    );
+
+    return this.http.get<ConfiguratorTextfield.Configuration>(url).pipe(
+      this.converterService.pipeable(CONFIGURATION_TEXTFIELD_NORMALIZER),
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          owner: {
+            ...parameters.owner,
+          },
+        };
+      })
+    );
+  }
+
   updateConfigurationForCartEntry(
     parameters: ConfiguratorTextfield.UpdateCartEntryParameters
   ): Observable<CartModification> {

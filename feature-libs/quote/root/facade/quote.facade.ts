@@ -25,6 +25,7 @@ import {
       feature: QUOTE_FEATURE,
       methods: [
         'getQuotesState',
+        'getQuoteDetailsQueryState',
         'getQuoteDetails',
         'createQuote',
         'editQuote',
@@ -45,10 +46,7 @@ export abstract class QuoteFacade {
   /**
    * Create quote with name and comment.
    */
-  abstract createQuote(
-    quoteMetadata: QuoteMetadata,
-    quoteComment: Comment
-  ): Observable<Quote>;
+  abstract createQuote(quoteMetadata: QuoteMetadata): Observable<Quote>;
 
   /**
    * Edit quote name, description or expiry date.
@@ -59,11 +57,13 @@ export abstract class QuoteFacade {
   ): Observable<unknown>;
 
   /**
-   * Add comment to a quote.
+   * Adds a comment to a quote. If an entry number is provided,
+   * it will be added as item comment for this entry, otherwise as header comment.
    */
   abstract addQuoteComment(
     quoteCode: string,
-    quoteComment: Comment
+    quoteComment: Comment,
+    entryNumber?: string
   ): Observable<unknown>;
 
   /**
@@ -80,7 +80,14 @@ export abstract class QuoteFacade {
   abstract requote(quoteCode: string): Observable<Quote>;
 
   /**
-   * Returns the quote details.
+   * Returns the quote details query state.
    */
-  abstract getQuoteDetails(): Observable<QueryState<Quote | undefined>>;
+  abstract getQuoteDetailsQueryState(): Observable<
+    QueryState<Quote | undefined>
+  >;
+
+  /**
+   * Returns the quote details once it has been fully loaded.
+   */
+  abstract getQuoteDetails(): Observable<Quote>;
 }

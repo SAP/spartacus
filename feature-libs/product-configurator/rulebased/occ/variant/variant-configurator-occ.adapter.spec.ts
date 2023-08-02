@@ -686,6 +686,48 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(overviewOcc);
   });
 
+  it('should call readVariantConfigurationOverviewForQuoteEntry endpoint', (done) => {
+    spyOn(converterService, 'pipeable').and.callThrough();
+    const params: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
+      {
+        userId: userId,
+        quoteId: documentId,
+        quoteEntryNumber: documentEntryNumber,
+        owner: configuration.owner,
+      };
+    occConfiguratorVariantAdapter
+      .readConfigurationForQuoteEntry(params)
+      .subscribe((resultConfiguration) => {
+        expect(resultConfiguration.configId).toEqual(configId);
+        done();
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readVariantConfigurationOverviewForQuoteEntry'
+      );
+    });
+
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+      'readVariantConfigurationOverviewForQuoteEntry',
+      {
+        urlParams: {
+          userId,
+          quoteId: documentId,
+          quoteEntryNumber: documentEntryNumber,
+        },
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
+    );
+    mockReq.flush(overviewOcc);
+  });
+
   it('should call updateVariantConfigurationForCartEntry endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     const params: Configurator.UpdateConfigurationForCartEntryParameters = {

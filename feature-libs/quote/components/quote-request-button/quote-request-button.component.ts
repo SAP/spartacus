@@ -34,12 +34,7 @@ export class QuoteRequestButtonComponent implements OnDestroy {
   goToQuoteDetails(): void {
     this.subscription.add(
       this.quoteFacade
-        .createQuote(
-          {},
-          {
-            text: 'sometext',
-          }
-        )
+        .createQuote({})
         .pipe(
           tap((quote) => {
             this.routingService.go({

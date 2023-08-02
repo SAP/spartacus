@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { QuoteConfig } from '@spartacus/quote/core';
+import { QuoteCoreConfig } from '@spartacus/quote/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -33,7 +33,7 @@ export class QuoteConfirmRequestDialogComponent implements OnInit {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected config: QuoteConfig
+    protected config: QuoteCoreConfig
   ) {}
 
   ngOnInit(): void {

@@ -4,21 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Card } from '@spartacus/storefront';
 import { Component } from '@angular/core';
+import { Quote, QuoteActionType, QuoteFacade } from '@spartacus/quote/root';
+import { TranslationService } from '@spartacus/core';
+import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
-import { QuoteFacade } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
-import { TranslationService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quote-details-overview',
   templateUrl: './quote-details-overview.component.html',
 })
 export class QuoteDetailsOverviewComponent {
-  quoteDetails$ = this.quoteFacade.getQuoteDetails();
+  quoteDetails$ = this.quoteFacade.getQuoteDetailsQueryState();
   iconTypes = ICON_TYPE;
+  //TODO switch to Quote instead of QueryState<Quote>
+  //quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
 
   constructor(
     protected quoteFacade: QuoteFacade,
@@ -86,5 +88,27 @@ export class QuoteDetailsOverviewComponent {
         };
       })
     );
+  }
+  /**
+   * Returns total price as formatted string
+   * @param quote Quote
+   * @returns Total price formatted format, null if that is not available
+   */
+  getTotalPrice(quote: Quote): string | null {
+    return quote.totalPrice.formattedValue ?? null;
+  }
+
+  /**
+   * Returns total price description
+   * @param quote Quote
+   * @returns 'Total' price if quote is in final state, 'Estimated total' otherwise
+   */
+  getTotalPriceDescription(quote: Quote): string {
+    const readyToSubmit = quote.allowedActions.find(
+      (action) => action.type === QuoteActionType.CHECKOUT
+    );
+    return readyToSubmit
+      ? 'quote.details.total'
+      : 'quote.details.estimatedTotal';
   }
 }

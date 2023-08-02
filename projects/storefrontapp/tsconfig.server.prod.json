@@ -286,6 +286,13 @@
       "@spartacus/qualtrics/components": ["../../dist/qualtrics/components"],
       "@spartacus/qualtrics": ["../../dist/qualtrics"],
       "@spartacus/qualtrics/root": ["../../dist/qualtrics/root"],
+      "@spartacus/quote/assets": ["../../dist/quote/assets"],
+      "@spartacus/quote/components": ["../../dist/quote/components"],
+      "@spartacus/quote/core": ["../../dist/quote/core"],
+      "@spartacus/quote": ["../../dist/quote"],
+      "@spartacus/quote/occ": ["../../dist/quote/occ"],
+      "@spartacus/quote/quote-aware": ["../../dist/quote/quote-aware"],
+      "@spartacus/quote/root": ["../../dist/quote/root"],
       "@spartacus/smartedit/core": ["../../dist/smartedit/core"],
       "@spartacus/smartedit": ["../../dist/smartedit"],
       "@spartacus/smartedit/root": ["../../dist/smartedit/root"],
@@ -328,21 +335,15 @@
       "@spartacus/user/profile": ["../../dist/user/profile"],
       "@spartacus/user/profile/occ": ["../../dist/user/profile/occ"],
       "@spartacus/user/profile/root": ["../../dist/user/profile/root"],
-
-      "@spartacus/quote": ["../../dist/quote"],
-      "@spartacus/quote/assets": ["../../dist/quote/assets"],
-      "@spartacus/quote/components": ["../../dist/quote/components"],
-      "@spartacus/quote/core": ["../../dist/quote/core"],
-      "@spartacus/quote/occ": ["../../dist/quote/occ"],
-      "@spartacus/quote/root": ["../../dist/quote/root"],
-
       "@spartacus/cdc/assets": ["../../dist/cdc/assets"],
-
       "@spartacus/cdc/components": ["../../dist/cdc/components"],
       "@spartacus/cdc/core": ["../../dist/cdc/core"],
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/cdc/organization/administration": [
         "../../dist/cdc/organization/administration"
+      ],
+      "@spartacus/cdc/organization/user-registration": [
+        "../../dist/cdc/organization/user-registration"
       ],
       "@spartacus/cdc/root": ["../../dist/cdc/root"],
       "@spartacus/cdc/user-account": ["../../dist/cdc/user-account"],
@@ -371,6 +372,8 @@
       "@spartacus/s4om/assets": ["../../dist/s4om/assets"],
       "@spartacus/s4om": ["../../dist/s4om"],
       "@spartacus/s4om/root": ["../../dist/s4om/root"],
+      "@spartacus/segment-refs": ["../../dist/segment-refs"],
+      "@spartacus/segment-refs/root": ["../../dist/segment-refs/root"],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/storefront": ["../../dist/storefrontlib"]

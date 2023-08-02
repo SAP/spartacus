@@ -18,8 +18,26 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator',
           readCpqConfigurationForOrderEntry:
             'users/${userId}/orders/${orderId}/entries/${orderEntryNumber}/cpqconfigurator',
+          readCpqConfigurationForQuoteEntry:
+            'users/${userId}/quotes/${quoteId}/entries/${quoteEntryNumber}/cpqconfigurator',
           updateCpqConfigurationForCartEntry:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator',
+          createCpqConfiguration:
+            'products/${productCode}/configurators/cpqconfigurator',
+          readCpqConfiguration:
+            'cpqconfigurator/${configurationId}/configuration?tabId=${tabId}',
+          readCpqConfigurationOverview:
+            'cpqconfigurator/${configurationId}/configurationOverview',
+          updateCpqAttribute:
+            'cpqconfigurator/${configurationId}/attributes/${attributeCode}?tabId=${tabId}',
+          updateCpqAttributeValueQuantity:
+            'cpqconfigurator/${configurationId}/attributes/${attributeCode}/values/${attributeValueId}?tabId=${tabId}',
+          readCpqConfigurationForCartEntryFull:
+            'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator/configuration',
+          readCpqConfigurationForOrderEntryFull:
+            'users/${userId}/orders/${orderId}/entries/${orderEntryNumber}/cpqconfigurator/configuration',
+          readCpqConfigurationForQuoteEntryFull:
+            'users/${userId}/quotes/${quoteId}/entries/${quoteEntryNumber}/cpqconfigurator/configuration',
         },
       },
     },

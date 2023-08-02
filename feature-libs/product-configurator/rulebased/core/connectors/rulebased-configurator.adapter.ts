@@ -93,6 +93,16 @@ export abstract class RulebasedConfiguratorAdapter {
   ): Observable<Configurator.Configuration>;
 
   /**
+   * Abstract method to read a configuration for a quote entry
+   *
+   * @param parameters Contains attributes that we need to read a configuration attached to a quote entry
+   * @returns  {Observable<Configurator.Configuration>} Configuration with only the overview aspect provided
+   */
+  abstract readConfigurationForQuoteEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
+  ): Observable<Configurator.Configuration>;
+
+  /**
    * Abstract method to read a configuration price
    *
    * @param configId configuration id
@@ -112,12 +122,15 @@ export abstract class RulebasedConfiguratorAdapter {
   ): Observable<Configurator.Overview>;
 
   /**
-   * Abstract method to get configuration overview
+   * Abstract method to get the supported configurator type
    *
-   * @param configId configuration id
-   * @param owner configuration owner
    */
   abstract getConfiguratorType(): string;
+
+  /**
+   * Abstract method to check if the adapter supports to call CPQ over OCC. Only relevant for adapters supporting @see ConfiguratorType.CPQ
+   */
+  abstract supportsCpqOverOcc?(): boolean;
 
   /**
    * Searches for variants that are matching the configuration identified by its id.

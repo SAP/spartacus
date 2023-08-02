@@ -16,6 +16,8 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigureCartEntryComponent {
+  protected static readonly ERROR_MESSAGE_ENTRY_INCONSISTENT =
+    "We don't expect order and quote code defined at the same time";
   @Input() cartEntry: OrderEntry;
   @Input() readOnly: boolean;
   @Input() msgBanner: boolean;
@@ -31,14 +33,24 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
-   * Verifies whether the cart entry has an order code and returns a corresponding owner type.
+   * Determines owner for an entry (can be part of cart, order or quote)
    *
    * @returns - an owner type
    */
   getOwnerType(): CommonConfigurator.OwnerType {
-    return this.cartEntry.orderCode !== undefined
-      ? CommonConfigurator.OwnerType.ORDER_ENTRY
-      : CommonConfigurator.OwnerType.CART_ENTRY;
+    if (this.cartEntry.quoteCode || this.cartEntry.orderCode) {
+      if (!this.cartEntry.quoteCode) {
+        return CommonConfigurator.OwnerType.ORDER_ENTRY;
+      }
+      if (!this.cartEntry.orderCode) {
+        return CommonConfigurator.OwnerType.QUOTE_ENTRY;
+      }
+      throw new Error(
+        ConfigureCartEntryComponent.ERROR_MESSAGE_ENTRY_INCONSISTENT
+      );
+    } else {
+      return CommonConfigurator.OwnerType.CART_ENTRY;
+    }
   }
 
   /**
@@ -53,12 +65,30 @@ export class ConfigureCartEntryComponent {
       throw new Error('No entryNumber present in entry');
     }
 
-    return this.cartEntry.orderCode
-      ? this.commonConfigUtilsService.getComposedOwnerId(
-          this.cartEntry.orderCode,
-          entryNumber
-        )
+    const code = this.getCode();
+    return code
+      ? this.commonConfigUtilsService.getComposedOwnerId(code, entryNumber)
       : entryNumber.toString();
+  }
+  /**
+   * Returns a document code in case the entry is order or quote bound. In this case the code
+   * represents order or quote ID
+   * @returns Document code if order or quote bound, undefined in other cases
+   */
+  protected getCode(): string | undefined {
+    if (this.cartEntry.quoteCode || this.cartEntry.orderCode) {
+      if (!this.cartEntry.quoteCode) {
+        return this.cartEntry.orderCode;
+      }
+      if (!this.cartEntry.orderCode) {
+        return this.cartEntry.quoteCode;
+      }
+      throw new Error(
+        ConfigureCartEntryComponent.ERROR_MESSAGE_ENTRY_INCONSISTENT
+      );
+    } else {
+      return undefined;
+    }
   }
 
   /**

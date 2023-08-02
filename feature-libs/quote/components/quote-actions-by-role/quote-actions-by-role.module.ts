@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { QuoteConfig } from '@spartacus/quote/core';
+import { QuoteCoreConfig } from '@spartacus/quote/core';
 import { QuoteActionType } from '@spartacus/quote/root';
 import {
   AuthGuard,
@@ -19,7 +19,7 @@ import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 @NgModule({
   imports: [CommonModule, I18nModule],
   providers: [
-    provideDefaultConfig(<QuoteConfig>{
+    provideDefaultConfig(<QuoteCoreConfig>{
       quote: {
         actions: {
           primaryActions: [
@@ -28,14 +28,19 @@ import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
             QuoteActionType.SUBMIT,
           ],
           actionsOrderByState: {
-            BUYER_DRAFT: [QuoteActionType.CANCEL, QuoteActionType.SUBMIT],
-            CANCELLED: [QuoteActionType.REQUOTE],
-            SELLER_REQUEST: [QuoteActionType.EDIT, QuoteActionType.SUBMIT],
+            BUYER_DRAFT: [
+              QuoteActionType.CANCEL,
+              QuoteActionType.EDIT,
+              QuoteActionType.SUBMIT,
+            ],
             BUYER_OFFER: [
               QuoteActionType.CANCEL,
               QuoteActionType.EDIT,
               QuoteActionType.CHECKOUT,
             ],
+            CANCELLED: [QuoteActionType.REQUOTE],
+            SELLER_REQUEST: [QuoteActionType.EDIT, QuoteActionType.SUBMIT],
+            SELLER_DRAFT: [QuoteActionType.SUBMIT],
           },
         },
       },

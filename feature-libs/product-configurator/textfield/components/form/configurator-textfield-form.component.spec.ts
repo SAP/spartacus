@@ -64,6 +64,12 @@ class MockConfiguratorTextfieldService {
       p: productConfig,
     });
   }
+
+  readConfigurationForQuoteEntry(): Observable<ConfiguratorTextfield.Configuration> {
+    return cold('-p', {
+      p: productConfig,
+    });
+  }
 }
 
 describe('TextfieldFormComponent', () => {
@@ -145,6 +151,22 @@ describe('TextfieldFormComponent', () => {
     mockRouterState.state = {
       params: {
         ownerType: CommonConfigurator.OwnerType.ORDER_ENTRY,
+        entityKey: ORDER_ENTRY_KEY,
+      },
+      semanticRoute: ROUTE_CONFIGURATION,
+    };
+
+    expect(component.configuration$).toBeObservable(
+      cold('--p', {
+        p: productConfig,
+      })
+    );
+  });
+
+  it('should know textfield configuration after init when starting from quote entry', () => {
+    mockRouterState.state = {
+      params: {
+        ownerType: CommonConfigurator.OwnerType.QUOTE_ENTRY,
         entityKey: ORDER_ENTRY_KEY,
       },
       semanticRoute: ROUTE_CONFIGURATION,

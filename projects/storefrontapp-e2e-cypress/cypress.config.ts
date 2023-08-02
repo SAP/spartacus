@@ -16,8 +16,8 @@ export default defineConfig({
   env: {
     CLIENT_ID: 'mobile_android',
     CLIENT_SECRET: 'secret',
-    API_URL: 'https://40.76.109.9:9002',
-    BASE_SITE: 'electronics-spa',
+    API_URL: 'https://team-server.tiger-ci.only.sap:17002',
+    BASE_SITE: 'powertools-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
     OCC_PREFIX: '/occ/v2',
