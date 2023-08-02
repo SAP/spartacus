@@ -43,7 +43,7 @@ context('Assisted Service Module', () => {
           cy.get('button').contains('Apply to Cart').click();
           cy.wait('@applyCoupon').its('response.statusCode').should('eq', 200);
           cy.get('button').should('not.contain', 'Apply to Cart');
-          cy.get('button').contains('remove').should('be.visible');
+          cy.get('button').contains('Remove').should('be.visible');
         });
     });
     it('should be able to remove coupon from cart (CXSPA-3906)', () => {
@@ -51,9 +51,9 @@ context('Assisted Service Module', () => {
         .first()
         .within(() => {
           cy.intercept('DELETE', /\.*\/vouchers\.*/).as('removeCoupon');
-          cy.get('button').contains('remove').click();
+          cy.get('button').contains('Remove').click();
           cy.wait('@removeCoupon').its('response.statusCode').should('eq', 204);
-          cy.get('button').should('not.contain', 'remove');
+          cy.get('button').should('not.contain', 'Remove');
           cy.get('button').contains('Apply to Cart').should('be.visible');
         });
     });
