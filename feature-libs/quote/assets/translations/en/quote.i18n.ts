@@ -102,6 +102,8 @@ export const quote = {
       },
     },
     httpHandlers: {
+      configuratorIssues:
+        'Fix the configurator issues before proceeding',
       threshold: {
         underThresholdError:
           'Total price of requested quote does not meet the minimum threshold',

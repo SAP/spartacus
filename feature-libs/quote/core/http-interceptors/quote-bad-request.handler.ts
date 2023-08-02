@@ -25,15 +25,26 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
   handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
-    this.getErrors(response).forEach(({ message }: ErrorModel) => {
-      // Handle unknown conflict
-      this.handleQuoteThresholdErrors(message as string);
+    this.getQuoteThresholdErrors(response).forEach(
+      ({ message }: ErrorModel) => {
+        this.handleQuoteThresholdErrors(message as string);
+      }
+    );
+
+    this.getCartValidationErrors(response).forEach((errorModel: ErrorModel) => {
+      this.handleCartValidationIssues(errorModel.errorCode);
     });
   }
 
-  protected getErrors(response: HttpErrorResponse): ErrorModel[] {
+  protected getQuoteThresholdErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
       (error: ErrorModel) => error.type === 'QuoteUnderThresholdError'
+    );
+  }
+
+  protected getCartValidationErrors(response: HttpErrorResponse): ErrorModel[] {
+    return (response.error?.errors || []).filter(
+      (error: ErrorModel) => error.type === 'CartValidationError'
     );
   }
 
@@ -45,6 +56,17 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
       this.globalMessageService.add(
         {
           key: 'quote.httpHandlers.threshold.underThresholdError',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
+  }
+
+  protected handleCartValidationIssues(errorCode?: string) {
+    if (errorCode === 'configurationError') {
+      this.globalMessageService.add(
+        {
+          key: 'quote.httpHandlers.configuratorIssues',
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
