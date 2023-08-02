@@ -335,7 +335,6 @@ The following files should be modified:
 - `projects/storefrontapp/src/environments/models/build.process.env.d.ts` - if creating a feature that can be toggled on/off, add your feature environment variable to the `Env` interface located in this file
 - `projects/storefrontapp/src/environments/environment.ts` - if creating a feature that can be toggled on/off, set you feature for development as enabled or disabled by default
 - `projects/storefrontapp/src/environments/environment.prod.ts` - if creating a feature that can be toggled on/off, pass the created env. variable to your feature
-- look for `EXCLUDE_INTEGRATION_LIBS` in the entire codebase, and add the new library to the comma separated string `IF AND ONLY IF` it is a new integration library.
 
 - Root `package.json`
 
@@ -352,9 +351,6 @@ Also, add the new lib to the `build:libs` and `test:libs` scripts.
 - `projects/schematics/package.json` - add the library to the package group
 
 - `ci-scripts/unit-tests.sh`
-
-`IF AND ONLY IF` you are creating a new integration-lib, then include the library's name to the command separated string for `EXCLUDE_INTEGRATION_LIBS`.
-
 
 
 ### Sample data release entry ONLY if applicable
