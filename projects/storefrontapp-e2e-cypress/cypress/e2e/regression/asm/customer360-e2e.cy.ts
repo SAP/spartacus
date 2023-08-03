@@ -221,7 +221,7 @@ context('Assisted Service Module', () => {
     });
 
     it('should contain coupon list (CXSPA-3906)', () => {
-      cy.get('cx-asm-customer-coupon').should('be.visible');
+      cy.get('cx-asm-customer-coupon').contains('Coupons').should('be.visible');
     });
     it('should be able to apply coupon to cart (CXSPA-3906)', () => {
       cy.get('.cx-asm-customer-promotion-listing-row')
