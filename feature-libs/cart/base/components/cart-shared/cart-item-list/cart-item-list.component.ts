@@ -107,7 +107,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   protected getInputsFromContext(): Subscription | undefined {
     return this.outlet?.context$.subscribe((context) => {
-      console.log(context);
       if (context.readonly !== undefined) {
         this.readonly = context.readonly;
       }

@@ -423,7 +423,7 @@ describe('CartItemListComponent', () => {
       expect(setLoading).toHaveBeenCalledWith(mockContext.cartIsLoading);
     });
 
-    it('should mark view for check when context emits and force re-render items', () => {
+    it('should mark view for check and force re-creation of item controls when outlet context emits', () => {
       configureTestingModule().overrideProvider(OutletContextData, {
         useValue: { context$ },
       });
