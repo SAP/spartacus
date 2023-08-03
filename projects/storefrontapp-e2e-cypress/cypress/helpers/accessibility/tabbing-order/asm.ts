@@ -12,7 +12,8 @@ const containerSelector = 'cx-asm-main-ui';
 const containerSelectorForCustomerLists = 'cx-customer-list';
 const containerSelectorForCreateCustomerForm = 'cx-asm-create-customer-form';
 const containerSelectorForInactiveCartDialog = 'cx-asm-save-cart-dialog';
-const containerSelectorForCustomer360CouponList = 'cx-asm-customer-coupon';
+const containerSelectorForCustomer360CouponList =
+  '.cx-asm-customer-promotion-listing';
 
 export function asmTabbingOrderNotLoggedIn(config: TabElement[]) {
   cy.visit('/?asm=true');
@@ -130,6 +131,11 @@ export function asmTabbingOrderForCustomer360CouponList(config: TabElement[]) {
   cy.get('button').contains('Start Emulation').click();
   cy.get('button.cx-360-button').click();
   cy.get('button.cx-tab-header').contains('Promotion').click();
-
-  verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
+  cy.get('cx-asm-customer-coupon')
+    .contains('Coupons')
+    .parent()
+    .parent()
+    .within(() => {
+      verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
+    });
 }
