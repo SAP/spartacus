@@ -117,20 +117,7 @@ export function asmTabbingOrderWithSaveInactiveCartDialog(
 }
 
 export function asmTabbingOrderForCustomer360CouponList(config: TabElement[]) {
-  cy.visit('/?asm=true');
-  asm.agentLogin('asagent', 'pw4all');
-
-  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
-  cy.get('cx-customer-selection form').within(() => {
-    cy.get('[formcontrolname="searchTerm"]').type('Linda Wolf');
-  });
-  cy.wait(customerSearchRequestAlias)
-    .its('response.statusCode')
-    .should('eq', 200);
-  cy.get('cx-customer-selection div.asm-results button').first().click();
-  cy.get('button').contains('Start Emulation').click();
-  cy.get('button.cx-360-button').click();
-  cy.get('button.cx-tab-header').contains('Promotion').click();
+  lanuchPromotiontab();
   cy.get('cx-asm-customer-coupon')
     .contains('Coupons')
     .parent()
@@ -143,6 +130,17 @@ export function asmTabbingOrderForCustomer360CouponList(config: TabElement[]) {
 export function asmTabbingOrderForCustomer360CustomerCouponList(
   config: TabElement[]
 ) {
+  lanuchPromotiontab();
+  cy.get('cx-asm-customer-coupon')
+    .contains('Customer Coupons')
+    .parent()
+    .parent()
+    .within(() => {
+      verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
+    });
+}
+
+function lanuchPromotiontab(){
   cy.visit('/?asm=true');
   asm.agentLogin('asagent', 'pw4all');
 
@@ -157,11 +155,4 @@ export function asmTabbingOrderForCustomer360CustomerCouponList(
   cy.get('button').contains('Start Emulation').click();
   cy.get('button.cx-360-button').click();
   cy.get('button.cx-tab-header').contains('Promotion').click();
-  cy.get('cx-asm-customer-coupon')
-    .contains('Customer Coupons')
-    .parent()
-    .parent()
-    .within(() => {
-      verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
-    });
 }
