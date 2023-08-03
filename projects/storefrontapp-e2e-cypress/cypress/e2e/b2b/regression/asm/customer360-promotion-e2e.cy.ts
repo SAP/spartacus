@@ -58,7 +58,10 @@ context('Assisted Service Module', () => {
         });
     });
     it('should contain customer coupons (CXSPA-3945)', () => {
-      cy.get('cx-asm-customer-coupon').contains('Customer Coupons').scrollIntoView().should('be.visible');
+      cy.get('cx-asm-customer-coupon')
+        .contains('Customer Coupons')
+        .scrollIntoView()
+        .should('be.visible');
     });
     it('should display available tab for customer coupon by default (CXSPA-3945)', () => {
       cy.get('.active').contains('Available');
@@ -72,28 +75,57 @@ context('Assisted Service Module', () => {
     });
     it('should be able to search customer coupon (CXSPA-3945)', () => {
       cy.intercept('POST', /\.*\/customer360\.*/).as('searchCustomerCoupon');
-      cy.get('.cx-asm-customer-promotion-listing-search-input').click().type('Buy over $1000 get 20% off on cart');
+      cy.get('.cx-asm-customer-promotion-listing-search-input')
+        .click()
+        .type('Buy over $1000 get 20% off on cart');
       cy.get('.cx-asm-customer-promotion-listing-search-icon').click();
-      cy.wait('@searchCustomerCoupon').its('response.statusCode').should('eq', 200);
-      cy.get('cx-asm-customer-coupon').contains('Customer Coupons').parent().parent().within(()=>{
-        cy.get('.cx-asm-customer-promotion-listing-row').contains('Buy over $1000 get 20% off on cart');
-        cy.get('.cx-asm-customer-promotion-listing-row').should('have.length', 1);
-      });
+      cy.wait('@searchCustomerCoupon')
+        .its('response.statusCode')
+        .should('eq', 200);
+      cy.get('cx-asm-customer-coupon')
+        .contains('Customer Coupons')
+        .parent()
+        .parent()
+        .within(() => {
+          cy.get('.cx-asm-customer-promotion-listing-row').contains(
+            'Buy over $1000 get 20% off on cart'
+          );
+          cy.get('.cx-asm-customer-promotion-listing-row').should(
+            'have.length',
+            1
+          );
+        });
     });
     it('should be able to sent customer coupon for customer coupon (CXSPA-3945)', () => {
-      cy.get('.cx-asm-customer-promotion-listing-row').contains('Buy over $1000 get 20% off on cart').parent().parent().within(()=>{
-        cy.get('button').contains('Assign to Customer').click();
-      });
-      cy.get('.cx-asm-customer-promotion-listing-row').should('not.contain','Buy over $1000 get 20% off on cart');
+      cy.get('.cx-asm-customer-promotion-listing-row')
+        .contains('Buy over $1000 get 20% off on cart')
+        .parent()
+        .parent()
+        .within(() => {
+          cy.get('button').contains('Assign to Customer').click();
+        });
+      cy.get('.cx-asm-customer-promotion-listing-row').should(
+        'not.contain',
+        'Buy over $1000 get 20% off on cart'
+      );
     });
     it('should be able to remove customer coupon for customer coupon (CXSPA-3945)', () => {
       cy.get('.cx-tab-header').contains('Sent').click();
-      cy.get('.cx-asm-customer-promotion-listing-row').contains('Buy over $1000 get 20% off on cart').parent().parent().within(()=>{
-        cy.get('button').contains('Remove').click();
-      });
-      cy.get('.cx-asm-customer-promotion-listing-row').should('not.contain','Buy over $1000 get 20% off on cart');
+      cy.get('.cx-asm-customer-promotion-listing-row')
+        .contains('Buy over $1000 get 20% off on cart')
+        .parent()
+        .parent()
+        .within(() => {
+          cy.get('button').contains('Remove').click();
+        });
+      cy.get('.cx-asm-customer-promotion-listing-row').should(
+        'not.contain',
+        'Buy over $1000 get 20% off on cart'
+      );
       cy.get('.cx-tab-header').contains('Available').click();
-      cy.get('.cx-asm-customer-promotion-listing-row').contains('Buy over $1000 get 20% off on cart');
+      cy.get('.cx-asm-customer-promotion-listing-row').contains(
+        'Buy over $1000 get 20% off on cart'
+      );
     });
   });
 });
