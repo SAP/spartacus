@@ -85,7 +85,7 @@ describe('QuoteBadRequestHandler', () => {
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
-        key: 'quote.httpHandlers.configuratorIssues2',
+        key: 'quote.httpHandlers.cartValidationIssue',
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
