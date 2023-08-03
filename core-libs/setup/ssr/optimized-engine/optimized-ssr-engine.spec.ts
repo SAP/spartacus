@@ -8,9 +8,9 @@ import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-d
 import { ExpressServerLogger, ExpressServerLoggerContext } from '../logger';
 import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
+  defaultSsrOptimizationOptions,
   RenderingStrategy,
   SsrOptimizationOptions,
-  defaultSsrOptimizationOptions,
 } from './ssr-optimization-options';
 
 const defaultRenderTime = 100;
@@ -38,8 +38,9 @@ class MockExpressServerLogger implements Partial<ExpressServerLogger> {
  * 3. Examine renders property for the renders
  */
 class TestEngineRunner {
-  /** Accumulates html output for engine runs */
-  renders: string[] = [];
+  // SPIKE TODO: rename to 'responses'
+  /** Accumulates responses produced by engine runs (either successful html or Error) */
+  renders: (string | Error)[] = [];
 
   /** Accumulates response parameters for engine runs */
   responseParams: object[] = [];
@@ -48,7 +49,11 @@ class TestEngineRunner {
   optimizedSsrEngine: OptimizedSsrEngine;
   engineInstance: NgExpressEngineInstance;
 
-  constructor(options: SsrOptimizationOptions, renderTime?: number) {
+  constructor(
+    options: SsrOptimizationOptions,
+    renderTime?: number,
+    renderError?: boolean // SPIKE NEW
+  ) {
     // mocked engine instance that will render test output in 100 milliseconds
     const engineInstanceMock = (
       filePath: string,
@@ -56,7 +61,14 @@ class TestEngineRunner {
       callback: SsrCallbackFn
     ) => {
       setTimeout(() => {
-        callback(undefined, `${filePath}-${this.renderCount++}`);
+        const result = `${filePath}-${this.renderCount++}`;
+
+        if (renderError) {
+          const err = new Error(result);
+          callback(err);
+        } else {
+          callback(undefined, result);
+        }
       }, renderTime ?? defaultRenderTime);
     };
 
@@ -96,14 +108,14 @@ class TestEngineRunner {
         app,
         connection: <Partial<Socket>>{},
         res: <Partial<Response>>{
-          set: (key: string, value: any) => (response[key] = value),
           locals: {},
+          set: (key: string, value: any) => (response[key] = value),
         },
       },
     };
 
-    this.engineInstance(url, optionsMock, (_, html): void => {
-      this.renders.push(html ?? '');
+    this.engineInstance(url, optionsMock, (err, html): void => {
+      this.renders.push(err ?? html ?? ''); // SPIKE TODO: change to `?? undefined`
       this.responseParams.push(response);
     });
 
@@ -208,6 +220,31 @@ describe('OptimizedSsrEngine', () => {
       expect(getCurrentConcurrency(engineRunner)).toEqual({
         currentConcurrency: 0,
       });
+    }));
+
+    it('should fallback to CSR if rendering request fails', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner(
+        { timeout: 50 },
+        defaultRenderTime,
+        true
+      ).request('b');
+
+      tick(200);
+      expect(engineRunner.renders).toEqual(['']);
+    }));
+
+    it('should return timed out render if followup request fails', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner(
+        { timeout: 50 },
+        defaultRenderTime,
+        true
+      ).request('b');
+
+      tick(200);
+      expect(engineRunner.renders).toEqual(['']);
+
+      engineRunner.request('b');
+      expect(engineRunner.renders[1]).toEqual(new Error('b-0'));
     }));
   });
 
@@ -426,8 +463,23 @@ describe('OptimizedSsrEngine', () => {
         'ela-1',
       ]);
     }));
-  });
 
+    it('should apply no-store cache control header for a timed-out render when followup request fails', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner(
+        { timeout: 50 },
+        defaultRenderTime,
+        true
+      ).request('c');
+
+      tick(200);
+      engineRunner.request('c');
+      expect(engineRunner.renders).toEqual(['', new Error('c-0')]);
+      expect(engineRunner.responseParams).toEqual([
+        { 'Cache-Control': 'no-store' },
+        {},
+      ]);
+    }));
+  });
   describe('renderingStrategyResolver option', () => {
     describe('ALWAYS_SSR', () => {
       it('should ignore timeout', fakeAsync(() => {
@@ -581,6 +633,36 @@ describe('OptimizedSsrEngine', () => {
         expect(engineRunner.renders).toEqual(['', 'a-1']);
       }));
     });
+
+    it('should render fallback to CSR when rendering request fails', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner(
+        {
+          renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
+          timeout: 50,
+        },
+        defaultRenderTime,
+        true
+      );
+      engineRunner.request('a');
+      tick(200);
+      expect(engineRunner.renders).toEqual([new Error('a-0')]);
+    }));
+
+    it('should render fallback to CSR when followup request fails', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner(
+        {
+          renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
+          timeout: 50,
+        },
+        defaultRenderTime,
+        true
+      );
+      engineRunner.request('a');
+      tick(200);
+      engineRunner.request('a');
+      tick(200);
+      expect(engineRunner.renders).toEqual([new Error('a-0'), new Error('a-1')]);
+    }));
   });
 
   describe('forcedSsrTimeout option', () => {
@@ -625,6 +707,39 @@ describe('OptimizedSsrEngine', () => {
       tick(50);
       engineRunner.request('a');
       expect(engineRunner.renders).toEqual(['', 'a-0']);
+    }));
+
+    it('should fallback to CSR when forcedSsrTimeout is exceeded for a request', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner(
+        {
+          renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
+          timeout: 50,
+          forcedSsrTimeout: 150,
+        },
+        defaultRenderTime,
+        true
+      );
+      engineRunner.request('a');
+      tick(200);
+      expect(engineRunner.renders).toEqual([new Error('a-0')]);
+      flush();
+    }));
+
+    it('should return timed out render in the followup request when forcedSsrTimeout is exceeded', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner(
+        {
+          renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
+          timeout: 50,
+          forcedSsrTimeout: 80,
+        },
+        defaultRenderTime,
+        true
+      );
+
+      engineRunner.request('a');
+      tick(200);
+      engineRunner.request('a');
+      expect(engineRunner.renders).toEqual(['', new Error('a-0')]);
     }));
   });
   describe('maxRenderTime option', () => {
@@ -1173,8 +1288,72 @@ describe('OptimizedSsrEngine', () => {
         flush();
       }));
     });
-  });
 
+    it('should reuse the same render for subsequent requests for the same rendering key and first request should timeout', fakeAsync(() => {
+      const timeout = 300;
+      const engineRunner = new TestEngineRunner(
+        { timeout, reuseCurrentRendering: true },
+        400,
+        true
+      );
+      jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
+      engineRunner.request(requestUrl);
+      tick(200);
+
+      engineRunner.request(requestUrl);
+
+      tick(100);
+      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
+        false,
+        { request: expect.objectContaining({ originalUrl: requestUrl }) }
+      );
+
+      tick(100);
+      expect(engineRunner.renderCount).toEqual(1);
+      expect(engineRunner.renders).toEqual(['', new Error('a-0')]);
+      flush();
+    }));
+
+    it('should reuse the same render for subsequent requests for the same rendering key when the rendering strategy is ALWAYS_SSR', fakeAsync(() => {
+      const timeout = 300;
+      const engineRunner = new TestEngineRunner(
+        {
+          timeout,
+          reuseCurrentRendering: true,
+          renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
+        },
+        400,
+        true
+      );
+
+      engineRunner.request(requestUrl);
+      expect(getCurrentConcurrency(engineRunner)).toEqual({
+        currentConcurrency: 1,
+      });
+      expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
+        renderCallbacksCount: 1,
+      });
+
+      tick(200);
+      engineRunner.request(requestUrl);
+      expect(getCurrentConcurrency(engineRunner)).toEqual({
+        currentConcurrency: 1,
+      });
+      expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
+        renderCallbacksCount: 2,
+      });
+
+      tick(200);
+
+      expect(engineRunner.renderCount).toEqual(1);
+      expect(engineRunner.renders).toEqual([
+        new Error('a-0'),
+        new Error('a-0'),
+      ]);
+      flush();
+    }));
+  });
   describe('logger option', () => {
     it('should use ExpressServerLogger if logger is true', () => {
       jest.useFakeTimers().setSystemTime(new Date('2023-05-26'));
