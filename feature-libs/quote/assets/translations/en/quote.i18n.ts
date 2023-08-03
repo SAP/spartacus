@@ -53,13 +53,18 @@ export const quote = {
       allProducts: 'All Products',
     },
     details: {
+      information: 'Quote Information',
       code: 'Quote ID',
+      name: 'Name',
       created: 'Created',
       lastUpdated: 'Last Updated',
       estimatedTotal: 'Estimated Total',
       total: 'Total',
       description: 'Description',
+      estimateAndDate: 'Estimated & Date',
+      update: 'Update',
       expiryDate: 'Expiry Date',
+      charactersLeft: 'characters left: {{count}}',
     },
     links: {
       newCart: 'New Cart',

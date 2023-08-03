@@ -1,0 +1,37 @@
+cx-quote-details-edit {
+  .cx-card-paragraph {
+    textarea,
+    input {
+      width: 100%;
+      border: 1px solid var(--cx-color-medium);
+    }
+
+    .cx-card-paragraph-info-text {
+      font-size: var(--cx-font-size, 0.75rem);
+      font-style: italic;
+      text-align: end;
+      margin: 0;
+    }
+  }
+
+  .cx-card-body-save {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding-block-start: 1rem;
+
+    .btn {
+      @include media-breakpoint-up(sm) {
+        width: fit-content;
+      }
+    }
+
+    .btn-secondary,
+    .btn-tertiary {
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+      }
+    }
+  }
+}

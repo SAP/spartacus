@@ -14,6 +14,7 @@ import { QuoteRequestButtonModule } from './quote-request-button/quote-request-b
 import { QuoteRequestDialogModule } from './quote-request-dialog/quote-request-dialog.module';
 import {
   QuoteDetailsCartModule,
+  QuoteDetailsEditModule,
   QuoteDetailsOverviewModule,
   QuoteDetailsCommentModule,
 } from './details';
@@ -24,6 +25,7 @@ import { defaultQuoteUIConfig } from './config/default-quote-ui.config';
   imports: [
     CommonModule,
     QuoteListModule,
+    QuoteDetailsEditModule,
     QuoteDetailsOverviewModule,
     QuoteDetailsCartModule,
     QuoteRequestButtonModule,

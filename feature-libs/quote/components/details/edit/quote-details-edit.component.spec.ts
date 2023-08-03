@@ -12,7 +12,7 @@ import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { CardModule, ICON_TYPE } from '@spartacus/storefront';
 
 import { Observable, of } from 'rxjs';
-import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
+import { QuoteDetailsEditComponent } from './quote-details-overview.component';
 import createSpy = jasmine.createSpy;
 
 const totalPriceFormattedValue = '$20';
@@ -67,15 +67,15 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-xdescribe('QuoteDetailsOverviewComponent', () => {
-  let fixture: ComponentFixture<QuoteDetailsOverviewComponent>;
-  let component: QuoteDetailsOverviewComponent;
+xdescribe('QuoteDetailsEditComponent', () => {
+  let fixture: ComponentFixture<QuoteDetailsEditComponent>;
+  let component: QuoteDetailsEditComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, CardModule, RouterTestingModule],
       declarations: [
-        QuoteDetailsOverviewComponent,
+        QuoteDetailsEditComponent,
         MockCxIconComponent,
         MockQuoteActionLinksComponent,
       ],
@@ -90,7 +90,7 @@ xdescribe('QuoteDetailsOverviewComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteDetailsOverviewComponent);
+    fixture = TestBed.createComponent(QuoteDetailsEditComponent);
     component = fixture.componentInstance;
   });
 

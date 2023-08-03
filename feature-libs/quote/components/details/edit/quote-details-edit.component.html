@@ -1,0 +1,65 @@
+<div *ngIf="content" class="cx-card">
+  <!-- Card Body -->
+  <div class="card-body cx-card-body cx-card-save">
+    <!-- Card title -->
+    <span *ngIf="content.title" class="cx-card-title">
+      {{ content.title }}
+    </span>
+    <!-- Card Content -->
+    <div class="cx-card-container">
+      <!-- Card Label -->
+      <div class="cx-card-label-container">
+        <form [formGroup]="editForm">
+          <div
+            class="cx-card-paragraph"
+            *ngFor="let item of content.paragraphs; trackBy: trackByIndex"
+          >
+            <div class="cx-card-paragraph-title">{{ item.title }}</div>
+            <div class="form-group">
+              <ng-container *ngIf="!item.isTextArea">
+                <input
+                  class="form-control cx-card-paragraph-input"
+                  type="text"
+                  name="{{ setFormControlName(item.title) }}"
+                  formControlName="{{ setFormControlName(item.title) }}"
+                />
+              </ng-container>
+              <ng-container *ngIf="item.isTextArea">
+                <textarea
+                  class="form-control cx-card-paragraph-textarea"
+                  [maxLength]="item.charactersLimit"
+                  rows="4"
+                  name="{{ setFormControlName(item.title) }}"
+                  formControlName="{{ setFormControlName(item.title) }}"
+                ></textarea>
+              </ng-container>
+              <ng-container *ngIf="item.charactersLimit">
+                <p class="cx-card-paragraph-info-text">
+                  {{
+                    'quote.details.charactersLeft'
+                      | cxTranslate
+                        : {
+                            count: getCharactersLeft(
+                              setFormControlName(item.title),
+                              item.charactersLimit
+                            )
+                          }
+                  }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Edit Mode Actions -->
+    <div class="cx-card-body-save">
+      <button class="btn btn-block btn-secondary" (click)="edit()">
+        {{ 'common.save' | cxTranslate }}
+      </button>
+      <button class="btn btn-tertiary" (click)="cancel()">
+        {{ 'common.cancel' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</div>
