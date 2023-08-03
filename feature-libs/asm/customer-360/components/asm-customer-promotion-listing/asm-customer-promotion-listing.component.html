@@ -31,10 +31,10 @@
     ></button>
   </div>
   <hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
-  <div class="form-group search-wrapper">
+  <div class="cx-asm-customer-promotion-listing-search">
     <input
       #searchBox
-      class="form-control"
+      class="cx-asm-customer-promotion-listing-search-input"
       placeholder="{{ 'customer360.customerCoupons.searchBox' | cxTranslate }}"
       (keydown.enter)="
         refreshCustomerCouponList.emit({
@@ -45,6 +45,7 @@
       "
     />
     <cx-icon
+      class="cx-asm-customer-promotion-listing-search-icon"
       [type]="iconTypes.SEARCH"
       role="button"
       (click)="

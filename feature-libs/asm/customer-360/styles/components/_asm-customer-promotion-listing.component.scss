@@ -1,6 +1,6 @@
 %cx-asm-customer-promotion-listing {
   display: block;
-  padding: 0 18px;
+  padding: 0 22px;
 
   .cx-asm-customer-promotion-listing {
     width: 100%;
@@ -83,6 +83,36 @@
     }
     &-tabs {
       margin-left: -18px;
+    }
+    &-search {
+      position: relative;
+      &-input {
+        border: 1px solid #d3d6db;
+        height: 48px;
+        width: 100%;
+        padding: 0.6875rem 0.75rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.15rem;
+        border-radius: 0.2rem;
+        background-color: #fbfbfb;
+        &::placeholder {
+          color: #6c7079;
+        }
+
+        &:focus {
+          border: 2px solid #004da5;
+          box-shadow: 0px 0px 1px rgba(120, 143, 166, 0.72);
+          outline: none;
+          background-color: #ffffff;
+        }
+      }
+      &-icon {
+        position: absolute;
+        top: 17px;
+        right: 17px;
+        color: #0070f2;
+        font-size: 24px;
+      }
     }
   }
 }
