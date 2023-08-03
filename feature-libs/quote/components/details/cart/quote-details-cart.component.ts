@@ -9,6 +9,7 @@ import { CartOutlets } from '@spartacus/cart/base/root';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { QuoteDetailsCartComponentService } from './quote-details-cart.component.service';
 
 @Component({
@@ -20,6 +21,16 @@ export class QuoteDetailsCartComponent {
   iconTypes = ICON_TYPE;
   readonly cartOutlets = CartOutlets;
   showCart$ = this.quoteDetailsCartService.getQuoteEntriesExpanded();
+
+  // interface ItemListContext
+  context$: Observable<any> = this.quoteDetails$.pipe(
+    map((quote) => {
+      return {
+        items: quote.entries,
+        readonly: !quote.isEditable,
+      };
+    })
+  );
 
   constructor(
     protected quoteFacade: QuoteFacade,

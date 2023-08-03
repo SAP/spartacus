@@ -10,15 +10,10 @@
     }}</span>
   </div>
 
-  <ng-container
-    *ngIf="state.showCart && (quoteDetails$ | async) as quoteDetails"
-  >
+  <ng-container *ngIf="state.showCart">
     <ng-template
       [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-      [cxOutletContext]="{
-        items: quoteDetails.entries,
-        readonly: true
-      }"
+      [cxOutletContext]="context$ | async"
     >
     </ng-template>
   </ng-container>
