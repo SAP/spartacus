@@ -5,10 +5,7 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  CartEvent,
-  CartOutlets
-} from '@spartacus/cart/base/root';
+import { CartEvent, CartOutlets } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
 import {
   Quote,
@@ -38,11 +35,9 @@ export class QuoteDetailsCartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // if anything in the cart changes, reload the quote
-    this.subscription = this.eventService
-      .get(CartEvent)
-      .subscribe(() => {
-        this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
-      });
+    this.subscription = this.eventService.get(CartEvent).subscribe(() => {
+      this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+    });
   }
 
   ngOnDestroy(): void {
