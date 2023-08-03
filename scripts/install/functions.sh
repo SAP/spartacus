@@ -100,7 +100,6 @@ function add_b2b {
 
         ng add @spartacus/product@${SPARTACUS_VERSION} --skip-confirmation
         ng add @spartacus/product --skip-confirmation --no-interactive --features "Future-Stock"
-
     fi
 }
 
