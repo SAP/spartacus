@@ -18,6 +18,6 @@ export class CartConfigService {
   }
 
   isCartValidationEnabled(): boolean {
-    return true;
+    return Boolean(this.config?.cart?.validation?.enabled);
   }
 }
