@@ -422,5 +422,27 @@ describe('CartItemListComponent', () => {
       expect(component.readonly).toEqual(mockContext.readonly);
       expect(setLoading).toHaveBeenCalledWith(mockContext.cartIsLoading);
     });
+
+    it('should mark view for check when context emits and force re-render items', () => {
+      configureTestingModule().overrideProvider(OutletContextData, {
+        useValue: { context$ },
+      });
+      TestBed.compileComponents();
+      stubSeviceAndCreateComponent();
+      const control0 = component.form.get(mockItem0.entryNumber.toString());
+      const control1 = component.form.get(mockItem1.entryNumber.toString());
+      spyOn(component['cd'], 'markForCheck').and.callThrough();
+
+      component.ngOnInit();
+
+      expect(component['cd'].markForCheck).toHaveBeenCalled();
+      expect(control0).not.toBe(
+        component.form.get(mockItem0.entryNumber.toString())
+      );
+      expect(control1).not.toBe(
+        component.form.get(mockItem1.entryNumber.toString())
+      );
+      expect(component['_foreReRender']).toBe(false); // flag reset
+    });
   });
 });
