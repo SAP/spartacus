@@ -4,19 +4,11 @@ import {
   GlobalMessageService,
   HttpResponseStatus,
   GlobalMessageType,
+  Priority,
 } from '@spartacus/core';
 import { QuoteBadRequestHandler } from './quote-bad-request.handler';
 
 const MockRequest = {} as HttpRequest<any>;
-//TODO CHHI: Delete when decision has been taken about quote request dialog
-// const MockCQConfig: QuoteConfig = {
-//   quote: {
-//     tresholds: {
-//       requestInitiation: 10000,
-//       sellerAutoApproval: 1,
-//     },
-//   },
-// };
 
 const MockQuoteUnderThresholdResponse = {
   error: {
@@ -28,6 +20,20 @@ const MockQuoteUnderThresholdResponse = {
       },
     ],
   },
+} as HttpErrorResponse;
+
+const MockCartValidationResponse = {
+  error: {
+    errors: [
+      {
+        type: 'CartValidationError',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
+const MockEmptyResponse = {
+  error: null,
 } as HttpErrorResponse;
 
 class MockGlobalMessageService {
@@ -71,5 +77,28 @@ describe('QuoteBadRequestHandler', () => {
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
+  });
+
+  it('should handle cart validation error', () => {
+    spyOn(globalMessageService, 'add');
+    service.handleError(MockRequest, MockCartValidationResponse);
+
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'quote.httpHandlers.configuratorIssues2',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should be able to deal with an empty error response', () => {
+    spyOn(globalMessageService, 'add');
+    service.handleError(MockRequest, MockEmptyResponse);
+
+    expect(globalMessageService.add).toHaveBeenCalledTimes(0);
+  });
+
+  it('should carry normal priority', () => {
+    expect(service.getPriority()).toBe(Priority.NORMAL);
   });
 });

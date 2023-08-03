@@ -102,8 +102,9 @@ export const quote = {
       },
     },
     httpHandlers: {
-      configuratorIssues:
-        'Fix the configurator issues before proceeding',
+      configuratorIssues: 'Fix the configurator issues before proceeding',
+      configuratorIssues2:
+        'During quote request we found problems with your entries. Please review your cart.',
       threshold: {
         underThresholdError:
           'Total price of requested quote does not meet the minimum threshold',

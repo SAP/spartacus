@@ -31,19 +31,22 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
       }
     );
 
-    this.getCartValidationErrors(response).forEach((errorModel: ErrorModel) => {
-      this.handleCartValidationIssues(errorModel.errorCode);
-    });
+    this.getCartValidationErrors(response).forEach(
+      (_errorModel: ErrorModel) => {
+        //this.handleCartValidationIssues(errorModel.errorCode);
+        this.handleCartValidationIssues();
+      }
+    );
   }
 
   protected getQuoteThresholdErrors(response: HttpErrorResponse): ErrorModel[] {
-    return (response.error?.errors || []).filter(
+    return (response.error?.errors??[]).filter(
       (error: ErrorModel) => error.type === 'QuoteUnderThresholdError'
     );
   }
 
   protected getCartValidationErrors(response: HttpErrorResponse): ErrorModel[] {
-    return (response.error?.errors || []).filter(
+    return (response.error?.errors??[]).filter(
       (error: ErrorModel) => error.type === 'CartValidationError'
     );
   }
@@ -62,15 +65,16 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
     }
   }
 
-  protected handleCartValidationIssues(errorCode?: string) {
-    if (errorCode === 'configurationError') {
-      this.globalMessageService.add(
-        {
-          key: 'quote.httpHandlers.configuratorIssues',
-        },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    }
+  protected handleCartValidationIssues() {
+    //TODO Better show generic message
+    //if ('configurationError' === errorCode) {
+    this.globalMessageService.add(
+      {
+        key: 'quote.httpHandlers.configuratorIssues2',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+    //}
   }
 
   getPriority(): Priority {
