@@ -13,7 +13,7 @@ const containerSelectorForCustomerLists = 'cx-customer-list';
 const containerSelectorForCreateCustomerForm = 'cx-asm-create-customer-form';
 const containerSelectorForInactiveCartDialog = 'cx-asm-save-cart-dialog';
 const containerSelectorForCustomer360CouponList =
-  '.cx-asm-customer-promotion-listing';
+  'cx-asm-customer-promotion-listing';
 
 export function asmTabbingOrderNotLoggedIn(config: TabElement[]) {
   cy.visit('/?asm=true');
@@ -122,6 +122,7 @@ export function asmTabbingOrderForCustomer360CouponList(config: TabElement[]) {
     .contains('Coupons')
     .parent()
     .parent()
+    .parent()
     .within(() => {
       verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
     });
@@ -135,12 +136,13 @@ export function asmTabbingOrderForCustomer360CustomerCouponList(
     .contains('Customer Coupons')
     .parent()
     .parent()
+    .parent()
     .within(() => {
       verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
     });
 }
 
-function lanuchPromotiontab(){
+function lanuchPromotiontab() {
   cy.visit('/?asm=true');
   asm.agentLogin('asagent', 'pw4all');
 
