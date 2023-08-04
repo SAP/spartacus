@@ -423,7 +423,10 @@ describe('CartItemListComponent', () => {
       expect(setLoading).toHaveBeenCalledWith(mockContext.cartIsLoading);
     });
 
-    it('should mark view for check and force re-creation of item controls when outlet context emits', () => {
+    it('should mark view for check and force re-creation of item controls when outlet context emits with changed read-only flag', () => {
+      const secondMockContext = structuredClone(mockContext);
+      secondMockContext.readonly = false;
+      const context$ = of(mockContext, secondMockContext);
       configureTestingModule().overrideProvider(OutletContextData, {
         useValue: { context$ },
       });
@@ -442,7 +445,7 @@ describe('CartItemListComponent', () => {
       expect(control1).not.toBe(
         component.form.get(mockItem1.entryNumber.toString())
       );
-      expect(component['_foreReRender']).toBe(false); // flag reset
+      expect(component['_forceReRender']).toBe(false); // flag reset
     });
   });
 });

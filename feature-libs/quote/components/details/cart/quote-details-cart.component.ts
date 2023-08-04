@@ -41,7 +41,7 @@ export class QuoteDetailsCartComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   onToggleShowOrHideCart(showCart: boolean) {
