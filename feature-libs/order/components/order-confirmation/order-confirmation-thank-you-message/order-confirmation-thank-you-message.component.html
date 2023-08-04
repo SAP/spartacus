@@ -15,7 +15,9 @@
   <ng-container *cxFeatureLevel="'6.4'">
     <div
       *ngIf="
-        isGuestCustomer && orderGuid && order.paymentInfo?.billingAddress?.email
+        isGuestCustomer &&
+        orderGuid &&
+        order?.paymentInfo?.billingAddress?.email
       "
     >
       <cx-guest-register-form
