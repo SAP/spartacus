@@ -13,7 +13,7 @@ const containerSelectorForCustomerLists = 'cx-customer-list';
 const containerSelectorForCreateCustomerForm = 'cx-asm-create-customer-form';
 const containerSelectorForInactiveCartDialog = 'cx-asm-save-cart-dialog';
 const containerSelectorForCustomer360CouponList =
-  '.cx-asm-customer-promotion-listing';
+  'cx-asm-customer-promotion-listing';
 
 export function asmTabbingOrderNotLoggedIn(config: TabElement[]) {
   cy.visit('/?asm=true');
@@ -133,6 +133,7 @@ export function asmTabbingOrderForCustomer360CouponList(config: TabElement[]) {
   cy.get('button.cx-tab-header').contains('Promotion').click();
   cy.get('cx-asm-customer-coupon')
     .contains('Coupons')
+    .parent()
     .parent()
     .parent()
     .within(() => {
