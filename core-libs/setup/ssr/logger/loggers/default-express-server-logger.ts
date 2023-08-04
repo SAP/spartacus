@@ -57,6 +57,12 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
     context: ExpressServerLoggerContext
   ): string {
     const logObject = { message, context: this.mapContext(context) };
+    const traceparent = context.request?.get('traceparent');
+    if (traceparent) {
+      Object.assign(logObject, {
+        w3c_traceparent: traceparent,
+      });
+    }
 
     return isDevMode()
       ? JSON.stringify(logObject, null, 2)
