@@ -7,6 +7,7 @@
 import { Action } from '@ngrx/store';
 import { ErrorModel } from '../../../model/misc.model';
 import { Review } from '../../../model/product.model';
+import { ErrorAction } from "@spartacus/core";
 
 export const LOAD_PRODUCT_REVIEWS = '[Product] Load Product Reviews Data';
 export const LOAD_PRODUCT_REVIEWS_FAIL =
@@ -23,9 +24,9 @@ export class LoadProductReviews implements Action {
   constructor(public payload: string) {}
 }
 
-export class LoadProductReviewsFail implements Action {
+export class LoadProductReviewsFail implements ErrorAction {
   readonly type = LOAD_PRODUCT_REVIEWS_FAIL;
-  constructor(public payload: ErrorModel) {}
+  constructor(public error: ErrorModel) {}
 }
 
 export class LoadProductReviewsSuccess implements Action {
@@ -38,9 +39,9 @@ export class PostProductReview implements Action {
   constructor(public payload: { productCode: string; review: Review }) {}
 }
 
-export class PostProductReviewFail implements Action {
+export class PostProductReviewFail implements ErrorAction {
   readonly type = POST_PRODUCT_REVIEW_FAIL;
-  constructor(public payload: string) {}
+  constructor(public error: ErrorModel) {}
 }
 
 export class PostProductReviewSuccess implements Action {

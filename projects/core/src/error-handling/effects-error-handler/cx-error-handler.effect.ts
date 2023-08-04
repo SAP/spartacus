@@ -6,16 +6,22 @@
 
 import { Injectable } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
-import { filter, tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { EffectsErrorHandlerService } from './effects-error-handler.service';
+import { Action } from '@ngrx/store';
+import { ErrorAction } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class CxErrorHandlerEffect {
-  error$ = createEffect(
+  error$: Observable<ErrorAction> = createEffect(
     () =>
       this.actions$.pipe(
-        filter((action) => this.effectErrorHandler.filterActions(action)),
-        tap((action) => {
+        filter((action: Action) =>
+          this.effectErrorHandler.filterActions(action)
+        ),
+        map((action: Action) => action as ErrorAction),
+        tap((action: ErrorAction) => {
           this.effectErrorHandler.handleError(action);
         })
       ),

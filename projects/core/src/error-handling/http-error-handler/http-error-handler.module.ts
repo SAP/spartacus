@@ -7,6 +7,7 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { HttpErrorHandlerInterceptor } from './http-error-handler.interceptor';
+import { HttpErrorDispatcher } from "../http-error-dispatcher/http-error.dispatcher";
 
 @NgModule()
 export class HttpErrorHandlerModule {
@@ -17,6 +18,13 @@ export class HttpErrorHandlerModule {
         {
           provide: HTTP_INTERCEPTORS,
           useClass: HttpErrorHandlerInterceptor,
+          multi: true,
+        },
+
+        // REMOVE THIS BEFORE MERGE
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: HttpErrorDispatcher,
           multi: true,
         },
       ],

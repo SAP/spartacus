@@ -10,6 +10,8 @@ import { EntityLoaderMeta } from '../../../state/utils/entity-loader/entity-load
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
 import { ProductScope } from '../../model/product-scope';
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorAction, HttpErrorModel } from "@spartacus/core";
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';
@@ -27,13 +29,20 @@ export interface EntityScopedLoaderAction extends Action {
 
 export class LoadProduct extends EntityScopedLoaderActions.EntityScopedLoadAction {
   readonly type = LOAD_PRODUCT;
+
   constructor(public payload: string, scope = '') {
     super(PRODUCT_DETAIL_ENTITY, payload, scope);
   }
 }
 
-export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailAction {
+export class LoadProductFail
+  extends EntityScopedLoaderActions.EntityScopedFailAction
+  implements ErrorAction
+{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload;
+
   readonly type = LOAD_PRODUCT_FAIL;
+
   constructor(productCode: string, public payload: any, scope = '') {
     super(PRODUCT_DETAIL_ENTITY, productCode, scope, payload);
   }
@@ -41,6 +50,7 @@ export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailA
 
 export class LoadProductSuccess extends EntityScopedLoaderActions.EntityScopedSuccessAction {
   readonly type = LOAD_PRODUCT_SUCCESS;
+
   constructor(public payload: Product, scope = '') {
     super(PRODUCT_DETAIL_ENTITY, payload.code ?? '', scope);
   }
@@ -48,6 +58,7 @@ export class LoadProductSuccess extends EntityScopedLoaderActions.EntityScopedSu
 
 export class ClearProductPrice extends EntityScopedLoaderActions.EntityScopedResetAction {
   readonly type = CLEAR_PRODUCT_PRICE;
+
   constructor() {
     super(PRODUCT_DETAIL_ENTITY, undefined, ProductScope.PRICE);
   }
