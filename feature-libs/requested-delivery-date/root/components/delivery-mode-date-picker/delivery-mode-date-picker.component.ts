@@ -73,19 +73,15 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
   }
 
   isEarliestRetrievalDatePresent(): boolean {
-    return (
-      this.cartEntry?.earliestRetrievalAt != null &&
-      this.cartEntry?.earliestRetrievalAt !== undefined &&
-      typeof this.cartEntry?.earliestRetrievalAt === 'string'
-    );
+    return this.isDateStringPresent(this.cartEntry?.earliestRetrievalAt);
   }
 
   isRequestedDeliveryDatePresent(): boolean {
-    return (
-      this.cartEntry?.requestedRetrievalAt != null &&
-      this.cartEntry?.requestedRetrievalAt !== undefined &&
-      typeof this.cartEntry?.requestedRetrievalAt === 'string'
-    );
+    return this.isDateStringPresent(this.cartEntry?.requestedRetrievalAt);
+  }
+
+  isDateStringPresent(value: string | undefined): boolean {
+    return value != null && value !== undefined && value.length > 0;
   }
 
   getRequestedDeliveryDateCardContent(

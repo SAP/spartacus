@@ -6,10 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
-import {
-  DeliveryModeDatePickerComponent,
-  OrderOverviewDeliveryDateComponent,
-} from '@spartacus/requested-delivery-date/root';
+import { RequestedDeliveryDateComponentsModule } from '@spartacus/requested-delivery-date/root';
 import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { ScheduleLinesComponent } from './components/schedule-lines/schedule-lines.component';
 import { ScheduleLinesModule } from './components/schedule-lines/schedule-lines.module';
@@ -17,8 +14,7 @@ import { ScheduleLinesModule } from './components/schedule-lines/schedule-lines.
 @NgModule({
   imports: [
     ScheduleLinesModule,
-    DeliveryModeDatePickerComponent, //Adding dependency with Requested Delivery Date so that the library gets installed along with S4OM
-    OrderOverviewDeliveryDateComponent,
+    RequestedDeliveryDateComponentsModule, //Adding dependency with Requested Delivery Date so that the library gets installed along with S4OM
   ],
   providers: [
     provideOutlet({

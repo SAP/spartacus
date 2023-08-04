@@ -30,7 +30,6 @@ export class DatePickerComponent {
   @Input() min?: string;
   @Input() max?: string;
   @Input() required?: boolean;
-  @Input() value?: string;
 
   @Output() update: EventEmitter<void> = new EventEmitter();
 

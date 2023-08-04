@@ -18,7 +18,6 @@
             <cx-date-picker
               [control]="$any(form.get('requestDeliveryDate'))"
               [min]="earliestRetrievalAt"
-              [value]="requestedRetrievalAt"
               [required]="true"
               (update)="setRequestedDeliveryDate()"
             >

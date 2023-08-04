@@ -48,7 +48,7 @@ export const s4omB2BUser: AccountData = {
 export const s4omB2bAccountShipToUser: SampleUser = {
   email: 'james.weber@harvestlive.inc',
   password: 'welcome',
-  fullName: 'undefined undefined',
+  fullName: 'James Weber',
   address: {
     city: 'Chicago',
     line1: 'Sunset',

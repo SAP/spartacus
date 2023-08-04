@@ -4,7 +4,7 @@
   [formControl]="control"
   [attr.min]="min"
   [attr.max]="max"
-  [value]="value"
+  [value]="control?.value"
   [attr.required]="required === false ? undefined : required"
   (change)="change()"
   [placeholder]="placeholder"
