@@ -47,6 +47,11 @@ export const quote = {
       creationSuccess: 'Quote #{{ code }} created successfully',
       cart: 'Cart',
     },
+    seller: {
+      apply: 'Apply',
+      placeholder: '0%',
+      discount: 'Discount'
+    },
     comments: {
       title: 'Contact',
       invalidComment: 'Invalid Input - Please type again...',

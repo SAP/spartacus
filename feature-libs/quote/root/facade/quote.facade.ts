@@ -12,6 +12,7 @@ import {
   Comment,
   Quote,
   QuoteActionType,
+  QuoteDiscount,
   QuoteList,
   QuoteMetadata,
   QuotesStateParams,
@@ -31,6 +32,7 @@ import {
         'editQuote',
         'performQuoteAction',
         'addQuoteComment',
+        'addDiscount',
       ],
     }),
 })
@@ -90,4 +92,9 @@ export abstract class QuoteFacade {
    * Returns the quote details once it has been fully loaded.
    */
   abstract getQuoteDetails(): Observable<Quote>;
+
+  abstract addDiscount(  
+    quoteCode: string,
+    discount: QuoteDiscount
+  ): void;
 }

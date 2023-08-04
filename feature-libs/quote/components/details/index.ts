@@ -7,3 +7,4 @@
 export * from './cart';
 export * from './overview';
 export * from './comment';
+export * from './cart/summary';

@@ -1,0 +1,20 @@
+<ng-container *ngIf="quoteDetails$ | async as quoteDetails">
+  <form (ngSubmit)="onApply(quoteDetails.code)" [formGroup]="form">
+    <label>
+      <span class="label-content">{{
+        'quote.seller.discount' | cxTranslate
+      }}</span>
+      <input
+        required="true"
+        type="text"
+        class="form-control"
+        name="discount"
+        placeholder="{{ 'quote.seller.placeholder' | cxTranslate }}"
+        formControlName="discount"
+      />
+    </label>
+  </form>
+  <button class="btn btn-block btn-primary cx-send" (click)="onApply(quoteDetails.code)">
+    {{ 'quote.seller.apply' | cxTranslate }}
+  </button>
+</ng-container>
