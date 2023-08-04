@@ -10,6 +10,7 @@ import { Order } from '@spartacus/order/root';
 import { Card, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { DateValidationService } from '../shared/date-validation.service';
 
 @Component({
   selector: 'cx-order-overview-delivery-date',
@@ -17,6 +18,7 @@ import { filter, map } from 'rxjs/operators';
 })
 export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {
   constructor(
+    protected dateValidationService: DateValidationService,
     protected translation: TranslationService,
     @Optional() protected orderOutlet?: OutletContextData
   ) {}
@@ -32,6 +34,12 @@ export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {
         )
       );
     }
+  }
+
+  isRequestedDeliveryDatePresent(): boolean {
+    return this.dateValidationService.isDateStringValid(
+      this.order?.requestedRetrievalAt
+    );
   }
 
   getRequestedDeliveryDateCardContent(

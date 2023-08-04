@@ -21,6 +21,7 @@ import { Card, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { RequestedDeliveryDateFacade } from '../../facade/requested-delivery-date.facade';
+import { DateValidationService } from '../shared/date-validation.service';
 
 @Component({
   selector: 'cx-request-delivery-date',
@@ -31,6 +32,7 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
   constructor(
     protected datePipe: CxDatePipe,
     protected requestedDelDateFacade: RequestedDeliveryDateFacade,
+    protected dateValidationService: DateValidationService,
     protected eventService: EventService,
     protected translation: TranslationService,
     protected globalMessageService: GlobalMessageService,
@@ -73,15 +75,15 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
   }
 
   isEarliestRetrievalDatePresent(): boolean {
-    return this.isDateStringPresent(this.cartEntry?.earliestRetrievalAt);
+    return this.dateValidationService.isDateStringValid(
+      this.cartEntry?.earliestRetrievalAt
+    );
   }
 
   isRequestedDeliveryDatePresent(): boolean {
-    return this.isDateStringPresent(this.cartEntry?.requestedRetrievalAt);
-  }
-
-  isDateStringPresent(value: string | undefined): boolean {
-    return value != null && value !== undefined && value.length > 0;
+    return this.dateValidationService.isDateStringValid(
+      this.cartEntry?.requestedRetrievalAt
+    );
   }
 
   getRequestedDeliveryDateCardContent(

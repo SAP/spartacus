@@ -1,4 +1,4 @@
-<ng-container *ngIf="order && order?.requestedRetrievalAt">
+<ng-container *ngIf="order && isRequestedDeliveryDatePresent()">
   <cx-card
     [content]="
       getRequestedDeliveryDateCardContent(order?.requestedRetrievalAt | cxDate)
