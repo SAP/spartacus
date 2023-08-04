@@ -17,6 +17,10 @@ export class QuoteCartService {
   private quoteCartActive = new ReplaySubject<boolean>(1);
   private checkoutAllowed = new ReplaySubject<boolean>(1);
 
+  private quoteIdAsObservable = this.quoteId.asObservable();
+  private quoteCartActiveAsObservable = this.quoteCartActive.asObservable();
+  private checkoutAllowedAsObservable = this.checkoutAllowed.asObservable();
+
   constructor() {
     this.quoteCartActive.next(false);
     this.checkoutAllowed.next(false);
@@ -28,7 +32,7 @@ export class QuoteCartService {
   }
 
   public getQuoteId(): Observable<string> {
-    return this.quoteId.asObservable();
+    return this.quoteIdAsObservable;
   }
 
   public setQuoteCartActive(quoteCartActive: boolean): void {
@@ -36,7 +40,7 @@ export class QuoteCartService {
   }
 
   public isQuoteCartActive(): Observable<boolean> {
-    return this.quoteCartActive.asObservable();
+    return this.quoteCartActiveAsObservable;
   }
 
   public setCheckoutAllowed(checkoutAllowed: boolean): void {
@@ -44,6 +48,6 @@ export class QuoteCartService {
   }
 
   public isCheckoutAllowed(): Observable<boolean> {
-    return this.checkoutAllowed.asObservable();
+    return this.checkoutAllowedAsObservable;
   }
 }

@@ -25,15 +25,26 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
   handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
-    this.getErrors(response).forEach(({ message }: ErrorModel) => {
-      // Handle unknown conflict
-      this.handleQuoteThresholdErrors(message as string);
-    });
+    this.getQuoteThresholdErrors(response).forEach(
+      ({ message }: ErrorModel) => {
+        this.handleQuoteThresholdErrors(message as string);
+      }
+    );
+
+    if (this.getCartValidationErrors(response).length > 0) {
+      this.handleCartValidationIssues();
+    }
   }
 
-  protected getErrors(response: HttpErrorResponse): ErrorModel[] {
-    return (response.error?.errors || []).filter(
+  protected getQuoteThresholdErrors(response: HttpErrorResponse): ErrorModel[] {
+    return (response.error?.errors ?? []).filter(
       (error: ErrorModel) => error.type === 'QuoteUnderThresholdError'
+    );
+  }
+
+  protected getCartValidationErrors(response: HttpErrorResponse): ErrorModel[] {
+    return (response.error?.errors ?? []).filter(
+      (error: ErrorModel) => error.type === 'CartValidationError'
     );
   }
 
@@ -49,6 +60,15 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }
+  }
+
+  protected handleCartValidationIssues() {
+    this.globalMessageService.add(
+      {
+        key: 'quote.httpHandlers.cartValidationIssue',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   }
 
   getPriority(): Priority {
