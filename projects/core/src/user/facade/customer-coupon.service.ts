@@ -245,15 +245,6 @@ export class CustomerCouponService {
   }
 
   /**
-   * Returns the disclaim customer coupon notification process loading flag
-   */
-  getDisclaimCustomerCouponResultLoading(): Observable<boolean> {
-    return (<Store<StateWithProcess<void>>>this.store).pipe(
-      select(getProcessLoadingFactory(DISCLAIM_CUSTOMER_COUPON_PROCESS_ID))
-    );
-  }
-
-  /**
    * Returns the claim customer coupon notification process error flag
    */
   getClaimCustomerCouponResultError(): Observable<boolean> {
