@@ -42,7 +42,7 @@ export interface Customer360Coupon {
 }
 
 export interface Customer360CustomerCoupon {
-  code?: string;
+  code: string;
   name?: string;
   description?: string;
 }

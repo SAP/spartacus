@@ -147,19 +147,13 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
   }
 
   claimCouponToCustomer(entry: CustomerCouponEntry) {
-    if (entry?.codeForApplyAction) {
-      this.customerCouponService.claimCustomerCoupon(entry.codeForApplyAction);
-      this.refreshActionButton(entry?.codeForApplyAction);
-    }
+    this.customerCouponService.claimCustomerCoupon(entry.codeForApplyAction);
+    this.refreshActionButton(entry?.codeForApplyAction);
   }
 
   disclaimCouponToCustomer(entry: CustomerCouponEntry) {
-    if (entry?.codeForApplyAction) {
-      this.customerCouponService.disclaimCustomerCoupon(
-        entry.codeForApplyAction
-      );
-      this.refreshActionButton(entry?.codeForApplyAction);
-    }
+    this.customerCouponService.disclaimCustomerCoupon(entry.codeForApplyAction);
+    this.refreshActionButton(entry?.codeForApplyAction);
   }
 
   refreshActionButton(couponCode: string) {

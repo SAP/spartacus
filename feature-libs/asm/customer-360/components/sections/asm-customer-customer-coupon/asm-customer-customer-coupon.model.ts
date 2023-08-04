@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Customer360CustomerCoupon } from '@spartacus/asm/customer-360/root';
-
-export interface CustomerCouponEntry extends Customer360CustomerCoupon {
+export interface CustomerCouponEntry {
   code?: string | undefined;
+  name?: string | undefined;
   applied: boolean;
-  codeForApplyAction?: string;
+  codeForApplyAction: string;
 }
+
+export interface GeneralEntry extends CustomerCouponEntry {}
