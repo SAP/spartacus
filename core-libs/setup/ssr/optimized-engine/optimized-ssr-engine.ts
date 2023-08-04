@@ -17,7 +17,6 @@ import {
   ExpressServerLoggerContext,
   LegacyExpressServerLogger,
 } from '../logger';
-import { parseTraceparent } from '../logger/loggers/w3c-trace-context/parse-traceparent';
 import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
 import { RenderingCache } from './rendering-cache';
 import {
@@ -502,10 +501,7 @@ export class OptimizedSsrEngine {
 
     const traceparent = request.get('traceparent');
     if (traceparent) {
-      const traceContext = parseTraceparent(traceparent);
-      if (traceContext) {
-        requestContext.traceContext = traceContext;
-      }
+      requestContext.w3c_traceparent = traceparent;
     }
     return requestContext;
   }
