@@ -12,7 +12,7 @@
       {{ 'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate }}
     </p>
   </div>
-  <ng-container *cxFeatureLevel="'!6.4'">
+  <ng-container *cxFeatureLevel="'6.4'">
     <div
       *ngIf="
         isGuestCustomer && orderGuid && order.paymentInfo?.billingAddress?.email
