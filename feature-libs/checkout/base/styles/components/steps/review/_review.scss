@@ -65,6 +65,7 @@
 
       @include forVersion(6.3) {
         flex-grow: 1;
+        border: 1px solid var(--cx-color-medium);
       }
 
       @include media-breakpoint-up(md) {
@@ -105,6 +106,10 @@
       border: 1px solid var(--cx-color-light);
       border-radius: 10px;
       flex-grow: 1;
+
+      @include forVersion(6.3) {
+        border: 1px solid var(--cx-color-medium);
+      }
 
       @include media-breakpoint-up(md) {
         &:first-child {
