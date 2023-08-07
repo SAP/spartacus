@@ -7,11 +7,14 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
+  DefaultExpressServerLogger,
+  ExpressServerLoggerContext,
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
   defaultSsrOptimizationOptions,
 } from '@spartacus/setup/ssr';
 
+import log from 'cf-nodejs-logging-support';
 import { Express } from 'express';
 import { existsSync } from 'fs';
 import { join } from 'path';
@@ -22,11 +25,28 @@ import { AppServerModule } from './src/main.server';
 // And we need to use esModuleInterop option in ssr dev mode, because i18next enforce usage of this option for cjs module.
 const express = require('express');
 
+class CustomLogger extends DefaultExpressServerLogger {
+  log(message: string, context: ExpressServerLoggerContext): void {
+    const traceparent = context.request?.get('traceparent');
+    const logObject = { msg: message, context: this.mapContext(context) };
+    if (traceparent) {
+      Object.assign(logObject, {
+        w3c_traceparent: traceparent,
+      });
+      log.info(logObject);
+    }
+  }
+
+  warn(message: string, context: ExpressServerLoggerContext): void {
+    process.stdout.write(this.stringifyWithContext(message, context));
+  }
+}
+
 const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
-  logger: true,
+  logger: new CustomLogger(),
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);

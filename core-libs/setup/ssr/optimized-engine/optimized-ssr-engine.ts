@@ -260,6 +260,8 @@ export class OptimizedSsrEngine {
 
     const request: Request = options.req;
     const response: Response = options.req.res;
+    request.headers['traceparent'] =
+      '00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01';
 
     if (this.returnCachedRender(request, callback)) {
       this.log(`Render from cache (${request?.originalUrl})`, true, {
