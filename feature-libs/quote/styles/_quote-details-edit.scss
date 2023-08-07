@@ -14,11 +14,11 @@ cx-quote-details-edit {
     }
   }
 
-  .cx-card-body-save {
+  .cx-card-button-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: flex-end;
     padding-block-start: 1rem;
 
     .btn {
