@@ -59,10 +59,10 @@ export class QuoteDetailsOverviewComponent {
    * Cancels the view of the edit card tile
    * by setting the edit mode to 'false'.
    *
-   * @param {boolean} event - edit event
+   * @param {boolean} isEditMode - edit event
    */
-  cancel(event: boolean) {
-    this.editMode = event;
+  cancel(isEditMode: boolean) {
+    this.editMode = isEditMode;
   }
 
   /**

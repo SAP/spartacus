@@ -14,6 +14,7 @@ import { CardModule, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
 import createSpy = jasmine.createSpy;
+import { EditCard, EditEvent } from '../edit/quote-details-edit.component';
 
 const totalPriceFormattedValue = '$20';
 
@@ -43,6 +44,8 @@ export class MockQuoteFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<Quote> {
     return of(mockQuote);
   }
+
+  //editQuote = createSpy().and.callThrough();
   setSort = createSpy();
   setCurrentPage = createSpy();
 }
@@ -67,7 +70,15 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-xdescribe('QuoteDetailsOverviewComponent', () => {
+@Component({
+  selector: 'cx-quote-details-edit',
+  template: '',
+})
+class MockQuoteDetailsEditComponent {
+  @Input() content: EditCard | null;
+}
+
+describe('QuoteDetailsOverviewComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsOverviewComponent>;
   let component: QuoteDetailsOverviewComponent;
   //let htmlElem: HTMLElement;
@@ -79,6 +90,7 @@ xdescribe('QuoteDetailsOverviewComponent', () => {
         QuoteDetailsOverviewComponent,
         MockCxIconComponent,
         MockQuoteActionLinksComponent,
+        MockQuoteDetailsEditComponent,
       ],
       providers: [
         {
@@ -126,32 +138,160 @@ xdescribe('QuoteDetailsOverviewComponent', () => {
     expect(cardContainers.length).toEqual(3);
   });
 
-  /**
-   //TODO
-  it('should return object with title and text if value is defined when getCardContent', () => {
-    //given
-    const value = 'test';
-    const titleKey = 'key';
-    const expected = { title: 'key', text: [value] };
+  describe('defineQuoteMetaData', () => {
+    it('should define an empty quote meta data object', () => {
+      const editEvent: EditEvent = {
+        editMode: false,
+      };
+      const metaData = component['defineQuoteMetaData'](editEvent);
+      expect(Object.keys(metaData).length).toBe(0);
+    });
 
-    //then
-    component.getCardContent(value, titleKey).subscribe((result) => {
-      expect(result).toEqual(expected);
+    it('should define a quote meta data object', () => {
+      const editEvent: EditEvent = {
+        editMode: false,
+        name: 'name',
+        description: 'description',
+        expirationTime: new Date('2023-02-02T13:05:12+0000'),
+      };
+      const metaData = component['defineQuoteMetaData'](editEvent);
+
+      expect(Object.keys(metaData).length).toBe(3);
+      expect(metaData.name).toBe(editEvent.name);
+      expect(metaData.description).toBe(editEvent.description);
+      expect(metaData.expirationTime).toBe(editEvent.expirationTime);
     });
   });
 
-  it('should return object with title and placeholder if value is not defined defined when getCardContent', () => {
-    //given
-    const value = null;
-    const titleKey = 'key';
-    const expected = { title: 'key', text: ['-'] };
+  describe('handle actions', () => {
+    it('should handle cancel action', () => {
+      component.cancel(false);
+      expect(component.editMode).toBe(false);
+    });
 
-    //then
-    component.getCardContent(value, titleKey).subscribe((result) => {
-      expect(result).toEqual(expected);
+    // TODO
+    xit('should handle edit action', () => {
+      const editEvent: EditEvent = {
+        editMode: false,
+        name: 'new name',
+        description: 'New Description',
+      };
+      component.edit(mockQuote, editEvent);
+      expect(component.editMode).toBe(editEvent.editMode);
     });
   });
-   */
+
+  it('should set edit mode to the opposite', () => {
+    expect(component.editMode).toBe(false);
+    component.setEditMode();
+    expect(component.editMode).toBe(true);
+  });
+
+  describe('card content', () => {
+    it('should retrieves the card content that represents the quote information with empty name and description', () => {
+      mockQuote.name = undefined;
+      mockQuote.description = undefined;
+      fixture.detectChanges();
+
+      const expected = {
+        title: 'quote.details.information',
+        paragraphs: [
+          {
+            title: 'quote.details.name',
+            text: ['-'],
+          },
+          {
+            title: 'quote.details.description',
+            text: ['-'],
+          },
+        ],
+      };
+
+      component
+        .getQuoteInformation(mockQuote.name, mockQuote.description)
+        .subscribe((result) => {
+          expect(result).toEqual(expected);
+        });
+    });
+
+    it('should retrieves the edit card content that represents the edit quote information with its name and description', () => {
+      const name = 'name';
+      const description = 'description';
+
+      const expected = {
+        title: 'quote.details.information',
+        paragraphs: [
+          {
+            title: 'quote.details.name',
+            text: name,
+          },
+          {
+            title: 'quote.details.description',
+            text: description,
+            isTextArea: true,
+            charactersLimit: 255,
+          },
+        ],
+      };
+
+      component
+        .getEditQuoteInformation(name, description)
+        .subscribe((result) => {
+          expect(result).toEqual(expected);
+        });
+    });
+
+    it('should retrieves the card content that represents an empty estimated and date information', () => {
+      mockQuote.creationTime = undefined;
+      fixture.detectChanges();
+
+      const expected = {
+        title: 'quote.details.estimateAndDate',
+        paragraphs: [
+          {
+            title: 'quote.details.estimatedTotal',
+            text: [mockQuote.totalPrice.formattedValue],
+          },
+          {
+            title: 'quote.details.created',
+            text: ['-'],
+          },
+        ],
+      };
+
+      component
+        .getEstimatedAndDate(mockQuote, mockQuote.creationTime)
+        .subscribe((result) => {
+          expect(result).toEqual(expected);
+        });
+    });
+
+    it('should retrieves the card content that represents an empty update information', () => {
+      mockQuote.updatedTime = undefined;
+      mockQuote.expirationTime = undefined;
+      fixture.detectChanges();
+
+      const expected = {
+        title: 'quote.details.update',
+        paragraphs: [
+          {
+            title: 'quote.details.lastUpdated',
+            text: ['-'],
+          },
+          {
+            title: 'quote.details.expiryDate',
+            text: ['-'],
+          },
+        ],
+      };
+
+      component
+        .getUpdate(mockQuote.updatedTime, mockQuote.expirationTime)
+        .subscribe((result) => {
+          expect(result).toEqual(expected);
+        });
+    });
+  });
 
   describe('getTotalPrice', () => {
     it('should return the total price formatted value in case it is available', () => {
