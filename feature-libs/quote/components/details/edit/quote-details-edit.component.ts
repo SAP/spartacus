@@ -35,6 +35,8 @@ export class QuoteDetailsEditComponent implements OnInit {
 
   @Output()
   editCard: EventEmitter<EditEvent> = new EventEmitter();
+  @Output()
+  cancelCard: EventEmitter<boolean> = new EventEmitter();
 
   @Input()
   content: EditCard | null;
@@ -46,7 +48,7 @@ export class QuoteDetailsEditComponent implements OnInit {
    * by throwing the edit event with the edit mode set to 'false'.
    */
   cancel(): void {
-    this.editCard.emit({ editMode: false });
+    this.cancelCard.emit(true);
   }
   /**
    * Edits the card tile by throwing the edit event
@@ -100,7 +102,9 @@ export class QuoteDetailsEditComponent implements OnInit {
     );
   }
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     this.editForm = new UntypedFormGroup({});

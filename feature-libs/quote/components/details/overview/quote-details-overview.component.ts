@@ -17,7 +17,7 @@ import { EventService, TranslationService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { EditCard, EditEvent } from '../edit';
+import { EditCard, EditEvent } from '../edit/quote-details-edit.component';
 
 @Component({
   selector: 'cx-quote-details-overview',
@@ -59,10 +59,10 @@ export class QuoteDetailsOverviewComponent {
    * Cancels the view of the edit card tile
    * by setting the edit mode to 'false'.
    *
-   * @param {EditEvent} event - edit event
+   * @param {boolean} event - edit event
    */
-  cancel(event: EditEvent) {
-    this.editMode = event.editMode;
+  cancel(event: boolean) {
+    this.editMode = !event;
   }
 
   /**
