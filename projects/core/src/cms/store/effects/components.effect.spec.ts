@@ -98,6 +98,7 @@ describe('Component Effects', () => {
         pageContext,
       });
       const completion = new CmsActions.LoadCmsComponentFail({
+        error: { message: 'Error message' },
         uid: action.payload.uid,
         pageContext,
       });

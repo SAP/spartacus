@@ -11,7 +11,7 @@ import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/en
 import { ProductScope } from '../../model/product-scope';
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorAction, HttpErrorModel } from "@spartacus/core";
+import { ErrorAction, HttpErrorModel } from '@spartacus/core';
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';

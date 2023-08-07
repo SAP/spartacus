@@ -25,15 +25,16 @@ describe('Cms Page Actions', () => {
 
     describe('LoadCmsPageDataFail', () => {
       it('should create the action', () => {
-        const payload = 'error';
-        const action = new CmsActions.LoadCmsPageDataFail(pageContext, payload);
+        const error = 'error';
+        const action = new CmsActions.LoadCmsPageDataFail(pageContext, error);
 
         expect({ ...action }).toEqual({
+          error,
           type: CmsActions.LOAD_CMS_PAGE_DATA_FAIL,
           meta: StateUtils.entityFailMeta(
             pageContext.type,
             pageContext.id,
-            payload
+            error
           ),
         });
       });

@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable, from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { catchError, groupBy, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { LoggerService } from '../../../logger';
@@ -94,6 +94,9 @@ export class ComponentsEffects {
           actions.push(
             new CmsActions.LoadCmsComponentFail({
               uid,
+              error: {
+                message: `Failed to load CmsComponent ${pageContext.type} uid: ${uid}`,
+              },
               pageContext,
             })
           );

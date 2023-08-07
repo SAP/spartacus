@@ -7,7 +7,7 @@
 import { Action } from '@ngrx/store';
 import { ErrorModel } from '../../../model/misc.model';
 import { ProductReference } from '../../../model/product.model';
-import { ErrorAction } from "@spartacus/core";
+import { ErrorAction } from '@spartacus/core';
 
 export const LOAD_PRODUCT_REFERENCES = '[Product] Load Product References Data';
 export const LOAD_PRODUCT_REFERENCES_FAIL =

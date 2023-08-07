@@ -12,7 +12,7 @@ import {
   Suggestion,
 } from '../../../model/product-search.model';
 import { SearchConfig } from '../../model/search-config';
-import { ErrorAction } from "@spartacus/core";
+import { ErrorAction } from '@spartacus/core';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';
 export const SEARCH_PRODUCTS_FAIL = '[Product] Search Products Fail';
@@ -35,10 +35,7 @@ export class SearchProducts implements Action {
 
 export class SearchProductsFail implements ErrorAction {
   readonly type = SEARCH_PRODUCTS_FAIL;
-  constructor(
-    public error: ErrorModel,
-    public auxiliary?: boolean
-  ) {}
+  constructor(public error: ErrorModel, public auxiliary?: boolean) {}
 }
 
 export class SearchProductsSuccess implements Action {

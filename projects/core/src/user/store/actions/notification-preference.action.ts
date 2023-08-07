@@ -17,6 +17,7 @@ import {
   NOTIFICATION_PREFERENCES,
 } from '../user-state';
 import { NotificationPreference } from '../../../model/notification-preference.model';
+import { ErrorAction } from '@spartacus/core';
 
 export const LOAD_NOTIFICATION_PREFERENCES =
   '[User] Load Notification Preferences';
@@ -42,10 +43,13 @@ export class LoadNotificationPreferences extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadNotificationPreferencesFail extends StateUtils.LoaderFailAction {
+export class LoadNotificationPreferencesFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_NOTIFICATION_PREFERENCES_FAIL;
-  constructor(public payload: any) {
-    super(NOTIFICATION_PREFERENCES, payload);
+  constructor(public error: any) {
+    super(NOTIFICATION_PREFERENCES, error);
   }
 }
 
@@ -65,10 +69,13 @@ export class UpdateNotificationPreferences extends EntityLoadAction {
   }
 }
 
-export class UpdateNotificationPreferencesFail extends EntityFailAction {
+export class UpdateNotificationPreferencesFail
+  extends EntityFailAction
+  implements ErrorAction
+{
   readonly type = UPDATE_NOTIFICATION_PREFERENCES_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID, payload);
+  constructor(public error: any) {
+    super(PROCESS_FEATURE, UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID, error);
   }
 }
 

@@ -20,12 +20,12 @@ describe('user consent actions', () => {
     });
     describe('LoadUserConsentsFail', () => {
       it('should create the action', () => {
-        const payload = 'anError';
-        const action = new UserActions.LoadUserConsentsFail(payload);
+        const error = 'anError';
+        const action = new UserActions.LoadUserConsentsFail(error);
         expect({ ...action }).toEqual({
           type: UserActions.LOAD_USER_CONSENTS_FAIL,
-          payload,
-          meta: StateUtils.failMeta(USER_CONSENTS, payload),
+          error,
+          meta: StateUtils.failMeta(USER_CONSENTS, error),
         });
       });
     });
@@ -72,14 +72,15 @@ describe('user consent actions', () => {
     });
     describe('GiveUserConsentFail', () => {
       it('should create the action', () => {
-        const payload = 'anError';
-        const action = new UserActions.GiveUserConsentFail(payload);
+        const error = 'anError';
+        const action = new UserActions.GiveUserConsentFail(error);
         expect({ ...action }).toEqual({
+          error,
           type: UserActions.GIVE_USER_CONSENT_FAIL,
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             GIVE_CONSENT_PROCESS_ID,
-            payload
+            error
           ),
         });
       });

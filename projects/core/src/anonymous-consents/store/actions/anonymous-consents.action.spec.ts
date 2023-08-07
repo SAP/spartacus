@@ -53,6 +53,7 @@ describe('anonymous consent actions', () => {
         expect({ ...action }).toEqual({
           type: AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES_FAIL,
           meta: StateUtils.failMeta(ANONYMOUS_CONSENTS, mockError),
+          error: mockError,
         });
       });
     });

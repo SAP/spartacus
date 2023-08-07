@@ -25,7 +25,7 @@ describe('User Payment Methods Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_USER_PAYMENT_METHODS_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(USER_PAYMENT_METHODS, error),
       });
     });
@@ -62,10 +62,11 @@ describe('User Payment Methods Actions', () => {
 
   describe('SetDefaultUserPaymentMethodFail Action', () => {
     it('should create the action', () => {
+      const error = 'mockError';
       const action = new UserActions.SetDefaultUserPaymentMethodFail(false);
       expect({ ...action }).toEqual({
         type: UserActions.SET_DEFAULT_USER_PAYMENT_METHOD_FAIL,
-        payload: false,
+        error,
         meta: StateUtils.failMeta(USER_PAYMENT_METHODS),
       });
     });
@@ -95,10 +96,11 @@ describe('User Payment Methods Actions', () => {
 
   describe('DeleteUserPaymentMethodFail Action', () => {
     it('should create the action', () => {
+      const error = 'mockError';
       const action = new UserActions.DeleteUserPaymentMethodFail(false);
       expect({ ...action }).toEqual({
         type: UserActions.DELETE_USER_PAYMENT_METHOD_FAIL,
-        payload: false,
+        error,
         meta: StateUtils.failMeta(USER_PAYMENT_METHODS),
       });
     });

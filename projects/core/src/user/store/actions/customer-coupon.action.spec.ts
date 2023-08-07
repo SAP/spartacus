@@ -93,7 +93,7 @@ describe('Customer Coupon Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_CUSTOMER_COUPONS_FAIL,
-        payload: error,
+        error,
         meta: failMeta(CUSTOMER_COUPONS, error),
       });
     });
@@ -149,7 +149,7 @@ describe('Customer Coupon Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.SUBSCRIBE_CUSTOMER_COUPON_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
@@ -215,7 +215,7 @@ describe('Customer Coupon Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.UNSUBSCRIBE_CUSTOMER_COUPON_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
@@ -280,7 +280,7 @@ describe('Customer Coupon Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.CLAIM_CUSTOMER_COUPON_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           CLAIM_CUSTOMER_COUPON_PROCESS_ID,

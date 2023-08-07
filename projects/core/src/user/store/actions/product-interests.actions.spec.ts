@@ -47,7 +47,7 @@ describe('Product Interests Actions', () => {
       const action = new UserActions.LoadProductInterestsFail(error);
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_PRODUCT_INTERESTS_FAIL,
-        payload: error,
+        error,
         meta: failMeta(PRODUCT_INTERESTS, error),
       });
     });
@@ -109,7 +109,7 @@ describe('Product Interests Actions', () => {
       const action = new UserActions.RemoveProductInterestFail(error);
       expect({ ...action }).toEqual({
         type: UserActions.REMOVE_PRODUCT_INTEREST_FAIL,
-        payload: error,
+        error,
         meta: entityFailMeta(
           PROCESS_FEATURE,
           REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
@@ -156,7 +156,7 @@ describe('Product Interests Actions', () => {
       const action = new UserActions.AddProductInterestFail(error);
       expect({ ...action }).toEqual({
         type: UserActions.ADD_PRODUCT_INTEREST_FAIL,
-        payload: error,
+        error,
         meta: entityFailMeta(
           PROCESS_FEATURE,
           ADD_PRODUCT_INTEREST_PROCESS_ID,

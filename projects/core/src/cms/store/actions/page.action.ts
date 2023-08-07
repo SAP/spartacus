@@ -7,6 +7,7 @@
 import { PageContext } from '../../../routing/index';
 import { StateUtils } from '../../../state/utils/index';
 import { Page } from '../../model/page.model';
+import { ErrorAction } from '@spartacus/core';
 
 export const LOAD_CMS_PAGE_DATA = '[Cms] Load Page Data';
 export const LOAD_CMS_PAGE_DATA_FAIL = '[Cms] Load Page Data Fail';
@@ -21,9 +22,12 @@ export class LoadCmsPageData extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadCmsPageDataFail extends StateUtils.EntityFailAction {
+export class LoadCmsPageDataFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_CMS_PAGE_DATA_FAIL;
-  constructor(pageContext: PageContext, error: any) {
+  constructor(pageContext: PageContext, public error: any) {
     super(pageContext.type ?? '', pageContext.id, error);
   }
 }

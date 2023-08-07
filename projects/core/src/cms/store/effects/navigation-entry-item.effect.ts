@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, take } from 'rxjs/operators';
@@ -54,7 +54,9 @@ export class NavigationEntryItemEffects {
                     of(
                       new CmsActions.LoadCmsNavigationItemsFail(
                         data.nodeId,
-                        normalizeHttpError(error, this.logger)
+                        normalizeHttpError(error, this.logger) ?? {
+                          message: error,
+                        }
                       )
                     )
                   )

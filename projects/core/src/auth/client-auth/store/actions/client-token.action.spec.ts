@@ -27,7 +27,7 @@ describe('Client Token Actions', () => {
       const action = new ClientAuthActions.LoadClientTokenFail(error);
       expect({ ...action }).toEqual({
         type: ClientAuthActions.LOAD_CLIENT_TOKEN_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(CLIENT_TOKEN_DATA, error),
       });
     });

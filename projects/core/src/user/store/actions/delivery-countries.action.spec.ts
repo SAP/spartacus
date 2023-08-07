@@ -18,7 +18,7 @@ describe('Delivery Countries Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_DELIVERY_COUNTRIES_FAIL,
-        payload: error,
+        error,
       });
     });
   });

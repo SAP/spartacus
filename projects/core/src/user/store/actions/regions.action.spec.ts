@@ -23,7 +23,7 @@ describe('Regions Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_REGIONS_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(REGIONS, error),
       });
     });

@@ -8,6 +8,7 @@ import { Action } from '@ngrx/store';
 import { Region } from '../../../model/address.model';
 import { StateUtils } from '../../../state/utils/index';
 import { REGIONS } from '../user-state';
+import { ErrorAction } from '@spartacus/core';
 
 export const LOAD_REGIONS = '[User] Load Regions';
 export const LOAD_REGIONS_SUCCESS = '[User] Load Regions Success';
@@ -21,10 +22,13 @@ export class LoadRegions extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadRegionsFail extends StateUtils.LoaderFailAction {
+export class LoadRegionsFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_REGIONS_FAIL;
-  constructor(public payload: any) {
-    super(REGIONS, payload);
+  constructor(public error: any) {
+    super(REGIONS, error);
   }
 }
 

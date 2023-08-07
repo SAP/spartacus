@@ -60,9 +60,11 @@ export function resetMeta(entityType: string): LoaderMeta {
     loader: {},
   };
 }
+
 export class LoaderLoadAction implements LoaderAction {
   type = LOADER_LOAD_ACTION;
   readonly meta: LoaderMeta;
+
   constructor(entityType: string) {
     this.meta = loadMeta(entityType);
   }
@@ -71,6 +73,7 @@ export class LoaderLoadAction implements LoaderAction {
 export class LoaderFailAction implements LoaderAction {
   type = LOADER_FAIL_ACTION;
   readonly meta: LoaderMeta;
+
   constructor(entityType: string, error?: any) {
     this.meta = failMeta(entityType, error);
   }
@@ -79,6 +82,7 @@ export class LoaderFailAction implements LoaderAction {
 export class LoaderSuccessAction implements LoaderAction {
   type = LOADER_SUCCESS_ACTION;
   readonly meta: LoaderMeta;
+
   constructor(entityType: string) {
     this.meta = successMeta(entityType);
   }
@@ -87,6 +91,7 @@ export class LoaderSuccessAction implements LoaderAction {
 export class LoaderResetAction implements LoaderAction {
   type = LOADER_RESET_ACTION;
   readonly meta: LoaderMeta;
+
   constructor(entityType: string) {
     this.meta = resetMeta(entityType);
   }

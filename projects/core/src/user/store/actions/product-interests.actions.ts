@@ -27,6 +27,7 @@ import {
   EntitySuccessAction,
   EntityLoaderResetAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
+import { ErrorAction } from '@spartacus/core';
 
 export const LOAD_PRODUCT_INTERESTS = 'Load Product Interests';
 export const LOAD_PRODUCT_INTERESTS_FAIL = 'Load Product Interests Fail';
@@ -62,10 +63,13 @@ export class LoadProductInterests extends LoaderLoadAction {
   }
 }
 
-export class LoadProductInterestsFail extends LoaderFailAction {
+export class LoadProductInterestsFail
+  extends LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_PRODUCT_INTERESTS_FAIL;
-  constructor(public payload: any) {
-    super(PRODUCT_INTERESTS, payload);
+  constructor(public error: any) {
+    super(PRODUCT_INTERESTS, error);
   }
 }
 
@@ -96,10 +100,13 @@ export class RemoveProductInterestSuccess extends EntitySuccessAction {
   }
 }
 
-export class RemoveProductInterestFail extends EntityFailAction {
+export class RemoveProductInterestFail
+  extends EntityFailAction
+  implements ErrorAction
+{
   readonly type = REMOVE_PRODUCT_INTEREST_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID, payload);
+  constructor(public error: any) {
+    super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID, error);
   }
 }
 
@@ -123,10 +130,13 @@ export class AddProductInterestSuccess extends EntitySuccessAction {
   }
 }
 
-export class AddProductInterestFail extends EntityFailAction {
+export class AddProductInterestFail
+  extends EntityFailAction
+  implements ErrorAction
+{
   readonly type = ADD_PRODUCT_INTEREST_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID, payload);
+  constructor(public error: any) {
+    super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID, error);
   }
 }
 

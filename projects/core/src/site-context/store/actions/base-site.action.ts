@@ -6,6 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { BaseSite } from '../../../model/misc.model';
+import { ErrorAction } from '@spartacus/core';
 
 export const LOAD_BASE_SITE = '[Site-context] Load BaseSite';
 export const LOAD_BASE_SITE_FAIL = '[Site-context] Load BaseSite Fail';
@@ -22,9 +23,9 @@ export class LoadBaseSite implements Action {
   readonly type = LOAD_BASE_SITE;
 }
 
-export class LoadBaseSiteFail implements Action {
+export class LoadBaseSiteFail implements ErrorAction {
   readonly type = LOAD_BASE_SITE_FAIL;
-  constructor(public payload: any) {}
+  constructor(public error: any) {}
 }
 
 export class LoadBaseSiteSuccess implements Action {
@@ -36,9 +37,9 @@ export class LoadBaseSites implements Action {
   readonly type = LOAD_BASE_SITES;
 }
 
-export class LoadBaseSitesFail implements Action {
+export class LoadBaseSitesFail implements ErrorAction {
   readonly type = LOAD_BASE_SITES_FAIL;
-  constructor(public payload: any) {}
+  constructor(public error: any) {}
 }
 
 export class LoadBaseSitesSuccess implements Action {

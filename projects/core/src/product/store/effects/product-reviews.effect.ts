@@ -62,9 +62,11 @@ export class ProductReviewsEffects {
               );
             }),
             catchError((_error) =>
-              of(new ProductActions.PostProductReviewFail({
-                message: payload.productCode,
-              } as ErrorModel))
+              of(
+                new ProductActions.PostProductReviewFail({
+                  message: payload.productCode,
+                } as ErrorModel)
+              )
             )
           );
       })
