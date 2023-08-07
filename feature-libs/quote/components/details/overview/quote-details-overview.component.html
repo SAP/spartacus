@@ -36,7 +36,8 @@
                   quoteDetails.description
                 ) | async
               "
-              (editCard)="editQuote(quoteDetails, $event)"
+              (editCard)="edit(quoteDetails, $event)"
+              (cancelCard)="cancel($event)"
               [truncateText]="true"
             ></cx-quote-details-edit>
           </div>

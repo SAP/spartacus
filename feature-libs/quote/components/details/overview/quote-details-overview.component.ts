@@ -14,7 +14,7 @@ import {
   QuoteFacade,
 } from '@spartacus/quote/root';
 import { EventService, TranslationService } from '@spartacus/core';
-import { Card, FocusConfig, ICON_TYPE } from '@spartacus/storefront';
+import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { EditCard, EditEvent } from '../edit';
@@ -24,11 +24,12 @@ import { EditCard, EditEvent } from '../edit';
   templateUrl: './quote-details-overview.component.html',
 })
 export class QuoteDetailsOverviewComponent {
+  private static NO_DATA = '-';
+  private static CHARACTERS_LIMIT = 255;
+
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
   editMode = false;
-  private static NO_DATA = '-';
-  private static CHARACTERS_LIMIT = 255;
 
   constructor(
     protected quoteFacade: QuoteFacade,
@@ -36,17 +37,12 @@ export class QuoteDetailsOverviewComponent {
     protected translationService: TranslationService
   ) {}
 
-  focusConfig: FocusConfig = {
-    trap: false,
-    block: true,
-    autofocus: 'input',
-    focusOnEscape: false,
-  };
-
   protected defineQuoteMetaData(event: EditEvent): QuoteMetadata {
-    const name = event.name;
-    const description = event.description;
-    const expirationTime = event.expirationTime;
+    const [name, description, expirationTime] = [
+      event.name,
+      event.description,
+      event.expirationTime,
+    ];
 
     let metaData: QuoteMetadata = {};
     metaData = {
@@ -59,8 +55,24 @@ export class QuoteDetailsOverviewComponent {
     return metaData;
   }
 
-  editQuote(quote: Quote, event: EditEvent) {
-    this.editMode = false;
+  /**
+   * Cancels the view of the edit card tile
+   * by setting the edit mode to 'false'.
+   *
+   * @param {EditEvent} event - edit event
+   */
+  cancel(event: EditEvent) {
+    this.editMode = event.editMode;
+  }
+
+  /**
+   * Edits the card tile.
+   *
+   * @param {Quote} quote - Quote
+   * @param {EditEvent} event - edit event
+   */
+  edit(quote: Quote, event: EditEvent) {
+    this.editMode = event.editMode;
     const metaData: QuoteMetadata = this.defineQuoteMetaData(event);
 
     this.quoteFacade
@@ -74,14 +86,20 @@ export class QuoteDetailsOverviewComponent {
       );
   }
 
-  isEditMode(): boolean {
-    return this.editMode;
-  }
-
+  /**
+   * Sets the edit mode to the opposite.
+   */
   setEditMode() {
     this.editMode = !this.editMode;
   }
 
+  /**
+   * Retrieves the card content that represents the quote information with its name and description.
+   *
+   * @param {string} name - Quote name
+   * @param {string} description - Quote description
+   * @returns {Observable<Card>} - Card content
+   */
   getQuoteInformation(name?: string, description?: string): Observable<Card> {
     return combineLatest([
       this.translationService.translate('quote.details.information'),
@@ -106,6 +124,13 @@ export class QuoteDetailsOverviewComponent {
     );
   }
 
+  /**
+   * Retrieves the edit card content that represents the edit quote information with its name and description.
+   *
+   * @param {string} name - Quote name
+   * @param {string} description - Quote description
+   * @returns {Observable<EditCard>} - Edit card content
+   */
   getEditQuoteInformation(
     name: string,
     description: string
@@ -135,6 +160,13 @@ export class QuoteDetailsOverviewComponent {
     );
   }
 
+  /**
+   * Retrieves the card content that represents the estimated and date information.
+   *
+   * @param {Quote} quote - Quote
+   * @param {any} createdDate - Quote description
+   * @returns {Observable<Card>} - Card content
+   */
   getEstimatedAndDate(quote: Quote, createdDate?: any): Observable<Card> {
     const totalPrice =
       this.getTotalPrice(quote) ?? this.getTotalPriceDescription(quote);
@@ -161,6 +193,13 @@ export class QuoteDetailsOverviewComponent {
     );
   }
 
+  /**
+   * Retrieves the card content that represents the update information.
+   *
+   * @param {any} lastUpdated - Quote
+   * @param {any} expiryDate - Quote description
+   * @returns {Observable<Card>} - Card content
+   */
   getUpdate(lastUpdated?: any, expiryDate?: any): Observable<Card> {
     return combineLatest([
       this.translationService.translate('quote.details.update'),
@@ -185,20 +224,11 @@ export class QuoteDetailsOverviewComponent {
     );
   }
 
-  //TODO: consider to create similar generic function for all cx-card usages
-  getCardContent(value: string | null, titleKey: string): Observable<Card> {
-    return this.translationService.translate(titleKey).pipe(
-      map((title) => ({
-        title,
-        text: [value ?? QuoteDetailsOverviewComponent.NO_DATA],
-      }))
-    );
-  }
-
   /**
    * Returns total price as formatted string
    * @param quote Quote
    * @returns Total price formatted format, null if that is not available
+   * @protected
    */
   protected getTotalPrice(quote: Quote): string | null {
     return quote.totalPrice.formattedValue ?? null;
@@ -208,6 +238,7 @@ export class QuoteDetailsOverviewComponent {
    * Returns total price description
    * @param quote Quote
    * @returns 'Total' price if quote is in final state, 'Estimated total' otherwise
+   * @protected
    */
   protected getTotalPriceDescription(quote: Quote): string {
     const readyToSubmit = quote.allowedActions?.find(

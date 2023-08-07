@@ -34,24 +34,26 @@ export class QuoteDetailsEditComponent implements OnInit {
   editForm: UntypedFormGroup;
 
   @Output()
-  cancelCard: EventEmitter<number> = new EventEmitter();
-  @Output()
   editCard: EventEmitter<EditEvent> = new EventEmitter();
 
   @Input()
   content: EditCard | null;
-
   @Input()
-  truncateText = false;
+  truncateText = false; //TODO: enable description truncation
 
+  /**
+   * Cancels the view of the edit card tile
+   * by throwing the edit event with the edit mode set to 'false'.
+   */
   cancel(): void {
-    const saveCardEvent: EditEvent = { editMode: false };
-    this.editCard.emit(saveCardEvent);
-    this.cancelCard.emit(5);
+    this.editCard.emit({ editMode: false });
   }
-
+  /**
+   * Edits the card tile by throwing the edit event
+   * with the edit mode set to 'false' and the edited data.
+   */
   edit(): void {
-    let event: EditEvent = {
+    const event: EditEvent = {
       editMode: false,
     };
 
@@ -71,10 +73,20 @@ export class QuoteDetailsEditComponent implements OnInit {
     this.editCard.emit(event);
   }
 
+  /**
+   * Defines the form control name.
+   *
+   * @param {string} name - Name
+   */
   setFormControlName(name: string): string {
     return name.toLocaleLowerCase();
   }
 
+  /**
+   * Tracks by index.
+   *
+   * @param {any} index - index
+   */
   trackByIndex(index: any) {
     return index;
   }
@@ -88,9 +100,7 @@ export class QuoteDetailsEditComponent implements OnInit {
     );
   }
 
-  constructor() {
-    // Intentional empty constructor
-  }
+  constructor() {}
 
   ngOnInit() {
     this.editForm = new UntypedFormGroup({});

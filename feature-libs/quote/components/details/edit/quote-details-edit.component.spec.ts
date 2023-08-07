@@ -98,17 +98,6 @@ xdescribe('QuoteDetailsEditComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display overview if it is available', () => {
-    //when
-    fixture.detectChanges();
-
-    //then
-    const quoteOverviewElement = fixture.debugElement.query(
-      By.css('.cx-quote-overview')
-    );
-    expect(quoteOverviewElement.nativeElement.innerHTML).toBeDefined();
-  });
-
   it('should display titles and content in card if details are available', () => {
     //when
     fixture.detectChanges();
@@ -122,70 +111,5 @@ xdescribe('QuoteDetailsEditComponent', () => {
     expect(cards.length).toEqual(3);
     expect(cardTitles.length).toEqual(3);
     expect(cardContainers.length).toEqual(3);
-  });
-
-  it('should return object with title and text if value is defined when getCardContent', () => {
-    //given
-    const value = 'test';
-    const titleKey = 'key';
-    const expected = { title: 'key', text: [value] };
-
-    //then
-    component.getCardContent(value, titleKey).subscribe((result) => {
-      expect(result).toEqual(expected);
-    });
-  });
-
-  it('should return object with title and placeholder if value is not defined defined when getCardContent', () => {
-    //given
-    const value = null;
-    const titleKey = 'key';
-    const expected = { title: 'key', text: ['-'] };
-
-    //then
-    component.getCardContent(value, titleKey).subscribe((result) => {
-      expect(result).toEqual(expected);
-    });
-  });
-
-  describe('getTotalPrice', () => {
-    it('should return the total price formatted value in case it is available', () => {
-      expect(component['getTotalPrice'](mockQuote)).toBe(
-        totalPriceFormattedValue
-      );
-    });
-
-    it('should return null in case no formatted value is available', () => {
-      const quoteWOPrices: Quote = {
-        ...mockQuote,
-        totalPrice: {},
-      };
-      expect(component['getTotalPrice'](quoteWOPrices)).toBe(null);
-    });
-  });
-
-  describe('getTotalPriceDescription', () => {
-    it('should name total price as estimated as long as final status not reached', () => {
-      expect(component['getTotalPriceDescription'](mockQuote)).toBe(
-        'quote.details.estimatedTotal'
-      );
-    });
-
-    it('should name total price as total as in case final status reached, i.e. checkout action is available', () => {
-      const quoteInOfferState: Quote = {
-        ...mockQuote,
-        allowedActions: [{ type: QuoteActionType.CHECKOUT, isPrimary: true }],
-      };
-      expect(component['getTotalPriceDescription'](quoteInOfferState)).toBe(
-        'quote.details.total'
-      );
-    });
-
-    it('should be able to deal with undefined actions', () => {
-      const quoteWoActions: Quote = { ...mockQuote, allowedActions: undefined };
-      expect(component['getTotalPriceDescription'](quoteWoActions)).toBe(
-        'quote.details.estimatedTotal'
-      );
-    });
   });
 });
