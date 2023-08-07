@@ -16,13 +16,14 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
+  Config,
   ErrorHandlingModule,
   FeaturesConfig,
   I18nConfig,
   OccConfig,
+  provideConfig,
   RoutingConfig,
   TestConfigModule,
-  provideConfig,
 } from '@spartacus/core';
 import { StoreFinderConfig } from '@spartacus/storefinder/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
@@ -97,4 +98,8 @@ if (!environment.production) {
   ],
   bootstrap: [StorefrontComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(config: Config) {
+    console.log('this.config', config);
+  }
+}

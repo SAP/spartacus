@@ -51,6 +51,7 @@ export function defaultCartComponentsConfig() {
       // optimize performances by delaying the moment the cart lib is loaded and
       // making sure cart lib is loaded when needed.
       [CART_BASE_CORE_FEATURE]: CART_BASE_FEATURE,
+      // [CART_BASE_OCC_FEATURE]: CART_BASE_FEATURE,
     },
   };
   return config;

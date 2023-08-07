@@ -6,19 +6,19 @@
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CartAdapter } from '@spartacus/cart/base/core';
 import {
-  CART_NORMALIZER,
   Cart,
+  CartAdapter,
+  CART_NORMALIZER,
   SaveCartResult,
 } from '@spartacus/cart/base/root';
 import {
   ConverterService,
   InterceptorUtil,
-  OCC_CART_ID_CURRENT,
-  OCC_USER_ID_ANONYMOUS,
   Occ,
   OccEndpointsService,
+  OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -30,7 +30,9 @@ export class OccCartAdapter implements CartAdapter {
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService
-  ) {}
+  ) {
+    console.log('hi3 async false');
+  }
 
   public loadAll(userId: string): Observable<Cart[]> {
     return this.http

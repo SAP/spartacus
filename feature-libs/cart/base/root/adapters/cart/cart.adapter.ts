@@ -4,9 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Cart } from '@spartacus/cart/base/root';
+import { Injectable } from '@angular/core';
+import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { CART_BASE_CORE_FEATURE } from '../../feature-name';
+import { Cart } from '../../models/cart.model';
 
+@Injectable({
+  providedIn: 'root',
+  useFactory: () =>
+    facadeFactory({
+      facade: CartAdapter,
+      feature: CART_BASE_CORE_FEATURE,
+      methods: ['loadAll', 'load', 'create', 'delete', 'save', 'addEmail'],
+    }),
+})
 export abstract class CartAdapter {
   /**
    * Abstract method used to load all carts

@@ -6,8 +6,8 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CartEntryAdapter } from '@spartacus/cart/base/core';
 import {
+  CartEntryAdapter,
   CartModification,
   CART_MODIFICATION_NORMALIZER,
 } from '@spartacus/cart/base/root';

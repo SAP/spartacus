@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './cart-entry.connector';
+export * from './cart-entry.adapter';

@@ -5,9 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CartModification } from '@spartacus/cart/base/root';
+import { CartEntryAdapter, CartModification } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
-import { CartEntryAdapter } from './cart-entry.adapter';
 
 @Injectable({
   providedIn: 'root',
