@@ -1,63 +1,26 @@
-import { Component, Input } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { I18nTestingModule } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import {
-  QuoteFacade,
-  Quote,
-  QuoteActionType,
-  QuoteState,
-} from '@spartacus/quote/root';
-import { I18nTestingModule, TranslationService } from '@spartacus/core';
-import { CardModule, ICON_TYPE } from '@spartacus/storefront';
+  EditCard,
+  QuoteDetailsEditComponent,
+} from './quote-details-edit.component';
+import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 
-import { Observable, of } from 'rxjs';
-import { QuoteDetailsEditComponent } from './quote-details-overview.component';
-import createSpy = jasmine.createSpy;
-
-const totalPriceFormattedValue = '$20';
-
-const mockCartId = '1234';
-const mockAction = { type: QuoteActionType.CREATE, isPrimary: true };
-const mockQuote: Quote = {
-  allowedActions: [mockAction],
-  isEditable: true,
-  comments: [],
-  cartId: mockCartId,
-  code: '00001233',
-  creationTime: new Date('2022-06-07T11:45:42+0000'),
-  description: 'Quote Description',
-  expirationTime: new Date('2022-07-07T23:59:59+0000'),
-  updatedTime: new Date('2022-06-09T13:31:36+0000'),
-  previousEstimatedTotal: {
-    currencyIso: 'USD',
-    formattedValue: '$1.00',
-    value: 1,
-  },
-  state: QuoteState.BUYER_ORDERED,
-  name: 'Name',
-  totalPrice: { value: 20, formattedValue: totalPriceFormattedValue },
+const mockCard: EditCard = {
+  title: 'Edit card title',
+  paragraphs: [
+    { title: 'name', text: 'text1' },
+    {
+      title: 'description',
+      text: 'text2',
+      isTextArea: true,
+      charactersLimit: 255,
+    },
+  ],
 };
-
-export class MockQuoteFacade implements Partial<QuoteFacade> {
-  getQuoteDetails(): Observable<Quote> {
-    return of(mockQuote);
-  }
-  setSort = createSpy();
-  setCurrentPage = createSpy();
-}
-
-class MockTranslationService implements Partial<TranslationService> {
-  translate(key: string): Observable<string> {
-    return of(key);
-  }
-}
-
-@Component({
-  selector: 'cx-quote-action-links',
-  template: '',
-})
-export class MockQuoteActionLinksComponent {}
 
 @Component({
   selector: 'cx-icon',
@@ -67,49 +30,238 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-xdescribe('QuoteDetailsEditComponent', () => {
+describe('QuoteDetailsEditComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsEditComponent>;
   let component: QuoteDetailsEditComponent;
+  let htmlElem: HTMLElement;
+  let debugElement: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, CardModule, RouterTestingModule],
-      declarations: [
-        QuoteDetailsEditComponent,
-        MockCxIconComponent,
-        MockQuoteActionLinksComponent,
-      ],
-      providers: [
-        {
-          provide: QuoteFacade,
-          useClass: MockQuoteFacade,
-        },
-        { provide: TranslationService, useClass: MockTranslationService },
-      ],
+      imports: [I18nTestingModule, ReactiveFormsModule],
+      declarations: [QuoteDetailsEditComponent, MockCxIconComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteDetailsEditComponent);
+    htmlElem = fixture.nativeElement;
+    debugElement = fixture.debugElement;
     component = fixture.componentInstance;
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should display titles and content in card if details are available', () => {
-    //when
+    component.content = mockCard;
     fixture.detectChanges();
 
-    //then
-    const cards = fixture.debugElement.queryAll(By.css('cx-card'));
-    const cardTitles = fixture.debugElement.queryAll(By.css('.cx-card-title'));
-    const cardContainers = fixture.debugElement.queryAll(
-      By.css('.cx-card-container')
+    spyOn(component.editCard, 'emit').and.callThrough();
+    spyOn(component.cancelCard, 'emit').and.callThrough();
+  });
+
+  it('should create and render component accordingly', () => {
+    expect(component).toBeTruthy();
+
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-card'
     );
-    expect(cards.length).toEqual(3);
-    expect(cardTitles.length).toEqual(3);
-    expect(cardContainers.length).toEqual(3);
+
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-card-edit'
+    );
+
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-card-title'
+    );
+
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-card-title',
+      mockCard.title
+    );
+
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-card-container'
+    );
+
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-card-label-container'
+    );
+
+    CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      '.cx-card-paragraph',
+      mockCard.paragraphs.length
+    );
+
+    CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      '.cx-card-paragraph-title',
+      mockCard.paragraphs.length
+    );
+
+    CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      '.form-group',
+      mockCard.paragraphs.length
+    );
+
+    CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      'input',
+      1
+    );
+
+    CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      'textarea',
+      1
+    );
+
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-card-paragraph-title',
+      mockCard.paragraphs[1].title,
+      1
+    );
+
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-card-paragraph-info-text',
+      'quote.details.charactersLeft count:250'
+    );
+
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-card-button-container'
+    );
+
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'button.btn-tertiary'
+    );
+
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      'button.btn-tertiary',
+      'common.cancel'
+    );
+
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'button.btn-secondary'
+    );
+
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      'button.btn-secondary',
+      'common.save'
+    );
+  });
+
+  it('should handle cancel action', () => {
+    const cancelButton = CommonQuoteTestUtilsService.getNativeElement(
+      debugElement,
+      'button.btn-tertiary'
+    );
+    cancelButton.click();
+    expect(component.cancelCard.emit).toHaveBeenCalled();
+    expect(component.cancelCard.emit).toHaveBeenCalledWith(false);
+  });
+
+  it('should handle edit action', () => {
+    const newTextForTitle1: any = 'New title for name';
+    const newTextForTitle2: any = 'Here could be found a long description';
+    component.editForm.get('name')?.setValue(newTextForTitle1);
+    component.editForm.get('name').markAsTouched();
+    component.editForm.get('description')?.setValue(newTextForTitle2);
+    component.editForm.get('description').markAsTouched();
+    fixture.detectChanges();
+    const saveButton = CommonQuoteTestUtilsService.getNativeElement(
+      debugElement,
+      'button.btn-secondary'
+    );
+    saveButton.click();
+    expect(component.editCard.emit).toHaveBeenCalled();
+    let arg: any = (component.editCard.emit as any).calls.mostRecent().args[0];
+    expect(arg.editMode).toEqual(false);
+    expect(arg.name).toEqual(newTextForTitle1);
+    expect(arg.description).toEqual(newTextForTitle2);
+  });
+
+  describe('setFormControlName', () => {
+    it('should return form control name converted to lower case', () => {
+      let name = 'TeSt';
+      let convertedName = name.toLocaleLowerCase();
+      expect(component.setFormControlName(name)).toBe(convertedName);
+
+      name = 'TEST';
+      convertedName = name.toLocaleLowerCase();
+      expect(component.setFormControlName(name)).toBe(convertedName);
+    });
+  });
+
+  describe('getCharactersLeft', () => {
+    function setValue(formControlName: string, value: any): void {
+      component.editForm.get(formControlName)?.setValue(value);
+      component.editForm.get(formControlName).markAsTouched();
+      fixture.detectChanges();
+    }
+
+    it('should calculate left characters', () => {
+      const formControlName = 'description';
+      setValue(formControlName, 'New title for name');
+
+      let charactersLeft =
+        component.content.paragraphs[1].charactersLimit -
+        component.editForm.get(formControlName)?.value?.length;
+      expect(
+        component['getCharactersLeft'](
+          component.content.paragraphs[1].title,
+          component.content.paragraphs[1].charactersLimit
+        )
+      ).toBe(charactersLeft);
+
+      charactersLeft =
+        component.content.paragraphs[1].charactersLimit -
+        component.editForm.get(formControlName)?.value?.length;
+      expect(
+        component['getCharactersLeft'](
+          component.content.paragraphs[1].title,
+          component.content.paragraphs[1].charactersLimit
+        )
+      ).toBe(charactersLeft);
+
+      setValue(formControlName, '');
+
+      charactersLeft =
+        component.content.paragraphs[1].charactersLimit -
+        component.editForm.get(formControlName)?.value?.length;
+      expect(
+        component['getCharactersLeft'](
+          component.content.paragraphs[1].title,
+          component.content.paragraphs[1].charactersLimit
+        )
+      ).toBe(charactersLeft);
+    });
   });
 });

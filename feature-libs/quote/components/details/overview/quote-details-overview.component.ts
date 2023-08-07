@@ -62,7 +62,7 @@ export class QuoteDetailsOverviewComponent {
    * @param {boolean} event - edit event
    */
   cancel(event: boolean) {
-    this.editMode = !event;
+    this.editMode = event;
   }
 
   /**

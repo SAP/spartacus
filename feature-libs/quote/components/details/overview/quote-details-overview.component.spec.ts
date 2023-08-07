@@ -70,6 +70,7 @@ class MockCxIconComponent {
 xdescribe('QuoteDetailsOverviewComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsOverviewComponent>;
   let component: QuoteDetailsOverviewComponent;
+  //let htmlElem: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -91,6 +92,7 @@ xdescribe('QuoteDetailsOverviewComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteDetailsOverviewComponent);
+    //htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
   });
 
@@ -124,6 +126,8 @@ xdescribe('QuoteDetailsOverviewComponent', () => {
     expect(cardContainers.length).toEqual(3);
   });
 
+  /**
+   //TODO
   it('should return object with title and text if value is defined when getCardContent', () => {
     //given
     const value = 'test';
@@ -147,6 +151,7 @@ xdescribe('QuoteDetailsOverviewComponent', () => {
       expect(result).toEqual(expected);
     });
   });
+   */
 
   describe('getTotalPrice', () => {
     it('should return the total price formatted value in case it is available', () => {

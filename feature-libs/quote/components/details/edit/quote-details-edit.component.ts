@@ -40,15 +40,13 @@ export class QuoteDetailsEditComponent implements OnInit {
 
   @Input()
   content: EditCard | null;
-  @Input()
-  truncateText = false; //TODO: enable description truncation
 
   /**
    * Cancels the view of the edit card tile
    * by throwing the edit event with the edit mode set to 'false'.
    */
   cancel(): void {
-    this.cancelCard.emit(true);
+    this.cancelCard.emit(false);
   }
   /**
    * Edits the card tile by throwing the edit event
