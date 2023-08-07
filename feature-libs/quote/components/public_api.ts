@@ -12,5 +12,6 @@ export * from './quote-request-button/quote-request-button.module';
 export * from './quote-request-dialog/quote-request-dialog.component';
 export * from './quote-request-dialog/quote-request-dialog.module';
 export * from './quote-seller-edit/quote-seller-edit.component';
+export * from './quote-seller-edit/quote-seller-edit.component.service';
 export * from './quote-seller-edit/quote-seller-edit.module';
 export * from './quote-request-dialog/quote-confirm-request-dialog/quote-confirm-request-dialog.component';

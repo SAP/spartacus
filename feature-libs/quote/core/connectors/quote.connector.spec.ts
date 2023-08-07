@@ -5,6 +5,7 @@ import { take } from 'rxjs/operators';
 import {
   QuoteActionType,
   QuoteDiscount,
+  QuoteDiscountType,
   QuoteMetadata,
   QuoteStarter,
 } from '@spartacus/quote/root';
@@ -175,7 +176,7 @@ describe('QuoteConnector', () => {
     let result;
     const discount = {
       discountRate: 10,
-      discountType: 'FIXED',
+      discountType: QuoteDiscountType.ABSOLUTE
     };
     service
       .addDiscount(userId, quoteCode, discount)

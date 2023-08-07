@@ -8,6 +8,7 @@ import {
   QuoteCartService,
   QuoteDetailsReloadQueryEvent,
   QuoteDiscount,
+  QuoteDiscountType,
   QuoteList,
   QuoteMetadata,
   QuotesStateParams,
@@ -281,7 +282,10 @@ describe('QuoteService', () => {
   });
 
   describe('addDiscount', () => {
-    const discount: QuoteDiscount = { discountRate: 1, discountType: 'TODO' };
+    const discount: QuoteDiscount = {
+      discountRate: 1,
+      discountType: QuoteDiscountType.ABSOLUTE,
+    };
     it('should ', () => {
       service
         .addDiscount(QUOTE_CODE, discount)

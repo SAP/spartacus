@@ -6,6 +6,7 @@ import {
   QuoteActionType,
   QuoteState,
   QuoteDiscount,
+  QuoteDiscountType,
 } from '@spartacus/quote/root';
 import { I18nTestingModule, Price } from '@spartacus/core';
 
@@ -99,7 +100,7 @@ describe('QuoteSellerEditComponent', () => {
       component.form.controls.discount.setValue(0);
       const expectedDiscount: QuoteDiscount = {
         discountRate: component.form.controls.discount.value,
-        discountType: 'TODO',
+        discountType: QuoteDiscountType.ABSOLUTE,
       };
       component.onApply(QUOTE_CODE);
       expect(facade.addDiscount).toHaveBeenCalledWith(

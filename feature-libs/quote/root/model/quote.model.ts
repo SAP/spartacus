@@ -83,9 +83,15 @@ export enum QuoteState {
   EXPIRED = 'EXPIRED',
 }
 
+export enum QuoteDiscountType {
+  //see https://jira.tools.sap/browse/CXEC-31800
+  PERCENT = 'PERCENT',
+  ABSOLUTE = 'ABSOLUTE',
+}
+
 export interface QuoteDiscount {
   discountRate: number;
-  discountType: string;
+  discountType: QuoteDiscountType;
 }
 
 export interface QuoteList {
