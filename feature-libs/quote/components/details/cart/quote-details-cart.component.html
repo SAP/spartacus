@@ -16,8 +16,8 @@
     <ng-template
       [cxOutlet]="cartOutlets.CART_ITEM_LIST"
       [cxOutletContext]="{
-        items: quoteDetails.entries,
-        readonly: true
+        items: quoteDetails.entries ?? [],
+        readonly: !quoteDetails.isEditable
       }"
     >
     </ng-template>
