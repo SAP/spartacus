@@ -50,7 +50,7 @@ export const quote = {
     seller: {
       apply: 'Apply',
       placeholder: '0%',
-      discount: 'Discount'
+      discount: 'Discount',
     },
     comments: {
       title: 'Contact',

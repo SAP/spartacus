@@ -93,8 +93,5 @@ export abstract class QuoteFacade {
    */
   abstract getQuoteDetails(): Observable<Quote>;
 
-  abstract addDiscount(  
-    quoteCode: string,
-    discount: QuoteDiscount
-  ): void;
+  abstract addDiscount(quoteCode: string, discount: QuoteDiscount): void;
 }

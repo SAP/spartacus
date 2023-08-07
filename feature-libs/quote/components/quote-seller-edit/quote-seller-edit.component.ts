@@ -22,7 +22,7 @@ import { filter } from 'rxjs/operators';
 export class QuoteSellerEditComponent {
   quoteDetailsForSeller$: Observable<Quote> = this.quoteFacade
     .getQuoteDetails()
-    .pipe(filter((quote) => this.isSeller(quote)));
+    .pipe(filter((quote) => this.isSeller(quote.state)));
 
   @ViewChild('element') element: ElementRef;
 
@@ -32,8 +32,11 @@ export class QuoteSellerEditComponent {
 
   constructor(protected quoteFacade: QuoteFacade) {}
 
-  protected isSeller(quote: Quote): boolean {
-    return quote.state === QuoteState.SELLER_DRAFT;
+  protected isSeller(quoteState: QuoteState): boolean {
+    return (
+      quoteState === QuoteState.SELLER_DRAFT ||
+      quoteState === QuoteState.SELLER_REQUEST
+    );
   }
 
   onApply(quoteCode: string): void {

@@ -330,7 +330,10 @@ export class QuoteService implements QuoteFacade {
   ) {}
 
   addDiscount(quoteCode: string, discount: QuoteDiscount): Observable<unknown> {
-    return this.addDiscountCommand.execute({quoteCode, quoteDiscount:discount }); 
+    return this.addDiscountCommand.execute({
+      quoteCode,
+      quoteDiscount: discount,
+    });
   }
 
   createQuote(quoteMetadata: QuoteMetadata): Observable<Quote> {

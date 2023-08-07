@@ -5,24 +5,21 @@ import {
   Quote,
   QuoteActionType,
   QuoteState,
+  QuoteDiscount,
 } from '@spartacus/quote/root';
-import {
-  GlobalMessageService,
-  I18nTestingModule,
-  Price,
-  TranslationService,
-} from '@spartacus/core';
+import { I18nTestingModule, Price } from '@spartacus/core';
 
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { QuoteSellerEditComponent } from './quote-seller-edit.component';
 import createSpy = jasmine.createSpy;
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { ElementRef, ViewContainerRef } from '@angular/core';
-import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import {
+  QUOTE_CODE,
+  createEmptyQuote,
+} from '../../core/testing/quote-test-utils';
 
 const mockCartId = '1234';
-const mockCode = '3333';
+
 const threshold = 20;
 const totalPrice: Price = { value: threshold + 1 };
 
@@ -32,54 +29,20 @@ const mockQuote: Quote = {
     { type: QuoteActionType.EDIT, isPrimary: false },
     { type: QuoteActionType.REQUOTE, isPrimary: true },
   ],
-  state: QuoteState.BUYER_DRAFT,
+  state: QuoteState.SELLER_DRAFT,
   cartId: mockCartId,
-  code: mockCode,
+  code: QUOTE_CODE,
   threshold: threshold,
   totalPrice: totalPrice,
 };
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
 
-const dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  closeDialog(reason: any): void {
-    dialogClose$.next(reason);
-  }
-  openDialog(
-    _caller: LAUNCH_CALLER,
-    _openElement?: ElementRef,
-    _vcr?: ViewContainerRef,
-    _data?: any
-  ) {
-    return of();
-  }
-  get dialogClose() {
-    return dialogClose$.asObservable();
-  }
-}
-
 class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<Quote> {
     return mockQuoteDetails$.asObservable();
   }
-  performQuoteAction(
-    _quoteCode: string,
-    _quoteAction: QuoteActionType
-  ): Observable<unknown> {
-    return EMPTY;
-  }
-  requote = createSpy();
-}
-
-class MockTranslationService implements Partial<TranslationService> {
-  translate(key: string): Observable<string> {
-    return of(key);
-  }
-}
-
-class MockGlobalMessageService {
-  add(): void {}
+  addDiscount = createSpy();
 }
 
 describe('QuoteSellerEditComponent', () => {
@@ -96,9 +59,6 @@ describe('QuoteSellerEditComponent', () => {
           provide: QuoteFacade,
           useClass: MockCommerceQuotesFacade,
         },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: TranslationService, useClass: MockTranslationService },
-        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
   });
@@ -113,5 +73,39 @@ describe('QuoteSellerEditComponent', () => {
   it('should create component', () => {
     expect(component).toBeDefined();
     expect(facade).toBeDefined();
+  });
+
+  it('should emit data for in case seller status is provided', (done) => {
+    component.quoteDetailsForSeller$
+      .subscribe((quote) => {
+        expect(quote.code).toBe(QUOTE_CODE);
+        done();
+      })
+      .unsubscribe();
+  });
+
+  describe('isSeller', () => {
+    it('should assign SELLER_DRAFT to seller role', () => {
+      expect(component['isSeller'](QuoteState.SELLER_DRAFT)).toBe(true);
+    });
+
+    it('should assign SELLER_REQUEST to seller role', () => {
+      expect(component['isSeller'](QuoteState.SELLER_REQUEST)).toBe(true);
+    });
+  });
+
+  describe('onApply', () => {
+    it('should call corresponding facade method', () => {
+      component.form.controls.discount.setValue(0);
+      const expectedDiscount: QuoteDiscount = {
+        discountRate: component.form.controls.discount.value,
+        discountType: 'TODO',
+      };
+      component.onApply(QUOTE_CODE);
+      expect(facade.addDiscount).toHaveBeenCalledWith(
+        QUOTE_CODE,
+        expectedDiscount
+      );
+    });
   });
 });
