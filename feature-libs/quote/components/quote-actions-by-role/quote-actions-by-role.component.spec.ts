@@ -354,4 +354,91 @@ describe('QuoteActionsByRoleComponent', () => {
     );
     expect(facade.requote).toHaveBeenCalledWith(mockQuote.code);
   });
+
+  describe('isConfirmationPopupRequired', () => {
+    it('should return true if role derived from state and action match', () => {
+      expect(
+        component['isConfirmationPopupRequired'](
+          QuoteActionType.SUBMIT,
+          QuoteState.BUYER_DRAFT
+        )
+      ).toBe(true);
+    });
+    it('should return true if state and action match', () => {
+      expect(
+        component['isConfirmationPopupRequired'](
+          QuoteActionType.EDIT,
+          QuoteState.BUYER_OFFER
+        )
+      ).toBe(true);
+    });
+    it('should return false if action does not match', () => {
+      expect(
+        component['isConfirmationPopupRequired'](
+          QuoteActionType.CHECKOUT,
+          QuoteState.BUYER_DRAFT
+        )
+      ).toBe(false);
+    });
+    it('should return false if state does not match', () => {
+      expect(
+        component['isConfirmationPopupRequired'](
+          QuoteActionType.SUBMIT,
+          QuoteState.CANCELLED
+        )
+      ).toBe(false);
+    });
+  });
+
+  describe('statusToRole', () => {
+    it('should return buyer-role', () => {
+      expect(component['statusToRole'](QuoteState.BUYER_DRAFT)).toEqual(
+        'buyer'
+      );
+    });
+    it('should return seller-role', () => {
+      expect(component['statusToRole'](QuoteState.SELLER_SUBMITTED)).toEqual(
+        'seller'
+      );
+    });
+    it('should return seller-approver-role', () => {
+      expect(
+        component['statusToRole'](QuoteState.SELLERAPPROVER_APPROVED)
+      ).toEqual('sellerapprover');
+    });
+    it('should return sate if no role matches', () => {
+      expect(component['statusToRole'](QuoteState.CANCELLED)).toEqual(
+        'cancelled'
+      );
+    });
+  });
+
+  describe('getDialogConfig', () => {
+    it('should return default config if state/action are not matching', () => {
+      expect(
+        component['getDialogConfig'](
+          QuoteActionType.ORDER,
+          QuoteState.BUYER_DRAFT
+        )
+      ).toEqual({
+        i18nKey: 'quote.confirmActionDialog.buyer.order',
+        showWarningNote: false,
+        showExpirationDate: false,
+        navigateToQuoteList: true,
+      });
+    });
+    it('should return configured config if state/action are matching', () => {
+      expect(
+        component['getDialogConfig'](
+          QuoteActionType.EDIT,
+          QuoteState.BUYER_OFFER
+        )
+      ).toEqual({
+        i18nKey: 'quote.confirmActionDialog.buyer_offer.edit',
+        showWarningNote: true,
+        showExpirationDate: true,
+        navigateToQuoteList: false,
+      });
+    });
+  });
 });

@@ -167,12 +167,12 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   }
 
   protected statusToRole(state: QuoteState) {
-    console.log(state);
-    for (const prefix in ResponsiblePersonPrefix) {
+    let role = state.toLowerCase();
+    Object.values(ResponsiblePersonPrefix).forEach((prefix) => {
       if (state.startsWith(prefix)) {
-        return prefix.toLowerCase();
+        role = prefix.slice(0, -1).toLowerCase();
       }
-    }
-    return state.toLowerCase();
+    });
+    return role;
   }
 }
