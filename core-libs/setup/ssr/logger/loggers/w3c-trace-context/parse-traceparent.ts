@@ -27,13 +27,17 @@ const traceparentPattern = new RegExp('^' + TRACEPARENT + '$');
 export function parseTraceparent(
   traceparent: string | undefined | null
 ): W3cTraceContext | null {
-  if (typeof traceparent !== 'string') return null;
+  if (typeof traceparent !== 'string') {
+    return null;
+  }
 
-  if (traceparent.length !== 55)
+  if (traceparent.length !== 55) {
     throw new InvalidTraceparentLengthError(traceparent.length);
+  }
 
-  if (!traceparentPattern.test(traceparent))
+  if (!traceparentPattern.test(traceparent)) {
     throw new InvalidTraceparentFormatError();
+  }
 
   const [version, traceId, parentId, traceFlags] = traceparent.split('-');
 
