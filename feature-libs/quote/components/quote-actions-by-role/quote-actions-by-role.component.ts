@@ -88,11 +88,17 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   }
 
   performAction(action: QuoteActionType, quote: Quote) {
-    if (!this.isConfirmationPopupRequired(action, quote.state)) {
+    if (!this.isConfirmationDialogRequired(action, quote.state)) {
       this.quoteFacade.performQuoteAction(quote.code, action);
       return;
     }
+
     const context = this.prepareConfirmationContext(action, quote);
+    this.launchConfirmationDialog(context);
+    this.handleConfirmationDialogClose(quote, action, context);
+  }
+
+  protected launchConfirmationDialog(context: ConfirmationContext) {
     this.launchDialogService
       .openDialog(
         LAUNCH_CALLER.ACTION_CONFIRMATION,
@@ -102,7 +108,13 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       )
       ?.pipe(take(1))
       .subscribe();
+  }
 
+  protected handleConfirmationDialogClose(
+    quote: Quote,
+    action: QuoteActionType,
+    context: ConfirmationContext
+  ) {
     this.subscription.add(
       this.launchDialogService.dialogClose
         .pipe(
@@ -128,7 +140,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  protected isConfirmationPopupRequired(
+  protected isConfirmationDialogRequired(
     action: QuoteActionType,
     state: QuoteState
   ): boolean {

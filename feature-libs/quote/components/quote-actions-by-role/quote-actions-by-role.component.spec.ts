@@ -359,7 +359,7 @@ describe('QuoteActionsByRoleComponent', () => {
   describe('isConfirmationPopupRequired', () => {
     it('should return true if role derived from state and action match', () => {
       expect(
-        component['isConfirmationPopupRequired'](
+        component['isConfirmationDialogRequired'](
           QuoteActionType.SUBMIT,
           QuoteState.BUYER_DRAFT
         )
@@ -367,7 +367,7 @@ describe('QuoteActionsByRoleComponent', () => {
     });
     it('should return true if state and action match', () => {
       expect(
-        component['isConfirmationPopupRequired'](
+        component['isConfirmationDialogRequired'](
           QuoteActionType.EDIT,
           QuoteState.BUYER_OFFER
         )
@@ -375,7 +375,7 @@ describe('QuoteActionsByRoleComponent', () => {
     });
     it('should return false if action does not match', () => {
       expect(
-        component['isConfirmationPopupRequired'](
+        component['isConfirmationDialogRequired'](
           QuoteActionType.CHECKOUT,
           QuoteState.BUYER_DRAFT
         )
@@ -383,7 +383,7 @@ describe('QuoteActionsByRoleComponent', () => {
     });
     it('should return false if state does not match', () => {
       expect(
-        component['isConfirmationPopupRequired'](
+        component['isConfirmationDialogRequired'](
           QuoteActionType.SUBMIT,
           QuoteState.CANCELLED
         )
