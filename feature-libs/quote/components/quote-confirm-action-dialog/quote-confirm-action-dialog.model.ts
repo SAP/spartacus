@@ -6,13 +6,14 @@ export interface ConfirmationContext {
     confirmNote: string;
     warningNote?: string;
     validity?: string;
+    successMessage?: string;
   }
 
 export type ConfirmActionDialogConfig = {
   i18nKey: string;
   showWarningNote: boolean;
   showExpirationDate: boolean;
-  navigateToQuoteList: boolean;
+  showSuccessMessage: boolean;
 };
 
 /**
@@ -21,7 +22,7 @@ export type ConfirmActionDialogConfig = {
 export const defaultConfirmActionDialogConfig = {
   showWarningNote: false,
   showExpirationDate: false,
-  navigateToQuoteList: true,
+  showSuccessMessage: true,
 };
 
 /**
@@ -37,7 +38,7 @@ export const confirmActionDialogConfigs: Map<
     {
       showWarningNote: true,
       showExpirationDate: true,
-      navigateToQuoteList: false,
+      showSuccessMessage: false,
     },
   ],
   ['buyer_offer.cancel', {}],

@@ -86,17 +86,19 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     }
     this.performAction(quoteActionType, quote);
   }
+
   performAction(action: QuoteActionType, quote: Quote) {
     if (!this.isConfirmationPopupRequired(action, quote.state)) {
       this.quoteFacade.performQuoteAction(quote.code, action);
       return;
     }
+    const context = this.prepareConfirmationContext(action, quote);
     this.launchDialogService
       .openDialog(
         LAUNCH_CALLER.ACTION_CONFIRMATION,
         this.element,
         this.viewContainerRef,
-        { confirmationContext: this.prepareConfirmationContext(action, quote) }
+        { confirmationContext: context }
       )
       ?.pipe(take(1))
       .subscribe();
@@ -105,7 +107,14 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       this.launchDialogService.dialogClose
         .pipe(
           filter((reason) => reason === 'yes'),
-          tap(() => this.quoteFacade.performQuoteAction(quote.code, action))
+          tap(() => this.quoteFacade.performQuoteAction(quote.code, action)),
+          filter(() => !!context.successMessage),
+          tap(() =>
+            this.globalMessageService.add(
+              { key: context.successMessage },
+              GlobalMessageType.MSG_TYPE_CONFIRMATION
+            )
+          )
         )
         .subscribe()
     );
@@ -146,6 +155,10 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     }
     if (dialogConfig.showExpirationDate) {
       confirmationContext.validity = 'quote.confirmActionDialog.validity';
+    }
+    if (dialogConfig.showSuccessMessage) {
+      confirmationContext.successMessage =
+        dialogConfig.i18nKey + '.successMessage';
     }
     return confirmationContext;
   }

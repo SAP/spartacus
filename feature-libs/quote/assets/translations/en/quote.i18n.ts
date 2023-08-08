@@ -74,12 +74,12 @@ export const quote = {
         submit: {
           title: 'Submit Quote Request {{ code }}?',
           confirmNote: 'Are you sure you want to submit this quote request?',
-          message: 'Quote request submitted successfully',
+          successMessage: 'Quote request submitted successfully',
         },
         cancel: {
           title: 'Cancel Quote Request {{ code }}?',
           confirmNote: 'Are you sure you want to submit this quote request',
-          message: 'Quote cancelled',
+          successMessage: 'Quote cancelled',
         },
       },
       buyer_offer: {
@@ -92,7 +92,7 @@ export const quote = {
         cancel: {
           title: 'Cancel Quote {{ code }}?',
           confirmNote: 'Are you sure you want to cancel this quote?',
-          message: 'Quote cancelled',
+          successMessage: 'Quote cancelled',
         },
       },
       seller: {
@@ -100,19 +100,19 @@ export const quote = {
           title: 'Submit Quote {{ code }} for approval?',
           confirmNote:
             'Are you sure you want to submit this quote for approval?',
-          message: 'Quote submitted for approval successfully',
+            successMessage: 'Quote submitted for approval successfully',
         },
       },
       approver: {
         submit: {
           title: 'Submit Quote {{ code }}?',
           confirmNote: 'Are you sure you want to submit this quote?',
-          message: 'Quote submitted successfully',
+          successMessage: 'Quote submitted successfully',
         },
         reject: {
           title: 'Reject Quote {{ code }}?',
           confirmNote: 'Are you sure you want to reject this quote?',
-          message: 'Quote rejected',
+          successMessage: 'Quote rejected',
         },
       },
     },

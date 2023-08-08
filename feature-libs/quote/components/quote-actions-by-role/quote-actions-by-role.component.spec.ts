@@ -197,6 +197,7 @@ describe('QuoteActionsByRoleComponent', () => {
       quote: newMockQuoteWithSubmitAction,
       title: 'quote.confirmActionDialog.buyer.submit.title',
       confirmNote: 'quote.confirmActionDialog.buyer.submit.confirmNote',
+      successMessage: 'quote.confirmActionDialog.buyer.submit.successMessage'
     };
     mockQuoteDetails$.next(newMockQuoteWithSubmitAction);
     fixture.detectChanges();
@@ -424,7 +425,7 @@ describe('QuoteActionsByRoleComponent', () => {
         i18nKey: 'quote.confirmActionDialog.buyer.order',
         showWarningNote: false,
         showExpirationDate: false,
-        navigateToQuoteList: true,
+        showSuccessMessage: true,
       });
     });
     it('should return configured config if state/action are matching', () => {
@@ -437,7 +438,7 @@ describe('QuoteActionsByRoleComponent', () => {
         i18nKey: 'quote.confirmActionDialog.buyer_offer.edit',
         showWarningNote: true,
         showExpirationDate: true,
-        navigateToQuoteList: false,
+        showSuccessMessage: false,
       });
     });
   });
