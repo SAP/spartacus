@@ -1179,6 +1179,8 @@ describe('OptimizedSsrEngine', () => {
   describe('getRequestContext', () => {
     let dateSpy: jest.SpyInstance;
     let randomUUIDSpy: jest.SpyInstance;
+    let headers: Record<string, string>;
+    let request: Request;
     const mockDate = new Date('2023-05-26');
 
     beforeEach(() => {
@@ -1186,23 +1188,22 @@ describe('OptimizedSsrEngine', () => {
       randomUUIDSpy = jest
         .spyOn(crypto, 'randomUUID')
         .mockReturnValue('ad90db04-a501-4dc5-9b4e-2cc2ab10d49c');
+      headers = {
+        traceparent: '00-d745f6735b44e81c0ae5410cb1fc8a0c-1b527c3828976b39-01',
+      };
+      request = {
+        originalUrl: 'test',
+        headers,
+        get: (header: string): string | string[] | null | undefined => {
+          return headers[header];
+        },
+      } as unknown as Request;
     });
 
     afterEach(() => {
       dateSpy.mockReset();
       randomUUIDSpy.mockReset();
     });
-
-    const headers: Record<string, string> = {
-      traceparent: '00-d745f6735b44e81c0ae5410cb1fc8a0c-1b527c3828976b39-01',
-    };
-    const request = {
-      originalUrl: 'test',
-      headers,
-      get: (header: string): string | string[] | null | undefined => {
-        return headers[header];
-      },
-    } as unknown as Request;
 
     it('should receive request context', () => {
       const engineRunner = new TestEngineRunner({});

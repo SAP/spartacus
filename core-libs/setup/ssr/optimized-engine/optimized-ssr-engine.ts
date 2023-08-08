@@ -486,7 +486,7 @@ export class OptimizedSsrEngine {
 
   /**
    * Returns the request context object, which is used to enrich the logs.
-   * It contains the request's UUID, timestamp and trace context (if available).
+   * It contains the random request's UUID, time of receiving the context and the W3C Trace Context (if available).
    * The trace context is parsed from the `traceparent` header, which is specified in
    * the "W3C TraceContext" document. See https://www.w3.org/TR/trace-context/#traceparent-header
    * for more details.
@@ -500,13 +500,11 @@ export class OptimizedSsrEngine {
       timeReceived: new Date().toISOString(),
     };
 
-    const traceparent = request.get('traceparent');
-    if (traceparent) {
-      const traceContext = parseTraceparent(traceparent);
-      if (traceContext) {
-        requestContext.traceContext = traceContext;
-      }
+    const traceContext = parseTraceparent(request.get('traceparent'));
+    if (traceContext) {
+      requestContext.traceContext = traceContext;
     }
+
     return requestContext;
   }
 
