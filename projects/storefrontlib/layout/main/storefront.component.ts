@@ -12,8 +12,9 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { LoggerService, RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import {
   FocusConfig,
@@ -61,7 +62,13 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     private routingService: RoutingService,
     protected elementRef: ElementRef<HTMLElement>,
     protected keyboardFocusService: KeyboardFocusService
-  ) {}
+  ) {
+    const logger = inject(LoggerService);
+
+    logger.log('This is a test log message');
+    setTimeout(() => logger.warn('This is a test warning message'), 1000);
+    setTimeout(() => logger.error('This is a test error message'), 2000);
+  }
 
   ngOnInit(): void {
     this.navigateSubscription = this.routingService
