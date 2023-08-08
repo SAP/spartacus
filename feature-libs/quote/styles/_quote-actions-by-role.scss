@@ -4,13 +4,10 @@
     display: flex;
     flex-direction: column-reverse;
     gap: 1em;
-    padding: 1em 0;
 
     @include media-breakpoint-down(sm) {
       justify-content: center;
       flex-direction: column-reverse;
-      padding: 1.25em;
-      padding-bottom: 0;
     }
   }
 }

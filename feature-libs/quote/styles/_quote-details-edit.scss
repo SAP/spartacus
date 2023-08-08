@@ -17,18 +17,18 @@ cx-quote-details-edit {
   .cx-card-button-container {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     justify-content: flex-end;
     padding-block-start: 1rem;
+
+    @include media-breakpoint-down(sm) {
+      flex-wrap: wrap;
+    }
 
     .btn {
       @include media-breakpoint-up(sm) {
         width: fit-content;
       }
-    }
 
-    .btn-secondary,
-    .btn-tertiary {
       @include media-breakpoint-down(sm) {
         width: 100%;
       }
