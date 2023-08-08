@@ -77,7 +77,7 @@ export class CsAgentAuthService {
     let userToken: AuthToken | undefined;
     // Start emulation for currently logged in user
     let customerId: string | undefined;
-    if (this.featureConfig?.isLevel('6.5')) {
+    if (this.featureConfig?.isLevel('6.4')) {
       this.userAccountFacade
         .get()
         .subscribe((user) => (customerId = user?.customerId))
