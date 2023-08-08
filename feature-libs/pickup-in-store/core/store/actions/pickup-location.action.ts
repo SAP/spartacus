@@ -83,5 +83,5 @@ export const SetStoreDetailsSuccess = createAction(
 
 export const SetStoreDetailsFailure = createAction(
   STORE_DETAILS_FAIL,
-  props<{ payload: any }>()
+  props<{ error: any }>()
 );

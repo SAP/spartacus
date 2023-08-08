@@ -5,8 +5,9 @@
  */
 
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
+import { StateUtils, ErrorAction,HttpErrorModel } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
+import { HttpErrorResponse } from "@angular/common/http";
 
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';
 export const CART_ADD_ENTRY_SUCCESS = '[Cart-entry] Add Entry Success';
@@ -54,7 +55,8 @@ export class CartAddEntrySuccess extends StateUtils.EntityProcessesDecrementActi
   }
 }
 
-export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction {
+export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = CART_ADD_ENTRY_FAIL;
   constructor(
     public payload: {
@@ -88,7 +90,8 @@ export class CartRemoveEntrySuccess extends StateUtils.EntityProcessesDecrementA
   }
 }
 
-export class CartRemoveEntryFail extends StateUtils.EntityProcessesDecrementAction {
+export class CartRemoveEntryFail extends StateUtils.EntityProcessesDecrementAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = CART_REMOVE_ENTRY_FAIL;
   constructor(
     public payload: {
@@ -134,7 +137,8 @@ export class CartUpdateEntrySuccess extends StateUtils.EntityProcessesDecrementA
   }
 }
 
-export class CartUpdateEntryFail extends StateUtils.EntityProcessesDecrementAction {
+export class CartUpdateEntryFail extends StateUtils.EntityProcessesDecrementAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = CART_UPDATE_ENTRY_FAIL;
   constructor(
     public payload: {

@@ -50,7 +50,7 @@ const unit: B2BUnit = { uid: 'testUid' };
 const unitCode: string = unit.uid;
 
 const userId = 'xxx@xxx.xxx';
-const error = 'anError';
+const error = { message:"anError" };
 
 describe('OrgUnit Actions', () => {
   describe('LoadOrgUnit Actions', () => {
@@ -74,6 +74,7 @@ describe('OrgUnit Actions', () => {
         const action = new OrgUnitActions.LoadOrgUnitFail({ orgUnitId, error });
 
         expect({ ...action }).toEqual({
+          error,
           type: OrgUnitActions.LOAD_ORG_UNIT_FAIL,
           payload: { orgUnitId, error },
           meta: StateUtils.entityFailMeta(ORG_UNIT_ENTITIES, orgUnitId, error),
@@ -146,6 +147,7 @@ describe('OrgUnit Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: OrgUnitActions.LOAD_UNIT_NODES_FAIL,
           payload: { error: { error } },
           meta: StateUtils.entityFailMeta(ORG_UNIT_NODE_LIST, ORG_UNIT_NODES, {
@@ -191,6 +193,7 @@ describe('OrgUnit Actions', () => {
       const action = new OrgUnitActions.LoadApprovalProcessesFail({ error });
 
       expect({ ...action }).toEqual({
+        error,
         type: OrgUnitActions.LOAD_APPROVAL_PROCESSES_FAIL,
         payload: { error },
         meta: StateUtils.entityFailMeta(
@@ -238,6 +241,7 @@ describe('OrgUnit Actions', () => {
       });
 
       expect({ ...action }).toEqual({
+        error,
         type: OrgUnitActions.CREATE_ORG_UNIT_FAIL,
         payload: { unitCode, error },
         meta: StateUtils.entityFailMeta(ORG_UNIT_ENTITIES, unitCode, error),
@@ -277,6 +281,7 @@ describe('OrgUnit Actions', () => {
       });
 
       expect({ ...action }).toEqual({
+        error,
         type: OrgUnitActions.UPDATE_ORG_UNIT_FAIL,
         payload: { unitCode, error },
         meta: StateUtils.entityFailMeta(ORG_UNIT_ENTITIES, unitCode, error),
@@ -316,6 +321,7 @@ describe('OrgUnit Actions', () => {
       });
 
       expect({ ...action }).toEqual({
+        error,
         type: OrgUnitActions.CREATE_ADDRESS_FAIL,
         payload: { addressId, error },
         meta: StateUtils.entityFailMeta(ADDRESS_ENTITIES, addressId, error),
@@ -356,6 +362,7 @@ describe('OrgUnit Actions', () => {
       });
 
       expect({ ...action }).toEqual({
+        error,
         type: OrgUnitActions.UPDATE_ADDRESS_FAIL,
         payload: { addressId, error },
         meta: StateUtils.entityFailMeta(ADDRESS_ENTITIES, addressId, error),
@@ -395,6 +402,7 @@ describe('OrgUnit Actions', () => {
       });
 
       expect({ ...action }).toEqual({
+        error,
         type: OrgUnitActions.DELETE_ADDRESS_FAIL,
         payload: { addressId, error },
         meta: StateUtils.entityFailMeta(ADDRESS_ENTITIES, addressId, error),
@@ -433,6 +441,7 @@ describe('OrgUnit Actions', () => {
       });
 
       expect({ ...action }).toEqual({
+        error,
         type: OrgUnitActions.LOAD_ADDRESSES_FAIL,
         payload: { orgUnitId, error },
         meta: StateUtils.entityFailMeta(ADDRESS_LIST, orgUnitId, error),
@@ -485,6 +494,7 @@ describe('OrgUnit Actions', () => {
       });
 
       expect({ ...action }).toEqual({
+        error,
         type: OrgUnitActions.ASSIGN_ROLE_FAIL,
         payload: { orgCustomerId, error },
         meta: StateUtils.entityFailMeta(
@@ -532,6 +542,7 @@ describe('OrgUnit Actions', () => {
       });
 
       expect({ ...action }).toEqual({
+        error,
         type: OrgUnitActions.UNASSIGN_ROLE_FAIL,
         payload: { orgCustomerId, error },
         meta: StateUtils.entityFailMeta(
@@ -576,6 +587,7 @@ describe('OrgUnit Actions', () => {
       });
 
       expect({ ...action }).toEqual({
+        error,
         type: OrgUnitActions.LOAD_UNIT_TREE_FAIL,
         payload: { error },
         meta: StateUtils.entityFailMeta(
@@ -621,6 +633,7 @@ describe('OrgUnit Actions', () => {
       });
 
       expect({ ...action }).toEqual({
+        error,
         type: OrgUnitActions.ASSIGN_APPROVER_FAIL,
         payload: { orgCustomerId, error },
         meta: StateUtils.entityFailMeta(
@@ -669,6 +682,7 @@ describe('OrgUnit Actions', () => {
       });
 
       expect({ ...action }).toEqual({
+        error,
         type: OrgUnitActions.UNASSIGN_APPROVER_FAIL,
         payload: { orgCustomerId, error },
         meta: StateUtils.entityFailMeta(
@@ -722,6 +736,7 @@ describe('OrgUnit Actions', () => {
       });
 
       expect({ ...action }).toEqual({
+        error,
         type: OrgUnitActions.LOAD_ASSIGNED_USERS_FAIL,
         payload: { orgUnitId, roleId, params, error },
         meta: StateUtils.entityFailMeta(

@@ -39,9 +39,10 @@ describe('Cart Actions', () => {
 
     describe('CreateCartFail', () => {
       it('should create the action', () => {
-        const payload = { tempCartId, userId: 'userId', error: 'error' };
+        const payload = { tempCartId, userId: 'userId', error:{  message:"error" } };
         const action = new CartActions.CreateCartFail(payload);
         expect({ ...action }).toEqual({
+          error: payload.error,
           type: CartActions.CREATE_CART_FAIL,
           payload,
           meta: StateUtils.entityFailMeta(MULTI_CART_DATA, tempCartId),
@@ -82,9 +83,10 @@ describe('Cart Actions', () => {
 
     describe('LoadCartFail', () => {
       it('should create the action', () => {
-        const payload = { cartId: 'cartId', error: 'error', userId: 'userId' };
+        const payload = { cartId: 'cartId', error: { message:"error" }, userId: 'userId' };
         const action = new CartActions.LoadCartFail(payload);
         expect({ ...action }).toEqual({
+          error: payload.error,
           type: CartActions.LOAD_CART_FAIL,
           payload,
           meta: StateUtils.entityFailMeta(
@@ -155,7 +157,7 @@ describe('Cart Actions', () => {
     describe('AddEmailToCartFail', () => {
       it('should create the action', () => {
         const payload = {
-          error: 'anError',
+          error: { message:"anError" },
           cartId: 'cartId',
           userId: 'userId',
           email: 'email@email.com',
@@ -163,6 +165,7 @@ describe('Cart Actions', () => {
         const action = new CartActions.AddEmailToCartFail(payload);
 
         expect({ ...action }).toEqual({
+          error: payload.error,
           type: CartActions.ADD_EMAIL_TO_CART_FAIL,
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
@@ -262,7 +265,7 @@ describe('Cart Actions', () => {
 
     describe('DeleteCartFail', () => {
       it('should create the action', () => {
-        const error = 'anError';
+        const error = { message:"anError" };
         const userId = 'xxx@xxx.xxx';
         const cartId = 'testCartId';
         const payload = {
@@ -273,6 +276,7 @@ describe('Cart Actions', () => {
         const action = new CartActions.DeleteCartFail(payload);
 
         expect({ ...action }).toEqual({
+          error,
           type: CartActions.DELETE_CART_FAIL,
           payload,
         });

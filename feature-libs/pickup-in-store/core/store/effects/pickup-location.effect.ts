@@ -41,7 +41,7 @@ export class PickupLocationEffect {
           catchError((error) =>
             of(
               PickupLocationActions.SetStoreDetailsFailure({
-                payload: normalizeHttpError(error, this.logger),
+                error: normalizeHttpError(error, this.logger),
               })
             )
           )

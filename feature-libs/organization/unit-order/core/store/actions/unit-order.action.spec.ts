@@ -30,12 +30,12 @@ describe('OrdersActions', () => {
 
   describe('LoadUnitOrdersFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = { message:"mockError" };
       const action = new UnitOrderActions.LoadUnitOrdersFail(error);
 
       expect({ ...action }).toEqual({
         type: UnitOrderActions.LOAD_UNIT_ORDERS_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(UNIT_ORDERS, error),
       });
     });
@@ -97,12 +97,12 @@ describe('Order Details Actions', () => {
 
   describe('LoadOrderDetailsFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = {message: "mockError" };
       const action = new UnitOrderActions.LoadOrderDetailsFail(error);
 
       expect({ ...action }).toEqual({
         type: UnitOrderActions.LOAD_ORDER_DETAILS_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(UNIT_ORDER_DETAILS, error),
       });
     });

@@ -50,10 +50,11 @@ describe('WishList Actions', () => {
         const payload = {
           userId,
           cartId,
-          error: 'anyError',
+          error: { message:"anyError" },
         };
         const action = new WishListActions.LoadWishListFail(payload);
         expect({ ...action }).toEqual({
+          error: payload.error,
           type: WishListActions.LOAD_WISH_LIST_FAIL,
           payload,
           meta: StateUtils.entityFailMeta(MULTI_CART_DATA, cartId, 'anyError'),
@@ -91,9 +92,10 @@ describe('WishList Actions', () => {
 
     describe('CreateWishListFail', () => {
       it('should create the action', () => {
-        const payload = { cartId, error: 'error' };
+        const payload = { cartId, error: { message:"error" } };
         const action = new WishListActions.CreateWishListFail(payload);
         expect({ ...action }).toEqual({
+          error: payload.error,
           type: WishListActions.CREATE_WISH_LIST_FAIL,
           payload,
           meta: StateUtils.entityFailMeta(

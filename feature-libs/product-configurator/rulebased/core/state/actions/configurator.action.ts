@@ -9,6 +9,7 @@ import { StateUtils } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
+import { HttpErrorResponse } from "@angular/common/http";
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
 export const CREATE_CONFIGURATION_FAIL =
@@ -83,7 +84,8 @@ export class CreateConfiguration extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CreateConfigurationFail extends StateUtils.EntityFailAction {
+export class CreateConfigurationFail extends StateUtils.EntityFailAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = CREATE_CONFIGURATION_FAIL;
   constructor(
     public payload: {
@@ -114,7 +116,8 @@ export class ReadConfiguration extends StateUtils.EntityLoadAction {
   }
 }
 
-export class ReadConfigurationFail extends StateUtils.EntityFailAction {
+export class ReadConfigurationFail extends StateUtils.EntityFailAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = READ_CONFIGURATION_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
@@ -138,12 +141,14 @@ export class UpdateConfiguration extends StateUtils.EntityProcessesIncrementActi
   }
 }
 
-export class UpdateConfigurationFail extends StateUtils.EntityProcessesDecrementAction {
+export class UpdateConfigurationFail extends StateUtils.EntityProcessesDecrementAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = UPDATE_CONFIGURATION_FAIL;
   constructor(
     public payload: { configuration: Configurator.Configuration; error: any }
   ) {
     super(CONFIGURATOR_DATA, payload.configuration.owner.key);
+    // ??
     this.meta.loader = {
       error: payload.error,
     };
@@ -164,7 +169,8 @@ export class UpdateConfigurationFinalizeSuccess extends StateUtils.EntitySuccess
   }
 }
 
-export class UpdateConfigurationFinalizeFail extends StateUtils.EntitySuccessAction {
+export class UpdateConfigurationFinalizeFail extends StateUtils.EntitySuccessAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = UPDATE_CONFIGURATION_FINALIZE_FAIL;
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATOR_DATA, payload.owner.key);
@@ -177,7 +183,8 @@ export class UpdatePriceSummary extends StateUtils.EntityLoadAction {
     super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
-export class UpdatePriceSummaryFail extends StateUtils.EntityFailAction {
+export class UpdatePriceSummaryFail extends StateUtils.EntityFailAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = UPDATE_PRICE_SUMMARY_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
@@ -229,7 +236,8 @@ export class GetConfigurationOverview extends StateUtils.EntityLoadAction {
   }
 }
 
-export class GetConfigurationOverviewFail extends StateUtils.EntityFailAction {
+export class GetConfigurationOverviewFail extends StateUtils.EntityFailAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = GET_CONFIGURATION_OVERVIEW_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
@@ -252,7 +260,8 @@ export class UpdateConfigurationOverview extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UpdateConfigurationOverviewFail extends StateUtils.EntityFailAction {
+export class UpdateConfigurationOverviewFail extends StateUtils.EntityFailAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = UPDATE_CONFIGURATION_OVERVIEW_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);

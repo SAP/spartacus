@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ListModel, SearchConfig, StateUtils } from '@spartacus/core';
+import { ListModel, SearchConfig, StateUtils, ErrorAction, HttpErrorModel } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
 import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
+import { HttpErrorResponse } from "@angular/common/http";
 
 export const LOAD_BUDGET = '[Budget] Load Budget Data';
 export const LOAD_BUDGET_FAIL = '[Budget] Load Budget Data Fail';
@@ -31,7 +32,8 @@ export class LoadBudget extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadBudgetFail extends StateUtils.EntityFailAction {
+export class LoadBudgetFail extends StateUtils.EntityFailAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = LOAD_BUDGET_FAIL;
   constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
@@ -62,7 +64,8 @@ export class LoadBudgets extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadBudgetsFail extends StateUtils.EntityFailAction {
+export class LoadBudgetsFail extends StateUtils.EntityFailAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = LOAD_BUDGETS_FAIL;
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
@@ -92,7 +95,8 @@ export class CreateBudget extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CreateBudgetFail extends StateUtils.EntityFailAction {
+export class CreateBudgetFail extends StateUtils.EntityFailAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = CREATE_BUDGET_FAIL;
   constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
@@ -115,7 +119,8 @@ export class UpdateBudget extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UpdateBudgetFail extends StateUtils.EntityFailAction {
+export class UpdateBudgetFail extends StateUtils.EntityFailAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = UPDATE_BUDGET_FAIL;
   constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);

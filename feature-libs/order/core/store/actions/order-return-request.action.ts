@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { PROCESS_FEATURE, StateUtils, ErrorAction } from '@spartacus/core';
 import {
   ReturnRequest,
   ReturnRequestEntryInputList,
@@ -64,10 +64,10 @@ export class CreateOrderReturnRequest extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class CreateOrderReturnRequestFail extends StateUtils.LoaderFailAction {
+export class CreateOrderReturnRequestFail extends StateUtils.LoaderFailAction implements ErrorAction{
   readonly type = CREATE_ORDER_RETURN_REQUEST_FAIL;
-  constructor(public payload: any) {
-    super(RETURN_REQUEST_DETAILS, payload);
+  constructor(public error: any) {
+    super(RETURN_REQUEST_DETAILS, error);
   }
 }
 
@@ -90,10 +90,10 @@ export class LoadOrderReturnRequest extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadOrderReturnRequestFail extends StateUtils.LoaderFailAction {
+export class LoadOrderReturnRequestFail extends StateUtils.LoaderFailAction implements ErrorAction{
   readonly type = LOAD_ORDER_RETURN_REQUEST_FAIL;
-  constructor(public payload: any) {
-    super(RETURN_REQUEST_DETAILS, payload);
+  constructor(public error: any) {
+    super(RETURN_REQUEST_DETAILS, error);
   }
 }
 
@@ -117,10 +117,10 @@ export class CancelOrderReturnRequest extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CancelOrderReturnRequestFail extends StateUtils.EntityFailAction {
+export class CancelOrderReturnRequestFail extends StateUtils.EntityFailAction implements ErrorAction{
   readonly type = CANCEL_ORDER_RETURN_REQUEST_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID, payload);
+  constructor(public error: any) {
+    super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID, error);
   }
 }
 
@@ -145,10 +145,10 @@ export class LoadOrderReturnRequestList extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadOrderReturnRequestListFail extends StateUtils.LoaderFailAction {
+export class LoadOrderReturnRequestListFail extends StateUtils.LoaderFailAction implements ErrorAction{
   readonly type = LOAD_ORDER_RETURN_REQUEST_LIST_FAIL;
-  constructor(public payload: any) {
-    super(RETURN_REQUESTS, payload);
+  constructor(public error: any) {
+    super(RETURN_REQUESTS, error);
   }
 }
 

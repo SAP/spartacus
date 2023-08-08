@@ -6,6 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { ConsignmentTracking } from '@spartacus/order/root';
+import { ErrorAction } from '@spartacus/core';
 
 export const LOAD_CONSIGNMENT_TRACKING = '[Order] Load Consignment Tracking';
 export const LOAD_CONSIGNMENT_TRACKING_FAIL =
@@ -16,6 +17,7 @@ export const CLEAR_CONSIGNMENT_TRACKING = '[Order] Clear Consignment Tracking';
 
 export class LoadConsignmentTracking implements Action {
   readonly type = LOAD_CONSIGNMENT_TRACKING;
+
   constructor(
     public payload: {
       userId?: string;
@@ -25,18 +27,21 @@ export class LoadConsignmentTracking implements Action {
   ) {}
 }
 
-export class LoadConsignmentTrackingFail implements Action {
+export class LoadConsignmentTrackingFail implements ErrorAction {
   readonly type = LOAD_CONSIGNMENT_TRACKING_FAIL;
-  constructor(public payload: any) {}
+
+  constructor(public error: any) {}
 }
 
 export class LoadConsignmentTrackingSuccess implements Action {
   readonly type = LOAD_CONSIGNMENT_TRACKING_SUCCESS;
+
   constructor(public payload: ConsignmentTracking) {}
 }
 
 export class ClearConsignmentTracking {
   readonly type = CLEAR_CONSIGNMENT_TRACKING;
+
   constructor() {
     // Intentional empty constructor
   }

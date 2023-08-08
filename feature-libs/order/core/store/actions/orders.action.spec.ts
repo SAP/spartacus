@@ -37,7 +37,7 @@ describe('OrdersActions', () => {
 
       expect({ ...action }).toEqual({
         type: OrderActions.LOAD_USER_ORDERS_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(ORDERS, error),
       });
     });

@@ -17,7 +17,7 @@ const userGroup: UserGroup = {
   uid: userGroupId,
 };
 const userId = 'xxx@xxx.xxx';
-const error = 'anError';
+const error = { message:"anError" };
 const params = { currentPage: 2 };
 const query = '?pageSize=&currentPage=2&sort=';
 
@@ -50,6 +50,7 @@ describe('UserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: UserGroupActions.LOAD_USER_GROUP_FAIL,
           payload: { userGroupId, error },
           meta: StateUtils.entityFailMeta(
@@ -130,6 +131,7 @@ describe('UserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: UserGroupActions.LOAD_USER_GROUPS_FAIL,
           payload: { params, error: { error } },
           meta: StateUtils.entityFailMeta(USER_GROUP_LIST, query, {
@@ -179,6 +181,7 @@ describe('UserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: UserGroupActions.CREATE_USER_GROUP_FAIL,
           payload: {
             userGroupId,
@@ -231,6 +234,7 @@ describe('UserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: UserGroupActions.UPDATE_USER_GROUP_FAIL,
           payload: {
             userGroupId,
@@ -282,6 +286,7 @@ describe('UserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: UserGroupActions.DELETE_USER_GROUP_FAIL,
           payload: {
             userGroupId,
@@ -338,6 +343,7 @@ describe('UserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: UserGroupActions.LOAD_USER_GROUP_PERMISSIONS_FAIL,
           payload: {
             userGroupId,
@@ -403,6 +409,7 @@ describe('UserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: UserGroupActions.USER_GROUP_ASSIGN_PERMISSION_FAIL,
           payload: {
             userGroupId,
@@ -463,6 +470,7 @@ describe('UserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION_FAIL,
           payload: {
             userGroupId,
@@ -526,6 +534,7 @@ describe('UserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_FAIL,
           payload: {
             userGroupId,
@@ -591,6 +600,7 @@ describe('UserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: UserGroupActions.USER_GROUP_ASSIGN_MEMBER_FAIL,
           payload: {
             userGroupId,
@@ -644,6 +654,7 @@ describe('UserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: UserGroupActions.USER_GROUP_UNASSIGN_MEMBER_FAIL,
           payload: {
             userGroupId,

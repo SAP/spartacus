@@ -36,7 +36,7 @@ describe('Replenishment Orders Actions', () => {
 
       expect({ ...action }).toEqual({
         type: OrderActions.LOAD_USER_REPLENISHMENT_ORDERS_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(REPLENISHMENT_ORDERS, error),
       });
     });

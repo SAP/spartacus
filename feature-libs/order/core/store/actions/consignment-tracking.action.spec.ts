@@ -28,7 +28,7 @@ describe('Consignment Tracking Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_CONSIGNMENT_TRACKING_FAIL,
-        payload: error,
+        error,
       });
     });
   });

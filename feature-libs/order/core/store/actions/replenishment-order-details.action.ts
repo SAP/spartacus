@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { PROCESS_FEATURE, StateUtils, ErrorAction } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import {
   CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
@@ -47,10 +47,10 @@ export class LoadReplenishmentOrderDetailsSuccess extends StateUtils.LoaderSucce
   }
 }
 
-export class LoadReplenishmentOrderDetailsFail extends StateUtils.LoaderFailAction {
+export class LoadReplenishmentOrderDetailsFail extends StateUtils.LoaderFailAction implements ErrorAction{
   readonly type = LOAD_REPLENISHMENT_ORDER_DETAILS_FAIL;
-  constructor(public payload: any) {
-    super(REPLENISHMENT_ORDER_DETAILS, payload);
+  constructor(public error: any) {
+    super(REPLENISHMENT_ORDER_DETAILS, error);
   }
 }
 
@@ -80,10 +80,10 @@ export class CancelReplenishmentOrderSuccess extends StateUtils.EntitySuccessAct
   }
 }
 
-export class CancelReplenishmentOrderFail extends StateUtils.EntityFailAction {
+export class CancelReplenishmentOrderFail extends StateUtils.EntityFailAction implements ErrorAction{
   readonly type = CANCEL_REPLENISHMENT_ORDER_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, CANCEL_REPLENISHMENT_ORDER_PROCESS_ID, payload);
+  constructor(public error: any) {
+    super(PROCESS_FEATURE, CANCEL_REPLENISHMENT_ORDER_PROCESS_ID, error);
   }
 }
 

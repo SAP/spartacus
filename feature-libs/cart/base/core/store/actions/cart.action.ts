@@ -6,8 +6,9 @@
 
 import { Action } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
+import { StateUtils , ErrorAction, HttpErrorModel} from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
+import { HttpErrorResponse } from "@angular/common/http";
 
 export const CREATE_CART = '[Cart] Create Cart';
 export const CREATE_CART_FAIL = '[Cart] Create Cart Fail';
@@ -58,7 +59,8 @@ interface CreateCartFailPayload extends CreateCartPayload {
   error: any;
 }
 
-export class CreateCartFail extends StateUtils.EntityFailAction {
+export class CreateCartFail extends StateUtils.EntityFailAction implements ErrorAction {
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = CREATE_CART_FAIL;
   constructor(public payload: CreateCartFailPayload) {
     super(MULTI_CART_DATA, payload.tempCartId);
@@ -86,7 +88,8 @@ export class AddEmailToCart extends StateUtils.EntityProcessesIncrementAction {
   }
 }
 
-export class AddEmailToCartFail extends StateUtils.EntityProcessesDecrementAction {
+export class AddEmailToCartFail extends StateUtils.EntityProcessesDecrementAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = ADD_EMAIL_TO_CART_FAIL;
   constructor(
     public payload: {
@@ -128,7 +131,8 @@ interface LoadCartFailPayload extends LoadCartPayload {
   error: any;
 }
 
-export class LoadCartFail extends StateUtils.EntityFailAction {
+export class LoadCartFail extends StateUtils.EntityFailAction implements ErrorAction{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = LOAD_CART_FAIL;
   constructor(public payload: LoadCartFailPayload) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
@@ -220,7 +224,8 @@ export class DeleteCartSuccess extends StateUtils.EntityRemoveAction {
   }
 }
 
-export class DeleteCartFail implements Action {
+export class DeleteCartFail implements ErrorAction {
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
   readonly type = DELETE_CART_FAIL;
   constructor(public payload: { userId: string; cartId: string; error: any }) {}
 }

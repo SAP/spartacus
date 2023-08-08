@@ -29,7 +29,7 @@ describe('Cart-voucher Actions', () => {
 
     describe('AddVoucherFail', () => {
       it('should create the action', () => {
-        const error = 'anError';
+        const error = { message:"anError" };
         const payload = {
           error,
           voucherId,
@@ -39,6 +39,7 @@ describe('Cart-voucher Actions', () => {
         const action = new CartActions.CartAddVoucherFail(payload);
 
         expect({ ...action }).toEqual({
+          error,
           type: CartActions.CART_ADD_VOUCHER_FAIL,
           payload,
           meta: StateUtils.entityFailMeta(
@@ -105,11 +106,12 @@ describe('Cart-voucher Actions', () => {
 
     describe('RemoveVoucherFail', () => {
       it('should create the action', () => {
-        const error = 'anError';
+        const error = { message:"anError" };
         const payload = { error, userId, cartId, voucherId };
         const action = new CartActions.CartRemoveVoucherFail(payload);
 
         expect({ ...action }).toEqual({
+          error,
           type: CartActions.CART_REMOVE_VOUCHER_FAIL,
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(

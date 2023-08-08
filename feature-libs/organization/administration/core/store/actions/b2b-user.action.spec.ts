@@ -23,7 +23,7 @@ const approverId = 'approverId';
 const userGroupId = 'userGroupId';
 const permissionId = 'permissionId';
 const selected = true;
-const error = 'anError';
+const error = { message:"anError" };
 const params = { currentPage: 2 };
 const query = '?pageSize=&currentPage=2&sort=';
 
@@ -56,6 +56,7 @@ describe('B2BUser Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: B2BUserActions.LOAD_B2B_USER_FAIL,
           payload: { orgCustomerId, error },
           meta: StateUtils.entityFailMeta(
@@ -136,6 +137,7 @@ describe('B2BUser Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: B2BUserActions.LOAD_B2B_USERS_FAIL,
           payload: { params, error: { error } },
           meta: StateUtils.entityFailMeta(USER_LIST, query, {
@@ -201,6 +203,7 @@ describe('B2BUser Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: B2BUserActions.CREATE_B2B_USER_FAIL,
           payload: {
             orgCustomerId,
@@ -267,6 +270,7 @@ describe('B2BUser Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: B2BUserActions.UPDATE_B2B_USER_FAIL,
           payload: {
             orgCustomerId,
@@ -323,6 +327,7 @@ describe('B2BUser Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: B2BUserActions.LOAD_B2B_USER_APPROVERS_FAIL,
           payload: {
             orgCustomerId,
@@ -386,6 +391,7 @@ describe('B2BUser Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: B2BUserActions.ASSIGN_B2B_USER_APPROVER_FAIL,
           payload: {
             orgCustomerId,
@@ -437,6 +443,7 @@ describe('B2BUser Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: B2BUserActions.UNASSIGN_B2B_USER_APPROVER_FAIL,
           payload: {
             orgCustomerId,
@@ -493,6 +500,7 @@ describe('B2BUser Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: B2BUserActions.LOAD_B2B_USER_PERMISSIONS_FAIL,
           payload: {
             orgCustomerId,
@@ -556,6 +564,7 @@ describe('B2BUser Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: B2BUserActions.ASSIGN_B2B_USER_PERMISSION_FAIL,
           payload: {
             orgCustomerId,
@@ -611,6 +620,7 @@ describe('B2BUser Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: B2BUserActions.UNASSIGN_B2B_USER_PERMISSION_FAIL,
           payload: {
             orgCustomerId,
@@ -671,6 +681,7 @@ describe('B2BUser Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: B2BUserActions.LOAD_B2B_USER_USER_GROUPS_FAIL,
           payload: {
             orgCustomerId,
@@ -734,6 +745,7 @@ describe('B2BUser Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: B2BUserActions.ASSIGN_B2B_USER_USER_GROUP_FAIL,
           payload: {
             orgCustomerId,
@@ -789,6 +801,7 @@ describe('B2BUser Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: B2BUserActions.UNASSIGN_B2B_USER_USER_GROUP_FAIL,
           payload: {
             orgCustomerId,

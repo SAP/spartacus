@@ -45,7 +45,7 @@ describe('Cart-entry Actions', () => {
 
     describe('CartAddEntryFail', () => {
       it('should create the action', () => {
-        const error = 'anError';
+        const error = { message:"anError" };
         const payload = {
           error,
           cartId,
@@ -56,6 +56,7 @@ describe('Cart-entry Actions', () => {
         const action = new CartActions.CartAddEntryFail(payload);
 
         expect({ ...action }).toEqual({
+          error,
           type: CartActions.CART_ADD_ENTRY_FAIL,
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
@@ -105,10 +106,11 @@ describe('Cart-entry Actions', () => {
 
     describe('CartRemoveEntryFail', () => {
       it('should create the action', () => {
-        const error = 'anError';
+        const error = { message:"anError" };
         const payload = { error, cartId, userId, entryNumber };
         const action = new CartActions.CartRemoveEntryFail(payload);
         expect({ ...action }).toEqual({
+          error,
           type: CartActions.CART_REMOVE_ENTRY_FAIL,
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
@@ -164,10 +166,11 @@ describe('Cart-entry Actions', () => {
 
     describe('CartUpdateEntryFail', () => {
       it('should create the action', () => {
-        const error = 'anError';
+        const error = { message:"anError" };
         const payload = { error, cartId, userId, entryNumber, quantity: 2 };
         const action = new CartActions.CartUpdateEntryFail(payload);
         expect({ ...action }).toEqual({
+          error,
           type: CartActions.CART_UPDATE_ENTRY_FAIL,
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(

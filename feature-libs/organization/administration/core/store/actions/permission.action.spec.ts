@@ -20,7 +20,7 @@ const permissionType: OrderApprovalPermissionType = {
 const permissionTypes: OrderApprovalPermissionType[] = [permissionType];
 
 const userId = 'xxx@xxx.xxx';
-const error = 'anError';
+const error = { message: "anError" };
 const params = { currentPage: 2 };
 const query = '?pageSize=&currentPage=2&sort=';
 
@@ -53,6 +53,7 @@ describe('Permission Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: PermissionActions.LOAD_PERMISSION_FAIL,
           payload: {
             permissionCode,
@@ -141,6 +142,7 @@ describe('Permission Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: PermissionActions.LOAD_PERMISSIONS_FAIL,
           payload: { params, error: { error } },
           meta: StateUtils.entityFailMeta(PERMISSION_LIST, query, {
@@ -190,6 +192,7 @@ describe('Permission Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: PermissionActions.CREATE_PERMISSION_FAIL,
           payload: {
             permissionCode,
@@ -247,6 +250,7 @@ describe('Permission Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: PermissionActions.UPDATE_PERMISSION_FAIL,
           payload: {
             permissionCode,
@@ -302,6 +306,7 @@ describe('Permission Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: PermissionActions.LOAD_PERMISSION_TYPES_FAIL,
           payload: {
             permissionCode,

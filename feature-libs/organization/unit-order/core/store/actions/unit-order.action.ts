@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
+import { StateUtils , ErrorAction} from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { UNIT_ORDERS, UNIT_ORDER_DETAILS } from '../unit-order-state';
 
@@ -35,10 +35,10 @@ export class LoadUnitOrders extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadUnitOrdersFail extends StateUtils.LoaderFailAction {
+export class LoadUnitOrdersFail extends StateUtils.LoaderFailAction implements ErrorAction{
   readonly type = LOAD_UNIT_ORDERS_FAIL;
-  constructor(public payload: any) {
-    super(UNIT_ORDERS, payload);
+  constructor(public error: any) {
+    super(UNIT_ORDERS, error);
   }
 }
 
@@ -68,10 +68,10 @@ export class LoadOrderDetails extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadOrderDetailsFail extends StateUtils.LoaderFailAction {
+export class LoadOrderDetailsFail extends StateUtils.LoaderFailAction implements ErrorAction{
   readonly type = LOAD_ORDER_DETAILS_FAIL;
-  constructor(public payload: any) {
-    super(UNIT_ORDER_DETAILS, payload);
+  constructor(public error: any) {
+    super(UNIT_ORDER_DETAILS, error);
   }
 }
 
