@@ -37,7 +37,8 @@ export class CsAgentAuthService {
     userIdService: UserIdService,
     oAuthLibWrapperService: OAuthLibWrapperService,
     store: Store,
-    userProfileFacade: UserProfileFacade,
+    // Consider delete it in 7.0
+    _userProfileFacade: UserProfileFacade,
     userAccountFacade: UserAccountFacade
   );
   /**
