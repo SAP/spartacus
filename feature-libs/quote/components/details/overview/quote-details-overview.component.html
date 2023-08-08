@@ -1,67 +1,63 @@
 <ng-container *ngIf="quoteDetails$ | async as quoteDetails; else loading">
-  <div class="cx-quote-details-header-status">
-    <h3 class="quote-details-header">
+  <div class="cx-header-container">
+    <h3 class="cx-header">
       {{ 'quote.commons.id' | cxTranslate }}:
       {{ quoteDetails.code }}
     </h3>
-    <h3 class="status">
+    <h3 class="cx-status">
       {{ 'quote.commons.status' | cxTranslate }}:
       {{ 'quote.states.' + quoteDetails.state | cxTranslate }}
     </h3>
   </div>
-  <div class="cx-quote-overview">
-    <div class="container">
-      <div class="cx-summary-card">
-        <ng-container *ngIf="!editMode">
-          <div class="cx-content">
-            <cx-card
-              [content]="
-                getQuoteInformation(quoteDetails.name, quoteDetails.description)
-                  | async
-              "
-            ></cx-card>
-          </div>
-          <div *ngIf="quoteDetails.isEditable" class="cx-edit-step">
-            <button class="btn btn-link cx-action-link" (click)="setEditMode()">
-              <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
-            </button>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="editMode">
-          <div class="cx-content">
-            <cx-quote-details-edit
-              [content]="
-                getEditQuoteInformation(
-                  quoteDetails.name,
-                  quoteDetails.description
-                ) | async
-              "
-              (editCard)="edit(quoteDetails, $event)"
-              (cancelCard)="cancel($event)"
-            ></cx-quote-details-edit>
-          </div>
-        </ng-container>
-      </div>
-      <div class="cx-summary-card">
-        <cx-card
-          [content]="
-            getEstimatedAndDate(
-              quoteDetails,
-              quoteDetails.creationTime | cxDate
-            ) | async
-          "
-        ></cx-card>
-      </div>
-      <div class="cx-summary-card">
-        <cx-card
-          [content]="
-            getUpdate(
-              quoteDetails.updatedTime | cxDate,
-              quoteDetails.expirationTime | cxDate
-            ) | async
-          "
-        ></cx-card>
-      </div>
+  <div class="cx-container">
+    <div class="cx-summary-card">
+      <ng-container *ngIf="!editMode">
+        <div class="cx-content">
+          <cx-card
+            [content]="
+              getQuoteInformation(quoteDetails.name, quoteDetails.description)
+                | async
+            "
+          ></cx-card>
+        </div>
+        <div *ngIf="quoteDetails.isEditable" class="cx-edit-step">
+          <button class="btn btn-link cx-action-link" (click)="setEditMode()">
+            <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+          </button>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="editMode">
+        <div class="cx-content">
+          <cx-quote-details-edit
+            [content]="
+              getEditQuoteInformation(
+                quoteDetails.name,
+                quoteDetails.description
+              ) | async
+            "
+            (editCard)="edit(quoteDetails, $event)"
+            (cancelCard)="cancel($event)"
+          ></cx-quote-details-edit>
+        </div>
+      </ng-container>
+    </div>
+    <div class="cx-summary-card">
+      <cx-card
+        [content]="
+          getEstimatedAndDate(quoteDetails, quoteDetails.creationTime | cxDate)
+            | async
+        "
+      ></cx-card>
+    </div>
+    <div class="cx-summary-card">
+      <cx-card
+        [content]="
+          getUpdate(
+            quoteDetails.updatedTime | cxDate,
+            quoteDetails.expirationTime | cxDate
+          ) | async
+        "
+      ></cx-card>
     </div>
   </div>
 </ng-container>

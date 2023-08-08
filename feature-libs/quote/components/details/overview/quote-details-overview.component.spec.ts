@@ -1,20 +1,24 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   QuoteFacade,
   Quote,
   QuoteActionType,
   QuoteState,
+  QuoteMetadata,
 } from '@spartacus/quote/root';
-import { I18nTestingModule, TranslationService } from '@spartacus/core';
+import {
+  EventService,
+  I18nTestingModule,
+  TranslationService,
+} from '@spartacus/core';
 import { CardModule, ICON_TYPE } from '@spartacus/storefront';
 
 import { Observable, of } from 'rxjs';
 import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
-import createSpy = jasmine.createSpy;
 import { EditCard, EditEvent } from '../edit/quote-details-edit.component';
+import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 
 const totalPriceFormattedValue = '$20';
 
@@ -40,22 +44,6 @@ const mockQuote: Quote = {
   totalPrice: { value: 20, formattedValue: totalPriceFormattedValue },
 };
 
-export class MockQuoteFacade implements Partial<QuoteFacade> {
-  getQuoteDetails(): Observable<Quote> {
-    return of(mockQuote);
-  }
-
-  //editQuote = createSpy().and.callThrough();
-  setSort = createSpy();
-  setCurrentPage = createSpy();
-}
-
-class MockTranslationService implements Partial<TranslationService> {
-  translate(key: string): Observable<string> {
-    return of(key);
-  }
-}
-
 @Component({
   selector: 'cx-quote-action-links',
   template: '',
@@ -78,64 +66,163 @@ class MockQuoteDetailsEditComponent {
   @Input() content: EditCard | null;
 }
 
+class MockTranslationService implements Partial<TranslationService> {
+  translate(key: string): Observable<string> {
+    return of(key);
+  }
+}
+
 describe('QuoteDetailsOverviewComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsOverviewComponent>;
   let component: QuoteDetailsOverviewComponent;
-  //let htmlElem: HTMLElement;
+  let htmlElem: HTMLElement;
+  let mockedQuoteFacade: QuoteFacade;
+  let mockedEventService: EventService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, CardModule, RouterTestingModule],
-      declarations: [
-        QuoteDetailsOverviewComponent,
-        MockCxIconComponent,
-        MockQuoteActionLinksComponent,
-        MockQuoteDetailsEditComponent,
-      ],
-      providers: [
-        {
-          provide: QuoteFacade,
-          useClass: MockQuoteFacade,
-        },
-        { provide: TranslationService, useClass: MockTranslationService },
-      ],
-    }).compileComponents();
-  });
+  beforeEach(
+    waitForAsync(() => {
+      initMocks();
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, CardModule, RouterTestingModule],
+        declarations: [
+          QuoteDetailsOverviewComponent,
+          MockCxIconComponent,
+          MockQuoteActionLinksComponent,
+          MockQuoteDetailsEditComponent,
+        ],
+        providers: [
+          {
+            provide: QuoteFacade,
+            useValue: mockedQuoteFacade,
+          },
+          {
+            provide: EventService,
+            useValue: mockedEventService,
+          },
+          { provide: TranslationService, useClass: MockTranslationService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteDetailsOverviewComponent);
-    //htmlElem = fixture.nativeElement;
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
+
+    fixture.detectChanges();
   });
+
+  function initMocks() {
+    mockedQuoteFacade = jasmine.createSpyObj('quoteFacade', [
+      'getQuoteDetails',
+      'editQuote',
+    ]);
+    asSpy(mockedQuoteFacade.getQuoteDetails).and.returnValue(of(mockQuote));
+    asSpy(mockedQuoteFacade.editQuote).and.returnValue(of({}));
+
+    mockedEventService = jasmine.createSpyObj('eventService', ['dispatch']);
+  }
+
+  function asSpy(f: any) {
+    return <jasmine.Spy>f;
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display overview if it is available', () => {
-    //when
-    fixture.detectChanges();
+  describe('rendering', () => {
+    it('should render basic component framework accordingly', () => {
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-header-container'
+      );
 
-    //then
-    const quoteOverviewElement = fixture.debugElement.query(
-      By.css('.cx-quote-overview')
-    );
-    expect(quoteOverviewElement.nativeElement.innerHTML).toBeDefined();
-  });
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-header'
+      );
 
-  it('should display titles and content in card if details are available', () => {
-    //when
-    fixture.detectChanges();
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-header',
+        'quote.commons.id: ' + mockQuote.code
+      );
 
-    //then
-    const cards = fixture.debugElement.queryAll(By.css('cx-card'));
-    const cardTitles = fixture.debugElement.queryAll(By.css('.cx-card-title'));
-    const cardContainers = fixture.debugElement.queryAll(
-      By.css('.cx-card-container')
-    );
-    expect(cards.length).toEqual(3);
-    expect(cardTitles.length).toEqual(3);
-    expect(cardContainers.length).toEqual(3);
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-status',
+        'quote.commons.status: quote.states.' + mockQuote.state
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-container'
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-summary-card',
+        3
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        'cx-card',
+        3
+      );
+    });
+
+    it('should render component with deactivated edit mode', () => {
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-content cx-card'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-edit-step'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'button.cx-action-link'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-icon'
+      );
+    });
+
+    it('should render component with activated edit mode', () => {
+      component.setEditMode();
+      fixture.detectChanges();
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-content cx-quote-details-edit'
+      );
+
+      CommonQuoteTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-edit-step'
+      );
+    });
   });
 
   describe('defineQuoteMetaData', () => {
@@ -169,15 +256,24 @@ describe('QuoteDetailsOverviewComponent', () => {
       expect(component.editMode).toBe(false);
     });
 
-    // TODO
-    xit('should handle edit action', () => {
+    it('should handle edit action', () => {
       const editEvent: EditEvent = {
         editMode: false,
         name: 'new name',
         description: 'New Description',
       };
+
+      const quoteMetaData: QuoteMetadata = {
+        name: editEvent.name,
+        description: editEvent.description,
+      };
+
       component.edit(mockQuote, editEvent);
       expect(component.editMode).toBe(editEvent.editMode);
+      expect(mockedQuoteFacade.editQuote).toHaveBeenCalledWith(
+        mockQuote.code,
+        quoteMetaData
+      );
     });
   });
 

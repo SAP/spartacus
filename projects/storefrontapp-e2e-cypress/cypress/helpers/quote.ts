@@ -183,7 +183,7 @@ export function checkQuoteInDraftState(
 }
 
 export function checkQuoteState(status: string) {
-  cy.get('cx-quote-details-overview h3.status').contains(status);
+  cy.get('cx-quote-details-overview h3.cx-status').contains(status);
 }
 
 /**

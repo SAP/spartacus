@@ -48,6 +48,7 @@ export class QuoteDetailsEditComponent implements OnInit {
   cancel(): void {
     this.cancelCard.emit(false);
   }
+
   /**
    * Edits the card tile by throwing the edit event
    * with the edit mode set to 'false' and the edited data.
@@ -74,11 +75,11 @@ export class QuoteDetailsEditComponent implements OnInit {
   }
 
   /**
-   * Defines the form control name.
+   * Defines the form control name by converting a name to lower case.
    *
    * @param {string} name - Name
    */
-  setFormControlName(name: string): string {
+  protected setFormControlName(name: string): string {
     return name.toLocaleLowerCase();
   }
 
@@ -87,7 +88,7 @@ export class QuoteDetailsEditComponent implements OnInit {
    *
    * @param {any} index - index
    */
-  trackByIndex(index: any) {
+  protected trackByIndex(index: any) {
     return index;
   }
 

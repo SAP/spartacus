@@ -1,72 +1,66 @@
 cx-quote-details-overview {
-  .cx-quote-overview {
-    @include media-breakpoint-down(sm) {
-      background-color: var(--cx-color-inverse);
+  .cx-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px 0;
+    gap: 1rem;
+
+    @include media-breakpoint-down(md) {
+      max-width: 100%;
     }
 
-    .container {
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+
+    .cx-summary-card {
       display: flex;
-      flex-wrap: wrap;
-      padding: 15px 0;
-      gap: 1rem;
+      flex-direction: row;
+      justify-content: space-between;
+      flex: 1;
+      padding: 0 15px;
+      border: 1px solid var(--cx-color-medium);
+      border-radius: var(--cx-border-radius, 1rem);
 
       @include media-breakpoint-down(md) {
-        max-width: 100%;
+        flex: 1;
       }
 
       @include media-breakpoint-down(sm) {
-        flex-direction: column;
+        flex: 1;
+        background-color: var(--cx-color-inverse);
+        border-width: 1px;
+        border-style: solid;
+        border-color: var(--cx-color-light);
+        margin: 0.625rem 0;
       }
 
-      .cx-summary-card {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        flex: 1;
-        padding: 0 15px;
-        border: 1px solid var(--cx-color-medium);
-        border-radius: var(--cx-border-radius, 1rem);
+      .cx-content {
+        width: 100%;
+      }
 
-        @include media-breakpoint-down(md) {
-          flex: 1;
+      .cx-edit-step {
+        width: 15%;
+
+        button {
+          padding: 0;
+          outline: none !important;
+          box-shadow: none !important;
         }
+      }
 
-        @include media-breakpoint-down(sm) {
-          flex: 1;
-          background-color: var(--cx-color-inverse);
-          border-width: 1px;
-          border-style: solid;
-          border-color: var(--cx-color-light);
-          margin: 0.625rem 0;
-        }
+      .cx-card-title,
+      .cx-card-paragraph-text {
+        font-weight: var(--cx-font-weight-bold);
+      }
 
-        .cx-content {
-          width: 100%;
-        }
+      .cx-card-description {
+        max-width: 100%;
+        word-break: break-word;
+      }
 
-        .cx-edit-step {
-          width: 15%;
-
-          button {
-            padding: 0;
-            outline: none !important;
-            box-shadow: none !important;
-          }
-        }
-
-        .cx-card-title,
-        .cx-card-paragraph-text {
-          font-weight: var(--cx-font-weight-bold);
-        }
-
-        .cx-card-description {
-          max-width: 100%;
-          word-break: break-word;
-        }
-
-        .cx-card-paragraph {
-          padding-inline-start: 0;
-        }
+      .cx-card-paragraph {
+        padding-inline-start: 0;
       }
     }
   }

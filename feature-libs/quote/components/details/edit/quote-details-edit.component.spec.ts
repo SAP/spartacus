@@ -212,11 +212,11 @@ describe('QuoteDetailsEditComponent', () => {
     it('should return form control name converted to lower case', () => {
       let name = 'TeSt';
       let convertedName = name.toLocaleLowerCase();
-      expect(component.setFormControlName(name)).toBe(convertedName);
+      expect(component['setFormControlName'](name)).toBe(convertedName);
 
       name = 'TEST';
       convertedName = name.toLocaleLowerCase();
-      expect(component.setFormControlName(name)).toBe(convertedName);
+      expect(component['setFormControlName'](name)).toBe(convertedName);
     });
   });
 
