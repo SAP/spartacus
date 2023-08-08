@@ -39,6 +39,7 @@ export class OpfOrderService implements OpfOrderFacade {
                     /**
                      * As we know the cart is not anonymous (precondition checked),
                      * we can safely use the cartId, which is actually the cart.code.
+                     * s
                      */
                     cartCode: cartId,
                   },

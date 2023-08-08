@@ -14,7 +14,7 @@ class MockOpfOrderConnector implements Partial<OpfOrderConnector> {
   placeOpfOrder = createSpy().and.callFake(() => of(mockOrder));
 }
 
-describe('OpfOrderService', () => {
+describe('OpfOrderServices', () => {
   let service: OpfOrderService;
 
   let activeCartFacade: jasmine.SpyObj<ActiveCartFacade>;
