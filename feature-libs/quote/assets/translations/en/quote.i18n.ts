@@ -67,8 +67,8 @@ export const quote = {
     },
 
     confirmActionDialog: {
-      name: { heading: 'Name:', content: 'Quote {{ code }}' },
-      description: { heading: 'Description:' },
+      name: { heading: 'Name:', content: '{{ name }}' },
+      description: { heading: 'Description:', content: '{{ description }}' },
       validity: 'This quote is valid until {{ expirationTime }}',
       confirmActionOption: { yes: 'Yes', no: 'No' },
       submit: {

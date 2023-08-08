@@ -19,12 +19,11 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 
 export interface ConfirmationContext {
-  quoteCode: string;
+  quote: Quote;
   title: string;
   confirmNote: string;
   warningNote?: string;
   validity?: string;
-  expirationTime?: Date;
 }
 
 @Component({
@@ -118,9 +117,17 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
 
   isConfirmationPopupRequired(action: QuoteActionType, state: string): boolean {
     return (
-      action === QuoteActionType.SUBMIT ||
-      (action === QuoteActionType.EDIT && state === 'BUYER_OFFER')
+      this.isSubmitAction(action) ||
+      this.isEditActionForBuyerOffer(action, state)
     );
+  }
+
+  isSubmitAction(action: QuoteActionType): boolean {
+    return action === QuoteActionType.SUBMIT;
+  }
+
+  isEditActionForBuyerOffer(action: QuoteActionType, state: string): boolean {
+    return action === QuoteActionType.EDIT && state === 'BUYER_OFFER';
   }
 
   prepareConfirmationContext(
@@ -128,22 +135,19 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     quote: Quote
   ): ConfirmationContext {
     const confirmationContext: ConfirmationContext = {
-      quoteCode: quote.code,
+      quote: quote,
       title: '',
       warningNote: '',
       confirmNote: '',
       validity: '',
     };
-    if (action === QuoteActionType.SUBMIT) {
+    if (this.isSubmitAction(action)) {
       confirmationContext.title = 'quote.confirmActionDialog.submit.title';
       confirmationContext.warningNote =
         'quote.confirmActionDialog.submit.warningNote';
       confirmationContext.confirmNote =
         'quote.confirmActionDialog.submit.confirmNote';
-    } else if (
-      action === QuoteActionType.EDIT &&
-      quote.state === 'BUYER_OFFER'
-    ) {
+    } else if (this.isEditActionForBuyerOffer(action, quote.state)) {
       confirmationContext.title =
         'quote.confirmActionDialog.editBuyerOffer.title';
       confirmationContext.warningNote =
@@ -151,7 +155,6 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       confirmationContext.confirmNote =
         'quote.confirmActionDialog.editBuyerOffer.confirmNote';
       confirmationContext.validity = 'quote.confirmActionDialog.validity';
-      confirmationContext.expirationTime = quote.expirationTime;
     }
     return confirmationContext;
   }

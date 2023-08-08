@@ -14,7 +14,7 @@
       <div class="cx-dialog-title modal-title">
         {{
           confirmationContext.title
-            | cxTranslate: { code: confirmationContext.quoteCode }
+            | cxTranslate: { code: confirmationContext.quote.code }
         }}
       </div>
       <button
@@ -41,17 +41,26 @@
               <div class="content">
                 {{
                   'quote.confirmActionDialog.name.content'
-                    | cxTranslate: { code: confirmationContext.quoteCode }
+                    | cxTranslate: { name: confirmationContext.quote.name }
                 }}
               </div>
             </div>
-            <div class="quote-description">
+            <div
+              class="quote-description"
+              *ngIf="confirmationContext.quote.description"
+            >
               <div class="heading">
                 {{
                   'quote.confirmActionDialog.description.heading' | cxTranslate
                 }}
               </div>
-              <div class="content"></div>
+              <div class="content">
+                {{
+                  'quote.confirmActionDialog.description.content'
+                    | cxTranslate
+                      : { description: confirmationContext.quote.description }
+                }}
+              </div>
             </div>
           </div>
 
@@ -63,7 +72,7 @@
             <p
               *ngIf="
                 confirmationContext.validity &&
-                confirmationContext.expirationTime
+                confirmationContext.quote.expirationTime
               "
             >
               {{
@@ -71,7 +80,7 @@
                   | cxTranslate
                     : {
                         expirationTime:
-                          confirmationContext.expirationTime | cxDate
+                          confirmationContext.quote.expirationTime | cxDate
                       }
               }}
             </p>
