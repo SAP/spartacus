@@ -5,6 +5,7 @@
  */
 
 import {
+  AfterRedirectScriptResponse,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
   SubmitCompleteRequest,
@@ -43,4 +44,8 @@ export abstract class OpfPaymentAdapter {
     otpKey: string,
     paymentSessionId: string
   ): Observable<SubmitCompleteResponse>;
+
+  abstract afterRedirectScripts(
+    paymentSessionId: string
+  ): Observable<AfterRedirectScriptResponse>;
 }

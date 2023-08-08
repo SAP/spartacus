@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
   GlobalMessageService,
@@ -12,18 +12,27 @@ import {
   HttpErrorModel,
   RoutingService,
 } from '@spartacus/core';
+
 import { Order } from '@spartacus/order/root';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, from, of, throwError } from 'rxjs';
 import { concatMap, filter, take } from 'rxjs/operators';
-import { OpfOrderFacade, OpfPaymentFacade } from '../../facade';
 import {
+  OpfGlobalFunctionsFacade,
+  OpfOrderFacade,
+  OpfPaymentFacade,
+} from '../../facade';
+import {
+  OpfPaymenVerificationUrlInput,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
-  OpfPaymenVerificationUrlInput,
   OpfResponseMapElement,
 } from '../../model';
-import { OpfPaymentMetadata } from '../../model/opf.model';
+import {
+  AfterRedirectDynamicScript,
+  OpfPaymentMetadata,
+} from '../../model/opf.model';
 import { OpfService } from '../../services';
+import { OpfResourceLoaderService } from '../../services/opf-resource-loader.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +43,9 @@ export class OpfPaymentVerificationService {
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected opfCheckoutService: OpfPaymentFacade,
-    protected opfService: OpfService
+    protected opfService: OpfService,
+    protected opfResourceLoaderService: OpfResourceLoaderService,
+    protected globalFunctionsService: OpfGlobalFunctionsFacade
   ) {}
 
   defaultError: HttpErrorModel = {
@@ -65,6 +76,7 @@ export class OpfPaymentVerificationService {
   verifyResultUrl(route: ActivatedRoute): Observable<{
     paymentSessionId: string;
     responseMap: OpfResponseMapElement[];
+    afterRedirectScriptFlag: string | undefined;
   }> {
     return route?.routeConfig?.data?.cxRoute === 'paymentVerificationResult'
       ? route.queryParams.pipe(
@@ -83,9 +95,14 @@ export class OpfPaymentVerificationService {
             if (!paymentSessionId) {
               return throwError(this.defaultError);
             }
+
             return of({
               paymentSessionId,
               responseMap,
+              afterRedirectScriptFlag: this.findInOpfResponseMap(
+                'afterRedirectScriptFlag',
+                responseMap
+              ),
             });
           })
         )
@@ -164,5 +181,48 @@ export class OpfPaymentVerificationService {
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });
+  }
+
+  protected executeScriptFromHtml(html: string): void {
+    this.opfResourceLoaderService.executeScriptFromHtml(html);
+  }
+
+  runHostedFieldsPattern(
+    paymentSessionId: string,
+    vcr: ViewContainerRef
+  ): Observable<boolean> {
+    this.globalFunctionsService.registerGlobalFunctions(paymentSessionId, vcr);
+
+    return this.opfCheckoutService.afterRedirectScripts(paymentSessionId).pipe(
+      concatMap((response) => {
+        if (!response?.afterRedirectScript) {
+          return throwError(this.defaultError);
+        }
+        return from(
+          this.renderAfterRedirectScripts(response.afterRedirectScript)
+        );
+      })
+    );
+  }
+
+  renderAfterRedirectScripts(script: AfterRedirectDynamicScript) {
+    console.log('flo3', script);
+
+    const html = script?.html;
+
+    return new Promise((resolve: (value: boolean) => void) => {
+      this.opfResourceLoaderService
+        .loadProviderResources(script.jsUrls, script.cssUrls)
+        .then(() => {
+          if (html) {
+            this.executeScriptFromHtml(html);
+            resolve(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          resolve(false);
+        });
+    });
   }
 }

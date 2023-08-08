@@ -47,6 +47,13 @@ export interface GlobalOpfPaymentMethods {
     submitPending: MerchantCallback;
     submitFailure: MerchantCallback;
   }): Promise<boolean>;
+  submitCompleteRedirect?(options: {
+    cartId: string;
+    additionalData: Array<KeyValuePair>;
+    submitSuccess: MerchantCallback;
+    submitPending: MerchantCallback;
+    submitFailure: MerchantCallback;
+  }): Promise<boolean>;
 }
 
 export interface PaymentBrowserInfo {
@@ -119,4 +126,26 @@ export interface SubmitCompleteInput {
   cartId: string;
   callbackArray: [MerchantCallback, MerchantCallback, MerchantCallback];
   returnPath?: Array<string>;
+}
+
+export interface AfterRedirectScriptResponse {
+  afterRedirectScript: AfterRedirectDynamicScript;
+}
+
+export interface AfterRedirectDynamicScript {
+  cssUrls?: AfterRedirectDynamicScriptResource[];
+  jsUrls?: AfterRedirectDynamicScriptResource[];
+  html?: string;
+}
+
+export interface AfterRedirectDynamicScriptResource {
+  url?: string;
+  sri?: string;
+  attributes?: KeyValuePair[];
+  type?: AfterRedirectDynamicScriptResourceType;
+}
+
+export enum AfterRedirectDynamicScriptResourceType {
+  SCRIPT = 'SCRIPT',
+  STYLES = 'STYLES',
 }

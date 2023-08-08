@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, backOff, isJaloError } from '@spartacus/core';
 import {
+  OPF_AFTER_REDIRECT_SCRIPTS_NORMALIZER,
   OPF_PAYMENT_SUBMIT_COMPLETE_NORMALIZER,
   OPF_PAYMENT_SUBMIT_NORMALIZER,
   OPF_PAYMENT_VERIFICATION_NORMALIZER,
@@ -15,6 +16,7 @@ import {
   OpfPaymentAdapter,
 } from '@spartacus/opf/base/core';
 import {
+  AfterRedirectScriptResponse,
   OPF_CC_OTP_KEY,
   OPF_CC_PUBLIC_KEY,
   OpfConfig,
@@ -124,6 +126,29 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
       );
   }
 
+  afterRedirectScripts(
+    paymentSessionId: string
+  ): Observable<AfterRedirectScriptResponse> {
+    const headers = new HttpHeaders(this.header).set(
+      OPF_CC_PUBLIC_KEY,
+      this.config.opf?.commerceCloudPublicKey || ''
+    );
+
+    const url = this.getAfterRedirectScriptsEndpoint(paymentSessionId);
+
+    return this.http.get<AfterRedirectScriptResponse>(url, { headers }).pipe(
+      catchError((error) => throwError(error)),
+      backOff({
+        shouldRetry: isJaloError,
+      }),
+      backOff({
+        shouldRetry: isHttp500Error,
+        maxTries: 2,
+      }),
+      this.converter.pipeable(OPF_AFTER_REDIRECT_SCRIPTS_NORMALIZER)
+    );
+  }
+
   protected verifyPaymentEndpoint(paymentSessionId: string): string {
     return this.opfEndpointsService.buildUrl('verifyPayment', {
       urlParams: { paymentSessionId },
@@ -138,6 +163,12 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
 
   protected getSubmitCompletePaymentEndpoint(paymentSessionId: string): string {
     return this.opfEndpointsService.buildUrl('submitCompletePayment', {
+      urlParams: { paymentSessionId },
+    });
+  }
+
+  protected getAfterRedirectScriptsEndpoint(paymentSessionId: string): string {
+    return this.opfEndpointsService.buildUrl('afterRedirectScripts', {
       urlParams: { paymentSessionId },
     });
   }

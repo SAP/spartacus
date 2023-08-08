@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorModel } from '@spartacus/core';
 
 import { Subscription } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
+import { concatMap, map, tap } from 'rxjs/operators';
+
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 @Component({
@@ -21,7 +22,8 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
 
   constructor(
     protected route: ActivatedRoute,
-    protected paymentService: OpfPaymentVerificationService
+    protected paymentService: OpfPaymentVerificationService,
+    protected vcr: ViewContainerRef
   ) {}
 
   ngOnInit(): void {
@@ -30,19 +32,43 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
     this.subscription = this.paymentService
       .verifyResultUrl(this.route)
       .pipe(
-        concatMap(({ paymentSessionId, responseMap }) => {
-          return this.paymentService.verifyPayment(
-            paymentSessionId,
-            responseMap
-          );
-        }),
-        concatMap(() => {
-          return this.paymentService.placeOrder();
-        })
+        concatMap(
+          ({ paymentSessionId, responseMap, afterRedirectScriptFlag }) => {
+            if (afterRedirectScriptFlag === 'true') {
+              console.log('flo1');
+
+              return this.paymentService.runHostedFieldsPattern(
+                paymentSessionId,
+                this.vcr
+              );
+            } else {
+              return this.paymentService
+                .verifyPayment(paymentSessionId, responseMap)
+                .pipe(
+                  concatMap(() => {
+                    return this.paymentService.placeOrder();
+                  }),
+                  map((order) => (order ? true : false)),
+                  tap((success: boolean) => {
+                    if (success) {
+                      this.onSuccess();
+                    }
+                  })
+                );
+            }
+          }
+        )
       )
       .subscribe({
         error: (error: HttpErrorModel | undefined) => this.onError(error),
-        next: () => this.onSuccess(),
+        next: (success: boolean) => {
+          if (success) {
+            console.log('success');
+          } else {
+            console.log('fail');
+            this.onError(undefined);
+          }
+        },
       });
   }
 

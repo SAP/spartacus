@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Command, CommandService } from '@spartacus/core';
 import {
+  AfterRedirectScriptResponse,
   OpfPaymentFacade,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
@@ -54,6 +55,17 @@ export class OpfPaymentService implements OpfPaymentFacade {
     );
   });
 
+  protected afterRedirectScriptsCommand: Command<
+    {
+      paymentSessionId: string;
+    },
+    AfterRedirectScriptResponse
+  > = this.commandService.create((payload) => {
+    return this.opfPaymentConnector.afterRedirectScripts(
+      payload.paymentSessionId
+    );
+  });
+
   constructor(
     protected commandService: CommandService,
     protected opfPaymentConnector: OpfPaymentConnector,
@@ -80,5 +92,9 @@ export class OpfPaymentService implements OpfPaymentFacade {
     submitCompleteInput: SubmitCompleteInput
   ): Observable<boolean> {
     return this.submitCompletePaymentCommand.execute({ submitCompleteInput });
+  }
+
+  afterRedirectScripts(paymentSessionId: string) {
+    return this.afterRedirectScriptsCommand.execute({ paymentSessionId });
   }
 }
