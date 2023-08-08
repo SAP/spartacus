@@ -22,21 +22,23 @@ export class QuoteSellerEditComponentService {
   parseDiscountValue(input: string): Observable<number> {
     return this.getFormatter().pipe(
       map((formatter) => {
-        return Number.parseFloat(
-          input.replace(formatter.resolvedOptions().currencySign ?? '', '')
+        const symbol = formatter
+          .formatToParts(0)
+          .find((x) => x.type === 'currency');
+        const withoutCurrency = Number.parseFloat(
+          input.replace(symbol?.value ?? '', '')
         );
+        return withoutCurrency;
       })
     );
   }
 
-  protected getFormatter(): Observable<Intl.NumberFormat> {
+  getFormatter(): Observable<Intl.NumberFormat> {
     return combineLatest([
       this.currencyService.getActive(),
       this.languageService.getActive(),
     ]).pipe(
       map(([currency, language]) => {
-        console.log('CHHI language: ' + language);
-        console.log('CHHI currency: ' + currency);
         return new Intl.NumberFormat(language, {
           style: 'currency',
           currency: currency,

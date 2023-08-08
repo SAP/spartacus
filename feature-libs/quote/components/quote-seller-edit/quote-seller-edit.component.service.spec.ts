@@ -1,24 +1,33 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { I18nTestingModule } from '@spartacus/core';
+import { TestBed } from '@angular/core/testing';
 
 import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
+import { CurrencyService, LanguageService } from '@spartacus/core';
+import { EMPTY, Observable, of } from 'rxjs';
+
+class MockCurrencyService {
+  getAll = () => of(EMPTY);
+}
+
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('en-US');
+  }
+}
 
 describe('QuoteSellerEditComponentService', () => {
-  let fixture: ComponentFixture<QuoteSellerEditComponentService>;
   let service: QuoteSellerEditComponentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [QuoteSellerEditComponentService],
-      providers: [],
+      providers: [
+        { provide: CurrencyService, useClass: MockCurrencyService },
+        { provide: LanguageService, useClass: MockLanguageService },
+      ],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteSellerEditComponentService);
-    service = fixture.componentInstance;
+    service = TestBed.inject(QuoteSellerEditComponentService);
   });
 
   it('should create component', () => {

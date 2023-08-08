@@ -176,7 +176,7 @@ describe('QuoteConnector', () => {
     let result;
     const discount = {
       discountRate: 10,
-      discountType: QuoteDiscountType.ABSOLUTE
+      discountType: QuoteDiscountType.ABSOLUTE,
     };
     service
       .addDiscount(userId, quoteCode, discount)

@@ -10,7 +10,7 @@ import {
 } from '@spartacus/quote/root';
 import { I18nTestingModule, Price } from '@spartacus/core';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { QuoteSellerEditComponent } from './quote-seller-edit.component';
 import createSpy = jasmine.createSpy;
@@ -18,6 +18,7 @@ import {
   QUOTE_CODE,
   createEmptyQuote,
 } from '../../core/testing/quote-test-utils';
+import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
 
 const mockCartId = '1234';
 
@@ -46,6 +47,21 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   addDiscount = createSpy();
 }
 
+class MockQuoteSellerEditComponentService {
+  parseDiscountValue() {
+    return of(0);
+  }
+  getFormatter() {
+    return of(
+      new Intl.NumberFormat('en', {
+        style: 'currency',
+        currency: 'USD',
+        currencyDisplay: 'narrowSymbol',
+      })
+    );
+  }
+}
+
 describe('QuoteSellerEditComponent', () => {
   let fixture: ComponentFixture<QuoteSellerEditComponent>;
   let component: QuoteSellerEditComponent;
@@ -59,6 +75,10 @@ describe('QuoteSellerEditComponent', () => {
         {
           provide: QuoteFacade,
           useClass: MockCommerceQuotesFacade,
+        },
+        {
+          provide: QuoteSellerEditComponentService,
+          useClass: MockQuoteSellerEditComponentService,
         },
       ],
     }).compileComponents();
