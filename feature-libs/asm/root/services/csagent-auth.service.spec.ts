@@ -49,7 +49,7 @@ describe('CsAgentAuthService', () => {
   let asmAuthStorageService: AsmAuthStorageService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
   let userAccountFacade: UserAccountFacade;
-  let featureConfig:FeatureConfigService;
+  let featureConfig: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

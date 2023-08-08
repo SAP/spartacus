@@ -38,12 +38,12 @@ export class CsAgentAuthService {
     oAuthLibWrapperService: OAuthLibWrapperService,
     store: Store,
     userProfileFacade: UserProfileFacade,
-    userAccountFacade: UserAccountFacade,
+    userAccountFacade: UserAccountFacade
   );
   /**
    * @deprecated since 7.0
    */
-   constructor(
+  constructor(
     authService: AuthService,
     authStorageService: AsmAuthStorageService,
     userIdService: UserIdService,
@@ -77,12 +77,11 @@ export class CsAgentAuthService {
     let userToken: AuthToken | undefined;
     // Start emulation for currently logged in user
     let customerId: string | undefined;
-    if (this.featureConfig?.isLevel('6.5'))
-    {
+    if (this.featureConfig?.isLevel('6.5')) {
       this.userAccountFacade
-      .get()
-      .subscribe((user) => (customerId = user?.customerId))
-      .unsubscribe();
+        .get()
+        .subscribe((user) => (customerId = user?.customerId))
+        .unsubscribe();
     }
 
     this.authStorageService
