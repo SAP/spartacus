@@ -50,7 +50,7 @@ describe('WishList Actions', () => {
         const payload = {
           userId,
           cartId,
-          error: { message:"anyError" },
+          error: { message: 'anyError' },
         };
         const action = new WishListActions.LoadWishListFail(payload);
         expect({ ...action }).toEqual({
@@ -92,7 +92,7 @@ describe('WishList Actions', () => {
 
     describe('CreateWishListFail', () => {
       it('should create the action', () => {
-        const payload = { cartId, error: { message:"error" } };
+        const payload = { cartId, error: { message: 'error' } };
         const action = new WishListActions.CreateWishListFail(payload);
         expect({ ...action }).toEqual({
           error: payload.error,

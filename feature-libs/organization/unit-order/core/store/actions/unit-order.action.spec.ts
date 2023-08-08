@@ -30,7 +30,7 @@ describe('OrdersActions', () => {
 
   describe('LoadUnitOrdersFail Action', () => {
     it('should create the action', () => {
-      const error = { message:"mockError" };
+      const error = { message: 'mockError' };
       const action = new UnitOrderActions.LoadUnitOrdersFail(error);
 
       expect({ ...action }).toEqual({
@@ -97,7 +97,7 @@ describe('Order Details Actions', () => {
 
   describe('LoadOrderDetailsFail Action', () => {
     it('should create the action', () => {
-      const error = {message: "mockError" };
+      const error = { message: 'mockError' };
       const action = new UnitOrderActions.LoadOrderDetailsFail(error);
 
       expect({ ...action }).toEqual({

@@ -5,7 +5,12 @@
  */
 
 import { STORE_FINDER_DATA } from '../store-finder-state';
-import { GeoPoint, SearchConfig, StateUtils, ErrorAction } from '@spartacus/core';
+import {
+  GeoPoint,
+  SearchConfig,
+  StateUtils,
+  ErrorAction,
+} from '@spartacus/core';
 
 export const FIND_STORES_ON_HOLD = '[StoreFinder] On Hold';
 export const FIND_STORES = '[StoreFinder] Find Stores';
@@ -40,7 +45,10 @@ export class FindStores extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class FindStoresFail extends StateUtils.LoaderFailAction implements ErrorAction{
+export class FindStoresFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = FIND_STORES_FAIL;
   constructor(public error: any) {
     super(STORE_FINDER_DATA, error);
@@ -61,7 +69,10 @@ export class FindStoreById extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class FindStoreByIdFail extends StateUtils.LoaderFailAction implements ErrorAction{
+export class FindStoreByIdFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = FIND_STORE_BY_ID_FAIL;
   constructor(public error: any) {
     super(STORE_FINDER_DATA, error);

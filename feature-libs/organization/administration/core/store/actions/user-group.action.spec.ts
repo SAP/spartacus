@@ -17,7 +17,7 @@ const userGroup: UserGroup = {
   uid: userGroupId,
 };
 const userId = 'xxx@xxx.xxx';
-const error = { message:"anError" };
+const error = { message: 'anError' };
 const params = { currentPage: 2 };
 const query = '?pageSize=&currentPage=2&sort=';
 

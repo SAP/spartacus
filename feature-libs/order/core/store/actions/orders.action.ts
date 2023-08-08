@@ -28,7 +28,10 @@ export class LoadUserOrders extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadUserOrdersFail extends StateUtils.LoaderFailAction implements ErrorAction{
+export class LoadUserOrdersFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_USER_ORDERS_FAIL;
   constructor(public error: any) {
     super(ORDERS, error);

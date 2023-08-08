@@ -31,7 +31,10 @@ export class LoadUserReplenishmentOrders extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadUserReplenishmentOrdersFail extends StateUtils.LoaderFailAction implements ErrorAction{
+export class LoadUserReplenishmentOrdersFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS_FAIL;
   constructor(public error: any) {
     super(REPLENISHMENT_ORDERS, error);

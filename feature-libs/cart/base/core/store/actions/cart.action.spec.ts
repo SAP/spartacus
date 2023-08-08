@@ -39,7 +39,11 @@ describe('Cart Actions', () => {
 
     describe('CreateCartFail', () => {
       it('should create the action', () => {
-        const payload = { tempCartId, userId: 'userId', error:{  message:"error" } };
+        const payload = {
+          tempCartId,
+          userId: 'userId',
+          error: { message: 'error' },
+        };
         const action = new CartActions.CreateCartFail(payload);
         expect({ ...action }).toEqual({
           error: payload.error,
@@ -83,7 +87,11 @@ describe('Cart Actions', () => {
 
     describe('LoadCartFail', () => {
       it('should create the action', () => {
-        const payload = { cartId: 'cartId', error: { message:"error" }, userId: 'userId' };
+        const payload = {
+          cartId: 'cartId',
+          error: { message: 'error' },
+          userId: 'userId',
+        };
         const action = new CartActions.LoadCartFail(payload);
         expect({ ...action }).toEqual({
           error: payload.error,
@@ -157,7 +165,7 @@ describe('Cart Actions', () => {
     describe('AddEmailToCartFail', () => {
       it('should create the action', () => {
         const payload = {
-          error: { message:"anError" },
+          error: { message: 'anError' },
           cartId: 'cartId',
           userId: 'userId',
           email: 'email@email.com',
@@ -265,7 +273,7 @@ describe('Cart Actions', () => {
 
     describe('DeleteCartFail', () => {
       it('should create the action', () => {
-        const error = { message:"anError" };
+        const error = { message: 'anError' };
         const userId = 'xxx@xxx.xxx';
         const cartId = 'testCartId';
         const payload = {

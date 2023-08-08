@@ -79,7 +79,7 @@ describe('ConfiguratorActions', () => {
 
     describe('ReadConfigurationFail', () => {
       it('Should create the action', () => {
-        const error = { message: "anError" };
+        const error = { message: 'anError' };
         const action = new ConfiguratorActions.ReadConfigurationFail({
           ownerKey: PRODUCT_CODE,
           error: error,
@@ -136,7 +136,7 @@ describe('ConfiguratorActions', () => {
 
     describe('UpdateConfigurationFail', () => {
       it('Should create the action', () => {
-        const error = {message: "anError" };
+        const error = { message: 'anError' };
         const action = new ConfiguratorActions.UpdateConfigurationFail({
           configuration: CONFIGURATION,
           error: error,
@@ -203,7 +203,7 @@ describe('ConfiguratorActions', () => {
     });
 
     it('should allow to create the fail action', () => {
-      const error = {message: "anError" };
+      const error = { message: 'anError' };
       const action = new ConfiguratorActions.UpdateConfigurationOverviewFail({
         ownerKey: CONFIGURATION.owner.key,
         error: error,

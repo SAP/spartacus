@@ -10,7 +10,7 @@ import { StateUtils, ErrorAction, HttpErrorModel } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
-import { HttpErrorResponse } from "@angular/common/http";
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const READ_CART_ENTRY_CONFIGURATION =
   '[Configurator] Read Cart Entry Configuration';
@@ -53,8 +53,11 @@ export class ReadCartEntryConfigurationSuccess extends StateUtils.EntitySuccessA
   }
 }
 
-export class ReadCartEntryConfigurationFail extends StateUtils.EntityFailAction implements ErrorAction{
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
+export class ReadCartEntryConfigurationFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
   readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
@@ -77,8 +80,11 @@ export class ReadOrderEntryConfigurationSuccess extends StateUtils.EntitySuccess
   }
 }
 
-export class ReadOrderEntryConfigurationFail extends StateUtils.EntityFailAction implements ErrorAction{
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
+export class ReadOrderEntryConfigurationFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);

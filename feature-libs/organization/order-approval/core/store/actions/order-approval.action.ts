@@ -10,7 +10,7 @@ import {
   SearchConfig,
   StateUtils,
   ErrorAction,
-  HttpErrorModel
+  HttpErrorModel,
 } from '@spartacus/core';
 import {
   OrderApproval,
@@ -21,7 +21,7 @@ import {
   ORDER_APPROVAL_LIST,
   ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
 } from '../order-approval-state';
-import { HttpErrorResponse } from "@angular/common/http";
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const LOAD_ORDER_APPROVAL = '[OrderApproval] Load OrderApproval Data';
 export const LOAD_ORDER_APPROVAL_FAIL =
@@ -50,8 +50,11 @@ export class LoadOrderApproval extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadOrderApprovalFail extends StateUtils.EntityFailAction implements ErrorAction{
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
+export class LoadOrderApprovalFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
   readonly type = LOAD_ORDER_APPROVAL_FAIL;
   constructor(public payload: { orderApprovalCode: string; error: any }) {
     super(ORDER_APPROVAL_ENTITIES, payload.orderApprovalCode, payload.error);
@@ -85,8 +88,11 @@ export class LoadOrderApprovals extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadOrderApprovalsFail extends StateUtils.EntityFailAction implements ErrorAction{
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
+export class LoadOrderApprovalsFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
   readonly type = LOAD_ORDER_APPROVALS_FAIL;
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
@@ -125,8 +131,11 @@ export class MakeDecision extends StateUtils.EntityLoadAction {
   }
 }
 
-export class MakeDecisionFail extends StateUtils.EntityFailAction implements ErrorAction{
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
+export class MakeDecisionFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
   readonly type = MAKE_DECISION_FAIL;
   constructor(public payload: { orderApprovalCode: string; error: any }) {
     super(PROCESS_FEATURE, ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID, payload);

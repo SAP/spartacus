@@ -29,7 +29,7 @@ describe('Cart-voucher Actions', () => {
 
     describe('AddVoucherFail', () => {
       it('should create the action', () => {
-        const error = { message:"anError" };
+        const error = { message: 'anError' };
         const payload = {
           error,
           voucherId,
@@ -106,7 +106,7 @@ describe('Cart-voucher Actions', () => {
 
     describe('RemoveVoucherFail', () => {
       it('should create the action', () => {
-        const error = { message:"anError" };
+        const error = { message: 'anError' };
         const payload = { error, userId, cartId, voucherId };
         const action = new CartActions.CartRemoveVoucherFail(payload);
 

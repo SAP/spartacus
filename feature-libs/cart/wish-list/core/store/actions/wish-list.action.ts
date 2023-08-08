@@ -8,7 +8,7 @@ import { Action } from '@ngrx/store';
 import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { StateUtils, ErrorAction, HttpErrorModel } from '@spartacus/core';
-import { HttpErrorResponse } from "@angular/common/http";
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const CREATE_WISH_LIST = '[Wish List] Create Wish List';
 export const CREATE_WISH_LIST_FAIL = '[Wish List] Create Wish List Fail';
@@ -36,8 +36,11 @@ export class CreateWishListSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class CreateWishListFail extends StateUtils.EntityFailAction implements ErrorAction{
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
+export class CreateWishListFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
   readonly type = CREATE_WISH_LIST_FAIL;
   constructor(public payload: { cartId: string; error?: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
@@ -78,8 +81,11 @@ interface LoadWishListFailPayload {
   error: any;
 }
 
-export class LoadWishListFail extends StateUtils.EntityFailAction implements ErrorAction{
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error
+export class LoadWishListFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
+  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
   readonly type = LOAD_WISH_LIST_FAIL;
   constructor(public payload: LoadWishListFailPayload) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);

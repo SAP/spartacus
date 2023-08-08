@@ -23,7 +23,7 @@ const approverId = 'approverId';
 const userGroupId = 'userGroupId';
 const permissionId = 'permissionId';
 const selected = true;
-const error = { message:"anError" };
+const error = { message: 'anError' };
 const params = { currentPage: 2 };
 const query = '?pageSize=&currentPage=2&sort=';
 

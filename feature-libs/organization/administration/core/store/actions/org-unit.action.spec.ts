@@ -50,7 +50,7 @@ const unit: B2BUnit = { uid: 'testUid' };
 const unitCode: string = unit.uid;
 
 const userId = 'xxx@xxx.xxx';
-const error = { message:"anError" };
+const error = { message: 'anError' };
 
 describe('OrgUnit Actions', () => {
   describe('LoadOrgUnit Actions', () => {

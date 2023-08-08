@@ -12,7 +12,7 @@ const mockUserId = 'test-user';
 const mockCartId = 'test-cart';
 const mockCartName = 'test-cart-name';
 const mockCartDescription = 'test-cart-description';
-const error = { message: "anError" };
+const error = { message: 'anError' };
 
 describe('SavedCart Actions', () => {
   describe('LoadSavedCart Actions', () => {
