@@ -4,6 +4,8 @@ on:
       - develop
       - develop-*
       - release/**
+      - epic/**
+      
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
 
