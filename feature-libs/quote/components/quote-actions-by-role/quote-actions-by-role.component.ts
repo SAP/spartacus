@@ -14,14 +14,20 @@ import {
 } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import {
-  QuoteFacade,
-  QuoteActionType,
   Quote,
+  QuoteActionType,
+  QuoteFacade,
   QuoteState,
 } from '@spartacus/quote/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
+import {
+  ConfirmActionDialogConfig,
+  confirmActionDialogConfigs,
+  defaultConfirmActionDialogConfig,
+} from '../quote-confirm-action-dialog/default-quote-confirm-action-dialog-config';
+import { ResponsiblePersonPrefix } from '../quote-list/quote-list.component';
 
 export interface ConfirmationContext {
   quote: Quote;
@@ -120,51 +126,60 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  isConfirmationPopupRequired(
+  protected isConfirmationPopupRequired(
     action: QuoteActionType,
     state: QuoteState
   ): boolean {
+    const stateAndAction = `${state.toLocaleLowerCase()}.${action.toLowerCase()}`;
+    const roleAndAction = `${this.statusToRole(state)}.${action.toLowerCase()}`;
     return (
-      this.isSubmitAction(action) ||
-      this.isEditActionForBuyerOffer(action, state)
+      confirmActionDialogConfigs.has(stateAndAction) ||
+      confirmActionDialogConfigs.has(roleAndAction)
     );
   }
 
-  isSubmitAction(action: QuoteActionType): boolean {
-    return action === QuoteActionType.SUBMIT;
-  }
-
-  isEditActionForBuyerOffer(
-    action: QuoteActionType,
-    state: QuoteState
-  ): boolean {
-    return action === QuoteActionType.EDIT && state === QuoteState.BUYER_OFFER;
-  }
-
-  prepareConfirmationContext(
+  protected prepareConfirmationContext(
     action: QuoteActionType,
     quote: Quote
   ): ConfirmationContext {
+    const dialogConfig = this.getDialogConfig(action, quote.state);
     const confirmationContext: ConfirmationContext = {
       quote: quote,
-      title: '',
-      confirmNote: '',
+      title: dialogConfig.i18nKey + '.title',
+      confirmNote: dialogConfig.i18nKey + '.confirmNote',
     };
-    if (this.isSubmitAction(action)) {
-      confirmationContext.title = 'quote.confirmActionDialog.submit.title';
-      confirmationContext.warningNote =
-        'quote.confirmActionDialog.submit.warningNote';
-      confirmationContext.confirmNote =
-        'quote.confirmActionDialog.submit.confirmNote';
-    } else if (this.isEditActionForBuyerOffer(action, quote.state)) {
-      confirmationContext.title =
-        'quote.confirmActionDialog.editBuyerOffer.title';
-      confirmationContext.warningNote =
-        'quote.confirmActionDialog.editBuyerOffer.warningNote';
-      confirmationContext.confirmNote =
-        'quote.confirmActionDialog.editBuyerOffer.confirmNote';
+    if (dialogConfig.showWarningNote) {
+      confirmationContext.warningNote = dialogConfig.i18nKey + '.warningNote';
+    }
+    if (dialogConfig.showExpirationDate) {
       confirmationContext.validity = 'quote.confirmActionDialog.validity';
     }
     return confirmationContext;
+  }
+
+  protected getDialogConfig(
+    action: QuoteActionType,
+    state: QuoteState
+  ): ConfirmActionDialogConfig {
+    let dialogConfigKey = `${state.toLocaleLowerCase()}.${action.toLowerCase()}`;
+    if (!confirmActionDialogConfigs.has(dialogConfigKey)) {
+      dialogConfigKey = `${this.statusToRole(state)}.${action.toLowerCase()}`;
+    }
+
+    return {
+      ...defaultConfirmActionDialogConfig,
+      i18nKey: 'quote.confirmActionDialog.' + dialogConfigKey,
+      ...confirmActionDialogConfigs.get(dialogConfigKey),
+    };
+  }
+
+  protected statusToRole(state: QuoteState) {
+    console.log(state);
+    for (const prefix in ResponsiblePersonPrefix) {
+      if (state.startsWith(prefix)) {
+        return prefix.toLowerCase();
+      }
+    }
+    return state.toLowerCase();
   }
 }

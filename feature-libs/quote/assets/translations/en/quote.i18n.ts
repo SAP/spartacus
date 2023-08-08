@@ -65,26 +65,57 @@ export const quote = {
       newCart: 'New Cart',
       quotes: 'Quotes',
     },
-
     confirmActionDialog: {
       name: { heading: 'Name:', content: '{{ name }}' },
       description: { heading: 'Description:', content: '{{ description }}' },
       validity: 'This quote is valid until {{ expirationTime }}',
       confirmActionOption: { yes: 'Yes', no: 'No' },
-      submit: {
-        title: 'Confirm Send Quote {{ code }}?',
-        warningNote:
-          'Once a request for quote is submitted it cannot be modified.',
-        confirmNote: 'Are you sure you want to submit this quote?',
+      buyer: {
+        submit: {
+          title: 'Submit Quote Request {{ code }}?',
+          confirmNote: 'Are you sure you want to submit this quote request?',
+          message: 'Quote request submitted successfully',
+        },
+        cancel: {
+          title: 'Cancel Quote Request {{ code }}?',
+          confirmNote: 'Are you sure you want to submit this quote request',
+          message: 'Quote cancelled',
+        },
       },
-      editBuyerOffer: {
-        title: 'Confirm Edit Quote {{ code }}?',
-        warningNote:
-          'This quote has been approved. Editing this quote will prevent checkout until the new edits are approved.',
-        confirmNote: 'Are you sure you want to edit this approved quote?',
+      buyer_offer: {
+        edit: {
+          title: 'Confirm Edit Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to edit this approved quote?',
+          warningNote:
+            'This Quote has been Approved. Editing this Quote will prevent Checkout until new edits are approved.',
+        },
+        cancel: {
+          title: 'Cancel Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to cancel this quote?',
+          message: 'Quote cancelled',
+        },
+      },
+      seller: {
+        submit: {
+          title: 'Submit Quote {{ code }} for approval?',
+          confirmNote:
+            'Are you sure you want to submit this quote for approval?',
+          message: 'Quote submitted for approval successfully',
+        },
+      },
+      approver: {
+        submit: {
+          title: 'Submit Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to submit this quote?',
+          message: 'Quote submitted successfully',
+        },
+        reject: {
+          title: 'Reject Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to reject this quote?',
+          message: 'Quote rejected',
+        },
       },
     },
-
     requestDialog: {
       requestQuote: 'Request Quote',
       title: 'Request Quote',

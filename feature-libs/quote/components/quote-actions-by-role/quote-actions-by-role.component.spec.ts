@@ -195,9 +195,8 @@ describe('QuoteActionsByRoleComponent', () => {
     };
     const confirmationContextForSubmitAction: ConfirmationContext = {
       quote: newMockQuoteWithSubmitAction,
-      title: 'quote.confirmActionDialog.submit.title',
-      confirmNote: 'quote.confirmActionDialog.submit.confirmNote',
-      warningNote: 'quote.confirmActionDialog.submit.warningNote',
+      title: 'quote.confirmActionDialog.buyer.submit.title',
+      confirmNote: 'quote.confirmActionDialog.buyer.submit.confirmNote',
     };
     mockQuoteDetails$.next(newMockQuoteWithSubmitAction);
     fixture.detectChanges();
@@ -223,9 +222,9 @@ describe('QuoteActionsByRoleComponent', () => {
     };
     const confirmationContextForSubmitAction: ConfirmationContext = {
       quote: newMockQuoteWithEditActionAndBuyerOfferState,
-      title: 'quote.confirmActionDialog.editBuyerOffer.title',
-      confirmNote: 'quote.confirmActionDialog.editBuyerOffer.confirmNote',
-      warningNote: 'quote.confirmActionDialog.editBuyerOffer.warningNote',
+      title: 'quote.confirmActionDialog.buyer_offer.edit.title',
+      confirmNote: 'quote.confirmActionDialog.buyer_offer.edit.confirmNote',
+      warningNote: 'quote.confirmActionDialog.buyer_offer.edit.warningNote',
       validity: 'quote.confirmActionDialog.validity',
     };
     mockQuoteDetails$.next(newMockQuoteWithEditActionAndBuyerOfferState);
