@@ -13,7 +13,12 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { QuoteFacade, QuoteActionType, Quote } from '@spartacus/quote/root';
+import {
+  QuoteFacade,
+  QuoteActionType,
+  Quote,
+  QuoteState,
+} from '@spartacus/quote/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
@@ -115,7 +120,10 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  isConfirmationPopupRequired(action: QuoteActionType, state: string): boolean {
+  isConfirmationPopupRequired(
+    action: QuoteActionType,
+    state: QuoteState
+  ): boolean {
     return (
       this.isSubmitAction(action) ||
       this.isEditActionForBuyerOffer(action, state)
@@ -126,8 +134,11 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     return action === QuoteActionType.SUBMIT;
   }
 
-  isEditActionForBuyerOffer(action: QuoteActionType, state: string): boolean {
-    return action === QuoteActionType.EDIT && state === 'BUYER_OFFER';
+  isEditActionForBuyerOffer(
+    action: QuoteActionType,
+    state: QuoteState
+  ): boolean {
+    return action === QuoteActionType.EDIT && state === QuoteState.BUYER_OFFER;
   }
 
   prepareConfirmationContext(
@@ -137,9 +148,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     const confirmationContext: ConfirmationContext = {
       quote: quote,
       title: '',
-      warningNote: '',
       confirmNote: '',
-      validity: '',
     };
     if (this.isSubmitAction(action)) {
       confirmationContext.title = 'quote.confirmActionDialog.submit.title';

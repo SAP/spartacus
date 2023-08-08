@@ -20,6 +20,7 @@ import createSpy = jasmine.createSpy;
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { ConfirmationContext } from './quote-actions-by-role.component';
 
 const mockCartId = '1234';
 const mockCode = '3333';
@@ -192,6 +193,12 @@ describe('QuoteActionsByRoleComponent', () => {
         { type: QuoteActionType.CANCEL, isPrimary: false },
       ],
     };
+    const confirmationContextForSubmitAction: ConfirmationContext = {
+      quote: newMockQuoteWithSubmitAction,
+      title: 'quote.confirmActionDialog.submit.title',
+      confirmNote: 'quote.confirmActionDialog.submit.confirmNote',
+      warningNote: 'quote.confirmActionDialog.submit.warningNote',
+    };
     mockQuoteDetails$.next(newMockQuoteWithSubmitAction);
     fixture.detectChanges();
     component.onClick(QuoteActionType.SUBMIT, newMockQuoteWithSubmitAction);
@@ -199,7 +206,39 @@ describe('QuoteActionsByRoleComponent', () => {
       LAUNCH_CALLER.ACTION_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
-      { quoteCode: newMockQuoteWithSubmitAction.code }
+      { confirmationContext: confirmationContextForSubmitAction }
+    );
+  });
+
+  it('should open confirmation dialog when action is EDIT and state is BUYER_OFFER', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const newMockQuoteWithEditActionAndBuyerOfferState: Quote = {
+      ...mockQuote,
+      allowedActions: [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+        { type: QuoteActionType.EDIT, isPrimary: false },
+      ],
+      state: QuoteState.BUYER_OFFER,
+    };
+    const confirmationContextForSubmitAction: ConfirmationContext = {
+      quote: newMockQuoteWithEditActionAndBuyerOfferState,
+      title: 'quote.confirmActionDialog.editBuyerOffer.title',
+      confirmNote: 'quote.confirmActionDialog.editBuyerOffer.confirmNote',
+      warningNote: 'quote.confirmActionDialog.editBuyerOffer.warningNote',
+      validity: 'quote.confirmActionDialog.validity',
+    };
+    mockQuoteDetails$.next(newMockQuoteWithEditActionAndBuyerOfferState);
+    fixture.detectChanges();
+    component.onClick(
+      QuoteActionType.EDIT,
+      newMockQuoteWithEditActionAndBuyerOfferState
+    );
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ACTION_CONFIRMATION,
+      component.element,
+      component['viewContainerRef'],
+      { confirmationContext: confirmationContextForSubmitAction }
     );
   });
 
