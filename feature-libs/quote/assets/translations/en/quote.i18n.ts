@@ -49,8 +49,9 @@ export const quote = {
     },
     seller: {
       apply: 'Apply',
-      placeholder: '0%',
+      placeholder: '$0',
       discount: 'Discount',
+      validation: 'Enter a valid absolute discount'
     },
     comments: {
       title: 'Contact',

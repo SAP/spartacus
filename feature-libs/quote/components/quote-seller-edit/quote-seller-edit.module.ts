@@ -14,9 +14,17 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { QuoteSellerEditComponent } from './quote-seller-edit.component';
+import { IconModule,DatePickerModule } from '@spartacus/storefront';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    FormsModule,
+    ReactiveFormsModule,
+    IconModule,
+    DatePickerModule
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

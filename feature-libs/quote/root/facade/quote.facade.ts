@@ -93,5 +93,10 @@ export abstract class QuoteFacade {
    */
   abstract getQuoteDetails(): Observable<Quote>;
 
+  /**
+   * Adds a discount to a quote
+   * @param quoteCode Unique quote code
+   * @param discount Discount
+   */
   abstract addDiscount(quoteCode: string, discount: QuoteDiscount): void;
 }

@@ -13,6 +13,21 @@
         formControlName="discount"
       />
     </label>
+    <div
+      class="cx-validation-msg"
+      *ngIf="mustDisplayValidationMessage()"
+      aria-live="assertive"
+      aria-atomic="true"
+      role="alert"
+    >
+      <cx-icon [type]="iconType.ERROR"></cx-icon>
+      {{ 'quote.seller.validation' | cxTranslate }}
+    </div>
+    <cx-date-picker
+      [control]="$any(form.get('validityDate'))" 
+      [required]="true"
+      (update)="onSetDate(quoteDetails.code)"
+    ></cx-date-picker>
   </form>
   <button
     class="btn btn-block btn-primary cx-send"
