@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-segment-refs/index#addSegmentRefsFeature",
+      "description": "Add and configure Spartacus' Segment feature",
+      "schema": "./add-segment-refs/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-segment-refs/index#addSegmentRefsFeature",
+      "description": "Add and configure Spartacus' Segment feature",
+      "schema": "./add-segment-refs/schema.json"
+    }
+  }
+}

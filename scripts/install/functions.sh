@@ -94,7 +94,11 @@ function create_shell_app {
 function add_b2b {
     if [ "${ADD_B2B_LIBS}" = true ] ; then
         ng add @spartacus/organization@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+
+        ng add @spartacus/checkout@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
         ng add @spartacus/checkout --skip-confirmation --no-interactive --features "Checkout-B2B" --features "Checkout-Scheduled-Replenishment"
+
+        ng add @spartacus/product@${SPARTACUS_VERSION} --skip-confirmation
         ng add @spartacus/product --skip-confirmation --no-interactive --features "Future-Stock"
     fi
 }
@@ -107,7 +111,7 @@ function add_cdc {
 
 function add_epd_visualization {
     if [ "$ADD_EPD_VISUALIZATION" = true ] ; then
-        ng add @spartacus/epd-visualization --base-url ${EPD_VISUALIZATION_BASE_URL} --skip-confirmation --no-interactive
+        ng add @spartacus/epd-visualization@${SPARTACUS_VERSION} --base-url ${EPD_VISUALIZATION_BASE_URL} --skip-confirmation --no-interactive
     fi
 }
 
@@ -128,7 +132,9 @@ function add_s4om {
 
 # Don't install b2b features here (use add_b2b function for that)
 function add_feature_libs {
+  ng add @spartacus/tracking@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/tracking --skip-confirmation --no-interactive --features "TMS-GTM" --features "TMS-AEPL"
+  
   ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/customer-ticketing --skip-confirmation --no-interactive
   ng add @spartacus/pickup-in-store --skip-confirmation --no-interactive
