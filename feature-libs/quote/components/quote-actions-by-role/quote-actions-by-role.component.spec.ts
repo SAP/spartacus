@@ -194,12 +194,9 @@ describe('QuoteActionsByRoleComponent', () => {
     };
     mockQuoteDetails$.next(newMockQuoteWithSubmitAction);
     fixture.detectChanges();
-    component.onClick(
-      QuoteActionType.SUBMIT,
-      newMockQuoteWithSubmitAction.code
-    );
+    component.onClick(QuoteActionType.SUBMIT, newMockQuoteWithSubmitAction);
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
-      LAUNCH_CALLER.REQUEST_CONFIRMATION,
+      LAUNCH_CALLER.ACTION_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
       { quoteCode: newMockQuoteWithSubmitAction.code }
@@ -293,10 +290,7 @@ describe('QuoteActionsByRoleComponent', () => {
     mockQuoteDetails$.next(newMockQuoteWithSubmitAction);
     fixture.detectChanges();
 
-    component.onClick(
-      QuoteActionType.SUBMIT,
-      newMockQuoteWithSubmitAction.code
-    );
+    component.onClick(QuoteActionType.SUBMIT, newMockQuoteWithSubmitAction);
     launchDialogService.closeDialog('yes');
     expect(facade.performQuoteAction).toHaveBeenCalledWith(
       newMockQuoteWithSubmitAction.code,

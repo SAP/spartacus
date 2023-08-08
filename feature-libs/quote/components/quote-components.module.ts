@@ -12,6 +12,7 @@ import { QuoteActionsByRoleModule } from './quote-actions-by-role/quote-actions-
 import { QuoteListModule } from './quote-list/quote-list.module';
 import { QuoteRequestButtonModule } from './quote-request-button/quote-request-button.module';
 import { QuoteRequestDialogModule } from './quote-request-dialog/quote-request-dialog.module';
+import { QuoteConfirmActionDialogModule } from './quote-confirm-action-dialog/quote-confirm-action-dialog.module';
 import {
   QuoteDetailsCartModule,
   QuoteDetailsOverviewModule,
@@ -32,6 +33,7 @@ import { defaultQuoteUIConfig } from './config/default-quote-ui.config';
     QuoteActionsByRoleModule,
     QuoteDetailsCommentModule,
     ListNavigationModule,
+    QuoteConfirmActionDialogModule,
   ],
   providers: [provideDefaultConfig(defaultQuoteUIConfig)],
 })

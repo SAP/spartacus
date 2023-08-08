@@ -18,6 +18,15 @@ import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 
+export interface ConfirmationContext {
+  quoteCode: string;
+  title: string;
+  confirmNote: string;
+  warningNote?: string;
+  validity?: string;
+  expirationTime?: Date;
+}
+
 @Component({
   selector: 'cx-quote-actions-by-role',
   templateUrl: './quote-actions-by-role.component.html',
@@ -67,24 +76,24 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     return (quote.totalPrice.value || 0) >= requestThreshold;
   }
 
-  onClick(quoteActionType: QuoteActionType, code: string) {
+  onClick(quoteActionType: QuoteActionType, quote: Quote) {
     if (quoteActionType === QuoteActionType.REQUOTE) {
-      this.requote(code);
+      this.requote(quote.code);
       return;
     }
-    this.performAction(code, quoteActionType);
+    this.performAction(quoteActionType, quote);
   }
-  performAction(quoteCode: string, action: QuoteActionType) {
-    if (action !== QuoteActionType.SUBMIT) {
-      this.quoteFacade.performQuoteAction(quoteCode, action);
+  performAction(action: QuoteActionType, quote: Quote) {
+    if (!this.isConfirmationPopupRequired(action, quote.state)) {
+      this.quoteFacade.performQuoteAction(quote.code, action);
       return;
     }
     this.launchDialogService
       .openDialog(
-        LAUNCH_CALLER.REQUEST_CONFIRMATION,
+        LAUNCH_CALLER.ACTION_CONFIRMATION,
         this.element,
         this.viewContainerRef,
-        { quoteCode }
+        { confirmationContext: this.prepareConfirmationContext(action, quote) }
       )
       ?.pipe(take(1))
       .subscribe();
@@ -93,7 +102,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       this.launchDialogService.dialogClose
         .pipe(
           filter((reason) => reason === 'yes'),
-          tap(() => this.quoteFacade.performQuoteAction(quoteCode, action))
+          tap(() => this.quoteFacade.performQuoteAction(quote.code, action))
         )
         .subscribe()
     );
@@ -105,5 +114,45 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  isConfirmationPopupRequired(action: QuoteActionType, state: string): boolean {
+    return (
+      action === QuoteActionType.SUBMIT ||
+      (action === QuoteActionType.EDIT && state === 'BUYER_OFFER')
+    );
+  }
+
+  prepareConfirmationContext(
+    action: QuoteActionType,
+    quote: Quote
+  ): ConfirmationContext {
+    const confirmationContext: ConfirmationContext = {
+      quoteCode: quote.code,
+      title: '',
+      warningNote: '',
+      confirmNote: '',
+      validity: '',
+    };
+    if (action === QuoteActionType.SUBMIT) {
+      confirmationContext.title = 'quote.confirmActionDialog.submit.title';
+      confirmationContext.warningNote =
+        'quote.confirmActionDialog.submit.warningNote';
+      confirmationContext.confirmNote =
+        'quote.confirmActionDialog.submit.confirmNote';
+    } else if (
+      action === QuoteActionType.EDIT &&
+      quote.state === 'BUYER_OFFER'
+    ) {
+      confirmationContext.title =
+        'quote.confirmActionDialog.editBuyerOffer.title';
+      confirmationContext.warningNote =
+        'quote.confirmActionDialog.editBuyerOffer.warningNote';
+      confirmationContext.confirmNote =
+        'quote.confirmActionDialog.editBuyerOffer.confirmNote';
+      confirmationContext.validity = 'quote.confirmActionDialog.validity';
+      confirmationContext.expirationTime = quote.expirationTime;
+    }
+    return confirmationContext;
   }
 }

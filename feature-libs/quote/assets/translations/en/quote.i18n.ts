@@ -65,16 +65,26 @@ export const quote = {
       newCart: 'New Cart',
       quotes: 'Quotes',
     },
-    confirmSubmitDialog: {
-      title: 'Confirm Send Quote {{ code }}?',
+
+    confirmActionDialog: {
       name: { heading: 'Name:', content: 'Quote {{ code }}' },
       description: { heading: 'Description:' },
-
-      warningSubmitNote:
-        'Once a request for quote is submitted it cannot be modified.',
-      confirmSubmitNote: 'Are you sure you want to submit this quote?',
-      confirmSubmitOption: { yes: 'Yes', no: 'No' },
+      validity: 'This quote is valid until {{ expirationTime }}',
+      confirmActionOption: { yes: 'Yes', no: 'No' },
+      submit: {
+        title: 'Confirm Send Quote {{ code }}?',
+        warningNote:
+          'Once a request for quote is submitted it cannot be modified.',
+        confirmNote: 'Are you sure you want to submit this quote?',
+      },
+      editBuyerOffer: {
+        title: 'Confirm Edit Quote {{ code }}?',
+        warningNote:
+          'This quote has been approved. Editing this quote will prevent checkout until the new edits are approved.',
+        confirmNote: 'Are you sure you want to edit this approved quote?',
+      },
     },
+
     requestDialog: {
       requestQuote: 'Request Quote',
       title: 'Request Quote',
