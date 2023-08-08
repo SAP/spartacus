@@ -1,26 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  QuoteFacade,
-  Quote,
-  QuoteActionType,
-  QuoteState,
-} from '@spartacus/quote/root';
-import {
   GlobalMessageService,
   I18nTestingModule,
   Price,
   TranslationService,
 } from '@spartacus/core';
+import {
+  Quote,
+  QuoteActionType,
+  QuoteFacade,
+  QuoteState,
+} from '@spartacus/quote/root';
 
+import { ElementRef, ViewContainerRef } from '@angular/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 import createSpy = jasmine.createSpy;
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { ElementRef, ViewContainerRef } from '@angular/core';
-import { createEmptyQuote } from '../../core/testing/quote-test-utils';
-import { ConfirmationContext } from './quote-actions-by-role.component';
+import { ConfirmationContext } from '../quote-confirm-action-dialog/quote-confirm-action-dialog.model';
 
 const mockCartId = '1234';
 const mockCode = '3333';

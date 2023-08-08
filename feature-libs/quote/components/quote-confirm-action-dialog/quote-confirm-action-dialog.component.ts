@@ -13,7 +13,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { ConfirmationContext } from '../quote-actions-by-role/quote-actions-by-role.component';
+import { ConfirmationContext } from './quote-confirm-action-dialog.model';
 
 @Component({
   selector: 'cx-quote-confirm-action-dialog',

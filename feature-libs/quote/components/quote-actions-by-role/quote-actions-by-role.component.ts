@@ -24,18 +24,11 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import {
   ConfirmActionDialogConfig,
+  ConfirmationContext,
   confirmActionDialogConfigs,
   defaultConfirmActionDialogConfig,
-} from '../quote-confirm-action-dialog/default-quote-confirm-action-dialog-config';
+} from '../quote-confirm-action-dialog/quote-confirm-action-dialog.model';
 import { ResponsiblePersonPrefix } from '../quote-list/quote-list.component';
-
-export interface ConfirmationContext {
-  quote: Quote;
-  title: string;
-  confirmNote: string;
-  warningNote?: string;
-  validity?: string;
-}
 
 @Component({
   selector: 'cx-quote-actions-by-role',
