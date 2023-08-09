@@ -17,13 +17,7 @@ import {
   Customer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { UserIdService } from '@spartacus/core';
-import {
-  BehaviorSubject,
-  Observable,
-  Subscription,
-  combineLatest,
-  of,
-} from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/base/root';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
@@ -73,9 +67,9 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
     this.fetchCoupons();
   }
 
-  fetchCoupons() {
-    this.entries$ = combineLatest([this.context.data$]).pipe(
-      map(([data]) => {
+  public fetchCoupons(): void {
+    this.entries$ = this.context.data$.pipe(
+      map((data) => {
         const entries: Array<Customer360Coupon> = [];
         data.coupons.forEach((coupon) => {
           entries.push({
@@ -91,15 +85,15 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
     );
   }
 
-  closeErrorAlert(): void {
+  public closeErrorAlert(): void {
     this.showErrorAlert$.next(false);
   }
 
-  closeErrorAlertForApplyAction(): void {
+  public closeErrorAlertForApplyAction(): void {
     this.showErrorAlertForApplyAction$.next(false);
   }
 
-  refreshComponent() {
+  public refreshComponent(): void {
     this.entries$ = this.customer360Facade
       .get360Data([
         {
@@ -128,17 +122,17 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
       );
   }
 
-  applyCouponToCustomer(entry: Customer360Coupon) {
+  public applyCouponToCustomer(entry: Customer360Coupon): void {
     this.cartVoucherService.addVoucher(entry?.code, this.currentCartId);
     this.refreshActionButton(true, entry?.code);
   }
 
-  removeCouponToCustomer(entry: Customer360Coupon) {
+  public removeCouponToCustomer(entry: Customer360Coupon): void {
     this.cartVoucherService.removeVoucher(entry?.code, this.currentCartId);
     this.refreshActionButton(false, entry?.code);
   }
 
-  refreshActionButton(state: boolean, voucherCode: string) {
+  public refreshActionButton(state: boolean, voucherCode: string): void {
     this.entries$ = this.entries$.pipe(
       map((entries) => {
         entries.forEach((item) => {
