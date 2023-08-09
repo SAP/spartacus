@@ -32,8 +32,8 @@ export type ConfirmActionDialogConfig = {
  * then always the more specific state/action mapping will be used.
  */
 export type ConfirmActionDialogMappingConfig = {
-  [key in QuoteState | QuoteRoleType]?: {
-    [key in QuoteActionType]?: ConfirmActionDialogConfig;
+  [stateKey in QuoteState | QuoteRoleType]?: {
+    [actionKey in QuoteActionType]?: ConfirmActionDialogConfig;
   };
 };
 

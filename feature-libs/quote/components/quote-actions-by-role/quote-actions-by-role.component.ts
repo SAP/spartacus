@@ -18,7 +18,7 @@ import {
   Quote,
   QuoteActionType,
   QuoteFacade,
-  QuoteState
+  QuoteState,
 } from '@spartacus/quote/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -146,10 +146,10 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     action: QuoteActionType,
     state: QuoteState
   ): boolean {
-    let mapping = this.config.quote?.confirmActionDialogMapping;
+    const mappingConfig = this.config.quote?.confirmActionDialogMapping;
     return (
-      !!mapping?.[state]?.[action] ||
-      !!mapping?.[this.quoteRoleService.stateToRole(state)]?.[action]
+      !!mappingConfig?.[state]?.[action] ||
+      !!mappingConfig?.[this.quoteRoleService.stateToRole(state)]?.[action]
     );
   }
 
@@ -180,9 +180,9 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     action: QuoteActionType,
     state: QuoteState
   ): ConfirmActionDialogConfig {
-    let mappingConfig = this.config.quote?.confirmActionDialogMapping;
+    const mappingConfig = this.config.quote?.confirmActionDialogMapping;
 
-    let config =
+    const config =
       mappingConfig?.[state]?.[action] ??
       mappingConfig?.[this.quoteRoleService.stateToRole(state)]?.[action];
     if (!config) {
