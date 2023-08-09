@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as quote from '../../../helpers/quote';
+import * as quote from '../../../../helpers/quote';
 
 const POWERTOOLS = 'powertools-spa';
 const testProductHammerDrillingId = '3887130';
