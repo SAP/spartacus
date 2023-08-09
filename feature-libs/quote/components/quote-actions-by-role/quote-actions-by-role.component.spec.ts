@@ -467,7 +467,7 @@ describe('QuoteActionsByRoleComponent', () => {
       expect(facade.performQuoteAction).not.toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
-    it("should perform quote action if dialog was closed  selecting 'yes'", () => {
+    it("should perform quote action if dialog was closed selecting 'yes'", () => {
       context.successMessage = undefined;
       component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
       launchDialogService.closeDialog('yes');
@@ -477,7 +477,7 @@ describe('QuoteActionsByRoleComponent', () => {
       );
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
-    it("should perform quote action if dialog was closed  selecting 'yes' and emit success message", () => {
+    it("should perform quote action if dialog was closed selecting 'yes' and display the given success message", () => {
       component['handleConfirmationDialogClose'](
         QuoteActionType.SUBMIT,
         context
