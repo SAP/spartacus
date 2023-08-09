@@ -1211,16 +1211,19 @@ describe('OptimizedSsrEngine', () => {
         engineRunner.optimizedSsrEngine['getRequestContext'](request);
 
       expect(result).toMatchInlineSnapshot(`
-        {
-          "timeReceived": "2023-05-26T00:00:00.000Z",
-          "traceContext": {
-            "parentId": "1b527c3828976b39",
-            "traceFlags": "01",
-            "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
-            "version": "00",
+        [
+          {
+            "timeReceived": "2023-05-26T00:00:00.000Z",
+            "traceContext": {
+              "parentId": "1b527c3828976b39",
+              "traceFlags": "01",
+              "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
+              "version": "00",
+            },
+            "uuid": "ad90db04-a501-4dc5-9b4e-2cc2ab10d49c",
           },
-          "uuid": "ad90db04-a501-4dc5-9b4e-2cc2ab10d49c",
-        }
+          null,
+        ]
       `);
     });
 
@@ -1238,10 +1241,37 @@ describe('OptimizedSsrEngine', () => {
       );
 
       expect(result).toMatchInlineSnapshot(`
-        {
-          "timeReceived": "2023-05-26T00:00:00.000Z",
-          "uuid": "ad90db04-a501-4dc5-9b4e-2cc2ab10d49c",
-        }
+        [
+          {
+            "timeReceived": "2023-05-26T00:00:00.000Z",
+            "uuid": "ad90db04-a501-4dc5-9b4e-2cc2ab10d49c",
+          },
+          null,
+        ]
+      `);
+    });
+
+    it('should receive request context without traceContext and an error if traceparent is invalid', () => {
+      const requestWithoutTraceparentHeader = {
+        ...request,
+        get: (_header: string): string | string[] | null | undefined => {
+          return '00-invalid-traceparent';
+        },
+      } as unknown as Request;
+
+      const engineRunner = new TestEngineRunner({});
+      const result = engineRunner.optimizedSsrEngine['getRequestContext'](
+        requestWithoutTraceparentHeader
+      );
+
+      expect(result).toMatchInlineSnapshot(`
+        [
+          {
+            "timeReceived": "2023-05-26T00:00:00.000Z",
+            "uuid": "ad90db04-a501-4dc5-9b4e-2cc2ab10d49c",
+          },
+          [Error: Traceparent header has invalid length: 22. Expected 55 characters.],
+        ]
       `);
     });
 
@@ -1273,6 +1303,66 @@ describe('OptimizedSsrEngine', () => {
           }),
         })
       );
+    }));
+
+    it('should add requestContext to and log error if occurs during parsing traceparent', fakeAsync(() => {
+      const requestContext = {
+        timeReceived: '1970-01-01T00:00:00.500Z',
+        uuid: 'ad90db04-a501-4dc5-9b4e-2cc2ab10d49c',
+      };
+
+      const engineRunner = new TestEngineRunner({});
+      const loggerErrorSpy = jest.spyOn(
+        engineRunner.optimizedSsrEngine['logger'],
+        'error'
+      );
+      jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
+
+      engineRunner.request('test', {
+        httpHeaders: { ...headers, traceparent: '00-invalid-traceparent' },
+      });
+      tick(200);
+      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        'Rendering started (test)',
+        true,
+        expect.objectContaining({
+          request: expect.objectContaining({
+            res: expect.objectContaining({
+              locals: { cx: { request: requestContext } },
+            }),
+          }),
+        })
+      );
+      expect(loggerErrorSpy.mock.lastCall).toMatchInlineSnapshot(`
+        [
+          "Traceparent header has invalid length: 22. Expected 55 characters.",
+          {
+            "request": {
+              "app": {
+                "get": [Function],
+              },
+              "connection": {},
+              "get": [Function],
+              "headers": {
+                "traceparent": "00-invalid-traceparent",
+              },
+              "originalUrl": "test",
+              "protocol": "https",
+              "res": {
+                "locals": {
+                  "cx": {
+                    "request": {
+                      "timeReceived": "1970-01-01T00:00:00.500Z",
+                      "uuid": "ad90db04-a501-4dc5-9b4e-2cc2ab10d49c",
+                    },
+                  },
+                },
+                "set": [Function],
+              },
+            },
+          },
+        ]
+      `);
     }));
   });
 

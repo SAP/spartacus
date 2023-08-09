@@ -255,9 +255,7 @@ export class OptimizedSsrEngine {
     options: any,
     callback: SsrCallbackFn
   ): void {
-    options.req.res.locals = {
-      cx: { request: this.getRequestContext(options.req) },
-    };
+    this.updateWithRequestContext(options);
 
     const request: Request = options.req;
     const response: Response = options.req.res;
@@ -491,21 +489,49 @@ export class OptimizedSsrEngine {
    * the "W3C TraceContext" document. See https://www.w3.org/TR/trace-context/#traceparent-header
    * for more details.
    * @param request - the request object
-   * @returns the context of the request
+   * @returns the context of the request and error if occurred during parsing traceparent header
    * @private
    */
-  private getRequestContext(request: Request): ExpressServerLoggerContext {
+  private getRequestContext(
+    request: Request
+  ): [ExpressServerLoggerContext, Error | null] {
+    let error: Error | null = null;
+    // request.headers['traceparent'] =
+    //   '00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-0';
     const requestContext: ExpressServerLoggerContext = {
       uuid: randomUUID(),
       timeReceived: new Date().toISOString(),
     };
 
-    const traceContext = parseTraceparent(request.get('traceparent'));
-    if (traceContext) {
-      requestContext.traceContext = traceContext;
+    try {
+      const traceContext = parseTraceparent(request.get('traceparent'));
+      if (traceContext) {
+        requestContext.traceContext = traceContext;
+      }
+    } catch (e) {
+      error =
+        e instanceof Error
+          ? e
+          : new Error('Unexpected error during parsing traceparent header');
     }
 
-    return requestContext;
+    return [requestContext, error];
+  }
+
+  /**
+   * Provides the request context returned from `getRequestContext` methods to be available in SSR scope.
+   * Method handles the error that may occur during parsing traceparent header.
+   * @param options - the options of the request
+   * @private
+   */
+  private updateWithRequestContext(options: any) {
+    const [requestContext, error] = this.getRequestContext(options.req);
+    options.req.res.locals = {
+      cx: { request: requestContext },
+    };
+    if (error) {
+      this.logger.error(error.message, { request: options.req });
+    }
   }
 
   //CXSPA-3680 - remove this method in 7.0
