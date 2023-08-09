@@ -46,12 +46,6 @@ const mockQuote: Quote = {
   totalPrice: totalPrice,
 };
 
-const defaultConfirmActionDialogConfig = {
-  showWarningNote: false,
-  showExpirationDate: false,
-  showSuccessMessage: true,
-};
-
 const testMappings: ConfirmActionDialogMappingConfig = {
   BUYER_OFFER: {
     EDIT: {
@@ -64,7 +58,9 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   BUYER: {
     SUBMIT: {
       i18nKey: 'quote.confirmActionDialog.buyer.submit',
-      ...defaultConfirmActionDialogConfig,
+      showWarningNote: false,
+      showExpirationDate: false,
+      showSuccessMessage: true,
     },
   },
 };
