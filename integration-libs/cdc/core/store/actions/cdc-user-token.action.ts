@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorModel, HttpErrorModel } from '@spartacus/core';
+import { ErrorAction, ErrorModel, HttpErrorModel } from '@spartacus/core';
 
 export const LOAD_CDC_USER_TOKEN = '[Auth] Load CDC User Token';
 export const LOAD_CDC_USER_TOKEN_FAIL = '[Auth] Load CDC User Token Fail';
@@ -23,13 +23,16 @@ interface LoadUserTokenFailurePayload {
   initialActionPayload: LoadUserTokenPayload;
 }
 
-export class LoadCdcUserTokenFail implements Action {
+export class LoadCdcUserTokenFail implements ErrorAction {
+  error: ErrorModel | HttpErrorModel | Error = this.payload.error;
   readonly type = LOAD_CDC_USER_TOKEN_FAIL;
+
   constructor(public payload: LoadUserTokenFailurePayload) {}
 }
 
 export class LoadCdcUserToken implements Action {
   readonly type = LOAD_CDC_USER_TOKEN;
+
   constructor(public payload: LoadUserTokenPayload) {}
 }
 
