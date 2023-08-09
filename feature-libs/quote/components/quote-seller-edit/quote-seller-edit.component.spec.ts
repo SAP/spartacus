@@ -7,6 +7,7 @@ import {
   QuoteState,
   QuoteDiscount,
   QuoteDiscountType,
+  QuoteMetadata,
 } from '@spartacus/quote/root';
 import { I18nTestingModule, Price } from '@spartacus/core';
 
@@ -16,9 +17,12 @@ import { QuoteSellerEditComponent } from './quote-seller-edit.component';
 import createSpy = jasmine.createSpy;
 import {
   QUOTE_CODE,
+  EXPIRATION_TIME_AS_STRING,
   createEmptyQuote,
+  EXPIRATION_DATE_AS_STRING,
 } from '../../core/testing/quote-test-utils';
 import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
+import { AbstractControl } from '@angular/forms';
 
 const mockCartId = '1234';
 
@@ -39,12 +43,18 @@ const mockQuote: Quote = {
 };
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
+const formatter = new Intl.NumberFormat('en', {
+  style: 'currency',
+  currency: 'USD',
+  currencyDisplay: 'narrowSymbol',
+});
 
 class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<Quote> {
     return mockQuoteDetails$.asObservable();
   }
   addDiscount = createSpy();
+  editQuote = createSpy();
 }
 
 class MockQuoteSellerEditComponentService {
@@ -52,13 +62,32 @@ class MockQuoteSellerEditComponentService {
     return of(0);
   }
   getFormatter() {
-    return of(
-      new Intl.NumberFormat('en', {
-        style: 'currency',
-        currency: 'USD',
-        currencyDisplay: 'narrowSymbol',
-      })
-    );
+    return of(formatter);
+  }
+
+  getLocalizationElements() {
+    return of({
+      locale: 'en',
+      currencySymbol: '$',
+      formatter: formatter,
+    });
+  }
+
+  getNumberFormatValidator() {
+    return (_control: AbstractControl): { [key: string]: any } | null => {
+      return null;
+    };
+  }
+
+  isSeller(): boolean {
+    return true;
+  }
+
+  addTimeToDate(): string {
+    return EXPIRATION_TIME_AS_STRING;
+  }
+  removeTimeFromDate(): string {
+    return EXPIRATION_DATE_AS_STRING;
   }
 }
 
@@ -105,16 +134,6 @@ describe('QuoteSellerEditComponent', () => {
       .unsubscribe();
   });
 
-  describe('isSeller', () => {
-    it('should assign SELLER_DRAFT to seller role', () => {
-      expect(component['isSeller'](QuoteState.SELLER_DRAFT)).toBe(true);
-    });
-
-    it('should assign SELLER_REQUEST to seller role', () => {
-      expect(component['isSeller'](QuoteState.SELLER_REQUEST)).toBe(true);
-    });
-  });
-
   describe('onApply', () => {
     it('should call corresponding facade method', () => {
       component.form.controls.discount.setValue(0);
@@ -126,6 +145,40 @@ describe('QuoteSellerEditComponent', () => {
       expect(facade.addDiscount).toHaveBeenCalledWith(
         QUOTE_CODE,
         expectedDiscount
+      );
+    });
+  });
+
+  describe('onSetDate', () => {
+    it('should call corresponding facade method', () => {
+      const expectedQuoteMetaData: QuoteMetadata = {
+        expirationTime: EXPIRATION_TIME_AS_STRING,
+      };
+
+      component.onSetDate(QUOTE_CODE);
+      expect(facade.editQuote).toHaveBeenCalledWith(
+        QUOTE_CODE,
+        expectedQuoteMetaData
+      );
+    });
+  });
+
+  describe('onSetDate', () => {
+    it('should return false for valid input', () => {
+      expect(component.mustDisplayValidationMessage()).toBe(false);
+    });
+
+    it('should return true in case validation errors exist', () => {
+      component.form.controls.discount.setErrors([{}]);
+      expect(component.mustDisplayValidationMessage()).toBe(true);
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('should set date input', () => {
+      fixture.detectChanges();
+      expect(component.form.controls.validityDate.value).toBe(
+        EXPIRATION_DATE_AS_STRING
       );
     });
   });

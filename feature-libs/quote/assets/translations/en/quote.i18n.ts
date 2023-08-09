@@ -51,7 +51,7 @@ export const quote = {
       apply: 'Apply',
       placeholder: '$0',
       discount: 'Discount',
-      validation: 'Enter a valid absolute discount'
+      validation: 'Enter a valid absolute discount',
     },
     comments: {
       title: 'Contact',

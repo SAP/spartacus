@@ -10,7 +10,6 @@ import {
   QuoteFacade,
   Quote,
   QuoteDiscount,
-  QuoteState,
   QuoteDiscountType,
   QuoteMetadata,
 } from '@spartacus/quote/root';
@@ -26,13 +25,17 @@ import { ICON_TYPE } from '@spartacus/storefront';
 export class QuoteSellerEditComponent implements OnInit {
   quoteDetailsForSeller$: Observable<Quote> = this.quoteFacade
     .getQuoteDetails()
-    .pipe(filter((quote) => this.isSeller(quote.state)));
+    .pipe(
+      filter((quote) =>
+        this.quoteSellerEditComponentService.isSeller(quote.state)
+      )
+    );
 
   @ViewChild('element') element: ElementRef;
 
   form: UntypedFormGroup = new UntypedFormGroup({
     discount: new UntypedFormControl(''),
-    validityDate: new UntypedFormControl(''),
+    validityDate: new UntypedFormControl(new Date()),
   });
 
   iconType = ICON_TYPE;
@@ -47,29 +50,29 @@ export class QuoteSellerEditComponent implements OnInit {
       this.quoteDetailsForSeller$,
     ])
       .pipe(take(1))
-      .subscribe(([[locale, currency, formatter], quote]) => {
+      .subscribe(([localizationElements, quote]) => {
         const numberFormatValidator =
           this.quoteSellerEditComponentService.getNumberFormatValidator(
-            locale,
-            currency
+            localizationElements.locale,
+            localizationElements.currencySymbol
           );
         this.form.controls.discount = new UntypedFormControl('', [
           numberFormatValidator,
         ]);
         this.form.controls.discount.setValue(
-          formatter.format(quote.quoteDiscounts?.value ?? 0)
+          localizationElements.formatter.format(
+            quote.quoteDiscounts?.value ?? 0
+          )
+        );
+        this.form.controls.validityDate.setValue(
+          this.quoteSellerEditComponentService.removeTimeFromDate(
+            quote.expirationTime?.toString()
+          )
         );
       });
   }
 
-  protected isSeller(quoteState: QuoteState): boolean {
-    return (
-      quoteState === QuoteState.SELLER_DRAFT ||
-      quoteState === QuoteState.SELLER_REQUEST
-    );
-  }
-
-  public mustDisplayValidationMessage(): boolean {
+  mustDisplayValidationMessage(): boolean {
     return !this.form.controls.discount.valid;
   }
 
@@ -93,11 +96,13 @@ export class QuoteSellerEditComponent implements OnInit {
     }
   }
 
+  //TODO CHHI error handling in case date is in the past
   onSetDate(quoteCode: string): void {
-    console.log('CHHI date selected: ' + this.form.controls.validityDate.value);
-    //const date: Date = new Date();
+    const dateWithTime = this.quoteSellerEditComponentService.addTimeToDate(
+      this.form.controls.validityDate.value
+    );
     const quoteMetaData: QuoteMetadata = {
-      expirationTime: '2023-08-12T00:00:01+0000',
+      expirationTime: dateWithTime,
     };
     this.quoteFacade.editQuote(quoteCode, quoteMetaData);
   }

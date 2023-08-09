@@ -126,7 +126,7 @@ describe('QuoteConnector', () => {
     let result;
     const quoteMetadata = {
       description: 'test',
-      expirationTime: new Date(),
+      expirationTime: new Date().toString(),
       name: 'test1',
     };
     service

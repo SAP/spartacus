@@ -24,7 +24,7 @@
       {{ 'quote.seller.validation' | cxTranslate }}
     </div>
     <cx-date-picker
-      [control]="$any(form.get('validityDate'))" 
+      [control]="$any(form.get('validityDate'))"
       [required]="true"
       (update)="onSetDate(quoteDetails.code)"
     ></cx-date-picker>

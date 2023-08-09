@@ -99,9 +99,14 @@ export interface QuoteList {
   sorts?: SortModel[];
   quotes: Quote[];
 }
-
+/**
+ * Used for updating quotes
+ */
 export interface QuoteMetadata {
   description?: string;
+  //we cannot use date here, as this would result in a format
+  // 2023-08-26T07:13:00.000Z   sent to commerce while it expects (for the same time)
+  // 2023-08-26T09:13:00+02:00
   expirationTime?: string;
   name?: string;
 }

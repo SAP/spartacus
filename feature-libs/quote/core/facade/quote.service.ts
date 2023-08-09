@@ -116,7 +116,10 @@ export class QuoteService implements QuoteFacade {
             payload.quoteCode,
             payload.quoteMetadata
           )
-        )
+        ),
+        tap(() => {
+          this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+        })
       ),
     {
       strategy: CommandStrategy.CancelPrevious,
