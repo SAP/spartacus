@@ -39,7 +39,7 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
     );
   }
 
-  protected handleError(_error: HttpErrorResponse): void {
-    // this.errorHandler.handleError(error);
+  protected handleError(error: HttpErrorResponse): void {
+    this.errorHandler.handleError(error);
   }
 }
