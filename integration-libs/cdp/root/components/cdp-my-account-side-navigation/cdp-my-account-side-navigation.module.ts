@@ -4,54 +4,34 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PageSlotModule } from '@spartacus/storefront';
-import {
-  CmsConfig,
-  ConfigModule,
-  FeaturesConfigModule,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
-} from '@spartacus/core';
-import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CmsConfig, I18nModule, UrlModule, provideDefaultConfig } from '@spartacus/core';
 import { CdpMyAccountSideNavigationComponent } from './cdp-my-account-side-navigation.component';
-import { IconModule } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.module';
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/cms-structure/routing/default-routing-config';
-import { CdpConfig } from '../../config/cdp-config';
+import { NavigationModule } from 'projects/storefrontlib/cms-components/navigation/navigation/navigation.module';
+import { GenericLinkModule } from 'projects/storefrontlib/shared/components/generic-link/generic-link.module';
 
 @NgModule({
-  declarations: [CdpMyAccountSideNavigationComponent],
-  // providers: [
-  //   {
-  //     provide: AuthService,
-  //     useExisting: AuthService,
-  //   },
-  // ],
-  exports: [CdpMyAccountSideNavigationComponent],
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule,
-    UrlModule,
+    NavigationModule,
+    GenericLinkModule,
     I18nModule,
-    PageSlotModule,
-    FeaturesConfigModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    UrlModule
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        CdpMyAccountSideComponent: {
+        MyAccountSideNavigationComponent: {
           component: CdpMyAccountSideNavigationComponent,
         },
       },
     }),
-    IconModule,
   ],
-  providers: [
-
-    provideDefaultConfig(CdpConfig),
-    provideDefaultConfig(defaultStorefrontRoutesConfig),
-  ],
+  declarations: [CdpMyAccountSideNavigationComponent],
+  exports: [CdpMyAccountSideNavigationComponent],
 })
 export class CdpMyAccountSideNavigationModule {}
+

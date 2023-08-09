@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CdpMyAccountSideComponent } from './cdp-my-account-side-navigation.component';
+import { CdpMyAccountSideNavigationComponent } from './cdp-my-account-side-navigation.component';
 
 describe('CdpMyAccountSideComponent', () => {
-  let component: CdpMyAccountSideComponent;
-  let fixture: ComponentFixture<CdpMyAccountSideComponent>;
+  let component: CdpMyAccountSideNavigationComponent;
+  let fixture: ComponentFixture<CdpMyAccountSideNavigationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CdpMyAccountSideComponent],
+      declarations: [CdpMyAccountSideNavigationComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CdpMyAccountSideComponent);
+    fixture = TestBed.createComponent(CdpMyAccountSideNavigationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

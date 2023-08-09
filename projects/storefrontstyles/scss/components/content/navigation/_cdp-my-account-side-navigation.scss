@@ -1,0 +1,41 @@
+%cx-cdp-my-account-side-navigation {
+    // background-color: var(--cx-color-background-dark);
+    border: 1px solid var(--cx-color-light);
+    padding: 5px 5px 5px 5px;
+    width: 250px;
+    a {
+      font-size: var(--cx-font-small, 0.8rem);
+      &:hover {
+        color: var(--cx-color-primary);
+        text-decoration: underline;
+      }
+    }
+  
+    cx-navigation-ui {
+      // border: 1px solid var(--cx-color-light);
+      background-color: white;
+      // first level heading / links
+      span {
+        text-transform: none;
+        @include type('5');
+        margin-bottom: 10px;
+        margin-top: 10px;
+        display: block;
+      }
+  
+      justify-content: left;
+  
+      // > nav > ul {
+      //   display: flex;
+  
+      //   @include media-breakpoint-down(sm) {
+      //     flex-direction: row;
+      //   }
+  
+      //   > li {
+      //     margin: 3vw;
+      //   }
+      // }
+    }
+  }
+  

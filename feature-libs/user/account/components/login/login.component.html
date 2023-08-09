@@ -3,7 +3,6 @@
     {{ 'miniLogin.userGreeting' | cxTranslate: { name: user.name } }}
   </div>
   <cx-page-slot
-    *ngIf="!isCdpEnabled"
     id="account-nav"
     position="HeaderLinks"
   ></cx-page-slot>

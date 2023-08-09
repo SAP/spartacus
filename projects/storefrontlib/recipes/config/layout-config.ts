@@ -122,7 +122,7 @@ export const layoutConfig: LayoutConfig = {
       slots: ['RightContentSlot'],
     },
     CdpMyAccountPageTemplate: {
-      slots: ['SideContent', 'BodyContent'],
+      slots: ['LeftContentSlot', 'RightContentSlot'],
     },
   },
 };

@@ -34,5 +34,6 @@ export const cdp = {
     paymentDetails: 'Payment Details',
     communications: 'Communications',
     settingsAndPrivacy: 'Settings And Privacy',
+    sideNavigation: 'Side navigation'
   },
 };

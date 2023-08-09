@@ -5,7 +5,7 @@
   @include media-breakpoint-down(md) {
     flex-direction: column;
   }
-  .SideContent {
+  .LeftContentSlot {
     max-width: 25%;
     @include media-breakpoint-down(md) {
       width: 100%;
@@ -13,7 +13,7 @@
     }
   }
 
-  .BodyContent {
+  .RightContentSlot {
     max-width: 75%;
     padding-top: 30px;
     padding-bottom: 15px;

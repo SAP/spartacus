@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { CdpMyAccountModule } from './cdp-my-account';
 import { CdpMyAccountSideNavigationModule } from './cdp-my-account-side-navigation/cdp-my-account-side-navigation.module';
 import { OrderModule } from './cdp-order/cdp-order.module';
+import { CdpMyAccountRequestsModule } from './cdp-my-account-requests/cdp-my-account-requests.module';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { OrderModule } from './cdp-order/cdp-order.module';
     CommonModule,
     CdpMyAccountModule,
     CdpMyAccountSideNavigationModule,
-    OrderModule,
+    CdpMyAccountRequestsModule,
+    // OrderModule,
   ],
 })
 export class CdpComponentsModule {}
