@@ -61,6 +61,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   @Input() cartId: string;
 
   protected _items: OrderEntry[] = [];
+  protected _forceReRender: boolean = false;
   form: UntypedFormGroup = new UntypedFormGroup({});
 
   @Input('items')
@@ -107,7 +108,9 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   protected getInputsFromContext(): Subscription | undefined {
     return this.outlet?.context$.subscribe((context) => {
       if (context.readonly !== undefined) {
+        this._forceReRender = this.readonly !== context.readonly;
         this.readonly = context.readonly;
+        this.cd.markForCheck();
       }
       if (context.hasHeader !== undefined) {
         this.hasHeader = context.hasHeader;
@@ -173,6 +176,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     ) {
       const index = i - offset;
       if (
+        this._forceReRender ||
         JSON.stringify(this._items?.[index]) !== JSON.stringify(items[index])
       ) {
         if (this._items[index]) {
@@ -186,6 +190,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         }
       }
     }
+    this._forceReRender = false;
   }
 
   /**

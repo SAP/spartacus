@@ -24,9 +24,9 @@ import { SpartacusFeaturesModule } from './spartacus-features.module';
   declarations: [],
   imports: [
     MyFeature,
+    BaseStorefrontModule,
     SpartacusFeaturesModule,
     SpartacusConfigurationModule,
-    BaseStorefrontModule
   ],
   exports: [BaseStorefrontModule]
 })

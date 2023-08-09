@@ -422,5 +422,30 @@ describe('CartItemListComponent', () => {
       expect(component.readonly).toEqual(mockContext.readonly);
       expect(setLoading).toHaveBeenCalledWith(mockContext.cartIsLoading);
     });
+
+    it('should mark view for check and force re-creation of item controls when outlet context emits with changed read-only flag', () => {
+      const secondMockContext = structuredClone(mockContext);
+      secondMockContext.readonly = false;
+      const context$ = of(mockContext, secondMockContext);
+      configureTestingModule().overrideProvider(OutletContextData, {
+        useValue: { context$ },
+      });
+      TestBed.compileComponents();
+      stubSeviceAndCreateComponent();
+      const control0 = component.form.get(mockItem0.entryNumber.toString());
+      const control1 = component.form.get(mockItem1.entryNumber.toString());
+      spyOn(component['cd'], 'markForCheck').and.callThrough();
+
+      component.ngOnInit();
+
+      expect(component['cd'].markForCheck).toHaveBeenCalled();
+      expect(control0).not.toBe(
+        component.form.get(mockItem0.entryNumber.toString())
+      );
+      expect(control1).not.toBe(
+        component.form.get(mockItem1.entryNumber.toString())
+      );
+      expect(component['_forceReRender']).toBe(false); // flag reset
+    });
   });
 });

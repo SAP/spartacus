@@ -11,7 +11,7 @@ export const quote = {
       updated: 'Updated',
       sortBy: 'Sort by',
       sortOrders: 'Sort orders',
-      empty: 'Quote list is empty',
+      empty: 'We have no quote records for this account.',
     },
     states: {
       BUYER_DRAFT: 'Draft',
@@ -108,6 +108,8 @@ export const quote = {
       },
     },
     httpHandlers: {
+      cartValidationIssue:
+        'Quote request not possible because we found problems with your entries. Please review your cart.',
       threshold: {
         underThresholdError:
           'Total price of requested quote does not meet the minimum threshold',
