@@ -136,6 +136,7 @@ describe('QuoteSellerEditComponent', () => {
 
   describe('onApply', () => {
     it('should call corresponding facade method', () => {
+      fixture.detectChanges();
       component.form.controls.discount.setValue(0);
       const expectedDiscount: QuoteDiscount = {
         discountRate: component.form.controls.discount.value,
@@ -163,12 +164,14 @@ describe('QuoteSellerEditComponent', () => {
     });
   });
 
-  describe('onSetDate', () => {
+  describe('mustDisplayValidationMessage', () => {
     it('should return false for valid input', () => {
+      fixture.detectChanges();
       expect(component.mustDisplayValidationMessage()).toBe(false);
     });
 
     it('should return true in case validation errors exist', () => {
+      fixture.detectChanges();
       component.form.controls.discount.setErrors([{}]);
       expect(component.mustDisplayValidationMessage()).toBe(true);
     });

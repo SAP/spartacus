@@ -34,7 +34,6 @@ export class QuoteSellerEditComponent implements OnInit {
   @ViewChild('element') element: ElementRef;
 
   form: UntypedFormGroup = new UntypedFormGroup({
-    discount: new UntypedFormControl(''),
     validityDate: new UntypedFormControl(new Date()),
   });
 

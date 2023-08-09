@@ -166,7 +166,7 @@ export class QuoteSellerEditComponentService {
         input,
         groupingSeparator,
         decimalSeparator,
-        10,
+        10
       )
     );
   }
