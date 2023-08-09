@@ -1,9 +1,8 @@
 <ng-container *ngIf="quotesState$ | async as quotesState">
   <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
-
   <ng-container *ngIf="quotesState.data; else loading">
     <ng-container
-      *ngIf="quotesState.data.quotes.length > 0; else emptyQuoteList"
+      *ngIf="quotesState.data.quotes?.length > 0; else emptyQuoteList"
     >
       <div class="cx-sort top">
         <label class="cx-form-group form-group"
