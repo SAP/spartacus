@@ -6,7 +6,8 @@
 
 import { ErrorHandler, Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { ErrorAction } from '@spartacus/core';
+import { ErrorAction, HttpErrorModel } from '@spartacus/core';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class EffectsErrorHandlerService {
@@ -18,13 +19,13 @@ export class EffectsErrorHandlerService {
     // Http errors are already handled in HttpErrorHandlerInterceptor.
     // To avoid duplicate errors we want to check if the error is not of type
     // HttpErrorModel or HttpErrorResponse.
-    // const isNotHttpError =
-    //   !(error instanceof HttpErrorModel) &&
-    //   !(error instanceof HttpErrorResponse);
+    const isNotHttpError =
+      !(error instanceof HttpErrorModel) &&
+      !(error instanceof HttpErrorResponse);
 
-    // if (isNotHttpError) {
-    this.errorHandler.handleError(error);
-    // }
+    if (isNotHttpError) {
+      this.errorHandler.handleError(error);
+    }
   }
 
   /** Here we want to filter which error actions should be handled.
