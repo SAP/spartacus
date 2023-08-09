@@ -95,7 +95,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
 
     const context = this.prepareConfirmationContext(action, quote);
     this.launchConfirmationDialog(context);
-    this.handleConfirmationDialogClose(quote, action, context);
+    this.handleConfirmationDialogClose(action, context);
   }
 
   protected launchConfirmationDialog(context: ConfirmationContext) {
@@ -111,7 +111,6 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   }
 
   protected handleConfirmationDialogClose(
-    quote: Quote,
     action: QuoteActionType,
     context: ConfirmationContext
   ) {
@@ -119,7 +118,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       this.launchDialogService.dialogClose
         .pipe(
           filter((reason) => reason === 'yes'),
-          tap(() => this.quoteFacade.performQuoteAction(quote.code, action)),
+          tap(() => this.quoteFacade.performQuoteAction(context.quote.code, action)),
           filter(() => !!context.successMessage),
           tap(() =>
             this.globalMessageService.add(

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
   Price,
   TranslationService,
@@ -42,7 +43,7 @@ const mockQuote: Quote = {
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
 
-const dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
+let dialogClose$: BehaviorSubject<any | undefined>;
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(reason: any): void {
     dialogClose$.next(reason);
@@ -113,6 +114,7 @@ describe('QuoteActionsByRoleComponent', () => {
     facade = TestBed.inject(QuoteFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
     mockQuoteDetails$.next(mockQuote);
+    dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
   });
 
   it('should create component', () => {
@@ -197,7 +199,7 @@ describe('QuoteActionsByRoleComponent', () => {
       quote: newMockQuoteWithSubmitAction,
       title: 'quote.confirmActionDialog.buyer.submit.title',
       confirmNote: 'quote.confirmActionDialog.buyer.submit.confirmNote',
-      successMessage: 'quote.confirmActionDialog.buyer.submit.successMessage'
+      successMessage: 'quote.confirmActionDialog.buyer.submit.successMessage',
     };
     mockQuoteDetails$.next(newMockQuoteWithSubmitAction);
     fixture.detectChanges();
@@ -440,6 +442,57 @@ describe('QuoteActionsByRoleComponent', () => {
         showExpirationDate: true,
         showSuccessMessage: false,
       });
+    });
+  });
+
+  describe('handleConfirmationDialogClose', () => {
+    let context: ConfirmationContext;
+    beforeEach(() => {
+      spyOn(facade, 'performQuoteAction').and.callThrough();
+      spyOn(globalMessageService, 'add').and.callThrough();
+      context = {
+        quote: mockQuote,
+        title: 'title',
+        confirmNote: 'confirmNote',
+        successMessage: 'successMessage',
+      };
+    });
+    it("should do nothing if dialog was closed selecting 'no'", () => {
+      component['handleConfirmationDialogClose'](
+        QuoteActionType.SUBMIT,
+        context
+      );
+      launchDialogService.closeDialog('no');
+      expect(facade.performQuoteAction).not.toHaveBeenCalled();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+    });
+    it("should perform quote action if dialog was closed  selecting 'yes'", () => {
+      context.successMessage = undefined;
+      component['handleConfirmationDialogClose'](
+        QuoteActionType.EDIT,
+        context
+      );
+      launchDialogService.closeDialog('yes');
+      expect(facade.performQuoteAction).toHaveBeenCalledWith(
+        mockCode,
+        QuoteActionType.EDIT
+      );
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+    });
+    it("should perform quote action if dialog was closed  selecting 'yes' and emit success message", () => {
+      component['handleConfirmationDialogClose'](
+        QuoteActionType.SUBMIT,
+        context
+      );
+      launchDialogService.closeDialog('yes');
+      expect(facade.performQuoteAction).toHaveBeenCalledWith(
+        mockCode,
+        QuoteActionType.SUBMIT
+      );
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'successMessage' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
     });
   });
 });
