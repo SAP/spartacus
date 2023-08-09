@@ -49,7 +49,6 @@ context('Quote<->Configurator integration', () => {
       // TODO: edit configuration does not work for quote
       //configurationCart.clickOnEditConfigurationLink(0);
       //cy.get('cx-configurator-overview-sidebar').should('be.visible');
-
       //check: back navigation is possible
       //configuratorOverview.clickContinueToCartBtnOnOPAndExpectQuote();
     });
