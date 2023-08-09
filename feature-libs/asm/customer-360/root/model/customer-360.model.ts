@@ -35,6 +35,13 @@ export interface Customer360Activity {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface Customer360Coupon {
+  applied: boolean;
+  code: string;
+  name?: string;
+}
+
 export interface C360TicketStatus {
   code: string;
   name: string;
@@ -64,6 +71,7 @@ export enum Customer360Type {
   SAVED_CART = 'c360SavedCart',
   OVERVIEW = 'c360Overview',
   ACTIVITY_LIST = 'c360ActivityList',
+  COUPON_LIST = 'c360CouponList',
 }
 
 export interface Customer360SupportTicketList {
@@ -179,6 +187,11 @@ export interface Customer360ActivityList {
   activities: Array<Customer360Activity>;
 }
 
+export interface Customer360CouponList {
+  type: Customer360Type.COUPON_LIST;
+  coupons: Array<Customer360Coupon>;
+}
+
 export interface Customer360Params {
   userId: string;
 }
@@ -209,7 +222,8 @@ export type Customer360Data =
   | Customer360CustomerProfile
   | Customer360SavedCart
   | Customer360Overview
-  | Customer360ActivityList;
+  | Customer360ActivityList
+  | Customer360CouponList;
 
 export interface Customer360Response {
   value: Array<Customer360Data>;

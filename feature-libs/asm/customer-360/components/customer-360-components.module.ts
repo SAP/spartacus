@@ -7,7 +7,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ArgsModule } from '@spartacus/asm/core';
-import { I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import {
   IconModule,
   KeyboardFocusModule,
@@ -36,6 +40,8 @@ import {
   AsmCustomerProfileComponent,
   AsmCustomerSavedCartComponent,
 } from './sections/components';
+import { AsmCustomerCouponComponent } from './sections/asm-customer-coupon/asm-customer-coupon.component';
+import { AsmCustomerCouponComponentModule } from './sections/asm-customer-coupon/asm-customer-coupon.module';
 
 @NgModule({
   imports: [
@@ -56,6 +62,8 @@ import {
     AsmCustomerMapComponentModule,
     AsmCustomerProductReviewsComponentModule,
     AsmCustomerSupportTicketsComponentModule,
+    AsmCustomerCouponComponentModule,
+    FeaturesConfigModule,
   ],
   declarations: [Customer360Component, AsmCustomerSectionComponent],
   exports: [Customer360Component],
@@ -88,6 +96,9 @@ import {
         },
         AsmCustomer360MapComponent: {
           component: AsmCustomerMapComponent,
+        },
+        AsmCustomer360CouponComponent: {
+          component: AsmCustomerCouponComponent,
         },
       },
     }),

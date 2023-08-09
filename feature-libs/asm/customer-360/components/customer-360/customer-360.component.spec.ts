@@ -25,6 +25,7 @@ import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { Customer360Component } from './customer-360.component';
 import { CsAgentAuthService } from '@spartacus/asm/root';
 import { ArgsPipe } from '@spartacus/asm/core';
+import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
 
 describe('AsmCustomer360Component', () => {
   const mockAsmConfig: Customer360Config = {
@@ -166,7 +167,7 @@ describe('AsmCustomer360Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, FeaturesConfigModule],
       declarations: [
         Customer360Component,
         MockAsmCustomerSectionComponent,
@@ -183,6 +184,12 @@ describe('AsmCustomer360Component', () => {
           useClass: MockDirectionService,
         },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '*' },
+          },
+        },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();

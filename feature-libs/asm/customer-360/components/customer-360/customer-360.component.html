@@ -162,7 +162,24 @@
 
     <!-- Modal Body -->
     <div class="cx-dialog-body">
-      <div class="cx-tab-headers" role="tablist">
+      <div class="cx-tab-headers" role="tablist" *cxFeatureLevel="'!6.5'">
+        <ng-container *ngFor="let tabHeader of tabs; let i = index">
+          <button
+            #tabHeaderItem
+            class="cx-tab-header"
+            role="tab"
+            [attr.aria-selected]="activeTab === i"
+            attr.aria-controls="asm-customer-360-tab-panel"
+            (click)="selectTab(i)"
+            [class.active]="activeTab === i"
+            (keydown)="switchTab($event, i)"
+            *ngIf="tabHeader.i18nNameKey !== 'customer360.promotionsTab'"
+          >
+            {{ tabHeader.i18nNameKey | cxTranslate }}
+          </button>
+        </ng-container>
+      </div>
+      <div class="cx-tab-headers" role="tablist" *cxFeatureLevel="'6.5'">
         <button
           #tabHeaderItem
           *ngFor="let tabHeader of tabs; let i = index"

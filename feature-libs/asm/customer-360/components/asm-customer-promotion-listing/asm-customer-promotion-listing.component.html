@@ -1,0 +1,83 @@
+<div class="cx-asm-customer-promotion-listing-heading" *ngIf="headerText">
+  <h4 class="cx-asm-customer-promotion-listing-heading-text">
+    {{ headerText }}
+  </h4>
+</div>
+<div class="message-container">
+  <cx-message
+    *ngIf="showAlert"
+    [text]="'customer360.alertErrorMessage' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_ERROR"
+    (closeMessage)="removeAlert.emit()"
+  ></cx-message>
+  <cx-message
+    *ngIf="showAlertForApplyAction"
+    [text]="'customer360.applyActionAlter' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_ERROR"
+    (closeMessage)="removeAlertForApplyAction.emit()"
+  ></cx-message>
+</div>
+<table class="cx-asm-customer-promotion-listing">
+  <ng-container *ngFor="let entry of entries">
+    <tr class="cx-asm-customer-promotion-listing-row">
+      <td>
+        <tr class="cx-asm-customer-promotion-listing-subheader" tabindex="-1">
+          {{
+            entry.code
+          }}
+        </tr>
+        <tr class="cx-asm-customer-promotion-listing-description">
+          {{
+            entry.name
+          }}
+        </tr>
+      </td>
+      <td>
+        <ng-container *ngIf="!entry.applied">
+          <button
+            *ngIf="showApplyButton"
+            class="cx-asm-customer-promotion-listing-apply-button"
+            (click)="apply.emit(entry)"
+          >
+            {{ applyButtonText }}
+          </button>
+        </ng-container>
+        <ng-container *ngIf="entry.applied">
+          <tr class="cx-asm-customer-promotion-listing-action">
+            <td>
+              <cx-icon class="success" type="SUCCESS"></cx-icon>
+            </td>
+            <td class="cx-asm-customer-promotion-listing-applied">
+              {{ applied }}
+            </td>
+            <td
+              *ngIf="showRemoveButton"
+              class="cx-asm-customer-promotion-listing-action-separator"
+            >
+              |
+            </td>
+            <td *ngIf="showRemoveButton">
+              <button
+                class="cx-asm-customer-promotion-listing-remove-button"
+                (click)="remove.emit(entry)"
+              >
+                {{ removeButtonText }}
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+      </td>
+    </tr>
+  </ng-container>
+</table>
+<hr
+  class="cx-asm-customer-promotion-listing-separator"
+  aria-hidden="true"
+  *ngIf="!showAlert"
+/>
+<div
+  class="cx-asm-customer-promotion-listing-empty"
+  *ngIf="entries?.length === 0 && !showAlert"
+>
+  {{ emptyStateText }}
+</div>

@@ -12,6 +12,8 @@ const containerSelector = 'cx-asm-main-ui';
 const containerSelectorForCustomerLists = 'cx-customer-list';
 const containerSelectorForCreateCustomerForm = 'cx-asm-create-customer-form';
 const containerSelectorForInactiveCartDialog = 'cx-asm-save-cart-dialog';
+const containerSelectorForCustomer360CouponList =
+  'cx-asm-customer-promotion-listing';
 
 export function asmTabbingOrderNotLoggedIn(config: TabElement[]) {
   cy.visit('/?asm=true');
@@ -112,4 +114,29 @@ export function asmTabbingOrderWithSaveInactiveCartDialog(
         asm.agentSignOut();
       });
   });
+}
+
+export function asmTabbingOrderForCustomer360CouponList(config: TabElement[]) {
+  cy.visit('/?asm=true');
+  asm.agentLogin('asagent', 'pw4all');
+
+  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
+  cy.get('cx-customer-selection form').within(() => {
+    cy.get('[formcontrolname="searchTerm"]').type('Linda Wolf');
+  });
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+  cy.get('cx-customer-selection div.asm-results button').first().click();
+  cy.get('button').contains('Start Emulation').click();
+  cy.get('button.cx-360-button').click();
+  cy.get('button.cx-tab-header').contains('Promotion').click();
+  cy.get('cx-asm-customer-coupon')
+    .contains('Coupons')
+    .parent()
+    .parent()
+    .parent()
+    .within(() => {
+      verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
+    });
 }

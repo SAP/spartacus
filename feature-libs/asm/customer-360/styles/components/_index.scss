@@ -5,9 +5,11 @@
 @import './_asm-customer-product-listing.component';
 @import './_asm-customer-table.component.scss';
 @import './_asm-customer-map.component.scss';
+@import './_asm-customer-promotion-listing.component.scss';
 
 $customer-360-components-allowlist: cx-customer-360, cx-asm-customer-profile,
-  cx-asm-customer-product-listing, cx-asm-customer-table, cx-asm-customer-map !default;
+  cx-asm-customer-product-listing, cx-asm-customer-table, cx-asm-customer-map,
+  cx-asm-customer-promotion-listing !default;
 
 $skipComponentStyles: () !default;
 

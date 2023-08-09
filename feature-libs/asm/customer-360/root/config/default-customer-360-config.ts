@@ -87,6 +87,17 @@ export const defaultCustomer360Config: Customer360Config = {
         ],
       },
       {
+        i18nNameKey: 'customer360.promotionsTab',
+        components: [
+          {
+            component: 'AsmCustomer360CouponComponent',
+            requestData: {
+              type: Customer360Type.COUPON_LIST,
+            },
+          },
+        ],
+      },
+      {
         i18nNameKey: 'customer360.mapsTab',
         components: [
           {
