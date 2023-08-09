@@ -1,13 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { GlobalMessageEntities, GlobalMessageService, GlobalMessageType, I18nTestingModule, QueryState, Translatable } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
+import {
+  GlobalMessageEntities,
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+  QueryState,
+  Translatable,
+} from '@spartacus/core';
+import { OpfPaymentMetadata, OpfService } from '@spartacus/opf/base/root';
 import {
   ActiveConfiguration,
   OpfCheckoutFacade,
   OpfPaymentProviderType,
 } from '@spartacus/opf/checkout/root';
-import { OpfPaymentMetadata, OpfService } from '@spartacus/opf/base/root';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
 
 const mockActiveConfigurations: ActiveConfiguration[] = [
   {
@@ -34,7 +41,9 @@ class MockOpfCheckoutFacade implements Partial<OpfCheckoutFacade> {
   }
 }
 
-const activeConfigurationsState$ = new BehaviorSubject<QueryState<ActiveConfiguration[] | undefined>>({
+const activeConfigurationsState$ = new BehaviorSubject<
+  QueryState<ActiveConfiguration[] | undefined>
+>({
   loading: false,
   error: false,
   data: [],
@@ -60,10 +69,10 @@ describe('OpfCheckoutPaymentsComponent', () => {
   let globalMessageService: GlobalMessageService;
   let opfServiceMock: jasmine.SpyObj<OpfService>;
 
-
   beforeEach(async () => {
     opfServiceMock = jasmine.createSpyObj('OpfService', [
-      'getOpfMetadataState', 'updateOpfMetadataState'
+      'getOpfMetadataState',
+      'updateOpfMetadataState',
     ]);
 
     opfServiceMock.getOpfMetadataState.and.returnValue(
@@ -81,12 +90,10 @@ describe('OpfCheckoutPaymentsComponent', () => {
 
     fixture = TestBed.createComponent(OpfCheckoutPaymentsComponent);
     component = fixture.componentInstance;
-
   });
   beforeEach(() => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     spyOn(globalMessageService, 'add').and.callThrough();
-
   });
 
   it('should create', () => {
@@ -95,13 +102,16 @@ describe('OpfCheckoutPaymentsComponent', () => {
 
   it('should preselect the payment options', () => {
     fixture.detectChanges();
-    expect(component.selectedPaymentId).toBe(mockOpfPaymentMetadata.selectedPaymentOptionId);
+    expect(component.selectedPaymentId).toBe(
+      mockOpfPaymentMetadata.selectedPaymentOptionId
+    );
   });
 
   it('should change active payment option', () => {
     component.changePayment(mockActiveConfigurations[2]);
-    expect(opfServiceMock.updateOpfMetadataState).toHaveBeenCalledWith({selectedPaymentOptionId: component.selectedPaymentId,});
-
+    expect(opfServiceMock.updateOpfMetadataState).toHaveBeenCalledWith({
+      selectedPaymentOptionId: component.selectedPaymentId,
+    });
   });
 
   it('should display an error message if active configurations are not available', () => {
@@ -133,5 +143,4 @@ describe('OpfCheckoutPaymentsComponent', () => {
       GlobalMessageType.MSG_TYPE_ERROR
     );
   });
-
 });
