@@ -4,9 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Quote
-} from '@spartacus/quote/root';
+import { Quote } from '@spartacus/quote/root';
 
 export interface ConfirmationContext {
   quote: Quote;
