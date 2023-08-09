@@ -18,6 +18,8 @@
               getQuoteInformation(quoteDetails.name, quoteDetails.description)
                 | async
             "
+            [truncateText]="true"
+            [charactersLimit]="30"
           ></cx-card>
         </div>
         <div *ngIf="quoteDetails.isEditable" class="cx-edit-step">

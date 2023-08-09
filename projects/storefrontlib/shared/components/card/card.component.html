@@ -35,28 +35,36 @@
           {{ content.textBold }}
         </div>
         <div *ngFor="let line of content.text">
-          <div
-            *ngIf="!truncateText; else truncate"
-            class="cx-card-label"
-            [ngClass]="content.customClass"
+          <ng-container
+            *ngTemplateOutlet="
+              showText;
+              context: {
+                content: content,
+                truncateText: truncateText,
+                charactersLimit: charactersLimit,
+                class: 'cx-card-label',
+                text: line
+              }
+            "
           >
-            {{ line }}
-          </div>
-
-          <ng-template #truncate>
-            <cx-truncate-text-popover
-              [charactersLimit]="charactersLimit"
-              [content]="line"
-              [customClass]="content.customClass"
-            ></cx-truncate-text-popover>
-          </ng-template>
+          </ng-container>
         </div>
         <div class="cx-card-paragraph" *ngFor="let item of content.paragraphs">
           <div class="cx-card-paragraph-title">{{ item.title }}</div>
           <div *ngFor="let text of item.text">
-            <div class="cx-card-paragraph-text">
-              {{ text }}
-            </div>
+            <ng-container
+              *ngTemplateOutlet="
+                showText;
+                context: {
+                  content: content,
+                  truncateText: truncateText,
+                  charactersLimit: charactersLimit,
+                  class: 'cx-card-paragraph-text',
+                  text: text
+                }
+              "
+            >
+            </ng-container>
           </div>
         </div>
         <ng-content select="[label_container_bottom]"></ng-content>
@@ -138,3 +146,24 @@
     </div>
   </div>
 </div>
+
+<ng-template
+  #showText
+  let-content="content"
+  let-truncateText="truncateText"
+  let-charactersLimit="charactersLimit"
+  let-class="class"
+  let-text="text"
+>
+  <div *ngIf="!truncateText" [class]="class" [ngClass]="content.customClass">
+    {{ text }}
+  </div>
+
+  <ng-container *ngIf="truncateText">
+    <cx-truncate-text-popover
+      [charactersLimit]="charactersLimit"
+      [content]="text"
+      [customClass]="content.customClass"
+    ></cx-truncate-text-popover>
+  </ng-container>
+</ng-template>
