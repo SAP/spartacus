@@ -167,7 +167,6 @@ export class QuoteSellerEditComponentService {
         groupingSeparator,
         decimalSeparator,
         10,
-        2
       )
     );
   }
@@ -182,9 +181,9 @@ export class QuoteSellerEditComponentService {
     input: string,
     groupingSeparator: string,
     decimalSeparator: string,
-    numberTotalPlaces: number,
-    numberDecimalPlaces: number
+    numberTotalPlaces: number
   ): boolean {
+    const numberDecimalPlaces = 2;
     const regexEscape = '\\';
     const search: RegExp = new RegExp(regexEscape + groupingSeparator, 'g');
     const woGrouping = input.replace(search, '');

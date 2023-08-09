@@ -1,10 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
 import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
-import { CurrencyService, LanguageService } from '@spartacus/core';
+import { CurrencyService, LanguageService, TimeUtils } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { QuoteState } from '@spartacus/quote/root';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  EXPIRATION_DATE_AS_STRING,
+  EXPIRATION_TIME_AS_STRING,
+} from '../../core/testing/quote-test-utils';
 
 class MockCurrencyService {
   getActive(): Observable<string> {
@@ -92,6 +96,50 @@ describe('QuoteSellerEditComponentService', () => {
           })
         )
       ).toThrowError();
+    });
+  });
+
+  describe('addTimeToDate', () => {
+    it('should add the local time to a given date', () => {
+      const dateWithTime = service.addTimeToDate(EXPIRATION_DATE_AS_STRING);
+      expect(dateWithTime).toContain(EXPIRATION_DATE_AS_STRING);
+      expect(dateWithTime).toContain('T');
+      expect(dateWithTime).toContain(TimeUtils.getLocalTimezoneOffset());
+    });
+  });
+
+  describe('removeTimeFromDate', () => {
+    it('should remove the time part from a time stamp', () => {
+      expect(service.removeTimeFromDate(EXPIRATION_TIME_AS_STRING)).toBe(
+        EXPIRATION_DATE_AS_STRING
+      );
+    });
+
+    it('should do nothing for undefined time stamp', () => {
+      expect(service.removeTimeFromDate(undefined)).toBeUndefined();
+    });
+  });
+
+  describe('performValidationAccordingToMetaData', () => {
+    it('should accept input using group and decimal separators', () => {
+      expect(
+        service['performValidationAccordingToMetaData'](
+          '1.000,76',
+          '.',
+          ',',
+          10
+        )
+      ).toBe(false);
+    });
+    it('should not accept input with 2 decimal separators', () => {
+      expect(
+        service['performValidationAccordingToMetaData'](
+          '1,000,76',
+          '.',
+          ',',
+          10
+        )
+      ).toBe(true);
     });
   });
 
