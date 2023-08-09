@@ -19,15 +19,13 @@ import {
   Quote,
   QuoteActionType,
   QuoteList,
-  QuoteState
+  QuoteState,
 } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteListComponentService } from './quote-list-component.service';
-import {
-  QuoteListComponent,
-} from './quote-list.component';
+import { QuoteListComponent } from './quote-list.component';
 import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
