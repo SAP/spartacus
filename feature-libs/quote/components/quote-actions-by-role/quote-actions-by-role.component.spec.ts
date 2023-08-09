@@ -11,6 +11,7 @@ import {
   Quote,
   QuoteActionType,
   QuoteFacade,
+  QuoteRoleType,
   QuoteState,
 } from '@spartacus/quote/root';
 
@@ -22,6 +23,10 @@ import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 import createSpy = jasmine.createSpy;
 import { ConfirmationContext } from '../quote-confirm-action-dialog/quote-confirm-action-dialog.model';
+import {
+  ConfirmActionDialogMappingConfig,
+  QuoteUIConfig,
+} from '../config/quote-ui.config';
 
 const mockCartId = '1234';
 const mockCode = '3333';
@@ -39,6 +44,29 @@ const mockQuote: Quote = {
   code: mockCode,
   threshold: threshold,
   totalPrice: totalPrice,
+};
+
+const defaultConfirmActionDialogConfig = {
+  showWarningNote: false,
+  showExpirationDate: false,
+  showSuccessMessage: true,
+};
+
+const testMappings: ConfirmActionDialogMappingConfig = {
+  BUYER_OFFER: {
+    EDIT: {
+      i18nKey: 'quote.confirmActionDialog.buyer_offer.edit',
+      showWarningNote: true,
+      showExpirationDate: true,
+      showSuccessMessage: false,
+    },
+  },
+  BUYER: {
+    SUBMIT: {
+      i18nKey: 'quote.confirmActionDialog.buyer.submit',
+      ...defaultConfirmActionDialogConfig,
+    },
+  },
 };
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
@@ -103,6 +131,12 @@ describe('QuoteActionsByRoleComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: QuoteUIConfig,
+          useValue: {
+            quote: { confirmActionDialogMapping: testMappings },
+          },
+        },
       ],
     }).compileComponents();
   });
@@ -395,40 +429,35 @@ describe('QuoteActionsByRoleComponent', () => {
 
   describe('statusToRole', () => {
     it('should return buyer-role', () => {
-      expect(component['statusToRole'](QuoteState.BUYER_DRAFT)).toEqual(
-        'buyer'
+      expect(component['statusToRole'](QuoteState.BUYER_DRAFT)).toBe(
+        QuoteRoleType.BUYER
       );
     });
     it('should return seller-role', () => {
-      expect(component['statusToRole'](QuoteState.SELLER_SUBMITTED)).toEqual(
-        'seller'
+      expect(component['statusToRole'](QuoteState.SELLER_SUBMITTED)).toBe(
+        QuoteRoleType.SELLER
       );
     });
     it('should return seller-approver-role', () => {
       expect(
         component['statusToRole'](QuoteState.SELLERAPPROVER_APPROVED)
-      ).toEqual('sellerapprover');
+      ).toBe(QuoteRoleType.SELLERAPPROVER);
     });
     it('should return sate if no role matches', () => {
-      expect(component['statusToRole'](QuoteState.CANCELLED)).toEqual(
-        'cancelled'
+      expect(component['statusToRole'](QuoteState.CANCELLED)).toBe(
+        QuoteRoleType.NOT_AVAILABLE
       );
     });
   });
 
   describe('getDialogConfig', () => {
-    it('should return default config if state/action are not matching', () => {
-      expect(
+    it('should throw an error if state/action are not matching', () => {
+      expect(() =>
         component['getDialogConfig'](
           QuoteActionType.ORDER,
           QuoteState.BUYER_DRAFT
         )
-      ).toEqual({
-        i18nKey: 'quote.confirmActionDialog.buyer.order',
-        showWarningNote: false,
-        showExpirationDate: false,
-        showSuccessMessage: true,
-      });
+      ).toThrow();
     });
     it('should return configured config if state/action are matching', () => {
       expect(

@@ -17,6 +17,7 @@ import {
   Quote,
   QuoteActionType,
   QuoteFacade,
+  QuoteRoleType,
   QuoteState,
 } from '@spartacus/quote/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -24,11 +25,9 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import {
   ConfirmActionDialogConfig,
-  ConfirmationContext,
-  confirmActionDialogConfigs,
-  defaultConfirmActionDialogConfig,
-} from '../quote-confirm-action-dialog/quote-confirm-action-dialog.model';
-import { ResponsiblePersonPrefix } from '../quote-list/quote-list.component';
+  QuoteUIConfig,
+} from '../config/quote-ui.config';
+import { ConfirmationContext } from '../quote-confirm-action-dialog/quote-confirm-action-dialog.model';
 
 @Component({
   selector: 'cx-quote-actions-by-role',
@@ -47,7 +46,8 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     protected quoteFacade: QuoteFacade,
     protected launchDialogService: LaunchDialogService,
     protected viewContainerRef: ViewContainerRef,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected config: QuoteUIConfig
   ) {}
 
   ngOnInit(): void {
@@ -145,11 +145,10 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     action: QuoteActionType,
     state: QuoteState
   ): boolean {
-    const stateAndAction = `${state.toLocaleLowerCase()}.${action.toLowerCase()}`;
-    const roleAndAction = `${this.statusToRole(state)}.${action.toLowerCase()}`;
+    let mapping = this.config.quote?.confirmActionDialogMapping;
     return (
-      confirmActionDialogConfigs.has(stateAndAction) ||
-      confirmActionDialogConfigs.has(roleAndAction)
+      !!mapping?.[state]?.[action] ||
+      !!mapping?.[this.statusToRole(state)]?.[action]
     );
   }
 
@@ -180,25 +179,27 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     action: QuoteActionType,
     state: QuoteState
   ): ConfirmActionDialogConfig {
-    let dialogConfigKey = `${state.toLocaleLowerCase()}.${action.toLowerCase()}`;
-    if (!confirmActionDialogConfigs.has(dialogConfigKey)) {
-      dialogConfigKey = `${this.statusToRole(state)}.${action.toLowerCase()}`;
+    let mappingConfig = this.config.quote?.confirmActionDialogMapping;
+
+    let config =
+      mappingConfig?.[state]?.[action] ??
+      mappingConfig?.[this.statusToRole(state)]?.[action];
+    if (!config) {
+      throw new Error(
+        `Dialog Config expected for quote in state ${state} and action ${action}, but none found in config ${mappingConfig}`
+      );
     }
 
-    return {
-      ...defaultConfirmActionDialogConfig,
-      i18nKey: 'quote.confirmActionDialog.' + dialogConfigKey,
-      ...confirmActionDialogConfigs.get(dialogConfigKey),
-    };
+    return config;
   }
 
-  protected statusToRole(state: QuoteState) {
-    let role = state.toLowerCase();
-    Object.values(ResponsiblePersonPrefix).forEach((prefix) => {
-      if (state.startsWith(prefix)) {
-        role = prefix.slice(0, -1).toLowerCase();
+  protected statusToRole(state: QuoteState): QuoteRoleType {
+    let foundRole: QuoteRoleType = QuoteRoleType.NOT_AVAILABLE;
+    Object.values(QuoteRoleType).forEach((role) => {
+      if (state.startsWith(role + '_')) {
+        foundRole = role;
       }
     });
-    return role;
+    return foundRole;
   }
 }
