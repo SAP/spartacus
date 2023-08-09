@@ -10,26 +10,25 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  Quote,
-  QuoteActionType,
-  QuoteList,
-  QuoteState,
-} from '@spartacus/quote/root';
-import {
   I18nTestingModule,
   PaginationModel,
   QueryState,
   SortModel,
 } from '@spartacus/core';
+import {
+  Quote,
+  QuoteActionType,
+  QuoteList,
+  QuoteState
+} from '@spartacus/quote/root';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteListComponentService } from './quote-list-component.service';
 import {
   QuoteListComponent,
-  ResponsiblePersonPrefix,
 } from './quote-list.component';
 import createSpy = jasmine.createSpy;
-import { createEmptyQuote } from '../../core/testing/quote-test-utils';
-import { ICON_TYPE } from '@spartacus/storefront';
 
 const mockCartId = '1234';
 const mockPagination: PaginationModel = {
@@ -212,35 +211,6 @@ describe('QuoteListComponent', () => {
 
     //then
     expect(elements.length).toEqual(1);
-  });
-
-  describe('isResponsible', () => {
-    it("should return 'true' in case state contains 'BUYER'", () => {
-      expect(
-        component['isResponsible'](
-          ResponsiblePersonPrefix.BUYER,
-          QuoteState.BUYER_ACCEPTED
-        )
-      ).toBe(true);
-    });
-
-    it("should return 'true' in case state contains 'SELLER'", () => {
-      expect(
-        component['isResponsible'](
-          ResponsiblePersonPrefix.SELLER,
-          QuoteState.SELLER_DRAFT
-        )
-      ).toBe(true);
-    });
-
-    it("should return 'true' in case state contains 'SELLERAPPROVER'", () => {
-      expect(
-        component['isResponsible'](
-          ResponsiblePersonPrefix.SELLERAPPROVER,
-          QuoteState.SELLERAPPROVER_APPROVED
-        )
-      ).toBe(true);
-    });
   });
 
   describe('getBuyerQuoteStatus', () => {

@@ -11,7 +11,6 @@ import {
   Quote,
   QuoteActionType,
   QuoteFacade,
-  QuoteRoleType,
   QuoteState,
 } from '@spartacus/quote/root';
 
@@ -420,29 +419,6 @@ describe('QuoteActionsByRoleComponent', () => {
           QuoteState.CANCELLED
         )
       ).toBe(false);
-    });
-  });
-
-  describe('statusToRole', () => {
-    it('should return buyer-role', () => {
-      expect(component['statusToRole'](QuoteState.BUYER_DRAFT)).toBe(
-        QuoteRoleType.BUYER
-      );
-    });
-    it('should return seller-role', () => {
-      expect(component['statusToRole'](QuoteState.SELLER_SUBMITTED)).toBe(
-        QuoteRoleType.SELLER
-      );
-    });
-    it('should return seller-approver-role', () => {
-      expect(
-        component['statusToRole'](QuoteState.SELLERAPPROVER_APPROVED)
-      ).toBe(QuoteRoleType.SELLERAPPROVER);
-    });
-    it('should return sate if no role matches', () => {
-      expect(component['statusToRole'](QuoteState.CANCELLED)).toBe(
-        QuoteRoleType.NOT_AVAILABLE
-      );
     });
   });
 

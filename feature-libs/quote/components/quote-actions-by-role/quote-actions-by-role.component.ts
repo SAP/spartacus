@@ -13,12 +13,12 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { QuoteRoleService } from '@spartacus/quote/core';
 import {
   Quote,
   QuoteActionType,
   QuoteFacade,
-  QuoteRoleType,
-  QuoteState,
+  QuoteState
 } from '@spartacus/quote/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -47,6 +47,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected viewContainerRef: ViewContainerRef,
     protected globalMessageService: GlobalMessageService,
+    protected quoteRoleService: QuoteRoleService,
     protected config: QuoteUIConfig
   ) {}
 
@@ -148,7 +149,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     let mapping = this.config.quote?.confirmActionDialogMapping;
     return (
       !!mapping?.[state]?.[action] ||
-      !!mapping?.[this.statusToRole(state)]?.[action]
+      !!mapping?.[this.quoteRoleService.stateToRole(state)]?.[action]
     );
   }
 
@@ -183,7 +184,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
 
     let config =
       mappingConfig?.[state]?.[action] ??
-      mappingConfig?.[this.statusToRole(state)]?.[action];
+      mappingConfig?.[this.quoteRoleService.stateToRole(state)]?.[action];
     if (!config) {
       throw new Error(
         `Dialog Config expected for quote in state ${state} and action ${action}, but none found in config ${mappingConfig}`
@@ -191,15 +192,5 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     }
 
     return config;
-  }
-
-  protected statusToRole(state: QuoteState): QuoteRoleType {
-    let foundRole: QuoteRoleType = QuoteRoleType.NOT_AVAILABLE;
-    Object.values(QuoteRoleType).forEach((role) => {
-      if (state.startsWith(role + '_')) {
-        foundRole = role;
-      }
-    });
-    return foundRole;
   }
 }
