@@ -36,7 +36,7 @@ export function defaultRequestedDeliveryDateComponentsConfig(): CmsConfig {
 @NgModule({
   providers: [
     provideOutlet({
-      id: CartOutlets.DELIVERY_MODE, //CartOutlets.ORDER_SUMMARY
+      id: CartOutlets.DELIVERY_MODE,
       position: OutletPosition.AFTER,
       component: DeliveryModeDatePickerComponent,
     }),
