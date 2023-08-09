@@ -1,4 +1,4 @@
-%cx-confirm-quote-action-dialog {
+%cx-quote-confirm-action-dialog {
   background-color: rgba(0, 0, 0, 0.5);
 
   .cx-modal-container {
@@ -34,9 +34,12 @@
       }
       .quote-description {
         .content {
-          min-height: 4.5rem;
-          max-height: 4.5rem;
-          overflow-y: scroll;
+          min-height: 2.5rem;
+        }
+      }
+      .quote-name {
+        .content {
+          min-height: 1rem;
         }
       }
     }
@@ -46,7 +49,7 @@
       p {
         font-weight: var(--cx-font-weight-semi);
         margin-bottom: 0;
-        margin-top: 0;
+        margin-top: 1.5rem;
       }
     }
   }

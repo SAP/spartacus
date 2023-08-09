@@ -273,6 +273,26 @@ describe('QuoteActionsByRoleComponent', () => {
     );
   });
 
+  it('should not open confirmation dialog when action is EDIT and state is BUYER_DRAFT', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const newMockQuoteWithEditActionAndBuyerDraftState: Quote = {
+      ...mockQuote,
+      allowedActions: [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+        { type: QuoteActionType.EDIT, isPrimary: false },
+      ],
+      state: QuoteState.BUYER_DRAFT,
+    };
+    mockQuoteDetails$.next(newMockQuoteWithEditActionAndBuyerDraftState);
+    fixture.detectChanges();
+    component.onClick(
+      QuoteActionType.EDIT,
+      newMockQuoteWithEditActionAndBuyerDraftState
+    );
+    expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
+  });
+
   describe('Threshold check', () => {
     const allowedActionsSubmit = [
       { type: QuoteActionType.SUBMIT, isPrimary: true },
