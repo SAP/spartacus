@@ -118,7 +118,9 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       this.launchDialogService.dialogClose
         .pipe(
           filter((reason) => reason === 'yes'),
-          tap(() => this.quoteFacade.performQuoteAction(context.quote.code, action)),
+          tap(() =>
+            this.quoteFacade.performQuoteAction(context.quote.code, action)
+          ),
           filter(() => !!context.successMessage),
           tap(() =>
             this.globalMessageService.add(

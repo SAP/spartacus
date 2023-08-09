@@ -468,10 +468,7 @@ describe('QuoteActionsByRoleComponent', () => {
     });
     it("should perform quote action if dialog was closed  selecting 'yes'", () => {
       context.successMessage = undefined;
-      component['handleConfirmationDialogClose'](
-        QuoteActionType.EDIT,
-        context
-      );
+      component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
       launchDialogService.closeDialog('yes');
       expect(facade.performQuoteAction).toHaveBeenCalledWith(
         mockCode,

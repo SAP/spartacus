@@ -100,7 +100,7 @@ export const quote = {
           title: 'Submit Quote {{ code }} for approval?',
           confirmNote:
             'Are you sure you want to submit this quote for approval?',
-            successMessage: 'Quote submitted for approval successfully',
+          successMessage: 'Quote submitted for approval successfully',
         },
       },
       approver: {
