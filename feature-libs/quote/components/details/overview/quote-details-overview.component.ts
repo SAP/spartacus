@@ -10,14 +10,15 @@ import {
   QuoteAction,
   QuoteActionType,
   QuoteDetailsReloadQueryEvent,
-  QuoteMetadata,
   QuoteFacade,
+  QuoteMetadata,
 } from '@spartacus/quote/root';
 import { EventService, TranslationService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { EditCard, EditEvent } from '../edit/quote-details-edit.component';
+import { QuoteState } from '../../../root/model';
 
 @Component({
   selector: 'cx-quote-details-overview',
@@ -53,6 +54,20 @@ export class QuoteDetailsOverviewComponent {
     };
 
     return metaData;
+  }
+
+  /**
+   * Verifies whether the quote information card tile is editable.
+   *
+   * @param {Quote} quote - quote
+   * @returns {boolean} - if the quote is editable and its state is 'QuoteState.BUYER_DRAFT' or 'QuoteState.BUYER_OFFER', otherwise returns 'false'.
+   */
+  isQuoteInformationEditable(quote: Quote): boolean {
+    return (
+      quote.isEditable &&
+      (quote.state === QuoteState.BUYER_DRAFT ||
+        quote.state === QuoteState.BUYER_OFFER)
+    );
   }
 
   /**
