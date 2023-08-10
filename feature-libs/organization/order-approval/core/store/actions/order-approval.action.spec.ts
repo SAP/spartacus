@@ -110,16 +110,14 @@ describe('OrderApproval Actions', () => {
       it('should create the action', () => {
         const action = new OrderApprovalActions.LoadOrderApprovalsFail({
           params,
-          error: { error },
+          error,
         });
 
         expect({ ...action }).toEqual({
           error,
           type: OrderApprovalActions.LOAD_ORDER_APPROVALS_FAIL,
-          payload: { params, error: { error } },
-          meta: StateUtils.entityFailMeta(ORDER_APPROVAL_LIST, query, {
-            error,
-          }),
+          payload: { params, error },
+          meta: StateUtils.entityFailMeta(ORDER_APPROVAL_LIST, query, error),
         });
       });
     });

@@ -7,7 +7,7 @@ import {
 import { OrderActions } from './index';
 const mockUserId = 'test-user';
 const mockReplenishmentOrderCode = 'test-repl-code';
-const error = { message: "test-error" };
+const error = { message: 'test-error' };
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
   active: true,

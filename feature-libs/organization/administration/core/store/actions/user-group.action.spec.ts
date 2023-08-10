@@ -127,16 +127,14 @@ describe('UserGroup Actions', () => {
       it('should create the action', () => {
         const action = new UserGroupActions.LoadUserGroupsFail({
           params,
-          error: { error },
+          error,
         });
 
         expect({ ...action }).toEqual({
           error,
           type: UserGroupActions.LOAD_USER_GROUPS_FAIL,
-          payload: { params, error: { error } },
-          meta: StateUtils.entityFailMeta(USER_GROUP_LIST, query, {
-            error,
-          }),
+          payload: { params, error },
+          meta: StateUtils.entityFailMeta(USER_GROUP_LIST, query, error),
         });
       });
     });

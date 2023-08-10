@@ -128,16 +128,14 @@ describe('CostCenter Actions', () => {
       it('should create the action', () => {
         const action = new CostCenterActions.LoadCostCentersFail({
           params,
-          error: { error },
+          error,
         });
 
         expect({ ...action }).toEqual({
           error,
           type: CostCenterActions.LOAD_COST_CENTERS_FAIL,
-          payload: { params, error: { error } },
-          meta: StateUtils.entityFailMeta(COST_CENTER_LIST, query, {
-            error,
-          }),
+          payload: { params, error },
+          meta: StateUtils.entityFailMeta(COST_CENTER_LIST, query, error),
         });
       });
     });

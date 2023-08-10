@@ -109,16 +109,14 @@ describe('Budget Actions', () => {
       it('should create the action', () => {
         const action = new BudgetActions.LoadBudgetsFail({
           params,
-          error: { error },
+          error,
         });
 
         expect({ ...action }).toEqual({
           error,
           type: BudgetActions.LOAD_BUDGETS_FAIL,
-          payload: { params, error: { error } },
-          meta: StateUtils.entityFailMeta(BUDGET_LIST, query, {
-            error,
-          }),
+          payload: { params, error },
+          meta: StateUtils.entityFailMeta(BUDGET_LIST, query, error),
         });
       });
     });

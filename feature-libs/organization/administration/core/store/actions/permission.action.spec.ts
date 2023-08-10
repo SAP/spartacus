@@ -138,16 +138,14 @@ describe('Permission Actions', () => {
       it('should create the action', () => {
         const action = new PermissionActions.LoadPermissionsFail({
           params,
-          error: { error },
+          error,
         });
 
         expect({ ...action }).toEqual({
           error,
           type: PermissionActions.LOAD_PERMISSIONS_FAIL,
-          payload: { params, error: { error } },
-          meta: StateUtils.entityFailMeta(PERMISSION_LIST, query, {
-            error,
-          }),
+          payload: { params, error },
+          meta: StateUtils.entityFailMeta(PERMISSION_LIST, query, error),
         });
       });
     });

@@ -143,16 +143,18 @@ describe('OrgUnit Actions', () => {
     describe('LoadOrgUnitNodesFail', () => {
       it('should create the action', () => {
         const action = new OrgUnitActions.LoadOrgUnitNodesFail({
-          error: { error },
+          error,
         });
 
         expect({ ...action }).toEqual({
           error,
           type: OrgUnitActions.LOAD_UNIT_NODES_FAIL,
-          payload: { error: { error } },
-          meta: StateUtils.entityFailMeta(ORG_UNIT_NODE_LIST, ORG_UNIT_NODES, {
-            error,
-          }),
+          payload: { error },
+          meta: StateUtils.entityFailMeta(
+            ORG_UNIT_NODE_LIST,
+            ORG_UNIT_NODES,
+            error
+          ),
         });
       });
     });
