@@ -3,13 +3,16 @@ import { TestBed } from '@angular/core/testing';
 import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
 import { CurrencyService, LanguageService, TimeUtils } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { QuoteState } from '@spartacus/quote/root';
+import { Quote, QuoteState } from '@spartacus/quote/root';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   EXPIRATION_DATE_AS_STRING,
   EXPIRATION_TIME_AS_STRING,
+  createEmptyQuote,
 } from '../../core/testing/quote-test-utils';
 
+const TOTAL_PRICE = 1000;
+const DISCOUNT_RATE = 10000;
 class MockCurrencyService {
   getActive(): Observable<string> {
     return of('USD');
@@ -24,6 +27,7 @@ class MockLanguageService {
 
 describe('QuoteSellerEditComponentService', () => {
   let service: QuoteSellerEditComponentService;
+  let quote: Quote;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,6 +40,7 @@ describe('QuoteSellerEditComponentService', () => {
 
   beforeEach(() => {
     service = TestBed.inject(QuoteSellerEditComponentService);
+    quote = { ...createEmptyQuote(), totalPrice: { value: TOTAL_PRICE } };
   });
 
   it('should create component', () => {
@@ -143,6 +148,48 @@ describe('QuoteSellerEditComponentService', () => {
     });
   });
 
+  describe('getMaximumNumberOfTotalPlaces', () => {
+    it('should compile number of total places from total if no quote discount is present, taking 2 decimal points into account ', () => {
+      expect(service.getMaximumNumberOfTotalPlaces(quote)).toBe(
+        Math.log10(TOTAL_PRICE) + 3
+      );
+    });
+
+    it('should compile number of total places from absolute discount if that exceeds total ', () => {
+      quote.quoteDiscounts = { value: DISCOUNT_RATE };
+      expect(service.getMaximumNumberOfTotalPlaces(quote)).toBe(
+        Math.log10(DISCOUNT_RATE) + 3
+      );
+    });
+
+    it('should fall back to price value 1 if no values are available at all (will not happen in production) ', () => {
+      quote.totalPrice.value = undefined;
+      expect(service.getMaximumNumberOfTotalPlaces(quote)).toBe(3);
+    });
+
+    it('should round properly according to log10', () => {
+      const quote2000: Quote = { ...quote, totalPrice: { value: 2000 } };
+      const quote3000: Quote = { ...quote, totalPrice: { value: 3000 } };
+      expect(service.getMaximumNumberOfTotalPlaces(quote2000)).toBe(
+        service.getMaximumNumberOfTotalPlaces(quote3000)
+      );
+      expect(service.getMaximumNumberOfTotalPlaces(quote)).toBe(
+        service.getMaximumNumberOfTotalPlaces(quote3000)
+      );
+    });
+
+    it('should round properly according to log10 for different maximum totals', () => {
+      const quote999: Quote = { ...quote, totalPrice: { value: 999 } };
+      const quote100: Quote = { ...quote, totalPrice: { value: 100 } };
+      expect(service.getMaximumNumberOfTotalPlaces(quote999)).toBe(
+        service.getMaximumNumberOfTotalPlaces(quote100)
+      );
+      expect(service.getMaximumNumberOfTotalPlaces(quote)).toBe(
+        service.getMaximumNumberOfTotalPlaces(quote999) + 1
+      );
+    });
+  });
+
   describe('getNumberFormatValidator', () => {
     const form: UntypedFormGroup = new UntypedFormGroup({
       discount: new UntypedFormControl(''),
@@ -152,7 +199,7 @@ describe('QuoteSellerEditComponentService', () => {
       form.controls.discount.setValue('$10');
       expect(
         service
-          .getNumberFormatValidator('en', '$')
+          .getNumberFormatValidator('en', '$', 10)
           .apply({}, [form.controls.discount])
       ).toBeFalsy();
     });
@@ -161,7 +208,7 @@ describe('QuoteSellerEditComponentService', () => {
       form.controls.discount.setValue('A');
       expect(
         service
-          .getNumberFormatValidator('en', 'USD')
+          .getNumberFormatValidator('en', 'USD', 10)
           .apply({}, [form.controls.discount])
       ).toBeTruthy();
     });
@@ -170,7 +217,7 @@ describe('QuoteSellerEditComponentService', () => {
       form.controls.discount.setValue(undefined);
       expect(
         service
-          .getNumberFormatValidator('en', 'USD')
+          .getNumberFormatValidator('en', 'USD', 10)
           .apply({}, [form.controls.discount])
       ).toBeFalsy();
     });

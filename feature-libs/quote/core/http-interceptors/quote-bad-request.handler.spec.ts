@@ -8,9 +8,9 @@ import {
 } from '@spartacus/core';
 import { QuoteBadRequestHandler } from './quote-bad-request.handler';
 
-const MockRequest = {} as HttpRequest<any>;
+const mockRequest = {} as HttpRequest<any>;
 
-const MockQuoteUnderThresholdResponse = {
+const mockQuoteUnderThresholdResponse = {
   error: {
     errors: [
       {
@@ -22,7 +22,7 @@ const MockQuoteUnderThresholdResponse = {
   },
 } as HttpErrorResponse;
 
-const MockCartValidationResponse = {
+const mockCartValidationResponse = {
   error: {
     errors: [
       {
@@ -32,7 +32,30 @@ const MockCartValidationResponse = {
   },
 } as HttpErrorResponse;
 
-const MockEmptyResponse = {
+const mockQuoteDiscountResponse = {
+  error: {
+    errors: [
+      {
+        message:
+          'Discount type is absolute, but the discont rate is greater than cart total [258.0]!',
+        type: 'IllegalArgumentError',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
+const mockIllegalArgumentResponse = {
+  error: {
+    errors: [
+      {
+        message: 'Another issue',
+        type: 'IllegalArgumentError',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
+const mockEmptyResponse = {
   error: null,
 } as HttpErrorResponse;
 
@@ -69,7 +92,7 @@ describe('QuoteBadRequestHandler', () => {
 
   it('should handle treshold error', () => {
     spyOn(globalMessageService, 'add');
-    service.handleError(MockRequest, MockQuoteUnderThresholdResponse);
+    service.handleError(mockRequest, mockQuoteUnderThresholdResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
@@ -81,7 +104,7 @@ describe('QuoteBadRequestHandler', () => {
 
   it('should handle cart validation error', () => {
     spyOn(globalMessageService, 'add');
-    service.handleError(MockRequest, MockCartValidationResponse);
+    service.handleError(mockRequest, mockCartValidationResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
@@ -91,9 +114,29 @@ describe('QuoteBadRequestHandler', () => {
     );
   });
 
+  it('should handle quote discount error', () => {
+    spyOn(globalMessageService, 'add');
+    service.handleError(mockRequest, mockQuoteDiscountResponse);
+
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'quote.httpHandlers.absoluteDiscountIssue',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should raise no message for IllegalArgumentErrors that are not related to quote discounts', () => {
+    spyOn(globalMessageService, 'add');
+
+    service.handleError(mockRequest, mockIllegalArgumentResponse);
+
+    expect(globalMessageService.add).toHaveBeenCalledTimes(0);
+  });
+
   it('should be able to deal with an empty error response', () => {
     spyOn(globalMessageService, 'add');
-    service.handleError(MockRequest, MockEmptyResponse);
+    service.handleError(mockRequest, mockEmptyResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledTimes(0);
   });

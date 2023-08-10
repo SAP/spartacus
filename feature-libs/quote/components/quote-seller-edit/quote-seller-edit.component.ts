@@ -53,7 +53,10 @@ export class QuoteSellerEditComponent implements OnInit {
         const numberFormatValidator =
           this.quoteSellerEditComponentService.getNumberFormatValidator(
             localizationElements.locale,
-            localizationElements.currencySymbol
+            localizationElements.currencySymbol,
+            this.quoteSellerEditComponentService.getMaximumNumberOfTotalPlaces(
+              quote
+            )
           );
         this.form.controls.discount = new UntypedFormControl('', [
           numberFormatValidator,

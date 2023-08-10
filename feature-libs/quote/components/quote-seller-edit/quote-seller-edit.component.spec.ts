@@ -89,6 +89,10 @@ class MockQuoteSellerEditComponentService {
   removeTimeFromDate(): string {
     return EXPIRATION_DATE_AS_STRING;
   }
+
+  getMaximumNumberOfTotalPlaces(): number {
+    return 10;
+  }
 }
 
 describe('QuoteSellerEditComponent', () => {

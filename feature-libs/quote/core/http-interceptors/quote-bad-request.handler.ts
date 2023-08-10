@@ -31,6 +31,12 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
       }
     );
 
+    this.getIllegalArgumentErrors(response).forEach(
+      ({ message }: ErrorModel) => {
+        this.handleIllegalArgumentIssues(message as string);
+      }
+    );
+
     if (this.getCartValidationErrors(response).length > 0) {
       this.handleCartValidationIssues();
     }
@@ -45,6 +51,14 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
   protected getCartValidationErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors ?? []).filter(
       (error: ErrorModel) => error.type === 'CartValidationError'
+    );
+  }
+
+  protected getIllegalArgumentErrors(
+    response: HttpErrorResponse
+  ): ErrorModel[] {
+    return (response.error?.errors ?? []).filter(
+      (error: ErrorModel) => error.type === 'IllegalArgumentError'
     );
   }
 
@@ -69,6 +83,20 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
+  }
+
+  protected handleIllegalArgumentIssues(message: string) {
+    const discountMask = /Discount type is absolute/;
+    const result = message.match(discountMask);
+
+    if (result) {
+      this.globalMessageService.add(
+        {
+          key: 'quote.httpHandlers.absoluteDiscountIssue',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
   }
 
   getPriority(): Priority {

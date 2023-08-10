@@ -49,7 +49,7 @@ export const quote = {
     },
     seller: {
       apply: 'Apply',
-      placeholder: '$0',
+      placeholder: '0',
       discount: 'Discount',
       validation: 'Enter a valid absolute discount',
     },
@@ -110,6 +110,8 @@ export const quote = {
     httpHandlers: {
       cartValidationIssue:
         'Quote request not possible because we found problems with your entries. Please review your cart.',
+      absoluteDiscountIssue:
+        'Choose a discount that does not exceed the total value',
       threshold: {
         underThresholdError:
           'Total price of requested quote does not meet the minimum threshold',

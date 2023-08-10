@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { Observable, combineLatest } from 'rxjs';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { NumberSymbol, getLocaleNumberSymbol } from '@angular/common';
-import { QuoteState } from '@spartacus/quote/root';
+import { Quote, QuoteState } from '@spartacus/quote/root';
 
 export type LocalizationElements = {
   locale: string;
@@ -81,11 +81,20 @@ export class QuoteSellerEditComponentService {
     } else throw new Error('Currency must have symbol or ISO code');
   }
 
-  getNumberFormatValidator(locale: string, currency: string): ValidatorFn {
+  getNumberFormatValidator(
+    locale: string,
+    currency: string,
+    numberTotalPlaces: number
+  ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const input = control.value?.trim();
       if (input) {
-        return this.getValidationErrorsNumericFormat(input, locale, currency);
+        return this.getValidationErrorsNumericFormat(
+          input,
+          locale,
+          currency,
+          numberTotalPlaces
+        );
       }
       return null;
     };
@@ -109,6 +118,14 @@ export class QuoteSellerEditComponentService {
       quoteState === QuoteState.SELLER_DRAFT ||
       quoteState === QuoteState.SELLER_REQUEST
     );
+  }
+
+  getMaximumNumberOfTotalPlaces(quote: Quote): number {
+    const maximum = Math.max(
+      quote.totalPrice.value ?? 1,
+      quote.quoteDiscounts?.value ?? 1
+    );
+    return Math.round(Math.log10(maximum) - 0.5) + 3;
   }
 
   protected parseInput(input: string, locale: string): number {
@@ -140,7 +157,8 @@ export class QuoteSellerEditComponentService {
   protected getValidationErrorsNumericFormat(
     input: string,
     locale: string,
-    currency: string
+    currency: string,
+    numberTotalPlaces: number
   ): { [key: string]: any } | null {
     input = input.replace(currency, '').trim();
 
@@ -166,7 +184,7 @@ export class QuoteSellerEditComponentService {
         input,
         groupingSeparator,
         decimalSeparator,
-        10
+        numberTotalPlaces
       )
     );
   }
