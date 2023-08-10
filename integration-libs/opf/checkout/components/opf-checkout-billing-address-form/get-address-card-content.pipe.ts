@@ -17,31 +17,43 @@ export class GetAddressCardContent implements PipeTransform {
       return {};
     }
 
-    let region = '';
-
-    if (address.region && address.region.isocode) {
-      region = address.region.isocode;
-    }
-
-    let townLine = '';
-
-    if (address.town || region || address.country?.isocode) {
-      townLine += address.town ? address.town : '';
-      townLine +=
-        address.town && (region || address.country?.isocode) ? ', ' : '';
-      townLine += region ? `${region}, ` : '';
-      townLine += address.country?.isocode ? `${address.country?.isocode}` : '';
-    }
-
     return {
-      textBold: address.firstName + ' ' + address.lastName,
+      textBold: `${address.firstName} ${address.lastName}`,
       text: [
         address.line1,
         address.line2,
-        townLine,
+        this.getTownLine(address),
         address.postalCode,
         address.phone,
       ],
     } as Card;
+  }
+
+  protected getTownLine(address: Address): string {
+    const region = address.region?.isocode || '';
+    const town = address.town || '';
+    const countryIsocode = address.country?.isocode || '';
+
+    const townLineParts = [];
+
+    if (town) {
+      townLineParts.push(town);
+    }
+
+    if (region) {
+      if (town) {
+        townLineParts.push(', ');
+      }
+      townLineParts.push(region);
+    }
+
+    if (countryIsocode) {
+      if (town || region) {
+        townLineParts.push(', ');
+      }
+      townLineParts.push(countryIsocode);
+    }
+
+    return townLineParts.join('');
   }
 }
