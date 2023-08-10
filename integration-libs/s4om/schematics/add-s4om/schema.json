@@ -24,7 +24,18 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["S4HANA-Order-Management"]
+      "default": ["S4HANA-Order-Management"],
+      "x-prompt": {
+        "message": "Which S/4 HANA Order Management features would you like to set up?",
+        "type": "list",
+        "items": [
+          { "value": "S4HANA-Order-Management", "label": "Schedule Lines" },
+          {
+            "value": "Requested-Delivery-Date",
+            "label": "Requested Delivery Date"
+          }
+        ]
+      }
     }
   },
   "required": []
