@@ -133,16 +133,16 @@ describe('B2BUser Actions', () => {
       it('should create the action', () => {
         const action = new B2BUserActions.LoadB2BUsersFail({
           params,
-          error: { error },
+           error ,
         });
 
         expect({ ...action }).toEqual({
           error,
           type: B2BUserActions.LOAD_B2B_USERS_FAIL,
-          payload: { params, error: { error } },
-          meta: StateUtils.entityFailMeta(USER_LIST, query, {
+          payload: { params, error },
+          meta: StateUtils.entityFailMeta(USER_LIST, query,
             error,
-          }),
+          ),
         });
       });
     });

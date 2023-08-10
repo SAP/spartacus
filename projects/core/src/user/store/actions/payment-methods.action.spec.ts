@@ -4,6 +4,7 @@ import { USER_PAYMENT_METHODS } from '../user-state';
 import { UserActions } from './index';
 
 const userId = '123';
+const error = { message: 'mockError' };
 
 describe('User Payment Methods Actions', () => {
   describe('LoadUserPaymentMethods Actions', () => {
@@ -20,7 +21,6 @@ describe('User Payment Methods Actions', () => {
 
   describe('LoadUserPaymentMethodsFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
       const action = new UserActions.LoadUserPaymentMethodsFail(error);
 
       expect({ ...action }).toEqual({
@@ -62,12 +62,11 @@ describe('User Payment Methods Actions', () => {
 
   describe('SetDefaultUserPaymentMethodFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
-      const action = new UserActions.SetDefaultUserPaymentMethodFail(false);
+      const action = new UserActions.SetDefaultUserPaymentMethodFail(error);
       expect({ ...action }).toEqual({
-        type: UserActions.SET_DEFAULT_USER_PAYMENT_METHOD_FAIL,
         error,
-        meta: StateUtils.failMeta(USER_PAYMENT_METHODS),
+        type: UserActions.SET_DEFAULT_USER_PAYMENT_METHOD_FAIL,
+        meta: StateUtils.failMeta(USER_PAYMENT_METHODS, error),
       });
     });
   });
@@ -96,12 +95,11 @@ describe('User Payment Methods Actions', () => {
 
   describe('DeleteUserPaymentMethodFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
-      const action = new UserActions.DeleteUserPaymentMethodFail(false);
+      const action = new UserActions.DeleteUserPaymentMethodFail(error);
       expect({ ...action }).toEqual({
         type: UserActions.DELETE_USER_PAYMENT_METHOD_FAIL,
         error,
-        meta: StateUtils.failMeta(USER_PAYMENT_METHODS),
+        meta: StateUtils.failMeta(USER_PAYMENT_METHODS, error),
       });
     });
   });

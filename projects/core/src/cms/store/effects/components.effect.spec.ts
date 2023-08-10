@@ -98,7 +98,9 @@ describe('Component Effects', () => {
         pageContext,
       });
       const completion = new CmsActions.LoadCmsComponentFail({
-        error: { message: 'Error message' },
+        error: {
+          message: `Failed to load CmsComponent ${pageContext.type} uid: comp1`,
+        },
         uid: action.payload.uid,
         pageContext,
       });

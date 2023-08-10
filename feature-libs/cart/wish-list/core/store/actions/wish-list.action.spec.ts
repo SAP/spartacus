@@ -57,7 +57,7 @@ describe('WishList Actions', () => {
           error: payload.error,
           type: WishListActions.LOAD_WISH_LIST_FAIL,
           payload,
-          meta: StateUtils.entityFailMeta(MULTI_CART_DATA, cartId, 'anyError'),
+          meta: StateUtils.entityFailMeta(MULTI_CART_DATA, cartId, payload.error),
         });
       });
     });

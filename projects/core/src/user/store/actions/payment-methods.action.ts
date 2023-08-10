@@ -7,7 +7,8 @@
 import { PaymentDetails } from '../../../model/payment.model';
 import { StateUtils } from '../../../state/utils/index';
 import { USER_PAYMENT_METHODS } from '../user-state';
-import { ErrorAction } from '@spartacus/core';
+import { ErrorAction, HttpErrorModel } from '@spartacus/core';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const LOAD_USER_PAYMENT_METHODS = '[User] Load User Payment Methods';
 export const LOAD_USER_PAYMENT_METHODS_FAIL =
@@ -64,7 +65,7 @@ export class SetDefaultUserPaymentMethodFail
   implements ErrorAction
 {
   readonly type = SET_DEFAULT_USER_PAYMENT_METHOD_FAIL;
-  constructor(public error: any) {
+  constructor(public error: HttpErrorResponse | HttpErrorModel | Error) {
     super(USER_PAYMENT_METHODS, error);
   }
 }

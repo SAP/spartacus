@@ -57,7 +57,7 @@ export class UserPaymentMethodsEffects {
             catchError((error) =>
               of(
                 new UserActions.SetDefaultUserPaymentMethodFail(
-                  normalizeHttpError(error, this.logger)
+                  normalizeHttpError(error, this.logger) ?? { message: error }
                 )
               )
             )

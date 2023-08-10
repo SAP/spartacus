@@ -24,12 +24,12 @@ describe('Product Actions', () => {
 
     describe('LoadProductFail', () => {
       it('should create an action', () => {
-        const payload = { message: new Error('Load Error') };
+        const payload = { message: 'Load Error' };
         const productCode = 'productCode';
         const action = new fromProduct.LoadProductFail(productCode, payload);
 
         expect({ ...action }).toEqual({
-          error: payload.message,
+          error: payload,
           type: fromProduct.LOAD_PRODUCT_FAIL,
           payload,
           meta: EntityScopedLoaderActions.entityScopedFailMeta(
