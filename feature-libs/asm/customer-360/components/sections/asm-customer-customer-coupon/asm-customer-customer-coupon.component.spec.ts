@@ -170,18 +170,18 @@ describe('AsmCustomerCouponComponent', () => {
   });
 
   it('should be able to reload customer coupon list when customer change tab', () => {
-    component.changeTab(false, undefined);
+    component.changeTab(false);
     component.entries$.subscribe((entries) => {
       expect(entries).toEqual(mockReloadCustomerCouponEntryList);
     });
   });
 
   it('should reload customer coupon list when searching customer coupon ', () => {
-    spyOn(component, 'changeTab').and.callThrough();
+    spyOn(component, 'searchCustomerCoupon').and.callThrough();
     el.query(
       By.css('.cx-asm-customer-promotion-listing-search-icon')
     ).nativeElement.click();
-    expect(component.changeTab).toHaveBeenCalled();
+    expect(component.searchCustomerCoupon).toHaveBeenCalled();
   });
 
   it('should be able to fetch coupon list from context data', () => {
