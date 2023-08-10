@@ -77,8 +77,10 @@ export class QuoteSellerEditComponentService {
     currency?: string
   ): LocalizationElements {
     if (currency) {
-      return { locale, currencySymbol: currency, formatter };
-    } else throw new Error('Currency must have symbol or ISO code');
+      return { locale, formatter, currencySymbol: currency };
+    } else {
+      throw new Error('Currency must have symbol or ISO code');
+    }
   }
 
   getNumberFormatValidator(
