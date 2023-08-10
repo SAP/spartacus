@@ -73,11 +73,18 @@ export class QuoteSellerEditComponent implements OnInit {
         );
       });
   }
-
+  /**
+   * Do we display validation message?
+   * @returns True in case discount control has errors
+   */
   mustDisplayValidationMessage(): boolean {
     return !this.form.controls.discount.valid;
   }
 
+  /**
+   * On applying discount, we send its value to the facade layer
+   * @param quoteCode Quote code
+   */
   onApply(quoteCode: string): void {
     if (this.form.controls.discount.valid) {
       combineLatest([
@@ -98,7 +105,10 @@ export class QuoteSellerEditComponent implements OnInit {
     }
   }
 
-  //TODO CHHI error handling in case date is in the past
+  /**
+   * On setting a date, we send its value to the facade layer
+   * @param quoteCode Quote code
+   */
   onSetDate(quoteCode: string): void {
     const dateWithTime = this.quoteSellerEditComponentService.addTimeToDate(
       this.form.controls.validityDate.value

@@ -31,22 +31,33 @@ export class QuoteSellerEditComponentService {
     protected languageService: LanguageService
   ) {}
 
+  /**
+   * Parses a discount value to numeric format
+   * @param input Discount as string, can include currency symbol, decimal and grouping separators
+   * @returns Observable of discount as number
+   */
   parseDiscountValue(input: string): Observable<number> {
     return this.getLocalizationElements().pipe(
       map((localizationElements) => {
         input = input.replace(localizationElements.currencySymbol, '');
-
         return this.parseInput(input, localizationElements.locale);
       })
     );
   }
 
+  /**
+   * Gets formatter according to current locale and currency
+   * @returns Observable of formatters
+   */
   getFormatter(): Observable<Intl.NumberFormat> {
     return this.getLocalizationElements().pipe(
       map((localizationElements) => localizationElements.formatter)
     );
   }
-
+  /**
+   * Gets localization elements according to current locale and currency
+   * @returns Observables of localization elements
+   */
   getLocalizationElements(): Observable<LocalizationElements> {
     return combineLatest([
       this.currencyService.getActive(),
@@ -71,18 +82,13 @@ export class QuoteSellerEditComponentService {
     );
   }
 
-  protected checkAndReportCurrencyIfMissing(
-    locale: string,
-    formatter: Intl.NumberFormat,
-    currency?: string
-  ): LocalizationElements {
-    if (currency) {
-      return { locale, formatter, currencySymbol: currency };
-    } else {
-      throw new Error('Currency must have symbol or ISO code');
-    }
-  }
-
+  /**
+   * Gets number format validator according to inputs
+   * @param locale Current locale
+   * @param currency Currency
+   * @param numberTotalPlaces Number of maximum total places
+   * @returns Formatter that can be attached to a form control
+   */
   getNumberFormatValidator(
     locale: string,
     currency: string,
@@ -102,6 +108,11 @@ export class QuoteSellerEditComponentService {
     };
   }
 
+  /**
+   * Adds current time and time zone to a date. Result is a timestamp string that can be handed over to OCC
+   * @param date Date as string
+   * @returns Timestamp as string
+   */
   addTimeToDate(date: string): string {
     const localTime = new Date().toLocaleTimeString([], {
       hour: '2-digit',
@@ -111,10 +122,21 @@ export class QuoteSellerEditComponentService {
     return `${date}T${localTime}:00${TimeUtils.getLocalTimezoneOffset()}`;
   }
 
-  removeTimeFromDate(date?: string): string | undefined {
-    return date?.toString().substring(0, 10);
+  /**
+   * Removes time portion from timestamp
+   * @param timestamp Timestamp as string
+   * @returns Date portion of timestamp
+   */
+  removeTimeFromDate(timestamp?: string): string | undefined {
+    return timestamp?.toString().substring(0, 10);
   }
 
+  //TODO CHHI check here for edit
+  /**
+   * Check if quote state belongs to seller
+   * @param quoteState
+   * @returns Is it for seller?
+   */
   isSeller(quoteState: QuoteState): boolean {
     return (
       quoteState === QuoteState.SELLER_DRAFT ||
@@ -122,12 +144,33 @@ export class QuoteSellerEditComponentService {
     );
   }
 
+  /**
+   * Get maximum number of decimal places. This supports validation, but it is not sufficient to do a complete validation,
+   * cases where the granted discount exceeds the total quote value by 1 are not covered (covered in OCC call).
+   * Still we want to inform the user as early as possible.
+   * Note that we assume currencies always come with 2 decimal places. In case this is not desired, this service can be overriden.
+   * @param quote Quote
+   * @returns Maximum number of places, including 2 decimal places
+   */
   getMaximumNumberOfTotalPlaces(quote: Quote): number {
+    const numberOfDecimalPlaces = 2;
     const maximum = Math.max(
       quote.totalPrice.value ?? 1,
       quote.quoteDiscounts?.value ?? 1
     );
-    return Math.round(Math.log10(maximum) - 0.5) + 3;
+    return Math.round(Math.log10(maximum) - 0.5) + 1 + numberOfDecimalPlaces;
+  }
+
+  protected checkAndReportCurrencyIfMissing(
+    locale: string,
+    formatter: Intl.NumberFormat,
+    currency?: string
+  ): LocalizationElements {
+    if (currency) {
+      return { locale, formatter, currencySymbol: currency };
+    } else {
+      throw new Error('Currency must have symbol or ISO code');
+    }
   }
 
   protected parseInput(input: string, locale: string): number {
