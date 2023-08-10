@@ -35,15 +35,15 @@ For more information about using Verdaccio or another registry software, see the
     git clone https://github.com/SAP/spartacus.git && cd spartacus
     ```
 
-1. Use the branch or tag name to check out the branch of the required release version.
+1. Use the tag name to check out the required release version.
 
-    For example, the following command checks out the first code-frozen 5.0.0 release, which is in branch `release/5.0.0-CF1`:
+    For example, the following command checks out the 6.1.0 release:
 
     ```bash
-    git checkout release/5.0.0-CF1
+    git checkout 6.1.0
     ```
 
-    When choosing a tag or branch, use the specific major.minor.patch (for example, `5.0.0`) of the release you want to use. The latest release is always recommended.
+    When specifying the tag of the release version, use the specific major.minor.patch (for example, `6.1.0`) of the release you want to use. The latest release is always recommended.
 
     You can use the `git branch` command to confirm which branch you are on.
 
