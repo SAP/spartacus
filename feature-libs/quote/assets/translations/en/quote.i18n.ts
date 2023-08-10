@@ -104,10 +104,10 @@ export const quote = {
         },
       },
       approver: {
-        submit: {
-          title: 'Submit Quote {{ code }}?',
-          confirmNote: 'Are you sure you want to submit this quote?',
-          successMessage: 'Quote submitted successfully',
+        approve: {
+          title: 'Approve Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to approve this quote?',
+          successMessage: 'Quote approved successfully',
         },
         reject: {
           title: 'Reject Quote {{ code }}?',
