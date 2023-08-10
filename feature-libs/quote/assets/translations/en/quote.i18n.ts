@@ -50,7 +50,8 @@ export const quote = {
     seller: {
       apply: 'Apply',
       placeholder: '0',
-      discount: 'Discount',
+      discount: 'Absolute Discount',
+      expiryDate: 'Expiry Date',
       validation: 'Enter a valid absolute discount',
     },
     comments: {

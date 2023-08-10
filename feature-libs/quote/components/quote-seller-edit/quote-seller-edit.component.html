@@ -1,38 +1,49 @@
 <ng-container *ngIf="quoteDetailsForSeller$ | async as quoteDetails">
-  <form (ngSubmit)="onApply(quoteDetails.code)" [formGroup]="form">
-    <label>
-      <span class="label-content">{{
-        'quote.seller.discount' | cxTranslate
-      }}</span>
-      <input
-        required="true"
-        type="text"
-        class="form-control"
-        name="discount"
-        placeholder="{{ 'quote.seller.placeholder' | cxTranslate }}"
-        formControlName="discount"
-      />
-    </label>
-    <div
-      class="cx-validation-msg"
-      *ngIf="mustDisplayValidationMessage()"
-      aria-live="assertive"
-      aria-atomic="true"
-      role="alert"
-    >
-      <cx-icon [type]="iconType.ERROR"></cx-icon>
-      {{ 'quote.seller.validation' | cxTranslate }}
-    </div>
-    <button
-      class="btn btn-block btn-primary cx-send"
-      (click)="onApply(quoteDetails.code)"
-    >
-      {{ 'quote.seller.apply' | cxTranslate }}
-    </button>
-    <cx-date-picker
-      [control]="$any(form.get('validityDate'))"
-      [required]="true"
-      (update)="onSetDate(quoteDetails.code)"
-    ></cx-date-picker>
-  </form>
+  <div class="cx-seller-edit-body">
+    <form (ngSubmit)="onApply(quoteDetails.code)" [formGroup]="form">
+      <label>
+        <span class="label-content bold">{{
+          'quote.seller.discount' | cxTranslate
+        }}</span>
+        <div class="cx-discount-input">
+          <input
+            required="true"
+            type="text"
+            class="form-control"
+            name="discount"
+            placeholder="{{ 'quote.seller.placeholder' | cxTranslate }}"
+            formControlName="discount"
+          />
+          <button
+            class="btn btn-block btn-secondary cx-apply"
+            (click)="onApply(quoteDetails.code)"
+          >
+            {{ 'quote.seller.apply' | cxTranslate }}
+          </button>
+        </div>
+
+        <div
+          class="cx-validation-msg"
+          *ngIf="mustDisplayValidationMessage()"
+          aria-live="assertive"
+          aria-atomic="true"
+          role="alert"
+        >
+          <cx-icon [type]="iconType.ERROR"></cx-icon>
+          {{ 'quote.seller.validation' | cxTranslate }}
+        </div>
+      </label>
+
+      <label>
+        <span class="label-content bold">{{
+          'quote.seller.expiryDate' | cxTranslate
+        }}</span>
+        <cx-date-picker
+          [control]="$any(form.get('validityDate'))"
+          [required]="true"
+          (update)="onSetDate(quoteDetails.code)"
+        ></cx-date-picker>
+      </label>
+    </form>
+  </div>
 </ng-container>
