@@ -19,6 +19,7 @@ import {
 } from '@spartacus/storefront';
 import { GetAddressCardContent } from './get-address-card-content.pipe';
 import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
+import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 
 @NgModule({
   declarations: [OpfCheckoutBillingAddressFormComponent, GetAddressCardContent],
@@ -35,5 +36,6 @@ import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-a
     AddressFormModule,
     SpinnerModule,
   ],
+  providers: [OpfCheckoutBillingAddressFormService],
 })
 export class OpfCheckoutBillingAddressFormModule {}

@@ -14,7 +14,6 @@ import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-add
   selector: 'cx-opf-checkout-billing-address-form',
   templateUrl: './opf-checkout-billing-address-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [OpfCheckoutBillingAddressFormService],
 })
 export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   iconTypes = ICON_TYPE;

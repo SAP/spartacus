@@ -20,7 +20,17 @@ export class GetAddressCardContent implements PipeTransform {
     let region = '';
 
     if (address.region && address.region.isocode) {
-      region = address.region.isocode + ', ';
+      region = address.region.isocode;
+    }
+
+    let townLine = '';
+
+    if (address.town || region || address.country?.isocode) {
+      townLine += address.town ? address.town : '';
+      townLine +=
+        address.town && (region || address.country?.isocode) ? ', ' : '';
+      townLine += region ? `${region}, ` : '';
+      townLine += address.country?.isocode ? `${address.country?.isocode}` : '';
     }
 
     return {
@@ -28,7 +38,7 @@ export class GetAddressCardContent implements PipeTransform {
       text: [
         address.line1,
         address.line2,
-        address.town + ', ' + region + address.country?.isocode,
+        townLine,
         address.postalCode,
         address.phone,
       ],
