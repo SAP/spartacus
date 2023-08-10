@@ -87,12 +87,23 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
 
   protected handleIllegalArgumentIssues(message: string) {
     const discountMask = /Discount type is absolute/;
-    const result = message.match(discountMask);
+    const discountRelated = message.match(discountMask);
+    const expirationMask = /Invalid quote expiration time/;
+    const expirationRelated = message.match(expirationMask);
 
-    if (result) {
+    if (discountRelated) {
       this.globalMessageService.add(
         {
           key: 'quote.httpHandlers.absoluteDiscountIssue',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
+
+    if (expirationRelated) {
+      this.globalMessageService.add(
+        {
+          key: 'quote.httpHandlers.expirationDateIssue',
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );

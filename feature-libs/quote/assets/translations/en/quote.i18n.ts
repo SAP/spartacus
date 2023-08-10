@@ -113,6 +113,7 @@ export const quote = {
         'Quote request not possible because we found problems with your entries. Please review your cart.',
       absoluteDiscountIssue:
         'Choose a discount that does not exceed the total value',
+      expirationDateIssue: 'Choose an expiration date in the future',
       threshold: {
         underThresholdError:
           'Total price of requested quote does not meet the minimum threshold',

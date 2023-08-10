@@ -44,6 +44,17 @@ const mockQuoteDiscountResponse = {
   },
 } as HttpErrorResponse;
 
+const mockQuoteExpirationDateResponse = {
+  error: {
+    errors: [
+      {
+        message: 'Invalid quote expiration time [7 August 2023].',
+        type: 'IllegalArgumentError',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
 const mockIllegalArgumentResponse = {
   error: {
     errors: [
@@ -121,6 +132,18 @@ describe('QuoteBadRequestHandler', () => {
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
         key: 'quote.httpHandlers.absoluteDiscountIssue',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should handle expiration date error', () => {
+    spyOn(globalMessageService, 'add');
+    service.handleError(mockRequest, mockQuoteExpirationDateResponse);
+
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'quote.httpHandlers.expirationDateIssue',
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
