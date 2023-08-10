@@ -8,8 +8,7 @@ import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { StateUtils } from '../../../state/utils/index';
 import { COMPONENT_ENTITY } from '../cms-state';
-import { ErrorAction, HttpErrorModel } from '@spartacus/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorAction, ErrorActionType } from '@spartacus/core';
 
 export const LOAD_CMS_COMPONENT = '[Cms] Load Component';
 export const LOAD_CMS_COMPONENT_FAIL = '[Cms] Load Component Fail';
@@ -33,7 +32,7 @@ export class LoadCmsComponentFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_CMS_COMPONENT_FAIL;
 
   constructor(

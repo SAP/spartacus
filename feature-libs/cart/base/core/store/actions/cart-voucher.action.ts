@@ -5,13 +5,12 @@
  */
 
 import {
+  ErrorAction,
+  ErrorActionType,
   PROCESS_FEATURE,
   StateUtils,
-  ErrorAction,
-  HttpErrorModel,
 } from '@spartacus/core';
 import { ADD_VOUCHER_PROCESS_ID, MULTI_CART_DATA } from '../multi-cart-state';
-import { HttpErrorResponse } from '@angular/common/http';
 
 export const CART_ADD_VOUCHER = '[Cart-voucher] Add Cart Vouchers';
 export const CART_ADD_VOUCHER_FAIL = '[Cart-voucher] Add Cart Voucher Fail';
@@ -28,6 +27,7 @@ export const CART_REMOVE_VOUCHER_SUCCESS =
 // Adding cart voucher actions
 export class CartAddVoucher extends StateUtils.EntityLoadAction {
   readonly type = CART_ADD_VOUCHER;
+
   constructor(
     public payload: { userId: string; cartId: string; voucherId: string }
   ) {
@@ -39,8 +39,9 @@ export class CartAddVoucherFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = CART_ADD_VOUCHER_FAIL;
+
   constructor(
     public payload: {
       userId: string;
@@ -55,6 +56,7 @@ export class CartAddVoucherFail
 
 export class CartAddVoucherSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CART_ADD_VOUCHER_SUCCESS;
+
   constructor(
     public payload: { userId: string; cartId: string; voucherId: string }
   ) {
@@ -67,6 +69,7 @@ export class CartAddVoucherSuccess extends StateUtils.EntitySuccessAction {
  */
 export class CartResetAddVoucher extends StateUtils.EntityLoaderResetAction {
   readonly type = CART_RESET_ADD_VOUCHER;
+
   constructor() {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
   }
@@ -75,6 +78,7 @@ export class CartResetAddVoucher extends StateUtils.EntityLoaderResetAction {
 // Deleting cart voucher
 export class CartRemoveVoucher extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_REMOVE_VOUCHER;
+
   constructor(
     public payload: { userId: string; cartId: string; voucherId: string }
   ) {
@@ -86,8 +90,9 @@ export class CartRemoveVoucherFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = CART_REMOVE_VOUCHER_FAIL;
+
   constructor(
     public payload: {
       error: any;
@@ -102,6 +107,7 @@ export class CartRemoveVoucherFail
 
 export class CartRemoveVoucherSuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_VOUCHER_SUCCESS;
+
   constructor(
     public payload: { userId: string; cartId: string; voucherId: string }
   ) {

@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils, ErrorAction, HttpErrorModel } from '@spartacus/core';
+import { StateUtils, ErrorAction, ErrorActionType } from '@spartacus/core';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
-import { HttpErrorResponse } from '@angular/common/http';
 
 export const SEARCH_VARIANTS = '[Configurator] Search Variants';
 export const SEARCH_VARIANTS_FAIL = '[Configurator]  Search Variants fail';
@@ -24,7 +23,7 @@ export class SearchVariantsFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = SEARCH_VARIANTS_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);

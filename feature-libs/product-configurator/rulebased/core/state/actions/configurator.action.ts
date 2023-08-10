@@ -5,11 +5,10 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorAction, HttpErrorModel, StateUtils } from '@spartacus/core';
+import { ErrorAction, ErrorActionType, StateUtils } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
-import { HttpErrorResponse } from '@angular/common/http';
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
 export const CREATE_CONFIGURATION_FAIL =
@@ -89,7 +88,7 @@ export class CreateConfigurationFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = CREATE_CONFIGURATION_FAIL;
 
   constructor(
@@ -127,7 +126,7 @@ export class ReadConfigurationFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = READ_CONFIGURATION_FAIL;
 
   constructor(public payload: { ownerKey: string; error: any }) {
@@ -158,7 +157,7 @@ export class UpdateConfigurationFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = UPDATE_CONFIGURATION_FAIL;
 
   constructor(
@@ -207,7 +206,7 @@ export class UpdatePriceSummaryFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = UPDATE_PRICE_SUMMARY_FAIL;
 
   constructor(public payload: { ownerKey: string; error: any }) {
@@ -269,7 +268,7 @@ export class GetConfigurationOverviewFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = GET_CONFIGURATION_OVERVIEW_FAIL;
 
   constructor(public payload: { ownerKey: string; error: any }) {
@@ -299,7 +298,7 @@ export class UpdateConfigurationOverviewFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = UPDATE_CONFIGURATION_OVERVIEW_FAIL;
 
   constructor(public payload: { ownerKey: string; error: any }) {

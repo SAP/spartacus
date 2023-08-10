@@ -10,8 +10,7 @@ import { EntityLoaderMeta } from '../../../state/utils/entity-loader/entity-load
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
 import { ProductScope } from '../../model/product-scope';
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorAction, HttpErrorModel } from '@spartacus/core';
+import { ErrorAction, ErrorActionType } from '@spartacus/core';
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';
@@ -39,7 +38,7 @@ export class LoadProductFail
   extends EntityScopedLoaderActions.EntityScopedFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload;
+  error: ErrorActionType = this.payload;
 
   readonly type = LOAD_PRODUCT_FAIL;
 

@@ -5,11 +5,11 @@
  */
 
 import {
+  ErrorAction,
+  ErrorActionType,
   ListModel,
   SearchConfig,
   StateUtils,
-  ErrorAction,
-  HttpErrorModel,
 } from '@spartacus/core';
 import { UserGroup } from '../../model/user-group.model';
 import {
@@ -20,7 +20,6 @@ import {
   USER_GROUP_LIST,
   USER_GROUP_PERMISSIONS,
 } from '../organization-state';
-import { HttpErrorResponse } from '@angular/common/http';
 
 export const LOAD_USER_GROUP = '[UserGroup] Load UserGroup Data';
 export const LOAD_USER_GROUP_FAIL = '[UserGroup] Load UserGroup Data Fail';
@@ -87,6 +86,7 @@ export const USER_GROUP_UNASSIGN_PERMISSION_SUCCESS =
 
 export class LoadUserGroup extends StateUtils.EntityLoadAction {
   readonly type = LOAD_USER_GROUP;
+
   constructor(public payload: { userId: string; userGroupId: string }) {
     super(USER_GROUP_ENTITIES, payload.userGroupId);
   }
@@ -96,8 +96,9 @@ export class LoadUserGroupFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_USER_GROUP_FAIL;
+
   constructor(public payload: { userGroupId: string; error: any }) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
@@ -105,6 +106,7 @@ export class LoadUserGroupFail
 
 export class LoadUserGroupSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_USER_GROUP_SUCCESS;
+
   constructor(public payload: UserGroup | UserGroup[]) {
     super(
       USER_GROUP_ENTITIES,
@@ -117,6 +119,7 @@ export class LoadUserGroupSuccess extends StateUtils.EntitySuccessAction {
 
 export class LoadUserGroups extends StateUtils.EntityLoadAction {
   readonly type = LOAD_USER_GROUPS;
+
   constructor(
     public payload: {
       userId: string;
@@ -131,8 +134,9 @@ export class LoadUserGroupsFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_USER_GROUPS_FAIL;
+
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       USER_GROUP_LIST,
@@ -144,6 +148,7 @@ export class LoadUserGroupsFail
 
 export class LoadUserGroupsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_USER_GROUPS_SUCCESS;
+
   constructor(
     public payload: {
       page: ListModel;
@@ -156,6 +161,7 @@ export class LoadUserGroupsSuccess extends StateUtils.EntitySuccessAction {
 
 export class LoadPermissions extends StateUtils.EntityLoadAction {
   readonly type = LOAD_USER_GROUP_PERMISSIONS;
+
   constructor(
     public payload: {
       userId: string;
@@ -174,8 +180,9 @@ export class LoadPermissionsFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_USER_GROUP_PERMISSIONS_FAIL;
+
   constructor(
     public payload: {
       userGroupId: string;
@@ -193,6 +200,7 @@ export class LoadPermissionsFail
 
 export class LoadPermissionsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_USER_GROUP_PERMISSIONS_SUCCESS;
+
   constructor(
     public payload: {
       userGroupId: string;
@@ -209,6 +217,7 @@ export class LoadPermissionsSuccess extends StateUtils.EntitySuccessAction {
 
 export class LoadAvailableOrgCustomers extends StateUtils.EntityLoadAction {
   readonly type = LOAD_USER_GROUP_AVAILABLE_CUSTOMERS;
+
   constructor(
     public payload: {
       userId: string;
@@ -227,8 +236,9 @@ export class LoadAvailableOrgCustomersFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_FAIL;
+
   constructor(
     public payload: {
       userGroupId: string;
@@ -246,6 +256,7 @@ export class LoadAvailableOrgCustomersFail
 
 export class LoadAvailableOrgCustomersSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_SUCCESS;
+
   constructor(
     public payload: {
       userGroupId: string;
@@ -262,6 +273,7 @@ export class LoadAvailableOrgCustomersSuccess extends StateUtils.EntitySuccessAc
 
 export class CreateUserGroup extends StateUtils.EntityLoadAction {
   readonly type = CREATE_USER_GROUP;
+
   constructor(public payload: { userId: string; userGroup: UserGroup }) {
     super(USER_GROUP_ENTITIES, payload.userGroup.uid ?? null);
   }
@@ -271,8 +283,9 @@ export class CreateUserGroupFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = CREATE_USER_GROUP_FAIL;
+
   constructor(public payload: { userGroupId: string; error: any }) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
@@ -280,6 +293,7 @@ export class CreateUserGroupFail
 
 export class CreateUserGroupSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_USER_GROUP_SUCCESS;
+
   constructor(public payload: UserGroup) {
     super(USER_GROUP_ENTITIES, payload.uid ?? null, payload);
   }
@@ -287,6 +301,7 @@ export class CreateUserGroupSuccess extends StateUtils.EntitySuccessAction {
 
 export class AssignMember extends StateUtils.EntityLoadAction {
   readonly type = USER_GROUP_ASSIGN_MEMBER;
+
   constructor(
     public payload: {
       userId: string;
@@ -302,8 +317,9 @@ export class AssignMemberFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = USER_GROUP_ASSIGN_MEMBER_FAIL;
+
   constructor(
     public payload: {
       userGroupId: string;
@@ -317,6 +333,7 @@ export class AssignMemberFail
 
 export class AssignMemberSuccess extends StateUtils.EntitySuccessAction {
   readonly type = USER_GROUP_ASSIGN_MEMBER_SUCCESS;
+
   constructor(public payload: { customerId: string; selected: boolean }) {
     super(B2B_USER_ENTITIES, payload.customerId, payload);
   }
@@ -324,6 +341,7 @@ export class AssignMemberSuccess extends StateUtils.EntitySuccessAction {
 
 export class AssignPermission extends StateUtils.EntityLoadAction {
   readonly type = USER_GROUP_ASSIGN_PERMISSION;
+
   constructor(
     public payload: {
       userId: string;
@@ -339,8 +357,9 @@ export class AssignPermissionFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = USER_GROUP_ASSIGN_PERMISSION_FAIL;
+
   constructor(
     public payload: {
       userGroupId: string;
@@ -354,6 +373,7 @@ export class AssignPermissionFail
 
 export class AssignPermissionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = USER_GROUP_ASSIGN_PERMISSION_SUCCESS;
+
   constructor(public payload: { permissionUid: string; selected: boolean }) {
     super(PERMISSION_ENTITIES, payload.permissionUid, payload);
   }
@@ -361,6 +381,7 @@ export class AssignPermissionSuccess extends StateUtils.EntitySuccessAction {
 
 export class UpdateUserGroup extends StateUtils.EntityLoadAction {
   readonly type = UPDATE_USER_GROUP;
+
   constructor(
     public payload: {
       userId: string;
@@ -376,8 +397,9 @@ export class UpdateUserGroupFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = UPDATE_USER_GROUP_FAIL;
+
   constructor(public payload: { userGroupId: string; error: any }) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
@@ -385,6 +407,7 @@ export class UpdateUserGroupFail
 
 export class UpdateUserGroupSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_USER_GROUP_SUCCESS;
+
   constructor(public payload: UserGroup) {
     super(USER_GROUP_ENTITIES, payload.uid ?? '', payload);
   }
@@ -392,6 +415,7 @@ export class UpdateUserGroupSuccess extends StateUtils.EntitySuccessAction {
 
 export class DeleteUserGroup extends StateUtils.EntityLoadAction {
   readonly type = DELETE_USER_GROUP;
+
   constructor(
     public payload: {
       userId: string;
@@ -406,8 +430,9 @@ export class DeleteUserGroupFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = DELETE_USER_GROUP_FAIL;
+
   constructor(public payload: { userGroupId: string; error: any }) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
@@ -415,6 +440,7 @@ export class DeleteUserGroupFail
 
 export class DeleteUserGroupSuccess extends StateUtils.EntitySuccessAction {
   readonly type = DELETE_USER_GROUP_SUCCESS;
+
   constructor(public payload: UserGroup) {
     super(USER_GROUP_ENTITIES, payload.uid ?? '', payload);
   }
@@ -422,6 +448,7 @@ export class DeleteUserGroupSuccess extends StateUtils.EntitySuccessAction {
 
 export class UnassignMember extends StateUtils.EntityLoadAction {
   readonly type = USER_GROUP_UNASSIGN_MEMBER;
+
   constructor(
     public payload: {
       userId: string;
@@ -437,8 +464,9 @@ export class UnassignMemberFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = USER_GROUP_UNASSIGN_MEMBER_FAIL;
+
   constructor(
     public payload: {
       userGroupId: string;
@@ -452,6 +480,7 @@ export class UnassignMemberFail
 
 export class UnassignMemberSuccess extends StateUtils.EntitySuccessAction {
   readonly type = USER_GROUP_UNASSIGN_MEMBER_SUCCESS;
+
   constructor(public payload: { customerId: string; selected: boolean }) {
     super(B2B_USER_ENTITIES, payload.customerId, payload);
   }
@@ -459,6 +488,7 @@ export class UnassignMemberSuccess extends StateUtils.EntitySuccessAction {
 
 export class UnassignAllMembers extends StateUtils.EntityLoadAction {
   readonly type = USER_GROUP_UNASSIGN_ALL_MEMBERS;
+
   constructor(
     public payload: {
       userId: string;
@@ -473,8 +503,9 @@ export class UnassignAllMembersFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = USER_GROUP_UNASSIGN_ALL_MEMBERS_FAIL;
+
   constructor(public payload: { userGroupId: string; error: any }) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
@@ -482,6 +513,7 @@ export class UnassignAllMembersFail
 
 export class UnassignAllMembersSuccess extends StateUtils.EntitySuccessAction {
   readonly type = USER_GROUP_UNASSIGN_ALL_MEMBERS_SUCCESS;
+
   constructor(public payload: UserGroup) {
     super(USER_GROUP_ENTITIES, payload.uid ?? '', payload);
   }
@@ -489,6 +521,7 @@ export class UnassignAllMembersSuccess extends StateUtils.EntitySuccessAction {
 
 export class UnassignPermission extends StateUtils.EntityLoadAction {
   readonly type = USER_GROUP_UNASSIGN_PERMISSION;
+
   constructor(
     public payload: {
       userId: string;
@@ -504,8 +537,9 @@ export class UnassignPermissionFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = USER_GROUP_UNASSIGN_PERMISSION_FAIL;
+
   constructor(
     public payload: {
       userGroupId: string;
@@ -519,6 +553,7 @@ export class UnassignPermissionFail
 
 export class UnassignPermissionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = USER_GROUP_UNASSIGN_PERMISSION_SUCCESS;
+
   constructor(public payload: { permissionUid: string; selected: boolean }) {
     super(PERMISSION_ENTITIES, payload.permissionUid, payload);
   }

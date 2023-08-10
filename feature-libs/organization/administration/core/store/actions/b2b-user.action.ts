@@ -6,11 +6,11 @@
 
 import {
   B2BUser,
+  ErrorAction,
+  ErrorActionType,
   ListModel,
   SearchConfig,
   StateUtils,
-  ErrorAction,
-  HttpErrorModel,
 } from '@spartacus/core';
 import {
   B2B_USER_APPROVERS,
@@ -21,7 +21,6 @@ import {
   USER_GROUP_ENTITIES,
   USER_LIST,
 } from '../organization-state';
-import { HttpErrorResponse } from '@angular/common/http';
 
 export const LOAD_B2B_USER = '[B2BUser] Load B2BUser Data';
 export const LOAD_B2B_USER_FAIL = '[B2BUser] Load B2BUser Data Fail';
@@ -106,7 +105,7 @@ export class LoadB2BUserFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_B2B_USER_FAIL;
   constructor(public payload: { orgCustomerId: string; error: any }) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
@@ -136,7 +135,7 @@ export class CreateB2BUserFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = CREATE_B2B_USER_FAIL;
   constructor(public payload: { orgCustomerId: string; error: any }) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
@@ -167,7 +166,7 @@ export class UpdateB2BUserFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = UPDATE_B2B_USER_FAIL;
   constructor(public payload: { orgCustomerId: string; error: any }) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
@@ -197,7 +196,7 @@ export class LoadB2BUsersFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_B2B_USERS_FAIL;
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
@@ -240,7 +239,7 @@ export class LoadB2BUserApproversFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_B2B_USER_APPROVERS_FAIL;
   constructor(
     public payload: {
@@ -290,7 +289,7 @@ export class AssignB2BUserApproverFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = ASSIGN_B2B_USER_APPROVER_FAIL;
   constructor(
     public payload: {
@@ -332,7 +331,7 @@ export class UnassignB2BUserApproverFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = UNASSIGN_B2B_USER_APPROVER_FAIL;
   constructor(
     public payload: {
@@ -377,7 +376,7 @@ export class LoadB2BUserPermissionsFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_B2B_USER_PERMISSIONS_FAIL;
   constructor(
     public payload: {
@@ -423,7 +422,7 @@ export class AssignB2BUserPermissionFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = ASSIGN_B2B_USER_PERMISSION_FAIL;
   constructor(
     public payload: {
@@ -465,7 +464,7 @@ export class UnassignB2BUserPermissionFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = UNASSIGN_B2B_USER_PERMISSION_FAIL;
   constructor(
     public payload: {
@@ -510,7 +509,7 @@ export class LoadB2BUserUserGroupsFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_B2B_USER_USER_GROUPS_FAIL;
   constructor(
     public payload: {
@@ -560,7 +559,7 @@ export class AssignB2BUserUserGroupFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = ASSIGN_B2B_USER_USER_GROUP_FAIL;
   constructor(
     public payload: {
@@ -602,7 +601,7 @@ export class UnassignB2BUserUserGroupFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = UNASSIGN_B2B_USER_USER_GROUP_FAIL;
   constructor(
     public payload: {

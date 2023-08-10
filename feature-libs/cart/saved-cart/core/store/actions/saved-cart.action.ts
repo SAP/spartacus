@@ -6,10 +6,10 @@
 
 import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
 import {
+  ErrorAction,
+  ErrorActionType,
   PROCESS_FEATURE,
   StateUtils,
-  ErrorAction,
-  HttpErrorModel,
 } from '@spartacus/core';
 import {
   SAVED_CART_CLONE_CART_PROCESS_ID,
@@ -17,7 +17,6 @@ import {
   SAVED_CART_RESTORE_CART_PROCESS_ID,
   SAVED_CART_SAVE_CART_PROCESS_ID,
 } from '../saved-cart-constants';
-import { HttpErrorResponse } from '@angular/common/http';
 
 export const LOAD_SAVED_CART = '[Saved Cart] Load Saved Cart';
 export const LOAD_SAVED_CART_SUCCESS = '[Saved Cart] Load Saved Cart Success';
@@ -50,6 +49,7 @@ export const CLEAR_CLONE_SAVED_CART = '[Saved Cart] Clear Clone Saved Cart';
 
 export class LoadSavedCart extends StateUtils.EntityLoadAction {
   readonly type = LOAD_SAVED_CART;
+
   constructor(
     public payload: {
       userId: string;
@@ -62,6 +62,7 @@ export class LoadSavedCart extends StateUtils.EntityLoadAction {
 
 export class LoadSavedCartSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_SAVED_CART_SUCCESS;
+
   constructor(
     public payload: {
       userId: string;
@@ -76,8 +77,9 @@ export class LoadSavedCartFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_SAVED_CART_FAIL;
+
   constructor(public payload: { userId: string; cartId: string; error: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload?.error);
   }
@@ -85,6 +87,7 @@ export class LoadSavedCartFail
 
 export class LoadSavedCarts extends StateUtils.EntityLoadAction {
   readonly type = LOAD_SAVED_CARTS;
+
   constructor(
     public payload: {
       userId: string;
@@ -96,6 +99,7 @@ export class LoadSavedCarts extends StateUtils.EntityLoadAction {
 
 export class LoadSavedCartsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_SAVED_CARTS_SUCCESS;
+
   constructor(
     public payload: {
       userId: string;
@@ -109,8 +113,9 @@ export class LoadSavedCartsFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_SAVED_CARTS_FAIL;
+
   constructor(
     public payload: {
       userId: string;
@@ -123,6 +128,7 @@ export class LoadSavedCartsFail
 
 export class ClearSavedCarts extends StateUtils.EntityLoaderResetAction {
   readonly type = CLEAR_SAVED_CARTS;
+
   constructor() {
     super(PROCESS_FEATURE, SAVED_CART_LIST_PROCESS_ID);
   }
@@ -130,6 +136,7 @@ export class ClearSavedCarts extends StateUtils.EntityLoaderResetAction {
 
 export class RestoreSavedCart extends StateUtils.EntityLoadAction {
   readonly type = RESTORE_SAVED_CART;
+
   constructor(
     public payload: {
       userId: string;
@@ -142,6 +149,7 @@ export class RestoreSavedCart extends StateUtils.EntityLoadAction {
 
 export class RestoreSavedCartSuccess extends StateUtils.EntitySuccessAction {
   readonly type = RESTORE_SAVED_CART_SUCCESS;
+
   constructor(
     public payload: {
       userId: string;
@@ -156,8 +164,9 @@ export class RestoreSavedCartFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = RESTORE_SAVED_CART_FAIL;
+
   constructor(
     public payload: {
       userId: string;
@@ -171,6 +180,7 @@ export class RestoreSavedCartFail
 
 export class ClearRestoreSavedCart extends StateUtils.EntityLoaderResetAction {
   readonly type = CLEAR_RESTORE_SAVED_CART;
+
   constructor() {
     super(PROCESS_FEATURE, SAVED_CART_RESTORE_CART_PROCESS_ID);
   }
@@ -178,6 +188,7 @@ export class ClearRestoreSavedCart extends StateUtils.EntityLoaderResetAction {
 
 export class SaveCart extends StateUtils.EntityLoadAction {
   readonly type = SAVE_CART;
+
   constructor(
     public payload: {
       userId: string;
@@ -192,6 +203,7 @@ export class SaveCart extends StateUtils.EntityLoadAction {
 
 export class SaveCartSuccess extends StateUtils.EntitySuccessAction {
   readonly type = SAVE_CART_SUCCESS;
+
   constructor(
     public payload: {
       userId: string;
@@ -208,8 +220,9 @@ export class SaveCartFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = SAVE_CART_FAIL;
+
   constructor(
     public payload: {
       userId: string;
@@ -225,6 +238,7 @@ export class SaveCartFail
 
 export class ClearSaveCart extends StateUtils.EntityLoaderResetAction {
   readonly type = CLEAR_SAVE_CART;
+
   constructor() {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID);
   }
@@ -232,6 +246,7 @@ export class ClearSaveCart extends StateUtils.EntityLoaderResetAction {
 
 export class EditSavedCart extends StateUtils.EntityLoadAction {
   readonly type = EDIT_SAVED_CART;
+
   constructor(
     public payload: {
       userId: string;
@@ -246,6 +261,7 @@ export class EditSavedCart extends StateUtils.EntityLoadAction {
 
 export class EditSavedCartSuccess extends StateUtils.EntitySuccessAction {
   readonly type = EDIT_SAVED_CART_SUCCESS;
+
   constructor(
     public payload: {
       userId: string;
@@ -262,8 +278,9 @@ export class EditSavedCartFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = EDIT_SAVED_CART_FAIL;
+
   constructor(
     public payload: {
       userId: string;
@@ -279,6 +296,7 @@ export class EditSavedCartFail
 
 export class CloneSavedCart extends StateUtils.EntityLoadAction {
   readonly type = CLONE_SAVED_CART;
+
   constructor(
     public payload: {
       userId: string;
@@ -292,6 +310,7 @@ export class CloneSavedCart extends StateUtils.EntityLoadAction {
 
 export class CloneSavedCartSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CLONE_SAVED_CART_SUCCESS;
+
   constructor(
     public payload: {
       userId: string;
@@ -307,8 +326,9 @@ export class CloneSavedCartFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = CLONE_SAVED_CART_FAIL;
+
   constructor(
     public payload: {
       userId: string;
@@ -323,6 +343,7 @@ export class CloneSavedCartFail
 
 export class ClearCloneSavedCart extends StateUtils.EntityLoaderResetAction {
   readonly type = CLEAR_CLONE_SAVED_CART;
+
   constructor() {
     super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID);
   }

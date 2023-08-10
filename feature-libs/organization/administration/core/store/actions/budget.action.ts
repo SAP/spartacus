@@ -5,15 +5,14 @@
  */
 
 import {
+  ErrorAction,
+  ErrorActionType,
   ListModel,
   SearchConfig,
   StateUtils,
-  ErrorAction,
-  HttpErrorModel,
 } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
 import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
-import { HttpErrorResponse } from '@angular/common/http';
 
 export const LOAD_BUDGET = '[Budget] Load Budget Data';
 export const LOAD_BUDGET_FAIL = '[Budget] Load Budget Data Fail';
@@ -33,6 +32,7 @@ export const UPDATE_BUDGET_SUCCESS = '[Budget] Update Budget Success';
 
 export class LoadBudget extends StateUtils.EntityLoadAction {
   readonly type = LOAD_BUDGET;
+
   constructor(public payload: { userId: string; budgetCode: string }) {
     super(BUDGET_ENTITIES, payload.budgetCode);
   }
@@ -42,8 +42,9 @@ export class LoadBudgetFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_BUDGET_FAIL;
+
   constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
@@ -51,6 +52,7 @@ export class LoadBudgetFail
 
 export class LoadBudgetSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_BUDGET_SUCCESS;
+
   constructor(public payload: Budget | Budget[]) {
     super(
       BUDGET_ENTITIES,
@@ -63,6 +65,7 @@ export class LoadBudgetSuccess extends StateUtils.EntitySuccessAction {
 
 export class LoadBudgets extends StateUtils.EntityLoadAction {
   readonly type = LOAD_BUDGETS;
+
   constructor(
     public payload: {
       userId: string;
@@ -77,8 +80,9 @@ export class LoadBudgetsFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_BUDGETS_FAIL;
+
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       BUDGET_LIST,
@@ -90,6 +94,7 @@ export class LoadBudgetsFail
 
 export class LoadBudgetsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_BUDGETS_SUCCESS;
+
   constructor(
     public payload: {
       page: ListModel;
@@ -102,6 +107,7 @@ export class LoadBudgetsSuccess extends StateUtils.EntitySuccessAction {
 
 export class CreateBudget extends StateUtils.EntityLoadAction {
   readonly type = CREATE_BUDGET;
+
   constructor(public payload: { userId: string; budget: Budget }) {
     super(BUDGET_ENTITIES, payload.budget.code ?? null);
   }
@@ -111,8 +117,9 @@ export class CreateBudgetFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = CREATE_BUDGET_FAIL;
+
   constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
@@ -120,6 +127,7 @@ export class CreateBudgetFail
 
 export class CreateBudgetSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_BUDGET_SUCCESS;
+
   constructor(public payload: Budget) {
     super(BUDGET_ENTITIES, payload.code ?? null, payload);
   }
@@ -127,6 +135,7 @@ export class CreateBudgetSuccess extends StateUtils.EntitySuccessAction {
 
 export class UpdateBudget extends StateUtils.EntityLoadAction {
   readonly type = UPDATE_BUDGET;
+
   constructor(
     public payload: { userId: string; budgetCode: string; budget: Budget }
   ) {
@@ -138,8 +147,9 @@ export class UpdateBudgetFail
   extends StateUtils.EntityFailAction
   implements ErrorAction
 {
-  error: HttpErrorResponse | HttpErrorModel | Error = this.payload.error;
+  error: ErrorActionType = this.payload.error;
   readonly type = UPDATE_BUDGET_FAIL;
+
   constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
@@ -147,6 +157,7 @@ export class UpdateBudgetFail
 
 export class UpdateBudgetSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_BUDGET_SUCCESS;
+
   constructor(public payload: Budget) {
     super(BUDGET_ENTITIES, payload.code ?? '', payload);
   }
