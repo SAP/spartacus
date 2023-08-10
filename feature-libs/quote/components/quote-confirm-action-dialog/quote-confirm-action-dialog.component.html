@@ -36,13 +36,10 @@
           <div class="quote-name-description">
             <div class="quote-name">
               <div class="heading">
-                {{ 'quote.confirmActionDialog.name.heading' | cxTranslate }}
+                {{ 'quote.confirmActionDialog.name' | cxTranslate }}
               </div>
               <div class="content">
-                {{
-                  'quote.confirmActionDialog.name.content'
-                    | cxTranslate: { name: confirmationContext.quote.name }
-                }}
+                {{ confirmationContext.quote.name }}
               </div>
             </div>
             <div
@@ -50,16 +47,10 @@
               *ngIf="confirmationContext.quote.description"
             >
               <div class="heading">
-                {{
-                  'quote.confirmActionDialog.description.heading' | cxTranslate
-                }}
+                {{ 'quote.confirmActionDialog.description' | cxTranslate }}
               </div>
               <div class="content">
-                {{
-                  'quote.confirmActionDialog.description.content'
-                    | cxTranslate
-                      : { description: confirmationContext.quote.description }
-                }}
+                {{ confirmationContext.quote.description }}
               </div>
             </div>
           </div>
