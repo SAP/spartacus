@@ -20,7 +20,10 @@
             "
           ></cx-card>
         </div>
-        <div *ngIf="quoteDetails.isEditable" class="cx-edit-step">
+        <div
+          *ngIf="isQuoteInformationEditable(quoteDetails)"
+          class="cx-edit-step"
+        >
           <button class="btn btn-link cx-action-link" (click)="setEditMode()">
             <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
           </button>

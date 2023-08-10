@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  QuoteFacade,
   Quote,
   QuoteActionType,
-  QuoteState,
+  QuoteFacade,
   QuoteMetadata,
+  QuoteState,
 } from '@spartacus/quote/root';
 import {
   EventService,
@@ -39,7 +39,7 @@ const mockQuote: Quote = {
     formattedValue: '$1.00',
     value: 1,
   },
-  state: QuoteState.BUYER_ORDERED,
+  state: QuoteState.BUYER_DRAFT,
   name: 'Name',
   totalPrice: { value: 20, formattedValue: totalPriceFormattedValue },
 };
@@ -247,6 +247,34 @@ describe('QuoteDetailsOverviewComponent', () => {
       expect(metaData.name).toBe(editEvent.name);
       expect(metaData.description).toBe(editEvent.description);
       expect(metaData.expirationTime).toBe(editEvent.expirationTime);
+    });
+  });
+
+  describe('isQuoteInformationEditable', () => {
+    let quote: Quote;
+    beforeEach(() => {
+      quote = structuredClone(mockQuote);
+      quote.state = QuoteState.SELLERAPPROVER_APPROVED;
+    });
+
+    it('should return "false" because the quote information is not editable', () => {
+      quote.isEditable = false;
+      expect(component.isQuoteInformationEditable(quote)).toBe(false);
+    });
+
+    it('should return "false" because the quote information is not editable for "SELLER_DRAFT"', () => {
+      quote.state = QuoteState.SELLER_DRAFT;
+      expect(component.isQuoteInformationEditable(quote)).toBe(false);
+    });
+
+    it('should return "true" because the quote information is editable for "BUYER_DRAFT"', () => {
+      quote.state = QuoteState.BUYER_DRAFT;
+      expect(component.isQuoteInformationEditable(quote)).toBe(true);
+    });
+
+    it('should return "true" because the quote information is editable for "BUYER_OFFER"', () => {
+      quote.state = QuoteState.BUYER_OFFER;
+      expect(component.isQuoteInformationEditable(quote)).toBe(true);
     });
   });
 
