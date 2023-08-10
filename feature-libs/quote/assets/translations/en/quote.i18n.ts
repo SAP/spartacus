@@ -78,8 +78,8 @@ export const quote = {
         },
         cancel: {
           title: 'Cancel Quote Request {{ code }}?',
-          confirmNote: 'Are you sure you want to submit this quote request',
-          successMessage: 'Quote cancelled',
+          confirmNote: 'Are you sure you want to cancel this quote request',
+          successMessage: 'Quote request cancelled',
         },
       },
       buyer_offer: {
