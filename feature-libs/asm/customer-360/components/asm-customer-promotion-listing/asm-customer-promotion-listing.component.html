@@ -24,15 +24,13 @@
       #searchBox
       class="cx-asm-customer-promotion-listing-search-input"
       placeholder="{{ 'customer360.customerCoupons.searchBox' | cxTranslate }}"
-      (keydown.enter)="
-        searchCustomerCoupon.emit(searchBox.value); searchBox.value = ''
-      "
+      (keydown.enter)="searchCustomerCoupon.emit(searchBox.value)"
     />
     <cx-icon
       class="cx-asm-customer-promotion-listing-search-icon"
       [type]="iconTypes.SEARCH"
       role="button"
-      (click)="searchCustomerCoupon.emit(searchBox.value); searchBox.value = ''"
+      (click)="searchCustomerCoupon.emit(searchBox.value)"
     ></cx-icon>
   </div>
 </ng-container>
