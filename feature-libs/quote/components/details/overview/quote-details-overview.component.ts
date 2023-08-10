@@ -12,13 +12,13 @@ import {
   QuoteDetailsReloadQueryEvent,
   QuoteFacade,
   QuoteMetadata,
+  QuoteState,
 } from '@spartacus/quote/root';
 import { EventService, TranslationService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { EditCard, EditEvent } from '../edit/quote-details-edit.component';
-import { QuoteState } from '../../../root/model';
 
 @Component({
   selector: 'cx-quote-details-overview',
