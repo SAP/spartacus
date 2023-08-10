@@ -9,7 +9,6 @@
     *ngIf="confirmationContext$ | async as confirmationContext"
   >
     <!-- Modal Header -->
-
     <div class="cx-dialog-header modal-header">
       <div class="cx-dialog-title modal-title">
         {{
@@ -31,67 +30,59 @@
 
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body">
-      <div class="cx-dialog-row">
-        <div class="cx-dialog-item">
-          <div class="quote-name-description">
-            <div class="quote-name">
-              <div class="heading">
-                {{ 'quote.confirmActionDialog.name' | cxTranslate }}
-              </div>
-              <div class="content">
-                {{ confirmationContext.quote.name }}
-              </div>
-            </div>
-            <div
-              class="quote-description"
-              *ngIf="confirmationContext.quote.description"
-            >
-              <div class="heading">
-                {{ 'quote.confirmActionDialog.description' | cxTranslate }}
-              </div>
-              <div class="content">
-                {{ confirmationContext.quote.description }}
-              </div>
-            </div>
+      <div class="cx-content-container">
+        <div class="cx-name">
+          <div class="cx-heading">
+            {{ 'quote.confirmActionDialog.name' | cxTranslate }}
           </div>
-
-          <div class="notes">
-            <p *ngIf="confirmationContext.warningNote">
-              {{ confirmationContext.warningNote | cxTranslate }}
-            </p>
-            <p
-              *ngIf="
-                confirmationContext.validity &&
-                confirmationContext.quote.expirationTime
-              "
-            >
-              {{
-                confirmationContext.validity
-                  | cxTranslate
-                    : {
-                        expirationTime:
-                          confirmationContext.quote.expirationTime | cxDate
-                      }
-              }}
-            </p>
-            <p>
-              {{ confirmationContext.confirmNote | cxTranslate }}
-            </p>
-          </div>
-          <div class="cx-dialog-buttons">
-            <button class="btn btn-secondary" (click)="dismissModal('no')">
-              {{
-                'quote.confirmActionDialog.confirmActionOption.no' | cxTranslate
-              }}
-            </button>
-            <button class="btn btn-primary" (click)="dismissModal('yes')">
-              {{
-                'quote.confirmActionDialog.confirmActionOption.yes'
-                  | cxTranslate
-              }}
-            </button>
+          <div class="cx-content">
+            {{ confirmationContext.quote.name }}
           </div>
         </div>
+        <div
+          class="cx-description"
+          *ngIf="confirmationContext.quote.description"
+        >
+          <div class="cx-heading">
+            {{ 'quote.confirmActionDialog.description' | cxTranslate }}
+          </div>
+          <div class="cx-content">
+            {{ confirmationContext.quote.description }}
+          </div>
+        </div>
+      </div>
+      <div class="cx-notes-container">
+        <p *ngIf="confirmationContext.warningNote">
+          {{ confirmationContext.warningNote | cxTranslate }}
+        </p>
+        <p
+          *ngIf="
+            confirmationContext.validity &&
+            confirmationContext.quote.expirationTime
+          "
+        >
+          {{
+            confirmationContext.validity
+              | cxTranslate
+                : {
+                    expirationTime:
+                      confirmationContext.quote.expirationTime | cxDate
+                  }
+          }}
+        </p>
+        <p>
+          {{ confirmationContext.confirmNote | cxTranslate }}
+        </p>
+      </div>
+      <div class="cx-buttons-container">
+        <button class="btn btn-secondary" (click)="dismissModal('no')">
+          {{ 'quote.confirmActionDialog.confirmActionOption.no' | cxTranslate }}
+        </button>
+        <button class="btn btn-primary" (click)="dismissModal('yes')">
+          {{
+            'quote.confirmActionDialog.confirmActionOption.yes' | cxTranslate
+          }}
+        </button>
       </div>
     </div>
   </div>

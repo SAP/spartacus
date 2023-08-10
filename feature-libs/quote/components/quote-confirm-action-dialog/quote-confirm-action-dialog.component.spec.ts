@@ -119,14 +119,14 @@ describe('QuoteRequestDialogComponent', () => {
 
   it('should contain expected quote name', () => {
     const quoteName = fixture.debugElement.query(
-      By.css('.quote-name .content')
+      By.css('.cx-name .cx-content')
     );
     expect(quoteName.nativeNode.innerText.includes(quote.name)).toEqual(true);
   });
 
   it('should contain expected quote description', () => {
     const quotedescription = fixture.debugElement.query(
-      By.css('.quote-description .content')
+      By.css('.cx-description .cx-content')
     );
     expect(
       quotedescription.nativeNode.innerText.includes(quote.description)
@@ -134,7 +134,9 @@ describe('QuoteRequestDialogComponent', () => {
   });
 
   it('should contain three notes', () => {
-    const notes = fixture.debugElement.queryAll(By.css('.notes p'));
+    const notes = fixture.debugElement.queryAll(
+      By.css('.cx-notes-container p')
+    );
     expect(notes.length).toEqual(3);
   });
 });
