@@ -139,4 +139,11 @@ describe('QuoteRequestDialogComponent', () => {
     );
     expect(notes.length).toEqual(3);
   });
+
+  it('should navigate back on escape', () => {
+    fixture.debugElement
+      .query(By.css('.cx-modal-container'))
+      .triggerEventHandler('esc');
+    expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
+  });
 });
