@@ -72,7 +72,7 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
     this.showErrorAlertForApplyAction$.next(false);
   }
 
-  fetchCustomerCoupons() {
+  public fetchCustomerCoupons(): void {
     this.entries$ = combineLatest([this.context.data$]).pipe(
       map(([data]) => {
         const entries: Array<CustomerCouponEntry> = [];
@@ -93,7 +93,10 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
     );
   }
 
-  changeTab(assignable: boolean | undefined, searchQuery: string | undefined) {
+  public changeTab(
+    assignable: boolean | undefined,
+    searchQuery: string | undefined
+  ): void {
     this.showErrorAlert$.next(false);
     this.showErrorAlertForApplyAction$.next(false);
     if (assignable === undefined) {
@@ -138,25 +141,25 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
       );
   }
 
-  closeErrorAlert(): void {
+  public closeErrorAlert(): void {
     this.showErrorAlert$.next(false);
   }
 
-  closeErrorAlertForApplyAction(): void {
+  public closeErrorAlertForApplyAction(): void {
     this.showErrorAlertForApplyAction$.next(false);
   }
 
-  claimCouponToCustomer(entry: CustomerCouponEntry) {
+  public claimCouponToCustomer(entry: CustomerCouponEntry): void {
     this.customerCouponService.claimCustomerCoupon(entry.codeForApplyAction);
     this.refreshActionButton(entry?.codeForApplyAction);
   }
 
-  disclaimCouponToCustomer(entry: CustomerCouponEntry) {
+  public disclaimCouponToCustomer(entry: CustomerCouponEntry): void {
     this.customerCouponService.disclaimCustomerCoupon(entry.codeForApplyAction);
     this.refreshActionButton(entry?.codeForApplyAction);
   }
 
-  refreshActionButton(couponCode: string) {
+  public refreshActionButton(couponCode: string): void {
     this.entries$ = this.entries$.pipe(
       map((entries) => {
         const filteredEntries = entries.filter(
