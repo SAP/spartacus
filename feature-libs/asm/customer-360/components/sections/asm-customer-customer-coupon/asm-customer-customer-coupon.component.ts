@@ -13,6 +13,7 @@ import {
 import {
   Customer360CustomerCouponList,
   Customer360Facade,
+  Customer360Response,
   Customer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { CustomerCouponService } from '@spartacus/core';
@@ -51,7 +52,7 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
         .getClaimCustomerCouponResultError()
         .subscribe((error) => {
           if (error) {
-            this.changeTab(undefined, undefined);
+            this.changeTab(true);
             this.showErrorAlertForApplyAction$.next(true);
           }
         })
@@ -61,15 +62,14 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
         .getDisclaimCustomerCouponResultError()
         .subscribe((error) => {
           if (error) {
-            this.changeTab(undefined, undefined);
+            this.changeTab(false);
             this.showErrorAlertForApplyAction$.next(true);
           }
         })
     );
     this.fetchCustomerCoupons();
     this.currentTabIsAssignable = true;
-    this.showErrorAlert$.next(false);
-    this.showErrorAlertForApplyAction$.next(false);
+    this.hideAllErrorAlert();
   }
 
   public fetchCustomerCoupons(): void {
@@ -93,17 +93,9 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
     );
   }
 
-  public changeTab(
-    assignable: boolean | undefined,
-    searchQuery: string | undefined
-  ): void {
-    if (assignable !== undefined) {
-      this.currentTabIsAssignable = assignable;
-    } else {
-      assignable = this.currentTabIsAssignable;
-    }
-    this.showErrorAlert$.next(false);
-    this.showErrorAlertForApplyAction$.next(false);
+  public changeTab(assignable: boolean): void {
+    this.currentTabIsAssignable = assignable;
+    this.hideAllErrorAlert();
     this.entries$ = this.customer360Facade
       .get360Data([
         {
@@ -111,6 +103,31 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
             type: Customer360Type.CUSTOMER_COUPON_LIST,
             additionalRequestParameters: {
               assignable: assignable,
+              searchQuery: undefined,
+            },
+          },
+        },
+      ])
+      .pipe(
+        map((response) => {
+          return this.mapParams(assignable, response);
+        }),
+        catchError(() => {
+          this.showErrorAlert$.next(true);
+          return of([]);
+        })
+      );
+  }
+
+  public searchCustomerCoupon(searchQuery: string): void {
+    this.hideAllErrorAlert();
+    this.entries$ = this.customer360Facade
+      .get360Data([
+        {
+          requestData: {
+            type: Customer360Type.CUSTOMER_COUPON_LIST,
+            additionalRequestParameters: {
+              assignable: this.currentTabIsAssignable,
               searchQuery: searchQuery,
             },
           },
@@ -118,27 +135,39 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
       ])
       .pipe(
         map((response) => {
-          const couponList = response?.value?.find(
-            (item) => item.type === Customer360Type.CUSTOMER_COUPON_LIST
-          ) as Customer360CustomerCouponList;
-          const newEntries: Array<CustomerCouponEntry> = [];
-          if (couponList.customerCoupons) {
-            couponList.customerCoupons.forEach((customerCoupon) => {
-              newEntries.push({
-                code: customerCoupon.name,
-                name: customerCoupon.description,
-                codeForApplyAction: customerCoupon.code,
-                applied: !assignable,
-              });
-            });
-          }
-          return newEntries;
+          return this.mapParams(this.currentTabIsAssignable, response);
         }),
         catchError(() => {
           this.showErrorAlert$.next(true);
           return of([]);
         })
       );
+  }
+
+  private hideAllErrorAlert(): void {
+    this.showErrorAlert$.next(false);
+    this.showErrorAlertForApplyAction$.next(false);
+  }
+
+  private mapParams(
+    applied: boolean,
+    response: Customer360Response | undefined
+  ): Array<CustomerCouponEntry> {
+    const couponList = response?.value?.find(
+      (item) => item.type === Customer360Type.CUSTOMER_COUPON_LIST
+    ) as Customer360CustomerCouponList;
+    const newEntries: Array<CustomerCouponEntry> = [];
+    if (couponList.customerCoupons) {
+      couponList.customerCoupons.forEach((customerCoupon) => {
+        newEntries.push({
+          code: customerCoupon.name,
+          name: customerCoupon.description,
+          codeForApplyAction: customerCoupon.code,
+          applied: !applied,
+        });
+      });
+    }
+    return newEntries;
   }
 
   public closeErrorAlert(): void {

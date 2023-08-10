@@ -35,10 +35,8 @@ export class AsmCustomerPromotionListingComponent {
   @Output() remove = new EventEmitter<PromotionListEntry>();
   @Output() removeAlert = new EventEmitter();
   @Output() removeAlertForApplyAction = new EventEmitter();
-  @Output() refreshCustomerCouponList = new EventEmitter<{
-    assignable: boolean | undefined;
-    searchQuery: string | undefined;
-  }>();
+  @Output() changeCustomerCouponTab = new EventEmitter<boolean>();
+  @Output() searchCustomerCoupon = new EventEmitter<string>();
   globalMessageType = GlobalMessageType;
   iconTypes = ICON_TYPE;
   activeTab = 0;

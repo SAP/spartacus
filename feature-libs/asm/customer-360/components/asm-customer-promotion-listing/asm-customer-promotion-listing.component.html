@@ -9,25 +9,13 @@
       class="cx-tab-header"
       [class.active]="activeTab === 0"
       [textContent]="'customer360.customerCoupons.availableTab' | cxTranslate"
-      (click)="
-        refreshCustomerCouponList.emit({
-          assignable: true,
-          searchQuery: undefined
-        });
-        activeTab = 0
-      "
+      (click)="changeCustomerCouponTab.emit(true); activeTab = 0"
     ></button>
     <button
       class="cx-tab-header"
       [class.active]="activeTab === 1"
       [textContent]="'customer360.customerCoupons.sentTab' | cxTranslate"
-      (click)="
-        refreshCustomerCouponList.emit({
-          assignable: false,
-          searchQuery: undefined
-        });
-        activeTab = 1
-      "
+      (click)="changeCustomerCouponTab.emit(false); activeTab = 1"
     ></button>
   </div>
   <hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
@@ -37,24 +25,14 @@
       class="cx-asm-customer-promotion-listing-search-input"
       placeholder="{{ 'customer360.customerCoupons.searchBox' | cxTranslate }}"
       (keydown.enter)="
-        refreshCustomerCouponList.emit({
-          assignable: undefined,
-          searchQuery: searchBox.value
-        });
-        searchBox.value = ''
+        searchCustomerCoupon.emit(searchBox.value); searchBox.value = ''
       "
     />
     <cx-icon
       class="cx-asm-customer-promotion-listing-search-icon"
       [type]="iconTypes.SEARCH"
       role="button"
-      (click)="
-        refreshCustomerCouponList.emit({
-          assignable: undefined,
-          searchQuery: searchBox.value
-        });
-        searchBox.value = ''
-      "
+      (click)="searchCustomerCoupon.emit(searchBox.value); searchBox.value = ''"
     ></cx-icon>
   </div>
 </ng-container>
