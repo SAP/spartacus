@@ -22,7 +22,11 @@ import {
   EXPIRATION_DATE_AS_STRING,
 } from '../../core/testing/quote-test-utils';
 import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
-import { AbstractControl,  UntypedFormControl } from '@angular/forms';
+import {
+  AbstractControl,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
 import { Component, Input } from '@angular/core';
 
 const mockCartId = '1234';
@@ -95,7 +99,6 @@ class MockQuoteSellerEditComponentService {
     return 10;
   }
 }
- 
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -116,8 +119,8 @@ describe('QuoteSellerEditComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [QuoteSellerEditComponent,MockDatePickerComponent],
+      imports: [I18nTestingModule, ReactiveFormsModule],
+      declarations: [QuoteSellerEditComponent, MockDatePickerComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -127,7 +130,6 @@ describe('QuoteSellerEditComponent', () => {
           provide: QuoteSellerEditComponentService,
           useClass: MockQuoteSellerEditComponentService,
         },
-   
       ],
     }).compileComponents();
   });
