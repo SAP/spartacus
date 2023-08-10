@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { TestBed } from '@angular/core/testing';
 import { Address } from '@spartacus/core';
 import { GetAddressCardContent } from './get-address-card-content.pipe';

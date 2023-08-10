@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Address, Country } from '@spartacus/core';
