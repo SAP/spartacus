@@ -1,0 +1,40 @@
+{
+  "name": "requested-delivery-date",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "feature-libs/requested-delivery-date",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "./tools/build-lib:augmented-types",
+      "options": {
+        "tsConfig": "feature-libs/requested-delivery-date/tsconfig.lib.json",
+        "project": "feature-libs/requested-delivery-date/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-libs/requested-delivery-date/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "feature-libs/requested-delivery-date/test.ts",
+        "tsConfig": "feature-libs/requested-delivery-date/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "feature-libs/requested-delivery-date/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "feature-libs/requested-delivery-date/**/*.ts",
+          "feature-libs/requested-delivery-date/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:feature"]
+}

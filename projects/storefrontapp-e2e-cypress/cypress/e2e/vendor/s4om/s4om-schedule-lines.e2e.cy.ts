@@ -18,8 +18,10 @@ import {
   POWERTOOLS_BASESITE,
   USER_REQUEST_ENDPOINT,
 } from '../../../sample-data/b2b-checkout';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
-describe('S4HANA Order management', () => {
+describe('S4HANA Order management', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
@@ -65,7 +67,7 @@ describe('S4HANA Order management', () => {
     });
 
     it('should select delivery mode', () => {
-      b2bCheckout.selectAccountDeliveryMode();
+      s4omHelper.selectAccountDeliveryMode();
     });
 
     it('should review and place order', () => {
@@ -87,10 +89,12 @@ describe('S4HANA Order management', () => {
         s4omHelper.cartWithS4OMB2bProductAndPremiumShipping,
         true,
         null,
+        s4omHelper.s4omPONumber,
         s4omHelper.s4omCostCenter,
         s4omHelper.s4omB2BUnit
       );
       s4omHelper.verifyScheduleLineInfo();
+      s4omHelper.setOrderConfirmationIdInSessionStorage('s4omOrderId');
     });
   });
   describe('Schedule lines in Order History', () => {
@@ -99,9 +103,14 @@ describe('S4HANA Order management', () => {
       const ordersAlias = interceptOrdersEndpoint();
       waitForResponse(ordersAlias);
 
-      cy.get('cx-order-history h2').should('contain', 'Order history');
-      cy.get('.cx-order-history-po a').should('contain', poNumber);
-      //cy.get('.cx-order-history-cost-center a').should('contain', s4omHelper.s4omCostCenter);
+      const s4omPastOrderId =
+        window.sessionStorage.getItem('s4omOrderId') || '103439';
+      cy.wrap(s4omPastOrderId).should('not.be.null');
+      s4omHelper.findRowInOrderHistoryTable(
+        ordersAlias,
+        s4omPastOrderId,
+        poNumber
+      );
     });
 
     it('should be able to view a past order detail in order detail page with schedule line delivery information', () => {
@@ -112,7 +121,11 @@ describe('S4HANA Order management', () => {
         )}/users/current/orders/*`,
       }).as('getOrderDetail');
 
-      cy.visit('/my-account/order/' + s4omHelper.s4omPastOrderId);
+      const s4omPastOrderId =
+        window.sessionStorage.getItem('s4omOrderId') ||
+        s4omHelper.s4omPastOrderId;
+      cy.wrap(s4omPastOrderId).should('not.be.null');
+      cy.visit('/my-account/order/' + s4omPastOrderId);
       cy.wait('@getOrderDetail');
 
       s4omHelper.reviewB2bOrderDetail(
@@ -121,6 +134,7 @@ describe('S4HANA Order management', () => {
         s4omHelper.cartWithS4OMB2bProductAndPremiumShipping,
         true,
         null,
+        s4omHelper.s4omPONumber,
         s4omHelper.s4omCostCenter,
         s4omHelper.s4omB2BUnit,
         false

@@ -69,6 +69,8 @@ export const productConfiguratorRulebasedWrapperModulePath =
   'src/app/spartacus/features/product-configurator/rulebased-configurator-wrapper.module.ts';
 export const qualtricsFeatureModulePath =
   'src/app/spartacus/features/qualtrics/qualtrics-feature.module.ts';
+export const requestedDeliveryDateFeatureModulePath =
+  'src/app/spartacus/features/requested-delivery-date/requested-delivery-date-feature.module.ts';
 export const smartEditFeatureModulePath =
   'src/app/spartacus/features/smartedit/smart-edit-feature.module.ts';
 export const storeFinderFeatureModulePath =
