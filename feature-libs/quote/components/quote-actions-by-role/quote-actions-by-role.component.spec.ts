@@ -217,7 +217,7 @@ describe('QuoteActionsByRoleComponent', () => {
 
   it('should open confirmation dialog when action is SUBMIT', () => {
     spyOn(launchDialogService, 'openDialog');
-    const newMockQuoteWithSubmitAction: Quote = {
+    const quoteForSubmitAction: Quote = {
       ...mockQuote,
       allowedActions: [
         { type: QuoteActionType.SUBMIT, isPrimary: true },
@@ -225,14 +225,14 @@ describe('QuoteActionsByRoleComponent', () => {
       ],
     };
     const confirmationContextForSubmitAction: ConfirmationContext = {
-      quote: newMockQuoteWithSubmitAction,
+      quote: quoteForSubmitAction,
       title: 'quote.confirmActionDialog.buyer.submit.title',
       confirmNote: 'quote.confirmActionDialog.buyer.submit.confirmNote',
       successMessage: 'quote.confirmActionDialog.buyer.submit.successMessage',
     };
-    mockQuoteDetails$.next(newMockQuoteWithSubmitAction);
+    mockQuoteDetails$.next(quoteForSubmitAction);
     fixture.detectChanges();
-    component.onClick(QuoteActionType.SUBMIT, newMockQuoteWithSubmitAction);
+    component.onClick(QuoteActionType.SUBMIT, quoteForSubmitAction);
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.ACTION_CONFIRMATION,
       component.element,
@@ -243,7 +243,7 @@ describe('QuoteActionsByRoleComponent', () => {
 
   it('should open confirmation dialog when action is EDIT and state is BUYER_OFFER', () => {
     spyOn(launchDialogService, 'openDialog');
-    const newMockQuoteWithEditActionAndBuyerOfferState: Quote = {
+    const quoteInBuyerOfferState: Quote = {
       ...mockQuote,
       allowedActions: [
         { type: QuoteActionType.SUBMIT, isPrimary: true },
@@ -252,30 +252,27 @@ describe('QuoteActionsByRoleComponent', () => {
       ],
       state: QuoteState.BUYER_OFFER,
     };
-    const confirmationContextForSubmitAction: ConfirmationContext = {
-      quote: newMockQuoteWithEditActionAndBuyerOfferState,
+    const confirmationContextForEditAction: ConfirmationContext = {
+      quote: quoteInBuyerOfferState,
       title: 'quote.confirmActionDialog.buyer_offer.edit.title',
       confirmNote: 'quote.confirmActionDialog.buyer_offer.edit.confirmNote',
       warningNote: 'quote.confirmActionDialog.buyer_offer.edit.warningNote',
       validity: 'quote.confirmActionDialog.validity',
     };
-    mockQuoteDetails$.next(newMockQuoteWithEditActionAndBuyerOfferState);
+    mockQuoteDetails$.next(quoteInBuyerOfferState);
     fixture.detectChanges();
-    component.onClick(
-      QuoteActionType.EDIT,
-      newMockQuoteWithEditActionAndBuyerOfferState
-    );
+    component.onClick(QuoteActionType.EDIT, quoteInBuyerOfferState);
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.ACTION_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
-      { confirmationContext: confirmationContextForSubmitAction }
+      { confirmationContext: confirmationContextForEditAction }
     );
   });
 
   it('should not open confirmation dialog when action is EDIT and state is BUYER_DRAFT', () => {
     spyOn(launchDialogService, 'openDialog');
-    const newMockQuoteWithEditActionAndBuyerDraftState: Quote = {
+    const quoteInBuyerDraftState: Quote = {
       ...mockQuote,
       allowedActions: [
         { type: QuoteActionType.SUBMIT, isPrimary: true },
@@ -284,12 +281,9 @@ describe('QuoteActionsByRoleComponent', () => {
       ],
       state: QuoteState.BUYER_DRAFT,
     };
-    mockQuoteDetails$.next(newMockQuoteWithEditActionAndBuyerDraftState);
+    mockQuoteDetails$.next(quoteInBuyerDraftState);
     fixture.detectChanges();
-    component.onClick(
-      QuoteActionType.EDIT,
-      newMockQuoteWithEditActionAndBuyerDraftState
-    );
+    component.onClick(QuoteActionType.EDIT, quoteInBuyerDraftState);
     expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
   });
 

@@ -100,14 +100,14 @@ describe('QuoteRequestDialogComponent', () => {
     fixture.debugElement
       .query(By.css('.btn-primary'))
       .triggerEventHandler('click');
-    expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
+    expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('yes');
   });
 
   it('should close the dialog on no', () => {
     fixture.debugElement
       .query(By.css('.btn-secondary'))
       .triggerEventHandler('click');
-    expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
+    expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('no');
   });
 
   it('should contain expected title', () => {
