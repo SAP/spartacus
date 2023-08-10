@@ -97,13 +97,13 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
     assignable: boolean | undefined,
     searchQuery: string | undefined
   ): void {
+    if (assignable !== undefined) {
+      this.currentTabIsAssignable = assignable;
+    } else {
+      assignable = this.currentTabIsAssignable;
+    }
     this.showErrorAlert$.next(false);
     this.showErrorAlertForApplyAction$.next(false);
-    if (assignable === undefined) {
-      assignable = this.currentTabIsAssignable;
-    } else {
-      this.currentTabIsAssignable = assignable;
-    }
     this.entries$ = this.customer360Facade
       .get360Data([
         {
@@ -162,10 +162,7 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
   public refreshActionButton(couponCode: string): void {
     this.entries$ = this.entries$.pipe(
       map((entries) => {
-        const filteredEntries = entries.filter(
-          (item) => item.codeForApplyAction !== couponCode
-        );
-        return filteredEntries;
+        return entries.filter((item) => item.codeForApplyAction !== couponCode);
       })
     );
   }
