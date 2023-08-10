@@ -14,6 +14,7 @@ export interface Customer360Review {
   rating: string;
   reviewStatus: string;
   reviewText: string;
+  localizedReviewStatus: string;
 }
 
 export interface Customer360ActivityStatus {
