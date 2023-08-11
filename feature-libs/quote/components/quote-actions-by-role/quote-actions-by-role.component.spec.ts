@@ -1,25 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  QuoteFacade,
-  Quote,
-  QuoteActionType,
-  QuoteState,
-} from '@spartacus/quote/root';
-import {
   GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
   Price,
   TranslationService,
 } from '@spartacus/core';
+import {
+  Quote,
+  QuoteActionType,
+  QuoteFacade,
+  QuoteState,
+} from '@spartacus/quote/root';
 
+import { ElementRef, ViewContainerRef } from '@angular/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 import createSpy = jasmine.createSpy;
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { ElementRef, ViewContainerRef } from '@angular/core';
-import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { ConfirmationContext } from '../quote-confirm-action-dialog/quote-confirm-action-dialog.model';
+import {
+  ConfirmActionDialogMappingConfig,
+  QuoteUIConfig,
+} from '../config/quote-ui.config';
 
 const mockCartId = '1234';
 const mockCode = '3333';
@@ -39,9 +45,28 @@ const mockQuote: Quote = {
   totalPrice: totalPrice,
 };
 
+const testMappings: ConfirmActionDialogMappingConfig = {
+  BUYER_OFFER: {
+    EDIT: {
+      i18nKey: 'quote.confirmActionDialog.buyer_offer.edit',
+      showWarningNote: true,
+      showExpirationDate: true,
+      showSuccessMessage: false,
+    },
+  },
+  BUYER: {
+    SUBMIT: {
+      i18nKey: 'quote.confirmActionDialog.buyer.submit',
+      showWarningNote: false,
+      showExpirationDate: false,
+      showSuccessMessage: true,
+    },
+  },
+};
+
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
 
-const dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
+let dialogClose$: BehaviorSubject<any | undefined>;
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(reason: any): void {
     dialogClose$.next(reason);
@@ -101,6 +126,12 @@ describe('QuoteActionsByRoleComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: QuoteUIConfig,
+          useValue: {
+            quote: { confirmActionDialogMapping: testMappings },
+          },
+        },
       ],
     }).compileComponents();
   });
@@ -112,6 +143,7 @@ describe('QuoteActionsByRoleComponent', () => {
     facade = TestBed.inject(QuoteFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
     mockQuoteDetails$.next(mockQuote);
+    dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
   });
 
   it('should create component', () => {
@@ -185,25 +217,74 @@ describe('QuoteActionsByRoleComponent', () => {
 
   it('should open confirmation dialog when action is SUBMIT', () => {
     spyOn(launchDialogService, 'openDialog');
-    const newMockQuoteWithSubmitAction: Quote = {
+    const quoteForSubmitAction: Quote = {
       ...mockQuote,
       allowedActions: [
         { type: QuoteActionType.SUBMIT, isPrimary: true },
         { type: QuoteActionType.CANCEL, isPrimary: false },
       ],
     };
-    mockQuoteDetails$.next(newMockQuoteWithSubmitAction);
+    const confirmationContextForSubmitAction: ConfirmationContext = {
+      quote: quoteForSubmitAction,
+      title: 'quote.confirmActionDialog.buyer.submit.title',
+      confirmNote: 'quote.confirmActionDialog.buyer.submit.confirmNote',
+      successMessage: 'quote.confirmActionDialog.buyer.submit.successMessage',
+    };
+    mockQuoteDetails$.next(quoteForSubmitAction);
     fixture.detectChanges();
-    component.onClick(
-      QuoteActionType.SUBMIT,
-      newMockQuoteWithSubmitAction.code
-    );
+    component.onClick(QuoteActionType.SUBMIT, quoteForSubmitAction);
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
-      LAUNCH_CALLER.REQUEST_CONFIRMATION,
+      LAUNCH_CALLER.ACTION_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
-      { quoteCode: newMockQuoteWithSubmitAction.code }
+      { confirmationContext: confirmationContextForSubmitAction }
     );
+  });
+
+  it('should open confirmation dialog when action is EDIT and state is BUYER_OFFER', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const quoteInBuyerOfferState: Quote = {
+      ...mockQuote,
+      allowedActions: [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+        { type: QuoteActionType.EDIT, isPrimary: false },
+      ],
+      state: QuoteState.BUYER_OFFER,
+    };
+    const confirmationContextForEditAction: ConfirmationContext = {
+      quote: quoteInBuyerOfferState,
+      title: 'quote.confirmActionDialog.buyer_offer.edit.title',
+      confirmNote: 'quote.confirmActionDialog.buyer_offer.edit.confirmNote',
+      warningNote: 'quote.confirmActionDialog.buyer_offer.edit.warningNote',
+      validity: 'quote.confirmActionDialog.validity',
+    };
+    mockQuoteDetails$.next(quoteInBuyerOfferState);
+    fixture.detectChanges();
+    component.onClick(QuoteActionType.EDIT, quoteInBuyerOfferState);
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ACTION_CONFIRMATION,
+      component.element,
+      component['viewContainerRef'],
+      { confirmationContext: confirmationContextForEditAction }
+    );
+  });
+
+  it('should not open confirmation dialog when action is EDIT and state is BUYER_DRAFT', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const quoteInBuyerDraftState: Quote = {
+      ...mockQuote,
+      allowedActions: [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+        { type: QuoteActionType.EDIT, isPrimary: false },
+      ],
+      state: QuoteState.BUYER_DRAFT,
+    };
+    mockQuoteDetails$.next(quoteInBuyerDraftState);
+    fixture.detectChanges();
+    component.onClick(QuoteActionType.EDIT, quoteInBuyerDraftState);
+    expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
   });
 
   describe('Threshold check', () => {
@@ -293,10 +374,7 @@ describe('QuoteActionsByRoleComponent', () => {
     mockQuoteDetails$.next(newMockQuoteWithSubmitAction);
     fixture.detectChanges();
 
-    component.onClick(
-      QuoteActionType.SUBMIT,
-      newMockQuoteWithSubmitAction.code
-    );
+    component.onClick(QuoteActionType.SUBMIT, newMockQuoteWithSubmitAction);
     launchDialogService.closeDialog('yes');
     expect(facade.performQuoteAction).toHaveBeenCalledWith(
       newMockQuoteWithSubmitAction.code,
@@ -321,5 +399,112 @@ describe('QuoteActionsByRoleComponent', () => {
       QuoteActionType.EDIT
     );
     expect(facade.requote).toHaveBeenCalledWith(mockQuote.code);
+  });
+
+  describe('isConfirmationPopupRequired', () => {
+    it('should return true if role derived from state and action match', () => {
+      expect(
+        component['isConfirmationDialogRequired'](
+          QuoteActionType.SUBMIT,
+          QuoteState.BUYER_DRAFT
+        )
+      ).toBe(true);
+    });
+    it('should return true if state and action match', () => {
+      expect(
+        component['isConfirmationDialogRequired'](
+          QuoteActionType.EDIT,
+          QuoteState.BUYER_OFFER
+        )
+      ).toBe(true);
+    });
+    it('should return false if action does not match', () => {
+      expect(
+        component['isConfirmationDialogRequired'](
+          QuoteActionType.CHECKOUT,
+          QuoteState.BUYER_DRAFT
+        )
+      ).toBe(false);
+    });
+    it('should return false if state does not match', () => {
+      expect(
+        component['isConfirmationDialogRequired'](
+          QuoteActionType.SUBMIT,
+          QuoteState.CANCELLED
+        )
+      ).toBe(false);
+    });
+  });
+
+  describe('getDialogConfig', () => {
+    it('should throw an error if state/action are not matching', () => {
+      expect(() =>
+        component['getDialogConfig'](
+          QuoteActionType.ORDER,
+          QuoteState.BUYER_DRAFT
+        )
+      ).toThrow();
+    });
+    it('should return configured config if state/action are matching', () => {
+      expect(
+        component['getDialogConfig'](
+          QuoteActionType.EDIT,
+          QuoteState.BUYER_OFFER
+        )
+      ).toEqual({
+        i18nKey: 'quote.confirmActionDialog.buyer_offer.edit',
+        showWarningNote: true,
+        showExpirationDate: true,
+        showSuccessMessage: false,
+      });
+    });
+  });
+
+  describe('handleConfirmationDialogClose', () => {
+    let context: ConfirmationContext;
+    beforeEach(() => {
+      spyOn(facade, 'performQuoteAction').and.callThrough();
+      spyOn(globalMessageService, 'add').and.callThrough();
+      context = {
+        quote: mockQuote,
+        title: 'title',
+        confirmNote: 'confirmNote',
+        successMessage: 'successMessage',
+      };
+    });
+    it("should do nothing if dialog was closed selecting 'no'", () => {
+      component['handleConfirmationDialogClose'](
+        QuoteActionType.SUBMIT,
+        context
+      );
+      launchDialogService.closeDialog('no');
+      expect(facade.performQuoteAction).not.toHaveBeenCalled();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+    });
+    it("should perform quote action if dialog was closed selecting 'yes'", () => {
+      context.successMessage = undefined;
+      component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
+      launchDialogService.closeDialog('yes');
+      expect(facade.performQuoteAction).toHaveBeenCalledWith(
+        mockCode,
+        QuoteActionType.EDIT
+      );
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+    });
+    it("should perform quote action if dialog was closed selecting 'yes' and display the given success message", () => {
+      component['handleConfirmationDialogClose'](
+        QuoteActionType.SUBMIT,
+        context
+      );
+      launchDialogService.closeDialog('yes');
+      expect(facade.performQuoteAction).toHaveBeenCalledWith(
+        mockCode,
+        QuoteActionType.SUBMIT
+      );
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'successMessage' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
   });
 });
