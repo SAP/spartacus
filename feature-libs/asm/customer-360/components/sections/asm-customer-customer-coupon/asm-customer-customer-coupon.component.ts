@@ -106,7 +106,6 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
             type: Customer360Type.CUSTOMER_COUPON_LIST,
             additionalRequestParameters: {
               assignable: assignable,
-              searchQuery: undefined,
             },
           },
         },

@@ -45,25 +45,20 @@
         </ng-container>
         <ng-container *ngIf="entry.applied">
           <tr class="cx-asm-customer-promotion-listing-action">
-            <td>
-              <cx-icon
-                class="success"
-                type="SUCCESS"
-                *ngIf="!isCustomerCoupon"
-              ></cx-icon>
-            </td>
-            <td
-              *ngIf="!isCustomerCoupon"
-              class="cx-asm-customer-promotion-listing-applied"
-            >
-              {{ applied }}
-            </td>
-            <td
-              *ngIf="showRemoveButton && !isCustomerCoupon"
-              class="cx-asm-customer-promotion-listing-action-separator"
-            >
-              |
-            </td>
+            <ng-container *ngIf="!isCustomerCoupon">
+              <td>
+                <cx-icon class="success" type="SUCCESS"></cx-icon>
+              </td>
+              <td class="cx-asm-customer-promotion-listing-applied">
+                {{ applied }}
+              </td>
+              <td
+                *ngIf="showRemoveButton"
+                class="cx-asm-customer-promotion-listing-action-separator"
+              >
+                |
+              </td>
+            </ng-container>
             <td *ngIf="showRemoveButton">
               <button
                 class="cx-asm-customer-promotion-listing-remove-button"
