@@ -9,11 +9,14 @@ import * as common from './common';
 
 /** alias for GET Quote Route */
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
+export const STATUS_SUBMITTED = 'Submitted';
+export const STATUS_DRAFT = 'Draft';
 
 /**
  * Sets quantity on PDP
  */
 export function setQtyOnPD(quantity: string): void {
+  log(setQtyOnPD.name);
   cy.get('input.ng-pristine').clear().type(quantity);
 }
 
@@ -21,6 +24,7 @@ export function setQtyOnPD(quantity: string): void {
  * Clicks on 'Request Quote' on the cart page and checks for quote page
  */
 export function clickOnRequestQuoteInCartAndExpectQuotePage(): void {
+  log(clickOnRequestQuoteInCartAndExpectQuotePage.name);
   cy.get('cx-quote-request-button button')
     .click()
     .then(() => {
@@ -36,10 +40,12 @@ export function clickOnRequestQuoteInCartAndExpectQuotePage(): void {
  * Clicks on 'Request Quote' on the cart page.
  */
 export function clickOnRequestQuoteInCart(): void {
+  log(clickOnRequestQuoteInCart.name);
   cy.get('cx-quote-request-button button').click();
 }
 
 export function login(email: string, password: string, name: string): void {
+  log(login.name);
   // Click on the 'Sign in / Register' link
   // & wait until the login-form is displayed
   cy.get('cx-login [role="link"]')
@@ -60,6 +66,7 @@ export function requestQuote(
   productName: string,
   quantity: string
 ): void {
+  log(requestQuote.name);
   this.addProductToCartForQuotePreparation(shopName, productName, quantity);
   this.clickOnRequestQuoteInCartAndExpectQuotePage();
 }
@@ -69,6 +76,7 @@ export function addProductToCartForQuotePreparation(
   productName: string,
   quantity: string
 ): void {
+  log(addProductToCartForQuotePreparation.name);
   common.goToPDPage(shopName, productName);
   this.setQtyOnPD(quantity);
   common.clickOnAddToCartBtnOnPD();
@@ -76,6 +84,7 @@ export function addProductToCartForQuotePreparation(
 }
 
 export function submitQuote(): void {
+  log(submitQuote.name);
   clickOnSubmitQuoteBtnOnQD();
   clickOnYesBtnOnQuoteSubmitPopUp();
 }
@@ -84,6 +93,7 @@ export function submitQuote(): void {
  * Clicks on 'Submit Quote' on the quote overview page.
  */
 export function clickOnSubmitQuoteBtnOnQD(): void {
+  log(clickOnSubmitQuoteBtnOnQD.name);
   cy.get('cx-quote-actions-by-role button.btn-primary')
     .click()
     .then(() => {
@@ -95,6 +105,7 @@ export function clickOnSubmitQuoteBtnOnQD(): void {
  * Clicks on 'Yes' on the quote confirm request dialog  popup.
  */
 export function clickOnYesBtnOnQuoteSubmitPopUp(): void {
+  log(clickOnYesBtnOnQuoteSubmitPopUp.name);
   cy.get('div.cx-dialog-item button.btn-primary').click();
   cy.wait(GET_QUOTE_ALIAS);
 }
@@ -103,6 +114,7 @@ export function clickOnYesBtnOnQuoteSubmitPopUp(): void {
  * Checks on the global message on the top of the page.
  */
 export function checkGlobalMessageDisplayed(isDisplayed: boolean): void {
+  log(checkGlobalMessageDisplayed.name);
   if (isDisplayed) {
     cy.get('cx-global-message').should('be.visible');
   } else {
@@ -114,6 +126,7 @@ export function checkGlobalMessageDisplayed(isDisplayed: boolean): void {
  * Checks submit button on quote page.
  */
 export function checkSubmitButton(isEnabled: boolean): void {
+  log(checkSubmitButton.name);
   if (isEnabled) {
     cy.get('button.btn-primary').should('be.enabled');
   } else {
@@ -122,6 +135,7 @@ export function checkSubmitButton(isEnabled: boolean): void {
 }
 
 export function checkCommentsNotEditable(): void {
+  log(checkCommentsNotEditable.name);
   cy.get('cx-quote-details-comment .cx-message-input').should('not.exist');
 }
 
@@ -129,6 +143,7 @@ export function checkCommentsNotEditable(): void {
  * Checks presence of quote list
  */
 export function checkQuoteListPresent() {
+  log(checkQuoteListPresent.name);
   cy.get('cx-quote-list').should('exist');
 }
 
@@ -136,6 +151,7 @@ export function checkQuoteListPresent() {
  * Navigates to quote list via my account
  */
 export function navigateToQuoteListFromMyAccount() {
+  log(navigateToQuoteListFromMyAccount.name);
   cy.get('cx-page-layout[section="header"]').within(() => {
     cy.get('cx-navigation-ui.accNavComponent')
       .should('contain.text', 'My Account')
@@ -158,6 +174,7 @@ export function navigateToQuoteListFromMyAccount() {
  * Navigates to quote list via quote details
  */
 export function navigateToQuoteListFromQuoteDetails() {
+  log(navigateToQuoteListFromQuoteDetails.name);
   cy.get('cx-quote-action-links').within(() => {
     cy.get('section > ul > li')
       .next()
@@ -176,13 +193,25 @@ export function checkQuoteInDraftState(
   meetsThreshold: boolean,
   productId: string
 ) {
-  checkQuoteState('Draft');
-  this.checkGlobalMessageDisplayed(!meetsThreshold);
-  this.checkSubmitButton(meetsThreshold);
-  cy.get('.cx-code').should('contain.text', productId);
+  log(checkQuoteInDraftState.name);
+  checkQuoteState(STATUS_DRAFT);
+  checkGlobalMessageDisplayed(!meetsThreshold);
+  checkSubmitButton(meetsThreshold);
+  checkItemInQuoteCart(productId);
+}
+export function checkItemInQuoteCart(productId: string) {
+  log(checkItemInQuoteCart.name);
+  cy.get(
+    //TODO MS versuchen auf den N-ten eintrag zu zugreifen für mehrere produkte
+    'cx-quote-details-cart .cx-table-item-container .cx-info'
+  ).contains(productId);
 }
 
 export function checkQuoteState(status: string) {
+  log(checkQuoteState.name);
+  if (status === STATUS_SUBMITTED) {
+    cy.get<string>('@quoteURL').then(cy.visit);
+  }
   cy.get('cx-quote-details-overview h3.status').contains(status);
 }
 
@@ -191,6 +220,7 @@ export function checkQuoteState(status: string) {
  * @param text text to add
  */
 export function addCommentAndWait(text: string) {
+  log(addCommentAndWait.name);
   cy.get('cx-quote-details-comment .cx-message-input').within(() => {
     cy.get('input').type(text);
     cy.get('button').click();
@@ -204,6 +234,7 @@ export function addCommentAndWait(text: string) {
  * @param text text to be displayed
  */
 export function checkComment(index: number, text: string) {
+  log(checkComment.name);
   cy.get(
     `cx-quote-details-comment .cx-message-card:nth-child(${index})`
   ).should('contain.text', text);
@@ -215,6 +246,7 @@ export function checkComment(index: number, text: string) {
  * @param text text to add
  */
 export function addItemCommentAndWait(item: string, text: string) {
+  log(addItemCommentAndWait.name);
   cy.get('cx-quote-details-comment .cx-footer-label').within(() => {
     cy.get('select').select(item);
   });
@@ -232,6 +264,7 @@ export function addItemCommentAndWait(item: string, text: string) {
  * @param text text to be displayed
  */
 export function checkItemComment(index: number, item: string, text: string) {
+  log(checkItemComment.name);
   cy.get(
     `cx-quote-details-comment .cx-message-card:nth-child(${index})`
   ).should('contain.text', text);
@@ -246,6 +279,7 @@ export function checkItemComment(index: number, item: string, text: string) {
  * @param item name of the item
  */
 export function clickItemLinkInComment(index: number, item: string) {
+  log(clickItemLinkInComment.name);
   cy.get(
     `cx-quote-details-comment .cx-message-card:nth-child(${index}) .cx-message-item-link`
   )
@@ -258,6 +292,7 @@ export function clickItemLinkInComment(index: number, item: string) {
  * @param index index of the quote details cart row.
  */
 export function checkLinkedItemInViewport(index: number) {
+  log(checkLinkedItemInViewport.name);
   cy.get(`cx-quote-details-cart .cx-item-list-row:nth-child(${index})`).should(
     'be.visible'
   );
@@ -267,8 +302,16 @@ export function checkLinkedItemInViewport(index: number) {
  * Register GET quote route.
  */
 export function registerGetQuoteRoute(shopName: string) {
+  log(registerGetQuoteRoute.name);
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/current/quotes/*`,
   }).as(GET_QUOTE_ALIAS.substring(1)); // strip the '@'
+}
+export function log(functionName: string, title?: string) {
+  if (title) {
+    cy.log(`########## ${title} // ${functionName} ##########`);
+  } else {
+    cy.log(`********** function: ${functionName} **********`);
+  }
 }
