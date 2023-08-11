@@ -12,7 +12,6 @@ import {
   StarRatingModule,
   IconModule,
   MessageComponentModule,
-  SearchBoxModule,
 } from '@spartacus/storefront';
 import { AsmCustomerPromotionListingComponent } from './asm-customer-promotion-listing.component';
 
@@ -26,7 +25,6 @@ import { AsmCustomerPromotionListingComponent } from './asm-customer-promotion-l
     StarRatingModule,
     MessageComponentModule,
     IconModule,
-    SearchBoxModule,
   ],
 })
 export class AsmCustomerPromotionListingModule {}

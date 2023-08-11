@@ -23,4 +23,40 @@
   (removeAlert)="closeErrorAlert()"
   (removeAlertForApplyAction)="closeErrorAlertForApplyAction()"
 >
+  <ng-container>
+    <div class="cx-asm-customer-promotion-listing-tabs">
+      <button
+        class="cx-tab-header"
+        [class.active]="this.activeTab === 0"
+        [textContent]="'customer360.customerCoupons.availableTab' | cxTranslate"
+        (click)="this.changeTab(true); this.activeTab = 0"
+      ></button>
+      <button
+        class="cx-tab-header"
+        [class.active]="this.activeTab === 1"
+        [textContent]="'customer360.customerCoupons.sentTab' | cxTranslate"
+        (click)="this.changeTab(false); this.activeTab = 1"
+      ></button>
+    </div>
+    <hr
+      class="cx-asm-customer-promotion-listing-separator"
+      aria-hidden="true"
+    />
+    <div class="cx-asm-customer-promotion-listing-search">
+      <input
+        #searchBox
+        class="cx-asm-customer-promotion-listing-search-input"
+        placeholder="{{
+          'customer360.customerCoupons.searchBox' | cxTranslate
+        }}"
+        (keydown.enter)="this.searchCustomerCoupon(searchBox.value)"
+      />
+      <cx-icon
+        class="cx-asm-customer-promotion-listing-search-icon"
+        [type]="iconTypes.SEARCH"
+        role="button"
+        (click)="this.searchCustomerCoupon(searchBox.value)"
+      ></cx-icon>
+    </div>
+  </ng-container>
 </cx-asm-customer-promotion-listing>

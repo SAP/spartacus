@@ -27,6 +27,7 @@ import {
 import { catchError, map } from 'rxjs/operators';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { CustomerCouponEntry } from './asm-customer-customer-coupon.model';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,6 +40,8 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
   entries$: Observable<Array<CustomerCouponEntry>>;
   subscription = new Subscription();
   currentTabIsAssignable = true;
+  iconTypes = ICON_TYPE;
+  activeTab = 0;
 
   constructor(
     protected context: Customer360SectionContext<Customer360CustomerCouponList>,

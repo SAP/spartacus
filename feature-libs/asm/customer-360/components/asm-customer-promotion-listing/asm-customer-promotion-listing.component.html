@@ -3,37 +3,7 @@
     {{ headerText }}
   </h4>
 </div>
-<ng-container *ngIf="isCustomerCoupon">
-  <div class="cx-asm-customer-promotion-listing-tabs">
-    <button
-      class="cx-tab-header"
-      [class.active]="activeTab === 0"
-      [textContent]="'customer360.customerCoupons.availableTab' | cxTranslate"
-      (click)="changeCustomerCouponTab.emit(true); activeTab = 0"
-    ></button>
-    <button
-      class="cx-tab-header"
-      [class.active]="activeTab === 1"
-      [textContent]="'customer360.customerCoupons.sentTab' | cxTranslate"
-      (click)="changeCustomerCouponTab.emit(false); activeTab = 1"
-    ></button>
-  </div>
-  <hr class="cx-asm-customer-promotion-listing-separator" aria-hidden="true" />
-  <div class="cx-asm-customer-promotion-listing-search">
-    <input
-      #searchBox
-      class="cx-asm-customer-promotion-listing-search-input"
-      placeholder="{{ 'customer360.customerCoupons.searchBox' | cxTranslate }}"
-      (keydown.enter)="searchCustomerCoupon.emit(searchBox.value)"
-    />
-    <cx-icon
-      class="cx-asm-customer-promotion-listing-search-icon"
-      [type]="iconTypes.SEARCH"
-      role="button"
-      (click)="searchCustomerCoupon.emit(searchBox.value)"
-    ></cx-icon>
-  </div>
-</ng-container>
+<ng-content></ng-content>
 <div class="message-container">
   <cx-message
     *ngIf="showAlert"
