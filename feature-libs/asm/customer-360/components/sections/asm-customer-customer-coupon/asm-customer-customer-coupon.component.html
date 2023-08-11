@@ -14,8 +14,6 @@
   [showRemoveButton]="true"
   [showApplyButton]="true"
   [isCustomerCoupon]="true"
-  (changeCustomerCouponTab)="changeTab($event)"
-  (searchCustomerCoupon)="searchCustomerCoupon($event)"
   (apply)="claimCouponToCustomer($event)"
   (remove)="disclaimCouponToCustomer($event)"
   [showAlert]="showErrorAlert$ | async"
@@ -29,13 +27,13 @@
         class="cx-tab-header"
         [class.active]="this.activeTab === 0"
         [textContent]="'customer360.customerCoupons.availableTab' | cxTranslate"
-        (click)="this.changeTab(true)"
+        (click)="this.changeTab(true); searchBox.value = ''"
       ></button>
       <button
         class="cx-tab-header"
         [class.active]="this.activeTab === 1"
         [textContent]="'customer360.customerCoupons.sentTab' | cxTranslate"
-        (click)="this.changeTab(false)"
+        (click)="this.changeTab(false); searchBox.value = ''"
       ></button>
     </div>
     <hr
