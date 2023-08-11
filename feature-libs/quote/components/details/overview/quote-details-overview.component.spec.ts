@@ -233,14 +233,12 @@ describe('QuoteDetailsOverviewComponent', () => {
         editMode: false,
         name: 'name',
         description: 'description',
-        expirationTime: new Date('2023-02-02T13:05:12+0000'),
       };
       const metaData = component['defineQuoteMetaData'](editEvent);
 
-      expect(Object.keys(metaData).length).toBe(3);
+      expect(Object.keys(metaData).length).toBe(2);
       expect(metaData.name).toBe(editEvent.name);
       expect(metaData.description).toBe(editEvent.description);
-      expect(metaData.expirationTime).toBe(editEvent.expirationTime);
     });
   });
 
@@ -274,7 +272,7 @@ describe('QuoteDetailsOverviewComponent', () => {
 
   describe('handle actions', () => {
     it('should handle cancel action', () => {
-      component.cancel(false);
+      component.cancel();
       expect(component.editMode).toBe(false);
     });
 
@@ -333,23 +331,13 @@ describe('QuoteDetailsOverviewComponent', () => {
     });
 
     it('should retrieve the edit card content that represents the edit quote information with its name and description', () => {
-      const name = 'name';
-      const description = 'description';
+      const name = 'Updated name';
+      const description = 'Updated description';
 
       const expected = {
-        title: 'quote.details.information',
-        paragraphs: [
-          {
-            title: 'quote.details.name',
-            text: name,
-          },
-          {
-            title: 'quote.details.description',
-            text: description,
-            isTextArea: true,
-            charactersLimit: 255,
-          },
-        ],
+        name: 'Updated name',
+        description: 'Updated description',
+        charactersLimit: 255,
       };
 
       component

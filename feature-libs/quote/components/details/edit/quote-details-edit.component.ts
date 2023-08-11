@@ -12,17 +12,12 @@ export interface EditEvent {
   editMode: boolean;
   name?: string;
   description?: string;
-  expirationTime?: Date;
 }
 
 export interface EditCard {
-  title: string;
-  paragraphs: Array<{
-    title: string;
-    text: string;
-    isTextArea?: boolean;
-    charactersLimit?: number;
-  }>;
+  name: string;
+  description: string;
+  charactersLimit?: number;
 }
 
 @Component({
@@ -36,7 +31,7 @@ export class QuoteDetailsEditComponent implements OnInit {
   @Output()
   editCard: EventEmitter<EditEvent> = new EventEmitter();
   @Output()
-  cancelCard: EventEmitter<boolean> = new EventEmitter();
+  cancelCard: EventEmitter<any> = new EventEmitter();
 
   @Input()
   content: EditCard;
@@ -46,7 +41,7 @@ export class QuoteDetailsEditComponent implements OnInit {
    * by throwing the edit event with the edit mode set to 'false'.
    */
   cancel(): void {
-    this.cancelCard.emit(false);
+    this.cancelCard.emit();
   }
 
   /**
@@ -74,24 +69,6 @@ export class QuoteDetailsEditComponent implements OnInit {
     this.editCard.emit(event);
   }
 
-  /**
-   * Defines the form control name by converting a name to lower case.
-   *
-   * @param {string} name - Name
-   */
-  protected setFormControlName(name: string): string {
-    return name.toLocaleLowerCase();
-  }
-
-  /**
-   * Tracks by index.
-   *
-   * @param {any} index - index
-   */
-  protected trackByIndex(index: any) {
-    return index;
-  }
-
   protected getCharactersLeft(
     formControlName: string,
     charactersLimit: number
@@ -105,15 +82,13 @@ export class QuoteDetailsEditComponent implements OnInit {
     // Intentional empty constructor
   }
 
+  protected defineUntypedFormControl(formControlName: string, value: string) {
+    this.editForm.addControl(formControlName, new UntypedFormControl(''));
+    this.editForm.get(formControlName)?.setValue(value);
+  }
+
   ngOnInit() {
-    this.content?.paragraphs?.forEach((paragraph) => {
-      if (paragraph.title) {
-        const formControlName = this.setFormControlName(paragraph.title);
-        this.editForm.addControl(formControlName, new UntypedFormControl(''));
-        if (paragraph.text) {
-          this.editForm.get(formControlName)?.setValue(paragraph.text);
-        }
-      }
-    });
+    this.defineUntypedFormControl('name', this.content.name);
+    this.defineUntypedFormControl('description', this.content.description);
   }
 }

@@ -3,45 +3,47 @@
   <div class="card-body cx-card-body cx-card-edit">
     <!-- Card title -->
     <span class="cx-card-title">
-      {{ content.title }}
+      {{ 'quote.details.information' | cxTranslate }}
     </span>
     <!-- Card Content -->
     <div class="cx-card-container">
       <!-- Card Label -->
       <div class="cx-card-label-container">
         <form [formGroup]="editForm">
-          <div
-            class="cx-card-paragraph"
-            *ngFor="let item of content.paragraphs; trackBy: trackByIndex"
-          >
-            <div class="cx-card-paragraph-title">{{ item.title }}</div>
+          <div class="cx-card-paragraph">
+            <div class="cx-card-paragraph-title">
+              {{ 'quote.details.name' | cxTranslate }}
+            </div>
             <div class="form-group">
-              <ng-container *ngIf="!item.isTextArea">
-                <input
-                  class="form-control cx-card-paragraph-input"
-                  type="text"
-                  name="{{ setFormControlName(item.title) }}"
-                  formControlName="{{ setFormControlName(item.title) }}"
-                />
-              </ng-container>
-              <ng-container *ngIf="item.isTextArea">
-                <textarea
-                  class="form-control cx-card-paragraph-text-area"
-                  [maxLength]="item.charactersLimit"
-                  rows="4"
-                  name="{{ setFormControlName(item.title) }}"
-                  formControlName="{{ setFormControlName(item.title) }}"
-                ></textarea>
-              </ng-container>
-              <ng-container *ngIf="item.charactersLimit">
-                <p class="cx-card-paragraph-info-text">
+              <input
+                class="form-control"
+                type="text"
+                name="name"
+                formControlName="name"
+              />
+            </div>
+          </div>
+          <div class="cx-card-paragraph">
+            <div class="cx-card-paragraph-title">
+              {{ 'quote.details.description' | cxTranslate }}
+            </div>
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                [maxLength]="content.charactersLimit"
+                rows="4"
+                name="description"
+                formControlName="description"
+              ></textarea>
+              <ng-container *ngIf="content.charactersLimit">
+                <p class="cx-info-text">
                   {{
                     'quote.details.charactersLeft'
                       | cxTranslate
                         : {
                             count: getCharactersLeft(
-                              setFormControlName(item.title),
-                              item.charactersLimit
+                              'description',
+                              content.charactersLimit
                             )
                           }
                   }}

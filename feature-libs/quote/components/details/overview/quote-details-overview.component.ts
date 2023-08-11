@@ -16,7 +16,7 @@ import {
 } from '@spartacus/quote/root';
 import { EventService, TranslationService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { EditCard, EditEvent } from '../edit/quote-details-edit.component';
 
@@ -39,18 +39,13 @@ export class QuoteDetailsOverviewComponent {
   ) {}
 
   protected defineQuoteMetaData(event: EditEvent): QuoteMetadata {
-    const [name, description, expirationTime] = [
-      event.name,
-      event.description,
-      event.expirationTime,
-    ];
+    const [name, description] = [event.name, event.description];
 
     let metaData: QuoteMetadata = {};
     metaData = {
       ...metaData,
       ...(event.name && { name }),
       ...(event.description && { description }),
-      ...(event.expirationTime && { expirationTime }),
     };
 
     return metaData;
@@ -73,11 +68,9 @@ export class QuoteDetailsOverviewComponent {
   /**
    * Cancels the view of the edit card tile
    * by setting the edit mode to 'false'.
-   *
-   * @param {boolean} isEditMode - isEditMode
    */
-  cancel(isEditMode: boolean) {
-    this.editMode = isEditMode;
+  cancel() {
+    this.editMode = false;
   }
 
   /**
@@ -90,15 +83,17 @@ export class QuoteDetailsOverviewComponent {
     this.editMode = event.editMode;
     const metaData: QuoteMetadata = this.defineQuoteMetaData(event);
 
-    this.quoteFacade
-      .editQuote(quote.code, metaData)
-      .pipe(take(1))
-      .subscribe(
-        // success
-        () => {
-          this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
-        }
-      );
+    if (Object.keys(metaData).length !== 0) {
+      this.quoteFacade
+        .editQuote(quote.code, metaData)
+        .pipe(take(1))
+        .subscribe(
+          // success
+          () => {
+            this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+          }
+        );
+    }
   }
 
   /**
@@ -150,29 +145,12 @@ export class QuoteDetailsOverviewComponent {
     name: string,
     description: string
   ): Observable<EditCard> {
-    return combineLatest([
-      this.translationService.translate('quote.details.information'),
-      this.translationService.translate('quote.details.name'),
-      this.translationService.translate('quote.details.description'),
-    ]).pipe(
-      map(([infoTitle, nameTitle, descriptionTitle]) => {
-        return {
-          title: infoTitle,
-          paragraphs: [
-            {
-              title: nameTitle,
-              text: name,
-            },
-            {
-              title: descriptionTitle,
-              text: description,
-              isTextArea: true,
-              charactersLimit: QuoteDetailsOverviewComponent.CHARACTERS_LIMIT,
-            },
-          ],
-        };
-      })
-    );
+    let editCard: EditCard = {
+      name: name,
+      description: description,
+      charactersLimit: QuoteDetailsOverviewComponent.CHARACTERS_LIMIT,
+    };
+    return of(editCard);
   }
 
   /**

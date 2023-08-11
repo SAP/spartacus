@@ -10,16 +10,9 @@ import {
 } from './quote-details-edit.component';
 
 const mockCard: EditCard = {
-  title: 'Edit card title',
-  paragraphs: [
-    { title: 'name', text: 'text1' },
-    {
-      title: 'description',
-      text: 'text2',
-      isTextArea: true,
-      charactersLimit: 255,
-    },
-  ],
+  name: 'Quote name',
+  description: 'Here you could enter a long description for the current quote',
+  charactersLimit: 255,
 };
 
 @Component({
@@ -74,7 +67,7 @@ describe('QuoteDetailsEditComponent', () => {
       expect,
       htmlElem,
       '.cx-card-title',
-      mockCard.title
+      'quote.details.information'
     );
 
     CommonQuoteTestUtilsService.expectElementPresent(
@@ -93,21 +86,21 @@ describe('QuoteDetailsEditComponent', () => {
       expect,
       htmlElem,
       '.cx-card-paragraph',
-      mockCard.paragraphs.length
+      2
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       '.cx-card-paragraph-title',
-      mockCard.paragraphs.length
+      2
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       '.form-group',
-      mockCard.paragraphs.length
+      2
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
@@ -128,15 +121,15 @@ describe('QuoteDetailsEditComponent', () => {
       expect,
       htmlElem,
       '.cx-card-paragraph-title',
-      mockCard.paragraphs[1].title,
+      'quote.details.description',
       1
     );
 
     CommonQuoteTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
-      '.cx-card-paragraph-info-text',
-      'quote.details.charactersLeft count:250'
+      '.cx-info-text',
+      'quote.details.charactersLeft count:194'
     );
 
     CommonQuoteTestUtilsService.expectElementPresent(
@@ -167,7 +160,6 @@ describe('QuoteDetailsEditComponent', () => {
     );
     cancelButton.click();
     expect(component.cancelCard.emit).toHaveBeenCalled();
-    expect(component.cancelCard.emit).toHaveBeenCalledWith(false);
   });
 
   it('should handle edit action', () => {
@@ -190,18 +182,6 @@ describe('QuoteDetailsEditComponent', () => {
     expect(arg.description).toEqual(newTextForTitle2);
   });
 
-  describe('setFormControlName', () => {
-    it('should return form control name converted to lower case', () => {
-      let name = 'TeSt';
-      let convertedName = name.toLocaleLowerCase();
-      expect(component['setFormControlName'](name)).toBe(convertedName);
-
-      name = 'TEST';
-      convertedName = name.toLocaleLowerCase();
-      expect(component['setFormControlName'](name)).toBe(convertedName);
-    });
-  });
-
   describe('getCharactersLeft', () => {
     function setValue(formControlName: string, value: any): void {
       component.editForm.get(formControlName)?.setValue(value);
@@ -213,36 +193,36 @@ describe('QuoteDetailsEditComponent', () => {
       const formControlName = 'description';
       setValue(formControlName, 'New title for name');
 
-      if (component.content.paragraphs[1].charactersLimit) {
+      if (component.content.charactersLimit) {
         let charactersLeft =
-          component.content.paragraphs[1].charactersLimit -
+          component.content.charactersLimit -
           component.editForm.get(formControlName)?.value?.length;
         expect(
           component['getCharactersLeft'](
-            component.content.paragraphs[1].title,
-            component.content.paragraphs[1].charactersLimit
+            formControlName,
+            component.content.charactersLimit
           )
         ).toBe(charactersLeft);
 
         charactersLeft =
-          component.content.paragraphs[1].charactersLimit -
+          component.content.charactersLimit -
           component.editForm.get(formControlName)?.value?.length;
         expect(
           component['getCharactersLeft'](
-            component.content.paragraphs[1].title,
-            component.content.paragraphs[1].charactersLimit
+            formControlName,
+            component.content.charactersLimit
           )
         ).toBe(charactersLeft);
 
         setValue(formControlName, '');
 
         charactersLeft =
-          component.content.paragraphs[1].charactersLimit -
+          component.content.charactersLimit -
           component.editForm.get(formControlName)?.value?.length;
         expect(
           component['getCharactersLeft'](
-            component.content.paragraphs[1].title,
-            component.content.paragraphs[1].charactersLimit
+            formControlName,
+            component.content.charactersLimit
           )
         ).toBe(charactersLeft);
       }
