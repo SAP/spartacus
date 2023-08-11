@@ -32,9 +32,7 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
   quoteDetailsForSeller$: Observable<Quote> = this.quoteFacade
     .getQuoteDetails()
     .pipe(
-      filter((quote) =>
-        this.quoteSellerEditComponentService.isEditableForSeller(quote)
-      )
+      filter((quote) => this.quoteSellerEditComponentService.isEditable(quote))
     );
 
   @ViewChild('element') element: ElementRef;

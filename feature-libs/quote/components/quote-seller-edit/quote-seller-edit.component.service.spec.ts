@@ -54,22 +54,22 @@ describe('QuoteSellerEditComponentService', () => {
 
   describe('isEditableForSeller', () => {
     it('should allow seller edit for editable quote in state draft', () => {
-      expect(service.isEditableForSeller(quote)).toBe(true);
+      expect(service.isEditable(quote)).toBe(true);
     });
 
     it('should allow seller edit for editable quote in state seller request', () => {
       quote.state = QuoteState.SELLER_REQUEST;
-      expect(service.isEditableForSeller(quote)).toBe(true);
+      expect(service.isEditable(quote)).toBe(true);
     });
 
     it('should not allow seller edit for editable quote in state buyer draft', () => {
       quote.state = QuoteState.BUYER_DRAFT;
-      expect(service.isEditableForSeller(quote)).toBe(false);
+      expect(service.isEditable(quote)).toBe(false);
     });
 
     it('should not allow seller edit for non-editable quote', () => {
       quote.isEditable = false;
-      expect(service.isEditableForSeller(quote)).toBe(false);
+      expect(service.isEditable(quote)).toBe(false);
     });
   });
 

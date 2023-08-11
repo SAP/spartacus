@@ -52,7 +52,7 @@ export const quote = {
       placeholder: '0',
       discount: 'Absolute Discount',
       expiryDate: 'Expiry Date',
-      validation: 'Enter a valid absolute discount',
+      discountValidationText: 'Enter a valid absolute discount',
     },
     comments: {
       title: 'Contact',

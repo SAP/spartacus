@@ -46,7 +46,7 @@ export class QuoteSellerEditComponentService {
   }
 
   /**
-   * Gets formatter according to current locale and currency
+   * Retrieves formatter according to current locale and currency
    * @returns Observable of formatters
    */
   getFormatter(): Observable<Intl.NumberFormat> {
@@ -55,7 +55,7 @@ export class QuoteSellerEditComponentService {
     );
   }
   /**
-   * Gets localization elements according to current locale and currency
+   * Retrieves localization elements according to current locale and currency
    * @returns Observables of localization elements
    */
   getLocalizationElements(): Observable<LocalizationElements> {
@@ -83,7 +83,7 @@ export class QuoteSellerEditComponentService {
   }
 
   /**
-   * Gets number format validator according to inputs
+   * Retrieves number format validator according to inputs
    * @param locale Current locale
    * @param currency Currency
    * @param numberTotalPlaces Number of maximum total places
@@ -132,11 +132,11 @@ export class QuoteSellerEditComponentService {
   }
 
   /**
-   * Check if quote state belongs to seller and can be edited
+   * Verify if quote state belongs to seller and can be edited
    * @param quoteState
    * @returns Is it for seller?
    */
-  isEditableForSeller(quote: Quote): boolean {
+  isEditable(quote: Quote): boolean {
     const quoteState = quote.state;
     return (
       (quoteState === QuoteState.SELLER_REQUEST ||
@@ -146,7 +146,7 @@ export class QuoteSellerEditComponentService {
   }
 
   /**
-   * Get maximum number of decimal places. This supports validation, but it is not sufficient to do a complete validation,
+   * Retrieve maximum number of decimal places. This supports validation, but it is not sufficient to do a complete validation,
    * cases where the granted discount exceeds the total quote value by 1 are not covered (covered in OCC call).
    * Still we want to inform the user as early as possible.
    * Note that we assume currencies always come with 2 decimal places. In case this is not desired, this service can be overriden.

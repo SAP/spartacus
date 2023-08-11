@@ -70,7 +70,6 @@ class MockQuoteSellerEditComponentService {
   getFormatter() {
     return of(formatter);
   }
-
   getLocalizationElements() {
     return of({
       locale: 'en',
@@ -78,24 +77,20 @@ class MockQuoteSellerEditComponentService {
       formatter: formatter,
     });
   }
-
   getNumberFormatValidator() {
     return (control: AbstractControl): { [key: string]: any } | null => {
       return control.value === invalidInput ? { wrongFormat: {} } : null;
     };
   }
-
-  isEditableForSeller(): boolean {
+  isEditable(): boolean {
     return true;
   }
-
   addTimeToDate(): string {
     return EXPIRATION_TIME_AS_STRING;
   }
   removeTimeFromDate(): string {
     return EXPIRATION_DATE_AS_STRING;
   }
-
   getMaximumNumberOfTotalPlaces(): number {
     return 10;
   }
