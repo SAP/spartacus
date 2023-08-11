@@ -21,6 +21,9 @@
 
       input {
         width: 100%;
+        &:focus {
+          outline: none;
+        }
       }
     }
   }
