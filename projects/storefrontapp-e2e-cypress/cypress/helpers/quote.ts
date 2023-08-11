@@ -87,7 +87,7 @@ export function clickOnSubmitQuoteBtnOnQD(): void {
   cy.get('cx-quote-actions-by-role button.btn-primary')
     .click()
     .then(() => {
-      cy.get('cx-quote-confirm-request-dialog').should('be.visible');
+      cy.get('cx-quote-confirm-action-dialog').should('be.visible');
     });
 }
 

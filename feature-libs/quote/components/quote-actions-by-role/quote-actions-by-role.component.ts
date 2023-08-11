@@ -13,10 +13,21 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { QuoteFacade, QuoteActionType, Quote } from '@spartacus/quote/root';
+import { QuoteRoleService } from '@spartacus/quote/core';
+import {
+  Quote,
+  QuoteActionType,
+  QuoteFacade,
+  QuoteState,
+} from '@spartacus/quote/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
+import {
+  ConfirmActionDialogConfig,
+  QuoteUIConfig,
+} from '../config/quote-ui.config';
+import { ConfirmationContext } from '../quote-confirm-action-dialog/quote-confirm-action-dialog.model';
 
 @Component({
   selector: 'cx-quote-actions-by-role',
@@ -35,7 +46,9 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     protected quoteFacade: QuoteFacade,
     protected launchDialogService: LaunchDialogService,
     protected viewContainerRef: ViewContainerRef,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected quoteRoleService: QuoteRoleService,
+    protected config: QuoteUIConfig
   ) {}
 
   ngOnInit(): void {
@@ -67,33 +80,55 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     return (quote.totalPrice.value || 0) >= requestThreshold;
   }
 
-  onClick(quoteActionType: QuoteActionType, code: string) {
+  onClick(quoteActionType: QuoteActionType, quote: Quote) {
     if (quoteActionType === QuoteActionType.REQUOTE) {
-      this.requote(code);
+      this.requote(quote.code);
       return;
     }
-    this.performAction(code, quoteActionType);
+    this.performAction(quoteActionType, quote);
   }
-  performAction(quoteCode: string, action: QuoteActionType) {
-    if (action !== QuoteActionType.SUBMIT) {
-      this.quoteFacade.performQuoteAction(quoteCode, action);
+
+  performAction(action: QuoteActionType, quote: Quote) {
+    if (!this.isConfirmationDialogRequired(action, quote.state)) {
+      this.quoteFacade.performQuoteAction(quote.code, action);
       return;
     }
+
+    const context = this.prepareConfirmationContext(action, quote);
+    this.launchConfirmationDialog(context);
+    this.handleConfirmationDialogClose(action, context);
+  }
+
+  protected launchConfirmationDialog(context: ConfirmationContext) {
     this.launchDialogService
       .openDialog(
-        LAUNCH_CALLER.REQUEST_CONFIRMATION,
+        LAUNCH_CALLER.ACTION_CONFIRMATION,
         this.element,
         this.viewContainerRef,
-        { quoteCode }
+        { confirmationContext: context }
       )
       ?.pipe(take(1))
       .subscribe();
+  }
 
+  protected handleConfirmationDialogClose(
+    action: QuoteActionType,
+    context: ConfirmationContext
+  ) {
     this.subscription.add(
       this.launchDialogService.dialogClose
         .pipe(
           filter((reason) => reason === 'yes'),
-          tap(() => this.quoteFacade.performQuoteAction(quoteCode, action))
+          tap(() =>
+            this.quoteFacade.performQuoteAction(context.quote.code, action)
+          ),
+          filter(() => !!context.successMessage),
+          tap(() =>
+            this.globalMessageService.add(
+              { key: context.successMessage },
+              GlobalMessageType.MSG_TYPE_CONFIRMATION
+            )
+          )
         )
         .subscribe()
     );
@@ -105,5 +140,57 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  protected isConfirmationDialogRequired(
+    action: QuoteActionType,
+    state: QuoteState
+  ): boolean {
+    const mappingConfig = this.config.quote?.confirmActionDialogMapping;
+    return (
+      !!mappingConfig?.[state]?.[action] ||
+      !!mappingConfig?.[this.quoteRoleService.stateToRole(state)]?.[action]
+    );
+  }
+
+  protected prepareConfirmationContext(
+    action: QuoteActionType,
+    quote: Quote
+  ): ConfirmationContext {
+    const dialogConfig = this.getDialogConfig(action, quote.state);
+    const confirmationContext: ConfirmationContext = {
+      quote: quote,
+      title: dialogConfig.i18nKey + '.title',
+      confirmNote: dialogConfig.i18nKey + '.confirmNote',
+    };
+    if (dialogConfig.showWarningNote) {
+      confirmationContext.warningNote = dialogConfig.i18nKey + '.warningNote';
+    }
+    if (dialogConfig.showExpirationDate) {
+      confirmationContext.validity = 'quote.confirmActionDialog.validity';
+    }
+    if (dialogConfig.showSuccessMessage) {
+      confirmationContext.successMessage =
+        dialogConfig.i18nKey + '.successMessage';
+    }
+    return confirmationContext;
+  }
+
+  protected getDialogConfig(
+    action: QuoteActionType,
+    state: QuoteState
+  ): ConfirmActionDialogConfig {
+    const mappingConfig = this.config.quote?.confirmActionDialogMapping;
+
+    const config =
+      mappingConfig?.[state]?.[action] ??
+      mappingConfig?.[this.quoteRoleService.stateToRole(state)]?.[action];
+    if (!config) {
+      throw new Error(
+        `Dialog Config expected for quote in state ${state} and action ${action}, but none found in config ${mappingConfig}`
+      );
+    }
+
+    return config;
   }
 }
