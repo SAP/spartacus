@@ -95,6 +95,12 @@ export const defaultCustomer360Config: Customer360Config = {
               type: Customer360Type.COUPON_LIST,
             },
           },
+          {
+            component: 'AsmCustomer360PromotionComponent',
+            requestData: {
+              type: Customer360Type.PROMOTION_LIST,
+            },
+          }, 
         ],
       },
       {

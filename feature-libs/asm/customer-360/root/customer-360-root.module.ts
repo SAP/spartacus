@@ -37,6 +37,7 @@ import { SiteContextInterceptor } from './interceptors/site-context.interceptor'
             'AsmCustomer360SupportTicketsComponent',
             'AsmCustomer360MapComponent',
             'AsmCustomer360CouponComponent',
+            'AsmCustomer360PromotionComponent',
           ],
           dependencies: [ASM_FEATURE],
         },

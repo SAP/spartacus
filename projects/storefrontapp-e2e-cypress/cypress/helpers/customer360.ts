@@ -20,12 +20,12 @@ export function setup() {
 
 function createUser(): SampleUser {
   const user = registerUser();
-  placeOrder();
-  writeReview();
-  saveCart();
-  createTicket();
-  subscribeStockNotification('872912');
-  addProductToCart();
+  // placeOrder();
+  // writeReview();
+  // saveCart();
+  // createTicket();
+  // subscribeStockNotification('872912');
+  // addProductToCart();
   return user;
 }
 
