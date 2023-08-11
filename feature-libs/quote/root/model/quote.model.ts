@@ -83,6 +83,13 @@ export enum QuoteState {
   EXPIRED = 'EXPIRED',
 }
 
+export enum QuoteRoleType {
+  NOT_AVAILABLE = 'NOT_AVAILABLE',
+  BUYER = 'BUYER',
+  SELLER = 'SELLER',
+  SELLERAPPROVER = 'SELLERAPPROVER',
+}
+
 export interface QuoteDiscount {
   discountRate: number;
   discountType: string;
