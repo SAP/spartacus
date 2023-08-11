@@ -1,28 +1,27 @@
 %cx-quote-seller-edit {
-  background: var(--cx-color-background);
   .cx-seller-edit-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     padding: 20px;
-  }
+    background: var(--cx-color-background);
+    border: 1px solid var(--cx-color-medium);
 
-  .cx-discount-input {
-    display: flex;
-    gap: 1rem;
-  }
+    .cx-discount-input {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
 
-  .cx-apply {
-    max-width: 6.5rem;
-    height: 48px;
-  }
+      .btn-secondary {
+        max-width: 6.5rem;
+        height: fit-content;
+      }
+    }
 
-  .cx-validation-msg {
-    color: var(--cx-color-danger);
-    font-size: 14px;
+    .cx-validation-msg {
+      color: var(--cx-color-danger);
+      font-size: 14px;
 
-    cx-icon {
-      padding-inline-end: 5px;
+      cx-icon {
+        padding-inline-end: 5px;
+      }
     }
   }
 }
