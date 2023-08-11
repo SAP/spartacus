@@ -40,7 +40,8 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
   @ViewChild('element') element: ElementRef;
 
   form: UntypedFormGroup = new UntypedFormGroup({
-    validityDate: new UntypedFormControl(new Date()),
+    discount: new UntypedFormControl(),
+    validityDate: new UntypedFormControl(),
   });
 
   iconType = ICON_TYPE;
@@ -70,9 +71,7 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
                 quote
               )
             );
-          this.form.controls.discount = new UntypedFormControl('', [
-            numberFormatValidator,
-          ]);
+          this.form.controls.discount.addValidators([numberFormatValidator]);
           this.form.controls.discount.setValue(
             localizationElements.formatter.format(
               quote.quoteDiscounts?.value ?? 0

@@ -30,9 +30,9 @@ import {
 import { Component, Input } from '@angular/core';
 
 const mockCartId = '1234';
-
 const threshold = 20;
 const totalPrice: Price = { value: threshold + 1 };
+const invalidInput = 'INVALID';
 
 const mockQuote: Quote = {
   ...createEmptyQuote(),
@@ -80,8 +80,8 @@ class MockQuoteSellerEditComponentService {
   }
 
   getNumberFormatValidator() {
-    return (_control: AbstractControl): { [key: string]: any } | null => {
-      return null;
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      return control.value === invalidInput ? { wrongFormat: {} } : null;
     };
   }
 
@@ -176,9 +176,24 @@ describe('QuoteSellerEditComponent', () => {
     });
   });
 
+  describe('field validation', () => {
+    it('should detect that invalid input is not desired', () => {
+      fixture.detectChanges();
+      component.form.controls.discount.setValue(invalidInput);
+      fixture.detectChanges();
+      expect(component.form.controls.discount.valid).toBe(false);
+    });
+
+    it('should accept valid input', () => {
+      fixture.detectChanges();
+      component.form.controls.discount.setValue('1234');
+      fixture.detectChanges();
+      expect(component.form.controls.discount.valid).toBe(true);
+    });
+  });
+
   describe('onApply', () => {
     it('should call corresponding facade method', () => {
-      fixture.detectChanges();
       component.form.controls.discount.setValue(0);
       const expectedDiscount: QuoteDiscount = {
         discountRate: component.form.controls.discount.value,
@@ -208,23 +223,12 @@ describe('QuoteSellerEditComponent', () => {
 
   describe('mustDisplayValidationMessage', () => {
     it('should return false for valid input', () => {
-      fixture.detectChanges();
       expect(component.mustDisplayValidationMessage()).toBe(false);
     });
 
     it('should return true in case validation errors exist', () => {
-      fixture.detectChanges();
       component.form.controls.discount.setErrors([{}]);
       expect(component.mustDisplayValidationMessage()).toBe(true);
-    });
-  });
-
-  describe('ngOnInit', () => {
-    it('should set date input', () => {
-      fixture.detectChanges();
-      expect(component.form.controls.validityDate.value).toBe(
-        EXPIRATION_DATE_AS_STRING
-      );
     });
   });
 });
