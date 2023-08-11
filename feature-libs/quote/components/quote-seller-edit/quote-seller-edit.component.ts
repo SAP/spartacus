@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   QuoteFacade,
@@ -13,7 +19,7 @@ import {
   QuoteDiscountType,
   QuoteMetadata,
 } from '@spartacus/quote/root';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -22,7 +28,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
   selector: 'cx-quote-seller-edit',
   templateUrl: './quote-seller-edit.component.html',
 })
-export class QuoteSellerEditComponent implements OnInit {
+export class QuoteSellerEditComponent implements OnInit, OnDestroy {
   quoteDetailsForSeller$: Observable<Quote> = this.quoteFacade
     .getQuoteDetails()
     .pipe(
@@ -39,39 +45,50 @@ export class QuoteSellerEditComponent implements OnInit {
 
   iconType = ICON_TYPE;
 
+  protected subscription: Subscription = new Subscription();
+
   constructor(
     protected quoteFacade: QuoteFacade,
     protected quoteSellerEditComponentService: QuoteSellerEditComponentService
   ) {}
+
   ngOnInit(): void {
-    combineLatest([
-      this.quoteSellerEditComponentService.getLocalizationElements(),
-      this.quoteDetailsForSeller$,
-    ])
-      .pipe(take(1))
-      .subscribe(([localizationElements, quote]) => {
-        const numberFormatValidator =
-          this.quoteSellerEditComponentService.getNumberFormatValidator(
-            localizationElements.locale,
-            localizationElements.currencySymbol,
-            this.quoteSellerEditComponentService.getMaximumNumberOfTotalPlaces(
-              quote
+    //We need the subscription member even if we use take(1):
+    //quoteDetailsForSeller$ might never emit
+    this.subscription.add(
+      combineLatest([
+        this.quoteSellerEditComponentService.getLocalizationElements(),
+        this.quoteDetailsForSeller$,
+      ])
+        .pipe(take(1))
+        .subscribe(([localizationElements, quote]) => {
+          const numberFormatValidator =
+            this.quoteSellerEditComponentService.getNumberFormatValidator(
+              localizationElements.locale,
+              localizationElements.currencySymbol,
+              this.quoteSellerEditComponentService.getMaximumNumberOfTotalPlaces(
+                quote
+              )
+            );
+          this.form.controls.discount = new UntypedFormControl('', [
+            numberFormatValidator,
+          ]);
+          this.form.controls.discount.setValue(
+            localizationElements.formatter.format(
+              quote.quoteDiscounts?.value ?? 0
             )
           );
-        this.form.controls.discount = new UntypedFormControl('', [
-          numberFormatValidator,
-        ]);
-        this.form.controls.discount.setValue(
-          localizationElements.formatter.format(
-            quote.quoteDiscounts?.value ?? 0
-          )
-        );
-        this.form.controls.validityDate.setValue(
-          this.quoteSellerEditComponentService.removeTimeFromDate(
-            quote.expirationTime?.toString()
-          )
-        );
-      });
+          this.form.controls.validityDate.setValue(
+            this.quoteSellerEditComponentService.removeTimeFromDate(
+              quote.expirationTime?.toString()
+            )
+          );
+        })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
   /**
    * Do we display validation message?

@@ -11,7 +11,7 @@ import {
 } from '@spartacus/quote/root';
 import { I18nTestingModule, Price } from '@spartacus/core';
 
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 
 import { QuoteSellerEditComponent } from './quote-seller-edit.component';
 import createSpy = jasmine.createSpy;
@@ -45,6 +45,7 @@ const mockQuote: Quote = {
   code: QUOTE_CODE,
   threshold: threshold,
   totalPrice: totalPrice,
+  expirationTime: new Date(EXPIRATION_TIME_AS_STRING),
 };
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
@@ -153,6 +154,26 @@ describe('QuoteSellerEditComponent', () => {
         done();
       })
       .unsubscribe();
+  });
+
+  it('should unsubscribe subscription on ngOnDestroy', () => {
+    const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
+    component.ngOnDestroy();
+    expect(spyUnsubscribe).toHaveBeenCalled();
+  });
+
+  describe('ngOnInit', () => {
+    it('should provide initial value for discount control', () => {
+      fixture.detectChanges();
+      expect(component.form.controls.discount.value).toBe('$0.00');
+    });
+
+    it('should provide initial value for expiry date control', () => {
+      fixture.detectChanges();
+      expect(component.form.controls.validityDate.value).toBe(
+        EXPIRATION_DATE_AS_STRING
+      );
+    });
   });
 
   describe('onApply', () => {

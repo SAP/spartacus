@@ -261,6 +261,9 @@ export class QuoteService implements QuoteFacade {
     this.queryService.create<Quote>(
       () =>
         this.routingService.getRouterState().pipe(
+          //we don't need to cover the intermediate router states where a future route is already known.
+          //only changes to the URL are relevant. Otherwise we get unneeded hits when e.g. navigating back from quotes
+          filter((routingData) => routingData.nextState === undefined),
           withLatestFrom(this.userIdService.takeUserId()),
           switchMap(([{ state }, userId]) =>
             zip(
