@@ -35,21 +35,17 @@ For more information about using Verdaccio or another registry software, see the
     git clone https://github.com/SAP/spartacus.git && cd spartacus
     ```
 
-1. Use the branch or tag name to check out the branch of the required release version.
+1. Use the tag name to check out the required release version.
 
-    For example, the following command checks out the first code-frozen 5.0.0 release, which is in branch `release/5.0.0-CF1`:
+    For example, the following command checks out the 6.1.0 release:
 
     ```bash
-    git checkout release/5.0.0-CF1
+    git checkout 6.1.0
     ```
 
-    When choosing a tag or branch, use the specific major.minor.patch (for example, `5.0.0`) of the release you want to use. The latest release is always recommended.
+    When specifying the tag of the release version, use the specific major.minor.patch (for example, `6.1.0`) of the release you want to use. The latest release is always recommended.
 
     You can use the `git branch` command to confirm which branch you are on.
-
-    **Note:** You can use the dropdown menu for switching branches in the top left of the main page of the [Spartacus GitHub repository](https://github.com/SAP/spartacus) to see which releases are available. Click on **develop**, enter `release/5` in the search field that appears in the dropdown menu, and you will see all of the available releases for version 5.0.0 and newer, as shown in the following example:
-
-    ![GitHub Branch Selector](./assets/github-branch-selector.png)
 
 1. Run the following command to install packages and then build the libraries:
 
@@ -116,35 +112,32 @@ This procedure can be used to create a fresh application.
 
 ## Upgrading an Existing Spartacus App
 
-Before upgrading your Spartacus app to version 5.0, you first need to make sure your Angular libraries are up to date. Spartacus 5.0 requires Angular 14.
+Before upgrading your Spartacus app to version 6.0, you first need to make sure your Angular libraries are up to date. Spartacus 6.0 requires Angular 15.
 
 ### Upgrading Your Angular Libraries
 
-You can upgrade your application to Angular 14 as follows:
-
-- Start by upgrading Angular to version 13, and verify that all breaking changes have been addressed.
-- When you have updated to Angular 13, you can then upgrade to Angular 14.
-
-You might have to append the `--force` flag if you encounter a mismatch between peer dependencies during the migration. The following is an example command that upgrades Angular to version 13.
+When upgrading your Angular libraries to version 15, you might have to append the `--force` flag if you encounter a mismatch between peer dependencies during the migration. The following is an example command that upgrades Angular to version 15.
 
 ```bash
-ng update @angular/cli@13 --force
+ng update @angular/cli@15 --force
 ```
 
-Afterwards, you need to upgrade third party dependencies to the version that is compatible with Angular 14, such as `@ng-bootstrap/ng-bootstrap`, `@ng-select/ng-select` or `@ngrx/store`.
+Afterwards, you need to upgrade third party dependencies to the version that is compatible with Angular 15, such as `ngx-infinite-scroll`, `@ng-select/ng-select` or `@ngrx/store`.
 
 For more information, see the official [Angular Update Guide](https://update.angular.io/).
 
-### Upgrading Your Spartacus App to 5.0
+### Upgrading Your Spartacus App to 6.0
 
-Spartacus 5.0 includes many new features and fixes. Since this update is a major release, some of the updates may also be breaking changes for your application. In this case, additional work on your side may be required to fix issues that result from upgrading from 4.x to 5.0.
+Spartacus 6.0 includes many new features and fixes. Since this update is a major release, some of the updates may also be breaking changes for your application. In this case, additional work on your side may be required to fix issues that result from upgrading from 5.2 to 6.0.
+
+**Note:** You must start with a version 5.2 composable storefront app to be able to update to version 6.0.
 
 **Note:** In the following procedure, Verdaccio is used as an example of registry software, but you can use any proxy registry software that is similar to npm. These steps assume that your proxy registry is already running in a terminal window. For more information about using Verdaccio or another registry software, see the [Prerequisites](#prerequisites) section, above.
 
-1. To update your Spartacus app to version 5.0, run the following command in the workspace of your Angular application:
+1. To update your Spartacus app to version 6.0, run the following command in the workspace of your Angular application:
 
     ```bash
-    ng update @spartacus/schematics@latest
+    ng update @spartacus/schematics@6.0.0
     ```
 
 1. Follow the onscreen instructions that appear after running the command.
@@ -153,19 +146,17 @@ Spartacus 5.0 includes many new features and fixes. Since this update is a major
     If you are using Verdaccio, you can end the script by selecting `Exit`. Do not force-close the script; doing so will prevent cleanup from running, and as a result, the script may not run correctly in the future.
 1. Inspect your code for comments that begin with `// TODO:Spartacus`. For detailed information about each added comment, see the following:
 
-   - [Typescript Breaking Changes in Composable Storefront 5.0](https://help.sap.com/doc/typescript-breaking-changes-in-composable-storefront-50/5/en-US/typescript-changes-version-5.html)
+   - [Typescript Breaking Changes in Composable Storefront 6.0](https://help.sap.com/doc/typescript-breaking-changes-in-composable-storefront-60/6.0/en-US/typescript-changes-version-6.html)
+   - [Technical Changes in Composable Storefront 6.0](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/10a8bc7f635b4e3db6f6bb7880e58a7d/93ffb557d3c14922bda14dfc8b4250b4.html?locale=en-US&version=6.0#loio93ffb557d3c14922bda14dfc8b4250b4)
+   - [Changes to Styles in Composable Storefront 6.0](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/10a8bc7f635b4e3db6f6bb7880e58a7d/d008d0179ea141bf84fde6ec98244ae5.html?locale=en-US&version=6.0#loiod008d0179ea141bf84fde6ec98244ae5)
+   - [Changes to HTML in Composable Storefront 6.0](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/10a8bc7f635b4e3db6f6bb7880e58a7d/f6ecd8ecdc6042dca6552c0c16448e0c.html?locale=en-US&version=6.0#loiof6ecd8ecdc6042dca6552c0c16448e0c)
+   - [Changes to Sample Data in Composable Storefront 6.0](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/10a8bc7f635b4e3db6f6bb7880e58a7d/911c4c3a9e8c4d51a9ac4cc48cd4fda6.html?locale=en-US&version=6.0#loio911c4c3a9e8c4d51a9ac4cc48cd4fda6)
 
     **Note:** The process might also downgrade some dependencies (namely RxJS), because Spartacus does not yet support the newer version.
 
 1. Start the application.
 
     You should now be running with the latest libraries installed. You can open `node_modules` and check the `@spartacus` libraries that were installed.
-
-### Additional Information
-
-There are other important details to be aware of when upgrading your Spartacus app to version 5.0, such as the removal of NG Bootstrap, the removal of ModalServices and related code, and the addition of new entry points to the `@spartacus/cart` and `@spartacus/checkout` libraries.
-
-For more information, see [Updating to Composable Storefront Version 5.0](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/6d285368b1014628aebbe0aa2c74cd9d/7266f6f01edb4328b4e09df299ea09be.html) on the SAP Help Portal.
 
 ## Sharing the Local Repository
 
