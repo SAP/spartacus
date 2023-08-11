@@ -58,6 +58,10 @@
             "bundleName": "qualtrics"
           },
           {
+            "input": "projects/storefrontapp/src/styles/lib-requested-delivery-date.scss",
+            "bundleName": "requested-delivery-date"
+          },
+          {
             "input": "projects/storefrontapp/src/styles/lib-cart.scss",
             "bundleName": "cart"
           },
