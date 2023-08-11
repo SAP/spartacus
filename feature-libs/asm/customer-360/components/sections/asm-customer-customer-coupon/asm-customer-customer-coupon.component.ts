@@ -170,6 +170,7 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
         });
       });
     }
+    this.activeTab = applied ? 0 : 1;
     return newEntries;
   }
 

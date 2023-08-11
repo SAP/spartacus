@@ -81,26 +81,48 @@ describe('AsmCustomerCouponComponent', () => {
       },
     ],
   };
-  const mockReloadCustomerCouponEntryList: Array<CustomerCouponEntry> = [
-    {
-      code: 'NAME OF CUSTOMER_COUPON_1',
-      name: 'DESCRIPTION OF CUSTOMER_COUPON_1',
-      codeForApplyAction: 'RELOAD_CUSTOMER_COUPON_1',
-      applied: true,
-    },
-    {
-      code: 'NAME OF CUSTOMER_COUPON_2',
-      name: 'DESCRIPTION OF CUSTOMER_COUPON_2',
-      codeForApplyAction: 'RELOAD_CUSTOMER_COUPON_2',
-      applied: true,
-    },
-    {
-      code: 'NAME OF CUSTOMER_COUPON_3',
-      name: 'DESCRIPTION OF CUSTOMER_COUPON_3',
-      codeForApplyAction: 'RELOAD_CUSTOMER_COUPON_3',
-      applied: true,
-    },
-  ];
+  const mockReloadCustomerCouponEntryListForSentTab: Array<CustomerCouponEntry> =
+    [
+      {
+        code: 'NAME OF CUSTOMER_COUPON_1',
+        name: 'DESCRIPTION OF CUSTOMER_COUPON_1',
+        codeForApplyAction: 'RELOAD_CUSTOMER_COUPON_1',
+        applied: true,
+      },
+      {
+        code: 'NAME OF CUSTOMER_COUPON_2',
+        name: 'DESCRIPTION OF CUSTOMER_COUPON_2',
+        codeForApplyAction: 'RELOAD_CUSTOMER_COUPON_2',
+        applied: true,
+      },
+      {
+        code: 'NAME OF CUSTOMER_COUPON_3',
+        name: 'DESCRIPTION OF CUSTOMER_COUPON_3',
+        codeForApplyAction: 'RELOAD_CUSTOMER_COUPON_3',
+        applied: true,
+      },
+    ];
+  const mockReloadCustomerCouponEntryListForAvailableTab: Array<CustomerCouponEntry> =
+    [
+      {
+        code: 'NAME OF CUSTOMER_COUPON_1',
+        name: 'DESCRIPTION OF CUSTOMER_COUPON_1',
+        codeForApplyAction: 'RELOAD_CUSTOMER_COUPON_1',
+        applied: false,
+      },
+      {
+        code: 'NAME OF CUSTOMER_COUPON_2',
+        name: 'DESCRIPTION OF CUSTOMER_COUPON_2',
+        codeForApplyAction: 'RELOAD_CUSTOMER_COUPON_2',
+        applied: false,
+      },
+      {
+        code: 'NAME OF CUSTOMER_COUPON_3',
+        name: 'DESCRIPTION OF CUSTOMER_COUPON_3',
+        codeForApplyAction: 'RELOAD_CUSTOMER_COUPON_3',
+        applied: false,
+      },
+    ];
   const mockReloadedCustomer360Response: Customer360Response = {
     value: [mockReloadedCustomerCouponList],
   };
@@ -169,10 +191,19 @@ describe('AsmCustomerCouponComponent', () => {
     });
   });
 
-  it('should be able to reload customer coupon list when customer change tab', () => {
+  it('should be able to reload customer coupon list when customer change to Available tab', () => {
     component.changeTab(false);
     component.entries$.subscribe((entries) => {
-      expect(entries).toEqual(mockReloadCustomerCouponEntryList);
+      expect(entries).toEqual(mockReloadCustomerCouponEntryListForSentTab);
+      expect(component.activeTab).toEqual(1);
+    });
+  });
+
+  it('should be able to reload customer coupon list when customer change to Sent tab', () => {
+    component.changeTab(true);
+    component.entries$.subscribe((entries) => {
+      expect(entries).toEqual(mockReloadCustomerCouponEntryListForAvailableTab);
+      expect(component.activeTab).toEqual(0);
     });
   });
 

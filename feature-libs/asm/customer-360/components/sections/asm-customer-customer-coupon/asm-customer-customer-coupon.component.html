@@ -29,13 +29,13 @@
         class="cx-tab-header"
         [class.active]="this.activeTab === 0"
         [textContent]="'customer360.customerCoupons.availableTab' | cxTranslate"
-        (click)="this.changeTab(true); this.activeTab = 0"
+        (click)="this.changeTab(true)"
       ></button>
       <button
         class="cx-tab-header"
         [class.active]="this.activeTab === 1"
         [textContent]="'customer360.customerCoupons.sentTab' | cxTranslate"
-        (click)="this.changeTab(false); this.activeTab = 1"
+        (click)="this.changeTab(false)"
       ></button>
     </div>
     <hr
