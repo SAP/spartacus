@@ -32,4 +32,5 @@ export const environment: Environment = {
   s4om: buildProcess.env.CX_S4OM ?? false,
   opf: buildProcess.env.CX_OPF ?? false,
   segmentRefs: buildProcess.env.CX_SEGMENT_REFS ?? false,
+  requestedDeliveryDate: buildProcess.env.CX_REQUESTED_DELIVERY_DATE ?? false,
 };

@@ -213,9 +213,6 @@
       "@spartacus/customer-ticketing/root": [
         "feature-libs/customer-ticketing/root/public_api"
       ],
-      "@spartacus/order/core": [
-        "feature-libs/order/core/public_api"
-      ],
       "@spartacus/opf": ["integration-libs/opf/public_api"],
       "@spartacus/opf/checkout": ["integration-libs/opf/checkout/public_api"],
       "@spartacus/opf/checkout/assets": [
@@ -240,11 +237,14 @@
       "@spartacus/opf/base/core": ["integration-libs/opf/base/core/public_api"],
       "@spartacus/opf/base/occ": ["integration-libs/opf/base/occ/public_api"],
       "@spartacus/opf/base/root": ["integration-libs/opf/base/root/public_api"],
-      "@spartacus/order": ["feature-libs/order/public_api"],
-      "@spartacus/order/assets": ["feature-libs/order/assets/public_api"],
+     "@spartacus/order/assets": ["feature-libs/order/assets/public_api"],
       "@spartacus/order/components": [
         "feature-libs/order/components/public_api"
       ],
+      "@spartacus/order/core": [
+        "feature-libs/order/core/public_api"
+      ],
+      "@spartacus/order": ["feature-libs/order/public_api"],
       "@spartacus/order/occ": [
         "feature-libs/order/occ/public_api"
       ],
@@ -446,21 +446,26 @@
       "@spartacus/qualtrics/components": [
         "feature-libs/qualtrics/components/public_api"
       ],
-      "@spartacus/qualtrics": [
-        "feature-libs/qualtrics/public_api"
+      "@spartacus/qualtrics": ["feature-libs/qualtrics/public_api"],
+      "@spartacus/qualtrics/root": ["feature-libs/qualtrics/root/public_api"],
+      "@spartacus/requested-delivery-date/assets": [
+        "feature-libs/requested-delivery-date/assets/public_api"
       ],
-      "@spartacus/qualtrics/root": [
-        "feature-libs/qualtrics/root/public_api"
+      "@spartacus/requested-delivery-date/core": [
+        "feature-libs/requested-delivery-date/core/public_api"
       ],
-      "@spartacus/smartedit/core": [
-        "feature-libs/smartedit/core/public_api"
+      "@spartacus/requested-delivery-date": [
+        "feature-libs/requested-delivery-date/public_api"
       ],
-      "@spartacus/smartedit": [
-        "feature-libs/smartedit/public_api"
+      "@spartacus/requested-delivery-date/occ": [
+        "feature-libs/requested-delivery-date/occ/public_api"
       ],
-      "@spartacus/smartedit/root": [
-        "feature-libs/smartedit/root/public_api"
+      "@spartacus/requested-delivery-date/root": [
+        "feature-libs/requested-delivery-date/root/public_api"
       ],
+      "@spartacus/smartedit/core": ["feature-libs/smartedit/core/public_api"],
+      "@spartacus/smartedit": ["feature-libs/smartedit/public_api"],
+      "@spartacus/smartedit/root": ["feature-libs/smartedit/root/public_api"],
       "@spartacus/storefinder/assets": [
         "feature-libs/storefinder/assets/public_api"
       ],
@@ -470,18 +475,12 @@
       "@spartacus/storefinder/core": [
         "feature-libs/storefinder/core/public_api"
       ],
-      "@spartacus/storefinder": [
-        "feature-libs/storefinder/public_api"
-      ],
-      "@spartacus/storefinder/occ": [
-        "feature-libs/storefinder/occ/public_api"
-      ],
+      "@spartacus/storefinder": ["feature-libs/storefinder/public_api"],
+      "@spartacus/storefinder/occ": ["feature-libs/storefinder/occ/public_api"],
       "@spartacus/storefinder/root": [
         "feature-libs/storefinder/root/public_api"
       ],
-      "@spartacus/tracking": [
-        "feature-libs/tracking/public_api"
-      ],
+      "@spartacus/tracking": ["feature-libs/tracking/public_api"],
       "@spartacus/tracking/personalization/core": [
         "feature-libs/tracking/personalization/core/public_api"
       ],
@@ -500,9 +499,7 @@
       "@spartacus/tracking/tms/gtm": [
         "feature-libs/tracking/tms/gtm/public_api"
       ],
-      "@spartacus/tracking/tms": [
-        "feature-libs/tracking/tms/public_api"
-      ],
+      "@spartacus/tracking/tms": ["feature-libs/tracking/tms/public_api"],
       "@spartacus/user/account/assets": [
         "feature-libs/user/account/assets/public_api"
       ],
@@ -512,18 +509,14 @@
       "@spartacus/user/account/core": [
         "feature-libs/user/account/core/public_api"
       ],
-      "@spartacus/user/account": [
-        "feature-libs/user/account/public_api"
-      ],
+      "@spartacus/user/account": ["feature-libs/user/account/public_api"],
       "@spartacus/user/account/occ": [
         "feature-libs/user/account/occ/public_api"
       ],
       "@spartacus/user/account/root": [
         "feature-libs/user/account/root/public_api"
       ],
-      "@spartacus/user": [
-        "feature-libs/user/public_api"
-      ],
+      "@spartacus/user": ["feature-libs/user/public_api"],
       "@spartacus/user/profile/assets": [
         "feature-libs/user/profile/assets/public_api"
       ],
@@ -533,45 +526,33 @@
       "@spartacus/user/profile/core": [
         "feature-libs/user/profile/core/public_api"
       ],
-      "@spartacus/user/profile": [
-        "feature-libs/user/profile/public_api"
-      ],
+      "@spartacus/user/profile": ["feature-libs/user/profile/public_api"],
       "@spartacus/user/profile/occ": [
         "feature-libs/user/profile/occ/public_api"
       ],
       "@spartacus/user/profile/root": [
         "feature-libs/user/profile/root/public_api"
       ],
-      "@spartacus/cdc/assets": [
-        "integration-libs/cdc/assets/public_api"
-      ],
+      "@spartacus/cdc/assets": ["integration-libs/cdc/assets/public_api"],
       "@spartacus/cdc/components": [
         "integration-libs/cdc/components/public_api"
       ],
-      "@spartacus/cdc/core": [
-        "integration-libs/cdc/core/public_api"
-      ],
-      "@spartacus/cdc": [
-        "integration-libs/cdc/public_api"
-      ],
+      "@spartacus/cdc/core": ["integration-libs/cdc/core/public_api"],
+      "@spartacus/cdc": ["integration-libs/cdc/public_api"],
       "@spartacus/cdc/organization/administration": [
         "integration-libs/cdc/organization/administration/public_api"
       ],
       "@spartacus/cdc/organization/user-registration": [
         "integration-libs/cdc/organization/user-registration/public_api"
       ],
-      "@spartacus/cdc/root": [
-        "integration-libs/cdc/root/public_api"
-      ],
+      "@spartacus/cdc/root": ["integration-libs/cdc/root/public_api"],
       "@spartacus/cdc/user-account": [
         "integration-libs/cdc/user-account/public_api"
       ],
       "@spartacus/cdc/user-profile": [
         "integration-libs/cdc/user-profile/public_api"
       ],
-      "@spartacus/cds": [
-        "integration-libs/cds/public_api"
-      ],
+      "@spartacus/cds": ["integration-libs/cds/public_api"],
       "@spartacus/digital-payments/assets": [
         "integration-libs/digital-payments/assets/public_api"
       ],
@@ -596,37 +577,20 @@
       "@spartacus/epd-visualization/root": [
         "integration-libs/epd-visualization/root/public_api"
       ],
-      "@spartacus/s4om/assets": [
-        "integration-libs/s4om/assets/public_api"
-      ],
-      "@spartacus/s4om": [
-        "integration-libs/s4om/public_api"
-      ],
-      "@spartacus/s4om/root": [
-        "integration-libs/s4om/root/public_api"
-      ],
-      "@spartacus/segment-refs": [
-        "integration-libs/segment-refs/public_api"
-      ],
+      "@spartacus/s4om/assets": ["integration-libs/s4om/assets/public_api"],
+      "@spartacus/s4om": ["integration-libs/s4om/public_api"],
+      "@spartacus/s4om/root": ["integration-libs/s4om/root/public_api"],
+      "@spartacus/segment-refs": ["integration-libs/segment-refs/public_api"],
       "@spartacus/segment-refs/root": [
         "integration-libs/segment-refs/root/public_api"
       ],
-      "@spartacus/assets": [
-        "projects/assets/src/public_api"
-      ],
-      "@spartacus/core": [
-        "projects/core/public_api"
-      ],
-      "@spartacus/storefront": [
-        "projects/storefrontlib/public_api"
-      ]
+      "@spartacus/assets": ["projects/assets/src/public_api"],
+      "@spartacus/core": ["projects/core/public_api"],
+      "@spartacus/storefront": ["projects/storefrontlib/public_api"]
     },
     "useDefineForClassFields": false
   },
-  "exclude": [
-    "./dist",
-    "./projects/storefrontapp-e2e-cypress"
-  ],
+  "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"],
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,

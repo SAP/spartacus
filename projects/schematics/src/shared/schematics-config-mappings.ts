@@ -50,6 +50,7 @@ import {
   PRODUCT_VARIANTS_SCHEMATICS_CONFIG,
 } from './lib-configs/product-schematics-config';
 import { QUALTRICS_SCHEMATICS_CONFIG } from './lib-configs/qualtrics-schematics-config';
+import { REQUESTED_DELIVERY_DATE_SCHEMATICS_CONFIG } from './lib-configs/requested-delivery-date-schematics-config';
 import { SMARTEDIT_SCHEMATICS_CONFIG } from './lib-configs/smartedit-schematics-config';
 import { STOREFINDER_SCHEMATICS_CONFIG } from './lib-configs/storefinder-schematics-config';
 import {
@@ -61,7 +62,6 @@ import {
   USER_ACCOUNT_SCHEMATICS_CONFIG,
   USER_PROFILE_SCHEMATICS_CONFIG,
 } from './lib-configs/user-schematics-config';
-
 import { Module, SchematicConfig } from './utils/lib-utils';
 
 /**
@@ -102,6 +102,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG,
 
   QUALTRICS_SCHEMATICS_CONFIG,
+
+  REQUESTED_DELIVERY_DATE_SCHEMATICS_CONFIG,
 
   SMARTEDIT_SCHEMATICS_CONFIG,
 

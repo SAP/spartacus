@@ -372,6 +372,21 @@
       "@spartacus/qualtrics/root": [
         "../../feature-libs/qualtrics/root/public_api"
       ],
+      "@spartacus/requested-delivery-date/assets": [
+        "../../feature-libs/requested-delivery-date/assets/public_api"
+      ],
+      "@spartacus/requested-delivery-date/core": [
+        "../../feature-libs/requested-delivery-date/core/public_api"
+      ],
+      "@spartacus/requested-delivery-date": [
+        "../../feature-libs/requested-delivery-date/public_api"
+      ],
+      "@spartacus/requested-delivery-date/occ": [
+        "../../feature-libs/requested-delivery-date/occ/public_api"
+      ],
+      "@spartacus/requested-delivery-date/root": [
+        "../../feature-libs/requested-delivery-date/root/public_api"
+      ],
       "@spartacus/smartedit/core": [
         "../../feature-libs/smartedit/core/public_api"
       ],
