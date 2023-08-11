@@ -84,7 +84,7 @@ class MockQuoteSellerEditComponentService {
     };
   }
 
-  isSeller(): boolean {
+  isEditableForSeller(): boolean {
     return true;
   }
 

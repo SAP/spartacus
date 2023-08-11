@@ -131,16 +131,17 @@ export class QuoteSellerEditComponentService {
     return timestamp?.toString().substring(0, 10);
   }
 
-  //TODO CHHI check here for edit
   /**
-   * Check if quote state belongs to seller
+   * Check if quote state belongs to seller and can be edited
    * @param quoteState
    * @returns Is it for seller?
    */
-  isSeller(quoteState: QuoteState): boolean {
+  isEditableForSeller(quote: Quote): boolean {
+    const quoteState = quote.state;
     return (
-      quoteState === QuoteState.SELLER_DRAFT ||
-      quoteState === QuoteState.SELLER_REQUEST
+      (quoteState === QuoteState.SELLER_REQUEST ||
+        quoteState === QuoteState.SELLER_DRAFT) &&
+      quote.isEditable
     );
   }
 

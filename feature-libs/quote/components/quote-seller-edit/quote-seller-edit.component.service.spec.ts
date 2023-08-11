@@ -40,20 +40,36 @@ describe('QuoteSellerEditComponentService', () => {
 
   beforeEach(() => {
     service = TestBed.inject(QuoteSellerEditComponentService);
-    quote = { ...createEmptyQuote(), totalPrice: { value: TOTAL_PRICE } };
+    quote = {
+      ...createEmptyQuote(),
+      totalPrice: { value: TOTAL_PRICE },
+      state: QuoteState.SELLER_DRAFT,
+      isEditable: true,
+    };
   });
 
   it('should create component', () => {
     expect(service).toBeDefined();
   });
 
-  describe('isSeller', () => {
-    it('should assign SELLER_DRAFT to seller role', () => {
-      expect(service.isSeller(QuoteState.SELLER_DRAFT)).toBe(true);
+  describe('isEditableForSeller', () => {
+    it('should allow seller edit for editable quote in state draft', () => {
+      expect(service.isEditableForSeller(quote)).toBe(true);
     });
 
-    it('should assign SELLER_REQUEST to seller role', () => {
-      expect(service.isSeller(QuoteState.SELLER_REQUEST)).toBe(true);
+    it('should allow seller edit for editable quote in state seller request', () => {
+      quote.state = QuoteState.SELLER_REQUEST;
+      expect(service.isEditableForSeller(quote)).toBe(true);
+    });
+
+    it('should not allow seller edit for editable quote in state buyer draft', () => {
+      quote.state = QuoteState.BUYER_DRAFT;
+      expect(service.isEditableForSeller(quote)).toBe(false);
+    });
+
+    it('should not allow seller edit for non-editable quote', () => {
+      quote.isEditable = false;
+      expect(service.isEditableForSeller(quote)).toBe(false);
     });
   });
 

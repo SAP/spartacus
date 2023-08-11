@@ -27,7 +27,7 @@ export class QuoteSellerEditComponent implements OnInit {
     .getQuoteDetails()
     .pipe(
       filter((quote) =>
-        this.quoteSellerEditComponentService.isSeller(quote.state)
+        this.quoteSellerEditComponentService.isEditableForSeller(quote)
       )
     );
 
