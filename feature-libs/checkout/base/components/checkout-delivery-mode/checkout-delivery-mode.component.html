@@ -48,6 +48,16 @@
         </label>
       </div>
     </div>
+    <!-- TODO:(CXINT-2309) for next major release remove feature level -->
+    <ng-container *cxFeatureLevel="'6.4'">
+      <ng-template
+        [cxOutlet]="CartOutlets.DELIVERY_MODE"
+        [cxOutletContext]="{
+          item: activeCartFacade.getActive() | async
+        }"
+      >
+      </ng-template>
+    </ng-container>
   </div>
 </ng-container>
 

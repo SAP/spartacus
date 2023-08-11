@@ -9,9 +9,9 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
-  FeaturesConfigModule,
 } from '@spartacus/core';
 import {
   OutletModule,
@@ -30,6 +30,7 @@ import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.componen
     SpinnerModule,
     OutletModule,
     PageComponentModule,
+    FeaturesConfigModule,
     FeaturesConfigModule,
   ],
   providers: [
