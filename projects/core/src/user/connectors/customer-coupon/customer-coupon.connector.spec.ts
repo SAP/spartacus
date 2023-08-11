@@ -22,7 +22,7 @@ class MockUserAdapter implements CustomerCouponAdapter {
     (userId) => of(`claim-${userId}`)
   );
   disclaimCustomerCoupon = createSpy('disclaimCustomerCoupon').and.callFake(
-    (userId) => of(`claim-${userId}`)
+    (userId) => of(`disclaim-${userId}`)
   );
 }
 
@@ -100,7 +100,7 @@ describe('CustomerCouponConnector', () => {
     service
       .disclaimCustomerCoupon('userId', 'couponCode')
       .subscribe((res) => (result = res));
-    expect(result).toEqual('claim-userId');
+    expect(result).toEqual('disclaim-userId');
     expect(adapter.disclaimCustomerCoupon).toHaveBeenCalledWith(
       'userId',
       'couponCode'
