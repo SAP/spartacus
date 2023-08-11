@@ -197,7 +197,7 @@ describe('QuoteDetailsCommentComponent', () => {
     fixture: ComponentFixture<QuoteDetailsCommentComponent>
   ) {
     fixture.debugElement
-      .query(By.css('.quote-comment-toggle'))
+      .query(By.css('.cx-comment-toggle'))
       .nativeElement.click();
     fixture.detectChanges();
   }
