@@ -31,7 +31,7 @@ export interface EditCard {
 })
 export class QuoteDetailsEditComponent implements OnInit {
   iconTypes = ICON_TYPE;
-  editForm: UntypedFormGroup;
+  editForm: UntypedFormGroup = new UntypedFormGroup({});
 
   @Output()
   editCard: EventEmitter<EditEvent> = new EventEmitter();
@@ -39,7 +39,7 @@ export class QuoteDetailsEditComponent implements OnInit {
   cancelCard: EventEmitter<boolean> = new EventEmitter();
 
   @Input()
-  content: EditCard | null;
+  content: EditCard;
 
   /**
    * Cancels the view of the edit card tile
@@ -50,10 +50,10 @@ export class QuoteDetailsEditComponent implements OnInit {
   }
 
   /**
-   * Edits the card tile by throwing the edit event
+   * Saves the edited card tile by throwing the edit event
    * with the edit mode set to 'false' and the edited data.
    */
-  edit(): void {
+  save(): void {
     const event: EditEvent = {
       editMode: false,
     };
@@ -106,8 +106,6 @@ export class QuoteDetailsEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.editForm = new UntypedFormGroup({});
-
     this.content?.paragraphs?.forEach((paragraph) => {
       if (paragraph.title) {
         const formControlName = this.setFormControlName(paragraph.title);
