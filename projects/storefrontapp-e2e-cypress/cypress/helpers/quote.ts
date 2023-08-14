@@ -95,7 +95,7 @@ export function clickOnSubmitQuoteBtnOnQD(): void {
  * Clicks on 'Yes' on the quote confirm request dialog  popup.
  */
 export function clickOnYesBtnOnQuoteSubmitPopUp(): void {
-  cy.get('div.cx-dialog-item button.btn-primary').click();
+  cy.get('cx-quote-confirm-action-dialog button.btn-primary').click();
   cy.wait(GET_QUOTE_ALIAS);
 }
 
