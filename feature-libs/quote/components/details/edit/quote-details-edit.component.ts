@@ -66,7 +66,10 @@ export class QuoteDetailsEditComponent implements OnInit {
       }
     });
 
-    this.editCard.emit(event);
+    // The edit event will be emitted if the event object contains greater or equal than 2 attributes
+    if (Object.getOwnPropertyNames(event).length >= 2) {
+      this.editCard.emit(event);
+    }
   }
 
   protected getCharactersLeft(

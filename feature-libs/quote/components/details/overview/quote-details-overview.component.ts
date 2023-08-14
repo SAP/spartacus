@@ -9,15 +9,14 @@ import {
   Quote,
   QuoteAction,
   QuoteActionType,
-  QuoteDetailsReloadQueryEvent,
   QuoteFacade,
   QuoteMetadata,
   QuoteState,
 } from '@spartacus/quote/root';
 import { EventService, TranslationService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
-import { combineLatest, Observable, of } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { EditCard, EditEvent } from '../edit/quote-details-edit.component';
 
 @Component({
@@ -83,17 +82,7 @@ export class QuoteDetailsOverviewComponent {
     this.editMode = event.editMode;
     const metaData: QuoteMetadata = this.defineQuoteMetaData(event);
 
-    if (Object.keys(metaData).length !== 0) {
-      this.quoteFacade
-        .editQuote(quote.code, metaData)
-        .pipe(take(1))
-        .subscribe(
-          // success
-          () => {
-            this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
-          }
-        );
-    }
+    this.quoteFacade.editQuote(quote.code, metaData);
   }
 
   /**
@@ -141,16 +130,12 @@ export class QuoteDetailsOverviewComponent {
    * @param {string} description - Quote description
    * @returns {Observable<EditCard>} - Edit card content
    */
-  getEditQuoteInformation(
-    name: string,
-    description: string
-  ): Observable<EditCard> {
-    let editCard: EditCard = {
+  getEditQuoteInformation(name: string, description: string): EditCard {
+    return {
       name: name,
       description: description,
       charactersLimit: QuoteDetailsOverviewComponent.CHARACTERS_LIMIT,
     };
-    return of(editCard);
   }
 
   /**
@@ -160,7 +145,7 @@ export class QuoteDetailsOverviewComponent {
    * @param {any} createdDate - Quote description
    * @returns {Observable<Card>} - Card content
    */
-  getEstimatedAndDate(quote: Quote, createdDate?: any): Observable<Card> {
+  getEstimatedAndDate(quote: Quote, createdDate?: string): Observable<Card> {
     const totalPrice =
       this.getTotalPrice(quote) ?? this.getTotalPriceDescription(quote);
     return combineLatest([
@@ -190,14 +175,14 @@ export class QuoteDetailsOverviewComponent {
    * Retrieves the card content that represents the update information.
    *
    * @param {any} lastUpdated - Quote
-   * @param {any} expiryDate - Quote description
+   * @param {any} expirationTime - Quote description
    * @returns {Observable<Card>} - Card content
    */
-  getUpdate(lastUpdated?: any, expiryDate?: any): Observable<Card> {
+  getUpdate(lastUpdated?: string, expirationTime?: string): Observable<Card> {
     return combineLatest([
       this.translationService.translate('quote.details.update'),
       this.translationService.translate('quote.details.lastUpdated'),
-      this.translationService.translate('quote.details.expiryDate'),
+      this.translationService.translate('quote.details.expirationTime'),
     ]).pipe(
       map(([firstTitle, secondTitle, thirdTitle]) => {
         return {
@@ -209,7 +194,7 @@ export class QuoteDetailsOverviewComponent {
             },
             {
               title: thirdTitle,
-              text: [expiryDate ?? QuoteDetailsOverviewComponent.NO_DATA],
+              text: [expirationTime ?? QuoteDetailsOverviewComponent.NO_DATA],
             },
           ],
         };
