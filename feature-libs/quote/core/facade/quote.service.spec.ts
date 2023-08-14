@@ -7,6 +7,8 @@ import {
   QuoteActionType,
   QuoteCartService,
   QuoteDetailsReloadQueryEvent,
+  QuoteDiscount,
+  QuoteDiscountType,
   QuoteList,
   QuoteMetadata,
   QuotesStateParams,
@@ -26,7 +28,7 @@ import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors';
 import { QuoteService } from './quote.service';
-import { createEmptyQuote } from '../testing/quote-test-utils';
+import { createEmptyQuote, QUOTE_CODE } from '../testing/quote-test-utils';
 import createSpy = jasmine.createSpy;
 import { CartUtilsService } from '../services/cart-utils.service';
 
@@ -109,6 +111,7 @@ class MockCommerceQuotesConnector implements Partial<QuoteConnector> {
   addComment = createSpy().and.returnValue(of(EMPTY));
   addCartEntryComment = createSpy().and.returnValue(of(EMPTY));
   performQuoteAction = createSpy().and.returnValue(of(EMPTY));
+  addDiscount = createSpy().and.returnValue(of(EMPTY));
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
@@ -274,6 +277,25 @@ describe('QuoteService', () => {
           });
           expect(details).toEqual(mockQuote);
           done();
+        });
+    });
+  });
+
+  describe('addDiscount', () => {
+    const discount: QuoteDiscount = {
+      discountRate: 1,
+      discountType: QuoteDiscountType.ABSOLUTE,
+    };
+    it('should ', () => {
+      service
+        .addDiscount(QUOTE_CODE, discount)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(connector.addDiscount).toHaveBeenCalledWith(
+            mockUserId,
+            QUOTE_CODE,
+            discount
+          );
         });
     });
   });

@@ -4,12 +4,12 @@
   margin: auto;
   display: flex;
   flex-wrap: wrap;
+  margin-block-start: 2rem;
 
   cx-page-slot.BodyContent {
     --cx-flex-basis: 70%;
     flex-direction: column;
     flex-wrap: nowrap;
-    margin-top: 2rem;
 
     @include media-breakpoint-down(md) {
       --cx-flex-basis: 100%;
@@ -19,8 +19,10 @@
     --cx-flex-basis: 30%;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 0 1rem;
-    margin-top: 1rem;
+
+    @include media-breakpoint-up(lg) {
+      padding-inline-start: 3rem;
+    }
 
     @include media-breakpoint-up(lg) {
       > * {
@@ -32,7 +34,9 @@
       --cx-flex-basis: 100%;
       justify-content: flex-end;
       flex-direction: row;
+      margin: 2rem 0;
     }
+
     @include media-breakpoint-down(sm) {
       --cx-flex-basis: 100%;
     }
