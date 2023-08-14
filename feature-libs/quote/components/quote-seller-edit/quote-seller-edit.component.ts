@@ -88,7 +88,7 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
   /**
-   * Do we display validation message?
+   * Should the validation message be displayed?
    * @returns True in case discount control has errors
    */
   mustDisplayValidationMessage(): boolean {
@@ -96,7 +96,7 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * On applying discount, we send its value to the facade layer
+   * On applying discount, the value will be sent to the facade layer
    * @param quoteCode Quote code
    */
   onApply(quoteCode: string): void {
@@ -120,7 +120,7 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * On setting a date, we send its value to the facade layer
+   * On setting a date, the value will be sent to the facade layer
    * @param quoteCode Quote code
    */
   onSetDate(quoteCode: string): void {

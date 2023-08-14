@@ -21,25 +21,25 @@ import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { createEmptyQuote } from '../../../../core/testing/quote-test-utils';
 
-const mockCartId = '1234';
-const mockCode = '3333';
+const cartId = '1234';
+const quoteCode = '3333';
 const threshold = 20;
 const totalPrice: Price = { value: threshold + 1 };
 
-const mockQuote: Quote = {
+const quote: Quote = {
   ...createEmptyQuote(),
   allowedActions: [
     { type: QuoteActionType.EDIT, isPrimary: false },
     { type: QuoteActionType.REQUOTE, isPrimary: true },
   ],
   state: QuoteState.BUYER_DRAFT,
-  cartId: mockCartId,
-  code: mockCode,
+  cartId: cartId,
+  code: quoteCode,
   threshold: threshold,
   totalPrice: totalPrice,
 };
 
-const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
+const mockQuoteDetails$ = new BehaviorSubject<Quote>(quote);
 
 const dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -107,7 +107,7 @@ describe('QuoteDetailsCartSummaryComponent', () => {
     fixture = TestBed.createComponent(QuoteDetailsCartSummaryComponent);
     component = fixture.componentInstance;
     facade = TestBed.inject(QuoteFacade);
-    mockQuoteDetails$.next(mockQuote);
+    mockQuoteDetails$.next(quote);
   });
 
   it('should create component', () => {
