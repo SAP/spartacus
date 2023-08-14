@@ -153,33 +153,45 @@ describe('QuoteDetailsEditComponent', () => {
     );
   });
 
-  it('should handle cancel action', () => {
-    const cancelButton = CommonQuoteTestUtilsService.getNativeElement(
-      debugElement,
-      'button.btn-tertiary'
-    );
-    cancelButton.click();
-    expect(component.cancelCard.emit).toHaveBeenCalled();
-  });
+  describe('handle action events', () => {
+    it('should emit cancel event', () => {
+      const cancelButton = CommonQuoteTestUtilsService.getNativeElement(
+        debugElement,
+        'button.btn-tertiary'
+      );
+      cancelButton.click();
+      expect(component.cancelCard.emit).toHaveBeenCalled();
+    });
 
-  it('should handle edit action', () => {
-    const newTextForTitle1: any = 'New title for name';
-    const newTextForTitle2: any = 'Here could be found a long description';
-    component.editForm.get('name')?.setValue(newTextForTitle1);
-    component.editForm.get('name')?.markAsTouched();
-    component.editForm.get('description')?.setValue(newTextForTitle2);
-    component.editForm.get('description')?.markAsTouched();
-    fixture.detectChanges();
-    const saveButton = CommonQuoteTestUtilsService.getNativeElement(
-      debugElement,
-      'button.btn-secondary'
-    );
-    saveButton.click();
-    expect(component.editCard.emit).toHaveBeenCalled();
-    let arg: any = (component.editCard.emit as any).calls.mostRecent().args[0];
-    expect(arg.editMode).toEqual(false);
-    expect(arg.name).toEqual(newTextForTitle1);
-    expect(arg.description).toEqual(newTextForTitle2);
+    it('should not emit edit event', () => {
+      const saveButton = CommonQuoteTestUtilsService.getNativeElement(
+        debugElement,
+        'button.btn-secondary'
+      );
+      saveButton.click();
+      expect(component.editCard.emit).not.toHaveBeenCalled();
+    });
+
+    it('should emit edit event', () => {
+      const newTextForTitle1: any = 'New title for name';
+      const newTextForTitle2: any = 'Here could be found a long description';
+      component.editForm.get('name')?.setValue(newTextForTitle1);
+      component.editForm.get('name')?.markAsTouched();
+      component.editForm.get('description')?.setValue(newTextForTitle2);
+      component.editForm.get('description')?.markAsTouched();
+      fixture.detectChanges();
+      const saveButton = CommonQuoteTestUtilsService.getNativeElement(
+        debugElement,
+        'button.btn-secondary'
+      );
+      saveButton.click();
+      expect(component.editCard.emit).toHaveBeenCalled();
+      let arg: any = (component.editCard.emit as any).calls.mostRecent()
+        .args[0];
+      expect(arg.editMode).toEqual(false);
+      expect(arg.name).toEqual(newTextForTitle1);
+      expect(arg.description).toEqual(newTextForTitle2);
+    });
   });
 
   describe('getCharactersLeft', () => {
