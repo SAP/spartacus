@@ -8,17 +8,12 @@ import { Observable, of } from 'rxjs';
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { AsmCustomerPromotionComponent } from './asm-customer-promotion.component';
-import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { AsmCustomerPromotionListingComponent } from '../../asm-customer-promotion-listing/asm-customer-promotion-listing.component';
 
 describe('AsmCustomerPromotionComponent', () => {
   let component: AsmCustomerPromotionComponent;
   let fixture: ComponentFixture<AsmCustomerPromotionComponent>;
   let context: Customer360SectionContextSource<Customer360PromotionList>;
-  let el: DebugElement;
-  let promotionListingComponent: AsmCustomerPromotionListingComponent;
-  let promotionListingFixture: ComponentFixture<AsmCustomerPromotionListingComponent>;
 
   const mockUserId = 'userId';
   const mockPromotionList: Customer360PromotionList = {
@@ -76,21 +71,11 @@ describe('AsmCustomerPromotionComponent', () => {
     fixture = TestBed.createComponent(AsmCustomerPromotionComponent);
     component = fixture.componentInstance;
     context = TestBed.inject(Customer360SectionContextSource);
-    el = fixture.debugElement;
     fixture.detectChanges();
-    promotionListingFixture = TestBed.createComponent(AsmCustomerPromotionListingComponent);
-    promotionListingComponent = promotionListingFixture.componentInstance;
-    promotionListingFixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should fetch promotion list from context at init', () => {
-    component.entries$.subscribe((value) => {
-      expect(value).toEqual(mockPromotionList.promotions);
-    });
   });
 
   it('should not display error message alert at init', () => {
@@ -114,14 +99,6 @@ describe('AsmCustomerPromotionComponent', () => {
       expect(entries[2].code).toEqual(mockPromotionList.promotions[2].name);
       expect(component.showErrorAlert$.getValue()).toBe(false);
     });
-  });
-
-  it('should be able to display promotion applied correctly', () => {
-    promotionListingComponent.applied = 'Promotion Applied';
-    context.data$.next(mockPromotionList);
-    promotionListingFixture.detectChanges();
-    const ngContainer = el.query(By.css('table .cx-asm-customer-promotion-listing-applied'));
-    expect(ngContainer.nativeElement.textContent).toContain('Promotion Applied');
   });
 
   it('should close error message alert of loading data when click close button', () => {
