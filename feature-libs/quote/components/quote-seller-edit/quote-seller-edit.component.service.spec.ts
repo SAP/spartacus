@@ -167,7 +167,7 @@ describe('QuoteSellerEditComponentService', () => {
   describe('getMaximumNumberOfTotalPlaces', () => {
     it('should compile number of total places from total if no quote discount is present, taking 2 decimal points into account ', () => {
       expect(service.getMaximumNumberOfTotalPlaces(quote)).toBe(
-        Math.log10(TOTAL_PRICE) + 3
+        TOTAL_PRICE.toFixed(0).length + 2
       );
     });
 
@@ -185,7 +185,7 @@ describe('QuoteSellerEditComponentService', () => {
     it('should compile number of total places from absolute discount if that exceeds total ', () => {
       quote.quoteDiscounts = { value: DISCOUNT_RATE };
       expect(service.getMaximumNumberOfTotalPlaces(quote)).toBe(
-        Math.log10(DISCOUNT_RATE) + 3
+        DISCOUNT_RATE.toFixed(0).length + 2
       );
     });
 
