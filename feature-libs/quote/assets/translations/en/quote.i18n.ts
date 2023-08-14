@@ -47,6 +47,13 @@ export const quote = {
       creationSuccess: 'Quote #{{ code }} created successfully',
       cart: 'Cart',
     },
+    seller: {
+      apply: 'Apply',
+      placeholder: '0',
+      discount: 'Absolute Discount',
+      expiryDate: 'Expiry Date',
+      discountValidationText: 'Enter a valid absolute discount',
+    },
     comments: {
       title: 'Contact',
       invalidComment: 'Invalid Input - Please type again...',
@@ -150,6 +157,9 @@ export const quote = {
     httpHandlers: {
       cartValidationIssue:
         'Quote request not possible because we found problems with your entries. Please review your cart.',
+      absoluteDiscountIssue:
+        'Choose a discount that does not exceed the total value',
+      expirationDateIssue: 'Choose an expiration date in the future',
       threshold: {
         underThresholdError:
           'Total price of requested quote does not meet the minimum threshold',

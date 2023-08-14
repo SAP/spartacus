@@ -33,6 +33,8 @@ export function defaultQuoteComponentsConfig() {
           'QuoteActionsByRoleComponent',
           'CommerceQuotesCartSummaryComponent', //TODO CHHI probably not needed
           'QuoteDetailsCommentComponent',
+          'QuoteDetailsCartSummaryComponent',
+          'QuoteSellerEditComponent',
         ],
       },
     },

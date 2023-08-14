@@ -13,7 +13,7 @@ export const defaultOccQuoteConfig: OccConfig = {
         getQuotes: 'users/${userId}/quotes',
         createQuote: 'users/${userId}/quotes',
         getQuote:
-          'users/${userId}/quotes/${quoteCode}?fields=FULL,previousEstimatedTotal(formattedValue),totalPrice(formattedValue),entries(FULL)',
+          'users/${userId}/quotes/${quoteCode}?fields=FULL,expirationTime,previousEstimatedTotal(formattedValue),totalPrice(formattedValue),quoteDiscounts(formattedValue),entries(FULL)',
         editQuote: 'users/${userId}/quotes/${quoteCode}',
         performQuoteAction: 'users/${userId}/quotes/${quoteCode}/action',
         addComment: 'users/${userId}/quotes/${quoteCode}/comments',

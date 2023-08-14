@@ -31,7 +31,7 @@ import { QuoteDetailsCartSummaryComponent } from './summary/quote-details-cart-s
           component: QuoteDetailsCartComponent,
           guards: [AuthGuard],
         },
-        CommerceQuotesCartSummaryComponent: {
+        QuoteDetailsCartSummaryComponent: {
           component: QuoteDetailsCartSummaryComponent,
           guards: [AuthGuard],
         },

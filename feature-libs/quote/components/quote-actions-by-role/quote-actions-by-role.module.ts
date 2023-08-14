@@ -40,7 +40,7 @@ import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
             ],
             CANCELLED: [QuoteActionType.REQUOTE],
             SELLER_REQUEST: [QuoteActionType.EDIT, QuoteActionType.SUBMIT],
-            SELLER_DRAFT: [QuoteActionType.SUBMIT],
+            SELLER_DRAFT: [QuoteActionType.EDIT, QuoteActionType.SUBMIT],
           },
         },
       },

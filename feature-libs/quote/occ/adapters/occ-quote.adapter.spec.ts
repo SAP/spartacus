@@ -20,6 +20,7 @@ import {
   QuoteMetadata,
   QuoteStarter,
   Comment,
+  QuoteDiscountType,
 } from '@spartacus/quote/root';
 import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
 import { take } from 'rxjs/operators';
@@ -58,7 +59,7 @@ const mockQuoteComment: Comment = {
 };
 const mockQuoteDiscount: QuoteDiscount = {
   discountRate: 12,
-  discountType: 'FIXED',
+  discountType: QuoteDiscountType.ABSOLUTE,
 };
 const mockQuoteEntryComment: Comment = {
   text: 'test',

@@ -21,6 +21,7 @@ import {
 } from './details';
 import { provideDefaultConfig } from '@spartacus/core';
 import { defaultQuoteUIConfig } from './config/default-quote-ui.config';
+import { QuoteSellerEditModule } from './quote-seller-edit/quote-seller-edit.module';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { defaultQuoteUIConfig } from './config/default-quote-ui.config';
     QuoteActionLinksModule,
     QuoteActionsByRoleModule,
     QuoteDetailsCommentModule,
+    QuoteSellerEditModule,
     ListNavigationModule,
     QuoteConfirmActionDialogModule,
   ],

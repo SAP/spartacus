@@ -1,7 +1,7 @@
-<ng-container *ngIf="quoteDetails$ | async as quoteDetailsState">
+<ng-container *ngIf="quoteDetails$ | async as quoteDetails">
   <ng-template
     [cxOutlet]="cartOutlets.ORDER_SUMMARY"
-    [cxOutletContext]="quoteDetailsState?.data"
+    [cxOutletContext]="quoteDetails"
   >
   </ng-template>
 </ng-container>
