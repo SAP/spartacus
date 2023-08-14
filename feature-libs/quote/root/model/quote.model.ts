@@ -89,6 +89,13 @@ export enum QuoteDiscountType {
   ABSOLUTE = 'ABSOLUTE',
 }
 
+export enum QuoteRoleType {
+  NOT_AVAILABLE = 'NOT_AVAILABLE',
+  BUYER = 'BUYER',
+  SELLER = 'SELLER',
+  SELLERAPPROVER = 'SELLERAPPROVER',
+}
+
 export interface QuoteDiscount {
   discountRate: number;
   discountType: QuoteDiscountType;

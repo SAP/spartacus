@@ -6,14 +6,14 @@
 @import './quote-action-links';
 @import './quote-actions-by-role';
 @import './quote-details-comment';
-@import './quote-confirm-request-dialog';
 @import './quote-seller-edit';
+@import './quote-confirm-action-dialog';
 @import './layout/index';
 
 $quote-components-allowlist: cx-quote-list cx-quote-details-overview
   cx-quote-details-cart cx-quote-request-button cx-quote-action-links
   cx-quote-request-dialog cx-quote-actions-by-role cx-quote-details-comment
-  cx-quote-seller-edit cx-quote-confirm-request-dialog !default;
+  cx-quote-seller-edit cx-quote-confirm-action-dialog !default;
 
 $skipComponentStyles: () !default;
 
