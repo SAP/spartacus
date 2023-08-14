@@ -142,7 +142,7 @@ export class QuoteDetailsOverviewComponent {
    * Retrieves the card content that represents the estimated and date information.
    *
    * @param {Quote} quote - Quote
-   * @param {any} createdDate - Quote description
+   * @param {any} createdDate - Created date
    * @returns {Observable<Card>} - Card content
    */
   getEstimatedAndDate(quote: Quote, createdDate?: string): Observable<Card> {
@@ -174,8 +174,8 @@ export class QuoteDetailsOverviewComponent {
   /**
    * Retrieves the card content that represents the update information.
    *
-   * @param {any} lastUpdated - Quote
-   * @param {any} expirationTime - Quote description
+   * @param {string} lastUpdated - last updated time
+   * @param {string} expirationTime - expiration time
    * @returns {Observable<Card>} - Card content
    */
   getUpdate(lastUpdated?: string, expirationTime?: string): Observable<Card> {

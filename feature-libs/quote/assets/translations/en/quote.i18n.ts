@@ -70,7 +70,7 @@ export const quote = {
       description: 'Description',
       estimateAndDate: 'Estimated & Date',
       update: 'Update',
-      expiryDate: 'Expiry Date',
+      expirationTime: 'Expiry Date',
       charactersLeft: 'characters left: {{count}}',
     },
     links: {

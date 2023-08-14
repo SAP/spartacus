@@ -19,6 +19,7 @@ cx-quote-details-edit {
     flex-direction: row;
     justify-content: flex-end;
     padding-block-start: 1rem;
+    gap: 0.5rem;
 
     @include media-breakpoint-down(sm) {
       flex-wrap: wrap;

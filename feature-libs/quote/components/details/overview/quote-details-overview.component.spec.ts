@@ -340,11 +340,8 @@ describe('QuoteDetailsOverviewComponent', () => {
         charactersLimit: 255,
       };
 
-      component
-        .getEditQuoteInformation(name, description)
-        .subscribe((result) => {
-          expect(result).toEqual(expected);
-        });
+      const result = component.getEditQuoteInformation(name, description);
+      expect(result).toEqual(expected);
     });
 
     it('should the card content that represents an empty estimated and date information', () => {
@@ -366,7 +363,7 @@ describe('QuoteDetailsOverviewComponent', () => {
       };
 
       component
-        .getEstimatedAndDate(mockQuote, mockQuote.creationTime)
+        .getEstimatedAndDate(mockQuote, mockQuote.creationTime?.toString())
         .subscribe((result) => {
           expect(result).toEqual(expected);
         });
@@ -385,14 +382,17 @@ describe('QuoteDetailsOverviewComponent', () => {
             text: ['-'],
           },
           {
-            title: 'quote.details.expiryDate',
+            title: 'quote.details.expirationTime',
             text: ['-'],
           },
         ],
       };
 
       component
-        .getUpdate(mockQuote.updatedTime, mockQuote.expirationTime)
+        .getUpdate(
+          mockQuote.updatedTime?.toString(),
+          mockQuote.expirationTime?.toString()
+        )
         .subscribe((result) => {
           expect(result).toEqual(expected);
         });
