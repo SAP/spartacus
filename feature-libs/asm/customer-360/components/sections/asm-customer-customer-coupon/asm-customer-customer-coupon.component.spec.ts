@@ -210,7 +210,7 @@ describe('AsmCustomerCouponComponent', () => {
   it('should reload customer coupon list when searching customer coupon ', () => {
     spyOn(component, 'searchCustomerCoupon').and.callThrough();
     el.query(
-      By.css('.cx-asm-customer-promotion-listing-search-icon')
+      By.css('.cx-asm-customer-promotion-listing-search-icon-search')
     ).nativeElement.click();
     expect(component.searchCustomerCoupon).toHaveBeenCalled();
   });

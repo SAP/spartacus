@@ -50,7 +50,13 @@
         (keydown.enter)="this.searchCustomerCoupon(searchBox.value)"
       />
       <cx-icon
-        class="cx-asm-customer-promotion-listing-search-icon"
+        class="cx-asm-customer-promotion-listing-search-icon-reset"
+        [type]="iconTypes.CLOSE"
+        role="button"
+        (click)="this.searchBox.value = ''"
+      ></cx-icon>
+      <cx-icon
+        class="cx-asm-customer-promotion-listing-search-icon-search"
         [type]="iconTypes.SEARCH"
         role="button"
         (click)="this.searchCustomerCoupon(searchBox.value)"

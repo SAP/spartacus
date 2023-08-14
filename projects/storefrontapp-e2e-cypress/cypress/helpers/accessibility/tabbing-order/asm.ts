@@ -118,28 +118,18 @@ export function asmTabbingOrderWithSaveInactiveCartDialog(
 
 export function asmTabbingOrderForCustomer360CouponList(config: TabElement[]) {
   lanuchPromotiontab();
-  cy.get('cx-asm-customer-coupon')
-    .contains('Coupons')
-    .parent()
-    .parent()
-    .parent()
-    .within(() => {
-      verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
-    });
+  cy.get('cx-asm-customer-coupon').within(() => {
+    verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
+  });
 }
 
 export function asmTabbingOrderForCustomer360CustomerCouponList(
   config: TabElement[]
 ) {
   lanuchPromotiontab();
-  cy.get('cx-asm-customer-coupon')
-    .contains('Customer Coupons')
-    .parent()
-    .parent()
-    .parent()
-    .within(() => {
-      verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
-    });
+  cy.get('cx-asm-customer-customer-coupon').within(() => {
+    verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
+  });
 }
 
 function lanuchPromotiontab() {

@@ -31,7 +31,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'cx-asm-customer-coupon',
+  selector: 'cx-asm-customer-customer-coupon',
   templateUrl: './asm-customer-customer-coupon.component.html',
 })
 export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
