@@ -159,7 +159,7 @@ export class QuoteSellerEditComponentService {
       quote.totalPrice.value ?? 1,
       quote.quoteDiscounts?.value ?? 1
     );
-    return Math.round(Math.log10(maximum) - 0.5) + 1 + numberOfDecimalPlaces;
+    return Math.floor(Math.log10(maximum)) + 1 + numberOfDecimalPlaces;
   }
 
   protected checkAndReportCurrencyIfMissing(

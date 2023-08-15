@@ -167,34 +167,11 @@ describe('QuoteSellerEditComponentService', () => {
   describe('getMaximumNumberOfTotalPlaces', () => {
     it('should compile number of total places from total if no quote discount is present, taking 2 decimal points into account ', () => {
       expect(service.getMaximumNumberOfTotalPlaces(quote)).toBe(
-        Math.log10(TOTAL_PRICE) + 3
+        TOTAL_PRICE.toFixed(0).length + 2
       );
     });
 
-    it('should compile number of total places from absolute discount if that exceeds total ', () => {
-      quote.quoteDiscounts = { value: DISCOUNT_RATE };
-      expect(service.getMaximumNumberOfTotalPlaces(quote)).toBe(
-        Math.log10(DISCOUNT_RATE) + 3
-      );
-    });
-
-    it('should fall back to price value 1 if no values are available at all (will not happen in production) ', () => {
-      quote.totalPrice.value = undefined;
-      expect(service.getMaximumNumberOfTotalPlaces(quote)).toBe(3);
-    });
-
-    it('should round properly according to log10', () => {
-      const quote2000: Quote = { ...quote, totalPrice: { value: 2000 } };
-      const quote3000: Quote = { ...quote, totalPrice: { value: 3000 } };
-      expect(service.getMaximumNumberOfTotalPlaces(quote2000)).toBe(
-        service.getMaximumNumberOfTotalPlaces(quote3000)
-      );
-      expect(service.getMaximumNumberOfTotalPlaces(quote)).toBe(
-        service.getMaximumNumberOfTotalPlaces(quote3000)
-      );
-    });
-
-    it('should round properly according to log10 for different maximum totals', () => {
+    it('should compile number of total places for numbers not being a power of ten', () => {
       const quote999: Quote = { ...quote, totalPrice: { value: 999 } };
       const quote100: Quote = { ...quote, totalPrice: { value: 100 } };
       expect(service.getMaximumNumberOfTotalPlaces(quote999)).toBe(
@@ -203,6 +180,18 @@ describe('QuoteSellerEditComponentService', () => {
       expect(service.getMaximumNumberOfTotalPlaces(quote)).toBe(
         service.getMaximumNumberOfTotalPlaces(quote999) + 1
       );
+    });
+
+    it('should compile number of total places from absolute discount if that exceeds total ', () => {
+      quote.quoteDiscounts = { value: DISCOUNT_RATE };
+      expect(service.getMaximumNumberOfTotalPlaces(quote)).toBe(
+        DISCOUNT_RATE.toFixed(0).length + 2
+      );
+    });
+
+    it('should fall back to price value 1 if no values are available at all (will not happen in production) ', () => {
+      quote.totalPrice.value = undefined;
+      expect(service.getMaximumNumberOfTotalPlaces(quote)).toBe(3);
     });
   });
 
