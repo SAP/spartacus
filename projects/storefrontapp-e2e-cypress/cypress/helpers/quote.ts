@@ -150,7 +150,7 @@ export function clickOnSubmitQuoteBtnOnQD(): void {
   cy.get('cx-quote-actions-by-role button.btn-primary')
     .click()
     .then(() => {
-      cy.get('cx-quote-confirm-request-dialog').should('be.visible');
+      cy.get('cx-quote-confirm-action-dialog').should('be.visible');
     });
 }
 
@@ -247,8 +247,7 @@ export function checkItemAtIndexExists(
  * Clicks on 'Yes' on the quote confirm request dialog  popup.
  */
 export function clickOnYesBtnOnQuoteSubmitPopUp(): void {
-  log(clickOnYesBtnOnQuoteSubmitPopUp.name);
-  cy.get('div.cx-dialog-item button.btn-primary').click();
+  cy.get('cx-quote-confirm-action-dialog button.btn-primary').click();
   cy.wait(GET_QUOTE_ALIAS);
 }
 
@@ -361,11 +360,7 @@ export function checkItemInQuoteCart(productId: string) {
  * @param status Expected Status of the quote
  */
 export function checkQuoteState(status: string) {
-  log(checkQuoteState.name);
-  if (status === STATUS_SUBMITTED) {
-    cy.get<string>('@quoteURL').then(cy.visit);
-  }
-  cy.get('cx-quote-details-overview h3.status').contains(status);
+  cy.get('cx-quote-details-overview h3.cx-status').contains(status);
 }
 
 /**

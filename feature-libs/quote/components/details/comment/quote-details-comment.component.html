@@ -1,20 +1,21 @@
 <ng-container *ngIf="quoteDetails$ | async as quoteDetails">
-  <div class="quote-comment-toggle" (click)="showComments = !showComments">
-    <cx-icon
-      aria-hidden="false"
-      [type]="showComments ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
-    >
-    </cx-icon>
-    <span class="quote-comment-text">{{
-      'quote.comments.title' | cxTranslate
-    }}</span>
-  </div>
-  <div *ngIf="showComments">
+  <ng-container *ngIf="showComments(quoteDetails)">
+    <div class="cx-comment-toggle" (click)="expandComments = !expandComments">
+      <cx-icon
+        aria-hidden="false"
+        [type]="expandComments ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
+      >
+      </cx-icon>
+      <span class="cx-comment-text">{{
+        'quote.comments.title' | cxTranslate
+      }}</span>
+    </div>
     <cx-messaging
+      *ngIf="expandComments"
       [messageEvents$]="messageEvents$"
       [messagingConfigs]="messagingConfigs"
       (send)="onSend($event, quoteDetails.code)"
       (itemClicked)="onItemClicked($event)"
     ></cx-messaging>
-  </div>
+  </ng-container>
 </ng-container>

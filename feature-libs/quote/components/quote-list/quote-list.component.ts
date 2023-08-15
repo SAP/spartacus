@@ -5,15 +5,10 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { QuoteListComponentService } from './quote-list-component.service';
-import { QuoteState } from '@spartacus/quote/root';
+import { QuoteRoleService } from '@spartacus/quote/core';
+import { QuoteRoleType, QuoteState } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
-
-export enum ResponsiblePersonPrefix {
-  BUYER = 'BUYER_',
-  SELLER = 'SELLER_',
-  SELLERAPPROVER = 'SELLERAPPROVER_',
-}
+import { QuoteListComponentService } from './quote-list-component.service';
 
 @Component({
   selector: 'cx-quote-list',
@@ -27,7 +22,10 @@ export class QuoteListComponent {
   dateFormat: string = 'MMMM d, YYYY h:mm aa';
   iconTypes = ICON_TYPE;
 
-  constructor(protected quoteListService: QuoteListComponentService) {
+  constructor(
+    protected quoteListService: QuoteListComponentService,
+    protected quoteRoleService: QuoteRoleService
+  ) {
     this.changePage(0);
     this.changeSortCode('byCode');
   }
@@ -98,16 +96,6 @@ export class QuoteListComponent {
     }
   }
 
-  protected isResponsible(
-    prefix: ResponsiblePersonPrefix,
-    state: QuoteState
-  ): boolean {
-    if (state.indexOf(prefix) >= 0) {
-      return true;
-    }
-    return false;
-  }
-
   /**
    * Retrieves the class name for the quote state.
    *
@@ -115,16 +103,16 @@ export class QuoteListComponent {
    * @returns {string} - if the quote state is known then returns a class name, otherwise returns an empty string.
    */
   getQuoteStateClass(state: QuoteState): string {
-    if (this.isResponsible(ResponsiblePersonPrefix.BUYER, state)) {
-      return this.getBuyerQuoteStatus(state);
-    } else if (this.isResponsible(ResponsiblePersonPrefix.SELLER, state)) {
-      return this.getSellerQuoteStatus(state);
-    } else if (
-      this.isResponsible(ResponsiblePersonPrefix.SELLERAPPROVER, state)
-    ) {
-      return this.getSellerApproverQuoteStatus(state);
-    } else {
-      return this.getGeneralQuoteStatus(state);
+    const role: QuoteRoleType = this.quoteRoleService.stateToRole(state);
+    switch (role) {
+      case QuoteRoleType.BUYER:
+        return this.getBuyerQuoteStatus(state);
+      case QuoteRoleType.SELLER:
+        return this.getSellerQuoteStatus(state);
+      case QuoteRoleType.SELLERAPPROVER:
+        return this.getSellerApproverQuoteStatus(state);
+      default:
+        return this.getGeneralQuoteStatus(state);
     }
   }
 }

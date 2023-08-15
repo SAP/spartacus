@@ -1,54 +1,70 @@
-cx-quote-details-overview {
-  .cx-quote-overview {
-    @include media-breakpoint-down(sm) {
-      background-color: var(--cx-color-inverse);
+@import '@spartacus/styles/scss/components/misc/card/_card';
+
+%cx-quote-details-overview {
+  .cx-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px 0;
+    gap: 1rem;
+
+    @include media-breakpoint-down(md) {
+      max-width: 100%;
     }
 
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      padding: 15px 0;
-      gap: 1rem;
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+
+    .cx-summary-card {
+      position: relative;
+      flex: 1;
+      padding-inline-start: 15px;
+      padding-inline-end: 15px;
+      border: 1px solid var(--cx-color-medium);
+      border-radius: var(--cx-border-radius, 1rem);
 
       @include media-breakpoint-down(md) {
-        max-width: 100%;
-        padding: 0 1.25rem;
-      }
-      @include media-breakpoint-down(sm) {
-        flex-direction: column;
-        padding: 0 1.25rem;
-      }
-
-      .cx-summary-card {
         flex: 1;
-        padding: 0 15px;
-        border: 1px solid var(--cx-color-medium);
-        border-radius: var(--cx-border-radius, 1rem);
-
-        @include media-breakpoint-down(md) {
-          flex: 1;
-        }
-
-        @include media-breakpoint-down(sm) {
-          flex: 1;
-          background-color: var(--cx-color-inverse);
-          border-width: 1px;
-          border-style: solid;
-          border-color: var(--cx-color-light);
-          margin: 0.625rem 0;
-        }
-
-        .cx-card-title {
-          @include type('4');
-          font-weight: bold;
-          margin-bottom: 0.5rem;
-        }
-
-        .cx-card-description {
-          max-width: 100%;
-          word-break: break-word;
-        }
       }
+
+      @include media-breakpoint-down(sm) {
+        flex: 1;
+        background-color: var(--cx-color-inverse);
+        border-width: 1px;
+        border-style: solid;
+        border-color: var(--cx-color-light);
+        margin: 0.625rem 0;
+      }
+
+      .cx-edit-btn {
+        position: absolute;
+        top: 10px;
+        right: 0px;
+        min-height: 5px;
+        min-width: 5px;
+        padding: 10px;
+        outline: none !important;
+        box-shadow: none !important;
+      }
+
+      .cx-card-title {
+        font-weight: var(--cx-font-weight-bold);
+      }
+
+      .cx-card-paragraph-text {
+        font-weight: var(--cx-font-weight-bold);
+      }
+
+      .cx-card-description {
+        max-width: 100%;
+        word-break: break-word;
+      }
+
+      .cx-card-paragraph {
+        padding-inline-start: 0;
+      }
+
+      @extend %cx-card !optional;
     }
   }
 }

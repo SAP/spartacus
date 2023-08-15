@@ -10,6 +10,7 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, TranslationService } from '@spartacus/core';
 import {
   Comment,
+  Quote,
   QuoteDetailsReloadQueryEvent,
   QuoteFacade,
 } from '@spartacus/quote/root';
@@ -35,7 +36,7 @@ const ALL_PRODUCTS_ID = '';
 export class QuoteDetailsCommentComponent {
   @ViewChild(MessagingComponent) commentsComponent: MessagingComponent;
 
-  showComments = true;
+  expandComments = true;
   iconTypes = ICON_TYPE;
 
   quoteDetails$ = this.quoteFacade.getQuoteDetails();
@@ -91,6 +92,18 @@ export class QuoteDetailsCommentComponent {
           }
         }
       });
+  }
+
+  showComments(quote: Quote): boolean {
+    let numItemComments = 0;
+    quote.entries?.forEach(
+      (entry) => (numItemComments += entry.comments?.length ?? 0)
+    );
+    return (
+      quote.isEditable ||
+      (quote.comments?.length ?? 0) > 0 ||
+      numItemComments > 0
+    );
   }
 
   protected prepareMessagingConfigs(): MessagingConfigs {
