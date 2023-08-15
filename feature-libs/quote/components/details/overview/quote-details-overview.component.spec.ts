@@ -301,8 +301,6 @@ describe('QuoteDetailsOverviewComponent', () => {
 
   describe('card content', () => {
     it('should retrieve the card content that represents the quote information with empty name and description', () => {
-      mockQuote.name = undefined;
-      mockQuote.description = undefined;
       fixture.detectChanges();
 
       const expected = {
@@ -320,7 +318,7 @@ describe('QuoteDetailsOverviewComponent', () => {
       };
 
       component
-        .getQuoteInformation(mockQuote.name, mockQuote.description)
+        .getQuoteInformation(undefined, undefined)
         .subscribe((result) => {
           expect(result).toEqual(expected);
         });
@@ -341,7 +339,6 @@ describe('QuoteDetailsOverviewComponent', () => {
     });
 
     it('should the card content that represents an empty estimated and date information', () => {
-      mockQuote.creationTime = undefined;
       fixture.detectChanges();
 
       const expected = {
@@ -359,7 +356,7 @@ describe('QuoteDetailsOverviewComponent', () => {
       };
 
       component
-        .getEstimatedAndDate(mockQuote, mockQuote.creationTime?.toString())
+        .getEstimatedAndDate(mockQuote, undefined)
         .subscribe((result) => {
           expect(result).toEqual(expected);
         });
@@ -384,14 +381,9 @@ describe('QuoteDetailsOverviewComponent', () => {
         ],
       };
 
-      component
-        .getUpdate(
-          mockQuote.updatedTime?.toString(),
-          mockQuote.expirationTime?.toString()
-        )
-        .subscribe((result) => {
-          expect(result).toEqual(expected);
-        });
+      component.getUpdate(undefined, undefined).subscribe((result) => {
+        expect(result).toEqual(expected);
+      });
     });
   });
 
@@ -428,8 +420,8 @@ describe('QuoteDetailsOverviewComponent', () => {
       );
     });
 
-    it('should be able to deal with undefined actions', () => {
-      const quoteWoActions: Quote = { ...mockQuote, allowedActions: undefined };
+    it('should be able to deal with empty actions', () => {
+      const quoteWoActions: Quote = { ...mockQuote, allowedActions: [] };
       expect(component['getTotalPriceDescription'](quoteWoActions)).toBe(
         'quote.details.estimatedTotal'
       );
