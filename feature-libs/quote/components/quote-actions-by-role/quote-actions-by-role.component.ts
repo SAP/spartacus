@@ -126,12 +126,19 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
           tap(() =>
             this.globalMessageService.add(
               { key: context.successMessage },
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
+              this.getMessageType(action)
             )
           )
         )
         .subscribe()
     );
+  }
+
+  protected getMessageType(action: QuoteActionType): GlobalMessageType {
+    return action === QuoteActionType.CANCEL ||
+      action === QuoteActionType.REJECT
+      ? GlobalMessageType.MSG_TYPE_INFO
+      : GlobalMessageType.MSG_TYPE_CONFIRMATION;
   }
 
   requote(quoteId: string) {
