@@ -1,4 +1,6 @@
-cx-quote-details-overview {
+@import '@spartacus/styles/scss/components/misc/card/_card';
+
+%cx-quote-details-overview {
   .cx-container {
     display: flex;
     flex-wrap: wrap;
@@ -14,11 +16,10 @@ cx-quote-details-overview {
     }
 
     .cx-summary-card {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+      position: relative;
       flex: 1;
-      padding: 0 15px;
+      padding-inline-start: 15px;
+      padding-inline-end: 15px;
       border: 1px solid var(--cx-color-medium);
       border-radius: var(--cx-border-radius, 1rem);
 
@@ -35,22 +36,22 @@ cx-quote-details-overview {
         margin: 0.625rem 0;
       }
 
-      .cx-content {
-        width: 100%;
+      .cx-edit-btn {
+        position: absolute;
+        top: 10px;
+        right: 0px;
+        min-height: 5px;
+        min-width: 5px;
+        padding: 10px;
+        outline: none !important;
+        box-shadow: none !important;
       }
 
-      .cx-edit-step {
-        width: 15%;
-
-        button {
-          padding: 0;
-          outline: none !important;
-          box-shadow: none !important;
-        }
+      .cx-card-title {
+        font-weight: var(--cx-font-weight-bold);
       }
 
-      .cx-card-title,
-      .cx-card-paragraph-title {
+      .cx-card-paragraph-text {
         font-weight: var(--cx-font-weight-bold);
       }
 
@@ -62,6 +63,8 @@ cx-quote-details-overview {
       .cx-card-paragraph {
         padding-inline-start: 0;
       }
+
+      @extend %cx-card !optional;
     }
   }
 }

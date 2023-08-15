@@ -8,21 +8,15 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ICON_TYPE } from '@spartacus/storefront';
 
-export interface EditEvent {
-  editMode: boolean;
+export interface SaveEvent {
   name?: string;
   description?: string;
-  expirationTime?: Date;
 }
 
 export interface EditCard {
-  title: string;
-  paragraphs: Array<{
-    title: string;
-    text: string;
-    isTextArea?: boolean;
-    charactersLimit?: number;
-  }>;
+  name: string;
+  description: string;
+  charactersLimit?: number;
 }
 
 @Component({
@@ -31,65 +25,40 @@ export interface EditCard {
 })
 export class QuoteDetailsEditComponent implements OnInit {
   iconTypes = ICON_TYPE;
-  editForm: UntypedFormGroup;
+  editForm: UntypedFormGroup = new UntypedFormGroup({});
 
   @Output()
-  editCard: EventEmitter<EditEvent> = new EventEmitter();
+  saveCard: EventEmitter<SaveEvent> = new EventEmitter();
   @Output()
-  cancelCard: EventEmitter<boolean> = new EventEmitter();
+  cancelCard: EventEmitter<any> = new EventEmitter();
 
   @Input()
-  content: EditCard | null;
+  content: EditCard;
 
   /**
-   * Cancels the view of the edit card tile
-   * by throwing the edit event with the edit mode set to 'false'.
+   * Cancels the view of the edit card tile.
    */
   cancel(): void {
-    this.cancelCard.emit(false);
+    this.cancelCard.emit();
   }
 
   /**
-   * Edits the card tile by throwing the edit event
+   * Saves the edited card tile by throwing the save event
    * with the edit mode set to 'false' and the edited data.
    */
-  edit(): void {
-    const event: EditEvent = {
-      editMode: false,
-    };
+  save(): void {
+    const event: SaveEvent = {};
 
     Object.keys(this.editForm.controls).forEach((control) => {
-      if (this.editForm.get(control)?.touched) {
+      if (this.editForm.get(control)?.dirty) {
         const value = this.editForm.get(control)?.value;
-        if (value) {
-          Object.defineProperty(event, control, {
-            value: value,
-          });
-        }
-        this.editForm.get(control)?.markAsUntouched();
-        this.editForm.get(control)?.markAsPristine();
+        Object.defineProperty(event, control, {
+          value: value,
+        });
       }
     });
 
-    this.editCard.emit(event);
-  }
-
-  /**
-   * Defines the form control name by converting a name to lower case.
-   *
-   * @param {string} name - Name
-   */
-  protected setFormControlName(name: string): string {
-    return name.toLocaleLowerCase();
-  }
-
-  /**
-   * Tracks by index.
-   *
-   * @param {any} index - index
-   */
-  protected trackByIndex(index: any) {
-    return index;
+    this.saveCard.emit(event);
   }
 
   protected getCharactersLeft(
@@ -101,21 +70,13 @@ export class QuoteDetailsEditComponent implements OnInit {
     );
   }
 
-  constructor() {
-    // Intentional empty constructor
+  protected defineUntypedFormControl(formControlName: string, value: string) {
+    this.editForm.addControl(formControlName, new UntypedFormControl(''));
+    this.editForm.get(formControlName)?.setValue(value);
   }
 
   ngOnInit() {
-    this.editForm = new UntypedFormGroup({});
-
-    this.content?.paragraphs?.forEach((paragraph) => {
-      if (paragraph.title) {
-        const formControlName = this.setFormControlName(paragraph.title);
-        this.editForm.addControl(formControlName, new UntypedFormControl(''));
-        if (paragraph.text) {
-          this.editForm.get(formControlName)?.setValue(paragraph.text);
-        }
-      }
-    });
+    this.defineUntypedFormControl('name', this.content.name);
+    this.defineUntypedFormControl('description', this.content.description);
   }
 }

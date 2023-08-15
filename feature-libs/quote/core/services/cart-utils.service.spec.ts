@@ -63,4 +63,11 @@ describe('CartUtilsService', () => {
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
     });
   });
+
+  describe('createNewCartAndGoToQuoteList', () => {
+    it('should redirect to the quote list page', () => {
+      service.createNewCartAndGoToQuoteList();
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'quotes' });
+    });
+  });
 });

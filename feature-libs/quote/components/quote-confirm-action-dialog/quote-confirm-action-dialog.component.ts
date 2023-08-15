@@ -13,13 +13,14 @@ import {
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { ConfirmationContext } from './quote-confirm-action-dialog.model';
 
 @Component({
-  selector: 'cx-quote-confirm-request-dialog',
-  templateUrl: './quote-confirm-request-dialog.component.html',
+  selector: 'cx-quote-confirm-action-dialog',
+  templateUrl: './quote-confirm-action-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuoteConfirmRequestDialogComponent implements OnInit {
+export class QuoteConfirmActionDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   focusConfig: FocusConfig = {
@@ -29,7 +30,7 @@ export class QuoteConfirmRequestDialogComponent implements OnInit {
     focusOnEscape: true,
   };
 
-  quoteCode$: Observable<string>;
+  confirmationContext$: Observable<ConfirmationContext>;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -37,9 +38,9 @@ export class QuoteConfirmRequestDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.quoteCode$ = this.launchDialogService.data$.pipe(
+    this.confirmationContext$ = this.launchDialogService.data$.pipe(
       filter((data) => !!data),
-      map((data) => data.quoteCode)
+      map((data) => data.confirmationContext)
     );
   }
 

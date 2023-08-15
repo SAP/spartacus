@@ -83,9 +83,22 @@ export enum QuoteState {
   EXPIRED = 'EXPIRED',
 }
 
+export enum QuoteDiscountType {
+  //see https://jira.tools.sap/browse/CXEC-31800
+  PERCENT = 'PERCENT',
+  ABSOLUTE = 'ABSOLUTE',
+}
+
+export enum QuoteRoleType {
+  NOT_AVAILABLE = 'NOT_AVAILABLE',
+  BUYER = 'BUYER',
+  SELLER = 'SELLER',
+  SELLERAPPROVER = 'SELLERAPPROVER',
+}
+
 export interface QuoteDiscount {
   discountRate: number;
-  discountType: string;
+  discountType: QuoteDiscountType;
 }
 
 export interface QuoteList {
@@ -93,10 +106,15 @@ export interface QuoteList {
   sorts?: SortModel[];
   quotes: Quote[];
 }
-
+/**
+ * Used for updating quotes
+ */
 export interface QuoteMetadata {
   description?: string;
-  expirationTime?: Date;
+  //we cannot use date here, as this would result in a format
+  // 2023-08-26T07:13:00.000Z   sent to commerce while it expects (for the same time)
+  // 2023-08-26T09:13:00+02:00
+  expirationTime?: string;
   name?: string;
 }
 

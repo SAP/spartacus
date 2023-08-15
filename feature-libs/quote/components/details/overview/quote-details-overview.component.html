@@ -12,39 +12,28 @@
   <div class="cx-container">
     <div class="cx-summary-card">
       <ng-container *ngIf="!editMode">
-        <div class="cx-content">
-          <cx-card
-            [content]="
-              getQuoteInformation(quoteDetails.name, quoteDetails.description)
-                | async
-            "
-            [truncateText]="true"
-            [charactersLimit]="30"
-          ></cx-card>
-        </div>
-        <div
+        <cx-card
+          [content]="
+            getQuoteInformation(quoteDetails.name, quoteDetails.description)
+              | async
+          "
+        ></cx-card>
+        <button
           *ngIf="isQuoteInformationEditable(quoteDetails)"
-          class="cx-edit-step"
+          class="btn btn-link cx-action-link cx-edit-btn"
+          (click)="toggleEditMode()"
         >
-          <button class="btn btn-link cx-action-link" (click)="setEditMode()">
-            <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
-          </button>
-        </div>
+          <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+        </button>
       </ng-container>
-      <ng-container *ngIf="editMode">
-        <div class="cx-content">
-          <cx-quote-details-edit
-            [content]="
-              getEditQuoteInformation(
-                quoteDetails.name,
-                quoteDetails.description
-              ) | async
-            "
-            (editCard)="edit(quoteDetails, $event)"
-            (cancelCard)="cancel($event)"
-          ></cx-quote-details-edit>
-        </div>
-      </ng-container>
+      <cx-quote-details-edit
+        *ngIf="editMode"
+        [content]="
+          getEditQuoteInformation(quoteDetails.name, quoteDetails.description)
+        "
+        (saveCard)="save(quoteDetails, $event)"
+        (cancelCard)="cancel()"
+      ></cx-quote-details-edit>
     </div>
     <div class="cx-summary-card">
       <cx-card

@@ -1,4 +1,6 @@
-cx-quote-details-edit {
+@import '@spartacus/styles/scss/components/misc/card/_card';
+
+%cx-quote-details-edit {
   .cx-card-paragraph {
     textarea,
     input {
@@ -6,7 +8,7 @@ cx-quote-details-edit {
       border: 1px solid var(--cx-color-medium);
     }
 
-    .cx-card-paragraph-info-text {
+    .cx-info-text {
       font-size: var(--cx-font-size, 0.75rem);
       font-style: italic;
       text-align: end;
@@ -19,6 +21,7 @@ cx-quote-details-edit {
     flex-direction: row;
     justify-content: flex-end;
     padding-block-start: 1rem;
+    gap: 0.5rem;
 
     @include media-breakpoint-down(sm) {
       flex-wrap: wrap;
@@ -34,4 +37,6 @@ cx-quote-details-edit {
       }
     }
   }
+
+  @extend %cx-card !optional;
 }

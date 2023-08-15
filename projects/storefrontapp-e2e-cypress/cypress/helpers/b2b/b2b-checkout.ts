@@ -158,14 +158,14 @@ export function addB2bProductToCart() {
   addCheapProductToCart(products[0]);
 }
 
-export function enterPONumber() {
+export function enterPONumber(poNum: string = poNumber) {
   cy.get('cx-payment-type .cx-payment-type-container').should(
     'contain',
     'Payment method'
   );
 
   cy.get('cx-payment-type').within(() => {
-    cy.get('.form-control').clear().type(poNumber);
+    cy.get('.form-control').clear().type(poNum);
   });
 
   // Accessibility
@@ -320,7 +320,10 @@ export function reviewB2bReviewOrderPage(
   cartData: SampleCartProduct,
   isAccount: boolean,
   orderType: string,
-  conf: TabbingOrderConfig = config
+  conf: TabbingOrderConfig = config,
+  poNum: string = poNumber,
+  costCtr: string = costCenter,
+  b2bUnt: string = b2bUnit
 ) {
   verifyReviewOrderPage();
 
@@ -329,7 +332,7 @@ export function reviewB2bReviewOrderPage(
       .contains('cx-card', 'Purchase Order Number')
       .find('.cx-card-container')
       .within(() => {
-        cy.findByText(poNumber);
+        cy.findByText(poNum);
       });
 
     cy.get('.cx-review-summary-card')
@@ -343,8 +346,8 @@ export function reviewB2bReviewOrderPage(
       .contains('cx-card', 'Cost Center')
       .find('.cx-card-container')
       .within(() => {
-        cy.findByText(costCenter);
-        cy.findByText(`(${b2bUnit})`);
+        cy.findByText(costCtr);
+        cy.findByText(`(${b2bUnt})`);
       });
   }
 

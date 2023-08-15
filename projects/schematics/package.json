@@ -55,6 +55,7 @@
       "@spartacus/product",
       "@spartacus/product-configurator",
       "@spartacus/qualtrics",
+      "@spartacus/requested-delivery-date",
       "@spartacus/smartedit",
       "@spartacus/storefinder",
       "@spartacus/tracking",
@@ -64,6 +65,7 @@
       "@spartacus/cds",
       "@spartacus/digital-payments",
       "@spartacus/epd-visualization",
+      "@spartacus/s4om",
       "@spartacus/customer-ticketing"
     ]
   },

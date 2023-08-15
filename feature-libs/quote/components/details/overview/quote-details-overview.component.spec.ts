@@ -17,7 +17,7 @@ import { CardModule, ICON_TYPE } from '@spartacus/storefront';
 
 import { Observable, of } from 'rxjs';
 import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
-import { EditCard, EditEvent } from '../edit/quote-details-edit.component';
+import { EditCard, SaveEvent } from '../edit/quote-details-edit.component';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 
 const totalPriceFormattedValue = '$20';
@@ -140,12 +140,6 @@ describe('QuoteDetailsOverviewComponent', () => {
         '.cx-header-container'
       );
 
-      CommonQuoteTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-header'
-      );
-
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -185,13 +179,13 @@ describe('QuoteDetailsOverviewComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-content cx-card'
+        'cx-card'
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-edit-step'
+        'button.cx-edit-btn'
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
@@ -208,13 +202,13 @@ describe('QuoteDetailsOverviewComponent', () => {
     });
 
     it('should render component with activated edit mode', () => {
-      component.setEditMode();
+      component.toggleEditMode();
       fixture.detectChanges();
 
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-content cx-quote-details-edit'
+        'cx-quote-details-edit'
       );
 
       CommonQuoteTestUtilsService.expectElementNotPresent(
@@ -227,26 +221,21 @@ describe('QuoteDetailsOverviewComponent', () => {
 
   describe('defineQuoteMetaData', () => {
     it('should define an empty quote meta data object', () => {
-      const editEvent: EditEvent = {
-        editMode: false,
-      };
+      const editEvent: SaveEvent = {};
       const metaData = component['defineQuoteMetaData'](editEvent);
       expect(Object.keys(metaData).length).toBe(0);
     });
 
     it('should define a quote meta data object', () => {
-      const editEvent: EditEvent = {
-        editMode: false,
+      const editEvent: SaveEvent = {
         name: 'name',
         description: 'description',
-        expirationTime: new Date('2023-02-02T13:05:12+0000'),
       };
       const metaData = component['defineQuoteMetaData'](editEvent);
 
-      expect(Object.keys(metaData).length).toBe(3);
+      expect(Object.keys(metaData).length).toBe(2);
       expect(metaData.name).toBe(editEvent.name);
       expect(metaData.description).toBe(editEvent.description);
-      expect(metaData.expirationTime).toBe(editEvent.expirationTime);
     });
   });
 
@@ -257,22 +246,22 @@ describe('QuoteDetailsOverviewComponent', () => {
       quote.state = QuoteState.SELLERAPPROVER_APPROVED;
     });
 
-    it('should return "false" because the quote information is not editable', () => {
+    it('should return "false" if the quote information is not editable', () => {
       quote.isEditable = false;
       expect(component.isQuoteInformationEditable(quote)).toBe(false);
     });
 
-    it('should return "false" because the quote information is not editable for "SELLER_DRAFT"', () => {
+    it('should return "false" if the quote information is not editable for "SELLER_DRAFT"', () => {
       quote.state = QuoteState.SELLER_DRAFT;
       expect(component.isQuoteInformationEditable(quote)).toBe(false);
     });
 
-    it('should return "true" because the quote information is editable for "BUYER_DRAFT"', () => {
+    it('should return "true" if the quote information is editable for "BUYER_DRAFT"', () => {
       quote.state = QuoteState.BUYER_DRAFT;
       expect(component.isQuoteInformationEditable(quote)).toBe(true);
     });
 
-    it('should return "true" because the quote information is editable for "BUYER_OFFER"', () => {
+    it('should return "true" if the quote information is editable for "BUYER_OFFER"', () => {
       quote.state = QuoteState.BUYER_OFFER;
       expect(component.isQuoteInformationEditable(quote)).toBe(true);
     });
@@ -280,13 +269,12 @@ describe('QuoteDetailsOverviewComponent', () => {
 
   describe('handle actions', () => {
     it('should handle cancel action', () => {
-      component.cancel(false);
+      component.cancel();
       expect(component.editMode).toBe(false);
     });
 
     it('should handle edit action', () => {
-      const editEvent: EditEvent = {
-        editMode: false,
+      const editEvent: SaveEvent = {
         name: 'new name',
         description: 'New Description',
       };
@@ -296,8 +284,8 @@ describe('QuoteDetailsOverviewComponent', () => {
         description: editEvent.description,
       };
 
-      component.edit(mockQuote, editEvent);
-      expect(component.editMode).toBe(editEvent.editMode);
+      component.save(mockQuote, editEvent);
+      expect(component.editMode).toBe(false);
       expect(mockedQuoteFacade.editQuote).toHaveBeenCalledWith(
         mockQuote.code,
         quoteMetaData
@@ -307,14 +295,12 @@ describe('QuoteDetailsOverviewComponent', () => {
 
   it('should set edit mode to the opposite', () => {
     expect(component.editMode).toBe(false);
-    component.setEditMode();
+    component.toggleEditMode();
     expect(component.editMode).toBe(true);
   });
 
   describe('card content', () => {
-    it('should retrieves the card content that represents the quote information with empty name and description', () => {
-      mockQuote.name = undefined;
-      mockQuote.description = undefined;
+    it('should retrieve the card content that represents the quote information with empty name and description', () => {
       fixture.detectChanges();
 
       const expected = {
@@ -332,41 +318,27 @@ describe('QuoteDetailsOverviewComponent', () => {
       };
 
       component
-        .getQuoteInformation(mockQuote.name, mockQuote.description)
+        .getQuoteInformation(undefined, undefined)
         .subscribe((result) => {
           expect(result).toEqual(expected);
         });
     });
 
-    it('should retrieves the edit card content that represents the edit quote information with its name and description', () => {
-      const name = 'name';
-      const description = 'description';
+    it('should retrieve the edit card content that represents the edit quote information with its name and description', () => {
+      const name = 'Updated name';
+      const description = 'Updated description';
 
       const expected = {
-        title: 'quote.details.information',
-        paragraphs: [
-          {
-            title: 'quote.details.name',
-            text: name,
-          },
-          {
-            title: 'quote.details.description',
-            text: description,
-            isTextArea: true,
-            charactersLimit: 255,
-          },
-        ],
+        name: 'Updated name',
+        description: 'Updated description',
+        charactersLimit: 255,
       };
 
-      component
-        .getEditQuoteInformation(name, description)
-        .subscribe((result) => {
-          expect(result).toEqual(expected);
-        });
+      const result = component.getEditQuoteInformation(name, description);
+      expect(result).toEqual(expected);
     });
 
-    it('should retrieves the card content that represents an empty estimated and date information', () => {
-      mockQuote.creationTime = undefined;
+    it('should the card content that represents an empty estimated and date information', () => {
       fixture.detectChanges();
 
       const expected = {
@@ -384,13 +356,13 @@ describe('QuoteDetailsOverviewComponent', () => {
       };
 
       component
-        .getEstimatedAndDate(mockQuote, mockQuote.creationTime)
+        .getEstimatedAndDate(mockQuote, undefined)
         .subscribe((result) => {
           expect(result).toEqual(expected);
         });
     });
 
-    it('should retrieves the card content that represents an empty update information', () => {
+    it('should retrieve the card content that represents an empty update information', () => {
       mockQuote.updatedTime = undefined;
       mockQuote.expirationTime = undefined;
       fixture.detectChanges();
@@ -403,17 +375,15 @@ describe('QuoteDetailsOverviewComponent', () => {
             text: ['-'],
           },
           {
-            title: 'quote.details.expiryDate',
+            title: 'quote.details.expirationTime',
             text: ['-'],
           },
         ],
       };
 
-      component
-        .getUpdate(mockQuote.updatedTime, mockQuote.expirationTime)
-        .subscribe((result) => {
-          expect(result).toEqual(expected);
-        });
+      component.getUpdate(undefined, undefined).subscribe((result) => {
+        expect(result).toEqual(expected);
+      });
     });
   });
 
@@ -450,8 +420,8 @@ describe('QuoteDetailsOverviewComponent', () => {
       );
     });
 
-    it('should be able to deal with undefined actions', () => {
-      const quoteWoActions: Quote = { ...mockQuote, allowedActions: undefined };
+    it('should be able to deal with empty actions', () => {
+      const quoteWoActions: Quote = { ...mockQuote, allowedActions: [] };
       expect(component['getTotalPriceDescription'](quoteWoActions)).toBe(
         'quote.details.estimatedTotal'
       );

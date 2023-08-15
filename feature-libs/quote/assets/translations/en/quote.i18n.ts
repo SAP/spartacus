@@ -47,6 +47,13 @@ export const quote = {
       creationSuccess: 'Quote #{{ code }} created successfully',
       cart: 'Cart',
     },
+    seller: {
+      apply: 'Apply',
+      placeholder: '0',
+      discount: 'Absolute Discount',
+      expiryDate: 'Expiry Date',
+      discountValidationText: 'Enter a valid absolute discount',
+    },
     comments: {
       title: 'Contact',
       invalidComment: 'Invalid Input - Please type again...',
@@ -63,22 +70,63 @@ export const quote = {
       description: 'Description',
       estimateAndDate: 'Estimated & Date',
       update: 'Update',
-      expiryDate: 'Expiry Date',
+      expirationTime: 'Expiry Date',
       charactersLeft: 'characters left: {{count}}',
     },
     links: {
       newCart: 'New Cart',
       quotes: 'Quotes',
     },
-    confirmSubmitDialog: {
-      title: 'Confirm Send Quote {{ code }}?',
-      name: { heading: 'Name:', content: 'Quote {{ code }}' },
-      description: { heading: 'Description:' },
-
-      warningSubmitNote:
-        'Once a request for quote is submitted it cannot be modified.',
-      confirmSubmitNote: 'Are you sure you want to submit this quote?',
-      confirmSubmitOption: { yes: 'Yes', no: 'No' },
+    confirmActionDialog: {
+      name: 'Name:',
+      description: 'Description:',
+      validity: 'This quote is valid until {{ expirationTime }}',
+      confirmActionOption: { yes: 'Yes', no: 'No' },
+      buyer: {
+        submit: {
+          title: 'Submit Quote Request {{ code }}?',
+          confirmNote: 'Are you sure you want to submit this quote request?',
+          successMessage: 'Quote request submitted successfully',
+        },
+        cancel: {
+          title: 'Cancel Quote Request {{ code }}?',
+          confirmNote: 'Are you sure you want to cancel this quote request',
+          successMessage: 'Quote request cancelled',
+        },
+      },
+      buyer_offer: {
+        edit: {
+          title: 'Confirm Edit Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to edit this approved quote?',
+          warningNote:
+            'This Quote has been Approved. Editing this Quote will prevent Checkout until new edits are approved.',
+        },
+        cancel: {
+          title: 'Cancel Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to cancel this quote?',
+          successMessage: 'Quote cancelled',
+        },
+      },
+      seller: {
+        submit: {
+          title: 'Submit Quote {{ code }} for approval?',
+          confirmNote:
+            'Are you sure you want to submit this quote for approval?',
+          successMessage: 'Quote submitted for approval successfully',
+        },
+      },
+      approver: {
+        approve: {
+          title: 'Approve Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to approve this quote?',
+          successMessage: 'Quote approved successfully',
+        },
+        reject: {
+          title: 'Reject Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to reject this quote?',
+          successMessage: 'Quote rejected',
+        },
+      },
     },
     requestDialog: {
       requestQuote: 'Request Quote',
@@ -109,6 +157,9 @@ export const quote = {
     httpHandlers: {
       cartValidationIssue:
         'Quote request not possible because we found problems with your entries. Please review your cart.',
+      absoluteDiscountIssue:
+        'Choose a discount that does not exceed the total value',
+      expirationDateIssue: 'Choose an expiration date in the future',
       threshold: {
         underThresholdError:
           'Total price of requested quote does not meet the minimum threshold',

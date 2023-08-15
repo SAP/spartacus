@@ -87,7 +87,7 @@ export function clickOnSubmitQuoteBtnOnQD(): void {
   cy.get('cx-quote-actions-by-role button.btn-primary')
     .click()
     .then(() => {
-      cy.get('cx-quote-confirm-request-dialog').should('be.visible');
+      cy.get('cx-quote-confirm-action-dialog').should('be.visible');
     });
 }
 
@@ -95,7 +95,7 @@ export function clickOnSubmitQuoteBtnOnQD(): void {
  * Clicks on 'Yes' on the quote confirm request dialog  popup.
  */
 export function clickOnYesBtnOnQuoteSubmitPopUp(): void {
-  cy.get('div.cx-dialog-item button.btn-primary').click();
+  cy.get('cx-quote-confirm-action-dialog button.btn-primary').click();
   cy.wait(GET_QUOTE_ALIAS);
 }
 

@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { QuoteCartService } from '@spartacus/quote/root';
+import { QuoteCartService, QuoteDiscount } from '@spartacus/quote/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   Comment,
@@ -116,7 +116,10 @@ export class QuoteService implements QuoteFacade {
             payload.quoteCode,
             payload.quoteMetadata
           )
-        )
+        ),
+        tap(() => {
+          this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+        })
       ),
     {
       strategy: CommandStrategy.CancelPrevious,
@@ -150,6 +153,32 @@ export class QuoteService implements QuoteFacade {
               payload.quoteComment
             );
           }
+        })
+      ),
+    {
+      strategy: CommandStrategy.CancelPrevious,
+    }
+  );
+
+  protected addDiscountCommand: Command<{
+    quoteCode: string;
+    quoteDiscount: QuoteDiscount;
+  }> = this.commandService.create<{
+    quoteCode: string;
+    quoteDiscount: QuoteDiscount;
+  }>(
+    (payload) =>
+      this.userIdService.takeUserId().pipe(
+        take(1),
+        switchMap((userId) => {
+          return this.quoteConnector.addDiscount(
+            userId,
+            payload.quoteCode,
+            payload.quoteDiscount
+          );
+        }),
+        tap(() => {
+          this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
         })
       ),
     {
@@ -232,6 +261,9 @@ export class QuoteService implements QuoteFacade {
     this.queryService.create<Quote>(
       () =>
         this.routingService.getRouterState().pipe(
+          //we don't need to cover the intermediate router states where a future route is already known.
+          //only changes to the URL are relevant. Otherwise we get unneeded hits when e.g. navigating back from quotes
+          filter((routingData) => routingData.nextState === undefined),
           withLatestFrom(this.userIdService.takeUserId()),
           switchMap(([{ state }, userId]) =>
             zip(
@@ -302,6 +334,13 @@ export class QuoteService implements QuoteFacade {
     protected quoteCartService: QuoteCartService,
     protected cartUtilsService: CartUtilsService
   ) {}
+
+  addDiscount(quoteCode: string, discount: QuoteDiscount): Observable<unknown> {
+    return this.addDiscountCommand.execute({
+      quoteCode,
+      quoteDiscount: discount,
+    });
+  }
 
   createQuote(quoteMetadata: QuoteMetadata): Observable<Quote> {
     return this.createQuoteCommand.execute({
