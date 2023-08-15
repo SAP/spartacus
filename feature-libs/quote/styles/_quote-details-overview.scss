@@ -49,8 +49,11 @@ cx-quote-details-overview {
         }
       }
 
-      .cx-card-title,
-      .cx-card-paragraph-title {
+      .cx-card-title {
+        font-weight: var(--cx-font-weight-bold);
+      }
+
+      .cx-card-paragraph-text {
         font-weight: var(--cx-font-weight-bold);
       }
 

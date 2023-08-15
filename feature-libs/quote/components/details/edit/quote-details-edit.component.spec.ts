@@ -163,22 +163,42 @@ describe('QuoteDetailsEditComponent', () => {
       expect(component.cancelCard.emit).toHaveBeenCalled();
     });
 
-    it('should not emit edit event', () => {
+    it('should emit edit event for disabling edit mode', () => {
       const saveButton = CommonQuoteTestUtilsService.getNativeElement(
         debugElement,
         'button.btn-secondary'
       );
       saveButton.click();
-      expect(component.editCard.emit).not.toHaveBeenCalled();
+      expect(component.editCard.emit).toHaveBeenCalled();
+      let arg: any = (component.editCard.emit as any).calls.mostRecent()
+        .args[0];
+      expect(arg.editMode).toEqual(false);
     });
 
-    it('should emit edit event', () => {
+    it('should emit edit event with an edited name and disabling edit mode', () => {
+      const newTextForTitle1: any = 'New title for name';
+      component.editForm.get('name')?.setValue(newTextForTitle1);
+      component.editForm.get('name')?.markAsDirty();
+      fixture.detectChanges();
+      const saveButton = CommonQuoteTestUtilsService.getNativeElement(
+        debugElement,
+        'button.btn-secondary'
+      );
+      saveButton.click();
+      expect(component.editCard.emit).toHaveBeenCalled();
+      let arg: any = (component.editCard.emit as any).calls.mostRecent()
+        .args[0];
+      expect(arg.editMode).toEqual(false);
+      expect(arg.name).toEqual(newTextForTitle1);
+    });
+
+    it('should emit edit event with an edited name, description and disabling edit mode', () => {
       const newTextForTitle1: any = 'New title for name';
       const newTextForTitle2: any = 'Here could be found a long description';
       component.editForm.get('name')?.setValue(newTextForTitle1);
-      component.editForm.get('name')?.markAsTouched();
+      component.editForm.get('name')?.markAsDirty();
       component.editForm.get('description')?.setValue(newTextForTitle2);
-      component.editForm.get('description')?.markAsTouched();
+      component.editForm.get('description')?.markAsDirty();
       fixture.detectChanges();
       const saveButton = CommonQuoteTestUtilsService.getNativeElement(
         debugElement,

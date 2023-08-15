@@ -54,22 +54,15 @@ export class QuoteDetailsEditComponent implements OnInit {
     };
 
     Object.keys(this.editForm.controls).forEach((control) => {
-      if (this.editForm.get(control)?.touched) {
+      if (this.editForm.get(control)?.dirty) {
         const value = this.editForm.get(control)?.value;
-        if (value) {
-          Object.defineProperty(event, control, {
-            value: value,
-          });
-        }
-        this.editForm.get(control)?.markAsUntouched();
-        this.editForm.get(control)?.markAsPristine();
+        Object.defineProperty(event, control, {
+          value: value,
+        });
       }
     });
 
-    // The edit event will be emitted if the event object contains greater or equal than 2 attributes
-    if (Object.getOwnPropertyNames(event).length >= 2) {
-      this.editCard.emit(event);
-    }
+    this.editCard.emit(event);
   }
 
   protected getCharactersLeft(
@@ -79,10 +72,6 @@ export class QuoteDetailsEditComponent implements OnInit {
     return (
       charactersLimit - (this.editForm.get(formControlName)?.value?.length || 0)
     );
-  }
-
-  constructor() {
-    // Intentional empty constructor
   }
 
   protected defineUntypedFormControl(formControlName: string, value: string) {

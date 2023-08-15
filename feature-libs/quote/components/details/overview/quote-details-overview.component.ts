@@ -44,7 +44,7 @@ export class QuoteDetailsOverviewComponent {
     metaData = {
       ...metaData,
       ...(event.name && { name }),
-      ...(event.description && { description }),
+      ...{ description },
     };
 
     return metaData;

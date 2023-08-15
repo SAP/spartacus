@@ -225,7 +225,8 @@ describe('QuoteDetailsOverviewComponent', () => {
         editMode: false,
       };
       const metaData = component['defineQuoteMetaData'](editEvent);
-      expect(Object.keys(metaData).length).toBe(0);
+      expect(Object.keys(metaData).length).toBe(1);
+      expect(metaData.description).toBeUndefined();
     });
 
     it('should define a quote meta data object', () => {
