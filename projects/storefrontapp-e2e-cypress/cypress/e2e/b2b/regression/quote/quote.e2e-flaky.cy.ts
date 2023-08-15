@@ -140,12 +140,18 @@ context('Quote', () => {
         getTestTitle()
       );
       quote.checkSubmitButton(false);
+      quote.log(`verify item exists at index ${itemIndex}`, getTestTitle());
       quote.checkItemAtIndexExists(
         itemIndex,
         TESTPRODUCTHAMMERDRILLINGID,
         true
       );
+      quote.log(`remove item at index ${itemIndex}`, getTestTitle());
       quote.removeItemOnClick(itemIndex);
+      quote.log(
+        `verify item got removed and does not exist at index anymore and ${itemIndex}`,
+        getTestTitle()
+      );
       quote.checkItemAtIndexExists(
         itemIndex,
         TESTPRODUCTHAMMERDRILLINGID,
