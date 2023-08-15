@@ -12,11 +12,25 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { CardModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  CardModule,
+  IconModule,
+  KeyboardFocusModule,
+  SpinnerModule,
+} from '@spartacus/storefront';
 import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
+import { QuoteDetailsEditModule } from '../edit/quote-details-edit.module';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, CardModule, SpinnerModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    CardModule,
+    QuoteDetailsEditModule,
+    KeyboardFocusModule,
+    SpinnerModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

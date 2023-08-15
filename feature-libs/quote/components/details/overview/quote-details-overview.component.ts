@@ -5,39 +5,213 @@
  */
 
 import { Component } from '@angular/core';
-import { Quote, QuoteActionType, QuoteFacade } from '@spartacus/quote/root';
-import { TranslationService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import {
+  Quote,
+  QuoteAction,
+  QuoteActionType,
+  QuoteFacade,
+  QuoteMetadata,
+  QuoteState,
+} from '@spartacus/quote/root';
+import { EventService, TranslationService } from '@spartacus/core';
+import { Card, ICON_TYPE } from '@spartacus/storefront';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { EditCard, SaveEvent } from '../edit/quote-details-edit.component';
 
 @Component({
   selector: 'cx-quote-details-overview',
   templateUrl: './quote-details-overview.component.html',
 })
 export class QuoteDetailsOverviewComponent {
+  private static NO_DATA = '-';
+  private static CHARACTERS_LIMIT = 255;
+
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
+  iconTypes = ICON_TYPE;
+  editMode = false;
 
   constructor(
     protected quoteFacade: QuoteFacade,
+    protected eventService: EventService,
     protected translationService: TranslationService
   ) {}
 
-  //TODO: consider to create similar generic function for all cx-card usages
-  getCardContent(value: string | null, titleKey: string): Observable<Card> {
-    return this.translationService.translate(titleKey).pipe(
-      map((title) => ({
-        title,
-        text: [value ?? '-'],
-      }))
+  protected defineQuoteMetaData(event: SaveEvent): QuoteMetadata {
+    let metaData: QuoteMetadata = {};
+    if (Object.getOwnPropertyNames(event).length >= 1) {
+      const [name, description] = [event.name, event.description];
+
+      metaData = {
+        ...metaData,
+        ...(event.name && { name }),
+        ...{ description },
+      };
+    }
+    return metaData;
+  }
+
+  /**
+   * Verifies whether the quote information card tile is editable.
+   *
+   * @param {Quote} quote - quote
+   * @returns {boolean} - if the quote is editable and its state is 'QuoteState.BUYER_DRAFT' or 'QuoteState.BUYER_OFFER', otherwise returns 'false'.
+   */
+  isQuoteInformationEditable(quote: Quote): boolean {
+    return (
+      quote.isEditable &&
+      (quote.state === QuoteState.BUYER_DRAFT ||
+        quote.state === QuoteState.BUYER_OFFER)
     );
   }
+
+  /**
+   * Cancels the view of the edit card tile
+   * by setting the edit mode to 'false'.
+   */
+  cancel() {
+    this.editMode = false;
+  }
+
+  /**
+   * Saves the edited card tile.
+   *
+   * @param {Quote} quote - Quote
+   * @param {SaveEvent} event - edit event
+   */
+  save(quote: Quote, event: SaveEvent) {
+    this.editMode = false;
+    const metaData: QuoteMetadata = this.defineQuoteMetaData(event);
+
+    if (Object.getOwnPropertyNames(metaData).length >= 1) {
+      this.quoteFacade.editQuote(quote.code, metaData);
+    }
+  }
+
+  /**
+   * Toggles the edit mode.
+   */
+  toggleEditMode() {
+    this.editMode = !this.editMode;
+  }
+
+  /**
+   * Retrieves the card content that represents the quote information with its name and description.
+   *
+   * @param {string} name - Quote name
+   * @param {string} description - Quote description
+   * @returns {Observable<Card>} - Card content
+   */
+  getQuoteInformation(name?: string, description?: string): Observable<Card> {
+    return combineLatest([
+      this.translationService.translate('quote.details.information'),
+      this.translationService.translate('quote.details.name'),
+      this.translationService.translate('quote.details.description'),
+    ]).pipe(
+      map(([infoTitle, nameTitle, descriptionTitle]) => {
+        return {
+          title: infoTitle,
+          paragraphs: [
+            {
+              title: nameTitle,
+              text: [name ?? QuoteDetailsOverviewComponent.NO_DATA],
+            },
+            {
+              title: descriptionTitle,
+              text: [description ?? QuoteDetailsOverviewComponent.NO_DATA],
+            },
+          ],
+        };
+      })
+    );
+  }
+
+  /**
+   * Retrieves the edit card content that represents the edit quote information with its name and description.
+   *
+   * @param {string} name - Quote name
+   * @param {string} description - Quote description
+   * @returns {Observable<EditCard>} - Edit card content
+   */
+  getEditQuoteInformation(name: string, description: string): EditCard {
+    return {
+      name: name,
+      description: description,
+      charactersLimit: QuoteDetailsOverviewComponent.CHARACTERS_LIMIT,
+    };
+  }
+
+  /**
+   * Retrieves the card content that represents the estimated and date information.
+   *
+   * @param {Quote} quote - Quote
+   * @param {any} createdDate - Created date
+   * @returns {Observable<Card>} - Card content
+   */
+  getEstimatedAndDate(quote: Quote, createdDate?: string): Observable<Card> {
+    const totalPrice =
+      this.getTotalPrice(quote) ?? this.getTotalPriceDescription(quote);
+    return combineLatest([
+      this.translationService.translate('quote.details.estimateAndDate'),
+      this.translationService.translate('quote.details.estimatedTotal'),
+      this.translationService.translate('quote.details.created'),
+    ]).pipe(
+      map(([firstTitle, secondTitle, thirdTitle]) => {
+        return {
+          title: firstTitle,
+          paragraphs: [
+            {
+              title: secondTitle,
+              text: [totalPrice ?? QuoteDetailsOverviewComponent.NO_DATA],
+            },
+            {
+              title: thirdTitle,
+              text: [createdDate ?? QuoteDetailsOverviewComponent.NO_DATA],
+            },
+          ],
+        };
+      })
+    );
+  }
+
+  /**
+   * Retrieves the card content that represents the update information.
+   *
+   * @param {string} lastUpdated - last updated time
+   * @param {string} expirationTime - expiration time
+   * @returns {Observable<Card>} - Card content
+   */
+  getUpdate(lastUpdated?: string, expirationTime?: string): Observable<Card> {
+    return combineLatest([
+      this.translationService.translate('quote.details.update'),
+      this.translationService.translate('quote.details.lastUpdated'),
+      this.translationService.translate('quote.details.expirationTime'),
+    ]).pipe(
+      map(([firstTitle, secondTitle, thirdTitle]) => {
+        return {
+          title: firstTitle,
+          paragraphs: [
+            {
+              title: secondTitle,
+              text: [lastUpdated ?? QuoteDetailsOverviewComponent.NO_DATA],
+            },
+            {
+              title: thirdTitle,
+              text: [expirationTime ?? QuoteDetailsOverviewComponent.NO_DATA],
+            },
+          ],
+        };
+      })
+    );
+  }
+
   /**
    * Returns total price as formatted string
    * @param quote Quote
    * @returns Total price formatted format, null if that is not available
+   * @protected
    */
-  getTotalPrice(quote: Quote): string | null {
+  protected getTotalPrice(quote: Quote): string | null {
     return quote.totalPrice.formattedValue ?? null;
   }
 
@@ -45,10 +219,11 @@ export class QuoteDetailsOverviewComponent {
    * Returns total price description
    * @param quote Quote
    * @returns 'Total' price if quote is in final state, 'Estimated total' otherwise
+   * @protected
    */
-  getTotalPriceDescription(quote: Quote): string {
-    const readyToSubmit = quote.allowedActions.find(
-      (action) => action.type === QuoteActionType.CHECKOUT
+  protected getTotalPriceDescription(quote: Quote): string {
+    const readyToSubmit = quote.allowedActions?.find(
+      (action: QuoteAction) => action.type === QuoteActionType.CHECKOUT
     );
     return readyToSubmit
       ? 'quote.details.total'

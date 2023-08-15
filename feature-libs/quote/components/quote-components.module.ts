@@ -15,6 +15,7 @@ import { QuoteRequestDialogModule } from './quote-request-dialog/quote-request-d
 import { QuoteConfirmActionDialogModule } from './quote-confirm-action-dialog/quote-confirm-action-dialog.module';
 import {
   QuoteDetailsCartModule,
+  QuoteDetailsEditModule,
   QuoteDetailsOverviewModule,
   QuoteDetailsCommentModule,
 } from './details';
@@ -26,6 +27,7 @@ import { QuoteSellerEditModule } from './quote-seller-edit/quote-seller-edit.mod
   imports: [
     CommonModule,
     QuoteListModule,
+    QuoteDetailsEditModule,
     QuoteDetailsOverviewModule,
     QuoteDetailsCartModule,
     QuoteRequestButtonModule,

@@ -5,6 +5,7 @@
  */
 
 export * from './cart';
+export * from './edit';
 export * from './overview';
 export * from './comment';
 export * from './cart/summary';
