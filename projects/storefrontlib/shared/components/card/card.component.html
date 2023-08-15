@@ -159,11 +159,10 @@
     {{ text }}
   </div>
 
-  <ng-container *ngIf="truncateText">
-    <cx-truncate-text-popover
-      [charactersLimit]="charactersLimit"
-      [content]="text"
-      [customClass]="content.customClass || class"
-    ></cx-truncate-text-popover>
-  </ng-container>
+  <cx-truncate-text-popover
+    *ngIf="truncateText"
+    [charactersLimit]="charactersLimit"
+    [content]="text"
+    [customClass]="content.customClass || class"
+  ></cx-truncate-text-popover>
 </ng-template>
