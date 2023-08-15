@@ -17,7 +17,7 @@ import { EventService, TranslationService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { EditCard, EditEvent } from '../edit/quote-details-edit.component';
+import { EditCard, SaveEvent } from '../edit/quote-details-edit.component';
 
 @Component({
   selector: 'cx-quote-details-overview',
@@ -37,7 +37,7 @@ export class QuoteDetailsOverviewComponent {
     protected translationService: TranslationService
   ) {}
 
-  protected defineQuoteMetaData(event: EditEvent): QuoteMetadata {
+  protected defineQuoteMetaData(event: SaveEvent): QuoteMetadata {
     const [name, description] = [event.name, event.description];
 
     let metaData: QuoteMetadata = {};
@@ -76,10 +76,10 @@ export class QuoteDetailsOverviewComponent {
    * Edits the card tile.
    *
    * @param {Quote} quote - Quote
-   * @param {EditEvent} event - edit event
+   * @param {SaveEvent} event - edit event
    */
-  edit(quote: Quote, event: EditEvent) {
-    this.editMode = event.editMode;
+  edit(quote: Quote, event: SaveEvent) {
+    this.editMode = false;
     const metaData: QuoteMetadata = this.defineQuoteMetaData(event);
 
     this.quoteFacade.editQuote(quote.code, metaData);

@@ -44,7 +44,7 @@ describe('QuoteDetailsEditComponent', () => {
     component.content = mockCard;
     fixture.detectChanges();
 
-    spyOn(component.editCard, 'emit').and.callThrough();
+    spyOn(component.saveCard, 'emit').and.callThrough();
     spyOn(component.cancelCard, 'emit').and.callThrough();
   });
 
@@ -169,10 +169,7 @@ describe('QuoteDetailsEditComponent', () => {
         'button.btn-secondary'
       );
       saveButton.click();
-      expect(component.editCard.emit).toHaveBeenCalled();
-      let arg: any = (component.editCard.emit as any).calls.mostRecent()
-        .args[0];
-      expect(arg.editMode).toEqual(false);
+      expect(component.saveCard.emit).toHaveBeenCalled();
     });
 
     it('should emit edit event with an edited name and disabling edit mode', () => {
@@ -185,10 +182,9 @@ describe('QuoteDetailsEditComponent', () => {
         'button.btn-secondary'
       );
       saveButton.click();
-      expect(component.editCard.emit).toHaveBeenCalled();
-      let arg: any = (component.editCard.emit as any).calls.mostRecent()
+      expect(component.saveCard.emit).toHaveBeenCalled();
+      let arg: any = (component.saveCard.emit as any).calls.mostRecent()
         .args[0];
-      expect(arg.editMode).toEqual(false);
       expect(arg.name).toEqual(newTextForTitle1);
     });
 
@@ -205,10 +201,9 @@ describe('QuoteDetailsEditComponent', () => {
         'button.btn-secondary'
       );
       saveButton.click();
-      expect(component.editCard.emit).toHaveBeenCalled();
-      let arg: any = (component.editCard.emit as any).calls.mostRecent()
+      expect(component.saveCard.emit).toHaveBeenCalled();
+      let arg: any = (component.saveCard.emit as any).calls.mostRecent()
         .args[0];
-      expect(arg.editMode).toEqual(false);
       expect(arg.name).toEqual(newTextForTitle1);
       expect(arg.description).toEqual(newTextForTitle2);
     });

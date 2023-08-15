@@ -1,4 +1,6 @@
-cx-quote-details-overview {
+@import '@spartacus/styles/scss/components/misc/card/_card';
+
+%cx-quote-details-overview {
   .cx-container {
     display: flex;
     flex-wrap: wrap;
@@ -35,10 +37,6 @@ cx-quote-details-overview {
         margin: 0.625rem 0;
       }
 
-      .cx-content {
-        width: 100%;
-      }
-
       .cx-edit-step {
         width: 15%;
 
@@ -65,6 +63,8 @@ cx-quote-details-overview {
       .cx-card-paragraph {
         padding-inline-start: 0;
       }
+
+      @extend %cx-card !optional;
     }
   }
 }

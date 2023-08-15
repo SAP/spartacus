@@ -8,8 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ICON_TYPE } from '@spartacus/storefront';
 
-export interface EditEvent {
-  editMode: boolean;
+export interface SaveEvent {
   name?: string;
   description?: string;
 }
@@ -29,7 +28,7 @@ export class QuoteDetailsEditComponent implements OnInit {
   editForm: UntypedFormGroup = new UntypedFormGroup({});
 
   @Output()
-  editCard: EventEmitter<EditEvent> = new EventEmitter();
+  saveCard: EventEmitter<SaveEvent> = new EventEmitter();
   @Output()
   cancelCard: EventEmitter<any> = new EventEmitter();
 
@@ -37,21 +36,18 @@ export class QuoteDetailsEditComponent implements OnInit {
   content: EditCard;
 
   /**
-   * Cancels the view of the edit card tile
-   * by throwing the edit event with the edit mode set to 'false'.
+   * Cancels the view of the edit card tile.
    */
   cancel(): void {
     this.cancelCard.emit();
   }
 
   /**
-   * Saves the edited card tile by throwing the edit event
+   * Saves the edited card tile by throwing the save event
    * with the edit mode set to 'false' and the edited data.
    */
   save(): void {
-    const event: EditEvent = {
-      editMode: false,
-    };
+    const event: SaveEvent = {};
 
     Object.keys(this.editForm.controls).forEach((control) => {
       if (this.editForm.get(control)?.dirty) {
@@ -62,7 +58,7 @@ export class QuoteDetailsEditComponent implements OnInit {
       }
     });
 
-    this.editCard.emit(event);
+    this.saveCard.emit(event);
   }
 
   protected getCharactersLeft(

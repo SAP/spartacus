@@ -1,4 +1,6 @@
-cx-quote-details-edit {
+@import '@spartacus/styles/scss/components/misc/card/_card';
+
+%cx-quote-details-edit {
   .cx-card-paragraph {
     textarea,
     input {
@@ -35,4 +37,6 @@ cx-quote-details-edit {
       }
     }
   }
+
+  @extend %cx-card !optional;
 }

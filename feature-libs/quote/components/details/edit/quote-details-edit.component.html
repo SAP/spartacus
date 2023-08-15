@@ -36,20 +36,18 @@
                 name="description"
                 formControlName="description"
               ></textarea>
-              <ng-container *ngIf="content.charactersLimit">
-                <p class="cx-info-text">
-                  {{
-                    'quote.details.charactersLeft'
-                      | cxTranslate
-                        : {
-                            count: getCharactersLeft(
-                              'description',
-                              content.charactersLimit
-                            )
-                          }
-                  }}
-                </p>
-              </ng-container>
+              <p *ngIf="content.charactersLimit" class="cx-info-text">
+                {{
+                  'quote.details.charactersLeft'
+                    | cxTranslate
+                      : {
+                          count: getCharactersLeft(
+                            'description',
+                            content.charactersLimit
+                          )
+                        }
+                }}
+              </p>
             </div>
           </div>
         </form>

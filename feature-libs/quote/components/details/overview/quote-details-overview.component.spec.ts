@@ -17,7 +17,7 @@ import { CardModule, ICON_TYPE } from '@spartacus/storefront';
 
 import { Observable, of } from 'rxjs';
 import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
-import { EditCard, EditEvent } from '../edit/quote-details-edit.component';
+import { EditCard, SaveEvent } from '../edit/quote-details-edit.component';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 
 const totalPriceFormattedValue = '$20';
@@ -179,7 +179,7 @@ describe('QuoteDetailsOverviewComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-content cx-card'
+        'cx-card'
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
@@ -208,7 +208,7 @@ describe('QuoteDetailsOverviewComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-content cx-quote-details-edit'
+        'cx-quote-details-edit'
       );
 
       CommonQuoteTestUtilsService.expectElementNotPresent(
@@ -221,17 +221,14 @@ describe('QuoteDetailsOverviewComponent', () => {
 
   describe('defineQuoteMetaData', () => {
     it('should define an empty quote meta data object', () => {
-      const editEvent: EditEvent = {
-        editMode: false,
-      };
+      const editEvent: SaveEvent = {};
       const metaData = component['defineQuoteMetaData'](editEvent);
       expect(Object.keys(metaData).length).toBe(1);
       expect(metaData.description).toBeUndefined();
     });
 
     it('should define a quote meta data object', () => {
-      const editEvent: EditEvent = {
-        editMode: false,
+      const editEvent: SaveEvent = {
         name: 'name',
         description: 'description',
       };
@@ -278,8 +275,7 @@ describe('QuoteDetailsOverviewComponent', () => {
     });
 
     it('should handle edit action', () => {
-      const editEvent: EditEvent = {
-        editMode: false,
+      const editEvent: SaveEvent = {
         name: 'new name',
         description: 'New Description',
       };
@@ -290,7 +286,7 @@ describe('QuoteDetailsOverviewComponent', () => {
       };
 
       component.edit(mockQuote, editEvent);
-      expect(component.editMode).toBe(editEvent.editMode);
+      expect(component.editMode).toBe(false);
       expect(mockedQuoteFacade.editQuote).toHaveBeenCalledWith(
         mockQuote.code,
         quoteMetaData
