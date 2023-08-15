@@ -89,7 +89,7 @@ describe('QuoteDetailsCartComponent', () => {
 
   it('should toggle caret when clicked', () => {
     const caret = fixture.debugElement.query(
-      By.css('.cart-toggle')
+      By.css('.cx-toggle ')
     ).nativeElement;
     caret.click();
     fixture.detectChanges();
