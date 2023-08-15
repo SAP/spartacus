@@ -185,7 +185,7 @@ describe('QuoteDetailsOverviewComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-edit-step'
+        'button.cx-edit-btn'
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
@@ -223,8 +223,7 @@ describe('QuoteDetailsOverviewComponent', () => {
     it('should define an empty quote meta data object', () => {
       const editEvent: SaveEvent = {};
       const metaData = component['defineQuoteMetaData'](editEvent);
-      expect(Object.keys(metaData).length).toBe(1);
-      expect(metaData.description).toBeUndefined();
+      expect(Object.keys(metaData).length).toBe(0);
     });
 
     it('should define a quote meta data object', () => {
@@ -285,7 +284,7 @@ describe('QuoteDetailsOverviewComponent', () => {
         description: editEvent.description,
       };
 
-      component.edit(mockQuote, editEvent);
+      component.save(mockQuote, editEvent);
       expect(component.editMode).toBe(false);
       expect(mockedQuoteFacade.editQuote).toHaveBeenCalledWith(
         mockQuote.code,

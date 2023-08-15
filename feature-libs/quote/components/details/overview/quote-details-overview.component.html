@@ -18,24 +18,20 @@
               | async
           "
         ></cx-card>
-        <div
+        <button
           *ngIf="isQuoteInformationEditable(quoteDetails)"
-          class="cx-edit-step"
+          class="btn btn-link cx-action-link cx-edit-btn"
+          (click)="toggleEditMode()"
         >
-          <button
-            class="btn btn-link cx-action-link"
-            (click)="toggleEditMode()"
-          >
-            <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
-          </button>
-        </div>
+          <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+        </button>
       </ng-container>
       <cx-quote-details-edit
         *ngIf="editMode"
         [content]="
           getEditQuoteInformation(quoteDetails.name, quoteDetails.description)
         "
-        (saveCard)="edit(quoteDetails, $event)"
+        (saveCard)="save(quoteDetails, $event)"
         (cancelCard)="cancel()"
       ></cx-quote-details-edit>
     </div>

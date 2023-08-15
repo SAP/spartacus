@@ -38,15 +38,16 @@ export class QuoteDetailsOverviewComponent {
   ) {}
 
   protected defineQuoteMetaData(event: SaveEvent): QuoteMetadata {
-    const [name, description] = [event.name, event.description];
-
     let metaData: QuoteMetadata = {};
-    metaData = {
-      ...metaData,
-      ...(event.name && { name }),
-      ...{ description },
-    };
+    if (Object.getOwnPropertyNames(event).length >= 1) {
+      const [name, description] = [event.name, event.description];
 
+      metaData = {
+        ...metaData,
+        ...(event.name && { name }),
+        ...{ description },
+      };
+    }
     return metaData;
   }
 
@@ -73,16 +74,18 @@ export class QuoteDetailsOverviewComponent {
   }
 
   /**
-   * Edits the card tile.
+   * Saves the edited card tile.
    *
    * @param {Quote} quote - Quote
    * @param {SaveEvent} event - edit event
    */
-  edit(quote: Quote, event: SaveEvent) {
+  save(quote: Quote, event: SaveEvent) {
     this.editMode = false;
     const metaData: QuoteMetadata = this.defineQuoteMetaData(event);
 
-    this.quoteFacade.editQuote(quote.code, metaData);
+    if (Object.getOwnPropertyNames(metaData).length >= 1) {
+      this.quoteFacade.editQuote(quote.code, metaData);
+    }
   }
 
   /**
