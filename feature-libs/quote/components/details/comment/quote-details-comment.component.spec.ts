@@ -129,13 +129,13 @@ describe('QuoteDetailsCommentComponent', () => {
     expect(fixture.debugElement.query(By.css('cx-messaging'))).not.toBeNull();
   });
 
-  it('should hide the comments area when clicking the toggle', () => {
+  it('should collapse the comments area when clicking the toggle', () => {
     clickCommentsToggle(fixture);
     expect(fixture.debugElement.query(By.css('cx-messaging'))).toBeNull();
   });
 
-  it('should show the comments area when clicking the toggle', () => {
-    component.showComments = false;
+  it('should expand the comments area when clicking the toggle', () => {
+    component.expandComments = false;
     clickCommentsToggle(fixture);
     expect(fixture.debugElement.query(By.css('cx-messaging'))).not.toBeNull();
   });
@@ -197,7 +197,7 @@ describe('QuoteDetailsCommentComponent', () => {
     fixture: ComponentFixture<QuoteDetailsCommentComponent>
   ) {
     fixture.debugElement
-      .query(By.css('.quote-comment-toggle'))
+      .query(By.css('.cx-comment-toggle'))
       .nativeElement.click();
     fixture.detectChanges();
   }
@@ -438,6 +438,27 @@ describe('QuoteDetailsCommentComponent', () => {
     it('should be able to handle undefined comments in model', () => {
       const eventsObs = component['prepareMessageEvents']();
       expect(eventsObs).toBeObservable(cold('(a|)', { a: [] }));
+    });
+  });
+
+  describe('showComments', () => {
+    it('should return false for read-only quote without any comments', () => {
+      quote.isEditable = false;
+      expect(component.showComments(quote)).toBe(false);
+    });
+    it('should return true for editable-quote', () => {
+      quote.isEditable = true;
+      expect(component.showComments(quote)).toBe(true);
+    });
+    it('should return true for read-only quote with header comments', () => {
+      quote.isEditable = false;
+      quote.comments = [{ text: 'text' }];
+      expect(component.showComments(quote)).toBe(true);
+    });
+    it('should return true for read-only quote with item comments', () => {
+      quote.isEditable = false;
+      quote.entries = [{ entryNumber: 1, comments: [{ text: 'text' }] }];
+      expect(component.showComments(quote)).toBe(true);
     });
   });
 });
