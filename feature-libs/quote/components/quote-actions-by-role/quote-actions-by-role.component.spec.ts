@@ -507,4 +507,21 @@ describe('QuoteActionsByRoleComponent', () => {
       );
     });
   });
+  describe('getMessageType', () => {
+    it('should return INFO for reject action', () => {
+      expect(component['getMessageType'](QuoteActionType.REJECT)).toBe(
+        GlobalMessageType.MSG_TYPE_INFO
+      );
+    });
+    it('should return INFO for cancel action', () => {
+      expect(component['getMessageType'](QuoteActionType.CANCEL)).toBe(
+        GlobalMessageType.MSG_TYPE_INFO
+      );
+    });
+    it('should return CONFIRMATION for submit action', () => {
+      expect(component['getMessageType'](QuoteActionType.SUBMIT)).toBe(
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+  });
 });
