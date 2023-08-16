@@ -17,13 +17,7 @@ import {
   Customer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { CustomerCouponService } from '@spartacus/core';
-import {
-  BehaviorSubject,
-  Observable,
-  Subscription,
-  combineLatest,
-  of,
-} from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { CustomerCouponEntry } from './asm-customer-customer-coupon.model';
@@ -76,8 +70,8 @@ export class AsmCustomerCustomerCouponComponent implements OnInit, OnDestroy {
   }
 
   public fetchCustomerCoupons(): void {
-    this.entries$ = combineLatest([this.context.data$]).pipe(
-      map(([data]) => {
+    this.entries$ = this.context.data$.pipe(
+      map((data) => {
         const entries: Array<CustomerCouponEntry> = [];
         data.customerCoupons.forEach((customerCoupon) => {
           entries.push({
