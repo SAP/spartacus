@@ -129,6 +129,10 @@
         right: 57px;
         color: #000000;
         font-size: 20px;
+        &:focus,
+        &:hover {
+          display: inline;
+        }
       }
     }
   }
