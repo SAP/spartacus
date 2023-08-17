@@ -7,7 +7,7 @@ import { GlobalMessageType } from '../../../global-message/models/global-message
 import { GlobalMessageActions } from '../../../global-message/store/actions';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
 import { UserConsentAdapter } from '../../connectors/index';
 import { UserActions } from '../actions/index';
 import * as fromEffect from './user-consents.effect';
@@ -111,7 +111,7 @@ describe('User Consents effect', () => {
         consentTemplateVersion,
       });
       const completion = new UserActions.GiveUserConsentFail(
-        normalizeHttpError(mockError)
+        tryNormalizeHttpError(mockError)
       );
       const closeMessage = new GlobalMessageActions.RemoveMessagesByType(
         GlobalMessageType.MSG_TYPE_ERROR
@@ -138,7 +138,7 @@ describe('User Consents effect', () => {
         consentTemplateVersion,
       });
       const completion = new UserActions.GiveUserConsentFail(
-        normalizeHttpError(mockError)
+        tryNormalizeHttpError(mockError)
       );
 
       actions$ = hot('-a', { a: action });

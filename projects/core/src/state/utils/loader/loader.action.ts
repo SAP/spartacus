@@ -73,7 +73,7 @@ export class LoaderLoadAction implements LoaderAction {
 
 export class LoaderFailAction implements LoaderAction, ErrorAction {
   type = LOADER_FAIL_ACTION;
-  readonly error: ErrorActionType;
+  error: ErrorActionType;
   readonly meta: LoaderMeta;
 
   constructor(entityType: string, error: ErrorActionType) {

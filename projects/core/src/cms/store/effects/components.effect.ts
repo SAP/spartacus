@@ -14,7 +14,7 @@ import { LoggerService } from '../../../logger';
 import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
 import { bufferDebounceTime } from '../../../util/rxjs/buffer-debounce-time';
 import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
@@ -109,7 +109,7 @@ export class ComponentsEffects {
             (uid) =>
               new CmsActions.LoadCmsComponentFail({
                 uid,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
                 pageContext,
               })
           )

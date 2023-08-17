@@ -10,7 +10,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
@@ -48,7 +48,7 @@ export class CdcUserTokenEffects {
                 );
                 return of(
                   new CdcAuthActions.LoadCdcUserTokenFail({
-                    error: normalizeHttpError(error, this.logger),
+                    error: tryNormalizeHttpError(error, this.logger),
                     initialActionPayload: payload,
                   })
                 );

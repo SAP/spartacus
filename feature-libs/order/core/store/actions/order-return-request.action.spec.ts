@@ -56,7 +56,7 @@ describe('Order Return Request actions', () => {
 
   describe('CreateOrderReturnRequestFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new OrderActions.CreateOrderReturnRequestFail(error);
 
       expect({ ...action }).toEqual({
@@ -101,7 +101,7 @@ describe('Order Return Request actions', () => {
 
   describe('LoadOrderReturnRequestFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new OrderActions.LoadOrderReturnRequestFail(error);
 
       expect({ ...action }).toEqual({
@@ -151,7 +151,7 @@ describe('Order Return Request actions', () => {
 
   describe('CancelOrderReturnRequestFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new OrderActions.CancelOrderReturnRequestFail(error);
 
       expect({ ...action }).toEqual({
@@ -197,7 +197,7 @@ describe('Order Return Request actions', () => {
 
   describe('LoadOrderReturnRequestListFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new OrderActions.LoadOrderReturnRequestListFail(error);
 
       expect({ ...action }).toEqual({

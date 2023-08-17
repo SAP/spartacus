@@ -13,7 +13,7 @@ import { GlobalMessageService } from '../../../global-message/facade/global-mess
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { LoggerService } from '../../../logger';
 import { PaymentDetails } from '../../../model/payment.model';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
 import { UserActions } from '../actions/index';
 
@@ -33,7 +33,7 @@ export class UserPaymentMethodsEffects {
           catchError((error) =>
             of(
               new UserActions.LoadUserPaymentMethodsFail(
-                normalizeHttpError(error, this.logger)
+                tryNormalizeHttpError(error, this.logger)
               )
             )
           )
@@ -57,7 +57,7 @@ export class UserPaymentMethodsEffects {
             catchError((error) =>
               of(
                 new UserActions.SetDefaultUserPaymentMethodFail(
-                  normalizeHttpError(error, this.logger) ?? { message: error }
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )
@@ -87,7 +87,7 @@ export class UserPaymentMethodsEffects {
             catchError((error) =>
               of(
                 new UserActions.DeleteUserPaymentMethodFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )

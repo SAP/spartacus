@@ -86,7 +86,7 @@ export namespace EntityScopedLoaderActions {
     implements EntityScopedLoaderAction, ErrorAction
   {
     type = ENTITY_FAIL_ACTION;
-    readonly error: ErrorActionType;
+    error: ErrorActionType;
     readonly meta: EntityScopedLoaderMeta;
 
     constructor(

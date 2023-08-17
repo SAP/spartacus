@@ -32,7 +32,7 @@ describe('OrdersActions', () => {
 
   describe('LoadUserOrdersFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new OrderActions.LoadUserOrdersFail(error);
 
       expect({ ...action }).toEqual({

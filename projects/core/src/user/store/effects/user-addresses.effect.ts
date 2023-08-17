@@ -14,7 +14,7 @@ import {
 } from '../../../global-message/index';
 import { LoggerService } from '../../../logger';
 import { Address } from '../../../model/address.model';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { UserAddressService } from '../../facade/user-address.service';
 import { UserActions } from '../actions/index';
@@ -36,7 +36,7 @@ export class UserAddressesEffects {
             catchError((error) =>
               of(
                 new UserActions.LoadUserAddressesFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )
@@ -60,7 +60,7 @@ export class UserAddressesEffects {
               catchError((error) =>
                 of(
                   new UserActions.AddUserAddressFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -88,7 +88,7 @@ export class UserAddressesEffects {
                 );
                 return of(
                   new UserActions.UpdateUserAddressFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 );
               })
@@ -112,7 +112,7 @@ export class UserAddressesEffects {
               catchError((error) =>
                 of(
                   new UserActions.DeleteUserAddressFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )

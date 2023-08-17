@@ -6,7 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { Language } from '../../../model/misc.model';
-import { ErrorAction } from '@spartacus/core';
+import { ErrorAction, ErrorActionType } from '@spartacus/core';
 
 export const LOAD_LANGUAGES = '[Site-context] Load Languages';
 export const LOAD_LANGUAGES_FAIL = '[Site-context] Load Languages Fail';
@@ -20,21 +20,25 @@ export class LoadLanguages implements Action {
 
 export class LoadLanguagesFail implements ErrorAction {
   readonly type = LOAD_LANGUAGES_FAIL;
-  constructor(public error: any) {}
+
+  constructor(public error: ErrorActionType) {}
 }
 
 export class LoadLanguagesSuccess implements Action {
   readonly type = LOAD_LANGUAGES_SUCCESS;
+
   constructor(public payload: Language[]) {}
 }
 
 export class SetActiveLanguage implements Action {
   readonly type = SET_ACTIVE_LANGUAGE;
+
   constructor(public payload: string) {}
 }
 
 export class LanguageChange implements Action {
   readonly type = LANGUAGE_CHANGE;
+
   constructor(
     public payload: { previous: string | null; current: string | null }
   ) {}

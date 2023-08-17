@@ -65,7 +65,7 @@ export class CartAddEntryFail
 
   constructor(
     public payload: {
-      error: any;
+      error: ErrorActionType;
       userId: string;
       cartId: string;
       productCode: string;
@@ -106,7 +106,7 @@ export class CartRemoveEntryFail
 
   constructor(
     public payload: {
-      error: any;
+      error: ErrorActionType;
       cartId: string;
       userId: string;
       entryNumber: string;
@@ -159,7 +159,7 @@ export class CartUpdateEntryFail
 
   constructor(
     public payload: {
-      error: any;
+      error: ErrorActionType;
       userId: string;
       cartId: string;
       entryNumber: string;

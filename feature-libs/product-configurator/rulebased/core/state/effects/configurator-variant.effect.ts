@@ -6,7 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { ConfiguratorType } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { catchError, filter, switchMap } from 'rxjs/operators';
@@ -50,7 +50,7 @@ export class ConfiguratorVariantEffects {
             catchError((error) => [
               new ConfiguratorActions.SearchVariantsFail({
                 ownerKey: action.payload.owner.key,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               }),
             ])
           );

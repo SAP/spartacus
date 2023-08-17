@@ -91,7 +91,7 @@ export class CartRemoveVoucherFail
 
   constructor(
     public payload: {
-      error: any;
+      error: ErrorActionType;
       cartId: string;
       userId: string;
       voucherId: string;

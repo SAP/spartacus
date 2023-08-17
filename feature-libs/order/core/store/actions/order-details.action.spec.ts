@@ -25,7 +25,7 @@ describe('Order Details Actions', () => {
 
   describe('LoadOrderDetailsFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new OrderActions.LoadOrderDetailsFail(error);
 
       expect({ ...action }).toEqual({
@@ -81,7 +81,7 @@ describe('Order Details Actions', () => {
 
   describe('CancelOrderFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new OrderActions.CancelOrderFail(error);
 
       expect({ ...action }).toEqual({

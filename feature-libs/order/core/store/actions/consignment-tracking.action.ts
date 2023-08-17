@@ -6,7 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { ConsignmentTracking } from '@spartacus/order/root';
-import { ErrorAction } from '@spartacus/core';
+import { ErrorAction, ErrorActionType } from '@spartacus/core';
 
 export const LOAD_CONSIGNMENT_TRACKING = '[Order] Load Consignment Tracking';
 export const LOAD_CONSIGNMENT_TRACKING_FAIL =
@@ -30,7 +30,7 @@ export class LoadConsignmentTracking implements Action {
 export class LoadConsignmentTrackingFail implements ErrorAction {
   readonly type = LOAD_CONSIGNMENT_TRACKING_FAIL;
 
-  constructor(public error: any) {}
+  constructor(public error: ErrorActionType) {}
 }
 
 export class LoadConsignmentTrackingSuccess implements Action {

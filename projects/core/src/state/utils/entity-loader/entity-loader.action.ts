@@ -79,7 +79,7 @@ export class EntityLoadAction implements EntityLoaderAction {
 
 export class EntityFailAction implements EntityLoaderAction, ErrorAction {
   type = ENTITY_FAIL_ACTION;
-  readonly error: ErrorActionType;
+  error: ErrorActionType;
   readonly meta: EntityLoaderMeta;
 
   constructor(

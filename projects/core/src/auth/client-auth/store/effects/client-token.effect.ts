@@ -9,7 +9,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { LoggerService } from '../../../../logger';
-import { normalizeHttpError } from '../../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../../util/normalize-http-error';
 import { ClientToken } from '../../../client-auth/models/client-token.model';
 import { ClientAuthenticationTokenService } from '../../services/client-authentication-token.service';
 import { ClientAuthActions } from '../actions/index';
@@ -32,7 +32,7 @@ export class ClientTokenEffect {
               catchError((error) =>
                 of(
                   new ClientAuthActions.LoadClientTokenFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )

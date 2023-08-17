@@ -31,7 +31,7 @@ describe('Replenishment Orders Actions', () => {
 
   describe('LoadUserReplenishmentOrdersFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new OrderActions.LoadUserReplenishmentOrdersFail(error);
 
       expect({ ...action }).toEqual({

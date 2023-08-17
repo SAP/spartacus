@@ -6,7 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { Currency } from '../../../model/misc.model';
-import { ErrorAction } from '@spartacus/core';
+import { ErrorAction, ErrorActionType } from "@spartacus/core";
 
 export const LOAD_CURRENCIES = '[Site-context] Load Currencies';
 export const LOAD_CURRENCIES_FAIL = '[Site-context] Load Currencies Fail';
@@ -20,7 +20,7 @@ export class LoadCurrencies implements Action {
 
 export class LoadCurrenciesFail implements ErrorAction {
   readonly type = LOAD_CURRENCIES_FAIL;
-  constructor(public error: any) {}
+  constructor(public error: ErrorActionType) {}
 }
 
 export class LoadCurrenciesSuccess implements Action {

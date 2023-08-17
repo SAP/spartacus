@@ -4,7 +4,7 @@ import { Action } from '@ngrx/store';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  normalizeHttpError,
+  tryNormalizeHttpError,
   Translatable,
 } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
@@ -102,7 +102,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.LoadReplenishmentOrderDetailsFail(
-        normalizeHttpError(mockError)
+        tryNormalizeHttpError(mockError)
       );
 
       actions$ = hot('-a', { a: action });
@@ -146,7 +146,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.CancelReplenishmentOrderFail(
-        normalizeHttpError(mockError)
+        tryNormalizeHttpError(mockError)
       );
 
       actions$ = hot('-a', { a: action });
