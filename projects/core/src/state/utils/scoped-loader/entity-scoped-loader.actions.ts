@@ -6,16 +6,17 @@
 
 import { Action } from '@ngrx/store';
 import {
+  ENTITY_FAIL_ACTION,
+  ENTITY_LOAD_ACTION,
+  ENTITY_RESET_ACTION,
+  ENTITY_SUCCESS_ACTION,
   entityFailMeta,
   EntityLoaderMeta,
   entityLoadMeta,
   entityResetMeta,
   entitySuccessMeta,
-  ENTITY_FAIL_ACTION,
-  ENTITY_LOAD_ACTION,
-  ENTITY_RESET_ACTION,
-  ENTITY_SUCCESS_ACTION,
 } from '../entity-loader/entity-loader.action';
+import { ErrorAction, ErrorActionType } from '@spartacus/core';
 
 export namespace EntityScopedLoaderActions {
   export interface EntityScopedLoaderMeta extends EntityLoaderMeta {
@@ -75,27 +76,34 @@ export namespace EntityScopedLoaderActions {
   export class EntityScopedLoadAction implements EntityScopedLoaderAction {
     type = ENTITY_LOAD_ACTION;
     readonly meta: EntityScopedLoaderMeta;
+
     constructor(entityType: string, id: string | string[], scope?: string) {
       this.meta = entityScopedLoadMeta(entityType, id, scope);
     }
   }
 
-  export class EntityScopedFailAction implements EntityScopedLoaderAction {
+  export class EntityScopedFailAction
+    implements EntityScopedLoaderAction, ErrorAction
+  {
     type = ENTITY_FAIL_ACTION;
+    readonly error: ErrorActionType;
     readonly meta: EntityScopedLoaderMeta;
+
     constructor(
       entityType: string,
       id: string | string[],
-      scope?: string,
-      error?: any
+      error: ErrorActionType,
+      scope?: string
     ) {
       this.meta = entityScopedFailMeta(entityType, id, scope, error);
+      this.error = error;
     }
   }
 
   export class EntityScopedSuccessAction implements EntityScopedLoaderAction {
     type = ENTITY_SUCCESS_ACTION;
     readonly meta: EntityScopedLoaderMeta;
+
     constructor(
       entityType: string,
       id: string | string[],
@@ -109,6 +117,7 @@ export namespace EntityScopedLoaderActions {
   export class EntityScopedResetAction implements EntityScopedLoaderAction {
     type = ENTITY_RESET_ACTION;
     readonly meta: EntityScopedLoaderMeta;
+
     constructor(entityType: string, id?: string | string[], scope?: string) {
       this.meta = entityScopedResetMeta(entityType, id, scope);
     }

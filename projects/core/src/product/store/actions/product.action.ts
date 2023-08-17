@@ -10,7 +10,7 @@ import { EntityLoaderMeta } from '../../../state/utils/entity-loader/entity-load
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
 import { ProductScope } from '../../model/product-scope';
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
-import { ErrorAction, ErrorActionType } from '@spartacus/core';
+import { ErrorActionType } from '@spartacus/core';
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';
@@ -34,16 +34,15 @@ export class LoadProduct extends EntityScopedLoaderActions.EntityScopedLoadActio
   }
 }
 
-export class LoadProductFail
-  extends EntityScopedLoaderActions.EntityScopedFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload;
-
+export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailAction {
   readonly type = LOAD_PRODUCT_FAIL;
 
-  constructor(productCode: string, public payload: any, scope = '') {
-    super(PRODUCT_DETAIL_ENTITY, productCode, scope, payload);
+  constructor(
+    productCode: string,
+    public payload: ErrorActionType,
+    scope = ''
+  ) {
+    super(PRODUCT_DETAIL_ENTITY, productCode, payload, scope);
   }
 }
 
