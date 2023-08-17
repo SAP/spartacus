@@ -48,7 +48,6 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
     requestDeliveryDate: new FormControl(),
   });
   protected isDatePickerReadOnly: boolean = true;
-  protected readonly KEY_DEBOUNCE_TIME = 500;
 
   ngOnInit(): void {
     if (this.deliveryOutlet?.context$) {
