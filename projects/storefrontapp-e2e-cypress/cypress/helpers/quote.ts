@@ -60,44 +60,6 @@ export function login(email: string, password: string, name: string): void {
   cy.get('.cx-login-greet').should('contain', name);
   cy.get('cx-login').should('not.contain', 'Sign In');
 }
-/**
- * logs out the buyer
- * @param shopName Name of the current shop (Powertools)
- */
-export function logoutBuyer(shopName: string): void {
-  log(logoutBuyer.name);
-  cy.visit(`${shopName}/en/USD/logout`);
-  cy.get('cx-login [role="link"]');
-}
-
-/**
- * Enables the asm mode for the given shop
- * @param shopName Name of the shop (Powertools)
- */
-export function enableASMMode(shopName: string) {
-  log(enableASMMode.name);
-  cy.visit(`${shopName}/en/USD/?asm=true`);
-}
-/**
- * Use the cx-login-form to login into the asm mode
- * @param shopName Name of the given shop (Powertools)
- * @param sellerEmail Email address of the seller; used for the login
- * @param sellerPassword  Password of the seller; used for the login
- */
-export function loginASM(
-  shopName: string,
-  sellerEmail: string,
-  sellerPassword: string
-) {
-  log(loginASM.name);
-  cy.visit(`${shopName}/en/USD/`);
-  cy.get('cx-csagent-login-form form').within(() => {
-    cy.get('[formcontrolname="userId"]').clear().type(sellerEmail);
-    cy.get('[formcontrolname="password"]').clear().type(sellerPassword);
-    cy.get('button[type=submit]').click();
-  });
-  cy.get('cx-customer-selection').should('be.visible');
-}
 
 /**
  * Request a quote from cart
@@ -244,9 +206,107 @@ export function checkItemAtIndexExists(
 }
 
 /**
+ * Checks if the "Quote Information" card is in edit mode
+ * @param cardTitle Title of the card
+ * @param cardEditModeActive Indicates if the card is in edit mode
+ */
+export function verifyQuoteInformationCardInEditMode(
+  cardTitle: string,
+  cardEditModeActive: boolean
+): void {
+  log(verifyQuoteInformationCardInEditMode.name);
+  cy.get(`cx-quote-details-overview .cx-container .card-body`)
+    .contains(cardTitle)
+    .should('exist')
+    .then(() => {
+      if (cardEditModeActive) {
+        cy.get('button').contains('Save').should('exist');
+      } else {
+        cy.get('button').contains('Safe').should('not.exist');
+      }
+    });
+}
+
+/**
+ * Changes the "Quote Name" and the "Quote description" to given values
+ * @param cardTitle Title of the card
+ * @param newQuoteName New quote name
+ * @param newQuoteDescription New quote description
+ */
+export function changeQuoteSummaryCardEntries(
+  cardTitle: string,
+  newQuoteName: string,
+  newQuoteDescription: string
+): void {
+  log(changeQuoteSummaryCardEntries.name);
+  cy.get(`cx-quote-details-overview .cx-container .card-body`)
+    .contains(cardTitle)
+    .should('exist')
+    .then(() => {
+      cy.get(`cx-quote-details-overview .cx-container .card-body input`)
+        .should('exist')
+        .clear()
+        .type(newQuoteName);
+      cy.get(`cx-quote-details-overview .cx-container .card-body textarea`)
+        .should('exist')
+        .clear()
+        .type(newQuoteDescription);
+    });
+}
+
+/**
+ * Clicks on "Save" button in the quote Information card. This requires the card to be in edit mode.
+ * @param cardTitle Title of the card
+ */
+export function clickSaveOnQuoteSummaryCard(cardTitle: string): void {
+  log(clickSaveOnQuoteSummaryCard.name);
+  verifyQuoteInformationCardInEditMode(cardTitle, true);
+  cy.get(`cx-quote-details-overview .cx-container .card-body`)
+    .contains(cardTitle)
+    .should('exist')
+    .then(() => {
+      cy.get('button').contains('Save').should('exist').click();
+    });
+}
+
+/**
+ * Verify the expected quote name equals the current quote name
+ * @param cardTitle Title of the card
+ * @param expectedQuoteInformationContent expected quote name
+ */
+export function verifyQuoteInformationContent(
+  expectedQuoteInformationContent: string
+): void {
+  log(verifyQuoteInformationContent.name);
+  cy.get('cx-quote-details-overview .cx-container .card-body')
+    .find('.cx-card-paragraph-text')
+    .contains(expectedQuoteInformationContent);
+}
+
+/**
+ * Clicks on the edit button to change the quote information within the "Quote Information" card.
+ * @param cardTitle Title of the card
+ */
+export function clickEditOnQuoteInformationCard(cardTitle: string): void {
+  log(clickEditOnQuoteInformationCard.name);
+  cy.get(`cx-quote-details-overview .cx-container .card-body`)
+    .contains(cardTitle)
+    .should('exist')
+    .then(() => {
+      cy.get('.cx-edit-btn')
+        .should('exist')
+        .click()
+        .then(() => {
+          verifyQuoteInformationCardInEditMode(cardTitle, true);
+        });
+    });
+}
+
+/**
  * Clicks on 'Yes' on the quote confirm request dialog  popup.
  */
 export function clickOnYesBtnOnQuoteSubmitPopUp(): void {
+  log(clickOnYesBtnOnQuoteSubmitPopUp.name);
   cy.get('cx-quote-confirm-action-dialog button.btn-primary').click();
   cy.wait(GET_QUOTE_ALIAS);
 }
@@ -360,6 +420,7 @@ export function checkItemInQuoteCart(productId: string) {
  * @param status Expected Status of the quote
  */
 export function checkQuoteState(status: string) {
+  log(checkQuoteState.name);
   cy.get('cx-quote-details-overview h3.cx-status').contains(status);
 }
 

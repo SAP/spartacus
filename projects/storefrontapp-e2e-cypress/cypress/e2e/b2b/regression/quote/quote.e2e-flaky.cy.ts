@@ -16,6 +16,7 @@ const SALESREP_EMAIL = 'darrin.hesser@acme.com';
 const SALESREP_PASSWORD = '12341234';
 const SALESREP_USER = 'Darrin  Hesser';
 const MSG_TYPE_WARNING = '[GlobalMessage] Warning';
+const CARD_TITLE_QUOTE_INFORMATION = 'Quote Information';
 const getTestTitle = (
   test: Mocha.Suite = (Cypress as any).mocha.getRunner().suite.ctx.test
 ): string =>
@@ -44,57 +45,62 @@ context('Quote', () => {
 
   describe('Request quote process', () => {
     it('should display a message and disable submit button if threshold is not met', () => {
-      quote.log('requestQuote', getTestTitle());
+      quote.log('request a quote', getTestTitle());
       quote.requestQuote(POWERTOOLS, TESTPRODUCTHAMMERDRILLINGID, '1');
-      quote.log('checkQuoteInDraftState', getTestTitle());
+      quote.log('check if the quote is in draft state', getTestTitle());
       quote.checkQuoteInDraftState(false, TESTPRODUCTHAMMERDRILLINGID);
     });
 
     it('should be possible(submit) if threshold is met', () => {
-      quote.log('requestQuote', getTestTitle());
+      quote.log('request a quote', getTestTitle());
       quote.requestQuote(POWERTOOLS, TESTPRODUCTHAMMERDRILLINGID, '30');
       cy.url().as('quoteURL');
-      quote.log('checkQuoteInDraftState', getTestTitle());
+      quote.log('check if the quote is in "draft" state', getTestTitle());
       quote.checkQuoteInDraftState(true, TESTPRODUCTHAMMERDRILLINGID);
-      quote.log('addCommentAndWait', getTestTitle());
+      quote.log('add a comment', getTestTitle());
       quote.addCommentAndWait(
         'Can you please make me a good offer for this large volume of goods?'
       );
-      quote.log('checkComment', getTestTitle());
+      quote.log('check if the comment exists', getTestTitle());
       quote.checkComment(
         1,
         'Can you please make me a good offer for this large volume of goods?'
       );
-      quote.log('addItemCommentAndWait', getTestTitle());
+      quote.log('add an comment with a linked item', getTestTitle());
       quote.addItemCommentAndWait(
         TESTPRODUCTHAMMERDRILLINGNAME,
         'since there is a newer model out, is it possible to get a discount for this item?'
       );
-      quote.log('checkItemComment', getTestTitle());
+      quote.log('check if the comment with the item exists', getTestTitle());
       quote.checkItemComment(
         2,
         TESTPRODUCTHAMMERDRILLINGNAME,
         'since there is a newer model out, is it possible to get a discount for this item?'
       );
-      quote.log('clickItemLinkInComment', getTestTitle());
+      quote.log('click on the link in within the comment', getTestTitle());
       quote.clickItemLinkInComment(2, TESTPRODUCTHAMMERDRILLINGNAME);
-      quote.log('checkLinkedItemInViewport', getTestTitle());
+      quote.log(
+        'Check if the linked item is within the viewport',
+        getTestTitle()
+      );
       quote.checkLinkedItemInViewport(1);
-      quote.log('submitQuote', getTestTitle());
+      quote.log('Submit the quote', getTestTitle());
       quote.submitQuote();
-      quote.log('checkQuoteState Submitted', getTestTitle());
+      quote.log('check if quote state is "Submitted"', getTestTitle());
       quote.checkQuoteState(quote.STATUS_SUBMITTED);
-      quote.log('checkCommentsNotEditable', getTestTitle());
+      quote.log('check if comments are not editable', getTestTitle());
       quote.checkCommentsNotEditable();
     });
+  });
 
-    it('should edit name, description and quantity of items within a quote draft (CXSPA-3852)', () => {
+  describe('Edit quote process - buyer perspective', () => {
+    it('should edit quantity of items within a buyer quote draft (CXSPA-3852)', () => {
       quote.log('requestQuote', getTestTitle());
-      const amount: number = 30;
+      const PRODUCT_AMOUNT: number = 30;
       quote.requestQuote(
         POWERTOOLS,
         TESTPRODUCTHAMMERDRILLINGID,
-        amount.toString()
+        PRODUCT_AMOUNT.toString()
       );
       cy.url().as('quoteURL');
       quote.log('checkQuoteInDraftState', getTestTitle());
@@ -110,24 +116,26 @@ context('Quote', () => {
         true
       );
       quote.log(
-        `validate the item quantity at index ${itemIndex} equals ${amount}`,
+        `validate the item quantity at index ${itemIndex} equals ${PRODUCT_AMOUNT}`,
         getTestTitle()
       );
-      quote.validateItemQuantity(itemIndex, amount.toString());
+      quote.validateItemQuantity(itemIndex, PRODUCT_AMOUNT.toString());
       quote.log('increase the item  quantity by 1', getTestTitle());
       quote.changeItemQuantityOnClick(itemIndex, '+');
       quote.log(
-        `validate the item quantity at index ${itemIndex} equals ${amount + 1}`,
+        `validate the item quantity at index ${itemIndex} equals ${
+          PRODUCT_AMOUNT + 1
+        }`,
         getTestTitle()
       );
-      quote.validateItemQuantity(itemIndex, (amount + 1).toString());
-      quote.log('decrease the item  quantity by 1', getTestTitle());
+      quote.validateItemQuantity(itemIndex, (PRODUCT_AMOUNT + 1).toString());
+      quote.log('decrease the item quantity by 1', getTestTitle());
       quote.changeItemQuantityOnClick(itemIndex, '-');
       quote.log(
-        `validate the item quantity at index ${itemIndex} equals ${amount}`,
+        `validate the item quantity at index ${itemIndex} equals ${PRODUCT_AMOUNT}`,
         getTestTitle()
       );
-      quote.validateItemQuantity(itemIndex, amount.toString());
+      quote.validateItemQuantity(itemIndex, PRODUCT_AMOUNT.toString());
       quote.log('change the item  quantity to 1', getTestTitle());
       quote.changeItemQuantityWithInputField(1, '1');
       quote.log(
@@ -140,16 +148,16 @@ context('Quote', () => {
         getTestTitle()
       );
       quote.checkSubmitButton(false);
-      quote.log(`verify item exists at index ${itemIndex}`, getTestTitle());
+      quote.log(`verify the item exists at index ${itemIndex}`, getTestTitle());
       quote.checkItemAtIndexExists(
         itemIndex,
         TESTPRODUCTHAMMERDRILLINGID,
         true
       );
-      quote.log(`remove item at index ${itemIndex}`, getTestTitle());
+      quote.log(`remove the item at index ${itemIndex}`, getTestTitle());
       quote.removeItemOnClick(itemIndex);
       quote.log(
-        `verify item got removed and does not exist at index anymore and ${itemIndex}`,
+        `verify the item got removed and does not exist at index ${itemIndex}`,
         getTestTitle()
       );
       quote.checkItemAtIndexExists(
@@ -157,29 +165,53 @@ context('Quote', () => {
         TESTPRODUCTHAMMERDRILLINGID,
         false
       );
-
-      //########### not yet implemented ########
-      //ToDo: edit quote name
-      //ToDO: edit quote description
     });
 
-    it('should logout as user and login seller in asm mode ', () => {
+    it('should edit name and description of the quote while in buyer draft (CXSPA-3852)', () => {
       quote.log('requestQuote', getTestTitle());
-      quote.requestQuote(POWERTOOLS, TESTPRODUCTHAMMERDRILLINGID, '30');
-      quote.log('create Alias for quoteURL', getTestTitle());
+      const PRODUCT_AMOUNT: number = 30;
+      const QUOTENAME = 'Quote name test';
+      const QUOTEDESCRIPTION = 'Quote description for the test';
+      quote.requestQuote(
+        POWERTOOLS,
+        TESTPRODUCTHAMMERDRILLINGID,
+        PRODUCT_AMOUNT.toString()
+      );
       cy.url().as('quoteURL');
       quote.log('checkQuoteInDraftState', getTestTitle());
       quote.checkQuoteInDraftState(true, TESTPRODUCTHAMMERDRILLINGID);
-      quote.log('submitQuote', getTestTitle());
-      quote.submitQuote();
-      quote.log('checkQuoteState Submitted', getTestTitle());
-      quote.checkQuoteState(quote.STATUS_SUBMITTED);
-      quote.log(`logout user ${BUYER_USER}`, getTestTitle());
-      quote.logoutBuyer(POWERTOOLS);
-      quote.log('enable ASM mode', getTestTitle());
-      quote.enableASMMode(POWERTOOLS);
-      quote.log(`login sales rep ${SALESREP_USER} in ASM mode`, getTestTitle());
-      quote.loginASM(POWERTOOLS, SALESREP_EMAIL, SALESREP_PASSWORD);
+      quote.log(
+        'verify the "Quote Information" card is not in edit mode',
+        getTestTitle()
+      );
+      quote.verifyQuoteInformationCardInEditMode(
+        CARD_TITLE_QUOTE_INFORMATION,
+        false
+      );
+      quote.log('click on edit button in quote summary card', getTestTitle());
+      quote.clickEditOnQuoteInformationCard(CARD_TITLE_QUOTE_INFORMATION);
+      quote.log('change the quote name and description text', getTestTitle());
+      quote.changeQuoteSummaryCardEntries(
+        CARD_TITLE_QUOTE_INFORMATION,
+        QUOTENAME,
+        QUOTEDESCRIPTION
+      );
+      quote.log('click on save within the quote summary card', getTestTitle());
+      quote.clickSaveOnQuoteSummaryCard(CARD_TITLE_QUOTE_INFORMATION);
+      quote.log(
+        'verify the quote summary card is not in edit mode',
+        getTestTitle()
+      );
+      quote.verifyQuoteInformationCardInEditMode(
+        CARD_TITLE_QUOTE_INFORMATION,
+        false
+      );
+      quote.log(
+        'verify the quote name and description texts are updated',
+        getTestTitle()
+      );
+      quote.verifyQuoteInformationContent(QUOTENAME);
+      quote.verifyQuoteInformationContent(QUOTEDESCRIPTION);
     });
   });
 
