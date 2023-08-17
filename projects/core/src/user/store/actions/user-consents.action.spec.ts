@@ -20,7 +20,7 @@ describe('user consent actions', () => {
     });
     describe('LoadUserConsentsFail', () => {
       it('should create the action', () => {
-        const error = 'anError';
+        const error = new Error('anError');
         const action = new UserActions.LoadUserConsentsFail(error);
         expect({ ...action }).toEqual({
           type: UserActions.LOAD_USER_CONSENTS_FAIL,
@@ -72,7 +72,7 @@ describe('user consent actions', () => {
     });
     describe('GiveUserConsentFail', () => {
       it('should create the action', () => {
-        const error = 'anError';
+        const error = new Error('anError');
         const action = new UserActions.GiveUserConsentFail(error);
         expect({ ...action }).toEqual({
           error,

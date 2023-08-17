@@ -3,6 +3,7 @@ import { StateUtils } from '../../../state/utils/index';
 import { USER_ADDRESSES } from '../user-state';
 import { UserActions } from './index';
 
+const error = new Error('mockError');
 const userId = '123';
 const address: Address = {
   companyName: 'sap',
@@ -23,7 +24,6 @@ describe('User Addresses Actions', () => {
 
   describe('LoadUserAddressesFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
       const action = new UserActions.LoadUserAddressesFail(error);
 
       expect({ ...action }).toEqual({
@@ -70,7 +70,6 @@ describe('User Addresses Actions', () => {
 
   describe('AddUserAddressFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
       const action = new UserActions.AddUserAddressFail(error);
 
       expect({ ...action }).toEqual({
@@ -117,7 +116,6 @@ describe('User Addresses Actions', () => {
 
   describe('UpdateUserAddressFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
       const action = new UserActions.UpdateUserAddressFail(error);
 
       expect({ ...action }).toEqual({

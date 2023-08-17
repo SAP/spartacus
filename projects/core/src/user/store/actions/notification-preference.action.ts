@@ -17,7 +17,7 @@ import {
   UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
 } from '../user-state';
 import { NotificationPreference } from '../../../model/notification-preference.model';
-import { ErrorAction, ErrorActionType } from '@spartacus/core';
+import { ErrorActionType } from '@spartacus/core';
 
 export const LOAD_NOTIFICATION_PREFERENCES =
   '[User] Load Notification Preferences';
@@ -70,13 +70,10 @@ export class UpdateNotificationPreferences extends EntityLoadAction {
   }
 }
 
-export class UpdateNotificationPreferencesFail
-  extends EntityFailAction
-  implements ErrorAction
-{
+export class UpdateNotificationPreferencesFail extends EntityFailAction {
   readonly type = UPDATE_NOTIFICATION_PREFERENCES_FAIL;
 
-  constructor(public error: any) {
+  constructor(public error: ErrorActionType) {
     super(PROCESS_FEATURE, UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID, error);
   }
 }

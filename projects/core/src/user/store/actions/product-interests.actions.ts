@@ -27,7 +27,7 @@ import {
   EntitySuccessAction,
   EntityLoaderResetAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
-import { ErrorAction } from '@spartacus/core';
+import { ErrorAction, ErrorActionType } from '@spartacus/core';
 
 export const LOAD_PRODUCT_INTERESTS = 'Load Product Interests';
 export const LOAD_PRODUCT_INTERESTS_FAIL = 'Load Product Interests Fail';
@@ -100,12 +100,9 @@ export class RemoveProductInterestSuccess extends EntitySuccessAction {
   }
 }
 
-export class RemoveProductInterestFail
-  extends EntityFailAction
-  implements ErrorAction
-{
+export class RemoveProductInterestFail extends EntityFailAction {
   readonly type = REMOVE_PRODUCT_INTEREST_FAIL;
-  constructor(public error: any) {
+  constructor(public error: ErrorActionType) {
     super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID, error);
   }
 }
@@ -130,12 +127,9 @@ export class AddProductInterestSuccess extends EntitySuccessAction {
   }
 }
 
-export class AddProductInterestFail
-  extends EntityFailAction
-  implements ErrorAction
-{
+export class AddProductInterestFail extends EntityFailAction {
   readonly type = ADD_PRODUCT_INTEREST_FAIL;
-  constructor(public error: any) {
+  constructor(public error: ErrorActionType) {
     super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID, error);
   }
 }

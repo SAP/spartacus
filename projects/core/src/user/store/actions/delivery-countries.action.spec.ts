@@ -13,7 +13,7 @@ describe('Delivery Countries Actions', () => {
 
   describe('LoadDeliveryCountriesFail', () => {
     it('should create the action', () => {
-      const error = 'anError';
+      const error = new Error('anError');
       const action = new UserActions.LoadDeliveryCountriesFail(error);
 
       expect({ ...action }).toEqual({

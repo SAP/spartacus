@@ -67,6 +67,7 @@ const customerCoupon2Customer: CustomerCoupon2Customer = {
   coupon: coupon1,
   customer: {},
 };
+const error = new Error('mockError');
 
 describe('Customer Coupon Actions', () => {
   describe('LoadCustomerCoupons Action', () => {
@@ -144,7 +145,6 @@ describe('Customer Coupon Actions', () => {
 
   describe('SubscribeCustomerCouponFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
       const action = new UserActions.SubscribeCustomerCouponFail(error);
 
       expect({ ...action }).toEqual({
@@ -210,7 +210,6 @@ describe('Customer Coupon Actions', () => {
 
   describe('UnsubscribeCustomerCouponFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
       const action = new UserActions.UnsubscribeCustomerCouponFail(error);
 
       expect({ ...action }).toEqual({
@@ -275,7 +274,6 @@ describe('Customer Coupon Actions', () => {
 
   describe('ClaimCustomerCouponFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
       const action = new UserActions.ClaimCustomerCouponFail(error);
 
       expect({ ...action }).toEqual({

@@ -21,7 +21,7 @@ describe('User Cost Centers Actions', () => {
 
   describe('LoadActiveCostCentersFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new UserActions.LoadActiveCostCentersFail(error);
 
       expect({ ...action }).toEqual({

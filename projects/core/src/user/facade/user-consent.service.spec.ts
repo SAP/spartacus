@@ -188,7 +188,9 @@ describe('UserConsentService', () => {
     });
     describe('getConsentsResultError', () => {
       it('should return the error flag', () => {
-        store.dispatch(new UserActions.LoadUserConsentsFail('an error'));
+        store.dispatch(
+          new UserActions.LoadUserConsentsFail(new Error('an error'))
+        );
 
         let result = false;
         service

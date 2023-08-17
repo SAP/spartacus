@@ -57,3 +57,10 @@ export function normalizeHttpError(
 
   return undefined;
 }
+
+export function tryNormalizeHttpError(
+  error: HttpErrorResponse | HttpErrorModel | any,
+  logger?: LoggerService
+): HttpErrorModel | Error {
+  return normalizeHttpError(error, logger) ?? error;
+}

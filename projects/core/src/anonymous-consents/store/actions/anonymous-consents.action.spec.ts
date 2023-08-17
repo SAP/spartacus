@@ -45,7 +45,7 @@ describe('anonymous consent actions', () => {
     });
     describe('LoadAnonymousConsentTemplatesFail', () => {
       it('should create the action', () => {
-        const mockError = 'anError';
+        const mockError = new Error('anError');
         const action =
           new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
             mockError

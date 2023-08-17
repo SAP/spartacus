@@ -23,7 +23,7 @@ describe('Client Token Actions', () => {
 
   describe('LoadClientTokenFail', () => {
     it('should create the action', () => {
-      const error = 'anError';
+      const error = new Error('anError');
       const action = new ClientAuthActions.LoadClientTokenFail(error);
       expect({ ...action }).toEqual({
         type: ClientAuthActions.LOAD_CLIENT_TOKEN_FAIL,

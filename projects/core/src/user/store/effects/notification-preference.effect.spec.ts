@@ -18,7 +18,7 @@ const mockNotificationPreference: NotificationPreference[] = [
     visible: true,
   },
 ];
-const error = 'anError';
+const error = new Error('anError');
 
 describe('Notification Preference Effect', () => {
   let notificationPreferenceEffects: fromEffect.NotificationPreferenceEffects;
