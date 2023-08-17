@@ -6,10 +6,10 @@
 
 import { createAction, props } from '@ngrx/store';
 import {
+  ErrorActionType,
   StateUtils,
   Stock,
   StoreFinderStockSearchPage,
-  ErrorAction,
 } from '@spartacus/core';
 import { StockLocationSearchParams } from '@spartacus/pickup-in-store/root';
 import { STOCK_DATA } from '../stock-state';
@@ -26,6 +26,7 @@ export const STOCK_LEVEL_AT_STORE_SUCCESS =
 
 export class StockLevel extends StateUtils.LoaderLoadAction {
   readonly type = STOCK_LEVEL;
+
   constructor(public payload: StockLocationSearchParams) {
     super(STOCK_DATA);
   }
@@ -33,17 +34,16 @@ export class StockLevel extends StateUtils.LoaderLoadAction {
 
 export class StockLevelOnHold extends StateUtils.LoaderLoadAction {
   readonly type = STOCK_LEVEL_ON_HOLD;
+
   constructor() {
     super(STOCK_DATA);
   }
 }
 
-export class StockLevelFail
-  extends StateUtils.LoaderFailAction
-  implements ErrorAction
-{
+export class StockLevelFail extends StateUtils.LoaderFailAction {
   readonly type = STOCK_LEVEL_FAIL;
-  constructor(public error: any) {
+
+  constructor(public error: ErrorActionType) {
     super(STOCK_DATA, error);
   }
 }
@@ -55,6 +55,7 @@ export type StockLevelSuccessPayload = {
 
 export class StockLevelSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = STOCK_LEVEL_SUCCESS;
+
   constructor(public payload: StockLevelSuccessPayload) {
     super(STOCK_DATA);
   }
@@ -62,6 +63,7 @@ export class StockLevelSuccess extends StateUtils.LoaderSuccessAction {
 
 export class ClearStockData extends StateUtils.LoaderResetAction {
   readonly type = CLEAR_STOCK_DATA;
+
   constructor() {
     super(STOCK_DATA);
   }

@@ -10,7 +10,7 @@ import {
 } from '../../../model/consent.model';
 import { StateUtils } from '../../../state/utils/index';
 import { ANONYMOUS_CONSENTS } from '../anonymous-consents-state';
-import { ErrorAction } from '@spartacus/core';
+import { ErrorActionType } from '@spartacus/core';
 
 export const LOAD_ANONYMOUS_CONSENT_TEMPLATES =
   '[Anonymous Consents] Load Anonymous Consent Templates';
@@ -55,13 +55,10 @@ export class LoadAnonymousConsentTemplatesSuccess extends StateUtils.LoaderSucce
   }
 }
 
-export class LoadAnonymousConsentTemplatesFail
-  extends StateUtils.LoaderFailAction
-  implements ErrorAction
-{
+export class LoadAnonymousConsentTemplatesFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ANONYMOUS_CONSENT_TEMPLATES_FAIL;
 
-  constructor(public error: any) {
+  constructor(public error: ErrorActionType) {
     super(ANONYMOUS_CONSENTS, error);
   }
 }

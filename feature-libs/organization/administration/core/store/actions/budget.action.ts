@@ -5,7 +5,6 @@
  */
 
 import {
-  ErrorAction,
   ErrorActionType,
   ListModel,
   SearchConfig,

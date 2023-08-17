@@ -12,7 +12,7 @@ import {
   USER_CONSENTS,
   WITHDRAW_CONSENT_PROCESS_ID,
 } from '../user-state';
-import { ErrorAction, ErrorActionType } from '@spartacus/core';
+import { ErrorActionType } from '@spartacus/core';
 
 export const LOAD_USER_CONSENTS = '[User] Load User Consents';
 export const LOAD_USER_CONSENTS_SUCCESS = '[User] Load User Consents Success';
@@ -41,13 +41,10 @@ export class LoadUserConsents extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadUserConsentsFail
-  extends StateUtils.LoaderFailAction
-  implements ErrorAction
-{
+export class LoadUserConsentsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_CONSENTS_FAIL;
 
-  constructor(public error: any) {
+  constructor(public error: ErrorActionType) {
     super(USER_CONSENTS, error);
   }
 }

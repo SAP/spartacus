@@ -391,7 +391,9 @@ describe('UserConsentService', () => {
     });
     describe('getGiveConsentResultError', () => {
       it('should return the error flag', () => {
-        store.dispatch(new UserActions.GiveUserConsentFail(new Error('an error')));
+        store.dispatch(
+          new UserActions.GiveUserConsentFail(new Error('an error'))
+        );
 
         let result = false;
         service
@@ -457,7 +459,9 @@ describe('UserConsentService', () => {
     });
     describe('getWithdrawConsentResultError', () => {
       it('should return the error flag', () => {
-        store.dispatch(new UserActions.WithdrawUserConsentFail(new Error('an error')));
+        store.dispatch(
+          new UserActions.WithdrawUserConsentFail(new Error('an error'))
+        );
 
         let result = false;
         service

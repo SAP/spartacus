@@ -41,7 +41,7 @@ describe('Cms Page Index Reducer', () => {
 
   describe('LOAD_PAGE_DATA_FAIL action', () => {
     it('should return the initial state', () => {
-      const error = new Error('error')
+      const error = new Error('error');
       const { initialState } = fromPage;
       const action = new CmsActions.LoadCmsPageDataFail(pageContext, error);
       const state = fromPage.reducer(PageType.CONTENT_PAGE)(

@@ -184,7 +184,6 @@ export class LoadPermissionTypes extends StateUtils.EntityLoadAction {
 export class LoadPermissionTypesFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_PERMISSION_TYPES_FAIL;
 
-  //pzdro
   constructor(public payload: any) {
     super(PERMISSION_TYPES_LIST, PERMISSION_TYPES, payload.error);
   }

@@ -6,10 +6,10 @@
 
 import { STORE_FINDER_DATA } from '../store-finder-state';
 import {
+  ErrorActionType,
   GeoPoint,
   SearchConfig,
   StateUtils,
-  ErrorAction,
 } from '@spartacus/core';
 
 export const FIND_STORES_ON_HOLD = '[StoreFinder] On Hold';
@@ -24,6 +24,7 @@ export const FIND_STORE_BY_ID_SUCCESS =
 
 export class FindStoresOnHold extends StateUtils.LoaderLoadAction {
   readonly type = FIND_STORES_ON_HOLD;
+
   constructor() {
     super(STORE_FINDER_DATA);
   }
@@ -31,6 +32,7 @@ export class FindStoresOnHold extends StateUtils.LoaderLoadAction {
 
 export class FindStores extends StateUtils.LoaderLoadAction {
   readonly type = FIND_STORES;
+
   constructor(
     public payload: {
       queryText: string;
@@ -45,18 +47,17 @@ export class FindStores extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class FindStoresFail
-  extends StateUtils.LoaderFailAction
-  implements ErrorAction
-{
+export class FindStoresFail extends StateUtils.LoaderFailAction {
   readonly type = FIND_STORES_FAIL;
-  constructor(public error: any) {
+
+  constructor(public error: ErrorActionType) {
     super(STORE_FINDER_DATA, error);
   }
 }
 
 export class FindStoresSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = FIND_STORES_SUCCESS;
+
   constructor(public payload: any) {
     super(STORE_FINDER_DATA);
   }
@@ -64,23 +65,23 @@ export class FindStoresSuccess extends StateUtils.LoaderSuccessAction {
 
 export class FindStoreById extends StateUtils.LoaderLoadAction {
   readonly type = FIND_STORE_BY_ID;
+
   constructor(public payload: { storeId: string }) {
     super(STORE_FINDER_DATA);
   }
 }
 
-export class FindStoreByIdFail
-  extends StateUtils.LoaderFailAction
-  implements ErrorAction
-{
+export class FindStoreByIdFail extends StateUtils.LoaderFailAction {
   readonly type = FIND_STORE_BY_ID_FAIL;
-  constructor(public error: any) {
+
+  constructor(public error: ErrorActionType) {
     super(STORE_FINDER_DATA, error);
   }
 }
 
 export class FindStoreByIdSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = FIND_STORE_BY_ID_SUCCESS;
+
   constructor(public payload: any) {
     super(STORE_FINDER_DATA);
   }

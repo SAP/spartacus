@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ErrorAction, ErrorActionType, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { ErrorActionType, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   ReturnRequest,
   ReturnRequestEntryInputList,
@@ -65,13 +65,10 @@ export class CreateOrderReturnRequest extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class CreateOrderReturnRequestFail
-  extends StateUtils.LoaderFailAction
-  implements ErrorAction
-{
+export class CreateOrderReturnRequestFail extends StateUtils.LoaderFailAction {
   readonly type = CREATE_ORDER_RETURN_REQUEST_FAIL;
 
-  constructor(public error: any) {
+  constructor(public error: ErrorActionType) {
     super(RETURN_REQUEST_DETAILS, error);
   }
 }
@@ -97,13 +94,10 @@ export class LoadOrderReturnRequest extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadOrderReturnRequestFail
-  extends StateUtils.LoaderFailAction
-  implements ErrorAction
-{
+export class LoadOrderReturnRequestFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST_FAIL;
 
-  constructor(public error: any) {
+  constructor(public error: ErrorActionType) {
     super(RETURN_REQUEST_DETAILS, error);
   }
 }
@@ -161,13 +155,10 @@ export class LoadOrderReturnRequestList extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadOrderReturnRequestListFail
-  extends StateUtils.LoaderFailAction
-  implements ErrorAction
-{
+export class LoadOrderReturnRequestListFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST_LIST_FAIL;
 
-  constructor(public error: any) {
+  constructor(public error: ErrorActionType) {
     super(RETURN_REQUESTS, error);
   }
 }
