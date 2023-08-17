@@ -273,6 +273,13 @@
     "@spartacus/user": "6.3.0-1",
     "rxjs": "^6.6.0"
   },
+  "@spartacus/cdp": {
+    "@angular-devkit/schematics": "^15.2.4",
+    "@angular/common": "^15.2.4",
+    "@angular/core": "^15.2.4",
+    "@spartacus/core": "6.3.0-1",
+    "@spartacus/schematics": "6.3.0-1"
+  },
   "@spartacus/cds": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
