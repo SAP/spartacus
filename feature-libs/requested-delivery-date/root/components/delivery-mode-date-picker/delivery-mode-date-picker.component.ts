@@ -114,10 +114,10 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
       cartId.length === 0 ||
       requestedDate.length === 0 ||
       !this.dateValidationService.isDateStringValid(requestedDate) ||
-      this.dateValidationService.compareDateStrings(
+      !this.dateValidationService.isDateGreaterOrEqual(
         requestedDate,
         this.earliestRetrievalAt || ''
-      ) < 0
+      )
     ) {
       return;
     }
