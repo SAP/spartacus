@@ -146,11 +146,11 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     this.quoteFacade.requote(quoteId);
   }
 
-  getBtnStyle(quote: Quote, action: QuoteAction): string {
+  getButtonStyle(allowedActions: QuoteAction[], action: QuoteAction): string {
     if(action.isPrimary){
       return 'btn-primary';
     }
-    if(quote.allowedActions.length <= 2){
+    if(allowedActions.length <= 2){
       return  'btn-secondary';
     }
     return action.type === QuoteActionType.CANCEL ? 'btn-tertiary' : 'btn-secondary';

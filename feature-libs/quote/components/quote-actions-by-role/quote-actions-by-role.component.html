@@ -5,7 +5,7 @@
       type="button"
       *ngFor="let action of quoteDetails.allowedActions"
       class="btn"
-      [ngClass]="getBtnStyle(quoteDetails, action)"
+      [ngClass]="getButtonStyle(quoteDetails.allowedActions, action)"
       [disabled]="mustDisableAction(action.type, quoteDetails)"
       (click)="onClick(action.type, quoteDetails)"
     >
