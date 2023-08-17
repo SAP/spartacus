@@ -33,7 +33,7 @@ export class DateValidationService {
    * @returns -1 if date2 is greater, 0 if both the dates are equal, 1 if date1 is greater, -2 for invalid inputs
    */
   compareDateStrings(date1: string, date2: string): number {
-    if (date1.length == 0 || date2.length == 0) {
+    if (date1.length === 0 || date2.length === 0) {
       return -2;
     }
     const d1 = this.getDateFromDateString(date1);
