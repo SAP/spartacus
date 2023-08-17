@@ -25,7 +25,7 @@ describe('Cms Page Actions', () => {
 
     describe('LoadCmsPageDataFail', () => {
       it('should create the action', () => {
-        const error = 'error';
+        const error = new Error('error');
         const action = new CmsActions.LoadCmsPageDataFail(pageContext, error);
 
         expect({ ...action }).toEqual({

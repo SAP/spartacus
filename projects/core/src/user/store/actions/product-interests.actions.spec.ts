@@ -43,7 +43,7 @@ describe('Product Interests Actions', () => {
   });
   describe('LoadProductInterestsFail Actions', () => {
     it('should be able to create the action', () => {
-      const error = 'error';
+      const error = new Error('error')
       const action = new UserActions.LoadProductInterestsFail(error);
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_PRODUCT_INTERESTS_FAIL,

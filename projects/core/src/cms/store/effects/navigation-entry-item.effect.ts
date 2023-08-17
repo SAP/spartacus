@@ -73,7 +73,7 @@ export class NavigationEntryItemEffects {
           return of(
             new CmsActions.LoadCmsNavigationItemsFail(
               data.nodeId,
-              'navigation nodes are empty'
+              new Error('navigation nodes are empty')
             )
           );
         }

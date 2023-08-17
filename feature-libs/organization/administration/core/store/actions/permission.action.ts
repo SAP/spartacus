@@ -5,7 +5,6 @@
  */
 
 import {
-  ErrorAction,
   ErrorActionType,
   ListModel,
   OrderApprovalPermissionType,
@@ -19,7 +18,6 @@ import {
   PERMISSION_TYPES,
   PERMISSION_TYPES_LIST,
 } from '../organization-state';
-import { constructor } from 'jasmine';
 
 export const LOAD_PERMISSION = '[Permission] Load Permission Data';
 export const LOAD_PERMISSION_FAIL = '[Permission] Load Permission Data Fail';
@@ -185,6 +183,7 @@ export class LoadPermissionTypes extends StateUtils.EntityLoadAction {
 
 export class LoadPermissionTypesFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_PERMISSION_TYPES_FAIL;
+
   //pzdro
   constructor(public payload: any) {
     super(PERMISSION_TYPES_LIST, PERMISSION_TYPES, payload.error);

@@ -5,7 +5,6 @@
  */
 
 import {
-  ErrorAction,
   ErrorActionType,
   ListModel,
   PROCESS_FEATURE,
@@ -21,7 +20,6 @@ import {
   ORDER_APPROVAL_LIST,
   ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
 } from '../order-approval-state';
-import { constructor } from 'jasmine';
 
 export const LOAD_ORDER_APPROVAL = '[OrderApproval] Load OrderApproval Data';
 export const LOAD_ORDER_APPROVAL_FAIL =
@@ -140,7 +138,11 @@ export class MakeDecisionFail extends StateUtils.EntityFailAction {
   constructor(
     public payload: { orderApprovalCode: string; error: ErrorActionType }
   ) {
-    super(PROCESS_FEATURE, ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID, payload);
+    super(
+      PROCESS_FEATURE,
+      ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
+      payload.error
+    );
   }
 }
 

@@ -5,12 +5,7 @@
  */
 
 import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
-import {
-  ErrorAction,
-  ErrorActionType,
-  PROCESS_FEATURE,
-  StateUtils,
-} from '@spartacus/core';
+import { ErrorActionType, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   SAVED_CART_CLONE_CART_PROCESS_ID,
   SAVED_CART_LIST_PROCESS_ID,

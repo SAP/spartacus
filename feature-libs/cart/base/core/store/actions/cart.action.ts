@@ -55,13 +55,13 @@ export class CreateCart extends StateUtils.EntityLoadAction {
 }
 
 interface CreateCartFailPayload extends CreateCartPayload {
-  error: any;
+  error: ErrorActionType;
 }
 
 export class CreateCartFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_CART_FAIL;
   constructor(public payload: CreateCartFailPayload) {
-    super(MULTI_CART_DATA, payload.tempCartId);
+    super(MULTI_CART_DATA, payload.tempCartId, payload.error);
   }
 }
 

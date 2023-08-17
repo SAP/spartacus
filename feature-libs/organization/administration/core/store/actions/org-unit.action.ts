@@ -8,7 +8,6 @@ import {
   Address,
   B2BApprovalProcess,
   B2BUnit,
-  ErrorAction,
   ErrorActionType,
   ListModel,
   SearchConfig,
@@ -28,7 +27,6 @@ import {
   ORG_UNIT_TREE,
   ORG_UNIT_TREE_ENTITY,
 } from '../organization-state';
-import { constructor } from 'jasmine';
 
 export const LOAD_ORG_UNIT = '[B2BUnit] Load B2BUnit Data';
 export const LOAD_ORG_UNIT_FAIL = '[B2BUnit] Load B2BUnit Data Fail';
