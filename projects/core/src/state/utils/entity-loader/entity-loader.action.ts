@@ -13,6 +13,7 @@ import {
   resetMeta,
   successMeta,
 } from '../loader/loader.action';
+import { ErrorAction, ErrorActionType } from '@spartacus/core';
 
 export const ENTITY_LOAD_ACTION = '[ENTITY] LOAD';
 export const ENTITY_FAIL_ACTION = '[ENTITY] LOAD FAIL';
@@ -70,22 +71,31 @@ export function entityResetMeta(
 export class EntityLoadAction implements EntityLoaderAction {
   type = ENTITY_LOAD_ACTION;
   readonly meta: EntityLoaderMeta;
+
   constructor(entityType: string, id: string | string[] | null) {
     this.meta = entityLoadMeta(entityType, id);
   }
 }
 
-export class EntityFailAction implements EntityLoaderAction {
+export class EntityFailAction implements EntityLoaderAction, ErrorAction {
   type = ENTITY_FAIL_ACTION;
+  readonly error: ErrorActionType;
   readonly meta: EntityLoaderMeta;
-  constructor(entityType: string, id: string | string[] | null, error?: any) {
+
+  constructor(
+    entityType: string,
+    id: string | string[] | null,
+    error: ErrorActionType
+  ) {
     this.meta = entityFailMeta(entityType, id, error);
+    this.error = error;
   }
 }
 
 export class EntitySuccessAction implements EntityLoaderAction {
   type = ENTITY_SUCCESS_ACTION;
   readonly meta: EntityLoaderMeta;
+
   constructor(
     entityType: string,
     id: string | string[] | null,
@@ -98,6 +108,7 @@ export class EntitySuccessAction implements EntityLoaderAction {
 export class EntityLoaderResetAction implements EntityLoaderAction {
   type = ENTITY_RESET_ACTION;
   readonly meta: EntityLoaderMeta;
+
   constructor(entityType: string, id: string | string[] | null) {
     this.meta = entityResetMeta(entityType, id);
   }

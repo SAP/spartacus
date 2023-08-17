@@ -42,6 +42,7 @@ describe('Cms Page Actions', () => {
 
     describe('CmsSetPageFailIndex', () => {
       it('should create the action', () => {
+        const error = new Error('Failed to set cms page index');
         const newIndex = 'index';
         const action = new CmsActions.CmsSetPageFailIndex(
           pageContext,
@@ -51,7 +52,12 @@ describe('Cms Page Actions', () => {
         expect({ ...action }).toEqual({
           payload: newIndex,
           type: CmsActions.CMS_SET_PAGE_FAIL_INDEX,
-          meta: StateUtils.entityFailMeta(pageContext.type, pageContext.id),
+          meta: StateUtils.entityFailMeta(
+            pageContext.type,
+            pageContext.id,
+            error
+          ),
+          error,
         });
       });
     });

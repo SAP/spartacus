@@ -6,7 +6,6 @@
 
 import {
   CostCenter,
-  ErrorAction,
   ErrorActionType,
   ListModel,
   SearchConfig,
@@ -60,14 +59,12 @@ export class LoadCostCenter extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadCostCenterFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadCostCenterFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_COST_CENTER_FAIL;
 
-  constructor(public payload: { costCenterCode: string; error: any }) {
+  constructor(
+    public payload: { costCenterCode: string; error: ErrorActionType }
+  ) {
     super(COST_CENTER_ENTITIES, payload.costCenterCode, payload.error);
   }
 }
@@ -98,14 +95,12 @@ export class LoadCostCenters extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadCostCentersFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadCostCentersFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_COST_CENTERS_FAIL;
 
-  constructor(public payload: { params: SearchConfig; error: any }) {
+  constructor(
+    public payload: { params: SearchConfig; error: ErrorActionType }
+  ) {
     super(
       COST_CENTER_LIST,
       StateUtils.serializeSearchConfig(payload.params),
@@ -135,14 +130,12 @@ export class CreateCostCenter extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CreateCostCenterFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class CreateCostCenterFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_COST_CENTER_FAIL;
 
-  constructor(public payload: { costCenterCode: string; error: any }) {
+  constructor(
+    public payload: { costCenterCode: string; error: ErrorActionType }
+  ) {
     super(COST_CENTER_ENTITIES, payload.costCenterCode, payload.error);
   }
 }
@@ -169,14 +162,12 @@ export class UpdateCostCenter extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UpdateCostCenterFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class UpdateCostCenterFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_COST_CENTER_FAIL;
 
-  constructor(public payload: { costCenterCode: string; error: any }) {
+  constructor(
+    public payload: { costCenterCode: string; error: ErrorActionType }
+  ) {
     super(COST_CENTER_ENTITIES, payload.costCenterCode, payload.error);
   }
 }
@@ -206,18 +197,14 @@ export class LoadAssignedBudgets extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadAssignedBudgetsFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadAssignedBudgetsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ASSIGNED_BUDGETS_FAIL;
 
   constructor(
     public payload: {
       costCenterCode: string;
       params: SearchConfig;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(
@@ -259,14 +246,10 @@ export class AssignBudget extends StateUtils.EntityLoadAction {
   }
 }
 
-export class AssignBudgetFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class AssignBudgetFail extends StateUtils.EntityFailAction {
   readonly type = ASSIGN_BUDGET_FAIL;
 
-  constructor(public payload: { budgetCode: string; error: any }) {
+  constructor(public payload: { budgetCode: string; error: ErrorActionType }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }
@@ -293,14 +276,10 @@ export class UnassignBudget extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UnassignBudgetFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class UnassignBudgetFail extends StateUtils.EntityFailAction {
   readonly type = UNASSIGN_BUDGET_FAIL;
 
-  constructor(public payload: { budgetCode: string; error: any }) {
+  constructor(public payload: { budgetCode: string; error: ErrorActionType }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }

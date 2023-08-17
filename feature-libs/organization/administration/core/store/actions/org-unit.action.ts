@@ -28,6 +28,7 @@ import {
   ORG_UNIT_TREE,
   ORG_UNIT_TREE_ENTITY,
 } from '../organization-state';
+import { constructor } from 'jasmine';
 
 export const LOAD_ORG_UNIT = '[B2BUnit] Load B2BUnit Data';
 export const LOAD_ORG_UNIT_FAIL = '[B2BUnit] Load B2BUnit Data Fail';
@@ -110,14 +111,10 @@ export class LoadOrgUnit extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadOrgUnitFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadOrgUnitFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ORG_UNIT_FAIL;
 
-  constructor(public payload: { orgUnitId: string; error: any }) {
+  constructor(public payload: { orgUnitId: string; error: ErrorActionType }) {
     super(ORG_UNIT_ENTITIES, payload.orgUnitId, payload.error);
   }
 }
@@ -147,11 +144,7 @@ export class LoadOrgUnitNodes extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadOrgUnitNodesFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadOrgUnitNodesFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_UNIT_NODES_FAIL;
 
   constructor(public payload: any) {
@@ -175,14 +168,10 @@ export class CreateUnit extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CreateUnitFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class CreateUnitFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_ORG_UNIT_FAIL;
 
-  constructor(public payload: { unitCode: string; error: any }) {
+  constructor(public payload: { unitCode: string; error: ErrorActionType }) {
     super(ORG_UNIT_ENTITIES, payload.unitCode, payload.error);
   }
 }
@@ -205,14 +194,10 @@ export class UpdateUnit extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UpdateUnitFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class UpdateUnitFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_ORG_UNIT_FAIL;
 
-  constructor(public payload: { unitCode: string; error: any }) {
+  constructor(public payload: { unitCode: string; error: ErrorActionType }) {
     super(ORG_UNIT_ENTITIES, payload.unitCode, payload.error);
   }
 }
@@ -233,14 +218,10 @@ export class LoadTree extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadTreeFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadTreeFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_UNIT_TREE_FAIL;
 
-  constructor(public payload: { error: any }) {
+  constructor(public payload: { error: ErrorActionType }) {
     super(ORG_UNIT_TREE_ENTITY, ORG_UNIT_TREE, payload.error);
   }
 }
@@ -261,14 +242,10 @@ export class LoadApprovalProcesses extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadApprovalProcessesFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadApprovalProcessesFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_APPROVAL_PROCESSES_FAIL;
 
-  constructor(public payload: { error: any }) {
+  constructor(public payload: { error: ErrorActionType }) {
     super(
       ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
       ORG_UNIT_APPROVAL_PROCESSES,
@@ -326,11 +303,7 @@ export class ClearAssignedUsers extends StateUtils.EntityRemoveAction {
   }
 }
 
-export class LoadAssignedUsersFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadAssignedUsersFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ASSIGNED_USERS_FAIL;
 
   constructor(
@@ -338,7 +311,7 @@ export class LoadAssignedUsersFail
       orgUnitId: string;
       roleId: string;
       params: SearchConfig;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(
@@ -387,17 +360,13 @@ export class AssignRole extends StateUtils.EntityLoadAction {
   }
 }
 
-export class AssignRoleFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class AssignRoleFail extends StateUtils.EntityFailAction {
   readonly type = ASSIGN_ROLE_FAIL;
 
   constructor(
     public payload: {
       orgCustomerId: string;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
@@ -428,17 +397,13 @@ export class UnassignRole extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UnassignRoleFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class UnassignRoleFail extends StateUtils.EntityFailAction {
   readonly type = UNASSIGN_ROLE_FAIL;
 
   constructor(
     public payload: {
       orgCustomerId: string;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
@@ -470,17 +435,13 @@ export class AssignApprover extends StateUtils.EntityLoadAction {
   }
 }
 
-export class AssignApproverFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class AssignApproverFail extends StateUtils.EntityFailAction {
   readonly type = ASSIGN_APPROVER_FAIL;
 
   constructor(
     public payload: {
       orgCustomerId: string;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
@@ -512,17 +473,13 @@ export class UnassignApprover extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UnassignApproverFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class UnassignApproverFail extends StateUtils.EntityFailAction {
   readonly type = UNASSIGN_APPROVER_FAIL;
 
   constructor(
     public payload: {
       orgCustomerId: string;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
@@ -549,14 +506,10 @@ export class CreateAddress extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CreateAddressFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class CreateAddressFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_ADDRESS_FAIL;
 
-  constructor(public payload: { addressId: string; error: any }) {
+  constructor(public payload: { addressId: string; error: ErrorActionType }) {
     super(ADDRESS_ENTITIES, payload.addressId, payload.error);
   }
 }
@@ -584,14 +537,10 @@ export class UpdateAddress extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UpdateAddressFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class UpdateAddressFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_ADDRESS_FAIL;
 
-  constructor(public payload: { addressId: string; error: any }) {
+  constructor(public payload: { addressId: string; error: ErrorActionType }) {
     super(ADDRESS_ENTITIES, payload.addressId, payload.error);
   }
 }
@@ -618,14 +567,10 @@ export class DeleteAddress extends StateUtils.EntityLoadAction {
   }
 }
 
-export class DeleteAddressFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class DeleteAddressFail extends StateUtils.EntityFailAction {
   readonly type = DELETE_ADDRESS_FAIL;
 
-  constructor(public payload: { addressId: string; error: any }) {
+  constructor(public payload: { addressId: string; error: ErrorActionType }) {
     super(ADDRESS_ENTITIES, payload.addressId, payload.error);
   }
 }
@@ -659,14 +604,10 @@ export class LoadAddresses extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadAddressesFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadAddressesFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ADDRESSES_FAIL;
 
-  constructor(public payload: { orgUnitId: string; error: any }) {
+  constructor(public payload: { orgUnitId: string; error: ErrorActionType }) {
     super(ADDRESS_LIST, payload.orgUnitId, payload.error);
   }
 }

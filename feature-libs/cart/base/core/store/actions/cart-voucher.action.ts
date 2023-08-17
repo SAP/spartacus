@@ -35,11 +35,7 @@ export class CartAddVoucher extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CartAddVoucherFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class CartAddVoucherFail extends StateUtils.EntityFailAction {
   readonly type = CART_ADD_VOUCHER_FAIL;
 
   constructor(
@@ -47,7 +43,7 @@ export class CartAddVoucherFail
       userId: string;
       cartId: string;
       voucherId: string;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, payload.error);

@@ -19,6 +19,7 @@ import {
   PERMISSION_TYPES,
   PERMISSION_TYPES_LIST,
 } from '../organization-state';
+import { constructor } from 'jasmine';
 
 export const LOAD_PERMISSION = '[Permission] Load Permission Data';
 export const LOAD_PERMISSION_FAIL = '[Permission] Load Permission Data Fail';
@@ -53,14 +54,12 @@ export class LoadPermission extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadPermissionFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadPermissionFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_PERMISSION_FAIL;
 
-  constructor(public payload: { permissionCode: string; error: any }) {
+  constructor(
+    public payload: { permissionCode: string; error: ErrorActionType }
+  ) {
     super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
   }
 }
@@ -91,14 +90,12 @@ export class LoadPermissions extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadPermissionsFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadPermissionsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_PERMISSIONS_FAIL;
 
-  constructor(public payload: { params: SearchConfig; error: any }) {
+  constructor(
+    public payload: { params: SearchConfig; error: ErrorActionType }
+  ) {
     super(
       PERMISSION_LIST,
       StateUtils.serializeSearchConfig(payload.params),
@@ -128,14 +125,12 @@ export class CreatePermission extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CreatePermissionFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class CreatePermissionFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_PERMISSION_FAIL;
 
-  constructor(public payload: { permissionCode: string; error: any }) {
+  constructor(
+    public payload: { permissionCode: string; error: ErrorActionType }
+  ) {
     super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
   }
 }
@@ -162,14 +157,12 @@ export class UpdatePermission extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UpdatePermissionFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class UpdatePermissionFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_PERMISSION_FAIL;
 
-  constructor(public payload: { permissionCode: string; error: any }) {
+  constructor(
+    public payload: { permissionCode: string; error: ErrorActionType }
+  ) {
     super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
   }
 }
@@ -190,13 +183,9 @@ export class LoadPermissionTypes extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadPermissionTypesFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadPermissionTypesFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_PERMISSION_TYPES_FAIL;
-
+  //pzdro
   constructor(public payload: any) {
     super(PERMISSION_TYPES_LIST, PERMISSION_TYPES, payload.error);
   }

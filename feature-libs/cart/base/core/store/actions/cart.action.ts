@@ -58,11 +58,7 @@ interface CreateCartFailPayload extends CreateCartPayload {
   error: any;
 }
 
-export class CreateCartFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class CreateCartFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_CART_FAIL;
   constructor(public payload: CreateCartFailPayload) {
     super(MULTI_CART_DATA, payload.tempCartId);
@@ -136,11 +132,7 @@ interface LoadCartFailPayload extends LoadCartPayload {
   error: any;
 }
 
-export class LoadCartFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadCartFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CART_FAIL;
   constructor(public payload: LoadCartFailPayload) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);

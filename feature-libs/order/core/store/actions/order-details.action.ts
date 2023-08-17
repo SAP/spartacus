@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PROCESS_FEATURE, StateUtils, ErrorAction } from '@spartacus/core';
+import { PROCESS_FEATURE, StateUtils, ErrorActionType } from '@spartacus/core';
 import {
   CancellationRequestEntryInputList,
   Order,
@@ -33,12 +33,9 @@ export class LoadOrderDetails extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadOrderDetailsFail
-  extends StateUtils.LoaderFailAction
-  implements ErrorAction
-{
+export class LoadOrderDetailsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ORDER_DETAILS_FAIL;
-  constructor(public error: any) {
+  constructor(public error: ErrorActionType) {
     super(ORDER_DETAILS, error);
   }
 }
@@ -70,12 +67,9 @@ export class CancelOrder extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CancelOrderFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
+export class CancelOrderFail extends StateUtils.EntityFailAction {
   readonly type = CANCEL_ORDER_FAIL;
-  constructor(public error: any) {
+  constructor(public error: ErrorActionType) {
     super(PROCESS_FEATURE, CANCEL_ORDER_PROCESS_ID, error);
   }
 }

@@ -38,14 +38,10 @@ export class LoadBudget extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadBudgetFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadBudgetFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_BUDGET_FAIL;
 
-  constructor(public payload: { budgetCode: string; error: any }) {
+  constructor(public payload: { budgetCode: string; error: ErrorActionType }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }
@@ -76,14 +72,12 @@ export class LoadBudgets extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadBudgetsFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadBudgetsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_BUDGETS_FAIL;
 
-  constructor(public payload: { params: SearchConfig; error: any }) {
+  constructor(
+    public payload: { params: SearchConfig; error: ErrorActionType }
+  ) {
     super(
       BUDGET_LIST,
       StateUtils.serializeSearchConfig(payload.params),
@@ -113,14 +107,10 @@ export class CreateBudget extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CreateBudgetFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class CreateBudgetFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_BUDGET_FAIL;
 
-  constructor(public payload: { budgetCode: string; error: any }) {
+  constructor(public payload: { budgetCode: string; error: ErrorActionType }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }
@@ -143,14 +133,10 @@ export class UpdateBudget extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UpdateBudgetFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class UpdateBudgetFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_BUDGET_FAIL;
 
-  constructor(public payload: { budgetCode: string; error: any }) {
+  constructor(public payload: { budgetCode: string; error: ErrorActionType }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }

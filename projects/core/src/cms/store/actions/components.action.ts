@@ -8,7 +8,7 @@ import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { StateUtils } from '../../../state/utils/index';
 import { COMPONENT_ENTITY } from '../cms-state';
-import { ErrorAction, ErrorActionType } from '@spartacus/core';
+import { ErrorActionType } from '@spartacus/core';
 
 export const LOAD_CMS_COMPONENT = '[Cms] Load Component';
 export const LOAD_CMS_COMPONENT_FAIL = '[Cms] Load Component Fail';
@@ -28,15 +28,15 @@ export class LoadCmsComponent extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadCmsComponentFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class LoadCmsComponentFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_COMPONENT_FAIL;
 
   constructor(
-    public payload: { uid: string; error: any; pageContext: PageContext }
+    public payload: {
+      uid: string;
+      error: ErrorActionType;
+      pageContext: PageContext;
+    }
   ) {
     super(COMPONENT_ENTITY, payload.uid, payload.error);
   }

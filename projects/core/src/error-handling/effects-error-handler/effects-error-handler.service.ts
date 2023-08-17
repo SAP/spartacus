@@ -31,9 +31,6 @@ export class EffectsErrorHandlerService {
   /** Here we want to filter which error actions should be handled.
    * By default, we check if action implements interface ErrorAction  */
   filterActions(action: Action): boolean {
-    const isErrorAction = (_action: Action): _action is ErrorAction => {
-      return 'error' in _action;
-    };
-    return !!isErrorAction(action);
+    return 'error' in action;
   }
 }

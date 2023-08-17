@@ -6,7 +6,7 @@
 
 import { StateUtils } from '../../../state/utils/index';
 import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
-import { ErrorAction } from '@spartacus/core';
+import { ErrorActionType } from '@spartacus/core';
 
 export const LOAD_CMS_NAVIGATION_ITEMS = '[Cms] Load NavigationEntry items';
 export const LOAD_CMS_NAVIGATION_ITEMS_FAIL =
@@ -22,13 +22,10 @@ export class LoadCmsNavigationItems extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadCmsNavigationItemsFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
+export class LoadCmsNavigationItemsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_NAVIGATION_ITEMS_FAIL;
 
-  constructor(nodeId: string, public error: any) {
+  constructor(nodeId: string, public error: ErrorActionType) {
     super(NAVIGATION_DETAIL_ENTITY, nodeId, error);
   }
 }

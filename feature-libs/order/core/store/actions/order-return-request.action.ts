@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PROCESS_FEATURE, StateUtils, ErrorAction } from '@spartacus/core';
+import { PROCESS_FEATURE, StateUtils, ErrorActionType } from '@spartacus/core';
 import {
   ReturnRequest,
   ReturnRequestEntryInputList,
@@ -123,12 +123,9 @@ export class CancelOrderReturnRequest extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CancelOrderReturnRequestFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
+export class CancelOrderReturnRequestFail extends StateUtils.EntityFailAction {
   readonly type = CANCEL_ORDER_RETURN_REQUEST_FAIL;
-  constructor(public error: any) {
+  constructor(public error: ErrorActionType) {
     super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID, error);
   }
 }

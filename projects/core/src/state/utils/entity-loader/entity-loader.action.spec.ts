@@ -30,14 +30,16 @@ describe('EntityLoader Actions', () => {
 
     describe('LoaderFailAction', () => {
       it('should create an action', () => {
+        const error = new Error('error');
         const action = new EntityFailAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID,
-          'error'
+          error
         );
         expect({ ...action }).toEqual({
           type: ENTITY_FAIL_ACTION,
-          meta: entityFailMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID, 'error'),
+          meta: entityFailMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID, error),
+          error,
         });
       });
     });

@@ -84,17 +84,13 @@ export class CreateConfiguration extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CreateConfigurationFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class CreateConfigurationFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_CONFIGURATION_FAIL;
 
   constructor(
     public payload: {
       ownerKey: string;
-      error: any;
+      error: ErrorActionType;
     }
   ) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
@@ -122,14 +118,10 @@ export class ReadConfiguration extends StateUtils.EntityLoadAction {
   }
 }
 
-export class ReadConfigurationFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class ReadConfigurationFail extends StateUtils.EntityFailAction {
   readonly type = READ_CONFIGURATION_FAIL;
 
-  constructor(public payload: { ownerKey: string; error: any }) {
+  constructor(public payload: { ownerKey: string; error: ErrorActionType }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
   }
 }
@@ -202,14 +194,10 @@ export class UpdatePriceSummary extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UpdatePriceSummaryFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class UpdatePriceSummaryFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_PRICE_SUMMARY_FAIL;
 
-  constructor(public payload: { ownerKey: string; error: any }) {
+  constructor(public payload: { ownerKey: string; error: ErrorActionType }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
   }
 }
@@ -264,14 +252,10 @@ export class GetConfigurationOverview extends StateUtils.EntityLoadAction {
   }
 }
 
-export class GetConfigurationOverviewFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class GetConfigurationOverviewFail extends StateUtils.EntityFailAction {
   readonly type = GET_CONFIGURATION_OVERVIEW_FAIL;
 
-  constructor(public payload: { ownerKey: string; error: any }) {
+  constructor(public payload: { ownerKey: string; error: ErrorActionType }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
   }
 }
@@ -294,14 +278,10 @@ export class UpdateConfigurationOverview extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UpdateConfigurationOverviewFail
-  extends StateUtils.EntityFailAction
-  implements ErrorAction
-{
-  error: ErrorActionType = this.payload.error;
+export class UpdateConfigurationOverviewFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_CONFIGURATION_OVERVIEW_FAIL;
 
-  constructor(public payload: { ownerKey: string; error: any }) {
+  constructor(public payload: { ownerKey: string; error: ErrorActionType }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
   }
 }
