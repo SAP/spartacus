@@ -302,11 +302,11 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     { customerId }: { customerId?: string },
     parameters?: AsmDeepLinkParameters
   ): void {
-    this.showCreateCustomerSuccessfullyAlert = false;
     if (customerId) {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
       this.showCustomerEmulationInfoAlert = true;
+      this.showCreateCustomerSuccessfullyAlert = false;
       if (parameters) {
         // TODO(CXSPA-3090): Remove feature flag in 7.0
         if (this.featureConfig?.isLevel('6.3')) {
