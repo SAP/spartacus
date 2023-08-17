@@ -21,8 +21,37 @@ export class DateValidationService {
       value !== undefined &&
       value.length > 0 &&
       !isNaN(
-        new Date(value.replace(/(\d{2})-(\d{2})-(\d{4})/, '$2/$1/$3')).getDate() //convert 'dd-mm-yyyy' into 'mm/dd/yyyy'
+        this.getDateFromDateString(value).getDate() //convert 'dd-mm-yyyy' into 'mm/dd/yyyy'
       )
     );
+  }
+
+  /**
+   * Compares 2 Date strings in the format 'dd-mm-yyy'
+   * @param date1
+   * @param date2
+   * @returns -1 if date2 is greater, 0 if both the dates are equal, 1 if date1 is greater, -2 for invalid inputs
+   */
+  compareDateStrings(date1: string, date2: string): number {
+    if (date1.length == 0 || date2.length == 0) {
+      return -2;
+    }
+    const d1 = this.getDateFromDateString(date1);
+    const d2 = this.getDateFromDateString(date2);
+    if (d1 < d2) {
+      return -1;
+    } else if (d1 > d2) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  /**
+   * Returns a Date object from a date string in the format 'dd-mm-yyy'
+   * @param value Date string in the format 'dd-mm-yyy'
+   */
+  getDateFromDateString(value: string): Date {
+    return new Date(value.replace(/(\d{2})-(\d{2})-(\d{4})/, '$2/$1/$3'));
   }
 }
