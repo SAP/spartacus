@@ -22,8 +22,9 @@ export class CheckoutGuard implements CanActivate {
   private readonly firstStep$: Observable<UrlTree> =
     this.checkoutStepService.steps$.pipe(
       map((steps) => {
+        console.log(steps);
         return this.router.parseUrl(
-          this.routingConfigService.getRouteConfig(steps[0].routeName)
+          this.routingConfigService.getRouteConfig(steps[0]?.routeName)
             ?.paths?.[0] as string
         );
       })

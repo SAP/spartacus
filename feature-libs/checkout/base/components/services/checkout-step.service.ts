@@ -6,14 +6,11 @@
 
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  CheckoutConfig,
-  CheckoutStep,
-  CheckoutStepType,
-} from '@spartacus/checkout/base/root';
+import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
 import { RoutingConfigService, RoutingService } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { CheckoutFlowOrchestratorService } from './checkout-flow-orchestrator.service';
 
 @Injectable({
   providedIn: 'root',
@@ -33,12 +30,15 @@ export class CheckoutStepService {
         const activeStepUrl = router.state.context.id;
         return this.steps$.pipe(
           map((steps) => {
+            console.log(steps);
             let activeIndex: number = 0;
             steps.forEach((step, index) => {
+              console.log(step);
               const routeUrl = `/${
-                this.routingConfigService.getRouteConfig(step.routeName)
+                this.routingConfigService.getRouteConfig(step?.routeName)
                   ?.paths?.[0]
               }`;
+              console.log(routeUrl);
               if (routeUrl === activeStepUrl) {
                 activeIndex = index;
               }
@@ -51,7 +51,7 @@ export class CheckoutStepService {
 
   constructor(
     protected routingService: RoutingService,
-    protected checkoutConfig: CheckoutConfig,
+    protected checkoutFlowService: CheckoutFlowOrchestratorService,
     protected routingConfigService: RoutingConfigService
   ) {
     this.resetSteps();
@@ -81,7 +81,7 @@ export class CheckoutStepService {
   }
 
   resetSteps(): void {
-    this.allSteps = (this.checkoutConfig.checkout?.steps ?? [])
+    this.allSteps = (this.checkoutFlowService.getCheckoutFlow()?.steps ?? [])
       .filter((step) => !step.disabled)
       .map((checkoutStep) => Object.assign({}, checkoutStep));
     this.steps$.next(this.allSteps);
