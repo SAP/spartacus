@@ -27,25 +27,6 @@ export class DateValidationService {
   }
 
   /**
-   * Compares 2 Date strings in the format 'dd-mm-yyy'
-   * @param date1 Date string in the format 'dd-mm-yyy'
-   * @param date2 Date string in the format 'dd-mm-yyy'
-   * @returns -1 if date2 is greater, 0 if both the dates are equal, 1 if date1 is greater, -2 for invalid inputs
-   */
-  compareDateStrings(date1: string, date2: string): number {
-    if (date1.length === 0 || date2.length === 0) {
-      return -2;
-    }
-    const d1 = this.getDateFromDateString(date1);
-    const d2 = this.getDateFromDateString(date2);
-    if (d1 < d2) {
-      return -1;
-    }
-
-    return d1 > d2 ? 1 : 0;
-  }
-
-  /**
    * Returns a Date object from a date string in the format 'dd-mm-yyy'
    * @param value Date string in the format 'dd-mm-yyy'
    */
@@ -60,6 +41,12 @@ export class DateValidationService {
    * @returns true if `source` date is greater than or equal to `target` date
    */
   isDateGreaterOrEqual(source: string, target: string): boolean {
-    return this.compareDateStrings(source, target) >= 0;
+    if (source.length === 0 || target.length === 0) {
+      return false;
+    }
+    const d1 = this.getDateFromDateString(source);
+    const d2 = this.getDateFromDateString(target);
+
+    return d1 < d2 ? false : true;
   }
 }
