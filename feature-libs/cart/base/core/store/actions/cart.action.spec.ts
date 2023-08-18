@@ -39,17 +39,18 @@ describe('Cart Actions', () => {
 
     describe('CreateCartFail', () => {
       it('should create the action', () => {
+        const error = new Error('error');
         const payload = {
           tempCartId,
           userId: 'userId',
-          error: { message: 'error' },
+          error,
         };
         const action = new CartActions.CreateCartFail(payload);
         expect({ ...action }).toEqual({
           error: payload.error,
           type: CartActions.CREATE_CART_FAIL,
           payload,
-          meta: StateUtils.entityFailMeta(MULTI_CART_DATA, tempCartId),
+          meta: StateUtils.entityFailMeta(MULTI_CART_DATA, tempCartId, error),
         });
       });
     });

@@ -65,7 +65,7 @@ export class CartAddEntryFail
 
   constructor(
     public payload: {
-      error: ErrorActionType;
+      error: any;
       userId: string;
       cartId: string;
       productCode: string;

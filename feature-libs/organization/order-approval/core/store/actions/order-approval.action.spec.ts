@@ -175,10 +175,7 @@ describe('OrderApproval Actions', () => {
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
-            {
-              orderApprovalCode,
-              error,
-            }
+            error
           ),
         });
       });

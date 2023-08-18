@@ -70,17 +70,16 @@ describe('Consignment Tracking effect', () => {
     });
 
     it('should handle failures for load consignment tracking', () => {
+      const error = new Error('error');
       spyOn(orderHistoryConnector, 'getConsignmentTracking').and.returnValue(
-        throwError('Error')
+        throwError(error)
       );
 
       const action = new OrderActions.LoadConsignmentTracking(
         mockTrackingParams
       );
 
-      const completion = new OrderActions.LoadConsignmentTrackingFail(
-        undefined
-      );
+      const completion = new OrderActions.LoadConsignmentTrackingFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

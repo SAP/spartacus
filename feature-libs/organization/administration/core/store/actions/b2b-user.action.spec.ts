@@ -396,7 +396,7 @@ describe('B2BUser Actions', () => {
             approverId,
             error,
           },
-          meta: StateUtils.entityFailMeta(B2B_USER_ENTITIES, approverId),
+          meta: StateUtils.entityFailMeta(B2B_USER_ENTITIES, approverId, error),
         });
       });
     });
@@ -448,7 +448,7 @@ describe('B2BUser Actions', () => {
             approverId,
             error,
           },
-          meta: StateUtils.entityFailMeta(B2B_USER_ENTITIES, approverId),
+          meta: StateUtils.entityFailMeta(B2B_USER_ENTITIES, approverId, error),
         });
       });
     });

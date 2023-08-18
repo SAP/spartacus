@@ -68,7 +68,7 @@ describe('Notification Preference Effect', () => {
 
       const action = new UserActions.LoadNotificationPreferences(userId);
       const completion = new UserActions.LoadNotificationPreferencesFail(
-        undefined
+        error
       );
 
       actions$ = hot('-a', { a: action });
@@ -112,7 +112,7 @@ describe('Notification Preference Effect', () => {
         preferences: mockNotificationPreference,
       });
       const completion = new UserActions.UpdateNotificationPreferencesFail(
-        undefined
+        error
       );
 
       actions$ = hot('-a', { a: action });

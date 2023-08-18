@@ -23,7 +23,7 @@ describe('Consignment Tracking Actions', () => {
 
   describe('LoadConsignmentTrackingFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new fromAction.LoadConsignmentTrackingFail(error);
 
       expect({ ...action }).toEqual({
