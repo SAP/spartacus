@@ -10,5 +10,3 @@ export interface CustomerCouponEntry {
   applied: boolean;
   codeForApplyAction: string;
 }
-
-export interface GeneralEntry extends CustomerCouponEntry {}
