@@ -18,7 +18,10 @@ const REQUEST_OPTIONS = {
 describe('SSR E2E', () => {
   let server;
 
-  beforeAll(() => {
+  beforeAll(async () => {
+    // Hacky way to make sure server starts
+    await new Promise((res) => setTimeout(res, 30000));
+
     clearSsrLogFile();
   });
 
