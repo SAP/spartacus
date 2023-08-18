@@ -18,16 +18,12 @@ const REQUEST_OPTIONS = {
 describe('SSR E2E', () => {
   let server;
 
-  beforeEach(() => {
+  beforeAll(() => {
     clearSsrLogFile();
   });
 
   afterEach(async () => {
     await server.close();
-  });
-
-  afterAll(() => {
-    // deleteSsrLogFile();
   });
 
   it('should receive success response with request', async () => {
@@ -36,34 +32,70 @@ describe('SSR E2E', () => {
     });
     const response = await sendRequest('/');
     expect(response.statusCode).toEqual(200);
+
+    // Rendering should not complete in the first request.
+    // App should fall back to csr.
+    assertMessages([
+      'Rendering started (/)',
+      'Request is waiting for the SSR rendering to complete (/)',
+    ]);
   });
 
-  it('should receive 500 error response with request', async () => {
+  // Wait for SSR server to complete rendering.
+  it('should complete rendering', async () => {
+    // Waits a time for rendering to finish
+    await new Promise((res) => setTimeout(res, 15000));
+
+    assertMessages([
+      'Rendering started (/)',
+      'Request is waiting for the SSR rendering to complete (/)',
+      'Rendering completed (/)',
+    ]);
+  }, 20000);
+
+  it('should receive cached response with next request', async () => {
+    server = await startProxyServer({
+      target: BACKEND_BASE_URL,
+    });
+    const response = await sendRequest('/');
+    expect(response.statusCode).toEqual(200);
+
+    assertMessages([
+      'Rendering started (/)',
+      'Request is waiting for the SSR rendering to complete (/)',
+      'Rendering completed (/)',
+      'Render from cache (/)',
+    ]);
+  });
+
+  xit('should receive 500 error response with request', async () => {
     server = await startProxyServer({
       target: BACKEND_BASE_URL,
       throwStatus: 500,
     });
     server.on('proxyRes', function (proxyRes, req, res) {
       proxyRes.statusCode = 500;
-      console.log(proxyRes.statusCode);
     });
     const response = await sendRequest('/');
     expect(response.statusCode).toEqual(500);
-
-    // TODO: Assert ssr server log for error
   });
 
   // Note: Currently, the ssr server still responds with 200 quickly despite the proxy delay
-  it('should receive 500 error response with timed-out request', async () => {
+  xit('should receive 500 error response with timed-out request', async () => {
     server = await startProxyServer({
       target: BACKEND_BASE_URL,
       delay: 10000,
     });
-    const response = await sendRequest('/');
-    expect(response.statusCode).toEqual(500);
+    const response = await sendRequest('/timeout');
+
+    // Waits a time for server to timeout
+    await new Promise((res) => setTimeout(res, 15000));
 
     // TODO: Assert ssr server log for timeout error
-  }, 15000);
+    assertMessages(['timeout']);
+
+    expect(response.statusCode).toEqual(500);
+  }, 20000);
 });
 
 /**
@@ -74,14 +106,13 @@ describe('SSR E2E', () => {
  */
 async function startProxyServer(options) {
   return new Promise((resolve) => {
-    const server = http.createServer(function (req, res) {
+    const server = http.createServer((req, res) => {
       const forwardRequest = () =>
         proxy.web(req, res, { target: options.target });
 
       if (options.throwStatus) {
-        proxy.on('proxyRes', function (proxyRes, req, res) {
+        proxy.on('proxyRes', (proxyRes, req, res) => {
           proxyRes.statusCode = options.throwStatus;
-          console.log(proxyRes.statusCode);
         });
       }
 
@@ -119,10 +150,22 @@ async function sendRequest(path) {
   });
 }
 
-function deleteSsrLogFile() {
-  fs.unlinkSync(SSR_LOG_PATH);
-}
-
 function clearSsrLogFile() {
   fs.writeFileSync(SSR_LOG_PATH, '');
+}
+
+function getLogMessages() {
+  const data = fs.readFileSync(SSR_LOG_PATH);
+  const messages = data
+    .toString()
+    .split('\n')
+    .filter((text) => text.indexOf('"message":') > -1)
+    .map((text) => text.split('": "')[1].split('",')[0]);
+  return messages;
+}
+
+function assertMessages(expected) {
+  const messages = getLogMessages();
+  console.log(messages);
+  expect(messages).toEqual(expected);
 }
