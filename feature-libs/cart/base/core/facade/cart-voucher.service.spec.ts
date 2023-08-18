@@ -76,7 +76,7 @@ describe('CartVoucherService', () => {
     });
 
     it('should return the error flag', () => {
-      const error = new Error('error')
+      const error = new Error('error');
       store.dispatch(
         new CartActions.CartAddVoucherFail({
           error,

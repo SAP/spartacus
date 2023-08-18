@@ -9,8 +9,9 @@ import {
   OccConfig,
   OCC_CART_ID_CURRENT,
   SiteContextActions,
-  USER_FEATURE, tryNormalizeHttpError
-} from "@spartacus/core";
+  USER_FEATURE,
+  tryNormalizeHttpError,
+} from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import * as fromClientAuthReducers from 'projects/core/src/auth/client-auth/store/reducers/index';
 import * as fromUserReducers from 'projects/core/src/user/store/reducers/index';

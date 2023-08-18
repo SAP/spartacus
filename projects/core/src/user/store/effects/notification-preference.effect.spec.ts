@@ -67,9 +67,7 @@ describe('Notification Preference Effect', () => {
       );
 
       const action = new UserActions.LoadNotificationPreferences(userId);
-      const completion = new UserActions.LoadNotificationPreferencesFail(
-        error
-      );
+      const completion = new UserActions.LoadNotificationPreferencesFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

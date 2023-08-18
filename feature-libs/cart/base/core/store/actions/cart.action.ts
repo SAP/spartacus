@@ -227,7 +227,9 @@ export class DeleteCartSuccess extends StateUtils.EntityRemoveAction {
 export class DeleteCartFail implements ErrorAction {
   error: ErrorActionType = this.payload.error;
   readonly type = DELETE_CART_FAIL;
-  constructor(public payload: { userId: string; cartId: string; error: ErrorActionType }) {}
+  constructor(
+    public payload: { userId: string; cartId: string; error: ErrorActionType }
+  ) {}
 }
 
 export type CartAction =
