@@ -147,13 +147,15 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   }
 
   getButtonStyle(allowedActions: QuoteAction[], action: QuoteAction): string {
-    if(action.isPrimary){
+    if (action.isPrimary) {
       return 'btn-primary';
     }
-    if(allowedActions.length <= 2){
-      return  'btn-secondary';
+    if (allowedActions.length <= 2) {
+      return 'btn-secondary';
     }
-    return action.type === QuoteActionType.CANCEL ? 'btn-tertiary' : 'btn-secondary';
+    return action.type === QuoteActionType.CANCEL
+      ? 'btn-tertiary'
+      : 'btn-secondary';
   }
 
   ngOnDestroy(): void {
