@@ -44,10 +44,12 @@
           "Textfield-Configurator",
           "CPQ-Configurator",
           "Qualtrics",
+          "Requested-Delivery-Date",
           "S4HANA-Order-Management",
           "SmartEdit",
           "Store-Finder",
           "Personalization",
+          "Segment-Refs",
           "TMS-GTM",
           "TMS-AEPL",
           "Pickup-In-Store",
@@ -186,6 +188,10 @@
             "label": "Qualtrics"
           },
           {
+            "value": "Requested-Delivery-Date",
+            "label": "Requested Delivery Date"
+          },
+          {
             "value": "S4HANA-Order-Management",
             "label": "S/4HANA Order Management (b2b feature)"
           },
@@ -200,6 +206,10 @@
           {
             "value": "Personalization",
             "label": "Tracking - Personalization"
+          },
+          {
+            "value": "Segment-Refs",
+            "label": "Segment Reference"
           },
           {
             "value": "TMS-GTM",

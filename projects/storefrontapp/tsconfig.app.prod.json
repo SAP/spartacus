@@ -255,6 +255,19 @@
       "@spartacus/qualtrics/components": ["dist/qualtrics/components"],
       "@spartacus/qualtrics": ["dist/qualtrics"],
       "@spartacus/qualtrics/root": ["dist/qualtrics/root"],
+      "@spartacus/requested-delivery-date/assets": [
+        "dist/requested-delivery-date/assets"
+      ],
+      "@spartacus/requested-delivery-date/core": [
+        "dist/requested-delivery-date/core"
+      ],
+      "@spartacus/requested-delivery-date": ["dist/requested-delivery-date"],
+      "@spartacus/requested-delivery-date/occ": [
+        "dist/requested-delivery-date/occ"
+      ],
+      "@spartacus/requested-delivery-date/root": [
+        "dist/requested-delivery-date/root"
+      ],
       "@spartacus/smartedit/core": ["dist/smartedit/core"],
       "@spartacus/smartedit": ["dist/smartedit"],
       "@spartacus/smartedit/root": ["dist/smartedit/root"],
@@ -296,6 +309,9 @@
       "@spartacus/cdc/organization/administration": [
         "dist/cdc/organization/administration"
       ],
+      "@spartacus/cdc/organization/user-registration": [
+        "dist/cdc/organization/user-registration"
+      ],
       "@spartacus/cdc/root": ["dist/cdc/root"],
       "@spartacus/cdc/user-account": ["dist/cdc/user-account"],
       "@spartacus/cdc/user-profile": ["dist/cdc/user-profile"],
@@ -315,6 +331,8 @@
       "@spartacus/s4om/assets": ["dist/s4om/assets"],
       "@spartacus/s4om": ["dist/s4om"],
       "@spartacus/s4om/root": ["dist/s4om/root"],
+      "@spartacus/segment-refs": ["dist/segment-refs"],
+      "@spartacus/segment-refs/root": ["dist/segment-refs/root"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]

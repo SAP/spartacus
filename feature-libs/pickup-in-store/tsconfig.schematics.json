@@ -388,6 +388,21 @@
       "@spartacus/qualtrics/root": [
         "../../feature-libs/qualtrics/root/public_api"
       ],
+      "@spartacus/requested-delivery-date/assets": [
+        "../../feature-libs/requested-delivery-date/assets/public_api"
+      ],
+      "@spartacus/requested-delivery-date/core": [
+        "../../feature-libs/requested-delivery-date/core/public_api"
+      ],
+      "@spartacus/requested-delivery-date": [
+        "../../feature-libs/requested-delivery-date/public_api"
+      ],
+      "@spartacus/requested-delivery-date/occ": [
+        "../../feature-libs/requested-delivery-date/occ/public_api"
+      ],
+      "@spartacus/requested-delivery-date/root": [
+        "../../feature-libs/requested-delivery-date/root/public_api"
+      ],
       "@spartacus/smartedit/core": [
         "../../feature-libs/smartedit/core/public_api"
       ],
@@ -473,6 +488,9 @@
       "@spartacus/cdc/organization/administration": [
         "../../integration-libs/cdc/organization/administration/public_api"
       ],
+      "@spartacus/cdc/organization/user-registration": [
+        "../../integration-libs/cdc/organization/user-registration/public_api"
+      ],
       "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cdc/user-account": [
         "../../integration-libs/cdc/user-account/public_api"
@@ -510,6 +528,12 @@
       ],
       "@spartacus/s4om": ["../../integration-libs/s4om/public_api"],
       "@spartacus/s4om/root": ["../../integration-libs/s4om/root/public_api"],
+      "@spartacus/segment-refs": [
+        "../../integration-libs/segment-refs/public_api"
+      ],
+      "@spartacus/segment-refs/root": [
+        "../../integration-libs/segment-refs/root/public_api"
+      ],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]
