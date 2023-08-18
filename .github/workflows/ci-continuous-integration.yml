@@ -70,7 +70,7 @@ jobs:
       - name: Package installation
         run: npm ci
       - name: Start SSR Server
-        run: npm run build:libs && npm run build && npm run build:ssr && npm run serve:ssr > ssr-e2e/ssr.log
+        run: npm run build:libs && npm run build && npm run build:ssr && npm run serve:ssr > ssr-e2e/ssr.log &
       - name: Run SSR tests
         run: npm run test:ssr
   sonarqube_scan:
