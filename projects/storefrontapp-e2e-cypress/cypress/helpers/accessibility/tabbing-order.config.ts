@@ -2446,4 +2446,12 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.BUTTON },
     { type: TabbingOrderTypes.BUTTON },
   ],
+  asmCustomer360CustomerCouponList: [
+    { type: TabbingOrderTypes.BUTTON, value: 'Available' },
+    { type: TabbingOrderTypes.BUTTON, value: 'Sent' },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+  ],
 };

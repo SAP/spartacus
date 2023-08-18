@@ -81,6 +81,60 @@
       font-weight: var(--cx-font-weight-semi);
       font-size: 1.125rem;
     }
+    &-tabs {
+      margin-inline-start: -18px;
+    }
+    &-search {
+      position: relative;
+      &-input {
+        border: none;
+        box-shadow: 0 0 0 1px rgba(85, 107, 130, 0.0625),
+          0 1px 0 rgba(85, 107, 129, 1);
+        height: 48px;
+        width: 100%;
+        padding: 0.6875rem 0.75rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.15rem;
+        border-radius: 0.2rem;
+        &::placeholder {
+          color: #6c7079;
+        }
+        &:hover {
+          box-shadow: 0 0 0 1px rgba(104, 174, 255, 0.25),
+            0 1px 0 rgba(0, 100, 217, 1);
+          & ~ .cx-asm-customer-promotion-listing-search-icon-reset {
+            display: inline;
+          }
+        }
+        &:focus {
+          border: 2px solid #0064d9;
+          box-shadow: none;
+          outline: none;
+          & ~ .cx-asm-customer-promotion-listing-search-icon-reset {
+            display: inline;
+          }
+        }
+      }
+      &-icon-search {
+        position: absolute;
+        top: 21px;
+        color: #000000;
+        font-size: 20px;
+        right: 17px;
+      }
+      &-icon-reset {
+        display: none;
+        position: absolute;
+        top: 21px;
+        right: 57px;
+        color: #000000;
+        font-size: 20px;
+        &:focus,
+        &:hover {
+          display: inline;
+        }
+      }
+    }
   }
 }
 cx-icon {

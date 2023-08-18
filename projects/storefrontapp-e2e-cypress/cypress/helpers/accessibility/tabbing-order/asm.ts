@@ -117,6 +117,22 @@ export function asmTabbingOrderWithSaveInactiveCartDialog(
 }
 
 export function asmTabbingOrderForCustomer360CouponList(config: TabElement[]) {
+  lanuchPromotiontab();
+  cy.get('cx-asm-customer-coupon').within(() => {
+    verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
+  });
+}
+
+export function asmTabbingOrderForCustomer360CustomerCouponList(
+  config: TabElement[]
+) {
+  lanuchPromotiontab();
+  cy.get('cx-asm-customer-customer-coupon').within(() => {
+    verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
+  });
+}
+
+function lanuchPromotiontab() {
   cy.visit('/?asm=true');
   asm.agentLogin('asagent', 'pw4all');
 
@@ -131,12 +147,4 @@ export function asmTabbingOrderForCustomer360CouponList(config: TabElement[]) {
   cy.get('button').contains('Start Emulation').click();
   cy.get('button.cx-360-button').click();
   cy.get('button.cx-tab-header').contains('Promotion').click();
-  cy.get('cx-asm-customer-coupon')
-    .contains('Coupons')
-    .parent()
-    .parent()
-    .parent()
-    .within(() => {
-      verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
-    });
 }
