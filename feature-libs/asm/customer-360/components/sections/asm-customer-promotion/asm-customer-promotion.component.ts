@@ -18,7 +18,7 @@ import {
 import { BehaviorSubject, Subscription, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
-import { PromotionEntry } from './asm-customer-promotion.model';
+import { Customer360Promotion } from '@spartacus/asm/customer-360/root';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 
 @Component({
@@ -28,7 +28,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 })
 export class AsmCustomerPromotionComponent implements OnInit, OnDestroy {
   showErrorAlert$ = new BehaviorSubject<boolean>(false);
-  entries$ = new BehaviorSubject<Array<PromotionEntry>>([]);
+  entries$ = new BehaviorSubject<Array<Customer360Promotion >>([]);
   subscription = new Subscription();
   userId: string;
 
@@ -62,12 +62,12 @@ export class AsmCustomerPromotionComponent implements OnInit, OnDestroy {
           const promotionList = response?.value?.find(
             (item) => item.type === Customer360Type.PROMOTION_LIST
           ) as Customer360PromotionList;
-          const newEntries: Array<PromotionEntry> = [];
+          const newEntries: Array<Customer360Promotion> = [];
           if (promotionList.promotions) {
             promotionList.promotions.forEach((promotion) => {
               newEntries.push({
                 applied: promotion.applied,
-                code: promotion.name,
+                code: promotion.name ? promotion.name : "",
                 name: promotion.message,
               });
             });
@@ -88,12 +88,11 @@ export class AsmCustomerPromotionComponent implements OnInit, OnDestroy {
     this.context.data$
       .pipe(
         map((data) => {
-          const entries: Array<PromotionEntry> = [];
+          const entries: Array<Customer360Promotion> = [];
           data.promotions.forEach((promotion) => {
             entries.push({
-              ...promotion,
               applied: promotion.applied,
-              code: promotion.name,
+              code: promotion.name ? promotion.name : "",
               name: promotion.message,
             });
           });

@@ -44,7 +44,7 @@ export interface Customer360Coupon {
 
 export interface Customer360Promotion {
   applied: boolean;
-  code?: string;
+  code: string;
   name?: string;
   message?: string;
 }
