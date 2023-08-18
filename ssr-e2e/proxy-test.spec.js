@@ -12,7 +12,7 @@ const SSR_LOG_PATH = './ssr-e2e/ssr.log';
 
 const REQUEST_OPTIONS = {
   host: 'localhost',
-  port: 4201,
+  port: 4000,
 };
 
 describe('SSR E2E', () => {
