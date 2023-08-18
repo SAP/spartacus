@@ -19,6 +19,7 @@ import {
   B2BUnit,
   B2BUser,
   CostCenter,
+  Images,
   PaginationModel,
   PointOfService,
   Price,
@@ -92,6 +93,12 @@ export interface OrderHistory {
   purchaseOrderNumber?: string;
   orgUnit?: B2BUnit;
   orgCustomer?: B2BUser;
+
+  //cdp-related
+  purchaseType?: string;
+  totalItems?: number;
+  consolidatedInfo?: any;
+  images?: Images[];
 }
 
 export interface OrderHistoryList {

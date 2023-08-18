@@ -4,8 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Public API Surface of CDP
- */
-export * from './cdp.module';
-export * from './model/index';
+export * from './cdp-order-history.module';
+export * from './cdp-order-history.component';

@@ -5,8 +5,8 @@
  */
 
 import { NgModule, Type } from '@angular/core';
-import { OrderModule } from '@spartacus/order';
 import { CdpOrderHistoryModule } from '@spartacus/cdp/order-history';
+import { OrderModule } from '@spartacus/order';
 import { environment } from '../../../../environments/environment';
 
 const extensions: Type<any>[] = [];
