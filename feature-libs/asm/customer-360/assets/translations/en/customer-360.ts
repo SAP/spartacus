@@ -100,9 +100,7 @@ export const customer360 = {
     promotions: {
       headerText: 'Promotions',
       emptyDescription: 'There are currently no promotions',
-      applyButtonText: 'These promotions are auto-applied',
       applied: 'Promotion Applied',
-      removeButtonText: 'These promotions cannot be removed',
     },
     maps: {
       storeClosed: 'Close',

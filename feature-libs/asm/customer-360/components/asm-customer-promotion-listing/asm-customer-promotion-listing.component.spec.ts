@@ -145,8 +145,11 @@ describe('AsmCustomerPromotionListingComponent', () => {
     testHost.applied = 'Promotion Applied';
     testHost.entries = mockEntries;
     fixture.detectChanges();
-    const ngContainer = el.query(By.css('table .cx-asm-customer-promotion-listing-applied'));
-    expect(ngContainer.nativeElement.textContent).toContain('Promotion Applied');
+    const ngContainer = el.query(
+      By.css('table .cx-asm-customer-promotion-listing-applied')
+    );
+    expect(ngContainer.nativeElement.textContent).toContain(
+      'Promotion Applied'
+    );
   });
-
 });

@@ -15,5 +15,4 @@ import { AsmCustomerPromotionListingModule } from '../../asm-customer-promotion-
   declarations: [AsmCustomerPromotionComponent],
   exports: [AsmCustomerPromotionComponent],
 })
-
 export class AsmCustomerPromotionComponentModule {}

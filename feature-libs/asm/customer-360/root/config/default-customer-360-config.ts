@@ -100,7 +100,7 @@ export const defaultCustomer360Config: Customer360Config = {
             requestData: {
               type: Customer360Type.PROMOTION_LIST,
             },
-          }, 
+          },
         ],
       },
       {

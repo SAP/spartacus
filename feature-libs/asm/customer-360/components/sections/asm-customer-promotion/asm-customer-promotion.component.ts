@@ -13,17 +13,13 @@ import {
 import {
   Customer360Facade,
   Customer360PromotionList,
+  Customer360Type,
 } from '@spartacus/asm/customer-360/root';
-import {
-  BehaviorSubject,
-  Observable,
-  Subscription,
-  combineLatest,
-  of,
-} from 'rxjs';
+import { BehaviorSubject, Subscription, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { PromotionEntry } from './asm-customer-promotion.model';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,33 +28,71 @@ import { PromotionEntry } from './asm-customer-promotion.model';
 })
 export class AsmCustomerPromotionComponent implements OnInit, OnDestroy {
   showErrorAlert$ = new BehaviorSubject<boolean>(false);
-  showErrorAlertForApplyAction$ = new BehaviorSubject<boolean>(false);
-  entries$: Observable<Array<PromotionEntry>>;
+  entries$ = new BehaviorSubject<Array<PromotionEntry>>([]);
   subscription = new Subscription();
+  userId: string;
 
   constructor(
     protected context: Customer360SectionContext<Customer360PromotionList>,
-    protected customer360Facade: Customer360Facade
- ) {}
+    protected customer360Facade: Customer360Facade,
+    protected activeCartFacade: ActiveCartFacade
+  ) {}
 
   ngOnInit(): void {
     this.showErrorAlert$.next(false);
-    this.showErrorAlertForApplyAction$.next(false);
     this.fetchPromotions();
+    this.subscription.add(
+      this.activeCartFacade.getActiveCartId().subscribe((cartId) => {
+        if (cartId && this.entries$.value.length === 0) {
+          this.refreshPromotions();
+        }
+      })
+    );
   }
 
-    get errorAlert$(): Observable<boolean> {
-      return this.showErrorAlert$.asObservable();
-    }
+  public refreshPromotions(): void {
+    this.customer360Facade
+      .get360Data([
+        {
+          requestData: { type: Customer360Type.PROMOTION_LIST },
+        },
+      ])
+      .pipe(
+        map((response) => {
+          const promotionList = response?.value?.find(
+            (item) => item.type === Customer360Type.PROMOTION_LIST
+          ) as Customer360PromotionList;
+          const newEntries: Array<PromotionEntry> = [];
+          if (promotionList.promotions) {
+            promotionList.promotions.forEach((promotion) => {
+              newEntries.push({
+                applied: promotion.applied,
+                code: promotion.name,
+                name: promotion.message,
+              });
+            });
+          }
+          return newEntries;
+        }),
+        catchError(() => {
+          this.showErrorAlert$.next(true);
+          return of([]);
+        })
+      )
+      .subscribe((newEntries) => {
+        this.entries$.next(newEntries);
+      });
+  }
 
-    fetchPromotions() {
-      this.entries$ = combineLatest([this.context.data$]).pipe(
-        map(([data]) => {
+  fetchPromotions() {
+    this.context.data$
+      .pipe(
+        map((data) => {
           let entries: Array<PromotionEntry> = [];
           data.promotions.forEach((promotion) => {
             entries.push({
               ...promotion,
-              applied: promotion.applied ,
+              applied: promotion.applied,
               code: promotion.name,
               name: promotion.message,
             });
@@ -69,14 +103,17 @@ export class AsmCustomerPromotionComponent implements OnInit, OnDestroy {
           this.showErrorAlert$.next(true);
           return of([]);
         })
-      );
-    }
+      )
+      .subscribe((newEntries) => {
+        this.entries$.next(newEntries);
+      });
+  }
 
-    closeErrorAlert(): void {
-      this.showErrorAlert$.next(false);
-    }
+  closeErrorAlert(): void {
+    this.showErrorAlert$.next(false);
+  }
 
-    ngOnDestroy(): void {
-      this.subscription.unsubscribe();
-    }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }
