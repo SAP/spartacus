@@ -1,29 +1,36 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Observable } from 'rxjs';
 import { RoutingService, TranslationService } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
-import { CdpOrderHistoryService } from './cdp-order-history.service';
+import { OrderHistoryComponent } from '@spartacus/order/components';
+import {
+  OrderHistoryFacade,
+  ReplenishmentOrderHistoryFacade,
+} from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-cdp-order-history',
   templateUrl: './cdp-order-history.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CdpOrderHistoryComponent {
+export class CdpOrderHistoryComponent extends OrderHistoryComponent {
   /*
    * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
    *
    * SPDX-License-Identifier: Apache-2.0
    */
-  orders$: Observable<OrderHistoryList | undefined>;
   constructor(
     protected routing: RoutingService,
-    protected cdpOrderHistoryService: CdpOrderHistoryService,
-    protected translation: TranslationService
+    protected orderHistoryFacade: OrderHistoryFacade,
+    protected translation: TranslationService,
+    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
   ) {
-    this.orders$ = this.cdpOrderHistoryService.getOrderHistoryList(5);
-    this.orders$.subscribe((res) => {
-      console.log('in component: ', res);
+    super(
+      routing,
+      orderHistoryFacade,
+      translation,
+      replenishmentOrderHistoryFacade
+    );
+    this.orders$.subscribe((result) => {
+      console.log(result);
     });
   }
 }
