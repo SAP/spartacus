@@ -23,7 +23,7 @@ describe('SSR E2E', () => {
     await new Promise((res) => setTimeout(res, 30000));
 
     clearSsrLogFile();
-  });
+  }, 35000);
 
   afterEach(async () => {
     await server.close();
