@@ -61,7 +61,7 @@ describe('GetAddressCardContentPipe', () => {
     };
 
     const result = pipe.transform(address);
-    console.log(result);
+
     expect(result).toEqual({
       textBold: 'Jane Smith',
       text: ['456 Elm St', undefined, 'Townsville', '67890', '555-5678'],
