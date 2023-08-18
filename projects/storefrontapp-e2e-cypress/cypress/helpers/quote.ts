@@ -6,6 +6,7 @@
 
 import * as authentication from './auth-forms';
 import * as common from './common';
+import { log, trace, traceNoArgs } from './logging';
 
 /** alias for GET Quote Route */
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
@@ -50,15 +51,16 @@ export function clickOnRequestQuoteInCart(): void {
  * @param name Name of the user
  */
 export function login(email: string, password: string, name: string): void {
-  log(login.name);
-  cy.get('cx-login [role="link"]')
-    .click()
-    .then(() => {
-      cy.get('cx-login-form').should('be.visible');
-    });
-  authentication.login(email, password);
-  cy.get('.cx-login-greet').should('contain', name);
-  cy.get('cx-login').should('not.contain', 'Sign In');
+  trace(login.name, { email: email, password: password, name: name }, () => {
+    cy.get('cx-login [role="link"]')
+      .click()
+      .then(() => {
+        cy.get('cx-login-form').should('be.visible');
+      });
+    authentication.login(email, password);
+    cy.get('.cx-login-greet').should('contain', name);
+    cy.get('cx-login').should('not.contain', 'Sign In');
+  });
 }
 
 /**
@@ -72,9 +74,14 @@ export function requestQuote(
   productName: string,
   quantity: string
 ): void {
-  log(requestQuote.name);
-  this.addProductToCartForQuotePreparation(shopName, productName, quantity);
-  this.clickOnRequestQuoteInCartAndExpectQuotePage();
+  trace(
+    requestQuote.name,
+    { shopName: shopName, productName: productName, quantity: quantity },
+    () => {
+      this.addProductToCartForQuotePreparation(shopName, productName, quantity);
+      this.clickOnRequestQuoteInCartAndExpectQuotePage();
+    }
+  );
 }
 
 /**
@@ -339,38 +346,41 @@ export function checkSubmitButton(isEnabled: boolean): void {
  * Checks that comments are no longer editable and the input field doesnt exist anymore.
  */
 export function checkCommentsNotEditable(): void {
-  log(checkCommentsNotEditable.name);
-  cy.get('cx-quote-details-comment .cx-message-input').should('not.exist');
+  traceNoArgs(checkCommentsNotEditable.name, () =>
+    cy.get('cx-quote-details-comment .cx-message-input').should('not.exist')
+  );
 }
 
 /**
  * Checks presence of quote list
  */
 export function checkQuoteListPresent() {
-  log(checkQuoteListPresent.name);
-  cy.get('cx-quote-list').should('exist');
+  traceNoArgs(checkQuoteListPresent.name, () =>
+    cy.get('cx-quote-list').should('exist')
+  );
 }
 
 /**
  * Navigates to quote list via my account
  */
 export function navigateToQuoteListFromMyAccount() {
-  log(navigateToQuoteListFromMyAccount.name);
-  cy.get('cx-page-layout[section="header"]').within(() => {
-    cy.get('cx-navigation-ui.accNavComponent')
-      .should('contain.text', 'My Account')
-      .and('be.visible')
-      .within(() => {
-        cy.get('nav > ul > li > button').first().focus().trigger('keydown', {
-          key: ' ',
-          code: 'Space',
-          force: true,
+  traceNoArgs(navigateToQuoteListFromMyAccount.name, () => {
+    cy.get('cx-page-layout[section="header"]').within(() => {
+      cy.get('cx-navigation-ui.accNavComponent')
+        .should('contain.text', 'My Account')
+        .and('be.visible')
+        .within(() => {
+          cy.get('nav > ul > li > button').first().focus().trigger('keydown', {
+            key: ' ',
+            code: 'Space',
+            force: true,
+          });
+          cy.get('cx-generic-link')
+            .contains('Quotes')
+            .should('be.visible')
+            .click({ force: true });
         });
-        cy.get('cx-generic-link')
-          .contains('Quotes')
-          .should('be.visible')
-          .click({ force: true });
-      });
+    });
   });
 }
 
@@ -511,21 +521,10 @@ export function checkLinkedItemInViewport(index: number) {
  * Register GET quote route.
  */
 export function registerGetQuoteRoute(shopName: string) {
-  log(registerGetQuoteRoute.name);
-  cy.intercept({
-    method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/current/quotes/*`,
-  }).as(GET_QUOTE_ALIAS.substring(1)); // strip the '@'
-}
-/**
- * Creates a Cypress log output
- * @param functionName Name of the function that should be logged
- * @param title Title of the test
- */
-export function log(functionName: string, title?: string) {
-  if (title) {
-    cy.log(`########## ${title} // ${functionName} ##########`);
-  } else {
-    cy.log(`********** function: ${functionName} **********`);
-  }
+  trace(registerGetQuoteRoute.name, arguments, () => {
+    cy.intercept({
+      method: 'GET',
+      path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/current/quotes/*`,
+    }).as(GET_QUOTE_ALIAS.substring(1)); // strip the '@'
+  });
 }
