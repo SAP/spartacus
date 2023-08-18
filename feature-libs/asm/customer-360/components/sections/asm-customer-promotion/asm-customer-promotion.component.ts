@@ -88,7 +88,7 @@ export class AsmCustomerPromotionComponent implements OnInit, OnDestroy {
     this.context.data$
       .pipe(
         map((data) => {
-          let entries: Array<PromotionEntry> = [];
+          const entries: Array<PromotionEntry> = [];
           data.promotions.forEach((promotion) => {
             entries.push({
               ...promotion,
