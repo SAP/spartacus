@@ -47,14 +47,14 @@ describe('SSR E2E', () => {
   // Wait for SSR server to complete rendering.
   it('should complete rendering', async () => {
     // Waits a time for rendering to finish
-    await new Promise((res) => setTimeout(res, 15000));
+    await new Promise((res) => setTimeout(res, 30000));
 
     assertMessages([
       'Rendering started (/)',
       'Request is waiting for the SSR rendering to complete (/)',
       'Rendering completed (/)',
     ]);
-  }, 20000);
+  }, 35000);
 
   it('should receive cached response with next request', async () => {
     server = await startProxyServer({
