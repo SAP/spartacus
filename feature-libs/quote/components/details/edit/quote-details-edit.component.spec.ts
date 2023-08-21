@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
@@ -27,7 +27,6 @@ describe('QuoteDetailsEditComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsEditComponent>;
   let component: QuoteDetailsEditComponent;
   let htmlElem: HTMLElement;
-  let debugElement: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,7 +38,6 @@ describe('QuoteDetailsEditComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteDetailsEditComponent);
     htmlElem = fixture.nativeElement;
-    debugElement = fixture.debugElement;
     component = fixture.componentInstance;
     component.content = mockCard;
     fixture.detectChanges();
@@ -155,8 +153,8 @@ describe('QuoteDetailsEditComponent', () => {
 
   describe('handle action events', () => {
     it('should emit cancel event', () => {
-      const cancelButton = CommonQuoteTestUtilsService.getNativeElement(
-        debugElement,
+      const cancelButton = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
         'button.btn-tertiary'
       );
       cancelButton.click();
@@ -164,8 +162,8 @@ describe('QuoteDetailsEditComponent', () => {
     });
 
     it('should emit edit event for disabling edit mode', () => {
-      const saveButton = CommonQuoteTestUtilsService.getNativeElement(
-        debugElement,
+      const saveButton = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
         'button.btn-secondary'
       );
       saveButton.click();
@@ -177,8 +175,8 @@ describe('QuoteDetailsEditComponent', () => {
       component.editForm.get('name')?.setValue(newTextForTitle1);
       component.editForm.get('name')?.markAsDirty();
       fixture.detectChanges();
-      const saveButton = CommonQuoteTestUtilsService.getNativeElement(
-        debugElement,
+      const saveButton = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
         'button.btn-secondary'
       );
       saveButton.click();
@@ -196,8 +194,8 @@ describe('QuoteDetailsEditComponent', () => {
       component.editForm.get('description')?.setValue(newTextForTitle2);
       component.editForm.get('description')?.markAsDirty();
       fixture.detectChanges();
-      const saveButton = CommonQuoteTestUtilsService.getNativeElement(
-        debugElement,
+      const saveButton = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
         'button.btn-secondary'
       );
       saveButton.click();

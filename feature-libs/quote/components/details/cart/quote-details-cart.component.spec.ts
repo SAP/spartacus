@@ -5,9 +5,7 @@ import {
   QuoteFacade,
 } from '@spartacus/quote/root';
 import { QuoteDetailsCartComponent } from './quote-details-cart.component';
-
 import { Directive, Input } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import {
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
@@ -19,6 +17,7 @@ import {
   QUOTE_CODE,
   createEmptyQuote,
 } from '../../../core/testing/quote-test-utils';
+import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 
 @Directive({
   selector: '[cxOutlet]',
@@ -37,6 +36,7 @@ class MockQuoteFacade implements Partial<QuoteFacade> {
 describe('QuoteDetailsCartComponent', () => {
   let mockedEventService: EventService;
   let fixture: ComponentFixture<QuoteDetailsCartComponent>;
+  let htmlElem: HTMLElement;
   let component: QuoteDetailsCartComponent;
 
   beforeEach(
@@ -61,6 +61,7 @@ describe('QuoteDetailsCartComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteDetailsCartComponent);
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -81,19 +82,26 @@ describe('QuoteDetailsCartComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should per default display CARET_UP', () => {
-    expect(fixture.debugElement.nativeElement.textContent).toContain(
+  it('should display CARET_UP per default', () => {
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      'cx-icon',
       'CARET_UP'
     );
   });
 
   it('should toggle caret when clicked', () => {
-    const caret = fixture.debugElement.query(
-      By.css('.cart-toggle')
-    ).nativeElement;
+    const caret = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
+      '.cx-toggle'
+    );
     caret.click();
     fixture.detectChanges();
-    expect(fixture.debugElement.nativeElement.textContent).toContain(
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      'cx-icon',
       'CARET_DOWN'
     );
   });
