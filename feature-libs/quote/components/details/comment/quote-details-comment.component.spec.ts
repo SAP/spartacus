@@ -7,7 +7,6 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
 import {
@@ -27,6 +26,7 @@ import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../../config';
 import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
 import { QuoteDetailsCartComponentService } from '../cart';
+import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 
 const QUOTE_CODE = 'q123';
 const ALL_PRODUCTS_ID = '';
@@ -54,6 +54,7 @@ class MockCxIconComponent {
 
 describe('QuoteDetailsCommentComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsCommentComponent>;
+  let htmlElem: HTMLElement;
   let component: QuoteDetailsCommentComponent;
   let mockedQuoteFacade: QuoteFacade;
   let mockedEventService: EventService;
@@ -92,6 +93,7 @@ describe('QuoteDetailsCommentComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteDetailsCommentComponent);
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
     fixture.detectChanges();
@@ -126,18 +128,30 @@ describe('QuoteDetailsCommentComponent', () => {
   });
 
   it('should render the messaging section by default', () => {
-    expect(fixture.debugElement.query(By.css('cx-messaging'))).not.toBeNull();
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-messaging'
+    );
   });
 
   it('should collapse the comments area when clicking the toggle', () => {
-    clickCommentsToggle(fixture);
-    expect(fixture.debugElement.query(By.css('cx-messaging'))).toBeNull();
+    clickCommentsToggle();
+    CommonQuoteTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-messaging'
+    );
   });
 
   it('should expand the comments area when clicking the toggle', () => {
     component.expandComments = false;
-    clickCommentsToggle(fixture);
-    expect(fixture.debugElement.query(By.css('cx-messaging'))).not.toBeNull();
+    clickCommentsToggle();
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-messaging'
+    );
   });
 
   it('should pipe empty quote comments to empty message events', () => {
@@ -193,10 +207,12 @@ describe('QuoteDetailsCommentComponent', () => {
       .unsubscribe();
   });
 
-  function clickCommentsToggle(
-    fixture: ComponentFixture<QuoteDetailsCommentComponent>
-  ) {
-    fixture.debugElement.query(By.css('.cx-toggle')).nativeElement.click();
+  function clickCommentsToggle() {
+    const caret = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
+      '.cx-toggle'
+    );
+    caret.click();
     fixture.detectChanges();
   }
 

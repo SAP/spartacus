@@ -4,19 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
 /**
- * Common configurator component test utils service provides helper functions for the component tests.
+ * Common quote component test utils service provides helper functions for the component tests.
  */
 export class CommonQuoteTestUtilsService {
   /**
-   * Helper function for proving whether the element is present in the DOM tree.
+   * Helper function for verifying whether the element is present in the HTML tree.
    *
-   * @param expect - Expectation for a spec.
-   * @param htmlElement - HTML element.
-   * @param querySelector - Query selector
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector.
    */
   static expectElementPresent(
     expect: any,
@@ -30,12 +27,12 @@ export class CommonQuoteTestUtilsService {
   }
 
   /**
-   * Helper function for proving whether the expected number of elements is present in the DOM tree.
+   * Helper function for verifying whether the expected number of elements is present in the HTML tree.
    *
-   * @param expect - Expectation for a spec.
-   * @param htmlElement - HTML element.
-   * @param querySelector - Query selector
-   * @param numberOfElements - Number of elements
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector.
+   * @param {number} numberOfElements - Number of elements.
    */
   static expectNumberOfElementsPresent(
     expect: any,
@@ -50,12 +47,13 @@ export class CommonQuoteTestUtilsService {
   }
 
   /**
-   * Helper function for proving whether the element contains text.
+   * Helper function for verifying whether the element contains text.
    *
-   * @param expect - Expectation for a spec.
-   * @param htmlElement - HTML element.
-   * @param querySelector - Query selector
-   * @param expectedText - Expected text
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector.
+   * @param {any} expectedText - Expected text.
+   * @param {number} index - Optional index of the element.
    */
   static expectElementToContainText(
     expect: any,
@@ -74,11 +72,11 @@ export class CommonQuoteTestUtilsService {
   }
 
   /**
-   * Helper function for proving whether the element is not present in the DOM tree.
+   * Helper function for verifying whether the element is not present in the HTML tree.
    *
-   * @param expect - Expectation for a spec.
-   * @param htmlElement - HTML element.
-   * @param querySelector - Query selector
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector.
    */
   static expectElementNotPresent(
     expect: any,
@@ -92,12 +90,12 @@ export class CommonQuoteTestUtilsService {
   }
 
   /**
-   * Helper function for proving how many times the element comes in the DOM tree.
+   * Helper function for verifying how many times the element comes in the HTML tree.
    *
    * @param {any} expect - Expectation for a spec.
    * @param {Element} htmlElement - HTML element.
-   * @param {string} querySelector - Query selector
-   * @param {number} expectedNumber- expected number of elements
+   * @param {string} querySelector - Query selector.
+   * @param {number} expectedNumber - expected number of elements.
    */
   static expectNumberOfElements(
     expect: any,
@@ -112,16 +110,84 @@ export class CommonQuoteTestUtilsService {
   }
 
   /**
-   * Retrieves a native element.
+   * Helper function for verifying whether the element contains attribute.
    *
-   * @param {DebugElement} debugElement
-   * @param {string} querySelector
-   * @returns {HTMLElement} native element
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector.
+   * @param {string} attributeName - Name of the attribute.
+   * @param {number} index - Optional index of the element.
    */
-  static getNativeElement(
-    debugElement: DebugElement,
-    querySelector: string
-  ): HTMLElement {
-    return debugElement.query(By.css(querySelector)).nativeElement;
+  static expectElementToContainAttribute(
+    expect: any,
+    htmlElement: Element,
+    querySelector: string,
+    attributeName: string,
+    index?: number
+  ) {
+    const element = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElement,
+      querySelector,
+      index
+    );
+    if (element) {
+      expect(element.getAttributeNames().indexOf(attributeName) >= 0).toBe(
+        true,
+        `expected elements identified by selector '${querySelector}' should contain attribute name '${attributeName}', but it is NOT!`
+      );
+    }
+  }
+
+  /**
+   * Helper function for verifying whether the element does not contain attribute.
+   *
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector.
+   * @param {string} attributeName - Name of the attribute.
+   * @param {number} index - Optional index of the element.
+   */
+  static expectElementNotToContainAttribute(
+    expect: any,
+    htmlElement: Element,
+    querySelector: string,
+    attributeName: string,
+    index?: number
+  ) {
+    const element = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElement,
+      querySelector,
+      index
+    );
+    if (element) {
+      expect(element.getAttributeNames().indexOf(attributeName) <= -1).toBe(
+        true,
+        `expected elements identified by selector '${querySelector}' should not contain attribute name '${attributeName}', but it is NOT!`
+      );
+    }
+  }
+
+  /**
+   * Retrieves a HTML element by its query selector.
+   * If there are more than one element in the HTML tree,
+   * one could give the index of the searched element.
+   *
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector.
+   * @param {number} index - Optional index of the element.
+   * @returns {HTMLElement} - searched HTML element
+   */
+  static getHTMLElement(
+    htmlElement: Element,
+    querySelector: string,
+    index?: number
+  ): HTMLElement | null {
+    if (index) {
+      return htmlElement
+        .querySelectorAll(querySelector)
+        .item(index) as HTMLElement;
+    } else {
+      return htmlElement.querySelector(querySelector);
+    }
   }
 }
