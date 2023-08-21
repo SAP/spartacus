@@ -22,7 +22,10 @@ import { Order, ORDER_NORMALIZER } from '@spartacus/order/root';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { isHttp500Error } from '../utils/opf-occ-http-error-handlers';
+import {
+  isHttp500Error,
+  opfHttp500ErrorRetry,
+} from '../utils/opf-occ-http-error-handlers';
 
 @Injectable()
 export class OccOpfOrderAdapter implements OpfOrderAdapter {
@@ -58,7 +61,7 @@ export class OccOpfOrderAdapter implements OpfOrderAdapter {
         }),
         backOff({
           shouldRetry: isHttp500Error,
-          maxTries: 2,
+          maxTries: opfHttp500ErrorRetry,
         }),
         this.converter.pipeable(ORDER_NORMALIZER)
       );
