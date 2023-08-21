@@ -77,7 +77,7 @@ jobs:
         run: |
           ls ./ &&
           ls ../ &&
-          ls ../ssr-e2es
+          ls ./ssr-e2es
       - name: Run SSR tests
         run: npm run test:ssr
   sonarqube_scan:
