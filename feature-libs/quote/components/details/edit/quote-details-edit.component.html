@@ -22,6 +22,18 @@
                 name="name"
                 formControlName="name"
               />
+              <p *ngIf="content.charactersLimit" class="cx-info-text">
+                {{
+                'quote.details.charactersLeft'
+                  | cxTranslate
+                  : {
+                    count: getCharactersLeft(
+                      'description',
+                      content.charactersLimit
+                    )
+                  }
+                }}
+              </p>
             </div>
           </div>
           <div class="cx-card-paragraph">
