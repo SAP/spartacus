@@ -1,23 +1,13 @@
 %cx-quote-details-comment {
-  .cx-comment-toggle {
-    cursor: pointer;
-    user-select: none;
-
-    cx-icon {
-      margin-inline-start: 0.5rem;
-      font-size: var(--cx-font-size, 1.125rem);
-      font-weight: var(--cx-font-weight-semi);
-    }
-
-    .cx-comment-text {
-      font-size: var(--cx-font-size, 1.125rem);
-      font-weight: var(--cx-font-weight-semi);
-    }
-  }
+  @include cx-quote-toggle();
 
   cx-messaging {
     .container {
       min-height: 0px;
+    }
+
+    .cx-message-footer {
+      padding-inline-start: 1rem;
     }
   }
 }
