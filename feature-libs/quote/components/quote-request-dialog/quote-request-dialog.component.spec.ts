@@ -132,11 +132,11 @@ describe('QuoteRequestDialogComponent', () => {
   });
 
   it('should prompt form errors due to invalid form values', () => {
-    const primaryBtn = CommonQuoteTestUtilsService.getHTMLElement(
+    const primaryButton = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
       'button.btn-primary'
     );
-    primaryBtn.click();
+    primaryButton.click();
     fixture.detectChanges();
 
     expect(component.form.valid).toEqual(false);
