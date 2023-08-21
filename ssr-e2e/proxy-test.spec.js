@@ -6,7 +6,8 @@ const proxy = httpProxy.createProxyServer({ secure: false });
 
 // TODO: Use environment variable instead
 // const BACKEND_BASE_URL = process.env.OCC_URL;
-const BACKEND_BASE_URL = 'https://40.76.109.9:9002';
+// const BACKEND_BASE_URL = 'https://40.76.109.9:9002';
+const BACKEND_BASE_URL = 'https://20.83.184.244:9002';
 
 const SSR_LOG_PATH = './ssr-e2e/ssr.log';
 
