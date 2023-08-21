@@ -164,7 +164,7 @@ function getLogMessages() {
     .toString()
     .split('\n')
     .filter((text) => text.indexOf('"message":') > -1)
-    .map((text) => text.split('": "')[1].split('",')[0]);
+    .map((text) => text.split('":"')[1].split('",')[0]);
   return messages;
 }
 
