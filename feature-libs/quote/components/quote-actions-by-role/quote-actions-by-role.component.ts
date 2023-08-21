@@ -16,6 +16,7 @@ import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { QuoteRoleService } from '@spartacus/quote/core';
 import {
   Quote,
+  QuoteAction,
   QuoteActionType,
   QuoteFacade,
   QuoteState,
@@ -143,6 +144,18 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
 
   requote(quoteId: string) {
     this.quoteFacade.requote(quoteId);
+  }
+
+  getButtonStyle(allowedActions: QuoteAction[], action: QuoteAction): string {
+    if (action.isPrimary) {
+      return 'btn-primary';
+    }
+    if (allowedActions.length <= 2) {
+      return 'btn-secondary';
+    }
+    return action.type === QuoteActionType.CANCEL
+      ? 'btn-tertiary'
+      : 'btn-secondary';
   }
 
   ngOnDestroy(): void {

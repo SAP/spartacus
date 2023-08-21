@@ -5,7 +5,7 @@
       type="button"
       *ngFor="let action of quoteDetails.allowedActions"
       class="btn"
-      [ngClass]="action.isPrimary ? 'btn-primary' : 'btn-secondary'"
+      [ngClass]="getButtonStyle(quoteDetails.allowedActions, action)"
       [disabled]="mustDisableAction(action.type, quoteDetails)"
       (click)="onClick(action.type, quoteDetails)"
     >

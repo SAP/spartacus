@@ -9,6 +9,7 @@ import {
 } from '@spartacus/core';
 import {
   Quote,
+  QuoteAction,
   QuoteActionType,
   QuoteFacade,
   QuoteState,
@@ -522,6 +523,48 @@ describe('QuoteActionsByRoleComponent', () => {
       expect(component['getMessageType'](QuoteActionType.SUBMIT)).toBe(
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
+    });
+  });
+  describe('getButtonStyle', () => {
+    let allowedActions: QuoteAction[];
+    beforeEach(() => {
+      allowedActions = [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.EDIT, isPrimary: false },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+      ];
+    });
+    it("should return 'btn-primary' style for action marked as primary", () => {
+      expect(
+        component.getButtonStyle(allowedActions, {
+          type: QuoteActionType.SUBMIT,
+          isPrimary: true,
+        })
+      ).toEqual('btn-primary');
+    });
+    it("should return 'btn-secondary' style for action marked as non-primary", () => {
+      expect(
+        component.getButtonStyle(allowedActions, {
+          type: QuoteActionType.SUBMIT,
+          isPrimary: false,
+        })
+      ).toEqual('btn-secondary');
+    });
+    it("should return 'btn-secondary' style for cancel-action if there are only 2 actions", () => {
+      expect(
+        component.getButtonStyle(allowedActions.slice(1), {
+          type: QuoteActionType.CANCEL,
+          isPrimary: false,
+        })
+      ).toEqual('btn-secondary');
+    });
+    it("should return 'btn-tertiary style for cancel-action if there are more than 2 actions", () => {
+      expect(
+        component.getButtonStyle(allowedActions, {
+          type: QuoteActionType.CANCEL,
+          isPrimary: false,
+        })
+      ).toEqual('btn-tertiary');
     });
   });
 });
