@@ -293,6 +293,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       this.softDeletedEntries$.next(deletedEntries);
 
       if (clearTimeout) {
+        // what happens with this subscription if the service is destroyed before timer manage to unsub
         const subscription: Subscription = timer(
           this.hardDeleteTimeout
         ).subscribe(() => {
