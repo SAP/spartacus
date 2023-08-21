@@ -12,6 +12,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { QuoteActionLinksComponent } from './quote-action-links.component';
 import { CartUtilsService } from '@spartacus/quote/core';
 import createSpy = jasmine.createSpy;
+import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 
 class MockActionLinksService implements Partial<CartUtilsService> {
   goToNewCart = createSpy();
@@ -21,6 +22,7 @@ const mockRoutes = [{ path: 'cxRoute:quotes', component: {} }] as Routes;
 
 describe('QuoteActionLinksComponent', () => {
   let fixture: ComponentFixture<QuoteActionLinksComponent>;
+  let htmlElem: HTMLElement;
   let component: QuoteActionLinksComponent;
   let actionLinksService: CartUtilsService;
   let router: Router;
@@ -44,9 +46,11 @@ describe('QuoteActionLinksComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteActionLinksComponent);
+    htmlElem = fixture.nativeElement;
     actionLinksService = TestBed.inject(CartUtilsService);
     router = TestBed.inject(Router);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -54,13 +58,28 @@ describe('QuoteActionLinksComponent', () => {
   });
 
   it('should render action links', () => {
-    const links = fixture.debugElement.queryAll(By.css('button.link'));
+    CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      'button.link',
+      2
+    );
 
-    fixture.detectChanges();
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      'button.link',
+      'quote.links.newCart',
+      0
+    );
 
-    expect(links[0].nativeElement.innerText).toContain('links.newCart');
-    expect(links[1].nativeElement.innerText).toContain('links.quotes');
-    expect(links.length).toEqual(2);
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      'button.link',
+      'quote.links.quotes',
+      1
+    );
   });
 
   it('should fire `goToNewCart()` when "New Cart" button was clicked', () => {

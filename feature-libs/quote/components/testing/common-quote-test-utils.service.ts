@@ -12,11 +12,11 @@ import { DebugElement } from '@angular/core';
  */
 export class CommonQuoteTestUtilsService {
   /**
-   * Helper function for proving whether the element is present in the DOM tree.
+   * Helper function for verifying whether the element is present in the DOM tree.
    *
-   * @param expect - Expectation for a spec.
-   * @param htmlElement - HTML element.
-   * @param querySelector - Query selector
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector
    */
   static expectElementPresent(
     expect: any,
@@ -30,12 +30,12 @@ export class CommonQuoteTestUtilsService {
   }
 
   /**
-   * Helper function for proving whether the expected number of elements is present in the DOM tree.
+   * Helper function for verifying whether the expected number of elements is present in the DOM tree.
    *
-   * @param expect - Expectation for a spec.
-   * @param htmlElement - HTML element.
-   * @param querySelector - Query selector
-   * @param numberOfElements - Number of elements
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector
+   * @param {number} numberOfElements - Number of elements
    */
   static expectNumberOfElementsPresent(
     expect: any,
@@ -50,12 +50,13 @@ export class CommonQuoteTestUtilsService {
   }
 
   /**
-   * Helper function for proving whether the element contains text.
+   * Helper function for verifying whether the element contains text.
    *
-   * @param expect - Expectation for a spec.
-   * @param htmlElement - HTML element.
-   * @param querySelector - Query selector
-   * @param expectedText - Expected text
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector
+   * @param {any} expectedText - Expected text
+   * @param {number} index - Optional index of the element
    */
   static expectElementToContainText(
     expect: any,
@@ -74,11 +75,11 @@ export class CommonQuoteTestUtilsService {
   }
 
   /**
-   * Helper function for proving whether the element is not present in the DOM tree.
+   * Helper function for verifying whether the element is not present in the DOM tree.
    *
-   * @param expect - Expectation for a spec.
-   * @param htmlElement - HTML element.
-   * @param querySelector - Query selector
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector
    */
   static expectElementNotPresent(
     expect: any,
@@ -92,12 +93,12 @@ export class CommonQuoteTestUtilsService {
   }
 
   /**
-   * Helper function for proving how many times the element comes in the DOM tree.
+   * Helper function for verifying how many times the element comes in the DOM tree.
    *
    * @param {any} expect - Expectation for a spec.
    * @param {Element} htmlElement - HTML element.
    * @param {string} querySelector - Query selector
-   * @param {number} expectedNumber- expected number of elements
+   * @param {number} expectedNumber - expected number of elements
    */
   static expectNumberOfElements(
     expect: any,
@@ -108,6 +109,54 @@ export class CommonQuoteTestUtilsService {
     expect(htmlElement.querySelectorAll(querySelector).length).toBe(
       expectedNumber,
       `expected elements identified by selector '${querySelector}' to be present times, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
+    );
+  }
+
+  /**
+   * Helper function for verifying whether the element contains attribute.
+   *
+   * @param {any} expect - Expectation for a spec.
+   * @param {DebugElement} debugElement - Debug element.
+   * @param {string} querySelector - Query selector
+   *  @param {string} attributeName - Name of the attribute
+   */
+  static expectElementToContainAttribute(
+    expect: any,
+    debugElement: DebugElement,
+    querySelector: string,
+    attributeName: string
+  ) {
+    const nativeElement = CommonQuoteTestUtilsService.getNativeElement(
+      debugElement,
+      querySelector
+    );
+    expect(nativeElement.getAttributeNames().indexOf(attributeName) >= 0).toBe(
+      true,
+      `expected elements identified by selector '${querySelector}' should contain attribute name '${attributeName}', but it is NOT!`
+    );
+  }
+
+  /**
+   * Helper function for verifying whether the element does not contain attribute.
+   *
+   * @param {any} expect - Expectation for a spec.
+   * @param {DebugElement} debugElement - Debug element.
+   * @param {string} querySelector - Query selector
+   * @param {string} attributeName - Name of the attribute
+   */
+  static expectElementNotToContainAttribute(
+    expect: any,
+    debugElement: DebugElement,
+    querySelector: string,
+    attributeName: string
+  ) {
+    const nativeElement = CommonQuoteTestUtilsService.getNativeElement(
+      debugElement,
+      querySelector
+    );
+    expect(nativeElement.getAttributeNames().indexOf(attributeName) <= -1).toBe(
+      true,
+      `expected elements identified by selector '${querySelector}' should not contain attribute name '${attributeName}', but it is NOT!`
     );
   }
 

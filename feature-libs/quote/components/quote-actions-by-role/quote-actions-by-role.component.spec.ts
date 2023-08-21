@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -15,7 +14,7 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 
-import { ElementRef, ViewContainerRef } from '@angular/core';
+import { DebugElement, ElementRef, ViewContainerRef } from '@angular/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -27,6 +26,7 @@ import {
   ConfirmActionDialogMappingConfig,
   QuoteUIConfig,
 } from '../config/quote-ui.config';
+import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 
 const mockCartId = '1234';
 const mockCode = '3333';
@@ -110,6 +110,7 @@ class MockGlobalMessageService {
 
 describe('QuoteActionsByRoleComponent', () => {
   let fixture: ComponentFixture<QuoteActionsByRoleComponent>;
+  let debugElement: DebugElement;
   let component: QuoteActionsByRoleComponent;
   let launchDialogService: LaunchDialogService;
   let facade: QuoteFacade;
@@ -139,6 +140,7 @@ describe('QuoteActionsByRoleComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteActionsByRoleComponent);
+    debugElement = fixture.debugElement;
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
     facade = TestBed.inject(QuoteFacade);
@@ -159,6 +161,7 @@ describe('QuoteActionsByRoleComponent', () => {
     });
   });
 
+  // TODO: should these test be removed?
   // it('should read quote details and return original data if state or allower actions are not present', (done) => {
   //   const mockQuoteDetailseWithoutState: Quote = {
   //     code: mockCode,
@@ -289,6 +292,8 @@ describe('QuoteActionsByRoleComponent', () => {
   });
 
   describe('Threshold check', () => {
+    const attributeName = 'disabled';
+
     const allowedActionsSubmit = [
       { type: QuoteActionType.SUBMIT, isPrimary: true },
     ];
@@ -309,18 +314,24 @@ describe('QuoteActionsByRoleComponent', () => {
     it('should let submit button enabled if threshold is met', () => {
       mockQuoteDetails$.next(submittableQuote);
       fixture.detectChanges();
-      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
-      expect(actionButtons).toBeDefined();
-      expect(actionButtons[0].nativeElement.disabled).toBe(false);
+      CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
+        expect,
+        debugElement,
+        '.btn:first-child',
+        attributeName
+      );
     });
 
     it('should let submit button enabled if threshold is not specified', () => {
       mockQuote.threshold = undefined;
       mockQuoteDetails$.next(submittableQuote);
       fixture.detectChanges();
-      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
-      expect(actionButtons).toBeDefined();
-      expect(actionButtons[0].nativeElement.disabled).toBe(false);
+      CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
+        expect,
+        debugElement,
+        '.btn:first-child',
+        attributeName
+      );
     });
 
     it('should disable submit button if threshold is not met and raise message', () => {
@@ -328,30 +339,38 @@ describe('QuoteActionsByRoleComponent', () => {
       mockQuoteDetails$.next(quoteFailingThreshold);
       fixture.detectChanges();
 
-      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
-      expect(actionButtons).toBeDefined();
-      expect(actionButtons[0].nativeElement.disabled).toBe(true);
+      CommonQuoteTestUtilsService.expectElementToContainAttribute(
+        expect,
+        debugElement,
+        '.btn:first-child',
+        attributeName
+      );
       expect(globalMessageService.add).toHaveBeenCalled();
     });
 
     it('should disable submit button if total price value is not provided', () => {
       quoteFailingThreshold.totalPrice.value = undefined;
-
       mockQuoteDetails$.next(quoteFailingThreshold);
       fixture.detectChanges();
 
-      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
-      expect(actionButtons).toBeDefined();
-      expect(actionButtons[0].nativeElement.disabled).toBe(true);
+      CommonQuoteTestUtilsService.expectElementToContainAttribute(
+        expect,
+        debugElement,
+        '.btn:first-child',
+        attributeName
+      );
     });
 
     it('should not touch buttons other than submit', () => {
       mockQuoteDetails$.next(cancellableQuote);
       fixture.detectChanges();
 
-      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
-      expect(actionButtons).toBeDefined();
-      expect(actionButtons[0].nativeElement.disabled).toBe(false);
+      CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
+        expect,
+        debugElement,
+        '.btn:first-child',
+        attributeName
+      );
     });
 
     it('should not raise message in case threshold not met and submit action not present', () => {
@@ -383,22 +402,28 @@ describe('QuoteActionsByRoleComponent', () => {
     );
   });
 
-  it('should generate buttons with actions and trigger proper method (requote if allowed action is REQUOTE)', () => {
+  it("should click on 'EDIT' button", () => {
     spyOn(facade, 'performQuoteAction').and.callThrough();
     fixture.detectChanges();
-    const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
-
-    expect(actionButtons).toBeDefined();
-    actionButtons.filter((button, index) => {
-      expect(button.nativeElement.textContent.trim()).toEqual(
-        `quote.actions.${mockQuote.allowedActions[index].type}`
-      );
-      button.nativeElement.click();
-    });
+    const editButton = CommonQuoteTestUtilsService.getNativeElement(
+      debugElement,
+      '.btn:first-child'
+    );
+    editButton.click();
     expect(facade.performQuoteAction).toHaveBeenCalledWith(
       mockQuote.code,
       QuoteActionType.EDIT
     );
+  });
+
+  it("should click on 'REQUOTE' button", () => {
+    spyOn(facade, 'performQuoteAction').and.callThrough();
+    fixture.detectChanges();
+    const requoteButton = CommonQuoteTestUtilsService.getNativeElement(
+      debugElement,
+      '.btn:last-child'
+    );
+    requoteButton.click();
     expect(facade.requote).toHaveBeenCalledWith(mockQuote.code);
   });
 

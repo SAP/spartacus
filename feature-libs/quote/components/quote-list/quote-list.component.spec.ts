@@ -7,7 +7,6 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
@@ -27,6 +26,7 @@ import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteListComponentService } from './quote-list-component.service';
 import { QuoteListComponent } from './quote-list.component';
 import createSpy = jasmine.createSpy;
+import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 
 const mockCartId = '1234';
 const mockPagination: PaginationModel = {
@@ -113,6 +113,7 @@ class MockCommerceQuotesListComponentService
 
 describe('QuoteListComponent', () => {
   let fixture: ComponentFixture<QuoteListComponent>;
+  let htmlElem: HTMLElement;
   let component: QuoteListComponent;
   let componentService: QuoteListComponentService;
 
@@ -137,64 +138,64 @@ describe('QuoteListComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteListComponent);
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
     componentService = TestBed.inject(QuoteListComponentService);
   });
 
   it('should call service if sort changed', () => {
-    //given
     const sortCode = 'byDate';
-
-    //when
     component.changeSortCode(sortCode);
 
-    //then
     expect(componentService.setSort).toHaveBeenCalledWith(sortCode);
   });
 
   it('should call service if page changed', () => {
-    //given
     const page = 5;
-
-    //when
     component.changePage(page);
 
-    //then
     expect(componentService.setCurrentPage).toHaveBeenCalledWith(page);
   });
 
   it('should display table and sorting if quote list is not empty', () => {
-    //given
     mockQuoteListState$.next(mockQuoteListState);
-
-    //when
     fixture.detectChanges();
-    const sorting = fixture.debugElement.query(By.css('cx-sorting'));
-    const table = fixture.debugElement.query(By.css('#quote-list'));
 
-    //then
-    expect(sorting.nativeElement).not.toBeNull();
-    expect(table.nativeElement).not.toBeNull();
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-sorting'
+    );
+
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '#quote-list'
+    );
   });
 
   it('should display "empty list" header if quote list is empty', () => {
-    //given
     mockQuoteListState$.next({
       ...mockQuoteListState,
       data: { ...mockQuoteList, quotes: [] },
     });
-
-    //when
     fixture.detectChanges();
-    const header = fixture.debugElement.query(By.css('.cx-empty'));
 
-    //then
-    expect(header.nativeElement.textContent.trim()).toEqual('quote.list.empty');
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-empty'
+    );
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-empty',
+      'quote.list.empty'
+    );
   });
 
   it('should display pagination if pages total is more than 1', () => {
-    //given
     mockQuoteListState$.next({
       ...mockQuoteListState,
       data: {
@@ -202,13 +203,14 @@ describe('QuoteListComponent', () => {
         pagination: { ...mockPagination, totalPages: 2 },
       },
     });
-
-    //when
     fixture.detectChanges();
-    const elements = fixture.debugElement.queryAll(By.css('cx-pagination'));
 
-    //then
-    expect(elements.length).toEqual(1);
+    CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      'cx-pagination',
+      1
+    );
   });
 
   describe('getBuyerQuoteStatus', () => {
@@ -245,7 +247,6 @@ describe('QuoteListComponent', () => {
 
   describe('getQuoteStateClass', () => {
     it("should apply a class for 'BUYER_DRAFT' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -253,18 +254,17 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.BUYER_DRAFT }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-draft');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-draft',
+        'quote.states.BUYER_DRAFT'
+      );
     });
 
     it("should apply a class for 'SELLER_DRAFT' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -272,18 +272,17 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.SELLER_DRAFT }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-draft');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-draft',
+        'quote.states.SELLER_DRAFT'
+      );
     });
 
     it("should apply a class for 'BUYER_SUBMITTED' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -291,18 +290,17 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.BUYER_SUBMITTED }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-submitted');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-submitted',
+        'quote.states.BUYER_SUBMITTED'
+      );
     });
 
     it("should apply a class for 'SELLER_SUBMITTED' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -310,18 +308,17 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.SELLER_SUBMITTED }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-submitted');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-submitted',
+        'quote.states.SELLER_SUBMITTED'
+      );
     });
 
     it("should apply a class for 'BUYER_ACCEPTED' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -329,18 +326,17 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.BUYER_ACCEPTED }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-accepted');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-accepted',
+        'quote.states.BUYER_ACCEPTED'
+      );
     });
 
     it("should apply a class for 'BUYER_APPROVED' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -348,18 +344,17 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.BUYER_APPROVED }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-approved');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-approved',
+        'quote.states.BUYER_APPROVED'
+      );
     });
 
     it("should apply a class for 'SELLERAPPROVER_APPROVED' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -367,18 +362,17 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.SELLERAPPROVER_APPROVED }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-approved');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-approved',
+        'quote.states.SELLERAPPROVER_APPROVED'
+      );
     });
 
     it("should apply a class for 'BUYER_REJECTED' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -386,18 +380,17 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.BUYER_REJECTED }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-rejected');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-rejected',
+        'quote.states.BUYER_REJECTED'
+      );
     });
 
     it("should apply a class for 'SELLERAPPROVER_REJECTED' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -405,18 +398,17 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.SELLERAPPROVER_REJECTED }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-rejected');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-rejected',
+        'quote.states.SELLERAPPROVER_REJECTED'
+      );
     });
 
     it("should apply a class for 'BUYER_OFFER' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -424,18 +416,17 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.BUYER_OFFER }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-offer');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-offer',
+        'quote.states.BUYER_OFFER'
+      );
     });
 
     it("should apply a class for 'BUYER_ORDERED' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -443,18 +434,17 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.BUYER_ORDERED }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-ordered');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-ordered',
+        'quote.states.BUYER_ORDERED'
+      );
     });
 
     it("should apply a class for 'SELLER_REQUEST' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -462,18 +452,17 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.SELLER_REQUEST }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-request');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-request',
+        'quote.states.SELLER_REQUEST'
+      );
     });
 
     it("should apply a class for 'SELLERAPPROVER_PENDING' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -481,18 +470,17 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.SELLERAPPROVER_PENDING }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-pending');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-pending',
+        'quote.states.SELLERAPPROVER_PENDING'
+      );
     });
 
     it("should apply a class for 'CANCELLED' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -500,18 +488,17 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.CANCELLED }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-cancelled');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-cancelled',
+        'quote.states.CANCELLED'
+      );
     });
 
     it("should apply a class for 'EXPIRED' quote status", () => {
-      //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
@@ -519,14 +506,14 @@ describe('QuoteListComponent', () => {
           quotes: [{ ...mockQuote, state: QuoteState.EXPIRED }],
         },
       });
-      //when
       fixture.detectChanges();
-      //then
-      const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-status a')
-      );
 
-      expect(quoteStateLinks[0].attributes.class).toContain('quote-expired');
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-expired',
+        'quote.states.EXPIRED'
+      );
     });
   });
 });

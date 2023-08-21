@@ -28,6 +28,7 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { Component, Input } from '@angular/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 const mockCartId = '1234';
 const threshold = 20;
@@ -108,6 +109,14 @@ class MockDatePickerComponent {
   @Input() required: boolean;
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
 describe('QuoteSellerEditComponent', () => {
   let fixture: ComponentFixture<QuoteSellerEditComponent>;
   let component: QuoteSellerEditComponent;
@@ -116,7 +125,11 @@ describe('QuoteSellerEditComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule],
-      declarations: [QuoteSellerEditComponent, MockDatePickerComponent],
+      declarations: [
+        QuoteSellerEditComponent,
+        MockCxIconComponent,
+        MockDatePickerComponent,
+      ],
       providers: [
         {
           provide: QuoteFacade,
