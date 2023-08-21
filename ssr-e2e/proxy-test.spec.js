@@ -159,6 +159,7 @@ function clearSsrLogFile() {
 
 function getLogMessages() {
   const data = fs.readFileSync(SSR_LOG_PATH);
+  console.log(data, data.toString()); // TODO: Temp read log in ci
   const messages = data
     .toString()
     .split('\n')
