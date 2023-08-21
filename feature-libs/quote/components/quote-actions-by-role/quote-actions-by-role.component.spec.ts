@@ -14,7 +14,7 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 
-import { DebugElement, ElementRef, ViewContainerRef } from '@angular/core';
+import { ElementRef, ViewContainerRef } from '@angular/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -110,7 +110,7 @@ class MockGlobalMessageService {
 
 describe('QuoteActionsByRoleComponent', () => {
   let fixture: ComponentFixture<QuoteActionsByRoleComponent>;
-  let debugElement: DebugElement;
+  let htmlElem: HTMLElement;
   let component: QuoteActionsByRoleComponent;
   let launchDialogService: LaunchDialogService;
   let facade: QuoteFacade;
@@ -140,7 +140,7 @@ describe('QuoteActionsByRoleComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteActionsByRoleComponent);
-    debugElement = fixture.debugElement;
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
     facade = TestBed.inject(QuoteFacade);
@@ -160,64 +160,6 @@ describe('QuoteActionsByRoleComponent', () => {
       done();
     });
   });
-
-  // TODO: should these test be removed?
-  // it('should read quote details and return original data if state or allower actions are not present', (done) => {
-  //   const mockQuoteDetailseWithoutState: Quote = {
-  //     code: mockCode,
-  //     cartId: mockCartId,
-  //     allowedActions: [QuoteActionType.EDIT, QuoteActionType.REQUOTE],
-  //   };
-  //   const expected: QueryState<Quote> = {
-  //     error: false,
-  //     loading: false,
-  //     data: mockQuoteDetailseWithoutState,
-  //   };
-  //   mockQuoteDetailsState$.next(expected);
-
-  //   component.quoteDetailsState$.pipe(take(1)).subscribe((state) => {
-  //     expect(state).toEqual(expected);
-  //     done();
-  //   });
-  // });
-
-  // it('should return list if commerce quotes config or actions order is not present', () => {
-  //   Object.defineProperty(configService, 'config', {
-  //     value: {
-  //       commerceQuotes: null,
-  //     },
-  //   });
-  //   expect(
-  //     component['getOrderedList'](
-  //       QuoteState.BUYER_DRAFT,
-  //       mockQuote.allowedActions as QuoteActionType[]
-  //     )
-  //   ).toEqual(mockQuote.allowedActions);
-
-  //   Object.defineProperty(configService, 'config', {
-  //     value: {
-  //       commerceQuotes: { actionsOrderByState: null },
-  //     },
-  //   });
-  //   expect(
-  //     component['getOrderedList'](
-  //       QuoteState.BUYER_DRAFT,
-  //       mockQuote.allowedActions as QuoteActionType[]
-  //     )
-  //   ).toEqual(mockQuote.allowedActions);
-  // });
-
-  // it('should return empty array if commerce quotes config is not set', () => {
-  //   Object.defineProperty(configService, 'config', {
-  //     value: {
-  //       commerceQuotes: null,
-  //     },
-  //   });
-  //   fixture = TestBed.createComponent(QuoteActionsByRoleComponent);
-  //   component = fixture.componentInstance;
-
-  //   expect(component.primaryActions).toEqual([]);
-  // });
 
   it('should open confirmation dialog when action is SUBMIT', () => {
     spyOn(launchDialogService, 'openDialog');
@@ -316,7 +258,7 @@ describe('QuoteActionsByRoleComponent', () => {
       fixture.detectChanges();
       CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
         expect,
-        debugElement,
+        htmlElem,
         '.btn:first-child',
         attributeName
       );
@@ -328,7 +270,7 @@ describe('QuoteActionsByRoleComponent', () => {
       fixture.detectChanges();
       CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
         expect,
-        debugElement,
+        htmlElem,
         '.btn:first-child',
         attributeName
       );
@@ -341,7 +283,7 @@ describe('QuoteActionsByRoleComponent', () => {
 
       CommonQuoteTestUtilsService.expectElementToContainAttribute(
         expect,
-        debugElement,
+        htmlElem,
         '.btn:first-child',
         attributeName
       );
@@ -355,7 +297,7 @@ describe('QuoteActionsByRoleComponent', () => {
 
       CommonQuoteTestUtilsService.expectElementToContainAttribute(
         expect,
-        debugElement,
+        htmlElem,
         '.btn:first-child',
         attributeName
       );
@@ -367,7 +309,7 @@ describe('QuoteActionsByRoleComponent', () => {
 
       CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
         expect,
-        debugElement,
+        htmlElem,
         '.btn:first-child',
         attributeName
       );
@@ -405,8 +347,8 @@ describe('QuoteActionsByRoleComponent', () => {
   it("should click on 'EDIT' button", () => {
     spyOn(facade, 'performQuoteAction').and.callThrough();
     fixture.detectChanges();
-    const editButton = CommonQuoteTestUtilsService.getNativeElement(
-      debugElement,
+    const editButton = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
       '.btn:first-child'
     );
     editButton.click();
@@ -419,8 +361,8 @@ describe('QuoteActionsByRoleComponent', () => {
   it("should click on 'REQUOTE' button", () => {
     spyOn(facade, 'performQuoteAction').and.callThrough();
     fixture.detectChanges();
-    const requoteButton = CommonQuoteTestUtilsService.getNativeElement(
-      debugElement,
+    const requoteButton = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
       '.btn:last-child'
     );
     requoteButton.click();

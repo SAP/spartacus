@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -7,7 +7,6 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
 import {
@@ -56,7 +55,6 @@ class MockCxIconComponent {
 describe('QuoteDetailsCommentComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsCommentComponent>;
   let htmlElem: HTMLElement;
-  let debugElement: DebugElement;
   let component: QuoteDetailsCommentComponent;
   let mockedQuoteFacade: QuoteFacade;
   let mockedEventService: EventService;
@@ -96,7 +94,6 @@ describe('QuoteDetailsCommentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteDetailsCommentComponent);
     htmlElem = fixture.nativeElement;
-    debugElement = fixture.debugElement;
     component = fixture.componentInstance;
 
     fixture.detectChanges();
@@ -131,7 +128,11 @@ describe('QuoteDetailsCommentComponent', () => {
   });
 
   it('should render the messaging section by default', () => {
-    expect(fixture.debugElement.query(By.css('cx-messaging'))).not.toBeNull();
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-messaging'
+    );
   });
 
   it('should collapse the comments area when clicking the toggle', () => {
@@ -207,8 +208,8 @@ describe('QuoteDetailsCommentComponent', () => {
   });
 
   function clickCommentsToggle() {
-    const caret = CommonQuoteTestUtilsService.getNativeElement(
-      debugElement,
+    const caret = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
       '.cx-toggle'
     );
     caret.click();

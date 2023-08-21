@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { Component, DebugElement, Directive, Input } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {
   ICON_TYPE,
@@ -51,7 +50,6 @@ export class MockKeyboadFocusDirective {
 describe('QuoteRequestDialogComponent', () => {
   let component: QuoteConfirmActionDialogComponent;
   let fixture: ComponentFixture<QuoteConfirmActionDialogComponent>;
-  let debugElement: DebugElement;
   let htmlElem: HTMLElement;
   let mockLaunchDialogService: LaunchDialogService;
 
@@ -88,7 +86,6 @@ describe('QuoteRequestDialogComponent', () => {
       confirmationContext: confirmationContext,
     });
     fixture = TestBed.createComponent(QuoteConfirmActionDialogComponent);
-    debugElement = fixture.debugElement;
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     mockLaunchDialogService = TestBed.inject(LaunchDialogService);
@@ -102,8 +99,8 @@ describe('QuoteRequestDialogComponent', () => {
   });
 
   it('should close the dialog on yes', () => {
-    const primaryButton = CommonQuoteTestUtilsService.getNativeElement(
-      debugElement,
+    const primaryButton = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
       'button.btn-primary'
     );
     primaryButton.click();
@@ -111,8 +108,8 @@ describe('QuoteRequestDialogComponent', () => {
   });
 
   it('should close the dialog on no', () => {
-    const secondaryButton = CommonQuoteTestUtilsService.getNativeElement(
-      debugElement,
+    const secondaryButton = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
       'button.btn-secondary'
     );
     secondaryButton.click();
@@ -156,9 +153,11 @@ describe('QuoteRequestDialogComponent', () => {
   });
 
   it('should navigate back on escape', () => {
-    fixture.debugElement
-      .query(By.css('.cx-modal-container'))
-      .triggerEventHandler('esc');
+    const modal = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
+      '.cx-modal-container'
+    );
+    modal.dispatchEvent(new Event('esc'));
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
   });
 });

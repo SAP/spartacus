@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { QuoteFacade, Quote, QuoteActionType } from '@spartacus/quote/root';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
@@ -16,6 +15,7 @@ import { EMPTY, of } from 'rxjs';
 import { QuoteRequestDialogComponent } from './quote-request-dialog.component';
 import createSpy = jasmine.createSpy;
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 
 const quoteCode = 'quote1';
 const mockCreatedQuote: Quote = {
@@ -48,9 +48,42 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
+function prepareTestData(
+  fixture: ComponentFixture<QuoteRequestDialogComponent>,
+  htmlElem: HTMLElement,
+  querySelectorBtn: string,
+  inputValue: string,
+  textAreaValue: string
+) {
+  const input = CommonQuoteTestUtilsService.getHTMLElement(
+    htmlElem,
+    'form input',
+    0
+  ) as HTMLInputElement;
+  const textarea = CommonQuoteTestUtilsService.getHTMLElement(
+    htmlElem,
+    'form textarea'
+  ) as HTMLInputElement;
+
+  input.value = inputValue;
+  input.dispatchEvent(new Event('input'));
+
+  textarea.value = textAreaValue;
+  textarea.dispatchEvent(new Event('input'));
+  fixture.detectChanges();
+
+  const button = CommonQuoteTestUtilsService.getHTMLElement(
+    htmlElem,
+    querySelectorBtn
+  );
+  button.click();
+  fixture.detectChanges();
+}
+
 describe('QuoteRequestDialogComponent', () => {
   let component: QuoteRequestDialogComponent;
   let fixture: ComponentFixture<QuoteRequestDialogComponent>;
+  let htmlElem: HTMLElement;
   let launchDialogService: LaunchDialogService;
   let quoteFacade: QuoteFacade;
   let routingService: RoutingService;
@@ -89,6 +122,7 @@ describe('QuoteRequestDialogComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteRequestDialogComponent);
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -98,66 +132,46 @@ describe('QuoteRequestDialogComponent', () => {
   });
 
   it('should prompt form errors due to invalid form values', () => {
-    fixture.debugElement
-      .query(By.css('button.btn-primary'))
-      .nativeElement.click();
-
+    const primaryBtn = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
+      'button.btn-primary'
+    );
+    primaryBtn.click();
     fixture.detectChanges();
 
-    const formErrors = fixture.debugElement.queryAll(
-      By.css('cx-form-errors > p')
-    );
-
     expect(component.form.valid).toEqual(false);
-    expect(formErrors.length).toEqual(2);
+    CommonQuoteTestUtilsService.expectNumberOfElements(
+      expect,
+      htmlElem,
+      'cx-form-errors > p',
+      2
+    );
   });
 
   it('should validate form with valid values', () => {
-    const input = fixture.debugElement.queryAll(By.css('form input'))[0]
-      .nativeElement;
-    const textarea = fixture.debugElement.query(
-      By.css('form textarea')
-    ).nativeElement;
-
-    input.value = 'test name';
-    input.dispatchEvent(new Event('input'));
-
-    textarea.value = 'test comment';
-    textarea.dispatchEvent(new Event('input'));
-
-    fixture.detectChanges();
-
-    fixture.debugElement
-      .query(By.css('button.btn-primary'))
-      .nativeElement.click();
-
-    const formErrors = fixture.debugElement.queryAll(
-      By.css('cx-form-errors > p')
+    prepareTestData(
+      fixture,
+      htmlElem,
+      'button.btn-primary',
+      'test name',
+      'test comment'
     );
-
     expect(component.form.valid).toEqual(true);
-    expect(formErrors.length).toEqual(0);
+    CommonQuoteTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-form-errors > p'
+    );
   });
 
   it('should redirect to quote details page on successful quote request', () => {
-    const input = fixture.debugElement.queryAll(By.css('form input'))[0]
-      .nativeElement;
-    const textarea = fixture.debugElement.query(
-      By.css('form textarea')
-    ).nativeElement;
-
-    input.value = testForm.name;
-    input.dispatchEvent(new Event('input'));
-
-    textarea.value = testForm.comment;
-    textarea.dispatchEvent(new Event('input'));
-
-    fixture.detectChanges();
-
-    fixture.debugElement
-      .query(By.css('button.btn-action'))
-      .nativeElement.click();
-
+    prepareTestData(
+      fixture,
+      htmlElem,
+      'button.btn-action',
+      testForm.name,
+      testForm.comment
+    );
     expect(quoteFacade.createQuote).toHaveBeenCalledWith({
       name: testForm.name,
     });
@@ -169,24 +183,13 @@ describe('QuoteRequestDialogComponent', () => {
   });
 
   it('should submit quote', () => {
-    const input = fixture.debugElement.queryAll(By.css('form input'))[0]
-      .nativeElement;
-    const textarea = fixture.debugElement.query(
-      By.css('form textarea')
-    ).nativeElement;
-
-    input.value = testForm.name;
-    input.dispatchEvent(new Event('input'));
-
-    textarea.value = testForm.comment;
-    textarea.dispatchEvent(new Event('input'));
-
-    fixture.detectChanges();
-
-    fixture.debugElement
-      .query(By.css('button.btn-primary'))
-      .nativeElement.click();
-
+    prepareTestData(
+      fixture,
+      htmlElem,
+      'button.btn-primary',
+      testForm.name,
+      testForm.comment
+    );
     expect(quoteFacade.createQuote).toHaveBeenCalledWith({
       name: testForm.name,
     });

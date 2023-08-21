@@ -5,7 +5,7 @@ import {
   QuoteFacade,
 } from '@spartacus/quote/root';
 import { QuoteDetailsCartComponent } from './quote-details-cart.component';
-import { DebugElement, Directive, Input } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 import {
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
@@ -37,7 +37,6 @@ describe('QuoteDetailsCartComponent', () => {
   let mockedEventService: EventService;
   let fixture: ComponentFixture<QuoteDetailsCartComponent>;
   let htmlElem: HTMLElement;
-  let debugElement: DebugElement;
   let component: QuoteDetailsCartComponent;
 
   beforeEach(
@@ -63,7 +62,6 @@ describe('QuoteDetailsCartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteDetailsCartComponent);
     htmlElem = fixture.nativeElement;
-    debugElement = fixture.debugElement;
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -94,8 +92,8 @@ describe('QuoteDetailsCartComponent', () => {
   });
 
   it('should toggle caret when clicked', () => {
-    const caret = CommonQuoteTestUtilsService.getNativeElement(
-      debugElement,
+    const caret = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
       '.cx-toggle'
     );
     caret.click();

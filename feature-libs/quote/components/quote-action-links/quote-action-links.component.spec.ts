@@ -4,7 +4,6 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
@@ -84,19 +83,24 @@ describe('QuoteActionLinksComponent', () => {
 
   it('should fire `goToNewCart()` when "New Cart" button was clicked', () => {
     spyOn(component, 'goToNewCart').and.callThrough();
-    const links = fixture.debugElement.queryAll(By.css('button.link'));
-
-    links[0].nativeElement.click();
-
+    const link = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
+      'button.link',
+      0
+    );
+    link.click();
     expect(component.goToNewCart).toHaveBeenCalled();
     expect(actionLinksService.goToNewCart).toHaveBeenCalled();
   });
 
   it('should redirect to Quotes list when "Quotes" button was clicked', fakeAsync(() => {
-    const links = fixture.debugElement.queryAll(By.css('button.link'));
     fixture.detectChanges();
-
-    links[1].nativeElement.click();
+    const link = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
+      'button.link',
+      1
+    );
+    link.click();
     tick();
 
     expect(router.url).toBe('/cxRoute:quotes');
