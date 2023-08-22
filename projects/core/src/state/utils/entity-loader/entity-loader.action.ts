@@ -82,7 +82,11 @@ export class EntityFailAction implements EntityLoaderAction, ErrorAction {
   error: ErrorActionType;
   readonly meta: EntityLoaderMeta;
 
-  constructor(entityType: string, id: string | string[] | null, error: ErrorActionType) {
+  constructor(
+    entityType: string,
+    id: string | string[] | null,
+    error: ErrorActionType
+  ) {
     this.meta = entityFailMeta(entityType, id, error);
     this.error = error;
   }
@@ -92,7 +96,11 @@ export class EntitySuccessAction implements EntityLoaderAction {
   type = ENTITY_SUCCESS_ACTION;
   readonly meta: EntityLoaderMeta;
 
-  constructor(entityType: string, id: string | string[] | null, public payload?: any) {
+  constructor(
+    entityType: string,
+    id: string | string[] | null,
+    public payload?: any
+  ) {
     this.meta = entitySuccessMeta(entityType, id);
   }
 }

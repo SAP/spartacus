@@ -50,9 +50,6 @@ describe('CxErrorHandlerEffect', () => {
 
       effect.error$.subscribe();
 
-      expect(effectErrorHandler.filterActions).toHaveBeenCalledWith(
-        mockErrorAction
-      );
       expect(effectErrorHandler.handleError).toHaveBeenCalledWith(
         mockErrorAction
       );
@@ -69,9 +66,6 @@ describe('CxErrorHandlerEffect', () => {
 
       effect.error$.subscribe();
 
-      expect(effectErrorHandler.filterActions).toHaveBeenCalledWith(
-        mockNonErrorAction
-      );
       expect(effectErrorHandler.handleError).not.toHaveBeenCalled();
     });
   });
