@@ -14,12 +14,12 @@ describe('Billing Countries Actions', () => {
 
   describe('LoadBillingCountriesFail', () => {
     it('should create the action', () => {
-      const sampleError = 'sample error';
-      const action = new UserActions.LoadBillingCountriesFail(sampleError);
+      const error = 'sample error';
+      const action = new UserActions.LoadBillingCountriesFail(error);
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_BILLING_COUNTRIES_FAIL,
-        payload: sampleError,
+        error,
       });
     });
   });

@@ -6,7 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
+import { StateUtils, ErrorAction, ErrorActionType } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
@@ -55,13 +55,13 @@ export class CreateCart extends StateUtils.EntityLoadAction {
 }
 
 interface CreateCartFailPayload extends CreateCartPayload {
-  error: any;
+  error: ErrorActionType;
 }
 
 export class CreateCartFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_CART_FAIL;
   constructor(public payload: CreateCartFailPayload) {
-    super(MULTI_CART_DATA, payload.tempCartId);
+    super(MULTI_CART_DATA, payload.tempCartId, payload.error);
   }
 }
 
@@ -86,13 +86,17 @@ export class AddEmailToCart extends StateUtils.EntityProcessesIncrementAction {
   }
 }
 
-export class AddEmailToCartFail extends StateUtils.EntityProcessesDecrementAction {
+export class AddEmailToCartFail
+  extends StateUtils.EntityProcessesDecrementAction
+  implements ErrorAction
+{
+  error: ErrorActionType = this.payload.error;
   readonly type = ADD_EMAIL_TO_CART_FAIL;
   constructor(
     public payload: {
       userId: string;
       cartId: string;
-      error: any;
+      error: ErrorActionType;
       email: string;
     }
   ) {
@@ -125,7 +129,7 @@ export class LoadCart extends StateUtils.EntityLoadAction {
 }
 
 interface LoadCartFailPayload extends LoadCartPayload {
-  error: any;
+  error: ErrorActionType;
 }
 
 export class LoadCartFail extends StateUtils.EntityFailAction {
@@ -220,9 +224,12 @@ export class DeleteCartSuccess extends StateUtils.EntityRemoveAction {
   }
 }
 
-export class DeleteCartFail implements Action {
+export class DeleteCartFail implements ErrorAction {
+  error: ErrorActionType = this.payload.error;
   readonly type = DELETE_CART_FAIL;
-  constructor(public payload: { userId: string; cartId: string; error: any }) {}
+  constructor(
+    public payload: { userId: string; cartId: string; error: ErrorActionType }
+  ) {}
 }
 
 export type CartAction =

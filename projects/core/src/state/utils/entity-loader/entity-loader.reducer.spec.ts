@@ -44,7 +44,11 @@ describe('EntityLoader reducer', () => {
 
     describe('FAIL ACTION', () => {
       it('should set load state', () => {
-        const action = new EntityFailAction(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
+        const action = new EntityFailAction(
+          TEST_ENTITY_TYPE,
+          TEST_ENTITY_ID,
+          new Error()
+        );
         const state = entityLoaderReducer(TEST_ENTITY_TYPE)(undefined, action);
         const expectedState = {
           entities: {
@@ -148,7 +152,11 @@ describe('EntityLoader reducer', () => {
 
     describe('FAIL ACTION', () => {
       it('should set load state', () => {
-        const action = new EntityFailAction(TEST_ENTITY_TYPE, TEST_ENTITIES_ID);
+        const action = new EntityFailAction(
+          TEST_ENTITY_TYPE,
+          TEST_ENTITIES_ID,
+          new Error()
+        );
         const state = entityLoaderReducer(TEST_ENTITY_TYPE)(undefined, action);
         const expectedState = {
           entities: {

@@ -13,7 +13,7 @@ import {
   OCC_CART_ID_CURRENT,
   SiteContextActions,
   isNotUndefined,
-  normalizeHttpError,
+  tryNormalizeHttpError,
   withdrawOn,
 } from '@spartacus/core';
 import { Observable, from, of } from 'rxjs';
@@ -132,7 +132,7 @@ export class CartEffects {
     return of(
       new CartActions.LoadCartFail({
         ...payload,
-        error: normalizeHttpError(error, this.logger),
+        error: tryNormalizeHttpError(error, this.logger),
       })
     );
   }
@@ -177,7 +177,7 @@ export class CartEffects {
               of(
                 new CartActions.CreateCartFail({
                   ...payload,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 })
               )
             )
@@ -301,7 +301,7 @@ export class CartEffects {
               from([
                 new CartActions.AddEmailToCartFail({
                   ...payload,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new CartActions.LoadCart({
                   userId: payload.userId,
@@ -332,7 +332,7 @@ export class CartEffects {
             from([
               new CartActions.DeleteCartFail({
                 ...payload,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               }),
               // Error might happen in higher backend layer and cart could still be removed.
               // When load fail with NotFound error then RemoveCart action will kick in and clear that cart in our state.

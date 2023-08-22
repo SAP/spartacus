@@ -50,13 +50,13 @@ describe('Find Stores Actions', () => {
 
   describe('FindStoresFail', () => {
     it('should create FindStoresFail action', () => {
-      const payload = { errorMessage: 'Error' };
-      const action = new StoreFinderActions.FindStoresFail(payload);
+      const error = { message: 'Error' };
+      const action = new StoreFinderActions.FindStoresFail(error);
 
       expect({ ...action }).toEqual({
         type: StoreFinderActions.FIND_STORES_FAIL,
-        payload,
-        meta: StateUtils.failMeta(STORE_FINDER_DATA, payload),
+        error,
+        meta: StateUtils.failMeta(STORE_FINDER_DATA, error),
       });
     });
   });
@@ -92,15 +92,15 @@ describe('Find Stores Actions', () => {
 
   describe('FindStoreByIdFail', () => {
     it('should create FindStoreByIdFail action', () => {
-      const payload = { errorMessage: 'Error' };
-      const action = new StoreFinderActions.FindStoreByIdFail(payload);
+      const error = { message: 'Error' };
+      const action = new StoreFinderActions.FindStoreByIdFail(error);
 
       expect({
         ...action,
       }).toEqual({
         type: StoreFinderActions.FIND_STORE_BY_ID_FAIL,
-        payload,
-        meta: StateUtils.failMeta(STORE_FINDER_DATA, payload),
+        error,
+        meta: StateUtils.failMeta(STORE_FINDER_DATA, error),
       });
     });
   });

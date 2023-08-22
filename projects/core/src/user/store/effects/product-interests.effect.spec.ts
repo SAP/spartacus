@@ -19,6 +19,7 @@ const loadParams = {
   currentPage: 1,
   sort: 'name:asc',
 };
+const error = new Error('error');
 
 describe('Product Interests Effect', () => {
   let actions$: Actions;
@@ -63,10 +64,10 @@ describe('Product Interests Effect', () => {
     });
     it('should be able to handle failures for load product interests', () => {
       spyOn(userInterestConnector, 'getInterests').and.returnValue(
-        throwError('Error')
+        throwError(error)
       );
       const action = new UserActions.LoadProductInterests(loadParams);
-      const completion = new UserActions.LoadProductInterestsFail(undefined);
+      const completion = new UserActions.LoadProductInterestsFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -141,10 +142,10 @@ describe('Product Interests Effect', () => {
 
     it('should be able to handle failures for remove product interest', () => {
       spyOn(userInterestConnector, 'removeInterest').and.returnValue(
-        throwError('Error')
+        throwError(error)
       );
       const action = new UserActions.RemoveProductInterest(delParams);
-      const completion = new UserActions.RemoveProductInterestFail(undefined);
+      const completion = new UserActions.RemoveProductInterestFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

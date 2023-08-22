@@ -12,7 +12,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { LoggerService } from '../../../logger';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
 import { StateUtils } from '../../../state/utils/index';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { UserActions } from '../actions/index';
 import { REGIONS } from '../user-state';
 
@@ -38,7 +38,7 @@ export class RegionsEffects {
           catchError((error) =>
             of(
               new UserActions.LoadRegionsFail(
-                normalizeHttpError(error, this.logger)
+                tryNormalizeHttpError(error, this.logger)
               )
             )
           )

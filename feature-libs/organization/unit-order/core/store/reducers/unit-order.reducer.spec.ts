@@ -45,7 +45,9 @@ describe('Unit Order Reducer', () => {
 
   describe('LOAD_UNIT_ORDERS_FAIL action', () => {
     it('should return the initial state', () => {
-      const action = new UnitOrderActions.LoadUnitOrdersFail('error');
+      const action = new UnitOrderActions.LoadUnitOrdersFail(
+        new Error('error')
+      );
       const state = unitOrdersReducer(initialState, action);
       expect(state).toEqual(initialState);
     });

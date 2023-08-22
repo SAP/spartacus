@@ -26,20 +26,17 @@ describe('Navigation Entry Item Actions', () => {
 
     describe('LoadCmsNavigationItemsFail', () => {
       it('should create an action', () => {
-        const payload = { message: 'Load Error' };
+        const error = { message: 'Load Error' };
         const nodeId = 'test_uid';
-        const action = new CmsActions.LoadCmsNavigationItemsFail(
-          nodeId,
-          payload
-        );
+        const action = new CmsActions.LoadCmsNavigationItemsFail(nodeId, error);
 
         expect({ ...action }).toEqual({
           type: CmsActions.LOAD_CMS_NAVIGATION_ITEMS_FAIL,
-          payload,
+          error,
           meta: StateUtils.entityFailMeta(
             NAVIGATION_DETAIL_ENTITY,
             nodeId,
-            payload
+            error
           ),
         });
       });

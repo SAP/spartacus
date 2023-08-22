@@ -32,11 +32,12 @@ describe('EntityScopedLoaderActions', () => {
 
     describe('EntityScopedFailAction', () => {
       it('should create an action', () => {
+        const error = new Error('error');
         const action = new EntityScopedLoaderActions.EntityScopedFailAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID,
-          SCOPE,
-          'error'
+          error,
+          SCOPE
         );
         expect({ ...action }).toEqual({
           type: ENTITY_FAIL_ACTION,
@@ -44,8 +45,9 @@ describe('EntityScopedLoaderActions', () => {
             TEST_ENTITY_TYPE,
             TEST_ENTITY_ID,
             SCOPE,
-            'error'
+            error
           ),
+          error,
         });
       });
     });

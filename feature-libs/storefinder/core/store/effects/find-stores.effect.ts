@@ -6,7 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
@@ -52,7 +52,7 @@ export class FindStoresEffect {
             catchError((error) =>
               of(
                 new StoreFinderActions.FindStoresFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )
@@ -74,7 +74,7 @@ export class FindStoresEffect {
           catchError((error) =>
             of(
               new StoreFinderActions.FindStoreByIdFail(
-                normalizeHttpError(error, this.logger)
+                tryNormalizeHttpError(error, this.logger)
               )
             )
           )

@@ -6,6 +6,7 @@
 
 import { StateUtils } from '../../../state/utils/index';
 import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
+import { ErrorActionType } from '@spartacus/core';
 
 export const LOAD_CMS_NAVIGATION_ITEMS = '[Cms] Load NavigationEntry items';
 export const LOAD_CMS_NAVIGATION_ITEMS_FAIL =
@@ -15,6 +16,7 @@ export const LOAD_CMS_NAVIGATION_ITEMS_SUCCESS =
 
 export class LoadCmsNavigationItems extends StateUtils.EntityLoadAction {
   readonly type = LOAD_CMS_NAVIGATION_ITEMS;
+
   constructor(public payload: { nodeId: string; items: any[] }) {
     super(NAVIGATION_DETAIL_ENTITY, payload.nodeId);
   }
@@ -22,13 +24,15 @@ export class LoadCmsNavigationItems extends StateUtils.EntityLoadAction {
 
 export class LoadCmsNavigationItemsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_NAVIGATION_ITEMS_FAIL;
-  constructor(nodeId: string, public payload: any) {
-    super(NAVIGATION_DETAIL_ENTITY, nodeId, payload);
+
+  constructor(nodeId: string, public error: ErrorActionType) {
+    super(NAVIGATION_DETAIL_ENTITY, nodeId, error);
   }
 }
 
 export class LoadCmsNavigationItemsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_CMS_NAVIGATION_ITEMS_SUCCESS;
+
   constructor(public payload: { nodeId: string; components: any[] }) {
     super(NAVIGATION_DETAIL_ENTITY, payload.nodeId);
   }

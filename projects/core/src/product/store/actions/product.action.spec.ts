@@ -29,6 +29,7 @@ describe('Product Actions', () => {
         const action = new fromProduct.LoadProductFail(productCode, payload);
 
         expect({ ...action }).toEqual({
+          error: payload,
           type: fromProduct.LOAD_PRODUCT_FAIL,
           payload,
           meta: EntityScopedLoaderActions.entityScopedFailMeta(

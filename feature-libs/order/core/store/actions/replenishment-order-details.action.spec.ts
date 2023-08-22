@@ -7,7 +7,7 @@ import {
 import { OrderActions } from './index';
 const mockUserId = 'test-user';
 const mockReplenishmentOrderCode = 'test-repl-code';
-const mockError = 'test-error';
+const error = { message: 'test-error' };
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
   active: true,
@@ -55,15 +55,14 @@ describe('ReplenishmentOrderActions', () => {
 
     describe('LoadReplenishmentOrderDetailsFail action', () => {
       it('should create an action', () => {
-        const payload = mockError;
         const action = new OrderActions.LoadReplenishmentOrderDetailsFail(
-          payload
+          error
         );
 
         expect({ ...action }).toEqual({
           type: OrderActions.LOAD_REPLENISHMENT_ORDER_DETAILS_FAIL,
-          payload,
-          meta: StateUtils.failMeta(REPLENISHMENT_ORDER_DETAILS, payload),
+          error,
+          meta: StateUtils.failMeta(REPLENISHMENT_ORDER_DETAILS, error),
         });
       });
     });
@@ -123,16 +122,15 @@ describe('ReplenishmentOrderActions', () => {
 
     describe('CancelReplenishmentOrderFail action', () => {
       it('should create an action', () => {
-        const payload = mockError;
-        const action = new OrderActions.CancelReplenishmentOrderFail(payload);
+        const action = new OrderActions.CancelReplenishmentOrderFail(error);
 
         expect({ ...action }).toEqual({
           type: OrderActions.CANCEL_REPLENISHMENT_ORDER_FAIL,
-          payload,
+          error,
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
-            payload
+            error
           ),
         });
       });

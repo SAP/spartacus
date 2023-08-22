@@ -120,7 +120,7 @@ describe('anonymous consent templates selectors', () => {
     it('should return the error flag', () => {
       store.dispatch(
         new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-          'anError'
+          new Error('anError')
         )
       );
 

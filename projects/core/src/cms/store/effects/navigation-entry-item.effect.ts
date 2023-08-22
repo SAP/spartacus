@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, take } from 'rxjs/operators';
 import { LoggerService } from '../../../logger';
 import { RoutingService } from '../../../routing/index';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { isNotUndefined } from '../../../util/type-guards';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import { CmsActions } from '../actions/index';
@@ -54,7 +54,7 @@ export class NavigationEntryItemEffects {
                     of(
                       new CmsActions.LoadCmsNavigationItemsFail(
                         data.nodeId,
-                        normalizeHttpError(error, this.logger)
+                        tryNormalizeHttpError(error, this.logger)
                       )
                     )
                   )
@@ -71,7 +71,7 @@ export class NavigationEntryItemEffects {
           return of(
             new CmsActions.LoadCmsNavigationItemsFail(
               data.nodeId,
-              'navigation nodes are empty'
+              new Error('navigation nodes are empty')
             )
           );
         }

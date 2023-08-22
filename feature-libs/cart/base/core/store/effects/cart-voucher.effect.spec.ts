@@ -4,8 +4,8 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import {
   GlobalMessageService,
-  normalizeHttpError,
   OccConfig,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -92,7 +92,7 @@ describe('Cart Voucher effect', () => {
         userId,
         cartId,
         voucherId,
-        error: normalizeHttpError(error),
+        error: tryNormalizeHttpError(error),
       });
       const completion2 = new CartActions.CartProcessesDecrement(cartId);
       const completion3 = new CartActions.LoadCart({

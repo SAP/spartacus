@@ -13,7 +13,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
@@ -49,7 +49,7 @@ export class SavedCartEffects {
               new SavedCartActions.LoadSavedCartFail({
                 userId,
                 cartId,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -78,7 +78,7 @@ export class SavedCartEffects {
             of(
               new SavedCartActions.LoadSavedCartsFail({
                 userId,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -150,7 +150,7 @@ export class SavedCartEffects {
               new SavedCartActions.RestoreSavedCartFail({
                 userId,
                 cartId,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -196,7 +196,7 @@ export class SavedCartEffects {
                   cartId,
                   saveCartName,
                   saveCartDescription,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 })
               )
             )
@@ -240,7 +240,7 @@ export class SavedCartEffects {
                   cartId,
                   saveCartName,
                   saveCartDescription,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 })
               )
             )
@@ -283,7 +283,7 @@ export class SavedCartEffects {
                   userId,
                   cartId,
                   saveCartName,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 })
               )
             )

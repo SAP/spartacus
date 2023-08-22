@@ -7,7 +7,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CartActions } from '@spartacus/cart/base/core';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -43,7 +43,7 @@ export class ConfiguratorTextfieldEffects {
             catchError((error) =>
               of(
                 new ConfiguratorTextfieldActions.CreateConfigurationFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )
@@ -74,7 +74,7 @@ export class ConfiguratorTextfieldEffects {
           catchError((error) =>
             of(
               new ConfiguratorTextfieldActions.AddToCartFail(
-                normalizeHttpError(error, this.logger)
+                tryNormalizeHttpError(error, this.logger)
               )
             )
           )
@@ -110,7 +110,7 @@ export class ConfiguratorTextfieldEffects {
             catchError((error) =>
               of(
                 new ConfiguratorTextfieldActions.UpdateCartEntryConfigurationFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )
@@ -140,7 +140,7 @@ export class ConfiguratorTextfieldEffects {
               ]),
               catchError((error) => [
                 new ConfiguratorTextfieldActions.ReadCartEntryConfigurationFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 ),
               ])
             );
@@ -170,7 +170,7 @@ export class ConfiguratorTextfieldEffects {
               ]),
               catchError((error) => [
                 new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 ),
               ])
             );

@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
+import { ErrorActionType, StateUtils } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
-import { UNIT_ORDERS, UNIT_ORDER_DETAILS } from '../unit-order-state';
+import { UNIT_ORDER_DETAILS, UNIT_ORDERS } from '../unit-order-state';
 
 export const LOAD_UNIT_ORDERS = '[Unit Order] Load Unit Orders';
 export const LOAD_UNIT_ORDERS_FAIL = '[Unit Order] Load Unit Orders Fail';
@@ -22,6 +22,7 @@ export const CLEAR_ORDER_DETAILS = '[Unit Order] Clear Unit Order Details';
 
 export class LoadUnitOrders extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_UNIT_ORDERS;
+
   constructor(
     public payload: {
       userId: string;
@@ -37,13 +38,15 @@ export class LoadUnitOrders extends StateUtils.LoaderLoadAction {
 
 export class LoadUnitOrdersFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_UNIT_ORDERS_FAIL;
-  constructor(public payload: any) {
-    super(UNIT_ORDERS, payload);
+
+  constructor(public error: ErrorActionType) {
+    super(UNIT_ORDERS, error);
   }
 }
 
 export class LoadUnitOrdersSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_UNIT_ORDERS_SUCCESS;
+
   constructor(public payload?: OrderHistoryList) {
     super(UNIT_ORDERS);
   }
@@ -51,6 +54,7 @@ export class LoadUnitOrdersSuccess extends StateUtils.LoaderSuccessAction {
 
 export class ClearUnitOrders extends StateUtils.LoaderResetAction {
   readonly type = CLEAR_UNIT_ORDERS;
+
   constructor() {
     super(UNIT_ORDERS);
   }
@@ -58,6 +62,7 @@ export class ClearUnitOrders extends StateUtils.LoaderResetAction {
 
 export class LoadOrderDetails extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_ORDER_DETAILS;
+
   constructor(
     public payload: {
       userId: string;
@@ -70,13 +75,15 @@ export class LoadOrderDetails extends StateUtils.LoaderLoadAction {
 
 export class LoadOrderDetailsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ORDER_DETAILS_FAIL;
-  constructor(public payload: any) {
-    super(UNIT_ORDER_DETAILS, payload);
+
+  constructor(public error: ErrorActionType) {
+    super(UNIT_ORDER_DETAILS, error);
   }
 }
 
 export class LoadOrderDetailsSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_ORDER_DETAILS_SUCCESS;
+
   constructor(public payload: Order) {
     super(UNIT_ORDER_DETAILS);
   }
@@ -84,6 +91,7 @@ export class LoadOrderDetailsSuccess extends StateUtils.LoaderSuccessAction {
 
 export class ClearOrderDetails extends StateUtils.LoaderResetAction {
   readonly type = CLEAR_ORDER_DETAILS;
+
   constructor() {
     super(UNIT_ORDER_DETAILS);
   }

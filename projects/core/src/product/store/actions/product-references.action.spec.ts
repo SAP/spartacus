@@ -24,11 +24,11 @@ describe('Product References Actions', () => {
 
     describe('LOAD_PRODUCT_REFERENCES_FAIL', () => {
       it('should create the action', () => {
-        const payload: ErrorModel = { message: 'Load Error' };
-        const action = new ProductActions.LoadProductReferencesFail(payload);
+        const error: ErrorModel = { message: 'Load Error' };
+        const action = new ProductActions.LoadProductReferencesFail(error);
         expect({ ...action }).toEqual({
           type: ProductActions.LOAD_PRODUCT_REFERENCES_FAIL,
-          payload,
+          error,
         });
       });
     });

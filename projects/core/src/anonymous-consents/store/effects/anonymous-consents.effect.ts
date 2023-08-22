@@ -22,7 +22,7 @@ import { AuthActions, AuthService, UserIdService } from '../../../auth/index';
 import { LoggerService } from '../../../logger';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/anonymous-consent-templates.connector';
 import { AnonymousConsentsService } from '../../facade/index';
@@ -76,7 +76,7 @@ export class AnonymousConsentsEffects {
             catchError((error) =>
               of(
                 new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )
@@ -118,7 +118,7 @@ export class AnonymousConsentsEffects {
               catchError((error) =>
                 of(
                   new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )

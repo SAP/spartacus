@@ -13,7 +13,7 @@ import {
   LoggerService,
   SiteContextActions,
   UserIdService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -47,7 +47,7 @@ export class OrderDetailsEffect {
               catchError((error) =>
                 of(
                   new OrderActions.LoadOrderDetailsFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -75,7 +75,7 @@ export class OrderDetailsEffect {
 
               return of(
                 new OrderActions.CancelOrderFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               );
             })
@@ -108,7 +108,7 @@ export class OrderDetailsEffect {
             catchError((error) =>
               of(
                 new OrderActions.LoadOrderDetailsFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )

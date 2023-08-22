@@ -8,7 +8,7 @@ const budget: Budget = {
   code: budgetCode,
 };
 const userId = 'xxx@xxx.xxx';
-const error = 'anError';
+const error = { message: 'anError' };
 const params = { currentPage: 2 };
 const query = '?pageSize=&currentPage=2&sort=';
 
@@ -38,6 +38,7 @@ describe('Budget Actions', () => {
         const action = new BudgetActions.LoadBudgetFail({ budgetCode, error });
 
         expect({ ...action }).toEqual({
+          error,
           type: BudgetActions.LOAD_BUDGET_FAIL,
           payload: { budgetCode, error },
           meta: StateUtils.entityFailMeta(BUDGET_ENTITIES, budgetCode, error),
@@ -108,15 +109,14 @@ describe('Budget Actions', () => {
       it('should create the action', () => {
         const action = new BudgetActions.LoadBudgetsFail({
           params,
-          error: { error },
+          error,
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: BudgetActions.LOAD_BUDGETS_FAIL,
-          payload: { params, error: { error } },
-          meta: StateUtils.entityFailMeta(BUDGET_LIST, query, {
-            error,
-          }),
+          payload: { params, error },
+          meta: StateUtils.entityFailMeta(BUDGET_LIST, query, error),
         });
       });
     });
@@ -158,6 +158,7 @@ describe('Budget Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: BudgetActions.CREATE_BUDGET_FAIL,
           payload: {
             budgetCode,
@@ -206,6 +207,7 @@ describe('Budget Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: BudgetActions.UPDATE_BUDGET_FAIL,
           payload: {
             budgetCode,
