@@ -11,7 +11,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { LoggerService } from '../../../logger';
 import { EntitiesModel } from '../../../model/misc.model';
 import { CostCenter } from '../../../model/org-unit.model';
-import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { UserCostCenterConnector } from '../../connectors/cost-center/user-cost-center.connector';
 import { UserActions } from '../actions/index';
 

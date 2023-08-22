@@ -7,7 +7,7 @@ import { GlobalMessageType } from '../../../global-message/models/global-message
 import { GlobalMessageActions } from '../../../global-message/store/actions';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { UserConsentAdapter } from '../../connectors/index';
 import { UserActions } from '../actions/index';
 import * as fromEffect from './user-consents.effect';

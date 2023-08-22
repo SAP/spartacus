@@ -21,7 +21,7 @@ import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { LoggerService } from '../../../logger';
 import { RoutingService } from '../../../routing/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
 import { CmsStructureModel } from '../../model/page.model';
 import { serializePageContext } from '../../utils/cms-utils';

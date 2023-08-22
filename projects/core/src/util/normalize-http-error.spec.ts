@@ -2,10 +2,7 @@ import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import * as isDevModeFunc from '@angular/core';
 import { LoggerService } from '../logger';
 import { HttpErrorModel } from '../model/index';
-import {
-  normalizeHttpError,
-  tryNormalizeHttpError,
-} from './normalize-http-error';
+import { normalizeHttpError } from './normalize-http-error';
 
 const logger = new LoggerService();
 
@@ -122,33 +119,5 @@ describe('normalizeHttpError', () => {
       const result = normalizeHttpError(normalizedError);
       expect(result).toEqual(normalizedError);
     });
-  });
-});
-
-describe('tryNormalizeHttpError', () => {
-  let mockLogger: LoggerService;
-
-  beforeEach(() => {
-    mockLogger = jasmine.createSpyObj('LoggerService', ['error']);
-  });
-
-  it('should return the normalized error when input is an HttpErrorModel', () => {
-    const inputError = new HttpErrorModel();
-    const result = tryNormalizeHttpError(inputError, mockLogger);
-
-    expect(result).toBe(inputError);
-    expect(mockLogger.error).not.toHaveBeenCalled();
-  });
-
-  it('should return the original error when input is not HttpErrorModel or HttpErrorResponse', () => {
-    const inputError = new Error('An error occurred');
-
-    const result = tryNormalizeHttpError(inputError, mockLogger);
-
-    expect(result).toBe(inputError);
-    expect(mockLogger.error).toHaveBeenCalledWith(
-      'Error passed to normalizeHttpError is not HttpErrorResponse instance',
-      inputError
-    );
   });
 });

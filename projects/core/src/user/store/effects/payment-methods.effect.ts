@@ -13,7 +13,7 @@ import { GlobalMessageService } from '../../../global-message/facade/global-mess
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { LoggerService } from '../../../logger';
 import { PaymentDetails } from '../../../model/payment.model';
-import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
 import { UserActions } from '../actions/index';
 

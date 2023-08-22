@@ -10,7 +10,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, take } from 'rxjs/operators';
 import { LoggerService } from '../../../logger';
 import { RoutingService } from '../../../routing/index';
-import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { isNotUndefined } from '../../../util/type-guards';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import { CmsActions } from '../actions/index';

@@ -11,7 +11,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { LoggerService } from '../../../logger';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
-import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
 import { UserActions } from '../actions/index';
 

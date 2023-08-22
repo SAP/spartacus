@@ -27,11 +27,9 @@ export interface EntityLoaderAction extends Action {
   readonly meta?: EntityLoaderMeta;
 }
 
-export type EntityLoadId = string | string[] | null;
-
 export function entityLoadMeta(
   entityType: string,
-  id: EntityLoadId
+  id: string | string[] | null
 ): EntityLoaderMeta {
   return {
     ...loadMeta(entityType),
@@ -41,7 +39,7 @@ export function entityLoadMeta(
 
 export function entityFailMeta(
   entityType: string,
-  id: EntityLoadId,
+  id: string | string[] | null,
   error?: any
 ): EntityLoaderMeta {
   return {
@@ -52,7 +50,7 @@ export function entityFailMeta(
 
 export function entitySuccessMeta(
   entityType: string,
-  id: EntityLoadId
+  id: string | string[] | null
 ): EntityLoaderMeta {
   return {
     ...successMeta(entityType),
@@ -62,7 +60,7 @@ export function entitySuccessMeta(
 
 export function entityResetMeta(
   entityType: string,
-  id?: EntityLoadId
+  id?: string | string[] | null
 ): EntityLoaderMeta {
   return {
     ...resetMeta(entityType),
@@ -74,7 +72,7 @@ export class EntityLoadAction implements EntityLoaderAction {
   type = ENTITY_LOAD_ACTION;
   readonly meta: EntityLoaderMeta;
 
-  constructor(entityType: string, id: EntityLoadId) {
+  constructor(entityType: string, id: string | string[] | null) {
     this.meta = entityLoadMeta(entityType, id);
   }
 }
@@ -84,7 +82,7 @@ export class EntityFailAction implements EntityLoaderAction, ErrorAction {
   error: ErrorActionType;
   readonly meta: EntityLoaderMeta;
 
-  constructor(entityType: string, id: EntityLoadId, error: ErrorActionType) {
+  constructor(entityType: string, id: string | string[] | null, error: ErrorActionType) {
     this.meta = entityFailMeta(entityType, id, error);
     this.error = error;
   }
@@ -94,7 +92,7 @@ export class EntitySuccessAction implements EntityLoaderAction {
   type = ENTITY_SUCCESS_ACTION;
   readonly meta: EntityLoaderMeta;
 
-  constructor(entityType: string, id: EntityLoadId, public payload?: any) {
+  constructor(entityType: string, id: string | string[] | null, public payload?: any) {
     this.meta = entitySuccessMeta(entityType, id);
   }
 }
@@ -103,7 +101,7 @@ export class EntityLoaderResetAction implements EntityLoaderAction {
   type = ENTITY_RESET_ACTION;
   readonly meta: EntityLoaderMeta;
 
-  constructor(entityType: string, id: EntityLoadId) {
+  constructor(entityType: string, id: string | string[] | null) {
     this.meta = entityResetMeta(entityType, id);
   }
 }

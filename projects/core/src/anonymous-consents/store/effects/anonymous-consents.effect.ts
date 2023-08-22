@@ -22,7 +22,7 @@ import { AuthActions, AuthService, UserIdService } from '../../../auth/index';
 import { LoggerService } from '../../../logger';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
-import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/anonymous-consent-templates.connector';
 import { AnonymousConsentsService } from '../../facade/index';

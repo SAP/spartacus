@@ -9,7 +9,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { LoggerService } from '../../../logger';
-import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { UserNotificationPreferenceConnector } from '../../connectors/notification-preference/user-notification-preference.connector';
 import { UserActions } from '../actions/index';
 

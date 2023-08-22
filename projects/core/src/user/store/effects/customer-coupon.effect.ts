@@ -10,7 +10,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { LoggerService } from '../../../logger';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
-import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
 import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
 

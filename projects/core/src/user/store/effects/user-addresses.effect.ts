@@ -14,7 +14,7 @@ import {
 } from '../../../global-message/index';
 import { LoggerService } from '../../../logger';
 import { Address } from '../../../model/address.model';
-import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { UserAddressService } from '../../facade/user-address.service';
 import { UserActions } from '../actions/index';

@@ -9,7 +9,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { LoggerService } from '../../../logger';
-import { tryNormalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
 
