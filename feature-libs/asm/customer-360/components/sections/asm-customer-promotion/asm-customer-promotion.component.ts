@@ -28,7 +28,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 })
 export class AsmCustomerPromotionComponent implements OnInit, OnDestroy {
   showErrorAlert$ = new BehaviorSubject<boolean>(false);
-  entries$ = new BehaviorSubject<Array<Customer360Promotion >>([]);
+  entries$ = new BehaviorSubject<Array<Customer360Promotion>>([]);
   subscription = new Subscription();
   userId: string;
 
@@ -67,7 +67,7 @@ export class AsmCustomerPromotionComponent implements OnInit, OnDestroy {
             promotionList.promotions.forEach((promotion) => {
               newEntries.push({
                 applied: promotion.applied,
-                code: promotion.name ? promotion.name : "",
+                code: promotion.name || '',
                 name: promotion.message,
               });
             });
@@ -92,7 +92,7 @@ export class AsmCustomerPromotionComponent implements OnInit, OnDestroy {
           data.promotions.forEach((promotion) => {
             entries.push({
               applied: promotion.applied,
-              code: promotion.name ? promotion.name : "",
+              code: promotion.name || '',
               name: promotion.message,
             });
           });
