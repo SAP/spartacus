@@ -24,6 +24,13 @@ import { tap } from 'rxjs/operators';
  */
 @Injectable()
 export class HttpErrorHandlerInterceptor implements HttpInterceptor {
+  private blockedRequests: string[] = [
+    'product',
+    // 'review'
+    // 'references'
+    //   'search'
+  ];
+
   constructor(protected errorHandler: ErrorHandler) {}
 
   intercept(
@@ -31,15 +38,34 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
-      tap({
-        error: (error) => {
-          this.handleError(error);
-        },
-      })
+      tap(
+        () => {
+          if (this.isRequestBlocked(request.url)) {
+            // const errorMessage = 'This request is blocked';
+            // const error = new HttpErrorResponse({
+            //   error: errorMessage,
+            //   status: 400,
+            //   statusText: errorMessage,
+            //   url: request.url,
+            // });
+            const error = new Error('NgRx test error')
+            throw error;
+          }
+        }
+        //   {
+        //   error: (error) => {
+        //     this.handleError(error);
+        //   },
+        // }
+      )
     );
   }
 
   protected handleError(error: HttpErrorResponse): void {
     this.errorHandler.handleError(error);
+  }
+
+  private isRequestBlocked(url: string): boolean {
+    return this.blockedRequests.some((blockedUrl) => url.includes(blockedUrl));
   }
 }

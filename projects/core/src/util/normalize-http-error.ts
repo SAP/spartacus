@@ -47,7 +47,7 @@ export function normalizeHttpError(
     return normalizedError;
   }
 
-  if (isDevMode()) {
+  if (!isDevMode()) {
     const logMessage =
       'Error passed to normalizeHttpError is not HttpErrorResponse instance';
     // CXSPA-3680 - use logger by default and make logger required param
