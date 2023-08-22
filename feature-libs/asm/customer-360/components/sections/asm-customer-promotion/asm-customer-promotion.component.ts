@@ -14,11 +14,11 @@ import {
   Customer360Facade,
   Customer360PromotionList,
   Customer360Type,
+  Customer360Promotion,
 } from '@spartacus/asm/customer-360/root';
 import { BehaviorSubject, Subscription, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
-import { Customer360Promotion } from '@spartacus/asm/customer-360/root';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 
 @Component({
