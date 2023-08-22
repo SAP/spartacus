@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { Component, Directive, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {
@@ -11,6 +10,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { Quote, QuoteState } from '@spartacus/quote/root';
 import { QuoteConfirmActionDialogComponent } from './quote-confirm-action-dialog.component';
 import { ConfirmationContext } from './quote-confirm-action-dialog.model';
+import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 
 const QUOTE_CODE = '00010000';
 const quote: Quote = {
@@ -50,6 +50,7 @@ export class MockKeyboadFocusDirective {
 describe('QuoteRequestDialogComponent', () => {
   let component: QuoteConfirmActionDialogComponent;
   let fixture: ComponentFixture<QuoteConfirmActionDialogComponent>;
+  let htmlElem: HTMLElement;
   let mockLaunchDialogService: LaunchDialogService;
 
   let dialogDataSender: BehaviorSubject<{
@@ -85,6 +86,7 @@ describe('QuoteRequestDialogComponent', () => {
       confirmationContext: confirmationContext,
     });
     fixture = TestBed.createComponent(QuoteConfirmActionDialogComponent);
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     mockLaunchDialogService = TestBed.inject(LaunchDialogService);
     spyOn(mockLaunchDialogService, 'closeDialog');
@@ -97,53 +99,65 @@ describe('QuoteRequestDialogComponent', () => {
   });
 
   it('should close the dialog on yes', () => {
-    fixture.debugElement
-      .query(By.css('.btn-primary'))
-      .triggerEventHandler('click');
+    const primaryButton = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
+      'button.btn-primary'
+    );
+    primaryButton.click();
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('yes');
   });
 
   it('should close the dialog on no', () => {
-    fixture.debugElement
-      .query(By.css('.btn-secondary'))
-      .triggerEventHandler('click');
+    const secondaryButton = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
+      'button.btn-secondary'
+    );
+    secondaryButton.click();
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('no');
   });
 
   it('should contain expected title', () => {
-    const title = fixture.debugElement.query(By.css('.cx-dialog-title'));
-    expect(title.nativeNode.innerText).toEqual(
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-dialog-title',
       confirmationContext.title + ' code:' + QUOTE_CODE
     );
   });
 
   it('should contain expected quote name', () => {
-    const quoteName = fixture.debugElement.query(
-      By.css('.cx-name .cx-content')
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-name .cx-content',
+      quote.name
     );
-    expect(quoteName.nativeNode.innerText.includes(quote.name)).toEqual(true);
   });
 
   it('should contain expected quote description', () => {
-    const quotedescription = fixture.debugElement.query(
-      By.css('.cx-description .cx-content')
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-description .cx-content',
+      quote.description
     );
-    expect(
-      quotedescription.nativeNode.innerText.includes(quote.description)
-    ).toEqual(true);
   });
 
   it('should contain three notes', () => {
-    const notes = fixture.debugElement.queryAll(
-      By.css('.cx-notes-container p')
+    CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      '.cx-notes-container p',
+      3
     );
-    expect(notes.length).toEqual(3);
   });
 
   it('should navigate back on escape', () => {
-    fixture.debugElement
-      .query(By.css('.cx-modal-container'))
-      .triggerEventHandler('esc');
+    const modal = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
+      '.cx-modal-container'
+    );
+    modal.dispatchEvent(new Event('esc'));
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
   });
 });

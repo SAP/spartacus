@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import {
   QuoteFacade,
   Quote,
@@ -12,9 +11,7 @@ import {
   Price,
   TranslationService,
 } from '@spartacus/core';
-
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
-
 import { QuoteDetailsCartSummaryComponent } from './quote-details-cart-summary.component';
 import createSpy = jasmine.createSpy;
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
