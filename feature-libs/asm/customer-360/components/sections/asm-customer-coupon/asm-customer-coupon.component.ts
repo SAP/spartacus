@@ -50,8 +50,8 @@ export class AsmCustomerCouponComponent implements OnInit, OnDestroy {
       })
     );
     this.subscription.add(
-      this.activeCartFacade.requireLoadedCart().subscribe((cart) => {
-        this.currentCartId = cart?.code;
+      this.activeCartFacade.getActiveCartId().subscribe((response) => {
+        this.currentCartId = response ?? '';
       })
     );
     this.subscription.add(

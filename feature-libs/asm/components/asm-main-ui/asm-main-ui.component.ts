@@ -46,6 +46,7 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 interface CartTypeKey {
   [key: string]: string;
 }
@@ -89,7 +90,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     routingService: RoutingService,
     asmService: AsmService,
     userAccountFacade: UserAccountFacade,
-    launchDialogService: LaunchDialogService
+    launchDialogService: LaunchDialogService,
+    activeCartFacade: ActiveCartFacade,
   );
   /**
    * @deprecated since 7.0
@@ -103,6 +105,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     asmService: AsmService,
     userAccountFacade: UserAccountFacade,
     launchDialogService: LaunchDialogService,
+    activeCartFacade: ActiveCartFacade,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     featureConfig: FeatureConfigService
   );
@@ -115,6 +118,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
     protected launchDialogService: LaunchDialogService,
+    protected activeCartFacade: ActiveCartFacade,
     @Optional() protected featureConfig?: FeatureConfigService
   ) {}
 
@@ -298,6 +302,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     if (customerId) {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
+      this.activeCartFacade.getActiveCartId()
+      .pipe()
+      .subscribe((cart) => {
+        if(!cart){
+          this.activeCartFacade.requireLoadedCart();
+        }
+      });
       if (parameters) {
         this.handleDeepLinkParamsAfterStartSession(parameters);
       }
