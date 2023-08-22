@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -9,6 +8,7 @@ import {
 } from '@spartacus/core';
 import {
   Quote,
+  QuoteAction,
   QuoteActionType,
   QuoteFacade,
   QuoteState,
@@ -26,6 +26,7 @@ import {
   ConfirmActionDialogMappingConfig,
   QuoteUIConfig,
 } from '../config/quote-ui.config';
+import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 
 const mockCartId = '1234';
 const mockCode = '3333';
@@ -109,6 +110,7 @@ class MockGlobalMessageService {
 
 describe('QuoteActionsByRoleComponent', () => {
   let fixture: ComponentFixture<QuoteActionsByRoleComponent>;
+  let htmlElem: HTMLElement;
   let component: QuoteActionsByRoleComponent;
   let launchDialogService: LaunchDialogService;
   let facade: QuoteFacade;
@@ -138,6 +140,7 @@ describe('QuoteActionsByRoleComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteActionsByRoleComponent);
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
     facade = TestBed.inject(QuoteFacade);
@@ -157,63 +160,6 @@ describe('QuoteActionsByRoleComponent', () => {
       done();
     });
   });
-
-  // it('should read quote details and return original data if state or allower actions are not present', (done) => {
-  //   const mockQuoteDetailseWithoutState: Quote = {
-  //     code: mockCode,
-  //     cartId: mockCartId,
-  //     allowedActions: [QuoteActionType.EDIT, QuoteActionType.REQUOTE],
-  //   };
-  //   const expected: QueryState<Quote> = {
-  //     error: false,
-  //     loading: false,
-  //     data: mockQuoteDetailseWithoutState,
-  //   };
-  //   mockQuoteDetailsState$.next(expected);
-
-  //   component.quoteDetailsState$.pipe(take(1)).subscribe((state) => {
-  //     expect(state).toEqual(expected);
-  //     done();
-  //   });
-  // });
-
-  // it('should return list if commerce quotes config or actions order is not present', () => {
-  //   Object.defineProperty(configService, 'config', {
-  //     value: {
-  //       commerceQuotes: null,
-  //     },
-  //   });
-  //   expect(
-  //     component['getOrderedList'](
-  //       QuoteState.BUYER_DRAFT,
-  //       mockQuote.allowedActions as QuoteActionType[]
-  //     )
-  //   ).toEqual(mockQuote.allowedActions);
-
-  //   Object.defineProperty(configService, 'config', {
-  //     value: {
-  //       commerceQuotes: { actionsOrderByState: null },
-  //     },
-  //   });
-  //   expect(
-  //     component['getOrderedList'](
-  //       QuoteState.BUYER_DRAFT,
-  //       mockQuote.allowedActions as QuoteActionType[]
-  //     )
-  //   ).toEqual(mockQuote.allowedActions);
-  // });
-
-  // it('should return empty array if commerce quotes config is not set', () => {
-  //   Object.defineProperty(configService, 'config', {
-  //     value: {
-  //       commerceQuotes: null,
-  //     },
-  //   });
-  //   fixture = TestBed.createComponent(QuoteActionsByRoleComponent);
-  //   component = fixture.componentInstance;
-
-  //   expect(component.primaryActions).toEqual([]);
-  // });
 
   it('should open confirmation dialog when action is SUBMIT', () => {
     spyOn(launchDialogService, 'openDialog');
@@ -288,6 +234,8 @@ describe('QuoteActionsByRoleComponent', () => {
   });
 
   describe('Threshold check', () => {
+    const attributeName = 'disabled';
+
     const allowedActionsSubmit = [
       { type: QuoteActionType.SUBMIT, isPrimary: true },
     ];
@@ -308,18 +256,24 @@ describe('QuoteActionsByRoleComponent', () => {
     it('should let submit button enabled if threshold is met', () => {
       mockQuoteDetails$.next(submittableQuote);
       fixture.detectChanges();
-      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
-      expect(actionButtons).toBeDefined();
-      expect(actionButtons[0].nativeElement.disabled).toBe(false);
+      CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
+        expect,
+        htmlElem,
+        '.btn:first-child',
+        attributeName
+      );
     });
 
     it('should let submit button enabled if threshold is not specified', () => {
       mockQuote.threshold = undefined;
       mockQuoteDetails$.next(submittableQuote);
       fixture.detectChanges();
-      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
-      expect(actionButtons).toBeDefined();
-      expect(actionButtons[0].nativeElement.disabled).toBe(false);
+      CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
+        expect,
+        htmlElem,
+        '.btn:first-child',
+        attributeName
+      );
     });
 
     it('should disable submit button if threshold is not met and raise message', () => {
@@ -327,30 +281,38 @@ describe('QuoteActionsByRoleComponent', () => {
       mockQuoteDetails$.next(quoteFailingThreshold);
       fixture.detectChanges();
 
-      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
-      expect(actionButtons).toBeDefined();
-      expect(actionButtons[0].nativeElement.disabled).toBe(true);
+      CommonQuoteTestUtilsService.expectElementToContainAttribute(
+        expect,
+        htmlElem,
+        '.btn:first-child',
+        attributeName
+      );
       expect(globalMessageService.add).toHaveBeenCalled();
     });
 
     it('should disable submit button if total price value is not provided', () => {
       quoteFailingThreshold.totalPrice.value = undefined;
-
       mockQuoteDetails$.next(quoteFailingThreshold);
       fixture.detectChanges();
 
-      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
-      expect(actionButtons).toBeDefined();
-      expect(actionButtons[0].nativeElement.disabled).toBe(true);
+      CommonQuoteTestUtilsService.expectElementToContainAttribute(
+        expect,
+        htmlElem,
+        '.btn:first-child',
+        attributeName
+      );
     });
 
     it('should not touch buttons other than submit', () => {
       mockQuoteDetails$.next(cancellableQuote);
       fixture.detectChanges();
 
-      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
-      expect(actionButtons).toBeDefined();
-      expect(actionButtons[0].nativeElement.disabled).toBe(false);
+      CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
+        expect,
+        htmlElem,
+        '.btn:first-child',
+        attributeName
+      );
     });
 
     it('should not raise message in case threshold not met and submit action not present', () => {
@@ -382,22 +344,28 @@ describe('QuoteActionsByRoleComponent', () => {
     );
   });
 
-  it('should generate buttons with actions and trigger proper method (requote if allowed action is REQUOTE)', () => {
+  it("should click on 'EDIT' button", () => {
     spyOn(facade, 'performQuoteAction').and.callThrough();
     fixture.detectChanges();
-    const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
-
-    expect(actionButtons).toBeDefined();
-    actionButtons.filter((button, index) => {
-      expect(button.nativeElement.textContent.trim()).toEqual(
-        `quote.actions.${mockQuote.allowedActions[index].type}`
-      );
-      button.nativeElement.click();
-    });
+    const editButton = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
+      '.btn:first-child'
+    );
+    editButton.click();
     expect(facade.performQuoteAction).toHaveBeenCalledWith(
       mockQuote.code,
       QuoteActionType.EDIT
     );
+  });
+
+  it("should click on 'REQUOTE' button", () => {
+    spyOn(facade, 'performQuoteAction').and.callThrough();
+    fixture.detectChanges();
+    const requoteButton = CommonQuoteTestUtilsService.getHTMLElement(
+      htmlElem,
+      '.btn:last-child'
+    );
+    requoteButton.click();
     expect(facade.requote).toHaveBeenCalledWith(mockQuote.code);
   });
 
@@ -505,6 +473,65 @@ describe('QuoteActionsByRoleComponent', () => {
         { key: 'successMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
+    });
+  });
+  describe('getMessageType', () => {
+    it('should return INFO for reject action', () => {
+      expect(component['getMessageType'](QuoteActionType.REJECT)).toBe(
+        GlobalMessageType.MSG_TYPE_INFO
+      );
+    });
+    it('should return INFO for cancel action', () => {
+      expect(component['getMessageType'](QuoteActionType.CANCEL)).toBe(
+        GlobalMessageType.MSG_TYPE_INFO
+      );
+    });
+    it('should return CONFIRMATION for submit action', () => {
+      expect(component['getMessageType'](QuoteActionType.SUBMIT)).toBe(
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+  });
+  describe('getButtonStyle', () => {
+    let allowedActions: QuoteAction[];
+    beforeEach(() => {
+      allowedActions = [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.EDIT, isPrimary: false },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+      ];
+    });
+    it("should return 'btn-primary' style for action marked as primary", () => {
+      expect(
+        component.getButtonStyle(allowedActions, {
+          type: QuoteActionType.SUBMIT,
+          isPrimary: true,
+        })
+      ).toEqual('btn-primary');
+    });
+    it("should return 'btn-secondary' style for action marked as non-primary", () => {
+      expect(
+        component.getButtonStyle(allowedActions, {
+          type: QuoteActionType.SUBMIT,
+          isPrimary: false,
+        })
+      ).toEqual('btn-secondary');
+    });
+    it("should return 'btn-secondary' style for cancel-action if there are only 2 actions", () => {
+      expect(
+        component.getButtonStyle(allowedActions.slice(1), {
+          type: QuoteActionType.CANCEL,
+          isPrimary: false,
+        })
+      ).toEqual('btn-secondary');
+    });
+    it("should return 'btn-tertiary style for cancel-action if there are more than 2 actions", () => {
+      expect(
+        component.getButtonStyle(allowedActions, {
+          type: QuoteActionType.CANCEL,
+          isPrimary: false,
+        })
+      ).toEqual('btn-tertiary');
     });
   });
 });
