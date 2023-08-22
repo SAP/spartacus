@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as logger from '../../../../helpers/logging';
 import * as quote from '../../../../helpers/quote';
 
 const POWERTOOLS = 'powertools-spa';
@@ -14,7 +13,7 @@ const BUYER_EMAIL = 'gi.sun@pronto-hw.com';
 const BUYER_PASSWORD = '12341234';
 const BUYER_USER = 'Gi Sun';
 const MSG_TYPE_WARNING = '[GlobalMessage] Warning';
-const CARD_TITLE_QUOTE_INFORMATION = 'Quote Information';
+const PRODUCT_AMOUNT_30: number = 30;
 
 context('Quote', () => {
   let globalMessageSettings: any;
@@ -34,17 +33,14 @@ context('Quote', () => {
 
   describe('Request quote process', () => {
     it('should display a message and disable submit button if threshold is not met', () => {
-      logger.log('STEP 1) Create a request for quote NOT matching threshold');
       quote.requestQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, '1');
       quote.checkQuoteInDraftState(false, TEST_PRODUCT_HAMMER_DRILLING_ID);
     });
 
     it('should be possible(submit) if threshold is met', () => {
-      logger.log('STEP 1) Create a request for quote matching threshold');
       quote.requestQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, '30');
       cy.url().as('quoteURL');
       quote.checkQuoteInDraftState(true, TEST_PRODUCT_HAMMER_DRILLING_ID);
-      logger.log('STEP 2) Check Comments');
       quote.addCommentAndWait(
         'Can you please make me a good offer for this large volume of goods?'
       );
@@ -63,7 +59,6 @@ context('Quote', () => {
       );
       quote.clickItemLinkInComment(2, TEST_PRODUCT_HAMMER_DRILLING_NAME);
       quote.checkLinkedItemInViewport(1);
-      logger.log('STEP 3) Submit');
       quote.submitQuote();
       quote.checkQuoteState(quote.STATUS_SUBMITTED);
       quote.checkCommentsNotEditable();
@@ -72,62 +67,45 @@ context('Quote', () => {
 
   describe('Edit quote process - buyer perspective', () => {
     it('should edit quantity of items within a buyer quote draft (CXSPA-3852)', () => {
-      logger.log('STEP 1) Create a Request for Quote');
-      const PRODUCT_AMOUNT: number = 30;
+      let itemIndex = 1;
       quote.requestQuote(
         POWERTOOLS,
         TEST_PRODUCT_HAMMER_DRILLING_ID,
-        PRODUCT_AMOUNT.toString()
+        PRODUCT_AMOUNT_30.toString()
       );
       cy.url().as('quoteURL');
       quote.checkQuoteInDraftState(true, TEST_PRODUCT_HAMMER_DRILLING_ID);
-      let itemIndex = 1;
+      quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
+      quote.checkItemQuantity(itemIndex, PRODUCT_AMOUNT_30.toString());
+      quote.changeItemQuantityByStepper(itemIndex, '+');
+      quote.checkItemQuantity(itemIndex, (PRODUCT_AMOUNT_30 + 1).toString());
+      quote.changeItemQuantityByStepper(itemIndex, '-');
+      quote.checkItemQuantity(itemIndex, PRODUCT_AMOUNT_30.toString());
+      quote.changeItemQuantityByCounter(1, '1');
+      quote.checkItemQuantity(itemIndex, '1');
+      quote.checkSubmitBtn(false);
+      quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
+      quote.removeItem(itemIndex);
       quote.checkItemExists(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
-      quote.validateItemQuantity(itemIndex, PRODUCT_AMOUNT.toString());
-      logger.log('STEP 2) decrease / increase item quantity');
-      quote.changeItemQuantityOnClick(itemIndex, '+');
-      quote.validateItemQuantity(itemIndex, (PRODUCT_AMOUNT + 1).toString());
-      quote.changeItemQuantityOnClick(itemIndex, '-');
-      quote.validateItemQuantity(itemIndex, PRODUCT_AMOUNT.toString());
-      quote.changeItemQuantityWithInputField(1, '1');
-      quote.validateItemQuantity(itemIndex, '1');
-      quote.checkSubmitButton(false);
-      quote.checkItemExists(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
-      logger.log('STEP 3) remove item');
-      quote.removeItemOnClick(itemIndex);
-      quote.checkItemRemoved(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
     });
 
     it('should edit name and description of the quote while in buyer draft (CXSPA-3852)', () => {
-      logger.log('STEP 1) Create a request for quote');
-      const PRODUCT_AMOUNT: number = 30;
       const QUOTENAME = 'Quote name test';
       const QUOTEDESCRIPTION = 'Quote description for the test';
       quote.requestQuote(
         POWERTOOLS,
         TEST_PRODUCT_HAMMER_DRILLING_ID,
-        PRODUCT_AMOUNT.toString()
+        PRODUCT_AMOUNT_30.toString()
       );
       cy.url().as('quoteURL');
       quote.checkQuoteInDraftState(true, TEST_PRODUCT_HAMMER_DRILLING_ID);
-      logger.log('STEP 2) Edit Quote Details');
-      quote.verifyQuoteInformationCardInEditMode(
-        CARD_TITLE_QUOTE_INFORMATION,
-        false
-      );
-      quote.clickEditOnQuoteInformationCard(CARD_TITLE_QUOTE_INFORMATION);
-      quote.changeQuoteSummaryCardEntries(
-        CARD_TITLE_QUOTE_INFORMATION,
-        QUOTENAME,
-        QUOTEDESCRIPTION
-      );
-      quote.clickSaveOnQuoteSummaryCard(CARD_TITLE_QUOTE_INFORMATION);
-      quote.verifyQuoteInformationCardInEditMode(
-        CARD_TITLE_QUOTE_INFORMATION,
-        false
-      );
-      quote.verifyQuoteInformationContent(QUOTENAME);
-      quote.verifyQuoteInformationContent(QUOTEDESCRIPTION);
+      quote.verifyCardWithQuoteInformation(false);
+      quote.clickEditQuoteInformationCard();
+      quote.editQuoteInformationCard(QUOTENAME, QUOTEDESCRIPTION);
+      quote.saveEditedDataOnCard();
+      quote.verifyCardWithQuoteInformation(false);
+      quote.checkQuoteInformationCardContent(QUOTENAME);
+      quote.checkQuoteInformationCardContent(QUOTEDESCRIPTION);
     });
   });
 
