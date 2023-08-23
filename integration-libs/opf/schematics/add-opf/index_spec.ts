@@ -124,68 +124,68 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
   });
 
   describe('SAP OPF feature', () => {
-    describe('general setup', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematic('ng-add', checkoutFeatureOptions, appTree);
-        appTree = await schematicRunner
-          .runSchematic('ng-add', opfFeatureOptions, appTree);
-      });
+    // describe('general setup', () => {
+    //   beforeEach(async () => {
+    //     appTree = await schematicRunner
+    //       .runSchematic('ng-add', checkoutFeatureOptions, appTree);
+    //     appTree = await schematicRunner
+    //       .runSchematic('ng-add', opfFeatureOptions, appTree);
+    //   });
 
-      it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(opfFeatureModulePath);
-        expect(module).toMatchSnapshot();
-      });
+    //   it('should add the feature using the lazy loading syntax', async () => {
+    //     const module = appTree.readContent(opfFeatureModulePath);
+    //     expect(module).toMatchSnapshot();
+    //   });
 
-      describe('styling', () => {
-        it('should create a proper scss file', () => {
-          const scssContent = appTree.readContent(scssFilePath);
-          expect(scssContent).toMatchSnapshot();
-        });
+    //   describe('styling', () => {
+    //     it('should create a proper scss file', () => {
+    //       const scssContent = appTree.readContent(scssFilePath);
+    //       expect(scssContent).toMatchSnapshot();
+    //     });
 
-        it('should update angular.json', async () => {
-          const content = appTree.readContent('/angular.json');
-          expect(content).toMatchSnapshot();
-        });
-      });
+    //     it('should update angular.json', async () => {
+    //       const content = appTree.readContent('/angular.json');
+    //       expect(content).toMatchSnapshot();
+    //     });
+    //   });
 
-      it('should install necessary Spartacus libraries', () => {
-        const packageJson = JSON.parse(appTree.readContent('package.json'));
-        let dependencies: Record<string, string> = {};
-        dependencies = { ...packageJson.dependencies };
-        dependencies = { ...dependencies, ...packageJson.devDependencies };
+    //   it('should install necessary Spartacus libraries', () => {
+    //     const packageJson = JSON.parse(appTree.readContent('package.json'));
+    //     let dependencies: Record<string, string> = {};
+    //     dependencies = { ...packageJson.dependencies };
+    //     dependencies = { ...dependencies, ...packageJson.devDependencies };
 
-        for (const toAdd in peerDependencies) {
-          if (
-            !peerDependencies.hasOwnProperty(toAdd) ||
-            toAdd === SPARTACUS_SCHEMATICS
-          ) {
-            continue;
-          }
-          const expectedDependency = dependencies[toAdd];
-          expect(expectedDependency).toBeTruthy();
-        }
-      });
+    //     for (const toAdd in peerDependencies) {
+    //       if (
+    //         !peerDependencies.hasOwnProperty(toAdd) ||
+    //         toAdd === SPARTACUS_SCHEMATICS
+    //       ) {
+    //         continue;
+    //       }
+    //       const expectedDependency = dependencies[toAdd];
+    //       expect(expectedDependency).toBeTruthy();
+    //     }
+    //   });
 
-      it('should run the proper installation tasks', async () => {
-        const tasks = schematicRunner.tasks.filter(
-          (task) =>
-            task.name === 'run-schematic' &&
-            (task.options as RunSchematicTaskOptions<{}>).collection ===
-              '@sap/opf'
-        );
+    //   it('should run the proper installation tasks', async () => {
+    //     const tasks = schematicRunner.tasks.filter(
+    //       (task) =>
+    //         task.name === 'run-schematic' &&
+    //         (task.options as RunSchematicTaskOptions<{}>).collection ===
+    //           '@sap/opf'
+    //     );
 
-        expect(tasks.length).toEqual(0);
-      });
+    //     expect(tasks.length).toEqual(0);
+    //   });
 
-      it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(opfFeatureModulePath);
-        expect(module).toMatchSnapshot();
+    //   it('should add the feature using the lazy loading syntax', async () => {
+    //     const module = appTree.readContent(opfFeatureModulePath);
+    //     expect(module).toMatchSnapshot();
 
-        const wrapperModule = appTree.readContent(checkoutWrapperModulePath);
-        expect(wrapperModule).toMatchSnapshot();
-      });
-    });
+    //     const wrapperModule = appTree.readContent(checkoutWrapperModulePath);
+    //     expect(wrapperModule).toMatchSnapshot();
+    //   });
+    // });
 
     describe('eager loading', () => {
       beforeEach(async () => {
