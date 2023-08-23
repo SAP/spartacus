@@ -10,7 +10,6 @@ import {
   ExpressServerLogger,
   ExpressServerLoggerContext,
 } from './express-server-logger';
-
 /**
  *
  * Default logger used in SSR (ExpressJS) to enhance logs visible e.g. in monitoring tools e.g. Kibana.
@@ -22,26 +21,46 @@ import {
  * if only the given request has the special header "traceparent" (specifed in
  * the "W3C TraceContext" document. See https://www.w3.org/TR/trace-context/#traceparent-header ).
  */
-export class DefaultExpressServerLogger implements ExpressServerLogger {
+export class DefaultExpressServerLogger extends ExpressServerLogger {
   log(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
-    console.log(this.stringifyWithContext(message, context));
+    console.log(
+      this.stringifyWithContext(
+        ...this.transform(message, context, this._transformers, this)
+      )
+    );
   }
   warn(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
-    console.warn(this.stringifyWithContext(message, context));
+    console.warn(
+      this.stringifyWithContext(
+        ...this.transform(message, context, this._transformers, this)
+      )
+    );
   }
   error(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
-    console.error(this.stringifyWithContext(message, context));
+    console.error(
+      this.stringifyWithContext(
+        ...this.transform(message, context, this._transformers, this)
+      )
+    );
   }
   info(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
-    console.info(this.stringifyWithContext(message, context));
+    console.info(
+      this.stringifyWithContext(
+        ...this.transform(message, context, this._transformers, this)
+      )
+    );
   }
   debug(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
-    console.debug(this.stringifyWithContext(message, context));
+    console.debug(
+      this.stringifyWithContext(
+        ...this.transform(message, context, this._transformers, this)
+      )
+    );
   }
 
   /**

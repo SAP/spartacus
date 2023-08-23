@@ -6,6 +6,7 @@
 
 import { Request } from 'express';
 import { ExpressServerLogger } from '../logger';
+import { ExpressLogTransformerConfig } from '../logger/transformers/utils/transformers-utils';
 
 export interface SsrOptimizationOptions {
   /**
@@ -124,6 +125,14 @@ export interface SsrOptimizationOptions {
    * By default, the logger is disabled, meaning that logs in SSR are not enhanced.
    */
   logger?: true | ExpressServerLogger; //CXSPA-3680 - allow only providing ExpressServerLogger implementations
+
+  /**
+   * Config for transforming logs.
+   * It allows to add, remove or replace log transformers.
+   * The default transformers are: TraceparentTransformer
+   * @see ExpressLogTransformer
+   */
+  logTransformers?: ExpressLogTransformerConfig;
 }
 
 export enum RenderingStrategy {

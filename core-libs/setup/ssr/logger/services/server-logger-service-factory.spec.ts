@@ -6,7 +6,7 @@ import { ExpressLoggerService } from './express-logger.service';
 import { PrerenderingLoggerService } from './prerendering-logger.service';
 import { serverLoggerServiceFactory } from './server-logger-service-factory';
 
-class MockExpressServerLogger implements ExpressServerLogger {
+class MockExpressServerLogger implements Partial<ExpressServerLogger> {
   log = jest.fn();
   warn = jest.fn();
   error = jest.fn();

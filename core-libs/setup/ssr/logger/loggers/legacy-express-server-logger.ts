@@ -17,7 +17,7 @@ import {
  *
  */
 //CXSPA-3680 - remove this class in 7.0
-export class LegacyExpressServerLogger implements ExpressServerLogger {
+export class LegacyExpressServerLogger extends ExpressServerLogger {
   log(message: string, _context?: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
     console.log(message);

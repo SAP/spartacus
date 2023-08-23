@@ -17,7 +17,8 @@ import {
   ExpressServerLoggerContext,
   LegacyExpressServerLogger,
 } from '../logger';
-import { parseTraceparent } from '../logger/loggers/w3c-trace-context/parse-traceparent';
+import { defaultTransformersConfig } from '../logger/transformers/default-transformers';
+import { getLogTransformers } from '../logger/transformers/utils/transformers-utils';
 import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
 import { RenderingCache } from './rendering-cache';
 import {
@@ -492,30 +493,13 @@ export class OptimizedSsrEngine {
    * @returns the context of the request and error if occurred during parsing traceparent header
    * @private
    */
-  private getRequestContext(
-    request: Request
-  ): [ExpressServerLoggerContext, Error | null] {
-    let error: Error | null = null;
-    // request.headers['traceparent'] =
-    //   '00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-0';
+  private getRequestContext(): ExpressServerLoggerContext {
     const requestContext: ExpressServerLoggerContext = {
       uuid: randomUUID(),
       timeReceived: new Date().toISOString(),
     };
 
-    try {
-      const traceContext = parseTraceparent(request.get('traceparent'));
-      if (traceContext) {
-        requestContext.traceContext = traceContext;
-      }
-    } catch (e) {
-      error =
-        e instanceof Error
-          ? e
-          : new Error('Unexpected error during parsing traceparent header');
-    }
-
-    return [requestContext, error];
+    return requestContext;
   }
 
   /**
@@ -525,20 +509,26 @@ export class OptimizedSsrEngine {
    * @private
    */
   private updateWithRequestContext(options: any) {
-    const [requestContext, error] = this.getRequestContext(options.req);
+    const requestContext = this.getRequestContext();
     options.req.res.locals = {
       cx: { request: requestContext },
     };
-    if (error) {
-      this.logger.error(error.message, { request: options.req });
-    }
   }
 
   //CXSPA-3680 - remove this method in 7.0
   private initLogger(ssrOptions: SsrOptimizationOptions | undefined) {
-    if (ssrOptions?.logger === true) {
-      return new DefaultExpressServerLogger();
+    const logTransformers = getLogTransformers(
+      this.ssrOptions?.logTransformers,
+      defaultTransformersConfig
+    );
+    if (ssrOptions?.logger) {
+      const logger =
+        ssrOptions?.logger === true
+          ? new DefaultExpressServerLogger()
+          : ssrOptions.logger;
+      logger.setTransformers(logTransformers);
+      return logger;
     }
-    return ssrOptions?.logger || new LegacyExpressServerLogger();
+    return new LegacyExpressServerLogger();
   }
 }
