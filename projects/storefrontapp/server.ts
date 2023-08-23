@@ -9,7 +9,6 @@ import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
   DefaultExpressServerLogger,
   DefaultTraceparentTransformer,
-  ExpressLogTransformer,
   ExpressServerLogger,
   ExpressServerLoggerContext,
   NgExpressEngineDecorator,
@@ -37,16 +36,6 @@ class MyTraceparentParser extends DefaultTraceparentTransformer {
   }
 }
 
-class MyCustomTransformer implements ExpressLogTransformer {
-  transform(
-    message: string,
-    context: ExpressServerLoggerContext,
-    _logger?: ExpressServerLogger | undefined
-  ): [string, ExpressServerLoggerContext] {
-    return [`CUSTOM TRANSFORMER 222 ${message}`, context];
-  }
-}
-
 class MyCustomLogger extends DefaultExpressServerLogger {
   log(message: string, context: ExpressServerLoggerContext): void {
     super.log(`CUSTOM LOGGER ${message}`, context);
@@ -61,7 +50,6 @@ const ssrOptions: SsrOptimizationOptions = {
   logTransformers: {
     replace: {
       traceparentTransformer: new MyTraceparentParser(),
-      anyTransformer: new MyCustomTransformer(),
     },
   },
 };
