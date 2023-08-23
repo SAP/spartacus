@@ -39,7 +39,6 @@ context('Quote', () => {
 
     it('should be possible(submit) if threshold is met', () => {
       quote.requestQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, '30');
-      cy.url().as('quoteURL');
       quote.checkQuoteInDraftState(true, TEST_PRODUCT_HAMMER_DRILLING_ID);
       quote.addCommentAndWait(
         'Can you please make me a good offer for this large volume of goods?'
@@ -66,15 +65,16 @@ context('Quote', () => {
   });
 
   describe('Edit quote process - buyer perspective', () => {
-    it('should edit quantity of items within a buyer quote draft (CXSPA-3852)', () => {
-      let itemIndex = 1;
+    beforeEach(() => {
       quote.requestQuote(
         POWERTOOLS,
         TEST_PRODUCT_HAMMER_DRILLING_ID,
         PRODUCT_AMOUNT_30.toString()
       );
-      cy.url().as('quoteURL');
       quote.checkQuoteInDraftState(true, TEST_PRODUCT_HAMMER_DRILLING_ID);
+    });
+    it('should edit quantity of items within a buyer quote draft (CXSPA-3852)', () => {
+      let itemIndex = 1;
       quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
       quote.checkItemQuantity(itemIndex, PRODUCT_AMOUNT_30.toString());
       quote.changeItemQuantityByStepper(itemIndex, '+');
@@ -90,22 +90,15 @@ context('Quote', () => {
     });
 
     it('should edit name and description of the quote while in buyer draft (CXSPA-3852)', () => {
-      const QUOTENAME = 'Quote name test';
-      const QUOTEDESCRIPTION = 'Quote description for the test';
-      quote.requestQuote(
-        POWERTOOLS,
-        TEST_PRODUCT_HAMMER_DRILLING_ID,
-        PRODUCT_AMOUNT_30.toString()
-      );
-      cy.url().as('quoteURL');
-      quote.checkQuoteInDraftState(true, TEST_PRODUCT_HAMMER_DRILLING_ID);
+      const QUOTE_NAME = 'Quote name test';
+      const QUOTE_DESCRIPTION = 'Quote description for the test';
       quote.verifyCardWithQuoteInformation(false);
       quote.clickEditQuoteInformationCard();
-      quote.editQuoteInformationCard(QUOTENAME, QUOTEDESCRIPTION);
+      quote.editQuoteInformationCard(QUOTE_NAME, QUOTE_DESCRIPTION);
       quote.saveEditedDataOnCard();
       quote.verifyCardWithQuoteInformation(false);
-      quote.checkQuoteInformationCardContent(QUOTENAME);
-      quote.checkQuoteInformationCardContent(QUOTEDESCRIPTION);
+      quote.checkQuoteInformationCardContent(QUOTE_NAME);
+      quote.checkQuoteInformationCardContent(QUOTE_DESCRIPTION);
     });
   });
 

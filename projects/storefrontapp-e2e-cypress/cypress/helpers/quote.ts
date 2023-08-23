@@ -26,7 +26,7 @@ export function setQtyOnPD(quantity: string): void {
  */
 export function clickOnRequestQuoteInCartAndExpectQuotePage(): void {
   log(
-    'Click on "Request Quote" button in the cart and check whether the quote page is displayed.',
+    'Clicks on "Request Quote" button in the cart and check whether the quote page is displayed.',
     clickOnRequestQuoteInCartAndExpectQuotePage.name
   );
   cy.get('cx-quote-request-button button')
@@ -45,36 +45,31 @@ export function clickOnRequestQuoteInCartAndExpectQuotePage(): void {
  */
 export function clickOnRequestQuoteInCart(): void {
   log(
-    'Click on "request Quote" button in the cart',
+    'Clicks on "Request Quote" button in the cart',
     clickOnRequestQuoteInCart.name
   );
   cy.get('cx-quote-request-button button').click();
 }
 /**
- * Use a cx-login-form to login a user
+ * Uses a cx-login-form to login a user
  * @param email Email for the login
  * @param password Password for the login
  * @param name Name of the user
  */
 export function login(email: string, password: string, name: string): void {
-  trace(
-    login.name,
-    () => {
-      cy.get('cx-login [role="link"]')
-        .click()
-        .then(() => {
-          cy.get('cx-login-form').should('be.visible');
-        });
-      authentication.login(email, password);
-      cy.get('.cx-login-greet').should('contain', name);
-      cy.get('cx-login').should('not.contain', 'Sign In');
-    },
-    { email: email, password: password, name: name }
-  );
+  log('Uses a cx-login-form to login a user', login.name);
+  cy.get('cx-login [role="link"]')
+    .click()
+    .then(() => {
+      cy.get('cx-login-form').should('be.visible');
+    });
+  authentication.login(email, password);
+  cy.get('.cx-login-greet').should('contain', name);
+  cy.get('cx-login').should('not.contain', 'Sign In');
 }
 
 /**
- * Request a quote from cart
+ * Requests a quote from cart
  * @param shopName Name of the given shop (Powertools)
  * @param productName Name of the product that should be used for the quote
  * @param quantity Quantity of the product used for the quote
@@ -84,14 +79,10 @@ export function requestQuote(
   productName: string,
   quantity: string
 ): void {
-  trace(
-    requestQuote.name,
-    () => {
-      this.addProductToCartForQuotePreparation(shopName, productName, quantity);
-      this.clickOnRequestQuoteInCartAndExpectQuotePage();
-    },
-    { shopName: shopName, productName: productName, quantity: quantity }
-  );
+  log('Requests a quote from cart', requestQuote.name);
+  this.addProductToCartForQuotePreparation(shopName, productName, quantity);
+  this.clickOnRequestQuoteInCartAndExpectQuotePage();
+  cy.url().as('quoteURL');
 }
 
 /**
@@ -105,7 +96,7 @@ export function addProductToCartForQuotePreparation(
   productName: string,
   quantity: string
 ): void {
-  log('Add product to the cart', addProductToCartForQuotePreparation.name);
+  log('Adds a product to the cart', addProductToCartForQuotePreparation.name);
   common.goToPDPage(shopName, productName);
   this.setQtyOnPD(quantity);
   common.clickOnAddToCartBtnOnPD();
@@ -113,11 +104,11 @@ export function addProductToCartForQuotePreparation(
 }
 
 /**
- * Submit a quote via clicking "Yes" button in the confirmation popover
+ * Submits a quote via clicking "Yes" button in the confirmation popover
  */
 export function submitQuote(): void {
   log(
-    'Submit a quote via clicking "Yes" button in the confirmation popover',
+    'Submits a quote via clicking "Yes" button in the confirmation popover',
     submitQuote.name
   );
   clickOnSubmitQuoteBtnOnQD();
@@ -130,7 +121,7 @@ export function submitQuote(): void {
  */
 export function clickOnSubmitQuoteBtnOnQD(): void {
   log(
-    'Submit a quote via clicking "Submit" button on the quote details overview page',
+    'Submits a quote via clicking "Submit" button on the quote details overview page',
     clickOnSubmitQuoteBtnOnQD.name
   );
   cy.get('cx-quote-actions-by-role button.btn-primary')
@@ -149,10 +140,17 @@ export function changeItemQuantityByStepper(
   itemIndex: number,
   changeType: string
 ): void {
-  log(
-    'Increase the quantity of the item in the quote details overview using the quantity stepper',
-    changeItemQuantityByStepper.name
-  );
+  if (changeType === '+') {
+    log(
+      'Increases the quantity of the item in the quote details overview using the quantity stepper',
+      changeItemQuantityByStepper.name
+    );
+  } else if (changeType === '-') {
+    log(
+      'Decreases the quantity of the item in the quote details overview using the quantity stepper',
+      changeItemQuantityByStepper.name
+    );
+  }
   cy.get(
     `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
   ).within(() => {
@@ -161,7 +159,7 @@ export function changeItemQuantityByStepper(
 }
 
 /**
- * Increase the quantity of the item in the quote details overview using the quantity counter
+ * Increases the quantity of the item in the quote details overview using the quantity counter
  * @param itemIndex Index of the Item in the QDP cart list
  * @param newQuantity Quantity that should be set
  */
@@ -170,7 +168,7 @@ export function changeItemQuantityByCounter(
   newQuantity: string
 ): void {
   log(
-    'Increase the quantity of the item in the quote details overview using the quantity counter',
+    'Increases the quantity of the item in the quote details overview using the quantity counter',
     changeItemQuantityByCounter.name
   );
   cy.get(
@@ -201,11 +199,11 @@ export function checkItemQuantity(
 }
 
 /**
- * Click the 'Remove' button for the item at the given index in the QDP cart
+ * Clicks the 'Remove' button for the item at the given index in the QDP cart
  * @param itemIndex Index of the Item in the QDP cart list
  */
 export function removeItem(itemIndex: number): void {
-  log('Remove item', removeItem.name);
+  log('Removes the item at index', removeItem.name);
   cy.get(
     `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
   ).within(() => {
@@ -248,7 +246,7 @@ export function checkItemExists(itemIndex: number, productID: string): void {
 }
 
 /**
- * Checks if the "Quote Information" card is in edit mode
+ * Checks if the "Quote Information" card tile is in edit mode
  * @param cardEditModeActive Indicates if the card is in edit mode
  */
 export function verifyCardWithQuoteInformation(
@@ -271,7 +269,7 @@ export function verifyCardWithQuoteInformation(
 }
 
 /**
- * Changes the "Quote Name" and the "Quote description" to given values
+ * Edits the "Quote Information" card tile with given values
  * @param newQuoteName New quote name
  * @param newQuoteDescription New quote description
  */
@@ -280,7 +278,7 @@ export function editQuoteInformationCard(
   newQuoteDescription?: string
 ): void {
   log(
-    'Edit the "Quote Information" card tile with given values',
+    'Edits the "Quote Information" card tile with given values',
     editQuoteInformationCard.name
   );
   cy.get(`cx-quote-details-overview .cx-container .card-body`)
@@ -380,11 +378,11 @@ export function checkGlobalMessageDisplayed(isDisplayed: boolean): void {
 }
 
 /**
- * Checks "Submit" button o n the quote details overview page
+ * Verifies "Submit" button o n the quote details overview page
  */
 export function checkSubmitBtn(isEnabled: boolean): void {
   log(
-    'Checks "Submit" button o n the quote details overview page',
+    'Verifies "Submit" button o n the quote details overview page',
     checkSubmitBtn.name
   );
   if (isEnabled) {
@@ -395,44 +393,47 @@ export function checkSubmitBtn(isEnabled: boolean): void {
 }
 
 /**
- * Checks that comments are no longer editable and the input field doesnt exist anymore.
+ * Verifies that comments are no longer editable and the input field doesnt exist anymore.
  */
 export function checkCommentsNotEditable(): void {
-  trace(checkCommentsNotEditable.name, () =>
-    cy.get('cx-quote-details-comment .cx-message-input').should('not.exist')
+  log(
+    'Verifies that comments are no longer editable and the input field doesnt exist anymore',
+    checkCommentsNotEditable.name
   );
+  cy.get('cx-quote-details-comment .cx-message-input').should('not.exist');
 }
 
 /**
- * Checks presence of quote list
+ * Verifies presence of quote list
  */
 export function checkQuoteListPresent() {
-  trace(checkQuoteListPresent.name, () =>
-    cy.get('cx-quote-list').should('exist')
-  );
+  log('Verifies presence of quote list', checkQuoteListPresent.name);
+  cy.get('cx-quote-list').should('exist');
 }
 
 /**
  * Navigates to quote list via my account
  */
 export function navigateToQuoteListFromMyAccount() {
-  trace(navigateToQuoteListFromMyAccount.name, () => {
-    cy.get('cx-page-layout[section="header"]').within(() => {
-      cy.get('cx-navigation-ui.accNavComponent')
-        .should('contain.text', 'My Account')
-        .and('be.visible')
-        .within(() => {
-          cy.get('nav > ul > li > button').first().focus().trigger('keydown', {
-            key: ' ',
-            code: 'Space',
-            force: true,
-          });
-          cy.get('cx-generic-link')
-            .contains('Quotes')
-            .should('be.visible')
-            .click({ force: true });
+  log(
+    'Navigates to quote list via my account',
+    navigateToQuoteListFromMyAccount.name
+  );
+  cy.get('cx-page-layout[section="header"]').within(() => {
+    cy.get('cx-navigation-ui.accNavComponent')
+      .should('contain.text', 'My Account')
+      .and('be.visible')
+      .within(() => {
+        cy.get('nav > ul > li > button').first().focus().trigger('keydown', {
+          key: ' ',
+          code: 'Space',
+          force: true,
         });
-    });
+        cy.get('cx-generic-link')
+          .contains('Quotes')
+          .should('be.visible')
+          .click({ force: true });
+      });
   });
 }
 
@@ -582,19 +583,14 @@ export function checkLinkedItemInViewport(index: number) {
 }
 
 /**
- * Register GET quote route.
+ * Registers GET quote route.
  */
 export function registerGetQuoteRoute(shopName: string) {
-  trace(
-    registerGetQuoteRoute.name,
-    () => {
-      cy.intercept({
-        method: 'GET',
-        path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/current/quotes/*`,
-      }).as(GET_QUOTE_ALIAS.substring(1)); // strip the '@'
-    },
-    arguments
-  );
+  log('Registers GET quote route.', registerGetQuoteRoute.name);
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/current/quotes/*`,
+  }).as(GET_QUOTE_ALIAS.substring(1)); // strip the '@'
 }
 
 /**
@@ -604,22 +600,4 @@ export function registerGetQuoteRoute(shopName: string) {
  */
 function log(comment: string, functionName: string) {
   cy.log(`##### ${comment} <${functionName}> #####`);
-}
-
-/**
- * Creates a Cypress log before function gets executed printing out name
- * and args and another log after finishing the function.
- * @param functionName Name of the function that should be logged
- * @param func The function that is called
- * @param args Arguments the function will be called with
- */
-export function trace(functionName: string, func: Function, args?: Object) {
-  const argString = args ? JSON.stringify(args) : '';
-  if (args) {
-    log(`START function: `, `${functionName}(${argString})`);
-  } else {
-    log(`START function`, functionName);
-  }
-  func(); // execute the function
-  log(`END function: `, functionName);
 }
