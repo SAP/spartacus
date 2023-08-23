@@ -217,9 +217,9 @@
 //         expect(appTree.readContent(checkoutWrapperModulePath)).toBeFalsy();
 //       });
 
-         it('should pass schematics tests', async () => {
-          expect(true).toEqual(true);
-         });
+it('should pass schematics tests', async () => {
+  expect(true).toEqual(true);
+});
 //     });
 //   });
 // });
