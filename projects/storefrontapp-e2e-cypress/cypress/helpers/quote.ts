@@ -159,7 +159,7 @@ export function changeItemQuantityByStepper(
 }
 
 /**
- * Increases the quantity of the item in the quote details overview using the quantity counter
+ * Changes the quantity of the item in the quote details overview using the quantity counter
  * @param itemIndex Index of the Item in the QDP cart list
  * @param newQuantity Quantity that should be set
  */
@@ -168,7 +168,7 @@ export function changeItemQuantityByCounter(
   newQuantity: string
 ): void {
   log(
-    'Increases the quantity of the item in the quote details overview using the quantity counter',
+    'Changes the quantity of the item in the quote details overview using the quantity counter',
     changeItemQuantityByCounter.name
   );
   cy.get(
@@ -179,7 +179,7 @@ export function changeItemQuantityByCounter(
 }
 
 /**
- * Validates if the quantity of an item at the given index equals the expected quantity given
+ * Verifies the quantity of an item at the given index equals the expected quantity given
  * @param itemIndex Index of the Item in the QDP cart list
  * @param expectedQuantity Expected quantity of the item
  */
@@ -188,7 +188,7 @@ export function checkItemQuantity(
   expectedQuantity: string
 ): void {
   log(
-    'Validates if the quantity of an item at the given index equals the expected quantity given',
+    'Verifies the quantity of an item at the given index equals the expected quantity given',
     checkItemQuantity.name
   );
   cy.get(
@@ -199,7 +199,7 @@ export function checkItemQuantity(
 }
 
 /**
- * Clicks the 'Remove' button for the item at the given index in the QDP cart
+ * Click the 'Remove' button for the item at the given index to remove it in the QDP cart
  * @param itemIndex Index of the Item in the QDP cart list
  */
 export function removeItem(itemIndex: number): void {
@@ -213,13 +213,13 @@ export function removeItem(itemIndex: number): void {
 }
 
 /**
- * Checks if the given item is visible within the QDP cart at the given index.
+ * Verifies if the given item is visible within the QDP cart at the given index.
  * @param itemIndex Index of the Item in the QDP cart list
  * @param productID Id of the product
  */
 export function checkItemVisible(itemIndex: number, productID: string): void {
   log(
-    'Checks if the given item is visible within the QDP cart at the given index',
+    'Verifies the given item is visible within the QDP cart at the given index',
     checkItemVisible.name
   );
   cy.get(`cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`)
@@ -228,12 +228,12 @@ export function checkItemVisible(itemIndex: number, productID: string): void {
 }
 
 /**
- * Checks if the item at the given index exists
+ * Verifies the item at the given index exists
  * @param itemIndex Index of the Item in the QDP cart list
  * @param productID Id of the product
  */
 export function checkItemExists(itemIndex: number, productID: string): void {
-  log('Checks if the item at the given index exists', checkItemExists.name);
+  log('Verifies the item at the given index exists', checkItemExists.name);
   if (itemIndex === 1) {
     cy.get(
       `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
@@ -246,21 +246,19 @@ export function checkItemExists(itemIndex: number, productID: string): void {
 }
 
 /**
- * Checks if the "Quote Information" card tile is in edit mode
- * @param cardEditModeActive Indicates if the card is in edit mode
+ * Verifies the "Quote Information" card tile is in edit mode
+ * @param isEditModeActive Indicates if the card is in edit mode
  */
-export function verifyCardWithQuoteInformation(
-  cardEditModeActive: boolean
-): void {
+export function checkCardWithQuoteInformation(isEditModeActive: boolean): void {
   log(
-    'Checks if the "Quote Information" card tile is in edit mode',
-    verifyCardWithQuoteInformation.name
+    'Verifies the "Quote Information" card tile is in edit mode',
+    checkCardWithQuoteInformation.name
   );
   cy.get(`cx-quote-details-overview .cx-container .card-body`)
     .contains(CARD_TITLE_QUOTE_INFORMATION)
     .should('exist')
     .then(() => {
-      if (cardEditModeActive) {
+      if (isEditModeActive) {
         cy.get('button').contains('Save').should('exist');
       } else {
         cy.get('button').contains('Save').should('not.exist');
@@ -300,12 +298,12 @@ export function editQuoteInformationCard(
 /**
  * Saves the edited date (quote name and its description) within the Quote Information card tile
  */
-export function saveEditedDataOnCard(): void {
+export function saveEditedData(): void {
   log(
     'Saves the edited date (quote name and its description) within the Quote Information card tile...',
-    saveEditedDataOnCard.name
+    saveEditedData.name
   );
-  verifyCardWithQuoteInformation(true);
+  checkCardWithQuoteInformation(true);
   cy.get(`cx-quote-details-overview .cx-container .card-body`)
     .contains(CARD_TITLE_QUOTE_INFORMATION)
     .then(() => {
@@ -330,12 +328,12 @@ export function checkQuoteInformationCardContent(
 }
 
 /**
- * Clicks on the edit button to change the quote information within the "Quote Information" card.
+ * Clicks on the pencil to change the quote information within the "Quote Information" card tile.
  */
-export function clickEditQuoteInformationCard(): void {
+export function clickEditPencil(): void {
   log(
-    'Clicks on "Edit" button to change the quote information within the "Quote Information" card',
-    clickEditQuoteInformationCard.name
+    'Clicks on the pencil to change the quote information within the "Quote Information" card tile.',
+    clickEditPencil.name
   );
   cy.get(`cx-quote-details-overview .cx-container .card-body`)
     .contains(CARD_TITLE_QUOTE_INFORMATION)
@@ -345,7 +343,7 @@ export function clickEditQuoteInformationCard(): void {
         .should('exist')
         .click()
         .then(() => {
-          verifyCardWithQuoteInformation(true);
+          checkCardWithQuoteInformation(true);
         });
     });
 }
@@ -378,11 +376,11 @@ export function checkGlobalMessageDisplayed(isDisplayed: boolean): void {
 }
 
 /**
- * Verifies "Submit" button o n the quote details overview page
+ * Verifies "Submit" button on the quote details overview page
  */
 export function checkSubmitBtn(isEnabled: boolean): void {
   log(
-    'Verifies "Submit" button o n the quote details overview page',
+    'Verifies "Submit" button on the quote details overview page',
     checkSubmitBtn.name
   );
   if (isEnabled) {
@@ -471,12 +469,12 @@ export function checkQuoteInDraftState(
 }
 
 /**
- * Checks if the given item exists within the quote cart
+ *Verifies the given item exists within the quote cart
  * @param productId Product ID of the item that should exist in the cart
  */
 export function checkItemInQuoteCart(productId: string) {
   log(
-    'Checks if the given item exists within the quote cart',
+    'Verifies the given item exists within the quote cart',
     checkItemInQuoteCart.name
   );
   cy.get('cx-quote-details-cart .cx-table-item-container .cx-info').contains(
