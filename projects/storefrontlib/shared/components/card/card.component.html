@@ -49,7 +49,10 @@
           >
           </ng-container>
         </div>
-        <div class="cx-card-paragraph" *ngFor="let item of content.paragraphs">
+        <div
+          class="cx-card-paragraph"
+          *ngFor="let item of content.paragraphs; trackBy: trackByIndex"
+        >
           <div class="cx-card-paragraph-title">{{ item.title }}</div>
           <div *ngFor="let text of item.text">
             <ng-container

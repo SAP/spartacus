@@ -127,7 +127,16 @@ describe('QuoteDetailsEditComponent', () => {
       expect,
       htmlElem,
       '.cx-info-text',
-      'quote.details.charactersLeft count:194'
+      'quote.details.charactersLeft count:245',
+      0
+    );
+
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-info-text',
+      'quote.details.charactersLeft count:194',
+      1
     );
 
     CommonQuoteTestUtilsService.expectElementPresent(

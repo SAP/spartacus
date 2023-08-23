@@ -111,6 +111,10 @@ export class CardComponent implements OnInit {
     return (action as CardLinkAction).link !== undefined;
   }
 
+  trackByIndex(index: number): number {
+    return index;
+  }
+
   constructor() {
     // Intentional empty constructor
   }
