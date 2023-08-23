@@ -92,11 +92,11 @@ context('Quote', () => {
     it('should edit name and description of the quote while in buyer draft (CXSPA-3852)', () => {
       const QUOTE_NAME = 'Quote name test';
       const QUOTE_DESCRIPTION = 'Quote description for the test';
-      quote.checkCardWithQuoteInformation(false);
+      quote.checkQuoteInformationCard(false);
       quote.clickEditPencil();
       quote.editQuoteInformationCard(QUOTE_NAME, QUOTE_DESCRIPTION);
       quote.saveEditedData();
-      quote.checkCardWithQuoteInformation(false);
+      quote.checkQuoteInformationCard(false);
       quote.checkQuoteInformationCardContent(QUOTE_NAME);
       quote.checkQuoteInformationCardContent(QUOTE_DESCRIPTION);
     });

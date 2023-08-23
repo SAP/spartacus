@@ -41,16 +41,6 @@ export function clickOnRequestQuoteInCartAndExpectQuotePage(): void {
 }
 
 /**
- * Clicks on 'Request Quote' on the cart page.
- */
-export function clickOnRequestQuoteInCart(): void {
-  log(
-    'Clicks on "Request Quote" button in the cart',
-    clickOnRequestQuoteInCart.name
-  );
-  cy.get('cx-quote-request-button button').click();
-}
-/**
  * Uses a cx-login-form to login a user
  * @param email Email for the login
  * @param password Password for the login
@@ -111,7 +101,7 @@ export function submitQuote(): void {
     'Submits a quote via clicking "Yes" button in the confirmation popover',
     submitQuote.name
   );
-  clickOnSubmitQuoteBtnOnQD();
+  clickSubmitQuote();
   clickOnYesBtnWithinRequestPopUp();
   cy.get<string>('@quoteURL').then(cy.visit);
 }
@@ -119,10 +109,10 @@ export function submitQuote(): void {
 /**
  * Clicks on 'Submit Quote' on the quote overview page.
  */
-export function clickOnSubmitQuoteBtnOnQD(): void {
+export function clickSubmitQuote(): void {
   log(
     'Submits a quote via clicking "Submit" button on the quote details overview page',
-    clickOnSubmitQuoteBtnOnQD.name
+    clickSubmitQuote.name
   );
   cy.get('cx-quote-actions-by-role button.btn-primary')
     .click()
@@ -249,10 +239,10 @@ export function checkItemExists(itemIndex: number, productID: string): void {
  * Verifies the "Quote Information" card tile is in edit mode
  * @param isEditModeActive Indicates if the card is in edit mode
  */
-export function checkCardWithQuoteInformation(isEditModeActive: boolean): void {
+export function checkQuoteInformationCard(isEditModeActive: boolean): void {
   log(
     'Verifies the "Quote Information" card tile is in edit mode',
-    checkCardWithQuoteInformation.name
+    checkQuoteInformationCard.name
   );
   cy.get(`cx-quote-details-overview .cx-container .card-body`)
     .contains(CARD_TITLE_QUOTE_INFORMATION)
@@ -303,7 +293,7 @@ export function saveEditedData(): void {
     'Saves the edited date (quote name and its description) within the Quote Information card tile...',
     saveEditedData.name
   );
-  checkCardWithQuoteInformation(true);
+  checkQuoteInformationCard(true);
   cy.get(`cx-quote-details-overview .cx-container .card-body`)
     .contains(CARD_TITLE_QUOTE_INFORMATION)
     .then(() => {
@@ -343,7 +333,7 @@ export function clickEditPencil(): void {
         .should('exist')
         .click()
         .then(() => {
-          checkCardWithQuoteInformation(true);
+          checkQuoteInformationCard(true);
         });
     });
 }
@@ -465,18 +455,15 @@ export function checkQuoteInDraftState(
   checkQuoteState(STATUS_DRAFT);
   checkGlobalMessageDisplayed(!meetsThreshold);
   checkSubmitBtn(meetsThreshold);
-  checkItemInQuoteCart(productId);
+  checkItem(productId);
 }
 
 /**
  *Verifies the given item exists within the quote cart
  * @param productId Product ID of the item that should exist in the cart
  */
-export function checkItemInQuoteCart(productId: string) {
-  log(
-    'Verifies the given item exists within the quote cart',
-    checkItemInQuoteCart.name
-  );
+export function checkItem(productId: string) {
+  log('Verifies the given item exists within the quote cart', checkItem.name);
   cy.get('cx-quote-details-cart .cx-table-item-container .cx-info').contains(
     productId
   );
