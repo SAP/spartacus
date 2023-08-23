@@ -4,6 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './loggers/index';
-export * from './services/index';
-export * from './transformers/index';
+export * from './express-log-transformer';
+export * from './traceparent/index';

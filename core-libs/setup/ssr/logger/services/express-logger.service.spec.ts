@@ -6,7 +6,7 @@ import { ExpressLoggerService } from './express-logger.service';
 
 const mockRequest: Partial<Request> = { url: 'test/url' };
 
-class MockServerLogger implements ExpressServerLogger {
+class MockServerLogger implements Partial<ExpressServerLogger> {
   log = jest.fn();
   warn = jest.fn();
   error = jest.fn();

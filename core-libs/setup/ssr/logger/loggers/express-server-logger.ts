@@ -6,6 +6,7 @@
 
 import { InjectionToken } from '@angular/core';
 import { Request } from 'express';
+import { ExpressLogTransformer } from '../transformers/express-log-transformer';
 
 /**
  * ExpressServerLoggerContext is used for log message in server side rendering.
@@ -15,6 +16,8 @@ export interface ExpressServerLoggerContext {
   request?: Request;
   [_key: string]: any;
 }
+
+//TODO: add more props to jsdoc
 
 /**
  * ExpressServerLogger is used for log message in server side rendering.
@@ -27,12 +30,33 @@ export interface ExpressServerLoggerContext {
  * @property info - logs message with level "info"
  * @property debug - logs message with level "debug"
  */
-export interface ExpressServerLogger {
-  log(message: string, context: ExpressServerLoggerContext): void;
-  warn(message: string, context: ExpressServerLoggerContext): void;
-  error(message: string, context: ExpressServerLoggerContext): void;
-  info(message: string, context: ExpressServerLoggerContext): void;
-  debug(message: string, context: ExpressServerLoggerContext): void;
+export abstract class ExpressServerLogger {
+  _transformers: ExpressLogTransformer[] = [];
+  abstract log(message: string, context: ExpressServerLoggerContext): void;
+  abstract warn(message: string, context: ExpressServerLoggerContext): void;
+  abstract error(message: string, context: ExpressServerLoggerContext): void;
+  abstract info(message: string, context: ExpressServerLoggerContext): void;
+  abstract debug(message: string, context: ExpressServerLoggerContext): void;
+  transform(
+    message: string,
+    context: ExpressServerLoggerContext,
+    transformers: ExpressLogTransformer[],
+    logger?: ExpressServerLogger
+  ): [string, ExpressServerLoggerContext] {
+    return transformers.reduce(
+      ([transformedMessage, transformedContext], transformer) => {
+        return transformer.transform(
+          transformedMessage,
+          transformedContext,
+          logger
+        );
+      },
+      [message, context]
+    );
+  }
+  setTransformers(transformers: ExpressLogTransformer[]) {
+    this._transformers = transformers;
+  }
 }
 
 /**

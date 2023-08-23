@@ -7,6 +7,10 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
+  DefaultExpressServerLogger,
+  DefaultTraceparentTransformer,
+  ExpressServerLogger,
+  ExpressServerLoggerContext,
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
   defaultSsrOptimizationOptions,
@@ -22,11 +26,32 @@ import { AppServerModule } from './src/main.server';
 // And we need to use esModuleInterop option in ssr dev mode, because i18next enforce usage of this option for cjs module.
 const express = require('express');
 
+class MyTraceparentParser extends DefaultTraceparentTransformer {
+  transform(
+    message: string,
+    context: ExpressServerLoggerContext,
+    logger?: ExpressServerLogger | undefined
+  ): [string, ExpressServerLoggerContext] {
+    return super.transform(`CUSTOM TRANSFORMER ${message}`, context, logger);
+  }
+}
+
+class MyCustomLogger extends DefaultExpressServerLogger {
+  log(message: string, context: ExpressServerLoggerContext): void {
+    super.log(`CUSTOM LOGGER ${message}`, context);
+  }
+}
+
 const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
-  logger: true,
+  logger: new MyCustomLogger(),
+  logTransformers: {
+    replace: {
+      traceparentTransformer: new MyTraceparentParser(),
+    },
+  },
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
