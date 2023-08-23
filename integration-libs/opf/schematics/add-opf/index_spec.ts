@@ -90,28 +90,25 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
     );
 
     appTree = await schematicRunner
-      .runExternalSchematicAsync(
+      .runExternalSchematic(
         '@schematics/angular',
         'workspace',
         workspaceOptions
-      )
-      .toPromise();
+      );
     appTree = await schematicRunner
-      .runExternalSchematicAsync(
+      .runExternalSchematic(
         '@schematics/angular',
         'application',
         appOptions,
         appTree
-      )
-      .toPromise();
+      );
     appTree = await schematicRunner
-      .runExternalSchematicAsync(
+      .runExternalSchematic(
         SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
-      )
-      .toPromise();
+      );
   });
 
   describe('Without features', () => {
@@ -130,11 +127,9 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', checkoutFeatureOptions, appTree)
-          .toPromise();
+          .runSchematic('ng-add', checkoutFeatureOptions, appTree);
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', opfFeatureOptions, appTree)
-          .toPromise();
+          .runSchematic('ng-add', opfFeatureOptions, appTree);
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
@@ -195,19 +190,17 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
     describe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync(
+          .runSchematic(
             'ng-add',
             { ...checkoutFeatureOptions, lazy: false },
             appTree
-          )
-          .toPromise();
+          );
         appTree = await schematicRunner
-          .runSchematicAsync(
+          .runSchematic(
             'ng-add',
             { ...opfFeatureOptions, lazy: false },
             appTree
-          )
-          .toPromise();
+          );
       });
 
       it('should import appropriate modules', async () => {
