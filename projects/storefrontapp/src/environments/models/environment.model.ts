@@ -17,4 +17,5 @@ export interface Environment {
   epdVisualization: boolean;
   s4om: boolean;
   segmentRefs: boolean;
+  requestedDeliveryDate: boolean;
 }

@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   ActiveCartFacade,
+  Cart,
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
@@ -60,6 +61,14 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   getBackBntText = createSpy().and.returnValue('common.back');
 }
 
+const mockCart: Cart = {
+  code: '123456789',
+  description: 'testCartDescription',
+  name: 'testCartName',
+};
+
+const cart$ = new BehaviorSubject<Cart>(mockCart);
+
 const mockActivatedRoute = {
   snapshot: {
     url: ['checkout', 'delivery-mode'],
@@ -91,6 +100,7 @@ class MockCartService implements Partial<ActiveCartFacade> {
   getDeliveryEntries = () => deliveryEntries$.asObservable();
   hasPickupItems = () => hasPickupItems$.asObservable();
   getPickupEntries = createSpy().and.returnValue(of([]));
+  getActive = () => cart$.asObservable();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {

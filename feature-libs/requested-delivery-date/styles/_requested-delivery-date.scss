@@ -1,0 +1,25 @@
+cx-request-delivery-date {
+  form {
+    width: 100%;
+  }
+
+  cx-card {
+    .cx-card {
+      .card-body {
+        padding-top: 0;
+      }
+    }
+  }
+}
+
+// Avoid bottom padding in the delivery method, as the padding
+// would add extra space with the delivey mode date picker
+.cx-review-card-shipping {
+  cx-card {
+    .cx-card {
+      .card-body {
+        padding-bottom: 0;
+      }
+    }
+  }
+}
