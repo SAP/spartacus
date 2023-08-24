@@ -67,6 +67,9 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
     } else {
       //set the value of requestedRetrievalAt as earliestRetrievalAt and update occ.
       this.requestedRetrievalAt = this.earliestRetrievalAt;
+      this.form.patchValue({
+        requestDeliveryDate: this.requestedRetrievalAt,
+      });
       this.setRequestedDeliveryDate();
     }
     this.form.patchValue({
@@ -104,15 +107,17 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
   setRequestedDeliveryDate() {
     const userId = this.cartEntry?.user?.uid || '';
     const cartId = this.cartEntry?.code || '';
-    const requestedDate =
-      this.form?.get('requestDeliveryDate')?.value ||
-      this.requestedRetrievalAt ||
-      '';
+    const requestedDate = this.form?.get('requestDeliveryDate')?.value || '';
 
     if (
       userId.length === 0 ||
       cartId.length === 0 ||
-      requestedDate.length === 0
+      requestedDate.length === 0 ||
+      !this.dateValidationService.isDateStringValid(requestedDate) ||
+      !this.dateValidationService.isDateGreaterOrEqual(
+        requestedDate,
+        this.earliestRetrievalAt || ''
+      )
     ) {
       return;
     }
