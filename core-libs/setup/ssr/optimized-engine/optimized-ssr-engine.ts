@@ -496,8 +496,6 @@ export class OptimizedSsrEngine {
     request: Request
   ): [ExpressServerLoggerContext, Error | null] {
     let error: Error | null = null;
-    // request.headers['traceparent'] =
-    //   '00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-0';
     const requestContext: ExpressServerLoggerContext = {
       uuid: randomUUID(),
       timeReceived: new Date().toISOString(),
