@@ -98,7 +98,12 @@ export interface OrderHistory {
   purchaseType?: string;
   totalItems?: number;
   consolidatedInfo?: any;
-  images?: Images[];
+  thumbnail?: Images[];
+  pickupConsignments?: Consignment[];
+  deliveryConsignments?: Consignment[];
+  unconsignedEntries?: OrderEntry[];
+  pickupUnconsignedEntries?: OrderEntry[];
+  deliveryUnconsignedEntries?: OrderEntry[];
 }
 
 export interface OrderHistoryList {

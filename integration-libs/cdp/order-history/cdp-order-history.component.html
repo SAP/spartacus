@@ -1,1 +1,132 @@
-<h1>HAI 3</h1>
+<ng-container *ngIf="isLoaded$ | async; else loading">
+  <div *ngIf="orders$ | async as orderHistory">
+    <!-- HEADER -->
+    <div [ngClass]="'cx-order-history-header'">
+      <h2>
+        {{
+          'cdpOrderHistory.heading'
+            | cxTranslate: { param: tabTitleParam$ | async }
+        }}
+      </h2>
+    </div>
+    <!--BODY-->
+    <div class="cx-cdp-order-history-body">
+      <ng-container *ngIf="orderHistory.pagination!.totalResults; else noOrder">
+        <div
+          *ngIf="orderHistory.pagination!.totalResults > 0; else noOrder"
+        ></div>
+        <!-- !!!!!!!re-check this above div -->
+
+        <!--main content starting-->
+        <ng-container *ngFor="let order of orderHistory.orders">
+          <!--eg: Order # 12345-->
+          <div
+            class="cx-cdp-order-history-code"
+            (click)="goToOrderDetail(order)"
+          >
+            <a
+              [routerLink]="
+                {
+                  cxRoute: 'orderDetails',
+                  params: order
+                } | cxUrl
+              "
+            >
+              {{ 'orderHistory.orderId' | cxTranslate }} {{ order?.code }}</a
+            >
+          </div>
+
+          <!--eg: Purchased Online | 12,October,2022 | 3 Items | Total Price: $12.00-->
+          <div>
+            {{
+              'cdpOrderHistory.purchased'
+                | cxTranslate: { param: order.purchaseType }
+            }}
+            | {{ order.placed | cxDate: 'd, MMMM, yyyy' }} |
+            <ng-container *ngIf="order.totalItems">
+              <ng-container *ngIf="order.totalItems > 1; else showItem">
+                {{
+                  'cdpOrderHistory.items'
+                    | cxTranslate: { param: order.totalItems }
+                }}
+              </ng-container>
+            </ng-container>
+            <ng-template #showItem>
+              {{
+                'cdpOrderHistory.item'
+                  | cxTranslate: { param: order.totalItems }
+              }}
+            </ng-template>
+            |
+            {{
+              'cdpOrderHistory.totalPrice'
+                | cxTranslate: { param: order.total?.formattedValue }
+            }}
+          </div>
+
+          <!--eg: Display consolidated order information-->
+          <cx-cdp-consolidated-information [order]="order">
+          </cx-cdp-consolidated-information>
+
+          <!--eg: multiple images shown-->
+          <ng-container *ngIf="order?.thumbnail as thumb">
+            <cx-carousel
+              role="region"
+              tabindex="-1"
+              *ngIf="thumb?.length"
+              class="thumbs"
+              [items]="convertToArrayOfObservables(thumb)"
+              itemWidth="120px"
+              [hideIndicators]="false"
+              [template]="thumbNails"
+            ></cx-carousel>
+          </ng-container>
+          <ng-template #thumbNails let-item="item">
+            <cx-media [container]="item.PRIMARY" format="thumbnail"></cx-media>
+          </ng-template>
+        </ng-container>
+
+        <!--main content ending-->
+
+        <!-- PAGINATION -->
+        <div class="cx-order-history-sort top">
+          <div
+            *ngIf="orderHistory.pagination!.totalPages"
+            class="cx-order-history-pagination"
+          >
+            <div
+              *ngIf="orderHistory.pagination!.totalPages > 1"
+              class="cx-order-history-pagination"
+            >
+              <!-- !!!!!!!re-check this above div -->
+              <cx-pagination
+                [pagination]="orderHistory.pagination"
+                (viewPageEvent)="pageChange($event)"
+              ></cx-pagination>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- NO ORDER CONTAINER -->
+      <ng-template #noOrder>
+        <div>
+          <div>{{ 'orderHistory.noOrders' | cxTranslate }}</div>
+          <a
+            [routerLink]="{ cxRoute: 'home' } | cxUrl"
+            routerLinkActive="active"
+            class="btn btn-primary btn-block"
+            >{{ 'orderHistory.startShopping' | cxTranslate }}</a
+          >
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</ng-container>
+
+<!-- ORDER HISTORY DATA STILL LOADING -->
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

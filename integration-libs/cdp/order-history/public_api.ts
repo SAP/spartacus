@@ -6,3 +6,4 @@
 
 export * from './cdp-order-history.module';
 export * from './cdp-order-history.component';
+export { cdpOrderModel } from './model/index';

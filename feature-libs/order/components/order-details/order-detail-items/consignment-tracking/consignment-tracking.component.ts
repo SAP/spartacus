@@ -22,6 +22,7 @@ import {
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { OrderDetailsService } from '../../order-details.service';
 
 @Component({
   selector: 'cx-consignment-tracking',
@@ -29,13 +30,7 @@ import { take } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
-  consignmentStatus: string[] = [
-    'SHIPPED',
-    'IN_TRANSIT',
-    'DELIVERY_COMPLETED',
-    'DELIVERY_REJECTED',
-    'DELIVERING',
-  ];
+  consignmentStatus: string[] = this.orderDetailsService.consignmentStatus;
   @ViewChild('element') element: ElementRef;
 
   @Input()
@@ -47,6 +42,7 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
   constructor(
     protected orderHistoryFacade: OrderHistoryFacade,
     protected launchDialogService: LaunchDialogService,
+    protected orderDetailsService: OrderDetailsService,
     protected vcr: ViewContainerRef
   ) {}
 

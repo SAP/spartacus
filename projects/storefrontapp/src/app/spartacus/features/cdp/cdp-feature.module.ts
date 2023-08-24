@@ -5,10 +5,30 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CdpModule } from 'integration-libs/cdp/cdp.module';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {
+  cdpTranslations,
+  cdpTranslationChunksConfig,
+} from 'integration-libs/cdp/assets/public_api';
+import { CDP_FEATURE } from 'integration-libs/cdp/feature-name';
 
 @NgModule({
-  imports: [CdpModule],
-  providers: [],
+  imports: [],
+  providers: [
+    provideConfig(<CmsConfig>{
+      featureModules: {
+        [CDP_FEATURE]: {
+          module: () => import('@spartacus/cdp').then((m) => m.CdpModule),
+        },
+      },
+    }),
+    provideConfig(<I18nConfig>{
+      i18n: {
+        resources: cdpTranslations,
+        chunks: cdpTranslationChunksConfig,
+        fallbackLang: 'en',
+      },
+    }),
+  ],
 })
 export class CdpFeatureModule {}

@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RoutingService, TranslationService } from '@spartacus/core';
+import { Images, RoutingService, TranslationService } from '@spartacus/core';
 import { OrderHistoryComponent } from '@spartacus/order/components';
 import {
   OrderHistoryFacade,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'cx-cdp-order-history',
@@ -29,8 +30,13 @@ export class CdpOrderHistoryComponent extends OrderHistoryComponent {
       translation,
       replenishmentOrderHistoryFacade
     );
-    this.orders$.subscribe((result) => {
-      console.log(result);
-    });
+  }
+
+  convertToArrayOfObservables(images: Images[]): Observable<Images>[] {
+    let output: any = [];
+    for (let image of images) {
+      output.push(of(image));
+    }
+    return output;
   }
 }
