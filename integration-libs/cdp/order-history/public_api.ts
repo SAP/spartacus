@@ -6,4 +6,7 @@
 
 export * from './cdp-order-history.module';
 export * from './cdp-order-history.component';
-export { cdpOrderModel } from './model/index';
+export * from './consignment-tracking/cdp-consignment-tracking.component';
+export * from './consolidated-information/cdp-consolidated-information.component';
+export * from './order-consigned-entries/cdp-order-consigned-entries.component';
+export * from './model/index';
