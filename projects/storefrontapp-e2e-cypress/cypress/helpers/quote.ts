@@ -22,22 +22,14 @@ export function setQtyOnPD(quantity: string): void {
 }
 
 /**
- * Clicks on 'Request Quote' on the cart page and checks for quote page
+ * Clicks on 'Request Quote' on the cart page
  */
-export function clickOnRequestQuoteInCartAndExpectQuotePage(): void {
+export function clickOnRequestQuoteInCart(): void {
   log(
-    'Clicks on "Request Quote" button in the cart and check whether the quote page is displayed.',
-    clickOnRequestQuoteInCartAndExpectQuotePage.name
+    'Clicks on "Request Quote" button on the cart page.',
+    clickOnRequestQuoteInCart.name
   );
-  cy.get('cx-quote-request-button button')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/quote');
-      cy.get('cx-quote-details-overview').should('be.visible');
-    })
-    .then(() => {
-      cy.get('cx-quote-actions-by-role').should('be.visible');
-    });
+  cy.get('cx-quote-request-button button').click();
 }
 
 /**
@@ -59,7 +51,7 @@ export function login(email: string, password: string, name: string): void {
 }
 
 /**
- * Requests a quote from cart
+ * Requests a quote from cart and verifies the quote page is visible
  * @param shopName Name of the given shop (Powertools)
  * @param productName Name of the product that should be used for the quote
  * @param quantity Quantity of the product used for the quote
@@ -71,7 +63,10 @@ export function requestQuote(
 ): void {
   log('Requests a quote from cart', requestQuote.name);
   this.addProductToCartForQuotePreparation(shopName, productName, quantity);
-  this.clickOnRequestQuoteInCartAndExpectQuotePage();
+  this.clickOnRequestQuoteInCart();
+  cy.location('pathname').should('contain', '/quote');
+  cy.get('cx-quote-details-overview').should('be.visible');
+  cy.get('cx-quote-actions-by-role').should('be.visible');
   cy.url().as('quoteURL');
 }
 
