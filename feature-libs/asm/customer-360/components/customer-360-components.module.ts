@@ -42,6 +42,8 @@ import {
 } from './sections/components';
 import { AsmCustomerCouponComponent } from './sections/asm-customer-coupon/asm-customer-coupon.component';
 import { AsmCustomerCouponComponentModule } from './sections/asm-customer-coupon/asm-customer-coupon.module';
+import { AsmCustomerPromotionComponent } from './sections/asm-customer-promotion/asm-customer-promotion.component';
+import { AsmCustomerPromotionComponentModule } from './sections/asm-customer-promotion/asm-customer-promotion.module';
 import { AsmCustomerCustomerCouponComponent } from './sections/asm-customer-customer-coupon/asm-customer-customer-coupon.component';
 import { AsmCustomerCustomerCouponComponentModule } from './sections/asm-customer-customer-coupon/asm-customer-customer-coupon.module';
 
@@ -65,6 +67,7 @@ import { AsmCustomerCustomerCouponComponentModule } from './sections/asm-custome
     AsmCustomerProductReviewsComponentModule,
     AsmCustomerSupportTicketsComponentModule,
     AsmCustomerCouponComponentModule,
+    AsmCustomerPromotionComponentModule,
     AsmCustomerCustomerCouponComponentModule,
     FeaturesConfigModule,
   ],
@@ -102,6 +105,9 @@ import { AsmCustomerCustomerCouponComponentModule } from './sections/asm-custome
         },
         AsmCustomer360CouponComponent: {
           component: AsmCustomerCouponComponent,
+        },
+        AsmCustomer360PromotionComponent: {
+          component: AsmCustomerPromotionComponent,
         },
         AsmCustomer360CustomerCouponComponent: {
           component: AsmCustomerCustomerCouponComponent,

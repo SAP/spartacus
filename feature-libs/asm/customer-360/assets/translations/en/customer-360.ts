@@ -97,6 +97,11 @@ export const customer360 = {
       applied: 'Coupon Applied',
       removeButtonText: 'Remove',
     },
+    promotions: {
+      headerText: 'Promotions',
+      emptyDescription: 'There are currently no promotions',
+      applied: 'Promotion Applied',
+    },
     customerCoupons: {
       headerText: 'Customer Coupons',
       emptyDescription: 'There are currently no customer coupons',

@@ -245,6 +245,26 @@ context('Assisted Service Module', () => {
           cy.get('button').contains('Apply to Cart').should('be.visible');
         });
     });
+    it('should contain promotion list (CXSPA-3932)', () => {
+      cy.get('cx-asm-customer-promotion').scrollIntoView().should('be.visible');
+      cy.get('.cx-asm-customer-promotion-listing').should(
+        'not.contain',
+        'Promotion Applied'
+      );
+    });
+    it('promotion rule should be auto applied when the total price of the cart reaches the promotion threshold(CXSPA-3932)', () => {
+      checkout.goToProductDetailsPage();
+      cy.get('input[type="number"]').clear().type('100');
+      cy.get('cx-add-to-cart')
+        .findByText(/Add To Cart/i)
+        .click({ force: true });
+      checkout.visitHomePage('asm=true');
+      cy.get('button.cx-360-button').click();
+      cy.get('button.cx-tab-header').contains('Promotion').click();
+      cy.get('.cx-asm-customer-promotion-listing-applied').contains(
+        'Promotion Applied'
+      );
+    });
     it('should contain customer coupons (CXSPA-3945)', () => {
       cy.get('cx-asm-customer-customer-coupon')
         .contains('Customer Coupons')

@@ -140,4 +140,16 @@ describe('AsmCustomerPromotionListingComponent', () => {
     fixture.detectChanges();
     expect(el.query(By.css('cx-message'))).not.toBeNull();
   });
+
+  it('should be able to display promotion applied correctly', () => {
+    testHost.applied = 'Promotion Applied';
+    testHost.entries = mockEntries;
+    fixture.detectChanges();
+    const ngContainer = el.query(
+      By.css('table .cx-asm-customer-promotion-listing-applied')
+    );
+    expect(ngContainer.nativeElement.textContent).toContain(
+      'Promotion Applied'
+    );
+  });
 });
