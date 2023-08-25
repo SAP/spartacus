@@ -301,6 +301,7 @@
       .cx-ghost-updated,
       .cx-ghost-nav-caret {
         background-color: var(--cx-color-ghost);
+
         @include media-breakpoint-down(sm) {
           height: 35px;
         }
