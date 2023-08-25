@@ -10,4 +10,14 @@
       padding-inline-start: 1rem;
     }
   }
+
+  .cx-ghost-messaging {
+    .cx-ghost-messaging-box {
+      .cx-ghost-container {
+        .cx-ghost-message-input-title,
+        .cx-ghost-message-input {
+        }
+      }
+    }
+  }
 }

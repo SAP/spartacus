@@ -1,23 +1,55 @@
-<ng-container *ngIf="{ showCart: showCart$ | async } as state">
-  <div class="cx-toggle" (click)="onToggleShowOrHideCart(!!state.showCart)">
-    <cx-icon
-      aria-hidden="false"
-      [type]="state.showCart ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
-    >
-    </cx-icon>
-    <span class="cx-text">{{ 'quote.commons.cart' | cxTranslate }}</span>
-  </div>
+<ng-container *ngIf="showCart$ | async as showCart; else ghostCart">
+  <ng-container *ngIf="{ showCart: showCart } as state">
+    <div class="cx-toggle" (click)="onToggleShowOrHideCart(!!state.showCart)">
+      <cx-icon
+        aria-hidden="false"
+        [type]="state.showCart ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
+      >
+      </cx-icon>
+      <span class="cx-text">{{ 'quote.commons.cart' | cxTranslate }}</span>
+    </div>
 
-  <ng-container
-    *ngIf="state.showCart && (quoteDetails$ | async) as quoteDetails"
-  >
-    <ng-template
-      [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-      [cxOutletContext]="{
-        items: quoteDetails.entries ?? [],
-        readonly: !quoteDetails.isEditable
-      }"
+    <ng-container
+      *ngIf="state.showCart && (quoteDetails$ | async) as quoteDetails"
     >
-    </ng-template>
+      <ng-template
+        [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+        [cxOutletContext]="{
+          items: quoteDetails.entries ?? [],
+          readonly: !quoteDetails.isEditable
+        }"
+      >
+      </ng-template>
+    </ng-container>
   </ng-container>
 </ng-container>
+
+<ng-template #ghostCart>
+  <div>Ghost Cart</div>
+  <div class="cx-ghost-header">
+    <div class="cx-ghost-title ghost"></div>
+  </div>
+  <ng-container *ngFor="let number of [0, 1, 2, 3, 4]">
+    <div class="cx-ghost-row">
+      <div class="cx-ghost-cell-image">
+        <div class="cx-ghost-image ghost"></div>
+      </div>
+      <div class="cx-ghost-cell-info-container">
+        <ng-container *ngFor="let number of [0, 1, 2, 3]">
+          <div class="cx-ghost-cell-info">
+            <div class="cx-ghost-info ghost"></div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="cx-ghost-cell-qty">
+        <div class="cx-ghost-qty ghost"></div>
+      </div>
+      <div class="cx-ghost-cell-total">
+        <div class="cx-ghost-total ghost"></div>
+      </div>
+      <div class="cx-ghost-cell-actions">
+        <div class="cx-ghost-action ghost"></div>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

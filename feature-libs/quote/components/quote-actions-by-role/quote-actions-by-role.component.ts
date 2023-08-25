@@ -22,7 +22,7 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import {
   ConfirmActionDialogConfig,
@@ -35,7 +35,7 @@ import { ConfirmationContext } from '../quote-confirm-action-dialog/quote-confir
   templateUrl: './quote-actions-by-role.component.html',
 })
 export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
-  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
+  quoteDetails$: Observable<Quote> = of(null); // this.quoteFacade.getQuoteDetails();
 
   @ViewChild('element') element: ElementRef;
 
@@ -55,7 +55,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //submit button present and threshold not reached: Display message
     this.quoteDetails$.pipe(take(1)).subscribe((quote) => {
-      const mustDisableAction = quote.allowedActions.find((action) =>
+      const mustDisableAction = quote?.allowedActions?.find((action) =>
         this.mustDisableAction(action.type, quote)
       );
       if (mustDisableAction) {

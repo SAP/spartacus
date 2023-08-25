@@ -13,7 +13,7 @@ import { QuoteFacade } from '@spartacus/quote/root';
   templateUrl: 'quote-details-cart-summary.component.html',
 })
 export class QuoteDetailsCartSummaryComponent {
-  quoteDetails$ = this.quoteFacade.getQuoteDetails();
+  quoteDetails$ = null; // this.quoteFacade.getQuoteDetails();
 
   readonly cartOutlets = CartOutlets;
 

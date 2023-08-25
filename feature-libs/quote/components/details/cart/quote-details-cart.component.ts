@@ -24,7 +24,7 @@ export class QuoteDetailsCartComponent implements OnInit, OnDestroy {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
   readonly cartOutlets = CartOutlets;
-  showCart$ = this.quoteDetailsCartService.getQuoteEntriesExpanded();
+  showCart$ = null; // this.quoteDetailsCartService.getQuoteEntriesExpanded();
   protected subscription: Subscription;
 
   constructor(

@@ -6,6 +6,8 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CartUtilsService } from '@spartacus/quote/core';
+import { Quote, QuoteFacade } from '@spartacus/quote/root';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-quote-action-links',
@@ -13,7 +15,12 @@ import { CartUtilsService } from '@spartacus/quote/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteActionLinksComponent {
-  constructor(protected cartUtilsService: CartUtilsService) {}
+  quoteDetails$: Observable<Quote> = null; //this.quoteFacade.getQuoteDetails();
+
+  constructor(
+    protected quoteFacade: QuoteFacade,
+    protected cartUtilsService: CartUtilsService
+  ) {}
 
   goToNewCart(): void {
     this.cartUtilsService.goToNewCart();

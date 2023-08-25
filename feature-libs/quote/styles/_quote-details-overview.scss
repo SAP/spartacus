@@ -67,4 +67,69 @@
       @extend %cx-card !optional;
     }
   }
+
+  .cx-ghost-header-container {
+    .cx-ghost-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 40%;
+
+      .cx-ghost-container {
+        width: 100%;
+        padding-block-end: 1rem;
+
+        .cx-ghost-header,
+        .cx-ghost-status {
+          background-color: var(--cx-color-ghost);
+
+          @include media-breakpoint-down(sm) {
+            height: 35px;
+          }
+
+          @include media-breakpoint-up(md) {
+            height: 25px;
+          }
+        }
+
+        .cx-ghost-header {
+          width: 50%;
+        }
+
+        .cx-ghost-status {
+          width: 80%;
+        }
+      }
+    }
+  }
+
+  .cx-ghost-cards {
+    .cx-ghost-row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding-block-end: 1rem;
+
+      .cx-ghost-cell {
+        padding: 0.313rem;
+        min-width: 180px;
+        min-height: 150px;
+
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+
+        @include media-breakpoint-up(md) {
+          width: 30%;
+        }
+
+        .cx-ghost-card {
+          min-width: 180px;
+          min-height: 150px;
+          background-color: var(--cx-color-ghost);
+        }
+      }
+    }
+  }
 }

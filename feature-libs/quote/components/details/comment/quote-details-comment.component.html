@@ -1,4 +1,4 @@
-<ng-container *ngIf="quoteDetails$ | async as quoteDetails">
+<ng-container *ngIf="quoteDetails$ | async as quoteDetails; else ghostComment">
   <ng-container *ngIf="showComments(quoteDetails)">
     <div class="cx-toggle" (click)="expandComments = !expandComments">
       <cx-icon
@@ -17,3 +17,17 @@
     ></cx-messaging>
   </ng-container>
 </ng-container>
+
+<ng-template #ghostComment>
+  <div>Ghost Comment</div>
+  <div class="cx-ghost-messaging">
+    <div class="cx-ghost-messaging-box">
+      <div class="cx-ghost-container">
+        <div class="cx-ghost-message-input-title ghost"></div>
+      </div>
+      <div class="cx-ghost-container">
+        <div class="cx-ghost-message-input ghost"></div>
+      </div>
+    </div>
+  </div>
+</ng-template>

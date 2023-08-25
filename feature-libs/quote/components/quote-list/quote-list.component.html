@@ -1,6 +1,6 @@
-<ng-container *ngIf="quotesState$ | async as quotesState">
+<ng-container *ngIf="quotesState$ | async as quotesState; else ghostList">
   <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
-  <ng-container *ngIf="quotesState.data; else loading">
+  <ng-container *ngIf="quotesState.data; else ghostList">
     <ng-container
       *ngIf="
         quotesState.data.quotes && quotesState.data.quotes.length > 0;
@@ -140,9 +140,40 @@
   </ng-container>
 </ng-container>
 
-<ng-template #loading>
-  <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
+<ng-template #ghostList>
+  <div class="cx-ghost-sort-top">
+    <div class="cx-ghost-body">
+      <div class="cx-ghost-container">
+        <div class="cx-ghost-title ghost"></div>
+      </div>
+      <div class="cx-ghost-container">
+        <div class="cx-ghost-select ghost"></div>
+      </div>
+    </div>
+  </div>
+  <div class="cx-ghost-table">
+    <ng-container *ngFor="let number of [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+      <div class="cx-ghost-row">
+        <div class="cx-ghost-cell-name">
+          <div class="cx-ghost-name ghost"></div>
+        </div>
+        <div class="cx-ghost-cell-id">
+          <div class="cx-ghost-id ghost"></div>
+        </div>
+        <div class="cx-ghost-cell-status">
+          <div class="cx-ghost-status ghost"></div>
+        </div>
+        <div class="cx-ghost-cell-updated">
+          <div class="cx-ghost-updated ghost"></div>
+        </div>
+        <div class="cx-ghost-cell-nav-caret">
+          <div class="cx-ghost-nav-caret ghost"></div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="cx-ghost-sort-bottom">
+    <div class="cx-ghost-pagination ghost"></div>
   </div>
 </ng-template>
 

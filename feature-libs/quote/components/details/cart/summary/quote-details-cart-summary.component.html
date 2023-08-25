@@ -1,7 +1,13 @@
-<ng-container *ngIf="quoteDetails$ | async as quoteDetails">
+<ng-container
+  *ngIf="quoteDetails$ | async as quoteDetails; else ghostQuoteSummary"
+>
   <ng-template
     [cxOutlet]="cartOutlets.ORDER_SUMMARY"
     [cxOutletContext]="quoteDetails"
   >
   </ng-template>
 </ng-container>
+
+<ng-template #ghostQuoteSummary>
+  <div>Ghost Quote Summary</div>
+</ng-template>

@@ -21,7 +21,7 @@ import {
   MessagingComponent,
   MessagingConfigs,
 } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { delay, finalize, map, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config/quote-ui.config';
 import { QuoteDetailsCartComponentService } from '../cart/quote-details-cart.component.service';
@@ -39,7 +39,7 @@ export class QuoteDetailsCommentComponent {
   expandComments = true;
   iconTypes = ICON_TYPE;
 
-  quoteDetails$ = this.quoteFacade.getQuoteDetails();
+  quoteDetails$: Observable<Quote> = of(null); // this.quoteFacade.getQuoteDetails();
   messageEvents$: Observable<Array<MessageEvent>> = this.prepareMessageEvents();
 
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
@@ -97,7 +97,7 @@ export class QuoteDetailsCommentComponent {
   showComments(quote: Quote): boolean {
     let numItemComments = 0;
     quote.entries?.forEach(
-      (entry) => (numItemComments += entry.comments?.length ?? 0)
+      (entry: OrderEntry) => (numItemComments += entry.comments?.length ?? 0)
     );
     return (
       quote.isEditable ||
@@ -112,7 +112,7 @@ export class QuoteDetailsCommentComponent {
         this.quoteUiConfig.quote?.maxCharsForComments ??
         DEFAULT_COMMENT_MAX_CHARS,
       displayAddMessageSection: this.quoteDetails$.pipe(
-        map((quote) => quote.isEditable)
+        map((quote) => quote?.isEditable)
       ),
       dateFormat: 'MMMM d, yyyy h:mm aa',
       defaultItemId: ALL_PRODUCTS_ID,
@@ -130,7 +130,7 @@ export class QuoteDetailsCommentComponent {
     return this.quoteDetails$.pipe(
       map((quote) => {
         const itemList: Item[] = [{ id: ALL_PRODUCTS_ID, name: allProducts }];
-        quote.entries?.forEach((entry) => {
+        quote?.entries?.forEach((entry: OrderEntry) => {
           itemList.push(this.convertToItem(entry));
         });
         return itemList;
@@ -157,11 +157,11 @@ export class QuoteDetailsCommentComponent {
     return this.quoteDetails$.pipe(
       map((quote) => {
         const messageEvents: MessageEvent[] = [];
-        quote.comments?.forEach((comment) =>
+        quote?.comments?.forEach((comment: Comment) =>
           messageEvents.push(this.mapCommentToMessageEvent(comment))
         );
-        quote.entries?.forEach((entry) => {
-          entry.comments?.forEach((comment) =>
+        quote?.entries?.forEach((entry: OrderEntry) => {
+          entry.comments?.forEach((comment: Comment) =>
             messageEvents.push(this.mapCommentToMessageEvent(comment, entry))
           );
         });
