@@ -22,7 +22,6 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-//import { Observable, of, Subscription } from 'rxjs';
 import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import {
@@ -36,7 +35,7 @@ import { ConfirmationContext } from '../quote-confirm-action-dialog/quote-confir
   templateUrl: './quote-actions-by-role.component.html',
 })
 export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
-  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails(); // of(null); //
+  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
 
   @ViewChild('element') element: ElementRef;
 

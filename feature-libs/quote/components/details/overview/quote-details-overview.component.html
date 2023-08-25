@@ -57,22 +57,16 @@
 </ng-container>
 
 <ng-template #ghostDetails>
-  <div class="cx-ghost-header-container">
-    <div class="cx-ghost-body">
-      <div class="cx-ghost-container">
-        <div class="cx-ghost-header ghost"></div>
-      </div>
-      <div class="cx-ghost-container">
-        <div class="cx-ghost-status ghost"></div>
-      </div>
+  <div class="cx-ghost-header">
+    <div class="cx-ghost-column">
+      <div class="cx-ghost-header ghost"></div>
+      <div class="cx-ghost-status ghost"></div>
     </div>
   </div>
   <div class="cx-ghost-cards">
     <div class="cx-ghost-row">
       <ng-container *ngFor="let number of [0, 1, 2]">
-        <div class="cx-ghost-cell">
-          <div class="cx-ghost-card ghost"></div>
-        </div>
+        <div class="cx-ghost-card ghost"></div>
       </ng-container>
     </div>
   </div>
