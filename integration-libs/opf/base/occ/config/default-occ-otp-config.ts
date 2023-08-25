@@ -13,7 +13,7 @@ export const defaultOccOtpConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        generateOtpKey: 'users/${userId}/carts/${cartId}/otp',
+        generateOtpKey: 'users/${userId}/carts/${cartId}/accessCode',
       },
     },
   },

@@ -28,8 +28,8 @@ import {
 } from '@spartacus/opf/checkout/root';
 import {
   BehaviorSubject,
-  combineLatest,
   Observable,
+  combineLatest,
   of,
   throwError,
 } from 'rxjs';
@@ -109,8 +109,8 @@ export class OpfCheckoutPaymentWrapperService {
         this.activeCartId = cartId;
         return this.opfOtpService.generateOtpKey(userId, cartId);
       }),
-      filter((response) => Boolean(response?.value)),
-      map(({ value: otpKey }) =>
+      filter((response) => Boolean(response?.accessCode)),
+      map(({ accessCode: otpKey }) =>
         this.setPaymentInitiationConfig(otpKey, paymentOptionId)
       ),
       switchMap((params) => this.opfCheckoutService.initiatePayment(params)),
