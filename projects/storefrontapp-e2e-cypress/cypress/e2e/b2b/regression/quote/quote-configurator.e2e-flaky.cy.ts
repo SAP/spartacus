@@ -22,13 +22,13 @@ context('Quote<->Configurator integration', () => {
   });
 
   describe('Request quote process with VC configurable product', () => {
-    it('should not allow to request quote if configuration has issues', () => {
-      quote.addProductToCartForQuotePreparation(
+    it('should not allow to request quote if the configuration has issues', () => {
+      quote.addProductToCart(
         POWERTOOLS,
         testProductConfigurableWithIssues,
         '1'
       );
-      quote.clickOnRequestQuoteInCart();
+      quote.clickOnRequestQuote();
 
       //we are still in cart, for now just check that
       //TODO check for messages once https://jira.tools.sap/browse/CXSPA-4079 is done

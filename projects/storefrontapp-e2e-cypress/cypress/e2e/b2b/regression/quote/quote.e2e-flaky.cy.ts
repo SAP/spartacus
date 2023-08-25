@@ -32,7 +32,7 @@ context('Quote', () => {
   });
 
   describe('Request quote process', () => {
-    it('should display a message and disable submit button if threshold is not met', () => {
+    it('should display a global message and disable submit button if threshold is not met', () => {
       quote.requestQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, '1');
       quote.checkQuoteInDraftState(false, TEST_PRODUCT_HAMMER_DRILLING_ID);
     });
@@ -40,14 +40,14 @@ context('Quote', () => {
     it('should be possible(submit) if threshold is met', () => {
       quote.requestQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, '30');
       quote.checkQuoteInDraftState(true, TEST_PRODUCT_HAMMER_DRILLING_ID);
-      quote.addCommentAndWait(
+      quote.addHeaderComment(
         'Can you please make me a good offer for this large volume of goods?'
       );
       quote.checkComment(
         1,
         'Can you please make me a good offer for this large volume of goods?'
       );
-      quote.addItemCommentAndWait(
+      quote.addItemComment(
         TEST_PRODUCT_HAMMER_DRILLING_NAME,
         'since there is a newer model out, is it possible to get a discount for this item?'
       );
@@ -73,6 +73,7 @@ context('Quote', () => {
       );
       quote.checkQuoteInDraftState(true, TEST_PRODUCT_HAMMER_DRILLING_ID);
     });
+
     it('should edit quantity of items within a buyer quote draft (CXSPA-3852)', () => {
       let itemIndex = 1;
       quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
@@ -109,7 +110,7 @@ context('Quote', () => {
       quote.checkQuoteListPresent();
     });
 
-    it('should be accessible from quote details', () => {
+    it('should be accessible from the quote details', () => {
       quote.requestQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, '1');
       quote.navigateToQuoteListFromQuoteDetails();
       quote.checkQuoteListPresent();
