@@ -13,35 +13,29 @@ export const STATUS_SUBMITTED = 'Submitted';
 const STATUS_DRAFT = 'Draft';
 const CARD_TITLE_QUOTE_INFORMATION = 'Quote Information';
 const SUBMIT_BTN = 'Submit Quote';
+
 /**
- * Sets quantity on PDP
+ * Sets quantity.
  */
-export function setQtyOnPD(quantity: string): void {
-  log('Sets quantity on PDP', setQtyOnPD.name);
-  cy.get('input.ng-pristine').clear().type(quantity);
+export function setQuantity(quantity: string): void {
+  log('Sets quantity', setQuantity.name);
+  cy.get('cx-item-counter input').clear().type(quantity);
 }
 
 /**
- * Clicks on 'Request Quote' on the cart page and checks for quote page
+ * Clicks on 'Request Quote' button on the cart page.
  */
-export function clickOnRequestQuoteInCartAndExpectQuotePage(): void {
+export function clickOnRequestQuote(): void {
   log(
-    'Clicks on "Request Quote" button in the cart and check whether the quote page is displayed.',
-    clickOnRequestQuoteInCartAndExpectQuotePage.name
+    'Clicks on "Request Quote" button on the cart page.',
+    clickOnRequestQuote.name
   );
-  cy.get('cx-quote-request-button button')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/quote');
-      cy.get('cx-quote-details-overview').should('be.visible');
-    })
-    .then(() => {
-      cy.get('cx-quote-actions-by-role').should('be.visible');
-    });
+  cy.get('cx-quote-request-button button').click();
 }
 
 /**
- * Uses a cx-login-form to login a user
+ * Uses a cx-login-form to login a user.
+ *
  * @param email Email for the login
  * @param password Password for the login
  * @param name Name of the user
@@ -59,8 +53,9 @@ export function login(email: string, password: string, name: string): void {
 }
 
 /**
- * Requests a quote from cart
- * @param shopName Name of the given shop (Powertools)
+ * Requests a quote from cart and verifies the quote page is visible.
+ *
+ * @param shopName Name of the given shop
  * @param productName Name of the product that should be used for the quote
  * @param quantity Quantity of the product used for the quote
  */
@@ -70,49 +65,53 @@ export function requestQuote(
   quantity: string
 ): void {
   log('Requests a quote from cart', requestQuote.name);
-  this.addProductToCartForQuotePreparation(shopName, productName, quantity);
-  this.clickOnRequestQuoteInCartAndExpectQuotePage();
+  this.addProductToCart(shopName, productName, quantity);
+  this.clickOnRequestQuote();
+  cy.location('pathname').should('contain', '/quote');
+  cy.get('cx-quote-details-overview').should('be.visible');
+  cy.get('cx-quote-actions-by-role').should('be.visible');
   cy.url().as('quoteURL');
 }
 
 /**
- * Adds a product to the cart
- * @param shopName Name of the given shop (Powertools)
+ * Adds a product to the cart.
+ *
+ * @param shopName Name of the given shop
  * @param productName Name of the product that should be used for the quote
  * @param quantity Quantity of the product used for the quote
  */
-export function addProductToCartForQuotePreparation(
+export function addProductToCart(
   shopName,
   productName: string,
   quantity: string
 ): void {
-  log('Adds a product to the cart', addProductToCartForQuotePreparation.name);
+  log('Adds a product to the cart', addProductToCart.name);
   common.goToPDPage(shopName, productName);
-  this.setQtyOnPD(quantity);
+  this.setQuantity(quantity);
   common.clickOnAddToCartBtnOnPD();
   common.clickOnViewCartBtnOnPD();
 }
 
 /**
- * Submits a quote via clicking "Yes" button in the confirmation popover
+ * Submits a quote via clicking "Yes" button in the confirmation popover.
  */
 export function submitQuote(): void {
   log(
     'Submits a quote via clicking "Yes" button in the confirmation popover',
     submitQuote.name
   );
-  clickSubmitQuote();
-  clickOnYesBtnWithinRequestPopUp();
+  this.clickSubmitQuoteBtn();
+  this.clickOnYesBtnWithinRequestPopUp();
   cy.get<string>('@quoteURL').then(cy.visit);
 }
 
 /**
- * Clicks on 'Submit Quote' on the quote overview page.
+ * Clicks on 'Submit Quote' button on the quote overview page.
  */
-export function clickSubmitQuote(): void {
+export function clickSubmitQuoteBtn(): void {
   log(
     'Submits a quote via clicking "Submit" button on the quote details overview page',
-    clickSubmitQuote.name
+    clickSubmitQuoteBtn.name
   );
   cy.get('cx-quote-actions-by-role button.btn-primary')
     .click()
@@ -122,7 +121,8 @@ export function clickSubmitQuote(): void {
 }
 
 /**
- * Increases or decreases the quantity of an item in the QDP cart using the quantity stepper
+ * Increases or decreases the quantity of a cart item using the quantity stepper.
+ *
  * @param itemIndex Index of the item in the QDP cart list
  * @param changeType '+' for increase and '-' for decrease
  */
@@ -149,7 +149,8 @@ export function changeItemQuantityByStepper(
 }
 
 /**
- * Changes the quantity of the item in the quote details overview using the quantity counter
+ * Changes the quantity of the cart item using the quantity counter.
+ *
  * @param itemIndex Index of the Item in the QDP cart list
  * @param newQuantity Quantity that should be set
  */
@@ -158,7 +159,7 @@ export function changeItemQuantityByCounter(
   newQuantity: string
 ): void {
   log(
-    'Changes the quantity of the item in the quote details overview using the quantity counter',
+    'Changes the quantity of the cart item in the quote details overview using the quantity counter',
     changeItemQuantityByCounter.name
   );
   cy.get(
@@ -169,7 +170,8 @@ export function changeItemQuantityByCounter(
 }
 
 /**
- * Verifies the quantity of an item at the given index equals the expected quantity given
+ * Verifies the quantity of an item at the given index equals the expected quantity given.
+ *
  * @param itemIndex Index of the Item in the QDP cart list
  * @param expectedQuantity Expected quantity of the item
  */
@@ -189,7 +191,8 @@ export function checkItemQuantity(
 }
 
 /**
- * Click the 'Remove' button for the item at the given index to remove it in the QDP cart
+ * Click the 'Remove' button for the item at the given index to remove a cart item.
+ *
  * @param itemIndex Index of the Item in the QDP cart list
  */
 export function removeItem(itemIndex: number): void {
@@ -203,13 +206,14 @@ export function removeItem(itemIndex: number): void {
 }
 
 /**
- * Verifies if the given item is visible within the QDP cart at the given index.
+ * Verifies if the item is visible within the QDP at the given index.
+ *
  * @param itemIndex Index of the Item in the QDP cart list
  * @param productID Id of the product
  */
 export function checkItemVisible(itemIndex: number, productID: string): void {
   log(
-    'Verifies the given item is visible within the QDP cart at the given index',
+    'Verifies the given item is visible within the QDP at the given index',
     checkItemVisible.name
   );
   cy.get(`cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`)
@@ -218,7 +222,8 @@ export function checkItemVisible(itemIndex: number, productID: string): void {
 }
 
 /**
- * Verifies the item at the given index exists
+ * Verifies if the item at the given index exists.
+ *
  * @param itemIndex Index of the Item in the QDP cart list
  * @param productID Id of the product
  */
@@ -236,7 +241,8 @@ export function checkItemExists(itemIndex: number, productID: string): void {
 }
 
 /**
- * Verifies the "Quote Information" card tile is in edit mode
+ * Verifies the "Quote Information" card tile is in edit mode.
+ *
  * @param isEditModeActive Indicates if the card is in edit mode
  */
 export function checkQuoteInformationCard(isEditModeActive: boolean): void {
@@ -257,7 +263,8 @@ export function checkQuoteInformationCard(isEditModeActive: boolean): void {
 }
 
 /**
- * Edits the "Quote Information" card tile with given values
+ * Edits the "Quote Information" card tile with given values.
+ *
  * @param newQuoteName New quote name
  * @param newQuoteDescription New quote description
  */
@@ -286,7 +293,7 @@ export function editQuoteInformationCard(
 }
 
 /**
- * Saves the edited date (quote name and its description) within the Quote Information card tile
+ * Saves the edited date (quote name and its description) within the Quote Information card tile.
  */
 export function saveEditedData(): void {
   log(
@@ -302,7 +309,8 @@ export function saveEditedData(): void {
 }
 
 /**
- * Verifies the expected quote name equals the current quote name
+ * Verifies if the expected quote name equals the current quote name.
+ *
  * @param expectedQuoteInformationContent expected quote name
  */
 export function checkQuoteInformationCardContent(
@@ -339,7 +347,7 @@ export function clickEditPencil(): void {
 }
 
 /**
- * Clicks on 'Yes' button within the quote confirmation popover
+ * Clicks on 'Yes' button within the quote confirmation popover.
  */
 export function clickOnYesBtnWithinRequestPopUp(): void {
   log(
@@ -351,7 +359,7 @@ export function clickOnYesBtnWithinRequestPopUp(): void {
 }
 
 /**
- * Verifies whether global message is displayed on the top of the page.
+ * Verifies if the global message is displayed on the top of the page.
  */
 export function checkGlobalMessageDisplayed(isDisplayed: boolean): void {
   log(
@@ -366,7 +374,7 @@ export function checkGlobalMessageDisplayed(isDisplayed: boolean): void {
 }
 
 /**
- * Verifies "Submit" button on the quote details overview page
+ * Verifies if "Submit" button on the quote details overview page.
  */
 export function checkSubmitBtn(isEnabled: boolean): void {
   log(
@@ -381,18 +389,18 @@ export function checkSubmitBtn(isEnabled: boolean): void {
 }
 
 /**
- * Verifies that comments are no longer editable and the input field doesnt exist anymore.
+ * Verifies if the comments are no longer editable and the input field does not exist anymore.
  */
 export function checkCommentsNotEditable(): void {
   log(
-    'Verifies that comments are no longer editable and the input field doesnt exist anymore',
+    'Verifies if the comments are no longer editable and the input field does not exist anymore',
     checkCommentsNotEditable.name
   );
   cy.get('cx-quote-details-comment .cx-message-input').should('not.exist');
 }
 
 /**
- * Verifies presence of quote list
+ * Verifies if the quote list exists.
  */
 export function checkQuoteListPresent() {
   log('Verifies presence of quote list', checkQuoteListPresent.name);
@@ -400,7 +408,7 @@ export function checkQuoteListPresent() {
 }
 
 /**
- * Navigates to quote list via my account
+ * Navigates to the quote list via my account.
  */
 export function navigateToQuoteListFromMyAccount() {
   log(
@@ -426,7 +434,7 @@ export function navigateToQuoteListFromMyAccount() {
 }
 
 /**
- * Navigates to quote list via quote details
+ * Navigates to the quote list via the quote details.
  */
 export function navigateToQuoteListFromQuoteDetails() {
   log(
@@ -443,7 +451,8 @@ export function navigateToQuoteListFromQuoteDetails() {
 }
 
 /**
- * Verifies the displayed quote assuming that it is in draft state.
+ * Verifies the displayed quote is in draft state.
+ *
  * @param meetsThreshold Does the quote meet the threshold
  * @param productId Product id of a product which is part of the quote
  */
@@ -451,7 +460,10 @@ export function checkQuoteInDraftState(
   meetsThreshold: boolean,
   productId: string
 ) {
-  log('Verifies the displayed quote', checkQuoteInDraftState.name);
+  log(
+    'Verifies the displayed quote is in draft state',
+    checkQuoteInDraftState.name
+  );
   checkQuoteState(STATUS_DRAFT);
   checkGlobalMessageDisplayed(!meetsThreshold);
   checkSubmitBtn(meetsThreshold);
@@ -459,7 +471,8 @@ export function checkQuoteInDraftState(
 }
 
 /**
- *Verifies the given item exists within the quote cart
+ * Verifies the given item exists within the quote cart.
+ *
  * @param productId Product ID of the item that should exist in the cart
  */
 export function checkItem(productId: string) {
@@ -470,7 +483,8 @@ export function checkItem(productId: string) {
 }
 
 /**
- * Verifies the quote state
+ * Verifies the quote state.
+ *
  * @param status Expected Status of the quote
  */
 export function checkQuoteState(status: string) {
@@ -479,11 +493,12 @@ export function checkQuoteState(status: string) {
 }
 
 /**
- * Adds a header comment to the quote assuming that the quote is currently in edit mode
+ * Adds a header comment to the quote.
+ *
  * @param text Text to add
  */
-export function addCommentAndWait(text: string) {
-  log('Adds a header comment to the quote', addCommentAndWait.name);
+export function addHeaderComment(text: string) {
+  log('Adds a header comment to the quote', addHeaderComment.name);
   cy.get('cx-quote-details-comment .cx-message-input').within(() => {
     cy.get('input').type(text);
     cy.get('button').click();
@@ -492,7 +507,8 @@ export function addCommentAndWait(text: string) {
 }
 
 /**
- * Verifies whether the given header comment is displayed on the given position
+ * Verifies if the header comment is displayed on the given position.
+ *
  * @param index Position of the comment, starting with 0 for the first comment.
  * @param text Text to be displayed
  */
@@ -504,12 +520,13 @@ export function checkComment(index: number, text: string) {
 }
 
 /**
- * Adds a header comment with a selected item to the quote assuming that the quote is currently in edit mode
+ * Adds a item comment to the quote.
+ *
  * @param item Name of the item
  * @param text Text to add
  */
-export function addItemCommentAndWait(item: string, text: string) {
-  log('Adds an item comment to the quote', addItemCommentAndWait.name);
+export function addItemComment(item: string, text: string) {
+  log('Adds an item comment to the quote', addItemComment.name);
   cy.get('cx-quote-details-comment .cx-footer-label').within(() => {
     cy.get('select').select(item);
   });
@@ -521,7 +538,8 @@ export function addItemCommentAndWait(item: string, text: string) {
 }
 
 /**
- * Verifies whether the given header comment with item link is displayed on the given position
+ * Verifies if the item comment is displayed.
+ *
  * @param index Index of the comment containing the link within the comment section
  * @param item Name of the item
  * @param text Text to be displayed
@@ -538,6 +556,7 @@ export function checkItemComment(index: number, item: string, text: string) {
 
 /**
  * Clicks on the item link provided in the comment.
+ *
  * @param index Index of the comment containing the link within the comment section
  * @param item Name of the item
  */
@@ -554,7 +573,8 @@ export function clickItemLinkInComment(index: number, item: string) {
 }
 
 /**
- * Verifies if the item at the given index in the quote details cart is visible within the viewport
+ * Verifies if the item at the given index in the quote details cart is visible within the viewport.
+ *
  * @param index Index of the quote details cart row.
  */
 export function checkLinkedItemInViewport(index: number) {
@@ -580,6 +600,7 @@ export function registerGetQuoteRoute(shopName: string) {
 
 /**
  * Creates a simple log with ##### comment <functionName> ######
+ *
  * @param comment Could be the description of the function
  * @param functionName Name of the called function
  */
