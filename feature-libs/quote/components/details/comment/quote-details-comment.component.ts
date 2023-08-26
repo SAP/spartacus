@@ -21,7 +21,7 @@ import {
   MessagingComponent,
   MessagingConfigs,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { delay, finalize, map, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config/quote-ui.config';
 import { QuoteDetailsCartComponentService } from '../cart/quote-details-cart.component.service';
@@ -39,10 +39,10 @@ export class QuoteDetailsCommentComponent {
   expandComments = true;
   iconTypes = ICON_TYPE;
 
-  quoteDetails$: Observable<Quote> = of(null); // this.quoteFacade.getQuoteDetails();
+  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   messageEvents$: Observable<Array<MessageEvent>> = this.prepareMessageEvents();
-
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
+
   constructor(
     protected quoteFacade: QuoteFacade,
     protected eventService: EventService,

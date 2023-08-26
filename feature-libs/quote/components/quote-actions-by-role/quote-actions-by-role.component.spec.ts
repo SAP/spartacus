@@ -154,6 +154,26 @@ describe('QuoteActionsByRoleComponent', () => {
     expect(facade).toBeDefined();
   });
 
+  describe('Ghost animation', () => {
+    it('should render view for ghost animation', () => {
+      mockQuoteDetails$.next(null);
+      fixture.detectChanges();
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-actions'
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-button',
+        3
+      );
+    });
+  });
+
   it('should read quote details state', (done) => {
     component.quoteDetails$.pipe(take(1)).subscribe((state) => {
       expect(state).toEqual(mockQuote);
@@ -378,6 +398,7 @@ describe('QuoteActionsByRoleComponent', () => {
         )
       ).toBe(true);
     });
+
     it('should return true if state and action match', () => {
       expect(
         component['isConfirmationDialogRequired'](
@@ -386,6 +407,7 @@ describe('QuoteActionsByRoleComponent', () => {
         )
       ).toBe(true);
     });
+
     it('should return false if action does not match', () => {
       expect(
         component['isConfirmationDialogRequired'](
@@ -394,6 +416,7 @@ describe('QuoteActionsByRoleComponent', () => {
         )
       ).toBe(false);
     });
+
     it('should return false if state does not match', () => {
       expect(
         component['isConfirmationDialogRequired'](
@@ -413,6 +436,7 @@ describe('QuoteActionsByRoleComponent', () => {
         )
       ).toThrow();
     });
+
     it('should return configured config if state/action are matching', () => {
       expect(
         component['getDialogConfig'](
@@ -440,6 +464,7 @@ describe('QuoteActionsByRoleComponent', () => {
         successMessage: 'successMessage',
       };
     });
+
     it("should do nothing if dialog was closed selecting 'no'", () => {
       component['handleConfirmationDialogClose'](
         QuoteActionType.SUBMIT,
@@ -449,6 +474,7 @@ describe('QuoteActionsByRoleComponent', () => {
       expect(facade.performQuoteAction).not.toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
+
     it("should perform quote action if dialog was closed selecting 'yes'", () => {
       context.successMessage = undefined;
       component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
@@ -459,6 +485,7 @@ describe('QuoteActionsByRoleComponent', () => {
       );
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
+
     it("should perform quote action if dialog was closed selecting 'yes' and display the given success message", () => {
       component['handleConfirmationDialogClose'](
         QuoteActionType.SUBMIT,
@@ -475,23 +502,27 @@ describe('QuoteActionsByRoleComponent', () => {
       );
     });
   });
+
   describe('getMessageType', () => {
     it('should return INFO for reject action', () => {
       expect(component['getMessageType'](QuoteActionType.REJECT)).toBe(
         GlobalMessageType.MSG_TYPE_INFO
       );
     });
+
     it('should return INFO for cancel action', () => {
       expect(component['getMessageType'](QuoteActionType.CANCEL)).toBe(
         GlobalMessageType.MSG_TYPE_INFO
       );
     });
+
     it('should return CONFIRMATION for submit action', () => {
       expect(component['getMessageType'](QuoteActionType.SUBMIT)).toBe(
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     });
   });
+
   describe('getButtonStyle', () => {
     let allowedActions: QuoteAction[];
     beforeEach(() => {
@@ -501,6 +532,7 @@ describe('QuoteActionsByRoleComponent', () => {
         { type: QuoteActionType.CANCEL, isPrimary: false },
       ];
     });
+
     it("should return 'btn-primary' style for action marked as primary", () => {
       expect(
         component.getButtonStyle(allowedActions, {
@@ -509,6 +541,7 @@ describe('QuoteActionsByRoleComponent', () => {
         })
       ).toEqual('btn-primary');
     });
+
     it("should return 'btn-secondary' style for action marked as non-primary", () => {
       expect(
         component.getButtonStyle(allowedActions, {
@@ -517,6 +550,7 @@ describe('QuoteActionsByRoleComponent', () => {
         })
       ).toEqual('btn-secondary');
     });
+
     it("should return 'btn-secondary' style for cancel-action if there are only 2 actions", () => {
       expect(
         component.getButtonStyle(allowedActions.slice(1), {
@@ -525,6 +559,7 @@ describe('QuoteActionsByRoleComponent', () => {
         })
       ).toEqual('btn-secondary');
     });
+
     it("should return 'btn-tertiary style for cancel-action if there are more than 2 actions", () => {
       expect(
         component.getButtonStyle(allowedActions, {

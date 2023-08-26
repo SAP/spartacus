@@ -17,6 +17,7 @@ import createSpy = jasmine.createSpy;
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { createEmptyQuote } from '../../../../core/testing/quote-test-utils';
+import { CommonQuoteTestUtilsService } from '../../../testing/common-quote-test-utils.service';
 
 const cartId = '1234';
 const quoteCode = '3333';
@@ -81,6 +82,7 @@ class MockGlobalMessageService {
 
 describe('QuoteDetailsCartSummaryComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsCartSummaryComponent>;
+  let htmlElem: HTMLElement;
   let component: QuoteDetailsCartSummaryComponent;
   let facade: QuoteFacade;
 
@@ -102,6 +104,7 @@ describe('QuoteDetailsCartSummaryComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteDetailsCartSummaryComponent);
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     facade = TestBed.inject(QuoteFacade);
     mockQuoteDetails$.next(quote);
@@ -110,5 +113,51 @@ describe('QuoteDetailsCartSummaryComponent', () => {
   it('should create component', () => {
     expect(component).toBeDefined();
     expect(facade).toBeDefined();
+  });
+
+  describe('Ghost animation', () => {
+    it('should render view for ghost animation', () => {
+      mockQuoteDetails$.next(null);
+      fixture.detectChanges();
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-summary-heading'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-title'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-summary-partials'
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-row',
+        4
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-summary-label',
+        4
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-summary-amount',
+        4
+      );
+    });
   });
 });

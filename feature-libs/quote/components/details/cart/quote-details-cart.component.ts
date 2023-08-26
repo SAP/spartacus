@@ -22,9 +22,9 @@ import { QuoteDetailsCartComponentService } from './quote-details-cart.component
 })
 export class QuoteDetailsCartComponent implements OnInit, OnDestroy {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
+  showCart$ = this.quoteDetailsCartService.getQuoteEntriesExpanded();
   iconTypes = ICON_TYPE;
   readonly cartOutlets = CartOutlets;
-  showCart$ = null; // this.quoteDetailsCartService.getQuoteEntriesExpanded();
   protected subscription: Subscription;
 
   constructor(

@@ -1,5 +1,5 @@
-<ng-container *ngIf="showCart$ | async as showCart; else ghostCart">
-  <ng-container *ngIf="{ showCart: showCart } as state">
+<ng-container *ngIf="quoteDetails$ | async as quoteDetails; else ghostCart">
+  <ng-container *ngIf="{ showCart: showCart$ | async } as state">
     <div class="cx-toggle" (click)="onToggleShowOrHideCart(!!state.showCart)">
       <cx-icon
         aria-hidden="false"

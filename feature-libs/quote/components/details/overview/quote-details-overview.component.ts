@@ -27,7 +27,7 @@ export class QuoteDetailsOverviewComponent {
   private static NO_DATA = '-';
   private static CHARACTERS_LIMIT = 255;
 
-  quoteDetails$: Observable<Quote> = null; //this.quoteFacade.getQuoteDetails();
+  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
   editMode = false;
 
