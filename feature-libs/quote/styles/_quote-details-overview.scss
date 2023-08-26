@@ -79,15 +79,7 @@
 
       .cx-ghost-header,
       .cx-ghost-status {
-        background-color: var(--cx-color-ghost);
-
-        @include media-breakpoint-down(sm) {
-          height: 35px;
-        }
-
-        @include media-breakpoint-up(md) {
-          height: 25px;
-        }
+        @include cx-ghost-bar();
       }
 
       .cx-ghost-header {

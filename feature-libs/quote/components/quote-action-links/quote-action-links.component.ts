@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteActionLinksComponent {
-  quoteDetails$: Observable<Quote> = null; //this.quoteFacade.getQuoteDetails();
+  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
 
   constructor(
     protected quoteFacade: QuoteFacade,

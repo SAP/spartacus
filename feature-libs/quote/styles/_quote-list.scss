@@ -120,6 +120,7 @@
       margin: 0;
     }
 
+    .cx-ghost-sort-bottom,
     &.bottom {
       display: flex;
       justify-content: flex-end;
@@ -163,48 +164,33 @@
   }
 
   .cx-ghost-sort-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     padding: 1rem 0;
     margin: 0;
 
-    .cx-ghost-body {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
+    .cx-ghost-title {
+      @include cx-ghost-bar();
+      width: 15%;
+
+      @include media-breakpoint-down(sm) {
+        width: 45%;
+      }
+    }
+
+    .cx-ghost-select {
       width: 30%;
+      height: 50px;
+      background-color: var(--cx-color-ghost);
 
       @include media-breakpoint-down(sm) {
         width: 100%;
       }
+    }
 
-      .cx-ghost-container {
-        width: 100%;
-
-        .cx-ghost-title {
-          width: 50%;
-
-          @include media-breakpoint-down(sm) {
-            height: 35px;
-          }
-
-          @include media-breakpoint-up(md) {
-            height: 25px;
-          }
-        }
-
-        .cx-ghost-select {
-          width: 100%;
-          height: 50px;
-        }
-
-        .cx-ghost-title,
-        .cx-ghost-select {
-          background-color: var(--cx-color-ghost);
-        }
-      }
-
-      .cx-ghost-container:first-of-type {
-        padding-block-end: 1rem;
-      }
+    .cx-ghost-container:first-of-type {
+      padding-block-end: 1rem;
     }
   }
 
@@ -227,18 +213,21 @@
   }
 
   .cx-ghost-table {
+    padding: 1rem 0;
+
     .cx-ghost-row {
       display: flex;
       flex-direction: row;
       align-items: center;
       width: 100%;
       border-top: 1px solid var(--cx-color-light);
-      padding: 1rem 0;
+      padding: 1rem;
 
       @include media-breakpoint-down(sm) {
         flex-direction: column;
         flex-wrap: wrap;
         align-items: flex-start;
+        padding: 1rem 0;
       }
 
       .cx-ghost-cell-name,
@@ -253,6 +242,7 @@
           width: 100%;
         }
       }
+
       @include media-breakpoint-up(md) {
         .cx-ghost-cell-nav-caret {
           display: flex;
@@ -300,15 +290,7 @@
       .cx-ghost-status,
       .cx-ghost-updated,
       .cx-ghost-nav-caret {
-        background-color: var(--cx-color-ghost);
-
-        @include media-breakpoint-down(sm) {
-          height: 35px;
-        }
-
-        @include media-breakpoint-up(md) {
-          height: 25px;
-        }
+        @include cx-ghost-bar();
       }
 
       .cx-ghost-name {
@@ -329,6 +311,27 @@
 
       .cx-ghost-nav-caret {
         width: 35%;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      .cx-ghost-row:first-of-type {
+        .cx-ghost-name {
+          width: 30%;
+        }
+
+        .cx-ghost-cell-updated {
+          justify-content: flex-start;
+          padding-inline-start: 3rem;
+
+          .cx-ghost-updated {
+            width: 35%;
+          }
+        }
+
+        .cx-ghost-cell-nav-caret {
+          display: none;
+        }
       }
     }
   }

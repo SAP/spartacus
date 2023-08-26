@@ -9,5 +9,15 @@
 </ng-container>
 
 <ng-template #ghostQuoteSummary>
-  <div>Ghost Quote Summary</div>
+  <div class="cx-ghost-summary-heading">
+    <div class="cx-ghost-title ghost"></div>
+  </div>
+  <div class="cx-ghost-summary-partials">
+    <ng-container *ngFor="let number of [0, 1, 2, 3]">
+      <div class="cx-ghost-row">
+        <div class="cx-ghost-summary-label ghost"></div>
+        <div class="cx-ghost-summary-amount ghost"></div>
+      </div>
+    </ng-container>
+  </div>
 </ng-template>

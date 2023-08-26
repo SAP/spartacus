@@ -25,31 +25,26 @@
 </ng-container>
 
 <ng-template #ghostCart>
-  <div>Ghost Cart</div>
-  <div class="cx-ghost-header">
+  <div class="cx-ghost-table-header">
     <div class="cx-ghost-title ghost"></div>
   </div>
-  <ng-container *ngFor="let number of [0, 1, 2, 3, 4]">
-    <div class="cx-ghost-row">
-      <div class="cx-ghost-cell-image">
-        <div class="cx-ghost-image ghost"></div>
-      </div>
-      <div class="cx-ghost-cell-info-container">
-        <ng-container *ngFor="let number of [0, 1, 2, 3]">
-          <div class="cx-ghost-cell-info">
-            <div class="cx-ghost-info ghost"></div>
+  <div class="cx-ghost-table">
+    <ng-container *ngFor="let number of [0, 1, 2, 3, 4]">
+      <div class="cx-ghost-row">
+        <div class="cx-ghost-image-container">
+          <div class="cx-ghost-image ghost"></div>
+        </div>
+        <div class="cx-ghost-container">
+          <div class="cx-ghost-info-container">
+            <ng-container *ngFor="let number of [0, 1, 2, 3]">
+              <div class="cx-ghost-info ghost"></div>
+            </ng-container>
           </div>
-        </ng-container>
+          <div class="cx-ghost-qty ghost"></div>
+          <div class="cx-ghost-total ghost"></div>
+          <div class="cx-ghost-action ghost"></div>
+        </div>
       </div>
-      <div class="cx-ghost-cell-qty">
-        <div class="cx-ghost-qty ghost"></div>
-      </div>
-      <div class="cx-ghost-cell-total">
-        <div class="cx-ghost-total ghost"></div>
-      </div>
-      <div class="cx-ghost-cell-actions">
-        <div class="cx-ghost-action ghost"></div>
-      </div>
-    </div>
-  </ng-container>
+    </ng-container>
+  </div>
 </ng-template>
