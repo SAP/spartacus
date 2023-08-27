@@ -10,6 +10,7 @@ import * as common from './common';
 /** alias for GET Quote Route */
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
 export const STATUS_SUBMITTED = 'Submitted';
+export const STATUS_CANCELED = 'Cancelled';
 const STATUS_DRAFT = 'Draft';
 const CARD_TITLE_QUOTE_INFORMATION = 'Quote Information';
 const SUBMIT_BTN = 'Submit Quote';
@@ -53,6 +54,22 @@ export function login(email: string, password: string, name: string): void {
 }
 
 /**
+ * Requests a quote and verifies it is in draft state
+ * @param shopName Name of the given shop
+ * @param productId Id of the product added to the quote
+ * @param productAmount Amount of the product added to the quote
+ */
+export function prepareQuote(
+  shopName: String,
+  productId: String,
+  productAmount: number,
+  inDraftState: boolean
+) {
+  log(' Requests a Quote and verifies it is in draft state', prepareQuote.name);
+  this.requestQuote(shopName, productId, productAmount.toString());
+  this.checkQuoteInDraftState(inDraftState, productId);
+}
+/**
  * Requests a quote from cart and verifies the quote page is visible.
  *
  * @param shopName Name of the given shop
@@ -70,7 +87,7 @@ export function requestQuote(
   cy.location('pathname').should('contain', '/quote');
   cy.get('cx-quote-details-overview').should('be.visible');
   cy.get('cx-quote-actions-by-role').should('be.visible');
-  cy.url().as('quoteURL');
+  cy.url().should('contain', '/quote').as('quoteURL');
 }
 
 /**
@@ -102,7 +119,7 @@ export function submitQuote(): void {
   );
   this.clickSubmitQuoteBtn();
   this.clickOnYesBtnWithinRequestPopUp();
-  cy.get<string>('@quoteURL').then(cy.visit);
+  visitQuotePage();
 }
 
 /**
@@ -202,7 +219,7 @@ export function removeItem(itemIndex: number): void {
   ).within(() => {
     cy.get('button').contains('Remove').click();
   });
-  cy.get<string>('@quoteURL').then(cy.visit);
+  visitQuotePage();
 }
 
 /**
@@ -585,6 +602,34 @@ export function checkLinkedItemInViewport(index: number) {
   cy.get(`cx-quote-details-cart .cx-item-list-row:nth-child(${index})`).should(
     'be.visible'
   );
+}
+/**
+ * Cancels the quote
+ */
+export function cancelQuoteProcess() {
+  log('Cancels the quote', cancelQuoteProcess.name);
+  cancelQuote();
+  clickOnYesBtnWithinRequestPopUp();
+}
+
+/**
+ * Clicks on "Cancel Quote" button
+ */
+function cancelQuote() {
+  log('Clicks on "Cancel Quote" button', cancelQuote.name);
+  cy.get('cx-quote-actions-by-role button.btn-secondary')
+    .click()
+    .then(() => {
+      cy.get('cx-quote-confirm-action-dialog').should('be.visible');
+    });
+}
+
+/**
+ * Visits the quote page
+ */
+export function visitQuotePage() {
+  log('Visits the quote page', visitQuotePage.name);
+  cy.get<string>('@quoteURL').then(cy.visit);
 }
 
 /**
