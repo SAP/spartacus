@@ -38,6 +38,13 @@
       }
 
       .cx-name {
+        width: 25%;
+        padding-inline-end: 1rem;
+
+        @include media-breakpoint-down(md) {
+          padding-inline-end: 2rem;
+        }
+
         a {
           font-weight: var(--cx-font-weight-semi);
         }
