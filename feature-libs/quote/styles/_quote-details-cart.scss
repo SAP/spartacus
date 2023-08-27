@@ -1,11 +1,14 @@
 %cx-quote-details-cart {
   @include cx-quote-toggle();
 
-  .cx-ghost-table-header {
+  .cx-ghost-table-header,
+  .cx-ghost-row {
     display: flex;
     flex-direction: row;
     gap: 1rem;
+  }
 
+  .cx-ghost-table-header {
     .cx-ghost-title {
       width: 100%;
       @include cx-ghost-bar();
@@ -20,11 +23,8 @@
     padding-block-end: 1rem;
 
     .cx-ghost-row {
-      display: flex;
-      flex-direction: row;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 1rem;
       border-bottom: 1px solid var(--cx-color-light);
       padding-block-start: 1rem;
       padding-block-end: 1rem;
@@ -44,7 +44,6 @@
       .cx-ghost-image-container {
         width: 20%;
         padding: 1rem;
-        margin-inline-end: 1rem;
 
         @include media-breakpoint-down(sm) {
           padding: 1rem 0;
@@ -65,7 +64,6 @@
 
         @include media-breakpoint-up(md) {
           align-items: center;
-          padding: 1rem;
         }
 
         @include media-breakpoint-down(sm) {

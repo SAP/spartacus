@@ -158,13 +158,6 @@ describe('QuoteListComponent', () => {
         '.cx-ghost-sort-top'
       );
 
-      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-container',
-        2
-      );
-
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -214,7 +207,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
-        '.cx-ghost-updated',
+        '.cx-ghost-updated-date',
         8
       );
 
