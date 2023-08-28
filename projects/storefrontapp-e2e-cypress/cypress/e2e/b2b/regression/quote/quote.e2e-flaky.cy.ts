@@ -33,29 +33,37 @@ context('Quote', () => {
 
   describe('Request quote process', () => {
     it('should display a global message and disable submit button if threshold is not met', () => {
-      quote.requestQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, '1');
-      quote.checkQuoteInDraftState(false, TEST_PRODUCT_HAMMER_DRILLING_ID);
+      quote.prepareQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, 1, false);
     });
 
     it('should be possible(submit) if threshold is met', () => {
-      quote.requestQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, '30');
-      quote.checkQuoteInDraftState(true, TEST_PRODUCT_HAMMER_DRILLING_ID);
+      quote.prepareQuote(
+        POWERTOOLS,
+        TEST_PRODUCT_HAMMER_DRILLING_ID,
+        PRODUCT_AMOUNT_30,
+        true
+      );
+
       quote.addHeaderComment(
         'Can you please make me a good offer for this large volume of goods?'
       );
+
       quote.checkComment(
         1,
         'Can you please make me a good offer for this large volume of goods?'
       );
+
       quote.addItemComment(
         TEST_PRODUCT_HAMMER_DRILLING_NAME,
         'since there is a newer model out, is it possible to get a discount for this item?'
       );
+
       quote.checkItemComment(
         2,
         TEST_PRODUCT_HAMMER_DRILLING_NAME,
         'since there is a newer model out, is it possible to get a discount for this item?'
       );
+
       quote.clickItemLinkInComment(2, TEST_PRODUCT_HAMMER_DRILLING_NAME);
       quote.checkLinkedItemInViewport(1);
       quote.submitQuote();
@@ -66,12 +74,12 @@ context('Quote', () => {
 
   describe('Edit quote process - buyer perspective', () => {
     beforeEach(() => {
-      quote.requestQuote(
+      quote.prepareQuote(
         POWERTOOLS,
         TEST_PRODUCT_HAMMER_DRILLING_ID,
-        PRODUCT_AMOUNT_30.toString()
+        PRODUCT_AMOUNT_30,
+        true
       );
-      quote.checkQuoteInDraftState(true, TEST_PRODUCT_HAMMER_DRILLING_ID);
     });
 
     it('should edit quantity of items within a buyer quote draft (CXSPA-3852)', () => {
@@ -103,9 +111,9 @@ context('Quote', () => {
     });
   });
 
-  // these tests should be removed, as soon as the quote list navigation is part of the above process tests
-  describe('Quote list', () => {
+  describe('Navigate to quote list', () => {
     it('should be accessible from My Account', () => {
+      quote.requestQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, '1');
       quote.navigateToQuoteListFromMyAccount();
       quote.checkQuoteListPresent();
     });
@@ -114,6 +122,19 @@ context('Quote', () => {
       quote.requestQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, '1');
       quote.navigateToQuoteListFromQuoteDetails();
       quote.checkQuoteListPresent();
+    });
+
+    it('should cancel a quote and be redirected back to the quote list (CXSPA-4035)', () => {
+      quote.prepareQuote(
+        POWERTOOLS,
+        TEST_PRODUCT_HAMMER_DRILLING_ID,
+        PRODUCT_AMOUNT_30,
+        true
+      );
+      quote.cancelQuote();
+      quote.checkQuoteListPresent();
+      quote.gotToQuoteDetailsOverviewPage();
+      quote.checkQuoteState(quote.STATUS_CANCELED);
     });
   });
 });
