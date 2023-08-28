@@ -1,0 +1,33 @@
+<ng-container *ngFor="let consignment of consignments">
+  <div [style.backgroundColor]="'red'" *ngIf="consignment">
+    <ng-container *ngIf="consignment.status">
+      {{ 'orderDetails.deliveryStatus_' + consignment?.status | cxTranslate }}|
+    </ng-container>
+    <ng-container *ngIf="consignment.statusDate">
+      {{
+        'NewMyAccountOrderHistory.statusDate'
+          | cxTranslate: { param: consignment.statusDate | cxDate }
+      }}
+      |
+    </ng-container>
+    <ng-container
+      *ngIf="consignmentEntriesLength(consignment) > 1; else showItem"
+    >
+      {{
+        'NewMyAccountOrderHistory.items'
+          | cxTranslate: { param: consignmentEntriesLength(consignment) }
+      }}
+    </ng-container>
+    <ng-template #showItem>
+      {{
+        'NewMyAccountOrderHistory.item'
+          | cxTranslate: { param: consignmentEntriesLength(consignment) }
+      }}
+    </ng-template>
+  </div>
+  <cx-new-myaccount-consignment-tracking
+    [orderCode]="orderCode ?? ''"
+    [consignment]="consignment"
+  >
+  </cx-new-myaccount-consignment-tracking>
+</ng-container>

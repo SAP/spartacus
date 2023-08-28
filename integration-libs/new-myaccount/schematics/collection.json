@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-new-myaccount/index#addNewMyAccountFeature",
+      "description": "Add and configure Spartacus' New My-Account feature",
+      "schema": "./add-new-myaccount/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-new-myaccount/index#addNewMyAccountFeature",
+      "description": "Add and configure Spartacus' New My-Account feature",
+      "schema": "./add-new-myaccount/schema.json"
+    }
+  }
+}

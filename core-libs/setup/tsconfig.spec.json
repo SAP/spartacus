@@ -485,11 +485,6 @@
       "@spartacus/cdc/user-profile": [
         "../../integration-libs/cdc/user-profile/public_api"
       ],
-      "@spartacus/cdp/assets": ["../../integration-libs/cdp/assets/public_api"],
-      "@spartacus/cdp": ["../../integration-libs/cdp/public_api"],
-      "@spartacus/cdp/order-history": [
-        "../../integration-libs/cdp/order-history/public_api"
-      ],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
       "@spartacus/digital-payments/assets": [
         "../../integration-libs/digital-payments/assets/public_api"
@@ -514,6 +509,15 @@
       ],
       "@spartacus/epd-visualization/root": [
         "../../integration-libs/epd-visualization/root/public_api"
+      ],
+      "@spartacus/new-myaccount/assets": [
+        "../../integration-libs/new-myaccount/assets/public_api"
+      ],
+      "@spartacus/new-myaccount": [
+        "../../integration-libs/new-myaccount/public_api"
+      ],
+      "@spartacus/new-myaccount/order-history": [
+        "../../integration-libs/new-myaccount/order-history/public_api"
       ],
       "@spartacus/s4om/assets": [
         "../../integration-libs/s4om/assets/public_api"

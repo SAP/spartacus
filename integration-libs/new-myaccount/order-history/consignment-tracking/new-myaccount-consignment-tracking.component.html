@@ -1,0 +1,27 @@
+<ng-container *ngIf="consignment && consignment.status">
+  <div
+    [style.backgroundColor]="'orange'"
+    *ngIf="consignmentStatus.includes(consignment.status)"
+  >
+    <div *ngIf="consignmentTracking$ | async as consignmentTracking">
+      {{ 'orderDetails.consignmentTracking.dialog.estimate' | cxTranslate }}:{{
+        consignmentTracking?.targetArrivalDate | cxDate: 'medium'
+      }}
+      <br />
+      {{ 'orderDetails.consignmentTracking.dialog.trackingId' | cxTranslate }}
+      <ng-container *ngIf="consignmentTracking?.trackingUrl">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          [href]="consignmentTracking.trackingUrl"
+          >{{ consignmentTracking?.trackingID }}</a
+        >
+      </ng-container>
+      <ng-container *ngIf="!consignmentTracking?.trackingUrl">
+        <label>
+          {{ consignmentTracking?.trackingID }}
+        </label>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

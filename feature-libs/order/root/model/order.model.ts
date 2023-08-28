@@ -94,7 +94,7 @@ export interface OrderHistory {
   orgUnit?: B2BUnit;
   orgCustomer?: B2BUser;
 
-  //cdp-related
+  //new-myaccount-related
   purchaseType?: string;
   totalItems?: number;
   consolidatedInfo?: any;

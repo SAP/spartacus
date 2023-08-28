@@ -315,9 +315,6 @@
       "@spartacus/cdc/root": ["dist/cdc/root"],
       "@spartacus/cdc/user-account": ["dist/cdc/user-account"],
       "@spartacus/cdc/user-profile": ["dist/cdc/user-profile"],
-      "@spartacus/cdp/assets": ["dist/cdp/assets"],
-      "@spartacus/cdp": ["dist/cdp"],
-      "@spartacus/cdp/order-history": ["dist/cdp/order-history"],
       "@spartacus/cds": ["dist/cds"],
       "@spartacus/digital-payments/assets": ["dist/digital-payments/assets"],
       "@spartacus/digital-payments": ["dist/digital-payments"],
@@ -331,6 +328,11 @@
       ],
       "@spartacus/epd-visualization": ["dist/epd-visualization"],
       "@spartacus/epd-visualization/root": ["dist/epd-visualization/root"],
+      "@spartacus/new-myaccount/assets": ["dist/new-myaccount/assets"],
+      "@spartacus/new-myaccount": ["dist/new-myaccount"],
+      "@spartacus/new-myaccount/order-history": [
+        "dist/new-myaccount/order-history"
+      ],
       "@spartacus/s4om/assets": ["dist/s4om/assets"],
       "@spartacus/s4om": ["dist/s4om"],
       "@spartacus/s4om/root": ["dist/s4om/root"],
