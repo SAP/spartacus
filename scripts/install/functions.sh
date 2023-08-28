@@ -82,7 +82,7 @@ function update_projects_versions {
     fi
 
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
-    (cd "${CLONE_DIR}/tools/config" && pwd && sed -i -E 's/PUBLISHING_VERSION = '\'\''/PUBLISHING_VERSION = '\'"${SPARTACUS_VERSION}"\''/g' const.ts);
+    (cd "${CLONE_DIR}/tools/config" && pwd && sed -i -E 's/PUBLISHING_VERSION = '\'.*\''/PUBLISHING_VERSION = '\'"${SPARTACUS_VERSION}"\''/g' const.ts);
     (cd "${CLONE_DIR}" && pwd && npm run config:update -- --generate-deps);
 
 }
