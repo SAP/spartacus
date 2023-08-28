@@ -37,16 +37,42 @@
         }
       }
 
-      .cx-name {
+      .cx-name,
+      .cx-updated-date {
         width: 25%;
-        padding-inline-end: 1rem;
+      }
+
+      .cx-status,
+      .cx-code {
+        width: 20%;
+      }
+
+      .cx-name {
+        padding-inline-end: 1.5rem;
+
+        @include media-breakpoint-up(lg) {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          max-width: 1px;
+        }
 
         @include media-breakpoint-down(md) {
-          padding-inline-end: 2rem;
+          display: flex;
+          flex-direction: row;
         }
 
         a {
           font-weight: var(--cx-font-weight-semi);
+
+          @include media-breakpoint-down(md) {
+            width: 60%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 350px;
+            padding-inline-start: 5px;
+          }
         }
       }
 
@@ -64,6 +90,8 @@
       }
 
       .cx-nav-caret {
+        width: 10%;
+
         a {
           color: var(--cx-color-secondary);
         }
