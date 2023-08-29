@@ -10,7 +10,8 @@ export const defaultOccOpfOrderConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        placeOpfOrder: 'users/${userId}/orders/v2?fields=FULL',
+        placeOpfOrder:
+          'users/${userId}/orders/paymentAuthorizedOrderPlacement?fields=FULL',
       },
     },
   },

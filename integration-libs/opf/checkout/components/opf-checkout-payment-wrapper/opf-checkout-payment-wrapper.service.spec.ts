@@ -126,7 +126,9 @@
 //     opfCheckoutFacadeMock.initiatePayment.and.returnValue(
 //       of(mockPaymentSessionData)
 //     );
-//     opfOtpFacadeMock.generateOtpKey.and.returnValue(of({ value: mockOtpKey }));
+//     opfOtpFacadeMock.generateOtpKey.and.returnValue(
+//       of({ accessCode: mockOtpKey })
+//     );
 //     userIdServiceMock.getUserId.and.returnValue(of(mockUserId));
 //     activeCartServiceMock.getActiveCartId.and.returnValue(of(mockCartId));
 //     routingServiceMock.getRouterState.and.returnValue(
@@ -190,7 +192,9 @@
 //     );
 
 //     opfOrderFacadeMock.placeOpfOrder.and.returnValue(of({}));
-//     opfOtpFacadeMock.generateOtpKey.and.returnValue(of({ value: mockOtpKey }));
+//     opfOtpFacadeMock.generateOtpKey.and.returnValue(
+//       of({ accessCode: mockOtpKey })
+//     );
 //     userIdServiceMock.getUserId.and.returnValue(of(mockUserId));
 //     activeCartServiceMock.getActiveCartId.and.returnValue(of(mockCartId));
 //     routingServiceMock.getRouterState.and.returnValue(
@@ -222,7 +226,9 @@
 //       throwError({ status: 500 })
 //     );
 
-//     opfOtpFacadeMock.generateOtpKey.and.returnValue(of({ value: mockOtpKey }));
+//     opfOtpFacadeMock.generateOtpKey.and.returnValue(
+//       of({ accessCode: mockOtpKey })
+//     );
 //     userIdServiceMock.getUserId.and.returnValue(of(mockUserId));
 //     activeCartServiceMock.getActiveCartId.and.returnValue(of(mockCartId));
 //     routingServiceMock.getRouterState.and.returnValue(
