@@ -58,4 +58,15 @@ describe('SmartEditInitService', () => {
       expect(smartEditServiceMock.processCmsPage).not.toHaveBeenCalled();
     });
   });
+
+  describe('factory', () => {
+    it('should return a function that calls init on the provided SmartEditInitService', () => {
+      const mockInitService = jasmine.createSpyObj('SmartEditInitService', ['init']);
+      const factoryFunction = SmartEditInitService.factory(mockInitService);
+
+      factoryFunction();
+
+      expect(mockInitService.init).toHaveBeenCalled();
+    });
+  });
 });
