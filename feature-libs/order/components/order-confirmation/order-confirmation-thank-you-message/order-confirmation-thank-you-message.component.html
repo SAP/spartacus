@@ -12,13 +12,28 @@
       {{ 'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate }}
     </p>
   </div>
-
-  <div *ngIf="isGuestCustomer">
-    <cx-guest-register-form
-      [guid]="orderGuid"
-      [email]="order.paymentInfo.billingAddress.email"
-    ></cx-guest-register-form>
-  </div>
+  <ng-container *cxFeatureLevel="'6.4'">
+    <div
+      *ngIf="
+        isGuestCustomer &&
+        orderGuid &&
+        order?.paymentInfo?.billingAddress?.email
+      "
+    >
+      <cx-guest-register-form
+        [guid]="orderGuid"
+        [email]="order.paymentInfo.billingAddress.email"
+      ></cx-guest-register-form>
+    </div>
+  </ng-container>
+  <ng-container *cxFeatureLevel="'!6.4'">
+    <div *ngIf="isGuestCustomer">
+      <cx-guest-register-form
+        [guid]="orderGuid"
+        [email]="order.paymentInfo.billingAddress.email"
+      ></cx-guest-register-form>
+    </div>
+  </ng-container>
 
   <cx-add-to-home-screen-banner></cx-add-to-home-screen-banner>
 </ng-container>

@@ -267,7 +267,7 @@ describe('CdcJsService', () => {
         errorCallback: jasmine.any(Function) as any,
       });
       expect(winRef?.nativeWindow['__gigyaConf']).toEqual({
-        include: 'id_token',
+        include: 'id_token, missing-required-fields',
       });
     });
 
@@ -456,7 +456,6 @@ describe('CdcJsService', () => {
         expect(service['gigyaSDK'].accounts.login).toHaveBeenCalledWith({
           loginID: 'uid',
           password: 'password',
-          include: 'missing-required-fields',
           ignoreInterruptions: true,
           sessionExpiry: sampleCdcConfig.cdc[0].sessionExpiration,
           callback: jasmine.any(Function),
@@ -485,7 +484,6 @@ describe('CdcJsService', () => {
           expect(service['gigyaSDK'].accounts.login).toHaveBeenCalledWith({
             loginID: 'uid',
             password: 'password',
-            include: 'missing-required-fields',
             ignoreInterruptions: true,
             context: 'RESET_EMAIL',
             sessionExpiry: sampleCdcConfig?.cdc[0]?.sessionExpiration,

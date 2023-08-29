@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import createSpy = jasmine.createSpy;
 import { OpfPaymentAdapter } from './opf-payment.adapter';
 import { OpfPaymentConnector } from './opf-payment.connector';
+import createSpy = jasmine.createSpy;
 
 class MockOpfPaymentAdapter implements OpfPaymentAdapter {
   verifyPayment = createSpy().and.returnValue(of({}));
@@ -34,7 +34,7 @@ describe('OpfPaymentConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call adapter', () => {
+  it('should call verifyPayment method from adapter', () => {
     service
       .verifyPayment('1', { responseMap: [{ key: 'test', value: 'value' }] })
       .pipe(take(1))
@@ -44,12 +44,12 @@ describe('OpfPaymentConnector', () => {
     });
   });
 
-  it('should call adapter', () => {
+  it('should call submitPayment method from adapter', () => {
     service.submitPayment({}, '1', '2').pipe(take(1)).subscribe();
     expect(adapter.submitPayment).toHaveBeenCalledWith({}, '1', '2');
   });
 
-  it('should call adapter', () => {
+  it('should call submitCompletePayment method from adapter', () => {
     service.submitCompletePayment({}, '1', '2').pipe(take(1)).subscribe();
     expect(adapter.submitCompletePayment).toHaveBeenCalledWith({}, '1', '2');
   });

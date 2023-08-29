@@ -1,74 +1,131 @@
-// TODO: Add unit tests
+// /*
+//  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+//  *
+//  * SPDX-License-Identifier: Apache-2.0
+//  */
 
-// import { inject, TestBed } from '@angular/core/testing';
-// import { QueryService } from '@spartacus/core';
+// import { TestBed } from '@angular/core/testing';
+// import { CommandService } from '@spartacus/core';
+// import { Observable, of } from 'rxjs';
 // import {
-//   ActiveConfiguration,
-//   OpfPaymentProviderType,
-// } from '@spartacus/opf/root';
-// import { of } from 'rxjs';
-// import { take } from 'rxjs/operators';
-// import { OpfCheckoutConnector } from '../connectors/opf-checkout.connector';
-// import { OpfCheckoutService } from './opf-checkout.service';
-// import createSpy = jasmine.createSpy;
+//   OpfPaymentVerificationPayload,
+//   OpfPaymentVerificationResponse,
+//   SubmitInput,
+//   SubmitRequest,
+//   SubmitResponse,
+// } from '../../root/model';
+// import { OpfPaymentConnector } from '../connectors';
+// import { OpfPaymentHostedFieldsService } from '../services';
+// import { OpfPaymentService } from './opf-payment.service';
 
-// const mockActiveConfigurations: ActiveConfiguration[] = [
-//   {
-//     id: 1,
-//     providerType: OpfPaymentProviderType.PAYMENT_GATEWAY,
-//     displayName: 'Test1',
-//   },
-//   {
-//     id: 2,
-//     providerType: OpfPaymentProviderType.PAYMENT_METHOD,
-//     displayName: 'Test2',
-//   },
-// ];
-
-// class MockOpfCheckoutConnector implements Partial<OpfCheckoutConnector> {
-//   getActiveConfigurations = createSpy().and.returnValue(
-//     of(mockActiveConfigurations)
-//   );
+// class MockPaymentConnector {
+//   verifyPayment(
+//     paymentSessionId: string,
+//     payload: OpfPaymentVerificationPayload
+//   ): Observable<OpfPaymentVerificationResponse> {
+//     return of({
+//       paymentSessionId,
+//       payload,
+//     } as unknown) as Observable<OpfPaymentVerificationResponse>;
+//   }
 // }
 
-// describe(`CheckoutPaymentService`, () => {
-//   let service: OpfCheckoutService;
-//   let connector: OpfCheckoutConnector;
+// class MockOpfPaymentHostedFieldsService {
+//   submitPayment(
+//     submitRequest: SubmitRequest,
+//     otpKey: string,
+//     paymentSessionId: string
+//   ): Observable<SubmitResponse> {
+//     return of(
+//       submitRequest,
+//       otpKey,
+//       paymentSessionId
+//     ) as Observable<SubmitResponse>;
+//   }
+
+//   submitCompletePayment(): Observable<boolean> {
+//     return of(true);
+//   }
+// }
+
+// const mockSubmitInput = {
+//   cartId: '123',
+// } as SubmitInput;
+
+// describe('OpfPaymentService', () => {
+//   let service: OpfPaymentService;
+//   let paymentConnector: MockPaymentConnector;
+//   let opfPaymentHostedFieldsServiceSpy: OpfPaymentHostedFieldsService;
 
 //   beforeEach(() => {
 //     TestBed.configureTestingModule({
 //       providers: [
-//         OpfCheckoutService,
-//         QueryService,
-//         { provide: OpfCheckoutConnector, useClass: MockOpfCheckoutConnector },
+//         OpfPaymentService,
+//         CommandService,
+//         {
+//           provide: OpfPaymentConnector,
+//           useClass: MockPaymentConnector,
+//         },
+//         {
+//           provide: OpfPaymentHostedFieldsService,
+//           useClass: MockOpfPaymentHostedFieldsService,
+//         },
 //       ],
 //     });
 
-//     service = TestBed.inject(OpfCheckoutService);
-//     connector = TestBed.inject(OpfCheckoutConnector);
+//     service = TestBed.inject(OpfPaymentService);
+//     paymentConnector = TestBed.inject(OpfPaymentConnector);
+//     opfPaymentHostedFieldsServiceSpy = TestBed.inject(
+//       OpfPaymentHostedFieldsService
+//     );
 //   });
 
-//   it(`should inject OpfCheckoutService`, inject(
-//     [OpfCheckoutService],
-//     (opfCheckoutService: OpfCheckoutService) => {
-//       expect(opfCheckoutService).toBeTruthy();
-//     }
-//   ));
+//   it('should be created', () => {
+//     expect(service).toBeTruthy();
+//   });
 
-//   describe(`getActiveConfigurationsState`, () => {
-//     it(`should call the opfCheckoutConnector.getActiveConfigurations()`, (done) => {
-//       service
-//         .getActiveConfigurationsState()
-//         .pipe(take(1))
-//         .subscribe((state) => {
-//           expect(connector.getActiveConfigurations).toHaveBeenCalled();
-//           expect(state).toEqual({
-//             loading: false,
-//             error: false,
-//             data: mockActiveConfigurations,
-//           });
-//           done();
-//         });
-//     });
+//   it('should call verifyPayment from connector with the correct payload', () => {
+//     const paymentSessionId = 'exampleSessionId';
+//     const paymentVerificationPayload = {
+//       responseMap: [
+//         {
+//           key: 'key',
+//           value: 'value',
+//         },
+//       ],
+//     } as OpfPaymentVerificationPayload;
+//     const connectorVerifySpy = spyOn(
+//       paymentConnector,
+//       'verifyPayment'
+//     ).and.callThrough();
+
+//     service.verifyPayment(paymentSessionId, paymentVerificationPayload);
+
+//     expect(connectorVerifySpy).toHaveBeenCalledWith(
+//       paymentSessionId,
+//       paymentVerificationPayload
+//     );
+//   });
+
+//   it('should call submitPayment from opfPaymentHostedFieldsService with the correct payload', () => {
+//     const submitPaymentSpy = spyOn(
+//       opfPaymentHostedFieldsServiceSpy,
+//       'submitPayment'
+//     ).and.callThrough();
+
+//     service.submitPayment(mockSubmitInput);
+
+//     expect(submitPaymentSpy).toHaveBeenCalledWith(mockSubmitInput);
+//   });
+
+//   it('should call submitCompletePayment from opfPaymentHostedFieldsService with the correct payload', () => {
+//     const submitCompletePaymentSpy = spyOn(
+//       opfPaymentHostedFieldsServiceSpy,
+//       'submitCompletePayment'
+//     ).and.callThrough();
+
+//     service.submitCompletePayment(mockSubmitInput);
+
+//     expect(submitCompletePaymentSpy).toHaveBeenCalledWith(mockSubmitInput);
 //   });
 // });

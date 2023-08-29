@@ -1,46 +1,70 @@
-// TODO: Add unit tests
+// /*
+//  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+//  *
+//  * SPDX-License-Identifier: Apache-2.0
+//  */
 
+// import { TestBed } from '@angular/core/testing';
 // import { Address } from '@spartacus/core';
-// import { Card } from '@spartacus/storefront';
 // import { GetAddressCardContent } from './get-address-card-content.pipe';
 
-// const mockedAddress: Address = {
-//   country: { isocode: 'PL' },
-//   titleCode: 'mr',
-//   firstName: 'John',
-//   lastName: 'Doe',
-//   line1: 'Noname street',
-//   line2: '',
-//   town: 'Warsaw',
-//   postalCode: '02651',
-//   phone: '',
-//   cellphone: '',
-//   defaultAddress: false,
-// };
+// describe('GetAddressCardContentPipe', () => {
+//   let pipe: GetAddressCardContent;
 
-// describe('GetAddressCardContent', () => {
-//   const pipe = new GetAddressCardContent();
+//   beforeEach(() => {
+//     TestBed.configureTestingModule({
+//       providers: [GetAddressCardContent],
+//     });
 
-//   it('should return empty object if address has not been provided', () => {
-//     expect(pipe.transform(undefined as unknown as Address)).toEqual({});
+//     pipe = TestBed.inject(GetAddressCardContent);
 //   });
 
-//   it('should show region as address region iso code if iso code present', () => {
-//     const isocode: string = 'testIso';
-//     const address: Address = {
-//       ...mockedAddress,
-//       region: { isocode },
+//   it('should create an instance', () => {
+//     expect(pipe).toBeTruthy();
+//   });
+
+//   it('should transform address to card content', () => {
+//     const address = {
+//       firstName: 'John',
+//       lastName: 'Doe',
+//       line1: '123 Main St',
+//       line2: 'Apt 4B',
+//       town: 'Cityville',
+//       region: { isocode: 'CA' },
+//       country: { isocode: 'US' },
+//       postalCode: '12345',
+//       phone: '555-1234',
 //     };
 
-//     expect(pipe.transform(address)).toContain(isocode);
-//   });
+//     const result = pipe.transform(address);
 
-//   it('should transform address object to card object', () => {
-//     const expectedResult: Card = {
+//     expect(result).toEqual({
 //       textBold: 'John Doe',
-//       text: ['Noname street', '', 'Warsaw, PL', '02651', ''],
+//       text: ['123 Main St', 'Apt 4B', 'Cityville, CA, US', '12345', '555-1234'],
+//     });
+//   });
+
+//   it('should handle missing address', () => {
+//     const result = pipe.transform(null as unknown as Address);
+
+//     expect(result).toEqual({});
+//   });
+
+//   it('should handle missing region and country', () => {
+//     const address = {
+//       firstName: 'Jane',
+//       lastName: 'Smith',
+//       line1: '456 Elm St',
+//       town: 'Townsville',
+//       postalCode: '67890',
+//       phone: '555-5678',
 //     };
 
-//     expect(pipe.transform(mockedAddress)).toEqual(expectedResult);
+//     const result = pipe.transform(address);
+
+//     expect(result).toEqual({
+//       textBold: 'Jane Smith',
+//       text: ['456 Elm St', undefined, 'Townsville', '67890', '555-5678'],
+//     });
 //   });
 // });

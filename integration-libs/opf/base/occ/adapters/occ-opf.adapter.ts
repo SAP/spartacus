@@ -6,7 +6,12 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConverterService, backOff, isJaloError } from '@spartacus/core';
+import {
+  ConverterService,
+  backOff,
+  isJaloError,
+  normalizeHttpError,
+} from '@spartacus/core';
 import {
   OPF_AFTER_REDIRECT_SCRIPTS_NORMALIZER,
   OPF_PAYMENT_SUBMIT_COMPLETE_NORMALIZER,
@@ -64,7 +69,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
         }
       )
       .pipe(
-        catchError((error) => throwError(error)),
+        catchError((error) => throwError(normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         }),
@@ -88,7 +93,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     const url = this.getSubmitPaymentEndpoint(paymentSessionId);
 
     return this.http.post<SubmitResponse>(url, submitRequest, { headers }).pipe(
-      catchError((error) => throwError(error)),
+      catchError((error) => throwError(normalizeHttpError(error))),
       backOff({
         shouldRetry: isJaloError,
       }),
@@ -114,7 +119,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     return this.http
       .post<SubmitCompleteResponse>(url, submitCompleteRequest, { headers })
       .pipe(
-        catchError((error) => throwError(error)),
+        catchError((error) => throwError(normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         }),
