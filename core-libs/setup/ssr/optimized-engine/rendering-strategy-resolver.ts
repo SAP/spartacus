@@ -1,25 +1,31 @@
-import { Request } from "express";
-import { RenderingStrategy } from "./ssr-optimization-options";
+import { Request } from 'express';
+import { RenderingStrategy } from './ssr-optimization-options';
 
-const hasBlacklistedParams = (request: Request): boolean => {
-  const blacklistedParams = ['gclid', 'asm'];
-  const params = Object.getOwnPropertyNames(request.query);
+const hasExcludedParams = (request: Request): boolean => {
+  const excludedParams = ['gclid', 'asm'];
+  const params = request.query ? Object.getOwnPropertyNames(request.query) : [];
 
-  return blacklistedParams.some((blacklistedParam: string) =>
-    params.some((param: string) => blacklistedParam === param),
+  return excludedParams.some((excludedParam: string) =>
+    params.some((param: string) => excludedParam === param)
   );
 };
 
-const hasBlacklistedUrl = (request: Request): boolean => {
-  const blacklistedUrls = ['/checkout'];
+const hasExcludedUrl = (request: Request): boolean => {
+  const excludedUrls = ['/checkout'];
 
-  return blacklistedUrls.some((url: string) => request.url.search(url) > -1);
+  return request.url
+    ? excludedUrls.some((url: string) => request.url.search(url) > -1)
+    : false;
 };
 
 const shouldFallbackToCsr = (request: Request): boolean => {
-  return hasBlacklistedParams(request) || hasBlacklistedUrl(request);
+  return hasExcludedParams(request) || hasExcludedUrl(request);
 };
 
-export const defaultRenderingStrategyResolver  = (request: Request): RenderingStrategy => {
-  return shouldFallbackToCsr(request) ? RenderingStrategy.ALWAYS_CSR : RenderingStrategy.DEFAULT;
+export const defaultRenderingStrategyResolver = (
+  request: Request
+): RenderingStrategy => {
+  return shouldFallbackToCsr(request)
+    ? RenderingStrategy.ALWAYS_CSR
+    : RenderingStrategy.DEFAULT;
 };
