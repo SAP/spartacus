@@ -5,9 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { QuoteCartService } from '@spartacus/quote/root';
+import { QuoteCartService, QuoteCoreConfig } from '@spartacus/quote/root';
 import { Converter } from '@spartacus/core';
-import { QuoteCoreConfig } from '@spartacus/quote/core';
 import {
   OccQuote,
   Quote,
