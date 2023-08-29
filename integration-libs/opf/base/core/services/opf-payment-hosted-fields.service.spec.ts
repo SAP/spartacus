@@ -41,7 +41,7 @@
 //   const mockOpfOtpFacade = {
 //     generateOtpKey: jasmine
 //       .createSpy('generateOtpKey')
-//       .and.returnValue(of({ value: 'mockOtpKey' })),
+//       .and.returnValue(of({ accessCode: 'mockOtpKey' })),
 //   };
 
 //   const mockActiveCartFacade = {

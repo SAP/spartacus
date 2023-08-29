@@ -87,9 +87,9 @@ export class OpfPaymentHostedFieldsService {
         submitRequest.cartId = activeCartId;
         return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
       }),
-      filter((response) => Boolean(response?.value)),
+      filter((response) => Boolean(response?.accessCode)),
       take(1),
-      concatMap(({ value: otpKey }) =>
+      concatMap(({ accessCode: otpKey }) =>
         this.opfPaymentConnector.submitPayment(
           submitRequest,
           otpKey,
@@ -133,9 +133,9 @@ export class OpfPaymentHostedFieldsService {
         submitCompleteRequest.cartId = activeCartId;
         return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
       }),
-      filter((response) => Boolean(response?.value)),
+      filter((response) => Boolean(response?.accessCode)),
       take(1),
-      concatMap(({ value: otpKey }) =>
+      concatMap(({ accessCode: otpKey }) =>
         this.opfPaymentConnector.submitCompletePayment(
           submitCompleteRequest,
           otpKey,
