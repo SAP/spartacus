@@ -6,6 +6,7 @@
 
 import { Request } from 'express';
 import { ExpressServerLogger } from '../logger';
+import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
 
 export interface SsrOptimizationOptions {
   /**
@@ -139,6 +140,7 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   maxRenderTime: 300_000,
   reuseCurrentRendering: true,
   debug: false,
+  renderingStrategyResolver: defaultRenderingStrategyResolver,
   //CXSPA-3680 - set ExpressServerLogger as default
   //logger: new ExpressServerLogger(),
 };
