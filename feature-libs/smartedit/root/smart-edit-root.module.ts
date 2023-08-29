@@ -6,6 +6,7 @@
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import {
+  MODULE_INITIALIZER,
   provideDefaultConfig,
   SMART_EDIT_DUMMY_COMPONENT_TYPE,
 } from '@spartacus/core';
@@ -13,6 +14,7 @@ import { defaultSmartEditConfig } from './config/default-smart-edit-config';
 import { SMART_EDIT_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';
 import { SmartEditLauncherService } from './services/smart-edit-launcher.service';
+import { SmartEditInitService } from './services/smart-edit-init.service';
 
 export function smartEditFactory(
   smartEditLauncherService: SmartEditLauncherService
@@ -40,6 +42,12 @@ export function smartEditFactory(
         },
       },
     }),
+    {
+      provide: MODULE_INITIALIZER,
+      useFactory: SmartEditInitService.factory,
+      deps: [SmartEditInitService],
+      multi: true,
+    },
   ],
 })
 export class SmartEditRootModule {}
