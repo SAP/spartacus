@@ -1,13 +1,13 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
+import { B2BUser, RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
-  Budget,
   LoadStatus,
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
 import { EMPTY, Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { UnitFormService } from '../../../form/unit-form.service';
 import { UnitUserItemService } from './unit-user-item.service';
 
@@ -18,7 +18,7 @@ class MockRoutingService {
   }
 }
 
-const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
+const mockItemStatus = { status: LoadStatus.SUCCESS, item: {} };
 
 class MockB2bUserService {
   get() {
@@ -27,8 +27,8 @@ class MockB2bUserService {
   loadBudget() {}
   update() {}
   create() {}
-  getLoadingStatus(): Observable<OrganizationItemStatus<Budget>> {
-    return mockItemStatus;
+  getLoadingStatus(): Observable<OrganizationItemStatus<B2BUser>> {
+    return of(mockItemStatus);
   }
 }
 
@@ -56,7 +56,7 @@ describe('ChildUnitItemService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should create item with unitUid', () => {
+  it('should create item with unitUid', fakeAsync(() => {
     spyOn(userService, 'create').and.callThrough();
     const form = new UntypedFormGroup({});
     form.setControl('name', new UntypedFormControl('User name'));
@@ -66,14 +66,21 @@ describe('ChildUnitItemService', () => {
         uid: new UntypedFormControl('unit-uid'),
       })
     );
-    form.get('orgUnit').disable();
+    form.get('orgUnit')?.disable();
 
-    expect(service.save(form)).toEqual(mockItemStatus);
+    service
+      .save(form)
+      .pipe(take(1))
+      .subscribe((val) => {
+        expect(val).toEqual(mockItemStatus);
+        flush();
+      });
+
     expect(userService.create).toHaveBeenCalledWith({
       name: 'User name',
       orgUnit: { uid: 'unit-uid' },
     });
-  });
+  }));
 
   it('should launch orgUnitChildren with unitUid uid', () => {
     const routingService = TestBed.inject(RoutingService);
