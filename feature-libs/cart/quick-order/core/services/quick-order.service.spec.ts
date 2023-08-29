@@ -1,5 +1,5 @@
 import { AbstractType } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import {
   ActiveCartFacade,
   CartAddEntrySuccessEvent,
@@ -13,8 +13,8 @@ import {
   ProductSearchPage,
   SearchConfig,
 } from '@spartacus/core';
-import { Observable, of, queueScheduler } from 'rxjs';
-import { delay, observeOn, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { QuickOrderService } from './quick-order.service';
 
 const mockProduct1Code: string = 'mockCode1';
@@ -75,6 +75,8 @@ const mockProductSearchPage: ProductSearchPage = {
   products: [mockProduct1, mockProduct2],
 };
 
+const mockHardDeleteTimeout = 7000;
+
 class MockProductSearchConnector implements Partial<ProductSearchConnector> {
   search(
     _query: string,
@@ -88,6 +90,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   isStable(): Observable<boolean> {
     return of(true);
   }
+
   addEntries(_cartEntries: OrderEntry[]): void {}
 }
 
@@ -325,39 +328,45 @@ describe('QuickOrderService', () => {
       });
   });
 
-  it('should add deleted entry and after 7s delete it', (done) => {
+  it('should add deleted entry and after 7s delete it', fakeAsync(() => {
     service.loadEntries(mockEntries);
-    service.softDeleteEntry(0);
-
-    service
-      .getSoftDeletedEntries()
-      .pipe(
-        tap((softDeletedEntries) => {
-          expect(softDeletedEntries).toEqual({ mockCode1: mockEntry1 });
-        }),
-        delay(7000),
-        switchMap(() => service.getSoftDeletedEntries())
-      )
-      .subscribe((result) => {
-        expect(result).toEqual({});
-      });
-    done();
-  });
-
-  it('should not add deleted entry', (done) => {
-    service.loadEntries([mockEmptyEntry]);
     service.softDeleteEntry(0);
 
     service
       .getSoftDeletedEntries()
       .pipe(take(1))
       .subscribe((result) => {
-        expect(result).toEqual({});
-        done();
+        expect(result).toEqual({ mockCode1: mockEntry1 });
       });
-  });
 
-  it('should return deleted entries', (done) => {
+    tick(mockHardDeleteTimeout);
+
+    service
+      .getSoftDeletedEntries()
+      .pipe(take(1))
+      .subscribe((result) => {
+        expect(result).toEqual({});
+      });
+    flush();
+  }));
+
+  it('should not add deleted entry', fakeAsync(() => {
+    service.loadEntries([mockEmptyEntry]);
+    service.softDeleteEntry(0);
+
+    tick(mockHardDeleteTimeout);
+
+    service
+      .getSoftDeletedEntries()
+      .pipe(take(1))
+      .subscribe((value) => {
+        expect(value).toEqual({});
+      });
+
+    flush();
+  }));
+
+  it('should return deleted entries', fakeAsync(() => {
     service.loadEntries([mockEntry1]);
     service.softDeleteEntry(0);
 
@@ -366,42 +375,61 @@ describe('QuickOrderService', () => {
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual({ mockCode1: mockEntry1 });
-        done();
       });
-  });
 
-  it('should undo deleted entry', (done) => {
+    tick(mockHardDeleteTimeout);
+
+    flush();
+  }));
+
+  it('should undo deleted entry', fakeAsync(() => {
     service.loadEntries([mockEntry1]);
     service.softDeleteEntry(0);
 
-    service
-      .getSoftDeletedEntries()
-      .pipe(
-        observeOn(queueScheduler),
-        take(1),
-        tap((softDeletedEntries) => {
-          expect(softDeletedEntries).toEqual({ mockCode1: mockEntry1 });
-        }),
-        tap(() => service.restoreSoftDeletedEntry(mockProduct1Code))
-      )
-      .subscribe((result) => {
-        expect(result).toEqual({});
-        done();
-      });
-  });
-
-  it('should clear deleted entry', (done) => {
-    service.loadEntries([mockEntry1]);
-    service.softDeleteEntry(0);
-    service.hardDeleteEntry(mockProduct1Code);
     service
       .getSoftDeletedEntries()
       .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual({});
-        done();
+      .subscribe((softDeletedEntries) => {
+        expect(softDeletedEntries).toEqual({ mockCode1: mockEntry1 });
       });
-  });
+
+    service.restoreSoftDeletedEntry(mockProduct1Code);
+
+    service
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => {
+        expect(entries).toEqual([mockEntry1]);
+      });
+
+    tick(mockHardDeleteTimeout);
+
+    service
+      .getSoftDeletedEntries()
+      .pipe(take(1))
+      .subscribe((softDeletedEntries) => {
+        expect(softDeletedEntries).toEqual({});
+      });
+
+    flush();
+  }));
+
+  it('should clear deleted entry', fakeAsync(() => {
+    service.loadEntries([mockEntry1]);
+    service.softDeleteEntry(0);
+
+    service.hardDeleteEntry(mockProduct1Code);
+
+    service
+      .getSoftDeletedEntries()
+      .pipe(take(1))
+      .subscribe((value) => {
+        expect(value).toEqual({});
+      });
+
+    tick(mockHardDeleteTimeout);
+    flush();
+  }));
 
   describe('canAdd', () => {
     it('should verify can add a product which already exists even list limit reached', () => {
