@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { SmartEditInitService } from './smart-edit-init.service';
-import { SmartEditService } from '../../core/services/smart-edit.service';
+import { SmartEditService } from '@spartacus/smartedit/core';
 import { SmartEditLauncherService } from './smart-edit-launcher.service';
 
 describe('SmartEditInitService', () => {
