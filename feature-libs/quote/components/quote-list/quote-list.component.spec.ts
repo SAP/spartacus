@@ -140,391 +140,383 @@ describe('QuoteListComponent', () => {
     }).compileComponents();
   });
 
-  describe('with data', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(QuoteListComponent);
-      htmlElem = fixture.nativeElement;
-      component = fixture.componentInstance;
-      componentService = TestBed.inject(QuoteListComponentService);
+  beforeEach(() => {
+    fixture = TestBed.createComponent(QuoteListComponent);
+    htmlElem = fixture.nativeElement;
+    component = fixture.componentInstance;
+    componentService = TestBed.inject(QuoteListComponentService);
+  });
+
+  it('should call service if sort changed', () => {
+    const sortCode = 'byDate';
+    component.changeSortCode(sortCode);
+
+    expect(componentService.setSort).toHaveBeenCalledWith(sortCode);
+  });
+
+  it('should call service if page changed', () => {
+    const page = 5;
+    component.changePage(page);
+
+    expect(componentService.setCurrentPage).toHaveBeenCalledWith(page);
+  });
+
+  it('should display table and sorting if quote list is not empty', () => {
+    mockQuoteListState$.next(mockQuoteListState);
+    fixture.detectChanges();
+
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-sorting'
+    );
+
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '#quote-list'
+    );
+  });
+
+  it('should display "empty list" header if quote list is empty', () => {
+    mockQuoteListState$.next({
+      ...mockQuoteListState,
+      data: { ...mockQuoteList, quotes: [] },
     });
+    fixture.detectChanges();
 
-    it('should call service if sort changed', () => {
-      const sortCode = 'byDate';
-      component.changeSortCode(sortCode);
+    CommonQuoteTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-empty'
+    );
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-empty',
+      'quote.list.empty'
+    );
+  });
 
-      expect(componentService.setSort).toHaveBeenCalledWith(sortCode);
+  it('should display pagination if pages total is more than 1', () => {
+    mockQuoteListState$.next({
+      ...mockQuoteListState,
+      data: {
+        ...mockQuoteList,
+        pagination: { ...mockPagination, totalPages: 2 },
+      },
     });
+    fixture.detectChanges();
 
-    it('should call service if page changed', () => {
-      const page = 5;
-      component.changePage(page);
+    CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      'cx-pagination',
+      1
+    );
+  });
 
-      expect(componentService.setCurrentPage).toHaveBeenCalledWith(page);
-    });
-
-    it('should display table and sorting if quote list is not empty', () => {
-      mockQuoteListState$.next(mockQuoteListState);
-      fixture.detectChanges();
-
-      CommonQuoteTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        'cx-sorting'
+  describe('getBuyerQuoteStatus', () => {
+    it('should return an empty string in case state is not a buyer one', () => {
+      expect(component['getBuyerQuoteStatus'](QuoteState.SELLER_DRAFT)).toBe(
+        ''
       );
+    });
+  });
 
-      CommonQuoteTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '#quote-list'
+  describe('getSellerQuoteStatus', () => {
+    it('should return an empty string in case state is not a seller one', () => {
+      expect(component['getSellerQuoteStatus'](QuoteState.BUYER_DRAFT)).toBe(
+        ''
       );
     });
+  });
 
-    it('should display "empty list" header if quote list is empty', () => {
-      mockQuoteListState$.next({
-        ...mockQuoteListState,
-        data: { ...mockQuoteList, quotes: [] },
-      });
-      fixture.detectChanges();
+  describe('getSellerApproverQuoteStatus', () => {
+    it('should return an empty string in case state is not a seller approver one', () => {
+      expect(
+        component['getSellerApproverQuoteStatus'](QuoteState.BUYER_DRAFT)
+      ).toBe('');
+    });
+  });
 
-      CommonQuoteTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-empty'
-      );
-      CommonQuoteTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        '.cx-empty',
-        'quote.list.empty'
+  describe('getGeneralQuoteStatus', () => {
+    it('should return an empty string in case state is not a general one', () => {
+      expect(component['getGeneralQuoteStatus'](QuoteState.BUYER_DRAFT)).toBe(
+        ''
       );
     });
+  });
 
-    it('should display pagination if pages total is more than 1', () => {
+  describe('getQuoteStateClass', () => {
+    it("should apply a class for 'BUYER_DRAFT' quote status", () => {
       mockQuoteListState$.next({
         ...mockQuoteListState,
         data: {
           ...mockQuoteList,
-          pagination: { ...mockPagination, totalPages: 2 },
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_DRAFT }],
         },
       });
       fixture.detectChanges();
 
-      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+      CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'cx-pagination',
-        1
+        'tbody tr:first-child .cx-status a.quote-draft',
+        'quote.states.BUYER_DRAFT'
       );
     });
 
-    describe('getBuyerQuoteStatus', () => {
-      it('should return an empty string in case state is not a buyer one', () => {
-        expect(component['getBuyerQuoteStatus'](QuoteState.SELLER_DRAFT)).toBe(
-          ''
-        );
+    it("should apply a class for 'SELLER_DRAFT' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.SELLER_DRAFT }],
+        },
       });
+      fixture.detectChanges();
+
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-draft',
+        'quote.states.SELLER_DRAFT'
+      );
     });
 
-    describe('getSellerQuoteStatus', () => {
-      it('should return an empty string in case state is not a seller one', () => {
-        expect(component['getSellerQuoteStatus'](QuoteState.BUYER_DRAFT)).toBe(
-          ''
-        );
+    it("should apply a class for 'BUYER_SUBMITTED' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_SUBMITTED }],
+        },
       });
+      fixture.detectChanges();
+
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-submitted',
+        'quote.states.BUYER_SUBMITTED'
+      );
     });
 
-    describe('getSellerApproverQuoteStatus', () => {
-      it('should return an empty string in case state is not a seller approver one', () => {
-        expect(
-          component['getSellerApproverQuoteStatus'](QuoteState.BUYER_DRAFT)
-        ).toBe('');
+    it("should apply a class for 'SELLER_SUBMITTED' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.SELLER_SUBMITTED }],
+        },
       });
+      fixture.detectChanges();
+
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-submitted',
+        'quote.states.SELLER_SUBMITTED'
+      );
     });
 
-    describe('getGeneralQuoteStatus', () => {
-      it('should return an empty string in case state is not a general one', () => {
-        expect(component['getGeneralQuoteStatus'](QuoteState.BUYER_DRAFT)).toBe(
-          ''
-        );
+    it("should apply a class for 'BUYER_ACCEPTED' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_ACCEPTED }],
+        },
       });
+      fixture.detectChanges();
+
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-accepted',
+        'quote.states.BUYER_ACCEPTED'
+      );
     });
 
-    describe('getQuoteStateClass', () => {
-      it("should apply a class for 'BUYER_DRAFT' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [{ ...mockQuote, state: QuoteState.BUYER_DRAFT }],
-          },
-        });
-        fixture.detectChanges();
-
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-draft',
-          'quote.states.BUYER_DRAFT'
-        );
+    it("should apply a class for 'BUYER_APPROVED' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_APPROVED }],
+        },
       });
+      fixture.detectChanges();
 
-      it("should apply a class for 'SELLER_DRAFT' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [{ ...mockQuote, state: QuoteState.SELLER_DRAFT }],
-          },
-        });
-        fixture.detectChanges();
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-approved',
+        'quote.states.BUYER_APPROVED'
+      );
+    });
 
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-draft',
-          'quote.states.SELLER_DRAFT'
-        );
+    it("should apply a class for 'SELLERAPPROVER_APPROVED' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.SELLERAPPROVER_APPROVED }],
+        },
       });
+      fixture.detectChanges();
 
-      it("should apply a class for 'BUYER_SUBMITTED' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [{ ...mockQuote, state: QuoteState.BUYER_SUBMITTED }],
-          },
-        });
-        fixture.detectChanges();
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-approved',
+        'quote.states.SELLERAPPROVER_APPROVED'
+      );
+    });
 
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-submitted',
-          'quote.states.BUYER_SUBMITTED'
-        );
+    it("should apply a class for 'BUYER_REJECTED' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_REJECTED }],
+        },
       });
+      fixture.detectChanges();
 
-      it("should apply a class for 'SELLER_SUBMITTED' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [{ ...mockQuote, state: QuoteState.SELLER_SUBMITTED }],
-          },
-        });
-        fixture.detectChanges();
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-rejected',
+        'quote.states.BUYER_REJECTED'
+      );
+    });
 
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-submitted',
-          'quote.states.SELLER_SUBMITTED'
-        );
+    it("should apply a class for 'SELLERAPPROVER_REJECTED' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.SELLERAPPROVER_REJECTED }],
+        },
       });
+      fixture.detectChanges();
 
-      it("should apply a class for 'BUYER_ACCEPTED' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [{ ...mockQuote, state: QuoteState.BUYER_ACCEPTED }],
-          },
-        });
-        fixture.detectChanges();
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-rejected',
+        'quote.states.SELLERAPPROVER_REJECTED'
+      );
+    });
 
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-accepted',
-          'quote.states.BUYER_ACCEPTED'
-        );
+    it("should apply a class for 'BUYER_OFFER' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_OFFER }],
+        },
       });
+      fixture.detectChanges();
 
-      it("should apply a class for 'BUYER_APPROVED' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [{ ...mockQuote, state: QuoteState.BUYER_APPROVED }],
-          },
-        });
-        fixture.detectChanges();
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-offer',
+        'quote.states.BUYER_OFFER'
+      );
+    });
 
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-approved',
-          'quote.states.BUYER_APPROVED'
-        );
+    it("should apply a class for 'BUYER_ORDERED' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_ORDERED }],
+        },
       });
+      fixture.detectChanges();
 
-      it("should apply a class for 'SELLERAPPROVER_APPROVED' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [
-              { ...mockQuote, state: QuoteState.SELLERAPPROVER_APPROVED },
-            ],
-          },
-        });
-        fixture.detectChanges();
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-ordered',
+        'quote.states.BUYER_ORDERED'
+      );
+    });
 
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-approved',
-          'quote.states.SELLERAPPROVER_APPROVED'
-        );
+    it("should apply a class for 'SELLER_REQUEST' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.SELLER_REQUEST }],
+        },
       });
+      fixture.detectChanges();
 
-      it("should apply a class for 'BUYER_REJECTED' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [{ ...mockQuote, state: QuoteState.BUYER_REJECTED }],
-          },
-        });
-        fixture.detectChanges();
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-request',
+        'quote.states.SELLER_REQUEST'
+      );
+    });
 
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-rejected',
-          'quote.states.BUYER_REJECTED'
-        );
+    it("should apply a class for 'SELLERAPPROVER_PENDING' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.SELLERAPPROVER_PENDING }],
+        },
       });
+      fixture.detectChanges();
 
-      it("should apply a class for 'SELLERAPPROVER_REJECTED' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [
-              { ...mockQuote, state: QuoteState.SELLERAPPROVER_REJECTED },
-            ],
-          },
-        });
-        fixture.detectChanges();
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-pending',
+        'quote.states.SELLERAPPROVER_PENDING'
+      );
+    });
 
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-rejected',
-          'quote.states.SELLERAPPROVER_REJECTED'
-        );
+    it("should apply a class for 'CANCELLED' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.CANCELLED }],
+        },
       });
+      fixture.detectChanges();
 
-      it("should apply a class for 'BUYER_OFFER' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [{ ...mockQuote, state: QuoteState.BUYER_OFFER }],
-          },
-        });
-        fixture.detectChanges();
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-cancelled',
+        'quote.states.CANCELLED'
+      );
+    });
 
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-offer',
-          'quote.states.BUYER_OFFER'
-        );
+    it("should apply a class for 'EXPIRED' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.EXPIRED }],
+        },
       });
+      fixture.detectChanges();
 
-      it("should apply a class for 'BUYER_ORDERED' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [{ ...mockQuote, state: QuoteState.BUYER_ORDERED }],
-          },
-        });
-        fixture.detectChanges();
-
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-ordered',
-          'quote.states.BUYER_ORDERED'
-        );
-      });
-
-      it("should apply a class for 'SELLER_REQUEST' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [{ ...mockQuote, state: QuoteState.SELLER_REQUEST }],
-          },
-        });
-        fixture.detectChanges();
-
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-request',
-          'quote.states.SELLER_REQUEST'
-        );
-      });
-
-      it("should apply a class for 'SELLERAPPROVER_PENDING' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [
-              { ...mockQuote, state: QuoteState.SELLERAPPROVER_PENDING },
-            ],
-          },
-        });
-        fixture.detectChanges();
-
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-pending',
-          'quote.states.SELLERAPPROVER_PENDING'
-        );
-      });
-
-      it("should apply a class for 'CANCELLED' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [{ ...mockQuote, state: QuoteState.CANCELLED }],
-          },
-        });
-        fixture.detectChanges();
-
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-cancelled',
-          'quote.states.CANCELLED'
-        );
-      });
-
-      it("should apply a class for 'EXPIRED' quote status", () => {
-        mockQuoteListState$.next({
-          ...mockQuoteListState,
-          data: {
-            ...mockQuoteList,
-            quotes: [{ ...mockQuote, state: QuoteState.EXPIRED }],
-          },
-        });
-        fixture.detectChanges();
-
-        CommonQuoteTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          'tbody tr:first-child .cx-status a.quote-expired',
-          'quote.states.EXPIRED'
-        );
-      });
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-expired',
+        'quote.states.EXPIRED'
+      );
     });
   });
 
