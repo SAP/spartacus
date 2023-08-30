@@ -187,7 +187,7 @@ export class CommonQuoteTestUtilsService {
       element = htmlElement.querySelector(querySelector);
     }
     if (!element) {
-      let indexString = index ? 'with index=' + index : '';
+      const indexString = index ? 'with index=' + index : '';
       fail(
         `expected element ${indexString} identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
       );
