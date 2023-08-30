@@ -12,6 +12,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 })
 export class QuoteDetailsCartComponentService {
   private _quoteEntriesExpanded$ = new ReplaySubject<boolean>(1);
+
   constructor() {
     this._quoteEntriesExpanded$.next(true);
   }

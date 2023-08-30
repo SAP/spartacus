@@ -38,9 +38,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
 
   @ViewChild('element') element: ElementRef;
-
   QuoteActionType = QuoteActionType;
-
   protected subscription = new Subscription();
 
   constructor(

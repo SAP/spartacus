@@ -1,34 +1,34 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { I18nTestingModule, Price } from '@spartacus/core';
 import {
-  QuoteFacade,
   Quote,
   QuoteActionType,
-  QuoteState,
   QuoteDiscount,
   QuoteDiscountType,
+  QuoteFacade,
   QuoteMetadata,
+  QuoteState,
 } from '@spartacus/quote/root';
-import { I18nTestingModule, Price } from '@spartacus/core';
 
-import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 
-import { QuoteSellerEditComponent } from './quote-seller-edit.component';
-import createSpy = jasmine.createSpy;
-import {
-  QUOTE_CODE,
-  EXPIRATION_TIME_AS_STRING,
-  createEmptyQuote,
-  EXPIRATION_DATE_AS_STRING,
-} from '../../core/testing/quote-test-utils';
-import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
+import { Component, Input } from '@angular/core';
 import {
   AbstractControl,
   ReactiveFormsModule,
   UntypedFormControl,
 } from '@angular/forms';
-import { Component, Input } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  createEmptyQuote,
+  EXPIRATION_DATE_AS_STRING,
+  EXPIRATION_TIME_AS_STRING,
+  QUOTE_CODE,
+} from '../../core/testing/quote-test-utils';
+import { QuoteSellerEditComponent } from './quote-seller-edit.component';
+import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
+import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
 const threshold = 20;

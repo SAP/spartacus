@@ -2,8 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { QuoteFacade, Quote, QuoteActionType } from '@spartacus/quote/root';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { Quote, QuoteActionType, QuoteFacade } from '@spartacus/quote/root';
 import {
   FormErrorsModule,
   IconModule,
@@ -12,10 +12,10 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
-import { QuoteRequestDialogComponent } from './quote-request-dialog.component';
-import createSpy = jasmine.createSpy;
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
+import { QuoteRequestDialogComponent } from './quote-request-dialog.component';
+import createSpy = jasmine.createSpy;
 
 const quoteCode = 'quote1';
 const mockCreatedQuote: Quote = {
