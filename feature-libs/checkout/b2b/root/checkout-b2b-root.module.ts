@@ -8,12 +8,16 @@ import { NgModule } from '@angular/core';
 import {
   CHECKOUT_BASE_CMS_COMPONENTS,
   CHECKOUT_FEATURE,
+  CheckoutConfig,
 } from '@spartacus/checkout/base/root';
 import {
+  CONFIG_INITIALIZER,
   CmsConfig,
+  ConfigInitializer,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { of } from 'rxjs';
 import { defaultB2BCheckoutConfig } from './config/default-b2b-checkout-config';
 import { defaultCheckoutB2BRoutingConfig } from './config/default-checkout-b2b-routing-config';
 import { CheckoutB2BEventModule } from './events/checkout-b2b-event.module';
@@ -45,6 +49,19 @@ export function defaultCheckoutComponentsConfig() {
     provideDefaultConfig(defaultB2BCheckoutConfig),
     provideDefaultConfig(defaultCheckoutB2BRoutingConfig),
     provideDefaultConfigFactory(defaultCheckoutComponentsConfig),
+    {
+      provide: CONFIG_INITIALIZER,
+      useFactory: (): ConfigInitializer => {
+        return {
+          scopes: ['checkout.flows.b2b-mockup'],
+          configFactory: async (): Promise<CheckoutConfig> => {
+            return of({}).toPromise();
+          },
+        };
+      },
+
+      multi: true,
+    },
   ],
 })
 export class CheckoutB2BRootModule {}

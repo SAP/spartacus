@@ -32,11 +32,10 @@ import { environment } from '../../../../environments/environment';
 const extensionModules: Type<any>[] = [];
 const extensionProviders: Provider[] = [];
 
+extensionModules.push(CheckoutB2BRootModule);
+
 if (environment.b2b) {
-  extensionModules.push(
-    CheckoutB2BRootModule,
-    CheckoutScheduledReplenishmentRootModule
-  );
+  extensionModules.push(CheckoutScheduledReplenishmentRootModule);
 
   extensionProviders.push(
     provideConfig({

@@ -9,10 +9,6 @@ import { CheckoutStep } from './checkout-step.model';
 
 export interface CheckoutFlow {
   /**
-   * Set key/identifier for the checkout flow.
-   */
-  identifier: string;
-  /**
    * Set checkout steps as ordered array of pages.
    */
   steps?: Array<CheckoutStep>;

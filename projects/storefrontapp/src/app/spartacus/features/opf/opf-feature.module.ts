@@ -15,14 +15,16 @@ import {
   opfCheckoutTranslationChunksConfig,
   opfCheckoutTranslations,
 } from '@spartacus/opf/checkout/assets';
-import { OpfConfig } from '@spartacus/opf/checkout/root';
+import {
+  OpfConfig,
+  defaultB2BOPFCheckoutConfig,
+  defaultOPFCheckoutConfig,
+} from '@spartacus/opf/checkout/root';
 
 const extensionProviders: Provider[] = [];
-// if (environment.b2b) {
-//   extensionProviders.push(provideConfig(defaultB2BOPFCheckoutConfig));
-// } else {
-//   extensionProviders.push(provideConfig(defaultOPFCheckoutConfig));
-// }
+
+extensionProviders.push(provideConfig(defaultB2BOPFCheckoutConfig));
+extensionProviders.push(provideConfig(defaultOPFCheckoutConfig));
 
 @NgModule({
   imports: [OpfBaseRootModule],

@@ -19,7 +19,11 @@ export enum DeliveryModePreferences {
   useExisting: Config,
 })
 export abstract class CheckoutConfig {
-  checkout?: CheckoutFlow[];
+  checkout?: {
+    flows?: {
+      [key: string]: CheckoutFlow;
+    };
+  };
 }
 
 declare module '@spartacus/core' {
