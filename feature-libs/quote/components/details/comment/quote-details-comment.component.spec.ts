@@ -237,7 +237,7 @@ describe('QuoteDetailsCommentComponent', () => {
       htmlElem,
       '.cx-toggle'
     );
-    caret?.click();
+    caret.click();
     fixture.detectChanges();
   }
 

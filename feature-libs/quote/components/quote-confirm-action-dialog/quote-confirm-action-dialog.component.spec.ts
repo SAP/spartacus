@@ -103,7 +103,7 @@ describe('QuoteRequestDialogComponent', () => {
       htmlElem,
       'button.btn-primary'
     );
-    primaryButton?.click();
+    primaryButton.click();
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('yes');
   });
 
@@ -112,7 +112,7 @@ describe('QuoteRequestDialogComponent', () => {
       htmlElem,
       'button.btn-secondary'
     );
-    secondaryButton?.click();
+    secondaryButton.click();
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('no');
   });
 
@@ -157,7 +157,7 @@ describe('QuoteRequestDialogComponent', () => {
       htmlElem,
       '.cx-modal-container'
     );
-    modal?.dispatchEvent(new Event('esc'));
+    modal.dispatchEvent(new Event('esc'));
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
   });
 });

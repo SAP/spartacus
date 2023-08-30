@@ -76,7 +76,7 @@ function prepareTestData(
     htmlElem,
     querySelectorBtn
   );
-  button?.click();
+  button.click();
   fixture.detectChanges();
 }
 
@@ -136,7 +136,7 @@ describe('QuoteRequestDialogComponent', () => {
       htmlElem,
       'button.btn-primary'
     );
-    primaryButton?.click();
+    primaryButton.click();
     fixture.detectChanges();
 
     expect(component.form.valid).toEqual(false);

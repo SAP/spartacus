@@ -143,7 +143,7 @@ describe('QuoteActionLinksComponent', () => {
       'button.link',
       0
     );
-    link?.click();
+    link.click();
     expect(component.goToNewCart).toHaveBeenCalled();
     expect(actionLinksService.goToNewCart).toHaveBeenCalled();
   });
@@ -155,7 +155,7 @@ describe('QuoteActionLinksComponent', () => {
       'button.link',
       1
     );
-    link?.click();
+    link.click();
     tick();
 
     expect(router.url).toBe('/cxRoute:quotes');

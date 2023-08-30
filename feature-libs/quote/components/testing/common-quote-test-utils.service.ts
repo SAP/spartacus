@@ -130,12 +130,10 @@ export class CommonQuoteTestUtilsService {
       querySelector,
       index
     );
-    if (element) {
-      expect(element.getAttributeNames().indexOf(attributeName) >= 0).toBe(
-        true,
-        `expected elements identified by selector '${querySelector}' should contain attribute name '${attributeName}', but it is NOT!`
-      );
-    }
+    expect(element.getAttributeNames().indexOf(attributeName) >= 0).toBe(
+      true,
+      `expected elements identified by selector '${querySelector}' should contain attribute name '${attributeName}', but it is NOT!`
+    );
   }
 
   /**
@@ -159,18 +157,18 @@ export class CommonQuoteTestUtilsService {
       querySelector,
       index
     );
-    if (element) {
-      expect(element.getAttributeNames().indexOf(attributeName) <= -1).toBe(
-        true,
-        `expected elements identified by selector '${querySelector}' should not contain attribute name '${attributeName}', but it is NOT!`
-      );
-    }
+    expect(element.getAttributeNames().indexOf(attributeName) <= -1).toBe(
+      true,
+      `expected elements identified by selector '${querySelector}' should not contain attribute name '${attributeName}', but it is NOT!`
+    );
   }
 
   /**
    * Retrieves a HTML element by its query selector.
    * If there are more than one element in the HTML tree,
    * one could give the index of the searched element.
+   *
+   * Fails if no element is found.
    *
    * @param {Element} htmlElement - HTML element.
    * @param {string} querySelector - Query selector.
@@ -181,13 +179,19 @@ export class CommonQuoteTestUtilsService {
     htmlElement: Element,
     querySelector: string,
     index?: number
-  ): HTMLElement | null {
+  ): HTMLElement {
+    let element: Element | null;
     if (index) {
-      return htmlElement
-        .querySelectorAll(querySelector)
-        .item(index) as HTMLElement;
+      element = htmlElement.querySelectorAll(querySelector).item(index);
     } else {
-      return htmlElement.querySelector(querySelector);
+      element = htmlElement.querySelector(querySelector);
     }
+    if (!element) {
+      let indexString = index ? 'with index=' + index : '';
+      fail(
+        `expected element ${indexString} identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
+      );
+    }
+    return element as HTMLElement;
   }
 }

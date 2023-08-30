@@ -371,7 +371,7 @@ describe('QuoteActionsByRoleComponent', () => {
       htmlElem,
       '.btn:first-child'
     );
-    editButton?.click();
+    editButton.click();
     expect(facade.performQuoteAction).toHaveBeenCalledWith(
       mockQuote.code,
       QuoteActionType.EDIT
@@ -385,7 +385,7 @@ describe('QuoteActionsByRoleComponent', () => {
       htmlElem,
       '.btn:last-child'
     );
-    requoteButton?.click();
+    requoteButton.click();
     expect(facade.requote).toHaveBeenCalledWith(mockQuote.code);
   });
 
