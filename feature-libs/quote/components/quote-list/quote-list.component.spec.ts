@@ -140,97 +140,6 @@ describe('QuoteListComponent', () => {
     }).compileComponents();
   });
 
-  describe('Ghost animation', () => {
-    beforeEach(() => {
-      componentService = TestBed.inject(QuoteListComponentService);
-      componentService.quotesState$ = NEVER;
-      fixture = TestBed.createComponent(QuoteListComponent);
-      component = fixture.componentInstance;
-      htmlElem = fixture.nativeElement;
-      fixture.detectChanges();
-    });
-
-    it('should render view for ghost animation', () => {
-      CommonQuoteTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-sort-top'
-      );
-
-      CommonQuoteTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-title'
-      );
-
-      CommonQuoteTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-select'
-      );
-
-      CommonQuoteTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-table'
-      );
-
-      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-row',
-        8
-      );
-
-      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-name',
-        8
-      );
-
-      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-id',
-        8
-      );
-
-      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-status',
-        8
-      );
-
-      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-updated-date',
-        8
-      );
-
-      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-nav-caret',
-        8
-      );
-
-      CommonQuoteTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-sort-bottom'
-      );
-
-      CommonQuoteTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-pagination'
-      );
-    });
-  });
-
   describe('with data', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(QuoteListComponent);
@@ -616,6 +525,97 @@ describe('QuoteListComponent', () => {
           'quote.states.EXPIRED'
         );
       });
+    });
+  });
+
+  describe('Ghost animation', () => {
+    beforeEach(() => {
+      componentService = TestBed.inject(QuoteListComponentService);
+      componentService.quotesState$ = NEVER;
+      fixture = TestBed.createComponent(QuoteListComponent);
+      component = fixture.componentInstance;
+      htmlElem = fixture.nativeElement;
+      fixture.detectChanges();
+    });
+
+    it('should render view for ghost animation', () => {
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-sort-top'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-title'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-select'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-table'
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-row',
+        8
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-name',
+        8
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-id',
+        8
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-status',
+        8
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-updated-date',
+        8
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-nav-caret',
+        8
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-sort-bottom'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-pagination'
+      );
     });
   });
 });
