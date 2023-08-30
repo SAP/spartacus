@@ -6,6 +6,7 @@
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import {
+  MODULE_INITIALIZER,
   provideDefaultConfig,
   SMART_EDIT_DUMMY_COMPONENT_TYPE,
 } from '@spartacus/core';
@@ -42,7 +43,7 @@ export function smartEditFactory(
       },
     }),
     {
-      provide: APP_INITIALIZER,
+      provide: MODULE_INITIALIZER,
       useFactory: SmartEditInitService.factory,
       deps: [SmartEditInitService],
       multi: true,

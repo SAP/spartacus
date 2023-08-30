@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { SmartEditService } from '../../core/services/smart-edit.service';
+import { SmartEditService } from '@spartacus/smartedit/core';
 import { SmartEditLauncherService } from './smart-edit-launcher.service';
 
 @Injectable({ providedIn: 'root' })
