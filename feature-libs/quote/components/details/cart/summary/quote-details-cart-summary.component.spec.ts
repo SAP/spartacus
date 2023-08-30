@@ -14,8 +14,12 @@ import {
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { QuoteDetailsCartSummaryComponent } from './quote-details-cart-summary.component';
 import createSpy = jasmine.createSpy;
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { ElementRef, ViewContainerRef } from '@angular/core';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  OutletDirective,
+} from '@spartacus/storefront';
+import { Directive, ElementRef, Input, ViewContainerRef } from '@angular/core';
 import { createEmptyQuote } from '../../../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../../../testing/common-quote-test-utils.service';
 
@@ -80,6 +84,14 @@ class MockGlobalMessageService {
   add(): void {}
 }
 
+@Directive({
+  selector: '[cxOutlet]',
+})
+class MockOutletDirective implements Partial<OutletDirective> {
+  @Input() cxOutlet: string;
+  @Input() cxOutletContext: string;
+}
+
 describe('QuoteDetailsCartSummaryComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsCartSummaryComponent>;
   let htmlElem: HTMLElement;
@@ -89,7 +101,7 @@ describe('QuoteDetailsCartSummaryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [QuoteDetailsCartSummaryComponent],
+      declarations: [QuoteDetailsCartSummaryComponent, MockOutletDirective],
       providers: [
         {
           provide: QuoteFacade,
