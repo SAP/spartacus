@@ -2,8 +2,8 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
   ComponentFixture,
-  TestBed,
   fakeAsync,
+  TestBed,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
@@ -24,9 +24,9 @@ import { cold } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../../config';
-import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
-import { QuoteDetailsCartComponentService } from '../cart';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
+import { QuoteDetailsCartComponentService } from '../cart';
+import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
 
 const QUOTE_CODE = 'q123';
 const ALL_PRODUCTS_ID = '';
@@ -191,7 +191,6 @@ describe('QuoteDetailsCommentComponent', () => {
     quote.comments = [];
     quote.comments.push({});
     quote.comments.push({});
-
     component.messageEvents$
       .subscribe((messageEvent) => {
         expect(messageEvent.length).toBe(2);
@@ -202,31 +201,26 @@ describe('QuoteDetailsCommentComponent', () => {
   it('should merge header and item quote comments and sort the resulting message events by date', () => {
     quote.comments = [];
     quote.entries = [];
-
     quote.comments.push({
       text: 'header #1',
       creationDate: new Date('2022-10-01 10:00'),
     });
-
     quote.comments.push({
       text: 'header #4',
       creationDate: new Date('2022-10-04 10:00'),
     });
-
     quote.entries.push({
       entryNumber: 0,
       comments: [
         { text: 'item 0 #3', creationDate: new Date('2022-10-02 09:30') },
       ],
     });
-
     quote.entries.push({
       entryNumber: 1,
       comments: [
         { text: 'item 1 #2', creationDate: new Date('2022-10-01 10:30') },
       ],
     });
-
     component.messageEvents$
       .subscribe((messageEvent) => {
         expect(messageEvent.length).toBe(4);
@@ -243,7 +237,7 @@ describe('QuoteDetailsCommentComponent', () => {
       htmlElem,
       '.cx-toggle'
     );
-    caret.click();
+    caret?.click();
     fixture.detectChanges();
   }
 
@@ -260,17 +254,14 @@ describe('QuoteDetailsCommentComponent', () => {
         1000
       );
     });
-
     it('should set chars limit from config', () => {
       expect(component.messagingConfigs.charactersLimit).toBe(5000);
     });
-
     it('should define a date format', () => {
       expect(component.messagingConfigs.dateFormat).toBe(
         'MMMM d, yyyy h:mm aa'
       );
     });
-
     it('should display add section for editable quotes', () => {
       quote.isEditable = true;
       (component.messagingConfigs.displayAddMessageSection ?? of(false))
@@ -279,7 +270,6 @@ describe('QuoteDetailsCommentComponent', () => {
         })
         .unsubscribe();
     });
-
     it('should hide display add section for not editable quotes', () => {
       quote.isEditable = false;
       (component.messagingConfigs.displayAddMessageSection ?? of(true))
@@ -288,7 +278,6 @@ describe('QuoteDetailsCommentComponent', () => {
         })
         .unsubscribe();
     });
-
     it("should only provide 'All Products' item if quote has no entries", () => {
       (component.messagingConfigs.itemList$ ?? of([]))
         .subscribe((itemList) => {
@@ -300,7 +289,6 @@ describe('QuoteDetailsCommentComponent', () => {
         })
         .unsubscribe();
     });
-
     it("should provide 'All Products' item as well as one item per valid quote entry", () => {
       quote.entries = [
         { entryNumber: 0, product: { code: 'p1', name: 'Product 1' } }, // valid
@@ -326,7 +314,6 @@ describe('QuoteDetailsCommentComponent', () => {
         })
         .unsubscribe();
     });
-
     it('should provide ALL_PRODUCTS_ID as default item', () => {
       expect(component.messagingConfigs.defaultItemId).toEqual(ALL_PRODUCTS_ID);
     });
@@ -347,35 +334,28 @@ describe('QuoteDetailsCommentComponent', () => {
     it('should map comment text', () => {
       expect(mapCommentToMessageEvent(comment).text).toEqual('comment text');
     });
-
     it('should map creation date', () => {
       expect(mapCommentToMessageEvent(comment).createdAt).toContain(
         'Mon Oct 03 2022 17:33:45'
       );
     });
-
     it('should map author', () => {
       expect(mapCommentToMessageEvent(comment).author).toEqual('John Doe');
     });
-
     it('should map fromCustomer to not rightAligned', () => {
       comment.fromCustomer = true;
       expect(mapCommentToMessageEvent(comment).rightAlign).toEqual(false);
     });
-
     it('should map not fromCustomer to rightAligned', () => {
       comment.fromCustomer = false;
       expect(mapCommentToMessageEvent(comment).rightAlign).toEqual(true);
     });
-
     it("shouldn't map anything to code", () => {
       expect(mapCommentToMessageEvent(comment).code).toBeUndefined();
     });
-
     it("shouldn't map anything to attachments", () => {
       expect(mapCommentToMessageEvent(comment).attachments).toBeUndefined();
     });
-
     it('should extract item data from entry', () => {
       expect(
         mapCommentToMessageEvent(comment, {
@@ -384,11 +364,9 @@ describe('QuoteDetailsCommentComponent', () => {
         }).item
       ).toEqual({ id: '0', name: 'Product Name' });
     });
-
     it("shouldn't map anything to item if no entry is provided", () => {
       expect(mapCommentToMessageEvent(comment).item).toBeUndefined();
     });
-
     it('should throw an error if there is an entry but without entry number', () => {
       expect(() => mapCommentToMessageEvent(comment, {})).toThrowError();
     });
@@ -408,7 +386,6 @@ describe('QuoteDetailsCommentComponent', () => {
         ALL_PRODUCTS_ID
       );
     });
-
     it('should add a item quote comment with the given text', () => {
       component.onSend({ message: 'test comment', itemId: '3' }, QUOTE_CODE);
       expect(mockedQuoteFacade.addQuoteComment).toHaveBeenCalledWith(
@@ -419,7 +396,6 @@ describe('QuoteDetailsCommentComponent', () => {
         '3'
       );
     });
-
     it('should refresh the quote to display the just added comment', () => {
       component.onSend(
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
@@ -430,7 +406,6 @@ describe('QuoteDetailsCommentComponent', () => {
         QuoteDetailsReloadQueryEvent
       );
     });
-
     it('should reset message input text', () => {
       component.onSend(
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
@@ -439,7 +414,6 @@ describe('QuoteDetailsCommentComponent', () => {
       expect(component.commentsComponent.resetForm).toHaveBeenCalled();
       expect(component.messagingConfigs.newMessagePlaceHolder).toBeUndefined();
     });
-
     it('should handle errors', () => {
       asSpy(mockedQuoteFacade.addQuoteComment).and.returnValue(
         throwError(new Error('test error'))
@@ -489,7 +463,6 @@ describe('QuoteDetailsCommentComponent', () => {
         block: 'center',
       });
     }));
-
     it('should only expand the cart but not scroll if the target item is not found in the document', fakeAsync(() => {
       component.onItemClicked({ item: { id: 'P3', name: 'Product 3' } });
       expect(
@@ -513,18 +486,15 @@ describe('QuoteDetailsCommentComponent', () => {
       quote.isEditable = false;
       expect(component.showComments(quote)).toBe(false);
     });
-
     it('should return true for editable-quote', () => {
       quote.isEditable = true;
       expect(component.showComments(quote)).toBe(true);
     });
-
     it('should return true for read-only quote with header comments', () => {
       quote.isEditable = false;
       quote.comments = [{ text: 'text' }];
       expect(component.showComments(quote)).toBe(true);
     });
-
     it('should return true for read-only quote with item comments', () => {
       quote.isEditable = false;
       quote.entries = [{ entryNumber: 1, comments: [{ text: 'text' }] }];

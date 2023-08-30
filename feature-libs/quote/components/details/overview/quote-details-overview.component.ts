@@ -5,6 +5,7 @@
  */
 
 import { Component } from '@angular/core';
+import { EventService, TranslationService } from '@spartacus/core';
 import {
   Quote,
   QuoteAction,
@@ -13,7 +14,6 @@ import {
   QuoteMetadata,
   QuoteState,
 } from '@spartacus/quote/root';
-import { EventService, TranslationService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -148,7 +148,10 @@ export class QuoteDetailsOverviewComponent {
    * @param {any} createdDate - Created date
    * @returns {Observable<Card>} - Card content
    */
-  getEstimatedAndDate(quote: Quote, createdDate?: string): Observable<Card> {
+  getEstimatedAndDate(
+    quote: Quote,
+    createdDate?: string | null
+  ): Observable<Card> {
     const totalPrice =
       this.getTotalPrice(quote) ?? this.getTotalPriceDescription(quote);
     return combineLatest([
@@ -181,7 +184,10 @@ export class QuoteDetailsOverviewComponent {
    * @param {string} expirationTime - expiration time
    * @returns {Observable<Card>} - Card content
    */
-  getUpdate(lastUpdated?: string, expirationTime?: string): Observable<Card> {
+  getUpdate(
+    lastUpdated?: string | null,
+    expirationTime?: string | null
+  ): Observable<Card> {
     return combineLatest([
       this.translationService.translate('quote.details.update'),
       this.translationService.translate('quote.details.lastUpdated'),

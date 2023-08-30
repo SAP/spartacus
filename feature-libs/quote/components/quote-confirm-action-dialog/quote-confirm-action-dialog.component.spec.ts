@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Component, Directive, Input } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import {
-  ICON_TYPE,
-  LaunchDialogService,
-  FocusConfig,
-} from '@spartacus/storefront';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Quote, QuoteState } from '@spartacus/quote/root';
+import {
+  FocusConfig,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
+import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteConfirmActionDialogComponent } from './quote-confirm-action-dialog.component';
 import { ConfirmationContext } from './quote-confirm-action-dialog.model';
-import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 
 const QUOTE_CODE = '00010000';
 const quote: Quote = {
@@ -103,7 +103,7 @@ describe('QuoteRequestDialogComponent', () => {
       htmlElem,
       'button.btn-primary'
     );
-    primaryButton.click();
+    primaryButton?.click();
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('yes');
   });
 
@@ -112,7 +112,7 @@ describe('QuoteRequestDialogComponent', () => {
       htmlElem,
       'button.btn-secondary'
     );
-    secondaryButton.click();
+    secondaryButton?.click();
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('no');
   });
 
@@ -157,7 +157,7 @@ describe('QuoteRequestDialogComponent', () => {
       htmlElem,
       '.cx-modal-container'
     );
-    modal.dispatchEvent(new Event('esc'));
+    modal?.dispatchEvent(new Event('esc'));
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
   });
 });

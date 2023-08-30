@@ -7,19 +7,19 @@ import {
 import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Price } from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { QuoteActionLinksComponent } from './quote-action-links.component';
 import { CartUtilsService } from '@spartacus/quote/core';
-import createSpy = jasmine.createSpy;
-import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import {
   Quote,
   QuoteActionType,
   QuoteFacade,
   QuoteState,
 } from '@spartacus/quote/root';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
+import { QuoteActionLinksComponent } from './quote-action-links.component';
+import createSpy = jasmine.createSpy;
 
 class MockActionLinksService implements Partial<CartUtilsService> {
   goToNewCart = createSpy();
@@ -138,7 +138,7 @@ describe('QuoteActionLinksComponent', () => {
       'button.link',
       0
     );
-    link.click();
+    link?.click();
     expect(component.goToNewCart).toHaveBeenCalled();
     expect(actionLinksService.goToNewCart).toHaveBeenCalled();
   });
@@ -150,7 +150,7 @@ describe('QuoteActionLinksComponent', () => {
       'button.link',
       1
     );
-    link.click();
+    link?.click();
     tick();
 
     expect(router.url).toBe('/cxRoute:quotes');
