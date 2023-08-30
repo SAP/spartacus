@@ -14,7 +14,7 @@ import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        ConfiguratorTabBar: {
+        ConfiguratorChat: {
           component: ConfiguratorChatComponent,
         },
       },
