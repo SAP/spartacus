@@ -1,4 +1,10 @@
+import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  CartRemoveEntrySuccessEvent,
+  CartUpdateEntrySuccessEvent,
+} from '@spartacus/cart/base/root';
+import { EventService, I18nTestingModule, Price } from '@spartacus/core';
 import {
   Quote,
   QuoteActionType,
@@ -6,20 +12,14 @@ import {
   QuoteFacade,
   QuoteState,
 } from '@spartacus/quote/root';
-import { QuoteDetailsCartComponent } from './quote-details-cart.component';
-import { Directive, Input } from '@angular/core';
-import {
-  CartRemoveEntrySuccessEvent,
-  CartUpdateEntrySuccessEvent,
-} from '@spartacus/cart/base/root';
-import { EventService, I18nTestingModule, Price } from '@spartacus/core';
 import { IconTestingModule, OutletDirective } from '@spartacus/storefront';
-import { EMPTY, Observable, Subject, of, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, EMPTY, NEVER, Observable, of, Subject } from 'rxjs';
 import {
-  QUOTE_CODE,
   createEmptyQuote,
+  QUOTE_CODE,
 } from '../../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
+import { QuoteDetailsCartComponent } from './quote-details-cart.component';
 
 @Directive({
   selector: '[cxOutlet]',
@@ -105,7 +105,7 @@ describe('QuoteDetailsCartComponent', () => {
 
   describe('Ghost animation', () => {
     it('should render view for ghost animation', () => {
-      component.quoteDetails$ = of(null);
+      component.quoteDetails$ = NEVER;
       fixture.detectChanges();
 
       CommonQuoteTestUtilsService.expectElementPresent(

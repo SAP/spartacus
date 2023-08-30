@@ -2,23 +2,23 @@ import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  EventService,
+  I18nTestingModule,
+  TranslationService,
+} from '@spartacus/core';
+import {
   Quote,
   QuoteActionType,
   QuoteFacade,
   QuoteMetadata,
   QuoteState,
 } from '@spartacus/quote/root';
-import {
-  EventService,
-  I18nTestingModule,
-  TranslationService,
-} from '@spartacus/core';
 import { CardModule, ICON_TYPE } from '@spartacus/storefront';
 
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
-import { EditCard, SaveEvent } from '../edit/quote-details-edit.component';
+import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
+import { EditCard, SaveEvent } from '../edit/quote-details-edit.component';
+import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
 
 const totalPriceFormattedValue = '$20';
 
@@ -225,7 +225,7 @@ describe('QuoteDetailsOverviewComponent', () => {
 
   describe('Ghost animation', () => {
     it('should render view for ghost animation', () => {
-      mockQuoteDetails$.next(null);
+      component.quoteDetails$ = NEVER;
       fixture.detectChanges();
 
       CommonQuoteTestUtilsService.expectElementPresent(

@@ -2,8 +2,8 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
@@ -21,12 +21,12 @@ import {
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { Observable, of, throwError } from 'rxjs';
+import { NEVER, Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../../config';
-import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
-import { QuoteDetailsCartComponentService } from '../cart';
 import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
+import { QuoteDetailsCartComponentService } from '../cart';
+import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 
 const QUOTE_CODE = 'q123';
 const ALL_PRODUCTS_ID = '';
@@ -129,7 +129,7 @@ describe('QuoteDetailsCommentComponent', () => {
 
   describe('Ghost animation', () => {
     it('should render view for ghost animation', () => {
-      component.quoteDetails$ = of(null);
+      component.quoteDetails$ = NEVER;
       fixture.detectChanges();
 
       CommonQuoteTestUtilsService.expectElementPresent(
@@ -245,7 +245,6 @@ describe('QuoteDetailsCommentComponent', () => {
     it('should be provided', () => {
       expect(component.messagingConfigs).toBeDefined();
     });
-
     it('should set chars limit to default 1000 when not provided via config', () => {
       quoteUiConfig.quote = undefined;
       // re-create component so changed config is evaluated
@@ -295,7 +294,6 @@ describe('QuoteDetailsCommentComponent', () => {
         { entryNumber: 1, product: { code: 'p2' } }, // valid, if product name is missing, code is used instead
         { entryNumber: 2 }, // valid, if neither product code nor name are there use entry number
       ];
-
       (component.messagingConfigs.itemList$ ?? of([]))
         .subscribe((itemList) => {
           expect(itemList.length).toBe(4);
@@ -463,6 +461,7 @@ describe('QuoteDetailsCommentComponent', () => {
         block: 'center',
       });
     }));
+
     it('should only expand the cart but not scroll if the target item is not found in the document', fakeAsync(() => {
       component.onItemClicked({ item: { id: 'P3', name: 'Product 3' } });
       expect(

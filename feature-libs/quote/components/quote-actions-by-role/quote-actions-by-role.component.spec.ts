@@ -16,7 +16,7 @@ import {
 
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
@@ -154,9 +154,9 @@ describe('QuoteActionsByRoleComponent', () => {
     expect(facade).toBeDefined();
   });
 
-  xdescribe('Ghost animation', () => {
+  describe('Ghost animation', () => {
     it('should render view for ghost animation', () => {
-      mockQuoteDetails$.next(null);
+      component.quoteDetails$ = NEVER;
       fixture.detectChanges();
 
       CommonQuoteTestUtilsService.expectElementPresent(
@@ -180,6 +180,7 @@ describe('QuoteActionsByRoleComponent', () => {
       done();
     });
   });
+
   it('should open confirmation dialog when action is SUBMIT', () => {
     spyOn(launchDialogService, 'openDialog');
     const quoteForSubmitAction: Quote = {
@@ -205,6 +206,7 @@ describe('QuoteActionsByRoleComponent', () => {
       { confirmationContext: confirmationContextForSubmitAction }
     );
   });
+
   it('should open confirmation dialog when action is EDIT and state is BUYER_OFFER', () => {
     spyOn(launchDialogService, 'openDialog');
     const quoteInBuyerOfferState: Quote = {
@@ -233,6 +235,7 @@ describe('QuoteActionsByRoleComponent', () => {
       { confirmationContext: confirmationContextForEditAction }
     );
   });
+
   it('should not open confirmation dialog when action is EDIT and state is BUYER_DRAFT', () => {
     spyOn(launchDialogService, 'openDialog');
     const quoteInBuyerDraftState: Quote = {
@@ -280,6 +283,7 @@ describe('QuoteActionsByRoleComponent', () => {
         attributeName
       );
     });
+
     it('should let submit button enabled if threshold is not specified', () => {
       mockQuote.threshold = undefined;
       mockQuoteDetails$.next(submittableQuote);
@@ -291,6 +295,7 @@ describe('QuoteActionsByRoleComponent', () => {
         attributeName
       );
     });
+
     it('should disable submit button if threshold is not met and raise message', () => {
       spyOn(globalMessageService, 'add').and.callThrough();
       mockQuoteDetails$.next(quoteFailingThreshold);
@@ -304,6 +309,7 @@ describe('QuoteActionsByRoleComponent', () => {
       );
       expect(globalMessageService.add).toHaveBeenCalled();
     });
+
     it('should disable submit button if total price value is not provided', () => {
       quoteFailingThreshold.totalPrice.value = undefined;
       mockQuoteDetails$.next(quoteFailingThreshold);
@@ -316,6 +322,7 @@ describe('QuoteActionsByRoleComponent', () => {
         attributeName
       );
     });
+
     it('should not touch buttons other than submit', () => {
       mockQuoteDetails$.next(cancellableQuote);
       fixture.detectChanges();
@@ -327,6 +334,7 @@ describe('QuoteActionsByRoleComponent', () => {
         attributeName
       );
     });
+
     it('should not raise message in case threshold not met and submit action not present', () => {
       spyOn(globalMessageService, 'add').and.callThrough();
       mockQuoteDetails$.next(cancellableQuote);
@@ -335,6 +343,7 @@ describe('QuoteActionsByRoleComponent', () => {
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
   });
+
   it('should perform quote action when action is SUBMIT and confirm dialogClose reason is yes', () => {
     spyOn(facade, 'performQuoteAction').and.callThrough();
     const newMockQuoteWithSubmitAction: Quote = {
@@ -354,6 +363,7 @@ describe('QuoteActionsByRoleComponent', () => {
       QuoteActionType.SUBMIT
     );
   });
+
   it("should click on 'EDIT' button", () => {
     spyOn(facade, 'performQuoteAction').and.callThrough();
     fixture.detectChanges();
@@ -367,6 +377,7 @@ describe('QuoteActionsByRoleComponent', () => {
       QuoteActionType.EDIT
     );
   });
+
   it("should click on 'REQUOTE' button", () => {
     spyOn(facade, 'performQuoteAction').and.callThrough();
     fixture.detectChanges();
@@ -449,7 +460,6 @@ describe('QuoteActionsByRoleComponent', () => {
         successMessage: 'successMessage',
       };
     });
-
     it("should do nothing if dialog was closed selecting 'no'", () => {
       component['handleConfirmationDialogClose'](
         QuoteActionType.SUBMIT,
@@ -485,7 +495,6 @@ describe('QuoteActionsByRoleComponent', () => {
       );
     });
   });
-
   describe('getMessageType', () => {
     it('should return INFO for reject action', () => {
       expect(component['getMessageType'](QuoteActionType.REJECT)).toBe(
@@ -503,7 +512,6 @@ describe('QuoteActionsByRoleComponent', () => {
       );
     });
   });
-
   describe('getButtonStyle', () => {
     let allowedActions: QuoteAction[];
     beforeEach(() => {
@@ -513,7 +521,6 @@ describe('QuoteActionsByRoleComponent', () => {
         { type: QuoteActionType.CANCEL, isPrimary: false },
       ];
     });
-
     it("should return 'btn-primary' style for action marked as primary", () => {
       expect(
         component.getButtonStyle(allowedActions, {

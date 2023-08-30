@@ -157,7 +157,7 @@ describe('QuoteDetailsEditComponent', () => {
         htmlElem,
         'button.btn-tertiary'
       );
-      cancelButton.click();
+      cancelButton?.click();
       expect(component.cancelCard.emit).toHaveBeenCalled();
     });
 
@@ -166,7 +166,7 @@ describe('QuoteDetailsEditComponent', () => {
         htmlElem,
         'button.btn-secondary'
       );
-      saveButton.click();
+      saveButton?.click();
       expect(component.saveCard.emit).toHaveBeenCalled();
     });
 
@@ -179,7 +179,7 @@ describe('QuoteDetailsEditComponent', () => {
         htmlElem,
         'button.btn-secondary'
       );
-      saveButton.click();
+      saveButton?.click();
       expect(component.saveCard.emit).toHaveBeenCalled();
       let arg: any = (component.saveCard.emit as any).calls.mostRecent()
         .args[0];
@@ -198,7 +198,7 @@ describe('QuoteDetailsEditComponent', () => {
         htmlElem,
         'button.btn-secondary'
       );
-      saveButton.click();
+      saveButton?.click();
       expect(component.saveCard.emit).toHaveBeenCalled();
       let arg: any = (component.saveCard.emit as any).calls.mostRecent()
         .args[0];

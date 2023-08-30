@@ -15,7 +15,7 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, NEVER, Observable } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteActionLinksComponent } from './quote-action-links.component';
@@ -96,7 +96,12 @@ describe('QuoteActionLinksComponent', () => {
   });
 
   it('should render empty component', () => {
-    mockQuoteDetails$.next(null);
+    fixture = TestBed.createComponent(QuoteActionLinksComponent);
+    htmlElem = fixture.nativeElement;
+    actionLinksService = TestBed.inject(CartUtilsService);
+    router = TestBed.inject(Router);
+    component = fixture.componentInstance;
+    component.quoteDetails$ = NEVER;
     fixture.detectChanges();
 
     CommonQuoteTestUtilsService.expectElementNotPresent(

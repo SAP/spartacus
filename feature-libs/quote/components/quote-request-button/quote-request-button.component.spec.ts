@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { QuoteRequestButtonComponent } from './quote-request-button.component';
-import { QuoteFacade, Quote } from '@spartacus/quote/root';
-import createSpy = jasmine.createSpy;
+import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { of } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { QuoteRequestButtonComponent } from './quote-request-button.component';
+import createSpy = jasmine.createSpy;
 
 @Pipe({
   name: 'cxUrl',
