@@ -640,7 +640,7 @@ export class B2BUserEffects {
     )
   );
 
-  // TODO: make b2BUserCreationNotifierService a required dependency
+  // TODO(CXSPA-4439): make b2BUserCreationNotifierService a required dependency
   constructor(
     actions$: Actions,
     b2bUserConnector: B2BUserConnector,
@@ -667,7 +667,7 @@ export class B2BUserEffects {
     private userAccountFacade: UserAccountFacade,
     private userIdService: UserIdService,
     @Optional()
-    private b2BUserCreationNotifierService?: B2BUserCreationNotifierService
+    protected b2BUserCreationNotifierService?: B2BUserCreationNotifierService
   ) {}
 
   protected redirectToDetails(route: RouterState, data: B2BUser) {

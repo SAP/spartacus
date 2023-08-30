@@ -20,7 +20,7 @@ import { CurrentUserService } from './current-user.service';
   providedIn: 'root',
 })
 export class UserItemService extends ItemService<B2BUser> {
-  // TODO: make b2BUserCreationNotifierService a required dependency
+  // TODO(CXSPA-4439): make b2BUserCreationNotifierService a required dependency
   constructor(
     currentItemService: CurrentUserService,
     routingService: RoutingService,

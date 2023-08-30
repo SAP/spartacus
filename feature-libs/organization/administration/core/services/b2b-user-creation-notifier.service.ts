@@ -5,24 +5,18 @@
  */
 
 import { Injectable } from '@angular/core';
-import { B2BUser } from '@spartacus/core';
 import { Observable, Subject } from 'rxjs';
-import { LoadStatus } from '../model';
-
-interface UserCreationNotificationData {
-  status: LoadStatus;
-  item: B2BUser | undefined;
-}
+import { UserCreationNotifierData } from '../model';
 
 @Injectable({ providedIn: 'root' })
 export class B2BUserCreationNotifierService {
-  protected b2bUserCreatedSubject = new Subject<UserCreationNotificationData>();
+  protected b2bUserCreatedSubject = new Subject<UserCreationNotifierData>();
 
-  get b2bUserCreated$(): Observable<UserCreationNotificationData> {
+  get b2bUserCreated$(): Observable<UserCreationNotifierData> {
     return this.b2bUserCreatedSubject.asObservable();
   }
 
-  notifyAboutUser(data: UserCreationNotificationData): void {
+  notifyAboutUser(data: UserCreationNotifierData): void {
     this.b2bUserCreatedSubject.next(data);
   }
 }
