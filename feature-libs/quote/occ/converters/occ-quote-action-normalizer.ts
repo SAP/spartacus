@@ -5,15 +5,15 @@
  */
 
 import { Injectable } from '@angular/core';
-import { QuoteCartService } from '@spartacus/quote/root';
-import { Converter } from '@spartacus/core';
 import { QuoteCoreConfig } from '@spartacus/quote/core';
+import { Converter } from '@spartacus/core';
 import {
   OccQuote,
   Quote,
   QuoteAction,
   QuoteActionType,
   QuoteState,
+  QuoteCartService,
 } from '@spartacus/quote/root';
 import { combineLatest } from 'rxjs';
 import { take } from 'rxjs/operators';

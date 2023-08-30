@@ -5,10 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import { QuoteCartService, QuoteDiscount } from '@spartacus/quote/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   Comment,
+  QuoteCartService,
+  QuoteDiscount,
   QuoteFacade,
   QuoteListReloadQueryEvent,
   Quote,
