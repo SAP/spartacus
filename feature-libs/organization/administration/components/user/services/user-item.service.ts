@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { B2BUser, RoutingService } from '@spartacus/core';
 import {
+  B2BUserCreationNotifierService,
   B2BUserService,
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
@@ -19,11 +20,31 @@ import { CurrentUserService } from './current-user.service';
   providedIn: 'root',
 })
 export class UserItemService extends ItemService<B2BUser> {
+  // TODO(CXSPA-4439): make b2BUserCreationNotifierService a required dependency
+  constructor(
+    currentItemService: CurrentUserService,
+    routingService: RoutingService,
+    formService: UserFormService,
+    userService: B2BUserService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    b2BUserCreationNotifierService?: B2BUserCreationNotifierService
+  );
+  /**
+   * @deprecated since 6.5
+   */
+  constructor(
+    currentItemService: CurrentUserService,
+    routingService: RoutingService,
+    formService: UserFormService,
+    userService: B2BUserService
+  );
   constructor(
     protected currentItemService: CurrentUserService,
     protected routingService: RoutingService,
     protected formService: UserFormService,
-    protected userService: B2BUserService
+    protected userService: B2BUserService,
+    @Optional()
+    protected b2BUserCreationNotifierService?: B2BUserCreationNotifierService
   ) {
     super(currentItemService, routingService, formService);
   }
@@ -46,7 +67,11 @@ export class UserItemService extends ItemService<B2BUser> {
     value: B2BUser
   ): Observable<OrganizationItemStatus<B2BUser>> {
     this.userService.create(value);
-    return this.userService.getLoadingStatus(value.uid ?? '');
+
+    return (
+      this.b2BUserCreationNotifierService?.b2bUserCreated$ ??
+      this.userService.getLoadingStatus(value.uid ?? '')
+    );
   }
 
   protected getDetailsRoute(): string {

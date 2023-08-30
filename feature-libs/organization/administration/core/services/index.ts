@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './b2b-user-creation-notifier.service';
 export * from './b2b-user.service';
 export * from './budget.service';
 export * from './cost-center.service';

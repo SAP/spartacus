@@ -5,7 +5,7 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable, Optional } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   AuthActions,
@@ -13,15 +13,15 @@ import {
   B2BUserRole,
   EntitiesModel,
   LoggerService,
+  normalizeHttpError,
   RouterState,
   RoutingService,
   StateUtils,
   User,
   UserIdService,
-  normalizeHttpError,
 } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, from, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import {
   catchError,
   groupBy,
@@ -33,12 +33,14 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
+import { LoadStatus } from '../../model';
 import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';
+import { B2BUserCreationNotifierService } from '../../services/b2b-user-creation-notifier.service';
 import {
   B2BUserActions,
-  OrgUnitActions,
   OrganizationActions,
+  OrgUnitActions,
   PermissionActions,
   UserGroupActions,
 } from '../actions/index';
@@ -84,7 +86,11 @@ export class B2BUserEffects {
         this.b2bUserConnector.create(userId, orgCustomer).pipe(
           switchMap((data) => {
             const isAssignedToApprovers = orgCustomer.isAssignedToApprovers;
-            // TODO Workaround for not known customerId while user creation (redireciton)
+            this.b2BUserCreationNotifierService?.notifyAboutUser({
+              status: LoadStatus.SUCCESS,
+              item: data,
+            });
+
             return this.routingService.getRouterState().pipe(
               take(1),
               tap((route) => this.redirectToDetails(route, data)),
@@ -112,15 +118,20 @@ export class B2BUserEffects {
               })
             );
           }),
-          catchError((error: HttpErrorResponse) =>
-            from([
+          catchError((error: HttpErrorResponse) => {
+            this.b2BUserCreationNotifierService?.notifyAboutUser({
+              status: LoadStatus.ERROR,
+              item: undefined,
+            });
+
+            return from([
               new B2BUserActions.CreateB2BUserFail({
                 orgCustomerId: orgCustomer.customerId ?? '',
                 error: normalizeHttpError(error, this.logger),
               }),
               new OrganizationActions.OrganizationClearData(),
-            ])
-          )
+            ]);
+          })
         )
       )
     )
@@ -629,12 +640,34 @@ export class B2BUserEffects {
     )
   );
 
+  // TODO(CXSPA-4439): make b2BUserCreationNotifierService a required dependency
+  constructor(
+    actions$: Actions,
+    b2bUserConnector: B2BUserConnector,
+    routingService: RoutingService,
+    userAccountFacade: UserAccountFacade,
+    userIdService: UserIdService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    b2BUserCreationNotifierService: B2BUserCreationNotifierService
+  );
+  /**
+   * @deprecated since 6.5
+   */
+  constructor(
+    actions$: Actions,
+    b2bUserConnector: B2BUserConnector,
+    routingService: RoutingService,
+    userAccountFacade: UserAccountFacade,
+    userIdService: UserIdService
+  );
   constructor(
     private actions$: Actions,
     private b2bUserConnector: B2BUserConnector,
     private routingService: RoutingService,
     private userAccountFacade: UserAccountFacade,
-    private userIdService: UserIdService
+    private userIdService: UserIdService,
+    @Optional()
+    protected b2BUserCreationNotifierService?: B2BUserCreationNotifierService
   ) {}
 
   protected redirectToDetails(route: RouterState, data: B2BUser) {
