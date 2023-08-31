@@ -1,6 +1,5 @@
-export namespace ConfiguratorChat {
-  export interface ChatMessage {
-    creationDate: Date;
+export namespace ChatGPT4 {
+  export interface Message {
     role: Role;
     content: string;
   }
