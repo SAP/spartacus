@@ -6,3 +6,4 @@
 
 export * from './configurator-expert-mode.service';
 export * from './configurator-quantity.service';
+export * from './configurator-chat-gtp.service';
