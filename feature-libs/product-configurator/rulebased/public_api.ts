@@ -11,4 +11,6 @@ export * from './rulebased-configurator.module';
 
 /** AUGMENTABLE_TYPES_START */
 export { Configurator } from './core/model/configurator.model';
+export { ConfiguratorChat } from './core/model/chat.model';
 /** AUGMENTABLE_TYPES_END */
+
