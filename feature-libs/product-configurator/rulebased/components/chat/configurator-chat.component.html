@@ -1,1 +1,21 @@
-<div>Here is configurator chat area</div>
+<div class="cx-container">
+  <cx-icon
+    *ngIf="!showChat"
+    class="cx-speech-bubble"
+    [type]="iconTypes.COMMENTS"
+    (click)="displayChat()"
+  >
+  </cx-icon>
+</div>
+<div *ngIf="showChat" class="cx-chat-container">
+  <button title="Close" type="button" class="close" (click)="hideChat()">
+    <span aria-hidden="true">
+      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+    </span>
+  </button>
+  <cx-messaging
+    [messageEvents$]="messageEvents$"
+    [messagingConfigs]="messagingConfigs"
+    (send)="onSend($event)"
+  ></cx-messaging>
+</div>

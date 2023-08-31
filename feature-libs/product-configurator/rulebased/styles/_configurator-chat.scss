@@ -1,4 +1,40 @@
 %cx-configurator-chat {
   &:not(:empty) {
+    @include media-breakpoint-up(xl) {
+      max-width: 1140px;
+    }
+
+    @include media-breakpoint-down(xl) {
+      width: 100%;
+    }
+
+    .cx-container {
+      max-width: 1140px;
+      display: flex;
+      justify-content: flex-end;
+
+      .cx-speech-bubble {
+        color: var(--cx-color-primary);
+        position: fixed;
+        top: 35%;
+        cursor: pointer;
+        font-size: 50px;
+        padding-inline-end: 1rem;
+      }
+    }
+
+    .close {
+      padding-inline-end: 17px;
+    }
+
+    cx-messaging {
+      .container {
+        min-height: 0px;
+      }
+
+      .cx-message-footer {
+        padding-inline-start: 0;
+      }
+    }
   }
 }

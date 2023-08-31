@@ -6,11 +6,12 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { ChatMessagingModule, IconModule } from '@spartacus/storefront';
 import { ConfiguratorChatComponent } from './configurator-chat.component';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, I18nModule, IconModule, ChatMessagingModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
