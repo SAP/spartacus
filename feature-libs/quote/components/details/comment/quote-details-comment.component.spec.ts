@@ -21,7 +21,7 @@ import {
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { Observable, of, throwError } from 'rxjs';
+import { NEVER, Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../../config';
 import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
@@ -125,6 +125,31 @@ describe('QuoteDetailsCommentComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('Ghost animation', () => {
+    it('should render view for ghost animation', () => {
+      component.quoteDetails$ = NEVER;
+      fixture.detectChanges();
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-comment'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-input-title'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-input'
+      );
+    });
   });
 
   it('should render the messaging section by default', () => {

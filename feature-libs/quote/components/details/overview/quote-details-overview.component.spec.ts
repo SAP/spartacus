@@ -1,6 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import {
+  EventService,
+  I18nTestingModule,
+  TranslationService,
+} from '@spartacus/core';
 import {
   Quote,
   QuoteActionType,
@@ -8,17 +13,12 @@ import {
   QuoteMetadata,
   QuoteState,
 } from '@spartacus/quote/root';
-import {
-  EventService,
-  I18nTestingModule,
-  TranslationService,
-} from '@spartacus/core';
 import { CardModule, ICON_TYPE } from '@spartacus/storefront';
 
-import { Observable, of } from 'rxjs';
-import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
-import { EditCard, SaveEvent } from '../edit/quote-details-edit.component';
+import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
+import { EditCard, SaveEvent } from '../edit/quote-details-edit.component';
+import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
 
 const totalPriceFormattedValue = '$20';
 
@@ -72,6 +72,18 @@ class MockTranslationService implements Partial<TranslationService> {
   }
 }
 
+const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
+
+class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
+  getQuoteDetails(): Observable<Quote> {
+    return mockQuoteDetails$.asObservable();
+  }
+
+  editQuote(): Observable<unknown> {
+    return of({});
+  }
+}
+
 describe('QuoteDetailsOverviewComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsOverviewComponent>;
   let component: QuoteDetailsOverviewComponent;
@@ -93,7 +105,7 @@ describe('QuoteDetailsOverviewComponent', () => {
         providers: [
           {
             provide: QuoteFacade,
-            useValue: mockedQuoteFacade,
+            useClass: MockCommerceQuotesFacade,
           },
           {
             provide: EventService,
@@ -111,21 +123,13 @@ describe('QuoteDetailsOverviewComponent', () => {
     component = fixture.componentInstance;
 
     fixture.detectChanges();
+
+    mockedQuoteFacade = TestBed.inject(QuoteFacade as Type<QuoteFacade>);
+    spyOn(mockedQuoteFacade, 'editQuote').and.callThrough();
   });
 
   function initMocks() {
-    mockedQuoteFacade = jasmine.createSpyObj('quoteFacade', [
-      'getQuoteDetails',
-      'editQuote',
-    ]);
-    asSpy(mockedQuoteFacade.getQuoteDetails).and.returnValue(of(mockQuote));
-    asSpy(mockedQuoteFacade.editQuote).and.returnValue(of({}));
-
     mockedEventService = jasmine.createSpyObj('eventService', ['dispatch']);
-  }
-
-  function asSpy(f: any) {
-    return <jasmine.Spy>f;
   }
 
   it('should create', () => {
@@ -215,6 +219,54 @@ describe('QuoteDetailsOverviewComponent', () => {
         expect,
         htmlElem,
         '.cx-edit-step'
+      );
+    });
+  });
+
+  describe('Ghost animation', () => {
+    it('should render view for ghost animation', () => {
+      component.quoteDetails$ = NEVER;
+      fixture.detectChanges();
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-heading'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-column'
+      );
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-header'
+      );
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-status'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-cards'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-row'
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-card',
+        3
       );
     });
   });

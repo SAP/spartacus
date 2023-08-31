@@ -39,10 +39,10 @@ export class QuoteDetailsCommentComponent {
   expandComments = true;
   iconTypes = ICON_TYPE;
 
-  quoteDetails$ = this.quoteFacade.getQuoteDetails();
+  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   messageEvents$: Observable<Array<MessageEvent>> = this.prepareMessageEvents();
-
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
+
   constructor(
     protected quoteFacade: QuoteFacade,
     protected eventService: EventService,
@@ -130,7 +130,7 @@ export class QuoteDetailsCommentComponent {
     return this.quoteDetails$.pipe(
       map((quote) => {
         const itemList: Item[] = [{ id: ALL_PRODUCTS_ID, name: allProducts }];
-        quote.entries?.forEach((entry) => {
+        quote.entries?.forEach((entry: OrderEntry) => {
           itemList.push(this.convertToItem(entry));
         });
         return itemList;

@@ -17,7 +17,6 @@ import {
 import {
   IconModule,
   ListNavigationModule,
-  SpinnerModule,
   ViewConfig,
 } from '@spartacus/storefront';
 import { QuoteListComponentService } from './quote-list-component.service';
@@ -31,7 +30,6 @@ import { QuoteListComponent } from './quote-list.component';
     UrlModule,
     RouterModule,
     ListNavigationModule,
-    SpinnerModule,
   ],
   providers: [
     provideDefaultConfig(<ViewConfig>{

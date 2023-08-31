@@ -1,22 +1,27 @@
+import { Directive, ElementRef, Input, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  QuoteFacade,
-  Quote,
-  QuoteActionType,
-  QuoteState,
-} from '@spartacus/quote/root';
 import {
   GlobalMessageService,
   I18nTestingModule,
   Price,
   TranslationService,
 } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import {
+  Quote,
+  QuoteActionType,
+  QuoteFacade,
+  QuoteState,
+} from '@spartacus/quote/root';
+import {
+  LaunchDialogService,
+  LAUNCH_CALLER,
+  OutletDirective,
+} from '@spartacus/storefront';
+import { BehaviorSubject, EMPTY, NEVER, Observable, of } from 'rxjs';
+import { createEmptyQuote } from '../../../../core/testing/quote-test-utils';
+import { CommonQuoteTestUtilsService } from '../../../testing/common-quote-test-utils.service';
 import { QuoteDetailsCartSummaryComponent } from './quote-details-cart-summary.component';
 import createSpy = jasmine.createSpy;
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { ElementRef, ViewContainerRef } from '@angular/core';
-import { createEmptyQuote } from '../../../../core/testing/quote-test-utils';
 
 const cartId = '1234';
 const quoteCode = '3333';
@@ -79,15 +84,24 @@ class MockGlobalMessageService {
   add(): void {}
 }
 
+@Directive({
+  selector: '[cxOutlet]',
+})
+class MockOutletDirective implements Partial<OutletDirective> {
+  @Input() cxOutlet: string;
+  @Input() cxOutletContext: string;
+}
+
 describe('QuoteDetailsCartSummaryComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsCartSummaryComponent>;
+  let htmlElem: HTMLElement;
   let component: QuoteDetailsCartSummaryComponent;
   let facade: QuoteFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [QuoteDetailsCartSummaryComponent],
+      declarations: [QuoteDetailsCartSummaryComponent, MockOutletDirective],
       providers: [
         {
           provide: QuoteFacade,
@@ -102,6 +116,7 @@ describe('QuoteDetailsCartSummaryComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteDetailsCartSummaryComponent);
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     facade = TestBed.inject(QuoteFacade);
     mockQuoteDetails$.next(quote);
@@ -110,5 +125,51 @@ describe('QuoteDetailsCartSummaryComponent', () => {
   it('should create component', () => {
     expect(component).toBeDefined();
     expect(facade).toBeDefined();
+  });
+
+  describe('Ghost animation', () => {
+    it('should render view for ghost animation', () => {
+      component.quoteDetails$ = NEVER;
+      fixture.detectChanges();
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-summary-heading'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-title'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-summary-partials'
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-row',
+        4
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-summary-label',
+        4
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-summary-amount',
+        4
+      );
+    });
   });
 });

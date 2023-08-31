@@ -16,7 +16,6 @@ import {
   CardModule,
   IconModule,
   KeyboardFocusModule,
-  SpinnerModule,
 } from '@spartacus/storefront';
 import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
 import { QuoteDetailsEditModule } from '../edit/quote-details-edit.module';
@@ -29,7 +28,6 @@ import { QuoteDetailsEditModule } from '../edit/quote-details-edit.module';
     CardModule,
     QuoteDetailsEditModule,
     KeyboardFocusModule,
-    SpinnerModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

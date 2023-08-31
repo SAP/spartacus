@@ -21,12 +21,12 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, NEVER, of } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteListComponentService } from './quote-list-component.service';
 import { QuoteListComponent } from './quote-list.component';
 import createSpy = jasmine.createSpy;
-import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 
 const mockCartId = '1234';
 const mockPagination: PaginationModel = {
@@ -34,6 +34,7 @@ const mockPagination: PaginationModel = {
   pageSize: 5,
   sort: 'byCode',
 };
+
 const mockAction = { type: QuoteActionType.EDIT, isPrimary: true };
 const mockQuote: Quote = {
   ...createEmptyQuote(),
@@ -41,15 +42,18 @@ const mockQuote: Quote = {
   cartId: mockCartId,
   code: '333333',
 };
+
 const mockQuoteList: QuoteList = {
   pagination: mockPagination,
   quotes: [mockQuote],
 };
+
 const mockQuoteListState: QueryState<QuoteList> = {
   loading: false,
   error: false,
   data: mockQuoteList,
 };
+
 const mockSorts = [
   { code: 'byDate' },
   { code: 'byCode' },
@@ -140,7 +144,6 @@ describe('QuoteListComponent', () => {
     fixture = TestBed.createComponent(QuoteListComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
-
     componentService = TestBed.inject(QuoteListComponentService);
   });
 
@@ -513,6 +516,97 @@ describe('QuoteListComponent', () => {
         htmlElem,
         'tbody tr:first-child .cx-status a.quote-expired',
         'quote.states.EXPIRED'
+      );
+    });
+  });
+
+  describe('Ghost animation', () => {
+    beforeEach(() => {
+      componentService = TestBed.inject(QuoteListComponentService);
+      componentService.quotesState$ = NEVER;
+      fixture = TestBed.createComponent(QuoteListComponent);
+      component = fixture.componentInstance;
+      htmlElem = fixture.nativeElement;
+      fixture.detectChanges();
+    });
+
+    it('should render view for ghost animation', () => {
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-sort-top'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-title'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-select'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-table'
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-row',
+        8
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-name',
+        8
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-id',
+        8
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-status',
+        8
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-updated-date',
+        8
+      );
+
+      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-nav-caret',
+        8
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-sort-bottom'
+      );
+
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-pagination'
       );
     });
   });
