@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { ConfiguratorChatGtpService } from './configurator-chat-gtp.service';
-import { ConfiguratorQuantityService } from './configurator-quantity.service';
 
-describe('ConfiguratorChatService', () => {
+describe('ConfiguratorChatGtpService', () => {
   let classUnderTest: ConfiguratorChatGtpService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ConfiguratorQuantityService],
+      providers: [ConfiguratorChatGtpService],
     });
     classUnderTest = TestBed.inject(ConfiguratorChatGtpService);
   });
