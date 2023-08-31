@@ -17,7 +17,7 @@ const hasExcludedParams = (request: Request): boolean => {
 };
 
 const hasExcludedUrl = (request: Request): boolean => {
-  const excludedUrls = ['/checkout'];
+  const excludedUrls = ['/checkout', '/my-account'];
 
   return request.url
     ? excludedUrls.some((url: string) => request.url.search(url) > -1)
