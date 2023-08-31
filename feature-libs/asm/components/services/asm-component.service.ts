@@ -53,7 +53,6 @@ export class AsmComponentService {
     @Optional() protected asmEnablerService?: AsmEnablerService,
     @Optional() protected routingService?: RoutingService,
     @Optional() protected asmDeepLinkService?: AsmDeepLinkService
-
   ) {
     // TODO(CXSPA-3090): We can remove this in 7.0 and use asmDeepLinkService instead.
     this.searchparam = new URLSearchParams(this.winRef?.location?.search);
