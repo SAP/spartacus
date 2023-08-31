@@ -31,17 +31,14 @@ export class OpfResourceLoaderService extends ScriptLoader {
 
   protected embedStyles(embedOptions: {
     src: string;
-    callback?: EventListener;
-    errorCallback?: EventListener;
+    callback: EventListener;
+    errorCallback: EventListener;
   }): void {
     const { src, callback, errorCallback } = embedOptions;
 
     const isSSR = isPlatformServer(this.platformId);
-    if ((callback || errorCallback) && isSSR) {
-      return;
-    }
 
-    if (!isSSR && this.hasStyles(src)) {
+    if (isSSR) {
       return;
     }
 
@@ -174,8 +171,6 @@ export class OpfResourceLoaderService extends ScriptLoader {
               break;
             case PaymentDynamicScriptResourceType.STYLES:
               this.loadStyles(resource, resources, resolve);
-              break;
-            default:
               break;
           }
         }
