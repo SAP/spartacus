@@ -9,6 +9,7 @@
     "sourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "importHelpers": true,
     "strict": true,
     "types": [],

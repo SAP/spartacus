@@ -57,20 +57,6 @@ export function goToCPQConfigurationPage(
 }
 
 /**
- * Navigates to the product detail page.
- *
- * @param {string} shopName - shop name
- * @param {string} productId - Product ID
- */
-export function goToPDPage(shopName: string, productId: string): void {
-  const location = `${shopName}/en/USD/product/${productId}/${productId}`;
-  cy.visit(location).then(() => {
-    cy.location('pathname').should('contain', location);
-    cy.get('.ProductDetailsPageTemplate').should('be.visible');
-  });
-}
-
-/**
  * Clicks on 'Add to Cart' button in catalog list.
  */
 export function clickOnConfigureBtnInCatalog(): void {

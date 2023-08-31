@@ -32,16 +32,15 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 class MockAsmComponentService extends AsmComponentService {
   logoutCustomer() {}
 }
-class MockRoutingService implements Partial<RoutingService> {
-  go = () => Promise.resolve(true);
-}
 
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of(false);
   }
 }
-
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
+}
 class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   authorizeCustomerSupportAgent(): Promise<void> {
     return Promise.resolve();

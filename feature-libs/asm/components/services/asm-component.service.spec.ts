@@ -2,10 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
+  AsmDeepLinkService,
   AsmEnablerService,
 } from '@spartacus/asm/root';
 import { AsmDialogActionType } from '@spartacus/asm/customer-360/root';
-import { AuthService, RoutingService, WindowRef } from '@spartacus/core';
+import { AuthService, WindowRef, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AsmComponentService } from './asm-component.service';
@@ -43,6 +44,24 @@ const MockWindowRef = {
   },
 };
 
+class MockAsmDeepLinkService implements Partial<AsmDeepLinkService> {
+  isEmulateInURL(): boolean {
+    return true;
+  }
+
+  getSearchParameter(key: any) {
+    return key;
+  }
+
+  handleNavigation() {
+    return {};
+  }
+
+  getParamsInUrl() {
+    return {};
+  }
+}
+
 class MockAsmEnablerService implements Partial<AsmEnablerService> {
   isEmulateInURL(): boolean {
     return true;
@@ -65,6 +84,8 @@ describe('AsmComponentService', () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: WindowRef, useValue: MockWindowRef },
+        { provice: AsmDeepLinkService, useClass: MockAsmDeepLinkService },
+        { provide: RoutingService, useClass: MockRoutingService },
         { provide: AsmEnablerService, useClass: MockAsmEnablerService },
         { provide: RoutingService, useClass: MockRoutingService },
       ],

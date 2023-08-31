@@ -24,6 +24,7 @@ import {
   User,
   WindowRef,
 } from '@spartacus/core';
+import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import { UserProfileFacade, UserSignUp } from '@spartacus/user/profile/root';
 import {
   combineLatest,
@@ -35,10 +36,10 @@ import {
 } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
-import { CdcAuthFacade } from '../facade/cdc-auth.facade';
-import { CdcReConsentEvent } from '../events';
-import { CdcSiteConsentTemplate } from '../consent-management/model/index';
 import { CdcConsentsLocalStorageService } from '../consent-management';
+import { CdcSiteConsentTemplate } from '../consent-management/model/index';
+import { CdcReConsentEvent } from '../events';
+import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 
 const defaultSessionTimeOut = 3600;
 const setAccountInfoAPI = 'accounts.setAccountInfo';
@@ -124,7 +125,7 @@ export class CdcJsService implements OnDestroy {
                 (this.winRef.nativeWindow as { [key: string]: any })[
                   '__gigyaConf'
                 ] = {
-                  include: 'id_token',
+                  include: 'id_token, missing-required-fields',
                 };
               }
             }
@@ -255,13 +256,17 @@ export class CdcJsService implements OnDestroy {
     context?: any
   ): Observable<{ status: string }> {
     const missingConsentErrorCode = 206001;
+    let ignoreInterruptions = false;
+    const channel = this.getCurrentBaseSiteChannel();
+    if (channel && channel === 'B2C') {
+      ignoreInterruptions = true;
+    }
     return this.getSessionExpirationValue().pipe(
       switchMap((sessionExpiration) => {
         return this.invokeAPI('accounts.login', {
           loginID: email,
           password: password,
-          include: 'missing-required-fields',
-          ignoreInterruptions: true,
+          ignoreInterruptions: ignoreInterruptions,
           ...(context && { context: context }),
           sessionExpiry: sessionExpiration,
         }).pipe(
@@ -285,6 +290,65 @@ export class CdcJsService implements OnDestroy {
       })
     );
   }
+
+  /**
+   * Trigger CDC Organisation registration using CDC APIs.
+   *
+   * @param orgInfo
+   */
+  registerOrganisationWithoutScreenSet(
+    orgInfo: OrganizationUserRegistrationForm
+  ): Observable<{ status: string }> {
+    if (
+      !orgInfo?.companyName ||
+      !orgInfo?.email ||
+      !orgInfo?.firstName ||
+      !orgInfo?.lastName
+    ) {
+      return throwError(null);
+    } else {
+      const regSource: string = this.winRef.nativeWindow?.location?.href || '';
+      const message = orgInfo.message;
+      let department = null;
+      let position = null;
+      if (message) {
+        const msgList = message.replace('\n', '').split(';');
+        for (const msg of msgList) {
+          if (msg.trim().toLowerCase().search('department') === 0) {
+            department = msg.split(':')[1].trim();
+          } else if (msg.trim().toLowerCase().search('position') === 0) {
+            position = msg.split(':')[1].trim();
+          }
+        }
+      }
+
+      return this.invokeAPI('accounts.b2b.registerOrganization', {
+        organization: {
+          name: orgInfo.companyName,
+          street_address: orgInfo.addressLine1 + ' ' + orgInfo.addressLine2,
+          city: orgInfo.town,
+          state: orgInfo.region,
+          zip_code: orgInfo.postalCode,
+          country: orgInfo.country,
+        },
+        requester: {
+          firstName: orgInfo.firstName,
+          lastName: orgInfo.lastName,
+          email: orgInfo.email,
+          phone: orgInfo.phoneNumber,
+          department: department,
+          jobFunction: position,
+        },
+        regSource: regSource,
+      }).pipe(
+        take(1),
+        tap({
+          error: (errorResponse) => this.handleRegisterError(errorResponse),
+        })
+      );
+    }
+  }
+
   /**
    * Retrieves the organization selected by the logged in user
    *
@@ -365,6 +429,16 @@ export class CdcJsService implements OnDestroy {
       .pipe(take(1))
       .subscribe((data) => (baseSite = data));
     return baseSite;
+  }
+
+  private getCurrentBaseSiteChannel(): string {
+    let channel: string = '';
+    const baseSiteUid: string = this.getCurrentBaseSite();
+    this.baseSiteService
+      .get(baseSiteUid)
+      .pipe(take(1))
+      .subscribe((data) => (channel = data?.channel ?? ''));
+    return channel;
   }
 
   /**

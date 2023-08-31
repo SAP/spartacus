@@ -79,6 +79,15 @@
         >
         </cx-message>
       </ng-container>
+      <ng-container *cxFeatureLevel="'6.3'">
+        <cx-message
+          *ngIf="notCollapsed && showCustomerEmulationInfoAlert"
+          [text]="'asm.startCustomerEmulationAlertInfo' | cxTranslate"
+          [type]="globalMessageType.MSG_TYPE_INFO"
+          (closeMessage)="closeCustomerEmulationInfoAlert()"
+        >
+        </cx-message>
+      </ng-container>
     </ng-container>
     <ng-template #showCustomerSelection>
       <cx-customer-selection
