@@ -22,9 +22,9 @@
       <div class="store-listing-item-details">
         <div class="store-listing-item-text">{{ store.displayName }}</div>
         <div class="store-listing-item-text">
-          {{ store.address.line1 }}, {{ store.address.line2 }}
+          {{ store.address?.line1 }}, {{ store.address?.line2 }}
         </div>
-        <div class="store-listing-item-text">{{ store.address.town }}</div>
+        <div class="store-listing-item-text">{{ store.address?.town }}</div>
       </div>
       <div class="store-listing-item-distance store-listing-item-text">
         {{ store.formattedDistance }}
@@ -36,7 +36,8 @@
     <div class="store-details">
       <img
         *ngIf="selectedStore.storeImages?.[0]"
-        [src]="selectedStore.storeImages?.[0].url"
+        [src]="selectedStore.storeImages?.[0]?.url"
+        alt="{{ selectedStore.displayName }}"
         width="110px"
         height="110px"
       />
