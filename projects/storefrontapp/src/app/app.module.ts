@@ -26,7 +26,11 @@ import {
 } from '@spartacus/core';
 import { StoreFinderConfig } from '@spartacus/storefinder/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
-import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
+import {
+  AppRoutingModule,
+  StorefrontComponent,
+  USE_LEGACY_MEDIA_COMPONENT,
+} from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
@@ -94,6 +98,11 @@ if (!environment.production) {
       // without a key, for development or demo purposes.
       googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
     }),
+
+    {
+      provide: USE_LEGACY_MEDIA_COMPONENT,
+      useValue: true,
+    },
   ],
   bootstrap: [StorefrontComponent],
 })
