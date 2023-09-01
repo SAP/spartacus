@@ -5,6 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
+import { ChatGtpBtpConnector } from '../connectors';
 import { ChatGPT4 } from '../model/chat-gpt-4.model';
 
 /**
@@ -14,7 +15,10 @@ import { ChatGPT4 } from '../model/chat-gpt-4.model';
   providedIn: 'root',
 })
 export class ConfiguratorChatGtpService {
+  constructor(protected connector: ChatGtpBtpConnector) {}
+
   private conversation: ChatGPT4.Message[];
+
   public startSession() {
     this.conversation = [];
   }

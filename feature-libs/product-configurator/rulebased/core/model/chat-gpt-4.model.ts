@@ -22,6 +22,18 @@ export namespace ChatGPT4 {
     usage: Usage;
   }
 
+  export interface TokenResponse {
+    access_token: string;
+    token_type: string;
+    expires_in: number;
+  }
+
+  export interface AccessData {
+    accessToken: string;
+    tokenType: string;
+    expiryDate: Date;
+  }
+
   export interface Choice {
     finish_reason: string;
     index: number;
