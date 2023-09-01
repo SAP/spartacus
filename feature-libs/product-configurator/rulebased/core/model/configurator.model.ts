@@ -58,12 +58,6 @@ export namespace Configurator {
     images?: Image[];
   }
 
-  export interface Comment {
-    creationDate?: Date;
-    fromCustomer?: boolean;
-    text?: string;
-  }
-
   export interface Group {
     attributes?: Attribute[];
     id: string;
@@ -111,7 +105,6 @@ export namespace Configurator {
     hideBasePriceAndSelectedOptions?: boolean;
     immediateConflictResolution?: boolean;
     newConfiguration?: boolean;
-    comments?: Comment[];
   }
 
   export interface ConfigurationWithOverview extends Configuration {

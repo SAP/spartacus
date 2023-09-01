@@ -9,6 +9,7 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ChatGPT4 } from '../model/chat-gpt-4.model';
+import { Buffer } from 'buffer';
 
 const CHAT_GPT_URL =
   'https://azure-openai-serv-i057149.cfapps.sap.hana.ondemand.com/api/v1/completions';
@@ -78,7 +79,7 @@ export class ChatGtpBtpConnector {
             { deployment_id: 'gpt-4', messages: questions },
             {
               headers: {
-                Authorization: this.getTokenString(accessData),  // ToDo move to interceptor
+                Authorization: this.getTokenString(accessData), // ToDo move to interceptor
               },
             }
           )
@@ -86,7 +87,12 @@ export class ChatGtpBtpConnector {
       })
     );
   }
+
   getTokenString(accessData: ChatGPT4.AccessData): string {
-    return `${accessData.tokenType}  ${accessData.accessToken}`;
+    return `${accessData.tokenType
+      .charAt(0)
+      .toUpperCase()}${accessData.tokenType.slice(1)} ${
+      accessData.accessToken
+    }`;
   }
 }

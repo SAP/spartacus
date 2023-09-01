@@ -4,28 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  ViewChild,
-} from '@angular/core';
-import { EventService, TranslationService } from '@spartacus/core';
-import {
-  ConfiguratorRouter,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { TranslationService } from '@spartacus/core';
 import {
   ICON_TYPE,
   MessageEvent,
   MessagingComponent,
   MessagingConfigs,
 } from '@spartacus/storefront';
-import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, of } from 'rxjs';
+import { finalize, map, take, tap } from 'rxjs/operators';
+import { ConfiguratorChatGtpService } from '../../core';
+import { ChatGPT4 } from '../../core/model/chat-gpt-4.model';
 
 const DEFAULT_COMMENT_MAX_CHARS = 100000;
 
@@ -35,36 +25,20 @@ const DEFAULT_COMMENT_MAX_CHARS = 100000;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorChatComponent {
-  showChat = false;
   @ViewChild(MessagingComponent) commentsComponent: MessagingComponent;
   iconTypes = ICON_TYPE;
 
-  routerData$: Observable<ConfiguratorRouter.Data> =
-    this.configRouterExtractorService.extractRouterData();
+  showChat = false;
+  messageHistory: MessageEvent[] = [];
 
-  configuration$: Observable<Configurator.Configuration> =
-    this.routerData$.pipe(
-      filter(
-        (routerData) =>
-          routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
-      ),
-      switchMap((routerData) => {
-        return this.configuratorCommonsService.getOrCreateConfiguration(
-          routerData.owner,
-          routerData.configIdTemplate
-        );
-      })
-    );
-
-  messageEvents$: Observable<Array<MessageEvent>> = this.prepareMessageEvents();
+  messageEvents$: BehaviorSubject<Array<MessageEvent>> = new BehaviorSubject(
+    this.messageHistory
+  );
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
 
   constructor(
-    protected eventService: EventService,
     protected translationService: TranslationService,
-    @Inject(DOCUMENT) protected document: Document,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
+    protected configuratorChatService: ConfiguratorChatGtpService
   ) {}
 
   displayChat(): void {
@@ -73,35 +47,6 @@ export class ConfiguratorChatComponent {
 
   hideChat(): void {
     this.showChat = false;
-  }
-
-  protected prepareMessageEvents(): Observable<Array<MessageEvent>> {
-    return this.configuration$.pipe(
-      map((configuration) => {
-        const messageEvents: MessageEvent[] = [];
-        configuration.comments?.forEach((comment) =>
-          messageEvents.push(this.mapCommentToMessageEvent(comment))
-        );
-        messageEvents.sort((eventA, eventB) => {
-          return (
-            new Date(eventA?.createdAt ?? 0).getTime() -
-            new Date(eventB?.createdAt ?? 0).getTime()
-          );
-        });
-        return messageEvents;
-      })
-    );
-  }
-
-  protected mapCommentToMessageEvent(
-    comment: Configurator.Comment
-  ): MessageEvent {
-    const messages: MessageEvent = {
-      text: comment?.text,
-      createdAt: comment?.creationDate?.toString(),
-      rightAlign: !comment.fromCustomer,
-    };
-    return messages;
   }
 
   protected prepareMessagingConfigs(): MessagingConfigs {
@@ -114,14 +59,31 @@ export class ConfiguratorChatComponent {
 
   onSend(event: { message: string }): void {
     console.log('send message: ' + event.message);
-    this.configuration$.pipe(
-      map((configuration) => {
-        const message: Configurator.Comment = {
-          text: event.message,
-        };
-        configuration?.comments?.push(message);
-        console.log('message has been added');
-      })
-    );
+    this.messageHistory.push({
+      text: event.message,
+      rightAlign: false,
+      createdAt: new Date().toString(),
+    });
+    this.configuratorChatService
+      .ask(event.message)
+      .pipe(
+        take(1),
+        tap((answer) => console.log(answer)),
+        map((answer) => this.mapAnswerToMessageEvent(answer)),
+        // do for error and success
+        finalize(() => this.commentsComponent.resetForm())
+      )
+      .subscribe((event) => {
+        this.messageHistory.push(event);
+        this.messageEvents$.next(this.messageHistory);
+      });
+  }
+
+  mapAnswerToMessageEvent(answer: ChatGPT4.Message): MessageEvent {
+    return {
+      text: answer.content,
+      rightAlign: true,
+      createdAt: new Date().toString(),
+    };
   }
 }

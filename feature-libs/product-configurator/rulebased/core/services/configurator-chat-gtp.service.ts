@@ -19,9 +19,9 @@ import { Observable } from 'rxjs';
 export class ConfiguratorChatGtpService {
   constructor(protected connector: ChatGtpBtpConnector) {}
 
-  private conversation: ChatGPT4.Message[];
+  private conversation: ChatGPT4.Message[] = [];
 
-  public startSession() {
+  public restartConversation() {
     this.conversation = [];
   }
 
