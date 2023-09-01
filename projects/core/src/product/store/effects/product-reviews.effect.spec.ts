@@ -7,7 +7,7 @@ import {
   GlobalMessageService,
 } from '../../../global-message/index';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { Review } from '../../../model/product.model';
 import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import { OccConfig } from '../../../occ/config/occ-config';
@@ -38,6 +38,7 @@ const MockOccModuleConfig: OccConfig = {
 
 class MockProductReviewsConnector {
   get = createSpy('getList').and.returnValue(of(reviewData));
+  add = createSpy('addReview').and.returnValue(of({}));
 }
 
 class GlobalMessageServiceMock {
@@ -47,6 +48,7 @@ class GlobalMessageServiceMock {
 describe('Product reviews effect', () => {
   let actions$: Observable<Action>;
   let effects: fromEffects.ProductReviewsEffects;
+  let productReviewsConnector: MockProductReviewsConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -65,10 +67,11 @@ describe('Product reviews effect', () => {
     });
 
     effects = TestBed.inject(fromEffects.ProductReviewsEffects);
+    productReviewsConnector = TestBed.inject(MockProductReviewsConnector);
   });
 
   describe('loadProductReviews$', () => {
-    it('should return specified product reviews', () => {
+    it('should return specified product reviews on success', () => {
       const productCode = '12345';
       const action = new ProductActions.LoadProductReviews(productCode);
       const completion = new ProductActions.LoadProductReviewsSuccess({
@@ -80,6 +83,49 @@ describe('Product reviews effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effects.loadProductReviews$).toBeObservable(expected);
+    });
+
+    it('should return an error action on failure', () => {
+      const productCode = '12345';
+      const action = new ProductActions.LoadProductReviews(productCode);
+      const errorResponse = new Error('Error loading product reviews');
+      productReviewsConnector.get.and.returnValue(throwError(errorResponse));
+      const completion = new ProductActions.LoadProductReviewsFail(
+        errorResponse
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.loadProductReviews$).toBeObservable(expected);
+    });
+  });
+
+  describe('postProductReview', () => {
+    it('should post a product review and return success action on success', () => {
+      const reviewPayload = { productCode: '12345', review: {} };
+      const action = new ProductActions.PostProductReview(reviewPayload);
+      const completion = new ProductActions.PostProductReviewSuccess({});
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.postProductReview).toBeObservable(expected);
+    });
+
+    it('should return an error action on failure when posting a product review', () => {
+      const reviewPayload = { productCode: '12345', review: {} };
+      const action = new ProductActions.PostProductReview(reviewPayload);
+      const errorResponse = new Error( 'Error posting product review');
+      productReviewsConnector.add.and.returnValue(throwError(errorResponse));
+      const completion = new ProductActions.PostProductReviewFail(
+        errorResponse
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.postProductReview).toBeObservable(expected);
     });
   });
 });
