@@ -69,21 +69,19 @@ export class ChatGtpBtpConnector {
     );
   }
 
-  public ask(questions: ChatGPT4.Message[]): Observable<ChatGPT4.Message> {
+  public ask(questions: ChatGPT4.Message[]): Observable<ChatGPT4.Response> {
     return this.getAccessToken().pipe(
       take(1),
       switchMap((accessData) => {
-        return this.http
-          .post<ChatGPT4.Response>(
-            CHAT_GPT_URL,
-            { deployment_id: 'gpt-4', messages: questions },
-            {
-              headers: {
-                Authorization: this.getTokenString(accessData), // ToDo move to interceptor
-              },
-            }
-          )
-          .pipe(map((response) => response.choices[0].message));
+        return this.http.post<ChatGPT4.Response>(
+          CHAT_GPT_URL,
+          { deployment_id: 'gpt-4', messages: questions },
+          {
+            headers: {
+              Authorization: this.getTokenString(accessData), // ToDo move to interceptor
+            },
+          }
+        );
       })
     );
   }
