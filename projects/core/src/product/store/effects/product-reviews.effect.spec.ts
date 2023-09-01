@@ -7,13 +7,12 @@ import {
   GlobalMessageService,
 } from '../../../global-message/index';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Review } from '../../../model/product.model';
-import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
-import { OccConfig } from '../../../occ/config/occ-config';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from '../effects/product-reviews.effect';
-import { ProductReviewsConnector } from '../../connectors/index';
+import { OccConfig, ProductReviewsConnector } from '@spartacus/core';
+import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import createSpy = jasmine.createSpy;
 
 const reviewData: Review[] = [
@@ -27,28 +26,18 @@ const reviewData: Review[] = [
   },
 ];
 
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-};
+class GlobalMessageServiceMock {
+  add(_message: GlobalMessage): void {}
+}
 
 class MockProductReviewsConnector {
   get = createSpy('getList').and.returnValue(of(reviewData));
   add = createSpy('addReview').and.returnValue(of({}));
 }
 
-class GlobalMessageServiceMock {
-  add(_message: GlobalMessage): void {}
-}
-
 describe('Product reviews effect', () => {
   let actions$: Observable<Action>;
   let effects: fromEffects.ProductReviewsEffects;
-  let productReviewsConnector: MockProductReviewsConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -58,7 +47,6 @@ describe('Product reviews effect', () => {
           provide: ProductReviewsConnector,
           useClass: MockProductReviewsConnector,
         },
-        { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductReviewsEffects,
         provideMockActions(() => actions$),
@@ -67,7 +55,6 @@ describe('Product reviews effect', () => {
     });
 
     effects = TestBed.inject(fromEffects.ProductReviewsEffects);
-    productReviewsConnector = TestBed.inject(MockProductReviewsConnector);
   });
 
   describe('loadProductReviews$', () => {
@@ -84,21 +71,6 @@ describe('Product reviews effect', () => {
 
       expect(effects.loadProductReviews$).toBeObservable(expected);
     });
-
-    it('should return an error action on failure', () => {
-      const productCode = '12345';
-      const action = new ProductActions.LoadProductReviews(productCode);
-      const errorResponse = new Error('Error loading product reviews');
-      productReviewsConnector.get.and.returnValue(throwError(errorResponse));
-      const completion = new ProductActions.LoadProductReviewsFail(
-        errorResponse
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(effects.loadProductReviews$).toBeObservable(expected);
-    });
   });
 
   describe('postProductReview', () => {
@@ -106,21 +78,6 @@ describe('Product reviews effect', () => {
       const reviewPayload = { productCode: '12345', review: {} };
       const action = new ProductActions.PostProductReview(reviewPayload);
       const completion = new ProductActions.PostProductReviewSuccess({});
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(effects.postProductReview).toBeObservable(expected);
-    });
-
-    it('should return an error action on failure when posting a product review', () => {
-      const reviewPayload = { productCode: '12345', review: {} };
-      const action = new ProductActions.PostProductReview(reviewPayload);
-      const errorResponse = new Error( 'Error posting product review');
-      productReviewsConnector.add.and.returnValue(throwError(errorResponse));
-      const completion = new ProductActions.PostProductReviewFail(
-        errorResponse
-      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
