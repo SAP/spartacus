@@ -5,7 +5,6 @@
  */
 
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
 import {
   ICON_TYPE,
   MessageEvent,
@@ -14,7 +13,9 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
 import { finalize, map, take, tap } from 'rxjs/operators';
-import { ConfiguratorChatGtpService } from '../../core';
+import {
+  ConfiguratorChatGtpService
+} from '../../core';
 import { ChatGPT4 } from '../../core/model/chat-gpt-4.model';
 
 const DEFAULT_COMMENT_MAX_CHARS = 100000;
@@ -36,10 +37,7 @@ export class ConfiguratorChatComponent {
   );
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
 
-  constructor(
-    protected translationService: TranslationService,
-    protected configuratorChatService: ConfiguratorChatGtpService
-  ) {}
+  constructor(protected configuratorChatService: ConfiguratorChatGtpService) {}
 
   displayChat(): void {
     this.showChat = true;
