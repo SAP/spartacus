@@ -41,10 +41,10 @@ export class ConfiguratorChatComponent {
 
   displayChat(): void {
     this.showChat = true;
-    this.handleAnswer(this.configuratorChatService.initConversation(INIT_MSG));
     this.messageHistory.push(this.mapUserMessageToEvent(INIT_MSG));
     this.messageHistory.push(this.mapAnswerToMessageEvent(WAIT_MSG));
     this.messageEvents$.next(this.messageHistory);
+    this.handleAnswer(this.configuratorChatService.initConversation(INIT_MSG));
   }
 
   hideChat(): void {
@@ -64,6 +64,7 @@ export class ConfiguratorChatComponent {
     this.messageHistory.push(this.mapUserMessageToEvent(event.message));
     this.messageHistory.push(this.mapAnswerToMessageEvent(WAIT_MSG));
     this.messageEvents$.next(this.messageHistory);
+    this.commentsComponent.resetForm();
     this.handleAnswer(this.configuratorChatService.ask(event.message));
   }
 
@@ -81,8 +82,6 @@ export class ConfiguratorChatComponent {
         take(1),
         tap((answer) => console.log(answer)),
         map((answer) => this.mapAnswerToMessageEvent(answer.content)),
-        // do for error and success
-        finalize(() => this.commentsComponent.resetForm())
       )
       .subscribe((event) => {
         this.messageHistory.pop(); // remove waiting message
