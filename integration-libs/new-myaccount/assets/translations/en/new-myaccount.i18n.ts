@@ -10,8 +10,20 @@ export const newMyAccount = {
     purchased: 'Purchased {{param}}',
     item: '{{param}} Item',
     items: '{{param}} Items',
-    totalPrice: 'Total Price: {{param}}',
-    statusDate: 'XXX Date: {{param}}',
+    totalPrice: 'Total Price:',
+    consignmentInfo: 'Consignment Details - ',
+    statusDate: 'Status Date: {{param}}',
     value: ': {{param}}',
+    returned: 'Returned - ',
+    returnProcessed: 'Return Processed',
+    deliveryPointOfServiceDetails: {
+      itemsToBePickUp: 'Picked Up - ',
+    },
+    checkoutMode: {
+      deliveryEntries: 'Shipped - ',
+    },
+    checkoutPickupInStore: {
+      heading: 'Picked Up - ',
+    },
   },
 };

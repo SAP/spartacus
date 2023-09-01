@@ -104,6 +104,7 @@ export interface OrderHistory {
   unconsignedEntries?: OrderEntry[];
   pickupUnconsignedEntries?: OrderEntry[];
   deliveryUnconsignedEntries?: OrderEntry[];
+  returnRequests?: ReturnRequest[];
 }
 
 export interface OrderHistoryList {

@@ -30,6 +30,9 @@ export class NewMyaccountOrderHistoryComponent extends OrderHistoryComponent {
       translation,
       replenishmentOrderHistoryFacade
     );
+    this.orders$.subscribe((orders) => {
+      console.log('Final: ', orders);
+    });
   }
 
   convertToArrayOfObservables(images: Images[]): Observable<Images>[] {

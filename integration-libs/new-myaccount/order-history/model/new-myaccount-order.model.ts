@@ -1,7 +1,7 @@
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Images } from '@spartacus/core';
 import '@spartacus/order/root';
-import { Consignment } from '@spartacus/order/root';
+import { Consignment, ReturnRequest } from '@spartacus/order/root';
 
 declare module '@spartacus/order/root' {
   interface OrderHistory {
@@ -15,5 +15,8 @@ declare module '@spartacus/order/root' {
     unconsignedEntries?: OrderEntry[];
     pickupUnconsignedEntries?: OrderEntry[]; // "
     deliveryUnconsignedEntries?: OrderEntry[]; // "
+    returnRequests?: ReturnRequest[];
+    // IMPORTANT: have to alter this based on comment from Bhanu. if 1 order can have only 1 return request, then make it into single item.
+    // else kept it the same.
   }
 }

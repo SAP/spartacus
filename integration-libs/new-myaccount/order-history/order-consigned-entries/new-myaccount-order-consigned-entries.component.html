@@ -1,14 +1,26 @@
 <ng-container *ngFor="let consignment of consignments">
-  <div [style.backgroundColor]="'red'" *ngIf="consignment">
-    <ng-container *ngIf="consignment.status">
-      {{ 'orderDetails.deliveryStatus_' + consignment?.status | cxTranslate }}|
-    </ng-container>
+  <!--
+example:
+Consignment Status Date: Aug 31, 2023 | In Process | 1 Item
+Estimated Delivery: 23, September, 2023
+Tracking Number: 345677 <as url>
+Consignment Status Date: Aug 31, 2023 | In Process | 3 Items
+{no tracking info present}
+Consignment Status Date: Aug 31, 2023 | In Process | 1 Item
+Estimated Delivery: 25, September, 2023
+Tracking Number: 3411177 <no hyperlink, as no url present>
+  -->
+  <div *ngIf="consignment">
+    {{ 'NewMyAccountOrderHistory.consignmentInfo' | cxTranslate }}
     <ng-container *ngIf="consignment.statusDate">
       {{
         'NewMyAccountOrderHistory.statusDate'
           | cxTranslate: { param: consignment.statusDate | cxDate }
       }}
       |
+    </ng-container>
+    <ng-container *ngIf="consignment.status">
+      {{ 'orderDetails.deliveryStatus_' + consignment?.status | cxTranslate }}|
     </ng-container>
     <ng-container
       *ngIf="consignmentEntriesLength(consignment) > 1; else showItem"

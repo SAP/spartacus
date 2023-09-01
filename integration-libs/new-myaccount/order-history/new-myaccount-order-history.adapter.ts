@@ -7,9 +7,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { OccOrderHistoryAdapter } from '@spartacus/order/occ';
-import { OrderHistoryList, OrderHistory } from '@spartacus/order/root';
+import {
+  OrderHistoryList,
+  OrderHistory,
+  ReturnRequestList,
+} from '@spartacus/order/root';
 import { map, switchMap } from 'rxjs/operators';
 import { OrderDetailsService } from '@spartacus/order/components';
 
@@ -25,6 +29,54 @@ export class NewMyaccountOrderHistoryAdapter extends OccOrderHistoryAdapter {
   }
 
   public loadHistory(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<OrderHistoryList> {
+    return this.loadOrderAndReturnList(
+      userId,
+      pageSize,
+      currentPage,
+      sort
+    ).pipe(
+      switchMap((responses: [OrderHistoryList, ReturnRequestList]) => {
+        var returnRequests = responses[1].returnRequests;
+        var orderHistory = responses[0];
+        if (returnRequests && orderHistory.orders) {
+          return orderHistory.orders.map((order) => {
+            const returnItems = returnRequests?.filter(
+              (returnItem) => returnItem.order?.code === order.code
+            );
+            if (returnItems) {
+              order.returnRequests = returnItems;
+            }
+            return orderHistory;
+          });
+        } else {
+          return of(orderHistory);
+        }
+      })
+    );
+  }
+
+  public loadOrderAndReturnList(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<[OrderHistoryList, ReturnRequestList]> {
+    const orderHistoryListRequest = this.loadNewMyAccountOrderHistory(
+      userId,
+      pageSize,
+      currentPage,
+      sort
+    );
+    const returnRequestListRequest = super.loadReturnRequestList(userId);
+    return forkJoin([orderHistoryListRequest, returnRequestListRequest]);
+  }
+
+  public loadNewMyAccountOrderHistory(
     userId: string,
     pageSize?: number,
     currentPage?: number,
@@ -79,6 +131,9 @@ export class NewMyaccountOrderHistoryAdapter extends OccOrderHistoryAdapter {
               //filling deliveryUnConsignedEntries
               order.deliveryUnconsignedEntries =
                 this.orderDetailsService.getUnconsignedEntries(order, false);
+
+              //filling an empty return request array
+              order.returnRequests = [];
 
               /** filling extra fields <--- */
               return orderList;
