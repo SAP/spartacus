@@ -12,7 +12,7 @@ import {
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { finalize, map, take, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { ConfiguratorChatGtpService } from '../../core';
 import { ChatGPT4 } from '../../core/model/chat-gpt-4.model';
 
