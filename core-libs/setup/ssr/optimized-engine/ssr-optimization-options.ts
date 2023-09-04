@@ -133,6 +133,16 @@ export enum RenderingStrategy {
   ALWAYS_SSR = 1,
 }
 
+export interface RenderingBlocked {
+  urls?: string[];
+  params?: string[];
+}
+
+export const defaultRenderingBlocked: RenderingBlocked = {
+  urls: ['checkout', 'my-account'],
+  params: ['asm'],
+};
+
 export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   concurrency: 10,
   timeout: 3_000,
@@ -140,7 +150,9 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   maxRenderTime: 300_000,
   reuseCurrentRendering: true,
   debug: false,
-  renderingStrategyResolver: defaultRenderingStrategyResolver,
+  renderingStrategyResolver: defaultRenderingStrategyResolver(
+    defaultRenderingBlocked
+  ),
   //CXSPA-3680 - set ExpressServerLogger as default
   //logger: new ExpressServerLogger(),
 };
