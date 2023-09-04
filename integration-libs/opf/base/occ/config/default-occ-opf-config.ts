@@ -14,7 +14,7 @@ export const defaultOccOpfConfig: OccConfig = {
         submitPayment: 'payments/${paymentSessionId}/submit',
         submitCompletePayment: 'payments/${paymentSessionId}/submit-complete',
         afterRedirectScripts:
-          'payments/after-redirect-scripts/${paymentSessionId}',
+          'payments/${paymentSessionId}/after-redirect-scripts',
       },
     },
   },
