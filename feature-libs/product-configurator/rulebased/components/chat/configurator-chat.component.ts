@@ -81,7 +81,7 @@ export class ConfiguratorChatComponent {
       .pipe(
         take(1),
         tap((answer) => console.log(answer)),
-        map((answer) => this.mapAnswerToMessageEvent(answer.content)),
+        map((answer) => this.mapAnswerToMessageEvent(answer.content))
       )
       .subscribe((event) => {
         this.messageHistory.pop(); // remove waiting message
