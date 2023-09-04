@@ -10,7 +10,7 @@ export const newMyAccount = {
     purchased: 'Purchased {{param}}',
     item: '{{param}} Item',
     items: '{{param}} Items',
-    totalPrice: 'Total Price:',
+    totalPrice: 'Total Price: {{param}}',
     consignmentInfo: 'Consignment Details - ',
     statusDate: 'Status Date: {{param}}',
     value: ': {{param}}',
