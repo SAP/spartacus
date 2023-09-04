@@ -14,7 +14,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message/index';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { LoggerService } from '../../../logger';
 
 @Injectable()
 export class ProductReviewsEffects {
