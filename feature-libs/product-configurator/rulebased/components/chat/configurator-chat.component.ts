@@ -80,7 +80,7 @@ export class ConfiguratorChatComponent {
     answer$
       .pipe(
         take(1),
-        tap((answer) => console.log(answer)),
+        tap((answer) => console.log('GTP answered: ',answer)),
         map((answer) => this.mapAnswerToMessageEvent(answer.content))
       )
       .subscribe((event) => {

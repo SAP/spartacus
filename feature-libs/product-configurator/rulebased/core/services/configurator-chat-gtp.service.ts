@@ -5,21 +5,22 @@
  */
 
 import { Injectable } from '@angular/core';
+import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
+import { Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { ChatGtpBtpConnector } from '../connectors';
-import { ChatGPT4 } from '../model/chat-gpt-4.model';
-import { Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../facade/configurator-commons.service';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
+import { ChatGPT4 } from '../model/chat-gpt-4.model';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorChatGtpMapperService } from './configurator-chat-gpt-mapper.service';
 
 const START_MSG =
   'You are an assistant designed to help with configuring a product based on the users wishes and needs. ' +
   'The current configuration state is provided along with the user messages in JSON format. ' +
-  'A configuration consists of list of Attributes. Each attribute is part of one Group and one Value can be selected.'+
+  'A configuration consists of list of Attributes. Each attribute is part of one Group and one Value can be selected.' +
   'Groups are identified by property description. Attributes are identified by property label. Values are identified by property valueDisplay.' +
-  'When responding to the user please make suggestions which values to choose in natural language.' +
+  'When responding to the user please make suggestions which values to choose in natural language as well as in JSON format.' +
+  'The JSON should follow this format "[{ attribute: { name: name; value: name } }]" The JSON should be given at the end of the response starting with **JSON**.' +
   'Please only answer questions related to the product and the configuration and politely deny any other queries.'; //as well as json format.';
 
 /**
@@ -59,17 +60,19 @@ export class ConfiguratorChatGtpService {
       take(1),
       switchMap((config) => {
         const context = this.mapper.serializeConfiguration(config);
-        return this.callChatConnector(question, context);
+        this.addQuestionToConversation(question, context);
+        return this.callChatConnector().pipe(
+          map((message) => this.handleConfigChanges(message, config)),
+          tap((message) => this.conversation.push(message))
+        );
       })
     );
   }
 
-  private callChatConnector(question: string, context?: string) {
-    this.addQuestionToConversation(question, context);
+  protected callChatConnector() {
     return this.connector.ask(this.conversation).pipe(
-      tap((response) => console.log(response.usage)),
-      map((response) => response.choices[0].message),
-      tap((message) => this.conversation.push(message))
+      tap((response) => console.log('Usage Data:', response.usage)),
+      map((response) => response.choices[0].message)
     );
   }
 
@@ -87,5 +90,70 @@ export class ConfiguratorChatGtpService {
       content: START_MSG,
     };
     this.conversation.push(questionMessage);
+  }
+
+  protected handleConfigChanges(
+    message: ChatGPT4.Message,
+    config: Configurator.Configuration
+  ): ChatGPT4.Message {
+    {
+      const splitted = message.content.split('**JSON**');
+      if (splitted[1]) {
+        try {
+          this.updateConfig(splitted[1].replaceAll('```', ''), config);
+        } catch (error) {
+          console.error('failed to apply config changes', error);
+        }
+      }
+      message.content = splitted[0];
+      return message;
+    }
+  }
+
+  protected updateConfig(json: string, config: Configurator.Configuration) {
+    console.log('attempting to parse json response from gtp \n' + json);
+    const updates: [{ attribute: { name: string; value: string } }] =
+      JSON.parse(json);
+    console.log('applying config changes', updates);
+    updates.forEach((update) => {
+      const attribute = this.findAttribute(update.attribute.name, config);
+      if (attribute) {
+        console.log('updating attribute', attribute);
+        this.configuratorCommonsService.updateConfiguration(
+          config.owner.key,
+          {
+            ...attribute,
+            selectedSingleValue: this.findValue(
+              update.attribute.value,
+              attribute
+            ),
+          },
+          Configurator.UpdateType.ATTRIBUTE
+        );
+      } else {
+        console.log(
+          'attribute not found in config, attr name=' + update.attribute.name
+        );
+      }
+    });
+  }
+  protected findValue(
+    valueName: string,
+    attribute: Configurator.Attribute
+  ): string {
+    const value = attribute.values?.find(
+      (value) => value.name === valueName || value.valueDisplay === valueName
+    );
+    return value?.name ? value.name : valueName;
+  }
+  protected findAttribute(
+    name: string,
+    config: Configurator.Configuration
+  ): Configurator.Attribute | undefined {
+    return config.flatGroups
+      .flatMap((group) => group.attributes)
+      .find(
+        (attribute) => attribute?.name === name || attribute?.label === name
+      );
   }
 }

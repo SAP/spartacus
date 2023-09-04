@@ -17,9 +17,8 @@ export class ConfiguratorChatGtpMapperService {
   constructor() {}
 
   serializeConfiguration(config: Configurator.Configuration): string {
-    console.log(config);
     // provide attributes and subobject as filters
-    return JSON.stringify(config, [
+    const simplified = JSON.stringify(config, [
       'flatGroups',
       'attributes',
       'name',
@@ -29,7 +28,9 @@ export class ConfiguratorChatGtpMapperService {
       'value',
       'valueDisplay',
       'valuePrice',
-      'label'
+      'label',
     ]);
+    console.log('Config context for GTP:', JSON.parse(simplified));
+    return simplified;
   }
 }
