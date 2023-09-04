@@ -12,7 +12,7 @@ import {
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { finalize, map, take, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { ConfiguratorChatGtpService } from '../../core';
 import { ChatGPT4 } from '../../core/model/chat-gpt-4.model';
 
@@ -81,7 +81,7 @@ export class ConfiguratorChatComponent {
       .pipe(
         take(1),
         tap((answer) => console.log(answer)),
-        map((answer) => this.mapAnswerToMessageEvent(answer.content)),
+        map((answer) => this.mapAnswerToMessageEvent(answer.content))
       )
       .subscribe((event) => {
         this.messageHistory.pop(); // remove waiting message

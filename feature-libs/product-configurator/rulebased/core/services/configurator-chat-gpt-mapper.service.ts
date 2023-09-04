@@ -18,6 +18,15 @@ export class ConfiguratorChatGtpMapperService {
 
   serializeConfiguration(config: Configurator.Configuration): string {
     // provide attributes and subobject as filters
-    return JSON.stringify(config,['flatGroups', 'attributes','name','description', 'id', 'values', 'value', 'valuePrice']);
+    return JSON.stringify(config, [
+      'flatGroups',
+      'attributes',
+      'name',
+      'description',
+      'id',
+      'values',
+      'value',
+      'valuePrice',
+    ]);
   }
 }
