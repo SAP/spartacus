@@ -7,6 +7,7 @@
 import { Request } from 'express';
 import { ExpressServerLogger } from '../logger';
 import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
+import { defaultRenderingBlocked } from './rendering-strategy-resolver-options';
 
 export interface SsrOptimizationOptions {
   /**
@@ -132,16 +133,6 @@ export enum RenderingStrategy {
   DEFAULT = 0,
   ALWAYS_SSR = 1,
 }
-
-export interface RenderingBlocked {
-  urls?: string[];
-  params?: string[];
-}
-
-export const defaultRenderingBlocked: RenderingBlocked = {
-  urls: ['checkout', 'my-account'],
-  params: ['asm'],
-};
 
 export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   concurrency: 10,

@@ -5,49 +5,49 @@
  */
 
 import { Request } from 'express';
-import {
-  RenderingBlocked,
-  RenderingStrategy,
-} from './ssr-optimization-options';
+import { RenderingStrategy } from './ssr-optimization-options';
+import { RenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
 
 const hasExcludedParams = (
   request: Request,
-  renderingBlocked: RenderingBlocked
-) => {
-  const params = request.query ? Object.getOwnPropertyNames(request.query) : [];
+  excludedParams: string[] | undefined
+): boolean => {
+  const params: string[] = request.query
+    ? Object.getOwnPropertyNames(request.query)
+    : [];
 
-  if (!renderingBlocked?.params) {
+  if (!excludedParams) {
     return false;
   }
 
-  return renderingBlocked.params.some((excludedParam) =>
-    params.some((param) => excludedParam === param)
+  return excludedParams.some((excludedParam: string) =>
+    params.some((param: string): boolean => excludedParam === param)
   );
 };
 
 const hasExcludedUrl = (
   request: Request,
-  renderingBlocked: RenderingBlocked
+  excludedUrls: string[] | undefined
 ) => {
-  return request.url && renderingBlocked?.urls
-    ? renderingBlocked.urls.some((url) => request.url.search(url) > -1)
+  return request.url && excludedUrls
+    ? excludedUrls.some((url) => request.url.search(url) > -1)
     : false;
 };
 
 const shouldFallbackToCsr = (
   request: Request,
-  renderingBlocked: RenderingBlocked
+  { excludedParams, excludedUrls }: RenderingStrategyResolverOptions
 ) => {
   return (
-    hasExcludedParams(request, renderingBlocked) ||
-    hasExcludedUrl(request, renderingBlocked)
+    hasExcludedParams(request, excludedParams) ||
+    hasExcludedUrl(request, excludedUrls)
   );
 };
 
 export const defaultRenderingStrategyResolver =
-  (renderingBlocked: RenderingBlocked) =>
+  (options: RenderingStrategyResolverOptions) =>
   (request: Request): RenderingStrategy => {
-    return shouldFallbackToCsr(request, renderingBlocked)
+    return shouldFallbackToCsr(request, options)
       ? RenderingStrategy.ALWAYS_CSR
       : RenderingStrategy.DEFAULT;
   };
