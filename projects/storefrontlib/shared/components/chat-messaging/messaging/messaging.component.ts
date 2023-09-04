@@ -110,7 +110,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
 
   resetForm(): void {
     this.form.reset();
-    this.fileUploadComponent.removeFile();
+    this.fileUploadComponent?.removeFile();
   }
 
   triggerDownload(
