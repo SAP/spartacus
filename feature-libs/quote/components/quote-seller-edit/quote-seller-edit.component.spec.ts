@@ -178,9 +178,9 @@ describe('QuoteSellerEditComponent', () => {
     });
 
     it('should provide formatted value for discount control in case a discount exists', () => {
-      mockQuote.quoteDiscounts = { value: 1};
+      mockQuote.quoteDiscounts = { value: 1 };
       fixture.detectChanges();
-      expect(component.form.controls.discount.value).toBe("$1.00");
+      expect(component.form.controls.discount.value).toBe('$1.00');
     });
 
     it('should provide initial value for expiry date control', () => {
