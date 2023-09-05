@@ -147,6 +147,7 @@ describe('QuoteSellerEditComponent', () => {
     fixture = TestBed.createComponent(QuoteSellerEditComponent);
     component = fixture.componentInstance;
     facade = TestBed.inject(QuoteFacade);
+    mockQuote.quoteDiscounts = {};
     mockQuoteDetails$.next(mockQuote);
   });
 
@@ -173,7 +174,13 @@ describe('QuoteSellerEditComponent', () => {
   describe('ngOnInit', () => {
     it('should provide initial value for discount control', () => {
       fixture.detectChanges();
-      expect(component.form.controls.discount.value).toBe('$0.00');
+      expect(component.form.controls.discount.value).toBe(null);
+    });
+
+    it('should provide formatted value for discount control in case a discount exists', () => {
+      mockQuote.quoteDiscounts = { value: 1};
+      fixture.detectChanges();
+      expect(component.form.controls.discount.value).toBe("$1.00");
     });
 
     it('should provide initial value for expiry date control', () => {

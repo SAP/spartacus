@@ -36,11 +36,15 @@ export class QuoteSellerEditComponentService {
    * @param input Discount as string, can include currency symbol, decimal and grouping separators
    * @returns Observable of discount as number
    */
-  parseDiscountValue(input: string): Observable<number> {
+  parseDiscountValue(input: string | undefined | null): Observable<number> {
     return this.getLocalizationElements().pipe(
       map((localizationElements) => {
-        input = input.replace(localizationElements.currencySymbol, '');
-        return this.parseInput(input, localizationElements.locale);
+        if (input) {
+          input = input.replace(localizationElements.currencySymbol, '');
+          return this.parseInput(input, localizationElements.locale);
+        } else {
+          return 0;
+        }
       })
     );
   }
@@ -191,7 +195,7 @@ export class QuoteSellerEditComponentService {
     input: string,
     groupingSeparator: string,
     decimalSeparator: string
-  ) {
+  ): number {
     const escapeString = '\\';
     const search: RegExp = new RegExp(escapeString + groupingSeparator, 'g');
     const normalizedInput = input
