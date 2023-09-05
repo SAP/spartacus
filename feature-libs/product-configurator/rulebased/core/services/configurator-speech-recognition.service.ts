@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 declare var webkitSpeechRecognition: any;
 
 @Injectable({
+<<<<<<< Updated upstream
   providedIn: 'root',
 })
 export class ConfiguratorSpeechRecognitionService {
@@ -53,5 +54,57 @@ export class ConfiguratorSpeechRecognitionService {
   stopRecording() {
     console.log('Speech recognition ended');
     this.speechRecognition.stop();
+=======
+  providedIn: 'root'
+})
+export class ConfiguratorVoiceRecognitionService {
+
+  speechRecognition =  new webkitSpeechRecognition();
+  isStopped = false;
+  public text = '';
+  tempWords: string;
+
+  constructor() { }
+
+  init() {
+    this.speechRecognition.interimResults = true;
+    this.speechRecognition.lang = 'en-US';
+
+    this.speechRecognition.addEventListener('result', (event) => {
+      const transcript = Array.from(event.results)
+        .map((result) => result[0])
+        .map((result) => result.transcript)
+        .join('');
+      this.tempWords = transcript;
+      console.log(transcript);
+    });
+  }
+
+  start() {
+    this.isStopped = false;
+    this.speechRecognition.start();
+    console.log("Speech recognition started")
+    this.speechRecognition.addEventListener('end', (condition) => {
+      if (this.isStopped) {
+        this.speechRecognition.stop();
+        console.log("End speech recognition")
+      } else {
+        this.wordConcat()
+        this.speechRecognition.start();
+      }
+    });
+  }
+
+  stop() {
+    this.isStopped = true;
+    this.wordConcat()
+    this.speechRecognition.stop();
+    console.log("End speech recognition")
+  }
+
+  wordConcat() {
+    this.text = this.text + ' ' + this.tempWords + '.';
+    this.tempWords = '';
+>>>>>>> Stashed changes
   }
 }
