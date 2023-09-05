@@ -187,6 +187,7 @@ export const SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION = `@spartacus/cdc/organiz
 export const SPARTACUS_CDC_ORGANIZATION_REGISTRATION = `@spartacus/cdc/organization/user-registration`;
 
 export const SPARTACUS_NEW_MYACCOUNT = `@spartacus/new-myaccount`;
+export const SPARTACUS_NEW_MYACCOUNT_ASSETS = `@spartacus/new-myaccount/assets`;
 
 export const SPARTACUS_DIGITAL_PAYMENTS = `@spartacus/digital-payments`;
 export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/assets`;
