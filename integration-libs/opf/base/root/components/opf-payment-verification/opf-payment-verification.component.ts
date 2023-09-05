@@ -39,7 +39,8 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
 
               return this.paymentService.runHostedFieldsPattern(
                 paymentSessionId,
-                this.vcr
+                this.vcr,
+                responseMap
               );
             } else {
               return this.paymentService

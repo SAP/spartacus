@@ -36,11 +36,15 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
 
   registerGlobalFunctions(
     paymentSessionId: string,
-    vcr?: ViewContainerRef
+    vcr: ViewContainerRef,
+    paramsMap?: Array<KeyValuePair>
   ): void {
     this.registerSubmit(paymentSessionId, vcr);
     this.registerSubmitComplete(paymentSessionId, vcr);
     this.registerSubmitCompleteRedirect(paymentSessionId, vcr);
+    if (paramsMap) {
+      this.registerGetRedirectParams(paramsMap);
+    }
     this._isGlobalServiceInit = true;
   }
 
@@ -87,6 +91,13 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         }
       })
       .unsubscribe();
+  }
+
+  protected registerGetRedirectParams(paramsMap: Array<KeyValuePair>): void {
+    const getRedirectParams: Array<KeyValuePair> = paramsMap;
+
+    this.getGlobalFunctionContainer().getRedirectParams = () =>
+      getRedirectParams;
   }
 
   protected registerSubmit(

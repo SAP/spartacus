@@ -32,6 +32,7 @@ export type MerchantCallback = (
 ) => void | Promise<void>;
 
 export interface GlobalOpfPaymentMethods {
+  getRedirectParams?(): Array<KeyValuePair>;
   submit?(options: {
     cartId: string;
     additionalData: Array<KeyValuePair>;

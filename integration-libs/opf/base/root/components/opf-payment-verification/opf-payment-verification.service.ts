@@ -25,10 +25,10 @@ import {
   OpfPaymenVerificationUrlInput,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
-  OpfResponseMapElement,
 } from '../../model';
 import {
   AfterRedirectDynamicScript,
+  KeyValuePair,
   OpfPaymentMetadata,
 } from '../../model/opf.model';
 import { OpfService } from '../../services';
@@ -54,7 +54,7 @@ export class OpfPaymentVerificationService {
     status: -1,
   };
 
-  getOpfResponseMap(params: Params): OpfResponseMapElement[] {
+  getOpfResponseMap(params: Params): Array<KeyValuePair> {
     if (!params) {
       return [];
     }
@@ -65,7 +65,7 @@ export class OpfPaymentVerificationService {
 
   findInOpfResponseMap(
     key: string,
-    list: OpfResponseMapElement[]
+    list: Array<KeyValuePair>
   ): string | undefined {
     return list.find((pair) => pair.key === key)?.value ?? undefined;
   }
@@ -75,7 +75,7 @@ export class OpfPaymentVerificationService {
 
   verifyResultUrl(route: ActivatedRoute): Observable<{
     paymentSessionId: string;
-    responseMap: OpfResponseMapElement[];
+    responseMap: Array<KeyValuePair>;
     afterRedirectScriptFlag: string | undefined;
   }> {
     return route?.routeConfig?.data?.cxRoute === 'paymentVerificationResult'
@@ -85,7 +85,7 @@ export class OpfPaymentVerificationService {
               return throwError(this.defaultError);
             }
 
-            const responseMap: OpfResponseMapElement[] =
+            const responseMap: Array<KeyValuePair> =
               this.getOpfResponseMap(params);
 
             const paymentSessionId = this.findInOpfResponseMap(
@@ -118,7 +118,7 @@ export class OpfPaymentVerificationService {
 
   verifyPayment(
     paymentSessionId: string,
-    responseMap: OpfResponseMapElement[]
+    responseMap: Array<KeyValuePair>
   ): Observable<boolean> {
     return this.opfCheckoutService
       .verifyPayment(paymentSessionId, {
@@ -189,9 +189,15 @@ export class OpfPaymentVerificationService {
 
   runHostedFieldsPattern(
     paymentSessionId: string,
-    vcr: ViewContainerRef
+    vcr: ViewContainerRef,
+    responseMap: Array<KeyValuePair>
   ): Observable<boolean> {
-    this.globalFunctionsService.registerGlobalFunctions(paymentSessionId, vcr);
+    console.log('vcr', vcr);
+    this.globalFunctionsService.registerGlobalFunctions(
+      paymentSessionId,
+      vcr,
+      responseMap
+    );
 
     return this.opfCheckoutService.afterRedirectScripts(paymentSessionId).pipe(
       concatMap((response) => {

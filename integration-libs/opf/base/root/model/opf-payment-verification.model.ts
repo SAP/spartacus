@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { KeyValuePair } from './opf.model';
+
 export interface OpfPaymentVerificationPayload {
-  responseMap: OpfResponseMapElement[];
+  responseMap: Array<KeyValuePair>;
 }
 
 export interface OpfResponseMapElement {

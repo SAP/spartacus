@@ -7,6 +7,7 @@
 import { Injectable, ViewContainerRef } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { OPF_BASE_FEATURE } from '../feature-name';
+import { KeyValuePair } from '../model/opf.model';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,8 @@ export abstract class OpfGlobalFunctionsFacade {
    */
   abstract registerGlobalFunctions(
     paymentSessionId: string,
-    vcr?: ViewContainerRef
+    vcr: ViewContainerRef,
+    responseMap?: Array<KeyValuePair>
   ): void;
 
   /**
