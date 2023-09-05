@@ -13,6 +13,29 @@
       <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
     </span>
   </button>
+  <button
+    *ngIf="!isRecording"
+    title="Start"
+    type="button"
+    class="cx-microphone"
+    (click)="startRecording()"
+  >
+    <span aria-hidden="true">
+      <cx-icon [type]="iconTypes.MICROPHONE"></cx-icon>
+    </span>
+  </button>
+  <button
+    *ngIf="isRecording"
+    title="Stop"
+    type="button"
+    class="cx-microphone-slash"
+    (click)="stopRecording()"
+  >
+    <span aria-hidden="true">
+      <cx-icon [type]="iconTypes.MICROPHONE_SLASH"></cx-icon>
+    </span>
+  </button>
+
   <cx-messaging
     [messageEvents$]="messageEvents$"
     [messagingConfigs]="messagingConfigs"

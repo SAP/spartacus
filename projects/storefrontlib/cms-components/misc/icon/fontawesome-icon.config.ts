@@ -44,6 +44,8 @@ export const fontawesomeIconConfig: IconConfig = {
       LIST: 'fas fa-bars',
       MASTER_CARD: 'fab fa-cc-mastercard',
       MESSAGE: 'fas fa-message',
+      MICROPHONE: 'fas fa-microphone',
+      MICROPHONE_SLASH: 'fas fa-microphone-slash',
       OFF: 'fas fa-toggle-off',
       ON: 'fas fa-toggle-on',
       ORDER: 'fas fa-clipboard-list',

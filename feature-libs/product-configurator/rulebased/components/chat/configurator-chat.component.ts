@@ -13,8 +13,9 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
-import { ConfiguratorChatGtpService } from '../../core';
 import { ChatGPT4 } from '../../core/model/chat-gpt-4.model';
+import { ConfiguratorChatGtpService } from '../../core/services/configurator-chat-gtp.service';
+import { ConfiguratorSpeechRecognitionService } from '../../core/services/configurator-speech-recognition.service';
 
 const DEFAULT_COMMENT_MAX_CHARS = 100000;
 const INIT_MSG = 'Hello - I need your assistance.';
@@ -30,6 +31,7 @@ export class ConfiguratorChatComponent {
   iconTypes = ICON_TYPE;
 
   showChat = false;
+  isRecording = false;
   messageHistory: MessageEvent[] = [];
 
   messageEvents$: BehaviorSubject<Array<MessageEvent>> = new BehaviorSubject(
@@ -37,7 +39,37 @@ export class ConfiguratorChatComponent {
   );
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
 
-  constructor(protected configuratorChatService: ConfiguratorChatGtpService) {}
+  constructor(
+    protected configuratorChatService: ConfiguratorChatGtpService,
+    protected configuratorSpeechRecognitionService: ConfiguratorSpeechRecognitionService
+  ) {
+    this.configuratorSpeechRecognitionService.init();
+  }
+
+  startRecording() {
+    this.isRecording = true;
+    this.configuratorSpeechRecognitionService.startRecording();
+  }
+
+  stopRecording() {
+    this.isRecording = false;
+    this.configuratorSpeechRecognitionService.stopRecording();
+    const recordedText =
+      this.configuratorSpeechRecognitionService.getRecordedText();
+    if (this.isNotEmpty(recordedText)) {
+      this.commentsComponent.form.get('message')?.setValue(recordedText);
+
+      // Add a delay before firing a message
+      setTimeout(() => {
+        this.onSend({ message: recordedText });
+      }, 1000);
+      this.configuratorSpeechRecognitionService.resetRecordedText();
+    }
+  }
+
+  protected isNotEmpty(value: string): boolean {
+    return value !== '';
+  }
 
   displayChat(): void {
     this.showChat = true;
@@ -80,7 +112,7 @@ export class ConfiguratorChatComponent {
     answer$
       .pipe(
         take(1),
-        tap((answer) => console.log('GTP answered: ',answer)),
+        tap((answer) => console.log('GTP answered: ', answer)),
         map((answer) => this.mapAnswerToMessageEvent(answer.content))
       )
       .subscribe((event) => {
