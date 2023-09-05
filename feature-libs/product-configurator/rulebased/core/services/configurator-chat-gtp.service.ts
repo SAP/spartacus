@@ -20,7 +20,7 @@ const START_MSG =
   'A configuration consists of list of Attributes. Each attribute is part of one Group and one Value can be selected.' +
   'Groups are identified by property description. Attributes are identified by property label. Values are identified by property valueDisplay.' +
   'When responding to the user please make suggestions which values to choose in natural language as well as in JSON format.' +
-  'The JSON should follow this format {"selections": [{ "attribute": { "name": name; "value": name } }]}". The JSON should be given at the end of the response starting with ##JSON##.' +
+  'The JSON should follow this format {"selections": [{ "attribute": { "name": name; "value": name } }]}". The JSON should be given at the end of the response starting with token ##JSON##.' +
   'Please only answer questions related to the product and the configuration and politely deny any other queries.'; //as well as json format.';
 
 /**
@@ -109,7 +109,7 @@ export class ConfiguratorChatGtpService {
         const messageWithoutJson =
           message.content.slice(0, jsonStart) +
           message.content.slice(jsonEnd + 1);
-        message.content = messageWithoutJson.replace(/```/g, '').replace(/##JSON##/g,'');
+        message.content = messageWithoutJson.replace(/```/g, '').replace(/##JSON##/g,'').replace(/in JSON format:/,'.');
       }
 
       return message;
