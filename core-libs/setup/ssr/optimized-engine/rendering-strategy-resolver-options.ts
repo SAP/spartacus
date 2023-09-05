@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 export interface RenderingStrategyResolverOptions {
   excludedUrls?: string[];
   excludedParams?: string[];
