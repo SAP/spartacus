@@ -14,8 +14,8 @@ declare var webkitSpeechRecognition: any;
 })
 export class ConfiguratorSpeechRecognitionService {
   speechRecognition = new webkitSpeechRecognition();
-  recordedText: string;
-  errorMsg: string;
+  recordedText = '';
+  errorMsg = '';
 
   init() {
     this.speechRecognition.lang = 'en-US';

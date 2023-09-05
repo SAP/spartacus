@@ -31,6 +31,7 @@ export class ConfiguratorChatComponent {
   iconTypes = ICON_TYPE;
 
   showChat = false;
+  isRecording = false;
   messageHistory: MessageEvent[] = [];
 
   messageEvents$: BehaviorSubject<Array<MessageEvent>> = new BehaviorSubject(
@@ -46,10 +47,12 @@ export class ConfiguratorChatComponent {
   }
 
   startRecording() {
+    this.isRecording = true;
     this.configuratorSpeechRecognitionService.startRecording();
   }
 
   stopRecording() {
+    this.isRecording = false;
     this.configuratorSpeechRecognitionService.stopRecording();
     const recordedText =
       this.configuratorSpeechRecognitionService.getRecordedText();
