@@ -11,6 +11,7 @@ import { HttpErrorModel } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { concatMap, map, tap } from 'rxjs/operators';
 
+import { TargetPage } from '../../model';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 @Component({
@@ -18,7 +19,8 @@ import { OpfPaymentVerificationService } from './opf-payment-verification.servic
   templateUrl: './opf-payment-verification.component.html',
 })
 export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
-  subscription?: Subscription;
+  protected subscription?: Subscription;
+  protected isHostedFiledPattern = false;
 
   constructor(
     protected route: ActivatedRoute,
@@ -33,23 +35,27 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
       .verifyResultUrl(this.route)
       .pipe(
         concatMap(
-          ({ paymentSessionId, responseMap, afterRedirectScriptFlag }) => {
+          ({
+            paymentSessionId,
+            paramsMap: paramsMap,
+            afterRedirectScriptFlag,
+          }) => {
             if (afterRedirectScriptFlag === 'true') {
-              console.log('flo1');
-
+              this.isHostedFiledPattern = true;
               return this.paymentService.runHostedFieldsPattern(
+                TargetPage.RESULT,
                 paymentSessionId,
                 this.vcr,
-                responseMap
+                paramsMap
               );
             } else {
               return this.paymentService
-                .verifyPayment(paymentSessionId, responseMap)
+                .verifyPayment(paymentSessionId, paramsMap)
                 .pipe(
                   concatMap(() => {
                     return this.paymentService.placeOrder();
                   }),
-                  map((order) => (order ? true : false)),
+                  map((order) => !!order),
                   tap((success: boolean) => {
                     if (success) {
                       this.onSuccess();
@@ -85,6 +91,10 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+
+    if (this.isHostedFiledPattern) {
+      this.paymentService.removeGlobalFunctions();
     }
   }
 }

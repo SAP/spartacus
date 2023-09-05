@@ -12,12 +12,14 @@ import {
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import {
+  GlobalFunctionsInput,
   GlobalOpfPaymentMethods,
   KeyValuePair,
   MerchantCallback,
   OpfGlobalFunctionsFacade,
   OpfPaymentFacade,
   PaymentMethod,
+  TargetPage,
 } from '@spartacus/opf/base/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -34,17 +36,31 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     protected launchDialogService: LaunchDialogService
   ) {}
 
-  registerGlobalFunctions(
-    paymentSessionId: string,
-    vcr: ViewContainerRef,
-    paramsMap?: Array<KeyValuePair>
-  ): void {
-    this.registerSubmit(paymentSessionId, vcr);
-    this.registerSubmitComplete(paymentSessionId, vcr);
-    this.registerSubmitCompleteRedirect(paymentSessionId, vcr);
-    if (paramsMap) {
-      this.registerGetRedirectParams(paramsMap);
+  registerGlobalFunctions({
+    targetPage,
+    paymentSessionId,
+    vcr,
+    paramsMap,
+  }: GlobalFunctionsInput): void {
+    switch (targetPage) {
+      case TargetPage.CHECKOUT_REVIEW:
+        this.registerSubmit(paymentSessionId, vcr);
+        this.registerSubmitComplete(paymentSessionId, vcr);
+        break;
+      case TargetPage.RESULT:
+        this.registerSubmitCompleteRedirect(paymentSessionId, vcr);
+        paramsMap && this.registerGetRedirectParams(paramsMap);
+        break;
+      default:
+        break;
     }
+
+    // this.registerSubmit(paymentSessionId, vcr);
+    // this.registerSubmitComplete(paymentSessionId, vcr);
+    // this.registerSubmitCompleteRedirect(paymentSessionId, vcr);
+    // if (paramsMap) {
+    //   this.registerGetRedirectParams(paramsMap);
+    // }
     this._isGlobalServiceInit = true;
   }
 

@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ViewContainerRef } from '@angular/core';
+
 export interface OpfRenderPaymentMethodEvent {
   isLoading: boolean;
   isError: boolean;
@@ -149,4 +151,16 @@ export interface AfterRedirectDynamicScriptResource {
 export enum AfterRedirectDynamicScriptResourceType {
   SCRIPT = 'SCRIPT',
   STYLES = 'STYLES',
+}
+
+export interface GlobalFunctionsInput {
+  paymentSessionId: string;
+  vcr?: ViewContainerRef;
+  paramsMap?: Array<KeyValuePair>;
+  targetPage: TargetPage;
+}
+
+export enum TargetPage {
+  CHECKOUT_REVIEW = 'CHECKOUT_REVIEW',
+  RESULT = 'RESULT',
 }

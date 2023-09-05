@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, ViewContainerRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { OPF_BASE_FEATURE } from '../feature-name';
-import { KeyValuePair } from '../model/opf.model';
+import { GlobalFunctionsInput } from '../model/opf.model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,11 +26,7 @@ export abstract class OpfGlobalFunctionsFacade {
    * @param {string} paymentSessionId
    * @param {ViewContainerRef} vcr
    */
-  abstract registerGlobalFunctions(
-    paymentSessionId: string,
-    vcr: ViewContainerRef,
-    responseMap?: Array<KeyValuePair>
-  ): void;
+  abstract registerGlobalFunctions(gfInput: GlobalFunctionsInput): void;
 
   /**
    * Abstract method to remove global functions used in Hosted-Fields pattern
