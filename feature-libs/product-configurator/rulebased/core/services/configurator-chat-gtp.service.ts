@@ -100,7 +100,7 @@ export class ConfiguratorChatGtpService {
       const splitted = message.content.split('**JSON**');
       if (splitted[1]) {
         try {
-          this.updateConfig(splitted[1].replaceAll('```', ''), config);
+          this.updateConfig(splitted[1].replace(/```/g, ''), config);
         } catch (error) {
           console.error('failed to apply config changes', error);
         }
