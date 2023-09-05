@@ -1194,7 +1194,7 @@ describe('OptimizedSsrEngine', () => {
               "maxRenderTime": 300000,
               "reuseCurrentRendering": true,
               "debug": false,
-              "renderingStrategyResolver": "(request) => {\\n    return shouldFallbackToCsr(request)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}",
+              "renderingStrategyResolver": "(request) => {\\n    return shouldFallbackToCsr(request, options)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}",
               "logger": true
             }
           }
@@ -1217,7 +1217,7 @@ describe('OptimizedSsrEngine', () => {
           "logger": "MockExpressServerLogger",
           "maxRenderTime": 300000,
           "renderingStrategyResolver": "(request) => {
-        return shouldFallbackToCsr(request)
+        return shouldFallbackToCsr(request, options)
             ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR
             : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
     }",
@@ -1239,7 +1239,7 @@ describe('OptimizedSsrEngine', () => {
           "maxRenderTime": 300000,
           "reuseCurrentRendering": true,
           "debug": false,
-          "renderingStrategyResolver": "(request) => {\\n    return shouldFallbackToCsr(request)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}"
+          "renderingStrategyResolver": "(request) => {\\n    return shouldFallbackToCsr(request, options)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}"
         }",
         ]
       `);
