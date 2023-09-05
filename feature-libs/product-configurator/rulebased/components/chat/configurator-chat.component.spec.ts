@@ -18,7 +18,7 @@ class MockConfiguratorChatGtpService {
   ask() {}
 }
 
-fdescribe('ConfiguratorChatComponent', () => {
+describe('ConfiguratorChatComponent', () => {
   let component: ConfiguratorChatComponent;
   let fixture: ComponentFixture<ConfiguratorChatComponent>;
   let configuratorChatService: ConfiguratorChatGtpService;
