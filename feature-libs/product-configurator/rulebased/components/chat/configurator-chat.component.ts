@@ -32,6 +32,7 @@ export class ConfiguratorChatComponent {
 
   showChat = false;
   isRecording = false;
+  isRecordingPossible = false;
   messageHistory: MessageEvent[] = [];
 
   messageEvents$: BehaviorSubject<Array<MessageEvent>> = new BehaviorSubject(
@@ -44,6 +45,7 @@ export class ConfiguratorChatComponent {
     protected configuratorSpeechRecognitionService: ConfiguratorSpeechRecognitionService
   ) {
     this.configuratorSpeechRecognitionService.init();
+    this.isRecordingPossible = configuratorSpeechRecognitionService.speechRecognitionActive;
   }
 
   startRecording() {

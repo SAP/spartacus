@@ -14,7 +14,7 @@
     </span>
   </button>
   <button
-    *ngIf="!isRecording"
+    *ngIf="!isRecording && isRecordingPossible"
     title="Start"
     type="button"
     class="cx-microphone"
@@ -25,7 +25,7 @@
     </span>
   </button>
   <button
-    *ngIf="isRecording"
+    *ngIf="isRecording && isRecordingPossible"
     title="Stop"
     type="button"
     class="cx-microphone-slash"

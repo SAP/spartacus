@@ -117,24 +117,28 @@ export class ConfiguratorChatGtpService {
     console.log('applying config changes', updates);
     updates.forEach((update) => {
       const attribute = this.findAttribute(update.attribute.name, config);
-      if (attribute) {
-        console.log('updating attribute', attribute);
-        this.configuratorCommonsService.updateConfiguration(
-          config.owner.key,
-          {
-            ...attribute,
-            selectedSingleValue: this.findValue(
-              update.attribute.value,
-              attribute
-            ),
-          },
-          Configurator.UpdateType.ATTRIBUTE
-        );
-      } else {
+      if (!attribute) {
         console.log(
           'attribute not found in config, attr name=' + update.attribute.name
         );
+        return;
       }
+      console.log('updating attribute', attribute);
+      if (attribute.uiType === Configurator.UiType.CHECKBOXLIST) {
+        console.log('updating multi valued attributes not ye supported...');
+        return;
+      }
+      this.configuratorCommonsService.updateConfiguration(
+        config.owner.key,
+        {
+          ...attribute,
+          selectedSingleValue: this.findValue(
+            update.attribute.value,
+            attribute
+          ),
+        },
+        Configurator.UpdateType.ATTRIBUTE
+      );
     });
   }
   protected findValue(

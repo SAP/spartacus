@@ -13,30 +13,37 @@ declare var webkitSpeechRecognition: any;
   providedIn: 'root',
 })
 export class ConfiguratorSpeechRecognitionService {
-  speechRecognition = new webkitSpeechRecognition();
+  speechRecognition: any;
   recordedText = '';
   errorMsg = '';
+  speechRecognitionActive = false;
 
   init() {
-    this.speechRecognition.lang = 'en-US';
-    this.speechRecognition.maxAlternatives = 5;
-    this.speechRecognition.interimResults = false;
+    this.speechRecognitionActive =
+      window.hasOwnProperty('SpeechRecognition') ||
+      window.hasOwnProperty('webkitSpeechRecognition');
+    if (this.speechRecognitionActive) {
+      this.speechRecognition = new webkitSpeechRecognition();
+      this.speechRecognition.lang = 'en-US';
+      this.speechRecognition.maxAlternatives = 5;
+      this.speechRecognition.interimResults = false;
 
-    this.speechRecognition.addEventListener('result', (event: any) => {
-      const transcript = event.results[0][0].transcript;
-      console.log(transcript);
-      this.recordedText = transcript;
-    });
+      this.speechRecognition.addEventListener('result', (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        console.log(transcript);
+        this.recordedText = transcript;
+      });
 
-    this.speechRecognition.addEventListener('nomatch', () => {
-      console.error('Speech not recognized');
-      this.errorMsg = "Please, repeat. I don't understand you";
-    });
+      this.speechRecognition.addEventListener('nomatch', () => {
+        console.error('Speech not recognized');
+        this.errorMsg = "Please, repeat. I don't understand you";
+      });
 
-    this.speechRecognition.addEventListener('error', (event: any) => {
-      console.error(`Speech recognition error detected: ${event.error}`);
-      this.errorMsg = "Please, repeat. I don't understand you";
-    });
+      this.speechRecognition.addEventListener('error', (event: any) => {
+        console.error(`Speech recognition error detected: ${event.error}`);
+        this.errorMsg = "Please, repeat. I don't understand you";
+      });
+    }
   }
 
   getErrorMsg(): string {
