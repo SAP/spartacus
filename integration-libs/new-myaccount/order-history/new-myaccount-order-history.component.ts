@@ -5,13 +5,12 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Images, RoutingService, TranslationService } from '@spartacus/core';
+import { RoutingService, TranslationService } from '@spartacus/core';
 import { OrderHistoryComponent } from '@spartacus/order/components';
 import {
   OrderHistoryFacade,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
-import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'cx-new-myaccount-order-history',
@@ -37,15 +36,7 @@ export class NewMyaccountOrderHistoryComponent extends OrderHistoryComponent {
       replenishmentOrderHistoryFacade
     );
     this.orders$.subscribe((orders) => {
-      console.log('Final: ', orders);
+      console.log(orders);
     });
-  }
-
-  convertToArrayOfObservables(images: Images[]): Observable<Images>[] {
-    let output: any = [];
-    for (let image of images) {
-      output.push(of(image));
-    }
-    return output;
   }
 }

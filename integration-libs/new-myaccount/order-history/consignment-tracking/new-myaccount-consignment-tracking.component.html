@@ -1,6 +1,9 @@
 <ng-container *ngIf="consignment && consignment.status">
   <div *ngIf="consignmentStatus.includes(consignment.status)">
-    <div *ngIf="consignmentTracking$ | async as consignmentTracking">
+    <div
+      class="cx-consignment-info"
+      *ngIf="consignmentTracking$ | async as consignmentTracking"
+    >
       {{ 'orderDetails.consignmentTracking.dialog.estimate' | cxTranslate }}:{{
         consignmentTracking?.targetArrivalDate | cxDate: 'medium'
       }}

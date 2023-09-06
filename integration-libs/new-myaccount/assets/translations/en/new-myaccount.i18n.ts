@@ -11,19 +11,19 @@ export const newMyAccount = {
     item: '{{param}} Item',
     items: '{{param}} Items',
     totalPrice: 'Total Price: {{param}}',
-    consignmentInfo: 'Consignment Details - ',
+    consignmentInfo: 'Consignment {{param}} - ',
     statusDate: 'Status Date: {{param}}',
     value: ': {{param}}',
     returned: 'Returned - ',
     returnProcessed: 'Return Processed',
     deliveryPointOfServiceDetails: {
-      itemsToBePickUp: 'Picked Up - ',
+      itemsToBePickUp: 'To Be Picked Up - ',
     },
     checkoutMode: {
-      deliveryEntries: 'Shipped - ',
+      deliveryEntries: 'To Be Shipped - ',
     },
     checkoutPickupInStore: {
-      heading: 'Picked Up - ',
+      heading: 'To Be Picked Up - ',
     },
   },
 };

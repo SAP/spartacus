@@ -97,7 +97,7 @@ export class NewMyaccountOrderHistoryAdapter extends OccOrderHistoryAdapter {
               if (orderDetail?.entries) {
                 for (let item of orderDetail?.entries) {
                   if (item.product?.images) {
-                    order.thumbnail.push(item.product?.images);
+                    order.thumbnail.push(of(item.product?.images));
                   }
                 }
               }

@@ -1,52 +1,104 @@
+@mixin draw-line {
+  display: block;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: var(--cx-color-light);
+  margin: 0 0 25px 0; //top-right-botton-left
+}
+@mixin round-bullet($color) {
+  display: inline-block;
+  content: "";
+  -webkit-border-radius: 16px;
+  border-radius: 16px;
+  height: 8px;
+  width: 8px;
+  margin-right: 0.5rem;
+  background-color: $color;
+}
+.cx-new-myaccount-order-history-header {
+  @include draw-line;
+  margin-bottom: 25px;
+}
 .cx-new-myaccount-order-history-body {
-  // display: flex;
-  // flex-wrap: wrap;
-  // justify-content: space-between;
-  // align-items: end;
-  // .cx-cdp-order-history-code {
-  //   width: 215px;
-  //   height: 30px;
-  //   font-family: 'Open Sans';
-  //   font-style: normal;
-  //   font-weight: 600;
-  //   font-size: 22px;
-  //   line-height: 30px;
-  //   text-decoration-line: underline;
-  //   color: #1672b7;
-  //   flex: none;
-  //   order: 0;
-  //   flex-grow: 0;
-  //   cursor: pointer;
-  // }
-  // .cx-cdp-order-info {
-  //   font-family: Open Sans;
-  //   font-size: 16px;
-  //   font-weight: 700;
-  //   line-height: 22px;
-  //   letter-spacing: 0em;
-  //   text-align: left;
-  //   font-family: Open Sans;
-  //   font-size: 16px;
-  //   font-weight: 400;
-  //   line-height: 22px;
-  //   text-align: left;
-  //   font-family: Open Sans;
-  //   font-size: 16px;
-  //   font-weight: 400;
-  //   line-height: 22px;
-  //   text-align: left;
-  //   white-space: nowrap;
-  // }
-  .cx-new-myaccount-order-images {
+  .cx-order-history-pagination {
+    // background-color: palevioletred;
+    // @include media-breakpoint-down(sm) {
+    //   margin: 0 auto;
+    // }
     display: flex;
-    flex-direction: row-reverse;
-    align-items: flex-end;
-    padding: 10px;
-    width: 88px;
-    height: 88px;
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    justify-content: space-between;
+    justify-content: flex-end;
+    padding: 1rem 0 1rem 0;
+    margin: 0;
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+    @include media-breakpoint-down(sm) {
+      margin: 0 auto;
+    }
+  }
+  .cx-each-order {
+    @include draw-line;
+    &:last-of-type {
+      border: none;
+    }
+  }
+
+  .cx-new-myaccount-order-history-code {
+    color: var(--cx-color-primary);
+    text-decoration: underline;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 16px; //gap between 'order # 1234' and 'Purchase Type: ... line'
+  }
+  .cx-new-myaccount-summary {
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 15px;
+  }
+  .cx-consolidated-order-info {
+    display: flex;
+    margin-top: 16px;
+    &:last-of-type {
+      margin-bottom: 20px; //space between last item and the ---- line
+    }
+    .cx-order-info {
+      width: 70%; // show 70% order info and 30% images
+      .cx-consignment-info {
+        font-size: 16px;
+        color: #6c7079;
+      }
+      .cx-green-bullet {
+        font-size: 18px;
+        &::before {
+          @include round-bullet(#38871f);
+        }
+      }
+      .cx-list-header {
+        @include media-breakpoint-down(sm) {
+          padding: 0;
+        }
+        .cx-list-status {
+          //margin: 0 0 0.5rem;
+          padding: 5px 30px;//15px 30px; //top right bottom left
+          background-color: var(--cx-color-background);
+          @include type('4');
+          font-weight: bold;
+        }
+      }
+      .cx-no-bullet {
+        font-size: 18px;
+      }
+      .cx-red-bullet {
+        font-size: 18px;
+        color: #db0002;
+        &::before {
+          @include round-bullet(#db0002);
+        }
+      }
+    }
+    .cx-order-item-images {
+      width: 30%; // show 70% order info and 30% images
+    }
   }
 }

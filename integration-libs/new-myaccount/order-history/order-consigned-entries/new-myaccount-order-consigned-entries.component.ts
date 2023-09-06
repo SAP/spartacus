@@ -26,4 +26,12 @@ export class NewMyaccountOrderConsignedEntriesComponent {
     }
     return length;
   }
+
+  consignmentNumber(code?: string) {
+    if (code) {
+     return code.split('_')[1];
+    } else {
+      return '';
+    }
+  }
 }

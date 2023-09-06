@@ -10,13 +10,13 @@ Consignment Status Date: Aug 31, 2023 | In Process | 1 Item
 Estimated Delivery: 25, September, 2023
 Tracking Number: 3411177 <no hyperlink, as no url present>
   -->
-  <div *ngIf="consignment">
-    {{ 'NewMyAccountOrderHistory.consignmentInfo' | cxTranslate }}
+  <div class="cx-consignment-info" *ngIf="consignment">
+    {{
+      'NewMyAccountOrderHistory.consignmentInfo'
+        | cxTranslate: { param: consignmentNumber(consignment?.code) }
+    }}
     <ng-container *ngIf="consignment.statusDate">
-      {{
-        'NewMyAccountOrderHistory.statusDate'
-          | cxTranslate: { param: consignment.statusDate | cxDate }
-      }}
+      {{ consignment.statusDate | cxDate: 'd, MMMM, yyyy' }}
       |
     </ng-container>
     <ng-container *ngIf="consignment.status">
