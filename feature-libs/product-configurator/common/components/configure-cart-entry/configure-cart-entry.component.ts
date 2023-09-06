@@ -38,7 +38,10 @@ export class ConfigureCartEntryComponent {
    * @returns - an owner type
    */
   getOwnerType(): CommonConfigurator.OwnerType {
-    if ((this.cartEntry.quoteCode || this.cartEntry.orderCode) && this.readOnly) {
+    if (
+      (this.cartEntry.quoteCode || this.cartEntry.orderCode) &&
+      this.readOnly
+    ) {
       if (!this.cartEntry.quoteCode) {
         return CommonConfigurator.OwnerType.ORDER_ENTRY;
       }
@@ -76,7 +79,10 @@ export class ConfigureCartEntryComponent {
    * @returns Document code if order or quote bound, undefined in other cases
    */
   protected getCode(): string | undefined {
-    if ((this.cartEntry.quoteCode || this.cartEntry.orderCode) && this.readOnly) {
+    if (
+      (this.cartEntry.quoteCode || this.cartEntry.orderCode) &&
+      this.readOnly
+    ) {
       if (!this.cartEntry.quoteCode) {
         return this.cartEntry.orderCode;
       }
