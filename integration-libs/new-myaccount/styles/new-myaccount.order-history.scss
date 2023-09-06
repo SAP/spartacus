@@ -7,7 +7,7 @@
 }
 @mixin round-bullet($color) {
   display: inline-block;
-  content: "";
+  content: '';
   -webkit-border-radius: 16px;
   border-radius: 16px;
   height: 8px;
@@ -80,7 +80,7 @@
         }
         .cx-list-status {
           //margin: 0 0 0.5rem;
-          padding: 5px 30px;//15px 30px; //top right bottom left
+          padding: 5px 30px; //15px 30px; //top right bottom left
           background-color: var(--cx-color-background);
           @include type('4');
           font-weight: bold;

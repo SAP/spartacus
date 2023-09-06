@@ -14,7 +14,8 @@ export const NEW_MYACCOUNT_FOLDER_NAME = 'new-myaccount';
 export const NEW_MYACCOUNT_MODULE_NAME = 'New-MyAccount';
 export const NEW_MYACCOUNT_MODULE = 'NewMyAccountModule';
 export const NEW_MYACCOUNT_TRANSLATIONS = 'newMyAccountTranslations';
-export const NEW_MYACCOUNT_TRANSLATION_CHUNKS_CONFIG = 'newMyAccountTranslationChunksConfig';
+export const NEW_MYACCOUNT_TRANSLATION_CHUNKS_CONFIG =
+  'newMyAccountTranslationChunksConfig';
 export const NEW_MYACCOUNT_SCSS_FILE_NAME = 'new-myaccount.scss';
 
 export const NEW_MYACCOUNT_SCHEMATICS_CONFIG: SchematicConfig = {
@@ -36,7 +37,7 @@ export const NEW_MYACCOUNT_SCHEMATICS_CONFIG: SchematicConfig = {
     importPath: SPARTACUS_NEW_MYACCOUNT_ASSETS,
   },
   styles: {
-    scssFileName: NEW_MYACCOUNT_SCSS_FILE_NAME,  //but so file exists with this name. should re-chec this
+    scssFileName: NEW_MYACCOUNT_SCSS_FILE_NAME, //but so file exists with this name. should re-chec this
     importStyle: SPARTACUS_NEW_MYACCOUNT,
   },
 };

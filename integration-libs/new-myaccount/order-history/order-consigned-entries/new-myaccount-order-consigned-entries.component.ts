@@ -29,7 +29,7 @@ export class NewMyaccountOrderConsignedEntriesComponent {
 
   consignmentNumber(code?: string) {
     if (code) {
-     return code.split('_')[1];
+      return code.split('_')[1];
     } else {
       return '';
     }

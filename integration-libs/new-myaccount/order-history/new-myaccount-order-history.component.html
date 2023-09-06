@@ -76,21 +76,21 @@
         <!--main content ending-->
 
         <!-- PAGINATION -->
+        <div
+          *ngIf="orderHistory.pagination!.totalPages"
+          class="cx-order-history-pagination"
+        >
           <div
-            *ngIf="orderHistory.pagination!.totalPages"
+            *ngIf="orderHistory.pagination!.totalPages > 1"
             class="cx-order-history-pagination"
           >
-            <div
-              *ngIf="orderHistory.pagination!.totalPages > 1"
-              class="cx-order-history-pagination"
-            >
-              <!-- !!!!!!!re-check this above div -->
-              <cx-pagination
-                [pagination]="orderHistory.pagination"
-                (viewPageEvent)="pageChange($event)"
-              ></cx-pagination>
-            </div>
+            <!-- !!!!!!!re-check this above div -->
+            <cx-pagination
+              [pagination]="orderHistory.pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
           </div>
+        </div>
       </ng-container>
 
       <!-- NO ORDER CONTAINER -->
