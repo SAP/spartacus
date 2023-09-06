@@ -26,36 +26,59 @@
     .cx-chat-container {
       padding-block-start: 1rem;
       padding-block-end: 1rem;
-    }
 
-    .close {
-      padding-inline-end: 17px;
-    }
+      .cx-buttons-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
 
-    cx-messaging {
-      .container {
-        min-height: 0px;
+        .cx-close,
+        .cx-microphone,
+        .cx-microphone-slash,
+        .cx-volume {
+          line-height: 1;
+          padding-inline-end: 10px;
+          font-size: var(--cx-font-size, 1.5rem);
+          font-weight: var(--cx-font-weight-bold);
+        }
+
+        .cx-close {
+          padding-inline-end: 17px;
+        }
+
+        .cx-ban {
+          color: var(--cx-color-danger);
+        }
+
+        button.cx-close,
+        button.cx-microphone,
+        button.cx-microphone-slash,
+        button.cx-volume {
+          border: 0;
+          background-color: transparent;
+        }
+
+        button.cx-close {
+          color: var(--cx-color-secondary);
+        }
+
+        button.cx-microphone,
+        button.cx-microphone-slash,
+        button.cx-volume {
+          color: var(--cx-color-primary);
+        }
       }
 
-      .cx-message-footer {
-        padding-inline-start: 0;
+      cx-messaging {
+        .container {
+          min-height: 0px;
+        }
+
+        .cx-message-footer {
+          padding-inline-start: 0;
+        }
       }
-    }
-
-    .cx-microphone,
-    .cx-microphone-slash {
-      float: right;
-      line-height: 1;
-      padding-inline-end: 15px;
-      font-size: var(--cx-font-size, 1.3rem);
-      font-weight: var(--cx-font-weight-bold);
-    }
-
-    button.cx-microphone,
-    button.cx-microphone-slash {
-      border: 0;
-      background-color: transparent;
-      color: var(--cx-color-primary);
     }
   }
 }

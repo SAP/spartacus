@@ -2,7 +2,7 @@ import { Component, Input, Type } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ConfiguratorChatComponent } from './configurator-chat.component';
-import { ConfiguratorSpeechRecognitionService } from '../../core/services/configurator-speech-recognition.service';
+import { ConfiguratorSpeechTextRecognitionService } from '../../core/services/configurator-speech-text-recognition.service';
 import { ConfiguratorChatGtpService } from '@spartacus/product-configurator/rulebased';
 
 @Component({
@@ -22,14 +22,14 @@ describe('ConfiguratorChatComponent', () => {
   let component: ConfiguratorChatComponent;
   let fixture: ComponentFixture<ConfiguratorChatComponent>;
   let configuratorChatService: ConfiguratorChatGtpService;
-  let configuratorSpeechRecognitionService: ConfiguratorSpeechRecognitionService;
+  let configuratorSpeechRecognitionService: ConfiguratorSpeechTextRecognitionService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ConfiguratorChatComponent, MockCxIconComponent],
         providers: [
-          ConfiguratorSpeechRecognitionService,
+          ConfiguratorSpeechTextRecognitionService,
           {
             provide: ConfiguratorChatGtpService,
             useClass: MockConfiguratorChatGtpService,
@@ -50,7 +50,7 @@ describe('ConfiguratorChatComponent', () => {
     spyOn(configuratorChatService, 'ask').and.stub();
 
     configuratorSpeechRecognitionService = TestBed.inject(
-      ConfiguratorSpeechRecognitionService as Type<ConfiguratorSpeechRecognitionService>
+      ConfiguratorSpeechTextRecognitionService as Type<ConfiguratorSpeechTextRecognitionService>
     );
     spyOn(configuratorSpeechRecognitionService, 'init').and.callThrough();
     spyOn(

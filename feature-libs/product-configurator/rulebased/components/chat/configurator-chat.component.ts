@@ -6,16 +6,22 @@
 
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import {
+  ConfiguratorRouter,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product-configurator/common';
+import {
   ICON_TYPE,
   MessageEvent,
   MessagingComponent,
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { ChatGPT4 } from '../../core/model/chat-gpt-4.model';
 import { ConfiguratorChatGtpService } from '../../core/services/configurator-chat-gtp.service';
-import { ConfiguratorSpeechRecognitionService } from '../../core/services/configurator-speech-recognition.service';
+import { ConfiguratorSpeechTextRecognitionService } from '../../core/services/configurator-speech-text-recognition.service';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorCommonsService } from '../../core';
 
 const DEFAULT_COMMENT_MAX_CHARS = 100000;
 const INIT_MSG = 'Hello - I need your assistance.';
@@ -31,8 +37,9 @@ export class ConfiguratorChatComponent {
   iconTypes = ICON_TYPE;
 
   showChat = false;
+  isVolume = false;
   isRecording = false;
-  isRecordingPossible = false;
+  isSpeechTextRecognitionActive = false;
   messageHistory: MessageEvent[] = [];
 
   messageEvents$: BehaviorSubject<Array<MessageEvent>> = new BehaviorSubject(
@@ -40,24 +47,40 @@ export class ConfiguratorChatComponent {
   );
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
 
+  routerData$: Observable<ConfiguratorRouter.Data> =
+    this.configRouterExtractorService.extractRouterData();
+
+  configuration$: Observable<Configurator.Configuration> =
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
+        )
+      );
+
   constructor(
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
+    protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorChatService: ConfiguratorChatGtpService,
-    protected configuratorSpeechRecognitionService: ConfiguratorSpeechRecognitionService
+    protected configuratorSpeechTextRecognitionService: ConfiguratorSpeechTextRecognitionService
   ) {
-    this.configuratorSpeechRecognitionService.init();
-    this.isRecordingPossible = configuratorSpeechRecognitionService.speechRecognitionActive;
+    this.configuratorSpeechTextRecognitionService.init();
+    this.isSpeechTextRecognitionActive =
+      configuratorSpeechTextRecognitionService.speechTextRecognitionActive;
   }
 
   startRecording() {
     this.isRecording = true;
-    this.configuratorSpeechRecognitionService.startRecording();
+    this.configuratorSpeechTextRecognitionService.startRecording();
   }
 
   stopRecording() {
     this.isRecording = false;
-    this.configuratorSpeechRecognitionService.stopRecording();
+    this.isVolume = true;
+    this.configuratorSpeechTextRecognitionService.stopRecording();
     const recordedText =
-      this.configuratorSpeechRecognitionService.getRecordedText();
+      this.configuratorSpeechTextRecognitionService.getRecordedText();
     if (this.isNotEmpty(recordedText)) {
       this.commentsComponent.form.get('message')?.setValue(recordedText);
 
@@ -65,7 +88,7 @@ export class ConfiguratorChatComponent {
       setTimeout(() => {
         this.onSend({ message: recordedText });
       }, 1000);
-      this.configuratorSpeechRecognitionService.resetRecordedText();
+      this.configuratorSpeechTextRecognitionService.resetRecordedText();
     }
   }
 
@@ -121,7 +144,30 @@ export class ConfiguratorChatComponent {
         this.messageHistory.pop(); // remove waiting message
         this.messageHistory.push(event);
         this.messageEvents$.next(this.messageHistory);
+        if (this.isVolume) {
+          // read the last message
+          this.configuratorSpeechTextRecognitionService.speak(event.text);
+        }
       });
+  }
+
+  startOrStopReading() {
+    if (this.isVolume) {
+      this.configuratorSpeechTextRecognitionService.cancel();
+      this.isVolume = false;
+    } else {
+      this.configuratorSpeechTextRecognitionService.speak(
+        this.messageHistory[this.messageHistory.length - 1].text
+      );
+      this.isVolume = true;
+    }
+  }
+
+  getVolumeTitle(): string {
+    if (this.isVolume) {
+      return 'Mute';
+    }
+    return 'Unmute';
   }
 
   protected mapAnswerToMessageEvent(answer: string): MessageEvent {

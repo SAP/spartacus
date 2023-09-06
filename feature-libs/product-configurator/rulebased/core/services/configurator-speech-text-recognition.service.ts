@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 declare var webkitSpeechRecognition: any;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConfiguratorSpeechTextRecognitionService {
   private static DEFAULT_LANGUAGE = 'en-US';
@@ -21,18 +21,17 @@ export class ConfiguratorSpeechTextRecognitionService {
   errorMsg = '';
   speechTextRecognitionActive = false;
 
-
   init() {
     this.speechTextRecognitionActive =
       window.hasOwnProperty('SpeechRecognition') ||
       window.hasOwnProperty('webkitSpeechRecognition') ||
-      window.hasOwnProperty('speechSynthesis')
-    ;
+      window.hasOwnProperty('speechSynthesis');
 
     if (this.speechTextRecognitionActive) {
       this.speechRecognition = new webkitSpeechRecognition();
       this.speechSynthesis = window.speechSynthesis;
-      this.speechRecognition.lang = ConfiguratorSpeechTextRecognitionService.DEFAULT_LANGUAGE;
+      this.speechRecognition.lang =
+        ConfiguratorSpeechTextRecognitionService.DEFAULT_LANGUAGE;
       this.speechRecognition.maxAlternatives = 5;
       this.speechRecognition.interimResults = false;
 
@@ -44,12 +43,12 @@ export class ConfiguratorSpeechTextRecognitionService {
 
       this.speechRecognition.addEventListener('nomatch', () => {
         console.error('Speech not recognized');
-        this.errorMsg = 'Please, repeat. I don\'t understand you';
+        this.errorMsg = "Please, repeat. I don't understand you";
       });
 
       this.speechRecognition.addEventListener('error', (event: any) => {
         console.error(`Speech recognition error detected: ${event.error}`);
-        this.errorMsg = 'Please, repeat. I don\'t understand you';
+        this.errorMsg = "Please, repeat. I don't understand you";
       });
     }
   }
@@ -79,13 +78,18 @@ export class ConfiguratorSpeechTextRecognitionService {
   private getVoice(): SpeechSynthesisVoice {
     return this.speechSynthesis
       .getVoices()
-      .find((voice:SpeechSynthesisVoice)  => voice.lang === ConfiguratorSpeechTextRecognitionService.DEFAULT_LANGUAGE);
+      .find(
+        (voice: SpeechSynthesisVoice) =>
+          voice.lang ===
+          ConfiguratorSpeechTextRecognitionService.DEFAULT_LANGUAGE
+      );
   }
 
   speak(message: string | undefined) {
     if (message) {
       const utterance = new SpeechSynthesisUtterance(message);
-      utterance.lang = ConfiguratorSpeechTextRecognitionService.DEFAULT_LANGUAGE;
+      utterance.lang =
+        ConfiguratorSpeechTextRecognitionService.DEFAULT_LANGUAGE;
       utterance.voice = this.getVoice();
 
       this.speechSynthesis.speak(utterance);

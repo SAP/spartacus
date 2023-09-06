@@ -109,7 +109,10 @@ export class ConfiguratorChatGtpService {
         const messageWithoutJson =
           message.content.slice(0, jsonStart) +
           message.content.slice(jsonEnd + 1);
-        message.content = messageWithoutJson.replace(/```/g, '').replace(/##JSON##/g,'').replace(/in JSON format:/,'.');
+        message.content = messageWithoutJson
+          .replace(/```/g, '')
+          .replace(/##JSON##/g, '')
+          .replace(/in JSON format:/, '.');
       }
 
       return message;

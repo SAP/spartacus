@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { ConfiguratorSpeechRecognitionService } from './configurator-speech-recognition.service';
+import { ConfiguratorSpeechTextRecognitionService } from './configurator-speech-text-recognition.service';
 
 describe('ConfiguratorSpeechRecognitionService', () => {
-  let classUnderTest: ConfiguratorSpeechRecognitionService;
+  let classUnderTest: ConfiguratorSpeechTextRecognitionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ConfiguratorSpeechRecognitionService],
+      providers: [ConfiguratorSpeechTextRecognitionService],
     });
-    classUnderTest = TestBed.inject(ConfiguratorSpeechRecognitionService);
+    classUnderTest = TestBed.inject(ConfiguratorSpeechTextRecognitionService);
     classUnderTest.init();
   });
 
