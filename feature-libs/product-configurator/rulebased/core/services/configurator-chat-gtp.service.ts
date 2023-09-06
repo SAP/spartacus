@@ -21,12 +21,13 @@ const START_MSG =
   'Attributes for which property isSingleSelection is true can have only one value, while others can have multiple values.' +
   'All objects are identified by property name.' +
   'When responding to the user please make suggestions which values to select in natural language as well as in JSON format.' +
-  'The JSON should follow this format {"selections": [{ "attribute": { "id": id; "values": [id] } }]}". The JSON should be given at the end of the response starting with token ##JSON##.' +
-  'Please only answer questions related to the product and the configuration and politely deny any other queries.'; //as well as json format.';
+  'The JSON should follow this format {"selections": [{ "attribute": { "id": "id", "values": ["id"] } }] }. ' +
+  'The JSON should be given at the end of the response starting with token ##JSON##.' +
+  'Please only answer questions related to the product and the configuration and politely deny any other queries.';
 
 type GtpUpdateResponse = {
   attribute: {
-    name: string;
+    id: string;
     values: [string];
   };
 };
@@ -79,9 +80,22 @@ export class ConfiguratorChatGtpService {
 
   protected callChatConnector() {
     return this.connector.ask(this.conversation).pipe(
-      tap((response) => console.log('Usage Data:', response.usage)),
+      tap((response) => this.handleTokenLimit(response.usage)),
       map((response) => response.choices[0].message)
     );
+  }
+
+  handleTokenLimit(usage: ChatGPT4.Usage): void {
+    console.log('current token usage: ', usage);
+    // very simple implementation, but should be sufficient in most cases
+    if (usage.total_tokens > (8 * 1024 * 0.75)) {
+      console.log(
+        'More than 75% of the 8K token limit consumed, dropping last message.'
+      );
+      this.conversation = [this.conversation[0]].concat(
+        this.conversation.slice(2)
+      );
+    }
   }
 
   protected addQuestionToConversation(question: string, context?: string) {
@@ -130,38 +144,39 @@ export class ConfiguratorChatGtpService {
   protected updateConfig(json: string, config: Configurator.Configuration) {
     console.log('attempting to parse json response from gtp \n' + json);
     const updates: {
-      selections: [{ attribute: { name: string; values: [string] } }];
+      selections: [GtpUpdateResponse];
     } = JSON.parse(json);
     console.log('applying config changes', updates);
     updates.selections.forEach((update) => {
-      const attribute = this.findAttribute(update.attribute.name, config);
+      const attribute = this.findAttribute(update.attribute.id, config);
       if (!attribute) {
         console.log(
-          'attribute not found in config, attr name=' + update.attribute.name
+          'attribute not found in config, attr name=' + update.attribute.id
         );
         return;
       }
-      console.log('updating attribute', attribute);
       if (this.mapper.isSingleValued(attribute.uiType)) {
-        this.updateMultiValuedAttribute(config.owner.key, attribute, update);
-      } else {
         this.updateSingleValuedAttribute(config.owner.key, attribute, update);
+      } else {
+        this.updateMultiValuedAttribute(config.owner.key, attribute, update);
       }
     });
   }
   updateMultiValuedAttribute(
     owner: string,
     attribute: Configurator.Attribute,
-    update: { attribute: { name: string; values: [string] } }
+    update: GtpUpdateResponse
   ) {
+    const values = this.calculateSelectedValues(
+      update.attribute.values,
+      attribute
+    );
+    console.log(`updating attribute ${attribute.name} to these values`, values);
     this.configuratorCommonsService.updateConfiguration(
       owner,
       {
         ...attribute,
-        values: this.calculateSelectedValues(
-          update.attribute.values,
-          attribute
-        ),
+        values: values,
       },
       Configurator.UpdateType.ATTRIBUTE
     );
@@ -171,12 +186,13 @@ export class ConfiguratorChatGtpService {
     attribute: Configurator.Attribute
   ): Configurator.Value[] {
     const values: Configurator.Value[] = [];
-    valueIds.forEach((valueId) => {
-      const value = this.findValue(valueId, attribute);
-      if (value) {
-        value.selected = true;
-        values.push(value);
-      }
+    attribute.values?.forEach((value) => {
+      const isSelected =
+        (!!value.name && valueIds.includes(value.name)) ||
+        (!!value.valueCode && valueIds.includes(value.valueCode)) ||
+        (!!value.valueDisplay && valueIds.includes(value.valueDisplay));
+
+      values.push({ ...value, selected: isSelected });
     });
     return values;
   }
@@ -190,6 +206,9 @@ export class ConfiguratorChatGtpService {
       update.attribute.values[0],
       attribute
     )?.name;
+    console.log(
+      `selecting ${selectedValueName} for attribute ${attribute.name}`
+    );
     this.configuratorCommonsService.updateConfiguration(
       owner,
       {

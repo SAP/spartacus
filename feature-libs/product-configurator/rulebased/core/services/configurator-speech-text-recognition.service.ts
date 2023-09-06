@@ -24,8 +24,8 @@ export class ConfiguratorSpeechTextRecognitionService {
   init() {
     this.speechTextRecognitionActive =
       window.hasOwnProperty('SpeechRecognition') ||
-      window.hasOwnProperty('webkitSpeechRecognition') ||
-      window.hasOwnProperty('speechSynthesis');
+      window.hasOwnProperty('webkitSpeechRecognition');
+      //window.hasOwnProperty('speechSynthesis');
 
     if (this.speechTextRecognitionActive) {
       this.speechRecognition = new webkitSpeechRecognition();

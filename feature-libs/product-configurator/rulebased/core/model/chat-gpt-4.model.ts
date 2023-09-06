@@ -62,7 +62,7 @@ export namespace ChatGPT4 {
   export interface Usage {
     completion_tokens: number;
     prompt_tokens: number;
-    total_tokens: Message;
+    total_tokens: number;
   }
 
   export enum Role {
