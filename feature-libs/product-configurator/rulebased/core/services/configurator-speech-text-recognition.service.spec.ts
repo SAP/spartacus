@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ConfiguratorSpeechTextRecognitionService } from './configurator-speech-text-recognition.service';
 
-describe('ConfiguratorSpeechRecognitionService', () => {
+describe('ConfiguratorSpeechTextRecognitionService', () => {
   let classUnderTest: ConfiguratorSpeechTextRecognitionService;
 
   beforeEach(() => {
