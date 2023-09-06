@@ -1,6 +1,8 @@
 import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  ActiveCartFacade,
+  Cart,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
 } from '@spartacus/cart/base/root';
@@ -20,6 +22,8 @@ import {
 } from '../../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import { QuoteDetailsCartComponent } from './quote-details-cart.component';
+import { QuoteDetailsCartComponentService } from './quote-details-cart.component.service';
+import { tap } from 'rxjs/operators';
 
 @Directive({
   selector: '[cxOutlet]',
@@ -43,18 +47,34 @@ const quote: Quote = {
   cartId: cartId,
   threshold: threshold,
   totalPrice: totalPrice,
+  isEditable: false,
+  entries: [{ entryNumber: 1 }],
 };
 
+const cart: Cart = {};
+
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(quote);
+const mockCart$ = new BehaviorSubject<Cart>(cart);
+let cartObsHasFired = false;
+let quoteObsHasFired = false;
 
 class MockQuoteFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<Quote> {
-    return mockQuoteDetails$.asObservable();
+    return mockQuoteDetails$
+      .asObservable()
+      .pipe(tap(() => (quoteObsHasFired = true)));
+  }
+}
+
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  getActive(): Observable<Cart> {
+    return mockCart$.asObservable().pipe(tap(() => (cartObsHasFired = true)));
   }
 }
 
 describe('QuoteDetailsCartComponent', () => {
   let mockedEventService: EventService;
+  let mockQuoteDetailsCartService: QuoteDetailsCartComponentService;
   let fixture: ComponentFixture<QuoteDetailsCartComponent>;
   let htmlElem: HTMLElement;
   let component: QuoteDetailsCartComponent;
@@ -71,8 +91,16 @@ describe('QuoteDetailsCartComponent', () => {
             useClass: MockQuoteFacade,
           },
           {
+            provide: ActiveCartFacade,
+            useClass: MockActiveCartFacade,
+          },
+          {
             provide: EventService,
             useValue: mockedEventService,
+          },
+          {
+            provide: QuoteDetailsCartComponentService,
+            useValue: mockQuoteDetailsCartService,
           },
         ],
       }).compileComponents();
@@ -84,6 +112,7 @@ describe('QuoteDetailsCartComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.showCart$ = of(true);
+    initEmitCounters();
     fixture.detectChanges();
   });
 
@@ -92,15 +121,43 @@ describe('QuoteDetailsCartComponent', () => {
       'get',
       'dispatch',
     ]);
+    mockQuoteDetailsCartService = jasmine.createSpyObj(
+      'quoteDetailsCartComponentService',
+      ['setQuoteEntriesExpanded', 'getQuoteEntriesExpanded']
+    );
     asSpy(mockedEventService.get).and.returnValue(EMPTY);
+    asSpy(mockQuoteDetailsCartService.getQuoteEntriesExpanded).and.returnValue(
+      true
+    );
   }
 
   function asSpy(f: any) {
     return <jasmine.Spy>f;
   }
 
+  function initEmitCounters() {
+    cartObsHasFired = false;
+    quoteObsHasFired = false;
+  }
+
   it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('Rendering', () => {
+    it('should request quote for the item list outlet in case quote is read-only', () => {
+      expect(quoteObsHasFired).toBe(true);
+      expect(cartObsHasFired).toBe(false);
+    });
+
+    it('should request cart for the item list outlet in case quote is editable', () => {
+      quote.isEditable = true;
+      initEmitCounters();
+      fixture.detectChanges();
+
+      expect(quoteObsHasFired).toBe(false);
+      expect(cartObsHasFired).toBe(true);
+    });
   });
 
   describe('Ghost animation', () => {
@@ -188,6 +245,22 @@ describe('QuoteDetailsCartComponent', () => {
         '.cx-ghost-action',
         5
       );
+    });
+  });
+
+  describe('onToggleShowOrHideCart', () => {
+    it('should call quoteDetailsCartComponentService correctly if argument is true', () => {
+      component.onToggleShowOrHideCart(true);
+      expect(
+        mockQuoteDetailsCartService.setQuoteEntriesExpanded
+      ).toHaveBeenCalledWith(false);
+    });
+
+    it('should call quoteDetailsCartComponentService correctly if argument is false', () => {
+      component.onToggleShowOrHideCart(false);
+      expect(
+        mockQuoteDetailsCartService.setQuoteEntriesExpanded
+      ).toHaveBeenCalledWith(true);
     });
   });
 

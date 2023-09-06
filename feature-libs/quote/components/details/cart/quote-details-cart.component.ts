@@ -5,7 +5,7 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CartEvent, CartOutlets } from '@spartacus/cart/base/root';
+import { CartEvent, CartOutlets, ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
 import {
   Quote,
@@ -22,6 +22,7 @@ import { QuoteDetailsCartComponentService } from './quote-details-cart.component
 })
 export class QuoteDetailsCartComponent implements OnInit, OnDestroy {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
+  cartDetails$: Observable<Cart> = this.actievCartFacade.getActive();
   showCart$ = this.quoteDetailsCartService.getQuoteEntriesExpanded();
   iconTypes = ICON_TYPE;
   readonly cartOutlets = CartOutlets;
@@ -29,6 +30,7 @@ export class QuoteDetailsCartComponent implements OnInit, OnDestroy {
 
   constructor(
     protected quoteFacade: QuoteFacade,
+    protected actievCartFacade: ActiveCartFacade,
     protected quoteDetailsCartService: QuoteDetailsCartComponentService,
     protected eventService: EventService
   ) {}
