@@ -72,7 +72,7 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
               )
             );
           this.form.controls.discount.addValidators([numberFormatValidator]);
-          const discountValue = quote.quoteDiscounts?.value ?? 0;
+          const discountValue = quote.quoteDiscounts?.value;
           if (discountValue) {
             this.form.controls.discount.setValue(
               localizationElements.formatter.format(discountValue)
