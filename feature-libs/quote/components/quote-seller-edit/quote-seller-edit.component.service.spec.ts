@@ -94,6 +94,20 @@ describe('QuoteSellerEditComponentService', () => {
         done();
       });
     });
+
+    it('should handle undefined discount value by returning 0', (done) => {
+      service.parseDiscountValue(undefined).subscribe((result) => {
+        expect(result).toBe(0);
+        done();
+      });
+    });
+
+    it('should handle null discount value by returning 0', (done) => {
+      service.parseDiscountValue(null).subscribe((result) => {
+        expect(result).toBe(0);
+        done();
+      });
+    });
   });
 
   describe('getFormatter', () => {
