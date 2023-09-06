@@ -1,44 +1,73 @@
-<div class="cx-container">
-  <cx-icon
-    *ngIf="!showChat"
-    class="cx-speech-bubble"
-    [type]="iconTypes.COMMENTS"
-    (click)="displayChat()"
-  >
-  </cx-icon>
-</div>
-<div *ngIf="showChat" class="cx-chat-container">
-  <button title="Close" type="button" class="close" (click)="hideChat()">
-    <span aria-hidden="true">
-      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-    </span>
-  </button>
-  <button
-    *ngIf="!isRecording && isRecordingPossible"
-    title="Start"
-    type="button"
-    class="cx-microphone"
-    (click)="startRecording()"
-  >
-    <span aria-hidden="true">
-      <cx-icon [type]="iconTypes.MICROPHONE"></cx-icon>
-    </span>
-  </button>
-  <button
-    *ngIf="isRecording && isRecordingPossible"
-    title="Stop"
-    type="button"
-    class="cx-microphone-slash"
-    (click)="stopRecording()"
-  >
-    <span aria-hidden="true">
-      <cx-icon [type]="iconTypes.MICROPHONE_SLASH"></cx-icon>
-    </span>
-  </button>
-
-  <cx-messaging
-    [messageEvents$]="messageEvents$"
-    [messagingConfigs]="messagingConfigs"
-    (send)="onSend($event)"
-  ></cx-messaging>
-</div>
+<ng-container *ngIf="configuration$ | async">
+  <div class="cx-container">
+    <cx-icon
+      *ngIf="!showChat"
+      class="cx-speech-bubble"
+      [type]="iconTypes.COMMENTS"
+      (click)="displayChat()"
+    >
+    </cx-icon>
+  </div>
+  <div *ngIf="showChat" class="cx-chat-container">
+    <div class="cx-buttons-container">
+      <ng-container *ngIf="isSpeechTextRecognitionActive">
+        <button
+          title="{{ getVolumeTitle() }}"
+          type="button"
+          class="cx-volume"
+          (click)="startOrStopReading()"
+        >
+          <span *ngIf="isVolume" aria-hidden="true">
+            <cx-icon [type]="iconTypes.VOLUME_OFF"></cx-icon>
+          </span>
+          <span
+            *ngIf="!isVolume"
+            class="fa-stack fa-2x small"
+            aria-hidden="true"
+          >
+            <cx-icon
+              class="fa-stack-1x fa-2x"
+              [type]="iconTypes.VOLUME_OFF"
+            ></cx-icon>
+            <cx-icon
+              class="cx-ban fa-stack-2x"
+              [type]="iconTypes.BAN"
+            ></cx-icon>
+          </span>
+        </button>
+        <button
+          *ngIf="!isRecording"
+          title="Mute your micro"
+          type="button"
+          class="cx-microphone"
+          (click)="startRecording()"
+        >
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.MICROPHONE"></cx-icon>
+          </span>
+        </button>
+        <button
+          *ngIf="isRecording"
+          title="Unmute your micro"
+          type="button"
+          class="cx-microphone-slash"
+          (click)="stopRecording()"
+        >
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.MICROPHONE_SLASH"></cx-icon>
+          </span>
+        </button>
+      </ng-container>
+      <button title="Close" type="button" class="cx-close" (click)="hideChat()">
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+    <cx-messaging
+      [messageEvents$]="messageEvents$"
+      [messagingConfigs]="messagingConfigs"
+      (send)="onSend($event)"
+    ></cx-messaging>
+  </div>
+</ng-container>

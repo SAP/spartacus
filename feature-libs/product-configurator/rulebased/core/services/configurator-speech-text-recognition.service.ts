@@ -12,19 +12,26 @@ declare var webkitSpeechRecognition: any;
 @Injectable({
   providedIn: 'root',
 })
-export class ConfiguratorSpeechRecognitionService {
+export class ConfiguratorSpeechTextRecognitionService {
+  private static DEFAULT_LANGUAGE = 'en-US';
+
   speechRecognition: any;
+  speechSynthesis: any;
   recordedText = '';
   errorMsg = '';
-  speechRecognitionActive = false;
+  speechTextRecognitionActive = false;
 
   init() {
-    this.speechRecognitionActive =
+    this.speechTextRecognitionActive =
       window.hasOwnProperty('SpeechRecognition') ||
-      window.hasOwnProperty('webkitSpeechRecognition');
-    if (this.speechRecognitionActive) {
+      window.hasOwnProperty('webkitSpeechRecognition') ||
+      window.hasOwnProperty('speechSynthesis');
+
+    if (this.speechTextRecognitionActive) {
       this.speechRecognition = new webkitSpeechRecognition();
-      this.speechRecognition.lang = 'en-US';
+      this.speechSynthesis = window.speechSynthesis;
+      this.speechRecognition.lang =
+        ConfiguratorSpeechTextRecognitionService.DEFAULT_LANGUAGE;
       this.speechRecognition.maxAlternatives = 5;
       this.speechRecognition.interimResults = false;
 
@@ -66,5 +73,30 @@ export class ConfiguratorSpeechRecognitionService {
   stopRecording() {
     console.log('Speech recognition ended');
     this.speechRecognition.stop();
+  }
+
+  private getVoice(): SpeechSynthesisVoice {
+    return this.speechSynthesis
+      .getVoices()
+      .find(
+        (voice: SpeechSynthesisVoice) =>
+          voice.lang ===
+          ConfiguratorSpeechTextRecognitionService.DEFAULT_LANGUAGE
+      );
+  }
+
+  speak(message: string | undefined) {
+    if (message) {
+      const utterance = new SpeechSynthesisUtterance(message);
+      utterance.lang =
+        ConfiguratorSpeechTextRecognitionService.DEFAULT_LANGUAGE;
+      utterance.voice = this.getVoice();
+
+      this.speechSynthesis.speak(utterance);
+    }
+  }
+
+  cancel() {
+    this.speechSynthesis.cancel();
   }
 }
