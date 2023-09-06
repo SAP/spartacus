@@ -377,10 +377,12 @@
       "@spartacus/epd-visualization/root": [
         "../../dist/epd-visualization/root"
       ],
-      "@spartacus/new-myaccount/assets": ["../../dist/new-myaccount/assets"],
-      "@spartacus/new-myaccount": ["../../dist/new-myaccount"],
-      "@spartacus/new-myaccount/order-history": [
-        "../../dist/new-myaccount/order-history"
+      "@spartacus/myaccount-enhanced-ui/assets": [
+        "../../dist/myaccount-enhanced-ui/assets"
+      ],
+      "@spartacus/myaccount-enhanced-ui": ["../../dist/myaccount-enhanced-ui"],
+      "@spartacus/myaccount-enhanced-ui/order-history": [
+        "../../dist/myaccount-enhanced-ui/order-history"
       ],
       "@spartacus/s4om/assets": ["../../dist/s4om/assets"],
       "@spartacus/s4om": ["../../dist/s4om"],

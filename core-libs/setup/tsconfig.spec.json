@@ -510,14 +510,14 @@
       "@spartacus/epd-visualization/root": [
         "../../integration-libs/epd-visualization/root/public_api"
       ],
-      "@spartacus/new-myaccount/assets": [
-        "../../integration-libs/new-myaccount/assets/public_api"
+      "@spartacus/myaccount-enhanced-ui/assets": [
+        "../../integration-libs/myaccount-enhanced-ui/assets/public_api"
       ],
-      "@spartacus/new-myaccount": [
-        "../../integration-libs/new-myaccount/public_api"
+      "@spartacus/myaccount-enhanced-ui": [
+        "../../integration-libs/myaccount-enhanced-ui/public_api"
       ],
-      "@spartacus/new-myaccount/order-history": [
-        "../../integration-libs/new-myaccount/order-history/public_api"
+      "@spartacus/myaccount-enhanced-ui/order-history": [
+        "../../integration-libs/myaccount-enhanced-ui/order-history/public_api"
       ],
       "@spartacus/s4om/assets": [
         "../../integration-libs/s4om/assets/public_api"

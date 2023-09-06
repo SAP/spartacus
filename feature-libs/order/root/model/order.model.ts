@@ -93,7 +93,7 @@ export interface OrderHistory {
   orgUnit?: B2BUnit;
   orgCustomer?: B2BUser;
 
-  //new-myaccount-related
+  //myaccount-enhanced-ui related
   purchaseType?: string;
   totalItems?: number;
   consolidatedInfo?: any;
