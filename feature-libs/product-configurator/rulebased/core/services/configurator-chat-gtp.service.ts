@@ -17,11 +17,19 @@ import { ConfiguratorChatGtpMapperService } from './configurator-chat-gpt-mapper
 const START_MSG =
   'You are an assistant designed to help with configuring a product based on the users wishes and needs. ' +
   'The current configuration state is provided along with the user messages in JSON format. ' +
-  'A configuration consists of list of Attributes. Each attribute is part of one Group and one Value can be selected.' +
-  'Groups are identified by property description. Attributes are identified by property label. Values are identified by property valueDisplay.' +
-  'When responding to the user please make suggestions which values to choose in natural language as well as in JSON format.' +
-  'The JSON should follow this format {"selections": [{ "attribute": { "name": name; "value": name } }]}". The JSON should be given at the end of the response starting with token ##JSON##.' +
+  'A configuration consists of list of Groups, which have Attributes. Each attribute has a list of selectable Values.' +
+  'Attributes for which property isSingleSelection is true can have only one value, while others can have multiple values.' +
+  'All objects are identified by property name.' +
+  'When responding to the user please make suggestions which values to select in natural language as well as in JSON format.' +
+  'The JSON should follow this format {"selections": [{ "attribute": { "id": id; "values": [id] } }]}". The JSON should be given at the end of the response starting with token ##JSON##.' +
   'Please only answer questions related to the product and the configuration and politely deny any other queries.'; //as well as json format.';
+
+type GtpUpdateResponse = {
+  attribute: {
+    name: string;
+    values: [string];
+  };
+};
 
 /**
  * Configurator chat-gpt sample implementation
@@ -109,7 +117,10 @@ export class ConfiguratorChatGtpService {
         const messageWithoutJson =
           message.content.slice(0, jsonStart) +
           message.content.slice(jsonEnd + 1);
-        message.content = messageWithoutJson.replace(/```/g, '').replace(/##JSON##/g,'').replace(/in JSON format:/,'.');
+        message.content = messageWithoutJson
+          .replace(/```/g, '')
+          .replace(/##JSON##/g, '')
+          .replace(/in JSON format:/, '.');
       }
 
       return message;
@@ -119,7 +130,7 @@ export class ConfiguratorChatGtpService {
   protected updateConfig(json: string, config: Configurator.Configuration) {
     console.log('attempting to parse json response from gtp \n' + json);
     const updates: {
-      selections: [{ attribute: { name: string; value: string } }];
+      selections: [{ attribute: { name: string; values: [string] } }];
     } = JSON.parse(json);
     console.log('applying config changes', updates);
     updates.selections.forEach((update) => {
@@ -131,32 +142,74 @@ export class ConfiguratorChatGtpService {
         return;
       }
       console.log('updating attribute', attribute);
-      if (attribute.uiType === Configurator.UiType.CHECKBOXLIST) {
-        console.log('updating multi valued attributes not ye supported...');
-        return;
+      if (this.mapper.isSingleValued(attribute.uiType)) {
+        this.updateMultiValuedAttribute(config.owner.key, attribute, update);
+      } else {
+        this.updateSingleValuedAttribute(config.owner.key, attribute, update);
       }
-      this.configuratorCommonsService.updateConfiguration(
-        config.owner.key,
-        {
-          ...attribute,
-          selectedSingleValue: this.findValue(
-            update.attribute.value,
-            attribute
-          ),
-        },
-        Configurator.UpdateType.ATTRIBUTE
-      );
     });
   }
+  updateMultiValuedAttribute(
+    owner: string,
+    attribute: Configurator.Attribute,
+    update: { attribute: { name: string; values: [string] } }
+  ) {
+    this.configuratorCommonsService.updateConfiguration(
+      owner,
+      {
+        ...attribute,
+        values: this.calculateSelectedValues(
+          update.attribute.values,
+          attribute
+        ),
+      },
+      Configurator.UpdateType.ATTRIBUTE
+    );
+  }
+  protected calculateSelectedValues(
+    valueIds: [string],
+    attribute: Configurator.Attribute
+  ): Configurator.Value[] {
+    const values: Configurator.Value[] = [];
+    valueIds.forEach((valueId) => {
+      const value = this.findValue(valueId, attribute);
+      if (value) {
+        value.selected = true;
+        values.push(value);
+      }
+    });
+    return values;
+  }
+
+  protected updateSingleValuedAttribute(
+    owner: string,
+    attribute: Configurator.Attribute,
+    update: GtpUpdateResponse
+  ) {
+    const selectedValueName = this.findValue(
+      update.attribute.values[0],
+      attribute
+    )?.name;
+    this.configuratorCommonsService.updateConfiguration(
+      owner,
+      {
+        ...attribute,
+        selectedSingleValue: selectedValueName,
+      },
+      Configurator.UpdateType.ATTRIBUTE
+    );
+  }
+
   protected findValue(
     valueName: string,
     attribute: Configurator.Attribute
-  ): string {
+  ): Configurator.Value | undefined {
     const value = attribute.values?.find(
       (value) => value.name === valueName || value.valueDisplay === valueName
     );
-    return value?.name ? value.name : valueName;
+    return value;
   }
+
   protected findAttribute(
     name: string,
     config: Configurator.Configuration

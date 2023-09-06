@@ -5,6 +5,25 @@
  */
 
 export namespace ChatGPT4 {
+  export interface Entity {
+    id: string;
+    name?: string;
+    description?: string;
+  }
+  export interface Group extends Entity {
+    attributes: Attribute[];
+  }
+  export interface Attribute extends Entity {
+    isSingleSelection: boolean;
+    isMandatory: boolean;
+    isReadOnly: boolean;
+    values: Value[];
+  }
+  export interface Value extends Entity {
+    price?: string;
+    isSelected: boolean;
+  }
+
   export interface Message {
     role: Role;
     content: string;
