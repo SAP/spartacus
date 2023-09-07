@@ -46,8 +46,8 @@ const FUNCTION_NAV_TO_GROUP: ChatGPT4.Function = {
 };
 
 type GtpSelection = {
-  id: string;
-  values: [string];
+  attribute_id: string;
+  value_ids: [string];
 };
 type GtpSelectionResponse = {
   selections: [GtpSelection];
@@ -64,19 +64,19 @@ const FUNCTION_SELECT_VALUES: ChatGPT4.Function = {
         description: 'list of selections',
         type: 'array',
         items: {
-          description: 'attribute',
-          required: ['id', 'values'],
+          description: 'attribute and its values that shall be selected',
+          required: ['attribute_id', 'value_ids'],
           type: 'object',
           properties: {
-            id: {
+            attribute_id: {
               type: 'string',
-              description: 'attribute id',
+              description: 'attribute id of the selection',
             },
-            values: {
-              description: 'list of value ids',
+            value_ids: {
+              description: 'list of value ids to be selected for this attribute',
               type: 'array',
               items: {
-                description: 'value id',
+                description: 'value id of the attribute',
                 type: 'string',
               },
             },
@@ -295,9 +295,9 @@ export class ConfiguratorChatGtpService {
   ) {
     console.log('applying config changes', updates);
     updates.selections.forEach((update) => {
-      const attribute = this.findAttribute(update.id, config);
+      const attribute = this.findAttribute(update.attribute_id, config);
       if (!attribute) {
-        console.log('attribute not found in config, attr name=' + update.id);
+        console.log('attribute not found in config, attr name=' + update.attribute_id);
         return;
       }
       if (this.mapper.isSingleValued(attribute.uiType)) {
@@ -313,7 +313,7 @@ export class ConfiguratorChatGtpService {
     attribute: Configurator.Attribute,
     update: GtpSelection
   ) {
-    const values = this.calculateSelectedValues(update.values, attribute);
+    const values = this.calculateSelectedValues(update.value_ids, attribute);
     console.log(`updating attribute ${attribute.name} to these values`, values);
     this.configuratorCommonsService.updateConfiguration(
       owner,
@@ -346,7 +346,7 @@ export class ConfiguratorChatGtpService {
     attribute: Configurator.Attribute,
     update: GtpSelection
   ) {
-    const selectedValueName = this.findValue(update.values[0], attribute)?.name;
+    const selectedValueName = this.findValue(update.value_ids[0], attribute)?.name;
     console.log(
       `selecting ${selectedValueName} for attribute ${attribute.name}`
     );
@@ -388,9 +388,9 @@ export class ConfiguratorChatGtpService {
     let currentValue;
     const lastUpdate = updates.selections.pop();
     if (lastUpdate) {
-      const currentAttr = this.findAttribute(lastUpdate.id, config);
+      const currentAttr = this.findAttribute(lastUpdate.attribute_id, config);
       if (currentAttr) {
-        currentValue = this.findValue(lastUpdate.values[0], currentAttr);
+        currentValue = this.findValue(lastUpdate.value_ids[0], currentAttr);
       }
     }
     return currentValue?.selected ?? true;
