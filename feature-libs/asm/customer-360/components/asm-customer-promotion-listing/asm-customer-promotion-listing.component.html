@@ -19,6 +19,21 @@
   ></cx-message>
 </div>
 <table class="cx-asm-customer-promotion-listing">
+  <caption class="cx-visually-hidden">
+    {{
+      headerText
+    }}
+  </caption>
+  <thead class="cx-visually-hidden">
+    <tr>
+      <th role="columnheader">
+        {{ 'customer360.promotions.headerName' | cxTranslate }}
+      </th>
+      <th role="columnheader">
+        {{ 'customer360.promotions.headerAction' | cxTranslate }}
+      </th>
+    </tr>
+  </thead>
   <ng-container *ngFor="let entry of entries">
     <tr class="cx-asm-customer-promotion-listing-row">
       <td>

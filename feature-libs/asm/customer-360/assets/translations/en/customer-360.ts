@@ -101,6 +101,8 @@ export const customer360 = {
       headerText: 'Promotions',
       emptyDescription: 'There are currently no promotions',
       applied: 'Promotion Applied',
+      headerName: 'Name',
+      headerAction: 'Action',
     },
     customerCoupons: {
       headerText: 'Customer Coupons',
