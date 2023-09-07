@@ -98,10 +98,14 @@ export class ConfiguratorChatComponent {
 
   displayChat(): void {
     this.showChat = true;
-    this.messageHistory.push(this.mapUserMessageToEvent(INIT_MSG));
-    this.messageHistory.push(this.mapAnswerToMessageEvent(WAIT_MSG));
-    this.messageEvents$.next(this.messageHistory);
-    this.handleAnswer(this.configuratorChatService.initConversation(INIT_MSG));
+    if (this.messageHistory.length === 0) {
+      this.messageHistory.push(this.mapUserMessageToEvent(INIT_MSG));
+      this.messageHistory.push(this.mapAnswerToMessageEvent(WAIT_MSG));
+      this.messageEvents$.next(this.messageHistory);
+      this.handleAnswer(
+        this.configuratorChatService.initConversation(INIT_MSG)
+      );
+    }
   }
 
   hideChat(): void {
