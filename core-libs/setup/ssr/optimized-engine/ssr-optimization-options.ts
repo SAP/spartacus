@@ -6,6 +6,8 @@
 
 import { Request } from 'express';
 import { ExpressServerLogger } from '../logger';
+import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
+import { defaultRenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
 
 export interface SsrOptimizationOptions {
   /**
@@ -54,7 +56,10 @@ export interface SsrOptimizationOptions {
   renderKeyResolver?: (req: Request) => string;
 
   /**
-   * Allows defining custom rendering strategy per request
+   * This function allows for the definition of a custom rendering strategy on a per-request basis.
+   * By default, we provide a defaultRenderingStrategyResolver,
+   * which has a default parameter defaultRenderingStrategyResolverOptions.
+   * This default option disables server-side rendering (SSR) on pages such as 'checkout' and 'my-account'.
    *
    * @param req
    */
@@ -139,6 +144,9 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   maxRenderTime: 300_000,
   reuseCurrentRendering: true,
   debug: false,
+  renderingStrategyResolver: defaultRenderingStrategyResolver(
+    defaultRenderingStrategyResolverOptions
+  ),
   //CXSPA-3680 - set ExpressServerLogger as default
   //logger: new ExpressServerLogger(),
 };
