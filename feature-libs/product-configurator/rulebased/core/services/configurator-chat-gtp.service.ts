@@ -22,7 +22,7 @@ const START_MSG =
   'All objects are identified by property name.' +
   'When responding to the user please make suggestions which values to select in natural language as well as in JSON format.' +
   'The JSON should follow this format {"selections": [{ "attribute": { "id": "id", "values": ["id"] } }] }. ' +
-  'The JSON should be given at the end of the response starting with token ##JSON##.' +
+  'The JSON should be given without any announcement at the end of the response. '+
   'Please only answer questions related to the product and the configuration and politely deny any other queries.';
 
 type GtpUpdateResponse = {
@@ -131,10 +131,7 @@ export class ConfiguratorChatGtpService {
         const messageWithoutJson =
           message.content.slice(0, jsonStart) +
           message.content.slice(jsonEnd + 1);
-        message.content = messageWithoutJson
-          .replace(/```/g, '')
-          .replace(/##JSON##/g, '')
-          .replace(/in JSON format:/, '.');
+        message.content = messageWithoutJson;
       }
 
       return message;
