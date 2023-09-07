@@ -22,7 +22,7 @@ const START_MSG =
   'All objects are identified by property name.' +
   'When responding to the user please make suggestions which values to select in natural language as well as in JSON format.' +
   'The JSON should follow this format {"selections": [{ "attribute": { "id": "id", "values": ["id"] } }] }. ' +
-  'The JSON should be given without any announcement at the end of the response. '+
+  'The JSON should be given without any announcement at the end of the response. ' +
   'Please only answer questions related to the product and the configuration and politely deny any other queries.';
 
 type GtpUpdateResponse = {
@@ -88,7 +88,7 @@ export class ConfiguratorChatGtpService {
   handleTokenLimit(usage: ChatGPT4.Usage): void {
     console.log('current token usage: ', usage);
     // very simple implementation, but should be sufficient in most cases
-    if (usage.total_tokens > (8 * 1024 * 0.75)) {
+    if (usage.total_tokens > 8 * 1024 * 0.75) {
       console.log(
         'More than 75% of the 8K token limit consumed, dropping last message.'
       );

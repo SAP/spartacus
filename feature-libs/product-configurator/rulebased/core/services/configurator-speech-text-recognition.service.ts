@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API
 declare var webkitSpeechRecognition: any;
@@ -17,17 +17,17 @@ export class ConfiguratorSpeechTextRecognitionService {
 
   speechRecognition: any;
   speechSynthesis: any;
-  recordedText = '';
-  errorMsg = '';
-  speechTextRecognitionActive = false;
+  isSupported = false;
+
+  recordedText: EventEmitter<string> = new EventEmitter();
+  errorMsg: EventEmitter<string> = new EventEmitter();
 
   init() {
-    this.speechTextRecognitionActive =
+    this.isSupported =
       window.hasOwnProperty('SpeechRecognition') ||
       window.hasOwnProperty('webkitSpeechRecognition');
-      //window.hasOwnProperty('speechSynthesis');
 
-    if (this.speechTextRecognitionActive) {
+    if (this.isSupported) {
       this.speechRecognition = new webkitSpeechRecognition();
       this.speechSynthesis = window.speechSynthesis;
       this.speechRecognition.lang =
@@ -38,31 +38,21 @@ export class ConfiguratorSpeechTextRecognitionService {
       this.speechRecognition.addEventListener('result', (event: any) => {
         const transcript = event.results[0][0].transcript;
         console.log(transcript);
-        this.recordedText = transcript;
+        this.recordedText.emit(transcript);
       });
 
       this.speechRecognition.addEventListener('nomatch', () => {
         console.error('Speech not recognized');
-        this.errorMsg = "Please, repeat. I don't understand you";
+        this.errorMsg.emit("Please, repeat again. I don't understand you.");
       });
 
       this.speechRecognition.addEventListener('error', (event: any) => {
         console.error(`Speech recognition error detected: ${event.error}`);
-        this.errorMsg = "Please, repeat. I don't understand you";
+        this.errorMsg.emit(
+          'Something went wrong. Could you repeat again what you have said?'
+        );
       });
     }
-  }
-
-  getErrorMsg(): string {
-    return this.errorMsg;
-  }
-
-  getRecordedText(): string {
-    return this.recordedText;
-  }
-
-  resetRecordedText() {
-    this.recordedText = '';
   }
 
   startRecording() {

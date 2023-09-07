@@ -53,7 +53,6 @@
 
         button.cx-close,
         button.cx-microphone,
-        button.cx-microphone-slash,
         button.cx-volume {
           border: 0;
           background-color: transparent;
@@ -64,7 +63,6 @@
         }
 
         button.cx-microphone,
-        button.cx-microphone-slash,
         button.cx-volume {
           color: var(--cx-color-primary);
         }

@@ -10,51 +10,36 @@
   </div>
   <div *ngIf="showChat" class="cx-chat-container">
     <div class="cx-buttons-container">
-      <ng-container *ngIf="isSpeechTextRecognitionActive">
+      <ng-container *ngIf="isSpeechTextRecognitionSupported">
         <button
           title="{{ getVolumeTitle() }}"
           type="button"
           class="cx-volume"
           (click)="startOrStopReading()"
         >
-          <span *ngIf="isVolume" aria-hidden="true">
-            <cx-icon [type]="iconTypes.VOLUME_OFF"></cx-icon>
-          </span>
           <span
-            *ngIf="!isVolume"
-            class="fa-stack fa-2x small"
+            [ngClass]="{ 'fa-stack fa-2x small': !isVolume }"
             aria-hidden="true"
           >
             <cx-icon
-              class="fa-stack-1x fa-2x"
+              [ngClass]="{ 'fa-stack-1x fa-2x': !isVolume }"
               [type]="iconTypes.VOLUME_OFF"
             ></cx-icon>
             <cx-icon
+              *ngIf="!isVolume"
               class="cx-ban fa-stack-2x"
               [type]="iconTypes.BAN"
             ></cx-icon>
           </span>
         </button>
         <button
-          *ngIf="!isRecording"
-          title="Mute your micro"
+          title="{{ getMicroTitle() }}"
           type="button"
           class="cx-microphone"
-          (click)="startRecording()"
+          (click)="startOrStopRecording()"
         >
           <span aria-hidden="true">
-            <cx-icon [type]="iconTypes.MICROPHONE"></cx-icon>
-          </span>
-        </button>
-        <button
-          *ngIf="isRecording"
-          title="Unmute your micro"
-          type="button"
-          class="cx-microphone-slash"
-          (click)="stopRecording()"
-        >
-          <span aria-hidden="true">
-            <cx-icon [type]="iconTypes.MICROPHONE_SLASH"></cx-icon>
+            <cx-icon [type]="getMicroIcon()"></cx-icon>
           </span>
         </button>
       </ng-container>
