@@ -18,7 +18,7 @@
               | async
           "
           [truncateText]="true"
-          [charactersLimit]="30"
+          [charactersLimit]="getCharactersLimitForCardTile()"
         ></cx-card>
         <button
           *ngIf="isQuoteInformationEditable(quoteDetails)"

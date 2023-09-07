@@ -14,6 +14,7 @@ import {
 
 export interface QuoteUIConfigFragment {
   maxCharsForComments?: number;
+  maxCharsForCardTile?: number;
   confirmActionDialogMapping?: ConfirmActionDialogMappingConfig;
 }
 
