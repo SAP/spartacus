@@ -41,6 +41,7 @@ export class ConfiguratorChatComponent {
   isVolume = false;
   isRecording = false;
   isSpeechTextRecognitionSupported = false;
+  recordedMessage: string;
   messageHistory: MessageEvent[] = [];
 
   messageEvents$: BehaviorSubject<Array<MessageEvent>> = new BehaviorSubject(
@@ -70,14 +71,16 @@ export class ConfiguratorChatComponent {
     this.isSpeechTextRecognitionSupported =
       configSpeechTextRecognitionService.isSupported;
 
-    this.configSpeechTextRecognitionService.errorMsg.subscribe((errorMsg) => {
-      this.globalMessageService.add(
-        {
-          key: errorMsg,
-        },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    });
+    this.configSpeechTextRecognitionService.errorMsg
+      .pipe(take(1))
+      .subscribe((errorMsg) => {
+        this.globalMessageService.add(
+          {
+            key: errorMsg,
+          },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
   }
 
   startOrStopRecording() {
@@ -97,8 +100,9 @@ export class ConfiguratorChatComponent {
     this.isRecording = false;
     this.isVolume = true;
     this.configSpeechTextRecognitionService.stopRecording();
-    this.configSpeechTextRecognitionService.recordedText.subscribe(
-      (recordedText) => {
+    this.configSpeechTextRecognitionService.recordedText
+      .pipe(take(1))
+      .subscribe((recordedText) => {
         console.log('recorded text: ' + recordedText);
         if (this.isNotEmpty(recordedText)) {
           this.commentsComponent.form.get('message')?.setValue(recordedText);
@@ -108,8 +112,7 @@ export class ConfiguratorChatComponent {
             this.onSend({ message: recordedText });
           }, 1000);
         }
-      }
-    );
+      });
   }
 
   protected isNotEmpty(value: string): boolean {
