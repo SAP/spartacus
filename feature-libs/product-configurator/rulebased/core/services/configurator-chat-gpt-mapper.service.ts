@@ -45,7 +45,7 @@ export class ConfiguratorChatGtpMapperService {
 
   protected mapGroup(group: Configurator.Group): ChatGPT4.Group {
     const gtpGroup: ChatGPT4.Group = {
-      id: group.name ?? group.id,
+      id: group.id,
       name: group.description,
       attributes: [],
     };

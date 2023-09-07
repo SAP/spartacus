@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+
 export namespace ChatGPT4 {
   export interface Entity {
     id: string;
@@ -26,7 +27,12 @@ export namespace ChatGPT4 {
 
   export interface Message {
     role: Role;
+    name?: string;
     content: string;
+    function_call?: {
+      name: string;
+      arguments: string;
+    };
   }
 
   export interface Request {
@@ -54,7 +60,7 @@ export namespace ChatGPT4 {
   }
 
   export interface Choice {
-    finish_reason: string;
+    finish_reason: FinishReason;
     index: number;
     message: Message;
   }
@@ -65,9 +71,24 @@ export namespace ChatGPT4 {
     total_tokens: number;
   }
 
+  export interface Function {
+    name: string;
+    description?: string;
+    parameters?: any;
+  }
+
+  export enum FinishReason {
+    STOP = 'stop',
+    CALL = 'function_call',
+    FILTER = 'content_filter',
+    API_IN_PROGRESS = 'null',
+    MAX_TOKEN_REACHED = 'length'
+  }
+
   export enum Role {
     USER = 'user',
     ASSISTANT = 'assistant',
     SYSTEM = 'system',
+    FUNCTION = 'function',
   }
 }
