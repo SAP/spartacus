@@ -9,7 +9,6 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
   QueryState,
   StateUtils,
   UserIdService,
@@ -37,6 +36,7 @@ let OWNER_CART_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_QUOTE_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_PRODUCT = ConfiguratorModelUtils.createInitialOwner();
+
 const CART_CODE = '0000009336';
 const CART_ENTRY_ID = '3';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
@@ -46,6 +46,7 @@ const ORDER_ENTRY_NUMBER = 2;
 const QUOTE_ENTRY_NUMBER = 4;
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
+const USER_ID = 'ab3f7a08-690a-4616-b1fe-4f0847fcb79f';
 
 const cart: Cart = {
   code: CART_CODE,
@@ -95,7 +96,7 @@ class MockCheckoutQueryFacade {
 
 class MockUserIdService {
   getUserId(): Observable<string> {
-    return of(OCC_USER_ID_ANONYMOUS);
+    return of(USER_ID);
   }
 }
 
@@ -197,7 +198,7 @@ describe('ConfiguratorCartService', () => {
           owner: OWNER_CART_ENTRY,
           cartEntryNumber: OWNER_CART_ENTRY.id,
           cartId: CART_GUID,
-          userId: OCC_USER_ID_ANONYMOUS,
+          userId: USER_ID,
         };
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
         {
@@ -307,7 +308,7 @@ describe('ConfiguratorCartService', () => {
           owner: OWNER_ORDER_ENTRY,
           orderEntryNumber: '' + ORDER_ENTRY_NUMBER,
           orderId: ORDER_ID,
-          userId: OCC_USER_ID_CURRENT,
+          userId: USER_ID,
         };
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
         {
@@ -357,7 +358,7 @@ describe('ConfiguratorCartService', () => {
     it('should dispatch ReadQuoteEntryConfiguration action in case configuration is not present so far', () => {
       const params: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
         {
-          userId: OCC_USER_ID_CURRENT,
+          userId: USER_ID,
           quoteId: QUOTE_ID,
           quoteEntryNumber: '' + QUOTE_ENTRY_NUMBER,
           owner: OWNER_QUOTE_ENTRY,
@@ -391,7 +392,7 @@ describe('ConfiguratorCartService', () => {
     it('should get cart, create addToCartParameters and call addToCart action without setting quantity', () => {
       const addToCartParams: Configurator.AddToCartParameters = {
         cartId: CART_GUID,
-        userId: OCC_USER_ID_ANONYMOUS,
+        userId: USER_ID,
         productCode: PRODUCT_CODE,
         quantity: 1,
         configId: CONFIG_ID,
@@ -410,7 +411,7 @@ describe('ConfiguratorCartService', () => {
     it('should get cart, create addToCartParameters and call addToCart action with setting quantity', () => {
       const addToCartParams: Configurator.AddToCartParameters = {
         cartId: CART_GUID,
-        userId: OCC_USER_ID_ANONYMOUS,
+        userId: USER_ID,
         productCode: PRODUCT_CODE,
         quantity: 100,
         configId: CONFIG_ID,
@@ -431,7 +432,7 @@ describe('ConfiguratorCartService', () => {
     it('should create updateParameters and call updateCartEntry action', () => {
       const params: Configurator.UpdateConfigurationForCartEntryParameters = {
         cartId: CART_GUID,
-        userId: OCC_USER_ID_ANONYMOUS,
+        userId: USER_ID,
         cartEntryNumber: productConfiguration.owner.id,
         configuration: productConfiguration,
       };

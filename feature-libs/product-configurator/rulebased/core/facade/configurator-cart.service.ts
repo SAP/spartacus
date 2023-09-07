@@ -8,11 +8,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
-import {
-  OCC_USER_ID_CURRENT,
-  StateUtils,
-  UserIdService,
-} from '@spartacus/core';
+import { StateUtils, UserIdService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -122,18 +118,23 @@ export class ConfiguratorCartService {
           const ownerIdParts = this.commonConfigUtilsService.decomposeOwnerId(
             owner.id
           );
-          const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
-            {
-              userId: OCC_USER_ID_CURRENT,
-              orderId: ownerIdParts.documentId,
-              orderEntryNumber: ownerIdParts.entryNumber,
-              owner: owner,
-            };
-          this.store.dispatch(
-            new ConfiguratorActions.ReadOrderEntryConfiguration(
-              readFromOrderEntryParameters
-            )
-          );
+          this.userIdService
+            .getUserId()
+            .pipe(take(1))
+            .subscribe((userId) => {
+              const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+                {
+                  userId: userId,
+                  orderId: ownerIdParts.documentId,
+                  orderEntryNumber: ownerIdParts.entryNumber,
+                  owner: owner,
+                };
+              this.store.dispatch(
+                new ConfiguratorActions.ReadOrderEntryConfiguration(
+                  readFromOrderEntryParameters
+                )
+              );
+            });
         }
       }),
       filter(
@@ -181,18 +182,23 @@ export class ConfiguratorCartService {
           const ownerIdParts = this.commonConfigUtilsService.decomposeOwnerId(
             owner.id
           );
-          const readFromQuoteEntryParameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
-            {
-              userId: OCC_USER_ID_CURRENT,
-              quoteId: ownerIdParts.documentId,
-              quoteEntryNumber: ownerIdParts.entryNumber,
-              owner: owner,
-            };
-          this.store.dispatch(
-            new ConfiguratorActions.ReadQuoteEntryConfiguration(
-              readFromQuoteEntryParameters
-            )
-          );
+          this.userIdService
+            .getUserId()
+            .pipe(take(1))
+            .subscribe((userId) => {
+              const readFromQuoteEntryParameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
+                {
+                  userId: userId,
+                  quoteId: ownerIdParts.documentId,
+                  quoteEntryNumber: ownerIdParts.entryNumber,
+                  owner: owner,
+                };
+              this.store.dispatch(
+                new ConfiguratorActions.ReadQuoteEntryConfiguration(
+                  readFromQuoteEntryParameters
+                )
+              );
+            });
         }
       }),
       filter(
