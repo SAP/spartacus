@@ -18,7 +18,7 @@ import {
 } from '../logger';
 import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
 import { RenderingCache } from './rendering-cache';
-import { getRequestContext } from './request-context';
+import { preprocessRequestForLogger } from './request-context';
 import {
   RenderingStrategy,
   SsrOptimizationOptions,
@@ -254,10 +254,7 @@ export class OptimizedSsrEngine {
     options: any,
     callback: SsrCallbackFn
   ): void {
-    // this.updateWithRequestContext(options);
-    options.req.res.locals = {
-      cx: { request: getRequestContext(options.req, this.logger) },
-    };
+    preprocessRequestForLogger(options.req, this.logger);
 
     const request: Request = options.req;
     const response: Response = options.req.res;
