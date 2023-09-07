@@ -13,7 +13,7 @@ export const environment: Environment = {
   cds: buildProcess.env.CX_CDS,
   b2b: buildProcess.env.CX_B2B,
   cdc: buildProcess.env.CX_CDC,
-  new_myAccount: buildProcess.env.CX_NEW_MYACCOUNT,
+  myAccountEnhancedUI: buildProcess.env.CX_MYACCOUNT_ENHANCED_UI,
   cpq: buildProcess.env.CX_CPQ,
   digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS,
   epdVisualization: buildProcess.env.CX_EPD_VISUALIZATION,

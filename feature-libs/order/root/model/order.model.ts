@@ -19,7 +19,6 @@ import {
   B2BUnit,
   B2BUser,
   CostCenter,
-  Images,
   PaginationModel,
   PointOfService,
   Price,
@@ -94,11 +93,11 @@ export interface OrderHistory {
   orgUnit?: B2BUnit;
   orgCustomer?: B2BUser;
 
-  //new-myaccount-related
+  //myaccount-enhanced-ui related
   purchaseType?: string;
   totalItems?: number;
   consolidatedInfo?: any;
-  thumbnail?: Images[];
+  thumbnail?: any[];
   pickupConsignments?: Consignment[];
   deliveryConsignments?: Consignment[];
   unconsignedEntries?: OrderEntry[];

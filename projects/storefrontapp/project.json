@@ -92,6 +92,10 @@
           {
             "input": "projects/storefrontapp/src/styles/lib-s4om.scss",
             "bundleName": "s4om"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-myaccount-enhanced-ui.scss",
+            "bundleName": "myaccount-enhanced-ui"
           }
         ],
         "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",

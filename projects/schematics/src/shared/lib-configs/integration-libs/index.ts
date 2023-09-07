@@ -5,7 +5,7 @@
  */
 
 export * from './cdc-schematics-config';
-export * from './new-myaccount-schematics-config';
+export * from './myaccount-enhanced-ui-schematics-config';
 export * from './cds-schematics-config';
 export * from './digital-payments-schematics-config';
 export * from './epd-schematics-config';

@@ -5,14 +5,14 @@
  */
 
 import { NgModule, Type } from '@angular/core';
-import { NewMyAccountOrderHistoryModule } from 'integration-libs/new-myaccount/order-history/public_api';
+import { OrderHistoryEnhancedUIModule } from '@spartacus/myaccount-enhanced-ui/order-history';
 import { OrderModule } from '@spartacus/order';
 import { environment } from '../../../../environments/environment';
 
 const extensions: Type<any>[] = [];
 
-if (environment.new_myAccount) {
-  extensions.push(NewMyAccountOrderHistoryModule);
+if (environment.myAccountEnhancedUI) {
+  extensions.push(OrderHistoryEnhancedUIModule);
 }
 @NgModule({
   imports: [OrderModule, ...extensions],
