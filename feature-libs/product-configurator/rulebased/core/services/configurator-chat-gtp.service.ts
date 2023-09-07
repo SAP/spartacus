@@ -16,24 +16,19 @@ import { Configurator } from '../model/configurator.model';
 import { ConfiguratorChatGtpMapperService } from './configurator-chat-gpt-mapper.service';
 
 const START_MSG =
-  'You are an assistant designed to help with configuring a product based on the users wishes and needs. ' +
-  'The current configuration state is provided along with the user messages in JSON format. ' +
+  'You are an assistant designed to help the user with configuring a product. ' +
   'A configuration consists of list of Groups, which have Attributes. Each attribute has a list of selectable Values.' +
   'Attributes for which property isSingleSelection is true can have only one value, while others can have multiple values.' +
-  'All objects are identified by property name.' +
+  'The configuration state of the current group is provided along with the user messages in JSON format. ' +
+  'The state of the other groups can be accessed by navigating to these groups. ' +
   'To complete a configuration navigate through each group and make selections for those attributes. ' +
-  'When responding to the user please make suggestions which values to select in natural language as well as in JSON format.' +
-  'The JSON should follow this format {"selections": [{ "attribute_id": "string", "value_ids": ["string"] } ] }. ' +
-  'The JSON should be given without any announcement at the end of the response. ' +
+  // 'When responding to the user please make suggestions which values to select in natural language as well as in JSON format.' +
+  // 'The JSON should follow this format {"selections": [{ "attribute_id": "string", "value_ids": ["string"] } ] }. ' +
+  // 'The JSON should be given without any announcement at the end of the response. ' +
+  'Please help the user with selecting the attribute values based on his wishes and needs. ' +
   'Please only answer questions related to the product and the configuration and politely deny any other queries.';
 
-type GtpSelection = {
-  attribute_id: string;
-  value_ids: [string];
-};
-type GtpSelectionResponse = {
-  selections: [GtpSelection];
-};
+type GtpGroupResponse = { groupId: string };
 
 const FUNCTION_NAV_TO_GROUP: ChatGPT4.Function = {
   name: 'navaigate-to-group',
@@ -47,6 +42,48 @@ const FUNCTION_NAV_TO_GROUP: ChatGPT4.Function = {
       },
     },
     required: ['groupId'],
+  },
+};
+
+type GtpSelection = {
+  id: string;
+  values: [string];
+};
+type GtpSelectionResponse = {
+  selections: [GtpSelection];
+};
+
+const FUNCTION_SELECT_VALUES: ChatGPT4.Function = {
+  name: 'select-attribute-values',
+  description: 'Applies the given values to the given attributes',
+  parameters: {
+    type: 'object',
+    required: ['selections'],
+    properties: {
+      selections: {
+        description: 'list of selections',
+        type: 'array',
+        items: {
+          description: 'attribute',
+          required: ['id', 'values'],
+          type: 'object',
+          properties: {
+            id: {
+              type: 'string',
+              description: 'attribute id',
+            },
+            values: {
+              description: 'list of value ids',
+              type: 'array',
+              items: {
+                description: 'value id',
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
+    },
   },
 };
 
@@ -74,7 +111,10 @@ export class ConfiguratorChatGtpService {
         )
       );
   private conversation: ChatGPT4.Message[];
-  private functions: ChatGPT4.Function[] = [FUNCTION_NAV_TO_GROUP];
+  private functions: ChatGPT4.Function[] = [
+    FUNCTION_NAV_TO_GROUP,
+    FUNCTION_SELECT_VALUES,
+  ];
 
   public initConversation(
     initialUserMessage: string
@@ -85,17 +125,26 @@ export class ConfiguratorChatGtpService {
   }
 
   public ask(question: string): Observable<ChatGPT4.Message> {
-    return this.configuration$.pipe(
-      take(1),
-      switchMap((config) => {
-        this.addQuestionToConversation(question, config);
-        return this.callChatConnector(config).pipe(
-          map((response) => response.choices[0].message),
-          map((message) => this.handleConfigChanges(message, config)),
-          tap((message) => this.conversation.push(message))
-        );
-      })
-    );
+    try {
+      return this.configuration$.pipe(
+        take(1),
+        switchMap((config) => {
+          this.addQuestionToConversation(question, config);
+          return this.callChatConnector(config).pipe(
+            map((response) => response.choices[0].message),
+            //map((message) => this.handleConfigChanges(message, config)),
+            tap((message) => this.conversation.push(message))
+          );
+        })
+      );
+    } catch (error) {
+      console.error(error);
+      return of({
+        role: ChatGPT4.Role.ASSISTANT,
+        content:
+          'Sorry I was not able to handle your request - please try again',
+      });
+    }
   }
 
   protected callChatConnector(
@@ -107,47 +156,95 @@ export class ConfiguratorChatGtpService {
     );
   }
 
+  protected addQuestionToConversation(
+    question: string,
+    config?: Configurator.Configuration
+  ) {
+    const context = config
+      ? '\ncurrent configuration in json format:\n' +
+        this.mapper.serializeConfiguration(config)
+      : '';
+
+    const message: ChatGPT4.Message = {
+      role: ChatGPT4.Role.USER,
+      content: question + context,
+    };
+
+    this.conversation.push(message);
+  }
+
+  addFunctionResultToConversation(
+    functionName: string,
+    config?: Configurator.Configuration
+  ) {
+    const context = config
+      ? '\ncurrent configuration in json format:\n' +
+        this.mapper.serializeConfiguration(config)
+      : 'the function was executed';
+
+    let message: ChatGPT4.Message;
+    message = {
+      role: ChatGPT4.Role.FUNCTION,
+      name: functionName,
+      content: context,
+    };
+
+    this.conversation.push(message);
+  }
+
+  protected addSystemMessage() {
+    const questionMessage = {
+      role: ChatGPT4.Role.SYSTEM,
+      content: START_MSG,
+    };
+    this.conversation.push(questionMessage);
+  }
+
   protected handleFunctionCall(
     response: ChatGPT4.Response,
     config: Configurator.Configuration
   ): Observable<ChatGPT4.Response> {
-    if (
-      response.choices[0].finish_reason === ChatGPT4.FinishReason.CALL &&
-      response.choices[0].message.function_call
-    ) {
+    if (response.choices[0].finish_reason === ChatGPT4.FinishReason.CALL) {
       const message = response.choices[0].message;
       if (!message.function_call) {
         console.log(message);
-        throw new Error('function call response missing in message');
+        throw new Error('function call missing in message');
       }
       console.log('GTP wants to call a function', message.function_call);
       switch (message.function_call.name) {
         case FUNCTION_NAV_TO_GROUP.name:
-          const arg: { groupId: string } = JSON.parse(
-            message.function_call.arguments
-          );
-          this.configuratorGroupService.navigateToGroup(config, arg.groupId);
-          return this.configuration$.pipe(
-            filter(
-              (config) =>
-                (config.flatGroups.find((group) => group.id === arg.groupId)
-                  ?.attributes?.length ?? 0) > 0
-            ),
-            take(1),
-            tap((newConfig) =>
-              this.addFunctionResultToConversation(
-                FUNCTION_NAV_TO_GROUP.name,
-                newConfig
-              )
-            ),
-            switchMap((newConfig) => this.callChatConnector(newConfig))
-          );
+          return this.triggerGroupNavigation(message.function_call, config);
+        case FUNCTION_SELECT_VALUES.name:
+          return this.handleConfigChanges(message.function_call, config);
         default:
           console.log(`function ${message.function_call} is unknown!`);
           return of(response);
       }
     }
     return of(response);
+  }
+
+  protected triggerGroupNavigation(
+    functionCall: ChatGPT4.FunctionCall,
+    config: Configurator.Configuration
+  ): Observable<ChatGPT4.Response> {
+    const arg: GtpGroupResponse = JSON.parse(functionCall.arguments);
+    this.configuratorGroupService.navigateToGroup(config, arg.groupId);
+    return this.configuration$.pipe(
+      filter(
+        (config) =>
+          (config.flatGroups.find((group) => group.id === arg.groupId)
+            ?.attributes?.length ?? 0) > 0
+      ),
+      take(1),
+      tap((newConfig) =>
+        this.addFunctionResultToConversation(
+          FUNCTION_NAV_TO_GROUP.name,
+          newConfig
+        )
+      ),
+      switchMap((newConfig) => this.callChatConnector(newConfig))
+    );
   }
 
   handleTokenLimit(usage: ChatGPT4.Usage): void {
@@ -163,92 +260,44 @@ export class ConfiguratorChatGtpService {
     }
   }
 
-  protected addQuestionToConversation(
-    question: string,
-    config?: Configurator.Configuration
-  ) {
-    this.addToConversationWithContext(question, ChatGPT4.Role.USER, config);
-  }
-
-  protected addToConversationWithContext(
-    question: string,
-    role: ChatGPT4.Role,
-    config?: Configurator.Configuration
-  ) {
-    const context = config
-      ? '\ncurrent configuration in json format:\n' +
-        this.mapper.serializeConfiguration(config)
-      : '';
-
-    let message: ChatGPT4.Message;
-    if (role === ChatGPT4.Role.FUNCTION) {
-      message = {
-        role: role,
-        name: question,
-        content: context ?? '',
-      };
-    } else {
-      message = {
-        role: role,
-        content: question + context,
-      };
-    }
-    this.conversation.push(message);
-  }
-
-  addFunctionResultToConversation(
-    functionName: string,
-    config: Configurator.Configuration
-  ) {
-    this.addToConversationWithContext(
-      functionName,
-      ChatGPT4.Role.FUNCTION,
-      config
-    );
-  }
-
-  protected addSystemMessage() {
-    const questionMessage = {
-      role: ChatGPT4.Role.SYSTEM,
-      content: START_MSG,
-    };
-    this.conversation.push(questionMessage);
-  }
-
   protected handleConfigChanges(
-    message: ChatGPT4.Message,
+    functionCall: ChatGPT4.FunctionCall,
     config: Configurator.Configuration
-  ): ChatGPT4.Message {
+  ): Observable<ChatGPT4.Response> {
     {
-      const jsonStart = message.content.indexOf('{');
-      const jsonEnd = message.content.lastIndexOf('}');
-      if (jsonStart >= 0 && jsonEnd >= 0) {
-        const jsonStr = message.content.slice(jsonStart, jsonEnd + 1);
-        try {
-          this.updateConfig(jsonStr, config);
-        } catch (error) {
-          console.error('failed to apply config changes', error);
-        }
-        const messageWithoutJson =
-          message.content.slice(0, jsonStart) +
-          message.content.slice(jsonEnd + 1);
-        message.content = messageWithoutJson;
-      }
+      let updates: GtpSelectionResponse;
 
-      return message;
+      console.log(
+        'attempting to parse json response from gtp \n' + functionCall.arguments
+      );
+      updates = JSON.parse(functionCall.arguments);
+      this.updateConfig(updates, config);
+
+      return this.configuration$.pipe(
+        // better would be to check that there are no pending updates
+        // so we can also handle cases were the updates failed properly.
+        filter((config) => this.isLastUpdateApplied(updates, config)),
+        take(1),
+        tap((newConfig) =>
+          this.addFunctionResultToConversation(
+            FUNCTION_SELECT_VALUES.name,
+            newConfig
+          )
+        ),
+        switchMap((newConfig) => this.callChatConnector(newConfig))
+      );
     }
   }
 
-  protected updateConfig(json: string, config: Configurator.Configuration) {
-    console.log('attempting to parse json response from gtp \n' + json);
-    const updates: GtpSelectionResponse = JSON.parse(json);
+  protected updateConfig(
+    updates: GtpSelectionResponse,
+    config: Configurator.Configuration
+  ) {
     console.log('applying config changes', updates);
     updates.selections.forEach((update) => {
-      const attribute = this.findAttribute(update.attribute_id, config);
+      const attribute = this.findAttribute(update.id, config);
       if (!attribute) {
-        console.log(
-          'attribute not found in config, attr name=' + update.attribute_id
-        );
+        console.log('attribute not found in config, attr name=' + update.id);
         return;
       }
       if (this.mapper.isSingleValued(attribute.uiType)) {
@@ -258,12 +307,13 @@ export class ConfiguratorChatGtpService {
       }
     });
   }
+
   updateMultiValuedAttribute(
     owner: string,
     attribute: Configurator.Attribute,
     update: GtpSelection
   ) {
-    const values = this.calculateSelectedValues(update.value_ids, attribute);
+    const values = this.calculateSelectedValues(update.values, attribute);
     console.log(`updating attribute ${attribute.name} to these values`, values);
     this.configuratorCommonsService.updateConfiguration(
       owner,
@@ -274,6 +324,7 @@ export class ConfiguratorChatGtpService {
       Configurator.UpdateType.ATTRIBUTE
     );
   }
+
   protected calculateSelectedValues(
     valueIds: [string],
     attribute: Configurator.Attribute
@@ -295,7 +346,7 @@ export class ConfiguratorChatGtpService {
     attribute: Configurator.Attribute,
     update: GtpSelection
   ) {
-    const selectedValueName = this.findValue(update.value_ids[0], attribute)?.name;
+    const selectedValueName = this.findValue(update.values[0], attribute)?.name;
     console.log(
       `selecting ${selectedValueName} for attribute ${attribute.name}`
     );
@@ -328,5 +379,20 @@ export class ConfiguratorChatGtpService {
       .find(
         (attribute) => attribute?.name === name || attribute?.label === name
       );
+  }
+
+  protected isLastUpdateApplied(
+    updates: GtpSelectionResponse,
+    config: Configurator.Configuration
+  ) {
+    let currentValue;
+    const lastUpdate = updates.selections.pop();
+    if (lastUpdate) {
+      const currentAttr = this.findAttribute(lastUpdate.id, config);
+      if (currentAttr) {
+        currentValue = this.findValue(lastUpdate.values[0], currentAttr);
+      }
+    }
+    return currentValue?.selected ?? true;
   }
 }
