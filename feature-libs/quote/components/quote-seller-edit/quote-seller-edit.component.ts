@@ -43,6 +43,7 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
   });
 
   iconType = ICON_TYPE;
+  discountPlaceholder: string;
 
   protected subscription: Subscription = new Subscription();
 
@@ -61,6 +62,7 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
       ])
         .pipe(take(1))
         .subscribe(([localizationElements, quote]) => {
+          this.discountPlaceholder = localizationElements.currencySymbol;
           const numberFormatValidator =
             this.quoteSellerEditComponentService.getNumberFormatValidator(
               localizationElements.locale,
@@ -70,11 +72,12 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
               )
             );
           this.form.controls.discount.addValidators([numberFormatValidator]);
-          this.form.controls.discount.setValue(
-            localizationElements.formatter.format(
-              quote.quoteDiscounts?.value ?? 0
-            )
-          );
+          const discountValue = quote.quoteDiscounts?.value;
+          if (discountValue) {
+            this.form.controls.discount.setValue(
+              localizationElements.formatter.format(discountValue)
+            );
+          }
           this.form.controls.validityDate.setValue(
             this.quoteSellerEditComponentService.removeTimeFromDate(
               quote.expirationTime?.toString()
