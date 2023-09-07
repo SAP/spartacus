@@ -5,7 +5,12 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CartEvent, CartOutlets, ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import {
+  CartEvent,
+  CartOutlets,
+  ActiveCartFacade,
+  Cart,
+} from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
 import {
   Quote,
