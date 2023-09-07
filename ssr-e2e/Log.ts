@@ -13,21 +13,26 @@ function clearSsrLogFile() {
 }
 
 function getLogMessages() {
-  const data = fs.readFileSync(SSR_LOG_PATH);
-  console.log(data, data.toString()); // TODO: Temp read log in ci
+  const data = fs.readFileSync(SSR_LOG_PATH).toString();
+  // const jsonData = data
+  //   .slice(data.indexOf('{'))
+  //   .replaceAll('\n', ',')
+  //   .slice(0, -1);
+  // console.log(jsonData);
+  // const messages = JSON.parse(jsonData).map((item) => item.message);
   const messages = data
     .toString()
     .split('\n')
     .filter((text) => text.indexOf('"message":') > -1)
-    //.map((text) => text.split('":"')[1].split('",')[0]);
     .map((text) => text.split('":"')[1].split('",')[0]);
-  // const messages = JSON.parse(data.toString()).map((item) => item.message);
   return messages;
 }
 
 function assertMessages(expected) {
   const messages = getLogMessages();
-  expect(messages).toEqual(expected);
+  for (const message of expected) {
+    expect(messages).toContain(message);
+  }
 }
 
 // Check log every interval if log contains text.

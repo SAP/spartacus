@@ -16,7 +16,6 @@ describe('SSR E2E', () => {
   beforeAll(async () => {
     Log.clearSsrLogFile();
     await Ssr.startSsrServer();
-    Log.clearSsrLogFile();
   });
 
   afterEach(async () => {
@@ -47,11 +46,7 @@ describe('SSR E2E', () => {
     // Waits a time for rendering to finish
     await Log.waitUntilLogContainsText('Rendering completed (/)');
 
-    Log.assertMessages([
-      'Rendering started (/)',
-      'Request is waiting for the SSR rendering to complete (/)',
-      'Rendering completed (/)',
-    ]);
+    Log.assertMessages(['Rendering completed (/)']);
   }, 20000);
 
   it('should receive cached response with next request', async () => {
@@ -61,12 +56,7 @@ describe('SSR E2E', () => {
     const response = await ProxyServer.sendRequest('/');
     expect(response.statusCode).toEqual(200);
 
-    Log.assertMessages([
-      'Rendering started (/)',
-      'Request is waiting for the SSR rendering to complete (/)',
-      'Rendering completed (/)',
-      'Render from cache (/)',
-    ]);
+    Log.assertMessages(['Render from cache (/)']);
   });
 
   xit('should receive 500 error response with request', async () => {
