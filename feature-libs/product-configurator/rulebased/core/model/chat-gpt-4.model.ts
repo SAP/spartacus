@@ -81,7 +81,7 @@ export namespace ChatGPT4 {
     CALL = 'function_call',
     FILTER = 'content_filter',
     API_IN_PROGRESS = 'null',
-    MAX_TOKEN_REACHED = 'length'
+    MAX_TOKEN_REACHED = 'length',
   }
 
   export enum Role {

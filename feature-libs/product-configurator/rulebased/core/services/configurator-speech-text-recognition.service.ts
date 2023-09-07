@@ -37,7 +37,7 @@ export class ConfiguratorSpeechTextRecognitionService {
 
       this.speechRecognition.addEventListener('result', (event: any) => {
         const transcript = event.results[0][0].transcript;
-        console.log(transcript);
+        console.log('After event has been fired: ' + transcript);
         this.recordedText.emit(transcript);
       });
 

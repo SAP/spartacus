@@ -295,7 +295,10 @@ export class ConfiguratorChatGtpService {
     attribute: Configurator.Attribute,
     update: GtpSelection
   ) {
-    const selectedValueName = this.findValue(update.value_ids[0], attribute)?.name;
+    const selectedValueName = this.findValue(
+      update.value_ids[0],
+      attribute
+    )?.name;
     console.log(
       `selecting ${selectedValueName} for attribute ${attribute.name}`
     );
