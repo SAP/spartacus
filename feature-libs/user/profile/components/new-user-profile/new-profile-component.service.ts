@@ -23,11 +23,11 @@ export class NewProfileComponentService {
     protected globalMessageService: GlobalMessageService
   ) {}
 
-  protected user$ = this.userProfile
+  user$ = this.userProfile
     .get()
     .pipe(filter((user): user is User => Boolean(user)));
 
-  protected busy$ = new BehaviorSubject(false);
+  busy$ = new BehaviorSubject(false);
 
   isUpdating$: Observable<boolean> = this.user$.pipe(
     tap((user) => this.form.patchValue(user)),
