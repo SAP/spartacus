@@ -56,7 +56,7 @@ export class OpfPaymentErrorHandlerService {
 
   handlePaymentError(
     error: OpfPaymentError | undefined,
-    returnPath: Array<string> = []
+    returnPath: string
   ): void {
     let message = defaultError.message;
     if (error?.status === HttpResponseStatus.BAD_REQUEST) {
@@ -68,7 +68,7 @@ export class OpfPaymentErrorHandlerService {
     }
     this.displayError(error ? { ...error, message } : undefined);
     if (returnPath.length) {
-      this.routingService.go([...returnPath]);
+      this.routingService.go({ cxRoute: returnPath });
     }
   }
 }

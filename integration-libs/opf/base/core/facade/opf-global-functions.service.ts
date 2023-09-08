@@ -266,6 +266,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
             paymentSessionId,
             cartId,
             callbackArray,
+            returnPath: 'checkoutReviewOrder',
           })
           .pipe(
             finalize(() => {

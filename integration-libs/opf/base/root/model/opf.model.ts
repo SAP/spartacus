@@ -87,7 +87,7 @@ export interface SubmitInput {
   paymentSessionId: string;
   cartId: string;
   callbackArray: [MerchantCallback, MerchantCallback, MerchantCallback];
-  returnPath?: Array<string>;
+  returnPath?: string;
   paymentMethod: PaymentMethod;
 }
 
@@ -128,7 +128,7 @@ export interface SubmitCompleteInput {
   paymentSessionId: string;
   cartId: string;
   callbackArray: [MerchantCallback, MerchantCallback, MerchantCallback];
-  returnPath?: Array<string>;
+  returnPath?: string;
 }
 
 export interface AfterRedirectScriptResponse {
