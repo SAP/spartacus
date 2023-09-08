@@ -12,7 +12,7 @@
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/core",
   "license": "Apache-2.0",
   "dependencies": {
-    "tslib": "^2.4.0"
+    "tslib": "^2.6.2"
   },
   "peerDependencies": {
     "@angular/common": "^15.2.4",
@@ -23,8 +23,8 @@
     "@ngrx/router-store": "^15.3.0",
     "@ngrx/store": "^15.3.0",
     "angular-oauth2-oidc": "^15.0.1",
-    "i18next": "^21.9.1",
-    "i18next-http-backend": "^1.4.1",
+    "i18next": "^23.5.1",
+    "i18next-http-backend": "^2.2.2",
     "i18next-resources-to-backend": "^1.1.2",
     "rxjs": "^6.6.0"
   },
