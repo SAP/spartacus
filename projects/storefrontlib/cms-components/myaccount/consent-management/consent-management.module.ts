@@ -18,6 +18,7 @@ import { IconModule } from '../../misc/icon/icon.module';
 import { ConsentManagementFormComponent } from './components/consent-form/consent-management-form.component';
 import { ConsentManagementComponent } from './components/consent-management.component';
 import { ConsentManagementComponentService } from './consent-management-component.service';
+import { NewConsentManagementComponent } from '../new-consent-management/components/new-consent-management.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,7 @@ import { ConsentManagementComponentService } from './consent-management-componen
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ConsentManagementComponent: {
-          component: ConsentManagementComponent,
+          component: NewConsentManagementComponent,
           guards: [AuthGuard],
         },
       },

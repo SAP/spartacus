@@ -1,32 +1,12 @@
-<button>aaaabbb</button>
-<!-- <div *ngIf="loading$ | async; else consentManagementForm">
+<div>Consent Management</div>
+<div *ngIf="loading$ | async; else consentManagementForm">
   <div class="cx-spinner">
     <cx-spinner></cx-spinner>
   </div>
 </div>
-
 <ng-template #consentManagementForm>
   <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
   <ng-container *ngIf="templateList$ | async as templateList">
-    <div class="cx-consent-action-links">
-      <div class="col-sm-12 col-md-8 col-lg-6">
-        <button
-          tabindex="0"
-          class="btn btn-link cx-action-link"
-          (click)="rejectAll(templateList)"
-        >
-          {{ 'consentManagementForm.clearAll' | cxTranslate }}
-        </button>
-        <button
-          tabindex="0"
-          class="btn btn-link cx-action-link"
-          (click)="allowAll(templateList)"
-        >
-          {{ 'consentManagementForm.selectAll' | cxTranslate }}
-        </button>
-      </div>
-    </div>
-
     <div class="cx-consent-toggles">
       <div class="col-sm-12 col-md-8 col-lg-6">
         <cx-consent-management-form
@@ -38,4 +18,4 @@
       </div>
     </div>
   </ng-container>
-</ng-template> -->
+</ng-template>
