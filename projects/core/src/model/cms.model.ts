@@ -5,7 +5,6 @@
  */
 
 export interface CmsComponent {
-  flexType?: string;
   modifiedTime?: Date;
   name?: string;
   otherProperties?: any;
