@@ -15,9 +15,9 @@ import { NewProfileComponentService } from './new-profile-component.service';
   selector: 'cx-new-profile',
   templateUrl: './new-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { },
+  host: {},
 })
-export class NewProfileComponent implements OnInit{
+export class NewProfileComponent implements OnInit {
   constructor(protected service: NewProfileComponentService) {}
   ngOnInit(): void {
     this.isEditingProfile = false;
@@ -27,19 +27,20 @@ export class NewProfileComponent implements OnInit{
   isUpdating$ = this.service.isUpdating$;
   titles$: Observable<Title[]> = this.service.titles$;
   user$: Observable<User> = this.service.user$;
-  busy$ = this.service.busy$;
   isEditingProfile: boolean;
 
   onSubmit(): void {
-    this.isEditingProfile = true;
     this.service.updateProfile();
+    this.service.updateSucceed$.subscribe((res) => {
+        this.isEditingProfile = !res;
+      });
   }
-  cancelEdit():  void {
+
+  cancelEdit(): void {
     this.isEditingProfile = false;
   }
 
   onEdit(): void {
     this.isEditingProfile = true;
   }
-
 }

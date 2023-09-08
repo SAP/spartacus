@@ -13,7 +13,7 @@ import {
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
@@ -27,7 +27,10 @@ export class NewProfileComponentService {
     .get()
     .pipe(filter((user): user is User => Boolean(user)));
 
-  busy$ = new BehaviorSubject(false);
+  protected busy$ = new BehaviorSubject(false);
+
+  updateSucceed$ = new Subject();
+
 
   isUpdating$: Observable<boolean> = this.user$.pipe(
     tap((user) => this.form.patchValue(user)),
@@ -71,9 +74,11 @@ export class NewProfileComponentService {
 
     this.busy$.next(false);
     this.form.reset();
+    this.updateSucceed$.next(true);
   }
 
   protected onError(_error: Error): void {
     this.busy$.next(false);
+    this.updateSucceed$.next(false);
   }
 }
