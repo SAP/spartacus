@@ -25,7 +25,7 @@ export class ConfiguratorChatGtpMapperService {
 
   serializeConfiguration(
     config: Configurator.Configuration,
-    product: Product
+    product?: Product
   ): string {
     // filter configuration object to relevant properties and sub-objects
     /**const simplified = JSON.stringify(config.flatGroups, [
@@ -43,8 +43,8 @@ export class ConfiguratorChatGtpMapperService {
     ]);**/
     const simplified: ChatGPT4.Configuration = {
       groups: [],
-      productName: product.name ?? config.kbKey?.kbName ?? config.productCode,
-      productDescription: product.description,
+      productName: product?.name ?? config.kbKey?.kbName ?? config.productCode,
+      productDescription: product?.description,
     };
     config.flatGroups.forEach((group) =>
       simplified.groups.push(this.mapGroup(group))

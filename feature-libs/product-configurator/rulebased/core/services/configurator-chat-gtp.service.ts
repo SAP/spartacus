@@ -248,6 +248,7 @@ export class ConfiguratorChatGtpService {
       );
       switch (message.function_call.name) {
         case FUNCTION_NAV_TO_GROUP.name:
+          this.storeCurrentGroupState(config);
           return this.triggerGroupNavigation(message.function_call, config);
         case FUNCTION_SELECT_VALUES.name:
           return this.handleConfigChanges(message.function_call, config);
@@ -257,6 +258,14 @@ export class ConfiguratorChatGtpService {
       }
     }
     return of(response);
+  }
+
+  protected storeCurrentGroupState(config: Configurator.Configuration) {
+    const lastMessage = this.conversation[this.conversation.length - 1];
+    lastMessage.content =
+      lastMessage.content +
+      '\ncurrent configuration in json format:\n' +
+      this.mapper.serializeConfiguration(config);
   }
 
   protected triggerGroupNavigation(
@@ -306,12 +315,16 @@ export class ConfiguratorChatGtpService {
       return this.configWithProduct$.pipe(
         // better would be to check that there are no pending updates
         // so we can also handle cases were the updates failed properly.
-        filter((configWithProduct) => this.isLastUpdateApplied(updates, configWithProduct[0])),
+        filter((configWithProduct) =>
+          this.isLastUpdateApplied(updates, configWithProduct[0])
+        ),
         take(1),
         tap(() =>
           this.addFunctionResultToConversation(FUNCTION_SELECT_VALUES.name)
         ),
-        switchMap((configWithProduct) => this.callChatConnector(configWithProduct[0], configWithProduct[1]))
+        switchMap((configWithProduct) =>
+          this.callChatConnector(configWithProduct[0], configWithProduct[1])
+        )
       );
     }
   }
