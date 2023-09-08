@@ -38,8 +38,8 @@ export class ConfiguratorChatComponent {
   iconTypes = ICON_TYPE;
 
   showChat = false;
-  isVolume = false;
-  isRecording = false;
+  isAudioEnabled = false;
+  isRecordingEnabled = false;
   isSpeechTextRecognitionSupported = false;
   recordedMessage: string;
   messageHistory: MessageEvent[] = [];
@@ -83,42 +83,6 @@ export class ConfiguratorChatComponent {
       });
   }
 
-  startOrStopRecording() {
-    if (!this.isRecording) {
-      this.startRecording();
-    } else {
-      this.stopRecording();
-    }
-  }
-
-  protected startRecording() {
-    this.isRecording = true;
-    this.configSpeechTextRecognitionService.startRecording();
-  }
-
-  protected stopRecording() {
-    this.isRecording = false;
-    this.isVolume = true;
-    this.configSpeechTextRecognitionService.stopRecording();
-    this.configSpeechTextRecognitionService.recordedText
-      .pipe(take(1))
-      .subscribe((recordedText) => {
-        console.log('recorded text: ' + recordedText);
-        if (this.isNotEmpty(recordedText)) {
-          this.commentsComponent.form.get('message')?.setValue(recordedText);
-
-          // Add a delay before firing a message
-          setTimeout(() => {
-            this.onSend({ message: recordedText });
-          }, 1000);
-        }
-      });
-  }
-
-  protected isNotEmpty(value: string): boolean {
-    return value !== '';
-  }
-
   displayChat(): void {
     this.showChat = true;
     if (this.messageHistory.length === 0) {
@@ -133,6 +97,12 @@ export class ConfiguratorChatComponent {
 
   hideChat(): void {
     this.showChat = false;
+    if (this.isSpeechTextRecognitionSupported) {
+      this.isRecordingEnabled = false;
+      this.isAudioEnabled = false;
+      this.configSpeechTextRecognitionService.stopRecording();
+      this.configSpeechTextRecognitionService.stopAudio();
+    }
   }
 
   protected prepareMessagingConfigs(): MessagingConfigs {
@@ -171,43 +141,11 @@ export class ConfiguratorChatComponent {
         this.messageHistory.pop(); // remove waiting message
         this.messageHistory.push(event);
         this.messageEvents$.next(this.messageHistory);
-        if (this.isVolume) {
+        if (this.isAudioEnabled) {
           // read the last message
-          this.configSpeechTextRecognitionService.speak(event.text);
+          this.configSpeechTextRecognitionService.startAudio(event.text);
         }
       });
-  }
-
-  startOrStopReading() {
-    if (this.isVolume) {
-      this.configSpeechTextRecognitionService.cancel();
-      this.isVolume = false;
-    } else {
-      this.configSpeechTextRecognitionService.speak(
-        this.messageHistory[this.messageHistory.length - 1].text
-      );
-      this.isVolume = true;
-    }
-  }
-
-  getVolumeTitle(): string {
-    if (this.isVolume) {
-      return 'Mute audio';
-    }
-    return 'Unmute audio';
-  }
-
-  getMicroTitle(): string {
-    if (this.isRecording) {
-      return 'Mute micro';
-    }
-    return 'Unmute micro';
-  }
-
-  getMicroIcon(): ICON_TYPE {
-    return !this.isRecording
-      ? this.iconTypes.MICROPHONE_SLASH
-      : this.iconTypes.MICROPHONE;
   }
 
   protected mapAnswerToMessageEvent(answer: string): MessageEvent {
@@ -216,5 +154,67 @@ export class ConfiguratorChatComponent {
       rightAlign: true,
       createdAt: new Date().toString(),
     };
+  }
+
+  startOrStopAudio() {
+    if (this.isAudioEnabled) {
+      this.configSpeechTextRecognitionService.stopAudio();
+      this.isAudioEnabled = false;
+    } else {
+      this.configSpeechTextRecognitionService.startAudio(
+        this.messageHistory[this.messageHistory.length - 1].text
+      );
+      this.isAudioEnabled = true;
+    }
+  }
+
+  startOrStopRecording() {
+    if (!this.isRecordingEnabled) {
+      this.startRecording();
+    } else {
+      this.stopRecording();
+    }
+  }
+
+  protected startRecording() {
+    this.isRecordingEnabled = true;
+    this.configSpeechTextRecognitionService.startRecording();
+  }
+
+  protected stopRecording() {
+    this.isRecordingEnabled = false;
+    this.isAudioEnabled = true;
+    this.configSpeechTextRecognitionService.stopRecording();
+    this.configSpeechTextRecognitionService.recordedText
+      .pipe(take(1))
+      .subscribe((recordedText) => {
+        console.log('recorded text: ' + recordedText);
+        if (this.isNotEmpty(recordedText)) {
+          this.commentsComponent.form.get('message')?.setValue(recordedText);
+
+          // Add a delay before firing a message
+          setTimeout(() => {
+            this.onSend({ message: recordedText });
+          }, 1000);
+        }
+      });
+  }
+
+  protected isNotEmpty(value: string): boolean {
+    return value !== '';
+  }
+
+  getAudioTitle(): string {
+    return this.isAudioEnabled ? 'Mute audio' : 'Unmute audio';
+  }
+
+  getMicroTitle(): string {
+    return this.isRecordingEnabled ? 'Mute micro' : 'Unmute micro';
+  }
+
+  getMicroIcon(): ICON_TYPE {
+    return !this.isRecordingEnabled
+      ? this.iconTypes.MICROPHONE_SLASH
+      : this.iconTypes.MICROPHONE;
   }
 }

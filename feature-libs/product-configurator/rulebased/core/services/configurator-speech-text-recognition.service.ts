@@ -75,7 +75,7 @@ export class ConfiguratorSpeechTextRecognitionService {
       );
   }
 
-  speak(message: string | undefined) {
+  startAudio(message: string | undefined) {
     if (message) {
       const utterance = new SpeechSynthesisUtterance(message);
       utterance.lang =
@@ -86,7 +86,7 @@ export class ConfiguratorSpeechTextRecognitionService {
     }
   }
 
-  cancel() {
+  stopAudio() {
     this.speechSynthesis.cancel();
   }
 }
