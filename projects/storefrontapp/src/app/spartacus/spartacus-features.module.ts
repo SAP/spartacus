@@ -67,7 +67,7 @@ import { QuickOrderFeatureModule } from './features/cart/cart-quick-order-featur
 import { SavedCartFeatureModule } from './features/cart/cart-saved-cart-feature.module';
 import { WishListFeatureModule } from './features/cart/wish-list-feature.module';
 import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
-import { NewMyAccountFeatureModule } from './features/new-myaccount/new-myaccount-feature.module';
+import { MyAccountEnhancedUIFeatureModule } from './features/myaccount-enhanced-ui/myaccount-enhanced-ui-feature.module';
 import { CdsFeatureModule } from './features/cds/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
 import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
@@ -114,8 +114,8 @@ if (environment.b2b) {
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
 }
-if (environment.new_myAccount) {
-  featureModules.push(NewMyAccountFeatureModule);
+if (environment.myAccountEnhancedUI) {
+  featureModules.push(MyAccountEnhancedUIFeatureModule);
 }
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);

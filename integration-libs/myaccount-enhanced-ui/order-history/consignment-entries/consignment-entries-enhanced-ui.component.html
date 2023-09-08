@@ -1,0 +1,45 @@
+<ng-container *ngFor="let consignment of consignments">
+  <!--
+example:
+Consignment Status Date: Aug 31, 2023 | In Process | 1 Item
+Estimated Delivery: 23, September, 2023
+Tracking Number: 345677 <as url>
+Consignment Status Date: Aug 31, 2023 | In Process | 3 Items
+{no tracking info present}
+Consignment Status Date: Aug 31, 2023 | In Process | 1 Item
+Estimated Delivery: 25, September, 2023
+Tracking Number: 3411177 <no hyperlink, as no url present>
+  -->
+  <div class="cx-consignment-info" *ngIf="consignment">
+    {{
+      'OrderHistoryEnhancedUI.consignmentInfo'
+        | cxTranslate: { param: consignmentNumber(consignment?.code) }
+    }}
+    <ng-container *ngIf="consignment.statusDate">
+      {{ consignment.statusDate | cxDate: 'd, MMMM, yyyy' }}
+      |
+    </ng-container>
+    <ng-container *ngIf="consignment.status">
+      {{ 'orderDetails.deliveryStatus_' + consignment?.status | cxTranslate }}|
+    </ng-container>
+    <ng-container
+      *ngIf="consignmentEntriesLength(consignment) > 1; else showItem"
+    >
+      {{
+        'OrderHistoryEnhancedUI.items'
+          | cxTranslate: { param: consignmentEntriesLength(consignment) }
+      }}
+    </ng-container>
+    <ng-template #showItem>
+      {{
+        'OrderHistoryEnhancedUI.item'
+          | cxTranslate: { param: consignmentEntriesLength(consignment) }
+      }}
+    </ng-template>
+  </div>
+  <cx-consignment-tracking-enhanced-ui
+    [orderCode]="orderCode ?? ''"
+    [consignment]="consignment"
+  >
+  </cx-consignment-tracking-enhanced-ui>
+</ng-container>
