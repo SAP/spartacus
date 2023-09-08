@@ -31,7 +31,7 @@ const START_MSG =
 type GtpGroupResponse = { groupId: string };
 
 const FUNCTION_NAV_TO_GROUP: ChatGPT4.Function = {
-  name: 'navaigate-to-group',
+  name: 'navigate-to-group',
   description: 'Navigates to the given group',
   parameters: {
     type: 'object',
@@ -73,7 +73,8 @@ const FUNCTION_SELECT_VALUES: ChatGPT4.Function = {
               description: 'attribute id of the selection',
             },
             value_ids: {
-              description: 'list of value ids to be selected for this attribute',
+              description:
+                'list of value ids to be selected for this attribute',
               type: 'array',
               items: {
                 description: 'value id of the attribute',
@@ -129,10 +130,9 @@ export class ConfiguratorChatGtpService {
       return this.configuration$.pipe(
         take(1),
         switchMap((config) => {
-          this.addQuestionToConversation(question, config);
+          this.addQuestionToConversation(question);
           return this.callChatConnector(config).pipe(
             map((response) => response.choices[0].message),
-            //map((message) => this.handleConfigChanges(message, config)),
             tap((message) => this.conversation.push(message))
           );
         })
@@ -150,45 +150,56 @@ export class ConfiguratorChatGtpService {
   protected callChatConnector(
     config: Configurator.Configuration
   ): Observable<ChatGPT4.Response> {
+    const originalMessage = this.appendContextToCurrentMessage(config);
     return this.connector.ask(this.conversation, this.functions).pipe(
+      tap(() => this.restoreOriginalMessageWithoutContext(originalMessage)),
       tap((response) => this.handleTokenLimit(response.usage)),
       switchMap((response) => this.handleFunctionCall(response, config))
     );
   }
 
-  protected addQuestionToConversation(
-    question: string,
-    config?: Configurator.Configuration
+  protected restoreOriginalMessageWithoutContext(
+    originalMessage: ChatGPT4.Message
   ) {
-    const context = config
-      ? '\ncurrent configuration in json format:\n' +
-        this.mapper.serializeConfiguration(config)
-      : '';
+    this.conversation.pop();
+    this.conversation.push(originalMessage);
+  }
 
+  protected appendContextToCurrentMessage(
+    config: Configurator.Configuration
+  ): ChatGPT4.Message {
+    const currentMessage = this.conversation.pop();
+    if (!currentMessage) {
+      throw new Error('conversation may not be empty!');
+    }
+    const context = this.mapper.serializeConfiguration(config);
+    const currentMessageWithContext = {
+      ...currentMessage,
+      content:
+        currentMessage.content +
+        '\ncurrent configuration in json format:\n' +
+        context,
+    };
+    this.conversation.push(currentMessageWithContext);
+
+    return currentMessage;
+  }
+
+  protected addQuestionToConversation(question: string) {
     const message: ChatGPT4.Message = {
       role: ChatGPT4.Role.USER,
-      content: question + context,
+      content: question,
     };
-
     this.conversation.push(message);
   }
 
-  addFunctionResultToConversation(
-    functionName: string,
-    config?: Configurator.Configuration
-  ) {
-    const context = config
-      ? '\ncurrent configuration in json format:\n' +
-        this.mapper.serializeConfiguration(config)
-      : 'the function was executed';
-
+  addFunctionResultToConversation(functionName: string) {
     let message: ChatGPT4.Message;
     message = {
       role: ChatGPT4.Role.FUNCTION,
       name: functionName,
-      content: context,
+      content: '',
     };
-
     this.conversation.push(message);
   }
 
@@ -210,7 +221,10 @@ export class ConfiguratorChatGtpService {
         console.log(message);
         throw new Error('function call missing in message');
       }
-      console.log('GTP wants to call a function', message.function_call);
+      this.conversation.push(message);
+      console.log(
+        `GTP wants to call function ${message.function_call.name} with args ${message.function_call.arguments}`
+      );
       switch (message.function_call.name) {
         case FUNCTION_NAV_TO_GROUP.name:
           return this.triggerGroupNavigation(message.function_call, config);
@@ -237,11 +251,8 @@ export class ConfiguratorChatGtpService {
             ?.attributes?.length ?? 0) > 0
       ),
       take(1),
-      tap((newConfig) =>
-        this.addFunctionResultToConversation(
-          FUNCTION_NAV_TO_GROUP.name,
-          newConfig
-        )
+      tap(() =>
+        this.addFunctionResultToConversation(FUNCTION_NAV_TO_GROUP.name)
       ),
       switchMap((newConfig) => this.callChatConnector(newConfig))
     );
@@ -265,12 +276,7 @@ export class ConfiguratorChatGtpService {
     config: Configurator.Configuration
   ): Observable<ChatGPT4.Response> {
     {
-      let updates: GtpSelectionResponse;
-
-      console.log(
-        'attempting to parse json response from gtp \n' + functionCall.arguments
-      );
-      updates = JSON.parse(functionCall.arguments);
+      let updates: GtpSelectionResponse = JSON.parse(functionCall.arguments);
       this.updateConfig(updates, config);
 
       return this.configuration$.pipe(
@@ -278,11 +284,8 @@ export class ConfiguratorChatGtpService {
         // so we can also handle cases were the updates failed properly.
         filter((config) => this.isLastUpdateApplied(updates, config)),
         take(1),
-        tap((newConfig) =>
-          this.addFunctionResultToConversation(
-            FUNCTION_SELECT_VALUES.name,
-            newConfig
-          )
+        tap(() =>
+          this.addFunctionResultToConversation(FUNCTION_SELECT_VALUES.name)
         ),
         switchMap((newConfig) => this.callChatConnector(newConfig))
       );
@@ -293,11 +296,12 @@ export class ConfiguratorChatGtpService {
     updates: GtpSelectionResponse,
     config: Configurator.Configuration
   ) {
-    console.log('applying config changes', updates);
     updates.selections.forEach((update) => {
       const attribute = this.findAttribute(update.attribute_id, config);
       if (!attribute) {
-        console.log('attribute not found in config, attr name=' + update.attribute_id);
+        console.log(
+          'attribute not found in config, attr name=' + update.attribute_id
+        );
         return;
       }
       if (this.mapper.isSingleValued(attribute.uiType)) {
@@ -346,7 +350,10 @@ export class ConfiguratorChatGtpService {
     attribute: Configurator.Attribute,
     update: GtpSelection
   ) {
-    const selectedValueName = this.findValue(update.value_ids[0], attribute)?.name;
+    const selectedValueName = this.findValue(
+      update.value_ids[0],
+      attribute
+    )?.name;
     console.log(
       `selecting ${selectedValueName} for attribute ${attribute.name}`
     );
