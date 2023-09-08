@@ -222,7 +222,7 @@ export class QuoteDetailsOverviewComponent {
    */
   getCharactersLimitForCardTile(): number {
     return (
-      this.quoteUiConfig.quote?.maxCharsForCardTile ??
+      this.quoteUiConfig.quote?.truncateCardTileContentAfterNumChars ??
       QuoteDetailsOverviewComponent.DEFAULT_CARD_TILE_MAX_CHARS
     );
   }

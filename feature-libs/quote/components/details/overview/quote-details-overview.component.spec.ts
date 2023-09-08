@@ -138,7 +138,7 @@ describe('QuoteDetailsOverviewComponent', () => {
     mockedEventService = jasmine.createSpyObj('eventService', ['dispatch']);
 
     quoteUiConfig = {
-      quote: { maxCharsForCardTile: 30 },
+      quote: { truncateCardTileContentAfterNumChars: 30 },
     };
   }
 
