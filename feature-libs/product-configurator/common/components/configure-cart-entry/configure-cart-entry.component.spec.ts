@@ -62,14 +62,23 @@ describe('ConfigureCartEntryComponent', () => {
       );
     });
 
-    it('should find correct owner type in case entry knows quote', () => {
+    it('should find correct owner type quoteEntry in case entry knows quote and it is read-only', () => {
+      component.readOnly = true;
       component.cartEntry = { quoteCode: quoteCode };
       expect(component.getOwnerType()).toBe(
         CommonConfigurator.OwnerType.QUOTE_ENTRY
       );
     });
 
+    it('should find correct owner type cartEntry in case entry knows quote and it is editable', () => {
+      component.cartEntry = { quoteCode: quoteCode };
+      expect(component.getOwnerType()).toBe(
+        CommonConfigurator.OwnerType.CART_ENTRY
+      );
+    });
+
     it('should throw error in case both quote and order code are present', () => {
+      component.readOnly = true;
       component.cartEntry = { orderCode: orderCode, quoteCode: quoteCode };
       expect(() => component.getOwnerType()).toThrowError();
     });
@@ -87,6 +96,7 @@ describe('ConfigureCartEntryComponent', () => {
     });
 
     it('should take order code into account in case entry is from order', () => {
+      component.readOnly = true;
       const orderCode = '01008765';
       component.cartEntry = { entryNumber: 0, orderCode: orderCode };
       expect(component.getEntityKey()).toBe(orderCode + '+0');
@@ -99,17 +109,26 @@ describe('ConfigureCartEntryComponent', () => {
       expect(component['getCode']()).toBeUndefined();
     });
 
-    it('should return a quote code', () => {
+    it('should return a quote code in case entry knows quote and is read-only', () => {
+      component.readOnly = true;
       component.cartEntry = { quoteCode: quoteCode };
       expect(component['getCode']()).toEqual(quoteCode);
     });
 
+    it('should return undefined in case entry knows quote and is editable, because then we are working on a (quote) cart', () => {
+      component.readOnly = false;
+      component.cartEntry = { quoteCode: quoteCode };
+      expect(component['getCode']()).toBe(undefined);
+    });
+
     it('should return an order code', () => {
+      component.readOnly = true;
       component.cartEntry = { orderCode: orderCode };
       expect(component['getCode']()).toEqual(orderCode);
     });
 
     it('should throw error in case both quote and order code are present', () => {
+      component.readOnly = true;
       component.cartEntry = { orderCode: orderCode, quoteCode: quoteCode };
       expect(() => component['getCode']()).toThrowError();
     });
