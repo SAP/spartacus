@@ -13,10 +13,11 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { NewConsentManagementFormComponent } from './components/consent-form/consent-management-form.component';
-import { NewConsentManagementComponent } from './components/consent-management.component';
-import { ConsentManagementComponentService } from './consent-management-component.service';
-import { IconModule, SpinnerModule } from '@spartacus/storefront';
+import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+import { IconModule } from '../../misc/icon/icon.module';
+import { NewConsentManagementComponent } from './components/new-consent-management.component';
+import { ConsentManagementComponentService } from '../consent-management/consent-management-component.service';
+import { NewConsentManagementFormComponent } from './components/consent-form/new-consent-management-form.component';
 
 @NgModule({
   imports: [

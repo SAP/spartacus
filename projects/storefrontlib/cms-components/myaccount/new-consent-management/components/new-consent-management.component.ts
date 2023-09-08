@@ -30,11 +30,11 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { ConsentManagementComponentService } from '../consent-management-component.service';
+import { ConsentManagementComponentService } from '../../consent-management/consent-management-component.service';
 
 @Component({
   selector: 'cx-consent-management',
-  templateUrl: './consent-management.component.html',
+  templateUrl: './new-consent-management.component.html',
 })
 export class NewConsentManagementComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();

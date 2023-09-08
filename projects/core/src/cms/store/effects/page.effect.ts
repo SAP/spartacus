@@ -88,7 +88,7 @@ export class PageEffects {
                         if (componentInLoop.uid ==='WishListComponent')
                         {
                           // Add your new component here
-                          componentInLoop.flexType = 'GigyaRaasComponent';
+                          componentInLoop.flexType = 'ConsentManagementComponent';
                           break;
                         }
                     }

@@ -205,6 +205,7 @@ export const OCC_USER_ACCOUNT_ADAPTER = 'OccUserAccountAdapter';
 export const OCC_USER_PROFILE_ADAPTER = 'OccUserProfileAdapter';
 export const CONVERTER_SERVICE = 'ConverterService';
 export const CONSENT_MANAGEMENT_COMPONENT = 'ConsentManagementComponent';
+export const NEW_CONSENT_MANAGEMENT_COMPONENT = 'NewConsentManagementComponent';
 export const ANONYMOUS_CONSENT_DIALOG_COMPONENT =
   'AnonymousConsentDialogComponent';
 export const PRODUCT_IMAGES_COMPONENT = 'ProductImagesComponent';

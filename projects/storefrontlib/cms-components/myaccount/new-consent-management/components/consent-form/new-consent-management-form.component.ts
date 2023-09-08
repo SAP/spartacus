@@ -13,7 +13,7 @@ import {
 
 @Component({
   selector: 'cx-consent-management-form',
-  templateUrl: './consent-management-form.component.html',
+  templateUrl: './new-consent-management-form.component.html',
 })
 export class NewConsentManagementFormComponent implements OnInit {
   consentGiven = false;
