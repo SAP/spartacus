@@ -23,7 +23,7 @@ describe('parseTraceparent', () => {
 
   it('should throw an error if traceparent does not match the W3C pattern', () => {
     const additionalChar = 'x';
-    const unsupportedFormats = [
+    const unsupportedFormats: string[] = [
       `00${additionalChar}-af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01`,
       `0-${additionalChar}0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01`,
       `00-0af7651916cd43dd8448eb211c80319-${additionalChar}b7ad6b7169203331-01`,

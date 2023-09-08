@@ -9,19 +9,23 @@ import { Request } from 'express';
 import { ExpressServerLogger, ExpressServerLoggerContext } from '../logger';
 import { parseTraceparent } from '../logger/loggers/w3c-trace-context/parse-traceparent';
 
-const getRequestContext = (request: Request) => {
-  return request.res.locals.cx.request;
+const getRequestContext = (request: Request): ExpressServerLoggerContext => {
+  return request.res?.locals.cx.request;
 };
 
 const setRequestContext = (
   request: Request,
   context: ExpressServerLoggerContext
 ) => {
-  request.res.locals = {
-    cx: {
-      request: context,
-    },
-  };
+  if (request.res) {
+    request.res.locals = {
+      ...request.res.locals,
+      cx: {
+        ...request.res.locals.cx,
+        request: context,
+      },
+    };
+  }
 };
 
 /**
@@ -38,7 +42,7 @@ const addInitialRequestContext = (request: Request): void => {
 
 /**
  * Parses the `traceparent` header and adds the trace context to the request context.
- * In case of an error, the error is logged wit the initial request context.
+ * In case of an error, the error is logged with the initial request context.
  * @param request - the request object
  * @param logger - the logger object
  *
@@ -79,13 +83,9 @@ export const preprocessRequestForLogger = (
 };
 
 declare module 'express' {
-  export interface Request {
-    res: {
-      locals: {
-        cx: {
-          request: ExpressServerLoggerContext;
-        };
-      };
+  export interface Locals {
+    cx: {
+      request: ExpressServerLoggerContext;
     };
   }
 }

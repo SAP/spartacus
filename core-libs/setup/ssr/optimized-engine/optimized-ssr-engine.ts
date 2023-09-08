@@ -481,56 +481,6 @@ export class OptimizedSsrEngine {
     });
   }
 
-  // /**
-  //  * Returns the request context object, which is used to enrich the logs.
-  //  * It contains the random request's UUID, time of receiving the context and the W3C Trace Context (if available).
-  //  * The trace context is parsed from the `traceparent` header, which is specified in
-  //  * the "W3C TraceContext" document. See https://www.w3.org/TR/trace-context/#traceparent-header
-  //  * for more details.
-  //  * @param request - the request object
-  //  * @returns the context of the request and error if occurred during parsing traceparent header
-  //  * @private
-  //  */
-  // private getRequestContext(
-  //   request: Request
-  // ): [ExpressServerLoggerContext, Error | null] {
-  //   let error: Error | null = null;
-  //   const requestContext: ExpressServerLoggerContext = {
-  //     uuid: randomUUID(),
-  //     timeReceived: new Date().toISOString(),
-  //   };
-
-  //   try {
-  //     const traceContext = parseTraceparent(request.get('traceparent'));
-  //     if (traceContext) {
-  //       requestContext.traceContext = traceContext;
-  //     }
-  //   } catch (e) {
-  //     error =
-  //       e instanceof Error
-  //         ? e
-  //         : new Error('Unexpected error during parsing traceparent header');
-  //   }
-
-  //   return [requestContext, error];
-  // }
-
-  // /**
-  //  * Provides the request context returned from `getRequestContext` methods to be available in SSR scope.
-  //  * Method handles the error that may occur during parsing traceparent header.
-  //  * @param options - the options of the request
-  //  * @private
-  //  */
-  // private updateWithRequestContext(options: any) {
-  //   const [requestContext, error] = this.getRequestContext(options.req);
-  //   options.req.res.locals = {
-  //     cx: { request: requestContext },
-  //   };
-  //   if (error) {
-  //     this.logger.error(error.message, { request: options.req });
-  //   }
-  // }
-
   //CXSPA-3680 - remove this method in 7.0
   private initLogger(ssrOptions: SsrOptimizationOptions | undefined) {
     if (ssrOptions?.logger === true) {
