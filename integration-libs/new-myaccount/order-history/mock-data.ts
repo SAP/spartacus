@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ReturnRequestList, OrderHistoryList } from '@spartacus/order/root';
 
 export const mockReturnRequestList: ReturnRequestList = {
