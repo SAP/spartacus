@@ -12,21 +12,21 @@
     <div class="cx-buttons-container">
       <ng-container *ngIf="isSpeechTextRecognitionSupported">
         <button
-          title="{{ getVolumeTitle() }}"
+          title="{{ getAudioTitle() }}"
           type="button"
           class="cx-volume"
-          (click)="startOrStopReading()"
+          (click)="startOrStopAudio()"
         >
           <span
-            [ngClass]="{ 'fa-stack fa-2x small': !isVolume }"
+            [ngClass]="{ 'fa-stack fa-2x small': !isAudioEnabled }"
             aria-hidden="true"
           >
             <cx-icon
-              [ngClass]="{ 'fa-stack-1x fa-2x': !isVolume }"
+              [ngClass]="{ 'fa-stack-1x fa-2x': !isAudioEnabled }"
               [type]="iconTypes.VOLUME_OFF"
             ></cx-icon>
             <cx-icon
-              *ngIf="!isVolume"
+              *ngIf="!isAudioEnabled"
               class="cx-ban fa-stack-2x"
               [type]="iconTypes.BAN"
             ></cx-icon>
