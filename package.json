@@ -125,7 +125,7 @@
     "express": "^4.18.2",
     "hamburgers": "^1.2.1",
     "i18next": "^23.5.1",
-    "i18next-http-backend": "^2.2.2",
+    "i18next-http-backend": "^1.4.5",
     "i18next-resources-to-backend": "^1.1.2",
     "ngx-infinite-scroll": "^15.0.0",
     "rxjs": "^6.6.0",
