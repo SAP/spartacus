@@ -29,7 +29,7 @@
   "peerDependencies": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@spartacus/core": "6.3.0-1",
     "@spartacus/schematics": "6.3.0-1",
     "@spartacus/styles": "6.3.0-1",

@@ -22,7 +22,7 @@
   "peerDependencies": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@spartacus/cart": "6.3.0-1",
     "@spartacus/core": "6.3.0-1",
     "@spartacus/requested-delivery-date": "6.3.0-1",

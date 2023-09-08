@@ -27,7 +27,7 @@
   "peerDependencies": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@spartacus/cart": "6.3.0-1",
     "@spartacus/checkout": "6.3.0-1",

@@ -2,7 +2,7 @@
   "@spartacus/assets": {},
   "@spartacus/core": {
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/platform-browser": "^15.2.4",
     "@angular/router": "^15.2.4",
     "@ngrx/effects": "^15.3.0",
@@ -26,7 +26,7 @@
   "storefrontapp-e2e-cypress": {},
   "@spartacus/storefront": {
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@angular/platform-browser": "^15.2.4",
     "@angular/router": "^15.2.4",
@@ -46,7 +46,7 @@
     "bootstrap": "^4.6.2"
   },
   "@spartacus/setup": {
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@spartacus/cart": "6.3.0-1",
     "@spartacus/core": "6.3.0-1",
     "@spartacus/order": "6.3.0-1",
@@ -55,7 +55,7 @@
   "@spartacus/asm": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@ng-select/ng-select": "^10.0.3",
     "@ngrx/effects": "^15.3.0",
@@ -71,7 +71,7 @@
   "@spartacus/cart": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@angular/router": "^15.2.4",
     "@ng-select/ng-select": "^10.0.3",
@@ -88,7 +88,7 @@
   "@spartacus/checkout": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@angular/router": "^15.2.4",
     "@ng-select/ng-select": "^10.0.3",
@@ -106,7 +106,7 @@
   "@spartacus/customer-ticketing": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@angular/router": "^15.2.4",
     "@spartacus/cart": "6.3.0-1",
@@ -119,7 +119,7 @@
   "@spartacus/order": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@angular/router": "^15.2.4",
     "@ng-select/ng-select": "^10.0.3",
@@ -136,7 +136,7 @@
   "@spartacus/organization": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@angular/router": "^15.2.4",
     "@ng-select/ng-select": "^10.0.3",
@@ -155,7 +155,7 @@
   "@spartacus/pickup-in-store": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@angular/router": "^15.2.4",
     "@ngrx/effects": "^15.3.0",
@@ -174,7 +174,7 @@
   "@spartacus/product": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/router": "^15.2.4",
     "@spartacus/core": "6.3.0-1",
     "@spartacus/schematics": "6.3.0-1",
@@ -186,7 +186,7 @@
   "@spartacus/product-configurator": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@angular/router": "^15.2.4",
     "@ng-select/ng-select": "^10.0.3",
@@ -204,7 +204,7 @@
   "@spartacus/qualtrics": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@spartacus/core": "6.3.0-1",
     "@spartacus/schematics": "6.3.0-1",
     "@spartacus/styles": "6.3.0-1",
@@ -214,7 +214,7 @@
   "@spartacus/requested-delivery-date": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@spartacus/cart": "6.3.0-1",
     "@spartacus/checkout": "6.3.0-1",
@@ -228,7 +228,7 @@
   "@spartacus/smartedit": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@spartacus/core": "6.3.0-1",
     "@spartacus/schematics": "6.3.0-1",
     "rxjs": "^6.6.0"
@@ -236,7 +236,7 @@
   "@spartacus/storefinder": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@angular/router": "^15.2.4",
     "@ngrx/effects": "^15.3.0",
@@ -251,7 +251,7 @@
   "@spartacus/tracking": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@spartacus/core": "6.3.0-1",
     "@spartacus/schematics": "6.3.0-1",
     "rxjs": "^6.6.0"
@@ -259,7 +259,7 @@
   "@spartacus/user": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@angular/router": "^15.2.4",
     "@ng-select/ng-select": "^10.0.3",
@@ -273,7 +273,7 @@
   "@spartacus/cdc": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@angular/router": "^15.2.4",
     "@ng-select/ng-select": "^10.0.3",
@@ -290,7 +290,7 @@
   "@spartacus/cds": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/router": "^15.2.4",
     "@ngrx/store": "^15.3.0",
     "@spartacus/cart": "6.3.0-1",
@@ -304,7 +304,7 @@
   "@spartacus/digital-payments": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@angular/router": "^15.2.4",
     "@ng-select/ng-select": "^10.0.3",
@@ -318,7 +318,7 @@
   "@spartacus/epd-visualization": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@angular/router": "^15.2.4",
     "@sapui5/ts-types-esm": "1.108.14",
@@ -333,7 +333,7 @@
   "@spartacus/s4om": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@spartacus/cart": "6.3.0-1",
     "@spartacus/core": "6.3.0-1",
     "@spartacus/requested-delivery-date": "6.3.0-1",
@@ -345,7 +345,7 @@
   "@spartacus/segment-refs": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@spartacus/core": "6.3.0-1",
     "@spartacus/schematics": "6.3.0-1",
     "rxjs": "^6.6.0"
@@ -354,7 +354,7 @@
     "@angular/animations": "^15.2.4",
     "@angular/common": "^15.2.4",
     "@angular/compiler": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@angular/forms": "^15.2.4",
     "@angular/platform-browser": "^15.2.4",
     "@angular/platform-browser-dynamic": "^15.2.4",

@@ -19,7 +19,7 @@
     "tslib": "^2.4.0"
   },
   "peerDependencies": {
-    "@angular/core": "^15.2.4",
+    "@angular/core": "^15.2.9",
     "@spartacus/cart": "6.3.0-1",
     "@spartacus/core": "6.3.0-1",
     "@spartacus/order": "6.3.0-1",
