@@ -306,6 +306,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
       this.showCustomerEmulationInfoAlert = true;
+      this.showCreateCustomerSuccessfullyAlert = false;
       if (parameters) {
         // TODO(CXSPA-3090): Remove feature flag in 7.0
         if (this.featureConfig?.isLevel('6.3')) {
