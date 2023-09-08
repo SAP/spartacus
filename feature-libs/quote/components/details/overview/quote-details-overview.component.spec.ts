@@ -19,6 +19,7 @@ import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import { EditCard, SaveEvent } from '../edit/quote-details-edit.component';
 import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
+import { QuoteUIConfig } from '../../config';
 
 const totalPriceFormattedValue = '$20';
 
@@ -90,6 +91,7 @@ describe('QuoteDetailsOverviewComponent', () => {
   let htmlElem: HTMLElement;
   let mockedQuoteFacade: QuoteFacade;
   let mockedEventService: EventService;
+  let quoteUiConfig: QuoteUIConfig;
 
   beforeEach(
     waitForAsync(() => {
@@ -112,6 +114,10 @@ describe('QuoteDetailsOverviewComponent', () => {
             useValue: mockedEventService,
           },
           { provide: TranslationService, useClass: MockTranslationService },
+          {
+            provide: QuoteUIConfig,
+            useValue: quoteUiConfig,
+          },
         ],
       }).compileComponents();
     })
@@ -130,6 +136,10 @@ describe('QuoteDetailsOverviewComponent', () => {
 
   function initMocks() {
     mockedEventService = jasmine.createSpyObj('eventService', ['dispatch']);
+
+    quoteUiConfig = {
+      quote: { truncateCardTileContentAfterNumChars: 30 },
+    };
   }
 
   it('should create', () => {
@@ -436,6 +446,22 @@ describe('QuoteDetailsOverviewComponent', () => {
       component.getUpdate(undefined, undefined).subscribe((result) => {
         expect(result).toEqual(expected);
       });
+    });
+  });
+
+  describe('getCharactersLimitForCardTile', () => {
+    it('should set card tile characters limit to 100 when not provided via config', () => {
+      quoteUiConfig.quote = undefined;
+
+      // re-create component so changed config is evaluated
+      fixture = TestBed.createComponent(QuoteDetailsOverviewComponent);
+      expect(fixture.componentInstance.getCharactersLimitForCardTile()).toBe(
+        100
+      );
+    });
+
+    it('should set card tile characters limit to 30 provided via config', () => {
+      expect(component.getCharactersLimitForCardTile()).toBe(30);
     });
   });
 

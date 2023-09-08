@@ -17,6 +17,8 @@
             getQuoteInformation(quoteDetails.name, quoteDetails.description)
               | async
           "
+          [truncateText]="true"
+          [charactersLimit]="getCharactersLimitForCardTile()"
         ></cx-card>
         <button
           *ngIf="isQuoteInformationEditable(quoteDetails)"

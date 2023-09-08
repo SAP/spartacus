@@ -22,6 +22,16 @@
                 name="name"
                 formControlName="name"
               />
+              <ng-container
+                *ngTemplateOutlet="
+                  showInfoText;
+                  context: {
+                    formControlName: 'name',
+                    charactersLimit: content.charactersLimit
+                  }
+                "
+              >
+              </ng-container>
             </div>
           </div>
           <div class="cx-card-paragraph">
@@ -36,18 +46,16 @@
                 name="description"
                 formControlName="description"
               ></textarea>
-              <p *ngIf="content.charactersLimit" class="cx-info-text">
-                {{
-                  'quote.details.charactersLeft'
-                    | cxTranslate
-                      : {
-                          count: getCharactersLeft(
-                            'description',
-                            content.charactersLimit
-                          )
-                        }
-                }}
-              </p>
+              <ng-container
+                *ngTemplateOutlet="
+                  showInfoText;
+                  context: {
+                    formControlName: 'description',
+                    charactersLimit: content.charactersLimit
+                  }
+                "
+              >
+              </ng-container>
             </div>
           </div>
         </form>
@@ -64,3 +72,19 @@
     </div>
   </div>
 </div>
+
+<ng-template
+  #showInfoText
+  let-formControlName="formControlName"
+  let-charactersLimit="charactersLimit"
+>
+  <p *ngIf="charactersLimit" class="cx-info-text">
+    {{
+      'quote.details.charactersLeft'
+        | cxTranslate
+          : {
+              count: getCharactersLeft(formControlName, charactersLimit)
+            }
+    }}
+  </p>
+</ng-template>

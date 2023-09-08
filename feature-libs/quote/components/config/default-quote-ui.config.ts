@@ -62,6 +62,7 @@ const defaultDialogMappings: ConfirmActionDialogMappingConfig = {
 export const defaultQuoteUIConfig: QuoteUIConfig = {
   quote: {
     maxCharsForComments: 1000,
+    truncateCardTileContentAfterNumChars: 100,
     confirmActionDialogMapping: defaultDialogMappings,
   },
 };

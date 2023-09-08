@@ -17,6 +17,7 @@ import {
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { QuoteUIConfig } from '../../config/quote-ui.config';
 import { EditCard, SaveEvent } from '../edit/quote-details-edit.component';
 
 @Component({
@@ -26,6 +27,7 @@ import { EditCard, SaveEvent } from '../edit/quote-details-edit.component';
 export class QuoteDetailsOverviewComponent {
   private static NO_DATA = '-';
   private static CHARACTERS_LIMIT = 255;
+  private static DEFAULT_CARD_TILE_MAX_CHARS = 100;
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
@@ -34,7 +36,8 @@ export class QuoteDetailsOverviewComponent {
   constructor(
     protected quoteFacade: QuoteFacade,
     protected eventService: EventService,
-    protected translationService: TranslationService
+    protected translationService: TranslationService,
+    protected quoteUiConfig: QuoteUIConfig
   ) {}
 
   protected defineQuoteMetaData(event: SaveEvent): QuoteMetadata {
@@ -208,6 +211,19 @@ export class QuoteDetailsOverviewComponent {
           ],
         };
       })
+    );
+  }
+
+  /**
+   * Retrieves a characters limit for a card tile.
+   * If the card tile contains more characters, they will be truncated.
+   *
+   * @returns {number} - characters limit for a card tile
+   */
+  getCharactersLimitForCardTile(): number {
+    return (
+      this.quoteUiConfig.quote?.truncateCardTileContentAfterNumChars ??
+      QuoteDetailsOverviewComponent.DEFAULT_CARD_TILE_MAX_CHARS
     );
   }
 
