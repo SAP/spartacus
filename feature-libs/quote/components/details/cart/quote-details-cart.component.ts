@@ -27,7 +27,7 @@ import { QuoteDetailsCartComponentService } from './quote-details-cart.component
 })
 export class QuoteDetailsCartComponent implements OnInit, OnDestroy {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
-  cartDetails$: Observable<Cart> = this.actievCartFacade.getActive();
+  cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
   showCart$ = this.quoteDetailsCartService.getQuoteEntriesExpanded();
   iconTypes = ICON_TYPE;
   readonly cartOutlets = CartOutlets;
@@ -35,7 +35,7 @@ export class QuoteDetailsCartComponent implements OnInit, OnDestroy {
 
   constructor(
     protected quoteFacade: QuoteFacade,
-    protected actievCartFacade: ActiveCartFacade,
+    protected activeCartFacade: ActiveCartFacade,
     protected quoteDetailsCartService: QuoteDetailsCartComponentService,
     protected eventService: EventService
   ) {}
