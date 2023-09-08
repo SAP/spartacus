@@ -83,7 +83,7 @@ export class ChatGtpBtpConnector {
         if (functions) {
           body.functions = functions;
         }
-        console.log('sending conversation to GTP: ',questions);
+        console.log('sending conversation to GTP: ',structuredClone(questions));
         return this.http.post<ChatGPT4.Response>(CHAT_GPT_URL, body, {
           headers: {
             Authorization: this.getTokenString(accessData), // ToDo move to interceptor

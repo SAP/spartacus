@@ -5,8 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
+import { Product, ProductScope, ProductService } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { Observable, of } from 'rxjs';
+import { Observable, OperatorFunction, combineLatest, of } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ChatGtpBtpConnector } from '../connectors';
 import { ConfiguratorCommonsService } from '../facade/configurator-commons.service';
@@ -95,14 +96,6 @@ const FUNCTION_SELECT_VALUES: ChatGPT4.Function = {
   providedIn: 'root',
 })
 export class ConfiguratorChatGtpService {
-  constructor(
-    protected connector: ChatGtpBtpConnector,
-    protected mapper: ConfiguratorChatGtpMapperService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorGroupService: ConfiguratorGroupsService
-  ) {}
-
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService
       .extractRouterData()
@@ -111,11 +104,33 @@ export class ConfiguratorChatGtpService {
           this.configuratorCommonsService.getConfiguration(routerData.owner)
         )
       );
+
+  product$: Observable<Product> = this.configuration$.pipe(
+    switchMap((config) =>
+      this.productService.get(config.productCode, ProductScope.LIST)
+    ),
+    filter((product) => !!product) as OperatorFunction<
+      Product | undefined,
+      Product
+    >
+  );
+
+  configWithProduct$ = combineLatest([this.configuration$, this.product$]);
+
   private conversation: ChatGPT4.Message[];
   private functions: ChatGPT4.Function[] = [
     FUNCTION_NAV_TO_GROUP,
     FUNCTION_SELECT_VALUES,
   ];
+
+  constructor(
+    protected connector: ChatGtpBtpConnector,
+    protected mapper: ConfiguratorChatGtpMapperService,
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
+    protected configuratorGroupService: ConfiguratorGroupsService,
+    protected productService: ProductService
+  ) {}
 
   public initConversation(
     initialUserMessage: string
@@ -127,11 +142,14 @@ export class ConfiguratorChatGtpService {
 
   public ask(question: string): Observable<ChatGPT4.Message> {
     try {
-      return this.configuration$.pipe(
+      return this.configWithProduct$.pipe(
         take(1),
-        switchMap((config) => {
+        switchMap((configWithProduct) => {
           this.addQuestionToConversation(question);
-          return this.callChatConnector(config).pipe(
+          return this.callChatConnector(
+            configWithProduct[0],
+            configWithProduct[1]
+          ).pipe(
             map((response) => response.choices[0].message),
             tap((message) => this.conversation.push(message))
           );
@@ -148,9 +166,10 @@ export class ConfiguratorChatGtpService {
   }
 
   protected callChatConnector(
-    config: Configurator.Configuration
+    config: Configurator.Configuration,
+    product: Product
   ): Observable<ChatGPT4.Response> {
-    const originalMessage = this.appendContextToCurrentMessage(config);
+    const originalMessage = this.appendContextToCurrentMessage(config, product);
     return this.connector.ask(this.conversation, this.functions).pipe(
       tap(() => this.restoreOriginalMessageWithoutContext(originalMessage)),
       tap((response) => this.handleTokenLimit(response.usage)),
@@ -166,13 +185,14 @@ export class ConfiguratorChatGtpService {
   }
 
   protected appendContextToCurrentMessage(
-    config: Configurator.Configuration
+    config: Configurator.Configuration,
+    product: Product
   ): ChatGPT4.Message {
     const currentMessage = this.conversation.pop();
     if (!currentMessage) {
       throw new Error('conversation may not be empty!');
     }
-    const context = this.mapper.serializeConfiguration(config);
+    const context = this.mapper.serializeConfiguration(config, product);
     const currentMessageWithContext = {
       ...currentMessage,
       content:
@@ -244,17 +264,20 @@ export class ConfiguratorChatGtpService {
   ): Observable<ChatGPT4.Response> {
     const arg: GtpGroupResponse = JSON.parse(functionCall.arguments);
     this.configuratorGroupService.navigateToGroup(config, arg.groupId);
-    return this.configuration$.pipe(
+    return this.configWithProduct$.pipe(
       filter(
-        (config) =>
-          (config.flatGroups.find((group) => group.id === arg.groupId)
-            ?.attributes?.length ?? 0) > 0
+        (configWithProduct) =>
+          (configWithProduct[0].flatGroups.find(
+            (group) => group.id === arg.groupId
+          )?.attributes?.length ?? 0) > 0
       ),
       take(1),
       tap(() =>
         this.addFunctionResultToConversation(FUNCTION_NAV_TO_GROUP.name)
       ),
-      switchMap((newConfig) => this.callChatConnector(newConfig))
+      switchMap((configWithProduct) =>
+        this.callChatConnector(configWithProduct[0], configWithProduct[1])
+      )
     );
   }
 
@@ -279,15 +302,15 @@ export class ConfiguratorChatGtpService {
       let updates: GtpSelectionResponse = JSON.parse(functionCall.arguments);
       this.updateConfig(updates, config);
 
-      return this.configuration$.pipe(
+      return this.configWithProduct$.pipe(
         // better would be to check that there are no pending updates
         // so we can also handle cases were the updates failed properly.
-        filter((config) => this.isLastUpdateApplied(updates, config)),
+        filter((configWithProduct) => this.isLastUpdateApplied(updates, configWithProduct[0])),
         take(1),
         tap(() =>
           this.addFunctionResultToConversation(FUNCTION_SELECT_VALUES.name)
         ),
-        switchMap((newConfig) => this.callChatConnector(newConfig))
+        switchMap((configWithProduct) => this.callChatConnector(configWithProduct[0], configWithProduct[1]))
       );
     }
   }

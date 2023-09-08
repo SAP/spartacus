@@ -5,6 +5,13 @@
  */
 
 export namespace ChatGPT4 {
+  export interface Configuration {
+    groups: Group[];
+    productName: string;
+    productDescription?: string;
+    totalPrice?: string;
+    includedSelectionsPrice?: string;
+  }
   export interface Entity {
     id: string;
     name?: string;

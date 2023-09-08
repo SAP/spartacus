@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import { ChatGPT4 } from '../model/chat-gpt-4.model';
 import { Configurator } from '../model/configurator.model';
+import { Product } from '@spartacus/core';
 const multiValuedUiTypes: Configurator.UiType[] = [
   Configurator.UiType.CHECKBOXLIST,
   Configurator.UiType.CHECKBOXLIST_PRODUCT,
@@ -22,7 +23,10 @@ const multiValuedUiTypes: Configurator.UiType[] = [
 export class ConfiguratorChatGtpMapperService {
   constructor() {}
 
-  serializeConfiguration(config: Configurator.Configuration): string {
+  serializeConfiguration(
+    config: Configurator.Configuration,
+    product: Product
+  ): string {
     // filter configuration object to relevant properties and sub-objects
     /**const simplified = JSON.stringify(config.flatGroups, [
       'flatGroups',
@@ -37,10 +41,23 @@ export class ConfiguratorChatGtpMapperService {
       'label',
       'uiType',
     ]);**/
-    const simplified: ChatGPT4.Group[] = [];
-    config.flatGroups.forEach((group) => simplified.push(this.mapGroup(group)));
-    console.log('Config context for GTP:', { groups: simplified });
-    return JSON.stringify({ groups: simplified });
+    const simplified: ChatGPT4.Configuration = {
+      groups: [],
+      productName: product.name ?? config.kbKey?.kbName ?? config.productCode,
+      productDescription: product.description,
+    };
+    config.flatGroups.forEach((group) =>
+      simplified.groups.push(this.mapGroup(group))
+    );
+    if (config.priceSummary?.currentTotal) {
+      simplified.totalPrice = config.priceSummary.currentTotal.formattedValue;
+    }
+    if (config.priceSummary?.selectedOptions) {
+      simplified.includedSelectionsPrice =
+        config.priceSummary.selectedOptions.formattedValue;
+    }
+    console.log('Config context for GTP:', simplified);
+    return JSON.stringify(simplified);
   }
 
   protected mapGroup(group: Configurator.Group): ChatGPT4.Group {
