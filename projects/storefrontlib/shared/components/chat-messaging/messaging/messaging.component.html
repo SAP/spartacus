@@ -40,8 +40,7 @@
                           dateFormat
                       }
               "
-            >
-              {{ message?.text! }}
+            [innerText] = "message.text" >
             </div>
             <a
               *ngFor="let attachment of message?.attachments ?? []"
