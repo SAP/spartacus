@@ -28,7 +28,7 @@ export class LoadProductReferences implements Action {
 
 export class LoadProductReferencesFail implements Action {
   readonly type = LOAD_PRODUCT_REFERENCES_FAIL;
-  constructor(public payload: ErrorModel) {}
+  constructor(public payload?: ErrorModel) {}
 }
 
 export class LoadProductReferencesSuccess implements Action {
