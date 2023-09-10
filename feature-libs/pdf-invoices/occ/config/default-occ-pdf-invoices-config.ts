@@ -5,19 +5,14 @@
  */
 
 import { OccConfig } from '@spartacus/core';
-import { PDFInvoicesOccEndpoints } from '../model/occ-pdf-invoices.model';
-
-const pdfInvoicesOccEndpoints: PDFInvoicesOccEndpoints = {
-  pdfInvoicesListInvoices: 'users/${userId}/orders/${orderId}/invoices',
-  pdfInvoicesDownloadInvoicePDF:
-    'users/${userId}/orders/${orderId}/invoices/${invoiceId}/download',
-};
 
 export const defaultOccPDFInvoicesConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        ...pdfInvoicesOccEndpoints,
+        pdfInvoicesListInvoices: 'users/${userId}/orders/${orderId}/invoices',
+        pdfInvoicesDownloadInvoicePDF:
+          'users/${userId}/orders/${orderId}/invoices/${invoiceId}/download',
       },
     },
   },

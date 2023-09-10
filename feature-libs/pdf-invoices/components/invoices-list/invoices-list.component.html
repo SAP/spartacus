@@ -46,7 +46,13 @@
         </div>
 
         <!-- TABLE -->
-        <table id="cx-invoices-list-table" class="table cx-invoices-list-table">
+        <table
+          id="cx-invoices-list-table"
+          class="table cx-invoices-list-table"
+          attr.aria-label="{{
+            'pdfInvoices.invoicesTable.label' | cxTranslate
+          }}"
+        >
           <thead class="cx-invoices-list-thead-mobile">
             <th scope="col">
               {{ 'pdfInvoices.invoicesTable.invoiceId' | cxTranslate }}

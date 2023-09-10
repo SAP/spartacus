@@ -12,6 +12,7 @@ export const pdfInvoices = {
       'Something went wrong. Unable to display invoices for the order',
     invoicesTable: {
       header: 'Invoices',
+      label: 'Invoices Table',
       invoiceId: 'Invoice #',
       createdAt: 'Date',
       netAmount: 'Net Amount',

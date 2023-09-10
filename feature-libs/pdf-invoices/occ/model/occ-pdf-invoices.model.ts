@@ -6,24 +6,22 @@
 
 import { OccEndpoint } from '@spartacus/core';
 
-export interface PDFInvoicesOccEndpoints {
-  /**
-   * Get the list of invoices for an order
-   *
-   * @member {string} [pdfInvoicesListInvoices]
-   */
-
-  pdfInvoicesListInvoices?: string | OccEndpoint;
-
-  /**
-   * Get the invoice document as a PDF file
-   *
-   * @member {string} [pdfInvoicesDownloadInvoicePDF]
-   */
-
-  pdfInvoicesDownloadInvoicePDF?: string | OccEndpoint;
-}
-
 declare module '@spartacus/core' {
-  interface OccEndpoints extends PDFInvoicesOccEndpoints {}
+  interface OccEndpoints {
+    /**
+     * Get the list of invoices for an order
+     *
+     * @member {string} [pdfInvoicesListInvoices]
+     */
+
+    pdfInvoicesListInvoices?: string | OccEndpoint;
+
+    /**
+     * Get the invoice document as a PDF file
+     *
+     * @member {string} [pdfInvoicesDownloadInvoicePDF]
+     */
+
+    pdfInvoicesDownloadInvoicePDF?: string | OccEndpoint;
+  }
 }
