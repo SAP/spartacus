@@ -421,8 +421,8 @@ export class CdcJsService implements OnDestroy {
     position: string;
   } {
     const msgList = message.replace('\n', '').split(';');
-    let department = '',
-      position = '';
+    let department = '';
+    let position = '';
     for (const msg of msgList) {
       if (msg.trim().toLowerCase().search('department') === 0) {
         department = msg.split(':')[1].trim();
