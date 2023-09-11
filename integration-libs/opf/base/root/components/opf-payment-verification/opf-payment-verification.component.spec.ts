@@ -9,7 +9,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorModel } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { Subscription, of, throwError } from 'rxjs';
+import { of, Subscription, throwError } from 'rxjs';
 import { OpfResponseMapElement } from '../../model';
 import { OpfPaymentVerificationComponent } from './opf-payment-verification.component';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';

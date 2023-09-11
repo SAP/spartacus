@@ -32,7 +32,6 @@ export class OpfEndpointsService {
   buildUrl(endpoint: string, attributes?: DynamicAttributes): string {
     const baseUrl = this.getBaseEndpoint();
     let opfEndpoint = this.getEndpointFromContext(endpoint);
-
     if (attributes) {
       const { urlParams } = attributes;
 
