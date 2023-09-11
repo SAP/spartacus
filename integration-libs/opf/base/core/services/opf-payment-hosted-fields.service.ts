@@ -32,6 +32,7 @@ import {
   OpfOtpFacade,
   OpfPaymentError,
   PaymentErrorType,
+  PaymentMethod,
   SubmitCompleteInput,
   SubmitCompleteRequest,
   SubmitCompleteResponse,
@@ -74,9 +75,9 @@ export class OpfPaymentHostedFieldsService {
       channel: 'BROWSER',
       browserInfo: getBrowserInfo(this.winRef.nativeWindow),
     };
-    // if (paymentMethod !== PaymentMethod.CREDIT_CARD) {
-    //   submitRequest.encryptedToken = '';
-    // }
+    if (paymentMethod !== PaymentMethod.CREDIT_CARD) {
+      submitRequest.encryptedToken = '';
+    }
 
     return combineLatest([
       this.userIdService.getUserId(),
