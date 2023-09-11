@@ -8,13 +8,13 @@ import { NgModule } from '@angular/core';
 import { provideConfigValidator, provideDefaultConfig } from '@spartacus/core';
 import { defaultOPFCheckoutConfig } from './config/default-opf-checkout-config';
 import { defaultOpfConfig } from './config/default-opf-config';
-import { opfConfidValidator } from './config/opf-config-validator';
+import { opfConfigValidator } from './config/opf-config-validator';
 
 @NgModule({
   providers: [
     provideDefaultConfig(defaultOpfConfig),
     provideDefaultConfig(defaultOPFCheckoutConfig),
-    provideConfigValidator(opfConfidValidator),
+    provideConfigValidator(opfConfigValidator),
   ],
 })
 export class OpfCheckoutRootModule {}
