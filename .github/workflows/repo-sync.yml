@@ -37,16 +37,12 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Clone repo"
 
-          git clone -b $PUBLIC_REPOSITORY_BRANCH_NAME https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git
+          git clone -b $PRIVATE_REPOSITORY_BRANCH_NAME https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git
           cd ${{ secrets.GHT_SPARTACUS_REPO }}
 
           git config --global user.email ${{ secrets.GHT_EMAIL }}
           git config --global user.name ${{ secrets.GHT_USER }}
           git config --global --add --bool push.autoSetupRemote true
-
-          git checkout -b $PRIVATE_REPOSITORY_BRANCH_NAME
-          git push origin
-          git push origin --delete $PUBLIC_REPOSITORY_BRANCH_NAME
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Get files from other branch"
@@ -56,7 +52,7 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Configure pipeline"
 
-          sed -i "s%productiveBranch:%productiveBranch: '${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}'%gi" $PIPELINE_CONFIG_PATH
+          sed -i "s%productiveBranch:%productiveBranch: $PRIVATE_REPOSITORY_BRANCH_NAME%gi" $PIPELINE_CONFIG_PATH
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Verify productiveBranch has been updated with the synched branch name"
