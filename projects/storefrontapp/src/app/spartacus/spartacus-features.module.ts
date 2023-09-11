@@ -36,7 +36,7 @@ import {
   MyInterestsModule,
   NavigationEventModule,
   NavigationModule,
-  NewConsentManagementModule,
+  // NewConsentManagementModule,
   NotificationPreferenceModule,
   PageTitleModule,
   PaymentMethodsModule,
@@ -170,7 +170,7 @@ if (environment.requestedDeliveryDate) {
     MyInterestsModule,
     StockNotificationModule,
     ConsentManagementModule,
-    NewConsentManagementModule,
+    // NewConsentManagementModule,
     MyCouponsModule,
 
     // Anonymous Consents Core
