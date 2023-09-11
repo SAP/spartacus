@@ -57,7 +57,7 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Verify productiveBranch has been updated with the synched branch name"
 
-          if grep -Fq "productiveBranch: '${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}'" $PIPELINE_CONFIG_PATH
+          if grep -Fq "productiveBranch: $PRIVATE_REPOSITORY_BRANCH_NAME" $PIPELINE_CONFIG_PATH
           then
               echo "Branch name has successfully been added to the productiveBranch"
           else
