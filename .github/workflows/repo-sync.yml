@@ -68,12 +68,12 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Configure azure pipeline trigger"
 
-          sed -i "s%trigger:%trigger:\n  - ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}%gi" $AZURE_CONFIG_PATH
+          sed -i "s%trigger:%trigger:\n  - $PRIVATE_REPOSITORY_BRANCH_NAME%gi" $AZURE_CONFIG_PATH
           
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Verify trigger has been updated with the synched branch name"
 
-          if grep -Pzo "trigger:\n  - ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}" $AZURE_CONFIG_PATH
+          if grep -Pzo "trigger:\n  - $PRIVATE_REPOSITORY_BRANCH_NAME" $AZURE_CONFIG_PATH
           then
               echo "Branch name has successfully been added to the trigger"
           else
@@ -107,12 +107,12 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Configure sonar"
 
-          sed -i "s%sonar.branch.name=%sonar.branch.name=${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}%gi" $SONAR_PATH
+          sed -i "s%sonar.branch.name=%sonar.branch.name=$PRIVATE_REPOSITORY_BRANCH_NAME%gi" $SONAR_PATH
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Verify sonar.branch.name has been updated with the synched branch name"
 
-          if grep -Fq "sonar.branch.name=${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}" $SONAR_PATH
+          if grep -Fq "sonar.branch.name=$PRIVATE_REPOSITORY_BRANCH_NAME" $SONAR_PATH
           then
               echo "Branch name has successfully been added to the sonar.branch.name"
           else
@@ -125,4 +125,4 @@ jobs:
 
           git add .
           git commit -m "include remaining pipeline files"
-          git push origin ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}
+          git push origin $PRIVATE_REPOSITORY_BRANCH_NAME
