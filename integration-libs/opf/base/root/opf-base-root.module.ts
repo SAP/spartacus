@@ -14,7 +14,7 @@ import {
 import { OpfPaymentVerificationComponent } from './components/opf-payment-verification';
 import { defaultOpfRoutingConfig } from './config';
 import { defaultOpfConfig } from './config/default-opf-config';
-import { opfConfidValidator } from './config/opf-config-validator';
+import { opfConfigValidator } from './config/opf-config-validator';
 import { OpfEventModule } from './events/opf-event.module';
 import { OpfStatePersistenceService } from './services/opf-state-persistence.service';
 
@@ -57,7 +57,7 @@ export function opfStatePersistenceFactory(
 
     // TODO OPF: uncomment once proper type and routing is set up
     provideDefaultConfig(defaultOpfRoutingConfig),
-    provideConfigValidator(opfConfidValidator),
+    provideConfigValidator(opfConfigValidator),
   ],
 })
 export class OpfBaseRootModule {}

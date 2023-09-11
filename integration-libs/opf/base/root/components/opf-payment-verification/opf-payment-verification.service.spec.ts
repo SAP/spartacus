@@ -162,12 +162,13 @@ describe('OpfPaymentVerificationService', () => {
             cxRoute: 'paymentVerificationResult',
           },
         },
-        queryParams: of({}),
+        queryParams: of(undefined),
       } as unknown as ActivatedRoute;
 
       service.verifyResultUrl(mockRoute).subscribe(
         () => {},
         (error) => {
+          expect(error).toBeDefined();
           expect(error.message).toEqual('opf.payment.errors.proceedPayment');
           done();
         }
