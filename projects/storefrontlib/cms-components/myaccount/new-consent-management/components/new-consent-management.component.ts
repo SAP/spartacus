@@ -30,7 +30,7 @@ import {
 import { ConsentManagementComponentService } from '../../consent-management/consent-management-component.service';
 
 @Component({
-  selector: 'cx-consent-management',
+  selector: 'cx-new-consent-management',
   templateUrl: './new-consent-management.component.html',
 })
 export class NewConsentManagementComponent implements OnInit, OnDestroy {

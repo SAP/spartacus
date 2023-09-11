@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-consent-management-form',
+  selector: 'cx-new-consent-management-form',
   templateUrl: './new-consent-management-form.component.html',
 })
 export class NewConsentManagementFormComponent implements OnInit {
@@ -60,9 +60,5 @@ export class NewConsentManagementFormComponent implements OnInit {
       given: this.consentGiven,
       template: this.consentTemplate,
     });
-  }
-
-  isRequired(templateId: string | undefined): boolean {
-    return templateId ? this.requiredConsents.includes(templateId) : false;
   }
 }

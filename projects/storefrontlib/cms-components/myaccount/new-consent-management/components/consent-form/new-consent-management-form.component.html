@@ -6,19 +6,17 @@
       (change)="onConsentChange()"
       [checked]="consentGiven"
       [name]="consentTemplate.id"
-      [disabled]="isRequired(consentTemplate?.id)"
     />
-    <div class="custom-control custom-switch">
-      <input type="checkbox" class="custom-control-input" id="customSwitch1">
-      <label class="custom-control-label" for="customSwitch1">aaa</label>
-    </div>
-    <span class="form-check-label cx-be-bold">
+    <!-- <div classs="custom-control custom-switch">
+      <input type="checkbox" class="custom-control-input" id="customSwitch">
+      <label class="custom-control-label" for="customSwitch"></label>
+    </div> -->
+    <span class="form-check-label cx-be-bold name">
       <ng-container *ngIf="consentTemplate?.name">
         {{ consentTemplate?.name }}
-        <br />
       </ng-container>
     </span>
-    <span class="form-check-label">
+    <span class="form-check-label description">
       {{ consentTemplate?.description }}
     </span>
   </label>

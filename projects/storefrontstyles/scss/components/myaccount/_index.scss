@@ -7,6 +7,8 @@
 @import './payment-methods';
 @import './consent-management';
 @import './consent-management-form';
+@import './new-consent-management';
+@import './new-consent-management-form';
 @import './my-coupons';
 @import './my-coupons-card';
 @import './my-coupons-dialog';
@@ -15,5 +17,5 @@
 $myaccount-components-allowlist: cx-address-book, cx-address-form,
   cx-suggested-addresses-dialog, cx-anonymous-consent-management-banner,
   cx-anonymous-consent-dialog, cx-anonymous-consent-open-dialog,
-  cx-consent-management-form, cx-consent-management, cx-my-interests,
+  cx-consent-management-form, cx-consent-management, cx-new-consent-management-form, cx-new-consent-management, cx-my-interests,
   cx-my-coupons, cx-coupon-card, cx-coupon-dialog, cx-payment-methods !default;

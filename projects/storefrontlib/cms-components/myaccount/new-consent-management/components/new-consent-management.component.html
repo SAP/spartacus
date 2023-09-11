@@ -1,4 +1,3 @@
-<div>Consent Management</div>
 <div *ngIf="loading$ | async; else consentManagementForm">
   <div class="cx-spinner">
     <cx-spinner></cx-spinner>
@@ -9,12 +8,14 @@
   <ng-container *ngIf="templateList$ | async as templateList">
     <div class="cx-consent-toggles">
       <div class="col-sm-12 col-md-8 col-lg-6">
-        <cx-consent-management-form
+        <div class="header">{{ 'newConsentManagement.header' | cxTranslate }}</div>
+        <div class="message">{{ 'newConsentManagement.message' | cxTranslate }}</div>
+        <cx-new-consent-management-form
           *ngFor="let consentTemplate of templateList"
           [consentTemplate]="consentTemplate"
           [requiredConsents]="requiredConsents"
           (consentChanged)="onConsentChange($event)"
-        ></cx-consent-management-form>
+        ></cx-new-consent-management-form>
       </div>
     </div>
   </ng-container>

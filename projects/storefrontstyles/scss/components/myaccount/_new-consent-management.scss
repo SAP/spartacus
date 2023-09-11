@@ -1,0 +1,23 @@
+@import '../../theme';
+
+%cx-new-consent-management {
+
+  .cx-consent-toggles {
+    display: flex;
+    justify-content: center;
+  }
+
+  .header {
+    font-weight: 600;
+    font-size: 22px;
+    font-family: 'Open Sans';
+    padding-bottom: 20px;
+  }
+
+  .message {
+    font-weight: 400;
+    font-size: 16px;
+    font-family: 'Open Sans';
+    padding-bottom: 20px;
+  }
+}
