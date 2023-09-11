@@ -10,7 +10,7 @@ import { ExpressServerLogger, ExpressServerLoggerContext } from '../logger';
 import { parseTraceparent } from '../logger/loggers/w3c-trace-context/parse-traceparent';
 
 const getRequestContext = (request: Request): ExpressServerLoggerContext => {
-  return request.res?.locals.cx.request;
+  return request.res?.locals?.cx?.request;
 };
 
 const setRequestContext = (
