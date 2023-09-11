@@ -106,6 +106,7 @@ if (environment.b2b) {
     OrganizationUserRegistrationFeatureModule,
     UnitOrderFeatureModule,
     FutureStockFeatureModule
+    // NewConsentManagementModule,
   );
 } else {
   featureModules.push(PickupInStoreFeatureModule);

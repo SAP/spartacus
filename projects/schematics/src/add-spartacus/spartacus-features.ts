@@ -132,7 +132,6 @@ function configureSpartacusModules(
         'MyInterestsModule,',
         'StockNotificationModule,',
         'ConsentManagementModule,',
-        // 'NewConsentManagementModule,',
         'MyCouponsModule,',
       ].forEach((content) => {
         addModuleImport(sourceFile, {
@@ -150,7 +149,6 @@ function configureSpartacusModules(
                 'MyInterestsModule',
                 'StockNotificationModule',
                 'ConsentManagementModule',
-                // 'NewConsentManagementModule',
                 'MyCouponsModule',
               ],
             },
