@@ -20,7 +20,7 @@ import { OpfPaymentVerificationService } from './opf-payment-verification.servic
 })
 export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   protected subscription?: Subscription;
-  protected isHostedFiledPattern = false;
+  protected isHostedFieldPattern = false;
 
   constructor(
     protected route: ActivatedRoute,
@@ -41,7 +41,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
             afterRedirectScriptFlag,
           }) => {
             if (afterRedirectScriptFlag === 'true') {
-              this.isHostedFiledPattern = true;
+              this.isHostedFieldPattern = true;
               return this.paymentService.runHostedFieldsPattern(
                 TargetPage.RESULT,
                 paymentSessionId,
@@ -69,10 +69,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
       .subscribe({
         error: (error: HttpErrorModel | undefined) => this.onError(error),
         next: (success: boolean) => {
-          if (success) {
-            console.log('success');
-          } else {
-            console.log('fail');
+          if (!success) {
             this.onError(undefined);
           }
         },
@@ -93,9 +90,8 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
 
-    if (this.isHostedFiledPattern) {
-      this.paymentService.removeGlobalFunctions();
-      this.paymentService.clearAllProviderResources();
+    if (this.isHostedFieldPattern) {
+      this.paymentService.removeResourcesAndGlobalFunctions();
     }
   }
 }
