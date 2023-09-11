@@ -305,7 +305,7 @@ export class CdcJsService implements OnDestroy {
       !orgInfo?.firstName ||
       !orgInfo?.lastName
     ) {
-      return throwError(null);
+      return throwError('Organization details not provided');
     } else {
       const regSource: string = this.winRef.nativeWindow?.location?.href || '';
       const message = orgInfo.message;
@@ -335,7 +335,8 @@ export class CdcJsService implements OnDestroy {
           firstName: orgInfo.firstName,
           lastName: orgInfo.lastName,
           email: orgInfo.email,
-          phone: orgInfo.phoneNumber,
+          ...(orgInfo.phoneNumber &&
+            orgInfo.phoneNumber.length > 0 && { phone: orgInfo.phoneNumber }),
           department: department,
           jobFunction: position,
         },
