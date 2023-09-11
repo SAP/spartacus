@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 
-import { EMPTY, Observable, combineLatest, from, throwError } from 'rxjs';
+import { combineLatest, EMPTY, from, Observable, throwError } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -26,6 +26,7 @@ import {
 } from 'rxjs/operators';
 
 import {
+  defaultError,
   MerchantCallback,
   OpfOrderFacade,
   OpfOtpFacade,
@@ -39,7 +40,6 @@ import {
   SubmitRequest,
   SubmitResponse,
   SubmitStatus,
-  defaultError,
 } from '@spartacus/opf/base/root';
 import { OpfPaymentConnector } from '../connectors/opf-payment.connector';
 import { OpfPaymentErrorHandlerService } from '../services/opf-payment-error-handler.service';

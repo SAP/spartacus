@@ -6,7 +6,7 @@
 
 import { OpfConfig } from './opf-config';
 
-export function opfConfidValidator(config: OpfConfig): string | void {
+export function opfConfigValidator(config: OpfConfig): string | void {
   if (!config.opf) {
     return 'Please configure the config.opf object before using the OPF integration library';
   }
