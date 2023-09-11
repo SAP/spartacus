@@ -312,14 +312,7 @@ export class CdcJsService implements OnDestroy {
       let department = null;
       let position = null;
       if (message) {
-        const msgList = message.replace('\n', '').split(';');
-        for (const msg of msgList) {
-          if (msg.trim().toLowerCase().search('department') === 0) {
-            department = msg.split(':')[1].trim();
-          } else if (msg.trim().toLowerCase().search('position') === 0) {
-            position = msg.split(':')[1].trim();
-          }
-        }
+        ({ department, position } = this.parseMessage(message));
       }
 
       return this.invokeAPI('accounts.b2b.registerOrganization', {
@@ -421,6 +414,23 @@ export class CdcJsService implements OnDestroy {
     }
     // Return a default value
     return of(defaultSessionTimeOut);
+  }
+
+  private parseMessage(message: string): {
+    department: string;
+    position: string;
+  } {
+    const msgList = message.replace('\n', '').split(';');
+    let department = '',
+      position = '';
+    for (const msg of msgList) {
+      if (msg.trim().toLowerCase().search('department') === 0) {
+        department = msg.split(':')[1].trim();
+      } else if (msg.trim().toLowerCase().search('position') === 0) {
+        position = msg.split(':')[1].trim();
+      }
+    }
+    return { department, position };
   }
 
   private getCurrentBaseSite(): string {
