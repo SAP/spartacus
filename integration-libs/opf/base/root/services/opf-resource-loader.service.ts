@@ -32,16 +32,13 @@ export class OpfResourceLoaderService extends ScriptLoader {
   protected embedStyles(embedOptions: {
     src: string;
     callback?: EventListener;
-    errorCallback?: EventListener;
+    errorCallback: EventListener;
   }): void {
     const { src, callback, errorCallback } = embedOptions;
 
     const isSSR = isPlatformServer(this.platformId);
-    if ((callback || errorCallback) && isSSR) {
-      return;
-    }
 
-    if (!isSSR && this.hasStyles(src)) {
+    if (isSSR) {
       return;
     }
 
