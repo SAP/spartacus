@@ -9,7 +9,7 @@
     "@ngrx/router-store": "^15.3.0",
     "@ngrx/store": "^15.3.0",
     "angular-oauth2-oidc": "^15.0.1",
-    "i18next": "^23.5.1",
+    "i18next": "^21.10.0",
     "i18next-http-backend": "^1.4.5",
     "i18next-resources-to-backend": "^1.1.2",
     "rxjs": "^6.6.0"
@@ -375,7 +375,7 @@
     "comment-json": "^4.2.3",
     "express": "^4.18.2",
     "hamburgers": "^1.2.1",
-    "i18next": "^23.5.1",
+    "i18next": "^21.10.0",
     "i18next-http-backend": "^1.4.5",
     "i18next-resources-to-backend": "^1.1.2",
     "ngx-infinite-scroll": "^15.0.0",
