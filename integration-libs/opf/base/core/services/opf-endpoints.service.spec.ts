@@ -105,7 +105,7 @@ describe('OpfEndpointsService', () => {
     });
   });
 
-  describe('buildUrl', () => {
+  describe('buildUrl()', () => {
     it('should build a URL with active base site and resolved endpoint', () => {
       const endpoint = 'product';
 
