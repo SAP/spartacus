@@ -95,6 +95,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
 
     if (this.isHostedFiledPattern) {
       this.paymentService.removeGlobalFunctions();
+      this.paymentService.clearAllProviderResources();
     }
   }
 }
