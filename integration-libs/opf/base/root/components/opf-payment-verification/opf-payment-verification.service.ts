@@ -196,9 +196,9 @@ export class OpfPaymentVerificationService {
     console.log('vcr', vcr);
     this.globalFunctionsService.registerGlobalFunctions({
       targetPage,
-      paymentSessionId: paymentSessionId,
-      vcr: vcr,
-      paramsMap: paramsMap,
+      paymentSessionId,
+      vcr,
+      paramsMap,
     });
 
     return this.opfPaymentService.afterRedirectScripts(paymentSessionId).pipe(

@@ -49,18 +49,12 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         break;
       case TargetPage.RESULT:
         this.registerSubmitCompleteRedirect(paymentSessionId, vcr);
-        paramsMap && this.registerGetRedirectParams(paramsMap);
+        this.registerGetRedirectParams(paramsMap ?? []);
         break;
       default:
         break;
     }
 
-    // this.registerSubmit(paymentSessionId, vcr);
-    // this.registerSubmitComplete(paymentSessionId, vcr);
-    // this.registerSubmitCompleteRedirect(paymentSessionId, vcr);
-    // if (paramsMap) {
-    //   this.registerGetRedirectParams(paramsMap);
-    // }
     this._isGlobalServiceInit = true;
   }
 
@@ -109,11 +103,13 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       .unsubscribe();
   }
 
-  protected registerGetRedirectParams(paramsMap: Array<KeyValuePair>): void {
-    const getRedirectParams: Array<KeyValuePair> = paramsMap;
-
+  protected registerGetRedirectParams(
+    paramsMap: Array<KeyValuePair> = []
+  ): void {
     this.getGlobalFunctionContainer().getRedirectParams = () =>
-      getRedirectParams;
+      paramsMap.map((p) => {
+        return { key: p.key, value: p.value };
+      });
   }
 
   protected registerSubmit(
