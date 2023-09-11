@@ -5,7 +5,7 @@ on:
     inputs:
       branch_to_sync:
         description: Branch to sync to the private repository (repo default branch if left empty)
-        required: true
+        required: false
 
 name: Sync a branch to private repo
 
