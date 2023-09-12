@@ -9,7 +9,6 @@
 
 # test output
 test-results.xml
-ssr-e2e/ssr.log
 
 # docs archives
 docs.tar.gz
