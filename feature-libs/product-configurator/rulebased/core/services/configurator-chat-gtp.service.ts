@@ -26,6 +26,7 @@ const START_MSG =
   'The configuration state of the current group is provided along with the user messages in JSON format. ' +
   'The state of the other groups can be accessed by navigating to these groups. ' +
   'To complete a configuration navigate through each group and make selections for those attributes. ' +
+  'To change values of attributes of previous groups, first navigate back to this group. '+
   // 'When responding to the user please make suggestions which values to select in natural language as well as in JSON format.' +
   // 'The JSON should follow this format {"selections": [{ "attribute_id": "string", "value_ids": ["string"] } ] }. ' +
   // 'The JSON should be given without any announcement at the end of the response. ' +
@@ -315,10 +316,12 @@ export class ConfiguratorChatGtpService {
       let updates: GtpSelectionResponse = JSON.parse(functionCall.arguments);
 
       this.updateConfig(updates, config);
+      const lastTimeStamp = config.timestamp;
 
       return this.configWithProduct$.pipe(
         // better would be to check that there are no pending updates
         // so we can also handle cases were the updates failed properly.
+        filter(((configWithProduct) => configWithProduct[0].timestamp !== lastTimeStamp)),
         filter((configWithProduct) =>
           this.isLastUpdateApplied(updates, configWithProduct[0])
         ),

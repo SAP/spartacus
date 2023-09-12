@@ -106,6 +106,7 @@ export namespace Configurator {
     immediateConflictResolution?: boolean;
     newConfiguration?: boolean;
     pricingMerged?: boolean;
+    timestamp?: number;
   }
 
   export interface ConfigurationWithOverview extends Configuration {

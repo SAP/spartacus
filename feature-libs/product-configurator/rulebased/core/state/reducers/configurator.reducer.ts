@@ -444,6 +444,8 @@ function takeOverChanges(
       showConflictSolverDialog: state.interactionState.showConflictSolverDialog,
       issueNavigationDone: true,
     },
+    pricingMerged: false,
+    timestamp: Date.now(),
   };
   return result;
 }
@@ -472,6 +474,7 @@ function takeOverPricingChanges(
       issueNavigationDone: true,
     },
     pricingMerged: true,
+    timestamp: Date.now(),
   };
   return result;
 }

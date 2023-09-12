@@ -6,10 +6,10 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
-import { ChatGPT4 } from '../model/chat-gpt-4.model';
 import { Buffer } from 'buffer';
+import { Observable, ReplaySubject } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
+import { ChatGPT4 } from '../model/chat-gpt-4.model';
 
 const CHAT_GPT_URL =
   'https://azure-openai-serv-i057149.cfapps.sap.hana.ondemand.com/api/v1/completions';
@@ -83,12 +83,18 @@ export class ChatGtpBtpConnector {
         if (functions) {
           body.functions = functions;
         }
-        console.log('sending conversation to GTP: ',structuredClone(questions));
-        return this.http.post<ChatGPT4.Response>(CHAT_GPT_URL, body, {
-          headers: {
-            Authorization: this.getTokenString(accessData), // ToDo move to interceptor
-          },
-        });
+        console.log('POSTING TO GTP: ', structuredClone(body));
+        return this.http
+          .post<ChatGPT4.Response>(CHAT_GPT_URL, body, {
+            headers: {
+              Authorization: this.getTokenString(accessData), // ToDo move to interceptor
+            },
+          })
+          .pipe(
+            tap((response) =>
+              console.log('RECEIVED FROM GTP: ', structuredClone(response))
+            )
+          );
       })
     );
   }
