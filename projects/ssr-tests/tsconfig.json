@@ -3,9 +3,6 @@
     "baseUrl": "./",
     "module": "CommonJs",
     "types": ["jest"],
-    "paths": {
-      "@spartacus/core": ["../../projects/core/public_api"]
-    },
     "declaration": true,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
@@ -21,10 +18,5 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["src/*.spec.ts"],
-  "exclude": [
-    "src/*/files/**/*",
-    "src/**/*_spec.ts",
-    "src/migrations/test/**/*"
-  ]
+  "include": ["src/**.ts"]
 }
