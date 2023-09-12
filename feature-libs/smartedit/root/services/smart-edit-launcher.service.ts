@@ -6,8 +6,11 @@
 
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { ScriptLoader } from '@spartacus/core';
+import { FeatureModulesService, ScriptLoader } from '@spartacus/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
+import { SMART_EDIT_FEATURE } from '../feature-name';
+
+// import { timer } from "rxjs";
 
 /**
  * The SmartEditLauncherService is used to check whether Spartacus is launched inside Smart Edit;
@@ -26,7 +29,8 @@ export class SmartEditLauncherService {
   constructor(
     protected config: SmartEditConfig,
     protected location: Location,
-    protected scriptLoader: ScriptLoader
+    protected scriptLoader: ScriptLoader,
+    protected featureModules: FeatureModulesService
   ) {}
 
   /**
@@ -34,14 +38,18 @@ export class SmartEditLauncherService {
    */
   load(): void {
     if (this.isLaunchedInSmartEdit()) {
-      this.scriptLoader?.embedScript({
-        src: 'assets/webApplicationInjector.js',
-        params: undefined,
-        attributes: {
-          id: 'text/smartedit-injector',
-          'data-smartedit-allow-origin': this.config.smartEdit?.allowOrigin,
-        },
-      });
+      this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
+
+      // timer(3000).subscribe(() => {
+        this.scriptLoader?.embedScript({
+          src: 'assets/webApplicationInjector.js',
+          params: undefined,
+          attributes: {
+            id: 'text/smartedit-injector',
+            'data-smartedit-allow-origin': this.config.smartEdit?.allowOrigin,
+          },
+        });
+      // })
     }
   }
 

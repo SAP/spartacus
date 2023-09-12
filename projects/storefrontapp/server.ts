@@ -4,28 +4,31 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { APP_BASE_HREF } from '@angular/common';
-import { ngExpressEngine as engine } from '@nguniversal/express-engine';
+import { APP_BASE_HREF } from "@angular/common";
+import { ngExpressEngine as engine } from "@nguniversal/express-engine";
 import {
   NgExpressEngineDecorator,
-  SsrOptimizationOptions,
-  defaultSsrOptimizationOptions,
-} from '@spartacus/setup/ssr';
+  RenderingStrategy,
+  SsrOptimizationOptions
+} from "@spartacus/setup/ssr";
 
-import { Express } from 'express';
-import { existsSync } from 'fs';
-import { join } from 'path';
-import 'zone.js/node';
-import { AppServerModule } from './src/main.server';
+import { Express } from "express";
+import { existsSync } from "fs";
+import { join } from "path";
+import "zone.js/node";
+import { AppServerModule } from "./src/main.server";
 
 // Require is used here, because we can't use `import * as express` together with TS esModuleInterop option.
 // And we need to use esModuleInterop option in ssr dev mode, because i18next enforce usage of this option for cjs module.
 const express = require('express');
 
 const ssrOptions: SsrOptimizationOptions = {
-  timeout: Number(
-    process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
-  ),
+  concurrency: 20,
+  timeout: Number(process.env['SSR_TIMEOUT'] ?? 300000),
+  cache: true,
+  cacheSize: 20,
+  reuseCurrentRendering: true,
+  renderingStrategyResolver: () => RenderingStrategy.DEFAULT,
   logger: true,
 };
 
