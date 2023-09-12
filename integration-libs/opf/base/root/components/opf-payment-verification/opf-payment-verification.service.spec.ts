@@ -5,7 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -64,48 +64,48 @@ describe('OpfPaymentVerificationService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getOpfResponseMap', () => {
-    it('should return an empty array for undefined params', () => {
-      const result = service.getOpfResponseMap(undefined as unknown as Params);
+  // describe('getOpfResponseMap', () => {
+  //   it('should return an empty array for undefined params', () => {
+  //     const result = service.getOpfResponseMap(undefined as unknown as Params);
 
-      expect(result).toEqual([]);
-    });
+  //     expect(result).toEqual([]);
+  //   });
 
-    it('should return an array of OpfResponseMapElement for provided params', () => {
-      const params: Params = { key1: 'value1', key2: 'value2' };
+  //   it('should return an array of OpfResponseMapElement for provided params', () => {
+  //     const params: Params = { key1: 'value1', key2: 'value2' };
 
-      const result = service.getOpfResponseMap(params);
+  //     const result = service.getOpfResponseMap(params);
 
-      expect(result).toEqual([
-        { key: 'key1', value: 'value1' },
-        { key: 'key2', value: 'value2' },
-      ]);
-    });
-  });
+  //     expect(result).toEqual([
+  //       { key: 'key1', value: 'value1' },
+  //       { key: 'key2', value: 'value2' },
+  //     ]);
+  //   });
+  // });
 
-  describe('findInOpfResponseMap', () => {
-    it('should return the value for the provided key if found in the list', () => {
-      const list = [
-        { key: 'key1', value: 'value1' },
-        { key: 'key2', value: 'value2' },
-      ];
+  // describe('findInOpfResponseMap', () => {
+  //   it('should return the value for the provided key if found in the list', () => {
+  //     const list = [
+  //       { key: 'key1', value: 'value1' },
+  //       { key: 'key2', value: 'value2' },
+  //     ];
 
-      const result = service.findInOpfResponseMap('key1', list);
+  //     const result = service.findInOpfResponseMap('key1', list);
 
-      expect(result).toEqual('value1');
-    });
+  //     expect(result).toEqual('value1');
+  //   });
 
-    it('should return undefined if the provided key is not found in the list', () => {
-      const list = [
-        { key: 'key1', value: 'value1' },
-        { key: 'key2', value: 'value2' },
-      ];
+  //   it('should return undefined if the provided key is not found in the list', () => {
+  //     const list = [
+  //       { key: 'key1', value: 'value1' },
+  //       { key: 'key2', value: 'value2' },
+  //     ];
 
-      const result = service.findInOpfResponseMap('key3', list);
+  //     const result = service.findInOpfResponseMap('key3', list);
 
-      expect(result).toBeUndefined();
-    });
-  });
+  //     expect(result).toBeUndefined();
+  //   });
+  // });
 
   describe('goToPage', () => {
     it('should call routingService.go with the provided cxRoute', () => {
@@ -131,7 +131,7 @@ describe('OpfPaymentVerificationService', () => {
     it('should verify the result URL and return the response map if the route cxRoute is "paymentVerificationResult"', (done) => {
       service.verifyResultUrl(mockRouteSnapshot).subscribe((result) => {
         expect(result.paymentSessionId).toEqual(mockPaymentSessionId);
-        expect(result.responseMap).toEqual([
+        expect(result.paramsMap).toEqual([
           { key: 'paymentSessionId', value: mockPaymentSessionId },
         ]);
         done();

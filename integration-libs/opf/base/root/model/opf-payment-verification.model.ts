@@ -10,11 +10,6 @@ export interface OpfPaymentVerificationPayload {
   responseMap: Array<KeyValuePair>;
 }
 
-export interface OpfResponseMapElement {
-  key: string;
-  value: string;
-}
-
 export interface OpfPaymentVerificationResponse {
   result: string;
 }

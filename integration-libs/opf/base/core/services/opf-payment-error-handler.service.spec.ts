@@ -86,10 +86,12 @@ describe('OpfPaymentErrorHandlerService', () => {
         type: 'type',
         message: 'Test error message',
       };
-      const returnPath = ['checkout', 'payment'];
+      const returnPath = 'checkout';
       service.handlePaymentError(error, returnPath);
       expect(mockGlobalMessageService.add).toHaveBeenCalled();
-      expect(mockRoutingService.go).toHaveBeenCalledWith(returnPath);
+      expect(mockRoutingService.go).toHaveBeenCalledWith({
+        cxRoute: returnPath,
+      });
     });
   });
 
