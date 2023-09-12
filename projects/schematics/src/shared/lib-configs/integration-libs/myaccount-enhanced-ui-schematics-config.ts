@@ -17,7 +17,8 @@ export const MYACCOUNT_ENHANCED_UI_TRANSLATIONS =
   'myAccountEnhancedUITranslations';
 export const MYACCOUNT_ENHANCED_UI_TRANSLATION_CHUNKS_CONFIG =
   'myAccountEnhancedUITranslationChunksConfig';
-export const MYACCOUNT_ENHANCED_UI_SCSS_FILE_NAME = 'myaccount-enhanced-ui.scss';
+export const MYACCOUNT_ENHANCED_UI_SCSS_FILE_NAME =
+  'myaccount-enhanced-ui.scss';
 
 export const MYACCOUNT_ENHANCED_UI_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {

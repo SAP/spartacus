@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { I18nModule} from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { IconModule } from '../../misc/icon/icon.module';
 import { NewConsentManagementComponent } from './components/new-consent-management.component';
@@ -23,10 +23,11 @@ import { NewConsentManagementFormComponent } from './components/consent-form/new
     I18nModule,
     IconModule,
   ],
-  providers: [
-    ConsentManagementComponentService,
+  providers: [ConsentManagementComponentService],
+  declarations: [
+    NewConsentManagementComponent,
+    NewConsentManagementFormComponent,
   ],
-  declarations: [NewConsentManagementComponent, NewConsentManagementFormComponent],
   exports: [NewConsentManagementComponent, NewConsentManagementFormComponent],
 })
 export class NewConsentManagementModule {}

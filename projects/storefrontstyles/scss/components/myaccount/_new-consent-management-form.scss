@@ -3,15 +3,56 @@
     font-weight: var(--cx-font-weight-semi);
   }
 
-  .name{
+  .name {
     font-weight: 600;
     font-size: 16px;
     font-family: 'Open Sans';
   }
 
-  .description{
+  .description {
     font-weight: 400;
     font-size: 16px;
     font-family: 'Open Sans';
+  }
+
+  .consent-container {
+    display: flex;
+  }
+
+  .consent-details {
+    padding-left: 45px;
+  }
+
+  .custom-switch {
+    padding-left: 0;
+
+    .custom-control-label {
+      &::before {
+        height: 32px;
+        width: 60px;
+        border-radius: 40px;
+        border: 2px solid $custom-control-indicator-border-color;
+      }
+
+      &::after {
+        width: 24px;
+        height: 24px;
+        border-radius: 40px;
+        top: add(
+          ($font-size-base * $line-height-base - $custom-control-indicator-size) *
+            0.5,
+          $custom-control-indicator-border-width * 4
+        );
+        left: add(
+          -($custom-switch-width + $custom-control-gutter),
+          $custom-control-indicator-border-width * 4
+        );
+      }
+    }
+    .custom-control-input:checked ~ .custom-control-label {
+      &::after {
+        transform: translateX($custom-switch-width);
+      }
+    }
   }
 }

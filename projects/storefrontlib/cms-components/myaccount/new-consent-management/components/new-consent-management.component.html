@@ -8,8 +8,12 @@
   <ng-container *ngIf="templateList$ | async as templateList">
     <div class="cx-consent-toggles">
       <div class="col-sm-12 col-md-8 col-lg-6">
-        <div class="header">{{ 'newConsentManagement.header' | cxTranslate }}</div>
-        <div class="message">{{ 'newConsentManagement.message' | cxTranslate }}</div>
+        <div class="header">
+          {{ 'newConsentManagement.header' | cxTranslate }}
+        </div>
+        <div class="message">
+          {{ 'newConsentManagement.message' | cxTranslate }}
+        </div>
         <cx-new-consent-management-form
           *ngFor="let consentTemplate of templateList"
           [consentTemplate]="consentTemplate"

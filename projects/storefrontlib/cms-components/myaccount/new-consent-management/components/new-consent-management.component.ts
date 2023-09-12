@@ -14,19 +14,8 @@ import {
   GlobalMessageType,
   UserConsentService,
 } from '@spartacus/core';
-import {
-  BehaviorSubject,
-  combineLatest,
-  Observable,
-  Subscription,
-} from 'rxjs';
-import {
-  filter,
-  map,
-  skipWhile,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, map, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
 import { ConsentManagementComponentService } from '../../consent-management/consent-management-component.service';
 
 @Component({
