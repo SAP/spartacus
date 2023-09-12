@@ -62,6 +62,10 @@ export class ConfiguratorChatGtpMapperService {
     return JSON.stringify(simplified);
   }
 
+  protected mapPrice(price: Configurator.PriceDetails | undefined): string {
+    return price?.formattedValue ?? '$0.00';
+  }
+
   flatMapGroups(
     group: Configurator.Group,
     simplified: ChatGPT4.Configuration
@@ -118,12 +122,10 @@ export class ConfiguratorChatGtpMapperService {
     if (value.description) {
       gtpValue.description = value.description;
     }
-    gtpValue.price = this.mapPrice(value.valuePrice);
+    if (value.valuePrice?.formattedValue) {
+      gtpValue.price = value.valuePrice?.formattedValue;
+    }
 
     return gtpValue;
-  }
-
-  protected mapPrice(price: Configurator.PriceDetails | undefined): string {
-    return price?.formattedValue ?? '$0.00';
   }
 }
