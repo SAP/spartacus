@@ -8,6 +8,7 @@ import { TestBed } from '@angular/core/testing';
 import { CommandService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import {
+  AfterRedirectScriptResponse,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
   SubmitCompleteInput,
@@ -26,6 +27,12 @@ class MockPaymentConnector {
     return of({
       result: 'result',
     }) as Observable<OpfPaymentVerificationResponse>;
+  }
+  afterRedirectScripts(
+    paymentSessionId: string
+  ): Observable<AfterRedirectScriptResponse> {
+    console.log(paymentSessionId);
+    return of({ afterRedirectScript: {} });
   }
 }
 
@@ -210,5 +217,18 @@ describe('OpfPaymentService', () => {
     result.subscribe((response) => {
       expect(response).toBe(true);
     });
+  });
+
+  it('should call afterRedirectScripts from connector with the correct payload', () => {
+    const paymentSessionId = 'exampleSessionId';
+
+    const connectorVerifySpy = spyOn(
+      paymentConnector,
+      'afterRedirectScripts'
+    ).and.callThrough();
+
+    service.afterRedirectScripts(paymentSessionId);
+
+    expect(connectorVerifySpy).toHaveBeenCalledWith(paymentSessionId);
   });
 });
