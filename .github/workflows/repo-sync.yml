@@ -11,6 +11,8 @@ name: Sync a branch to private repo
 
 env:
   DEFAULT_BRANCH_TO_SYNC: ${{ github.event.repository.default_branch }}
+  PUBLIC_BRANCH: ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}
+  PRIVATE_BRANCH: ${PUBLIC_BRANCH//\//-}
 
 jobs:
   sync_public_repo_to_private:
@@ -23,7 +25,7 @@ jobs:
           fetch-depth: 0
       - name: Push a branch to the private repository
         run: | 
-          git push -u https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }} -f
+          git push -u https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git ${{ env.PRIVATE_BRANCH }} -f
       - name: Include remaining pipeline files to the private remote's branch
         run: |
           PIPELINE_CONFIG_PATH="./.pipeline/config.yml"
