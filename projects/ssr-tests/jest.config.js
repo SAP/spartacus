@@ -1,5 +1,5 @@
 const { pathsToModuleNameMapper } = require('ts-jest');
-const { compilerOptions } = require('./tsconfig.schematics.json');
+const { compilerOptions } = require('./tsconfig.json');
 const { defaultTransformerOptions } = require('jest-preset-angular/presets');
 
 /** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
