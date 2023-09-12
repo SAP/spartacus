@@ -5,9 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
+import { Product } from '@spartacus/core';
 import { ChatGPT4 } from '../model/chat-gpt-4.model';
 import { Configurator } from '../model/configurator.model';
-import { Product } from '@spartacus/core';
 const multiValuedUiTypes: Configurator.UiType[] = [
   Configurator.UiType.CHECKBOXLIST,
   Configurator.UiType.CHECKBOXLIST_PRODUCT,
@@ -46,18 +46,30 @@ export class ConfiguratorChatGtpMapperService {
       productName: product?.name ?? config.kbKey?.kbName ?? config.productCode,
       productDescription: product?.description,
     };
-    config.flatGroups.forEach((group) =>
-      simplified.groups.push(this.mapGroup(group))
-    );
-    if (config.priceSummary?.currentTotal) {
-      simplified.totalPrice = config.priceSummary.currentTotal.formattedValue;
-    }
-    if (config.priceSummary?.selectedOptions) {
-      simplified.includedSelectionsPrice =
-        config.priceSummary.selectedOptions.formattedValue;
+
+    // do not process the flat groups array - as it does not receive the value prices updates
+    // instead flat map the group array
+    config.groups.forEach((group) => this.flatMapGroups(group, simplified));
+
+    if (config.pricingEnabled && config.priceSummary) {
+      simplified.totalPrice = this.mapPrice(config.priceSummary.currentTotal);
+      simplified.selectedValuesPrice = this.mapPrice(
+        config.priceSummary.selectedOptions
+      );
+      simplified.basePrice = this.mapPrice(config.priceSummary.basePrice);
     }
     console.log('Config context for GTP:', simplified);
     return JSON.stringify(simplified);
+  }
+
+  flatMapGroups(
+    group: Configurator.Group,
+    simplified: ChatGPT4.Configuration
+  ): void {
+    simplified.groups.push(this.mapGroup(group));
+    group.subGroups.forEach((subGroup) =>
+      this.flatMapGroups(subGroup, simplified)
+    );
   }
 
   protected mapGroup(group: Configurator.Group): ChatGPT4.Group {
@@ -106,9 +118,12 @@ export class ConfiguratorChatGtpMapperService {
     if (value.description) {
       gtpValue.description = value.description;
     }
-    if (value.valuePrice?.formattedValue) {
-      gtpValue.price = value.valuePrice?.formattedValue;
-    }
+    gtpValue.price = this.mapPrice(value.valuePrice);
+
     return gtpValue;
+  }
+
+  protected mapPrice(price: Configurator.PriceDetails | undefined): string {
+    return price?.formattedValue ?? '$0.00';
   }
 }

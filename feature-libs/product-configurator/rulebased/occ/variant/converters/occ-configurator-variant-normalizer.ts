@@ -48,6 +48,7 @@ export class OccConfiguratorVariantNormalizer
       hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
       immediateConflictResolution: source.immediateConflictResolution ?? false,
       newConfiguration: source.newConfiguration, // we need a trinary state true, false, undefined!
+      pricingMerged: false,
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>

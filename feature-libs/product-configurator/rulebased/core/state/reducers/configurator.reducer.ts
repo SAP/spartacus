@@ -462,7 +462,7 @@ function takeOverPricingChanges(
         )
       : state.groups;
 
-  const result = {
+  const result: Configurator.Configuration = {
     ...state,
     ...content,
     groups: groups,
@@ -471,6 +471,7 @@ function takeOverPricingChanges(
       ...content.interactionState,
       issueNavigationDone: true,
     },
+    pricingMerged: true,
   };
   return result;
 }

@@ -10,7 +10,8 @@ export namespace ChatGPT4 {
     productName: string;
     productDescription?: string;
     totalPrice?: string;
-    includedSelectionsPrice?: string;
+    selectedValuesPrice?: string;
+    basePrice?: string;
   }
   export interface Entity {
     id: string;

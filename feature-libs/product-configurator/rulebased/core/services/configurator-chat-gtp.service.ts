@@ -20,6 +20,9 @@ const START_MSG =
   'You are an assistant designed to help the user with configuring a product. ' +
   'A configuration consists of list of Groups, which have Attributes. Each attribute has a list of selectable Values.' +
   'Attributes for which property isSingleSelection is true can have only one value, while others can have multiple values.' +
+  'If a value has a price, selecting it, will increase the total price  by its amount. '+
+  'If a value has no price, it is already included in the base price. '+
+  'The total price is th sum of the base price and all selected value prices.  ' +
   'The configuration state of the current group is provided along with the user messages in JSON format. ' +
   'The state of the other groups can be accessed by navigating to these groups. ' +
   'To complete a configuration navigate through each group and make selections for those attributes. ' +
@@ -310,6 +313,7 @@ export class ConfiguratorChatGtpService {
   ): Observable<ChatGPT4.Response> {
     {
       let updates: GtpSelectionResponse = JSON.parse(functionCall.arguments);
+
       this.updateConfig(updates, config);
 
       return this.configWithProduct$.pipe(
@@ -318,6 +322,7 @@ export class ConfiguratorChatGtpService {
         filter((configWithProduct) =>
           this.isLastUpdateApplied(updates, configWithProduct[0])
         ),
+        filter((configWithProduct) => this.isPricingMerged(configWithProduct[0])),
         take(1),
         tap(() =>
           this.addFunctionResultToConversation(FUNCTION_SELECT_VALUES.name)
@@ -327,6 +332,12 @@ export class ConfiguratorChatGtpService {
         )
       );
     }
+  }
+
+  isPricingMerged(config: Configurator.Configuration): boolean {
+    const pricingMerged = config.pricingMerged || !config.pricingEnabled;
+    console.log('pricing merged=' +config.pricingMerged +' pricingEnabled='+config.pricingEnabled);
+    return pricingMerged;
   }
 
   protected updateConfig(
@@ -430,13 +441,18 @@ export class ConfiguratorChatGtpService {
     config: Configurator.Configuration
   ) {
     let currentValue;
-    const lastUpdate = updates.selections.pop();
+    const lastUpdate = updates.selections[updates.selections.length - 1];
     if (lastUpdate) {
       const currentAttr = this.findAttribute(lastUpdate.attribute_id, config);
       if (currentAttr) {
         currentValue = this.findValue(lastUpdate.value_ids[0], currentAttr);
       }
     }
-    return currentValue?.selected ?? true;
+    const applied = currentValue?.selected ?? true;
+    console.log(
+      `last update is ${applied ? 'applied' : 'not yet applied'}`,
+      lastUpdate
+    );
+    return applied;
   }
 }
