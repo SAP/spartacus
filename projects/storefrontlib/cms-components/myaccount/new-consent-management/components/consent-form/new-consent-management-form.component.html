@@ -6,6 +6,7 @@
       [id]="consentTemplate.id"
       [checked]="consentGiven"
       (change)="onConsentChange()"
+      [disabled]="isRequired(consentTemplate?.id)"
     />
     <label class="custom-control-label" [for]="consentTemplate.id"></label>
   </div>
