@@ -183,17 +183,12 @@ export class OpfPaymentVerificationService {
       });
   }
 
-  protected executeScriptFromHtml(html: string): void {
-    this.opfResourceLoaderService.executeScriptFromHtml(html);
-  }
-
   runHostedFieldsPattern(
     targetPage: TargetPage,
     paymentSessionId: string,
     vcr: ViewContainerRef,
     paramsMap: Array<KeyValuePair>
   ): Observable<boolean> {
-    console.log('vcr', vcr);
     this.globalFunctionsService.registerGlobalFunctions({
       targetPage,
       paymentSessionId,
@@ -213,7 +208,9 @@ export class OpfPaymentVerificationService {
     );
   }
 
-  renderAfterRedirectScripts(script: AfterRedirectDynamicScript) {
+  renderAfterRedirectScripts(
+    script: AfterRedirectDynamicScript
+  ): Promise<boolean> {
     const html = script?.html;
 
     return new Promise((resolve: (value: boolean) => void) => {
@@ -221,18 +218,19 @@ export class OpfPaymentVerificationService {
         .loadProviderResources(script.jsUrls, script.cssUrls)
         .then(() => {
           if (html) {
-            this.executeScriptFromHtml(html);
+            this.opfResourceLoaderService.executeScriptFromHtml(html);
             resolve(true);
+          } else {
+            resolve(false);
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           resolve(false);
         });
     });
   }
 
-  removeResourcesAndGlobalFunctions() {
+  removeResourcesAndGlobalFunctions(): void {
     this.globalFunctionsService.removeGlobalFunctions();
     this.opfResourceLoaderService.clearAllProviderResources();
   }
