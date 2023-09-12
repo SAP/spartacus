@@ -37,6 +37,8 @@ describe('OpfPaymentVerificationComponent', () => {
       'placeOrder',
       'goToPage',
       'displayError',
+      'removeResourcesAndGlobalFunctions',
+      'runHostedFieldsPattern',
     ]);
 
     TestBed.configureTestingModule({
@@ -117,6 +119,23 @@ describe('OpfPaymentVerificationComponent', () => {
 
       expect(component.onError).toHaveBeenCalledWith(mockError);
     });
+
+    it('should handle HostedField pattern scenario', () => {
+      const mockVerifyResultWithFlag = {
+        paymentSessionId: '1',
+        paramsMap: [],
+        afterRedirectScriptFlag: 'true',
+      };
+
+      paymentServiceMock.verifyResultUrl.and.returnValue(
+        of(mockVerifyResultWithFlag)
+      );
+      paymentServiceMock.runHostedFieldsPattern.and.returnValue(of(true));
+      component.ngOnInit();
+
+      expect(paymentServiceMock.runHostedFieldsPattern).toHaveBeenCalled();
+      expect(paymentServiceMock.verifyPayment).not.toHaveBeenCalled();
+    });
   });
 
   describe('onSuccess', () => {
@@ -141,17 +160,25 @@ describe('OpfPaymentVerificationComponent', () => {
     });
   });
 
-  // describe('ngOnDestroy', () => {
-  //   it('should unsubscribe from the subscription', () => {
-  //     const subscriptionMock: Subscription = jasmine.createSpyObj(
-  //       'Subscription',
-  //       ['unsubscribe']
-  //     );
-  //     component.subscription = subscriptionMock;
+  describe('ngOnDestroy', () => {
+    it('should call removeResourcesAndGlobalFunctions in HostedField pattern', () => {
+      const mockVerifyResultWithFlag = {
+        paymentSessionId: '1',
+        paramsMap: [],
+        afterRedirectScriptFlag: 'true',
+      };
 
-  //     component.ngOnDestroy();
+      paymentServiceMock.verifyResultUrl.and.returnValue(
+        of(mockVerifyResultWithFlag)
+      );
+      paymentServiceMock.runHostedFieldsPattern.and.returnValue(of(true));
+      component.ngOnInit();
 
-  //     expect(subscriptionMock.unsubscribe).toHaveBeenCalled();
-  //   });
-  // });
+      component.ngOnDestroy();
+
+      expect(
+        paymentServiceMock.removeResourcesAndGlobalFunctions
+      ).toHaveBeenCalled();
+    });
+  });
 });
