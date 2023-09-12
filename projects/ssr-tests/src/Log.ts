@@ -6,29 +6,23 @@
 
 const fs = require('fs');
 
-const SSR_LOG_PATH = './ssr-e2e/ssr.log';
+const SSR_LOG_PATH = './src/ssr.log';
 
-function clearSsrLogFile() {
+export function clearSsrLogFile() {
   fs.writeFileSync(SSR_LOG_PATH, '');
 }
 
-function getLogMessages() {
+export function getLogMessages() {
   const data = fs.readFileSync(SSR_LOG_PATH).toString();
-  // const jsonData = data
-  //   .slice(data.indexOf('{'))
-  //   .replaceAll('\n', ',')
-  //   .slice(0, -1);
-  // console.log(jsonData);
-  // const messages = JSON.parse(jsonData).map((item) => item.message);
   const messages = data
     .toString()
     .split('\n')
-    .filter((text) => text.indexOf('"message":') > -1)
-    .map((text) => text.split('":"')[1].split('",')[0]);
+    .filter((text: string) => text.charAt(0) === '{')
+    .map((text: any) => JSON.parse(text).message);
   return messages;
 }
 
-function assertMessages(expected) {
+export function assertMessages(expected: string[]) {
   const messages = getLogMessages();
   for (const message of expected) {
     expect(messages).toContain(message);
@@ -36,10 +30,13 @@ function assertMessages(expected) {
 }
 
 // Check log every interval if log contains text.
-async function waitUntilLogContainsText(text, checkInterval = 500) {
+export async function waitUntilLogContainsText(
+  text: string,
+  checkInterval = 500
+): Promise<true> {
   return new Promise((resolve) => {
     if (doesLogContainText(text)) {
-      return resolve();
+      return resolve(true);
     }
     return setTimeout(
       () => resolve(waitUntilLogContainsText(text)),
@@ -48,15 +45,7 @@ async function waitUntilLogContainsText(text, checkInterval = 500) {
   });
 }
 
-function doesLogContainText(text) {
+export function doesLogContainText(text: string) {
   const data = fs.readFileSync(SSR_LOG_PATH).toString();
   return data.includes(text);
 }
-
-module.exports = {
-  waitUntilLogContainsText,
-  clearSsrLogFile,
-  getLogMessages,
-  assertMessages,
-  doesLogContainText,
-};

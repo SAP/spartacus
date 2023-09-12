@@ -8,10 +8,13 @@ const childProcess = require('child_process');
 const Log = require('./Log');
 
 async function startSsrServer() {
-  childProcess.exec('npm run serve:ssr > ssr-e2e/ssr.log', {
-    // Enable to read server log output in console
-    stdio: 'inherit',
-  });
+  childProcess.exec(
+    'NODE_TLS_REJECT_UNAUTHORIZED=0 npm run serve:ssr --prefix ../../> src/ssr.log',
+    {
+      // Enable to read server log output in console
+      stdio: 'inherit',
+    }
+  );
   await Log.waitUntilLogContainsText('Node Express server listening on ');
 }
 

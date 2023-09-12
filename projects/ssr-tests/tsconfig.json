@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "module": "CommonJs",
+    "types": ["jest"],
+    "paths": {
+      "@spartacus/core": ["../../projects/core/public_api"]
+    },
+    "declaration": true,
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  },
+  "include": ["src/*.spec.ts"],
+  "exclude": [
+    "src/*/files/**/*",
+    "src/**/*_spec.ts",
+    "src/migrations/test/**/*"
+  ]
+}

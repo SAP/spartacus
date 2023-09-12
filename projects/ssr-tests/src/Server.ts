@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-const http = require('http');
+import * as http from 'http';
+import * as httpProxy from 'http-proxy';
+
+const proxy = (<any>httpProxy).createProxyServer({ secure: false });
 
 const REQUEST_OPTIONS = {
   host: 'localhost',
@@ -18,14 +21,14 @@ const REQUEST_OPTIONS = {
  * @param {number} options.delay Number of seconds to delay requests before sending.
  * @param {number} options.throwStatus Number of status code to set response to.
  */
-async function startProxyServer(options) {
+export async function startProxyServer(options: any) {
   return new Promise((resolve) => {
-    const server = http.createServer((req, res) => {
+    const server = http.createServer((req: any, res: any) => {
       const forwardRequest = () =>
         proxy.web(req, res, { target: options.target });
 
       if (options.throwStatus) {
-        proxy.on('proxyRes', (proxyRes, req, res) => {
+        proxy.on('proxyRes', (proxyRes: any) => {
           proxyRes.statusCode = options.throwStatus;
         });
       }
@@ -44,13 +47,13 @@ async function startProxyServer(options) {
 }
 
 // TODO: Assert ssr server receives request and sends to proxy server
-async function sendRequest(path) {
+export async function sendRequest(path: string) {
   return new Promise((resolve) => {
-    var req = http.get({ ...REQUEST_OPTIONS, path }, function (res) {
+    var req = http.get({ ...REQUEST_OPTIONS, path }, function (res: any) {
       // Buffer the body entirely for processing as a whole.
       var bodyChunks = [];
       res
-        .on('data', function (chunk) {
+        .on('data', function (chunk: any) {
           bodyChunks.push(chunk);
         })
         .on('end', () => {
@@ -58,10 +61,8 @@ async function sendRequest(path) {
         });
     });
 
-    req.on('error', function (e) {
+    req.on('error', function (e: Error) {
       console.log('ERROR: ' + e.message);
     });
   });
 }
-
-module.exports = { startProxyServer, sendRequest };
