@@ -4,6 +4,6 @@
   "keywords": ["spartacus", "ssr", "tests"],
   "license": "MIT",
   "scripts": {
-    "test": "../../node_modules/.bin/jest --config ./jest.config.js"
+    "test": "../../node_modules/.bin/jest --config ./jest.config.js --detectOpenHandles"
   }
 }

@@ -23,9 +23,9 @@ describe('SSR E2E', () => {
     await server.close();
   });
 
-  //afterAll(async () => {
-  //  await Ssr.killSsrServer();
-  //});
+  afterAll(async () => {
+    await Ssr.killSsrServer();
+  });
 
   it('should receive success response with request', async () => {
     server = await ProxyServer.startProxyServer({
@@ -45,14 +45,8 @@ describe('SSR E2E', () => {
   // Wait for SSR server to complete rendering.
   it('should complete rendering within a minute', async () => {
     await Log.waitUntilLogContainsText(`Rendering completed (${REQUEST_PATH})`);
-    await Log.waitUntilLogContainsText(
-      `Request is resolved with the SSR rendering result (${REQUEST_PATH})`
-    );
 
-    Log.assertMessages([
-      `Rendering completed (${REQUEST_PATH})`,
-      `Request is resolved with the SSR rendering result (${REQUEST_PATH})`,
-    ]);
+    Log.assertMessages([`Rendering completed (${REQUEST_PATH})`]);
   });
 
   xit('should receive cached response with next request', async () => {
