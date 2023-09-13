@@ -14,6 +14,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { filter, take } from 'rxjs/operators';
+import { SmartEditConfig } from '@spartacus/smartedit/root';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,8 @@ export class SmartEditService {
     protected baseSiteService: BaseSiteService,
     protected zone: NgZone,
     protected winRef: WindowRef,
-    protected rendererFactory: RendererFactory2
+    protected rendererFactory: RendererFactory2,
+    protected smartEditConfig: SmartEditConfig
   ) {
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
