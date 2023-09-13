@@ -10,6 +10,7 @@ import {
   OpfOrderFacade,
   OpfOtpFacade,
   OpfPaymentFacade,
+  OpfResourceLoaderFacade,
 } from '@spartacus/opf/base/root';
 
 import { OpfPaymentHostedFieldsService } from '../services/opf-payment-hosted-fields.service';
@@ -17,6 +18,7 @@ import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 import { OpfOrderService } from './opf-order.service';
 import { OpfOtpService } from './opf-otp.service';
 import { OpfPaymentService } from './opf-payment.service';
+import { OpfResourceLoaderService } from './opf-resource-loader.service';
 
 export const facadeProviders: Provider[] = [
   OpfPaymentService,
@@ -39,5 +41,9 @@ export const facadeProviders: Provider[] = [
   {
     provide: OpfGlobalFunctionsFacade,
     useExisting: OpfGlobalFunctionsService,
+  },
+  {
+    provide: OpfResourceLoaderFacade,
+    useExisting: OpfResourceLoaderService,
   },
 ];

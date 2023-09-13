@@ -7,13 +7,12 @@
 import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { ScriptLoader } from '@spartacus/core';
-
-import { PaymentDynamicScriptResource } from '@spartacus/opf/checkout/root';
-import { throwError } from 'rxjs';
 import {
   AfterRedirectDynamicScriptResource,
   AfterRedirectDynamicScriptResourceType,
-} from '../model';
+} from '@spartacus/opf/base/root';
+
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -28,9 +27,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
 
   protected readonly OPF_RESOURCE_ATTRIBUTE_KEY = 'data-opf-resource';
 
-  protected loadedResources:
-    | AfterRedirectDynamicScriptResource[]
-    | PaymentDynamicScriptResource[] = [];
+  protected loadedResources: AfterRedirectDynamicScriptResource[] = [];
 
   protected embedStyles(embedOptions: {
     src: string;
@@ -78,18 +75,14 @@ export class OpfResourceLoaderService extends ScriptLoader {
   }
 
   protected isResourceLoadingCompleted(
-    resources:
-      | PaymentDynamicScriptResource[]
-      | AfterRedirectDynamicScriptResource[]
+    resources: AfterRedirectDynamicScriptResource[]
   ) {
     return resources.length === this.loadedResources.length;
   }
 
   protected markResourceAsLoaded(
-    resource: PaymentDynamicScriptResource | AfterRedirectDynamicScriptResource,
-    resources:
-      | PaymentDynamicScriptResource[]
-      | AfterRedirectDynamicScriptResource[],
+    resource: AfterRedirectDynamicScriptResource,
+    resources: AfterRedirectDynamicScriptResource[],
     resolve: (value: void | PromiseLike<void>) => void
   ) {
     this.loadedResources.push(resource);

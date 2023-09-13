@@ -17,9 +17,9 @@ import {
 import {
   OpfOrderFacade,
   OpfOtpFacade,
+  OpfResourceLoaderFacade,
   OpfService,
 } from '@spartacus/opf/base/root';
-import { OpfResourceLoaderService } from '@spartacus/opf/checkout/core';
 import {
   OpfCheckoutFacade,
   OpfPaymentMethodType,
@@ -50,7 +50,7 @@ export class OpfCheckoutPaymentWrapperService {
   constructor(
     protected opfCheckoutService: OpfCheckoutFacade,
     protected opfOtpService: OpfOtpFacade,
-    protected opfResourceLoaderService: OpfResourceLoaderService,
+    protected opfResourceLoaderService: OpfResourceLoaderFacade,
     protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService,
     protected routingService: RoutingService,

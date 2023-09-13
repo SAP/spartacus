@@ -20,6 +20,7 @@ import {
   OpfGlobalFunctionsFacade,
   OpfOrderFacade,
   OpfPaymentFacade,
+  OpfResourceLoaderFacade,
 } from '../../facade';
 import {
   OpfPaymenVerificationUrlInput,
@@ -33,7 +34,6 @@ import {
   TargetPage,
 } from '../../model/opf.model';
 import { OpfService } from '../../services';
-import { OpfResourceLoaderService } from '../../services/opf-resource-loader.service';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +45,7 @@ export class OpfPaymentVerificationService {
     protected globalMessageService: GlobalMessageService,
     protected opfPaymentService: OpfPaymentFacade,
     protected opfService: OpfService,
-    protected opfResourceLoaderService: OpfResourceLoaderService,
+    protected opfResourceLoaderFacade: OpfResourceLoaderFacade,
     protected globalFunctionsService: OpfGlobalFunctionsFacade
   ) {}
 
@@ -184,7 +184,7 @@ export class OpfPaymentVerificationService {
   }
 
   protected executeScriptFromHtml(html: string): void {
-    this.opfResourceLoaderService.executeScriptFromHtml(html);
+    this.opfResourceLoaderFacade.executeScriptFromHtml(html);
   }
 
   runHostedFieldsPattern(
@@ -217,7 +217,7 @@ export class OpfPaymentVerificationService {
     const html = script?.html;
 
     return new Promise((resolve: (value: boolean) => void) => {
-      this.opfResourceLoaderService
+      this.opfResourceLoaderFacade
         .loadProviderResources(script.jsUrls, script.cssUrls)
         .then(() => {
           if (html) {
@@ -234,6 +234,6 @@ export class OpfPaymentVerificationService {
 
   removeResourcesAndGlobalFunctions() {
     this.globalFunctionsService.removeGlobalFunctions();
-    this.opfResourceLoaderService.clearAllProviderResources();
+    this.opfResourceLoaderFacade.clearAllProviderResources();
   }
 }
