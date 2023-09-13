@@ -7,24 +7,24 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  backOff,
   ConverterService,
+  backOff,
   isJaloError,
   normalizeHttpError,
 } from '@spartacus/core';
 import {
-  OpfEndpointsService,
-  OpfPaymentAdapter,
   OPF_PAYMENT_SUBMIT_COMPLETE_NORMALIZER,
   OPF_PAYMENT_SUBMIT_NORMALIZER,
   OPF_PAYMENT_VERIFICATION_NORMALIZER,
+  OpfEndpointsService,
+  OpfPaymentAdapter,
 } from '@spartacus/opf/base/core';
 import {
+  OPF_CC_OTP_KEY,
+  OPF_CC_PUBLIC_KEY,
   OpfConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
-  OPF_CC_OTP_KEY,
-  OPF_CC_PUBLIC_KEY,
   SubmitCompleteRequest,
   SubmitCompleteResponse,
   SubmitRequest,
@@ -46,7 +46,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
   header: { [name: string]: string } = {
     accept: 'application/json',
     'Content-Type': 'application/json',
-    'Content-Language': 'en-us',
+    'Accept-Language': 'en-us',
   };
 
   verifyPayment(
