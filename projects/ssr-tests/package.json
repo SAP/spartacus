@@ -1,6 +1,5 @@
 {
   "name": "@spartacus/ssr-tests",
-  "version": "6.3.0-1",
   "description": "Spartacus SSR Tests",
   "keywords": [
     "spartacus",
@@ -12,7 +11,6 @@
     "test": "../../node_modules/.bin/jest --config ./jest.config.js --detectOpenHandles"
   },
   "dependencies": {
-    "http-proxy": "^1.18.1",
     "tslib": "^2.4.0"
   }
 }
