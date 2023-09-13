@@ -79,10 +79,7 @@ export class QuoteRequestDialogComponent {
               params: { quoteId: quote.code },
             });
           } else {
-            this.quoteFacade.performQuoteAction(
-              quote.code,
-              QuoteActionType.SUBMIT
-            );
+            this.quoteFacade.performQuoteAction(quote, QuoteActionType.SUBMIT);
           }
           this.dismissModal('success');
         })

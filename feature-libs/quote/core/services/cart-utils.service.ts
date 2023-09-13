@@ -9,7 +9,7 @@ import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import { QuoteCartService } from '@spartacus/quote/root';
 import { Observable } from 'rxjs';
-import { tap, take, switchMap } from 'rxjs/operators';
+import { take, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -31,10 +31,7 @@ export class CartUtilsService {
           toMergeCartGuid: undefined,
           extraData: { active: true },
         })
-      ),
-      tap(() => {
-        this.quoteCartService.setQuoteCartActive(false);
-      })
+      )
     );
   }
 
