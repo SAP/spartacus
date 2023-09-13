@@ -33,7 +33,7 @@ export class SmartEditService {
     protected zone: NgZone,
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
-    protected smartEditConfig: SmartEditConfig
+    protected config: SmartEditConfig
   ) {
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
