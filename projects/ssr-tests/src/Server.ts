@@ -62,7 +62,7 @@ export async function sendRequest(path: string) {
     });
 
     req.on('error', function (e: Error) {
-      console.log('ERROR: ' + e.message);
+      console.error('ERROR: ' + e.message);
     });
   });
 }

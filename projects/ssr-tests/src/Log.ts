@@ -14,12 +14,11 @@ export function clearSsrLogFile() {
 
 export function getLogMessages() {
   const data = fs.readFileSync(SSR_LOG_PATH).toString();
-  const messages = data
+  return data
     .toString()
     .split('\n')
     .filter((text: string) => text.charAt(0) === '{')
     .map((text: any) => JSON.parse(text).message);
-  return messages;
 }
 
 export function assertMessages(expected: string[]) {
