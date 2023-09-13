@@ -1,7 +1,4 @@
-// const httpProxy = require('http-proxy');
 import * as Log from './Log';
-//const Log = require('./Log');
-// const ProxyServer = require('./Server');
 import * as ProxyServer from './Server';
 const Ssr = require('./Ssr');
 
