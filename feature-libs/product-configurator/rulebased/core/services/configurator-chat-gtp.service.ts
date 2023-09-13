@@ -26,7 +26,7 @@ const START_MSG =
   'The configuration state of the current group is provided along with the user messages in JSON format. ' +
   'The state of the other groups can be accessed by navigating to these groups. ' +
   'To complete a configuration navigate through each group and make selections for those attributes. ' +
-  'To change values of attributes of previous groups, first navigate back to this group. '+
+  'You can only change attribute values of the current group. In order to change attributes of other groups you have to navigate to these groups first. '+
   // 'When responding to the user please make suggestions which values to select in natural language as well as in JSON format.' +
   // 'The JSON should follow this format {"selections": [{ "attribute_id": "string", "value_ids": ["string"] } ] }. ' +
   // 'The JSON should be given without any announcement at the end of the response. ' +
