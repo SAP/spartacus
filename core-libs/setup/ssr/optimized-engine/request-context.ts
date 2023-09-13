@@ -6,62 +6,27 @@
 
 import { randomUUID } from 'crypto';
 import { Request } from 'express';
-import { ExpressServerLogger, ExpressServerLoggerContext } from '../logger';
+import { ExpressServerLogger } from '../logger';
 import { parseTraceparent } from '../logger/loggers/w3c-trace-context/parse-traceparent';
+import { W3cTraceContext } from '../logger/loggers/w3c-trace-context/w3c-trace-context.model';
 
-const getRequestContext = (request: Request): ExpressServerLoggerContext => {
+/**
+ * RequestContext is used for log message in server side rendering.
+ * It contains request's UUID, time of receiving the request and the W3C Trace Context if `traceparent` header is available and valid.
+ */
+export interface RequestContext {
+  uuid: string;
+  timeReceived: string;
+  traceContext?: W3cTraceContext;
+}
+
+/**
+ * Returns the request context from the request object.
+ * @param request - the request object
+ * @returns the context of the request
+ */
+export const getRequestContext = (request: Request): RequestContext => {
   return request.res?.locals?.cx?.request;
-};
-
-const setRequestContext = (
-  request: Request,
-  context: ExpressServerLoggerContext
-) => {
-  if (request.res) {
-    request.res.locals = {
-      ...request.res.locals,
-      cx: {
-        ...request.res.locals.cx,
-        request: context,
-      },
-    };
-  }
-};
-
-/**
- * Adds the initial request context to the request object.
- * @param request - the request object
- */
-const addInitialRequestContext = (request: Request): void => {
-  const requestContext: ExpressServerLoggerContext = {
-    uuid: randomUUID(),
-    timeReceived: new Date().toISOString(),
-  };
-  setRequestContext(request, requestContext);
-};
-
-/**
- * Parses the `traceparent` header and adds the trace context to the request context.
- * In case of an error, the error is logged with the initial request context.
- * @param request - the request object
- * @param logger - the logger object
- *
- */
-const addTraceContext = (request: Request, logger: ExpressServerLogger) => {
-  const context = getRequestContext(request);
-  try {
-    const traceContext = parseTraceparent(request.get('traceparent'));
-    if (traceContext) {
-      context.traceContext = traceContext;
-      setRequestContext(request, context);
-    }
-  } catch (e) {
-    const error =
-      e instanceof Error
-        ? e
-        : new Error('Unexpected error during parsing traceparent header');
-    logger.error(error.message, context);
-  }
 };
 
 /**
@@ -78,14 +43,69 @@ export const preprocessRequestForLogger = (
   request: Request,
   logger: ExpressServerLogger
 ) => {
-  addInitialRequestContext(request);
-  addTraceContext(request, logger);
+  const requestContext: RequestContext = {
+    ...createInitialRequestContext(),
+    traceContext: getTraceContext(request, logger),
+  };
+  setRequestContext(request, requestContext);
+};
+
+/**
+ * Updates the request object with the request context.
+ * @param request - the request object
+ * @param context - the context of the request
+ */
+const setRequestContext = (request: Request, context: RequestContext) => {
+  if (request.res) {
+    request.res.locals = {
+      ...request.res.locals,
+      cx: {
+        ...request.res.locals.cx,
+        request: context,
+      },
+    };
+  }
+};
+
+/**
+ * Adds the initial request context to the request object.
+ * @param request - the request object
+ */
+const createInitialRequestContext = (): RequestContext => {
+  const requestContext: RequestContext = {
+    uuid: randomUUID(),
+    timeReceived: new Date().toISOString(),
+  };
+  return requestContext;
+};
+
+/**
+ * Parses the `traceparent` header and adds the trace context to the request context.
+ * In case of an error, the error is logged with the initial request context.
+ * @param request - the request object
+ * @param logger - the logger object
+ *
+ */
+const getTraceContext = (
+  request: Request,
+  logger: ExpressServerLogger
+): W3cTraceContext | undefined => {
+  const traceparent = request.get('traceparent');
+  try {
+    return parseTraceparent(request.get('traceparent')) ?? undefined;
+  } catch (e) {
+    const error =
+      e instanceof Error
+        ? e
+        : new Error('Unexpected error during parsing traceparent header');
+    logger.error(error.message, { request, traceparent });
+  }
 };
 
 declare module 'express' {
   export interface Locals {
     cx: {
-      request: ExpressServerLoggerContext;
+      request: RequestContext;
     };
   }
 }

@@ -6,7 +6,6 @@
 
 import { InjectionToken } from '@angular/core';
 import { Request } from 'express';
-import { W3cTraceContext } from './w3c-trace-context/w3c-trace-context.model';
 
 /**
  * ExpressServerLoggerContext is used for log message in server side rendering.
@@ -14,7 +13,6 @@ import { W3cTraceContext } from './w3c-trace-context/w3c-trace-context.model';
  */
 export interface ExpressServerLoggerContext {
   request?: Request;
-  traceContext?: W3cTraceContext;
   [_key: string]: any;
 }
 

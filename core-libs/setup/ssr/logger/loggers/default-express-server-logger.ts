@@ -6,6 +6,7 @@
 
 import { isDevMode } from '@angular/core';
 import { Request } from 'express';
+import { getRequestContext } from '../../optimized-engine/request-context';
 import {
   ExpressServerLogger,
   ExpressServerLoggerContext,
@@ -95,7 +96,7 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
   protected mapRequest(request: Request): Record<string, any> {
     return {
       url: request.originalUrl,
-      ...request.res?.locals.cx.request,
+      ...getRequestContext(request),
     };
   }
 }

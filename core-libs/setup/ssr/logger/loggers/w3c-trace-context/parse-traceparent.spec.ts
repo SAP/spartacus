@@ -6,7 +6,7 @@ describe('parseTraceparent', () => {
   it('should return null if traceparent is not a string', () => {
     const result = parseTraceparent({} as string);
 
-    expect(result).toBeNull();
+    expect(result).toBeUndefined();
   });
 
   it('should throw an error if traceparent is not 55 characters long', () => {

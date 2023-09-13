@@ -49,6 +49,7 @@ describe('RequestContext', () => {
     expect(request.res?.locals.cx.request).toMatchInlineSnapshot(`
       {
         "timeReceived": "2023-09-07T00:00:00.000Z",
+        "traceContext": undefined,
         "uuid": "ad90db04-a501-4dc5-9b4e-2cc2ab10d49c",
       }
     `);
@@ -82,15 +83,13 @@ describe('RequestContext', () => {
     expect(request.res?.locals.cx.request).toMatchInlineSnapshot(`
       {
         "timeReceived": "2023-09-07T00:00:00.000Z",
+        "traceContext": undefined,
         "uuid": "ad90db04-a501-4dc5-9b4e-2cc2ab10d49c",
       }
     `);
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       `Traceparent header has invalid length: ${invalidTraceparent.length}. Expected 55 characters.`,
-      {
-        timeReceived: '2023-09-07T00:00:00.000Z',
-        uuid: 'ad90db04-a501-4dc5-9b4e-2cc2ab10d49c',
-      }
+      { request, traceparent: invalidTraceparent }
     );
   });
 
@@ -107,15 +106,13 @@ describe('RequestContext', () => {
     expect(request.res?.locals.cx.request).toMatchInlineSnapshot(`
       {
         "timeReceived": "2023-09-07T00:00:00.000Z",
+        "traceContext": undefined,
         "uuid": "ad90db04-a501-4dc5-9b4e-2cc2ab10d49c",
       }
     `);
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       'Unexpected error during parsing traceparent header',
-      {
-        timeReceived: '2023-09-07T00:00:00.000Z',
-        uuid: 'ad90db04-a501-4dc5-9b4e-2cc2ab10d49c',
-      }
+      { request, traceparent: invalidTraceparent }
     );
   });
 });
