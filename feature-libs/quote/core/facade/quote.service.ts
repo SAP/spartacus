@@ -219,21 +219,21 @@ export class QuoteService implements QuoteFacade {
             payload.quoteAction === QuoteActionType.EDIT ||
             payload.quoteAction === QuoteActionType.CHECKOUT
           ) {
-            //ensure that quote cart becomes active cart, re-load quote after cart has been loaded
-            this.multiCartService.loadCart({
-              userId: userId,
-              cartId: payload.quote.cartId as string,
-              extraData: {
-                active: true,
-              },
-            });
-            this.activeCartService
-              .getActive()
-              .pipe(
-                filter((cart) => cart.code === payload.quote.cartId),
-                take(1)
-              )
-              .subscribe(() => this.triggerQuoteDetailsReload());
+            //no cartId present: ensure that we re-fetch quote cart id from quote
+            let cartId = payload.quote.cartId;
+            if (!cartId) {
+              this.quoteConnector
+                .getQuote(userId, payload.quote.code)
+                .pipe(
+                  filter((quote) => quote.cartId !== undefined),
+                  take(1)
+                )
+                .subscribe((quote) => {
+                  this.loadQuoteCart(userId, quote.cartId as string);
+                });
+            } else {
+              this.loadQuoteCart(userId, cartId);
+            }
           }
 
           if (payload.quoteAction === QuoteActionType.CHECKOUT) {
@@ -246,6 +246,28 @@ export class QuoteService implements QuoteFacade {
       strategy: CommandStrategy.CancelPrevious,
     }
   );
+
+  /**
+   * Loads the quote cart and waits until load is done. Afterwards triggers a refresh of the quote details
+   * @param userId Current user
+   * @param cartId Quote cart ID
+   */
+  protected loadQuoteCart(userId: string, cartId: string) {
+    this.multiCartService.loadCart({
+      userId: userId,
+      cartId: cartId as string,
+      extraData: {
+        active: true,
+      },
+    });
+    this.activeCartService
+      .getActive()
+      .pipe(
+        filter((cart) => cart.code === cartId),
+        take(1)
+      )
+      .subscribe(() => this.triggerQuoteDetailsReload());
+  }
 
   protected triggerQuoteDetailsReload() {
     this.isActionPerforming$.next(false);
