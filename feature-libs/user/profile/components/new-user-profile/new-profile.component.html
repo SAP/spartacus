@@ -1,80 +1,78 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
 <div>
-  <div>
-    <label style="float: left; font-size: 22px; font-weight: 600; color: #14293A;">My information</label>
+  <div class="myaccount-enhancedUI-header-area myaccount-enhancedUI-headertext-2">
+    <label class="myaccount-enhancedUI-headertext">{{ 'newUserProfile.myInformation' | cxTranslate
+    }}</label>
     <button
-      style="float: right; font-size: 16px; font-family: Open sans; color: #1672B7;border: none; background-color: transparent;"
+      class="myaccount-enhancedUI-editButton"
       *ngIf="!isEditingProfile" (click)="onEdit()"> {{ 'common.edit' | cxTranslate }} </button>
   </div>
-  <div *ngIf="!isEditingProfile" style="clear:both">
+  <div *ngIf="!isEditingProfile" class="myaccount-enhancedUI-body-area">
     <div style="display:flex">
-      <label style="font-weight: 600; width: 120px; color:#212738 ">
-        {{ 'updateProfileForm.title' | cxTranslate }}
+      <label class="myaccount-enhancedUI-text-head">
+        {{ 'newUserProfile.title' | cxTranslate }}
       </label>
-      <label style="font-weight: 400; color:#6C7079">
+      <label class="myaccount-enhancedUI-value">
         {{(user$ | async)?.title}}
       </label>
     </div>
     <div style="display: flex">
-      <label style=" font-weight: 600; width: 120px; color:#212738 ">
+      <label class="myaccount-enhancedUI-text-head">
         <span class="">{{
-          'updateProfileForm.firstName.label' | cxTranslate
+          'newUserProfile.name' | cxTranslate
           }}</span>
       </label>
-      <label style="font-weight: 400; color:#6C7079">
+      <label class="myaccount-enhancedUI-value">
         {{(user$ | async)?.firstName}} {{(user$ | async)?.lastName}}
       </label>
     </div>
     <div style="display: flex">
-      <label style="font-weight: 600; width: 120px; color:#212738 ">
+      <label class="myaccount-enhancedUI-text-head">
         <span class="">{{
-          'updateProfileForm.customerId' | cxTranslate
+          'newUserProfile.customerId' | cxTranslate
           }}</span>
       </label>
-      <label style="font-weight: 400; color:#6C7079">
+      <label class="myaccount-enhancedUI-value">
         {{(user$ | async)?.customerId}}
       </label>
     </div>
   </div>
 
 
-  <div *ngIf="isEditingProfile" style="clear:both" class="user-form">
+  <div *ngIf="isEditingProfile" style="clear:both" class="user-form myaccount-enhancedUI-body-area">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
-      <label style="width:fit-content; font-weight: 600; width: 160px; color:#212738 ">
-        <span class="label-content">{{
-          'updateProfileForm.title' | cxTranslate
+      <label>
+        <span class="label-content, myaccount-enhancedUI-text-head">{{
+          'newUserProfile.title' | cxTranslate
           }}</span>
-        <ng-select style="background-color:#FBFBFB" [clearable]="false" [searchable]="false" formControlName="titleCode"
+        <ng-select [clearable]="false" [searchable]="false" formControlName="titleCode"
           id="title-select" [cxNgSelectA11y]="{
-            ariaLabel: 'updateProfileForm.title' | cxTranslate
+            ariaLabel: 'newUserProfile.title' | cxTranslate
           }">
           <ng-option *ngFor="let title of titles$ | async" [value]="title.code">{{
             title.name
             }}</ng-option>
         </ng-select>
       </label>
-      <label style="width:fit-content; font-weight: 600; width: 160px; color:#212738 ">
-        <span class="label-content">{{
-          'updateProfileForm.firstName.label' | cxTranslate
+      <label>
+        <span class="label-content, myaccount-enhancedUI-text-head">{{
+          'newUserProfile.firstName' | cxTranslate
           }}</span>
-        <input required="true" type="text" class="form-control" name="firstName" placeholder="{{
-            'updateProfileForm.firstName.placeholder' | cxTranslate
-          }}" formControlName="firstName" />
+        <input required="true" type="text" class="form-control" name="firstName"  formControlName="firstName" />
         <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
       </label>
 
-      <label style="width:fit-content; font-weight: 600; width: 160px; color:#212738 ">
-        <span class="label-content">{{
-          'updateProfileForm.lastName.label' | cxTranslate
+      <label>
+        <span class="label-content, myaccount-enhancedUI-text-head">{{
+          'newUserProfile.lastName' | cxTranslate
           }}</span>
-        <input required="true" type="text" class="form-control" name="lastName"
-          placeholder="{{ 'updateProfileForm.lastName.placeholder' | cxTranslate }}" formControlName="lastName" />
+        <input required="true" type="text" class="form-control" name="lastName" formControlName="lastName" />
         <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
       </label>
 
-      <label style="width:fit-content; font-weight: 600; width: 160px; color:#212738 ">
-        <span class="label-content">{{
-          'updateProfileForm.customerId' | cxTranslate
+      <label>
+        <span class="label-content, myaccount-enhancedUI-text-head">{{
+          'newUserProfile.customerId' | cxTranslate
           }}</span>
         <input required="true" type="text" class="form-control" name="customerId" formControlName="customerId"
           readonly />
@@ -82,9 +80,9 @@
       </label>
     </form>
     <div style="display: flex">
-      <button class="btn" (click)="cancelEdit()">{{ 'common.cancel' | cxTranslate }}</button>
+      <button class="btn myaccount-enhancedUI-button myaccount-enhancedUI-button-cancel" (click)="cancelEdit()">{{ 'common.cancel' | cxTranslate }}</button>
 
-      <button class="btn btn-block btn-primary" (click)="onSubmit()">
+      <button class="btn myaccount-enhancedUI-button btn-primary" (click)="onSubmit()">
         {{ 'common.save' | cxTranslate }}
       </button>
     </div>

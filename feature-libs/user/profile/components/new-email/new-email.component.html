@@ -1,0 +1,99 @@
+<cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
+<div>
+  <div class="myaccount-enhancedUI-header-area">
+    <label class="myaccount-enhancedUI-headertext">{{ 'newUserProfile.myEmailAddress' | cxTranslate }}
+    </label>
+    <button
+    class="myaccount-enhancedUI-editButton" 
+      *ngIf="!isEditing" (click)="onEdit()"> {{ 'common.edit' | cxTranslate }} </button>
+  </div>
+  <div>
+
+  <div *ngIf="!isEditing" class="myaccount-enhancedUI-body-area">
+    <div style="display:flex">
+      <label class="myaccount-enhancedUI-text-head">
+        {{ 'newUserProfile.email' | cxTranslate }}
+      </label>
+      <label class="myaccount-enhancedUI-value">
+        {{(user$ | async)?.uid}}
+      </label>
+    </div>
+  </div>
+  
+  </div>
+  <div *ngIf="isEditing" style="clear:both" class="user-form">
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+      <label>
+        <span class="myaccount-enhancedUI-text-head">{{
+          'newUserProfile.emailAddress' | cxTranslate
+          }}</span>
+        <input required="true" type="text" class="form-control" name="oldEmail" formControlName="oldEmail"
+        [ngModel] = "(user$ | async)?.uid"
+          readonly />
+      </label>
+
+      <label >
+        <span class="myaccount-enhancedUI-text-head">{{
+          'newUserProfile.newEmailAddress' | cxTranslate
+        }}</span>
+        <input
+          required="true"
+          type="email"
+          name="email"
+          formControlName="email"
+          placeholder="{{
+            'newUserProfile.emailPlaceHolder' | cxTranslate
+          }}"
+          class="form-control"
+        />
+        <cx-form-errors [control]="form.get('email')"></cx-form-errors>
+      </label>
+    
+      <label>
+        <span class="myaccount-enhancedUI-text-head">{{
+          'newUserProfile.confirmNewEmailAddress' | cxTranslate
+        }}</span>
+        <input
+          required="true"
+          type="email"
+          name="confirmEmail"
+          formControlName="confirmEmail"
+          placeholder="{{
+            'newUserProfile.emailPlaceHolder' | cxTranslate
+          }}"
+          class="form-control"
+        />
+        <cx-form-errors [control]="form.get('confirmEmail')"></cx-form-errors>
+      </label>
+    
+      <label>
+        <span class="label-content, myaccount-enhancedUI-text-head">{{
+          'newUserProfile.password' | cxTranslate
+        }}</span>
+        <input
+          required="true"
+          type="password"
+          name="password"
+          formControlName="password"
+          placeholder="{{ 'newUserProfile.passwordPlaceHolder' | cxTranslate }}"
+          class="form-control"
+          autocomplete="new-password"
+          [attr.aria-label]="'newUserProfile.passwordPlaceHolder' | cxTranslate"
+          cxPasswordVisibilitySwitch
+        />
+        <cx-form-errors [control]="form.get('password')"></cx-form-errors>
+      </label>
+    
+      <div style="display: flex">
+        <button class="btn myaccount-enhancedUI-button myaccount-enhancedUI-button-cancel" (click)="cancelEdit()">{{ 'common.cancel' | cxTranslate }}</button>
+    
+        <button class="btn btn-primary myaccount-enhancedUI-button" (click)="onSubmit()">
+          {{ 'common.save' | cxTranslate }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
