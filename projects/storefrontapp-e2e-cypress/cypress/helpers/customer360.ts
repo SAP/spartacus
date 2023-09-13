@@ -15,6 +15,8 @@ let user: SampleUser | undefined;
 
 export function setup() {
   user = createUser();
+  // signout the user before login to asm and emulate a user
+  checkout.signOutUser();
   asmCustomerEmulation(user);
 }
 
@@ -24,6 +26,7 @@ function createUser(): SampleUser {
   writeReview();
   saveCart();
   createTicket();
+  // to test againt S7 change below 872912 to 1986316
   subscribeStockNotification('872912');
   addProductToCart();
   return user;
