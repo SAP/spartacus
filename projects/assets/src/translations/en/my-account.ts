@@ -64,6 +64,7 @@ export const myAccount = {
     header: 'Consent Management',
     message:
       'We use cookies/browser’s storage to personalize the content and improve user experience. We also might share the data about your site usage with our social media. For more, please review our privacy policy.',
+    dateDescription: 'Approved on ',
   },
   myCoupons: {
     noCouponsMessage: 'You have no coupons available.',

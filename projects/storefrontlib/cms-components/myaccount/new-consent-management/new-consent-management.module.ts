@@ -11,7 +11,6 @@ import { I18nModule } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { IconModule } from '../../misc/icon/icon.module';
 import { NewConsentManagementComponent } from './components/new-consent-management.component';
-import { ConsentManagementComponentService } from '../consent-management/consent-management-component.service';
 import { NewConsentManagementFormComponent } from './components/consent-form/new-consent-management-form.component';
 
 @NgModule({
@@ -23,7 +22,6 @@ import { NewConsentManagementFormComponent } from './components/consent-form/new
     I18nModule,
     IconModule,
   ],
-  providers: [ConsentManagementComponentService],
   declarations: [
     NewConsentManagementComponent,
     NewConsentManagementFormComponent,

@@ -19,5 +19,11 @@
     <span class="form-check-label description">
       {{ consentTemplate?.description }}
     </span>
+    <span class="form-check-label description" *ngIf="consentGiven">
+      {{ 'newConsentManagement.dateDescription' | cxTranslate
+      }}{{
+        transformDate(this.consentTemplate?.currentConsent.consentGivenDate)
+      }}
+    </span>
   </label>
 </div>

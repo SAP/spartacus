@@ -109,12 +109,25 @@ describe('NewConsentManagementFormComponent', () => {
         expect(component.isRequired(templateId)).toBeFalsy();
       });
     });
+
+    describe('transformDate', () => {
+      it('should format date', () => {
+        const date = '2023-09-12T09:33:18+0000';
+        const formatDate = '12/9/2023';
+
+        expect(component.transformDate(date)).toEqual(formatDate);
+      });
+    });
   });
 
   describe('component UI tests', () => {
     describe('when a checkbox is clicked', () => {
+      const date = new Date('2023-09-12T09:19:49+0000');
       const mockConsentTemplate: ConsentTemplate = {
         id: 'mock ID',
+        currentConsent: {
+          consentGivenDate: date,
+        },
       };
       it('should call onConsentChange()', () => {
         spyOn(component, 'onConsentChange').and.stub();
