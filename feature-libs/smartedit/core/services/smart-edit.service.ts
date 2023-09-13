@@ -14,7 +14,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { filter, take } from 'rxjs/operators';
-import { SmartEditConfig } from '../../root/config/smart-edit-config';
+import { SmartEditConfig } from '@spartacus/smartedit/root';
 
 @Injectable({
   providedIn: 'root',

@@ -10,8 +10,6 @@ import { FeatureModulesService, ScriptLoader } from '@spartacus/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
 import { SMART_EDIT_FEATURE } from '../feature-name';
 
-// import { timer } from "rxjs";
-
 /**
  * The SmartEditLauncherService is used to check whether Spartacus is launched inside Smart Edit;
  * it also gets cmsTicketId sent from Smart Edit.
@@ -40,16 +38,14 @@ export class SmartEditLauncherService {
     if (this.isLaunchedInSmartEdit()) {
       this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
 
-      // timer(3000).subscribe(() => {
-        this.scriptLoader?.embedScript({
-          src: 'assets/webApplicationInjector.js',
-          params: undefined,
-          attributes: {
-            id: 'text/smartedit-injector',
-            'data-smartedit-allow-origin': this.config.smartEdit?.allowOrigin,
-          },
-        });
-      // })
+      this.scriptLoader?.embedScript({
+        src: 'assets/webApplicationInjector.js',
+        params: undefined,
+        attributes: {
+          id: 'text/smartedit-injector',
+          'data-smartedit-allow-origin': this.config.smartEdit?.allowOrigin,
+        },
+      });
     }
   }
 
