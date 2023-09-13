@@ -1,5 +1,6 @@
 {
   "name": "@spartacus/ssr-tests",
+  "version": "6.3.0-1",
   "description": "Spartacus SSR Tests",
   "keywords": [
     "spartacus",
@@ -12,5 +13,8 @@
   },
   "dependencies": {
     "tslib": "^2.4.0"
+  },
+  "peerDependencies": {
+    "http-proxy": "^1.18.1"
   }
 }

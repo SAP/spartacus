@@ -49,9 +49,9 @@ export async function startProxyServer(options: any) {
 // TODO: Assert ssr server receives request and sends to proxy server
 export async function sendRequest(path: string) {
   return new Promise((resolve) => {
-    var req = http.get({ ...REQUEST_OPTIONS, path }, function (res: any) {
+    const req = http.get({ ...REQUEST_OPTIONS, path }, function (res: any) {
       // Buffer the body entirely for processing as a whole.
-      var bodyChunks = [];
+      const bodyChunks = [];
       res
         .on('data', function (chunk: any) {
           bodyChunks.push(chunk);

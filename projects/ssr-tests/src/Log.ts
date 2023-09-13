@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-const fs = require('fs');
+import * as fs from 'fs';
 
 const SSR_LOG_PATH = './src/ssr.log';
 
