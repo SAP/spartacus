@@ -2,7 +2,11 @@
   "name": "@spartacus/ssr-tests",
   "version": "6.3.0-1",
   "description": "Spartacus SSR Tests",
-  "keywords": ["spartacus", "ssr", "tests"],
+  "keywords": [
+    "spartacus",
+    "ssr",
+    "tests"
+  ],
   "license": "MIT",
   "scripts": {
     "test": "../../node_modules/.bin/jest --config ./jest.config.js --detectOpenHandles"
