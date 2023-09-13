@@ -68,8 +68,9 @@ const setRequestContext = (request: Request, context: RequestContext) => {
 };
 
 /**
- * Adds the initial request context to the request object.
+ * Creates the initial request context to the request object.
  * @param request - the request object
+ * @returns object with a randomly generated UUID and the current time
  */
 const createInitialRequestContext = (): RequestContext => {
   const requestContext: RequestContext = {
