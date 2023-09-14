@@ -52,6 +52,7 @@
       "@spartacus/checkout",
       "@spartacus/order",
       "@spartacus/organization",
+      "@spartacus/pdf-invoices",
       "@spartacus/product",
       "@spartacus/product-configurator",
       "@spartacus/qualtrics",

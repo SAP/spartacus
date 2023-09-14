@@ -131,6 +131,10 @@ export const SPARTACUS_FUTURE_STOCK = `@spartacus/product/future-stock`;
 export const SPARTACUS_FUTURE_STOCK_ROOT = `@spartacus/product/future-stock/root`;
 export const SPARTACUS_FUTURE_STOCK_ASSETS = `@spartacus/product/future-stock/assets`;
 
+export const SPARTACUS_PDF_INVOICES = `@spartacus/pdf-invoices`;
+export const SPARTACUS_PDF_INVOICES_ROOT = `@spartacus/pdf-invoices/root`;
+export const SPARTACUS_PDF_INVOICES_ASSETS = `@spartacus/pdf-invoices/assets`;
+
 export const SPARTACUS_PRODUCT_CONFIGURATOR = `@spartacus/product-configurator`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `@spartacus/product-configurator/common`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_ASSETS = `@spartacus/product-configurator/common/assets`;
@@ -260,6 +264,8 @@ export const STOREFINDER_FEATURE_NAME = 'Store-Finder';
 export const TRACKING_PERSONALIZATION_FEATURE_NAME = 'Personalization';
 export const TRACKING_TMS_GTM_FEATURE_NAME = 'TMS-GTM';
 export const TRACKING_TMS_AEP_FEATURE_NAME = 'TMS-AEPL';
+
+export const PDF_INVOICES_FEATURE_NAME = 'PDF-Invoices';
 
 export const USER_ACCOUNT_FEATURE_NAME = 'User-Account';
 export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
