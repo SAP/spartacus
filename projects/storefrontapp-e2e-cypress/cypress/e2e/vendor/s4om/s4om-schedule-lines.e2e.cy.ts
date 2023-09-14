@@ -38,39 +38,39 @@ describe('S4HANA Order management', { testIsolation: false }, () => {
   });
 
   describe('Schedule Lines in Checkout Flow', () => {
-    it('should be able to login as a b2b user', () => {
+    it('should be able to login as a b2b user (CXINT-472)', () => {
       s4omHelper.loginS4OMB2bUser();
     });
 
-    it('should add a S4 HANA product (TG-11) to cart', () => {
+    it('should add a S4 HANA product (TG-11) to cart (CXINT-472)', () => {
       s4omHelper.resetCart(); //clear the cart
       s4omHelper.addB2bS4ProductToCart(); //Ensure that the cart has only 1 S4OM product
     });
 
-    it('should show S4 HANA schedule lines in the add to cart popup', () => {
+    it('should show S4 HANA schedule lines in the add to cart popup (CXINT-472)', () => {
       s4omHelper.verifyScheduleLineInfo();
     });
 
-    it('should show S4 HANA schedule lines in the Cart page', () => {
+    it('should show S4 HANA schedule lines in the Cart page (CXINT-472)', () => {
       s4omHelper.goToCart();
       s4omHelper.verifyScheduleLineInfo();
     });
 
-    it('should proceed to checkout and select Account payment type', () => {
+    it('should proceed to checkout and select Account payment type (CXINT-472)', () => {
       s4omHelper.proceedtoCheckOutS4Product();
       b2bCheckout.enterPONumber();
       b2bCheckout.selectAccountPayment();
     });
 
-    it('should select shipping address', () => {
+    it('should select shipping address (CXINT-472)', () => {
       s4omHelper.selectS4OMAccountShippingAddress();
     });
 
-    it('should select delivery mode', () => {
+    it('should select delivery mode (CXINT-472)', () => {
       s4omHelper.selectAccountDeliveryMode();
     });
 
-    it('should review and place order', () => {
+    it('should review and place order (CXINT-472)', () => {
       b2bCheckout.reviewB2bReviewOrderPage(
         b2bAccountShipToUser,
         s4omHelper.cartWithS4OMB2bProductAndPremiumShipping,
@@ -82,7 +82,7 @@ describe('S4HANA Order management', { testIsolation: false }, () => {
       b2bCheckout.placeOrder('/order-confirmation');
     });
 
-    it('should display order confirmation summary page with delivery schedule lines', () => {
+    it('should display order confirmation summary page with delivery schedule lines (CXINT-472)', () => {
       s4omHelper.reviewB2bOrderDetail(
         s4omHelper.s4omB2bAccountShipToUser,
         s4omHelper.s4omProduct,
@@ -98,7 +98,7 @@ describe('S4HANA Order management', { testIsolation: false }, () => {
     });
   });
   describe('Schedule lines in Order History', () => {
-    it('should be able to view order in order history with PO# and Cost center', () => {
+    it('should be able to view order in order history with PO# and Cost center (CXINT-472)', () => {
       cy.visit('/my-account/orders');
       const ordersAlias = interceptOrdersEndpoint();
       waitForResponse(ordersAlias);
@@ -113,7 +113,7 @@ describe('S4HANA Order management', { testIsolation: false }, () => {
       );
     });
 
-    it('should be able to view a past order detail in order detail page with schedule line delivery information', () => {
+    it('should be able to view a past order detail in order detail page with schedule line delivery information (CXINT-472)', () => {
       cy.intercept({
         method: 'GET',
         pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
