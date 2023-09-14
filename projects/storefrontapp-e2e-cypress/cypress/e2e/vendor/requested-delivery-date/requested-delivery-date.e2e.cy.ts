@@ -74,7 +74,7 @@ describe('Requested Delivery Date', { testIsolation: false }, () => {
     });
 
     it('should show an error when an invalid delivery date is provided', () => {
-      rddHelper.updateRequestedDeliveryDate('1000-01-01');
+      rddHelper.updateRequestedDeliveryDate('10000-01-01');
       rddHelper.verifyDeliveryDateErrorMessage();
     });
 
