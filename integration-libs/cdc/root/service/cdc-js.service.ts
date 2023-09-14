@@ -305,21 +305,14 @@ export class CdcJsService implements OnDestroy {
       !orgInfo?.firstName ||
       !orgInfo?.lastName
     ) {
-      return throwError(null);
+      return throwError('Organization details not provided');
     } else {
       const regSource: string = this.winRef.nativeWindow?.location?.href || '';
       const message = orgInfo.message;
       let department = null;
       let position = null;
       if (message) {
-        const msgList = message.replace('\n', '').split(';');
-        for (const msg of msgList) {
-          if (msg.trim().toLowerCase().search('department') === 0) {
-            department = msg.split(':')[1].trim();
-          } else if (msg.trim().toLowerCase().search('position') === 0) {
-            position = msg.split(':')[1].trim();
-          }
-        }
+        ({ department, position } = this.parseMessage(message));
       }
 
       return this.invokeAPI('accounts.b2b.registerOrganization', {
@@ -335,7 +328,8 @@ export class CdcJsService implements OnDestroy {
           firstName: orgInfo.firstName,
           lastName: orgInfo.lastName,
           email: orgInfo.email,
-          phone: orgInfo.phoneNumber,
+          ...(orgInfo.phoneNumber &&
+            orgInfo.phoneNumber.length > 0 && { phone: orgInfo.phoneNumber }),
           department: department,
           jobFunction: position,
         },
@@ -420,6 +414,23 @@ export class CdcJsService implements OnDestroy {
     }
     // Return a default value
     return of(defaultSessionTimeOut);
+  }
+
+  private parseMessage(message: string): {
+    department: string;
+    position: string;
+  } {
+    const msgList = message.replace('\n', '').split(';');
+    let department = '';
+    let position = '';
+    for (const msg of msgList) {
+      if (msg.trim().toLowerCase().search('department') === 0) {
+        department = msg.split(':')[1].trim();
+      } else if (msg.trim().toLowerCase().search('position') === 0) {
+        position = msg.split(':')[1].trim();
+      }
+    }
+    return { department, position };
   }
 
   private getCurrentBaseSite(): string {
