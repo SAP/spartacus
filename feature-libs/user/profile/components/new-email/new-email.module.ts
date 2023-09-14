@@ -18,7 +18,6 @@ import {
   provideDefaultConfig,
   RoutingService,
   UrlModule,
-  
 } from '@spartacus/core';
 import {
   FormErrorsModule,

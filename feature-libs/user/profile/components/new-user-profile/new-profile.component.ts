@@ -20,27 +20,27 @@ import { NewProfileComponentService } from './new-profile-component.service';
 export class NewProfileComponent implements OnInit {
   constructor(protected service: NewProfileComponentService) {}
   ngOnInit(): void {
-    this.isEditingProfile = false;
+    this.isEditing = false;
   }
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$ = this.service.isUpdating$;
   titles$: Observable<Title[]> = this.service.titles$;
   user$: Observable<User> = this.service.user$;
-  isEditingProfile: boolean;
+  isEditing: boolean;
 
   onSubmit(): void {
     this.service.updateProfile();
     this.service.updateSucceed$.subscribe((res) => {
-        this.isEditingProfile = !res;
+        this.isEditing = !res;
       });
   }
 
   cancelEdit(): void {
-    this.isEditingProfile = false;
+    this.isEditing = false;
   }
 
   onEdit(): void {
-    this.isEditingProfile = true;
+    this.isEditing = true;
   }
 }

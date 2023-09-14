@@ -18,7 +18,7 @@ import { filter } from 'rxjs/operators';
   selector: 'cx-new-email',
   templateUrl: './new-email.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: '' },
+  host: { },
 })
 export class NewEmailComponent implements OnInit {
   form: UntypedFormGroup = this.emailComponentservice.form;

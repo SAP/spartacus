@@ -29,7 +29,7 @@ export class NewProfileComponentService {
 
   protected busy$ = new BehaviorSubject(false);
 
-  updateSucceed$ = new Subject();
+  updateSucceed$ = new Subject<boolean>();
 
 
   isUpdating$: Observable<boolean> = this.user$.pipe(

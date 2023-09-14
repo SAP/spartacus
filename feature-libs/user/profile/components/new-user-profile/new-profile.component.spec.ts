@@ -16,9 +16,9 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Subject, of } from 'rxjs';
 import { NewProfileComponentService } from './new-profile-component.service';
-import { NewUpdateProfileComponent } from './new-profile.component';
+import { NewProfileComponent } from './new-profile.component';
 import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-spinner',
@@ -28,11 +28,12 @@ class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
 
-class MockUpdateProfileService
+class MockProfileService
   implements Partial<NewProfileComponentService>
 {
   user$ = of({});
   titles$ = of([]);
+  updateSucceed$ = new Subject<boolean>();
   form: UntypedFormGroup = new UntypedFormGroup({
     customerId: new UntypedFormControl(),
     titleCode: new UntypedFormControl(),
@@ -43,9 +44,9 @@ class MockUpdateProfileService
   updateProfile = createSpy().and.stub();
 }
 
-describe('NewUpdateProfileComponent', () => {
-  let component: NewUpdateProfileComponent;
-  let fixture: ComponentFixture<NewUpdateProfileComponent>;
+describe('NewProfileComponent', () => {
+  let component: NewProfileComponent;
+  let fixture: ComponentFixture<NewProfileComponent>;
   let el: DebugElement;
 
   let service: NewProfileComponentService;
@@ -63,11 +64,11 @@ describe('NewUpdateProfileComponent', () => {
           NgSelectModule,
           FeaturesConfigModule,
         ],
-        declarations: [NewUpdateProfileComponent, MockCxSpinnerComponent],
+        declarations: [NewProfileComponent, MockCxSpinnerComponent],
         providers: [
           {
-            provide: NewUpdateProfileComponentService,
-            useClass: MockUpdateProfileService,
+            provide: NewProfileComponentService,
+            useClass: MockProfileService,
           },
           {
             provide: FeaturesConfig,
@@ -84,8 +85,8 @@ describe('NewUpdateProfileComponent', () => {
     fixture = TestBed.createComponent(NewProfileComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-
-    service = TestBed.inject(UpdateProfileComponentService);
+    component.onEdit();
+    service = TestBed.inject(NewProfileComponentService);
 
     fixture.detectChanges();
   });
@@ -97,9 +98,10 @@ describe('NewUpdateProfileComponent', () => {
   describe('busy', () => {
     it('should disable the submit button when form is disabled', () => {
       component.form.disable();
+      component.onEdit();
       fixture.detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
-        By.css('button')
+        By.css('.btn-primary')
       ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });
@@ -111,11 +113,12 @@ describe('NewUpdateProfileComponent', () => {
     });
   });
 
-  describe('idle', () => {
+  describe('idle - editing', () => {
     it('should enable the submit button', () => {
       component.form.enable();
+      component.onEdit();
       fixture.detectChanges();
-      const submitBtn = el.query(By.css('button'));
+      const submitBtn = el.query(By.css('.btn-primary'));
       expect(submitBtn.nativeElement.disabled).toBeFalsy();
     });
 
@@ -126,8 +129,19 @@ describe('NewUpdateProfileComponent', () => {
     });
   });
 
+  describe('idle - display', () => {
+    it('should hide the submit button', () => {
+      component.ngOnInit();
+      fixture.detectChanges();
+      expect(el.query(By.css('form'))).toBeNull();
+
+    });
+  });
+
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
+      component.onEdit();
+      fixture.detectChanges();
       const request = spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
@@ -137,6 +151,14 @@ describe('NewUpdateProfileComponent', () => {
     it('should call the service method on submit', () => {
       component.onSubmit();
       expect(service.updateProfile).toHaveBeenCalled();
+    });
+
+    it('when cancel is called. submit button is not visible', () => {
+      component.form.enable();
+      fixture.detectChanges();
+      component.cancelEdit();
+      const submitBtn = el.query(By.css('button.btn-primary'));
+      expect(submitBtn).toBeNull();
     });
   });
 });

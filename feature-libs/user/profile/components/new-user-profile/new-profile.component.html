@@ -5,9 +5,9 @@
     }}</label>
     <button
       class="myaccount-enhancedUI-editButton"
-      *ngIf="!isEditingProfile" (click)="onEdit()"> {{ 'common.edit' | cxTranslate }} </button>
+      *ngIf="!isEditing" (click)="onEdit()"> {{ 'common.edit' | cxTranslate }} </button>
   </div>
-  <div *ngIf="!isEditingProfile" class="myaccount-enhancedUI-body-area">
+  <div *ngIf="!isEditing" class="myaccount-enhancedUI-body-area">
     <div style="display:flex">
       <label class="myaccount-enhancedUI-text-head">
         {{ 'newUserProfile.title' | cxTranslate }}
@@ -39,7 +39,7 @@
   </div>
 
 
-  <div *ngIf="isEditingProfile" style="clear:both" class="user-form myaccount-enhancedUI-body-area">
+  <div *ngIf="isEditing" style="clear:both" class="user-form">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <label>
         <span class="label-content, myaccount-enhancedUI-text-head">{{
@@ -82,7 +82,7 @@
     <div style="display: flex">
       <button class="btn myaccount-enhancedUI-button myaccount-enhancedUI-button-cancel" (click)="cancelEdit()">{{ 'common.cancel' | cxTranslate }}</button>
 
-      <button class="btn myaccount-enhancedUI-button btn-primary" (click)="onSubmit()">
+      <button class="btn btn-primary myaccount-enhancedUI-button" (click)="onSubmit()" [disabled]="form.disabled">
         {{ 'common.save' | cxTranslate }}
       </button>
     </div>

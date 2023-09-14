@@ -89,7 +89,7 @@
       <div style="display: flex">
         <button class="btn myaccount-enhancedUI-button myaccount-enhancedUI-button-cancel" (click)="cancelEdit()">{{ 'common.cancel' | cxTranslate }}</button>
     
-        <button class="btn btn-primary myaccount-enhancedUI-button" (click)="onSubmit()">
+        <button class="btn btn-primary myaccount-enhancedUI-button" (click)="onSubmit()" [disabled]="form.disabled">
           {{ 'common.save' | cxTranslate }}
         </button>
       </div>
