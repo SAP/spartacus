@@ -1,20 +1,20 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
 <div>
-  <div class="myaccount-enhancedUI-header-area">
-    <label class="myaccount-enhancedUI-headertext">{{ 'newUserProfile.myEmailAddress' | cxTranslate }}
+  <div class="email-enhancedUI-header-area">
+    <label class="email-enhancedUI-headertext">{{ 'newUserProfile.myEmailAddress' | cxTranslate }}
     </label>
     <button
-    class="myaccount-enhancedUI-editButton" 
+    class="email-enhancedUI-editButton" 
       *ngIf="!isEditing" (click)="onEdit()"> {{ 'common.edit' | cxTranslate }} </button>
   </div>
   <div>
 
-  <div *ngIf="!isEditing" class="myaccount-enhancedUI-body-area">
+  <div *ngIf="!isEditing" class="email-enhancedUI-body-area">
     <div style="display:flex">
-      <label class="myaccount-enhancedUI-text-head">
+      <label class="email-enhancedUI-text-head">
         {{ 'newUserProfile.email' | cxTranslate }}
       </label>
-      <label class="myaccount-enhancedUI-value">
+      <label class="email-enhancedUI-value">
         {{(user$ | async)?.uid}}
       </label>
     </div>
@@ -26,7 +26,7 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
       <label>
-        <span class="myaccount-enhancedUI-text-head">{{
+        <span class="email-enhancedUI-text-head">{{
           'newUserProfile.emailAddress' | cxTranslate
           }}</span>
         <input required="true" type="text" class="form-control" name="oldEmail" formControlName="oldEmail"
@@ -35,7 +35,7 @@
       </label>
 
       <label >
-        <span class="myaccount-enhancedUI-text-head">{{
+        <span class="email-enhancedUI-text-head">{{
           'newUserProfile.newEmailAddress' | cxTranslate
         }}</span>
         <input
@@ -52,7 +52,7 @@
       </label>
     
       <label>
-        <span class="myaccount-enhancedUI-text-head">{{
+        <span class="email-enhancedUI-text-head">{{
           'newUserProfile.confirmNewEmailAddress' | cxTranslate
         }}</span>
         <input
@@ -69,7 +69,7 @@
       </label>
     
       <label>
-        <span class="label-content, myaccount-enhancedUI-text-head">{{
+        <span class="label-content, email-enhancedUI-text-head">{{
           'newUserProfile.password' | cxTranslate
         }}</span>
         <input
@@ -87,9 +87,9 @@
       </label>
     
       <div style="display: flex">
-        <button class="btn myaccount-enhancedUI-button myaccount-enhancedUI-button-cancel" (click)="cancelEdit()">{{ 'common.cancel' | cxTranslate }}</button>
+        <button class="btn email-enhancedUI-button email-enhancedUI-button-cancel" (click)="cancelEdit()">{{ 'common.cancel' | cxTranslate }}</button>
     
-        <button class="btn btn-primary myaccount-enhancedUI-button" (click)="onSubmit()" [disabled]="form.disabled">
+        <button class="btn btn-primary email-enhancedUI-button" (click)="onSubmit()" [disabled]="form.disabled">
           {{ 'common.save' | cxTranslate }}
         </button>
       </div>

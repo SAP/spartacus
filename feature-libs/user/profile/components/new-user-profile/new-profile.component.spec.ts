@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DebugElement } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   UntypedFormControl,
@@ -77,6 +77,8 @@ describe('NewProfileComponent', () => {
             },
           },
         ],
+      }).overrideComponent(NewProfileComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default }
       }).compileComponents();
     })
   );
