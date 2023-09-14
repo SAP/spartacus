@@ -16,6 +16,7 @@ import {
 import {
   EventService,
   GlobalMessageService,
+  GlobalMessageType,
   OCC_USER_ID_CURRENT,
   PaginationModel,
   QueryState,
@@ -129,8 +130,8 @@ class MockCartUtilsService implements Partial<CartUtilsService> {
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  remove() {}
-  add() {}
+  remove = createSpy().and.stub();
+  add = createSpy().and.stub();
 }
 
 describe('QuoteService', () => {
@@ -142,6 +143,7 @@ describe('QuoteService', () => {
   let routingService: RoutingService;
   let quoteCartService: QuoteCartService;
   let cartUtilsService: CartUtilsService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -171,6 +173,7 @@ describe('QuoteService', () => {
     routingService = TestBed.inject(RoutingService);
     quoteCartService = TestBed.inject(QuoteCartService);
     cartUtilsService = TestBed.inject(CartUtilsService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
 
     isQuoteCartActive = false;
     quoteId = '';
@@ -466,5 +469,32 @@ describe('QuoteService', () => {
         });
         expect(quote.code).toEqual(mockQuote.code);
       });
+  });
+
+  describe('handleError', () => {
+    it('should ignore unknown errors', () => {
+      service.handleError({ message: 'some error', details: [] }).subscribe({
+        complete: () => fail('should signal error'),
+        error: (error) => {
+          expect(error).toEqual({ message: 'some error', details: [] });
+        },
+      });
+    });
+
+    it('should handle CommerceQuoteExpirationTimeError', () => {
+      service
+        .handleError({
+          details: [{ type: 'CommerceQuoteExpirationTimeError' }],
+        })
+        .subscribe({
+          error: () => {
+            fail('should NOT signal error');
+          },
+        });
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'quote.httpHandlers.expired' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    });
   });
 });

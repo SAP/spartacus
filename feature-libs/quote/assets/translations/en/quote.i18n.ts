@@ -178,6 +178,7 @@ export const quote = {
         underThresholdError:
           'Total price of requested quote does not meet the minimum threshold',
       },
+      expired: 'This quote has expired. You must resubmit your quote request to receive another vendor quote.'
     },
   },
 };

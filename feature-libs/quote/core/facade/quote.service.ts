@@ -7,38 +7,51 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
-  Comment,
-  QuoteCartService,
-  QuoteDiscount,
-  QuoteFacade,
-  QuoteListReloadQueryEvent,
-  Quote,
-  QuoteActionType,
-  QuoteDetailsReloadQueryEvent,
-  QuoteList,
-  QuoteMetadata,
-  QuotesStateParams,
-  QuoteStarter,
-} from '@spartacus/quote/root';
-import {
   Command,
   CommandService,
   CommandStrategy,
   EventService,
+  GlobalMessageService,
+  GlobalMessageType,
+  HttpErrorModel,
   LoginEvent,
   Query,
   QueryService,
   QueryState,
   RoutingService,
-  uniteLatest,
   UserIdService,
+  uniteLatest,
 } from '@spartacus/core';
-import { NavigationEvent, ViewConfig } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable, of, zip } from 'rxjs';
 import {
+  Comment,
+  Quote,
+  QuoteActionType,
+  QuoteCartService,
+  QuoteDetailsReloadQueryEvent,
+  QuoteDiscount,
+  QuoteFacade,
+  QuoteList,
+  QuoteListReloadQueryEvent,
+  QuoteMetadata,
+  QuoteStarter,
+  QuotesStateParams,
+} from '@spartacus/quote/root';
+import { NavigationEvent, ViewConfig } from '@spartacus/storefront';
+import {
+  BehaviorSubject,
+  EMPTY,
+  Observable,
+  combineLatest,
+  of,
+  throwError,
+  zip,
+} from 'rxjs';
+import {
+  catchError,
   concatMap,
   distinctUntilChanged,
   filter,
+  finalize,
   map,
   switchMap,
   take,
@@ -50,6 +63,7 @@ import { CartUtilsService } from '../services/cart-utils.service';
 
 @Injectable()
 export class QuoteService implements QuoteFacade {
+
   /**
    * Indicator whether an action is currently performing.
    */
@@ -224,6 +238,9 @@ export class QuoteService implements QuoteFacade {
           if (payload.quoteAction === QuoteActionType.CHECKOUT) {
             this.quoteCartService.setCheckoutAllowed(true);
           }
+        }),
+        catchError((error) => this.handleError(error)),
+        finalize(() => {
           this.isActionPerforming$.next(false);
           this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
         })
@@ -233,6 +250,17 @@ export class QuoteService implements QuoteFacade {
       strategy: CommandStrategy.CancelPrevious,
     }
   );
+
+  handleError(error: HttpErrorModel): Observable<unknown> {
+    if (error.details?.[0]?.type === 'CommerceQuoteExpirationTimeError') {
+      this.globalMessageService.add(
+        { key: 'quote.httpHandlers.expired' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      return EMPTY;
+    }
+    return throwError(error);
+  }
 
   protected requoteCommand: Command<{ quoteStarter: QuoteStarter }, Quote> =
     this.commandService.create<{ quoteStarter: QuoteStarter }, Quote>(
@@ -333,7 +361,8 @@ export class QuoteService implements QuoteFacade {
     protected routingService: RoutingService,
     protected multiCartService: MultiCartFacade,
     protected quoteCartService: QuoteCartService,
-    protected cartUtilsService: CartUtilsService
+    protected cartUtilsService: CartUtilsService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   addDiscount(quoteCode: string, discount: QuoteDiscount): Observable<unknown> {
