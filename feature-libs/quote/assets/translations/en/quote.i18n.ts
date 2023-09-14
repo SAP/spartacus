@@ -118,7 +118,7 @@ export const quote = {
           title: 'Recreate Quote Request {{ code }}?',
           confirmNote: 'Are you sure you want to recreate this quote request?',
           warningNote:
-          'This Quote is Expired. Re-Quoting it will create a new quote request with same contents, which can be edited and submitted for approval afterwards.',
+            'This Quote is Expired. Re-Quoting it will create a new quote request with same contents, which can be edited and submitted for approval afterwards.',
         },
       },
       seller: {
@@ -178,7 +178,8 @@ export const quote = {
         underThresholdError:
           'Total price of requested quote does not meet the minimum threshold',
       },
-      expired: 'This quote has expired. You must resubmit your quote request to receive another vendor quote.'
+      expired:
+        'This quote has expired. You must resubmit your quote request to receive another vendor quote.',
     },
   },
 };
