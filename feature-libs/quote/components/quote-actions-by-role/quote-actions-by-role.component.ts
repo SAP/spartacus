@@ -79,23 +79,22 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     return (quote.totalPrice.value || 0) >= requestThreshold;
   }
 
-  onClick(quoteActionType: QuoteActionType, quote: Quote) {
-    if (quoteActionType === QuoteActionType.REQUOTE) {
-      this.requote(quote.code);
-      return;
-    }
-    this.performAction(quoteActionType, quote);
-  }
-
-  performAction(action: QuoteActionType, quote: Quote) {
+  onClick(action: QuoteActionType, quote: Quote) {
     if (!this.isConfirmationDialogRequired(action, quote.state)) {
-      this.quoteFacade.performQuoteAction(quote.code, action);
+      this.performAction(action, quote);
       return;
     }
-
     const context = this.prepareConfirmationContext(action, quote);
     this.launchConfirmationDialog(context);
     this.handleConfirmationDialogClose(action, context);
+  }
+
+  protected performAction(action: QuoteActionType, quote: Quote) {
+    if (action === QuoteActionType.REQUOTE) {
+      this.requote(quote.code);
+    } else {
+      this.quoteFacade.performQuoteAction(quote.code, action);
+    }
   }
 
   protected launchConfirmationDialog(context: ConfirmationContext) {
@@ -118,9 +117,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       this.launchDialogService.dialogClose
         .pipe(
           filter((reason) => reason === 'yes'),
-          tap(() =>
-            this.quoteFacade.performQuoteAction(context.quote.code, action)
-          ),
+          tap(() => this.performAction(action, context.quote)),
           filter(() => !!context.successMessage),
           tap(() =>
             this.globalMessageService.add(
