@@ -500,10 +500,10 @@ describe('QuoteService', () => {
       });
     });
 
-    describe('on requote', () => {
+    describe('on reject', () => {
       it('should set loading state to false when action is completed', (done) => {
         checkNoActionPerforming(
-          service.performQuoteAction(quote, QuoteActionType.REQUOTE),
+          service.performQuoteAction(quote, QuoteActionType.REJECT),
           done
         );
       });
@@ -536,20 +536,35 @@ describe('QuoteService', () => {
         );
       });
   });
+  describe('requote', () => {
+    it('should call requote command and return new quote', () => {
+      service
+        .requote(quote.code)
+        .pipe(take(1))
+        .subscribe((reQuoted) => {
+          expect(connector.createQuote).toHaveBeenCalledWith(userId, {
+            quoteCode: quote.code,
+          });
+          expect(routingService.go).toHaveBeenCalledWith({
+            cxRoute: 'quoteDetails',
+            params: { quoteId: quote.code },
+          });
+          expect(reQuoted.code).toEqual(quote.code);
+        });
+    });
 
-  it('should call requote command and return new quote', () => {
-    service
-      .requote(quote.code)
-      .pipe(take(1))
-      .subscribe((reQuoted) => {
-        expect(connector.createQuote).toHaveBeenCalledWith(userId, {
-          quoteCode: quote.code,
+    it('should load quote cart', (done) => {
+      service
+        .requote(quote.code)
+        .pipe(take(1))
+        .subscribe(() => {
+          checkQuoteCartFacadeCalls();
+          done();
         });
-        expect(routingService.go).toHaveBeenCalledWith({
-          cxRoute: 'quoteDetails',
-          params: { quoteId: quote.code },
-        });
-        expect(reQuoted.code).toEqual(quote.code);
-      });
+    });
+
+    it('should set loading state to false when action is completed', (done) => {
+      checkNoActionPerforming(service.requote(quote.code), done);
+    });
   });
 });

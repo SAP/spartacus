@@ -232,11 +232,17 @@ export class QuoteService implements QuoteFacade {
                   this.loadQuoteCartAndProceed(
                     userId,
                     quote.cartId as string,
+                    quote.code,
                     payload.quoteAction
                   );
                 });
             } else {
-              this.loadQuoteCartAndProceed(userId, cartId, payload.quoteAction);
+              this.loadQuoteCartAndProceed(
+                userId,
+                cartId,
+                payload.quote.code,
+                payload.quoteAction
+              );
             }
           } else {
             this.isActionPerforming$.next(false);
@@ -250,15 +256,16 @@ export class QuoteService implements QuoteFacade {
   );
 
   /**
-   * Loads the quote cart and waits until load is done. Afterwards triggers a refresh of the quote details
-   * or navigates to checkout, depending on the action
+   * Loads the quote cart and waits until load is done. Afterwards triggers specific actions depending on the
+   * action we perform
    * @param userId Current user
    * @param cartId Quote cart ID
-   * @param actionType The action we are currently processing. This method is used only for the edit and checkout action
+   * @param actionType The action we are currently processing
    */
   protected loadQuoteCartAndProceed(
     userId: string,
     cartId: string,
+    quoteId: string,
     actionType: QuoteActionType
   ) {
     this.multiCartService.loadCart({
@@ -275,12 +282,15 @@ export class QuoteService implements QuoteFacade {
         take(1)
       )
       .subscribe(() => {
-        if (actionType === QuoteActionType.EDIT) {
-          this.triggerReloadAndCompleteAction();
-        } else if (actionType === QuoteActionType.CHECKOUT) {
+        this.triggerReloadAndCompleteAction();
+        if (actionType === QuoteActionType.CHECKOUT) {
           this.quoteCartService.setCheckoutAllowed(true);
-          this.isActionPerforming$.next(false);
           this.routingService.go({ cxRoute: 'checkout' });
+        } else if (actionType === QuoteActionType.REQUOTE) {
+          this.routingService.go({
+            cxRoute: 'quoteDetails',
+            params: { quoteId: quoteId },
+          });
         }
       });
   }
@@ -299,11 +309,12 @@ export class QuoteService implements QuoteFacade {
           switchMap((userId) =>
             this.quoteConnector.createQuote(userId, payload.quoteStarter).pipe(
               tap((quote) => {
-                this.routingService.go({
-                  cxRoute: 'quoteDetails',
-                  params: { quoteId: quote.code },
-                });
-                this.isActionPerforming$.next(false);
+                this.loadQuoteCartAndProceed(
+                  userId,
+                  quote.cartId as string,
+                  quote.code,
+                  QuoteActionType.REQUOTE
+                );
               })
             )
           )
@@ -444,7 +455,6 @@ export class QuoteService implements QuoteFacade {
 
   getQuoteDetails(): Observable<Quote> {
     return this.getQuoteDetailsQueryState().pipe(
-      tap((state) => console.log('CHHI state emitted: ' + state.loading)),
       filter((state) => !state.loading),
       filter((state) => state.data !== undefined),
       map((state) => state.data),

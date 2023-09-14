@@ -138,7 +138,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       : GlobalMessageType.MSG_TYPE_CONFIRMATION;
   }
 
-  requote(quoteId: string) {
+  protected requote(quoteId: string) {
     this.quoteFacade.requote(quoteId);
   }
 
