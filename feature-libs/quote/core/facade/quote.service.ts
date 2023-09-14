@@ -213,7 +213,7 @@ export class QuoteService implements QuoteFacade {
             payload.quoteAction === QuoteActionType.CANCEL
           ) {
             this.cartUtilsService.createNewCartAndGoToQuoteList();
-            this.triggerQuoteDetailsReload();
+            this.triggerReloadAndCompleteAction();
           }
           if (
             payload.quoteAction === QuoteActionType.EDIT ||
@@ -238,6 +238,8 @@ export class QuoteService implements QuoteFacade {
             } else {
               this.loadQuoteCartAndProceed(userId, cartId, payload.quoteAction);
             }
+          } else {
+            this.isActionPerforming$.next(false);
           }
         })
       );
@@ -249,7 +251,7 @@ export class QuoteService implements QuoteFacade {
 
   /**
    * Loads the quote cart and waits until load is done. Afterwards triggers a refresh of the quote details
-   * and navigates to checkout if this action demands this
+   * or navigates to checkout, depending on the action
    * @param userId Current user
    * @param cartId Quote cart ID
    * @param actionType The action we are currently processing. This method is used only for the edit and checkout action
@@ -274,15 +276,16 @@ export class QuoteService implements QuoteFacade {
       )
       .subscribe(() => {
         if (actionType === QuoteActionType.EDIT) {
-          this.triggerQuoteDetailsReload();
-        } else {
+          this.triggerReloadAndCompleteAction();
+        } else if (actionType === QuoteActionType.CHECKOUT) {
           this.quoteCartService.setCheckoutAllowed(true);
+          this.isActionPerforming$.next(false);
           this.routingService.go({ cxRoute: 'checkout' });
         }
       });
   }
 
-  protected triggerQuoteDetailsReload() {
+  protected triggerReloadAndCompleteAction() {
     this.isActionPerforming$.next(false);
     this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
   }
@@ -441,6 +444,7 @@ export class QuoteService implements QuoteFacade {
 
   getQuoteDetails(): Observable<Quote> {
     return this.getQuoteDetailsQueryState().pipe(
+      tap((state) => console.log('CHHI state emitted: ' + state.loading)),
       filter((state) => !state.loading),
       filter((state) => state.data !== undefined),
       map((state) => state.data),

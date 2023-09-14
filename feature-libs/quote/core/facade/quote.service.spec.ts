@@ -29,7 +29,7 @@ import {
 } from '@spartacus/core';
 import { ViewConfig } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors';
 import { QuoteService } from './quote.service';
 import { createEmptyQuote, QUOTE_CODE } from '../testing/quote-test-utils';
@@ -199,6 +199,18 @@ describe('QuoteService', () => {
       extraData: { active: true },
     });
     expect(activeCartFacade.getActive).toHaveBeenCalled();
+  }
+
+  function checkNoActionPerforming(
+    quoteActionResult: Observable<unknown>,
+    done: any
+  ) {
+    quoteActionResult
+      .pipe(switchMap(() => service['isActionPerforming$']))
+      .subscribe((isPerforming) => {
+        expect(isPerforming).toBe(false);
+        done();
+      });
   }
 
   it('should inject CommerceQuotesService', inject(
@@ -388,6 +400,13 @@ describe('QuoteService', () => {
             done();
           });
       });
+
+      it('should set loading state to false when action is completed', (done) => {
+        checkNoActionPerforming(
+          service.performQuoteAction(quote, QuoteActionType.SUBMIT),
+          done
+        );
+      });
     });
 
     describe('on cancel', () => {
@@ -400,6 +419,13 @@ describe('QuoteService', () => {
             ).toHaveBeenCalled();
             done();
           });
+      });
+
+      it('should set loading state to false when action is completed', (done) => {
+        checkNoActionPerforming(
+          service.performQuoteAction(quote, QuoteActionType.CANCEL),
+          done
+        );
       });
     });
 
@@ -433,6 +459,13 @@ describe('QuoteService', () => {
             done();
           });
       });
+
+      it('should set loading state to false when action is completed', (done) => {
+        checkNoActionPerforming(
+          service.performQuoteAction(quote, QuoteActionType.EDIT),
+          done
+        );
+      });
     });
 
     describe('on checkout', () => {
@@ -457,6 +490,22 @@ describe('QuoteService', () => {
             });
             done();
           });
+      });
+
+      it('should set loading state to false when action is completed', (done) => {
+        checkNoActionPerforming(
+          service.performQuoteAction(quote, QuoteActionType.CHECKOUT),
+          done
+        );
+      });
+    });
+
+    describe('on requote', () => {
+      it('should set loading state to false when action is completed', (done) => {
+        checkNoActionPerforming(
+          service.performQuoteAction(quote, QuoteActionType.REQUOTE),
+          done
+        );
       });
     });
   });
