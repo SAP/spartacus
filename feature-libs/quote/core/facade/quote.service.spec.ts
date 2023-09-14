@@ -25,7 +25,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { ViewConfig } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors';
 import { QuoteService } from './quote.service';
@@ -104,6 +104,7 @@ class MockViewConfig implements ViewConfig {
   view = { defaultPageSize: mockPagination.pageSize };
 }
 
+let actionResult: Observable<unknown>;
 class MockCommerceQuotesConnector implements Partial<QuoteConnector> {
   getQuotes = createSpy().and.returnValue(of(mockQuoteList));
   getQuote = createSpy().and.returnValue(of(mockQuote));
@@ -111,7 +112,7 @@ class MockCommerceQuotesConnector implements Partial<QuoteConnector> {
   editQuote = createSpy().and.returnValue(of(EMPTY));
   addComment = createSpy().and.returnValue(of(EMPTY));
   addCartEntryComment = createSpy().and.returnValue(of(EMPTY));
-  performQuoteAction = createSpy().and.returnValue(of(EMPTY));
+  performQuoteAction = createSpy().and.returnValue(actionResult);
   addDiscount = createSpy().and.returnValue(of(EMPTY));
 }
 
@@ -177,6 +178,7 @@ describe('QuoteService', () => {
 
     isQuoteCartActive = false;
     quoteId = '';
+    actionResult = of(EMPTY);
   });
 
   it('should inject CommerceQuotesService', inject(
@@ -366,6 +368,19 @@ describe('QuoteService', () => {
           );
           done();
         });
+    });
+
+    it('should raise re-load event, even if action fails', (done) => {
+      actionResult = throwError({});
+      service.performQuoteAction(mockQuote.code, mockAction.type).subscribe({
+        error: () => {
+          expect(eventService.dispatch).toHaveBeenCalledWith(
+            {},
+            QuoteDetailsReloadQueryEvent
+          );
+          done();
+        },
+      });
     });
 
     it('should reset cart quote mode on submit, create new cart and navigate to quote list', (done) => {
