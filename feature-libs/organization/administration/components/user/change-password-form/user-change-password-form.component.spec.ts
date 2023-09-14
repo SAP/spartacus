@@ -1,12 +1,14 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
+import { MessageService } from '@spartacus/organization/administration/components';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
@@ -14,7 +16,6 @@ import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { UserItemService } from '../services/user-item.service';
 import { UserChangePasswordFormComponent } from './user-change-password-form.component';
 import { UserChangePasswordFormService } from './user-change-password-form.service';
-import { MessageService } from '@spartacus/organization/administration/components';
 
 const mockForm = new UntypedFormGroup({
   password: new UntypedFormControl(),
@@ -54,6 +55,7 @@ describe('UserChangePasswordFormComponent', () => {
         },
         MessageService,
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
     formService = TestBed.inject(UserChangePasswordFormService);
 

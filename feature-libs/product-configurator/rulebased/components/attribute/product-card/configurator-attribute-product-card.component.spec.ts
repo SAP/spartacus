@@ -32,7 +32,7 @@ const product: Product = {
   images: {
     PRIMARY: {
       thumbnail: {
-        url: 'url',
+        url: '/',
         altText: 'alt',
       },
     },

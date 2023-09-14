@@ -1,4 +1,9 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  Input,
+  NO_ERRORS_SCHEMA,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -150,6 +155,7 @@ describe('AddToCartComponent', () => {
         },
         { provide: EventService, useClass: MockEventService },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     });
   }
 

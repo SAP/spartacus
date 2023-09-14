@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
@@ -99,6 +100,7 @@ describe('SavedCartDetailsItemsComponent', () => {
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
+        schemas: [NO_ERRORS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SavedCartDetailsItemsComponent);

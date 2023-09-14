@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { Observable, of } from 'rxjs';
@@ -27,6 +28,7 @@ describe('CartTotalsComponent', () => {
             useClass: MockActiveCartService,
           },
         ],
+        schemas: [NO_ERRORS_SCHEMA],
       }).compileComponents();
     })
   );

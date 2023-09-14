@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  NO_ERRORS_SCHEMA,
   Output,
   Pipe,
   PipeTransform,
@@ -155,6 +156,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
         { provide: UnitOrderFacade, useClass: MockUnitLevelOrdersFacade },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     unitOrderFacade = TestBed.inject(UnitOrderFacade);

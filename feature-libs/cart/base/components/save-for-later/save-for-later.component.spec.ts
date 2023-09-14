@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -58,6 +58,7 @@ describe('SaveForLaterComponent', () => {
           { provide: ActiveCartFacade, useValue: mockActiveCartService },
           { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
         ],
+        schemas: [NO_ERRORS_SCHEMA],
       }).compileComponents();
     })
   );

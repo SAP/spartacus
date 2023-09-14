@@ -10,14 +10,14 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
 
 class MockGroupService {}
 
@@ -106,7 +106,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
   let value1: Configurator.Value;
 
   beforeEach(() => {
-    const image = createImage('url', 'altText');
+    const image = createImage('/', 'altText');
     const images: Configurator.Image[] = [image, image, image];
     value1 = createValue('1', 'val1', false, images);
     const value2 = createValue('2', 'val2', true, images);

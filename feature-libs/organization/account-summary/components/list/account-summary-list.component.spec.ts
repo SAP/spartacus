@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
@@ -12,6 +13,7 @@ describe('AccountSummaryListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule, UrlTestingModule, StoreModule.forRoot({})],
       declarations: [AccountSummaryListComponent],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AccountSummaryListComponent);

@@ -4,6 +4,7 @@ import {
   Directive,
   Injector,
   Input,
+  NO_ERRORS_SCHEMA,
   Pipe,
   PipeTransform,
   SimpleChange,
@@ -11,8 +12,8 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
-  UntypedFormControl,
   ReactiveFormsModule,
+  UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -122,6 +123,7 @@ describe('CartItemComponent', () => {
             provide: ControlContainer,
           },
         ],
+        schemas: [NO_ERRORS_SCHEMA],
       }).compileComponents();
     })
   );

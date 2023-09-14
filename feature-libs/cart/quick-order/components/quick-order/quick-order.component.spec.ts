@@ -1,4 +1,9 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  Input,
+  NO_ERRORS_SCHEMA,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
@@ -19,7 +24,7 @@ import {
   CmsComponentData,
   MessageComponentModule,
 } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsQuickOrderComponent } from '../../core/models/cms.model';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
@@ -191,6 +196,7 @@ describe('QuickOrderComponent', () => {
           },
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     quickOrderService = TestBed.inject(QuickOrderFacade);

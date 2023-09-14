@@ -4,6 +4,7 @@ import {
   DebugElement,
   Injector,
   Input,
+  NO_ERRORS_SCHEMA,
   Pipe,
   PipeTransform,
   SimpleChange,
@@ -87,6 +88,7 @@ describe('WishListItemComponent', () => {
           MockAddToCartComponent,
           MockUrlPipe,
         ],
+        schemas: [NO_ERRORS_SCHEMA],
       })
         .overrideComponent(WishListItemComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },

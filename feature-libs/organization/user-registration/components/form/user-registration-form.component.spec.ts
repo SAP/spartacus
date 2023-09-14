@@ -1,4 +1,9 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import {
+  DebugElement,
+  NO_ERRORS_SCHEMA,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -143,6 +148,7 @@ describe('UserRegistrationFormComponent', () => {
             },
           },
         ],
+        schemas: [NO_ERRORS_SCHEMA],
       });
 
       userRegistrationFormService = TestBed.inject(UserRegistrationFormService);

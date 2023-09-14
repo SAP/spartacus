@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -12,7 +13,7 @@ import {
   Budget,
 } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { EMPTY, of, Subject } from 'rxjs';
+import { EMPTY, Subject, of } from 'rxjs';
 import { DisableInfoModule } from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
@@ -87,6 +88,7 @@ describe('UserDetailsComponent', () => {
         { provide: ItemService, useClass: MockUserItemService },
         { provide: B2BUserService, useClass: MockB2BUserService },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
       .overrideComponent(UserDetailsComponent, {
         set: {

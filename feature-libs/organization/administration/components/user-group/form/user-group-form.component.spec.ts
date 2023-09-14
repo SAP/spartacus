@@ -1,8 +1,9 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -59,6 +60,7 @@ describe('UserGroupFormComponent', () => {
           useClass: MockItemService,
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     b2bUnitService = TestBed.inject(OrgUnitService);

@@ -3,23 +3,25 @@ import {
   Component,
   Directive,
   Input,
+  NO_ERRORS_SCHEMA,
 } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  FeatureConfigService,
   FeaturesConfig,
   FeaturesConfigModule,
-  FeatureConfigService,
   I18nTestingModule,
   LanguageService,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -33,7 +35,6 @@ import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 
 @Directive({
   selector: '[cxFocus]',
@@ -175,6 +176,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
             },
           },
         ],
+        schemas: [NO_ERRORS_SCHEMA],
       })
         .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
           set: {

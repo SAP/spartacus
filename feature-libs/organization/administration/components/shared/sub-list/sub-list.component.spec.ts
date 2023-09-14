@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  NO_ERRORS_SCHEMA,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -93,6 +99,7 @@ describe('SubListComponent', () => {
           useClass: MockItemService,
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
 

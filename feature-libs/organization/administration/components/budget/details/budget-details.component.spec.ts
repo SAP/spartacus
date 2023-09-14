@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Budget } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { EMPTY, of, Subject } from 'rxjs';
+import { EMPTY, Subject, of } from 'rxjs';
 import {
   DisableInfoModule,
   ItemExistsDirective,
@@ -52,6 +53,7 @@ describe('BudgetDetailsComponent', () => {
       ],
       declarations: [BudgetDetailsComponent, ItemExistsDirective],
       providers: [{ provide: ItemService, useClass: MockBudgetItemService }],
+      schemas: [NO_ERRORS_SCHEMA],
     })
       .overrideComponent(BudgetDetailsComponent, {
         set: {

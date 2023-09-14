@@ -29,7 +29,7 @@ const mockAttributeOverviewInput: Configurator.AttributeOverview = {
   type: Configurator.AttributeOverviewType.BUNDLE,
 };
 
-const mockProductImageUrl = 'testUrl';
+const mockProductImageUrl = '/';
 const mockImage = {
   product: {
     url: mockProductImageUrl,

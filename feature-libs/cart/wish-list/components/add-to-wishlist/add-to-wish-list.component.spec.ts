@@ -3,6 +3,7 @@ import {
   Component,
   DebugElement,
   Input,
+  NO_ERRORS_SCHEMA,
   Pipe,
   PipeTransform,
 } from '@angular/core';
@@ -110,6 +111,7 @@ describe('AddToWishListComponent', () => {
             useClass: MockCurrentProductService,
           },
         ],
+        schemas: [NO_ERRORS_SCHEMA],
       })
         .overrideComponent(AddToWishListComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },

@@ -1,8 +1,13 @@
-import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Directive,
+  Input,
+  NO_ERRORS_SCHEMA,
+} from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
@@ -14,16 +19,16 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
-import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
-import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { Observable, of } from 'rxjs';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
 @Directive({
   selector: '[cxFocus]',
@@ -84,6 +89,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
             },
           },
         ],
+        schemas: [NO_ERRORS_SCHEMA],
       })
         .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
           set: {

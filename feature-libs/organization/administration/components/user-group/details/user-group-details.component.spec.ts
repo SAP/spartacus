@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { DeleteItemModule } from '@spartacus/organization/administration/components';
 import { Budget } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { EMPTY, of, Subject } from 'rxjs';
+import { EMPTY, Subject, of } from 'rxjs';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ItemService } from '../../shared/item.service';
 import { MessageService } from '../../shared/message/services/message.service';
@@ -49,6 +50,7 @@ describe('UserGroupDetailsComponent', () => {
           useClass: MockUserGroupItemService,
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
       .overrideComponent(UserGroupDetailsComponent, {
         set: {

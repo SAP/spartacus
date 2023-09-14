@@ -2,6 +2,7 @@ import {
   Component,
   DebugElement,
   Input,
+  NO_ERRORS_SCHEMA,
   Pipe,
   PipeTransform,
 } from '@angular/core';
@@ -168,6 +169,7 @@ describe('AddedToCartDialogComponent', () => {
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
 

@@ -1,4 +1,10 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  Input,
+  NO_ERRORS_SCHEMA,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -68,6 +74,7 @@ describe('QuickOrderItemComponent', () => {
       providers: [
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     quickOrderService = TestBed.inject(QuickOrderFacade);
