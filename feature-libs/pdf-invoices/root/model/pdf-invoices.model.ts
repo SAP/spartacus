@@ -4,12 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export interface OrgDocumentType {
-  code?: string;
-  name?: string;
-  payableOrUsable?: string;
-}
-
 interface Amount {
   currencyIso?: string;
   value?: number;
@@ -23,11 +17,11 @@ export enum InvoicesFields {
 }
 
 export interface OrderInvoice {
-  invoiceId?: string;
+  invoiceId: string;
   externalSystemId?: string;
-  createdAt?: Date;
-  netAmount?: Amount;
-  totalAmount?: Amount;
+  createdAt: Date;
+  netAmount: Amount;
+  totalAmount: Amount;
 }
 
 export interface OrderInvoiceList {

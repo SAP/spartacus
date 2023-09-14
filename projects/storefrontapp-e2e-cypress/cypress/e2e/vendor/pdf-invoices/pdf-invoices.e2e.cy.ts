@@ -9,7 +9,6 @@ import {
   waitForResponse,
 } from '../../../helpers/order-history';
 import * as pdfInvoicesHelper from '../../../helpers/vendor/pdf-invoices/pdf-invoices';
-import * as rddHelper from '../../../helpers/vendor/requested-delivery-date/requested-delivery-date';
 import * as s4Helper from '../../../helpers/vendor/s4om/s4om';
 import {
   ORDER_REQUEST_ENDPOINT,
@@ -50,7 +49,7 @@ describe('PDF Invoices', { testIsolation: false }, () => {
       s4Helper.findRowInOrderHistoryTable(
         ordersAlias,
         pdfInvoicesOrderId,
-        rddHelper.poNumber
+        pdfInvoicesHelper.poNumber
       );
     });
 
@@ -78,7 +77,7 @@ describe('PDF Invoices', { testIsolation: false }, () => {
         pdfInvoicesHelper.cartWithB2bProductAndStandardShipping,
         true,
         null,
-        rddHelper.poNumber,
+        pdfInvoicesHelper.poNumber,
         s4Helper.s4omCostCenter,
         s4Helper.s4omB2BUnit,
         false

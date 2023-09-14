@@ -143,7 +143,7 @@ describe('OccPDFInvoicesAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
     });
 
-    it(`should result in error when Error is thrown`, () => {
+    it(`should result in error when Error is thrown`, (done) => {
       spyOn(httpClient, 'get').and.returnValue(
         throwError(mockNoOrderIdBadRequestResponse)
       );
@@ -152,7 +152,12 @@ describe('OccPDFInvoicesAdapter', () => {
       const subscription = occPDFInvoicesAdapter
         .getInvoicesForOrder(mockUserId, mockOrderId, mockInvoiceQueryParams)
         .pipe(take(1))
-        .subscribe({ error: (err: any) => (result = err) });
+        .subscribe({
+          error: (err: any) => {
+            result = err;
+            done();
+          },
+        });
 
       expect(result).toEqual(
         normalizeHttpError(mockNoOrderIdBadRequestResponse)
@@ -215,7 +220,7 @@ describe('OccPDFInvoicesAdapter', () => {
       expect(mockReq.request.responseType).toEqual('blob');
     });
 
-    it(`should result in error when Invoice download Error is thrown`, () => {
+    it(`should result in error when Invoice download Error is thrown`, (done) => {
       spyOn(httpClient, 'get').and.returnValue(
         throwError(mockDownloadPDFBadRequestResponse)
       );
@@ -229,7 +234,12 @@ describe('OccPDFInvoicesAdapter', () => {
           mockExternalSystemId
         )
         .pipe(take(1))
-        .subscribe({ error: (err: any) => (result = err) });
+        .subscribe({
+          error: (err: any) => {
+            result = err;
+            done();
+          },
+        });
 
       expect(result).toEqual(
         normalizeHttpError(mockDownloadPDFBadRequestResponse)

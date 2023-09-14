@@ -124,7 +124,6 @@ describe('Spartacus PDF Invoices schematics: ng-add', () => {
         // >)[toAdd];
         const expectedDependency = dependencies[toAdd];
         expect(expectedDependency).toBeTruthy();
-        // expect(expectedDependency).toEqual(expectedVersion);
       }
     });
   });

@@ -22,7 +22,7 @@ import {
 import { waitForPage } from '../../checkout-flow';
 import * as alerts from '../../global-message';
 
-export const poNumber = '111';
+export const poNumber = '777';
 
 export const rddDeliveryModeTabbingConfig: TabbingOrderConfig = {
   ...tabbingOrderConfig,

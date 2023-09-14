@@ -45,7 +45,7 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   /* For Enum use in HTML */
   ICON_TYPE = ICON_TYPE;
 
-  private PAGE_SIZE = 5; //Default page size
+  protected PAGE_SIZE = 5; //Default page size
 
   sortOptions: SortModel[];
   sort = 'byInvoiceIdAsc';
@@ -97,7 +97,7 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
     })
   );
 
-  private subscription = new Subscription();
+  protected subscription = new Subscription();
 
   constructor(
     protected pdfInvoicesFacade: PDFInvoicesFacade,
@@ -120,7 +120,7 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
     this.getSortOptions();
   }
 
-  private updateQueryParams(partialParams: InvoiceQueryParams) {
+  protected updateQueryParams(partialParams: InvoiceQueryParams) {
     // Overwrite each value present in partialParams to _queryParams
     Object.keys(partialParams).forEach(
       (key) =>

@@ -240,12 +240,14 @@ describe('InvoicesListComponent', () => {
     );
   });
 
-  it('should read document list', () => {
+  it('should read document list', (done) => {
     let orderInvoiceList: OrderInvoiceList = {};
     let queryParams: InvoiceQueryParams = {};
     component.invoicesList$
       .pipe(take(1))
-      .subscribe((value: OrderInvoiceList) => (orderInvoiceList = value));
+      .subscribe((value: OrderInvoiceList) => {
+        orderInvoiceList = value;
+      });
     expect(orderInvoiceList).toEqual(mockOrderInvoiceList);
     expect(component.pagination).toEqual({
       currentPage: 0,
@@ -256,7 +258,10 @@ describe('InvoicesListComponent', () => {
     });
     component.queryParams$
       .pipe(take(1))
-      .subscribe((value: InvoiceQueryParams) => (queryParams = value));
+      .subscribe((value: InvoiceQueryParams) => {
+        queryParams = value;
+        done();
+      });
     expect(queryParams).toEqual({
       currentPage: 0,
       pageSize: 5,
@@ -411,13 +416,17 @@ describe('InvoicesListComponent', () => {
   });
 
   it('should download the invoice file', async () => {
-    const invoicePDF =
-      (mockOrderInvoiceList.invoices && mockOrderInvoiceList.invoices[0]) || {};
+    const invoicePDF = (mockOrderInvoiceList.invoices &&
+      mockOrderInvoiceList.invoices[0]) || {
+      invoiceId: '',
+      externalSystemId: '',
+    };
 
     spyOn(pdfInvoicesFacade, 'getInvoicePDF').and.returnValue(of(blob));
     const fakeUrl = 'blob:http://localhost:4321/15-09-2023-1234';
     spyOn(URL, 'createObjectURL').and.returnValue(fakeUrl);
 
+    expect(invoicePDF).not.toBeUndefined();
     component.downloadPDFInvoice(
       invoicePDF.invoiceId || '',
       invoicePDF.externalSystemId
@@ -436,8 +445,11 @@ describe('InvoicesListComponent', () => {
   });
 
   it('should download the attachment file with external system id', async () => {
-    const invoicePDF =
-      (mockOrderInvoiceList.invoices && mockOrderInvoiceList.invoices[0]) || {};
+    const invoicePDF = (mockOrderInvoiceList.invoices &&
+      mockOrderInvoiceList.invoices[0]) || {
+      invoiceId: '',
+      externalSystemId: '',
+    };
 
     spyOn(pdfInvoicesFacade, 'getInvoicePDF').and.returnValue(of(blob));
     const fakeUrl = 'blob:http://localhost:4321/15-09-2023-1234';

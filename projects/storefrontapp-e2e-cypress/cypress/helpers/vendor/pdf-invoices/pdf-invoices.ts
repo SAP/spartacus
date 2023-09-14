@@ -274,17 +274,17 @@ export const sortByDateDescInvoicesData = {
 };
 
 export const sortByNetAmtAscInvoicesData = {
-  page1: [invoiceG, invoiceA, invoiceP, invoiceJ, invoiceM],
-  page2: [invoiceD, invoiceQ, invoiceE, invoiceK, invoiceB],
-  page3: [invoiceH, invoiceN, invoiceL, invoiceO, invoiceC],
-  page4: [invoiceI, invoiceF],
+  page1: [invoiceP, invoiceA, invoiceD, invoiceJ, invoiceG],
+  page2: [invoiceM, invoiceE, invoiceK, invoiceH, invoiceB],
+  page3: [invoiceN, invoiceQ, invoiceO, invoiceC, invoiceI],
+  page4: [invoiceL, invoiceF],
 };
 
 export const sortByNetAmtDescInvoicesData = {
-  page1: [invoiceL, invoiceO, invoiceC, invoiceI, invoiceF],
-  page2: [invoiceQ, invoiceE, invoiceK, invoiceB, invoiceH],
-  page3: [invoiceN, invoiceG, invoiceA, invoiceP, invoiceJ],
-  page4: [invoiceM, invoiceD],
+  page1: [invoiceO, invoiceC, invoiceI, invoiceL, invoiceF],
+  page2: [invoiceE, invoiceK, invoiceH, invoiceB, invoiceN],
+  page3: [invoiceQ, invoiceP, invoiceA, invoiceD, invoiceJ],
+  page4: [invoiceG, invoiceM],
 };
 
 export const sortByTotalAmtAscInvoicesData = {

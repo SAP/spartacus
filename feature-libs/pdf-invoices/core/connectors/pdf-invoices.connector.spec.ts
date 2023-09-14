@@ -26,7 +26,7 @@ class MockPDFInvoicesAdapter implements Partial<PDFInvoicesAdapter> {
     'PDFInvoicesAdapter.getInvoicesForOrder'
   ).and.callFake(
     (_userId: string, _orderId: string, _queryParams: InvoiceQueryParams) =>
-      of()
+      of({})
   );
   getInvoicePDF = createSpy('PDFInvoicesAdapter.getInvoicePDF').and.callFake(
     (
@@ -34,7 +34,7 @@ class MockPDFInvoicesAdapter implements Partial<PDFInvoicesAdapter> {
       _orderId: string,
       _invoiceId: string,
       _externalSystemId?: string
-    ) => of()
+    ) => of({})
   );
 }
 
@@ -42,8 +42,8 @@ describe('PDFInvoicesConnector', () => {
   let pdfInvoicesConnector: PDFInvoicesConnector;
   let adapter: PDFInvoicesAdapter;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [
         PDFInvoicesConnector,
         {
@@ -61,13 +61,16 @@ describe('PDFInvoicesConnector', () => {
     expect(pdfInvoicesConnector).toBeTruthy();
   });
 
-  it('should call adapter when getInvoicesForOrder is invoked', () => {
+  it('should call adapter when getInvoicesForOrder is invoked', (done) => {
     let result;
     pdfInvoicesConnector
       .getInvoicesForOrder(mockUserId, mockOrderId, mockInvoiceQueryParams)
       .pipe(take(1))
-      .subscribe((res: any) => (result = res));
-    expect(result).toBeUndefined();
+      .subscribe((res: any) => {
+        result = res;
+        expect(result).toEqual({});
+        done();
+      });
     expect(adapter.getInvoicesForOrder).toHaveBeenCalledWith(
       mockUserId,
       mockOrderId,
@@ -75,7 +78,7 @@ describe('PDFInvoicesConnector', () => {
     );
   });
 
-  it('should call adapter when getInvoicePDF is invoked', () => {
+  it('should call adapter when getInvoicePDF is invoked', (done) => {
     let result;
     pdfInvoicesConnector
       .getInvoicePDF(
@@ -85,8 +88,11 @@ describe('PDFInvoicesConnector', () => {
         mockExternalSystemId
       )
       .pipe(take(1))
-      .subscribe((res: any) => (result = res));
-    expect(result).toBeUndefined();
+      .subscribe((res: any) => {
+        result = res;
+        expect(result).toEqual({});
+        done();
+      });
     expect(adapter.getInvoicePDF).toHaveBeenCalledWith(
       mockUserId,
       mockOrderId,
@@ -95,13 +101,16 @@ describe('PDFInvoicesConnector', () => {
     );
   });
 
-  it('should call adapter when getInvoicePDF is invoked without externalSystemId', () => {
+  it('should call adapter when getInvoicePDF is invoked without externalSystemId', (done) => {
     let result;
     pdfInvoicesConnector
       .getInvoicePDF(mockUserId, mockOrderId, mockInvoiceId)
       .pipe(take(1))
-      .subscribe((res: any) => (result = res));
-    expect(result).toBeUndefined();
+      .subscribe((res: any) => {
+        result = res;
+        expect(result).toEqual({});
+        done();
+      });
     expect(adapter.getInvoicePDF).toHaveBeenCalledWith(
       mockUserId,
       mockOrderId,
