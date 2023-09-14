@@ -9,6 +9,11 @@ import * as checkout from '../../../../helpers/checkout-flow';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
 import * as asm from '../../../../helpers/asm';
+import { addProductToCart } from '../../../../helpers/checkout-flow';
+import {
+  interceptDelete,
+  interceptPost,
+} from '../../../../support/utils/intercept';
 
 context('Assisted Service Module', () => {
   const customer = {
@@ -93,12 +98,17 @@ context('Assisted Service Module', () => {
       });
     });
     it('should be able to sent customer coupon for customer coupon (CXSPA-3945)', () => {
+      interceptPost(
+        'claim_customer_coupon',
+        '/users/*/customercoupons/*/claim?*'
+      );
       cy.get('.cx-asm-customer-promotion-listing-row')
         .contains('Buy over $1000 get 20% off on cart')
         .parent()
         .parent()
         .within(() => {
           cy.get('button').contains('Assign to Customer').click();
+          cy.wait(`@claim_customer_coupon`);
         });
       cy.get('.cx-asm-customer-promotion-listing-row').should(
         'not.contain',
@@ -107,12 +117,17 @@ context('Assisted Service Module', () => {
     });
     it('should be able to remove customer coupon for customer coupon (CXSPA-3945)', () => {
       cy.get('.cx-tab-header').contains('Sent').click();
+      interceptDelete(
+        'disclaim_customer_coupon',
+        '/users/*/customercoupons/*/claim?*'
+      );
       cy.get('.cx-asm-customer-promotion-listing-row')
         .contains('Buy over $1000 get 20% off on cart')
         .parent()
         .parent()
         .within(() => {
           cy.get('button').contains('Remove').click();
+          cy.wait(`@disclaim_customer_coupon`);
         });
       cy.get('.cx-asm-customer-promotion-listing-row').should(
         'not.contain',

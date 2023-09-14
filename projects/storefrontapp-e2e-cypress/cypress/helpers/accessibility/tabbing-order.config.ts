@@ -2453,5 +2453,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
     { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
     { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    // uncomment the following line to test againt S4,S7
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
   ],
 };

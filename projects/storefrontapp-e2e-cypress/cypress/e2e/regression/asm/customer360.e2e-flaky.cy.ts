@@ -9,6 +9,11 @@ import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/navigation';
 import { waitForProductPage } from '../../../helpers/checkout-flow';
+import { addProductToCart } from '../../../helpers/checkout-flow';
+import {
+  interceptDelete,
+  interceptPost,
+} from '../../../support/utils/intercept';
 
 context('Assisted Service Module', () => {
   before(() => {
@@ -255,9 +260,7 @@ context('Assisted Service Module', () => {
     it('promotion rule should be auto applied when the total price of the cart reaches the promotion threshold(CXSPA-3932)', () => {
       checkout.goToProductDetailsPage();
       cy.get('input[type="number"]').clear().type('100');
-      cy.get('cx-add-to-cart')
-        .findByText(/Add To Cart/i)
-        .click({ force: true });
+      addProductToCart();
       checkout.visitHomePage('asm=true');
       cy.get('button.cx-360-button').click();
       cy.get('button.cx-tab-header').contains('Promotion').click();
@@ -301,12 +304,17 @@ context('Assisted Service Module', () => {
       });
     });
     it('should be able to sent customer coupon for customer coupon (CXSPA-3945)', () => {
+      interceptPost(
+        'claim_customer_coupon',
+        '/users/*/customercoupons/*/claim?*'
+      );
       cy.get('.cx-asm-customer-promotion-listing-row')
         .contains('Buy over $1000 get 20% off on cart')
         .parent()
         .parent()
         .within(() => {
           cy.get('button').contains('Assign to Customer').click();
+          cy.wait(`@claim_customer_coupon`);
         });
       cy.get('.cx-asm-customer-promotion-listing-row').should(
         'not.contain',
@@ -315,12 +323,17 @@ context('Assisted Service Module', () => {
     });
     it('should be able to remove customer coupon for customer coupon (CXSPA-3945)', () => {
       cy.get('.cx-tab-header').contains('Sent').click();
+      interceptDelete(
+        'disclaim_customer_coupon',
+        '/users/*/customercoupons/*/claim?*'
+      );
       cy.get('.cx-asm-customer-promotion-listing-row')
         .contains('Buy over $1000 get 20% off on cart')
         .parent()
         .parent()
         .within(() => {
           cy.get('button').contains('Remove').click();
+          cy.wait(`@disclaim_customer_coupon`);
         });
       cy.get('.cx-asm-customer-promotion-listing-row').should(
         'not.contain',
