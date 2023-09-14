@@ -13,12 +13,11 @@ import { GlobalMessageType, User } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { filter } from 'rxjs/operators';
 
-
 @Component({
   selector: 'cx-new-email',
   templateUrl: './new-email.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { },
+  host: {},
 })
 export class NewEmailComponent implements OnInit {
   form: UntypedFormGroup = this.emailComponentservice.form;
@@ -30,8 +29,10 @@ export class NewEmailComponent implements OnInit {
     .pipe(filter((user): user is User => Boolean(user)));
   globalMessageType = GlobalMessageType;
 
-  constructor(protected emailComponentservice: NewEmailComponentService,
-    protected userProfile: UserProfileFacade) {}
+  constructor(
+    protected emailComponentservice: NewEmailComponentService,
+    protected userProfile: UserProfileFacade
+  ) {}
   ngOnInit(): void {
     this.isEditing = false;
   }

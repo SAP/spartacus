@@ -1,5 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DebugElement,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   UntypedFormControl,
@@ -28,9 +32,7 @@ class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
 
-class MockProfileService
-  implements Partial<NewProfileComponentService>
-{
+class MockProfileService implements Partial<NewProfileComponentService> {
   user$ = of({});
   titles$ = of([]);
   updateSucceed$ = new Subject<boolean>();
@@ -77,9 +79,11 @@ describe('NewProfileComponent', () => {
             },
           },
         ],
-      }).overrideComponent(NewProfileComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default }
-      }).compileComponents();
+      })
+        .overrideComponent(NewProfileComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
     })
   );
 
@@ -136,7 +140,6 @@ describe('NewProfileComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
       expect(el.query(By.css('form'))).toBeNull();
-
     });
   });
 

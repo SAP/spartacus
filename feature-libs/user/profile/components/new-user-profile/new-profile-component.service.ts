@@ -31,7 +31,6 @@ export class NewProfileComponentService {
 
   updateSucceed$ = new Subject<boolean>();
 
-
   isUpdating$: Observable<boolean> = this.user$.pipe(
     tap((user) => this.form.patchValue(user)),
     switchMap((_user: User) => this.busy$),

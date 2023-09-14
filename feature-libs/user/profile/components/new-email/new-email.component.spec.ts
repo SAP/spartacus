@@ -44,7 +44,7 @@ class MockNewEmailService implements Partial<NewEmailComponentService> {
 }
 
 const sampleUser: User = {
-  uid:"sampleUid"
+  uid: 'sampleUid',
 };
 class MockNewProfileFacade implements Partial<UserProfileFacade> {
   get() {
@@ -78,8 +78,8 @@ describe('NewEmailComponent', () => {
           },
           {
             provide: UserProfileFacade,
-            useClass: MockNewProfileFacade
-          }
+            useClass: MockNewProfileFacade,
+          },
         ],
       })
         .overrideComponent(NewEmailComponent, {
@@ -142,7 +142,6 @@ describe('NewEmailComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
       expect(el.query(By.css('form'))).toBeNull();
-
     });
   });
 
@@ -155,7 +154,6 @@ describe('NewEmailComponent', () => {
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
     });
-
 
     it('should call the service method on submit', () => {
       component.form.enable();
@@ -171,7 +169,5 @@ describe('NewEmailComponent', () => {
       const submitBtn = el.query(By.css('button.btn-primary'));
       expect(submitBtn).toBeNull();
     });
-
   });
-
 });

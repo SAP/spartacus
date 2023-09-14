@@ -30,41 +30,41 @@ import { NewEmailComponentService } from './new-email-component.service';
 import { NewEmailComponent } from './new-email.component';
 
 @NgModule({
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                NewEmailComponent: {
-                    component: NewEmailComponent,
-                    guards: [AuthGuard],
-                    providers: [
-                        {
-                            provide: NewEmailComponentService,
-                            useClass: NewEmailComponentService,
-                            deps: [
-                                UserEmailFacade,
-                                RoutingService,
-                                GlobalMessageService,
-                                AuthService,
-                                AuthRedirectService,
-                            ],
-                        },
-                    ],
-                },
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        NewEmailComponent: {
+          component: NewEmailComponent,
+          guards: [AuthGuard],
+          providers: [
+            {
+              provide: NewEmailComponentService,
+              useClass: NewEmailComponentService,
+              deps: [
+                UserEmailFacade,
+                RoutingService,
+                GlobalMessageService,
+                AuthService,
+                AuthRedirectService,
+              ],
             },
-        }),
-    ],
-    declarations: [NewEmailComponent],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        SpinnerModule,
-        UrlModule,
-        RouterModule,
-        I18nModule,
-        FormErrorsModule,
-        PasswordVisibilityToggleModule,
-        MessageComponentModule,
-    ]
+          ],
+        },
+      },
+    }),
+  ],
+  declarations: [NewEmailComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SpinnerModule,
+    UrlModule,
+    RouterModule,
+    I18nModule,
+    FormErrorsModule,
+    PasswordVisibilityToggleModule,
+    MessageComponentModule,
+  ],
 })
 export class NewEmailModule {}

@@ -1,31 +1,30 @@
 %cx-new-profile {
-
   .myaccount-enhancedUI-header-area {
     border: 1px, 0px, 0px, 0px;
   }
-  
+
   .myaccount-enhancedUI-body-area {
-    clear:both;
+    clear: both;
     border: 0px, 0px, 1px, 0px;
   }
-  
+
   .myaccount-enhancedUI-headertext {
     float: left;
     font-size: 22px;
     font-weight: 600;
-    color: #14293A;
+    color: #14293a;
     padding-bottom: 24px;
   }
-  
+
   .myaccount-enhancedUI-editButton {
     float: right;
     font-size: 16px;
     font-family: Open sans;
-    color: #1672B7;
+    color: #1672b7;
     border: none;
     background-color: transparent;
   }
-  
+
   .myaccount-enhancedUI-text-head {
     font-weight: 600;
     min-width: 120px;
@@ -33,21 +32,20 @@
     color: #212738;
     gap: 24px;
   }
-  
+
   .myaccount-enhancedUI-value {
     font-weight: 400;
-    color: #6C7079
+    color: #6c7079;
   }
-  
+
   .myaccount-enhancedUI-button {
     padding: 10px;
     margin-right: 20px;
     font-weight: 400;
-  
   }
-  
+
   .myaccount-enhancedUI-button-cancel {
-    color: #2480C5;
+    color: #2480c5;
     padding: 16px, 24px, 16px, 24px;
   }
 }

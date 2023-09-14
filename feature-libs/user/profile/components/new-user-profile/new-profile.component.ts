@@ -32,8 +32,8 @@ export class NewProfileComponent implements OnInit {
   onSubmit(): void {
     this.service.updateProfile();
     this.service.updateSucceed$.subscribe((res) => {
-        this.isEditing = !res;
-      });
+      this.isEditing = !res;
+    });
   }
 
   cancelEdit(): void {

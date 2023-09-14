@@ -23,8 +23,8 @@ import {
   NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import {NewProfileComponent} from './new-profile.component';
-import {NewProfileComponentService} from './new-profile-component.service';
+import { NewProfileComponent } from './new-profile.component';
+import { NewProfileComponentService } from './new-profile-component.service';
 
 @NgModule({
   imports: [
