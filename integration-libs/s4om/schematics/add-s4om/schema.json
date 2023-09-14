@@ -33,6 +33,10 @@
           {
             "value": "Requested-Delivery-Date",
             "label": "Requested Delivery Date"
+          },
+          {
+            "value": "PDF-Invoices",
+            "label": "PDF Invoices"
           }
         ]
       }
