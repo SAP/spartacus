@@ -220,7 +220,7 @@ export class QuoteService implements QuoteFacade {
             payload.quoteAction === QuoteActionType.CHECKOUT
           ) {
             //no cartId present: ensure that we re-fetch quote cart id from quote
-            let cartId = payload.quote.cartId;
+            const cartId = payload.quote.cartId;
             if (!cartId) {
               this.quoteConnector
                 .getQuote(userId, payload.quote.code)
@@ -229,15 +229,15 @@ export class QuoteService implements QuoteFacade {
                   take(1)
                 )
                 .subscribe((quote) => {
-                  this.loadQuoteCart(userId, quote.cartId as string);
+                  this.loadQuoteCartAndProceed(
+                    userId,
+                    quote.cartId as string,
+                    payload.quoteAction
+                  );
                 });
             } else {
-              this.loadQuoteCart(userId, cartId);
+              this.loadQuoteCartAndProceed(userId, cartId, payload.quoteAction);
             }
-          }
-
-          if (payload.quoteAction === QuoteActionType.CHECKOUT) {
-            this.quoteCartService.setCheckoutAllowed(true);
           }
         })
       );
@@ -249,13 +249,19 @@ export class QuoteService implements QuoteFacade {
 
   /**
    * Loads the quote cart and waits until load is done. Afterwards triggers a refresh of the quote details
+   * and navigates to checkout if this action demands this
    * @param userId Current user
    * @param cartId Quote cart ID
+   * @param actionType The action we are currently processing. This method is used only for the edit and checkout action
    */
-  protected loadQuoteCart(userId: string, cartId: string) {
+  protected loadQuoteCartAndProceed(
+    userId: string,
+    cartId: string,
+    actionType: QuoteActionType
+  ) {
     this.multiCartService.loadCart({
       userId: userId,
-      cartId: cartId as string,
+      cartId: cartId,
       extraData: {
         active: true,
       },
@@ -266,7 +272,14 @@ export class QuoteService implements QuoteFacade {
         filter((cart) => cart.code === cartId),
         take(1)
       )
-      .subscribe(() => this.triggerQuoteDetailsReload());
+      .subscribe(() => {
+        if (actionType === QuoteActionType.EDIT) {
+          this.triggerQuoteDetailsReload();
+        } else {
+          this.quoteCartService.setCheckoutAllowed(true);
+          this.routingService.go({ cxRoute: 'checkout' });
+        }
+      });
   }
 
   protected triggerQuoteDetailsReload() {

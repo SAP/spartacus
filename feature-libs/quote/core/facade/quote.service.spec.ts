@@ -302,7 +302,7 @@ describe('QuoteService', () => {
       discountRate: 1,
       discountType: QuoteDiscountType.ABSOLUTE,
     };
-    it('should ', () => {
+    it('should call respective connector method ', () => {
       service
         .addDiscount(QUOTE_CODE, discount)
         .pipe(take(1))
@@ -377,64 +377,87 @@ describe('QuoteService', () => {
       });
     });
 
-    it('should create new cart and navigate to quote list on submit', (done) => {
-      service
-        .performQuoteAction(quote, QuoteActionType.SUBMIT)
-        .subscribe(() => {
-          expect(
-            cartUtilsService.createNewCartAndGoToQuoteList
-          ).toHaveBeenCalled();
-          done();
-        });
-    });
-
-    it('should create new cart and navigate to quote list on cancel', (done) => {
-      service
-        .performQuoteAction(quote, QuoteActionType.CANCEL)
-        .subscribe(() => {
-          expect(
-            cartUtilsService.createNewCartAndGoToQuoteList
-          ).toHaveBeenCalled();
-          done();
-        });
-    });
-
-    it('should load quote cart on edit', (done) => {
-      service.performQuoteAction(quote, QuoteActionType.EDIT).subscribe(() => {
-        checkQuoteCartFacadeCalls();
-        done();
+    describe('on submit', () => {
+      it('should create new cart and navigate to quote list', (done) => {
+        service
+          .performQuoteAction(quote, QuoteActionType.SUBMIT)
+          .subscribe(() => {
+            expect(
+              cartUtilsService.createNewCartAndGoToQuoteList
+            ).toHaveBeenCalled();
+            done();
+          });
       });
     });
 
-    it('should trigger a quote refresh on edit', (done) => {
-      service.performQuoteAction(quote, QuoteActionType.EDIT).subscribe(() => {
-        expect(eventService.dispatch).toHaveBeenCalledWith(
-          {},
-          QuoteDetailsReloadQueryEvent
-        );
-        done();
+    describe('on cancel', () => {
+      it('should create new cart and navigate to quote list', (done) => {
+        service
+          .performQuoteAction(quote, QuoteActionType.CANCEL)
+          .subscribe(() => {
+            expect(
+              cartUtilsService.createNewCartAndGoToQuoteList
+            ).toHaveBeenCalled();
+            done();
+          });
       });
     });
 
-    it('should trigger quote re-read on edit in case quote does not carry a cart id', (done) => {
-      service
-        .performQuoteAction(quoteWithoutCartId, QuoteActionType.EDIT)
-        .subscribe(() => {
-          expect(connector.getQuote).toHaveBeenCalledWith(userId, quote.code);
-          done();
-        });
+    describe('on edit', () => {
+      it('should load quote cart', (done) => {
+        service
+          .performQuoteAction(quote, QuoteActionType.EDIT)
+          .subscribe(() => {
+            checkQuoteCartFacadeCalls();
+            done();
+          });
+      });
+
+      it('should trigger a quote refresh', (done) => {
+        service
+          .performQuoteAction(quote, QuoteActionType.EDIT)
+          .subscribe(() => {
+            expect(eventService.dispatch).toHaveBeenCalledWith(
+              {},
+              QuoteDetailsReloadQueryEvent
+            );
+            done();
+          });
+      });
+
+      it('should trigger quote re-read in case quote does not carry a cart id', (done) => {
+        service
+          .performQuoteAction(quoteWithoutCartId, QuoteActionType.EDIT)
+          .subscribe(() => {
+            expect(connector.getQuote).toHaveBeenCalledWith(userId, quote.code);
+            done();
+          });
+      });
     });
 
-    it('should load cart on checkout and signal that checkout is allowed', (done) => {
-      service
-        .performQuoteAction(quote, QuoteActionType.CHECKOUT)
-        .subscribe(() => {
-          checkQuoteCartFacadeCalls();
-          expect(quoteCartService.setCheckoutAllowed).toHaveBeenCalledWith(
-            true
-          );
-          done();
-        });
+    describe('on checkout', () => {
+      it('should load cart on checkout and signal that checkout is allowed', (done) => {
+        service
+          .performQuoteAction(quote, QuoteActionType.CHECKOUT)
+          .subscribe(() => {
+            checkQuoteCartFacadeCalls();
+            expect(quoteCartService.setCheckoutAllowed).toHaveBeenCalledWith(
+              true
+            );
+            done();
+          });
+      });
+
+      it('should navigate to checkout', (done) => {
+        service
+          .performQuoteAction(quote, QuoteActionType.CHECKOUT)
+          .subscribe(() => {
+            expect(routingService.go).toHaveBeenCalledWith({
+              cxRoute: 'checkout',
+            });
+            done();
+          });
+      });
     });
   });
 
