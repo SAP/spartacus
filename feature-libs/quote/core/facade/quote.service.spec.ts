@@ -104,7 +104,6 @@ class MockViewConfig implements ViewConfig {
   view = { defaultPageSize: mockPagination.pageSize };
 }
 
-let actionResult: Observable<unknown>;
 class MockCommerceQuotesConnector implements Partial<QuoteConnector> {
   getQuotes = createSpy().and.returnValue(of(mockQuoteList));
   getQuote = createSpy().and.returnValue(of(mockQuote));
@@ -112,7 +111,7 @@ class MockCommerceQuotesConnector implements Partial<QuoteConnector> {
   editQuote = createSpy().and.returnValue(of(EMPTY));
   addComment = createSpy().and.returnValue(of(EMPTY));
   addCartEntryComment = createSpy().and.returnValue(of(EMPTY));
-  performQuoteAction = createSpy().and.returnValue(actionResult);
+  performQuoteAction = createSpy().and.returnValue(of(EMPTY));
   addDiscount = createSpy().and.returnValue(of(EMPTY));
 }
 
@@ -178,7 +177,6 @@ describe('QuoteService', () => {
 
     isQuoteCartActive = false;
     quoteId = '';
-    actionResult = of(EMPTY);
   });
 
   it('should inject CommerceQuotesService', inject(
@@ -371,7 +369,9 @@ describe('QuoteService', () => {
     });
 
     it('should raise re-load event, even if action fails', (done) => {
-      actionResult = throwError({});
+      connector.performQuoteAction = createSpy().and.returnValue(
+        throwError({})
+      );
       service.performQuoteAction(mockQuote.code, mockAction.type).subscribe({
         error: () => {
           expect(eventService.dispatch).toHaveBeenCalledWith(
