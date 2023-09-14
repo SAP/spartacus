@@ -25,6 +25,7 @@
     "@angular/core": "^15.2.9",
     "@spartacus/cart": "6.3.0-1",
     "@spartacus/core": "6.3.0-1",
+    "@spartacus/pdf-invoices": "6.3.0-1",
     "@spartacus/requested-delivery-date": "6.3.0-1",
     "@spartacus/schematics": "6.3.0-1",
     "@spartacus/storefront": "6.3.0-1",
