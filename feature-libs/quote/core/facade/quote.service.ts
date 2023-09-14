@@ -63,7 +63,6 @@ import { CartUtilsService } from '../services/cart-utils.service';
 
 @Injectable()
 export class QuoteService implements QuoteFacade {
-
   /**
    * Indicator whether an action is currently performing.
    */

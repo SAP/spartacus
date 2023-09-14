@@ -71,7 +71,6 @@ const testMappings: ConfirmActionDialogMappingConfig = {
       showSuccessMessage: false,
     },
   },
-
 };
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
