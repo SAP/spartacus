@@ -1,14 +1,15 @@
 {
   "name": "ssr-tests",
+  "version": "6.3.0-1",
+  "private": true,
   "description": "Spartacus SSR Tests",
   "keywords": [
     "spartacus",
     "ssr",
     "tests"
   ],
-  "author": "SAP, Spartacus team",
   "license": "MIT",
-  "private": true,
+  "author": "SAP, Spartacus team",
   "scripts": {
     "test": "../../node_modules/.bin/jest --config ./jest.config.js --detectOpenHandles"
   },

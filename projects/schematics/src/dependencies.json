@@ -156,10 +156,10 @@
     "rxjs": "^6.6.0"
   },
   "@spartacus/pdf-invoices": {
-    "@angular-devkit/schematics": "^15.2.4",
-    "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
-    "@angular/forms": "^15.2.4",
+    "@angular-devkit/schematics": "^15.2.9",
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
+    "@angular/forms": "^15.2.9",
     "@spartacus/core": "6.3.0-1",
     "@spartacus/schematics": "6.3.0-1",
     "@spartacus/storefront": "6.3.0-1",
@@ -397,6 +397,6 @@
     "rxjs": "^6.6.0",
     "ts-loader": "^9.4.4",
     "tslib": "^2.6.2",
-    "zone.js": "~0.11.8"
+    "zone.js": "~0.12.0"
   }
 }
