@@ -262,6 +262,22 @@
       "@spartacus/organization/user-registration/root": [
         "../../feature-libs/organization/user-registration/root/public_api"
       ],
+      "@spartacus/pdf-invoices/assets": [
+        "../../feature-libs/pdf-invoices/assets/public_api"
+      ],
+      "@spartacus/pdf-invoices/components": [
+        "../../feature-libs/pdf-invoices/components/public_api"
+      ],
+      "@spartacus/pdf-invoices/core": [
+        "../../feature-libs/pdf-invoices/core/public_api"
+      ],
+      "@spartacus/pdf-invoices": ["../../feature-libs/pdf-invoices/public_api"],
+      "@spartacus/pdf-invoices/occ": [
+        "../../feature-libs/pdf-invoices/occ/public_api"
+      ],
+      "@spartacus/pdf-invoices/root": [
+        "../../feature-libs/pdf-invoices/root/public_api"
+      ],
       "@spartacus/pickup-in-store/assets": [
         "../../feature-libs/pickup-in-store/assets/public_api"
       ],

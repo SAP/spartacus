@@ -17,6 +17,7 @@ const featureLibsFolders: string[] = [
   'order',
   'checkout',
   'organization',
+  'pdf-invoices',
   'pickup-in-store',
   'product',
   'product-configurator',
@@ -52,6 +53,7 @@ const commands = [
   'build digital-payments/schematics',
   'build epd-visualization/schematics',
   'build organization/schematics',
+  'build pdf-invoices/schematics',
   'build pickup-in-store/schematics',
   'build product/schematics',
   'build product-configurator/schematics',
@@ -202,6 +204,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build digital-payments/schematics':
     case 'build epd-visualization/schematics':
     case 'build organization/schematics':
+    case 'build pdf-invoices/schematics':
     case 'build pickup-in-store/schematics':
     case 'build product/schematics':
     case 'build product-configurator/schematics':
