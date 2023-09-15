@@ -250,7 +250,7 @@ export class QuoteService implements QuoteFacade {
     }
   );
 
-  handleError(error: HttpErrorModel): Observable<unknown> {
+  protected handleError(error: HttpErrorModel): Observable<unknown> {
     if (error.details?.[0]?.type === 'CommerceQuoteExpirationTimeError') {
       this.globalMessageService.add(
         { key: 'quote.httpHandlers.expired' },
