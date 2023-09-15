@@ -89,8 +89,7 @@ export class QuoteService implements QuoteFacade {
               active: true,
             },
           });
-          this.quoteCartService.setQuoteCartActive(true);
-          this.quoteCartService.setQuoteId(quote.code);
+
           this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
         }),
         map(([_, _userId, quote]) => quote)
@@ -188,10 +187,10 @@ export class QuoteService implements QuoteFacade {
   );
 
   protected performQuoteActionCommand: Command<{
-    quoteCode: string;
+    quote: Quote;
     quoteAction: QuoteActionType;
   }> = this.commandService.create<{
-    quoteCode: string;
+    quote: Quote;
     quoteAction: QuoteActionType;
   }>(
     (payload) => {
@@ -199,33 +198,55 @@ export class QuoteService implements QuoteFacade {
       return this.userIdService.takeUserId().pipe(
         take(1),
         switchMap((userId) =>
-          this.quoteConnector.performQuoteAction(
-            userId,
-            payload.quoteCode,
-            payload.quoteAction
+          zip(
+            this.quoteConnector.performQuoteAction(
+              userId,
+              payload.quote.code,
+              payload.quoteAction
+            ),
+            of(userId)
           )
         ),
-        tap(() => {
+        tap(([_result, userId]) => {
           if (
             payload.quoteAction === QuoteActionType.SUBMIT ||
             payload.quoteAction === QuoteActionType.CANCEL
           ) {
-            this.quoteCartService.setQuoteCartActive(false);
             this.cartUtilsService.createNewCartAndGoToQuoteList();
+            this.triggerReloadAndCompleteAction();
           }
           if (
             payload.quoteAction === QuoteActionType.EDIT ||
             payload.quoteAction === QuoteActionType.CHECKOUT
           ) {
-            this.quoteCartService.setQuoteCartActive(true);
-            this.quoteCartService.setQuoteId(payload.quoteCode);
+            //no cartId present: ensure that we re-fetch quote cart id from quote
+            const cartId = payload.quote.cartId;
+            if (!cartId) {
+              this.quoteConnector
+                .getQuote(userId, payload.quote.code)
+                .pipe(
+                  filter((quote) => quote.cartId !== undefined),
+                  take(1)
+                )
+                .subscribe((quote) => {
+                  this.loadQuoteCartAndProceed(
+                    userId,
+                    quote.cartId as string,
+                    quote.code,
+                    payload.quoteAction
+                  );
+                });
+            } else {
+              this.loadQuoteCartAndProceed(
+                userId,
+                cartId,
+                payload.quote.code,
+                payload.quoteAction
+              );
+            }
+          } else {
+            this.isActionPerforming$.next(false);
           }
-
-          if (payload.quoteAction === QuoteActionType.CHECKOUT) {
-            this.quoteCartService.setCheckoutAllowed(true);
-          }
-          this.isActionPerforming$.next(false);
-          this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
         })
       );
     },
@@ -233,6 +254,51 @@ export class QuoteService implements QuoteFacade {
       strategy: CommandStrategy.CancelPrevious,
     }
   );
+
+  /**
+   * Loads the quote cart and waits until load is done. Afterwards triggers specific actions depending on the
+   * action we perform
+   * @param userId Current user
+   * @param cartId Quote cart ID
+   * @param actionType The action we are currently processing
+   */
+  protected loadQuoteCartAndProceed(
+    userId: string,
+    cartId: string,
+    quoteId: string,
+    actionType: QuoteActionType
+  ) {
+    this.multiCartService.loadCart({
+      userId: userId,
+      cartId: cartId,
+      extraData: {
+        active: true,
+      },
+    });
+    this.activeCartService
+      .getActive()
+      .pipe(
+        filter((cart) => cart.code === cartId),
+        take(1)
+      )
+      .subscribe(() => {
+        this.triggerReloadAndCompleteAction();
+        if (actionType === QuoteActionType.CHECKOUT) {
+          this.quoteCartService.setCheckoutAllowed(true);
+          this.routingService.go({ cxRoute: 'checkout' });
+        } else if (actionType === QuoteActionType.REQUOTE) {
+          this.routingService.go({
+            cxRoute: 'quoteDetails',
+            params: { quoteId: quoteId },
+          });
+        }
+      });
+  }
+
+  protected triggerReloadAndCompleteAction() {
+    this.isActionPerforming$.next(false);
+    this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+  }
 
   protected requoteCommand: Command<{ quoteStarter: QuoteStarter }, Quote> =
     this.commandService.create<{ quoteStarter: QuoteStarter }, Quote>(
@@ -243,11 +309,12 @@ export class QuoteService implements QuoteFacade {
           switchMap((userId) =>
             this.quoteConnector.createQuote(userId, payload.quoteStarter).pipe(
               tap((quote) => {
-                this.routingService.go({
-                  cxRoute: 'quoteDetails',
-                  params: { quoteId: quote.code },
-                });
-                this.isActionPerforming$.next(false);
+                this.loadQuoteCartAndProceed(
+                  userId,
+                  quote.cartId as string,
+                  quote.code,
+                  QuoteActionType.REQUOTE
+                );
               })
             )
           )
@@ -261,32 +328,22 @@ export class QuoteService implements QuoteFacade {
   protected quoteDetailsState$: Query<Quote, unknown[]> =
     this.queryService.create<Quote>(
       () =>
-        this.routingService.getRouterState().pipe(
-          //we don't need to cover the intermediate router states where a future route is already known.
-          //only changes to the URL are relevant. Otherwise we get unneeded hits when e.g. navigating back from quotes
-          filter((routingData) => routingData.nextState === undefined),
-          withLatestFrom(this.userIdService.takeUserId()),
-          switchMap(([{ state }, userId]) =>
-            zip(
-              this.quoteConnector.getQuote(userId, state.params.quoteId),
-              this.quoteCartService.isQuoteCartActive(),
-              this.quoteCartService.getQuoteId(),
-              of(userId)
+        //we need to ensure that the active cart has been loaded, in order to determine if the
+        //quote is connected to a quote cart (and then directly ready for edit)
+        this.activeCartService.isStable().pipe(
+          switchMap(() =>
+            this.routingService.getRouterState().pipe(
+              //we don't need to cover the intermediate router states where a future route is already known.
+              //only changes to the URL are relevant. Otherwise we get unneeded hits when e.g. navigating back from quotes
+              filter((routingData) => routingData.nextState === undefined),
+              withLatestFrom(this.userIdService.takeUserId()),
+              switchMap(([{ state }, userId]) =>
+                this.quoteConnector.getQuote(userId, state.params.quoteId)
+              )
             )
-          ),
-          tap(([quote, isActive, quoteId, userId]) => {
-            if (isActive && quote.code === quoteId) {
-              this.multiCartService.loadCart({
-                userId: userId,
-                cartId: quote.cartId as string,
-                extraData: {
-                  active: true,
-                },
-              });
-            }
-          }),
-          map(([quote, _]) => quote)
+          )
         ),
+
       {
         reloadOn: [QuoteDetailsReloadQueryEvent, LoginEvent],
       }
@@ -369,10 +426,10 @@ export class QuoteService implements QuoteFacade {
   }
 
   performQuoteAction(
-    quoteCode: string,
+    quote: Quote,
     quoteAction: QuoteActionType
   ): Observable<unknown> {
-    return this.performQuoteActionCommand.execute({ quoteCode, quoteAction });
+    return this.performQuoteActionCommand.execute({ quote, quoteAction });
   }
 
   requote(quoteCode: string): Observable<Quote> {

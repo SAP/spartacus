@@ -5,42 +5,31 @@
  */
 
 import { Injectable } from '@angular/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { Observable, ReplaySubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-//TODO in the course of https://jira.tools.sap/browse/CXSPA-4208:
-//Either remove this service or have it populated by cart calls
 export class QuoteCartService {
-  private quoteId = new ReplaySubject<string>(1);
-  private quoteCartActive = new ReplaySubject<boolean>(1);
   private checkoutAllowed = new ReplaySubject<boolean>(1);
-
-  private quoteIdAsObservable = this.quoteId.asObservable();
-  private quoteCartActiveAsObservable = this.quoteCartActive.asObservable();
   private checkoutAllowedAsObservable = this.checkoutAllowed.asObservable();
 
-  constructor() {
-    this.quoteCartActive.next(false);
+  constructor(protected activeCartFacade: ActiveCartFacade) {
     this.checkoutAllowed.next(false);
-    this.quoteId.next('');
   }
 
-  public setQuoteId(quoteId: string): void {
-    this.quoteId.next(quoteId);
-  }
-
-  public getQuoteId(): Observable<string> {
-    return this.quoteIdAsObservable;
-  }
-
-  public setQuoteCartActive(quoteCartActive: boolean): void {
-    this.quoteCartActive.next(quoteCartActive);
+  public getQuoteId(): Observable<string | undefined> {
+    return this.activeCartFacade
+      .getActive()
+      .pipe(map((cart) => cart.quoteCode));
   }
 
   public isQuoteCartActive(): Observable<boolean> {
-    return this.quoteCartActiveAsObservable;
+    return this.activeCartFacade
+      .getActive()
+      .pipe(map((cart) => cart.quoteCode !== undefined));
   }
 
   public setCheckoutAllowed(checkoutAllowed: boolean): void {

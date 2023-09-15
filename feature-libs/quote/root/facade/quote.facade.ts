@@ -72,7 +72,7 @@ export abstract class QuoteFacade {
    * Perform action on quote.
    */
   abstract performQuoteAction(
-    quoteCode: string,
+    quote: Quote,
     quoteAction: QuoteActionType
   ): Observable<unknown>;
 
