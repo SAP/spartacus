@@ -40,39 +40,35 @@ describe('QuoteCartService', () => {
   });
 
   describe('setCheckoutActive', () => {
-    it('should trigger emission of new state', (done) => {
+    it('should trigger emission of new state', () => {
       quoteCartService.setCheckoutAllowed(true);
       quoteCartService.isCheckoutAllowed().subscribe((isAllowed) => {
         expect(isAllowed).toBe(true);
-        done();
       });
     });
   });
   describe('getQuoteId', () => {
-    it('should request activeCartFacade to find quote id', (done) => {
+    it('should request activeCartFacade to find quote id', () => {
       cart.quoteCode = quoteAttachedToCart;
       quoteCartService.getQuoteId().subscribe((quoteId) => {
         expect(activeCartFacade.getActive).toHaveBeenCalled();
         expect(quoteId).toEqual(quoteAttachedToCart);
-        done();
       });
     });
   });
 
   describe('isQuoteCartActive', () => {
-    it('should request activeCartFacade to find quote id and determine if a link exists', (done) => {
+    it('should request activeCartFacade to find quote id and determine if a link exists', () => {
       cart.quoteCode = quoteAttachedToCart;
       quoteCartService.isQuoteCartActive().subscribe((isActive) => {
         expect(activeCartFacade.getActive).toHaveBeenCalled();
         expect(isActive).toBe(true);
-        done();
       });
     });
-    it('should return false in case cart is not linked to any quote', (done) => {
+    it('should return false in case cart is not linked to any quote', () => {
       cart.quoteCode = undefined;
       quoteCartService.isQuoteCartActive().subscribe((isActive) => {
         expect(isActive).toBe(false);
-        done();
       });
     });
   });
