@@ -8,7 +8,7 @@ export const customer360 = {
   customer360: {
     alertErrorMessage:
       'The information cannot be be loaded. Please try again later or contact your system administrator.',
-    errorMessageHeader: 'Oops! Something didn\x27t',
+    errorMessageHeader: 'Oops! Something went wrong',
     applyActionAlter:
       "The action couldn't be completed. Please try again later.",
     header: {
