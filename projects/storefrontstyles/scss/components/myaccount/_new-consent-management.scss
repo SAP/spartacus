@@ -5,20 +5,20 @@
   }
 
   .header {
-    font-weight: 600;
-    font-size: 22px;
+    font-weight: $line-height-base * 375;
+    font-size: $font-size-base * 1.375;
     font-family: 'Open Sans';
-    margin-bottom: 30px;
+    margin-bottom: $font-size-base * 1.875;
   }
 
   .message {
-    font-weight: 400;
-    font-size: 16px;
+    font-weight: $line-height-base * 250;
+    font-size: $font-size-base;
     font-family: 'Open Sans';
-    margin-bottom: 30px;
+    margin-bottom: $font-size-base * 1.875;
   }
 
   .consent-form-container {
-    max-width: 895px;
+    max-width: $grid-gutter-width * 29.8333333;
   }
 }
