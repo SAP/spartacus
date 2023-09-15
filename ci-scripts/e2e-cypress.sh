@@ -57,6 +57,8 @@ fi
 echo '-----'
 echo "Building Spartacus libraries"
 
+export NODE_OPTIONS=--dns-result-order=ipv4first
+
 npm ci
 
 (cd projects/storefrontapp-e2e-cypress && npm ci)
