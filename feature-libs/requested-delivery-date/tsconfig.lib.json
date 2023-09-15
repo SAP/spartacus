@@ -64,7 +64,6 @@
       "@spartacus/cart/wish-list/core": ["dist/cart/wish-list/core"],
       "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
       "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"],
-      "@spartacus/core": ["dist/core"],
       "@spartacus/checkout/b2b/assets": ["dist/checkout/b2b/assets"],
       "@spartacus/checkout/b2b/components": ["dist/checkout/b2b/components"],
       "@spartacus/checkout/b2b/core": ["dist/checkout/b2b/core"],
@@ -90,6 +89,7 @@
       "@spartacus/checkout/scheduled-replenishment/root": [
         "dist/checkout/scheduled-replenishment/root"
       ],
+      "@spartacus/core": ["dist/core"],
       "@spartacus/order/assets": ["dist/order/assets"],
       "@spartacus/order/components": ["dist/order/components"],
       "@spartacus/order/core": ["dist/order/core"],
