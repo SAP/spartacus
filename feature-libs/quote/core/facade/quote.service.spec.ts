@@ -20,6 +20,7 @@ import {
 import {
   EventService,
   GlobalMessageService,
+  GlobalMessageType,
   OCC_USER_ID_CURRENT,
   PaginationModel,
   QueryState,
@@ -28,7 +29,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { ViewConfig } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors';
 import { QuoteService } from './quote.service';
@@ -143,8 +144,8 @@ class MockCartUtilsService implements Partial<CartUtilsService> {
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  remove() {}
-  add() {}
+  remove = createSpy().and.stub();
+  add = createSpy().and.stub();
 }
 
 describe('QuoteService', () => {
@@ -157,6 +158,7 @@ describe('QuoteService', () => {
   let routingService: RoutingService;
   let quoteCartService: QuoteCartService;
   let cartUtilsService: CartUtilsService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -187,6 +189,7 @@ describe('QuoteService', () => {
     routingService = TestBed.inject(RoutingService);
     quoteCartService = TestBed.inject(QuoteCartService);
     cartUtilsService = TestBed.inject(CartUtilsService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
 
     isQuoteCartActive = false;
     quoteId = '';
@@ -389,6 +392,21 @@ describe('QuoteService', () => {
       });
     });
 
+    it('should raise re-load event, even if action fails', (done) => {
+      connector.performQuoteAction = createSpy().and.returnValue(
+        throwError({})
+      );
+      service.performQuoteAction(quote, quoteAction.type).subscribe({
+        error: () => {
+          expect(eventService.dispatch).toHaveBeenCalledWith(
+            {},
+            QuoteDetailsReloadQueryEvent
+          );
+          done();
+        },
+      });
+    });
+
     describe('on submit', () => {
       it('should create new cart and navigate to quote list', (done) => {
         service
@@ -565,6 +583,31 @@ describe('QuoteService', () => {
 
     it('should set loading state to false when action is completed', (done) => {
       checkNoActionPerforming(service.requote(quote.code), done);
+    });
+  });
+
+  describe('handleError', () => {
+    it('should ignore unknown errors', () => {
+      service['handleError']({ message: 'some error', details: [] }).subscribe({
+        complete: () => fail('should signal error'),
+        error: (error) => {
+          expect(error).toEqual({ message: 'some error', details: [] });
+        },
+      });
+    });
+
+    it('should handle CommerceQuoteExpirationTimeError', () => {
+      service['handleError']({
+        details: [{ type: 'CommerceQuoteExpirationTimeError' }],
+      }).subscribe({
+        error: () => {
+          fail('should NOT signal error');
+        },
+      });
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'quote.httpHandlers.expired' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
   });
 });

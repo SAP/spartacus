@@ -63,6 +63,14 @@ const testMappings: ConfirmActionDialogMappingConfig = {
       showSuccessMessage: true,
     },
   },
+  EXPIRED: {
+    REQUOTE: {
+      i18nKey: 'quote.confirmActionDialog.expired.requote',
+      showWarningNote: true,
+      showExpirationDate: false,
+      showSuccessMessage: false,
+    },
+  },
 };
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
@@ -251,6 +259,30 @@ describe('QuoteActionsByRoleComponent', () => {
     fixture.detectChanges();
     component.onClick(QuoteActionType.EDIT, quoteInBuyerDraftState);
     expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
+  });
+
+  it('should open confirmation dialog when action is REQUOTE and state is EXPIRED', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const expiredQuote: Quote = {
+      ...mockQuote,
+      allowedActions: [{ type: QuoteActionType.REQUOTE, isPrimary: true }],
+      state: QuoteState.EXPIRED,
+    };
+    const confirmationContextForRequoteAction: ConfirmationContext = {
+      quote: expiredQuote,
+      title: 'quote.confirmActionDialog.expired.requote.title',
+      confirmNote: 'quote.confirmActionDialog.expired.requote.confirmNote',
+      warningNote: 'quote.confirmActionDialog.expired.requote.warningNote',
+    };
+    mockQuoteDetails$.next(expiredQuote);
+    fixture.detectChanges();
+    component.onClick(QuoteActionType.REQUOTE, expiredQuote);
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ACTION_CONFIRMATION,
+      component.element,
+      component['viewContainerRef'],
+      { confirmationContext: confirmationContextForRequoteAction }
+    );
   });
 
   describe('Threshold check', () => {

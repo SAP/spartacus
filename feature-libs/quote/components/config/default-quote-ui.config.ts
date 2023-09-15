@@ -31,6 +31,20 @@ const defaultDialogMappings: ConfirmActionDialogMappingConfig = {
       ...defaultConfirmActionDialogConfig,
     },
   },
+  EXPIRED: {
+    EDIT: {
+      i18nKey: 'quote.confirmActionDialog.expired.edit',
+      showWarningNote: true,
+      showExpirationDate: false,
+      showSuccessMessage: false,
+    },
+    REQUOTE: {
+      i18nKey: 'quote.confirmActionDialog.expired.requote',
+      showWarningNote: true,
+      showExpirationDate: false,
+      showSuccessMessage: false,
+    },
+  },
   BUYER: {
     SUBMIT: {
       i18nKey: 'quote.confirmActionDialog.buyer.submit',

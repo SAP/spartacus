@@ -107,6 +107,20 @@ export const quote = {
           successMessage: 'Quote cancelled',
         },
       },
+      expired: {
+        edit: {
+          title: 'Confirm Edit Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to edit this expired quote?',
+          warningNote:
+            'This Quote is expired. Editing this quote will prevent checkout until new edits are approved.',
+        },
+        requote: {
+          title: 'Recreate Quote Request {{ code }}?',
+          confirmNote: 'Are you sure you want to recreate this quote request?',
+          warningNote:
+            'This Quote is expired. Re-quoting it will create a new quote request with same contents, which can be edited and submitted for approval afterwards.',
+        },
+      },
       seller: {
         submit: {
           title: 'Submit Quote {{ code }} for approval?',
@@ -164,6 +178,8 @@ export const quote = {
         underThresholdError:
           'Total price of requested quote does not meet the minimum threshold',
       },
+      expired:
+        'This quote has expired. You must resubmit your quote request to receive another vendor quote.',
     },
   },
 };

@@ -7,35 +7,47 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
-  Comment,
-  QuoteCartService,
-  QuoteDiscount,
-  QuoteFacade,
-  QuoteListReloadQueryEvent,
-  Quote,
-  QuoteActionType,
-  QuoteDetailsReloadQueryEvent,
-  QuoteList,
-  QuoteMetadata,
-  QuotesStateParams,
-  QuoteStarter,
-} from '@spartacus/quote/root';
-import {
   Command,
   CommandService,
   CommandStrategy,
   EventService,
+  GlobalMessageService,
+  GlobalMessageType,
+  HttpErrorModel,
   LoginEvent,
   Query,
   QueryService,
   QueryState,
   RoutingService,
-  uniteLatest,
   UserIdService,
+  uniteLatest,
 } from '@spartacus/core';
-import { NavigationEvent, ViewConfig } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable, of, zip } from 'rxjs';
 import {
+  Comment,
+  Quote,
+  QuoteActionType,
+  QuoteCartService,
+  QuoteDetailsReloadQueryEvent,
+  QuoteDiscount,
+  QuoteFacade,
+  QuoteList,
+  QuoteListReloadQueryEvent,
+  QuoteMetadata,
+  QuoteStarter,
+  QuotesStateParams,
+} from '@spartacus/quote/root';
+import { NavigationEvent, ViewConfig } from '@spartacus/storefront';
+import {
+  BehaviorSubject,
+  EMPTY,
+  Observable,
+  combineLatest,
+  of,
+  throwError,
+  zip,
+} from 'rxjs';
+import {
+  catchError,
   concatMap,
   distinctUntilChanged,
   filter,
@@ -247,6 +259,10 @@ export class QuoteService implements QuoteFacade {
           } else {
             this.isActionPerforming$.next(false);
           }
+        }),
+        catchError((error) => {
+          this.triggerReloadAndCompleteAction();
+          return this.handleError(error);
         })
       );
     },
@@ -254,6 +270,17 @@ export class QuoteService implements QuoteFacade {
       strategy: CommandStrategy.CancelPrevious,
     }
   );
+
+  protected handleError(error: HttpErrorModel): Observable<unknown> {
+    if (error.details?.[0]?.type === 'CommerceQuoteExpirationTimeError') {
+      this.globalMessageService.add(
+        { key: 'quote.httpHandlers.expired' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      return EMPTY;
+    }
+    return throwError(error);
+  }
 
   /**
    * Loads the quote cart and waits until load is done. Afterwards triggers specific actions depending on the
@@ -390,7 +417,8 @@ export class QuoteService implements QuoteFacade {
     protected routingService: RoutingService,
     protected multiCartService: MultiCartFacade,
     protected quoteCartService: QuoteCartService,
-    protected cartUtilsService: CartUtilsService
+    protected cartUtilsService: CartUtilsService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   addDiscount(quoteCode: string, discount: QuoteDiscount): Observable<unknown> {
