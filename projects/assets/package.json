@@ -10,7 +10,7 @@
     "generate:translations:ts-2-properties": "ts-node ./generate-translations-ts-2-properties"
   },
   "dependencies": {
-    "tslib": "^2.4.0"
+    "tslib": "^2.6.2"
   },
   "publishConfig": {
     "access": "public"

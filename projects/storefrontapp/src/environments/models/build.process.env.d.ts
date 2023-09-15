@@ -21,4 +21,5 @@ interface Env {
   CX_S4OM: boolean;
   CX_SEGMENT_REFS: boolean;
   CX_REQUESTED_DELIVERY_DATE: boolean;
+  CX_PDF_INVOICES: boolean;
 }
