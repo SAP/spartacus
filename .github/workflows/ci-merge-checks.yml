@@ -114,32 +114,6 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh --ssr
-          #  ssr_tests:
-          #    needs: [no_retries, validate_e2e_execution]
-          #    name: MC - SSR tests
-          #    runs-on: ubuntu-latest
-          #    steps:
-          #      - uses: actions/checkout@v2
-          #        with:
-          #          fetch-depth: 0
-          #      - name: Setup node
-          #        uses: actions/setup-node@v2
-          #        with:
-          #          node-version: ${{ env.NODE_VERSION }}
-          #      - name: Cache node_modules
-          #        id: cache-node-modules
-          #        uses: actions/cache@v2
-          #        with:
-          #          path: | 
-          #            node_modules
-          #            projects/storefrontapp-e2e-cypress/node_modules
-          #            ~/.cache/Cypress
-          #          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          #          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-          #      - name: Package installation
-          #        run: npm ci
-          #      - name: Run SSR tests
-          #        run: npm run test:ssr
   b2b_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
     name: MC - E2E B2B core
@@ -176,6 +150,32 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
+  ssr_tests:
+    needs: [no_retries, validate_e2e_execution]
+    name: MC - SSR tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Package installation
+        run: npm ci
+      - name: Build SSR Server
+        run: npm run build:libs && npm run build && npm run build:ssr
+      - name: Run SSR tests
+        run: npm run test:ssr
   merge_checks_result:
     needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests]
     name: MC - Result
