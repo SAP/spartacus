@@ -261,8 +261,7 @@ export class QuoteService implements QuoteFacade {
           }
         }),
         catchError((error) => {
-          this.isActionPerforming$.next(false);
-          this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+          this.triggerReloadAndCompleteAction();
           return this.handleError(error);
         })
       );
