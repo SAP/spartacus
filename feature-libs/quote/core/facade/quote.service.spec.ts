@@ -1,6 +1,10 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Params } from '@angular/router';
-import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  Cart,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
 import {
   Comment,
   Quote,
@@ -25,49 +29,57 @@ import {
 } from '@spartacus/core';
 import { ViewConfig } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors';
 import { QuoteService } from './quote.service';
 import { createEmptyQuote, QUOTE_CODE } from '../testing/quote-test-utils';
 import createSpy = jasmine.createSpy;
 import { CartUtilsService } from '../services/cart-utils.service';
 
-const mockUserId = OCC_USER_ID_CURRENT;
-const mockCartId = '1234';
-const mockAction = { type: QuoteActionType.EDIT, isPrimary: true };
-const mockCurrentPage = 0;
-const mockSort = 'byCode';
-const mockPagination: PaginationModel = {
-  currentPage: mockCurrentPage,
+const userId = OCC_USER_ID_CURRENT;
+const cartId = '1234';
+const quoteAction = { type: QuoteActionType.EDIT, isPrimary: true };
+const currentPageIndex = 0;
+const sortCode = 'byCode';
+const pagination: PaginationModel = {
+  currentPage: currentPageIndex,
   pageSize: 5,
-  sort: mockSort,
+  sort: sortCode,
 };
-const mockQuote: Quote = {
+const quote: Quote = {
   ...createEmptyQuote(),
-  allowedActions: [mockAction],
-  cartId: mockCartId,
+  allowedActions: [quoteAction],
+  cartId: cartId,
   code: '333333',
 };
-const mockQuoteList: QuoteList = {
-  pagination: mockPagination,
-  sorts: [{ code: 'byDate' }],
-  quotes: [mockQuote],
+const quoteWithoutCartId: Quote = {
+  ...quote,
+  cartId: undefined,
 };
-const mockParams = { ['quoteId']: '1' };
+const cart: Cart = {
+  code: cartId,
+};
+
+const quoteList: QuoteList = {
+  pagination: pagination,
+  sorts: [{ code: 'byDate' }],
+  quotes: [quote],
+};
+const routeParams = { ['quoteId']: '1' };
 const mockRouterState$ = new BehaviorSubject({
   navigationId: 1,
-  state: { params: mockParams as Params },
+  state: { params: routeParams as Params },
 });
-const mockMetadata: QuoteMetadata = {
+const quoteMetaData: QuoteMetadata = {
   name: 'test',
   description: 'test desc',
 };
-const mockComment: Comment = {
+const quoteComment: Comment = {
   text: 'test comment',
 };
 const mockQuotesStateParams: QuotesStateParams = {
-  sort$: of(mockSort),
-  currentPage$: of(mockCurrentPage),
+  sort$: of(sortCode),
+  currentPage$: of(currentPageIndex),
 };
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -78,7 +90,7 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(mockUserId));
+  takeUserId = createSpy().and.returnValue(of(userId));
 }
 
 class MockEventService implements Partial<EventService> {
@@ -100,13 +112,13 @@ class MockQuoteCartService {
   }
 }
 class MockViewConfig implements ViewConfig {
-  view = { defaultPageSize: mockPagination.pageSize };
+  view = { defaultPageSize: pagination.pageSize };
 }
 
-class MockCommerceQuotesConnector implements Partial<QuoteConnector> {
-  getQuotes = createSpy().and.returnValue(of(mockQuoteList));
-  getQuote = createSpy().and.returnValue(of(mockQuote));
-  createQuote = createSpy().and.returnValue(of(mockQuote));
+class MockQuoteConnector implements Partial<QuoteConnector> {
+  getQuotes = createSpy().and.returnValue(of(quoteList));
+  getQuote = createSpy().and.returnValue(of(quote));
+  createQuote = createSpy().and.returnValue(of(quote));
   editQuote = createSpy().and.returnValue(of(EMPTY));
   addComment = createSpy().and.returnValue(of(EMPTY));
   addCartEntryComment = createSpy().and.returnValue(of(EMPTY));
@@ -116,7 +128,9 @@ class MockCommerceQuotesConnector implements Partial<QuoteConnector> {
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   reloadActiveCart = createSpy().and.stub();
-  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
+  takeActiveCartId = createSpy().and.returnValue(of(cartId));
+  isStable = createSpy().and.returnValue(of(true));
+  getActive = createSpy().and.returnValue(of(cart));
 }
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
@@ -139,6 +153,7 @@ describe('QuoteService', () => {
   let eventService: EventService;
   let config: ViewConfig;
   let multiCartFacade: MultiCartFacade;
+  let activeCartFacade: ActiveCartFacade;
   let routingService: RoutingService;
   let quoteCartService: QuoteCartService;
   let cartUtilsService: CartUtilsService;
@@ -152,7 +167,7 @@ describe('QuoteService', () => {
         { provide: ViewConfig, useClass: MockViewConfig },
         {
           provide: QuoteConnector,
-          useClass: MockCommerceQuotesConnector,
+          useClass: MockQuoteConnector,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
@@ -168,6 +183,7 @@ describe('QuoteService', () => {
     eventService = TestBed.inject(EventService);
     config = TestBed.inject(ViewConfig);
     multiCartFacade = TestBed.inject(MultiCartFacade);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     routingService = TestBed.inject(RoutingService);
     quoteCartService = TestBed.inject(QuoteCartService);
     cartUtilsService = TestBed.inject(CartUtilsService);
@@ -175,6 +191,27 @@ describe('QuoteService', () => {
     isQuoteCartActive = false;
     quoteId = '';
   });
+
+  function checkQuoteCartFacadeCalls() {
+    expect(multiCartFacade.loadCart).toHaveBeenCalledWith({
+      cartId: cartId,
+      userId: userId,
+      extraData: { active: true },
+    });
+    expect(activeCartFacade.getActive).toHaveBeenCalled();
+  }
+
+  function checkNoActionPerforming(
+    quoteActionResult: Observable<unknown>,
+    done: any
+  ) {
+    quoteActionResult
+      .pipe(switchMap(() => service['isActionPerforming$']))
+      .subscribe((isPerforming) => {
+        expect(isPerforming).toBe(false);
+        done();
+      });
+  }
 
   it('should inject CommerceQuotesService', inject(
     [QuoteService],
@@ -188,14 +225,11 @@ describe('QuoteService', () => {
       .getQuotesState(mockQuotesStateParams)
       .pipe(take(1))
       .subscribe((state) => {
-        expect(connector.getQuotes).toHaveBeenCalledWith(
-          mockUserId,
-          mockPagination
-        );
+        expect(connector.getQuotes).toHaveBeenCalledWith(userId, pagination);
         expect(state).toEqual(<QueryState<QuoteList | undefined>>{
           loading: false,
           error: false,
-          data: mockQuoteList,
+          data: quoteList,
         });
       });
   });
@@ -209,14 +243,14 @@ describe('QuoteService', () => {
       .getQuotesState(mockQuotesStateParams)
       .pipe(take(1))
       .subscribe((state) => {
-        expect(connector.getQuotes).toHaveBeenCalledWith(mockUserId, {
-          ...mockPagination,
+        expect(connector.getQuotes).toHaveBeenCalledWith(userId, {
+          ...pagination,
           pageSize: undefined,
         });
         expect(state).toEqual(<QueryState<QuoteList | undefined>>{
           loading: false,
           error: false,
-          data: mockQuoteList,
+          data: quoteList,
         });
       });
   });
@@ -239,10 +273,10 @@ describe('QuoteService', () => {
       .pipe(take(1))
       .subscribe((details) => {
         expect(connector.getQuote).toHaveBeenCalledWith(
-          mockUserId,
-          mockParams.quoteId
+          userId,
+          routeParams.quoteId
         );
-        expect(details.data).toEqual(mockQuote);
+        expect(details.data).toEqual(quote);
         expect(details.loading).toBe(false);
       });
   });
@@ -254,28 +288,22 @@ describe('QuoteService', () => {
         .pipe(take(1))
         .subscribe((details) => {
           expect(connector.getQuote).toHaveBeenCalledWith(
-            mockUserId,
-            mockParams.quoteId
+            userId,
+            routeParams.quoteId
           );
-          expect(details).toEqual(mockQuote);
+          expect(details).toEqual(quote);
         });
     });
 
-    it('should load quote cart in quote is linked to current quote cart', (done) => {
+    it('should wait until active cart has been loaded', (done) => {
       isQuoteCartActive = true;
-      quoteId = mockQuote.code;
+      quoteId = quote.code;
       service
         .getQuoteDetails()
         .pipe(take(1))
         .subscribe((details) => {
-          expect(multiCartFacade.loadCart).toHaveBeenCalledWith({
-            userId: mockUserId,
-            cartId: mockQuote.cartId,
-            extraData: {
-              active: true,
-            },
-          });
-          expect(details).toEqual(mockQuote);
+          expect(activeCartFacade.isStable).toHaveBeenCalled();
+          expect(details).toEqual(quote);
           done();
         });
     });
@@ -286,13 +314,13 @@ describe('QuoteService', () => {
       discountRate: 1,
       discountType: QuoteDiscountType.ABSOLUTE,
     };
-    it('should ', () => {
+    it('should call respective connector method ', () => {
       service
         .addDiscount(QUOTE_CODE, discount)
         .pipe(take(1))
         .subscribe(() => {
           expect(connector.addDiscount).toHaveBeenCalledWith(
-            mockUserId,
+            userId,
             QUOTE_CODE,
             discount
           );
@@ -302,11 +330,11 @@ describe('QuoteService', () => {
 
   it('should call createQuote command', () => {
     service
-      .createQuote(mockMetadata)
+      .createQuote(quoteMetaData)
       .pipe(take(1))
       .subscribe((quote) => {
         expect(connector.createQuote).toHaveBeenCalled();
-        expect(quote.code).toEqual(mockQuote.code);
+        expect(quote.code).toEqual(quote.code);
         expect(connector.editQuote).toHaveBeenCalled();
         expect(multiCartFacade.loadCart).toHaveBeenCalled();
         expect(eventService.dispatch).toHaveBeenCalled();
@@ -315,156 +343,228 @@ describe('QuoteService', () => {
 
   it('should call editQuote command', () => {
     service
-      .editQuote(mockQuote.code, mockMetadata)
+      .editQuote(quote.code, quoteMetaData)
       .pipe(take(1))
       .subscribe(() => {
         expect(connector.editQuote).toHaveBeenCalledWith(
-          mockUserId,
-          mockQuote.code,
-          mockMetadata
+          userId,
+          quote.code,
+          quoteMetaData
         );
       });
   });
 
   it('should call addQuoteComment command', () => {
     service
-      .addQuoteComment(mockQuote.code, mockComment)
+      .addQuoteComment(quote.code, quoteComment)
       .pipe(take(1))
       .subscribe(() => {
         expect(connector.addComment).toHaveBeenCalledWith(
-          mockUserId,
-          mockQuote.code,
-          mockComment
+          userId,
+          quote.code,
+          quoteComment
         );
       });
   });
 
   describe('performQuoteAction', () => {
     it('should call respective connector method', (done) => {
-      service
-        .performQuoteAction(mockQuote.code, mockAction.type)
-        .subscribe(() => {
-          expect(connector.performQuoteAction).toHaveBeenCalledWith(
-            mockUserId,
-            mockQuote.code,
-            mockAction.type
-          );
-          done();
-        });
+      service.performQuoteAction(quote, quoteAction.type).subscribe(() => {
+        expect(connector.performQuoteAction).toHaveBeenCalledWith(
+          userId,
+          quote.code,
+          quoteAction.type
+        );
+        done();
+      });
     });
 
     it('should raise re-load event', (done) => {
-      service
-        .performQuoteAction(mockQuote.code, mockAction.type)
-        .subscribe(() => {
-          expect(eventService.dispatch).toHaveBeenCalledWith(
-            {},
-            QuoteDetailsReloadQueryEvent
-          );
-          done();
-        });
+      service.performQuoteAction(quote, quoteAction.type).subscribe(() => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          {},
+          QuoteDetailsReloadQueryEvent
+        );
+        done();
+      });
     });
 
-    it('should reset cart quote mode on submit, create new cart and navigate to quote list', (done) => {
-      service
-        .performQuoteAction(mockQuote.code, QuoteActionType.SUBMIT)
-        .subscribe(() => {
-          expect(quoteCartService.setQuoteCartActive).toHaveBeenCalledWith(
-            false
-          );
-          expect(
-            cartUtilsService.createNewCartAndGoToQuoteList
-          ).toHaveBeenCalled();
-          done();
-        });
+    describe('on submit', () => {
+      it('should create new cart and navigate to quote list', (done) => {
+        service
+          .performQuoteAction(quote, QuoteActionType.SUBMIT)
+          .subscribe(() => {
+            expect(
+              cartUtilsService.createNewCartAndGoToQuoteList
+            ).toHaveBeenCalled();
+            done();
+          });
+      });
+
+      it('should set loading state to false when action is completed', (done) => {
+        checkNoActionPerforming(
+          service.performQuoteAction(quote, QuoteActionType.SUBMIT),
+          done
+        );
+      });
     });
 
-    it('should reset cart quote mode on cancel, create new cart and navigate to quote list', (done) => {
-      service
-        .performQuoteAction(mockQuote.code, QuoteActionType.CANCEL)
-        .subscribe(() => {
-          expect(quoteCartService.setQuoteCartActive).toHaveBeenCalledWith(
-            false
-          );
-          expect(
-            cartUtilsService.createNewCartAndGoToQuoteList
-          ).toHaveBeenCalled();
-          done();
-        });
+    describe('on cancel', () => {
+      it('should create new cart and navigate to quote list', (done) => {
+        service
+          .performQuoteAction(quote, QuoteActionType.CANCEL)
+          .subscribe(() => {
+            expect(
+              cartUtilsService.createNewCartAndGoToQuoteList
+            ).toHaveBeenCalled();
+            done();
+          });
+      });
+
+      it('should set loading state to false when action is completed', (done) => {
+        checkNoActionPerforming(
+          service.performQuoteAction(quote, QuoteActionType.CANCEL),
+          done
+        );
+      });
     });
 
-    it('should set cart quote mode on edit', (done) => {
-      service
-        .performQuoteAction(mockQuote.code, QuoteActionType.EDIT)
-        .subscribe(() => {
-          expect(quoteCartService.setQuoteCartActive).toHaveBeenCalledWith(
-            true
-          );
-          expect(quoteCartService.setQuoteId).toHaveBeenCalledWith(
-            mockQuote.code
-          );
-          done();
-        });
+    describe('on edit', () => {
+      it('should load quote cart', (done) => {
+        service
+          .performQuoteAction(quote, QuoteActionType.EDIT)
+          .subscribe(() => {
+            checkQuoteCartFacadeCalls();
+            done();
+          });
+      });
+
+      it('should trigger a quote refresh', (done) => {
+        service
+          .performQuoteAction(quote, QuoteActionType.EDIT)
+          .subscribe(() => {
+            expect(eventService.dispatch).toHaveBeenCalledWith(
+              {},
+              QuoteDetailsReloadQueryEvent
+            );
+            done();
+          });
+      });
+
+      it('should trigger quote re-read in case quote does not carry a cart id', (done) => {
+        service
+          .performQuoteAction(quoteWithoutCartId, QuoteActionType.EDIT)
+          .subscribe(() => {
+            expect(connector.getQuote).toHaveBeenCalledWith(userId, quote.code);
+            done();
+          });
+      });
+
+      it('should set loading state to false when action is completed', (done) => {
+        checkNoActionPerforming(
+          service.performQuoteAction(quote, QuoteActionType.EDIT),
+          done
+        );
+      });
     });
 
-    it('should set cart quote mode on checkout and signal that checkout is allowed', (done) => {
-      service
-        .performQuoteAction(mockQuote.code, QuoteActionType.CHECKOUT)
-        .subscribe(() => {
-          expect(quoteCartService.setQuoteCartActive).toHaveBeenCalledWith(
-            true
-          );
-          expect(quoteCartService.setQuoteId).toHaveBeenCalledWith(
-            mockQuote.code
-          );
-          expect(quoteCartService.setCheckoutAllowed).toHaveBeenCalledWith(
-            true
-          );
-          done();
-        });
+    describe('on checkout', () => {
+      it('should load cart on checkout and signal that checkout is allowed', (done) => {
+        service
+          .performQuoteAction(quote, QuoteActionType.CHECKOUT)
+          .subscribe(() => {
+            checkQuoteCartFacadeCalls();
+            expect(quoteCartService.setCheckoutAllowed).toHaveBeenCalledWith(
+              true
+            );
+            done();
+          });
+      });
+
+      it('should navigate to checkout', (done) => {
+        service
+          .performQuoteAction(quote, QuoteActionType.CHECKOUT)
+          .subscribe(() => {
+            expect(routingService.go).toHaveBeenCalledWith({
+              cxRoute: 'checkout',
+            });
+            done();
+          });
+      });
+
+      it('should set loading state to false when action is completed', (done) => {
+        checkNoActionPerforming(
+          service.performQuoteAction(quote, QuoteActionType.CHECKOUT),
+          done
+        );
+      });
+    });
+
+    describe('on reject', () => {
+      it('should set loading state to false when action is completed', (done) => {
+        checkNoActionPerforming(
+          service.performQuoteAction(quote, QuoteActionType.REJECT),
+          done
+        );
+      });
     });
   });
 
   it('should call addQuoteComment command when called with empty string of an entry number', () => {
     service
-      .addQuoteComment(mockQuote.code, mockComment, '')
+      .addQuoteComment(quote.code, quoteComment, '')
       .pipe(take(1))
       .subscribe(() => {
         expect(connector.addComment).toHaveBeenCalledWith(
-          mockUserId,
-          mockQuote.code,
-          mockComment
+          userId,
+          quote.code,
+          quoteComment
         );
       });
   });
 
   it('should call addCartEntryComment command when an entry number is provided', () => {
     service
-      .addQuoteComment(mockQuote.code, mockComment, '0')
+      .addQuoteComment(quote.code, quoteComment, '0')
       .pipe(take(1))
       .subscribe(() => {
         expect(connector.addCartEntryComment).toHaveBeenCalledWith(
-          mockUserId,
-          mockQuote.code,
+          userId,
+          quote.code,
           '0',
-          mockComment
+          quoteComment
         );
       });
   });
+  describe('requote', () => {
+    it('should call requote command and return new quote', () => {
+      service
+        .requote(quote.code)
+        .pipe(take(1))
+        .subscribe((reQuoted) => {
+          expect(connector.createQuote).toHaveBeenCalledWith(userId, {
+            quoteCode: quote.code,
+          });
+          expect(routingService.go).toHaveBeenCalledWith({
+            cxRoute: 'quoteDetails',
+            params: { quoteId: quote.code },
+          });
+          expect(reQuoted.code).toEqual(quote.code);
+        });
+    });
 
-  it('should call requote command and return new quote', () => {
-    service
-      .requote(mockQuote.code)
-      .pipe(take(1))
-      .subscribe((quote) => {
-        expect(connector.createQuote).toHaveBeenCalledWith(mockUserId, {
-          quoteCode: mockQuote.code,
+    it('should load quote cart', (done) => {
+      service
+        .requote(quote.code)
+        .pipe(take(1))
+        .subscribe(() => {
+          checkQuoteCartFacadeCalls();
+          done();
         });
-        expect(routingService.go).toHaveBeenCalledWith({
-          cxRoute: 'quoteDetails',
-          params: { quoteId: quote.code },
-        });
-        expect(quote.code).toEqual(mockQuote.code);
-      });
+    });
+
+    it('should set loading state to false when action is completed', (done) => {
+      checkNoActionPerforming(service.requote(quote.code), done);
+    });
   });
 });

@@ -66,7 +66,7 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
     return mockQuoteDetails$.asObservable();
   }
   performQuoteAction(
-    _quoteCode: string,
+    _quote: Quote,
     _quoteAction: QuoteActionType
   ): Observable<unknown> {
     return EMPTY;

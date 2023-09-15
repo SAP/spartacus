@@ -195,7 +195,7 @@ describe('QuoteRequestDialogComponent', () => {
     });
 
     expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
-      quoteCode,
+      mockCreatedQuote,
       QuoteActionType.SUBMIT
     );
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith('success');

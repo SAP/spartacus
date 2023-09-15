@@ -90,7 +90,7 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
     return mockQuoteDetails$.asObservable();
   }
   performQuoteAction(
-    _quoteCode: string,
+    _quote: Quote,
     _quoteAction: QuoteActionType
   ): Observable<unknown> {
     return EMPTY;
@@ -359,7 +359,7 @@ describe('QuoteActionsByRoleComponent', () => {
     component.onClick(QuoteActionType.SUBMIT, newMockQuoteWithSubmitAction);
     launchDialogService.closeDialog('yes');
     expect(facade.performQuoteAction).toHaveBeenCalledWith(
-      newMockQuoteWithSubmitAction.code,
+      newMockQuoteWithSubmitAction,
       QuoteActionType.SUBMIT
     );
   });
@@ -373,7 +373,7 @@ describe('QuoteActionsByRoleComponent', () => {
     );
     editButton.click();
     expect(facade.performQuoteAction).toHaveBeenCalledWith(
-      mockQuote.code,
+      mockQuote,
       QuoteActionType.EDIT
     );
   });
@@ -474,7 +474,7 @@ describe('QuoteActionsByRoleComponent', () => {
       component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
       launchDialogService.closeDialog('yes');
       expect(facade.performQuoteAction).toHaveBeenCalledWith(
-        mockCode,
+        mockQuote,
         QuoteActionType.EDIT
       );
       expect(globalMessageService.add).not.toHaveBeenCalled();
@@ -486,7 +486,7 @@ describe('QuoteActionsByRoleComponent', () => {
       );
       launchDialogService.closeDialog('yes');
       expect(facade.performQuoteAction).toHaveBeenCalledWith(
-        mockCode,
+        mockQuote,
         QuoteActionType.SUBMIT
       );
       expect(globalMessageService.add).toHaveBeenCalledWith(

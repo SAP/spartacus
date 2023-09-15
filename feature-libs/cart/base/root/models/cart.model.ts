@@ -97,6 +97,7 @@ export interface Cart {
   totalTax?: Price;
   totalUnitCount?: number;
   user?: Principal;
+  quoteCode?: string;
 }
 
 export interface CartModification {
