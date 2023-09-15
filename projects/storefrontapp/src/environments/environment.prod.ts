@@ -19,4 +19,5 @@ export const environment: Environment = {
   s4om: buildProcess.env.CX_S4OM,
   segmentRefs: buildProcess.env.CX_SEGMENT_REFS,
   requestedDeliveryDate: buildProcess.env.CX_REQUESTED_DELIVERY_DATE,
+  pdfInvoices: buildProcess.env.CX_PDF_INVOICES,
 };

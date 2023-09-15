@@ -21,12 +21,12 @@
     "test:schematics": "npm --prefix ../../projects/schematics/ run clean && npm run clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "tslib": "^2.4.0"
+    "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^15.2.4",
-    "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
+    "@angular-devkit/schematics": "^15.2.9",
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
     "@spartacus/core": "6.3.0-1",
     "@spartacus/schematics": "6.3.0-1",
     "rxjs": "^6.6.0"
