@@ -1,16 +1,10 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
+<cx-spinner class="overlay" *ngIf="(isUpdating$ | async) || !(user$ | async )"> </cx-spinner>
 <div>
-  <div
-    class="myaccount-enhancedUI-header-area myaccount-enhancedUI-headertext-2"
-  >
+  <div class="myaccount-enhancedUI-header-area myaccount-enhancedUI-headertext-2">
     <label class="myaccount-enhancedUI-headertext">{{
       'newUserProfile.myInformation' | cxTranslate
-    }}</label>
-    <button
-      class="myaccount-enhancedUI-editButton"
-      *ngIf="!isEditing"
-      (click)="onEdit()"
-    >
+      }}</label>
+    <button class="myaccount-enhancedUI-editButton" *ngIf="!isEditing" (click)="onEdit()">
       {{ 'common.edit' | cxTranslate }}
     </button>
   </div>
@@ -46,82 +40,48 @@
       <label>
         <span class="label-content, myaccount-enhancedUI-text-head">{{
           'newUserProfile.title' | cxTranslate
-        }}</span>
-        <ng-select
-          [clearable]="false"
-          [searchable]="false"
-          formControlName="titleCode"
-          id="title-select"
+          }}</span>
+        <ng-select [clearable]="false" [searchable]="false" formControlName="titleCode" id="title-select"
           [cxNgSelectA11y]="{
             ariaLabel: 'newUserProfile.title' | cxTranslate
-          }"
-        >
-          <ng-option
-            *ngFor="let title of titles$ | async"
-            [value]="title.code"
-            >{{ title.name }}</ng-option
-          >
+          }">
+          <ng-option *ngFor="let title of titles$ | async" [value]="title.code">{{ title.name }}</ng-option>
         </ng-select>
       </label>
       <label>
         <span class="label-content, myaccount-enhancedUI-text-head">{{
           'newUserProfile.firstName' | cxTranslate
-        }}</span>
-        <input
-          required="true"
-          type="text"
-          class="form-control"
-          name="firstName"
-          formControlName="firstName"
-        />
+          }}</span>
+        <input required="true" type="text" class="form-control" name="firstName" formControlName="firstName" />
         <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
       </label>
 
       <label>
         <span class="label-content, myaccount-enhancedUI-text-head">{{
           'newUserProfile.lastName' | cxTranslate
-        }}</span>
-        <input
-          required="true"
-          type="text"
-          class="form-control"
-          name="lastName"
-          formControlName="lastName"
-        />
+          }}</span>
+        <input required="true" type="text" class="form-control" name="lastName" formControlName="lastName" />
         <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
       </label>
 
       <label>
         <span class="label-content, myaccount-enhancedUI-text-head">{{
           'newUserProfile.customerId' | cxTranslate
-        }}</span>
-        <input
-          required="true"
-          type="text"
-          class="form-control"
-          name="customerId"
-          formControlName="customerId"
-          readonly
-        />
+          }}</span>
+        <input required="true" type="text" class="form-control" name="customerId" formControlName="customerId"
+          readonly />
         <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
       </label>
     </form>
     <div style="display: flex">
-      <button
-        class="
+      <button class="
           btn
           myaccount-enhancedUI-button myaccount-enhancedUI-button-cancel
-        "
-        (click)="cancelEdit()"
-      >
+        " (click)="cancelEdit()">
         {{ 'common.cancel' | cxTranslate }}
       </button>
 
-      <button
-        class="btn btn-primary myaccount-enhancedUI-button"
-        (click)="onSubmit()"
-        [disabled]="form.disabled"
-      >
+      <button class="btn btn-primary myaccount-enhancedUI-button" (click)="onSubmit()" [disabled]="form.disabled">
         {{ 'common.save' | cxTranslate }}
       </button>
     </div>

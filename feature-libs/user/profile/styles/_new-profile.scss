@@ -10,42 +10,40 @@
 
   .myaccount-enhancedUI-headertext {
     float: left;
-    font-size: 22px;
-    font-weight: 600;
-    color: #14293a;
-    padding-bottom: 24px;
+    font-size: $h3-font-size;
+    font-weight: var(--cx-font-weight-semi);
+    color: $text;
+    padding-bottom: 1.5rem;
   }
 
   .myaccount-enhancedUI-editButton {
     float: right;
-    font-size: 16px;
-    font-family: Open sans;
-    color: #1672b7;
+    font-size: $font-size-base;
+    color: $primary;
     border: none;
     background-color: transparent;
   }
 
   .myaccount-enhancedUI-text-head {
-    font-weight: 600;
-    min-width: 120px;
-    padding-right: 20px;
-    color: #212738;
-    gap: 24px;
+    font-weight: var(--cx-font-weight-semi);
+    min-width: 7.5rem;
+    padding-right: 1.2rem;
+    color: $background-dark;
   }
 
   .myaccount-enhancedUI-value {
-    font-weight: 400;
-    color: #6c7079;
+    font-weight: var(--cx-font-weight-normal);
+    color: $dark;
   }
 
   .myaccount-enhancedUI-button {
-    padding: 10px;
-    margin-right: 20px;
-    font-weight: 400;
+    padding: 0.8rem;
+    margin-right: 1.2rem;
+    font-weight: var(--cx-font-weight-normal);
   }
 
   .myaccount-enhancedUI-button-cancel {
-    color: #2480c5;
-    padding: 16px, 24px, 16px, 24px;
+    color: $primary;
+    padding: 1rem, 1.5rem, 1rem, 1.5rem;
   }
 }

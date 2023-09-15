@@ -1,4 +1,4 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
+<cx-spinner class="overlay" *ngIf="(isUpdating$ | async) || !(user$ | async) $"> </cx-spinner>
 <div>
   <div class="email-enhancedUI-header-area">
     <label class="email-enhancedUI-headertext"
