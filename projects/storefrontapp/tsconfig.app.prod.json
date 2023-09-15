@@ -178,6 +178,12 @@
       "@spartacus/organization/user-registration/root": [
         "dist/organization/user-registration/root"
       ],
+      "@spartacus/pdf-invoices/assets": ["dist/pdf-invoices/assets"],
+      "@spartacus/pdf-invoices/components": ["dist/pdf-invoices/components"],
+      "@spartacus/pdf-invoices/core": ["dist/pdf-invoices/core"],
+      "@spartacus/pdf-invoices": ["dist/pdf-invoices"],
+      "@spartacus/pdf-invoices/occ": ["dist/pdf-invoices/occ"],
+      "@spartacus/pdf-invoices/root": ["dist/pdf-invoices/root"],
       "@spartacus/pickup-in-store/assets": ["dist/pickup-in-store/assets"],
       "@spartacus/pickup-in-store/components": [
         "dist/pickup-in-store/components"

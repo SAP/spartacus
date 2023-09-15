@@ -93,7 +93,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     if (action === QuoteActionType.REQUOTE) {
       this.requote(quote.code);
     } else {
-      this.quoteFacade.performQuoteAction(quote.code, action);
+      this.quoteFacade.performQuoteAction(quote, action);
     }
   }
 
@@ -137,7 +137,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       : GlobalMessageType.MSG_TYPE_CONFIRMATION;
   }
 
-  requote(quoteId: string) {
+  protected requote(quoteId: string) {
     this.quoteFacade.requote(quoteId);
   }
 

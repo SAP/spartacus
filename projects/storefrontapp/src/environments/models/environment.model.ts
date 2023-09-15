@@ -17,4 +17,5 @@ export interface Environment {
   s4om: boolean;
   segmentRefs: boolean;
   requestedDeliveryDate: boolean;
+  pdfInvoices: boolean;
 }
