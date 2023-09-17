@@ -12,6 +12,8 @@ const TEST_PRODUCT_HAMMER_DRILLING_NAME = 'DH40MR';
 const BUYER_EMAIL = 'gi.sun@pronto-hw.com';
 const BUYER_PASSWORD = '12341234';
 const BUYER_USER = 'Gi Sun';
+const SALESREP_EMAIL = 'darrin.hesser@acme.com';
+const SALESREP_PASSWORD = '12341234';
 const MSG_TYPE_WARNING = '[GlobalMessage] Warning';
 const PRODUCT_AMOUNT_30: number = 30;
 
@@ -90,8 +92,8 @@ context('Quote', () => {
       quote.checkItemQuantity(itemIndex, (PRODUCT_AMOUNT_30 + 1).toString());
       quote.changeItemQuantityByStepper(itemIndex, '-');
       quote.checkItemQuantity(itemIndex, PRODUCT_AMOUNT_30.toString());
-      quote.changeItemQuantityByCounter(1, '1');
-      quote.checkItemQuantity(itemIndex, '1');
+      quote.changeItemQuantityByCounter(itemIndex, '10');
+      quote.checkItemQuantity(itemIndex, '10');
       quote.checkSubmitBtn(false);
       quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
       quote.removeItem(itemIndex);
@@ -135,6 +137,33 @@ context('Quote', () => {
       quote.checkQuoteListPresent();
       quote.gotToQuoteDetailsOverviewPage();
       quote.checkQuoteState(quote.STATUS_CANCELED);
+    });
+  });
+
+  describe('Edit quote process - sales reporter perspective (CXSPA-4235)', () => {
+    beforeEach(() => {
+      quote.prepareQuote(
+        POWERTOOLS,
+        TEST_PRODUCT_HAMMER_DRILLING_ID,
+        PRODUCT_AMOUNT_30,
+        true
+      );
+      quote.submitQuote();
+      quote.checkQuoteState(quote.STATUS_SUBMITTED);
+      quote.logoutBuyer(POWERTOOLS);
+      quote.enableASMMode(POWERTOOLS);
+      quote.loginASM(POWERTOOLS, SALESREP_EMAIL, SALESREP_PASSWORD);
+      quote.selectCustomerAndOpenQuote(POWERTOOLS, BUYER_EMAIL);
+      quote.enableEditQuoteMode();
+    });
+    it('Should set an expiry date, give a discount and submit the quote', () => {
+      quote.setExpiryDate();
+      quote.checkExpiryDate();
+      quote.checkTotalEstimatedPrice('$26,160.00');
+      quote.setDiscount('100');
+      quote.checkTotalEstimatedPrice('$26,060.00');
+      quote.submitQuote();
+      quote.checkQuoteState(quote.STATUS_SUBMITTED);
     });
   });
 });
