@@ -4,12 +4,10 @@
   }
 
   .myaccount-enhancedUI-body-area {
-    clear: both;
     border: 0px, 0px, 1px, 0px;
   }
 
   .myaccount-enhancedUI-headertext {
-    float: left;
     font-size: $h3-font-size;
     font-weight: var(--cx-font-weight-semi);
     color: $text;
@@ -17,7 +15,6 @@
   }
 
   .myaccount-enhancedUI-editButton {
-    float: right;
     font-size: $font-size-base;
     color: $primary;
     border: none;
@@ -37,13 +34,16 @@
   }
 
   .myaccount-enhancedUI-button {
-    padding: 0.8rem;
-    margin-right: 1.2rem;
     font-weight: var(--cx-font-weight-normal);
   }
 
   .myaccount-enhancedUI-button-cancel {
     color: $primary;
-    padding: 1rem, 1.5rem, 1rem, 1.5rem;
+  }
+
+  .myaccount-editing-area
+  {
+    width: 70%;
+    float: left;
   }
 }

@@ -1,41 +1,56 @@
 <cx-spinner class="overlay" *ngIf="(isUpdating$ | async) || !(user$ | async )"> </cx-spinner>
 <div>
-  <div class="myaccount-enhancedUI-header-area myaccount-enhancedUI-headertext-2">
-    <label class="myaccount-enhancedUI-headertext">{{
-      'newUserProfile.myInformation' | cxTranslate
-      }}</label>
-    <button class="myaccount-enhancedUI-editButton" *ngIf="!isEditing" (click)="onEdit()">
-      {{ 'common.edit' | cxTranslate }}
-    </button>
-  </div>
-  <div *ngIf="!isEditing" class="myaccount-enhancedUI-body-area">
-    <div style="display: flex">
-      <label class="myaccount-enhancedUI-text-head">
-        {{ 'newUserProfile.title' | cxTranslate }}
-      </label>
-      <label class="myaccount-enhancedUI-value">
-        {{ (user$ | async)?.title }}
-      </label>
-    </div>
-    <div style="display: flex">
-      <label class="myaccount-enhancedUI-text-head">
-        <span class="">{{ 'newUserProfile.name' | cxTranslate }}</span>
-      </label>
-      <label class="myaccount-enhancedUI-value">
-        {{ (user$ | async)?.firstName }} {{ (user$ | async)?.lastName }}
-      </label>
-    </div>
-    <div style="display: flex">
-      <label class="myaccount-enhancedUI-text-head">
-        <span class="">{{ 'newUserProfile.customerId' | cxTranslate }}</span>
-      </label>
-      <label class="myaccount-enhancedUI-value">
-        {{ (user$ | async)?.customerId }}
-      </label>
+  <div>
+    <div class="row">
+      <div class="col-sm-5"><label class="myaccount-enhancedUI-headertext">{{ 'newUserProfile.myInformation' |
+          cxTranslate
+          }}
+        </label></div>
+      <div class="col-sm-4"></div>
+      <div class="col-sm-1"><button class="myaccount-enhancedUI-editButton" *ngIf="!isEditing" (click)="onEdit()">
+          {{ 'common.edit' | cxTranslate }}
+        </button></div>
     </div>
   </div>
-
-  <div *ngIf="isEditing" style="clear: both" class="user-form">
+  <div *ngIf="!isEditing" >
+    <div class="row">
+      <div class="col-sm-2">
+        <label class="myaccount-enhancedUI-text-head">
+          {{ 'newUserProfile.title' | cxTranslate }}
+        </label>
+      </div>
+      <div class="col-sm-6">
+        <label class="myaccount-enhancedUI-value">
+          {{ (user$ | async)?.title }}
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
+        <label class="myaccount-enhancedUI-text-head">
+          {{ 'newUserProfile.name' | cxTranslate }}
+        </label>
+      </div>
+      <div class="col-sm-6">
+        <label class="myaccount-enhancedUI-value">
+          {{ (user$ | async)?.firstName }} {{ (user$ | async)?.lastName }}
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
+        <label class="myaccount-enhancedUI-text-head">
+          {{ 'newUserProfile.customerId' | cxTranslate }}
+        </label>
+      </div>
+      <div class="col-sm-6">
+        <label class="myaccount-enhancedUI-value">
+          {{ (user$ | async)?.customerId }}
+        </label>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isEditing" class="myaccount-editing-area">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <label>
         <span class="label-content, myaccount-enhancedUI-text-head">{{
@@ -73,14 +88,12 @@
         <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
       </label>
     </form>
-    <div style="display: flex">
-      <button class="
-          btn
-          myaccount-enhancedUI-button myaccount-enhancedUI-button-cancel
+    <div class="btn-group">
+      <button class="btn
+        myaccount-enhancedUI-button-cancel myaccount-enhancedUI-button
         " (click)="cancelEdit()">
         {{ 'common.cancel' | cxTranslate }}
       </button>
-
       <button class="btn btn-primary myaccount-enhancedUI-button" (click)="onSubmit()" [disabled]="form.disabled">
         {{ 'common.save' | cxTranslate }}
       </button>
