@@ -7,3 +7,5 @@
 export * from './optimized-ssr-engine';
 export * from './rendering-cache';
 export * from './ssr-optimization-options';
+export * from './rendering-strategy-resolver';
+export * from './rendering-strategy-resolver-options';

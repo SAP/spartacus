@@ -4,22 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as cdc from '../../../../helpers/vendor/cdc/cdc';
-import {
-  user,
-  organisation,
-  getSampleUser,
-} from '../../../../sample-data/checkout-flow';
-import { isolateTests } from '../../../../support/utils/test-isolation';
 import {
   fillOrganizationUserRegistrationForm,
   navigateToOrganizationUserRegisterPage,
-  submitOrganizationUserRegistrationForm,
   verifyFormErrors,
   verifyGlobalMessageAfterRegistration,
-  verifyRedirectionToLoginPage,
   verifyTabbingOrder,
 } from '../../../../helpers/b2b/b2b-user-registration';
+import * as cdc from '../../../../helpers/vendor/cdc/cdc';
+import {
+  getSampleUser,
+  organisation,
+  user,
+} from '../../../../sample-data/checkout-flow';
+import { isolateTests } from '../../../../support/utils/test-isolation';
 
 describe('Register B2B Organisation when CDC enabled', () => {
   describe('Register B2B Organisation with Screenset', () => {
@@ -72,6 +70,31 @@ describe('Register B2B Organisation when CDC enabled', () => {
         verifyGlobalMessageAfterRegistration(message);
         //   verifyRedirectionToLoginPage();
         //   cdc.verifyOrgRegistrationRequestReceived();
+      });
+
+      describe('Register Organization without phone number (CXINT-2325)', () => {
+        before(() => {
+          cy.window().then((win) => win.sessionStorage.clear());
+          cy.visit('/');
+        });
+
+        it('should display validation errors if form is empty', () => {
+          navigateToOrganizationUserRegisterPage();
+          let sampleB2BUser = getSampleUser();
+          sampleB2BUser.phone = '';
+          fillOrganizationUserRegistrationForm(
+            sampleB2BUser,
+            'Please register my account'
+          );
+
+          cy.get('cx-user-registration-form').within(() => {
+            cy.get('button[type=submit]').click();
+          });
+
+          const message =
+            'Thank you for registering! A representative will contact you shortly and confirm your access information.';
+          verifyGlobalMessageAfterRegistration(message);
+        });
       });
 
       describe('Form errors', () => {
