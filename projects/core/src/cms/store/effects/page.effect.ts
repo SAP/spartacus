@@ -81,20 +81,36 @@ export class PageEffects {
                 const pageLabel = cmsStructure.page?.label;
                 // Add you want to replace node here.
                 if (pageLabel === '/my-account/wishlist') {
-                  if (cmsStructure.page?.slots?.BodyContent.components !== undefined)
-                  {
-                    for (let componentInLoop of cmsStructure.page.slots.BodyContent.components)
-                    {
-                        if (componentInLoop.uid ==='WishListComponent')
-                        {
-                          // Add your new component here
-                          componentInLoop.flexType = 'UpdateEmailComponent';
-                          break;
-                        }
+                  if (
+                    cmsStructure.page?.slots?.BodyContent.components !==
+                    undefined
+                  ) {
+                    for (let componentInLoop of cmsStructure.page.slots
+                      .BodyContent.components) {
+                      if (componentInLoop.uid === 'WishListComponent') {
+                        // Add your new component here
+                        componentInLoop.flexType = 'NewProfileComponent';
+                        break;
+                      }
                     }
                   }
                 }
-
+                if (pageLabel === '/my-account/saved-carts') {
+                  if (
+                    cmsStructure.page?.slots?.BodyContent.components !==
+                    undefined
+                  ) {
+                    for (let componentInLoop of cmsStructure.page.slots
+                      .BodyContent.components) {
+                      if (
+                        componentInLoop.uid === 'AccountSavedCartHistoryComponent'
+                      ) {
+                        componentInLoop.flexType = 'NewEmailComponent';
+                        break;
+                      }
+                    }
+                  }
+                }
 
                 // For content pages the page label returned from backend can be different than page ID initially assumed from route.
                 // In such a case let's save the success response not only for initially assumed page ID, but also for correct page label.
