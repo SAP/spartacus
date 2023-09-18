@@ -75,7 +75,7 @@ export class OccOpfAdapter implements OpfAdapter {
     paymentConfig: PaymentInitiationConfig
   ): Observable<PaymentSessionData> {
     const headers = new HttpHeaders({
-      'Content-Language': 'en-us',
+      'Accept-Language': 'en-us',
     })
       .set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '')
       .set(OPF_CC_OTP_KEY, paymentConfig?.otpKey || '');
