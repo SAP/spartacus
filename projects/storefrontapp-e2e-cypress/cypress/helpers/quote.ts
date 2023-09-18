@@ -701,7 +701,7 @@ export function selectCustomerAndOpenQuote(
   cy.get('cx-customer-selection input').clear().type(buyerEmail);
   cy.get('cx-customer-selection .asm-results button').click();
   cy.get('cx-customer-selection button[type=submit]').click();
-  cy.wait(500);
+  cy.wait(5000);
   cy.get<string>('@quoteURL').then(cy.visit);
 }
 
@@ -717,7 +717,7 @@ export function enableEditQuoteMode() {
  * Creates an expiry date for the quote (2 months and 2 days in the future from today)
  * @returns Expiry date for the quote
  */
-export function createExpiryDate(): Date {
+function createExpiryDate(): Date {
   let expiryDate: Date = new Date();
   expiryDate.setDate(expiryDate.getDate() + 2);
   expiryDate.setMonth(expiryDate.getMonth() + 2);
@@ -759,11 +759,84 @@ export function checkExpiryDate() {
     'Verifies if the shown expiry date matches the given expiry date',
     checkExpiryDate.name
   );
-  let expiryDateString: string =
-    EXPIRY_DATE.getDate() + ', ' + EXPIRY_DATE.getFullYear();
-  cy.get('cx-quote-details-overview .cx-container .card-body')
-    .find('.cx-card-paragraph-text')
-    .contains(expiryDateString);
+
+  cy.get(
+    'cx-quote-details-overview .cx-container .card-body .cx-card-paragraph-title'
+  )
+    .contains('Expiry Date')
+    .parent()
+    .within(() => {
+      cy.get('.cx-card-paragraph-text').contains(createFormattedExpiryDate());
+    });
+}
+/**
+ *Creates the formatted expiry date string
+ * @returns Formatted date string (Jan 01,2023)
+ */
+function createFormattedExpiryDate(): string {
+  log(
+    'Create the formatted expiry date string',
+    createFormattedExpiryDate.name
+  );
+  let expiryDateMonthString: string = '';
+
+  switch (Number(EXPIRY_DATE.getMonth())) {
+    case 0: {
+      expiryDateMonthString = 'Jan';
+      break;
+    }
+    case 1: {
+      expiryDateMonthString = 'Feb';
+      break;
+    }
+    case 2: {
+      expiryDateMonthString = 'Mar';
+      break;
+    }
+    case 3: {
+      expiryDateMonthString = 'Apr';
+      break;
+    }
+    case 4: {
+      expiryDateMonthString = 'May';
+      break;
+    }
+    case 5: {
+      expiryDateMonthString = 'Jun';
+      break;
+    }
+    case 6: {
+      expiryDateMonthString = 'Jul';
+      break;
+    }
+    case 7: {
+      expiryDateMonthString = 'Aug';
+      break;
+    }
+    case 8: {
+      expiryDateMonthString = 'Sep';
+      break;
+    }
+    case 9: {
+      expiryDateMonthString = 'Oct';
+      break;
+    }
+    case 10: {
+      expiryDateMonthString = 'Nov';
+      break;
+    }
+    default: {
+      expiryDateMonthString = 'Dec';
+      break;
+    }
+  }
+  let returnString: string =
+    expiryDateMonthString +
+    ' ' +
+    EXPIRY_DATE.getDate() +
+    ', ' +
+    EXPIRY_DATE.getFullYear();
+  return returnString;
 }
 
 /**
@@ -785,10 +858,16 @@ export function checkTotalEstimatedPrice(newEstimatedTotalPrice: string) {
     'Verifies the discount was applied correctly and the estimated total price is updated',
     checkTotalEstimatedPrice.name
   );
-  cy.get('cx-quote-details-overview .cx-container .card-body')
-    .find('.cx-card-paragraph-text')
-    .contains(newEstimatedTotalPrice);
+  cy.get(
+    'cx-quote-details-overview .cx-container .card-body .cx-card-paragraph-title'
+  )
+    .contains('Estimated Total')
+    .parent()
+    .within(() => {
+      cy.get('.cx-card-paragraph-text').contains(newEstimatedTotalPrice);
+    });
 }
+
 /**
  * Registers GET quote route.
  */
