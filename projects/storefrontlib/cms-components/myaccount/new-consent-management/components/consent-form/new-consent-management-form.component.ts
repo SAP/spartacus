@@ -68,7 +68,6 @@ export class NewConsentManagementFormComponent implements OnInit {
 
   transformDate(dateTime: string): String {
     const date = new Date(dateTime);
-    const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   }
 }
