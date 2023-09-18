@@ -43,7 +43,9 @@
 
   .email-editing-area 
   {
-    width: 70%;
     float: left;
+    width: 100%;
+    max-width: 35rem;
   }
+
 }
