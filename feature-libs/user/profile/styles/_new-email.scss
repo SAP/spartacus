@@ -40,9 +40,24 @@
     color: $primary;
   }
 
+  .form-control::placeholder {
+    color: $medium;
+  }
+
   .email-editing-area {
     float: left;
     width: 100%;
     max-width: 35rem;
+  }
+
+  .cx-message-info {
+    background-color: $info-accent;
+    border-color: $visual-focus;
+
+    .cx-message-icon {
+      cx-icon {
+        color: $primary-accent;
+      }
+    }
   }
 }

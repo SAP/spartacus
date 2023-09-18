@@ -20,5 +20,7 @@ export const newUserProfile = {
     password: 'Password',
     emailPlaceHolder: 'Enter email',
     passwordPlaceHolder: 'Enter password',
+    reloginIndicator:
+      'You need to log in again after setting a new email address.',
   },
 };

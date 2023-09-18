@@ -39,6 +39,12 @@
       </div>
     </div>
   </div>
+  <cx-message
+    *ngIf="isEditing && showingAlert"
+    [text]="'newUserProfile.reloginIndicator' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_INFO"
+    (closeMessage)="closeDialogConfirmationAlert()"
+  ></cx-message>
   <div *ngIf="isEditing" class="email-editing-area">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <label>

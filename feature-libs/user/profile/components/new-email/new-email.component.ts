@@ -22,7 +22,9 @@ import { filter } from 'rxjs/operators';
 export class NewEmailComponent implements OnInit {
   form: UntypedFormGroup = this.emailComponentservice.form;
   isUpdating$: Observable<boolean> = this.emailComponentservice.isUpdating$;
-  isEditing: boolean = false;
+  isEditing: boolean;
+  showingAlert: boolean;
+
 
   user$ = this.userProfile
     .get()
@@ -35,6 +37,7 @@ export class NewEmailComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.isEditing = false;
+    this.showingAlert = true;
   }
   onSubmit(): void {
     this.emailComponentservice.save();
@@ -49,5 +52,9 @@ export class NewEmailComponent implements OnInit {
 
   cancelEdit(): void {
     this.isEditing = false;
+  }
+
+  closeDialogConfirmationAlert() {
+    this.showingAlert = false;
   }
 }
