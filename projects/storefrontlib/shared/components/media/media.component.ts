@@ -9,13 +9,16 @@ import {
   Component,
   EventEmitter,
   HostBinding,
+  inject,
   Input,
   OnChanges,
   Output,
+  TrackByFunction,
 } from '@angular/core';
-import { Image, ImageGroup } from '@spartacus/core';
+import { Config, Image, ImageGroup } from '@spartacus/core';
 import { ImageLoadingStrategy, Media, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
+import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
 
 @Component({
   selector: 'cx-media',
@@ -88,6 +91,13 @@ export class MediaComponent implements OnChanges {
    * can be controlled by CSS.
    */
   @HostBinding('class.is-missing') isMissing = false;
+
+  protected trackByMedia: TrackByFunction<HTMLSourceElement> = (_, item) =>
+    item.media;
+
+  protected isLegacy =
+    inject(USE_LEGACY_MEDIA_COMPONENT, { optional: true }) ||
+    (inject(Config) as any)['useLegacyMediaComponent'];
 
   constructor(protected mediaService: MediaService) {}
 
