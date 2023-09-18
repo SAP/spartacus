@@ -1,18 +1,26 @@
-<cx-spinner class="overlay" *ngIf="(isUpdating$ | async) || !(user$ | async )"> </cx-spinner>
+<cx-spinner class="overlay" *ngIf="(isUpdating$ | async) || !(user$ | async)">
+</cx-spinner>
 <div>
   <div>
     <div class="row">
-      <div class="col-sm-5"><label class="myaccount-enhancedUI-headertext">{{ 'newUserProfile.myInformation' |
-          cxTranslate
-          }}
-        </label></div>
+      <div class="col-sm-5">
+        <label class="myaccount-enhancedUI-headertext"
+          >{{ 'newUserProfile.myInformation' | cxTranslate }}
+        </label>
+      </div>
       <div class="col-sm-4"></div>
-      <div class="col-sm-1"><button class="myaccount-enhancedUI-editButton" *ngIf="!isEditing" (click)="onEdit()">
+      <div class="col-sm-1">
+        <button
+          class="myaccount-enhancedUI-editButton"
+          *ngIf="!isEditing"
+          (click)="onEdit()"
+        >
           {{ 'common.edit' | cxTranslate }}
-        </button></div>
+        </button>
+      </div>
     </div>
   </div>
-  <div *ngIf="!isEditing" >
+  <div *ngIf="!isEditing">
     <div class="row">
       <div class="col-sm-2">
         <label class="myaccount-enhancedUI-text-head">
@@ -55,46 +63,81 @@
       <label>
         <span class="label-content, myaccount-enhancedUI-text-head">{{
           'newUserProfile.title' | cxTranslate
-          }}</span>
-        <ng-select [clearable]="false" [searchable]="false" formControlName="titleCode" id="title-select"
+        }}</span>
+        <ng-select
+          [clearable]="false"
+          [searchable]="false"
+          formControlName="titleCode"
+          id="title-select"
           [cxNgSelectA11y]="{
             ariaLabel: 'newUserProfile.title' | cxTranslate
-          }">
-          <ng-option *ngFor="let title of titles$ | async" [value]="title.code">{{ title.name }}</ng-option>
+          }"
+        >
+          <ng-option
+            *ngFor="let title of titles$ | async"
+            [value]="title.code"
+            >{{ title.name }}</ng-option
+          >
         </ng-select>
       </label>
       <label>
         <span class="label-content, myaccount-enhancedUI-text-head">{{
           'newUserProfile.firstName' | cxTranslate
-          }}</span>
-        <input required="true" type="text" class="form-control" name="firstName" formControlName="firstName" />
+        }}</span>
+        <input
+          required="true"
+          type="text"
+          class="form-control"
+          name="firstName"
+          formControlName="firstName"
+        />
         <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
       </label>
 
       <label>
         <span class="label-content, myaccount-enhancedUI-text-head">{{
           'newUserProfile.lastName' | cxTranslate
-          }}</span>
-        <input required="true" type="text" class="form-control" name="lastName" formControlName="lastName" />
+        }}</span>
+        <input
+          required="true"
+          type="text"
+          class="form-control"
+          name="lastName"
+          formControlName="lastName"
+        />
         <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
       </label>
 
       <label>
         <span class="label-content, myaccount-enhancedUI-text-head">{{
           'newUserProfile.customerId' | cxTranslate
-          }}</span>
-        <input required="true" type="text" class="form-control" name="customerId" formControlName="customerId"
-          readonly />
+        }}</span>
+        <input
+          required="true"
+          type="text"
+          class="form-control"
+          name="customerId"
+          formControlName="customerId"
+          readonly
+        />
         <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
       </label>
     </form>
     <div class="btn-group">
-      <button class="btn
-        myaccount-enhancedUI-button-cancel myaccount-enhancedUI-button
-        " (click)="cancelEdit()">
+      <button
+        class="
+          btn
+          myaccount-enhancedUI-button-cancel myaccount-enhancedUI-button
+        "
+        (click)="cancelEdit()"
+      >
         {{ 'common.cancel' | cxTranslate }}
       </button>
-      <button class="btn btn-primary myaccount-enhancedUI-button" (click)="onSubmit()" [disabled]="form.disabled">
+      <button
+        class="btn btn-primary myaccount-enhancedUI-button"
+        (click)="onSubmit()"
+        [disabled]="form.disabled"
+      >
         {{ 'common.save' | cxTranslate }}
       </button>
     </div>
