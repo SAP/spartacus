@@ -6,14 +6,16 @@
 
 import { NgModule } from '@angular/core';
 import { provideConfigValidator, provideDefaultConfig } from '@spartacus/core';
-import { defaultOPFCheckoutConfig } from './config/default-opf-checkout-config';
+import { defaultOpfCheckoutConfig } from './config/default-opf-checkout-config';
+import { defaultOpfCheckoutRoutingConfig } from './config/default-opf-checkout-routing-config';
 import { defaultOpfConfig } from './config/default-opf-config';
 import { opfConfigValidator } from './config/opf-config-validator';
 
 @NgModule({
   providers: [
     provideDefaultConfig(defaultOpfConfig),
-    provideDefaultConfig(defaultOPFCheckoutConfig),
+    provideDefaultConfig(defaultOpfCheckoutRoutingConfig),
+    provideDefaultConfig(defaultOpfCheckoutConfig),
     provideConfigValidator(opfConfigValidator),
   ],
 })

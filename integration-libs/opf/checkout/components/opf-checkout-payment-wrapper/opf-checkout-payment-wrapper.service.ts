@@ -59,7 +59,7 @@ export class OpfCheckoutPaymentWrapperService {
     protected opfService: OpfService
   ) {}
 
-  protected readonly CHECKOUT_REVIEW_SEMANTIC_ROUTE = 'checkoutReviewOrder';
+  // protected readonly CHECKOUT_REVIEW_SEMANTIC_ROUTE = 'checkoutReviewOrder';
 
   protected executeScriptFromHtml(html: string): void {
     /**
@@ -69,11 +69,12 @@ export class OpfCheckoutPaymentWrapperService {
     this.routingService
       .getRouterState()
       .pipe(
-        take(1),
-        filter(
-          (route) =>
-            route.state.semanticRoute === this.CHECKOUT_REVIEW_SEMANTIC_ROUTE
-        )
+        take(1)
+        // TODO: Allow script loader to load resources only on the OPF review page.
+        // filter(
+        //   (route) =>
+        //     route.state.semanticRoute === this.CHECKOUT_REVIEW_SEMANTIC_ROUTE
+        // )
       )
       .subscribe(() => {
         setTimeout(() => {

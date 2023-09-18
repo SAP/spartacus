@@ -6,21 +6,20 @@
 
 import { Injectable } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
-import {
-  CheckoutConfig,
-  DeliveryModePreferences,
-} from '@spartacus/checkout/base/root';
+import { DeliveryModePreferences } from '@spartacus/checkout/base/root';
+import { CheckoutFlowOrchestratorService } from './checkout-flow-orchestrator.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutConfigService {
-  private express: boolean = this.checkoutConfig.checkout?.express ?? false;
-  private guest: boolean = this.checkoutConfig.checkout?.guest ?? false;
+  private checkoutFlow = this.checkoutFlowService.getCheckoutFlow();
+  private express: boolean = this.checkoutFlow?.express ?? false;
+  private guest: boolean = this.checkoutFlow?.guest ?? false;
   private defaultDeliveryMode: Array<DeliveryModePreferences | string> =
-    this.checkoutConfig.checkout?.defaultDeliveryMode || [];
+    this.checkoutFlow?.defaultDeliveryMode || [];
 
-  constructor(private checkoutConfig: CheckoutConfig) {}
+  constructor(protected checkoutFlowService: CheckoutFlowOrchestratorService) {}
 
   protected compareDeliveryCost(
     deliveryMode1: DeliveryMode,
@@ -77,7 +76,7 @@ export class CheckoutConfigService {
   }
 
   shouldUseAddressSavedInCart(): boolean {
-    return !!this.checkoutConfig?.checkout?.guestUseSavedAddress;
+    return !!this.checkoutFlow?.guestUseSavedAddress;
   }
 
   getPreferredDeliveryMode(deliveryModes: DeliveryMode[]): string | undefined {

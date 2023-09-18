@@ -32,6 +32,7 @@ export const CHECKOUT_BASE_CMS_COMPONENTS: string[] = [
   'CheckoutReviewOverview',
   'CheckoutDeliveryAddress',
   'GuestCheckoutLoginComponent',
+  'OpfCheckoutReviewOrder', // Move this part to the OPF library
 ];
 
 export function defaultCheckoutComponentsConfig() {
