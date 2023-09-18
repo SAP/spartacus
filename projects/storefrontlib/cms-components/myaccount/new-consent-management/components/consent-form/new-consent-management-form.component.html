@@ -1,0 +1,29 @@
+<div class="form-check consent-container">
+  <div class="custom-control custom-switch">
+    <input
+      type="checkbox"
+      class="custom-control-input"
+      [id]="consentTemplate.id"
+      [checked]="consentGiven"
+      (change)="onConsentChange()"
+      [disabled]="true"
+    />
+    <label class="custom-control-label" [for]="consentTemplate.id"></label>
+  </div>
+  <label class="consent-details">
+    <span class="form-check-label cx-be-bold name">
+      <ng-container *ngIf="consentTemplate?.name">
+        {{ consentTemplate?.name }}
+      </ng-container>
+    </span>
+    <span class="form-check-label description">
+      {{ consentTemplate?.description }}
+    </span>
+    <span class="form-check-label description" *ngIf="consentGiven">
+      {{ 'newConsentManagement.dateDescription' | cxTranslate
+      }}{{
+        transformDate(this.consentTemplate?.currentConsent.consentGivenDate)
+      }}
+    </span>
+  </label>
+</div>

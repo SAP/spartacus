@@ -1,0 +1,24 @@
+%cx-new-consent-management {
+  .cx-consent-toggles {
+    display: flex;
+    justify-content: center;
+  }
+
+  .header {
+    font-weight: $line-height-base * 375;
+    font-size: $font-size-base * 1.375;
+    font-family: 'Open Sans';
+    margin-bottom: $font-size-base * 1.875;
+  }
+
+  .message {
+    font-weight: $line-height-base * 250;
+    font-size: $font-size-base;
+    font-family: 'Open Sans';
+    margin-bottom: $font-size-base * 1.875;
+  }
+
+  .consent-form-container {
+    max-width: $grid-gutter-width * 29.8333333;
+  }
+}
