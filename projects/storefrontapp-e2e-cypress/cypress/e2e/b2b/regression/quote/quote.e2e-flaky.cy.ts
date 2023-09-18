@@ -140,7 +140,7 @@ context('Quote', () => {
     });
   });
 
-  describe('Edit quote process - sales reporter perspective (CXSPA-4235)', () => {
+  describe('Edit quote process - seller (sales assistant) perspective (CXSPA-4235)', () => {
     beforeEach(() => {
       quote.prepareQuote(
         POWERTOOLS,
