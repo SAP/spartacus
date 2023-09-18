@@ -20,11 +20,11 @@
   }
 
   .consent-details {
-    padding-left: $font-size-base * 2.815;
+    margin-left: $font-size-base * 2.815;
   }
 
   .custom-switch {
-    padding-left: 0;
+    margin-left: -2.25rem;
 
     .custom-control-label {
       &::before {
