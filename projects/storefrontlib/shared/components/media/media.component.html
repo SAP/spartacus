@@ -13,10 +13,11 @@
 
 <ng-template #tmpImg>
   <img
-    [alt]="media!.alt"
-    [src]="media!.src"
-    [srcset]="media!.srcset || media!.src"
-    [attr.role]="media!.role"
+    *ngIf="media && media.src"
+    [alt]="media.alt"
+    [src]="media.src"
+    [srcset]="media.srcset || media.src"
+    [attr.role]="media.role"
     [loading]="loading"
     (load)="loadHandler()"
     (error)="errorHandler()"
