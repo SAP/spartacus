@@ -1,0 +1,64 @@
+%cx-new-consent-management-form {
+  .cx-be-bold {
+    font-weight: var(--cx-font-weight-semi);
+  }
+
+  .name {
+    font-weight: $line-height-base * 375;
+    font-size: $font-size-base;
+    font-family: 'Open Sans';
+  }
+
+  .description {
+    font-weight: $line-height-base * 250;
+    font-size: $font-size-base;
+    font-family: 'Open Sans';
+  }
+
+  .consent-container {
+    display: flex;
+  }
+
+  .consent-details {
+    padding-left: $font-size-base * 2.815;
+  }
+
+  .custom-switch {
+    padding-left: 0;
+
+    .custom-control-label {
+      &::before {
+        height: $font-size-base * 2;
+        width: $font-size-base * 3.75;
+        border-radius: $border-radius * 10;
+        border: 2px solid $custom-control-indicator-border-color;
+      }
+
+      &::after {
+        width: $font-size-base * 1.5;
+        height: $font-size-base * 1.5;
+        border-radius: $font-size-base * 2.5;
+        top: add(
+          ($font-size-base * $line-height-base - $custom-control-indicator-size) *
+            0.5,
+          $custom-control-indicator-border-width * 4
+        );
+        left: add(
+          -($custom-switch-width + $custom-control-gutter),
+          $custom-control-indicator-border-width * 4
+        );
+      }
+    }
+    .custom-control-input:checked ~ .custom-control-label {
+      &::after {
+        transform: translateX($custom-switch-width);
+      }
+    }
+    .custom-control-input:disabled {
+      &:checked ~ .custom-control-label::before {
+        background-color: #c3cbde;
+        border-color: #c3cbde;
+      }
+    }
+  }
+}
