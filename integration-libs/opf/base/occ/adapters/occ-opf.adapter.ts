@@ -48,7 +48,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
   header: { [name: string]: string } = {
     accept: 'application/json',
     'Content-Type': 'application/json',
-    'Content-Language': 'en-us',
+    'Accept-Language': 'en-us',
   };
 
   verifyPayment(
