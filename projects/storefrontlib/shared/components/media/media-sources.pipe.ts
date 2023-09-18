@@ -10,10 +10,10 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'cxMediaSources',
 })
 export class MediaSourcesPipe implements PipeTransform {
-  transform(srcset: string) {
+  transform(set: string) {
     const sources: Pick<HTMLSourceElement, 'srcset' | 'media'>[] = [];
 
-    return srcset.split(/,\s*/).reduceRight((acc, set) => {
+    return set.split(/,\s*/).reduceRight((acc, set) => {
       let [srcset, media] = set.split(' ');
 
       if (!srcset || !media) {
