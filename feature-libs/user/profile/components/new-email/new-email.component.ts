@@ -25,7 +25,6 @@ export class NewEmailComponent implements OnInit {
   isEditing: boolean;
   showingAlert: boolean;
 
-
   user$ = this.userProfile
     .get()
     .pipe(filter((user): user is User => Boolean(user)));

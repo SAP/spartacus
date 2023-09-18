@@ -135,6 +135,21 @@ describe('NewEmailComponent', () => {
       fixture.detectChanges();
       expect(el.query(By.css('cx-spinner'))).toBeNull();
     });
+
+    it('should show cx message strip', () => {
+      component.onEdit();
+      fixture.detectChanges();
+      const cxMsg = el.query(By.css('cx-message'));
+      expect(cxMsg.nativeElement).toBeTruthy();
+    });
+
+    it('should hide cx message strip when close clicked', () => {
+      component.onEdit();
+      component.closeDialogConfirmationAlert();
+      fixture.detectChanges();
+      const cxMsg = el.query(By.css('cx-message'));
+      expect(cxMsg).toBeNull();
+    });
   });
 
   describe('idle - display', () => {
