@@ -5,7 +5,9 @@
  */
 
 import { userProfile } from './user-profile';
+import { newUserProfile } from './new-user-profile';
 
 export const en = {
   userProfile,
+  newUserProfile,
 };

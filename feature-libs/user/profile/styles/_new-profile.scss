@@ -1,0 +1,50 @@
+%cx-new-profile {
+  .myaccount-enhancedUI-header-area {
+    border: 1px, 0px, 0px, 0px;
+  }
+
+  .myaccount-enhancedUI-body-area {
+    border: 0px, 0px, 1px, 0px;
+  }
+
+  .myaccount-enhancedUI-headertext {
+    font-size: $h3-font-size;
+    font-weight: var(--cx-font-weight-semi);
+    color: $text;
+    padding-bottom: 1.5rem;
+  }
+
+  .myaccount-enhancedUI-editButton {
+    font-size: $font-size-base;
+    color: $primary;
+    border: none;
+    background-color: transparent;
+  }
+
+  .myaccount-enhancedUI-text-head {
+    font-weight: var(--cx-font-weight-semi);
+    min-width: 7.5rem;
+    padding-right: 1.2rem;
+    color: $background-dark;
+  }
+
+  .myaccount-enhancedUI-value {
+    font-weight: var(--cx-font-weight-normal);
+    color: $dark;
+  }
+
+  .myaccount-enhancedUI-button {
+    font-weight: var(--cx-font-weight-normal);
+  }
+
+  .myaccount-enhancedUI-button-cancel {
+    color: $primary;
+  }
+
+  .myaccount-editing-area
+  {
+    float: left;
+    width: 100%;
+    max-width: 35rem;
+  }
+}
