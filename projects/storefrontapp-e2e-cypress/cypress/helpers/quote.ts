@@ -14,7 +14,7 @@ export const STATUS_CANCELED = 'Cancelled';
 const STATUS_DRAFT = 'Draft';
 const CARD_TITLE_QUOTE_INFORMATION = 'Quote Information';
 const SUBMIT_BTN = 'Submit Quote';
-const EXPIRY_DATE: Date = createExpiryDate();
+const EXPIRY_DATE: Date = createValidExpiryDate();
 
 /**
  * Sets quantity.
@@ -717,7 +717,7 @@ export function enableEditQuoteMode() {
  * Creates an expiry date for the quote (2 months and 2 days in the future from today)
  * @returns Expiry date for the quote
  */
-function createExpiryDate(): Date {
+function createValidExpiryDate(): Date {
   let expiryDate: Date = new Date();
   expiryDate.setDate(expiryDate.getDate() + 2);
   expiryDate.setMonth(expiryDate.getMonth() + 2);
