@@ -54,5 +54,11 @@
         transform: translateX($custom-switch-width);
       }
     }
+    .custom-control-input:disabled {
+      &:checked ~ .custom-control-label::before {
+        background-color: #c3cbde;
+        border-color: #c3cbde;
+      }
+    }
   }
 }
