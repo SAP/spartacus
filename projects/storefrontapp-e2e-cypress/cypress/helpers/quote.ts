@@ -14,6 +14,7 @@ export const STATUS_CANCELED = 'Cancelled';
 const STATUS_DRAFT = 'Draft';
 const CARD_TITLE_QUOTE_INFORMATION = 'Quote Information';
 const SUBMIT_BTN = 'Submit Quote';
+const EXPIRY_DATE: Date = createValidExpiryDate();
 
 /**
  * Sets quantity.
@@ -187,7 +188,9 @@ export function changeItemQuantityByCounter(
   cy.get(
     `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
   ).within(() => {
-    cy.get('cx-item-counter input').clear().type(newQuantity).pressTab();
+    cy.get('cx-item-counter input')
+      .type('{selectall}' + newQuantity)
+      .pressTab();
   });
 }
 
@@ -642,13 +645,237 @@ export function gotToQuoteDetailsOverviewPage() {
 }
 
 /**
+ * Logout buyer user
+ * @param shopName Name of the current shop (Powertools)
+ */
+export function logoutBuyer(shopName: string): void {
+  log('Logout buyer user', logoutBuyer.name);
+  cy.visit(`${shopName}/en/USD/logout`);
+  cy.get('cx-login [role="link"]');
+}
+
+/**
+ * Enables the asm mode for the given shop
+ * @param shopName Name of the shop (Powertools)
+ */
+export function enableASMMode(shopName: string) {
+  log('Enables the asm mode for the given shop', enableASMMode.name);
+  cy.visit(`${shopName}/en/USD/?asm=true`);
+}
+
+/**
+ * Use the cx-login-form to login into the asm mode
+ * @param shopName Name of the given shop (Powertools)
+ * @param sellerEmail Email address of the seller; used for the login
+ * @param sellerPassword  Password of the seller; used for the login
+ */
+export function loginASM(
+  shopName: string,
+  sellerEmail: string,
+  sellerPassword: string
+) {
+  log('Login salesrep in ASM mode', loginASM.name);
+  cy.visit(`${shopName}/en/USD/`);
+  cy.get('cx-csagent-login-form form').within(() => {
+    cy.get('[formcontrolname="userId"]').clear().type(sellerEmail);
+    cy.get('[formcontrolname="password"]').clear().type(sellerPassword);
+    cy.get('button[type=submit]').click();
+  });
+  cy.get('cx-customer-selection').should('be.visible');
+}
+
+/**
+ * Selects the customer/buyer and opens the last quote while logged in as sales reporter in asm mode
+ * @param shopName Name of the given shop (Powertools)
+ * @param buyerEmail Email address of the customer/buyer
+ */
+export function selectCustomerAndOpenQuote(
+  shopName: string,
+  buyerEmail: string
+) {
+  log(
+    'Select the customer and open the last quote',
+    selectCustomerAndOpenQuote.name
+  );
+  cy.visit(`${shopName}/en/USD/login`);
+  cy.get('cx-customer-selection input').clear().type(buyerEmail);
+  cy.get('cx-customer-selection .asm-results button').click();
+  cy.get('cx-customer-selection button[type=submit]').click();
+  cy.wait(5000);
+  cy.get<string>('@quoteURL').then(cy.visit);
+}
+
+/**
+ * Enables the edit mode for the quote
+ */
+export function enableEditQuoteMode() {
+  log('Enables the edit mode for the quote', enableEditQuoteMode.name);
+  cy.get('cx-quote-actions-by-role button.btn-secondary').click();
+}
+
+/**
+ * Creates an expiry date for the quote (2 months and 2 days in the future from today)
+ * @returns Expiry date for the quote
+ */
+function createValidExpiryDate(): Date {
+  let expiryDate: Date = new Date();
+  expiryDate.setDate(expiryDate.getDate() + 2);
+  expiryDate.setMonth(expiryDate.getMonth() + 2);
+  if (expiryDate.getMonth() >= 12) {
+    expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+  }
+  return expiryDate;
+}
+
+/**
+ * Sets the expiry date to the given value
+ */
+export function setExpiryDate() {
+  log('Sets the expiry date to a given value', setExpiryDate.name);
+  let dayStringSingleDigitDay: string = '';
+  if (EXPIRY_DATE.getDate() < 10) {
+    dayStringSingleDigitDay = '0';
+  }
+  let monthStringSingleDigitMonth: string = '';
+  if (EXPIRY_DATE.getMonth() + 1 < 10) {
+    monthStringSingleDigitMonth = '0';
+  }
+  let expiryDateString: string =
+    EXPIRY_DATE.getFullYear() +
+    '-' +
+    (monthStringSingleDigitMonth + (EXPIRY_DATE.getMonth() + 1)) +
+    '-' +
+    (dayStringSingleDigitDay + EXPIRY_DATE.getDate());
+  cy.get('cx-quote-seller-edit cx-date-picker input')
+    .type(expiryDateString)
+    .trigger('change');
+}
+
+/**
+ * Verifies if the shown expiry date matches the given expiry date
+ */
+export function checkExpiryDate() {
+  log(
+    'Verifies if the shown expiry date matches the given expiry date',
+    checkExpiryDate.name
+  );
+
+  cy.get(
+    'cx-quote-details-overview .cx-container .card-body .cx-card-paragraph-title'
+  )
+    .contains('Expiry Date')
+    .parent()
+    .within(() => {
+      cy.get('.cx-card-paragraph-text').contains(createFormattedExpiryDate());
+    });
+}
+/**
+ *Creates the formatted expiry date string
+ * @returns Formatted date string (Jan 01,2023)
+ */
+function createFormattedExpiryDate(): string {
+  log(
+    'Create the formatted expiry date string',
+    createFormattedExpiryDate.name
+  );
+  let expiryDateMonthString: string = '';
+
+  switch (Number(EXPIRY_DATE.getMonth())) {
+    case 0: {
+      expiryDateMonthString = 'Jan';
+      break;
+    }
+    case 1: {
+      expiryDateMonthString = 'Feb';
+      break;
+    }
+    case 2: {
+      expiryDateMonthString = 'Mar';
+      break;
+    }
+    case 3: {
+      expiryDateMonthString = 'Apr';
+      break;
+    }
+    case 4: {
+      expiryDateMonthString = 'May';
+      break;
+    }
+    case 5: {
+      expiryDateMonthString = 'Jun';
+      break;
+    }
+    case 6: {
+      expiryDateMonthString = 'Jul';
+      break;
+    }
+    case 7: {
+      expiryDateMonthString = 'Aug';
+      break;
+    }
+    case 8: {
+      expiryDateMonthString = 'Sep';
+      break;
+    }
+    case 9: {
+      expiryDateMonthString = 'Oct';
+      break;
+    }
+    case 10: {
+      expiryDateMonthString = 'Nov';
+      break;
+    }
+    default: {
+      expiryDateMonthString = 'Dec';
+      break;
+    }
+  }
+  let returnString: string =
+    expiryDateMonthString +
+    ' ' +
+    EXPIRY_DATE.getDate() +
+    ', ' +
+    EXPIRY_DATE.getFullYear();
+  return returnString;
+}
+
+/**
+ *Sets the discount (sales reporter perspective) and applies it to the total estimated price
+ * @param discount Discount which is applied to the total estimated price
+ */
+export function setDiscount(discount: string) {
+  log('Sets the discount (sales reporter perspective', setDiscount.name);
+  cy.get('cx-quote-seller-edit input[name="discount"]').type(discount);
+  cy.get('cx-quote-seller-edit button.btn-secondary').click();
+}
+
+/**
+ *Verifies if the estimated total price shown equals the estimate total price given
+ * @param newEstimatedTotalPrice The given estimated total price
+ */
+export function checkTotalEstimatedPrice(newEstimatedTotalPrice: string) {
+  log(
+    'Verifies the discount was applied correctly and the estimated total price is updated',
+    checkTotalEstimatedPrice.name
+  );
+  cy.get(
+    'cx-quote-details-overview .cx-container .card-body .cx-card-paragraph-title'
+  )
+    .contains('Estimated Total')
+    .parent()
+    .within(() => {
+      cy.get('.cx-card-paragraph-text').contains(newEstimatedTotalPrice);
+    });
+}
+
+/**
  * Registers GET quote route.
  */
 export function registerGetQuoteRoute(shopName: string) {
   log('Registers GET quote route.', registerGetQuoteRoute.name);
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/current/quotes/*`,
+    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/*/quotes/*`,
   }).as(GET_QUOTE_ALIAS.substring(1)); // strip the '@'
 }
 
