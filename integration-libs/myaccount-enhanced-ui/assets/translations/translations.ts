@@ -13,5 +13,5 @@ export const myAccountEnhancedUITranslations: TranslationResources = {
 
 export const myAccountEnhancedUITranslationChunksConfig: TranslationChunksConfig =
   {
-    myAccountEnhancedUI: ['OrderHistoryEnhancedUI'],
+    myAccountEnhancedUI: ['orderHistoryEnhancedUI'],
   };

@@ -5,13 +5,13 @@
  */
 
 export const myAccountEnhancedUI = {
-  OrderHistoryEnhancedUI: {
+  orderHistoryEnhancedUI: {
     heading: 'All Orders ({{param}})',
     purchased: 'Purchased {{param}}',
     item: '{{param}} Item',
     items: '{{param}} Items',
     totalPrice: 'Total Price: {{param}}',
-    consignmentInfo: 'Consignment {{param}}',
+    consignmentCode: 'Consignment {{param}}',
     statusDate: 'Last Updated: {{param}}',
     value: ': {{param}}',
     returned: 'Returned - ',
@@ -25,5 +25,17 @@ export const myAccountEnhancedUI = {
     checkoutPickupInStore: {
       heading: 'To Be Picked Up - ',
     },
+    orderListResults: 'Orders List',
+    orderListPagination: 'Orders List pagination',
+    noOrders: 'No Orders',
+    totalPriceLabel: 'Total Price',
+    orderPlaced: 'Order Placed On',
+    orderCode: 'Order Code',
+    consignmentDetail: 'Consignment Information',
+    consignmentNumber: 'Consignment Number',
+    consignmentStatus: 'Consignment Status',
+    consignmentStatusDate: 'Last Updated On',
+    trackingID: 'Tracking Number',
+    estimateDelivery: 'Estimated Delivery Date'
   },
 };

@@ -1,17 +1,21 @@
 <ng-container *ngIf="consignmentTracking$ | async as consignmentTracking">
   <ng-container *ngIf="consignmentTracking.trackingID">
-    {{ 'orderDetails.consignmentTracking.dialog.trackingId' | cxTranslate }}:
-    <ng-container *ngIf="consignmentTracking?.trackingUrl; else showNumber">
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        [href]="consignmentTracking.trackingUrl"
-        >{{ consignmentTracking?.trackingID }}</a
-      >
+    <ng-container [attr.aria-label]="'orderHistoryEnhancedUI.trackingID' | cxTranslate">
+      {{ 'orderDetails.consignmentTracking.dialog.trackingId' | cxTranslate }}:
+      <ng-container *ngIf="consignmentTracking?.trackingUrl; else showNumber">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          [href]="consignmentTracking.trackingUrl"
+          >{{ consignmentTracking?.trackingID }}</a
+        >
+      </ng-container>
+      |
     </ng-container>
-    |
-    {{ 'orderDetails.consignmentTracking.dialog.estimate' | cxTranslate }}:
-    {{ consignmentTracking?.targetArrivalDate | cxDate: 'd, MMMM, yyyy' }}
+    <span [attr.aria-label]="'orderHistoryEnhancedUI.estimateDelivery' | cxTranslate">
+      {{ 'orderDetails.consignmentTracking.dialog.estimate' | cxTranslate }}:
+      {{ consignmentTracking?.targetArrivalDate | cxDate: 'd, MMMM, yyyy' }}
+    </span>
   </ng-container>
   <ng-template #showNumber>
     {{ consignmentTracking?.trackingID }}

@@ -4,11 +4,13 @@ example:
 Consignment 1 | In Process | Last Updated: 13, September, 2023
 Consignment 2 | Tracking Number: 5657474 | Estimated Delivery: 22, September, 2023
   -->
-  <div class="cx-consignment-info" *ngIf="consignment">
-    {{
-      'OrderHistoryEnhancedUI.consignmentInfo'
-        | cxTranslate: { param: consignmentNumber(consignment?.code) }
-    }}
+  <div class="cx-consignment-info" [attr.aria-label]="'orderHistoryEnhancedUI.consignmentDetail' | cxTranslate" *ngIf="consignment">
+    <ng-container [attr.aria-label]="'orderHistoryEnhancedUI.consignmentNumber' | cxTranslate">
+      {{
+        'orderHistoryEnhancedUI.consignmentCode'
+          | cxTranslate: { param: consignmentNumber(consignment?.code) }
+      }}
+    </ng-container>
     |
     <ng-container *ngIf="consignment.trackingID; else showLastUpdated">
       <cx-consignment-tracking-enhanced-ui
@@ -18,20 +20,20 @@ Consignment 2 | Tracking Number: 5657474 | Estimated Delivery: 22, September, 20
       </cx-consignment-tracking-enhanced-ui>
     </ng-container>
     <ng-template #showLastUpdated>
-      <ng-container *ngIf="consignment.status">
+      <span [attr.aria-label]="'orderHistoryEnhancedUI.consignmentStatus' | cxTranslate" *ngIf="consignment.status">
         {{
           'orderDetails.deliveryStatus_' + consignment?.status?.toUpperCase()
             | cxTranslate
         }}
-      </ng-container>
-      <ng-container *ngIf="consignment.statusDate">
+      </span>
+      <span *ngIf="consignment.statusDate" [attr.aria-label]="'orderHistoryEnhancedUI.consignmentStatusDate' | cxTranslate" >
         |
         {{
-          'OrderHistoryEnhancedUI.statusDate'
+          'orderHistoryEnhancedUI.statusDate'
             | cxTranslate
               : { param: consignment.statusDate | cxDate: 'd, MMMM, yyyy' }
         }}
-      </ng-container>
+      </span>
     </ng-template>
   </div>
 </ng-container>
