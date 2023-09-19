@@ -216,39 +216,43 @@ describe('QuoteListComponent', () => {
     );
   });
 
-  describe('getBuyerQuoteStatus', () => {
-    it('should return an empty string in case state is not a buyer one', () => {
-      expect(component['getBuyerQuoteStatus'](QuoteState.SELLER_DRAFT)).toBe(
-        ''
+  describe('Rendering using getQuoteStateClass', () => {
+    it("should apply corresponding class for 'CREATED' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.CREATED }],
+        },
+      });
+      fixture.detectChanges();
+
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-created',
+        'quote.states.CREATED'
       );
     });
-  });
 
-  describe('getSellerQuoteStatus', () => {
-    it('should return an empty string in case state is not a seller one', () => {
-      expect(component['getSellerQuoteStatus'](QuoteState.BUYER_DRAFT)).toBe(
-        ''
+    it("should apply corresponding class for 'SELLERAPPROVER_DRAFT' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.SELLERAPPROVER_DRAFT }],
+        },
+      });
+      fixture.detectChanges();
+
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-draft',
+        'quote.states.SELLERAPPROVER_DRAFT'
       );
     });
-  });
 
-  describe('getSellerApproverQuoteStatus', () => {
-    it('should return an empty string in case state is not a seller approver one', () => {
-      expect(
-        component['getSellerApproverQuoteStatus'](QuoteState.BUYER_DRAFT)
-      ).toBe('');
-    });
-  });
-
-  describe('getGeneralQuoteStatus', () => {
-    it('should return an empty string in case state is not a general one', () => {
-      expect(component['getGeneralQuoteStatus'](QuoteState.BUYER_DRAFT)).toBe(
-        ''
-      );
-    });
-  });
-
-  describe('getQuoteStateClass', () => {
     it("should apply a class for 'BUYER_DRAFT' quote status", () => {
       mockQuoteListState$.next({
         ...mockQuoteListState,
