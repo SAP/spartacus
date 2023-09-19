@@ -123,23 +123,21 @@
         <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
       </label>
     </form>
-    <div class="btn-group">
-      <button
-        class="
-          btn
-          myaccount-enhancedUI-button-cancel myaccount-enhancedUI-button
-        "
-        (click)="cancelEdit()"
-      >
-        {{ 'common.cancel' | cxTranslate }}
-      </button>
-      <button
-        class="btn btn-primary myaccount-enhancedUI-button"
-        (click)="onSubmit()"
-        [disabled]="form.disabled"
-      >
-        {{ 'common.save' | cxTranslate }}
-      </button>
-    </div>
+    <div class="btn-group-row">
+      <div class="btn-group">
+        <button
+          class="btn email-enhancedUI-button-cancel email-enhancedUI-button"
+          (click)="cancelEdit()"
+        >
+          {{ 'common.cancel' | cxTranslate }}
+        </button>
+        <button
+          class="btn btn-primary email-enhancedUI-button"
+          (click)="onSubmit()"
+          [disabled]="form.disabled"
+        >
+          {{ 'common.save' | cxTranslate }}
+        </button>
+      </div>
   </div>
 </div>

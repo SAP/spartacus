@@ -1,12 +1,4 @@
 %cx-new-email {
-  .email-enhancedUI-header-area {
-    border: 1px, 0px, 0px, 0px;
-  }
-
-  .email-enhancedUI-body-area {
-    border: 0px, 0px, 1px, 0px;
-  }
-
   .email-enhancedUI-headertext {
     font-size: $h3-font-size;
     font-weight: var(--cx-font-weight-semi);
@@ -59,5 +51,17 @@
         color: $primary-accent;
       }
     }
+  }
+
+  .btn-group-row {
+    display: flex;
+    flex: 100%;
+    justify-content: end;
+  }
+
+  .btn-group {
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
   }
 }

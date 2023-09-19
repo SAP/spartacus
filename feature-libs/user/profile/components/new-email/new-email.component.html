@@ -110,20 +110,22 @@
         <cx-form-errors [control]="form.get('password')"></cx-form-errors>
       </label>
 
-      <div class="btn-group">
-        <button
-          class="btn email-enhancedUI-button-cancel email-enhancedUI-button"
-          (click)="cancelEdit()"
-        >
-          {{ 'common.cancel' | cxTranslate }}
-        </button>
-        <button
-          class="btn btn-primary email-enhancedUI-button"
-          (click)="onSubmit()"
-          [disabled]="form.disabled"
-        >
-          {{ 'common.save' | cxTranslate }}
-        </button>
+      <div class="btn-group-row">
+        <div class="btn-group">
+          <button
+            class="btn email-enhancedUI-button-cancel email-enhancedUI-button"
+            (click)="cancelEdit()"
+          >
+            {{ 'common.cancel' | cxTranslate }}
+          </button>
+          <button
+            class="btn btn-primary email-enhancedUI-button"
+            (click)="onSubmit()"
+            [disabled]="form.disabled"
+          >
+            {{ 'common.save' | cxTranslate }}
+          </button>
+        </div>
       </div>
     </form>
   </div>
