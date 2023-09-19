@@ -52,7 +52,10 @@ describe('NewNotificationPreferenceComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [NewNotificationPreferenceComponent, MockCxSpinnerComponent],
+        declarations: [
+          NewNotificationPreferenceComponent,
+          MockCxSpinnerComponent,
+        ],
         providers: [
           {
             provide: UserNotificationPreferenceService,
@@ -93,11 +96,11 @@ describe('NewNotificationPreferenceComponent', () => {
     expect(el.query(By.css('.pref-info'))).toBeTruthy();
     expect(
       el.queryAll(By.css('.form-check-input')).length ===
-      newNotificationPreference.length
+        newNotificationPreference.length
     ).toBeTruthy();
     expect(
       el.queryAll(By.css('.pref-channels')).length ===
-      newNotificationPreference.length
+        newNotificationPreference.length
     ).toBeTruthy();
   });
 
@@ -124,7 +127,9 @@ describe('NewNotificationPreferenceComponent', () => {
     getTestScheduler().flush();
     fixture.detectChanges();
 
-    expect(newNotificationPreferenceService.updatePreferences).toHaveBeenCalled();
+    expect(
+      newNotificationPreferenceService.updatePreferences
+    ).toHaveBeenCalled();
     expect(chx.disabled).toEqual(true);
   });
 
@@ -145,7 +150,9 @@ describe('NewNotificationPreferenceComponent', () => {
     getTestScheduler().flush();
     fixture.detectChanges();
 
-    expect(newNotificationPreferenceService.updatePreferences).toHaveBeenCalled();
+    expect(
+      newNotificationPreferenceService.updatePreferences
+    ).toHaveBeenCalled();
     expect(chx.disabled).toEqual(true);
   });
 });
