@@ -41,6 +41,7 @@ const threshold = 20;
 const totalPrice: Price = { value: threshold + 1 };
 const invalidInput = 'INVALID';
 const DEBOUNCE_TIME = 1000;
+const DEFAULT_DEBOUNCE_TIME = 500;
 
 const mockQuote: Quote = {
   ...createEmptyQuote(),
@@ -247,19 +248,20 @@ describe('QuoteSellerEditComponent', () => {
       component.ngOnInit();
       component.onSetDate(QUOTE_CODE);
       expect(facade.editQuote).not.toHaveBeenCalled();
-      tick(500);
+      tick(DEFAULT_DEBOUNCE_TIME);
       expect(facade.editQuote).toHaveBeenCalledWith(
         QUOTE_CODE,
         expectedQuoteMetaData
       );
     }));
+
     it('should call corresponding facade method after configured debounce time', fakeAsync(() => {
       const expectedQuoteMetaData: QuoteMetadata = {
         expirationTime: EXPIRATION_TIME_AS_STRING,
       };
       component.ngOnInit();
       component.onSetDate('INVALID');
-      tick(500);
+      tick(DEFAULT_DEBOUNCE_TIME);
       component.onSetDate(QUOTE_CODE);
       expect(facade.editQuote).not.toHaveBeenCalled();
       tick(DEBOUNCE_TIME);

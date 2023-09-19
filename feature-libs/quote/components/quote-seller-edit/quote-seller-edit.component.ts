@@ -90,7 +90,6 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
           );
         })
     );
-    console.log(this.quoteUiConfig);
     this.subscription.add(
       this.dateUpdates
         .pipe(
