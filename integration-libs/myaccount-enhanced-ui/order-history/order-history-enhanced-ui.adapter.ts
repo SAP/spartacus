@@ -89,15 +89,12 @@ export class OrderHistoryEnhancedUIAdapter extends OccOrderHistoryAdapter {
             map((orderDetail) => {
               /** filling extra fields ---> */
 
-              order.purchaseType = '???';
-              order.totalItems = orderDetail.totalItems;
-
               // filling images
               order.thumbnail = [];
               if (orderDetail?.entries) {
                 for (let item of orderDetail?.entries) {
                   if (item.product?.images) {
-                    order.thumbnail.push(of(item.product?.images));
+                    order.thumbnail.push(item.product?.images);
                   }
                 }
               }

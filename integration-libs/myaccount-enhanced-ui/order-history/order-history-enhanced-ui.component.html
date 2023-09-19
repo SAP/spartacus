@@ -37,27 +37,9 @@
               >
             </div>
 
-            <!--eg: Purchased Online | 12,October,2022 | 3 Items | Total Price: $12.00-->
+            <!--eg: 12,October,2022 | Total Price: $12.00-->
             <div class="cx-enhanced-ui-order-summary">
-              {{
-                'OrderHistoryEnhancedUI.purchased'
-                  | cxTranslate: { param: order.purchaseType }
-              }}
-              | {{ order.placed | cxDate: 'd, MMMM, yyyy' }} |
-              <ng-container *ngIf="order.totalItems">
-                <ng-container *ngIf="order.totalItems > 1; else showItem">
-                  {{
-                    'OrderHistoryEnhancedUI.items'
-                      | cxTranslate: { param: order.totalItems }
-                  }}
-                </ng-container>
-              </ng-container>
-              <ng-template #showItem>
-                {{
-                  'OrderHistoryEnhancedUI.item'
-                    | cxTranslate: { param: order.totalItems }
-                }}
-              </ng-template>
+              {{ order.placed | cxDate: 'd, MMMM, yyyy' }}
               |
               <strong>
                 {{

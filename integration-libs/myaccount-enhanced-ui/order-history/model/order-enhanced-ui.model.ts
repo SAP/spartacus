@@ -10,10 +10,9 @@ import { Consignment, ReturnRequest } from '@spartacus/order/root';
 
 declare module '@spartacus/order/root' {
   interface OrderHistory {
-    purchaseType?: string; //?? Question: Purchased Online or Purchased Instore
+    //purchaseType?: string; //?? Question: Purchased Online or Purchased Instore
     //-> check the field 'Positions and Prices->Common->Sales Application'
-    totalItems?: number; //  - gets data from: /users/current/orders/{code}
-    consolidatedInfo?: any; //eg: shipped-3; retured-1; estimated delivery date etc.,
+    //totalItems?: number; //  - gets data from: /users/current/orders/{code}
     thumbnail?: any[]; //thumbnail images of all items in the order
     //any array of Observable of Type 'Images'
     pickupConsignments?: Consignment[]; //same as from feature-libs/order/components/order-details/order-detail-items/order-detail-items.component.ts line 30
@@ -26,3 +25,9 @@ declare module '@spartacus/order/root' {
     // else kept it the same.
   }
 }
+
+// declare module '@spartacus/order/root' {
+//   interface Consignment {
+//     tracking?: ConsignmentTracking;
+//   }
+// }

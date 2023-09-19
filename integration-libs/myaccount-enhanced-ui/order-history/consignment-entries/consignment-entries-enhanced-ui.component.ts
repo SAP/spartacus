@@ -17,7 +17,6 @@ export class ConsignmentEntriesEnhancedUIComponent {
   consignments?: Consignment[];
   @Input()
   orderCode?: string;
-  constructor() {}
 
   consignmentEntriesLength(consignment: Consignment): number {
     var length = 0;
@@ -29,7 +28,8 @@ export class ConsignmentEntriesEnhancedUIComponent {
 
   consignmentNumber(code?: string) {
     if (code) {
-      return code.split('_')[1];
+      var consignmentNumber = Number(code.split('_')[1]);
+      return consignmentNumber + 1;
     } else {
       return '';
     }

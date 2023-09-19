@@ -11,13 +11,9 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
-import { OrderDetailsService } from '@spartacus/order/components';
-import {
-  Consignment,
-  ConsignmentTracking,
-  OrderHistoryFacade,
-} from '@spartacus/order/root';
+import { Consignment, ConsignmentTracking } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
+import { OrderHistoryEnhancedUIAdapter } from '../order-history-enhanced-ui.adapter';
 
 @Component({
   selector: 'cx-consignment-tracking-enhanced-ui',
@@ -32,26 +28,18 @@ export class ConsignmentTrackingEnhancedUIComponent
   @Input()
   orderCode: string;
   consignmentTracking$: Observable<ConsignmentTracking>;
-  consignmentStatus = this.orderDetailsService.consignmentStatus;
 
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected orderHistoryFacade: OrderHistoryFacade
-  ) {}
+  constructor(protected adapter: OrderHistoryEnhancedUIAdapter) {}
 
   ngOnInit() {
-    this.consignmentTracking$ =
-      this.orderHistoryFacade.getConsignmentTracking();
     if (this.orderCode && this.consignment) {
-      if (this.consignment.code) {
-        this.orderHistoryFacade.loadConsignmentTracking(
+      if (this.consignment.trackingID) {
+        this.consignmentTracking$ = this.adapter.getConsignmentTracking(
           this.orderCode,
-          this.consignment.code
+          this.consignment.code ?? ''
         );
       }
     }
   }
-  ngOnDestroy(): void {
-    this.orderHistoryFacade.clearConsignmentTracking();
-  }
+  ngOnDestroy(): void {}
 }

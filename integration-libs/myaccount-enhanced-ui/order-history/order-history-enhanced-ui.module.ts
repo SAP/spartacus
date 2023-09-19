@@ -6,9 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
@@ -16,9 +14,9 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+
 import { OrderHistoryAdapter } from '@spartacus/order/core';
 import {
-  CarouselModule,
   ListNavigationModule,
   MediaModule,
   SpinnerModule,
@@ -44,14 +42,11 @@ const moduleComponents = [
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule,
-    NgSelectModule,
     ListNavigationModule,
     UrlModule,
     I18nModule,
     SpinnerModule,
     MediaModule,
-    CarouselModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AccountOrderHistoryComponent: {

@@ -5,15 +5,9 @@
   border-color: var(--cx-color-light);
   margin: 0 0 25px 0; //top-right-botton-left
 }
-@mixin round-bullet($color) {
-  display: inline-block;
-  content: '';
-  -webkit-border-radius: 16px;
-  border-radius: 16px;
-  height: 8px;
-  width: 8px;
-  margin-right: 0.5rem;
-  background-color: $color;
+
+@mixin font-color($status) {
+  color: #db0002;
 }
 .cx-order-history-enhanced-ui-header {
   @include draw-line;
@@ -21,10 +15,6 @@
 }
 .cx-order-history-enhanced-ui-body {
   .cx-order-history-pagination {
-    // background-color: palevioletred;
-    // @include media-breakpoint-down(sm) {
-    //   margin: 0 auto;
-    // }
     display: flex;
     justify-content: flex-end;
     padding: 1rem 0 1rem 0;
@@ -63,17 +53,12 @@
       margin-bottom: 20px; //space between last item and the ---- line
     }
     .cx-order-info {
-      width: 70%; // show 70% order info and 30% images
+      width: 60%; // show 70% order info and 30% images
       .cx-consignment-info {
         font-size: 16px;
         color: #6c7079;
       }
-      .cx-green-bullet {
-        font-size: 18px;
-        &::before {
-          @include round-bullet(#38871f);
-        }
-      }
+
       .cx-list-header {
         @include media-breakpoint-down(sm) {
           padding: 0;
@@ -86,19 +71,24 @@
           font-weight: bold;
         }
       }
-      .cx-no-bullet {
+
+      .cx-order-status {
         font-size: 18px;
       }
-      .cx-red-bullet {
+      .cx-order-status-critical {
         font-size: 18px;
-        color: #db0002;
-        &::before {
-          @include round-bullet(#db0002);
-        }
+        color: var(--cx-color-alert, var(--cx-color-danger));
       }
     }
-    .cx-order-item-images {
-      width: 30%; // show 70% order info and 30% images
+    .cx-order-images-container {
+      width: 40%; // show 70% order info and 30% images
+      .cx-order-img {
+        width: 88px;
+        height: 88px;
+        margin-right: 8px;
+        display: inline-end;
+        float: right;
+      }
     }
   }
 }

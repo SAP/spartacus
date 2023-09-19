@@ -94,9 +94,6 @@ export interface OrderHistory {
   orgCustomer?: B2BUser;
 
   //myaccount-enhanced-ui related
-  purchaseType?: string;
-  totalItems?: number;
-  consolidatedInfo?: any;
   thumbnail?: any[];
   pickupConsignments?: Consignment[];
   deliveryConsignments?: Consignment[];

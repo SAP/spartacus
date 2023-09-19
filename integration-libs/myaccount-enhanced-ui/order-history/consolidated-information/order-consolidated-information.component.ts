@@ -16,7 +16,8 @@ import { Consignment, OrderHistory } from '@spartacus/order/root';
 export class OrderConsolidatedInformationComponent {
   @Input()
   order?: OrderHistory;
-  constructor() {}
+  imageCount = 4; //showing fixed no.of images, without using carousel
+
   consignmentsCount(consignments: Consignment[] | undefined): number {
     var count = 0;
     if (consignments) {
@@ -28,11 +29,21 @@ export class OrderConsolidatedInformationComponent {
     }
     return count;
   }
+
   orderEntriesCount(orderEntries: OrderEntry[] | undefined): number {
     var count = 0;
     if (orderEntries) {
       return orderEntries.length;
     }
     return count;
+  }
+
+  isStatusCritical(status: string): boolean {
+    let criticalStatus = ['cancelled', 'rejected'];
+    if (criticalStatus.includes(status)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
