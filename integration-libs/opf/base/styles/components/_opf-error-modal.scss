@@ -1,0 +1,53 @@
+@import '@spartacus/styles/scss/cxbase/blocks/modal';
+
+%cx-opf-error-modal {
+  .cx-opf-error-modal {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+
+    .cx-opf-error-modal-container {
+      @extend .modal-content;
+
+      .cx-opf-error-modal-header {
+        display: flex;
+        justify-content: space-between;
+        .cx-opf-error-modal-title {
+          @include type('3');
+        }
+      }
+
+      .cx-opf-error-modal-body {
+        @extend .modal-body;
+      }
+
+      .cx-confirmation {
+        margin-bottom: 0px;
+      }
+
+      .cx-opf-error-modal-footer {
+        display: flex;
+
+        button {
+          flex: 0 0 calc(50% - 0.5rem);
+          text-transform: lowercase;
+
+          &:first-line {
+            text-transform: capitalize;
+          }
+
+          &:first-child {
+            margin-inline-end: 0.5rem;
+          }
+
+          &:last-child {
+            margin-inline-start: 0.5rem;
+          }
+
+          &:focus {
+            @include visible-focus();
+          }
+        }
+      }
+    }
+  }
+}

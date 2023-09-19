@@ -47,6 +47,7 @@ export interface GlobalOpfPaymentMethods {
     submitPending: MerchantCallback;
     submitFailure: MerchantCallback;
   }): Promise<boolean>;
+  throwPaymentError?(errorOptions?: ErrorDialogOptions): void;
 }
 
 export interface PaymentBrowserInfo {
@@ -120,3 +121,36 @@ export interface SubmitCompleteInput {
   callbackArray: [MerchantCallback, MerchantCallback, MerchantCallback];
   returnPath?: Array<string>;
 }
+
+export interface HasMessageString {
+  messageString: string;
+  messageKey?: undefined;
+  messageReplacements?: undefined;
+}
+
+export interface HasMessageKey {
+  messageString?: undefined;
+  messageKey: string;
+  messageReplacements: Array<string>;
+}
+export interface HasConfirmString {
+  confirmString: string;
+  confirmKey?: undefined;
+  confirmReplacements?: undefined;
+}
+
+export interface HasConfirmKey {
+  confirmString?: undefined;
+  confirmKey: string;
+  confirmReplacements: Array<string>;
+}
+
+export type ErrorDialogOptions = (HasMessageString | HasMessageKey) &
+  (HasConfirmString | HasConfirmKey);
+
+export const defaultErrorDialogOptions: ErrorDialogOptions = {
+  messageKey: 'opf.payment.errors.proceedPayment',
+  confirmKey: 'common.continue',
+  messageReplacements: [],
+  confirmReplacements: [],
+};

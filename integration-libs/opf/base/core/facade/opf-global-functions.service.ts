@@ -12,16 +12,18 @@ import {
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import {
+  ErrorDialogOptions,
   GlobalOpfPaymentMethods,
   KeyValuePair,
   MerchantCallback,
   OpfGlobalFunctionsFacade,
   OpfPaymentFacade,
   PaymentMethod,
+  defaultErrorDialogOptions,
 } from '@spartacus/opf/base/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
 
 @Injectable()
 export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
@@ -40,6 +42,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   ): void {
     this.registerSubmit(paymentSessionId, vcr);
     this.registerSubmitComplete(paymentSessionId, vcr);
+    this.registerThrowPaymentError(vcr);
     this._isGlobalServiceInit = true;
   }
 
@@ -86,6 +89,33 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         }
       })
       .unsubscribe();
+  }
+
+  protected registerThrowPaymentError(vcr?: ViewContainerRef): void {
+    this.getGlobalFunctionContainer().throwPaymentError = (
+      errorDialogOptions: ErrorDialogOptions = defaultErrorDialogOptions
+    ): void => {
+      console.log('throwPaymentError called');
+      if (!vcr) {
+        return;
+      }
+      this.ngZone.run(() => {
+        const dialog = this.launchDialogService.openDialog(
+          LAUNCH_CALLER.OPF_ERROR,
+          undefined,
+          vcr,
+          errorDialogOptions
+        );
+
+        if (dialog) {
+          dialog.pipe(take(1)).subscribe({
+            complete: () => {
+              console.log('in complete openDialog subscription');
+            },
+          });
+        }
+      });
+    };
   }
 
   protected registerSubmit(

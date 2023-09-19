@@ -1,0 +1,52 @@
+<ng-container>
+  <div class="cx-opf-error-modal" (esc)="dismissModal('Escape click')">
+    <div
+      class="cx-opf-error-modal-container"
+      *ngIf="errorDialogOptions$ | async as errorDialogOptions"
+    >
+      <div class="cx-opf-error-modal-header cx-modal-header">
+        <div>
+          <h3 class="cx-opf-error-modal-title">Payment Error</h3>
+        </div>
+
+        <button
+          type="button"
+          class="close"
+          (click)="dismissModal('Cross click')"
+        >
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          </span>
+        </button>
+      </div>
+
+      <!-- <div *ngIf="isLoading$ | async; else loaded">
+        <div class="cx-spinner">loading</div>
+      </div> -->
+
+      <!-- <ng-template #loaded> -->
+      <div class="cx-opf-error-modal-body modal-body">
+        <p class="cx-confirmation">
+          {{
+            errorDialogOptions && errorDialogOptions.messageKey
+              ? (errorDialogOptions.messageKey | cxTranslate)
+              : 'Yes'
+          }}
+        </p>
+      </div>
+      <div class="cx-opf-error-modal-footer cx-modal-footer">
+        <button class="btn btn-primary" (click)="dismissModal('Cancel')">
+          {{
+            errorDialogOptions && errorDialogOptions.confirmKey
+              ? (errorDialogOptions.confirmKey | cxTranslate)
+              : 'Yes'
+          }}
+        </button>
+        <!-- <button (click)="dismissModal()" class="btn btn-block btn-secondary">
+          Other
+        </button> -->
+      </div>
+      <!-- </ng-template> -->
+    </div>
+  </div>
+</ng-container>
