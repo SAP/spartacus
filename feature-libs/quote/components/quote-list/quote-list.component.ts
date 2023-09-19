@@ -35,42 +35,18 @@ export class QuoteListComponent {
   }
 
   /**
-   * Retrieves the class name for the quote state.
+   * Retrieves the class name for the quote state. This class name is composed
+   * using 'quote-' as prefix and the last part of the status name in lower case
+   * (like e.g. draft for SELLER_DRAFT)
    *
    * @param {QuoteState} state - quote state
-   * @returns {string} - class name corresponding to quote state
+   * @returns {string} - class name corresponding to quote state.
    */
   getQuoteStateClass(state: QuoteState): string {
-    switch (state) {
-      case QuoteState.BUYER_DRAFT:
-      case QuoteState.SELLER_DRAFT:
-      case QuoteState.SELLERAPPROVER_DRAFT:
-        return 'quote-draft';
-      case QuoteState.BUYER_SUBMITTED:
-      case QuoteState.SELLER_SUBMITTED:
-        return 'quote-submitted';
-      case QuoteState.BUYER_ACCEPTED:
-        return 'quote-accepted';
-      case QuoteState.BUYER_APPROVED:
-      case QuoteState.SELLERAPPROVER_APPROVED:
-        return 'quote-approved';
-      case QuoteState.SELLERAPPROVER_REJECTED:
-      case QuoteState.BUYER_REJECTED:
-        return 'quote-rejected';
-      case QuoteState.BUYER_OFFER:
-        return 'quote-offer';
-      case QuoteState.BUYER_ORDERED:
-        return 'quote-ordered';
-      case QuoteState.SELLER_REQUEST:
-        return 'quote-request';
-      case QuoteState.SELLERAPPROVER_PENDING:
-        return 'quote-pending';
-      case QuoteState.CANCELLED:
-        return 'quote-cancelled';
-      case QuoteState.CREATED:
-        return 'quote-created';
-      case QuoteState.EXPIRED:
-        return 'quote-expired';
-    }
+    const stateAsString = state.toString();
+    const indexSeparator = stateAsString.indexOf('_');
+    //note: in case not found: indexSeparator is -1, lastPart will be stateAsString
+    const lastPart = stateAsString.substring(indexSeparator + 1);
+    return 'quote-' + lastPart.toLowerCase();
   }
 }

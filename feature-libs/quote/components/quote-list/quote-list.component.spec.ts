@@ -215,6 +215,18 @@ describe('QuoteListComponent', () => {
       1
     );
   });
+  describe('getQuoteStateClass', () => {
+    it('should find proper style class for quote state', () => {
+      expect(
+        component.getQuoteStateClass(QuoteState.SELLERAPPROVER_DRAFT)
+      ).toBe('quote-draft');
+    });
+    it('should find proper style class for quote state in case quote state does not contain underscore', () => {
+      expect(component.getQuoteStateClass(QuoteState.EXPIRED)).toBe(
+        'quote-expired'
+      );
+    });
+  });
 
   describe('Rendering using getQuoteStateClass', () => {
     it("should apply corresponding class for 'CREATED' quote status", () => {
