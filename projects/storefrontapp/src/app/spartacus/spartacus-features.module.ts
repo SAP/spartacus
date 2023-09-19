@@ -134,9 +134,6 @@ if (environment.segmentRefs) {
 if (environment.requestedDeliveryDate) {
   featureModules.push(RequestedDeliveryDateFeatureModule);
 }
-// if (environment.myaccount-enhanced-ui) {
-//   featureModules.push(NewConsentManagementModule);
-// }
 
 @NgModule({
   imports: [

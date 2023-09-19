@@ -17,6 +17,7 @@ import {
 })
 export class NewConsentManagementFormComponent implements OnInit {
   consentGiven = false;
+  consentApprovedTime: string;
 
   @Input()
   consentTemplate: ConsentTemplate;
@@ -48,6 +49,12 @@ export class NewConsentManagementFormComponent implements OnInit {
           this.consentGiven = false;
         } else if (this.consentTemplate.currentConsent.consentGivenDate) {
           this.consentGiven = true;
+          const date = new Date(
+            this.consentTemplate.currentConsent.consentGivenDate
+          );
+          this.consentApprovedTime = `${date.getDate()}/${
+            date.getMonth() + 1
+          }/${date.getFullYear()}`;
         }
       }
     }
@@ -64,10 +71,5 @@ export class NewConsentManagementFormComponent implements OnInit {
 
   isRequired(templateId: string | undefined): boolean {
     return templateId ? this.requiredConsents.includes(templateId) : false;
-  }
-
-  transformDate(dateTime: string): string {
-    const date = new Date(dateTime);
-    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   }
 }
