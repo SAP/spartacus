@@ -11,9 +11,10 @@
 @import './my-coupons-card';
 @import './my-coupons-dialog';
 @import './my-interests';
+@import './new-notification-preference';
 
 $myaccount-components-allowlist: cx-address-book, cx-address-form,
   cx-suggested-addresses-dialog, cx-anonymous-consent-management-banner,
   cx-anonymous-consent-dialog, cx-anonymous-consent-open-dialog,
-  cx-consent-management-form, cx-consent-management, cx-my-interests,
+  cx-consent-management-form, cx-consent-management, cx-new-notification-preference, cx-my-interests,
   cx-my-coupons, cx-coupon-card, cx-coupon-dialog, cx-payment-methods !default;
