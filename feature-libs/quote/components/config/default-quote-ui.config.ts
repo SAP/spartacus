@@ -77,6 +77,9 @@ export const defaultQuoteUIConfig: QuoteUIConfig = {
   quote: {
     maxCharsForComments: 1000,
     truncateCardTileContentAfterNumChars: 100,
+    updateDebounceTime: {
+      expiryDate: 500,
+    },
     confirmActionDialogMapping: defaultDialogMappings,
   },
 };
