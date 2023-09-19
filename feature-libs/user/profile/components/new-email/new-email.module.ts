@@ -33,7 +33,7 @@ import { NewEmailComponent } from './new-email.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        UpdateEmailComponent: {
+        NewEmailComponent: {
           component: NewEmailComponent,
           guards: [AuthGuard],
           providers: [
