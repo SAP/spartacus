@@ -1,6 +1,6 @@
 on:
   pull_request:
-    # types: [ready_for_review]
+    types: [ready_for_review]
     branches:
       - develop
       - develop-*
@@ -177,7 +177,7 @@ jobs:
       - name: Run SSR tests
         run: npm run test:ssr
   merge_checks_result:
-    needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests]
+    needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, ssr_tests]
     name: MC - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -189,4 +189,5 @@ jobs:
         if: |
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
           needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
+          needs.ssr_tests.result == 'failure' || needs.ssr_tests.result == 'cancelled' || 
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled'
