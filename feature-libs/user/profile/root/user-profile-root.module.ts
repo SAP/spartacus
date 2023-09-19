@@ -31,6 +31,7 @@ export function defaultUserProfileComponentsConfig(): CmsConfig {
           'CloseAccountComponent',
           'NewProfileComponent',
           'NewEmailComponent',
+          'NewPasswordComponent',
         ],
       },
       // by default core is bundled together with components

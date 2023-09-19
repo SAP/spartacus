@@ -14,6 +14,7 @@ import { UpdatePasswordModule } from './update-password/update-password.module';
 import { UpdateProfileModule } from './update-profile/update-profile.module';
 import { NewProfileModule } from './new-user-profile/new-profile.module';
 import { NewEmailModule } from './new-email/new-email.module';
+import { NewPasswordModule } from './new-password';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { NewEmailModule } from './new-email/new-email.module';
     CloseAccountModule,
     NewProfileModule,
     NewEmailModule,
+    NewPasswordModule,
   ],
 })
 export class UserProfileComponentsModule {}

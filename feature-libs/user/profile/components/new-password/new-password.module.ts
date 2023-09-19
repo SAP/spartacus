@@ -21,31 +21,41 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  MessageComponentModule,
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { UserEmailFacade } from '@spartacus/user/profile/root';
-import { NewEmailComponentService } from './new-email-component.service';
-import { NewEmailComponent } from './new-email.component';
+import { UserPasswordFacade } from '@spartacus/user/profile/root';
+import { NewPasswordComponentService } from './new-password-component.service';
+import { NewPasswordComponent } from './new-password.component';
 
 @NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SpinnerModule,
+    I18nModule,
+    FormErrorsModule,
+    UrlModule,
+    RouterModule,
+    PasswordVisibilityToggleModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        UpdateEmailComponent: {
-          component: NewEmailComponent,
+        UpdatePasswordComponent: {
+          component: NewPasswordComponent,
           guards: [AuthGuard],
           providers: [
             {
-              provide: NewEmailComponentService,
-              useClass: NewEmailComponentService,
+              provide: NewPasswordComponentService,
+              useClass: NewPasswordComponentService,
               deps: [
-                UserEmailFacade,
+                UserPasswordFacade,
                 RoutingService,
                 GlobalMessageService,
-                AuthService,
                 AuthRedirectService,
+                AuthService,
               ],
             },
           ],
@@ -53,18 +63,6 @@ import { NewEmailComponent } from './new-email.component';
       },
     }),
   ],
-  declarations: [NewEmailComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SpinnerModule,
-    UrlModule,
-    RouterModule,
-    I18nModule,
-    FormErrorsModule,
-    PasswordVisibilityToggleModule,
-    MessageComponentModule,
-  ],
+  declarations: [NewPasswordComponent],
 })
-export class NewEmailModule {}
+export class NewPasswordModule {}
