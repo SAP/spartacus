@@ -1,0 +1,66 @@
+@import '../../theme';
+
+%cx-new-notification-preference{
+    .header{
+        width: $font-size-base * 14.375;
+        height: $font-size-base * 1.875;
+        font-weight: var(--cx-font-weight-semi);
+        font-size: $h3-font-size;
+        font-family: 'Open Sans';
+        line-height: $font-size-base * 1.8725;
+        margin-bottom: $font-size-base * 1.875;
+    }
+
+    .pref-info{
+        width: $font-size-base * 19.875;
+        height: $font-size-base * 1.375;
+        font-weight: var(--cx-font-weight-normal);
+        font-size: $h5-font-size;
+        font-family: 'Open Sans';
+        line-height: $font-size-base * 1.362;
+        letter-spacing: 0em;
+        text-align: center;
+        margin-bottom: $font-size-base * 0.625;
+    }
+
+    .notification-channels{
+        display: flex;
+        align-items: center;
+    }
+
+    .pref-channels{
+        width: $font-size-base * 17.063;
+        height: $font-size-base * 1.5;
+        top: $font-size-base * 29.3125;
+        left: $font-size-base * 46.5;
+        gap: $font-size-base * 0.5;
+        margin-bottom: $font-size-base * 1.25;
+    }
+
+    .check-box{
+        width: $font-size-base * 1.5;
+        height: $font-size-base * 1.5;
+        margin-top: $font-size-base * 0.125;
+    }
+
+    .check-label{
+        width: $font-size-base * 15.063;
+        height: $font-size-base * 1.375;
+        font-weight: var(--cx-font-weight-normal);
+        font-size: $h5-font-size;
+        font-family: 'Open Sans';
+        line-height: $font-size-base * 1.362;
+        margin-top: $font-size-base * 0.625;
+    }
+
+    .note{
+        width: $font-size-base * 27;
+        height: $font-size-base * 2.75;
+        font-weight: var(--cx-font-weight-normal);
+        font-size: $h5-font-size;
+        font-family: 'Open Sans';
+        line-height: $font-size-base * 1.362;
+    }
+
+
+}

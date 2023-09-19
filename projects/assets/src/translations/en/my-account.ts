@@ -92,6 +92,7 @@ export const myAccount = {
     EMAIL: 'Email:',
     SMS: 'SMS:',
     SITE_MESSAGE: 'SiteMessage',
+    channels: 'Notification Channels'
   },
   myInterests: {
     header: 'My Interests',
