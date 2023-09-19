@@ -46,6 +46,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'orderHistory',
     'closeAccount',
     'updatePasswordForm',
+    'newUpdatePasswordForm',
     'updateProfileForm',
     'consentManagementForm',
     'myCoupons',

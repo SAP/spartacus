@@ -12,6 +12,7 @@ import { ResetPasswordModule } from './reset-password/reset-password.module';
 import { UpdateEmailModule } from './update-email/update-email.module';
 import { UpdatePasswordModule } from './update-password/update-password.module';
 import { UpdateProfileModule } from './update-profile/update-profile.module';
+import { NewUpdatePasswordModule } from './new-update-password';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { UpdateProfileModule } from './update-profile/update-profile.module';
     UpdateProfileModule,
     UpdateEmailModule,
     UpdatePasswordModule,
+    NewUpdatePasswordModule,
     ForgotPasswordModule,
     ResetPasswordModule,
     CloseAccountModule,

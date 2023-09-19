@@ -34,6 +34,26 @@ export const myAccount = {
     passwordUpdateSuccess: 'Password updated with success',
     accessDeniedError: 'Access is denied',
   },
+  newUpdatePasswordForm: {
+    oldPassword: {
+      label: 'Old Password',
+      placeholder: 'Enter Old Password',
+    },
+    oldPasswordIsRequired: 'Old password is required.',
+    newPassword: {
+      label: 'New Password',
+      placeholder: 'Enter New Password',
+    },
+    passwordMinRequirements:
+      'Password must be six characters minimum, with one uppercase letter, one number, one symbol',
+    confirmPassword: {
+      label: 'Confirm New Password',
+      placeholder: 'Confirm New Password',
+    },
+    bothPasswordMustMatch: 'Both password must match',
+    passwordUpdateSuccess: 'Password updated with success',
+    accessDeniedError: 'Access is denied',
+  },
   updateProfileForm: {
     title: 'Title',
     none: '',
