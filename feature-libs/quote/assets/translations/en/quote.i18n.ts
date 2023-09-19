@@ -123,10 +123,9 @@ export const quote = {
       },
       seller: {
         submit: {
-          title: 'Submit Quote {{ code }} for approval?',
-          confirmNote:
-            'Are you sure you want to submit this quote for approval?',
-          successMessage: 'Quote submitted for approval successfully',
+          title: 'Submit Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to submit this quote?',
+          successMessage: 'Quote submitted successfully',
         },
       },
       approver: {
