@@ -36,7 +36,6 @@ export class NewEmailComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.isEditing = false;
-    this.showingAlert = true;
   }
   onSubmit(): void {
     this.emailComponentservice.save();
@@ -47,6 +46,7 @@ export class NewEmailComponent implements OnInit {
 
   onEdit(): void {
     this.isEditing = true;
+    this.showingAlert = true;
   }
 
   cancelEdit(): void {
