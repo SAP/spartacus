@@ -13,16 +13,17 @@ import {
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
-  QuoteFacade,
   Quote,
   QuoteDiscount,
   QuoteDiscountType,
+  QuoteFacade,
   QuoteMetadata,
 } from '@spartacus/quote/root';
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
-import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { Observable, Subject, Subscription, combineLatest } from 'rxjs';
+import { debounceTime, filter, take } from 'rxjs/operators';
+import { QuoteUIConfig } from '../config';
+import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
 
 @Component({
   selector: 'cx-quote-seller-edit',
@@ -47,9 +48,13 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
 
   protected subscription: Subscription = new Subscription();
 
+  protected dateUpdates: Subject<{ quoteCode: string; date: string }> =
+    new Subject();
+
   constructor(
     protected quoteFacade: QuoteFacade,
-    protected quoteSellerEditComponentService: QuoteSellerEditComponentService
+    protected quoteSellerEditComponentService: QuoteSellerEditComponentService,
+    protected quoteUiConfig: QuoteUIConfig
   ) {}
 
   ngOnInit(): void {
@@ -83,6 +88,20 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
               quote.expirationTime?.toString()
             )
           );
+        })
+    );
+    this.subscription.add(
+      this.dateUpdates
+        .pipe(
+          debounceTime(
+            this.quoteUiConfig.quote?.updateDebounceTime?.expiryDate ?? 500
+          )
+        )
+        .subscribe((payload) => {
+          const quoteMetaData: QuoteMetadata = {
+            expirationTime: payload.date,
+          };
+          this.quoteFacade.editQuote(payload.quoteCode, quoteMetaData);
         })
     );
   }
@@ -130,9 +149,6 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
     const dateWithTime = this.quoteSellerEditComponentService.addTimeToDate(
       this.form.controls.validityDate.value
     );
-    const quoteMetaData: QuoteMetadata = {
-      expirationTime: dateWithTime,
-    };
-    this.quoteFacade.editQuote(quoteCode, quoteMetaData);
+    this.dateUpdates.next({ quoteCode: quoteCode, date: dateWithTime });
   }
 }

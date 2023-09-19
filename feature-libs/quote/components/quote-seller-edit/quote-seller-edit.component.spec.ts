@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 
 import { I18nTestingModule, Price } from '@spartacus/core';
 import {
@@ -26,6 +31,7 @@ import {
   EXPIRATION_TIME_AS_STRING,
   QUOTE_CODE,
 } from '../../core/testing/quote-test-utils';
+import { QuoteUIConfig } from '../config';
 import { QuoteSellerEditComponent } from './quote-seller-edit.component';
 import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
 import createSpy = jasmine.createSpy;
@@ -34,6 +40,8 @@ const mockCartId = '1234';
 const threshold = 20;
 const totalPrice: Price = { value: threshold + 1 };
 const invalidInput = 'INVALID';
+const DEBOUNCE_TIME = 1000;
+const DEFAULT_DEBOUNCE_TIME = 500;
 
 const mockQuote: Quote = {
   ...createEmptyQuote(),
@@ -55,6 +63,8 @@ const formatter = new Intl.NumberFormat('en', {
   currency: 'USD',
   currencyDisplay: 'narrowSymbol',
 });
+
+let uiConfig: QuoteUIConfig;
 
 class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<Quote> {
@@ -123,6 +133,9 @@ describe('QuoteSellerEditComponent', () => {
   let facade: QuoteFacade;
 
   beforeEach(() => {
+    uiConfig = {
+      quote: { updateDebounceTime: { expiryDate: DEBOUNCE_TIME } },
+    };
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule],
       declarations: [
@@ -138,6 +151,10 @@ describe('QuoteSellerEditComponent', () => {
         {
           provide: QuoteSellerEditComponentService,
           useClass: MockQuoteSellerEditComponentService,
+        },
+        {
+          provide: QuoteUIConfig,
+          useValue: uiConfig,
         },
       ],
     }).compileComponents();
@@ -223,17 +240,36 @@ describe('QuoteSellerEditComponent', () => {
   });
 
   describe('onSetDate', () => {
-    it('should call corresponding facade method', () => {
+    it('should call corresponding facade method after default debounce time', fakeAsync(() => {
       const expectedQuoteMetaData: QuoteMetadata = {
         expirationTime: EXPIRATION_TIME_AS_STRING,
       };
-
+      (uiConfig.quote ?? {}).updateDebounceTime = undefined;
+      component.ngOnInit();
       component.onSetDate(QUOTE_CODE);
+      expect(facade.editQuote).not.toHaveBeenCalled();
+      tick(DEFAULT_DEBOUNCE_TIME);
       expect(facade.editQuote).toHaveBeenCalledWith(
         QUOTE_CODE,
         expectedQuoteMetaData
       );
-    });
+    }));
+
+    it('should call corresponding facade method after configured debounce time', fakeAsync(() => {
+      const expectedQuoteMetaData: QuoteMetadata = {
+        expirationTime: EXPIRATION_TIME_AS_STRING,
+      };
+      component.ngOnInit();
+      component.onSetDate('INVALID');
+      tick(DEFAULT_DEBOUNCE_TIME);
+      component.onSetDate(QUOTE_CODE);
+      expect(facade.editQuote).not.toHaveBeenCalled();
+      tick(DEBOUNCE_TIME);
+      expect(facade.editQuote).toHaveBeenCalledWith(
+        QUOTE_CODE,
+        expectedQuoteMetaData
+      );
+    }));
   });
 
   describe('mustDisplayValidationMessage', () => {
