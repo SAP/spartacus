@@ -54,7 +54,7 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
   constructor(
     protected quoteFacade: QuoteFacade,
     protected quoteSellerEditComponentService: QuoteSellerEditComponentService,
-    protected quoteUiConfig: QuoteUIConfig,
+    protected quoteUiConfig: QuoteUIConfig
   ) {}
 
   ngOnInit(): void {
@@ -92,12 +92,18 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
     );
     console.log(this.quoteUiConfig);
     this.subscription.add(
-      this.dateUpdates.pipe(debounceTime(this.quoteUiConfig.quote?.updateDebounceTime?.expiryDate ?? 500)).subscribe((payload) => {
-        const quoteMetaData: QuoteMetadata = {
-          expirationTime: payload.date,
-        };
-        this.quoteFacade.editQuote(payload.quoteCode, quoteMetaData);
-      })
+      this.dateUpdates
+        .pipe(
+          debounceTime(
+            this.quoteUiConfig.quote?.updateDebounceTime?.expiryDate ?? 500
+          )
+        )
+        .subscribe((payload) => {
+          const quoteMetaData: QuoteMetadata = {
+            expirationTime: payload.date,
+          };
+          this.quoteFacade.editQuote(payload.quoteCode, quoteMetaData);
+        })
     );
   }
 

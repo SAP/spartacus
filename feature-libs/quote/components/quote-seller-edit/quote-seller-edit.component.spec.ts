@@ -243,7 +243,7 @@ describe('QuoteSellerEditComponent', () => {
       const expectedQuoteMetaData: QuoteMetadata = {
         expirationTime: EXPIRATION_TIME_AS_STRING,
       };
-      (uiConfig.quote ?? {}).updateDebounceTime  = undefined;
+      (uiConfig.quote ?? {}).updateDebounceTime = undefined;
       component.ngOnInit();
       component.onSetDate(QUOTE_CODE);
       expect(facade.editQuote).not.toHaveBeenCalled();
