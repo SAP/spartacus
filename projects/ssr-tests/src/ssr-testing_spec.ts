@@ -1,11 +1,8 @@
 import * as Log from './Log';
-import * as ProxyServer from './Server';
-const Ssr = require('./Ssr');
+import * as ProxyServer from './proxy.utils';
+import * as Ssr from './ssr.utils';
 
-// TODO: Use environment variable instead
-// const BACKEND_BASE_URL = process.env.OCC_URL;
-const BACKEND_BASE_URL = 'https://40.76.109.9:9002';
-// const BACKEND_BASE_URL = 'https://20.83.184.244:9002';
+const BACKEND_BASE_URL = process.env.CX_BASE_URL;
 
 describe('SSR E2E', () => {
   let server: any;

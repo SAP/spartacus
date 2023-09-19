@@ -6,7 +6,7 @@
 
 import * as fs from 'fs';
 
-const SSR_LOG_PATH = './src/ssr.log';
+const SSR_LOG_PATH = './ssr.log';
 
 export function clearSsrLogFile() {
   fs.writeFileSync(SSR_LOG_PATH, '');
