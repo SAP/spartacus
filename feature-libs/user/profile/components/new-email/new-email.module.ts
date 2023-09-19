@@ -15,15 +15,15 @@ import {
   CmsConfig,
   GlobalMessageService,
   I18nModule,
+  provideDefaultConfig,
   RoutingService,
   UrlModule,
-  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  MessageComponentModule,
-  PasswordVisibilityToggleModule,
   SpinnerModule,
+  PasswordVisibilityToggleModule,
+  MessageComponentModule,
 } from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { NewEmailComponentService } from './new-email-component.service';
