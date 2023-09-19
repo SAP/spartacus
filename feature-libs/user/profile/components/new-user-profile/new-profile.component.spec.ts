@@ -14,7 +14,6 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
@@ -71,13 +70,7 @@ describe('NewProfileComponent', () => {
           {
             provide: NewProfileComponentService,
             useClass: MockProfileService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.2' },
-            },
-          },
+          }
         ],
       })
         .overrideComponent(NewProfileComponent, {
