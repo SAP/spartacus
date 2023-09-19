@@ -36,7 +36,6 @@ import {
   MyInterestsModule,
   NavigationEventModule,
   NavigationModule,
-  NewConsentManagementModule,
   NotificationPreferenceModule,
   PageTitleModule,
   PaymentMethodsModule,
@@ -135,6 +134,9 @@ if (environment.segmentRefs) {
 if (environment.requestedDeliveryDate) {
   featureModules.push(RequestedDeliveryDateFeatureModule);
 }
+// if (environment.myaccount-enhanced-ui) {
+//   featureModules.push(NewConsentManagementModule);
+// }
 
 @NgModule({
   imports: [
@@ -170,7 +172,6 @@ if (environment.requestedDeliveryDate) {
     MyInterestsModule,
     StockNotificationModule,
     ConsentManagementModule,
-    NewConsentManagementModule,
     MyCouponsModule,
 
     // Anonymous Consents Core

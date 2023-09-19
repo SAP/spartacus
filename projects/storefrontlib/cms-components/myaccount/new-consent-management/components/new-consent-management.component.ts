@@ -88,12 +88,11 @@ export class NewConsentManagementComponent implements OnInit, OnDestroy {
               templateList
             )
           : [];
-        if (this.anonymousConsentsConfig.anonymousConsents) {
-          if (
-            this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
-          ) {
-            return this.hideAnonymousConsents(templateList, anonymousTemplates);
-          }
+        if (
+          this.anonymousConsentsConfig.anonymousConsents &&
+          this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+        ) {
+          return this.hideAnonymousConsents(templateList, anonymousTemplates);
         }
 
         return templateList;

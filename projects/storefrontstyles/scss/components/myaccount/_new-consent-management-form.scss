@@ -4,15 +4,15 @@
   }
 
   .name {
-    font-weight: $line-height-base * 375;
+    font-weight: var(--cx-font-weight-semi);
     font-size: $font-size-base;
-    font-family: 'Open Sans';
+    font-family: $font-family-sans-serif;
   }
 
   .description {
-    font-weight: $line-height-base * 250;
+    font-weight: var(--cx-font-weight-normal);
     font-size: $font-size-base;
-    font-family: 'Open Sans';
+    font-family: $font-family-sans-serif;
   }
 
   .consent-container {
@@ -20,11 +20,11 @@
   }
 
   .consent-details {
-    margin-left: $font-size-base * 2.815;
+    margin: 0 0 0 2.815rem;
   }
 
   .custom-switch {
-    margin-left: -2.25rem;
+    margin: 0 0 0 -2.25rem;
 
     .custom-control-label {
       &::before {
@@ -35,8 +35,8 @@
       }
 
       &::after {
-        width: $font-size-base * 1.5;
-        height: $font-size-base * 1.5;
+        width: $grid-gutter-width * 0.8;
+        height: $grid-gutter-width * 0.8;
         border-radius: $font-size-base * 2.5;
         top: add(
           ($font-size-base * $line-height-base - $custom-control-indicator-size) *

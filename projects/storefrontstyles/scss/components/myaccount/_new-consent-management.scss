@@ -5,17 +5,17 @@
   }
 
   .header {
-    font-weight: $line-height-base * 375;
+    font-weight: var(--cx-font-weight-semi);
     font-size: $font-size-base * 1.375;
-    font-family: 'Open Sans';
-    margin-bottom: $font-size-base * 1.875;
+    font-family: $font-family-sans-serif;
+    margin-bottom: $paragraph-margin-bottom;
   }
 
   .message {
-    font-weight: $line-height-base * 250;
+    font-weight: var(--cx-font-weight-normal);
     font-size: $font-size-base;
-    font-family: 'Open Sans';
-    margin-bottom: $font-size-base * 1.875;
+    font-family: $font-family-sans-serif;
+    margin-bottom: $paragraph-margin-bottom;
   }
 
   .consent-form-container {

@@ -66,7 +66,7 @@ export class NewConsentManagementFormComponent implements OnInit {
     return templateId ? this.requiredConsents.includes(templateId) : false;
   }
 
-  transformDate(dateTime: string): String {
+  transformDate(dateTime: string): string {
     const date = new Date(dateTime);
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   }
