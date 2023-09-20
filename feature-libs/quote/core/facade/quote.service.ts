@@ -225,7 +225,7 @@ export class QuoteService implements QuoteFacade {
             payload.quoteAction === QuoteActionType.CANCEL
           ) {
             this.cartUtilsService.createNewCartAndGoToQuoteList();
-            this.triggerReloadAndCompleteAction();
+            this.isActionPerforming$.next(false);
           }
           if (
             payload.quoteAction === QuoteActionType.EDIT ||

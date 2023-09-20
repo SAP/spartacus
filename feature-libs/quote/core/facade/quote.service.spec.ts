@@ -408,13 +408,17 @@ describe('QuoteService', () => {
     });
 
     describe('on submit', () => {
-      it('should create new cart and navigate to quote list', (done) => {
+      it('should create new cart and navigate to quote list, but not reload', (done) => {
         service
           .performQuoteAction(quote, QuoteActionType.SUBMIT)
           .subscribe(() => {
             expect(
               cartUtilsService.createNewCartAndGoToQuoteList
             ).toHaveBeenCalled();
+            expect(eventService.dispatch).not.toHaveBeenCalledWith(
+              {},
+              QuoteDetailsReloadQueryEvent
+            );
             done();
           });
       });
