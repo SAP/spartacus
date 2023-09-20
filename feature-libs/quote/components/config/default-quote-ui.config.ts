@@ -30,6 +30,11 @@ const defaultDialogMappings: ConfirmActionDialogMappingConfig = {
       i18nKey: 'quote.confirmActionDialog.buyer_offer.cancel',
       ...defaultConfirmActionDialogConfig,
     },
+    CHECKOUT: {
+      i18nKey: 'quote.confirmActionDialog.buyer_offer.checkout',
+      ...defaultConfirmActionDialogConfig,
+      showSuccessMessage: false,
+    },
   },
   EXPIRED: {
     EDIT: {

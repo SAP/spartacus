@@ -2,7 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { QuoteCartGuard } from './quote-cart.guard';
-import { RouterState, RoutingService } from '@spartacus/core';
+import {
+  ActivatedRouterStateSnapshot,
+  RouterState,
+  RoutingService,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { QuoteCartService } from './quote-cart.service';
 import { QUOTE_CODE } from '../../core/testing/quote-test-utils';
@@ -13,10 +17,20 @@ let quoteId: any;
 let checkoutAllowed: boolean;
 let routerState: any;
 
+const checkoutState: ActivatedRouterStateSnapshot = {
+  semanticRoute: 'checkout',
+  url: '',
+  queryParams: [],
+  params: [],
+  context: { id: '' },
+  cmsRequired: false,
+};
+
 const routerStateCheckout: RouterState = {
   navigationId: 0,
+  nextState: checkoutState,
   state: {
-    semanticRoute: 'checkout',
+    semanticRoute: 'quote',
     url: '',
     queryParams: [],
     params: [],
@@ -25,10 +39,16 @@ const routerStateCheckout: RouterState = {
   },
 };
 
+const routerStateCheckoutWoNextState: RouterState = {
+  ...routerStateCheckout,
+  nextState: undefined,
+  state: checkoutState,
+};
+
 const routerStateCart: RouterState = {
   ...routerStateCheckout,
-  state: {
-    ...routerStateCheckout.state,
+  nextState: {
+    ...checkoutState,
     semanticRoute: 'cart',
   },
 };
@@ -109,6 +129,17 @@ describe('QuoteCartGuard', () => {
     it('should allow a navigation to checkout if service allows it', (done) => {
       isQuoteCartActive = true;
       checkoutAllowed = true;
+      quoteId = QUOTE_CODE;
+      guard.canActivate().subscribe((result) => {
+        expect(result).toBe(true);
+        done();
+      });
+    });
+
+    it('should allow a navigation to checkout if service allows it, current state is checkout and nextState is undefined', (done) => {
+      isQuoteCartActive = true;
+      checkoutAllowed = true;
+      routerState = routerStateCheckoutWoNextState;
       quoteId = QUOTE_CODE;
       guard.canActivate().subscribe((result) => {
         expect(result).toBe(true);

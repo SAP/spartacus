@@ -106,6 +106,11 @@ export const quote = {
           confirmNote: 'Are you sure you want to cancel this quote?',
           successMessage: 'Quote cancelled',
         },
+        checkout: {
+          title: 'Checkout Quote {{ code }}?',
+          confirmNote:
+            'Are you sure you want to accept and checkout this quote?',
+        },
       },
       expired: {
         edit: {
