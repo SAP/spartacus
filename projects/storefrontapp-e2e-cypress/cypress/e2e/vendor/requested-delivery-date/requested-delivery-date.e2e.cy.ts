@@ -50,45 +50,45 @@ describe('Requested Delivery Date', { testIsolation: false }, () => {
   });
 
   describe('Requested Delivery Date in Checkout Flow', () => {
-    it('should be able to login as a b2b user', () => {
+    it('should be able to login as a b2b user (CXINT-1850)', () => {
       s4Helper.loginS4OMB2bUser();
     });
 
-    it('should add a S4 HANA product (TG-11) to cart', () => {
+    it('should add a S4 HANA product (TG-11) to cart (CXINT-1850)', () => {
       s4Helper.resetCart(); //clear the cart
       s4Helper.addB2bS4ProductToCart(); //Ensure that the cart has only 1 S4 product
     });
 
-    it('should proceed to checkout and select Account payment type', () => {
+    it('should proceed to checkout and select Account payment type (CXINT-1850)', () => {
       s4Helper.proceedtoCheckOutS4Product();
       b2bCheckout.enterPONumber(rddHelper.poNumber);
       b2bCheckout.selectAccountPayment();
     });
 
-    it('should select shipping address', () => {
+    it('should select shipping address (CXINT-1850)', () => {
       s4Helper.selectS4OMAccountShippingAddress();
     });
 
-    it('should select delivery mode and display Request Delivery Date form', () => {
+    it('should select delivery mode and display Request Delivery Date form (CXINT-1850)', () => {
       rddHelper.selectAccountDeliveryMode();
     });
 
-    it('should show an error when an invalid delivery date is provided', () => {
+    it('should show an error when an invalid delivery date is provided (CXINT-1850)', () => {
       rddHelper.updateRequestedDeliveryDate('10000-01-01');
       rddHelper.verifyDeliveryDateErrorMessage();
     });
 
-    it('should show an info message when the delivery date is updated', () => {
+    it('should show an info message when the delivery date is updated (CXINT-1850)', () => {
       rddHelper.updateRequestedDeliveryDate(inputDate);
       rddHelper.verifyDeliveryDateInfoMessage();
     });
 
-    it('should review and display the Requested Delivery Date', () => {
+    it('should review and display the Requested Delivery Date (CXINT-1850)', () => {
       rddHelper.proceedToOrderReviewPage();
       rddHelper.verifyRDDOrderReviewPage(formattedDate);
     });
 
-    it('should route back to the select delivery mode step when the edit button is clicked', () => {
+    it('should route back to the select delivery mode step when the edit button is clicked (CXINT-1850)', () => {
       rddHelper.editDeliveryMethodOrderReviewPage();
       rddHelper.proceedToOrderReviewPage();
     });
@@ -108,7 +108,7 @@ describe('Requested Delivery Date', { testIsolation: false }, () => {
       b2bCheckout.placeOrder('/order-confirmation');
     });
 
-    it('should display order confirmation summary page with Requested delivery date', () => {
+    it('should display order confirmation summary page with Requested delivery date (CXINT-1850)', () => {
       s4Helper.reviewB2bOrderDetail(
         s4Helper.s4omB2bAccountShipToUser,
         s4Helper.s4omProduct,
@@ -125,7 +125,7 @@ describe('Requested Delivery Date', { testIsolation: false }, () => {
   });
 
   describe('Requested Delivery Date in Order History', () => {
-    it('should be able to view order in order history with PO# and Cost center', () => {
+    it('should be able to view order in order history with PO# and Cost center (CXINT-1850)', () => {
       cy.visit('/my-account/orders');
       const ordersAlias = interceptOrdersEndpoint();
       waitForResponse(ordersAlias);
@@ -139,7 +139,7 @@ describe('Requested Delivery Date', { testIsolation: false }, () => {
       );
     });
 
-    it('should be able to view a past order detail in order detail page with requested delivery date information', () => {
+    it('should be able to view a past order detail in order detail page with requested delivery date information (CXINT-1850)', () => {
       cy.intercept({
         method: 'GET',
         pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(

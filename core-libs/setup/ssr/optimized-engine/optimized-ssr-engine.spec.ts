@@ -1194,6 +1194,7 @@ describe('OptimizedSsrEngine', () => {
               "maxRenderTime": 300000,
               "reuseCurrentRendering": true,
               "debug": false,
+              "renderingStrategyResolver": "(request) => {\\n    return shouldFallbackToCsr(request, options)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}",
               "logger": true
             }
           }
@@ -1206,20 +1207,25 @@ describe('OptimizedSsrEngine', () => {
         logger: new MockExpressServerLogger() as ExpressServerLogger,
       });
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-              [
-                "[spartacus] SSR optimization engine initialized",
-                {
-                  "options": {
-                    "concurrency": 10,
-                    "debug": false,
-                    "forcedSsrTimeout": 60000,
-                    "logger": "MockExpressServerLogger",
-                    "maxRenderTime": 300000,
-                    "reuseCurrentRendering": true,
-                    "timeout": 3000,
-                  },
-                },
-              ]
+    [
+      "[spartacus] SSR optimization engine initialized",
+      {
+        "options": {
+          "concurrency": 10,
+          "debug": false,
+          "forcedSsrTimeout": 60000,
+          "logger": "MockExpressServerLogger",
+          "maxRenderTime": 300000,
+          "renderingStrategyResolver": "(request) => {
+        return shouldFallbackToCsr(request, options)
+            ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR
+            : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
+    }",
+          "reuseCurrentRendering": true,
+          "timeout": 3000,
+        },
+      },
+    ]
             `);
     });
     it('should use the legacy server logger, if logger option not specified', () => {
@@ -1232,7 +1238,8 @@ describe('OptimizedSsrEngine', () => {
           "forcedSsrTimeout": 60000,
           "maxRenderTime": 300000,
           "reuseCurrentRendering": true,
-          "debug": false
+          "debug": false,
+          "renderingStrategyResolver": "(request) => {\\n    return shouldFallbackToCsr(request, options)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}"
         }",
         ]
       `);

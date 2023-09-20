@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-pdf-invoices/index#addPDFInvoicesFeature",
+      "description": "Add PDF Invoices feature",
+      "schema": "./add-pdf-invoices/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-pdf-invoices/index#addPDFInvoicesFeature",
+      "description": "Add and configure PDF Invoices feature",
+      "schema": "./add-pdf-invoices/schema.json"
+    }
+  }
+}
