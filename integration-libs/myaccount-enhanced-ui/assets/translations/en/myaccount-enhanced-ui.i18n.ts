@@ -36,6 +36,6 @@ export const myAccountEnhancedUI = {
     consignmentStatus: 'Consignment Status',
     consignmentStatusDate: 'Last Updated On',
     trackingID: 'Tracking Number',
-    estimateDelivery: 'Estimated Delivery Date'
+    estimateDelivery: 'Estimated Delivery Date',
   },
 };

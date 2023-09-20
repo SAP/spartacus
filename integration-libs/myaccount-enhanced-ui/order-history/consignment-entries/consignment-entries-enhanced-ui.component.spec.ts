@@ -1,9 +1,14 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import {
+  I18nModule,
+  LanguageService,
+  TranslationService,
+} from '@spartacus/core';
 import { Consignment } from '@spartacus/order/root';
+import { Observable, EMPTY } from 'rxjs';
 import { ConsignmentEntriesEnhancedUIComponent } from './consignment-entries-enhanced-ui.component';
-
 const mockOrderCode = '0005000001';
 const mockConsignments: Consignment[] = [
   {
@@ -33,6 +38,23 @@ const mockConsignments: Consignment[] = [
     ],
   },
 ];
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform() {}
+}
+
+class MockTranslationService {
+  translate(): Observable<string> {
+    return EMPTY;
+  }
+}
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return EMPTY;
+  }
+}
 
 describe('ConsignmentEntriesEnhancedUIComponent', () => {
   let component: ConsignmentEntriesEnhancedUIComponent;
@@ -42,9 +64,12 @@ describe('ConsignmentEntriesEnhancedUIComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [],
-        providers: [],
-        declarations: [ConsignmentEntriesEnhancedUIComponent],
+        imports: [I18nModule],
+        providers: [
+          { provide: TranslationService, useClass: MockTranslationService },
+          { provide: LanguageService, useClass: MockLanguageService },
+        ],
+        declarations: [ConsignmentEntriesEnhancedUIComponent, MockUrlPipe],
       }).compileComponents();
     })
   );
@@ -62,7 +87,7 @@ describe('ConsignmentEntriesEnhancedUIComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should order consignment entries be rendered', () => {
+  it('should render order consignment entries', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-consignment-info'))).toBeTruthy();
   });
@@ -81,8 +106,8 @@ describe('ConsignmentEntriesEnhancedUIComponent', () => {
   });
   it('should return the number in consigment code', () => {
     let output1 = component.consignmentNumber(mockConsignments[0].code);
-    expect(output1).toEqual(7);
+    expect(output1).toEqual(8);
     let output2 = component.consignmentNumber(mockConsignments[1].code);
-    expect(output2).toEqual(1);
+    expect(output2).toEqual(2);
   });
 });

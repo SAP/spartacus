@@ -39,8 +39,6 @@ export const mock_order_with_details_and_returns: OrderHistoryList = {
     {
       code: '0005000003',
       guid: 'efc8eee6-cb2a-4622-87c7-c43b9dc24300',
-      purchaseType: '???',
-      totalItems: 2,
       total: {
         currencyIso: 'USD',
         formattedValue: '$1,220.76',
@@ -76,21 +74,11 @@ export const mock_order_with_details_and_returns: OrderHistoryList = {
             zoom: {},
           },
         },
-        {
-          PRIMARY: {
-            cartIcon: {},
-            product: {},
-            thumbnail: {},
-            zoom: {},
-          },
-        },
       ],
     },
     {
       code: '0005000005',
-      guid: 'efc8eee6-cb2a-4622-87c7-c43b9dc24300',
-      purchaseType: '???',
-      totalItems: 2,
+      guid: 'efc8eee6-cb2a-4622-87c7-c43b9dc24301',
       total: {
         currencyIso: 'USD',
         formattedValue: '$6,220.76',
@@ -151,12 +139,35 @@ export const mock_order_with_details: OrderHistoryList = {
     {
       code: '0005000003',
       guid: 'efc8eee6-cb2a-4622-87c7-c43b9dc24300',
-      purchaseType: '???',
-      totalItems: 2,
       total: {
         currencyIso: 'USD',
         formattedValue: '$1,220.76',
         value: 1220.76,
+      },
+      unconsignedEntries: [],
+      deliveryConsignments: [],
+      pickupConsignments: [],
+      pickupUnconsignedEntries: [],
+      deliveryUnconsignedEntries: [],
+      returnRequests: [],
+      thumbnail: [
+        {
+          PRIMARY: {
+            cartIcon: {},
+            product: {},
+            thumbnail: {},
+            zoom: {},
+          },
+        },
+      ],
+    },
+    {
+      code: '0005000005',
+      guid: 'efc8eee6-cb2a-4622-87c7-c43b9dc24301',
+      total: {
+        currencyIso: 'USD',
+        formattedValue: '$6,220.76',
+        value: 6220.76,
       },
       unconsignedEntries: [],
       deliveryConsignments: [],
@@ -183,11 +194,53 @@ export const mock_order_with_details: OrderHistoryList = {
         },
       ],
     },
+  ],
+  pagination: {
+    currentPage: 0,
+    pageSize: 5,
+    sort: 'byDate',
+    totalPages: 1,
+    totalResults: 2,
+  },
+  sorts: [
+    { code: 'byDate', selected: true },
+    {
+      code: 'byOrderNumber',
+      selected: false,
+    },
+  ],
+};
+
+export const mock_order_with_details_2: OrderHistoryList = {
+  orders: [
+    {
+      code: '0005000003',
+      guid: 'efc8eee6-cb2a-4622-87c7-c43b9dc24300',
+      total: {
+        currencyIso: 'USD',
+        formattedValue: '$1,220.76',
+        value: 1220.76,
+      },
+      unconsignedEntries: [],
+      deliveryConsignments: [],
+      pickupConsignments: [],
+      pickupUnconsignedEntries: [],
+      deliveryUnconsignedEntries: [],
+      returnRequests: [],
+      thumbnail: [
+        {
+          PRIMARY: {
+            cartIcon: {},
+            product: {},
+            thumbnail: {},
+            zoom: {},
+          },
+        },
+      ],
+    },
     {
       code: '0005000005',
-      guid: 'efc8eee6-cb2a-4622-87c7-c43b9dc24300',
-      purchaseType: '???',
-      totalItems: 2,
+      guid: 'efc8eee6-cb2a-4622-87c7-c43b9dc24301',
       total: {
         currencyIso: 'USD',
         formattedValue: '$6,220.76',
@@ -239,12 +292,52 @@ export const mock_orderDetails_1 = {
   code: '0005000003',
   guid: 'efc8eee6-cb2a-4622-87c7-c43b9dc24300',
   totalItems: 2,
+  entries: [
+    {
+      product: {
+        images: {
+          PRIMARY: {
+            cartIcon: {},
+            product: {},
+            thumbnail: {},
+            zoom: {},
+          },
+        },
+      },
+    },
+  ],
 };
 
 export const mock_orderDetails_2 = {
   code: '0005000005',
   guid: 'efc8eee6-cb2a-4622-87c7-c43b9dc24301',
   totalItems: 2,
+  entries: [
+    {
+      product: {
+        images: {
+          PRIMARY: {
+            cartIcon: {},
+            product: {},
+            thumbnail: {},
+            zoom: {},
+          },
+        },
+      },
+    },
+    {
+      product: {
+        images: {
+          PRIMARY: {
+            cartIcon: {},
+            product: {},
+            thumbnail: {},
+            zoom: {},
+          },
+        },
+      },
+    },
+  ],
 };
 
 export const mock_orderHistoryList: OrderHistoryList = {
@@ -252,7 +345,6 @@ export const mock_orderHistoryList: OrderHistoryList = {
     {
       code: '0005000003',
       guid: 'efc8eee6-cb2a-4622-87c7-c43b9dc24300',
-      purchaseType: '???',
       total: {
         currencyIso: 'USD',
         formattedValue: '$1,220.76',
@@ -262,7 +354,6 @@ export const mock_orderHistoryList: OrderHistoryList = {
     {
       code: '0005000005',
       guid: 'efc8eee6-cb2a-4622-87c7-c43b9dc24301',
-      purchaseType: '???',
       total: {
         currencyIso: 'USD',
         formattedValue: '$6,220.76',

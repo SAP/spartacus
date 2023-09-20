@@ -72,7 +72,7 @@ export class OrderHistoryEnhancedUIAdapter extends OccOrderHistoryAdapter {
       currentPage,
       sort
     );
-    const returnRequestListRequest = super.loadReturnRequestList(userId);
+    const returnRequestListRequest = this.loadReturnRequestList(userId);
     return forkJoin([orderHistoryListRequest, returnRequestListRequest]);
   }
 
@@ -85,7 +85,7 @@ export class OrderHistoryEnhancedUIAdapter extends OccOrderHistoryAdapter {
     return super.loadHistory(userId, pageSize, currentPage, sort).pipe(
       switchMap((orderList: OrderHistoryList) => {
         const requests = orderList.orders?.map((order: OrderHistory) => {
-          return super.load(userId, order?.code ?? '').pipe(
+          return this.load(userId, order?.code ?? '').pipe(
             map((orderDetail) => {
               /** filling extra fields ---> */
 
@@ -112,22 +112,24 @@ export class OrderHistoryEnhancedUIAdapter extends OccOrderHistoryAdapter {
                 this.orderDetailsService.getGroupedConsignments(
                   orderDetail,
                   false
-                );
+                ) ?? [];
 
               //filling pickupConsignments
               order.pickupConsignments =
                 this.orderDetailsService.getGroupedConsignments(
                   orderDetail,
                   true
-                );
+                ) ?? [];
 
               //filling pickupUnconsignedEntries
               order.pickupUnconsignedEntries =
-                this.orderDetailsService.getUnconsignedEntries(order, true);
+                this.orderDetailsService.getUnconsignedEntries(order, true) ??
+                [];
 
               //filling deliveryUnConsignedEntries
               order.deliveryUnconsignedEntries =
-                this.orderDetailsService.getUnconsignedEntries(order, false);
+                this.orderDetailsService.getUnconsignedEntries(order, false) ??
+                [];
 
               //filling an empty return request array
               order.returnRequests = [];

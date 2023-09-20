@@ -1,6 +1,8 @@
-<ng-container *ngIf="consignmentTracking$ | async as consignmentTracking; else showLoading">
+<ng-container
+  *ngIf="consignmentTracking$ | async as consignmentTracking; else showLoading"
+>
   <ng-container *ngIf="consignmentTracking.trackingID">
-    <ng-container [attr.aria-label]="'orderHistoryEnhancedUI.trackingID' | cxTranslate">
+    <span [attr.aria-label]="'orderHistoryEnhancedUI.trackingID' | cxTranslate">
       {{ 'orderDetails.consignmentTracking.dialog.trackingId' | cxTranslate }}:
       <ng-container *ngIf="consignmentTracking?.trackingUrl; else showNumber">
         <a
@@ -11,8 +13,12 @@
         >
       </ng-container>
       |
-    </ng-container>
-    <span [attr.aria-label]="'orderHistoryEnhancedUI.estimateDelivery' | cxTranslate">
+    </span>
+    <span
+      [attr.aria-label]="
+        'orderHistoryEnhancedUI.estimateDelivery' | cxTranslate
+      "
+    >
       {{ 'orderDetails.consignmentTracking.dialog.estimate' | cxTranslate }}:
       {{ consignmentTracking?.targetArrivalDate | cxDate: 'd, MMMM, yyyy' }}
     </span>
