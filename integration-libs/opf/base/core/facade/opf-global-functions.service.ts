@@ -169,6 +169,39 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     };
   }
 
+  protected runSubmitComplete(
+    cartId: string,
+    additionalData: Array<KeyValuePair>,
+    callbackArray: [MerchantCallback, MerchantCallback, MerchantCallback],
+    paymentSessionId: string,
+    returnPath?: string | undefined,
+    vcr?: ViewContainerRef
+  ) {
+    return this.ngZone.run(() => {
+      let overlayedSpinner: void | Observable<ComponentRef<any> | undefined>;
+      if (vcr) {
+        overlayedSpinner = this.startLoaderSpinner(vcr);
+      }
+
+      return this.opfPaymentFacade
+        .submitCompletePayment({
+          additionalData,
+          paymentSessionId,
+          cartId,
+          callbackArray,
+          returnPath,
+        })
+        .pipe(
+          finalize(() => {
+            if (overlayedSpinner) {
+              this.stopLoaderSpinner(overlayedSpinner);
+            }
+          })
+        )
+        .toPromise();
+    });
+  }
+
   protected registerSubmitComplete(
     paymentSessionId: string,
     vcr?: ViewContainerRef
@@ -192,33 +225,14 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       submitPending: MerchantCallback;
       submitFailure: MerchantCallback;
     }): Promise<boolean> => {
-      return this.ngZone.run(() => {
-        let overlayedSpinner: void | Observable<ComponentRef<any> | undefined>;
-        if (vcr) {
-          overlayedSpinner = this.startLoaderSpinner(vcr);
-        }
-        const callbackArray: [
-          MerchantCallback,
-          MerchantCallback,
-          MerchantCallback
-        ] = [submitSuccess, submitPending, submitFailure];
-
-        return this.opfPaymentFacade
-          .submitCompletePayment({
-            additionalData,
-            paymentSessionId,
-            cartId,
-            callbackArray,
-          })
-          .pipe(
-            finalize(() => {
-              if (overlayedSpinner) {
-                this.stopLoaderSpinner(overlayedSpinner);
-              }
-            })
-          )
-          .toPromise();
-      });
+      return this.runSubmitComplete(
+        cartId,
+        additionalData,
+        [submitSuccess, submitPending, submitFailure],
+        paymentSessionId,
+        undefined,
+        vcr
+      );
     };
   }
 
@@ -245,34 +259,14 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       submitPending: MerchantCallback;
       submitFailure: MerchantCallback;
     }): Promise<boolean> => {
-      return this.ngZone.run(() => {
-        let overlayedSpinner: void | Observable<ComponentRef<any> | undefined>;
-        if (vcr) {
-          overlayedSpinner = this.startLoaderSpinner(vcr);
-        }
-        const callbackArray: [
-          MerchantCallback,
-          MerchantCallback,
-          MerchantCallback
-        ] = [submitSuccess, submitPending, submitFailure];
-
-        return this.opfPaymentFacade
-          .submitCompletePayment({
-            additionalData,
-            paymentSessionId,
-            cartId,
-            callbackArray,
-            returnPath: 'checkoutReviewOrder',
-          })
-          .pipe(
-            finalize(() => {
-              if (overlayedSpinner) {
-                this.stopLoaderSpinner(overlayedSpinner);
-              }
-            })
-          )
-          .toPromise();
-      });
+      return this.runSubmitComplete(
+        cartId,
+        additionalData,
+        [submitSuccess, submitPending, submitFailure],
+        paymentSessionId,
+        'checkoutReviewOrder',
+        vcr
+      );
     };
   }
 }

@@ -15,7 +15,7 @@ import {
 
 import { Order } from '@spartacus/order/root';
 import { Observable, from, of, throwError } from 'rxjs';
-import { concatMap, filter, take } from 'rxjs/operators';
+import { concatMap, filter, map, take, tap } from 'rxjs/operators';
 import {
   OpfGlobalFunctionsFacade,
   OpfOrderFacade,
@@ -56,9 +56,6 @@ export class OpfPaymentVerificationService {
   };
 
   protected getParamsMap(params: Params): Array<KeyValuePair> {
-    if (!params) {
-      return [];
-    }
     return Object.entries(params).map((pair) => {
       return { key: pair[0], value: pair[1] as string };
     });
@@ -112,11 +109,11 @@ export class OpfPaymentVerificationService {
         });
   }
 
-  placeOrder(): Observable<Order> {
+  protected placeOrder(): Observable<Order> {
     return this.opfOrderFacade.placeOpfOrder(true);
   }
 
-  verifyPayment(
+  protected verifyPayment(
     paymentSessionId: string,
     responseMap: Array<KeyValuePair>
   ): Observable<boolean> {
@@ -131,7 +128,7 @@ export class OpfPaymentVerificationService {
       );
   }
 
-  isPaymentSuccessful(
+  protected isPaymentSuccessful(
     response: OpfPaymentVerificationResponse
   ): Observable<boolean> {
     if (
@@ -183,6 +180,20 @@ export class OpfPaymentVerificationService {
       });
   }
 
+  runHostedPagePattern(paymentSessionId: string, paramsMap: KeyValuePair[]) {
+    return this.verifyPayment(paymentSessionId, paramsMap).pipe(
+      concatMap(() => {
+        return this.placeOrder();
+      }),
+      map((order) => !!order),
+      tap((success: boolean) => {
+        if (success) {
+          this.goToPage('orderConfirmation');
+        }
+      })
+    );
+  }
+
   runHostedFieldsPattern(
     targetPage: TargetPage,
     paymentSessionId: string,
@@ -208,7 +219,7 @@ export class OpfPaymentVerificationService {
     );
   }
 
-  renderAfterRedirectScripts(
+  protected renderAfterRedirectScripts(
     script: AfterRedirectDynamicScript
   ): Promise<boolean> {
     const html = script?.html;

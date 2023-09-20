@@ -8,7 +8,6 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorModel } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
 import { of, throwError } from 'rxjs';
 import { KeyValuePair } from '../../model';
 import { OpfPaymentVerificationComponent } from './opf-payment-verification.component';
@@ -33,12 +32,11 @@ describe('OpfPaymentVerificationComponent', () => {
     paymentServiceMock = jasmine.createSpyObj('OpfPaymentVerificationService', [
       'checkIfProcessingCartIdExist',
       'verifyResultUrl',
-      'verifyPayment',
-      'placeOrder',
       'goToPage',
       'displayError',
       'removeResourcesAndGlobalFunctions',
       'runHostedFieldsPattern',
+      'runHostedPagePattern',
     ]);
 
     TestBed.configureTestingModule({
@@ -83,22 +81,20 @@ describe('OpfPaymentVerificationComponent', () => {
         paramsMap: mockResponseMap,
         afterRedirectScriptFlag: mockAfterRedirectScriptFlag,
       };
-      const mockPlaceOrderResult: Order = { guid: 'placeOrderResult' };
 
       paymentServiceMock.verifyResultUrl.and.returnValue(of(mockVerifyResult));
-      paymentServiceMock.verifyPayment.and.returnValue(of(true));
-      paymentServiceMock.placeOrder.and.returnValue(of(mockPlaceOrderResult));
+      paymentServiceMock.runHostedFieldsPattern.and.returnValue(of(true));
+      paymentServiceMock.runHostedPagePattern.and.returnValue(of(true));
 
       component.ngOnInit();
 
       expect(paymentServiceMock.verifyResultUrl).toHaveBeenCalledWith(
         routeMock
       );
-      expect(paymentServiceMock.verifyPayment).toHaveBeenCalledWith(
+      expect(paymentServiceMock.runHostedPagePattern).toHaveBeenCalledWith(
         mockPaymentSessionId,
         mockResponseMap
       );
-      expect(paymentServiceMock.placeOrder).toHaveBeenCalled();
     });
 
     it('should handle error scenario', () => {
@@ -111,7 +107,9 @@ describe('OpfPaymentVerificationComponent', () => {
       };
 
       paymentServiceMock.verifyResultUrl.and.returnValue(of(mockVerifyResult));
-      paymentServiceMock.verifyPayment.and.returnValue(throwError(mockError));
+      paymentServiceMock.runHostedPagePattern.and.returnValue(
+        throwError(mockError)
+      );
 
       spyOn(component, 'onError');
 
@@ -120,7 +118,24 @@ describe('OpfPaymentVerificationComponent', () => {
       expect(component.onError).toHaveBeenCalledWith(mockError);
     });
 
-    it('should handle HostedField pattern scenario', () => {
+    it('should call onError when payment fails', () => {
+      const mockVerifyResult = {
+        paymentSessionId: '1',
+        paramsMap: [],
+        afterRedirectScriptFlag: 'false',
+      };
+
+      paymentServiceMock.verifyResultUrl.and.returnValue(of(mockVerifyResult));
+      paymentServiceMock.runHostedPagePattern.and.returnValue(of(false));
+
+      spyOn(component, 'onError');
+
+      component.ngOnInit();
+
+      expect(component.onError).toHaveBeenCalledWith(undefined);
+    });
+
+    it('should handle HostedField pattern successful scenario', () => {
       const mockVerifyResultWithFlag = {
         paymentSessionId: '1',
         paramsMap: [],
@@ -134,16 +149,7 @@ describe('OpfPaymentVerificationComponent', () => {
       component.ngOnInit();
 
       expect(paymentServiceMock.runHostedFieldsPattern).toHaveBeenCalled();
-      expect(paymentServiceMock.verifyPayment).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('onSuccess', () => {
-    it('should call paymentService.goToPage with "orderConfirmation"', () => {
-      component.onSuccess();
-      expect(paymentServiceMock.goToPage).toHaveBeenCalledWith(
-        'orderConfirmation'
-      );
+      expect(paymentServiceMock.runHostedPagePattern).not.toHaveBeenCalled();
     });
   });
 

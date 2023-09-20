@@ -8,10 +8,10 @@ import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorModel } from '@spartacus/core';
 
-import { Subscription } from 'rxjs';
-import { concatMap, map, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
 
-import { TargetPage } from '../../model';
+import { KeyValuePair, TargetPage } from '../../model';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 @Component({
@@ -39,31 +39,12 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
             paymentSessionId,
             paramsMap: paramsMap,
             afterRedirectScriptFlag,
-          }) => {
-            if (afterRedirectScriptFlag === 'true') {
-              this.isHostedFieldPattern = true;
-              return this.paymentService.runHostedFieldsPattern(
-                TargetPage.RESULT,
-                paymentSessionId,
-                this.vcr,
-                paramsMap
-              );
-            } else {
-              return this.paymentService
-                .verifyPayment(paymentSessionId, paramsMap)
-                .pipe(
-                  concatMap(() => {
-                    return this.paymentService.placeOrder();
-                  }),
-                  map((order) => !!order),
-                  tap((success: boolean) => {
-                    if (success) {
-                      this.onSuccess();
-                    }
-                  })
-                );
-            }
-          }
+          }) =>
+            this.runPaymentPattern({
+              paymentSessionId,
+              paramsMap,
+              afterRedirectScriptFlag,
+            })
         )
       )
       .subscribe({
@@ -76,8 +57,29 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
       });
   }
 
-  onSuccess(): void {
-    this.paymentService.goToPage('orderConfirmation');
+  protected runPaymentPattern({
+    paymentSessionId,
+    paramsMap,
+    afterRedirectScriptFlag,
+  }: {
+    paymentSessionId: string;
+    paramsMap: KeyValuePair[];
+    afterRedirectScriptFlag?: string;
+  }): Observable<boolean> {
+    if (afterRedirectScriptFlag === 'true') {
+      this.isHostedFieldPattern = true;
+      return this.paymentService.runHostedFieldsPattern(
+        TargetPage.RESULT,
+        paymentSessionId,
+        this.vcr,
+        paramsMap
+      );
+    } else {
+      return this.paymentService.runHostedPagePattern(
+        paymentSessionId,
+        paramsMap
+      );
+    }
   }
 
   onError(error: HttpErrorModel | undefined): void {
