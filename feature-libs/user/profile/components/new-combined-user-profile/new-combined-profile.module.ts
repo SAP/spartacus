@@ -22,11 +22,12 @@ import {
   SpinnerModule,
   NgSelectA11yModule,
   MessageComponentModule,
+  PageSlotModule,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { NewCombinedProfileComponent } from './new-combined-profile.component';
-import { NewProfileModule } from '../new-user-profile';
-import { NewEmailModule } from '../new-email';
+import { NewProfileComponentService, NewProfileModule } from '../new-user-profile';
+import { NewEmailComponentService, NewEmailModule } from '../new-email';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { NewEmailModule } from '../new-email';
     MessageComponentModule,
     NewProfileModule,
     NewEmailModule,
+    PageSlotModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -56,11 +58,14 @@ import { NewEmailModule } from '../new-email';
               useClass: NewCombinedProfileComponent,
               deps: [UserProfileFacade, GlobalMessageService],
             },
+            NewEmailComponentService,
+            NewProfileComponentService,
           ],
         },
       },
     }),
   ],
   declarations: [NewCombinedProfileComponent],
+  exports: [NewCombinedProfileComponent],
 })
 export class NewCombinedProfileModule {}
