@@ -1,4 +1,4 @@
-<!-- <div class="cx-cdp-side">
+<div class="cx-cdp-side">
   <table >
     <td>
       <ng-container *ngIf="user$ | async as user">
@@ -21,14 +21,8 @@
   </table>
   </div>
   <ng-template #title>
-    <div *ngIf="user$ | async as user">
+    <!-- <div *ngIf="user$ | async as user">
       {{ user.title }}{{ 'cdpOrderHistory.dot' | cxTranslate }}{{ user.name }}
-    </div>
-  </ng-template> -->
-<cx-navigation-ui
-  *ngIf="node$ | async as node"
-  [node]="node"
-  [flyout]="false"
-  [ngClass]="(styleClass$ | async) ?? ''"
-  [navAriaLabel]= "'cdpOrderHistory.sideNavigation' | cxTranslate "
-></cx-navigation-ui>
+    </div> -->
+  </ng-template>
+

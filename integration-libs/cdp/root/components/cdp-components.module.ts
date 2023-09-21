@@ -10,6 +10,8 @@ import { CdpMyAccountModule } from './cdp-my-account';
 import { CdpMyAccountSideNavigationModule } from './cdp-my-account-side-navigation/cdp-my-account-side-navigation.module';
 import { OrderModule } from './cdp-order/cdp-order.module';
 import { CdpMyAccountRequestsModule } from './cdp-my-account-requests/cdp-my-account-requests.module';
+import { CdpMyAccountNameModule } from './cdp-my-account-name';
+import { CdpBannerModule } from './cdp-banner';
 
 @NgModule({
   imports: [
@@ -23,7 +25,8 @@ import { CdpMyAccountRequestsModule } from './cdp-my-account-requests/cdp-my-acc
     CdpMyAccountModule,
     CdpMyAccountSideNavigationModule,
     CdpMyAccountRequestsModule,
-    // OrderModule,
+    CdpMyAccountNameModule,
+    CdpBannerModule,
   ],
 })
 export class CdpComponentsModule {}
