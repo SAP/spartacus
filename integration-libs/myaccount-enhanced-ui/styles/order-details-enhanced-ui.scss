@@ -1,0 +1,14 @@
+.cx-order-details-enhanced-ui-actions {
+  justify-content: left;
+  padding: 1rem 0 2rem;
+
+  div:empty {
+    display: none;
+  }
+
+  .btn-secondary {
+    @include media-breakpoint-down(md) {
+      margin: 0 0 1rem;
+    }
+  }
+}
