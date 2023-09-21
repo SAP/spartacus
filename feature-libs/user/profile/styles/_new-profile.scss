@@ -55,4 +55,13 @@
   .ng-select .ng-select-container {
     background-color: $background;
   }
+
+  form {
+    label {
+      padding-bottom: 0.75rem !important;
+    }
+  }
+  label {
+    padding-bottom: 0.3rem ;
+  }
 }

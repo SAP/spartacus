@@ -66,4 +66,13 @@
     justify-content: space-between;
     width: 40%;
   }
+
+  form {
+    label {
+      padding-bottom: 0.75rem !important;
+    }
+  }
+  label {
+    padding-bottom: 0.3rem ;
+  }
 }
