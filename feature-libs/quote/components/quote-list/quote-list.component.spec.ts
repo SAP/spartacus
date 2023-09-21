@@ -215,40 +215,56 @@ describe('QuoteListComponent', () => {
       1
     );
   });
-
-  describe('getBuyerQuoteStatus', () => {
-    it('should return an empty string in case state is not a buyer one', () => {
-      expect(component['getBuyerQuoteStatus'](QuoteState.SELLER_DRAFT)).toBe(
-        ''
-      );
-    });
-  });
-
-  describe('getSellerQuoteStatus', () => {
-    it('should return an empty string in case state is not a seller one', () => {
-      expect(component['getSellerQuoteStatus'](QuoteState.BUYER_DRAFT)).toBe(
-        ''
-      );
-    });
-  });
-
-  describe('getSellerApproverQuoteStatus', () => {
-    it('should return an empty string in case state is not a seller approver one', () => {
-      expect(
-        component['getSellerApproverQuoteStatus'](QuoteState.BUYER_DRAFT)
-      ).toBe('');
-    });
-  });
-
-  describe('getGeneralQuoteStatus', () => {
-    it('should return an empty string in case state is not a general one', () => {
-      expect(component['getGeneralQuoteStatus'](QuoteState.BUYER_DRAFT)).toBe(
-        ''
-      );
-    });
-  });
-
   describe('getQuoteStateClass', () => {
+    it('should find proper style class for quote state', () => {
+      expect(
+        component.getQuoteStateClass(QuoteState.SELLERAPPROVER_DRAFT)
+      ).toBe('quote-draft');
+    });
+    it('should find proper style class for quote state in case quote state does not contain underscore', () => {
+      expect(component.getQuoteStateClass(QuoteState.EXPIRED)).toBe(
+        'quote-expired'
+      );
+    });
+  });
+
+  describe('Rendering using getQuoteStateClass', () => {
+    it("should apply corresponding class for 'CREATED' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.CREATED }],
+        },
+      });
+      fixture.detectChanges();
+
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-created',
+        'quote.states.CREATED'
+      );
+    });
+
+    it("should apply corresponding class for 'SELLERAPPROVER_DRAFT' quote status", () => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.SELLERAPPROVER_DRAFT }],
+        },
+      });
+      fixture.detectChanges();
+
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'tbody tr:first-child .cx-status a.quote-draft',
+        'quote.states.SELLERAPPROVER_DRAFT'
+      );
+    });
+
     it("should apply a class for 'BUYER_DRAFT' quote status", () => {
       mockQuoteListState$.next({
         ...mockQuoteListState,
