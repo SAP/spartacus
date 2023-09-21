@@ -529,8 +529,8 @@
       "@spartacus/myaccount-enhanced-ui": [
         "../../integration-libs/myaccount-enhanced-ui/public_api"
       ],
-      "@spartacus/myaccount-enhanced-ui/order-history": [
-        "../../integration-libs/myaccount-enhanced-ui/order-history/public_api"
+      "@spartacus/myaccount-enhanced-ui/order": [
+        "../../integration-libs/myaccount-enhanced-ui/order/public_api"
       ],
       "@spartacus/s4om/assets": [
         "../../integration-libs/s4om/assets/public_api"

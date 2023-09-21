@@ -20,10 +20,10 @@
   },
   "peerDependencies": {
     "@angular/core": "^15.2.9",
-    "@spartacus/cart": "6.3.0-1",
-    "@spartacus/core": "6.3.0-1",
-    "@spartacus/order": "6.3.0-1",
-    "@spartacus/user": "6.3.0-1"
+    "@spartacus/cart": "6.4.0-1",
+    "@spartacus/core": "6.4.0-1",
+    "@spartacus/order": "6.4.0-1",
+    "@spartacus/user": "6.4.0-1"
   },
   "optionalDependencies": {
     "@angular/platform-server": "^15.2.9",

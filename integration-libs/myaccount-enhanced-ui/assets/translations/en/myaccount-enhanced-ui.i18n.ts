@@ -38,4 +38,11 @@ export const myAccountEnhancedUI = {
     trackingID: 'Tracking Number',
     estimateDelivery: 'Estimated Delivery Date',
   },
+  orderDetailsEnhancedUI: {
+    returnItems: 'Return Items',
+    cancelItems: 'Cancel Items',
+    downloadInvoices: 'Download Invoices',
+    viewAllOrders: 'View All Orders',
+    noInvoices: 'Invoices are not yet generated - Come back later!',
+  },
 };

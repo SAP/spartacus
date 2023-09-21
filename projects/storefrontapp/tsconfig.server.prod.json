@@ -389,8 +389,8 @@
         "../../dist/myaccount-enhanced-ui/assets"
       ],
       "@spartacus/myaccount-enhanced-ui": ["../../dist/myaccount-enhanced-ui"],
-      "@spartacus/myaccount-enhanced-ui/order-history": [
-        "../../dist/myaccount-enhanced-ui/order-history"
+      "@spartacus/myaccount-enhanced-ui/order": [
+        "../../dist/myaccount-enhanced-ui/order"
       ],
       "@spartacus/s4om/assets": ["../../dist/s4om/assets"],
       "@spartacus/s4om": ["../../dist/s4om"],

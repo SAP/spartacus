@@ -27,6 +27,7 @@
     "@spartacus/cart": "6.4.0-1",
     "@spartacus/core": "6.4.0-1",
     "@spartacus/order": "6.4.0-1",
+    "@spartacus/pdf-invoices": "6.3.0-1",
     "@spartacus/schematics": "6.4.0-1",
     "@spartacus/storefront": "6.4.0-1",
     "@spartacus/styles": "6.4.0-1",
