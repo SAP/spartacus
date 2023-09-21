@@ -265,11 +265,9 @@ export class NewConsentManagementComponent implements OnInit, OnDestroy {
         }
       })
     );
-    const checkTimesLoaded$ = withdraw$.pipe(
+    return withdraw$.pipe(
       filter((timesLoaded) => timesLoaded === consentsToWithdraw.length)
     );
-
-    return checkTimesLoaded$;
   }
 
   allowAll(templates: ConsentTemplate[] = []): void {
@@ -277,11 +275,10 @@ export class NewConsentManagementComponent implements OnInit, OnDestroy {
     templates.forEach((template) => {
       if (
         template.currentConsent &&
-        this.userConsentService.isConsentWithdrawn(template.currentConsent)
+        this.userConsentService.isConsentWithdrawn(template.currentConsent) &&
+        this.isRequiredConsent(template)
       ) {
-        if (this.isRequiredConsent(template)) {
-          return;
-        }
+        return;
       }
       consentsToGive.push(template);
     });
@@ -317,11 +314,9 @@ export class NewConsentManagementComponent implements OnInit, OnDestroy {
         }
       })
     );
-    const checkTimesLoaded$ = giveConsent$.pipe(
+    return giveConsent$.pipe(
       filter((timesLoaded) => timesLoaded === consentsToGive.length)
     );
-
-    return checkTimesLoaded$;
   }
 
   private isRequiredConsent(template: ConsentTemplate): boolean {
