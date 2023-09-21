@@ -14,12 +14,17 @@ import {
   HttpResponseStatus,
   Priority,
 } from '@spartacus/core';
+import { QuoteCartService } from '@spartacus/quote/root';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuoteBadRequestHandler extends HttpErrorHandler {
-  constructor(protected globalMessageService: GlobalMessageService) {
+  constructor(
+    protected globalMessageService: GlobalMessageService,
+    protected quoteCartService: QuoteCartService
+  ) {
     super(globalMessageService);
   }
   responseStatus = HttpResponseStatus.BAD_REQUEST;
@@ -40,6 +45,10 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
     if (this.getCartValidationErrors(response).length > 0) {
       this.handleCartValidationIssues();
     }
+
+    if (this.getDomainErrors(response).length > 0) {
+      this.handleDomainErrors(this.quoteCartService);
+    }
   }
 
   protected getQuoteThresholdErrors(response: HttpErrorResponse): ErrorModel[] {
@@ -51,6 +60,12 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
   protected getCartValidationErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors ?? []).filter(
       (error: ErrorModel) => error.type === 'CartValidationError'
+    );
+  }
+
+  protected getDomainErrors(response: HttpErrorResponse): ErrorModel[] {
+    return (response.error?.errors ?? []).filter(
+      (error: ErrorModel) => error.type === 'DomainError'
     );
   }
 
@@ -83,6 +98,22 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
+  }
+
+  protected handleDomainErrors(quoteCartService: QuoteCartService) {
+    quoteCartService
+      .isQuoteCartActive()
+      .pipe(take(1))
+      .subscribe((isActive) => {
+        if (isActive) {
+          this.globalMessageService.add(
+            {
+              key: 'quote.httpHandlers.quoteCartIssue',
+            },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        }
+      });
   }
 
   protected handleIllegalArgumentIssues(message: string) {

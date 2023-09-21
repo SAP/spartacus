@@ -108,6 +108,11 @@ export const quote = {
           confirmNote: 'Are you sure you want to cancel this quote?',
           successMessage: 'Quote cancelled',
         },
+        checkout: {
+          title: 'Checkout Quote {{ code }}?',
+          confirmNote:
+            'Are you sure you want to accept and checkout this quote?',
+        },
       },
       expired: {
         edit: {
@@ -173,6 +178,8 @@ export const quote = {
     httpHandlers: {
       cartValidationIssue:
         'Quote request not possible because we found problems with your entries. Please review your cart.',
+      quoteCartIssue:
+        'Not possible to do changes to cart entries. Proceed to checkout',
       absoluteDiscountIssue:
         'Choose a discount that does not exceed the total value',
       expirationDateIssue: 'Choose an expiration date in the future',

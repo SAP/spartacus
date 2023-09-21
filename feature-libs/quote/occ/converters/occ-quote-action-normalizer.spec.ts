@@ -25,6 +25,12 @@ const SUBMIT_EDIT_CANCEL_UNORDERED = [
   QuoteActionType.CANCEL,
 ];
 
+const CHECKOUT_EDIT_CANCEL_UNORDERED = [
+  QuoteActionType.CHECKOUT,
+  QuoteActionType.EDIT,
+  QuoteActionType.CANCEL,
+];
+
 let isQuoteCartActive: any;
 let quoteId: any;
 class MockQuoteCartService {
@@ -79,6 +85,11 @@ describe('OccQuoteActionNormalizer', () => {
               QuoteActionType.CANCEL,
               QuoteActionType.EDIT,
               QuoteActionType.SUBMIT,
+            ],
+            BUYER_OFFER: [
+              QuoteActionType.CANCEL,
+              QuoteActionType.EDIT,
+              QuoteActionType.CHECKOUT,
             ],
           },
           primaryActions: [QuoteActionType.SUBMIT],
@@ -192,6 +203,21 @@ describe('OccQuoteActionNormalizer', () => {
       expect(orderedActions).toEqual([
         QuoteActionType.CANCEL,
         QuoteActionType.SUBMIT,
+      ]);
+    });
+
+    it('should not remove edit action in case quote cart is linked to current quote for state BUYER_OFFER', () => {
+      isQuoteCartActive = true;
+      quoteId = QUOTE_CODE;
+      const orderedActions = service['getOrderedActions'](
+        QuoteState.BUYER_OFFER,
+        CHECKOUT_EDIT_CANCEL_UNORDERED,
+        QUOTE_CODE
+      );
+      expect(orderedActions).toEqual([
+        QuoteActionType.CANCEL,
+        QuoteActionType.EDIT,
+        QuoteActionType.CHECKOUT,
       ]);
     });
   });

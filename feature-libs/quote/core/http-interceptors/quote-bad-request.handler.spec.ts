@@ -7,6 +7,8 @@ import {
   Priority,
 } from '@spartacus/core';
 import { QuoteBadRequestHandler } from './quote-bad-request.handler';
+import { of } from 'rxjs';
+import { QuoteCartService } from '@spartacus/quote/root';
 
 const mockRequest = {} as HttpRequest<any>;
 
@@ -27,6 +29,16 @@ const mockCartValidationResponse = {
     errors: [
       {
         type: 'CartValidationError',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
+const mockDomainErrorResponse = {
+  error: {
+    errors: [
+      {
+        type: 'DomainError',
       },
     ],
   },
@@ -74,6 +86,13 @@ class MockGlobalMessageService {
   add() {}
   remove() {}
 }
+let isQuoteCartActive: any;
+
+class MockQuoteCartService {
+  isQuoteCartActive() {
+    return of(isQuoteCartActive);
+  }
+}
 
 describe('QuoteBadRequestHandler', () => {
   let service: QuoteBadRequestHandler;
@@ -87,10 +106,12 @@ describe('QuoteBadRequestHandler', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        { provide: QuoteCartService, useClass: MockQuoteCartService },
       ],
     });
     service = TestBed.inject(QuoteBadRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    isQuoteCartActive = false;
   });
 
   it('should be created', () => {
@@ -120,6 +141,26 @@ describe('QuoteBadRequestHandler', () => {
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
         key: 'quote.httpHandlers.cartValidationIssue',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should do nothing on domain error issues in case cart is not linked to quote', () => {
+    spyOn(globalMessageService, 'add');
+    service.handleError(mockRequest, mockDomainErrorResponse);
+
+    expect(globalMessageService.add).not.toHaveBeenCalled();
+  });
+
+  it('should handle domain error issues in case cart is linked to quote', () => {
+    isQuoteCartActive = true;
+    spyOn(globalMessageService, 'add');
+    service.handleError(mockRequest, mockDomainErrorResponse);
+
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'quote.httpHandlers.quoteCartIssue',
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
