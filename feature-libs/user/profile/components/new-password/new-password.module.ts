@@ -43,7 +43,7 @@ import { NewPasswordComponent } from './new-password.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        UpdatePasswordComponent: {
+        NewPasswordComponent: {
           component: NewPasswordComponent,
           guards: [AuthGuard],
           providers: [
