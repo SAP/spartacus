@@ -11,8 +11,21 @@
         <div class="header">
           {{ 'newConsentManagement.header' | cxTranslate }}
         </div>
-        <div class="message">
-          {{ 'newConsentManagement.message' | cxTranslate }}
+        <div class="cx-consent-action-links">
+          <button
+            tabindex="0"
+            class="btn btn-link cx-action-link"
+            (click)="rejectAll(templateList)"
+          >
+            {{ 'newConsentManagement.clearAll' | cxTranslate }}
+          </button>
+          <button
+            tabindex="0"
+            class="btn btn-link cx-action-link"
+            (click)="allowAll(templateList)"
+          >
+            {{ 'newConsentManagement.selectAll' | cxTranslate }}
+          </button>
         </div>
         <cx-new-consent-management-form
           *ngFor="let consentTemplate of templateList"

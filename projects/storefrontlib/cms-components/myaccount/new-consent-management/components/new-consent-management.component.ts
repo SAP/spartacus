@@ -14,8 +14,22 @@ import {
   GlobalMessageType,
   UserConsentService,
 } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  combineLatest,
+  concat,
+  Observable,
+  Subscription,
+} from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  scan,
+  skipWhile,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { ConsentManagementComponentService } from '../../consent-management/consent-management-component.service';
 
 @Component({
@@ -205,6 +219,120 @@ export class NewConsentManagementComponent implements OnInit, OnDestroy {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     }
+  }
+
+  rejectAll(templates: ConsentTemplate[] = []): void {
+    const consentsToWithdraw: ConsentTemplate[] = [];
+    templates.forEach((template) => {
+      if (
+        template.currentConsent &&
+        this.userConsentService.isConsentGiven(template.currentConsent)
+      ) {
+        if (this.isRequiredConsent(template)) {
+          return;
+        }
+        consentsToWithdraw.push(template);
+      }
+    });
+
+    this.allConsentsLoading.next(true);
+
+    this.subscriptions.add(
+      this.setupWithdrawalStream(consentsToWithdraw)
+        .pipe(tap((_timesLoaded) => this.allConsentsLoading.next(false)))
+        .subscribe()
+    );
+  }
+
+  private setupWithdrawalStream(
+    consentsToWithdraw: ConsentTemplate[] = []
+  ): Observable<number> {
+    const loading$ = concat(
+      this.userConsentService.getWithdrawConsentResultLoading()
+    ).pipe(
+      distinctUntilChanged(),
+      filter((loading) => !loading)
+    );
+    const count$ = loading$.pipe(scan((acc, _value) => acc + 1, -1));
+    const withdraw$ = count$.pipe(
+      tap((i) => {
+        if (i < consentsToWithdraw.length) {
+          const code = consentsToWithdraw[i].currentConsent?.code;
+          const id = consentsToWithdraw[i]?.id;
+          if (code) {
+            this.userConsentService.withdrawConsent(code, id);
+          }
+        }
+      })
+    );
+    const checkTimesLoaded$ = withdraw$.pipe(
+      filter((timesLoaded) => timesLoaded === consentsToWithdraw.length)
+    );
+
+    return checkTimesLoaded$;
+  }
+
+  allowAll(templates: ConsentTemplate[] = []): void {
+    const consentsToGive: ConsentTemplate[] = [];
+    templates.forEach((template) => {
+      if (
+        template.currentConsent &&
+        this.userConsentService.isConsentWithdrawn(template.currentConsent)
+      ) {
+        if (this.isRequiredConsent(template)) {
+          return;
+        }
+      }
+      consentsToGive.push(template);
+    });
+
+    this.allConsentsLoading.next(true);
+
+    this.subscriptions.add(
+      this.setupGiveStream(consentsToGive)
+        .pipe(tap((_timesLoaded) => this.allConsentsLoading.next(false)))
+        .subscribe()
+    );
+  }
+
+  private setupGiveStream(
+    consentsToGive: ConsentTemplate[] = []
+  ): Observable<number> {
+    const loading$ = concat(
+      this.userConsentService.getGiveConsentResultLoading()
+    ).pipe(
+      distinctUntilChanged(),
+      filter((loading) => !loading)
+    );
+    const count$ = loading$.pipe(
+      scan((acc: number, _value: any) => acc + 1, -1)
+    );
+    const giveConsent$ = count$.pipe(
+      tap((i) => {
+        if (i < consentsToGive.length) {
+          const consent = consentsToGive[i];
+          if (consent.id && consent.version !== undefined) {
+            this.userConsentService.giveConsent(consent.id, consent.version);
+          }
+        }
+      })
+    );
+    const checkTimesLoaded$ = giveConsent$.pipe(
+      filter((timesLoaded) => timesLoaded === consentsToGive.length)
+    );
+
+    return checkTimesLoaded$;
+  }
+
+  private isRequiredConsent(template: ConsentTemplate): boolean {
+    return Boolean(
+      template.id &&
+        this.anonymousConsentsConfig.anonymousConsents &&
+        this.anonymousConsentsConfig.anonymousConsents?.requiredConsents &&
+        this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
+          template.id
+        )
+    );
   }
 
   ngOnDestroy(): void {

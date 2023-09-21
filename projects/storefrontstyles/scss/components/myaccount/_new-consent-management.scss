@@ -21,4 +21,14 @@
   .consent-form-container {
     max-width: $grid-gutter-width * 29.8333333;
   }
+
+  .cx-consent-action-links {
+    text-align: end;
+    margin: 0 0 1rem;
+    .cx-action-link {
+      font-weight: var(--cx-font-weight-semi);
+      font-family: $font-family-sans-serif;
+      font-size: $font-size-base;
+    }
+  }
 }

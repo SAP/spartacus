@@ -62,9 +62,15 @@ export const myAccount = {
   },
   newConsentManagement: {
     header: 'Consent Management',
-    message:
-      'We use cookies/browser’s storage to personalize the content and improve user experience. We also might share the data about your site usage with our social media. For more, please review our privacy policy.',
     dateDescription: 'Approved on ',
+    clearAll: 'Disable All',
+    selectAll: 'Enable All',
+    message: {
+      success: {
+        given: 'Consent successfully given.',
+        withdrawn: 'Consent successfully withdrawn.',
+      },
+    },
   },
   myCoupons: {
     noCouponsMessage: 'You have no coupons available.',
