@@ -21,10 +21,12 @@ import {
   FormErrorsModule,
   SpinnerModule,
   NgSelectA11yModule,
+  MessageComponentModule,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { NewProfileComponent } from './new-profile.component';
-import { NewProfileComponentService } from './new-profile-component.service';
+import { NewCombinedProfileComponent } from './new-combined-profile.component';
+import { NewProfileModule } from '../new-user-profile';
+import { NewEmailModule } from '../new-email';
 
 @NgModule({
   imports: [
@@ -38,17 +40,20 @@ import { NewProfileComponentService } from './new-profile-component.service';
     UrlModule,
     NgSelectModule,
     NgSelectA11yModule,
+    MessageComponentModule,
+    NewProfileModule,
+    NewEmailModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         NewProfileComponent: {
-          component: NewProfileComponent,
+          component: NewCombinedProfileComponent,
           guards: [AuthGuard],
           providers: [
             {
-              provide: NewProfileComponentService,
-              useClass: NewProfileComponentService,
+              provide: NewCombinedProfileComponent,
+              useClass: NewCombinedProfileComponent,
               deps: [UserProfileFacade, GlobalMessageService],
             },
           ],
@@ -56,7 +61,6 @@ import { NewProfileComponentService } from './new-profile-component.service';
       },
     }),
   ],
-  declarations: [NewProfileComponent],
-  exports: [NewProfileComponent],
+  declarations: [NewCombinedProfileComponent],
 })
-export class NewProfileModule {}
+export class NewCombinedProfileModule {}
