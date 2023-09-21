@@ -175,7 +175,7 @@ jobs:
       - name: Build SSR Server
         run: npm run build:libs && npm run build && npm run build:ssr:local-http
       - name: Run SSR tests
-        run: npm run test:ssr
+        run: npm run test:ssr:ci
   merge_checks_result:
     needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, ssr_tests]
     name: MC - Result
