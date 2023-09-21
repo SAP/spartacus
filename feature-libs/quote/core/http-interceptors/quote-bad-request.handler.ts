@@ -47,7 +47,7 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
     }
 
     if (this.getDomainErrors(response).length > 0) {
-      this.handleQuoteCartIssues(this.quoteCartService);
+      this.handleDomainErrors(this.quoteCartService);
     }
   }
 
@@ -100,7 +100,7 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
     );
   }
 
-  protected handleQuoteCartIssues(quoteCartService: QuoteCartService) {
+  protected handleDomainErrors(quoteCartService: QuoteCartService) {
     quoteCartService
       .isQuoteCartActive()
       .pipe(take(1))
