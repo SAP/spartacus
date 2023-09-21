@@ -13,12 +13,12 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { QuoteRoleService } from '@spartacus/quote/core';
 import {
   Quote,
   QuoteAction,
   QuoteActionType,
   QuoteFacade,
+  QuoteRoleType,
   QuoteState,
 } from '@spartacus/quote/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -46,7 +46,6 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected viewContainerRef: ViewContainerRef,
     protected globalMessageService: GlobalMessageService,
-    protected quoteRoleService: QuoteRoleService,
     protected config: QuoteUIConfig
   ) {}
 
@@ -164,7 +163,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     const mappingConfig = this.config.quote?.confirmActionDialogMapping;
     return (
       !!mappingConfig?.[state]?.[action] ||
-      !!mappingConfig?.[this.quoteRoleService.stateToRole(state)]?.[action]
+      !!mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action]
     );
   }
 
@@ -199,7 +198,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
 
     const config =
       mappingConfig?.[state]?.[action] ??
-      mappingConfig?.[this.quoteRoleService.stateToRole(state)]?.[action];
+      mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action];
     if (!config) {
       throw new Error(
         `Dialog Config expected for quote in state ${state} and action ${action}, but none found in config ${mappingConfig}`
@@ -207,5 +206,15 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     }
 
     return config;
+  }
+
+  protected stateToRoleTypeForDialogConfig(state: QuoteState): QuoteRoleType {
+    let foundRole: QuoteRoleType = QuoteRoleType.NOT_AVAILABLE;
+    Object.values(QuoteRoleType).forEach((role) => {
+      if (state.startsWith(role + '_')) {
+        foundRole = role;
+      }
+    });
+    return foundRole;
   }
 }

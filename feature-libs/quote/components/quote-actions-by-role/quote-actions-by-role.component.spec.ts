@@ -11,6 +11,7 @@ import {
   QuoteAction,
   QuoteActionType,
   QuoteFacade,
+  QuoteRoleType,
   QuoteState,
 } from '@spartacus/quote/root';
 
@@ -584,6 +585,31 @@ describe('QuoteActionsByRoleComponent', () => {
           isPrimary: false,
         })
       ).toEqual('btn-tertiary');
+    });
+  });
+
+  describe('statusToRole', () => {
+    it('should return buyer-role', () => {
+      expect(
+        component['stateToRoleTypeForDialogConfig'](QuoteState.BUYER_DRAFT)
+      ).toBe(QuoteRoleType.BUYER);
+    });
+    it('should return seller-role', () => {
+      expect(
+        component['stateToRoleTypeForDialogConfig'](QuoteState.SELLER_SUBMITTED)
+      ).toBe(QuoteRoleType.SELLER);
+    });
+    it('should return seller-approver-role', () => {
+      expect(
+        component['stateToRoleTypeForDialogConfig'](
+          QuoteState.SELLERAPPROVER_APPROVED
+        )
+      ).toBe(QuoteRoleType.SELLERAPPROVER);
+    });
+    it('should return sate if no role matches', () => {
+      expect(
+        component['stateToRoleTypeForDialogConfig'](QuoteState.CANCELLED)
+      ).toBe(QuoteRoleType.NOT_AVAILABLE);
     });
   });
 });
