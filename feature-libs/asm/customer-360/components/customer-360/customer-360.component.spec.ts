@@ -3,13 +3,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AsmDialogActionType,
-  Customer360Config,
   Customer360Facade,
   Customer360Overview,
   Customer360Response,
   Customer360TabComponent,
   Customer360Type,
 } from '@spartacus/asm/customer-360/root';
+import { Customer360Config } from '@spartacus/asm/customer-360/core';
 import {
   CxDatePipe,
   I18nTestingModule,

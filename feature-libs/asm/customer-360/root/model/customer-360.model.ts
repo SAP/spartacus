@@ -4,6 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// import {
+//   AsmCustomerActiveCartComponent,
+//   AsmCustomerActivityComponent,
+//   AsmCustomerCouponComponent,
+//   AsmCustomerCustomerCouponComponent,
+//   AsmCustomerMapComponent,
+//   AsmCustomerProductInterestsComponent,
+//   AsmCustomerProductReviewsComponent,
+//   AsmCustomerProfileComponent,
+//   AsmCustomerPromotionComponent,
+//   AsmCustomerSavedCartComponent,
+//   AsmCustomerSupportTicketsComponent,
+// } from '@spartacus/asm/customer-360/components';
 import { Address, Country, Region, UrlCommand, User } from '@spartacus/core';
 
 export interface Customer360Review {
@@ -264,6 +277,20 @@ export interface AsmDialogActionEvent {
   selectedUser: User;
   actionType: AsmDialogActionType;
   route?: UrlCommand;
+}
+
+export interface SectionComponentName {
+  AsmCustomerActiveCartComponent: 'AsmCustomerActiveCartComponent';
+  AsmCustomerSavedCartComponent: 'AsmCustomerSavedCartComponent';
+  AsmCustomerProductInterestsComponent: 'AsmCustomerProductInterestsComponent';
+  AsmCustomerProfileComponent: 'AsmCustomerProfileComponent';
+  AsmCustomerActivityComponent: 'AsmCustomerActivityComponent';
+  AsmCustomerSupportTicketsComponent: 'AsmCustomerSupportTicketsComponent';
+  AsmCustomerProductReviewsComponent: 'AsmCustomerProductReviewsComponent';
+  AsmCustomerCouponComponent: 'AsmCustomerCouponComponent';
+  AsmCustomerPromotionComponent: 'AsmCustomerPromotionComponent';
+  AsmCustomerCustomerCouponComponent: 'AsmCustomerCustomerCouponComponent';
+  AsmCustomerMapComponent: 'AsmCustomerMapComponent';
 }
 
 import '@spartacus/storefront';

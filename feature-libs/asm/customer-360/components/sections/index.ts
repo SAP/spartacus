@@ -12,3 +12,6 @@ export { AsmCustomerProductReviewsComponent } from './asm-customer-product-revie
 export { AsmCustomerProfileComponent } from './asm-customer-profile/asm-customer-profile.component';
 export { AsmCustomerSavedCartComponent } from './asm-customer-saved-cart/asm-customer-saved-cart.component';
 export { AsmCustomerSupportTicketsComponent } from './asm-customer-support-tickets/asm-customer-support-tickets.component';
+export { AsmCustomerCouponComponent } from './asm-customer-coupon/asm-customer-coupon.component';
+export { AsmCustomerPromotionComponent } from './asm-customer-promotion/asm-customer-promotion.component';
+export { AsmCustomerCustomerCouponComponent } from './asm-customer-customer-coupon/asm-customer-customer-coupon.component';

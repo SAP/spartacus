@@ -8,3 +8,4 @@ export * from './connectors';
 export * from './customer-360-core.module';
 export * from './services';
 export * from './utils';
+export * from './config';

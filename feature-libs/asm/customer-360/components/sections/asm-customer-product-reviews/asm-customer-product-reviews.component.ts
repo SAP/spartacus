@@ -5,10 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {
-  Customer360Config,
-  Customer360ReviewList,
-} from '@spartacus/asm/customer-360/root';
+import { Customer360ReviewList } from '@spartacus/asm/customer-360/root';
+import { Customer360Config } from '@spartacus/asm/customer-360/core';
 import { CxDatePipe, Product, TranslationService } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';

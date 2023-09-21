@@ -21,12 +21,12 @@ import {
   AsmDialogActionType,
   Customer360Data,
   Customer360TabConfig,
-  Customer360Config,
   Customer360Facade,
   Customer360Type,
   Customer360Overview,
   CustomerOverview,
 } from '@spartacus/asm/customer-360/root';
+import { Customer360Config } from '@spartacus/asm/customer-360/core';
 import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
   GlobalMessageType,

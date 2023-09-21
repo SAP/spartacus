@@ -29,10 +29,8 @@ import {
   GeneralEntry,
   TableEntry,
 } from './asm-customer-table.model';
-import {
-  Customer360Config,
-  Customer360Type,
-} from '@spartacus/asm/customer-360/root';
+import { Customer360Type } from '@spartacus/asm/customer-360/root';
+import { Customer360Config } from '@spartacus/asm/customer-360/core';
 import { of } from 'rxjs';
 
 @Directive({
