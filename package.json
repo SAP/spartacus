@@ -36,6 +36,7 @@
     "build:setup": "nx build setup --configuration production",
     "build:ssr": "env-cmd --no-override -e dev,b2c,$SPA_ENV nx run storefrontapp:server:production",
     "build:ssr:ci": "env-cmd -e ci,b2c,$SPA_ENV nx run storefrontapp:server:production",
+    "build:ssr:local-http": "env-cmd -e local-http,b2c,$SPA_ENV nx run storefrontapp:server:production",
     "build:storefinder": "npm --prefix feature-libs/storefinder run build:schematics && nx build storefinder --configuration production",
     "build:smartedit": "npm --prefix feature-libs/smartedit run build:schematics && nx build smartedit --configuration production",
     "build:tracking": "npm --prefix feature-libs/tracking run build:schematics && nx build tracking --configuration production",

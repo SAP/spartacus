@@ -173,7 +173,7 @@ jobs:
       - name: Package installation
         run: npm ci
       - name: Build SSR Server
-        run: npm run build:libs && npm run build && npm run build:ssr
+        run: npm run build:libs && npm run build && npm run build:ssr:local-http
       - name: Run SSR tests
         run: npm run test:ssr
   merge_checks_result:

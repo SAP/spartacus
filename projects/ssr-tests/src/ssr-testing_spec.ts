@@ -1,4 +1,4 @@
-import * as Log from './Log';
+import * as Log from './log.utils';
 import * as ProxyServer from './proxy.utils';
 import * as Ssr from './ssr.utils';
 
@@ -39,7 +39,6 @@ describe('SSR E2E', () => {
   // Wait for SSR server to complete rendering.
   it('should complete rendering within a minute', async () => {
     await Log.waitUntilLogContainsText(`Rendering completed (${REQUEST_PATH})`);
-
     Log.assertMessages([`Rendering completed (${REQUEST_PATH})`]);
   });
 

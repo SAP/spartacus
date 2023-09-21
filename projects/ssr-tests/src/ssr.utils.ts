@@ -5,7 +5,7 @@
  */
 
 import * as childProcess from 'child_process';
-import * as Log from './Log';
+import * as Log from './log.utils';
 
 export async function startSsrServer(port = 4000) {
   childProcess.exec(

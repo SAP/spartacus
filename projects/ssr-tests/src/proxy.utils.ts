@@ -11,7 +11,6 @@ const proxy = (<any>httpProxy).createProxyServer({ secure: false });
 
 const REQUEST_OPTIONS = {
   host: 'localhost',
-  // port: 4201,
   port: 4000,
 };
 
