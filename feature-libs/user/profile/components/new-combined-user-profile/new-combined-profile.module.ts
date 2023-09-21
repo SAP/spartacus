@@ -47,7 +47,7 @@ import { NewEmailModule } from '../new-email';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        NewProfileComponent: {
+        NewCombinedProfileComponent: {
           component: NewCombinedProfileComponent,
           guards: [AuthGuard],
           providers: [
