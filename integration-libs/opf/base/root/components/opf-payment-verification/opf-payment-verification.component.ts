@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorModel } from '@spartacus/core';
 
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
+
+import { KeyValuePair, TargetPage } from '../../model';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 @Component({
@@ -17,11 +19,13 @@ import { OpfPaymentVerificationService } from './opf-payment-verification.servic
   templateUrl: './opf-payment-verification.component.html',
 })
 export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
-  subscription?: Subscription;
+  protected subscription?: Subscription;
+  protected isHostedFieldPattern = false;
 
   constructor(
     protected route: ActivatedRoute,
-    protected paymentService: OpfPaymentVerificationService
+    protected paymentService: OpfPaymentVerificationService,
+    protected vcr: ViewContainerRef
   ) {}
 
   ngOnInit(): void {
@@ -30,24 +34,52 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
     this.subscription = this.paymentService
       .verifyResultUrl(this.route)
       .pipe(
-        concatMap(({ paymentSessionId, responseMap }) => {
-          return this.paymentService.verifyPayment(
+        concatMap(
+          ({
             paymentSessionId,
-            responseMap
-          );
-        }),
-        concatMap(() => {
-          return this.paymentService.placeOrder();
-        })
+            paramsMap: paramsMap,
+            afterRedirectScriptFlag,
+          }) =>
+            this.runPaymentPattern({
+              paymentSessionId,
+              paramsMap,
+              afterRedirectScriptFlag,
+            })
+        )
       )
       .subscribe({
         error: (error: HttpErrorModel | undefined) => this.onError(error),
-        next: () => this.onSuccess(),
+        next: (success: boolean) => {
+          if (!success) {
+            this.onError(undefined);
+          }
+        },
       });
   }
 
-  onSuccess(): void {
-    this.paymentService.goToPage('orderConfirmation');
+  protected runPaymentPattern({
+    paymentSessionId,
+    paramsMap,
+    afterRedirectScriptFlag,
+  }: {
+    paymentSessionId: string;
+    paramsMap: KeyValuePair[];
+    afterRedirectScriptFlag?: string;
+  }): Observable<boolean> {
+    if (afterRedirectScriptFlag === 'true') {
+      this.isHostedFieldPattern = true;
+      return this.paymentService.runHostedFieldsPattern(
+        TargetPage.RESULT,
+        paymentSessionId,
+        this.vcr,
+        paramsMap
+      );
+    } else {
+      return this.paymentService.runHostedPagePattern(
+        paymentSessionId,
+        paramsMap
+      );
+    }
   }
 
   onError(error: HttpErrorModel | undefined): void {
@@ -58,6 +90,10 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+
+    if (this.isHostedFieldPattern) {
+      this.paymentService.removeResourcesAndGlobalFunctions();
     }
   }
 }

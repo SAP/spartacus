@@ -6,6 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import {
+  AfterRedirectScriptResponse,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
   SubmitCompleteRequest,
@@ -46,5 +47,11 @@ export class OpfPaymentConnector {
       otpKey,
       paymentSessionId
     );
+  }
+
+  public afterRedirectScripts(
+    paymentSessionId: string
+  ): Observable<AfterRedirectScriptResponse> {
+    return this.adapter.afterRedirectScripts(paymentSessionId);
   }
 }

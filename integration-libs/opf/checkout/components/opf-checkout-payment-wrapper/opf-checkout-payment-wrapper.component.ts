@@ -13,7 +13,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { OpfGlobalFunctionsFacade } from '@spartacus/opf/base/root';
+import { OpfGlobalFunctionsFacade, TargetPage } from '@spartacus/opf/base/root';
 import {
   OpfPaymentMethodType,
   PaymentPattern,
@@ -65,11 +65,12 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
       this.service.initiatePayment(this.selectedPaymentId).subscribe({
         next: (paymentSessionData) => {
           if (this.isHostedFields(paymentSessionData)) {
-            this.globalFunctionsService.registerGlobalFunctions(
-              (paymentSessionData as PaymentSessionData)
+            this.globalFunctionsService.registerGlobalFunctions({
+              targetPage: TargetPage.CHECKOUT_REVIEW,
+              paymentSessionId: (paymentSessionData as PaymentSessionData)
                 .paymentSessionId as string,
-              this.vcr
-            );
+              vcr: this.vcr,
+            });
           } else {
             this.globalFunctionsService.removeGlobalFunctions();
           }

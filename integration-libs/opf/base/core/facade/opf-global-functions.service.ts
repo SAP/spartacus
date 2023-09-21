@@ -12,12 +12,14 @@ import {
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import {
+  GlobalFunctionsInput,
   GlobalOpfPaymentMethods,
   KeyValuePair,
   MerchantCallback,
   OpfGlobalFunctionsFacade,
   OpfPaymentFacade,
   PaymentMethod,
+  TargetPage,
 } from '@spartacus/opf/base/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -34,12 +36,25 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     protected launchDialogService: LaunchDialogService
   ) {}
 
-  registerGlobalFunctions(
-    paymentSessionId: string,
-    vcr?: ViewContainerRef
-  ): void {
-    this.registerSubmit(paymentSessionId, vcr);
-    this.registerSubmitComplete(paymentSessionId, vcr);
+  registerGlobalFunctions({
+    targetPage,
+    paymentSessionId,
+    vcr,
+    paramsMap,
+  }: GlobalFunctionsInput): void {
+    switch (targetPage) {
+      case TargetPage.CHECKOUT_REVIEW:
+        this.registerSubmit(paymentSessionId, vcr);
+        this.registerSubmitComplete(paymentSessionId, vcr);
+        break;
+      case TargetPage.RESULT:
+        this.registerSubmitCompleteRedirect(paymentSessionId, vcr);
+        this.registerGetRedirectParams(paramsMap ?? []);
+        break;
+      default:
+        break;
+    }
+
     this._isGlobalServiceInit = true;
   }
 
@@ -86,6 +101,15 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         }
       })
       .unsubscribe();
+  }
+
+  protected registerGetRedirectParams(
+    paramsMap: Array<KeyValuePair> = []
+  ): void {
+    this.getGlobalFunctionContainer().getRedirectParams = () =>
+      paramsMap.map((p) => {
+        return { key: p.key, value: p.value };
+      });
   }
 
   protected registerSubmit(
@@ -145,6 +169,39 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     };
   }
 
+  protected runSubmitComplete(
+    cartId: string,
+    additionalData: Array<KeyValuePair>,
+    callbackArray: [MerchantCallback, MerchantCallback, MerchantCallback],
+    paymentSessionId: string,
+    returnPath?: string | undefined,
+    vcr?: ViewContainerRef
+  ) {
+    return this.ngZone.run(() => {
+      let overlayedSpinner: void | Observable<ComponentRef<any> | undefined>;
+      if (vcr) {
+        overlayedSpinner = this.startLoaderSpinner(vcr);
+      }
+
+      return this.opfPaymentFacade
+        .submitCompletePayment({
+          additionalData,
+          paymentSessionId,
+          cartId,
+          callbackArray,
+          returnPath,
+        })
+        .pipe(
+          finalize(() => {
+            if (overlayedSpinner) {
+              this.stopLoaderSpinner(overlayedSpinner);
+            }
+          })
+        )
+        .toPromise();
+    });
+  }
+
   protected registerSubmitComplete(
     paymentSessionId: string,
     vcr?: ViewContainerRef
@@ -168,33 +225,48 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       submitPending: MerchantCallback;
       submitFailure: MerchantCallback;
     }): Promise<boolean> => {
-      return this.ngZone.run(() => {
-        let overlayedSpinner: void | Observable<ComponentRef<any> | undefined>;
-        if (vcr) {
-          overlayedSpinner = this.startLoaderSpinner(vcr);
-        }
-        const callbackArray: [
-          MerchantCallback,
-          MerchantCallback,
-          MerchantCallback
-        ] = [submitSuccess, submitPending, submitFailure];
+      return this.runSubmitComplete(
+        cartId,
+        additionalData,
+        [submitSuccess, submitPending, submitFailure],
+        paymentSessionId,
+        undefined,
+        vcr
+      );
+    };
+  }
 
-        return this.opfPaymentFacade
-          .submitCompletePayment({
-            additionalData,
-            paymentSessionId,
-            cartId,
-            callbackArray,
-          })
-          .pipe(
-            finalize(() => {
-              if (overlayedSpinner) {
-                this.stopLoaderSpinner(overlayedSpinner);
-              }
-            })
-          )
-          .toPromise();
-      });
+  protected registerSubmitCompleteRedirect(
+    paymentSessionId: string,
+    vcr?: ViewContainerRef
+  ): void {
+    this.getGlobalFunctionContainer().submitCompleteRedirect = ({
+      cartId,
+      additionalData,
+      submitSuccess = (): void => {
+        // this is intentional
+      },
+      submitPending = (): void => {
+        // this is intentional
+      },
+      submitFailure = (): void => {
+        // this is intentional
+      },
+    }: {
+      cartId: string;
+      additionalData: Array<KeyValuePair>;
+      submitSuccess: MerchantCallback;
+      submitPending: MerchantCallback;
+      submitFailure: MerchantCallback;
+    }): Promise<boolean> => {
+      return this.runSubmitComplete(
+        cartId,
+        additionalData,
+        [submitSuccess, submitPending, submitFailure],
+        paymentSessionId,
+        'checkoutReviewOrder',
+        vcr
+      );
     };
   }
 }
