@@ -26,7 +26,10 @@ import {
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { NewCombinedProfileComponent } from './new-combined-profile.component';
-import { NewProfileComponentService, NewProfileModule } from '../new-user-profile';
+import {
+  NewProfileComponentService,
+  NewProfileModule,
+} from '../new-user-profile';
 import { NewEmailComponentService, NewEmailModule } from '../new-email';
 
 @NgModule({
