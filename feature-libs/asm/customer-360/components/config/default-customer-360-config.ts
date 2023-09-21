@@ -4,21 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import // AsmCustomerActiveCartComponent,
-//AsmCustomerActivityComponent,
-//AsmCustomerCouponComponent,
-//AsmCustomerCustomerCouponComponent,
-//AsmCustomerMapComponent,
-//AsmCustomerProductInterestsComponent,
-//AsmCustomerProductReviewsComponent,
-//AsmCustomerProfileComponent,
-//AsmCustomerPromotionComponent,
-//AsmCustomerSavedCartComponent,
-//AsmCustomerSupportTicketsComponent,
-'@spartacus/asm/customer-360/components';
+import {
+  AsmCustomerActiveCartComponent,
+  AsmCustomerActivityComponent,
+  AsmCustomerCouponComponent,
+  AsmCustomerCustomerCouponComponent,
+  AsmCustomerMapComponent,
+  AsmCustomerProductInterestsComponent,
+  AsmCustomerProductReviewsComponent,
+  AsmCustomerProfileComponent,
+  AsmCustomerPromotionComponent,
+  AsmCustomerSavedCartComponent,
+  AsmCustomerSupportTicketsComponent,
+} from '../sections';
 import { Customer360Config } from './customer-360-config';
 import { Customer360Type } from '@spartacus/asm/customer-360/root';
-import { AsmCustomerActiveCartComponent } from '@spartacus/asm/customer-360/components';
 
 export const defaultCustomer360Config: Customer360Config = {
   customer360: {
@@ -35,13 +35,13 @@ export const defaultCustomer360Config: Customer360Config = {
             },
           },
           {
-            component: 'AsmCustomerSavedCartComponent',
+            component: AsmCustomerSavedCartComponent,
             requestData: {
               type: Customer360Type.SAVED_CART,
             },
           },
           {
-            component: 'AsmCustomerProductInterestsComponent',
+            component: AsmCustomerProductInterestsComponent,
             requestData: {
               type: Customer360Type.PRODUCT_INTEREST_LIST,
             },
@@ -52,7 +52,7 @@ export const defaultCustomer360Config: Customer360Config = {
         i18nNameKey: 'customer360.profileTab',
         components: [
           {
-            component: 'AsmCustomerProfileComponent',
+            component: AsmCustomerProfileComponent,
             requestData: {
               type: Customer360Type.CUSTOMER_PROFILE,
             },
@@ -63,7 +63,7 @@ export const defaultCustomer360Config: Customer360Config = {
         i18nNameKey: 'customer360.activityTab',
         components: [
           {
-            component: 'AsmCustomerActivityComponent',
+            component: AsmCustomerActivityComponent,
             requestData: {
               type: Customer360Type.ACTIVITY_LIST,
               additionalRequestParameters: {
@@ -78,7 +78,7 @@ export const defaultCustomer360Config: Customer360Config = {
         i18nNameKey: 'customer360.feedbackTab',
         components: [
           {
-            component: 'AsmCustomerSupportTicketsComponent',
+            component: AsmCustomerSupportTicketsComponent,
             requestData: {
               type: Customer360Type.SUPPORT_TICKET_LIST,
               additionalRequestParameters: {
@@ -88,7 +88,7 @@ export const defaultCustomer360Config: Customer360Config = {
             config: { pageSize: 5 },
           },
           {
-            component: 'AsmCustomerProductReviewsComponent',
+            component: AsmCustomerProductReviewsComponent,
             requestData: {
               type: Customer360Type.REVIEW_LIST,
               additionalRequestParameters: {
@@ -103,19 +103,19 @@ export const defaultCustomer360Config: Customer360Config = {
         i18nNameKey: 'customer360.promotionsTab',
         components: [
           {
-            component: 'AsmCustomerCouponComponent',
+            component: AsmCustomerCouponComponent,
             requestData: {
               type: Customer360Type.COUPON_LIST,
             },
           },
           {
-            component: 'AsmCustomerPromotionComponent',
+            component: AsmCustomerPromotionComponent,
             requestData: {
               type: Customer360Type.PROMOTION_LIST,
             },
           },
           {
-            component: 'AsmCustomerCustomerCouponComponent',
+            component: AsmCustomerCustomerCouponComponent,
             requestData: {
               type: Customer360Type.CUSTOMER_COUPON_LIST,
               additionalRequestParameters: {
@@ -129,7 +129,7 @@ export const defaultCustomer360Config: Customer360Config = {
         i18nNameKey: 'customer360.mapsTab',
         components: [
           {
-            component: 'AsmCustomerMapComponent',
+            component: AsmCustomerMapComponent,
             requestData: {
               type: Customer360Type.STORE_LOCATION,
             },
