@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ViewContainerRef } from '@angular/core';
+
 export interface OpfRenderPaymentMethodEvent {
   isLoading: boolean;
   isError: boolean;
@@ -32,6 +34,7 @@ export type MerchantCallback = (
 ) => void | Promise<void>;
 
 export interface GlobalOpfPaymentMethods {
+  getRedirectParams?(): Array<KeyValuePair>;
   submit?(options: {
     cartId: string;
     additionalData: Array<KeyValuePair>;
@@ -41,6 +44,13 @@ export interface GlobalOpfPaymentMethods {
     paymentMethod: PaymentMethod;
   }): Promise<boolean>;
   submitComplete?(options: {
+    cartId: string;
+    additionalData: Array<KeyValuePair>;
+    submitSuccess: MerchantCallback;
+    submitPending: MerchantCallback;
+    submitFailure: MerchantCallback;
+  }): Promise<boolean>;
+  submitCompleteRedirect?(options: {
     cartId: string;
     additionalData: Array<KeyValuePair>;
     submitSuccess: MerchantCallback;
@@ -78,7 +88,7 @@ export interface SubmitInput {
   paymentSessionId: string;
   cartId: string;
   callbackArray: [MerchantCallback, MerchantCallback, MerchantCallback];
-  returnPath?: Array<string>;
+  returnPath?: string;
   paymentMethod: PaymentMethod;
 }
 
@@ -119,7 +129,41 @@ export interface SubmitCompleteInput {
   paymentSessionId: string;
   cartId: string;
   callbackArray: [MerchantCallback, MerchantCallback, MerchantCallback];
-  returnPath?: Array<string>;
+  returnPath?: string;
+}
+
+export interface AfterRedirectScriptResponse {
+  afterRedirectScript: AfterRedirectDynamicScript;
+}
+
+export interface AfterRedirectDynamicScript {
+  cssUrls?: AfterRedirectDynamicScriptResource[];
+  jsUrls?: AfterRedirectDynamicScriptResource[];
+  html?: string;
+}
+
+export interface AfterRedirectDynamicScriptResource {
+  url?: string;
+  sri?: string;
+  attributes?: KeyValuePair[];
+  type?: AfterRedirectDynamicScriptResourceType;
+}
+
+export enum AfterRedirectDynamicScriptResourceType {
+  SCRIPT = 'SCRIPT',
+  STYLES = 'STYLES',
+}
+
+export interface GlobalFunctionsInput {
+  paymentSessionId: string;
+  vcr?: ViewContainerRef;
+  paramsMap?: Array<KeyValuePair>;
+  targetPage: TargetPage;
+}
+
+export enum TargetPage {
+  CHECKOUT_REVIEW = 'CHECKOUT_REVIEW',
+  RESULT = 'RESULT',
 }
 
 export interface HasMessageString {

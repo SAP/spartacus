@@ -13,6 +13,8 @@ export const defaultOccOpfConfig: OccConfig = {
         verifyPayment: 'payments/${paymentSessionId}/verify',
         submitPayment: 'payments/${paymentSessionId}/submit',
         submitCompletePayment: 'payments/${paymentSessionId}/submit-complete',
+        afterRedirectScripts:
+          'payments/${paymentSessionId}/after-redirect-scripts',
       },
     },
   },

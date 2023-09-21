@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -14,13 +15,19 @@ import {
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
-import { OpfOrderFacade, OpfPaymentFacade } from '../../facade';
 import {
+  OpfGlobalFunctionsFacade,
+  OpfOrderFacade,
+  OpfPaymentFacade,
+} from '../../facade';
+import {
+  AfterRedirectDynamicScript,
   OpfPaymentMetadata,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
+  TargetPage,
 } from '../../model';
-import { OpfService } from '../../services';
+import { OpfResourceLoaderService, OpfService } from '../../services';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 describe('OpfPaymentVerificationService', () => {
@@ -28,8 +35,10 @@ describe('OpfPaymentVerificationService', () => {
   let opfOrderFacadeMock: jasmine.SpyObj<OpfOrderFacade>;
   let routingServiceMock: jasmine.SpyObj<RoutingService>;
   let globalMessageServiceMock: jasmine.SpyObj<GlobalMessageService>;
-  let opfCheckoutServiceMock: jasmine.SpyObj<OpfPaymentFacade>;
+  let opfPaymentServiceMock: jasmine.SpyObj<OpfPaymentFacade>;
   let opfServiceMock: jasmine.SpyObj<OpfService>;
+  let opfResourceLoaderServiceMock: jasmine.SpyObj<OpfResourceLoaderService>;
+  let globalFunctionsServiceMock: jasmine.SpyObj<OpfGlobalFunctionsFacade>;
 
   beforeEach(() => {
     opfOrderFacadeMock = jasmine.createSpyObj('OpfOrderFacade', [
@@ -39,12 +48,26 @@ describe('OpfPaymentVerificationService', () => {
     globalMessageServiceMock = jasmine.createSpyObj('GlobalMessageService', [
       'add',
     ]);
-    opfCheckoutServiceMock = jasmine.createSpyObj('OpfPaymentFacade', [
+    opfPaymentServiceMock = jasmine.createSpyObj('OpfPaymentFacade', [
       'verifyPayment',
+      'afterRedirectScripts',
     ]);
     opfServiceMock = jasmine.createSpyObj('OpfService', [
       'getOpfMetadataState',
     ]);
+    opfResourceLoaderServiceMock = jasmine.createSpyObj(
+      'OpfResourceLoaderService',
+      [
+        'clearAllProviderResources',
+        'executeScriptFromHtml',
+        'loadProviderResources',
+      ]
+    );
+
+    globalFunctionsServiceMock = jasmine.createSpyObj(
+      'OpfGlobalFunctionsFacade',
+      ['registerGlobalFunctions', 'removeGlobalFunctions']
+    );
 
     TestBed.configureTestingModule({
       providers: [
@@ -52,8 +75,16 @@ describe('OpfPaymentVerificationService', () => {
         { provide: OpfOrderFacade, useValue: opfOrderFacadeMock },
         { provide: RoutingService, useValue: routingServiceMock },
         { provide: GlobalMessageService, useValue: globalMessageServiceMock },
-        { provide: OpfPaymentFacade, useValue: opfCheckoutServiceMock },
+        { provide: OpfPaymentFacade, useValue: opfPaymentServiceMock },
         { provide: OpfService, useValue: opfServiceMock },
+        {
+          provide: OpfResourceLoaderService,
+          useValue: opfResourceLoaderServiceMock,
+        },
+        {
+          provide: OpfGlobalFunctionsFacade,
+          useValue: globalFunctionsServiceMock,
+        },
       ],
     });
 
@@ -62,49 +93,6 @@ describe('OpfPaymentVerificationService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-
-  describe('getOpfResponseMap', () => {
-    it('should return an empty array for undefined params', () => {
-      const result = service.getOpfResponseMap(undefined as unknown as Params);
-
-      expect(result).toEqual([]);
-    });
-
-    it('should return an array of OpfResponseMapElement for provided params', () => {
-      const params: Params = { key1: 'value1', key2: 'value2' };
-
-      const result = service.getOpfResponseMap(params);
-
-      expect(result).toEqual([
-        { key: 'key1', value: 'value1' },
-        { key: 'key2', value: 'value2' },
-      ]);
-    });
-  });
-
-  describe('findInOpfResponseMap', () => {
-    it('should return the value for the provided key if found in the list', () => {
-      const list = [
-        { key: 'key1', value: 'value1' },
-        { key: 'key2', value: 'value2' },
-      ];
-
-      const result = service.findInOpfResponseMap('key1', list);
-
-      expect(result).toEqual('value1');
-    });
-
-    it('should return undefined if the provided key is not found in the list', () => {
-      const list = [
-        { key: 'key1', value: 'value1' },
-        { key: 'key2', value: 'value2' },
-      ];
-
-      const result = service.findInOpfResponseMap('key3', list);
-
-      expect(result).toBeUndefined();
-    });
   });
 
   describe('goToPage', () => {
@@ -131,7 +119,7 @@ describe('OpfPaymentVerificationService', () => {
     it('should verify the result URL and return the response map if the route cxRoute is "paymentVerificationResult"', (done) => {
       service.verifyResultUrl(mockRouteSnapshot).subscribe((result) => {
         expect(result.paymentSessionId).toEqual(mockPaymentSessionId);
-        expect(result.responseMap).toEqual([
+        expect(result.paramsMap).toEqual([
           { key: 'paymentSessionId', value: mockPaymentSessionId },
         ]);
         done();
@@ -174,20 +162,25 @@ describe('OpfPaymentVerificationService', () => {
         }
       );
     });
-  });
 
-  describe('placeOrder', () => {
-    it('should call opfOrderFacade.placeOpfOrder with true and return the result', (done) => {
-      const mockPlaceOrderResult: Order = { guid: 'placeOrderResult' };
-      opfOrderFacadeMock.placeOpfOrder.and.returnValue(
-        of(mockPlaceOrderResult)
+    it('should throw an error if paymentSessionId is missing', (done) => {
+      const mockRoute: ActivatedRoute = {
+        routeConfig: {
+          data: {
+            cxRoute: 'paymentVerificationResult',
+          },
+        },
+        queryParams: of({ mockKey: 'testKey' }),
+      } as unknown as ActivatedRoute;
+
+      service.verifyResultUrl(mockRoute).subscribe(
+        () => {},
+        (error) => {
+          expect(error).toBeDefined();
+          expect(error.message).toEqual('opf.payment.errors.proceedPayment');
+          done();
+        }
       );
-
-      service.placeOrder().subscribe((result) => {
-        expect(result).toEqual(mockPlaceOrderResult);
-        expect(opfOrderFacadeMock.placeOpfOrder).toHaveBeenCalledWith(true);
-        done();
-      });
     });
   });
 
@@ -199,15 +192,20 @@ describe('OpfPaymentVerificationService', () => {
         result: OpfPaymentVerificationResult.AUTHORIZED,
       };
 
-      opfCheckoutServiceMock.verifyPayment.and.returnValue(
+      opfPaymentServiceMock.verifyPayment.and.returnValue(
         of(mockVerificationResponse)
       );
 
+      const mockPlaceOrderResult: Order = { guid: 'placeOrderResult' };
+      opfOrderFacadeMock.placeOpfOrder.and.returnValue(
+        of(mockPlaceOrderResult)
+      );
+
       service
-        .verifyPayment(mockPaymentSessionId, mockResponseMap)
+        .runHostedPagePattern(mockPaymentSessionId, mockResponseMap)
         .subscribe((result) => {
           expect(result).toBeTruthy();
-          expect(opfCheckoutServiceMock.verifyPayment).toHaveBeenCalledWith(
+          expect(opfPaymentServiceMock.verifyPayment).toHaveBeenCalledWith(
             mockPaymentSessionId,
             { responseMap: mockResponseMap }
           );
@@ -222,15 +220,20 @@ describe('OpfPaymentVerificationService', () => {
         result: OpfPaymentVerificationResult.DELAYED,
       };
 
-      opfCheckoutServiceMock.verifyPayment.and.returnValue(
+      const mockPlaceOrderResult: Order = { guid: 'placeOrderResult' };
+      opfOrderFacadeMock.placeOpfOrder.and.returnValue(
+        of(mockPlaceOrderResult)
+      );
+
+      opfPaymentServiceMock.verifyPayment.and.returnValue(
         of(mockVerificationResponse)
       );
 
       service
-        .verifyPayment(mockPaymentSessionId, mockResponseMap)
+        .runHostedPagePattern(mockPaymentSessionId, mockResponseMap)
         .subscribe((result) => {
           expect(result).toBeTruthy();
-          expect(opfCheckoutServiceMock.verifyPayment).toHaveBeenCalledWith(
+          expect(opfPaymentServiceMock.verifyPayment).toHaveBeenCalledWith(
             mockPaymentSessionId,
             { responseMap: mockResponseMap }
           );
@@ -245,17 +248,19 @@ describe('OpfPaymentVerificationService', () => {
         result: OpfPaymentVerificationResult.CANCELLED,
       };
 
-      opfCheckoutServiceMock.verifyPayment.and.returnValue(
+      opfPaymentServiceMock.verifyPayment.and.returnValue(
         of(mockVerificationResponse)
       );
 
-      service.verifyPayment(mockPaymentSessionId, mockResponseMap).subscribe(
-        () => {},
-        (error) => {
-          expect(error.message).toEqual('opf.payment.errors.cancelPayment');
-          done();
-        }
-      );
+      service
+        .runHostedPagePattern(mockPaymentSessionId, mockResponseMap)
+        .subscribe(
+          () => {},
+          (error) => {
+            expect(error.message).toEqual('opf.payment.errors.cancelPayment');
+            done();
+          }
+        );
     });
 
     it('should throw an error with defaultError if the result is not AUTHORIZED, DELAYED, or CANCELLED', (done) => {
@@ -265,73 +270,156 @@ describe('OpfPaymentVerificationService', () => {
         result: 'ERROR',
       };
 
-      opfCheckoutServiceMock.verifyPayment.and.returnValue(
+      opfPaymentServiceMock.verifyPayment.and.returnValue(
         of(mockVerificationResponse)
       );
 
-      service.verifyPayment(mockPaymentSessionId, mockResponseMap).subscribe(
-        () => {},
-        (error) => {
-          expect(error).toEqual(service.defaultError);
-          done();
-        }
-      );
+      service
+        .runHostedPagePattern(mockPaymentSessionId, mockResponseMap)
+        .subscribe(
+          () => {},
+          (error) => {
+            expect(error).toEqual(service.defaultError);
+            done();
+          }
+        );
     });
   });
 
-  describe('isPaymentSuccessful', () => {
-    it('should return true if the response result is AUTHORIZED', (done) => {
-      const mockVerificationResponse: OpfPaymentVerificationResponse = {
-        result: OpfPaymentVerificationResult.AUTHORIZED,
-      };
+  describe('runHostedFieldsPattern', () => {
+    const dynamicScriptMock: AfterRedirectDynamicScript = {
+      cssUrls: [{ url: 'css url test', sri: 'css sri test' }],
+      jsUrls: [{ url: 'js url test', sri: 'js sri test' }],
+      html: 'html test',
+    };
+
+    it('should call renderAfterRedirectScripts', (done) => {
+      opfPaymentServiceMock.afterRedirectScripts.and.returnValue(
+        of({ afterRedirectScript: dynamicScriptMock })
+      );
+      globalFunctionsServiceMock.registerGlobalFunctions.and.returnValue();
+      opfResourceLoaderServiceMock.loadProviderResources.and.returnValue(
+        Promise.resolve()
+      );
+
+      opfResourceLoaderServiceMock.executeScriptFromHtml.and.returnValue();
 
       service
-        .isPaymentSuccessful(mockVerificationResponse)
+        .runHostedFieldsPattern(
+          TargetPage.RESULT,
+          'paymentSessionIdTest',
+          {} as ViewContainerRef,
+          [{ key: 'key test', value: 'value test' }]
+        )
         .subscribe((result) => {
+          expect(
+            opfResourceLoaderServiceMock.loadProviderResources
+          ).toHaveBeenCalled();
+          expect(
+            opfResourceLoaderServiceMock.executeScriptFromHtml
+          ).toHaveBeenCalled();
           expect(result).toBeTruthy();
           done();
         });
     });
 
-    it('should return true if the response result is DELAYED', (done) => {
-      const mockVerificationResponse: OpfPaymentVerificationResponse = {
-        result: OpfPaymentVerificationResult.DELAYED,
-      };
+    it('should not executeScriptFromHtml when no html snippet', (done) => {
+      opfPaymentServiceMock.afterRedirectScripts.and.returnValue(
+        of({ afterRedirectScript: { dynamicScriptMock, html: undefined } })
+      );
+      globalFunctionsServiceMock.registerGlobalFunctions.and.returnValue();
+      opfResourceLoaderServiceMock.loadProviderResources.and.returnValue(
+        Promise.resolve()
+      );
+
+      opfResourceLoaderServiceMock.executeScriptFromHtml.and.returnValue();
 
       service
-        .isPaymentSuccessful(mockVerificationResponse)
+        .runHostedFieldsPattern(
+          TargetPage.RESULT,
+          'paymentSessionIdTest',
+          {} as ViewContainerRef,
+          [{ key: 'key test', value: 'value test' }]
+        )
         .subscribe((result) => {
-          expect(result).toBeTruthy();
+          expect(
+            opfResourceLoaderServiceMock.loadProviderResources
+          ).toHaveBeenCalled();
+          expect(
+            opfResourceLoaderServiceMock.executeScriptFromHtml
+          ).not.toHaveBeenCalled();
+          expect(result).toBeFalsy();
           done();
         });
     });
 
-    it('should throw an error with "opf.payment.errors.cancelPayment" if the response result is CANCELLED', (done) => {
-      const mockVerificationResponse: OpfPaymentVerificationResponse = {
-        result: OpfPaymentVerificationResult.CANCELLED,
-      };
-
-      service.isPaymentSuccessful(mockVerificationResponse).subscribe(
-        () => {},
-        (error) => {
-          expect(error.message).toEqual('opf.payment.errors.cancelPayment');
-          done();
-        }
+    it('should failed when loadProviderResources fails', (done) => {
+      opfPaymentServiceMock.afterRedirectScripts.and.returnValue(
+        of({ afterRedirectScript: { dynamicScriptMock, html: undefined } })
       );
+      globalFunctionsServiceMock.registerGlobalFunctions.and.returnValue();
+      opfResourceLoaderServiceMock.loadProviderResources.and.returnValue(
+        Promise.reject()
+      );
+
+      opfResourceLoaderServiceMock.executeScriptFromHtml.and.returnValue();
+
+      service
+        .runHostedFieldsPattern(
+          TargetPage.RESULT,
+          'paymentSessionIdTest',
+          {} as ViewContainerRef,
+          [{ key: 'key test', value: 'value test' }]
+        )
+        .subscribe((result) => {
+          expect(
+            opfResourceLoaderServiceMock.loadProviderResources
+          ).toHaveBeenCalled();
+          expect(
+            opfResourceLoaderServiceMock.executeScriptFromHtml
+          ).not.toHaveBeenCalled();
+          expect(result).toBeFalsy();
+          done();
+        });
     });
 
-    it('should throw an error with defaultError if the response result is not AUTHORIZED, DELAYED, or CANCELLED', (done) => {
-      const mockVerificationResponse: OpfPaymentVerificationResponse = {
-        result: 'ERROR',
-      };
-
-      service.isPaymentSuccessful(mockVerificationResponse).subscribe(
-        () => {},
-        (error) => {
-          expect(error).toEqual(service.defaultError);
-          done();
-        }
+    it('should throw error when missing afterRedirectScript property', (done) => {
+      opfPaymentServiceMock.afterRedirectScripts.and.returnValue(
+        of({ afterRedirectScript: undefined })
       );
+      globalFunctionsServiceMock.registerGlobalFunctions.and.returnValue();
+      spyOn<any>(service, 'renderAfterRedirectScripts').and.returnValue(
+        Promise.resolve(true)
+      );
+
+      service
+        .runHostedFieldsPattern(
+          TargetPage.RESULT,
+          'paymentSessionIdTest',
+          {} as ViewContainerRef,
+          [{ key: 'key test', value: 'value test' }]
+        )
+        .subscribe(
+          () => {},
+          (error) => {
+            expect(error).toBeDefined();
+            expect(error.message).toEqual('opf.payment.errors.proceedPayment');
+            done();
+          }
+        );
+    });
+  });
+
+  describe('removeResourcesAndGlobalFunctions', () => {
+    it('should should call psp resource clearing service and remove global functions', (done) => {
+      service.removeResourcesAndGlobalFunctions();
+      expect(
+        globalFunctionsServiceMock.removeGlobalFunctions
+      ).toHaveBeenCalled();
+      expect(
+        opfResourceLoaderServiceMock.clearAllProviderResources
+      ).toHaveBeenCalled();
+      done();
     });
   });
 

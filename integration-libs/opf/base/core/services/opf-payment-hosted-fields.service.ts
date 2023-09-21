@@ -83,6 +83,9 @@ export class OpfPaymentHostedFieldsService {
       this.userIdService.getUserId(),
       this.activeCartFacade.getActiveCartId(),
     ]).pipe(
+      filter(
+        ([userId, activeCartId]: [string, string]) => !!activeCartId && !!userId
+      ),
       switchMap(([userId, activeCartId]: [string, string]) => {
         submitRequest.cartId = activeCartId;
         return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
@@ -129,6 +132,9 @@ export class OpfPaymentHostedFieldsService {
       this.userIdService.getUserId(),
       this.activeCartFacade.getActiveCartId(),
     ]).pipe(
+      filter(
+        ([userId, activeCartId]: [string, string]) => !!activeCartId && !!userId
+      ),
       switchMap(([userId, activeCartId]: [string, string]) => {
         submitCompleteRequest.cartId = activeCartId;
         return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
