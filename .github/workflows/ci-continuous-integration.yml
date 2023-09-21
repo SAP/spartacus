@@ -10,7 +10,7 @@ on:
     # empty as it is used only to manually trigger the workflow
   
 env:
-  NODE_VERSION: '16'
+  NODE_VERSION: '18'
   NX_BASE: origin/${{ github.event.pull_request.base.ref }}
   NX_HEAD: origin/${{ github.event.pull_request.head.ref }}
 
