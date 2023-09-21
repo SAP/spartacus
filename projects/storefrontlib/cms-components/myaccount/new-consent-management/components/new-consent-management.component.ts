@@ -37,7 +37,7 @@ import { ConsentManagementComponentService } from '../../consent-management/cons
   templateUrl: './new-consent-management.component.html',
 })
 export class NewConsentManagementComponent implements OnInit, OnDestroy {
-  private subscriptions = new Subscription();
+  protected subscriptions = new Subscription();
   private allConsentsLoading = new BehaviorSubject<boolean>(false);
 
   templateList$: Observable<ConsentTemplate[]>;
@@ -51,7 +51,7 @@ export class NewConsentManagementComponent implements OnInit, OnDestroy {
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected anonymousConsentsService: AnonymousConsentsService,
     protected authService: AuthService,
-    protected consentManagementComponentService?: ConsentManagementComponentService
+    protected consentManagementComponentService: ConsentManagementComponentService
   ) {}
 
   ngOnInit(): void {
@@ -97,11 +97,10 @@ export class NewConsentManagementComponent implements OnInit, OnDestroy {
         }
       }),
       map(([templateList, anonymousTemplates]) => {
-        this.requiredConsents = this.consentManagementComponentService
-          ? this.consentManagementComponentService.getRequiredConsents(
-              templateList
-            )
-          : [];
+        this.requiredConsents =
+          this.consentManagementComponentService.getRequiredConsents(
+            templateList
+          );
         if (
           this.anonymousConsentsConfig.anonymousConsents &&
           this.anonymousConsentsConfig.anonymousConsents.consentManagementPage

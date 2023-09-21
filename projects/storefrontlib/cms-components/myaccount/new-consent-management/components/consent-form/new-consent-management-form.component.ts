@@ -34,10 +34,6 @@ export class NewConsentManagementFormComponent implements OnInit {
     template: ConsentTemplate;
   }>();
 
-  constructor() {
-    // Intentional empty constructor
-  }
-
   ngOnInit(): void {
     if (this.consent) {
       this.consentGiven = Boolean(
