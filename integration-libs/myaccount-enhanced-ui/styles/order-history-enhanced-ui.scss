@@ -6,9 +6,6 @@
   margin: 0 0 25px 0; //top-right-botton-left
 }
 
-@mixin font-color($status) {
-  color: #db0002;
-}
 .cx-order-history-enhanced-ui-header {
   @include draw-line;
   margin-bottom: 25px;
