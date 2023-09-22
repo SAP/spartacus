@@ -3,9 +3,9 @@
     <button
       #element
       type="button"
-      *ngFor="let action of quoteDetails.allowedActions; index as ii"
+      *ngFor="let action of quoteDetails.allowedActions"
       class="btn"
-      [ngClass]="getButtonStyle(ii)"
+      [ngClass]="getButtonStyle(quoteDetails.allowedActions, action)"
       [disabled]="mustDisableAction(action.type, quoteDetails)"
       (click)="onClick(action.type, quoteDetails)"
     >

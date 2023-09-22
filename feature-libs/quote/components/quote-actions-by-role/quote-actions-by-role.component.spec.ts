@@ -8,6 +8,7 @@ import {
 } from '@spartacus/core';
 import {
   Quote,
+  QuoteAction,
   QuoteActionType,
   QuoteFacade,
   QuoteState,
@@ -549,14 +550,45 @@ describe('QuoteActionsByRoleComponent', () => {
   });
 
   describe('getButtonStyle', () => {
-    it("should return 'btn-primary' style for first action", () => {
-      expect(component.getButtonStyle(0)).toEqual('btn-primary');
+    let allowedActions: QuoteAction[];
+    beforeEach(() => {
+      allowedActions = [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.EDIT, isPrimary: false },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+      ];
     });
-    it("should return 'btn-secondary' style for second action", () => {
-      expect(component.getButtonStyle(1)).toEqual('btn-secondary');
+    it("should return 'btn-primary' style for action marked as primary", () => {
+      expect(
+        component.getButtonStyle(allowedActions, {
+          type: QuoteActionType.SUBMIT,
+          isPrimary: true,
+        })
+      ).toEqual('btn-primary');
     });
-    it("should return 'btn-tertiary style for third action", () => {
-      expect(component.getButtonStyle(2)).toEqual('btn-tertiary');
+    it("should return 'btn-secondary' style for action marked as non-primary", () => {
+      expect(
+        component.getButtonStyle(allowedActions, {
+          type: QuoteActionType.SUBMIT,
+          isPrimary: false,
+        })
+      ).toEqual('btn-secondary');
+    });
+    it("should return 'btn-secondary' style for cancel-action if there are only 2 actions", () => {
+      expect(
+        component.getButtonStyle(allowedActions.slice(1), {
+          type: QuoteActionType.CANCEL,
+          isPrimary: false,
+        })
+      ).toEqual('btn-secondary');
+    });
+    it("should return 'btn-tertiary style for cancel-action if there are more than 2 actions", () => {
+      expect(
+        component.getButtonStyle(allowedActions, {
+          type: QuoteActionType.CANCEL,
+          isPrimary: false,
+        })
+      ).toEqual('btn-tertiary');
     });
   });
 });
