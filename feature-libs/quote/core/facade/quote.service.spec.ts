@@ -130,7 +130,7 @@ class MockQuoteConnector implements Partial<QuoteConnector> {
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   reloadActiveCart = createSpy().and.stub();
   takeActiveCartId = createSpy().and.returnValue(of(cartId));
-  isStable = createSpy().and.returnValue(of(true));
+  isStable = createSpy().and.returnValue(of(true, true));
   getActive = createSpy().and.returnValue(of(cart));
 }
 
@@ -308,6 +308,17 @@ describe('QuoteService', () => {
           expect(activeCartFacade.isStable).toHaveBeenCalled();
           expect(details).toEqual(quote);
           done();
+        });
+    });
+
+    it('should call connector once if isStable emits twice', () => {
+      isQuoteCartActive = true;
+      quoteId = quote.code;
+      service
+        .getQuoteDetails()
+        .pipe()
+        .subscribe(() => {
+          expect(connector.getQuote).toHaveBeenCalledTimes(1);
         });
     });
   });

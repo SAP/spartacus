@@ -358,6 +358,7 @@ export class QuoteService implements QuoteFacade {
         //we need to ensure that the active cart has been loaded, in order to determine if the
         //quote is connected to a quote cart (and then directly ready for edit)
         this.activeCartService.isStable().pipe(
+          take(1),
           switchMap(() =>
             this.routingService.getRouterState().pipe(
               //we don't need to cover the intermediate router states where a future route is already known.
