@@ -3,13 +3,12 @@
 <div>
   <div>
     <div class="row">
-      <div class="col-sm-5">
+      <div class="col-sm-6">
         <label class="myaccount-enhancedUI-headertext"
           >{{ 'newUserProfile.myInformation' | cxTranslate }}
         </label>
       </div>
-      <div class="col-sm-4"></div>
-      <div class="col-sm-1">
+      <div class="col-sm-6">
         <button
           class="myaccount-enhancedUI-editButton"
           *ngIf="!isEditing"
@@ -123,23 +122,25 @@
         <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
       </label>
     </form>
-    <div class="btn-group">
-      <button
-        class="
-          btn
-          myaccount-enhancedUI-button-cancel myaccount-enhancedUI-button
-        "
-        (click)="cancelEdit()"
-      >
-        {{ 'common.cancel' | cxTranslate }}
-      </button>
-      <button
-        class="btn btn-primary myaccount-enhancedUI-button"
-        (click)="onSubmit()"
-        [disabled]="form.disabled"
-      >
-        {{ 'common.save' | cxTranslate }}
-      </button>
+    <div class="btn-group-row">
+      <div class="btn-group">
+        <button
+          class="
+            btn
+            myaccount-enhancedUI-button-cancel myaccount-enhancedUI-button
+          "
+          (click)="cancelEdit()"
+        >
+          {{ 'common.cancel' | cxTranslate }}
+        </button>
+        <button
+          class="btn btn-primary myaccount-enhancedUI-button"
+          (click)="onSubmit()"
+          [disabled]="form.disabled"
+        >
+          {{ 'common.save' | cxTranslate }}
+        </button>
+      </div>
     </div>
   </div>
 </div>

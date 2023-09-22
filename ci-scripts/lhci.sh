@@ -2,6 +2,7 @@
 set -e
 
 export SPA_ENV='lighthouse'
+export NODE_OPTIONS=--dns-result-order=ipv4first
 
 npm install -g @lhci/cli@0.8.x
 

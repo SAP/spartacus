@@ -13,11 +13,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  FeaturesConfig,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Subject, of } from 'rxjs';
@@ -71,12 +67,6 @@ describe('NewProfileComponent', () => {
           {
             provide: NewProfileComponentService,
             useClass: MockProfileService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.2' },
-            },
           },
         ],
       })
