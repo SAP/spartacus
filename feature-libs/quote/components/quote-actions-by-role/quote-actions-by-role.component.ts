@@ -19,7 +19,7 @@ import {
   QuoteAction,
   QuoteActionType,
   QuoteFacade,
-  QuoteState
+  QuoteState,
 } from '@spartacus/quote/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
