@@ -21,6 +21,7 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
+  MessageComponentModule,
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -39,6 +40,7 @@ import { NewPasswordComponent } from './new-password.component';
     UrlModule,
     RouterModule,
     PasswordVisibilityToggleModule,
+    MessageComponentModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -64,5 +66,6 @@ import { NewPasswordComponent } from './new-password.component';
     }),
   ],
   declarations: [NewPasswordComponent],
+  exports: [NewPasswordComponent],
 })
 export class NewPasswordModule {}

@@ -6,7 +6,7 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
+import { GlobalMessageType } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { NewPasswordComponentService } from './new-password-component.service';
 
@@ -14,13 +14,15 @@ import { NewPasswordComponentService } from './new-password-component.service';
   selector: 'cx-new-password',
   templateUrl: './new-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'user-form' },
 })
 export class NewPasswordComponent {
-  constructor(
-    protected service: NewPasswordComponentService,
-    protected routingService: RoutingService
-  ) {}
+  showingAlert: boolean = true;
+  globalMessageType = GlobalMessageType;
+  oldPassword: string;
+  newPassword: string;
+  newPasswordConfirm: string;
+
+  constructor(protected service: NewPasswordComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
@@ -30,6 +32,11 @@ export class NewPasswordComponent {
   }
 
   onCancel(): void {
-    this.routingService.go({ cxRoute: 'home' });
+    this.oldPassword = '';
+    this.newPassword = '';
+    this.newPasswordConfirm = '';
+  }
+  closeDialogConfirmationAlert() {
+    this.showingAlert = false;
   }
 }

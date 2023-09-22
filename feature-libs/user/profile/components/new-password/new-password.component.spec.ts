@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
@@ -42,17 +42,12 @@ class MockUpdatePasswordService
   resetForm = createSpy().and.stub();
 }
 
-class MockRoutingService {
-  go() {}
-}
-
 describe('NewPasswordComponent', () => {
   let component: NewPasswordComponent;
   let fixture: ComponentFixture<NewPasswordComponent>;
   let el: DebugElement;
 
   let service: NewPasswordComponentService;
-  let routingService: RoutingService;
 
   beforeEach(
     waitForAsync(() => {
@@ -71,7 +66,6 @@ describe('NewPasswordComponent', () => {
             provide: NewPasswordComponentService,
             useClass: MockUpdatePasswordService,
           },
-          { provide: RoutingService, useClass: MockRoutingService },
         ],
       })
         .overrideComponent(NewPasswordComponent, {
@@ -86,7 +80,6 @@ describe('NewPasswordComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     service = TestBed.inject(NewPasswordComponentService);
-    routingService = TestBed.inject(RoutingService);
     fixture.detectChanges();
   });
 
@@ -139,18 +132,20 @@ describe('NewPasswordComponent', () => {
       expect(service.updatePassword).toHaveBeenCalled();
     });
 
-    it('should redirect to home page', () => {
-      spyOn(routingService, 'go').and.stub();
-
+    it('should clean input box', () => {
       fixture.detectChanges();
       const buttons = fixture.debugElement.queryAll(
         By.css('.myaccount-password-button-cancel')
       );
       buttons[0].triggerEventHandler('click', null);
+      expect(el.queryAll(By.css('form-control')).length).toEqual(0);
+    });
 
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'home',
-      });
+    it('should hide cx message strip when close clicked', () => {
+      component.closeDialogConfirmationAlert();
+      fixture.detectChanges();
+      const cxMsg = el.query(By.css('cx-message'));
+      expect(cxMsg).toBeNull();
     });
   });
 });

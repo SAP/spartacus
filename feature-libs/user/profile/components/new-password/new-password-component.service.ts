@@ -75,7 +75,7 @@ export class NewPasswordComponentService {
 
   protected onSuccess(): void {
     this.globalMessageService.add(
-      { key: 'updatePasswordForm.passwordUpdateSuccess' },
+      { key: 'newPasswordForm.passwordUpdateSuccess' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
     this.busy$.next(false);
@@ -97,7 +97,7 @@ export class NewPasswordComponentService {
       _error.details?.[0].type === 'AccessDeniedError'
     ) {
       this.globalMessageService.add(
-        { key: 'updatePasswordForm.accessDeniedError' },
+        { key: 'newPasswordForm.accessDeniedError' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }

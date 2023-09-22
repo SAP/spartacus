@@ -39,6 +39,7 @@ export const newUserProfile = {
       label: 'Confirm New Password',
       placeholder: 'Confirm New Password',
     },
+    reloginIndicator: 'You need to log in again after setting password.',
     bothPasswordMustMatch: 'Both password must match',
     passwordUpdateSuccess: 'Password updated with success',
     accessDeniedError: 'Access is denied',
