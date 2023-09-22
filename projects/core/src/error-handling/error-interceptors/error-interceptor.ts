@@ -8,7 +8,8 @@ import { InjectionToken } from '@angular/core';
 
 /**
  * ChainedErrorInterceptorFn is a function that is passed to the error interceptor.
- * It is responsible for passing the error to the next interceptor in the chain if provided.
+ * It is responsible for handling an error in some way. If the error is not resolved by this interceptor,
+ * it should pass the original error (or a new error) to the next interceptor in the chain.
  *
  * @public
  */
@@ -18,14 +19,15 @@ export type ChainedErrorInterceptorFn = (error: Error) => void;
  * Priority of the error interceptor. The higher the priority, the earlier the interceptor will be called.
  * The order is:
  * 1. High priority - the latest added with the high priority is first
- * 2. No priority - the order is not changed
+ * 2. Default or no priority - the order is not changed
  * 3. Low priority - the latest added with the low priority is last
  *
  * @public
  */
 export enum ErrorInterceptorPriority {
-  HIGH = -1,
-  LOW = 1,
+  HIGH = 1,
+  DEFAULT = 0,
+  LOW = -1,
 }
 
 /**
@@ -39,11 +41,11 @@ export enum ErrorInterceptorPriority {
  */
 export interface ErrorInterceptor {
   priority?: ErrorInterceptorPriority;
-  interceptError(error: unknown, next?: ChainedErrorInterceptorFn): void;
+  intercept(error: unknown, next: ChainedErrorInterceptorFn): void;
 }
 
 /**
- * Injection token for error interceptors responsible for intercepting errors handled by the CxErrorHandler.
+ * Injection token for error interceptors.
  * Error interceptors can be provided with the proper priority. The higher the priority, the earlier the interceptor will be called.
  * Spartacus is providing one error interceptor by default:
  * - LoggerErrorInterceptor - responsible for logging errors to the LoggerService.

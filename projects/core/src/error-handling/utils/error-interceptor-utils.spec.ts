@@ -10,28 +10,28 @@ import {
 describe('error interceptor utils', () => {
   describe('sortErrorInterceptors', () => {
     const noPriorityInterceptor: ErrorInterceptor = {
-      interceptError: () => {},
+      intercept: () => {},
     };
     const anotherNoPriorityInterceptor: ErrorInterceptor = {
-      interceptError: () => {},
+      intercept: () => {},
     };
     const highPriorityInterceptor: ErrorInterceptor = {
       priority: ErrorInterceptorPriority.HIGH,
-      interceptError: () => {},
+      intercept: () => {},
     };
     const anotherHighPriorityInterceptor: ErrorInterceptor = {
       priority: ErrorInterceptorPriority.HIGH,
-      interceptError: () => {},
+      intercept: () => {},
     };
 
     const lowPriorityInterceptor: ErrorInterceptor = {
       priority: ErrorInterceptorPriority.LOW,
-      interceptError: () => {},
+      intercept: () => {},
     };
 
     const anotherLowPriorityInterceptor: ErrorInterceptor = {
       priority: ErrorInterceptorPriority.LOW,
-      interceptError: () => {},
+      intercept: () => {},
     };
 
     it('should should return the input order if priority does not set', () => {
@@ -93,11 +93,11 @@ describe('error interceptor utils', () => {
     it('should call next interceptor', () => {
       const next = jasmine.createSpy();
       const interceptor: ErrorInterceptor = {
-        interceptError: jasmine.createSpy(),
+        intercept: jasmine.createSpy(),
       };
       const error = new Error('test');
       handleInterceptors(next, interceptor)(error);
-      expect(interceptor.interceptError).toHaveBeenCalledWith(error, next);
+      expect(interceptor.intercept).toHaveBeenCalledWith(error, next);
     });
   });
 });

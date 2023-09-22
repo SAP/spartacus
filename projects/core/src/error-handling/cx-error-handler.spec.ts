@@ -18,7 +18,7 @@ class MockErrorInterceptor implements ErrorInterceptor {
   constructor(interceptorValue: string) {
     this.#interceptorValue = interceptorValue;
   }
-  interceptError(error: Error, next: ChainedErrorInterceptorFn): void {
+  intercept(error: Error, next: ChainedErrorInterceptorFn): void {
     interceptorsOrder.push(this.#interceptorValue);
     next(error);
   }

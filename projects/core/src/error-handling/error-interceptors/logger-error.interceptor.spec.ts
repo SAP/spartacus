@@ -28,14 +28,14 @@ describe('LoggerErrorInterceptor', () => {
   it('should log the error', () => {
     const error = new Error('test error');
 
-    loggerErrorInterceptor.interceptError(error);
+    loggerErrorInterceptor.intercept(error);
     expect(logger.error).toHaveBeenCalledWith(error);
   });
 
   it('should call the next interceptor', () => {
     const error = new Error('test error');
 
-    loggerErrorInterceptor.interceptError(error, mockChanFn);
+    loggerErrorInterceptor.intercept(error, mockChanFn);
     expect(logger.error).toHaveBeenCalledWith(error);
     expect(mockChanFn).toHaveBeenCalledWith(error);
   });
