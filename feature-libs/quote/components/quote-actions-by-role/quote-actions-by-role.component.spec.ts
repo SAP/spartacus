@@ -8,7 +8,6 @@ import {
 } from '@spartacus/core';
 import {
   Quote,
-  QuoteAction,
   QuoteActionType,
   QuoteFacade,
   QuoteState,
@@ -19,14 +18,14 @@ import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
-import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
-import createSpy = jasmine.createSpy;
-import { ConfirmationContext } from '../quote-confirm-action-dialog/quote-confirm-action-dialog.model';
 import {
   ConfirmActionDialogMappingConfig,
   QuoteUIConfig,
 } from '../config/quote-ui.config';
+import { ConfirmationContext } from '../quote-confirm-action-dialog/quote-confirm-action-dialog.model';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
+import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
+import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
 const mockCode = '3333';
@@ -36,8 +35,8 @@ const totalPrice: Price = { value: threshold + 1 };
 const mockQuote: Quote = {
   ...createEmptyQuote(),
   allowedActions: [
-    { type: QuoteActionType.EDIT, isPrimary: false },
     { type: QuoteActionType.REQUOTE, isPrimary: true },
+    { type: QuoteActionType.EDIT, isPrimary: false },
   ],
   state: QuoteState.BUYER_DRAFT,
   cartId: mockCartId,
@@ -401,7 +400,7 @@ describe('QuoteActionsByRoleComponent', () => {
     fixture.detectChanges();
     const editButton = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
-      '.btn:first-child'
+      '.btn-secondary'
     );
     editButton.click();
     expect(facade.performQuoteAction).toHaveBeenCalledWith(
@@ -415,7 +414,7 @@ describe('QuoteActionsByRoleComponent', () => {
     fixture.detectChanges();
     const requoteButton = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
-      '.btn:last-child'
+      '.btn-primary'
     );
     requoteButton.click();
     expect(facade.requote).toHaveBeenCalledWith(mockQuote.code);
@@ -492,6 +491,7 @@ describe('QuoteActionsByRoleComponent', () => {
         successMessage: 'successMessage',
       };
     });
+
     it("should do nothing if dialog was closed selecting 'no'", () => {
       component['handleConfirmationDialogClose'](
         QuoteActionType.SUBMIT,
@@ -501,6 +501,7 @@ describe('QuoteActionsByRoleComponent', () => {
       expect(facade.performQuoteAction).not.toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
+
     it("should perform quote action if dialog was closed selecting 'yes'", () => {
       context.successMessage = undefined;
       component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
@@ -511,6 +512,7 @@ describe('QuoteActionsByRoleComponent', () => {
       );
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
+
     it("should perform quote action if dialog was closed selecting 'yes' and display the given success message", () => {
       component['handleConfirmationDialogClose'](
         QuoteActionType.SUBMIT,
@@ -527,6 +529,7 @@ describe('QuoteActionsByRoleComponent', () => {
       );
     });
   });
+
   describe('getMessageType', () => {
     it('should return INFO for reject action', () => {
       expect(component['getMessageType'](QuoteActionType.REJECT)).toBe(
@@ -544,46 +547,16 @@ describe('QuoteActionsByRoleComponent', () => {
       );
     });
   });
+
   describe('getButtonStyle', () => {
-    let allowedActions: QuoteAction[];
-    beforeEach(() => {
-      allowedActions = [
-        { type: QuoteActionType.SUBMIT, isPrimary: true },
-        { type: QuoteActionType.EDIT, isPrimary: false },
-        { type: QuoteActionType.CANCEL, isPrimary: false },
-      ];
+    it("should return 'btn-primary' style for first action", () => {
+      expect(component.getButtonStyle(0)).toEqual('btn-primary');
     });
-    it("should return 'btn-primary' style for action marked as primary", () => {
-      expect(
-        component.getButtonStyle(allowedActions, {
-          type: QuoteActionType.SUBMIT,
-          isPrimary: true,
-        })
-      ).toEqual('btn-primary');
+    it("should return 'btn-secondary' style for second action", () => {
+      expect(component.getButtonStyle(1)).toEqual('btn-secondary');
     });
-    it("should return 'btn-secondary' style for action marked as non-primary", () => {
-      expect(
-        component.getButtonStyle(allowedActions, {
-          type: QuoteActionType.SUBMIT,
-          isPrimary: false,
-        })
-      ).toEqual('btn-secondary');
-    });
-    it("should return 'btn-secondary' style for cancel-action if there are only 2 actions", () => {
-      expect(
-        component.getButtonStyle(allowedActions.slice(1), {
-          type: QuoteActionType.CANCEL,
-          isPrimary: false,
-        })
-      ).toEqual('btn-secondary');
-    });
-    it("should return 'btn-tertiary style for cancel-action if there are more than 2 actions", () => {
-      expect(
-        component.getButtonStyle(allowedActions, {
-          type: QuoteActionType.CANCEL,
-          isPrimary: false,
-        })
-      ).toEqual('btn-tertiary');
+    it("should return 'btn-tertiary style for third action", () => {
+      expect(component.getButtonStyle(2)).toEqual('btn-tertiary');
     });
   });
 });
