@@ -588,7 +588,7 @@ describe('QuoteActionsByRoleComponent', () => {
     });
   });
 
-  describe('statusToRole', () => {
+  describe('stateToRoleTypeForDialogConfig', () => {
     it('should return buyer-role', () => {
       expect(
         component['stateToRoleTypeForDialogConfig'](QuoteState.BUYER_DRAFT)
@@ -606,7 +606,7 @@ describe('QuoteActionsByRoleComponent', () => {
         )
       ).toBe(QuoteRoleType.SELLERAPPROVER);
     });
-    it('should return sate if no role matches', () => {
+    it('should return default (not_available) role type if no role matches', () => {
       expect(
         component['stateToRoleTypeForDialogConfig'](QuoteState.CANCELLED)
       ).toBe(QuoteRoleType.NOT_AVAILABLE);
