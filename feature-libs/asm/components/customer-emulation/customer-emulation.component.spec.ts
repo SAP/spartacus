@@ -42,6 +42,9 @@ describe('CustomerEmulationComponent', () => {
     isConfigured(): boolean {
       return true;
     }
+    resolveFeature(featureName: string): Observable<any> {
+      return of(featureName);
+    }
   }
 
   let component: CustomerEmulationComponent;

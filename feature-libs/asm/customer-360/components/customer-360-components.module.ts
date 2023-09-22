@@ -61,15 +61,6 @@ import { defaultCustomer360LayoutConfig } from './default-customer-360-layout.co
   ],
   declarations: [Customer360Component, AsmCustomerSectionComponent],
   exports: [Customer360Component],
-  providers: [
-    provideDefaultConfig(defaultCustomer360LayoutConfig),
-    // provideDefaultConfig({
-    //   cmsComponents: {
-    //     AsmCustomer360Component: {
-    //       component: Customer360Component,
-    //     },
-    //   },
-    // }),
-  ],
+  providers: [provideDefaultConfig(defaultCustomer360LayoutConfig)],
 })
 export class Customer360ComponentsModule {}

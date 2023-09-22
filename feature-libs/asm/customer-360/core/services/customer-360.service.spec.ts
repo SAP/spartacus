@@ -11,6 +11,13 @@ import { take } from 'rxjs/operators';
 import { Customer360Connector } from '../connectors';
 
 import { Customer360Service } from './customer-360.service';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'cx-dummy',
+  template: '<div>This is a dummy component</div>',
+})
+export class DummyComponent {}
 
 describe('Asm360Service', () => {
   const data: Customer360Response = {
@@ -74,15 +81,15 @@ describe('Asm360Service', () => {
   it('should get data', () => {
     const components1: Customer360TabComponent[] = [
       {
-        component: 'AsmCustomer360OverviewComponent',
+        component: DummyComponent,
       },
     ];
     const components2: Customer360TabComponent[] = [
       {
-        component: 'AsmCustomer360ProfileComponent',
+        component: DummyComponent,
       },
       {
-        component: 'AsmCustomer360ProductReviewsComponent',
+        component: DummyComponent,
         requestData: {
           type: Customer360Type.REVIEW_LIST,
         },

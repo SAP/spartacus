@@ -32,6 +32,11 @@ import {
 import { Customer360Type } from '@spartacus/asm/customer-360/root';
 import { Customer360Config } from '@spartacus/asm/customer-360/core';
 import { of } from 'rxjs';
+import {
+  AsmCustomerActiveCartComponent,
+  AsmCustomerProductReviewsComponent,
+  AsmCustomerProfileComponent,
+} from '../sections';
 
 @Directive({
   selector: '[cxFocus]',
@@ -50,7 +55,7 @@ describe('AsmCustomerTableComponent', () => {
           i18nNameKey: 'customer360.overviewTab',
           components: [
             {
-              component: 'AsmCustomer360OverviewComponent',
+              component: AsmCustomerActiveCartComponent,
             },
           ],
         },
@@ -58,10 +63,10 @@ describe('AsmCustomerTableComponent', () => {
           i18nNameKey: 'customer360.profileTab',
           components: [
             {
-              component: 'AsmCustomer360ProfileComponent',
+              component: AsmCustomerProfileComponent,
             },
             {
-              component: 'AsmCustomer360ProductReviewsComponent',
+              component: AsmCustomerProductReviewsComponent,
               requestData: {
                 type: Customer360Type.REVIEW_LIST,
               },

@@ -26,6 +26,11 @@ import { Customer360Component } from './customer-360.component';
 import { CsAgentAuthService } from '@spartacus/asm/root';
 import { ArgsPipe } from '@spartacus/asm/core';
 import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
+import {
+  AsmCustomerActiveCartComponent,
+  AsmCustomerProductReviewsComponent,
+  AsmCustomerProfileComponent,
+} from '../sections';
 
 describe('AsmCustomer360Component', () => {
   const mockAsmConfig: Customer360Config = {
@@ -37,7 +42,7 @@ describe('AsmCustomer360Component', () => {
           i18nNameKey: 'customer360.overviewTab',
           components: [
             {
-              component: 'AsmCustomer360OverviewComponent',
+              component: AsmCustomerActiveCartComponent,
             },
           ],
         },
@@ -45,10 +50,10 @@ describe('AsmCustomer360Component', () => {
           i18nNameKey: 'customer360.profileTab',
           components: [
             {
-              component: 'AsmCustomer360ProfileComponent',
+              component: AsmCustomerProfileComponent,
             },
             {
-              component: 'AsmCustomer360ProductReviewsComponent',
+              component: AsmCustomerProductReviewsComponent,
               requestData: {
                 type: Customer360Type.REVIEW_LIST,
               },

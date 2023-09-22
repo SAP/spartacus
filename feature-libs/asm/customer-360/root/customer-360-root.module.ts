@@ -21,7 +21,6 @@ import { SiteContextInterceptor } from './interceptors/site-context.interceptor'
     provideDefaultConfig({
       featureModules: {
         [CUSTOMER_360_FEATURE]: {
-          // cmsComponents: ['AsmCustomer360Component'],
           dependencies: [ASM_FEATURE],
         },
         [CUSTOMER_360_CORE_FEATURE]: CUSTOMER_360_FEATURE,
