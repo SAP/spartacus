@@ -16,8 +16,8 @@
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
+    right: -($font-size-base * 0.9375);
+    left: -($font-size-base * 0.9375);
   }
 
   .header {
