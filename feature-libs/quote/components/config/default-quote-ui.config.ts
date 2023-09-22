@@ -64,6 +64,7 @@ const defaultDialogMappings: ConfirmActionDialogMappingConfig = {
     SUBMIT: {
       i18nKey: 'quote.confirmActionDialog.seller.submit',
       ...defaultConfirmActionDialogConfig,
+      showWarningNote: true,
     },
   },
   SELLERAPPROVER: {
