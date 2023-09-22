@@ -27,7 +27,7 @@ import { NewNotificationPreferenceComponent } from './new-notification-preferenc
     RouterModule.forChild([
       {
         // @ts-ignore
-        path: null,
+        path: '',
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'notificationPreference' },

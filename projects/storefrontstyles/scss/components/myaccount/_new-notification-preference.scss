@@ -1,6 +1,25 @@
 @import '../../theme';
 
 %cx-new-notification-preference {
+  .np-content-center {
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
+  }
+
+  .np-flex {
+    display: -ms-flexbox !important;
+    display: flex !important;
+  }
+
+  .np-row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+
   .header {
     width: $font-size-base * 14.375;
     height: $font-size-base * 1.875;

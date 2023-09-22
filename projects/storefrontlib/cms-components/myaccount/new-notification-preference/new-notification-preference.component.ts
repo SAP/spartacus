@@ -24,7 +24,7 @@ export class NewNotificationPreferenceComponent implements OnInit {
   protected preferences: NotificationPreference[] = [];
 
   constructor(
-    private notificationPreferenceService: UserNotificationPreferenceService
+    protected notificationPreferenceService: UserNotificationPreferenceService
   ) {}
 
   ngOnInit() {
