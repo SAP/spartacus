@@ -7,3 +7,5 @@
 export * from './order-details-enhanced-ui-actions.component';
 export * from './order-details-enhanced-ui.module';
 export * from './download-invoices/index';
+export * from './consignment-tracking/consignment-tracking-link.component';
+

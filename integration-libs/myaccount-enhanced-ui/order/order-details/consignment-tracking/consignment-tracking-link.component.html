@@ -1,29 +1,27 @@
-  <div class="cx-list-status">
-    <span *ngIf="consignment">
-      {{
-        'orderDetails.deliveryStatus_' + consignment.status | cxTranslate
-      }}
+<div class="cx-list-status">
+  <span *ngIf="consignment">
+    {{ 'orderDetails.deliveryStatus_' + consignment.status | cxTranslate }}
+  </span>
+  <span *ngIf="consignment.trackingID">
+    <span
+      *ngIf="
+        consignmentStatus.includes(consignment.status ?? '');
+        else showTrackingNumber
+      "
+    >
+      <button class="btn btn-link button-remove" (click)="openTrackingDialog()">
+        <span class="button-text">
+          {{ 'orderDetailsEnhancedUI.trackingID' | cxTranslate
+          }}{{ consignment.trackingID }}</span
+        >
+      </button>
     </span>
-    <span *ngIf="consignment.trackingID">
-      <span
-        *ngIf="
-          consignmentStatus.includes(consignment.status ?? '');
-          else showTrackingNumber
-        "
-      >
-        <button class="btn btn-link button-remove" (click)="openTrackingDialog()">
-          <span class="button-text">
-            {{ 'orderDetailsEnhancedUI.trackingID' | cxTranslate
-            }}{{ consignment.trackingID }}</span
-          >
-        </button>
-      </span>
-    </span>
-    <ng-template #showTrackingNumber>
-      {{ 'orderDetailsEnhancedUI.trackingID' | cxTranslate }}
-      {{ consignment.trackingID }}
-    </ng-template>
-  </div>
-  <div *ngIf="consignment?.statusDate" class="cx-list-date">
-    <div>{{ consignment.statusDate | cxDate }}</div>
-  </div>
+  </span>
+  <ng-template #showTrackingNumber>
+    {{ 'orderDetailsEnhancedUI.trackingID' | cxTranslate }}
+    {{ consignment.trackingID }}
+  </ng-template>
+</div>
+<div *ngIf="consignment?.statusDate" class="cx-list-date">
+  <div>{{ consignment.statusDate | cxDate }}</div>
+</div>

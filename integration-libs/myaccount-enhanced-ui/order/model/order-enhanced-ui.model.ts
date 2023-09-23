@@ -27,7 +27,7 @@ declare module '@spartacus/order/root' {
   }
 }
 declare module '@spartacus/order/root' {
-  interface Consignment{
+  interface Consignment {
     tracking?: ConsignmentTracking;
   }
 }
