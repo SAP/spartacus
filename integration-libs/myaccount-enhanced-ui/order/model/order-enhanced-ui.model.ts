@@ -6,7 +6,7 @@
 
 import { OrderEntry } from '@spartacus/cart/base/root';
 import '@spartacus/order/root';
-import { Consignment, ReturnRequest } from '@spartacus/order/root';
+import { ConsignmentTracking, ReturnRequest } from '@spartacus/order/root';
 import '@spartacus/storefront';
 
 declare module '@spartacus/order/root' {
@@ -26,7 +26,11 @@ declare module '@spartacus/order/root' {
     // else kept it the same.
   }
 }
-
+declare module '@spartacus/order/root' {
+  interface Consignment{
+    tracking?: ConsignmentTracking;
+  }
+}
 declare module '@spartacus/storefront' {
   const enum LAUNCH_CALLER {
     DOWNLOAD_ORDER_INVOICES = 'DOWNLOAD_ORDER_INVOICES',
