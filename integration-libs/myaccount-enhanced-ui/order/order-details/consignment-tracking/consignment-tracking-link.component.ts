@@ -20,6 +20,7 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'cx-consignment-tracking-link',
   templateUrl: './consignment-tracking-link.component.html',
+  host: {class: 'cx-list-header col-12'}
 })
 export class ConsignmentTrackingLinkComponent implements OnInit, OnDestroy {
   consignment: Consignment;
