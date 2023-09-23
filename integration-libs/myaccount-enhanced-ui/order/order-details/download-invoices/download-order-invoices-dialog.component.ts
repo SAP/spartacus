@@ -12,7 +12,7 @@ import { InvoicesListComponent } from '@spartacus/pdf-invoices/components';
 import { PDFInvoicesFacade } from '@spartacus/pdf-invoices/root';
 import { ICON_TYPE, FocusConfig } from '@spartacus/storefront';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { Subscription, Observable, of } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-reorder-dialog',
@@ -27,7 +27,6 @@ export class DownloadOrderInvoicesDialogComponent
   public invoiceComponent: InvoicesListComponent;
   readonly OrderOutlets = OrderOutlets;
   invoiceCount: number | undefined = undefined;
-  loaded$: Observable<boolean> = of(false);
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -46,7 +45,6 @@ export class DownloadOrderInvoicesDialogComponent
     this.subscription.add(
       this.launchDialogService.data$.subscribe((data: Order) => {
         this.order = data;
-        this.loadInvoices(data);
       })
     );
   }
@@ -57,12 +55,8 @@ export class DownloadOrderInvoicesDialogComponent
       this.invoiceCount = this.invoiceComponent.pagination.totalResults;
     }
   }
-  loadInvoices(_order: Order): void {
-    this.loaded$ = of(true);
-  }
 
   close(reason?: any, _message?: string): void {
-    this.loaded$ = of(false);
     this.launchDialogService.closeDialog(reason);
   }
 

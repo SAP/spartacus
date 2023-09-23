@@ -43,6 +43,7 @@ export const myAccountEnhancedUI = {
     cancelItems: 'Cancel Items',
     downloadInvoices: 'Download Invoices',
     viewAllOrders: 'View All Orders',
+    trackingID: 'Tracking Number: ',
     noInvoices: 'Invoices are not yet generated - Come back later!',
   },
 };

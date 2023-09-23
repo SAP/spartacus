@@ -13,6 +13,8 @@ import {
   OrderHistoryList,
   OrderHistory,
   ReturnRequestList,
+  Consignment,
+  Order,
 } from '@spartacus/order/root';
 import { map, switchMap } from 'rxjs/operators';
 import { OrderDetailsService } from '@spartacus/order/components';
@@ -28,18 +30,85 @@ export class OrderHistoryEnhancedUIAdapter extends OccOrderHistoryAdapter {
     super(http, occEndpoints, converter);
   }
 
+  /**
+   * fills the tracking information for each consignment in the input order details
+   * @param userId user id
+   * @param order order details with consignments
+   * @returns order details along with tracking information for each of it's consignments
+   */
+  fillConsignmentTrackingDetails(
+    userId: string,
+    order: Order
+  ): Observable<Order> {
+    const requests = order.consignments?.map((consignment: Consignment) => {
+      if (consignment.code && consignment.trackingID) {
+        return this.getConsignmentTracking(
+          order?.code ?? '',
+          consignment.code,
+          userId
+        ).pipe(
+          map((trackingInfo) => {
+            consignment.tracking = trackingInfo;
+            return order;
+          })
+        );
+      } else {
+        return of(order);
+      }
+    });
+    if (requests === undefined || requests.length < 1) {
+      return of(order);
+    }
+    return forkJoin(requests).pipe(
+      switchMap((requests: Order[] | undefined) => {
+        if (requests !== undefined) {
+          return of(requests[0]);
+        } else {
+          return of(order);
+        }
+      })
+    );
+  }
+
+  /**
+   * This method overrides the load method from OccOrderHistoryAdapter.
+   * Returns order details along with tracking information of each of it's consignments for an
+   * order code.
+   * @param userId user id
+   * @param orderCode  order code
+   * @returns order details
+   */
+  public load(userId: string, orderCode: string): Observable<Order> {
+    return super.load(userId, orderCode).pipe(
+      switchMap((order: Order) => {
+        return this.fillConsignmentTrackingDetails(userId, order);
+      })
+    );
+  }
+
+  /**
+   * This method overrides the loadHistory method from OccOrderHistoryAdapter.
+   * Returns order history list with returns details filled in each order.
+   * @param userId user id
+   * @param pageSize no.of items in a page
+   * @param currentPage current page number
+   * @param sort sort order
+   * @returns order history list
+   */
   public loadHistory(
     userId: string,
     pageSize?: number,
     currentPage?: number,
     sort?: string
   ): Observable<OrderHistoryList> {
-    return this.loadOrdersAndReturnsList(
+    const orderHistoryListRequest = this.loadOrderHistoryWithDetails(
       userId,
       pageSize,
       currentPage,
       sort
-    ).pipe(
+    );
+    const returnRequestListRequest = this.loadReturnRequestList(userId);
+    return forkJoin([orderHistoryListRequest, returnRequestListRequest]).pipe(
       switchMap((responses: [OrderHistoryList, ReturnRequestList]) => {
         var returnRequests = responses[1].returnRequests;
         var orderHistory = responses[0];
@@ -60,23 +129,15 @@ export class OrderHistoryEnhancedUIAdapter extends OccOrderHistoryAdapter {
     );
   }
 
-  public loadOrdersAndReturnsList(
-    userId: string,
-    pageSize?: number,
-    currentPage?: number,
-    sort?: string
-  ): Observable<[OrderHistoryList, ReturnRequestList]> {
-    const orderHistoryListRequest = this.loadEnhancedUIOrderHistory(
-      userId,
-      pageSize,
-      currentPage,
-      sort
-    );
-    const returnRequestListRequest = this.loadReturnRequestList(userId);
-    return forkJoin([orderHistoryListRequest, returnRequestListRequest]);
-  }
-
-  public loadEnhancedUIOrderHistory(
+  /**
+   * Returns order history list with more order details filled in each order.
+   * @param userId user id
+   * @param pageSize no.of items in a page
+   * @param currentPage current page number
+   * @param sort sort order
+   * @returns order history list
+   */
+  loadOrderHistoryWithDetails(
     userId: string,
     pageSize?: number,
     currentPage?: number,

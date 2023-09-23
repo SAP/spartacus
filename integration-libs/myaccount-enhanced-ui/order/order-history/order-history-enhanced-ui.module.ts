@@ -22,7 +22,6 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { ConsignmentEntriesEnhancedUIComponent } from './consignment-entries/consignment-entries-enhanced-ui.component';
-import { ConsignmentTrackingEnhancedUIComponent } from './consignment-tracking/consignment-tracking-enhanced-ui.component';
 import { OrderConsolidatedInformationComponent } from './consolidated-information/order-consolidated-information.component';
 import { OrderHistoryEnhancedUIAdapter } from './order-history-enhanced-ui.adapter';
 import { OrderHistoryEnhancedUIComponent } from './order-history-enhanced-ui.component';
@@ -30,7 +29,6 @@ import { OrderHistoryEnhancedUIComponent } from './order-history-enhanced-ui.com
 const moduleComponents = [
   OrderHistoryEnhancedUIComponent,
   OrderConsolidatedInformationComponent,
-  ConsignmentTrackingEnhancedUIComponent,
   ConsignmentEntriesEnhancedUIComponent,
 ];
 @NgModule({
