@@ -1,0 +1,93 @@
+@mixin draw-line {
+  display: block;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: var(--cx-color-light);
+  margin: 0 0 25px 0; //top-right-botton-left
+}
+
+%cx-order-history-enhanced-ui {
+  .cx-order-history-enhanced-ui-header {
+    @include draw-line;
+    margin-bottom: 25px;
+  }
+  .cx-order-history-enhanced-ui-body {
+    .cx-order-history-pagination {
+      display: flex;
+      justify-content: flex-end;
+      padding: 1rem 0 1rem 0;
+      margin: 0;
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+      }
+      @include media-breakpoint-down(sm) {
+        margin: 0 auto;
+      }
+    }
+    .cx-each-order {
+      @include draw-line;
+      &:last-of-type {
+        border: none;
+      }
+    }
+
+    .cx-enhanced-ui-order-history-code {
+      color: var(--cx-color-primary);
+      text-decoration: underline;
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 16px; //gap between 'order # 1234' and 'Purchase Type: ... line'
+    }
+    .cx-enhanced-ui-order-summary {
+      font-size: 16px;
+      font-weight: 400;
+      margin-bottom: 15px;
+    }
+    .cx-consolidated-order-info {
+      display: flex;
+      margin-top: 16px;
+      &:last-of-type {
+        margin-bottom: 20px; //space between last item and the ---- line
+      }
+      .cx-order-info {
+        width: 60%; // show 70% order info and 30% images
+        .cx-consignment-info {
+          font-size: 16px;
+          color: #6c7079;
+        }
+
+        .cx-list-header {
+          @include media-breakpoint-down(sm) {
+            padding: 0;
+          }
+          .cx-list-status {
+            //margin: 0 0 0.5rem;
+            padding: 5px 30px; //15px 30px; //top right bottom left
+            background-color: var(--cx-color-background);
+            @include type("4");
+            font-weight: bold;
+          }
+        }
+
+        .cx-order-status {
+          font-size: 18px;
+        }
+        .cx-order-status-critical {
+          font-size: 18px;
+          color: var(--cx-color-alert, var(--cx-color-danger));
+        }
+      }
+      .cx-order-images-container {
+        width: 40%; // show 70% order info and 30% images
+        .cx-order-img {
+          width: 88px;
+          height: 88px;
+          margin-right: 8px;
+          display: inline-end;
+          float: right;
+        }
+      }
+    }
+  }
+}

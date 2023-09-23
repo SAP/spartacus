@@ -15,7 +15,7 @@ import { LaunchDialogService } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'cx-reorder-dialog',
+  selector: 'cx-download-invoices-dialog',
   templateUrl: './download-order-invoices-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
