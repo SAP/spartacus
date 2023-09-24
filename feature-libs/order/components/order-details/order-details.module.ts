@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
@@ -15,16 +15,25 @@ import {
   FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
+  provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
+import { OrderOutlets } from '../../root/model';
 import {
   CardModule,
   IconModule,
   KeyboardFocusModule,
   OutletModule,
+  OutletPosition,
   PromotionsModule,
+  provideOutlet,
   SpinnerModule,
 } from '@spartacus/storefront';
+import {
+  ConsignmentTrackingLinkComponent,
+  DownloadOrderInvoicesDialogModule,
+  OrderDetailsEnhancedUIActionsComponent,
+} from './enhanced-ui';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { OrderDetailBillingComponent } from './order-detail-billing/order-detail-billing.component';
 import { ConsignmentTrackingComponent } from './order-detail-items/consignment-tracking/consignment-tracking.component';
@@ -37,6 +46,16 @@ import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/re
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
+import { MYACCOUNT_ENHANCED_UI } from '../../order.module';
+
+const enhancedUICmsMapping: CmsConfig = {
+  cmsComponents: {
+    AccountOrderDetailsActionsComponent: {
+      component: OrderDetailsEnhancedUIActionsComponent,
+      guards: [AuthGuard],
+    },
+  },
+};
 
 const moduleComponents = [
   OrderOverviewComponent,
@@ -49,6 +68,8 @@ const moduleComponents = [
   OrderConsignedEntriesComponent,
   OrderDetailReorderComponent,
   ReorderDialogComponent,
+  OrderDetailsEnhancedUIActionsComponent,
+  ConsignmentTrackingLinkComponent,
 ];
 
 @NgModule({
@@ -65,6 +86,7 @@ const moduleComponents = [
     AddToCartModule,
     KeyboardFocusModule,
     IconModule,
+    DownloadOrderInvoicesDialogModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
@@ -114,6 +136,19 @@ const moduleComponents = [
     }),
     provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
     provideDefaultConfig(defaultReorderLayoutConfig),
+    provideDefaultConfigFactory(() => {
+      const enhancedUI = inject(MYACCOUNT_ENHANCED_UI);
+      if (enhancedUI) {
+        return enhancedUICmsMapping;
+      }
+      return {};
+    }),
+    /** how to provide the below outlet based on condition */
+    provideOutlet({
+      id: OrderOutlets.ORDER_CONSIGNMENT,
+      position: OutletPosition.REPLACE,
+      component: ConsignmentTrackingLinkComponent,
+    }),
   ],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],

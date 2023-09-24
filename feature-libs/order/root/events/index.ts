@@ -5,3 +5,4 @@
  */
 
 export * from './order.events';
+export * from './enhanced-ui-events/index';

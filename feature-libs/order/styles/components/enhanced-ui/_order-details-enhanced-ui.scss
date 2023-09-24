@@ -1,0 +1,26 @@
+%cx-order-details-enhanced-ui-actions {
+  .cx-order-details-enhanced-ui-actions {
+    justify-content: left;
+    padding: 1rem 0 2rem;
+
+    div:empty {
+      display: none;
+    }
+
+    .btn-secondary {
+      @include media-breakpoint-down(md) {
+        margin: 0 0 1rem;
+      }
+    }
+  }
+}
+
+cx-download-invoices-dialog {
+  .cx-modal-container {
+    .cx-modal-content {
+      .cx-dialog-title {
+        @include type('3');
+      }
+    }
+  }
+}
