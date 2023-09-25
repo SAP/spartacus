@@ -1,5 +1,9 @@
 <ng-container>
-  <div class="cx-opf-error-modal" (esc)="dismissModal('Escape click')">
+  <div
+    [cxFocus]="focusConfig"
+    class="cx-opf-error-modal"
+    (esc)="dismissModal('Escape click')"
+  >
     <div
       class="cx-opf-error-modal-container"
       *ngIf="errorDialogOptions$ | async as errorDialogOptions"

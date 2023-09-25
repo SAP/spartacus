@@ -10,29 +10,24 @@ import {
   Component,
   ElementRef,
   HostListener,
-  OnChanges,
-  OnDestroy,
   OnInit,
 } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
-import {
-  ErrorDialogOptions,
-  defaultErrorDialogOptions,
-} from '@spartacus/opf/base/root';
+import { ErrorDialogOptions } from '@spartacus/opf/base/root';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Observable, combineLatest, of, timer } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, timer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { OpfErrorModalService } from './opf-error-modal.service';
 
 @Component({
   selector: 'cx-opf-error-modal',
   templateUrl: './opf-error-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpfErrorModalComponent implements OnInit, OnChanges, OnDestroy {
+export class OpfErrorModalComponent implements OnInit {
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -40,15 +35,13 @@ export class OpfErrorModalComponent implements OnInit, OnChanges, OnDestroy {
     autofocus: 'button',
     focusOnEscape: true,
   };
-  // source = timer(1).pipe(map((val) => val));
-  errorDialogOptions?: ErrorDialogOptions;
 
   errorDialogOptions$: Observable<{ message: string; confirm: string }>;
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
     if ((event.target as any).tagName === this.el.nativeElement.tagName) {
-      this.dismissModal('Cross click');
+      this.dismissModal('Backdrop click');
     }
   }
 
@@ -56,34 +49,14 @@ export class OpfErrorModalComponent implements OnInit, OnChanges, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef,
     protected cd: ChangeDetectorRef,
-    protected translationService: TranslationService
+    protected opfErrorModalService: OpfErrorModalService
   ) {
-    console.log('in constructor');
-    // this.cd.markForCheck();
     timer(1).subscribe({
       complete: () => {
         this.cd.markForCheck();
         console.log('complete');
       },
     });
-
-    // EMPTY.pipe(
-    //   tap(() => {
-    //     this.cd.markForCheck();
-    //   })
-    // ).subscribe({
-    //   complete: () => {
-    //     console.log('complete');
-    //   },
-    // });
-  }
-
-  ngOnChanges() {
-    console.log('onChanges');
-  }
-
-  ngOnDestroy() {
-    console.log('ngOnDestroy');
   }
 
   ngOnInit() {
@@ -107,60 +80,12 @@ export class OpfErrorModalComponent implements OnInit, OnChanges, OnDestroy {
 
     this.errorDialogOptions$ = this.launchDialogService.data$.pipe(
       switchMap((data: ErrorDialogOptions) => {
-        return this.getTranslations(data);
+        return this.opfErrorModalService.getMessageAndConfirmTranslations(data);
       })
     );
   }
 
   dismissModal(reason?: any): void {
     this.launchDialogService.closeDialog(reason);
-  }
-
-  protected getTranslations(dialogOptions: ErrorDialogOptions) {
-    return combineLatest([
-      this.getLabelTranslation(
-        defaultErrorDialogOptions.messageKey as string,
-        dialogOptions.messageString,
-        dialogOptions.messageKey,
-        dialogOptions.messageReplacements
-      ),
-      this.getLabelTranslation(
-        defaultErrorDialogOptions.confirmKey as string,
-        dialogOptions.confirmString,
-        dialogOptions.confirmKey,
-        dialogOptions.confirmReplacements
-      ),
-    ]).pipe(
-      map((labelArray) => {
-        return { message: labelArray[0], confirm: labelArray[1] };
-      })
-    );
-  }
-
-  protected getLabelTranslation(
-    defaultKey: string,
-    labelString?: string,
-    labelKey?: string,
-    labelReplacements?: any
-  ) {
-    let defaultLabel$ = this.translationService.translate(defaultKey);
-
-    if (labelString) {
-      return of(labelString);
-    } else if (labelKey) {
-      let labelFromKey$ = this.translationService
-        .translate(labelKey)
-        .pipe(switchMap((val) => (val ? of(val) : defaultLabel$)));
-
-      if (labelReplacements) {
-        return this.translationService
-          .translate(labelKey, labelReplacements)
-          .pipe(switchMap((val) => (val ? of(val) : labelFromKey$)));
-      } else {
-        return labelFromKey$;
-      }
-    } else {
-      return defaultLabel$;
-    }
   }
 }
