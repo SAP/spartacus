@@ -6,7 +6,7 @@
 
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Consignment, OrderHistory } from '../../../../root/model';
+import { Consignment, OrderHistory } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-order-consolidated-information',

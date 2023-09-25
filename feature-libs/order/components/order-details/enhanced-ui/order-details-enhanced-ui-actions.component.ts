@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService } from '@spartacus/core';
+import { DownloadOrderInvoicesEvent, Order } from '@spartacus/order/root';
 import {
   OrderDetailActionsComponent,
   OrderDetailsService,
 } from '../../../components/order-details';
-import { Order } from '../../../root/model';
-
-import { DownloadOrderInvoicesEvent } from '../../../root/events';
 
 @Component({
   selector: 'cx-order-details-enhanced-ui-actions',

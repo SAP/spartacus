@@ -7,7 +7,7 @@ import {
   ChangeDetectorRef,
   AfterViewChecked,
 } from '@angular/core';
-import { Order, OrderOutlets } from '../../../../root/model';
+import { Order, OrderOutlets } from '@spartacus/order/root';
 import { InvoicesListComponent } from '@spartacus/pdf-invoices/components';
 import { PDFInvoicesFacade } from '@spartacus/pdf-invoices/root';
 import { ICON_TYPE, FocusConfig } from '@spartacus/storefront';

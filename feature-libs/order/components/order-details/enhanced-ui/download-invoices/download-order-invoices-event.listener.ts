@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { EventService } from '@spartacus/core';
+import { DownloadOrderInvoicesEvent } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { DownloadOrderInvoicesEvent } from '../../../../root/events';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 

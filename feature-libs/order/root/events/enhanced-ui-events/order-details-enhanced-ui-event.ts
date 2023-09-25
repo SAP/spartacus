@@ -5,7 +5,7 @@
  */
 
 import { CxEvent } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+import { Order } from '../../model';
 
 export class DownloadOrderInvoicesEvent extends CxEvent {
   /**

@@ -25,6 +25,7 @@ import {
   Principal,
   SortModel,
 } from '@spartacus/core';
+import { ConsignmentTracking } from './consignment-tracking.model';
 
 export interface CancelOrReturnRequestEntryInput {
   orderEntryNumber?: number;
@@ -79,6 +80,8 @@ export interface Consignment {
   status?: string;
   statusDate?: Date;
   trackingID?: string;
+  //myaccount-enhanced-ui related
+  tracking?: ConsignmentTracking;
 }
 
 export interface OrderHistory {
@@ -92,6 +95,14 @@ export interface OrderHistory {
   purchaseOrderNumber?: string;
   orgUnit?: B2BUnit;
   orgCustomer?: B2BUser;
+  //myaccount-enhanced-ui related
+  thumbnail?: any[];
+  pickupConsignments?: Consignment[];
+  deliveryConsignments?: Consignment[];
+  unconsignedEntries?: OrderEntry[];
+  pickupUnconsignedEntries?: OrderEntry[];
+  deliveryUnconsignedEntries?: OrderEntry[];
+  returnRequests?: ReturnRequest[];
 }
 
 export interface OrderHistoryList {

@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { inject, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
@@ -18,7 +18,7 @@ import {
   provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
-import { OrderOutlets } from '../../root/model';
+import { OrderOutlets } from '@spartacus/order/root';
 import {
   CardModule,
   IconModule,
@@ -46,7 +46,7 @@ import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/re
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
-import { MYACCOUNT_ENHANCED_UI } from '../../order.module';
+//import { MYACCOUNT_ENHANCED_UI } from '../../order.module';
 
 const enhancedUICmsMapping: CmsConfig = {
   cmsComponents: {
@@ -137,7 +137,7 @@ const moduleComponents = [
     provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
     provideDefaultConfig(defaultReorderLayoutConfig),
     provideDefaultConfigFactory(() => {
-      const enhancedUI = inject(MYACCOUNT_ENHANCED_UI);
+      const enhancedUI = true; //inject(MYACCOUNT_ENHANCED_UI);
       if (enhancedUI) {
         return enhancedUICmsMapping;
       }

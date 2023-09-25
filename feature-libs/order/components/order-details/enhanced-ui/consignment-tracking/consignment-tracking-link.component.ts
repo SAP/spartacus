@@ -8,7 +8,6 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { OrderDetailsService } from '../../order-details.service';
-import { Consignment } from '../../../../root/model';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
@@ -16,6 +15,7 @@ import {
 } from '@spartacus/storefront';
 import { of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { Consignment } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-consignment-tracking-link',

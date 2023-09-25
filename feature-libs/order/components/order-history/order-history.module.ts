@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { inject, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -28,8 +28,7 @@ import {
   OrderConsolidatedInformationComponent,
   OrderHistoryEnhancedUIComponent,
 } from './enhanced-ui';
-import { MYACCOUNT_ENHANCED_UI } from '../../order.module';
-import { DownloadOrderInvoicesDialogModule } from '../order-details/enhanced-ui';
+//import { MYACCOUNT_ENHANCED_UI } from '../../order.module';
 
 const enhancedUICmsMapping: CmsConfig = {
   cmsComponents: {
@@ -57,7 +56,6 @@ const moduleComponents = [
     I18nModule,
     SpinnerModule,
     MediaModule,
-    DownloadOrderInvoicesDialogModule,
   ],
   declarations: [OrderHistoryComponent, ...moduleComponents],
   exports: [OrderHistoryComponent, ...moduleComponents],
@@ -71,7 +69,7 @@ const moduleComponents = [
       },
     }),
     provideDefaultConfigFactory(() => {
-      const enhancedUI = inject(MYACCOUNT_ENHANCED_UI);
+      const enhancedUI = true; //inject(MYACCOUNT_ENHANCED_UI);
       if (enhancedUI) {
         return enhancedUICmsMapping;
       }

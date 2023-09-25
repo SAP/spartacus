@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { inject, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import {
   ConverterService,
   OccEndpointsService,
@@ -26,9 +26,8 @@ import {
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/order/root';
-import { OrderDetailsService } from '../components/order-details';
-import { OrderHistoryEnhancedUIAdapter } from '../components/order-history/enhanced-ui/order-history-enhanced-ui.adapter';
-import { MYACCOUNT_ENHANCED_UI } from '../order.module';
+//import { MYACCOUNT_ENHANCED_UI } from '../order.module';
+import { OrderHistoryEnhancedUIAdapter } from './adapters';
 import { OccOrderNormalizer } from './adapters/converters/occ-order-normalizer';
 import { OccReorderOrderNormalizer } from './adapters/converters/occ-reorder-order-normalizer';
 import { OccReplenishmentOrderNormalizer } from './adapters/converters/occ-replenishment-order-normalizer';
@@ -91,16 +90,14 @@ import { defaultOccOrderConfig } from './config/default-occ-order-config';
       useFactory: (
         httpClient: HttpClient,
         occEndpointsService: OccEndpointsService,
-        converterService: ConverterService,
-        orderDetailsService: OrderDetailsService
+        converterService: ConverterService
       ) => {
-        const enhancedUI = inject(MYACCOUNT_ENHANCED_UI);
+        const enhancedUI = true; //inject(MYACCOUNT_ENHANCED_UI);
         if (enhancedUI) {
           return new OrderHistoryEnhancedUIAdapter(
             httpClient,
             occEndpointsService,
-            converterService,
-            orderDetailsService
+            converterService
           );
         } else {
           return new OccOrderHistoryAdapter(
@@ -110,12 +107,7 @@ import { defaultOccOrderConfig } from './config/default-occ-order-config';
           );
         }
       },
-      deps: [
-        HttpClient,
-        OccEndpointsService,
-        ConverterService,
-        OrderDetailsService,
-      ],
+      deps: [HttpClient, OccEndpointsService, ConverterService],
     },
   ],
 })
