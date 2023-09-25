@@ -6,13 +6,12 @@
 <div>
   <div class="">
     <div class="row">
-      <div class="col-sm-5">
+      <div class="col-sm-6">
         <label class="email-enhancedUI-headertext"
           >{{ 'newUserProfile.myEmailAddress' | cxTranslate }}
         </label>
       </div>
-      <div class="col-sm-4"></div>
-      <div class="col-sm-1">
+      <div class="col-sm-6">
         <button
           class="email-enhancedUI-editButton"
           *ngIf="!isEditing"
@@ -110,20 +109,22 @@
         <cx-form-errors [control]="form.get('password')"></cx-form-errors>
       </label>
 
-      <div class="btn-group">
-        <button
-          class="btn email-enhancedUI-button-cancel email-enhancedUI-button"
-          (click)="cancelEdit()"
-        >
-          {{ 'common.cancel' | cxTranslate }}
-        </button>
-        <button
-          class="btn btn-primary email-enhancedUI-button"
-          (click)="onSubmit()"
-          [disabled]="form.disabled"
-        >
-          {{ 'common.save' | cxTranslate }}
-        </button>
+      <div class="btn-group-row">
+        <div class="btn-group">
+          <button
+            class="btn email-enhancedUI-button-cancel email-enhancedUI-button"
+            (click)="cancelEdit()"
+          >
+            {{ 'common.cancel' | cxTranslate }}
+          </button>
+          <button
+            class="btn btn-primary email-enhancedUI-button"
+            (click)="onSubmit()"
+            [disabled]="form.disabled"
+          >
+            {{ 'common.save' | cxTranslate }}
+          </button>
+        </div>
       </div>
     </form>
   </div>

@@ -54,6 +54,7 @@ import { NewEmailComponent } from './new-email.component';
     }),
   ],
   declarations: [NewEmailComponent],
+  exports: [NewEmailComponent],
   imports: [
     CommonModule,
     FormsModule,

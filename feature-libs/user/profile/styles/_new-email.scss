@@ -1,12 +1,4 @@
 %cx-new-email {
-  .email-enhancedUI-header-area {
-    border: 1px, 0px, 0px, 0px;
-  }
-
-  .email-enhancedUI-body-area {
-    border: 0px, 0px, 1px, 0px;
-  }
-
   .email-enhancedUI-headertext {
     font-size: $h3-font-size;
     font-weight: var(--cx-font-weight-semi);
@@ -15,6 +7,7 @@
   }
 
   .email-enhancedUI-editButton {
+    float: right;
     font-size: $font-size-base;
     color: $primary;
     border: none;
@@ -34,6 +27,8 @@
 
   .email-enhancedUI-button {
     font-weight: var(--cx-font-weight-normal);
+    padding: 0.8rem, 1.5rem, 0.8rem, 1.5rem;
+    font-size: $font-size-base;
   }
 
   .email-enhancedUI-button-cancel {
@@ -59,5 +54,27 @@
         color: $primary-accent;
       }
     }
+  }
+
+  .btn-group-row {
+    padding-top: 0.75rem;
+    display: flex;
+    flex: 100%;
+    justify-content: end;
+  }
+
+  .btn-group {
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
+  }
+
+  form {
+    label {
+      padding-bottom: 0.75rem !important;
+    }
+  }
+  label {
+    padding-bottom: 0.3rem;
   }
 }
