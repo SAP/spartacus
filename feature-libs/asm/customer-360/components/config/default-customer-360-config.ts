@@ -4,19 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AsmCustomerActiveCartComponent,
-  AsmCustomerActivityComponent,
-  AsmCustomerCouponComponent,
-  AsmCustomerCustomerCouponComponent,
-  AsmCustomerMapComponent,
-  AsmCustomerProductInterestsComponent,
-  AsmCustomerProductReviewsComponent,
-  AsmCustomerProfileComponent,
-  AsmCustomerPromotionComponent,
-  AsmCustomerSavedCartComponent,
-  AsmCustomerSupportTicketsComponent,
-} from '../sections';
+import { AsmCustomerActiveCartComponent } from '../sections/asm-customer-active-cart/asm-customer-active-cart.component';
+import { AsmCustomerActivityComponent } from '../sections/asm-customer-activity/asm-customer-activity.component';
+import { AsmCustomerCouponComponent } from '../sections/asm-customer-coupon/asm-customer-coupon.component';
+import { AsmCustomerCustomerCouponComponent } from '../sections/asm-customer-customer-coupon/asm-customer-customer-coupon.component';
+import { AsmCustomerMapComponent } from '../sections/asm-customer-map/asm-customer-map.component';
+import { AsmCustomerProductInterestsComponent } from '../sections/asm-customer-product-interests/asm-customer-product-interests.component';
+import { AsmCustomerProductReviewsComponent } from '../sections/asm-customer-product-reviews/asm-customer-product-reviews.component';
+import { AsmCustomerProfileComponent } from '../sections/asm-customer-profile/asm-customer-profile.component';
+import { AsmCustomerPromotionComponent } from '../sections/asm-customer-promotion/asm-customer-promotion.component';
+import { AsmCustomerSavedCartComponent } from '../sections/asm-customer-saved-cart/asm-customer-saved-cart.component';
+import { AsmCustomerSupportTicketsComponent } from '../sections/asm-customer-support-tickets/asm-customer-support-tickets.component';
 import { Customer360Config } from './customer-360-config';
 import { Customer360Type } from '@spartacus/asm/customer-360/root';
 

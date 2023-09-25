@@ -36,7 +36,7 @@ import {
   CustomerTableTextAlign,
   TableEntry,
 } from './asm-customer-table.model';
-import { Customer360Config } from '../config';
+import { Customer360Config } from '../config/customer-360-config';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

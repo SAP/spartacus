@@ -17,7 +17,7 @@ import {
 } from '../../asm-customer-table/asm-customer-table.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { ReviewEntry } from './asm-customer-product-reviews.model';
-import { Customer360Config } from '../../config';
+import { Customer360Config } from '../../config/customer-360-config';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
