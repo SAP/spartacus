@@ -175,7 +175,7 @@ export interface HasMessageString {
 export interface HasMessageKey {
   messageString?: undefined;
   messageKey: string;
-  messageReplacements: Array<string>;
+  messageReplacements: any;
 }
 export interface HasConfirmString {
   confirmString: string;
@@ -186,7 +186,7 @@ export interface HasConfirmString {
 export interface HasConfirmKey {
   confirmString?: undefined;
   confirmKey: string;
-  confirmReplacements: Array<string>;
+  confirmReplacements: any;
 }
 
 export type ErrorDialogOptions = (HasMessageString | HasMessageKey) &
@@ -195,6 +195,6 @@ export type ErrorDialogOptions = (HasMessageString | HasMessageKey) &
 export const defaultErrorDialogOptions: ErrorDialogOptions = {
   messageKey: 'opf.payment.errors.proceedPayment',
   confirmKey: 'common.continue',
-  messageReplacements: [],
-  confirmReplacements: [],
+  messageReplacements: {},
+  confirmReplacements: {},
 };

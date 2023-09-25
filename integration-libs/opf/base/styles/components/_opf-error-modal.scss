@@ -28,19 +28,11 @@
         display: flex;
 
         button {
-          flex: 0 0 calc(50% - 0.5rem);
+          flex: 0 0 100%;
           text-transform: lowercase;
 
           &:first-line {
             text-transform: capitalize;
-          }
-
-          &:first-child {
-            margin-inline-end: 0.5rem;
-          }
-
-          &:last-child {
-            margin-inline-start: 0.5rem;
           }
 
           &:focus {

@@ -14,6 +14,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { TranslationService } from '@spartacus/core';
 import {
   ErrorDialogOptions,
   defaultErrorDialogOptions,
@@ -23,8 +24,8 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, combineLatest, of, timer } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-error-modal',
@@ -42,9 +43,7 @@ export class OpfErrorModalComponent implements OnInit, OnChanges, OnDestroy {
   // source = timer(1).pipe(map((val) => val));
   errorDialogOptions?: ErrorDialogOptions;
 
-  errorDialogOptions$: Observable<ErrorDialogOptions>;
-
-  protected loading$ = new BehaviorSubject(false);
+  errorDialogOptions$: Observable<{ message: string; confirm: string }>;
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
@@ -56,7 +55,8 @@ export class OpfErrorModalComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
+    protected translationService: TranslationService
   ) {
     console.log('in constructor');
     // this.cd.markForCheck();
@@ -78,10 +78,6 @@ export class OpfErrorModalComponent implements OnInit, OnChanges, OnDestroy {
     // });
   }
 
-  get isLoading$(): Observable<boolean> {
-    return this.loading$.asObservable();
-  }
-
   ngOnChanges() {
     console.log('onChanges');
   }
@@ -93,9 +89,25 @@ export class OpfErrorModalComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     console.log('onInit');
 
+    // if errorOptions includes messageString and confirmString:
+    //      modal will show un-translated strings
+    //      for main message and confirm button
+    // if errorOptions includes messageKey, confirmKey which match
+    // the keys for localized strings within the upscale language-pack:
+    //      modal will show translated strings
+    //      for main message and confirm button
+    // NOTE: merchant can also provide an array of replacements for
+    //      language-pack translations via messageReplacements and
+    //      confirmReplacements
+    // if errorOptions is undefined:
+    //      modal will show the default payment error message
+
+    //  messageString = await this.translationService.translate(defaultErrorDialogOptions.messageString as string).toPromise(),
+    //  confirmString =  this.translationService.translate(defaultErrorDialogOptions.confirmString as string),
+
     this.errorDialogOptions$ = this.launchDialogService.data$.pipe(
-      map((data: ErrorDialogOptions) => {
-        return data ?? defaultErrorDialogOptions;
+      switchMap((data: ErrorDialogOptions) => {
+        return this.getTranslations(data);
       })
     );
   }
@@ -104,28 +116,51 @@ export class OpfErrorModalComponent implements OnInit, OnChanges, OnDestroy {
     this.launchDialogService.closeDialog(reason);
   }
 
-  // {
-  //   launch: {
-  //     CLOSE_ACCOUNT: {
-  //       inline: true,
-  //       component: CloseAccountModalComponent,
-  //       dialogType: DIALOG_TYPE.DIALOG,
-  //     },
-  //   },
-  // };
+  protected getTranslations(dialogOptions: ErrorDialogOptions) {
+    return combineLatest([
+      this.getLabelTranslation(
+        defaultErrorDialogOptions.messageKey as string,
+        dialogOptions.messageString,
+        dialogOptions.messageKey,
+        dialogOptions.messageReplacements
+      ),
+      this.getLabelTranslation(
+        defaultErrorDialogOptions.confirmKey as string,
+        dialogOptions.confirmString,
+        dialogOptions.confirmKey,
+        dialogOptions.confirmReplacements
+      ),
+    ]).pipe(
+      map((labelArray) => {
+        return { message: labelArray[0], confirm: labelArray[1] };
+      })
+    );
+  }
 
-  // closeAccount() {
-  //   this.loading$.next(true);
+  protected getLabelTranslation(
+    defaultKey: string,
+    labelString?: string,
+    labelKey?: string,
+    labelReplacements?: any
+  ) {
+    let defaultLabel$ = this.translationService.translate(defaultKey);
 
-  //   this.userProfile.close().subscribe({
-  //     next: () => {
-  //       this.onSuccess();
-  //       this.loading$.next(false);
-  //     },
-  //     error: () => {
-  //       this.onError();
-  //       this.loading$.next(false);
-  //     },
-  //   });
-  // }
+    if (labelString) {
+      return of(labelString);
+    } else if (labelKey) {
+      let labelFromKey$ = this.translationService
+        .translate(labelKey)
+        .pipe(switchMap((val) => (val ? of(val) : defaultLabel$)));
+
+      if (labelReplacements) {
+        return this.translationService
+          .translate(labelKey, labelReplacements)
+          .pipe(switchMap((val) => (val ? of(val) : labelFromKey$)));
+      } else {
+        return labelFromKey$;
+      }
+    } else {
+      return defaultLabel$;
+    }
+  }
 }
