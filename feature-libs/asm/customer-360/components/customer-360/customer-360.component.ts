@@ -15,7 +15,10 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { getAsmDialogActionEvent } from '@spartacus/asm/customer-360/core';
+import {
+  Customer360Config,
+  getAsmDialogActionEvent,
+} from '@spartacus/asm/customer-360/core';
 import {
   AsmDialogActionEvent,
   AsmDialogActionType,
@@ -26,7 +29,6 @@ import {
   Customer360Overview,
   CustomerOverview,
 } from '@spartacus/asm/customer-360/root';
-import { Customer360Config } from '@spartacus/asm/customer-360/core';
 import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
   GlobalMessageType,
