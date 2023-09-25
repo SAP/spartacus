@@ -15,10 +15,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import {
-  Customer360Config,
-  getAsmDialogActionEvent,
-} from '@spartacus/asm/customer-360/core';
+import { getAsmDialogActionEvent } from '@spartacus/asm/customer-360/core';
 import {
   AsmDialogActionEvent,
   AsmDialogActionType,
@@ -46,6 +43,7 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { Customer360Config } from '../config';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
