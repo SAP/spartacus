@@ -83,24 +83,26 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   }
 
   openCustomer360() {
-    this.isCustomer360Loaded$
-      .pipe(filter((isReady) => Boolean(isReady)))
-      .subscribe(() => {
-        const data = { customer: this.customer };
-        this.launchDialogService?.openDialogAndSubscribe(
-          LAUNCH_CALLER.ASM_CUSTOMER_360,
-          this.customer360LauncherElement,
-          data
-        );
+    this.subscription.add(
+      this.isCustomer360Loaded$
+        .pipe(filter((isReady) => Boolean(isReady)))
+        .subscribe(() => {
+          const data = { customer: this.customer };
+          this.launchDialogService?.openDialogAndSubscribe(
+            LAUNCH_CALLER.ASM_CUSTOMER_360,
+            this.customer360LauncherElement,
+            data
+          );
 
-        this.subscription.add(
-          this.launchDialogService?.dialogClose
-            .pipe(filter((result) => Boolean(result)))
-            .subscribe((event: AsmDialogActionEvent) => {
-              this.asmComponentService.handleAsmDialogAction(event);
-            })
-        );
-      });
+          this.subscription.add(
+            this.launchDialogService?.dialogClose
+              .pipe(filter((result) => Boolean(result)))
+              .subscribe((event: AsmDialogActionEvent) => {
+                this.asmComponentService.handleAsmDialogAction(event);
+              })
+          );
+        })
+    );
   }
 
   ngOnDestroy(): void {

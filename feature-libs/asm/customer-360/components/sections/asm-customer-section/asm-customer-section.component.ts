@@ -52,8 +52,6 @@ export class AsmCustomerSectionComponent implements OnDestroy {
   @Output()
   navigate: EventEmitter<UrlCommand> = new EventEmitter();
 
-  componentClass: Type<any>;
-
   protected subscription = new Subscription();
 
   constructor(protected source: Customer360SectionContextSource<unknown>) {
