@@ -9,6 +9,7 @@ class MockOpfPaymentAdapter implements OpfPaymentAdapter {
   verifyPayment = createSpy().and.returnValue(of({}));
   submitPayment = createSpy().and.returnValue(of({}));
   submitCompletePayment = createSpy().and.returnValue(of({}));
+  afterRedirectScripts = createSpy().and.returnValue(of({}));
 }
 
 describe('OpfPaymentConnector', () => {
@@ -52,5 +53,10 @@ describe('OpfPaymentConnector', () => {
   it('should call submitCompletePayment method from adapter', () => {
     service.submitCompletePayment({}, '1', '2').pipe(take(1)).subscribe();
     expect(adapter.submitCompletePayment).toHaveBeenCalledWith({}, '1', '2');
+  });
+
+  it('should call afterRedirectScripts method from adapter', () => {
+    service.afterRedirectScripts('1').pipe(take(1)).subscribe();
+    expect(adapter.afterRedirectScripts).toHaveBeenCalledWith('1');
   });
 });

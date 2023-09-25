@@ -77,7 +77,7 @@ describe('OpfPaymentHostedFieldsService', () => {
     cartId: 'mockCartId',
     additionalData: [{ key: 'key', value: 'value' }],
     paymentSessionId: 'sessionId',
-    returnPath: ['checkout', 'payment'],
+    returnPath: 'checkout',
     callbackArray: [() => {}, () => {}, () => {}],
   };
 
@@ -85,7 +85,7 @@ describe('OpfPaymentHostedFieldsService', () => {
     cartId: 'mockCartId',
     additionalData: [{ key: 'key', value: 'value' }],
     paymentSessionId: 'sessionId',
-    returnPath: ['checkout', 'payment'],
+    returnPath: 'checkout',
     callbackArray: [() => {}, () => {}, () => {}],
   };
 

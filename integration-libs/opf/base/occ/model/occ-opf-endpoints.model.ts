@@ -21,5 +21,9 @@ declare module '@spartacus/core' {
      * Endpoint to submit-complete payment for Hosted Fields pattern.
      */
     submitCompletePayment?: string | OccEndpoint;
+    /**
+     * Endpoint to fetch dynamic script for Hosted Fields pattern and PageRedirection sub-pattern.
+     */
+    afterRedirectScripts?: string | OccEndpoint;
   }
 }

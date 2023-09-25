@@ -9,6 +9,7 @@ import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OPF_BASE_FEATURE } from '../feature-name';
 import {
+  AfterRedirectScriptResponse,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
   SubmitCompleteInput,
@@ -21,7 +22,12 @@ import {
     facadeFactory({
       facade: OpfPaymentFacade,
       feature: OPF_BASE_FEATURE,
-      methods: ['verifyPayment', 'submitPayment'],
+      methods: [
+        'verifyPayment',
+        'submitPayment',
+        'submitCompletePayment',
+        'afterRedirectScripts',
+      ],
     }),
 })
 export abstract class OpfPaymentFacade {
@@ -46,9 +52,18 @@ export abstract class OpfPaymentFacade {
   /**
    * abstract method to submit-complete payment for Hosted Fields pattern.
    *
-   * @param submitInput
+   * @param submitCompleteInput
    */
   abstract submitCompletePayment(
     submitCompleteInput: SubmitCompleteInput
   ): Observable<boolean>;
+
+  /**
+   * abstract method to submit-complete payment for Hosted Fields pattern.
+   *
+   * @param submitCompleteInput
+   */
+  abstract afterRedirectScripts(
+    paymentSessionId: string
+  ): Observable<AfterRedirectScriptResponse>;
 }
