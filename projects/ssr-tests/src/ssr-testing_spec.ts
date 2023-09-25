@@ -2,10 +2,10 @@ import * as Log from './log.utils';
 import * as ProxyServer from './proxy.utils';
 import * as Ssr from './ssr.utils';
 
-const BACKEND_BASE_URL = process.env.CX_BASE_URL;
+const BACKEND_BASE_URL: string = process.env.CX_BASE_URL || '';
 
 describe('SSR E2E', () => {
-  let server: any;
+  let proxy: any;
   const REQUEST_PATH = '/electronics-spa/en/USD/';
 
   beforeAll(async () => {
@@ -14,7 +14,7 @@ describe('SSR E2E', () => {
   });
 
   afterEach(async () => {
-    await server.close();
+    await proxy.close();
   });
 
   afterAll(async () => {
@@ -22,7 +22,7 @@ describe('SSR E2E', () => {
   });
 
   it('should receive success response with request', async () => {
-    server = await ProxyServer.startProxyServer({
+    proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
     });
     const response: any = await ProxyServer.sendRequest(REQUEST_PATH);
@@ -43,7 +43,7 @@ describe('SSR E2E', () => {
   });
 
   xit('should receive cached response with next request', async () => {
-    server = await ProxyServer.startProxyServer({
+    proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
     });
     const response: any = await ProxyServer.sendRequest(REQUEST_PATH);
@@ -55,11 +55,11 @@ describe('SSR E2E', () => {
   xit('should receive 404 response when page is not existing', () => {});
 
   xit('should receive 500 error response with request', async () => {
-    server = await ProxyServer.startProxyServer({
+    proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
       throwStatus: 500,
     });
-    server.on('proxyRes', function (proxyRes: any) {
+    proxy.on('proxyRes', function (proxyRes: any) {
       proxyRes.statusCode = 500;
     });
     const response: any = await ProxyServer.sendRequest('/');
@@ -68,7 +68,7 @@ describe('SSR E2E', () => {
 
   // Note: Currently, the ssr server still responds with 200 quickly despite the proxy delay
   xit('should receive 500 error response with timed-out request', async () => {
-    server = await ProxyServer.startProxyServer({
+    proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
       delay: 10000,
     });

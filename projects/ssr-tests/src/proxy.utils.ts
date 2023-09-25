@@ -9,18 +9,33 @@ import * as httpProxy from 'http-proxy';
 
 const proxy = (<any>httpProxy).createProxyServer({ secure: false });
 
+/**
+ * Default settings to send http requests.
+ */
 const REQUEST_OPTIONS = {
   host: 'localhost',
   port: 4000,
 };
 
+interface ProxyOptions {
+  /**
+   * The url to reroute requests to.
+   */
+  target: string;
+  /**
+   * Number of seconds to delay requests before sending.
+   */
+  delay?: number;
+  /**
+   * Number of status code to set response to.
+   */
+  throwStatus?: number;
+}
+
 /**
- * @param {Object} options Setup options for proxy server.
- * @param {string} options.target The url to reroute requests to.
- * @param {number} options.delay Number of seconds to delay requests before sending.
- * @param {number} options.throwStatus Number of status code to set response to.
+ * Starts an http proxy server on port 9002 with the provided options.
  */
-export async function startProxyServer(options: any) {
+export async function startProxyServer(options: ProxyOptions) {
   return new Promise((resolve) => {
     const server = http.createServer((req: any, res: any) => {
       const forwardRequest = () =>
@@ -45,13 +60,16 @@ export async function startProxyServer(options: any) {
   });
 }
 
+/**
+ * Send an http GET request to a given url.
+ */
 export async function sendRequest(path: string) {
   return new Promise((resolve, reject) => {
-    const req = http.get({ ...REQUEST_OPTIONS, path }, function (res: any) {
-      // Buffer the body entirely for processing as a whole.
+    const req = http.get({ ...REQUEST_OPTIONS, path }, (res: any) => {
       const bodyChunks: string[] = [];
+
       res
-        .on('data', function (chunk: any) {
+        .on('data', (chunk: any) => {
           bodyChunks.push(chunk);
         })
         .on('end', () => {
@@ -60,7 +78,7 @@ export async function sendRequest(path: string) {
         });
     });
 
-    req.on('error', function (e: Error) {
+    req.on('error', (e: Error) => {
       reject(e);
     });
   });
