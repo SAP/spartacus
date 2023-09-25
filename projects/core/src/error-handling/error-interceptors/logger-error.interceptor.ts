@@ -9,14 +9,12 @@ import { LoggerService } from '../../logger';
 import {
   ChainedErrorInterceptorFn,
   ErrorInterceptor,
-  ErrorInterceptorPriority,
 } from './error-interceptor';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoggerErrorInterceptor implements ErrorInterceptor {
-  priority = ErrorInterceptorPriority.HIGH;
   logger = inject(LoggerService);
   intercept(error: Error, next?: ChainedErrorInterceptorFn): void {
     this.logger.error(error);

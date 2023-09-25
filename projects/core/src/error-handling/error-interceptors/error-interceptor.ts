@@ -18,16 +18,18 @@ export type ChainedErrorInterceptorFn = (error: Error) => void;
 /**
  * Priority of the error interceptor. The higher the priority, the earlier the interceptor will be called.
  * The order is:
- * 1. High priority - the latest added with the high priority is first
- * 2. Default or no priority - the order is not changed
- * 3. Low priority - the latest added with the low priority is last
+ * 1. High priority
+ * 2. Normal or no priority
+ * 3. Low priority
+ *
+ * Preserves the original order within a group of interceptors with the same priority.
  *
  * @public
  */
 export enum ErrorInterceptorPriority {
-  HIGH = 1,
-  DEFAULT = 0,
-  LOW = -1,
+  HIGH = 10,
+  NORMAL = 0,
+  LOW = -10,
 }
 
 /**

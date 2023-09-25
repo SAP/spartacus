@@ -9,10 +9,11 @@ import {
 
 describe('error interceptor utils', () => {
   describe('sortErrorInterceptors', () => {
-    const noPriorityInterceptor: ErrorInterceptor = {
+    const normalPriorityInterceptor: ErrorInterceptor = {
       intercept: () => {},
     };
-    const anotherNoPriorityInterceptor: ErrorInterceptor = {
+    const anotherNormalPriorityInterceptor: ErrorInterceptor = {
+      priority: ErrorInterceptorPriority.NORMAL,
       intercept: () => {},
     };
     const highPriorityInterceptor: ErrorInterceptor = {
@@ -36,8 +37,8 @@ describe('error interceptor utils', () => {
 
     it('should should return the input order if priority does not set', () => {
       const errorInterceptors: ErrorInterceptor[] = [
-        noPriorityInterceptor,
-        anotherNoPriorityInterceptor,
+        normalPriorityInterceptor,
+        anotherNormalPriorityInterceptor,
       ];
       expect(sortErrorInterceptors(errorInterceptors)).toEqual(
         errorInterceptors
@@ -46,49 +47,37 @@ describe('error interceptor utils', () => {
 
     it('should sort error interceptors based on priority', () => {
       const errorInterceptors: ErrorInterceptor[] = [
-        noPriorityInterceptor,
+        normalPriorityInterceptor,
         lowPriorityInterceptor,
         highPriorityInterceptor,
       ];
       expect(sortErrorInterceptors(errorInterceptors)).toEqual([
         highPriorityInterceptor,
-        noPriorityInterceptor,
+        normalPriorityInterceptor,
         lowPriorityInterceptor,
       ]);
     });
 
-    it('should sort error interceptors based on priority and keep the latest added with the high priority first', () => {
+    it('should sort error interceptors based on priority and take into account the order of delivery within the priority group', () => {
       const errorInterceptors: ErrorInterceptor[] = [
         highPriorityInterceptor,
-        noPriorityInterceptor,
+        normalPriorityInterceptor,
         lowPriorityInterceptor,
         anotherHighPriorityInterceptor,
-      ];
-      expect(sortErrorInterceptors(errorInterceptors)).toEqual([
-        anotherHighPriorityInterceptor,
-        highPriorityInterceptor,
-        noPriorityInterceptor,
-        lowPriorityInterceptor,
-      ]);
-    });
-
-    it('should sort error interceptors based on priority and keep the latest added with the low priority last', () => {
-      const errorInterceptors: ErrorInterceptor[] = [
-        anotherHighPriorityInterceptor,
-        noPriorityInterceptor,
-        lowPriorityInterceptor,
         anotherLowPriorityInterceptor,
-        highPriorityInterceptor,
+        anotherNormalPriorityInterceptor,
       ];
       expect(sortErrorInterceptors(errorInterceptors)).toEqual([
         highPriorityInterceptor,
         anotherHighPriorityInterceptor,
-        noPriorityInterceptor,
+        normalPriorityInterceptor,
+        anotherNormalPriorityInterceptor,
         lowPriorityInterceptor,
         anotherLowPriorityInterceptor,
       ]);
     });
   });
+
   describe('handleInterceptors', () => {
     it('should call next interceptor', () => {
       const next = jasmine.createSpy();

@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { FeatureConfigService } from '../features-config';
-import { LoggerService } from '../logger';
 import { CxErrorHandler } from './cx-error-handler';
 import {
   ChainedErrorInterceptorFn,
@@ -44,14 +43,6 @@ class MockErrorInterceptorC extends MockErrorInterceptor {
   }
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel = jasmine.createSpy();
-}
-
-class MockLoggerService implements Partial<LoggerService> {
-  error = jasmine.createSpy();
-}
-
 describe('CxErrorHandler', () => {
   let handleInterceptorsSpy: jasmine.Spy;
   let tailChainSpy: jasmine.Spy;
@@ -68,55 +59,6 @@ describe('CxErrorHandler', () => {
       errorInterceptorUtils,
       'tailChain'
     ).and.callThrough();
-  });
-
-  describe('error interceptors feature flag', () => {
-    let cxErrorHandler: CxErrorHandler;
-    let featureConfigService: FeatureConfigService;
-    let loggerService: LoggerService;
-
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          CxErrorHandler,
-          {
-            provide: ERROR_INTERCEPTORS,
-            useClass: MockErrorInterceptorA,
-            multi: true,
-          },
-          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-          { provide: LoggerService, useClass: MockLoggerService },
-        ],
-      });
-
-      cxErrorHandler = TestBed.inject(CxErrorHandler);
-      featureConfigService = TestBed.inject(FeatureConfigService);
-      loggerService = TestBed.inject(LoggerService);
-    });
-
-    it('should be created', () => {
-      expect(cxErrorHandler).toBeTruthy();
-    });
-
-    it('should call logger.error if feature level is not 6.6', () => {
-      (featureConfigService.isLevel as jasmine.Spy).and.returnValue(false);
-      const error = new Error('test error');
-      cxErrorHandler.handleError(error);
-
-      expect(loggerService.error).toHaveBeenCalledWith(error);
-      expect(handleInterceptorsSpy).toHaveBeenCalledTimes(0);
-      expect(tailChainSpy).toHaveBeenCalledTimes(0);
-    });
-
-    it('should call all error interceptors if feature level is 6.6', () => {
-      (featureConfigService.isLevel as jasmine.Spy).and.returnValue(true);
-      const error = new Error('test error');
-      cxErrorHandler.handleError(error);
-
-      expect(loggerService.error).toHaveBeenCalledTimes(0);
-      expect(handleInterceptorsSpy).toHaveBeenCalledTimes(1);
-      expect(tailChainSpy).toHaveBeenCalledTimes(1);
-    });
   });
 
   describe('when there are no error interceptors', () => {
