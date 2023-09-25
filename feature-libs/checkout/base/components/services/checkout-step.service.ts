@@ -32,13 +32,10 @@ export class CheckoutStepService {
           map((steps) => {
             let activeIndex: number = 0;
             steps.forEach((step, index) => {
-              console.log(step);
-              console.log(activeIndex);
               const routeUrl = `/${
                 this.routingConfigService.getRouteConfig(step?.routeName)
                   ?.paths?.[0]
               }`;
-              console.log(routeUrl);
               if (routeUrl === activeStepUrl) {
                 activeIndex = index;
               }

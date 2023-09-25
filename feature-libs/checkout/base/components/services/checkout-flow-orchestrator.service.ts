@@ -6,6 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { BaseSiteService } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CheckoutConfig } from '../../root/config';
 import { CheckoutFlow } from '../../root/model';
@@ -18,30 +19,23 @@ export class CheckoutFlowOrchestratorService {
     protected checkoutConfig: CheckoutConfig,
     protected baseSiteService: BaseSiteService
   ) {
-    this.getPaymentProvider();
+    this.getPaymentProvider().subscribe((paymentProvider) => {
+      this.paymentProviderName = paymentProvider;
+    });
   }
 
-  protected defaultPaymentProvider = 'spa-opf';
+  protected paymentProviderName: string | undefined = undefined;
 
-  protected paymentProvider = this.defaultPaymentProvider;
-
-  protected getPaymentProvider() {
-    this.baseSiteService
-      .get()
-      .pipe(
-        take(1),
-        map((baseSite) => baseSite?.baseStore?.paymentProvider)
-      )
-      .subscribe(
-        (value) => (this.paymentProvider = value || this.defaultPaymentProvider)
-      );
+  getPaymentProvider(): Observable<string | undefined> {
+    return this.baseSiteService.get().pipe(
+      take(1),
+      map((baseSite) => baseSite?.baseStore?.paymentProvider)
+    );
   }
 
   getCheckoutFlow(): CheckoutFlow | undefined {
-    return this.checkoutConfig.checkout?.flows?.[this.paymentProvider];
-  }
-
-  getCheckoutFlowName(): string {
-    return this.paymentProvider;
+    return this.paymentProviderName
+      ? this.checkoutConfig.checkout?.flows?.[this.paymentProviderName]
+      : undefined;
   }
 }

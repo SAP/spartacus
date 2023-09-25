@@ -47,7 +47,7 @@ import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        OpfCheckoutReviewOrder: {
+        OpfCheckoutPaymentAndReview: {
           component: OpfCheckoutPaymentAndReviewComponent,
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },

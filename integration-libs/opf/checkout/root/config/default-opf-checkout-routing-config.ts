@@ -9,7 +9,9 @@ import { RoutingConfig } from '@spartacus/core';
 export const defaultOpfCheckoutRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      opfCheckoutReviewOrder: { paths: ['checkout/opf-payment-and-review'] },
+      opfCheckoutPaymentAndReview: {
+        paths: ['checkout/opf-payment-and-review'],
+      },
     },
   },
 };

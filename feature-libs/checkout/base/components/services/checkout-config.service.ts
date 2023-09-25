@@ -4,22 +4,35 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
-import { DeliveryModePreferences } from '@spartacus/checkout/base/root';
+import {
+  CheckoutConfig,
+  DeliveryModePreferences,
+} from '@spartacus/checkout/base/root';
 import { CheckoutFlowOrchestratorService } from './checkout-flow-orchestrator.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutConfigService {
-  private checkoutFlow = this.checkoutFlowService.getCheckoutFlow();
-  private express: boolean = this.checkoutFlow?.express ?? false;
-  private guest: boolean = this.checkoutFlow?.guest ?? false;
+  private express: boolean = this.checkoutConfig.checkout?.express ?? false;
+  private guest: boolean = this.checkoutConfig.checkout?.guest ?? false;
   private defaultDeliveryMode: Array<DeliveryModePreferences | string> =
-    this.checkoutFlow?.defaultDeliveryMode || [];
+    this.checkoutConfig.checkout?.defaultDeliveryMode || [];
 
-  constructor(protected checkoutFlowService: CheckoutFlowOrchestratorService) {}
+  protected checkoutFlow = this.checkoutFlowService?.getCheckoutFlow();
+
+  constructor(
+    private checkoutConfig: CheckoutConfig,
+    @Optional() protected checkoutFlowService?: CheckoutFlowOrchestratorService
+  ) {
+    if (this.checkoutFlowService) {
+      this.express = this.checkoutFlow?.express ?? false;
+      this.guest = this.checkoutFlow?.guest ?? false;
+      this.defaultDeliveryMode = this.checkoutFlow?.defaultDeliveryMode || [];
+    }
+  }
 
   protected compareDeliveryCost(
     deliveryMode1: DeliveryMode,
@@ -76,7 +89,11 @@ export class CheckoutConfigService {
   }
 
   shouldUseAddressSavedInCart(): boolean {
-    return !!this.checkoutFlow?.guestUseSavedAddress;
+    if (this.checkoutFlowService) {
+      return !!this.checkoutFlow?.guestUseSavedAddress;
+    }
+
+    return !!this.checkoutConfig?.checkout?.guestUseSavedAddress;
   }
 
   getPreferredDeliveryMode(deliveryModes: DeliveryMode[]): string | undefined {

@@ -31,9 +31,9 @@ export const defaultOpfCheckoutConfig: CheckoutConfig = {
           {
             id: 'opfReviewOrder',
             name: 'opf.checkout.tabs.paymentAndReview',
-            routeName: 'opfCheckoutReviewOrder',
+            routeName: 'opfCheckoutPaymentAndReview',
             // TODO OPF: provide proper step type (PAYMENT_REVIEW) once augmenting problem is solved
-            type: [CheckoutStepType.REVIEW_ORDER],
+            type: [CheckoutStepType.PAYMENT_TYPE],
             nameMultiLine: false,
           },
         ],
