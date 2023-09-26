@@ -27,9 +27,9 @@ import { CsAgentAuthService } from '@spartacus/asm/root';
 import { ArgsPipe } from '@spartacus/asm/core';
 import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
 import {
-  AsmCustomerActiveCartComponent,
-  AsmCustomerProductReviewsComponent,
-  AsmCustomerProfileComponent,
+  Customer360ActiveCartComponent,
+  Customer360ProductReviewsComponent,
+  Customer360ProfileComponent,
 } from '../sections';
 
 describe('AsmCustomer360Component', () => {
@@ -42,7 +42,7 @@ describe('AsmCustomer360Component', () => {
           i18nNameKey: 'customer360.overviewTab',
           components: [
             {
-              component: AsmCustomerActiveCartComponent,
+              component: Customer360ActiveCartComponent,
             },
           ],
         },
@@ -50,10 +50,10 @@ describe('AsmCustomer360Component', () => {
           i18nNameKey: 'customer360.profileTab',
           components: [
             {
-              component: AsmCustomerProfileComponent,
+              component: Customer360ProfileComponent,
             },
             {
-              component: AsmCustomerProductReviewsComponent,
+              component: Customer360ProductReviewsComponent,
               requestData: {
                 type: Customer360Type.REVIEW_LIST,
               },
@@ -109,10 +109,10 @@ describe('AsmCustomer360Component', () => {
   };
 
   @Component({
-    selector: 'cx-asm-customer-section',
+    selector: 'cx-customer-360-section',
     template: '',
   })
-  class MockAsmCustomerSectionComponent {}
+  class MockCustomer360SectionComponent {}
 
   class MockDirectionService {
     getDirection() {
@@ -175,7 +175,7 @@ describe('AsmCustomer360Component', () => {
       imports: [I18nTestingModule, FeaturesConfigModule],
       declarations: [
         Customer360Component,
-        MockAsmCustomerSectionComponent,
+        MockCustomer360SectionComponent,
         ArgsPipe,
       ],
       providers: [
@@ -265,7 +265,7 @@ describe('AsmCustomer360Component', () => {
   });
 
   it('should render component sections', () => {
-    const sections = el.queryAll(By.css('cx-asm-customer-section'));
+    const sections = el.queryAll(By.css('cx-customer-360-section'));
     expect(sections.length).toBe(1);
   });
 
@@ -274,7 +274,7 @@ describe('AsmCustomer360Component', () => {
 
     fixture.detectChanges();
 
-    const sections = el.queryAll(By.css('cx-asm-customer-section'));
+    const sections = el.queryAll(By.css('cx-customer-360-section'));
     expect(sections.length).toBe(2);
   });
 

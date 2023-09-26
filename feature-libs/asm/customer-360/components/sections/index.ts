@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export { AsmCustomerActiveCartComponent } from './asm-customer-active-cart/asm-customer-active-cart.component';
-export { AsmCustomerActivityComponent } from './asm-customer-activity/asm-customer-activity.component';
-export { AsmCustomerMapComponent } from './asm-customer-map/asm-customer-map.component';
-export { AsmCustomerProductInterestsComponent } from './asm-customer-product-interests/asm-customer-product-interests.component';
-export { AsmCustomerProductReviewsComponent } from './asm-customer-product-reviews/asm-customer-product-reviews.component';
-export { AsmCustomerProfileComponent } from './asm-customer-profile/asm-customer-profile.component';
-export { AsmCustomerSavedCartComponent } from './asm-customer-saved-cart/asm-customer-saved-cart.component';
-export { AsmCustomerSupportTicketsComponent } from './asm-customer-support-tickets/asm-customer-support-tickets.component';
-export { AsmCustomerCouponComponent } from './asm-customer-coupon/asm-customer-coupon.component';
-export { AsmCustomerPromotionComponent } from './asm-customer-promotion/asm-customer-promotion.component';
-export { AsmCustomerCustomerCouponComponent } from './asm-customer-customer-coupon/asm-customer-customer-coupon.component';
+export { Customer360ActiveCartComponent } from './customer-360-active-cart/customer-360-active-cart.component';
+export { Customer360ActivityComponent } from './customer-360-activity/customer-360-activity.component';
+export { Customer360MapComponent } from './customer-360-map/customer-360-map.component';
+export { Customer360ProductInterestsComponent } from './customer-360-product-interests/customer-360-product-interests.component';
+export { Customer360ProductReviewsComponent } from './customer-360-product-reviews/customer-360-product-reviews.component';
+export { Customer360ProfileComponent } from './customer-360-profile/customer-360-profile.component';
+export { Customer360SavedCartComponent } from './customer-360-saved-cart/customer-360-saved-cart.component';
+export { Customer360SupportTicketsComponent } from './customer-360-support-tickets/customer-360-support-tickets.component';
+export { Customer360CouponComponent } from './customer-360-coupon/customer-360-coupon.component';
+export { Customer360PromotionComponent } from './customer-360-promotion/customer-360-promotion.component';
+export { Customer360CustomerCouponComponent } from './customer-360-customer-coupon/customer-360-customer-coupon.component';
