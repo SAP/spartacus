@@ -513,6 +513,9 @@
       "@spartacus/opf/base/assets": [
         "../../integration-libs/opf/base/assets/public_api"
       ],
+      "@spartacus/opf/base/components": [
+        "../../integration-libs/opf/base/components/public_api"
+      ],
       "@spartacus/opf/base/core": [
         "../../integration-libs/opf/base/core/public_api"
       ],
