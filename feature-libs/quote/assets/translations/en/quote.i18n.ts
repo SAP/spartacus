@@ -133,7 +133,7 @@ export const quote = {
           title: 'Submit Quote {{ code }}?',
           confirmNote: 'Are you sure you want to submit this quote?',
           warningNote:
-            'Based on the total value of the quote an additional approval might be required, before the buyer can checkout this quote.',
+            'Depending on the total value of the quote, an additional approval might be required before the buyer can check out this quote.',
           successMessage: 'Quote submitted successfully',
         },
       },
