@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
+import { AsmCustomer360TabsConfig } from '@spartacus/asm/customer-360/root';
 import { Config } from '@spartacus/core';
-import { AsmCustomer360TabsConfig } from '../model/customer-360-tabs-config';
 
 @Injectable({
   providedIn: 'root',

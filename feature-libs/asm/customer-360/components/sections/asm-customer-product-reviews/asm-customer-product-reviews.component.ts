@@ -5,10 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {
-  Customer360Config,
-  Customer360ReviewList,
-} from '@spartacus/asm/customer-360/root';
+import { Customer360ReviewList } from '@spartacus/asm/customer-360/root';
 import { CxDatePipe, Product, TranslationService } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -20,6 +17,7 @@ import {
 } from '../../asm-customer-table/asm-customer-table.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { ReviewEntry } from './asm-customer-product-reviews.model';
+import { Customer360Config } from '../../config/customer-360-config';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -10,6 +10,7 @@ import {
   Input,
   OnDestroy,
   Output,
+  Type,
 } from '@angular/core';
 import { Customer360SectionConfig } from '@spartacus/asm/customer-360/root';
 import { UrlCommand, User } from '@spartacus/core';
@@ -31,7 +32,7 @@ import { Customer360SectionContext } from '../customer-360-section-context.model
 })
 export class AsmCustomerSectionComponent implements OnDestroy {
   @Input()
-  component: string;
+  component: Type<unknown>;
 
   @Input()
   set customer(customer: User) {

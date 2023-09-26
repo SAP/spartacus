@@ -9,13 +9,13 @@ import {
   LAUNCH_CALLER,
   LayoutConfig,
 } from '@spartacus/storefront';
-import { Customer360DialogComponent } from './customer-360-dialog/customer-360-dialog.component';
+import { Customer360Component } from './customer-360/customer-360.component';
 
 export const defaultCustomer360LayoutConfig: LayoutConfig = {
   launch: {
     [LAUNCH_CALLER.ASM_CUSTOMER_360]: {
       inlineRoot: true,
-      component: Customer360DialogComponent,
+      component: Customer360Component,
       dialogType: DIALOG_TYPE.DIALOG,
     },
   },

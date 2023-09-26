@@ -5,9 +5,13 @@
  */
 
 import { NgModule } from '@angular/core';
-import { Customer360ComponentsModule } from '@spartacus/asm/customer-360/components';
+import {
+  Customer360ComponentsModule,
+  defaultCustomer360Config,
+} from '@spartacus/asm/customer-360/components';
 import { Customer360CoreModule } from '@spartacus/asm/customer-360/core';
 import { Customer360OccModule } from '@spartacus/asm/customer-360/occ';
+import { provideDefaultConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -15,6 +19,6 @@ import { Customer360OccModule } from '@spartacus/asm/customer-360/occ';
     Customer360OccModule,
     Customer360ComponentsModule,
   ],
-  providers: [],
+  providers: [provideDefaultConfig(defaultCustomer360Config)],
 })
 export class Customer360Module {}

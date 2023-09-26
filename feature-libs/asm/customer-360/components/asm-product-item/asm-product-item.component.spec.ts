@@ -13,6 +13,16 @@ import { FocusConfig, ICON_TYPE } from '@spartacus/storefront';
 import { By } from '@angular/platform-browser';
 import { AsmProductItemComponent } from './asm-product-item.component';
 
+@Component({
+  template: '',
+  selector: 'cx-media',
+})
+class MockMediaComponent {
+  @Input() container: any;
+  @Input() format: any;
+  @Input() alt: any;
+}
+
 @Directive({
   selector: '[cxFocus]',
 })
@@ -68,6 +78,7 @@ describe('AsmProductItemComponent', () => {
         AsmProductItemComponent,
         MockTranslatePipe,
         MockCxIconComponent,
+        MockMediaComponent,
       ],
     }).compileComponents();
   });

@@ -29,23 +29,11 @@ import { AsmCustomerProductReviewsComponentModule } from './sections/asm-custome
 import { AsmCustomerProfileModule } from './sections/asm-customer-profile/asm-customer-profile.module';
 import { AsmCustomerSavedCartModule } from './sections/asm-customer-saved-cart/asm-customer-saved-cart.module';
 import { AsmCustomerSectionComponent } from './sections/asm-customer-section/asm-customer-section.component';
-import { AsmCustomerSupportTicketsComponent } from './sections/asm-customer-support-tickets/asm-customer-support-tickets.component';
 import { AsmCustomerSupportTicketsComponentModule } from './sections/asm-customer-support-tickets/asm-customer-support-tickets.component.module';
-import {
-  AsmCustomerActiveCartComponent,
-  AsmCustomerActivityComponent,
-  AsmCustomerMapComponent,
-  AsmCustomerProductInterestsComponent,
-  AsmCustomerProductReviewsComponent,
-  AsmCustomerProfileComponent,
-  AsmCustomerSavedCartComponent,
-} from './sections/components';
-import { AsmCustomerCouponComponent } from './sections/asm-customer-coupon/asm-customer-coupon.component';
 import { AsmCustomerCouponComponentModule } from './sections/asm-customer-coupon/asm-customer-coupon.module';
-import { AsmCustomerPromotionComponent } from './sections/asm-customer-promotion/asm-customer-promotion.component';
 import { AsmCustomerPromotionComponentModule } from './sections/asm-customer-promotion/asm-customer-promotion.module';
-import { AsmCustomerCustomerCouponComponent } from './sections/asm-customer-customer-coupon/asm-customer-customer-coupon.component';
 import { AsmCustomerCustomerCouponComponentModule } from './sections/asm-customer-customer-coupon/asm-customer-customer-coupon.module';
+import { defaultCustomer360LayoutConfig } from './default-customer-360-layout.config';
 
 @NgModule({
   imports: [
@@ -73,47 +61,6 @@ import { AsmCustomerCustomerCouponComponentModule } from './sections/asm-custome
   ],
   declarations: [Customer360Component, AsmCustomerSectionComponent],
   exports: [Customer360Component],
-  providers: [
-    provideDefaultConfig({
-      cmsComponents: {
-        AsmCustomer360Component: {
-          component: Customer360Component,
-        },
-        AsmCustomer360ProfileComponent: {
-          component: AsmCustomerProfileComponent,
-        },
-        AsmCustomer360ActiveCartComponent: {
-          component: AsmCustomerActiveCartComponent,
-        },
-        AsmCustomer360ProductInterestsComponent: {
-          component: AsmCustomerProductInterestsComponent,
-        },
-        AsmCustomer360ProductReviewsComponent: {
-          component: AsmCustomerProductReviewsComponent,
-        },
-        AsmCustomer360SupportTicketsComponent: {
-          component: AsmCustomerSupportTicketsComponent,
-        },
-        AsmCustomer360SavedCartComponent: {
-          component: AsmCustomerSavedCartComponent,
-        },
-        AsmCustomer360CustomerActivityComponent: {
-          component: AsmCustomerActivityComponent,
-        },
-        AsmCustomer360MapComponent: {
-          component: AsmCustomerMapComponent,
-        },
-        AsmCustomer360CouponComponent: {
-          component: AsmCustomerCouponComponent,
-        },
-        AsmCustomer360PromotionComponent: {
-          component: AsmCustomerPromotionComponent,
-        },
-        AsmCustomer360CustomerCouponComponent: {
-          component: AsmCustomerCustomerCouponComponent,
-        },
-      },
-    }),
-  ],
+  providers: [provideDefaultConfig(defaultCustomer360LayoutConfig)],
 })
 export class Customer360ComponentsModule {}

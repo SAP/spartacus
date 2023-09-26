@@ -21,7 +21,6 @@ import {
   AsmDialogActionType,
   Customer360Data,
   Customer360TabConfig,
-  Customer360Config,
   Customer360Facade,
   Customer360Type,
   Customer360Overview,
@@ -44,6 +43,7 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { Customer360Config } from '../config/customer-360-config';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

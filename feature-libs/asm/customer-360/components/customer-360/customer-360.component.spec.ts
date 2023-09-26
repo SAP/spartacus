@@ -3,13 +3,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AsmDialogActionType,
-  Customer360Config,
   Customer360Facade,
   Customer360Overview,
   Customer360Response,
   Customer360TabComponent,
   Customer360Type,
 } from '@spartacus/asm/customer-360/root';
+import { Customer360Config } from '../config/customer-360-config';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -26,6 +26,11 @@ import { Customer360Component } from './customer-360.component';
 import { CsAgentAuthService } from '@spartacus/asm/root';
 import { ArgsPipe } from '@spartacus/asm/core';
 import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
+import {
+  AsmCustomerActiveCartComponent,
+  AsmCustomerProductReviewsComponent,
+  AsmCustomerProfileComponent,
+} from '../sections';
 
 describe('AsmCustomer360Component', () => {
   const mockAsmConfig: Customer360Config = {
@@ -37,7 +42,7 @@ describe('AsmCustomer360Component', () => {
           i18nNameKey: 'customer360.overviewTab',
           components: [
             {
-              component: 'AsmCustomer360OverviewComponent',
+              component: AsmCustomerActiveCartComponent,
             },
           ],
         },
@@ -45,10 +50,10 @@ describe('AsmCustomer360Component', () => {
           i18nNameKey: 'customer360.profileTab',
           components: [
             {
-              component: 'AsmCustomer360ProfileComponent',
+              component: AsmCustomerProfileComponent,
             },
             {
-              component: 'AsmCustomer360ProductReviewsComponent',
+              component: AsmCustomerProductReviewsComponent,
               requestData: {
                 type: Customer360Type.REVIEW_LIST,
               },
