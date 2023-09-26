@@ -4,10 +4,9 @@
     <label class="cx-asm-uid">{{ customer?.uid }}</label>
   </div>
   <cx-asm-bind-cart></cx-asm-bind-cart>
-  <!-- TODO(CXSPA-3090): Remove feature flag in 7.0 -->
-  <ng-container *cxFeatureLevel="'6.3'">
+  <ng-container *cxFeatureLevel="'6.6'">
     <button
-      *ngIf="isCustomer360Configured"
+      *ngIf="isCustomer360Configured && customer"
       #customer360Launcher
       class="cx-360-button"
       (click)="openCustomer360()"
