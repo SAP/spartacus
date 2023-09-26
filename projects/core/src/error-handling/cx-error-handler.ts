@@ -4,17 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ErrorHandler, Injectable, Injector, inject } from '@angular/core';
+import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { LoggerService } from '../logger';
-import {
-  ERROR_INTERCEPTORS,
-  ErrorInterceptor,
-} from './error-interceptors/error-interceptor';
-import {
-  handleInterceptors,
-  sortErrorInterceptors,
-  tailChain,
-} from './utils/error-interceptor-utils';
+import { ErrorInterceptorService } from './error-interceptors/error-interceptor.service';
 
 /**
  * The CxErrorHandler is the default ErrorHandler for Spartacus.
@@ -26,26 +18,18 @@ import {
  */
 @Injectable()
 export class CxErrorHandler implements ErrorHandler {
+  //TODO: Keep it updated with the latest version of Spartacus
   /**
-   * @deprecated Since 6.6
+   * @deprecated Since 6.6 - `LoggerService` is unused here. Instead it's now used in `LoggerErrorInterceptor`
    */
   protected logger = inject(LoggerService);
-  protected injector = inject(Injector);
+  protected errorInterceptorService = inject(ErrorInterceptorService);
 
-  protected errorInterceptors: ErrorInterceptor[] = sortErrorInterceptors(
-    this.injector.get(ERROR_INTERCEPTORS, [])
-  );
-
-  handleError(error: Error): void {
-    // Similar to Angular's interceptors, error interceptors are organized from right to left,
-    // ensuring that the ultimate execution order is from left to right.
-    // In other words, if the interceptors array contains `[a, b, c]`,
-    // our goal is to create a chain that can be envisioned as c(b(a(end))),
-    // constructed by progressively adding elements from the innermost to the outermost.
-    const chain = this.errorInterceptors.reduceRight(
-      (next, interceptor) => handleInterceptors(next, interceptor),
-      tailChain
-    );
-    chain(error);
+  /**
+   * Error handler method. Handles the error by passing it to the registered error interceptors.
+   * @param error - The error to be handled.
+   */
+  handleError(error: unknown): void {
+    this.errorInterceptorService.interceptorsChain(error);
   }
 }

@@ -7,7 +7,9 @@ class MockLogger implements Partial<LoggerService> {
   error = jasmine.createSpy('error');
 }
 
-const mockChanFn = jasmine.createSpy('mockChanFn') as ChainedErrorInterceptorFn;
+const mockChainFn = jasmine.createSpy(
+  'mockChainFn'
+) as ChainedErrorInterceptorFn;
 
 describe('LoggerErrorInterceptor', () => {
   let loggerErrorInterceptor: LoggerErrorInterceptor;
@@ -25,18 +27,11 @@ describe('LoggerErrorInterceptor', () => {
     logger = TestBed.inject(LoggerService);
   });
 
-  it('should log the error', () => {
+  it('should log the error and call next interceptor', () => {
     const error = new Error('test error');
 
-    loggerErrorInterceptor.intercept(error);
+    loggerErrorInterceptor.intercept(error, mockChainFn);
     expect(logger.error).toHaveBeenCalledWith(error);
-  });
-
-  it('should call the next interceptor', () => {
-    const error = new Error('test error');
-
-    loggerErrorInterceptor.intercept(error, mockChanFn);
-    expect(logger.error).toHaveBeenCalledWith(error);
-    expect(mockChanFn).toHaveBeenCalledWith(error);
+    expect(mockChainFn).toHaveBeenCalledWith(error);
   });
 });

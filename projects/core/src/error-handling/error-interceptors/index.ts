@@ -5,4 +5,5 @@
  */
 
 export * from './error-interceptor';
+export * from './error-interceptor.service';
 export * from './logger-error.interceptor';

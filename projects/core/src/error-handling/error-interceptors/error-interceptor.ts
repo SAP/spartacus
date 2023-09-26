@@ -13,7 +13,7 @@ import { InjectionToken } from '@angular/core';
  *
  * @public
  */
-export type ChainedErrorInterceptorFn = (error: Error) => void;
+export type ChainedErrorInterceptorFn = (error: unknown) => void;
 
 /**
  * Priority of the error interceptor. The higher the priority, the earlier the interceptor will be called.

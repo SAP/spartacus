@@ -16,10 +16,8 @@ import {
 })
 export class LoggerErrorInterceptor implements ErrorInterceptor {
   logger = inject(LoggerService);
-  intercept(error: Error, next?: ChainedErrorInterceptorFn): void {
+  intercept(error: Error, next: ChainedErrorInterceptorFn): void {
     this.logger.error(error);
-    if (next) {
-      next(error);
-    }
+    next(error);
   }
 }
