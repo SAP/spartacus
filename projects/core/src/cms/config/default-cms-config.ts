@@ -10,10 +10,10 @@ export const defaultCmsModuleConfig: CmsConfig = {
   backend: {
     occ: {
       endpoints: {
-        component: 'cms/components/${id}',
-        components: 'cms/components',
-        pages: 'cms/pages',
-        page: 'cms/pages/${id}',
+        component: 'users/${userId}/cms/components/${id}',
+        components: 'users/${userId}/cms/components',
+        pages: 'users/${userId}/cms/pages',
+        page: 'users/${userId}/cms/pages/${id}',
       },
     },
   },

@@ -5,8 +5,8 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
 import { CmsStructureModel } from '../../../cms/model/page.model';
@@ -18,6 +18,8 @@ import {
 } from '../../../routing/models/page-context.model';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { UserIdService } from '../../../auth';
+import { switchMap } from 'rxjs/operators';
 
 export interface OccCmsPageRequest {
   pageLabelOrId?: string;
@@ -30,6 +32,7 @@ export interface OccCmsPageRequest {
   providedIn: 'root',
 })
 export class OccCmsPageAdapter implements CmsPageAdapter {
+  protected readonly userIdService = inject(UserIdService);
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
@@ -44,16 +47,26 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
    */
   load(pageContext: PageContext): Observable<CmsStructureModel> {
     const params = this.getPagesRequestParams(pageContext);
+    const userId$ = this.userIdService
+      ? this.userIdService.getUserId()
+      : of('');
 
-    const endpoint = !pageContext.type
-      ? this.occEndpoints.buildUrl('page', {
-          urlParams: { id: pageContext.id },
-        })
-      : this.occEndpoints.buildUrl('pages', { queryParams: params });
+    return userId$.pipe(
+      switchMap((userId: string) => {
+        const endpoint = !pageContext.type
+          ? this.occEndpoints.buildUrl('page', {
+              urlParams: { id: pageContext.id, userId },
+            })
+          : this.occEndpoints.buildUrl('pages', {
+              urlParams: { userId },
+              queryParams: params,
+            });
 
-    return this.http
-      .get(endpoint, { headers: this.headers })
-      .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
+        return this.http.get(endpoint, { headers: this.headers });
+      }),
+
+      this.converter.pipeable(CMS_PAGE_NORMALIZER)
+    );
   }
 
   /**

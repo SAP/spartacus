@@ -5,9 +5,9 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { inject, Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
 import { CmsComponent, PageType } from '../../../model/cms.model';
@@ -15,11 +15,13 @@ import { PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { UserIdService } from '../../../auth';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
+  protected readonly userIdService = inject(UserIdService);
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
@@ -32,11 +34,21 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     id: string,
     pageContext: PageContext
   ): Observable<T> {
-    return this.http
-      .get<T>(this.getComponentEndPoint(id, pageContext), {
-        headers: this.headers,
-      })
-      .pipe(this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER));
+    const userId$ = this.userIdService
+      ? this.userIdService.getUserId()
+      : of('');
+
+    return userId$.pipe(
+      switchMap((userId: string) => {
+        return this.http.get<T>(
+          this.getComponentEndPoint(id, pageContext, userId),
+          {
+            headers: this.headers,
+          }
+        );
+      }),
+      this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER)
+    );
   }
 
   findComponentsByIds(
@@ -47,6 +59,9 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageSize = ids.length,
     sort?: string
   ): Observable<CmsComponent[]> {
+    const userId$ = this.userIdService
+      ? this.userIdService.getUserId()
+      : of('');
     const requestParams = {
       ...this.getContextParams(pageContext),
       ...this.getPaginationParams(currentPage, pageSize, sort),
@@ -54,30 +69,51 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
 
     requestParams['componentIds'] = ids.toString();
 
-    return this.http
-      .get<Occ.ComponentList>(
-        this.getComponentsEndpoint(requestParams, fields),
-        {
-          headers: this.headers,
+    return userId$.pipe(
+      switchMap((userId: string) => {
+        return this.http.get<Occ.ComponentList>(
+          this.getComponentsEndpoint(requestParams, fields, userId),
+          {
+            headers: this.headers,
+          }
+        );
+      }),
+      map((componentList) => componentList.component ?? []),
+      this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
+    );
+  }
+
+  protected getComponentEndPoint(
+    id: string,
+    pageContext: PageContext,
+    userId: string
+  ): string {
+    const queryParams = this.getContextParams(pageContext);
+
+    const attributes = userId
+      ? {
+          urlParams: { id, userId },
+          queryParams,
         }
-      )
-      .pipe(
-        map((componentList) => componentList.component ?? []),
-        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
-      );
+      : { urlParams: { id }, queryParams };
+    return this.occEndpoints.buildUrl('component', attributes);
   }
 
-  protected getComponentEndPoint(id: string, pageContext: PageContext): string {
-    return this.occEndpoints.buildUrl('component', {
-      urlParams: { id },
-      queryParams: this.getContextParams(pageContext),
-    });
-  }
+  protected getComponentsEndpoint(
+    requestParams: any,
+    fields: string,
+    userId: string
+  ): string {
+    const queryParams = { fields, ...requestParams };
 
-  protected getComponentsEndpoint(requestParams: any, fields: string): string {
-    return this.occEndpoints.buildUrl('components', {
-      queryParams: { fields, ...requestParams },
-    });
+    const attributes = userId
+      ? {
+          urlParams: { userId },
+          queryParams,
+        }
+      : { queryParams };
+
+    return this.occEndpoints.buildUrl('components', attributes);
   }
 
   protected getPaginationParams(
