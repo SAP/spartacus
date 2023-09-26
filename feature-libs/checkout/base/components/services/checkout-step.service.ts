@@ -4,9 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
+import {
+  CheckoutConfig,
+  CheckoutStep,
+  CheckoutStepType,
+} from '@spartacus/checkout/base/root';
 import { RoutingConfigService, RoutingService } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -48,8 +52,10 @@ export class CheckoutStepService {
 
   constructor(
     protected routingService: RoutingService,
-    protected checkoutFlowService: CheckoutFlowOrchestratorService,
-    protected routingConfigService: RoutingConfigService
+    protected checkoutConfig: CheckoutConfig,
+    protected routingConfigService: RoutingConfigService,
+    @Optional()
+    protected checkoutFlowOrchestratorService?: CheckoutFlowOrchestratorService
   ) {
     this.resetSteps();
   }
@@ -78,7 +84,14 @@ export class CheckoutStepService {
   }
 
   resetSteps(): void {
-    this.allSteps = (this.checkoutFlowService.getCheckoutFlow()?.steps ?? [])
+    let steps = this.checkoutConfig.checkout?.steps ?? [];
+
+    if (this.checkoutFlowOrchestratorService) {
+      steps =
+        this.checkoutFlowOrchestratorService.getCheckoutFlow()?.steps ?? [];
+    }
+
+    this.allSteps = steps
       .filter((step) => !step.disabled)
       .map((checkoutStep) => Object.assign({}, checkoutStep));
     this.steps$.next(this.allSteps);

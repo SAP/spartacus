@@ -21,13 +21,15 @@ export class CheckoutConfigService {
   private defaultDeliveryMode: Array<DeliveryModePreferences | string> =
     this.checkoutConfig.checkout?.defaultDeliveryMode || [];
 
-  protected checkoutFlow = this.checkoutFlowService?.getCheckoutFlow();
+  protected checkoutFlow =
+    this.checkoutFlowOrchestratorService?.getCheckoutFlow();
 
   constructor(
     private checkoutConfig: CheckoutConfig,
-    @Optional() protected checkoutFlowService?: CheckoutFlowOrchestratorService
+    @Optional()
+    protected checkoutFlowOrchestratorService?: CheckoutFlowOrchestratorService
   ) {
-    if (this.checkoutFlowService) {
+    if (this.checkoutFlowOrchestratorService) {
       this.express = this.checkoutFlow?.express ?? false;
       this.guest = this.checkoutFlow?.guest ?? false;
       this.defaultDeliveryMode = this.checkoutFlow?.defaultDeliveryMode || [];
@@ -89,7 +91,7 @@ export class CheckoutConfigService {
   }
 
   shouldUseAddressSavedInCart(): boolean {
-    if (this.checkoutFlowService) {
+    if (this.checkoutFlowOrchestratorService) {
       return !!this.checkoutFlow?.guestUseSavedAddress;
     }
 
