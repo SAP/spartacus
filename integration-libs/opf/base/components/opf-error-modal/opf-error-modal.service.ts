@@ -46,12 +46,12 @@ export class OpfErrorModalService {
     labelKey?: string,
     labelReplacements?: any
   ) {
-    let defaultLabel$ = this.translationService.translate(defaultKey);
+    const defaultLabel$ = this.translationService.translate(defaultKey);
 
     if (labelString) {
       return of(labelString);
     } else if (labelKey) {
-      let labelFromKey$ = this.translationService
+      const labelFromKey$ = this.translationService
         .translate(labelKey)
         .pipe(switchMap((val) => (val ? of(val) : defaultLabel$)));
 

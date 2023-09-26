@@ -178,6 +178,4 @@ export type ErrorDialogOptions = {
 export const defaultErrorDialogOptions: ErrorDialogOptions = {
   messageKey: 'opf.payment.errors.proceedPayment',
   confirmKey: 'common.continue',
-  messageReplacements: {},
-  confirmReplacements: {},
 };
