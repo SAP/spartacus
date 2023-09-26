@@ -5,7 +5,7 @@
  */
 
 import { Location } from '@angular/common';
-import { Injectable, Optional } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { FeatureModulesService, ScriptLoader } from '@spartacus/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
 import { SMART_EDIT_FEATURE } from '../feature-name';
@@ -18,6 +18,7 @@ import { SMART_EDIT_FEATURE } from '../feature-name';
   providedIn: 'root',
 })
 export class SmartEditLauncherService {
+  protected readonly featureModulesService = inject(FeatureModulesService);
   private _cmsTicketId: string | undefined;
 
   get cmsTicketId(): string | undefined {
@@ -25,24 +26,9 @@ export class SmartEditLauncherService {
   }
 
   constructor(
-    config: SmartEditConfig,
-    location: Location,
-    scriptLoader: ScriptLoader,
-    featureModules: FeatureModulesService
-  );
-  /**
-   * @deprecated since 6.5
-   */
-  constructor(
-    config: SmartEditConfig,
-    location: Location,
-    scriptLoader: ScriptLoader
-  );
-  constructor(
     protected config: SmartEditConfig,
     protected location: Location,
-    protected scriptLoader: ScriptLoader,
-    @Optional() protected featureModules?: FeatureModulesService
+    protected scriptLoader: ScriptLoader
   ) {}
 
   /**
@@ -50,7 +36,7 @@ export class SmartEditLauncherService {
    */
   load(): void {
     if (this.isLaunchedInSmartEdit()) {
-      this.featureModules?.resolveFeature(SMART_EDIT_FEATURE).subscribe();
+      this.featureModulesService.resolveFeature(SMART_EDIT_FEATURE).subscribe();
 
       this.scriptLoader?.embedScript({
         src: 'assets/webApplicationInjector.js',
