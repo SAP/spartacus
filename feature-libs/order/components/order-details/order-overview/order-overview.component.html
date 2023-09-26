@@ -181,7 +181,14 @@
           </ng-template>
         </ng-container>
       </div>
-      <cx-order-detail-billing></cx-order-detail-billing>
+      <cx-order-detail-billing
+        *ngIf="
+          (order.paymentInfo?.cardNumber &&
+            order.paymentInfo?.expiryMonth &&
+            order.paymentInfo?.expiryYear) ||
+          order.paymentInfo?.billingAddress
+        "
+      ></cx-order-detail-billing>
     </div>
   </ng-container>
 </div>
