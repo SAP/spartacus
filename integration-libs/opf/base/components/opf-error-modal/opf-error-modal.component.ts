@@ -13,11 +13,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ErrorDialogOptions } from '@spartacus/opf/base/root';
-import {
-  FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { OpfErrorModalService } from './opf-error-modal.service';
@@ -28,7 +24,6 @@ import { OpfErrorModalService } from './opf-error-modal.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpfErrorModalComponent implements OnInit {
-  iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
@@ -51,33 +46,15 @@ export class OpfErrorModalComponent implements OnInit {
     protected cd: ChangeDetectorRef,
     protected opfErrorModalService: OpfErrorModalService
   ) {
+    // Mechanism needed to trigger the cpnt life cycle hooks.
     timer(1).subscribe({
       complete: () => {
         this.cd.markForCheck();
-        console.log('complete');
       },
     });
   }
 
   ngOnInit() {
-    console.log('onInit');
-
-    // if errorOptions includes messageString and confirmString:
-    //      modal will show un-translated strings
-    //      for main message and confirm button
-    // if errorOptions includes messageKey, confirmKey which match
-    // the keys for localized strings within the upscale language-pack:
-    //      modal will show translated strings
-    //      for main message and confirm button
-    // NOTE: merchant can also provide an array of replacements for
-    //      language-pack translations via messageReplacements and
-    //      confirmReplacements
-    // if errorOptions is undefined:
-    //      modal will show the default payment error message
-
-    //  messageString = await this.translationService.translate(defaultErrorDialogOptions.messageString as string).toPromise(),
-    //  confirmString =  this.translationService.translate(defaultErrorDialogOptions.confirmString as string),
-
     this.errorDialogOptions$ = this.launchDialogService.data$.pipe(
       switchMap((data: ErrorDialogOptions) => {
         return this.opfErrorModalService.getMessageAndConfirmTranslations(data);

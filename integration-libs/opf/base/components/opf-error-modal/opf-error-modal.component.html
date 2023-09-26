@@ -10,16 +10,12 @@
     >
       <div class="cx-opf-error-modal-body modal-body">
         <p class="cx-confirmation">
-          {{
-            errorDialogOptions && errorDialogOptions.message
-              ? errorDialogOptions.message
-              : 'Yes'
-          }}
+          {{ errorDialogOptions?.message }}
         </p>
       </div>
       <div class="cx-opf-error-modal-footer cx-modal-footer">
         <button class="btn btn-primary" (click)="dismissModal('Cancel')">
-          {{ errorDialogOptions.confirm }}
+          {{ errorDialogOptions?.confirm }}
         </button>
       </div>
     </div>

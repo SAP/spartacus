@@ -166,31 +166,14 @@ export enum TargetPage {
   RESULT = 'RESULT',
 }
 
-export interface HasMessageString {
-  messageString: string;
-  messageKey?: undefined;
-  messageReplacements?: undefined;
-}
-
-export interface HasMessageKey {
-  messageString?: undefined;
-  messageKey: string;
-  messageReplacements: any;
-}
-export interface HasConfirmString {
-  confirmString: string;
-  confirmKey?: undefined;
-  confirmReplacements?: undefined;
-}
-
-export interface HasConfirmKey {
-  confirmString?: undefined;
-  confirmKey: string;
-  confirmReplacements: any;
-}
-
-export type ErrorDialogOptions = (HasMessageString | HasMessageKey) &
-  (HasConfirmString | HasConfirmKey);
+export type ErrorDialogOptions = {
+  confirmString?: string;
+  confirmKey?: string;
+  confirmReplacements?: any;
+  messageString?: string;
+  messageKey?: string;
+  messageReplacements?: any;
+};
 
 export const defaultErrorDialogOptions: ErrorDialogOptions = {
   messageKey: 'opf.payment.errors.proceedPayment',

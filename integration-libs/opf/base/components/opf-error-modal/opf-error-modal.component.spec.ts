@@ -24,10 +24,9 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 
 class MockOpfErrorModalService implements Partial<OpfErrorModalService> {
   getMessageAndConfirmTranslations(dialogOptions: ErrorDialogOptions) {
-    console.log(dialogOptions.confirmKey);
     return of({
-      message: dialogOptions.messageString as string,
-      confirm: dialogOptions.confirmString as string,
+      message: dialogOptions.messageString,
+      confirm: dialogOptions.confirmString,
     });
   }
 }

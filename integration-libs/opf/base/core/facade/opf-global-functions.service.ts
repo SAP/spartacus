@@ -119,7 +119,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     this.getGlobalFunctionContainer().throwPaymentError = (
       errorDialogOptions: ErrorDialogOptions = defaultErrorDialogOptions
     ): void => {
-      console.log('throwPaymentError called');
       if (!vcr) {
         return;
       }
@@ -132,11 +131,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         );
 
         if (dialog) {
-          dialog.pipe(take(1)).subscribe({
-            complete: () => {
-              console.log('in complete openDialog subscription');
-            },
-          });
+          dialog.pipe(take(1)).subscribe();
         }
       });
     };
