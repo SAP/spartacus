@@ -28,14 +28,14 @@ export class ErrorInterceptorService {
     this.sortErrorInterceptors(this.errorInterceptors);
 
   get interceptorsChain(): ChainedErrorInterceptorFn {
-    console.log('this.sortedErrorInterceptors', this.sortedErrorInterceptors);
     // Similar to Angular's interceptors, error interceptors are organized from right to left,
     // ensuring that the ultimate execution order is from left to right.
     // In other words, if the interceptors array contains `[a, b, c]`,
     // our goal is to create a chain that can be envisioned as c(b(a(end))),
     // constructed by progressively adding elements from the innermost to the outermost.
     return this.sortedErrorInterceptors.reduceRight<ChainedErrorInterceptorFn>(
-      (next, interceptor) => this.handleInterceptors(next, interceptor),
+      (partialChain, interceptor) =>
+        this.chainInterceptors(partialChain, interceptor),
       () => {}
     );
   }
@@ -63,17 +63,17 @@ export class ErrorInterceptorService {
 
   /**
    * Handles error interceptors chain.
-   * @param next - next chained interceptor function that handles the error and calls the next interceptor
+   * @param partialChain - next chained interceptor function that handles the error and calls the next interceptor
    * @param interceptor - current interceptor
    * @returns chained interceptor function
    *
    */
-  protected handleInterceptors(
-    next: ChainedErrorInterceptorFn,
+  protected chainInterceptors(
+    partialChain: ChainedErrorInterceptorFn,
     interceptor: ErrorInterceptor
   ): ChainedErrorInterceptorFn {
     return (error: unknown) => {
-      interceptor.intercept(error, next);
+      interceptor.intercept(error, partialChain);
     };
   }
 
