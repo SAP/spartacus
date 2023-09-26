@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -28,7 +28,7 @@ import {
   OrderConsolidatedInformationComponent,
   OrderHistoryEnhancedUIComponent,
 } from './enhanced-ui';
-//import { MYACCOUNT_ENHANCED_UI } from '../../order.module';
+import { MYACCOUNT_ENHANCED_UI } from '@spartacus/user/account/root';
 
 const enhancedUICmsMapping: CmsConfig = {
   cmsComponents: {
@@ -68,13 +68,9 @@ const moduleComponents = [
         },
       },
     }),
-    provideDefaultConfigFactory(() => {
-      const enhancedUI = true; //inject(MYACCOUNT_ENHANCED_UI);
-      if (enhancedUI) {
-        return enhancedUICmsMapping;
-      }
-      return {};
-    }),
+    provideDefaultConfigFactory(() =>
+      inject(MYACCOUNT_ENHANCED_UI) ? enhancedUICmsMapping : {}
+    ),
   ],
 })
 export class OrderHistoryModule {}

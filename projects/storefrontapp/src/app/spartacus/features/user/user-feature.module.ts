@@ -11,6 +11,7 @@ import {
   userAccountTranslations,
 } from '@spartacus/user/account/assets';
 import {
+  MYACCOUNT_ENHANCED_UI,
   UserAccountRootModule,
   USER_ACCOUNT_FEATURE,
 } from '@spartacus/user/account/root';
@@ -26,6 +27,10 @@ import {
 @NgModule({
   imports: [UserAccountRootModule, UserProfileRootModule],
   providers: [
+    {
+      provide: MYACCOUNT_ENHANCED_UI,
+      useValue: true
+    },
     provideConfig(<CmsConfig>{
       featureModules: {
         [USER_ACCOUNT_FEATURE]: {

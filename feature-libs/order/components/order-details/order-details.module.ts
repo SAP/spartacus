@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
@@ -29,6 +29,7 @@ import {
   provideOutlet,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { MYACCOUNT_ENHANCED_UI } from '@spartacus/user/account/root';
 import {
   ConsignmentTrackingLinkComponent,
   DownloadOrderInvoicesDialogModule,
@@ -46,7 +47,6 @@ import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/re
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
-//import { MYACCOUNT_ENHANCED_UI } from '../../order.module';
 
 const enhancedUICmsMapping: CmsConfig = {
   cmsComponents: {
@@ -136,13 +136,9 @@ const moduleComponents = [
     }),
     provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
     provideDefaultConfig(defaultReorderLayoutConfig),
-    provideDefaultConfigFactory(() => {
-      const enhancedUI = true; //inject(MYACCOUNT_ENHANCED_UI);
-      if (enhancedUI) {
-        return enhancedUICmsMapping;
-      }
-      return {};
-    }),
+    provideDefaultConfigFactory(() =>
+      inject(MYACCOUNT_ENHANCED_UI) ? enhancedUICmsMapping : {}
+    ),
     /** how to provide the below outlet based on condition */
     provideOutlet({
       id: OrderOutlets.ORDER_CONSIGNMENT,
