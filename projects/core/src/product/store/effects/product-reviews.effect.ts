@@ -14,7 +14,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message/index';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { LoggerService } from '../../../logger';
 import { tryNormalizeHttpError } from '@spartacus/core';
 
@@ -39,7 +38,7 @@ export class ProductReviewsEffects {
           catchError((error) =>
             of(
               new ProductActions.LoadProductReviewsFail(
-                normalizeHttpError(error, this.logger)
+                tryNormalizeHttpError(error, this.logger)
               )
             )
           )
