@@ -21,18 +21,18 @@ import {
   StarRatingModule,
 } from '@spartacus/storefront';
 import { Customer360Component } from './customer-360/customer-360.component';
-import { AsmCustomerActiveCartModule } from './sections/asm-customer-active-cart/asm-customer-active-cart.module';
-import { AsmCustomerActivityModule } from './sections/asm-customer-activity/asm-customer-activity.module';
-import { AsmCustomerMapComponentModule } from './sections/asm-customer-map/asm-customer-map.component.module';
-import { AsmCustomerProductInterestsModule } from './sections/asm-customer-product-interests/asm-customer-product-interests.module';
-import { AsmCustomerProductReviewsComponentModule } from './sections/asm-customer-product-reviews/asm-customer-product-reviews.component.module';
-import { AsmCustomerProfileModule } from './sections/asm-customer-profile/asm-customer-profile.module';
-import { AsmCustomerSavedCartModule } from './sections/asm-customer-saved-cart/asm-customer-saved-cart.module';
-import { AsmCustomerSectionComponent } from './sections/asm-customer-section/asm-customer-section.component';
-import { AsmCustomerSupportTicketsComponentModule } from './sections/asm-customer-support-tickets/asm-customer-support-tickets.component.module';
-import { AsmCustomerCouponComponentModule } from './sections/asm-customer-coupon/asm-customer-coupon.module';
-import { AsmCustomerPromotionComponentModule } from './sections/asm-customer-promotion/asm-customer-promotion.module';
-import { AsmCustomerCustomerCouponComponentModule } from './sections/asm-customer-customer-coupon/asm-customer-customer-coupon.module';
+import { Customer360ActiveCartModule } from './sections/customer-360-active-cart/customer-360-active-cart.module';
+import { Customer360ActivityModule } from './sections/customer-360-activity/customer-360-activity.module';
+import { Customer360MapComponentModule } from './sections/customer-360-map/customer-360-map.component.module';
+import { Customer360ProductInterestsModule } from './sections/customer-360-product-interests/customer-360-product-interests.module';
+import { Customer360ProductReviewsComponentModule } from './sections/customer-360-product-reviews/customer-360-product-reviews.component.module';
+import { Customer360ProfileModule } from './sections/customer-360-profile/customer-360-profile.module';
+import { Customer360SavedCartModule } from './sections/customer-360-saved-cart/customer-360-saved-cart.module';
+import { Customer360SectionComponent } from './sections/customer-360-section/customer-360-section.component';
+import { Customer360SupportTicketsComponentModule } from './sections/customer-360-support-tickets/customer-360-support-tickets.component.module';
+import { Customer360CouponComponentModule } from './sections/customer-360-coupon/customer-360-coupon.module';
+import { Customer360PromotionComponentModule } from './sections/customer-360-promotion/customer-360-promotion.module';
+import { Customer360CustomerCouponComponentModule } from './sections/customer-360-customer-coupon/customer-360-customer-coupon.module';
 import { defaultCustomer360LayoutConfig } from './default-customer-360-layout.config';
 
 @NgModule({
@@ -46,20 +46,20 @@ import { defaultCustomer360LayoutConfig } from './default-customer-360-layout.co
     KeyboardFocusModule,
     PageComponentModule,
     MessageComponentModule,
-    AsmCustomerActiveCartModule,
-    AsmCustomerProductInterestsModule,
-    AsmCustomerSavedCartModule,
-    AsmCustomerProfileModule,
-    AsmCustomerActivityModule,
-    AsmCustomerMapComponentModule,
-    AsmCustomerProductReviewsComponentModule,
-    AsmCustomerSupportTicketsComponentModule,
-    AsmCustomerCouponComponentModule,
-    AsmCustomerPromotionComponentModule,
-    AsmCustomerCustomerCouponComponentModule,
+    Customer360ActiveCartModule,
+    Customer360ProductInterestsModule,
+    Customer360SavedCartModule,
+    Customer360ProfileModule,
+    Customer360ActivityModule,
+    Customer360MapComponentModule,
+    Customer360ProductReviewsComponentModule,
+    Customer360SupportTicketsComponentModule,
+    Customer360CouponComponentModule,
+    Customer360PromotionComponentModule,
+    Customer360CustomerCouponComponentModule,
     FeaturesConfigModule,
   ],
-  declarations: [Customer360Component, AsmCustomerSectionComponent],
+  declarations: [Customer360Component, Customer360SectionComponent],
   exports: [Customer360Component],
   providers: [provideDefaultConfig(defaultCustomer360LayoutConfig)],
 })

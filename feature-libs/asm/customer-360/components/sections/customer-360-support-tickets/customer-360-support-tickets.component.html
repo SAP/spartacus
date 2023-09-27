@@ -1,0 +1,9 @@
+<cx-customer-360-table
+  [emptyStateText]="'customer360.supportTickets.emptyDescription' | cxTranslate"
+  [headerText]="'customer360.supportTickets.header' | cxTranslate"
+  sortProperty="createdAt"
+  [columns]="supportTicketsColumns"
+  [entries]="supportTicketsEntries$ | async"
+  [pageSize]="(context.config$ | async)?.pageSize"
+  (selectItem)="navigateTo($event)"
+></cx-customer-360-table>

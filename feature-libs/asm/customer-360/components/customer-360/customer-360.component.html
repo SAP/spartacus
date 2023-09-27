@@ -1,5 +1,5 @@
 <div
-  class="cx-asm-customer-360 cx-modal-container cx-asm-dialog"
+  class="cx-customer-360 cx-modal-container cx-asm-dialog"
   [cxFocus]="focusConfig"
   (esc)="closeModal('Escape clicked')"
 >
@@ -208,13 +208,13 @@
         </ng-container>
         <ng-template #tabContent>
           <ng-container *ngIf="customer360Tabs$ | async as customer360Tabs">
-            <cx-asm-customer-section
+            <cx-customer-360-section
               *ngFor="let config of currentTab?.components; let i = index"
               [component]="config.component"
               [config]="config.config"
               [data]="customer360Tabs?.[i]"
               (navigate)="navigateTo($event)"
-            ></cx-asm-customer-section>
+            ></cx-customer-360-section>
           </ng-container>
         </ng-template>
       </div>
