@@ -96,7 +96,7 @@ describe('User consents selectors', () => {
   });
   describe('getConsentsError', () => {
     it('should return the error flag', () => {
-      store.dispatch(new UserActions.LoadUserConsentsFail('error'));
+      store.dispatch(new UserActions.LoadUserConsentsFail(new Error('error')));
 
       let result = false;
       store

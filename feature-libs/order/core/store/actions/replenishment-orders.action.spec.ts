@@ -31,12 +31,12 @@ describe('Replenishment Orders Actions', () => {
 
   describe('LoadUserReplenishmentOrdersFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new OrderActions.LoadUserReplenishmentOrdersFail(error);
 
       expect({ ...action }).toEqual({
         type: OrderActions.LOAD_USER_REPLENISHMENT_ORDERS_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(REPLENISHMENT_ORDERS, error),
       });
     });

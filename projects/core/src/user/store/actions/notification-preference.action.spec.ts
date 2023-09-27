@@ -17,7 +17,7 @@ const mockNotificationPreference: NotificationPreference[] = [
     visible: true,
   },
 ];
-const error = 'anError';
+const error = new Error('anError');
 
 describe('Notification Preference Actions', () => {
   describe('LoadNotificationPreferences', () => {
@@ -36,7 +36,7 @@ describe('Notification Preference Actions', () => {
       const action = new UserActions.LoadNotificationPreferencesFail(error);
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_NOTIFICATION_PREFERENCES_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(NOTIFICATION_PREFERENCES, error),
       });
     });
@@ -80,7 +80,7 @@ describe('Notification Preference Actions', () => {
       const action = new UserActions.UpdateNotificationPreferencesFail(error);
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_NOTIFICATION_PREFERENCES_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,

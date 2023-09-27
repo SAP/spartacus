@@ -16,7 +16,7 @@ import {
   map,
 } from 'rxjs/operators';
 import { LoggerService } from '../../../logger';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
 import { getActiveCurrency } from '../selectors/currencies.selectors';
@@ -41,7 +41,7 @@ export class CurrenciesEffects {
           catchError((error) =>
             of(
               new SiteContextActions.LoadCurrenciesFail(
-                normalizeHttpError(error, this.logger)
+                tryNormalizeHttpError(error, this.logger)
               )
             )
           )

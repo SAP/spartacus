@@ -40,6 +40,8 @@ class MockUserIdService implements Partial<UserIdService> {
   }
 }
 
+const error = new Error('error');
+
 describe('Order Details effect', () => {
   let orderDetailsEffect: fromOrderDetailsEffect.OrderDetailsEffect;
   let orderHistoryConnector: OrderHistoryConnector;
@@ -89,11 +91,11 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for load order details', () => {
-      spyOn(orderHistoryConnector, 'get').and.returnValue(throwError('Error'));
+      spyOn(orderHistoryConnector, 'get').and.returnValue(throwError(error));
 
       const action = new OrderActions.LoadOrderDetails(mockOrderDetailsParams);
 
-      const completion = new OrderActions.LoadOrderDetailsFail(undefined);
+      const completion = new OrderActions.LoadOrderDetailsFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -117,13 +119,11 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for cancel an order', () => {
-      spyOn(orderHistoryConnector, 'cancel').and.returnValue(
-        throwError('Error')
-      );
+      spyOn(orderHistoryConnector, 'cancel').and.returnValue(throwError(error));
 
       const action = new OrderActions.CancelOrder(mockCancelOrderParams);
 
-      const completion = new OrderActions.CancelOrderFail(undefined);
+      const completion = new OrderActions.CancelOrderFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

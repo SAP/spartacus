@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
+import { ErrorActionType, StateUtils } from '@spartacus/core';
 import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { REPLENISHMENT_ORDERS } from '../order-state';
 
@@ -19,6 +19,7 @@ export const CLEAR_USER_REPLENISHMENT_ORDERS =
 
 export class LoadUserReplenishmentOrders extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS;
+
   constructor(
     public payload: {
       userId: string;
@@ -33,13 +34,15 @@ export class LoadUserReplenishmentOrders extends StateUtils.LoaderLoadAction {
 
 export class LoadUserReplenishmentOrdersFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS_FAIL;
-  constructor(public payload: any) {
-    super(REPLENISHMENT_ORDERS, payload);
+
+  constructor(public error: ErrorActionType) {
+    super(REPLENISHMENT_ORDERS, error);
   }
 }
 
 export class LoadUserReplenishmentOrdersSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS;
+
   constructor(public payload: ReplenishmentOrderList) {
     super(REPLENISHMENT_ORDERS);
   }
@@ -47,6 +50,7 @@ export class LoadUserReplenishmentOrdersSuccess extends StateUtils.LoaderSuccess
 
 export class ClearUserReplenishmentOrders extends StateUtils.LoaderResetAction {
   readonly type = CLEAR_USER_REPLENISHMENT_ORDERS;
+
   constructor() {
     super(REPLENISHMENT_ORDERS);
   }

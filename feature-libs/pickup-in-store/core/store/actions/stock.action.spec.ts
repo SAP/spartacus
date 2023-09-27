@@ -59,12 +59,12 @@ describe('[Stock] Actions', () => {
           error: {},
         },
       },
-      payload: {},
+      error: {},
     };
 
     expect(RESULT.type).toEqual(EXPECTED.type);
     expect(RESULT.meta).toEqual(EXPECTED.meta);
-    expect(RESULT.payload).toEqual(EXPECTED.payload);
+    expect(RESULT.error).toEqual(EXPECTED.error);
   });
 
   it('StockLevelSuccess', () => {

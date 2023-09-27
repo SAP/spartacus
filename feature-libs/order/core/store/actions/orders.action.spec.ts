@@ -32,12 +32,12 @@ describe('OrdersActions', () => {
 
   describe('LoadUserOrdersFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
+      const error = new Error('mockError');
       const action = new OrderActions.LoadUserOrdersFail(error);
 
       expect({ ...action }).toEqual({
         type: OrderActions.LOAD_USER_ORDERS_FAIL,
-        payload: error,
+        error,
         meta: StateUtils.failMeta(ORDERS, error),
       });
     });

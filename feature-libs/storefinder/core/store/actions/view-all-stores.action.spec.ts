@@ -16,13 +16,13 @@ describe('View All Stores Actions', () => {
 
   describe('ViewAllStoresFail', () => {
     it('should create ViewAllStoresFail action', () => {
-      const payload = { errorMessage: 'Error' };
-      const action = new StoreFinderActions.ViewAllStoresFail(payload);
+      const error = { message: 'Error' };
+      const action = new StoreFinderActions.ViewAllStoresFail(error);
 
       expect({ ...action }).toEqual({
         type: StoreFinderActions.VIEW_ALL_STORES_FAIL,
-        payload,
-        meta: StateUtils.failMeta(STORE_FINDER_DATA, payload),
+        error,
+        meta: StateUtils.failMeta(STORE_FINDER_DATA, error),
       });
     });
   });

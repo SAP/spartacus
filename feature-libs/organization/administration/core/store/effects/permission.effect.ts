@@ -12,7 +12,7 @@ import {
   LoggerService,
   OrderApprovalPermissionType,
   StateUtils,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable, from, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -40,7 +40,7 @@ export class PermissionEffects {
             of(
               new PermissionActions.LoadPermissionFail({
                 permissionCode,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -76,7 +76,7 @@ export class PermissionEffects {
             of(
               new PermissionActions.LoadPermissionsFail({
                 params: payload.params,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -105,7 +105,7 @@ export class PermissionEffects {
               from([
                 new PermissionActions.CreatePermissionFail({
                   permissionCode: payload.permission.code ?? '',
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -135,7 +135,7 @@ export class PermissionEffects {
               from([
                 new PermissionActions.UpdatePermissionFail({
                   permissionCode: payload.permission.code ?? '',
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -162,7 +162,7 @@ export class PermissionEffects {
           catchError((error: HttpErrorResponse) =>
             of(
               new PermissionActions.LoadPermissionTypesFail({
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )

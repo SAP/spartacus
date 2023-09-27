@@ -18,7 +18,7 @@ const mockNotificationPreference: NotificationPreference[] = [
     visible: true,
   },
 ];
-const error = 'anError';
+const error = new Error('anError');
 
 describe('Notification Preference Effect', () => {
   let notificationPreferenceEffects: fromEffect.NotificationPreferenceEffects;
@@ -67,9 +67,7 @@ describe('Notification Preference Effect', () => {
       );
 
       const action = new UserActions.LoadNotificationPreferences(userId);
-      const completion = new UserActions.LoadNotificationPreferencesFail(
-        undefined
-      );
+      const completion = new UserActions.LoadNotificationPreferencesFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -112,7 +110,7 @@ describe('Notification Preference Effect', () => {
         preferences: mockNotificationPreference,
       });
       const completion = new UserActions.UpdateNotificationPreferencesFail(
-        undefined
+        error
       );
 
       actions$ = hot('-a', { a: action });

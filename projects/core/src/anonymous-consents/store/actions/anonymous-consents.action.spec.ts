@@ -45,7 +45,7 @@ describe('anonymous consent actions', () => {
     });
     describe('LoadAnonymousConsentTemplatesFail', () => {
       it('should create the action', () => {
-        const mockError = 'anError';
+        const mockError = new Error('anError');
         const action =
           new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
             mockError
@@ -53,6 +53,7 @@ describe('anonymous consent actions', () => {
         expect({ ...action }).toEqual({
           type: AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES_FAIL,
           meta: StateUtils.failMeta(ANONYMOUS_CONSENTS, mockError),
+          error: mockError,
         });
       });
     });

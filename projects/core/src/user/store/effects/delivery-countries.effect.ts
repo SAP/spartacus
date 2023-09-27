@@ -11,7 +11,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { LoggerService } from '../../../logger';
 import { CountryType } from '../../../model/address.model';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { UserActions } from '../actions/index';
 
 @Injectable()
@@ -31,7 +31,7 @@ export class DeliveryCountriesEffects {
             catchError((error) =>
               of(
                 new UserActions.LoadDeliveryCountriesFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )

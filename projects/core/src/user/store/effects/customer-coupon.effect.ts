@@ -10,7 +10,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { LoggerService } from '../../../logger';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
 import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
 
@@ -43,7 +43,7 @@ export class CustomerCouponEffects {
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.LoadCustomerCouponsFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -72,7 +72,7 @@ export class CustomerCouponEffects {
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -101,7 +101,7 @@ export class CustomerCouponEffects {
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -130,7 +130,7 @@ export class CustomerCouponEffects {
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.ClaimCustomerCouponFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )

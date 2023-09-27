@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { normalizeHttpError, SiteContextActions } from '@spartacus/core';
+import { tryNormalizeHttpError, SiteContextActions } from '@spartacus/core';
 import { OrderHistoryList } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -84,7 +84,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new OrderActions.LoadUserOrdersFail(
-          normalizeHttpError(mockError)
+          tryNormalizeHttpError(mockError)
         );
         actions$ = hot('-a', { a: action });
 
@@ -130,7 +130,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new OrderActions.LoadUserOrdersFail(
-          normalizeHttpError(mockError)
+          tryNormalizeHttpError(mockError)
         );
         actions$ = hot('-a', { a: action });
 

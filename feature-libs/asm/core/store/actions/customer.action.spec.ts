@@ -18,6 +18,7 @@ const mockUser: User = {
 const mockCustomerSearchPage: CustomerSearchPage = {
   entries: [mockUser],
 } as CustomerSearchPage;
+const error = new Error('anError');
 
 describe('Customer Actions', () => {
   describe('Customer Search Actions', () => {
@@ -32,13 +33,12 @@ describe('Customer Actions', () => {
     });
 
     it('should create the CustomerSearchFail action', () => {
-      const error = 'anError';
       const action = new AsmActions.CustomerSearchFail(error);
 
       expect({ ...action }).toEqual({
         type: AsmActions.CUSTOMER_SEARCH_FAIL,
-        meta: StateUtils.failMeta(CUSTOMER_SEARCH_DATA),
-        payload: error,
+        meta: StateUtils.failMeta(CUSTOMER_SEARCH_DATA, error),
+        error,
       });
     });
 
@@ -76,13 +76,13 @@ describe('Customer Actions', () => {
     });
 
     it('should create the CustomerListCustomersSearchFail action', () => {
-      const error = 'anError';
       const action = new AsmActions.CustomerListCustomersSearchFail(error);
 
       expect({ ...action }).toEqual({
         type: AsmActions.CUSTOMER_LIST_CUSTOMERS_SEARCH_FAIL,
-        meta: StateUtils.failMeta(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA),
+        meta: StateUtils.failMeta(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA, error),
         payload: error,
+        error,
       });
     });
 
