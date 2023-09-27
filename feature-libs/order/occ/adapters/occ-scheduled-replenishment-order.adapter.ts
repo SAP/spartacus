@@ -5,9 +5,10 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
+  LoggerService,
   OccEndpointsService,
   backOff,
   isJaloError,
@@ -27,6 +28,8 @@ import { catchError } from 'rxjs/operators';
 export class OccScheduledReplenishmentOrderAdapter
   implements ScheduledReplenishmentOrderAdapter
 {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -58,7 +61,7 @@ export class OccScheduledReplenishmentOrderAdapter
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER)

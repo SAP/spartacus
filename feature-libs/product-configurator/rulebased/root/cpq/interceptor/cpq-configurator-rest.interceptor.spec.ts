@@ -202,7 +202,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
       });
   });
 
-  it('should retry a CPQ request with fresh token on 403', (done) => {
+  it('should retry a CPQ request with fresh token and session on 403', (done) => {
     cpqAccessDataStack.push({
       accessToken: 'EXPIRED_TOKEN',
       endpoint: 'https://cpq',
@@ -211,6 +211,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
     cpqResponseStack = [];
     cpqResponseStack.push(validCpqResponse); // second request should succeed
     cpqResponseStack.push(new HttpErrorResponse({ status: 403 })); // first error
+    interceptorUnderTest['cpqSessionId'] = '123';
     interceptorUnderTest
       .intercept(cpqRequest, mockedNextHandler)
       .subscribe(() => {
@@ -221,14 +222,16 @@ describe('CpqConfiguratorRestInterceptor', () => {
           cpqAccessStorageServiceMock.renewCpqAccessData
         ).toHaveBeenCalled();
         expect(mockedNextHandler.handle).toHaveBeenCalledTimes(2);
-        // last request with new token
-        expect(capturedRequestsStack.pop()?.headers.get('Authorization')).toBe(
-          'Bearer TOKEN'
-        );
-        // initial requests with expired token
-        expect(capturedRequestsStack.pop()?.headers.get('Authorization')).toBe(
+        // last request with new token and no session id to create fresh session
+        let lastReq = capturedRequestsStack.pop();
+        expect(lastReq?.headers.get('Authorization')).toBe('Bearer TOKEN');
+        expect(lastReq?.headers.get('x-cpq-session-id')).toBeNull();
+        let firstReq = capturedRequestsStack.pop();
+        // initial requests with expired token and existing session id
+        expect(firstReq?.headers.get('Authorization')).toBe(
           'Bearer EXPIRED_TOKEN'
         );
+        expect(firstReq?.headers.get('x-cpq-session-id')).toBe('123');
         done();
       });
   });

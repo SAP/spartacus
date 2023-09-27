@@ -110,6 +110,14 @@ export class ConfiguratorAttributeProductCardComponent
       false
     );
   }
+  //TODO(CXSPA-3392) for next major: turn ConfiguratorAttributeProductCardComponentOptions#attributeName
+  //into a required field and get rid of this method, use this.productCardOptions.attributeName instead
+  get attributeName(): string {
+    const attributeName = this.productCardOptions.attributeName;
+    return attributeName
+      ? attributeName
+      : this.productCardOptions.attributeId.toString();
+  }
 
   get focusConfig(): FocusConfig {
     const focusConfig = {
@@ -235,7 +243,9 @@ export class ConfiguratorAttributeProductCardComponent
    * @return {boolean} - 'true' if the value code is defined, otherwise 'false'
    */
   isValueCodeDefined(valueCode: string | null | undefined): boolean {
-    return valueCode && valueCode !== '0' ? true : false;
+    return valueCode && valueCode !== Configurator.RetractValueCode
+      ? true
+      : false;
   }
 
   protected transformToProductType(

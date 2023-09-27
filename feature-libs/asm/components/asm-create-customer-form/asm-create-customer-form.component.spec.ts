@@ -12,7 +12,7 @@ import {
   AsmCreateCustomerFacade,
   CustomerRegistrationForm,
 } from '@spartacus/asm/root';
-import { I18nTestingModule } from '@spartacus/core';
+import { HttpErrorModel, I18nTestingModule } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -40,6 +40,41 @@ const user: User = {
   firstName: 'John',
   lastName: 'Smith',
   uid: 'john.smith@test.com',
+};
+
+const errorResponse: HttpErrorModel = {
+  details: [
+    {
+      message: 'This field is not a valid email addresss.',
+      reason: 'invalid',
+      subject: 'emailAddress',
+      subjectType: 'parameter',
+      type: 'ValidationError',
+    },
+    {
+      message: 'This field must to be between 0 and 100 characters long.',
+      reason: 'invalid',
+      subject: 'firstName',
+      subjectType: 'parameter',
+      type: 'ValidationError',
+    },
+    {
+      message: 'This field must to be between 0 and 100 characters long.',
+      reason: 'invalid',
+      subject: 'lastName',
+      subjectType: 'parameter',
+      type: 'ValidationError',
+    },
+  ],
+};
+
+const duplicatedUidErrorResponse: HttpErrorModel = {
+  details: [
+    {
+      message: 'Duplicate User id',
+      type: 'AssistedServiceDuplicatedUidError',
+    },
+  ],
 };
 
 @Component({
@@ -147,6 +182,34 @@ describe('AsmCreateCustomerFormComponent', () => {
     component.submitForm();
 
     expect(asmCreateCustomerFacade.createCustomer).not.toHaveBeenCalled();
+  });
+
+  it('should show all errors detail with invalid form', () => {
+    // @ts-ignore
+    component.onRegisterUserFail(errorResponse);
+    expect(component.showDialogBackendErrorAlerts[0]).toBeTruthy();
+    expect(component.showDialogBackendErrorAlerts[1]).toBeTruthy();
+    expect(component.showDialogBackendErrorAlerts[2]).toBeTruthy();
+    expect(component.backendErrorMessages[0]).toEqual(
+      'asm.createCustomerForm.validationErrors.emailAddress'
+    );
+    expect(component.backendErrorMessages[1]).toEqual(
+      'asm.createCustomerForm.validationErrors.firstName'
+    );
+    expect(component.backendErrorMessages[2]).toEqual(
+      'asm.createCustomerForm.validationErrors.lastName'
+    );
+  });
+
+  it('should show duplicated uid error with duplicate User id', () => {
+    component.createdCustomer = createdCustomerData;
+    // @ts-ignore
+    component.onRegisterUserFail(duplicatedUidErrorResponse);
+    expect(component.showDialogBackendErrorAlerts[0]).toBeTruthy();
+    expect(component.backendErrorMessages[0]).toEqual(
+      'asm.createCustomerForm.badRequestDuplicatedEmail emailAddress:' +
+        createdCustomerData.email
+    );
   });
 
   it('should close modal when create account successfully', () => {

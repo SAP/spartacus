@@ -5,9 +5,10 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   ConverterService,
+  LoggerService,
   normalizeHttpError,
   Occ,
   OccEndpointsService,
@@ -22,6 +23,8 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccUserAccountAdapter implements UserAccountAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -32,7 +35,7 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
     const url = this.occEndpoints.buildUrl('user', { urlParams: { userId } });
     return this.http.get<Occ.User>(url).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       }),
       this.converter.pipeable(USER_ACCOUNT_NORMALIZER)
     );

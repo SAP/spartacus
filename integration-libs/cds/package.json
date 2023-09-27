@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cds",
-  "version": "5.0.0",
+  "version": "6.5.0-1",
   "description": "Context Driven Service library for Spartacus",
   "keywords": [
     "spartacus",
@@ -20,20 +20,20 @@
     "test:schematics": "npm --prefix ../../projects/schematics/ run clean && npm run clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "tslib": "^2.4.0"
+    "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^15.2.4",
-    "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
-    "@angular/router": "^15.2.4",
+    "@angular-devkit/schematics": "^15.2.9",
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
+    "@angular/router": "^15.2.9",
     "@ngrx/store": "^15.3.0",
-    "@spartacus/cart": "5.0.0",
-    "@spartacus/core": "5.0.0",
-    "@spartacus/order": "5.0.0",
-    "@spartacus/schematics": "5.0.0",
-    "@spartacus/storefront": "5.0.0",
-    "@spartacus/tracking": "5.0.0",
+    "@spartacus/cart": "6.5.0-1",
+    "@spartacus/core": "6.5.0-1",
+    "@spartacus/order": "6.5.0-1",
+    "@spartacus/schematics": "6.5.0-1",
+    "@spartacus/storefront": "6.5.0-1",
+    "@spartacus/tracking": "6.5.0-1",
     "rxjs": "^7.8.0"
   },
   "publishConfig": {

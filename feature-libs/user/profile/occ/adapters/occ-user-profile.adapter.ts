@@ -5,10 +5,11 @@
  */
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   InterceptorUtil,
+  LoggerService,
   Occ,
   OccEndpointsService,
   USE_CLIENT_TOKEN,
@@ -33,6 +34,8 @@ const CONTENT_TYPE_URLENCODED_HEADER = {
 
 @Injectable()
 export class OccUserProfileAdapter implements UserProfileAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -47,7 +50,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     user = this.converter.convert(user, USER_PROFILE_SERIALIZER);
     return this.http.patch(url, user).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       })
     );
   }
@@ -62,7 +65,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
 
     return this.http.post<User>(url, user, { headers }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       }),
       this.converter.pipeable(USER_PROFILE_NORMALIZER)
     );
@@ -81,7 +84,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
 
     return this.http.post<User>(url, httpParams, { headers }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       }),
       this.converter.pipeable(USER_PROFILE_NORMALIZER)
     );
@@ -99,7 +102,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     return this.http.post(url, httpParams, { headers }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       })
     );
   }
@@ -113,7 +116,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
 
     return this.http.post(url, { token, newPassword }, { headers }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       })
     );
   }
@@ -134,7 +137,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     });
     return this.http.put(url, httpParams, { headers }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       })
     );
   }
@@ -155,7 +158,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     });
     return this.http.put(url, httpParams, { headers }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       })
     );
   }
@@ -167,7 +170,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const url = this.occEndpoints.buildUrl(endpoint, { urlParams: { userId } });
     return this.http.delete<User>(url).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       })
     );
   }
@@ -176,7 +179,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const url = this.occEndpoints.buildUrl('titles');
     return this.http.get<Occ.TitleList>(url).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       }),
       map((titleList) => titleList.titles ?? []),
       this.converter.pipeableMany(TITLE_NORMALIZER)

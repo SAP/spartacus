@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CHECKOUT_NORMALIZER,
   CheckoutAdapter,
@@ -13,6 +13,7 @@ import {
 import { CheckoutState } from '@spartacus/checkout/base/root';
 import {
   ConverterService,
+  LoggerService,
   OccEndpointsService,
   backOff,
   isJaloError,
@@ -23,6 +24,8 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutAdapter implements CheckoutAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -37,7 +40,7 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
       .get<CheckoutState>(this.getGetCheckoutDetailsEndpoint(userId, cartId))
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,

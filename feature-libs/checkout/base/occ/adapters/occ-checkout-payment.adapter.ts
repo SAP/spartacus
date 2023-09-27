@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutPaymentAdapter,
@@ -15,6 +15,7 @@ import {
 import {
   ConverterService,
   HttpParamsURIEncoder,
+  LoggerService,
   Occ,
   OccEndpointsService,
   PAYMENT_DETAILS_NORMALIZER,
@@ -27,6 +28,8 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -77,7 +80,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
               fromPaymentProvider
             ).pipe(
               catchError((error) => {
-                throw normalizeHttpError(error);
+                throw normalizeHttpError(error, this.logger);
               }),
               backOff({
                 shouldRetry: isJaloError,
@@ -102,7 +105,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,
@@ -126,7 +129,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       .get<Occ.CardTypeList>(this.getPaymentCardTypesEndpoint())
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,
@@ -148,7 +151,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       .get(this.getPaymentProviderSubInfoEndpoint(userId, cartId))
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,
@@ -188,7 +191,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,
@@ -218,7 +221,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,

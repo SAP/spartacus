@@ -89,7 +89,12 @@
             </div>
             <cx-spinner *ngIf="customerSearchLoading$ | async"></cx-spinner>
             <div *ngIf="customerSearchPage$ | async as customerSearchPage">
-              <table id="asm-cusomer-list-table" role="table" class="table">
+              <table
+                id="asm-cusomer-list-table"
+                role="table"
+                class="table"
+                *ngIf="loaded"
+              >
                 <caption class="cx-visually-hidden">
                   {{
                     'asm.customerList.title' | cxTranslate
@@ -289,7 +294,9 @@
         <!-- Modal Foot -->
         <div
           class="cx-dialog-sub-header modal-header cx-dialog-foot"
-          [class.tablet-mobile]="(breakpoint$ | async) !== BREAKPOINT.md"
+          [class.asm-mobile-pagination]="
+            (breakpoint$ | async) !== BREAKPOINT.md
+          "
           *ngIf="customerListsPage$ | async as customerListsPage"
         >
           <div
@@ -439,10 +446,17 @@
 </ng-template>
 
 <ng-template #total let-customerSearchPage="customerSearchPage">
-  <span class="cx-total"
-    >{{ customerSearchPage?.pagination?.totalResults }}
-    {{ 'asm.customers' | cxTranslate }}</span
-  >
+  <span class="cx-total" *ngIf="customerSearchPage?.pagination?.totalResults">
+    <ng-container *ngIf="customerSearchPage?.pagination?.totalResults > 1">
+      {{
+        'asm.customerList.noOfCustomers'
+          | cxTranslate: { count: customerSearchPage?.pagination?.totalResults }
+      }}
+    </ng-container>
+    <ng-container *ngIf="customerSearchPage?.pagination?.totalResults === 1">
+      {{ 'asm.customerList.oneCustomer' | cxTranslate }}
+    </ng-container>
+  </span>
 </ng-template>
 
 <ng-template #sort>

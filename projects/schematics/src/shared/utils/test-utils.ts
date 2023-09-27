@@ -49,10 +49,14 @@ export const organizationOrderApprovalFeatureModulePath =
   'src/app/spartacus/features/organization/organization-order-approval-feature.module.ts';
 export const organizationUserRegistrationFeatureModulePath =
   'src/app/spartacus/features/organization/organization-user-registration-feature.module.ts';
+export const organizationUserRegistrationWrapperModulePath =
+  'src/app/spartacus/features/organization/organization-user-registration-wrapper.module.ts';
 export const organizationUnitOrderFeatureModulePath =
   'src/app/spartacus/features/organization/organization-unit-order-feature.module.ts';
 export const organizationAccountSummaryFeatureModulePath =
   'src/app/spartacus/features/organization/organization-account-summary-feature.module.ts';
+export const pdfInvoicesFeatureModulePath =
+  'src/app/spartacus/features/pdf-invoices/pdf-invoices-feature.module.ts';
 export const productBulkPricingFeatureModulePath =
   'src/app/spartacus/features/product/product-bulk-pricing-feature.module.ts';
 export const productImageZoomFeatureModulePath =
@@ -67,6 +71,8 @@ export const productConfiguratorRulebasedWrapperModulePath =
   'src/app/spartacus/features/product-configurator/rulebased-configurator-wrapper.module.ts';
 export const qualtricsFeatureModulePath =
   'src/app/spartacus/features/qualtrics/qualtrics-feature.module.ts';
+export const requestedDeliveryDateFeatureModulePath =
+  'src/app/spartacus/features/requested-delivery-date/requested-delivery-date-feature.module.ts';
 export const smartEditFeatureModulePath =
   'src/app/spartacus/features/smartedit/smart-edit-feature.module.ts';
 export const storeFinderFeatureModulePath =
@@ -90,6 +96,8 @@ export const digitalPaymentsFeatureModulePath =
   'src/app/spartacus/features/digital-payments/digital-payments-feature.module.ts';
 export const epdFeatureModulePath =
   'src/app/spartacus/features/epd-visualization/epd-visualization-feature.module.ts';
+export const segmentRefsFeatureModulePath =
+  'src/app/spartacus/features/segment-refs/segment-refs-feature.module.ts';
 
 export function writeFile(
   host: TempScopedNodeJsSyncHost,

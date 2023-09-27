@@ -5,10 +5,11 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   InterceptorUtil,
+  LoggerService,
   OccEndpointsService,
   USE_CLIENT_TOKEN,
   normalizeHttpError,
@@ -25,6 +26,8 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class OccUserRegistrationAdapter implements UserRegistrationAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -48,7 +51,7 @@ export class OccUserRegistrationAdapter implements UserRegistrationAdapter {
       .post<OrganizationUserRegistration>(url, userData, { headers })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         })
       );
   }

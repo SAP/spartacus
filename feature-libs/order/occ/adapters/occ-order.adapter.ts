@@ -5,10 +5,11 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   InterceptorUtil,
+  LoggerService,
   OCC_USER_ID_ANONYMOUS,
   Occ,
   OccEndpointsService,
@@ -24,6 +25,8 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccOrderAdapter implements OrderAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -51,7 +54,7 @@ export class OccOrderAdapter implements OrderAdapter {
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,

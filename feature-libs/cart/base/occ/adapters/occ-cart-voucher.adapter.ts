@@ -56,7 +56,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
 
     return this.http.post(url, toAdd, { headers, params }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       }),
       this.converter.pipeable(CART_VOUCHER_NORMALIZER)
     );
@@ -72,7 +72,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
 
     return this.http.delete(url, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       })
     );
   }

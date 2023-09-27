@@ -5,8 +5,9 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
+  LoggerService,
   normalizeHttpError,
   OccEndpointsService,
   Stock,
@@ -22,6 +23,8 @@ import { catchError } from 'rxjs/operators';
  */
 @Injectable()
 export class OccStockAdapter implements StockAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService
@@ -42,7 +45,7 @@ export class OccStockAdapter implements StockAdapter {
       )
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         })
       );
   }
@@ -59,7 +62,7 @@ export class OccStockAdapter implements StockAdapter {
       )
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         })
       );
   }

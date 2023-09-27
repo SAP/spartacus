@@ -5,9 +5,10 @@
  */
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
+  LoggerService,
   OccEndpointsService,
   normalizeHttpError,
 } from '@spartacus/core';
@@ -26,6 +27,8 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -42,7 +45,7 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
       )
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(ACCOUNT_SUMMARY_NORMALIZER)
       );
@@ -59,7 +62,7 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
       )
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER)
       );
@@ -87,7 +90,7 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
       )
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         })
       );
   }

@@ -5,12 +5,13 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import {
   ConverterService,
-  normalizeHttpError,
+  LoggerService,
   OccEndpointsService,
+  normalizeHttpError,
 } from '@spartacus/core';
 
 import {
@@ -25,6 +26,8 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccFutureStockAdapter implements FutureStockAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -39,7 +42,7 @@ export class OccFutureStockAdapter implements FutureStockAdapter {
       .get<ProductFutureStock>(this.getFutureStockEndpoint(userId, productCode))
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(FUTURE_STOCK_NORMALIZER)
       );
@@ -55,7 +58,7 @@ export class OccFutureStockAdapter implements FutureStockAdapter {
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(FUTURE_STOCK_LIST_NORMALIZER)
       );

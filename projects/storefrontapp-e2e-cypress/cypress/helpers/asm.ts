@@ -10,7 +10,14 @@ import * as checkout from '../helpers/checkout-flow';
 import { fillShippingAddress } from '../helpers/checkout-forms';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
-import { SampleUser } from '../sample-data/checkout-flow';
+import { getSampleUser, SampleUser } from '../sample-data/checkout-flow';
+import {
+  addToCartWithProducts,
+  createCart,
+  createInactiveCart,
+} from '../support/utils/cart';
+import { login as fetchingToken } from '../support/utils/login';
+
 import {
   interceptGet,
   interceptPatch,
@@ -24,6 +31,61 @@ import {
   waitForPage,
 } from './navigation';
 import { generateMail, randomString } from './user';
+
+export const invalidUser: SampleUser = {
+  firstName:
+    'JohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohn',
+  lastName:
+    'SmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmith',
+  email:
+    'john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith@test.com',
+};
+
+const asmForB2CCustomer = 'aaron.customer@hybris.com';
+const asmForB2BCustomer = 'Gi Sun';
+
+export function placeOrderForB2CCustomer(
+  customer: string,
+  pwd: string,
+  productCode: string
+): void {
+  cy.login(customer, pwd).then(() => {
+    const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    console.info(auth);
+    cy.addToCart(productCode, 1, auth.token.access_token).then((cartId) => {
+      cy.requireDeliveryAddressAdded(
+        getSampleUser().address,
+        auth.token,
+        cartId
+      );
+      cy.requireDeliveryMethodSelected(auth.token, cartId);
+      cy.requirePaymentMethodAdded(cartId);
+      cy.requirePlacedOrder(auth.token, cartId);
+    });
+  });
+}
+
+export function addProductToB2CCart(
+  customer: string,
+  pwd: string,
+  productCode: string
+): void {
+  cy.login(customer, pwd).then(() => {
+    const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    cy.addToCart(productCode, 1, auth.token.access_token);
+  });
+}
+
+export function addProductToB2BCart(
+  customer: string,
+  pwd: string,
+  productCode: string
+): void {
+  cy.login(customer, pwd).then(() => {
+    const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    cy.addProductToB2BCart(productCode, 1, auth.token.access_token);
+  });
+}
 
 export function listenForAuthenticationRequest(): string {
   return interceptPost(
@@ -83,22 +145,24 @@ export function listenForCustomerCreateRequest(): string {
 }
 
 export function agentLogin(user, pwd): void {
-  const authRequest = listenForAuthenticationRequest();
-  cy.get('cx-storefront').within(() => {
-    cy.get('cx-csagent-login-form').should('exist');
-    cy.get('cx-customer-selection').should('not.exist');
-    cy.get('cx-csagent-login-form form').within(() => {
-      cy.get('[formcontrolname="userId"]').should('not.be.disabled').type(user);
-      cy.get('[formcontrolname="password"]')
-        .should('not.be.disabled')
-        .type(pwd);
-      cy.get('button[type="submit"]').click();
-    });
-  });
+  cy.get('cx-storefront cx-csagent-login-form').then(($element) => {
+    if ($element.length > 0) {
+      const authRequest = listenForAuthenticationRequest();
+      cy.get('cx-storefront').within(() => {
+        cy.get('cx-csagent-login-form').should('exist');
+        cy.get('cx-customer-selection').should('not.exist');
+        cy.get('cx-csagent-login-form form').within(() => {
+          cy.get('[formcontrolname="userId"]').clear().type(user);
+          cy.get('[formcontrolname="password"]').clear().type(pwd);
+          cy.get('button[type="submit"]').click();
+        });
+      });
 
-  cy.wait(authRequest).its('response.statusCode').should('eq', 200);
-  cy.get('cx-csagent-login-form').should('not.exist');
-  cy.get('cx-customer-selection').should('exist');
+      cy.wait(authRequest).its('response.statusCode').should('eq', 200);
+      cy.get('cx-csagent-login-form').should('not.exist');
+      cy.get('cx-customer-selection').should('exist');
+    }
+  });
 }
 
 export function asmOpenCustomerList(): void {
@@ -204,12 +268,21 @@ export function asmCustomerLists(): void {
 
   cy.log('--> start emulation by click order');
   asm.asmOpenCustomerList();
-  cy.get('cx-customer-list')
-    .find('.cx-btn-cell')
-    .filter('[aria-label="Order"]')
-    .then(($rows) => {
-      expect($rows.length).to.eq(5);
-      cy.wrap($rows[0]).click();
+  cy.get('cx-customer-list .cx-header-actions .search-wrapper input')
+    .should('exist')
+    .should('not.be.disabled')
+    .type(`${asmForB2CCustomer}{enter}`);
+
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-customer-list table')
+    .contains('tbody tr', asmForB2CCustomer)
+    .closest('tbody tr')
+    .find('td:nth-child(6)')
+    .then(($order) => {
+      cy.wrap($order).click();
       cy.get('cx-customer-list').should('not.exist');
       cy.get('cx-order-history').should('exist');
     });
@@ -253,6 +326,45 @@ export function asmB2bCustomerLists(): void {
   cy.get('cx-customer-list table').contains('Account');
   cy.get('cx-customer-list button.cx-asm-customer-list-btn-cancel').click();
   cy.get('cx-customer-list').should('not.exist');
+
+  cy.log('--> start emulation by click cart');
+  asm.asmOpenCustomerList();
+  cy.get('cx-customer-list ng-select.customer-list-selector').then(
+    (selects) => {
+      let select = selects[0];
+      cy.wrap(select)
+        .click()
+        .get('ng-dropdown-panel')
+        .get('.ng-option')
+        .eq(1)
+        .then((item) => {
+          cy.wrap(item).click();
+          cy.wait(customerSearchRequestAlias)
+            .its('response.statusCode')
+            .should('eq', 200);
+        });
+    }
+  );
+
+  cy.log('--> click cart to jump to the cart view page.');
+  cy.get('cx-customer-list .cx-header-actions .search-wrapper input')
+    .should('exist')
+    .should('not.be.disabled')
+    .type(`${asmForB2BCustomer}{enter}`);
+
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-customer-list table')
+    .contains('tbody tr', asmForB2BCustomer)
+    .closest('tbody tr')
+    .find('td:nth-child(5)')
+    .then(($cart) => {
+      cy.wrap($cart).click();
+      cy.get('cx-customer-list').should('not.exist');
+      cy.get('cx-add-to-saved-cart').should('exist');
+    });
 }
 
 export function asmB2bCustomerListPagination(): void {
@@ -367,6 +479,7 @@ export function loginCustomerInStorefront(customer) {
   cy.wait(authRequest).its('response.statusCode').should('eq', 200);
 }
 
+// It is not recommended to use agentSignOut as it can cause failure in E2E tests related to ASM in the pipeline
 export function agentSignOut() {
   const tokenRevocationAlias = loginHelper.listenForTokenRevocationRequest();
   cy.get('button[title="Sign Out"]').click();
@@ -445,7 +558,7 @@ export function testCustomerEmulation() {
 
     cy.log('--> Stop customer emulation');
     cy.get('cx-customer-emulation')
-      .findByText(/End Session/i)
+      .findByText(/End Emulation/i)
       .click();
     cy.get('cx-csagent-login-form').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
@@ -465,20 +578,15 @@ export function testCustomerEmulation() {
     asm.startCustomerEmulation(customer);
 
     cy.log(
-      '--> Stop customer emulation using the end session button in the ASM UI'
+      '--> Stop customer emulation using the end emulation button in the ASM UI'
     );
     cy.get('cx-customer-emulation')
-      .findByText(/End Session/i)
+      .findByText(/End Emulation/i)
       .click();
     cy.get('cx-customer-emulation').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
 
     cy.log('--> sign out and close ASM UI');
-    asm.agentSignOut();
-
-    cy.get('button[title="Close ASM"]').click();
-    cy.get('cx-asm-main-ui').should('exist');
-    cy.get('cx-asm-main-ui').should('not.be.visible');
 
     // CXSPA-301/GH-14914
     // Must ensure that site is still functional after service agent logout
@@ -585,8 +693,8 @@ export function asmOpenCreateCustomerDialogOnCustomerSelectionDropdown(): void {
     .its('response.statusCode')
     .should('eq', 200);
 
-  cy.get('cx-customer-selection div.asm-results a').should('exist');
-  cy.get('cx-customer-selection div.asm-results a').click();
+  cy.get('cx-customer-selection div.asm-results button').should('exist');
+  cy.get('cx-customer-selection div.asm-results button').click();
   cy.get('cx-asm-create-customer-form').should('exist');
   cy.get('cx-asm-create-customer-form form').should('exist');
 }
@@ -627,9 +735,9 @@ export function fillCreateCustomerForm({
 }: SampleUser) {
   cy.get('cx-asm-create-customer-form').should('be.visible');
   cy.get('cx-asm-create-customer-form').within(() => {
-    cy.get('[formcontrolname="firstName"]').type(firstName);
-    cy.get('[formcontrolname="lastName"]').type(lastName);
-    cy.get('[formcontrolname="email"]').type(email);
+    cy.get('[formcontrolname="firstName"]').clear().type(firstName);
+    cy.get('[formcontrolname="lastName"]').clear().type(lastName);
+    cy.get('[formcontrolname="email"]').clear().type(email);
   });
 }
 
@@ -654,5 +762,108 @@ export function verifyFormErrors() {
     });
 
     cy.get('cx-form-errors p').should('have.length', 4);
+  });
+}
+
+export function emulateCustomerPrepare(agentToken, agentPwd) {
+  const customer = getSampleUser();
+  cy.log('--> Register new user');
+  cy.visit('/?asm=true');
+  checkout.registerUser(false, customer);
+  asm.agentLogin(agentToken, agentPwd);
+  return customer;
+}
+
+export function getCustomerId(agentUserName, agentPwd, customerUid) {
+  return new Promise((resolve, reject) => {
+    fetchingToken(agentUserName, agentPwd, false).then((res) => {
+      // get customerId of it
+      cy.request({
+        method: 'get',
+        url:
+          `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+            'BASE_SITE'
+          )}/users/` + customerUid,
+        headers: {
+          Authorization: `bearer ${res.body.access_token}`,
+        },
+      }).then((response) => {
+        if (response.status === 200) {
+          resolve(response.body.customerId);
+        } else {
+          reject(response.status);
+        }
+      });
+    });
+  });
+}
+
+export function getInactiveCartIdAndAddProducts(
+  customerEmail,
+  customerPwd,
+  productCode?,
+  quantity?
+) {
+  let token = null;
+  return new Promise((resolve, reject) => {
+    fetchingToken(customerEmail, customerPwd, false).then((res) => {
+      token = res.body.access_token;
+      createInactiveCart(token)
+        .then((inactiveCartId) => {
+          if (!!productCode && quantity) {
+            addToCartWithProducts(
+              inactiveCartId,
+              productCode,
+              quantity,
+              token
+            ).then((response) => {
+              if (response.status === 200) {
+                resolve(inactiveCartId);
+              } else {
+                reject(response.status);
+              }
+            });
+          } else {
+            resolve(inactiveCartId);
+          }
+        })
+        .catch((status) => reject(status));
+    });
+  });
+}
+
+export function getCurrentCartIdAndAddProducts(
+  customerName,
+  customerPwd,
+  productCode?,
+  quantity?
+) {
+  return new Promise((resolve, reject) => {
+    fetchingToken(customerName, customerPwd, false).then((res) => {
+      const token = res.body.access_token;
+      createCart(token).then((response) => {
+        if (response.status === 200) {
+          const activeCartId = response.body.code;
+          if (!!productCode && quantity) {
+            addToCartWithProducts(
+              activeCartId,
+              productCode,
+              quantity,
+              token
+            ).then((response) => {
+              if (response.status === 200) {
+                resolve(activeCartId);
+              } else {
+                reject(response.status);
+              }
+            });
+          } else {
+            resolve(activeCartId);
+          }
+        } else {
+          reject(response.status);
+        }
+      });
+    });
   });
 }

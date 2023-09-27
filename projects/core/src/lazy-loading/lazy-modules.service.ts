@@ -11,6 +11,7 @@ import {
   NgModuleFactory,
   NgModuleRef,
   OnDestroy,
+  inject,
 } from '@angular/core';
 import {
   Connectable,
@@ -25,6 +26,7 @@ import {
 } from 'rxjs';
 import { concatMap, map, observeOn, switchMap, tap } from 'rxjs/operators';
 import { EventService } from '../event/event.service';
+import { LoggerService } from '../logger';
 import { CombinedInjector } from '../util/combined-injector';
 import { createFrom } from '../util/create-from';
 import { ModuleInitializedEvent } from './events/module-initialized-event';
@@ -37,6 +39,8 @@ import { MODULE_INITIALIZER } from './tokens';
   providedIn: 'root',
 })
 export class LazyModulesService implements OnDestroy {
+  protected logger = inject(LoggerService);
+
   /**
    * Expose lazy loaded module references
    */
@@ -157,7 +161,7 @@ export class LazyModulesService implements OnDestroy {
       return from(Promise.all(asyncInitPromises)).pipe(
         tap({
           error: (error) => {
-            console.error(
+            this.logger.error(
               'MODULE_INITIALIZER promise was rejected while lazy loading a module.',
               error
             );
@@ -195,7 +199,7 @@ export class LazyModulesService implements OnDestroy {
       }
       return initPromises;
     } catch (error) {
-      console.error(
+      this.logger.error(
         `MODULE_INITIALIZER init function throwed an error. `,
         error
       );

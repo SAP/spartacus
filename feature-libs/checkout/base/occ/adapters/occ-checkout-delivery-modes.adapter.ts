@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryModesAdapter,
@@ -13,6 +13,7 @@ import {
 } from '@spartacus/checkout/base/core';
 import {
   ConverterService,
+  LoggerService,
   Occ,
   OccEndpointsService,
   backOff,
@@ -26,6 +27,8 @@ import { catchError, map } from 'rxjs/operators';
 export class OccCheckoutDeliveryModesAdapter
   implements CheckoutDeliveryModesAdapter
 {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -41,7 +44,7 @@ export class OccCheckoutDeliveryModesAdapter
       .put(this.getSetDeliveryModeEndpoint(userId, cartId, deliveryModeId), {})
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,
@@ -71,7 +74,7 @@ export class OccCheckoutDeliveryModesAdapter
       .get<Occ.DeliveryModeList>(this.getDeliveryModesEndpoint(userId, cartId))
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,
@@ -95,7 +98,7 @@ export class OccCheckoutDeliveryModesAdapter
       .delete<unknown>(this.getClearDeliveryModeEndpoint(userId, cartId))
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,

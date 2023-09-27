@@ -5,10 +5,11 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CartModificationList } from '@spartacus/cart/base/root';
 import {
   ConverterService,
+  LoggerService,
   OccEndpointsService,
   normalizeHttpError,
 } from '@spartacus/core';
@@ -19,6 +20,8 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccReorderOrderAdapter implements ReorderOrderAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -32,7 +35,7 @@ export class OccReorderOrderAdapter implements ReorderOrderAdapter {
       .post(this.getReorderOrderEndpoint(orderId, userId), {}, { headers })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(REORDER_ORDER_NORMALIZER)
       );
