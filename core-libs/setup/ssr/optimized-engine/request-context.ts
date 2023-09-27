@@ -92,6 +92,7 @@ const getTraceContext = (
   request: Request,
   logger: ExpressServerLogger
 ): W3cTraceContext | undefined => {
+  request.headers['traceparent'] = `my-traceparent-header-01`; //HERE YOU CAN CHANGE THE VALUE OF THE HEADER
   const traceparent = request.get('traceparent');
   try {
     return parseTraceparent(request.get('traceparent')) ?? undefined;
