@@ -21,31 +21,37 @@ export const POST_PRODUCT_REVIEW_SUCCESS =
 
 export class LoadProductReviews implements Action {
   readonly type = LOAD_PRODUCT_REVIEWS;
+
   constructor(public payload: string) {}
 }
 
 export class LoadProductReviewsFail implements ErrorAction {
   readonly type = LOAD_PRODUCT_REVIEWS_FAIL;
+
   constructor(public error: ErrorModel) {}
 }
 
 export class LoadProductReviewsSuccess implements Action {
   readonly type = LOAD_PRODUCT_REVIEWS_SUCCESS;
+
   constructor(public payload: { productCode: string; list: Review[] }) {}
 }
 
 export class PostProductReview implements Action {
   readonly type = POST_PRODUCT_REVIEW;
+
   constructor(public payload: { productCode: string; review: Review }) {}
 }
 
 export class PostProductReviewFail implements ErrorAction {
   readonly type = POST_PRODUCT_REVIEW_FAIL;
+
   constructor(public error: ErrorModel) {}
 }
 
 export class PostProductReviewSuccess implements Action {
   readonly type = POST_PRODUCT_REVIEW_SUCCESS;
+
   constructor(public payload: Review) {}
 }
 

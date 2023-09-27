@@ -18,6 +18,7 @@ export const CLEAN_PRODUCT_REFERENCES = '[Product] Clean Product References';
 
 export class LoadProductReferences implements Action {
   readonly type = LOAD_PRODUCT_REFERENCES;
+
   constructor(
     public payload: {
       productCode: string;
@@ -29,11 +30,13 @@ export class LoadProductReferences implements Action {
 
 export class LoadProductReferencesFail implements ErrorAction {
   readonly type = LOAD_PRODUCT_REFERENCES_FAIL;
+
   constructor(public error: ErrorModel) {}
 }
 
 export class LoadProductReferencesSuccess implements Action {
   readonly type = LOAD_PRODUCT_REFERENCES_SUCCESS;
+
   constructor(
     public payload: {
       productCode: string;

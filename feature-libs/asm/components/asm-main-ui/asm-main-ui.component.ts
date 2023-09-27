@@ -31,11 +31,11 @@ import {
 } from '@spartacus/core';
 import {
   ICON_TYPE,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest, of } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -70,11 +70,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   deeplinkCartAlertKey: string = '';
 
   showCreateCustomerSuccessfullyAlert = false;
+
   globalMessageType = GlobalMessageType;
 
   @HostBinding('class.hidden') disabled = false;
 
   protected startingCustomerSession = false;
+  showCustomerEmulationInfoAlert = true;
 
   subscription: Subscription = new Subscription();
 
@@ -191,7 +193,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         //Always route to home page to avoid 404
         this.routingService.go('/');
       }
-      const parameters = {
+      // TODO(CXSPA-3090): Use asmDeepLinkService only in 7.0.
+      const parameters = this.asmComponentService.getDeepLinkUrlParams() ?? {
         customerId: this.asmComponentService.getSearchParameter('customerId'),
         orderId: this.asmComponentService.getSearchParameter('orderId'),
         ticketId: this.asmComponentService.getSearchParameter('ticketId'),
@@ -210,8 +213,12 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
             if (!isEmulatedByDeepLink && userLoggedin) {
               this.confirmSwitchCustomer(parameters.customerId);
             } else {
-              parameters.emulated = isEmulatedByDeepLink;
-              setTimeout(() => this.startSessionWithParameters(parameters));
+              setTimeout(() =>
+                this.startSessionWithParameters({
+                  ...parameters,
+                  emulated: isEmulatedByDeepLink,
+                })
+              );
             }
           }
         })
@@ -298,8 +305,19 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     if (customerId) {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
+      this.showCustomerEmulationInfoAlert = true;
+      this.showCreateCustomerSuccessfullyAlert = false;
       if (parameters) {
-        this.handleDeepLinkParamsAfterStartSession(parameters);
+        // TODO(CXSPA-3090): Remove feature flag in 7.0
+        if (this.featureConfig?.isLevel('6.3')) {
+          this.asmComponentService.handleDeepLinkNavigation({
+            customerId,
+            ...parameters,
+          });
+        } else {
+          // TODOi(CXSPA-3090): Remove this implementation in 7.0
+          this.handleDeepLinkParamsAfterStartSession(parameters);
+        }
       }
     } else {
       this.globalMessageService.add(
@@ -367,6 +385,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   closeDeeplinkCartInfoAlert(): void {
     this.asmComponentService.setShowDeeplinkCartInfoAlert(false);
+  }
+
+  closeCustomerEmulationInfoAlert(): void {
+    this.showCustomerEmulationInfoAlert = false;
   }
 
   ngOnDestroy() {

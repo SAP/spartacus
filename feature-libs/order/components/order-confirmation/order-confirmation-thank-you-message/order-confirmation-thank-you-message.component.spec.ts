@@ -7,6 +7,7 @@ import {
   I18nTestingModule,
   TranslationService,
 } from '@spartacus/core';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { OrderFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
@@ -56,6 +57,7 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
           OrderConfirmationThankYouMessageComponent,
           MockAddtoHomeScreenBannerComponent,
           MockGuestRegisterFormComponent,
+          MockFeatureLevelDirective,
         ],
         providers: [
           { provide: OrderFacade, useClass: MockOrderFacade },

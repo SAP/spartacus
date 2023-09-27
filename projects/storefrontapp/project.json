@@ -50,12 +50,20 @@
             "bundleName": "storefinder"
           },
           {
+            "input": "projects/storefrontapp/src/styles/lib-pdf-invoices.scss",
+            "bundleName": "pdf-invoices"
+          },
+          {
             "input": "projects/storefrontapp/src/styles/lib-product.scss",
             "bundleName": "product"
           },
           {
             "input": "projects/storefrontapp/src/styles/lib-qualtrics.scss",
             "bundleName": "qualtrics"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-requested-delivery-date.scss",
+            "bundleName": "requested-delivery-date"
           },
           {
             "input": "projects/storefrontapp/src/styles/lib-cart.scss",

@@ -39,15 +39,18 @@
           "Bulk-Pricing",
           "Image-Zoom",
           "Future-Stock",
+          "PDF-Invoices",
           "Product-Variants",
           "VC-Configurator",
           "Textfield-Configurator",
           "CPQ-Configurator",
           "Qualtrics",
+          "Requested-Delivery-Date",
           "S4HANA-Order-Management",
           "SmartEdit",
           "Store-Finder",
           "Personalization",
+          "Segment-Refs",
           "TMS-GTM",
           "TMS-AEPL",
           "Pickup-In-Store",
@@ -182,8 +185,16 @@
             "label": "Product Configurator - CPQ Configurator (b2b feature)"
           },
           {
+            "value": "PDF-Invoices",
+            "label": "PDF Invoices"
+          },
+          {
             "value": "Qualtrics",
             "label": "Qualtrics"
+          },
+          {
+            "value": "Requested-Delivery-Date",
+            "label": "Requested Delivery Date"
           },
           {
             "value": "S4HANA-Order-Management",
@@ -200,6 +211,10 @@
           {
             "value": "Personalization",
             "label": "Tracking - Personalization"
+          },
+          {
+            "value": "Segment-Refs",
+            "label": "Segment Reference"
           },
           {
             "value": "TMS-GTM",

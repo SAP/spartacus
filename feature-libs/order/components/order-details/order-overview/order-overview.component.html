@@ -38,6 +38,15 @@
               ) | async
             "
           ></cx-card>
+
+          <!-- TODO:(CXINT-2309) for next major release remove feature level -->
+          <ng-container *cxFeatureLevel="'6.4'">
+            <ng-template
+              [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
+              [cxOutletContext]="{ item: order, readonly: true }"
+            >
+            </ng-template>
+          </ng-container>
         </div>
       </ng-container>
 
@@ -56,6 +65,15 @@
           <cx-card
             [content]="getOrderStatusCardContent(order.statusDisplay) | async"
           ></cx-card>
+
+          <!-- TODO:(CXINT-2309) for next major release remove feature level -->
+          <ng-container *cxFeatureLevel="'6.4'">
+            <ng-template
+              [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
+              [cxOutletContext]="{ item: order, readonly: true }"
+            >
+            </ng-template>
+          </ng-container>
         </div>
       </ng-template>
 
@@ -96,18 +114,45 @@
       </div>
 
       <ng-container *ngIf="order.paymentInfo">
-        <div class="cx-summary-card">
-          <cx-card
-            [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
-          ></cx-card>
-
-          <cx-card
-            [content]="
-              getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
-                | async
+        <ng-container *cxFeatureLevel="'6.3'">
+          <div
+            class="cx-summary-card"
+            *ngIf="
+              order?.paymentInfo?.billingAddress ||
+              isPaymentInfoCardFull(order?.paymentInfo)
             "
-          ></cx-card>
-        </div>
+          >
+            <ng-container *ngIf="isPaymentInfoCardFull(order?.paymentInfo)">
+              <cx-card
+                [content]="
+                  getPaymentInfoCardContent(order?.paymentInfo) | async
+                "
+              ></cx-card>
+            </ng-container>
+
+            <cx-card
+              [content]="
+                getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
+                  | async
+              "
+            ></cx-card>
+          </div>
+        </ng-container>
+
+        <ng-container *cxFeatureLevel="'!6.3'">
+          <div class="cx-summary-card">
+            <cx-card
+              [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
+            ></cx-card>
+
+            <cx-card
+              [content]="
+                getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
+                  | async
+              "
+            ></cx-card>
+          </div>
+        </ng-container>
       </ng-container>
     </div>
 
@@ -126,6 +171,15 @@
         <cx-card
           [content]="getOrderStatusCardContent(order.statusDisplay) | async"
         ></cx-card>
+
+        <!-- TODO:(CXINT-2309) for next major release remove feature level -->
+        <ng-container *cxFeatureLevel="'6.4'">
+          <ng-template
+            [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
+            [cxOutletContext]="{ item: order, readonly: true }"
+          >
+          </ng-template>
+        </ng-container>
       </div>
       <cx-order-detail-billing></cx-order-detail-billing>
     </div>

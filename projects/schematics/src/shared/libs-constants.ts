@@ -131,6 +131,10 @@ export const SPARTACUS_FUTURE_STOCK = `@spartacus/product/future-stock`;
 export const SPARTACUS_FUTURE_STOCK_ROOT = `@spartacus/product/future-stock/root`;
 export const SPARTACUS_FUTURE_STOCK_ASSETS = `@spartacus/product/future-stock/assets`;
 
+export const SPARTACUS_PDF_INVOICES = `@spartacus/pdf-invoices`;
+export const SPARTACUS_PDF_INVOICES_ROOT = `@spartacus/pdf-invoices/root`;
+export const SPARTACUS_PDF_INVOICES_ASSETS = `@spartacus/pdf-invoices/assets`;
+
 export const SPARTACUS_PRODUCT_CONFIGURATOR = `@spartacus/product-configurator`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `@spartacus/product-configurator/common`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_ASSETS = `@spartacus/product-configurator/common/assets`;
@@ -143,6 +147,10 @@ export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_CPQ = `@spartacus/product-
 export const SPARTACUS_QUALTRICS = `@spartacus/qualtrics`;
 export const SPARTACUS_QUALTRICS_COMPONENTS = `@spartacus/qualtrics/components`;
 export const SPARTACUS_QUALTRICS_ROOT = `@spartacus/qualtrics/root`;
+
+export const SPARTACUS_REQUESTED_DELIVERY_DATE = `@spartacus/requested-delivery-date`;
+export const SPARTACUS_REQUESTED_DELIVERY_DATE_ROOT = `@spartacus/requested-delivery-date/root`;
+export const SPARTACUS_REQUESTED_DELIVERY_DATE_ASSETS = `@spartacus/requested-delivery-date/assets`;
 
 export const SPARTACUS_SMARTEDIT = `@spartacus/smartedit`;
 export const SPARTACUS_SMARTEDIT_ROOT = `@spartacus/smartedit/root`;
@@ -180,6 +188,7 @@ export const SPARTACUS_CDC_ASSETS = `@spartacus/cdc/assets`;
 export const SPARTACUS_CDC_USER_ACCOUNT = `@spartacus/cdc/user-account`;
 export const SPARTACUS_CDC_USER_PROFILE = `@spartacus/cdc/user-profile`;
 export const SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION = `@spartacus/cdc/organization/administration`;
+export const SPARTACUS_CDC_ORGANIZATION_REGISTRATION = `@spartacus/cdc/organization/user-registration`;
 
 export const SPARTACUS_DIGITAL_PAYMENTS = `@spartacus/digital-payments`;
 export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/assets`;
@@ -191,6 +200,9 @@ export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/
 export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
+
+export const SPARTACUS_SEGMENT_REFS = '@spartacus/segment-refs';
+export const SPARTACUS_SEGMENT_REFS_ROOT = `@spartacus/segment-refs/root`;
 
 export const SPARTACUS_CUSTOMER_TICKETING_ROOT = `@spartacus/customer-ticketing/root`;
 export const SPARTACUS_CUSTOMER_TICKETING_ASSETS = `@spartacus/customer-ticketing/assets`;
@@ -243,6 +255,8 @@ export const PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME = 'CPQ-Configurator';
 
 export const QUALTRICS_FEATURE_NAME = 'Qualtrics';
 
+export const REQUESTED_DELIVERY_DATE_FEATURE_NAME = 'Requested-Delivery-Date';
+
 export const SMARTEDIT_FEATURE_NAME = 'SmartEdit';
 
 export const STOREFINDER_FEATURE_NAME = 'Store-Finder';
@@ -250,6 +264,8 @@ export const STOREFINDER_FEATURE_NAME = 'Store-Finder';
 export const TRACKING_PERSONALIZATION_FEATURE_NAME = 'Personalization';
 export const TRACKING_TMS_GTM_FEATURE_NAME = 'TMS-GTM';
 export const TRACKING_TMS_AEP_FEATURE_NAME = 'TMS-AEPL';
+
+export const PDF_INVOICES_FEATURE_NAME = 'PDF-Invoices';
 
 export const USER_ACCOUNT_FEATURE_NAME = 'User-Account';
 export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
@@ -263,6 +279,9 @@ export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 
 export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
+
+export const SEGMENT_REFS_FEATURE_NAME = 'Segment-Refs';
+
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 /***** Feature name end *****/
 

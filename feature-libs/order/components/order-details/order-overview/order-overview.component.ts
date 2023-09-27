@@ -5,7 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
+import {
+  CartOutlets,
+  DeliveryMode,
+  PaymentDetails,
+} from '@spartacus/cart/base/root';
 import {
   Address,
   CmsOrderDetailOverviewComponent,
@@ -13,7 +17,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { Card, CmsComponentData } from '@spartacus/storefront';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
@@ -23,6 +27,8 @@ import { OrderDetailsService } from '../order-details.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderOverviewComponent {
+  readonly cartOutlets = CartOutlets;
+
   order$: Observable<any> = this.orderDetailsService.getOrderDetails();
   isOrderLoading$: Observable<boolean> =
     typeof this.orderDetailsService.isOrderDetailsLoading === 'function'
@@ -223,6 +229,12 @@ export class OrderOverviewComponent {
             text: [payment.cardNumber, textExpires],
           } as Card)
       )
+    );
+  }
+
+  isPaymentInfoCardFull(payment: PaymentDetails): boolean {
+    return (
+      !!payment?.cardNumber && !!payment?.expiryMonth && !!payment?.expiryYear
     );
   }
 

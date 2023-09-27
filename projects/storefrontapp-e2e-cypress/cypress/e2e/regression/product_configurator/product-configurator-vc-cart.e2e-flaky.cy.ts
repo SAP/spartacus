@@ -12,6 +12,7 @@ import * as configurationCartVc from '../../../helpers/product-configurator-cart
 import * as configurationOverview from '../../../helpers/product-configurator-overview';
 import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
+import * as common from '../../../helpers/common';
 
 const electronicsShop = 'electronics-spa';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
@@ -98,8 +99,8 @@ context('Product Configuration', () => {
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
       clickAllowAllFromBanner();
       configuration.searchForProduct(testProductMultiLevel);
-      configuration.clickOnAddToCartBtnOnPD();
-      configuration.clickOnViewCartBtnOnPD();
+      common.clickOnAddToCartBtnOnPD();
+      common.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();
       configurationCart.clickOnEditConfigurationLink(0);
     });

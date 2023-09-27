@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
   AuthService,
+  BaseSite,
   BaseSiteService,
   GlobalMessageService,
   GlobalMessageType,
@@ -9,6 +10,7 @@ import {
   User,
   WindowRef,
 } from '@spartacus/core';
+import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { EMPTY, Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -36,6 +38,9 @@ const newEmail: string = 'newemail@domain.com';
 class BaseSiteServiceStub implements Partial<BaseSiteService> {
   getActive(): Observable<string> {
     return of('electronics-spa');
+  }
+  get(_siteUid?: string): Observable<BaseSite | undefined> {
+    return of({ uid: 'electronics-spa', channel: 'B2C' });
   }
 }
 class LanguageServiceStub implements Partial<LanguageService> {
@@ -93,6 +98,7 @@ class MockSubscription {
 const b2b = {
   getOrganizationContext: () => {},
   openDelegatedAdminLogin: () => {},
+  registerOrganization: () => {},
 };
 
 const gigya = {
@@ -263,7 +269,7 @@ describe('CdcJsService', () => {
         errorCallback: jasmine.any(Function) as any,
       });
       expect(winRef?.nativeWindow['__gigyaConf']).toEqual({
-        include: 'id_token',
+        include: 'id_token, missing-required-fields',
       });
     });
 
@@ -441,6 +447,7 @@ describe('CdcJsService', () => {
 
   describe('loginUserWithoutScreenSet', () => {
     it('should login user without screenset', (done) => {
+      expect(service['getCurrentBaseSite']()).toBe('electronics-spa');
       spyOn(service['gigyaSDK'].accounts, 'login').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
@@ -451,7 +458,6 @@ describe('CdcJsService', () => {
         expect(service['gigyaSDK'].accounts.login).toHaveBeenCalledWith({
           loginID: 'uid',
           password: 'password',
-          include: 'missing-required-fields',
           ignoreInterruptions: true,
           sessionExpiry: sampleCdcConfig.cdc[0].sessionExpiration,
           callback: jasmine.any(Function),
@@ -480,7 +486,6 @@ describe('CdcJsService', () => {
           expect(service['gigyaSDK'].accounts.login).toHaveBeenCalledWith({
             loginID: 'uid',
             password: 'password',
-            include: 'missing-required-fields',
             ignoreInterruptions: true,
             context: 'RESET_EMAIL',
             sessionExpiry: sampleCdcConfig?.cdc[0]?.sessionExpiration,
@@ -693,6 +698,22 @@ describe('CdcJsService', () => {
     it('should return the configured value of the base site', () => {
       spyOn(baseSiteService, 'getActive').and.returnValue(of(''));
       expect(service['getCurrentBaseSite']()).toBe('');
+    });
+  });
+
+  describe('getCurrentBaseSiteChannel', () => {
+    it('should return the channel value of the base site - B2C', () => {
+      spyOn(baseSiteService, 'get').and.returnValue(
+        of({ uid: 'electronics-spa', channel: 'B2C' })
+      );
+      expect(service['getCurrentBaseSiteChannel']()).toBe('B2C');
+    });
+
+    it('should return the channel of the base site - B2B', () => {
+      spyOn(baseSiteService, 'get').and.returnValue(
+        of({ uid: 'powertools-spa', channel: 'B2B' })
+      );
+      expect(service['getCurrentBaseSiteChannel']()).toBe('B2B');
     });
   });
 
@@ -1187,6 +1208,140 @@ describe('CdcJsService', () => {
       });
       expect(service['invokeAPI']).toHaveBeenCalled();
       expect(service.getSiteConsentDetails).toBeTruthy();
+    });
+  });
+
+  describe('registerOrganisationWithoutScreenSet', () => {
+    it('should not call accounts.b2b.registerOrganization', (done) => {
+      spyOn(
+        service['gigyaSDK'].accounts.b2b,
+        'registerOrganization'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+      expect(service.registerOrganisationWithoutScreenSet).toBeTruthy();
+      const wrongOrgInfo: OrganizationUserRegistrationForm = {
+        companyName: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+      };
+      service.registerOrganisationWithoutScreenSet(wrongOrgInfo).subscribe({
+        error: (error) => {
+          expect(error).toEqual('Organization details not provided');
+          done();
+        },
+      });
+      expect(
+        service['gigyaSDK'].accounts.b2b.registerOrganization
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should call accounts.b2b.registerOrganization', (done) => {
+      spyOn(
+        service['gigyaSDK'].accounts.b2b,
+        'registerOrganization'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+
+      expect(service.registerOrganisationWithoutScreenSet).toBeTruthy();
+      const correctOrgInfo: OrganizationUserRegistrationForm = {
+        companyName: 'ABC',
+        email: 'abc@mail.com',
+        firstName: 'A',
+        lastName: 'User',
+        addressLine1: 'Line 1',
+        addressLine2: 'Line 2',
+        postalCode: '12312',
+        town: 'town',
+        region: 'region',
+        country: 'India',
+        phoneNumber: '+911234567890',
+        message: 'department: Dept;\nposition: Pos',
+      };
+
+      service
+        .registerOrganisationWithoutScreenSet(correctOrgInfo)
+        .subscribe(() => {
+          expect(
+            service['gigyaSDK'].accounts.b2b.registerOrganization
+          ).toHaveBeenCalledWith({
+            organization: {
+              name: correctOrgInfo.companyName,
+              street_address:
+                correctOrgInfo.addressLine1 + ' ' + correctOrgInfo.addressLine2,
+              city: correctOrgInfo.town,
+              state: correctOrgInfo.region,
+              zip_code: correctOrgInfo.postalCode,
+              country: correctOrgInfo.country,
+            },
+            requester: {
+              firstName: correctOrgInfo.firstName,
+              lastName: correctOrgInfo.lastName,
+              email: correctOrgInfo.email,
+              phone: correctOrgInfo.phoneNumber,
+              department: 'Dept',
+              jobFunction: 'Pos',
+            },
+            regSource: 'https://spartacus.cx',
+            callback: jasmine.any(Function),
+          });
+          done();
+        });
+    });
+
+    it('should call accounts.b2b.registerOrganization and not pass phone number if empty', (done) => {
+      spyOn(
+        service['gigyaSDK'].accounts.b2b,
+        'registerOrganization'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+
+      expect(service.registerOrganisationWithoutScreenSet).toBeTruthy();
+      const correctOrgInfo: OrganizationUserRegistrationForm = {
+        companyName: 'ABC',
+        email: 'abc@mail.com',
+        firstName: 'A',
+        lastName: 'User',
+        addressLine1: 'Line 1',
+        addressLine2: 'Line 2',
+        postalCode: '12312',
+        town: 'town',
+        region: 'region',
+        country: 'India',
+        phoneNumber: '',
+        message: 'department: Dept;\nposition: Pos',
+      };
+
+      service
+        .registerOrganisationWithoutScreenSet(correctOrgInfo)
+        .subscribe(() => {
+          expect(
+            service['gigyaSDK'].accounts.b2b.registerOrganization
+          ).toHaveBeenCalledWith({
+            organization: {
+              name: correctOrgInfo.companyName,
+              street_address:
+                correctOrgInfo.addressLine1 + ' ' + correctOrgInfo.addressLine2,
+              city: correctOrgInfo.town,
+              state: correctOrgInfo.region,
+              zip_code: correctOrgInfo.postalCode,
+              country: correctOrgInfo.country,
+            },
+            requester: {
+              firstName: correctOrgInfo.firstName,
+              lastName: correctOrgInfo.lastName,
+              email: correctOrgInfo.email,
+              department: 'Dept',
+              jobFunction: 'Pos',
+            },
+            regSource: 'https://spartacus.cx',
+            callback: jasmine.any(Function),
+          });
+          done();
+        });
     });
   });
 });

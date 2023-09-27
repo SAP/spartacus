@@ -5,13 +5,19 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   ActiveCartFacade,
+  Cart,
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { I18nTestingModule, QueryState } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+  QueryState,
+} from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
@@ -55,6 +61,14 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   getBackBntText = createSpy().and.returnValue('common.back');
 }
 
+const mockCart: Cart = {
+  code: '123456789',
+  description: 'testCartDescription',
+  name: 'testCartName',
+};
+
+const cart$ = new BehaviorSubject<Cart>(mockCart);
+
 const mockActivatedRoute = {
   snapshot: {
     url: ['checkout', 'delivery-mode'],
@@ -86,6 +100,11 @@ class MockCartService implements Partial<ActiveCartFacade> {
   getDeliveryEntries = () => deliveryEntries$.asObservable();
   hasPickupItems = () => hasPickupItems$.asObservable();
   getPickupEntries = createSpy().and.returnValue(of([]));
+  getActive = () => cart$.asObservable();
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add() {}
 }
 
 describe('CheckoutDeliveryModeComponent', () => {
@@ -93,6 +112,8 @@ describe('CheckoutDeliveryModeComponent', () => {
   let fixture: ComponentFixture<CheckoutDeliveryModeComponent>;
   let checkoutConfigService: CheckoutConfigService;
   let checkoutStepService: CheckoutStepService;
+  let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(
     waitForAsync(() => {
@@ -111,10 +132,13 @@ describe('CheckoutDeliveryModeComponent', () => {
           },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
           { provide: ActiveCartFacade, useClass: MockCartService },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
       }).compileComponents();
 
       checkoutConfigService = TestBed.inject(CheckoutConfigService);
+      checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
+      globalMessageService = TestBed.inject(GlobalMessageService);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
@@ -151,6 +175,25 @@ describe('CheckoutDeliveryModeComponent', () => {
     );
     expect(component.mode.controls['deliveryModeId'].value).toBe(
       mockDeliveryMode1.code
+    );
+  });
+
+  it('should show error message if setDeliveryMode fail', () => {
+    const showErrorMessageSpy = spyOn(
+      globalMessageService,
+      'add'
+    ).and.callThrough();
+    checkoutDeliveryModesFacade.setDeliveryMode = createSpy().and.returnValue(
+      throwError('error')
+    );
+
+    component.changeMode('pickup');
+
+    expect(showErrorMessageSpy).toHaveBeenCalledWith(
+      {
+        key: 'setDeliveryMode.unknownError',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
     );
   });
 
@@ -225,6 +268,18 @@ describe('CheckoutDeliveryModeComponent', () => {
 
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
+    });
+
+    it('should be disabled when setDeliveryMode failed', () => {
+      checkoutDeliveryModesFacade.setDeliveryMode = createSpy().and.returnValue(
+        throwError('error')
+      );
+
+      component.changeMode('pickup');
+
+      fixture.detectChanges();
+
+      expect(getContinueBtn().nativeElement.disabled).toBe(true);
     });
 
     it('should call "next" function after being clicked', () => {
