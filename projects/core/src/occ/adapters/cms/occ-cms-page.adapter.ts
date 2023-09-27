@@ -6,7 +6,7 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
 import { CmsStructureModel } from '../../../cms/model/page.model';
@@ -47,11 +47,8 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
    */
   load(pageContext: PageContext): Observable<CmsStructureModel> {
     const params = this.getPagesRequestParams(pageContext);
-    const userId$ = this.userIdService
-      ? this.userIdService.getUserId()
-      : of('');
 
-    return userId$.pipe(
+    return this.userIdService.getUserId().pipe(
       switchMap((userId: string) => {
         const endpoint = !pageContext.type
           ? this.occEndpoints.buildUrl('page', {
