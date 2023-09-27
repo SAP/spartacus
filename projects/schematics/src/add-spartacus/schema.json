@@ -40,6 +40,7 @@
           "Bulk-Pricing",
           "Image-Zoom",
           "Future-Stock",
+          "PDF-Invoices",
           "Product-Variants",
           "VC-Configurator",
           "Textfield-Configurator",
@@ -188,6 +189,10 @@
           {
             "value": "CPQ-Configurator",
             "label": "Product Configurator - CPQ Configurator (b2b feature)"
+          },
+          {
+            "value": "PDF-Invoices",
+            "label": "PDF Invoices"
           },
           {
             "value": "Qualtrics",

@@ -29,6 +29,10 @@ module.exports = {
         __dirname,
         'feature-libs/organization'
       ),
+      '@spartacus/pdf-invoices': path.join(
+        __dirname,
+        'feature-libs/pdf-invoices'
+      ),
       '@spartacus/product': path.join(__dirname, 'feature-libs/product'),
       '@spartacus/product-configurator': path.join(
         __dirname,
