@@ -10,8 +10,8 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { ProductReferencesConnector } from '../../connectors/references/product-references.connector';
 import { ProductActions } from '../actions/index';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { LoggerService } from '../../../logger';
+import { tryNormalizeHttpError } from '@spartacus/core';
 
 @Injectable()
 export class ProductReferencesEffects {
@@ -36,7 +36,7 @@ export class ProductReferencesEffects {
             catchError((error) =>
               of(
                 new ProductActions.LoadProductReferencesFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )
