@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   EventService,
+  LoggerService,
   Product,
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { defer, merge, Observable, of } from 'rxjs';
+import { Observable, defer, merge, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import {
   ComponentCreateEvent,
@@ -55,7 +56,10 @@ export class ProductIntroComponent {
     protected translationService: TranslationService,
     protected winRef: WindowRef,
     protected eventService: EventService
-  ) {}
+  ) {
+    const logger = inject(LoggerService);
+    logger.log('Some test log message from ProductIntroComponent constructor');
+  }
 
   /**
    * Scroll to views component on page and click "Reviews" tab
