@@ -479,11 +479,11 @@ export function navigateToQuoteListFromQuoteDetails() {
 /**
  * Verifies if the displayed quote is in draft state.
  *
- * @param submitThreshold Does the quote meet the threshold
+ * @param submitThresholdMet Does the quote meet the threshold
  * @param productId Product id of a product which is part of the quote
  */
 export function checkQuoteInDraftState(
-  submitThreshold: boolean,
+  submitThresholdMet: boolean,
   productId: string
 ) {
   log(
@@ -491,8 +491,8 @@ export function checkQuoteInDraftState(
     checkQuoteInDraftState.name
   );
   checkQuoteState(STATUS_DRAFT);
-  checkGlobalMessageDisplayed(!submitThreshold);
-  checkSubmitBtn(submitThreshold);
+  checkGlobalMessageDisplayed(!submitThresholdMet);
+  checkSubmitBtn(submitThresholdMet);
   checkItem(productId);
 }
 
