@@ -300,6 +300,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     );
   }
 
+  // TODO(CXSPA-3090): Remove optional service flags in 7.0
   protected subscribeForDeeplinkCart(): void {
     if (this.featureConfig?.isLevel('6.2')) {
       this.subscription.add(
@@ -313,6 +314,25 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
             )
           )
           .subscribe(() => {
+            // TODO(CXSPA-3090): Remove feature flag in 7.0.
+            if (this.featureConfig?.isLevel('6.3')) {
+              const cartType =
+                this.asmComponentService?.getSearchParameter('cartType');
+              if (cartType === 'inactive' || cartType === 'active') {
+                this.displayBindCartBtn$.next(false);
+                this.displaySaveCartBtn$.next(cartType === 'inactive');
+                this.deepLinkCartId =
+                  this.asmComponentService?.getSearchParameter(
+                    'cartId'
+                  ) as string;
+                this.cartId.setValue(this.deepLinkCartId);
+                this.asmComponentService?.setShowDeeplinkCartInfoAlert(true);
+                this.asmComponentService?.handleDeepLinkNavigation();
+              }
+              return;
+            }
+
+            // TODO(CXSPA-3090): Remove this implementation in 7.0
             if (this.isDeepLinkInactiveCart()) {
               this.displayBindCartBtn$.next(false);
               this.displaySaveCartBtn$.next(true);
@@ -328,6 +348,9 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * @deprecated in 6.3: Will be removed in CXSPA-3090.
+   */
   protected onDeeplinkCart(): void {
     this.deepLinkCartId = this.asmComponentService?.getSearchParameter(
       'cartId'
@@ -336,11 +359,17 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     this.asmComponentService?.setShowDeeplinkCartInfoAlert(true);
   }
 
+  /**
+   * @deprecated in 6.3: Will be removed in CXSPA-3090.
+   */
   protected isDeepLinkInactiveCart(): boolean {
     const cartType = this.asmComponentService?.getSearchParameter('cartType');
     return cartType === 'inactive';
   }
 
+  /**
+   * @deprecated in 6.3: Will be removed in CXSPA-3090.
+   */
   protected isDeepLinkActiveCart(): boolean {
     const cartType = this.asmComponentService?.getSearchParameter('cartType');
     return cartType === 'active';
@@ -392,6 +421,9 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * @deprecated in 6.3: Will be removed in CXSPA-3090.
+   */
   protected goToActiveCartDetail(): void {
     this.routing?.go({ cxRoute: 'cart' });
   }

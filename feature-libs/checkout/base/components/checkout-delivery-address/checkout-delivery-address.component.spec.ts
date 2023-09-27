@@ -12,6 +12,8 @@ import {
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
+  FeaturesConfig,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
@@ -130,7 +132,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
+        imports: [I18nTestingModule, FeaturesConfigModule],
         declarations: [
           CheckoutDeliveryAddressComponent,
           MockAddressFormComponent,
@@ -150,6 +152,12 @@ describe('CheckoutDeliveryAddressComponent', () => {
           {
             provide: CheckoutDeliveryModesFacade,
             useClass: MockCheckoutDeliveryModesFacade,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '6.3' },
+            },
           },
         ],
       })

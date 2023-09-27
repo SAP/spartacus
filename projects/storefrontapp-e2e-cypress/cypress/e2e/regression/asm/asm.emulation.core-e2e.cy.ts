@@ -11,13 +11,13 @@ import { ELECTRONICS_BASESITE } from '../../../helpers/checkout-flow';
 import { getErrorAlert } from '../../../helpers/global-message';
 import { navigateToCategory, waitForPage } from '../../../helpers/navigation';
 import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-
 import { getSampleUser } from '../../../sample-data/checkout-flow';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 context('Assisted Service Module', () => {
   describe('Customer Support Agent - Emulation', () => {
     asm.testCustomerEmulation();
+
     it('should checkout as customer', () => {
       const customer = getSampleUser();
 
@@ -78,11 +78,43 @@ context('Assisted Service Module', () => {
       );
     });
 
-    // TODO(#9445): Add e2e test for this scenario
-    it.skip('agent login when user is logged in should start this user emulation', () => {});
+    // TODO(#3974): fix the bug to enable e2e test for this scenario
+    it.skip('agent login when user is logged in should start this user emulation', () => {
+      cy.visit('/login');
+      login(customer.email, customer.password);
 
-    // TODO(#9445): Add e2e test for this scenario
-    it.skip('agent logout when user was logged and emulated should restore the session', () => {});
+      checkout.visitHomePage('asm=true');
+
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
+
+      cy.log('--> Agent logging in');
+      asm.agentLogin('asagent', 'pw4all');
+
+      cy.get('cx-csagent-login-form').should('not.exist');
+      cy.get('cx-customer-selection').should('not.exist');
+      cy.get('cx-customer-emulation').should('be.visible');
+    });
+
+    // TODO(#7221): enable this case
+    it.skip('agent logout when user was logged and emulated should restore the session', () => {
+      checkout.visitHomePage('asm=true');
+
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
+
+      cy.log('--> Agent logging in');
+      asm.agentLogin('asagent', 'pw4all');
+
+      cy.log('--> Starting customer emulation');
+      asm.startCustomerEmulation(customer);
+
+      cy.log('--> Agent sign out');
+      asm.agentSignOut();
+
+      cy.get('cx-csagent-login-form').should('exist');
+      cy.get('cx-customer-emulation').should('not.exist');
+    });
   });
 
   describe('Apparel Site', () => {
@@ -94,8 +126,7 @@ context('Assisted Service Module', () => {
       Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
     });
 
-    // This test only works if "sap-commerce-cloud-user-id" is added to the allowed headers of "corsfilter.commercewebservices.allowedHeaders" on the Commerce Cloud side. (CXSPA-1355)
-    it.skip("should fetch products in a category based on the emulated user's authentication", () => {
+    it("should fetch products in a category based on the emulated user's authentication", () => {
       cy.cxConfig({
         context: {
           baseSite: ['apparel-uk-spa'],
@@ -113,11 +144,20 @@ context('Assisted Service Module', () => {
       asm.startCustomerEmulation(customer);
 
       navigateToCategory('Brands', 'brands', true);
-
       cy.get('cx-product-list').should('exist');
+      cy.get('cx-product-list cx-product-grid-item').should(
+        'have.length.at.least',
+        1
+      );
+
+      navigateToCategory('Streetwear', 'streetwear', true);
+      cy.get('cx-product-list').should('exist');
+      cy.get('cx-product-list cx-product-grid-item').should(
+        'have.length.at.least',
+        1
+      );
 
       navigateToCategory('Snow', 'snow', true);
-
       cy.get('cx-product-list').should('exist');
     });
   });
