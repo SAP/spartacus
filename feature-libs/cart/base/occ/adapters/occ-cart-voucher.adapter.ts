@@ -5,12 +5,13 @@
  */
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CartVoucherAdapter } from '@spartacus/cart/base/core';
 import { CART_VOUCHER_NORMALIZER } from '@spartacus/cart/base/root';
 import {
   ConverterService,
   InterceptorUtil,
+  LoggerService,
   OCC_USER_ID_ANONYMOUS,
   OccEndpointsService,
   USE_CLIENT_TOKEN,
@@ -21,6 +22,8 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccCartVoucherAdapter implements CartVoucherAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
