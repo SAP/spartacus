@@ -13,8 +13,8 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { SmartEditConfig } from '@spartacus/smartedit/root';
 import { filter, take } from 'rxjs/operators';
+import { SmartEditConfig } from '@spartacus/smartedit/root';
 
 @Injectable({
   providedIn: 'root',
