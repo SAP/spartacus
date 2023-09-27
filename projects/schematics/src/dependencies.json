@@ -65,6 +65,7 @@
     "@spartacus/core": "6.5.0-1",
     "@spartacus/order": "6.5.0-1",
     "@spartacus/schematics": "6.5.0-1",
+    "@spartacus/storefinder": "6.5.0-1",
     "@spartacus/storefront": "6.5.0-1",
     "@spartacus/styles": "6.5.0-1",
     "@spartacus/user": "6.5.0-1",
