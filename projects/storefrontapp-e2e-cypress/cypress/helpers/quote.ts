@@ -60,19 +60,20 @@ export function login(email: string, password: string, name: string): void {
  * @param shopName Name of the given shop
  * @param productId Id of the product added to the quote
  * @param productAmount Amount of the product added to the quote
+ * @param submitThresholdMet Defines wether the $25.000 threshold is met and the submit button is available
  */
 export function prepareQuote(
   shopName: String,
   productId: String,
   productAmount: number,
-  inDraftState: boolean
+  submitThresholdMet: boolean
 ) {
   log(
     'Requests a quote and verifies if it is in draft state',
     prepareQuote.name
   );
   this.requestQuote(shopName, productId, productAmount.toString());
-  this.checkQuoteInDraftState(inDraftState, productId);
+  this.checkQuoteInDraftState(submitThresholdMet, productId);
 }
 
 /**
@@ -478,11 +479,11 @@ export function navigateToQuoteListFromQuoteDetails() {
 /**
  * Verifies if the displayed quote is in draft state.
  *
- * @param meetsThreshold Does the quote meet the threshold
+ * @param submitThreshold Does the quote meet the threshold
  * @param productId Product id of a product which is part of the quote
  */
 export function checkQuoteInDraftState(
-  meetsThreshold: boolean,
+  submitThreshold: boolean,
   productId: string
 ) {
   log(
@@ -490,8 +491,8 @@ export function checkQuoteInDraftState(
     checkQuoteInDraftState.name
   );
   checkQuoteState(STATUS_DRAFT);
-  checkGlobalMessageDisplayed(!meetsThreshold);
-  checkSubmitBtn(meetsThreshold);
+  checkGlobalMessageDisplayed(!submitThreshold);
+  checkSubmitBtn(submitThreshold);
   checkItem(productId);
 }
 
@@ -866,6 +867,55 @@ export function checkTotalEstimatedPrice(newEstimatedTotalPrice: string) {
     .within(() => {
       cy.get('.cx-card-paragraph-text').contains(newEstimatedTotalPrice);
     });
+}
+
+/**
+ * Within the quote overview page edits the configuration for a VC configurable product
+ *@param itemIndex Index of the item in the QDP cart list
+ */
+export function editVCConfigurableProduct(itemIndex: number) {
+  log(
+    'Edits the configurable product from quote overview page and navigates back to quote overview page',
+    editVCConfigurableProduct.name
+  );
+  clickEditConfigurationVCProduct(itemIndex);
+  //Change "Throat Width" attribute to 18"
+  cy.get(
+    `cx-configurator-form cx-configurator-group div[role=tabpanel]:nth-child(1)`
+  );
+  cy.get(`span`)
+    .contains('Throat Width')
+    .parent() //label
+    .parent() //cx-configurator-attribute-header
+    .parent() //cx-group-attribute
+    .within(() => {
+      cy.get('cx-configurator-attribute-radio-button').within(() => {
+        cy.get(`label`)
+          .contains('18"')
+          .parent()
+          .within(() => {
+            cy.get('input').click();
+          });
+      });
+    });
+
+  //Click on "Done"
+  cy.get(`cx-configurator-add-to-cart-button button.btn-primary`).click();
+  //Click on "Continue to Cart"
+  cy.get(`cx-configurator-add-to-cart-button button.btn-primary`).click();
+}
+
+/**
+ * Within the quote details overview page click on 'Edit Configuration' for the VC configurable product
+ *@param itemIndex Index of the item in the QDP cart list
+ */
+function clickEditConfigurationVCProduct(itemIndex: number) {
+  log('click on "Edit Configuration"', clickEditConfigurationVCProduct.name);
+  cy.get(
+    `cx-quote-details-cart cx-cart-item-list .cx-item-list-row:nth-child(${itemIndex})`
+  ).within(() => {
+    cy.get('.cx-action-link').click();
+  });
 }
 
 /**

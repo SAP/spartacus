@@ -8,9 +8,9 @@ import * as quote from '../../../../helpers/quote';
 import * as cart from '../../../../helpers/cart';
 
 const POWERTOOLS = 'powertools-spa';
-const testProductConfigurable = 'CONF_BANDSAW_ML';
-const testProductConfigurableWithIssues = 'CONF_SCREWDRIVER_S';
-const testProductConfigurableTextfield = '2116282';
+const TEST_PRODUCT_CONFIGURABLE = 'CONF_BANDSAW_ML';
+const TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES = 'CONF_SCREWDRIVER_S';
+const TEST_PRODUCT_CONFIGURABLE_TEXTFIELD = '2116282';
 const EMAIL = 'gi.sun@pronto-hw.com';
 const PASSWORD = '12341234';
 const USER = 'Gi Sun';
@@ -25,7 +25,7 @@ context('Quote<->Configurator integration', () => {
     it('should not allow to request quote if the configuration has issues', () => {
       quote.addProductToCart(
         POWERTOOLS,
-        testProductConfigurableWithIssues,
+        TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES,
         '1'
       );
       quote.clickOnRequestQuote();
@@ -35,31 +35,25 @@ context('Quote<->Configurator integration', () => {
       cy.get('cx-cart-details').should('exist');
 
       //remove conflicting entry
-      cart.removeCartItem({ name: testProductConfigurableWithIssues });
+      cart.removeCartItem({ name: TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES });
     });
 
-    it('should support creation of a draft quote including VC configurable product', () => {
-      quote.requestQuote(POWERTOOLS, testProductConfigurable, '1');
-
-      //check: quote is in status draft
-      quote.checkQuoteInDraftState(false, testProductConfigurable);
-
-      //check: we can navigate to the VC overview page
-
-      // TODO: edit configuration does not work for quote
-      //configurationCart.clickOnEditConfigurationLink(0);
-      //cy.get('cx-configurator-overview-sidebar').should('be.visible');
-      //check: back navigation is possible
-      //configuratorOverview.clickContinueToCartBtnOnOPAndExpectQuote();
+    it('should support creation of a draft quote including VC configurable product(CXSPA-4158)', () => {
+      quote.prepareQuote(POWERTOOLS, TEST_PRODUCT_CONFIGURABLE, 1, false);
+      quote.checkTotalEstimatedPrice('$270.00');
+      quote.editVCConfigurableProduct(1);
+      quote.checkQuoteInDraftState(false, TEST_PRODUCT_CONFIGURABLE);
+      quote.gotToQuoteDetailsOverviewPage(); //remove when CXSPA-4840 is done
+      quote.checkTotalEstimatedPrice('$300.00');
     });
   });
 
   describe('Request quote process with textfield configurable product', () => {
     it('should support creation of a draft quote including textfield configurable product', () => {
-      quote.requestQuote(POWERTOOLS, testProductConfigurableTextfield, '1');
+      quote.requestQuote(POWERTOOLS, TEST_PRODUCT_CONFIGURABLE_TEXTFIELD, '1');
 
       //check: quote is in status draft
-      quote.checkQuoteInDraftState(false, testProductConfigurableTextfield);
+      quote.checkQuoteInDraftState(false, TEST_PRODUCT_CONFIGURABLE_TEXTFIELD);
 
       // TODO: edit configuration does not work for quote
       //check: we can navigate to the textfield configurator form
