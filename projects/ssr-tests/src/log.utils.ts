@@ -48,7 +48,7 @@ export function assertMessages(expected: string[]): void {
 
 /**
  * Check log every interval to see if log contains text.
- * Keeps waiting until log contains test or test times out.
+ * Keeps waiting until log contains text or test times out.
  */
 export async function waitUntilLogContainsText(
   text: string,
