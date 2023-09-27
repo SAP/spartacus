@@ -20,4 +20,5 @@ export const environment: Environment = {
   opf: buildProcess.env.CX_OPF,
   segmentRefs: buildProcess.env.CX_SEGMENT_REFS,
   requestedDeliveryDate: buildProcess.env.CX_REQUESTED_DELIVERY_DATE,
+  pdfInvoices: buildProcess.env.CX_PDF_INVOICES,
 };

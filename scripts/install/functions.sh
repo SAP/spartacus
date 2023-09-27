@@ -82,7 +82,7 @@ function update_projects_versions {
     fi
 
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
-    (cd "${CLONE_DIR}/tools/config" && pwd && sed -i -E 's/PUBLISHING_VERSION = '\'\''/PUBLISHING_VERSION = '\'"${SPARTACUS_VERSION}"\''/g' const.ts);
+    (cd "${CLONE_DIR}/tools/config" && pwd && sed -i -E 's/PUBLISHING_VERSION = '\'.*\''/PUBLISHING_VERSION = '\'"${SPARTACUS_VERSION}"\''/g' const.ts);
     (cd "${CLONE_DIR}" && pwd && npm run config:update -- --generate-deps);
 
 }
@@ -136,6 +136,18 @@ function add_s4om {
     fi
 }
 
+function add_requested_delivery_date {
+  if [ "$ADD_REQUESTED_DELIVERY_DATE" = true ] ; then
+        ng add --skip-confirmation @spartacus/requested-delivery-date@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
+function add_pdf_invoices {
+  if [ "$ADD_PDF_INVOICES" = true ] ; then
+        ng add --skip-confirmation @spartacus/pdf-invoices@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
 # Don't install b2b features here (use add_b2b function for that)
 function add_feature_libs {
   ng add @spartacus/tracking@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
@@ -164,6 +176,8 @@ function add_spartacus_csr {
     add_opf
     add_product_configurator
     add_s4om
+    add_requested_delivery_date
+    add_pdf_invoices
     remove_npmrc
     )
 }
@@ -187,6 +201,8 @@ function add_spartacus_ssr {
     add_opf
     add_product_configurator
     add_s4om
+    add_requested_delivery_date
+    add_pdf_invoices
     remove_npmrc
     )
 }
@@ -209,6 +225,8 @@ function add_spartacus_ssr_pwa {
     add_opf
     add_product_configurator
     add_s4om
+    add_requested_delivery_date
+    add_pdf_invoices
     remove_npmrc
     )
 }
@@ -711,6 +729,16 @@ function parseInstallArgs {
             s4om)
                 ADD_S4OM=true
                 echo "➖ Added S4OM"
+                shift
+                ;;
+            rdd)
+                ADD_REQUESTED_DELIVERY_DATE=true
+                echo "➖ Added Requested Delivery Date"
+                shift
+                ;;
+            invoices)
+                ADD_PDF_INVOICES=true
+                echo "➖ Added PDF Invoices"
                 shift
                 ;;
             opf)

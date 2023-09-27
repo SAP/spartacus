@@ -1,0 +1,237 @@
+cx-invoices-list {
+  .cx-invoices-list {
+    @include media-breakpoint-down(md) {
+      max-width: 100%;
+      padding: 0;
+    }
+  }
+
+  .cx-invoices-list-table {
+    padding: 1.5rem 0 1.125rem 0;
+    margin-bottom: 0;
+    border-top: 1px solid var(--cx-color-light);
+    border-bottom: 1px solid var(--cx-color-light);
+
+    th {
+      padding: 1.5rem 0 1.125rem 0;
+      text-align: start;
+
+      &:last-child {
+        text-align: end;
+      }
+    }
+
+    td {
+      padding: 1.625rem 0;
+
+      @include media-breakpoint-up(md) {
+        text-align: start;
+      }
+
+      @include media-breakpoint-down(md) {
+        width: 100%;
+        display: flex;
+        border-width: 0;
+        padding: 0 1.25rem;
+
+        &:first-child {
+          padding-top: 1.25rem;
+        }
+
+        &:last-child {
+          padding-bottom: 1.25rem;
+        }
+      }
+    }
+  }
+
+  .cx-invoices-list-header {
+    padding: 40px 0 0 0;
+    color: var(--cx-color-text);
+
+    @include media-breakpoint-down(md) {
+      padding-top: 40px;
+      padding-inline-end: 20px;
+      padding-bottom: 0;
+      padding-inline-start: 20px;
+    }
+  }
+
+  .cx-invoices-list-thead-mobile {
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
+
+  .cx-invoices-list-code {
+    .cx-invoices-list-value {
+      text-decoration: none;
+    }
+  }
+
+  .cx-invoices-list-externalSystem {
+    .cx-invoices-list-value {
+      text-decoration: none;
+    }
+  }
+
+  .cx-invoices-list-attachment {
+    .cx-invoices-list-value {
+      text-decoration: underline;
+      text-align: end;
+      color: var(--cx-color-primary);
+    }
+  }
+
+  .cx-invoices-list-date {
+    text-align: center;
+
+    @include media-breakpoint-down(md) {
+      text-align: start;
+    }
+  }
+
+  .cx-invoices-list-status {
+    text-align: center;
+    text-transform: capitalize;
+
+    @include media-breakpoint-down(md) {
+      text-align: start;
+    }
+
+    .status-open {
+      color: var(--cx-color-success);
+    }
+
+    .status-closed {
+      color: var(--cx-color-secondary);
+    }
+  }
+
+  .cx-invoices-list-monetary {
+    text-align: end;
+
+    @include media-breakpoint-down(md) {
+      text-align: start;
+    }
+  }
+
+  .cx-invoices-list-label {
+    color: var(--cx-color-secondary);
+
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+
+    @include media-breakpoint-down(md) {
+      @include type('8');
+      min-width: 200px;
+      min-height: 48px;
+    }
+  }
+
+  .cx-invoices-list-value {
+    color: var(--cx-color-text);
+
+    @include media-breakpoint-down(md) {
+      @include type('5');
+      font-weight: $font-weight-normal;
+    }
+  }
+
+  .cx-invoices-list-form-group {
+    padding: 0;
+    margin-bottom: 0;
+    align-items: center;
+    display: flex;
+    width: 40%;
+
+    span {
+      margin-inline-end: 0.5rem;
+      flex: none;
+    }
+
+    cx-sorting {
+      width: 100%;
+    }
+
+    @include media-breakpoint-down(md) {
+      padding: 1.25rem;
+      width: 100%;
+    }
+  }
+
+  .cx-invoices-list-sort {
+    &.top {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 0;
+      margin: 0;
+
+      @include media-breakpoint-down(md) {
+        flex-direction: column;
+        padding-top: 0;
+      }
+    }
+
+    &.bottom {
+      display: flex;
+      justify-content: flex-end;
+      padding: 1rem 0 1rem 0;
+      margin: 0;
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+      }
+    }
+  }
+
+  .cx-invoices-list-pagination {
+    @include media-breakpoint-down(md) {
+      margin: 0 auto;
+    }
+  }
+
+  .cx-invoices-list-no-document {
+    display: flex;
+    flex-wrap: wrap;
+    @include type('5');
+    font-weight: $font-weight-normal;
+    min-height: 415px;
+    padding-top: 2rem;
+    border-top: 1px solid var(--cx-color-light);
+    justify-content: center;
+
+    @include media-breakpoint-down(sm) {
+      min-height: 474px;
+      padding-inline-start: 1.25rem;
+      padding-inline-end: 1.25rem;
+    }
+  }
+
+  .cx-invoices-list-row {
+    &:nth-child(odd) {
+      @include media-breakpoint-down(md) {
+        background-color: var(--cx-color-background);
+      }
+    }
+  }
+
+  .cx-invoices-list-attachment-btn {
+    color: var(--cx-color-primary);
+    background-color: inherit;
+    border: 0;
+  }
+
+  .cx-invoices-list-attachment-icon {
+    font-size: 1.4rem;
+  }
+
+  .cx-invoices-list-attachment-text {
+    font-weight: var(--cx-font-weight-bold);
+    padding-inline-start: 0.5rem;
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+  }
+}
