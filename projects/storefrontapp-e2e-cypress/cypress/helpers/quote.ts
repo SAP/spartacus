@@ -646,7 +646,8 @@ export function gotToQuoteDetailsOverviewPage() {
 }
 
 /**
- * Logout buyer user
+ * Logout buyer user.
+ *
  * @param shopName Name of the current shop (Powertools)
  */
 export function logoutBuyer(shopName: string): void {
@@ -656,7 +657,8 @@ export function logoutBuyer(shopName: string): void {
 }
 
 /**
- * Enables the asm mode for the given shop
+ * Enables the asm mode for the given shop.
+ *
  * @param shopName Name of the shop (Powertools)
  */
 export function enableASMMode(shopName: string) {
@@ -665,7 +667,8 @@ export function enableASMMode(shopName: string) {
 }
 
 /**
- * Use the cx-login-form to login into the asm mode
+ * Use the cx-login-form to login into the asm mode.
+ *
  * @param shopName Name of the given shop (Powertools)
  * @param sellerEmail Email address of the seller; used for the login
  * @param sellerPassword  Password of the seller; used for the login
@@ -686,7 +689,8 @@ export function loginASM(
 }
 
 /**
- * Selects the customer/buyer and opens the last quote while logged in as sales reporter in asm mode
+ * Selects the customer/buyer and opens the last quote while logged in as sales reporter in asm mode.
+ *
  * @param shopName Name of the given shop (Powertools)
  * @param buyerEmail Email address of the customer/buyer
  */
@@ -707,7 +711,7 @@ export function selectCustomerAndOpenQuote(
 }
 
 /**
- * Enables the edit mode for the quote
+ * Enables the edit mode for the quote.
  */
 export function enableEditQuoteMode() {
   log('Enables the edit mode for the quote', enableEditQuoteMode.name);
@@ -715,7 +719,8 @@ export function enableEditQuoteMode() {
 }
 
 /**
- * Creates an expiry date for the quote (2 months and 2 days in the future from today)
+ * Creates an expiry date for the quote (2 months and 2 days in the future from today).
+ *
  * @returns Expiry date for the quote
  */
 function createValidExpiryDate(): Date {
@@ -729,7 +734,7 @@ function createValidExpiryDate(): Date {
 }
 
 /**
- * Sets the expiry date to the given value
+ * Sets the expiry date to the given value.
  */
 export function setExpiryDate() {
   log('Sets the expiry date to a given value', setExpiryDate.name);
@@ -753,7 +758,7 @@ export function setExpiryDate() {
 }
 
 /**
- * Verifies if the shown expiry date matches the given expiry date
+ * Verifies if the shown expiry date matches the given expiry date.
  */
 export function checkExpiryDate() {
   log(
@@ -771,7 +776,8 @@ export function checkExpiryDate() {
     });
 }
 /**
- *Creates the formatted expiry date string
+ * Creates the formatted expiry date string.
+ *
  * @returns Formatted date string (Jan 01,2023)
  */
 function createFormattedExpiryDate(): string {
@@ -841,7 +847,8 @@ function createFormattedExpiryDate(): string {
 }
 
 /**
- *Sets the discount (sales reporter perspective) and applies it to the total estimated price
+ * Sets the discount (sales reporter perspective) and applies it to the total estimated price.
+ *
  * @param discount Discount which is applied to the total estimated price
  */
 export function setDiscount(discount: string) {
@@ -851,7 +858,8 @@ export function setDiscount(discount: string) {
 }
 
 /**
- *Verifies if the estimated total price shown equals the estimate total price given
+ * Verifies if the estimated total price shown equals the estimate total price given.
+ *
  * @param newEstimatedTotalPrice The given estimated total price
  */
 export function checkTotalEstimatedPrice(newEstimatedTotalPrice: string) {
@@ -870,15 +878,16 @@ export function checkTotalEstimatedPrice(newEstimatedTotalPrice: string) {
 }
 
 /**
- * Within the quote overview page edits the configuration for a VC configurable product
- *@param itemIndex Index of the item in the QDP cart list
+ * Edits the configuration for a VC configurable product on the quote overview page.
+ *
+ * @param itemIndex Index of the item in the QDP cart list
  */
 export function editVCConfigurableProduct(itemIndex: number) {
   log(
-    'Edits the configurable product from quote overview page and navigates back to quote overview page',
+    'Edits the configurable product and navigates back to quote overview page',
     editVCConfigurableProduct.name
   );
-  clickEditConfigurationVCProduct(itemIndex);
+  clickEditConfiguration(itemIndex);
   //Change "Throat Width" attribute to 18"
   cy.get(
     `cx-configurator-form cx-configurator-group div[role=tabpanel]:nth-child(1)`
@@ -906,11 +915,12 @@ export function editVCConfigurableProduct(itemIndex: number) {
 }
 
 /**
- * Within the quote details overview page click on 'Edit Configuration' for the VC configurable product
- *@param itemIndex Index of the item in the QDP cart list
+ * Clicks on 'Edit Configuration' for the configurable product.
+ *
+ * @param itemIndex Index of the item in the QDP cart list
  */
-function clickEditConfigurationVCProduct(itemIndex: number) {
-  log('click on "Edit Configuration"', clickEditConfigurationVCProduct.name);
+function clickEditConfiguration(itemIndex: number) {
+  log('click on "Edit Configuration"', clickEditConfiguration.name);
   cy.get(
     `cx-quote-details-cart cx-cart-item-list .cx-item-list-row:nth-child(${itemIndex})`
   ).within(() => {

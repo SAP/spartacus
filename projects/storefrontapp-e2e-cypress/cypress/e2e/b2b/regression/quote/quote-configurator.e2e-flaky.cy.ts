@@ -38,7 +38,7 @@ context('Quote<->Configurator integration', () => {
       cart.removeCartItem({ name: TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES });
     });
 
-    it('should support creation of a draft quote including VC configurable product(CXSPA-4158)', () => {
+    it('should support creation of a draft quote including VC configurable product (CXSPA-4158)', () => {
       quote.prepareQuote(POWERTOOLS, TEST_PRODUCT_CONFIGURABLE, 1, false);
       quote.checkTotalEstimatedPrice('$270.00');
       quote.editVCConfigurableProduct(1);
