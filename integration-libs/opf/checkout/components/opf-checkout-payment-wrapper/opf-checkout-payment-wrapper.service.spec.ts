@@ -15,6 +15,7 @@ import { of, throwError } from 'rxjs';
 import { OpfResourceLoaderService } from '../../core/services';
 import { OpfCheckoutFacade } from '../../root/facade';
 import {
+  OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE,
   OpfPaymentMethodType,
   PaymentDynamicScriptResourceType,
   PaymentSessionData,
@@ -351,7 +352,9 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     const mockHtml = '<script>console.log("Executing script");</script>';
 
     routingServiceMock.getRouterState.and.returnValue(
-      of({ state: { semanticRoute: 'checkoutReviewOrder' } } as RouterState)
+      of({
+        state: { semanticRoute: OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE },
+      } as RouterState)
     );
     opfResourceLoaderServiceMock.executeScriptFromHtml.and.stub();
 
@@ -369,7 +372,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     service['onPlaceOrderError']();
 
     expect(service['routingService'].go).toHaveBeenCalledWith({
-      cxRoute: 'checkoutReviewOrder',
+      cxRoute: OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE,
     });
   });
 });
