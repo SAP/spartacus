@@ -38,13 +38,16 @@ context('Quote', () => {
       quote.prepareQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, 1, false);
     });
 
-    it('should be possible(submit) if threshold is met', () => {
+    it.only('should be possible(submit) if threshold is met', () => {
       quote.prepareQuote(
         POWERTOOLS,
         TEST_PRODUCT_HAMMER_DRILLING_ID,
         PRODUCT_AMOUNT_30,
         true
       );
+
+      quote.reload();
+      quote.checkQuoteInDraftState(true, TEST_PRODUCT_HAMMER_DRILLING_ID);
 
       quote.addHeaderComment(
         'Can you please make me a good offer for this large volume of goods?'
