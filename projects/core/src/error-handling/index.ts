@@ -6,5 +6,6 @@
 
 export * from './cx-error-handler';
 export * from './error-handling.module';
+export * from './error-interceptors';
 export * from './http-error-handler';
 export * from './effects-error-handler';
