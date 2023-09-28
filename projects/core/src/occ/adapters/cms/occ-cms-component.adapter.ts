@@ -6,7 +6,7 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
@@ -34,11 +34,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     id: string,
     pageContext: PageContext
   ): Observable<T> {
-    const userId$ = this.userIdService
-      ? this.userIdService.getUserId()
-      : of('');
-
-    return userId$.pipe(
+    return this.userIdService.getUserId().pipe(
       switchMap((userId: string) => {
         return this.http.get<T>(
           this.getComponentEndPoint(id, pageContext, userId),
@@ -59,9 +55,6 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageSize = ids.length,
     sort?: string
   ): Observable<CmsComponent[]> {
-    const userId$ = this.userIdService
-      ? this.userIdService.getUserId()
-      : of('');
     const requestParams = {
       ...this.getContextParams(pageContext),
       ...this.getPaginationParams(currentPage, pageSize, sort),
@@ -69,7 +62,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
 
     requestParams['componentIds'] = ids.toString();
 
-    return userId$.pipe(
+    return this.userIdService.getUserId().pipe(
       switchMap((userId: string) => {
         return this.http.get<Occ.ComponentList>(
           this.getComponentsEndpoint(requestParams, fields, userId),
