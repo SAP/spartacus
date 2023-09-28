@@ -38,7 +38,7 @@ context('Quote', () => {
       quote.prepareQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, 1, false);
     });
 
-    it.only('should be possible(submit) if threshold is met', () => {
+    it('should be possible(submit) if threshold is met', () => {
       quote.prepareQuote(
         POWERTOOLS,
         TEST_PRODUCT_HAMMER_DRILLING_ID,
