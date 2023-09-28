@@ -17,6 +17,7 @@ import { opfConfigValidator } from './config/opf-config-validator';
     provideDefaultConfig(defaultOpfCheckoutRoutingConfig),
     provideDefaultConfig(defaultOpfCheckoutConfig),
     provideConfigValidator(opfConfigValidator),
+    // provideDefaultConfigFactory(defaultOpfCheckoutComponentsConfig),
   ],
 })
 export class OpfCheckoutRootModule {}

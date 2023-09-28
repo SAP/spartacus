@@ -21,6 +21,7 @@ import {
 } from '@spartacus/opf/base/root';
 import { OpfResourceLoaderService } from '@spartacus/opf/checkout/core';
 import {
+  OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE,
   OpfCheckoutFacade,
   OpfPaymentMethodType,
   OpfRenderPaymentMethodEvent,
@@ -59,8 +60,6 @@ export class OpfCheckoutPaymentWrapperService {
     protected opfService: OpfService
   ) {}
 
-  // protected readonly CHECKOUT_REVIEW_SEMANTIC_ROUTE = 'checkoutReviewOrder';
-
   protected executeScriptFromHtml(html: string): void {
     /**
      * Verify first if customer is still on the payment and review page.
@@ -69,12 +68,11 @@ export class OpfCheckoutPaymentWrapperService {
     this.routingService
       .getRouterState()
       .pipe(
-        take(1)
-        // TODO: Allow script loader to load resources only on the OPF review page.
-        // filter(
-        //   (route) =>
-        //     route.state.semanticRoute === this.CHECKOUT_REVIEW_SEMANTIC_ROUTE
-        // )
+        take(1),
+        filter(
+          (route) =>
+            route.state.semanticRoute === OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE
+        )
       )
       .subscribe(() => {
         setTimeout(() => {
@@ -201,7 +199,7 @@ export class OpfCheckoutPaymentWrapperService {
     });
 
     this.showErrorMessage('opf.checkout.errors.unknown');
-    this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
+    this.routingService.go({ cxRoute: OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE });
   }
 
   protected handleGeneralPaymentError(): Observable<Error> {
