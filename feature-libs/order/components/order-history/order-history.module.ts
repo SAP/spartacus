@@ -28,7 +28,7 @@ import {
   OrderConsolidatedInformationComponent,
   OrderHistoryEnhancedUIComponent,
 } from './enhanced-ui';
-import { MYACCOUNT_ENHANCED_UI } from '@spartacus/user/account/root';
+import { MYACCOUNT_ORDER_ENHANCED_UI } from '@spartacus/order/root';
 
 const enhancedUICmsMapping: CmsConfig = {
   cmsComponents: {
@@ -69,7 +69,7 @@ const moduleComponents = [
       },
     }),
     provideDefaultConfigFactory(() =>
-      inject(MYACCOUNT_ENHANCED_UI) ? enhancedUICmsMapping : {}
+      inject(MYACCOUNT_ORDER_ENHANCED_UI) ? enhancedUICmsMapping : {}
     ),
   ],
 })

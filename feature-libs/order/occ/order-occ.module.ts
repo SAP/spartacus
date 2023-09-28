@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import {
   ConverterService,
   OccEndpointsService,
@@ -20,13 +20,13 @@ import {
   ScheduledReplenishmentOrderAdapter,
 } from '@spartacus/order/core';
 import {
+  MYACCOUNT_ORDER_ENHANCED_UI,
   ORDER_NORMALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
   REORDER_ORDER_NORMALIZER,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/order/root';
-//import { MYACCOUNT_ENHANCED_UI } from '../order.module';
 import { OrderHistoryEnhancedUIAdapter } from './adapters';
 import { OccOrderNormalizer } from './adapters/converters/occ-order-normalizer';
 import { OccReorderOrderNormalizer } from './adapters/converters/occ-reorder-order-normalizer';
@@ -92,7 +92,7 @@ import { defaultOccOrderConfig } from './config/default-occ-order-config';
         occEndpointsService: OccEndpointsService,
         converterService: ConverterService
       ) => {
-        const enhancedUI = true; //inject(MYACCOUNT_ENHANCED_UI);
+        const enhancedUI = inject(MYACCOUNT_ORDER_ENHANCED_UI);
         if (enhancedUI) {
           return new OrderHistoryEnhancedUIAdapter(
             httpClient,

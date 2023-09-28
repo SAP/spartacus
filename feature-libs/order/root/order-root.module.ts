@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { InjectionToken, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CART_BASE_FEATURE,
@@ -23,7 +23,10 @@ import {
   OrderConfirmationOrderEntriesContextToken,
   OrderDetailsOrderEntriesContextToken,
 } from './tokens/context';
-
+export const MYACCOUNT_ORDER_ENHANCED_UI = new InjectionToken<boolean>(
+  'feature flag to enable Enhanced UI for Order related pages in My Account',
+  { providedIn: 'root', factory: () => false }
+);
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultOrderComponentsConfig(): CmsConfig {
   const config: CmsConfig = {

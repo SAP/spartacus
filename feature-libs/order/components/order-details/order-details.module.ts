@@ -18,7 +18,7 @@ import {
   provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
-import { OrderOutlets } from '@spartacus/order/root';
+import { MYACCOUNT_ORDER_ENHANCED_UI, OrderOutlets } from '@spartacus/order/root';
 import {
   CardModule,
   IconModule,
@@ -29,7 +29,6 @@ import {
   provideOutlet,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { MYACCOUNT_ENHANCED_UI } from '@spartacus/user/account/root';
 import {
   ConsignmentTrackingLinkComponent,
   DownloadOrderInvoicesDialogModule,
@@ -137,7 +136,7 @@ const moduleComponents = [
     provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
     provideDefaultConfig(defaultReorderLayoutConfig),
     provideDefaultConfigFactory(() =>
-      inject(MYACCOUNT_ENHANCED_UI) ? enhancedUICmsMapping : {}
+      inject(MYACCOUNT_ORDER_ENHANCED_UI) ? enhancedUICmsMapping : {}
     ),
     /** how to provide the below outlet based on condition */
     provideOutlet({

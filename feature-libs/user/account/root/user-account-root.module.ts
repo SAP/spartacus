@@ -4,18 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { InjectionToken, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { UserAccountEventModule } from './events/user-account-event.module';
 import {
   USER_ACCOUNT_CORE_FEATURE,
   USER_ACCOUNT_FEATURE,
 } from './feature-name';
-
-export const MYACCOUNT_ENHANCED_UI = new InjectionToken<boolean>(
-  'feature flag to enable Enhanced UI for My Account',
-  { providedIn: 'root', factory: () => false }
-);
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultUserAccountComponentsConfig(): CmsConfig {
