@@ -31,6 +31,8 @@ export function getLogMessages(): string[] {
   return data
     .toString()
     .split('\n')
+    // We're interested only in JSON logs from Spartacus SSR app.
+    // We ignore plain text logs coming from other sources, like `Node Express server listening on http://localhost:4200`
     .filter((text: string) => text.charAt(0) === '{')
     .map((text: any) => JSON.parse(text).message);
 }
@@ -48,7 +50,7 @@ export function assertMessages(expected: string[]): void {
 
 /**
  * Check log every interval to see if log contains text.
- * Keeps waiting until log contains test or test times out.
+ * Keeps waiting until log contains text or test times out.
  */
 export async function waitUntilLogContainsText(
   text: string,
