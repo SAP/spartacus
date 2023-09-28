@@ -878,53 +878,22 @@ export function checkTotalEstimatedPrice(newEstimatedTotalPrice: string) {
 }
 
 /**
- * Edits the configuration for a VC configurable product on the quote overview page.
- *
- * @param itemIndex Index of the item in the QDP cart list
- */
-export function editVCConfigurableProduct(itemIndex: number) {
-  log(
-    'Edits the configurable product and navigates back to quote overview page',
-    editVCConfigurableProduct.name
-  );
-  clickEditConfiguration(itemIndex);
-  //Change "Throat Width" attribute to 18"
-  cy.get(
-    `cx-configurator-form cx-configurator-group div[role=tabpanel]:nth-child(1)`
-  );
-  cy.get(`span`)
-    .contains('Throat Width')
-    .parent() //label
-    .parent() //cx-configurator-attribute-header
-    .parent() //cx-group-attribute
-    .within(() => {
-      cy.get('cx-configurator-attribute-radio-button').within(() => {
-        cy.get(`label`)
-          .contains('18"')
-          .parent()
-          .within(() => {
-            cy.get('input').click();
-          });
-      });
-    });
-
-  //Click on "Done"
-  cy.get(`cx-configurator-add-to-cart-button button.btn-primary`).click();
-  //Click on "Continue to Cart"
-  cy.get(`cx-configurator-add-to-cart-button button.btn-primary`).click();
-}
-
-/**
  * Clicks on 'Edit Configuration' for the configurable product.
  *
  * @param itemIndex Index of the item in the QDP cart list
  */
-function clickEditConfiguration(itemIndex: number) {
-  log('click on "Edit Configuration"', clickEditConfiguration.name);
+export function clickOnEditConfigurationLink(itemIndex: number) {
+  log('click on "Edit Configuration"', clickOnEditConfigurationLink.name);
   cy.get(
     `cx-quote-details-cart cx-cart-item-list .cx-item-list-row:nth-child(${itemIndex})`
   ).within(() => {
-    cy.get('.cx-action-link').click();
+    cy.get('.cx-action-link')
+      .click({
+        force: true,
+      })
+      .then(() => {
+        cy.location('pathname').should('contain', '/cartEntry/entityKey/');
+      });
   });
 }
 

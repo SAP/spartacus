@@ -6,6 +6,8 @@
 
 import * as quote from '../../../../helpers/quote';
 import * as cart from '../../../../helpers/cart';
+import * as configurationVc from '../../../../helpers/product-configurator-vc';
+import * as configurationOverview from '../../../../helpers/product-configurator-overview';
 
 const POWERTOOLS = 'powertools-spa';
 const TEST_PRODUCT_CONFIGURABLE = 'CONF_BANDSAW_ML';
@@ -14,6 +16,15 @@ const TEST_PRODUCT_CONFIGURABLE_TEXTFIELD = '2116282';
 const EMAIL = 'gi.sun@pronto-hw.com';
 const PASSWORD = '12341234';
 const USER = 'Gi Sun';
+
+// List of attributes
+const CONF_BS_THROATWIDTH = 'CONF_BS_THROATWIDTH';
+
+// List of attribute values
+const CONF_BS_LARGEWIDTH = 'CONF_BS_LARGEWIDTH';
+
+// UI types
+const radioGroup = 'radioGroup';
 
 context('Quote<->Configurator integration', () => {
   beforeEach(() => {
@@ -39,9 +50,18 @@ context('Quote<->Configurator integration', () => {
     });
 
     it('should support creation of a draft quote including VC configurable product (CXSPA-4158)', () => {
+      configurationVc.registerConfigurationUpdateRoute();
       quote.prepareQuote(POWERTOOLS, TEST_PRODUCT_CONFIGURABLE, 1, false);
       quote.checkTotalEstimatedPrice('$270.00');
-      quote.editVCConfigurableProduct(1);
+      quote.clickOnEditConfigurationLink(1);
+      configurationVc.selectAttributeAndWait(
+        CONF_BS_THROATWIDTH,
+        radioGroup,
+        CONF_BS_LARGEWIDTH,
+        false
+      );
+      configurationVc.clickAddToCartBtn();
+      configurationOverview.clickContinueToCartBtnOnOPAndExpectQuote();
       quote.checkQuoteInDraftState(false, TEST_PRODUCT_CONFIGURABLE);
       quote.gotToQuoteDetailsOverviewPage(); //remove when CXSPA-4840 is done
       quote.checkTotalEstimatedPrice('$300.00');
