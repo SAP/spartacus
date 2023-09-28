@@ -5,11 +5,10 @@
  */
 
 import { Injectable } from '@angular/core';
+import { CheckoutConfig, CheckoutFlow } from '@spartacus/checkout/base/root';
 import { BaseSiteService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { CheckoutConfig } from '../../root/config';
-import { CheckoutFlow } from '../../root/model';
 
 @Injectable({
   providedIn: 'root',
