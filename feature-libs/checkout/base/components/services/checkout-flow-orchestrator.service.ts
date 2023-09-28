@@ -33,8 +33,13 @@ export class CheckoutFlowOrchestratorService {
   }
 
   getCheckoutFlow(): CheckoutFlow | undefined {
-    return this.paymentProviderName
-      ? this.checkoutConfig.checkout?.flows?.[this.paymentProviderName]
-      : undefined;
+    if (this.paymentProviderName) {
+      const flow =
+        this.checkoutConfig.checkout?.flows?.[this.paymentProviderName];
+      if (flow) {
+        return flow;
+      }
+    }
+    return this.checkoutConfig.checkout;
   }
 }
