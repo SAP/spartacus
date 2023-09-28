@@ -18,4 +18,5 @@ export interface Environment {
   opf: boolean;
   segmentRefs: boolean;
   requestedDeliveryDate: boolean;
+  pdfInvoices: boolean;
 }
