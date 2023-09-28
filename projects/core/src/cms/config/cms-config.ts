@@ -41,6 +41,8 @@ export interface JspIncludeCmsComponentConfig {
 
 export const JSP_INCLUDE_CMS_COMPONENT_TYPE = 'JspIncludeComponent';
 export const CMS_FLEX_COMPONENT_TYPE = 'CMSFlexComponent';
+
+/** @deprecated - unused since 6.5. Now `SmartEditLauncher` is responsible for triggering the lazy loading of the `SMART_EDIT_FEATURE` */
 export const SMART_EDIT_DUMMY_COMPONENT_TYPE = 'SmartEditDummyCMSComponent';
 
 /**
