@@ -28,13 +28,15 @@ export function clearSsrLogFile(): void {
  */
 export function getLogMessages(): string[] {
   const data = fs.readFileSync(SSR_LOG_PATH).toString();
-  return data
-    .toString()
-    .split('\n')
-    // We're interested only in JSON logs from Spartacus SSR app.
-    // We ignore plain text logs coming from other sources, like `Node Express server listening on http://localhost:4200`
-    .filter((text: string) => text.charAt(0) === '{')
-    .map((text: any) => JSON.parse(text).message);
+  return (
+    data
+      .toString()
+      .split('\n')
+      // We're interested only in JSON logs from Spartacus SSR app.
+      // We ignore plain text logs coming from other sources, like `Node Express server listening on http://localhost:4200`
+      .filter((text: string) => text.charAt(0) === '{')
+      .map((text: any) => JSON.parse(text).message)
+  );
 }
 
 /**
