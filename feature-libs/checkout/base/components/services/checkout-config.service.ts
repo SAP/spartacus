@@ -24,6 +24,16 @@ export class CheckoutConfigService {
   protected checkoutFlow =
     this.checkoutFlowOrchestratorService?.getCheckoutFlow();
 
+  // TODO(NO_TICKET): make checkoutFlowOrchestratorService a required dependency
+  constructor(
+    checkoutConfig: CheckoutConfig,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    checkoutFlowOrchestratorService: CheckoutFlowOrchestratorService
+  );
+  /**
+   * @deprecated since 6.6
+   */
+  constructor(checkoutConfig: CheckoutConfig);
   constructor(
     private checkoutConfig: CheckoutConfig,
     @Optional()
