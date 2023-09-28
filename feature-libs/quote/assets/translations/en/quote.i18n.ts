@@ -41,7 +41,7 @@ export const quote = {
       CHECKOUT: 'Accept and Checkout',
       APPROVE: 'Approve Quote',
       REJECT: 'Reject Quote',
-      REQUOTE: 'Requote',
+      REQUOTE: 'Request new Quote',
     },
     commons: {
       id: 'Quote ID',
