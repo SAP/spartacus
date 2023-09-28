@@ -46,6 +46,9 @@ context('Quote', () => {
         true
       );
 
+      quote.reload();
+      quote.checkQuoteInDraftState(true, TEST_PRODUCT_HAMMER_DRILLING_ID);
+
       quote.addHeaderComment(
         'Can you please make me a good offer for this large volume of goods?'
       );
