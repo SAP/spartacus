@@ -479,7 +479,10 @@ export class QuoteService implements QuoteFacade {
       map(([isLoading, state]) => ({
         ...state,
         loading: state.loading || isLoading,
-      }))
+      })),
+      tap(() => {
+        this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+      })
     );
   }
 

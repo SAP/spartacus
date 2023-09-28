@@ -321,6 +321,16 @@ describe('QuoteService', () => {
           expect(connector.getQuote).toHaveBeenCalledTimes(1);
         });
     });
+
+    it('should raise re-load event', (done) => {
+      service.getQuoteDetails().subscribe(() => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          {},
+          QuoteDetailsReloadQueryEvent
+        );
+        done();
+      });
+    });
   });
 
   describe('addDiscount', () => {
