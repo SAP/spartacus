@@ -23,37 +23,22 @@ export abstract class CheckoutConfig {
   checkout?: {
     /**
      * Set checkout steps as ordered array of pages.
-     *
-     * @deprecated since 6.6
-     * Use a checkout flow approach instead.
      */
     steps?: Array<CheckoutStep>;
     /**
      * Allow for express checkout when default shipping method and payment method are available.
-     *
-     * @deprecated since 6.6
-     * Use a checkout flow approach instead.
      */
     express?: boolean;
     /**
      * Default delivery mode for i.a. express checkout. Set preferences in order with general preferences (eg. DeliveryModePreferences.LEAST_EXPENSIVE) or specific delivery codes.
-     *
-     * @deprecated since 6.6
-     * Use a checkout flow approach instead.
      */
     defaultDeliveryMode?: Array<DeliveryModePreferences | string>;
     /**
      * Allow for guest checkout.
-     *
-     * @deprecated since 6.6
-     * Use a checkout flow approach instead.
      */
     guest?: boolean;
     /**
      * Use delivery address saved in cart for pre-filling delivery address form.
-     *
-     * @deprecated since 6.6
-     * Use a checkout flow approach instead.
      */
     guestUseSavedAddress?: boolean;
     /**

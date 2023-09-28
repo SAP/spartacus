@@ -59,10 +59,10 @@ describe('CheckoutFlowOrchestratorService', () => {
     );
   });
 
-  it('should return undefined for checkout flow when payment provider is undefined', () => {
+  it('should fallback to the default config when payment provider is undefined', () => {
     service['paymentProviderName'] = undefined;
 
     const checkoutFlow = service.getCheckoutFlow();
-    expect(checkoutFlow).toBeUndefined();
+    expect(checkoutFlow).toBeDefined();
   });
 });
