@@ -39,6 +39,7 @@ import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
               QuoteActionType.CANCEL,
             ],
             CANCELLED: [QuoteActionType.REQUOTE],
+            EXPIRED: [QuoteActionType.REQUOTE, QuoteActionType.CANCEL],
             SELLER_REQUEST: [QuoteActionType.SUBMIT, QuoteActionType.EDIT],
             SELLER_DRAFT: [QuoteActionType.SUBMIT, QuoteActionType.EDIT],
           },
