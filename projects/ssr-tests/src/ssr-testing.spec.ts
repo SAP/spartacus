@@ -33,6 +33,7 @@ describe('SSR E2E', () => {
     ]);
   });
 
+  // TODO: Test incomplete
   xit('should receive cached response with next request', async () => {
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
@@ -43,8 +44,10 @@ describe('SSR E2E', () => {
     Log.assertMessages(['Render from cache (/)']);
   });
 
+  // TODO: Test incomplete
   xit('should receive 404 response when page is not existing', () => {});
 
+  // TODO: Test incomplete
   xit('should receive 500 error response with request', async () => {
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
@@ -57,7 +60,8 @@ describe('SSR E2E', () => {
     expect(response.statusCode).toEqual(500);
   });
 
-  // Note: Currently, the ssr server still responds with 200 quickly despite the proxy delay
+  // TODO: Currently, the ssr server still responds with 200 quickly despite the proxy delay
+  // TODO: Test incomplete
   xit('should receive 500 error response with timed-out request', async () => {
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
