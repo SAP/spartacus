@@ -10,7 +10,7 @@ module.exports = {
     prefix: '<rootDir>/',
   }),
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
-  testMatch: ['**/+(*_)+(spec).+(ts)'],
+  testMatch: ['**/+(*.)+(spec).+(ts)'],
   transform: {
     '^.+\\.(ts|js|mjs|html|svg)$': [
       'jest-preset-angular',

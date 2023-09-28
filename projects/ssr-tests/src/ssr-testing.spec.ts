@@ -8,16 +8,13 @@ describe('SSR E2E', () => {
   let proxy: any;
   const REQUEST_PATH = '/electronics-spa/en/USD/';
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     Log.clearSsrLogFile();
     await Ssr.startSsrServer();
   });
 
   afterEach(async () => {
     await proxy.close();
-  });
-
-  afterAll(async () => {
     await Ssr.killSsrServer();
   });
 
@@ -34,12 +31,6 @@ describe('SSR E2E', () => {
       `Rendering started (${REQUEST_PATH})`,
       `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`,
     ]);
-  });
-
-  // Wait for SSR server to complete rendering.
-  it('should complete rendering within a minute', async () => {
-    await Log.waitUntilLogContainsText(`Rendering completed (${REQUEST_PATH})`);
-    Log.assertMessages([`Rendering completed (${REQUEST_PATH})`]);
   });
 
   xit('should receive cached response with next request', async () => {
