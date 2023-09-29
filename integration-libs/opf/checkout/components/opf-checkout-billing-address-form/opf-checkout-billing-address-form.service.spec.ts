@@ -231,10 +231,10 @@ describe('OpfCheckoutBillingAddressFormService', () => {
   });
 
   it('should set billing address to delivery address if payment address is not available', () => {
-    spyOn(service, 'getDeliveryAddress').and.returnValue(
+    spyOn(service as any, 'getDeliveryAddress').and.returnValue(
       of(mockDeliveryAddress)
     );
-    spyOn(service, 'getPaymentAddress').and.returnValue(of(undefined));
+    spyOn(service as any, 'getPaymentAddress').and.returnValue(of(undefined));
     spyOn(service, 'setBillingAddress').and.callThrough();
 
     service.getAddresses();
@@ -245,7 +245,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
   });
 
   it('should return EMPTY when address is undefined', () => {
-    spyOn(service, 'getDeliveryAddress').and.returnValue(of(undefined));
+    spyOn(service as any, 'getDeliveryAddress').and.returnValue(of(undefined));
     spyOn(service, 'setBillingAddress').and.callThrough();
 
     service.putDeliveryAddressAsPaymentAddress();
