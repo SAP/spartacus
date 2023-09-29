@@ -12,8 +12,9 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { UserIdService } from '@spartacus/core';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -29,7 +30,7 @@ const componentList: Occ.ComponentList = {
 
 class CmsStructureConfigServiceMock {}
 
-const endpoint = '/cms';
+const endpoint = 'users/${userId}/cms';
 
 class OccEndpointsServiceMock {
   buildUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
@@ -56,12 +57,14 @@ describe('OccCmsComponentAdapter', () => {
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let endpointsService: OccEndpointsService;
+  let userIdService: UserIdService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         OccCmsComponentAdapter,
+        UserIdService,
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
         {
           provide: CmsStructureConfigService,
@@ -73,6 +76,7 @@ describe('OccCmsComponentAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     endpointsService = TestBed.inject(OccEndpointsService);
+    userIdService = TestBed.inject(UserIdService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -83,68 +87,73 @@ describe('OccCmsComponentAdapter', () => {
   });
 
   describe('load', () => {
-    it('should get cms component data', () => {
+    it('should get cms component data', (done) => {
+      spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
       spyOnEndpoint(spyOnLoadEndpoint);
 
       service.load('comp1', context).subscribe((result) => {
         expect(result).toEqual(component);
-
-        const testRequest = mockHttpRequest('GET', spyOnLoadEndpoint);
-
-        expect(endpointsService.buildUrl).toHaveBeenCalledWith('component', {
-          urlParams: { id: 'comp1' },
-          queryParams: { productCode: '123' },
-        });
-
-        assertTestRequest(testRequest, component);
       });
+
+      const testRequest = mockHttpRequest('GET', spyOnLoadEndpoint);
+
+      expect(endpointsService.buildUrl).toHaveBeenCalledWith('component', {
+        urlParams: { id: 'comp1', userId: 'anonymous' },
+        queryParams: { productCode: '123' },
+      });
+
+      assertTestRequest(testRequest, component);
+      done();
     });
 
-    it('should use normalizer', () => {
+    it('should use normalizer', (done) => {
+      spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
       spyOnEndpoint(spyOnLoadEndpoint);
 
-      service.load('comp1', context).subscribe(() => {
-        assertNormalizer(spyOnLoadEndpoint);
+      service.load('comp1', context).subscribe();
 
-        expect(converter.pipeable).toHaveBeenCalledWith(
-          CMS_COMPONENT_NORMALIZER
-        );
-      });
+      assertNormalizer(spyOnLoadEndpoint);
+
+      expect(converter.pipeable).toHaveBeenCalledWith(CMS_COMPONENT_NORMALIZER);
+      done();
     });
   });
 
   describe('load list of cms component data using GET request', () => {
-    it('should get a list of cms component data using GET request without pagination parameters', () => {
+    it('should get a list of cms component data using GET request without pagination parameters', (done) => {
+      spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
       spyOnEndpoint(spyOnGetEndpoint);
 
-      assertGetSubscription(service).subscribe(() => {
-        const testRequest = mockHttpRequest('GET', spyOnGetEndpoint);
+      assertGetSubscription(service).subscribe();
+      const testRequest = mockHttpRequest('GET', spyOnGetEndpoint);
 
-        assertGetRequestGetUrl('DEFAULT', '2');
+      assertGetRequestGetUrl('DEFAULT', '2');
 
-        assertTestRequest(testRequest, componentList);
-      });
+      assertTestRequest(testRequest, componentList);
+      done();
     });
 
-    it('should get a list of cms component data using GET request with pagination parameters', () => {
+    it('should get a list of cms component data using GET request with pagination parameters', (done) => {
+      spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
       spyOnEndpoint(spyOnGetEndpoint);
 
-      assertGetSubscription(service, 'FULL', 0, 5).subscribe(() => {
-        const testRequest = mockHttpRequest('GET', spyOnGetEndpoint);
+      assertGetSubscription(service, 'FULL', 0, 5).subscribe();
+      const testRequest = mockHttpRequest('GET', spyOnGetEndpoint);
 
-        assertGetRequestGetUrl('FULL', '5');
+      assertGetRequestGetUrl('FULL', '5');
 
-        assertTestRequest(testRequest, componentList);
-      });
+      assertTestRequest(testRequest, componentList);
+      done();
     });
 
-    it('should use normalizer', () => {
+    it('should use normalizer', (done) => {
+      spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
       spyOnEndpoint(spyOnGetEndpoint);
 
-      assertGetSubscription(service).subscribe(() => {
-        assertNormalizer(spyOnGetEndpoint);
-        assertConverterPipeableMany();
-      });
+      assertGetSubscription(service).subscribe();
+      assertNormalizer(spyOnGetEndpoint);
+      assertConverterPipeableMany();
+      done();
     });
   });
 
@@ -179,6 +188,7 @@ describe('OccCmsComponentAdapter', () => {
         currentPage: '0',
         pageSize,
       },
+      urlParams: { userId: 'anonymous' },
     });
   }
 
