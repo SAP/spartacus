@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   CartAddEntryFailEvent,
   CartUiEventAddToCart,
+  CartUpdateEntrySuccessEvent,
 } from '@spartacus/cart/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -18,11 +19,15 @@ class MockEventService implements Partial<EventService> {
   dispatch = createSpy();
 }
 
-const mockEvent = new CartUiEventAddToCart();
-mockEvent.productCode = 'test';
-mockEvent.quantity = 3;
-mockEvent.numberOfEntriesBeforeAdd = 1;
-mockEvent.pickupStoreName = 'testStore';
+const cartUiEventAddToCartEvent = new CartUiEventAddToCart();
+cartUiEventAddToCartEvent.productCode = 'test';
+cartUiEventAddToCartEvent.quantity = 3;
+cartUiEventAddToCartEvent.numberOfEntriesBeforeAdd = 1;
+cartUiEventAddToCartEvent.pickupStoreName = 'testStore';
+
+const cartUpdateEntrySuccessEvent = new CartUpdateEntrySuccessEvent();
+cartUpdateEntrySuccessEvent.quantity = 1;
+cartUpdateEntrySuccessEvent.entry = {};
 
 const mockFailEvent = new CartAddEntryFailEvent();
 mockFailEvent.error = {};
@@ -48,7 +53,16 @@ describe('AddToCartDialogEventListener', () => {
 
   it('should dispatch QuoteDetailsReloadQueryEvent on CartUiEventAddToCart event ', () => {
     expect(listener).toBeDefined();
-    mockEventStream$.next(mockEvent);
+    mockEventStream$.next(cartUiEventAddToCartEvent);
+    expect(eventService.dispatch).toHaveBeenCalledWith(
+      {},
+      QuoteDetailsReloadQueryEvent
+    );
+  });
+
+  it('should dispatch QuoteDetailsReloadQueryEvent on CartUpdateEntrySuccessEvent event ', () => {
+    expect(listener).toBeDefined();
+    mockEventStream$.next(cartUpdateEntrySuccessEvent);
     expect(eventService.dispatch).toHaveBeenCalledWith(
       {},
       QuoteDetailsReloadQueryEvent
