@@ -11,7 +11,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CmsService, PageContext, RoutingService } from '@spartacus/core';
+import { PageContext, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { SmartEditLauncherService } from '../services/smart-edit-launcher.service';
@@ -20,7 +20,6 @@ import { SmartEditLauncherService } from '../services/smart-edit-launcher.servic
 export class CmsTicketInterceptor implements HttpInterceptor {
   constructor(
     private service: SmartEditLauncherService,
-    protected cmsService: CmsService,
     protected routingService: RoutingService
   ) {}
 
@@ -33,7 +32,7 @@ export class CmsTicketInterceptor implements HttpInterceptor {
       return next.handle(request);
     }
     if (request.url.includes('/productList')) {
-      return this.setRequestForProductListPage(cmsTicketId, request, next);
+      return this.setRequestForProductListPage(request, next, cmsTicketId);
     }
     if (request.url.includes('/cms/') || request.url.includes('/products/')) {
       request = request.clone({
