@@ -57,6 +57,7 @@ export interface GlobalOpfPaymentMethods {
     submitPending: MerchantCallback;
     submitFailure: MerchantCallback;
   }): Promise<boolean>;
+  throwPaymentError?(errorOptions?: ErrorDialogOptions): void;
 }
 
 export interface PaymentBrowserInfo {
@@ -164,3 +165,17 @@ export enum TargetPage {
   CHECKOUT_REVIEW = 'CHECKOUT_REVIEW',
   RESULT = 'RESULT',
 }
+
+export type ErrorDialogOptions = {
+  confirmString?: string;
+  confirmKey?: string;
+  confirmReplacements?: any;
+  messageString?: string;
+  messageKey?: string;
+  messageReplacements?: any;
+};
+
+export const defaultErrorDialogOptions: ErrorDialogOptions = {
+  messageKey: 'opf.payment.errors.proceedPayment',
+  confirmKey: 'common.continue',
+};
