@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Optional } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutConfig,
@@ -20,6 +20,10 @@ import { CheckoutFlowOrchestratorService } from './checkout-flow-orchestrator.se
   providedIn: 'root',
 })
 export class CheckoutStepService {
+  protected checkoutFlowOrchestratorService = inject(
+    CheckoutFlowOrchestratorService
+  );
+
   // initial enabled steps
   allSteps: CheckoutStep[];
 
@@ -50,28 +54,10 @@ export class CheckoutStepService {
       })
     );
 
-  // TODO(NO_TICKET): make checkoutFlowOrchestratorService a required dependency
-  constructor(
-    routingService: RoutingService,
-    checkoutConfig: CheckoutConfig,
-    routingConfigService: RoutingConfigService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    checkoutFlowOrchestratorService: CheckoutFlowOrchestratorService
-  );
-  /**
-   * @deprecated since 6.6
-   */
-  constructor(
-    routingService: RoutingService,
-    checkoutConfig: CheckoutConfig,
-    routingConfigService: RoutingConfigService
-  );
   constructor(
     protected routingService: RoutingService,
     protected checkoutConfig: CheckoutConfig,
-    protected routingConfigService: RoutingConfigService,
-    @Optional()
-    protected checkoutFlowOrchestratorService?: CheckoutFlowOrchestratorService
+    protected routingConfigService: RoutingConfigService
   ) {
     this.resetSteps();
   }

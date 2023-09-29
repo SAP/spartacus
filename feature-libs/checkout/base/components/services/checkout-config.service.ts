@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Optional } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   CheckoutConfig,
@@ -16,6 +16,10 @@ import { CheckoutFlowOrchestratorService } from './checkout-flow-orchestrator.se
   providedIn: 'root',
 })
 export class CheckoutConfigService {
+  protected checkoutFlowOrchestratorService = inject(
+    CheckoutFlowOrchestratorService
+  );
+
   private express: boolean = this.checkoutConfig.checkout?.express ?? false;
   private guest: boolean = this.checkoutConfig.checkout?.guest ?? false;
   private defaultDeliveryMode: Array<DeliveryModePreferences | string> =
@@ -24,21 +28,7 @@ export class CheckoutConfigService {
   protected checkoutFlow =
     this.checkoutFlowOrchestratorService?.getCheckoutFlow();
 
-  // TODO(NO_TICKET): make checkoutFlowOrchestratorService a required dependency
-  constructor(
-    checkoutConfig: CheckoutConfig,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    checkoutFlowOrchestratorService: CheckoutFlowOrchestratorService
-  );
-  /**
-   * @deprecated since 6.6
-   */
-  constructor(checkoutConfig: CheckoutConfig);
-  constructor(
-    private checkoutConfig: CheckoutConfig,
-    @Optional()
-    protected checkoutFlowOrchestratorService?: CheckoutFlowOrchestratorService
-  ) {
+  constructor(private checkoutConfig: CheckoutConfig) {
     if (this.checkoutFlowOrchestratorService) {
       this.express = this.checkoutFlow?.express ?? false;
       this.guest = this.checkoutFlow?.guest ?? false;
