@@ -6,7 +6,9 @@
 
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Consignment, OrderHistory } from '@spartacus/order/root';
+import { Images } from '@spartacus/core';
+import { Consignment, Order, OrderHistory } from '@spartacus/order/root';
+import { OrderDetailsService } from '../../../order-details';
 
 @Component({
   selector: 'cx-order-consolidated-information',
@@ -18,6 +20,7 @@ export class OrderConsolidatedInformationComponent {
   order?: OrderHistory;
   imageCount = 4; //showing fixed no.of images, without using carousel
 
+  constructor(protected orderDetailsService: OrderDetailsService) {}
   consignmentsCount(consignments: Consignment[] | undefined): number {
     var count = 0;
     if (consignments) {
@@ -45,5 +48,49 @@ export class OrderConsolidatedInformationComponent {
     } else {
       return false;
     }
+  }
+  getPickupConsignments(consignments: Consignment[]): Consignment[] {
+    let orderDetail: Order = {};
+    orderDetail.consignments = consignments;
+    return (
+      this.orderDetailsService.getGroupedConsignments(orderDetail, true) ?? []
+    );
+  }
+  getDeliveryConsignments(consignments: Consignment[]): Consignment[] {
+    let orderDetail: Order = {};
+    orderDetail.consignments = consignments;
+    return (
+      this.orderDetailsService.getGroupedConsignments(orderDetail, false) ?? []
+    );
+  }
+  getDeliveryUnconsignedEntries(
+    unconsignedEntries: OrderEntry[]
+  ): OrderEntry[] {
+    let orderDetail: Order = {};
+    orderDetail.unconsignedEntries = unconsignedEntries;
+    return (
+      this.orderDetailsService.getUnconsignedEntries(orderDetail, false) ?? []
+    );
+  }
+  getPickupUnconsignedEntries(unconsignedEntries: OrderEntry[]): OrderEntry[] {
+    let orderDetail: Order = {};
+    orderDetail.unconsignedEntries = unconsignedEntries;
+    return (
+      this.orderDetailsService.getUnconsignedEntries(orderDetail, true) ?? []
+    );
+  }
+  getProductImages(entries: OrderEntry[]): Images[] {
+    let images: Images[] = [];
+    let index = 0;
+    for (let item of entries) {
+      if (item.product?.images) {
+        if (index >= this.imageCount) {
+          break;
+        }
+        index++;
+        images.push(item.product?.images);
+      }
+    }
+    return images;
   }
 }

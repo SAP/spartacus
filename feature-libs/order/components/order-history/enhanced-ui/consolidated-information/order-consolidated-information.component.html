@@ -3,7 +3,11 @@
     <!-- pickup consigned entries 
   eg: To Be Picked Up - 3 Items
   -->
-    <div *ngIf="consignmentsCount(order.pickupConsignments) > 0">
+    <div
+      *ngIf="
+        consignmentsCount(getPickupConsignments(order.consignments ?? [])) > 0
+      "
+    >
       <div class="cx-order-status">
         {{
           'orderHistoryEnhancedUI.deliveryPointOfServiceDetails.itemsToBePickUp'
@@ -12,20 +16,28 @@
         <ng-container
           *ngTemplateOutlet="
             showManyItems;
-            context: { count: consignmentsCount(order.pickupConsignments) }
+            context: {
+              count: consignmentsCount(
+                getPickupConsignments(order.consignments ?? [])
+              )
+            }
           "
         ></ng-container>
       </div>
       <cx-consignment-entries-enhanced-ui
         [orderCode]="order.code ?? ''"
-        [consignments]="order.pickupConsignments"
+        [consignments]="getPickupConsignments(order.consignments ?? [])"
       ></cx-consignment-entries-enhanced-ui>
     </div>
 
     <!-- delivery consigned entries
   eg: To Be Shipped - 6 Items
   -->
-    <div *ngIf="consignmentsCount(order.deliveryConsignments) > 0">
+    <div
+      *ngIf="
+        consignmentsCount(getDeliveryConsignments(order.consignments ?? [])) > 0
+      "
+    >
       <!--heading taken from feature-libs/order/components/order-confirmation/order-confirmation-shipping/order-confirmation-shipping.component.html-->
       <!--instead of [cxOutlet]="OrderOutlets.CONSIGNMENT_DELIVERY_INFO"-->
       <div class="cx-order-status">
@@ -35,13 +47,17 @@
         <ng-container
           *ngTemplateOutlet="
             showManyItems;
-            context: { count: consignmentsCount(order.deliveryConsignments) }
+            context: {
+              count: consignmentsCount(
+                getDeliveryConsignments(order.consignments ?? [])
+              )
+            }
           "
         ></ng-container>
       </div>
       <cx-consignment-entries-enhanced-ui
         [orderCode]="order.code ?? ''"
-        [consignments]="order.deliveryConsignments"
+        [consignments]="getDeliveryConsignments(order.consignments ?? [])"
       ></cx-consignment-entries-enhanced-ui>
     </div>
 
@@ -86,7 +102,11 @@
     -->
       <div
         class="cx-consignment-info"
-        *ngIf="orderEntriesCount(order.deliveryUnconsignedEntries) > 0"
+        *ngIf="
+          orderEntriesCount(
+            getDeliveryUnconsignedEntries(order.unconsignedEntries ?? [])
+          ) > 0
+        "
       >
         {{
           'orderHistoryEnhancedUI.checkoutMode.deliveryEntries' | cxTranslate
@@ -95,7 +115,9 @@
           *ngTemplateOutlet="
             showManyItems;
             context: {
-              count: orderEntriesCount(order.deliveryUnconsignedEntries)
+              count: orderEntriesCount(
+                getDeliveryUnconsignedEntries(order.unconsignedEntries ?? [])
+              )
             }
           "
         ></ng-container>
@@ -106,7 +128,11 @@
     -->
       <div
         class="cx-consignment-info"
-        *ngIf="orderEntriesCount(order.pickupUnconsignedEntries) > 0"
+        *ngIf="
+          orderEntriesCount(
+            getPickupUnconsignedEntries(order.unconsignedEntries ?? [])
+          ) > 0
+        "
       >
         {{
           'orderHistoryEnhancedUI.checkoutPickupInStore.heading' | cxTranslate
@@ -115,7 +141,9 @@
           *ngTemplateOutlet="
             showManyItems;
             context: {
-              count: orderEntriesCount(order.pickupUnconsignedEntries)
+              count: orderEntriesCount(
+                getPickupUnconsignedEntries(order.unconsignedEntries ?? [])
+              )
             }
           "
         ></ng-container>
@@ -152,17 +180,14 @@
     </div>
   </div>
   <div class="cx-order-images-container">
-    <!--eg: 4 images shown for each order-->
-    <ng-container *ngIf="order?.thumbnail as thumbs">
-      <ng-container *ngFor="let item of order.thumbnail; let i = index">
-        <ng-container *ngIf="i < imageCount">
-          <cx-media
-            [container]="item.PRIMARY"
-            class="cx-order-img"
-            format="thumbnail"
-            role="presentation"
-          ></cx-media>
-        </ng-container>
+    <ng-container *ngIf="order.entries">
+      <ng-container *ngFor="let item of getProductImages(order.entries)">
+        <cx-media
+          [container]="item.PRIMARY"
+          class="cx-order-img"
+          format="thumbnail"
+          role="presentation"
+        ></cx-media>
       </ng-container>
     </ng-container>
   </div>

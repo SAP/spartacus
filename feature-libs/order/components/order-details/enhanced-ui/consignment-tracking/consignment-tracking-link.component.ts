@@ -48,7 +48,7 @@ export class ConsignmentTrackingLinkComponent implements OnInit, OnDestroy {
   }
   openTrackingDialog() {
     const modalInstanceData = {
-      tracking$: of(this.consignment.tracking),
+      tracking$: of(this.consignment.consignmentTracking),
       shipDate: this.consignment.statusDate,
     };
 

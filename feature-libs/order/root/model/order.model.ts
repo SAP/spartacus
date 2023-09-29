@@ -81,7 +81,7 @@ export interface Consignment {
   statusDate?: Date;
   trackingID?: string;
   //myaccount-enhanced-ui related
-  tracking?: ConsignmentTracking;
+  consignmentTracking?: ConsignmentTracking;
 }
 
 export interface OrderHistory {
@@ -96,12 +96,9 @@ export interface OrderHistory {
   orgUnit?: B2BUnit;
   orgCustomer?: B2BUser;
   //myaccount-enhanced-ui related
-  thumbnail?: any[];
-  pickupConsignments?: Consignment[];
-  deliveryConsignments?: Consignment[];
+  entries?: OrderEntry[];
+  consignments?: Consignment[];
   unconsignedEntries?: OrderEntry[];
-  pickupUnconsignedEntries?: OrderEntry[];
-  deliveryUnconsignedEntries?: OrderEntry[];
   returnRequests?: ReturnRequest[];
 }
 

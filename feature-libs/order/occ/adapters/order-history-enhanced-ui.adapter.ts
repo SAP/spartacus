@@ -9,14 +9,13 @@ import { Injectable } from '@angular/core';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   Order,
   Consignment,
   OrderHistoryList,
   ReturnRequestList,
   OrderHistory,
-  ReplenishmentOrder,
+  ConsignmentTracking,
 } from '@spartacus/order/root';
 import { OccOrderHistoryAdapter } from './occ-order-history.adapter';
 
@@ -29,8 +28,6 @@ export class OrderHistoryEnhancedUIAdapter extends OccOrderHistoryAdapter {
   ) {
     super(http, occEndpoints, converter);
   }
-  completedValues = ['DELIVERY_COMPLETED', 'PICKUP_COMPLETE'];
-  cancelledValues = ['CANCELLED'];
   /**
    * fills the tracking information for each consignment in the input order details
    * @param userId user id
@@ -48,8 +45,8 @@ export class OrderHistoryEnhancedUIAdapter extends OccOrderHistoryAdapter {
           consignment.code,
           userId
         ).pipe(
-          map((trackingInfo) => {
-            consignment.tracking = trackingInfo;
+          map((trackingInfo: ConsignmentTracking) => {
+            consignment.consignmentTracking = trackingInfo;
             return order;
           })
         );
@@ -148,47 +145,15 @@ export class OrderHistoryEnhancedUIAdapter extends OccOrderHistoryAdapter {
       switchMap((orderList: OrderHistoryList) => {
         const requests = orderList.orders?.map((order: OrderHistory) => {
           return this.load(userId, order?.code ?? '').pipe(
-            map((orderDetail) => {
+            map((orderDetail: Order) => {
               /** filling extra fields ---> */
-
-              // filling images
-              order.thumbnail = [];
-              if (orderDetail?.entries) {
-                for (let item of orderDetail?.entries) {
-                  if (item.product?.images) {
-                    order.thumbnail.push(item.product?.images);
-                  }
-                }
-              }
-
-              //filling unconsignedEntries
-              order.unconsignedEntries = [];
-              if (orderDetail?.unconsignedEntries) {
-                for (let entry of orderDetail?.unconsignedEntries) {
-                  order.unconsignedEntries.push(entry);
-                }
-              }
-
-              //filling deliveryConsignments
-              order.deliveryConsignments =
-                this.getGroupedConsignments(orderDetail, false) ?? [];
-
-              //filling pickupConsignments
-              order.pickupConsignments =
-                this.getGroupedConsignments(orderDetail, true) ?? [];
-
-              //filling pickupUnconsignedEntries
-              order.pickupUnconsignedEntries =
-                this.getUnconsignedEntries(order, true) ?? [];
-
-              //filling deliveryUnConsignedEntries
-              order.deliveryUnconsignedEntries =
-                this.getUnconsignedEntries(order, false) ?? [];
-
+              order.entries = orderDetail.entries;
+              order.consignments = orderDetail.consignments;
+              order.unconsignedEntries = orderDetail.unconsignedEntries;
               //filling an empty return request array
               order.returnRequests = [];
-
               /** filling extra fields <--- */
+
               return orderList;
             })
           );
@@ -203,67 +168,5 @@ export class OrderHistoryEnhancedUIAdapter extends OccOrderHistoryAdapter {
         }
       })
     );
-  }
-
-  /** CHECK WHERE ELSE CAN U PLACE THESE METHODS WITHOUT DUPLICATING AND WITHOUT AFFECTING BUILD */
-  getGroupedConsignments(
-    order: Order,
-    pickup: boolean
-  ): Consignment[] | undefined {
-    const consignments = pickup
-      ? order.consignments?.filter(
-          (consignment) => consignment.deliveryPointOfService !== undefined
-        )
-      : order.consignments?.filter(
-          (consignment) => consignment.deliveryPointOfService === undefined
-        );
-
-    return this.groupConsignments(consignments);
-  }
-
-  getUnconsignedEntries(
-    order: Order,
-    pickup: boolean
-  ): OrderEntry[] | undefined {
-    if ((order as ReplenishmentOrder).replenishmentOrderCode) {
-      return [];
-    }
-    return pickup
-      ? order.unconsignedEntries?.filter(
-          (entry) => entry.deliveryPointOfService !== undefined
-        )
-      : order.unconsignedEntries?.filter(
-          (entry) => entry.deliveryPointOfService === undefined
-        );
-  }
-
-  protected groupConsignments(
-    consignments: Consignment[] | undefined
-  ): Consignment[] | undefined {
-    const grouped = consignments?.reduce((result, current) => {
-      const key = this.getStatusGroupKey(current.status || '');
-      result[key] = result[key] || [];
-      result[key].push(current);
-      return result;
-    }, {} as { [key: string]: Consignment[] });
-
-    return grouped
-      ? [...(grouped[1] || []), ...(grouped[0] || []), ...(grouped[-1] || [])]
-      : undefined;
-  }
-
-  /**
-   * complete: 0
-   * processing: 1
-   * cancel: -1
-   */
-  private getStatusGroupKey(status: string): number {
-    if (this.completedValues.includes(status)) {
-      return 0;
-    }
-    if (this.cancelledValues.includes(status)) {
-      return -1;
-    }
-    return 1;
   }
 }
