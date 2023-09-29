@@ -169,6 +169,15 @@ describe('QuoteDetailsCommentComponent', () => {
     );
   });
 
+  it('should toggle the comments on enter', () => {
+    clickCommentsToggle(true);
+    CommonQuoteTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-messaging'
+    );
+  });
+
   it('should expand the comments area when clicking the toggle', () => {
     component.expandComments = false;
     clickCommentsToggle();
@@ -232,12 +241,16 @@ describe('QuoteDetailsCommentComponent', () => {
       .unsubscribe();
   });
 
-  function clickCommentsToggle() {
+  function clickCommentsToggle(useKeyboard?: boolean) {
     const caret = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
       '.cx-toggle'
     );
-    caret.click();
+    if (useKeyboard) {
+      caret.dispatchEvent(new KeyboardEvent('keydown', { key: 'enter' }));
+    } else {
+      caret.click();
+    }
     fixture.detectChanges();
   }
 

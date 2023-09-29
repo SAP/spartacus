@@ -1,6 +1,12 @@
 <ng-container *ngIf="quoteDetails$ | async as quoteDetails; else ghostComment">
   <ng-container *ngIf="showComments(quoteDetails)">
-    <div class="cx-toggle" (click)="expandComments = !expandComments">
+    <div
+      class="cx-toggle"
+      #commentToggle
+      (keydown.enter)="commentToggle.click()"
+      (click)="expandComments = !expandComments"
+      tabindex="0"
+    >
       <cx-icon
         aria-hidden="false"
         [type]="expandComments ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
