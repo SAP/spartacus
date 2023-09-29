@@ -164,14 +164,14 @@ export class OpfCheckoutBillingAddressFormService {
     this.isSameAsDeliverySub.next(value);
   }
 
-  protected getDeliveryAddress(): Observable<Address | undefined> {
+  getDeliveryAddress(): Observable<Address | undefined> {
     return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data)
     );
   }
 
-  protected getPaymentAddress(): Observable<Address | undefined> {
+  getPaymentAddress(): Observable<Address | undefined> {
     return this.activeCartService
       .getActive()
       .pipe(map((cart: Cart) => cart.paymentAddress));
