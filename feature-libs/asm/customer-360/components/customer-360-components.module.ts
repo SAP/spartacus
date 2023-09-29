@@ -7,11 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ArgsModule } from '@spartacus/asm/core';
-import {
-  FeaturesConfigModule,
-  I18nModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   IconModule,
   KeyboardFocusModule,
@@ -57,7 +53,6 @@ import { defaultCustomer360LayoutConfig } from './default-customer-360-layout.co
     Customer360CouponComponentModule,
     Customer360PromotionComponentModule,
     Customer360CustomerCouponComponentModule,
-    FeaturesConfigModule,
   ],
   declarations: [Customer360Component, Customer360SectionComponent],
   exports: [Customer360Component],

@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
-import { Injectable, Optional } from '@angular/core';
+import { Injectable, Optional, inject } from '@angular/core';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
@@ -28,13 +27,14 @@ export class AsmComponentService {
   protected showDeeplinkCartInfoAlert$: BehaviorSubject<boolean> =
     new BehaviorSubject(false);
 
+  protected routingService = inject(RoutingService);
+
   constructor(
     authService: AuthService,
     csAgentAuthService: CsAgentAuthService,
     winRef: WindowRef,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     asmEnablerService: AsmEnablerService,
-    routingService: RoutingService,
     asmDeepLinkService: AsmDeepLinkService
   );
   /**
@@ -51,7 +51,6 @@ export class AsmComponentService {
     protected winRef: WindowRef,
     // TODO(CXSPA-3090): Remove optional flag in 7.0 where service is used
     @Optional() protected asmEnablerService?: AsmEnablerService,
-    @Optional() protected routingService?: RoutingService,
     @Optional() protected asmDeepLinkService?: AsmDeepLinkService
   ) {
     // TODO(CXSPA-3090): We can remove this in 7.0 and use asmDeepLinkService instead.
@@ -142,7 +141,7 @@ export class AsmComponentService {
       typeof event === 'object' &&
       event.actionType === AsmDialogActionType.NAVIGATE
     ) {
-      this.routingService?.go(event.route);
+      this.routingService.go(event.route);
     }
   }
 }

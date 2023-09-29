@@ -1,11 +1,12 @@
 <cx-customer-360-product-listing
+  *ngIf="productItems$ | async as productItems"
   [emptyResultDescription]="
     'customer360.activeCart.emptyDescription' | cxTranslate
   "
   [headerInactive]="true"
   [headerTemplate]="headerTemplate"
   [headerText]="'customer360.activeCart.header' | cxTranslate"
-  [products]="productItems$ | async"
+  [products]="productItems"
   (selectProduct)="
     sectionContext.navigate$.next({ cxRoute: 'product', params: $event })
   "

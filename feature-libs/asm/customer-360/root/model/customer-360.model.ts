@@ -127,6 +127,25 @@ export interface Customer360PaymentDetail {
   defaultPayment?: boolean;
 }
 
+export enum PaymentCardCode {
+  VISA = 'visa',
+  MASTER = 'master',
+  MASTERCARD_EUROCARD = 'mastercard_eurocard',
+  DINERS = 'diners',
+  AMEX = 'amex',
+}
+
+export enum KeyBoardEventCode {
+  ARROW_LEFT = 'ArrowLeft',
+  ARROW_RIGHT = 'ArrowRight',
+  ARROW_DOWN = 'ArrowDown',
+  ARROW_UP = 'ArrowUp',
+  HOME = 'Home',
+  END = 'End',
+  PAGE_DOWN = 'PageDown',
+  PAGE_UP = 'PageUp',
+}
+
 export interface Customer360Profile {
   billingAddress?: Customer360Address;
   deliveryAddress?: Customer360Address;
