@@ -922,6 +922,15 @@ export function registerGetQuoteRoute(shopName: string) {
 }
 
 /**
+ * Reloads the quote page.
+ * This method is equal to F5.
+ */
+export function reload() {
+  log('Reloads the quote page', reload.name);
+  cy.reload();
+}
+
+/**
  * Creates a simple log with ##### comment <functionName> ######
  *
  * @param comment Could be the description of the function
