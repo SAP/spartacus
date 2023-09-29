@@ -14,7 +14,10 @@
     }
   }
 }
-
+.cx-list-status {
+  display: flex;
+  justify-content: space-between;
+}
 cx-download-invoices-dialog {
   .cx-modal-container {
     .cx-modal-content {

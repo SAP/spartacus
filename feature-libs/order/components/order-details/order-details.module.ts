@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { inject, NgModule } from '@angular/core';
+import { ComponentFactoryResolver, inject, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
@@ -14,19 +14,24 @@ import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
+  MODULE_INITIALIZER,
   provideDefaultConfig,
   provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
-import { MYACCOUNT_ORDER_ENHANCED_UI, OrderOutlets } from '@spartacus/order/root';
+import {
+  MYACCOUNT_ORDER_ENHANCED_UI,
+  OrderOutlets,
+} from '@spartacus/order/root';
 import {
   CardModule,
   IconModule,
   KeyboardFocusModule,
   OutletModule,
   OutletPosition,
+  OutletService,
   PromotionsModule,
-  provideOutlet,
+  ProvideOutletOptions,
   SpinnerModule,
 } from '@spartacus/storefront';
 import {
@@ -46,6 +51,27 @@ import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/re
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
+
+function registerOrderOutletFactory(
+  token: boolean,
+  outletService: OutletService,
+  componentFactoryResolver: ComponentFactoryResolver
+): () => void {
+  const result = () => {
+    let config: ProvideOutletOptions = {
+      component: ConsignmentTrackingLinkComponent,
+      id: OrderOutlets.ORDER_CONSIGNMENT,
+      position: OutletPosition.REPLACE,
+    };
+    if (token) {
+      const template = componentFactoryResolver.resolveComponentFactory(
+        config.component
+      );
+      outletService.add(config.id, template, config.position);
+    }
+  };
+  return result;
+}
 
 const enhancedUICmsMapping: CmsConfig = {
   cmsComponents: {
@@ -138,12 +164,16 @@ const moduleComponents = [
     provideDefaultConfigFactory(() =>
       inject(MYACCOUNT_ORDER_ENHANCED_UI) ? enhancedUICmsMapping : {}
     ),
-    /** how to provide the below outlet based on condition */
-    provideOutlet({
-      id: OrderOutlets.ORDER_CONSIGNMENT,
-      position: OutletPosition.REPLACE,
-      component: ConsignmentTrackingLinkComponent,
-    }),
+    {
+      provide: MODULE_INITIALIZER,
+      useFactory: registerOrderOutletFactory,
+      deps: [
+        MYACCOUNT_ORDER_ENHANCED_UI,
+        OutletService,
+        ComponentFactoryResolver,
+      ],
+      multi: true,
+    },
   ],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],
