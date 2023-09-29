@@ -63,7 +63,6 @@ context('Quote<->Configurator integration', () => {
       configurationVc.clickAddToCartBtn();
       configurationOverview.clickContinueToCartBtnOnOPAndExpectQuote();
       quote.checkQuoteInDraftState(false, TEST_PRODUCT_CONFIGURABLE);
-      quote.gotToQuoteDetailsOverviewPage(); //remove when CXSPA-4840 is done
       quote.checkTotalEstimatedPrice('$300.00');
     });
   });
