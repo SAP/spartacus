@@ -47,9 +47,9 @@ export class CmsTicketInterceptor implements HttpInterceptor {
   }
 
   protected setRequestForProductListPage(
-    cmsTicketId: string,
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
+    cmsTicketId: string
   ) {
     return this.routingService.getPageContext().pipe(
       take(1),
