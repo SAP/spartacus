@@ -5,6 +5,7 @@
  */
 
 import * as quote from '../../../../helpers/quote';
+import * as common from '../../../../helpers/common';
 
 const POWERTOOLS = 'powertools-spa';
 const TEST_PRODUCT_HAMMER_DRILLING_ID = '3887130';
@@ -156,7 +157,7 @@ context('Quote', () => {
       quote.selectCustomerAndOpenQuote(POWERTOOLS, BUYER_EMAIL);
       quote.enableEditQuoteMode();
     });
-    it('Should set an expiry date, give a discount and submit the quote', () => {
+    it('should set an expiry date, give a discount and submit the quote', () => {
       quote.setExpiryDate();
       quote.checkExpiryDate();
       quote.checkTotalEstimatedPrice('$26,160.00');
@@ -165,5 +166,29 @@ context('Quote', () => {
       quote.submitQuote();
       quote.checkQuoteState(quote.STATUS_SUBMITTED);
     });
+  });
+
+  describe.only('Quote cart support (CXSPA-4036)', () => {
+    beforeEach(() => {
+      quote.prepareQuote(
+        POWERTOOLS,
+        TEST_PRODUCT_HAMMER_DRILLING_ID,
+        PRODUCT_AMOUNT_30,
+        true
+      );
+    });
+    it('should take a quote in draft state and add an item to the cart', () => {
+      quote.checkItemQuantity(1, '30');
+      common.goToPDPage(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID);
+      quote.setQuantity(PRODUCT_AMOUNT_30.toString());
+      common.clickOnAddToCartBtnOnPD();
+      quote.clickOnViewCartBtnOnPD();
+      quote.checkItemQuantity(1, '60');
+    });
+    /*
+    //it('should submit a quote and not be able to add an item to the cart while not in draft state ', () => {
+
+    });
+    */
   });
 });

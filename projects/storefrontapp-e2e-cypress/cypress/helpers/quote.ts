@@ -898,6 +898,19 @@ export function clickOnEditConfigurationLink(itemIndex: number) {
 }
 
 /**
+ * Clicks on 'View Cart' on the product details page.
+ */
+export function clickOnViewCartBtnOnPD(): void {
+  cy.get('div.cx-dialog-buttons a.btn-primary')
+    .contains('view cart')
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', '/quote');
+      cy.get('cx-quote-details-cart').should('be.visible');
+    });
+}
+
+/**
  * Registers GET quote route.
  */
 export function registerGetQuoteRoute(shopName: string) {
