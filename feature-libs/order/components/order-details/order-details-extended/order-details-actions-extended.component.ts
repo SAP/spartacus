@@ -4,13 +4,13 @@ import { DownloadOrderInvoicesEvent, Order } from '@spartacus/order/root';
 import {
   OrderDetailActionsComponent,
   OrderDetailsService,
-} from '../../../components/order-details';
+} from '..';
 
 @Component({
-  selector: 'cx-order-details-enhanced-ui-actions',
-  templateUrl: './order-details-enhanced-ui-actions.component.html',
+  selector: 'cx-order-details-actions-extended',
+  templateUrl: './order-details-actions-extended.component.html',
 })
-export class OrderDetailsEnhancedUIActionsComponent
+export class OrderDetailsActionsExtendedComponent
   extends OrderDetailActionsComponent
   implements OnInit
 {

@@ -34,11 +34,6 @@ import {
   ProvideOutletOptions,
   SpinnerModule,
 } from '@spartacus/storefront';
-import {
-  ConsignmentTrackingLinkComponent,
-  DownloadOrderInvoicesDialogModule,
-  OrderDetailsEnhancedUIActionsComponent,
-} from './enhanced-ui';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { OrderDetailBillingComponent } from './order-detail-billing/order-detail-billing.component';
 import { ConsignmentTrackingComponent } from './order-detail-items/consignment-tracking/consignment-tracking.component';
@@ -49,6 +44,7 @@ import { OrderDetailItemsComponent } from './order-detail-items/order-detail-ite
 import { OrderDetailReorderComponent } from './order-detail-reorder/order-detail-reorder.component';
 import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/reorder-dialog.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
+import { ConsignmentTrackingLinkComponent, DownloadOrderInvoicesDialogModule, OrderDetailsActionsExtendedComponent } from './order-details-extended';
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
 
@@ -76,7 +72,7 @@ function registerOrderOutletFactory(
 const enhancedUICmsMapping: CmsConfig = {
   cmsComponents: {
     AccountOrderDetailsActionsComponent: {
-      component: OrderDetailsEnhancedUIActionsComponent,
+      component: OrderDetailsActionsExtendedComponent,
       guards: [AuthGuard],
     },
   },
@@ -93,7 +89,7 @@ const moduleComponents = [
   OrderConsignedEntriesComponent,
   OrderDetailReorderComponent,
   ReorderDialogComponent,
-  OrderDetailsEnhancedUIActionsComponent,
+  OrderDetailsActionsExtendedComponent,
   ConsignmentTrackingLinkComponent,
 ];
 
