@@ -19,8 +19,8 @@ import {
 } from '@spartacus/order/root';
 import { OccOrderHistoryAdapter } from './occ-order-history.adapter';
 
-@Injectable({ providedIn: 'root' })
-export class OrderHistoryEnhancedUIAdapter extends OccOrderHistoryAdapter {
+@Injectable()
+export class OccOrderHistoryExtendedAdapter extends OccOrderHistoryAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -150,7 +150,6 @@ export class OrderHistoryEnhancedUIAdapter extends OccOrderHistoryAdapter {
               order.entries = orderDetail.entries;
               order.consignments = orderDetail.consignments;
               order.unconsignedEntries = orderDetail.unconsignedEntries;
-              //filling an empty return request array
               order.returnRequests = [];
               /** filling extra fields <--- */
 

@@ -1,14 +1,14 @@
-@import './order-history-enhanced-ui.scss';
-@import './order-details-enhanced-ui.scss';
+@import './order-details-actions';
+@import './order-history';
 
-$order-enhanced-ui-allowlist: cx-consignment-tracking-link
+$order-allowlist: cx-consignment-tracking-link
   cx-download-invoices-dialog cx-order-details-enhanced-ui-actions
   cx-consignment-entries-enhanced-ui cx-order-consolidated-information
   cx-order-history-enhanced-ui !default;
 
 $skipComponentStyles: () !default;
 
-@each $selector in $order-enhanced-ui-allowlist {
+@each $selector in $order-allowlist {
   #{$selector} {
     @if (index($skipComponentStyles, $selector) == null) {
       @extend %#{$selector} !optional;
@@ -17,7 +17,7 @@ $skipComponentStyles: () !default;
 }
 
 body {
-  @each $selector in $order-enhanced-ui-allowlist {
+  @each $selector in $order-allowlist {
     @if (index($skipComponentStyles, $selector) == null) {
       @extend %#{$selector}__body !optional;
     }

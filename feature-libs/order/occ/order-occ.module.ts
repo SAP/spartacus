@@ -27,7 +27,7 @@ import {
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/order/root';
-import { OrderHistoryEnhancedUIAdapter } from './adapters';
+import { OccOrderHistoryExtendedAdapter } from './adapters';
 import { OccOrderNormalizer } from './adapters/converters/occ-order-normalizer';
 import { OccReorderOrderNormalizer } from './adapters/converters/occ-reorder-order-normalizer';
 import { OccReplenishmentOrderNormalizer } from './adapters/converters/occ-replenishment-order-normalizer';
@@ -94,7 +94,7 @@ import { defaultOccOrderConfig } from './config/default-occ-order-config';
       ) => {
         const enhancedUI = inject(MYACCOUNT_ORDER_ENHANCED_UI);
         if (enhancedUI) {
-          return new OrderHistoryEnhancedUIAdapter(
+          return new OccOrderHistoryExtendedAdapter(
             httpClient,
             occEndpointsService,
             converterService
