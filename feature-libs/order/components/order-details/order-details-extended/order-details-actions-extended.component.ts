@@ -7,10 +7,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import { DownloadOrderInvoicesEvent, Order } from '@spartacus/order/root';
-import {
-  OrderDetailActionsComponent,
-  //OrderDetailsService,
-} from '..';
+import { OrderDetailActionsComponent } from '../order-detail-actions/order-detail-actions.component';
 
 @Component({
   selector: 'cx-order-details-actions-extended',

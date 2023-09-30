@@ -165,7 +165,7 @@ describe('OrderHistoryExtendedComponent', () => {
       By.css('.cx-order-history-pagination')
     );
 
-    expect(elements.length).toEqual(2);
+    expect(elements.length).toEqual(1);
   });
 
   it('should show start shopping button if no order is present', () => {

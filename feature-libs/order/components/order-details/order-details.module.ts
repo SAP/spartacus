@@ -57,8 +57,8 @@ function registerOrderOutletFactory(
   outletService: OutletService,
   componentFactoryResolver: ComponentFactoryResolver
 ): () => void {
-  const result = () => {
-    let config: ProvideOutletOptions = {
+  return () => {
+    const config: ProvideOutletOptions = {
       component: ConsignmentTrackingLinkComponent,
       id: OrderOutlets.ORDER_CONSIGNMENT,
       position: OutletPosition.REPLACE,
@@ -70,7 +70,6 @@ function registerOrderOutletFactory(
       outletService.add(config.id, template, config.position);
     }
   };
-  return result;
 }
 
 const enhancedUICmsMapping: CmsConfig = {

@@ -24,12 +24,11 @@ export class OrderConsolidatedInformationComponent {
   protected orderDetailsService = inject(OrderDetailsService);
   @Input()
   order?: OrderHistory;
-  imageCount = 4; //showing fixed no.of images, without using carousel
-
+  private IMAGE_COUNT = 4; //showing fixed no.of images, without using carousel
   consignmentsCount(consignments: Consignment[] | undefined): number {
-    var count = 0;
+    let count = 0;
     if (consignments) {
-      for (let consignment of consignments) {
+      for (const consignment of consignments) {
         if (consignment.entries) {
           count = count + consignment.entries.length;
         }
@@ -39,15 +38,14 @@ export class OrderConsolidatedInformationComponent {
   }
 
   orderEntriesCount(orderEntries: OrderEntry[] | undefined): number {
-    var count = 0;
     if (orderEntries) {
       return orderEntries.length;
     }
-    return count;
+    return 0;
   }
 
   isStatusCritical(status: string): boolean {
-    let criticalStatus = ['cancelled', 'error', 'Error', 'rejected'];
+    const criticalStatus = ['cancelled', 'error', 'Error', 'rejected'];
     if (criticalStatus.includes(status)) {
       return true;
     } else {
@@ -55,14 +53,14 @@ export class OrderConsolidatedInformationComponent {
     }
   }
   getPickupConsignments(consignments: Consignment[]): Consignment[] {
-    let orderDetail: Order = {};
+    const orderDetail: Order = {};
     orderDetail.consignments = consignments;
     return (
       this.orderDetailsService.getGroupedConsignments(orderDetail, true) ?? []
     );
   }
   getDeliveryConsignments(consignments: Consignment[]): Consignment[] {
-    let orderDetail: Order = {};
+    const orderDetail: Order = {};
     orderDetail.consignments = consignments;
     return (
       this.orderDetailsService.getGroupedConsignments(orderDetail, false) ?? []
@@ -71,25 +69,25 @@ export class OrderConsolidatedInformationComponent {
   getDeliveryUnconsignedEntries(
     unconsignedEntries: OrderEntry[]
   ): OrderEntry[] {
-    let orderDetail: Order = {};
+    const orderDetail: Order = {};
     orderDetail.unconsignedEntries = unconsignedEntries;
     return (
       this.orderDetailsService.getUnconsignedEntries(orderDetail, false) ?? []
     );
   }
   getPickupUnconsignedEntries(unconsignedEntries: OrderEntry[]): OrderEntry[] {
-    let orderDetail: Order = {};
+    const orderDetail: Order = {};
     orderDetail.unconsignedEntries = unconsignedEntries;
     return (
       this.orderDetailsService.getUnconsignedEntries(orderDetail, true) ?? []
     );
   }
   getProductImages(entries: OrderEntry[]): Images[] {
-    let images: Images[] = [];
+    const images: Images[] = [];
     let index = 0;
-    for (let item of entries) {
+    for (const item of entries) {
       if (item.product?.images) {
-        if (index >= this.imageCount) {
+        if (index >= this.IMAGE_COUNT) {
           break;
         }
         index++;

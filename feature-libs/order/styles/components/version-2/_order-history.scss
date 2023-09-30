@@ -9,7 +9,7 @@
 %cx-order-history-extended {
   .cx-order-history-extended-header {
     @include draw-line;
-    margin-bottom: 25px;
+    margin: 0 0 25px 0; //top-right-botton-left
   }
   .cx-order-history-extended-body {
     .cx-order-history-pagination {
@@ -83,7 +83,7 @@
         .cx-order-img {
           width: 88px;
           height: 88px;
-          margin-right: 8px;
+          margin: 0 8px 0px 0; //top-right-botton-left
           display: inline-end;
           float: right;
         }

@@ -17,8 +17,11 @@ import {
 import { Order, OrderOutlets } from '@spartacus/order/root';
 import { InvoicesListComponent } from '@spartacus/pdf-invoices/components';
 import { PDFInvoicesFacade } from '@spartacus/pdf-invoices/root';
-import { ICON_TYPE, FocusConfig } from '@spartacus/storefront';
-import { LaunchDialogService } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  FocusConfig,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 
 @Component({

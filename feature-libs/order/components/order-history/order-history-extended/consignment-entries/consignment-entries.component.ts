@@ -19,16 +19,15 @@ export class ConsignmentEntriesComponent {
   orderCode?: string;
 
   consignmentEntriesLength(consignment: Consignment): number {
-    var length = 0;
     if (consignment.entries) {
       return consignment.entries.length;
     }
-    return length;
+    return 0;
   }
 
   consignmentNumber(code?: string) {
     if (code) {
-      var consignmentNumber = Number(code.split('_')[1]);
+      let consignmentNumber = Number(code.split('_')[1]);
       return consignmentNumber + 1;
     } else {
       return '';

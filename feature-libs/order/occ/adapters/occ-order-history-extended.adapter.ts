@@ -49,9 +49,9 @@ export class OccOrderHistoryExtendedAdapter extends OccOrderHistoryAdapter {
       return of(order);
     }
     return forkJoin(requests).pipe(
-      switchMap((requests: Order[] | undefined) => {
-        if (requests !== undefined) {
-          return of(requests[0]);
+      switchMap((orders: Order[] | undefined) => {
+        if (orders !== undefined) {
+          return of(orders[0]);
         } else {
           return of(order);
         }
@@ -99,8 +99,8 @@ export class OccOrderHistoryExtendedAdapter extends OccOrderHistoryAdapter {
     const returnRequestListRequest = this.loadReturnRequestList(userId);
     return forkJoin([orderHistoryListRequest, returnRequestListRequest]).pipe(
       switchMap((responses: [OrderHistoryList, ReturnRequestList]) => {
-        var returnRequests = responses[1].returnRequests;
-        var orderHistory = responses[0];
+        const returnRequests = responses[1].returnRequests;
+        let orderHistory = responses[0];
         if (returnRequests && orderHistory.orders) {
           return orderHistory.orders.map((order) => {
             const returnItems = returnRequests?.filter(
