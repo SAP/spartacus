@@ -13,19 +13,17 @@
   </div>
   <!--BODY-->
   <div class="cx-order-history-extended-body">
-    <ng-container *ngIf="orderHistory.pagination!.totalResults; else noOrder">
-      <div
-        *ngIf="orderHistory.pagination!.totalResults > 0; else noOrder"
-      ></div>
-      <!-- !!!!!!!re-check this above div -->
-
-      <!--main content starting-->
+    <ng-container
+      *ngIf="orderHistory.pagination.totalResults > 0; else noOrder"
+    >
       <ng-container *ngFor="let order of orderHistory.orders">
         <div class="cx-each-order">
           <!--eg: Order # 12345-->
           <div
             class="cx-enhanced-ui-order-history-code"
-            [attr.aria-label]="'orderHistoryEnhancedUI.orderCode' | cxTranslate"
+            [attr.aria-label]="
+              'orderHistoryEnhancedUI.orderCodeLabel' | cxTranslate
+            "
             (click)="goToOrderDetail(order)"
           >
             <a
@@ -69,26 +67,19 @@
         </div>
       </ng-container>
 
-      <!--main content ending-->
-
       <!-- PAGINATION -->
       <div
-        *ngIf="orderHistory.pagination!.totalPages"
+        *ngIf="orderHistory.pagination.totalPages > 1"
         class="cx-order-history-pagination"
+        [attr.aria-label]="
+          'orderHistoryEnhancedUI.orderListPagination' | cxTranslate
+        "
       >
-        <div
-          *ngIf="orderHistory.pagination!.totalPages > 1"
-          class="cx-order-history-pagination"
-          [attr.aria-label]="
-            'orderHistoryEnhancedUI.orderListPagination' | cxTranslate
-          "
-        >
-          <!-- !!!!!!!re-check this above div -->
-          <cx-pagination
-            [pagination]="orderHistory.pagination"
-            (viewPageEvent)="pageChange($event)"
-          ></cx-pagination>
-        </div>
+        <!-- !!!!!!!re-check this above div -->
+        <cx-pagination
+          [pagination]="orderHistory.pagination"
+          (viewPageEvent)="pageChange($event)"
+        ></cx-pagination>
       </div>
     </ng-container>
   </div>
@@ -97,7 +88,7 @@
 <!-- NO ORDER CONTAINER -->
 <ng-template #noOrder>
   <div *ngIf="isLoaded$ | async; else loading">
-    <div [attr.aria-label]="'orderHistoryEnhancedUI.noOrders' | cxTranslate">
+    <div [attr.aria-label]="'orderHistory.notFound' | cxTranslate">
       {{ 'orderHistory.noOrders' | cxTranslate }}
     </div>
     <a

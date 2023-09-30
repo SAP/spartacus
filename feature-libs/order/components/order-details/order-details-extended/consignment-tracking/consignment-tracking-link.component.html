@@ -9,20 +9,18 @@
           consignmentStatus.includes(consignment.status ?? '');
           else showTrackingNumber
         "
+        class="cx-item-list-tracking-id"
       >
-        <button
-          class="btn btn-link button-remove"
-          (click)="openTrackingDialog()"
-        >
-          <span class="button-text">
-            {{ 'orderDetailsEnhancedUI.trackingID' | cxTranslate
-            }}{{ consignment.trackingID }}</span
-          >
-        </button>
+        {{
+          'orderDetails.consignmentTracking.dialog.trackingId' | cxTranslate
+        }}:
+        <a class="cx-tracking-id-link" (click)="openTrackingDialog()">
+          {{ consignment.trackingID }}
+        </a>
       </span>
     </span>
   </span>
-  <span *ngIf="consignment?.statusDate" class="cx-list-date">
+  <span *ngIf="consignment?.statusDate" class="cx-consignment-status-date">
     {{ consignment.statusDate | cxDate }}
   </span>
   <ng-template #showTrackingNumber>
@@ -30,3 +28,4 @@
     {{ consignment.trackingID }}
   </ng-template>
 </div>
+<!-- "cx-tracking-id-link" -->

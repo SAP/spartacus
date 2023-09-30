@@ -1,43 +1,54 @@
 <ng-container *ngIf="order">
   <div class="cx-order-details-actions-extended row">
-    <div class="col-xs-12 col-md-4 col-lg-3">
-      <button
-        [routerLink]="{ cxRoute: 'orders' } | cxUrl"
-        class="btn btn-block btn-secondary"
-      >
-        {{ 'orderDetailsEnhancedUI.viewAllOrders' | cxTranslate }}
-      </button>
+    <div class="cx-view-all-orders">
+      <span class="col-xs-12 col-md-4 col-lg-3">
+        <span class="cx-action-button">
+          <button
+            [routerLink]="{ cxRoute: 'orders' } | cxUrl"
+            class="btn btn-block btn-secondary"
+          >
+            {{ 'orderDetailsEnhancedUI.viewAllOrders' | cxTranslate }}
+          </button>
+        </span>
+      </span>
     </div>
-    <div class="col-xs-12 col-md-4 col-lg-3" *ngIf="order.cancellable">
-      <button
-        [routerLink]="
-          {
-            cxRoute: 'orderCancel',
-            params: order
-          } | cxUrl
-        "
-        class="btn btn-block btn-secondary"
-      >
-        {{ 'orderDetailsEnhancedUI.cancelItems' | cxTranslate }}
-      </button>
-    </div>
-    <div class="col-xs-12 col-md-4 col-lg-3" *ngIf="order.returnable">
-      <button
-        [routerLink]="
-          {
-            cxRoute: 'orderReturn',
-            params: order
-          } | cxUrl
-        "
-        class="btn btn-block btn-secondary"
-      >
-        {{ 'orderDetailsEnhancedUI.returnItems' | cxTranslate }}
-      </button>
-    </div>
-    <div class="col-xs-12 col-md-4 col-lg-3">
-      <button class="btn btn-block btn-secondary" (click)="showDialog(order)">
-        {{ 'orderDetailsEnhancedUI.downloadInvoices' | cxTranslate }}
-      </button>
+    <div class="cx-other-actions">
+      <span class="col-xs-12 col-md-4 col-lg-3">
+        <span *ngIf="order.cancellable" class="cx-action-button">
+          <button
+            [routerLink]="
+              {
+                cxRoute: 'orderCancel',
+                params: order
+              } | cxUrl
+            "
+            class="btn btn-block btn-secondary"
+          >
+            {{ 'orderDetailsEnhancedUI.cancelItems' | cxTranslate }}
+          </button>
+        </span>
+        <span *ngIf="order.returnable" class="cx-action-button">
+          <button
+            [routerLink]="
+              {
+                cxRoute: 'orderReturn',
+                params: order
+              } | cxUrl
+            "
+            class="btn btn-block btn-secondary"
+          >
+            {{ 'orderDetailsEnhancedUI.returnItems' | cxTranslate }}
+          </button>
+        </span>
+        <span class="cx-action-button">
+          <button
+            class="btn btn-block btn-secondary"
+            (click)="showDialog(order)"
+          >
+            {{ 'orderDetailsEnhancedUI.downloadInvoices' | cxTranslate }}
+          </button>
+        </span>
+      </span>
     </div>
   </div>
 </ng-container>

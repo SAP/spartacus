@@ -1,6 +1,11 @@
 %cx-order-details-actions-extended {
   .cx-order-details-actions-extended {
-    justify-content: left;
+    display: flex;
+    justify-content: space-between;
+    .cx-action-button {
+      float: left;
+      margin-right: 5px;
+    }
     padding: 1rem 0 2rem;
 
     div:empty {
@@ -14,10 +19,30 @@
     }
   }
 }
-.cx-list-status {
-  display: flex;
-  justify-content: space-between;
+%cx-consignment-tracking-link {
+  .cx-list-status {
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    .cx-item-list-tracking-id {
+      color: var(--cx-color-secondary);
+      font-weight: var(--cx-font-weight-semi);
+      padding: 0 0px 0px 15px; //top right bottom left
+      .cx-tracking-id-link {
+        cursor: pointer;
+        color: var(--cx-color-secondary);
+        text-decoration: underline;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+    .cx-consignment-status-date {
+      font-weight: var(--cx-font-weight-semi);
+    }
+  }
 }
+
 cx-download-invoices-dialog {
   .cx-modal-container {
     .cx-modal-content {
