@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { Consignment } from '../../../../root/model';
 import { Observable, EMPTY } from 'rxjs';
-import { ConsignmentEntriesEnhancedUIComponent } from './consignment-entries-enhanced-ui.component';
+import { ConsignmentEntriesEnhancedUIComponent } from './consignment-entries.component';
 const mockOrderCode = '0005000001';
 const mockConsignments: Consignment[] = [
   {

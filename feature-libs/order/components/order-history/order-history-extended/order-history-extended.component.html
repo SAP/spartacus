@@ -3,7 +3,7 @@
   [attr.aria-label]="'orderHistoryEnhancedUI.orderListResults' | cxTranslate"
 >
   <!-- HEADER -->
-  <div class="cx-order-history-enhanced-ui-header">
+  <div class="cx-order-history-extended-header">
     <h2>
       {{
         'orderHistoryEnhancedUI.heading'
@@ -12,7 +12,7 @@
     </h2>
   </div>
   <!--BODY-->
-  <div class="cx-order-history-enhanced-ui-body">
+  <div class="cx-order-history-extended-body">
     <ng-container *ngIf="orderHistory.pagination!.totalResults; else noOrder">
       <div
         *ngIf="orderHistory.pagination!.totalResults > 0; else noOrder"

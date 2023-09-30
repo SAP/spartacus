@@ -24,10 +24,10 @@
           "
         ></ng-container>
       </div>
-      <cx-consignment-entries-enhanced-ui
+      <cx-consignment-entries
         [orderCode]="order.code ?? ''"
         [consignments]="getPickupConsignments(order.consignments ?? [])"
-      ></cx-consignment-entries-enhanced-ui>
+      ></cx-consignment-entries>
     </div>
 
     <!-- delivery consigned entries
@@ -55,10 +55,10 @@
           "
         ></ng-container>
       </div>
-      <cx-consignment-entries-enhanced-ui
+      <cx-consignment-entries
         [orderCode]="order.code ?? ''"
         [consignments]="getDeliveryConsignments(order.consignments ?? [])"
-      ></cx-consignment-entries-enhanced-ui>
+      ></cx-consignment-entries>
     </div>
 
     <!-- unconsigned entries 

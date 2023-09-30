@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './order-history-enhanced-ui.component';
+export * from './order-history-extended.component';
 export * from './consolidated-information/order-consolidated-information.component';
-export * from './consignment-entries/consignment-entries-enhanced-ui.component';
+export * from './consignment-entries/consignment-entries.component';

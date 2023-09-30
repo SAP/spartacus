@@ -6,12 +6,12 @@
   margin: 0 0 25px 0; //top-right-botton-left
 }
 
-%cx-order-history-enhanced-ui {
-  .cx-order-history-enhanced-ui-header {
+%cx-order-history-extended {
+  .cx-order-history-extended-header {
     @include draw-line;
     margin-bottom: 25px;
   }
-  .cx-order-history-enhanced-ui-body {
+  .cx-order-history-extended-body {
     .cx-order-history-pagination {
       display: flex;
       justify-content: flex-end;

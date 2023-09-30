@@ -8,11 +8,11 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Consignment } from '@spartacus/order/root';
 
 @Component({
-  selector: 'cx-consignment-entries-enhanced-ui',
-  templateUrl: './consignment-entries-enhanced-ui.component.html',
+  selector: 'cx-consignment-entries',
+  templateUrl: './consignment-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConsignmentEntriesEnhancedUIComponent {
+export class ConsignmentEntriesComponent {
   @Input()
   consignments?: Consignment[];
   @Input()

@@ -24,25 +24,25 @@ import {
 } from '@spartacus/storefront';
 import { OrderHistoryComponent } from './order-history.component';
 import {
-  ConsignmentEntriesEnhancedUIComponent,
+  ConsignmentEntriesComponent,
   OrderConsolidatedInformationComponent,
-  OrderHistoryEnhancedUIComponent,
-} from './enhanced-ui';
+  OrderHistoryExtendedComponent,
+} from './order-history-extended';
 import { MYACCOUNT_ORDER_ENHANCED_UI } from '@spartacus/order/root';
 
 const enhancedUICmsMapping: CmsConfig = {
   cmsComponents: {
     AccountOrderHistoryComponent: {
-      component: OrderHistoryEnhancedUIComponent,
+      component: OrderHistoryExtendedComponent,
       guards: [AuthGuard],
     },
   },
 };
 
 const moduleComponents = [
-  OrderHistoryEnhancedUIComponent,
+  OrderHistoryExtendedComponent,
   OrderConsolidatedInformationComponent,
-  ConsignmentEntriesEnhancedUIComponent,
+  ConsignmentEntriesComponent,
 ];
 
 @NgModule({

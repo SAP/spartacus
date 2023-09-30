@@ -3,8 +3,8 @@
 
 $order-allowlist: cx-consignment-tracking-link
   cx-download-invoices-dialog cx-order-details-enhanced-ui-actions
-  cx-consignment-entries-enhanced-ui cx-order-consolidated-information
-  cx-order-history-enhanced-ui !default;
+  cx-consignment-entries cx-order-consolidated-information
+  cx-order-history-extended !default;
 
 $skipComponentStyles: () !default;
 

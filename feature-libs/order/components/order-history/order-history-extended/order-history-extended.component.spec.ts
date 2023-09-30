@@ -20,7 +20,7 @@ import {
   ReplenishmentOrderHistoryFacade,
 } from '../../../root/facade';
 import { EMPTY, Observable, of } from 'rxjs';
-import { OrderHistoryEnhancedUIComponent } from './order-history-enhanced-ui.component';
+import { OrderHistoryEnhancedUIComponent } from './order-history-extended.component';
 import { OrderHistoryList } from '../../../root/model';
 
 const mockOrders: OrderHistoryList = {
@@ -136,10 +136,10 @@ describe('OrderHistoryEnhancedUIComponent ', () => {
   it('should load header and body tags', () => {
     fixture.detectChanges();
     expect(
-      fixture.debugElement.query(By.css('.cx-order-history-enhanced-ui-header'))
+      fixture.debugElement.query(By.css('.cx-order-history-extended-header'))
     ).toBeTruthy();
     expect(
-      fixture.debugElement.query(By.css('.cx-order-history-enhanced-ui-body'))
+      fixture.debugElement.query(By.css('.cx-order-history-extended-body'))
     ).toBeTruthy();
   });
 

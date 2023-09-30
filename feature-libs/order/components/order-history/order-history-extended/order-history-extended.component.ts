@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 import { OrderHistoryComponent } from '../order-history.component';
 
 @Component({
-  selector: 'cx-order-history-enhanced-ui',
-  templateUrl: './order-history-enhanced-ui.component.html',
+  selector: 'cx-order-history-extended',
+  templateUrl: './order-history-extended.component.html',
 })
-export class OrderHistoryEnhancedUIComponent extends OrderHistoryComponent {}
+export class OrderHistoryExtendedComponent extends OrderHistoryComponent {}
