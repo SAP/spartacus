@@ -19,7 +19,7 @@ import {
 @NgModule({
   imports: [OrderRootModule],
   providers: [
-    { provide: MYACCOUNT_ORDER_ENHANCED_UI, useValue: false },
+    { provide: MYACCOUNT_ORDER_ENHANCED_UI, useValue: true },
     provideConfig(<CmsConfig>{
       featureModules: {
         [ORDER_FEATURE]: {
