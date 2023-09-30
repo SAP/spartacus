@@ -4,9 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
@@ -21,13 +19,6 @@ import { OccOrderHistoryAdapter } from './occ-order-history.adapter';
 
 @Injectable()
 export class OccOrderHistoryExtendedAdapter extends OccOrderHistoryAdapter {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {
-    super(http, occEndpoints, converter);
-  }
   /**
    * fills the tracking information for each consignment in the input order details
    * @param userId user id

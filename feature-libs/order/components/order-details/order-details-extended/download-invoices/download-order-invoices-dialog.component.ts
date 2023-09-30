@@ -6,6 +6,7 @@ import {
   ViewChild,
   ChangeDetectorRef,
   AfterViewChecked,
+  inject,
 } from '@angular/core';
 import { Order, OrderOutlets } from '@spartacus/order/root';
 import { InvoicesListComponent } from '@spartacus/pdf-invoices/components';
@@ -35,11 +36,9 @@ export class DownloadOrderInvoicesDialogComponent
     focusOnEscape: true,
   };
   order: Order;
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected invoicesFacade: PDFInvoicesFacade,
-    protected cdr: ChangeDetectorRef
-  ) {}
+  protected launchDialogService = inject(LaunchDialogService);
+  protected invoicesFacade = inject(PDFInvoicesFacade);
+  protected cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.subscription.add(

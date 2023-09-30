@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -25,20 +26,17 @@ import { Consignment } from '@spartacus/order/root';
 export class ConsignmentTrackingLinkComponent implements OnInit, OnDestroy {
   consignment: Consignment;
   protected subscription = new Subscription();
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef,
-    protected cd: ChangeDetectorRef,
-    protected outlet?: OutletContextData<{
-      item?: Consignment;
-    }>
-  ) {}
+  protected orderDetailsService = inject(OrderDetailsService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+  protected cd = inject(ChangeDetectorRef);
+  protected outlet = inject(OutletContextData);
+
   @ViewChild('element') element: ElementRef;
   consignmentStatus: string[] = this.orderDetailsService.consignmentStatus;
   ngOnInit(): void {
     this.subscription.add(
-      this.outlet?.context$.subscribe((context) => {
+      this.outlet?.context$.subscribe((context: { item?: Consignment }) => {
         if (context.item !== undefined) {
           this.consignment = context.item;
         }

@@ -44,7 +44,11 @@ import { OrderDetailItemsComponent } from './order-detail-items/order-detail-ite
 import { OrderDetailReorderComponent } from './order-detail-reorder/order-detail-reorder.component';
 import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/reorder-dialog.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
-import { ConsignmentTrackingLinkComponent, DownloadOrderInvoicesDialogModule, OrderDetailsActionsExtendedComponent } from './order-details-extended';
+import {
+  ConsignmentTrackingLinkComponent,
+  DownloadOrderInvoicesDialogModule,
+  OrderDetailsActionsExtendedComponent,
+} from './order-details-extended';
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
 

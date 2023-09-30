@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { PDFInvoicesComponentsModule } from '@spartacus/pdf-invoices/components';
 import {
@@ -27,9 +27,7 @@ import { DownloadOrderInvoicesEventListener } from './download-order-invoices-ev
   declarations: [DownloadOrderInvoicesDialogComponent],
 })
 export class DownloadOrderInvoicesDialogModule {
-  constructor(
-    _downloadInvoicesDialogEventListener: DownloadOrderInvoicesEventListener
-  ) {
-    // Intentional empty constructor
-  }
+  protected downloadInvoicesDialogEventListener = inject(
+    DownloadOrderInvoicesEventListener
+  );
 }

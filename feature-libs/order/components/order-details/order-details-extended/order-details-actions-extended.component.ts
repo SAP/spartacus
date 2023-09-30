@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import { DownloadOrderInvoicesEvent, Order } from '@spartacus/order/root';
 import {
   OrderDetailActionsComponent,
-  OrderDetailsService,
+  //OrderDetailsService,
 } from '..';
 
 @Component({
@@ -15,12 +15,8 @@ export class OrderDetailsActionsExtendedComponent
   implements OnInit
 {
   order: Order;
-  constructor(
-    protected eventService: EventService,
-    protected orderDetailsService: OrderDetailsService
-  ) {
-    super(orderDetailsService);
-  }
+  protected eventService = inject(EventService);
+
   ngOnInit(): void {
     this.order$.subscribe((order) => {
       this.order = order;

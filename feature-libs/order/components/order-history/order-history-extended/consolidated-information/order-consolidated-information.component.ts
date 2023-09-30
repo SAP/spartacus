@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  inject,
+} from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Images } from '@spartacus/core';
 import { Consignment, Order, OrderHistory } from '@spartacus/order/root';
@@ -16,11 +21,11 @@ import { OrderDetailsService } from '../../../order-details';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderConsolidatedInformationComponent {
+  protected orderDetailsService = inject(OrderDetailsService);
   @Input()
   order?: OrderHistory;
   imageCount = 4; //showing fixed no.of images, without using carousel
 
-  constructor(protected orderDetailsService: OrderDetailsService) {}
   consignmentsCount(consignments: Consignment[] | undefined): number {
     var count = 0;
     if (consignments) {
@@ -42,7 +47,7 @@ export class OrderConsolidatedInformationComponent {
   }
 
   isStatusCritical(status: string): boolean {
-    let criticalStatus = ['cancelled', 'rejected'];
+    let criticalStatus = ['cancelled', 'error', 'Error', 'rejected'];
     if (criticalStatus.includes(status)) {
       return true;
     } else {

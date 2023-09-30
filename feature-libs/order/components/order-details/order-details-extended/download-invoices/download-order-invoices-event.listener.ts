@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import { DownloadOrderInvoicesEvent } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
@@ -10,10 +10,9 @@ import { take } from 'rxjs/operators';
 })
 export class DownloadOrderInvoicesEventListener implements OnDestroy {
   protected subscription = new Subscription();
-  constructor(
-    protected eventService: EventService,
-    protected launchDialogService: LaunchDialogService
-  ) {
+  protected eventService = inject(EventService);
+  protected launchDialogService = inject(LaunchDialogService);
+  constructor() {
     this.onDownloadInvoices();
   }
   protected onDownloadInvoices() {

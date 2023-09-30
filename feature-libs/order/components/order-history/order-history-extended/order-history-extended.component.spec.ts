@@ -20,7 +20,7 @@ import {
   ReplenishmentOrderHistoryFacade,
 } from '../../../root/facade';
 import { EMPTY, Observable, of } from 'rxjs';
-import { OrderHistoryEnhancedUIComponent } from './order-history-extended.component';
+import { OrderHistoryExtendedComponent } from './order-history-extended.component';
 import { OrderHistoryList } from '../../../root/model';
 
 const mockOrders: OrderHistoryList = {
@@ -96,9 +96,9 @@ class MockReplenishmentOrderHistoryFacade
   }
 }
 
-describe('OrderHistoryEnhancedUIComponent ', () => {
-  let component: OrderHistoryEnhancedUIComponent;
-  let fixture: ComponentFixture<OrderHistoryEnhancedUIComponent>;
+describe('OrderHistoryExtendedComponent', () => {
+  let component: OrderHistoryExtendedComponent;
+  let fixture: ComponentFixture<OrderHistoryExtendedComponent>;
   let routingService: RoutingService;
 
   beforeEach(
@@ -106,7 +106,7 @@ describe('OrderHistoryEnhancedUIComponent ', () => {
       TestBed.configureTestingModule({
         imports: [RouterTestingModule, I18nTestingModule, FeaturesConfigModule],
         declarations: [
-          OrderHistoryEnhancedUIComponent,
+          OrderHistoryExtendedComponent,
           MockUrlPipe,
           MockPaginationComponent,
         ],
@@ -125,7 +125,7 @@ describe('OrderHistoryEnhancedUIComponent ', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderHistoryEnhancedUIComponent);
+    fixture = TestBed.createComponent(OrderHistoryExtendedComponent);
     component = fixture.componentInstance;
   });
 
