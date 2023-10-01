@@ -9,7 +9,7 @@
 %cx-order-history-extended {
   .cx-order-history-extended-header {
     @include draw-line;
-    margin: 0 0 25px 0; //top-right-botton-left
+    margin: 0 0 25px 0;
   }
   .cx-order-history-extended-body {
     .cx-order-history-pagination {
@@ -62,8 +62,7 @@
             padding: 0;
           }
           .cx-list-status {
-            //margin: 0 0 0.5rem;
-            padding: 5px 30px; //15px 30px; //top right bottom left
+            padding: 5px 30px;
             background-color: var(--cx-color-background);
             @include type('4');
             font-weight: bold;
@@ -83,7 +82,7 @@
         .cx-order-img {
           width: 88px;
           height: 88px;
-          margin: 0 8px 0px 0; //top-right-botton-left
+          margin: 0 8px 0px 0;
           display: inline-end;
           float: right;
         }

@@ -27,10 +27,11 @@ export class ConsignmentEntriesComponent {
 
   consignmentNumber(code?: string) {
     if (code) {
-      let consignmentNumber = Number(code.split('_')[1]);
-      return consignmentNumber + 1;
-    } else {
-      return '';
+      const consignmentNumber = Number(code.split('_')[1]);
+      if (!isNaN(consignmentNumber)) {
+        return consignmentNumber + 1;
+      }
     }
+    return code;
   }
 }

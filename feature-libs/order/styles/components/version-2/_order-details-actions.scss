@@ -5,11 +5,12 @@
     padding: 1.5rem 1rem 1.5rem 1rem; //top-right-bottom-left
     .cx-action-button {
       float: right;
-      margin-left: 10px;
+      margin: 0 0 0 10px;
     }
     .cx-action-button-left {
       float: left;
       margin-right: 10px;
+      margin: 0 10px 0 0;
     }
   }
 }
@@ -21,7 +22,7 @@
     .cx-item-list-tracking-id {
       color: var(--cx-color-secondary);
       font-weight: var(--cx-font-weight-semi);
-      padding: 0 0px 0px 15px; //top right bottom left
+      padding: 0 0px 0px 15px;
       .cx-tracking-id-link {
         cursor: pointer;
         color: var(--cx-color-secondary);

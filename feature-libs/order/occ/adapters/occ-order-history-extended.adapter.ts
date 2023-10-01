@@ -100,7 +100,7 @@ export class OccOrderHistoryExtendedAdapter extends OccOrderHistoryAdapter {
     return forkJoin([orderHistoryListRequest, returnRequestListRequest]).pipe(
       switchMap((responses: [OrderHistoryList, ReturnRequestList]) => {
         const returnRequests = responses[1].returnRequests;
-        let orderHistory = responses[0];
+        const orderHistory = responses[0];
         if (returnRequests && orderHistory.orders) {
           return orderHistory.orders.map((order) => {
             const returnItems = returnRequests?.filter(
