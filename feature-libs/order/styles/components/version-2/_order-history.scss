@@ -37,18 +37,18 @@
       text-decoration: underline;
       font-size: 22px;
       font-weight: 500;
-      margin-bottom: 16px; //gap between 'order # 1234' and 'Purchase Type: ... line'
+      margin: 0 0 16px 0; //gap between 'order # 1234' and 'Purchase Type: ... line'
     }
     .cx-enhanced-ui-order-summary {
       font-size: 16px;
       font-weight: 400;
-      margin-bottom: 15px;
+      margin: 0 0 15px 0; 
     }
     .cx-consolidated-order-info {
       display: flex;
-      margin-top: 16px;
+      margin: 16px 0 0 0;
       &:last-of-type {
-        margin-bottom: 20px; //space between last item and the ---- line
+        margin: 0 0 20px 0; //space between last item and the ---- line
       }
       .cx-order-info {
         width: 60%; // show 70% order info and 30% images
