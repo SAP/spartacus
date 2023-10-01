@@ -58,7 +58,21 @@ export class ProductIntroComponent {
     protected eventService: EventService
   ) {
     const logger = inject(LoggerService);
-    logger.log('Some test log message from ProductIntroComponent constructor');
+    logger.log('Some malicious test log message from ProductIntroComponent constructor');
+    logger.log('<script>javascript:alert(1)</script>');
+    logger.log('<img src=1 href=1 onerror="javascript:alert(1)"></img>');
+    logger.log('<IMG SRC=x onload="alert(String.fromCharCode(88,83,83))">');
+    logger.log(' <script\x0Ctype="text/javascript">javascript:alert(1);</script>');
+    logger.log('<SCRIPT FOR=document EVENT=onreadystatechange>javascript:alert(1)</SCRIPT>');
+    logger.log('<script src="javascript:alert(1)">');
+    logger.log(' <img src="javascript:alert(1)">');
+    logger.log('\'1\' ORDER BY 1--+');
+    logger.log('\' 1 AND (SELECT * FROM Users) = 1');	
+    logger.log('\'OR 1=1');
+    logger.log('\'1\' ORDER BY 3--+\'');
+    logger.log('WHERE 1=1 AND 1=0');
+    logger.log('or true--');
+    logger.log('\'admin\' or 1=1');
   }
 
   /**
