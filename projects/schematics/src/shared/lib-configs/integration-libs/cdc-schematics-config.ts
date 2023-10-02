@@ -16,6 +16,7 @@ import {
   SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION,
   SPARTACUS_CDC_ASSETS,
   SPARTACUS_CDC_ORGANIZATION_REGISTRATION,
+  CDC_B2B_FEATURE_NAME,
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
@@ -50,11 +51,11 @@ export const CDC_B2B_REGISTER_MODULE = 'CDCB2BRegisterModule';
 
 export const CDC_TRANSLATION_CHUNKS_CONFIG = 'cdcTranslationChunksConfig';
 export const CDC_TRANSLATIONS = 'cdcTranslations';
-
-export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
+export const CDC_B2B_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    featureName: CDC_FEATURE_NAME,
+    featureName: CDC_B2B_FEATURE_NAME,
     mainScope: SPARTACUS_CDC,
+    b2b: true,
   },
   folderName: CDC_FOLDER_NAME,
   moduleName: CDC_MODULE_NAME,
@@ -117,6 +118,56 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
       markerModuleName: ORGANIZATION_USER_REGISTRATION_MODULE,
       featureModuleName: CDC_B2B_REGISTER_MODULE,
     },
+  ],
+};
+export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
+  library: {
+    featureName: CDC_FEATURE_NAME,
+    mainScope: SPARTACUS_CDC,
+  },
+  folderName: CDC_FOLDER_NAME,
+  moduleName: CDC_MODULE_NAME,
+  featureModule: [
+    {
+      importPath: SPARTACUS_CDC,
+      name: CDC_MODULE,
+    },
+    {
+      name: CDC_USER_ACCOUNT_MODULE,
+      importPath: SPARTACUS_CDC_USER_ACCOUNT,
+    },
+    {
+      name: CDC_USER_PROFILE_MODULE,
+      importPath: SPARTACUS_CDC_USER_PROFILE,
+    }
+  ],
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_CDC_ROOT,
+    namedImports: [CDC_FEATURE_CONSTANT],
+  },
+  rootModule: {
+    importPath: SPARTACUS_CDC_ROOT,
+    name: CDC_ROOT_MODULE,
+    content: `${CDC_ROOT_MODULE}`,
+  },
+  customConfig: buildCdcConfig,
+  i18n: {
+    resources: CDC_TRANSLATIONS,
+    chunks: CDC_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_CDC_ASSETS,
+  },
+  dependencyFeatures: [
+    USER_PROFILE_FEATURE_NAME,
+  ],
+  importAfter: [
+    {
+      markerModuleName: USER_ACCOUNT_MODULE,
+      featureModuleName: CDC_USER_ACCOUNT_MODULE,
+    },
+    {
+      markerModuleName: USER_PROFILE_MODULE,
+      featureModuleName: CDC_USER_PROFILE_MODULE,
+    }
   ],
 };
 
