@@ -27,7 +27,7 @@ export class CmsTicketInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const cmsTicketId = this.service?.cmsTicketId;
+    const cmsTicketId = this.service.cmsTicketId;
     if (!cmsTicketId) {
       return next.handle(request);
     }
