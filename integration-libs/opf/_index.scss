@@ -1,9 +1,31 @@
 @import '@spartacus/styles/scss/core';
 @import '@spartacus/checkout';
-
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
 @import 'bootstrap/scss/_mixins';
-
 @import './checkout/styles/index';
 @import './base/styles/index';
+
+$opf-components-allowlist: cx-opf-checkout-payment-and-review,
+  cx-opf-checkout-payments, cx-opf-checkout-billing-address-form,
+  cx-opf-checkout-payment-wrapper, cx-opf-error-modal !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $opf-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $opf-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

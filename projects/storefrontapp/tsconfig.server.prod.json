@@ -386,6 +386,7 @@
         "../../dist/epd-visualization/root"
       ],
       "@spartacus/opf/base/assets": ["../../dist/opf/base/assets"],
+      "@spartacus/opf/base/components": ["../../dist/opf/base/components"],
       "@spartacus/opf/base/core": ["../../dist/opf/base/core"],
       "@spartacus/opf/base": ["../../dist/opf/base"],
       "@spartacus/opf/base/occ": ["../../dist/opf/base/occ"],
