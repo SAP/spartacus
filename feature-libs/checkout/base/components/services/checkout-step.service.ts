@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutConfig,
@@ -14,11 +14,16 @@ import {
 import { RoutingConfigService, RoutingService } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { CheckoutFlowOrchestratorService } from './checkout-flow-orchestrator.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutStepService {
+  protected checkoutFlowOrchestratorService = inject(
+    CheckoutFlowOrchestratorService
+  );
+
   // initial enabled steps
   allSteps: CheckoutStep[];
 
@@ -36,7 +41,7 @@ export class CheckoutStepService {
             let activeIndex: number = 0;
             steps.forEach((step, index) => {
               const routeUrl = `/${
-                this.routingConfigService.getRouteConfig(step.routeName)
+                this.routingConfigService.getRouteConfig(step?.routeName)
                   ?.paths?.[0]
               }`;
               if (routeUrl === activeStepUrl) {
@@ -81,7 +86,14 @@ export class CheckoutStepService {
   }
 
   resetSteps(): void {
-    this.allSteps = (this.checkoutConfig.checkout?.steps ?? [])
+    let steps = this.checkoutConfig.checkout?.steps ?? [];
+
+    if (this.checkoutFlowOrchestratorService) {
+      steps =
+        this.checkoutFlowOrchestratorService.getCheckoutFlow()?.steps ?? [];
+    }
+
+    this.allSteps = steps
       .filter((step) => !step.disabled)
       .map((checkoutStep) => Object.assign({}, checkoutStep));
     this.steps$.next(this.allSteps);

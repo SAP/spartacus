@@ -9,17 +9,14 @@ import {
   checkoutB2BTranslationChunksConfig,
   checkoutB2BTranslations,
 } from '@spartacus/checkout/b2b/assets';
-import {
-  CheckoutB2BRootModule,
-  defaultB2BCheckoutConfig,
-} from '@spartacus/checkout/b2b/root';
+import { CheckoutB2BRootModule } from '@spartacus/checkout/b2b/root';
 import {
   checkoutTranslationChunksConfig,
   checkoutTranslations,
 } from '@spartacus/checkout/base/assets';
 import {
-  CheckoutRootModule,
   CHECKOUT_FEATURE,
+  CheckoutRootModule,
 } from '@spartacus/checkout/base/root';
 import {
   checkoutScheduledReplenishmentTranslationChunksConfig,
@@ -27,6 +24,7 @@ import {
 } from '@spartacus/checkout/scheduled-replenishment/assets';
 import { CheckoutScheduledReplenishmentRootModule } from '@spartacus/checkout/scheduled-replenishment/root';
 import { provideConfig } from '@spartacus/core';
+import { OpfCheckoutRootModule } from '@spartacus/opf/checkout/root';
 import { environment } from '../../../../environments/environment';
 
 const extensionModules: Type<any>[] = [];
@@ -54,10 +52,9 @@ if (environment.b2b) {
       },
     })
   );
-  if (!environment.opf) {
-    extensionProviders.push(provideConfig(defaultB2BCheckoutConfig));
-  }
 }
+
+extensionModules.push(OpfCheckoutRootModule);
 
 @NgModule({
   imports: [CheckoutRootModule, ...extensionModules],
@@ -79,14 +76,6 @@ if (environment.b2b) {
       },
     }),
     ...extensionProviders,
-
-    // TODO OPF: remove this config before final review.
-    // Currently provided for development and testing purposes
-    provideConfig({
-      checkout: {
-        guest: true,
-      },
-    }),
   ],
 })
 export class CheckoutFeatureModule {}

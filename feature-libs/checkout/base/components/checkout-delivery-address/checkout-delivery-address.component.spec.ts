@@ -9,14 +9,15 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeaturesConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
-  FeaturesConfig,
-  FeaturesConfigModule,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
+import { CheckoutFlowOrchestratorService } from '../services/checkout-flow-orchestrator.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;
@@ -45,6 +46,12 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   next = createSpy();
   back = createSpy();
   getBackBntText = createSpy().and.returnValue('common.back');
+}
+
+class MockCheckoutFlowOrchestratorService
+  implements Partial<CheckoutFlowOrchestratorService>
+{
+  getCheckoutFlow = createSpy();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -158,6 +165,10 @@ describe('CheckoutDeliveryAddressComponent', () => {
             useValue: {
               features: { level: '6.3' },
             },
+          },
+          {
+            provide: CheckoutFlowOrchestratorService,
+            useClass: MockCheckoutFlowOrchestratorService,
           },
         ],
       })

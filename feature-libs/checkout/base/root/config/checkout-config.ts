@@ -6,6 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
+import { CheckoutFlow } from '../model/checkout-flow.model';
 import { CheckoutStep } from '../model/checkout-step.model';
 
 export enum DeliveryModePreferences {
@@ -40,6 +41,12 @@ export abstract class CheckoutConfig {
      * Use delivery address saved in cart for pre-filling delivery address form.
      */
     guestUseSavedAddress?: boolean;
+    /**
+     * Determine multiple flows that can be used during the checkout process.
+     */
+    flows?: {
+      [key: string]: CheckoutFlow;
+    };
   };
 }
 

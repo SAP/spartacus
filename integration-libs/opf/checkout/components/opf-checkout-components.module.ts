@@ -7,13 +7,13 @@
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { OpfCheckoutBillingAddressFormModule } from './opf-checkout-billing-address-form/opf-checkout-billing-address-form.module';
-import { OPFCheckoutPaymentAndReviewModule } from './opf-checkout-payment-and-review/opf-checkout-payment-and-review.module';
+import { OpfCheckoutPaymentAndReviewModule } from './opf-checkout-payment-and-review/opf-checkout-payment-and-review.module';
 import { OpfCheckoutPaymentWrapperModule } from './opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.module';
 import { OpfCheckoutPaymentsModule } from './opf-checkout-payments/opf-checkout-payments.module';
 
 @NgModule({
   imports: [
-    OPFCheckoutPaymentAndReviewModule,
+    OpfCheckoutPaymentAndReviewModule,
     OpfCheckoutPaymentsModule,
     OpfCheckoutBillingAddressFormModule,
     OpfCheckoutPaymentWrapperModule,
