@@ -18,11 +18,7 @@ import * as Log from './log.utils';
  */
 export async function startSsrServer(port = 4000) {
   childProcess.exec(
-    `NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=${port} npm run serve:ssr --prefix ../../> ssr.log`,
-    (err, stdout, stderr) => {
-      // Node.js will invoke this callback when process terminates.
-      console.log(err, stdout, stderr);
-    }
+    `NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=${port} npm run serve:ssr --prefix ../../> ssr.log`
   );
   console.log('starting...');
   await Log.waitUntilLogContainsText(`Node Express server listening on `);
