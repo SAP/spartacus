@@ -139,7 +139,7 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     {
       name: CDC_USER_PROFILE_MODULE,
       importPath: SPARTACUS_CDC_USER_PROFILE,
-    }
+    },
   ],
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_CDC_ROOT,
@@ -156,9 +156,7 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     chunks: CDC_TRANSLATION_CHUNKS_CONFIG,
     importPath: SPARTACUS_CDC_ASSETS,
   },
-  dependencyFeatures: [
-    USER_PROFILE_FEATURE_NAME,
-  ],
+  dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
   importAfter: [
     {
       markerModuleName: USER_ACCOUNT_MODULE,
@@ -167,7 +165,7 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     {
       markerModuleName: USER_PROFILE_MODULE,
       featureModuleName: CDC_USER_PROFILE_MODULE,
-    }
+    },
   ],
 };
 
