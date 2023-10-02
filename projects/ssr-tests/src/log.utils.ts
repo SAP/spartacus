@@ -24,6 +24,13 @@ export function clearSsrLogFile(): void {
 }
 
 /**
+ * Returns all text in the log as a single string.
+ */
+export function getLogText(): string {
+  return fs.readFileSync(SSR_LOG_PATH).toString();
+}
+
+/**
  * Reads log and returns messages as string array.
  */
 export function getLogMessages(): string[] {

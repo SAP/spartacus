@@ -27,6 +27,7 @@ export async function startSsrServer(port = 4000) {
   console.log('starting...');
   await Log.waitUntilLogContainsText(`Node Express server listening on `);
   console.log('STARTED');
+  console.log(Log.getLogText());
 }
 
 /**
