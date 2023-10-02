@@ -10,16 +10,11 @@ import {
   orderTranslationChunksConfig,
   orderTranslations,
 } from '@spartacus/order/assets';
-import {
-  MYACCOUNT_ORDER_ENHANCED_UI,
-  OrderRootModule,
-  ORDER_FEATURE,
-} from '@spartacus/order/root';
+import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
 
 @NgModule({
   imports: [OrderRootModule],
   providers: [
-    { provide: MYACCOUNT_ORDER_ENHANCED_UI, useValue: true },
     provideConfig(<CmsConfig>{
       featureModules: {
         [ORDER_FEATURE]: {
