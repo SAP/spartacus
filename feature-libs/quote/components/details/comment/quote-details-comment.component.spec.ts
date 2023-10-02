@@ -161,7 +161,18 @@ describe('QuoteDetailsCommentComponent', () => {
   });
 
   it('should collapse the comments area when clicking the toggle', () => {
-    clickCommentsToggle();
+    CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
+    fixture.detectChanges();
+    CommonQuoteTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-messaging'
+    );
+  });
+
+  it('should toggle the comments on enter', () => {
+    CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
+    fixture.detectChanges();
     CommonQuoteTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
@@ -171,7 +182,7 @@ describe('QuoteDetailsCommentComponent', () => {
 
   it('should expand the comments area when clicking the toggle', () => {
     component.expandComments = false;
-    clickCommentsToggle();
+    CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
     CommonQuoteTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -231,15 +242,6 @@ describe('QuoteDetailsCommentComponent', () => {
       })
       .unsubscribe();
   });
-
-  function clickCommentsToggle() {
-    const caret = CommonQuoteTestUtilsService.getHTMLElement(
-      htmlElem,
-      '.cx-toggle'
-    );
-    caret.click();
-    fixture.detectChanges();
-  }
 
   describe('messagingConfigs', () => {
     it('should be provided', () => {

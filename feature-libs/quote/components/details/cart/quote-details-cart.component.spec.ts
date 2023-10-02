@@ -273,7 +273,7 @@ describe('QuoteDetailsCartComponent', () => {
     );
   });
 
-  it('should toggle caret when clicked', () => {
+  it('should display CARET_DOWN when collapsed', () => {
     component.showCart$ = of(false);
     fixture.detectChanges();
     CommonQuoteTestUtilsService.expectElementToContainText(
@@ -282,6 +282,24 @@ describe('QuoteDetailsCartComponent', () => {
       'cx-icon',
       'CARET_DOWN'
     );
+  });
+
+  it('should toggle quote entries on enter', () => {
+    CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
+    fixture.detectChanges();
+    expect(
+      mockQuoteDetailsCartService.setQuoteEntriesExpanded
+    ).toHaveBeenCalledWith(false);
+  });
+
+  it('should toggle quote entries on click', () => {
+    component.showCart$ = of(false);
+    fixture.detectChanges();
+    CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
+    fixture.detectChanges();
+    expect(
+      mockQuoteDetailsCartService.setQuoteEntriesExpanded
+    ).toHaveBeenCalledWith(true);
   });
 
   it('should provide quote details observable', (done) => {
