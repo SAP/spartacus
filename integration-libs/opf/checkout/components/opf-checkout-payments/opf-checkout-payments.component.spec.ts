@@ -146,7 +146,11 @@ describe('OpfCheckoutPaymentsComponent', () => {
 
   it('should not preselect payment option', () => {
     opfServiceMock.getOpfMetadataState.and.returnValue(
-      of({ termsAndConditionsChecked: false, selectedPaymentOptionId: 0, isPaymentInProgress: false })
+      of({
+        termsAndConditionsChecked: false,
+        selectedPaymentOptionId: 0,
+        isPaymentInProgress: false,
+      })
     );
 
     fixture.detectChanges();
