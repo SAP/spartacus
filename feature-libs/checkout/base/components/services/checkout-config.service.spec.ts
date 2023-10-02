@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import {
   CheckoutConfig,
+  CheckoutFlow,
   DeliveryModePreferences,
 } from '@spartacus/checkout/base/root';
 import { defaultCheckoutConfig } from '../../root/config/default-checkout-config';
 import { CheckoutConfigService } from './checkout-config.service';
+import { CheckoutFlowOrchestratorService } from './checkout-flow-orchestrator.service';
 
 const mockCheckoutConfig: CheckoutConfig = JSON.parse(
   JSON.stringify(defaultCheckoutConfig)
@@ -21,6 +23,14 @@ const [freeMode, standardMode, premiumMode] = [
   { deliveryCost: { value: 3 }, code: PREMIUM_CODE },
 ];
 
+class MockCheckoutFlowOrchestratorService
+  implements Partial<CheckoutFlowOrchestratorService>
+{
+  getCheckoutFlow(): CheckoutFlow | undefined {
+    return {};
+  }
+}
+
 describe('CheckoutConfigService', () => {
   let service: CheckoutConfigService;
 
@@ -29,10 +39,14 @@ describe('CheckoutConfigService', () => {
       providers: [
         CheckoutConfigService,
         { provide: mockCheckoutConfig, useClass: CheckoutConfig },
+        {
+          provide: CheckoutFlowOrchestratorService,
+          useClass: MockCheckoutFlowOrchestratorService,
+        },
       ],
     });
 
-    service = new CheckoutConfigService(mockCheckoutConfig);
+    service = TestBed.inject(CheckoutConfigService);
   });
 
   it('should be created', () => {
