@@ -242,7 +242,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-created',
+        'tbody tr:first-child .cx-status  span.quote-created',
         'quote.states.CREATED'
       );
     });
@@ -260,7 +260,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-draft',
+        'tbody tr:first-child .cx-status  span.quote-draft',
         'quote.states.SELLERAPPROVER_DRAFT'
       );
     });
@@ -278,7 +278,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-draft',
+        'tbody tr:first-child .cx-status  span.quote-draft',
         'quote.states.BUYER_DRAFT'
       );
     });
@@ -296,7 +296,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-draft',
+        'tbody tr:first-child .cx-status  span.quote-draft',
         'quote.states.SELLER_DRAFT'
       );
     });
@@ -314,7 +314,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-submitted',
+        'tbody tr:first-child .cx-status  span.quote-submitted',
         'quote.states.BUYER_SUBMITTED'
       );
     });
@@ -332,7 +332,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-submitted',
+        'tbody tr:first-child .cx-status  span.quote-submitted',
         'quote.states.SELLER_SUBMITTED'
       );
     });
@@ -350,7 +350,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-accepted',
+        'tbody tr:first-child .cx-status  span.quote-accepted',
         'quote.states.BUYER_ACCEPTED'
       );
     });
@@ -368,7 +368,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-approved',
+        'tbody tr:first-child .cx-status  span.quote-approved',
         'quote.states.BUYER_APPROVED'
       );
     });
@@ -386,7 +386,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-approved',
+        'tbody tr:first-child .cx-status  span.quote-approved',
         'quote.states.SELLERAPPROVER_APPROVED'
       );
     });
@@ -404,7 +404,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-rejected',
+        'tbody tr:first-child .cx-status  span.quote-rejected',
         'quote.states.BUYER_REJECTED'
       );
     });
@@ -422,7 +422,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-rejected',
+        'tbody tr:first-child .cx-status  span.quote-rejected',
         'quote.states.SELLERAPPROVER_REJECTED'
       );
     });
@@ -440,7 +440,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-offer',
+        'tbody tr:first-child .cx-status  span.quote-offer',
         'quote.states.BUYER_OFFER'
       );
     });
@@ -458,7 +458,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-ordered',
+        'tbody tr:first-child .cx-status  span.quote-ordered',
         'quote.states.BUYER_ORDERED'
       );
     });
@@ -476,7 +476,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-request',
+        'tbody tr:first-child .cx-status  span.quote-request',
         'quote.states.SELLER_REQUEST'
       );
     });
@@ -494,7 +494,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-pending',
+        'tbody tr:first-child .cx-status  span.quote-pending',
         'quote.states.SELLERAPPROVER_PENDING'
       );
     });
@@ -512,7 +512,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-cancelled',
+        'tbody tr:first-child .cx-status  span.quote-cancelled',
         'quote.states.CANCELLED'
       );
     });
@@ -530,7 +530,7 @@ describe('QuoteListComponent', () => {
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'tbody tr:first-child .cx-status a.quote-expired',
+        'tbody tr:first-child .cx-status  span.quote-expired',
         'quote.states.EXPIRED'
       );
     });

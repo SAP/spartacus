@@ -46,80 +46,47 @@
           </tr>
         </thead>
         <tbody>
-          <tr role="row" *ngFor="let quote of quotesState.data.quotes">
+          <tr
+            role="row"
+            #row
+            *ngFor="let quote of quotesState.data.quotes"
+            [routerLink]="
+              {
+                cxRoute: 'quoteDetails',
+                params: { quoteId: quote.code }
+              } | cxUrl
+            "
+            (keydown.enter)="row.click()"
+            title="{{ quote.name }}"
+          >
             <td role="cell" class="cx-name">
               <div class="cx-mobile-header">
                 {{ 'quote.list.name' | cxTranslate }}
               </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'quoteDetails',
-                    params: { quoteId: quote.code }
-                  } | cxUrl
-                "
-                title="{{ quote.name }}"
-              >
-                {{ quote.name }}
-              </a>
+              <span>{{ quote.name }}</span>
             </td>
             <td role="cell" class="cx-code">
               <div class="cx-mobile-header">
                 {{ 'quote.commons.id' | cxTranslate }}
               </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'quoteDetails',
-                    params: { quoteId: quote.code }
-                  } | cxUrl
-                "
-              >
-                {{ quote.code }}
-              </a>
+              {{ quote.code }}
             </td>
             <td role="cell" class="cx-status">
               <div class="cx-mobile-header">
                 {{ 'quote.commons.status' | cxTranslate }}
               </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'quoteDetails',
-                    params: { quoteId: quote.code }
-                  } | cxUrl
-                "
-                [ngClass]="getQuoteStateClass(quote.state)"
-              >
-                {{ 'quote.states.' + quote.state | cxTranslate }}
-              </a>
+              <span [ngClass]="getQuoteStateClass(quote.state)">{{
+                'quote.states.' + quote.state | cxTranslate
+              }}</span>
             </td>
             <td role="cell" class="cx-updated-date">
               <div class="cx-mobile-header">
                 {{ 'quote.list.updated' | cxTranslate }}
               </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'quoteDetails',
-                    params: { quoteId: quote.code }
-                  } | cxUrl
-                "
-              >
-                {{ quote?.updatedTime | cxDate: dateFormat }}
-              </a>
+              {{ quote?.updatedTime | cxDate: dateFormat }}
             </td>
             <td role="cell" class="cx-nav-caret">
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'quoteDetails',
-                    params: { quoteId: quote.code }
-                  } | cxUrl
-                "
-              >
-                <cx-icon [type]="iconTypes.CARET_RIGHT"></cx-icon>
-              </a>
+              <cx-icon [type]="iconTypes.CARET_RIGHT"></cx-icon>
             </td>
           </tr>
         </tbody>

@@ -24,6 +24,8 @@
 
     tbody {
       @include media-breakpoint-down(md) {
+        width: 100%;
+
         tr {
           position: relative;
 
@@ -62,8 +64,9 @@
           flex-direction: row;
         }
 
-        a {
+        span {
           font-weight: var(--cx-font-weight-semi);
+          color: var(--cx-color-primary);
 
           @include media-breakpoint-down(md) {
             width: 60%;
@@ -77,24 +80,13 @@
       }
 
       .cx-status {
-        a {
+        span {
           font-weight: var(--cx-font-weight-semi);
-        }
-      }
-
-      .cx-code,
-      .cx-updated-date {
-        a {
-          color: var(--cx-color-text);
         }
       }
 
       .cx-nav-caret {
         width: 10%;
-
-        a {
-          color: var(--cx-color-secondary);
-        }
       }
 
       @include media-breakpoint-down(md) {
@@ -102,17 +94,6 @@
           position: absolute;
           top: 40%;
           right: 5px;
-
-          a {
-            min-height: 5px;
-            min-width: 5px;
-          }
-        }
-      }
-
-      a {
-        &:hover {
-          text-decoration: none;
         }
       }
 
