@@ -4,13 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import Chainable = Cypress.Chainable;
 import * as authentication from './auth-forms';
 import * as common from './common';
 import * as productConfigurator from './product-configurator';
+import { checkLoadingMsgNotDisplayed } from './common';
 
 /** alias for GET Quote Route */
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
 export const STATUS_SUBMITTED = 'Submitted';
+export const STATUS_REQUESTED = 'Requested';
 export const STATUS_CANCELED = 'Cancelled';
 const STATUS_DRAFT = 'Draft';
 const CARD_TITLE_QUOTE_INFORMATION = 'Quote Information';
@@ -56,6 +59,27 @@ export function login(email: string, password: string, name: string): void {
 }
 
 /**
+ * Uses a cx-login-form to log out a user.
+ *
+ * @param shopName Name of the current shop (Powertools)
+ */
+export function logout(shopName: string): void {
+  log('Logout buyer user', logout.name);
+  cy.visit(`${shopName}/en/USD/logout`);
+  cy.get('cx-login [role="link"]');
+}
+
+/**
+ * Enables the asm mode for the given shop.
+ *
+ * @param shopName Name of the shop (Powertools)
+ */
+export function enableASMMode(shopName: string) {
+  log('Enables the asm mode for the given shop', enableASMMode.name);
+  cy.visit(`${shopName}/en/USD/?asm=true`);
+}
+
+/**
  * Requests a quote and verifies if it is in draft state.
  *
  * @param shopName Name of the given shop
@@ -96,6 +120,12 @@ export function requestQuote(
   cy.get('cx-quote-details-overview').should('be.visible');
   cy.get('cx-quote-actions-by-role').should('be.visible');
   cy.url().should('contain', '/quote').as('quoteURL');
+  cy.url().then((url) => {
+    const currentURL = url.split('/');
+    const quoteId = currentURL[currentURL.length - 1];
+    cy.log('quote ID: ' + quoteId);
+    cy.wrap(quoteId).as('quoteId');
+  });
 }
 
 /**
@@ -643,6 +673,19 @@ function clickCancelQuoteBtn() {
 }
 
 /**
+ * Navigates to the quote list page.
+ *
+ * @param {string} shopName - shop name
+ */
+export function goToQuoteListPage(shopName: string): void {
+  const location = `${shopName}/en/USD/my-account/quotes`;
+  cy.visit(location).then(() => {
+    cy.location('pathname').should('contain', location);
+    cy.get('.AccountPageTemplate').should('be.visible');
+  });
+}
+
+/**
  * Go to the quote details overview page.
  */
 export function gotToQuoteDetailsOverviewPage() {
@@ -650,80 +693,6 @@ export function gotToQuoteDetailsOverviewPage() {
     'Go to the quote details overview page',
     gotToQuoteDetailsOverviewPage.name
   );
-  cy.get<string>('@quoteURL').then(cy.visit);
-}
-
-/**
- * Logout buyer user.
- *
- * @param shopName Name of the current shop (Powertools)
- */
-export function logoutBuyer(shopName: string): void {
-  log('Logout buyer user', logoutBuyer.name);
-  cy.visit(`${shopName}/en/USD/logout`);
-  cy.get('cx-login [role="link"]');
-}
-
-/**
- * Enables the asm mode for the given shop.
- *
- * @param shopName Name of the shop (Powertools)
- */
-export function enableASMMode(shopName: string) {
-  log('Enables the asm mode for the given shop', enableASMMode.name);
-  cy.visit(`${shopName}/en/USD/?asm=true`);
-}
-
-/**
- * Use the cx-login-form to login into the asm mode.
- *
- * @param shopName Name of the given shop (Powertools)
- * @param sellerEmail Email address of the seller; used for the login
- * @param sellerPassword  Password of the seller; used for the login
- */
-export function loginASM(
-  shopName: string,
-  sellerEmail: string,
-  sellerPassword: string
-) {
-  log('Login salesrep in ASM mode', loginASM.name);
-  cy.visit(`${shopName}/en/USD/`);
-  cy.get('cx-csagent-login-form form').within(() => {
-    cy.get('[formcontrolname="userId"]').clear().type(sellerEmail);
-    cy.get('[formcontrolname="password"]').clear().type(sellerPassword);
-    cy.get('button[type=submit]').click();
-  });
-  cy.get('cx-customer-selection').should('be.visible');
-}
-
-/**
- * Logout sales reporter from ASM mode.
- */
-export function logoutASM() {
-  log('Logout from ASM mode', logoutASM.name);
-  cy.get('cx-asm-main-ui button[class=logout]').click();
-  cy.wait(6000);
-}
-
-/**
- * Selects the customer/buyer and opens the last quote while logged in as sales reporter in asm mode.
- *
- * @param shopName Name of the given shop (Powertools)
- * @param buyerEmail Email address of the customer/buyer
- */
-export function selectCustomerAndOpenQuote(
-  shopName: string,
-  buyerEmail: string
-) {
-  log(
-    'Select the customer and open the last quote',
-    selectCustomerAndOpenQuote.name
-  );
-  cy.visit(`${shopName}/en/USD/login`);
-  cy.get('cx-customer-selection input').clear().type(buyerEmail);
-  cy.get('cx-customer-selection .asm-results button').click();
-  cy.get('cx-customer-selection button[type=submit]').click();
-  cy.wait(5000);
   cy.get<string>('@quoteURL').then(cy.visit);
 }
 
