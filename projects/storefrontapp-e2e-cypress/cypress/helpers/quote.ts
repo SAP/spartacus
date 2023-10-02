@@ -6,6 +6,7 @@
 
 import * as authentication from './auth-forms';
 import * as common from './common';
+import * as productConfigurator from './product-configurator';
 
 /** alias for GET Quote Route */
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
@@ -386,14 +387,21 @@ export function clickOnYesBtnWithinRequestPopUp(): void {
 
 /**
  * Verifies if the global message is displayed on the top of the page.
+ *
+ * @param isDisplayed Indicates if  the global message should be shown
+ * @param message Explicit message text that should be shown.
  */
-export function checkGlobalMessageDisplayed(isDisplayed: boolean): void {
+export function checkGlobalMessageDisplayed(
+  isDisplayed: boolean,
+  message?: string
+): void {
   log(
     'Verifies if the global message is displayed on the top of the page.',
     checkGlobalMessageDisplayed.name
   );
   if (isDisplayed) {
     cy.get('cx-global-message').should('be.visible');
+    if (message) cy.get('cx-global-message').contains(message);
   } else {
     cy.get('cx-global-message').should('not.be.visible');
   }
@@ -689,6 +697,15 @@ export function loginASM(
 }
 
 /**
+ * Logout sales reporter from ASM mode.
+ */
+export function logoutASM() {
+  log('Logout from ASM mode', logoutASM.name);
+  cy.get('cx-asm-main-ui button[class=logout]').click();
+  cy.wait(6000);
+}
+
+/**
  * Selects the customer/buyer and opens the last quote while logged in as sales reporter in asm mode.
  *
  * @param shopName Name of the given shop (Powertools)
@@ -901,12 +918,36 @@ export function clickOnEditConfigurationLink(itemIndex: number) {
  * Clicks on 'View Cart' on the product details page.
  */
 export function clickOnViewCartBtnOnPD(): void {
+  log(
+    'Clicks on "View Cart" on the product details page',
+    clickOnViewCartBtnOnPD.name
+  );
   cy.get('div.cx-dialog-buttons a.btn-primary')
     .contains('view cart')
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/quote');
       cy.get('cx-quote-details-cart').should('be.visible');
+    });
+}
+
+/**
+ * Try to add a product to the cart and verify the given global message is shown.
+ *
+ * @param productName Name of the product that should be added to the cart
+ * @param globalMessage Global message which should be shown
+ */
+export function addProductAndCheckForGlobalMessage(
+  productName: string,
+  globalMessage: string
+) {
+  productConfigurator.searchForProduct(productName);
+  cy.get('cx-add-to-cart button.btn-primary')
+    .contains('Add to cart')
+    .first()
+    .click()
+    .then(() => {
+      this.checkGlobalMessageDisplayed(true, globalMessage);
     });
 }
 

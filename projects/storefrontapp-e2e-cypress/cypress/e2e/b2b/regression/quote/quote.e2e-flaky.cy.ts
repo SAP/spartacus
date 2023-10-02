@@ -171,7 +171,7 @@ context('Quote', () => {
     });
   });
 
-  describe.only('Quote cart support (CXSPA-4036)', () => {
+  describe('Quote cart support (CXSPA-4036)', () => {
     beforeEach(() => {
       quote.prepareQuote(
         POWERTOOLS,
@@ -188,10 +188,24 @@ context('Quote', () => {
       quote.clickOnViewCartBtnOnPD();
       quote.checkItemQuantity(1, '60');
     });
-    /*
-    //it('should submit a quote and not be able to add an item to the cart while not in draft state ', () => {
-
+    it('should submit a quote and not be able to add an item to the cart while in checkout process', () => {
+      quote.submitQuote();
+      quote.checkQuoteState(quote.STATUS_SUBMITTED);
+      quote.logoutBuyer(POWERTOOLS);
+      quote.enableASMMode(POWERTOOLS);
+      quote.loginASM(POWERTOOLS, SALESREP_EMAIL, SALESREP_PASSWORD);
+      quote.selectCustomerAndOpenQuote(POWERTOOLS, BUYER_EMAIL);
+      quote.submitQuote();
+      quote.checkQuoteState(quote.STATUS_SUBMITTED);
+      quote.logoutASM();
+      quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
+      quote.gotToQuoteDetailsOverviewPage();
+      quote.clickSubmitQuoteBtn();
+      quote.clickOnYesBtnWithinRequestPopUp();
+      quote.addProductAndCheckForGlobalMessage(
+        TEST_PRODUCT_HAMMER_DRILLING_NAME,
+        'Not possible to do changes to cart entries. Proceed to checkout'
+      );
     });
-    */
   });
 });
