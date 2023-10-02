@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { Injectable, Optional, inject } from '@angular/core';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
