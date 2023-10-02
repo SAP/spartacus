@@ -151,6 +151,7 @@ jobs:
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   ssr_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: MC - SSR tests
     runs-on: ubuntu-latest
     steps:
