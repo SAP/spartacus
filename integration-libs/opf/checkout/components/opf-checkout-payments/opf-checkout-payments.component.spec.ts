@@ -144,7 +144,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
     );
   });
 
-  it('should preselect payment option as undefined when termsAndConditionsChecked is true and selectedPaymentOptionId is undefined', () => {
+  it('should not preselect payment option', () => {
     opfServiceMock.getOpfMetadataState.and.returnValue(
       of({ termsAndConditionsChecked: false, selectedPaymentOptionId: 0, isPaymentInProgress: false })
     );
