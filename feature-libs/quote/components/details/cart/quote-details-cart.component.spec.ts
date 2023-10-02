@@ -285,7 +285,8 @@ describe('QuoteDetailsCartComponent', () => {
   });
 
   it('should toggle quote entries on enter', () => {
-    clickCartToggle(true);
+    CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
+    fixture.detectChanges();
     expect(
       mockQuoteDetailsCartService.setQuoteEntriesExpanded
     ).toHaveBeenCalledWith(false);
@@ -294,24 +295,12 @@ describe('QuoteDetailsCartComponent', () => {
   it('should toggle quote entries on click', () => {
     component.showCart$ = of(false);
     fixture.detectChanges();
-    clickCartToggle();
+    CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
+    fixture.detectChanges();
     expect(
       mockQuoteDetailsCartService.setQuoteEntriesExpanded
     ).toHaveBeenCalledWith(true);
   });
-
-  function clickCartToggle(useKeyboard?: boolean) {
-    const caret = CommonQuoteTestUtilsService.getHTMLElement(
-      htmlElem,
-      '.cx-toggle'
-    );
-    if (useKeyboard) {
-      caret.dispatchEvent(new KeyboardEvent('keydown', { key: 'enter' }));
-    } else {
-      caret.click();
-    }
-    fixture.detectChanges();
-  }
 
   it('should provide quote details observable', (done) => {
     component.quoteDetails$.subscribe((quoteDetails) => {
