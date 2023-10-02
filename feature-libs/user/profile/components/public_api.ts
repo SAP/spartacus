@@ -6,6 +6,7 @@
 
 export * from './close-account/index';
 export * from './forgot-password/index';
+export * from './new-password/index';
 export * from './register/index';
 export * from './reset-password/index';
 export * from './update-email/index';
