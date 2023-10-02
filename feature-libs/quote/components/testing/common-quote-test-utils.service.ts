@@ -198,10 +198,10 @@ export class CommonQuoteTestUtilsService {
   /**
    * Clicks first toggle element found.
    * @param {Element} htmlElement - HTML element.
-   * @param {boolean} useKeyboard if 'true' the click is executed using the enter key,
-   *  otherwise a mouse click is used.
+   * @param {boolean} useKeyboard - optional - if 'true' the click is executed using the enter key,
+   *  otherwise a mouse click is used. 'false' is default.
    */
-  static clickToggle(htmlElement: Element, useKeyboard?: boolean) {
+  static clickToggle(htmlElement: Element, useKeyboard: boolean = false) {
     const caret = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElement,
       '.cx-toggle'
