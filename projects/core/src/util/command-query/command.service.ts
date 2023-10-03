@@ -54,7 +54,10 @@ export class CommandService implements OnDestroy {
     const commands$ = new Subject<PARAMS>();
     const results$ = new Subject<ReplaySubject<RESULT>>();
 
-    // We have to provide specify handlers after RxJS version 7.3.0
+    // We have to specify selectively the handlers after RxJS version 7.3.0.
+    // Otherwise, the `unsubscribe` handler would be forwarded implicitly
+    // to `notifier$` when calling `tap(notifier$)`.
+    // But we don't want to forward `unsubscribe`, in particular.
     // To see more details, please check: https://github.com/ReactiveX/rxjs/pull/6527
     const notify = (
       notifier$: ReplaySubject<RESULT>
