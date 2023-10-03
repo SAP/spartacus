@@ -61,15 +61,20 @@ describe(`CheckoutDeliveryAddressService`, () => {
   let checkoutQuery: CheckoutQueryFacade;
   let eventService: EventService;
 
+  // TODO: CXSPA-4870 verify if can be avoided
+  let originalOnUnhandledError: ((err: any) => void) | null;
+
   beforeAll(() => {
     // configure rxjs to not crash node instance with thrown errors
     // TODO: CXSPA-4870 verify if can be avoided
+    originalOnUnhandledError = config.onUnhandledError;
     config.onUnhandledError = () => {};
   });
 
   afterAll(() => {
     // reset rxjs configuration
-    config.onUnhandledError = null;
+    // TODO: CXSPA-4870 verify if can be avoided
+    config.onUnhandledError = originalOnUnhandledError;
   });
 
   beforeEach(() => {
