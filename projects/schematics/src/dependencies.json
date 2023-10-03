@@ -161,7 +161,7 @@
     "@spartacus/schematics": "6.5.0",
     "@spartacus/storefront": "6.5.0",
     "@spartacus/styles": "6.5.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/pickup-in-store": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -234,7 +234,7 @@
     "@spartacus/schematics": "6.5.0",
     "@spartacus/storefront": "6.5.0",
     "@spartacus/styles": "6.5.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/smartedit": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -360,7 +360,7 @@
     "@angular/core": "^15.2.9",
     "@spartacus/core": "6.5.0",
     "@spartacus/schematics": "6.5.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "storefrontapp": {
     "@angular/animations": "^15.2.9",

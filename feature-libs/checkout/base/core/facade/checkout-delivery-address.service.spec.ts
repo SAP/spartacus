@@ -55,14 +55,27 @@ class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
   );
 }
 
-// configure rxjs to not crash node instance with thrown errors
-config.onUnhandledError = (err) => console.warn(err);
-
 describe(`CheckoutDeliveryAddressService`, () => {
   let service: CheckoutDeliveryAddressService;
   let connector: CheckoutDeliveryAddressConnector;
   let checkoutQuery: CheckoutQueryFacade;
   let eventService: EventService;
+
+  // TODO: CXSPA-4870 verify if can be avoided
+  let originalOnUnhandledError: ((err: any) => void) | null;
+
+  beforeAll(() => {
+    // configure rxjs to not crash node instance with thrown errors
+    // TODO: CXSPA-4870 verify if can be avoided
+    originalOnUnhandledError = config.onUnhandledError;
+    config.onUnhandledError = () => {};
+  });
+
+  afterAll(() => {
+    // reset rxjs configuration
+    // TODO: CXSPA-4870 verify if can be avoided
+    config.onUnhandledError = originalOnUnhandledError;
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
