@@ -38,9 +38,6 @@ const userRegisterFormData: UserSignUp = {
   preferences: {},
 };
 
-// Disable unhandled error logging
-config.onUnhandledError = () => {};
-
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
   get(): Observable<User> {
     return of({ uid: OCC_USER_ID_CURRENT });
@@ -108,6 +105,17 @@ describe('CdcRegisterComponentService', () => {
   let cdcConsentManagementService: CdcConsentManagementComponentService;
   let fb: UntypedFormBuilder;
   let anonymousConsentsService: AnonymousConsentsService;
+
+  beforeAll(() => {
+    // configure rxjs to not crash node instance with thrown errors
+    // TODO: CXSPA-4870 verify if can be avoided
+    config.onUnhandledError = () => {};
+  });
+
+  afterAll(() => {
+    // reset rxjs configuration
+    config.onUnhandledError = null;
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({

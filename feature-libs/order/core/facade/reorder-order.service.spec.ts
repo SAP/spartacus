@@ -34,14 +34,23 @@ class MockMultiCartFacade implements Partial<MultiCartFacade> {
   deleteCart = createSpy();
 }
 
-config.onUnhandledError = (error) => console.warn(error);
-
 describe(`ReorderOrderService`, () => {
   let service: ReorderOrderService;
   let connector: ReorderOrderConnector;
   let userIdService: UserIdService;
   let activeCartFacade: ActiveCartFacade;
   let multiCartFacade: MultiCartFacade;
+
+  beforeAll(() => {
+    // configure rxjs to not crash node instance with thrown errors
+    // TODO: CXSPA-4870 verify if can be avoided
+    config.onUnhandledError = () => {};
+  });
+
+  afterAll(() => {
+    // reset rxjs configuration
+    config.onUnhandledError = null;
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({

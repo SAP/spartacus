@@ -12,9 +12,6 @@ import {
 } from 'rxjs';
 import { Command, CommandService, CommandStrategy } from './command.service';
 
-// Disable unhandled error logging
-config.onUnhandledError = () => {};
-
 /** Utility function to create a full observer filled with spies */
 function createObserverSpy<T>(
   name: string
@@ -37,6 +34,17 @@ describe('CommandService', () => {
 
   let request1: Subject<string>;
   let request2: Subject<string>;
+
+  beforeAll(() => {
+    // configure rxjs to not crash node instance with thrown errors
+    // TODO: CXSPA-4870 verify if can be avoided
+    config.onUnhandledError = () => {};
+  });
+
+  afterAll(() => {
+    // reset rxjs configuration
+    config.onUnhandledError = null;
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
