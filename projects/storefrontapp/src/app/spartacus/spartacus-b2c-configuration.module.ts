@@ -16,12 +16,12 @@ import {
 import { environment } from '../../environments/environment';
 
 const defaultBaseSite = [
+  'apparel-uk-spa',
   'electronics-spa',
   'electronics',
   'electronics-standalone',
   'apparel-de',
   'apparel-uk',
-  'apparel-uk-spa',
   'apparel-uk-standalone',
 ];
 const baseSite = environment.epdVisualization
