@@ -172,6 +172,15 @@
       "@spartacus/customer-ticketing/root": [
         "../../feature-libs/customer-ticketing/root/public_api"
       ],
+      "@spartacus/myaccount-view/assets": [
+        "../../feature-libs/myaccount-view/assets/public_api"
+      ],
+      "@spartacus/myaccount-view": [
+        "../../feature-libs/myaccount-view/public_api"
+      ],
+      "@spartacus/myaccount-view/root": [
+        "../../feature-libs/myaccount-view/root/public_api"
+      ],
       "@spartacus/order/assets": ["../../feature-libs/order/assets/public_api"],
       "@spartacus/order/components": [
         "../../feature-libs/order/components/public_api"

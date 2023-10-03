@@ -87,6 +87,10 @@ export const SPARTACUS_CHECKOUT_OLD_CORE = `@spartacus/checkout/core`;
 export const SPARTACUS_CHECKOUT_OLD_ROOT = `@spartacus/checkout/root`;
 export const SPARTACUS_CHECKOUT_OLD_COMPONENTS = `@spartacus/checkout/components`;
 
+export const SPARTACUS_MYACCOUNT_VIEW = `@spartacus/myaccount-view`;
+export const SPARTACUS_MYACCOUNT_VIEW_ROOT = `@spartacus/myaccount-view/root`;
+export const SPARTACUS_MYACCOUNT_VIEW_ASSETS = `@spartacus/myaccount-view/assets`;
+
 export const SPARTACUS_ORDER = `@spartacus/order`;
 export const SPARTACUS_ORDER_ROOT = `@spartacus/order/root`;
 export const SPARTACUS_ORDER_ASSETS = `@spartacus/order/assets`;
@@ -230,7 +234,7 @@ export const CHECKOUT_BASE_FEATURE_NAME = 'Checkout';
 export const CHECKOUT_B2B_FEATURE_NAME = 'Checkout-B2B';
 export const CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME =
   'Checkout-Scheduled-Replenishment';
-
+export const MYACCOUNT_VIEW_FEATURE_NAME = 'MyAccount-View';
 export const ORDER_FEATURE_NAME = 'Order';
 
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME = 'Administration';

@@ -55,7 +55,8 @@
           "TMS-AEPL",
           "Pickup-In-Store",
           "User-Account",
-          "User-Profile"
+          "User-Profile",
+          "MyAccount-View"
         ],
         "type": "string"
       },
@@ -239,6 +240,10 @@
           {
             "value": "Pickup-In-Store",
             "label": "Pickup in Store"
+          },
+          {
+            "value": "MyAccount-View",
+            "label": "My-Account View"
           }
         ]
       }

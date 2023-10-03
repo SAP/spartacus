@@ -57,6 +57,8 @@ export const organizationAccountSummaryFeatureModulePath =
   'src/app/spartacus/features/organization/organization-account-summary-feature.module.ts';
 export const pdfInvoicesFeatureModulePath =
   'src/app/spartacus/features/pdf-invoices/pdf-invoices-feature.module.ts';
+export const myAccountViewFeatureModulePath =
+  'src/app/spartacus/features/myaccount-view/myaccount-view-feature.module.ts';
 export const productBulkPricingFeatureModulePath =
   'src/app/spartacus/features/product/product-bulk-pricing-feature.module.ts';
 export const productImageZoomFeatureModulePath =

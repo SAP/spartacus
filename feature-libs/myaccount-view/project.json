@@ -1,0 +1,50 @@
+{
+  "name": "myaccount-view",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "feature-libs/myaccount-view",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "./tools/build-lib:augmented-types",
+      "options": {
+        "tsConfig": "feature-libs/myaccount-view/tsconfig.lib.json",
+        "project": "feature-libs/myaccount-view/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-libs/myaccount-view/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "feature-libs/myaccount-view/tsconfig.lib.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "feature-libs/myaccount-view/test.ts",
+        "tsConfig": "feature-libs/myaccount-view/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "feature-libs/myaccount-view/karma.conf.js"
+      }
+    },
+    "test-jest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test:schematics",
+        "cwd": "feature-libs/myaccount-view"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "feature-libs/myaccount-view/**/*.ts",
+          "feature-libs/myaccount-view/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:feature"]
+}

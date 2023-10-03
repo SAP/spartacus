@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-myaccount-view/index#addMyAccountViewFeature",
+      "description": "Add My Account View feature",
+      "schema": "./add-myaccount-view/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-myaccount-view/index#addMyAccountViewFeature",
+      "description": "Add and configure My Account View feature",
+      "schema": "./add-myaccount-view/schema.json"
+    }
+  }
+}

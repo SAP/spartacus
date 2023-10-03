@@ -111,6 +111,9 @@
       "@spartacus/customer-ticketing/root": [
         "../../dist/customer-ticketing/root"
       ],
+      "@spartacus/myaccount-view/assets": ["../../dist/myaccount-view/assets"],
+      "@spartacus/myaccount-view": ["../../dist/myaccount-view"],
+      "@spartacus/myaccount-view/root": ["../../dist/myaccount-view/root"],
       "@spartacus/order/assets": ["../../dist/order/assets"],
       "@spartacus/order/components": ["../../dist/order/components"],
       "@spartacus/order/core": ["../../dist/order/core"],
