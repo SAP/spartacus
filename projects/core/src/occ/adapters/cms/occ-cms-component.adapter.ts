@@ -16,12 +16,14 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { UserIdService } from '../../../auth';
+import { FeatureConfigService } from '../../../features-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
   protected readonly userIdService = inject(UserIdService);
+  protected readonly featureConfigService = inject(FeatureConfigService);
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
@@ -34,17 +36,23 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     id: string,
     pageContext: PageContext
   ): Observable<T> {
-    return this.userIdService.getUserId().pipe(
-      switchMap((userId: string) => {
-        return this.http.get<T>(
-          this.getComponentEndPoint(id, pageContext, userId),
-          {
-            headers: this.headers,
-          }
-        );
-      }),
-      this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER)
-    );
+    if (this.featureConfigService.isEnabled('newCmsEndpoint')) {
+      return this.userIdService.getUserId().pipe(
+        switchMap((userId: string) => {
+          return this.http.get<T>(
+            this.getComponentEndPoint(id, pageContext, userId),
+            {
+              headers: this.headers,
+            }
+          );
+        }),
+        this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER)
+      );
+    } else {
+      return this.http.get<T>(this.getComponentEndPoint(id, pageContext), {
+        headers: this.headers,
+      });
+    }
   }
 
   findComponentsByIds(
@@ -61,52 +69,78 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     };
 
     requestParams['componentIds'] = ids.toString();
-
-    return this.userIdService.getUserId().pipe(
-      switchMap((userId: string) => {
-        return this.http.get<Occ.ComponentList>(
-          this.getComponentsEndpoint(requestParams, fields, userId),
+    if (this.featureConfigService.isEnabled('newCmsEndpoint')) {
+      return this.userIdService.getUserId().pipe(
+        switchMap((userId: string) => {
+          return this.http.get<Occ.ComponentList>(
+            this.getComponentsEndpoint(requestParams, fields, userId),
+            {
+              headers: this.headers,
+            }
+          );
+        }),
+        map((componentList) => componentList.component ?? []),
+        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
+      );
+    } else {
+      return this.http
+        .get<Occ.ComponentList>(
+          this.getComponentsEndpoint(requestParams, fields),
           {
             headers: this.headers,
           }
+        )
+        .pipe(
+          map((componentList) => componentList.component ?? []),
+          this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
         );
-      }),
-      map((componentList) => componentList.component ?? []),
-      this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
-    );
+    }
   }
 
   protected getComponentEndPoint(
     id: string,
     pageContext: PageContext,
-    userId: string
+    userId?: string
   ): string {
-    const queryParams = this.getContextParams(pageContext);
+    if (this.featureConfigService.isEnabled('newCmsEndpoint')) {
+      const queryParams = this.getContextParams(pageContext);
+      const attributes = userId
+        ? {
+            urlParams: { id, userId },
+            queryParams,
+          }
+        : { urlParams: { id }, queryParams };
 
-    const attributes = userId
-      ? {
-          urlParams: { id, userId },
-          queryParams,
-        }
-      : { urlParams: { id }, queryParams };
-    return this.occEndpoints.buildUrl('component', attributes);
+      return this.occEndpoints.buildUrl('component', attributes);
+    } else {
+      return this.occEndpoints.buildUrl('component', {
+        urlParams: { id },
+        queryParams: this.getContextParams(pageContext),
+      });
+    }
   }
 
   protected getComponentsEndpoint(
     requestParams: any,
     fields: string,
-    userId: string
+    userId?: string
   ): string {
-    const queryParams = { fields, ...requestParams };
+    if (this.featureConfigService.isEnabled('newCmsEndpoint')) {
+      const queryParams = { fields, ...requestParams };
 
-    const attributes = userId
-      ? {
-          urlParams: { userId },
-          queryParams,
-        }
-      : { queryParams };
+      const attributes = userId
+        ? {
+            urlParams: { userId },
+            queryParams,
+          }
+        : { queryParams };
 
-    return this.occEndpoints.buildUrl('components', attributes);
+      return this.occEndpoints.buildUrl('components', attributes);
+    } else {
+      return this.occEndpoints.buildUrl('components', {
+        queryParams: { fields, ...requestParams },
+      });
+    }
   }
 
   protected getPaginationParams(

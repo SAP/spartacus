@@ -14,7 +14,7 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { UserIdService } from '@spartacus/core';
+import { FeatureConfigService, UserIdService } from '@spartacus/core';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -58,6 +58,7 @@ describe('OccCmsComponentAdapter', () => {
   let converter: ConverterService;
   let endpointsService: OccEndpointsService;
   let userIdService: UserIdService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -77,9 +78,11 @@ describe('OccCmsComponentAdapter', () => {
     converter = TestBed.inject(ConverterService);
     endpointsService = TestBed.inject(OccEndpointsService);
     userIdService = TestBed.inject(UserIdService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
+    spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
   });
 
   afterEach(() => {

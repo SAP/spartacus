@@ -44,7 +44,7 @@ export class LegacyOccCmsComponentAdapter extends OccCmsComponentAdapter {
 
     return this.http
       .post<Occ.ComponentList>(
-        this.getComponentsEndpoint(requestParams, fields, ''),
+        this.getComponentsEndpoint(requestParams, fields),
         idList,
         {
           headers: this.headers,

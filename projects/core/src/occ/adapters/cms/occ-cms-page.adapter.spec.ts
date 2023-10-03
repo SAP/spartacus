@@ -10,7 +10,7 @@ import { HOME_PAGE_CONTEXT, PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
-import { UserIdService } from '@spartacus/core';
+import { FeatureConfigService, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
@@ -74,6 +74,7 @@ describe('OccCmsPageAdapter', () => {
   let httpMock: HttpTestingController;
   let endpointsService: OccEndpointsService;
   let userIdService: UserIdService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -93,6 +94,8 @@ describe('OccCmsPageAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     endpointsService = TestBed.inject(OccEndpointsService);
     userIdService = TestBed.inject(UserIdService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
+    spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
   });
 
   afterEach(() => {

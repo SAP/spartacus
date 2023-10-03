@@ -10,15 +10,29 @@ export const defaultCmsModuleConfig: CmsConfig = {
   backend: {
     occ: {
       endpoints: {
-        component: 'users/${userId}/cms/components/${id}',
-        components: 'users/${userId}/cms/components',
-        pages: 'users/${userId}/cms/pages',
-        page: 'users/${userId}/cms/pages/${id}',
+        component: 'cms/components/${id}',
+        components: 'cms/components',
+        pages: 'cms/pages',
+        page: 'cms/pages/${id}',
       },
     },
   },
   cmsComponents: {},
   componentsLoading: {
     pageSize: 50,
+  },
+};
+
+export const newCmsModuleConfig: CmsConfig = {
+  ...defaultCmsModuleConfig,
+  backend: {
+    occ: {
+      endpoints: {
+        component: 'users/${userId}/cms/components/${id}',
+        components: 'users/${userId}/cms/components',
+        pages: 'users/${userId}/cms/pages',
+        page: 'users/${userId}/cms/pages/${id}',
+      },
+    },
   },
 };
