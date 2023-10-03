@@ -56,7 +56,7 @@ export class StoreFinderService implements OnDestroy {
 
   /**
    * Returns observable for store's entities
-   * Notes: The return value of this method signature is wrong, should be StoreFinderSearchPage.
+   * CXSPA-4871: The return value of this method signature is wrong, should be StoreFinderSearchPage.
    */
   getFindStoresEntities(): Observable<StoreEntities> {
     return this.store.pipe(
