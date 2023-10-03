@@ -53,9 +53,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     protected opfCheckoutService: OpfCheckoutFacade,
     protected opfService: OpfService,
     protected globalMessageService: GlobalMessageService
-  ) {
-    console.log('xyz')
-  }
+  ) {}
 
   /**
    * Method pre-selects (based on terms and conditions state)
