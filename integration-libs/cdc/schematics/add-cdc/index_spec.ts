@@ -167,7 +167,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
           ) {
             continue;
           }
-          // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
+          // CXSPA-4872: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
           // const expectedVersion = (peerDependencies as Record<
           //   string,
           //   string
