@@ -12,9 +12,15 @@ import { checkLoadingMsgNotDisplayed } from './common';
 
 /** alias for GET Quote Route */
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
+export const PATCH_QUOTE_ALIAS = '@PATCH_QUOTE';
+export const POST_QUOTE_ALIAS = '@POST_QUOTE';
 export const STATUS_SUBMITTED = 'Submitted';
 export const STATUS_REQUESTED = 'Requested';
 export const STATUS_CANCELED = 'Cancelled';
+export const STATUS_BUYER_SUBMIT = 'status_buyer_submit';
+export const STATUS_BUYER_CANCEL = 'status_buyer_cancel';
+export const STATUS_BUYER_CHECKOUT = 'status_buyer_checkout';
+export const STATUS_SALES_REPORTER_SUBMIT = 'status_sales_reporter_submit';
 const STATUS_DRAFT = 'Draft';
 const CARD_TITLE_QUOTE_INFORMATION = 'Quote Information';
 const SUBMIT_BTN = 'Submit Quote';
@@ -150,13 +156,13 @@ export function addProductToCart(
 /**
  * Submits a quote via clicking "Yes" button in the confirmation popover.
  */
-export function submitQuote(): void {
+export function submitQuote(status: string): void {
   log(
     'Submits a quote via clicking "Yes" button in the confirmation popover',
     submitQuote.name
   );
   this.clickSubmitQuoteBtn();
-  this.clickOnYesBtnWithinRequestPopUp();
+  this.clickOnYesBtnWithinRequestPopUp(status);
   gotToQuoteDetailsOverviewPage();
 }
 
@@ -200,6 +206,7 @@ export function changeItemQuantityByStepper(
     `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
   ).within(() => {
     cy.get('cx-item-counter button').contains(changeType).click();
+    cy.wait(PATCH_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
   });
 }
 
@@ -223,6 +230,7 @@ export function changeItemQuantityByCounter(
     cy.get('cx-item-counter input')
       .type('{selectall}' + newQuantity)
       .pressTab();
+    cy.wait(PATCH_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
   });
 }
 
@@ -258,6 +266,7 @@ export function removeItem(itemIndex: number): void {
     `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
   ).within(() => {
     cy.get('button').contains('Remove').click();
+    cy.wait(PATCH_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
   });
   gotToQuoteDetailsOverviewPage();
 }
@@ -406,13 +415,42 @@ export function clickEditPencil(): void {
 /**
  * Clicks on 'Yes' button within the quote confirmation popover.
  */
-export function clickOnYesBtnWithinRequestPopUp(): void {
+export function clickOnYesBtnWithinRequestPopUp(status: string): void {
   log(
     'Clicks on "Yes" button within the quote confirmation popover',
     clickOnYesBtnWithinRequestPopUp.name
   );
-  cy.get('cx-quote-confirm-action-dialog button.btn-primary').click();
-  cy.wait(GET_QUOTE_ALIAS);
+  cy.get('cx-quote-confirm-action-dialog button.btn-primary')
+    .click()
+    .then(() => {
+      switch (status) {
+        case STATUS_BUYER_SUBMIT: {
+          cy.wait(POST_QUOTE_ALIAS)
+            .its('response.statusCode')
+            .should('eq', 200);
+          break;
+        }
+        case STATUS_BUYER_CANCEL: {
+          cy.wait(POST_QUOTE_ALIAS)
+            .its('response.statusCode')
+            .should('eq', 200);
+          break;
+        }
+        case STATUS_SALES_REPORTER_SUBMIT: {
+          cy.wait(POST_QUOTE_ALIAS)
+            .its('response.statusCode')
+            .should('eq', 201);
+          break;
+        }
+        case STATUS_BUYER_CHECKOUT: {
+          cy.wait(POST_QUOTE_ALIAS)
+            .its('response.statusCode')
+            .should('eq', 200);
+          cy.url().should('include', '/checkout/');
+          break;
+        }
+      }
+    });
 }
 
 /**
@@ -654,10 +692,10 @@ export function checkLinkedItemInViewport(index: number) {
 /**
  * Cancels the quote.
  */
-export function cancelQuote() {
+export function cancelQuote(status: string) {
   log('Cancels the quote', cancelQuote.name);
   clickCancelQuoteBtn();
-  clickOnYesBtnWithinRequestPopUp();
+  clickOnYesBtnWithinRequestPopUp(status);
 }
 
 /**
@@ -929,6 +967,28 @@ export function registerGetQuoteRoute(shopName: string) {
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/*/quotes/*`,
   }).as(GET_QUOTE_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Registers POST quote route.
+ */
+export function registerPostQuoteRoute() {
+  log('Registers POST quote route.', registerPostQuoteRoute.name);
+  cy.intercept({
+    method: 'POST',
+    path: `*`,
+  }).as(POST_QUOTE_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Registers PATCH quote route.
+ */
+export function registerPatchQuoteRoute() {
+  log('Registers PATCH quote route.', registerPatchQuoteRoute.name);
+  cy.intercept({
+    method: 'PATCH',
+    path: `*`,
+  }).as(PATCH_QUOTE_ALIAS.substring(1)); // strip the '@'
 }
 
 /**

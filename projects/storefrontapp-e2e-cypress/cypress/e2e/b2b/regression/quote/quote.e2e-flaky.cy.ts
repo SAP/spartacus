@@ -14,7 +14,6 @@ const TEST_PRODUCT_HAMMER_DRILLING_NAME = 'DH40MR';
 const BUYER_EMAIL = 'gi.sun@pronto-hw.com';
 const BUYER_PASSWORD = '12341234';
 const BUYER_USER = 'Gi Sun';
-const SALESREP_USER = 'Darrin Hesser';
 const SALESREP_EMAIL = 'darrin.hesser@acme.com';
 const SALESREP_PASSWORD = '12341234';
 const MSG_TYPE_WARNING = '[GlobalMessage] Warning';
@@ -22,11 +21,6 @@ const PRODUCT_AMOUNT_30: number = 30;
 const buyer = {
   fullName: BUYER_USER,
   email: BUYER_EMAIL,
-};
-
-const seller = {
-  fullName: SALESREP_USER,
-  email: SALESREP_EMAIL,
 };
 
 context('Quote', () => {
@@ -43,6 +37,8 @@ context('Quote', () => {
     cy.visit('/');
     quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
     quote.registerGetQuoteRoute(POWERTOOLS);
+    quote.registerPostQuoteRoute();
+    quote.registerPatchQuoteRoute();
   });
 
   describe('Request quote process', () => {
@@ -83,7 +79,7 @@ context('Quote', () => {
 
       quote.clickItemLinkInComment(2, TEST_PRODUCT_HAMMER_DRILLING_NAME);
       quote.checkLinkedItemInViewport(1);
-      quote.submitQuote();
+      quote.submitQuote(quote.STATUS_BUYER_SUBMIT);
       quote.checkQuoteState(quote.STATUS_SUBMITTED);
       quote.checkCommentsNotEditable();
     });
@@ -99,19 +95,28 @@ context('Quote', () => {
       );
     });
 
+    //ToDo: when changing the price without the stepper, there needs to be a delay to wait for the change to happen
     it('should edit quantity of items within a buyer quote draft (CXSPA-3852)', () => {
       let itemIndex = 1;
       quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
       quote.checkItemQuantity(itemIndex, PRODUCT_AMOUNT_30.toString());
       quote.changeItemQuantityByStepper(itemIndex, '+');
+      //ToDo: Here we need to wait till the update is done in the backend and returned to the frontend
+      //cy.wait(2000); //this fixes the problem local
       quote.checkItemQuantity(itemIndex, (PRODUCT_AMOUNT_30 + 1).toString());
       quote.changeItemQuantityByStepper(itemIndex, '-');
+      //ToDo: Here we need to wait till the update is done in the backend and returned to the frontend
+      //cy.wait(2000); //this fixes the problem local
       quote.checkItemQuantity(itemIndex, PRODUCT_AMOUNT_30.toString());
-      quote.changeItemQuantityByCounter(itemIndex, '10');
-      quote.checkItemQuantity(itemIndex, '10');
+      quote.changeItemQuantityByCounter(itemIndex, '1');
+      //ToDo: Here we need to wait till the update is done in the backend and returned to the frontend
+      //cy.wait(2000); //this fixes the problem local
+      quote.checkItemQuantity(itemIndex, '1');
       quote.checkSubmitBtn(false);
       quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
       quote.removeItem(itemIndex);
+      //ToDo: Here we need to wait till the update is done in the backend and returned to the frontend
+      //cy.wait(2000); //this fixes the problem local
       quote.checkItemExists(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
     });
 
@@ -148,14 +153,14 @@ context('Quote', () => {
         PRODUCT_AMOUNT_30,
         true
       );
-      quote.cancelQuote();
+      quote.cancelQuote(quote.STATUS_BUYER_CANCEL);
       quote.checkQuoteListPresent();
       quote.gotToQuoteDetailsOverviewPage();
       quote.checkQuoteState(quote.STATUS_CANCELED);
     });
   });
 
-  describe.only('Edit quote process - seller (sales assistant) perspective (CXSPA-4235)', () => {
+  describe('Edit quote process - seller (sales assistant) perspective (CXSPA-4235)', () => {
     it('should set an expiry date, give a discount and submit the quote', () => {
       quote.prepareQuote(
         POWERTOOLS,
@@ -163,7 +168,8 @@ context('Quote', () => {
         PRODUCT_AMOUNT_30,
         true
       );
-      quote.submitQuote();
+      quote.submitQuote(quote.STATUS_BUYER_SUBMIT);
+      //ToDo: Here we need to wait till the backend created the new quote object
       quote.checkQuoteState(quote.STATUS_SUBMITTED);
       quote.logout(POWERTOOLS);
       quote.enableASMMode(POWERTOOLS);
@@ -176,8 +182,9 @@ context('Quote', () => {
       quote.checkTotalEstimatedPrice('$26,160.00');
       quote.setDiscount('100');
       quote.checkTotalEstimatedPrice('$26,060.00');
-      quote.submitQuote();
-      //quote.checkQuoteState(quote.STATUS_SUBMITTED);
+      quote.submitQuote(quote.STATUS_SALES_REPORTER_SUBMIT);
+      //ToDo: Here we need to wait till the backend updated the quote object
+      quote.checkQuoteState(quote.STATUS_SUBMITTED);
     });
   });
 
@@ -201,29 +208,25 @@ context('Quote', () => {
     });
 
     it('should submit a quote and not be able to add any further items to the quote in checkout', () => {
-      quote.submitQuote();
+      quote.submitQuote(quote.STATUS_BUYER_SUBMIT);
+      //ToDo: Here we need to wait till the backend created the new quote object
       quote.checkQuoteState(quote.STATUS_SUBMITTED);
       quote.logout(POWERTOOLS);
-
       quote.enableASMMode(POWERTOOLS);
       asm.agentLogin(SALESREP_EMAIL, SALESREP_PASSWORD);
       asm.startCustomerEmulation(buyer, true);
       quote.gotToQuoteDetailsOverviewPage();
       quote.checkQuoteState(quote.STATUS_REQUESTED);
-
-      quote.submitQuote();
+      quote.submitQuote(quote.STATUS_SALES_REPORTER_SUBMIT);
+      //ToDo: Here we need to wait till the backend updated the quote object
       asm.agentSignOut();
       quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
-
-      /**
       quote.gotToQuoteDetailsOverviewPage();
-      quote.clickSubmitQuoteBtn();
-      quote.clickOnYesBtnWithinRequestPopUp();
+      quote.submitQuote(quote.STATUS_BUYER_CHECKOUT);
       quote.addProductAndCheckForGlobalMessage(
         TEST_PRODUCT_HAMMER_DRILLING_NAME,
         'Not possible to do changes to cart entries. Proceed to checkout'
       );
-*/
     });
   });
 });
