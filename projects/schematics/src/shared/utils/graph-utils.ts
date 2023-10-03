@@ -136,7 +136,8 @@ export function kahnsAlgorithm(graph: Graph): string[] {
 function createLibraryDependencyGraph(): Graph {
   const skip = CORE_SPARTACUS_SCOPES.concat(
     'storefrontapp-e2e-cypress',
-    'storefrontapp'
+    'storefrontapp',
+    'ssr-tests'
   );
 
   const spartacusLibraries = Object.keys(collectedDependencies).filter(
