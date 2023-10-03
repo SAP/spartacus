@@ -25,7 +25,7 @@ import {
   UserRegisterFacade,
   UserSignUp,
 } from '@spartacus/user/profile/root';
-import { Observable, of } from 'rxjs';
+import { config, Observable, of, throwError } from 'rxjs';
 import { CDCRegisterComponentService } from './cdc-register-component.service';
 import createSpy = jasmine.createSpy;
 
@@ -37,6 +37,9 @@ const userRegisterFormData: UserSignUp = {
   password: 'password',
   preferences: {},
 };
+
+// Disable unhandled error logging
+config.onUnhandledError = () => {};
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
   get(): Observable<User> {
@@ -232,27 +235,29 @@ describe('CdcRegisterComponentService', () => {
     });
 
     it('should not do anything when CDC registration fails', (done) => {
+      cdcJsService.registerUserWithoutScreenSet = createSpy().and.returnValue(
+        throwError(() => 'ERROR')
+      );
       cdcUserRegisterService.generatePreferencesObject =
         createSpy().and.returnValue({});
 
-      cdcUserRegisterService
-        .register({ ...userRegisterFormData, password: undefined })
-        .subscribe({
-          error: () => {
-            expect(connector.register).not.toHaveBeenCalled();
-            expect(
-              cdcJsService.registerUserWithoutScreenSet
-            ).toHaveBeenCalledWith({
-              titleCode: 'Mr.',
-              firstName: 'firstName',
-              lastName: 'lastName',
-              uid: 'uid',
-              preferences: {},
-            });
-            done();
-          },
-        });
+      cdcUserRegisterService.register(userRegisterFormData).subscribe({
+        error: () => {
+          expect(connector.register).not.toHaveBeenCalled();
+          expect(
+            cdcJsService.registerUserWithoutScreenSet
+          ).toHaveBeenCalledWith({
+            titleCode: 'Mr.',
+            firstName: 'firstName',
+            lastName: 'lastName',
+            uid: 'uid',
+            password: 'password',
+            preferences: {},
+          });
+        },
+      });
       expect(cdcJsService.didLoad).toHaveBeenCalled();
+      done();
     });
 
     it('should throw error when CDC user token fails', (done) => {

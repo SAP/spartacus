@@ -25,7 +25,7 @@
     "@angular/core": "^15.2.9",
     "@spartacus/core": "6.5.0-1",
     "@spartacus/schematics": "6.5.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "publishConfig": {
     "access": "public"

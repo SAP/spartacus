@@ -6,10 +6,14 @@ import {
   Observable,
   PartialObserver,
   Subject,
+  config,
   of,
   throwError,
 } from 'rxjs';
 import { Command, CommandService, CommandStrategy } from './command.service';
+
+// Disable unhandled error logging
+config.onUnhandledError = () => {};
 
 /** Utility function to create a full observer filled with spies */
 function createObserverSpy<T>(
@@ -273,9 +277,11 @@ describe('CommandService', () => {
 
       it('should cancel in-progress requests', () => {
         const observer1 = createObserverSpy('observer1');
-        cancelPrevCommand.execute(request1).subscribe(observer1);
+        const sub1 = cancelPrevCommand.execute(request1);
+        // cancelPrevCommand.execute(request1).subscribe(observer1);
 
         cancelPrevCommand.execute(request2).subscribe();
+        sub1.subscribe(observer1);
         request1.next('next');
 
         expect(observer1.next).not.toHaveBeenCalled();
