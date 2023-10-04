@@ -4,7 +4,6 @@
 // Components
 @import './quote-list';
 @import './quote-request-button';
-@import './quote-request-dialog';
 @import './quote-details-edit';
 @import './quote-details-overview';
 @import './quote-details-cart';
@@ -18,7 +17,7 @@
 
 $quote-components-allowlist: cx-quote-list cx-quote-details-edit
   cx-quote-details-overview cx-quote-details-cart cx-quote-request-button
-  cx-quote-action-links cx-quote-request-dialog cx-quote-actions-by-role
+  cx-quote-action-links cx-quote-actions-by-role
   cx-quote-details-comment cx-quote-details-cart-summary cx-quote-seller-edit
   cx-quote-confirm-action-dialog !default;
 
