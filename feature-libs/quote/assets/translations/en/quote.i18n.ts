@@ -79,6 +79,11 @@ export const quote = {
       newCart: 'New Cart',
       quotes: 'Quotes',
     },
+    request: {
+      minRequestInitiationNote:
+        'Minimum ${{minValue}} subtotal is required to submit a quote ',
+      requestQuote: 'Request Quote',
+    },
     confirmActionDialog: {
       name: 'Name:',
       description: 'Description:',
