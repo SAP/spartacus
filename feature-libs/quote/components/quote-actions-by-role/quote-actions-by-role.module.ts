@@ -26,6 +26,7 @@ import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
             QuoteActionType.APPROVE,
             QuoteActionType.CHECKOUT,
             QuoteActionType.SUBMIT,
+            QuoteActionType.REQUOTE,
           ],
           actionsOrderByState: {
             BUYER_DRAFT: [

@@ -1,6 +1,12 @@
 <ng-container *ngIf="quoteDetails$ | async as quoteDetails; else ghostCart">
   <ng-container *ngIf="{ showCart: showCart$ | async } as state">
-    <div class="cx-toggle" (click)="onToggleShowOrHideCart(!!state.showCart)">
+    <div
+      class="cx-toggle"
+      #cartToggle
+      (keydown.enter)="cartToggle.click()"
+      (click)="onToggleShowOrHideCart(!!state.showCart)"
+      tabindex="0"
+    >
       <cx-icon
         aria-hidden="false"
         [type]="state.showCart ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
