@@ -5,20 +5,14 @@ import {
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
 } from '@spartacus/cart/base/root';
-import { CxEvent, EventService } from '@spartacus/core';
-import { BehaviorSubject, NEVER, Observable, Subscription } from 'rxjs';
+import { EventService } from '@spartacus/core';
+import { NEVER, Observable, Subscription, of } from 'rxjs';
 import { QuoteCartEventListener } from './quote-cart-event.listener';
 import createSpy = jasmine.createSpy;
 import { QuoteDetailsReloadQueryEvent } from './quote.events';
 
-let mockEventStream$: BehaviorSubject<CxEvent>;
-
-class MockEventService implements Partial<EventService> {
-  get(): Observable<any> {
-    return mockEventStream$ ? mockEventStream$.asObservable() : NEVER;
-  }
-  dispatch = createSpy();
-}
+const cartRemoveEntrySuccessEvent = new CartRemoveEntrySuccessEvent();
+cartRemoveEntrySuccessEvent.entry = {};
 
 const cartAddEntrySuccessEvent = new CartAddEntrySuccessEvent();
 cartAddEntrySuccessEvent.productCode = 'test';
@@ -28,15 +22,40 @@ const cartUpdateEntrySuccessEvent = new CartUpdateEntrySuccessEvent();
 cartUpdateEntrySuccessEvent.quantity = 1;
 cartUpdateEntrySuccessEvent.entry = {};
 
-const cartRemoveEntrySuccessEvent = new CartRemoveEntrySuccessEvent();
-cartRemoveEntrySuccessEvent.entry = {};
-
 const cartAddEntryFailEvent = new CartAddEntryFailEvent();
 cartAddEntryFailEvent.error = {};
+
+let removeEntrySuccess = false;
+let addEntryFail = false;
+let addEntrySuccess = false;
+let updateEntrySuccess = false;
+
+class MockEventService implements Partial<EventService> {
+  get(eventType: any): Observable<any> {
+    if (eventType === CartRemoveEntrySuccessEvent) {
+      return removeEntrySuccess ? of(cartRemoveEntrySuccessEvent) : NEVER;
+    } else if (eventType === CartAddEntrySuccessEvent) {
+      return addEntrySuccess ? of(cartAddEntrySuccessEvent) : NEVER;
+    } else if (eventType === CartUpdateEntrySuccessEvent) {
+      return updateEntrySuccess ? of(cartAddEntrySuccessEvent) : NEVER;
+    } else {
+      return addEntryFail ? of(cartAddEntryFailEvent) : NEVER;
+    }
+  }
+  dispatch = createSpy();
+}
 
 describe('QuoteCartEventListener', () => {
   let listener: QuoteCartEventListener;
   let eventService: EventService;
+
+  function createListenerAndExpectPropagation() {
+    listener = TestBed.inject(QuoteCartEventListener);
+    expect(eventService.dispatch).toHaveBeenCalledWith(
+      {},
+      QuoteDetailsReloadQueryEvent
+    );
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,44 +67,37 @@ describe('QuoteCartEventListener', () => {
         },
       ],
     });
+    removeEntrySuccess = false;
+    addEntryFail = false;
+    addEntrySuccess = false;
+    updateEntrySuccess = false;
 
-    listener = TestBed.inject(QuoteCartEventListener);
     eventService = TestBed.inject(EventService);
   });
 
-  // it('should dispatch QuoteDetailsReloadQueryEvent on CartAddEntrySuccessEvent event ', () => {
-  //   expect(listener).toBeDefined();
-  //   mockEventStream$.next(cartAddEntrySuccessEvent);
-  //   expect(eventService.dispatch).toHaveBeenCalledWith(
-  //     {},
-  //     QuoteDetailsReloadQueryEvent
-  //   );
-  // });
+  it('should create listener ', () => {
+    listener = TestBed.inject(QuoteCartEventListener);
+    expect(listener).toBeDefined();
+  });
 
-  // it('should dispatch QuoteDetailsReloadQueryEvent on CartUpdateEntrySuccessEvent event ', () => {
-  //   expect(listener).toBeDefined();
-  //   mockEventStream$.next(cartUpdateEntrySuccessEvent);
-  //   expect(eventService.dispatch).toHaveBeenCalledWith(
-  //     {},
-  //     QuoteDetailsReloadQueryEvent
-  //   );
-  // });
+  it('should dispatch QuoteDetailsReloadQueryEvent on CartAddEntrySuccessEvent event ', () => {
+    addEntrySuccess = true;
+    createListenerAndExpectPropagation();
+  });
+
+  it('should dispatch QuoteDetailsReloadQueryEvent on CartUpdateEntrySuccessEvent event ', () => {
+    updateEntrySuccess = true;
+    createListenerAndExpectPropagation();
+  });
 
   it('should dispatch QuoteDetailsReloadQueryEvent on CartRemoveEntrySuccessEvent event ', () => {
-    expect(listener).toBeDefined();
-    mockEventStream$ = new BehaviorSubject<CxEvent>(
-      cartRemoveEntrySuccessEvent
-    );
-
-    expect(eventService.dispatch).toHaveBeenCalledWith(
-      {},
-      QuoteDetailsReloadQueryEvent
-    );
+    removeEntrySuccess = true;
+    createListenerAndExpectPropagation();
   });
 
   it('should not dispatch QuoteDetailsReloadQueryEvent on CartAddEntryFailEvent event ', () => {
-    expect(listener).toBeDefined();
-    mockEventStream$ = new BehaviorSubject<CxEvent>(cartAddEntryFailEvent);
+    addEntryFail = true;
+    listener = TestBed.inject(QuoteCartEventListener);
     expect(eventService.dispatch).not.toHaveBeenCalled();
   });
 

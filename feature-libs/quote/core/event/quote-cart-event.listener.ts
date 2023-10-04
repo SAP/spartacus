@@ -37,8 +37,7 @@ export class QuoteCartEventListener implements OnDestroy {
       })
     );
     this.subscription.add(
-      this.eventService.get(CartRemoveEntrySuccessEvent).subscribe((g) => {
-        console.log("CHHI remove: " + JSON.stringify(g));
+      this.eventService.get(CartRemoveEntrySuccessEvent).subscribe(() => {
         this.triggerQuoteReload();
       })
     );
