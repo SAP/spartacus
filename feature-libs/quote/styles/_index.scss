@@ -17,8 +17,8 @@
 
 $quote-components-allowlist: cx-quote-list cx-quote-details-edit
   cx-quote-details-overview cx-quote-details-cart cx-quote-request-button
-  cx-quote-action-links cx-quote-actions-by-role
-  cx-quote-details-comment cx-quote-details-cart-summary cx-quote-seller-edit
+  cx-quote-action-links cx-quote-actions-by-role cx-quote-details-comment
+  cx-quote-details-cart-summary cx-quote-seller-edit
   cx-quote-confirm-action-dialog !default;
 
 $skipComponentStyles: () !default;
