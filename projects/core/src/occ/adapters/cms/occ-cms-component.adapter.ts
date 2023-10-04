@@ -54,9 +54,11 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
         this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER)
       );
     }
-    return this.http.get<T>(this.getComponentEndPoint(id, pageContext), {
-      headers: this.headers,
-    });
+    return this.http
+      .get<T>(this.getComponentEndPoint(id, pageContext), {
+        headers: this.headers,
+      })
+      .pipe(this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER));
   }
 
   findComponentsByIds(
