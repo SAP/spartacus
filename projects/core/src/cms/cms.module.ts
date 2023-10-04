@@ -28,9 +28,8 @@ function getDefaultCmsConfig(configChunk: any) {
 
   if (isUserCmsEndpoint) {
     return defaultUserCmsModuleConfig;
-  } else {
-    return defaultCmsModuleConfig;
   }
+  return defaultCmsModuleConfig;
 }
 
 @NgModule({
@@ -42,7 +41,7 @@ export class CmsModule {
       ngModule: CmsModule,
       providers: [
         CmsService,
-        // TODO: (CXSPA-4886) In 7.0 change to provideDefaultConfig(defaultCmsModuleConfig)
+        // TODO: (CXSPA-4886) In the major change to provideDefaultConfig(defaultCmsModuleConfig)
         provideDefaultConfigFactory(getDefaultCmsConfig, [ConfigChunk]),
       ],
     };

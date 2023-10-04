@@ -40,7 +40,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     id: string,
     pageContext: PageContext
   ): Observable<T> {
-    // TODO: (CXSPA-4886) Remove flag in 7.0
+    // TODO: (CXSPA-4886) Remove flag in the major
     if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
       return this.userIdService.getUserId().pipe(
         switchMap((userId: string) => {
@@ -73,7 +73,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     };
 
     requestParams['componentIds'] = ids.toString();
-    // TODO: (CXSPA-4886) Remove flag in 7.0
+    // TODO: (CXSPA-4886) Remove flag in the major
     if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
       return this.userIdService.getUserId().pipe(
         switchMap((userId: string) => {
@@ -106,7 +106,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageContext: PageContext,
     userId?: string
   ): string {
-    // TODO: (CXSPA-4886) Remove flag in 7.0
+    // TODO: (CXSPA-4886) Remove flag in the major
     if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
       const queryParams = this.getContextParams(pageContext);
       const attributes = userId
@@ -129,7 +129,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     fields: string,
     userId?: string
   ): string {
-    // TODO: (CXSPA-4886) Remove flag in 7.0
+    // TODO: (CXSPA-4886) Remove flag in the major
     if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
       const queryParams = { fields, ...requestParams };
 

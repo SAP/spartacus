@@ -49,7 +49,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
    */
   load(pageContext: PageContext): Observable<CmsStructureModel> {
     const params = this.getPagesRequestParams(pageContext);
-    // TODO: (CXSPA-4886) Remove flag in 7.0
+    // TODO: (CXSPA-4886) Remove flag in the major
     if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
       return this.userIdService.getUserId().pipe(
         switchMap((userId: string) => {
