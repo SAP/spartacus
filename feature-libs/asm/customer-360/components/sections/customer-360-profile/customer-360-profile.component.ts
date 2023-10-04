@@ -14,6 +14,7 @@ import {
   Customer360CustomerProfile,
   Customer360PaymentDetail,
   Customer360Profile,
+  PaymentCardCode,
 } from '@spartacus/asm/customer-360/root';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 
@@ -76,13 +77,16 @@ export class Customer360ProfileComponent implements OnInit {
 
   getCardIcon(code: string): string {
     let ccIcon: string;
-    if (code === 'visa') {
+    if (code === PaymentCardCode.VISA) {
       ccIcon = this.iconTypes.VISA;
-    } else if (code === 'master' || code === 'mastercard_eurocard') {
+    } else if (
+      code === PaymentCardCode.MASTER ||
+      code === PaymentCardCode.MASTERCARD_EUROCARD
+    ) {
       ccIcon = this.iconTypes.MASTER_CARD;
-    } else if (code === 'diners') {
+    } else if (code === PaymentCardCode.DINERS) {
       ccIcon = this.iconTypes.DINERS_CLUB;
-    } else if (code === 'amex') {
+    } else if (code === PaymentCardCode.AMEX) {
       ccIcon = this.iconTypes.AMEX;
     } else {
       ccIcon = this.iconTypes.CREDIT_CARD;

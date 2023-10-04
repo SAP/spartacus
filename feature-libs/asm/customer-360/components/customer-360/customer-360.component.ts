@@ -25,6 +25,7 @@ import {
   Customer360Type,
   Customer360Overview,
   CustomerOverview,
+  KeyBoardEventCode,
 } from '@spartacus/asm/customer-360/root';
 import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
@@ -148,14 +149,9 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
     this.subscription.unsubscribe();
   }
 
-  get errorAlert$(): Observable<boolean> {
-    return this.showErrorAlert$.asObservable();
-  }
+  errorAlert$ = this.showErrorAlert$.asObservable();
 
-  get errorTab$(): Observable<boolean> {
-    return this.showErrorTab$.asObservable();
-  }
-
+  errorTab$ = this.showErrorTab$.asObservable();
   /**
    * Triggered when a tab is selected.
    * @param {number} selectedTab selected tab index
@@ -184,9 +180,9 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
       if (selectedIndex > maxTab) {
         selectedIndex = 0;
       }
-    } else if (event.code === 'Home') {
+    } else if (event.code === KeyBoardEventCode.HOME) {
       selectedIndex = 0;
-    } else if (event.code === 'End') {
+    } else if (event.code === KeyBoardEventCode.END) {
       selectedIndex = maxTab;
     } else {
       flag = false;
@@ -301,8 +297,8 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
    */
   protected isBackNavigation(event: KeyboardEvent): boolean {
     return (
-      (event.code === 'ArrowLeft' && this.isLTRDirection()) ||
-      (event.code === 'ArrowRight' && this.isRTLDirection())
+      (event.code === KeyBoardEventCode.ARROW_LEFT && this.isLTRDirection()) ||
+      (event.code === KeyBoardEventCode.ARROW_RIGHT && this.isRTLDirection())
     );
   }
   protected isLTRDirection(): boolean {

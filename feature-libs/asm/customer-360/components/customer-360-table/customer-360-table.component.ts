@@ -37,6 +37,7 @@ import {
   TableEntry,
 } from './customer-360-table.model';
 import { Customer360Config } from '../config/customer-360-config';
+import { KeyBoardEventCode } from '@spartacus/asm/customer-360/root';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -179,26 +180,26 @@ export class Customer360TableComponent implements OnChanges, AfterViewChecked {
   ): void {
     let knownKeyPressed = true;
     switch (event.code) {
-      case 'ArrowLeft':
-      case 'ArrowRight':
+      case KeyBoardEventCode.ARROW_LEFT:
+      case KeyBoardEventCode.ARROW_RIGHT:
         this.moveFocusLeftRight(event, columnIndex, rowIndex);
         break;
-      case 'ArrowDown':
+      case KeyBoardEventCode.ARROW_DOWN:
         this.moveFocusDown(columnIndex, rowIndex);
         break;
-      case 'ArrowUp':
+      case KeyBoardEventCode.ARROW_UP:
         this.moveFocusUp(columnIndex, rowIndex);
         break;
-      case 'Home':
+      case KeyBoardEventCode.HOME:
         this.moveFocusHome(event, rowIndex);
         break;
-      case 'End':
+      case KeyBoardEventCode.END:
         this.moveFocusEnd(event, rowIndex);
         break;
-      case 'PageDown':
+      case KeyBoardEventCode.PAGE_DOWN:
         this.handlePageDown();
         break;
-      case 'PageUp':
+      case KeyBoardEventCode.PAGE_UP:
         this.handlePageUp();
         break;
       default:
@@ -307,8 +308,8 @@ export class Customer360TableComponent implements OnChanges, AfterViewChecked {
    */
   protected isBackNavigation(event: KeyboardEvent): boolean {
     return (
-      (event.code === 'ArrowLeft' && this.isLTRDirection()) ||
-      (event.code === 'ArrowRight' && this.isRTLDirection())
+      (event.code === KeyBoardEventCode.ARROW_LEFT && this.isLTRDirection()) ||
+      (event.code === KeyBoardEventCode.ARROW_RIGHT && this.isRTLDirection())
     );
   }
   protected isLTRDirection(): boolean {

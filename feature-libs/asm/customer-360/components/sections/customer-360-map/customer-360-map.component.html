@@ -84,7 +84,7 @@
           class="store-openings-date"
           *ngFor="let opening of specialDayOpeningList"
         >
-          <span class="store-openings-day bold">{{ opening.weekDay }}</span
+          <span class="store-openings-day bold">{{ opening.name }}</span
           >{{ getStoreOpening(opening) | async }}
         </div>
       </div>

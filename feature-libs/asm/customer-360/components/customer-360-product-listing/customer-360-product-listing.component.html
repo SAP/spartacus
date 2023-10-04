@@ -28,7 +28,7 @@
         <cx-customer-360-product-item
           *ngIf="showMore || i < numberofColumns"
           [product]="product"
-          [quantity]="product.quantity"
+          [quantity]="product?.quantity"
           (selectProduct)="selectProduct.emit($event)"
         ></cx-customer-360-product-item>
       </ng-container>
