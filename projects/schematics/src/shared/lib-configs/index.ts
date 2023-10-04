@@ -17,4 +17,4 @@ export * from './smartedit-schematics-config';
 export * from './storefinder-schematics-config';
 export * from './tracking-schematics-config';
 export * from './user-schematics-config';
-export * from './myaccount-view-config';
+export * from './myaccount-view-schematics-config';
