@@ -27,11 +27,9 @@ import {
   Quote,
   QuoteActionType,
   QuoteCartService,
-  QuoteDetailsReloadQueryEvent,
   QuoteDiscount,
   QuoteFacade,
   QuoteList,
-  QuoteListReloadQueryEvent,
   QuoteMetadata,
   QuoteStarter,
   QuotesStateParams,
@@ -59,6 +57,7 @@ import {
 } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors/quote.connector';
 import { CartUtilsService } from '../services/cart-utils.service';
+import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
 
 @Injectable()
 export class QuoteService implements QuoteFacade {
@@ -400,7 +399,6 @@ export class QuoteService implements QuoteFacade {
         ),
       {
         reloadOn: [
-          QuoteListReloadQueryEvent,
           uniteLatest([currentPage$, sort$]), // combine all streams that should trigger a reload to decrease initial http calls
         ],
         resetOn: [LoginEvent, NavigationEvent],

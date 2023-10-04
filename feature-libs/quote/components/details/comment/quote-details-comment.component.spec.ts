@@ -9,12 +9,8 @@ import {
 } from '@angular/core/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
-import {
-  Comment,
-  Quote,
-  QuoteDetailsReloadQueryEvent,
-  QuoteFacade,
-} from '@spartacus/quote/root';
+import { Comment, Quote, QuoteFacade } from '@spartacus/quote/root';
+import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
 import {
   ICON_TYPE,
   MessagingComponent,
