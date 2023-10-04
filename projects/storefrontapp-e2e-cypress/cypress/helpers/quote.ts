@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import Chainable = Cypress.Chainable;
 import * as authentication from './auth-forms';
 import * as common from './common';
 import * as productConfigurator from './product-configurator';
-import { checkLoadingMsgNotDisplayed } from './common';
 
 /** alias for GET Quote Route */
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
 export const PATCH_QUOTE_ALIAS = '@PATCH_QUOTE';
 export const POST_QUOTE_ALIAS = '@POST_QUOTE';
+export const POST_ACTION_SUBMIT_ALIAS = '@POST_ACTION_SUBMIT';
+
 export const STATUS_SUBMITTED = 'Submitted';
 export const STATUS_REQUESTED = 'Requested';
 export const STATUS_CANCELED = 'Cancelled';
@@ -35,6 +35,136 @@ export function setQuantity(quantity: string): void {
 }
 
 /**
+ * Verifies whether the quote list is displayed.
+ */
+export function isQuoteListDisplayed() {
+  log(
+    'Verifies whether the quote list page is displayed',
+    isQuoteListDisplayed.name
+  );
+  cy.get('cx-quote-list').should('be.visible');
+}
+
+/**
+ * Verifies whether the quote list contains a certain quote ID.
+ */
+export function checkQuoteListContainsQuoteId() {
+  log(
+    'Verifies whether the quote list contains a certain quote ID',
+    checkQuoteListContainsQuoteId.name
+  );
+  cy.get('@quoteId').then((quoteId) => {
+    cy.get('cx-quote-list tr')
+      .contains('td.cx-code', `${quoteId}`)
+      .should('be.visible');
+  });
+}
+
+/**
+ * Verifies the status of a certain quote in the quote list.
+ *
+ * @param status - Quote status
+ */
+export function checkQuoteStatusInQuoteList(status: string) {
+  log(
+    'Verifies the status of a certain quote in the quote list',
+    checkQuoteStatusInQuoteList.name
+  );
+  cy.get('@quoteId').then((quoteId) => {
+    cy.get('cx-quote-list tr')
+      .contains('td.cx-code', `${quoteId}`)
+      .parent()
+      .within(() => {
+        cy.get('td.cx-status').contains('td.cx-status', status);
+      });
+  });
+}
+
+/**
+ * Verifies whether the quote details overview page is displayed.
+ */
+export function isQuoteDetailsOverviewPageDisplayed() {
+  log(
+    'Verifies whether the quote details overview page is displayed',
+    isQuoteDetailsOverviewPageDisplayed.name
+  );
+  cy.get('.QuoteDetailsPageTemplate').should('be.visible');
+
+  this.isQuoteActionLinksDisplayed();
+  this.isQuoteDetailsOverviewDisplayed();
+  this.isQuoteDetailsCommentDisplayed();
+  this.isQuoteDetailsCartDisplayed();
+  this.isQuoteDetailsCartSummaryDisplayed();
+  this.isQuoteActionsByRoleDisplayed();
+}
+
+/**
+ * Verifies whether the quote action links are displayed.
+ */
+export function isQuoteActionLinksDisplayed() {
+  log(
+    'Verifies whether the quote action links are displayed',
+    isQuoteActionLinksDisplayed.name
+  );
+  cy.get('cx-quote-action-links').should('be.visible');
+}
+
+/**
+ * Verifies whether the quote details overview is displayed.
+ */
+export function isQuoteDetailsOverviewDisplayed() {
+  log(
+    'Verifies whether the quote details overview page is displayed',
+    isQuoteDetailsOverviewDisplayed.name
+  );
+  cy.get('cx-quote-details-overview').should('be.visible');
+}
+
+/**
+ * Verifies whether the quote comment area is displayed.
+ */
+export function isQuoteDetailsCommentDisplayed() {
+  log(
+    'Verifies whether the quote comment area is displayed',
+    isQuoteDetailsCommentDisplayed.name
+  );
+  cy.get('cx-quote-details-comment').should('be.visible');
+}
+
+/**
+ * Verifies whether the quote cart area is displayed.
+ */
+export function isQuoteDetailsCartDisplayed() {
+  log(
+    'Verifies whether the quote cart area is displayed',
+    isQuoteDetailsCartDisplayed.name
+  );
+  cy.get('cx-quote-details-cart').should('be.visible');
+}
+
+/**
+ * Verifies whether the quote order summary is displayed.
+ */
+export function isQuoteDetailsCartSummaryDisplayed() {
+  log(
+    'Verifies whether the quote order summary is displayed',
+    isQuoteDetailsCartSummaryDisplayed.name
+  );
+  cy.get('cx-quote-details-cart-summary').should('be.visible');
+}
+
+/**
+ * Verifies whether the quote actions by role are displayed.
+ */
+export function isQuoteActionsByRoleDisplayed() {
+  log(
+    'Verifies whether the quote actions by role are displayed',
+    isQuoteActionsByRoleDisplayed.name
+  );
+  cy.get('cx-quote-actions-by-role').should('be.visible');
+}
+
+/**
  * Clicks on 'Request Quote' button on the cart page.
  */
 export function clickOnRequestQuote(): void {
@@ -42,7 +172,11 @@ export function clickOnRequestQuote(): void {
     'Clicks on "Request Quote" button on the cart page.',
     clickOnRequestQuote.name
   );
-  cy.get('cx-quote-request-button button').click();
+  cy.get('cx-quote-request-button button')
+    .click()
+    .then(() => {
+      this.isQuoteDetailsOverviewPageDisplayed();
+    });
 }
 
 /**
@@ -123,8 +257,6 @@ export function requestQuote(
   this.addProductToCart(shopName, productName, quantity);
   this.clickOnRequestQuote();
   cy.location('pathname').should('contain', '/quote');
-  cy.get('cx-quote-details-overview').should('be.visible');
-  cy.get('cx-quote-actions-by-role').should('be.visible');
   cy.url().should('contain', '/quote').as('quoteURL');
   cy.url().then((url) => {
     const currentURL = url.split('/');
@@ -163,7 +295,7 @@ export function submitQuote(status: string): void {
   );
   this.clickSubmitQuoteBtn();
   this.clickOnYesBtnWithinRequestPopUp(status);
-  gotToQuoteDetailsOverviewPage();
+  this.gotToQuoteDetailsOverviewPage();
 }
 
 /**
@@ -425,9 +557,15 @@ export function clickOnYesBtnWithinRequestPopUp(status: string): void {
     .then(() => {
       switch (status) {
         case STATUS_BUYER_SUBMIT: {
+          cy.wait(POST_ACTION_SUBMIT_ALIAS)
+            .its('response.statusCode')
+            .should('eq', 200);
           cy.wait(POST_QUOTE_ALIAS)
             .its('response.statusCode')
             .should('eq', 200);
+          this.isQuoteListDisplayed();
+          this.checkQuoteListContainsQuoteId();
+          this.checkQuoteStatusInQuoteList(STATUS_SUBMITTED);
           break;
         }
         case STATUS_BUYER_CANCEL: {
@@ -437,15 +575,22 @@ export function clickOnYesBtnWithinRequestPopUp(status: string): void {
           break;
         }
         case STATUS_SALES_REPORTER_SUBMIT: {
-          cy.wait(POST_QUOTE_ALIAS)
-            .its('response.statusCode')
-            .should('eq', 201);
-          break;
-        }
-        case STATUS_BUYER_CHECKOUT: {
+          /**
           cy.wait(POST_QUOTE_ALIAS)
             .its('response.statusCode')
             .should('eq', 200);
+           */
+          this.isQuoteListDisplayed();
+          this.checkQuoteListContainsQuoteId();
+          this.checkQuoteStatusInQuoteList(STATUS_SUBMITTED);
+          break;
+        }
+        case STATUS_BUYER_CHECKOUT: {
+          /**
+          cy.wait(POST_QUOTE_ALIAS)
+            .its('response.statusCode')
+            .should('eq', 200);
+           */
           cy.url().should('include', '/checkout/');
           break;
         }
@@ -965,7 +1110,7 @@ export function registerGetQuoteRoute(shopName: string) {
   log('Registers GET quote route.', registerGetQuoteRoute.name);
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/*/quotes/*`,
+    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/*/quotes*`,
   }).as(GET_QUOTE_ALIAS.substring(1)); // strip the '@'
 }
 
@@ -989,6 +1134,17 @@ export function registerPatchQuoteRoute() {
     method: 'PATCH',
     path: `*`,
   }).as(PATCH_QUOTE_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Registers POST action submit route.
+ */
+export function registerPostActionSubmitQuoteRoute(shopName: string) {
+  log('Registers POST quote route.', registerPostQuoteRoute.name);
+  cy.intercept({
+    method: 'POST',
+    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/*/quotes/*/action*`,
+  }).as(POST_ACTION_SUBMIT_ALIAS.substring(1)); // strip the '@'
 }
 
 /**

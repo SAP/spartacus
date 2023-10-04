@@ -38,6 +38,8 @@ context('Quote', () => {
     quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
     quote.registerGetQuoteRoute(POWERTOOLS);
     quote.registerPostQuoteRoute();
+    quote.registerPostActionSubmitQuoteRoute(POWERTOOLS);
+    quote.registerPatchQuoteRoute();
     quote.registerPatchQuoteRoute();
   });
 
@@ -168,6 +170,8 @@ context('Quote', () => {
         PRODUCT_AMOUNT_30,
         true
       );
+
+      // Start of Duplicated code
       quote.submitQuote(quote.STATUS_BUYER_SUBMIT);
       //ToDo: Here we need to wait till the backend created the new quote object
       quote.checkQuoteState(quote.STATUS_SUBMITTED);
@@ -176,6 +180,8 @@ context('Quote', () => {
       asm.agentLogin(SALESREP_EMAIL, SALESREP_PASSWORD);
       asm.startCustomerEmulation(buyer, true);
       quote.gotToQuoteDetailsOverviewPage();
+      // End of duplicated code
+
       quote.enableEditQuoteMode();
       quote.setExpiryDate();
       quote.checkExpiryDate();
@@ -208,6 +214,7 @@ context('Quote', () => {
     });
 
     it('should submit a quote and not be able to add any further items to the quote in checkout', () => {
+      // Start of Duplicated code
       quote.submitQuote(quote.STATUS_BUYER_SUBMIT);
       //ToDo: Here we need to wait till the backend created the new quote object
       quote.checkQuoteState(quote.STATUS_SUBMITTED);
@@ -216,8 +223,11 @@ context('Quote', () => {
       asm.agentLogin(SALESREP_EMAIL, SALESREP_PASSWORD);
       asm.startCustomerEmulation(buyer, true);
       quote.gotToQuoteDetailsOverviewPage();
+      // End of duplicated code
+
       quote.checkQuoteState(quote.STATUS_REQUESTED);
       quote.submitQuote(quote.STATUS_SALES_REPORTER_SUBMIT);
+
       //ToDo: Here we need to wait till the backend updated the quote object
       asm.agentSignOut();
       quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
