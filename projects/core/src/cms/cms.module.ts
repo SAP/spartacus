@@ -21,7 +21,7 @@ function getDefaultCmsConfig(configChunk: any) {
   configChunk.find((config: any) => {
     const userCmsEndpoints = config.features?.[USER_CMS_ENDPOINTS];
 
-    if (userCmsEndpoints !== undefined) {
+    if (Boolean(userCmsEndpoints)) {
       isUserCmsEndpoint = userCmsEndpoints;
     }
   });
@@ -42,6 +42,7 @@ export class CmsModule {
       ngModule: CmsModule,
       providers: [
         CmsService,
+        // TODO: (CXSPA-4886) In 7.0 change to provideDefaultConfig(defaultCmsModuleConfig)
         provideDefaultConfigFactory(getDefaultCmsConfig, [ConfigChunk]),
       ],
     };

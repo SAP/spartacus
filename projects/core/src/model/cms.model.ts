@@ -250,4 +250,5 @@ export interface CmsPickupItemDetails extends CmsComponent {
   context: string;
 }
 
+// TODO: (CXSPA-4886) Remove this flag in 7.0
 export const USER_CMS_ENDPOINTS = 'userCmsEndpoints';
