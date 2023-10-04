@@ -18,6 +18,7 @@ import {
   KeyValuePair,
   MerchantCallback,
   OpfGlobalFunctionsFacade,
+  OpfPage,
   OpfPaymentFacade,
   PaymentMethod,
   TargetPage,
@@ -289,7 +290,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         additionalData,
         [submitSuccess, submitPending, submitFailure],
         paymentSessionId,
-        'checkoutReviewOrder',
+        OpfPage.CHECKOUT_REVIEW_PAGE,
         vcr
       );
     };

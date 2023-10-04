@@ -11,7 +11,7 @@ import { HttpErrorModel } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
-import { KeyValuePair, TargetPage } from '../../model';
+import { KeyValuePair, OpfPage, TargetPage } from '../../model';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 @Component({
@@ -84,7 +84,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
 
   onError(error: HttpErrorModel | undefined): void {
     this.paymentService.displayError(error);
-    this.paymentService.goToPage('checkoutReviewOrder');
+    this.paymentService.goToPage(OpfPage.CHECKOUT_REVIEW_PAGE);
   }
 
   ngOnDestroy(): void {
