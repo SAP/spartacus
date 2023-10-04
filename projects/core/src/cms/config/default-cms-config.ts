@@ -23,7 +23,7 @@ export const defaultCmsModuleConfig: CmsConfig = {
   },
 };
 
-// TODO: (CXSPA-4886) replace and remove this with defaultCmsModuleConfig in 7.0
+// TODO: (CXSPA-4886) replace and remove this with defaultCmsModuleConfig in the major
 export const defaultUserCmsModuleConfig: CmsConfig = {
   ...defaultCmsModuleConfig,
   backend: {
