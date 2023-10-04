@@ -97,7 +97,7 @@ export class CommandService implements OnDestroy {
         process$ = zip(commands$, results$).pipe(
           mergeMap(([cmd, notifier$]) =>
             defer(() => commandFactory(cmd)).pipe(
-              tap(notifier$),
+              tap(notify(notifier$)),
               catchError(() => EMPTY)
             )
           )
