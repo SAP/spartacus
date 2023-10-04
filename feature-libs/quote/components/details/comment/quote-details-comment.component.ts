@@ -117,6 +117,7 @@ export class QuoteDetailsCommentComponent {
       dateFormat: 'MMMM d, yyyy h:mm aa',
       defaultItemId: ALL_PRODUCTS_ID,
       itemList$: this.prepareItemList(),
+      sendIsNotPrimary: true,
     };
   }
 
