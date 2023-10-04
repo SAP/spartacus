@@ -22,7 +22,7 @@
         flex-grow: 1;
 
         @include media-breakpoint-up(lg) {
-          @include forVersion(1, 6.4) {
+          @include forVersion(1, 6.5) {
             border-inline-end: 1px solid var(--cx-color-text);
             margin-inline-end: 10rem;
           }
@@ -108,7 +108,7 @@
     flex-grow: 1;
     margin-bottom: 0;
 
-    @include forVersion(6.5) {
+    @include forVersion(6.6) {
       @include media-breakpoint-up(lg) {
         border-inline-start: 1px solid var(--cx-color-text);
         padding-inline-start: 10rem;
