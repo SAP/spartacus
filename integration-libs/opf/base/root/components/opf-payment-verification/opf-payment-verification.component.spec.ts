@@ -9,7 +9,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorModel } from '@spartacus/core';
 import { of, throwError } from 'rxjs';
-import { KeyValuePair } from '../../model';
+import { KeyValuePair, OpfPage } from '../../model';
 import { OpfPaymentVerificationComponent } from './opf-payment-verification.component';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
@@ -154,14 +154,14 @@ describe('OpfPaymentVerificationComponent', () => {
   });
 
   describe('onError', () => {
-    it('should call paymentService.displayError with the provided error and paymentService.goToPage with "checkoutReviewOrder"', () => {
+    it('should call paymentService.displayError with the provided error and paymentService.goToPage with OpfPage.CHECKOUT_REVIEW_PAGE', () => {
       const mockError: HttpErrorModel = { status: 404, message: 'Not Found' };
 
       component.onError(mockError);
 
       expect(paymentServiceMock.displayError).toHaveBeenCalledWith(mockError);
       expect(paymentServiceMock.goToPage).toHaveBeenCalledWith(
-        'checkoutReviewOrder'
+        OpfPage.CHECKOUT_REVIEW_PAGE
       );
     });
   });
