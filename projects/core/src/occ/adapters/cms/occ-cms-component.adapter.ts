@@ -10,7 +10,11 @@ import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
-import { CmsComponent, PageType } from '../../../model/cms.model';
+import {
+  CmsComponent,
+  PageType,
+  USER_CMS_ENDPOINTS,
+} from '../../../model/cms.model';
 import { PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
@@ -36,7 +40,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     id: string,
     pageContext: PageContext
   ): Observable<T> {
-    if (this.featureConfigService.isEnabled('newCmsEndpoint')) {
+    if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
       return this.userIdService.getUserId().pipe(
         switchMap((userId: string) => {
           return this.http.get<T>(
@@ -69,7 +73,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     };
 
     requestParams['componentIds'] = ids.toString();
-    if (this.featureConfigService.isEnabled('newCmsEndpoint')) {
+    if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
       return this.userIdService.getUserId().pipe(
         switchMap((userId: string) => {
           return this.http.get<Occ.ComponentList>(
@@ -82,19 +86,18 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
         map((componentList) => componentList.component ?? []),
         this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
       );
-    } else {
-      return this.http
-        .get<Occ.ComponentList>(
-          this.getComponentsEndpoint(requestParams, fields),
-          {
-            headers: this.headers,
-          }
-        )
-        .pipe(
-          map((componentList) => componentList.component ?? []),
-          this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
-        );
     }
+    return this.http
+      .get<Occ.ComponentList>(
+        this.getComponentsEndpoint(requestParams, fields),
+        {
+          headers: this.headers,
+        }
+      )
+      .pipe(
+        map((componentList) => componentList.component ?? []),
+        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
+      );
   }
 
   protected getComponentEndPoint(
@@ -102,7 +105,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageContext: PageContext,
     userId?: string
   ): string {
-    if (this.featureConfigService.isEnabled('newCmsEndpoint')) {
+    if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
       const queryParams = this.getContextParams(pageContext);
       const attributes = userId
         ? {
@@ -112,12 +115,11 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
         : { urlParams: { id }, queryParams };
 
       return this.occEndpoints.buildUrl('component', attributes);
-    } else {
-      return this.occEndpoints.buildUrl('component', {
-        urlParams: { id },
-        queryParams: this.getContextParams(pageContext),
-      });
     }
+    return this.occEndpoints.buildUrl('component', {
+      urlParams: { id },
+      queryParams: this.getContextParams(pageContext),
+    });
   }
 
   protected getComponentsEndpoint(
@@ -125,7 +127,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     fields: string,
     userId?: string
   ): string {
-    if (this.featureConfigService.isEnabled('newCmsEndpoint')) {
+    if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
       const queryParams = { fields, ...requestParams };
 
       const attributes = userId
@@ -136,11 +138,10 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
         : { queryParams };
 
       return this.occEndpoints.buildUrl('components', attributes);
-    } else {
-      return this.occEndpoints.buildUrl('components', {
-        queryParams: { fields, ...requestParams },
-      });
     }
+    return this.occEndpoints.buildUrl('components', {
+      queryParams: { fields, ...requestParams },
+    });
   }
 
   protected getPaginationParams(

@@ -23,7 +23,7 @@ export const defaultCmsModuleConfig: CmsConfig = {
   },
 };
 
-export const newCmsModuleConfig: CmsConfig = {
+export const defaultUserCmsModuleConfig: CmsConfig = {
   ...defaultCmsModuleConfig,
   backend: {
     occ: {

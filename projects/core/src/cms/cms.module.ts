@@ -7,23 +7,27 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
   defaultCmsModuleConfig,
-  newCmsModuleConfig,
+  defaultUserCmsModuleConfig,
 } from './config/default-cms-config';
 import { CmsService } from './facade/cms.service';
 import { PageMetaModule } from './page/page-meta.module';
 import { CmsStoreModule } from './store/cms-store.module';
-import { provideDefaultConfig, provideDefaultConfigFactory } from '../config';
-import { isFeatureEnabled } from '../features-config';
+import { ConfigChunk, provideDefaultConfigFactory } from '../config';
+import { USER_CMS_ENDPOINTS } from '../model';
 
-const config = {
-  features: {
-    newCmsEndpoint: false,
-  },
-};
+function getDefaultCmsConfig(configChunk: any) {
+  let isUserCmsEndpoint = false;
 
-function isNewCmsEndpoint() {
-  if (isFeatureEnabled(config, 'newCmsEndpoint')) {
-    return newCmsModuleConfig;
+  configChunk.find((config: any) => {
+    const userCmsEndpoints = config.features?.[USER_CMS_ENDPOINTS];
+
+    if (userCmsEndpoints !== undefined) {
+      isUserCmsEndpoint = userCmsEndpoints;
+    }
+  });
+
+  if (isUserCmsEndpoint) {
+    return defaultUserCmsModuleConfig;
   } else {
     return defaultCmsModuleConfig;
   }
@@ -38,8 +42,7 @@ export class CmsModule {
       ngModule: CmsModule,
       providers: [
         CmsService,
-        provideDefaultConfig(config), // This overrides default config in AppModule - to be removed
-        provideDefaultConfigFactory(isNewCmsEndpoint),
+        provideDefaultConfigFactory(getDefaultCmsConfig, [ConfigChunk]),
       ],
     };
   }

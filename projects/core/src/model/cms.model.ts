@@ -249,3 +249,5 @@ export interface CmsPickupItemDetails extends CmsComponent {
   showEdit: boolean;
   context: string;
 }
+
+export const USER_CMS_ENDPOINTS = 'userCmsEndpoints';

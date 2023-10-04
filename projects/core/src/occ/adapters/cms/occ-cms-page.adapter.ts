@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
 import { CmsStructureModel } from '../../../cms/model/page.model';
-import { PageType } from '../../../model/cms.model';
+import { PageType, USER_CMS_ENDPOINTS } from '../../../model/cms.model';
 import {
   HOME_PAGE_CONTEXT,
   PageContext,
@@ -49,7 +49,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
    */
   load(pageContext: PageContext): Observable<CmsStructureModel> {
     const params = this.getPagesRequestParams(pageContext);
-    if (this.featureConfigService.isEnabled('newCmsEndpoint')) {
+    if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
       return this.userIdService.getUserId().pipe(
         switchMap((userId: string) => {
           const endpoint = !pageContext.type
@@ -65,18 +65,17 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
         }),
         this.converter.pipeable(CMS_PAGE_NORMALIZER)
       );
-    } else {
-      const endpoint = !pageContext.type
-        ? this.occEndpoints.buildUrl('page', {
-            urlParams: { id: pageContext.id },
-          })
-        : this.occEndpoints.buildUrl('pages', {
-            queryParams: params,
-          });
-      return this.http
-        .get(endpoint, { headers: this.headers })
-        .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
     }
+    const endpoint = !pageContext.type
+      ? this.occEndpoints.buildUrl('page', {
+          urlParams: { id: pageContext.id },
+        })
+      : this.occEndpoints.buildUrl('pages', {
+          queryParams: params,
+        });
+    return this.http
+      .get(endpoint, { headers: this.headers })
+      .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
   }
 
   /**
