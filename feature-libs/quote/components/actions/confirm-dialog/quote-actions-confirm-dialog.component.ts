@@ -13,14 +13,14 @@ import {
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { ConfirmationContext } from './quote-confirm-action-dialog.model';
+import { ConfirmationContext } from './quote-actions-confirm-dialog.model';
 
 @Component({
-  selector: 'cx-quote-confirm-action-dialog',
-  templateUrl: './quote-confirm-action-dialog.component.html',
+  selector: 'cx-quote-actions-confirm-dialog',
+  templateUrl: './quote-actions-confirm-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuoteConfirmActionDialogComponent implements OnInit {
+export class QuoteActionsConfirmDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   focusConfig: FocusConfig = {

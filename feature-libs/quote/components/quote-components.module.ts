@@ -9,8 +9,8 @@ import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { ListNavigationModule } from '@spartacus/storefront';
 import { QuoteActionsByRoleModule } from './actions/by-role/quote-actions-by-role.module';
-import { QuoteConfirmActionDialogModule } from './actions/confirm-dialog/quote-confirm-action-dialog.module';
-import { QuoteActionLinksModule } from './actions/link/quote-action-links.module';
+import { QuoteActionsConfirmDialogModule } from './actions/confirm-dialog/quote-actions-confirm-dialog.module';
+import { QuoteActionsLinkModule } from './actions/link/quote-actions-link.module';
 import { defaultQuoteUIConfig } from './config/default-quote-ui.config';
 import { QuoteSellerEditModule } from './header/seller-edit/quote-seller-edit.module';
 import { QuoteListModule } from './quote-list/quote-list.module';
@@ -29,12 +29,12 @@ import { QuoteDetailsCartSummaryModule } from './header';
     QuoteDetailsOverviewModule,
     QuoteDetailsCartModule,
     QuoteRequestButtonModule,
-    QuoteActionLinksModule,
+    QuoteActionsLinkModule,
     QuoteActionsByRoleModule,
     QuoteDetailsCommentModule,
     QuoteSellerEditModule,
     ListNavigationModule,
-    QuoteConfirmActionDialogModule,
+    QuoteActionsConfirmDialogModule,
     QuoteDetailsCartSummaryModule,
   ],
   providers: [provideDefaultConfig(defaultQuoteUIConfig)],

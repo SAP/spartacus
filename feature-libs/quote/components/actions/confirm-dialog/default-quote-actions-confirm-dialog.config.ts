@@ -5,13 +5,13 @@
  */
 
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
-import { QuoteConfirmActionDialogComponent } from './quote-confirm-action-dialog.component';
+import { QuoteActionsConfirmDialogComponent } from './quote-actions-confirm-dialog.component';
 
 export const defaultQuoteActionDialogConfig: LayoutConfig = {
   launch: {
     ACTION_CONFIRMATION: {
       inline: true,
-      component: QuoteConfirmActionDialogComponent,
+      component: QuoteActionsConfirmDialogComponent,
       dialogType: DIALOG_TYPE.DIALOG,
     },
   },

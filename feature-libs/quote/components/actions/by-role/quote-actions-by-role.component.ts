@@ -28,7 +28,7 @@ import {
   ConfirmActionDialogConfig,
   QuoteUIConfig,
 } from '../../config/quote-ui.config';
-import { ConfirmationContext } from '../confirm-dialog/quote-confirm-action-dialog.model';
+import { ConfirmationContext } from '../confirm-dialog/quote-actions-confirm-dialog.model';
 
 @Component({
   selector: 'cx-quote-actions-by-role',

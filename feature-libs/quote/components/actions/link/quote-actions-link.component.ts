@@ -10,11 +10,11 @@ import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'cx-quote-action-links',
-  templateUrl: './quote-action-links.component.html',
+  selector: 'cx-quote-actions-link',
+  templateUrl: './quote-actions-link.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuoteActionLinksComponent {
+export class QuoteActionsLinkComponent {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
 
   constructor(

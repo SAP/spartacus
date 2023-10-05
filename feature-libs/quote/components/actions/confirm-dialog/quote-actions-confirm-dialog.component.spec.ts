@@ -9,8 +9,8 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
-import { QuoteConfirmActionDialogComponent } from './quote-confirm-action-dialog.component';
-import { ConfirmationContext } from './quote-confirm-action-dialog.model';
+import { QuoteActionsConfirmDialogComponent } from './quote-actions-confirm-dialog.component';
+import { ConfirmationContext } from './quote-actions-confirm-dialog.model';
 
 const QUOTE_CODE = '00010000';
 const quote: Quote = {
@@ -47,9 +47,9 @@ export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
-describe('QuoteConfirmActionDialogComponent', () => {
-  let component: QuoteConfirmActionDialogComponent;
-  let fixture: ComponentFixture<QuoteConfirmActionDialogComponent>;
+describe('QuoteActionsConfirmDialogComponent', () => {
+  let component: QuoteActionsConfirmDialogComponent;
+  let fixture: ComponentFixture<QuoteActionsConfirmDialogComponent>;
   let htmlElem: HTMLElement;
   let mockLaunchDialogService: LaunchDialogService;
 
@@ -66,7 +66,7 @@ describe('QuoteConfirmActionDialogComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [
-          QuoteConfirmActionDialogComponent,
+          QuoteActionsConfirmDialogComponent,
           MockKeyboadFocusDirective,
           MockCxIconComponent,
         ],
@@ -85,7 +85,7 @@ describe('QuoteConfirmActionDialogComponent', () => {
     dialogDataSender = new BehaviorSubject({
       confirmationContext: confirmationContext,
     });
-    fixture = TestBed.createComponent(QuoteConfirmActionDialogComponent);
+    fixture = TestBed.createComponent(QuoteActionsConfirmDialogComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     mockLaunchDialogService = TestBed.inject(LaunchDialogService);

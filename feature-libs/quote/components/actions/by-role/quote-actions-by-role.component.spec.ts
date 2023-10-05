@@ -24,7 +24,7 @@ import {
   ConfirmActionDialogMappingConfig,
   QuoteUIConfig,
 } from '../../config/quote-ui.config';
-import { ConfirmationContext } from '../confirm-dialog/quote-confirm-action-dialog.model';
+import { ConfirmationContext } from '../confirm-dialog/quote-actions-confirm-dialog.model';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 import createSpy = jasmine.createSpy;

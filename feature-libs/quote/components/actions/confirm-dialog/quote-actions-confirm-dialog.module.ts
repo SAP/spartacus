@@ -15,8 +15,8 @@ import {
   KeyboardFocusModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { defaultQuoteActionDialogConfig } from './default-quote-confirm-action-dialog-config';
-import { QuoteConfirmActionDialogComponent } from './quote-confirm-action-dialog.component';
+import { defaultQuoteActionDialogConfig } from './default-quote-actions-confirm-dialog.config';
+import { QuoteActionsConfirmDialogComponent } from './quote-actions-confirm-dialog.component';
 
 @NgModule({
   imports: [
@@ -32,7 +32,7 @@ import { QuoteConfirmActionDialogComponent } from './quote-confirm-action-dialog
     SpinnerModule,
   ],
   providers: [provideDefaultConfig(defaultQuoteActionDialogConfig)],
-  declarations: [QuoteConfirmActionDialogComponent],
-  exports: [QuoteConfirmActionDialogComponent],
+  declarations: [QuoteActionsConfirmDialogComponent],
+  exports: [QuoteActionsConfirmDialogComponent],
 })
-export class QuoteConfirmActionDialogModule {}
+export class QuoteActionsConfirmDialogModule {}

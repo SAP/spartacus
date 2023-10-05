@@ -140,7 +140,7 @@ export function clickSubmitQuoteBtn(): void {
   cy.get('cx-quote-actions-by-role button.btn-primary')
     .click()
     .then(() => {
-      cy.get('cx-quote-confirm-action-dialog').should('be.visible');
+      cy.get('cx-quote-actions-confirm-dialog').should('be.visible');
     });
 }
 
@@ -380,7 +380,7 @@ export function clickOnYesBtnWithinRequestPopUp(): void {
     'Clicks on "Yes" button within the quote confirmation popover',
     clickOnYesBtnWithinRequestPopUp.name
   );
-  cy.get('cx-quote-confirm-action-dialog button.btn-primary').click();
+  cy.get('cx-quote-actions-confirm-dialog button.btn-primary').click();
   cy.wait(GET_QUOTE_ALIAS);
 }
 
@@ -467,7 +467,7 @@ export function navigateToQuoteListFromQuoteDetails() {
     'Navigates to the quote list from the quote details overview page',
     navigateToQuoteListFromQuoteDetails.name
   );
-  cy.get('cx-quote-action-links').within(() => {
+  cy.get('cx-quote-actions-link').within(() => {
     cy.get('section > ul > li')
       .next()
       .within(() => {
@@ -630,7 +630,7 @@ function clickCancelQuoteBtn() {
   cy.get('cx-quote-actions-by-role button.btn-secondary')
     .click()
     .then(() => {
-      cy.get('cx-quote-confirm-action-dialog').should('be.visible');
+      cy.get('cx-quote-actions-confirm-dialog').should('be.visible');
     });
 }
 

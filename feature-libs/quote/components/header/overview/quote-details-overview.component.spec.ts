@@ -49,10 +49,10 @@ const mockQuote: Quote = {
 };
 
 @Component({
-  selector: 'cx-quote-action-links',
+  selector: 'cx-quote-actions-link',
   template: '',
 })
-export class MockQuoteActionLinksComponent {}
+export class MockQuoteActionsLinkComponent {}
 
 @Component({
   selector: 'cx-icon',
@@ -104,7 +104,7 @@ describe('QuoteDetailsOverviewComponent', () => {
         declarations: [
           QuoteDetailsOverviewComponent,
           MockCxIconComponent,
-          MockQuoteActionLinksComponent,
+          MockQuoteActionsLinkComponent,
           MockQuoteDetailsEditComponent,
         ],
         providers: [

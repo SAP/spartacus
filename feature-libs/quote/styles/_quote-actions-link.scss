@@ -1,4 +1,4 @@
-%cx-quote-action-links {
+%cx-quote-actions-link {
   &:not(:empty) {
     section {
       display: flex;
@@ -30,7 +30,7 @@
   }
 }
 
-html[dir='rtl'] cx-quote-action-links {
+html[dir='rtl'] cx-quote-actions-link {
   ul li {
     border-width: 0 1px 0 0;
 

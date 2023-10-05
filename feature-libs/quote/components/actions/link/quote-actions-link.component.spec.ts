@@ -18,10 +18,10 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { BehaviorSubject, NEVER, Observable } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
-import { QuoteActionLinksComponent } from './quote-action-links.component';
+import { QuoteActionsLinkComponent } from './quote-actions-link.component';
 import createSpy = jasmine.createSpy;
 
-class MockActionLinksService implements Partial<CartUtilsService> {
+class MockCartUtilsService implements Partial<CartUtilsService> {
   goToNewCart = createSpy();
 }
 
@@ -53,11 +53,11 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   }
 }
 
-describe('QuoteActionLinksComponent', () => {
-  let fixture: ComponentFixture<QuoteActionLinksComponent>;
+describe('QuoteActionsLinkComponent', () => {
+  let fixture: ComponentFixture<QuoteActionsLinkComponent>;
   let htmlElem: HTMLElement;
-  let component: QuoteActionLinksComponent;
-  let actionLinksService: CartUtilsService;
+  let component: QuoteActionsLinkComponent;
+  let cartUtilService: CartUtilsService;
   let router: Router;
 
   beforeEach(() => {
@@ -67,7 +67,7 @@ describe('QuoteActionLinksComponent', () => {
         RouterTestingModule.withRoutes(mockRoutes),
         UrlTestingModule,
       ],
-      declarations: [QuoteActionLinksComponent],
+      declarations: [QuoteActionsLinkComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -75,16 +75,16 @@ describe('QuoteActionLinksComponent', () => {
         },
         {
           provide: CartUtilsService,
-          useClass: MockActionLinksService,
+          useClass: MockCartUtilsService,
         },
       ],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteActionLinksComponent);
+    fixture = TestBed.createComponent(QuoteActionsLinkComponent);
     htmlElem = fixture.nativeElement;
-    actionLinksService = TestBed.inject(CartUtilsService);
+    cartUtilService = TestBed.inject(CartUtilsService);
     router = TestBed.inject(Router);
     component = fixture.componentInstance;
     mockQuoteDetails$.next(mockQuote);
@@ -96,9 +96,9 @@ describe('QuoteActionLinksComponent', () => {
   });
 
   it('should render empty component', () => {
-    fixture = TestBed.createComponent(QuoteActionLinksComponent);
+    fixture = TestBed.createComponent(QuoteActionsLinkComponent);
     htmlElem = fixture.nativeElement;
-    actionLinksService = TestBed.inject(CartUtilsService);
+    cartUtilService = TestBed.inject(CartUtilsService);
     router = TestBed.inject(Router);
     component = fixture.componentInstance;
     component.quoteDetails$ = NEVER;
@@ -145,7 +145,7 @@ describe('QuoteActionLinksComponent', () => {
     );
     link.click();
     expect(component.goToNewCart).toHaveBeenCalled();
-    expect(actionLinksService.goToNewCart).toHaveBeenCalled();
+    expect(cartUtilService.goToNewCart).toHaveBeenCalled();
   });
 
   it('should redirect to Quotes list when "Quotes" button was clicked', fakeAsync(() => {

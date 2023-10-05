@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './quote-confirm-action-dialog.component';
-export * from './quote-confirm-action-dialog.model';
-export * from './quote-confirm-action-dialog.module';
+export * from './quote-actions-confirm-dialog.component';
+export * from './quote-actions-confirm-dialog.model';
+export * from './quote-actions-confirm-dialog.module';
