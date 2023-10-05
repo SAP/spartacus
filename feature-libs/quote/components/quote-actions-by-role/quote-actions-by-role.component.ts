@@ -58,7 +58,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       if (mustDisableAction) {
         this.globalMessageService.add(
           {
-            key: 'quote.requestDialog.form.minRequestInitiationNote',
+            key: 'quote.request.minRequestInitiationNote',
             params: {
               minValue: quote.threshold,
             },
