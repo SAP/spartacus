@@ -105,14 +105,14 @@ describe('QuoteCommentsComponent', () => {
   }
 
   function initMocks() {
-    mockedQuoteFacade = jasmine.createSpyObj('quoteFacade', [
+    mockedQuoteFacade = jasmine.createSpyObj('QuoteFacade', [
       'getQuoteDetails',
       'addQuoteComment',
     ]);
     asSpy(mockedQuoteFacade.getQuoteDetails).and.returnValue(of(quote));
     asSpy(mockedQuoteFacade.addQuoteComment).and.returnValue(of({}));
 
-    mockedEventService = jasmine.createSpyObj('eventService', ['dispatch']);
+    mockedEventService = jasmine.createSpyObj('EventService', ['dispatch']);
   }
 
   function asSpy(f: any) {
@@ -439,9 +439,7 @@ describe('QuoteCommentsComponent', () => {
       const mockedATags = [aTagProduct1, aTagProduct2];
       const document = TestBed.inject(DOCUMENT);
       spyOn(document, 'getElementsByTagName').and.returnValue(<any>mockedATags);
-      quoteItemsComponentService = TestBed.inject(
-        QuoteItemsComponentService
-      );
+      quoteItemsComponentService = TestBed.inject(QuoteItemsComponentService);
       spyOn(quoteItemsComponentService, 'setQuoteEntriesExpanded');
     });
 

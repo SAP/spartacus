@@ -111,18 +111,16 @@ describe('QuoteItemsComponent', () => {
   });
 
   function initMocks() {
-    mockedEventService = jasmine.createSpyObj('eventService', [
+    mockedEventService = jasmine.createSpyObj('EventService', [
       'get',
       'dispatch',
     ]);
-    mockQuoteItemsService = jasmine.createSpyObj(
-      'QuoteItemsComponentService',
-      ['setQuoteEntriesExpanded', 'getQuoteEntriesExpanded']
-    );
+    mockQuoteItemsService = jasmine.createSpyObj('QuoteItemsComponentService', [
+      'setQuoteEntriesExpanded',
+      'getQuoteEntriesExpanded',
+    ]);
     asSpy(mockedEventService.get).and.returnValue(EMPTY);
-    asSpy(mockQuoteItemsService.getQuoteEntriesExpanded).and.returnValue(
-      true
-    );
+    asSpy(mockQuoteItemsService.getQuoteEntriesExpanded).and.returnValue(true);
   }
 
   function asSpy(f: any) {
@@ -281,9 +279,9 @@ describe('QuoteItemsComponent', () => {
   it('should toggle quote entries on enter', () => {
     CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
     fixture.detectChanges();
-    expect(
-      mockQuoteItemsService.setQuoteEntriesExpanded
-    ).toHaveBeenCalledWith(false);
+    expect(mockQuoteItemsService.setQuoteEntriesExpanded).toHaveBeenCalledWith(
+      false
+    );
   });
 
   it('should toggle quote entries on click', () => {
@@ -291,9 +289,9 @@ describe('QuoteItemsComponent', () => {
     fixture.detectChanges();
     CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
     fixture.detectChanges();
-    expect(
-      mockQuoteItemsService.setQuoteEntriesExpanded
-    ).toHaveBeenCalledWith(true);
+    expect(mockQuoteItemsService.setQuoteEntriesExpanded).toHaveBeenCalledWith(
+      true
+    );
   });
 
   it('should provide quote details observable', (done) => {

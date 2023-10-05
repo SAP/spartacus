@@ -165,11 +165,11 @@ export function changeItemQuantityByStepper(
       changeItemQuantityByStepper.name
     );
   }
-  cy.get(
-    `cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`
-  ).within(() => {
-    cy.get('cx-item-counter button').contains(changeType).click();
-  });
+  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
+    () => {
+      cy.get('cx-item-counter button').contains(changeType).click();
+    }
+  );
 }
 
 /**
@@ -186,13 +186,13 @@ export function changeItemQuantityByCounter(
     'Changes the quantity of the cart item in the quote details overview using the quantity counter',
     changeItemQuantityByCounter.name
   );
-  cy.get(
-    `cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`
-  ).within(() => {
-    cy.get('cx-item-counter input')
-      .type('{selectall}' + newQuantity)
-      .pressTab();
-  });
+  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
+    () => {
+      cy.get('cx-item-counter input')
+        .type('{selectall}' + newQuantity)
+        .pressTab();
+    }
+  );
 }
 
 /**
@@ -209,11 +209,11 @@ export function checkItemQuantity(
     'Verifies if the quantity of an item at the given index equals the expected quantity given',
     checkItemQuantity.name
   );
-  cy.get(
-    `cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`
-  ).within(() => {
-    cy.get('cx-item-counter input').should('have.value', expectedQuantity);
-  });
+  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
+    () => {
+      cy.get('cx-item-counter input').should('have.value', expectedQuantity);
+    }
+  );
 }
 
 /**
@@ -223,11 +223,11 @@ export function checkItemQuantity(
  */
 export function removeItem(itemIndex: number): void {
   log('Removes the item at index', removeItem.name);
-  cy.get(
-    `cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`
-  ).within(() => {
-    cy.get('button').contains('Remove').click();
-  });
+  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
+    () => {
+      cy.get('button').contains('Remove').click();
+    }
+  );
   gotToQuoteDetailsOverviewPage();
 }
 
@@ -256,9 +256,9 @@ export function checkItemVisible(itemIndex: number, productID: string): void {
 export function checkItemExists(itemIndex: number, productID: string): void {
   log('Verifies if the item at the given index exists', checkItemExists.name);
   if (itemIndex === 1) {
-    cy.get(
-      `cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`
-    ).should('not.exist');
+    cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).should(
+      'not.exist'
+    );
   } else {
     cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`)
       .contains(productID)
