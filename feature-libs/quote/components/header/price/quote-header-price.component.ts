@@ -9,10 +9,10 @@ import { CartOutlets } from '@spartacus/cart/base/root';
 import { QuoteFacade } from '@spartacus/quote/root';
 
 @Component({
-  selector: 'cx-quote-details-cart-summary',
-  templateUrl: 'quote-details-cart-summary.component.html',
+  selector: 'cx-quote-header-price',
+  templateUrl: 'quote-header-price.component.html',
 })
-export class QuoteDetailsCartSummaryComponent {
+export class QuoteHeaderPriceComponent {
   readonly cartOutlets = CartOutlets;
   quoteDetails$ = this.quoteFacade.getQuoteDetails();
 

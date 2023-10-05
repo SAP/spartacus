@@ -13,7 +13,7 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { QuoteSellerEditComponent } from './quote-seller-edit.component';
+import { QuoteHeaderSellerEditComponent } from './quote-header-seller-edit.component';
 import { IconModule, DatePickerModule } from '@spartacus/storefront';
 
 @NgModule({
@@ -29,13 +29,13 @@ import { IconModule, DatePickerModule } from '@spartacus/storefront';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         QuoteSellerEditComponent: {
-          component: QuoteSellerEditComponent,
+          component: QuoteHeaderSellerEditComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
-  declarations: [QuoteSellerEditComponent],
-  exports: [QuoteSellerEditComponent],
+  declarations: [QuoteHeaderSellerEditComponent],
+  exports: [QuoteHeaderSellerEditComponent],
 })
-export class QuoteSellerEditModule {}
+export class QuoteHeaderSellerEditModule {}

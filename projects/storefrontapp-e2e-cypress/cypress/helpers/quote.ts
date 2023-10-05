@@ -754,7 +754,7 @@ export function setExpiryDate() {
     (monthStringSingleDigitMonth + (EXPIRY_DATE.getMonth() + 1)) +
     '-' +
     (dayStringSingleDigitDay + EXPIRY_DATE.getDate());
-  cy.get('cx-quote-seller-edit cx-date-picker input')
+  cy.get('cx-quote-header-seller-edit cx-date-picker input')
     .type(expiryDateString)
     .trigger('change');
 }
@@ -855,8 +855,8 @@ function createFormattedExpiryDate(): string {
  */
 export function setDiscount(discount: string) {
   log('Sets the discount (sales reporter perspective', setDiscount.name);
-  cy.get('cx-quote-seller-edit input[name="discount"]').type(discount);
-  cy.get('cx-quote-seller-edit button.btn-secondary').click();
+  cy.get('cx-quote-header-seller-edit input[name="discount"]').type(discount);
+  cy.get('cx-quote-header-seller-edit button.btn-secondary').click();
 }
 
 /**

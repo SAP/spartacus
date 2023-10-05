@@ -32,8 +32,8 @@ import {
   QUOTE_CODE,
 } from '../../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../../config';
-import { QuoteSellerEditComponent } from './quote-seller-edit.component';
-import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
+import { QuoteHeaderSellerEditComponent } from './quote-header-seller-edit.component';
+import { QuoteHeaderSellerEditComponentService } from './quote-header-seller-edit.component.service';
 import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
@@ -74,7 +74,7 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   editQuote = createSpy();
 }
 
-class MockQuoteSellerEditComponentService {
+class MockQuoteHeaderSellerEditComponentService {
   parseDiscountValue() {
     return of(0);
   }
@@ -127,9 +127,9 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-describe('QuoteSellerEditComponent', () => {
-  let fixture: ComponentFixture<QuoteSellerEditComponent>;
-  let component: QuoteSellerEditComponent;
+describe('QuoteHeaderSellerEditComponent', () => {
+  let fixture: ComponentFixture<QuoteHeaderSellerEditComponent>;
+  let component: QuoteHeaderSellerEditComponent;
   let facade: QuoteFacade;
 
   beforeEach(() => {
@@ -139,7 +139,7 @@ describe('QuoteSellerEditComponent', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule],
       declarations: [
-        QuoteSellerEditComponent,
+        QuoteHeaderSellerEditComponent,
         MockCxIconComponent,
         MockDatePickerComponent,
       ],
@@ -149,8 +149,8 @@ describe('QuoteSellerEditComponent', () => {
           useClass: MockCommerceQuotesFacade,
         },
         {
-          provide: QuoteSellerEditComponentService,
-          useClass: MockQuoteSellerEditComponentService,
+          provide: QuoteHeaderSellerEditComponentService,
+          useClass: MockQuoteHeaderSellerEditComponentService,
         },
         {
           provide: QuoteUIConfig,
@@ -161,7 +161,7 @@ describe('QuoteSellerEditComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteSellerEditComponent);
+    fixture = TestBed.createComponent(QuoteHeaderSellerEditComponent);
     component = fixture.componentInstance;
     facade = TestBed.inject(QuoteFacade);
     mockQuote.quoteDiscounts = {};

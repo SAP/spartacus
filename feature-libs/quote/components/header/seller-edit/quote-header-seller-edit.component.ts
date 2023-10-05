@@ -23,13 +23,13 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subject, Subscription, combineLatest } from 'rxjs';
 import { debounceTime, filter, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config';
-import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
+import { QuoteHeaderSellerEditComponentService } from './quote-header-seller-edit.component.service';
 
 @Component({
-  selector: 'cx-quote-seller-edit',
-  templateUrl: './quote-seller-edit.component.html',
+  selector: 'cx-quote-header-seller-edit',
+  templateUrl: './quote-header-seller-edit.component.html',
 })
-export class QuoteSellerEditComponent implements OnInit, OnDestroy {
+export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
   quoteDetailsForSeller$: Observable<Quote> = this.quoteFacade
     .getQuoteDetails()
     .pipe(
@@ -53,7 +53,7 @@ export class QuoteSellerEditComponent implements OnInit, OnDestroy {
 
   constructor(
     protected quoteFacade: QuoteFacade,
-    protected quoteSellerEditComponentService: QuoteSellerEditComponentService,
+    protected quoteSellerEditComponentService: QuoteHeaderSellerEditComponentService,
     protected quoteUiConfig: QuoteUIConfig
   ) {}
 

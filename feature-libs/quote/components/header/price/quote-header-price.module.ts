@@ -13,7 +13,7 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
-import { QuoteDetailsCartSummaryComponent } from './quote-details-cart-summary.component';
+import { QuoteHeaderPriceComponent } from './quote-header-price.component';
 
 @NgModule({
   imports: [CommonModule, I18nModule, OutletModule],
@@ -21,13 +21,13 @@ import { QuoteDetailsCartSummaryComponent } from './quote-details-cart-summary.c
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         QuoteDetailsCartSummaryComponent: {
-          component: QuoteDetailsCartSummaryComponent,
+          component: QuoteHeaderPriceComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
-  declarations: [QuoteDetailsCartSummaryComponent],
-  exports: [QuoteDetailsCartSummaryComponent],
+  declarations: [QuoteHeaderPriceComponent],
+  exports: [QuoteHeaderPriceComponent],
 })
-export class QuoteDetailsCartSummaryModule {}
+export class QuoteHeaderPriceModule {}

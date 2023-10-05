@@ -2,24 +2,24 @@
 @import './mixins/mixins';
 
 // Components
-@import './quote-list';
-@import './quote-request-button';
+@import './quote-actions-by-role';
+@import './quote-actions-confirm-dialog';
+@import './quote-actions-link';
+@import './quote-comments';
 @import './quote-header-buyer-edit';
 @import './quote-header-overview';
+@import './quote-header-price';
+@import './quote-header-seller-edit';
 @import './quote-details-cart';
-@import './quote-actions-link';
-@import './quote-actions-by-role';
-@import './quote-comments';
-@import './quote-details-cart-summary';
-@import './quote-seller-edit';
-@import './quote-actions-confirm-dialog';
+@import './quote-list';
+@import './quote-request-button';
 @import './layout/index';
 
-$quote-components-allowlist: cx-quote-list cx-quote-header-buyer-edit
-  cx-quote-header-overview cx-quote-details-cart cx-quote-request-button
-  cx-quote-actions-link cx-quote-actions-by-role cx-quote-comments
-  cx-quote-details-cart-summary cx-quote-seller-edit
-  cx-quote-actions-confirm-dialog !default;
+$quote-components-allowlist: cx-quote-actions-by-role
+  cx-quote-actions-confirm-dialog cx-quote-actions-link cx-quote-comments
+  cx-quote-header-buyer-edit cx-quote-header-overview cx-quote-header-price
+  cx-quote-header-seller-edit cx-quote-details-cart cx-quote-list
+  cx-quote-request-button !default;
 
 $skipComponentStyles: () !default;
 

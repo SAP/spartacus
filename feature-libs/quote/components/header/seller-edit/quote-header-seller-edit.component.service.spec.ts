@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
+import { QuoteHeaderSellerEditComponentService } from './quote-header-seller-edit.component.service';
 import { CurrencyService, LanguageService, TimeUtils } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Quote, QuoteState } from '@spartacus/quote/root';
@@ -25,8 +25,8 @@ class MockLanguageService {
   }
 }
 
-describe('QuoteSellerEditComponentService', () => {
-  let service: QuoteSellerEditComponentService;
+describe('QuoteHeaderSellerEditComponentService', () => {
+  let service: QuoteHeaderSellerEditComponentService;
   let quote: Quote;
 
   beforeEach(() => {
@@ -39,7 +39,7 @@ describe('QuoteSellerEditComponentService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.inject(QuoteSellerEditComponentService);
+    service = TestBed.inject(QuoteHeaderSellerEditComponentService);
     quote = {
       ...createEmptyQuote(),
       totalPrice: { value: TOTAL_PRICE },

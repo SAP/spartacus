@@ -1,10 +1,8 @@
-import { Directive, ElementRef, Input, ViewContainerRef } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  GlobalMessageService,
   I18nTestingModule,
-  Price,
-  TranslationService,
+  Price
 } from '@spartacus/core';
 import {
   Quote,
@@ -13,15 +11,12 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
-  OutletDirective,
+  OutletDirective
 } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, NEVER, Observable, of } from 'rxjs';
+import { BehaviorSubject, NEVER, Observable } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
-import { QuoteDetailsCartSummaryComponent } from './quote-details-cart-summary.component';
-import createSpy = jasmine.createSpy;
+import { QuoteHeaderPriceComponent } from './quote-header-price.component';
 
 const cartId = '1234';
 const quoteCode = '3333';
@@ -43,45 +38,10 @@ const quote: Quote = {
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(quote);
 
-const dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  closeDialog(reason: any): void {
-    dialogClose$.next(reason);
-  }
-  openDialog(
-    _caller: LAUNCH_CALLER,
-    _openElement?: ElementRef,
-    _vcr?: ViewContainerRef,
-    _data?: any
-  ) {
-    return of();
-  }
-  get dialogClose() {
-    return dialogClose$.asObservable();
-  }
-}
-
 class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<Quote> {
     return mockQuoteDetails$.asObservable();
   }
-  performQuoteAction(
-    _quote: Quote,
-    _quoteAction: QuoteActionType
-  ): Observable<unknown> {
-    return EMPTY;
-  }
-  requote = createSpy();
-}
-
-class MockTranslationService implements Partial<TranslationService> {
-  translate(key: string): Observable<string> {
-    return of(key);
-  }
-}
-
-class MockGlobalMessageService {
-  add(): void {}
 }
 
 @Directive({
@@ -92,30 +52,27 @@ class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutletContext: string;
 }
 
-describe('QuoteDetailsCartSummaryComponent', () => {
-  let fixture: ComponentFixture<QuoteDetailsCartSummaryComponent>;
+describe('QuoteHeaderPriceComponent', () => {
+  let fixture: ComponentFixture<QuoteHeaderPriceComponent>;
   let htmlElem: HTMLElement;
-  let component: QuoteDetailsCartSummaryComponent;
+  let component: QuoteHeaderPriceComponent;
   let facade: QuoteFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [QuoteDetailsCartSummaryComponent, MockOutletDirective],
+      declarations: [QuoteHeaderPriceComponent, MockOutletDirective],
       providers: [
         {
           provide: QuoteFacade,
           useClass: MockCommerceQuotesFacade,
         },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: TranslationService, useClass: MockTranslationService },
-        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteDetailsCartSummaryComponent);
+    fixture = TestBed.createComponent(QuoteHeaderPriceComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     facade = TestBed.inject(QuoteFacade);
