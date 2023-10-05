@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="48.059" tests="16" failures="0">
+  <testsuite name="Root Suite" timestamp="2023-09-19T13:46:58" tests="0" file="cypress/e2e/regression/product_configurator/product-configurator-vc-interactive.e2e.cy.ts" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Product Configuration" timestamp="2023-09-19T13:46:58" tests="0" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Navigate to Product Configuration Page" timestamp="2023-09-19T13:46:58" tests="3" time="7.328" failures="0">
+    <testcase name="Product Configuration Navigate to Product Configuration Page should be able to navigate from the product search result" time="2.659" classname="should be able to navigate from the product search result">
+    </testcase>
+    <testcase name="Product Configuration Navigate to Product Configuration Page should be able to navigate from the product details page" time="2.494" classname="should be able to navigate from the product details page">
+    </testcase>
+    <testcase name="Product Configuration Navigate to Product Configuration Page should be able to navigate from the overview page" time="2.170" classname="should be able to navigate from the overview page">
+    </testcase>
+  </testsuite>
+  <testsuite name="Configure Product" timestamp="2023-09-19T13:47:05" tests="2" time="5.267" failures="0">
+    <testcase name="Product Configuration Configure Product should support image attribute type - single selection" time="2.415" classname="should support image attribute type - single selection">
+    </testcase>
+    <testcase name="Product Configuration Configure Product should keep checkboxes selected after group change" time="2.701" classname="should keep checkboxes selected after group change">
+    </testcase>
+  </testsuite>
+  <testsuite name="Group Status" timestamp="2023-09-19T13:47:11" tests="2" time="8.484" failures="0">
+    <testcase name="Product Configuration Group Status should set group status for single level product" time="3.555" classname="should set group status for single level product">
+    </testcase>
+    <testcase name="Product Configuration Group Status should set group status for multi level product" time="4.709" classname="should set group status for multi level product">
+    </testcase>
+  </testsuite>
+  <testsuite name="Group Handling" timestamp="2023-09-19T13:47:19" tests="5" time="10.422" failures="0">
+    <testcase name="Product Configuration Group Handling should navigate between groups" time="2.394" classname="should navigate between groups">
+    </testcase>
+    <testcase name="Product Configuration Group Handling should check if group buttons are clickable" time="2.471" classname="should check if group buttons are clickable">
+    </testcase>
+    <testcase name="Product Configuration Group Handling should navigate using the group menu" time="1.659" classname="should navigate using the group menu">
+    </testcase>
+    <testcase name="Product Configuration Group Handling should navigate using the previous and next button for multi level product" time="1.849" classname="should navigate using the previous and next button for multi level product">
+    </testcase>
+    <testcase name="Product Configuration Group Handling should navigate using the group menu for multi level product" time="1.627" classname="should navigate using the group menu for multi level product">
+    </testcase>
+  </testsuite>
+  <testsuite name="Retract mode for Product Configuration" timestamp="2023-09-19T13:47:30" tests="2" time="3.345" failures="0">
+    <testcase name="Product Configuration Retract mode for Product Configuration should lead to additional retract value displayed when enabled" time="0.976" classname="should lead to additional retract value displayed when enabled">
+    </testcase>
+    <testcase name="Product Configuration Retract mode for Product Configuration should de-select the currently selected value when selecting the retract option" time="2.270" classname="should de-select the currently selected value when selecting the retract option">
+    </testcase>
+  </testsuite>
+  <testsuite name="Conflict Solver" timestamp="2023-09-19T13:47:33" tests="2" time="12.950" failures="0">
+    <testcase name="Product Configuration Conflict Solver should support the conflict solving process" time="9.437" classname="should support the conflict solving process">
+    </testcase>
+    <testcase name="Product Configuration Conflict Solver should display a success message on conflict resolution (CXSPA-2374)" time="3.334" classname="should display a success message on conflict resolution (CXSPA-2374)">
+    </testcase>
+  </testsuite>
+</testsuites>

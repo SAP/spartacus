@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="236.147" tests="11" failures="1">
+  <testsuite name="Root Suite" timestamp="2023-09-19T13:27:56" tests="0" file="cypress/e2e/vendor/cpq/cpq-configuration.ccv2-e2e.cy.ts" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="CPQ Configuration" timestamp="2023-09-19T13:27:56" tests="0" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Navigate to Product Configuration Page" timestamp="2023-09-19T13:27:56" tests="2" time="22.680" failures="0">
+    <testcase name="CPQ Configuration Navigate to Product Configuration Page should be able to navigate from the product search result" time="11.731" classname="should be able to navigate from the product search result">
+    </testcase>
+    <testcase name="CPQ Configuration Navigate to Product Configuration Page should be able to navigate from the product details page" time="10.767" classname="should be able to navigate from the product details page">
+    </testcase>
+  </testsuite>
+  <testsuite name="Handling different UI type" timestamp="2023-09-19T13:28:19" tests="5" time="163.206" failures="1">
+    <testcase name="CPQ Configuration Handling different UI type should support radio button attribute type" time="9.816" classname="should support radio button attribute type">
+    </testcase>
+    <testcase name="CPQ Configuration Handling different UI type should support checkbox list attribute type" time="11.000" classname="should support checkbox list attribute type">
+    </testcase>
+    <testcase name="CPQ Configuration Handling different UI type should support single select (radio) bundle items" time="10.241" classname="should support single select (radio) bundle items">
+    </testcase>
+    <testcase name="CPQ Configuration Handling different UI type should support single select (ddlb) bundle items" time="41.159" classname="should support single select (ddlb) bundle items">
+      <failure message="Timed out retrying after 30000ms: Expected to find element: `#cx-configurator--dropdownProduct--2899--0 .cx-product-card`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying after 30000ms: Expected to find element: `#cx-configurator--dropdownProduct--2899--0 .cx-product-card`, but never found it.
+    at Object.checkValueSelected (webpack://storefrontapp-e2e-cypress/./cypress/helpers/product-configurator.ts:376:47)
+    at Context.eval (webpack://storefrontapp-e2e-cypress/./cypress/e2e/vendor/cpq/cpq-configuration.ccv2-e2e.cy.ts:224:20)]]></failure>
+    </testcase>
+    <testcase name="CPQ Configuration Handling different UI type should support multi select bundle items" time="11.137" classname="should support multi select bundle items">
+    </testcase>
+  </testsuite>
+  <testsuite name="Group Handling" timestamp="2023-09-19T13:31:02" tests="3" time="32.743" failures="0">
+    <testcase name="CPQ Configuration Group Handling should navigate with next and previous buttons" time="12.096" classname="should navigate with next and previous buttons">
+    </testcase>
+    <testcase name="CPQ Configuration Group Handling should navigate via group menu" time="10.757" classname="should navigate via group menu">
+    </testcase>
+    <testcase name="CPQ Configuration Group Handling should display correct attributes" time="9.602" classname="should display correct attributes">
+    </testcase>
+  </testsuite>
+  <testsuite name="Overview Page" timestamp="2023-09-19T13:31:35" tests="1" time="17.507" failures="0">
+    <testcase name="CPQ Configuration Overview Page should display user selections and prices on overview page" time="17.223" classname="should display user selections and prices on overview page">
+    </testcase>
+  </testsuite>
+</testsuites>

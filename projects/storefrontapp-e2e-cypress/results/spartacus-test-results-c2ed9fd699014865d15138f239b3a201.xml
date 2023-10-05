@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="11.569" tests="6" failures="0">
+  <testsuite name="Root Suite" timestamp="2023-09-19T12:41:36" tests="0" file="cypress/e2e/regression/product_configurator/product-configurator-textfield.e2e.cy.ts" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Textfield Configuration" timestamp="2023-09-19T12:41:36" tests="0" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Navigate to Textfield Configuration Page" timestamp="2023-09-19T12:41:36" tests="4" time="6.744" failures="0">
+    <testcase name="Textfield Configuration Navigate to Textfield Configuration Page should be able to navigate from the product search result" time="1.912" classname="should be able to navigate from the product search result">
+    </testcase>
+    <testcase name="Textfield Configuration Navigate to Textfield Configuration Page should be able to navigate from the product details page" time="1.024" classname="should be able to navigate from the product details page">
+    </testcase>
+    <testcase name="Textfield Configuration Navigate to Textfield Configuration Page should be able to navigate from the cart" time="1.972" classname="should be able to navigate from the cart">
+    </testcase>
+    <testcase name="Textfield Configuration Navigate to Textfield Configuration Page should be able to navigate from the cart after adding product directly to the cart" time="2.204" classname="should be able to navigate from the cart after adding product directly to the cart">
+    </testcase>
+  </testsuite>
+  <testsuite name="Configure Product and add to cart" timestamp="2023-09-19T12:41:43" tests="2" time="4.256" failures="0">
+    <testcase name="Textfield Configuration Configure Product and add to cart should enter value and add textfield product to cart" time="2.043" classname="should enter value and add textfield product to cart">
+    </testcase>
+    <testcase name="Textfield Configuration Configure Product and add to cart should be able to update a configured product from the cart" time="2.096" classname="should be able to update a configured product from the cart">
+    </testcase>
+  </testsuite>
+</testsuites>

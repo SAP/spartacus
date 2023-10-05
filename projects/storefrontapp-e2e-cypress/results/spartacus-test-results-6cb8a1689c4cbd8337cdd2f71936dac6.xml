@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="3.328" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2023-09-19T12:41:30" tests="0" file="cypress/e2e/regression/product_configurator/product-configurator-mobile.e2e.cy.ts" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Mobile" timestamp="2023-09-19T12:41:30" tests="0" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Group Handling" timestamp="2023-09-19T12:41:30" tests="1" time="3.319" failures="0">
+    <testcase name="Mobile Group Handling should navigate using the group menu in mobile resolution" time="3.234" classname="should navigate using the group menu in mobile resolution">
+    </testcase>
+  </testsuite>
+</testsuites>

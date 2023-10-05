@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="178.563" tests="6" failures="1">
+  <testsuite name="Root Suite" timestamp="2023-09-19T12:35:42" tests="0" file="cypress/e2e/regression/product_configurator/product-configurator-vc-cart.e2e-flaky.cy.ts" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Product Configuration" timestamp="2023-09-19T12:35:42" tests="0" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Navigate to Product Configuration Page" timestamp="2023-09-19T12:35:42" tests="3" time="21.327" failures="0">
+    <testcase name="Product Configuration Navigate to Product Configuration Page should be able to navigate from the cart" time="8.996" classname="should be able to navigate from the cart">
+    </testcase>
+    <testcase name="Product Configuration Navigate to Product Configuration Page should be able to navigate from the cart after adding product directly to the cart" time="3.419" classname="should be able to navigate from the cart after adding product directly to the cart">
+    </testcase>
+    <testcase name="Product Configuration Navigate to Product Configuration Page should be able to to add more than one piece of a configured product in the cart via a quantity stepper next to the add-to-cart button (CXSPA-3193)" time="8.986" classname="should be able to to add more than one piece of a configured product in the cart via a quantity stepper next to the add-to-cart button (CXSPA-3193)">
+    </testcase>
+  </testsuite>
+  <testsuite name="Conflict Solver" timestamp="2023-09-19T12:36:04" tests="2" time="24.290" failures="0">
+    <testcase name="Product Configuration Conflict Solver should support the conflict solving process" time="19.576" classname="should support the conflict solving process">
+    </testcase>
+    <testcase name="Product Configuration Conflict Solver should support the issue solving process" time="4.498" classname="should support the issue solving process">
+    </testcase>
+  </testsuite>
+  <testsuite name="Configuration process" timestamp="2023-09-19T12:36:28" tests="1" time="132.614" failures="1">
+    <testcase name="Product Configuration Configuration process should support configuration aspect in product search, cart, checkout and order history" time="42.762" classname="should support configuration aspect in product search, cart, checkout and order history">
+      <failure message="Timed out retrying after 30000ms: Expected to find element: `cx-address-form`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying after 30000ms: Expected to find element: `cx-address-form`, but never found it.
+    at fillShippingAddress (webpack://storefrontapp-e2e-cypress/./cypress/helpers/checkout-forms.ts:45:5)
+    at Object.checkout (webpack://storefrontapp-e2e-cypress/./cypress/helpers/product-configurator-cart-vc.ts:77:22)
+    at Object.completeOrderProcess (webpack://storefrontapp-e2e-cypress/./cypress/helpers/product-configurator.ts:542:22)
+    at Context.eval (webpack://storefrontapp-e2e-cypress/./cypress/e2e/regression/product_configurator/product-configurator-vc-cart.e2e-flaky.cy.ts:280:20)]]></failure>
+    </testcase>
+  </testsuite>
+</testsuites>
