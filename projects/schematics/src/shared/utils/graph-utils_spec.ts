@@ -188,6 +188,7 @@ describe('Graph utils', () => {
           "Digital-Payments",
           "CDS",
           "CDC",
+          "CDC-B2B",
           "Customer-Ticketing",
           "SmartEdit",
           "Qualtrics",
