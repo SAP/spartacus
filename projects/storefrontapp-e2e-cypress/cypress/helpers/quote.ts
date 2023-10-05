@@ -166,7 +166,7 @@ export function changeItemQuantityByStepper(
     );
   }
   cy.get(
-    `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
+    `cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`
   ).within(() => {
     cy.get('cx-item-counter button').contains(changeType).click();
   });
@@ -187,7 +187,7 @@ export function changeItemQuantityByCounter(
     changeItemQuantityByCounter.name
   );
   cy.get(
-    `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
+    `cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`
   ).within(() => {
     cy.get('cx-item-counter input')
       .type('{selectall}' + newQuantity)
@@ -210,7 +210,7 @@ export function checkItemQuantity(
     checkItemQuantity.name
   );
   cy.get(
-    `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
+    `cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`
   ).within(() => {
     cy.get('cx-item-counter input').should('have.value', expectedQuantity);
   });
@@ -224,7 +224,7 @@ export function checkItemQuantity(
 export function removeItem(itemIndex: number): void {
   log('Removes the item at index', removeItem.name);
   cy.get(
-    `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
+    `cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`
   ).within(() => {
     cy.get('button').contains('Remove').click();
   });
@@ -242,7 +242,7 @@ export function checkItemVisible(itemIndex: number, productID: string): void {
     'Verifies the given item is visible within the QDP at the given index',
     checkItemVisible.name
   );
-  cy.get(`cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`)
+  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`)
     .should('be.visible')
     .contains(productID);
 }
@@ -257,10 +257,10 @@ export function checkItemExists(itemIndex: number, productID: string): void {
   log('Verifies if the item at the given index exists', checkItemExists.name);
   if (itemIndex === 1) {
     cy.get(
-      `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
+      `cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`
     ).should('not.exist');
   } else {
-    cy.get(`cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`)
+    cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`)
       .contains(productID)
       .should('not.exist');
   }
@@ -506,7 +506,7 @@ export function checkItem(productId: string) {
     'Verifies if the given item exists within the quote cart',
     checkItem.name
   );
-  cy.get('cx-quote-details-cart .cx-table-item-container .cx-info').contains(
+  cy.get('cx-quote-items .cx-table-item-container .cx-info').contains(
     productId
   );
 }
@@ -610,7 +610,7 @@ export function clickItemLinkInComment(index: number, item: string) {
  */
 export function checkLinkedItemInViewport(index: number) {
   log('Verifies if the item in the viewport', checkLinkedItemInViewport.name);
-  cy.get(`cx-quote-details-cart .cx-item-list-row:nth-child(${index})`).should(
+  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${index})`).should(
     'be.visible'
   );
 }
@@ -887,7 +887,7 @@ export function checkTotalEstimatedPrice(newEstimatedTotalPrice: string) {
 export function clickOnEditConfigurationLink(itemIndex: number) {
   log('click on "Edit Configuration"', clickOnEditConfigurationLink.name);
   cy.get(
-    `cx-quote-details-cart cx-cart-item-list .cx-item-list-row:nth-child(${itemIndex})`
+    `cx-quote-items cx-cart-item-list .cx-item-list-row:nth-child(${itemIndex})`
   ).within(() => {
     cy.get('.cx-action-link')
       .click({

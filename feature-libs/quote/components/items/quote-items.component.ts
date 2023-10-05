@@ -9,16 +9,16 @@ import { CartOutlets, ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { QuoteDetailsCartComponentService } from './quote-details-cart.component.service';
+import { QuoteItemsComponentService } from './quote-items.component.service';
 
 @Component({
-  selector: 'cx-quote-details-cart',
-  templateUrl: './quote-details-cart.component.html',
+  selector: 'cx-quote-items',
+  templateUrl: './quote-items.component.html',
 })
-export class QuoteDetailsCartComponent {
+export class QuoteItemsComponent {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
-  showCart$ = this.quoteDetailsCartService.getQuoteEntriesExpanded();
+  showCart$ = this.quoteItemsService.getQuoteEntriesExpanded();
   iconTypes = ICON_TYPE;
   readonly cartOutlets = CartOutlets;
   protected subscription: Subscription;
@@ -26,10 +26,10 @@ export class QuoteDetailsCartComponent {
   constructor(
     protected quoteFacade: QuoteFacade,
     protected activeCartFacade: ActiveCartFacade,
-    protected quoteDetailsCartService: QuoteDetailsCartComponentService
+    protected quoteItemsService: QuoteItemsComponentService
   ) {}
 
   onToggleShowOrHideCart(showCart: boolean) {
-    this.quoteDetailsCartService.setQuoteEntriesExpanded(!showCart);
+    this.quoteItemsService.setQuoteEntriesExpanded(!showCart);
   }
 }

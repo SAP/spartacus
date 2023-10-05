@@ -10,7 +10,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class QuoteDetailsCartComponentService {
+export class QuoteItemsComponentService {
   private _quoteEntriesExpanded$ = new ReplaySubject<boolean>(1);
 
   constructor() {

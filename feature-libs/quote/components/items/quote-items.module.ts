@@ -13,7 +13,7 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { IconModule, OutletModule } from '@spartacus/storefront';
-import { QuoteDetailsCartComponent } from './quote-details-cart.component';
+import { QuoteItemsComponent } from './quote-items.component';
 
 //https://jira.tools.sap/browse/CXSPA-4039
 
@@ -27,13 +27,13 @@ import { QuoteDetailsCartComponent } from './quote-details-cart.component';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         QuoteCartComponent: {
-          component: QuoteDetailsCartComponent,
+          component: QuoteItemsComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
-  declarations: [QuoteDetailsCartComponent],
-  exports: [QuoteDetailsCartComponent],
+  declarations: [QuoteItemsComponent],
+  exports: [QuoteItemsComponent],
 })
-export class QuoteDetailsCartModule {}
+export class QuoteItemsModule {}

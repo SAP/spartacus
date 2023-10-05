@@ -17,7 +17,7 @@ import { QuoteHeaderPriceModule } from './header';
 import { QuoteHeaderBuyerEditModule } from './header/buyer-edit/quote-header-buyer-edit.module';
 import { QuoteHeaderOverviewModule } from './header/overview/quote-header-overview.module';
 import { QuoteHeaderSellerEditModule } from './header/seller-edit/quote-header-seller-edit.module';
-import { QuoteDetailsCartModule } from './items/quote-details-cart.module';
+import { QuoteItemsModule } from './items/quote-items.module';
 import { QuoteListModule } from './list/quote-list.module';
 import { QuoteRequestButtonModule } from './request-button/quote-request-button.module';
 
@@ -33,7 +33,7 @@ import { QuoteRequestButtonModule } from './request-button/quote-request-button.
     QuoteHeaderOverviewModule,
     QuoteHeaderPriceModule,
     QuoteHeaderSellerEditModule,
-    QuoteDetailsCartModule,
+    QuoteItemsModule,
     QuoteListModule,
     QuoteRequestButtonModule,
   ],

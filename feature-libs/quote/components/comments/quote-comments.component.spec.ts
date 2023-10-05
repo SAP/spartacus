@@ -21,7 +21,7 @@ import { NEVER, Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../config';
 import { QuoteCommentsComponent } from './quote-comments.component';
-import { QuoteDetailsCartComponentService } from '../items';
+import { QuoteItemsComponentService } from '../items';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 
 const QUOTE_CODE = 'q123';
@@ -431,7 +431,7 @@ describe('QuoteCommentsComponent', () => {
   describe('onItemClicked', () => {
     let aTagProduct1: { textContent: string; scrollIntoView: Function };
     let aTagProduct2: { textContent: string; scrollIntoView: Function };
-    let quoteDetailsCartComponentService: QuoteDetailsCartComponentService;
+    let quoteItemsComponentService: QuoteItemsComponentService;
 
     beforeEach(() => {
       aTagProduct1 = createElementMock('Product 1');
@@ -439,10 +439,10 @@ describe('QuoteCommentsComponent', () => {
       const mockedATags = [aTagProduct1, aTagProduct2];
       const document = TestBed.inject(DOCUMENT);
       spyOn(document, 'getElementsByTagName').and.returnValue(<any>mockedATags);
-      quoteDetailsCartComponentService = TestBed.inject(
-        QuoteDetailsCartComponentService
+      quoteItemsComponentService = TestBed.inject(
+        QuoteItemsComponentService
       );
-      spyOn(quoteDetailsCartComponentService, 'setQuoteEntriesExpanded');
+      spyOn(quoteItemsComponentService, 'setQuoteEntriesExpanded');
     });
 
     function createElementMock(textContent: string) {
@@ -454,7 +454,7 @@ describe('QuoteCommentsComponent', () => {
     it('should expand cart and call scrollIntoView on the corresponding cart item in the document', fakeAsync(() => {
       component.onItemClicked({ item: { id: 'P2', name: 'Product 2' } });
       expect(
-        quoteDetailsCartComponentService.setQuoteEntriesExpanded
+        quoteItemsComponentService.setQuoteEntriesExpanded
       ).toHaveBeenCalledWith(true);
       tick(); //because of delay(0)
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
@@ -466,7 +466,7 @@ describe('QuoteCommentsComponent', () => {
     it('should only expand the cart but not scroll if the target item is not found in the document', fakeAsync(() => {
       component.onItemClicked({ item: { id: 'P3', name: 'Product 3' } });
       expect(
-        quoteDetailsCartComponentService.setQuoteEntriesExpanded
+        quoteItemsComponentService.setQuoteEntriesExpanded
       ).toHaveBeenCalledWith(true);
       tick(); //because of delay(0)
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();

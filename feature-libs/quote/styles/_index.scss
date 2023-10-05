@@ -10,7 +10,7 @@
 @import './quote-header-overview';
 @import './quote-header-price';
 @import './quote-header-seller-edit';
-@import './quote-details-cart';
+@import './quote-items';
 @import './quote-list';
 @import './quote-request-button';
 @import './layout/index';
@@ -18,7 +18,7 @@
 $quote-components-allowlist: cx-quote-actions-by-role
   cx-quote-actions-confirm-dialog cx-quote-actions-link cx-quote-comments
   cx-quote-header-buyer-edit cx-quote-header-overview cx-quote-header-price
-  cx-quote-header-seller-edit cx-quote-details-cart cx-quote-list
+  cx-quote-header-seller-edit cx-quote-items cx-quote-list
   cx-quote-request-button !default;
 
 $skipComponentStyles: () !default;

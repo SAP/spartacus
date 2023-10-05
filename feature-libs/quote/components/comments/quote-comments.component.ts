@@ -20,7 +20,7 @@ import {
 import { Observable } from 'rxjs';
 import { delay, finalize, map, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../config/quote-ui.config';
-import { QuoteDetailsCartComponentService } from '../items/quote-details-cart.component.service';
+import { QuoteItemsComponentService } from '../items/quote-items.component.service';
 
 const DEFAULT_COMMENT_MAX_CHARS = 1000;
 const ALL_PRODUCTS_ID = '';
@@ -45,7 +45,7 @@ export class QuoteCommentsComponent {
     protected translationService: TranslationService,
     protected quoteUiConfig: QuoteUIConfig,
     @Inject(DOCUMENT) protected document: Document,
-    protected quoteDetailsCartComponentService: QuoteDetailsCartComponentService
+    protected quoteItemsComponentService: QuoteItemsComponentService
   ) {}
 
   onSend(event: { message: string; itemId?: string }, code: string) {
@@ -75,8 +75,8 @@ export class QuoteCommentsComponent {
   }
 
   onItemClicked(event: { item: Item }) {
-    this.quoteDetailsCartComponentService.setQuoteEntriesExpanded(true);
-    this.quoteDetailsCartComponentService
+    this.quoteItemsComponentService.setQuoteEntriesExpanded(true);
+    this.quoteItemsComponentService
       .getQuoteEntriesExpanded()
       .pipe(take(1), delay(0)) // delay this task until the UI has expanded
       .subscribe(() => {

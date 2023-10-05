@@ -15,8 +15,8 @@ import {
   QUOTE_CODE,
 } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
-import { QuoteDetailsCartComponent } from './quote-details-cart.component';
-import { QuoteDetailsCartComponentService } from './quote-details-cart.component.service';
+import { QuoteItemsComponent } from './quote-items.component';
+import { QuoteItemsComponentService } from './quote-items.component.service';
 import { tap } from 'rxjs/operators';
 
 @Directive({
@@ -66,19 +66,19 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   }
 }
 
-describe('QuoteDetailsCartComponent', () => {
+describe('QuoteItemsComponent', () => {
   let mockedEventService: EventService;
-  let mockQuoteDetailsCartService: QuoteDetailsCartComponentService;
-  let fixture: ComponentFixture<QuoteDetailsCartComponent>;
+  let mockQuoteItemsService: QuoteItemsComponentService;
+  let fixture: ComponentFixture<QuoteItemsComponent>;
   let htmlElem: HTMLElement;
-  let component: QuoteDetailsCartComponent;
+  let component: QuoteItemsComponent;
 
   beforeEach(
     waitForAsync(() => {
       initMocks();
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, IconTestingModule],
-        declarations: [QuoteDetailsCartComponent, MockOutletDirective],
+        declarations: [QuoteItemsComponent, MockOutletDirective],
         providers: [
           {
             provide: QuoteFacade,
@@ -93,8 +93,8 @@ describe('QuoteDetailsCartComponent', () => {
             useValue: mockedEventService,
           },
           {
-            provide: QuoteDetailsCartComponentService,
-            useValue: mockQuoteDetailsCartService,
+            provide: QuoteItemsComponentService,
+            useValue: mockQuoteItemsService,
           },
         ],
       }).compileComponents();
@@ -102,7 +102,7 @@ describe('QuoteDetailsCartComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteDetailsCartComponent);
+    fixture = TestBed.createComponent(QuoteItemsComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.showCart$ = of(true);
@@ -115,12 +115,12 @@ describe('QuoteDetailsCartComponent', () => {
       'get',
       'dispatch',
     ]);
-    mockQuoteDetailsCartService = jasmine.createSpyObj(
-      'quoteDetailsCartComponentService',
+    mockQuoteItemsService = jasmine.createSpyObj(
+      'QuoteItemsComponentService',
       ['setQuoteEntriesExpanded', 'getQuoteEntriesExpanded']
     );
     asSpy(mockedEventService.get).and.returnValue(EMPTY);
-    asSpy(mockQuoteDetailsCartService.getQuoteEntriesExpanded).and.returnValue(
+    asSpy(mockQuoteItemsService.getQuoteEntriesExpanded).and.returnValue(
       true
     );
   }
@@ -243,17 +243,17 @@ describe('QuoteDetailsCartComponent', () => {
   });
 
   describe('onToggleShowOrHideCart', () => {
-    it('should call quoteDetailsCartComponentService correctly if argument is true', () => {
+    it('should call quoteItemsComponentService correctly if argument is true', () => {
       component.onToggleShowOrHideCart(true);
       expect(
-        mockQuoteDetailsCartService.setQuoteEntriesExpanded
+        mockQuoteItemsService.setQuoteEntriesExpanded
       ).toHaveBeenCalledWith(false);
     });
 
-    it('should call quoteDetailsCartComponentService correctly if argument is false', () => {
+    it('should call quoteItemsComponentService correctly if argument is false', () => {
       component.onToggleShowOrHideCart(false);
       expect(
-        mockQuoteDetailsCartService.setQuoteEntriesExpanded
+        mockQuoteItemsService.setQuoteEntriesExpanded
       ).toHaveBeenCalledWith(true);
     });
   });
@@ -282,7 +282,7 @@ describe('QuoteDetailsCartComponent', () => {
     CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
     fixture.detectChanges();
     expect(
-      mockQuoteDetailsCartService.setQuoteEntriesExpanded
+      mockQuoteItemsService.setQuoteEntriesExpanded
     ).toHaveBeenCalledWith(false);
   });
 
@@ -292,7 +292,7 @@ describe('QuoteDetailsCartComponent', () => {
     CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
     fixture.detectChanges();
     expect(
-      mockQuoteDetailsCartService.setQuoteEntriesExpanded
+      mockQuoteItemsService.setQuoteEntriesExpanded
     ).toHaveBeenCalledWith(true);
   });
 
