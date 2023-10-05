@@ -24,20 +24,7 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "x-prompt": {
-        "message": "Which feature would you like to set up from the CDC library?",
-        "type": "list",
-        "items": [
-          {
-            "value": "CDC",
-            "label": "CDC for B2C"
-          },
-          {
-            "value": "CDC-B2B",
-            "label": "CDC for B2B"
-          }
-        ]
-      }
+      "default": ["CDC"]
     },
     "javascriptUrl": {
       "type": "string",
