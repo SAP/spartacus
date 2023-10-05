@@ -5,8 +5,10 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { CartUpdateEntrySuccessEvent } from '@spartacus/cart/base/root';
-import { CartUiEventAddToCart } from '@spartacus/cart/base/root';
+import {
+  CartUiEventAddToCart,
+  CartUpdateEntrySuccessEvent,
+} from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/root';
 
