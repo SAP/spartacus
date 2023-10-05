@@ -138,6 +138,8 @@ export class OccOrderHistoryExtendedAdapter extends OccOrderHistoryAdapter {
           return this.load(userId, order?.code ?? '').pipe(
             map((orderDetail: Order) => {
               /** filling extra fields ---> */
+              order.totalItems = orderDetail.totalItems;
+              order.returnable = orderDetail.returnable;
               order.entries = orderDetail.entries;
               order.consignments = orderDetail.consignments;
               order.unconsignedEntries = orderDetail.unconsignedEntries;

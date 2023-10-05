@@ -13,6 +13,7 @@ export const orderTranslations: TranslationResources = {
 
 export const orderTranslationChunksConfig: TranslationChunksConfig = {
   order: [
+    'myAccountView',
     'orderDetails',
     'orderHistory',
     'AccountOrderHistoryTabContainer',

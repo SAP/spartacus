@@ -100,6 +100,8 @@ export interface OrderHistory {
   consignments?: Consignment[];
   unconsignedEntries?: OrderEntry[];
   returnRequests?: ReturnRequest[];
+  totalItems?: number;
+  returnable?: boolean;
 }
 
 export interface OrderHistoryList {
