@@ -114,7 +114,7 @@
           <button
             class="btn btn-block cx-send"
             [ngClass]="
-              !!messagingConfigs.sendIsNotPrimary
+              !!messagingConfigs?.sendIsNotPrimary
                 ? 'btn-secondary'
                 : 'btn-primary'
             "
