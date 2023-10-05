@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
 import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
-import { QuoteDetailsEditComponent } from './quote-details-edit.component';
+import { QuoteHeaderBuyerEditComponent } from './quote-header-buyer-edit.component';
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ import { QuoteDetailsEditComponent } from './quote-details-edit.component';
     KeyboardFocusModule,
     ReactiveFormsModule,
   ],
-  declarations: [QuoteDetailsEditComponent],
-  exports: [QuoteDetailsEditComponent],
+  declarations: [QuoteHeaderBuyerEditComponent],
+  exports: [QuoteHeaderBuyerEditComponent],
 })
-export class QuoteDetailsEditModule {}
+export class QuoteHeaderBuyerEditModule {}

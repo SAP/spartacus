@@ -20,10 +20,10 @@ export interface EditCard {
 }
 
 @Component({
-  selector: 'cx-quote-details-edit',
-  templateUrl: './quote-details-edit.component.html',
+  selector: 'cx-quote-header-buyer-edit',
+  templateUrl: './quote-header-buyer-edit.component.html',
 })
-export class QuoteDetailsEditComponent implements OnInit {
+export class QuoteHeaderBuyerEditComponent implements OnInit {
   iconTypes = ICON_TYPE;
   editForm: UntypedFormGroup = new UntypedFormGroup({});
 

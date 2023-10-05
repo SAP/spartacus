@@ -20,8 +20,8 @@ import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-uti
 import {
   EditCard,
   SaveEvent,
-} from '../buyer-edit/quote-details-edit.component';
-import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
+} from '../buyer-edit/quote-header-buyer-edit.component';
+import { QuoteHeaderOverviewComponent } from './quote-header-overview.component';
 import { QuoteUIConfig } from '../../config';
 
 const totalPriceFormattedValue = '$20';
@@ -63,10 +63,10 @@ class MockCxIconComponent {
 }
 
 @Component({
-  selector: 'cx-quote-details-edit',
+  selector: 'cx-quote-header-buyer-edit',
   template: '',
 })
-class MockQuoteDetailsEditComponent {
+class MockQuoteHeaderBuyerEditComponent {
   @Input() content: EditCard | null;
 }
 
@@ -88,9 +88,9 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   }
 }
 
-describe('QuoteDetailsOverviewComponent', () => {
-  let fixture: ComponentFixture<QuoteDetailsOverviewComponent>;
-  let component: QuoteDetailsOverviewComponent;
+describe('QuoteHeaderOverviewComponent', () => {
+  let fixture: ComponentFixture<QuoteHeaderOverviewComponent>;
+  let component: QuoteHeaderOverviewComponent;
   let htmlElem: HTMLElement;
   let mockedQuoteFacade: QuoteFacade;
   let mockedEventService: EventService;
@@ -102,10 +102,10 @@ describe('QuoteDetailsOverviewComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, CardModule, RouterTestingModule],
         declarations: [
-          QuoteDetailsOverviewComponent,
+          QuoteHeaderOverviewComponent,
           MockCxIconComponent,
           MockQuoteActionsLinkComponent,
-          MockQuoteDetailsEditComponent,
+          MockQuoteHeaderBuyerEditComponent,
         ],
         providers: [
           {
@@ -127,7 +127,7 @@ describe('QuoteDetailsOverviewComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteDetailsOverviewComponent);
+    fixture = TestBed.createComponent(QuoteHeaderOverviewComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
@@ -225,7 +225,7 @@ describe('QuoteDetailsOverviewComponent', () => {
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-quote-details-edit'
+        'cx-quote-header-buyer-edit'
       );
 
       CommonQuoteTestUtilsService.expectElementNotPresent(
@@ -457,7 +457,7 @@ describe('QuoteDetailsOverviewComponent', () => {
       quoteUiConfig.quote = undefined;
 
       // re-create component so changed config is evaluated
-      fixture = TestBed.createComponent(QuoteDetailsOverviewComponent);
+      fixture = TestBed.createComponent(QuoteHeaderOverviewComponent);
       expect(fixture.componentInstance.getCharactersLimitForCardTile()).toBe(
         100
       );

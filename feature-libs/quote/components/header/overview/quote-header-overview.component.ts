@@ -21,13 +21,13 @@ import { QuoteUIConfig } from '../../config/quote-ui.config';
 import {
   EditCard,
   SaveEvent,
-} from '../buyer-edit/quote-details-edit.component';
+} from '../buyer-edit/quote-header-buyer-edit.component';
 
 @Component({
-  selector: 'cx-quote-details-overview',
-  templateUrl: './quote-details-overview.component.html',
+  selector: 'cx-quote-header-overview',
+  templateUrl: './quote-header-overview.component.html',
 })
-export class QuoteDetailsOverviewComponent {
+export class QuoteHeaderOverviewComponent {
   private static NO_DATA = '-';
   private static CHARACTERS_LIMIT = 255;
   private static DEFAULT_CARD_TILE_MAX_CHARS = 100;
@@ -120,11 +120,11 @@ export class QuoteDetailsOverviewComponent {
           paragraphs: [
             {
               title: nameTitle,
-              text: [name ?? QuoteDetailsOverviewComponent.NO_DATA],
+              text: [name ?? QuoteHeaderOverviewComponent.NO_DATA],
             },
             {
               title: descriptionTitle,
-              text: [description ?? QuoteDetailsOverviewComponent.NO_DATA],
+              text: [description ?? QuoteHeaderOverviewComponent.NO_DATA],
             },
           ],
         };
@@ -143,7 +143,7 @@ export class QuoteDetailsOverviewComponent {
     return {
       name: name,
       description: description,
-      charactersLimit: QuoteDetailsOverviewComponent.CHARACTERS_LIMIT,
+      charactersLimit: QuoteHeaderOverviewComponent.CHARACTERS_LIMIT,
     };
   }
 
@@ -171,11 +171,11 @@ export class QuoteDetailsOverviewComponent {
           paragraphs: [
             {
               title: secondTitle,
-              text: [totalPrice ?? QuoteDetailsOverviewComponent.NO_DATA],
+              text: [totalPrice ?? QuoteHeaderOverviewComponent.NO_DATA],
             },
             {
               title: thirdTitle,
-              text: [createdDate ?? QuoteDetailsOverviewComponent.NO_DATA],
+              text: [createdDate ?? QuoteHeaderOverviewComponent.NO_DATA],
             },
           ],
         };
@@ -205,11 +205,11 @@ export class QuoteDetailsOverviewComponent {
           paragraphs: [
             {
               title: secondTitle,
-              text: [lastUpdated ?? QuoteDetailsOverviewComponent.NO_DATA],
+              text: [lastUpdated ?? QuoteHeaderOverviewComponent.NO_DATA],
             },
             {
               title: thirdTitle,
-              text: [expirationTime ?? QuoteDetailsOverviewComponent.NO_DATA],
+              text: [expirationTime ?? QuoteHeaderOverviewComponent.NO_DATA],
             },
           ],
         };
@@ -226,7 +226,7 @@ export class QuoteDetailsOverviewComponent {
   getCharactersLimitForCardTile(): number {
     return (
       this.quoteUiConfig.quote?.truncateCardTileContentAfterNumChars ??
-      QuoteDetailsOverviewComponent.DEFAULT_CARD_TILE_MAX_CHARS
+      QuoteHeaderOverviewComponent.DEFAULT_CARD_TILE_MAX_CHARS
     );
   }
 

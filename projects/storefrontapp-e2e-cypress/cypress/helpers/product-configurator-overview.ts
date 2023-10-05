@@ -43,7 +43,7 @@ export function clickContinueToCartBtnOnOPAndExpectQuote(): void {
   cy.get(continueToCartButtonSelector)
     .click()
     .then(() => {
-      cy.get('cx-quote-details-overview').should('be.visible');
+      cy.get('cx-quote-header-overview').should('be.visible');
     });
 }
 

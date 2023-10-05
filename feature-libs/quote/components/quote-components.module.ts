@@ -15,8 +15,8 @@ import { defaultQuoteUIConfig } from './config/default-quote-ui.config';
 import { QuoteSellerEditModule } from './header/seller-edit/quote-seller-edit.module';
 import { QuoteListModule } from './quote-list/quote-list.module';
 import { QuoteRequestButtonModule } from './quote-request-button/quote-request-button.module';
-import { QuoteDetailsEditModule } from './header/buyer-edit/quote-details-edit.module';
-import { QuoteDetailsOverviewModule } from './header/overview/quote-details-overview.module';
+import { QuoteHeaderBuyerEditModule } from './header/buyer-edit/quote-header-buyer-edit.module';
+import { QuoteHeaderOverviewModule } from './header/overview/quote-header-overview.module';
 import { QuoteCommentsModule } from './comments/quote-comments.module';
 import { QuoteDetailsCartModule } from './items/quote-details-cart.module';
 import { QuoteDetailsCartSummaryModule } from './header';
@@ -25,8 +25,8 @@ import { QuoteDetailsCartSummaryModule } from './header';
   imports: [
     CommonModule,
     QuoteListModule,
-    QuoteDetailsEditModule,
-    QuoteDetailsOverviewModule,
+    QuoteHeaderBuyerEditModule,
+    QuoteHeaderOverviewModule,
     QuoteDetailsCartModule,
     QuoteRequestButtonModule,
     QuoteActionsLinkModule,

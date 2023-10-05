@@ -92,7 +92,7 @@ export function requestQuote(
   this.addProductToCart(shopName, productName, quantity);
   this.clickOnRequestQuote();
   cy.location('pathname').should('contain', '/quote');
-  cy.get('cx-quote-details-overview').should('be.visible');
+  cy.get('cx-quote-header-overview').should('be.visible');
   cy.get('cx-quote-actions-by-role').should('be.visible');
   cy.url().should('contain', '/quote').as('quoteURL');
 }
@@ -276,7 +276,7 @@ export function checkQuoteInformationCard(isEditModeActive: boolean): void {
     'Verifies if the "Quote Information" card tile is in edit mode',
     checkQuoteInformationCard.name
   );
-  cy.get(`cx-quote-details-overview .cx-container .card-body`)
+  cy.get(`cx-quote-header-overview .cx-container .card-body`)
     .contains(CARD_TITLE_QUOTE_INFORMATION)
     .should('exist')
     .then(() => {
@@ -302,16 +302,16 @@ export function editQuoteInformationCard(
     'Edits the "Quote Information" card tile with given values',
     editQuoteInformationCard.name
   );
-  cy.get(`cx-quote-details-overview .cx-container .card-body`)
+  cy.get(`cx-quote-header-overview .cx-container .card-body`)
     .contains(CARD_TITLE_QUOTE_INFORMATION)
     .then(() => {
       if (newQuoteName) {
-        cy.get(`cx-quote-details-overview .cx-container .card-body input`)
+        cy.get(`cx-quote-header-overview .cx-container .card-body input`)
           .clear()
           .type(newQuoteName);
       }
       if (newQuoteDescription) {
-        cy.get(`cx-quote-details-overview .cx-container .card-body textarea`)
+        cy.get(`cx-quote-header-overview .cx-container .card-body textarea`)
           .clear()
           .type(newQuoteDescription);
       }
@@ -327,7 +327,7 @@ export function saveEditedData(): void {
     saveEditedData.name
   );
   checkQuoteInformationCard(true);
-  cy.get(`cx-quote-details-overview .cx-container .card-body`)
+  cy.get(`cx-quote-header-overview .cx-container .card-body`)
     .contains(CARD_TITLE_QUOTE_INFORMATION)
     .then(() => {
       cy.get('button').contains('Save').should('exist').click();
@@ -346,7 +346,7 @@ export function checkQuoteInformationCardContent(
     'Verifies if the expected quote name equals the current quote name',
     checkQuoteInformationCardContent.name
   );
-  cy.get('cx-quote-details-overview .cx-container .card-body')
+  cy.get('cx-quote-header-overview .cx-container .card-body')
     .find('.cx-card-paragraph-text')
     .contains(expectedQuoteInformationContent);
 }
@@ -359,7 +359,7 @@ export function clickEditPencil(): void {
     'Clicks on the pencil to change the quote information within the "Quote Information" card tile.',
     clickEditPencil.name
   );
-  cy.get(`cx-quote-details-overview .cx-container .card-body`)
+  cy.get(`cx-quote-header-overview .cx-container .card-body`)
     .contains(CARD_TITLE_QUOTE_INFORMATION)
     .should('exist')
     .then(() => {
@@ -518,7 +518,7 @@ export function checkItem(productId: string) {
  */
 export function checkQuoteState(status: string) {
   log('Verifies the quote state', checkQuoteState.name);
-  cy.get('cx-quote-details-overview h3.cx-status').contains(status);
+  cy.get('cx-quote-header-overview h3.cx-status').contains(status);
 }
 
 /**
@@ -767,7 +767,7 @@ export function checkExpiryDate() {
   );
 
   cy.get(
-    'cx-quote-details-overview .cx-container .card-body .cx-card-paragraph-title'
+    'cx-quote-header-overview .cx-container .card-body .cx-card-paragraph-title'
   )
     .contains('Expiry Date')
     .parent()
@@ -868,7 +868,7 @@ export function checkTotalEstimatedPrice(newEstimatedTotalPrice: string) {
     checkTotalEstimatedPrice.name
   );
   cy.get(
-    'cx-quote-details-overview .cx-container .card-body .cx-card-paragraph-title'
+    'cx-quote-header-overview .cx-container .card-body .cx-card-paragraph-title'
   )
     .contains('Estimated Total')
     .parent()

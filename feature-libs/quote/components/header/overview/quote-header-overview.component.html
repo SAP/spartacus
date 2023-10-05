@@ -28,14 +28,14 @@
           <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
         </button>
       </ng-container>
-      <cx-quote-details-edit
+      <cx-quote-header-buyer-edit
         *ngIf="editMode"
         [content]="
           getEditQuoteInformation(quoteDetails.name, quoteDetails.description)
         "
         (saveCard)="save(quoteDetails, $event)"
         (cancelCard)="cancel()"
-      ></cx-quote-details-edit>
+      ></cx-quote-header-buyer-edit>
     </div>
     <div class="cx-summary-card">
       <cx-card

@@ -6,8 +6,8 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import {
   EditCard,
-  QuoteDetailsEditComponent,
-} from './quote-details-edit.component';
+  QuoteHeaderBuyerEditComponent,
+} from './quote-header-buyer-edit.component';
 
 const mockCard: EditCard = {
   name: 'Quote name',
@@ -23,20 +23,20 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-describe('QuoteDetailsEditComponent', () => {
-  let fixture: ComponentFixture<QuoteDetailsEditComponent>;
-  let component: QuoteDetailsEditComponent;
+describe('QuoteHeaderBuyerEditComponent', () => {
+  let fixture: ComponentFixture<QuoteHeaderBuyerEditComponent>;
+  let component: QuoteHeaderBuyerEditComponent;
   let htmlElem: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule],
-      declarations: [QuoteDetailsEditComponent, MockCxIconComponent],
+      declarations: [QuoteHeaderBuyerEditComponent, MockCxIconComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteDetailsEditComponent);
+    fixture = TestBed.createComponent(QuoteHeaderBuyerEditComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.content = mockCard;

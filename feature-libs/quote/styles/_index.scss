@@ -4,8 +4,8 @@
 // Components
 @import './quote-list';
 @import './quote-request-button';
-@import './quote-details-edit';
-@import './quote-details-overview';
+@import './quote-header-buyer-edit';
+@import './quote-header-overview';
 @import './quote-details-cart';
 @import './quote-actions-link';
 @import './quote-actions-by-role';
@@ -15,8 +15,8 @@
 @import './quote-actions-confirm-dialog';
 @import './layout/index';
 
-$quote-components-allowlist: cx-quote-list cx-quote-details-edit
-  cx-quote-details-overview cx-quote-details-cart cx-quote-request-button
+$quote-components-allowlist: cx-quote-list cx-quote-header-buyer-edit
+  cx-quote-header-overview cx-quote-details-cart cx-quote-request-button
   cx-quote-actions-link cx-quote-actions-by-role cx-quote-comments
   cx-quote-details-cart-summary cx-quote-seller-edit
   cx-quote-actions-confirm-dialog !default;
