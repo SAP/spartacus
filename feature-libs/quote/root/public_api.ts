@@ -8,7 +8,6 @@ export * from './feature-name';
 export * from './quote-root.module';
 export * from './model/index';
 export * from './facade/index';
-export * from './events/index';
 export * from './guards/index';
 
 /** AUGMENTABLE_TYPES_START */

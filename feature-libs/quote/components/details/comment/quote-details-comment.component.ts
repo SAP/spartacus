@@ -8,12 +8,8 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, ViewChild } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, TranslationService } from '@spartacus/core';
-import {
-  Comment,
-  Quote,
-  QuoteDetailsReloadQueryEvent,
-  QuoteFacade,
-} from '@spartacus/quote/root';
+import { Comment, Quote, QuoteFacade } from '@spartacus/quote/root';
+import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
 import {
   ICON_TYPE,
   Item,

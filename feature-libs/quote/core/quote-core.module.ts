@@ -9,7 +9,7 @@ import { HttpErrorHandler } from '@spartacus/core';
 import { QuoteConnector } from './connectors/quote.connector';
 import { facadeProviders } from './facade/facade-providers';
 import { QuoteBadRequestHandler } from './http-interceptors/quote-bad-request.handler';
-import { QuoteAddedToCartEventListener } from './event/quote-added-to-cart-event.listener';
+import { QuoteCartEventListener } from './event/quote-cart-event.listener';
 import { QuoteNotFoundHandler } from './http-interceptors/quote-not-found.handler';
 
 @NgModule({
@@ -29,7 +29,7 @@ import { QuoteNotFoundHandler } from './http-interceptors/quote-not-found.handle
   ],
 })
 export class QuoteCoreModule {
-  constructor(_quoteAddedToCartEventListener: QuoteAddedToCartEventListener) {
+  constructor(_quoteAddedToCartEventListener: QuoteCartEventListener) {
     // Intentional empty constructor
   }
 }
