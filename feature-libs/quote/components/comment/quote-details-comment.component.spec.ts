@@ -314,7 +314,7 @@ describe('QuoteDetailsCommentComponent', () => {
       expect(component.messagingConfigs.defaultItemId).toEqual(ALL_PRODUCTS_ID);
     });
     it('should request send button to be secondary', () => {
-      expect(component.messagingConfigs.sendIsNotPrimary).toBe(true);
+      expect(component.messagingConfigs.sendBtnIsNotPrimary).toBe(true);
     });
   });
 
