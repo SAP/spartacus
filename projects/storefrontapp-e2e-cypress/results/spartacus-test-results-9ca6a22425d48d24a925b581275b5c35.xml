@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="6.727" tests="3" failures="0">
-  <testsuite name="Root Suite" timestamp="2023-09-19T13:57:53" tests="0" file="cypress/e2e/regression/product_configurator/product-configurator-vc-restart-dialog-e2e-spec-flaky.cy.ts" time="0.000" failures="0">
-  </testsuite>
-  <testsuite name="Restart Dialog for Product Configuration" timestamp="2023-09-19T13:57:53" tests="3" time="0.000" failures="0">
-    <testcase name="Restart Dialog for Product Configuration should keep configuration on resume (CXSPA-1786)" time="4.072" classname="should keep configuration on resume (CXSPA-1786)">
-    </testcase>
-  </testsuite>
-</testsuites>
