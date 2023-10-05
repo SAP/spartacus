@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-/// <reference types="jest" />
+
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -29,7 +29,8 @@ import {
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
 import { OPF_CC_OTP_KEY } from '@spartacus/opf/base/root';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { throwError } from 'rxjs';
 
 const mockResponse: ActiveConfiguration[] = [
   {
@@ -54,6 +55,10 @@ const mockPaymentSessionData: PaymentSessionData = {
 const mockPaymentConfig: PaymentInitiationConfig = {
   otpKey: 'testOtpKey',
 };
+
+const mockError = new HttpErrorResponse({ error: 'error' });
+
+const normalizedError = normalizeHttpError(mockError);
 
 export class MockOpfEndpointsService implements Partial<OpfEndpointsService> {
   buildUrl(
@@ -83,6 +88,7 @@ export class MockOpfEndpointsService implements Partial<OpfEndpointsService> {
 describe('OccOpfAdapter', () => {
   let occOpfAdapter: OccOpfAdapter;
   let httpMock: HttpTestingController;
+  let http: HttpClient;
   let converter: ConverterService;
   let opfEndpointsService: OpfEndpointsService;
 
@@ -104,6 +110,7 @@ describe('OccOpfAdapter', () => {
 
     occOpfAdapter = TestBed.inject(OccOpfAdapter);
     httpMock = TestBed.inject(HttpTestingController);
+    http = TestBed.inject(HttpClient);
     converter = TestBed.inject(ConverterService);
     opfEndpointsService = TestBed.inject(OpfEndpointsService);
     spyOn(converter, 'convert').and.callThrough();
@@ -219,20 +226,13 @@ describe('OccOpfAdapter', () => {
     });
 
     it('should handle errors', (done) => {
-      const mockError = new HttpErrorResponse({ error: 'error' });
-      const normalizedError = normalizeHttpError(mockError);
-
-      occOpfAdapter.initiatePayment(mockPaymentConfig).subscribe((error) => {
-        expect(error).toEqual(normalizedError);
+      spyOn(http, 'post').and.returnValue(throwError(mockError));
+      occOpfAdapter.initiatePayment(mockPaymentConfig).subscribe({
+        error: (error) => {
+          expect(error).toEqual(normalizedError);
+          done();
+        },
       });
-
-      httpMock
-        .expectOne((req) => {
-          return req.method === 'POST';
-        })
-        .flush(normalizedError);
-
-      done();
     });
   });
 
@@ -266,20 +266,14 @@ describe('OccOpfAdapter', () => {
     });
 
     it('should handle errors', (done) => {
-      const mockError = new HttpErrorResponse({ error: 'error' });
-      const normalizedError = normalizeHttpError(mockError);
+      spyOn(http, 'get').and.returnValue(throwError(mockError));
 
-      occOpfAdapter.getActiveConfigurations().subscribe((error) => {
-        expect(error).toEqual(normalizedError);
+      occOpfAdapter.getActiveConfigurations().subscribe({
+        error: (error) => {
+          expect(error).toEqual(normalizedError);
+          done();
+        },
       });
-
-      httpMock
-        .expectOne((req) => {
-          return req.method === 'GET';
-        })
-        .flush(normalizedError);
-
-      done();
     });
 
     it('should set commerceCloudPublicKey to empty string', () => {
