@@ -181,7 +181,17 @@
           </ng-template>
         </ng-container>
       </div>
-      <cx-order-detail-billing></cx-order-detail-billing>
+      <ng-container *cxFeatureLevel="'!6.6'">
+        <cx-order-detail-billing></cx-order-detail-billing>
+      </ng-container>
+      <ng-container *cxFeatureLevel="'6.6'">
+        <cx-order-detail-billing
+          *ngIf="
+            isPaymentInfoCardFull(order?.paymentInfo) ||
+            order?.paymentInfo?.billingAddress
+          "
+        ></cx-order-detail-billing>
+      </ng-container>
     </div>
   </ng-container>
 </div>
