@@ -20,7 +20,7 @@ import { QuoteHeaderPriceComponent } from './quote-header-price.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        QuoteDetailsCartSummaryComponent: {
+        QuoteHeaderPriceComponent: {
           component: QuoteHeaderPriceComponent,
           guards: [AuthGuard],
         },

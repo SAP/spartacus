@@ -20,7 +20,7 @@ import { QuoteCommentsComponent } from './quote-comments.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        QuoteDetailsCommentComponent: {
+        QuoteCommentsComponent: {
           component: QuoteCommentsComponent,
           guards: [AuthGuard],
         },

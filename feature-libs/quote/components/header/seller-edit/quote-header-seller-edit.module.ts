@@ -28,7 +28,7 @@ import { IconModule, DatePickerModule } from '@spartacus/storefront';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        QuoteSellerEditComponent: {
+        QuoteHeaderSellerEditComponent: {
           component: QuoteHeaderSellerEditComponent,
           guards: [AuthGuard],
         },

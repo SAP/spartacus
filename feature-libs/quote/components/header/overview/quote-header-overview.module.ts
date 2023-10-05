@@ -32,7 +32,7 @@ import { QuoteHeaderBuyerEditModule } from '../buyer-edit/quote-header-buyer-edi
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        QuoteDetailsOverviewComponent: {
+        QuoteHeaderOverviewComponent: {
           component: QuoteHeaderOverviewComponent,
           guards: [AuthGuard],
         },

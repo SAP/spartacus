@@ -21,7 +21,7 @@ import { QuoteActionsLinkComponent } from './quote-actions-link.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        QuoteActionLinksComponent: {
+        QuoteActionsLinkComponent: {
           component: QuoteActionsLinkComponent,
           guards: [AuthGuard],
         },

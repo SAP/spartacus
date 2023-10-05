@@ -26,7 +26,7 @@ import { QuoteItemsComponent } from './quote-items.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        QuoteCartComponent: {
+        QuoteItemsComponent: {
           component: QuoteItemsComponent,
           guards: [AuthGuard],
         },
