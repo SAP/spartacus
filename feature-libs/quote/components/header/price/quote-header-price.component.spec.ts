@@ -1,18 +1,13 @@
 import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  I18nTestingModule,
-  Price
-} from '@spartacus/core';
+import { I18nTestingModule, Price } from '@spartacus/core';
 import {
   Quote,
   QuoteActionType,
   QuoteFacade,
   QuoteState,
 } from '@spartacus/quote/root';
-import {
-  OutletDirective
-} from '@spartacus/storefront';
+import { OutletDirective } from '@spartacus/storefront';
 import { BehaviorSubject, NEVER, Observable } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
