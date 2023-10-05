@@ -26,10 +26,10 @@ const DEFAULT_COMMENT_MAX_CHARS = 1000;
 const ALL_PRODUCTS_ID = '';
 
 @Component({
-  selector: 'cx-quote-details-comment',
-  templateUrl: './quote-details-comment.component.html',
+  selector: 'cx-quote-comments',
+  templateUrl: './quote-comments.component.html',
 })
-export class QuoteDetailsCommentComponent {
+export class QuoteCommentsComponent {
   @ViewChild(MessagingComponent) commentsComponent: MessagingComponent;
 
   expandComments = true;

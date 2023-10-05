@@ -20,7 +20,7 @@ import { cold } from 'jasmine-marbles';
 import { NEVER, Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../config';
-import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
+import { QuoteCommentsComponent } from './quote-comments.component';
 import { QuoteDetailsCartComponentService } from '../items';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 
@@ -48,10 +48,10 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-describe('QuoteDetailsCommentComponent', () => {
-  let fixture: ComponentFixture<QuoteDetailsCommentComponent>;
+describe('QuoteCommentsComponent', () => {
+  let fixture: ComponentFixture<QuoteCommentsComponent>;
   let htmlElem: HTMLElement;
-  let component: QuoteDetailsCommentComponent;
+  let component: QuoteCommentsComponent;
   let mockedQuoteFacade: QuoteFacade;
   let mockedEventService: EventService;
   let quoteUiConfig: QuoteUIConfig;
@@ -65,7 +65,7 @@ describe('QuoteDetailsCommentComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
-          QuoteDetailsCommentComponent,
+          QuoteCommentsComponent,
           MockCxMessagingComponent,
           MockCxIconComponent,
         ],
@@ -88,7 +88,7 @@ describe('QuoteDetailsCommentComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteDetailsCommentComponent);
+    fixture = TestBed.createComponent(QuoteCommentsComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
@@ -246,7 +246,7 @@ describe('QuoteDetailsCommentComponent', () => {
     it('should set chars limit to default 1000 when not provided via config', () => {
       quoteUiConfig.quote = undefined;
       // re-create component so changed config is evaluated
-      fixture = TestBed.createComponent(QuoteDetailsCommentComponent);
+      fixture = TestBed.createComponent(QuoteCommentsComponent);
       expect(fixture.componentInstance.messagingConfigs.charactersLimit).toBe(
         1000
       );

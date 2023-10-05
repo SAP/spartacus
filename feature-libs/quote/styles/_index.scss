@@ -9,7 +9,7 @@
 @import './quote-details-cart';
 @import './quote-actions-link';
 @import './quote-actions-by-role';
-@import './quote-details-comment';
+@import './quote-comments';
 @import './quote-details-cart-summary';
 @import './quote-seller-edit';
 @import './quote-actions-confirm-dialog';
@@ -17,7 +17,7 @@
 
 $quote-components-allowlist: cx-quote-list cx-quote-details-edit
   cx-quote-details-overview cx-quote-details-cart cx-quote-request-button
-  cx-quote-actions-link cx-quote-actions-by-role cx-quote-details-comment
+  cx-quote-actions-link cx-quote-actions-by-role cx-quote-comments
   cx-quote-details-cart-summary cx-quote-seller-edit
   cx-quote-actions-confirm-dialog !default;
 

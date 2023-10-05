@@ -5,7 +5,7 @@
  */
 
 export * from './actions';
-export * from './comment';
+export * from './comments';
 export * from './config';
 export * from './header';
 export * from './quote-components.module';

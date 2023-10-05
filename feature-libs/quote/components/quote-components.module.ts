@@ -17,7 +17,7 @@ import { QuoteListModule } from './quote-list/quote-list.module';
 import { QuoteRequestButtonModule } from './quote-request-button/quote-request-button.module';
 import { QuoteDetailsEditModule } from './header/buyer-edit/quote-details-edit.module';
 import { QuoteDetailsOverviewModule } from './header/overview/quote-details-overview.module';
-import { QuoteDetailsCommentModule } from './comment/quote-details-comment.module';
+import { QuoteCommentsModule } from './comments/quote-comments.module';
 import { QuoteDetailsCartModule } from './items/quote-details-cart.module';
 import { QuoteDetailsCartSummaryModule } from './header';
 
@@ -31,7 +31,7 @@ import { QuoteDetailsCartSummaryModule } from './header';
     QuoteRequestButtonModule,
     QuoteActionsLinkModule,
     QuoteActionsByRoleModule,
-    QuoteDetailsCommentModule,
+    QuoteCommentsModule,
     QuoteSellerEditModule,
     ListNavigationModule,
     QuoteActionsConfirmDialogModule,

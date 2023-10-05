@@ -422,7 +422,7 @@ export function checkCommentsNotEditable(): void {
     'Verifies if the comments are no longer editable and the input field does not exist anymore',
     checkCommentsNotEditable.name
   );
-  cy.get('cx-quote-details-comment .cx-message-input').should('not.exist');
+  cy.get('cx-quote-comments .cx-message-input').should('not.exist');
 }
 
 /**
@@ -528,7 +528,7 @@ export function checkQuoteState(status: string) {
  */
 export function addHeaderComment(text: string) {
   log('Adds a header comment to the quote', addHeaderComment.name);
-  cy.get('cx-quote-details-comment .cx-message-input').within(() => {
+  cy.get('cx-quote-comments .cx-message-input').within(() => {
     cy.get('input').type(text);
     cy.get('button').click();
   });
@@ -544,7 +544,7 @@ export function addHeaderComment(text: string) {
 export function checkComment(index: number, text: string) {
   log('Verifies a comment', checkComment.name);
   cy.get(
-    `cx-quote-details-comment .cx-message-card:nth-child(${index})`
+    `cx-quote-comments  .cx-message-card:nth-child(${index})`
   ).should('contain.text', text);
 }
 
@@ -556,10 +556,10 @@ export function checkComment(index: number, text: string) {
  */
 export function addItemComment(item: string, text: string) {
   log('Adds an item comment to the quote', addItemComment.name);
-  cy.get('cx-quote-details-comment .cx-footer-label').within(() => {
+  cy.get('cx-quote-comments  .cx-footer-label').within(() => {
     cy.get('select').select(item);
   });
-  cy.get('cx-quote-details-comment .cx-message-input').within(() => {
+  cy.get('cx-quote-comments  .cx-message-input').within(() => {
     cy.get('input').type(text);
     cy.get('button').click();
   });
@@ -576,10 +576,10 @@ export function addItemComment(item: string, text: string) {
 export function checkItemComment(index: number, item: string, text: string) {
   log('Verifies an item comment', checkItemComment.name);
   cy.get(
-    `cx-quote-details-comment .cx-message-card:nth-child(${index})`
+    `cx-quote-comments .cx-message-card:nth-child(${index})`
   ).should('contain.text', text);
   cy.get(
-    `cx-quote-details-comment .cx-message-card:nth-child(${index}) .cx-message-item-link`
+    `cx-quote-comments  .cx-message-card:nth-child(${index}) .cx-message-item-link`
   ).contains(item);
 }
 
@@ -595,7 +595,7 @@ export function clickItemLinkInComment(index: number, item: string) {
     clickItemLinkInComment.name
   );
   cy.get(
-    `cx-quote-details-comment .cx-message-card:nth-child(${index}) .cx-message-item-link`
+    `cx-quote-comments .cx-message-card:nth-child(${index}) .cx-message-item-link`
   )
     .contains(item)
     .click();
