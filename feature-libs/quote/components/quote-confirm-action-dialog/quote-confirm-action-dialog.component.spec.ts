@@ -47,7 +47,7 @@ export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
-describe('QuoteRequestDialogComponent', () => {
+describe('QuoteConfirmActionDialogComponent', () => {
   let component: QuoteConfirmActionDialogComponent;
   let fixture: ComponentFixture<QuoteConfirmActionDialogComponent>;
   let htmlElem: HTMLElement;

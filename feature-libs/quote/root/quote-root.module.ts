@@ -17,7 +17,6 @@ import {
   LayoutConfig,
   PageLayoutComponent,
 } from '@spartacus/storefront';
-import { QuoteEventModule } from './events/quote-event.module';
 import { QUOTE_AWARE_FEATURE, QUOTE_FEATURE } from './feature-name';
 
 export function defaultQuoteComponentsConfig() {
@@ -99,7 +98,6 @@ export const defaultQuoteConfigLayoutConfig: LayoutConfig = {
         },
       },
     ]),
-    QuoteEventModule,
   ],
   providers: [
     provideDefaultConfigFactory(defaultQuoteComponentsConfig),

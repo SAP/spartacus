@@ -6,13 +6,6 @@
 
 import { CxEvent } from '@spartacus/core';
 
-export class QuoteListReloadQueryEvent extends CxEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'QuoteListReloadQueryEvent';
-}
-
 export class QuoteDetailsReloadQueryEvent extends CxEvent {
   /**
    * Event's type
