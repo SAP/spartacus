@@ -83,7 +83,6 @@ const createInitialRequestContext = (): RequestContext => {
 /**
  * Parses the `traceparent` header and returns an object with the W3C TraceContext.
  * In case when the `traceparent` header is absent or invalid, `undefined` value is returned.
- * Only when the `traceparent` header is invalid, additionally an error is logged with the context of the original request and the original raw value of the `traceparent` header.
  * @param request - the request object
  * @param logger - the logger object
  *
@@ -92,7 +91,6 @@ const getTraceContext = (
   request: Request,
   logger: ExpressServerLogger
 ): W3cTraceContext | undefined => {
-  const traceparent = request.get('traceparent');
   try {
     return parseTraceparent(request.get('traceparent')) ?? undefined;
   } catch (e) {
@@ -100,7 +98,7 @@ const getTraceContext = (
       e instanceof Error
         ? e
         : new Error('Unexpected error during parsing traceparent header');
-    logger.error(error.message, { request, traceparent });
+    logger.error(error.message, { request });
   }
 };
 

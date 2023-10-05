@@ -89,7 +89,7 @@ describe('RequestContext', () => {
     `);
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       `Traceparent header has invalid length: ${invalidTraceparent.length}. Expected 55 characters.`,
-      { request, traceparent: invalidTraceparent }
+      { request }
     );
   });
 
@@ -112,7 +112,7 @@ describe('RequestContext', () => {
     `);
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       'Unexpected error during parsing traceparent header',
-      { request, traceparent: invalidTraceparent }
+      { request }
     );
   });
 });
