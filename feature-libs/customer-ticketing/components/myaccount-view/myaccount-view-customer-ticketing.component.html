@@ -1,0 +1,67 @@
+<ng-container>
+  <div class="cx-myaccount-customer-ticket-header">
+    <!-- HEADER -->
+    <div class="cx-myaccount-customer-ticket-heading">
+      {{ 'myAccountViewCustomerTicketing.heading' | cxTranslate }}
+    </div>
+
+    <!-- SHOW MORE -->
+    <div class="cx-myaccount-customer-ticket-show-more">
+      <a
+        class="btn-link cx-action-link"
+        [routerLink]="
+          {
+            cxRoute: 'supportTickets'
+          } | cxUrl
+        "
+      >
+        {{ 'myAccountViewCustomerTicketing.showMore' | cxTranslate }}
+      </a>
+    </div>
+  </div>
+  <div class="cx-myaccount-customer-ticket-body">
+    <ng-container *ngIf="tickets$ | async as ticketList; else spinner">
+      <ng-container
+        *ngIf="ticketList.tickets.length > 0; else noCustomerTickets"
+      >
+        <ng-container *ngFor="let ticket of ticketList.tickets">
+          <div class="cx-myaccount-customer-ticket-details">
+            <span class="cx-myaccount-customer-ticket-subject">
+              {{ ticket.subject }}
+            </span>
+            <span class="cx-myaccount-customer-ticket-details-light">
+              | {{ ticket.ticketCategory?.name }}
+            </span>
+            <span class="cx-myaccount-customer-ticket-details-light">
+              |
+              {{
+                'myAccountViewCustomerTicketing.ticketId'
+                  | cxTranslate: { value: ticket.id }
+              }}
+            </span>
+          </div>
+          <div class="cx-myaccount-customer-ticket-details-light">
+            {{
+              'myAccountViewCustomerTicketing.changedOn'
+                | cxTranslate
+                  : { value: ticket.modifiedAt | cxDate: 'd, MMMM, yyyy' }
+            }}
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-container>
+
+<ng-template #noCustomerTickets>
+  <cx-customer-ticketing-create></cx-customer-ticketing-create>
+  <ng-container>
+    <div class="text-center">
+      <h3>{{ 'customerTicketingList.noTickets' | cxTranslate }}</h3>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #spinner>
+  <cx-spinner></cx-spinner>
+</ng-template>

@@ -15,6 +15,7 @@ import { CustomerTicketingListModule } from './list/customer-ticketing-list';
 import { CustomerTicketingDetailsModule } from './details/customer-ticketing-details';
 import { CustomerTicketingReopenModule } from './details/customer-ticketing-reopen';
 import { CustomerTicketingMessagesModule } from './details/customer-ticketing-messages';
+import { MyAccountViewCustomerTicketingModule } from './myaccount-view/myaccount-view-customer-ticketing.module';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { CustomerTicketingMessagesModule } from './details/customer-ticketing-me
     CustomerTicketingListModule,
     CustomerTicketingMessagesModule,
     CustomerTicketingCreateModule,
+    MyAccountViewCustomerTicketingModule,
   ],
   providers: [provideDefaultConfig(defaultCustomerTicketingFormLayoutConfig)],
 })

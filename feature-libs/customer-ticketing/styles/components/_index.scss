@@ -2,6 +2,7 @@
 @import './customer-ticketing-details';
 @import './customer-ticketing-dialog';
 @import './customer-ticketing-list';
+@import './myaccount-view-customer-ticketing';
 
 $customer-ticketing-allowlist: cx-customer-ticketing-create-dialog,
   cx-customer-ticketing-reopen-dialog, cx-customer-ticketing-close-dialog,
