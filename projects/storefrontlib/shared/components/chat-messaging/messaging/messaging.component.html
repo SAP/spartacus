@@ -111,7 +111,15 @@
           >
             {{ 'chatMessaging.characterLimitAlert' | cxTranslate }}
           </span>
-          <button class="btn btn-block btn-primary cx-send" (click)="onSend()">
+          <button
+            class="btn btn-block cx-send"
+            [ngClass]="
+              !!messagingConfigs?.sendBtnIsNotPrimary
+                ? 'btn-secondary'
+                : 'btn-primary'
+            "
+            (click)="onSend()"
+          >
             {{ 'chatMessaging.send' | cxTranslate }}
           </button>
         </div>

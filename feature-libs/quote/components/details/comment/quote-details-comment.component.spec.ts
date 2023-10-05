@@ -313,6 +313,9 @@ describe('QuoteDetailsCommentComponent', () => {
     it('should provide ALL_PRODUCTS_ID as default item', () => {
       expect(component.messagingConfigs.defaultItemId).toEqual(ALL_PRODUCTS_ID);
     });
+    it('should request send button to be secondary', () => {
+      expect(component.messagingConfigs.sendBtnIsNotPrimary).toBe(true);
+    });
   });
 
   describe('mapCommentToMessageEvent', () => {
