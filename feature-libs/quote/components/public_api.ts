@@ -9,5 +9,5 @@ export * from './comments';
 export * from './config';
 export * from './header';
 export * from './quote-components.module';
-export * from './quote-list';
-export * from './quote-request-button';
+export * from './list';
+export * from './request-button';
