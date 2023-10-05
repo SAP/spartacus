@@ -4,19 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  CartEvent,
-  CartOutlets,
-  ActiveCartFacade,
-  Cart,
-} from '@spartacus/cart/base/root';
-import { EventService } from '@spartacus/core';
-import {
-  Quote,
-  QuoteDetailsReloadQueryEvent,
-  QuoteFacade,
-} from '@spartacus/quote/root';
+import { Component } from '@angular/core';
+import { CartOutlets, ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { QuoteDetailsCartComponentService } from './quote-details-cart.component.service';
@@ -25,7 +15,7 @@ import { QuoteDetailsCartComponentService } from './quote-details-cart.component
   selector: 'cx-quote-details-cart',
   templateUrl: './quote-details-cart.component.html',
 })
-export class QuoteDetailsCartComponent implements OnInit, OnDestroy {
+export class QuoteDetailsCartComponent {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
   showCart$ = this.quoteDetailsCartService.getQuoteEntriesExpanded();
@@ -36,20 +26,8 @@ export class QuoteDetailsCartComponent implements OnInit, OnDestroy {
   constructor(
     protected quoteFacade: QuoteFacade,
     protected activeCartFacade: ActiveCartFacade,
-    protected quoteDetailsCartService: QuoteDetailsCartComponentService,
-    protected eventService: EventService
+    protected quoteDetailsCartService: QuoteDetailsCartComponentService
   ) {}
-
-  ngOnInit(): void {
-    // if anything in the cart changes, reload the quote
-    this.subscription = this.eventService.get(CartEvent).subscribe(() => {
-      this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
 
   onToggleShowOrHideCart(showCart: boolean) {
     this.quoteDetailsCartService.setQuoteEntriesExpanded(!showCart);

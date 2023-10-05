@@ -1,21 +1,15 @@
 import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  ActiveCartFacade,
-  Cart,
-  CartRemoveEntrySuccessEvent,
-  CartUpdateEntrySuccessEvent,
-} from '@spartacus/cart/base/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule, Price } from '@spartacus/core';
 import {
   Quote,
   QuoteActionType,
-  QuoteDetailsReloadQueryEvent,
   QuoteFacade,
   QuoteState,
 } from '@spartacus/quote/root';
 import { IconTestingModule, OutletDirective } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, NEVER, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, NEVER, Observable, of } from 'rxjs';
 import {
   createEmptyQuote,
   QUOTE_CODE,
@@ -307,24 +301,5 @@ describe('QuoteDetailsCartComponent', () => {
       expect(quoteDetails.code).toBe(QUOTE_CODE);
       done();
     });
-  });
-
-  it('should dispatch quote reload event when cart changes', () => {
-    asSpy(mockedEventService.get).and.returnValue(
-      of(new CartUpdateEntrySuccessEvent(), new CartRemoveEntrySuccessEvent())
-    );
-    component.ngOnInit();
-    expect(mockedEventService.dispatch).toHaveBeenCalledTimes(2);
-    expect(mockedEventService.dispatch).toHaveBeenCalledWith(
-      {},
-      QuoteDetailsReloadQueryEvent
-    );
-  });
-
-  it('should close subscriptions on destroy', () => {
-    asSpy(mockedEventService.get).and.returnValue(new Subject());
-    component.ngOnInit();
-    component.ngOnDestroy();
-    expect(component['subscription'].closed).toBe(true);
   });
 });
