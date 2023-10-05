@@ -79,6 +79,11 @@ export const quote = {
       newCart: 'New Cart',
       quotes: 'Quotes',
     },
+    request: {
+      minRequestInitiationNote:
+        'Minimum ${{minValue}} subtotal is required to submit a quote ',
+      requestQuote: 'Request Quote',
+    },
     confirmActionDialog: {
       name: 'Name:',
       description: 'Description:',
@@ -148,32 +153,6 @@ export const quote = {
           confirmNote: 'Are you sure you want to reject this quote?',
           successMessage: 'Quote rejected',
         },
-      },
-    },
-    requestDialog: {
-      requestQuote: 'Request Quote',
-      title: 'Request Quote',
-      continueToEdit: 'Continue to Edit',
-      form: {
-        name: {
-          label: 'Quote name',
-          placeholder: 'Enter name',
-        },
-        description: {
-          label: 'Description (Optional)',
-          placeholder: 'Enter description',
-        },
-        comment: {
-          label: 'Add a Comment',
-          placeholder: 'Add comment',
-        },
-        request: 'Request quote',
-        continueToEdit: 'Continue to Edit',
-        note: 'Please Note:',
-        requestSubmitNote:
-          'Once a request for quote is submitted it cannot be modified.',
-        minRequestInitiationNote:
-          'Minimum ${{minValue}} subtotal is required to submit a quote ',
       },
     },
     httpHandlers: {

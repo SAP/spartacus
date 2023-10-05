@@ -8,16 +8,6 @@ import { Injectable } from '@angular/core';
 import { QuoteActionType, QuoteActionsByState } from '@spartacus/quote/root';
 import { Config } from '@spartacus/core';
 
-//TODO CHHI: Delete when decision has been taken about quote request dialog
-// export interface QuoteTresholdsConfig {
-//
-//   /** Value above which seller approval is required */
-//   sellerAutoApproval: number;
-//
-//   /** Minimal value required to submit a quote */
-//   requestInitiation: number;
-// }
-
 export interface QuoteActionsConfig {
   /** Actions that should be presented in template as primary */
   primaryActions?: QuoteActionType[];
