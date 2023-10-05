@@ -543,9 +543,10 @@ export function addHeaderComment(text: string) {
  */
 export function checkComment(index: number, text: string) {
   log('Verifies a comment', checkComment.name);
-  cy.get(
-    `cx-quote-comments  .cx-message-card:nth-child(${index})`
-  ).should('contain.text', text);
+  cy.get(`cx-quote-comments  .cx-message-card:nth-child(${index})`).should(
+    'contain.text',
+    text
+  );
 }
 
 /**
@@ -575,9 +576,10 @@ export function addItemComment(item: string, text: string) {
  */
 export function checkItemComment(index: number, item: string, text: string) {
   log('Verifies an item comment', checkItemComment.name);
-  cy.get(
-    `cx-quote-comments .cx-message-card:nth-child(${index})`
-  ).should('contain.text', text);
+  cy.get(`cx-quote-comments .cx-message-card:nth-child(${index})`).should(
+    'contain.text',
+    text
+  );
   cy.get(
     `cx-quote-comments  .cx-message-card:nth-child(${index}) .cx-message-item-link`
   ).contains(item);
