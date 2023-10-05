@@ -30,7 +30,6 @@ import { QuoteDetailsCartComponent } from './quote-details-cart.component';
           component: QuoteDetailsCartComponent,
           guards: [AuthGuard],
         },
-       
       },
     }),
   ],
