@@ -4,7 +4,6 @@
     display: flex;
     cx-page-slot {
       cx-paragraph {
-        // max-height: 100px;
         height: 142px;
       }
   
@@ -23,9 +22,6 @@
   
     .RightContentSlot {
       max-width: 75%;
-      // padding-top: 30px;
-      // padding-bottom: 15px;
-      // padding-left: 20px;
   
       @include media-breakpoint-down(md) {
         width: 100%;
