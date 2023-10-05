@@ -9,7 +9,7 @@ import {
   EXPIRATION_DATE_AS_STRING,
   EXPIRATION_TIME_AS_STRING,
   createEmptyQuote,
-} from '../../core/testing/quote-test-utils';
+} from '../../../core/testing/quote-test-utils';
 
 const TOTAL_PRICE = 1000;
 const DISCOUNT_RATE = 10000;

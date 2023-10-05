@@ -8,7 +8,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
-import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
+import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import { QuoteConfirmActionDialogComponent } from './quote-confirm-action-dialog.component';
 import { ConfirmationContext } from './quote-confirm-action-dialog.model';
 

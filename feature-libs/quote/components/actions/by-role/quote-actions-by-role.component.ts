@@ -27,8 +27,8 @@ import { filter, take, tap } from 'rxjs/operators';
 import {
   ConfirmActionDialogConfig,
   QuoteUIConfig,
-} from '../config/quote-ui.config';
-import { ConfirmationContext } from '../quote-confirm-action-dialog/quote-confirm-action-dialog.model';
+} from '../../config/quote-ui.config';
+import { ConfirmationContext } from '../confirm-dialog/quote-confirm-action-dialog.model';
 
 @Component({
   selector: 'cx-quote-actions-by-role',

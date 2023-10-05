@@ -8,19 +8,18 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { ListNavigationModule } from '@spartacus/storefront';
+import { QuoteActionsByRoleModule } from './actions/by-role/quote-actions-by-role.module';
+import { QuoteConfirmActionDialogModule } from './actions/confirm-dialog/quote-confirm-action-dialog.module';
+import { QuoteActionLinksModule } from './actions/link/quote-action-links.module';
 import { defaultQuoteUIConfig } from './config/default-quote-ui.config';
-import {
-  QuoteDetailsCartModule,
-  QuoteDetailsCommentModule,
-  QuoteDetailsEditModule,
-  QuoteDetailsOverviewModule,
-} from './details';
-import { QuoteActionLinksModule } from './quote-action-links/quote-action-links.module';
-import { QuoteActionsByRoleModule } from './quote-actions-by-role/quote-actions-by-role.module';
-import { QuoteConfirmActionDialogModule } from './quote-confirm-action-dialog/quote-confirm-action-dialog.module';
+import { QuoteSellerEditModule } from './header/seller-edit/quote-seller-edit.module';
 import { QuoteListModule } from './quote-list/quote-list.module';
 import { QuoteRequestButtonModule } from './quote-request-button/quote-request-button.module';
-import { QuoteSellerEditModule } from './quote-seller-edit/quote-seller-edit.module';
+import { QuoteDetailsEditModule } from './header/buyer-edit/quote-details-edit.module';
+import { QuoteDetailsOverviewModule } from './header/overview/quote-details-overview.module';
+import { QuoteDetailsCommentModule } from './comment/quote-details-comment.module';
+import { QuoteDetailsCartModule } from './items/quote-details-cart.module';
+import { QuoteDetailsCartSummaryModule } from './header';
 
 @NgModule({
   imports: [
@@ -36,6 +35,7 @@ import { QuoteSellerEditModule } from './quote-seller-edit/quote-seller-edit.mod
     QuoteSellerEditModule,
     ListNavigationModule,
     QuoteConfirmActionDialogModule,
+    QuoteDetailsCartSummaryModule
   ],
   providers: [provideDefaultConfig(defaultQuoteUIConfig)],
 })

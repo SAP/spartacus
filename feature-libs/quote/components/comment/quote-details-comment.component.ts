@@ -19,8 +19,8 @@ import {
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { delay, finalize, map, take } from 'rxjs/operators';
-import { QuoteUIConfig } from '../../config/quote-ui.config';
-import { QuoteDetailsCartComponentService } from '../cart/quote-details-cart.component.service';
+import { QuoteUIConfig } from '../config/quote-ui.config';
+import { QuoteDetailsCartComponentService } from '../items/quote-details-cart.component.service';
 
 const DEFAULT_COMMENT_MAX_CHARS = 1000;
 const ALL_PRODUCTS_ID = '';

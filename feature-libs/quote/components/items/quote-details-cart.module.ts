@@ -14,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { IconModule, OutletModule } from '@spartacus/storefront';
 import { QuoteDetailsCartComponent } from './quote-details-cart.component';
-import { QuoteDetailsCartSummaryComponent } from './summary/quote-details-cart-summary.component';
 
 //https://jira.tools.sap/browse/CXSPA-4039
 
@@ -31,14 +30,11 @@ import { QuoteDetailsCartSummaryComponent } from './summary/quote-details-cart-s
           component: QuoteDetailsCartComponent,
           guards: [AuthGuard],
         },
-        QuoteDetailsCartSummaryComponent: {
-          component: QuoteDetailsCartSummaryComponent,
-          guards: [AuthGuard],
-        },
+       
       },
     }),
   ],
-  declarations: [QuoteDetailsCartComponent, QuoteDetailsCartSummaryComponent],
-  exports: [QuoteDetailsCartComponent, QuoteDetailsCartSummaryComponent],
+  declarations: [QuoteDetailsCartComponent],
+  exports: [QuoteDetailsCartComponent],
 })
 export class QuoteDetailsCartModule {}

@@ -19,13 +19,13 @@ import { ElementRef, ViewContainerRef } from '@angular/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import {
   ConfirmActionDialogMappingConfig,
   QuoteUIConfig,
-} from '../config/quote-ui.config';
-import { ConfirmationContext } from '../quote-confirm-action-dialog/quote-confirm-action-dialog.model';
-import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
+} from '../../config/quote-ui.config';
+import { ConfirmationContext } from '../confirm-dialog/quote-confirm-action-dialog.model';
+import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 import createSpy = jasmine.createSpy;
 

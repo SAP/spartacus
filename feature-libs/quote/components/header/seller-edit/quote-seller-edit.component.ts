@@ -22,7 +22,7 @@ import {
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subject, Subscription, combineLatest } from 'rxjs';
 import { debounceTime, filter, take } from 'rxjs/operators';
-import { QuoteUIConfig } from '../config';
+import { QuoteUIConfig } from '../../config';
 import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
 
 @Component({

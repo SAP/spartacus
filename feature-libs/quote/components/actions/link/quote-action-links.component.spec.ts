@@ -16,8 +16,8 @@ import {
 } from '@spartacus/quote/root';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, NEVER, Observable } from 'rxjs';
-import { createEmptyQuote } from '../../core/testing/quote-test-utils';
-import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
+import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
+import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import { QuoteActionLinksComponent } from './quote-action-links.component';
 import createSpy = jasmine.createSpy;
 

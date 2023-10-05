@@ -13,8 +13,8 @@ import { BehaviorSubject, EMPTY, NEVER, Observable, of } from 'rxjs';
 import {
   createEmptyQuote,
   QUOTE_CODE,
-} from '../../../core/testing/quote-test-utils';
-import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
+} from '../../core/testing/quote-test-utils';
+import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteDetailsCartComponent } from './quote-details-cart.component';
 import { QuoteDetailsCartComponentService } from './quote-details-cart.component.service';
 import { tap } from 'rxjs/operators';

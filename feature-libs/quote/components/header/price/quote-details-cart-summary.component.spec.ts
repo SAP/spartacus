@@ -18,8 +18,8 @@ import {
   OutletDirective,
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, NEVER, Observable, of } from 'rxjs';
-import { createEmptyQuote } from '../../../../core/testing/quote-test-utils';
-import { CommonQuoteTestUtilsService } from '../../../testing/common-quote-test-utils.service';
+import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
+import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import { QuoteDetailsCartSummaryComponent } from './quote-details-cart-summary.component';
 import createSpy = jasmine.createSpy;
 

@@ -30,8 +30,8 @@ import {
   EXPIRATION_DATE_AS_STRING,
   EXPIRATION_TIME_AS_STRING,
   QUOTE_CODE,
-} from '../../core/testing/quote-test-utils';
-import { QuoteUIConfig } from '../config';
+} from '../../../core/testing/quote-test-utils';
+import { QuoteUIConfig } from '../../config';
 import { QuoteSellerEditComponent } from './quote-seller-edit.component';
 import { QuoteSellerEditComponentService } from './quote-seller-edit.component.service';
 import createSpy = jasmine.createSpy;

@@ -18,7 +18,7 @@ import {
   KeyboardFocusModule,
 } from '@spartacus/storefront';
 import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
-import { QuoteDetailsEditModule } from '../edit/quote-details-edit.module';
+import { QuoteDetailsEditModule } from '../buyer-edit/quote-details-edit.module';
 
 @NgModule({
   imports: [

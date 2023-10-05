@@ -18,11 +18,11 @@ import {
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { NEVER, Observable, of, throwError } from 'rxjs';
-import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
-import { QuoteUIConfig } from '../../config';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { QuoteUIConfig } from '../config';
 import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
-import { QuoteDetailsCartComponentService } from '../cart';
-import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
+import { QuoteDetailsCartComponentService } from '../items';
+import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 
 const QUOTE_CODE = 'q123';
 const ALL_PRODUCTS_ID = '';
