@@ -80,7 +80,7 @@ describe('MessagingComponent', () => {
   });
 
   it('should render send as btn-secondary if requested', () => {
-    (component.messagingConfigs ?? {}).sendIsNotPrimary = true;
+    (component.messagingConfigs ?? {}).sendBtnIsNotPrimary = true;
     fixture.detectChanges();
     expect(htmlElement.querySelectorAll('.btn-primary').length).toBe(0);
     expect(htmlElement.querySelectorAll('.btn-secondary').length).toBe(1);

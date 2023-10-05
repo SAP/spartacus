@@ -30,7 +30,7 @@ export interface MessagingConfigs {
   displayAddMessageSection?: Observable<boolean>;
   itemList$?: Observable<Array<Item>>;
   defaultItemId?: string;
-  sendIsNotPrimary?: boolean;
+  sendBtnIsNotPrimary?: boolean;
 }
 
 export interface AttachmentRestrictions {
