@@ -35,7 +35,7 @@ import { QuoteDetailsCartSummaryModule } from './header';
     QuoteSellerEditModule,
     ListNavigationModule,
     QuoteConfirmActionDialogModule,
-    QuoteDetailsCartSummaryModule
+    QuoteDetailsCartSummaryModule,
   ],
   providers: [provideDefaultConfig(defaultQuoteUIConfig)],
 })

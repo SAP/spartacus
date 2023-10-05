@@ -18,7 +18,10 @@ import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config/quote-ui.config';
-import { EditCard, SaveEvent } from '../buyer-edit/quote-details-edit.component';
+import {
+  EditCard,
+  SaveEvent,
+} from '../buyer-edit/quote-details-edit.component';
 
 @Component({
   selector: 'cx-quote-details-overview',

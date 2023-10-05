@@ -17,7 +17,10 @@ import { CardModule, ICON_TYPE } from '@spartacus/storefront';
 
 import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
-import { EditCard, SaveEvent } from '../buyer-edit/quote-details-edit.component';
+import {
+  EditCard,
+  SaveEvent,
+} from '../buyer-edit/quote-details-edit.component';
 import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
 import { QuoteUIConfig } from '../../config';
 

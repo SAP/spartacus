@@ -15,13 +15,8 @@ import {
 import { OutletModule } from '@spartacus/storefront';
 import { QuoteDetailsCartSummaryComponent } from './quote-details-cart-summary.component';
 
-
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    OutletModule,
-  ],
+  imports: [CommonModule, I18nModule, OutletModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
