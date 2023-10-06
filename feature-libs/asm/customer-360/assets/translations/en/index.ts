@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { customer360 } from './customer-360';
+import { asmCustomer360 } from './asm-customer-360';
 
 export const en = {
-  customer360,
+  asmCustomer360,
 };

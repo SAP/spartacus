@@ -84,10 +84,10 @@ context('Assisted Service Module', () => {
     });
 
     it('should contain all activities (CXSPA-700)', () => {
-      cy.get('.cx-customer-360-table').contains('Cart');
-      cy.get('.cx-customer-360-table').contains('Order');
-      cy.get('.cx-customer-360-table').contains('Ticket');
-      cy.get('.cx-customer-360-table').contains('Saved Cart');
+      cy.get('.cx-asm-customer-360-table').contains('Cart');
+      cy.get('.cx-asm-customer-360-table').contains('Order');
+      cy.get('.cx-asm-customer-360-table').contains('Ticket');
+      cy.get('.cx-asm-customer-360-table').contains('Saved Cart');
     });
 
     it('should redirect to the cart page (CXSPA-700)', () => {
@@ -141,7 +141,7 @@ context('Assisted Service Module', () => {
 
     it('should contain all profile information  (CXSPA-700)', () => {
       const user = customer360.getUser();
-      cy.get('.cx-customer-360-profile').within(() => {
+      cy.get('.cx-asm-customer-360-profile').within(() => {
         cy.get('.address-line1').should('contain', user.address.line1);
         cy.get('.profile-phone1').should('contain', user.phone);
         cy.get('cx-card').should('contain', user.payment.expires.year);
@@ -162,8 +162,8 @@ context('Assisted Service Module', () => {
     });
 
     it('should contain all feedback information (CXSPA-700)', () => {
-      cy.get('.cx-customer-360-table').contains('Complaint');
-      cy.get('.cx-customer-360-table').contains('My review title');
+      cy.get('.cx-asm-customer-360-table').contains('Complaint');
+      cy.get('.cx-asm-customer-360-table').contains('My review title');
     });
 
     it('should redirect to the support tickets page (CXSPA-700)', () => {
@@ -171,8 +171,8 @@ context('Assisted Service Module', () => {
         '/my-account/support-ticket/*',
         'getSupportTicketsPage'
       );
-      cy.get('cx-customer-360-support-tickets').within(() => {
-        cy.get('.cx-customer-360-table-row > td > button').click();
+      cy.get('cx-asm-customer-360-support-tickets').within(() => {
+        cy.get('.cx-asm-customer-360-table-row > td > button').click();
       });
       cy.wait(`@${supportTicketsPage}`)
         .its('response.statusCode')
@@ -182,8 +182,8 @@ context('Assisted Service Module', () => {
 
     it('should redirect to product page (CXSPA-700)', () => {
       const productPage = waitForProductPage('*', 'getProductPage');
-      cy.get('cx-customer-360-product-reviews').within(() => {
-        cy.get('.cx-customer-360-table-row > td > button').click();
+      cy.get('cx-asm-customer-360-product-reviews').within(() => {
+        cy.get('.cx-asm-customer-360-table-row > td > button').click();
       });
       cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
       cy.contains('Show reviews');
@@ -203,7 +203,7 @@ context('Assisted Service Module', () => {
     });
 
     it('should contain source (CXSPA-700)', () => {
-      cy.get('cx-customer-360-map').within(() => {
+      cy.get('cx-asm-customer-360-map').within(() => {
         cy.get('iframe')
           .invoke('attr', 'src')
           .then(($src) => {
@@ -226,10 +226,12 @@ context('Assisted Service Module', () => {
     });
 
     it('should contain coupon list (CXSPA-3906)', () => {
-      cy.get('cx-customer-360-coupon').contains('Coupons').should('be.visible');
+      cy.get('cx-asm-customer-360-coupon')
+        .contains('Coupons')
+        .should('be.visible');
     });
     it('should be able to apply coupon to cart (CXSPA-3906)', () => {
-      cy.get('.cx-customer-360-promotion-listing-row')
+      cy.get('.cx-asm-customer-360-promotion-listing-row')
         .first()
         .within(() => {
           cy.intercept('POST', /\.*\/vouchers\?voucherId=.*/).as('applyCoupon');
@@ -240,7 +242,7 @@ context('Assisted Service Module', () => {
         });
     });
     it('should be able to remove coupon from cart (CXSPA-3906)', () => {
-      cy.get('.cx-customer-360-promotion-listing-row')
+      cy.get('.cx-asm-customer-360-promotion-listing-row')
         .first()
         .within(() => {
           cy.intercept('DELETE', /\.*\/vouchers\.*/).as('removeCoupon');
@@ -251,8 +253,10 @@ context('Assisted Service Module', () => {
         });
     });
     it('should contain promotion list (CXSPA-3932)', () => {
-      cy.get('cx-customer-360-promotion').scrollIntoView().should('be.visible');
-      cy.get('.cx-customer-360-promotion-listing').should(
+      cy.get('cx-asm-customer-360-promotion')
+        .scrollIntoView()
+        .should('be.visible');
+      cy.get('.cx-asm-customer-360-promotion-listing').should(
         'not.contain',
         'Promotion Applied'
       );
@@ -264,12 +268,12 @@ context('Assisted Service Module', () => {
       checkout.visitHomePage('asm=true');
       cy.get('button.cx-360-button').click();
       cy.get('button.cx-tab-header').contains('Promotion').click();
-      cy.get('.cx-customer-360-promotion-listing-applied').contains(
+      cy.get('.cx-asm-customer-360-promotion-listing-applied').contains(
         'Promotion Applied'
       );
     });
     it('should contain customer coupons (CXSPA-3945)', () => {
-      cy.get('cx-customer-360-customer-coupon')
+      cy.get('cx-asm-customer-360-customer-coupon')
         .contains('Customer Coupons')
         .scrollIntoView()
         .should('be.visible');
@@ -286,18 +290,20 @@ context('Assisted Service Module', () => {
     });
     it('should be able to search customer coupon (CXSPA-3945)', () => {
       cy.intercept('POST', /\.*\/customer360\.*/).as('searchCustomerCoupon');
-      cy.get('.cx-customer-360-promotion-listing-search-input')
+      cy.get('.cx-asm-customer-360-promotion-listing-search-input')
         .click()
         .type('Buy over $1000 get 20% off on cart');
-      cy.get('.cx-customer-360-promotion-listing-search-icon-search').click();
+      cy.get(
+        '.cx-asm-customer-360-promotion-listing-search-icon-search'
+      ).click();
       cy.wait('@searchCustomerCoupon')
         .its('response.statusCode')
         .should('eq', 200);
-      cy.get('cx-customer-360-customer-coupon').within(() => {
-        cy.get('.cx-customer-360-promotion-listing-row').contains(
+      cy.get('cx-asm-customer-360-customer-coupon').within(() => {
+        cy.get('.cx-asm-customer-360-promotion-listing-row').contains(
           'Buy over $1000 get 20% off on cart'
         );
-        cy.get('.cx-customer-360-promotion-listing-row').should(
+        cy.get('.cx-asm-customer-360-promotion-listing-row').should(
           'have.length',
           1
         );
@@ -308,7 +314,7 @@ context('Assisted Service Module', () => {
         'claim_customer_coupon',
         '/users/*/customercoupons/*/claim?*'
       );
-      cy.get('.cx-customer-360-promotion-listing-row')
+      cy.get('.cx-asm-customer-360-promotion-listing-row')
         .contains('Buy over $1000 get 20% off on cart')
         .parent()
         .parent()
@@ -316,7 +322,7 @@ context('Assisted Service Module', () => {
           cy.get('button').contains('Assign to Customer').click();
           cy.wait(`@claim_customer_coupon`);
         });
-      cy.get('.cx-customer-360-promotion-listing-row').should(
+      cy.get('.cx-asm-customer-360-promotion-listing-row').should(
         'not.contain',
         'Buy over $1000 get 20% off on cart'
       );
@@ -327,7 +333,7 @@ context('Assisted Service Module', () => {
         'disclaim_customer_coupon',
         '/users/*/customercoupons/*/claim?*'
       );
-      cy.get('.cx-customer-360-promotion-listing-row')
+      cy.get('.cx-asm-customer-360-promotion-listing-row')
         .contains('Buy over $1000 get 20% off on cart')
         .parent()
         .parent()
@@ -335,12 +341,12 @@ context('Assisted Service Module', () => {
           cy.get('button').contains('Remove').click();
           cy.wait(`@disclaim_customer_coupon`);
         });
-      cy.get('.cx-customer-360-promotion-listing-row').should(
+      cy.get('.cx-asm-customer-360-promotion-listing-row').should(
         'not.contain',
         'Buy over $1000 get 20% off on cart'
       );
       cy.get('.cx-tab-header').contains('Available').click();
-      cy.get('.cx-customer-360-promotion-listing-row').contains(
+      cy.get('.cx-asm-customer-360-promotion-listing-row').contains(
         'Buy over $1000 get 20% off on cart'
       );
     });

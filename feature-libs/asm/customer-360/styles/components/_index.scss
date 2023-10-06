@@ -1,15 +1,16 @@
 @import '@spartacus/styles/scss/core';
 
-@import './_customer-360.component.scss';
-@import './_customer-360-profile.scss';
-@import './_customer-360-product-listing.component';
-@import './_customer-360-table.component.scss';
-@import './_customer-360-map.component.scss';
-@import './_customer-360-promotion-listing.component.scss';
+@import './_asm-customer-360.component.scss';
+@import './_asm-customer-360-profile.scss';
+@import './_asm-customer-360-product-listing.component';
+@import './_asm-customer-360-table.component.scss';
+@import './_asm-customer-360-map.component.scss';
+@import './_asm-customer-360-promotion-listing.component.scss';
 
-$customer-360-components-allowlist: cx-customer-360, cx-customer-360-profile,
-  cx-customer-360-product-listing, cx-customer-360-table, cx-customer-360-map,
-  cx-customer-360-promotion-listing !default;
+$customer-360-components-allowlist: cx-asm-customer-360,
+  cx-asm-customer-360-profile, cx-asm-customer-360-product-listing,
+  cx-asm-customer-360-table, cx-asm-customer-360-map,
+  cx-asm-customer-360-promotion-listing !default;
 
 $skipComponentStyles: () !default;
 

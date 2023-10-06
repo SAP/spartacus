@@ -4,17 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Customer360ActiveCartComponent } from '../sections/customer-360-active-cart/customer-360-active-cart.component';
-import { Customer360ActivityComponent } from '../sections/customer-360-activity/customer-360-activity.component';
-import { Customer360CouponComponent } from '../sections/customer-360-coupon/customer-360-coupon.component';
-import { Customer360CustomerCouponComponent } from '../sections/customer-360-customer-coupon/customer-360-customer-coupon.component';
-import { Customer360MapComponent } from '../sections/customer-360-map/customer-360-map.component';
-import { Customer360ProductInterestsComponent } from '../sections/customer-360-product-interests/customer-360-product-interests.component';
-import { Customer360ProductReviewsComponent } from '../sections/customer-360-product-reviews/customer-360-product-reviews.component';
-import { Customer360ProfileComponent } from '../sections/customer-360-profile/customer-360-profile.component';
-import { Customer360PromotionComponent } from '../sections/customer-360-promotion/customer-360-promotion.component';
-import { Customer360SavedCartComponent } from '../sections/customer-360-saved-cart/customer-360-saved-cart.component';
-import { Customer360SupportTicketsComponent } from '../sections/customer-360-support-tickets/customer-360-support-tickets.component';
+import { AsmCustomer360ActiveCartComponent } from '../sections/asm-customer-360-active-cart/asm-customer-360-active-cart.component';
+import { AsmCustomer360ActivityComponent } from '../sections/asm-customer-360-activity/asm-customer-360-activity.component';
+import { AsmCustomer360CouponComponent } from '../sections/asm-customer-360-coupon/asm-customer-360-coupon.component';
+import { AsmCustomer360CustomerCouponComponent } from '../sections/asm-customer-360-customer-coupon/asm-customer-360-customer-coupon.component';
+import { AsmCustomer360MapComponent } from '../sections/asm-customer-360-map/asm-customer-360-map.component';
+import { AsmCustomer360ProductInterestsComponent } from '../sections/asm-customer-360-product-interests/asm-customer-360-product-interests.component';
+import { AsmCustomer360ProductReviewsComponent } from '../sections/asm-customer-360-product-reviews/asm-customer-360-product-reviews.component';
+import { AsmCustomer360ProfileComponent } from '../sections/asm-customer-360-profile/asm-customer-360-profile.component';
+import { AsmCustomer360PromotionComponent } from '../sections/asm-customer-360-promotion/asm-customer-360-promotion.component';
+import { AsmCustomer360SavedCartComponent } from '../sections/asm-customer-360-saved-cart/asm-customer-360-saved-cart.component';
+import { AsmCustomer360SupportTicketsComponent } from '../sections/asm-customer-360-support-tickets/asm-customer-360-support-tickets.component';
 import { Customer360Config } from './customer-360-config';
 import { Customer360Type } from '@spartacus/asm/customer-360/root';
 
@@ -24,22 +24,22 @@ export const defaultCustomer360Config: Customer360Config = {
     dateTimeFormat: 'dd-MM-yy hh:mm a',
     tabs: [
       {
-        i18nNameKey: 'customer360.overviewTab',
+        i18nNameKey: 'asmCustomer360.overviewTab',
         components: [
           {
-            component: Customer360ActiveCartComponent,
+            component: AsmCustomer360ActiveCartComponent,
             requestData: {
               type: Customer360Type.ACTIVE_CART,
             },
           },
           {
-            component: Customer360SavedCartComponent,
+            component: AsmCustomer360SavedCartComponent,
             requestData: {
               type: Customer360Type.SAVED_CART,
             },
           },
           {
-            component: Customer360ProductInterestsComponent,
+            component: AsmCustomer360ProductInterestsComponent,
             requestData: {
               type: Customer360Type.PRODUCT_INTEREST_LIST,
             },
@@ -47,10 +47,10 @@ export const defaultCustomer360Config: Customer360Config = {
         ],
       },
       {
-        i18nNameKey: 'customer360.profileTab',
+        i18nNameKey: 'asmCustomer360.profileTab',
         components: [
           {
-            component: Customer360ProfileComponent,
+            component: AsmCustomer360ProfileComponent,
             requestData: {
               type: Customer360Type.CUSTOMER_PROFILE,
             },
@@ -58,10 +58,10 @@ export const defaultCustomer360Config: Customer360Config = {
         ],
       },
       {
-        i18nNameKey: 'customer360.activityTab',
+        i18nNameKey: 'asmCustomer360.activityTab',
         components: [
           {
-            component: Customer360ActivityComponent,
+            component: AsmCustomer360ActivityComponent,
             requestData: {
               type: Customer360Type.ACTIVITY_LIST,
               additionalRequestParameters: {
@@ -73,10 +73,10 @@ export const defaultCustomer360Config: Customer360Config = {
         ],
       },
       {
-        i18nNameKey: 'customer360.feedbackTab',
+        i18nNameKey: 'asmCustomer360.feedbackTab',
         components: [
           {
-            component: Customer360SupportTicketsComponent,
+            component: AsmCustomer360SupportTicketsComponent,
             requestData: {
               type: Customer360Type.SUPPORT_TICKET_LIST,
               additionalRequestParameters: {
@@ -86,7 +86,7 @@ export const defaultCustomer360Config: Customer360Config = {
             config: { pageSize: 5 },
           },
           {
-            component: Customer360ProductReviewsComponent,
+            component: AsmCustomer360ProductReviewsComponent,
             requestData: {
               type: Customer360Type.REVIEW_LIST,
               additionalRequestParameters: {
@@ -98,22 +98,22 @@ export const defaultCustomer360Config: Customer360Config = {
         ],
       },
       {
-        i18nNameKey: 'customer360.promotionsTab',
+        i18nNameKey: 'asmCustomer360.promotionsTab',
         components: [
           {
-            component: Customer360CouponComponent,
+            component: AsmCustomer360CouponComponent,
             requestData: {
               type: Customer360Type.COUPON_LIST,
             },
           },
           {
-            component: Customer360PromotionComponent,
+            component: AsmCustomer360PromotionComponent,
             requestData: {
               type: Customer360Type.PROMOTION_LIST,
             },
           },
           {
-            component: Customer360CustomerCouponComponent,
+            component: AsmCustomer360CustomerCouponComponent,
             requestData: {
               type: Customer360Type.CUSTOMER_COUPON_LIST,
               additionalRequestParameters: {
@@ -124,10 +124,10 @@ export const defaultCustomer360Config: Customer360Config = {
         ],
       },
       {
-        i18nNameKey: 'customer360.mapsTab',
+        i18nNameKey: 'asmCustomer360.mapsTab',
         components: [
           {
-            component: Customer360MapComponent,
+            component: AsmCustomer360MapComponent,
             requestData: {
               type: Customer360Type.STORE_LOCATION,
             },
