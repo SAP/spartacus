@@ -163,7 +163,8 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     const mappingConfig = this.config.quote?.confirmActionDialogMapping;
     return (
       !!mappingConfig?.[state]?.[action] ||
-      !!mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action]
+      !!mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action] ||
+      !!mappingConfig?.[QuoteRoleType.ALL]?.[action]
     );
   }
 
@@ -198,7 +199,8 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
 
     const config =
       mappingConfig?.[state]?.[action] ??
-      mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action];
+      mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action] ??
+      mappingConfig?.[QuoteRoleType.ALL]?.[action];
     if (!config) {
       throw new Error(
         `Dialog Config expected for quote in state ${state} and action ${action}, but none found in config ${mappingConfig}`
@@ -209,7 +211,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   }
 
   protected stateToRoleTypeForDialogConfig(state: QuoteState): QuoteRoleType {
-    let foundRole: QuoteRoleType = QuoteRoleType.NOT_AVAILABLE;
+    let foundRole: QuoteRoleType = QuoteRoleType.ALL;
     Object.values(QuoteRoleType).forEach((role) => {
       if (state.startsWith(role + '_')) {
         foundRole = role;

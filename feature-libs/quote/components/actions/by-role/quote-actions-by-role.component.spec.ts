@@ -72,6 +72,14 @@ const testMappings: ConfirmActionDialogMappingConfig = {
       showSuccessMessage: false,
     },
   },
+  ALL: {
+    EDIT: {
+      i18nKey: 'quote.confirmActionDialog.all.edit',
+      showWarningNote: true,
+      showExpirationDate: false,
+      showSuccessMessage: false,
+    },
+  }
 };
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
@@ -245,7 +253,7 @@ describe('QuoteActionsByRoleComponent', () => {
     );
   });
 
-  it('should not open confirmation dialog when action is EDIT and state is BUYER_DRAFT', () => {
+  it('should not open confirmation dialog when action is CANCEL and state is BUYER_DRAFT', () => {
     spyOn(launchDialogService, 'openDialog');
     const quoteInBuyerDraftState: Quote = {
       ...mockQuote,
@@ -258,7 +266,7 @@ describe('QuoteActionsByRoleComponent', () => {
     };
     mockQuoteDetails$.next(quoteInBuyerDraftState);
     fixture.detectChanges();
-    component.onClick(QuoteActionType.EDIT, quoteInBuyerDraftState);
+    component.onClick(QuoteActionType.CANCEL, quoteInBuyerDraftState);
     expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
   });
 
@@ -397,8 +405,16 @@ describe('QuoteActionsByRoleComponent', () => {
     );
   });
 
-  it("should click on 'EDIT' button", () => {
+  it("should click on 'CANCEL' button", () => {
     spyOn(facade, 'performQuoteAction').and.callThrough();
+    const newMockQuoteWithSubmitAction: Quote = {
+      ...mockQuote,
+      allowedActions: [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+      ],
+    };
+    mockQuoteDetails$.next(newMockQuoteWithSubmitAction);
     fixture.detectChanges();
     const editButton = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
@@ -406,8 +422,8 @@ describe('QuoteActionsByRoleComponent', () => {
     );
     editButton.click();
     expect(facade.performQuoteAction).toHaveBeenCalledWith(
-      mockQuote,
-      QuoteActionType.EDIT
+      newMockQuoteWithSubmitAction,
+      QuoteActionType.CANCEL
     );
   });
 
@@ -436,6 +452,14 @@ describe('QuoteActionsByRoleComponent', () => {
         component['isConfirmationDialogRequired'](
           QuoteActionType.EDIT,
           QuoteState.BUYER_OFFER
+        )
+      ).toBe(true);
+    });
+    it('should return true for action matches for ALL role', () => {
+      expect(
+        component['isConfirmationDialogRequired'](
+          QuoteActionType.EDIT,
+          QuoteState.BUYER_DRAFT
         )
       ).toBe(true);
     });
@@ -476,6 +500,19 @@ describe('QuoteActionsByRoleComponent', () => {
         i18nKey: 'quote.confirmActionDialog.buyer_offer.edit',
         showWarningNote: true,
         showExpirationDate: true,
+        showSuccessMessage: false,
+      });
+    });
+    it('should return configured config if action with ALL role is matching', () => {
+      expect(
+        component['getDialogConfig'](
+          QuoteActionType.EDIT,
+          QuoteState.BUYER_DRAFT
+        )
+      ).toEqual({
+        i18nKey: 'quote.confirmActionDialog.all.edit',
+        showWarningNote: true,
+        showExpirationDate: false,
         showSuccessMessage: false,
       });
     });
@@ -611,10 +648,10 @@ describe('QuoteActionsByRoleComponent', () => {
         )
       ).toBe(QuoteRoleType.SELLERAPPROVER);
     });
-    it('should return default (not_available) role type if no role matches', () => {
+    it('should return default (ALL) role type if no role matches', () => {
       expect(
         component['stateToRoleTypeForDialogConfig'](QuoteState.CANCELLED)
-      ).toBe(QuoteRoleType.NOT_AVAILABLE);
+      ).toBe(QuoteRoleType.ALL);
     });
   });
 });
