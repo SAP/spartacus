@@ -123,7 +123,7 @@ describe('QuoteActionsLinkComponent', () => {
       expect,
       htmlElem,
       'button.link',
-      'quote.links.newCart',
+      'quote.actions.link.newCart',
       0
     );
 
@@ -131,7 +131,7 @@ describe('QuoteActionsLinkComponent', () => {
       expect,
       htmlElem,
       'button.link',
-      'quote.links.quotes',
+      'quote.actions.link.quotes',
       1
     );
   });

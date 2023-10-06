@@ -161,14 +161,14 @@ describe('QuoteHeaderOverviewComponent', () => {
         expect,
         htmlElem,
         '.cx-header',
-        'quote.commons.id: ' + mockQuote.code
+        'quote.header.overview.id: ' + mockQuote.code
       );
 
       CommonQuoteTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         '.cx-status',
-        'quote.commons.status: quote.states.' + mockQuote.state
+        'quote.header.overview.status: quote.states.' + mockQuote.state
       );
 
       CommonQuoteTestUtilsService.expectElementPresent(
@@ -369,14 +369,14 @@ describe('QuoteHeaderOverviewComponent', () => {
       fixture.detectChanges();
 
       const expected = {
-        title: 'quote.details.information',
+        title: 'quote.header.overview.information',
         paragraphs: [
           {
-            title: 'quote.details.name',
+            title: 'quote.header.overview.name',
             text: ['-'],
           },
           {
-            title: 'quote.details.description',
+            title: 'quote.header.overview.description',
             text: ['-'],
           },
         ],
@@ -407,14 +407,14 @@ describe('QuoteHeaderOverviewComponent', () => {
       fixture.detectChanges();
 
       const expected = {
-        title: 'quote.details.estimateAndDate',
+        title: 'quote.header.overview.estimateAndDate',
         paragraphs: [
           {
-            title: 'quote.details.estimatedTotal',
+            title: 'quote.header.overview.estimatedTotal',
             text: [mockQuote.totalPrice.formattedValue],
           },
           {
-            title: 'quote.details.created',
+            title: 'quote.header.overview.created',
             text: ['-'],
           },
         ],
@@ -433,14 +433,14 @@ describe('QuoteHeaderOverviewComponent', () => {
       fixture.detectChanges();
 
       const expected = {
-        title: 'quote.details.update',
+        title: 'quote.header.overview.update',
         paragraphs: [
           {
-            title: 'quote.details.lastUpdated',
+            title: 'quote.header.overview.lastUpdated',
             text: ['-'],
           },
           {
-            title: 'quote.details.expirationTime',
+            title: 'quote.header.overview.expirationTime',
             text: ['-'],
           },
         ],
@@ -487,7 +487,7 @@ describe('QuoteHeaderOverviewComponent', () => {
   describe('getTotalPriceDescription', () => {
     it('should name total price as estimated as long as final status not reached', () => {
       expect(component['getTotalPriceDescription'](mockQuote)).toBe(
-        'quote.details.estimatedTotal'
+        'quote.header.overview.estimatedTotal'
       );
     });
 
@@ -497,14 +497,14 @@ describe('QuoteHeaderOverviewComponent', () => {
         allowedActions: [{ type: QuoteActionType.CHECKOUT, isPrimary: true }],
       };
       expect(component['getTotalPriceDescription'](quoteInOfferState)).toBe(
-        'quote.details.total'
+        'quote.header.overview.total'
       );
     });
 
     it('should be able to deal with empty actions', () => {
       const quoteWoActions: Quote = { ...mockQuote, allowedActions: [] };
       expect(component['getTotalPriceDescription'](quoteWoActions)).toBe(
-        'quote.details.estimatedTotal'
+        'quote.header.overview.estimatedTotal'
       );
     });
   });
