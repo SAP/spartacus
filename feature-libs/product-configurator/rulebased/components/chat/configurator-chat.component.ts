@@ -19,7 +19,7 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { ChatGPT4 } from '../../core/model/chat-gpt-4.model';
-import { ConfiguratorChatGtpService } from '../../core/services/configurator-chat-gtp.service';
+import { ConfiguratorChatGptService } from '../../core/services/configurator-chat-gpt.service';
 import { ConfiguratorSpeechTextRecognitionService } from '../../core/services/configurator-speech-text-recognition.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -63,7 +63,7 @@ export class ConfiguratorChatComponent {
   constructor(
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorChatService: ConfiguratorChatGtpService,
+    protected configuratorChatService: ConfiguratorChatGptService,
     protected globalMessageService: GlobalMessageService,
     protected configSpeechTextRecognitionService: ConfiguratorSpeechTextRecognitionService
   ) {
@@ -134,7 +134,7 @@ export class ConfiguratorChatComponent {
     answer$
       .pipe(
         take(1),
-        tap((answer) => console.log('GTP answered: ', answer)),
+        tap((answer) => console.log('GPT answered: ', answer)),
         map((answer) => this.mapAnswerToMessageEvent(answer.content))
       )
       .subscribe((event) => {

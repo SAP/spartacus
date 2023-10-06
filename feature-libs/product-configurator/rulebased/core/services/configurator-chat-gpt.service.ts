@@ -9,12 +9,12 @@ import { Product, ProductScope, ProductService } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, OperatorFunction, combineLatest, of } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { ChatGtpBtpConnector } from '../connectors';
+import { ChatGptBtpConnector } from '../connectors';
 import { ConfiguratorCommonsService } from '../facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../facade/configurator-groups.service';
 import { ChatGPT4 } from '../model/chat-gpt-4.model';
 import { Configurator } from '../model/configurator.model';
-import { ConfiguratorChatGtpMapperService } from './configurator-chat-gpt-mapper.service';
+import { ConfiguratorChatGptMapperService } from './configurator-chat-gpt-mapper.service';
 
 const START_MSG =
   'You are an assistant designed to help the user with configuring a product. ' +
@@ -34,7 +34,7 @@ const START_MSG =
   'Please do not use any markdown syntax in your response.' +
   'Please only answer questions related to the product and the configuration and politely deny any other queries.';
 
-type GtpGroupResponse = { groupId: string };
+type GptGroupResponse = { groupId: string };
 
 const FUNCTION_NAV_TO_GROUP: ChatGPT4.Function = {
   name: 'navigate-to-group',
@@ -51,12 +51,12 @@ const FUNCTION_NAV_TO_GROUP: ChatGPT4.Function = {
   },
 };
 
-type GtpSelection = {
+type GptSelection = {
   attribute_id: string;
   value_ids: [string];
 };
-type GtpSelectionResponse = {
-  selections: [GtpSelection];
+type GptSelectionResponse = {
+  selections: [GptSelection];
 };
 
 const FUNCTION_SELECT_VALUES: ChatGPT4.Function = {
@@ -100,7 +100,7 @@ const FUNCTION_SELECT_VALUES: ChatGPT4.Function = {
 @Injectable({
   providedIn: 'root',
 })
-export class ConfiguratorChatGtpService {
+export class ConfiguratorChatGptService {
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService
       .extractRouterData()
@@ -129,8 +129,8 @@ export class ConfiguratorChatGtpService {
   ];
 
   constructor(
-    protected connector: ChatGtpBtpConnector,
-    protected mapper: ConfiguratorChatGtpMapperService,
+    protected connector: ChatGptBtpConnector,
+    protected mapper: ConfiguratorChatGptMapperService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorGroupService: ConfiguratorGroupsService,
@@ -248,7 +248,7 @@ export class ConfiguratorChatGtpService {
       }
       this.conversation.push(message);
       console.log(
-        `GTP wants to call function ${message.function_call.name} with args ${message.function_call.arguments}`
+        `GPT wants to call function ${message.function_call.name} with args ${message.function_call.arguments}`
       );
       switch (message.function_call.name) {
         case FUNCTION_NAV_TO_GROUP.name:
@@ -276,7 +276,7 @@ export class ConfiguratorChatGtpService {
     functionCall: ChatGPT4.FunctionCall,
     config: Configurator.Configuration
   ): Observable<ChatGPT4.Response> {
-    const arg: GtpGroupResponse = JSON.parse(functionCall.arguments);
+    const arg: GptGroupResponse = JSON.parse(functionCall.arguments);
     this.configuratorGroupService.navigateToGroup(config, arg.groupId);
     return this.configWithProduct$.pipe(
       filter(
@@ -285,6 +285,7 @@ export class ConfiguratorChatGtpService {
             (group) => group.id === arg.groupId
           )?.attributes?.length ?? 0) > 0
       ),
+      filter((configWithProduct) => this.isPricingMerged(configWithProduct[0])),
       take(1),
       tap(() =>
         this.addFunctionResultToConversation(FUNCTION_NAV_TO_GROUP.name)
@@ -313,7 +314,7 @@ export class ConfiguratorChatGtpService {
     config: Configurator.Configuration
   ): Observable<ChatGPT4.Response> {
     {
-      let updates: GtpSelectionResponse = JSON.parse(functionCall.arguments);
+      let updates: GptSelectionResponse = JSON.parse(functionCall.arguments);
 
       this.updateConfig(updates, config);
       const lastTimeStamp = config.timestamp;
@@ -344,7 +345,7 @@ export class ConfiguratorChatGtpService {
   }
 
   protected updateConfig(
-    updates: GtpSelectionResponse,
+    updates: GptSelectionResponse,
     config: Configurator.Configuration
   ) {
     updates.selections.forEach((update) => {
@@ -366,7 +367,7 @@ export class ConfiguratorChatGtpService {
   updateMultiValuedAttribute(
     owner: string,
     attribute: Configurator.Attribute,
-    update: GtpSelection
+    update: GptSelection
   ) {
     const values = this.calculateSelectedValues(update.value_ids, attribute);
     console.log(`updating attribute ${attribute.name} to these values`, values);
@@ -399,7 +400,7 @@ export class ConfiguratorChatGtpService {
   protected updateSingleValuedAttribute(
     owner: string,
     attribute: Configurator.Attribute,
-    update: GtpSelection
+    update: GptSelection
   ) {
     const selectedValueName = this.findValue(
       update.value_ids[0],
@@ -440,7 +441,7 @@ export class ConfiguratorChatGtpService {
   }
 
   protected isLastUpdateApplied(
-    updates: GtpSelectionResponse,
+    updates: GptSelectionResponse,
     config: Configurator.Configuration
   ) {
     let currentValue;

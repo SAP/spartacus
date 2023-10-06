@@ -3,7 +3,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ConfiguratorChatComponent } from './configurator-chat.component';
 import { ConfiguratorSpeechTextRecognitionService } from '../../core/services/configurator-speech-text-recognition.service';
-import { ConfiguratorChatGtpService } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorChatGptService } from '@spartacus/product-configurator/rulebased';
 
 @Component({
   selector: 'cx-icon',
@@ -13,7 +13,7 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-class MockConfiguratorChatGtpService {
+class MockConfiguratorChatGptService {
   initConversation() {}
   ask() {}
 }
@@ -21,7 +21,7 @@ class MockConfiguratorChatGtpService {
 describe('ConfiguratorChatComponent', () => {
   let component: ConfiguratorChatComponent;
   let fixture: ComponentFixture<ConfiguratorChatComponent>;
-  let configuratorChatService: ConfiguratorChatGtpService;
+  let configuratorChatService: ConfiguratorChatGptService;
   let configuratorSpeechRecognitionService: ConfiguratorSpeechTextRecognitionService;
 
   beforeEach(
@@ -31,8 +31,8 @@ describe('ConfiguratorChatComponent', () => {
         providers: [
           ConfiguratorSpeechTextRecognitionService,
           {
-            provide: ConfiguratorChatGtpService,
-            useClass: MockConfiguratorChatGtpService,
+            provide: ConfiguratorChatGptService,
+            useClass: MockConfiguratorChatGptService,
           },
         ],
       });
@@ -44,7 +44,7 @@ describe('ConfiguratorChatComponent', () => {
     component = fixture.componentInstance;
 
     configuratorChatService = TestBed.inject(
-      ConfiguratorChatGtpService as Type<ConfiguratorChatGtpService>
+      ConfiguratorChatGptService as Type<ConfiguratorChatGptService>
     );
     spyOn(configuratorChatService, 'initConversation').and.stub();
     spyOn(configuratorChatService, 'ask').and.stub();

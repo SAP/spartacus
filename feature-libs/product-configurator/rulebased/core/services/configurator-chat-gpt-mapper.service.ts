@@ -20,7 +20,7 @@ const multiValuedUiTypes: Configurator.UiType[] = [
 @Injectable({
   providedIn: 'root',
 })
-export class ConfiguratorChatGtpMapperService {
+export class ConfiguratorChatGptMapperService {
   constructor() {}
 
   serializeConfiguration(
@@ -58,7 +58,7 @@ export class ConfiguratorChatGtpMapperService {
       );
       simplified.basePrice = this.mapPrice(config.priceSummary.basePrice);
     }
-    console.log('Config context for GTP:', simplified);
+    console.log('Config context for GPT:', simplified);
     return JSON.stringify(simplified);
   }
 
@@ -77,22 +77,22 @@ export class ConfiguratorChatGtpMapperService {
   }
 
   protected mapGroup(group: Configurator.Group): ChatGPT4.Group {
-    const gtpGroup: ChatGPT4.Group = {
+    const gptGroup: ChatGPT4.Group = {
       id: group.id,
       name: group.description,
       attributes: [],
     };
     group.attributes?.forEach((attribute) => {
       if (!!attribute.visible) {
-        gtpGroup.attributes.push(this.mapAttribute(attribute));
+        gptGroup.attributes.push(this.mapAttribute(attribute));
       }
     });
-    return gtpGroup;
+    return gptGroup;
   }
   protected mapAttribute(
     attribute: Configurator.Attribute
   ): ChatGPT4.Attribute {
-    const gtpAttribute: ChatGPT4.Attribute = {
+    const gptAttribute: ChatGPT4.Attribute = {
       id: attribute.name,
       name: attribute.label,
       isSingleSelection: this.isSingleValued(attribute.uiType),
@@ -101,12 +101,12 @@ export class ConfiguratorChatGtpMapperService {
       values: [],
     };
     if (attribute.description) {
-      gtpAttribute.description = attribute.description;
+      gptAttribute.description = attribute.description;
     }
     attribute.values?.forEach((value) =>
-      gtpAttribute.values.push(this.mapValue(value))
+      gptAttribute.values.push(this.mapValue(value))
     );
-    return gtpAttribute;
+    return gptAttribute;
   }
 
   public isSingleValued(uiType?: Configurator.UiType): boolean {
@@ -114,18 +114,18 @@ export class ConfiguratorChatGtpMapperService {
   }
 
   protected mapValue(value: Configurator.Value): ChatGPT4.Value {
-    const gtpValue: ChatGPT4.Value = {
+    const gptValue: ChatGPT4.Value = {
       id: value.name ?? value.valueCode,
       name: value.valueDisplay,
       isSelected: value.selected ?? false,
     };
     if (value.description) {
-      gtpValue.description = value.description;
+      gptValue.description = value.description;
     }
     if (value.valuePrice?.formattedValue) {
-      gtpValue.price = value.valuePrice?.formattedValue;
+      gptValue.price = value.valuePrice?.formattedValue;
     }
 
-    return gtpValue;
+    return gptValue;
   }
 }

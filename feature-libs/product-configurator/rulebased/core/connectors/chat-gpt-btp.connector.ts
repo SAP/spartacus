@@ -21,12 +21,12 @@ const AUTH_CLIENT_ID =
 const AUTH_CLIENT_SECRET =
   'ac8f0046-b8d0-4133-ad53-2f3059cbb5f2$VwvHtkWSRGJVyYYpirIoDGClwzoFytlbdVq3Mdi-aZI=';
 /**
- * connector for chat-gtp proxy service on BTP
+ * connector for chat-gpt proxy service on BTP
  */
 @Injectable({
   providedIn: 'root',
 })
-export class ChatGtpBtpConnector {
+export class ChatGptBtpConnector {
   constructor(protected http: HttpClient) {}
 
   private _token$: ReplaySubject<ChatGPT4.AccessData>;
@@ -83,7 +83,7 @@ export class ChatGtpBtpConnector {
         if (functions) {
           body.functions = functions;
         }
-        console.log('POSTING TO GTP: ', structuredClone(body));
+        console.log('POSTING TO GPT: ', structuredClone(body));
         return this.http
           .post<ChatGPT4.Response>(CHAT_GPT_URL, body, {
             headers: {
@@ -92,7 +92,7 @@ export class ChatGtpBtpConnector {
           })
           .pipe(
             tap((response) =>
-              console.log('RECEIVED FROM GTP: ', structuredClone(response))
+              console.log('RECEIVED FROM GPT: ', structuredClone(response))
             )
           );
       })

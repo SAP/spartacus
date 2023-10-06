@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { ChatGtpBtpConnector } from './chat-gpt-btp.connector';
+import { ChatGptBtpConnector } from './chat-gpt-btp.connector';
 
-describe('ChatGtpBtpConnector', () => {
-  let classUnderTest: ChatGtpBtpConnector;
+describe('ChatGptBtpConnector', () => {
+  let classUnderTest: ChatGptBtpConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ChatGtpBtpConnector],
+      providers: [ChatGptBtpConnector],
     });
-    classUnderTest = TestBed.inject(ChatGtpBtpConnector);
+    classUnderTest = TestBed.inject(ChatGptBtpConnector);
   });
 
   it('should create', () => {
