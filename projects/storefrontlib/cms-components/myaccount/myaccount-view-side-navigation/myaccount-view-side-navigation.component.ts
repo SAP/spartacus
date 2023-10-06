@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { Component } from '@angular/core';
 import { User, CmsNavigationComponent } from '@spartacus/core';
 import { Observable } from 'rxjs';
