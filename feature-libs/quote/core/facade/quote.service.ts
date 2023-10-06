@@ -354,20 +354,13 @@ export class QuoteService implements QuoteFacade {
   protected quoteDetailsState$: Query<Quote, unknown[]> =
     this.queryService.create<Quote>(
       () =>
-        //we need to ensure that the active cart has been loaded, in order to determine if the
-        //quote is connected to a quote cart (and then directly ready for edit)
-        this.activeCartService.isStable().pipe(
-          take(1),
-          switchMap(() =>
-            this.routingService.getRouterState().pipe(
-              //we don't need to cover the intermediate router states where a future route is already known.
-              //only changes to the URL are relevant. Otherwise we get unneeded hits when e.g. navigating back from quotes
-              filter((routingData) => routingData.nextState === undefined),
-              withLatestFrom(this.userIdService.takeUserId()),
-              switchMap(([{ state }, userId]) =>
-                this.quoteConnector.getQuote(userId, state.params.quoteId)
-              )
-            )
+        this.routingService.getRouterState().pipe(
+          //we don't need to cover the intermediate router states where a future route is already known.
+          //only changes to the URL are relevant. Otherwise we get unneeded hits when e.g. navigating back from quotes
+          filter((routingData) => routingData.nextState === undefined),
+          withLatestFrom(this.userIdService.takeUserId()),
+          switchMap(([{ state }, userId]) =>
+            this.quoteConnector.getQuote(userId, state.params.quoteId)
           )
         ),
 

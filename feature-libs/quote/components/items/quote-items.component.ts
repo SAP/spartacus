@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { CartOutlets, ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { CartOutlets, ActiveCartFacade } from '@spartacus/cart/base/root';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -17,7 +17,7 @@ import { QuoteItemsComponentService } from './quote-items.component.service';
 })
 export class QuoteItemsComponent {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
-  cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
+
   showCart$ = this.quoteItemsService.getQuoteEntriesExpanded();
   iconTypes = ICON_TYPE;
   readonly cartOutlets = CartOutlets;
