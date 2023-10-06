@@ -25,15 +25,14 @@ export function defaultQuoteComponentsConfig() {
       [QUOTE_FEATURE]: {
         cmsComponents: [
           'AccountMyQuotesComponent',
-          'QuoteRequestComponent',
-          'QuoteDetailsOverviewComponent',
-          'QuoteCartComponent',
-          'QuoteActionLinksComponent',
+          'QuoteActionsLinkComponent',
           'QuoteActionsByRoleComponent',
-          'CommerceQuotesCartSummaryComponent', //TODO CHHI probably not needed
-          'QuoteDetailsCommentComponent',
-          'QuoteDetailsCartSummaryComponent',
-          'QuoteSellerEditComponent',
+          'QuoteCommentsComponent',
+          'QuoteHeaderOverviewComponent',
+          'QuoteHeaderPriceComponent',
+          'QuoteHeaderSellerEditComponent',
+          'QuoteItemsComponent',
+          'QuoteRequestComponent',
         ],
       },
     },
