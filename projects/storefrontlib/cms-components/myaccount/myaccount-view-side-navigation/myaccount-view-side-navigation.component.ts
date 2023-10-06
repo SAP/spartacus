@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { User, CmsNavigationComponent } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { CmsComponentData } from '@spartacus/storefront';
   selector: 'cx-myaccount-view-side-navigation',
   templateUrl: './myaccount-view-side-navigation.component.html',
 })
-export class MyaccountViewSideNavigationComponent implements OnInit {
+export class MyaccountViewSideNavigationComponent{
   user$: Observable<User | undefined>;
   node$: Observable<NavigationNode> = this.service.getNavigationNode(
     this.componentData.data$
@@ -24,7 +24,4 @@ export class MyaccountViewSideNavigationComponent implements OnInit {
     protected componentData: CmsComponentData<CmsNavigationComponent>,
     protected service: NavigationService
   ) {}
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
 }

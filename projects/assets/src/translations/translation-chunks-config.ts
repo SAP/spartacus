@@ -55,6 +55,9 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'returnRequestList',
     'returnRequest',
   ],
+  myaccountView:[
+    'myaccountViewSideNavigation'
+  ],
   pwa: ['pwa'],
   product: [
     'productDetails',

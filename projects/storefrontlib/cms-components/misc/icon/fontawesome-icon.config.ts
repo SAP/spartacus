@@ -72,6 +72,8 @@ export const fontawesomeIconConfig: IconConfig = {
       COMMUNICATIONS: 'fas fa-envelope',
       PRIVACY: 'fas fa-cog',
       PASSWORD: 'fas fa-lock',
+      HOME: 'fa fa-home',
+      SQUARE_CHECK: 'fa-solid fa-square-check'
     },
     resources: [
       {

@@ -289,7 +289,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       }
 
       case 'Registered Products': {
-        return ICON_TYPE.CHECK;
+        return ICON_TYPE.SQUARE_CHECK;
         break;
       }
 
