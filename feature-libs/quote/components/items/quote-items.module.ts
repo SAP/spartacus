@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 import { IconModule, OutletModule } from '@spartacus/storefront';
 import { QuoteItemsComponent } from './quote-items.component';
+import { CartSharedModule } from '@spartacus/cart/base/components';
 
 //https://jira.tools.sap/browse/CXSPA-4039
 
@@ -22,7 +23,13 @@ import { QuoteItemsComponent } from './quote-items.component';
 
 //Side note: importing CartBaseModule will lead to a duplicate rendering of the cart item list outlet
 @NgModule({
-  imports: [CommonModule, OutletModule, IconModule, I18nModule],
+  imports: [
+    CommonModule,
+    OutletModule,
+    IconModule,
+    I18nModule,
+    CartSharedModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

@@ -15,24 +15,21 @@
       <span class="cx-text">{{ 'quote.commons.cart' | cxTranslate }}</span>
     </div>
     <ng-container *ngIf="state.showCart">
-      <ng-template
+      <cx-cart-item-list
         *ngIf="!quoteDetails.isEditable"
-        [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-        [cxOutletContext]="{
-          items: quoteDetails.entries ?? [],
-          readonly: true
-        }"
+        aria-hidden="false"
+        [readonly]="true"
+        [items]="quoteDetails.entries ?? []"
       >
-      </ng-template>
-      <ng-template
+      </cx-cart-item-list>
+
+      <cx-cart-item-list
         *ngIf="quoteDetails.isEditable && (cartDetails$ | async) as cartDetails"
-        [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-        [cxOutletContext]="{
-          items: cartDetails.entries ?? [],
-          readonly: false
-        }"
+        aria-hidden="false"
+        [readonly]="false"
+        [items]="cartDetails.entries ?? []"
       >
-      </ng-template>
+      </cx-cart-item-list>
     </ng-container>
   </ng-container>
 </ng-container>
