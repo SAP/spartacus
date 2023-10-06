@@ -12,6 +12,7 @@ import { GenericLinkModule } from '../../../shared/components/generic-link/gener
 import { IconModule } from '../../misc/icon/icon.module';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { NavigationComponent } from './navigation.component';
+import { MyaccountNavigationUIComponent } from './myaccount-navigation-ui.componen';
 
 @NgModule({
   imports: [
@@ -30,7 +31,7 @@ import { NavigationComponent } from './navigation.component';
       },
     }),
   ],
-  declarations: [NavigationComponent, NavigationUIComponent],
-  exports: [NavigationComponent, NavigationUIComponent],
+  declarations: [NavigationComponent, NavigationUIComponent, MyaccountNavigationUIComponent],
+  exports: [NavigationComponent, NavigationUIComponent ,MyaccountNavigationUIComponent],
 })
 export class NavigationModule {}

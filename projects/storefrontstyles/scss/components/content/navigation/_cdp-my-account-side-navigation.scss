@@ -1,4 +1,5 @@
 %cx-cdp-my-account-side-navigation {
+  background-color: white;
     font-family:  sans-serif;
     padding: 5px 5px 5px 5px;
     font-weight: bold 17px;
@@ -21,7 +22,7 @@
       }
     }
   
-    cx-navigation-ui {
+    cx-myaccount-navigation-ui {
       background-color: white;
       // Node Heading
       span {

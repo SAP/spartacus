@@ -1,0 +1,396 @@
+@mixin hideWrapperDesktop {
+  display: none;
+}
+
+@mixin showWrapperDesktop {
+  display: initial;
+}
+
+%nav-wrapper {
+  .wrapper {
+    cursor: default;
+  }
+  // create width of wrapper
+  .wrapper[attr='1'] {
+    width: 200px;
+  }
+  .wrapper[attr='2'] {
+    width: 400px;
+  }
+
+  &.flyout {
+    .wrapper {
+      @include media-breakpoint-down(md) {
+        height: 0;
+        overflow: hidden;
+      }
+      color: var(--cx-color-text);
+    }
+    @include media-breakpoint-up(lg) {
+      .wrapper {
+        // we add a z-index since some of the elements on the page have (surprisingly) a z-index rule
+        // we cannot make the z-index too high as it would conflict with the searchbox flyout.
+        z-index: 20;
+      }
+      > nav > ul > li > .wrapper {
+        padding: 15px 20px;
+        background: var(--cx-color-inverse);
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 12px 0px;
+      }
+    }
+  }
+}
+
+%nav-back-button {
+  &.flyout {
+    .back {
+      display: none;
+    }
+    @include media-breakpoint-down(md) {
+      .back {
+        display: initial;
+        button {
+          border: none;
+          background-color: transparent;
+          text-transform: capitalize;
+          justify-content: flex-start;
+          cx-icon {
+            padding-inline-end: 10px;
+          }
+        }
+      }
+      &:not(.is-open) {
+        .back {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+%nav-heading {
+  nav {
+    &:focus {
+      color: var(--cx-g-color-primary);
+    }
+  }
+
+  span,
+  button {
+    margin: 0;
+  }
+
+  &.flyout {
+    span,
+    button,
+    cx-generic-link {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      color: currentColor;
+
+      &:hover {
+        color: var(--cx-color-primary);
+      }
+
+      &:focus {
+        z-index: 1;
+        position: relative;
+      }
+
+      a {
+        display: block;
+        width: 100%;
+        &:focus {
+          z-index: 1;
+          position: relative;
+        }
+      }
+    }
+
+    @include media-breakpoint-down(md) {
+      // make all first level headings uppercase in mobile view
+      > nav > ul > li {
+        > span,
+        > button:not(cx-generic-link + button),
+        > cx-generic-link {
+          text-transform: uppercase;
+          font-weight: 600;
+          width: 100%;
+        }
+        &:not(.is-open):not(.is-opened) {
+          > .wrapper {
+            display: none;
+          }
+        }
+      }
+      span,
+      button,
+      cx-generic-link {
+        border-bottom: 1px solid var(--cx-color-medium);
+        display: flex;
+        justify-content: space-between;
+
+        cursor: pointer;
+      }
+
+      span,
+      button,
+      cx-generic-link a {
+        padding: 1rem;
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      > nav > ul > li {
+        cursor: pointer;
+        // top level headings
+        > span,
+        > button {
+          padding-top: 20px;
+          padding-bottom: 22px;
+          padding-inline-start: 0;
+          padding-inline-end: 0;
+        }
+        // first level headings will be bold in desktop
+        ul > li > span,
+        ul > li > button {
+          padding-inline-start: 0;
+          padding-inline-end: 0;
+
+          @include type('5');
+          cursor: default;
+
+          &:hover {
+            color: currentColor;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  cx-navigation-ui nav {
+    li {
+      //padding-inline-end: 15px;
+
+      > cx-generic-link > a {
+        padding-top: 20px;
+        padding-bottom: 22px;
+        padding-inline-start: 0;
+      }
+    }
+    li > div > cx-generic-link {
+      padding: 10px 0;
+    }
+    ul.childs > li > cx-generic-link > a {
+      padding: 5px 0;
+    }
+  }
+}
+
+%nav-icon {
+  cx-icon {
+    &:before {
+      font-size: 1.5rem;
+    }
+  }
+  @include media-breakpoint-up(lg) {
+    cx-icon {
+      padding-inline-start: 7px;
+      &:before {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+%nav-childs {
+  &.flyout {
+    // the last level of navigations is typically displayed in a column
+    .childs[depth='1'] {
+      flex-direction: column;
+    }
+    .childs {
+      @include media-breakpoint-up(lg) {
+        .childs {
+          padding: 0;
+        }
+      }
+    }
+  }
+}
+
+%nav-links {
+  a {
+    color: currentColor;
+  }
+  &.flyout {
+    a {
+      display: block;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+  }
+}
+
+%nav-wrap {
+  @for $column from 1 through 10 {
+    &.flyout .childs[columns='#{$column}'] {
+      display: block;
+
+      @include media-breakpoint-up(md) {
+        column-count: $column;
+      }
+      @include media-breakpoint-down(sm) {
+        column-count: ceil($column / 3);
+      }
+    }
+  }
+}
+
+%cx-myaccount-navigation-ui {
+  display: flex;
+
+  @include media-breakpoint-up(lg) {
+    background-color: var(--cx-color-text);
+  }
+
+  @extend %nav-heading;
+  @extend %nav-icon;
+  @extend %nav-wrapper;
+  @extend %nav-childs;
+  @extend %nav-links;
+  @extend %nav-back-button;
+  @extend %nav-wrap;
+
+  nav {
+    outline: none;
+
+    ul {
+      list-style: none;
+      padding-inline-start: 0;
+      margin-bottom: 0;
+    }
+
+    button {
+      border: none;
+      background-color: transparent;
+    }
+  }
+
+  &.flyout {
+    @include media-breakpoint-down(md) {
+      nav {
+        width: 100%;
+        ul {
+          flex-direction: column;
+          li > cx-generic-link + button {
+            border-inline-start: 1px solid var(--cx-color-light);
+          }
+        }
+      }
+      color: #000;
+
+      &.is-open {
+        > nav > ul > li {
+          display: none;
+        }
+        li.is-open {
+          display: initial;
+          background-color: var(--cx-color-medium);
+
+          > .wrapper {
+            height: auto;
+          }
+
+          > cx-generic-link + button {
+            display: none;
+          }
+        }
+
+        li.is-opened {
+          display: initial;
+          > .wrapper > ul.childs > li {
+            display: none;
+            &.is-open {
+              display: initial;
+            }
+          }
+          > cx-generic-link,
+          > span,
+          > button {
+            display: none;
+          }
+          > .wrapper {
+            height: auto;
+          }
+        }
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      ul.childs[depth='2'] {
+        > li {
+          &:not(:only-child):not(:last-child) {
+            padding-inline-end: 20px;
+          }
+        }
+      }
+      // Show dropdowns via hover when no nav is focused
+      > nav > ul > li {
+        > button + .wrapper {
+          position: absolute;
+          margin-inline-start: -10px;
+          border: 1px solid #ccc;
+          @include hideWrapperDesktop();
+        }
+
+        // We only treat the first wrapper as a collapsible container
+        &:hover {
+          > button:hover + .wrapper,
+          button + .wrapper:hover {
+            @include showWrapperDesktop();
+          }
+        }
+        // Show dropdowns via focus only once a nav is clicked
+        &:focus-within {
+          &:focus,
+          &.is-open {
+            > button + .wrapper {
+              @include showWrapperDesktop();
+            }
+          }
+        }
+      }
+
+      .childs {
+        display: flex;
+      }
+
+      .wrapper cx-icon {
+        display: none;
+      }
+
+      > nav > ul > li {
+        > .wrapper {
+          transition: opacity 0.4s;
+        }
+      }
+    }
+
+    &.accNavComponent {
+      background-color: transparent;
+
+      nav {
+        li.is-open {
+          @include media-breakpoint-down(md) {
+            background-color: var(--cx-color-medium);
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

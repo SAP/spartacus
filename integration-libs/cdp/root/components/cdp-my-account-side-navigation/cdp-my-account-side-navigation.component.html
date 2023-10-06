@@ -25,10 +25,17 @@
       {{ user.title }}{{ 'cdpOrderHistory.dot' | cxTranslate }}{{ user.name }}
     </div>
   </ng-template> -->
-<cx-navigation-ui
+<!-- <cx-navigation-ui
   *ngIf="node$ | async as node"
   [node]="node"
   [flyout]="false"
   [ngClass]="(styleClass$ | async) ?? ''"
   [navAriaLabel]= "'cdpOrderHistory.sideNavigation' | cxTranslate "
-></cx-navigation-ui>
+></cx-navigation-ui> -->
+<cx-myaccount-navigation-ui
+*ngIf="node$ | async as node"
+  [node]="node"
+  [flyout]="false"
+    [ngClass]="(styleClass$ | async) ?? ''"
+  [navAriaLabel]= "'cdpOrderHistory.sideNavigation' | cxTranslate "
+></cx-myaccount-navigation-ui>

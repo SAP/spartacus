@@ -1,0 +1,63 @@
+
+  <nav [attr.aria-label]="navAriaLabel">
+  <ul>
+    <ng-container *ngFor="let child of node?.children">
+      <ng-container *ngTemplateOutlet="nav; context: { node: child, depth: 0 }">
+      </ng-container>
+    </ng-container>
+  </ul>
+</nav>
+
+<!-- we generate links in a recursive manner -->
+
+<ng-template #nav let-node="node" let-depth="depth">
+  <li>
+    <cx-generic-link
+      *ngIf="
+        node.url && (!node.children || node.children?.length === 0);
+        else heading
+      "
+      [url]="node.url"
+      [target]="node.target"
+      [style]="node.styleAttributes"
+      [class]="node.styleClasses"
+    >
+
+    <cx-icon  [type]="getIcon(node.title)" > </cx-icon>
+      {{ node.title }}
+    </cx-generic-link>
+
+    <ng-template #heading>
+      <ng-container *ngIf="flyout && node.children?.length > 0; else title">
+        <cx-generic-link
+          *ngIf="node.url"
+          [url]="node.url"
+          [target]="node.target"
+        >
+          {{ node.title }}
+        </cx-generic-link>
+      </ng-container>
+      <ng-template #title>
+        <span [attr.tabindex]="-1">
+          {{ node.title }}
+        </span>
+      </ng-template>
+    </ng-template>
+    <!-- we add a wrapper to allow for better layout handling in CSS -->
+    <div class="wrapper" *ngIf="node.children && node.children.length > 0">
+      <ul
+        class="childs"
+        [attr.depth]="getTotalDepth(node)"
+        [attr.wrap-after]="node.children.length > wrapAfter ? wrapAfter : null"
+        [attr.columns]="getColumnCount(node.children.length)"
+      >
+        <ng-container *ngFor="let child of node.children">
+          <ng-container
+            *ngTemplateOutlet="nav; context: { node: child, depth: depth + 1 }"
+          >
+          </ng-container>
+        </ng-container>
+      </ul>
+    </div>
+  </li>
+</ng-template>

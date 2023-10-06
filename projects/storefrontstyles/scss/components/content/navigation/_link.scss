@@ -1,10 +1,10 @@
 %cx-link {
   a {
-    display: inline;
+    // display: inline;
     padding: var(--cx-padding, 0);
     margin: var(--cx-margin, 0);
-    color: currentColor;
-    display: var(--cx-display);
+    // color: currentColor;
+    // display: var(--cx-display);
     text-decoration: underline;
 
     @include media-breakpoint-down(sm) {
