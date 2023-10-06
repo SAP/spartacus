@@ -21,7 +21,7 @@ export class MyaccountViewNameComponent implements OnInit {
   constructor(
     protected auth: AuthService,
     protected userAccount: UserAccountFacade
-  ) {console.log(this.user$);}
+  ) {}
 
   ngOnInit(): void {
     this.user$ = this.auth.isUserLoggedIn().pipe(
