@@ -1,3 +1,10 @@
-.cx-myaccount-view-name{
-    border:  solid var(--cx-color-light);
+.cx-myaccount-view-name {
+  margin-left: 5px;
+  margin-top: 40px;
+  border: 1px solid var(--cx-color-light);
+  width: 250px;
+  padding: 5px 5px 5px 5px;
+  gap: 40px;
+  display: block;
+  text-indent: 5px;
 }

@@ -1,0 +1,56 @@
+%cx-myaccount-view-side-navigation {
+  background-color: white;
+  font-family: sans-serif;
+  padding: 5px 5px 5px 5px;
+  font-weight: bold 17px;
+  width: 250px;
+  height: max-content;
+  a {
+    font-size: var(--cx-font-medium);
+    display: inline;
+    font-weight: bold;
+    width: 250px;
+    height: 50px;
+    display: block;
+    text-indent: 5px;
+    margin: auto;
+    &:hover {
+      color: var(--cx-color-primary);
+      text-decoration: underline;
+    }
+    .cx-icon {
+      padding: 5px 5px 5px 5px;
+    }
+  }
+
+  cx-navigation-ui {
+    background-color: white;
+    // Node Heading
+    span {
+      text-transform: none;
+      text-justify: auto;
+      text-indent: 5px;
+      @include type('5');
+      display: block;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-right: 5px;
+      background-color: var(--cx-color-background);
+      width: 250px;
+      height: 40px;
+    }
+
+    justify-content: left;
+
+    > nav > ul {
+      > li {
+        border: 1px solid var(--cx-color-light);
+        margin-bottom: 20px; // gap between boxes
+        margin-top: 20px;
+        a {
+          border: 1px solid var(--cx-color-light);
+        }
+      }
+    }
+  }
+}

@@ -31,6 +31,7 @@
       [class]="node.styleClasses"
       (click)="closeIfClickedTheSameLink(node)"
     >
+    <cx-icon  [type]="getIcon(node.title)" > </cx-icon>
       {{ node.title }}
     </cx-generic-link>
 

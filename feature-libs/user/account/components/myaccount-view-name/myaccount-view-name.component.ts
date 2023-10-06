@@ -3,14 +3,13 @@ import { User, AuthService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { UserAccountFacade } from '../../root/facade';
-// import { user } from 'projects/assets/src/translations/en/user';
 
 @Component({
   selector: 'cx-myaccount-view-name',
   templateUrl: './myaccount-view-name.component.html',
   styleUrls: ['./myaccount-view-name.component.scss']
 })
-export class MyAccountViewNameComponent implements OnInit {
+export class MyaccountViewNameComponent implements OnInit {
   user$: Observable<User | undefined>;
 
   constructor(
