@@ -1,0 +1,27 @@
+<div class="cx-myaccount-view-name">
+  <table>
+    <td>
+      <ng-container *ngIf="user$ | async as user">
+        <div *ngIf="user.title === ''; else title">
+          {{ user.title }} {{ user.name }}
+        </div>
+        <div>
+          <a
+            class="cx-sign-out"
+            [routerLink]="
+              {
+                cxRoute: 'logout'
+              } | cxUrl
+            "
+            >{{ 'myaccountViewName.signOut' | cxTranslate }}
+          </a>
+        </div>
+      </ng-container>
+    </td>
+  </table>
+</div>
+<ng-template #title>
+  <div *ngIf="user$ | async as user">
+    {{ user.title }}{{ 'myaccountViewName.dot' | cxTranslate }} {{ user.name }}
+  </div>
+</ng-template>
