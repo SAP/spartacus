@@ -11,6 +11,7 @@ import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 import { isolateTests } from '../../../support/utils/test-isolation';
+
 describe('My Account - Update Password', () => {
   viewportContext(['mobile'], () => {
     before(() =>
