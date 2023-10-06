@@ -86,21 +86,5 @@ describe('My Account - Update Password', () => {
         });
       }
     );
-
-    describe('update password by agent', { testIsolation: false }, () => {
-      isolateTests();
-      before(() => {
-        standardUser.registrationData.email = generateMail(
-          randomString(),
-          true
-        );
-        cy.requireLoggedIn(standardUser);
-        cy.visit('/');
-      });
-
-      after(() => {
-        signOutUser();
-      });
-    });
   });
 });
