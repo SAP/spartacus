@@ -1,11 +1,8 @@
 <div class="cx-myaccount-view-name">
-  <table>
-    <td >
       <ng-container *ngIf="user$ | async as user">
         <div *ngIf="(user.title); else title">
           {{ user.title }} {{ 'myaccountViewName.dot' | cxTranslate }} {{ user.name }}
         </div>
-        <div>
           <a
             class="cx-sign-out"
             [routerLink]="
@@ -15,10 +12,7 @@
             "
             >{{ 'myaccountViewName.signOut' | cxTranslate }}
           </a>
-        </div>
       </ng-container>
-    </td>
-  </table>
 </div>
 <ng-template #title>
   <div *ngIf="user$ | async as user">

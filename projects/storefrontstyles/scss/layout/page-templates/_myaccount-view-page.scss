@@ -1,36 +1,34 @@
 %MyAccountViewPageTemplate {
-    max-width: var(--cx-page-width-max);
-    margin: auto;
-    display: flex;
-    cx-page-slot {
-      cx-paragraph {
-        height: 142px;
-      }
-  
-    }
-  
-    @include media-breakpoint-down(md) {
-      flex-direction: column;
-    }
-    .LeftContentSlot {
-      max-width: 25%;
-      @include media-breakpoint-down(md) {
-        width: 100%;
-        max-width: none;
-      }
-    }
-  
-    .RightContentSlot {
-      max-width: 75%;
-  
-      @include media-breakpoint-down(md) {
-        width: 100%;
-        max-width: none;
-      }
-    }
-  
-    cx-paragraph h4 {
-      height: fit-content;
+  max-width: var(--cx-page-width-max);
+  margin: auto;
+  display: flex;
+  cx-page-slot {
+    cx-paragraph {
+      height: 120px;
+      margin-top: 40px;
+      border: 1px solid var(--cx-color-light);
+      text-indent: 10px;
+      padding: 15px 15px 15px 15px;
     }
   }
-  
+
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+  }
+  .LeftContentSlot {
+    max-width: 25%;
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      max-width: none;
+    }
+  }
+
+  .RightContentSlot {
+    max-width: 75%;
+
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      max-width: none;
+    }
+  }
+}
