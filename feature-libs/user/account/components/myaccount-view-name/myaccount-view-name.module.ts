@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MyaccountViewNameComponent } from './myaccount-view-name.component';
 import {
+  AuthGuard,
   CmsConfig,
   I18nModule,
   UrlModule,
@@ -21,6 +22,7 @@ import { RouterModule } from '@angular/router';
       cmsComponents: {
         MyAccountViewNameComponent: {
           component: MyaccountViewNameComponent,
+          guards: [AuthGuard],
         },
       },
     }),
