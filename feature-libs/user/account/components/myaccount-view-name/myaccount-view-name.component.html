@@ -1,9 +1,9 @@
 <div class="cx-myaccount-view-name">
   <table>
-    <td class="cx-text">
+    <td >
       <ng-container *ngIf="user$ | async as user">
-        <div *ngIf="user.title === ''; else title">
-          {{ user.title }} {{ user.name }}
+        <div *ngIf="(user.title); else title">
+          {{ user.title }} {{ 'myaccountViewName.dot' | cxTranslate }} {{ user.name }}
         </div>
         <div>
           <a
@@ -22,6 +22,6 @@
 </div>
 <ng-template #title>
   <div *ngIf="user$ | async as user">
-    {{ user.title }}{{ 'myaccountViewName.dot' | cxTranslate }} {{ user.name }}
+    {{ user.name }}
   </div>
 </ng-template>
