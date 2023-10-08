@@ -154,28 +154,24 @@
   eg: Returned: 2 Items
       Return Processed: 15, September, 2022
   -->
-    <div *ngIf="order.returnRequests">
-      <div *ngIf="order!.returnRequests!.length > 0">
-        <div
-          class="cx-order-status-critical"
-          *ngIf="order!.returnRequests[0].returnEntries as returnEntries"
-        >
-          {{ ' orderHistoryEnhancedUI.returned' | cxTranslate }} -
-          <ng-container
-            *ngTemplateOutlet="
-              showManyItems;
-              context: { count: returnEntries.length }
-            "
-          ></ng-container>
-        </div>
-        <div
-          class="cx-consignment-info"
-          *ngIf="order!.returnRequests[0].creationTime as creationTime"
-        >
-          {{ 'orderHistoryEnhancedUI.returnProcessed' | cxTranslate }}:{{
-            creationTime | cxDate: 'd, MMMM, yyyy'
-          }}
-        </div>
+    <div *ngFor="let returnRequest of order.returnRequests">
+      <div *ngIf="returnRequest.returnEntries" class="cx-order-status-critical">
+        {{ 'orderHistoryEnhancedUI.returned' | cxTranslate }}
+        <ng-container
+          *ngTemplateOutlet="
+            showManyItems;
+            context: { count: returnRequest.returnEntries.length }
+          "
+        ></ng-container>
+      </div>
+      <div
+        class="cx-consignment-info"
+        *ngIf="returnRequest.creationTime as creationTime"
+      >
+        {{
+          'orderHistoryEnhancedUI.returnProcessed'
+            | cxTranslate: { param: creationTime | cxDate: 'd, MMMM, yyyy' }
+        }}
       </div>
     </div>
   </div>

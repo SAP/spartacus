@@ -25,7 +25,7 @@ import {
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'cx-download-invoices-dialog',
+  selector: 'cx-download-order-invoices-dialog',
   templateUrl: './download-order-invoices-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

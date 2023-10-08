@@ -34,6 +34,7 @@ Consignment 2 | Tracking Number: 5657474 | Estimated Delivery: 22, September, 20
           }}:
           <ng-container *ngIf="tracking.trackingUrl; else showNumber">
             <a
+              class="cx-tracking-id"
               target="_blank"
               rel="noopener noreferrer"
               [href]="tracking.trackingUrl"
