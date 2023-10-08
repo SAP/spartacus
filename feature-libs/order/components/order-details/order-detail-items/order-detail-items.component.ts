@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   CartOutlets,
   OrderEntry,
@@ -15,6 +15,7 @@ import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { OrderConsignmentsService } from '../order-consignments.service';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
@@ -22,6 +23,7 @@ import { OrderDetailsService } from '../order-details.service';
   templateUrl: './order-detail-items.component.html',
 })
 export class OrderDetailItemsComponent {
+  protected orderConsignmentsService = inject(OrderConsignmentsService);
   readonly OrderOutlets = OrderOutlets;
   readonly CartOutlets = CartOutlets;
 
@@ -68,13 +70,13 @@ export class OrderDetailItemsComponent {
     order: Order,
     pickup: boolean
   ): Consignment[] | undefined {
-    return this.orderDetailsService.getGroupedConsignments(order, pickup);
+    return this.orderConsignmentsService.getGroupedConsignments(order, pickup);
   }
 
   protected getUnconsignedEntries(
     order: Order,
     pickup: boolean
   ): OrderEntry[] | undefined {
-    return this.orderDetailsService.getUnconsignedEntries(order, pickup);
+    return this.orderConsignmentsService.getUnconsignedEntries(order, pickup);
   }
 }

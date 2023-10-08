@@ -14,7 +14,6 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { OrderDetailsService } from '../../order-details.service';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
@@ -23,6 +22,7 @@ import {
 import { of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Consignment } from '@spartacus/order/root';
+import { OrderConsignmentsService } from '../../order-consignments.service';
 
 @Component({
   selector: 'cx-consignment-tracking-link',
@@ -32,14 +32,14 @@ import { Consignment } from '@spartacus/order/root';
 export class ConsignmentTrackingLinkComponent implements OnInit, OnDestroy {
   consignment: Consignment;
   protected subscription = new Subscription();
-  protected orderDetailsService = inject(OrderDetailsService);
+  protected orderConsignmentsService = inject(OrderConsignmentsService);
   protected launchDialogService = inject(LaunchDialogService);
   protected vcr = inject(ViewContainerRef);
   protected cd = inject(ChangeDetectorRef);
   protected outlet = inject(OutletContextData);
 
   @ViewChild('element') element: ElementRef;
-  consignmentStatus: string[] = this.orderDetailsService.consignmentStatus;
+  consignmentStatus: string[] = this.orderConsignmentsService.consignmentStatus;
   ngOnInit(): void {
     this.subscription.add(
       this.outlet?.context$.subscribe((context: { item?: Consignment }) => {

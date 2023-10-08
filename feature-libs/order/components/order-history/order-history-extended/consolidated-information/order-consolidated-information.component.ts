@@ -12,8 +12,8 @@ import {
 } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Images } from '@spartacus/core';
+import { OrderConsignmentsService } from '../../../order-details';
 import { Consignment, Order, OrderHistory } from '@spartacus/order/root';
-import { OrderDetailsService } from '../../../order-details';
 
 @Component({
   selector: 'cx-order-consolidated-information',
@@ -21,7 +21,7 @@ import { OrderDetailsService } from '../../../order-details';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderConsolidatedInformationComponent {
-  protected orderDetailsService = inject(OrderDetailsService);
+  protected orderConsignmentsService = inject(OrderConsignmentsService);
   @Input()
   order?: OrderHistory;
   private IMAGE_COUNT = 4; //showing fixed no.of images, without using carousel
@@ -56,14 +56,18 @@ export class OrderConsolidatedInformationComponent {
     const orderDetail: Order = {};
     orderDetail.consignments = consignments;
     return (
-      this.orderDetailsService.getGroupedConsignments(orderDetail, true) ?? []
+      this.orderConsignmentsService.getGroupedConsignments(orderDetail, true) ??
+      []
     );
   }
   getDeliveryConsignments(consignments: Consignment[]): Consignment[] {
     const orderDetail: Order = {};
     orderDetail.consignments = consignments;
     return (
-      this.orderDetailsService.getGroupedConsignments(orderDetail, false) ?? []
+      this.orderConsignmentsService.getGroupedConsignments(
+        orderDetail,
+        false
+      ) ?? []
     );
   }
   getDeliveryUnconsignedEntries(
@@ -72,14 +76,16 @@ export class OrderConsolidatedInformationComponent {
     const orderDetail: Order = {};
     orderDetail.unconsignedEntries = unconsignedEntries;
     return (
-      this.orderDetailsService.getUnconsignedEntries(orderDetail, false) ?? []
+      this.orderConsignmentsService.getUnconsignedEntries(orderDetail, false) ??
+      []
     );
   }
   getPickupUnconsignedEntries(unconsignedEntries: OrderEntry[]): OrderEntry[] {
     const orderDetail: Order = {};
     orderDetail.unconsignedEntries = unconsignedEntries;
     return (
-      this.orderDetailsService.getUnconsignedEntries(orderDetail, true) ?? []
+      this.orderConsignmentsService.getUnconsignedEntries(orderDetail, true) ??
+      []
     );
   }
   getProductImages(entries: OrderEntry[]): Images[] {

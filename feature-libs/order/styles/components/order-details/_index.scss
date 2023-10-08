@@ -7,7 +7,8 @@
 @import './order-details-actions-extended';
 
 $order-details-allowlist: cx-order-details-items, cx-order-overview,
-  cx-order-details-actions, cx-order-details-reorder, cx-order-detail-billing, cx-consignment-tracking-link, cx-download-order-invoices-dialog,
+  cx-order-details-actions, cx-order-details-reorder, cx-order-detail-billing,
+  cx-consignment-tracking-link, cx-download-order-invoices-dialog,
   cx-order-details-actions-extended !default;
 
 $skipComponentStyles: () !default;
