@@ -54,7 +54,12 @@
         width: 60%; // show 70% order info and 30% images
         .cx-consignment-info {
           font-size: 16px;
-          color: #6c7079;
+          color: var(--cx-color-secondary);
+          .cx-tracking-id {
+            text-decoration: underline;
+            font-weight: var(--cx-font-weight-semi);
+            color: var(--cx-color-secondary);
+          }
         }
 
         .cx-list-header {
@@ -64,15 +69,17 @@
           .cx-list-status {
             padding: 5px 30px;
             background-color: var(--cx-color-background);
-            @include type('4');
+            @include type("4");
             font-weight: bold;
           }
         }
 
         .cx-order-status {
+          margin: 16px 0 0 0;
           font-size: 18px;
         }
         .cx-order-status-critical {
+          margin: 16px 0 0 0;
           font-size: 18px;
           color: var(--cx-color-alert, var(--cx-color-danger));
         }
