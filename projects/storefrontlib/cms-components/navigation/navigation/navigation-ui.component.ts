@@ -309,7 +309,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       }
 
       case 'Address Book': {
-        return ICON_TYPE.ADDRESS_BOOK;
+        return ICON_TYPE.HOME;
         break;
       }
 
