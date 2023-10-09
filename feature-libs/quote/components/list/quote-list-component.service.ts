@@ -44,9 +44,9 @@ export class QuoteListComponentService {
 
   sortLabels$: Observable<{ [key: string]: string }> = combineLatest([
     this.translationService.translate('sorting.date'),
-    this.translationService.translate('sorting.quoteId'),
-    this.translationService.translate('sorting.name'),
-    this.translationService.translate('sorting.status'),
+    this.translationService.translate('quote.list.quoteId'),
+    this.translationService.translate('quote.list.name'),
+    this.translationService.translate('quote.list.status'),
   ]).pipe(
     map(
       ([

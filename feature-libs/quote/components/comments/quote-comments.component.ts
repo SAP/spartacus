@@ -35,6 +35,7 @@ export class QuoteCommentsComponent {
   protected eventService = inject(EventService);
   protected translationService = inject(TranslationService);
   protected config = inject(QuoteUIConfig);
+  protected document = inject(DOCUMENT);
 
   @ViewChild(MessagingComponent) commentsComponent: MessagingComponent;
 
@@ -44,8 +45,6 @@ export class QuoteCommentsComponent {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   messageEvents$: Observable<Array<MessageEvent>> = this.prepareMessageEvents();
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
-
-  constructor(@Inject(DOCUMENT) protected document: Document) {}
 
   onSend(event: { message: string; itemId?: string }, code: string) {
     this.quoteFacade

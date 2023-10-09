@@ -86,7 +86,7 @@ export class QuoteService implements QuoteFacade {
     (payload) =>
       combineLatest([
         this.userIdService.takeUserId(),
-        this.activeCartService.takeActiveCartId(),
+        this.activeCartFacade.takeActiveCartId(),
       ]).pipe(
         take(1),
         switchMap(([userId, cartId]) =>
@@ -314,7 +314,7 @@ export class QuoteService implements QuoteFacade {
         active: true,
       },
     });
-    this.activeCartService
+    this.activeCartFacade
       .getActive()
       .pipe(
         filter((cart) => cart.code === cartId),
@@ -369,7 +369,7 @@ export class QuoteService implements QuoteFacade {
       () =>
         //we need to ensure that the active cart has been loaded, in order to determine if the
         //quote is connected to a quote cart (and then directly ready for edit)
-        this.activeCartService.isStable().pipe(
+        this.activeCartFacade.getActive().pipe(
           take(1),
           switchMap(() =>
             this.routingService.getRouterState().pipe(

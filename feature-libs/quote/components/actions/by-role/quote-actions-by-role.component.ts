@@ -57,7 +57,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       if (mustDisableAction) {
         this.globalMessageService.add(
           {
-            key: 'quote.request.minRequestInitiationNote',
+            key: 'quote.commons.minRequestInitiationNote',
             params: {
               minValue: quote.threshold,
             },
@@ -180,7 +180,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       confirmationContext.warningNote = dialogConfig.i18nKey + '.warningNote';
     }
     if (dialogConfig.showExpirationDate) {
-      confirmationContext.validity = 'quote.confirmActionDialog.validity';
+      confirmationContext.validity = 'quote.actions.confirmDialog.validity';
     }
     if (dialogConfig.showSuccessMessage) {
       confirmationContext.successMessage =
