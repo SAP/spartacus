@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { QuoteFacade, QuoteList } from '@spartacus/quote/root';
 import { QueryState, SortModel, TranslationService } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
@@ -12,6 +12,9 @@ import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class QuoteListComponentService {
+  protected quoteFacade = inject(QuoteFacade);
+  protected translationService = inject(TranslationService);
+
   protected sort = new BehaviorSubject('byCode');
   protected currentPage = new BehaviorSubject(0);
 
@@ -61,11 +64,6 @@ export class QuoteListComponentService {
       }
     )
   );
-
-  constructor(
-    protected quoteFacade: QuoteFacade,
-    protected translationService: TranslationService
-  ) {}
 
   setSort(sort: string): void {
     this.sort.next(sort);

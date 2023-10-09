@@ -5,7 +5,7 @@
  */
 
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, TranslationService } from '@spartacus/core';
 import { Comment, Quote, QuoteFacade } from '@spartacus/quote/root';
@@ -30,6 +30,13 @@ const ALL_PRODUCTS_ID = '';
   templateUrl: './quote-comments.component.html',
 })
 export class QuoteCommentsComponent {
+  protected quoteFacade = inject(QuoteFacade);
+  protected quoteItemsComponentService = inject(QuoteItemsComponentService);
+  protected eventService = inject(EventService);
+  protected translationService = inject(TranslationService);
+  protected config = inject(QuoteUIConfig);
+  protected document = inject(DOCUMENT);
+
   @ViewChild(MessagingComponent) commentsComponent: MessagingComponent;
 
   expandComments = true;
@@ -38,15 +45,6 @@ export class QuoteCommentsComponent {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   messageEvents$: Observable<Array<MessageEvent>> = this.prepareMessageEvents();
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
-
-  constructor(
-    protected quoteFacade: QuoteFacade,
-    protected eventService: EventService,
-    protected translationService: TranslationService,
-    protected quoteUiConfig: QuoteUIConfig,
-    @Inject(DOCUMENT) protected document: Document,
-    protected quoteItemsComponentService: QuoteItemsComponentService
-  ) {}
 
   onSend(event: { message: string; itemId?: string }, code: string) {
     this.quoteFacade
@@ -105,8 +103,7 @@ export class QuoteCommentsComponent {
   protected prepareMessagingConfigs(): MessagingConfigs {
     return {
       charactersLimit:
-        this.quoteUiConfig.quote?.maxCharsForComments ??
-        DEFAULT_COMMENT_MAX_CHARS,
+        this.config.quote?.maxCharsForComments ?? DEFAULT_COMMENT_MAX_CHARS,
       displayAddMessageSection: this.quoteDetails$.pipe(
         map((quote) => quote.isEditable)
       ),

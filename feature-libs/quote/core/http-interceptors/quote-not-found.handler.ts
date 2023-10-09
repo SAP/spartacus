@@ -5,7 +5,7 @@
  */
 
 import { HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   GlobalMessageService,
   HttpErrorHandler,
@@ -19,13 +19,12 @@ import {
   providedIn: 'root',
 })
 export class QuoteNotFoundHandler extends HttpErrorHandler {
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService
-  ) {
+  protected routingService = inject(RoutingService);
+  responseStatus = HttpResponseStatus.NOT_FOUND;
+
+  constructor(protected globalMessageService: GlobalMessageService) {
     super(globalMessageService);
   }
-  responseStatus = HttpResponseStatus.NOT_FOUND;
 
   handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
     if (this.getQuoteNotFoundErrors(response).length > 0) {

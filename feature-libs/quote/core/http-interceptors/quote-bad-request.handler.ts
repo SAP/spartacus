@@ -5,7 +5,7 @@
  */
 
 import { HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -21,13 +21,12 @@ import { take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class QuoteBadRequestHandler extends HttpErrorHandler {
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected quoteCartService: QuoteCartService
-  ) {
+  protected quoteCartService = inject(QuoteCartService);
+  responseStatus = HttpResponseStatus.BAD_REQUEST;
+
+  constructor(protected globalMessageService: GlobalMessageService) {
     super(globalMessageService);
   }
-  responseStatus = HttpResponseStatus.BAD_REQUEST;
 
   handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.getQuoteThresholdErrors(response).forEach(

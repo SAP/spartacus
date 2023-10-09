@@ -7,6 +7,7 @@
 import {
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -30,6 +31,12 @@ import { QuoteHeaderSellerEditComponentService } from './quote-header-seller-edi
   templateUrl: './quote-header-seller-edit.component.html',
 })
 export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
+  protected quoteFacade = inject(QuoteFacade);
+  protected quoteHeaderSellerEditComponentService = inject(
+    QuoteHeaderSellerEditComponentService
+  );
+  protected config = inject(QuoteUIConfig);
+
   quoteDetailsForSeller$: Observable<Quote> = this.quoteFacade
     .getQuoteDetails()
     .pipe(
@@ -52,12 +59,6 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
 
   protected dateUpdates: Subject<{ quoteCode: string; date: string }> =
     new Subject();
-
-  constructor(
-    protected quoteFacade: QuoteFacade,
-    protected quoteHeaderSellerEditComponentService: QuoteHeaderSellerEditComponentService,
-    protected quoteUiConfig: QuoteUIConfig
-  ) {}
 
   ngOnInit(): void {
     //We need the subscription member even if we use take(1):
@@ -95,9 +96,7 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.dateUpdates
         .pipe(
-          debounceTime(
-            this.quoteUiConfig.quote?.updateDebounceTime?.expiryDate ?? 500
-          )
+          debounceTime(this.config.quote?.updateDebounceTime?.expiryDate ?? 500)
         )
         .subscribe((payload) => {
           const quoteMetaData: QuoteMetadata = {

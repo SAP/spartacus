@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   QuoteAdapter,
   QUOTE_ACTION_SERIALIZER,
@@ -37,11 +37,9 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccQuoteAdapter implements QuoteAdapter {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
 
   getQuotes(
     userId: string,
