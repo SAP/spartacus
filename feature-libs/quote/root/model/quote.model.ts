@@ -92,7 +92,7 @@ export enum QuoteDiscountType {
 }
 
 export enum QuoteRoleType {
-  NOT_AVAILABLE = 'NOT_AVAILABLE',
+  ALL = 'ALL',
   BUYER = 'BUYER',
   SELLER = 'SELLER',
   SELLERAPPROVER = 'SELLERAPPROVER',
