@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
@@ -19,7 +19,7 @@ import { AuthRedirectService } from '../services/auth-redirect.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard  {
   constructor(
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,

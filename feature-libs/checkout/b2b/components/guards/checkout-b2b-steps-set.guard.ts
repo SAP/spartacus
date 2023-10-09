@@ -5,12 +5,7 @@
  */
 
 import { Injectable, inject, isDevMode } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
@@ -36,7 +31,7 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 })
 export class CheckoutB2BStepsSetGuard
   extends CheckoutStepsSetGuard
-  implements CanActivate
+  
 {
   protected logger = inject(LoggerService);
 

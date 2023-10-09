@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { SemanticPathService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { OrderReturnService } from './order-return.service';
 @Injectable({
   providedIn: 'root',
 })
-export class OrderReturnGuard implements CanActivate {
+export class OrderReturnGuard  {
   constructor(
     protected orderAmendService: OrderReturnService,
     protected semanticPathService: SemanticPathService,

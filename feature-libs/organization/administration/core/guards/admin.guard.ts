@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+
 import {
   B2BUserRole,
   GlobalMessageService,
@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 @Injectable()
-export class AdminGuard implements CanActivate {
+export class AdminGuard  {
   constructor(
     protected userAccountFacade: UserAccountFacade,
     protected routingService: RoutingService,

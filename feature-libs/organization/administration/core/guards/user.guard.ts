@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -14,7 +14,7 @@ import {
 import { B2BUserService } from '../services';
 
 @Injectable()
-export class UserGuard implements CanActivate {
+export class UserGuard  {
   constructor(
     protected globalMessageService: GlobalMessageService,
     protected b2bUserService: B2BUserService,
