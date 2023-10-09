@@ -110,9 +110,9 @@ export class QuoteHeaderOverviewComponent {
    */
   getQuoteInformation(name?: string, description?: string): Observable<Card> {
     return combineLatest([
-      this.translationService.translate('quote.details.information'),
-      this.translationService.translate('quote.details.name'),
-      this.translationService.translate('quote.details.description'),
+      this.translationService.translate('quote.header.overview.information'),
+      this.translationService.translate('quote.header.overview.name'),
+      this.translationService.translate('quote.header.overview.description'),
     ]).pipe(
       map(([infoTitle, nameTitle, descriptionTitle]) => {
         return {
@@ -161,9 +161,11 @@ export class QuoteHeaderOverviewComponent {
     const totalPrice =
       this.getTotalPrice(quote) ?? this.getTotalPriceDescription(quote);
     return combineLatest([
-      this.translationService.translate('quote.details.estimateAndDate'),
-      this.translationService.translate('quote.details.estimatedTotal'),
-      this.translationService.translate('quote.details.created'),
+      this.translationService.translate(
+        'quote.header.overview.estimateAndDate'
+      ),
+      this.translationService.translate('quote.header.overview.estimatedTotal'),
+      this.translationService.translate('quote.header.overview.created'),
     ]).pipe(
       map(([firstTitle, secondTitle, thirdTitle]) => {
         return {
@@ -195,9 +197,9 @@ export class QuoteHeaderOverviewComponent {
     expirationTime?: string | null
   ): Observable<Card> {
     return combineLatest([
-      this.translationService.translate('quote.details.update'),
-      this.translationService.translate('quote.details.lastUpdated'),
-      this.translationService.translate('quote.details.expirationTime'),
+      this.translationService.translate('quote.header.overview.update'),
+      this.translationService.translate('quote.header.overview.lastUpdated'),
+      this.translationService.translate('quote.header.overview.expirationTime'),
     ]).pipe(
       map(([firstTitle, secondTitle, thirdTitle]) => {
         return {
@@ -251,7 +253,7 @@ export class QuoteHeaderOverviewComponent {
       (action: QuoteAction) => action.type === QuoteActionType.CHECKOUT
     );
     return readyToSubmit
-      ? 'quote.details.total'
-      : 'quote.details.estimatedTotal';
+      ? 'quote.header.overview.total'
+      : 'quote.header.overview.estimatedTotal';
   }
 }

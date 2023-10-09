@@ -50,7 +50,7 @@ const mockQuote: Quote = {
 const testMappings: ConfirmActionDialogMappingConfig = {
   BUYER_OFFER: {
     EDIT: {
-      i18nKey: 'quote.confirmActionDialog.buyer_offer.edit',
+      i18nKey: 'quote.actions.confirmDialog.buyer_offer.edit',
       showWarningNote: true,
       showExpirationDate: true,
       showSuccessMessage: false,
@@ -58,7 +58,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   BUYER: {
     SUBMIT: {
-      i18nKey: 'quote.confirmActionDialog.buyer.submit',
+      i18nKey: 'quote.actions.confirmDialog.buyer.submit',
       showWarningNote: false,
       showExpirationDate: false,
       showSuccessMessage: true,
@@ -66,7 +66,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   EXPIRED: {
     REQUOTE: {
-      i18nKey: 'quote.confirmActionDialog.expired.requote',
+      i18nKey: 'quote.actions.confirmDialog.expired.requote',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
@@ -209,9 +209,9 @@ describe('QuoteActionsByRoleComponent', () => {
     };
     const confirmationContextForSubmitAction: ConfirmationContext = {
       quote: quoteForSubmitAction,
-      title: 'quote.confirmActionDialog.buyer.submit.title',
-      confirmNote: 'quote.confirmActionDialog.buyer.submit.confirmNote',
-      successMessage: 'quote.confirmActionDialog.buyer.submit.successMessage',
+      title: 'quote.actions.confirmDialog.buyer.submit.title',
+      confirmNote: 'quote.actions.confirmDialog.buyer.submit.confirmNote',
+      successMessage: 'quote.actions.confirmDialog.buyer.submit.successMessage',
     };
     mockQuoteDetails$.next(quoteForSubmitAction);
     fixture.detectChanges();
@@ -237,10 +237,10 @@ describe('QuoteActionsByRoleComponent', () => {
     };
     const confirmationContextForEditAction: ConfirmationContext = {
       quote: quoteInBuyerOfferState,
-      title: 'quote.confirmActionDialog.buyer_offer.edit.title',
-      confirmNote: 'quote.confirmActionDialog.buyer_offer.edit.confirmNote',
-      warningNote: 'quote.confirmActionDialog.buyer_offer.edit.warningNote',
-      validity: 'quote.confirmActionDialog.validity',
+      title: 'quote.actions.confirmDialog.buyer_offer.edit.title',
+      confirmNote: 'quote.actions.confirmDialog.buyer_offer.edit.confirmNote',
+      warningNote: 'quote.actions.confirmDialog.buyer_offer.edit.warningNote',
+      validity: 'quote.actions.confirmDialog.validity',
     };
     mockQuoteDetails$.next(quoteInBuyerOfferState);
     fixture.detectChanges();
@@ -279,9 +279,9 @@ describe('QuoteActionsByRoleComponent', () => {
     };
     const confirmationContextForRequoteAction: ConfirmationContext = {
       quote: expiredQuote,
-      title: 'quote.confirmActionDialog.expired.requote.title',
-      confirmNote: 'quote.confirmActionDialog.expired.requote.confirmNote',
-      warningNote: 'quote.confirmActionDialog.expired.requote.warningNote',
+      title: 'quote.actions.confirmDialog.expired.requote.title',
+      confirmNote: 'quote.actions.confirmDialog.expired.requote.confirmNote',
+      warningNote: 'quote.actions.confirmDialog.expired.requote.warningNote',
     };
     mockQuoteDetails$.next(expiredQuote);
     fixture.detectChanges();
@@ -497,7 +497,7 @@ describe('QuoteActionsByRoleComponent', () => {
           QuoteState.BUYER_OFFER
         )
       ).toEqual({
-        i18nKey: 'quote.confirmActionDialog.buyer_offer.edit',
+        i18nKey: 'quote.actions.confirmDialog.buyer_offer.edit',
         showWarningNote: true,
         showExpirationDate: true,
         showSuccessMessage: false,

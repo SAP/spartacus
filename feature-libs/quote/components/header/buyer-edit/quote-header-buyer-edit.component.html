@@ -3,7 +3,7 @@
   <div class="card-body cx-card-body cx-card-edit">
     <!-- Card title -->
     <span class="cx-card-title">
-      {{ 'quote.details.information' | cxTranslate }}
+      {{ 'quote.header.overview.information' | cxTranslate }}
     </span>
     <!-- Card Content -->
     <div class="cx-card-container">
@@ -12,7 +12,7 @@
         <form [formGroup]="editForm">
           <div class="cx-card-paragraph">
             <div class="cx-card-paragraph-title">
-              {{ 'quote.details.name' | cxTranslate }}
+              {{ 'quote.header.overview.name' | cxTranslate }}
             </div>
             <div class="form-group">
               <input
@@ -36,7 +36,7 @@
           </div>
           <div class="cx-card-paragraph">
             <div class="cx-card-paragraph-title">
-              {{ 'quote.details.description' | cxTranslate }}
+              {{ 'quote.header.overview.description' | cxTranslate }}
             </div>
             <div class="form-group">
               <textarea
@@ -80,7 +80,7 @@
 >
   <p *ngIf="charactersLimit" class="cx-info-text">
     {{
-      'quote.details.charactersLeft'
+      'quote.header.overview.charactersLeft'
         | cxTranslate
           : {
               count: getCharactersLeft(formControlName, charactersLimit)

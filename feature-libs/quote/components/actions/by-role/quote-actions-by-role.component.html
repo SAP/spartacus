@@ -9,7 +9,7 @@
       [disabled]="mustDisableAction(action.type, quoteDetails)"
       (click)="onClick(action.type, quoteDetails)"
     >
-      {{ 'quote.actions.' + action.type | cxTranslate }}
+      {{ 'quote.actions.byRole.' + action.type | cxTranslate }}
     </button>
   </section>
 </ng-container>
