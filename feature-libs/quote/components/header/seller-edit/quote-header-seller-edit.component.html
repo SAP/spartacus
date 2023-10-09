@@ -3,7 +3,7 @@
     <form (ngSubmit)="onApply(quoteDetails.code)" [formGroup]="form">
       <label>
         <span class="label-content bold">{{
-          'quote.seller.discount' | cxTranslate
+          'quote.header.sellerEdit.discount' | cxTranslate
         }}</span>
         <div class="cx-discount-input">
           <input
@@ -17,7 +17,7 @@
             class="btn btn-block btn-secondary"
             (click)="onApply(quoteDetails.code)"
           >
-            {{ 'quote.seller.apply' | cxTranslate }}
+            {{ 'quote.header.sellerEdit.apply' | cxTranslate }}
           </button>
         </div>
 
@@ -29,13 +29,13 @@
           role="alert"
         >
           <cx-icon [type]="iconType.ERROR"></cx-icon>
-          {{ 'quote.seller.discountValidationText' | cxTranslate }}
+          {{ 'quote.header.sellerEdit.discountValidationText' | cxTranslate }}
         </div>
       </label>
 
       <label>
         <span class="label-content bold">{{
-          'quote.seller.expiryDate' | cxTranslate
+          'quote.header.sellerEdit.expiryDate' | cxTranslate
         }}</span>
         <cx-date-picker
           [control]="$any(form.get('validityDate'))"

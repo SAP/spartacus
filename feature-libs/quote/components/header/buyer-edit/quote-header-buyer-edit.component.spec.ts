@@ -65,7 +65,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       expect,
       htmlElem,
       '.cx-card-title',
-      'quote.details.information'
+      'quote.header.overview.information'
     );
 
     CommonQuoteTestUtilsService.expectElementPresent(
@@ -119,7 +119,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       expect,
       htmlElem,
       '.cx-card-paragraph-title',
-      'quote.details.description',
+      'quote.header.overview.description',
       1
     );
 
@@ -127,7 +127,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       expect,
       htmlElem,
       '.cx-info-text',
-      'quote.details.charactersLeft count:245',
+      'quote.header.overview.charactersLeft count:245',
       0
     );
 
@@ -135,7 +135,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       expect,
       htmlElem,
       '.cx-info-text',
-      'quote.details.charactersLeft count:194',
+      'quote.header.overview.charactersLeft count:194',
       1
     );
 
