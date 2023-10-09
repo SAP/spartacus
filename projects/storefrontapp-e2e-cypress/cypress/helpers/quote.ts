@@ -7,8 +7,11 @@
 import * as authentication from './auth-forms';
 import * as cart from './cart';
 import * as common from './common';
+import * as globalMessage from './global-message';
 import * as productConfigurator from './product-configurator';
 import * as asm from './asm';
+import { scrollToTopOfPage } from './infinite-scroll';
+import { registerDeleteCartItemRoute } from './cart';
 
 /** aliases for Quote Routes */
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
@@ -1423,6 +1426,7 @@ export function registerPatchQuoteRoute() {
  */
 export function removeCartItem(product) {
   log('Remove the cart item in the cart.', removeCartItem.name);
+  scrollToTopOfPage();
   cart.getCartItem(product.name).within(() => {
     cy.get('button.cx-remove-btn').should('be.enabled').click();
   });
