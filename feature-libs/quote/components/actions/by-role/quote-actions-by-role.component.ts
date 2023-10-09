@@ -12,6 +12,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import {
   Quote,
@@ -36,6 +37,7 @@ import { ConfirmationContext } from '../confirm-dialog/quote-actions-confirm-dia
 })
 export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
+  cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
 
   @ViewChild('element') element: ElementRef;
   QuoteActionType = QuoteActionType;
@@ -46,7 +48,8 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected viewContainerRef: ViewContainerRef,
     protected globalMessageService: GlobalMessageService,
-    protected config: QuoteUIConfig
+    protected config: QuoteUIConfig,
+    protected activeCartFacade: ActiveCartFacade
   ) {}
 
   ngOnInit(): void {
@@ -78,8 +81,9 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     return (quote.totalPrice.value || 0) >= requestThreshold;
   }
 
-  onClick(action: QuoteActionType, quote: Quote) {
-    if (!this.isConfirmationDialogRequired(action, quote.state)) {
+  onClick(action: QuoteActionType, quote: Quote, cart: Cart) {
+    const cartIsEmpty = (cart.entries?.length ?? 0) === 0;
+    if (!this.isConfirmationDialogRequired(action, quote.state, cartIsEmpty)) {
       this.performAction(action, quote);
       return;
     }
@@ -158,13 +162,16 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
 
   protected isConfirmationDialogRequired(
     action: QuoteActionType,
-    state: QuoteState
+    state: QuoteState,
+    cartIsEmpty: boolean
   ): boolean {
     const mappingConfig = this.config.quote?.confirmActionDialogMapping;
+    const dialogConfig =
+      mappingConfig?.[state]?.[action] ??
+      mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action] ??
+      mappingConfig?.[QuoteRoleType.ALL]?.[action];
     return (
-      !!mappingConfig?.[state]?.[action] ||
-      !!mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action] ||
-      !!mappingConfig?.[QuoteRoleType.ALL]?.[action]
+      !!dialogConfig && (!cartIsEmpty || !dialogConfig.showOnlyWhenCartIsNotEmpty)
     );
   }
 

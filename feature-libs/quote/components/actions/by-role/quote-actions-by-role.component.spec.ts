@@ -28,6 +28,7 @@ import { ConfirmationContext } from '../confirm-dialog/quote-actions-confirm-dia
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 import createSpy = jasmine.createSpy;
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 
 const mockCartId = '1234';
 const mockCode = '3333';
@@ -54,6 +55,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
       showWarningNote: true,
       showExpirationDate: true,
       showSuccessMessage: false,
+      showOnlyWhenCartIsNotEmpty: false,
     },
   },
   BUYER: {
@@ -62,6 +64,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
       showWarningNote: false,
       showExpirationDate: false,
       showSuccessMessage: true,
+      showOnlyWhenCartIsNotEmpty: false,
     },
   },
   EXPIRED: {
@@ -70,6 +73,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
+      showOnlyWhenCartIsNotEmpty: false,
     },
   },
   ALL: {
@@ -78,11 +82,14 @@ const testMappings: ConfirmActionDialogMappingConfig = {
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
+      showOnlyWhenCartIsNotEmpty: true,
     },
   },
 };
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
+
+const currentCart: Partial<Cart> = {};
 
 let dialogClose$: BehaviorSubject<any | undefined>;
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -125,6 +132,12 @@ class MockGlobalMessageService {
   add(): void {}
 }
 
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  getActive(): Observable<Cart> {
+    return of(currentCart);
+  }
+}
+
 describe('QuoteActionsByRoleComponent', () => {
   let fixture: ComponentFixture<QuoteActionsByRoleComponent>;
   let htmlElem: HTMLElement;
@@ -151,6 +164,7 @@ describe('QuoteActionsByRoleComponent', () => {
             quote: { confirmActionDialogMapping: testMappings },
           },
         },
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
       ],
     }).compileComponents();
   });
@@ -215,7 +229,11 @@ describe('QuoteActionsByRoleComponent', () => {
     };
     mockQuoteDetails$.next(quoteForSubmitAction);
     fixture.detectChanges();
-    component.onClick(QuoteActionType.SUBMIT, quoteForSubmitAction);
+    component.onClick(
+      QuoteActionType.SUBMIT,
+      quoteForSubmitAction,
+      currentCart
+    );
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.ACTION_CONFIRMATION,
       component.element,
@@ -244,7 +262,11 @@ describe('QuoteActionsByRoleComponent', () => {
     };
     mockQuoteDetails$.next(quoteInBuyerOfferState);
     fixture.detectChanges();
-    component.onClick(QuoteActionType.EDIT, quoteInBuyerOfferState);
+    component.onClick(
+      QuoteActionType.EDIT,
+      quoteInBuyerOfferState,
+      currentCart
+    );
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.ACTION_CONFIRMATION,
       component.element,
@@ -266,7 +288,11 @@ describe('QuoteActionsByRoleComponent', () => {
     };
     mockQuoteDetails$.next(quoteInBuyerDraftState);
     fixture.detectChanges();
-    component.onClick(QuoteActionType.CANCEL, quoteInBuyerDraftState);
+    component.onClick(
+      QuoteActionType.CANCEL,
+      quoteInBuyerDraftState,
+      currentCart
+    );
     expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
   });
 
@@ -285,7 +311,8 @@ describe('QuoteActionsByRoleComponent', () => {
     };
     mockQuoteDetails$.next(expiredQuote);
     fixture.detectChanges();
-    component.onClick(QuoteActionType.REQUOTE, expiredQuote);
+
+    component.onClick(QuoteActionType.REQUOTE, expiredQuote, currentCart);
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.ACTION_CONFIRMATION,
       component.element,
@@ -397,7 +424,11 @@ describe('QuoteActionsByRoleComponent', () => {
     mockQuoteDetails$.next(newMockQuoteWithSubmitAction);
     fixture.detectChanges();
 
-    component.onClick(QuoteActionType.SUBMIT, newMockQuoteWithSubmitAction);
+    component.onClick(
+      QuoteActionType.SUBMIT,
+      newMockQuoteWithSubmitAction,
+      currentCart
+    );
     launchDialogService.closeDialog('yes');
     expect(facade.performQuoteAction).toHaveBeenCalledWith(
       newMockQuoteWithSubmitAction,
@@ -443,7 +474,8 @@ describe('QuoteActionsByRoleComponent', () => {
       expect(
         component['isConfirmationDialogRequired'](
           QuoteActionType.SUBMIT,
-          QuoteState.BUYER_DRAFT
+          QuoteState.BUYER_DRAFT,
+          false
         )
       ).toBe(true);
     });
@@ -451,23 +483,35 @@ describe('QuoteActionsByRoleComponent', () => {
       expect(
         component['isConfirmationDialogRequired'](
           QuoteActionType.EDIT,
-          QuoteState.BUYER_OFFER
+          QuoteState.BUYER_OFFER,
+          false
         )
       ).toBe(true);
     });
-    it('should return true for action matches for ALL role', () => {
+    it('should return true for action matches for ALL role when cart is empty', () => {
       expect(
         component['isConfirmationDialogRequired'](
           QuoteActionType.EDIT,
-          QuoteState.BUYER_DRAFT
+          QuoteState.BUYER_DRAFT,
+          false
         )
       ).toBe(true);
+    });
+    it('should return false for action matches for ALL role when cart is not empty', () => {
+      expect(
+        component['isConfirmationDialogRequired'](
+          QuoteActionType.EDIT,
+          QuoteState.BUYER_DRAFT,
+          true
+        )
+      ).toBe(false);
     });
     it('should return false if action does not match', () => {
       expect(
         component['isConfirmationDialogRequired'](
           QuoteActionType.CHECKOUT,
-          QuoteState.BUYER_DRAFT
+          QuoteState.BUYER_DRAFT,
+          false
         )
       ).toBe(false);
     });
@@ -475,7 +519,8 @@ describe('QuoteActionsByRoleComponent', () => {
       expect(
         component['isConfirmationDialogRequired'](
           QuoteActionType.SUBMIT,
-          QuoteState.CANCELLED
+          QuoteState.CANCELLED,
+          false
         )
       ).toBe(false);
     });
@@ -501,6 +546,7 @@ describe('QuoteActionsByRoleComponent', () => {
         showWarningNote: true,
         showExpirationDate: true,
         showSuccessMessage: false,
+        showOnlyWhenCartIsNotEmpty: false,
       });
     });
     it('should return configured config if action with ALL role is matching', () => {
@@ -514,6 +560,7 @@ describe('QuoteActionsByRoleComponent', () => {
         showWarningNote: true,
         showExpirationDate: false,
         showSuccessMessage: false,
+        showOnlyWhenCartIsNotEmpty: true,
       });
     });
   });
