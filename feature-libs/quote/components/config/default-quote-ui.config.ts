@@ -77,15 +77,15 @@ const defaultDialogMappings: ConfirmActionDialogMappingConfig = {
       ...defaultConfirmActionDialogConfig,
     },
   },
-  ALL:{
-    EDIT:{
+  ALL: {
+    EDIT: {
       i18nKey: 'quote.confirmActionDialog.all.edit',
       ...defaultConfirmActionDialogConfig,
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
-    }
-  }
+    },
+  },
 };
 
 export const defaultQuoteUIConfig: QuoteUIConfig = {
