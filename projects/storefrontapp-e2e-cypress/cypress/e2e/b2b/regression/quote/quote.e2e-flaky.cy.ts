@@ -143,7 +143,7 @@ context('Quote', () => {
       );
       quote.cancelQuote(quote.STATUS_BUYER_CANCEL);
       quote.isQuoteListDisplayed();
-      quote.gotToQuoteDetailsOverviewPage();
+      quote.gotToQuoteOverviewPage();
       quote.checkQuoteState(quote.STATUS_CANCELED);
     });
   });
@@ -202,7 +202,7 @@ context('Quote', () => {
       quote.submitQuote(quote.STATUS_SALES_REPORTER_SUBMIT);
       asm.agentSignOut();
       quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
-      quote.gotToQuoteDetailsOverviewPage();
+      quote.gotToQuoteOverviewPage();
       quote.submitQuote(quote.STATUS_BUYER_CHECKOUT, POWERTOOLS);
       quote.addProductAndCheckForGlobalMessage(
         TEST_PRODUCT_HAMMER_DRILLING_NAME,

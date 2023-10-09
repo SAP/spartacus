@@ -13,7 +13,6 @@ import * as asm from './asm';
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
 export const PATCH_QUOTE_ALIAS = '@PATCH_QUOTE';
 export const POST_QUOTE_ALIAS = '@POST_QUOTE';
-//export const POST_ACTION_SUBMIT_ALIAS = '@POST_ACTION_SUBMIT';
 
 export const STATUS_SUBMITTED = 'Submitted';
 export const STATUS_REQUESTED = 'Requested';
@@ -83,83 +82,83 @@ export function checkQuoteStatusInQuoteList(status: string) {
 }
 
 /**
- * Verifies whether the quote details overview page is displayed.
+ * Verifies whether the quote overview page is displayed.
  */
-function isQuoteDetailsOverviewPageDisplayed() {
+function isQuoteHeaderOverviewPageDisplayed() {
   log(
-    'Verifies whether the quote details overview page is displayed',
-    isQuoteDetailsOverviewPageDisplayed.name
+    'Verifies whether the quote overview page is displayed',
+    isQuoteHeaderOverviewPageDisplayed.name
   );
   cy.get('.QuoteDetailsPageTemplate').should('be.visible');
 
-  isQuoteActionLinksDisplayed();
-  isQuoteDetailsOverviewDisplayed();
-  isQuoteDetailsCartDisplayed();
-  isQuoteDetailsCartSummaryDisplayed();
+  isQuoteActionsLinkDisplayed();
+  isQuoteHeaderOverviewDisplayed();
+  isQuoteItemsDisplayed();
+  isQuoteHeaderPriceDisplayed();
   isQuoteActionsByRoleDisplayed();
 }
 
 /**
- * Verifies whether the quote action links are displayed.
+ * Verifies whether the quote actions link component is displayed.
  */
-export function isQuoteActionLinksDisplayed() {
+export function isQuoteActionsLinkDisplayed() {
   log(
-    'Verifies whether the quote action links are displayed',
-    isQuoteActionLinksDisplayed.name
+    'Verifies whether the quote actions link component is displayed.',
+    isQuoteActionsLinkDisplayed.name
   );
   cy.get('cx-quote-actions-link').should('be.visible');
 }
 
 /**
- * Verifies whether the quote details overview is displayed.
+ * Verifies whether the quote header overview component is displayed.
  */
-export function isQuoteDetailsOverviewDisplayed() {
+export function isQuoteHeaderOverviewDisplayed() {
   log(
-    'Verifies whether the quote details overview page is displayed',
-    isQuoteDetailsOverviewDisplayed.name
+    'Verifies whether the quote header overview component is displayed',
+    isQuoteHeaderOverviewDisplayed.name
   );
   cy.get('cx-quote-header-overview').should('be.visible');
 }
 
 /**
- * Verifies whether the quote comment area is displayed.
+ * Verifies whether the quote comments component is displayed.
  */
-export function isQuoteDetailsCommentDisplayed() {
+export function isQuoteCommentsDisplayed() {
   log(
-    'Verifies whether the quote comment area is displayed',
-    isQuoteDetailsCommentDisplayed.name
+    'Verifies whether the quote comments component is displayed',
+    isQuoteCommentsDisplayed.name
   );
   cy.get('cx-quote-comments').should('be.visible');
 }
 
 /**
- * Verifies whether the quote cart area is displayed.
+ * Verifies whether the quote items component is displayed.
  */
-export function isQuoteDetailsCartDisplayed() {
+export function isQuoteItemsDisplayed() {
   log(
-    'Verifies whether the quote cart area is displayed',
-    isQuoteDetailsCartDisplayed.name
+    'Verifies whether the quote items component is displayed',
+    isQuoteItemsDisplayed.name
   );
   cy.get('cx-quote-items').should('be.visible');
 }
 
 /**
- * Verifies whether the quote order summary is displayed.
+ * Verifies whether the quote header price component is displayed.
  */
-export function isQuoteDetailsCartSummaryDisplayed() {
+export function isQuoteHeaderPriceDisplayed() {
   log(
-    'Verifies whether the quote order summary is displayed',
-    isQuoteDetailsCartSummaryDisplayed.name
+    'Verifies whether the quote header price component is displayed',
+    isQuoteHeaderPriceDisplayed.name
   );
   cy.get('cx-quote-header-price').should('be.visible');
 }
 
 /**
- * Verifies whether the quote actions by role are displayed.
+ * Verifies whether the quote actions by role component is displayed.
  */
 export function isQuoteActionsByRoleDisplayed() {
   log(
-    'Verifies whether the quote actions by role are displayed',
+    'Verifies whether the quote actions by role component is displayed',
     isQuoteActionsByRoleDisplayed.name
   );
   cy.get('cx-quote-actions-by-role').should('be.visible');
@@ -176,7 +175,7 @@ export function clickOnRequestQuote(): void {
   cy.get('cx-quote-request-button button')
     .click()
     .then(() => {
-      isQuoteDetailsOverviewPageDisplayed();
+      isQuoteHeaderOverviewPageDisplayed();
     });
 }
 
@@ -270,7 +269,7 @@ export function prepareSellerQuote(
   asm.agentLogin(salesrep_email, salesrep_password);
   asm.startCustomerEmulation(buyer, true);
   isQuoteAvailableForSeller(shopName);
-  gotToQuoteDetailsOverviewPage();
+  gotToQuoteOverviewPage();
 }
 
 /**
@@ -386,10 +385,10 @@ export function submitQuote(status: string, shopName?: string): void {
     'Submits a quote via clicking "Yes" button in the confirmation popover',
     submitQuote.name
   );
-  gotToQuoteDetailsOverviewPage();
+  gotToQuoteOverviewPage();
   clickSubmitQuoteBtn();
   clickOnYesBtnWithinRequestPopUp(status, shopName);
-  gotToQuoteDetailsOverviewPage();
+  gotToQuoteOverviewPage();
 }
 
 /**
@@ -417,7 +416,7 @@ export function changeItemQuantityByStepper(
   itemIndex: number,
   changeType: string
 ): void {
-  getCurrentPriceforQuantityStepperUpdate(itemIndex);
+  getCurrentPriceForQuantityStepperUpdate(itemIndex);
   if (changeType === '+') {
     log(
       'Increases the quantity of the item in the quote details overview using the quantity stepper',
@@ -450,7 +449,7 @@ export function changeItemQuantityByStepper(
  *
  * @param itemIndex Index of the item in the QDP cart list
  */
-function getCurrentPriceforQuantityStepperUpdate(itemIndex: number) {
+function getCurrentPriceForQuantityStepperUpdate(itemIndex: number) {
   cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
     () => {
       cy.get('td[class= cx-total]').within(() => {
@@ -488,7 +487,7 @@ export function changeItemQuantityByCounter(
   itemIndex: number,
   newQuantity: string
 ): void {
-  getCurrentPriceforQuantityStepperUpdate(itemIndex);
+  getCurrentPriceForQuantityStepperUpdate(itemIndex);
   log(
     'Changes the quantity of the cart item in the quote details overview using the quantity counter',
     changeItemQuantityByCounter.name
@@ -548,7 +547,7 @@ export function removeItem(itemIndex: number): void {
         });
     }
   );
-  gotToQuoteDetailsOverviewPage();
+  gotToQuoteOverviewPage();
 }
 
 /**
@@ -656,7 +655,7 @@ export function saveEditedData(): void {
         .click()
         .then(() => {
           cy.wait(POST_QUOTE_ALIAS);
-          isQuoteDetailsOverviewPageDisplayed();
+          isQuoteHeaderOverviewPageDisplayed();
         });
     });
 }
@@ -870,7 +869,7 @@ export function checkQuoteInDraftState(
     'Verifies if the displayed quote is in draft state',
     checkQuoteInDraftState.name
   );
-  gotToQuoteDetailsOverviewPage();
+  gotToQuoteOverviewPage();
   checkQuoteState(STATUS_DRAFT);
   checkGlobalMessageDisplayed(!submitThresholdMet);
   checkSubmitBtn(submitThresholdMet);
@@ -1077,17 +1076,14 @@ export function goToQuoteListPage(shopName: string): void {
 }
 
 /**
- * Go to the quote details overview page.
+ * Go to the quote overview page.
  */
-export function gotToQuoteDetailsOverviewPage() {
-  log(
-    'Go to the quote details overview page',
-    gotToQuoteDetailsOverviewPage.name
-  );
+export function gotToQuoteOverviewPage() {
+  log('Go to the quote overview page', gotToQuoteOverviewPage.name);
   cy.get<string>('@quoteURL')
     .then(cy.visit)
     .then(() => {
-      isQuoteDetailsOverviewPageDisplayed();
+      isQuoteHeaderOverviewPageDisplayed();
     });
 }
 
@@ -1406,18 +1402,6 @@ export function registerPatchQuoteRoute() {
     path: `*`, //ToDo: specify the path
   }).as(PATCH_QUOTE_ALIAS.substring(1)); // strip the '@'
 }
-
-//ToDo: remove when path for POST and PATCH above is updated
-// /**
-//  * Registers POST action submit route.
-//  */
-// export function registerPostActionSubmitQuoteRoute(shopName: string) {
-//   log('Registers POST quote route.', registerPostQuoteRoute.name);
-//   cy.intercept({
-//     method: 'POST',
-//     path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/*/quotes/*/action*`,
-//   }).as(POST_ACTION_SUBMIT_ALIAS.substring(1)); // strip the '@'
-// }
 
 /**
  * Reloads the quote page.
