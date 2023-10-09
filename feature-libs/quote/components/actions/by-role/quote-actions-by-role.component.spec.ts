@@ -79,7 +79,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
       showExpirationDate: false,
       showSuccessMessage: false,
     },
-  }
+  },
 };
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);

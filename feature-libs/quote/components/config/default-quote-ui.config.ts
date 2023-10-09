@@ -84,8 +84,8 @@ const defaultDialogMappings: ConfirmActionDialogMappingConfig = {
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
-    }
-  }
+    },
+  },
 };
 
 export const defaultQuoteUIConfig: QuoteUIConfig = {
