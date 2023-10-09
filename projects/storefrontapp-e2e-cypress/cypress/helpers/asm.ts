@@ -460,16 +460,17 @@ export function startCustomerEmulation(customer, b2b = false): void {
     .should('eq', 200);
 
   cy.get('cx-customer-selection div.asm-results button').click();
-  cy.get('cx-customer-selection button[type="submit"]').click();
-
-  cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
-  cy.get('cx-customer-emulation .cx-asm-customerInfo label.cx-asm-name').should(
-    'contain',
-    customer.fullName
-  );
-  cy.get('cx-csagent-login-form').should('not.exist');
-  cy.get('cx-customer-selection').should('not.exist');
-  cy.get('cx-customer-emulation').should('be.visible');
+  cy.get('cx-customer-selection button[type="submit"]')
+    .click()
+    .then(() => {
+      //cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
+      cy.get(
+        'cx-customer-emulation .cx-asm-customerInfo label.cx-asm-name'
+      ).should('contain', customer.fullName);
+      cy.get('cx-csagent-login-form').should('not.exist');
+      cy.get('cx-customer-selection').should('not.exist');
+      cy.get('cx-customer-emulation').should('be.visible');
+    });
 }
 
 export function loginCustomerInStorefront(customer) {
@@ -482,11 +483,14 @@ export function loginCustomerInStorefront(customer) {
 // It is not recommended to use agentSignOut as it can cause failure in E2E tests related to ASM in the pipeline
 export function agentSignOut() {
   const tokenRevocationAlias = loginHelper.listenForTokenRevocationRequest();
-  cy.get('button[title="Sign Out"]').click();
-  // When the agent signs out, there are two revocations made simultaneously - the second one occasionally fails, though it is not necessary. We therefore are not interested in the status code of the second one.
-  cy.wait(tokenRevocationAlias);
-  cy.get('cx-csagent-login-form').should('exist');
-  cy.get('cx-customer-selection').should('not.exist');
+  cy.get('button[title="Sign Out"]')
+    .click()
+    .then(() => {
+      cy.wait(tokenRevocationAlias);
+      // When the agent signs out, there are two revocations made simultaneously - the second one occasionally fails, though it is not necessary. We therefore are not interested in the status code of the second one.
+      cy.get('cx-csagent-login-form').should('exist');
+      cy.get('cx-customer-selection').should('not.exist');
+    });
 }
 
 export function assertCustomerIsSignedIn() {

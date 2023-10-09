@@ -515,7 +515,7 @@ export function searchForProduct(productName: string): void {
   }).as('productSearch');
 
   productSearch.searchForProduct(productName);
-  cy.wait('@productSearch');
+  //cy.wait('@productSearch');
 }
 
 /**

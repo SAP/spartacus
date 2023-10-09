@@ -5,6 +5,7 @@
  */
 
 import * as authentication from './auth-forms';
+import * as cart from './cart';
 import * as common from './common';
 import * as productConfigurator from './product-configurator';
 import * as asm from './asm';
@@ -26,6 +27,8 @@ const STATUS_DRAFT = 'Draft';
 const CARD_TITLE_QUOTE_INFORMATION = 'Quote Information';
 const SUBMIT_BTN = 'Submit Quote';
 const EXPIRY_DATE: Date = createValidExpiryDate();
+const GLOBAL_MSG_QUOTE_REQUEST_NOT_POSSIBLE =
+  'Quote request not possible because we found problems with your entries. Please review your cart.';
 
 /**
  * Sets quantity.
@@ -167,7 +170,7 @@ export function isQuoteActionsByRoleDisplayed() {
 /**
  * Clicks on 'Request Quote' button on the cart page.
  */
-export function clickOnRequestQuote(): void {
+export function clickOnRequestQuote(cartHasIssues = false): void {
   log(
     'Clicks on "Request Quote" button on the cart page.',
     clickOnRequestQuote.name
@@ -175,7 +178,16 @@ export function clickOnRequestQuote(): void {
   cy.get('cx-quote-request-button button')
     .click()
     .then(() => {
-      isQuoteHeaderOverviewPageDisplayed();
+      if (!cartHasIssues) {
+        isQuoteHeaderOverviewPageDisplayed();
+      } else {
+        // If there is a cart item with issues in the cart then display a corresponding global message and stay in the cart
+        checkGlobalMessageDisplayed(
+          true,
+          GLOBAL_MSG_QUOTE_REQUEST_NOT_POSSIBLE
+        );
+        cy.get('cx-cart-details').should('exist');
+      }
     });
 }
 
@@ -477,6 +489,7 @@ function comparePriceForQuantityStepperUpdate() {
       });
     });
 }
+
 /**
  * Changes the quantity of the cart item using the quantity counter.
  *
@@ -1401,6 +1414,18 @@ export function registerPatchQuoteRoute() {
     method: 'PATCH',
     path: `*`, //ToDo: specify the path
   }).as(PATCH_QUOTE_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Remove the cart item in the cart.
+ *
+ * @param product
+ */
+export function removeCartItem(product) {
+  log('Remove the cart item in the cart.', removeCartItem.name);
+  cart.getCartItem(product.name).within(() => {
+    cy.get('button.cx-remove-btn').should('be.enabled').click();
+  });
 }
 
 /**
