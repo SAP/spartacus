@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { CanActivate, UrlTree } from '@angular/router';
 
 import { Observable, combineLatest } from 'rxjs';
@@ -16,10 +16,9 @@ import { RouterState, RoutingService } from '@spartacus/core';
   providedIn: 'root',
 })
 export class QuoteCartGuard implements CanActivate {
-  constructor(
-    protected routingService: RoutingService,
-    protected quoteCartService: QuoteCartService
-  ) {}
+  protected routingService = inject(RoutingService);
+  protected quoteCartService = inject(QuoteCartService);
+
   canActivate(): Observable<boolean | UrlTree> {
     return combineLatest([
       this.quoteCartService.isQuoteCartActive(),

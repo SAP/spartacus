@@ -158,6 +158,8 @@ export const quote = {
       sortBy: 'Sort by',
       sortOrders: 'Sort orders',
       empty: 'We have no quote records for this account.',
+      quoteId: 'Quote ID',
+      status: 'Status',
     },
     states: {
       BUYER_DRAFT: 'Draft',

@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   ViewChild,
 } from '@angular/core';
@@ -22,14 +23,12 @@ import { tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteRequestButtonComponent implements OnDestroy {
+  protected quoteFacade = inject(QuoteFacade);
+  protected routingService = inject(RoutingService);
+
   @ViewChild('element') element: ElementRef;
 
   protected subscription = new Subscription();
-
-  constructor(
-    protected quoteFacade: QuoteFacade,
-    protected routingService: RoutingService
-  ) {}
 
   goToQuoteDetails(): void {
     this.subscription.add(

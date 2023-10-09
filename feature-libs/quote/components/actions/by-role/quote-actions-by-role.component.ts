@@ -7,6 +7,7 @@
 import {
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -36,21 +37,19 @@ import { ConfirmationContext } from '../confirm-dialog/quote-actions-confirm-dia
   templateUrl: './quote-actions-by-role.component.html',
 })
 export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
+  protected quoteFacade = inject(QuoteFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected viewContainerRef = inject(ViewContainerRef);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected config = inject(QuoteUIConfig);
+  protected activeCartFacade = inject(ActiveCartFacade);
+
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
 
   @ViewChild('element') element: ElementRef;
   QuoteActionType = QuoteActionType;
   protected subscription = new Subscription();
-
-  constructor(
-    protected quoteFacade: QuoteFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected viewContainerRef: ViewContainerRef,
-    protected globalMessageService: GlobalMessageService,
-    protected config: QuoteUIConfig,
-    protected activeCartFacade: ActiveCartFacade
-  ) {}
 
   ngOnInit(): void {
     //submit button present and threshold not reached: Display message

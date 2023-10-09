@@ -89,9 +89,6 @@ export const common = {
     rma: 'Return Number',
     replenishmentNumber: 'Replenishment Number',
     nextOrderDate: 'Next Order Date',
-    quoteId: 'Quote ID',
-    name: 'Name',
-    status: 'Status',
     pageViewUpdated: 'Page view updated with your selected options.',
   },
   httpHandlers: {

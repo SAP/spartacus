@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { OccQuote, Quote } from '@spartacus/quote/root';
 import {
   Converter,
@@ -14,7 +14,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class OccQuoteEntryNormalizer implements Converter<OccQuote, Quote> {
-  constructor(protected converter: ConverterService) {}
+  protected converter = inject(ConverterService);
 
   convert(source: OccQuote, target?: Quote): Quote {
     if (!target) {
