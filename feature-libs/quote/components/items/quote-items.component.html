@@ -22,14 +22,7 @@
         [items]="quoteDetails.entries ?? []"
       >
       </cx-cart-item-list>
-
-      <cx-cart-item-list
-        *ngIf="quoteDetails.isEditable && (cartDetails$ | async) as cartDetails"
-        aria-hidden="false"
-        [readonly]="false"
-        [items]="cartDetails.entries ?? []"
-      >
-      </cx-cart-item-list>
+ 
     </ng-container>
   </ng-container>
 </ng-container>
