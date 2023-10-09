@@ -171,7 +171,8 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action] ??
       mappingConfig?.[QuoteRoleType.ALL]?.[action];
     return (
-      !!dialogConfig && (!cartIsEmpty || !dialogConfig.showOnlyWhenCartIsNotEmpty)
+      !!dialogConfig &&
+      (!cartIsEmpty || !dialogConfig.showOnlyWhenCartIsNotEmpty)
     );
   }
 
