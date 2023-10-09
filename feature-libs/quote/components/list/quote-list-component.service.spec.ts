@@ -104,9 +104,9 @@ describe('QuoteListComponentService', () => {
     //given
     const labels: { [key: string]: string } = {
       byDate: 'sorting.date',
-      byCode: 'sorting.quoteId',
-      byName: 'sorting.name',
-      byState: 'sorting.status',
+      byCode: 'quote.list.quoteId',
+      byName: 'quote.list.name',
+      byState: 'quote.list.status',
     };
 
     //then

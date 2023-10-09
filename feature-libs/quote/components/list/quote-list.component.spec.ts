@@ -104,9 +104,9 @@ class MockCommerceQuotesListComponentService
   sorts?: SortModel[] | undefined = mockSorts;
   sortLabels$ = of({
     byDate: 'sorting.date',
-    byCode: 'sorting.quoteId',
-    byName: 'sorting.name',
-    byState: 'sorting.status',
+    byCode: 'quote.list.quoteId',
+    byName: 'quote.list.name',
+    byState: 'quote.list.status',
   });
   quotesState$ = mockQuoteListState$.asObservable();
   sort = new BehaviorSubject('byCode');
