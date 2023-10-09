@@ -107,7 +107,7 @@ export function isQuoteActionLinksDisplayed() {
     'Verifies whether the quote action links are displayed',
     isQuoteActionLinksDisplayed.name
   );
-  cy.get('cx-quote-action-links').should('be.visible');
+  cy.get('cx-quote-actions-link').should('be.visible');
 }
 
 /**
@@ -118,7 +118,7 @@ export function isQuoteDetailsOverviewDisplayed() {
     'Verifies whether the quote details overview page is displayed',
     isQuoteDetailsOverviewDisplayed.name
   );
-  cy.get('cx-quote-details-overview').should('be.visible');
+  cy.get('cx-quote-header-overview').should('be.visible');
 }
 
 /**
@@ -129,7 +129,7 @@ export function isQuoteDetailsCommentDisplayed() {
     'Verifies whether the quote comment area is displayed',
     isQuoteDetailsCommentDisplayed.name
   );
-  cy.get('cx-quote-details-comment').should('be.visible');
+  cy.get('cx-quote-comments').should('be.visible');
 }
 
 /**
@@ -140,7 +140,7 @@ export function isQuoteDetailsCartDisplayed() {
     'Verifies whether the quote cart area is displayed',
     isQuoteDetailsCartDisplayed.name
   );
-  cy.get('cx-quote-details-cart').should('be.visible');
+  cy.get('cx-quote-items').should('be.visible');
 }
 
 /**
@@ -151,7 +151,7 @@ export function isQuoteDetailsCartSummaryDisplayed() {
     'Verifies whether the quote order summary is displayed',
     isQuoteDetailsCartSummaryDisplayed.name
   );
-  cy.get('cx-quote-details-cart-summary').should('be.visible');
+  cy.get('cx-quote-header-price').should('be.visible');
 }
 
 /**
@@ -168,7 +168,7 @@ export function isQuoteActionsByRoleDisplayed() {
 /**
  * Clicks on 'Request Quote' button on the cart page.
  */
-function clickOnRequestQuote(): void {
+export function clickOnRequestQuote(): void {
   log(
     'Clicks on "Request Quote" button on the cart page.',
     clickOnRequestQuote.name
@@ -345,16 +345,8 @@ export function requestQuote(
   quantity: string
 ): void {
   log('Requests a quote from cart', requestQuote.name);
-<<<<<<< HEAD
   addProductToCart(shopName, productName, quantity);
   clickOnRequestQuote();
-=======
-  this.addProductToCart(shopName, productName, quantity);
-  this.clickOnRequestQuote();
-  cy.location('pathname').should('contain', '/quote');
-  cy.get('cx-quote-header-overview').should('be.visible');
-  cy.get('cx-quote-actions-by-role').should('be.visible');
->>>>>>> epic/b2b-commerce-quotes
   cy.url().should('contain', '/quote').as('quoteURL');
   cy.url().then((url) => {
     const currentURL = url.split('/');
@@ -437,26 +429,20 @@ export function changeItemQuantityByStepper(
       changeItemQuantityByStepper.name
     );
   }
-<<<<<<< HEAD
-  cy.get(
-    `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
-  ).within(() => {
-    cy.get('cx-item-counter button')
-      .contains(changeType)
-      .click()
-      .then(() => {
-        cy.wait(PATCH_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
-        cy.wait(GET_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
-        comparePriceForQuantityStepperUpdate();
-      });
-  });
-=======
   cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
     () => {
-      cy.get('cx-item-counter button').contains(changeType).click();
+      cy.get('cx-item-counter button')
+        .contains(changeType)
+        .click()
+        .then(() => {
+          cy.wait(PATCH_QUOTE_ALIAS)
+            .its('response.statusCode')
+            .should('eq', 200);
+          cy.wait(GET_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
+          comparePriceForQuantityStepperUpdate();
+        });
     }
   );
->>>>>>> epic/b2b-commerce-quotes
 }
 
 /**
@@ -465,17 +451,17 @@ export function changeItemQuantityByStepper(
  * @param itemIndex Index of the item in the QDP cart list
  */
 function getCurrentPriceforQuantityStepperUpdate(itemIndex: number) {
-  cy.get(
-    `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
-  ).within(() => {
-    cy.get('td[class= cx-total]').within(() => {
-      cy.get('div[class=cx-value]')
-        .invoke('text')
-        .then((text) => {
-          cy.wrap(text).as('oldPrice');
-        });
-    });
-  });
+  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
+    () => {
+      cy.get('td[class= cx-total]').within(() => {
+        cy.get('div[class=cx-value]')
+          .invoke('text')
+          .then((text) => {
+            cy.wrap(text).as('oldPrice');
+          });
+      });
+    }
+  );
 }
 
 /**
@@ -507,16 +493,16 @@ export function changeItemQuantityByCounter(
     'Changes the quantity of the cart item in the quote details overview using the quantity counter',
     changeItemQuantityByCounter.name
   );
-  cy.get(
-    `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
-  ).within(() => {
-    cy.get('cx-item-counter input')
-      .type('{selectall}' + newQuantity)
-      .pressTab();
-    cy.wait(PATCH_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
-    cy.wait(GET_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
-    comparePriceForQuantityStepperUpdate();
-  });
+  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
+    () => {
+      cy.get('cx-item-counter input')
+        .type('{selectall}' + newQuantity)
+        .pressTab();
+      cy.wait(PATCH_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
+      cy.wait(GET_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
+      comparePriceForQuantityStepperUpdate();
+    }
+  );
 }
 
 /**
@@ -547,19 +533,21 @@ export function checkItemQuantity(
  */
 export function removeItem(itemIndex: number): void {
   log('Removes the item at index', removeItem.name);
-  cy.get(
-    `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
-  ).within(() => {
-    cy.get('button')
-      .contains('Remove')
-      .click()
-      .then(() => {
-        cy.wait(PATCH_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
-        cy.get(
-          `cx-quote-details-cart .cx-item-list-row:nth-child(${itemIndex})`
-        ).should('not.exist');
-      });
-  });
+  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
+    () => {
+      cy.get('button')
+        .contains('Remove')
+        .click()
+        .then(() => {
+          cy.wait(PATCH_QUOTE_ALIAS)
+            .its('response.statusCode')
+            .should('eq', 200);
+          cy.get(
+            `cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`
+          ).should('not.exist');
+        });
+    }
+  );
   gotToQuoteDetailsOverviewPage();
 }
 
@@ -722,8 +710,7 @@ export function clickOnYesBtnWithinRequestPopUp(
     'Clicks on "Yes" button within the quote confirmation popover',
     clickOnYesBtnWithinRequestPopUp.name
   );
-<<<<<<< HEAD
-  cy.get('cx-quote-confirm-action-dialog button.btn-primary')
+  cy.get('cx-quote-actions-confirm-dialog button.btn-primary')
     .click()
     .then(() => {
       switch (status) {
@@ -765,10 +752,6 @@ export function clickOnYesBtnWithinRequestPopUp(
         }
       }
     });
-=======
-  cy.get('cx-quote-actions-confirm-dialog button.btn-primary').click();
-  cy.wait(GET_QUOTE_ALIAS);
->>>>>>> epic/b2b-commerce-quotes
 }
 
 /**
@@ -926,12 +909,8 @@ export function checkQuoteState(status: string) {
  */
 export function addHeaderComment(text: string) {
   log('Adds a header comment to the quote', addHeaderComment.name);
-<<<<<<< HEAD
   getCommentAmount();
-  cy.get('cx-quote-details-comment .cx-message-input').within(() => {
-=======
   cy.get('cx-quote-comments .cx-message-input').within(() => {
->>>>>>> epic/b2b-commerce-quotes
     cy.get('input').type(text);
     cy.get('button')
       .click()
@@ -996,12 +975,8 @@ export function checkComment(index: number, text: string) {
  */
 export function addItemComment(item: string, text: string) {
   log('Adds an item comment to the quote', addItemComment.name);
-<<<<<<< HEAD
   getCommentAmount();
-  cy.get('cx-quote-details-comment .cx-footer-label').within(() => {
-=======
-  cy.get('cx-quote-comments  .cx-footer-label').within(() => {
->>>>>>> epic/b2b-commerce-quotes
+  cy.get('cx-quote-comments .cx-footer-label').within(() => {
     cy.get('select').select(item);
   });
   cy.get('cx-quote-comments  .cx-message-input').within(() => {
@@ -1051,7 +1026,7 @@ export function clickItemLinkInComment(index: number, item: string) {
     .click()
     .then(() => {
       cy.get(GET_QUOTE_ALIAS);
-      cy.get(`cx-quote-details-cart`).should('contain', item).focused();
+      cy.get(`cx-quote-items`).should('contain', item).focused();
     });
 }
 
@@ -1124,7 +1099,7 @@ export function enableEditQuoteMode() {
   cy.get('cx-quote-actions-by-role button.btn-secondary')
     .click()
     .then(() => {
-      cy.get('cx-quote-seller-edit').should('be.visible');
+      cy.get('cx-quote-header-seller-edit').should('be.visible');
     });
 }
 
@@ -1268,10 +1243,9 @@ function createFormattedExpiryDate(): string {
  */
 export function setDiscount(discount: string) {
   log('Sets the discount (sales reporter perspective', setDiscount.name);
-<<<<<<< HEAD
   getEstimatedTotalPriceBeforeDiscount();
-  cy.get('cx-quote-seller-edit input[name="discount"]').type(discount);
-  cy.get('cx-quote-seller-edit button.btn-secondary')
+  cy.get('cx-quote-header-seller-edit input[name="discount"]').type(discount);
+  cy.get('cx-quote-header-seller-edit button.btn-secondary')
     .click()
     .then(() => {
       cy.wait(POST_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
@@ -1289,7 +1263,7 @@ function checkDiscountApplied() {
     checkDiscountApplied.name
   );
   cy.get(
-    'cx-quote-details-overview .cx-container .card-body .cx-card-paragraph-title'
+    'cx-quote-header-overview .cx-container .card-body .cx-card-paragraph-title'
   )
     .contains('Estimated Total')
     .parent()
@@ -1311,7 +1285,7 @@ function getEstimatedTotalPriceBeforeDiscount() {
     getEstimatedTotalPriceBeforeDiscount.name
   );
   cy.get(
-    'cx-quote-details-overview .cx-container .card-body .cx-card-paragraph-title'
+    'cx-quote-header-overview .cx-container .card-body .cx-card-paragraph-title'
   )
     .contains('Estimated Total')
     .parent()
@@ -1322,10 +1296,6 @@ function getEstimatedTotalPriceBeforeDiscount() {
           cy.wrap($text).as('priceBeforeDiscount');
         });
     });
-=======
-  cy.get('cx-quote-header-seller-edit input[name="discount"]').type(discount);
-  cy.get('cx-quote-header-seller-edit button.btn-secondary').click();
->>>>>>> epic/b2b-commerce-quotes
 }
 
 /**
@@ -1381,7 +1351,7 @@ export function clickOnViewCartBtnOnPD(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/quote');
-      cy.get('cx-quote-details-cart').should('be.visible');
+      cy.get('cx-quote-items').should('be.visible');
     });
 }
 
