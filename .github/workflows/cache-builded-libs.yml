@@ -3,7 +3,7 @@ on:
     branches:
       - develop
       - develop-*
-      - epic/**
+      - 'epic/**'
       - 'release/**'
 name: Cache libs (dist)
 jobs:
