@@ -1,0 +1,31 @@
+%cx-quote-comments {
+  @include cx-quote-toggle();
+
+  cx-messaging {
+    .container {
+      min-height: 0px;
+    }
+
+    .cx-message-footer {
+      padding-inline-start: 1rem;
+    }
+  }
+
+  .cx-ghost-comment {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    padding-block-end: 1rem;
+
+    .cx-ghost-input-title,
+    .cx-ghost-input {
+      width: 100%;
+      @include cx-ghost-bar();
+    }
+
+    .cx-ghost-input {
+      height: 140px;
+    }
+  }
+}

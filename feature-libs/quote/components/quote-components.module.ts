@@ -6,38 +6,36 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ListNavigationModule } from '@spartacus/storefront';
-import { QuoteActionLinksModule } from './quote-action-links/quote-action-links.module';
-import { QuoteActionsByRoleModule } from './quote-actions-by-role/quote-actions-by-role.module';
-import { QuoteListModule } from './quote-list/quote-list.module';
-import { QuoteRequestButtonModule } from './quote-request-button/quote-request-button.module';
-import { QuoteRequestDialogModule } from './quote-request-dialog/quote-request-dialog.module';
-import { QuoteConfirmActionDialogModule } from './quote-confirm-action-dialog/quote-confirm-action-dialog.module';
-import {
-  QuoteDetailsCartModule,
-  QuoteDetailsEditModule,
-  QuoteDetailsOverviewModule,
-  QuoteDetailsCommentModule,
-} from './details';
 import { provideDefaultConfig } from '@spartacus/core';
+import { ListNavigationModule } from '@spartacus/storefront';
+import { QuoteActionsByRoleModule } from './actions/by-role/quote-actions-by-role.module';
+import { QuoteActionsConfirmDialogModule } from './actions/confirm-dialog/quote-actions-confirm-dialog.module';
+import { QuoteActionsLinkModule } from './actions/link/quote-actions-link.module';
+import { QuoteCommentsModule } from './comments/quote-comments.module';
 import { defaultQuoteUIConfig } from './config/default-quote-ui.config';
-import { QuoteSellerEditModule } from './quote-seller-edit/quote-seller-edit.module';
+import { QuoteHeaderPriceModule } from './header';
+import { QuoteHeaderBuyerEditModule } from './header/buyer-edit/quote-header-buyer-edit.module';
+import { QuoteHeaderOverviewModule } from './header/overview/quote-header-overview.module';
+import { QuoteHeaderSellerEditModule } from './header/seller-edit/quote-header-seller-edit.module';
+import { QuoteItemsModule } from './items/quote-items.module';
+import { QuoteListModule } from './list/quote-list.module';
+import { QuoteRequestButtonModule } from './request-button/quote-request-button.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    QuoteListModule,
-    QuoteDetailsEditModule,
-    QuoteDetailsOverviewModule,
-    QuoteDetailsCartModule,
-    QuoteRequestButtonModule,
-    QuoteRequestDialogModule,
-    QuoteActionLinksModule,
-    QuoteActionsByRoleModule,
-    QuoteDetailsCommentModule,
-    QuoteSellerEditModule,
     ListNavigationModule,
-    QuoteConfirmActionDialogModule,
+    QuoteActionsByRoleModule,
+    QuoteActionsConfirmDialogModule,
+    QuoteActionsLinkModule,
+    QuoteCommentsModule,
+    QuoteHeaderBuyerEditModule,
+    QuoteHeaderOverviewModule,
+    QuoteHeaderPriceModule,
+    QuoteHeaderSellerEditModule,
+    QuoteItemsModule,
+    QuoteListModule,
+    QuoteRequestButtonModule,
   ],
   providers: [provideDefaultConfig(defaultQuoteUIConfig)],
 })

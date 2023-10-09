@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { IconModule } from '../../../../cms-components';
 import { FileUploadModule, FormErrorsModule } from '../../form';
 import { MessagingComponent } from './messaging.component';
-import { MessageEvent, Item, MessagingConfigs } from './messaging.model';
+import { Item, MessageEvent, MessagingConfigs } from './messaging.model';
 
 const mockMessageEvent: MessageEvent = {
   rightAlign: false,
@@ -35,6 +35,7 @@ describe('MessagingComponent', () => {
   let component: MessagingComponent;
   let fixture: ComponentFixture<MessagingComponent>;
   let messagingConfig: MessagingConfigs;
+  let htmlElement: Element;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -57,6 +58,7 @@ describe('MessagingComponent', () => {
       displayAddMessageSection: of(true),
     };
     fixture.detectChanges();
+    htmlElement = fixture.nativeElement;
   });
 
   it('should create', () => {
@@ -66,10 +68,22 @@ describe('MessagingComponent', () => {
   it('should call onSend on click of send', () => {
     spyOn(component, 'onSend');
 
-    fixture.debugElement.query(By.css('.btn-primary')).nativeElement.click();
+    fixture.debugElement.query(By.css('.cx-send')).nativeElement.click();
     fixture.detectChanges();
 
     expect(component.onSend).toHaveBeenCalled();
+  });
+
+  it('should render send as btn-primary by default', () => {
+    expect(htmlElement.querySelectorAll('.btn-primary').length).toBe(1);
+    expect(htmlElement.querySelectorAll('.btn-secondary').length).toBe(0);
+  });
+
+  it('should render send as btn-secondary if requested', () => {
+    (component.messagingConfigs ?? {}).sendBtnIsNotPrimary = true;
+    fixture.detectChanges();
+    expect(htmlElement.querySelectorAll('.btn-primary').length).toBe(0);
+    expect(htmlElement.querySelectorAll('.btn-secondary').length).toBe(1);
   });
 
   it('should emit send event', () => {

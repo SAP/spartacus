@@ -10,7 +10,6 @@ import {
   Quote,
   QuoteActionType,
   QuoteCartService,
-  QuoteDetailsReloadQueryEvent,
   QuoteDiscount,
   QuoteDiscountType,
   QuoteList,
@@ -36,6 +35,7 @@ import { QuoteService } from './quote.service';
 import { createEmptyQuote, QUOTE_CODE } from '../testing/quote-test-utils';
 import createSpy = jasmine.createSpy;
 import { CartUtilsService } from '../services/cart-utils.service';
+import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
 
 const userId = OCC_USER_ID_CURRENT;
 const cartId = '1234';

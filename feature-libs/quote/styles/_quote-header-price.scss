@@ -1,0 +1,71 @@
+%cx-quote-header-price {
+  &:not(:empty) {
+    .cx-ghost-title,
+    .cx-ghost-summary-label,
+    .cx-ghost-summary-amount {
+      @include cx-ghost-bar();
+    }
+
+    .cx-ghost-summary-heading,
+    .cx-ghost-row {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+    }
+
+    .cx-ghost-summary-heading {
+      .cx-ghost-title {
+        width: 100%;
+      }
+    }
+
+    .cx-ghost-summary-partials {
+      padding-block-end: 1rem;
+
+      .cx-ghost-row {
+        justify-content: space-between;
+        padding-block-start: 1rem;
+      }
+
+      .cx-ghost-row:nth-child(1) {
+        .cx-ghost-summary-label {
+          width: 45%;
+        }
+
+        .cx-ghost-summary-amount {
+          width: 35%;
+        }
+      }
+
+      .cx-ghost-row:nth-child(2) {
+        .cx-ghost-summary-label {
+          width: 55%;
+        }
+
+        .cx-ghost-summary-amount {
+          width: 20%;
+        }
+      }
+
+      .cx-ghost-row:nth-child(3) {
+        .cx-ghost-summary-label {
+          width: 35%;
+        }
+
+        .cx-ghost-summary-amount {
+          width: 35%;
+        }
+      }
+
+      .cx-ghost-row:nth-child(4) {
+        .cx-ghost-summary-label {
+          width: 55%;
+        }
+
+        .cx-ghost-summary-amount {
+          width: 20%;
+        }
+      }
+    }
+  }
+}

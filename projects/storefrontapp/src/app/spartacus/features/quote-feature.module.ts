@@ -5,30 +5,20 @@
  */
 
 import { NgModule } from '@angular/core';
+import { provideConfig } from '@spartacus/core';
 import {
   quoteTranslationChunksConfig,
   quoteTranslations,
 } from '@spartacus/quote/assets';
-import { provideConfig } from '@spartacus/core';
 import {
-  QuoteRootModule,
-  QUOTE_FEATURE,
   QUOTE_AWARE_FEATURE,
+  QUOTE_FEATURE,
+  QuoteRootModule,
 } from '@spartacus/quote/root';
-import { QuoteCoreConfig } from '@spartacus/quote/core';
 
 @NgModule({
   imports: [QuoteRootModule],
   providers: [
-    provideConfig(<QuoteCoreConfig>{
-      quote: {
-        //TODO CHHI: Delete when decision has been taken about quote request dialog
-        // tresholds: {
-        //   sellerAutoApproval: 75000,
-        //   requestInitiation: 25000,
-        // },
-      },
-    }),
     provideConfig({
       featureModules: {
         [QUOTE_FEATURE]: {

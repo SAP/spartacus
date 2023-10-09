@@ -1,0 +1,19 @@
+<ng-container *ngIf="quoteDetails$ | async as quoteDetails">
+  <section>
+    <ul>
+      <li>
+        <button (click)="goToNewCart()" class="link cx-action-link">
+          {{ 'quote.actions.link.newCart' | cxTranslate }}
+        </button>
+      </li>
+      <li>
+        <button
+          [routerLink]="{ cxRoute: 'quotes' } | cxUrl"
+          class="link cx-action-link"
+        >
+          {{ 'quote.actions.link.quotes' | cxTranslate }}
+        </button>
+      </li>
+    </ul>
+  </section>
+</ng-container>

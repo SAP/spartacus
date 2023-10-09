@@ -17,7 +17,6 @@ import {
   LayoutConfig,
   PageLayoutComponent,
 } from '@spartacus/storefront';
-import { QuoteEventModule } from './events/quote-event.module';
 import { QUOTE_AWARE_FEATURE, QUOTE_FEATURE } from './feature-name';
 
 export function defaultQuoteComponentsConfig() {
@@ -26,15 +25,14 @@ export function defaultQuoteComponentsConfig() {
       [QUOTE_FEATURE]: {
         cmsComponents: [
           'AccountMyQuotesComponent',
-          'QuoteRequestComponent',
-          'QuoteDetailsOverviewComponent',
-          'QuoteCartComponent',
-          'QuoteActionLinksComponent',
+          'QuoteActionsLinkComponent',
           'QuoteActionsByRoleComponent',
-          'CommerceQuotesCartSummaryComponent', //TODO CHHI probably not needed
-          'QuoteDetailsCommentComponent',
-          'QuoteDetailsCartSummaryComponent',
-          'QuoteSellerEditComponent',
+          'QuoteCommentsComponent',
+          'QuoteHeaderOverviewComponent',
+          'QuoteHeaderPriceComponent',
+          'QuoteHeaderSellerEditComponent',
+          'QuoteItemsComponent',
+          'QuoteRequestComponent',
         ],
       },
     },
@@ -99,7 +97,6 @@ export const defaultQuoteConfigLayoutConfig: LayoutConfig = {
         },
       },
     ]),
-    QuoteEventModule,
   ],
   providers: [
     provideDefaultConfigFactory(defaultQuoteComponentsConfig),
