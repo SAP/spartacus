@@ -5,7 +5,7 @@
  */
 
 import { DOCUMENT } from '@angular/common';
-import { Component, inject, Inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, TranslationService } from '@spartacus/core';
 import { Comment, Quote, QuoteFacade } from '@spartacus/quote/root';

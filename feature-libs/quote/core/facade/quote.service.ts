@@ -67,7 +67,7 @@ export class QuoteService implements QuoteFacade {
   protected queryService = inject(QueryService);
   protected config = inject(ViewConfig);
   protected commandService = inject(CommandService);
-  protected activeCartService = inject(ActiveCartFacade);
+  protected activeCartFacade = inject(ActiveCartFacade);
   protected routingService = inject(RoutingService);
   protected multiCartService = inject(MultiCartFacade);
   protected quoteCartService = inject(QuoteCartService);
