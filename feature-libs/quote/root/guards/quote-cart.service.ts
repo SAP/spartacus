@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { Observable, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,10 +13,12 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class QuoteCartService {
+  protected activeCartFacade = inject(ActiveCartFacade);
+
   private checkoutAllowed = new ReplaySubject<boolean>(1);
   private checkoutAllowedAsObservable = this.checkoutAllowed.asObservable();
 
-  constructor(protected activeCartFacade: ActiveCartFacade) {
+  constructor() {
     this.checkoutAllowed.next(false);
   }
 

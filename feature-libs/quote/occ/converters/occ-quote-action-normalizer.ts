@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { QuoteCoreConfig } from '@spartacus/quote/core';
 import { Converter } from '@spartacus/core';
 import {
@@ -20,10 +20,8 @@ import { take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
-  constructor(
-    protected quoteConfig: QuoteCoreConfig,
-    protected quoteCartService: QuoteCartService
-  ) {}
+  protected quoteConfig = inject(QuoteCoreConfig);
+  protected quoteCartService = inject(QuoteCartService);
 
   convert(source: OccQuote, target?: Quote): Quote {
     if (!target) {

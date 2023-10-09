@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { CurrencyService, LanguageService, TimeUtils } from '@spartacus/core';
 import { map } from 'rxjs/operators';
 import { Observable, combineLatest } from 'rxjs';
@@ -26,10 +26,8 @@ export type LocalizationElements = {
  */
 @Injectable({ providedIn: 'root' })
 export class QuoteHeaderSellerEditComponentService {
-  constructor(
-    protected currencyService: CurrencyService,
-    protected languageService: LanguageService
-  ) {}
+  protected currencyService = inject(CurrencyService);
+  protected languageService = inject(LanguageService);
 
   /**
    * Parses a discount value to numeric format

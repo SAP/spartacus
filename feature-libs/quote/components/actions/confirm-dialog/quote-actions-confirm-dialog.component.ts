@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { QuoteCoreConfig } from '@spartacus/quote/core';
 import {
   FocusConfig,
@@ -21,6 +26,9 @@ import { ConfirmationContext } from './quote-actions-confirm-dialog.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteActionsConfirmDialogComponent implements OnInit {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected config = inject(QuoteCoreConfig);
+
   iconTypes = ICON_TYPE;
 
   focusConfig: FocusConfig = {
@@ -31,11 +39,6 @@ export class QuoteActionsConfirmDialogComponent implements OnInit {
   };
 
   confirmationContext$: Observable<ConfirmationContext>;
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected config: QuoteCoreConfig
-  ) {}
 
   ngOnInit(): void {
     this.confirmationContext$ = this.launchDialogService.data$.pipe(

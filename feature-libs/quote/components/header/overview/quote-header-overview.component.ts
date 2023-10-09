@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { EventService, TranslationService } from '@spartacus/core';
 import {
   Quote,
@@ -28,6 +28,11 @@ import {
   templateUrl: './quote-header-overview.component.html',
 })
 export class QuoteHeaderOverviewComponent {
+  protected quoteFacade = inject(QuoteFacade);
+  protected eventService = inject(EventService);
+  protected translationService = inject(TranslationService);
+  protected config = inject(QuoteUIConfig);
+
   private static NO_DATA = '-';
   private static CHARACTERS_LIMIT = 255;
   private static DEFAULT_CARD_TILE_MAX_CHARS = 100;
@@ -35,13 +40,6 @@ export class QuoteHeaderOverviewComponent {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
   editMode = false;
-
-  constructor(
-    protected quoteFacade: QuoteFacade,
-    protected eventService: EventService,
-    protected translationService: TranslationService,
-    protected quoteUiConfig: QuoteUIConfig
-  ) {}
 
   protected defineQuoteMetaData(event: SaveEvent): QuoteMetadata {
     let metaData: QuoteMetadata = {};
@@ -225,7 +223,7 @@ export class QuoteHeaderOverviewComponent {
    */
   getCharactersLimitForCardTile(): number {
     return (
-      this.quoteUiConfig.quote?.truncateCardTileContentAfterNumChars ??
+      this.config.quote?.truncateCardTileContentAfterNumChars ??
       QuoteHeaderOverviewComponent.DEFAULT_CARD_TILE_MAX_CHARS
     );
   }

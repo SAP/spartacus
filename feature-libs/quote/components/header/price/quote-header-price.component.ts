@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { QuoteFacade } from '@spartacus/quote/root';
 
@@ -13,8 +13,8 @@ import { QuoteFacade } from '@spartacus/quote/root';
   templateUrl: 'quote-header-price.component.html',
 })
 export class QuoteHeaderPriceComponent {
+  protected quoteFacade = inject(QuoteFacade);
+
   readonly cartOutlets = CartOutlets;
   quoteDetails$ = this.quoteFacade.getQuoteDetails();
-
-  constructor(protected quoteFacade: QuoteFacade) {}
 }

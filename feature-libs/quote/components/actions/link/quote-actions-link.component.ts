@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CartUtilsService } from '@spartacus/quote/core';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { Observable } from 'rxjs';
@@ -15,12 +15,10 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteActionsLinkComponent {
-  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
+  protected quoteFacade = inject(QuoteFacade);
+  protected cartUtilsService = inject(CartUtilsService);
 
-  constructor(
-    protected quoteFacade: QuoteFacade,
-    protected cartUtilsService: CartUtilsService
-  ) {}
+  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
 
   goToNewCart(): void {
     this.cartUtilsService.goToNewCart();
