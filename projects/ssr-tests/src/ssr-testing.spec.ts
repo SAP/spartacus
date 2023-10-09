@@ -10,7 +10,6 @@ describe('SSR E2E', () => {
 
   beforeEach(async () => {
     Log.clearSsrLogFile();
-    await Ssr.startSsrServer();
   });
 
   afterEach(async () => {
@@ -19,6 +18,7 @@ describe('SSR E2E', () => {
   });
 
   it('should receive success response with request', async () => {
+    await Ssr.startSsrServer();
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
     });
@@ -60,21 +60,18 @@ describe('SSR E2E', () => {
     expect(response.statusCode).toEqual(500);
   });
 
-  // TODO: Currently, the ssr server still responds with 200 quickly despite the proxy delay
-  // TODO: Test incomplete
-  xit('should receive 500 error response with timed-out request', async () => {
+  it('should receive 500 error response with timed-out request', async () => {
+    await Ssr.startSsrServer(4000, 'SSR_TIMEOUT=3000');
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
       delay: 10000,
     });
-    const response: any = await ProxyServer.sendRequest('/timeout');
+    const response: any = await ProxyServer.sendRequest(REQUEST_PATH);
 
     // Waits a time for server to timeout
-    await new Promise((res) => setTimeout(res, 15000));
-
-    // TODO: Assert ssr server log for timeout error
-    Log.assertMessages(['timeout']);
+    // await new Promise((res) => setTimeout(res, 15000));
 
     expect(response.statusCode).toEqual(500);
-  }, 20000);
+    Log.assertMessages(['timeout']);
+  }, 60000);
 });
