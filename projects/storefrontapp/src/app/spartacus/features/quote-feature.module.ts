@@ -13,6 +13,7 @@ import {
 import {
   QUOTE_AWARE_FEATURE,
   QUOTE_FEATURE,
+  QUOTE_REQUEST_FEATURE,
   QuoteRootModule,
 } from '@spartacus/quote/root';
 
@@ -42,10 +43,10 @@ import {
     }),
     provideConfig({
       featureModules: {
-        [QUOTE_AWARE_FEATURE]: {
+        [QUOTE_REQUEST_FEATURE]: {
           module: () =>
-            import('@spartacus/quote/quote-request').then(
-              (m) => m.QuoteRequestModule
+            import('feature-libs/quote/components/request-button/public_api').then(
+              (m) => m.QuoteRequestButtonModule
             ),
         },
       },

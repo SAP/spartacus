@@ -17,7 +17,11 @@ import {
   LayoutConfig,
   PageLayoutComponent,
 } from '@spartacus/storefront';
-import { QUOTE_AWARE_FEATURE, QUOTE_FEATURE, QUOTE_REQUEST_FEATURE } from './feature-name';
+import {
+  QUOTE_AWARE_FEATURE,
+  QUOTE_FEATURE,
+  QUOTE_REQUEST_FEATURE,
+} from './feature-name';
 
 export function defaultQuoteComponentsConfig() {
   return {
