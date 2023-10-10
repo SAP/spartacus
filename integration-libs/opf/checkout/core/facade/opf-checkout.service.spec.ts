@@ -54,23 +54,6 @@ describe(`CheckoutPaymentService`, () => {
     }
   ));
 
-  describe(`getActiveConfigurationsState`, () => {
-    it(`should call the opfCheckoutConnector.getActiveConfigurations()`, (done) => {
-      service
-        .getActiveConfigurationsState()
-        .pipe(take(1))
-        .subscribe((state) => {
-          expect(connector.getActiveConfigurations).toHaveBeenCalled();
-          expect(state).toEqual({
-            loading: false,
-            error: false,
-            data: mockActiveConfigurations,
-          });
-          done();
-        });
-    });
-  });
-
   describe(`initiatePayment`, () => {
     it(`should call the opfCheckoutConnector.initiatePayment()`, (done) => {
       service

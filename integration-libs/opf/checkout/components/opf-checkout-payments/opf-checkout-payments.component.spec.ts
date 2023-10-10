@@ -7,12 +7,14 @@ import {
   QueryState,
   Translatable,
 } from '@spartacus/core';
-import { OpfPaymentMetadata, OpfService } from '@spartacus/opf/base/root';
 import {
   ActiveConfiguration,
-  OpfCheckoutFacade,
+  OpfConfigurationFacade,
+  OpfPaymentMetadata,
   OpfPaymentProviderType,
-} from '@spartacus/opf/checkout/root';
+  OpfService,
+} from '@spartacus/opf/base/root';
+
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
 
@@ -33,7 +35,7 @@ const mockActiveConfigurations: ActiveConfiguration[] = [
     displayName: 'Test3',
   },
 ];
-class MockOpfCheckoutFacade implements Partial<OpfCheckoutFacade> {
+class MockOpfConfigurationFacade implements Partial<OpfConfigurationFacade> {
   getActiveConfigurationsState(): Observable<
     QueryState<ActiveConfiguration[] | undefined>
   > {
@@ -82,7 +84,10 @@ describe('OpfCheckoutPaymentsComponent', () => {
       imports: [I18nTestingModule],
       declarations: [OpfCheckoutPaymentsComponent],
       providers: [
-        { provide: OpfCheckoutFacade, useClass: MockOpfCheckoutFacade },
+        {
+          provide: OpfConfigurationFacade,
+          useClass: MockOpfConfigurationFacade,
+        },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: OpfService, useValue: opfServiceMock },
       ],

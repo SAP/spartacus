@@ -6,7 +6,6 @@
 
 import { Injectable } from '@angular/core';
 import {
-  ActiveConfiguration,
   PaymentInitiationConfig,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
@@ -17,10 +16,6 @@ import { OpfAdapter } from './opf.adapter';
 @Injectable()
 export class OpfCheckoutConnector {
   constructor(protected adapter: OpfAdapter) {}
-
-  public getActiveConfigurations(): Observable<ActiveConfiguration[]> {
-    return this.adapter.getActiveConfigurations();
-  }
 
   public initiatePayment(
     paymentConfig: PaymentInitiationConfig

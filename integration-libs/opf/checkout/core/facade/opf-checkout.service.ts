@@ -5,15 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
+import { Command, CommandService, QueryService } from '@spartacus/core';
 import {
-  Command,
-  CommandService,
-  Query,
-  QueryService,
-  QueryState,
-} from '@spartacus/core';
-import {
-  ActiveConfiguration,
   OpfCheckoutFacade,
   PaymentInitiationConfig,
   PaymentSessionData,
@@ -24,11 +17,6 @@ import { OpfCheckoutConnector } from '../connectors/opf-checkout.connector';
 
 @Injectable()
 export class OpfCheckoutService implements OpfCheckoutFacade {
-  protected activeConfigurationsQuery: Query<ActiveConfiguration[]> =
-    this.queryService.create<ActiveConfiguration[]>(() =>
-      this.opfCheckoutConnector.getActiveConfigurations()
-    );
-
   protected initiatePaymentCommand: Command<
     {
       paymentConfig: PaymentInitiationConfig;
@@ -43,12 +31,6 @@ export class OpfCheckoutService implements OpfCheckoutFacade {
     protected commandService: CommandService,
     protected opfCheckoutConnector: OpfCheckoutConnector
   ) {}
-
-  getActiveConfigurationsState(): Observable<
-    QueryState<ActiveConfiguration[] | undefined>
-  > {
-    return this.activeConfigurationsQuery.getState();
-  }
 
   initiatePayment(
     paymentConfig: PaymentInitiationConfig
