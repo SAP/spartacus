@@ -5,7 +5,7 @@
  */
 
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Consignment } from '@spartacus/order/root';
+import { ConsignmentView } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-consignment-entries',
@@ -14,7 +14,7 @@ import { Consignment } from '@spartacus/order/root';
 })
 export class ConsignmentEntriesComponent {
   @Input()
-  consignments?: Consignment[];
+  consignments?: ConsignmentView[];
   @Input()
   orderCode?: string;
 

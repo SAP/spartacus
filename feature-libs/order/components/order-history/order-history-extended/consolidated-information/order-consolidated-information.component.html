@@ -5,7 +5,8 @@
   -->
     <div
       *ngIf="
-        consignmentsCount(getPickupConsignments(order.consignments ?? [])) > 0
+        getConsignmentsCount(getPickupConsignments(order.consignments ?? [])) >
+        0
       "
     >
       <div class="cx-order-status">
@@ -17,7 +18,7 @@
           *ngTemplateOutlet="
             showManyItems;
             context: {
-              count: consignmentsCount(
+              count: getConsignmentsCount(
                 getPickupConsignments(order.consignments ?? [])
               )
             }
@@ -35,7 +36,9 @@
   -->
     <div
       *ngIf="
-        consignmentsCount(getDeliveryConsignments(order.consignments ?? [])) > 0
+        getConsignmentsCount(
+          getDeliveryConsignments(order.consignments ?? [])
+        ) > 0
       "
     >
       <!--heading taken from feature-libs/order/components/order-confirmation/order-confirmation-shipping/order-confirmation-shipping.component.html-->
@@ -48,7 +51,7 @@
           *ngTemplateOutlet="
             showManyItems;
             context: {
-              count: consignmentsCount(
+              count: getConsignmentsCount(
                 getDeliveryConsignments(order.consignments ?? [])
               )
             }
@@ -64,7 +67,7 @@
     <!-- unconsigned entries 
   eg: Some_Status - 1 Item
   -->
-    <div *ngIf="orderEntriesCount(order.unconsignedEntries) > 0">
+    <div *ngIf="getOrderEntriesCount(order.unconsignedEntries) > 0">
       <div *ngIf="order.statusDisplay">
         <div
           class="cx-order-status-critical"
@@ -77,7 +80,7 @@
           <ng-container
             *ngTemplateOutlet="
               showManyItems;
-              context: { count: orderEntriesCount(order.unconsignedEntries) }
+              context: { count: getOrderEntriesCount(order.unconsignedEntries) }
             "
           ></ng-container>
         </div>
@@ -90,7 +93,9 @@
             <ng-container
               *ngTemplateOutlet="
                 showManyItems;
-                context: { count: orderEntriesCount(order.unconsignedEntries) }
+                context: {
+                  count: getOrderEntriesCount(order.unconsignedEntries)
+                }
               "
             ></ng-container>
           </div>
@@ -103,7 +108,7 @@
       <div
         class="cx-consignment-info"
         *ngIf="
-          orderEntriesCount(
+          getOrderEntriesCount(
             getDeliveryUnconsignedEntries(order.unconsignedEntries ?? [])
           ) > 0
         "
@@ -115,7 +120,7 @@
           *ngTemplateOutlet="
             showManyItems;
             context: {
-              count: orderEntriesCount(
+              count: getOrderEntriesCount(
                 getDeliveryUnconsignedEntries(order.unconsignedEntries ?? [])
               )
             }
@@ -129,7 +134,7 @@
       <div
         class="cx-consignment-info"
         *ngIf="
-          orderEntriesCount(
+          getOrderEntriesCount(
             getPickupUnconsignedEntries(order.unconsignedEntries ?? [])
           ) > 0
         "
@@ -141,7 +146,7 @@
           *ngTemplateOutlet="
             showManyItems;
             context: {
-              count: orderEntriesCount(
+              count: getOrderEntriesCount(
                 getPickupUnconsignedEntries(order.unconsignedEntries ?? [])
               )
             }

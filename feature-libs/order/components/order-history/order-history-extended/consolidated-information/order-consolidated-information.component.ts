@@ -13,7 +13,11 @@ import {
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Images } from '@spartacus/core';
 import { OrderConsignmentsService } from '../../../order-details';
-import { Consignment, Order, OrderHistory } from '@spartacus/order/root';
+import {
+  ConsignmentView,
+  OrderView,
+  OrderHistoryView,
+} from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-order-consolidated-information',
@@ -23,9 +27,9 @@ import { Consignment, Order, OrderHistory } from '@spartacus/order/root';
 export class OrderConsolidatedInformationComponent {
   protected orderConsignmentsService = inject(OrderConsignmentsService);
   @Input()
-  order?: OrderHistory;
+  order?: OrderHistoryView;
   private IMAGE_COUNT = 4; //showing fixed no.of images, without using carousel
-  consignmentsCount(consignments: Consignment[] | undefined): number {
+  getConsignmentsCount(consignments: ConsignmentView[] | undefined): number {
     let count = 0;
     if (consignments) {
       for (const consignment of consignments) {
@@ -37,7 +41,7 @@ export class OrderConsolidatedInformationComponent {
     return count;
   }
 
-  orderEntriesCount(orderEntries: OrderEntry[] | undefined): number {
+  getOrderEntriesCount(orderEntries: OrderEntry[] | undefined): number {
     if (orderEntries) {
       return orderEntries.length;
     }
@@ -52,16 +56,16 @@ export class OrderConsolidatedInformationComponent {
       return false;
     }
   }
-  getPickupConsignments(consignments: Consignment[]): Consignment[] {
-    const orderDetail: Order = {};
+  getPickupConsignments(consignments: ConsignmentView[]): ConsignmentView[] {
+    const orderDetail: OrderView = {};
     orderDetail.consignments = consignments;
     return (
       this.orderConsignmentsService.getGroupedConsignments(orderDetail, true) ??
       []
     );
   }
-  getDeliveryConsignments(consignments: Consignment[]): Consignment[] {
-    const orderDetail: Order = {};
+  getDeliveryConsignments(consignments: ConsignmentView[]): ConsignmentView[] {
+    const orderDetail: OrderView = {};
     orderDetail.consignments = consignments;
     return (
       this.orderConsignmentsService.getGroupedConsignments(
@@ -73,7 +77,7 @@ export class OrderConsolidatedInformationComponent {
   getDeliveryUnconsignedEntries(
     unconsignedEntries: OrderEntry[]
   ): OrderEntry[] {
-    const orderDetail: Order = {};
+    const orderDetail: OrderView = {};
     orderDetail.unconsignedEntries = unconsignedEntries;
     return (
       this.orderConsignmentsService.getUnconsignedEntries(orderDetail, false) ??
@@ -81,7 +85,7 @@ export class OrderConsolidatedInformationComponent {
     );
   }
   getPickupUnconsignedEntries(unconsignedEntries: OrderEntry[]): OrderEntry[] {
-    const orderDetail: Order = {};
+    const orderDetail: OrderView = {};
     orderDetail.unconsignedEntries = unconsignedEntries;
     return (
       this.orderConsignmentsService.getUnconsignedEntries(orderDetail, true) ??

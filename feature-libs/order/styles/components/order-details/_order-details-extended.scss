@@ -21,6 +21,7 @@
     font-weight: bold;
     justify-content: space-between;
     .cx-item-list-tracking-id {
+      display: inline;
       color: var(--cx-color-secondary);
       font-weight: var(--cx-font-weight-semi);
       padding: 0 0px 0px 15px;
