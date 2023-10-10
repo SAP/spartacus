@@ -12,9 +12,7 @@ import { ScheduleLinesComponent } from './schedule-lines.component';
 
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, IconModule],
-
   declarations: [ScheduleLinesComponent],
-  entryComponents: [ScheduleLinesComponent],
   exports: [ScheduleLinesComponent],
 })
 export class ScheduleLinesModule {}
