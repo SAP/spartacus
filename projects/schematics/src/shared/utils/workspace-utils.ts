@@ -111,9 +111,7 @@ export function getProjectFromWorkspace<
 export function getDefaultProjectNameFromWorkspace(tree: Tree): string {
   const workspace = getWorkspace(tree).workspace;
 
-  return workspace.defaultProject !== undefined
-    ? workspace.defaultProject
-    : Object.keys(workspace.projects)[0];
+  return Object.keys(workspace.projects)[0];
 }
 
 export function getProjectTargets(project: WorkspaceProject): WorkspaceTargets;
