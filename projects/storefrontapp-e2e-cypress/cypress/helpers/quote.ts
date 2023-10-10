@@ -56,8 +56,10 @@ const actionsByRoleSelector = 'cx-quote-actions-by-role';
 const btnSelector = 'button';
 const primaryBtnSelector = ' button.btn-primary';
 const secondaryBtnSelector = ' button.btn-secondary';
-const primaryBtnActionsByRoleSelector = actionsByRoleSelector + primaryBtnSelector;
-const secondaryBtnActionsByRoleSelector = actionsByRoleSelector + secondaryBtnSelector;
+const primaryBtnActionsByRoleSelector =
+  actionsByRoleSelector + primaryBtnSelector;
+const secondaryBtnActionsByRoleSelector =
+  actionsByRoleSelector + secondaryBtnSelector;
 const requestQuoteBtnSelector = 'cx-quote-request-button button';
 const accountPageTemplateSelector = '.AccountPageTemplate';
 const confirmDialogSelector = 'cx-quote-actions-confirm-dialog';
