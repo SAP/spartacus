@@ -229,8 +229,8 @@ export const common = {
     messages: 'Messages',
     addMessagePlaceHolder: 'Start Typing...',
     characterLimitAlert: 'Characters limit reached.',
-    a11y:{
-      productListBoxLabel: 'Select to which product your message applies to.'
-    }
+    a11y: {
+      productListBoxLabel: 'Select to which product your message applies to.',
+    },
   },
 };
