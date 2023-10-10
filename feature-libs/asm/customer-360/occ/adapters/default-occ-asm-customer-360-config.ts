@@ -10,7 +10,7 @@ export const defaultOccAsmCustomer360Config: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        customer360:
+        asmCustomer360:
           '/assistedservicewebservices/${baseSiteId}/users/${userId}/customer360',
       },
     },

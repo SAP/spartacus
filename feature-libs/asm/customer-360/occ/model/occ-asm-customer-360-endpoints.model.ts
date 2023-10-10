@@ -13,6 +13,6 @@ declare module '@spartacus/core' {
      *
      * @member {string}
      */
-    customer360?: string | OccEndpoint;
+    asmCustomer360?: string | OccEndpoint;
   }
 }

@@ -58,7 +58,7 @@ export class OccAsmCustomer360Adapter implements AsmCustomer360Adapter {
     );
 
     const url = this.occEndpointsService.buildUrl(
-      'customer360',
+      'asmCustomer360',
       {
         urlParams: {
           baseSiteId: this.activeBaseSite,

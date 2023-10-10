@@ -93,7 +93,7 @@ describe('OccAsmCustomer360Adapter', () => {
 
     const mockReq = httpMock.expectOne((req) => {
       return (
-        req.url === 'customer360' &&
+        req.url === 'asmCustomer360' &&
         req.method === 'POST' &&
         req.body.customer360Queries === request.queries
       );
@@ -132,7 +132,7 @@ describe('OccAsmCustomer360Adapter', () => {
 
     const mockReq = httpMock.expectOne((req) => {
       return (
-        req.url === 'customer360' &&
+        req.url === 'asmCustomer360' &&
         req.method === 'POST' &&
         req.body.customer360Queries === request.queries
       );
