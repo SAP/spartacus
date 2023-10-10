@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 
 export abstract class OpfConfigurationAdapter {
   /**
-   * Abstract method used to get checkout payment
+   * Abstract method used to get payment
    * active configurations
    */
   abstract getActiveConfigurations(): Observable<ActiveConfiguration[]>;
