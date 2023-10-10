@@ -21,6 +21,10 @@ export const quote = {
       link: {
         newCart: 'New Cart',
         quotes: 'Quotes',
+        a11y: {
+          newCart: 'Create new empty cart and navigate to it.',
+          quotes: 'Navigate to quote search result list.',
+        },
       },
       confirmDialog: {
         name: 'Name:',
@@ -115,6 +119,12 @@ export const quote = {
         'Minimum ${{minValue}} subtotal is required to submit a quote ',
     },
     header: {
+      buyerEdit: {
+        a11y: {
+          cancel: 'Cancel editing quote header information',
+          save: 'Save quote header information',
+        },
+      },
       overview: {
         id: 'Quote ID',
         status: 'Status',
@@ -129,6 +139,9 @@ export const quote = {
         update: 'Update',
         expirationTime: 'Expiry Date',
         charactersLeft: 'characters left: {{count}}',
+        a11y:{
+          edit: 'Edit quote header information'
+        }
       },
       sellerEdit: {
         apply: 'Apply',

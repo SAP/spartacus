@@ -2,12 +2,17 @@
   <section>
     <ul>
       <li>
-        <button (click)="goToNewCart()" class="link cx-action-link">
+        <button
+          [attr.aria-label]="'quote.actions.link.a11y.newCart' | cxTranslate"
+          (click)="goToNewCart()"
+          class="link cx-action-link"
+        >
           {{ 'quote.actions.link.newCart' | cxTranslate }}
         </button>
       </li>
       <li>
         <button
+          [attr.aria-label]="'quote.actions.link.a11y.quotes' | cxTranslate"
           [routerLink]="{ cxRoute: 'quotes' } | cxUrl"
           class="link cx-action-link"
         >
