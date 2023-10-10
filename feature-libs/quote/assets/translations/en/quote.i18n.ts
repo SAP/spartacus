@@ -139,9 +139,9 @@ export const quote = {
         update: 'Update',
         expirationTime: 'Expiry Date',
         charactersLeft: 'characters left: {{count}}',
-        a11y:{
-          edit: 'Edit quote header information'
-        }
+        a11y: {
+          edit: 'Edit quote header information',
+        },
       },
       sellerEdit: {
         apply: 'Apply',
