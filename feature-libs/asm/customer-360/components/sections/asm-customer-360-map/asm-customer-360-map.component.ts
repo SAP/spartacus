@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import {
-  Customer360SectionConfig,
+  AsmCustomer360SectionConfig,
   Customer360StoreLocation,
 } from '@spartacus/asm/customer-360/root';
 import {
@@ -30,7 +30,7 @@ import {
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { concatMap, mapTo, take, tap } from 'rxjs/operators';
 
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,12 +46,14 @@ export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
 
   apiKey: string;
 
-  dataSource$: Observable<[Customer360SectionConfig, Customer360StoreLocation]>;
+  dataSource$: Observable<
+    [AsmCustomer360SectionConfig, Customer360StoreLocation]
+  >;
 
   protected subscription = new Subscription();
 
   constructor(
-    public source: Customer360SectionContext<Customer360StoreLocation>,
+    public source: AsmCustomer360SectionContext<Customer360StoreLocation>,
     protected changeDetectorRef: ChangeDetectorRef,
     protected sanitizer: DomSanitizer,
     protected storeFinderService: StoreFinderService,

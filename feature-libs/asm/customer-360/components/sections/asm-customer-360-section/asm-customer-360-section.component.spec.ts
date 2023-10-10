@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Customer360SectionConfig } from '@spartacus/asm/customer-360/root';
+import { AsmCustomer360SectionConfig } from '@spartacus/asm/customer-360/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { combineLatest } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { AsmCustomer360SectionComponent } from './asm-customer-360-section.component';
 
 describe('Customer360SectionComponent', () => {
@@ -26,7 +26,7 @@ describe('Customer360SectionComponent', () => {
   });
 
   it('should channel data to its children through the context source', (done) => {
-    const config: Customer360SectionConfig = {
+    const config: AsmCustomer360SectionConfig = {
       pageSize: 5,
     };
 
@@ -37,7 +37,7 @@ describe('Customer360SectionComponent', () => {
     const data: any = 'foo';
 
     const context = fixture.debugElement.injector.get(
-      Customer360SectionContext
+      AsmCustomer360SectionContext
     );
 
     const subscription = combineLatest([
@@ -75,7 +75,7 @@ describe('Customer360SectionComponent', () => {
     });
 
     const context = fixture.debugElement.injector.get(
-      Customer360SectionContext
+      AsmCustomer360SectionContext
     );
 
     context.navigate$.next(command);

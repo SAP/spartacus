@@ -15,9 +15,9 @@ import {
   CustomerTableTextAlign,
   TableEntry,
 } from '../../asm-customer-360-table/asm-customer-360-table.model';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { ReviewEntry } from './asm-customer-360-product-reviews.model';
-import { Customer360Config } from '../../config/customer-360-config';
+import { AsmCustomer360Config } from '../../config/asm-customer-360-config';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,8 +56,8 @@ export class AsmCustomer360ProductReviewsComponent implements OnInit {
   protected subscription = new Subscription();
 
   constructor(
-    protected customer360Config: Customer360Config,
-    protected context: Customer360SectionContext<Customer360ReviewList>,
+    protected customer360Config: AsmCustomer360Config,
+    protected context: AsmCustomer360SectionContext<Customer360ReviewList>,
     protected datePipe: CxDatePipe,
     protected translation: TranslationService
   ) {}

@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './customer-360.module';
+export * from './asm-customer-360.module';

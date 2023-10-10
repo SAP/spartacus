@@ -15,10 +15,10 @@ import { AsmCustomer360ProfileComponent } from '../sections/asm-customer-360-pro
 import { AsmCustomer360PromotionComponent } from '../sections/asm-customer-360-promotion/asm-customer-360-promotion.component';
 import { AsmCustomer360SavedCartComponent } from '../sections/asm-customer-360-saved-cart/asm-customer-360-saved-cart.component';
 import { AsmCustomer360SupportTicketsComponent } from '../sections/asm-customer-360-support-tickets/asm-customer-360-support-tickets.component';
-import { Customer360Config } from './customer-360-config';
-import { Customer360Type } from '@spartacus/asm/customer-360/root';
+import { AsmCustomer360Config } from './asm-customer-360-config';
+import { AsmCustomer360Type } from '@spartacus/asm/customer-360/root';
 
-export const defaultCustomer360Config: Customer360Config = {
+export const defaultAsmCustomer360Config: AsmCustomer360Config = {
   customer360: {
     dateFormat: 'MM-dd-yyyy',
     dateTimeFormat: 'dd-MM-yy hh:mm a',
@@ -29,19 +29,19 @@ export const defaultCustomer360Config: Customer360Config = {
           {
             component: AsmCustomer360ActiveCartComponent,
             requestData: {
-              type: Customer360Type.ACTIVE_CART,
+              type: AsmCustomer360Type.ACTIVE_CART,
             },
           },
           {
             component: AsmCustomer360SavedCartComponent,
             requestData: {
-              type: Customer360Type.SAVED_CART,
+              type: AsmCustomer360Type.SAVED_CART,
             },
           },
           {
             component: AsmCustomer360ProductInterestsComponent,
             requestData: {
-              type: Customer360Type.PRODUCT_INTEREST_LIST,
+              type: AsmCustomer360Type.PRODUCT_INTEREST_LIST,
             },
           },
         ],
@@ -52,7 +52,7 @@ export const defaultCustomer360Config: Customer360Config = {
           {
             component: AsmCustomer360ProfileComponent,
             requestData: {
-              type: Customer360Type.CUSTOMER_PROFILE,
+              type: AsmCustomer360Type.CUSTOMER_PROFILE,
             },
           },
         ],
@@ -63,7 +63,7 @@ export const defaultCustomer360Config: Customer360Config = {
           {
             component: AsmCustomer360ActivityComponent,
             requestData: {
-              type: Customer360Type.ACTIVITY_LIST,
+              type: AsmCustomer360Type.ACTIVITY_LIST,
               additionalRequestParameters: {
                 listSize: 10,
               },
@@ -78,7 +78,7 @@ export const defaultCustomer360Config: Customer360Config = {
           {
             component: AsmCustomer360SupportTicketsComponent,
             requestData: {
-              type: Customer360Type.SUPPORT_TICKET_LIST,
+              type: AsmCustomer360Type.SUPPORT_TICKET_LIST,
               additionalRequestParameters: {
                 listSize: 10,
               },
@@ -88,7 +88,7 @@ export const defaultCustomer360Config: Customer360Config = {
           {
             component: AsmCustomer360ProductReviewsComponent,
             requestData: {
-              type: Customer360Type.REVIEW_LIST,
+              type: AsmCustomer360Type.REVIEW_LIST,
               additionalRequestParameters: {
                 listSize: 10,
               },
@@ -103,19 +103,19 @@ export const defaultCustomer360Config: Customer360Config = {
           {
             component: AsmCustomer360CouponComponent,
             requestData: {
-              type: Customer360Type.COUPON_LIST,
+              type: AsmCustomer360Type.COUPON_LIST,
             },
           },
           {
             component: AsmCustomer360PromotionComponent,
             requestData: {
-              type: Customer360Type.PROMOTION_LIST,
+              type: AsmCustomer360Type.PROMOTION_LIST,
             },
           },
           {
             component: AsmCustomer360CustomerCouponComponent,
             requestData: {
-              type: Customer360Type.CUSTOMER_COUPON_LIST,
+              type: AsmCustomer360Type.CUSTOMER_COUPON_LIST,
               additionalRequestParameters: {
                 assignable: true,
               },
@@ -129,7 +129,7 @@ export const defaultCustomer360Config: Customer360Config = {
           {
             component: AsmCustomer360MapComponent,
             requestData: {
-              type: Customer360Type.STORE_LOCATION,
+              type: AsmCustomer360Type.STORE_LOCATION,
             },
             config: {
               pageSize: 10,

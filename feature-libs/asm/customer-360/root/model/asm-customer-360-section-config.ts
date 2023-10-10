@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export class Customer360SectionData<Data> {
-  constructor(public data: Data) {}
+export abstract class AsmCustomer360SectionConfig {
+  pageSize?: number;
 }

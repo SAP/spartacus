@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Customer360CouponList,
-  Customer360Facade,
-  Customer360Response,
-  Customer360Type,
+  AsmCustomer360Facade,
+  AsmCustomer360Response,
+  AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { I18nTestingModule, UserIdService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { AsmCustomer360CouponComponent } from './asm-customer-360-coupon.component';
 import {
   ActiveCartFacade,
@@ -21,13 +21,13 @@ describe('Customer360CouponComponent', () => {
   let cartVoucherService: CartVoucherFacade;
   let component: AsmCustomer360CouponComponent;
   let fixture: ComponentFixture<AsmCustomer360CouponComponent>;
-  let context: Customer360SectionContextSource<Customer360CouponList>;
+  let context: AsmCustomer360SectionContextSource<Customer360CouponList>;
   const mockCart: Cart = {
     code: 'cartId',
   };
   const mockUserId = 'userId';
   const mockCouponList: Customer360CouponList = {
-    type: Customer360Type.COUPON_LIST,
+    type: AsmCustomer360Type.COUPON_LIST,
     coupons: [
       {
         code: 'COUPON_1',
@@ -47,7 +47,7 @@ describe('Customer360CouponComponent', () => {
     ],
   };
   const mockReloadedCouponList: Customer360CouponList = {
-    type: Customer360Type.COUPON_LIST,
+    type: AsmCustomer360Type.COUPON_LIST,
     coupons: [
       {
         code: 'RELOAD_COUPON_1',
@@ -66,11 +66,11 @@ describe('Customer360CouponComponent', () => {
       },
     ],
   };
-  const mockReloadedCustomer360Response: Customer360Response = {
+  const mockReloadedCustomer360Response: AsmCustomer360Response = {
     value: [mockReloadedCouponList],
   };
-  class MockCustomer360Facade implements Partial<Customer360Facade> {
-    get360Data(): Observable<Customer360Response> {
+  class MockCustomer360Facade implements Partial<AsmCustomer360Facade> {
+    get360Data(): Observable<AsmCustomer360Response> {
       return of(mockReloadedCustomer360Response);
     }
   }
@@ -101,10 +101,10 @@ describe('Customer360CouponComponent', () => {
         AsmCustomer360PromotionListingComponent,
       ],
       providers: [
-        Customer360SectionContextSource,
+        AsmCustomer360SectionContextSource,
         {
-          provide: Customer360SectionContext,
-          useExisting: Customer360SectionContextSource,
+          provide: AsmCustomer360SectionContext,
+          useExisting: AsmCustomer360SectionContextSource,
         },
         {
           provide: CartVoucherFacade,
@@ -119,7 +119,7 @@ describe('Customer360CouponComponent', () => {
           useClass: MockActiveCartFacade,
         },
         {
-          provide: Customer360Facade,
+          provide: AsmCustomer360Facade,
           useClass: MockCustomer360Facade,
         },
       ],
@@ -130,7 +130,7 @@ describe('Customer360CouponComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmCustomer360CouponComponent);
     component = fixture.componentInstance;
-    context = TestBed.inject(Customer360SectionContextSource);
+    context = TestBed.inject(AsmCustomer360SectionContextSource);
     fixture.detectChanges();
   });
 

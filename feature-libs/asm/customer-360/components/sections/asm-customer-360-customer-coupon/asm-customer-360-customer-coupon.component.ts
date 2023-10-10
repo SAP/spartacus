@@ -12,14 +12,14 @@ import {
 } from '@angular/core';
 import {
   Customer360CustomerCouponList,
-  Customer360Facade,
-  Customer360Response,
-  Customer360Type,
+  AsmCustomer360Facade,
+  AsmCustomer360Response,
+  AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { CustomerCouponService } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { CustomerCouponEntry } from './asm-customer-360-customer-coupon.model';
 import { ICON_TYPE } from '@spartacus/storefront';
 
@@ -40,8 +40,8 @@ export class AsmCustomer360CustomerCouponComponent
   activeTab = 0;
 
   constructor(
-    protected context: Customer360SectionContext<Customer360CustomerCouponList>,
-    protected customer360Facade: Customer360Facade,
+    protected context: AsmCustomer360SectionContext<Customer360CustomerCouponList>,
+    protected customer360Facade: AsmCustomer360Facade,
     protected customerCouponService: CustomerCouponService
   ) {}
 
@@ -99,7 +99,7 @@ export class AsmCustomer360CustomerCouponComponent
       .get360Data([
         {
           requestData: {
-            type: Customer360Type.CUSTOMER_COUPON_LIST,
+            type: AsmCustomer360Type.CUSTOMER_COUPON_LIST,
             additionalRequestParameters: {
               assignable: assignable,
             },
@@ -123,7 +123,7 @@ export class AsmCustomer360CustomerCouponComponent
       .get360Data([
         {
           requestData: {
-            type: Customer360Type.CUSTOMER_COUPON_LIST,
+            type: AsmCustomer360Type.CUSTOMER_COUPON_LIST,
             additionalRequestParameters: {
               assignable: this.currentTabIsAssignable,
               searchQuery: searchQuery,
@@ -149,10 +149,10 @@ export class AsmCustomer360CustomerCouponComponent
 
   private mapParams(
     applied: boolean,
-    response: Customer360Response | undefined
+    response: AsmCustomer360Response | undefined
   ): Array<CustomerCouponEntry> {
     const couponList = response?.value?.find(
-      (item) => item.type === Customer360Type.CUSTOMER_COUPON_LIST
+      (item) => item.type === AsmCustomer360Type.CUSTOMER_COUPON_LIST
     ) as Customer360CustomerCouponList;
     const newEntries: Array<CustomerCouponEntry> = [];
     if (couponList.customerCoupons) {

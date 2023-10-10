@@ -29,7 +29,7 @@ import { AsmCustomer360SupportTicketsComponentModule } from './sections/asm-cust
 import { AsmCustomer360CouponComponentModule } from './sections/asm-customer-360-coupon/asm-customer-360-coupon.module';
 import { AsmCustomer360PromotionComponentModule } from './sections/asm-customer-360-promotion/asm-customer-360-promotion.module';
 import { AsmCustomer360CustomerCouponComponentModule } from './sections/asm-customer-360-customer-coupon/asm-customer-360-customer-coupon.module';
-import { defaultCustomer360LayoutConfig } from './default-customer-360-layout.config';
+import { defaultAsmCustomer360LayoutConfig } from './default-asm-customer-360-layout.config';
 
 @NgModule({
   imports: [
@@ -56,6 +56,6 @@ import { defaultCustomer360LayoutConfig } from './default-customer-360-layout.co
   ],
   declarations: [AsmCustomer360Component, AsmCustomer360SectionComponent],
   exports: [AsmCustomer360Component],
-  providers: [provideDefaultConfig(defaultCustomer360LayoutConfig)],
+  providers: [provideDefaultConfig(defaultAsmCustomer360LayoutConfig)],
 })
-export class Customer360ComponentsModule {}
+export class AsmCustomer360ComponentsModule {}

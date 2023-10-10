@@ -19,10 +19,10 @@ import { getAsmDialogActionEvent } from '@spartacus/asm/customer-360/core';
 import {
   AsmDialogActionEvent,
   AsmDialogActionType,
-  Customer360Data,
-  Customer360TabConfig,
-  Customer360Facade,
-  Customer360Type,
+  AsmCustomer360Data,
+  AsmCustomer360TabConfig,
+  AsmCustomer360Facade,
+  AsmCustomer360Type,
   Customer360Overview,
   CustomerOverview,
   KeyBoardEventCode,
@@ -44,7 +44,7 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map } from 'rxjs/operators';
-import { Customer360Config } from '../config/customer-360-config';
+import { AsmCustomer360Config } from '../config/asm-customer-360-config';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -75,15 +75,15 @@ export class AsmCustomer360Component
     focusOnEscape: true,
   };
 
-  tabs: Array<Customer360TabConfig>;
+  tabs: Array<AsmCustomer360TabConfig>;
 
   activeTab = 0;
 
-  currentTab: Customer360TabConfig;
+  currentTab: AsmCustomer360TabConfig;
 
   customer: User;
 
-  customer360Tabs$: Observable<Array<Customer360Data | undefined>>;
+  customer360Tabs$: Observable<Array<AsmCustomer360Data | undefined>>;
 
   customerOverview$: Observable<CustomerOverview | undefined>;
 
@@ -94,8 +94,8 @@ export class AsmCustomer360Component
   protected showErrorTab$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    protected customer360Config: Customer360Config,
-    protected customer360Facade: Customer360Facade,
+    protected customer360Config: AsmCustomer360Config,
+    protected customer360Facade: AsmCustomer360Facade,
     protected launchDialogService: LaunchDialogService,
     protected csAgentAuthService: CsAgentAuthService,
     protected directionService: DirectionService
@@ -103,13 +103,13 @@ export class AsmCustomer360Component
     this.customerOverview$ = this.customer360Facade
       .get360Data([
         {
-          requestData: { type: Customer360Type.OVERVIEW },
+          requestData: { type: AsmCustomer360Type.OVERVIEW },
         },
       ])
       .pipe(
         map((response) => {
           const overviewItem = response?.value?.find(
-            (item) => item.type === Customer360Type.OVERVIEW
+            (item) => item.type === AsmCustomer360Type.OVERVIEW
           ) as Customer360Overview | undefined;
           return overviewItem?.overview || undefined;
         }),

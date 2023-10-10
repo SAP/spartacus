@@ -9,8 +9,8 @@ import { ASM_FEATURE } from '@spartacus/asm/root';
 import { provideDefaultConfig } from '@spartacus/core';
 import { PageComponentModule } from '@spartacus/storefront';
 import {
-  CUSTOMER_360_CORE_FEATURE,
-  CUSTOMER_360_FEATURE,
+  ASM_CUSTOMER_360_CORE_FEATURE,
+  ASM_CUSTOMER_360_FEATURE,
 } from './feature-name';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SiteContextInterceptor } from './interceptors/site-context.interceptor';
@@ -20,10 +20,10 @@ import { SiteContextInterceptor } from './interceptors/site-context.interceptor'
   providers: [
     provideDefaultConfig({
       featureModules: {
-        [CUSTOMER_360_FEATURE]: {
+        [ASM_CUSTOMER_360_FEATURE]: {
           dependencies: [ASM_FEATURE],
         },
-        [CUSTOMER_360_CORE_FEATURE]: CUSTOMER_360_FEATURE,
+        [ASM_CUSTOMER_360_CORE_FEATURE]: ASM_CUSTOMER_360_FEATURE,
       },
     }),
     {
@@ -33,4 +33,4 @@ import { SiteContextInterceptor } from './interceptors/site-context.interceptor'
     },
   ],
 })
-export class Customer360RootModule {}
+export class AsmCustomer360RootModule {}

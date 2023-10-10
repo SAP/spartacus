@@ -6,22 +6,22 @@
 
 import { Injectable } from '@angular/core';
 import {
-  Customer360Request,
-  Customer360Response,
+  AsmCustomer360Request,
+  AsmCustomer360Response,
 } from '@spartacus/asm/customer-360/root';
 import { Observable } from 'rxjs';
 
-import { Customer360Adapter } from './customer-360.adapter';
+import { AsmCustomer360Adapter } from './asm-customer-360.adapter';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Customer360Connector {
-  constructor(protected customer360Adapter: Customer360Adapter) {}
+export class AsmCustomer360Connector {
+  constructor(protected customer360Adapter: AsmCustomer360Adapter) {}
 
   getCustomer360Data(
-    request: Customer360Request
-  ): Observable<Customer360Response> {
+    request: AsmCustomer360Request
+  ): Observable<AsmCustomer360Response> {
     return this.customer360Adapter.getCustomer360Data(request);
   }
 }

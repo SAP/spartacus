@@ -13,7 +13,7 @@ import {
   CustomerTableColumn,
   CustomerTableTextAlign,
 } from '../../asm-customer-360-table/asm-customer-360-table.model';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { ActivityEntry, TypeCodes } from './asm-customer-360-activity.model';
 
 @Component({
@@ -64,7 +64,7 @@ export class AsmCustomer360ActivityComponent implements OnInit {
   ];
 
   constructor(
-    protected context: Customer360SectionContext<Customer360ActivityList>
+    protected context: AsmCustomer360SectionContext<Customer360ActivityList>
   ) {}
 
   ngOnInit(): void {

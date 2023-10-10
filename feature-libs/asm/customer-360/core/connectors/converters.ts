@@ -5,9 +5,9 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { Customer360Response } from '@spartacus/asm/customer-360/root';
+import { AsmCustomer360Response } from '@spartacus/asm/customer-360/root';
 import { Converter } from '@spartacus/core';
 
-export const CUSTOMER_360_NORMALIZER = new InjectionToken<
-  Converter<any, Customer360Response>
->('Customer360Normalizer');
+export const ASM_CUSTOMER_360_NORMALIZER = new InjectionToken<
+  Converter<any, AsmCustomer360Response>
+>('AsmCustomer360Normalizer');

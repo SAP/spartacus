@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Customer360TabConfig } from './customer-360-tab-config';
+import { AsmCustomer360TabConfig } from './asm-customer-360-tab-config';
 
 export abstract class AsmCustomer360TabsConfig {
-  tabs?: Array<Customer360TabConfig>;
+  tabs?: Array<AsmCustomer360TabConfig>;
   dateFormat?: string;
   dateTimeFormat?: string;
 }

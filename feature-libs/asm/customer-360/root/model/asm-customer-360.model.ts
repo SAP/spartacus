@@ -74,7 +74,7 @@ export interface Customer360SupportTicket {
   status: C360TicketStatus;
 }
 
-export enum Customer360Type {
+export enum AsmCustomer360Type {
   REVIEW_LIST = 'c360ReviewList',
   STORE_LOCATION = 'c360StoreLocation',
   PRODUCT_INTEREST_LIST = 'c360CustomerProductInterestList',
@@ -90,17 +90,17 @@ export enum Customer360Type {
 }
 
 export interface Customer360SupportTicketList {
-  type: Customer360Type.SUPPORT_TICKET_LIST;
+  type: AsmCustomer360Type.SUPPORT_TICKET_LIST;
   tickets: Array<Customer360SupportTicket>;
 }
 
 export interface Customer360ReviewList {
-  type: Customer360Type.REVIEW_LIST;
+  type: AsmCustomer360Type.REVIEW_LIST;
   reviews: Array<Customer360Review>;
 }
 
 export interface Customer360StoreLocation {
-  type: Customer360Type.STORE_LOCATION;
+  type: AsmCustomer360Type.STORE_LOCATION;
   address: string;
 }
 
@@ -155,12 +155,12 @@ export interface Customer360Profile {
 }
 
 export interface Customer360CustomerProfile {
-  type: Customer360Type.CUSTOMER_PROFILE;
+  type: AsmCustomer360Type.CUSTOMER_PROFILE;
   profile?: Customer360Profile;
 }
 
 export interface Customer360ProductInterestList {
-  type: Customer360Type.PRODUCT_INTEREST_LIST;
+  type: AsmCustomer360Type.PRODUCT_INTEREST_LIST;
   customerProductInterests: Array<{
     product: {
       code: string;
@@ -181,12 +181,12 @@ export interface CustomerCart {
   entries?: Array<Customer360CartEntry>;
 }
 export interface Customer360ActiveCart {
-  type: Customer360Type.ACTIVE_CART;
+  type: AsmCustomer360Type.ACTIVE_CART;
   cart?: CustomerCart;
 }
 
 export interface Customer360SavedCart {
-  type: Customer360Type.SAVED_CART;
+  type: AsmCustomer360Type.SAVED_CART;
   savedCart?: CustomerCart;
 }
 
@@ -212,27 +212,27 @@ export interface CustomerOverview {
 }
 
 export interface Customer360Overview {
-  type: Customer360Type.OVERVIEW;
+  type: AsmCustomer360Type.OVERVIEW;
   overview?: CustomerOverview;
 }
 
 export interface Customer360ActivityList {
-  type: Customer360Type.ACTIVITY_LIST;
+  type: AsmCustomer360Type.ACTIVITY_LIST;
   activities: Array<Customer360Activity>;
 }
 
 export interface Customer360CouponList {
-  type: Customer360Type.COUPON_LIST;
+  type: AsmCustomer360Type.COUPON_LIST;
   coupons: Array<Customer360Coupon>;
 }
 
 export interface Customer360PromotionList {
-  type: Customer360Type.PROMOTION_LIST;
+  type: AsmCustomer360Type.PROMOTION_LIST;
   promotions: Array<Customer360Promotion>;
 }
 
 export interface Customer360CustomerCouponList {
-  type: Customer360Type.CUSTOMER_COUPON_LIST;
+  type: AsmCustomer360Type.CUSTOMER_COUPON_LIST;
   customerCoupons: Array<Customer360CustomerCoupon>;
 }
 
@@ -247,17 +247,17 @@ export interface AdditionalRequestParameters {
   assignable?: boolean;
 }
 
-export interface Customer360Query {
-  type?: Customer360Type | string;
+export interface AsmCustomer360Query {
+  type?: AsmCustomer360Type | string;
   additionalRequestParameters?: AdditionalRequestParameters;
 }
 
-export interface Customer360Request {
-  queries: Array<Customer360Query>;
+export interface AsmCustomer360Request {
+  queries: Array<AsmCustomer360Query>;
   options: Customer360Params;
 }
 
-export type Customer360Data =
+export type AsmCustomer360Data =
   | Customer360ActiveCart
   | Customer360ProductInterestList
   | Customer360ReviewList
@@ -271,8 +271,8 @@ export type Customer360Data =
   | Customer360PromotionList
   | Customer360CustomerCouponList;
 
-export interface Customer360Response {
-  value: Array<Customer360Data>;
+export interface AsmCustomer360Response {
+  value: Array<AsmCustomer360Data>;
 }
 
 export enum AsmDialogActionType {

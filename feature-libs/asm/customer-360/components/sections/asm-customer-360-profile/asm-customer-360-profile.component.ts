@@ -16,7 +16,7 @@ import {
   Customer360Profile,
   PaymentCardCode,
 } from '@spartacus/asm/customer-360/root';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 @Component({
   selector: 'cx-asm-customer-360-profile',
@@ -35,7 +35,7 @@ export class AsmCustomer360ProfileComponent implements OnInit {
   customerProfileData$: Observable<Customer360Profile | undefined>;
 
   constructor(
-    public sectionContext: Customer360SectionContext<Customer360CustomerProfile>,
+    public sectionContext: AsmCustomer360SectionContext<Customer360CustomerProfile>,
     protected translation: TranslationService
   ) {}
 

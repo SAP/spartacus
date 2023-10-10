@@ -6,28 +6,28 @@
 
 import { Injectable } from '@angular/core';
 import {
-  Customer360Facade,
-  Customer360Query,
-  Customer360Request,
-  Customer360Response,
-  Customer360TabComponent,
+  AsmCustomer360Facade,
+  AsmCustomer360Query,
+  AsmCustomer360Request,
+  AsmCustomer360Response,
+  AsmCustomer360TabComponent,
 } from '@spartacus/asm/customer-360/root';
 import { Command, CommandService } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
-import { Customer360Connector } from '../connectors/customer-360.connector';
+import { AsmCustomer360Connector } from '../connectors/asm-customer-360.connector';
 
 @Injectable()
-export class Customer360Service implements Customer360Facade {
+export class AsmCustomer360Service implements AsmCustomer360Facade {
   protected customer360Command$: Command<
-    Array<Customer360TabComponent>,
-    Customer360Response
+    Array<AsmCustomer360TabComponent>,
+    AsmCustomer360Response
   >;
 
   constructor(
     protected commandService: CommandService,
-    protected customer360Connector: Customer360Connector,
+    protected customer360Connector: AsmCustomer360Connector,
     protected userAccountFacade: UserAccountFacade
   ) {
     this.customer360Command$ = this.commandService.create((tabComponents) => {
@@ -35,7 +35,7 @@ export class Customer360Service implements Customer360Facade {
         take(1),
         concatMap((customer) => {
           const queries = tabComponents.reduce(
-            (requests: Array<Customer360Query>, component) => {
+            (requests: Array<AsmCustomer360Query>, component) => {
               if (component.requestData) {
                 return requests.concat(component.requestData);
               }
@@ -45,7 +45,7 @@ export class Customer360Service implements Customer360Facade {
           );
 
           if (queries.length > 0) {
-            const request: Customer360Request = {
+            const request: AsmCustomer360Request = {
               queries,
               options: {
                 userId: customer?.customerId ?? '',
@@ -63,8 +63,8 @@ export class Customer360Service implements Customer360Facade {
   }
 
   get360Data(
-    components: Array<Customer360TabComponent>
-  ): Observable<Customer360Response | undefined> {
+    components: Array<AsmCustomer360TabComponent>
+  ): Observable<AsmCustomer360Response | undefined> {
     return this.customer360Command$.execute(components);
   }
 }

@@ -5,12 +5,12 @@
  */
 
 import { NgModule } from '@angular/core';
-import { Customer360Connector } from './connectors';
+import { AsmCustomer360Connector } from './connectors';
 import { facadeProviders } from './facade/facade-providers';
 import { StoreFinderModule } from '@spartacus/storefinder';
 
 @NgModule({
   imports: [StoreFinderModule],
-  providers: [Customer360Connector, ...facadeProviders],
+  providers: [AsmCustomer360Connector, ...facadeProviders],
 })
-export class Customer360CoreModule {}
+export class AsmCustomer360CoreModule {}

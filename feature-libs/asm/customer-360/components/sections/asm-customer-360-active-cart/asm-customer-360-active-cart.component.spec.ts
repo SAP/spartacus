@@ -9,13 +9,13 @@ import {
 } from '@spartacus/core';
 
 import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
-import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { AsmCustomer360ActiveCartComponent } from './asm-customer-360-active-cart.component';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   Customer360ActiveCart,
-  Customer360Type,
+  AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 
@@ -25,7 +25,7 @@ describe('Customer360ActiveCartComponent', () => {
   let component: AsmCustomer360ActiveCartComponent;
   let fixture: ComponentFixture<AsmCustomer360ActiveCartComponent>;
   let el: DebugElement;
-  let contextSource: Customer360SectionContextSource<Customer360ActiveCart>;
+  let contextSource: AsmCustomer360SectionContextSource<Customer360ActiveCart>;
 
   const breakpointSubject = new BehaviorSubject<BREAKPOINT>(BREAKPOINT.xl);
 
@@ -95,7 +95,7 @@ describe('Customer360ActiveCartComponent', () => {
     }
   }
   const mockActiveCart: Customer360ActiveCart = {
-    type: Customer360Type.ACTIVE_CART,
+    type: AsmCustomer360Type.ACTIVE_CART,
     cart: {
       code: '00000001',
       totalPrice: '$100.00',
@@ -139,10 +139,10 @@ describe('Customer360ActiveCartComponent', () => {
         MockMediaComponent,
       ],
       providers: [
-        Customer360SectionContextSource,
+        AsmCustomer360SectionContextSource,
         {
-          provide: Customer360SectionContext,
-          useExisting: Customer360SectionContextSource,
+          provide: AsmCustomer360SectionContext,
+          useExisting: AsmCustomer360SectionContextSource,
         },
         { provide: ProductService, useValue: productService },
         {
@@ -168,7 +168,7 @@ describe('Customer360ActiveCartComponent', () => {
           return of(mockProduct2);
       }
     });
-    contextSource = TestBed.inject(Customer360SectionContextSource);
+    contextSource = TestBed.inject(AsmCustomer360SectionContextSource);
 
     contextSource.data$.next(mockActiveCart);
 

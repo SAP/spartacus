@@ -4,9 +4,9 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
-  Customer360Request,
-  Customer360Response,
-  Customer360Type,
+  AsmCustomer360Request,
+  AsmCustomer360Response,
+  AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import {
   BaseOccUrlProperties,
@@ -16,7 +16,7 @@ import {
   OccEndpointsService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { OccCustomer360Adapter } from './occ-customer-360.adapter';
+import { OccAsmCustomer360Adapter } from './occ-asm-customer-360.adapter';
 
 const baseSite = 'test-site';
 class MockBaseSiteService {
@@ -35,8 +35,8 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   }
 }
 
-describe('OccCustomer360Adapter', () => {
-  let occCustomer360Adapter: OccCustomer360Adapter;
+describe('OccAsmCustomer360Adapter', () => {
+  let occCustomer360Adapter: OccAsmCustomer360Adapter;
   let converterService: ConverterService;
   let httpMock: HttpTestingController;
   let occEnpointsService: OccEndpointsService;
@@ -45,13 +45,13 @@ describe('OccCustomer360Adapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCustomer360Adapter,
+        OccAsmCustomer360Adapter,
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
       ],
     });
 
-    occCustomer360Adapter = TestBed.inject(OccCustomer360Adapter);
+    occCustomer360Adapter = TestBed.inject(OccAsmCustomer360Adapter);
     httpMock = TestBed.inject(HttpTestingController);
     converterService = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
@@ -64,10 +64,10 @@ describe('OccCustomer360Adapter', () => {
   });
 
   it('should get customer 360 data', (done) => {
-    const request: Customer360Request = {
+    const request: AsmCustomer360Request = {
       queries: [
         {
-          type: Customer360Type.REVIEW_LIST,
+          type: AsmCustomer360Type.REVIEW_LIST,
         },
       ],
       options: {
@@ -75,10 +75,10 @@ describe('OccCustomer360Adapter', () => {
       },
     };
 
-    const response: Customer360Response = {
+    const response: AsmCustomer360Response = {
       value: [
         {
-          type: Customer360Type.REVIEW_LIST,
+          type: AsmCustomer360Type.REVIEW_LIST,
           reviews: [],
         },
       ],
@@ -103,10 +103,10 @@ describe('OccCustomer360Adapter', () => {
   });
 
   it('should get customer 360 data', (done) => {
-    const request: Customer360Request = {
+    const request: AsmCustomer360Request = {
       queries: [
         {
-          type: Customer360Type.REVIEW_LIST,
+          type: AsmCustomer360Type.REVIEW_LIST,
         },
       ],
       options: {
@@ -114,10 +114,10 @@ describe('OccCustomer360Adapter', () => {
       },
     };
 
-    const response: Customer360Response = {
+    const response: AsmCustomer360Response = {
       value: [
         {
-          type: Customer360Type.REVIEW_LIST,
+          type: AsmCustomer360Type.REVIEW_LIST,
           reviews: [],
         },
       ],

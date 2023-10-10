@@ -10,7 +10,7 @@ import { By } from '@angular/platform-browser';
 import { ArgsPipe } from '@spartacus/asm/core';
 import {
   Customer360ReviewList,
-  Customer360Type,
+  AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import {
   I18nTestingModule,
@@ -21,8 +21,8 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
 
-import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 import { AsmCustomer360ProductReviewsComponent } from './asm-customer-360-product-reviews.component';
 
@@ -63,10 +63,10 @@ describe('Customer360ProductReviewsComponent', () => {
   let component: AsmCustomer360ProductReviewsComponent;
   let fixture: ComponentFixture<AsmCustomer360ProductReviewsComponent>;
   let el: DebugElement;
-  let contextSource: Customer360SectionContextSource<Customer360ReviewList>;
+  let contextSource: AsmCustomer360SectionContextSource<Customer360ReviewList>;
 
   const mockReviewList: Customer360ReviewList = {
-    type: Customer360Type.REVIEW_LIST,
+    type: AsmCustomer360Type.REVIEW_LIST,
     reviews: [
       {
         productName: 'Shirt',
@@ -104,10 +104,10 @@ describe('Customer360ProductReviewsComponent', () => {
       ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
-        Customer360SectionContextSource,
+        AsmCustomer360SectionContextSource,
         {
-          provide: Customer360SectionContext,
-          useExisting: Customer360SectionContextSource,
+          provide: AsmCustomer360SectionContext,
+          useExisting: AsmCustomer360SectionContextSource,
         },
         { provide: LanguageService, useClass: MockLanguageService },
       ],
@@ -115,7 +115,7 @@ describe('Customer360ProductReviewsComponent', () => {
   });
 
   beforeEach(() => {
-    contextSource = TestBed.inject(Customer360SectionContextSource);
+    contextSource = TestBed.inject(AsmCustomer360SectionContextSource);
     contextSource.data$.next(mockReviewList);
     contextSource.config$.next({
       pageSize: 5,

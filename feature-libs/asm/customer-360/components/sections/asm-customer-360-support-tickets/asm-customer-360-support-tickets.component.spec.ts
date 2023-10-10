@@ -10,7 +10,7 @@ import { By } from '@angular/platform-browser';
 import { ArgsPipe } from '@spartacus/asm/core';
 import {
   Customer360SupportTicketList,
-  Customer360Type,
+  AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import {
   I18nTestingModule,
@@ -21,8 +21,8 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
 
-import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 import { AsmCustomer360SupportTicketsComponent } from './asm-customer-360-support-tickets.component';
 
@@ -55,10 +55,10 @@ describe('Customer360SupportTicketsComponent', () => {
   let component: AsmCustomer360SupportTicketsComponent;
   let fixture: ComponentFixture<AsmCustomer360SupportTicketsComponent>;
   let el: DebugElement;
-  let contextSource: Customer360SectionContextSource<Customer360SupportTicketList>;
+  let contextSource: AsmCustomer360SectionContextSource<Customer360SupportTicketList>;
 
   const supportTicketList: Customer360SupportTicketList = {
-    type: Customer360Type.SUPPORT_TICKET_LIST,
+    type: AsmCustomer360Type.SUPPORT_TICKET_LIST,
     tickets: [
       {
         id: '00000001',
@@ -103,10 +103,10 @@ describe('Customer360SupportTicketsComponent', () => {
       ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
-        Customer360SectionContextSource,
+        AsmCustomer360SectionContextSource,
         {
-          provide: Customer360SectionContext,
-          useExisting: Customer360SectionContextSource,
+          provide: AsmCustomer360SectionContext,
+          useExisting: AsmCustomer360SectionContextSource,
         },
         { provide: LanguageService, useClass: MockLanguageService },
       ],
@@ -114,7 +114,7 @@ describe('Customer360SupportTicketsComponent', () => {
   });
 
   beforeEach(() => {
-    contextSource = TestBed.inject(Customer360SectionContextSource);
+    contextSource = TestBed.inject(AsmCustomer360SectionContextSource);
     contextSource.data$.next(supportTicketList);
     contextSource.config$.next({
       pageSize: 5,

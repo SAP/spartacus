@@ -11,7 +11,7 @@ import {
 } from '@spartacus/storefront';
 import { AsmCustomer360Component } from './asm-customer-360/asm-customer-360.component';
 
-export const defaultCustomer360LayoutConfig: LayoutConfig = {
+export const defaultAsmCustomer360LayoutConfig: LayoutConfig = {
   launch: {
     [LAUNCH_CALLER.ASM_CUSTOMER_360]: {
       inlineRoot: true,

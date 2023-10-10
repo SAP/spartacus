@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  Customer360Response,
-  Customer360TabComponent,
-  Customer360Type,
+  AsmCustomer360Response,
+  AsmCustomer360TabComponent,
+  AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { User } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Customer360Connector } from '../connectors';
+import { AsmCustomer360Connector } from '../connectors';
 
-import { Customer360Service } from './customer-360.service';
+import { AsmCustomer360Service } from './asm-customer-360.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -20,10 +20,10 @@ import { Component } from '@angular/core';
 export class DummyComponent {}
 
 describe('Asm360Service', () => {
-  const data: Customer360Response = {
+  const data: AsmCustomer360Response = {
     value: [
       {
-        type: Customer360Type.REVIEW_LIST,
+        type: AsmCustomer360Type.REVIEW_LIST,
         reviews: [
           {
             productCode: 'shirt',
@@ -41,7 +41,7 @@ describe('Asm360Service', () => {
   };
 
   class MockAsmConnector {
-    getCustomer360Data(): Observable<Customer360Response> {
+    getCustomer360Data(): Observable<AsmCustomer360Response> {
       return of(data);
     }
   }
@@ -55,23 +55,23 @@ describe('Asm360Service', () => {
     }
   }
 
-  let service: Customer360Service;
+  let service: AsmCustomer360Service;
 
-  let customer360Connector: Customer360Connector;
+  let customer360Connector: AsmCustomer360Connector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        Customer360Service,
-        { provide: Customer360Connector, useClass: MockAsmConnector },
+        AsmCustomer360Service,
+        { provide: AsmCustomer360Connector, useClass: MockAsmConnector },
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
       ],
     });
 
-    customer360Connector = TestBed.inject(Customer360Connector);
+    customer360Connector = TestBed.inject(AsmCustomer360Connector);
     spyOn(customer360Connector, 'getCustomer360Data').and.callThrough();
 
-    service = TestBed.inject(Customer360Service);
+    service = TestBed.inject(AsmCustomer360Service);
   });
 
   it('should create', () => {
@@ -79,19 +79,19 @@ describe('Asm360Service', () => {
   });
 
   it('should get data', () => {
-    const components1: Customer360TabComponent[] = [
+    const components1: AsmCustomer360TabComponent[] = [
       {
         component: DummyComponent,
       },
     ];
-    const components2: Customer360TabComponent[] = [
+    const components2: AsmCustomer360TabComponent[] = [
       {
         component: DummyComponent,
       },
       {
         component: DummyComponent,
         requestData: {
-          type: Customer360Type.REVIEW_LIST,
+          type: AsmCustomer360Type.REVIEW_LIST,
         },
         config: { pageSize: 5 },
       },
@@ -108,7 +108,7 @@ describe('Asm360Service', () => {
         expect(customer360Connector.getCustomer360Data).toHaveBeenCalledWith({
           queries: [
             {
-              type: Customer360Type.REVIEW_LIST,
+              type: AsmCustomer360Type.REVIEW_LIST,
             },
           ],
           options: {

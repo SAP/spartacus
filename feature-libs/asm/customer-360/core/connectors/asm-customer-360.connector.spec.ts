@@ -1,35 +1,35 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  Customer360Request,
-  Customer360Response,
+  AsmCustomer360Request,
+  AsmCustomer360Response,
 } from '@spartacus/asm/customer-360/root';
 import { Observable, of } from 'rxjs';
-import { Customer360Adapter } from './customer-360.adapter';
-import { Customer360Connector } from './customer-360.connector';
+import { AsmCustomer360Adapter } from './asm-customer-360.adapter';
+import { AsmCustomer360Connector } from './asm-customer-360.connector';
 
 class MockCustomer360Adapter {
   getCustomer360Data(
-    _request: Customer360Request
-  ): Observable<Customer360Response> {
-    const response: Customer360Response = { value: [] };
+    _request: AsmCustomer360Request
+  ): Observable<AsmCustomer360Response> {
+    const response: AsmCustomer360Response = { value: [] };
     return of(response);
   }
 }
 
-describe('Customer360Connector', () => {
-  let service: Customer360Connector;
-  let customer360Adapter: Customer360Adapter;
+describe('AsmCustomer360Connector', () => {
+  let service: AsmCustomer360Connector;
+  let customer360Adapter: AsmCustomer360Adapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: Customer360Adapter, useClass: MockCustomer360Adapter },
+        { provide: AsmCustomer360Adapter, useClass: MockCustomer360Adapter },
       ],
     });
 
-    service = TestBed.inject(Customer360Connector);
+    service = TestBed.inject(AsmCustomer360Connector);
 
-    customer360Adapter = TestBed.inject(Customer360Adapter);
+    customer360Adapter = TestBed.inject(AsmCustomer360Adapter);
     spyOn(customer360Adapter, 'getCustomer360Data').and.callThrough();
   });
 
@@ -39,7 +39,7 @@ describe('Customer360Connector', () => {
 
   describe('getCustomer360Data()', () => {
     it('should pass the request to the provided adapter', () => {
-      const input: Customer360Request = {
+      const input: AsmCustomer360Request = {
         options: { userId: '' },
         queries: [],
       };

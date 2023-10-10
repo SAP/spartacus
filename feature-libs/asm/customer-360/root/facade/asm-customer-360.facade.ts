@@ -7,20 +7,20 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CUSTOMER_360_FEATURE } from '../feature-name';
-import { Customer360Response, Customer360TabComponent } from '../model';
+import { ASM_CUSTOMER_360_FEATURE } from '../feature-name';
+import { AsmCustomer360Response, AsmCustomer360TabComponent } from '../model';
 
 @Injectable({
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
-      facade: Customer360Facade,
-      feature: CUSTOMER_360_FEATURE,
+      facade: AsmCustomer360Facade,
+      feature: ASM_CUSTOMER_360_FEATURE,
       methods: ['get360Data'],
     }),
 })
-export abstract class Customer360Facade {
+export abstract class AsmCustomer360Facade {
   abstract get360Data(
-    components: Array<Customer360TabComponent>
-  ): Observable<Customer360Response | undefined>;
+    components: Array<AsmCustomer360TabComponent>
+  ): Observable<AsmCustomer360Response | undefined>;
 }

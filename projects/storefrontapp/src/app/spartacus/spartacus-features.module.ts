@@ -60,7 +60,7 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AsmFeatureModule } from './features/asm/asm-feature.module';
-import { Customer360FeatureModule } from './features/asm/customer-360-feature.module';
+import { AsmCustomer360FeatureModule } from './features/asm/asm-customer-360-feature.module';
 import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module';
 import { ImportExportFeatureModule } from './features/cart/cart-import-export-feature.module';
 import { QuickOrderFeatureModule } from './features/cart/cart-quick-order-feature.module';
@@ -224,7 +224,7 @@ if (environment.requestedDeliveryDate) {
     TrackingFeatureModule,
 
     AsmFeatureModule,
-    Customer360FeatureModule,
+    AsmCustomer360FeatureModule,
 
     StorefinderFeatureModule,
 

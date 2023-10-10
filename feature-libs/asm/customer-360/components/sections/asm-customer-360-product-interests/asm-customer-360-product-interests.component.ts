@@ -10,7 +10,7 @@ import { Product, ProductScope, ProductService } from '@spartacus/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, filter, take } from 'rxjs/operators';
 
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,7 +21,7 @@ export class AsmCustomer360ProductInterestsComponent {
   products$: Observable<Array<Product>>;
 
   constructor(
-    public sectionContext: Customer360SectionContext<Customer360ProductInterestList>,
+    public sectionContext: AsmCustomer360SectionContext<Customer360ProductInterestList>,
     protected productService: ProductService
   ) {
     this.products$ = this.sectionContext.data$.pipe(

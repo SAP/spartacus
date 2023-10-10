@@ -13,11 +13,11 @@ import { I18nTestingModule } from '@spartacus/core';
 import { CardComponent, FocusConfig, ICON_TYPE } from '@spartacus/storefront';
 
 import { AsmCustomer360ProfileComponent } from './asm-customer-360-profile.component';
-import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import {
   Customer360CustomerProfile,
-  Customer360Type,
+  AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { By } from '@angular/platform-browser';
 
@@ -30,7 +30,7 @@ export class MockKeyboadFocusDirective {
 
 describe('AsmCustomer360ProfileComponent', () => {
   const mockCustomerProfile: Customer360CustomerProfile = {
-    type: Customer360Type.CUSTOMER_PROFILE,
+    type: AsmCustomer360Type.CUSTOMER_PROFILE,
     profile: {
       billingAddress: {
         id: '8796098854935',
@@ -106,10 +106,10 @@ describe('AsmCustomer360ProfileComponent', () => {
         CardComponent,
       ],
       providers: [
-        Customer360SectionContextSource,
+        AsmCustomer360SectionContextSource,
         {
-          provide: Customer360SectionContext,
-          useExisting: Customer360SectionContextSource,
+          provide: AsmCustomer360SectionContext,
+          useExisting: AsmCustomer360SectionContextSource,
         },
       ],
     }).compileComponents();
@@ -119,7 +119,7 @@ describe('AsmCustomer360ProfileComponent', () => {
     fixture = TestBed.createComponent(AsmCustomer360ProfileComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    const contextSource = TestBed.inject(Customer360SectionContextSource);
+    const contextSource = TestBed.inject(AsmCustomer360SectionContextSource);
 
     contextSource.data$.next(mockCustomerProfile);
     fixture.detectChanges();

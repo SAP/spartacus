@@ -13,14 +13,14 @@ import {
 import {
   Customer360Coupon,
   Customer360CouponList,
-  Customer360Facade,
-  Customer360Type,
+  AsmCustomer360Facade,
+  AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { UserIdService } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/base/root';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,11 +36,11 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
 
   constructor(
-    protected context: Customer360SectionContext<Customer360CouponList>,
+    protected context: AsmCustomer360SectionContext<Customer360CouponList>,
     protected cartVoucherService: CartVoucherFacade,
     protected userIdService: UserIdService,
     protected activeCartFacade: ActiveCartFacade,
-    protected customer360Facade: Customer360Facade
+    protected customer360Facade: AsmCustomer360Facade
   ) {}
 
   ngOnInit(): void {
@@ -97,13 +97,13 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
     this.entries$ = this.customer360Facade
       .get360Data([
         {
-          requestData: { type: Customer360Type.COUPON_LIST },
+          requestData: { type: AsmCustomer360Type.COUPON_LIST },
         },
       ])
       .pipe(
         map((response) => {
           const couponList = response?.value?.find(
-            (item) => item.type === Customer360Type.COUPON_LIST
+            (item) => item.type === AsmCustomer360Type.COUPON_LIST
           ) as Customer360CouponList;
           const newEntries: Array<Customer360Coupon> = [];
           if (couponList.coupons) {

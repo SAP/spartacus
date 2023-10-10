@@ -59,10 +59,10 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isCustomer360Configured =
-      this.featureModules?.isConfigured('customer360');
+      this.featureModules?.isConfigured('asmCustomer360');
     if (this.isCustomer360Configured) {
       // trigger lazy loading of the Customer 360 feature:
-      this.featureModules?.resolveFeature('customer360').subscribe(() => {
+      this.featureModules?.resolveFeature('asmCustomer360').subscribe(() => {
         this.isCustomer360Loaded$.next(true);
       });
     }

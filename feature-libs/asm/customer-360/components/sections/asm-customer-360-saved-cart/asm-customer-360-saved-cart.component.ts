@@ -9,7 +9,7 @@ import { Observable, forkJoin, of } from 'rxjs';
 import { concatMap, filter, map, take } from 'rxjs/operators';
 
 import { ProductItem } from '../../asm-customer-360-product-listing/product-item.model';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import {
   Customer360SavedCart,
   CustomerCart,
@@ -26,7 +26,7 @@ export class AsmCustomer360SavedCartComponent {
   productItems$: Observable<Array<ProductItem>>;
 
   constructor(
-    protected sectionContext: Customer360SectionContext<Customer360SavedCart>,
+    protected sectionContext: AsmCustomer360SectionContext<Customer360SavedCart>,
     protected productService: ProductService
   ) {
     this.savedCart$ = this.sectionContext.data$.pipe(

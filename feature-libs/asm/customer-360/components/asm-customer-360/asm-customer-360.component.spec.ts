@@ -3,13 +3,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AsmDialogActionType,
-  Customer360Facade,
+  AsmCustomer360Facade,
   Customer360Overview,
-  Customer360Response,
-  Customer360TabComponent,
-  Customer360Type,
+  AsmCustomer360Response,
+  AsmCustomer360TabComponent,
+  AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
-import { Customer360Config } from '../config/customer-360-config';
+import { AsmCustomer360Config } from '../config/asm-customer-360-config';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -33,7 +33,7 @@ import {
 } from '../sections';
 
 describe('AsmCustomer360Component', () => {
-  const mockAsmConfig: Customer360Config = {
+  const mockAsmConfig: AsmCustomer360Config = {
     customer360: {
       dateFormat: 'MM-dd-yyyy',
       dateTimeFormat: 'dd-MM-yy hh:mm a',
@@ -55,7 +55,7 @@ describe('AsmCustomer360Component', () => {
             {
               component: AsmCustomer360ProductReviewsComponent,
               requestData: {
-                type: Customer360Type.REVIEW_LIST,
+                type: AsmCustomer360Type.REVIEW_LIST,
               },
               config: { pageSize: 5 },
             },
@@ -66,7 +66,7 @@ describe('AsmCustomer360Component', () => {
   };
 
   const mockOverview: Customer360Overview = {
-    type: Customer360Type.OVERVIEW,
+    type: AsmCustomer360Type.OVERVIEW,
     overview: {
       name: 'John Doe',
       cartSize: 5,
@@ -121,7 +121,7 @@ describe('AsmCustomer360Component', () => {
   }
 
   class MockAsm360Service {
-    get360Data(): Observable<Customer360Response> {
+    get360Data(): Observable<AsmCustomer360Response> {
       return of({ value: [mockOverview] });
     }
   }
@@ -166,7 +166,7 @@ describe('AsmCustomer360Component', () => {
   let el: DebugElement;
   let csAgentAuthService: CsAgentAuthService;
   let launchDialogService: LaunchDialogService;
-  let customer360Facade: Customer360Facade;
+  let customer360Facade: AsmCustomer360Facade;
   let datePipe: CxDatePipe;
   let languageService: LanguageService;
 
@@ -181,9 +181,9 @@ describe('AsmCustomer360Component', () => {
       providers: [
         CxDatePipe,
         { provide: LanguageService, useValue: mockLanguageService },
-        { provide: Customer360Config, useValue: mockAsmConfig },
+        { provide: AsmCustomer360Config, useValue: mockAsmConfig },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        { provide: Customer360Facade, useClass: MockAsm360Service },
+        { provide: AsmCustomer360Facade, useClass: MockAsm360Service },
         {
           provide: DirectionService,
           useClass: MockDirectionService,
@@ -202,7 +202,7 @@ describe('AsmCustomer360Component', () => {
     languageService = TestBed.inject(LanguageService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
     launchDialogService = TestBed.inject(LaunchDialogService);
-    customer360Facade = TestBed.inject(Customer360Facade);
+    customer360Facade = TestBed.inject(AsmCustomer360Facade);
     spyOn(languageService, 'getActive').and.returnValue(of('en'));
   });
 
@@ -370,9 +370,9 @@ describe('AsmCustomer360Component', () => {
   describe('Unhappy path for header and tab content', () => {
     it('should display error message if fail to get header data', () => {
       spyOn(customer360Facade, 'get360Data').and.callFake(
-        (components: Array<Customer360TabComponent>) => {
+        (components: Array<AsmCustomer360TabComponent>) => {
           const overview = components.filter(
-            (comp) => comp.requestData?.type === Customer360Type.OVERVIEW
+            (comp) => comp.requestData?.type === AsmCustomer360Type.OVERVIEW
           );
           if (overview.length) {
             return throwError({
@@ -402,9 +402,9 @@ describe('AsmCustomer360Component', () => {
 
     it('should display the tab content with error if backend call fails', () => {
       spyOn(customer360Facade, 'get360Data').and.callFake(
-        (components: Array<Customer360TabComponent>) => {
+        (components: Array<AsmCustomer360TabComponent>) => {
           const overview = components.filter(
-            (comp) => comp.requestData?.type === Customer360Type.OVERVIEW
+            (comp) => comp.requestData?.type === AsmCustomer360Type.OVERVIEW
           );
           if (overview.length) {
             return of({ value: [mockOverview] });

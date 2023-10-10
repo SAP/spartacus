@@ -29,8 +29,8 @@ import {
   GeneralEntry,
   TableEntry,
 } from './asm-customer-360-table.model';
-import { Customer360Type } from '@spartacus/asm/customer-360/root';
-import { Customer360Config } from '../config/customer-360-config';
+import { AsmCustomer360Type } from '@spartacus/asm/customer-360/root';
+import { AsmCustomer360Config } from '../config/asm-customer-360-config';
 import { of } from 'rxjs';
 import {
   AsmCustomer360ActiveCartComponent,
@@ -46,7 +46,7 @@ export class MockKeyboadFocusDirective {
 }
 
 describe('Customer360TableComponent', () => {
-  const mockAsmConfig: Customer360Config = {
+  const mockAsmConfig: AsmCustomer360Config = {
     customer360: {
       dateFormat: 'MM-dd-yyyy',
       dateTimeFormat: 'dd-MM-yy hh:mm a',
@@ -68,7 +68,7 @@ describe('Customer360TableComponent', () => {
             {
               component: AsmCustomer360ProductReviewsComponent,
               requestData: {
-                type: Customer360Type.REVIEW_LIST,
+                type: AsmCustomer360Type.REVIEW_LIST,
               },
               config: { pageSize: 5 },
             },
@@ -252,7 +252,7 @@ describe('Customer360TableComponent', () => {
           provide: DirectionService,
           useClass: MockDirectionService,
         },
-        { provide: Customer360Config, useValue: mockAsmConfig },
+        { provide: AsmCustomer360Config, useValue: mockAsmConfig },
       ],
     }).compileComponents();
     datePipe = TestBed.inject(CxDatePipe);

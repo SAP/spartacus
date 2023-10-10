@@ -7,8 +7,8 @@ import {
 } from '@spartacus/storefinder/core';
 import { forkJoin, Observable, of } from 'rxjs';
 
-import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 import { AsmCustomer360MapComponent } from './asm-customer-360-map.component';
 
@@ -115,10 +115,10 @@ describe('Customer360MapComponent', () => {
       imports: [I18nTestingModule],
       declarations: [AsmCustomer360MapComponent],
       providers: [
-        Customer360SectionContextSource,
+        AsmCustomer360SectionContextSource,
         {
-          provide: Customer360SectionContext,
-          useExisting: Customer360SectionContextSource,
+          provide: AsmCustomer360SectionContext,
+          useExisting: AsmCustomer360SectionContextSource,
         },
         { provide: StoreFinderService, useClass: MockStoreFinderService },
         { provide: StoreFinderConfig, useValue: mockStoreFinderConfig },
@@ -127,7 +127,7 @@ describe('Customer360MapComponent', () => {
   });
 
   beforeEach(() => {
-    const contextSource = TestBed.inject(Customer360SectionContextSource);
+    const contextSource = TestBed.inject(AsmCustomer360SectionContextSource);
 
     contextSource.config$.next({
       pageSize: 10,

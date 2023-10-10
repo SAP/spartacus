@@ -12,10 +12,10 @@ import { Config } from '@spartacus/core';
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class Customer360Config {
+export abstract class AsmCustomer360Config {
   customer360?: AsmCustomer360TabsConfig;
 }
 
 declare module '@spartacus/core' {
-  interface Config extends Customer360Config {}
+  interface Config extends AsmCustomer360Config {}
 }

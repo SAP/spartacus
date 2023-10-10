@@ -7,12 +7,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  Customer360Adapter,
-  CUSTOMER_360_NORMALIZER,
+  AsmCustomer360Adapter,
+  ASM_CUSTOMER_360_NORMALIZER,
 } from '@spartacus/asm/customer-360/core';
 import {
-  Customer360Request,
-  Customer360Response,
+  AsmCustomer360Request,
+  AsmCustomer360Response,
 } from '@spartacus/asm/customer-360/root';
 import {
   BaseSiteService,
@@ -26,7 +26,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
-export class OccCustomer360Adapter implements Customer360Adapter {
+export class OccAsmCustomer360Adapter implements AsmCustomer360Adapter {
   private activeBaseSite: string;
 
   constructor(
@@ -49,8 +49,8 @@ export class OccCustomer360Adapter implements Customer360Adapter {
   }
 
   getCustomer360Data(
-    request: Customer360Request
-  ): Observable<Customer360Response> {
+    request: AsmCustomer360Request
+  ): Observable<AsmCustomer360Response> {
     const headers = InterceptorUtil.createHeader(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       true,
@@ -76,10 +76,10 @@ export class OccCustomer360Adapter implements Customer360Adapter {
     };
 
     return this.http
-      .post<Customer360Response>(url, requestBody, { headers })
+      .post<AsmCustomer360Response>(url, requestBody, { headers })
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
-        this.converterService.pipeable(CUSTOMER_360_NORMALIZER)
+        this.converterService.pipeable(ASM_CUSTOMER_360_NORMALIZER)
       );
   }
 }

@@ -5,5 +5,5 @@
  */
 
 export * from './converters';
-export * from './customer-360.adapter';
-export * from './customer-360.connector';
+export * from './asm-customer-360.adapter';
+export * from './asm-customer-360.connector';

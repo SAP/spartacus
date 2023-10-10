@@ -9,7 +9,7 @@ import { Product, ProductScope, ProductService } from '@spartacus/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, filter, map, take } from 'rxjs/operators';
 import { ProductItem } from '../../asm-customer-360-product-listing/product-item.model';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import {
   Customer360ActiveCart,
   CustomerCart,
@@ -25,7 +25,7 @@ export class AsmCustomer360ActiveCartComponent {
   activeCart$: Observable<CustomerCart | undefined>;
 
   constructor(
-    public sectionContext: Customer360SectionContext<Customer360ActiveCart>,
+    public sectionContext: AsmCustomer360SectionContext<Customer360ActiveCart>,
     protected productService: ProductService
   ) {
     this.activeCart$ = this.sectionContext.data$.pipe(

@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Customer360ProductInterestList,
-  Customer360Type,
+  AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import {
   I18nTestingModule,
@@ -14,8 +14,8 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
-import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { AsmCustomer360ProductInterestsComponent } from './asm-customer-360-product-interests.component';
 import { AsmCustomer360ProductItemComponent } from '../../asm-customer-360-product-item/asm-customer-360-product-item.component';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
@@ -114,10 +114,10 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
         MockMediaComponent,
       ],
       providers: [
-        Customer360SectionContextSource,
+        AsmCustomer360SectionContextSource,
         {
-          provide: Customer360SectionContext,
-          useExisting: Customer360SectionContextSource,
+          provide: AsmCustomer360SectionContext,
+          useExisting: AsmCustomer360SectionContextSource,
         },
         { provide: ProductService, useValue: productService },
         {
@@ -144,7 +144,7 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
       }
     });
 
-    const contextSource = TestBed.inject(Customer360SectionContextSource);
+    const contextSource = TestBed.inject(AsmCustomer360SectionContextSource);
 
     const interestList: Customer360ProductInterestList = {
       customerProductInterests: [
@@ -159,7 +159,7 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
           },
         },
       ],
-      type: Customer360Type.PRODUCT_INTEREST_LIST,
+      type: AsmCustomer360Type.PRODUCT_INTEREST_LIST,
     };
 
     contextSource.data$.next(interestList);

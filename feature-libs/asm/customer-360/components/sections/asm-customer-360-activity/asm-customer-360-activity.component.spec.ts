@@ -11,7 +11,7 @@ import { By } from '@angular/platform-browser';
 import { ArgsPipe } from '@spartacus/asm/core';
 import {
   Customer360ActivityList,
-  Customer360Type,
+  AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import {
@@ -22,8 +22,8 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
-import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { AsmCustomer360ActivityComponent } from './asm-customer-360-activity.component';
 
 @Directive({
@@ -63,10 +63,10 @@ describe('Customer360ActivityComponent', () => {
   let component: AsmCustomer360ActivityComponent;
   let fixture: ComponentFixture<AsmCustomer360ActivityComponent>;
   let el: DebugElement;
-  let context: Customer360SectionContextSource<Customer360ActivityList>;
+  let context: AsmCustomer360SectionContextSource<Customer360ActivityList>;
 
   const mockActivityList: Customer360ActivityList = {
-    type: Customer360Type.ACTIVITY_LIST,
+    type: AsmCustomer360Type.ACTIVITY_LIST,
     activities: [
       {
         type: {
@@ -135,10 +135,10 @@ describe('Customer360ActivityComponent', () => {
       ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
-        Customer360SectionContextSource,
+        AsmCustomer360SectionContextSource,
         {
-          provide: Customer360SectionContext,
-          useExisting: Customer360SectionContextSource,
+          provide: AsmCustomer360SectionContext,
+          useExisting: AsmCustomer360SectionContextSource,
         },
         {
           provide: DirectionService,
@@ -149,7 +149,7 @@ describe('Customer360ActivityComponent', () => {
   });
 
   beforeEach(() => {
-    context = TestBed.inject(Customer360SectionContextSource);
+    context = TestBed.inject(AsmCustomer360SectionContextSource);
     context.data$.next(mockActivityList);
     context.config$.next({
       pageSize: 5,

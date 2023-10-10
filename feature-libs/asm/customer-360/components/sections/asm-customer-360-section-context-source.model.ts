@@ -5,21 +5,21 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Customer360SectionConfig } from '@spartacus/asm/customer-360/root';
+import { AsmCustomer360SectionConfig } from '@spartacus/asm/customer-360/root';
 import { Cart } from '@spartacus/cart/base/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { OrderHistoryList } from '@spartacus/order/root';
 import { ReplaySubject, Subject } from 'rxjs';
 
-import { Customer360SectionContext } from './customer-360-section-context.model';
+import { AsmCustomer360SectionContext } from './asm-customer-360-section-context.model';
 
 @Injectable()
-export class Customer360SectionContextSource<
+export class AsmCustomer360SectionContextSource<
   Data
-> extends Customer360SectionContext<Data> {
+> extends AsmCustomer360SectionContext<Data> {
   readonly customer$ = new ReplaySubject<User>(1);
 
-  readonly config$ = new ReplaySubject<Customer360SectionConfig>(1);
+  readonly config$ = new ReplaySubject<AsmCustomer360SectionConfig>(1);
 
   readonly navigate$: Subject<UrlCommand> = new Subject();
 

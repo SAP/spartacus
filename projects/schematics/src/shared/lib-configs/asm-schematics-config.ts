@@ -60,13 +60,14 @@ export const ASM_SCHEMATICS_CONFIG: SchematicConfig = {
   dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
 };
 
-export const CUSTOMER_360_MODULE = 'Customer360Module';
-export const CUSTOMER_360_ROOT_MODULE = 'Customer360RootModule';
-export const CUSTOMER_360_MODULE_NAME = 'Customer360';
-export const CUSTOMER_360_FEATURE_NAME_CONSTANT = 'CUSTOMER_360_FEATURE';
-export const CUSTOMER_360_TRANSLATIONS = 'customer360Translations';
-export const CUSTOMER_360_TRANSLATION_CHUNKS_CONFIG =
-  'customer360TranslationChunksConfig';
+export const ASM_CUSTOMER_360_MODULE = 'AsmCustomer360Module';
+export const ASM_CUSTOMER_360_ROOT_MODULE = 'AsmCustomer360RootModule';
+export const ASM_CUSTOMER_360_MODULE_NAME = 'AsmCustomer360';
+export const ASM_CUSTOMER_360_FEATURE_NAME_CONSTANT =
+  'ASM_CUSTOMER_360_FEATURE';
+export const ASM_CUSTOMER_360_TRANSLATIONS = 'asmCustomer360Translations';
+export const ASM_CUSTOMER_360_TRANSLATION_CHUNKS_CONFIG =
+  'asmCustomer360TranslationChunksConfig';
 
 export const CUSTOMER_360_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
@@ -75,22 +76,22 @@ export const CUSTOMER_360_SCHEMATICS_CONFIG: SchematicConfig = {
     featureScope: SPARTACUS_CUSTOMER_360,
   },
   folderName: ASM_FOLDER_NAME,
-  moduleName: CUSTOMER_360_MODULE_NAME,
+  moduleName: ASM_CUSTOMER_360_MODULE_NAME,
   featureModule: {
-    name: CUSTOMER_360_MODULE,
+    name: ASM_CUSTOMER_360_MODULE,
     importPath: SPARTACUS_CUSTOMER_360,
   },
   rootModule: {
-    name: CUSTOMER_360_ROOT_MODULE,
+    name: ASM_CUSTOMER_360_ROOT_MODULE,
     importPath: SPARTACUS_CUSTOMER_360_ROOT,
   },
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_CUSTOMER_360_ROOT,
-    namedImports: [CUSTOMER_360_FEATURE_NAME_CONSTANT],
+    namedImports: [ASM_CUSTOMER_360_FEATURE_NAME_CONSTANT],
   },
   i18n: {
-    resources: CUSTOMER_360_TRANSLATIONS,
-    chunks: CUSTOMER_360_TRANSLATION_CHUNKS_CONFIG,
+    resources: ASM_CUSTOMER_360_TRANSLATIONS,
+    chunks: ASM_CUSTOMER_360_TRANSLATION_CHUNKS_CONFIG,
     importPath: SPARTACUS_CUSTOMER_360_ASSETS,
   },
   styles: {

@@ -12,21 +12,21 @@ import {
   Output,
   Type,
 } from '@angular/core';
-import { Customer360SectionConfig } from '@spartacus/asm/customer-360/root';
+import { AsmCustomer360SectionConfig } from '@spartacus/asm/customer-360/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 
-import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 @Component({
   selector: 'cx-asm-customer-360-section',
   templateUrl: './asm-customer-360-section.component.html',
   providers: [
-    Customer360SectionContextSource,
+    AsmCustomer360SectionContextSource,
     {
-      provide: Customer360SectionContext,
-      useExisting: Customer360SectionContextSource,
+      provide: AsmCustomer360SectionContext,
+      useExisting: AsmCustomer360SectionContextSource,
     },
   ],
 })
@@ -40,7 +40,7 @@ export class AsmCustomer360SectionComponent implements OnDestroy {
   }
 
   @Input()
-  set config(config: Customer360SectionConfig) {
+  set config(config: AsmCustomer360SectionConfig) {
     this.source.config$.next(config);
   }
 
@@ -54,7 +54,7 @@ export class AsmCustomer360SectionComponent implements OnDestroy {
 
   protected subscription = new Subscription();
 
-  constructor(protected source: Customer360SectionContextSource<unknown>) {
+  constructor(protected source: AsmCustomer360SectionContextSource<unknown>) {
     this.subscription.add(
       source.navigate$.subscribe((urlCommand) => this.navigate.emit(urlCommand))
     );

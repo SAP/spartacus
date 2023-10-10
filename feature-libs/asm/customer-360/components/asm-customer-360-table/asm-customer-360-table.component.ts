@@ -36,7 +36,7 @@ import {
   CustomerTableTextAlign,
   TableEntry,
 } from './asm-customer-360-table.model';
-import { Customer360Config } from '../config/customer-360-config';
+import { AsmCustomer360Config } from '../config/asm-customer-360-config';
 import { KeyBoardEventCode } from '@spartacus/asm/customer-360/root';
 
 @Component({
@@ -82,7 +82,7 @@ export class AsmCustomer360TableComponent
   setFocusOnStartTableItem = false;
 
   constructor(
-    protected customer360Config: Customer360Config,
+    protected customer360Config: AsmCustomer360Config,
     protected directionService: DirectionService
   ) {}
 

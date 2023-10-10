@@ -11,14 +11,14 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  Customer360Facade,
+  AsmCustomer360Facade,
   Customer360PromotionList,
-  Customer360Type,
+  AsmCustomer360Type,
   Customer360Promotion,
 } from '@spartacus/asm/customer-360/root';
 import { BehaviorSubject, Subscription, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 
 @Component({
@@ -33,8 +33,8 @@ export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
   userId: string;
 
   constructor(
-    protected context: Customer360SectionContext<Customer360PromotionList>,
-    protected customer360Facade: Customer360Facade,
+    protected context: AsmCustomer360SectionContext<Customer360PromotionList>,
+    protected customer360Facade: AsmCustomer360Facade,
     protected activeCartFacade: ActiveCartFacade
   ) {}
 
@@ -54,13 +54,13 @@ export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
     this.customer360Facade
       .get360Data([
         {
-          requestData: { type: Customer360Type.PROMOTION_LIST },
+          requestData: { type: AsmCustomer360Type.PROMOTION_LIST },
         },
       ])
       .pipe(
         map((response) => {
           const promotionList = response?.value?.find(
-            (item) => item.type === Customer360Type.PROMOTION_LIST
+            (item) => item.type === AsmCustomer360Type.PROMOTION_LIST
           ) as Customer360PromotionList;
           const newEntries: Array<Customer360Promotion> = [];
           if (promotionList.promotions) {
