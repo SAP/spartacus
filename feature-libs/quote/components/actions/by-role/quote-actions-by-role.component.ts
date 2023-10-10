@@ -7,11 +7,13 @@
 import {
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import {
   Quote,
@@ -35,19 +37,19 @@ import { ConfirmationContext } from '../confirm-dialog/quote-actions-confirm-dia
   templateUrl: './quote-actions-by-role.component.html',
 })
 export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
+  protected quoteFacade = inject(QuoteFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected viewContainerRef = inject(ViewContainerRef);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected config = inject(QuoteUIConfig);
+  protected activeCartFacade = inject(ActiveCartFacade);
+
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
+  cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
 
   @ViewChild('element') element: ElementRef;
   QuoteActionType = QuoteActionType;
   protected subscription = new Subscription();
-
-  constructor(
-    protected quoteFacade: QuoteFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected viewContainerRef: ViewContainerRef,
-    protected globalMessageService: GlobalMessageService,
-    protected config: QuoteUIConfig
-  ) {}
 
   ngOnInit(): void {
     //submit button present and threshold not reached: Display message
@@ -78,8 +80,9 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     return (quote.totalPrice.value || 0) >= requestThreshold;
   }
 
-  onClick(action: QuoteActionType, quote: Quote) {
-    if (!this.isConfirmationDialogRequired(action, quote.state)) {
+  onClick(action: QuoteActionType, quote: Quote, cart: Cart) {
+    const cartIsEmpty = (cart.entries?.length ?? 0) === 0;
+    if (!this.isConfirmationDialogRequired(action, quote.state, cartIsEmpty)) {
       this.performAction(action, quote);
       return;
     }
@@ -158,12 +161,17 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
 
   protected isConfirmationDialogRequired(
     action: QuoteActionType,
-    state: QuoteState
+    state: QuoteState,
+    cartIsEmpty: boolean
   ): boolean {
     const mappingConfig = this.config.quote?.confirmActionDialogMapping;
+    const dialogConfig =
+      mappingConfig?.[state]?.[action] ??
+      mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action] ??
+      mappingConfig?.[QuoteRoleType.ALL]?.[action];
     return (
-      !!mappingConfig?.[state]?.[action] ||
-      !!mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action]
+      !!dialogConfig &&
+      (!cartIsEmpty || !dialogConfig.showOnlyWhenCartIsNotEmpty)
     );
   }
 
@@ -198,7 +206,8 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
 
     const config =
       mappingConfig?.[state]?.[action] ??
-      mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action];
+      mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action] ??
+      mappingConfig?.[QuoteRoleType.ALL]?.[action];
     if (!config) {
       throw new Error(
         `Dialog Config expected for quote in state ${state} and action ${action}, but none found in config ${mappingConfig}`
@@ -209,7 +218,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   }
 
   protected stateToRoleTypeForDialogConfig(state: QuoteState): QuoteRoleType {
-    let foundRole: QuoteRoleType = QuoteRoleType.NOT_AVAILABLE;
+    let foundRole: QuoteRoleType = QuoteRoleType.ALL;
     Object.values(QuoteRoleType).forEach((role) => {
       if (state.startsWith(role + '_')) {
         foundRole = role;

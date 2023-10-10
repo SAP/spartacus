@@ -26,6 +26,7 @@ export type ConfirmActionDialogConfig = {
   showWarningNote: boolean;
   showExpirationDate: boolean;
   showSuccessMessage: boolean;
+  showOnlyWhenCartIsNotEmpty: boolean;
 };
 
 /**

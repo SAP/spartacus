@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { QuoteState } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { QuoteListComponentService } from './quote-list-component.service';
@@ -15,13 +15,15 @@ import { QuoteListComponentService } from './quote-list-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteListComponent {
+  protected quoteListService = inject(QuoteListComponentService);
+
   sorts = this.quoteListService.sorts;
   sortLabels$ = this.quoteListService.sortLabels$;
   quotesState$ = this.quoteListService.quotesState$;
   dateFormat: string = 'MMMM d, YYYY h:mm aa';
   iconTypes = ICON_TYPE;
 
-  constructor(protected quoteListService: QuoteListComponentService) {
+  constructor() {
     this.changePage(0);
     this.changeSortCode('byCode');
   }
