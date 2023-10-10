@@ -2,17 +2,17 @@
   <section>
     <ul>
       <li>
-        <button (click)="goToNewCart()" class="link cx-action-link">
+        <a (click)="goToNewCart()" class="link cx-action-link">
           {{ 'quote.actions.link.newCart' | cxTranslate }}
-        </button>
+        </a>
       </li>
       <li>
-        <button
+        <a
           [routerLink]="{ cxRoute: 'quotes' } | cxUrl"
           class="link cx-action-link"
         >
           {{ 'quote.actions.link.quotes' | cxTranslate }}
-        </button>
+        </a>
       </li>
     </ul>
   </section>

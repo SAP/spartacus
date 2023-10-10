@@ -93,6 +93,14 @@ export const quote = {
             successMessage: 'Quote rejected',
           },
         },
+        all: {
+          edit: {
+            title: 'Edit Quote {{ code }}?',
+            confirmNote: 'Are you sure you want to edit this quote?',
+            warningNote:
+              'Your current cart will be discarded. In case you still need it, please safe it beforehand.',
+          },
+        },
       },
     },
     comments: {
@@ -150,6 +158,8 @@ export const quote = {
       sortBy: 'Sort by',
       sortOrders: 'Sort orders',
       empty: 'We have no quote records for this account.',
+      quoteId: 'Quote ID',
+      status: 'Status',
     },
     states: {
       BUYER_DRAFT: 'Draft',

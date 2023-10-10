@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   Command,
@@ -61,6 +61,19 @@ import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
 
 @Injectable()
 export class QuoteService implements QuoteFacade {
+  protected userIdService = inject(UserIdService);
+  protected quoteConnector = inject(QuoteConnector);
+  protected eventService = inject(EventService);
+  protected queryService = inject(QueryService);
+  protected config = inject(ViewConfig);
+  protected commandService = inject(CommandService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected routingService = inject(RoutingService);
+  protected multiCartService = inject(MultiCartFacade);
+  protected quoteCartService = inject(QuoteCartService);
+  protected cartUtilsService = inject(CartUtilsService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   /**
    * Indicator whether an action is currently performing.
    */
@@ -73,7 +86,7 @@ export class QuoteService implements QuoteFacade {
     (payload) =>
       combineLatest([
         this.userIdService.takeUserId(),
-        this.activeCartService.takeActiveCartId(),
+        this.activeCartFacade.takeActiveCartId(),
       ]).pipe(
         take(1),
         switchMap(([userId, cartId]) =>
@@ -301,7 +314,7 @@ export class QuoteService implements QuoteFacade {
         active: true,
       },
     });
-    this.activeCartService
+    this.activeCartFacade
       .getActive()
       .pipe(
         filter((cart) => cart.code === cartId),
@@ -356,7 +369,7 @@ export class QuoteService implements QuoteFacade {
       () =>
         //we need to ensure that the active cart has been loaded, in order to determine if the
         //quote is connected to a quote cart (and then directly ready for edit)
-        this.activeCartService.isStable().pipe(
+        this.activeCartFacade.getActive().pipe(
           take(1),
           switchMap(() =>
             this.routingService.getRouterState().pipe(
@@ -404,21 +417,6 @@ export class QuoteService implements QuoteFacade {
         resetOn: [LoginEvent, NavigationEvent],
       }
     );
-
-  constructor(
-    protected userIdService: UserIdService,
-    protected quoteConnector: QuoteConnector,
-    protected eventService: EventService,
-    protected queryService: QueryService,
-    protected config: ViewConfig,
-    protected commandService: CommandService,
-    protected activeCartService: ActiveCartFacade,
-    protected routingService: RoutingService,
-    protected multiCartService: MultiCartFacade,
-    protected quoteCartService: QuoteCartService,
-    protected cartUtilsService: CartUtilsService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   addDiscount(quoteCode: string, discount: QuoteDiscount): Observable<unknown> {
     return this.addDiscountCommand.execute({

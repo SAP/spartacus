@@ -115,14 +115,14 @@ describe('QuoteActionsLinkComponent', () => {
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
-      'button.link',
+      'a.link',
       2
     );
 
     CommonQuoteTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
-      'button.link',
+      'a.link',
       'quote.actions.link.newCart',
       0
     );
@@ -130,7 +130,7 @@ describe('QuoteActionsLinkComponent', () => {
     CommonQuoteTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
-      'button.link',
+      'a.link',
       'quote.actions.link.quotes',
       1
     );
@@ -140,7 +140,7 @@ describe('QuoteActionsLinkComponent', () => {
     spyOn(component, 'goToNewCart').and.callThrough();
     const link = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
-      'button.link',
+      'a.link',
       0
     );
     link.click();
@@ -152,7 +152,7 @@ describe('QuoteActionsLinkComponent', () => {
     fixture.detectChanges();
     const link = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
-      'button.link',
+      'a.link',
       1
     );
     link.click();
