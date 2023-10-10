@@ -6,7 +6,7 @@
 
 import { StateUtils } from '../../../state/utils/index';
 import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
-import { ErrorActionType } from '@spartacus/core';
+import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_CMS_NAVIGATION_ITEMS = '[Cms] Load NavigationEntry items';
 export const LOAD_CMS_NAVIGATION_ITEMS_FAIL =

@@ -6,7 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { Country } from '../../../model/address.model';
-import { ErrorAction, ErrorActionType } from '@spartacus/core';
+import { ErrorAction, ErrorActionType } from '../../../model/index';
 
 export const LOAD_DELIVERY_COUNTRIES = '[User] Load Delivery Countries';
 export const LOAD_DELIVERY_COUNTRIES_FAIL =

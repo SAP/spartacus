@@ -7,7 +7,7 @@
 import { CostCenter } from '../../../model/org-unit.model';
 import { StateUtils } from '../../../state/utils/index';
 import { USER_COST_CENTERS } from '../user-state';
-import { ErrorActionType } from '@spartacus/core';
+import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_ACTIVE_COST_CENTERS = '[User] Load Active CostCenters';
 export const LOAD_ACTIVE_COST_CENTERS_FAIL =

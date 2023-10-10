@@ -16,7 +16,7 @@ import {
   entityResetMeta,
   entitySuccessMeta,
 } from '../entity-loader/entity-loader.action';
-import { ErrorAction, ErrorActionType } from '@spartacus/core';
+import { ErrorAction, ErrorActionType } from '../../../model/index';
 
 export namespace EntityScopedLoaderActions {
   export interface EntityScopedLoaderMeta extends EntityLoaderMeta {

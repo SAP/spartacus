@@ -6,7 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { Currency } from '../../../model/misc.model';
-import { ErrorAction, ErrorActionType } from '@spartacus/core';
+import { ErrorAction, ErrorActionType } from '../../../model/index';
 
 export const LOAD_CURRENCIES = '[Site-context] Load Currencies';
 export const LOAD_CURRENCIES_FAIL = '[Site-context] Load Currencies Fail';

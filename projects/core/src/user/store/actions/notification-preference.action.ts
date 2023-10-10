@@ -17,7 +17,7 @@ import {
   UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
 } from '../user-state';
 import { NotificationPreference } from '../../../model/notification-preference.model';
-import { ErrorActionType } from '@spartacus/core';
+import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_NOTIFICATION_PREFERENCES =
   '[User] Load Notification Preferences';
