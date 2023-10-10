@@ -35,7 +35,7 @@ import {
       featureModules: {
         [QUOTE_AWARE_FEATURE]: {
           module: () =>
-            import('@spartacus/quote/quote-aware').then(
+            import('@spartacus/quote/components/aware').then(
               (m) => m.QuoteAwareComponentModule
             ),
         },
@@ -45,7 +45,7 @@ import {
       featureModules: {
         [QUOTE_REQUEST_FEATURE]: {
           module: () =>
-            import('@spartacus/quote/quote-request').then(
+            import('@spartacus/quote/components/request-button').then(
               (m) => m.QuoteRequestButtonModule
             ),
         },
