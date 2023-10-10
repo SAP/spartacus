@@ -36,12 +36,6 @@ describe('OpfCheckoutConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getActiveConfigurations should call adapter', () => {
-    spyOn(adapter, 'getActiveConfigurations').and.stub();
-    service.getActiveConfigurations();
-    expect(adapter.getActiveConfigurations).toHaveBeenCalled();
-  });
-
   it('initiatePayment should call adapter', () => {
     const paymentConfig: PaymentInitiationConfig = {
       otpKey: 'test',
