@@ -491,6 +491,9 @@
       "@spartacus/quote/quote-aware": [
         "feature-libs/quote/quote-aware/public_api"
       ],
+      "@spartacus/quote/quote-request": [
+        "feature-libs/quote/quote-request/public_api"
+      ],      
       "@spartacus/cdc/assets": [
         "integration-libs/cdc/assets/public_api"
       ],

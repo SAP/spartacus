@@ -40,6 +40,16 @@ import {
         },
       },
     }),
+    provideConfig({
+      featureModules: {
+        [QUOTE_AWARE_FEATURE]: {
+          module: () =>
+            import('@spartacus/quote/quote-request').then(
+              (m) => m.QuoteRequestModule
+            ),
+        },
+      },
+    }),
   ],
 })
 export class QuoteFeatureModule {}

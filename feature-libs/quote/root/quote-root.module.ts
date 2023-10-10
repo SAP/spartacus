@@ -17,7 +17,7 @@ import {
   LayoutConfig,
   PageLayoutComponent,
 } from '@spartacus/storefront';
-import { QUOTE_AWARE_FEATURE, QUOTE_FEATURE } from './feature-name';
+import { QUOTE_AWARE_FEATURE, QUOTE_FEATURE, QUOTE_REQUEST_FEATURE } from './feature-name';
 
 export function defaultQuoteComponentsConfig() {
   return {
@@ -32,7 +32,6 @@ export function defaultQuoteComponentsConfig() {
           'QuoteHeaderPriceComponent',
           'QuoteHeaderSellerEditComponent',
           'QuoteItemsComponent',
-          'QuoteRequestComponent',
         ],
       },
     },
@@ -44,6 +43,16 @@ export function defaultQuoteAwareComponentsConfig() {
     featureModules: {
       [QUOTE_AWARE_FEATURE]: {
         cmsComponents: ['QuoteAwareComponent'],
+      },
+    },
+  };
+}
+
+export function defaultQuoteRequestComponentsConfig() {
+  return {
+    featureModules: {
+      [QUOTE_REQUEST_FEATURE]: {
+        cmsComponents: ['QuoteRequestComponent'],
       },
     },
   };
@@ -101,6 +110,7 @@ export const defaultQuoteConfigLayoutConfig: LayoutConfig = {
   providers: [
     provideDefaultConfigFactory(defaultQuoteComponentsConfig),
     provideDefaultConfigFactory(defaultQuoteAwareComponentsConfig),
+    provideDefaultConfigFactory(defaultQuoteRequestComponentsConfig),
     provideDefaultConfig(defaultQuoteRoutingConfig),
     provideDefaultConfig(defaultQuoteConfigLayoutConfig),
   ],

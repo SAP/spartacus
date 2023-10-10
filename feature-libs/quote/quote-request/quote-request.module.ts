@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { QuoteAwareComponentModule } from './components/quote-aware.component.module';
+import { QuoteRequestButtonModule } from './components/quote-request-button.module';
 
 @NgModule({
-  imports: [QuoteAwareComponentModule],
+  imports: [QuoteRequestButtonModule],
 })
-export class QuoteAwareModule {}
+export class QuoteRequestModule {}
