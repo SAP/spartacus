@@ -7,7 +7,7 @@
 import { PaymentDetails } from '../../../model/payment.model';
 import { StateUtils } from '../../../state/utils/index';
 import { USER_PAYMENT_METHODS } from '../user-state';
-import { ErrorActionType } from '@spartacus/core';
+import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_USER_PAYMENT_METHODS = '[User] Load User Payment Methods';
 export const LOAD_USER_PAYMENT_METHODS_FAIL =

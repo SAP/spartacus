@@ -27,7 +27,7 @@ import {
   EntityLoaderResetAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
-import { ErrorActionType } from '@spartacus/core';
+import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_PRODUCT_INTERESTS = 'Load Product Interests';
 export const LOAD_PRODUCT_INTERESTS_FAIL = 'Load Product Interests Fail';
