@@ -18,18 +18,11 @@ export class ConsignmentEntriesComponent {
   @Input()
   orderCode?: string;
 
-  consignmentEntriesLength(consignment: Consignment): number {
-    if (consignment.entries) {
-      return consignment.entries.length;
-    }
-    return 0;
-  }
-
-  consignmentNumber(code?: string) {
+  getConsignmentNumber(code?: string): string | undefined {
     if (code) {
       const consignmentNumber = Number(code.split('_')[1]);
       if (!isNaN(consignmentNumber)) {
-        return consignmentNumber + 1;
+        return (consignmentNumber + 1).toString();
       }
     }
     return code;

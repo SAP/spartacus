@@ -18,7 +18,7 @@ Consignment 2 | Tracking Number: 5657474 | Estimated Delivery: 22, September, 20
     >
       {{
         'orderHistoryEnhancedUI.consignmentCode'
-          | cxTranslate: { param: consignmentNumber(consignment?.code) }
+          | cxTranslate: { param: getConsignmentNumber(consignment?.code) }
       }}
     </span>
     |

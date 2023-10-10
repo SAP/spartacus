@@ -27,13 +27,15 @@ import {
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/order/root';
-import { OccOrderHistoryExtendedAdapter } from './adapters';
+import {
+  OccOrderHistoryAdapter,
+  OccOrderHistoryExtendedAdapter,
+} from './adapters';
 import { OccOrderNormalizer } from './adapters/converters/occ-order-normalizer';
 import { OccReorderOrderNormalizer } from './adapters/converters/occ-reorder-order-normalizer';
 import { OccReplenishmentOrderNormalizer } from './adapters/converters/occ-replenishment-order-normalizer';
 import { OccReturnRequestNormalizer } from './adapters/converters/occ-return-request-normalizer';
 import { OccScheduledReplenishmentOrderFormSerializer } from './adapters/converters/occ-scheduled-replenishment-order-form-serializer';
-import { OccOrderHistoryAdapter } from './adapters/occ-order-history.adapter';
 import { OccOrderAdapter } from './adapters/occ-order.adapter';
 import { OccReorderOrderAdapter } from './adapters/occ-reorder-order.adapter';
 import { OccReplenishmentOrderHistoryAdapter } from './adapters/occ-replenishment-order-history.adapter';
@@ -85,27 +87,15 @@ import { defaultOccOrderConfig } from './config/default-occ-order-config';
       useExisting: OccReorderOrderNormalizer,
       multi: true,
     },
+    OccOrderHistoryExtendedAdapter,
+    OccOrderHistoryAdapter,
     {
       provide: OrderHistoryAdapter,
-      useFactory: (
-        httpClient: HttpClient,
-        occEndpointsService: OccEndpointsService,
-        converterService: ConverterService
-      ) => {
+      useFactory: () => {
         const enhancedUI = inject(MYACCOUNT_ORDER_ENHANCED_UI);
-        if (enhancedUI) {
-          return new OccOrderHistoryExtendedAdapter(
-            httpClient,
-            occEndpointsService,
-            converterService
-          );
-        } else {
-          return new OccOrderHistoryAdapter(
-            httpClient,
-            occEndpointsService,
-            converterService
-          );
-        }
+        return enhancedUI
+          ? inject(OccOrderHistoryExtendedAdapter)
+          : inject(OccOrderHistoryAdapter);
       },
       deps: [HttpClient, OccEndpointsService, ConverterService],
     },

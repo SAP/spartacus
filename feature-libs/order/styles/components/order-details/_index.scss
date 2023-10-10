@@ -4,7 +4,7 @@
 @import './order-details-reorder';
 @import './order-detail-billing';
 @import './reorder-dialog';
-@import './order-details-actions-extended';
+@import './order-details-extended';
 
 $order-details-allowlist: cx-order-details-items, cx-order-overview,
   cx-order-details-actions, cx-order-details-reorder, cx-order-detail-billing,

@@ -52,11 +52,10 @@ import {
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
 
-function registerOrderOutletFactory(
-  token: boolean,
-  outletService: OutletService,
-  componentFactoryResolver: ComponentFactoryResolver
-): () => void {
+function registerOrderOutletFactory(): () => void {
+  const token = inject(MYACCOUNT_ORDER_ENHANCED_UI);
+  const outletService = inject(OutletService);
+  const componentFactoryResolver = inject(ComponentFactoryResolver);
   return () => {
     const config: ProvideOutletOptions = {
       component: ConsignmentTrackingLinkComponent,
@@ -166,11 +165,6 @@ const moduleComponents = [
     {
       provide: MODULE_INITIALIZER,
       useFactory: registerOrderOutletFactory,
-      deps: [
-        MYACCOUNT_ORDER_ENHANCED_UI,
-        OutletService,
-        ComponentFactoryResolver,
-      ],
       multi: true,
     },
   ],

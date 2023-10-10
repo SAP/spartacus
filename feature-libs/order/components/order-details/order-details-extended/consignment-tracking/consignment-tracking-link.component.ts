@@ -4,66 +4,49 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  inject,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, HostBinding, inject, OnInit } from '@angular/core';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
   OutletContextData,
 } from '@spartacus/storefront';
-import { of, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { Consignment } from '@spartacus/order/root';
 import { OrderConsignmentsService } from '../../order-consignments.service';
 
 @Component({
   selector: 'cx-consignment-tracking-link',
   templateUrl: './consignment-tracking-link.component.html',
-  host: { class: 'cx-list-header col-12' },
+  // host: { class: 'cx-list-header col-12' },
 })
-export class ConsignmentTrackingLinkComponent implements OnInit, OnDestroy {
-  consignment: Consignment;
-  protected subscription = new Subscription();
+export class ConsignmentTrackingLinkComponent implements OnInit {
+  @HostBinding('className') componentClass: string;
+  consignment$: Observable<Consignment>;
   protected orderConsignmentsService = inject(OrderConsignmentsService);
   protected launchDialogService = inject(LaunchDialogService);
-  protected vcr = inject(ViewContainerRef);
-  protected cd = inject(ChangeDetectorRef);
   protected outlet = inject(OutletContextData);
 
-  @ViewChild('element') element: ElementRef;
-  consignmentStatus: string[] = this.orderConsignmentsService.consignmentStatus;
   ngOnInit(): void {
-    this.subscription.add(
-      this.outlet?.context$.subscribe((context: { item?: Consignment }) => {
-        if (context.item !== undefined) {
-          this.consignment = context.item;
-        }
-        this.cd.markForCheck();
-      })
+    this.componentClass = 'cx-list-header col-12';
+    this.consignment$ = this.outlet?.context$.pipe(
+      map((context) => context.item)
     );
   }
-  openTrackingDialog() {
+  openTrackingDialog(consignment: Consignment) {
     let tracking = {};
-    if (this.consignment.consignmentTracking) {
-      tracking = this.consignment.consignmentTracking;
+    if (consignment.consignmentTracking) {
+      tracking = consignment.consignmentTracking;
     }
     const modalInstanceData = {
       tracking$: of(tracking),
-      shipDate: this.consignment.statusDate,
+      shipDate: consignment.statusDate,
     };
 
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CONSIGNMENT_TRACKING,
-      this.element,
-      this.vcr,
+      undefined,
+      undefined,
       modalInstanceData
     );
 
@@ -71,7 +54,7 @@ export class ConsignmentTrackingLinkComponent implements OnInit, OnDestroy {
       dialog.pipe(take(1)).subscribe();
     }
   }
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+  isStatusValid(status: string): boolean {
+    return this.orderConsignmentsService.isStatusValid(status);
   }
 }

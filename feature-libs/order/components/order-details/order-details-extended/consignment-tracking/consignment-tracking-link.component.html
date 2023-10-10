@@ -1,17 +1,20 @@
-<div class="cx-list-status">
+<div *ngIf="consignment$ | async as consignment" class="cx-list-status">
   <span>
-    <span *ngIf="consignment">
+    <span *ngIf="consignment.status">
       {{ 'orderDetails.deliveryStatus_' + consignment.status | cxTranslate }}
     </span>
     <span
-      *ngIf="consignmentStatus.includes(consignment.status ?? '')"
+      *ngIf="isStatusValid(consignment.status ?? '')"
       class="cx-item-list-tracking-id"
     >
       <span *ngIf="consignment.trackingID; else showNoTrackingMessage">
         {{
           'orderDetails.consignmentTracking.dialog.trackingId' | cxTranslate
         }}:
-        <a class="cx-tracking-id-link" (click)="openTrackingDialog()">
+        <a
+          class="cx-tracking-id-link"
+          (click)="openTrackingDialog(consignment)"
+        >
           {{ consignment.trackingID }}
         </a>
       </span>
@@ -21,7 +24,7 @@
     {{ consignment.statusDate | cxDate }}
   </span>
   <ng-template #showNoTrackingMessage>
-    <a class="cx-tracking-id-link" (click)="openTrackingDialog()">
+    <a class="cx-tracking-id-link" (click)="openTrackingDialog(consignment)">
       {{ 'orderDetails.consignmentTracking.action' | cxTranslate }}
     </a>
   </ng-template>

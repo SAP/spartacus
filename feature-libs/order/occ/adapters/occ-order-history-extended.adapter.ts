@@ -25,7 +25,7 @@ export class OccOrderHistoryExtendedAdapter extends OccOrderHistoryAdapter {
    * @param order order details with consignments
    * @returns order details along with tracking information for each of it's consignments
    */
-  fillConsignmentTrackingDetails(
+  protected fillConsignmentTrackingDetails(
     userId: string,
     order: Order
   ): Observable<Order> {

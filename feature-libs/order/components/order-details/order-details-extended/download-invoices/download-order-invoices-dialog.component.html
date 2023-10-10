@@ -4,23 +4,21 @@
   class="cx-modal-container"
 >
   <div class="cx-modal-content">
-    <ng-container>
-      <div class="cx-dialog-header modal-header">
-        <div class="cx-dialog-title modal-title">
-          {{ 'orderDetailsEnhancedUI.downloadInvoices' | cxTranslate }}
-        </div>
-        <button
-          type="button"
-          class="close"
-          attr.aria-label="{{ 'addToCart.closeModal' | cxTranslate }}"
-          (click)="close('Close download invoices dialog')"
-        >
-          <span aria-hidden="true">
-            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-          </span>
-        </button>
+    <div class="cx-dialog-header modal-header">
+      <div class="cx-dialog-title modal-title">
+        {{ 'orderDetailsEnhancedUI.downloadInvoices' | cxTranslate }}
       </div>
-    </ng-container>
+      <button
+        type="button"
+        class="close"
+        attr.aria-label="{{ 'addToCart.closeModal' | cxTranslate }}"
+        (click)="close('Close download invoices dialog')"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
 
     <div class="cx-dialog-body modal-body">
       <cx-invoices-list> </cx-invoices-list>

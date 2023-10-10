@@ -16,13 +16,18 @@ import {
   providedIn: 'root',
 })
 export class OrderConsignmentsService {
-  consignmentStatus: string[] = [
-    'SHIPPED',
-    'IN_TRANSIT',
-    'DELIVERY_COMPLETED',
-    'DELIVERY_REJECTED',
-    'DELIVERING',
-  ];
+  protected readonly consignmentStatuses: ReadonlyArray<string> = Object.freeze(
+    [
+      'SHIPPED',
+      'IN_TRANSIT',
+      'DELIVERY_COMPLETED',
+      'DELIVERY_REJECTED',
+      'DELIVERING',
+    ]
+  );
+  isStatusValid(status: string): boolean {
+    return this.consignmentStatuses.includes(status);
+  }
   getGroupedConsignments(
     order: Order,
     pickup: boolean

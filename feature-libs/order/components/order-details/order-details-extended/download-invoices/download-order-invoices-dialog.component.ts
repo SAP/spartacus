@@ -7,14 +7,12 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  OnInit,
-  OnDestroy,
   ViewChild,
   ChangeDetectorRef,
   AfterViewChecked,
   inject,
 } from '@angular/core';
-import { Order, OrderOutlets } from '@spartacus/order/root';
+import { OrderOutlets } from '@spartacus/order/root';
 import { InvoicesListComponent } from '@spartacus/pdf-invoices/components';
 import { PDFInvoicesFacade } from '@spartacus/pdf-invoices/root';
 import {
@@ -22,17 +20,13 @@ import {
   FocusConfig,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-download-order-invoices-dialog',
   templateUrl: './download-order-invoices-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DownloadOrderInvoicesDialogComponent
-  implements OnInit, OnDestroy, AfterViewChecked
-{
-  protected subscription = new Subscription();
+export class DownloadOrderInvoicesDialogComponent implements AfterViewChecked {
   @ViewChild(InvoicesListComponent, { static: false })
   public invoiceComponent: InvoicesListComponent;
   readonly OrderOutlets = OrderOutlets;
@@ -44,18 +38,10 @@ export class DownloadOrderInvoicesDialogComponent
     autofocus: true,
     focusOnEscape: true,
   };
-  order: Order;
+
   protected launchDialogService = inject(LaunchDialogService);
   protected invoicesFacade = inject(PDFInvoicesFacade);
   protected cdr = inject(ChangeDetectorRef);
-
-  ngOnInit(): void {
-    this.subscription.add(
-      this.launchDialogService.data$.subscribe((data: Order) => {
-        this.order = data;
-      })
-    );
-  }
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
@@ -66,9 +52,5 @@ export class DownloadOrderInvoicesDialogComponent
 
   close(reason?: any, _message?: string): void {
     this.launchDialogService.closeDialog(reason);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 }
