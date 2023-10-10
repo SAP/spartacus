@@ -11,7 +11,6 @@ export const QUOTE_MODULE_NAME = 'quote';
 
 export const QUOTE_SCSS_FILE_NAME = 'quote.scss';
 
-export const QUOTE_FEATURE_NAME_CONSTANT = 'QUOTE_FEATURE';
 export const SPARTACUS_QUOTE_ROOT = `${SPARTACUS_QUOTE}/root`;
 export const SPARTACUS_QUOTE_ASSETS = `${SPARTACUS_QUOTE}/assets`;
 export const QUOTE_TRANSLATIONS = 'quoteTranslations';

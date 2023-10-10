@@ -5,13 +5,17 @@ exports[`Spartacus Quote schematics: ng-add Quote feature eager loading should i
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { QuoteModule } from "@spartacus/quote";
 import { QuoteTranslationChunksConfig, QuoteTranslations } from "@spartacus/quote/assets";
+import { QuoteAwareComponentModule } from "@spartacus/quote/components/aware";
+import { QuoteRequestButtonModule } from "@spartacus/quote/components/request-button";
 import { QuoteRootModule } from "@spartacus/quote/root";
 
 @NgModule({
   declarations: [],
   imports: [
     QuoteRootModule,
-    QuoteModule
+    QuoteModule,
+    QuoteAwareComponentModule,
+    QuoteRequestButtonModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
@@ -28,7 +32,7 @@ exports[`Spartacus Quote schematics: ng-add Quote feature general setup should a
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { QuoteTranslationChunksConfig, QuoteTranslations } from "@spartacus/quote/assets";
-import { QuoteRootModule, QUOTE_FEATURE } from "@spartacus/quote/root";
+import { QuoteRootModule, QUOTE_AWARE_FEATURE, QUOTE_FEATURE, QUOTE_REQUEST_FEATURE } from "@spartacus/quote/root";
 
 @NgModule({
   declarations: [],
@@ -40,6 +44,22 @@ import { QuoteRootModule, QUOTE_FEATURE } from "@spartacus/quote/root";
       [QUOTE_FEATURE]: {
         module: () =>
           import('@spartacus/quote').then((m) => m.QuoteModule),
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [QUOTE_AWARE_FEATURE]: {
+        module: () =>
+          import('@spartacus/quote/components/aware').then((m) => m.QuoteAwareComponentModule),
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [QUOTE_REQUEST_FEATURE]: {
+        module: () =>
+          import('@spartacus/quote/components/request-button').then((m) => m.QuoteRequestButtonModule),
       },
     }
   }),
