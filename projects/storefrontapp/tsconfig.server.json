@@ -390,6 +390,20 @@
       "@spartacus/qualtrics/root": [
         "../../feature-libs/qualtrics/root/public_api"
       ],
+      "@spartacus/quote/assets": ["../../feature-libs/quote/assets/public_api"],
+      "@spartacus/quote/components/aware": [
+        "../../feature-libs/quote/components/aware/public_api"
+      ],
+      "@spartacus/quote/components": [
+        "../../feature-libs/quote/components/public_api"
+      ],
+      "@spartacus/quote/components/request-button": [
+        "../../feature-libs/quote/components/request-button/public_api"
+      ],
+      "@spartacus/quote/core": ["../../feature-libs/quote/core/public_api"],
+      "@spartacus/quote": ["../../feature-libs/quote/public_api"],
+      "@spartacus/quote/occ": ["../../feature-libs/quote/occ/public_api"],
+      "@spartacus/quote/root": ["../../feature-libs/quote/root/public_api"],
       "@spartacus/requested-delivery-date/assets": [
         "../../feature-libs/requested-delivery-date/assets/public_api"
       ],
@@ -481,21 +495,7 @@
       "@spartacus/user/profile/root": [
         "../../feature-libs/user/profile/root/public_api"
       ],
-
-      "@spartacus/quote": ["../../feature-libs/quote/public_api"],
-      "@spartacus/quote/assets": ["../../feature-libs/quote/assets/public_api"],
-      "@spartacus/quote/components": [
-        "../../feature-libs/quote/components/public_api"
-      ],
-      "@spartacus/quote/core": ["../../feature-libs/quote/core/public_api"],
-      "@spartacus/quote/occ": ["../../feature-libs/quote/occ/public_api"],
-      "@spartacus/quote/root": ["../../feature-libs/quote/root/public_api"],
-      "@spartacus/quote/quote-aware": [
-        "../../feature-libs/quote/quote-aware/public_api"
-      ],
-
       "@spartacus/cdc/assets": ["../../integration-libs/cdc/assets/public_api"],
-
       "@spartacus/cdc/components": [
         "../../integration-libs/cdc/components/public_api"
       ],
