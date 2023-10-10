@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Customer360Activity } from '@spartacus/asm/customer-360/root';
+import { AsmCustomer360Activity } from '@spartacus/asm/customer-360/root';
 
-export interface ActivityEntry extends Customer360Activity {
+export interface ActivityEntry extends AsmCustomer360Activity {
   typeLabel?: string;
   statusLabel?: string;
 }

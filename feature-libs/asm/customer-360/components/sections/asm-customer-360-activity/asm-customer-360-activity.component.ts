@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Customer360ActivityList } from '@spartacus/asm/customer-360/root';
+import { AsmCustomer360ActivityList } from '@spartacus/asm/customer-360/root';
 import { UrlCommand } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -64,7 +64,7 @@ export class AsmCustomer360ActivityComponent implements OnInit {
   ];
 
   constructor(
-    protected context: AsmCustomer360SectionContext<Customer360ActivityList>
+    protected context: AsmCustomer360SectionContext<AsmCustomer360ActivityList>
   ) {}
 
   ngOnInit(): void {

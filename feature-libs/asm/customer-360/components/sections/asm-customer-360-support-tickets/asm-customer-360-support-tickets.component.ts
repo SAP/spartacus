@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Customer360SupportTicketList } from '@spartacus/asm/customer-360/root';
+import { AsmCustomer360SupportTicketList } from '@spartacus/asm/customer-360/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -60,7 +60,7 @@ export class AsmCustomer360SupportTicketsComponent implements OnInit {
   supportTicketsEntries$: Observable<Array<SupportTicketEntry>>;
 
   constructor(
-    protected context: AsmCustomer360SectionContext<Customer360SupportTicketList>
+    protected context: AsmCustomer360SectionContext<AsmCustomer360SupportTicketList>
   ) {}
 
   ngOnInit(): void {

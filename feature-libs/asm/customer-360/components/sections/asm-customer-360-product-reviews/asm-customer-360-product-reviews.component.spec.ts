@@ -9,7 +9,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ArgsPipe } from '@spartacus/asm/core';
 import {
-  Customer360ReviewList,
+  AsmCustomer360ReviewList,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import {
@@ -63,9 +63,9 @@ describe('Customer360ProductReviewsComponent', () => {
   let component: AsmCustomer360ProductReviewsComponent;
   let fixture: ComponentFixture<AsmCustomer360ProductReviewsComponent>;
   let el: DebugElement;
-  let contextSource: AsmCustomer360SectionContextSource<Customer360ReviewList>;
+  let contextSource: AsmCustomer360SectionContextSource<AsmCustomer360ReviewList>;
 
-  const mockReviewList: Customer360ReviewList = {
+  const mockReviewList: AsmCustomer360ReviewList = {
     type: AsmCustomer360Type.REVIEW_LIST,
     reviews: [
       {

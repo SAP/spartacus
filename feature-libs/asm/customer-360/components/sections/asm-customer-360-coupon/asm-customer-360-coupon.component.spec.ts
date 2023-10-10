@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  Customer360CouponList,
+  AsmCustomer360CouponList,
   AsmCustomer360Facade,
   AsmCustomer360Response,
   AsmCustomer360Type,
@@ -21,12 +21,12 @@ describe('Customer360CouponComponent', () => {
   let cartVoucherService: CartVoucherFacade;
   let component: AsmCustomer360CouponComponent;
   let fixture: ComponentFixture<AsmCustomer360CouponComponent>;
-  let context: AsmCustomer360SectionContextSource<Customer360CouponList>;
+  let context: AsmCustomer360SectionContextSource<AsmCustomer360CouponList>;
   const mockCart: Cart = {
     code: 'cartId',
   };
   const mockUserId = 'userId';
-  const mockCouponList: Customer360CouponList = {
+  const mockCouponList: AsmCustomer360CouponList = {
     type: AsmCustomer360Type.COUPON_LIST,
     coupons: [
       {
@@ -46,7 +46,7 @@ describe('Customer360CouponComponent', () => {
       },
     ],
   };
-  const mockReloadedCouponList: Customer360CouponList = {
+  const mockReloadedCouponList: AsmCustomer360CouponList = {
     type: AsmCustomer360Type.COUPON_LIST,
     coupons: [
       {

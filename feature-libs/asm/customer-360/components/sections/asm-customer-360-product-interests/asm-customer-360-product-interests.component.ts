@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Customer360ProductInterestList } from '@spartacus/asm/customer-360/root';
+import { AsmCustomer360ProductInterestList } from '@spartacus/asm/customer-360/root';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, filter, take } from 'rxjs/operators';
@@ -21,7 +21,7 @@ export class AsmCustomer360ProductInterestsComponent {
   products$: Observable<Array<Product>>;
 
   constructor(
-    public sectionContext: AsmCustomer360SectionContext<Customer360ProductInterestList>,
+    public sectionContext: AsmCustomer360SectionContext<AsmCustomer360ProductInterestList>,
     protected productService: ProductService
   ) {
     this.products$ = this.sectionContext.data$.pipe(

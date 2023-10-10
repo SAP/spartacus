@@ -11,7 +11,7 @@ import { concatMap, filter, map, take } from 'rxjs/operators';
 import { ProductItem } from '../../asm-customer-360-product-listing/product-item.model';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import {
-  Customer360SavedCart,
+  AsmCustomer360SavedCart,
   CustomerCart,
 } from '@spartacus/asm/customer-360/root';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
@@ -26,7 +26,7 @@ export class AsmCustomer360SavedCartComponent {
   productItems$: Observable<Array<ProductItem>>;
 
   constructor(
-    protected sectionContext: AsmCustomer360SectionContext<Customer360SavedCart>,
+    protected sectionContext: AsmCustomer360SectionContext<AsmCustomer360SavedCart>,
     protected productService: ProductService
   ) {
     this.savedCart$ = this.sectionContext.data$.pipe(

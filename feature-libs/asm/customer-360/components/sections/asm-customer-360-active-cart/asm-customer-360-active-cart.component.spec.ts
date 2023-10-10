@@ -14,7 +14,7 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
 import { AsmCustomer360ActiveCartComponent } from './asm-customer-360-active-cart.component';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
-  Customer360ActiveCart,
+  AsmCustomer360ActiveCart,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
@@ -25,7 +25,7 @@ describe('Customer360ActiveCartComponent', () => {
   let component: AsmCustomer360ActiveCartComponent;
   let fixture: ComponentFixture<AsmCustomer360ActiveCartComponent>;
   let el: DebugElement;
-  let contextSource: AsmCustomer360SectionContextSource<Customer360ActiveCart>;
+  let contextSource: AsmCustomer360SectionContextSource<AsmCustomer360ActiveCart>;
 
   const breakpointSubject = new BehaviorSubject<BREAKPOINT>(BREAKPOINT.xl);
 
@@ -94,7 +94,7 @@ describe('Customer360ActiveCartComponent', () => {
       return breakpointSubject.asObservable();
     }
   }
-  const mockActiveCart: Customer360ActiveCart = {
+  const mockActiveCart: AsmCustomer360ActiveCart = {
     type: AsmCustomer360Type.ACTIVE_CART,
     cart: {
       code: '00000001',

@@ -12,9 +12,9 @@ import {
 } from '@angular/core';
 import {
   AsmCustomer360Facade,
-  Customer360PromotionList,
+  AsmCustomer360PromotionList,
   AsmCustomer360Type,
-  Customer360Promotion,
+  AsmCustomer360Promotion,
 } from '@spartacus/asm/customer-360/root';
 import { BehaviorSubject, Subscription, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -28,12 +28,12 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 })
 export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
   showErrorAlert$ = new BehaviorSubject<boolean>(false);
-  entries$ = new BehaviorSubject<Array<Customer360Promotion>>([]);
+  entries$ = new BehaviorSubject<Array<AsmCustomer360Promotion>>([]);
   subscription = new Subscription();
   userId: string;
 
   constructor(
-    protected context: AsmCustomer360SectionContext<Customer360PromotionList>,
+    protected context: AsmCustomer360SectionContext<AsmCustomer360PromotionList>,
     protected customer360Facade: AsmCustomer360Facade,
     protected activeCartFacade: ActiveCartFacade
   ) {}
@@ -61,8 +61,8 @@ export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
         map((response) => {
           const promotionList = response?.value?.find(
             (item) => item.type === AsmCustomer360Type.PROMOTION_LIST
-          ) as Customer360PromotionList;
-          const newEntries: Array<Customer360Promotion> = [];
+          ) as AsmCustomer360PromotionList;
+          const newEntries: Array<AsmCustomer360Promotion> = [];
           if (promotionList.promotions) {
             promotionList.promotions.forEach((promotion) => {
               newEntries.push({
@@ -88,7 +88,7 @@ export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
     this.context.data$
       .pipe(
         map((data) => {
-          const entries: Array<Customer360Promotion> = [];
+          const entries: Array<AsmCustomer360Promotion> = [];
           data.promotions.forEach((promotion) => {
             entries.push({
               applied: promotion.applied,

@@ -11,7 +11,7 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  Customer360CustomerCouponList,
+  AsmCustomer360CustomerCouponList,
   AsmCustomer360Facade,
   AsmCustomer360Response,
   AsmCustomer360Type,
@@ -40,7 +40,7 @@ export class AsmCustomer360CustomerCouponComponent
   activeTab = 0;
 
   constructor(
-    protected context: AsmCustomer360SectionContext<Customer360CustomerCouponList>,
+    protected context: AsmCustomer360SectionContext<AsmCustomer360CustomerCouponList>,
     protected customer360Facade: AsmCustomer360Facade,
     protected customerCouponService: CustomerCouponService
   ) {}
@@ -153,7 +153,7 @@ export class AsmCustomer360CustomerCouponComponent
   ): Array<CustomerCouponEntry> {
     const couponList = response?.value?.find(
       (item) => item.type === AsmCustomer360Type.CUSTOMER_COUPON_LIST
-    ) as Customer360CustomerCouponList;
+    ) as AsmCustomer360CustomerCouponList;
     const newEntries: Array<CustomerCouponEntry> = [];
     if (couponList.customerCoupons) {
       couponList.customerCoupons.forEach((customerCoupon) => {

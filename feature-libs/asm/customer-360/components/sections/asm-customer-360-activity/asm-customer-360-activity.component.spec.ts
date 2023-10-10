@@ -10,7 +10,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ArgsPipe } from '@spartacus/asm/core';
 import {
-  Customer360ActivityList,
+  AsmCustomer360ActivityList,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
@@ -63,9 +63,9 @@ describe('Customer360ActivityComponent', () => {
   let component: AsmCustomer360ActivityComponent;
   let fixture: ComponentFixture<AsmCustomer360ActivityComponent>;
   let el: DebugElement;
-  let context: AsmCustomer360SectionContextSource<Customer360ActivityList>;
+  let context: AsmCustomer360SectionContextSource<AsmCustomer360ActivityList>;
 
-  const mockActivityList: Customer360ActivityList = {
+  const mockActivityList: AsmCustomer360ActivityList = {
     type: AsmCustomer360Type.ACTIVITY_LIST,
     activities: [
       {

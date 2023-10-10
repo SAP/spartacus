@@ -2,7 +2,7 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  Customer360ProductInterestList,
+  AsmCustomer360ProductInterestList,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import {
@@ -146,7 +146,7 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
 
     const contextSource = TestBed.inject(AsmCustomer360SectionContextSource);
 
-    const interestList: Customer360ProductInterestList = {
+    const interestList: AsmCustomer360ProductInterestList = {
       customerProductInterests: [
         {
           product: {

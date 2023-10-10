@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import {
   AsmDialogActionType,
   AsmCustomer360Facade,
-  Customer360Overview,
+  AsmCustomer360Overview,
   AsmCustomer360Response,
   AsmCustomer360TabComponent,
   AsmCustomer360Type,
@@ -65,7 +65,7 @@ describe('AsmCustomer360Component', () => {
     },
   };
 
-  const mockOverview: Customer360Overview = {
+  const mockOverview: AsmCustomer360Overview = {
     type: AsmCustomer360Type.OVERVIEW,
     overview: {
       name: 'John Doe',

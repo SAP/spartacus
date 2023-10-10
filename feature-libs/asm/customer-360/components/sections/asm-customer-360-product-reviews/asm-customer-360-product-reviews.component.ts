@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Customer360ReviewList } from '@spartacus/asm/customer-360/root';
+import { AsmCustomer360ReviewList } from '@spartacus/asm/customer-360/root';
 import { CxDatePipe, Product, TranslationService } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -57,7 +57,7 @@ export class AsmCustomer360ProductReviewsComponent implements OnInit {
 
   constructor(
     protected customer360Config: AsmCustomer360Config,
-    protected context: AsmCustomer360SectionContext<Customer360ReviewList>,
+    protected context: AsmCustomer360SectionContext<AsmCustomer360ReviewList>,
     protected datePipe: CxDatePipe,
     protected translation: TranslationService
   ) {}

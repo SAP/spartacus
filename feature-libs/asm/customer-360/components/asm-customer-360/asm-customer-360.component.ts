@@ -23,8 +23,8 @@ import {
   AsmCustomer360TabConfig,
   AsmCustomer360Facade,
   AsmCustomer360Type,
-  Customer360Overview,
-  CustomerOverview,
+  AsmCustomer360Overview,
+  AsmCustomerOverview,
   KeyBoardEventCode,
 } from '@spartacus/asm/customer-360/root';
 import { CsAgentAuthService } from '@spartacus/asm/root';
@@ -85,7 +85,7 @@ export class AsmCustomer360Component
 
   customer360Tabs$: Observable<Array<AsmCustomer360Data | undefined>>;
 
-  customerOverview$: Observable<CustomerOverview | undefined>;
+  customerOverview$: Observable<AsmCustomerOverview | undefined>;
 
   protected subscription = new Subscription();
 
@@ -110,7 +110,7 @@ export class AsmCustomer360Component
         map((response) => {
           const overviewItem = response?.value?.find(
             (item) => item.type === AsmCustomer360Type.OVERVIEW
-          ) as Customer360Overview | undefined;
+          ) as AsmCustomer360Overview | undefined;
           return overviewItem?.overview || undefined;
         }),
         catchError(() => {
@@ -222,7 +222,7 @@ export class AsmCustomer360Component
     return `${firstName.charAt(0)}${lastName.charAt(0)}`;
   }
 
-  getAvatarImage(overview?: CustomerOverview): Image | undefined {
+  getAvatarImage(overview?: AsmCustomerOverview): Image | undefined {
     return overview?.userAvatar?.url
       ? {
           altText: overview.name,

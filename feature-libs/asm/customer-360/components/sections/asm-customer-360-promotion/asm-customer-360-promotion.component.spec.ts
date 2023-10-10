@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  Customer360PromotionList,
+  AsmCustomer360PromotionList,
   AsmCustomer360Type,
   AsmCustomer360Facade,
   AsmCustomer360Response,
@@ -16,10 +16,10 @@ import { Observable, of } from 'rxjs';
 describe('AsmCustomer360PromotionComponent', () => {
   let component: AsmCustomer360PromotionComponent;
   let fixture: ComponentFixture<AsmCustomer360PromotionComponent>;
-  let context: AsmCustomer360SectionContextSource<Customer360PromotionList>;
+  let context: AsmCustomer360SectionContextSource<AsmCustomer360PromotionList>;
   const activeCartId = '12345';
 
-  const mockPromotionList: Customer360PromotionList = {
+  const mockPromotionList: AsmCustomer360PromotionList = {
     type: AsmCustomer360Type.PROMOTION_LIST,
     promotions: [
       {
@@ -43,7 +43,7 @@ describe('AsmCustomer360PromotionComponent', () => {
     ],
   };
 
-  const mockReloadedPromotionList: Customer360PromotionList = {
+  const mockReloadedPromotionList: AsmCustomer360PromotionList = {
     type: AsmCustomer360Type.PROMOTION_LIST,
     promotions: [
       {

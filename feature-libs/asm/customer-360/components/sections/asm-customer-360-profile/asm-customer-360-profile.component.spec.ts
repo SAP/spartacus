@@ -16,7 +16,7 @@ import { AsmCustomer360ProfileComponent } from './asm-customer-360-profile.compo
 import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import {
-  Customer360CustomerProfile,
+  AsmCustomer360CustomerProfile,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { By } from '@angular/platform-browser';
@@ -29,7 +29,7 @@ export class MockKeyboadFocusDirective {
 }
 
 describe('AsmCustomer360ProfileComponent', () => {
-  const mockCustomerProfile: Customer360CustomerProfile = {
+  const mockCustomerProfile: AsmCustomer360CustomerProfile = {
     type: AsmCustomer360Type.CUSTOMER_PROFILE,
     profile: {
       billingAddress: {

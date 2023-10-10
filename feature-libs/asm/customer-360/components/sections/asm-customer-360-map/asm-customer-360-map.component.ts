@@ -15,7 +15,7 @@ import {
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import {
   AsmCustomer360SectionConfig,
-  Customer360StoreLocation,
+  AsmCustomer360StoreLocation,
 } from '@spartacus/asm/customer-360/root';
 import {
   PointOfService,
@@ -47,13 +47,13 @@ export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
   apiKey: string;
 
   dataSource$: Observable<
-    [AsmCustomer360SectionConfig, Customer360StoreLocation]
+    [AsmCustomer360SectionConfig, AsmCustomer360StoreLocation]
   >;
 
   protected subscription = new Subscription();
 
   constructor(
-    public source: AsmCustomer360SectionContext<Customer360StoreLocation>,
+    public source: AsmCustomer360SectionContext<AsmCustomer360StoreLocation>,
     protected changeDetectorRef: ChangeDetectorRef,
     protected sanitizer: DomSanitizer,
     protected storeFinderService: StoreFinderService,

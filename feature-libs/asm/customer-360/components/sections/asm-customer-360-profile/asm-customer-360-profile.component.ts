@@ -11,9 +11,9 @@ import { Card, FocusConfig, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
-  Customer360CustomerProfile,
-  Customer360PaymentDetail,
-  Customer360Profile,
+  AsmCustomer360CustomerProfile,
+  AsmCustomer360PaymentDetail,
+  AsmCustomer360Profile,
   PaymentCardCode,
 } from '@spartacus/asm/customer-360/root';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
@@ -32,10 +32,10 @@ export class AsmCustomer360ProfileComponent implements OnInit {
 
   iconTypes = ICON_TYPE;
 
-  customerProfileData$: Observable<Customer360Profile | undefined>;
+  customerProfileData$: Observable<AsmCustomer360Profile | undefined>;
 
   constructor(
-    public sectionContext: AsmCustomer360SectionContext<Customer360CustomerProfile>,
+    public sectionContext: AsmCustomer360SectionContext<AsmCustomer360CustomerProfile>,
     protected translation: TranslationService
   ) {}
 
@@ -52,7 +52,7 @@ export class AsmCustomer360ProfileComponent implements OnInit {
     expiryYear,
     cardNumber,
     cardType,
-  }: Customer360PaymentDetail): Observable<Card> {
+  }: AsmCustomer360PaymentDetail): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentCard.expires', {
         month: expiryMonth,

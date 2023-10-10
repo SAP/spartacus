@@ -9,7 +9,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ArgsPipe } from '@spartacus/asm/core';
 import {
-  Customer360SupportTicketList,
+  AsmCustomer360SupportTicketList,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import {
@@ -55,9 +55,9 @@ describe('Customer360SupportTicketsComponent', () => {
   let component: AsmCustomer360SupportTicketsComponent;
   let fixture: ComponentFixture<AsmCustomer360SupportTicketsComponent>;
   let el: DebugElement;
-  let contextSource: AsmCustomer360SectionContextSource<Customer360SupportTicketList>;
+  let contextSource: AsmCustomer360SectionContextSource<AsmCustomer360SupportTicketList>;
 
-  const supportTicketList: Customer360SupportTicketList = {
+  const supportTicketList: AsmCustomer360SupportTicketList = {
     type: AsmCustomer360Type.SUPPORT_TICKET_LIST,
     tickets: [
       {

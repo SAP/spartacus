@@ -14,7 +14,7 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
 import { AsmCustomer360SavedCartComponent } from './asm-customer-360-saved-cart.component';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
-  Customer360SavedCart,
+  AsmCustomer360SavedCart,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
@@ -25,7 +25,7 @@ describe('AsmCustomer360SavedCartComponent', () => {
   let component: AsmCustomer360SavedCartComponent;
   let fixture: ComponentFixture<AsmCustomer360SavedCartComponent>;
   let el: DebugElement;
-  let contextSource: AsmCustomer360SectionContextSource<Customer360SavedCart>;
+  let contextSource: AsmCustomer360SectionContextSource<AsmCustomer360SavedCart>;
 
   const breakpointSubject = new BehaviorSubject<BREAKPOINT>(BREAKPOINT.xl);
 
@@ -95,7 +95,7 @@ describe('AsmCustomer360SavedCartComponent', () => {
     }
   }
 
-  const mockCart: Customer360SavedCart = {
+  const mockCart: AsmCustomer360SavedCart = {
     type: AsmCustomer360Type.SAVED_CART,
     savedCart: {
       code: '00000001',

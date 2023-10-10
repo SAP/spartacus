@@ -11,8 +11,8 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  Customer360Coupon,
-  Customer360CouponList,
+  AsmCustomer360Coupon,
+  AsmCustomer360CouponList,
   AsmCustomer360Facade,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
@@ -32,11 +32,11 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
   showErrorAlertForApplyAction$ = new BehaviorSubject<boolean>(false);
   currentCartId: string | undefined;
   userId: string;
-  entries$: Observable<Array<Customer360Coupon>>;
+  entries$: Observable<Array<AsmCustomer360Coupon>>;
   subscription = new Subscription();
 
   constructor(
-    protected context: AsmCustomer360SectionContext<Customer360CouponList>,
+    protected context: AsmCustomer360SectionContext<AsmCustomer360CouponList>,
     protected cartVoucherService: CartVoucherFacade,
     protected userIdService: UserIdService,
     protected activeCartFacade: ActiveCartFacade,
@@ -70,7 +70,7 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
   public fetchCoupons(): void {
     this.entries$ = this.context.data$.pipe(
       map((data) => {
-        const entries: Array<Customer360Coupon> = [];
+        const entries: Array<AsmCustomer360Coupon> = [];
         data.coupons.forEach((coupon) => {
           entries.push({
             ...coupon,
@@ -104,8 +104,8 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
         map((response) => {
           const couponList = response?.value?.find(
             (item) => item.type === AsmCustomer360Type.COUPON_LIST
-          ) as Customer360CouponList;
-          const newEntries: Array<Customer360Coupon> = [];
+          ) as AsmCustomer360CouponList;
+          const newEntries: Array<AsmCustomer360Coupon> = [];
           if (couponList.coupons) {
             couponList.coupons.forEach((coupon) => {
               newEntries.push({
@@ -122,12 +122,12 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
       );
   }
 
-  public applyCouponToCustomer(entry: Customer360Coupon): void {
+  public applyCouponToCustomer(entry: AsmCustomer360Coupon): void {
     this.cartVoucherService.addVoucher(entry?.code, this.currentCartId);
     this.refreshActionButton(true, entry?.code);
   }
 
-  public removeCouponToCustomer(entry: Customer360Coupon): void {
+  public removeCouponToCustomer(entry: AsmCustomer360Coupon): void {
     this.cartVoucherService.removeVoucher(entry?.code, this.currentCartId);
     this.refreshActionButton(false, entry?.code);
   }
