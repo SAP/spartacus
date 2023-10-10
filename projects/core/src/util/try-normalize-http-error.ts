@@ -5,11 +5,9 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  HttpErrorModel,
-  LoggerService,
-  normalizeHttpError,
-} from '@spartacus/core';
+import { HttpErrorModel } from '../model';
+import { LoggerService } from '../logger';
+import { normalizeHttpError } from './normalize-http-error';
 
 export function tryNormalizeHttpError(
   error: HttpErrorResponse | HttpErrorModel | any,

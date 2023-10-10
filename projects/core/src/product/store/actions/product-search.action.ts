@@ -12,7 +12,7 @@ import {
   Suggestion,
 } from '../../../model/product-search.model';
 import { SearchConfig } from '../../model/search-config';
-import { ErrorAction } from '@spartacus/core';
+import { ErrorAction } from '../../../model/index';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';
 export const SEARCH_PRODUCTS_FAIL = '[Product] Search Products Fail';

@@ -28,7 +28,7 @@ import {
   SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
   UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
 } from '../user-state';
-import { ErrorAction, ErrorActionType } from '@spartacus/core';
+import { ErrorAction, ErrorActionType } from '../../../model/index';
 
 export const LOAD_CUSTOMER_COUPONS = '[User] Load Customer Coupons';
 export const LOAD_CUSTOMER_COUPONS_FAIL = '[User] Load Customer Coupons Fail';
