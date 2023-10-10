@@ -6,3 +6,4 @@
 
 export const QUOTE_FEATURE = 'quote';
 export const QUOTE_AWARE_FEATURE = 'quote_aware';
+export const QUOTE_REQUEST_FEATURE = 'quote_request';
