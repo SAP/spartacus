@@ -19,7 +19,6 @@ import { QuoteHeaderOverviewModule } from './header/overview/quote-header-overvi
 import { QuoteHeaderSellerEditModule } from './header/seller-edit/quote-header-seller-edit.module';
 import { QuoteItemsModule } from './items/quote-items.module';
 import { QuoteListModule } from './list/quote-list.module';
-import { QuoteRequestButtonModule } from './request-button/quote-request-button.module';
 
 @NgModule({
   imports: [
@@ -35,7 +34,6 @@ import { QuoteRequestButtonModule } from './request-button/quote-request-button.
     QuoteHeaderSellerEditModule,
     QuoteItemsModule,
     QuoteListModule,
-    QuoteRequestButtonModule,
   ],
   providers: [provideDefaultConfig(defaultQuoteUIConfig)],
 })

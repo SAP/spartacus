@@ -2,22 +2,22 @@
   <section>
     <ul>
       <li>
-        <button
+        <a
           [attr.aria-label]="'quote.actions.link.a11y.newCart' | cxTranslate"
           (click)="goToNewCart()"
           class="link cx-action-link"
         >
           {{ 'quote.actions.link.newCart' | cxTranslate }}
-        </button>
+        </a>
       </li>
       <li>
-        <button
+        <a
           [attr.aria-label]="'quote.actions.link.a11y.quotes' | cxTranslate"
           [routerLink]="{ cxRoute: 'quotes' } | cxUrl"
           class="link cx-action-link"
         >
           {{ 'quote.actions.link.quotes' | cxTranslate }}
-        </button>
+        </a>
       </li>
     </ul>
   </section>
