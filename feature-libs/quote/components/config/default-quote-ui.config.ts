@@ -16,6 +16,7 @@ const defaultConfirmActionDialogConfig = {
   showWarningNote: false,
   showExpirationDate: false,
   showSuccessMessage: true,
+  showOnlyWhenCartIsNotEmpty: false,
 };
 
 const defaultDialogMappings: ConfirmActionDialogMappingConfig = {
@@ -25,6 +26,7 @@ const defaultDialogMappings: ConfirmActionDialogMappingConfig = {
       showWarningNote: true,
       showExpirationDate: true,
       showSuccessMessage: false,
+      showOnlyWhenCartIsNotEmpty: false,
     },
     CANCEL: {
       i18nKey: 'quote.actions.confirmDialog.buyer_offer.cancel',
@@ -42,12 +44,14 @@ const defaultDialogMappings: ConfirmActionDialogMappingConfig = {
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
+      showOnlyWhenCartIsNotEmpty: false,
     },
     REQUOTE: {
       i18nKey: 'quote.actions.confirmDialog.expired.requote',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
+      showOnlyWhenCartIsNotEmpty: false,
     },
   },
   BUYER: {
@@ -75,6 +79,15 @@ const defaultDialogMappings: ConfirmActionDialogMappingConfig = {
     REJECT: {
       i18nKey: 'quote.actions.confirmDialog.sellerapprover.reject',
       ...defaultConfirmActionDialogConfig,
+    },
+  },
+  ALL: {
+    EDIT: {
+      i18nKey: 'quote.actions.confirmDialog.all.edit',
+      showWarningNote: true,
+      showExpirationDate: false,
+      showSuccessMessage: false,
+      showOnlyWhenCartIsNotEmpty: true,
     },
   },
 };

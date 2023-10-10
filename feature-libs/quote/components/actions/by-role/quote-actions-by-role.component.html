@@ -1,17 +1,19 @@
 <ng-container *ngIf="quoteDetails$ | async as quoteDetails; else ghostActions">
-  <section>
-    <button
-      #element
-      type="button"
-      *ngFor="let action of quoteDetails.allowedActions"
-      class="btn"
-      [ngClass]="getButtonStyle(quoteDetails.allowedActions, action)"
-      [disabled]="mustDisableAction(action.type, quoteDetails)"
-      (click)="onClick(action.type, quoteDetails)"
-    >
-      {{ 'quote.actions.byRole.' + action.type | cxTranslate }}
-    </button>
-  </section>
+  <ng-container *ngIf="cartDetails$ | async as cartDetails; else ghostActions">
+    <section>
+      <button
+        #element
+        type="button"
+        *ngFor="let action of quoteDetails.allowedActions"
+        class="btn"
+        [ngClass]="getButtonStyle(quoteDetails.allowedActions, action)"
+        [disabled]="mustDisableAction(action.type, quoteDetails)"
+        (click)="onClick(action.type, quoteDetails, cartDetails)"
+      >
+        {{ 'quote.actions.byRole.' + action.type | cxTranslate }}
+      </button>
+    </section>
+  </ng-container>
 </ng-container>
 
 <ng-template #ghostActions>

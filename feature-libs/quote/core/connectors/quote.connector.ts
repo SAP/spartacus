@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -20,7 +20,7 @@ import { QuoteAdapter } from './quote.adapter';
 
 @Injectable()
 export class QuoteConnector {
-  constructor(protected adapter: QuoteAdapter) {}
+  protected adapter = inject(QuoteAdapter);
 
   public getQuotes(
     userId: string,

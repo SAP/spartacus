@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import {
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
@@ -19,9 +19,10 @@ import { QuoteDetailsReloadQueryEvent } from './quote.events';
   providedIn: 'root',
 })
 export class QuoteCartEventListener implements OnDestroy {
+  protected eventService = inject(EventService);
   protected subscription = new Subscription();
 
-  constructor(protected eventService: EventService) {
+  constructor() {
     this.listenToCartEvents();
   }
 
