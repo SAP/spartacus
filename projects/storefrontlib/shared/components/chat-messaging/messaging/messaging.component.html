@@ -77,10 +77,13 @@
     *ngIf="messagingConfigs?.displayAddMessageSection | async"
   >
     <div class="cx-message-box">
-      <label class="cx-footer-label">
+      <label class="cx-footer-label" id="cx-messaging-footer-label">
         <span>
           {{ 'chatMessaging.addNewMessage' | cxTranslate }}
           <select
+            [attr.aria-label]="
+              'chatMessaging.a11y.productListBoxLabel' | cxTranslate
+            "
             *ngIf="messagingConfigs?.itemList$ | async as itemList"
             class="cx-message-item-selection"
             formControlName="item"
@@ -92,6 +95,7 @@
         </span>
         <div class="cx-message-input">
           <input
+            aria-labelledby="cx-messaging-footer-label"
             formControlName="message"
             type="text"
             class="form-control"
@@ -112,6 +116,7 @@
             {{ 'chatMessaging.characterLimitAlert' | cxTranslate }}
           </span>
           <button
+            aria-labelledby="cx-messaging-footer-label"
             class="btn btn-block cx-send"
             [ngClass]="
               !!messagingConfigs?.sendBtnIsNotPrimary
