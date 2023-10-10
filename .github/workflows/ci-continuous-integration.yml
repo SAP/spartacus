@@ -46,6 +46,33 @@ jobs:
       - name: Run unit tests
         run: |
           ci-scripts/unit-tests.sh          
+  build-libs:
+    # TODO: For Testing SSR Epic only, remove job before merge
+    name: CI - Build Libraries
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Package installation
+        run: npm ci
+      - name: Build Libraries 
+        run: |
+          npm run build:libs
   sonarqube_scan:
     name: CI - SonarQube Scan
     runs-on: ubuntu-latest

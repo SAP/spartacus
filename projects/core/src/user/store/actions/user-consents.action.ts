@@ -12,7 +12,7 @@ import {
   USER_CONSENTS,
   WITHDRAW_CONSENT_PROCESS_ID,
 } from '../user-state';
-import { ErrorActionType } from '@spartacus/core';
+import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_USER_CONSENTS = '[User] Load User Consents';
 export const LOAD_USER_CONSENTS_SUCCESS = '[User] Load User Consents Success';

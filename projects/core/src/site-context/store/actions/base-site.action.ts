@@ -6,7 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { BaseSite } from '../../../model/misc.model';
-import { ErrorAction, ErrorActionType } from '@spartacus/core';
+import { ErrorAction, ErrorActionType } from '../../../model/index';
 
 export const LOAD_BASE_SITE = '[Site-context] Load BaseSite';
 export const LOAD_BASE_SITE_FAIL = '[Site-context] Load BaseSite Fail';

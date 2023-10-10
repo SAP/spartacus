@@ -6,7 +6,11 @@
 
 import { ErrorHandler, Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { ErrorAction, ErrorActionType, HttpErrorModel } from '@spartacus/core';
+import {
+  ErrorAction,
+  ErrorActionType,
+  HttpErrorModel,
+} from '../../model/index';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()

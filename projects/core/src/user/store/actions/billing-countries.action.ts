@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorAction } from '@spartacus/core';
+import { ErrorAction } from '../../../model/index';
 
 export const LOAD_BILLING_COUNTRIES = '[User] Load Billing Countries';
 export const LOAD_BILLING_COUNTRIES_FAIL = '[User] Load Billing Countries Fail';

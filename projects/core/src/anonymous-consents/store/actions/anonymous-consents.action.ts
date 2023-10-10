@@ -10,7 +10,7 @@ import {
 } from '../../../model/consent.model';
 import { StateUtils } from '../../../state/utils/index';
 import { ANONYMOUS_CONSENTS } from '../anonymous-consents-state';
-import { ErrorActionType } from '@spartacus/core';
+import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_ANONYMOUS_CONSENT_TEMPLATES =
   '[Anonymous Consents] Load Anonymous Consent Templates';

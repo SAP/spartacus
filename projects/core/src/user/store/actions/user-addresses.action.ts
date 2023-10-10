@@ -7,7 +7,7 @@
 import { Address } from '../../../model/address.model';
 import { StateUtils } from '../../../state/utils/index';
 import { USER_ADDRESSES } from '../user-state';
-import { ErrorActionType } from '@spartacus/core';
+import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_USER_ADDRESSES = '[User] Load User Addresses';
 export const LOAD_USER_ADDRESSES_FAIL = '[User] Load User Addresses Fail';
