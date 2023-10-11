@@ -1,16 +1,12 @@
 .cx-myaccount-view-name {
-    margin-left: 5px;
   border: 1px solid var(--cx-color-light);
   width: 250px;
   padding: 20px 5px 5px 25px;
   gap: 40px;
-    margin-top: 40px;
   height: 120px;
-//   margin: 40px 0px 0px 5px;
+  margin: 40px 0px 0px 5px;
 
   .cx-name {
-    display: block;
-
     .cx-sign-out {
       text-decoration: underline;
     }
