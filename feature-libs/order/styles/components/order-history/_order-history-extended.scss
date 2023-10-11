@@ -83,6 +83,11 @@
           font-size: 18px;
           color: var(--cx-color-alert, var(--cx-color-danger));
         }
+        .cx-order-status-critical-link {
+          font-size: 18px;
+          color: var(--cx-color-alert, var(--cx-color-danger));
+          text-decoration: underline;
+        }
       }
       .cx-order-images-container {
         width: 40%; // show 70% order info and 30% images

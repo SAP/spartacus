@@ -160,14 +160,19 @@
       Return Processed: 15, September, 2022
   -->
     <div *ngFor="let returnRequest of order.returnRequests">
-      <div *ngIf="returnRequest.returnEntries" class="cx-order-status-critical">
-        {{ 'orderHistoryEnhancedUI.returned' | cxTranslate }}
-        <ng-container
-          *ngTemplateOutlet="
-            showManyItems;
-            context: { count: returnRequest.returnEntries.length }
+      <div *ngIf="returnRequest.rma" class="cx-order-status-critical">
+        {{ 'returnRequestList.returnRequestId' | cxTranslate }}
+        <a
+          [routerLink]="
+            {
+              cxRoute: 'returnRequestDetails',
+              params: returnRequest
+            } | cxUrl
           "
-        ></ng-container>
+          class="cx-order-status-critical-link"
+        >
+          {{ returnRequest.rma }}</a
+        >
       </div>
       <div
         class="cx-consignment-info"

@@ -212,7 +212,6 @@ export const orderEnhancedUI = {
     totalPrice: 'Total Price: {{param}}',
     consignmentCode: 'Consignment {{param}}',
     statusDate: 'Last Updated: {{param}}',
-    returned: 'Returned - ',
     returnProcessed: 'Return Processed: {{param}}',
     deliveryPointOfServiceDetails: {
       itemsToBePickUp: 'To Be Picked Up - ',
