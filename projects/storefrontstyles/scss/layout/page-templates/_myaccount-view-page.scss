@@ -3,12 +3,10 @@
   margin: auto;
   display: flex;
   cx-page-slot {
-    cx-paragraph {
+    cx-banner {
       height: 120px;
       margin-top: 40px;
       border: 1px solid var(--cx-color-light);
-      text-indent: 10px;
-      padding: 15px 15px 15px 15px;
     }
   }
 
