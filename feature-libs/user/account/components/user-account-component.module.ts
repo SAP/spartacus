@@ -8,8 +8,14 @@ import { NgModule } from '@angular/core';
 import { LoginFormModule } from './login-form/login-form.module';
 import { LoginRegisterModule } from './login-register/login-register.module';
 import { LoginModule } from './login/login.module';
+import { MyaccountViewNameModule } from './myaccount-view-name/myaccount-view-name.module';
 
 @NgModule({
-  imports: [LoginModule, LoginFormModule, LoginRegisterModule],
+  imports: [
+    LoginModule,
+    LoginFormModule,
+    LoginRegisterModule,
+    MyaccountViewNameModule,
+  ],
 })
 export class UserAccountComponentsModule {}

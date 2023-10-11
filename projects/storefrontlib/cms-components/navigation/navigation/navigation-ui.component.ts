@@ -22,7 +22,7 @@ import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
-import { NavigationNode } from './navigation-node.model';
+import { NavigationNode, ICONS } from './navigation-node.model';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -264,5 +264,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     });
 
     this.isOpen = this.openNodes.length > 0;
+  }
+
+  getIcon(title: string): string {
+    return ICONS[title] || '';
   }
 }
