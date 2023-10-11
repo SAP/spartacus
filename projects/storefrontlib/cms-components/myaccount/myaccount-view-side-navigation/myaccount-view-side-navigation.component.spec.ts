@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MyaccountViewSideNavigationComponent } from './myaccount-view-side-navigation.component';
 import { CmsComponentData, NavigationService } from '@spartacus/storefront';
-import { CmsNavigationComponent,  } from '@spartacus/core';
+import { CmsNavigationComponent } from '@spartacus/core';
 import { of } from 'rxjs';
 // import { DebugElement } from '@angular/core';
 
@@ -26,16 +26,16 @@ describe('MyaccountViewSideNavigationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-        providers: [
-            {
-              provide: NavigationService,
-              useValue: mockNavigationService,
-            },
-            {
-              provide: CmsComponentData,
-              useValue: MockCmsNavigationComponent,
-            },
-          ],
+      providers: [
+        {
+          provide: NavigationService,
+          useValue: mockNavigationService,
+        },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsNavigationComponent,
+        },
+      ],
       declarations: [MyaccountViewSideNavigationComponent],
     }).compileComponents();
 
