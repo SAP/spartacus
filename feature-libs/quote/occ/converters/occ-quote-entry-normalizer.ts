@@ -24,6 +24,7 @@ export class OccQuoteEntryNormalizer implements Converter<OccQuote, Quote> {
     if (source.entries) {
       target.entries = source.entries.map((entry) => ({
         ...entry,
+        quoteCode: source.code,
         product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
       }));
     }
