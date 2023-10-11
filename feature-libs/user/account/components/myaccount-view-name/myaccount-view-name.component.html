@@ -1,6 +1,6 @@
 <div class="cx-myaccount-view-name">
       <ng-container *ngIf="user$ | async as user">
-        <div *ngIf="(user.title !== 'Miss'); else title">
+        <div>
           {{ user.title }} {{ user.name }}
         </div>
           <a
@@ -14,8 +14,3 @@
           </a>
       </ng-container>
 </div>
-<ng-template #title>
-  <div *ngIf="user$ | async as user">
-    {{ user.title }} {{ 'myaccountViewName.dot' | cxTranslate }} {{ user.name }}
-  </div>
-</ng-template>

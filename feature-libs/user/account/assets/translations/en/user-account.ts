@@ -26,7 +26,6 @@ export const userAccount = {
     signInRegister: 'Sign In / Register',
   },
   myaccountViewName:{
-    dot: '.',
     signOut: 'Sign Out'
   }
 };

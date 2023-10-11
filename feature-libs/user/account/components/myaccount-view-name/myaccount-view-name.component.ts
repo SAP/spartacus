@@ -10,6 +10,5 @@ import { LoginComponent } from '../login';
 @Component({
   selector: 'cx-myaccount-view-name',
   templateUrl: './myaccount-view-name.component.html',
-  styleUrls: ['./myaccount-view-name.component.scss'],
 })
 export class MyaccountViewNameComponent extends LoginComponent {}
