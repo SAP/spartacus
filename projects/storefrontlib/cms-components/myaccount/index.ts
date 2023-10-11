@@ -15,4 +15,3 @@ export * from './payment-methods/payment-methods.module';
 export * from './myaccount-view-side-navigation/myaccount-view-side-navigation.component';
 export * from './myaccount-view-side-navigation/myaccount-view-side-navigation.module';
 export * from './myaccount-view-side-navigation/index';
-

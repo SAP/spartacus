@@ -25,8 +25,7 @@ export const userAccount = {
     userGreeting: 'Hi, {{name}}',
     signInRegister: 'Sign In / Register',
   },
-  myaccountViewName:{
-    dot: '.',
-    signOut: 'Sign Out'
-  }
+  myaccountViewName: {
+    signOut: 'Sign Out',
+  },
 };

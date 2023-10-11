@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ICON_TYPE } from '../../misc/icon/index';
+
 export interface NavigationNode {
   title?: string;
 
@@ -31,3 +33,16 @@ export interface NavigationNode {
    */
   styleAttributes?: string;
 }
+
+export const ICONS: Record<string, string> = {
+  'Orders And Returns': ICON_TYPE.CART,
+  'Saved Carts': ICON_TYPE.CART_PLUS,
+  Wishlists: ICON_TYPE.STAR,
+  Requests: ICON_TYPE.HEADSET,
+  'Personal Details': ICON_TYPE.USER,
+  'Password And Security': ICON_TYPE.PASSWORD,
+  'Address Book': ICON_TYPE.HOME,
+  'Payment Details': ICON_TYPE.CREDIT_CARD,
+  Communications: ICON_TYPE.COMMUNICATIONS,
+  'Privacy And Settings': ICON_TYPE.PRIVACY,
+};

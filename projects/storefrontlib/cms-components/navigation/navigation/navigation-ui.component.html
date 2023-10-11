@@ -31,7 +31,7 @@
       [class]="node.styleClasses"
       (click)="closeIfClickedTheSameLink(node)"
     >
-    <cx-icon  [type]="getIcon(node.title)" > </cx-icon>
+      <cx-icon [type]="getIcon(node.title)"> </cx-icon>
       {{ node.title }}
     </cx-generic-link>
 
@@ -62,7 +62,7 @@
         </button>
       </ng-container>
       <ng-template #title>
-        <span *ngIf = "(node.title)" [attr.tabindex]="-1"> 
+        <span *ngIf="node.title" [attr.tabindex]="-1">
           {{ node.title }}
         </span>
       </ng-template>
