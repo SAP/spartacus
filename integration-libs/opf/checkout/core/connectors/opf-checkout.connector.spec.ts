@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveConfiguration } from '@spartacus/opf/checkout/root';
+import { ActiveConfiguration } from '@spartacus/opf/base/root';
 import { EMPTY, Observable } from 'rxjs';
 import { PaymentInitiationConfig, PaymentSessionData } from '../../root/model';
 import { OpfCheckoutConnector } from './opf-checkout.connector';

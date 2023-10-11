@@ -61,9 +61,10 @@ describe('OpfPaymentConnector', () => {
     expect(adapter.afterRedirectScripts).toHaveBeenCalledWith('1');
   });
 
-  it('getActiveConfigurations should call adapter', () => {
-    // spyOn(adapter, 'getActiveConfigurations').and.stub();
-    service.getActiveConfigurations();
-    expect(adapter.getActiveConfigurations).toHaveBeenCalled();
+  it('getActiveConfigurations should call adapter', (done) => {
+    service.getActiveConfigurations().subscribe(() => {
+      expect(adapter.getActiveConfigurations).toHaveBeenCalled();
+      done();
+    });
   });
 });

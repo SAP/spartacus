@@ -3,7 +3,8 @@ import { QueryService } from '@spartacus/core';
 import {
   ActiveConfiguration,
   OpfPaymentProviderType,
-} from '@spartacus/opf/checkout/root';
+} from '@spartacus/opf/base/root';
+
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OpfCheckoutConnector } from '../connectors/opf-checkout.connector';
