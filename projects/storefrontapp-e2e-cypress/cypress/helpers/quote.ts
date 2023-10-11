@@ -518,7 +518,7 @@ export function checkItem(productId: string) {
  */
 export function checkQuoteState(status: string) {
   log('Verifies the quote state', checkQuoteState.name);
-  cy.get('cx-quote-header-overview h3.cx-status').contains(status);
+  cy.get('cx-quote-header-overview .cx-status').contains(status);
 }
 
 /**
