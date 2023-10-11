@@ -133,16 +133,16 @@ export interface SubmitCompleteInput {
 }
 
 export interface AfterRedirectScriptResponse {
-  afterRedirectScript: AfterRedirectDynamicScript;
+  afterRedirectScript: OpfDynamicScript;
 }
 
-export interface AfterRedirectDynamicScript {
-  cssUrls?: AfterRedirectDynamicScriptResource[];
-  jsUrls?: AfterRedirectDynamicScriptResource[];
+export interface OpfDynamicScript {
+  cssUrls?: OpfDynamicScriptResource[];
+  jsUrls?: OpfDynamicScriptResource[];
   html?: string;
 }
 
-export interface AfterRedirectDynamicScriptResource {
+export interface OpfDynamicScriptResource {
   url?: string;
   sri?: string;
   attributes?: KeyValuePair[];

@@ -25,5 +25,7 @@ declare module '@spartacus/core' {
      * Endpoint to fetch dynamic script for Hosted Fields pattern and PageRedirection sub-pattern.
      */
     afterRedirectScripts?: string | OccEndpoint;
+
+    ctaScripts?: string | OccEndpoint;
   }
 }

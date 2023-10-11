@@ -7,6 +7,8 @@
 import { Injectable } from '@angular/core';
 import {
   AfterRedirectScriptResponse,
+  CtaScriptsRequest,
+  CtaScriptsResponse,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
   SubmitCompleteRequest,
@@ -53,5 +55,11 @@ export class OpfPaymentConnector {
     paymentSessionId: string
   ): Observable<AfterRedirectScriptResponse> {
     return this.adapter.afterRedirectScripts(paymentSessionId);
+  }
+
+  public ctaScripts(
+    ctaScriptsRequest: CtaScriptsRequest
+  ): Observable<CtaScriptsResponse> {
+    return this.adapter.ctaScripts(ctaScriptsRequest);
   }
 }

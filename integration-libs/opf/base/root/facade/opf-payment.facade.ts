@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 import { OPF_BASE_FEATURE } from '../feature-name';
 import {
   AfterRedirectScriptResponse,
+  CtaScriptsRequest,
+  CtaScriptsResponse,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
   SubmitCompleteInput,
@@ -27,6 +29,7 @@ import {
         'submitPayment',
         'submitCompletePayment',
         'afterRedirectScripts',
+        'ctaScripts',
       ],
     }),
 })
@@ -66,4 +69,8 @@ export abstract class OpfPaymentFacade {
   abstract afterRedirectScripts(
     paymentSessionId: string
   ): Observable<AfterRedirectScriptResponse>;
+
+  abstract ctaScripts(
+    ctaScriptsRequest: CtaScriptsRequest
+  ): Observable<CtaScriptsResponse>;
 }

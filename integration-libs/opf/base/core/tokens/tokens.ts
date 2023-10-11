@@ -8,6 +8,7 @@ import { InjectionToken } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import {
   AfterRedirectScriptResponse,
+  CtaScriptsResponse,
   OpfPaymentVerificationResponse,
   SubmitCompleteResponse,
   SubmitResponse,
@@ -28,3 +29,7 @@ export const OPF_PAYMENT_SUBMIT_COMPLETE_NORMALIZER = new InjectionToken<
 export const OPF_AFTER_REDIRECT_SCRIPTS_NORMALIZER = new InjectionToken<
   Converter<any, AfterRedirectScriptResponse>
 >('OpfAfterRedirectScriptsNormalizer');
+
+export const OPF_CTA_SCRIPTS_NORMALIZER = new InjectionToken<
+  Converter<any, CtaScriptsResponse>
+>('OpfCtaScriptsNormalizer');

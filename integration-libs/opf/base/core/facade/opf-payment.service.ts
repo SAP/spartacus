@@ -8,6 +8,8 @@ import { Injectable } from '@angular/core';
 import { Command, CommandService } from '@spartacus/core';
 import {
   AfterRedirectScriptResponse,
+  CtaScriptsRequest,
+  CtaScriptsResponse,
   OpfPaymentFacade,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
@@ -66,6 +68,15 @@ export class OpfPaymentService implements OpfPaymentFacade {
     );
   });
 
+  protected ctaScriptsCommand: Command<
+    {
+      ctaScriptsRequest: CtaScriptsRequest;
+    },
+    CtaScriptsResponse
+  > = this.commandService.create((payload) => {
+    return this.opfPaymentConnector.ctaScripts(payload.ctaScriptsRequest);
+  });
+
   constructor(
     protected commandService: CommandService,
     protected opfPaymentConnector: OpfPaymentConnector,
@@ -96,5 +107,9 @@ export class OpfPaymentService implements OpfPaymentFacade {
 
   afterRedirectScripts(paymentSessionId: string) {
     return this.afterRedirectScriptsCommand.execute({ paymentSessionId });
+  }
+
+  ctaScripts(ctaScriptsRequest: CtaScriptsRequest) {
+    return this.ctaScriptsCommand.execute({ ctaScriptsRequest });
   }
 }

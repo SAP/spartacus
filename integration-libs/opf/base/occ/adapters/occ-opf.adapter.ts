@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 import {
   OPF_AFTER_REDIRECT_SCRIPTS_NORMALIZER,
+  OPF_CTA_SCRIPTS_NORMALIZER,
   OPF_PAYMENT_SUBMIT_COMPLETE_NORMALIZER,
   OPF_PAYMENT_SUBMIT_NORMALIZER,
   OPF_PAYMENT_VERIFICATION_NORMALIZER,
@@ -22,6 +23,8 @@ import {
 } from '@spartacus/opf/base/core';
 import {
   AfterRedirectScriptResponse,
+  CtaScriptsRequest,
+  CtaScriptsResponse,
   OPF_CC_OTP_KEY,
   OPF_CC_PUBLIC_KEY,
   OpfConfig,
@@ -162,6 +165,31 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     );
   }
 
+  ctaScripts(
+    ctaScriptsRequest: CtaScriptsRequest
+  ): Observable<CtaScriptsResponse> {
+    const headers = new HttpHeaders(this.header).set(
+      OPF_CC_PUBLIC_KEY,
+      this.config.opf?.commerceCloudPublicKey || ''
+    );
+
+    const url = this.getCtaScriptsEndpoint();
+
+    return this.http
+      .post<SubmitResponse>(url, ctaScriptsRequest, { headers })
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        }),
+        backOff({
+          shouldRetry: isHttp500Error,
+          maxTries: 2,
+        }),
+        this.converter.pipeable(OPF_CTA_SCRIPTS_NORMALIZER)
+      );
+  }
+
   protected verifyPaymentEndpoint(paymentSessionId: string): string {
     return this.opfEndpointsService.buildUrl('verifyPayment', {
       urlParams: { paymentSessionId },
@@ -184,5 +212,9 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     return this.opfEndpointsService.buildUrl('afterRedirectScripts', {
       urlParams: { paymentSessionId },
     });
+  }
+
+  protected getCtaScriptsEndpoint(): string {
+    return this.opfEndpointsService.buildUrl('ctaScripts');
   }
 }

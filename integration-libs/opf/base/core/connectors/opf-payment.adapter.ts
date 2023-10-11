@@ -6,6 +6,8 @@
 
 import {
   AfterRedirectScriptResponse,
+  CtaScriptsRequest,
+  CtaScriptsResponse,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
   SubmitCompleteRequest,
@@ -48,4 +50,8 @@ export abstract class OpfPaymentAdapter {
   abstract afterRedirectScripts(
     paymentSessionId: string
   ): Observable<AfterRedirectScriptResponse>;
+
+  abstract ctaScripts(
+    ctaScriptsRequest: CtaScriptsRequest
+  ): Observable<CtaScriptsResponse>;
 }

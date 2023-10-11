@@ -27,8 +27,8 @@ import {
   OpfPaymentVerificationResult,
 } from '../../model';
 import {
-  AfterRedirectDynamicScript,
   KeyValuePair,
+  OpfDynamicScript,
   OpfPaymentMetadata,
   TargetPage,
 } from '../../model/opf.model';
@@ -220,7 +220,7 @@ export class OpfPaymentVerificationService {
   }
 
   protected renderAfterRedirectScripts(
-    script: AfterRedirectDynamicScript
+    script: OpfDynamicScript
   ): Promise<boolean> {
     const html = script?.html;
 

@@ -21,7 +21,7 @@ import {
   OpfPaymentFacade,
 } from '../../facade';
 import {
-  AfterRedirectDynamicScript,
+  OpfDynamicScript,
   OpfPaymentMetadata,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
@@ -287,7 +287,7 @@ describe('OpfPaymentVerificationService', () => {
   });
 
   describe('runHostedFieldsPattern', () => {
-    const dynamicScriptMock: AfterRedirectDynamicScript = {
+    const dynamicScriptMock: OpfDynamicScript = {
       cssUrls: [{ url: 'css url test', sri: 'css sri test' }],
       jsUrls: [{ url: 'js url test', sri: 'js sri test' }],
       html: 'html test',
