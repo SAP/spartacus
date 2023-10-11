@@ -73,7 +73,6 @@ export enum ICON_TYPE {
   PASSWORD = 'PASSWORD',
   HOME = 'HOME',
   SQUARE_CHECK = 'SQUARE_CHECK',
-
 }
 
 @Injectable({

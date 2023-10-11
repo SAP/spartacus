@@ -6,6 +6,6 @@
 
 export const myaccountView = {
   myaccountViewSideNavigation: {
-      sideNavigation: 'Side Navigation',
-    }
+    sideNavigation: 'Side Navigation',
+  },
 };

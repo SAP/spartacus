@@ -7,7 +7,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MyaccountViewSideNavigationComponent } from './myaccount-view-side-navigation.component';
-import { AuthGuard, CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { NavigationModule } from '../../navigation/navigation/navigation.module';
 
 @NgModule({
@@ -23,10 +28,6 @@ import { NavigationModule } from '../../navigation/navigation/navigation.module'
   ],
   declarations: [MyaccountViewSideNavigationComponent],
   exports: [MyaccountViewSideNavigationComponent],
-  imports: [
-    CommonModule,
-    NavigationModule,
-    I18nModule,
-  ]
+  imports: [CommonModule, NavigationModule, I18nModule],
 })
-export class MyaccountViewSideNavigationModule { }
+export class MyaccountViewSideNavigationModule {}

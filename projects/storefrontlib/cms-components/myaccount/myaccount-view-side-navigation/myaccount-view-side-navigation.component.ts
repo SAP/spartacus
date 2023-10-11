@@ -11,5 +11,4 @@ import { NavigationComponent } from '../../navigation';
   selector: 'cx-myaccount-view-side-navigation',
   templateUrl: './myaccount-view-side-navigation.component.html',
 })
-export class MyaccountViewSideNavigationComponent extends NavigationComponent{
-}
+export class MyaccountViewSideNavigationComponent extends NavigationComponent {}

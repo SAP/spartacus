@@ -14,7 +14,7 @@ $page-template-allowlist: LandingPage2Template, ContentPage1Template,
   CategoryPageTemplate, ProductListPageTemplate, ProductGridPageTemplate,
   SearchResultsListPageTemplate, ProductDetailsPageTemplate, LoginPageTemplate,
   MultiStepCheckoutSummaryPageTemplate, ErrorPageTemplate,
-  CheckoutLoginPageTemplate, AccountPageTemplate, OrderConfirmationPageTemplate ,
+  CheckoutLoginPageTemplate, AccountPageTemplate, OrderConfirmationPageTemplate,
   MyAccountViewPageTemplate !default;
 
 @each $selector in $page-template-allowlist {
