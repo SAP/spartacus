@@ -51,11 +51,11 @@ export class OrderHistoryExtendedViewService {
     return this.getOrderDetails(orderCode).pipe(
       switchMap((order: Order) => {
         //-----------------> filling consignment tracking
-        let orderView: OrderView = { ...order };
+        const orderView: OrderView = { ...order };
         orderView.consignments = [];
         const requests = (order.consignments ?? []).map(
           (consignment: Consignment) => {
-            let consignmentView: ConsignmentView = { ...consignment };
+            const consignmentView: ConsignmentView = { ...consignment };
             if (consignment.code && consignment.trackingID) {
               return this.getConsignmentTracking(
                 order?.code ?? '',
@@ -93,7 +93,7 @@ export class OrderHistoryExtendedViewService {
   getOrderListWithDetails(
     pageSize: number
   ): Observable<OrderHistoryListView | undefined> {
-    let orderListView: OrderHistoryListView = {};
+    const orderListView: OrderHistoryListView = {};
     return this.orderHitsoryService.getOrderHistoryList(pageSize).pipe(
       switchMap((orderList: OrderHistoryList | undefined) => {
         orderListView.pagination = orderList?.pagination;
@@ -101,7 +101,7 @@ export class OrderHistoryExtendedViewService {
         orderListView.orders = [];
         const requests = (orderList?.orders ?? []).map(
           (order: OrderHistory) => {
-            let orderView: OrderHistoryView = { ...order };
+            const orderView: OrderHistoryView = { ...order };
             return this.getOrderDetailsWithTracking(order?.code ?? '').pipe(
               map((orderDetail: OrderView | undefined) => {
                 /** filling extra fields ---> */
