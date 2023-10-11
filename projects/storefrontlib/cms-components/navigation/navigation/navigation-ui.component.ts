@@ -22,7 +22,7 @@ import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
-import { NavigationNode } from './navigation-node.model';
+import { NavigationNode, ICONS } from './navigation-node.model';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -267,50 +267,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   getIcon(title: string): string {
-    switch (title) {
-      case 'Orders And Returns': {
-        return ICON_TYPE.CART;
-      }
-
-      case 'Saved Carts': {
-        return ICON_TYPE.CART_PLUS;
-      }
-
-      case 'Wishlists': {
-        return ICON_TYPE.STAR;
-      }
-
-      case 'Requests': {
-        return ICON_TYPE.HEADSET;
-      }
-
-      case 'Personal Details': {
-        return ICON_TYPE.USER;
-      }
-
-      case 'Password And Security': {
-        return ICON_TYPE.PASSWORD;
-      }
-
-      case 'Address Book': {
-        return ICON_TYPE.HOME;
-      }
-
-      case 'Payment Details': {
-        return ICON_TYPE.CREDIT_CARD;
-      }
-
-      case 'Communications': {
-        return ICON_TYPE.COMMUNICATIONS;
-      }
-
-      case 'Privacy And Settings': {
-        return ICON_TYPE.PRIVACY;
-      }
-
-      default: {
-        return '';
-      }
-    }
+    return ICONS[title] || '';
   }
 }
