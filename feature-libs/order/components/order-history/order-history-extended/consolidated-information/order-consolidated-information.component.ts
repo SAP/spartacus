@@ -18,6 +18,7 @@ import {
   OrderView,
   OrderHistoryView,
 } from '@spartacus/order/root';
+import { OrderCriticalStatus } from '../order-history-extended.model';
 
 @Component({
   selector: 'cx-order-consolidated-information',
@@ -26,6 +27,7 @@ import {
 })
 export class OrderConsolidatedInformationComponent {
   protected orderConsignmentsService = inject(OrderConsignmentsService);
+  protected criticalStatuses = Object.values(OrderCriticalStatus);
   @Input()
   order?: OrderHistoryView;
   private IMAGE_COUNT = 4; //showing fixed no.of images, without using carousel
@@ -49,8 +51,11 @@ export class OrderConsolidatedInformationComponent {
   }
 
   isStatusCritical(status: string): boolean {
-    const criticalStatus = ['cancelled', 'error', 'Error', 'rejected'];
-    if (criticalStatus.includes(status)) {
+    if (
+      this.criticalStatuses.includes(
+        status.toUpperCase() as OrderCriticalStatus
+      )
+    ) {
       return true;
     } else {
       return false;

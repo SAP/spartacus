@@ -22,6 +22,7 @@ import {
 export class OrderDetailsService {
   orderCode$: Observable<string>;
   orderLoad$: Observable<{}>;
+
   constructor(
     private orderHistoryFacade: OrderHistoryFacade,
     private routingService: RoutingService

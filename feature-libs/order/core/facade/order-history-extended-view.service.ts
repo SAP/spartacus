@@ -116,6 +116,10 @@ export class OrderHistoryExtendedViewService {
             );
           }
         );
+        if (requests.length === 0) {
+          // in case of no order
+          requests.push(of(orderListView));
+        }
         return combineLatest(requests);
       }),
       map((requests: OrderHistoryListView[] | undefined) => {
@@ -148,7 +152,9 @@ export class OrderHistoryExtendedViewService {
           const returnRequests = responses?.[1]?.returnRequests;
           const orderHistory = responses?.[0];
           if (returnRequests && orderHistory?.orders) {
-            console.log(returnRequests);
+            if (orderHistory.pagination?.totalResults === 0) {
+              return of(orderHistory);
+            }
             return orderHistory.orders.map((order) => {
               const returnItems = returnRequests?.filter(
                 (returnItem) => returnItem.order?.code === order.code
