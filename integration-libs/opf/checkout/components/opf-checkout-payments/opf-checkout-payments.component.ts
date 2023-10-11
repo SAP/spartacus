@@ -16,11 +16,13 @@ import {
   GlobalMessageType,
   QueryState,
 } from '@spartacus/core';
-import { OpfPaymentMetadata, OpfService } from '@spartacus/opf/base/root';
 import {
   ActiveConfiguration,
-  OpfCheckoutFacade,
-} from '@spartacus/opf/checkout/root';
+  OpfPaymentFacade,
+  OpfPaymentMetadata,
+  OpfService,
+} from '@spartacus/opf/base/root';
+
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -32,7 +34,7 @@ import { tap } from 'rxjs/operators';
 export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
-  activeConfigurations$ = this.opfCheckoutService
+  activeConfigurations$ = this.opfPaymentervice
     .getActiveConfigurationsState()
     .pipe(
       tap((state: QueryState<ActiveConfiguration[] | undefined>) => {
@@ -50,7 +52,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   selectedPaymentId?: number;
 
   constructor(
-    protected opfCheckoutService: OpfCheckoutFacade,
+    protected opfPaymentervice: OpfPaymentFacade,
     protected opfService: OpfService,
     protected globalMessageService: GlobalMessageService
   ) {}

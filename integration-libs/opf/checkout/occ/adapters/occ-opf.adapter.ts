@@ -6,23 +6,16 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  ConverterService,
-  backOff,
-  isJaloError,
-  normalizeHttpError,
-} from '@spartacus/core';
+import { ConverterService, normalizeHttpError } from '@spartacus/core';
 import { OPF_CC_OTP_KEY } from '@spartacus/opf/base/root';
 import {
-  OPF_ACTIVE_CONFIGURATION_NORMALIZER,
-  OPF_PAYMENT_CONFIG_SERIALIZER,
   OpfAdapter,
   OpfEndpointsService,
+  OPF_PAYMENT_CONFIG_SERIALIZER,
 } from '@spartacus/opf/checkout/core';
 import {
-  ActiveConfiguration,
-  OPF_CC_PUBLIC_KEY,
   OpfConfig,
+  OPF_CC_PUBLIC_KEY,
   PaymentInitiationConfig,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
@@ -38,29 +31,6 @@ export class OccOpfAdapter implements OpfAdapter {
     protected opfEndpointsService: OpfEndpointsService,
     protected config: OpfConfig
   ) {}
-
-  getActiveConfigurations(): Observable<ActiveConfiguration[]> {
-    const headers = new HttpHeaders().set(
-      OPF_CC_PUBLIC_KEY,
-      this.config.opf?.commerceCloudPublicKey || ''
-    );
-
-    return this.http
-      .get<ActiveConfiguration[]>(this.getActiveConfigurationsEndpoint(), {
-        headers,
-      })
-      .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
-        backOff({
-          shouldRetry: isJaloError,
-        }),
-        this.converter.pipeable(OPF_ACTIVE_CONFIGURATION_NORMALIZER)
-      );
-  }
-
-  protected getActiveConfigurationsEndpoint(): string {
-    return this.opfEndpointsService.buildUrl('getActiveConfigurations');
-  }
 
   /**
    * TODO: Let's consider splitting this code into other files,

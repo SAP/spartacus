@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -15,30 +16,19 @@ import {
   DynamicAttributes,
   normalizeHttpError,
 } from '@spartacus/core';
-import { OccOpfAdapter } from './occ-opf.adapter';
+import { OPF_CC_OTP_KEY } from '@spartacus/opf/base/root';
 import {
-  OPF_ACTIVE_CONFIGURATION_NORMALIZER,
-  OPF_PAYMENT_CONFIG_SERIALIZER,
   OpfEndpointsService,
+  OPF_PAYMENT_CONFIG_SERIALIZER,
 } from '@spartacus/opf/checkout/core';
 import {
-  ActiveConfiguration,
-  OPF_CC_PUBLIC_KEY,
   OpfConfig,
+  OPF_CC_PUBLIC_KEY,
   PaymentInitiationConfig,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
-import { OPF_CC_OTP_KEY } from '@spartacus/opf/base/root';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
-
-const mockResponse: ActiveConfiguration[] = [
-  {
-    description: 'Sample description',
-    id: 1,
-    merchantId: 'sampleMerchantId',
-  },
-];
+import { OccOpfAdapter } from './occ-opf.adapter';
 
 const commerceCloudPublicKey = 'testKey';
 const mockOpfConfig: OpfConfig = {
@@ -233,58 +223,6 @@ describe('OccOpfAdapter', () => {
           done();
         },
       });
-    });
-  });
-
-  describe('getActiveConfigurations -', () => {
-    it('should return cart modification list based on provided params', () => {
-      occOpfAdapter.getActiveConfigurations().subscribe();
-
-      const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'GET';
-      });
-
-      expect(opfEndpointsService.buildUrl).toHaveBeenCalled();
-      expect(
-        mockReq.request.headers.get('sap-commerce-cloud-public-key')
-      ).toEqual(commerceCloudPublicKey);
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(mockResponse);
-    });
-
-    it('should use converter', () => {
-      occOpfAdapter.getActiveConfigurations().subscribe();
-      httpMock
-        .expectOne((req) => {
-          return req.method === 'GET';
-        })
-        .flush(mockResponse);
-      expect(converter.pipeable).toHaveBeenCalledWith(
-        OPF_ACTIVE_CONFIGURATION_NORMALIZER
-      );
-    });
-
-    it('should handle errors', (done) => {
-      spyOn(http, 'get').and.returnValue(throwError(mockError));
-
-      occOpfAdapter.getActiveConfigurations().subscribe({
-        error: (error) => {
-          expect(error).toEqual(normalizedError);
-          done();
-        },
-      });
-    });
-
-    it('should set commerceCloudPublicKey to empty string', () => {
-      mockOpfConfig.opf.commerceCloudPublicKey = null;
-      occOpfAdapter.getActiveConfigurations().subscribe();
-      const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'GET';
-      });
-      expect(mockReq.request.headers.get(OPF_CC_PUBLIC_KEY)).toEqual('');
-      mockReq.flush(mockPaymentSessionData);
-      mockOpfConfig.opf.commerceCloudPublicKey = commerceCloudPublicKey;
     });
   });
 });

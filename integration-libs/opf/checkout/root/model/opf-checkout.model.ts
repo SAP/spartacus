@@ -4,22 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DigitalWalletQuickBuy } from './opf-quick-buy.model';
-
-export interface ActiveConfiguration {
-  description?: string;
-  id?: number;
-  merchantId?: string;
-  providerType?: OpfPaymentProviderType;
-  displayName?: string;
-  acquirerCountryCode?: string;
-  digitalWalletQuickBuy?: DigitalWalletQuickBuy[];
-}
-
-export enum OpfPaymentProviderType {
-  PAYMENT_GATEWAY = 'PAYMENT_GATEWAY',
-  PAYMENT_METHOD = 'PAYMENT_METHOD',
-}
-
 export const OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE =
   'opfCheckoutPaymentAndReview';

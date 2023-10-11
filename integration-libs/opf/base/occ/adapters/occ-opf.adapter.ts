@@ -7,26 +7,28 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  ConverterService,
   backOff,
+  ConverterService,
   isJaloError,
   normalizeHttpError,
 } from '@spartacus/core';
 import {
+  OpfEndpointsService,
+  OpfPaymentAdapter,
+  OPF_ACTIVE_CONFIGURATION_NORMALIZER,
   OPF_AFTER_REDIRECT_SCRIPTS_NORMALIZER,
   OPF_PAYMENT_SUBMIT_COMPLETE_NORMALIZER,
   OPF_PAYMENT_SUBMIT_NORMALIZER,
   OPF_PAYMENT_VERIFICATION_NORMALIZER,
-  OpfEndpointsService,
-  OpfPaymentAdapter,
 } from '@spartacus/opf/base/core';
 import {
+  ActiveConfiguration,
   AfterRedirectScriptResponse,
-  OPF_CC_OTP_KEY,
-  OPF_CC_PUBLIC_KEY,
   OpfConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
+  OPF_CC_OTP_KEY,
+  OPF_CC_PUBLIC_KEY,
   SubmitCompleteRequest,
   SubmitCompleteResponse,
   SubmitRequest,
@@ -162,6 +164,25 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     );
   }
 
+  getActiveConfigurations(): Observable<ActiveConfiguration[]> {
+    const headers = new HttpHeaders().set(
+      OPF_CC_PUBLIC_KEY,
+      this.config.opf?.commerceCloudPublicKey || ''
+    );
+
+    return this.http
+      .get<ActiveConfiguration[]>(this.getActiveConfigurationsEndpoint(), {
+        headers,
+      })
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        }),
+        this.converter.pipeable(OPF_ACTIVE_CONFIGURATION_NORMALIZER)
+      );
+  }
+
   protected verifyPaymentEndpoint(paymentSessionId: string): string {
     return this.opfEndpointsService.buildUrl('verifyPayment', {
       urlParams: { paymentSessionId },
@@ -184,5 +205,9 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     return this.opfEndpointsService.buildUrl('afterRedirectScripts', {
       urlParams: { paymentSessionId },
     });
+  }
+
+  protected getActiveConfigurationsEndpoint(): string {
+    return this.opfEndpointsService.buildUrl('getActiveConfigurations');
   }
 }
