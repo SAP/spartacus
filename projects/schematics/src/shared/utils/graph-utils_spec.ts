@@ -183,7 +183,7 @@ describe('Graph utils', () => {
           "Textfield-Configurator",
           "Store-Finder",
           "ASM",
-          "Customer-360",
+          "ASM-Customer-360",
           "Segment-Refs",
           "S4HANA-Order-Management",
           "EPD-Visualization",

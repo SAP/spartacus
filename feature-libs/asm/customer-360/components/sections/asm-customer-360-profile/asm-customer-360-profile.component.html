@@ -1,0 +1,96 @@
+<div class="cx-asm-customer-360-profile">
+  <ng-container *ngIf="customerProfileData$ | async as customerProfileData">
+    <div>
+      <div class="row">
+        <div class="col">
+          <h4 class="mt-4 mb-3">
+            {{ 'asmCustomer360.profile.address' | cxTranslate }}
+          </h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h5 class="cx-asm-profile-subheader">
+            {{ 'asmCustomer360.profile.billingAddress' | cxTranslate }}
+          </h5>
+          <div class="cx-asm-profile-container billing-address">
+            <ng-container
+              *ngTemplateOutlet="
+                address;
+                context: { address: customerProfileData?.billingAddress }
+              "
+            ></ng-container>
+          </div>
+        </div>
+        <div class="col">
+          <h5 class="cx-asm-profile-subheader">
+            {{ 'asmCustomer360.profile.deliveryAddress' | cxTranslate }}
+          </h5>
+          <div class="cx-asm-profile-container delivery-address">
+            <ng-container
+              *ngTemplateOutlet="
+                address;
+                context: { address: customerProfileData?.deliveryAddress }
+              "
+            ></ng-container>
+          </div>
+        </div>
+        <div class="w-100 d-lg-none"></div>
+        <div class="col">
+          <h5 class="cx-asm-profile-subheader">
+            {{ 'asmCustomer360.profile.phone1' | cxTranslate }}
+          </h5>
+          <div class="cx-asm-profile-container profile-phone1">
+            {{ customerProfileData?.phone1 }}
+          </div>
+        </div>
+        <div class="col">
+          <h5 class="cx-asm-profile-subheader">
+            {{ 'asmCustomer360.profile.phone2' | cxTranslate }}
+          </h5>
+          <div class="cx-asm-profile-container profile-phone2">
+            {{ customerProfileData?.phone2 }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <h4 class="mt-4 mb-4">
+      {{ 'asmCustomer360.profile.paymentMethodHeader' | cxTranslate }}
+    </h4>
+    <div class="cx-asm-profile-cards">
+      <div
+        class="cx-asm-profile-card"
+        *ngFor="
+          let paymentInfoList of customerProfileData.paymentDetails;
+          let i = index
+        "
+      >
+        <cx-card
+          [index]="i"
+          [border]="true"
+          [fitToContainer]="true"
+          [content]="getCardContent(paymentInfoList) | async"
+        ></cx-card>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #address let-address="address">
+    <div class="cx-asm-profile-address-cell">
+      <div class="address-line1">
+        {{ address?.line1 }}
+      </div>
+      <div class="address-line2">
+        {{ address?.line2 }}
+      </div>
+      <div>
+        <span class="address-town" *ngIf="address?.town"
+          >{{ address.town }},
+        </span>
+        <span class="address-region" *ngIf="address?.region?.name"
+          >{{ address.region.name }},
+        </span>
+        <span class="address-country">{{ address?.country?.name }}</span>
+      </div>
+    </div>
+  </ng-template>
+</div>

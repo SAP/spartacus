@@ -28,10 +28,11 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
   isCustomerEmulationSessionInProgress$: Observable<boolean>;
 
-  isCustomer360Configured: boolean | undefined = false;
-  isCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
+  isAsmCustomer360Configured: boolean | undefined = false;
+  isAsmCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
 
-  @ViewChild('customer360Launcher') customer360LauncherElement: ElementRef;
+  @ViewChild('asmCustomer360Launcher')
+  asmCustomer360LauncherElement: ElementRef;
 
   protected subscription = new Subscription();
 
@@ -58,12 +59,12 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.isCustomer360Configured =
-      this.featureModules?.isConfigured('customer360');
-    if (this.isCustomer360Configured) {
+    this.isAsmCustomer360Configured =
+      this.featureModules?.isConfigured('asmCustomer360');
+    if (this.isAsmCustomer360Configured) {
       // trigger lazy loading of the Customer 360 feature:
-      this.featureModules?.resolveFeature('customer360').subscribe(() => {
-        this.isCustomer360Loaded$.next(true);
+      this.featureModules?.resolveFeature('asmCustomer360').subscribe(() => {
+        this.isAsmCustomer360Loaded$.next(true);
       });
     }
 
@@ -82,15 +83,15 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     this.asmComponentService.logoutCustomer();
   }
 
-  openCustomer360() {
+  openAsmCustomer360() {
     this.subscription.add(
-      this.isCustomer360Loaded$
+      this.isAsmCustomer360Loaded$
         .pipe(filter((isReady) => Boolean(isReady)))
         .subscribe(() => {
           const data = { customer: this.customer };
           this.launchDialogService?.openDialogAndSubscribe(
             LAUNCH_CALLER.ASM_CUSTOMER_360,
-            this.customer360LauncherElement,
+            this.asmCustomer360LauncherElement,
             data
           );
 

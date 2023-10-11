@@ -5,5 +5,5 @@
  */
 
 export * from './adapters/index';
-export * from './customer-360-occ.module';
+export * from './asm-customer-360-occ.module';
 export * from './model/index';

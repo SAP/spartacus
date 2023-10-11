@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './occ-customer-360.adapter';
+export * from './occ-asm-customer-360.adapter';
