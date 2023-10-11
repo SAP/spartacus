@@ -471,7 +471,7 @@ export function navigateToQuoteListFromQuoteDetails() {
     cy.get('section > ul > li')
       .next()
       .within(() => {
-        cy.get('button').contains('Quotes').first().click();
+        cy.get('a').contains('Quotes').first().click();
       });
   });
 }
