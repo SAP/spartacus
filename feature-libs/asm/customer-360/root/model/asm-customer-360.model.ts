@@ -65,7 +65,7 @@ export interface C360TicketCategory {
   name: string;
 }
 
-export interface Customer360SupportTicket {
+export interface AsmCustomer360SupportTicket {
   id: string;
   subject: string;
   category: C360TicketCategory;
@@ -91,7 +91,7 @@ export enum AsmCustomer360Type {
 
 export interface AsmCustomer360SupportTicketList {
   type: AsmCustomer360Type.SUPPORT_TICKET_LIST;
-  tickets: Array<Customer360SupportTicket>;
+  tickets: Array<AsmCustomer360SupportTicket>;
 }
 
 export interface AsmCustomer360ReviewList {

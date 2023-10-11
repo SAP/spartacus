@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { AsmCustomer360SectionComponent } from './asm-customer-360-section.component';
 
-describe('Customer360SectionComponent', () => {
+describe('AsmCustomer360SectionComponent', () => {
   let component: AsmCustomer360SectionComponent;
   let fixture: ComponentFixture<AsmCustomer360SectionComponent>;
 

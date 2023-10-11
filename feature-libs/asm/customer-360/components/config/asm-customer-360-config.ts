@@ -13,7 +13,7 @@ import { Config } from '@spartacus/core';
   useExisting: Config,
 })
 export abstract class AsmCustomer360Config {
-  customer360?: AsmCustomer360TabsConfig;
+  asmCustomer360?: AsmCustomer360TabsConfig;
 }
 
 declare module '@spartacus/core' {

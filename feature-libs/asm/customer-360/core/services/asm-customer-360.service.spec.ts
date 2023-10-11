@@ -41,7 +41,7 @@ describe('Asm360Service', () => {
   };
 
   class MockAsmConnector {
-    getCustomer360Data(): Observable<AsmCustomer360Response> {
+    getAsmCustomer360Data(): Observable<AsmCustomer360Response> {
       return of(data);
     }
   }
@@ -57,7 +57,7 @@ describe('Asm360Service', () => {
 
   let service: AsmCustomer360Service;
 
-  let customer360Connector: AsmCustomer360Connector;
+  let asmCustomer360Connector: AsmCustomer360Connector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -68,8 +68,8 @@ describe('Asm360Service', () => {
       ],
     });
 
-    customer360Connector = TestBed.inject(AsmCustomer360Connector);
-    spyOn(customer360Connector, 'getCustomer360Data').and.callThrough();
+    asmCustomer360Connector = TestBed.inject(AsmCustomer360Connector);
+    spyOn(asmCustomer360Connector, 'getAsmCustomer360Data').and.callThrough();
 
     service = TestBed.inject(AsmCustomer360Service);
   });
@@ -102,10 +102,12 @@ describe('Asm360Service', () => {
     combineLatest([getData1, getData2])
       .pipe(take(1))
       .subscribe(([response1, response2]) => {
-        expect(customer360Connector.getCustomer360Data).toHaveBeenCalledTimes(
-          1
-        );
-        expect(customer360Connector.getCustomer360Data).toHaveBeenCalledWith({
+        expect(
+          asmCustomer360Connector.getAsmCustomer360Data
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          asmCustomer360Connector.getAsmCustomer360Data
+        ).toHaveBeenCalledWith({
           queries: [
             {
               type: AsmCustomer360Type.REVIEW_LIST,

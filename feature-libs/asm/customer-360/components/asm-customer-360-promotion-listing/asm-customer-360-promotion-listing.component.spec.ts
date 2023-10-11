@@ -5,7 +5,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 import { PromotionListEntry } from './asm-customer-360-promotion-listing.model';
 
-describe('Customer360PromotionListingComponent', () => {
+describe('AsmCustomer360PromotionListingComponent', () => {
   const mockEntries: Array<PromotionListEntry> = [
     {
       code: 'COUPON_1',

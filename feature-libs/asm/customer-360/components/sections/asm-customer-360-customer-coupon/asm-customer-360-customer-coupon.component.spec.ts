@@ -15,7 +15,7 @@ import { CustomerCouponEntry } from './asm-customer-360-customer-coupon.model';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-describe('Customer360CouponComponent', () => {
+describe('AsmCustomer360CouponComponent', () => {
   let customerCouponService: CustomerCouponService;
   let component: AsmCustomer360CustomerCouponComponent;
   let fixture: ComponentFixture<AsmCustomer360CustomerCouponComponent>;
@@ -123,12 +123,12 @@ describe('Customer360CouponComponent', () => {
         applied: false,
       },
     ];
-  const mockReloadedCustomer360Response: AsmCustomer360Response = {
+  const mockReloadedAsmCustomer360Response: AsmCustomer360Response = {
     value: [mockReloadedCustomerCouponList],
   };
-  class MockCustomer360Facade implements Partial<AsmCustomer360Facade> {
+  class MockAsmCustomer360Facade implements Partial<AsmCustomer360Facade> {
     get360Data(): Observable<AsmCustomer360Response> {
-      return of(mockReloadedCustomer360Response);
+      return of(mockReloadedAsmCustomer360Response);
     }
   }
   class MockCustomerCouponService implements Partial<CustomerCouponService> {
@@ -163,7 +163,7 @@ describe('Customer360CouponComponent', () => {
         },
         {
           provide: AsmCustomer360Facade,
-          useClass: MockCustomer360Facade,
+          useClass: MockAsmCustomer360Facade,
         },
       ],
     }).compileComponents();

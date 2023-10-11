@@ -45,9 +45,9 @@ export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
-describe('Customer360TableComponent', () => {
+describe('AsmCustomer360TableComponent', () => {
   const mockAsmConfig: AsmCustomer360Config = {
-    customer360: {
+    asmCustomer360: {
       dateFormat: 'MM-dd-yyyy',
       dateTimeFormat: 'dd-MM-yy hh:mm a',
       tabs: [
@@ -317,7 +317,7 @@ describe('Customer360TableComponent', () => {
 
     const formatedDate = datePipe.transform(
       mockEntries[0].created,
-      mockAsmConfig.customer360?.dateTimeFormat
+      mockAsmConfig.asmCustomer360?.dateTimeFormat
     );
 
     expect(tableRows[0].childNodes[4].nativeNode.textContent).toContain(

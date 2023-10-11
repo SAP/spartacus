@@ -56,7 +56,7 @@ export class AsmCustomer360ProductReviewsComponent implements OnInit {
   protected subscription = new Subscription();
 
   constructor(
-    protected customer360Config: AsmCustomer360Config,
+    protected asmCustomer360Config: AsmCustomer360Config,
     protected context: AsmCustomer360SectionContext<AsmCustomer360ReviewList>,
     protected datePipe: CxDatePipe,
     protected translation: TranslationService
@@ -91,7 +91,7 @@ export class AsmCustomer360ProductReviewsComponent implements OnInit {
     return date
       ? this.datePipe.transform(
           date,
-          this.customer360Config?.customer360?.dateTimeFormat
+          this.asmCustomer360Config?.asmCustomer360?.dateTimeFormat
         ) ?? ''
       : '';
   }

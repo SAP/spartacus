@@ -21,7 +21,7 @@ import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 
 import { AsmCustomer360ProductItemComponent } from '../../asm-customer-360-product-item/asm-customer-360-product-item.component';
 
-describe('Customer360ActiveCartComponent', () => {
+describe('AsmCustomer360ActiveCartComponent', () => {
   let component: AsmCustomer360ActiveCartComponent;
   let fixture: ComponentFixture<AsmCustomer360ActiveCartComponent>;
   let el: DebugElement;

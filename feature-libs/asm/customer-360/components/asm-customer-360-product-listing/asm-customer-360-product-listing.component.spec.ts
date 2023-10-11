@@ -15,7 +15,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { AsmCustomer360ProductListingComponent } from './asm-customer-360-product-listing.component';
 import { ProductItem } from './product-item.model';
 
-describe('Customer360ProductListingComponent', () => {
+describe('AsmCustomer360ProductListingComponent', () => {
   let component: AsmCustomer360ProductListingComponent;
   let fixture: ComponentFixture<AsmCustomer360ProductListingComponent>;
   let el: DebugElement;

@@ -20,51 +20,55 @@ import { AsmCustomer360Connector } from '../connectors/asm-customer-360.connecto
 
 @Injectable()
 export class AsmCustomer360Service implements AsmCustomer360Facade {
-  protected customer360Command$: Command<
+  protected asmCustomer360Command$: Command<
     Array<AsmCustomer360TabComponent>,
     AsmCustomer360Response
   >;
 
   constructor(
     protected commandService: CommandService,
-    protected customer360Connector: AsmCustomer360Connector,
+    protected asmCustomer360Connector: AsmCustomer360Connector,
     protected userAccountFacade: UserAccountFacade
   ) {
-    this.customer360Command$ = this.commandService.create((tabComponents) => {
-      return this.userAccountFacade.get().pipe(
-        take(1),
-        concatMap((customer) => {
-          const queries = tabComponents.reduce(
-            (requests: Array<AsmCustomer360Query>, component) => {
-              if (component.requestData) {
-                return requests.concat(component.requestData);
-              }
-              return requests;
-            },
-            []
-          );
-
-          if (queries.length > 0) {
-            const request: AsmCustomer360Request = {
-              queries,
-              options: {
-                userId: customer?.customerId ?? '',
+    this.asmCustomer360Command$ = this.commandService.create(
+      (tabComponents) => {
+        return this.userAccountFacade.get().pipe(
+          take(1),
+          concatMap((customer) => {
+            const queries = tabComponents.reduce(
+              (requests: Array<AsmCustomer360Query>, component) => {
+                if (component.requestData) {
+                  return requests.concat(component.requestData);
+                }
+                return requests;
               },
-            };
-            return this.customer360Connector.getCustomer360Data(request);
-          } else {
-            return of({
-              value: [],
-            });
-          }
-        })
-      );
-    });
+              []
+            );
+
+            if (queries.length > 0) {
+              const request: AsmCustomer360Request = {
+                queries,
+                options: {
+                  userId: customer?.customerId ?? '',
+                },
+              };
+              return this.asmCustomer360Connector.getAsmCustomer360Data(
+                request
+              );
+            } else {
+              return of({
+                value: [],
+              });
+            }
+          })
+        );
+      }
+    );
   }
 
   get360Data(
     components: Array<AsmCustomer360TabComponent>
   ): Observable<AsmCustomer360Response | undefined> {
-    return this.customer360Command$.execute(components);
+    return this.asmCustomer360Command$.execute(components);
   }
 }

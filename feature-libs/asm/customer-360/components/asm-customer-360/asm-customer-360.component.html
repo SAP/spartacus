@@ -75,7 +75,8 @@
                   : {
                       date:
                         customerOverview.signedUpAt
-                        | cxDate: customer360Config?.customer360?.dateFormat
+                        | cxDate
+                          : asmCustomer360Config?.asmCustomer360?.dateFormat
                     }
             }}
           </div>
@@ -127,7 +128,7 @@
             >,
             {{
               customerOverview?.latestOrderTime
-                | cxDate: customer360Config?.customer360?.dateFormat
+                | cxDate: asmCustomer360Config?.asmCustomer360?.dateFormat
             }}
           </span>
           <span
@@ -153,7 +154,7 @@
             >,
             {{
               customerOverview?.latestOpenedTicketCreatedAt
-                | cxDate: customer360Config?.customer360?.dateFormat
+                | cxDate: asmCustomer360Config?.asmCustomer360?.dateFormat
             }}
           </span>
         </div>
@@ -190,12 +191,14 @@
           </div>
         </ng-container>
         <ng-template #tabContent>
-          <ng-container *ngIf="customer360Tabs$ | async as customer360Tabs">
+          <ng-container
+            *ngIf="asmCustomer360Tabs$ | async as asmCustomer360Tabs"
+          >
             <cx-asm-customer-360-section
               *ngFor="let config of currentTab?.components; let i = index"
               [component]="config.component"
               [config]="config.config"
-              [data]="customer360Tabs?.[i]"
+              [data]="asmCustomer360Tabs?.[i]"
               (navigate)="navigateTo($event)"
             ></cx-asm-customer-360-section>
           </ng-container>

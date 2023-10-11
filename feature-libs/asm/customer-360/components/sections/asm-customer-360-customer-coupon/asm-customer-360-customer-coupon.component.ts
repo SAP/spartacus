@@ -41,7 +41,7 @@ export class AsmCustomer360CustomerCouponComponent
 
   constructor(
     protected context: AsmCustomer360SectionContext<AsmCustomer360CustomerCouponList>,
-    protected customer360Facade: AsmCustomer360Facade,
+    protected asmCustomer360Facade: AsmCustomer360Facade,
     protected customerCouponService: CustomerCouponService
   ) {}
 
@@ -95,7 +95,7 @@ export class AsmCustomer360CustomerCouponComponent
   public changeTab(assignable: boolean): void {
     this.currentTabIsAssignable = assignable;
     this.hideAllErrorAlert();
-    this.entries$ = this.customer360Facade
+    this.entries$ = this.asmCustomer360Facade
       .get360Data([
         {
           requestData: {
@@ -119,7 +119,7 @@ export class AsmCustomer360CustomerCouponComponent
 
   public searchCustomerCoupon(searchQuery: string): void {
     this.hideAllErrorAlert();
-    this.entries$ = this.customer360Facade
+    this.entries$ = this.asmCustomer360Facade
       .get360Data([
         {
           requestData: {

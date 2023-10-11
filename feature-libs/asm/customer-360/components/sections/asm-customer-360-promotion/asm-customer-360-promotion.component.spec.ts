@@ -67,13 +67,13 @@ describe('AsmCustomer360PromotionComponent', () => {
     ],
   };
 
-  const mockReloadedCustomer360Response: AsmCustomer360Response = {
+  const mockReloadedAsmCustomer360Response: AsmCustomer360Response = {
     value: [mockReloadedPromotionList],
   };
 
-  class MockCustomer360Facade implements Partial<AsmCustomer360Facade> {
+  class MockAsmCustomer360Facade implements Partial<AsmCustomer360Facade> {
     get360Data(): Observable<AsmCustomer360Response> {
-      return of(mockReloadedCustomer360Response);
+      return of(mockReloadedAsmCustomer360Response);
     }
   }
   class MockActiveCartFacade implements Partial<ActiveCartFacade> {
@@ -97,7 +97,7 @@ describe('AsmCustomer360PromotionComponent', () => {
         },
         {
           provide: AsmCustomer360Facade,
-          useClass: MockCustomer360Facade,
+          useClass: MockAsmCustomer360Facade,
         },
         {
           provide: ActiveCartFacade,

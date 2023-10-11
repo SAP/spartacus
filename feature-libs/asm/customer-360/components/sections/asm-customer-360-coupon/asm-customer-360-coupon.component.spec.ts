@@ -17,7 +17,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
 
-describe('Customer360CouponComponent', () => {
+describe('AsmCustomer360CouponComponent', () => {
   let cartVoucherService: CartVoucherFacade;
   let component: AsmCustomer360CouponComponent;
   let fixture: ComponentFixture<AsmCustomer360CouponComponent>;
@@ -66,12 +66,12 @@ describe('Customer360CouponComponent', () => {
       },
     ],
   };
-  const mockReloadedCustomer360Response: AsmCustomer360Response = {
+  const mockReloadedAsmCustomer360Response: AsmCustomer360Response = {
     value: [mockReloadedCouponList],
   };
-  class MockCustomer360Facade implements Partial<AsmCustomer360Facade> {
+  class MockAsmCustomer360Facade implements Partial<AsmCustomer360Facade> {
     get360Data(): Observable<AsmCustomer360Response> {
-      return of(mockReloadedCustomer360Response);
+      return of(mockReloadedAsmCustomer360Response);
     }
   }
   class MockCartVoucherFacade implements Partial<CartVoucherFacade> {
@@ -120,7 +120,7 @@ describe('Customer360CouponComponent', () => {
         },
         {
           provide: AsmCustomer360Facade,
-          useClass: MockCustomer360Facade,
+          useClass: MockAsmCustomer360Facade,
         },
       ],
     }).compileComponents();

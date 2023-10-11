@@ -40,7 +40,7 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
     protected cartVoucherService: CartVoucherFacade,
     protected userIdService: UserIdService,
     protected activeCartFacade: ActiveCartFacade,
-    protected customer360Facade: AsmCustomer360Facade
+    protected asmCustomer360Facade: AsmCustomer360Facade
   ) {}
 
   ngOnInit(): void {
@@ -94,7 +94,7 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
   }
 
   public refreshComponent(): void {
-    this.entries$ = this.customer360Facade
+    this.entries$ = this.asmCustomer360Facade
       .get360Data([
         {
           requestData: { type: AsmCustomer360Type.COUPON_LIST },

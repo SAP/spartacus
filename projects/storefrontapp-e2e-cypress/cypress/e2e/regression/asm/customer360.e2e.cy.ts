@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as customer360 from '../../../helpers/customer360';
+import * as asmCustomer360 from '../../../helpers/customer360';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/navigation';
@@ -18,7 +18,7 @@ import {
 context('Assisted Service Module', () => {
   before(() => {
     clearAllStorage();
-    customer360.setup();
+    asmCustomer360.setup();
     cy.saveLocalStorage();
   });
 
@@ -92,14 +92,14 @@ context('Assisted Service Module', () => {
 
     it('should redirect to the cart page (CXSPA-700)', () => {
       const cartPage = waitForPage('/cart', 'getCartPage');
-      customer360.redirect('Cart');
+      asmCustomer360.redirect('Cart');
       cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
       cy.get('h1').contains('Your Shopping Cart');
     });
 
     it('should redirect to the order details page (CXSPA-700)', () => {
       const orderPage = waitForPage('/my-account/order/*', 'getOrderPage');
-      customer360.redirect('Order');
+      asmCustomer360.redirect('Order');
       cy.wait(`@${orderPage}`).its('response.statusCode').should('eq', 200);
       cy.get('h1').contains('Order Details');
     });
@@ -109,7 +109,7 @@ context('Assisted Service Module', () => {
         '/my-account/saved-cart/*',
         'getSavedCartPage'
       );
-      customer360.redirect('Saved Cart');
+      asmCustomer360.redirect('Saved Cart');
       cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
       cy.get('h1').contains('Saved Cart Details');
     });
@@ -119,7 +119,7 @@ context('Assisted Service Module', () => {
         '/my-account/support-ticket/*',
         'getSupportTicketsPage'
       );
-      customer360.redirect('Ticket');
+      asmCustomer360.redirect('Ticket');
       cy.wait(`@${supportTicketsPage}`)
         .its('response.statusCode')
         .should('eq', 200);
@@ -140,7 +140,7 @@ context('Assisted Service Module', () => {
     });
 
     it('should contain all profile information  (CXSPA-700)', () => {
-      const user = customer360.getUser();
+      const user = asmCustomer360.getUser();
       cy.get('.cx-asm-customer-360-profile').within(() => {
         cy.get('.address-line1').should('contain', user.address.line1);
         cy.get('.profile-phone1').should('contain', user.phone);

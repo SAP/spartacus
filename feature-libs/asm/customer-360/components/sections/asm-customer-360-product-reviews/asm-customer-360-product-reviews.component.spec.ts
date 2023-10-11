@@ -26,7 +26,7 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
 
 import { AsmCustomer360ProductReviewsComponent } from './asm-customer-360-product-reviews.component';
 
-describe('Customer360ProductReviewsComponent', () => {
+describe('AsmCustomer360ProductReviewsComponent', () => {
   class MockLanguageService {
     getActive(): Observable<string> {
       return of('en-US');

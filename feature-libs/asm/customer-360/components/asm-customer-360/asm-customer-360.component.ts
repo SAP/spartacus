@@ -83,7 +83,7 @@ export class AsmCustomer360Component
 
   customer: User;
 
-  customer360Tabs$: Observable<Array<AsmCustomer360Data | undefined>>;
+  asmCustomer360Tabs$: Observable<Array<AsmCustomer360Data | undefined>>;
 
   customerOverview$: Observable<AsmCustomerOverview | undefined>;
 
@@ -94,13 +94,13 @@ export class AsmCustomer360Component
   protected showErrorTab$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    protected customer360Config: AsmCustomer360Config,
-    protected customer360Facade: AsmCustomer360Facade,
+    protected asmCustomer360Config: AsmCustomer360Config,
+    protected asmCustomer360Facade: AsmCustomer360Facade,
     protected launchDialogService: LaunchDialogService,
     protected csAgentAuthService: CsAgentAuthService,
     protected directionService: DirectionService
   ) {
-    this.customerOverview$ = this.customer360Facade
+    this.customerOverview$ = this.asmCustomer360Facade
       .get360Data([
         {
           requestData: { type: AsmCustomer360Type.OVERVIEW },
@@ -119,7 +119,7 @@ export class AsmCustomer360Component
         })
       );
 
-    this.tabs = customer360Config?.customer360?.tabs ?? [];
+    this.tabs = asmCustomer360Config?.asmCustomer360?.tabs ?? [];
     this.currentTab = this.tabs[0];
   }
 
@@ -250,7 +250,7 @@ export class AsmCustomer360Component
 
   protected setTabData(): void {
     this.showErrorTab$.next(false);
-    const get360Data = this.customer360Facade
+    const get360Data = this.asmCustomer360Facade
       .get360Data(this.currentTab.components)
       .pipe(
         catchError(() => {
@@ -260,7 +260,7 @@ export class AsmCustomer360Component
         })
       );
 
-    this.customer360Tabs$ = get360Data.pipe(
+    this.asmCustomer360Tabs$ = get360Data.pipe(
       filter(isNotUndefined),
       map((response) => {
         return this.currentTab.components.map((component) => {

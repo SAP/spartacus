@@ -33,7 +33,7 @@ export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
-describe('Customer360ActivityComponent', () => {
+describe('AsmCustomer360ActivityComponent', () => {
   @Pipe({
     name: 'cxTranslate',
   })

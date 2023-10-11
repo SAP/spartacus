@@ -30,7 +30,7 @@ export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
-describe('Customer360ProductItemComponent', () => {
+describe('AsmCustomer360ProductItemComponent', () => {
   const mockProduct: Product = {
     code: '553637',
     name: 'NV10',

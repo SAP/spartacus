@@ -34,7 +34,7 @@ import {
 
 describe('AsmCustomer360Component', () => {
   const mockAsmConfig: AsmCustomer360Config = {
-    customer360: {
+    asmCustomer360: {
       dateFormat: 'MM-dd-yyyy',
       dateTimeFormat: 'dd-MM-yy hh:mm a',
       tabs: [
@@ -112,7 +112,7 @@ describe('AsmCustomer360Component', () => {
     selector: 'cx-asm-customer-360-section',
     template: '',
   })
-  class MockCustomer360SectionComponent {}
+  class MockAsmCustomer360SectionComponent {}
 
   class MockDirectionService {
     getDirection() {
@@ -166,7 +166,7 @@ describe('AsmCustomer360Component', () => {
   let el: DebugElement;
   let csAgentAuthService: CsAgentAuthService;
   let launchDialogService: LaunchDialogService;
-  let customer360Facade: AsmCustomer360Facade;
+  let asmCustomer360Facade: AsmCustomer360Facade;
   let datePipe: CxDatePipe;
   let languageService: LanguageService;
 
@@ -175,7 +175,7 @@ describe('AsmCustomer360Component', () => {
       imports: [I18nTestingModule, FeaturesConfigModule],
       declarations: [
         AsmCustomer360Component,
-        MockCustomer360SectionComponent,
+        MockAsmCustomer360SectionComponent,
         ArgsPipe,
       ],
       providers: [
@@ -202,7 +202,7 @@ describe('AsmCustomer360Component', () => {
     languageService = TestBed.inject(LanguageService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
     launchDialogService = TestBed.inject(LaunchDialogService);
-    customer360Facade = TestBed.inject(AsmCustomer360Facade);
+    asmCustomer360Facade = TestBed.inject(AsmCustomer360Facade);
     spyOn(languageService, 'getActive').and.returnValue(of('en'));
   });
 
@@ -230,7 +230,7 @@ describe('AsmCustomer360Component', () => {
   it('should display customer general information', () => {
     const formatedDate = datePipe.transform(
       mockOverview.overview?.signedUpAt,
-      mockAsmConfig.customer360?.dateFormat
+      mockAsmConfig.asmCustomer360?.dateFormat
     );
     const log = el.query(By.css('.header-profile-details-log'));
     expect(log.nativeElement.textContent).toContain(formatedDate);
@@ -255,7 +255,7 @@ describe('AsmCustomer360Component', () => {
   it("should show a label with information on the emulated user's most recent order", () => {
     const formatedLatestOrderTime = datePipe.transform(
       mockOverview.overview?.latestOrderTime,
-      mockAsmConfig.customer360?.dateFormat
+      mockAsmConfig.asmCustomer360?.dateFormat
     );
     const label = el.query(By.css('.header-account-details-recent-order'))
       .nativeElement.textContent;
@@ -324,7 +324,7 @@ describe('AsmCustomer360Component', () => {
   describe('Tab navigation', () => {
     it('should display tabs', () => {
       expect(component.tabHeaderItems.length).toBe(
-        mockAsmConfig.customer360?.tabs?.length
+        mockAsmConfig.asmCustomer360?.tabs?.length
       );
     });
     it('should activate the first tab when dialog opens', () => {
@@ -369,7 +369,7 @@ describe('AsmCustomer360Component', () => {
 
   describe('Unhappy path for header and tab content', () => {
     it('should display error message if fail to get header data', () => {
-      spyOn(customer360Facade, 'get360Data').and.callFake(
+      spyOn(asmCustomer360Facade, 'get360Data').and.callFake(
         (components: Array<AsmCustomer360TabComponent>) => {
           const overview = components.filter(
             (comp) => comp.requestData?.type === AsmCustomer360Type.OVERVIEW
@@ -401,7 +401,7 @@ describe('AsmCustomer360Component', () => {
     });
 
     it('should display the tab content with error if backend call fails', () => {
-      spyOn(customer360Facade, 'get360Data').and.callFake(
+      spyOn(asmCustomer360Facade, 'get360Data').and.callFake(
         (components: Array<AsmCustomer360TabComponent>) => {
           const overview = components.filter(
             (comp) => comp.requestData?.type === AsmCustomer360Type.OVERVIEW

@@ -17,11 +17,11 @@ import { AsmCustomer360Adapter } from './asm-customer-360.adapter';
   providedIn: 'root',
 })
 export class AsmCustomer360Connector {
-  constructor(protected customer360Adapter: AsmCustomer360Adapter) {}
+  constructor(protected asmCustomer360Adapter: AsmCustomer360Adapter) {}
 
-  getCustomer360Data(
+  getAsmCustomer360Data(
     request: AsmCustomer360Request
   ): Observable<AsmCustomer360Response> {
-    return this.customer360Adapter.getCustomer360Data(request);
+    return this.asmCustomer360Adapter.getAsmCustomer360Data(request);
   }
 }

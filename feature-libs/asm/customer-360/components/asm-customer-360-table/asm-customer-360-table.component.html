@@ -133,7 +133,7 @@
               *ngIf="column?.isDate && entry[column.property]; else tableCell"
               ><span>{{
                 entry[column.property]
-                  | cxDate: customer360Config?.customer360?.dateTimeFormat
+                  | cxDate: asmCustomer360Config?.asmCustomer360?.dateTimeFormat
               }}</span></ng-container
             >
           </ng-template>

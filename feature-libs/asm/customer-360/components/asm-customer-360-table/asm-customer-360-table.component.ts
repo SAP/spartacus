@@ -82,7 +82,7 @@ export class AsmCustomer360TableComponent
   setFocusOnStartTableItem = false;
 
   constructor(
-    protected customer360Config: AsmCustomer360Config,
+    protected asmCustomer360Config: AsmCustomer360Config,
     protected directionService: DirectionService
   ) {}
 

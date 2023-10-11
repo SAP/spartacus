@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Customer360SupportTicket } from '@spartacus/asm/customer-360/root';
+import { AsmCustomer360SupportTicket } from '@spartacus/asm/customer-360/root';
 
-export interface SupportTicketEntry extends Customer360SupportTicket {
+export interface SupportTicketEntry extends AsmCustomer360SupportTicket {
   categoryLabel?: string;
   statusLabel?: string;
 }

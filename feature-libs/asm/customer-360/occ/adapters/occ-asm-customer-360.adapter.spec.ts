@@ -36,7 +36,7 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
 }
 
 describe('OccAsmCustomer360Adapter', () => {
-  let occCustomer360Adapter: OccAsmCustomer360Adapter;
+  let occAsmCustomer360Adapter: OccAsmCustomer360Adapter;
   let converterService: ConverterService;
   let httpMock: HttpTestingController;
   let occEnpointsService: OccEndpointsService;
@@ -51,7 +51,7 @@ describe('OccAsmCustomer360Adapter', () => {
       ],
     });
 
-    occCustomer360Adapter = TestBed.inject(OccAsmCustomer360Adapter);
+    occAsmCustomer360Adapter = TestBed.inject(OccAsmCustomer360Adapter);
     httpMock = TestBed.inject(HttpTestingController);
     converterService = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
@@ -60,7 +60,7 @@ describe('OccAsmCustomer360Adapter', () => {
   });
 
   it('should be created', () => {
-    expect(occCustomer360Adapter).toBeTruthy();
+    expect(occAsmCustomer360Adapter).toBeTruthy();
   });
 
   it('should get customer 360 data', (done) => {
@@ -84,8 +84,8 @@ describe('OccAsmCustomer360Adapter', () => {
       ],
     };
 
-    occCustomer360Adapter
-      .getCustomer360Data(request)
+    occAsmCustomer360Adapter
+      .getAsmCustomer360Data(request)
       .subscribe((backendResponse) => {
         expect(backendResponse).toBe(response);
         done();
@@ -123,8 +123,8 @@ describe('OccAsmCustomer360Adapter', () => {
       ],
     };
 
-    occCustomer360Adapter
-      .getCustomer360Data(request)
+    occAsmCustomer360Adapter
+      .getAsmCustomer360Data(request)
       .subscribe((backendResponse) => {
         expect(backendResponse).toBe(response);
         done();

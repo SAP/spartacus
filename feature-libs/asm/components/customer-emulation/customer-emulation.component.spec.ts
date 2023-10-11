@@ -135,7 +135,7 @@ describe('CustomerEmulationComponent', () => {
 
     spyOn(asmComponentService, 'handleAsmDialogAction').and.stub();
 
-    component.openCustomer360();
+    component.openAsmCustomer360();
 
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledTimes(1);
     const [caller, , data] = (<jasmine.Spy>(
@@ -154,7 +154,7 @@ describe('CustomerEmulationComponent', () => {
     );
   });
 
-  it('should display customer 360 button if customer360 is configured.', () => {
+  it('should display customer 360 button if asm customer360 is configured.', () => {
     spyOn(featureModulesService, 'isConfigured').and.returnValue(true);
     spyOn(userAccountFacade, 'get').and.returnValue(
       of({ uid: 'user@test.com', name: 'Test User' })
@@ -162,11 +162,11 @@ describe('CustomerEmulationComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(component.isCustomer360Configured).toBeTruthy();
+    expect(component.isAsmCustomer360Configured).toBeTruthy();
     expect(el.query(By.css('.cx-360-button'))).toBeTruthy();
   });
 
-  it('should not display customer 360 button if customer360 is not configured.', () => {
+  it('should not display customer 360 button if asm customer360 is not configured.', () => {
     spyOn(featureModulesService, 'isConfigured').and.returnValue(false);
     spyOn(userAccountFacade, 'get').and.returnValue(
       of({ uid: 'user@test.com', name: 'Test User' })
@@ -174,7 +174,7 @@ describe('CustomerEmulationComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(component.isCustomer360Configured).toBeFalsy();
+    expect(component.isAsmCustomer360Configured).toBeFalsy();
     expect(el.query(By.css('.cx-360-button'))).toBeFalsy();
   });
 });

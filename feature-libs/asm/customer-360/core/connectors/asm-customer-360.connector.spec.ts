@@ -7,8 +7,8 @@ import { Observable, of } from 'rxjs';
 import { AsmCustomer360Adapter } from './asm-customer-360.adapter';
 import { AsmCustomer360Connector } from './asm-customer-360.connector';
 
-class MockCustomer360Adapter {
-  getCustomer360Data(
+class MockAsmCustomer360Adapter {
+  getAsmCustomer360Data(
     _request: AsmCustomer360Request
   ): Observable<AsmCustomer360Response> {
     const response: AsmCustomer360Response = { value: [] };
@@ -18,35 +18,37 @@ class MockCustomer360Adapter {
 
 describe('AsmCustomer360Connector', () => {
   let service: AsmCustomer360Connector;
-  let customer360Adapter: AsmCustomer360Adapter;
+  let asmCustomer360Adapter: AsmCustomer360Adapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: AsmCustomer360Adapter, useClass: MockCustomer360Adapter },
+        { provide: AsmCustomer360Adapter, useClass: MockAsmCustomer360Adapter },
       ],
     });
 
     service = TestBed.inject(AsmCustomer360Connector);
 
-    customer360Adapter = TestBed.inject(AsmCustomer360Adapter);
-    spyOn(customer360Adapter, 'getCustomer360Data').and.callThrough();
+    asmCustomer360Adapter = TestBed.inject(AsmCustomer360Adapter);
+    spyOn(asmCustomer360Adapter, 'getAsmCustomer360Data').and.callThrough();
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getCustomer360Data()', () => {
+  describe('getAsmCustomer360Data()', () => {
     it('should pass the request to the provided adapter', () => {
       const input: AsmCustomer360Request = {
         options: { userId: '' },
         queries: [],
       };
 
-      service.getCustomer360Data(input).subscribe();
+      service.getAsmCustomer360Data(input).subscribe();
 
-      expect(customer360Adapter.getCustomer360Data).toHaveBeenCalledWith(input);
+      expect(asmCustomer360Adapter.getAsmCustomer360Data).toHaveBeenCalledWith(
+        input
+      );
     });
   });
 });

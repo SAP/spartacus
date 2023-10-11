@@ -48,7 +48,7 @@ export class OccAsmCustomer360Adapter implements AsmCustomer360Adapter {
     );
   }
 
-  getCustomer360Data(
+  getAsmCustomer360Data(
     request: AsmCustomer360Request
   ): Observable<AsmCustomer360Response> {
     const headers = InterceptorUtil.createHeader(

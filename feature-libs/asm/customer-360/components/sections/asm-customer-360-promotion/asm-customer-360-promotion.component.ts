@@ -34,7 +34,7 @@ export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
 
   constructor(
     protected context: AsmCustomer360SectionContext<AsmCustomer360PromotionList>,
-    protected customer360Facade: AsmCustomer360Facade,
+    protected asmCustomer360Facade: AsmCustomer360Facade,
     protected activeCartFacade: ActiveCartFacade
   ) {}
 
@@ -51,7 +51,7 @@ export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
   }
 
   public refreshPromotions(): void {
-    this.customer360Facade
+    this.asmCustomer360Facade
       .get360Data([
         {
           requestData: { type: AsmCustomer360Type.PROMOTION_LIST },
