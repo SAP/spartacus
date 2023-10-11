@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { StateUtils } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { ORDER_BY_ID_ENTITIES } from '../order-state';
