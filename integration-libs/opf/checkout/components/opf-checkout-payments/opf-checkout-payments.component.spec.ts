@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import {
   ActiveConfiguration,
-  OpfConfigurationFacade,
+  OpfPaymentFacade,
   OpfPaymentMetadata,
   OpfPaymentProviderType,
   OpfService,
@@ -35,7 +35,7 @@ const mockActiveConfigurations: ActiveConfiguration[] = [
     displayName: 'Test3',
   },
 ];
-class MockOpfConfigurationFacade implements Partial<OpfConfigurationFacade> {
+class MockOpfPaymentFacade implements Partial<OpfPaymentFacade> {
   getActiveConfigurationsState(): Observable<
     QueryState<ActiveConfiguration[] | undefined>
   > {
@@ -85,8 +85,8 @@ describe('OpfCheckoutPaymentsComponent', () => {
       declarations: [OpfCheckoutPaymentsComponent],
       providers: [
         {
-          provide: OpfConfigurationFacade,
-          useClass: MockOpfConfigurationFacade,
+          provide: OpfPaymentFacade,
+          useClass: MockOpfPaymentFacade,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: OpfService, useValue: opfServiceMock },

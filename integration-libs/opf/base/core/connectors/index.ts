@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-configuration.adapter';
-export * from './opf-configuration.connector';
 export * from './opf-order.adapter';
 export * from './opf-order.connector';
 export * from './opf-payment.adapter';

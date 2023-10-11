@@ -6,6 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import {
+  ActiveConfiguration,
   AfterRedirectScriptResponse,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
@@ -53,5 +54,9 @@ export class OpfPaymentConnector {
     paymentSessionId: string
   ): Observable<AfterRedirectScriptResponse> {
     return this.adapter.afterRedirectScripts(paymentSessionId);
+  }
+
+  public getActiveConfigurations(): Observable<ActiveConfiguration[]> {
+    return this.adapter.getActiveConfigurations();
   }
 }

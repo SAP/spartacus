@@ -5,10 +5,12 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { CommandService } from '@spartacus/core';
+import { CommandService, QueryService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import {
+  ActiveConfiguration,
   AfterRedirectScriptResponse,
+  OpfPaymentProviderType,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
   SubmitCompleteInput,
@@ -18,7 +20,7 @@ import { OpfPaymentConnector } from '../connectors';
 import { OpfPaymentHostedFieldsService } from '../services';
 import { OpfPaymentService } from './opf-payment.service';
 
-class MockPaymentConnector {
+class MockPaymentConnector implements Partial<OpfPaymentConnector> {
   verifyPayment(
     paymentSessionId: string,
     payload: OpfPaymentVerificationPayload
@@ -33,6 +35,9 @@ class MockPaymentConnector {
   ): Observable<AfterRedirectScriptResponse> {
     console.log(paymentSessionId);
     return of({ afterRedirectScript: {} });
+  }
+  getActiveConfigurations(): Observable<ActiveConfiguration[]> {
+    return of(mockActiveConfigurations);
   }
 }
 
@@ -50,6 +55,19 @@ const mockSubmitInput = {
   cartId: '123',
 } as SubmitInput;
 
+const mockActiveConfigurations: ActiveConfiguration[] = [
+  {
+    id: 1,
+    providerType: OpfPaymentProviderType.PAYMENT_GATEWAY,
+    displayName: 'Test1',
+  },
+  {
+    id: 2,
+    providerType: OpfPaymentProviderType.PAYMENT_METHOD,
+    displayName: 'Test2',
+  },
+];
+
 describe('OpfPaymentService', () => {
   let service: OpfPaymentService;
   let paymentConnector: MockPaymentConnector;
@@ -59,6 +77,7 @@ describe('OpfPaymentService', () => {
     TestBed.configureTestingModule({
       providers: [
         OpfPaymentService,
+        QueryService,
         CommandService,
         {
           provide: OpfPaymentConnector,
@@ -178,15 +197,16 @@ describe('OpfPaymentService', () => {
     expect(submitCompletePaymentSpy).toHaveBeenCalledWith(mockSubmitInput);
   });
 
-  it('should return true when payment submission is successful', () => {
+  it('should return true when payment submission is successful', (done) => {
     const result = service.submitPayment(mockSubmitInput);
 
     result.subscribe((response) => {
       expect(response).toBe(true);
+      done();
     });
   });
 
-  it('should return a successful payment verification response', () => {
+  it('should return a successful payment verification response', (done) => {
     const paymentSessionId = 'exampleSessionId';
     const paymentVerificationPayload = {
       responseMap: [
@@ -208,27 +228,42 @@ describe('OpfPaymentService', () => {
 
     result.subscribe((response) => {
       expect(response).toEqual(expectedResult);
+      done();
     });
   });
 
-  it('should return true when payment submission is completed successfully', () => {
+  it('should return true when payment submission is completed successfully', (done) => {
     const result = service.submitCompletePayment(mockSubmitInput);
 
     result.subscribe((response) => {
       expect(response).toBe(true);
+      done();
     });
   });
 
   it('should call afterRedirectScripts from connector with the correct payload', () => {
     const paymentSessionId = 'exampleSessionId';
 
-    const connectorVerifySpy = spyOn(
+    const connectorSpy = spyOn(
       paymentConnector,
       'afterRedirectScripts'
     ).and.callThrough();
 
     service.afterRedirectScripts(paymentSessionId);
 
-    expect(connectorVerifySpy).toHaveBeenCalledWith(paymentSessionId);
+    expect(connectorSpy).toHaveBeenCalledWith(paymentSessionId);
+  });
+
+  describe(`getActiveConfigurationsState`, () => {
+    it(`should return mockActiveConfigurations data`, (done) => {
+      service.getActiveConfigurationsState().subscribe((state) => {
+        expect(state).toEqual({
+          loading: false,
+          error: false,
+          data: mockActiveConfigurations,
+        });
+        done();
+      });
+    });
   });
 });
