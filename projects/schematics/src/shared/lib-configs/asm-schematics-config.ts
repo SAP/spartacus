@@ -69,7 +69,7 @@ export const ASM_CUSTOMER_360_TRANSLATIONS = 'asmCustomer360Translations';
 export const ASM_CUSTOMER_360_TRANSLATION_CHUNKS_CONFIG =
   'asmCustomer360TranslationChunksConfig';
 
-export const CUSTOMER_360_SCHEMATICS_CONFIG: SchematicConfig = {
+export const ASM_CUSTOMER_360_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: ASM_CUSTOMER_360_FEATURE_NAME,
     mainScope: SPARTACUS_ASM,
