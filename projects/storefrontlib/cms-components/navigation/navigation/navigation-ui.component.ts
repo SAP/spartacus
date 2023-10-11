@@ -265,4 +265,62 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
 
     this.isOpen = this.openNodes.length > 0;
   }
+
+  getIcon(title: string): string {
+    switch (title) {
+      case 'Orders And Returns': {
+        return ICON_TYPE.CART;
+        break;
+      }
+
+      case 'Saved Carts': {
+        return ICON_TYPE.CART_PLUS;
+        break;
+      }
+
+      case 'Wishlists': {
+        return ICON_TYPE.STAR;
+        break;
+      }
+
+      case 'Requests': {
+        return ICON_TYPE.HEADSET;
+        break;
+      }
+
+      case 'Personal Details': {
+        return ICON_TYPE.USER;
+        break;
+      }
+
+      case 'Password And Security': {
+        return ICON_TYPE.PASSWORD;
+        break;
+      }
+
+      case 'Address Book': {
+        return ICON_TYPE.HOME;
+        break;
+      }
+
+      case 'Payment Details': {
+        return ICON_TYPE.CREDIT_CARD;
+        break;
+      }
+
+      case 'Communications': {
+        return ICON_TYPE.COMMUNICATIONS;
+        break;
+      }
+
+      case 'Privacy And Settings': {
+        return ICON_TYPE.PRIVACY;
+        break;
+      }
+
+      default: {
+        return '';
+      }
+    }
+  }
 }

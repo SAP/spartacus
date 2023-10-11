@@ -1,0 +1,45 @@
+%cx-myaccount-view-side-navigation {
+  background-color: white;
+  font-family: sans-serif;
+  padding: 5px 5px 5px 5px;
+  width: 250px;
+  a {
+    font-size: var(--cx-font-medium);
+    font-weight: bold;
+    width: 250px;
+    height: 50px;
+    display: block;
+    text-indent: 5px;
+    &:hover {
+      color: var(--cx-color-primary);
+      text-decoration: underline;
+    }
+    .cx-icon {
+      padding: 5px 5px 5px 5px;
+    }
+  }
+
+  cx-navigation-ui {
+    background-color: white;
+    // Node Heading
+    span {
+      text-indent: 5px;
+      font-weight: bold;
+      display: block;
+      padding: 10px 5px 15px 5px;
+      background-color: var(--cx-color-background);
+      width: 250px;
+      height: 40px;
+      margin-top: 20px;
+    }
+
+    > nav > ul {
+      > li {
+        a {
+          border: 1px solid var(--cx-color-light);
+        }
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
