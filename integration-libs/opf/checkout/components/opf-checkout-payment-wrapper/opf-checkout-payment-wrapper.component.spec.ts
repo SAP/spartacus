@@ -15,8 +15,8 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
   let component: OpfCheckoutPaymentWrapperComponent;
   let fixture: ComponentFixture<OpfCheckoutPaymentWrapperComponent>;
   let mockService: jasmine.SpyObj<OpfCheckoutPaymentWrapperService>;
-  let mockSanitizer: jasmine.SpyObj<DomSanitizer>;
   let mockGlobalFunctionsService: jasmine.SpyObj<OpfGlobalFunctionsService>;
+  let domSanitizer: DomSanitizer;
 
   beforeEach(() => {
     mockService = jasmine.createSpyObj('OpfCheckoutPaymentWrapperService', [
@@ -24,9 +24,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       'initiatePayment',
       'reloadPaymentMode',
     ]);
-    mockSanitizer = jasmine.createSpyObj('DomSanitizer', [
-      'bypassSecurityTrustHtml',
-    ]);
+
     mockGlobalFunctionsService = jasmine.createSpyObj(
       'OpfGlobalFunctionsFacade',
       ['registerGlobalFunctions', 'removeGlobalFunctions']
@@ -36,7 +34,6 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       declarations: [OpfCheckoutPaymentWrapperComponent],
       providers: [
         { provide: OpfCheckoutPaymentWrapperService, useValue: mockService },
-        { provide: DomSanitizer, useValue: mockSanitizer },
         {
           provide: OpfGlobalFunctionsFacade,
           useValue: mockGlobalFunctionsService,
@@ -50,6 +47,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
 
     fixture = TestBed.createComponent(OpfCheckoutPaymentWrapperComponent);
     component = fixture.componentInstance;
+    domSanitizer = TestBed.inject(DomSanitizer);
   });
 
   afterEach(() => {
@@ -58,6 +56,14 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should renderHtml call bypassSecurityTrustHtml', () => {
+    const html = '<script>console.log("script");</script>';
+    spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+    component.renderHtml(html);
+
+    expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(html);
   });
 
   it('should call initiatePayment on ngOnInit', () => {
