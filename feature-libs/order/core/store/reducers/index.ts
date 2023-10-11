@@ -62,11 +62,11 @@ export function getReducers(): ActionReducerMap<OrderState, any> {
       REPLENISHMENT_ORDER_DETAILS,
       fromReplenishmentOrderDetailsReducer.reducer
     ),
-    orderByID: StateUtils.entityLoaderReducer<Order, any>(
+    orderById: StateUtils.entityLoaderReducer<Order, any>(
       ORDER_BY_ID_ENTITIES,
       fromOrderByIDReducer.reducer
     ),
-    consignmentTrackingByID: StateUtils.entityLoaderReducer<
+    consignmentTrackingById: StateUtils.entityLoaderReducer<
       ConsignmentTracking,
       any
     >(

@@ -30,7 +30,7 @@ export class OrderConsolidatedInformationComponent {
   protected criticalStatuses = Object.values(OrderCriticalStatus);
   @Input()
   order?: OrderHistoryView;
-  private IMAGE_COUNT = 4; //showing fixed no.of images, without using carousel
+  protected IMAGE_COUNT = 4; //showing fixed no.of images, without using carousel
   getConsignmentsCount(consignments: ConsignmentView[] | undefined): number {
     let count = 0;
     if (consignments) {

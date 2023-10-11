@@ -21,15 +21,14 @@ import {
 } from '@spartacus/order/root';
 import { Observable, of, using, combineLatest } from 'rxjs';
 import { auditTime, filter, map, switchMap, tap } from 'rxjs/operators';
-import { OrderHistoryConnector } from '../connectors';
 import { OrderActions } from '../store';
 import {
   getOrderById,
-  getOrderByIdState,
+  getOrderByIdEntityState,
 } from '../store/selectors/order-by-id.selector';
 import {
   getConsignmentTrackingById,
-  getConsignmentTrackingByIdState,
+  getConsignmentTrackingByIdEntityState,
 } from '../store/selectors/order-group.selectors';
 import { OrderHistoryService } from './order-history.service';
 import { OrderReturnRequestService } from './order-return-request.service';
@@ -37,13 +36,12 @@ import { OrderReturnRequestService } from './order-return-request.service';
 @Injectable()
 export class OrderHistoryExtendedViewService {
   protected orderReturnRequestService = inject(OrderReturnRequestService);
-  protected orderHistoryConnector = inject(OrderHistoryConnector);
   protected store = inject(Store);
   protected userIdService = inject(UserIdService);
-  protected orderHitsoryService = inject(OrderHistoryService);
+  protected orderHistoryService = inject(OrderHistoryService);
 
   clearOrderList(): void {
-    this.orderHitsoryService.clearOrderList();
+    this.orderHistoryService.clearOrderList();
   }
   getOrderDetailsWithTracking(
     orderCode: string
@@ -90,11 +88,11 @@ export class OrderHistoryExtendedViewService {
     );
   }
 
-  getOrderListWithDetails(
+  getOrderHistoryListWithDetails(
     pageSize: number
   ): Observable<OrderHistoryListView | undefined> {
     const orderListView: OrderHistoryListView = {};
-    return this.orderHitsoryService.getOrderHistoryList(pageSize).pipe(
+    return this.orderHistoryService.getOrderHistoryList(pageSize).pipe(
       switchMap((orderList: OrderHistoryList | undefined) => {
         orderListView.pagination = orderList?.pagination;
         orderListView.sorts = orderList?.sorts;
@@ -135,7 +133,8 @@ export class OrderHistoryExtendedViewService {
   getOrderHistoryList(
     pageSize: number
   ): Observable<OrderHistoryListView | undefined> {
-    const orderHistoryListRequest = this.getOrderListWithDetails(pageSize);
+    const orderHistoryListRequest =
+      this.getOrderHistoryListWithDetails(pageSize);
     const returnRequestListRequest =
       this.orderReturnRequestService.getOrderReturnRequestList();
     return combineLatest([
@@ -172,23 +171,23 @@ export class OrderHistoryExtendedViewService {
     );
   }
 
-  private getOrderDetailsValue(code: string): Observable<Order> {
+  protected getOrderDetailsValue(code: string): Observable<Order> {
     return this.store
       .select(getOrderById(code))
       .pipe(filter((order) => Boolean(order)));
   }
 
-  private getOrderDetailsState(
+  protected getOrderDetailsState(
     code: string
   ): Observable<StateUtils.LoaderState<Order>> {
-    return this.store.select(getOrderByIdState(code));
+    return this.store.select(getOrderByIdEntityState(code));
   }
 
-  private loadOrderDetails(code: string) {
+  protected loadOrderDetails(code: string) {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
         this.store.dispatch(
-          new OrderActions.LoadOrderByID({
+          new OrderActions.LoadOrderById({
             userId,
             code,
           })
@@ -211,7 +210,7 @@ export class OrderHistoryExtendedViewService {
     );
   }
 
-  private getConsignmentTrackingValue(
+  protected getConsignmentTrackingValue(
     orderCode: string,
     consignmentCode: string
   ): Observable<ConsignmentTracking> {
@@ -220,20 +219,23 @@ export class OrderHistoryExtendedViewService {
       .pipe(filter((tracking) => Boolean(tracking)));
   }
 
-  private getConsignmentTrackingState(
+  protected getConsignmentTrackingState(
     orderCode: string,
     consignmentCode: string
   ): Observable<StateUtils.LoaderState<ConsignmentTracking>> {
     return this.store.select(
-      getConsignmentTrackingByIdState(orderCode, consignmentCode)
+      getConsignmentTrackingByIdEntityState(orderCode, consignmentCode)
     );
   }
 
-  private loadConsignmentTracking(orderCode: string, consignmentCode: string) {
+  protected loadConsignmentTracking(
+    orderCode: string,
+    consignmentCode: string
+  ) {
     this.userIdService.takeUserId(true).subscribe({
       next: (userId) =>
         this.store.dispatch(
-          new OrderActions.LoadConsignmentTrackingByID({
+          new OrderActions.LoadConsignmentTrackingById({
             orderCode,
             consignmentCode,
             userId,

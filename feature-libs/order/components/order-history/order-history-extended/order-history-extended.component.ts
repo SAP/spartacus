@@ -24,11 +24,7 @@ export class OrderHistoryExtendedComponent extends OrderHistoryComponent {
     .pipe(
       tap((orders: OrderHistoryListView | undefined) => {
         this.isLoaded$.next(true);
-        if (orders?.pagination?.sort) {
-          this.sortType = orders.pagination.sort;
-        }
-        this.hasPONumber =
-          orders?.orders?.[0]?.purchaseOrderNumber !== undefined;
+        super.setOrderHistoryParams(orders);
       })
     );
   pageChange(page: number): void {

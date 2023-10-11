@@ -10,23 +10,23 @@ import { Order } from '@spartacus/order/root';
 import { StateWithOrder, OrderState } from '../order-state';
 import { getOrderState } from './feature.selector';
 
-export const getOrderByIDState: MemoizedSelector<
+export const getOrderByIdState: MemoizedSelector<
   StateWithOrder,
   StateUtils.EntityLoaderState<Order>
-> = createSelector(getOrderState, (state: OrderState) => state.orderByID);
+> = createSelector(getOrderState, (state: OrderState) => state.orderById);
 
-export const getOrderByIdState = (
+export const getOrderByIdEntityState = (
   code: string
 ): MemoizedSelector<StateWithOrder, StateUtils.LoaderState<Order>> =>
   createSelector(
-    getOrderByIDState,
+    getOrderByIdState,
     (state: StateUtils.EntityLoaderState<Order>) =>
       StateUtils.entityLoaderStateSelector(state, code)
   );
 export const getOrderById = (
   code: string
 ): MemoizedSelector<StateWithOrder, Order> => {
-  return createSelector(getOrderByIdState(code), (orderByIDState) =>
+  return createSelector(getOrderByIdEntityState(code), (orderByIDState) =>
     StateUtils.loaderValueSelector(orderByIDState)
   );
 };
@@ -34,7 +34,7 @@ export const getOrderById = (
 export const getOrderByIdLoading = (
   code: string
 ): MemoizedSelector<StateWithOrder, boolean> => {
-  return createSelector(getOrderByIdState(code), (loaderState) =>
+  return createSelector(getOrderByIdEntityState(code), (loaderState) =>
     StateUtils.loaderLoadingSelector(loaderState)
   );
 };
@@ -42,7 +42,7 @@ export const getOrderByIdLoading = (
 export const getOrderByIdSuccess = (
   code: string
 ): MemoizedSelector<StateWithOrder, boolean> => {
-  return createSelector(getOrderByIdState(code), (loaderState) =>
+  return createSelector(getOrderByIdEntityState(code), (loaderState) =>
     StateUtils.loaderSuccessSelector(loaderState)
   );
 };

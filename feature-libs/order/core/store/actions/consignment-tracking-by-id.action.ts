@@ -6,7 +6,10 @@
 
 import { StateUtils } from '@spartacus/core';
 import { ConsignmentTracking } from '@spartacus/order/root';
-import { CONSIGNMENT_TRACKING_BY_ID_ENTITIES } from '../order-state';
+import {
+  CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
+  getConsignmentTrackingByIdEntityKey,
+} from '../order-state';
 
 export const LOAD_CONSIGNMENT_TRACKING_BY_ID =
   '[Order] Load Consignment Tracking By ID Data';
@@ -15,7 +18,7 @@ export const LOAD_CONSIGNMENT_TRACKING_BY_ID_FAIL =
 export const LOAD_CONSIGNMENT_TRACKING_BY_ID_SUCCESS =
   '[Order] Load Consignment Tracking By ID Data Success';
 
-export class LoadConsignmentTrackingByID extends StateUtils.EntityLoadAction {
+export class LoadConsignmentTrackingById extends StateUtils.EntityLoadAction {
   readonly type = LOAD_CONSIGNMENT_TRACKING_BY_ID;
   constructor(
     public payload: {
@@ -26,25 +29,31 @@ export class LoadConsignmentTrackingByID extends StateUtils.EntityLoadAction {
   ) {
     super(
       CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
-      `${payload.orderCode},${payload.consignmentCode}`
+      getConsignmentTrackingByIdEntityKey(
+        payload.orderCode,
+        payload.consignmentCode
+      )
     );
   }
 }
 
-export class LoadConsignmentTrackingByIDFail extends StateUtils.EntityFailAction {
+export class LoadConsignmentTrackingByIdFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CONSIGNMENT_TRACKING_BY_ID_FAIL;
   constructor(
     public payload: { orderCode: string; consignmentCode: string; error: any }
   ) {
     super(
       CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
-      `${payload.orderCode},${payload.consignmentCode}`,
+      getConsignmentTrackingByIdEntityKey(
+        payload.orderCode,
+        payload.consignmentCode
+      ),
       payload.error
     );
   }
 }
 
-export class LoadConsignmentTrackingByIDSuccess extends StateUtils.EntitySuccessAction {
+export class LoadConsignmentTrackingByIdSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_CONSIGNMENT_TRACKING_BY_ID_SUCCESS;
   constructor(
     public payload: {
@@ -55,12 +64,15 @@ export class LoadConsignmentTrackingByIDSuccess extends StateUtils.EntitySuccess
   ) {
     super(
       CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
-      `${payload.orderCode},${payload.consignmentCode}`
+      getConsignmentTrackingByIdEntityKey(
+        payload.orderCode,
+        payload.consignmentCode
+      )
     );
   }
 }
 
-export type ConsignmentTrackingByIDAction =
-  | LoadConsignmentTrackingByID
-  | LoadConsignmentTrackingByIDFail
-  | LoadConsignmentTrackingByIDSuccess;
+export type ConsignmentTrackingByIdAction =
+  | LoadConsignmentTrackingById
+  | LoadConsignmentTrackingByIdFail
+  | LoadConsignmentTrackingByIdSuccess;

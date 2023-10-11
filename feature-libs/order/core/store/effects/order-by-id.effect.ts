@@ -15,23 +15,23 @@ import { OrderHistoryConnector } from '../../connectors/order-history.connector'
 import { OrderActions } from '../actions/index';
 
 @Injectable()
-export class OrderByIDEffect {
+export class OrderByIdEffect {
   protected actions$ = inject(Actions);
   protected orderConnector = inject(OrderHistoryConnector);
-  loadOrderByID$: Observable<
-    OrderActions.LoadOrderByIDSuccess | OrderActions.LoadOrderByIDFail
+  loadOrderById$: Observable<
+    OrderActions.LoadOrderByIdSuccess | OrderActions.LoadOrderByIdFail
   > = createEffect(() =>
     this.actions$.pipe(
       ofType(OrderActions.LOAD_ORDER_BY_ID),
-      map((action: OrderActions.LoadOrderByID) => action.payload),
+      map((action: OrderActions.LoadOrderById) => action.payload),
       concatMap(({ userId, code }) => {
         return this.orderConnector.get(userId, code).pipe(
           map((order: Order) => {
-            return new OrderActions.LoadOrderByIDSuccess(order);
+            return new OrderActions.LoadOrderByIdSuccess(order);
           }),
           catchError((error: HttpErrorResponse) => {
             return of(
-              new OrderActions.LoadOrderByIDFail({
+              new OrderActions.LoadOrderByIdFail({
                 code,
                 error: normalizeHttpError(error),
               })

@@ -42,10 +42,17 @@ export interface OrderState {
   orderReturnList: StateUtils.LoaderState<ReturnRequestList>;
   consignmentTracking: ConsignmentTrackingState;
   replenishmentOrder: StateUtils.LoaderState<ReplenishmentOrder>;
-  consignmentTrackingByID: StateUtils.EntityLoaderState<ConsignmentTracking>;
-  orderByID: StateUtils.EntityLoaderState<Order>;
+  consignmentTrackingById: StateUtils.EntityLoaderState<ConsignmentTracking>;
+  orderById: StateUtils.EntityLoaderState<Order>;
 }
 
 export interface ConsignmentTrackingState {
   tracking: ConsignmentTracking;
+}
+
+export function getConsignmentTrackingByIdEntityKey(
+  orderCode: string,
+  consignmentCode: string
+): string {
+  return `${orderCode},${consignmentCode}`;
 }

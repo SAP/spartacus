@@ -17,12 +17,12 @@ import { OrderActions } from '../actions';
 export class ConsignmentTrackingByIdEffects {
   protected actions$ = inject(Actions);
   protected orderConnector = inject(OrderHistoryConnector);
-  loadConsignmentTrackingByID$: Observable<OrderActions.ConsignmentTrackingByIDAction> =
+  loadConsignmentTrackingById$: Observable<OrderActions.ConsignmentTrackingByIdAction> =
     createEffect(() =>
       this.actions$.pipe(
         ofType(OrderActions.LOAD_CONSIGNMENT_TRACKING_BY_ID),
         map(
-          (action: OrderActions.LoadConsignmentTrackingByID) => action.payload
+          (action: OrderActions.LoadConsignmentTrackingById) => action.payload
         ),
         switchMap((payload) => {
           return this.orderConnector
@@ -34,7 +34,7 @@ export class ConsignmentTrackingByIdEffects {
             .pipe(
               map(
                 (tracking: ConsignmentTracking) =>
-                  new OrderActions.LoadConsignmentTrackingByIDSuccess({
+                  new OrderActions.LoadConsignmentTrackingByIdSuccess({
                     orderCode: payload.orderCode,
                     consignmentCode: payload.consignmentCode,
                     consignmentTracking: tracking,
@@ -42,7 +42,7 @@ export class ConsignmentTrackingByIdEffects {
               ),
               catchError((error) =>
                 of(
-                  new OrderActions.LoadConsignmentTrackingByIDFail({
+                  new OrderActions.LoadConsignmentTrackingByIdFail({
                     orderCode: payload.orderCode,
                     consignmentCode: payload.consignmentCode,
                     error: normalizeHttpError(error),

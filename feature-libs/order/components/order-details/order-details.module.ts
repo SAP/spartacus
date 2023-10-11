@@ -20,7 +20,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
-  MYACCOUNT_ORDER_ENHANCED_UI,
+  MYACCOUNT_ENHANCED_UI_ORDER,
   OrderOutlets,
 } from '@spartacus/order/root';
 import {
@@ -53,7 +53,7 @@ import { OrderOverviewComponent } from './order-overview/order-overview.componen
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
 
 function registerOrderOutletFactory(): () => void {
-  const token = inject(MYACCOUNT_ORDER_ENHANCED_UI);
+  const token = inject(MYACCOUNT_ENHANCED_UI_ORDER);
   const outletService = inject(OutletService);
   const componentFactoryResolver = inject(ComponentFactoryResolver);
   return () => {
@@ -160,7 +160,7 @@ const moduleComponents = [
     provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
     provideDefaultConfig(defaultReorderLayoutConfig),
     provideDefaultConfigFactory(() =>
-      inject(MYACCOUNT_ORDER_ENHANCED_UI) ? enhancedUICmsMapping : {}
+      inject(MYACCOUNT_ENHANCED_UI_ORDER) ? enhancedUICmsMapping : {}
     ),
     {
       provide: MODULE_INITIALIZER,

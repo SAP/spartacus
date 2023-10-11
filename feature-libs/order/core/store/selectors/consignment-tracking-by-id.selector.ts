@@ -7,18 +7,22 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
 import { ConsignmentTracking } from '@spartacus/order/root';
-import { StateWithOrder, OrderState } from '../order-state';
+import {
+  StateWithOrder,
+  OrderState,
+  getConsignmentTrackingByIdEntityKey,
+} from '../order-state';
 import { getOrderState } from './feature.selector';
 
-export const getConsignmentTrackingByIDState: MemoizedSelector<
+export const getConsignmentTrackingByIdState: MemoizedSelector<
   StateWithOrder,
   StateUtils.EntityLoaderState<ConsignmentTracking>
 > = createSelector(
   getOrderState,
-  (state: OrderState) => state.consignmentTrackingByID
+  (state: OrderState) => state.consignmentTrackingById
 );
 
-export const getConsignmentTrackingByIdState = (
+export const getConsignmentTrackingByIdEntityState = (
   orderCode: string,
   consignmentCode: string
 ): MemoizedSelector<
@@ -26,11 +30,11 @@ export const getConsignmentTrackingByIdState = (
   StateUtils.LoaderState<ConsignmentTracking>
 > =>
   createSelector(
-    getConsignmentTrackingByIDState,
+    getConsignmentTrackingByIdState,
     (state: StateUtils.EntityLoaderState<ConsignmentTracking>) =>
       StateUtils.entityLoaderStateSelector(
         state,
-        `${orderCode},${consignmentCode}`
+        getConsignmentTrackingByIdEntityKey(orderCode, consignmentCode)
       )
   );
 export const getConsignmentTrackingById = (
@@ -38,9 +42,9 @@ export const getConsignmentTrackingById = (
   consignmentCode: string
 ): MemoizedSelector<StateWithOrder, ConsignmentTracking> => {
   return createSelector(
-    getConsignmentTrackingByIdState(orderCode, consignmentCode),
-    (consignmentTrackingByIDState) =>
-      StateUtils.loaderValueSelector(consignmentTrackingByIDState)
+    getConsignmentTrackingByIdEntityState(orderCode, consignmentCode),
+    (consignmentTrackingByIdState) =>
+      StateUtils.loaderValueSelector(consignmentTrackingByIdState)
   );
 };
 
@@ -49,7 +53,7 @@ export const getConsignmentTrackingByIdLoading = (
   consignmentCode: string
 ): MemoizedSelector<StateWithOrder, boolean> => {
   return createSelector(
-    getConsignmentTrackingByIdState(orderCode, consignmentCode),
+    getConsignmentTrackingByIdEntityState(orderCode, consignmentCode),
     (loaderState) => StateUtils.loaderLoadingSelector(loaderState)
   );
 };
@@ -59,7 +63,7 @@ export const getConsignmentTrackingByIdSuccess = (
   consignmentCode: string
 ): MemoizedSelector<StateWithOrder, boolean> => {
   return createSelector(
-    getConsignmentTrackingByIdState(orderCode, consignmentCode),
+    getConsignmentTrackingByIdEntityState(orderCode, consignmentCode),
     (loaderState) => StateUtils.loaderSuccessSelector(loaderState)
   );
 };
