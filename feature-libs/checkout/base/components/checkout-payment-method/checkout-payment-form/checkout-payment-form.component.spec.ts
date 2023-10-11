@@ -21,7 +21,6 @@ import {
   FormErrorsModule,
   ICON_TYPE,
   LaunchDialogService,
-  NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
@@ -181,7 +180,6 @@ describe('CheckoutPaymentFormComponent', () => {
         imports: [
           ReactiveFormsModule,
           NgSelectModule,
-          NgSelectA11yModule,
           I18nTestingModule,
           FormErrorsModule,
         ],

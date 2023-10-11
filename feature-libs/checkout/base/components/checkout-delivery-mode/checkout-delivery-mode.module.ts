@@ -31,6 +31,7 @@ import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.componen
     OutletModule,
     PageComponentModule,
     FeaturesConfigModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

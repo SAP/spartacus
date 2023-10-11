@@ -97,15 +97,4 @@ describe('OrderDetailBillingComponent', () => {
       ]);
     });
   });
-
-  it('should be false when isPaymentInfoCardFull is called with partial card info', () => {
-    expect(
-      component.isPaymentInfoCardFull({
-        ...mockPaymentDetails,
-        expiryMonth: '',
-      })
-    ).toBeFalsy();
-
-    expect(component.isPaymentInfoCardFull(mockPaymentDetails)).toBeTruthy();
-  });
 });

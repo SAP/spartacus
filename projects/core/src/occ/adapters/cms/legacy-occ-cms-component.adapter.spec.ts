@@ -33,7 +33,7 @@ const pageContext: PageContext = {
   type: PageType.PRODUCT_PAGE,
 };
 
-const spyOnPostEndpoint = `userId/anonymous/cms/components?productCode=123`;
+const spyOnPostEndpoint = `/cms/components?productCode=123`;
 
 describe('LegacyOccCmsComponentAdapter', () => {
   let service: LegacyOccCmsComponentAdapter;
@@ -72,7 +72,7 @@ describe('LegacyOccCmsComponentAdapter', () => {
 
     const testRequest = mockHttpRequest(
       'POST',
-      'userId/anonymous/cms/components?productCode=123'
+      '/cms/components?productCode=123'
     );
 
     assertPostTestRequestBody(testRequest);

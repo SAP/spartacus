@@ -11,19 +11,12 @@ import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/ic
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
 import {
   ActiveCartFacade,
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { Card, OutletModule } from '@spartacus/storefront';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 
@@ -114,38 +107,14 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-@Component({
-  selector: 'cx-card',
-  template: '',
-})
-class MockCardComponent {
-  @Input()
-  border: boolean;
-  @Input()
-  content: Card;
-  @Input()
-  fitToContainer: boolean;
-  @Input()
-  index: number;
-}
-
 describe('CheckoutReviewShippingComponent', () => {
   let component: CheckoutReviewShippingComponent;
   let fixture: ComponentFixture<CheckoutReviewShippingComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        RouterTestingModule,
-        IconTestingModule,
-        OutletModule,
-      ],
-      declarations: [
-        CheckoutReviewShippingComponent,
-        MockUrlPipe,
-        MockCardComponent,
-      ],
+      imports: [I18nTestingModule, RouterTestingModule, IconTestingModule],
+      declarations: [CheckoutReviewShippingComponent, MockUrlPipe],
       providers: [
         {
           provide: CheckoutDeliveryAddressFacade,

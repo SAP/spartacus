@@ -100,7 +100,7 @@ describe('decorateExpressEngine', () => {
       req: {
         protocol: 'https',
         originalUrl: '/electronics/en/USD/cart',
-        get: jest.fn(() => {}),
+        get: jest.fn(() => 'site.com'),
         app,
         connection: {},
         res: <Partial<Response>>{

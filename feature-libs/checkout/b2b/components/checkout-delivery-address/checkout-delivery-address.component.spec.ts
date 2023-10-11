@@ -143,8 +143,6 @@ class MockCardComponent {
   content: Card;
   @Input()
   fitToContainer: boolean;
-  @Input()
-  index: number;
 }
 
 describe('B2BCheckoutDeliveryAddressComponent', () => {

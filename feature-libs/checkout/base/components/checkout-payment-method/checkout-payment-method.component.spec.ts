@@ -150,10 +150,6 @@ class MockPaymentFormComponent {
   paymentMethodsCount: number;
   @Input()
   setAsDefaultField: boolean;
-  @Input()
-  loading: boolean;
-  @Input()
-  paymentDetails?: PaymentDetails;
 }
 
 @Component({
