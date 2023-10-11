@@ -212,4 +212,79 @@ export class CommonQuoteTestUtilsService {
       caret.click();
     }
   }
+
+  protected static collectFountElements(
+    elements: HTMLCollectionOf<Element>,
+    tagClass: string,
+    foundElement: Element[]
+  ) {
+    for (let i = 0; i < elements.length; i++) {
+      const classList = elements[i].classList;
+      if (classList.length >= 1) {
+        for (let j = 0; j < classList.length; j++) {
+          if (classList[j] === tagClass) {
+            foundElement.push(elements[i]);
+          }
+        }
+      }
+    }
+  }
+
+  protected static getElement(
+    htmlElements: HTMLElement,
+    tag: string,
+    tagClass?: string,
+    tagIndex?: number
+  ): Element | undefined {
+    const foundElement: Element[] = [];
+    const elements = htmlElements.getElementsByTagName(tag);
+    if (!tagClass) {
+      return !tagIndex ? elements[0] : elements[tagIndex];
+    } else {
+      CommonQuoteTestUtilsService.collectFountElements(
+        elements,
+        tagClass,
+        foundElement
+      );
+      return tagIndex ? foundElement[tagIndex] : foundElement[0];
+    }
+  }
+
+  /**
+   * Helper function for proving whether the element contains corresponding accessibility attribute with expected content.
+   *
+   * @param expect - Expectation for a spec
+   * @param htmlElement - HTML element
+   * @param a11yAttr -  A11y attribute
+   * @param a11yAttrContent - Expected a11y attribute content
+   * @param innerHTML - Expected inner HTML content
+   */
+  static expectElementContainsA11y(
+    expect: any,
+    htmlElement: HTMLElement,
+    tag: string,
+    tagClass?: string,
+    tagIndex?: number,
+    a11yAttr?: string,
+    a11yAttrContent?: string,
+    innerHTML?: string
+  ) {
+    const item = CommonQuoteTestUtilsService.getElement(
+      htmlElement,
+      tag,
+      tagClass,
+      tagIndex
+    );
+
+    const attributes = item?.attributes;
+    if (a11yAttr) {
+      expect(attributes?.hasOwnProperty(a11yAttr)).toBe(true);
+      if (a11yAttrContent) {
+        expect(item?.getAttribute(a11yAttr)).toEqual(a11yAttrContent);
+      }
+    }
+    if (innerHTML) {
+      expect(item?.innerHTML.indexOf(innerHTML)).not.toEqual(-1);
+    }
+  }
 }

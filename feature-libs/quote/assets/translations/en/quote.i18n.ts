@@ -29,11 +29,19 @@ export const quote = {
         option: { yes: 'Yes', no: 'No' },
         buyer: {
           submit: {
+            a11y: {
+              title: 'Submit quote',
+              close: 'Close submit quote modal',
+            },
             title: 'Submit Quote Request {{ code }}?',
             confirmNote: 'Are you sure you want to submit this quote request?',
             successMessage: 'Quote request submitted successfully',
           },
           cancel: {
+            a11y: {
+              title: 'Cancel quote',
+              close: 'Close cancel quote modal',
+            },
             title: 'Cancel Quote Request {{ code }}?',
             confirmNote: 'Are you sure you want to cancel this quote request',
             successMessage: 'Quote request cancelled',
@@ -41,17 +49,29 @@ export const quote = {
         },
         buyer_offer: {
           edit: {
+            a11y: {
+              title: 'Edit quote',
+              close: 'Close edit quote modal',
+            },
             title: 'Confirm Edit Quote {{ code }}?',
             confirmNote: 'Are you sure you want to edit this approved quote?',
             warningNote:
               'This Quote has been Approved. Editing this Quote will prevent Checkout until new edits are approved.',
           },
           cancel: {
+            a11y: {
+              title: 'Cancel quote',
+              close: 'Close cancel quote modal',
+            },
             title: 'Cancel Quote {{ code }}?',
             confirmNote: 'Are you sure you want to cancel this quote?',
             successMessage: 'Quote cancelled',
           },
           checkout: {
+            a11y: {
+              title: 'Checkout quote',
+              close: 'Close checkout quote modal',
+            },
             title: 'Checkout Quote {{ code }}?',
             confirmNote:
               'Are you sure you want to accept and checkout this quote?',
@@ -59,12 +79,20 @@ export const quote = {
         },
         expired: {
           edit: {
+            a11y: {
+              title: 'Edit quote',
+              close: 'Close edit quote modal',
+            },
             title: 'Confirm Edit Quote {{ code }}?',
             confirmNote: 'Are you sure you want to edit this expired quote?',
             warningNote:
               'This Quote is expired. Editing this quote will prevent checkout until new edits are approved.',
           },
           requote: {
+            a11y: {
+              title: 'Requote',
+              close: 'Close requote modal',
+            },
             title: 'Recreate Quote Request {{ code }}?',
             confirmNote:
               'Are you sure you want to recreate this quote request?',
@@ -74,6 +102,10 @@ export const quote = {
         },
         seller: {
           submit: {
+            a11y: {
+              title: 'Submit quote',
+              close: 'Close submit quote modal',
+            },
             title: 'Submit Quote {{ code }}?',
             confirmNote: 'Are you sure you want to submit this quote?',
             warningNote:
@@ -83,11 +115,19 @@ export const quote = {
         },
         approver: {
           approve: {
+            a11y: {
+              title: 'Approve quote',
+              close: 'Close approve quote modal',
+            },
             title: 'Approve Quote {{ code }}?',
             confirmNote: 'Are you sure you want to approve this quote?',
             successMessage: 'Quote approved successfully',
           },
           reject: {
+            a11y: {
+              title: 'Reject quote',
+              close: 'Close reject quote modal',
+            },
             title: 'Reject Quote {{ code }}?',
             confirmNote: 'Are you sure you want to reject this quote?',
             successMessage: 'Quote rejected',
@@ -95,6 +135,10 @@ export const quote = {
         },
         all: {
           edit: {
+            a11y: {
+              title: 'Edit quote',
+              close: 'Close edit quote modal',
+            },
             title: 'Edit Quote {{ code }}?',
             confirmNote: 'Are you sure you want to edit this quote?',
             warningNote:
@@ -180,5 +224,6 @@ export const quote = {
       CANCELLED: 'Cancelled',
       EXPIRED: 'Expired',
     },
+    a11y: {},
   },
 };

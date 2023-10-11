@@ -226,6 +226,10 @@ describe('QuoteActionsByRoleComponent', () => {
       title: 'quote.actions.confirmDialog.buyer.submit.title',
       confirmNote: 'quote.actions.confirmDialog.buyer.submit.confirmNote',
       successMessage: 'quote.actions.confirmDialog.buyer.submit.successMessage',
+      a11y: {
+        title: 'quote.actions.confirmDialog.buyer.submit.a11y.title',
+        close: 'quote.actions.confirmDialog.buyer.submit.a11y.close',
+      },
     };
     mockQuoteDetails$.next(quoteForSubmitAction);
     fixture.detectChanges();
@@ -259,6 +263,10 @@ describe('QuoteActionsByRoleComponent', () => {
       confirmNote: 'quote.actions.confirmDialog.buyer_offer.edit.confirmNote',
       warningNote: 'quote.actions.confirmDialog.buyer_offer.edit.warningNote',
       validity: 'quote.actions.confirmDialog.validity',
+      a11y: {
+        title: 'quote.actions.confirmDialog.buyer_offer.edit.a11y.title',
+        close: 'quote.actions.confirmDialog.buyer_offer.edit.a11y.close',
+      },
     };
     mockQuoteDetails$.next(quoteInBuyerOfferState);
     fixture.detectChanges();
@@ -308,6 +316,10 @@ describe('QuoteActionsByRoleComponent', () => {
       title: 'quote.actions.confirmDialog.expired.requote.title',
       confirmNote: 'quote.actions.confirmDialog.expired.requote.confirmNote',
       warningNote: 'quote.actions.confirmDialog.expired.requote.warningNote',
+      a11y: {
+        title: 'quote.actions.confirmDialog.expired.requote.a11y.title',
+        close: 'quote.actions.confirmDialog.expired.requote.a11y.close',
+      },
     };
     mockQuoteDetails$.next(expiredQuote);
     fixture.detectChanges();
@@ -575,6 +587,10 @@ describe('QuoteActionsByRoleComponent', () => {
         title: 'title',
         confirmNote: 'confirmNote',
         successMessage: 'successMessage',
+        a11y: {
+          title: 'A11y title',
+          close: 'A11y text for close modal',
+        },
       };
     });
 

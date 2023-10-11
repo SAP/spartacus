@@ -30,6 +30,10 @@ const confirmationContext: ConfirmationContext = {
   confirmNote: 'confirmActionDialog.buyer_offer.edit.confirmNote',
   warningNote: 'confirmActionDialog.buyer_offer.edit.warningNote',
   validity: 'confirmActionDialog.validity',
+  a11y: {
+    title: 'confirmActionDialog.buyer_offer.edit.a11y.title',
+    close: 'confirmActionDialog.buyer_offer.edit.a11y.close',
+  },
 };
 
 @Component({
@@ -159,5 +163,52 @@ describe('QuoteActionsConfirmDialogComponent', () => {
     );
     modal.dispatchEvent(new Event('esc'));
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
+  });
+
+  describe('Accessibility', () => {
+    it("should contain action button element with class name 'close' and 'aria-label' attribute that indicates the text for close button", () => {
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'close',
+        0,
+        'aria-label',
+        'confirmActionDialog.buyer_offer.edit.a11y.close'
+      );
+    });
+
+    it("should contain div element with class name 'cx-visually-hidden' and 'aria-live' attribute that indicates that the appeared conflict solver modal requires the user's immediate attention", () => {
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-visually-hidden',
+        0,
+        'aria-live',
+        'assertive'
+      );
+    });
+
+    it("should contain action button element with class name 'close' and 'aria-relevant' attribute that indicates what notifications a user will be triggered when the HTML tree within a live region is modified", () => {
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-visually-hidden',
+        0,
+        'aria-relevant',
+        'additions'
+      );
+    });
+
+    it('should contain a explanatory text that is seen only for a screen reader and explains that the conflicts must be resolved to continue', () => {
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'div.cx-visually-hidden',
+        'confirmActionDialog.buyer_offer.edit.a11y.title'
+      );
+    });
   });
 });
