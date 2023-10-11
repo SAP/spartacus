@@ -199,7 +199,8 @@ export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/
 
 export const SPARTACUS_QUOTE = '@spartacus/quote';
 export const SPARTACUS_QUOTE_AWARE = '@spartacus/quote/components/aware';
-export const SPARTACUS_QUOTE_REQUEST = '@spartacus/quote/components/request-button';
+export const SPARTACUS_QUOTE_REQUEST =
+  '@spartacus/quote/components/request-button';
 export const SPARTACUS_QUOTE_ROOT = `@spartacus/quote/root`;
 export const SPARTACUS_QUOTE_ASSETS = `@spartacus/quote/assets`;
 
