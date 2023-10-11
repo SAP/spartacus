@@ -45,4 +45,4 @@ export const ICONS: Record<string, string> = {
   'Payment Details': ICON_TYPE.CREDIT_CARD,
   Communications: ICON_TYPE.COMMUNICATIONS,
   'Privacy And Settings': ICON_TYPE.PRIVACY,
-}
+};
