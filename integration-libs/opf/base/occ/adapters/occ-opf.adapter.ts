@@ -168,7 +168,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
   }
 
   getActiveConfigurations(): Observable<ActiveConfiguration[]> {
-    const headers = new HttpHeaders().set(
+    const headers = new HttpHeaders(this.header).set(
       OPF_CC_PUBLIC_KEY,
       this.config.opf?.commerceCloudPublicKey || ''
     );
