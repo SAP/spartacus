@@ -27,6 +27,11 @@
       <div *ngIf="invoiceCount === 0">
         {{ 'orderDetailsEnhancedUI.noInvoices' | cxTranslate }}
       </div>
+      <div *ngIf="invoiceCount === undefined">
+        <div class="cx-spinner">
+          <cx-spinner></cx-spinner>
+        </div>
+      </div>
     </div>
   </div>
 </div>

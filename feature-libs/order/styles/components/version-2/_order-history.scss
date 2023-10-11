@@ -64,7 +64,7 @@
           .cx-list-status {
             padding: 5px 30px;
             background-color: var(--cx-color-background);
-            @include type('4');
+            @include type("4");
             font-weight: bold;
           }
         }
@@ -75,6 +75,11 @@
         .cx-order-status-critical {
           font-size: 18px;
           color: var(--cx-color-alert, var(--cx-color-danger));
+        }
+        .cx-order-status-critical-link {
+          font-size: 18px;
+          color: var(--cx-color-alert, var(--cx-color-danger));
+          text-decoration: underline;
         }
       }
       .cx-order-images-container {

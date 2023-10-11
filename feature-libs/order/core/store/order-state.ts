@@ -26,6 +26,9 @@ export const ORDER_DETAILS = '[Order] User Order Details';
 export const REPLENISHMENT_ORDERS = '[Order] User Replenishment Orders';
 export const REPLENISHMENT_ORDER_DETAILS =
   '[Order] User Replenishment Order Details';
+  export const CONSIGNMENT_TRACKING_BY_ID_ENTITY = 'consignment-tracking-by-id-entity';
+  //export const CONSIGNMENT_TRACKING_BY_ID_PROCESS_ID = 'consignmentTrackingByID';
+  export const ORDER_BY_ID_ENTITIES = 'order-by-id-entities';
 
 export interface StateWithOrder {
   [ORDER_FEATURE]: OrderState;
@@ -39,6 +42,8 @@ export interface OrderState {
   orderReturnList: StateUtils.LoaderState<ReturnRequestList>;
   consignmentTracking: ConsignmentTrackingState;
   replenishmentOrder: StateUtils.LoaderState<ReplenishmentOrder>;
+  consignmentTrackingByID: StateUtils.EntityLoaderState<ConsignmentTracking>;
+  orderByID: StateUtils.EntityLoaderState<Order>;
 }
 
 export interface ConsignmentTrackingState {

@@ -5,13 +5,8 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { inject, NgModule } from '@angular/core';
-import {
-  ConverterService,
-  OccEndpointsService,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { NgModule } from '@angular/core';
+import { provideDefaultConfig } from '@spartacus/core';
 import {
   OrderAdapter,
   OrderHistoryAdapter,
@@ -20,14 +15,12 @@ import {
   ScheduledReplenishmentOrderAdapter,
 } from '@spartacus/order/core';
 import {
-  MYACCOUNT_ORDER_ENHANCED_UI,
   ORDER_NORMALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
   REORDER_ORDER_NORMALIZER,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/order/root';
-import { OccOrderHistoryExtendedAdapter } from './adapters';
 import { OccOrderNormalizer } from './adapters/converters/occ-order-normalizer';
 import { OccReorderOrderNormalizer } from './adapters/converters/occ-reorder-order-normalizer';
 import { OccReplenishmentOrderNormalizer } from './adapters/converters/occ-replenishment-order-normalizer';
@@ -44,6 +37,10 @@ import { defaultOccOrderConfig } from './config/default-occ-order-config';
   imports: [CommonModule],
   providers: [
     provideDefaultConfig(defaultOccOrderConfig),
+    {
+      provide: OrderHistoryAdapter,
+      useClass: OccOrderHistoryAdapter,
+    },
     {
       provide: ReplenishmentOrderHistoryAdapter,
       useClass: OccReplenishmentOrderHistoryAdapter,
@@ -84,30 +81,6 @@ import { defaultOccOrderConfig } from './config/default-occ-order-config';
       provide: REORDER_ORDER_NORMALIZER,
       useExisting: OccReorderOrderNormalizer,
       multi: true,
-    },
-    {
-      provide: OrderHistoryAdapter,
-      useFactory: (
-        httpClient: HttpClient,
-        occEndpointsService: OccEndpointsService,
-        converterService: ConverterService
-      ) => {
-        const enhancedUI = inject(MYACCOUNT_ORDER_ENHANCED_UI);
-        if (enhancedUI) {
-          return new OccOrderHistoryExtendedAdapter(
-            httpClient,
-            occEndpointsService,
-            converterService
-          );
-        } else {
-          return new OccOrderHistoryAdapter(
-            httpClient,
-            occEndpointsService,
-            converterService
-          );
-        }
-      },
-      deps: [HttpClient, OccEndpointsService, ConverterService],
     },
   ],
 })

@@ -14,7 +14,7 @@ import {
   AfterViewChecked,
   inject,
 } from '@angular/core';
-import { Order, OrderOutlets } from '@spartacus/order/root';
+import { OrderOutlets, OrderView } from '@spartacus/order/root';
 import { InvoicesListComponent } from '@spartacus/pdf-invoices/components';
 import { PDFInvoicesFacade } from '@spartacus/pdf-invoices/root';
 import {
@@ -44,14 +44,14 @@ export class DownloadOrderInvoicesDialogComponent
     autofocus: true,
     focusOnEscape: true,
   };
-  order: Order;
+  order: OrderView;
   protected launchDialogService = inject(LaunchDialogService);
   protected invoicesFacade = inject(PDFInvoicesFacade);
   protected cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.subscription.add(
-      this.launchDialogService.data$.subscribe((data: Order) => {
+      this.launchDialogService.data$.subscribe((data: OrderView) => {
         this.order = data;
       })
     );

@@ -22,7 +22,7 @@ import {
 } from '@spartacus/storefront';
 import { of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Consignment } from '@spartacus/order/root';
+import { ConsignmentView } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-consignment-tracking-link',
@@ -30,7 +30,7 @@ import { Consignment } from '@spartacus/order/root';
   host: { class: 'cx-list-header col-12' },
 })
 export class ConsignmentTrackingLinkComponent implements OnInit, OnDestroy {
-  consignment: Consignment;
+  consignment: ConsignmentView;
   protected subscription = new Subscription();
   protected orderDetailsService = inject(OrderDetailsService);
   protected launchDialogService = inject(LaunchDialogService);
@@ -42,7 +42,7 @@ export class ConsignmentTrackingLinkComponent implements OnInit, OnDestroy {
   consignmentStatus: string[] = this.orderDetailsService.consignmentStatus;
   ngOnInit(): void {
     this.subscription.add(
-      this.outlet?.context$.subscribe((context: { item?: Consignment }) => {
+      this.outlet?.context$.subscribe((context: { item?: ConsignmentView }) => {
         if (context.item !== undefined) {
           this.consignment = context.item;
         }
@@ -52,8 +52,8 @@ export class ConsignmentTrackingLinkComponent implements OnInit, OnDestroy {
   }
   openTrackingDialog() {
     let tracking = {};
-    if (this.consignment.consignmentTracking) {
-      tracking = this.consignment.consignmentTracking;
+    if (this.consignment.tracking) {
+      tracking = this.consignment.tracking;
     }
     const modalInstanceData = {
       tracking$: of(tracking),

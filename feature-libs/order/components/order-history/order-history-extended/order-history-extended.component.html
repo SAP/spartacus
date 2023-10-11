@@ -2,87 +2,89 @@
   *ngIf="orders$ | async as orderHistory; else noOrder"
   [attr.aria-label]="'orderHistoryEnhancedUI.orderListResults' | cxTranslate"
 >
-  <!-- HEADER -->
-  <div class="cx-order-history-extended-header">
-    <h2>
-      {{
-        'orderHistoryEnhancedUI.heading'
-          | cxTranslate: { param: tabTitleParam$ | async }
-      }}
-    </h2>
-  </div>
-  <!--BODY-->
-  <div class="cx-order-history-extended-body">
-    <ng-container
-      *ngIf="orderHistory.pagination.totalResults > 0; else noOrder"
-    >
-      <ng-container *ngFor="let order of orderHistory.orders">
-        <div class="cx-each-order">
-          <!--eg: Order # 12345-->
-          <div
-            class="cx-enhanced-ui-order-history-code"
-            [attr.aria-label]="
-              'orderHistoryEnhancedUI.orderCodeLabel' | cxTranslate
-            "
-            (click)="goToOrderDetail(order)"
-          >
-            <a
-              [routerLink]="
-                {
-                  cxRoute: 'orderDetails',
-                  params: order
-                } | cxUrl
-              "
-            >
-              {{ 'orderHistory.orderId' | cxTranslate }} {{ order?.code }}</a
-            >
-          </div>
-
-          <!--eg: 12,October,2022 | Total Price: $12.00-->
-          <div class="cx-enhanced-ui-order-summary">
-            <span
+  <ng-container *ngIf="isLoaded$ | async; else loading">
+    <!-- HEADER -->
+    <div class="cx-order-history-extended-header">
+      <h2>
+        {{
+          'orderHistoryEnhancedUI.heading'
+            | cxTranslate: { param: tabTitleParam$ | async }
+        }}
+      </h2>
+    </div>
+    <!--BODY-->
+    <div class="cx-order-history-extended-body">
+      <ng-container
+        *ngIf="orderHistory.pagination.totalResults > 0; else noOrder"
+      >
+        <ng-container *ngFor="let order of orderHistory.orders">
+          <div class="cx-each-order">
+            <!--eg: Order # 12345-->
+            <div
+              class="cx-enhanced-ui-order-history-code"
               [attr.aria-label]="
-                'orderHistoryEnhancedUI.orderPlaced' | cxTranslate
+                'orderHistoryEnhancedUI.orderCodeLabel' | cxTranslate
               "
+              (click)="goToOrderDetail(order)"
             >
-              {{ order.placed | cxDate: 'd, MMMM, yyyy' }} |
-            </span>
-            <span
-              [attr.aria-label]="
-                'orderHistoryEnhancedUI.totalPriceLabel' | cxTranslate
-              "
-            >
-              <strong>
-                {{
-                  'orderHistoryEnhancedUI.totalPrice'
-                    | cxTranslate: { param: order.total?.formattedValue }
-                }}
-              </strong>
-            </span>
-          </div>
+              <a
+                [routerLink]="
+                  {
+                    cxRoute: 'orderDetails',
+                    params: order
+                  } | cxUrl
+                "
+              >
+                {{ 'orderHistory.orderId' | cxTranslate }} {{ order?.code }}</a
+              >
+            </div>
 
-          <!--eg: Display consolidated order information-->
-          <cx-order-consolidated-information [order]="order">
-          </cx-order-consolidated-information>
+            <!--eg: 12,October,2022 | Total Price: $12.00-->
+            <div class="cx-enhanced-ui-order-summary">
+              <span
+                [attr.aria-label]="
+                  'orderHistoryEnhancedUI.orderPlaced' | cxTranslate
+                "
+              >
+                {{ order.placed | cxDate: 'd, MMMM, yyyy' }} |
+              </span>
+              <span
+                [attr.aria-label]="
+                  'orderHistoryEnhancedUI.totalPriceLabel' | cxTranslate
+                "
+              >
+                <strong>
+                  {{
+                    'orderHistoryEnhancedUI.totalPrice'
+                      | cxTranslate: { param: order.total?.formattedValue }
+                  }}
+                </strong>
+              </span>
+            </div>
+
+            <!--eg: Display consolidated order information-->
+            <cx-order-consolidated-information [order]="order">
+            </cx-order-consolidated-information>
+          </div>
+        </ng-container>
+
+        <!-- PAGINATION -->
+        <div
+          *ngIf="orderHistory.pagination.totalPages > 1"
+          class="cx-order-history-pagination"
+          [attr.aria-label]="
+            'orderHistoryEnhancedUI.orderListPagination' | cxTranslate
+          "
+        >
+          <!-- !!!!!!!re-check this above div -->
+          <cx-pagination
+            [pagination]="orderHistory.pagination"
+            (viewPageEvent)="pageChange($event)"
+          ></cx-pagination>
         </div>
       </ng-container>
-
-      <!-- PAGINATION -->
-      <div
-        *ngIf="orderHistory.pagination.totalPages > 1"
-        class="cx-order-history-pagination"
-        [attr.aria-label]="
-          'orderHistoryEnhancedUI.orderListPagination' | cxTranslate
-        "
-      >
-        <!-- !!!!!!!re-check this above div -->
-        <cx-pagination
-          [pagination]="orderHistory.pagination"
-          (viewPageEvent)="pageChange($event)"
-        ></cx-pagination>
-      </div>
-    </ng-container>
-  </div>
+    </div>
+  </ng-container>
 </div>
 
 <!-- NO ORDER CONTAINER -->

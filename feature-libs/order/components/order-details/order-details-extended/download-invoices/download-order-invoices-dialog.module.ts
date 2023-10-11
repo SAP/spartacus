@@ -13,6 +13,7 @@ import {
   KeyboardFocusModule,
   PaginationModule,
   SortingModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { defaultDownloadOrderInvoicesLayoutConfig } from './default-download-order-invoices-layout.config';
 import { DownloadOrderInvoicesDialogComponent } from './download-order-invoices-dialog.component';
@@ -26,6 +27,7 @@ import { DownloadOrderInvoicesEventListener } from './download-order-invoices-ev
     I18nModule,
     PaginationModule,
     SortingModule,
+    SpinnerModule,
     PDFInvoicesComponentsModule,
   ],
   providers: [provideDefaultConfig(defaultDownloadOrderInvoicesLayoutConfig)],

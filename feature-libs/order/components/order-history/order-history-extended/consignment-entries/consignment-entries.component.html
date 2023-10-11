@@ -23,7 +23,7 @@ Consignment 2 | Tracking Number: 5657474 | Estimated Delivery: 22, September, 20
     </span>
     |
     <ng-container *ngIf="consignment.trackingID; else showLastUpdated">
-      <ng-container *ngIf="consignment.consignmentTracking as tracking">
+      <ng-container *ngIf="consignment.tracking as tracking">
         <span
           [attr.aria-label]="
             'orderDetail.consignmentTracking.dialog.trackingId' | cxTranslate

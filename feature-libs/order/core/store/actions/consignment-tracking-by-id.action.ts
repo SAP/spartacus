@@ -1,0 +1,60 @@
+import { StateUtils } from '@spartacus/core';
+import { ConsignmentTracking } from '@spartacus/order/root';
+import { CONSIGNMENT_TRACKING_BY_ID_ENTITY } from '../order-state';
+
+export const LOAD_CONSIGNMENT_TRACKING_BY_ID =
+  '[Order] Load Consignment Tracking By ID Data';
+export const LOAD_CONSIGNMENT_TRACKING_BY_ID_FAIL =
+  '[Order] Load  Consignment Tracking By ID Data Fail';
+export const LOAD_CONSIGNMENT_TRACKING_BY_ID_SUCCESS =
+  '[Order] Load Consignment Tracking By ID Data Success';
+
+export class LoadConsignmentTrackingByID extends StateUtils.EntityLoadAction {
+  readonly type = LOAD_CONSIGNMENT_TRACKING_BY_ID;
+  constructor(
+    public payload: {
+      orderCode: string;
+      consignmentCode: string;
+      userId: string;
+    }
+  ) {
+    super(
+      CONSIGNMENT_TRACKING_BY_ID_ENTITY,
+      `${payload.orderCode},${payload.consignmentCode}`
+    );
+  }
+}
+
+export class LoadConsignmentTrackingByIDFail extends StateUtils.EntityFailAction {
+  readonly type = LOAD_CONSIGNMENT_TRACKING_BY_ID_FAIL;
+  constructor(
+    public payload: { orderCode: string; consignmentCode: string; error: any }
+  ) {
+    super(
+      CONSIGNMENT_TRACKING_BY_ID_ENTITY,
+      `${payload.orderCode},${payload.consignmentCode}`,
+      payload.error
+    );
+  }
+}
+
+export class LoadConsignmentTrackingByIDSuccess extends StateUtils.EntitySuccessAction {
+  readonly type = LOAD_CONSIGNMENT_TRACKING_BY_ID_SUCCESS;
+  constructor(
+    public payload: {
+      orderCode: string;
+      consignmentCode: string;
+      consignmentTracking: ConsignmentTracking;
+    }
+  ) {
+    super(
+      CONSIGNMENT_TRACKING_BY_ID_ENTITY,
+      `${payload.orderCode},${payload.consignmentCode}`
+    );
+  }
+}
+
+export type ConsignmentTrackingByIDAction =
+  | LoadConsignmentTrackingByID
+  | LoadConsignmentTrackingByIDFail
+  | LoadConsignmentTrackingByIDSuccess;
