@@ -288,17 +288,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
         break;
       }
 
-      case 'Registered Products': {
-        return ICON_TYPE.SQUARE_CHECK;
-        break;
-      }
-
       case 'Personal Details': {
-        return ICON_TYPE.USER;
-        break;
-      }
-
-      case 'Email': {
         return ICON_TYPE.USER;
         break;
       }
