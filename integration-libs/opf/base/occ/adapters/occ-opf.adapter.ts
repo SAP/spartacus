@@ -13,6 +13,7 @@ import {
   normalizeHttpError,
 } from '@spartacus/core';
 import {
+  OPF_ACTIVE_CONFIGURATION_NORMALIZER,
   OPF_AFTER_REDIRECT_SCRIPTS_NORMALIZER,
   OPF_CTA_SCRIPTS_NORMALIZER,
   OPF_PAYMENT_SUBMIT_COMPLETE_NORMALIZER,
@@ -22,6 +23,7 @@ import {
   OpfPaymentAdapter,
 } from '@spartacus/opf/base/core';
 import {
+  ActiveConfiguration,
   AfterRedirectScriptResponse,
   CtaScriptsRequest,
   CtaScriptsResponse,
@@ -165,6 +167,25 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     );
   }
 
+  getActiveConfigurations(): Observable<ActiveConfiguration[]> {
+    const headers = new HttpHeaders().set(
+      OPF_CC_PUBLIC_KEY,
+      this.config.opf?.commerceCloudPublicKey || ''
+    );
+
+    return this.http
+      .get<ActiveConfiguration[]>(this.getActiveConfigurationsEndpoint(), {
+        headers,
+      })
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        }),
+        this.converter.pipeable(OPF_ACTIVE_CONFIGURATION_NORMALIZER)
+      );
+  }
+
   ctaScripts(
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<CtaScriptsResponse> {
@@ -212,6 +233,10 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     return this.opfEndpointsService.buildUrl('afterRedirectScripts', {
       urlParams: { paymentSessionId },
     });
+  }
+
+  protected getActiveConfigurationsEndpoint(): string {
+    return this.opfEndpointsService.buildUrl('getActiveConfigurations');
   }
 
   protected getCtaScriptsEndpoint(): string {

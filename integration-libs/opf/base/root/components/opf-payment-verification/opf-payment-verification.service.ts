@@ -29,6 +29,7 @@ import {
 import {
   KeyValuePair,
   OpfDynamicScript,
+  OpfPage,
   OpfPaymentMetadata,
   TargetPage,
 } from '../../model/opf.model';
@@ -76,7 +77,7 @@ export class OpfPaymentVerificationService {
     paramsMap: Array<KeyValuePair>;
     afterRedirectScriptFlag: string | undefined;
   }> {
-    return route?.routeConfig?.data?.cxRoute === 'paymentVerificationResult'
+    return route?.routeConfig?.data?.cxRoute === OpfPage.RESULT_PAGE
       ? route.queryParams.pipe(
           concatMap((params: Params) => {
             if (!params) {
@@ -169,7 +170,7 @@ export class OpfPaymentVerificationService {
         )
       )
       .subscribe(() => {
-        this.goToPage('cart');
+        this.goToPage(OpfPage.CART_PAGE);
 
         this.globalMessageService.add(
           {
@@ -188,7 +189,7 @@ export class OpfPaymentVerificationService {
       map((order) => !!order),
       tap((success: boolean) => {
         if (success) {
-          this.goToPage('orderConfirmation');
+          this.goToPage(OpfPage.CONFIRMATION_PAGE);
         }
       })
     );

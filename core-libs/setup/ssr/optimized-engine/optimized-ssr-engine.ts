@@ -5,7 +5,6 @@
  */
 
 /* webpackIgnore: true */
-import { randomUUID } from 'crypto';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
@@ -19,6 +18,7 @@ import {
 } from '../logger';
 import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
 import { RenderingCache } from './rendering-cache';
+import { preprocessRequestForLogger } from './request-context';
 import {
   RenderingStrategy,
   SsrOptimizationOptions,
@@ -254,11 +254,7 @@ export class OptimizedSsrEngine {
     options: any,
     callback: SsrCallbackFn
   ): void {
-    const requestContext = {
-      uuid: randomUUID(),
-      timeReceived: new Date().toISOString(),
-    };
-    options.req.res.locals = { cx: { request: requestContext } };
+    preprocessRequestForLogger(options.req, this.logger);
 
     const request: Request = options.req;
     const response: Response = options.req.res;

@@ -5,10 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import { facadeFactory } from '@spartacus/core';
+import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OPF_BASE_FEATURE } from '../feature-name';
 import {
+  ActiveConfiguration,
   AfterRedirectScriptResponse,
   CtaScriptsRequest,
   CtaScriptsResponse,
@@ -29,6 +30,7 @@ import {
         'submitPayment',
         'submitCompletePayment',
         'afterRedirectScripts',
+        'getActiveConfigurationsState',
         'ctaScripts',
       ],
     }),
@@ -69,6 +71,13 @@ export abstract class OpfPaymentFacade {
   abstract afterRedirectScripts(
     paymentSessionId: string
   ): Observable<AfterRedirectScriptResponse>;
+
+  /**
+   * Get payment active configurations
+   */
+  abstract getActiveConfigurationsState(): Observable<
+    QueryState<ActiveConfiguration[] | undefined>
+  >;
 
   abstract ctaScripts(
     ctaScriptsRequest: CtaScriptsRequest

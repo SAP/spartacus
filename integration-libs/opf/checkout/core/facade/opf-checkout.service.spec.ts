@@ -3,7 +3,8 @@ import { QueryService } from '@spartacus/core';
 import {
   ActiveConfiguration,
   OpfPaymentProviderType,
-} from '@spartacus/opf/checkout/root';
+} from '@spartacus/opf/base/root';
+
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OpfCheckoutConnector } from '../connectors/opf-checkout.connector';
@@ -53,23 +54,6 @@ describe(`CheckoutPaymentService`, () => {
       expect(opfCheckoutService).toBeTruthy();
     }
   ));
-
-  describe(`getActiveConfigurationsState`, () => {
-    it(`should call the opfCheckoutConnector.getActiveConfigurations()`, (done) => {
-      service
-        .getActiveConfigurationsState()
-        .pipe(take(1))
-        .subscribe((state) => {
-          expect(connector.getActiveConfigurations).toHaveBeenCalled();
-          expect(state).toEqual({
-            loading: false,
-            error: false,
-            data: mockActiveConfigurations,
-          });
-          done();
-        });
-    });
-  });
 
   describe(`initiatePayment`, () => {
     it(`should call the opfCheckoutConnector.initiatePayment()`, (done) => {

@@ -8,4 +8,3 @@ export * from './connectors/index';
 export * from './facade/index';
 export * from './opf-checkout-core.module';
 export * from './services/index';
-export * from './tokens/index';

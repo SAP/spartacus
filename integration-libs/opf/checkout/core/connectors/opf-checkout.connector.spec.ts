@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveConfiguration } from '@spartacus/opf/checkout/root';
+import { ActiveConfiguration } from '@spartacus/opf/base/root';
 import { EMPTY, Observable } from 'rxjs';
 import { PaymentInitiationConfig, PaymentSessionData } from '../../root/model';
 import { OpfCheckoutConnector } from './opf-checkout.connector';
@@ -34,12 +34,6 @@ describe('OpfCheckoutConnector', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('getActiveConfigurations should call adapter', () => {
-    spyOn(adapter, 'getActiveConfigurations').and.stub();
-    service.getActiveConfigurations();
-    expect(adapter.getActiveConfigurations).toHaveBeenCalled();
   });
 
   it('initiatePayment should call adapter', () => {

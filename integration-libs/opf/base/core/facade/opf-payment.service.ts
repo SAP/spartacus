@@ -5,8 +5,15 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Command, CommandService } from '@spartacus/core';
 import {
+  Command,
+  CommandService,
+  Query,
+  QueryService,
+  QueryState,
+} from '@spartacus/core';
+import {
+  ActiveConfiguration,
   AfterRedirectScriptResponse,
   CtaScriptsRequest,
   CtaScriptsResponse,
@@ -77,7 +84,13 @@ export class OpfPaymentService implements OpfPaymentFacade {
     return this.opfPaymentConnector.ctaScripts(payload.ctaScriptsRequest);
   });
 
+  protected activeConfigurationsQuery: Query<ActiveConfiguration[]> =
+    this.queryService.create<ActiveConfiguration[]>(() =>
+      this.opfPaymentConnector.getActiveConfigurations()
+    );
+
   constructor(
+    protected queryService: QueryService,
     protected commandService: CommandService,
     protected opfPaymentConnector: OpfPaymentConnector,
     protected opfPaymentHostedFieldsService: OpfPaymentHostedFieldsService
@@ -107,6 +120,12 @@ export class OpfPaymentService implements OpfPaymentFacade {
 
   afterRedirectScripts(paymentSessionId: string) {
     return this.afterRedirectScriptsCommand.execute({ paymentSessionId });
+  }
+
+  getActiveConfigurationsState(): Observable<
+    QueryState<ActiveConfiguration[] | undefined>
+  > {
+    return this.activeConfigurationsQuery.getState();
   }
 
   ctaScripts(ctaScriptsRequest: CtaScriptsRequest) {

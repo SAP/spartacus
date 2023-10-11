@@ -5,6 +5,7 @@
  */
 
 import {
+  ActiveConfiguration,
   AfterRedirectScriptResponse,
   CtaScriptsRequest,
   CtaScriptsResponse,
@@ -50,6 +51,11 @@ export abstract class OpfPaymentAdapter {
   abstract afterRedirectScripts(
     paymentSessionId: string
   ): Observable<AfterRedirectScriptResponse>;
+
+  /**
+   * Abstract method used to get payment active configurations
+   */
+  abstract getActiveConfigurations(): Observable<ActiveConfiguration[]>;
 
   abstract ctaScripts(
     ctaScriptsRequest: CtaScriptsRequest
