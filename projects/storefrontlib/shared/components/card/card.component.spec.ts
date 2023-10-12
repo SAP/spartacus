@@ -243,7 +243,7 @@ describe('CardComponent', () => {
     };
     component.content = mockCard;
     component.charactersLimit = 4;
-    component.truncateText = true;
+    component.truncateParagraphText = true;
     fixture.detectChanges();
     const truncatedPopovers = getTruncatedPopover(el);
 
