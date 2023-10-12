@@ -446,7 +446,7 @@ describe('QuoteHeaderOverviewComponent', () => {
         ],
       };
 
-      component.getUpdate(undefined, undefined).subscribe((result) => {
+      component.getCardMetadata(undefined, undefined).subscribe((result) => {
         expect(result).toEqual(expected);
       });
     });

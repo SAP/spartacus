@@ -65,7 +65,7 @@ export class QuoteService implements QuoteFacade {
   protected quoteConnector = inject(QuoteConnector);
   protected eventService = inject(EventService);
   protected queryService = inject(QueryService);
-  protected config = inject(ViewConfig);
+  protected viewConfig = inject(ViewConfig);
   protected commandService = inject(CommandService);
   protected activeCartFacade = inject(ActiveCartFacade);
   protected routingService = inject(RoutingService);
@@ -403,7 +403,7 @@ export class QuoteService implements QuoteFacade {
             return this.quoteConnector.getQuotes(userId, {
               currentPage,
               sort,
-              pageSize: this.config.view?.defaultPageSize,
+              pageSize: this.viewConfig.view?.defaultPageSize,
             });
           }),
           tap(() => {

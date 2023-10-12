@@ -119,8 +119,6 @@ export interface CartItemComponentOptions {
 
 export interface OrderEntry {
   orderCode?: string;
-  //TODO CHHI Where to put this? Depends on the library dependencies
-  //between cart, quote and product-configurator
   quoteCode?: string;
   basePrice?: Price;
   deliveryMode?: DeliveryMode;
