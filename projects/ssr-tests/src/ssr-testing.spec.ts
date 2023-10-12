@@ -33,15 +33,18 @@ describe('SSR E2E', () => {
     ]);
   });
 
-  // TODO: Test incomplete
-  xit('should receive cached response with next request', async () => {
+  it('should receive cached response with next request', async () => {
+    await Ssr.startSsrServer();
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
     });
     const response: any = await ProxyServer.sendRequest(REQUEST_PATH);
     expect(response.statusCode).toEqual(200);
+    Log.waitUntilLogContainsText(`Rendering completed (${REQUEST_PATH})`);
+    const response2: any = await ProxyServer.sendRequest(REQUEST_PATH);
+    expect(response2.statusCode).toEqual(200);
 
-    Log.assertMessages(['Render from cache (/)']);
+    Log.assertMessages([`Render from cache (${REQUEST_PATH})`]);
   });
 
   // TODO: Test incomplete
@@ -69,7 +72,7 @@ describe('SSR E2E', () => {
     const response: any = await ProxyServer.sendRequest(REQUEST_PATH);
 
     // Waits a time for server to timeout
-    // await new Promise((res) => setTimeout(res, 15000));
+    await new Promise((res) => setTimeout(res, 15000));
 
     expect(response.statusCode).toEqual(500);
     Log.assertMessages(['timeout']);
