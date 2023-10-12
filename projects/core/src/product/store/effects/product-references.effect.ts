@@ -11,7 +11,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import { ProductReferencesConnector } from '../../connectors/references/product-references.connector';
 import { ProductActions } from '../actions/index';
 import { LoggerService } from '../../../logger';
-import { tryNormalizeHttpError } from '@spartacus/core';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 
 @Injectable()
 export class ProductReferencesEffects {

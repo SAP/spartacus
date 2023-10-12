@@ -7,7 +7,7 @@
 import { StateUtils } from '../../../../state/utils/index';
 import { ClientToken } from '../../models/client-token.model';
 import { CLIENT_TOKEN_DATA } from '../client-auth-state';
-import { ErrorActionType } from '@spartacus/core';
+import { ErrorActionType } from '../../../../model/index';
 
 export const LOAD_CLIENT_TOKEN = '[Token] Load Client Token';
 export const LOAD_CLIENT_TOKEN_FAIL = '[Token] Load Client Token Fail';

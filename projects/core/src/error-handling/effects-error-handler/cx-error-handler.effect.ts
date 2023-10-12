@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
 import { filter, tap } from 'rxjs/operators';
 import { EffectsErrorHandlerService } from './effects-error-handler.service';
-import { ErrorAction } from '@spartacus/core';
+import { ErrorAction } from '../../model/index';
 import { Observable } from 'rxjs';
 
 @Injectable()
