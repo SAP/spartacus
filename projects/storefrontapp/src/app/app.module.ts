@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -40,6 +40,10 @@ if (!environment.production) {
   devImports.push(StoreDevtoolsModule.instrument());
 }
 
+const appInitializer = () => {
+  throw new Error('error');
+};
+
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
@@ -55,6 +59,12 @@ if (!environment.production) {
     ...devImports,
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+      multi: true,
+    },
+
     provideConfig(<OccConfig>{
       backend: {
         occ: {
