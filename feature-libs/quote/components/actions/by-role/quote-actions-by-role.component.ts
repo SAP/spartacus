@@ -188,7 +188,8 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       confirmNote: dialogConfig.i18nKeyPrefix + '.confirmNote',
     };
     if (dialogConfig.showWarningNote) {
-      confirmationContext.warningNote = dialogConfig.i18nKeyPrefix + '.warningNote';
+      confirmationContext.warningNote =
+        dialogConfig.i18nKeyPrefix + '.warningNote';
     }
     if (dialogConfig.showExpirationDate) {
       confirmationContext.validity = 'quote.actions.confirmDialog.validity';

@@ -67,7 +67,9 @@ class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
       entryNumber: string,
       comment: Comment
     ) =>
-      of(`addQuoteEntryComment-${userId}-${quoteCode}-${entryNumber}-${comment}`)
+      of(
+        `addQuoteEntryComment-${userId}-${quoteCode}-${entryNumber}-${comment}`
+      )
   );
 }
 
