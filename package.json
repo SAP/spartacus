@@ -64,7 +64,7 @@
     "e2e:run:ci:epd-visualization": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:epd-visualization",
     "e2e:run:ci:ccv2": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2",
     "e2e:run:ci:ccv2-b2b": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2-b2b",
-    "e2e:run:ci:ccv2-cpq": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2-cpq",
+    "e2e:run:ci:ccv2-product-configurator": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2-product-configurator",
     "e2e:run:ci:mcs": "npm --prefix ./projects/storefrontapp-e2e-cypress run run cy:run:ci:mcs",
     "e2e:run:ci:cdc-b2b": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:cdc-b2b",
     "e2e:run:ci:segment-refs": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:segment-refs",
