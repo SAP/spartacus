@@ -18,7 +18,7 @@ describe('SSR E2E', () => {
     await Ssr.killSsrServer();
   });
 
-  xit('should receive success response with request', async () => {
+  it('should receive success response with request', async () => {
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
     });
