@@ -23,6 +23,7 @@ export interface OrderHistoryView extends OrderHistory {
   consignments?: Consignment[];
   unconsignedEntries?: OrderEntry[];
   returnRequests?: ReturnRequest[];
+  totalItems?: number;
 }
 
 export interface OrderHistoryListView extends OrderHistoryList {

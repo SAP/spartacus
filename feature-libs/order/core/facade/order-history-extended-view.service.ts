@@ -103,6 +103,7 @@ export class OrderHistoryExtendedViewService {
             return this.getOrderDetailsWithTracking(order?.code ?? '').pipe(
               map((orderDetail: OrderView | undefined) => {
                 /** filling extra fields ---> */
+                orderView.totalItems = orderDetail?.totalItems;
                 orderView.entries = orderDetail?.entries;
                 orderView.consignments = orderDetail?.consignments;
                 orderView.unconsignedEntries = orderDetail?.unconsignedEntries;

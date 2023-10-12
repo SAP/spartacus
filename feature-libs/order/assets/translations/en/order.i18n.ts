@@ -240,4 +240,16 @@ export const orderEnhancedUI = {
     viewAllOrders: 'View All Orders',
     noInvoices: 'Invoices are not generated yet. Please come back later.',
   },
+  myAccountView: {
+    item: '{{value}} Item',
+    items: '{{value}} Items',
+    heading: 'Orders And Returns',
+    orderNumber: 'Order Number ({{value}})',
+    purchasedOn: 'Purchased On: {{value}}',
+    orderedItems: 'Ordered Items: {{value}}',
+    totalPrice: 'Total Price: {{value}}',
+    orderDetails: 'Order Details',
+    returnOrder: 'Return Order',
+    showMore: 'Show More',
+  },
 };

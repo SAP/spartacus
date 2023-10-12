@@ -17,3 +17,4 @@ export * from './replenishment-order-history/index';
 export * from './return-request-detail/index';
 export * from './return-request-list/order-return-request-list.component';
 export * from './return-request-list/order-return-request-list.module';
+export * from './myaccount-order-view/index';

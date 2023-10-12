@@ -1,0 +1,152 @@
+<div class="cx-myaccount-view-header">
+  <!-- HEADER -->
+  <div class="cx-myaccount-view-heading">
+    {{ 'myAccountView.heading' | cxTranslate }}
+  </div>
+
+  <!-- SHOW MORE -->
+  <div class="cx-myaccount-view-show-more">
+    <a
+      class="btn-link cx-action-link"
+      [routerLink]="
+        {
+          cxRoute: 'orders'
+        } | cxUrl
+      "
+    >
+      {{ 'myAccountView.showMore' | cxTranslate }}
+    </a>
+  </div>
+</div>
+
+<div *ngIf="orders$ | async as orderHistory; else noOrder">
+  <!-- BODY -->
+  <ng-container *ngIf="orderHistory.pagination.totalResults > 0; else noOrder">
+    <div class="cx-myaccount-view-body">
+      <ng-container *ngFor="let order of orderHistory.orders">
+        <div class="cx-myaccount-view-order">
+          <div class="cx-myaccount-view-order-header">
+            <div class="cx-myaccount-view-status">
+              {{
+                'orderDetails.statusDisplay_' + order.statusDisplay
+                  | cxTranslate
+              }}
+            </div>
+            <div class="cx-myaccount-view-code">
+              {{
+                'myAccountView.orderNumber' | cxTranslate: { value: order.code }
+              }}
+            </div>
+          </div>
+          <div class="cx-myaccount-view-order-body">
+            <ng-container *ngIf="getProduct(order) as product">
+              <div class="cx-myaccount-view-order-column-1">
+                <div class="cx-myaccount-view-order-column-1-image">
+                  <cx-media
+                    [container]="product.images.PRIMARY"
+                    class="cx-myaccount-view-order-img"
+                    format="thumbnail"
+                    role="presentation"
+                  ></cx-media>
+                </div>
+                <div class="cx-myaccount-view-order-column-1-details">
+                  <div class="cx-myaccount-view-order-column-1-details-top">
+                    <div class="cx-myaccount-view-product-name">
+                      {{ product.name }}
+                      <span *ngIf="order.totalItems - 1 > 1">
+                        +
+                        {{
+                          'myAccountView.items'
+                            | cxTranslate: { value: order.totalItems - 1 }
+                        }}
+                      </span>
+                      <span *ngIf="order.totalItems - 1 === 1">
+                        +
+                        {{ 'myAccountView.item' | cxTranslate: { value: 1 } }}
+                      </span>
+                    </div>
+                    <div class="cx-myaccount-view-purchased-on">
+                      {{
+                        'myAccountView.purchasedOn'
+                          | cxTranslate
+                            : {
+                                value: order.placed | cxDate: 'd, MMMM, yyyy'
+                              }
+                      }}
+                    </div>
+                    <div class="cx-myaccount-view-item-count">
+                      {{
+                        'myAccountView.orderedItems'
+                          | cxTranslate: { value: order.totalItems }
+                      }}
+                    </div>
+                  </div>
+                  <div class="cx-myaccount-view-order-column-1-details-bottom">
+                    <div class="cx-myaccount-view-total-price">
+                      {{
+                        'myAccountView.totalPrice'
+                          | cxTranslate: { value: order.total?.formattedValue }
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cx-myaccount-view-order-column-2">
+                <!-- order details -->
+                <span>
+                  <a
+                    class="btn-link cx-action-link"
+                    [routerLink]="
+                      {
+                        cxRoute: 'orderDetails',
+                        params: order
+                      } | cxUrl
+                    "
+                  >
+                    {{ 'myAccountView.orderDetails' | cxTranslate }}
+                  </a>
+                </span>
+                <!-- return order -->
+                <span *ngIf="order.returnable">
+                  {{ ' | '
+                  }}<a
+                    class="btn-link cx-action-link"
+                    [routerLink]="
+                      {
+                        cxRoute: 'orderReturn',
+                        params: order
+                      } | cxUrl
+                    "
+                  >
+                    {{ 'myAccountView.returnOrder' | cxTranslate }}
+                  </a>
+                </span>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>
+<!-- NO ORDER CONTAINER -->
+<ng-template #noOrder>
+  <div class="cx-myaccount-no-order" *ngIf="isLoaded$ | async; else loading">
+    <div [attr.aria-label]="'orderHistory.notFound' | cxTranslate">
+      {{ 'orderHistory.noOrders' | cxTranslate }}
+    </div>
+    <a
+      [routerLink]="{ cxRoute: 'home' } | cxUrl"
+      routerLinkActive="active"
+      class="cx-no-order"
+      >{{ 'orderHistory.startShopping' | cxTranslate }}</a
+    >
+  </div>
+</ng-template>
+
+<!-- ORDER HISTORY DATA STILL LOADING -->
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>
