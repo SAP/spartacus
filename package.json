@@ -89,7 +89,7 @@
     "dev:ssr": "env-cmd --no-override -e dev,b2c,$SPA_ENV cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:serve-ssr",
     "serve:ssr": "node dist/storefrontapp-server/main.js",
     "test:ssr": "env-cmd -e dev nx test ssr-tests",
-    "test:ssr:ci": "env-cmd -e ci nx test ssr-tests --verbose",
+    "test:ssr:ci": "env-cmd -e ci nx test ssr-tests",
     "serve:ssr:ci": "NODE_TLS_REJECT_UNAUTHORIZED=0 SSR_TIMEOUT=0 node dist/storefrontapp-server/main.js",
     "serve:ssr:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node dist/storefrontapp-server/main.js",
     "prerender": "nx run storefrontapp:prerender --routes-file projects/storefrontapp/prerender.txt",
