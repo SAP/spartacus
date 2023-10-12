@@ -45,7 +45,7 @@ export interface QuoteOccEndpoints {
   /**
    * Add a comment to a line item of a quote.
    */
-  addCartEntryComment?: string | OccEndpoint;
+  addQuoteEntryComment?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

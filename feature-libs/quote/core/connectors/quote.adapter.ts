@@ -101,7 +101,7 @@ export abstract class QuoteAdapter {
    * @param quoteCode
    * @param entryNumber
    */
-  abstract addCartEntryComment(
+  abstract addQuoteEntryComment(
     userId: string,
     quoteCode: string,
     entryNumber: string,

@@ -79,7 +79,7 @@ const MockOccModuleConfig: OccConfig = {
         performQuoteAction: '/users/${userId}/quotes/${quoteCode}/action',
         addComment: '/users/${userId}/quotes/${quoteCode}/comments',
         addDiscount: '/users/${userId}/quotes/${quoteCode}/discounts',
-        addCartEntryComment:
+        addQuoteEntryComment:
           '/users/${userId}/quotes/${quoteCode}/entries/${entryNumber}/comments',
       } as OccEndpoints,
     },
@@ -280,9 +280,9 @@ describe(`OccQuoteAdapter`, () => {
     );
   });
 
-  it('addCartEntryComment should add comment to product entry in quote cart', (done) => {
+  it('addQuoteEntryComment should add comment to product entry in quote cart', (done) => {
     service
-      .addCartEntryComment(
+      .addQuoteEntryComment(
         userId,
         mockQuote.code,
         productEntryNumber,

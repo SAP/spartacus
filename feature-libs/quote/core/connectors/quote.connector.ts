@@ -78,7 +78,7 @@ export class QuoteConnector {
     entryNumber: string,
     comment: Comment
   ): Observable<unknown> {
-    return this.adapter.addCartEntryComment(
+    return this.adapter.addQuoteEntryComment(
       userId,
       quoteCode,
       entryNumber,

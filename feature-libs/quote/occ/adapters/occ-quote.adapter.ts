@@ -201,7 +201,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
     });
   }
 
-  addCartEntryComment(
+  addQuoteEntryComment(
     userId: string,
     quoteCode: string,
     entryNumber: string,
@@ -211,18 +211,18 @@ export class OccQuoteAdapter implements QuoteAdapter {
 
     return this.http
       .post<unknown>(
-        this.getAddCartEntryCommentEndpoint(userId, quoteCode, entryNumber),
+        this.getAddQuoteEntryCommentEndpoint(userId, quoteCode, entryNumber),
         comment
       )
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
-  protected getAddCartEntryCommentEndpoint(
+  protected getAddQuoteEntryCommentEndpoint(
     userId: string,
     quoteCode: string,
     entryNumber: string
   ): string {
-    return this.occEndpoints.buildUrl('addCartEntryComment', {
+    return this.occEndpoints.buildUrl('addQuoteEntryComment', {
       urlParams: { userId, quoteCode, entryNumber },
     });
   }

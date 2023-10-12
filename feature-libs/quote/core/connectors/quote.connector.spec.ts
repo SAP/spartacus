@@ -58,7 +58,7 @@ class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
     (userId: string, quoteCode: string, discount: QuoteDiscount) =>
       of(`addDiscount-${userId}-${quoteCode}-${discount}`)
   );
-  addCartEntryComment = createSpy(
+  addQuoteEntryComment = createSpy(
     'CommerceQuotesAdapter.addCartEntryComment'
   ).and.callFake(
     (
@@ -201,7 +201,7 @@ describe('QuoteConnector', () => {
     expect(result).toBe(
       `addCartEntryComment-${userId}-${quoteCode}-${quoteEntryNumber}-${comment.toString()}`
     );
-    expect(adapter.addCartEntryComment).toHaveBeenCalledWith(
+    expect(adapter.addQuoteEntryComment).toHaveBeenCalledWith(
       userId,
       quoteCode,
       'entryNumber1',
