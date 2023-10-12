@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { QuoteActionType } from "@spartacus/quote/root";
-import { QuoteCoreConfig } from "./quote-core.config";
+import { QuoteActionType } from '@spartacus/quote/root';
+import { QuoteCoreConfig } from './quote-core.config';
 
 export const defaultQuoteCoreConfig: QuoteCoreConfig = {
   quote: {

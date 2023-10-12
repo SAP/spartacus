@@ -19,34 +19,6 @@ import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 @NgModule({
   imports: [CommonModule, I18nModule],
   providers: [
-    provideDefaultConfig(<QuoteCoreConfig>{
-      quote: {
-        actions: {
-          primaryActions: [
-            QuoteActionType.APPROVE,
-            QuoteActionType.CHECKOUT,
-            QuoteActionType.SUBMIT,
-            QuoteActionType.REQUOTE,
-          ],
-          actionsOrderByState: {
-            BUYER_DRAFT: [
-              QuoteActionType.SUBMIT,
-              QuoteActionType.EDIT,
-              QuoteActionType.CANCEL,
-            ],
-            BUYER_OFFER: [
-              QuoteActionType.CHECKOUT,
-              QuoteActionType.EDIT,
-              QuoteActionType.CANCEL,
-            ],
-            CANCELLED: [QuoteActionType.REQUOTE],
-            EXPIRED: [QuoteActionType.REQUOTE, QuoteActionType.CANCEL],
-            SELLER_REQUEST: [QuoteActionType.SUBMIT, QuoteActionType.EDIT],
-            SELLER_DRAFT: [QuoteActionType.SUBMIT, QuoteActionType.EDIT],
-          },
-        },
-      },
-    }),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         QuoteActionsByRoleComponent: {
