@@ -12,5 +12,5 @@ export const userAccountTranslations: TranslationResources = {
 };
 
 export const userAccountTranslationChunksConfig: TranslationChunksConfig = {
-  userAccount: ['loginForm', 'miniLogin', 'myaccountViewName'],
+  userAccount: ['loginForm', 'miniLogin', 'userMyAccountView'],
 };
