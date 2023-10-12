@@ -59,7 +59,7 @@ class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
       of(`addDiscount-${userId}-${quoteCode}-${discount}`)
   );
   addQuoteEntryComment = createSpy(
-    'CommerceQuotesAdapter.addCartEntryComment'
+    'CommerceQuotesAdapter.addQuoteEntryComment'
   ).and.callFake(
     (
       userId: string,
@@ -67,7 +67,7 @@ class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
       entryNumber: string,
       comment: Comment
     ) =>
-      of(`addCartEntryComment-${userId}-${quoteCode}-${entryNumber}-${comment}`)
+      of(`addQuoteEntryComment-${userId}-${quoteCode}-${entryNumber}-${comment}`)
   );
 }
 
@@ -192,14 +192,14 @@ describe('QuoteConnector', () => {
     );
   });
 
-  it('addCartEntryComment should call adapter', () => {
+  it('addQuoteEntryComment should call adapter', () => {
     let result;
     service
-      .addCartEntryComment(userId, quoteCode, quoteEntryNumber, comment)
+      .addQuoteEntryComment(userId, quoteCode, quoteEntryNumber, comment)
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
-      `addCartEntryComment-${userId}-${quoteCode}-${quoteEntryNumber}-${comment.toString()}`
+      `addQuoteEntryComment-${userId}-${quoteCode}-${quoteEntryNumber}-${comment.toString()}`
     );
     expect(adapter.addQuoteEntryComment).toHaveBeenCalledWith(
       userId,

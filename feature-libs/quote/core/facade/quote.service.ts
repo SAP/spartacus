@@ -164,7 +164,7 @@ export class QuoteService implements QuoteFacade {
         take(1),
         switchMap((userId) => {
           if (payload.entryNumber) {
-            return this.quoteConnector.addCartEntryComment(
+            return this.quoteConnector.addQuoteEntryComment(
               userId,
               payload.quoteCode,
               payload.entryNumber,

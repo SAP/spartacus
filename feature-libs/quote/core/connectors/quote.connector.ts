@@ -72,7 +72,7 @@ export class QuoteConnector {
     return this.adapter.addDiscount(userId, quoteCode, discount);
   }
 
-  public addCartEntryComment(
+  public addQuoteEntryComment(
     userId: string,
     quoteCode: string,
     entryNumber: string,
