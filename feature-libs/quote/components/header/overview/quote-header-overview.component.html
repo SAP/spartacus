@@ -48,7 +48,7 @@
     <div class="cx-summary-card">
       <cx-card
         [content]="
-          getUpdate(
+          getCardMetadata(
             quoteDetails.updatedTime | cxDate,
             quoteDetails.expirationTime | cxDate
           ) | async
