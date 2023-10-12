@@ -1,19 +1,24 @@
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.schematics.json');
+const { defaultTransformerOptions } = require('jest-preset-angular/presets');
 
+/** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
   preset: 'jest-preset-angular',
-  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   globalSetup: 'jest-preset-angular/global-setup',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
     prefix: '<rootDir>/',
   }),
-
+  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   testMatch: ['**/+(*_)+(spec).+(ts)'],
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.schematics.json',
-    },
+  transform: {
+    '^.+\\.(ts|js|mjs|html|svg)$': [
+      'jest-preset-angular',
+      {
+        ...defaultTransformerOptions,
+        tsconfig: '<rootDir>/tsconfig.schematics.json',
+      },
+    ],
   },
 
   collectCoverage: false,
