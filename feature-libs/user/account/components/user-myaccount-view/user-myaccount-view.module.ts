@@ -6,7 +6,6 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MyaccountViewNameComponent } from './myaccount-view-name.component';
 import {
   AuthGuard,
   CmsConfig,
@@ -15,20 +14,21 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
+import { UserMyAccountViewComponent } from './user-myaccount-view.component';
 
 @NgModule({
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         MyAccountViewNameComponent: {
-          component: MyaccountViewNameComponent,
+          component: UserMyAccountViewComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
-  declarations: [MyaccountViewNameComponent],
-  exports: [MyaccountViewNameComponent],
+  declarations: [UserMyAccountViewComponent],
+  exports: [UserMyAccountViewComponent],
   imports: [CommonModule, RouterModule, UrlModule, I18nModule],
 })
-export class MyaccountViewNameModule {}
+export class UserMyaccountViewModule {}

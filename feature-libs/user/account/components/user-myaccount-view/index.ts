@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './myaccount-view-name.component';
-export * from './myaccount-view-name.module';
+export * from './user-myaccount-view.component';
+export * from './user-myaccount-view.module';
