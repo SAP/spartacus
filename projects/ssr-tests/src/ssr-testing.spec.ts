@@ -51,7 +51,7 @@ describe('SSR E2E', () => {
     const response: any = await ProxyServer.sendRequest(
       REQUEST_PATH + '/not-existing-page'
     );
-    expect(response.statusCode).toEqual(400);
+    expect(response.statusCode).toEqual(404);
   });
 
   // TODO: Test incomplete
