@@ -41,7 +41,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   protected launchDialogService = inject(LaunchDialogService);
   protected viewContainerRef = inject(ViewContainerRef);
   protected globalMessageService = inject(GlobalMessageService);
-  protected config = inject(QuoteUIConfig);
+  protected quoteUIConfig = inject(QuoteUIConfig);
   protected activeCartFacade = inject(ActiveCartFacade);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
@@ -164,7 +164,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     state: QuoteState,
     cartIsEmpty: boolean
   ): boolean {
-    const mappingConfig = this.config.quote?.confirmActionDialogMapping;
+    const mappingConfig = this.quoteUIConfig.quote?.confirmActionDialogMapping;
     const dialogConfig =
       mappingConfig?.[state]?.[action] ??
       mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action] ??
@@ -202,7 +202,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     action: QuoteActionType,
     state: QuoteState
   ): ConfirmActionDialogConfig {
-    const mappingConfig = this.config.quote?.confirmActionDialogMapping;
+    const mappingConfig = this.quoteUIConfig.quote?.confirmActionDialogMapping;
 
     const config =
       mappingConfig?.[state]?.[action] ??

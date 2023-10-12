@@ -27,7 +27,7 @@ import { ConfirmationContext } from './quote-actions-confirm-dialog.model';
 })
 export class QuoteActionsConfirmDialogComponent implements OnInit {
   protected launchDialogService = inject(LaunchDialogService);
-  protected config = inject(QuoteCoreConfig);
+  protected quoteCoreConfig = inject(QuoteCoreConfig);
 
   iconTypes = ICON_TYPE;
 
