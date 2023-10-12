@@ -134,6 +134,10 @@ export class NavigationService {
       node.title = nodeData.title;
     }
 
+    if (nodeData.uid) {
+      node.id = nodeData.uid;
+    }
+
     // populate style classes to apply CMS driven styling
     if (nodeData.styleClasses) {
       node.styleClasses = nodeData.styleClasses;

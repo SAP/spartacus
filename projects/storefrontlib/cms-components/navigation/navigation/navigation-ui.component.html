@@ -31,7 +31,7 @@
       [class]="node.styleClasses"
       (click)="closeIfClickedTheSameLink(node)"
     >
-      <cx-icon *ngIf="getIcon(node.title)" [type]="getIcon(node.title)">
+      <cx-icon *ngIf="getIcon(node.id)" [type]="getIcon(node.id)">
       </cx-icon>
       {{ node.title }}
     </cx-generic-link>

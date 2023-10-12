@@ -8,6 +8,7 @@ import { ICON_TYPE } from '../../misc/icon/index';
 
 export interface NavigationNode {
   title?: string;
+  id?: string;
 
   /** The url or route (parts) */
   url?: string | string[];
@@ -34,15 +35,15 @@ export interface NavigationNode {
   styleAttributes?: string;
 }
 
-export const ICONS: Record<string, string> = {
-  'Orders And Returns': ICON_TYPE.CART,
-  'Saved Carts': ICON_TYPE.CART_PLUS,
-  Wishlists: ICON_TYPE.STAR,
-  Requests: ICON_TYPE.HEADSET,
-  'Personal Details': ICON_TYPE.USER,
-  'Password And Security': ICON_TYPE.PASSWORD,
-  'Address Book': ICON_TYPE.HOME,
-  'Payment Details': ICON_TYPE.CREDIT_CARD,
-  Communications: ICON_TYPE.COMMUNICATIONS,
-  'Privacy And Settings': ICON_TYPE.PRIVACY,
+export const MY_ACCOUNT_NAVIGATION_ICONS: Record<string, string> = {
+  OrdersAndReturnsNavNode : ICON_TYPE.CART,
+  SavedCartsNavNode : ICON_TYPE.CART_PLUS,
+  WishlistsNavNode: ICON_TYPE.STAR,
+  RequestsNavNode: ICON_TYPE.HEADSET,
+  PersonalDetailsNavNode: ICON_TYPE.USER,
+  PasswordAndSecurityNavNode : ICON_TYPE.PASSWORD,
+  AddressBookNavNode: ICON_TYPE.HOME,
+  PaymentDetailsNavNode: ICON_TYPE.CREDIT_CARD,
+  CommunicationsNavNode: ICON_TYPE.COMMUNICATIONS,
+  PrivacyAndSettingsNavNode: ICON_TYPE.PRIVACY,
 };
