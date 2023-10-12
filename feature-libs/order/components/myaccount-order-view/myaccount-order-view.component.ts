@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, inject, OnDestroy } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { OrderHistoryExtendedViewService } from '@spartacus/order/core';
