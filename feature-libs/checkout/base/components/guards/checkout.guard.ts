@@ -18,7 +18,7 @@ import { ExpressCheckoutService } from '../services/express-checkout.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutGuard  {
+export class CheckoutGuard {
   private readonly firstStep$: Observable<UrlTree> =
     this.checkoutStepService.steps$.pipe(
       map((steps) => {

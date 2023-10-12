@@ -14,7 +14,7 @@ import { OrderReturnService } from './order-return.service';
 @Injectable({
   providedIn: 'root',
 })
-export class OrderReturnGuard  {
+export class OrderReturnGuard {
   constructor(
     protected orderAmendService: OrderReturnService,
     protected semanticPathService: SemanticPathService,

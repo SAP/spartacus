@@ -20,7 +20,7 @@ import { filter, map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class UnitLevelOrdersViewerGuard  {
+export class UnitLevelOrdersViewerGuard {
   constructor(
     protected userAccountFacade: UserAccountFacade,
     protected routingService: RoutingService,

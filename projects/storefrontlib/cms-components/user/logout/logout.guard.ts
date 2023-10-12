@@ -26,7 +26,7 @@ import { map, switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class LogoutGuard  {
+export class LogoutGuard {
   constructor(
     protected auth: AuthService,
     protected cms: CmsService,

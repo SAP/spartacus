@@ -54,8 +54,8 @@ export class CmsGuardsService {
   ): Observable<boolean | UrlTree> {
     const guard = getLastValueSync(
       this.unifiedInjector.get<{
-    canActivate: CanActivateFn;
-}>(guardClass)
+        canActivate: CanActivateFn;
+      }>(guardClass)
     );
     if (isCanActivate(guard)) {
       return wrapIntoObservable(guard.canActivate(route, state)).pipe(first());
@@ -84,11 +84,14 @@ function isPromise(obj: any): obj is Promise<any> {
 }
 
 function isCanActivate(guard: any): guard is {
-    canActivate: CanActivateFn;
+  canActivate: CanActivateFn;
 } {
-  return guard && isFunction<{
-    canActivate: CanActivateFn;
-}>(guard.canActivate);
+  return (
+    guard &&
+    isFunction<{
+      canActivate: CanActivateFn;
+    }>(guard.canActivate)
+  );
 }
 
 function isFunction<T>(v: any): v is T {

@@ -14,7 +14,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class OrderConfirmationGuard  {
+export class OrderConfirmationGuard {
   constructor(
     protected orderFacade: OrderFacade,
     protected router: Router,

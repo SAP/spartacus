@@ -14,7 +14,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class CartNotEmptyGuard  {
+export class CartNotEmptyGuard {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected semanticPathService: SemanticPathService,

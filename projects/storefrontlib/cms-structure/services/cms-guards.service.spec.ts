@@ -1,5 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { ConfigModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -15,25 +19,25 @@ describe('CmsGuardsService', () => {
     getGuards = jasmine.createSpy('getGuards').and.returnValue(guards);
   }
 
-  class PositiveGuard  {
+  class PositiveGuard {
     canActivate = jasmine
       .createSpy('PositiveGuard.canActivate')
       .and.returnValue(true);
   }
 
-  class PositiveGuardObservable  {
+  class PositiveGuardObservable {
     canActivate() {
       return of(true);
     }
   }
 
-  class NegativeGuard  {
+  class NegativeGuard {
     canActivate() {
       return false;
     }
   }
 
-  class UrlTreeGuard  {
+  class UrlTreeGuard {
     canActivate() {
       return mockUrlTree;
     }

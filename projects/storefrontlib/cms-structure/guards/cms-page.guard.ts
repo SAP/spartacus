@@ -22,7 +22,7 @@ import { CmsPageGuardService } from './cms-page-guard.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CmsPageGuard  {
+export class CmsPageGuard {
   static guardName = 'CmsPageGuard';
 
   constructor(

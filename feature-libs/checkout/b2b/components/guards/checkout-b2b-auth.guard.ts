@@ -27,10 +27,7 @@ import { filter, map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutB2BAuthGuard
-  extends CheckoutAuthGuard
-  
-{
+export class CheckoutB2BAuthGuard extends CheckoutAuthGuard {
   constructor(
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,

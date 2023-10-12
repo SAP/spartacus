@@ -19,7 +19,7 @@ import { filter, map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class ApproverGuard  {
+export class ApproverGuard {
   constructor(
     protected userAccountFacade: UserAccountFacade,
     protected routingService: RoutingService,

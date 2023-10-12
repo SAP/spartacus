@@ -10,7 +10,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { WindowRef } from '../../window/window-ref';
 
 @Injectable({ providedIn: 'root' })
-export class ExternalRoutesGuard  {
+export class ExternalRoutesGuard {
   constructor(
     protected winRef: WindowRef,
     @Inject(PLATFORM_ID) protected platformId: Object

@@ -19,7 +19,7 @@ import { AuthRedirectService } from '../services/auth-redirect.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard  {
+export class AuthGuard {
   constructor(
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,

@@ -14,7 +14,7 @@ import {
 import { B2BUserService } from '../services';
 
 @Injectable()
-export class UserGuard  {
+export class UserGuard {
   constructor(
     protected globalMessageService: GlobalMessageService,
     protected b2bUserService: B2BUserService,

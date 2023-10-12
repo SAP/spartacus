@@ -11,7 +11,7 @@ import { AuthGuard } from '../../auth/user-auth/guards/auth.guard';
 import { ProtectedRoutesService } from './protected-routes.service';
 
 @Injectable({ providedIn: 'root' })
-export class ProtectedRoutesGuard  {
+export class ProtectedRoutesGuard {
   constructor(
     protected service: ProtectedRoutesService,
     protected authGuard: AuthGuard

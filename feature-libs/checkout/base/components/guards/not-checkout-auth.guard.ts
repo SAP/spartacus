@@ -18,7 +18,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class NotCheckoutAuthGuard  {
+export class NotCheckoutAuthGuard {
   constructor(
     protected authService: AuthService,
     protected activeCartFacade: ActiveCartFacade,

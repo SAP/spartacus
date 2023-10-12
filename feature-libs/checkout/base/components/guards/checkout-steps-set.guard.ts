@@ -28,7 +28,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutStepsSetGuard  implements OnDestroy {
+export class CheckoutStepsSetGuard implements OnDestroy {
   protected subscription: Subscription;
   protected logger = inject(LoggerService);
 

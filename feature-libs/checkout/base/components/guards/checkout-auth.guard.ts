@@ -19,7 +19,7 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutAuthGuard  {
+export class CheckoutAuthGuard {
   constructor(
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,

@@ -18,7 +18,7 @@ import { AuthService } from '../facade/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class NotAuthGuard  {
+export class NotAuthGuard {
   constructor(
     protected authService: AuthService,
     protected semanticPathService: SemanticPathService,

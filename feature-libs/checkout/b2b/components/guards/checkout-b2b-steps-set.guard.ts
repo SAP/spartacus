@@ -29,10 +29,7 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutB2BStepsSetGuard
-  extends CheckoutStepsSetGuard
-  
-{
+export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
   protected logger = inject(LoggerService);
 
   constructor(

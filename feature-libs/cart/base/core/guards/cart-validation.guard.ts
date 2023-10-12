@@ -24,7 +24,7 @@ import { CartValidationStateService } from '../services/cart-validation-state.se
 @Injectable({
   providedIn: 'root',
 })
-export class CartValidationGuard  {
+export class CartValidationGuard {
   constructor(
     protected cartValidationService: CartValidationFacade,
     protected semanticPathService: SemanticPathService,

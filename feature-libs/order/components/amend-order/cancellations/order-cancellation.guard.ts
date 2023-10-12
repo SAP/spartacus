@@ -14,7 +14,7 @@ import { OrderCancellationService } from './order-cancellation.service';
 @Injectable({
   providedIn: 'root',
 })
-export class OrderCancellationGuard  {
+export class OrderCancellationGuard {
   constructor(
     protected orderAmendService: OrderCancellationService,
     protected semanticPathService: SemanticPathService,

@@ -23,7 +23,7 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class ProductVariantsGuard  {
+export class ProductVariantsGuard {
   constructor(
     protected productService: ProductService,
     protected semanticPathService: SemanticPathService,

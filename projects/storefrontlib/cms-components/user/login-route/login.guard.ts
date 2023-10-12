@@ -5,7 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { AuthConfigService, AuthService, OAuthFlow } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
@@ -20,7 +24,7 @@ import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 @Injectable({
   providedIn: 'root',
 })
-export class LoginGuard  {
+export class LoginGuard {
   constructor(
     protected authService: AuthService,
     protected authConfigService: AuthConfigService,
