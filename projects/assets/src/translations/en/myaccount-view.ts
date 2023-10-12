@@ -5,7 +5,7 @@
  */
 
 export const myaccountView = {
-  myaccountViewSideNavigation: {
+  myAccountView: {
     sideNavigation: 'Side Navigation',
   },
 };
