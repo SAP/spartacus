@@ -202,6 +202,34 @@ export class ConfiguratorCartEffects {
     )
   );
 
+  readConfigurationForSavedCartEntry$: Observable<
+  | ConfiguratorActions.ReadSavedCartEntryConfigurationSuccess
+  | ConfiguratorActions.ReadSavedCartEntryConfigurationFail
+> = createEffect(() =>
+  this.actions$.pipe(
+    ofType(ConfiguratorActions.READ_SAVED_CART_ENTRY_CONFIGURATION),
+    switchMap((action: ConfiguratorActions.ReadSavedCartEntryConfiguration) => {
+      const parameters: CommonConfigurator.ReadConfigurationFromSavedCartEntryParameters =
+        action.payload;
+      return this.configuratorCommonsConnector
+        .readConfigurationForSavedCartEntry(parameters)
+        .pipe(
+          switchMap((result: Configurator.Configuration) => [
+            new ConfiguratorActions.ReadSavedCartEntryConfigurationSuccess(
+              result
+            ),
+          ]),
+          catchError((error) => [
+            new ConfiguratorActions.ReadSavedCartEntryConfigurationFail({
+              ownerKey: action.payload.owner.key,
+              error: normalizeHttpError(error, this.logger),
+            }),
+          ])
+        );
+    })
+  )
+);
+
   readConfigurationForQuoteEntry$: Observable<
     | ConfiguratorActions.ReadQuoteEntryConfigurationSuccess
     | ConfiguratorActions.ReadQuoteEntryConfigurationFail

@@ -120,6 +120,7 @@ export interface CartItemComponentOptions {
 export interface OrderEntry {
   orderCode?: string;
   quoteCode?: string;
+  savedCartCode?: string;
   basePrice?: Price;
   deliveryMode?: DeliveryMode;
   deliveryPointOfService?: PointOfService;

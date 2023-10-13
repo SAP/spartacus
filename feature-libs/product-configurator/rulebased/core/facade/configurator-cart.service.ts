@@ -104,6 +104,60 @@ export class ConfiguratorCartService {
    * @param owner Configuration owner
    * @returns Observable of product configurations
    */
+  readConfigurationForSavedCartEntry(
+    owner: CommonConfigurator.Owner
+  ): Observable<Configurator.Configuration> {
+    return this.store.pipe(
+      select(
+        ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
+          owner.key
+        )
+      ),
+      tap((configurationState) => {
+        console.log("CHHI readConfigurationForSavedCartEntry, owner ID: " + owner.id);
+        if (this.configurationNeedsReading(configurationState)) {
+          const ownerIdParts = this.commonConfigUtilsService.decomposeOwnerId(
+            owner.id
+          );
+          this.userIdService
+            .getUserId()
+            .pipe(take(1))
+            .subscribe((userId) => {
+              const readFromSavedCartEntryParameters: CommonConfigurator.ReadConfigurationFromSavedCartEntryParameters =
+                {
+                  userId: userId,
+                  savedCartId: ownerIdParts.documentId,
+                  cartEntryNumber: ownerIdParts.entryNumber,
+                  owner: owner,
+                };
+              this.store.dispatch(
+                new ConfiguratorActions.ReadSavedCartEntryConfiguration(
+                  readFromSavedCartEntryParameters
+                )
+              );
+            });
+        }
+      }),
+      filter(
+        (configurationState) =>
+          configurationState.value !== undefined &&
+          this.isConfigurationCreated(configurationState.value)
+      ),
+      //save to assume configuration is defined after previous filter
+      map((configurationState) =>
+        this.configuratorUtilsService.getConfigurationFromState(
+          configurationState
+        )
+      )
+    );
+  }
+
+  /**
+   * Reads a configuration that is attached to an order entry, dispatching the respective action.
+   *
+   * @param owner Configuration owner
+   * @returns Observable of product configurations
+   */
   readConfigurationForOrderEntry(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
@@ -168,6 +222,7 @@ export class ConfiguratorCartService {
       ),
       //needed as we cannot read the cart in general and for the OV
       //in parallel, this can lead to cache issues with promotions
+      // TODO Is that needed for quote access?
       delayWhen(() =>
         this.activeCartService.isStable().pipe(filter((stable) => stable))
       ),

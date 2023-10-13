@@ -42,6 +42,13 @@ export namespace CommonConfigurator {
     owner: CommonConfigurator.Owner;
   }
 
+  export interface ReadConfigurationFromSavedCartEntryParameters {
+    userId?: string;
+    savedCartId?: string;
+    cartEntryNumber?: string;
+    owner: CommonConfigurator.Owner;
+  }
+
   export interface ReadConfigurationFromQuoteEntryParameters {
     userId?: string;
     quoteId?: string;
@@ -57,6 +64,7 @@ export namespace CommonConfigurator {
     CART_ENTRY = 'cartEntry',
     ORDER_ENTRY = 'orderEntry',
     QUOTE_ENTRY = 'quoteEntry',
+    SAVED_CART_ENTRY = 'savedCartEntry',
   }
 }
 

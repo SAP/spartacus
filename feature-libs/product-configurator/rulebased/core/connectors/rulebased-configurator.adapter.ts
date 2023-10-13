@@ -93,6 +93,16 @@ export abstract class RulebasedConfiguratorAdapter {
   ): Observable<Configurator.Configuration>;
 
   /**
+   * Abstract method to read a configuration for a saved cart entry
+   *
+   * @param parameters Contains attributes that we need to read a configuration attached to a saved cart entry
+   * @returns  {Observable<Configurator.Configuration>} Configuration with only the overview aspect provided
+   */
+  abstract readConfigurationForSavedCartEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromSavedCartEntryParameters
+  ): Observable<Configurator.Configuration>;
+
+  /**
    * Abstract method to read a configuration for a quote entry
    *
    * @param parameters Contains attributes that we need to read a configuration attached to a quote entry

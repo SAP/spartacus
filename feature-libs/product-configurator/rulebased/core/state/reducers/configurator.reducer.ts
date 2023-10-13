@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -11,7 +12,6 @@ import {
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { ConfiguratorStateUtils } from '../configurator-state-utils';
-import { StateUtils } from '@spartacus/core';
 
 export const initialState: Configurator.Configuration = {
   configId: '',
@@ -86,6 +86,10 @@ function ensureReducerMapCreated() {
     reducerMap.set(
       ConfiguratorActions.READ_ORDER_ENTRY_CONFIGURATION_SUCCESS,
       handleReadOrderEntryConfigurationSuccess
+    );
+    reducerMap.set(
+      ConfiguratorActions.READ_SAVED_CART_ENTRY_CONFIGURATION_SUCCESS,
+      handleReadSavedCartEntryConfigurationSuccess
     );
     reducerMap.set(
       ConfiguratorActions.READ_QUOTE_ENTRY_CONFIGURATION_SUCCESS,
@@ -285,6 +289,13 @@ function handleReadEntryConfigurationSuccess(
 function handleReadOrderEntryConfigurationSuccess(
   state: Configurator.Configuration,
   action: ConfiguratorActions.ReadOrderEntryConfigurationSuccess
+): Configurator.Configuration | undefined {
+  return handleReadEntryConfigurationSuccess(state, action);
+}
+
+function handleReadSavedCartEntryConfigurationSuccess(
+  state: Configurator.Configuration,
+  action: ConfiguratorActions.ReadSavedCartEntryConfigurationSuccess
 ): Configurator.Configuration | undefined {
   return handleReadEntryConfigurationSuccess(state, action);
 }

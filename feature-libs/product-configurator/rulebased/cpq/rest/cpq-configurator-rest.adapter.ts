@@ -125,6 +125,22 @@ export class CpqConfiguratorRestAdapter
     );
   }
 
+  //TODO CHHI fix
+  readConfigurationForSavedCartEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.getConfigIdForOrderEntry(parameters).pipe(
+      switchMap((configId) => {
+        return this.cpqRestService.readConfiguration(configId).pipe(
+          map((configResponse) => {
+            configResponse.owner = parameters.owner;
+            return configResponse;
+          })
+        );
+      })
+    );
+  }
+
   readConfigurationForQuoteEntry(
     parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
   ): Observable<Configurator.Configuration> {

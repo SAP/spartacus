@@ -23,6 +23,12 @@ export const READ_ORDER_ENTRY_CONFIGURATION_SUCCESS =
   '[Configurator] Read Order Entry Configuration Success';
 export const READ_ORDER_ENTRY_CONFIGURATION_FAIL =
   '[Configurator] Read Order Entry Configuration Fail';
+export const READ_SAVED_CART_ENTRY_CONFIGURATION =
+  '[Configurator] Read Saved Cart Entry Configuration';
+export const READ_SAVED_CART_ENTRY_CONFIGURATION_SUCCESS =
+  '[Configurator] Read Saved Cart Entry Configuration Success';
+export const READ_SAVED_CART_ENTRY_CONFIGURATION_FAIL =
+  '[Configurator] Read Saved Cart Entry Configuration Fail';
 export const READ_QUOTE_ENTRY_CONFIGURATION =
   '[Configurator] Read Quote Entry Configuration';
 export const READ_QUOTE_ENTRY_CONFIGURATION_SUCCESS =
@@ -88,6 +94,32 @@ export class ReadOrderEntryConfigurationSuccess extends StateUtils.EntitySuccess
 
 export class ReadOrderEntryConfigurationFail extends StateUtils.EntityFailAction {
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_FAIL;
+
+  constructor(public payload: { ownerKey: string; error: any }) {
+    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
+  }
+}
+
+export class ReadSavedCartEntryConfiguration extends StateUtils.EntityLoadAction {
+  readonly type = READ_SAVED_CART_ENTRY_CONFIGURATION;
+
+  constructor(
+    public payload: CommonConfigurator.ReadConfigurationFromSavedCartEntryParameters
+  ) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
+  }
+}
+
+export class ReadSavedCartEntryConfigurationSuccess extends StateUtils.EntitySuccessAction {
+  readonly type = READ_SAVED_CART_ENTRY_CONFIGURATION_SUCCESS;
+
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
+  }
+}
+
+export class ReadSavedCartEntryConfigurationFail extends StateUtils.EntityFailAction {
+  readonly type = READ_SAVED_CART_ENTRY_CONFIGURATION_FAIL;
 
   constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);

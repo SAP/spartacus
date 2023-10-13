@@ -108,6 +108,14 @@ export class RulebasedConfiguratorConnector {
     ).readConfigurationForOrderEntry(parameters);
   }
 
+  readConfigurationForSavedCartEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromSavedCartEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.getAdapter(
+      parameters.owner.configuratorType
+    ).readConfigurationForSavedCartEntry(parameters);
+  }
+
   readConfigurationForQuoteEntry(
     parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
   ): Observable<Configurator.Configuration> {

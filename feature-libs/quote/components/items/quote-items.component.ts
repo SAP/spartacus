@@ -6,17 +6,17 @@
 
 import { Component, inject } from '@angular/core';
 import {
-  CartOutlets,
   ActiveCartFacade,
   Cart,
+  CartOutlets,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
+import { UserIdService } from '@spartacus/core';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { NEVER, Observable, Subscription, of, zip } from 'rxjs';
-import { QuoteItemsComponentService } from './quote-items.component.service';
 import { switchMap, tap } from 'rxjs/operators';
-import { UserIdService } from '@spartacus/core';
+import { QuoteItemsComponentService } from './quote-items.component.service';
 
 @Component({
   selector: 'cx-quote-items',
@@ -58,4 +58,3 @@ export class QuoteItemsComponent {
     this.quoteItemsService.setQuoteEntriesExpanded(!showCart);
   }
 }
-

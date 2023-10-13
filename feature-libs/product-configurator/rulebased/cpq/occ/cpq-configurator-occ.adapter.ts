@@ -110,6 +110,17 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
       })
     );
   }
+  //TODO CHHI fix
+  readConfigurationForSavedCartEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.readConfigurationForOrderEntry(parameters).pipe(
+      map((configResponse) => {
+        configResponse.owner = parameters.owner;
+        return configResponse;
+      })
+    );
+  }
 
   readConfigurationForQuoteEntry(
     parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters

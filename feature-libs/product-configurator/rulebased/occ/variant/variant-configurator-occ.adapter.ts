@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpHeaders, HttpContext } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  CartModification,
   CART_MODIFICATION_NORMALIZER,
+  CartModification,
 } from '@spartacus/cart/base/root';
 import {
   ConverterService,
-  OccEndpointsService,
   OCC_HTTP_TOKEN,
+  OccEndpointsService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -24,6 +24,7 @@ import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../../core/connectors/rulebased-configurator.adapter';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import {
   VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   VARIANT_CONFIGURATOR_NORMALIZER,
@@ -34,7 +35,6 @@ import {
   VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Injectable()
 export class VariantConfiguratorOccAdapter
@@ -249,6 +249,43 @@ export class VariantConfiguratorOccAdapter
           userId: parameters.userId,
           orderId: parameters.orderId,
           orderEntryNumber: parameters.orderEntryNumber,
+        },
+      }
+    );
+
+    return this.http.get<OccConfigurator.Overview>(url).pipe(
+      this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER),
+      map((overview) => {
+        const configuration: Configurator.Configuration = {
+          configId: overview.configId,
+          productCode: overview.productCode,
+          groups: [],
+          flatGroups: [],
+          interactionState: {},
+          overview: overview,
+          owner: ConfiguratorModelUtils.createInitialOwner(),
+        };
+        return configuration;
+      }),
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          owner: parameters.owner,
+        };
+      })
+    );
+  }
+  //TODO CHHI unify quote and saved cart access on action, connector, effect, adapter level?
+  readConfigurationForSavedCartEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromSavedCartEntryParameters
+  ): Observable<Configurator.Configuration> {
+    const url = this.occEndpointsService.buildUrl(
+      'readVariantConfigurationOverviewForSavedCartEntry',
+      {
+        urlParams: {
+          userId: parameters.userId,
+          cartId: parameters.savedCartId,
+          cartEntryNumber: parameters.cartEntryNumber,
         },
       }
     );

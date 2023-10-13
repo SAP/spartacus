@@ -113,6 +113,11 @@ export class ConfiguratorCommonsService {
           owner
         );
       }
+      case CommonConfigurator.OwnerType.SAVED_CART_ENTRY: {
+        return this.configuratorCartService.readConfigurationForSavedCartEntry(
+          owner
+        );
+      }
       default: {
         return this.getOrCreateConfigurationForProduct(owner, configIdTemplate);
       }

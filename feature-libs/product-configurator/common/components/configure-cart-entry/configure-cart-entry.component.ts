@@ -39,11 +39,14 @@ export class ConfigureCartEntryComponent {
    */
   getOwnerType(): CommonConfigurator.OwnerType {
     if (this.isOrderOrQuoteRelated()) {
-      if (!this.cartEntry.quoteCode) {
+      if (this.cartEntry.orderCode) {
         return CommonConfigurator.OwnerType.ORDER_ENTRY;
       }
-      if (!this.cartEntry.orderCode) {
+      if (this.cartEntry.quoteCode) {
         return CommonConfigurator.OwnerType.QUOTE_ENTRY;
+      }
+      if (this.cartEntry.savedCartCode) {
+        return CommonConfigurator.OwnerType.SAVED_CART_ENTRY;
       }
       throw new Error(
         ConfigureCartEntryComponent.ERROR_MESSAGE_ENTRY_INCONSISTENT
@@ -61,11 +64,13 @@ export class ConfigureCartEntryComponent {
    */
   getEntityKey(): string {
     const entryNumber = this.cartEntry.entryNumber;
+    console.log("CHHI getEntityKey, entryNumber:" + entryNumber);
     if (entryNumber === undefined) {
       throw new Error('No entryNumber present in entry');
     }
 
     const code = this.getCode();
+    console.log("CHHI getEntityKey, code:" + code);
     return code
       ? this.commonConfigUtilsService.getComposedOwnerId(code, entryNumber)
       : entryNumber.toString();
@@ -77,11 +82,14 @@ export class ConfigureCartEntryComponent {
    */
   protected getCode(): string | undefined {
     if (this.isOrderOrQuoteRelated()) {
-      if (!this.cartEntry.quoteCode) {
+      if (this.cartEntry.quoteCode) {
+        return this.cartEntry.quoteCode;
+      }
+      if (this.cartEntry.orderCode) {
         return this.cartEntry.orderCode;
       }
-      if (!this.cartEntry.orderCode) {
-        return this.cartEntry.quoteCode;
+      if (this.cartEntry.savedCartCode) {
+        return this.cartEntry.savedCartCode;
       }
       throw new Error(
         ConfigureCartEntryComponent.ERROR_MESSAGE_ENTRY_INCONSISTENT
@@ -92,7 +100,9 @@ export class ConfigureCartEntryComponent {
   }
 
   protected isOrderOrQuoteRelated(): boolean {
-    return this.cartEntry.quoteCode || this.cartEntry.orderCode
+    return this.cartEntry.quoteCode ||
+      this.cartEntry.orderCode ||
+      this.cartEntry.savedCartCode
       ? this.readOnly
       : false;
   }
