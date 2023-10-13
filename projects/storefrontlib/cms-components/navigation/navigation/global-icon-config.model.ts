@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ICON_TYPE } from '../../misc/icon/index';
 
 export const MY_ACCOUNT_NAVIGATION_ICONS: Record<string, string> = {
