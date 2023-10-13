@@ -1,4 +1,4 @@
-<div class="cx-user-myaccount-view">
+<div class="cx-myaccount-v2-user">
     <ng-container *ngIf="user$ | async as user">
       <div class="=cx-name">{{ user.title }} {{ user.name }}</div>
       <a
@@ -8,7 +8,7 @@
             cxRoute: 'logout'
           } | cxUrl
         "
-        >{{ 'userMyAccountView.signOut' | cxTranslate }}
+        >{{ 'MyAccountV2User.signOut' | cxTranslate }}
       </a>
     </ng-container>
   </div>

@@ -14,21 +14,21 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
-import { UserMyAccountViewComponent } from './user-myaccount-view.component';
+import { MyAccountV2UserComponent } from './myaccount-v2-user.component';
 
 @NgModule({
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         MyAccountViewUserComponent: {
-          component: UserMyAccountViewComponent,
+          component: MyAccountV2UserComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
-  declarations: [UserMyAccountViewComponent],
-  exports: [UserMyAccountViewComponent],
+  declarations: [MyAccountV2UserComponent],
+  exports: [MyAccountV2UserComponent],
   imports: [CommonModule, RouterModule, UrlModule, I18nModule],
 })
-export class UserMyaccountViewModule {}
+export class MyAccountV2UserModule {}

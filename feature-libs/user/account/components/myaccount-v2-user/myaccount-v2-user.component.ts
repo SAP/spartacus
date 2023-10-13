@@ -8,9 +8,9 @@ import { Component } from '@angular/core';
 import { LoginComponent } from '../login';
 
 @Component({
-  selector: 'cx-user-myaccount-view',
-  templateUrl: './user-myaccount-view.component.html',
+  selector: 'cx-myaccount-v2-user',
+  templateUrl: './myaccount-v2-user.component.html',
 })
-export class UserMyAccountViewComponent extends LoginComponent{
+export class MyAccountV2UserComponent extends LoginComponent{
 
 }
