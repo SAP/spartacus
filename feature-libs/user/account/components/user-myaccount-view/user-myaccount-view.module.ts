@@ -20,7 +20,7 @@ import { UserMyAccountViewComponent } from './user-myaccount-view.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        MyAccountViewNameComponent: {
+        MyAccountViewUserComponent: {
           component: UserMyAccountViewComponent,
           guards: [AuthGuard],
         },
