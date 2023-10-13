@@ -26,10 +26,10 @@
       </ng-template>
 
       <ng-template
-        *ngIf="quoteDetails.isEditable && (cartDetails$ | async) as cartDetails"
+        *ngIf="quoteDetails.isEditable && (activeCart$ | async) as activeCart"
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
         [cxOutletContext]="{
-          items: cartDetails.entries ?? [],
+          items: activeCart.entries ?? [],
           readonly: false
         }"
       >
@@ -38,11 +38,11 @@
         *ngIf="
           !quoteDetails.isEditable &&
           quoteDetails.cartId !== undefined &&
-          (cartReadOnlyDetails$ | async) as cartReadOnlyDetails
+          (quoteCartReadOnly$ | async) as quoteCartReadOnly
         "
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
         [cxOutletContext]="{
-          items: cartReadOnlyDetails.entries ?? [],
+          items: quoteCartReadOnly.entries ?? [],
           readonly: true
         }"
       >

@@ -38,19 +38,14 @@ export class ConfigureCartEntryComponent {
    * @returns - an owner type
    */
   getOwnerType(): CommonConfigurator.OwnerType {
-    if (this.isOrderOrQuoteRelated()) {
+    if (this.isReadOnly()) {
       if (this.cartEntry.orderCode) {
         return CommonConfigurator.OwnerType.ORDER_ENTRY;
-      }
-      if (this.cartEntry.quoteCode) {
+      } else if (this.cartEntry.quoteCode) {
         return CommonConfigurator.OwnerType.QUOTE_ENTRY;
-      }
-      if (this.cartEntry.savedCartCode) {
+      } else {
         return CommonConfigurator.OwnerType.SAVED_CART_ENTRY;
       }
-      throw new Error(
-        ConfigureCartEntryComponent.ERROR_MESSAGE_ENTRY_INCONSISTENT
-      );
     } else {
       return CommonConfigurator.OwnerType.CART_ENTRY;
     }
@@ -64,13 +59,11 @@ export class ConfigureCartEntryComponent {
    */
   getEntityKey(): string {
     const entryNumber = this.cartEntry.entryNumber;
-    console.log("CHHI getEntityKey, entryNumber:" + entryNumber);
     if (entryNumber === undefined) {
       throw new Error('No entryNumber present in entry');
     }
 
     const code = this.getCode();
-    console.log("CHHI getEntityKey, code:" + code);
     return code
       ? this.commonConfigUtilsService.getComposedOwnerId(code, entryNumber)
       : entryNumber.toString();
@@ -81,25 +74,20 @@ export class ConfigureCartEntryComponent {
    * @returns Document code if order or quote bound, undefined in other cases
    */
   protected getCode(): string | undefined {
-    if (this.isOrderOrQuoteRelated()) {
-      if (this.cartEntry.quoteCode) {
-        return this.cartEntry.quoteCode;
-      }
+    if (this.isReadOnly()) {
       if (this.cartEntry.orderCode) {
         return this.cartEntry.orderCode;
-      }
-      if (this.cartEntry.savedCartCode) {
+      } else if (this.cartEntry.quoteCode) {
+        return this.cartEntry.quoteCode;
+      } else {
         return this.cartEntry.savedCartCode;
       }
-      throw new Error(
-        ConfigureCartEntryComponent.ERROR_MESSAGE_ENTRY_INCONSISTENT
-      );
     } else {
       return undefined;
     }
   }
 
-  protected isOrderOrQuoteRelated(): boolean {
+  protected isReadOnly(): boolean {
     return this.cartEntry.quoteCode ||
       this.cartEntry.orderCode ||
       this.cartEntry.savedCartCode

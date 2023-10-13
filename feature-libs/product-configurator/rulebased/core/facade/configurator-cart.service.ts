@@ -114,7 +114,6 @@ export class ConfiguratorCartService {
         )
       ),
       tap((configurationState) => {
-        console.log("CHHI readConfigurationForSavedCartEntry, owner ID: " + owner.id);
         if (this.configurationNeedsReading(configurationState)) {
           const ownerIdParts = this.commonConfigUtilsService.decomposeOwnerId(
             owner.id

@@ -77,10 +77,12 @@ describe('ConfigureCartEntryComponent', () => {
       );
     });
 
-    it('should throw error in case both quote and order code are present', () => {
+    it('should find correct owner type saved cart entry in case entry knows saved cart', () => {
       component.readOnly = true;
-      component.cartEntry = { orderCode: orderCode, quoteCode: quoteCode };
-      expect(() => component.getOwnerType()).toThrowError();
+      component.cartEntry = { savedCartCode: orderCode };
+      expect(component.getOwnerType()).toBe(
+        CommonConfigurator.OwnerType.SAVED_CART_ENTRY
+      );
     });
   });
 
@@ -127,10 +129,10 @@ describe('ConfigureCartEntryComponent', () => {
       expect(component['getCode']()).toEqual(orderCode);
     });
 
-    it('should throw error in case both quote and order code are present', () => {
+    it('should return saved cart code if present', () => {
       component.readOnly = true;
-      component.cartEntry = { orderCode: orderCode, quoteCode: quoteCode };
-      expect(() => component['getCode']()).toThrowError();
+      component.cartEntry = { savedCartCode: orderCode };
+      expect(component['getCode']()).toEqual(orderCode);
     });
   });
 

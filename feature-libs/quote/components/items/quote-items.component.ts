@@ -30,7 +30,8 @@ export class QuoteItemsComponent {
   protected userIdService = inject(UserIdService);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
-  cartReadOnlyDetails$: Observable<Cart> = this.userIdService.takeUserId().pipe(
+  //TODO CHHI add tests
+  quoteCartReadOnly$: Observable<Cart> = this.userIdService.takeUserId().pipe(
     switchMap((userId) => zip(this.quoteDetails$, of(userId))),
     tap(([quote, userId]) => {
       if (quote.cartId !== undefined) {
@@ -48,7 +49,7 @@ export class QuoteItemsComponent {
     })
   );
 
-  cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
+  activeCart$: Observable<Cart> = this.activeCartFacade.getActive();
   showCart$ = this.quoteItemsService.getQuoteEntriesExpanded();
   iconTypes = ICON_TYPE;
   readonly cartOutlets = CartOutlets;
