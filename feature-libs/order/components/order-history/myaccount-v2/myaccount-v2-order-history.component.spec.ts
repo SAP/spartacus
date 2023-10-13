@@ -20,7 +20,7 @@ import {
   ReplenishmentOrderHistoryFacade,
 } from '../../../root/facade';
 import { EMPTY, Observable, of } from 'rxjs';
-import { OrderHistoryExtendedComponent } from './order-history-extended.component';
+import { MyAccountV2OrderHistoryComponent } from './myaccount-v2-order-history.component';
 import { OrderHistoryList } from '../../../root/model';
 
 const mockOrders: OrderHistoryList = {
@@ -96,9 +96,9 @@ class MockReplenishmentOrderHistoryFacade
   }
 }
 
-describe('OrderHistoryExtendedComponent', () => {
-  let component: OrderHistoryExtendedComponent;
-  let fixture: ComponentFixture<OrderHistoryExtendedComponent>;
+describe('MyAccountV2OrderHistoryComponent', () => {
+  let component: MyAccountV2OrderHistoryComponent;
+  let fixture: ComponentFixture<MyAccountV2OrderHistoryComponent>;
   let routingService: RoutingService;
 
   beforeEach(
@@ -106,7 +106,7 @@ describe('OrderHistoryExtendedComponent', () => {
       TestBed.configureTestingModule({
         imports: [RouterTestingModule, I18nTestingModule, FeaturesConfigModule],
         declarations: [
-          OrderHistoryExtendedComponent,
+          MyAccountV2OrderHistoryComponent,
           MockUrlPipe,
           MockPaginationComponent,
         ],
@@ -125,7 +125,7 @@ describe('OrderHistoryExtendedComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderHistoryExtendedComponent);
+    fixture = TestBed.createComponent(MyAccountV2OrderHistoryComponent);
     component = fixture.componentInstance;
   });
 
@@ -136,10 +136,12 @@ describe('OrderHistoryExtendedComponent', () => {
   it('should load header and body tags', () => {
     fixture.detectChanges();
     expect(
-      fixture.debugElement.query(By.css('.cx-order-history-extended-header'))
+      fixture.debugElement.query(
+        By.css('.cx-myaccount-v2-order-history-header')
+      )
     ).toBeTruthy();
     expect(
-      fixture.debugElement.query(By.css('.cx-order-history-extended-body'))
+      fixture.debugElement.query(By.css('.cx-myaccount-v2-order-history-body'))
     ).toBeTruthy();
   });
 
@@ -148,7 +150,7 @@ describe('OrderHistoryExtendedComponent', () => {
 
     fixture.detectChanges();
     const codes = fixture.debugElement.queryAll(
-      By.css('.cx-enhanced-ui-order-history-code')
+      By.css('.cx-myaccount-v2-order-history-code')
     );
     codes[1].triggerEventHandler('click');
 

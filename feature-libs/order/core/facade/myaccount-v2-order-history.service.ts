@@ -34,7 +34,7 @@ import { OrderHistoryService } from './order-history.service';
 import { OrderReturnRequestService } from './order-return-request.service';
 
 @Injectable()
-export class OrderHistoryExtendedViewService {
+export class MyAccountV2OrderHistoryService {
   protected orderReturnRequestService = inject(OrderReturnRequestService);
   protected store = inject(Store);
   protected userIdService = inject(UserIdService);

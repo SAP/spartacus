@@ -11,13 +11,13 @@ import {
   orderTranslations,
 } from '@spartacus/order/assets';
 import {
-  MYACCOUNT_ENHANCED_UI_ORDER,
+  MYACCOUNT_V2_ORDER,
   OrderRootModule,
   ORDER_FEATURE,
 } from '@spartacus/order/root';
 import { environment } from '../../../../environments/environment';
-function setEnhancedMyAccountToken(): boolean {
-  if (environment.enhancedMyAccount) {
+function setMyAccountV2OrderToken(): boolean {
+  if (environment.myAccountV2) {
     return true;
   } else {
     return false;
@@ -34,8 +34,8 @@ function setEnhancedMyAccountToken(): boolean {
       },
     }),
     {
-      provide: MYACCOUNT_ENHANCED_UI_ORDER,
-      useFactory: setEnhancedMyAccountToken,
+      provide: MYACCOUNT_V2_ORDER,
+      useFactory: setMyAccountV2OrderToken,
     },
     provideConfig(<I18nConfig>{
       i18n: {

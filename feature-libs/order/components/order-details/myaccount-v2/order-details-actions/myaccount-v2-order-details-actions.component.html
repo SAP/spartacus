@@ -7,7 +7,7 @@
             [routerLink]="{ cxRoute: 'orders' } | cxUrl"
             class="btn btn-block btn-secondary"
           >
-            {{ 'orderDetailsEnhancedUI.viewAllOrders' | cxTranslate }}
+            {{ 'myAccountV2OrderDetails.viewAllOrders' | cxTranslate }}
           </button>
         </span>
       </span>
@@ -24,7 +24,7 @@
             "
             class="btn btn-block btn-secondary"
           >
-            {{ 'orderDetailsEnhancedUI.cancelItems' | cxTranslate }}
+            {{ 'myAccountV2OrderDetails.cancelItems' | cxTranslate }}
           </button>
         </span>
         <span *ngIf="order.returnable" class="cx-action-button">
@@ -37,7 +37,7 @@
             "
             class="btn btn-block btn-secondary"
           >
-            {{ 'orderDetailsEnhancedUI.returnItems' | cxTranslate }}
+            {{ 'myAccountV2OrderDetails.returnItems' | cxTranslate }}
           </button>
         </span>
         <span class="cx-action-button">
@@ -45,7 +45,7 @@
             class="btn btn-block btn-secondary"
             (click)="showDialog(order)"
           >
-            {{ 'orderDetailsEnhancedUI.downloadInvoices' | cxTranslate }}
+            {{ 'myAccountV2OrderDetails.downloadInvoices' | cxTranslate }}
           </button>
         </span>
       </span>

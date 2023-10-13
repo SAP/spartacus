@@ -13,4 +13,4 @@ export * from './order-details.module';
 export * from './order-details.service';
 export * from './order-consignments.service';
 export * from './order-overview/order-overview.component';
-export * from './order-details-extended/index';
+export * from './myaccount-v2/index';

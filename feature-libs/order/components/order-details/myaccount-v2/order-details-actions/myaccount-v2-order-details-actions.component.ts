@@ -10,10 +10,10 @@ import { DownloadOrderInvoicesEvent, Order } from '@spartacus/order/root';
 import { OrderDetailActionsComponent } from '../../order-detail-actions/order-detail-actions.component';
 
 @Component({
-  selector: 'cx-order-details-actions-extended',
-  templateUrl: './order-details-actions-extended.component.html',
+  selector: 'cx-myaccount-v2-order-details-actions',
+  templateUrl: './myaccount-v2-order-details-actions.component.html',
 })
-export class OrderDetailsActionsExtendedComponent
+export class MyAccountV2OrderDetailsActionsComponent
   extends OrderDetailActionsComponent
   implements OnInit
 {

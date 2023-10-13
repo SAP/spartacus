@@ -24,25 +24,25 @@ import {
 } from '@spartacus/storefront';
 import { OrderHistoryComponent } from './order-history.component';
 import {
-  ConsignmentEntriesComponent,
-  OrderConsolidatedInformationComponent,
-  OrderHistoryExtendedComponent,
-} from './order-history-extended';
-import { MYACCOUNT_ENHANCED_UI_ORDER } from '@spartacus/order/root';
+  MyAccountV2ConsignmentEntriesComponent,
+  MyAccountV2OrderConsolidatedInformationComponent,
+  MyAccountV2OrderHistoryComponent,
+} from './myaccount-v2';
+import { MYACCOUNT_V2_ORDER } from '@spartacus/order/root';
 
-const enhancedUICmsMapping: CmsConfig = {
+const myAccountV2CmsMapping: CmsConfig = {
   cmsComponents: {
     AccountOrderHistoryComponent: {
-      component: OrderHistoryExtendedComponent,
+      component: MyAccountV2OrderHistoryComponent,
       //guards: inherited from standard config,
     },
   },
 };
 
 const moduleComponents = [
-  OrderHistoryExtendedComponent,
-  OrderConsolidatedInformationComponent,
-  ConsignmentEntriesComponent,
+  MyAccountV2OrderHistoryComponent,
+  MyAccountV2OrderConsolidatedInformationComponent,
+  MyAccountV2ConsignmentEntriesComponent,
 ];
 
 @NgModule({
@@ -69,7 +69,7 @@ const moduleComponents = [
       },
     }),
     provideDefaultConfigFactory(() =>
-      inject(MYACCOUNT_ENHANCED_UI_ORDER) ? enhancedUICmsMapping : {}
+      inject(MYACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
     ),
   ],
 })

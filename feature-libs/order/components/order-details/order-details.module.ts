@@ -19,10 +19,7 @@ import {
   provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
-import {
-  MYACCOUNT_ENHANCED_UI_ORDER,
-  OrderOutlets,
-} from '@spartacus/order/root';
+import { MYACCOUNT_V2_ORDER, OrderOutlets } from '@spartacus/order/root';
 import {
   CardModule,
   IconModule,
@@ -45,20 +42,20 @@ import { OrderDetailReorderComponent } from './order-detail-reorder/order-detail
 import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/reorder-dialog.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import {
-  ConsignmentTrackingLinkComponent,
   DownloadOrderInvoicesDialogModule,
-  OrderDetailsActionsExtendedComponent,
-} from './order-details-extended';
+  MyAccountV2ConsignmentTrackingComponent,
+  MyAccountV2OrderDetailsActionsComponent,
+} from './myaccount-v2';
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
 
 function registerOrderOutletFactory(): () => void {
-  const token = inject(MYACCOUNT_ENHANCED_UI_ORDER);
+  const token = inject(MYACCOUNT_V2_ORDER);
   const outletService = inject(OutletService);
   const componentFactoryResolver = inject(ComponentFactoryResolver);
   return () => {
     const config: ProvideOutletOptions = {
-      component: ConsignmentTrackingLinkComponent,
+      component: MyAccountV2ConsignmentTrackingComponent,
       id: OrderOutlets.ORDER_CONSIGNMENT,
       position: OutletPosition.REPLACE,
     };
@@ -71,10 +68,10 @@ function registerOrderOutletFactory(): () => void {
   };
 }
 
-const enhancedUICmsMapping: CmsConfig = {
+const myAccountV2CmsMapping: CmsConfig = {
   cmsComponents: {
     AccountOrderDetailsActionsComponent: {
-      component: OrderDetailsActionsExtendedComponent,
+      component: MyAccountV2OrderDetailsActionsComponent,
       //guards: inherited from standard config,
     },
   },
@@ -91,8 +88,8 @@ const moduleComponents = [
   OrderConsignedEntriesComponent,
   OrderDetailReorderComponent,
   ReorderDialogComponent,
-  OrderDetailsActionsExtendedComponent,
-  ConsignmentTrackingLinkComponent,
+  MyAccountV2OrderDetailsActionsComponent,
+  MyAccountV2ConsignmentTrackingComponent,
 ];
 
 @NgModule({
@@ -160,7 +157,7 @@ const moduleComponents = [
     provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
     provideDefaultConfig(defaultReorderLayoutConfig),
     provideDefaultConfigFactory(() =>
-      inject(MYACCOUNT_ENHANCED_UI_ORDER) ? enhancedUICmsMapping : {}
+      inject(MYACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
     ),
     {
       provide: MODULE_INITIALIZER,

@@ -18,14 +18,14 @@ import {
   OrderView,
   OrderHistoryView,
 } from '@spartacus/order/root';
-import { OrderCriticalStatus } from '../order-history-extended.model';
+import { OrderCriticalStatus } from '../myaccount-v2-order-history.model';
 
 @Component({
-  selector: 'cx-order-consolidated-information',
-  templateUrl: './order-consolidated-information.component.html',
+  selector: 'cx-myaccount-v2-order-consolidated-information',
+  templateUrl: './myaccount-v2-order-consolidated-information.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderConsolidatedInformationComponent {
+export class MyAccountV2OrderConsolidatedInformationComponent {
   protected orderConsignmentsService = inject(OrderConsignmentsService);
   protected criticalStatuses = Object.values(OrderCriticalStatus);
   @Input()

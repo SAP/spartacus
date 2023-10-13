@@ -11,7 +11,7 @@
     >
       <div class="cx-order-status">
         {{
-          'orderHistoryEnhancedUI.deliveryPointOfServiceDetails.itemsToBePickUp'
+          'myAccountV2OrderHistory.deliveryPointOfServiceDetails.itemsToBePickUp'
             | cxTranslate
         }}
         <ng-container
@@ -25,10 +25,10 @@
           "
         ></ng-container>
       </div>
-      <cx-consignment-entries
+      <cx-myaccount-v2-consignment-entries
         [orderCode]="order.code ?? ''"
         [consignments]="getPickupConsignments(order.consignments ?? [])"
-      ></cx-consignment-entries>
+      ></cx-myaccount-v2-consignment-entries>
     </div>
 
     <!-- delivery consigned entries
@@ -45,7 +45,7 @@
       <!--instead of [cxOutlet]="OrderOutlets.CONSIGNMENT_DELIVERY_INFO"-->
       <div class="cx-order-status">
         {{
-          'orderHistoryEnhancedUI.checkoutMode.deliveryEntries' | cxTranslate
+          'myAccountV2OrderHistory.checkoutMode.deliveryEntries' | cxTranslate
         }}
         <ng-container
           *ngTemplateOutlet="
@@ -58,10 +58,10 @@
           "
         ></ng-container>
       </div>
-      <cx-consignment-entries
+      <cx-myaccount-v2-consignment-entries
         [orderCode]="order.code ?? ''"
         [consignments]="getDeliveryConsignments(order.consignments ?? [])"
-      ></cx-consignment-entries>
+      ></cx-myaccount-v2-consignment-entries>
     </div>
 
     <!-- unconsigned entries 
@@ -114,7 +114,7 @@
         "
       >
         {{
-          'orderHistoryEnhancedUI.checkoutMode.deliveryEntries' | cxTranslate
+          'myAccountV2OrderHistory.checkoutMode.deliveryEntries' | cxTranslate
         }}
         <ng-container
           *ngTemplateOutlet="
@@ -140,7 +140,7 @@
         "
       >
         {{
-          'orderHistoryEnhancedUI.checkoutPickupInStore.heading' | cxTranslate
+          'myAccountV2OrderHistory.checkoutPickupInStore.heading' | cxTranslate
         }}
         <ng-container
           *ngTemplateOutlet="
@@ -179,7 +179,7 @@
         *ngIf="returnRequest.creationTime as creationTime"
       >
         {{
-          'orderHistoryEnhancedUI.returnProcessed'
+          'myAccountV2OrderHistory.returnProcessed'
             | cxTranslate: { param: creationTime | cxDate: 'd, MMMM, yyyy' }
         }}
       </div>
@@ -201,9 +201,9 @@
 
 <ng-template #showManyItems let-count="count">
   <ng-container *ngIf="count > 1; else showOneItem">
-    {{ 'orderHistoryEnhancedUI.items' | cxTranslate: { param: count } }}
+    {{ 'myAccountV2OrderHistory.items' | cxTranslate: { param: count } }}
   </ng-container>
 </ng-template>
 <ng-template #showOneItem>
-  {{ 'orderHistoryEnhancedUI.item' | cxTranslate: { param: 1 } }}
+  {{ 'myAccountV2OrderHistory.item' | cxTranslate: { param: 1 } }}
 </ng-template>

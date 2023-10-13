@@ -4,12 +4,12 @@
 @import './order-details-reorder';
 @import './order-detail-billing';
 @import './reorder-dialog';
-@import './order-details-extended';
+@import './myaccount-v2-order-details';
 
 $order-details-allowlist: cx-order-details-items, cx-order-overview,
   cx-order-details-actions, cx-order-details-reorder, cx-order-detail-billing,
-  cx-consignment-tracking-link, cx-download-order-invoices-dialog,
-  cx-order-details-actions-extended !default;
+  cx-myaccount-v2-consignment-tracking, cx-myaccount-v2-download-invoices,
+  cx-myaccount-v2-order-details-actions !default;
 
 $skipComponentStyles: () !default;
 

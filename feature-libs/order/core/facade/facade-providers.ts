@@ -13,7 +13,7 @@ import {
   ReplenishmentOrderHistoryFacade,
   ScheduledReplenishmentOrderFacade,
 } from '@spartacus/order/root';
-import { OrderHistoryExtendedViewService } from './order-history-extended-view.service';
+import { MyAccountV2OrderHistoryService } from './myaccount-v2-order-history.service';
 import { OrderHistoryService } from './order-history.service';
 import { OrderReturnRequestService } from './order-return-request.service';
 import { OrderService } from './order.service';
@@ -27,7 +27,7 @@ export const facadeProviders: Provider[] = [
     provide: OrderReturnRequestFacade,
     useExisting: OrderReturnRequestService,
   },
-  OrderHistoryExtendedViewService,
+  MyAccountV2OrderHistoryService,
   OrderHistoryService,
   {
     provide: OrderHistoryFacade,

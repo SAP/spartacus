@@ -7,17 +7,17 @@ Consignment 2 | Tracking Number: 5657474 | Estimated Delivery: 22, September, 20
   <div
     class="cx-consignment-info"
     [attr.aria-label]="
-      'orderHistoryEnhancedUI.consignmentDetailLabel' | cxTranslate
+      'myAccountV2OrderHistory.consignmentDetailLabel' | cxTranslate
     "
     *ngIf="consignment"
   >
     <span
       [attr.aria-label]="
-        'orderHistoryEnhancedUI.consignmentNumberLabel' | cxTranslate
+        'myAccountV2OrderHistory.consignmentNumberLabel' | cxTranslate
       "
     >
       {{
-        'orderHistoryEnhancedUI.consignmentCode'
+        'myAccountV2OrderHistory.consignmentCode'
           | cxTranslate: { param: getConsignmentNumber(consignment?.code) }
       }}
     </span>
@@ -45,7 +45,7 @@ Consignment 2 | Tracking Number: 5657474 | Estimated Delivery: 22, September, 20
         </span>
         <span
           [attr.aria-label]="
-            'orderHistoryEnhancedUI.estimateDeliveryLabel' | cxTranslate
+            'myAccountV2OrderHistory.estimateDeliveryLabel' | cxTranslate
           "
         >
           {{
@@ -61,7 +61,7 @@ Consignment 2 | Tracking Number: 5657474 | Estimated Delivery: 22, September, 20
     <ng-template #showLastUpdated>
       <span
         [attr.aria-label]="
-          'orderHistoryEnhancedUI.consignmentStatusLabel' | cxTranslate
+          'myAccountV2OrderHistory.consignmentStatusLabel' | cxTranslate
         "
         *ngIf="consignment.status"
       >
@@ -73,12 +73,12 @@ Consignment 2 | Tracking Number: 5657474 | Estimated Delivery: 22, September, 20
       <span
         *ngIf="consignment.statusDate"
         [attr.aria-label]="
-          'orderHistoryEnhancedUI.consignmentStatusDateLabel' | cxTranslate
+          'myAccountV2OrderHistory.consignmentStatusDateLabel' | cxTranslate
         "
       >
         |
         {{
-          'orderHistoryEnhancedUI.statusDate'
+          'myAccountV2OrderHistory.statusDate'
             | cxTranslate
               : { param: consignment.statusDate | cxDate: 'd, MMMM, yyyy' }
         }}

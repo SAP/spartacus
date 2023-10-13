@@ -22,5 +22,5 @@ interface Env {
   CX_SEGMENT_REFS: boolean;
   CX_REQUESTED_DELIVERY_DATE: boolean;
   CX_PDF_INVOICES: boolean;
-  CX_ENHANCED_MY_ACCOUNT: boolean;
+  CX_MYACCOUNT_V2: boolean;
 }

@@ -6,12 +6,12 @@
   margin: 0 0 25px 0; //top-right-botton-left
 }
 
-%cx-order-history-extended {
-  .cx-order-history-extended-header {
+%cx-myaccount-v2-order-history {
+  .cx-myaccount-v2-order-history-header {
     @include draw-line;
     margin: 0 0 25px 0;
   }
-  .cx-order-history-extended-body {
+  .cx-myaccount-v2-order-history-body {
     .cx-order-history-pagination {
       display: flex;
       justify-content: flex-end;
@@ -32,14 +32,14 @@
       }
     }
 
-    .cx-enhanced-ui-order-history-code {
+    .cx-myaccount-v2-order-history-code {
       color: var(--cx-color-primary);
       text-decoration: underline;
       font-size: 22px;
       font-weight: 500;
       margin: 0 0 16px 0; //gap between 'order # 1234' and 'Purchase Type: ... line'
     }
-    .cx-enhanced-ui-order-summary {
+    .cx-myaccount-v2-order-summary {
       font-size: 16px;
       font-weight: 400;
       margin: 0 0 15px 0;

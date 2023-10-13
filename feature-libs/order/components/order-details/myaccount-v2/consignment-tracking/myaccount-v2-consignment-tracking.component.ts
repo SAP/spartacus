@@ -10,10 +10,10 @@ import { OutletContextData } from '@spartacus/storefront';
 import { ConsignmentTrackingComponent } from '../../order-detail-items';
 type ConsignmentOutletContextData = { item: Consignment; order?: Order };
 @Component({
-  selector: 'cx-consignment-tracking-link',
-  templateUrl: './consignment-tracking-link.component.html',
+  selector: 'cx-myaccount-v2-consignment-tracking',
+  templateUrl: './myaccount-v2-consignment-tracking.component.html',
 })
-export class ConsignmentTrackingLinkComponent
+export class MyAccountV2ConsignmentTrackingComponent
   extends ConsignmentTrackingComponent
   implements OnInit
 {

@@ -1,18 +1,18 @@
 <div
   *ngIf="orders$ | async as orderHistory; else noOrder"
-  [attr.aria-label]="'orderHistoryEnhancedUI.orderListResults' | cxTranslate"
+  [attr.aria-label]="'myAccountV2OrderHistory.orderListResults' | cxTranslate"
 >
   <!-- HEADER -->
-  <div class="cx-order-history-extended-header">
+  <div class="cx-myaccount-v2-order-history-header">
     <h2>
       {{
-        'orderHistoryEnhancedUI.heading'
+        'myAccountV2OrderHistory.heading'
           | cxTranslate: { param: tabTitleParam$ | async }
       }}
     </h2>
   </div>
   <!--BODY-->
-  <div class="cx-order-history-extended-body">
+  <div class="cx-myaccount-v2-order-history-body">
     <ng-container
       *ngIf="orderHistory.pagination.totalResults > 0; else noOrder"
     >
@@ -20,9 +20,9 @@
         <div class="cx-each-order">
           <!--eg: Order # 12345-->
           <div
-            class="cx-enhanced-ui-order-history-code"
+            class="cx-myaccount-v2-order-history-code"
             [attr.aria-label]="
-              'orderHistoryEnhancedUI.orderCodeLabel' | cxTranslate
+              'myAccountV2OrderHistory.orderCodeLabel' | cxTranslate
             "
             (click)="goToOrderDetail(order)"
           >
@@ -39,22 +39,22 @@
           </div>
 
           <!--eg: 12,October,2022 | Total Price: $12.00-->
-          <div class="cx-enhanced-ui-order-summary">
+          <div class="cx-myaccount-v2-order-summary">
             <span
               [attr.aria-label]="
-                'orderHistoryEnhancedUI.orderPlaced' | cxTranslate
+                'myAccountV2OrderHistory.orderPlaced' | cxTranslate
               "
             >
               {{ order.placed | cxDate: 'd, MMMM, yyyy' }} |
             </span>
             <span
               [attr.aria-label]="
-                'orderHistoryEnhancedUI.totalPriceLabel' | cxTranslate
+                'myAccountV2OrderHistory.totalPriceLabel' | cxTranslate
               "
             >
               <strong>
                 {{
-                  'orderHistoryEnhancedUI.totalPrice'
+                  'myAccountV2OrderHistory.totalPrice'
                     | cxTranslate: { param: order.total?.formattedValue }
                 }}
               </strong>
@@ -62,8 +62,8 @@
           </div>
 
           <!--eg: Display consolidated order information-->
-          <cx-order-consolidated-information [order]="order">
-          </cx-order-consolidated-information>
+          <cx-myaccount-v2-order-consolidated-information [order]="order">
+          </cx-myaccount-v2-order-consolidated-information>
         </div>
       </ng-container>
 
@@ -72,7 +72,7 @@
         *ngIf="orderHistory.pagination.totalPages > 1"
         class="cx-order-history-pagination"
         [attr.aria-label]="
-          'orderHistoryEnhancedUI.orderListPagination' | cxTranslate
+          'myAccountV2OrderHistory.orderListPagination' | cxTranslate
         "
       >
         <cx-pagination

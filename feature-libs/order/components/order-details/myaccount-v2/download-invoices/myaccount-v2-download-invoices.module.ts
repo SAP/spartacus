@@ -15,9 +15,9 @@ import {
   SortingModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { defaultDownloadOrderInvoicesLayoutConfig } from './default-download-order-invoices-layout.config';
-import { DownloadOrderInvoicesDialogComponent } from './download-order-invoices-dialog.component';
-import { DownloadOrderInvoicesEventListener } from './download-order-invoices-event.listener';
+import { defaultMyAccountV2DownloadInvoicesLayoutConfig } from './default-myaccount-v2-download-invoices-layout.config';
+import { MyAccountV2DownloadInvoicesEventListener } from './myaccount-v2-download-invoices-event.listener';
+import { MyAccountV2DownloadInvoicesComponent } from './myaccount-v2-download-invoices.component';
 
 @NgModule({
   imports: [
@@ -30,12 +30,14 @@ import { DownloadOrderInvoicesEventListener } from './download-order-invoices-ev
     SpinnerModule,
     PDFInvoicesComponentsModule,
   ],
-  providers: [provideDefaultConfig(defaultDownloadOrderInvoicesLayoutConfig)],
-  exports: [DownloadOrderInvoicesDialogComponent],
-  declarations: [DownloadOrderInvoicesDialogComponent],
+  providers: [
+    provideDefaultConfig(defaultMyAccountV2DownloadInvoicesLayoutConfig),
+  ],
+  exports: [MyAccountV2DownloadInvoicesComponent],
+  declarations: [MyAccountV2DownloadInvoicesComponent],
 })
 export class DownloadOrderInvoicesDialogModule {
   protected downloadInvoicesDialogEventListener = inject(
-    DownloadOrderInvoicesEventListener
+    MyAccountV2DownloadInvoicesEventListener
   );
 }

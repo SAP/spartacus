@@ -1,4 +1,4 @@
-%cx-order-details-actions-extended {
+%cx-myaccount-v2-order-details-actions {
   .cx-order-details-actions {
     display: flex;
     justify-content: space-between;
@@ -13,7 +13,7 @@
     }
   }
 }
-%cx-consignment-tracking-link {
+%cx-myaccount-v2-consignment-tracking {
   .cx-list-status {
     padding: 15px 30px 30px 30px;
     display: flex;
@@ -40,7 +40,7 @@
   }
 }
 
-%cx-download-order-invoices-dialog {
+%cx-myaccount-v2-download-invoices {
   .cx-modal-container {
     .cx-modal-content {
       .cx-dialog-title {

@@ -5,13 +5,13 @@
  */
 
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
-import { DownloadOrderInvoicesDialogComponent } from './download-order-invoices-dialog.component';
+import { MyAccountV2DownloadInvoicesComponent } from './myaccount-v2-download-invoices.component';
 
-export const defaultDownloadOrderInvoicesLayoutConfig: LayoutConfig = {
+export const defaultMyAccountV2DownloadInvoicesLayoutConfig: LayoutConfig = {
   launch: {
     DOWNLOAD_ORDER_INVOICES: {
       inlineRoot: true,
-      component: DownloadOrderInvoicesDialogComponent,
+      component: MyAccountV2DownloadInvoicesComponent,
       dialogType: DIALOG_TYPE.DIALOG,
     },
   },

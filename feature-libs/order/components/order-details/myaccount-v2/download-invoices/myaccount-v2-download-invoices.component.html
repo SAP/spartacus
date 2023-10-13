@@ -6,7 +6,7 @@
   <div class="cx-modal-content">
     <div class="cx-dialog-header modal-header">
       <div class="cx-dialog-title modal-title">
-        {{ 'orderDetailsEnhancedUI.downloadInvoices' | cxTranslate }}
+        {{ 'myAccountV2OrderDetails.downloadInvoices' | cxTranslate }}
       </div>
       <button
         type="button"
@@ -23,7 +23,7 @@
     <div class="cx-dialog-body modal-body">
       <cx-invoices-list> </cx-invoices-list>
       <div *ngIf="invoiceCount === 0">
-        {{ 'orderDetailsEnhancedUI.noInvoices' | cxTranslate }}
+        {{ 'myAccountV2OrderDetails.noInvoices' | cxTranslate }}
       </div>
       <div *ngIf="invoiceCount === undefined" class="cx-spinner">
         <cx-spinner></cx-spinner>

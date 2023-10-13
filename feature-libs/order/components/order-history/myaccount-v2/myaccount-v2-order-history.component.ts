@@ -5,18 +5,18 @@
  */
 
 import { Component, inject } from '@angular/core';
-import { OrderHistoryExtendedViewService } from '@spartacus/order/core';
+import { MyAccountV2OrderHistoryService } from '@spartacus/order/core';
 import { OrderHistoryListView } from '@spartacus/order/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OrderHistoryComponent } from '../order-history.component';
 
 @Component({
-  selector: 'cx-order-history-extended',
-  templateUrl: './order-history-extended.component.html',
+  selector: 'cx-myaccount-v2-order-history',
+  templateUrl: './myaccount-v2-order-history.component.html',
 })
-export class OrderHistoryExtendedComponent extends OrderHistoryComponent {
-  protected service = inject(OrderHistoryExtendedViewService);
+export class MyAccountV2OrderHistoryComponent extends OrderHistoryComponent {
+  protected service = inject(MyAccountV2OrderHistoryService);
   protected ITEMS_PER_PAGE = 5;
   isLoaded$ = new BehaviorSubject<boolean>(false);
   orders$: Observable<OrderHistoryListView | undefined> = this.service

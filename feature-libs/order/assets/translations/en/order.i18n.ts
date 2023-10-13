@@ -204,8 +204,8 @@ export const order = {
   },
 };
 
-export const orderEnhancedUI = {
-  orderHistoryEnhancedUI: {
+export const MyAccountV2Order = {
+  myAccountV2OrderHistory: {
     heading: 'All Orders ({{param}})',
     item: '{{param}} Item',
     items: '{{param}} Items',
@@ -233,7 +233,7 @@ export const orderEnhancedUI = {
     consignmentStatusDateLabel: 'Last Updated On',
     estimateDeliveryLabel: 'Estimated Delivery Date',
   },
-  orderDetailsEnhancedUI: {
+  myAccountV2OrderDetails: {
     returnItems: 'Return Items',
     cancelItems: 'Cancel Items',
     downloadInvoices: 'Download Invoices',

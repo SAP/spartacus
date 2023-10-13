@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { Consignment } from '../../../../root/model';
 import { Observable, EMPTY } from 'rxjs';
-import { ConsignmentEntriesComponent } from './consignment-entries.component';
+import { MyAccountV2ConsignmentEntriesComponent } from './myaccount-v2-consignment-entries.component';
 const mockOrderCode = '0005000001';
 const mockConsignments: Consignment[] = [
   {
@@ -56,9 +56,9 @@ class MockLanguageService {
   }
 }
 
-describe('ConsignmentEntriesComponent', () => {
-  let component: ConsignmentEntriesComponent;
-  let fixture: ComponentFixture<ConsignmentEntriesComponent>;
+describe('MyAccountV2ConsignmentEntriesComponent', () => {
+  let component: MyAccountV2ConsignmentEntriesComponent;
+  let fixture: ComponentFixture<MyAccountV2ConsignmentEntriesComponent>;
   let el: DebugElement;
 
   beforeEach(
@@ -69,13 +69,13 @@ describe('ConsignmentEntriesComponent', () => {
           { provide: TranslationService, useClass: MockTranslationService },
           { provide: LanguageService, useClass: MockLanguageService },
         ],
-        declarations: [ConsignmentEntriesComponent, MockUrlPipe],
+        declarations: [MyAccountV2ConsignmentEntriesComponent, MockUrlPipe],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConsignmentEntriesComponent);
+    fixture = TestBed.createComponent(MyAccountV2ConsignmentEntriesComponent);
     el = fixture.debugElement;
 
     component = fixture.componentInstance;

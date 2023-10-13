@@ -22,11 +22,11 @@ import {
 } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-download-order-invoices-dialog',
-  templateUrl: './download-order-invoices-dialog.component.html',
+  selector: 'cx-myaccount-v2-download-invoices',
+  templateUrl: './myaccount-v2-download-invoices.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DownloadOrderInvoicesDialogComponent implements AfterViewChecked {
+export class MyAccountV2DownloadInvoicesComponent implements AfterViewChecked {
   @ViewChild(InvoicesListComponent, { static: false })
   public invoiceComponent: InvoicesListComponent;
   readonly OrderOutlets = OrderOutlets;

@@ -14,7 +14,7 @@ import { take } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class DownloadOrderInvoicesEventListener implements OnDestroy {
+export class MyAccountV2DownloadInvoicesEventListener implements OnDestroy {
   protected subscription = new Subscription();
   protected eventService = inject(EventService);
   protected launchDialogService = inject(LaunchDialogService);

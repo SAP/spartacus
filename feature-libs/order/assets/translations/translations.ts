@@ -20,5 +20,5 @@ export const orderTranslationChunksConfig: TranslationChunksConfig = {
     'returnRequest',
     'reorder',
   ],
-  orderEnhancedUI: ['orderHistoryEnhancedUI', 'orderDetailsEnhancedUI'],
+  MyAccountV2Order: ['myAccountV2OrderHistory', 'myAccountV2OrderDetails'],
 };
