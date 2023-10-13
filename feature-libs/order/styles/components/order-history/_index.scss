@@ -9,11 +9,14 @@
 @import './return-request-totals';
 @import './cancel-order';
 @import './consignment-tracking';
+@import './order-history-extended';
 
 $order-history-allowlist: cx-amend-order-actions, cx-amend-order-items,
   cx-cancel-order, cx-consignment-tracking, cx-tracking-events, cx-order-history,
   cx-order-return-request-list, cx-replenishment-order-history,
-  cx-return-request-items, cx-return-request-overview, cx-return-request-totals !default;
+  cx-return-request-items, cx-return-request-overview, cx-return-request-totals,
+  cx-consignment-entries, cx-order-consolidated-information,
+  cx-order-history-extended !default;
 
 $skipComponentStyles: () !default;
 

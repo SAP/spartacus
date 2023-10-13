@@ -10,8 +10,19 @@ import {
   orderTranslationChunksConfig,
   orderTranslations,
 } from '@spartacus/order/assets';
-import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
-
+import {
+  MYACCOUNT_ENHANCED_UI_ORDER,
+  OrderRootModule,
+  ORDER_FEATURE,
+} from '@spartacus/order/root';
+import { environment } from '../../../../environments/environment';
+function setEnhancedMyAccountToken(): boolean {
+  if (environment.enhancedMyAccount) {
+    return true;
+  } else {
+    return false;
+  }
+}
 @NgModule({
   imports: [OrderRootModule],
   providers: [
@@ -22,6 +33,10 @@ import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
         },
       },
     }),
+    {
+      provide: MYACCOUNT_ENHANCED_UI_ORDER,
+      useFactory: setEnhancedMyAccountToken,
+    },
     provideConfig(<I18nConfig>{
       i18n: {
         resources: orderTranslations,

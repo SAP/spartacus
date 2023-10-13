@@ -203,3 +203,41 @@ export const order = {
     },
   },
 };
+
+export const orderEnhancedUI = {
+  orderHistoryEnhancedUI: {
+    heading: 'All Orders ({{param}})',
+    item: '{{param}} Item',
+    items: '{{param}} Items',
+    totalPrice: 'Total Price: {{param}}',
+    consignmentCode: 'Consignment {{param}}',
+    statusDate: 'Last Updated: {{param}}',
+    returnProcessed: 'Return Processed: {{param}}',
+    deliveryPointOfServiceDetails: {
+      itemsToBePickUp: 'To Be Picked Up - ',
+    },
+    checkoutMode: {
+      deliveryEntries: 'To Be Shipped - ',
+    },
+    checkoutPickupInStore: {
+      heading: 'To Be Picked Up - ',
+    },
+    orderListResults: 'Orders List',
+    orderListPagination: 'Orders List pagination',
+    totalPriceLabel: 'Total Price',
+    orderPlaced: 'Order Placed On',
+    orderCodeLabel: 'Order Code',
+    consignmentDetailLabel: 'Consignment Information',
+    consignmentNumberLabel: 'Consignment Number',
+    consignmentStatusLabel: 'Consignment Status',
+    consignmentStatusDateLabel: 'Last Updated On',
+    estimateDeliveryLabel: 'Estimated Delivery Date',
+  },
+  orderDetailsEnhancedUI: {
+    returnItems: 'Return Items',
+    cancelItems: 'Cancel Items',
+    downloadInvoices: 'Download Invoices',
+    viewAllOrders: 'View All Orders',
+    noInvoices: 'Invoices are not generated yet. Please come back later.',
+  },
+};

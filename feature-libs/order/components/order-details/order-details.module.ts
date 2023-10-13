@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { ComponentFactoryResolver, inject, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
@@ -14,15 +14,24 @@ import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
+  MODULE_INITIALIZER,
   provideDefaultConfig,
+  provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
+import {
+  MYACCOUNT_ENHANCED_UI_ORDER,
+  OrderOutlets,
+} from '@spartacus/order/root';
 import {
   CardModule,
   IconModule,
   KeyboardFocusModule,
   OutletModule,
+  OutletPosition,
+  OutletService,
   PromotionsModule,
+  ProvideOutletOptions,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
@@ -35,8 +44,41 @@ import { OrderDetailItemsComponent } from './order-detail-items/order-detail-ite
 import { OrderDetailReorderComponent } from './order-detail-reorder/order-detail-reorder.component';
 import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/reorder-dialog.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
+import {
+  ConsignmentTrackingLinkComponent,
+  DownloadOrderInvoicesDialogModule,
+  OrderDetailsActionsExtendedComponent,
+} from './order-details-extended';
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
+
+function registerOrderOutletFactory(): () => void {
+  const token = inject(MYACCOUNT_ENHANCED_UI_ORDER);
+  const outletService = inject(OutletService);
+  const componentFactoryResolver = inject(ComponentFactoryResolver);
+  return () => {
+    const config: ProvideOutletOptions = {
+      component: ConsignmentTrackingLinkComponent,
+      id: OrderOutlets.ORDER_CONSIGNMENT,
+      position: OutletPosition.REPLACE,
+    };
+    if (token) {
+      const template = componentFactoryResolver.resolveComponentFactory(
+        config.component
+      );
+      outletService.add(config.id, template, config.position);
+    }
+  };
+}
+
+const enhancedUICmsMapping: CmsConfig = {
+  cmsComponents: {
+    AccountOrderDetailsActionsComponent: {
+      component: OrderDetailsActionsExtendedComponent,
+      guards: [AuthGuard],
+    },
+  },
+};
 
 const moduleComponents = [
   OrderOverviewComponent,
@@ -49,6 +91,8 @@ const moduleComponents = [
   OrderConsignedEntriesComponent,
   OrderDetailReorderComponent,
   ReorderDialogComponent,
+  OrderDetailsActionsExtendedComponent,
+  ConsignmentTrackingLinkComponent,
 ];
 
 @NgModule({
@@ -65,6 +109,7 @@ const moduleComponents = [
     AddToCartModule,
     KeyboardFocusModule,
     IconModule,
+    DownloadOrderInvoicesDialogModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
@@ -114,6 +159,14 @@ const moduleComponents = [
     }),
     provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
     provideDefaultConfig(defaultReorderLayoutConfig),
+    provideDefaultConfigFactory(() =>
+      inject(MYACCOUNT_ENHANCED_UI_ORDER) ? enhancedUICmsMapping : {}
+    ),
+    {
+      provide: MODULE_INITIALIZER,
+      useFactory: registerOrderOutletFactory,
+      multi: true,
+    },
   ],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],

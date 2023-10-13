@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { order } from './order.i18n';
+import { order, orderEnhancedUI } from './order.i18n';
 
 export const en = {
   order,
+  orderEnhancedUI,
 };

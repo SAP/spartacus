@@ -33,4 +33,5 @@ export const environment: Environment = {
   segmentRefs: buildProcess.env.CX_SEGMENT_REFS ?? false,
   requestedDeliveryDate: buildProcess.env.CX_REQUESTED_DELIVERY_DATE ?? false,
   pdfInvoices: buildProcess.env.CX_PDF_INVOICES ?? false,
+  enhancedMyAccount: buildProcess.env.CX_ENHANCED_MY_ACCOUNT ?? false,
 };

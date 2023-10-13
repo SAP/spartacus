@@ -13,3 +13,8 @@ export const OrderDetailsOrderEntriesContextToken = new InjectionToken(
 export const OrderConfirmationOrderEntriesContextToken = new InjectionToken(
   'OrderConfirmationOrderEntriesContext'
 );
+
+export const MYACCOUNT_ENHANCED_UI_ORDER = new InjectionToken<boolean>(
+  'feature flag to enable enhanced UI for Order related pages under My-Account',
+  { providedIn: 'root', factory: () => false }
+);
