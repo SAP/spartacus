@@ -16,7 +16,7 @@ import {
   AuthGuard,
 } from '@spartacus/core';
 import { MediaModule, SpinnerModule } from '@spartacus/storefront';
-import { MyAccountV2OrderComponent } from './myaccount-v2-order.component';
+import { MyAccountV2OrdersComponent } from './myaccount-v2-orders.component';
 
 @NgModule({
   imports: [
@@ -28,17 +28,17 @@ import { MyAccountV2OrderComponent } from './myaccount-v2-order.component';
     I18nModule,
     MediaModule,
   ],
-  declarations: [MyAccountV2OrderComponent],
-  exports: [MyAccountV2OrderComponent],
+  declarations: [MyAccountV2OrdersComponent],
+  exports: [MyAccountV2OrdersComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         MyAccountViewOrderComponent: {
-          component: MyAccountV2OrderComponent,
+          component: MyAccountV2OrdersComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
 })
-export class MyAccountV2OrderModule {}
+export class MyAccountV2OrdersModule {}
