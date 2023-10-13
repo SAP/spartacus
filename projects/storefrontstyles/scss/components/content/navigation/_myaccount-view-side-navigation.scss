@@ -1,5 +1,5 @@
 %cx-myaccount-view-side-navigation {
-  background-color: white;
+  background: var(--cx-color-inverse);
   font-family: sans-serif;
   padding: 5px 5px 5px 5px;
   width: 250px;
@@ -20,7 +20,7 @@
   }
 
   cx-navigation-ui {
-    background-color: white;
+    background: var(--cx-color-inverse);
     // Node Heading
     span {
       text-indent: 5px;
