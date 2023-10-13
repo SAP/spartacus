@@ -2441,4 +2441,58 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Cancel',
     },
   ],
+  quoteDetailsPage: [
+    {
+      value: 'Quotes',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Contact',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'All Products',
+      type: TabbingOrderTypes.SELECT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: 'Send',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cart',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '-',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    {
+      value: 'Remove',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Submit Quote',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cancel Quote',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
 };
