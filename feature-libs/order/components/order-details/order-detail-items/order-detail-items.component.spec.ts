@@ -2,7 +2,6 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   CmsOrderDetailItemsComponent,
   FeaturesConfigModule,
@@ -158,40 +157,6 @@ describe('OrderDetailItemsComponent', () => {
         },
         getOrderDetails() {
           return of(mockOrder);
-        },
-        getGroupedConsignments(
-          _order: Order,
-          pickup: boolean
-        ): Consignment[] | undefined {
-          let output: Consignment[] = [];
-          if (pickup === true) {
-            if (mockOrder.consignments?.[2])
-              output.push(mockOrder.consignments[2]);
-          } else {
-            if (mockOrder.consignments?.[0])
-              output.push(mockOrder.consignments[0]);
-            if (mockOrder.consignments?.[4])
-              output.push(mockOrder.consignments[4]);
-            if (mockOrder.consignments?.[1])
-              output.push(mockOrder.consignments[1]);
-            if (mockOrder.consignments?.[3])
-              output.push(mockOrder.consignments[3]);
-          }
-          return output;
-        },
-        getUnconsignedEntries(
-          _order: Order,
-          pickup: boolean
-        ): OrderEntry[] | undefined {
-          let entries: OrderEntry[] = [];
-          if (pickup === true) {
-            if (mockOrder.unconsignedEntries?.[0])
-              entries.push(mockOrder.unconsignedEntries[0]);
-          } else {
-            if (mockOrder.unconsignedEntries?.[1])
-              entries.push(mockOrder.unconsignedEntries[1]);
-          }
-          return entries;
         },
       };
 
