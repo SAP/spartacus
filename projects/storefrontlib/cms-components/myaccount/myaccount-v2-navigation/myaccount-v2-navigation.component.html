@@ -3,5 +3,5 @@
   [node]="node"
   [flyout]="false"
   [ngClass]="(styleClass$ | async) ?? ''"
-  [navAriaLabel]="'myAccountView.sideNavigation' | cxTranslate"
+  [navAriaLabel]="name$ | async"
 ></cx-navigation-ui>

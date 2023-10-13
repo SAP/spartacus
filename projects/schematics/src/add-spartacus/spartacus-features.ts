@@ -133,7 +133,7 @@ function configureSpartacusModules(
         'StockNotificationModule,',
         'ConsentManagementModule,',
         'MyCouponsModule,',
-        'MyaccountViewSideNavigationModule',
+        'MyAccountV2NavigationModule',
       ].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
@@ -148,7 +148,7 @@ function configureSpartacusModules(
                 'PaymentMethodsModule',
                 'NotificationPreferenceModule',
                 'MyInterestsModule',
-                'MyaccountViewSideNavigationModule',
+                'MyAccountV2NavigationModule',
                 'StockNotificationModule',
                 'ConsentManagementModule',
                 'MyCouponsModule',

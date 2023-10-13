@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MyaccountViewSideNavigationComponent } from './myaccount-view-side-navigation.component';
+import { MyAccountV2NavigationComponent } from './myaccount-v2-navigation.component';
 import {
   AuthGuard,
   CmsConfig,
@@ -20,14 +20,14 @@ import { NavigationModule } from '../../navigation/navigation/navigation.module'
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         MyAccountSideNavigationComponent: {
-          component: MyaccountViewSideNavigationComponent,
+          component: MyAccountV2NavigationComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
-  declarations: [MyaccountViewSideNavigationComponent],
-  exports: [MyaccountViewSideNavigationComponent],
+  declarations: [MyAccountV2NavigationComponent],
+  exports: [MyAccountV2NavigationComponent],
   imports: [CommonModule, NavigationModule, I18nModule],
 })
-export class MyaccountViewSideNavigationModule {}
+export class MyAccountV2NavigationModule {}

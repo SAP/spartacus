@@ -8,7 +8,6 @@ import { address } from './address';
 import { common } from './common';
 import { deliveryMode } from './delivery-mode';
 import { myAccount } from './my-account';
-import { myaccountView } from './myaccount-view';
 import { payment } from './payment';
 import { pdf } from './pdf';
 import { product } from './product';
@@ -27,5 +26,4 @@ export const en = {
   video,
   pdf,
   deliveryMode,
-  myaccountView,
 };

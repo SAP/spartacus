@@ -22,7 +22,8 @@ import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
-import { NavigationNode, MY_ACCOUNT_NAVIGATION_ICONS } from './navigation-node.model';
+import { NavigationNode } from './navigation-node.model';
+import { MY_ACCOUNT_NAVIGATION_ICONS } from './global-icon-config.model';
 
 @Component({
   selector: 'cx-navigation-ui',
