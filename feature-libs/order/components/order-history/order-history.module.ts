@@ -34,7 +34,7 @@ const enhancedUICmsMapping: CmsConfig = {
   cmsComponents: {
     AccountOrderHistoryComponent: {
       component: OrderHistoryExtendedComponent,
-      guards: [AuthGuard],
+      //guards: inherited from standard config,
     },
   },
 };

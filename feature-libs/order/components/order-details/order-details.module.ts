@@ -75,7 +75,7 @@ const enhancedUICmsMapping: CmsConfig = {
   cmsComponents: {
     AccountOrderDetailsActionsComponent: {
       component: OrderDetailsActionsExtendedComponent,
-      guards: [AuthGuard],
+      //guards: inherited from standard config,
     },
   },
 };
