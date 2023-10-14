@@ -11,6 +11,11 @@ import { LoginModule } from './login/login.module';
 import { MyAccountV2UserModule } from './myaccount-v2-user';
 
 @NgModule({
-  imports: [LoginModule, LoginFormModule, LoginRegisterModule,MyAccountV2UserModule],
+  imports: [
+    LoginModule,
+    LoginFormModule,
+    LoginRegisterModule,
+    MyAccountV2UserModule,
+  ],
 })
 export class UserAccountComponentsModule {}
