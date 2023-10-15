@@ -43,7 +43,10 @@ export class MyAccountV2DownloadInvoicesComponent implements AfterViewChecked {
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
-    if (this.invoiceComponent.pagination !== undefined) {
+    if (
+      this.invoiceComponent &&
+      this.invoiceComponent.pagination !== undefined
+    ) {
       this.invoiceCount = this.invoiceComponent.pagination.totalResults;
     }
   }
