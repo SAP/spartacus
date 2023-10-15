@@ -6,11 +6,11 @@ import {
   LanguageService,
   TranslationService,
 } from '@spartacus/core';
-import { Consignment } from '../../../../root/model';
+import { ConsignmentView } from '@spartacus/order/root';
 import { Observable, EMPTY } from 'rxjs';
 import { MyAccountV2ConsignmentEntriesComponent } from './myaccount-v2-consignment-entries.component';
 const mockOrderCode = '0005000001';
-const mockConsignments: Consignment[] = [
+const mockConsignments: ConsignmentView[] = [
   {
     code: 'cons0005000001_7',
     status: 'READY',
@@ -25,6 +25,10 @@ const mockConsignments: Consignment[] = [
         quantity: 1,
       },
     ],
+    trackingID: 'xyz',
+    consignmentTracking: {
+      trackingUrl: 'abc',
+    },
   },
   {
     code: 'cons0005000001_1',
@@ -90,24 +94,14 @@ describe('MyAccountV2ConsignmentEntriesComponent', () => {
   it('should render order consignment entries', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-consignment-info'))).toBeTruthy();
+    const link = fixture.debugElement.query(By.css('.cx-tracking-id'));
+    expect(link.nativeNode.href).toContain('abc');
   });
 
-  it('should return no.of consignment entries', () => {
-    let output1 = component.consignmentEntriesLength(mockConsignments[0]);
-    expect(output1).toEqual(2);
-    let output2 = component.consignmentEntriesLength(mockConsignments[1]);
-    expect(output2).toEqual(1);
-  });
-  it('should return no.of consignment entries', () => {
-    let output1 = component.consignmentEntriesLength(mockConsignments[0]);
-    expect(output1).toEqual(2);
-    let output2 = component.consignmentEntriesLength(mockConsignments[1]);
-    expect(output2).toEqual(1);
-  });
   it('should return the number in consigment code', () => {
-    let output1 = component.consignmentNumber(mockConsignments[0].code);
-    expect(output1).toEqual(8);
-    let output2 = component.consignmentNumber(mockConsignments[1].code);
-    expect(output2).toEqual(2);
+    let output1 = component.getConsignmentNumber(mockConsignments[0].code);
+    expect(output1).toEqual('8');
+    let output2 = component.getConsignmentNumber(mockConsignments[1].code);
+    expect(output2).toEqual('2');
   });
 });

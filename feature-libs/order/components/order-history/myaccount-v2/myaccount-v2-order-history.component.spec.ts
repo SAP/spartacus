@@ -7,7 +7,6 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   FeaturesConfigModule,
@@ -15,13 +14,12 @@ import {
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import {
-  OrderHistoryFacade,
-  ReplenishmentOrderHistoryFacade,
-} from '../../../root/facade';
+import { ReplenishmentOrderHistoryFacade } from '../../../root/facade';
 import { EMPTY, Observable, of } from 'rxjs';
 import { MyAccountV2OrderHistoryComponent } from './myaccount-v2-order-history.component';
 import { OrderHistoryList } from '../../../root/model';
+import { MyAccountV2OrderHistoryService } from '@spartacus/order/core';
+import { By } from '@angular/platform-browser';
 
 const mockOrders: OrderHistoryList = {
   orders: [
@@ -63,18 +61,13 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
+class MockMyAccountV2OrderHistoryService
+  implements Partial<MyAccountV2OrderHistoryService>
+{
   getOrderHistoryList(): Observable<OrderHistoryList> {
     return of(mockOrders);
   }
-  getOrderHistoryListLoaded(): Observable<boolean> {
-    return of(true);
-  }
-  loadOrderList(
-    _pageSize: number,
-    _currentPage?: number,
-    _sort?: string
-  ): void {}
+
   clearOrderList() {}
 }
 
@@ -112,7 +105,10 @@ describe('MyAccountV2OrderHistoryComponent', () => {
         ],
         providers: [
           { provide: RoutingService, useClass: MockRoutingService },
-          { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
+          {
+            provide: MyAccountV2OrderHistoryService,
+            useClass: MockMyAccountV2OrderHistoryService,
+          },
           { provide: TranslationService, useClass: MockTranslationService },
           {
             provide: ReplenishmentOrderHistoryFacade,
@@ -127,6 +123,9 @@ describe('MyAccountV2OrderHistoryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2OrderHistoryComponent);
     component = fixture.componentInstance;
+  });
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should create the component', () => {
@@ -147,13 +146,11 @@ describe('MyAccountV2OrderHistoryComponent', () => {
 
   it('should redirect when clicking on order code', () => {
     spyOn(routingService, 'go').and.stub();
-
     fixture.detectChanges();
     const codes = fixture.debugElement.queryAll(
       By.css('.cx-myaccount-v2-order-history-code')
     );
     codes[1].triggerEventHandler('click');
-
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orderDetails',
       params: mockOrders.orders?.[1],
@@ -162,24 +159,33 @@ describe('MyAccountV2OrderHistoryComponent', () => {
 
   it('should display pagination', () => {
     fixture.detectChanges();
-
     const elements = fixture.debugElement.queryAll(
       By.css('.cx-order-history-pagination')
     );
-
     expect(elements.length).toEqual(1);
   });
 
   it('should show start shopping button if no order is present', () => {
     component.orders$ = of(mockEmptyOrderList);
+    component.isLoaded$.next(true);
     fixture.detectChanges();
     const elements = fixture.debugElement.queryAll(
       By.css('.cx-order-history-pagination')
     );
     expect(elements.length).toEqual(0);
-    const buttonDebugElement = fixture.debugElement.query(By.css('a'));
-    expect(buttonDebugElement.nativeElement.innerText).toEqual(
-      'orderHistory.startShopping'
+    const link = fixture.debugElement.query(By.css('a'));
+    expect(link.nativeNode.innerText).toEqual('orderHistory.startShopping');
+  });
+
+  it('should show spinner if data is still laoding', () => {
+    component.orders$ = of(mockEmptyOrderList);
+    component.isLoaded$.next(false);
+    fixture.detectChanges();
+    const elements = fixture.debugElement.queryAll(
+      By.css('.cx-order-history-pagination')
     );
+    expect(elements.length).toEqual(0);
+    const link = fixture.debugElement.query(By.css('cx-spinner'));
+    expect(link.nativeNode.nodeName).toEqual('CX-SPINNER');
   });
 });

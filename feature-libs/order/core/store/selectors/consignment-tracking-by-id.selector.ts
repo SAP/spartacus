@@ -14,7 +14,7 @@ import {
 } from '../order-state';
 import { getOrderState } from './feature.selector';
 
-export const getConsignmentTrackingByIdState: MemoizedSelector<
+export const getConsignmentTrackingByIdEntities: MemoizedSelector<
   StateWithOrder,
   StateUtils.EntityLoaderState<ConsignmentTracking>
 > = createSelector(
@@ -22,7 +22,7 @@ export const getConsignmentTrackingByIdState: MemoizedSelector<
   (state: OrderState) => state.consignmentTrackingById
 );
 
-export const getConsignmentTrackingByIdEntityState = (
+export const getConsignmentTrackingByIdEntity = (
   orderCode: string,
   consignmentCode: string
 ): MemoizedSelector<
@@ -30,7 +30,7 @@ export const getConsignmentTrackingByIdEntityState = (
   StateUtils.LoaderState<ConsignmentTracking>
 > =>
   createSelector(
-    getConsignmentTrackingByIdState,
+    getConsignmentTrackingByIdEntities,
     (state: StateUtils.EntityLoaderState<ConsignmentTracking>) =>
       StateUtils.entityLoaderStateSelector(
         state,
@@ -42,7 +42,7 @@ export const getConsignmentTrackingById = (
   consignmentCode: string
 ): MemoizedSelector<StateWithOrder, ConsignmentTracking> => {
   return createSelector(
-    getConsignmentTrackingByIdEntityState(orderCode, consignmentCode),
+    getConsignmentTrackingByIdEntity(orderCode, consignmentCode),
     (consignmentTrackingByIdState) =>
       StateUtils.loaderValueSelector(consignmentTrackingByIdState)
   );
@@ -53,7 +53,7 @@ export const getConsignmentTrackingByIdLoading = (
   consignmentCode: string
 ): MemoizedSelector<StateWithOrder, boolean> => {
   return createSelector(
-    getConsignmentTrackingByIdEntityState(orderCode, consignmentCode),
+    getConsignmentTrackingByIdEntity(orderCode, consignmentCode),
     (loaderState) => StateUtils.loaderLoadingSelector(loaderState)
   );
 };
@@ -63,7 +63,7 @@ export const getConsignmentTrackingByIdSuccess = (
   consignmentCode: string
 ): MemoizedSelector<StateWithOrder, boolean> => {
   return createSelector(
-    getConsignmentTrackingByIdEntityState(orderCode, consignmentCode),
+    getConsignmentTrackingByIdEntity(orderCode, consignmentCode),
     (loaderState) => StateUtils.loaderSuccessSelector(loaderState)
   );
 };

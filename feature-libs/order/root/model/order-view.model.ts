@@ -20,7 +20,7 @@ export interface ConsignmentView extends Consignment {
 
 export interface OrderHistoryView extends OrderHistory {
   entries?: OrderEntry[];
-  consignments?: Consignment[];
+  consignments?: ConsignmentView[];
   unconsignedEntries?: OrderEntry[];
   returnRequests?: ReturnRequest[];
 }

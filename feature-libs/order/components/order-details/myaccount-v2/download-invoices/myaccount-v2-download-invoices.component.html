@@ -22,7 +22,7 @@
 
     <div class="cx-dialog-body modal-body">
       <cx-invoices-list> </cx-invoices-list>
-      <div *ngIf="invoiceCount === 0">
+      <div id='noInvoice' *ngIf="invoiceCount === 0">
         {{ 'myAccountV2OrderDetails.noInvoices' | cxTranslate }}
       </div>
       <div *ngIf="invoiceCount === undefined" class="cx-spinner">
