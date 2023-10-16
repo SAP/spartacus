@@ -47,14 +47,10 @@ describe('SSR E2E', () => {
   // TODO: Test incomplete
   xit('should receive 404 response when page is not existing', () => {});
 
-  // TODO: Test incomplete
-  xit('should receive 500 error response with request', async () => {
+  it('should receive 500 error response when a backend API returned server error', async () => {
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
       throwStatus: 500,
-    });
-    proxy.on('proxyRes', function (proxyRes: any) {
-      proxyRes.statusCode = 500;
     });
     const response: any = await ProxyServer.sendRequest('/');
     expect(response.statusCode).toEqual(500);
