@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 import { NavigationComponent } from '../../navigation';
 
 @Component({
-  selector: 'cx-myaccount-v2-navigation',
-  templateUrl: './myaccount-v2-navigation.component.html',
+  selector: 'cx-my-account-v2-navigation',
+  templateUrl: './my-account-v2-navigation.component.html',
 })
 export class MyAccountV2NavigationComponent extends NavigationComponent {}

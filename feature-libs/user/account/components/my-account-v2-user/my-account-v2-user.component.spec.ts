@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MyAccountV2UserComponent } from './myaccount-v2-user.component';
+import { MyAccountV2UserComponent } from './my-account-v2-user.component';
 import {
   AuthService,
   I18nTestingModule,

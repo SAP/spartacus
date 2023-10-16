@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MyAccountV2NavigationComponent } from './myaccount-v2-navigation.component';
+import { MyAccountV2NavigationComponent } from './my-account-v2-navigation.component';
 import {
   AuthGuard,
   CmsConfig,

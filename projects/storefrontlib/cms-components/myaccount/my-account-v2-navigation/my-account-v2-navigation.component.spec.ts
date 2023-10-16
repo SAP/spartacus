@@ -1,18 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MyAccountV2NavigationComponent } from './myaccount-v2-navigation.component';
+import { MyAccountV2NavigationComponent } from './my-account-v2-navigation.component';
 import { CmsComponentData, NavigationNode, NavigationService } from '@spartacus/storefront';
 import { CmsNavigationComponent } from '@spartacus/core';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import { Component, Input } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 @Component({
   selector: 'cx-navigation-ui',
   template: '',
 })
 class MockNavigationUIComponent {
-  @Input()
-  dropdownMode = 'list';
+  // @Input()
+  // dropdownMode = 'list';
   @Input()
   node: NavigationNode;
   @Input()
@@ -55,6 +56,7 @@ describe('MyAccountV2NavigationComponent', () => {
 beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2NavigationComponent);
     component = fixture.componentInstance;
+    component.styleClass$ = of(mockCmsComponentData.styleClass);
 
     fixture.detectChanges();
   });
@@ -62,5 +64,4 @@ beforeEach(() => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
 });

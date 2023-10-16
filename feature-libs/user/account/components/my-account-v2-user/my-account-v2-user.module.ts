@@ -14,7 +14,7 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
-import { MyAccountV2UserComponent } from './myaccount-v2-user.component';
+import { MyAccountV2UserComponent } from './my-account-v2-user.component';
 
 @NgModule({
   providers: [
