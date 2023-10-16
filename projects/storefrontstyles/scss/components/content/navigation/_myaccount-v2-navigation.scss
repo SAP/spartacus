@@ -8,8 +8,9 @@
     font-weight: bold;
     width: 250px;
     height: 50px;
-    display: block;
+    display: flex;
     text-indent: 5px;
+    padding: 16px !important;
     &:hover {
       color: var(--cx-color-primary);
       text-decoration: underline;
