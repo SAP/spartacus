@@ -43,7 +43,7 @@ export const quote = {
               close: 'Close cancel quote modal',
             },
             title: 'Cancel Quote Request {{ code }}?',
-            confirmNote: 'Are you sure you want to cancel this quote request',
+            confirmNote: 'Are you sure you want to cancel this quote request?',
             successMessage: 'Quote request cancelled',
           },
         },

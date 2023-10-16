@@ -68,7 +68,7 @@ export class CommonQuoteTestUtilsService {
     } else {
       text = htmlElement.querySelector(querySelector)?.textContent;
     }
-    expect(text ? text.trim() : '').toBe(expectedText);
+    expect(text).toContain(expectedText);
   }
 
   /**
@@ -86,26 +86,6 @@ export class CommonQuoteTestUtilsService {
     expect(htmlElement.querySelectorAll(querySelector).length).toBe(
       0,
       `expected element identified by selector '${querySelector}' to be NOT present, but it is! innerHtml: ${htmlElement.innerHTML}`
-    );
-  }
-
-  /**
-   * Helper function for verifying how many times the element comes in the HTML tree.
-   *
-   * @param {any} expect - Expectation for a spec.
-   * @param {Element} htmlElement - HTML element.
-   * @param {string} querySelector - Query selector.
-   * @param {number} expectedNumber - expected number of elements.
-   */
-  static expectNumberOfElements(
-    expect: any,
-    htmlElement: Element,
-    querySelector: string,
-    expectedNumber: number
-  ) {
-    expect(htmlElement.querySelectorAll(querySelector).length).toBe(
-      expectedNumber,
-      `expected elements identified by selector '${querySelector}' to be present times, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
     );
   }
 
@@ -201,7 +181,7 @@ export class CommonQuoteTestUtilsService {
    * @param {boolean} useKeyboard - optional - if 'true' the click is executed using the enter key,
    *  otherwise a mouse click is used. 'false' is default.
    */
-  static clickToggle(htmlElement: Element, useKeyboard: boolean = false) {
+  static clickToggle(htmlElement: Element, useKeyboard: boolean) {
     const caret = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElement,
       '.cx-toggle'

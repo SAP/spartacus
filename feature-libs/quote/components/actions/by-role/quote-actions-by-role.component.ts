@@ -41,7 +41,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   protected launchDialogService = inject(LaunchDialogService);
   protected viewContainerRef = inject(ViewContainerRef);
   protected globalMessageService = inject(GlobalMessageService);
-  protected config = inject(QuoteUIConfig);
+  protected quoteUIConfig = inject(QuoteUIConfig);
   protected activeCartFacade = inject(ActiveCartFacade);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
@@ -115,6 +115,8 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     action: QuoteActionType,
     context: ConfirmationContext
   ) {
+    this.subscription.unsubscribe();
+    this.subscription = new Subscription();
     this.subscription.add(
       this.launchDialogService.dialogClose
         .pipe(
@@ -164,7 +166,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     state: QuoteState,
     cartIsEmpty: boolean
   ): boolean {
-    const mappingConfig = this.config.quote?.confirmActionDialogMapping;
+    const mappingConfig = this.quoteUIConfig.quote?.confirmActionDialogMapping;
     const dialogConfig =
       mappingConfig?.[state]?.[action] ??
       mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action] ??
@@ -182,22 +184,23 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     const dialogConfig = this.getDialogConfig(action, quote.state);
     const confirmationContext: ConfirmationContext = {
       quote: quote,
-      title: dialogConfig.i18nKey + '.title',
-      confirmNote: dialogConfig.i18nKey + '.confirmNote',
+      title: dialogConfig.i18nKeyPrefix + '.title',
+      confirmNote: dialogConfig.i18nKeyPrefix + '.confirmNote',
       a11y: {
-        title: dialogConfig.i18nKey + '.a11y.title',
-        close: dialogConfig.i18nKey + '.a11y.close',
+        title: dialogConfig.i18nKeyPrefix + '.a11y.title',
+        close: dialogConfig.i18nKeyPrefix + '.a11y.close',
       },
     };
     if (dialogConfig.showWarningNote) {
-      confirmationContext.warningNote = dialogConfig.i18nKey + '.warningNote';
+      confirmationContext.warningNote =
+        dialogConfig.i18nKeyPrefix + '.warningNote';
     }
     if (dialogConfig.showExpirationDate) {
       confirmationContext.validity = 'quote.actions.confirmDialog.validity';
     }
     if (dialogConfig.showSuccessMessage) {
       confirmationContext.successMessage =
-        dialogConfig.i18nKey + '.successMessage';
+        dialogConfig.i18nKeyPrefix + '.successMessage';
     }
     return confirmationContext;
   }
@@ -206,7 +209,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     action: QuoteActionType,
     state: QuoteState
   ): ConfirmActionDialogConfig {
-    const mappingConfig = this.config.quote?.confirmActionDialogMapping;
+    const mappingConfig = this.quoteUIConfig.quote?.confirmActionDialogMapping;
 
     const config =
       mappingConfig?.[state]?.[action] ??

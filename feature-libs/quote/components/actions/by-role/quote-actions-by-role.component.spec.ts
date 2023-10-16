@@ -51,7 +51,7 @@ const mockQuote: Quote = {
 const testMappings: ConfirmActionDialogMappingConfig = {
   BUYER_OFFER: {
     EDIT: {
-      i18nKey: 'quote.actions.confirmDialog.buyer_offer.edit',
+      i18nKeyPrefix: 'quote.actions.confirmDialog.buyer_offer.edit',
       showWarningNote: true,
       showExpirationDate: true,
       showSuccessMessage: false,
@@ -60,7 +60,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   BUYER: {
     SUBMIT: {
-      i18nKey: 'quote.actions.confirmDialog.buyer.submit',
+      i18nKeyPrefix: 'quote.actions.confirmDialog.buyer.submit',
       showWarningNote: false,
       showExpirationDate: false,
       showSuccessMessage: true,
@@ -69,7 +69,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   EXPIRED: {
     REQUOTE: {
-      i18nKey: 'quote.actions.confirmDialog.expired.requote',
+      i18nKeyPrefix: 'quote.actions.confirmDialog.expired.requote',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
@@ -78,7 +78,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   ALL: {
     EDIT: {
-      i18nKey: 'quote.confirmActionDialog.all.edit',
+      i18nKeyPrefix: 'quote.confirmActionDialog.all.edit',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
@@ -334,8 +334,6 @@ describe('QuoteActionsByRoleComponent', () => {
   });
 
   describe('Threshold check', () => {
-    const attributeName = 'disabled';
-
     const allowedActionsSubmit = [
       { type: QuoteActionType.SUBMIT, isPrimary: true },
     ];
@@ -360,7 +358,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
     });
 
@@ -372,7 +370,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
     });
 
@@ -385,7 +383,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
       expect(globalMessageService.add).toHaveBeenCalled();
     });
@@ -399,7 +397,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
     });
 
@@ -411,7 +409,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
     });
 
@@ -554,7 +552,7 @@ describe('QuoteActionsByRoleComponent', () => {
           QuoteState.BUYER_OFFER
         )
       ).toEqual({
-        i18nKey: 'quote.actions.confirmDialog.buyer_offer.edit',
+        i18nKeyPrefix: 'quote.actions.confirmDialog.buyer_offer.edit',
         showWarningNote: true,
         showExpirationDate: true,
         showSuccessMessage: false,
@@ -568,7 +566,7 @@ describe('QuoteActionsByRoleComponent', () => {
           QuoteState.BUYER_DRAFT
         )
       ).toEqual({
-        i18nKey: 'quote.confirmActionDialog.all.edit',
+        i18nKeyPrefix: 'quote.confirmActionDialog.all.edit',
         showWarningNote: true,
         showExpirationDate: false,
         showSuccessMessage: false,
@@ -612,6 +610,16 @@ describe('QuoteActionsByRoleComponent', () => {
         mockQuote,
         QuoteActionType.EDIT
       );
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+    });
+
+    it("should perform quote action once if dialog was closed a few times selecting 'no', before finally selecting 'yes'", () => {
+      context.successMessage = undefined;
+      component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
+      launchDialogService.closeDialog('no');
+      component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
+      launchDialogService.closeDialog('yes');
+      expect(facade.performQuoteAction).toHaveBeenCalledTimes(1);
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
 

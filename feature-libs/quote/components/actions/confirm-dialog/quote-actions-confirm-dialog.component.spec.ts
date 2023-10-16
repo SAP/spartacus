@@ -178,7 +178,7 @@ describe('QuoteActionsConfirmDialogComponent', () => {
       );
     });
 
-    it("should contain div element with class name 'cx-visually-hidden' and 'aria-live' attribute that indicates that the appeared conflict solver modal requires the user's immediate attention", () => {
+    it("should contain div element with class name 'cx-visually-hidden' and 'aria-live' attribute that indicates that the appeared modal requires the user's attention", () => {
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -186,19 +186,19 @@ describe('QuoteActionsConfirmDialogComponent', () => {
         'cx-visually-hidden',
         0,
         'aria-live',
-        'assertive'
+        'polite'
       );
     });
 
-    it("should contain action button element with class name 'close' and 'aria-relevant' attribute that indicates what notifications a user will be triggered when the HTML tree within a live region is modified", () => {
+    it("should contain action div element with class name 'cx-visually-hidden' and 'aria-atomic' attribute that indicates whether a screen reader will present all changed region", () => {
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'div',
         'cx-visually-hidden',
         0,
-        'aria-relevant',
-        'additions'
+        'aria-atomic',
+        'true'
       );
     });
 

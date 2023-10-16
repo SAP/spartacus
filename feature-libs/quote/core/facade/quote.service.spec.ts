@@ -122,7 +122,7 @@ class MockQuoteConnector implements Partial<QuoteConnector> {
   createQuote = createSpy().and.returnValue(of(quote));
   editQuote = createSpy().and.returnValue(of(EMPTY));
   addComment = createSpy().and.returnValue(of(EMPTY));
-  addCartEntryComment = createSpy().and.returnValue(of(EMPTY));
+  addQuoteEntryComment = createSpy().and.returnValue(of(EMPTY));
   performQuoteAction = createSpy().and.returnValue(of(EMPTY));
   addDiscount = createSpy().and.returnValue(of(EMPTY));
 }
@@ -555,12 +555,12 @@ describe('QuoteService', () => {
       });
   });
 
-  it('should call addCartEntryComment command when an entry number is provided', () => {
+  it('should call addQuoteEntryComment command when an entry number is provided', () => {
     service
       .addQuoteComment(quote.code, quoteComment, '0')
       .pipe(take(1))
       .subscribe(() => {
-        expect(connector.addCartEntryComment).toHaveBeenCalledWith(
+        expect(connector.addQuoteEntryComment).toHaveBeenCalledWith(
           userId,
           quote.code,
           '0',

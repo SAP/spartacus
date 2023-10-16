@@ -68,7 +68,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
 
 describe('QuoteItemsComponent', () => {
   let mockedEventService: EventService;
-  let mockQuoteItemsService: QuoteItemsComponentService;
+  let mockQuoteItemsComponentService: QuoteItemsComponentService;
   let fixture: ComponentFixture<QuoteItemsComponent>;
   let htmlElem: HTMLElement;
   let component: QuoteItemsComponent;
@@ -94,7 +94,7 @@ describe('QuoteItemsComponent', () => {
           },
           {
             provide: QuoteItemsComponentService,
-            useValue: mockQuoteItemsService,
+            useValue: mockQuoteItemsComponentService,
           },
         ],
       }).compileComponents();
@@ -115,12 +115,14 @@ describe('QuoteItemsComponent', () => {
       'get',
       'dispatch',
     ]);
-    mockQuoteItemsService = jasmine.createSpyObj('QuoteItemsComponentService', [
-      'setQuoteEntriesExpanded',
-      'getQuoteEntriesExpanded',
-    ]);
+    mockQuoteItemsComponentService = jasmine.createSpyObj(
+      'QuoteItemsComponentService',
+      ['setQuoteEntriesExpanded', 'getQuoteEntriesExpanded']
+    );
     asSpy(mockedEventService.get).and.returnValue(EMPTY);
-    asSpy(mockQuoteItemsService.getQuoteEntriesExpanded).and.returnValue(true);
+    asSpy(
+      mockQuoteItemsComponentService.getQuoteEntriesExpanded
+    ).and.returnValue(true);
   }
 
   function asSpy(f: any) {
@@ -244,14 +246,14 @@ describe('QuoteItemsComponent', () => {
     it('should call quoteItemsComponentService correctly if argument is true', () => {
       component.onToggleShowOrHideCart(true);
       expect(
-        mockQuoteItemsService.setQuoteEntriesExpanded
+        mockQuoteItemsComponentService.setQuoteEntriesExpanded
       ).toHaveBeenCalledWith(false);
     });
 
     it('should call quoteItemsComponentService correctly if argument is false', () => {
       component.onToggleShowOrHideCart(false);
       expect(
-        mockQuoteItemsService.setQuoteEntriesExpanded
+        mockQuoteItemsComponentService.setQuoteEntriesExpanded
       ).toHaveBeenCalledWith(true);
     });
   });
@@ -279,9 +281,9 @@ describe('QuoteItemsComponent', () => {
   it('should toggle quote entries on enter', () => {
     CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
     fixture.detectChanges();
-    expect(mockQuoteItemsService.setQuoteEntriesExpanded).toHaveBeenCalledWith(
-      false
-    );
+    expect(
+      mockQuoteItemsComponentService.setQuoteEntriesExpanded
+    ).toHaveBeenCalledWith(false);
   });
 
   it('should toggle quote entries on click', () => {
@@ -289,9 +291,9 @@ describe('QuoteItemsComponent', () => {
     fixture.detectChanges();
     CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
     fixture.detectChanges();
-    expect(mockQuoteItemsService.setQuoteEntriesExpanded).toHaveBeenCalledWith(
-      true
-    );
+    expect(
+      mockQuoteItemsComponentService.setQuoteEntriesExpanded
+    ).toHaveBeenCalledWith(true);
   });
 
   it('should provide quote details observable', (done) => {
