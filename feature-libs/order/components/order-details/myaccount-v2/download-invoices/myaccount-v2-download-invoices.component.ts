@@ -14,7 +14,6 @@ import {
 } from '@angular/core';
 import { OrderOutlets } from '@spartacus/order/root';
 import { InvoicesListComponent } from '@spartacus/pdf-invoices/components';
-import { PDFInvoicesFacade } from '@spartacus/pdf-invoices/root';
 import {
   ICON_TYPE,
   FocusConfig,
@@ -40,12 +39,14 @@ export class MyAccountV2DownloadInvoicesComponent implements AfterViewChecked {
   };
 
   protected launchDialogService = inject(LaunchDialogService);
-  protected invoicesFacade = inject(PDFInvoicesFacade);
   protected cdr = inject(ChangeDetectorRef);
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
-    if (this.invoiceComponent.pagination !== undefined) {
+    if (
+      this.invoiceComponent &&
+      this.invoiceComponent.pagination !== undefined
+    ) {
       this.invoiceCount = this.invoiceComponent.pagination.totalResults;
     }
   }

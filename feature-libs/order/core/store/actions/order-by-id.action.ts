@@ -32,7 +32,7 @@ export class LoadOrderByIdSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export type OrderByIDAction =
+export type OrderByIdAction =
   | LoadOrderById
   | LoadOrderByIdFail
   | LoadOrderByIdSuccess;

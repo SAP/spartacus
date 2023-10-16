@@ -11,7 +11,7 @@ export const initialStateOfOrderById = undefined;
 
 export function reducer(
   state = initialStateOfOrderById,
-  action: OrderActions.OrderByIDAction
+  action: OrderActions.OrderByIdAction
 ): Order | undefined {
   switch (action.type) {
     case OrderActions.LOAD_ORDER_BY_ID_SUCCESS: {

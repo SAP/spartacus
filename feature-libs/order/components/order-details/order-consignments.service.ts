@@ -67,7 +67,7 @@ export class OrderConsignmentsService {
    * processing: 1
    * cancel: -1
    */
-  private getStatusGroupKey(status: string): number {
+  protected getStatusGroupKey(status: string): number {
     if (completedValues.includes(status)) {
       return 0;
     }

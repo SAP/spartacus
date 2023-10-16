@@ -24,11 +24,11 @@ import { auditTime, filter, map, switchMap, tap } from 'rxjs/operators';
 import { OrderActions } from '../store';
 import {
   getOrderById,
-  getOrderByIdEntityState,
+  getOrderByIdEntity,
 } from '../store/selectors/order-by-id.selector';
 import {
   getConsignmentTrackingById,
-  getConsignmentTrackingByIdEntityState,
+  getConsignmentTrackingByIdEntity,
 } from '../store/selectors/order-group.selectors';
 import { OrderHistoryService } from './order-history.service';
 import { OrderReturnRequestService } from './order-return-request.service';
@@ -182,7 +182,7 @@ export class MyAccountV2OrderHistoryService {
   protected getOrderDetailsState(
     code: string
   ): Observable<StateUtils.LoaderState<Order>> {
-    return this.store.select(getOrderByIdEntityState(code));
+    return this.store.select(getOrderByIdEntity(code));
   }
 
   protected loadOrderDetails(code: string) {
@@ -226,7 +226,7 @@ export class MyAccountV2OrderHistoryService {
     consignmentCode: string
   ): Observable<StateUtils.LoaderState<ConsignmentTracking>> {
     return this.store.select(
-      getConsignmentTrackingByIdEntityState(orderCode, consignmentCode)
+      getConsignmentTrackingByIdEntity(orderCode, consignmentCode)
     );
   }
 
