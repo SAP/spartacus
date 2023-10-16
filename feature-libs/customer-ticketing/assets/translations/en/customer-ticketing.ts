@@ -52,10 +52,4 @@ export const customerTicketing = {
     closeRequest: 'Close Request',
     ticketNotFound: 'Ticket not found.',
   },
-  myAccountV2CustomerTicketing: {
-    heading: 'Customer Service',
-    showMore: 'Show More',
-    changedOn: 'Changed On: {{value}}',
-    ticketId: 'ID: {{value}}',
-  },
 };

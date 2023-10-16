@@ -18,6 +18,6 @@ export const customerTicketingTranslationChunksConfig: TranslationChunksConfig =
       'customerTicketingList',
       'createCustomerTicket',
       'customerTicketingDetails',
-      'myAccountV2CustomerTicketing',
     ],
+    myAccountV2CustomerTicketing: ['myAccountV2CustomerTicketing'],
   };

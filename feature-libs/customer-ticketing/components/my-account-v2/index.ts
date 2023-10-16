@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './myaccount-v2-customer-ticketing.component';
-export * from './myaccount-v2-customer-ticketing.module';
+export * from './my-account-v2-customer-ticketing.component';
+export * from './my-account-v2-customer-ticketing.module';

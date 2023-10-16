@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MyAccountV2NavigationComponent } from './my-account-v2-navigation.component';
-import { CmsComponentData, NavigationNode, NavigationService } from '@spartacus/storefront';
+import {
+  CmsComponentData,
+  NavigationNode,
+  NavigationService,
+} from '@spartacus/storefront';
 import { CmsNavigationComponent } from '@spartacus/core';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
@@ -37,23 +41,26 @@ describe('MyAccountV2NavigationComponent', () => {
 
   beforeEach(
     waitForAsync(() => {
-     TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: NavigationService,
-          useValue: mockNavigationService,
-        },
-        {
-          provide: CmsComponentData,
-          useValue: MockCmsNavigationComponent,
-        },
-      ],
-      declarations: [MyAccountV2NavigationComponent, MockNavigationUIComponent],
-    }).compileComponents();
-  })
-);
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: NavigationService,
+            useValue: mockNavigationService,
+          },
+          {
+            provide: CmsComponentData,
+            useValue: MockCmsNavigationComponent,
+          },
+        ],
+        declarations: [
+          MyAccountV2NavigationComponent,
+          MockNavigationUIComponent,
+        ],
+      }).compileComponents();
+    })
+  );
 
-beforeEach(() => {
+  beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2NavigationComponent);
     component = fixture.componentInstance;
     component.styleClass$ = of(mockCmsComponentData.styleClass);

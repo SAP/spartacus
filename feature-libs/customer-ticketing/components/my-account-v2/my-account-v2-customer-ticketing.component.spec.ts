@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { TicketList } from '@spartacus/customer-ticketing/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
-import { MyAccountV2CustomerTicketingComponent } from './myaccount-v2-customer-ticketing.component';
+import { MyAccountV2CustomerTicketingComponent } from './my-account-v2-customer-ticketing.component';
 
 const mockTicketList: TicketList = {
   pagination: {},

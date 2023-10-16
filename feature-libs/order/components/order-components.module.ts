@@ -10,7 +10,7 @@ import {
   OrderCancellationModule,
   OrderReturnModule,
 } from './amend-order/index';
-import { MyAccountV2OrdersModule } from './myaccount-v2';
+import { MyAccountV2OrdersModule } from './my-account-v2';
 import { OrderConfirmationModule } from './order-confirmation/order-confirmation.module';
 import { OrderDetailsModule } from './order-details/order-details.module';
 import { OrderHistoryModule } from './order-history/order-history.module';

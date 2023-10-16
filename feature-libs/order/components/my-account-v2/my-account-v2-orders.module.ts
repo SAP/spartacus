@@ -16,7 +16,7 @@ import {
   AuthGuard,
 } from '@spartacus/core';
 import { MediaModule, SpinnerModule } from '@spartacus/storefront';
-import { MyAccountV2OrdersComponent } from './myaccount-v2-orders.component';
+import { MyAccountV2OrdersComponent } from './my-account-v2-orders.component';
 
 @NgModule({
   imports: [
