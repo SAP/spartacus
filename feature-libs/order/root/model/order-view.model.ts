@@ -14,10 +14,12 @@ import {
   Order,
 } from './order.model';
 
+// for my-account-v2: contains tracking information along with consignment details
 export interface ConsignmentView extends Consignment {
   consignmentTracking?: ConsignmentTracking;
 }
 
+// for my-account-v2: contains extra details for order history
 export interface OrderHistoryView extends OrderHistory {
   entries?: OrderEntry[];
   consignments?: ConsignmentView[];
