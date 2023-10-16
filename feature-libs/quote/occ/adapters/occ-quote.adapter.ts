@@ -37,9 +37,9 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccQuoteAdapter implements QuoteAdapter {
-  protected http = inject(HttpClient);
-  protected occEndpoints = inject(OccEndpointsService);
-  protected converter = inject(ConverterService);
+  protected httpClient = inject(HttpClient);
+  protected occEndpointsService = inject(OccEndpointsService);
+  protected converterService = inject(ConverterService);
 
   getQuotes(
     userId: string,
@@ -56,11 +56,11 @@ export class OccQuoteAdapter implements QuoteAdapter {
       params['sort'] = pagination.sort.toString();
     }
 
-    return this.http
+    return this.httpClient
       .get<QuoteList>(this.getQuotesEndpoint(userId, params))
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
-        this.converter.pipeable(QUOTE_LIST_NORMALIZER)
+        this.converterService.pipeable(QUOTE_LIST_NORMALIZER)
       );
   }
 
@@ -68,43 +68,43 @@ export class OccQuoteAdapter implements QuoteAdapter {
     userId: string,
     params?: PaginationModel
   ): string {
-    return this.occEndpoints.buildUrl('getQuotes', {
+    return this.occEndpointsService.buildUrl('getQuotes', {
       urlParams: { userId },
       queryParams: params,
     });
   }
 
   createQuote(userId: string, quoteStarter: QuoteStarter): Observable<Quote> {
-    quoteStarter = this.converter.convert(
+    quoteStarter = this.converterService.convert(
       quoteStarter,
       QUOTE_STARTER_SERIALIZER
     );
 
-    return this.http
+    return this.httpClient
       .post<OccQuote>(this.getCreateQuoteEndpoint(userId), quoteStarter)
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
-        this.converter.pipeable(QUOTE_NORMALIZER)
+        this.converterService.pipeable(QUOTE_NORMALIZER)
       );
   }
 
   protected getCreateQuoteEndpoint(userId: string): string {
-    return this.occEndpoints.buildUrl('createQuote', {
+    return this.occEndpointsService.buildUrl('createQuote', {
       urlParams: { userId },
     });
   }
 
   getQuote(userId: string, quoteCode: string): Observable<Quote> {
-    return this.http
+    return this.httpClient
       .get<OccQuote>(this.getQuoteEndpoint(userId, quoteCode))
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
-        this.converter.pipeable(QUOTE_NORMALIZER)
+        this.converterService.pipeable(QUOTE_NORMALIZER)
       );
   }
 
   protected getQuoteEndpoint(userId: string, quoteCode: string): string {
-    return this.occEndpoints.buildUrl('getQuote', {
+    return this.occEndpointsService.buildUrl('getQuote', {
       urlParams: { userId, quoteCode },
     });
   }
@@ -114,18 +114,18 @@ export class OccQuoteAdapter implements QuoteAdapter {
     quoteCode: string,
     quoteMetadata: QuoteMetadata
   ): Observable<unknown> {
-    quoteMetadata = this.converter.convert(
+    quoteMetadata = this.converterService.convert(
       quoteMetadata,
       QUOTE_METADATA_SERIALIZER
     );
 
-    return this.http
+    return this.httpClient
       .patch<Quote>(this.getEditQuoteEndpoint(userId, quoteCode), quoteMetadata)
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   protected getEditQuoteEndpoint(userId: string, quoteCode: string): string {
-    return this.occEndpoints.buildUrl('editQuote', {
+    return this.occEndpointsService.buildUrl('editQuote', {
       urlParams: { userId, quoteCode },
     });
   }
@@ -135,9 +135,12 @@ export class OccQuoteAdapter implements QuoteAdapter {
     quoteCode: string,
     quoteAction: QuoteActionType
   ): Observable<unknown> {
-    quoteAction = this.converter.convert(quoteAction, QUOTE_ACTION_SERIALIZER);
+    quoteAction = this.converterService.convert(
+      quoteAction,
+      QUOTE_ACTION_SERIALIZER
+    );
 
-    return this.http
+    return this.httpClient
       .post<unknown>(this.getPerformQuoteActionEndpoint(userId, quoteCode), {
         action: quoteAction,
       })
@@ -148,7 +151,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
     userId: string,
     quoteCode: string
   ): string {
-    return this.occEndpoints.buildUrl('performQuoteAction', {
+    return this.occEndpointsService.buildUrl('performQuoteAction', {
       urlParams: { userId, quoteCode },
     });
   }
@@ -158,12 +161,12 @@ export class OccQuoteAdapter implements QuoteAdapter {
     quoteCode: string,
     quoteComment: Comment
   ): Observable<unknown> {
-    quoteComment = this.converter.convert(
+    quoteComment = this.converterService.convert(
       quoteComment,
       QUOTE_COMMENT_SERIALIZER
     );
 
-    return this.http
+    return this.httpClient
       .post<unknown>(
         this.getAddCommentEndpoint(userId, quoteCode),
         quoteComment
@@ -172,7 +175,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
   }
 
   protected getAddCommentEndpoint(userId: string, quoteCode: string): string {
-    return this.occEndpoints.buildUrl('addComment', {
+    return this.occEndpointsService.buildUrl('addComment', {
       urlParams: { userId, quoteCode },
     });
   }
@@ -182,12 +185,12 @@ export class OccQuoteAdapter implements QuoteAdapter {
     quoteCode: string,
     quoteDiscount: QuoteDiscount
   ): Observable<unknown> {
-    quoteDiscount = this.converter.convert(
+    quoteDiscount = this.converterService.convert(
       quoteDiscount,
       QUOTE_DISCOUNT_SERIALIZER
     );
 
-    return this.http
+    return this.httpClient
       .post<unknown>(
         this.getAddDiscountEndpoint(userId, quoteCode),
         quoteDiscount
@@ -196,7 +199,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
   }
 
   protected getAddDiscountEndpoint(userId: string, quoteCode: string): string {
-    return this.occEndpoints.buildUrl('addDiscount', {
+    return this.occEndpointsService.buildUrl('addDiscount', {
       urlParams: { userId, quoteCode },
     });
   }
@@ -207,9 +210,9 @@ export class OccQuoteAdapter implements QuoteAdapter {
     entryNumber: string,
     comment: Comment
   ): Observable<unknown> {
-    comment = this.converter.convert(comment, QUOTE_COMMENT_SERIALIZER);
+    comment = this.converterService.convert(comment, QUOTE_COMMENT_SERIALIZER);
 
-    return this.http
+    return this.httpClient
       .post<unknown>(
         this.getAddQuoteEntryCommentEndpoint(userId, quoteCode, entryNumber),
         comment
@@ -222,7 +225,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
     quoteCode: string,
     entryNumber: string
   ): string {
-    return this.occEndpoints.buildUrl('addQuoteEntryComment', {
+    return this.occEndpointsService.buildUrl('addQuoteEntryComment', {
       urlParams: { userId, quoteCode, entryNumber },
     });
   }
