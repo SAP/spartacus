@@ -7,6 +7,7 @@
   <!-- SHOW MORE -->
   <div class="cx-myaccount-view-show-more">
     <a
+      id="show-more-orders"
       class="btn-link cx-action-link"
       [routerLink]="
         {
@@ -43,7 +44,7 @@
               <div class="cx-myaccount-view-order-column-1">
                 <div class="cx-myaccount-view-order-column-1-image">
                   <cx-media
-                    [container]="product.images.PRIMARY"
+                    [container]="product.images?.PRIMARY"
                     class="cx-myaccount-view-order-img"
                     format="thumbnail"
                     role="presentation"

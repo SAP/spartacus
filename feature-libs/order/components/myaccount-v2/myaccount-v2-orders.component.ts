@@ -29,6 +29,7 @@ export class MyAccountV2OrdersComponent implements OnDestroy {
           return entry.product;
         }
       }
+      return order.entries[0].product;
     }
   }
   ngOnDestroy(): void {
