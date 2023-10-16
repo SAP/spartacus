@@ -41,9 +41,9 @@ describe('SSR E2E', () => {
     const response: any = await ProxyServer.sendRequest(REQUEST_PATH);
     expect(response.statusCode).toEqual(200);
     Log.waitUntilLogContainsText(`Rendering completed (${REQUEST_PATH})`);
+
     const response2: any = await ProxyServer.sendRequest(REQUEST_PATH);
     expect(response2.statusCode).toEqual(200);
-
     Log.assertMessages([`Render from cache (${REQUEST_PATH})`]);
   });
 
@@ -64,17 +64,17 @@ describe('SSR E2E', () => {
   });
 
   it('should receive 500 error response with timed-out request', async () => {
-    await Ssr.startSsrServer(4000, 'SSR_TIMEOUT=3000');
+    const TIMEOUT = 2000;
+    await Ssr.startSsrServer(4000, `SSR_TIMEOUT=${TIMEOUT} SSR_DEBUG=1`);
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
-      delay: 10000,
+      delay: 4000,
     });
     const response: any = await ProxyServer.sendRequest(REQUEST_PATH);
 
-    // Waits a time for server to timeout
-    await new Promise((res) => setTimeout(res, 15000));
-
+    await Log.waitUntilLogContainsText(
+      `SSR rendering exceeded timeout ${TIMEOUT}, fallbacking to CSR for ${REQUEST_PATH}`
+    );
     expect(response.statusCode).toEqual(500);
-    Log.assertMessages(['timeout']);
-  }, 60000);
+  }, 10000);
 });

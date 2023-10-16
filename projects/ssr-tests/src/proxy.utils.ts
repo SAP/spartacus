@@ -48,10 +48,7 @@ export async function startProxyServer(options: ProxyOptions) {
       }
 
       if (options.delay) {
-        console.log(options.delay);
-        setTimeout(() => {
-          forwardRequest();
-        }, options.delay);
+        setTimeout(forwardRequest, options.delay);
       } else {
         forwardRequest();
       }
