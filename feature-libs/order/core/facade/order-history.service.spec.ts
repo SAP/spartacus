@@ -134,6 +134,27 @@ describe('OrderHistoryService', () => {
     expect(orderListLoaded).toEqual(true);
   });
 
+  it('should be able to get order list loading flag', () => {
+    let orderListLoading: boolean;
+    userOrderService
+      .getOrderHistoryListLoading()
+      .subscribe((data) => {
+        orderListLoading = data;
+      });
+
+    store.dispatch(new OrderActions.LoadUserOrders({
+      userId: OCC_USER_ID_CURRENT,
+      pageSize: 10,
+      currentPage: 1,
+      sort: 'byDate',
+      replenishmentOrderCode: undefined,
+    }));
+    expect(orderListLoading).toEqual(true);
+
+    store.dispatch(new OrderActions.LoadUserOrdersSuccess({}));
+    expect(orderListLoading).toEqual(false);
+  });
+
   it('should be able to load order list data when replenishment order code is NOT defined', () => {
     userOrderService.loadOrderList(10, 1, 'byDate');
 

@@ -75,6 +75,11 @@ export abstract class OrderHistoryFacade {
   abstract getOrderHistoryListLoaded(): Observable<boolean>;
 
   /**
+   * Returns a loading flag for order history list
+   */
+  abstract getOrderHistoryListLoading(): Observable<boolean>;
+
+  /**
    * Retrieves an order list
    * @param pageSize page size
    * @param currentPage current page
