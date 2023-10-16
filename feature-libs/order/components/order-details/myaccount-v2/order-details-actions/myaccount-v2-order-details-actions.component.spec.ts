@@ -96,7 +96,7 @@ describe('MyAccountV2OrderDetailsActionsComponent', () => {
 
   it('should trigger download invoices event', () => {
     spyOn(component, 'showDialog').and.callThrough();
-    spyOn(event,'dispatch');
+    spyOn(event, 'dispatch');
     component.order$ = of(mockOrder1);
     fixture.detectChanges();
     let download_button = fixture.debugElement.nativeElement.querySelector(
