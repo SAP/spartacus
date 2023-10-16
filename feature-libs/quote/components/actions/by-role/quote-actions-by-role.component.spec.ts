@@ -322,8 +322,6 @@ describe('QuoteActionsByRoleComponent', () => {
   });
 
   describe('Threshold check', () => {
-    const attributeName = 'disabled';
-
     const allowedActionsSubmit = [
       { type: QuoteActionType.SUBMIT, isPrimary: true },
     ];
@@ -348,7 +346,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
     });
 
@@ -360,7 +358,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
     });
 
@@ -373,7 +371,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
       expect(globalMessageService.add).toHaveBeenCalled();
     });
@@ -387,7 +385,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
     });
 
@@ -399,7 +397,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
     });
 
