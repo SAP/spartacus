@@ -9,6 +9,7 @@ import { defineConfig } from 'cypress';
 export default defineConfig({
   defaultCommandTimeout: 10000,
   requestTimeout: 15000,
+  chromeWebSecurity: false,
   retries: {
     runMode: 2,
   },
@@ -23,6 +24,7 @@ export default defineConfig({
     OCC_PREFIX: '/occ/v2',
     OCC_PREFIX_USER_ENDPOINT: 'users',
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
+    RECAPTCHA_PUBLIC_KEY: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
     BACK_OFFICE_URL: 'https://40.76.109.9:9002',
     BACK_OFFICE_PREFIX: '/backoffice',
   },
