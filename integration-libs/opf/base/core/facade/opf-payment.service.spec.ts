@@ -10,6 +10,9 @@ import { Observable, of } from 'rxjs';
 import {
   ActiveConfiguration,
   AfterRedirectScriptResponse,
+  CtaScriptsLocation,
+  CtaScriptsRequest,
+  CtaScriptsResponse,
   OpfPaymentProviderType,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
@@ -39,6 +42,12 @@ class MockPaymentConnector implements Partial<OpfPaymentConnector> {
   getActiveConfigurations(): Observable<ActiveConfiguration[]> {
     return of(mockActiveConfigurations);
   }
+  getCtaScripts(
+    ctaScriptsRequest: CtaScriptsRequest
+  ): Observable<CtaScriptsResponse> {
+    console.log(ctaScriptsRequest);
+    return of(MockCtaScriptsResponse);
+  }
 }
 
 class MockOpfPaymentHostedFieldsService {
@@ -67,6 +76,48 @@ const mockActiveConfigurations: ActiveConfiguration[] = [
     displayName: 'Test2',
   },
 ];
+
+const MockCtaRequest: CtaScriptsRequest = {
+  orderId: '00259012',
+  ctaProductItems: [
+    {
+      productId: '301233',
+      quantity: 1,
+    },
+    {
+      productId: '2231913',
+      quantity: 1,
+    },
+    {
+      productId: '1776948',
+      quantity: 1,
+    },
+  ],
+  scriptLocations: [CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE],
+};
+
+const MockCtaScriptsResponse: CtaScriptsResponse = {
+  value: [
+    {
+      paymentAccountId: '1',
+      dynamicScript: {
+        html: "<h2>CTA Html snippet #1</h2><script>alert('CTA Script #1 is running')</script>",
+        cssUrls: [
+          {
+            url: 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.2.1/adyen.css',
+            sri: '',
+          },
+        ],
+        jsUrls: [
+          {
+            url: 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.2.1/adyen.js',
+            sri: '',
+          },
+        ],
+      },
+    },
+  ],
+};
 
 describe('OpfPaymentService', () => {
   let service: OpfPaymentService;
@@ -254,16 +305,28 @@ describe('OpfPaymentService', () => {
     expect(connectorSpy).toHaveBeenCalledWith(paymentSessionId);
   });
 
-  describe(`getActiveConfigurationsState`, () => {
-    it(`should return mockActiveConfigurations data`, (done) => {
-      service.getActiveConfigurationsState().subscribe((state) => {
-        expect(state).toEqual({
-          loading: false,
-          error: false,
-          data: mockActiveConfigurations,
-        });
-        done();
+  // describe(`getActiveConfigurationsState`, () => {
+  it(`should return mockActiveConfigurations data`, (done) => {
+    service.getActiveConfigurationsState().subscribe((state) => {
+      expect(state).toEqual({
+        loading: false,
+        error: false,
+        data: mockActiveConfigurations,
       });
+      done();
     });
   });
+
+  it(`should return ctaScripts data`, (done) => {
+    const connectorCtaSpy = spyOn(
+      paymentConnector,
+      'getCtaScripts'
+    ).and.callThrough();
+
+    service.getCtaScripts(MockCtaRequest).subscribe(() => {
+      expect(connectorCtaSpy).toHaveBeenCalledWith(MockCtaRequest);
+      done();
+    });
+  });
+  // });
 });

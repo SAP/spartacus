@@ -31,7 +31,7 @@ import {
         'submitCompletePayment',
         'afterRedirectScripts',
         'getActiveConfigurationsState',
-        'ctaScripts',
+        'getCtaScripts',
       ],
     }),
 })
@@ -79,7 +79,7 @@ export abstract class OpfPaymentFacade {
     QueryState<ActiveConfiguration[] | undefined>
   >;
 
-  abstract ctaScripts(
+  abstract getCtaScripts(
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<CtaScriptsResponse>;
 }

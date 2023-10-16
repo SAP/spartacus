@@ -1,9 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import {
-  CmsService,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { CmsService } from '@spartacus/core';
 import { Order, OrderFacade, OrderHistoryFacade } from '@spartacus/order/root';
 import { Observable, from, of, throwError } from 'rxjs';
 import {
@@ -34,7 +30,6 @@ export class OpfCtaScriptsService {
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected orderDetailsService = inject(OrderFacade);
   protected orderHistoryService = inject(OrderHistoryFacade);
-  protected globalMessageService = inject(GlobalMessageService);
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);
   protected cmsService = inject(CmsService);
 
@@ -150,7 +145,7 @@ export class OpfCtaScriptsService {
   }
 
   protected fetchCtaScriptsList(ctaScriptsRequest: CtaScriptsRequest) {
-    return this.opfPaymentFacade.ctaScripts(ctaScriptsRequest).pipe(
+    return this.opfPaymentFacade.getCtaScripts(ctaScriptsRequest).pipe(
       map((ctaScriptsResponse: CtaScriptsResponse) => {
         console.log('ctaScriptsResponse', ctaScriptsResponse);
         // mock for test purpose until PSP ready
@@ -273,14 +268,7 @@ export class OpfCtaScriptsService {
       : [];
   }
 
-  protected displayError(errorKey: string): void {
-    this.globalMessageService.add(
-      { key: `opf.checkout.errors.${errorKey}` },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
-  }
-
-  loadAndRunScript(
+  protected loadAndRunScript(
     script: OpfDynamicScript
   ): Promise<OpfDynamicScript | undefined> {
     const html = script?.html;

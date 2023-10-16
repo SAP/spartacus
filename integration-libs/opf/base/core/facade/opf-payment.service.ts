@@ -81,7 +81,7 @@ export class OpfPaymentService implements OpfPaymentFacade {
     },
     CtaScriptsResponse
   > = this.commandService.create((payload) => {
-    return this.opfPaymentConnector.ctaScripts(payload.ctaScriptsRequest);
+    return this.opfPaymentConnector.getCtaScripts(payload.ctaScriptsRequest);
   });
 
   protected activeConfigurationsQuery: Query<ActiveConfiguration[]> =
@@ -128,7 +128,7 @@ export class OpfPaymentService implements OpfPaymentFacade {
     return this.activeConfigurationsQuery.getState();
   }
 
-  ctaScripts(ctaScriptsRequest: CtaScriptsRequest) {
+  getCtaScripts(ctaScriptsRequest: CtaScriptsRequest) {
     return this.ctaScriptsCommand.execute({ ctaScriptsRequest });
   }
 }

@@ -186,7 +186,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
       );
   }
 
-  ctaScripts(
+  getCtaScripts(
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<CtaScriptsResponse> {
     const headers = new HttpHeaders(this.header).set(
@@ -240,6 +240,6 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
   }
 
   protected getCtaScriptsEndpoint(): string {
-    return this.opfEndpointsService.buildUrl('ctaScripts');
+    return this.opfEndpointsService.buildUrl('getCtaScripts');
   }
 }

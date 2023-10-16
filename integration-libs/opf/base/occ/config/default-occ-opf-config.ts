@@ -16,7 +16,7 @@ export const defaultOccOpfConfig: OccConfig = {
         afterRedirectScripts:
           'payments/${paymentSessionId}/after-redirect-scripts',
         getActiveConfigurations: 'active-configurations',
-        ctaScripts: 'payments/cta-scripts-rendering',
+        getCtaScripts: 'payments/cta-scripts-rendering',
       },
     },
   },

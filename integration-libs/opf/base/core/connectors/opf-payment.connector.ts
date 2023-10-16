@@ -62,9 +62,9 @@ export class OpfPaymentConnector {
     return this.adapter.getActiveConfigurations();
   }
 
-  public ctaScripts(
+  public getCtaScripts(
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<CtaScriptsResponse> {
-    return this.adapter.ctaScripts(ctaScriptsRequest);
+    return this.adapter.getCtaScripts(ctaScriptsRequest);
   }
 }
