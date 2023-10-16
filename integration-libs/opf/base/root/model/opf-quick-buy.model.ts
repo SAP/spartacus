@@ -64,6 +64,6 @@ export interface CtaScriptsResponse {
 }
 
 export interface CtaScript {
-  paymentAccountId: string;
+  paymentAccountId: number;
   dynamicScript: OpfDynamicScript;
 }

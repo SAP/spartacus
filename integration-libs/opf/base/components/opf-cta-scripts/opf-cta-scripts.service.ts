@@ -13,6 +13,7 @@ import {
   tap,
 } from 'rxjs/operators';
 
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   CmsPageLocation,
   CtaScriptsLocation,
@@ -57,7 +58,7 @@ export class OpfCtaScriptsService {
     return this.opfPaymentFacade.getCtaScripts(ctaScriptsRequest).pipe(
       concatMap((ctaScriptsResponse: CtaScriptsResponse) => {
         if (!ctaScriptsResponse?.value?.length) {
-          return throwError({ error: 'Unvalid CTA Scripts Response' });
+          return throwError('Invalid CTA Scripts Response');
         }
         return of(
           ctaScriptsResponse.value.map((ctaScript) => ctaScript.dynamicScript)
@@ -75,7 +76,7 @@ export class OpfCtaScriptsService {
         paymentAccountIds = paymentAccountIds;
         return this.getScriptLocation();
       }),
-      concatMap((scriptsLocation: CtaScriptsLocation) => {
+      concatMap((scriptsLocation: CtaScriptsLocation | null) => {
         return this.fillRequestForTargetPage(
           scriptsLocation,
           paymentAccountIds
@@ -85,7 +86,7 @@ export class OpfCtaScriptsService {
   }
 
   protected fillRequestForTargetPage(
-    scriptsLocation: CtaScriptsLocation,
+    scriptsLocation: CtaScriptsLocation | null,
     paymentAccountIds: number[]
   ): Observable<CtaScriptsRequest> {
     if (scriptsLocation == CtaScriptsLocation.PDP_QUICK_BUY) {
@@ -111,7 +112,7 @@ export class OpfCtaScriptsService {
       map((order) => {
         const ctaScriptsRequest: CtaScriptsRequest = {
           orderId: order?.code,
-          ctaProductItems: this.getProductItems(order),
+          ctaProductItems: this.getProductItems(order as Order),
           paymentAccountIds: paymentAccountIds,
           scriptLocations: [scriptLocation],
         };
@@ -160,7 +161,7 @@ export class OpfCtaScriptsService {
     );
   }
 
-  protected getScriptLocation(): Observable<CtaScriptsLocation> {
+  protected getScriptLocation(): Observable<CtaScriptsLocation | null> {
     return this.cmsService.getCurrentPage().pipe(
       take(1),
       concatMap((page) => {
@@ -172,7 +173,7 @@ export class OpfCtaScriptsService {
           case CmsPageLocation.PDP_PAGE:
             return of(CtaScriptsLocation.PDP_QUICK_BUY);
           default:
-            return throwError({ error: 'Page not valid' });
+            return of(null);
         }
       })
     );
@@ -184,17 +185,8 @@ export class OpfCtaScriptsService {
         ? this.orderDetailsService.getOrderDetails()
         : this.orderHistoryService.getOrderDetails();
     return order$.pipe(
-      filter((order) => !!order?.entries),
-      concatMap((order) => {
-        if (!order) {
-          return throwError({ error: 'Order obj not found' });
-        }
-        if (!order?.entries) {
-          return throwError({ error: 'Order entries not found' });
-        }
-        return of(order);
-      })
-    );
+      filter((order) => !!order?.entries)
+    ) as Observable<Order>;
   }
 
   protected getPaymentAccountIds() {
@@ -209,18 +201,16 @@ export class OpfCtaScriptsService {
   protected getProductItems(
     order: Order
   ): { productId: string; quantity: number }[] | [] {
-    return !!order.entries
-      ? order.entries
-          ?.filter((item) => {
-            return !!item?.product?.code && !!item?.quantity;
-          })
-          .map((item) => {
-            return {
-              productId: item.product?.code as string,
-              quantity: item.quantity as number,
-            };
-          })
-      : [];
+    return (order.entries as OrderEntry[])
+      .filter((item) => {
+        return !!item?.product?.code && !!item?.quantity;
+      })
+      .map((item) => {
+        return {
+          productId: item.product?.code as string,
+          quantity: item.quantity as number,
+        };
+      });
   }
 
   protected loadAndRunScript(

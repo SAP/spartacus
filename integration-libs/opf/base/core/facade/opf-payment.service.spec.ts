@@ -99,7 +99,7 @@ const MockCtaRequest: CtaScriptsRequest = {
 const MockCtaScriptsResponse: CtaScriptsResponse = {
   value: [
     {
-      paymentAccountId: '1',
+      paymentAccountId: 1,
       dynamicScript: {
         html: "<h2>CTA Html snippet #1</h2><script>alert('CTA Script #1 is running')</script>",
         cssUrls: [
