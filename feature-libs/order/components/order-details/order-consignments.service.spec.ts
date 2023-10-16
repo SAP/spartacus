@@ -1,105 +1,62 @@
 import { OrderConsignmentsService } from './order-consignments.service';
 import { TestBed } from '@angular/core/testing';
 import { Order } from '@spartacus/order/root';
-
+const order: Order = {
+  unconsignedEntries: [
+    {
+      deliveryPointOfService: {},
+    },
+    {},
+    {},
+  ],
+};
+const order2: Order = {
+  consignments: [
+    { status: 'SHIPPED', deliveryPointOfService: {} },
+    { status: 'IN_TRANSIT' },
+    { status: 'DELIVERY_COMPLETED', deliveryPointOfService: {} },
+  ],
+};
 describe('OrderConsignmentsService', () => {
-  let orderConsignmentsService: OrderConsignmentsService;
+  let service: OrderConsignmentsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [OrderConsignmentsService],
     });
-    orderConsignmentsService = TestBed.inject(OrderConsignmentsService);
+    service = TestBed.inject(OrderConsignmentsService);
   });
 
   it('should be created', () => {
-    expect(orderConsignmentsService).toBeTruthy();
+    expect(service).toBeTruthy();
   });
 
-  it('should group consignments by status', () => {
-    const order: Order = {
-      consignments: [
-        { status: 'SHIPPED' },
-        { status: 'IN_TRANSIT' },
-        { status: 'DELIVERY_COMPLETED' },
-      ],
-    };
+  it('should return group consignments with prickup false', () => {
+    let groupedConsignments = service.getGroupedConsignments(order2, false);
 
-    const groupedConsignments = orderConsignmentsService.getGroupedConsignments(
-      order,
-      false
-    );
+    expect(groupedConsignments).toEqual([{ status: 'IN_TRANSIT' }]);
+  });
+  it('should return group consignments with prickup true', () => {
+    let groupedConsignments = service.getGroupedConsignments(order2, true);
 
     expect(groupedConsignments).toEqual([
-      { status: 'SHIPPED' },
-      { status: 'IN_TRANSIT' },
-      { status: 'DELIVERY_COMPLETED' },
+      { status: 'SHIPPED', deliveryPointOfService: {} },
+      { status: 'DELIVERY_COMPLETED', deliveryPointOfService: {} },
     ]);
   });
 
-  it('should return the unconsigned entries for pickup if the pickup parameter is true', () => {
-    const order: Order = {
-      unconsignedEntries: [
-        {
-          deliveryPointOfService: {
-            address: {
-              line1: '123',
-              line2: 'Main Street',
-            },
-            name: 'xyz',
-          },
-        },
-        {
-          deliveryPointOfService: undefined,
-        },
-      ],
-    };
-
-    const unconsignedEntries = orderConsignmentsService.getUnconsignedEntries(
-      order,
-      true
-    );
-
+  it('should return the unconsigned entries with pickup true', () => {
+    let unconsignedEntries = service.getUnconsignedEntries(order, true);
     expect(unconsignedEntries).toEqual([
       {
-        deliveryPointOfService: {
-          address: {
-            line1: '123',
-            line2: 'Main Street',
-          },
-          name: 'xyz',
-        },
+        deliveryPointOfService: {},
       },
     ]);
   });
 
-  it('should return the unconsigned entries for delivery if the pickup parameter is false', () => {
-    const order: Order = {
-      unconsignedEntries: [
-        {
-          deliveryPointOfService: {
-            address: {
-              line1: '123',
-              line2: 'Main Street',
-            },
-            name: 'xyz',
-          },
-        },
-        {
-          deliveryPointOfService: undefined,
-        },
-      ],
-    };
+  it('should return the unconsigned entriess with pickup false', () => {
+    let unconsignedEntries = service.getUnconsignedEntries(order, false);
 
-    const unconsignedEntries = orderConsignmentsService.getUnconsignedEntries(
-      order,
-      false
-    );
-
-    expect(unconsignedEntries).toEqual([
-      {
-        deliveryPointOfService: undefined,
-      },
-    ]);
+    expect(unconsignedEntries).toEqual([{}, {}]);
   });
 });

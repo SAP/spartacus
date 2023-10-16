@@ -2,6 +2,7 @@ import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  EventService,
   I18nModule,
   RoutingService,
   TranslationService,
@@ -47,6 +48,7 @@ describe('MyAccountV2OrderDetailsActionsComponent', () => {
   let component: MyAccountV2OrderDetailsActionsComponent;
   let fixture: ComponentFixture<MyAccountV2OrderDetailsActionsComponent>;
   let el: DebugElement;
+  let event: EventService;
 
   beforeEach(
     waitForAsync(() => {
@@ -63,6 +65,7 @@ describe('MyAccountV2OrderDetailsActionsComponent', () => {
           MockOrderDetailActionsComponent,
         ],
       }).compileComponents();
+      event = TestBed.inject(EventService);
     })
   );
 
@@ -92,7 +95,8 @@ describe('MyAccountV2OrderDetailsActionsComponent', () => {
   });
 
   it('should trigger download invoices event', () => {
-    spyOn(component, 'showDialog');
+    spyOn(component, 'showDialog').and.callThrough();
+    spyOn(event,'dispatch');
     component.order$ = of(mockOrder1);
     fixture.detectChanges();
     let download_button = fixture.debugElement.nativeElement.querySelector(
@@ -100,5 +104,6 @@ describe('MyAccountV2OrderDetailsActionsComponent', () => {
     );
     download_button.click(mockOrder1);
     expect(component.showDialog).toHaveBeenCalledWith(mockOrder1);
+    expect(event.dispatch).toHaveBeenCalled();
   });
 });
