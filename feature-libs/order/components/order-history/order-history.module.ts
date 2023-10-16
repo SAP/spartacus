@@ -23,12 +23,12 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { OrderHistoryComponent } from './order-history.component';
+import { MY_ACCOUNT_V2_ORDER } from '@spartacus/order/root';
 import {
-  MyAccountV2ConsignmentEntriesComponent,
-  MyAccountV2OrderConsolidatedInformationComponent,
   MyAccountV2OrderHistoryComponent,
-} from './myaccount-v2';
-import { MYACCOUNT_V2_ORDER } from '@spartacus/order/root';
+  MyAccountV2OrderConsolidatedInformationComponent,
+  MyAccountV2ConsignmentEntriesComponent,
+} from './my-account-v2';
 
 const myAccountV2CmsMapping: CmsConfig = {
   cmsComponents: {
@@ -69,7 +69,7 @@ const moduleComponents = [
       },
     }),
     provideDefaultConfigFactory(() =>
-      inject(MYACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
+      inject(MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
     ),
   ],
 })
