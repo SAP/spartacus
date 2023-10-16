@@ -1,16 +1,20 @@
-<ng-container *ngIf="ctaHtmlList$ | async as ctaHtmlList; else loading">
-  <ng-container *ngIf="ctaHtmlList?.length">
-    <cx-opf-cta-button
-      *ngFor="let ctaHtml of ctaHtmlList"
-      [ctaScriptHtml]="ctaHtml"
-    ></cx-opf-cta-button>
+<ng-container *ngIf="!(isError$ | async); else errorTemplate">
+  <ng-container *ngIf="ctaHtmlList$ | async as ctaHtmlList; else loading">
+    <ng-container *ngIf="ctaHtmlList?.length">
+      <cx-opf-cta-button
+        *ngFor="let ctaHtml of ctaHtmlList"
+        [ctaScriptHtml]="ctaHtml"
+      ></cx-opf-cta-button>
+    </ng-container>
   </ng-container>
 </ng-container>
-
 <ng-template #loading>
   <div class="cx-spinner">
     <cx-spinner></cx-spinner>
   </div>
+</ng-template>
+<ng-template #errorTemplate>
+  <div>Error:</div>
 </ng-template>
 
 <!-- <div *ngIf="ctaHtml" [innerHTML]="renderHtml(ctaHtml)"></div> -->

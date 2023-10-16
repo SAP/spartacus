@@ -1,0 +1,22 @@
+{
+  "value": [
+    {
+      "paymentAccountId": 1,
+      "dynamicScript": {
+        "html": "<div  style=\"border-style: solid;text-align:centerheight:200px;align-content:center;background-color:yellow; color:black\"><h2>Please use promo code <b>123abc</b></h2><h3>This promo code is still valid for 19 days<h3></div><script>console.log('CTA Script #1 is running')</script>",
+        "cssUrls": [
+          {
+            "url": "https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.2.1/adyen.css",
+            "sri": ""
+          }
+        ],
+        "jsUrls": [
+          {
+            "url": "https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.2.1/adyen.js",
+            "sri": ""
+          }
+        ]
+      }
+    }
+  ]
+}

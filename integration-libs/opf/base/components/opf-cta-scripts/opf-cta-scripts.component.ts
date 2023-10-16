@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { OpfResourceLoaderService } from '@spartacus/opf/base/root';
+import { OpfPaymentErrorHandlerService } from '@spartacus/opf/base/core';
+import { BehaviorSubject, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
 
 @Component({
@@ -9,7 +11,15 @@ import { OpfCtaScriptsService } from './opf-cta-scripts.service';
 })
 export class OpfCtaScriptsComponent {
   protected opfCtaScriptService = inject(OpfCtaScriptsService);
-  protected opfResourceLoaderService = inject(OpfResourceLoaderService);
+  protected opfPaymentErrorHandlerService = inject(
+    OpfPaymentErrorHandlerService
+  );
+  isError$ = new BehaviorSubject<boolean>(false);
 
-  ctaHtmlList$ = this.opfCtaScriptService.getCtaHtmlslList();
+  ctaHtmlList$ = this.opfCtaScriptService.getCtaHtmlslList().pipe(
+    catchError((error) => {
+      this.isError$.next(true);
+      return throwError(error);
+    })
+  );
 }

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { CmsService } from '@spartacus/core';
+import { CmsService, Product, isNotNullable } from '@spartacus/core';
 import { Order, OrderFacade, OrderHistoryFacade } from '@spartacus/order/root';
 import { Observable, from, of, throwError } from 'rxjs';
 import {
@@ -22,6 +22,7 @@ import {
   OpfPaymentFacade,
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
+import { CurrentProductService } from '@spartacus/storefront';
 
 @Injectable({
   providedIn: 'root',
@@ -32,101 +33,7 @@ export class OpfCtaScriptsService {
   protected orderHistoryService = inject(OrderHistoryFacade);
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);
   protected cmsService = inject(CmsService);
-
-  protected mock = {
-    value: [
-      {
-        paymentAccountId: 1,
-        dynamicScript: {
-          html: "<h2>CTA Html snippet #1</h2><script>alert('CTA Script #1 is running')</script>",
-          cssUrls: [
-            {
-              url: 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.2.1/adyen.css',
-              sri: '',
-            },
-          ],
-          jsUrls: [
-            {
-              url: 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.2.1/adyen.js',
-              sri: '',
-            },
-          ],
-        },
-      },
-      {
-        paymentAccountId: 2,
-        dynamicScript: {
-          html: "<h2>CTA Html snippet #2</h2><script>alert('CTA Script #2 is running')</script>",
-          cssUrls: [
-            {
-              url: 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.2.2/adyen.css',
-              sri: '',
-            },
-          ],
-          jsUrls: [
-            {
-              url: 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.2.2/adyen.js',
-              sri: '',
-            },
-          ],
-        },
-      },
-      {
-        paymentAccountId: 3,
-        dynamicScript: {
-          html: "<h2>CTA Html snippet #3</h2><script>alert('CTA Script #3 is running')</script>",
-          cssUrls: [
-            {
-              url: 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.2.3/adyen.css',
-              sri: '',
-            },
-          ],
-          jsUrls: [
-            {
-              url: 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.2.3/adyen.js',
-              sri: '',
-            },
-          ],
-        },
-      },
-      {
-        paymentAccountId: 4,
-        dynamicScript: {
-          html: "<h2>CTA Html snippet #4</h2><script>alert('CTA Script #4 is running')</script>",
-          cssUrls: [
-            {
-              url: 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.2.x/adyen.css',
-              sri: '',
-            },
-          ],
-          jsUrls: [
-            {
-              url: 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.2.0/adyen.js',
-              sri: '',
-            },
-          ],
-        },
-      },
-      {
-        paymentAccountId: 5,
-        dynamicScript: {
-          html: "<h2>CTA Html snippet #5</h2><script>alert('CTA Script #5 is running')</script>",
-          cssUrls: [
-            {
-              url: 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.1.x/adyen.css',
-              sri: '',
-            },
-          ],
-          jsUrls: [
-            {
-              url: 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.1.0/adyen.js',
-              sri: '',
-            },
-          ],
-        },
-      },
-    ],
-  };
+  protected currentProductService = inject(CurrentProductService);
 
   getCtaHtmlslList(): Observable<string[]> {
     return this.fillCtaScriptRequest().pipe(
@@ -144,15 +51,17 @@ export class OpfCtaScriptsService {
     this.opfResourceLoaderService.clearAllProviderResources();
   }
 
-  protected fetchCtaScriptsList(ctaScriptsRequest: CtaScriptsRequest) {
+  protected fetchCtaScriptsList(
+    ctaScriptsRequest: CtaScriptsRequest
+  ): Observable<OpfDynamicScript[]> {
     return this.opfPaymentFacade.getCtaScripts(ctaScriptsRequest).pipe(
-      map((ctaScriptsResponse: CtaScriptsResponse) => {
-        console.log('ctaScriptsResponse', ctaScriptsResponse);
-        // mock for test purpose until PSP ready
-        const list = this.mock.value.map(
-          (ctaScript) => ctaScript.dynamicScript
+      concatMap((ctaScriptsResponse: CtaScriptsResponse) => {
+        if (!ctaScriptsResponse?.value?.length) {
+          return throwError({ error: 'Unvalid CTA Scripts Response' });
+        }
+        return of(
+          ctaScriptsResponse.value.map((ctaScript) => ctaScript.dynamicScript)
         );
-        return list;
       }),
       take(1)
     );
@@ -160,16 +69,45 @@ export class OpfCtaScriptsService {
 
   protected fillCtaScriptRequest() {
     let paymentAccountIds: number[];
-    let scriptLocation: CtaScriptsLocation;
+
     return this.getPaymentAccountIds().pipe(
       concatMap((paymentAccountIds) => {
         paymentAccountIds = paymentAccountIds;
         return this.getScriptLocation();
       }),
-      concatMap((scriptsLocation) => {
-        scriptLocation = scriptsLocation;
-        return this.getOrderDetails(scriptsLocation);
-      }),
+      concatMap((scriptsLocation: CtaScriptsLocation) => {
+        return this.fillRequestForTargetPage(
+          scriptsLocation,
+          paymentAccountIds
+        );
+      })
+    );
+  }
+
+  protected fillRequestForTargetPage(
+    scriptsLocation: CtaScriptsLocation,
+    paymentAccountIds: number[]
+  ): Observable<CtaScriptsRequest> {
+    if (scriptsLocation == CtaScriptsLocation.PDP_QUICK_BUY) {
+      return this.fillCtaRequestforPDP(scriptsLocation, paymentAccountIds);
+    } else if (
+      scriptsLocation == CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE ||
+      scriptsLocation == CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE
+    ) {
+      return this.fillCtaRequestforPagesWithOrder(
+        scriptsLocation,
+        paymentAccountIds
+      );
+    } else {
+      return throwError('Invalid Script Location');
+    }
+  }
+
+  protected fillCtaRequestforPagesWithOrder(
+    scriptLocation: CtaScriptsLocation,
+    paymentAccountIds: number[]
+  ): Observable<CtaScriptsRequest> {
+    return this.getOrderDetails(scriptLocation).pipe(
       map((order) => {
         const ctaScriptsRequest: CtaScriptsRequest = {
           orderId: order?.code,
@@ -179,6 +117,23 @@ export class OpfCtaScriptsService {
         };
 
         return ctaScriptsRequest;
+      })
+    );
+  }
+
+  protected fillCtaRequestforPDP(
+    scriptLocation: CtaScriptsLocation,
+    paymentAccountIds: number[]
+  ) {
+    return this.currentProductService.getProduct().pipe(
+      filter(isNotNullable),
+      map((product: Product) => {
+        return {
+          orderId: undefined,
+          ctaProductItems: [{ productId: product?.code, quantity: 1 }],
+          paymentAccountIds: paymentAccountIds,
+          scriptLocations: [scriptLocation],
+        } as CtaScriptsRequest;
       })
     );
   }
@@ -194,14 +149,12 @@ export class OpfCtaScriptsService {
       }),
       concatMap((script) => from(this.loadAndRunScript(script))),
       tap((script) => {
-        console.log('in tap', script);
         if (script?.html) {
           loadedCtaHtmls.push(script.html);
         }
       }),
       last(),
       map(() => {
-        console.log('in last');
         return loadedCtaHtmls;
       })
     );
@@ -216,6 +169,8 @@ export class OpfCtaScriptsService {
             return of(CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE);
           case CmsPageLocation.ORDER_CONFIRMATION_PAGE:
             return of(CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE);
+          case CmsPageLocation.PDP_PAGE:
+            return of(CtaScriptsLocation.PDP_QUICK_BUY);
           default:
             return throwError({ error: 'Page not valid' });
         }
