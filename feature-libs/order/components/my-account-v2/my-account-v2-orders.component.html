@@ -4,14 +4,14 @@
     class="cx-my-account-view-heading"
     [attr.aria-label]="'myAccountV2OrderHistory.orderListResults' | cxTranslate"
   >
-    {{ 'myAccountViewOrder.heading' | cxTranslate }}
+    {{ 'myAccountV2Orders.heading' | cxTranslate }}
   </div>
 
   <!-- SHOW MORE -->
   <div class="cx-my-account-view-show-more">
     <a
       id="show-more-orders"
-      [attr.aria-label]="'myAccountViewOrder.showMore' | cxTranslate"
+      [attr.aria-label]="'myAccountV2Orders.showMore' | cxTranslate"
       class="btn-link cx-action-link"
       [routerLink]="
         {
@@ -19,7 +19,7 @@
         } | cxUrl
       "
     >
-      {{ 'myAccountViewOrder.showMore' | cxTranslate }}
+      {{ 'myAccountV2Orders.showMore' | cxTranslate }}
     </a>
   </div>
 </div>
@@ -34,7 +34,7 @@
             <div
               class="cx-my-account-view-status"
               [attr.aria-label]="
-                'myAccountViewOrder.orderStatusLabel' | cxTranslate
+                'myAccountV2Orders.orderStatusLabel' | cxTranslate
               "
             >
               {{
@@ -49,7 +49,7 @@
               "
             >
               {{
-                'myAccountViewOrder.orderNumber'
+                'myAccountV2Orders.orderNumber'
                   | cxTranslate: { value: order.code }
               }}
             </div>
@@ -72,20 +72,20 @@
                       <span *ngIf="order.totalItems - 1 > 1">
                         +
                         {{
-                          'myAccountViewOrder.items'
+                          'myAccountV2Orders.items'
                             | cxTranslate: { value: order.totalItems - 1 }
                         }}
                       </span>
                       <span *ngIf="order.totalItems - 1 === 1">
                         +
                         {{
-                          'myAccountViewOrder.item' | cxTranslate: { value: 1 }
+                          'myAccountV2Orders.item' | cxTranslate: { value: 1 }
                         }}
                       </span>
                     </div>
                     <div class="cx-my-account-view-purchased-on">
                       {{
-                        'myAccountViewOrder.purchasedOn'
+                        'myAccountV2Orders.purchasedOn'
                           | cxTranslate
                             : {
                                 value: order.placed | cxDate: 'd, MMMM, yyyy'
@@ -94,7 +94,7 @@
                     </div>
                     <div class="cx-my-account-view-item-count">
                       {{
-                        'myAccountViewOrder.orderedItems'
+                        'myAccountV2Orders.orderedItems'
                           | cxTranslate: { value: order.totalItems }
                       }}
                     </div>
@@ -102,7 +102,7 @@
                   <div class="cx-my-account-view-order-column-1-details-bottom">
                     <div class="cx-my-account-view-total-price">
                       {{
-                        'myAccountViewOrder.totalPrice'
+                        'myAccountV2Orders.totalPrice'
                           | cxTranslate: { value: order.total?.formattedValue }
                       }}
                     </div>
@@ -115,7 +115,7 @@
                   <a
                     class="btn-link cx-action-link"
                     [attr.aria-label]="
-                      'myAccountViewOrder.orderDetailsLabel' | cxTranslate
+                      'myAccountV2Orders.orderDetailsLabel' | cxTranslate
                     "
                     [routerLink]="
                       {
@@ -124,7 +124,7 @@
                       } | cxUrl
                     "
                   >
-                    {{ 'myAccountViewOrder.orderDetails' | cxTranslate }}
+                    {{ 'myAccountV2Orders.orderDetails' | cxTranslate }}
                   </a>
                 </span>
                 <!-- return order -->
@@ -139,7 +139,7 @@
                       } | cxUrl
                     "
                   >
-                    {{ 'myAccountViewOrder.returnOrder' | cxTranslate }}
+                    {{ 'myAccountV2Orders.returnOrder' | cxTranslate }}
                   </a>
                 </span>
               </div>

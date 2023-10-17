@@ -23,6 +23,6 @@ export const orderTranslationChunksConfig: TranslationChunksConfig = {
   myAccountV2Order: [
     'myAccountV2OrderHistory',
     'myAccountV2OrderDetails',
-    'myAccountViewOrder',
+    'myAccountV2Orders',
   ],
 };

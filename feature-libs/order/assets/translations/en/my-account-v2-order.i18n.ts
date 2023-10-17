@@ -40,7 +40,7 @@ export const myAccountV2Order = {
     viewAllOrders: 'View All Orders',
     noInvoices: 'Invoices are not generated yet. Please come back later.',
   },
-  myAccountViewOrder: {
+  myAccountV2Orders: {
     item: '{{value}} Item',
     items: '{{value}} Items',
     heading: 'Orders And Returns',
