@@ -69,7 +69,7 @@ export class QuoteService implements QuoteFacade {
   protected commandService = inject(CommandService);
   protected activeCartFacade = inject(ActiveCartFacade);
   protected routingService = inject(RoutingService);
-  protected multiCartService = inject(MultiCartFacade);
+  protected multiCartFacade = inject(MultiCartFacade);
   protected quoteCartService = inject(QuoteCartService);
   protected cartUtilsService = inject(CartUtilsService);
   protected globalMessageService = inject(GlobalMessageService);
@@ -106,7 +106,7 @@ export class QuoteService implements QuoteFacade {
           )
         ),
         tap(([_, userId, quote]) => {
-          this.multiCartService.loadCart({
+          this.multiCartFacade.loadCart({
             userId,
             cartId: quote.cartId as string,
             extraData: {
@@ -307,7 +307,7 @@ export class QuoteService implements QuoteFacade {
     quoteId: string,
     actionType: QuoteActionType
   ) {
-    this.multiCartService.loadCart({
+    this.multiCartFacade.loadCart({
       userId: userId,
       cartId: cartId,
       extraData: {

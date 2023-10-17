@@ -14,7 +14,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class OccQuoteEntryNormalizer implements Converter<OccQuote, Quote> {
-  protected converter = inject(ConverterService);
+  protected converterService = inject(ConverterService);
 
   convert(source: OccQuote, target?: Quote): Quote {
     if (!target) {
@@ -25,7 +25,10 @@ export class OccQuoteEntryNormalizer implements Converter<OccQuote, Quote> {
       target.entries = source.entries.map((entry) => ({
         ...entry,
         quoteCode: source.code,
-        product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
+        product: this.converterService.convert(
+          entry.product,
+          PRODUCT_NORMALIZER
+        ),
       }));
     }
     return target;

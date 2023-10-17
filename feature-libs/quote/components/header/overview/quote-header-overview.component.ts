@@ -33,9 +33,9 @@ export class QuoteHeaderOverviewComponent {
   protected translationService = inject(TranslationService);
   protected quoteUIConfig = inject(QuoteUIConfig);
 
-  private static NO_DATA = '-';
-  private static CHARACTERS_LIMIT = 255;
-  private static DEFAULT_CARD_TILE_MAX_CHARS = 100;
+  protected static NO_DATA = '-';
+  protected static CHARACTERS_LIMIT = 255;
+  protected static DEFAULT_CARD_TILE_MAX_CHARS = 100;
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
@@ -61,7 +61,7 @@ export class QuoteHeaderOverviewComponent {
    * @param {Quote} quote - quote
    * @returns {boolean} - if the quote is editable and its state is 'QuoteState.BUYER_DRAFT' or 'QuoteState.BUYER_OFFER', otherwise returns 'false'.
    */
-  isQuoteInformationEditable(quote: Quote): boolean {
+  isQuoteEditableForBuyer(quote: Quote): boolean {
     return (
       quote.isEditable &&
       (quote.state === QuoteState.BUYER_DRAFT ||
@@ -152,7 +152,7 @@ export class QuoteHeaderOverviewComponent {
    * @param {any} createdDate - Created date
    * @returns {Observable<Card>} - Card content
    */
-  getEstimatedAndDate(
+  getEstimatedTotalAndDate(
     quote: Quote,
     createdDate?: string | null
   ): Observable<Card> {

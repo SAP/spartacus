@@ -21,7 +21,7 @@
           [charactersLimit]="getCharactersLimitForCardTile()"
         ></cx-card>
         <button
-          *ngIf="isQuoteInformationEditable(quoteDetails)"
+          *ngIf="isQuoteEditableForBuyer(quoteDetails)"
           class="link cx-action-link cx-edit-btn"
           (click)="toggleEditMode()"
         >
@@ -40,8 +40,10 @@
     <div class="cx-summary-card">
       <cx-card
         [content]="
-          getEstimatedAndDate(quoteDetails, quoteDetails.creationTime | cxDate)
-            | async
+          getEstimatedTotalAndDate(
+            quoteDetails,
+            quoteDetails.creationTime | cxDate
+          ) | async
         "
       ></cx-card>
     </div>
