@@ -40,7 +40,11 @@
       }
     }
   }
-  //to apply style to the icon from the stleClasses
+  /*The links in the my-account-v2-navigation are meant to be decorated with an icon.
+   Instead of leveraging Spartacus `<cx-icon>` component to display icons,
+  we use here a pure CSS classes approach. The classes are defined in CMS
+  via the `styleClasses` option. The final HTML looks like in the following example:
+  <a href="..." class="fas fa-shoping-cart">Order Information</a> */
   .fas {
     font-family: sans-serif, 'Font Awesome 5 Free';
     font-size: var(--cx-font-medium);
