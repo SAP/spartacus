@@ -182,7 +182,7 @@
       "@spartacus/storefinder/core": ["dist/storefinder/core"],
       "@spartacus/storefinder": ["dist/storefinder"],
       "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
-      "@spartacus/storefinder/root": ["dist/storefinder/root"]
+      "@spartacus/storefinder/root": ["dist/storefinder/root"],
       "@spartacus/pdf-invoices/assets": ["dist/pdf-invoices/assets"],
       "@spartacus/pdf-invoices/components": ["dist/pdf-invoices/components"],
       "@spartacus/pdf-invoices/core": ["dist/pdf-invoices/core"],
