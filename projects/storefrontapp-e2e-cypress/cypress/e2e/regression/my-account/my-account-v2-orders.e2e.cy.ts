@@ -33,7 +33,7 @@ describe(
         cy.findByText(/My Account/i).click();
         cy.findByText(/Order History/i).click();
         cy.get('h2').contains('All Orders');
-        cy.get('.cx-myaccount-v2-order-history-body > .cx-each-order').then(
+        cy.get('.cx-my-account-v2-order-history-body > .cx-each-order').then(
           (value) => {
             totalCount = Cypress.$(value).length;
             expect(value).to.have.length(totalCount);
@@ -42,7 +42,7 @@ describe(
       });
 
       it('should navigate to view details of first order', () => {
-        cy.get('.cx-myaccount-v2-order-history-code > a').first().click();
+        cy.get('.cx-my-account-v2-order-history-code > a').first().click();
         cy.get('cx-media > img').should('exist');
         cy.findByText(/Download Invoices/i).click();
         cy.get('.cx-modal-content').contains('Download Invoices');

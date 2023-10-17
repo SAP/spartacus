@@ -1,20 +1,20 @@
 %cx-my-account-v2-customer-ticketing {
   margin: 1rem 0rem;
   border: 1px solid var(--cx-color-medium);
-  .cx-myaccount-customer-ticket-header {
+  .cx-my-account-customer-ticket-header {
     display: flex;
     justify-content: space-between;
     margin: 1rem; //top-right-bottom-left
-    .cx-myaccount-customer-ticket-heading {
+    .cx-my-account-customer-ticket-heading {
       font-size: 18px;
       font-weight: 700;
     }
-    .cx-myaccount-customer-ticket-show-more {
+    .cx-my-account-customer-ticket-show-more {
       font-size: 16px;
       font-weight: 600;
     }
   }
-  .cx-myaccount-customer-ticket-body {
+  .cx-my-account-customer-ticket-body {
     display: flex;
     justify-content: space-between;
 
@@ -23,22 +23,22 @@
     background-color: var(--cx-color-light);
     border: 1px solid var(--cx-color-medium);
     border-radius: 0;
-    .cx-myaccount-customer-ticket-details {
+    .cx-my-account-customer-ticket-details {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .cx-myaccount-customer-ticket-subject {
+    .cx-my-account-customer-ticket-subject {
       font-size: 18px;
       font-weight: 700;
     }
-    .cx-myaccount-customer-ticket-details-light {
+    .cx-my-account-customer-ticket-details-light {
       font-size: 14px;
       font-weight: 400;
       color: var(--cx-color-secondary);
     }
   }
-  .cx-myaccount-no-ticket {
+  .cx-my-account-no-ticket {
     margin: 1rem;
     padding: 15px;
   }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const MyAccountV2Order = {
+export const myAccountV2Order = {
   myAccountV2OrderHistory: {
     heading: 'All Orders ({{param}})',
     item: '{{param}} Item',
@@ -40,7 +40,7 @@ export const MyAccountV2Order = {
     viewAllOrders: 'View All Orders',
     noInvoices: 'Invoices are not generated yet. Please come back later.',
   },
-  myAccountView: {
+  myAccountViewOrder: {
     item: '{{value}} Item',
     items: '{{value}} Items',
     heading: 'Orders And Returns',

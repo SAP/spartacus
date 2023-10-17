@@ -108,7 +108,7 @@ describe(' MyAccountV2OrdersComponent', () => {
     component.isLoaded$.next(true);
     fixture.detectChanges();
     const heading = fixture.debugElement.query(
-      By.css('.cx-myaccount-view-heading')
+      By.css('.cx-my-account-view-heading')
     );
     expect(heading).not.toBeNull();
     const link = fixture.debugElement.query(By.css('#show-more-orders'));
@@ -120,11 +120,11 @@ describe(' MyAccountV2OrdersComponent', () => {
     component.isLoaded$.next(true);
     fixture.detectChanges();
     const details = fixture.debugElement.query(
-      By.css('.cx-myaccount-view-order')
+      By.css('.cx-my-account-view-order')
     );
     expect(details).not.toBeNull();
     const noOrder = fixture.debugElement.query(
-      By.css('.cx-myaccount-no-order')
+      By.css('.cx-my-account-no-order')
     );
     expect(noOrder).toBeNull();
     const spinner = fixture.debugElement.query(By.css('.cx-spinner'));
@@ -136,11 +136,11 @@ describe(' MyAccountV2OrdersComponent', () => {
     component.isLoaded$.next(true);
     fixture.detectChanges();
     const details = fixture.debugElement.query(
-      By.css('.cx-myaccount-view-order')
+      By.css('.cx-my-account-view-order')
     );
     expect(details).toBeNull();
     const noOrder = fixture.debugElement.query(
-      By.css('.cx-myaccount-no-order')
+      By.css('.cx-my-account-no-order')
     );
     expect(noOrder).not.toBeNull();
     const spinner = fixture.debugElement.query(By.css('.cx-spinner'));
@@ -152,11 +152,11 @@ describe(' MyAccountV2OrdersComponent', () => {
     component.isLoaded$.next(false);
     fixture.detectChanges();
     const details = fixture.debugElement.query(
-      By.css('.cx-myaccount-view-order')
+      By.css('.cx-my-account-view-order')
     );
     expect(details).toBeNull();
     const noOrder = fixture.debugElement.query(
-      By.css('.cx-myaccount-no-order')
+      By.css('.cx-my-account-no-order')
     );
     expect(noOrder).toBeNull();
     const spinner = fixture.debugElement.query(By.css('.cx-spinner'));

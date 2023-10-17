@@ -31,8 +31,10 @@ describe('My Account Version-2 Landing Page', { testIsolation: false }, () => {
       cy.get('cx-my-account-v2-navigation').contains('Customer Service');
       cy.get('cx-my-account-v2-navigation').contains('Order Information');
       cy.get('cx-my-account-v2-navigation').contains('Account Information');
-      cy.get('cx-myaccount-v2-orders').contains('Orders And Returns');
-      cy.get('cx-myaccount-v2-customer-ticketing').contains('Customer Service');
+      cy.get('cx-my-account-v2-orders').contains('Orders And Returns');
+      cy.get('cx-my-account-v2-customer-ticketing').contains(
+        'Customer Service'
+      );
     });
 
     it('should navigate to Customer Service Requests', () => {
@@ -52,13 +54,13 @@ describe('My Account Version-2 Landing Page', { testIsolation: false }, () => {
     });
 
     it('should navigate to Order History on click of Show More', () => {
-      cy.get('.cx-myaccount-view-show-more').click();
+      cy.get('.cx-my-account-view-show-more').click();
       cy.get('cx-breadcrumb').contains('Order History');
       cy.go(-1);
     });
 
     it('should navigate to Customer Service on click of Show More', () => {
-      cy.get('.cx-myaccount-customer-ticket-show-more').click();
+      cy.get('.cx-my-account-customer-ticket-show-more').click();
       cy.get('cx-breadcrumb').contains('Customer Service');
       cy.go(-1);
     });
