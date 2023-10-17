@@ -12,8 +12,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-myaccount-v2-orders',
-  templateUrl: './myaccount-v2-orders.component.html',
+  selector: 'cx-my-account-v2-orders',
+  templateUrl: './my-account-v2-orders.component.html',
 })
 export class MyAccountV2OrdersComponent implements OnDestroy {
   protected service = inject(MyAccountV2OrderHistoryService);

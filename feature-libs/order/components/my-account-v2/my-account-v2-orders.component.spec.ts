@@ -11,7 +11,7 @@ import {
 import { MyAccountV2OrderHistoryService } from '@spartacus/order/core';
 import { OrderHistoryListView } from '@spartacus/order/root';
 import { EMPTY, Observable, of } from 'rxjs';
-import { MyAccountV2OrdersComponent } from './myaccount-v2-orders.component';
+import { MyAccountV2OrdersComponent } from './my-account-v2-orders.component';
 
 const mockOrders: OrderHistoryListView = {
   orders: [

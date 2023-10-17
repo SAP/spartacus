@@ -12,7 +12,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { MyAccountV2CustomerTicketingComponent } from './myaccount-v2-customer-ticketing.component';
+import { MyAccountV2CustomerTicketingComponent } from './my-account-v2-customer-ticketing.component';
 import { SpinnerModule } from '@spartacus/storefront';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';

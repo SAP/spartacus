@@ -15,7 +15,7 @@ import { CustomerTicketingListModule } from './list/customer-ticketing-list';
 import { CustomerTicketingDetailsModule } from './details/customer-ticketing-details';
 import { CustomerTicketingReopenModule } from './details/customer-ticketing-reopen';
 import { CustomerTicketingMessagesModule } from './details/customer-ticketing-messages';
-import { MyAccountV2CustomerTicketingModule } from './myaccount-v2';
+import { MyAccountV2CustomerTicketingModule } from './my-account-v2';
 
 @NgModule({
   imports: [

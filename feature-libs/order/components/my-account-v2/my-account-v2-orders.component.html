@@ -1,6 +1,9 @@
 <div class="cx-myaccount-view-header">
   <!-- HEADER -->
-  <div class="cx-myaccount-view-heading">
+  <div
+    class="cx-myaccount-view-heading"
+    [attr.aria-label]="'myAccountV2OrderHistory.orderListResults' | cxTranslate"
+  >
     {{ 'myAccountView.heading' | cxTranslate }}
   </div>
 
@@ -8,6 +11,7 @@
   <div class="cx-myaccount-view-show-more">
     <a
       id="show-more-orders"
+      [attr.aria-label]="'myAccountView.showMore' | cxTranslate"
       class="btn-link cx-action-link"
       [routerLink]="
         {
@@ -27,13 +31,21 @@
       <ng-container *ngFor="let order of orderHistory.orders">
         <div class="cx-myaccount-view-order">
           <div class="cx-myaccount-view-order-header">
-            <div class="cx-myaccount-view-status">
+            <div
+              class="cx-myaccount-view-status"
+              [attr.aria-label]="'myAccountView.orderStatusLabel' | cxTranslate"
+            >
               {{
                 'orderDetails.statusDisplay_' + order.statusDisplay
                   | cxTranslate
               }}
             </div>
-            <div class="cx-myaccount-view-code">
+            <div
+              class="cx-myaccount-view-code"
+              [attr.aria-label]="
+                'myAccountV2OrderHistory.orderCodeLabel' | cxTranslate
+              "
+            >
               {{
                 'myAccountView.orderNumber' | cxTranslate: { value: order.code }
               }}
@@ -97,6 +109,9 @@
                 <span>
                   <a
                     class="btn-link cx-action-link"
+                    [attr.aria-label]="
+                      'myAccountView.orderDetailsLabel' | cxTranslate
+                    "
                     [routerLink]="
                       {
                         cxRoute: 'orderDetails',
