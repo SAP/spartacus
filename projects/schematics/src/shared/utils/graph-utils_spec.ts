@@ -128,12 +128,12 @@ describe('Graph utils', () => {
     it('should have generated the correct order', () => {
       expect(crossLibraryInstallationOrder).toEqual([
         SPARTACUS_USER,
+        SPARTACUS_PDF_INVOICES,
         SPARTACUS_CART,
         SPARTACUS_ORDER,
         SPARTACUS_CHECKOUT,
         SPARTACUS_STOREFINDER,
         SPARTACUS_REQUESTED_DELIVERY_DATE,
-        SPARTACUS_PDF_INVOICES,
         SPARTACUS_TRACKING,
         SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,

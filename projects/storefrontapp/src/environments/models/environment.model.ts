@@ -18,4 +18,5 @@ export interface Environment {
   segmentRefs: boolean;
   requestedDeliveryDate: boolean;
   pdfInvoices: boolean;
+  myAccountV2: boolean;
 }

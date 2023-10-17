@@ -61,7 +61,7 @@
         </button>
       </ng-container>
       <ng-template #title>
-        <span [attr.tabindex]="-1">
+        <span *ngIf="node.title" [attr.tabindex]="-1">
           {{ node.title }}
         </span>
       </ng-template>
