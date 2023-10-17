@@ -55,38 +55,40 @@ export class QuoteActionsConfirmDialogComponent implements OnInit {
     this.launchDialogService.closeDialog(reason);
   }
 
-  protected isNotEmpty(value?: string): boolean {
+  protected isNotEmpty(value: string): boolean {
     return value && value.trim()?.length !== 0 ? true : false;
   }
 
-  getA11yModalText(confirmationContext: ConfirmationContext): string {
+  /**
+   * Retrieves an accessibility text for the confirmation modal.
+   *
+   * @param {ConfirmationContext} context - confirmation context
+   */
+  getA11yModalText(context: ConfirmationContext): string {
     let translatedText = '';
-    if (
-      confirmationContext.warningNote &&
-      this.isNotEmpty(confirmationContext.warningNote)
-    ) {
+    if (context.warningNote && this.isNotEmpty(context.warningNote)) {
       this.translationService
-        .translate(confirmationContext.warningNote)
+        .translate(context.warningNote)
         .pipe(take(1))
         .subscribe((text) => (translatedText += text));
     }
 
     if (
-      confirmationContext.validity &&
-      this.isNotEmpty(confirmationContext.validity) &&
-      confirmationContext.quote.expirationTime
+      context.validity &&
+      this.isNotEmpty(context.validity) &&
+      context.quote.expirationTime
     ) {
       this.translationService
-        .translate(confirmationContext.validity)
+        .translate(context.validity)
         .pipe(take(1))
         .subscribe((text) => (translatedText += text));
 
-      const date = new Date(confirmationContext.quote.expirationTime);
+      const date = new Date(context.quote.expirationTime);
       translatedText += this.cxDatePipe.transform(date);
     }
 
     this.translationService
-      .translate(confirmationContext.confirmNote)
+      .translate(context.confirmNote)
       .pipe(take(1))
       .subscribe((text) => (translatedText += text));
 

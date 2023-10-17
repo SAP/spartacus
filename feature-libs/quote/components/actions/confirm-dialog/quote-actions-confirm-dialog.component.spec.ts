@@ -60,14 +60,6 @@ class MockLanguageService {
   }
 }
 
-/**
-class MockTranslationService {
-  translate(key: string): Observable<string> {
-    return of(key);
-  }
-}
- */
-
 describe('QuoteActionsConfirmDialogComponent', () => {
   let component: QuoteActionsConfirmDialogComponent;
   let fixture: ComponentFixture<QuoteActionsConfirmDialogComponent>;
@@ -100,7 +92,6 @@ describe('QuoteActionsConfirmDialogComponent', () => {
             provide: LaunchDialogService,
             useClass: MockLaunchDialogService,
           },
-          //{ provide: TranslationService, useClass: MockTranslationService },
           { provide: LanguageService, useClass: MockLanguageService },
         ],
       }).compileComponents();
@@ -213,10 +204,10 @@ describe('QuoteActionsConfirmDialogComponent', () => {
   describe('getA11yModalText', () => {
     it('should return only a confirmation note', () => {
       const context = structuredClone(confirmationContext);
-
       context.warningNote = null;
       context.validity = null;
       context.quote.expirationTime = null;
+
       expect(component.getA11yModalText(context)).toEqual(
         confirmationContext.confirmNote
       );
@@ -224,33 +215,30 @@ describe('QuoteActionsConfirmDialogComponent', () => {
 
     it('should return a warning note with a confirmation note', () => {
       const context = structuredClone(confirmationContext);
-
       context.validity = null;
       context.quote.expirationTime = null;
-
       const a11yModalText =
         confirmationContext.warningNote + confirmationContext.confirmNote;
+
       expect(component.getA11yModalText(context)).toEqual(a11yModalText);
     });
 
     it('should return a validity with date and a confirmation note', () => {
       const context = structuredClone(confirmationContext);
-
       context.warningNote = null;
       const expirationTime = datePipe.transform(
         confirmationContext.quote.expirationTime
       );
-
       const a11yModalText =
         confirmationContext.validity +
         expirationTime +
         confirmationContext.confirmNote;
+
       expect(component.getA11yModalText(context)).toEqual(a11yModalText);
     });
 
     it('should return a complete a11y relevant information', () => {
       const context = structuredClone(confirmationContext);
-
       const expirationTime = datePipe.transform(
         confirmationContext.quote.expirationTime
       );
@@ -259,6 +247,7 @@ describe('QuoteActionsConfirmDialogComponent', () => {
         confirmationContext.validity +
         expirationTime +
         confirmationContext.confirmNote;
+
       expect(component.getA11yModalText(context)).toEqual(a11yModalText);
     });
   });
