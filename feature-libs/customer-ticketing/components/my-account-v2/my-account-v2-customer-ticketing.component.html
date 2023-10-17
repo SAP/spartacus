@@ -1,7 +1,10 @@
 <ng-container>
   <div class="cx-myaccount-customer-ticket-header">
     <!-- HEADER -->
-    <div class="cx-myaccount-customer-ticket-heading">
+    <div
+      class="cx-myaccount-customer-ticket-heading"
+      [attr.aria-label]="'myAccountV2CustomerTicketing.heading' | cxTranslate"
+    >
       {{ 'myAccountV2CustomerTicketing.heading' | cxTranslate }}
     </div>
 
@@ -9,6 +12,9 @@
     <div class="cx-myaccount-customer-ticket-show-more">
       <a
         id="show-more-requests"
+        [attr.aria-label]="
+          'myAccountV2CustomerTicketing.showMore' | cxTranslate
+        "
         class="btn-link cx-action-link"
         [routerLink]="
           {
@@ -25,13 +31,23 @@
       <div class="cx-myaccount-customer-ticket-body">
         <ng-container *ngFor="let ticket of ticketList.tickets">
           <div class="cx-myaccount-customer-ticket-details">
-            <span class="cx-myaccount-customer-ticket-subject">
+            <span
+              class="cx-myaccount-customer-ticket-subject"
+              [attr.aria-label]="
+                'myAccountV2CustomerTicketing.subjectLabel' | cxTranslate
+              "
+            >
               {{ ticket.subject }}
             </span>
             <span class="cx-myaccount-customer-ticket-details-light">
               | {{ ticket.ticketCategory?.name }}
             </span>
-            <span class="cx-myaccount-customer-ticket-details-light">
+            <span
+              class="cx-myaccount-customer-ticket-details-light"
+              [attr.aria-label]="
+                'myAccountV2CustomerTicketing.idLabel' | cxTranslate
+              "
+            >
               |
               {{
                 'myAccountV2CustomerTicketing.ticketId'
@@ -53,7 +69,10 @@
 </ng-container>
 
 <ng-template #noCustomerTickets>
-  <div class="cx-myaccount-no-ticket">
+  <div
+    class="cx-myaccount-no-ticket"
+    [attr.aria-label]="'customerTicketingList.noTickets' | cxTranslate"
+  >
     {{ 'customerTicketingList.noTickets' | cxTranslate }}
   </div>
 </ng-template>

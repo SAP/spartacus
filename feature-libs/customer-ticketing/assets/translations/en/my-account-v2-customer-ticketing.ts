@@ -10,5 +10,7 @@ export const myAccountV2CustomerTicketing = {
     showMore: 'Show More',
     changedOn: 'Changed On: {{value}}',
     ticketId: 'ID: {{value}}',
+    subjectLabel: 'Subject',
+    idLabel: 'Customer Service Id',
   },
 };

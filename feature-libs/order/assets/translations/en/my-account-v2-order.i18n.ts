@@ -49,6 +49,8 @@ export const MyAccountV2Order = {
     orderedItems: 'Ordered Items: {{value}}',
     totalPrice: 'Total Price: {{value}}',
     orderDetails: 'Order Details',
+    orderDetailsLabel: 'Show Order Details',
+    orderStatusLabel: 'Order Status',
     returnOrder: 'Return Order',
     showMore: 'Show More',
   },
