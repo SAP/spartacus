@@ -1,6 +1,6 @@
 <div class="cx-my-account-v2-user">
   <ng-container *ngIf="user$ | async as user">
-    <div class="cx-name">{{ user.title }} {{ user.name }}</div>
+    <div class="cx-name">{{ user.name }}</div>
     <a
       class="cx-sign-out"
       [routerLink]="
