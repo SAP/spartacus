@@ -30,19 +30,19 @@ describe(
 
       it('should navigate to Order History page', () => {
         let totalCount;
-        cy.findByText(/My Account/i).click();
-        cy.findByText(/Order History/i).click();
+        cy.get('[aria-label="My Account"]').click();
+        cy.get('.wrapper').contains('Order History').click();
         cy.get('h2').contains('All Orders');
-        cy.get('.cx-myaccount-v2-order-history-body > .cx-each-order').then(
+        cy.get('.cx-my-account-v2-order-history-body > .cx-each-order').then(
           (value) => {
             totalCount = Cypress.$(value).length;
-            expect(value).to.have.length(totalCount);
+            expect(totalCount).to.be.at.least(1);
           }
         );
       });
 
       it('should navigate to view details of first order', () => {
-        cy.get('.cx-myaccount-v2-order-history-code > a').first().click();
+        cy.get('.cx-my-account-v2-order-history-code > a').first().click();
         cy.get('cx-media > img').should('exist');
         cy.findByText(/Download Invoices/i).click();
         cy.get('.cx-modal-content').contains('Download Invoices');
