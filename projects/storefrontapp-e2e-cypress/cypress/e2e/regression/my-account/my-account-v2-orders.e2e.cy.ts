@@ -8,7 +8,7 @@ import { fillLoginForm } from '../../../helpers/auth-forms';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
-describe('Order Details', { testIsolation: false }, () => {
+describe('My Account Version-2 Order History and Order Details', { testIsolation: false }, () => {
   viewportContext(['desktop'], () => {
     isolateTests();
     before(() => {
