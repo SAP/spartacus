@@ -1,0 +1,209 @@
+<div class="cx-consolidated-order-info" *ngIf="order">
+  <div class="cx-order-info">
+    <!-- pickup consigned entries 
+  eg: To Be Picked Up - 3 Items
+  -->
+    <div
+      *ngIf="
+        getConsignmentsCount(getPickupConsignments(order.consignments ?? [])) >
+        0
+      "
+    >
+      <div class="cx-order-status">
+        {{
+          'myAccountV2OrderHistory.deliveryPointOfServiceDetails.itemsToBePickUp'
+            | cxTranslate
+        }}
+        <ng-container
+          *ngTemplateOutlet="
+            showManyItems;
+            context: {
+              count: getConsignmentsCount(
+                getPickupConsignments(order.consignments ?? [])
+              )
+            }
+          "
+        ></ng-container>
+      </div>
+      <cx-my-account-v2-consignment-entries
+        [orderCode]="order.code ?? ''"
+        [consignments]="getPickupConsignments(order.consignments ?? [])"
+      ></cx-my-account-v2-consignment-entries>
+    </div>
+
+    <!-- delivery consigned entries
+  eg: To Be Shipped - 6 Items
+  -->
+    <div
+      *ngIf="
+        getConsignmentsCount(
+          getDeliveryConsignments(order.consignments ?? [])
+        ) > 0
+      "
+    >
+      <!--heading taken from feature-libs/order/components/order-confirmation/order-confirmation-shipping/order-confirmation-shipping.component.html-->
+      <!--instead of [cxOutlet]="OrderOutlets.CONSIGNMENT_DELIVERY_INFO"-->
+      <div class="cx-order-status">
+        {{
+          'myAccountV2OrderHistory.checkoutMode.deliveryEntries' | cxTranslate
+        }}
+        <ng-container
+          *ngTemplateOutlet="
+            showManyItems;
+            context: {
+              count: getConsignmentsCount(
+                getDeliveryConsignments(order.consignments ?? [])
+              )
+            }
+          "
+        ></ng-container>
+      </div>
+      <cx-my-account-v2-consignment-entries
+        [orderCode]="order.code ?? ''"
+        [consignments]="getDeliveryConsignments(order.consignments ?? [])"
+      ></cx-my-account-v2-consignment-entries>
+    </div>
+
+    <!-- unconsigned entries 
+  eg: Some_Status - 1 Item
+  -->
+    <div *ngIf="getOrderEntriesCount(order.unconsignedEntries) > 0">
+      <div *ngIf="order.statusDisplay">
+        <div
+          class="cx-order-status-critical"
+          *ngIf="isStatusCritical(order.statusDisplay); else nonCritical"
+        >
+          {{
+            'orderDetails.statusDisplay_' + order.statusDisplay | cxTranslate
+          }}
+          -
+          <ng-container
+            *ngTemplateOutlet="
+              showManyItems;
+              context: { count: getOrderEntriesCount(order.unconsignedEntries) }
+            "
+          ></ng-container>
+        </div>
+        <ng-template #nonCritical>
+          <div class="cx-order-status">
+            {{
+              'orderDetails.statusDisplay_' + order.statusDisplay | cxTranslate
+            }}
+            -
+            <ng-container
+              *ngTemplateOutlet="
+                showManyItems;
+                context: {
+                  count: getOrderEntriesCount(order.unconsignedEntries)
+                }
+              "
+            ></ng-container>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- delivery unconsigned entries 
+      eg: To Be Shipped - 6 Items //showing this is in extra information format
+    -->
+      <div
+        class="cx-consignment-info"
+        *ngIf="
+          getOrderEntriesCount(
+            getDeliveryUnconsignedEntries(order.unconsignedEntries ?? [])
+          ) > 0
+        "
+      >
+        {{
+          'myAccountV2OrderHistory.checkoutMode.deliveryEntries' | cxTranslate
+        }}
+        <ng-container
+          *ngTemplateOutlet="
+            showManyItems;
+            context: {
+              count: getOrderEntriesCount(
+                getDeliveryUnconsignedEntries(order.unconsignedEntries ?? [])
+              )
+            }
+          "
+        ></ng-container>
+      </div>
+
+      <!-- pickup unconsigned entries, b2b does not have pickup items
+      eg: To Be Picked Up - 7 Items //showing this is as an extra information format
+    -->
+      <div
+        class="cx-consignment-info"
+        *ngIf="
+          getOrderEntriesCount(
+            getPickupUnconsignedEntries(order.unconsignedEntries ?? [])
+          ) > 0
+        "
+      >
+        {{
+          'myAccountV2OrderHistory.checkoutPickupInStore.heading' | cxTranslate
+        }}
+        <ng-container
+          *ngTemplateOutlet="
+            showManyItems;
+            context: {
+              count: getOrderEntriesCount(
+                getPickupUnconsignedEntries(order.unconsignedEntries ?? [])
+              )
+            }
+          "
+        ></ng-container>
+      </div>
+    </div>
+
+    <!--return request details
+  eg: Returned: 2 Items
+      Return Processed: 15, September, 2022
+  -->
+    <div *ngFor="let returnRequest of order.returnRequests">
+      <div *ngIf="returnRequest.rma" class="cx-order-status-critical">
+        {{ 'returnRequestList.returnRequestId' | cxTranslate }}
+        <a
+          [routerLink]="
+            {
+              cxRoute: 'returnRequestDetails',
+              params: returnRequest
+            } | cxUrl
+          "
+          class="cx-order-status-critical-link"
+        >
+          {{ returnRequest.rma }}</a
+        >
+      </div>
+      <div
+        class="cx-consignment-info"
+        *ngIf="returnRequest.creationTime as creationTime"
+      >
+        {{
+          'myAccountV2OrderHistory.returnProcessed'
+            | cxTranslate: { param: creationTime | cxDate: 'd, MMMM, yyyy' }
+        }}
+      </div>
+    </div>
+  </div>
+  <div class="cx-order-images-container">
+    <ng-container *ngIf="order.entries">
+      <ng-container *ngFor="let item of getProductImages(order.entries)">
+        <cx-media
+          [container]="item.PRIMARY"
+          class="cx-order-img"
+          format="thumbnail"
+          role="presentation"
+        ></cx-media>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #showManyItems let-count="count">
+  <ng-container *ngIf="count > 1; else showOneItem">
+    {{ 'myAccountV2OrderHistory.items' | cxTranslate: { param: count } }}
+  </ng-container>
+</ng-template>
+<ng-template #showOneItem>
+  {{ 'myAccountV2OrderHistory.item' | cxTranslate: { param: 1 } }}
+</ng-template>
