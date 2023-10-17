@@ -9,7 +9,6 @@ import { CmsNavigationComponent } from '@spartacus/core';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import { Component, Input } from '@angular/core';
-import { By } from '@angular/platform-browser';
 
 @Component({
   selector: 'cx-navigation-ui',
