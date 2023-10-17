@@ -15,8 +15,6 @@ import { Component, Input } from '@angular/core';
   template: '',
 })
 class MockNavigationUIComponent {
-  // @Input()
-  // dropdownMode = 'list';
   @Input()
   node: NavigationNode;
   @Input()
