@@ -30,13 +30,13 @@ describe(
 
       it('should navigate to Order History page', () => {
         let totalCount;
-        cy.findByText(/My Account/i).click();
-        cy.findByText(/Order History/i).click();
+        cy.get('[aria-label="My Account"]').click();
+        cy.get('.wrapper').contains('Order History').click();
         cy.get('h2').contains('All Orders');
         cy.get('.cx-my-account-v2-order-history-body > .cx-each-order').then(
           (value) => {
             totalCount = Cypress.$(value).length;
-            expect(value).to.have.length(totalCount);
+            expect(totalCount).to.be.at.least(1);
           }
         );
       });
