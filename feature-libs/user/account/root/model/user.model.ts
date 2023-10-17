@@ -10,4 +10,5 @@ export interface User {
   lastName?: string;
   name?: string;
   uid?: string;
+  title?: string;
 }
