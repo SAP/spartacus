@@ -7,7 +7,9 @@
 import { ConsignmentTracking } from '@spartacus/order/root';
 import { OrderActions } from '..';
 
-export const initialStateOfConsignmentTrackingById = undefined;
+export const initialStateOfConsignmentTrackingById:
+  | ConsignmentTracking
+  | undefined = undefined;
 
 export function reducer(
   state = initialStateOfConsignmentTrackingById,

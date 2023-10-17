@@ -7,7 +7,7 @@
 import { Order } from '@spartacus/order/root';
 import { OrderActions } from '..';
 
-export const initialStateOfOrderById = undefined;
+export const initialStateOfOrderById: Order | undefined = undefined;
 
 export function reducer(
   state = initialStateOfOrderById,

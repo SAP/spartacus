@@ -13,7 +13,7 @@ import {
   ReplenishmentOrderHistoryFacade,
   ScheduledReplenishmentOrderFacade,
 } from '@spartacus/order/root';
-import { MyAccountV2OrderHistoryService } from './myaccount-v2-order-history.service';
+import { MyAccountV2OrderHistoryService } from './my-account-v2-order-history.service';
 import { OrderHistoryService } from './order-history.service';
 import { OrderReturnRequestService } from './order-return-request.service';
 import { OrderService } from './order.service';
