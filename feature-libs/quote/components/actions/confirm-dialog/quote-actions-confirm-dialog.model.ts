@@ -14,7 +14,6 @@ export interface ConfirmationContext {
   validity?: string;
   successMessage?: string;
   a11y: {
-    title: string;
     close: string;
   };
 }

@@ -30,7 +30,6 @@ export const quote = {
         buyer: {
           submit: {
             a11y: {
-              title: 'Submit quote',
               close: 'Close submit quote modal',
             },
             title: 'Submit Quote Request {{ code }}?',
@@ -39,7 +38,6 @@ export const quote = {
           },
           cancel: {
             a11y: {
-              title: 'Cancel quote',
               close: 'Close cancel quote modal',
             },
             title: 'Cancel Quote Request {{ code }}?',
@@ -50,7 +48,6 @@ export const quote = {
         buyer_offer: {
           edit: {
             a11y: {
-              title: 'Edit quote',
               close: 'Close edit quote modal',
             },
             title: 'Confirm Edit Quote {{ code }}?',
@@ -60,7 +57,6 @@ export const quote = {
           },
           cancel: {
             a11y: {
-              title: 'Cancel quote',
               close: 'Close cancel quote modal',
             },
             title: 'Cancel Quote {{ code }}?',
@@ -69,7 +65,6 @@ export const quote = {
           },
           checkout: {
             a11y: {
-              title: 'Checkout quote',
               close: 'Close checkout quote modal',
             },
             title: 'Checkout Quote {{ code }}?',
@@ -80,7 +75,6 @@ export const quote = {
         expired: {
           edit: {
             a11y: {
-              title: 'Edit quote',
               close: 'Close edit quote modal',
             },
             title: 'Confirm Edit Quote {{ code }}?',
@@ -90,7 +84,6 @@ export const quote = {
           },
           requote: {
             a11y: {
-              title: 'Requote',
               close: 'Close requote modal',
             },
             title: 'Recreate Quote Request {{ code }}?',
@@ -103,7 +96,6 @@ export const quote = {
         seller: {
           submit: {
             a11y: {
-              title: 'Submit quote',
               close: 'Close submit quote modal',
             },
             title: 'Submit Quote {{ code }}?',
@@ -116,7 +108,6 @@ export const quote = {
         approver: {
           approve: {
             a11y: {
-              title: 'Approve quote',
               close: 'Close approve quote modal',
             },
             title: 'Approve Quote {{ code }}?',
@@ -125,7 +116,6 @@ export const quote = {
           },
           reject: {
             a11y: {
-              title: 'Reject quote',
               close: 'Close reject quote modal',
             },
             title: 'Reject Quote {{ code }}?',
@@ -136,7 +126,6 @@ export const quote = {
         all: {
           edit: {
             a11y: {
-              title: 'Edit quote',
               close: 'Close edit quote modal',
             },
             title: 'Edit Quote {{ code }}?',

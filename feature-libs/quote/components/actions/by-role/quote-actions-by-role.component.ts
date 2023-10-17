@@ -187,7 +187,6 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       title: dialogConfig.i18nKeyPrefix + '.title',
       confirmNote: dialogConfig.i18nKeyPrefix + '.confirmNote',
       a11y: {
-        title: dialogConfig.i18nKeyPrefix + '.a11y.title',
         close: dialogConfig.i18nKeyPrefix + '.a11y.close',
       },
     };
