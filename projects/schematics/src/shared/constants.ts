@@ -866,7 +866,6 @@ export const LOGIN_MODULE = 'LoginModule';
 export const LOGIN_FORM_MODULE = 'LoginFormModule';
 export const LOGIN_REGISTER_COMPONENT = 'LoginRegisterComponent';
 export const LOGIN_REGISTER_MODULE = 'LoginRegisterModule';
-export const MYACCOUNT_V2_USER_MODULE = 'MyAccountV2UserModule';
 
 export const UPDATE_EMAIL_MODULE = 'UpdateEmailModule';
 export const UPDATE_PASSWORD_MODULE = 'UpdatePasswordModule';

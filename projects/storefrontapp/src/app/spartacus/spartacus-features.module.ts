@@ -169,7 +169,6 @@ if (environment.requestedDeliveryDate) {
     NotificationPreferenceModule,
     MyInterestsModule,
     MyAccountV2NavigationModule,
-    MyAccountV2NavigationModule,
     StockNotificationModule,
     ConsentManagementModule,
     MyCouponsModule,
