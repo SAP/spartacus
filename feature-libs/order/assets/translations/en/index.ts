@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { MyAccountV2Order, order } from './order.i18n';
+import { myAccountV2Order } from './my-account-v2-order.i18n';
+import { order } from './order.i18n';
 
 export const en = {
   order,
-  MyAccountV2Order,
+  myAccountV2Order,
 };

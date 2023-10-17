@@ -289,6 +289,8 @@ describe('MyAccountV2OrderHistoryService', () => {
               returnRequests: [],
               entries: undefined,
               unconsignedEntries: undefined,
+              returnable: undefined,
+              totalItems: undefined,
             },
             {
               code: orderCode2,
@@ -297,6 +299,8 @@ describe('MyAccountV2OrderHistoryService', () => {
               returnRequests: [],
               entries: undefined,
               unconsignedEntries: undefined,
+              returnable: undefined,
+              totalItems: undefined,
             },
           ],
           pagination: {},
