@@ -11,18 +11,12 @@ import {
   orderTranslations,
 } from '@spartacus/order/assets';
 import {
-  MYACCOUNT_V2_ORDER,
+  MY_ACCOUNT_V2_ORDER,
   OrderRootModule,
   ORDER_FEATURE,
 } from '@spartacus/order/root';
 import { environment } from '../../../../environments/environment';
-function setMyAccountV2OrderToken(): boolean {
-  if (environment.myAccountV2) {
-    return true;
-  } else {
-    return false;
-  }
-}
+
 @NgModule({
   imports: [OrderRootModule],
   providers: [
@@ -34,8 +28,8 @@ function setMyAccountV2OrderToken(): boolean {
       },
     }),
     {
-      provide: MYACCOUNT_V2_ORDER,
-      useFactory: setMyAccountV2OrderToken,
+      provide: MY_ACCOUNT_V2_ORDER,
+      useValue: environment.myAccountV2,
     },
     provideConfig(<I18nConfig>{
       i18n: {

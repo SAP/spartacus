@@ -15,7 +15,7 @@ import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { OrderConsignmentsService } from '../order-consignments.service';
+import { MyAccountV2OrderConsignmentsService } from '../my-account-v2-order-consignments.service';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
@@ -23,7 +23,9 @@ import { OrderDetailsService } from '../order-details.service';
   templateUrl: './order-detail-items.component.html',
 })
 export class OrderDetailItemsComponent {
-  protected orderConsignmentsService = inject(OrderConsignmentsService);
+  protected orderConsignmentsService = inject(
+    MyAccountV2OrderConsignmentsService
+  );
   readonly OrderOutlets = OrderOutlets;
   readonly CartOutlets = CartOutlets;
 
