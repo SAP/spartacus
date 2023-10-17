@@ -13,7 +13,7 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { NavigationModule } from '../../navigation/navigation/navigation.module';
+import { NavigationModule } from '../../../navigation/navigation/navigation.module';
 
 @NgModule({
   providers: [

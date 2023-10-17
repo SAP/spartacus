@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { NavigationComponent } from '../../navigation';
+import { NavigationComponent } from '../../../navigation';
 
 @Component({
   selector: 'cx-my-account-v2-navigation',
