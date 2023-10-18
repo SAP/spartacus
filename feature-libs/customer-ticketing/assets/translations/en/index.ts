@@ -5,7 +5,9 @@
  */
 
 import { customerTicketing } from './customer-ticketing';
+import { myAccountV2CustomerTicketing } from './my-account-v2-customer-ticketing';
 
 export const en = {
   customerTicketing,
+  myAccountV2CustomerTicketing,
 };
