@@ -1,0 +1,33 @@
+@import '@spartacus/styles/scss/core';
+
+@import './_asm-customer-360.component.scss';
+@import './_asm-customer-360-profile.scss';
+@import './_asm-customer-360-product-listing.component';
+@import './_asm-customer-360-table.component.scss';
+@import './_asm-customer-360-map.component.scss';
+@import './_asm-customer-360-promotion-listing.component.scss';
+
+$customer-360-components-allowlist: cx-asm-customer-360,
+  cx-asm-customer-360-profile, cx-asm-customer-360-product-listing,
+  cx-asm-customer-360-table, cx-asm-customer-360-map,
+  cx-asm-customer-360-promotion-listing !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $customer-360-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $customer-360-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

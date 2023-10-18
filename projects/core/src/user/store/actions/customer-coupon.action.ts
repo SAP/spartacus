@@ -25,6 +25,7 @@ import {
 import {
   CLAIM_CUSTOMER_COUPON_PROCESS_ID,
   CUSTOMER_COUPONS,
+  DISCLAIM_CUSTOMER_COUPON_PROCESS_ID,
   SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
   UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
 } from '../user-state';
@@ -56,6 +57,10 @@ export const RESET_UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS =
 export const CLAIM_CUSTOMER_COUPON = '[User] Claim Customer';
 export const CLAIM_CUSTOMER_COUPON_FAIL = '[User] Claim Customer Fail';
 export const CLAIM_CUSTOMER_COUPON_SUCCESS = '[User] Claim Customer Success';
+export const DISCLAIM_CUSTOMER_COUPON = '[User] Disclaim Customer';
+export const DISCLAIM_CUSTOMER_COUPON_FAIL = '[User] Disclaim Customer Fail';
+export const DISCLAIM_CUSTOMER_COUPON_SUCCESS =
+  '[User] Disclaim Customer Success';
 
 export class LoadCustomerCoupons extends LoaderLoadAction {
   readonly type = LOAD_CUSTOMER_COUPONS;
@@ -171,6 +176,32 @@ export class ClaimCustomerCoupon extends EntityLoadAction {
   }
 }
 
+export class DisclaimCustomerCoupon extends EntityLoadAction {
+  readonly type = DISCLAIM_CUSTOMER_COUPON;
+  constructor(
+    public payload: {
+      userId: string;
+      couponCode: string;
+    }
+  ) {
+    super(PROCESS_FEATURE, DISCLAIM_CUSTOMER_COUPON_PROCESS_ID);
+  }
+}
+
+export class DisclaimCustomerCouponFail extends EntityFailAction {
+  readonly type = DISCLAIM_CUSTOMER_COUPON_FAIL;
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, DISCLAIM_CUSTOMER_COUPON_PROCESS_ID, payload);
+  }
+}
+
+export class DisclaimCustomerCouponSuccess extends EntitySuccessAction {
+  readonly type = DISCLAIM_CUSTOMER_COUPON_SUCCESS;
+  constructor(public payload: CustomerCoupon2Customer) {
+    super(PROCESS_FEATURE, DISCLAIM_CUSTOMER_COUPON_PROCESS_ID, payload);
+  }
+}
+
 export class ClaimCustomerCouponFail extends EntityFailAction {
   readonly type = CLAIM_CUSTOMER_COUPON_FAIL;
   constructor(public payload: any) {
@@ -201,4 +232,7 @@ export type CustomerCouponAction =
   | ResetUnsubscribeCustomerCouponProcess
   | ClaimCustomerCoupon
   | ClaimCustomerCouponFail
-  | ClaimCustomerCouponSuccess;
+  | ClaimCustomerCouponSuccess
+  | DisclaimCustomerCoupon
+  | DisclaimCustomerCouponFail
+  | DisclaimCustomerCouponSuccess;
