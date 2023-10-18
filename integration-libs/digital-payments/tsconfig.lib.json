@@ -104,7 +104,13 @@
       "@spartacus/order/core": ["dist/order/core"],
       "@spartacus/order": ["dist/order"],
       "@spartacus/order/occ": ["dist/order/occ"],
-      "@spartacus/order/root": ["dist/order/root"]
+      "@spartacus/order/root": ["dist/order/root"],
+      "@spartacus/pdf-invoices/assets": ["dist/pdf-invoices/assets"],
+      "@spartacus/pdf-invoices/components": ["dist/pdf-invoices/components"],
+      "@spartacus/pdf-invoices/core": ["dist/pdf-invoices/core"],
+      "@spartacus/pdf-invoices": ["dist/pdf-invoices"],
+      "@spartacus/pdf-invoices/occ": ["dist/pdf-invoices/occ"],
+      "@spartacus/pdf-invoices/root": ["dist/pdf-invoices/root"]
     }
   },
   "angularCompilerOptions": {

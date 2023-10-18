@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { ComponentFactoryResolver, inject, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
@@ -14,17 +14,28 @@ import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
+  MODULE_INITIALIZER,
   provideDefaultConfig,
+  provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
+import { MY_ACCOUNT_V2_ORDER, OrderOutlets } from '@spartacus/order/root';
 import {
   CardModule,
   IconModule,
   KeyboardFocusModule,
   OutletModule,
+  OutletPosition,
+  OutletService,
   PromotionsModule,
+  ProvideOutletOptions,
   SpinnerModule,
 } from '@spartacus/storefront';
+import {
+  MyAccountV2ConsignmentTrackingComponent,
+  MyAccountV2OrderDetailsActionsComponent,
+  MyAccountV2DownloadInvoicesModule,
+} from './my-account-v2';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { OrderDetailBillingComponent } from './order-detail-billing/order-detail-billing.component';
 import { ConsignmentTrackingComponent } from './order-detail-items/consignment-tracking/consignment-tracking.component';
@@ -38,6 +49,34 @@ import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-t
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
 
+function registerOrderOutletFactory(): () => void {
+  const isMyAccountV2 = inject(MY_ACCOUNT_V2_ORDER);
+  const outletService = inject(OutletService);
+  const componentFactoryResolver = inject(ComponentFactoryResolver);
+  return () => {
+    const config: ProvideOutletOptions = {
+      component: MyAccountV2ConsignmentTrackingComponent,
+      id: OrderOutlets.ORDER_CONSIGNMENT,
+      position: OutletPosition.REPLACE,
+    };
+    if (isMyAccountV2) {
+      const template = componentFactoryResolver.resolveComponentFactory(
+        config.component
+      );
+      outletService.add(config.id, template, config.position);
+    }
+  };
+}
+
+const myAccountV2CmsMapping: CmsConfig = {
+  cmsComponents: {
+    AccountOrderDetailsActionsComponent: {
+      component: MyAccountV2OrderDetailsActionsComponent,
+      //guards: inherited from standard config,
+    },
+  },
+};
+
 const moduleComponents = [
   OrderOverviewComponent,
   OrderDetailActionsComponent,
@@ -49,6 +88,8 @@ const moduleComponents = [
   OrderConsignedEntriesComponent,
   OrderDetailReorderComponent,
   ReorderDialogComponent,
+  MyAccountV2OrderDetailsActionsComponent,
+  MyAccountV2ConsignmentTrackingComponent,
 ];
 
 @NgModule({
@@ -65,6 +106,7 @@ const moduleComponents = [
     AddToCartModule,
     KeyboardFocusModule,
     IconModule,
+    MyAccountV2DownloadInvoicesModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
@@ -114,6 +156,14 @@ const moduleComponents = [
     }),
     provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
     provideDefaultConfig(defaultReorderLayoutConfig),
+    provideDefaultConfigFactory(() =>
+      inject(MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
+    ),
+    {
+      provide: MODULE_INITIALIZER,
+      useFactory: registerOrderOutletFactory,
+      multi: true,
+    },
   ],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],
