@@ -62,6 +62,18 @@
       "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
       "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"],
       "@spartacus/core": ["dist/core"],
+      "@spartacus/order/assets": ["dist/order/assets"],
+      "@spartacus/order/components": ["dist/order/components"],
+      "@spartacus/order/core": ["dist/order/core"],
+      "@spartacus/order": ["dist/order"],
+      "@spartacus/order/occ": ["dist/order/occ"],
+      "@spartacus/order/root": ["dist/order/root"],
+      "@spartacus/storefinder/assets": ["dist/storefinder/assets"],
+      "@spartacus/storefinder/components": ["dist/storefinder/components"],
+      "@spartacus/storefinder/core": ["dist/storefinder/core"],
+      "@spartacus/storefinder": ["dist/storefinder"],
+      "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
+      "@spartacus/storefinder/root": ["dist/storefinder/root"],
       "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/user/account/assets": ["dist/user/account/assets"],
       "@spartacus/user/account/components": ["dist/user/account/components"],
@@ -75,7 +87,13 @@
       "@spartacus/user/profile/core": ["dist/user/profile/core"],
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
-      "@spartacus/user/profile/root": ["dist/user/profile/root"]
+      "@spartacus/user/profile/root": ["dist/user/profile/root"],
+      "@spartacus/pdf-invoices/assets": ["dist/pdf-invoices/assets"],
+      "@spartacus/pdf-invoices/components": ["dist/pdf-invoices/components"],
+      "@spartacus/pdf-invoices/core": ["dist/pdf-invoices/core"],
+      "@spartacus/pdf-invoices": ["dist/pdf-invoices"],
+      "@spartacus/pdf-invoices/occ": ["dist/pdf-invoices/occ"],
+      "@spartacus/pdf-invoices/root": ["dist/pdf-invoices/root"]
     }
   },
   "angularCompilerOptions": {

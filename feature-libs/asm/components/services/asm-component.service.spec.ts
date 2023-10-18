@@ -5,6 +5,7 @@ import {
   AsmDeepLinkService,
   AsmEnablerService,
 } from '@spartacus/asm/root';
+import { AsmDialogActionType } from '@spartacus/asm/customer-360/root';
 import { AuthService, WindowRef, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -61,14 +62,14 @@ class MockAsmDeepLinkService implements Partial<AsmDeepLinkService> {
   }
 }
 
-class MockRoutingService implements Partial<RoutingService> {
-  go = () => Promise.resolve(true);
-}
-
 class MockAsmEnablerService implements Partial<AsmEnablerService> {
   isEmulateInURL(): boolean {
     return true;
   }
+}
+
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
 }
 
 describe('AsmComponentService', () => {
@@ -86,6 +87,7 @@ describe('AsmComponentService', () => {
         { provice: AsmDeepLinkService, useClass: MockAsmDeepLinkService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AsmEnablerService, useClass: MockAsmEnablerService },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
@@ -181,6 +183,22 @@ describe('AsmComponentService', () => {
           expect(result).toBe(false);
           done();
         });
+    });
+  });
+
+  describe('customer 360()', () => {
+    it('should handle dialog actions', () => {
+      const routingService = TestBed.inject(RoutingService);
+      spyOn(routingService, 'go').and.stub();
+
+      asmComponentService.handleAsmDialogAction({
+        actionType: AsmDialogActionType.NAVIGATE,
+        route: '/',
+        selectedUser: {},
+      });
+
+      expect(routingService.go).toHaveBeenCalledTimes(1);
+      expect(routingService.go).toHaveBeenCalledWith('/');
     });
   });
 });
