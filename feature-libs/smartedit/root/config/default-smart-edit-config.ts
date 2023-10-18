@@ -9,6 +9,6 @@ import { SmartEditConfig } from './smart-edit-config';
 export const defaultSmartEditConfig: SmartEditConfig = {
   smartEdit: {
     storefrontPreviewRoute: 'cx-preview',
-    allowOrigin: '40.76.109.9:9002',
+    allowOrigin: 'localhost:9002',
   },
 };
