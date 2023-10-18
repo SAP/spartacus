@@ -10,5 +10,6 @@ export interface User {
   lastName?: string;
   name?: string;
   uid?: string;
+  customerId?: string;
   title?: string;
 }
