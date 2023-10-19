@@ -47,17 +47,20 @@ describe('SSR E2E', () => {
     Log.assertMessages([`Render from cache (${REQUEST_PATH})`]);
   });
 
-  // TODO: Test incomplete
-  xit('should receive 404 response when page is not existing', () => {});
+  it('should receive 404 response when page is not existing', async () => {
+    proxy = await ProxyServer.startProxyServer({
+      target: BACKEND_BASE_URL,
+    });
+    const response: any = await ProxyServer.sendRequest(
+      REQUEST_PATH + '/not-existing-page'
+    );
+    expect(response.statusCode).toEqual(404);
+  });
 
-  // TODO: Test incomplete
-  xit('should receive 500 error response with request', async () => {
+  it('should receive 500 error response when a backend API returned server error', async () => {
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
       throwStatus: 500,
-    });
-    proxy.on('proxyRes', function (proxyRes: any) {
-      proxyRes.statusCode = 500;
     });
     const response: any = await ProxyServer.sendRequest('/');
     expect(response.statusCode).toEqual(500);
