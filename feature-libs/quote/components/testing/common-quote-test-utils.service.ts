@@ -193,17 +193,17 @@ export class CommonQuoteTestUtilsService {
     }
   }
 
-  protected static collectFountElements(
+  protected static collectElementsWithClassName(
     elements: Element[],
     tagClass: string,
-    foundElement: Element[]
+    foundElements: Element[]
   ) {
     elements.forEach((element) => {
       const classList = element.classList;
       if (classList.length >= 1) {
         classList.forEach((elementClass) => {
           if (elementClass === tagClass) {
-            foundElement.push(element);
+            foundElements.push(element);
           }
         });
       }
@@ -216,17 +216,17 @@ export class CommonQuoteTestUtilsService {
     tagClass?: string,
     tagIndex?: number
   ): Element | undefined {
-    const foundElement: Element[] = [];
+    const foundElements: Element[] = [];
     const elements = Array.from(htmlElements.getElementsByTagName(tag));
     if (!tagClass) {
       return !tagIndex ? elements[0] : elements[tagIndex];
     } else {
-      CommonQuoteTestUtilsService.collectFountElements(
+      CommonQuoteTestUtilsService.collectElementsWithClassName(
         elements,
         tagClass,
-        foundElement
+        foundElements
       );
-      return tagIndex ? foundElement[tagIndex] : foundElement[0];
+      return tagIndex ? foundElements[tagIndex] : foundElements[0];
     }
   }
 
