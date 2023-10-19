@@ -24,33 +24,33 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      "@spartacus/schematics": [
-        "projects/schematics/index"
+      "@spartacus/schematics": ["projects/schematics/index"],
+      "@spartacus/setup": ["core-libs/setup/public_api"],
+      "@spartacus/setup/ssr": ["core-libs/setup/ssr/public_api"],
+      "@spartacus/asm/assets": ["feature-libs/asm/assets/public_api"],
+      "@spartacus/asm/components": ["feature-libs/asm/components/public_api"],
+      "@spartacus/asm/core": ["feature-libs/asm/core/public_api"],
+      "@spartacus/asm/customer-360/assets": [
+        "feature-libs/asm/customer-360/assets/public_api"
       ],
-      "@spartacus/setup": [
-        "core-libs/setup/public_api"
+      "@spartacus/asm/customer-360/components": [
+        "feature-libs/asm/customer-360/components/public_api"
       ],
-      "@spartacus/setup/ssr": [
-        "core-libs/setup/ssr/public_api"
+      "@spartacus/asm/customer-360/core": [
+        "feature-libs/asm/customer-360/core/public_api"
       ],
-      "@spartacus/asm/assets": [
-        "feature-libs/asm/assets/public_api"
+      "@spartacus/asm/customer-360": [
+        "feature-libs/asm/customer-360/public_api"
       ],
-      "@spartacus/asm/components": [
-        "feature-libs/asm/components/public_api"
+      "@spartacus/asm/customer-360/occ": [
+        "feature-libs/asm/customer-360/occ/public_api"
       ],
-      "@spartacus/asm/core": [
-        "feature-libs/asm/core/public_api"
+      "@spartacus/asm/customer-360/root": [
+        "feature-libs/asm/customer-360/root/public_api"
       ],
-      "@spartacus/asm": [
-        "feature-libs/asm/public_api"
-      ],
-      "@spartacus/asm/occ": [
-        "feature-libs/asm/occ/public_api"
-      ],
-      "@spartacus/asm/root": [
-        "feature-libs/asm/root/public_api"
-      ],
+      "@spartacus/asm": ["feature-libs/asm/public_api"],
+      "@spartacus/asm/occ": ["feature-libs/asm/occ/public_api"],
+      "@spartacus/asm/root": ["feature-libs/asm/root/public_api"],
       "@spartacus/cart/base/assets": [
         "feature-libs/cart/base/assets/public_api"
       ],

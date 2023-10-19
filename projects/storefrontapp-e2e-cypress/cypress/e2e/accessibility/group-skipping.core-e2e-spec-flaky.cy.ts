@@ -36,6 +36,7 @@ context('Group Skipping - Checkout', () => {
     cy.requireLoggedIn().then(() => {
       checkout.goToProductDetailsPage();
       checkout.addProductToCart();
+      cy.findByText(/proceed to checkout/i).click();
 
       checkout.fillAddressForm();
 
