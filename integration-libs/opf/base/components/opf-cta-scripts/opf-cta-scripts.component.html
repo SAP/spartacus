@@ -1,4 +1,4 @@
-<ng-container *ngIf="!(isError$ | async); else errorTemplate">
+<ng-container *ngIf="!(isError$ | async)">
   <ng-container *ngIf="ctaHtmlList$ | async as ctaHtmlList; else loading">
     <ng-container *ngIf="ctaHtmlList?.length">
       <cx-opf-cta-button
@@ -13,9 +13,3 @@
     <cx-spinner></cx-spinner>
   </div>
 </ng-template>
-<ng-template #errorTemplate>
-  <div>Error:</div>
-</ng-template>
-
-<!-- <div *ngIf="ctaHtml" [innerHTML]="renderHtml(ctaHtml)"></div> -->
-<!-- <ng-template cxOutletRef="header"> Custom UI added before the UI. </ng-template> -->

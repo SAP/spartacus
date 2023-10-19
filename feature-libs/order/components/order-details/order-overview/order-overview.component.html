@@ -1,4 +1,3 @@
-<ng-template [cxOutlet]="'cx-order-overview.top'"></ng-template>
 <div class="cx-order-summary" *ngIf="order$ | async as order">
   <ng-container *ngIf="!(isOrderLoading$ | async)">
     <div *ngIf="!(simple$ | async)" class="container">
@@ -195,5 +194,4 @@
       </ng-container>
     </div>
   </ng-container>
-  <!-- <ng-template [cxOutlet]="'cx-order-overview.full'"></ng-template> -->
 </div>

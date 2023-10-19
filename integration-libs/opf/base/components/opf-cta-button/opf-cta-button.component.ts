@@ -16,7 +16,7 @@ export class OpfCtaButtonComponent {
 
   @Input() ctaScriptHtml: string;
 
-  renderHtml(html?: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(html as string);
+  renderHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }

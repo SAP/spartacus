@@ -77,8 +77,8 @@ export class OpfCtaScriptsService {
     let paymentAccountIds: number[];
 
     return this.getPaymentAccountIds().pipe(
-      concatMap((paymentAccountIds) => {
-        paymentAccountIds = paymentAccountIds;
+      concatMap((accIds) => {
+        paymentAccountIds = accIds;
         return this.getScriptLocation();
       }),
       concatMap((scriptsLocation: CtaScriptsLocation | null) => {
@@ -94,11 +94,11 @@ export class OpfCtaScriptsService {
     scriptsLocation: CtaScriptsLocation | null,
     paymentAccountIds: number[]
   ): Observable<CtaScriptsRequest> {
-    if (scriptsLocation == CtaScriptsLocation.PDP_QUICK_BUY) {
+    if (scriptsLocation === CtaScriptsLocation.PDP_QUICK_BUY) {
       return this.fillCtaRequestforPDP(scriptsLocation, paymentAccountIds);
     } else if (
-      scriptsLocation == CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE ||
-      scriptsLocation == CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE
+      scriptsLocation === CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE ||
+      scriptsLocation === CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE
     ) {
       return this.fillCtaRequestforPagesWithOrder(
         scriptsLocation,
@@ -179,7 +179,7 @@ export class OpfCtaScriptsService {
 
   protected getOrderDetails(scriptsLocation: CtaScriptsLocation) {
     const order$ =
-      scriptsLocation == CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE
+      scriptsLocation === CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE
         ? this.orderDetailsService.getOrderDetails()
         : this.orderHistoryService.getOrderDetails();
     return order$.pipe(
