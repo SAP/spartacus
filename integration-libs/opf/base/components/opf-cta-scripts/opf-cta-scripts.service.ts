@@ -238,10 +238,9 @@ export class OpfCtaScriptsService {
   protected removeScriptTags(htmls: string[]) {
     return htmls.map((html) => {
       const element = new DOMParser().parseFromString(html, 'text/html');
-      const script = element.getElementsByTagName('script');
-      for (let i = 0; i < script.length; i++) {
-        html = html.replace(script[i].outerHTML, '');
-      }
+      Array.from(element.getElementsByTagName('script')).forEach((script) => {
+        html = html.replace(script.outerHTML, '');
+      });
       return html;
     });
   }
