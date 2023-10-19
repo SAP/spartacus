@@ -6,11 +6,10 @@ import {
   concatMap,
   filter,
   finalize,
-  last,
   map,
+  reduce,
   switchMap,
   take,
-  tap,
 } from 'rxjs/operators';
 
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -140,23 +139,16 @@ export class OpfCtaScriptsService {
   }
 
   protected runCtaScriptsList(scripts: OpfDynamicScript[]) {
-    let loadedCtaHtmls: string[];
-    return of(scripts).pipe(
-      tap(() => {
-        loadedCtaHtmls = [];
-      }),
-      concatMap((scripts) => {
-        return from(scripts);
-      }),
+    return from(scripts).pipe(
       concatMap((script) => from(this.loadAndRunScript(script))),
-      tap((script) => {
+      reduce((loadedList: string[], script) => {
         if (script?.html) {
-          loadedCtaHtmls.push(script.html);
+          loadedList.push(script.html);
         }
-      }),
-      last(),
-      map(() => {
-        return loadedCtaHtmls;
+        return loadedList;
+      }, []),
+      map((list) => {
+        return this.cleanHtmls(list);
       })
     );
   }
@@ -235,5 +227,16 @@ export class OpfCtaScriptsService {
           });
       }
     );
+  }
+
+  protected cleanHtmls(htmls: string[]) {
+    return htmls.map((html) => {
+      const element = new DOMParser().parseFromString(html, 'text/html');
+      const script = element.getElementsByTagName('script');
+      for (let i = 0; i < script.length; i++) {
+        html = html.replace(script[i].outerHTML, '');
+      }
+      return html;
+    });
   }
 }

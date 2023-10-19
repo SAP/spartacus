@@ -149,19 +149,67 @@ describe('OpfCtaScriptsService', () => {
     });
   });
 
-  // it('should throw an error when order is empty', (done) => {
-  //   orderFacadeMock.getOrderDetails.and.returnValue(
-  //     of({ ...mockOrder, entries: [] })
-  //   );
+  it('should not load html snippet when its associated resource files fail to load', (done) => {
+    opfResourceLoaderServiceMock.loadProviderResources.and.returnValue(
+      Promise.reject()
+    );
 
-  //   service.getCtaHtmlslList().subscribe({
-  //     error: (error) => {
-  //       expect(error).toEqual('Invalid Script Location');
+    service.getCtaHtmlslList().subscribe({
+      next: (htmlsList) => {
+        expect(htmlsList.length).toEqual(0);
 
-  //       done();
-  //     },
-  //   });
-  // });
+        done();
+      },
+    });
+  });
+
+  it('should not load html snippet when html returned from server is empty ', (done) => {
+    opfPaymentFacadeMock.getCtaScripts.and.returnValue(
+      of({
+        ...ctaScriptsresponseMock,
+        value: [
+          {
+            ...ctaScriptsresponseMock.value[0],
+            dynamicScript: {
+              ...ctaScriptsresponseMock.value[0].dynamicScript,
+              html: '',
+            },
+          },
+        ],
+      })
+    );
+
+    service.getCtaHtmlslList().subscribe({
+      next: (htmlsList) => {
+        expect(htmlsList.length).toEqual(0);
+        done();
+      },
+    });
+  });
+
+  it('should remove all script tags from html snippet', (done) => {
+    opfPaymentFacadeMock.getCtaScripts.and.returnValue(
+      of({
+        ...ctaScriptsresponseMock,
+        value: [
+          {
+            ...ctaScriptsresponseMock.value[0],
+            dynamicScript: {
+              ...ctaScriptsresponseMock.value[0].dynamicScript,
+              html: "<div><h2>Thanks for purchasing our great products</h2><h3>Please use promo code:<b>123abc</b> for your next purchase<h3></div><script>console.log('CTA Script #1 is running')</script><script>console.log('CTA Script #2 is running')</script>",
+            },
+          },
+        ],
+      })
+    );
+
+    service.getCtaHtmlslList().subscribe({
+      next: (htmlsList) => {
+        expect(htmlsList[0]).not.toContain('<script>');
+        done();
+      },
+    });
+  });
 
   const ctaScriptsresponseMock: CtaScriptsResponse = {
     value: [
