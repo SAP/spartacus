@@ -12,6 +12,8 @@ const containerSelector = 'cx-asm-main-ui';
 const containerSelectorForCustomerLists = 'cx-customer-list';
 const containerSelectorForCreateCustomerForm = 'cx-asm-create-customer-form';
 const containerSelectorForInactiveCartDialog = 'cx-asm-save-cart-dialog';
+const containerSelectorForCustomer360CouponList =
+  'cx-asm-customer-360-promotion-listing';
 
 export function asmTabbingOrderNotLoggedIn(config: TabElement[]) {
   cy.visit('/?asm=true');
@@ -111,4 +113,37 @@ export function asmTabbingOrderWithSaveInactiveCartDialog(
         cy.findByText(/Cancel/i).click();
       });
   });
+}
+
+export function asmTabbingOrderForCustomer360CouponList(config: TabElement[]) {
+  lanuchPromotiontab();
+  cy.get('cx-asm-customer-360-coupon').within(() => {
+    verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
+  });
+}
+
+export function asmTabbingOrderForCustomer360CustomerCouponList(
+  config: TabElement[]
+) {
+  lanuchPromotiontab();
+  cy.get('cx-asm-customer-360-customer-coupon').within(() => {
+    verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
+  });
+}
+
+function lanuchPromotiontab() {
+  cy.visit('/?asm=true');
+  asm.agentLogin('asagent', 'pw4all');
+
+  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
+  cy.get('cx-customer-selection form').within(() => {
+    cy.get('[formcontrolname="searchTerm"]').type('Linda Wolf');
+  });
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+  cy.get('cx-customer-selection div.asm-results button').first().click();
+  cy.get('button').contains('Start Emulation').click();
+  cy.get('button.cx-360-button').click();
+  cy.get('button.cx-tab-header').contains('Promotion').click();
 }

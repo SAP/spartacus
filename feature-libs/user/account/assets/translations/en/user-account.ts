@@ -25,4 +25,7 @@ export const userAccount = {
     userGreeting: 'Hi, {{name}}',
     signInRegister: 'Sign In / Register',
   },
+  myAccountV2User: {
+    signOut: 'Sign Out',
+  },
 };

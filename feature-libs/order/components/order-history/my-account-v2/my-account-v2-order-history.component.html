@@ -1,0 +1,107 @@
+<div
+  *ngIf="orders$ | async as orderHistory; else noOrder"
+  [attr.aria-label]="'myAccountV2OrderHistory.orderListResults' | cxTranslate"
+>
+  <!-- HEADER -->
+  <div class="cx-my-account-v2-order-history-header">
+    <h2>
+      {{
+        'myAccountV2OrderHistory.heading'
+          | cxTranslate: { param: tabTitleParam$ | async }
+      }}
+    </h2>
+  </div>
+  <!--BODY-->
+  <div class="cx-my-account-v2-order-history-body">
+    <ng-container
+      *ngIf="orderHistory.pagination.totalResults > 0; else noOrder"
+    >
+      <ng-container *ngFor="let order of orderHistory.orders">
+        <div class="cx-each-order">
+          <!--eg: Order # 12345-->
+          <div
+            class="cx-my-account-v2-order-history-code"
+            [attr.aria-label]="
+              'myAccountV2OrderHistory.orderCodeLabel' | cxTranslate
+            "
+            (click)="goToOrderDetail(order)"
+          >
+            <a
+              [routerLink]="
+                {
+                  cxRoute: 'orderDetails',
+                  params: order
+                } | cxUrl
+              "
+            >
+              {{ 'orderHistory.orderId' | cxTranslate }} {{ order?.code }}</a
+            >
+          </div>
+
+          <!--eg: 12,October,2022 | Total Price: $12.00-->
+          <div class="cx-my-account-v2-order-summary">
+            <span
+              [attr.aria-label]="
+                'myAccountV2OrderHistory.orderPlaced' | cxTranslate
+              "
+            >
+              {{ order.placed | cxDate: 'd, MMMM, yyyy' }} |
+            </span>
+            <span
+              [attr.aria-label]="
+                'myAccountV2OrderHistory.totalPriceLabel' | cxTranslate
+              "
+            >
+              <strong>
+                {{
+                  'myAccountV2OrderHistory.totalPrice'
+                    | cxTranslate: { param: order.total?.formattedValue }
+                }}
+              </strong>
+            </span>
+          </div>
+
+          <!--eg: Display consolidated order information-->
+          <cx-my-account-v2-order-consolidated-information [order]="order">
+          </cx-my-account-v2-order-consolidated-information>
+        </div>
+      </ng-container>
+
+      <!-- PAGINATION -->
+      <div
+        *ngIf="orderHistory.pagination.totalPages > 1"
+        class="cx-order-history-pagination"
+        [attr.aria-label]="
+          'myAccountV2OrderHistory.orderListPagination' | cxTranslate
+        "
+      >
+        <cx-pagination
+          [pagination]="orderHistory.pagination"
+          (viewPageEvent)="pageChange($event)"
+        ></cx-pagination>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- NO ORDER CONTAINER -->
+<ng-template #noOrder>
+  <div *ngIf="isLoaded$ | async; else loading">
+    <div [attr.aria-label]="'orderHistory.notFound' | cxTranslate">
+      {{ 'orderHistory.noOrders' | cxTranslate }}
+    </div>
+    <a
+      [routerLink]="{ cxRoute: 'home' } | cxUrl"
+      routerLinkActive="active"
+      class="cx-no-order"
+      >{{ 'orderHistory.startShopping' | cxTranslate }}</a
+    >
+  </div>
+</ng-template>
+
+<!-- ORDER HISTORY DATA STILL LOADING -->
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

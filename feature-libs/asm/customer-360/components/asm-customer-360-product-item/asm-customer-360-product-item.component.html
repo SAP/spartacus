@@ -1,0 +1,45 @@
+<button
+  class="cx-asm-customer-360-product-item-media link"
+  [attr.aria-label]="product?.name"
+  (click)="selectProduct.emit(product)"
+>
+  <cx-media
+    [container]="product?.images?.PRIMARY"
+    format="product"
+    [alt]="product?.name ?? ''"
+  ></cx-media>
+</button>
+<div class="cx-asm-customer-360-product-item-content">
+  <button
+    [attr.aria-label]="product?.name"
+    (click)="selectProduct.emit(product)"
+    class="cx-asm-customer-360-product-item-name link"
+  >
+    <span title="{{ product?.name }}">{{ product?.name }}</span>
+  </button>
+  <ng-container *ngIf="isOrderEntry; else notOrderEntryTemplate">
+    <div class="cx-asm-customer-360-product-item-code">
+      {{ product?.code }}
+    </div>
+    <div class="cx-asm-customer-360-product-item-quantity" *ngIf="quantity">
+      {{
+        'asmCustomer360.productItem.quantity' | cxTranslate: { count: quantity }
+      }}
+    </div>
+    <div class="cx-asm-customer-360-product-item-price">
+      {{
+        'asmCustomer360.productItem.itemPrice'
+          | cxTranslate
+            : { price: product?.basePrice ?? product?.price?.formattedValue }
+      }}
+    </div>
+  </ng-container>
+  <ng-template #notOrderEntryTemplate>
+    <div
+      class="cx-asm-customer-360-product-item-out-of-stock"
+      *ngIf="product.stock?.stockLevelStatus === 'outOfStock'"
+    >
+      {{ 'asmCustomer360.productItem.outOfStock' | cxTranslate }}
+    </div>
+  </ng-template>
+</div>
