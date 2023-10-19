@@ -19,6 +19,8 @@ export const opf = {
       itemsToBeShipped: 'Items to be shipped',
       proceedPayment: 'Place Order',
       retryPayment: 'Retry to Continue',
+      checkTermsAndConditionsFirst:
+        'You must agree Terms & Conditions to see available payment options.',
       errors: {
         loadActiveConfigurations:
           'We are unable to load payment options at this time. Please try again later.',

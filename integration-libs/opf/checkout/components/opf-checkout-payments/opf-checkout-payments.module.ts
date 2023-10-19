@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
 import { OpfCheckoutPaymentWrapperModule } from '../opf-checkout-payment-wrapper';
+import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.module';
 import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
 
 @NgModule({
@@ -17,8 +18,9 @@ import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component'
   imports: [
     CommonModule,
     I18nModule,
-    OpfCheckoutPaymentWrapperModule,
     SpinnerModule,
+    OpfCheckoutPaymentWrapperModule,
+    OpfCheckoutTermsAndConditionsAlertModule,
   ],
 })
 export class OpfCheckoutPaymentsModule {}

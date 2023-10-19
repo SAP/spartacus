@@ -24,5 +24,12 @@
       border-color: var(--cx-color-medium);
       background-color: var(--cx-color-light);
     }
+
+    > cx-opf-checkout-terms-and-conditions-alert {
+      display: block;
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+    }
   }
 }
