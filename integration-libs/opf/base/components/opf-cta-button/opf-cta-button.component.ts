@@ -4,12 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'cx-opf-cta-button',
   templateUrl: './opf-cta-button.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpfCtaButtonComponent {
   protected sanitizer = inject(DomSanitizer);
