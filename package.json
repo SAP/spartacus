@@ -131,7 +131,7 @@
     "rxjs": "^7.8.0",
     "ts-loader": "^9.4.4",
     "tslib": "^2.6.2",
-    "zone.js": "0.13.3"
+    "zone.js": "~0.13.3"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^16.0.0",
@@ -185,7 +185,7 @@
     "jest-preset-angular": "13.1.2",
     "jsonc-parser": "^3.2.0",
     "karma": "~6.4.1",
-    "karma-chrome-launcher": "~3.1.1",
+    "karma-chrome-launcher": "~3.2.0",
     "karma-cli": "^2.0.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",

@@ -1,5 +1,5 @@
 import { AbstractType } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import {
   ActiveCartFacade,
   CartAddEntrySuccessEvent,
@@ -14,7 +14,7 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import { Observable, of, queueScheduler } from 'rxjs';
-import { delay, observeOn, switchMap, take, tap } from 'rxjs/operators';
+import { observeOn, take, tap } from 'rxjs/operators';
 import { QuickOrderService } from './quick-order.service';
 
 const mockProduct1Code: string = 'mockCode1';
@@ -325,24 +325,26 @@ describe('QuickOrderService', () => {
       });
   });
 
-  it('should add deleted entry and after 7s delete it', (done) => {
+  it('should add deleted entry and after 7s delete it', fakeAsync(() => {
     service.loadEntries(mockEntries);
     service.softDeleteEntry(0);
 
     service
       .getSoftDeletedEntries()
-      .pipe(
-        tap((softDeletedEntries) => {
-          expect(softDeletedEntries).toEqual({ mockCode1: mockEntry1 });
-        }),
-        delay(7000),
-        switchMap(() => service.getSoftDeletedEntries())
-      )
+      .pipe(take(1))
+      .subscribe((result) => {
+        expect(result).toEqual({ mockCode1: mockEntry1 });
+      });
+
+    tick(7000);
+
+    service
+      .getSoftDeletedEntries()
+      .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual({});
       });
-    done();
-  });
+  }));
 
   it('should not add deleted entry', (done) => {
     service.loadEntries([mockEmptyEntry]);

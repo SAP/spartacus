@@ -1,22 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 import {
+  Event,
   NavigationCancel,
   NavigationEnd,
   NavigationError,
   NavigationStart,
   Router,
-  RouterEvent,
 } from '@angular/router';
-import { firstValueFrom, Subject } from 'rxjs';
+import { Subject, firstValueFrom } from 'rxjs';
 import { ActivatedRoutesService } from './activated-routes.service';
 
 describe('ActivatedRoutesService', () => {
   let service: ActivatedRoutesService;
   let router: Router;
-  let mockRouterEvents$: Subject<RouterEvent>;
+  let mockRouterEvents$: Subject<Event>;
 
   beforeEach(() => {
-    mockRouterEvents$ = new Subject<RouterEvent>();
+    mockRouterEvents$ = new Subject<Event>();
 
     class MockRouter implements Partial<Router> {
       events = mockRouterEvents$;

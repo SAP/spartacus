@@ -36,7 +36,7 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
         '[Spartacus] provideConfig() is intended for library consumers. To allow for better extensibility, please provide default configs inside Spartacus libraries using provideDefaultConfig().',
     },
   },
-  defaultOptions: [],
+  defaultOptions: [] as unknown[],
   create(context) {
     return {
       'CallExpression[callee.name=provideConfig]'(

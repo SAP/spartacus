@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   Address,
@@ -125,27 +125,26 @@ describe('UnitLevelOrderOverviewComponent', () => {
   let translationService: TranslationService;
   let orderDetailService: UnitLevelOrderDetailService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [UnitLevelOrderOverviewComponent, MockCardComponent],
-        providers: [
-          { provide: TranslationService, useClass: MockTranslationService },
-          {
-            provide: UnitLevelOrderDetailService,
-            useClass: MockOrderDetailsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  //TODO: investigate why 'waitForAsync' is not working in the spare time
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [UnitLevelOrderOverviewComponent, MockCardComponent],
+      providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: UnitLevelOrderDetailService,
+          useClass: MockOrderDetailsService,
+        },
+      ],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnitLevelOrderOverviewComponent);
-    component = fixture.componentInstance;
     translationService = TestBed.inject(TranslationService);
     orderDetailService = TestBed.inject(UnitLevelOrderDetailService);
+    fixture = TestBed.createComponent(UnitLevelOrderOverviewComponent);
+    component = fixture.componentInstance;
   });
 
   it('should create', () => {
