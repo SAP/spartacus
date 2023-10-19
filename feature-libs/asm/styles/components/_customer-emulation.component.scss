@@ -10,7 +10,7 @@
   }
 
   @include forVersion(6.6) {
-    @media (max-width: 1080px) {
+    @media (max-width: 1090px) {
       flex-direction: column;
       > * {
         margin-bottom: 12px;
@@ -30,7 +30,7 @@
       width: 100%;
     }
     @include forVersion(6.6) {
-      @media (max-width: 1080px) {
+      @media (max-width: 1090px) {
         width: 100%;
       }
     }
