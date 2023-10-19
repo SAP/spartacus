@@ -113,10 +113,12 @@ export class OccQuoteAdapter implements QuoteAdapter {
       QUOTE_METADATA_SERIALIZER
     );
 
-    return this.withErrorHandling(this.httpClient.patch<Quote>(
-      this.getEditQuoteEndpoint(userId, quoteCode),
-      quoteMetadata
-    ));
+    return this.withErrorHandling(
+      this.httpClient.patch<Quote>(
+        this.getEditQuoteEndpoint(userId, quoteCode),
+        quoteMetadata
+      )
+    );
   }
 
   protected getEditQuoteEndpoint(userId: string, quoteCode: string): string {
