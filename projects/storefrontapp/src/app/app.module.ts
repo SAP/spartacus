@@ -42,7 +42,7 @@ if (!environment.production) {
 
 @NgModule({
   imports: [
-    BrowserModule.withServerTransition({ appId: 'spartacus-app' }), //TODO: remove withServerTransition and replace with APP_ID after verification!!
+    BrowserModule.withServerTransition({ appId: 'spartacus-app' }), //TODO: CXSPA-5088 remove withServerTransition and replace with APP_ID after verification!!
     HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot({}),

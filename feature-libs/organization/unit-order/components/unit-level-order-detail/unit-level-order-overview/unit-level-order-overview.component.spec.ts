@@ -125,7 +125,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
   let translationService: TranslationService;
   let orderDetailService: UnitLevelOrderDetailService;
 
-  //TODO: investigate why 'waitForAsync' is not working in the spare time
+  //TODO: CXSPA-5088 investigate why 'waitForAsync' is not working in the spare time
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
