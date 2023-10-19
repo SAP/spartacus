@@ -40,9 +40,9 @@
     <div class="cx-summary-card">
       <cx-card
         [content]="
-          getEstimatedTotalAndDate(
+          getEstimatedTotalAndExpiryDate(
             quoteDetails,
-            quoteDetails.creationTime | cxDate
+            quoteDetails.expirationTime | cxDate
           ) | async
         "
       ></cx-card>
@@ -50,9 +50,9 @@
     <div class="cx-summary-card">
       <cx-card
         [content]="
-          getCardMetadata(
-            quoteDetails.updatedTime | cxDate,
-            quoteDetails.expirationTime | cxDate
+          getCreatedAndUpdatedDates(
+            quoteDetails.creationTime | cxDate,
+            quoteDetails.updatedTime | cxDate
           ) | async
         "
       ></cx-card>
