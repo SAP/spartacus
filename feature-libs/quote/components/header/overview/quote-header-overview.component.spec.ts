@@ -403,41 +403,15 @@ describe('QuoteHeaderOverviewComponent', () => {
       expect(result).toEqual(expected);
     });
 
-    it('should the card content that represents an empty estimated and date information', () => {
+    it('should the card content that represents an empty estimated total and expiry date information', () => {
       fixture.detectChanges();
 
       const expected = {
-        title: 'quote.header.overview.estimateAndDate',
+        title: 'quote.header.overview.priceAndExpiry',
         paragraphs: [
           {
             title: 'quote.header.overview.estimatedTotal',
             text: [mockQuote.totalPrice.formattedValue],
-          },
-          {
-            title: 'quote.header.overview.created',
-            text: ['-'],
-          },
-        ],
-      };
-
-      component
-        .getEstimatedTotalAndDate(mockQuote, undefined)
-        .subscribe((result) => {
-          expect(result).toEqual(expected);
-        });
-    });
-
-    it('should retrieve the card content that represents an empty update information', () => {
-      mockQuote.updatedTime = undefined;
-      mockQuote.expirationTime = undefined;
-      fixture.detectChanges();
-
-      const expected = {
-        title: 'quote.header.overview.update',
-        paragraphs: [
-          {
-            title: 'quote.header.overview.lastUpdated',
-            text: ['-'],
           },
           {
             title: 'quote.header.overview.expirationTime',
@@ -446,9 +420,37 @@ describe('QuoteHeaderOverviewComponent', () => {
         ],
       };
 
-      component.getCardMetadata(undefined, undefined).subscribe((result) => {
-        expect(result).toEqual(expected);
-      });
+      component
+        .getEstimatedTotalAndExpiryDate(mockQuote, undefined)
+        .subscribe((result) => {
+          expect(result).toEqual(expected);
+        });
+    });
+
+    it('should retrieve the card content that represents an empty created and updated dates information', () => {
+      mockQuote.updatedTime = undefined;
+      mockQuote.expirationTime = undefined;
+      fixture.detectChanges();
+
+      const expected = {
+        title: 'quote.header.overview.createdAndUpdated',
+        paragraphs: [
+          {
+            title: 'quote.header.overview.createdDate',
+            text: ['-'],
+          },
+          {
+            title: 'quote.header.overview.lastUpdatedDate',
+            text: ['-'],
+          },
+        ],
+      };
+
+      component
+        .getCreatedAndUpdatedDates(undefined, undefined)
+        .subscribe((result) => {
+          expect(result).toEqual(expected);
+        });
     });
   });
 
