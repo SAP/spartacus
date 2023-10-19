@@ -19,7 +19,7 @@
       <button
         type="button"
         class="close"
-        [attr.aria-label]="'common.close' | cxTranslate"
+        [attr.aria-label]="confirmationContext.a11y.close | cxTranslate"
         (click)="dismissModal('Cross click')"
       >
         <span aria-hidden="true">
@@ -82,6 +82,11 @@
           {{ 'quote.actions.confirmDialog.option.yes' | cxTranslate }}
         </button>
       </div>
+    </div>
+
+    <!-- For screen reader purposes (not visual)-->
+    <div class="cx-visually-hidden" aria-live="polite" aria-atomic="true">
+      {{ getA11yModalText(confirmationContext) }}
     </div>
   </div>
 </div>
