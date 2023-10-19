@@ -13,6 +13,7 @@ import {
 import {
   QUOTE_AWARE_FEATURE,
   QUOTE_FEATURE,
+  QUOTE_REQUEST_FEATURE,
   QuoteRootModule,
 } from '@spartacus/quote/root';
 
@@ -34,8 +35,18 @@ import {
       featureModules: {
         [QUOTE_AWARE_FEATURE]: {
           module: () =>
-            import('@spartacus/quote/quote-aware').then(
-              (m) => m.QuoteAwareModule
+            import('@spartacus/quote/components/aware').then(
+              (m) => m.QuoteAwareComponentModule
+            ),
+        },
+      },
+    }),
+    provideConfig({
+      featureModules: {
+        [QUOTE_REQUEST_FEATURE]: {
+          module: () =>
+            import('@spartacus/quote/components/request-button').then(
+              (m) => m.QuoteRequestButtonModule
             ),
         },
       },

@@ -68,6 +68,9 @@ export class CardComponent implements OnInit {
   truncateText = false;
 
   @Input()
+  truncateParagraphText = false;
+
+  @Input()
   charactersLimit = 100;
 
   @Input()

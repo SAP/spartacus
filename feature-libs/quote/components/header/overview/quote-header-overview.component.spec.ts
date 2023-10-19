@@ -313,22 +313,22 @@ describe('QuoteHeaderOverviewComponent', () => {
 
     it('should return "false" if the quote information is not editable', () => {
       quote.isEditable = false;
-      expect(component.isQuoteInformationEditable(quote)).toBe(false);
+      expect(component.isQuoteEditableForBuyer(quote)).toBe(false);
     });
 
     it('should return "false" if the quote information is not editable for "SELLER_DRAFT"', () => {
       quote.state = QuoteState.SELLER_DRAFT;
-      expect(component.isQuoteInformationEditable(quote)).toBe(false);
+      expect(component.isQuoteEditableForBuyer(quote)).toBe(false);
     });
 
     it('should return "true" if the quote information is editable for "BUYER_DRAFT"', () => {
       quote.state = QuoteState.BUYER_DRAFT;
-      expect(component.isQuoteInformationEditable(quote)).toBe(true);
+      expect(component.isQuoteEditableForBuyer(quote)).toBe(true);
     });
 
     it('should return "true" if the quote information is editable for "BUYER_OFFER"', () => {
       quote.state = QuoteState.BUYER_OFFER;
-      expect(component.isQuoteInformationEditable(quote)).toBe(true);
+      expect(component.isQuoteEditableForBuyer(quote)).toBe(true);
     });
   });
 
@@ -421,7 +421,7 @@ describe('QuoteHeaderOverviewComponent', () => {
       };
 
       component
-        .getEstimatedAndDate(mockQuote, undefined)
+        .getEstimatedTotalAndDate(mockQuote, undefined)
         .subscribe((result) => {
           expect(result).toEqual(expected);
         });
@@ -446,7 +446,7 @@ describe('QuoteHeaderOverviewComponent', () => {
         ],
       };
 
-      component.getUpdate(undefined, undefined).subscribe((result) => {
+      component.getCardMetadata(undefined, undefined).subscribe((result) => {
         expect(result).toEqual(expected);
       });
     });

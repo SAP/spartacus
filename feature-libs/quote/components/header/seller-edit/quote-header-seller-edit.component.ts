@@ -35,7 +35,7 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
   protected quoteHeaderSellerEditComponentService = inject(
     QuoteHeaderSellerEditComponentService
   );
-  protected config = inject(QuoteUIConfig);
+  protected quoteUIConfig = inject(QuoteUIConfig);
 
   quoteDetailsForSeller$: Observable<Quote> = this.quoteFacade
     .getQuoteDetails()
@@ -96,7 +96,9 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.dateUpdates
         .pipe(
-          debounceTime(this.config.quote?.updateDebounceTime?.expiryDate ?? 500)
+          debounceTime(
+            this.quoteUIConfig.quote?.updateDebounceTime?.expiryDate ?? 500
+          )
         )
         .subscribe((payload) => {
           const quoteMetaData: QuoteMetadata = {

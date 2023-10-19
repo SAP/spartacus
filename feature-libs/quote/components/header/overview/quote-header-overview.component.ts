@@ -31,11 +31,11 @@ export class QuoteHeaderOverviewComponent {
   protected quoteFacade = inject(QuoteFacade);
   protected eventService = inject(EventService);
   protected translationService = inject(TranslationService);
-  protected config = inject(QuoteUIConfig);
+  protected quoteUIConfig = inject(QuoteUIConfig);
 
-  private static NO_DATA = '-';
-  private static CHARACTERS_LIMIT = 255;
-  private static DEFAULT_CARD_TILE_MAX_CHARS = 100;
+  protected static NO_DATA = '-';
+  protected static CHARACTERS_LIMIT = 255;
+  protected static DEFAULT_CARD_TILE_MAX_CHARS = 100;
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
@@ -56,12 +56,12 @@ export class QuoteHeaderOverviewComponent {
   }
 
   /**
-   * Verifies whether the quote information card tile is editable.
+   * Verifies whether the quote is editable and is viewed from a user acting as buyer.
    *
    * @param {Quote} quote - quote
    * @returns {boolean} - if the quote is editable and its state is 'QuoteState.BUYER_DRAFT' or 'QuoteState.BUYER_OFFER', otherwise returns 'false'.
    */
-  isQuoteInformationEditable(quote: Quote): boolean {
+  isQuoteEditableForBuyer(quote: Quote): boolean {
     return (
       quote.isEditable &&
       (quote.state === QuoteState.BUYER_DRAFT ||
@@ -146,13 +146,13 @@ export class QuoteHeaderOverviewComponent {
   }
 
   /**
-   * Retrieves the card content that represents the estimated and date information.
+   * Retrieves the card content that represents the estimated total and date information.
    *
    * @param {Quote} quote - Quote
    * @param {any} createdDate - Created date
    * @returns {Observable<Card>} - Card content
    */
-  getEstimatedAndDate(
+  getEstimatedTotalAndDate(
     quote: Quote,
     createdDate?: string | null
   ): Observable<Card> {
@@ -190,7 +190,7 @@ export class QuoteHeaderOverviewComponent {
    * @param {string} expirationTime - expiration time
    * @returns {Observable<Card>} - Card content
    */
-  getUpdate(
+  getCardMetadata(
     lastUpdated?: string | null,
     expirationTime?: string | null
   ): Observable<Card> {
@@ -225,7 +225,7 @@ export class QuoteHeaderOverviewComponent {
    */
   getCharactersLimitForCardTile(): number {
     return (
-      this.config.quote?.truncateCardTileContentAfterNumChars ??
+      this.quoteUIConfig.quote?.truncateCardTileContentAfterNumChars ??
       QuoteHeaderOverviewComponent.DEFAULT_CARD_TILE_MAX_CHARS
     );
   }

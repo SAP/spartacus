@@ -5,12 +5,13 @@
  */
 
 import { NgModule } from '@angular/core';
-import { HttpErrorHandler } from '@spartacus/core';
+import { HttpErrorHandler, provideDefaultConfig } from '@spartacus/core';
 import { QuoteConnector } from './connectors/quote.connector';
+import { QuoteCartEventListener } from './event/quote-cart-event.listener';
 import { facadeProviders } from './facade/facade-providers';
 import { QuoteBadRequestHandler } from './http-interceptors/quote-bad-request.handler';
-import { QuoteCartEventListener } from './event/quote-cart-event.listener';
 import { QuoteNotFoundHandler } from './http-interceptors/quote-not-found.handler';
+import { defaultQuoteCoreConfig } from './config/default-quote.core.config';
 
 @NgModule({
   providers: [
@@ -26,6 +27,7 @@ import { QuoteNotFoundHandler } from './http-interceptors/quote-not-found.handle
       useExisting: QuoteNotFoundHandler,
       multi: true,
     },
+    provideDefaultConfig(defaultQuoteCoreConfig),
   ],
 })
 export class QuoteCoreModule {
