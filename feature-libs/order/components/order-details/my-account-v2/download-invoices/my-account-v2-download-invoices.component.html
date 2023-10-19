@@ -1,0 +1,33 @@
+<div
+  [cxFocus]="focusConfig"
+  (esc)="close('Escape clicked')"
+  class="cx-modal-container"
+>
+  <div class="cx-modal-content">
+    <div class="cx-dialog-header modal-header">
+      <div class="cx-dialog-title modal-title">
+        {{ 'myAccountV2OrderDetails.downloadInvoices' | cxTranslate }}
+      </div>
+      <button
+        type="button"
+        class="close"
+        attr.aria-label="{{ 'addToCart.closeModal' | cxTranslate }}"
+        (click)="close('Close download invoices dialog')"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+
+    <div class="cx-dialog-body modal-body">
+      <cx-invoices-list> </cx-invoices-list>
+      <div id="noInvoice" *ngIf="invoiceCount === 0">
+        {{ 'myAccountV2OrderDetails.noInvoices' | cxTranslate }}
+      </div>
+      <div *ngIf="invoiceCount === undefined" class="cx-spinner">
+        <cx-spinner></cx-spinner>
+      </div>
+    </div>
+  </div>
+</div>

@@ -121,5 +121,8 @@ export const layoutConfig: LayoutConfig = {
     CheckoutLoginPageTemplate: {
       slots: ['RightContentSlot'],
     },
+    MyAccountViewPageTemplate: {
+      slots: ['LeftContentSlot', 'RightContentSlot'],
+    },
   },
 };

@@ -34,6 +34,7 @@ import {
   CHECKOUT_B2B_FEATURE_NAME,
   CHECKOUT_BASE_FEATURE_NAME,
   CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
+  ASM_CUSTOMER_360_FEATURE_NAME,
   DIGITAL_PAYMENTS_FEATURE_NAME,
   ORDER_FEATURE_NAME,
   S4OM_FEATURE_NAME,
@@ -55,7 +56,10 @@ describe('schematics-config-mappings', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().libraryFeatureMapping;
 
-      expect(result.get(SPARTACUS_ASM)).toEqual([ASM_FEATURE_NAME]);
+      expect(result.get(SPARTACUS_ASM)).toEqual([
+        ASM_FEATURE_NAME,
+        ASM_CUSTOMER_360_FEATURE_NAME,
+      ]);
       expect(result.get(SPARTACUS_CHECKOUT)).toEqual([
         CHECKOUT_BASE_FEATURE_NAME,
         CHECKOUT_B2B_FEATURE_NAME,

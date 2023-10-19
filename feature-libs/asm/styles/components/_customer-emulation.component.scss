@@ -20,6 +20,13 @@
     @media (max-width: 940px) {
       width: 100%;
     }
+
+    &.cx-360-button {
+      background-color: #0070f2;
+      border: 1px solid #0070f2;
+      color: #ffffff;
+      margin: 0 8px 0 0;
+    }
   }
 
   label {
