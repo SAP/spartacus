@@ -43,10 +43,8 @@ export class OpfCtaScriptsService {
 
   getCtaHtmlslList(): Observable<string[]> {
     return this.fillCtaScriptRequest().pipe(
-      switchMap((ctaScriptsRequest) =>
-        this.fetchCtaScriptsList(ctaScriptsRequest)
-      ),
-      switchMap((scriptslist) => this.runCtaScriptsList(scriptslist)),
+      switchMap((ctaScriptsRequest) => this.fetchCtaScripts(ctaScriptsRequest)),
+      switchMap((scriptslist) => this.runCtaScripts(scriptslist)),
       finalize(() => {
         this.clearResources();
       })
@@ -57,7 +55,7 @@ export class OpfCtaScriptsService {
     this.opfResourceLoaderService.clearAllProviderResources();
   }
 
-  protected fetchCtaScriptsList(
+  protected fetchCtaScripts(
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<OpfDynamicScript[]> {
     return this.opfPaymentFacade.getCtaScripts(ctaScriptsRequest).pipe(
@@ -144,7 +142,7 @@ export class OpfCtaScriptsService {
     );
   }
 
-  protected runCtaScriptsList(scripts: OpfDynamicScript[]) {
+  protected runCtaScripts(scripts: OpfDynamicScript[]) {
     return from(scripts).pipe(
       concatMap((script) => from(this.loadAndRunScript(script))),
       reduce((loadedList: string[], script) => {

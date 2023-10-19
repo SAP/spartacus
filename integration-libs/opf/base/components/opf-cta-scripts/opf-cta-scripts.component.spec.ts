@@ -6,8 +6,9 @@ import createSpy = jasmine.createSpy;
 
 const mockHtmlsList = [
   '<div  style="border-style: solid;text-align:center;border-radius:10px;align-content:center;background-color:yellow;color:black"><h2>Thanks for purchasing our great products</h2><h3>Please use promo code:<b>123abc</b> for your next purchase<h3></div><script>console.log(\'CTA Script #1 is running\')</script>',
+  '<div  style="border-style: solid;text-align:center;border-radius:10px;align-content:center;background-color:yellow;color:black"><h2>Thanks again for purchasing our great products</h2><h3>Please use promo code:<b>123abc</b> for your next purchase<h3></div><script>console.log(\'CTA Script #2 is running\')</script>',
 ];
-
+const ctaButtonSelector = 'cx-opf-cta-button';
 describe('OpfCtaScriptsComponent', () => {
   let component: OpfCtaScriptsComponent;
   let fixture: ComponentFixture<OpfCtaScriptsComponent>;
@@ -36,12 +37,14 @@ describe('OpfCtaScriptsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return Htmls list without error', () => {
-    component.ctaHtmlList$.subscribe((htmlList) => {
+  it('should return Htmls list and display ctaButton elements', (done) => {
+    component.ctaHtmls$.subscribe((htmlList) => {
       expect(htmlList[0]).toBeTruthy();
-      component.isError$.asObservable().subscribe((isError) => {
-        expect(isError).toBeFalsy();
-      });
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelectorAll(ctaButtonSelector).length
+      ).toEqual(2);
+      done();
     });
   });
 
@@ -51,14 +54,24 @@ describe('OpfCtaScriptsComponent', () => {
     );
     fixture = TestBed.createComponent(OpfCtaScriptsComponent);
     component = fixture.componentInstance;
-    component.ctaHtmlList$.subscribe({
-      error: (error) => {
-        expect(error).toEqual('error');
-        component.isError$.asObservable().subscribe((isError) => {
-          expect(isError).toBeTruthy();
-          done();
-        });
-      },
+    component.ctaHtmls$.subscribe((htmlList) => {
+      expect(htmlList).toEqual([]);
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelector(ctaButtonSelector)
+      ).toBeFalsy();
+      done();
     });
+  });
+
+  it('should display spinner when html list is undefined', (done) => {
+    opfCtaScriptsService.getCtaHtmlslList = createSpy().and.returnValue(
+      of(undefined)
+    );
+    fixture = TestBed.createComponent(OpfCtaScriptsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('cx-spinner')).toBeTruthy();
+    done();
   });
 });

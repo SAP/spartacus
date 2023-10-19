@@ -18,10 +18,6 @@ import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
 @NgModule({
   declarations: [OpfCtaScriptsComponent],
   providers: [
-    // provideOutlet({
-    //   id: 'cx-order-overview.top',
-    //   component: OpfCtaScriptsComponent,
-    // }),
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
       cmsComponents: {
         OpfCtaScriptsComponent: {
