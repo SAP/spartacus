@@ -154,7 +154,7 @@ export class OpfCtaScriptsService {
         return loadedList;
       }, []),
       map((list) => {
-        return this.cleanHtmls(list);
+        return this.removeScriptTags(list);
       })
     );
   }
@@ -235,7 +235,7 @@ export class OpfCtaScriptsService {
     );
   }
 
-  protected cleanHtmls(htmls: string[]) {
+  protected removeScriptTags(htmls: string[]) {
     return htmls.map((html) => {
       const element = new DOMParser().parseFromString(html, 'text/html');
       const script = element.getElementsByTagName('script');
