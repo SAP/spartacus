@@ -1,7 +1,8 @@
 <ng-container *ngIf="messageEvents$ | async as messageEvents">
-  <div class="container" role="list">
+  <div class="container">
     <div class="cx-avatar-line"></div>
     <div
+      role="list"
       class="cx-messages"
       id="cx-messages"
       (keydown.arrowdown)="focusNextChild($any($event))"
