@@ -9,8 +9,6 @@ import { defineConfig } from 'cypress';
 export default defineConfig({
   defaultCommandTimeout: 10000,
   requestTimeout: 15000,
-  viewportWidth: 1200,
-  viewportHeight: 1500,
   retries: {
     runMode: 2,
   },
