@@ -5,4 +5,3 @@
  */
 
 export * from './opf-endpoints.service';
-export * from './opf-resource-loader.service';

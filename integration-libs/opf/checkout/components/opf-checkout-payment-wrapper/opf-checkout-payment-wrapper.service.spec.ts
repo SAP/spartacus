@@ -7,17 +7,17 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
+  AfterRedirectDynamicScriptResourceType,
   OpfOrderFacade,
   OpfOtpFacade,
+  OpfResourceLoaderService,
   OpfService,
 } from '@spartacus/opf/base/root';
 import { of, throwError } from 'rxjs';
-import { OpfResourceLoaderService } from '../../core/services';
 import { OpfCheckoutFacade } from '../../root/facade';
 import {
   OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE,
   OpfPaymentMethodType,
-  PaymentDynamicScriptResourceType,
   PaymentSessionData,
 } from '../../root/model';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
@@ -116,10 +116,16 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       dynamicScript: {
         html: '<html></html>',
         jsUrls: [
-          { url: 'script.js', type: PaymentDynamicScriptResourceType.SCRIPT },
+          {
+            url: 'script.js',
+            type: AfterRedirectDynamicScriptResourceType.SCRIPT,
+          },
         ],
         cssUrls: [
-          { url: 'styles.css', type: PaymentDynamicScriptResourceType.STYLES },
+          {
+            url: 'styles.css',
+            type: AfterRedirectDynamicScriptResourceType.STYLES,
+          },
         ],
       },
     };
@@ -156,8 +162,18 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       expect(
         opfResourceLoaderServiceMock.loadProviderResources
       ).toHaveBeenCalledWith(
-        [{ url: 'script.js', type: PaymentDynamicScriptResourceType.SCRIPT }],
-        [{ url: 'styles.css', type: PaymentDynamicScriptResourceType.STYLES }]
+        [
+          {
+            url: 'script.js',
+            type: AfterRedirectDynamicScriptResourceType.SCRIPT,
+          },
+        ],
+        [
+          {
+            url: 'styles.css',
+            type: AfterRedirectDynamicScriptResourceType.STYLES,
+          },
+        ]
       );
 
       expect(service.renderPaymentGateway).toHaveBeenCalledWith({
@@ -166,13 +182,13 @@ describe('OpfCheckoutPaymentWrapperService', () => {
           jsUrls: [
             {
               url: 'script.js',
-              type: PaymentDynamicScriptResourceType.SCRIPT,
+              type: AfterRedirectDynamicScriptResourceType.SCRIPT,
             },
           ],
           cssUrls: [
             {
               url: 'styles.css',
-              type: PaymentDynamicScriptResourceType.STYLES,
+              type: AfterRedirectDynamicScriptResourceType.STYLES,
             },
           ],
         },
@@ -284,10 +300,16 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       dynamicScript: {
         html: '<html></html>',
         jsUrls: [
-          { url: 'script.js', type: PaymentDynamicScriptResourceType.SCRIPT },
+          {
+            url: 'script.js',
+            type: AfterRedirectDynamicScriptResourceType.SCRIPT,
+          },
         ],
         cssUrls: [
-          { url: 'styles.css', type: PaymentDynamicScriptResourceType.STYLES },
+          {
+            url: 'styles.css',
+            type: AfterRedirectDynamicScriptResourceType.STYLES,
+          },
         ],
       },
     };
@@ -301,8 +323,18 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     expect(
       opfResourceLoaderServiceMock.loadProviderResources
     ).toHaveBeenCalledWith(
-      [{ url: 'script.js', type: PaymentDynamicScriptResourceType.SCRIPT }],
-      [{ url: 'styles.css', type: PaymentDynamicScriptResourceType.STYLES }]
+      [
+        {
+          url: 'script.js',
+          type: AfterRedirectDynamicScriptResourceType.SCRIPT,
+        },
+      ],
+      [
+        {
+          url: 'styles.css',
+          type: AfterRedirectDynamicScriptResourceType.STYLES,
+        },
+      ]
     );
 
     setTimeout(() => {
