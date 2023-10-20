@@ -17,12 +17,12 @@
             getQuoteInformation(quoteDetails.name, quoteDetails.description)
               | async
           "
-          [truncateText]="true"
+          [truncateParagraphText]="true"
           [charactersLimit]="getCharactersLimitForCardTile()"
         ></cx-card>
         <button
           [attr.aria-label]="'quote.header.overview.a11y.edit' | cxTranslate"
-          *ngIf="isQuoteInformationEditable(quoteDetails)"
+          *ngIf="isQuoteEditableForBuyer(quoteDetails)"
           class="link cx-action-link cx-edit-btn"
           (click)="toggleEditMode()"
         >
@@ -41,17 +41,19 @@
     <div class="cx-summary-card">
       <cx-card
         [content]="
-          getEstimatedAndDate(quoteDetails, quoteDetails.creationTime | cxDate)
-            | async
+          getEstimatedTotalAndExpiryDate(
+            quoteDetails,
+            quoteDetails.expirationTime | cxDate
+          ) | async
         "
       ></cx-card>
     </div>
     <div class="cx-summary-card">
       <cx-card
         [content]="
-          getUpdate(
-            quoteDetails.updatedTime | cxDate,
-            quoteDetails.expirationTime | cxDate
+          getCreatedAndUpdatedDates(
+            quoteDetails.creationTime | cxDate,
+            quoteDetails.updatedTime | cxDate
           ) | async
         "
       ></cx-card>

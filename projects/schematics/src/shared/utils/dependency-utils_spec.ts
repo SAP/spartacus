@@ -18,10 +18,12 @@ import {
   SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
   SPARTACUS_PRODUCT_CONFIGURATOR,
+  SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_USER,
   USER_ACCOUNT_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
+  SPARTACUS_PDF_INVOICES,
 } from '../libs-constants';
 import {
   analyzeCrossFeatureDependencies,
@@ -72,6 +74,7 @@ describe('dependency-util', () => {
 
       expect(result).toEqual([
         SPARTACUS_USER,
+        SPARTACUS_PDF_INVOICES,
         SPARTACUS_CART,
         SPARTACUS_ORDER,
         SPARTACUS_CHECKOUT,
@@ -85,8 +88,10 @@ describe('dependency-util', () => {
 
       expect(result).toEqual([
         SPARTACUS_USER,
+        SPARTACUS_PDF_INVOICES,
         SPARTACUS_CART,
         SPARTACUS_ORDER,
+        SPARTACUS_STOREFINDER,
         SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,
         SPARTACUS_CDC,
@@ -103,9 +108,11 @@ describe('dependency-util', () => {
 
       expect(result).toEqual([
         SPARTACUS_USER,
+        SPARTACUS_PDF_INVOICES,
         SPARTACUS_CART,
         SPARTACUS_ORDER,
         SPARTACUS_CHECKOUT,
+        SPARTACUS_STOREFINDER,
         SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,
         SPARTACUS_DIGITAL_PAYMENTS,
@@ -120,8 +127,10 @@ describe('dependency-util', () => {
 
       expect(result).toEqual([
         SPARTACUS_USER,
+        SPARTACUS_PDF_INVOICES,
         SPARTACUS_CART,
         SPARTACUS_ORDER,
+        SPARTACUS_STOREFINDER,
         SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,
         SPARTACUS_CDC,
@@ -138,6 +147,7 @@ describe('dependency-util', () => {
 
       expect(result).toEqual([
         SPARTACUS_USER,
+        SPARTACUS_PDF_INVOICES,
         SPARTACUS_CART,
         SPARTACUS_ORDER,
         SPARTACUS_CHECKOUT,

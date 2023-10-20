@@ -33,29 +33,44 @@ export const quote = {
         option: { yes: 'Yes', no: 'No' },
         buyer: {
           submit: {
+            a11y: {
+              close: 'Close submit quote modal',
+            },
             title: 'Submit Quote Request {{ code }}?',
             confirmNote: 'Are you sure you want to submit this quote request?',
             successMessage: 'Quote request submitted successfully',
           },
           cancel: {
+            a11y: {
+              close: 'Close cancel quote modal',
+            },
             title: 'Cancel Quote Request {{ code }}?',
-            confirmNote: 'Are you sure you want to cancel this quote request',
+            confirmNote: 'Are you sure you want to cancel this quote request?',
             successMessage: 'Quote request cancelled',
           },
         },
         buyer_offer: {
           edit: {
+            a11y: {
+              close: 'Close edit quote modal',
+            },
             title: 'Confirm Edit Quote {{ code }}?',
             confirmNote: 'Are you sure you want to edit this approved quote?',
             warningNote:
               'This Quote has been Approved. Editing this Quote will prevent Checkout until new edits are approved.',
           },
           cancel: {
+            a11y: {
+              close: 'Close cancel quote modal',
+            },
             title: 'Cancel Quote {{ code }}?',
             confirmNote: 'Are you sure you want to cancel this quote?',
             successMessage: 'Quote cancelled',
           },
           checkout: {
+            a11y: {
+              close: 'Close checkout quote modal',
+            },
             title: 'Checkout Quote {{ code }}?',
             confirmNote:
               'Are you sure you want to accept and checkout this quote?',
@@ -63,12 +78,18 @@ export const quote = {
         },
         expired: {
           edit: {
+            a11y: {
+              close: 'Close edit quote modal',
+            },
             title: 'Confirm Edit Quote {{ code }}?',
             confirmNote: 'Are you sure you want to edit this expired quote?',
             warningNote:
               'This Quote is expired. Editing this quote will prevent checkout until new edits are approved.',
           },
           requote: {
+            a11y: {
+              close: 'Close requote modal',
+            },
             title: 'Recreate Quote Request {{ code }}?',
             confirmNote:
               'Are you sure you want to recreate this quote request?',
@@ -78,6 +99,9 @@ export const quote = {
         },
         seller: {
           submit: {
+            a11y: {
+              close: 'Close submit quote modal',
+            },
             title: 'Submit Quote {{ code }}?',
             confirmNote: 'Are you sure you want to submit this quote?',
             warningNote:
@@ -85,13 +109,19 @@ export const quote = {
             successMessage: 'Quote submitted successfully',
           },
         },
-        approver: {
+        sellerapprover: {
           approve: {
+            a11y: {
+              close: 'Close approve quote modal',
+            },
             title: 'Approve Quote {{ code }}?',
             confirmNote: 'Are you sure you want to approve this quote?',
             successMessage: 'Quote approved successfully',
           },
           reject: {
+            a11y: {
+              close: 'Close reject quote modal',
+            },
             title: 'Reject Quote {{ code }}?',
             confirmNote: 'Are you sure you want to reject this quote?',
             successMessage: 'Quote rejected',
@@ -99,6 +129,9 @@ export const quote = {
         },
         all: {
           edit: {
+            a11y: {
+              close: 'Close edit quote modal',
+            },
             title: 'Edit Quote {{ code }}?',
             confirmNote: 'Are you sure you want to edit this quote?',
             warningNote:
@@ -130,18 +163,18 @@ export const quote = {
         status: 'Status',
         information: 'Quote Information',
         name: 'Name',
-        created: 'Created',
-        lastUpdated: 'Last Updated',
+        description: 'Description',
+        charactersLeft: 'characters left: {{count}}',
+        priceAndExpiry: 'Price & Expiry',
         estimatedTotal: 'Estimated Total',
         total: 'Total',
-        description: 'Description',
-        estimateAndDate: 'Estimated & Date',
-        update: 'Update',
         expirationTime: 'Expiry Date',
-        charactersLeft: 'characters left: {{count}}',
         a11y: {
           edit: 'Edit quote header information',
         },
+        createdAndUpdated: 'Created & Updated',
+        createdDate: 'Created',
+        lastUpdatedDate: 'Last Updated',
       },
       sellerEdit: {
         apply: 'Apply',
@@ -193,5 +226,6 @@ export const quote = {
       CANCELLED: 'Cancelled',
       EXPIRED: 'Expired',
     },
+    a11y: {},
   },
 };

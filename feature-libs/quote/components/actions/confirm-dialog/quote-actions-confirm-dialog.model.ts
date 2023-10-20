@@ -13,4 +13,7 @@ export interface ConfirmationContext {
   warningNote?: string;
   validity?: string;
   successMessage?: string;
+  a11y: {
+    close: string;
+  };
 }

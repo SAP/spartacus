@@ -68,7 +68,7 @@ export class CommonQuoteTestUtilsService {
     } else {
       text = htmlElement.querySelector(querySelector)?.textContent;
     }
-    expect(text ? text.trim() : '').toBe(expectedText);
+    expect(text).toContain(expectedText);
   }
 
   /**
@@ -86,26 +86,6 @@ export class CommonQuoteTestUtilsService {
     expect(htmlElement.querySelectorAll(querySelector).length).toBe(
       0,
       `expected element identified by selector '${querySelector}' to be NOT present, but it is! innerHtml: ${htmlElement.innerHTML}`
-    );
-  }
-
-  /**
-   * Helper function for verifying how many times the element comes in the HTML tree.
-   *
-   * @param {any} expect - Expectation for a spec.
-   * @param {Element} htmlElement - HTML element.
-   * @param {string} querySelector - Query selector.
-   * @param {number} expectedNumber - expected number of elements.
-   */
-  static expectNumberOfElements(
-    expect: any,
-    htmlElement: Element,
-    querySelector: string,
-    expectedNumber: number
-  ) {
-    expect(htmlElement.querySelectorAll(querySelector).length).toBe(
-      expectedNumber,
-      `expected elements identified by selector '${querySelector}' to be present times, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
     );
   }
 
@@ -201,7 +181,7 @@ export class CommonQuoteTestUtilsService {
    * @param {boolean} useKeyboard - optional - if 'true' the click is executed using the enter key,
    *  otherwise a mouse click is used. 'false' is default.
    */
-  static clickToggle(htmlElement: Element, useKeyboard: boolean = false) {
+  static clickToggle(htmlElement: Element, useKeyboard: boolean) {
     const caret = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElement,
       '.cx-toggle'
@@ -210,6 +190,79 @@ export class CommonQuoteTestUtilsService {
       caret.dispatchEvent(new KeyboardEvent('keydown', { key: 'enter' }));
     } else {
       caret.click();
+    }
+  }
+
+  protected static collectElementsWithClassName(
+    elements: Element[],
+    tagClass: string,
+    foundElements: Element[]
+  ) {
+    elements.forEach((element) => {
+      const classList = element.classList;
+      if (classList.length >= 1) {
+        classList.forEach((elementClass) => {
+          if (elementClass === tagClass) {
+            foundElements.push(element);
+          }
+        });
+      }
+    });
+  }
+
+  protected static getElement(
+    htmlElements: HTMLElement,
+    tag: string,
+    tagClass?: string,
+    tagIndex?: number
+  ): Element | undefined {
+    const foundElements: Element[] = [];
+    const elements = Array.from(htmlElements.getElementsByTagName(tag));
+    if (!tagClass) {
+      return !tagIndex ? elements[0] : elements[tagIndex];
+    } else {
+      CommonQuoteTestUtilsService.collectElementsWithClassName(
+        elements,
+        tagClass,
+        foundElements
+      );
+      return tagIndex ? foundElements[tagIndex] : foundElements[0];
+    }
+  }
+
+  /**
+   * Helper function for proving whether the element contains corresponding accessibility attribute with expected content.
+   *
+   * @param expect - Expectation for a spec
+   * @param htmlElement - whole HTML element
+   * @param tag - certain HTML element
+   * @param tagClass - Class of the HTML element
+   * @param tagIndex - Index of HTML element
+   * @param a11yAttr - A11y attribute
+   * @param a11yAttrContent - Content of a11y attribute
+   */
+  static expectElementContainsA11y(
+    expect: any,
+    htmlElement: HTMLElement,
+    tag: string,
+    tagClass?: string,
+    tagIndex?: number,
+    a11yAttr?: string,
+    a11yAttrContent?: string
+  ) {
+    const item = CommonQuoteTestUtilsService.getElement(
+      htmlElement,
+      tag,
+      tagClass,
+      tagIndex
+    );
+
+    const attributes = item?.attributes;
+    if (a11yAttr) {
+      expect(attributes?.hasOwnProperty(a11yAttr)).toBe(true);
+      if (a11yAttrContent) {
+        expect(item?.getAttribute(a11yAttr)).toEqual(a11yAttrContent);
+      }
     }
   }
 }

@@ -31,6 +31,10 @@ export const SPARTACUS_ASM = `@spartacus/asm`;
 export const SPARTACUS_ASM_ROOT = `@spartacus/asm/root`;
 export const SPARTACUS_ASM_ASSETS = `@spartacus/asm/assets`;
 
+export const SPARTACUS_ASM_CUSTOMER_360 = `@spartacus/asm/customer-360`;
+export const SPARTACUS_ASM_CUSTOMER_360_ROOT = `@spartacus/asm/customer-360/root`;
+export const SPARTACUS_ASM_CUSTOMER_360_ASSETS = `@spartacus/asm/customer-360/assets`;
+
 export const SPARTACUS_PICKUP_IN_STORE = '@spartacus/pickup-in-store';
 export const SPARTACUS_PICKUP_IN_STORE_ASSETS = `@spartacus/pickup-in-store/assets`;
 export const SPARTACUS_PICKUP_IN_STORE_ROOT = `@spartacus/pickup-in-store/root`;
@@ -198,6 +202,9 @@ export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/ro
 export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
 
 export const SPARTACUS_QUOTE = '@spartacus/quote';
+export const SPARTACUS_QUOTE_AWARE = '@spartacus/quote/components/aware';
+export const SPARTACUS_QUOTE_REQUEST =
+  '@spartacus/quote/components/request-button';
 export const SPARTACUS_QUOTE_ROOT = `@spartacus/quote/root`;
 export const SPARTACUS_QUOTE_ASSETS = `@spartacus/quote/assets`;
 
@@ -223,6 +230,7 @@ export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 
 /***** Feature name start *****/
 export const ASM_FEATURE_NAME = 'ASM';
+export const ASM_CUSTOMER_360_FEATURE_NAME = 'ASM-Customer-360';
 
 export const CART_BASE_FEATURE_NAME = 'Cart';
 export const CART_IMPORT_EXPORT_FEATURE_NAME = 'Import-Export';

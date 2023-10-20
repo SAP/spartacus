@@ -1,0 +1,98 @@
+<ng-container *ngIf="storeData">
+  <div class="store-count">
+    {{
+      'asmCustomer360.maps.storesFound'
+        | cxTranslate
+          : {
+              initial: 1,
+              end: storeData.pagination?.pageSize,
+              total: storeData.pagination?.totalResults
+            }
+    }}
+  </div>
+
+  <div>
+    <button
+      class="store-listing-item"
+      [class.selected]="selectedStore === store"
+      *ngFor="let store of storeData.stores"
+      [attr.aria-label]="store.displayName"
+      (click)="selectStore(store)"
+    >
+      <div class="store-listing-item-details">
+        <div class="store-listing-item-text">{{ store.displayName }}</div>
+        <div class="store-listing-item-text">
+          {{ store.address?.line1 }}, {{ store.address?.line2 }}
+        </div>
+        <div class="store-listing-item-text">{{ store.address?.town }}</div>
+      </div>
+      <div class="store-listing-item-distance store-listing-item-text">
+        {{ store.formattedDistance }}
+      </div>
+    </button>
+  </div>
+
+  <div *ngIf="selectedStore">
+    <div class="store-details">
+      <img
+        *ngIf="selectedStore.storeImages?.[0]"
+        [src]="selectedStore.storeImages?.[0]?.url"
+        alt="{{ selectedStore.displayName }}"
+        width="110px"
+        height="110px"
+      />
+      <div class="store-details-info">
+        <div class="bold">{{ selectedStore.displayName }}</div>
+        <div>{{ selectedStore.address?.line1 }}</div>
+        <div>{{ selectedStore.address?.line2 }}</div>
+        <div>{{ selectedStore.address?.town }}</div>
+      </div>
+    </div>
+    <div class="store-map-container">
+      <iframe
+        *ngIf="storeFinderConfig?.googleMaps?.apiKey"
+        [title]="selectedStore.displayName"
+        class="store-map"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        [src]="googleMapsUrl"
+      >
+      </iframe>
+    </div>
+    <div
+      class="store-openings"
+      *ngIf="selectedStore?.openingHours as openingHours"
+    >
+      <div
+        class="store-openings-dates"
+        *ngIf="openingHours.weekDayOpeningList as weekDayOpeningList"
+      >
+        <div
+          class="store-openings-date"
+          *ngFor="let opening of weekDayOpeningList"
+        >
+          <span class="store-openings-day bold">{{ opening.weekDay }}</span
+          >{{ getStoreOpening(opening) | async }}
+        </div>
+      </div>
+      <div
+        class="store-openings-dates"
+        *ngIf="openingHours.specialDayOpeningList as specialDayOpeningList"
+      >
+        <div
+          class="store-openings-date"
+          *ngFor="let opening of specialDayOpeningList"
+        >
+          <span class="store-openings-day bold">{{ opening.name }}</span
+          >{{ getStoreOpening(opening) | async }}
+        </div>
+      </div>
+      <div class="store-openings-features">
+        <div *ngFor="let feature of selectedStore.features?.entry">
+          {{ feature.value }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
