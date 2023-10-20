@@ -13,7 +13,7 @@ import {
 } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
 import { OpfCtaElementModule } from '../opf-cta-element';
-import { OpfCtaWrapperComponent as OpfCtaScriptsComponent } from './opf-cta-scripts.component';
+import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
 
 @NgModule({
   declarations: [OpfCtaScriptsComponent],

@@ -14,7 +14,7 @@ import { OpfCtaScriptsService } from './opf-cta-scripts.service';
   templateUrl: './opf-cta-scripts.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpfCtaWrapperComponent {
+export class OpfCtaScriptsComponent {
   protected opfCtaScriptService = inject(OpfCtaScriptsService);
 
   ctaHtmls$ = this.opfCtaScriptService.getCtaHtmlslList().pipe(

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
-import { OpfCtaWrapperComponent as OpfCtaScriptsComponent } from './opf-cta-scripts.component';
+import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
 import createSpy = jasmine.createSpy;
 
