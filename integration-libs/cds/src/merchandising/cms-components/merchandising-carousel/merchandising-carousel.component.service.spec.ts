@@ -1,4 +1,5 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
+/* eslint @nx/enforce-module-boundaries: 1 */ //TODO: Fix linting issue
 import {
   CdsConfig,
   CdsMerchandisingProductService,

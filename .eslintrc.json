@@ -8,9 +8,10 @@
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@angular-eslint/ng-cli-compat",
-        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "./tools/eslint-plugins/legacy-ng-cli-compat",
+        "./tools/eslint-plugins/legacy-ng-cli-compat--formatting-add-on"
       ],
       "plugins": ["deprecation", "@typescript-eslint", "@nx"],
       "rules": {

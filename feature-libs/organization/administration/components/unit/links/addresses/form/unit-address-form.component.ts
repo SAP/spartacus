@@ -41,6 +41,7 @@ export class UnitAddressFormComponent implements OnInit {
     protected currentUnitService: CurrentUnitService
   ) {}
 
+  /* eslint @angular-eslint/no-empty-lifecycle-method: 1 */
   ngOnInit(): void {
     // Intentional empty method
   }
