@@ -19,19 +19,21 @@ export enum OpfProviderType {
   APPLE_PAY = 'APPLE_PAY',
   GOOGLE_PAY = 'GOOGLE_PAY',
 }
+
+export type CtaAdditionalDataKey =
+  | 'divisionId'
+  | 'experienceId'
+  | 'currency'
+  | 'fulfillmentLocationId'
+  | 'locale'
+  | 'scriptIdentifier';
 export interface CtaScriptsRequest {
   paymentAccountIds?: Array<number>;
   orderId?: string;
   ctaProductItems?: Array<CTAProductItem>;
   scriptLocations?: Array<CtaScriptsLocation>;
   additionalData?: Array<{
-    key:
-      | 'divisionId'
-      | 'experienceId'
-      | 'currency'
-      | 'fulfillmentLocationId'
-      | 'locale'
-      | 'scriptIdentifier';
+    key: CtaAdditionalDataKey;
     value: string;
   }>;
 }
