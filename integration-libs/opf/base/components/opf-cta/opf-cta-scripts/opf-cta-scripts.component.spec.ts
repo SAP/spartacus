@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
-import { OpfCtaWrapperComponent } from './opf-cta-scripts.component';
+import { OpfCtaWrapperComponent as OpfCtaScriptsComponent } from './opf-cta-scripts.component';
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
 import createSpy = jasmine.createSpy;
 
@@ -10,17 +10,21 @@ const mockHtmlsList = [
 ];
 const ctaElementSelector = 'cx-opf-cta-element';
 describe('OpfCtaScriptsComponent', () => {
-  let component: OpfCtaWrapperComponent;
-  let fixture: ComponentFixture<OpfCtaWrapperComponent>;
+  let component: OpfCtaScriptsComponent;
+  let fixture: ComponentFixture<OpfCtaScriptsComponent>;
   let opfCtaScriptsService: jasmine.SpyObj<OpfCtaScriptsService>;
 
+  const createComponentInstance = () => {
+    fixture = TestBed.createComponent(OpfCtaScriptsComponent);
+    component = fixture.componentInstance;
+  };
   beforeEach(() => {
     opfCtaScriptsService = jasmine.createSpyObj('OpfCtaScriptsService', [
       'getCtaHtmlslList',
     ]);
 
     TestBed.configureTestingModule({
-      declarations: [OpfCtaWrapperComponent],
+      declarations: [OpfCtaScriptsComponent],
       providers: [
         { provide: OpfCtaScriptsService, useValue: opfCtaScriptsService },
       ],
@@ -29,8 +33,7 @@ describe('OpfCtaScriptsComponent', () => {
 
   beforeEach(() => {
     opfCtaScriptsService.getCtaHtmlslList.and.returnValue(of(mockHtmlsList));
-    fixture = TestBed.createComponent(OpfCtaWrapperComponent);
-    component = fixture.componentInstance;
+    createComponentInstance();
   });
 
   it('should create', () => {
@@ -52,8 +55,7 @@ describe('OpfCtaScriptsComponent', () => {
     opfCtaScriptsService.getCtaHtmlslList = createSpy().and.returnValue(
       throwError('error')
     );
-    fixture = TestBed.createComponent(OpfCtaWrapperComponent);
-    component = fixture.componentInstance;
+    createComponentInstance();
     component.ctaHtmls$.subscribe((htmlList) => {
       expect(htmlList).toEqual([]);
       fixture.detectChanges();
@@ -68,8 +70,7 @@ describe('OpfCtaScriptsComponent', () => {
     opfCtaScriptsService.getCtaHtmlslList = createSpy().and.returnValue(
       of(undefined)
     );
-    fixture = TestBed.createComponent(OpfCtaWrapperComponent);
-    component = fixture.componentInstance;
+    createComponentInstance();
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('cx-spinner')).toBeTruthy();
     done();
