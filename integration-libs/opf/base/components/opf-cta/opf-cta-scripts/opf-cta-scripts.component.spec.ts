@@ -8,7 +8,7 @@ const mockHtmlsList = [
   '<div  style="border-style: solid;text-align:center;border-radius:10px;align-content:center;background-color:yellow;color:black"><h2>Thanks for purchasing our great products</h2><h3>Please use promo code:<b>123abc</b> for your next purchase<h3></div><script>console.log(\'CTA Script #1 is running\')</script>',
   '<div  style="border-style: solid;text-align:center;border-radius:10px;align-content:center;background-color:yellow;color:black"><h2>Thanks again for purchasing our great products</h2><h3>Please use promo code:<b>123abc</b> for your next purchase<h3></div><script>console.log(\'CTA Script #2 is running\')</script>',
 ];
-const ctaButtonSelector = 'cx-opf-cta-button';
+const ctaElementSelector = 'cx-opf-cta-element';
 describe('OpfCtaScriptsComponent', () => {
   let component: OpfCtaWrapperComponent;
   let fixture: ComponentFixture<OpfCtaWrapperComponent>;
@@ -42,7 +42,7 @@ describe('OpfCtaScriptsComponent', () => {
       expect(htmlList[0]).toBeTruthy();
       fixture.detectChanges();
       expect(
-        fixture.nativeElement.querySelectorAll(ctaButtonSelector).length
+        fixture.nativeElement.querySelectorAll(ctaElementSelector).length
       ).toEqual(2);
       done();
     });
@@ -58,7 +58,7 @@ describe('OpfCtaScriptsComponent', () => {
       expect(htmlList).toEqual([]);
       fixture.detectChanges();
       expect(
-        fixture.nativeElement.querySelector(ctaButtonSelector)
+        fixture.nativeElement.querySelector(ctaElementSelector)
       ).toBeFalsy();
       done();
     });
