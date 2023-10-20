@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-cta-button.component';
-export * from './opf-cta-button.module';
+export * from './opf-cta-element.component';
+export * from './opf-cta-element.module';

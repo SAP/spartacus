@@ -6,11 +6,11 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { OpfCtaButtonComponent } from './opf-cta-button.component';
+import { OpfCtaElementComponent } from './opf-cta-element.component';
 
 @NgModule({
-  declarations: [OpfCtaButtonComponent],
+  declarations: [OpfCtaElementComponent],
   imports: [CommonModule],
-  exports: [OpfCtaButtonComponent],
+  exports: [OpfCtaElementComponent],
 })
-export class OpfCtaButtonModule {}
+export class OpfCtaElementModule {}

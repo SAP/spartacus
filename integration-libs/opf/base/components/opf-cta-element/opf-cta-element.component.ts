@@ -13,11 +13,11 @@ import {
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
-  selector: 'cx-opf-cta-button',
-  templateUrl: './opf-cta-button.component.html',
+  selector: 'cx-opf-cta-element',
+  templateUrl: './opf-cta-element.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpfCtaButtonComponent {
+export class OpfCtaElementComponent {
   protected sanitizer = inject(DomSanitizer);
 
   @Input() ctaScriptHtml: string;

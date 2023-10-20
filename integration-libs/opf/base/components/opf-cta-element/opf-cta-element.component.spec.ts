@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
-import { OpfCtaButtonComponent } from './opf-cta-button.component';
+import { OpfCtaElementComponent } from './opf-cta-element.component';
 
 describe('OpfCtaButton', () => {
-  let component: OpfCtaButtonComponent;
-  let fixture: ComponentFixture<OpfCtaButtonComponent>;
+  let component: OpfCtaElementComponent;
+  let fixture: ComponentFixture<OpfCtaElementComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OpfCtaButtonComponent],
+      declarations: [OpfCtaElementComponent],
     });
-    fixture = TestBed.createComponent(OpfCtaButtonComponent);
+    fixture = TestBed.createComponent(OpfCtaElementComponent);
     component = fixture.componentInstance;
     // opfCtaScriptsService = TestBed.inject(OpfCtaScriptsService);
   });

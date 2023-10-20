@@ -12,8 +12,8 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
-import { OpfCtaButtonModule } from '../opf-cta-button/opf-cta-button.module';
-import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
+import { OpfCtaElementModule } from '../opf-cta-element';
+import { OpfCtaWrapperComponent as OpfCtaScriptsComponent } from './opf-cta-scripts.component';
 
 @NgModule({
   declarations: [OpfCtaScriptsComponent],
@@ -27,6 +27,6 @@ import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
     }),
   ],
   exports: [OpfCtaScriptsComponent],
-  imports: [CommonModule, OpfCtaButtonModule, SpinnerModule],
+  imports: [CommonModule, OpfCtaElementModule, SpinnerModule],
 })
 export class OpfCtaScriptsModule {}
