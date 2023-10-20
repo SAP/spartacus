@@ -305,7 +305,6 @@ describe('OpfPaymentService', () => {
     expect(connectorSpy).toHaveBeenCalledWith(paymentSessionId);
   });
 
-  // describe(`getActiveConfigurationsState`, () => {
   it(`should return mockActiveConfigurations data`, (done) => {
     service.getActiveConfigurationsState().subscribe((state) => {
       expect(state).toEqual({
@@ -328,5 +327,4 @@ describe('OpfPaymentService', () => {
       done();
     });
   });
-  // });
 });
