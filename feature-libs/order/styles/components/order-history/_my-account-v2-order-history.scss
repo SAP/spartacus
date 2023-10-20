@@ -1,0 +1,104 @@
+@mixin draw-line {
+  display: block;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: var(--cx-color-light);
+  margin: 0 0 25px 0; //top-right-botton-left
+}
+
+%cx-my-account-v2-order-history {
+  .cx-my-account-v2-order-history-header {
+    @include draw-line;
+    margin: 0 0 25px 0;
+  }
+  .cx-my-account-v2-order-history-body {
+    .cx-order-history-pagination {
+      display: flex;
+      justify-content: flex-end;
+      padding: 1rem 0 1rem 0;
+      margin: 0;
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+      }
+      @include media-breakpoint-down(sm) {
+        margin: 0 auto;
+      }
+    }
+    .cx-each-order {
+      @include draw-line;
+      &:last-of-type {
+        border: none;
+      }
+    }
+
+    .cx-my-account-v2-order-history-code {
+      color: var(--cx-color-primary);
+      text-decoration: underline;
+      font-size: 22px;
+      font-weight: 500;
+      margin: 0 0 16px 0; //gap between 'order # 1234' and 'Purchase Type: ... line'
+    }
+    .cx-my-account-v2-order-summary {
+      font-size: 16px;
+      font-weight: 400;
+      margin: 0 0 15px 0;
+    }
+    .cx-consolidated-order-info {
+      display: flex;
+      margin: 16px 0 0 0;
+      &:last-of-type {
+        margin: 0 0 20px 0; //space between last item and the ---- line
+      }
+      .cx-order-info {
+        width: 60%; // show 70% order info and 30% images
+        .cx-consignment-info {
+          font-size: 16px;
+          color: var(--cx-color-secondary);
+          .cx-tracking-id {
+            text-decoration: underline;
+            font-weight: var(--cx-font-weight-semi);
+            color: var(--cx-color-secondary);
+          }
+        }
+
+        .cx-list-header {
+          @include media-breakpoint-down(sm) {
+            padding: 0;
+          }
+          .cx-list-status {
+            padding: 5px 30px;
+            background-color: var(--cx-color-background);
+            @include type('4');
+            font-weight: bold;
+          }
+        }
+
+        .cx-order-status {
+          margin: 16px 0 0 0;
+          font-size: 18px;
+        }
+        .cx-order-status-critical {
+          margin: 16px 0 0 0;
+          font-size: 18px;
+          color: var(--cx-color-alert, var(--cx-color-danger));
+        }
+        .cx-order-status-critical-link {
+          font-size: 18px;
+          color: var(--cx-color-alert, var(--cx-color-danger));
+          text-decoration: underline;
+        }
+      }
+      .cx-order-images-container {
+        width: 40%; // show 70% order info and 30% images
+        .cx-order-img {
+          width: 88px;
+          height: 88px;
+          margin: 0 8px 0px 0;
+          display: inline-end;
+          float: right;
+        }
+      }
+    }
+  }
+}

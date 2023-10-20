@@ -4,6 +4,16 @@
     <label class="cx-asm-uid">{{ customer?.uid }}</label>
   </div>
   <cx-asm-bind-cart></cx-asm-bind-cart>
+  <ng-container *cxFeatureLevel="'6.6'">
+    <button
+      *ngIf="isAsmCustomer360Configured && customer"
+      #asmCustomer360Launcher
+      class="cx-360-button"
+      (click)="openAsmCustomer360()"
+    >
+      {{ 'asm.asmCustomer360Button' | cxTranslate }}
+    </button>
+  </ng-container>
   <button formcontrolname="logoutCustomer" (click)="logoutCustomer()">
     {{ 'asm.endEmulation' | cxTranslate }}
   </button>

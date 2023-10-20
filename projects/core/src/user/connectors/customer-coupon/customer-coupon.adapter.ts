@@ -33,4 +33,9 @@ export abstract class CustomerCouponAdapter {
     userId: string,
     couponCode: string
   ): Observable<CustomerCoupon2Customer>;
+
+  abstract disclaimCustomerCoupon(
+    userId: string,
+    couponCode: string
+  ): Observable<CustomerCoupon2Customer>;
 }
