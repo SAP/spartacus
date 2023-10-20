@@ -105,7 +105,7 @@ export const quote = {
             successMessage: 'Quote submitted successfully',
           },
         },
-        approver: {
+        sellerapprover: {
           approve: {
             a11y: {
               close: 'Close approve quote modal',
