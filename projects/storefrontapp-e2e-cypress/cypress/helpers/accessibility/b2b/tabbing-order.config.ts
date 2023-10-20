@@ -521,6 +521,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   quoteDetailsPage: [
     {
+      value: 'New Cart',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Quotes',
       type: TabbingOrderTypes.LINK,
     },
