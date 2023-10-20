@@ -21,6 +21,7 @@ import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import {
   CLAIM_CUSTOMER_COUPON_PROCESS_ID,
+  DISCLAIM_CUSTOMER_COUPON_PROCESS_ID,
   StateWithUser,
   SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
   UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
@@ -202,6 +203,21 @@ export class CustomerCouponService {
   }
 
   /**
+   * Disclaim a CustomerCoupon
+   * @param couponCode a customer coupon code
+   */
+  disclaimCustomerCoupon(couponCode: string): void {
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UserActions.DisclaimCustomerCoupon({
+          userId,
+          couponCode,
+        })
+      );
+    });
+  }
+
+  /**
    * Returns the claim customer coupon notification process success flag
    */
   getClaimCustomerCouponResultSuccess(): Observable<boolean> {
@@ -216,6 +232,33 @@ export class CustomerCouponService {
   getClaimCustomerCouponResultLoading(): Observable<boolean> {
     return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessLoadingFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the disclaim customer coupon notification process success flag
+   */
+  getDisclaimCustomerCouponResultSuccess(): Observable<boolean> {
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
+      select(getProcessSuccessFactory(DISCLAIM_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the claim customer coupon notification process error flag
+   */
+  getClaimCustomerCouponResultError(): Observable<boolean> {
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
+      select(getProcessErrorFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the disclaim customer coupon notification process error flag
+   */
+  getDisclaimCustomerCouponResultError(): Observable<boolean> {
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
+      select(getProcessErrorFactory(DISCLAIM_CUSTOMER_COUPON_PROCESS_ID))
     );
   }
 }

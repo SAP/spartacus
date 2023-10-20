@@ -5,9 +5,9 @@
  */
 
 import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
-import { tabbingOrderConfig as tabConfig } from '../../helpers/accessibility/tabbing-order.config';
 import * as quote from '../../helpers/quote';
 import { clickAllowAllFromBanner } from '../../helpers/anonymous-consents';
+import { tabbingOrderConfig } from '../../helpers/accessibility/b2b/tabbing-order.config';
 
 const containerSelectorQuoteDetails = 'main';
 const POWERTOOLS = 'powertools-spa';
@@ -45,7 +45,7 @@ describe('Tabbing order for Quote', () => {
     it('should allow to navigate with tab key within the quote details page', () => {
       verifyTabbingOrder(
         containerSelectorQuoteDetails,
-        tabConfig.quoteDetailsPage
+        tabbingOrderConfig.quoteDetailsPage
       );
     });
   });

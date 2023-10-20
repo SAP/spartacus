@@ -20,4 +20,9 @@ export const orderTranslationChunksConfig: TranslationChunksConfig = {
     'returnRequest',
     'reorder',
   ],
+  myAccountV2Order: [
+    'myAccountV2OrderHistory',
+    'myAccountV2OrderDetails',
+    'myAccountV2Orders',
+  ],
 };

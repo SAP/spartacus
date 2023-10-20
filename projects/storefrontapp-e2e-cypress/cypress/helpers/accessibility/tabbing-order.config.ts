@@ -2441,58 +2441,19 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Cancel',
     },
   ],
-  quoteDetailsPage: [
-    {
-      value: 'Quotes',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Contact',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'All Products',
-      type: TabbingOrderTypes.SELECT,
-    },
-    {
-      type: TabbingOrderTypes.GENERIC_INPUT,
-    },
-    {
-      value: 'Send',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Cart',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '-',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      type: TabbingOrderTypes.GENERIC_INPUT,
-    },
-    { value: '+', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'Remove',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Submit Quote',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Cancel Quote',
-      type: TabbingOrderTypes.BUTTON,
-    },
+  asmCustomer360CouponList: [
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
+  ],
+  asmCustomer360CustomerCouponList: [
+    { type: TabbingOrderTypes.BUTTON, value: 'Available' },
+    { type: TabbingOrderTypes.BUTTON, value: 'Sent' },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    // uncomment the following line to test againt S4,S7
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
   ],
 };

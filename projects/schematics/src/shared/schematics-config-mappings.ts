@@ -5,8 +5,11 @@
  */
 
 import { SchematicsException } from '@angular-devkit/schematics';
+import {
+  ASM_SCHEMATICS_CONFIG,
+  ASM_CUSTOMER_360_SCHEMATICS_CONFIG,
+} from './lib-configs/asm-schematics-config';
 import { QUOTE_SCHEMATICS_CONFIG } from './lib-configs';
-import { ASM_SCHEMATICS_CONFIG } from './lib-configs/asm-schematics-config';
 import {
   CART_BASE_SCHEMATICS_CONFIG,
   CART_IMPORT_EXPORT_SCHEMATICS_CONFIG,
@@ -70,6 +73,7 @@ import { Module, SchematicConfig } from './utils/lib-utils';
 export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   // feature libraries start
   ASM_SCHEMATICS_CONFIG,
+  ASM_CUSTOMER_360_SCHEMATICS_CONFIG,
 
   CART_BASE_SCHEMATICS_CONFIG,
   CART_IMPORT_EXPORT_SCHEMATICS_CONFIG,
