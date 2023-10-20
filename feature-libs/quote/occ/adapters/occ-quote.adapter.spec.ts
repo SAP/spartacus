@@ -1,31 +1,32 @@
+import { HttpRequest } from '@angular/common/http';
 import {
-  HttpTestingController,
   HttpClientTestingModule,
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
 import {
-  QUOTE_LIST_NORMALIZER,
-  QUOTE_NORMALIZER,
-  QUOTE_STARTER_SERIALIZER,
-  QUOTE_METADATA_SERIALIZER,
   QUOTE_ACTION_SERIALIZER,
   QUOTE_COMMENT_SERIALIZER,
   QUOTE_DISCOUNT_SERIALIZER,
+  QUOTE_LIST_NORMALIZER,
+  QUOTE_METADATA_SERIALIZER,
+  QUOTE_NORMALIZER,
+  QUOTE_STARTER_SERIALIZER,
 } from '@spartacus/quote/core';
 import {
+  Comment,
   Quote,
   QuoteActionType,
   QuoteDiscount,
+  QuoteDiscountType,
   QuoteList,
   QuoteMetadata,
   QuoteStarter,
-  Comment,
-  QuoteDiscountType,
 } from '@spartacus/quote/root';
-import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
 import { take } from 'rxjs/operators';
-import { OccQuoteAdapter } from './occ-quote.adapter';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { OccQuoteAdapter } from './occ-quote.adapter';
 
 const userId = '111111';
 const cartId = '222222';
@@ -121,13 +122,13 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'GET' &&
-        req.url ===
-          `/users/${userId}/quotes?pageSize=${pagination.pageSize}&currentPage=${pagination.currentPage}&sort=${pagination.sort}`
-      );
-    });
+    const mockReq = httpMock.expectOne((req) =>
+      isQuoteReq(
+        req,
+        'GET',
+        `?pageSize=${pagination.pageSize}&currentPage=${pagination.currentPage}&sort=${pagination.sort}`
+      )
+    );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
@@ -144,9 +145,7 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'POST' && req.url === `/users/${userId}/quotes`;
-    });
+    const mockReq = httpMock.expectOne((req) => isQuoteReq(req, 'POST', ''));
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
@@ -167,17 +166,33 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'GET' &&
-        req.url === `/users/${userId}/quotes/${mockQuote.code}`
-      );
-    });
+    const mockReq = httpMock.expectOne((req) => isQuoteReq(req, 'GET'));
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockQuote);
     expect(converter.pipeable).toHaveBeenCalledWith(QUOTE_NORMALIZER);
+  });
+
+  it('getQuote should call httpErrorHandler on error', (done) => {
+    service
+      .getQuote(userId, mockQuote.code)
+      .pipe(take(1))
+      .subscribe(
+        () => {
+          fail('error expected');
+        },
+        (error) => {
+          expect(isErrorNormalized(error)).toBe(true);
+          done();
+        }
+      );
+
+    const mockReq = httpMock.expectOne((req) => isQuoteReq(req, 'GET'));
+    mockReq.flush("quote id 'undefined' not found", {
+      status: 400,
+      statusText: 'Bad request',
+    });
   });
 
   it('editQuote should editQuote quote', (done) => {
@@ -189,12 +204,7 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'PATCH' &&
-        req.url === `/users/${userId}/quotes/${mockQuote.code}`
-      );
-    });
+    const mockReq = httpMock.expectOne((req) => isQuoteReq(req, 'PATCH'));
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
@@ -214,12 +224,9 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'POST' &&
-        req.url === `/users/${userId}/quotes/${mockQuote.code}/action`
-      );
-    });
+    const mockReq = httpMock.expectOne((req) =>
+      isQuoteReq(req, 'POST', `/${mockQuote.code}/action`)
+    );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
@@ -239,12 +246,9 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'POST' &&
-        req.url === `/users/${userId}/quotes/${mockQuote.code}/comments`
-      );
-    });
+    const mockReq = httpMock.expectOne((req) =>
+      isQuoteReq(req, 'POST', `/${mockQuote.code}/comments`)
+    );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
@@ -264,12 +268,9 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'POST' &&
-        req.url === `/users/${userId}/quotes/${mockQuote.code}/discounts`
-      );
-    });
+    const mockReq = httpMock.expectOne((req) =>
+      isQuoteReq(req, 'POST', `/${mockQuote.code}/discounts`)
+    );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
@@ -294,13 +295,13 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'POST' &&
-        req.url ===
-          `/users/${userId}/quotes/${mockQuote.code}/entries/${productEntryNumber}/comments`
-      );
-    });
+    const mockReq = httpMock.expectOne((req) =>
+      isQuoteReq(
+        req,
+        'POST',
+        `/${mockQuote.code}/entries/${productEntryNumber}/comments`
+      )
+    );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
@@ -310,4 +311,21 @@ describe(`OccQuoteAdapter`, () => {
       QUOTE_COMMENT_SERIALIZER
     );
   });
+
+  function isErrorNormalized(error: any): boolean {
+    // normalizer converts HttpErrorResponse into HttpErrorModel
+    return error.constructor.name === 'HttpErrorModel';
+  }
+
+  function isQuoteReq(
+    req: HttpRequest<any>,
+    httpMethod: 'GET' | 'POST' | 'PATCH',
+    routeSuffix?: string
+  ): boolean {
+    return (
+      req.method === httpMethod &&
+      req.url ===
+        `/users/${userId}/quotes${routeSuffix ?? '/' + mockQuote.code}`
+    );
+  }
 });

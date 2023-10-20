@@ -40,13 +40,16 @@ export class OrderHistoryComponent implements OnDestroy {
     .getOrderHistoryList(this.PAGE_SIZE)
     .pipe(
       tap((orders: OrderHistoryList | undefined) => {
-        if (orders?.pagination?.sort) {
-          this.sortType = orders.pagination.sort;
-        }
-        this.hasPONumber =
-          orders?.orders?.[0]?.purchaseOrderNumber !== undefined;
+        this.setOrderHistoryParams(orders);
       })
     );
+
+  setOrderHistoryParams(orders: OrderHistoryList | undefined) {
+    if (orders?.pagination?.sort) {
+      this.sortType = orders.pagination.sort;
+    }
+    this.hasPONumber = orders?.orders?.[0]?.purchaseOrderNumber !== undefined;
+  }
 
   hasReplenishmentOrder$: Observable<boolean> =
     this.replenishmentOrderHistoryFacade

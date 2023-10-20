@@ -1,13 +1,17 @@
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  LanguageService,
+} from '@spartacus/core';
 import { Quote, QuoteState } from '@spartacus/quote/root';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import { QuoteActionsConfirmDialogComponent } from './quote-actions-confirm-dialog.component';
 import { ConfirmationContext } from './quote-actions-confirm-dialog.model';
@@ -20,7 +24,7 @@ const quote: Quote = {
   allowedActions: [],
   totalPrice: {},
   description: 'Quote description',
-  expirationTime: new Date('2023-05-26'),
+  expirationTime: new Date('2017-01-11T10:14:39+0000'),
   isEditable: true,
 };
 
@@ -30,6 +34,9 @@ const confirmationContext: ConfirmationContext = {
   confirmNote: 'confirmActionDialog.buyer_offer.edit.confirmNote',
   warningNote: 'confirmActionDialog.buyer_offer.edit.warningNote',
   validity: 'confirmActionDialog.validity',
+  a11y: {
+    close: 'confirmActionDialog.buyer_offer.edit.a11y.close',
+  },
 };
 
 @Component({
@@ -47,11 +54,18 @@ export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('en-US');
+  }
+}
+
 describe('QuoteActionsConfirmDialogComponent', () => {
   let component: QuoteActionsConfirmDialogComponent;
   let fixture: ComponentFixture<QuoteActionsConfirmDialogComponent>;
   let htmlElem: HTMLElement;
   let mockLaunchDialogService: LaunchDialogService;
+  let datePipe: CxDatePipe;
 
   let dialogDataSender: BehaviorSubject<{
     confirmationContext: ConfirmationContext;
@@ -59,23 +73,26 @@ describe('QuoteActionsConfirmDialogComponent', () => {
 
   class MockLaunchDialogService {
     closeDialog(): void {}
+
     data$ = dialogDataSender;
   }
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
         declarations: [
           QuoteActionsConfirmDialogComponent,
           MockKeyboadFocusDirective,
           MockCxIconComponent,
         ],
-        imports: [I18nTestingModule],
         providers: [
+          CxDatePipe,
           {
             provide: LaunchDialogService,
             useClass: MockLaunchDialogService,
           },
+          { provide: LanguageService, useClass: MockLanguageService },
         ],
       }).compileComponents();
     })
@@ -89,6 +106,7 @@ describe('QuoteActionsConfirmDialogComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     mockLaunchDialogService = TestBed.inject(LaunchDialogService);
+    datePipe = TestBed.inject(CxDatePipe);
     spyOn(mockLaunchDialogService, 'closeDialog');
     component.ngOnInit();
     fixture.detectChanges();
@@ -159,5 +177,134 @@ describe('QuoteActionsConfirmDialogComponent', () => {
     );
     modal.dispatchEvent(new Event('esc'));
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
+  });
+
+  describe('isNotEmpty', () => {
+    it('should return "false" because string is null', () => {
+      expect(component['isNotEmpty'](null)).toBe(false);
+    });
+
+    it('should return "false" because string is undefined', () => {
+      expect(component['isNotEmpty'](undefined)).toBe(false);
+    });
+
+    it('should return "false" because string is an empty string', () => {
+      expect(component['isNotEmpty']('')).toBe(false);
+    });
+
+    it('should return "false" because string contains blank characters', () => {
+      expect(component['isNotEmpty']('  ')).toBe(false);
+    });
+
+    it('should return "true" because string contains something', () => {
+      expect(component['isNotEmpty']('test')).toBe(true);
+    });
+  });
+
+  describe('getA11yModalText', () => {
+    it('should return only a confirmation note', () => {
+      const context = structuredClone(confirmationContext);
+      context.warningNote = null;
+      context.validity = null;
+      context.quote.expirationTime = null;
+
+      expect(component.getA11yModalText(context)).toEqual(
+        confirmationContext.confirmNote
+      );
+    });
+
+    it('should return a warning note with a confirmation note', () => {
+      const context = structuredClone(confirmationContext);
+      context.validity = null;
+      context.quote.expirationTime = null;
+      const a11yModalText =
+        confirmationContext.warningNote + confirmationContext.confirmNote;
+
+      expect(component.getA11yModalText(context)).toEqual(a11yModalText);
+    });
+
+    it('should return a validity with date and a confirmation note', () => {
+      const context = structuredClone(confirmationContext);
+      context.warningNote = null;
+      const expirationTime = datePipe.transform(
+        confirmationContext.quote.expirationTime
+      );
+      const a11yModalText =
+        confirmationContext.validity +
+        expirationTime +
+        confirmationContext.confirmNote;
+
+      expect(component.getA11yModalText(context)).toEqual(a11yModalText);
+    });
+
+    it('should return a complete a11y relevant information', () => {
+      const context = structuredClone(confirmationContext);
+      const expirationTime = datePipe.transform(
+        confirmationContext.quote.expirationTime
+      );
+      const a11yModalText =
+        confirmationContext.warningNote +
+        confirmationContext.validity +
+        expirationTime +
+        confirmationContext.confirmNote;
+
+      expect(component.getA11yModalText(context)).toEqual(a11yModalText);
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain action button element with class name 'close' and 'aria-label' attribute that indicates the text for close button", () => {
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'close',
+        0,
+        'aria-label',
+        'confirmActionDialog.buyer_offer.edit.a11y.close'
+      );
+    });
+
+    it("should contain div element with class name 'cx-visually-hidden' and 'aria-live' attribute that indicates that the appeared modal requires the user's attention", () => {
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-visually-hidden',
+        0,
+        'aria-live',
+        'polite'
+      );
+    });
+
+    it("should contain action div element with class name 'cx-visually-hidden' and 'aria-atomic' attribute that indicates whether a screen reader will present all changed region", () => {
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-visually-hidden',
+        0,
+        'aria-atomic',
+        'true'
+      );
+    });
+
+    it('should contain a explanatory text that is seen only for a screen reader and explains that the conflicts must be resolved to continue', () => {
+      const expirationTime = datePipe.transform(
+        confirmationContext.quote.expirationTime
+      );
+      const a11yModalText =
+        confirmationContext.warningNote +
+        confirmationContext.validity +
+        expirationTime +
+        confirmationContext.confirmNote;
+
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'div.cx-visually-hidden',
+        a11yModalText
+      );
+    });
   });
 });

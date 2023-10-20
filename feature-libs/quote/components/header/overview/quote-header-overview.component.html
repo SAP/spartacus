@@ -21,6 +21,7 @@
           [charactersLimit]="getCharactersLimitForCardTile()"
         ></cx-card>
         <button
+          [attr.aria-label]="'quote.header.overview.a11y.edit' | cxTranslate"
           *ngIf="isQuoteEditableForBuyer(quoteDetails)"
           class="link cx-action-link cx-edit-btn"
           (click)="toggleEditMode()"
@@ -40,9 +41,9 @@
     <div class="cx-summary-card">
       <cx-card
         [content]="
-          getEstimatedTotalAndDate(
+          getEstimatedTotalAndExpiryDate(
             quoteDetails,
-            quoteDetails.creationTime | cxDate
+            quoteDetails.expirationTime | cxDate
           ) | async
         "
       ></cx-card>
@@ -50,9 +51,9 @@
     <div class="cx-summary-card">
       <cx-card
         [content]="
-          getCardMetadata(
-            quoteDetails.updatedTime | cxDate,
-            quoteDetails.expirationTime | cxDate
+          getCreatedAndUpdatedDates(
+            quoteDetails.creationTime | cxDate,
+            quoteDetails.updatedTime | cxDate
           ) | async
         "
       ></cx-card>
