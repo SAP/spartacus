@@ -160,16 +160,16 @@ export class OpfCtaScriptsService {
   protected getScriptLocation(): Observable<CtaScriptsLocation | null> {
     return this.cmsService.getCurrentPage().pipe(
       take(1),
-      concatMap((page) => {
+      map((page) => {
         switch (page.pageId) {
           case CmsPageLocation.ORDER_PAGE:
-            return of(CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE);
+            return CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE;
           case CmsPageLocation.ORDER_CONFIRMATION_PAGE:
-            return of(CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE);
+            return CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE;
           case CmsPageLocation.PDP_PAGE:
-            return of(CtaScriptsLocation.PDP_QUICK_BUY);
+            return CtaScriptsLocation.PDP_QUICK_BUY;
           default:
-            return of(null);
+            return null;
         }
       })
     );
