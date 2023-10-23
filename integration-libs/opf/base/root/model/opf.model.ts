@@ -146,10 +146,10 @@ export interface OpfDynamicScriptResource {
   url?: string;
   sri?: string;
   attributes?: KeyValuePair[];
-  type?: AfterRedirectDynamicScriptResourceType;
+  type?: OpfDynamicScriptResourceType;
 }
 
-export enum AfterRedirectDynamicScriptResourceType {
+export enum OpfDynamicScriptResourceType {
   SCRIPT = 'SCRIPT',
   STYLES = 'STYLES',
 }

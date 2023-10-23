@@ -10,8 +10,8 @@ import { ScriptLoader } from '@spartacus/core';
 
 import { throwError } from 'rxjs';
 import {
-  AfterRedirectDynamicScriptResourceType,
   OpfDynamicScriptResource,
+  OpfDynamicScriptResourceType,
 } from '../model';
 
 @Injectable({
@@ -158,16 +158,13 @@ export class OpfResourceLoaderService extends ScriptLoader {
     const resources: OpfDynamicScriptResource[] = [
       ...scripts.map((script) => ({
         ...script,
-        type: AfterRedirectDynamicScriptResourceType.SCRIPT,
+        type: OpfDynamicScriptResourceType.SCRIPT,
       })),
       ...styles.map((style) => ({
         ...style,
-        type: AfterRedirectDynamicScriptResourceType.STYLES,
+        type: OpfDynamicScriptResourceType.STYLES,
       })),
     ];
-    if (resources.length === 0) {
-      return Promise.reject();
-    }
 
     return new Promise((resolve, reject) => {
       this.loadedResources = [];
@@ -177,10 +174,10 @@ export class OpfResourceLoaderService extends ScriptLoader {
           this.markResourceAsLoaded(resource, resources, resolve);
         } else {
           switch (resource.type) {
-            case AfterRedirectDynamicScriptResourceType.SCRIPT:
+            case OpfDynamicScriptResourceType.SCRIPT:
               this.loadScript(resource, resources, resolve, reject);
               break;
-            case AfterRedirectDynamicScriptResourceType.STYLES:
+            case OpfDynamicScriptResourceType.STYLES:
               this.loadStyles(resource, resources, resolve, reject);
               break;
             default:
