@@ -100,58 +100,6 @@ export class ReadOrderEntryConfigurationFail extends StateUtils.EntityFailAction
   }
 }
 
-export class ReadSavedCartEntryConfiguration extends StateUtils.EntityLoadAction {
-  readonly type = READ_SAVED_CART_ENTRY_CONFIGURATION;
-
-  constructor(
-    public payload: CommonConfigurator.ReadConfigurationFromSavedCartEntryParameters
-  ) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
-  }
-}
-
-export class ReadSavedCartEntryConfigurationSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = READ_SAVED_CART_ENTRY_CONFIGURATION_SUCCESS;
-
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
-  }
-}
-
-export class ReadSavedCartEntryConfigurationFail extends StateUtils.EntityFailAction {
-  readonly type = READ_SAVED_CART_ENTRY_CONFIGURATION_FAIL;
-
-  constructor(public payload: { ownerKey: string; error: any }) {
-    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
-  }
-}
-
-export class ReadQuoteEntryConfiguration extends StateUtils.EntityLoadAction {
-  readonly type = READ_QUOTE_ENTRY_CONFIGURATION;
-
-  constructor(
-    public payload: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
-  ) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
-  }
-}
-
-export class ReadQuoteEntryConfigurationSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = READ_QUOTE_ENTRY_CONFIGURATION_SUCCESS;
-
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
-  }
-}
-
-export class ReadQuoteEntryConfigurationFail extends StateUtils.EntityFailAction {
-  readonly type = READ_QUOTE_ENTRY_CONFIGURATION_FAIL;
-
-  constructor(public payload: { ownerKey: string; error: any }) {
-    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
-  }
-}
-
 export class AddToCart extends StateUtils.EntityProcessesIncrementAction {
   readonly type = ADD_TO_CART;
 
@@ -206,8 +154,5 @@ export type ConfiguratorCartAction =
   | ReadOrderEntryConfiguration
   | ReadOrderEntryConfigurationSuccess
   | ReadOrderEntryConfigurationFail
-  | ReadQuoteEntryConfiguration
-  | ReadQuoteEntryConfigurationSuccess
-  | ReadQuoteEntryConfigurationFail
   | RemoveCartBoundConfigurations
   | UpdateCartEntry;

@@ -88,14 +88,6 @@ function ensureReducerMapCreated() {
       handleReadOrderEntryConfigurationSuccess
     );
     reducerMap.set(
-      ConfiguratorActions.READ_SAVED_CART_ENTRY_CONFIGURATION_SUCCESS,
-      handleReadSavedCartEntryConfigurationSuccess
-    );
-    reducerMap.set(
-      ConfiguratorActions.READ_QUOTE_ENTRY_CONFIGURATION_SUCCESS,
-      handleReadQuoteEntryConfigurationSuccess
-    );
-    reducerMap.set(
       ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY,
       handleSetNextOwnerCartEntry
     );
@@ -289,20 +281,6 @@ function handleReadEntryConfigurationSuccess(
 function handleReadOrderEntryConfigurationSuccess(
   state: Configurator.Configuration,
   action: ConfiguratorActions.ReadOrderEntryConfigurationSuccess
-): Configurator.Configuration | undefined {
-  return handleReadEntryConfigurationSuccess(state, action);
-}
-
-function handleReadSavedCartEntryConfigurationSuccess(
-  state: Configurator.Configuration,
-  action: ConfiguratorActions.ReadSavedCartEntryConfigurationSuccess
-): Configurator.Configuration | undefined {
-  return handleReadEntryConfigurationSuccess(state, action);
-}
-
-function handleReadQuoteEntryConfigurationSuccess(
-  state: Configurator.Configuration,
-  action: ConfiguratorActions.ReadQuoteEntryConfigurationSuccess
 ): Configurator.Configuration | undefined {
   return handleReadEntryConfigurationSuccess(state, action);
 }

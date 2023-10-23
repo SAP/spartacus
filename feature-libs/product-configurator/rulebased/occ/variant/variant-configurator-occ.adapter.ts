@@ -242,90 +242,42 @@ export class VariantConfiguratorOccAdapter
   readConfigurationForOrderEntry(
     parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<Configurator.Configuration> {
-    const url = this.occEndpointsService.buildUrl(
-      'readVariantConfigurationOverviewForOrderEntry',
-      {
-        urlParams: {
-          userId: parameters.userId,
-          orderId: parameters.orderId,
-          orderEntryNumber: parameters.orderEntryNumber,
-        },
-      }
-    );
-
-    return this.http.get<OccConfigurator.Overview>(url).pipe(
-      this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER),
-      map((overview) => {
-        const configuration: Configurator.Configuration = {
-          configId: overview.configId,
-          productCode: overview.productCode,
-          groups: [],
-          flatGroups: [],
-          interactionState: {},
-          overview: overview,
-          owner: ConfiguratorModelUtils.createInitialOwner(),
-        };
-        return configuration;
-      }),
-      map((resultConfiguration) => {
-        return {
-          ...resultConfiguration,
-          owner: parameters.owner,
-        };
-      })
-    );
-  }
-  //TODO CHHI unify quote and saved cart access on action, connector, effect, adapter level?
-  readConfigurationForSavedCartEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromSavedCartEntryParameters
-  ): Observable<Configurator.Configuration> {
-    const url = this.occEndpointsService.buildUrl(
-      'readVariantConfigurationOverviewForSavedCartEntry',
-      {
-        urlParams: {
-          userId: parameters.userId,
-          cartId: parameters.savedCartId,
-          cartEntryNumber: parameters.cartEntryNumber,
-        },
-      }
-    );
-
-    return this.http.get<OccConfigurator.Overview>(url).pipe(
-      this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER),
-      map((overview) => {
-        const configuration: Configurator.Configuration = {
-          configId: overview.configId,
-          productCode: overview.productCode,
-          groups: [],
-          flatGroups: [],
-          interactionState: {},
-          overview: overview,
-          owner: ConfiguratorModelUtils.createInitialOwner(),
-        };
-        return configuration;
-      }),
-      map((resultConfiguration) => {
-        return {
-          ...resultConfiguration,
-          owner: parameters.owner,
-        };
-      })
-    );
-  }
-
-  readConfigurationForQuoteEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
-  ): Observable<Configurator.Configuration> {
-    const url = this.occEndpointsService.buildUrl(
-      'readVariantConfigurationOverviewForQuoteEntry',
-      {
-        urlParams: {
-          userId: parameters.userId,
-          quoteId: parameters.quoteId,
-          quoteEntryNumber: parameters.quoteEntryNumber,
-        },
-      }
-    );
+    const ownerType = parameters.owner.type;
+    let url;
+    if (ownerType === CommonConfigurator.OwnerType.QUOTE_ENTRY) {
+      url = this.occEndpointsService.buildUrl(
+        'readVariantConfigurationOverviewForQuoteEntry',
+        {
+          urlParams: {
+            userId: parameters.userId,
+            quoteId: parameters.orderId,
+            quoteEntryNumber: parameters.orderEntryNumber,
+          },
+        }
+      );
+    } else if (ownerType === CommonConfigurator.OwnerType.SAVED_CART_ENTRY) {
+      url = this.occEndpointsService.buildUrl(
+        'readVariantConfigurationOverviewForSavedCartEntry',
+        {
+          urlParams: {
+            userId: parameters.userId,
+            cartId: parameters.orderId,
+            cartEntryNumber: parameters.orderEntryNumber,
+          },
+        }
+      );
+    } else {
+      url = this.occEndpointsService.buildUrl(
+        'readVariantConfigurationOverviewForOrderEntry',
+        {
+          urlParams: {
+            userId: parameters.userId,
+            orderId: parameters.orderId,
+            orderEntryNumber: parameters.orderEntryNumber,
+          },
+        }
+      );
+    }
 
     return this.http.get<OccConfigurator.Overview>(url).pipe(
       this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER),

@@ -49,14 +49,6 @@ const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrde
     owner: productConfiguration.owner,
   };
 
-const readFromQuoteEntryParameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
-  {
-    userId: USER_ID,
-    quoteId: CART_ID,
-    quoteEntryNumber: '0',
-    owner: productConfiguration.owner,
-  };
-
 const updateFromCartEntryParameters: Configurator.UpdateConfigurationForCartEntryParameters =
   {
     userId: USER_ID,
@@ -293,17 +285,6 @@ describe('RulebasedConfiguratorConnector', () => {
       );
     expect(adapter[0].readConfigurationForOrderEntry).toHaveBeenCalledWith(
       readFromOrderEntryParameters
-    );
-  });
-
-  it('should call adapter on readConfigurationForQuoteEntry', () => {
-    service
-      .readConfigurationForQuoteEntry(readFromQuoteEntryParameters)
-      .subscribe((configuration) =>
-        expect(configuration).toBe(productConfiguration)
-      );
-    expect(adapter[0].readConfigurationForQuoteEntry).toHaveBeenCalledWith(
-      readFromQuoteEntryParameters
     );
   });
 
