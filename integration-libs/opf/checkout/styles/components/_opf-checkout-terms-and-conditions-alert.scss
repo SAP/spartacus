@@ -1,0 +1,15 @@
+%cx-opf-checkout-terms-and-conditions-alert {
+  .alert {
+    .close {
+      top: var(--cx-top, 50%);
+      right: 1.5rem;
+      margin-top: -12px;
+      &:before {
+        margin: 0;
+      }
+    }
+    .message {
+      padding: 10px 0;
+    }
+  }
+}

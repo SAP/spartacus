@@ -16,6 +16,7 @@ import {
 } from '@spartacus/opf/base/root';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert';
 import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
 
 const mockActiveConfigurations: ActiveConfiguration[] = [
@@ -81,7 +82,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
       of(mockOpfPaymentMetadata)
     );
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
       declarations: [OpfCheckoutPaymentsComponent],
       providers: [
         {

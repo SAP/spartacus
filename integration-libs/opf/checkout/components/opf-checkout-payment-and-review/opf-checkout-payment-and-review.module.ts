@@ -26,6 +26,7 @@ import {
 } from '@spartacus/storefront';
 import { OpfCheckoutBillingAddressFormModule } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.module';
 import { OpfCheckoutPaymentsModule } from '../opf-checkout-payments/opf-checkout-payments.module';
+import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.module';
 import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
 
 @NgModule({
@@ -42,6 +43,7 @@ import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and
     PromotionsModule,
     IconModule,
     CardModule,
+    OpfCheckoutTermsAndConditionsAlertModule,
   ],
 
   providers: [

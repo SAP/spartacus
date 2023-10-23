@@ -86,4 +86,11 @@
       font-weight: var(--cx-font-weight-semi);
     }
   }
+
+  > cx-opf-checkout-terms-and-conditions-alert {
+    display: none;
+    @include media-breakpoint-down(md) {
+      display: block;
+    }
+  }
 }
