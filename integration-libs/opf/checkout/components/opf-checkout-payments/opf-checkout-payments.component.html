@@ -8,6 +8,9 @@
     class="cx-payment-options-list"
     *ngIf="!activeConfigurationsState?.loading; else loading"
   >
+    <cx-opf-checkout-terms-and-conditions-alert
+      [isVisible]="disabled"
+    ></cx-opf-checkout-terms-and-conditions-alert>
     <div
       class="form-check"
       *ngFor="let configuration of activeConfigurationsState?.data"

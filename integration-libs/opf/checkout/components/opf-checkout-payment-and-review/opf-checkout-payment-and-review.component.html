@@ -33,6 +33,10 @@
 
   <cx-opf-checkout-billing-address-form></cx-opf-checkout-billing-address-form>
 
+  <cx-opf-checkout-terms-and-conditions-alert
+    [isVisible]="termsAndConditionInvalid"
+  ></cx-opf-checkout-terms-and-conditions-alert>
+
   <cx-opf-checkout-payments
     [disabled]="termsAndConditionInvalid"
   ></cx-opf-checkout-payments>
