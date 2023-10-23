@@ -13,6 +13,7 @@ import {
 import { WindowRef } from '@spartacus/core';
 import {
   ErrorDialogOptions,
+  GlobalFunctionsDomain,
   GlobalFunctionsInput,
   GlobalOpfPaymentMethods,
   KeyValuePair,
@@ -21,7 +22,6 @@ import {
   OpfPage,
   OpfPaymentFacade,
   PaymentMethod,
-  TargetPage,
   defaultErrorDialogOptions,
 } from '@spartacus/opf/base/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -40,20 +40,20 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   ) {}
 
   registerGlobalFunctions({
-    targetPage,
+    domain,
     paymentSessionId,
     vcr,
     paramsMap,
   }: GlobalFunctionsInput): void {
-    switch (targetPage) {
-      case TargetPage.CHECKOUT_REVIEW:
-        this.registerSubmit(paymentSessionId, vcr);
-        this.registerSubmitComplete(paymentSessionId, vcr);
-        this.registerThrowPaymentError(vcr);
+    switch (domain) {
+      case GlobalFunctionsDomain.CHECKOUT:
+        this.registerSubmit(domain, paymentSessionId, vcr);
+        this.registerSubmitComplete(domain, paymentSessionId, vcr);
+        this.registerThrowPaymentError(domain, vcr);
         break;
-      case TargetPage.RESULT:
-        this.registerSubmitCompleteRedirect(paymentSessionId, vcr);
-        this.registerGetRedirectParams(paramsMap ?? []);
+      case GlobalFunctionsDomain.REDIRECT:
+        this.registerSubmitCompleteRedirect(domain, paymentSessionId, vcr);
+        this.registerGetRedirectParams(domain, paramsMap ?? []);
         break;
       default:
         break;
@@ -62,24 +62,32 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     this._isGlobalServiceInit = true;
   }
 
-  removeGlobalFunctions(): void {
-    if (!this._isGlobalServiceInit) {
+  removeGlobalFunctions(domain: GlobalFunctionsDomain): void {
+    if (
+      domain === GlobalFunctionsDomain.CHECKOUT &&
+      !this._isGlobalServiceInit
+    ) {
       return;
     }
     const window = this.winRef.nativeWindow as any;
-    if (window?.Opf) {
-      window.Opf = undefined;
+    if (window?.Opf?.payments[domain]) {
+      window.Opf.payments[domain] = undefined;
     }
-    this._isGlobalServiceInit = false;
+    if (domain === GlobalFunctionsDomain.CHECKOUT) {
+      this._isGlobalServiceInit = false;
+    }
   }
 
-  protected getGlobalFunctionContainer(): GlobalOpfPaymentMethods {
+  protected getGlobalFunctionContainer(
+    domain: GlobalFunctionsDomain
+  ): GlobalOpfPaymentMethods {
     const window = this.winRef.nativeWindow as any;
-    if (!window.Opf?.payments) {
+    if (!window.Opf?.payments[domain]) {
       window.Opf = window?.Opf ?? {};
       window.Opf.payments = {};
+      window.Opf.payments[domain] = {};
     }
-    return window.Opf.payments;
+    return window.Opf.payments[domain];
   }
 
   protected startLoaderSpinner(
@@ -108,16 +116,20 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   }
 
   protected registerGetRedirectParams(
+    domain: GlobalFunctionsDomain,
     paramsMap: Array<KeyValuePair> = []
   ): void {
-    this.getGlobalFunctionContainer().getRedirectParams = () =>
+    this.getGlobalFunctionContainer(domain).getRedirectParams = () =>
       paramsMap.map((p) => {
         return { key: p.key, value: p.value };
       });
   }
 
-  protected registerThrowPaymentError(vcr?: ViewContainerRef): void {
-    this.getGlobalFunctionContainer().throwPaymentError = (
+  protected registerThrowPaymentError(
+    domain: GlobalFunctionsDomain,
+    vcr?: ViewContainerRef
+  ): void {
+    this.getGlobalFunctionContainer(domain).throwPaymentError = (
       errorDialogOptions: ErrorDialogOptions = defaultErrorDialogOptions
     ): void => {
       if (!vcr) {
@@ -139,10 +151,11 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   }
 
   protected registerSubmit(
+    domain: GlobalFunctionsDomain,
     paymentSessionId: string,
     vcr?: ViewContainerRef
   ): void {
-    this.getGlobalFunctionContainer().submit = ({
+    this.getGlobalFunctionContainer(domain).submit = ({
       cartId,
       additionalData,
       submitSuccess = (): void => {
@@ -229,10 +242,11 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   }
 
   protected registerSubmitComplete(
+    domain: GlobalFunctionsDomain,
     paymentSessionId: string,
     vcr?: ViewContainerRef
   ): void {
-    this.getGlobalFunctionContainer().submitComplete = ({
+    this.getGlobalFunctionContainer(domain).submitComplete = ({
       cartId,
       additionalData,
       submitSuccess = (): void => {
@@ -263,10 +277,11 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   }
 
   protected registerSubmitCompleteRedirect(
+    domain: GlobalFunctionsDomain,
     paymentSessionId: string,
     vcr?: ViewContainerRef
   ): void {
-    this.getGlobalFunctionContainer().submitCompleteRedirect = ({
+    this.getGlobalFunctionContainer(domain).submitCompleteRedirect = ({
       cartId,
       additionalData,
       submitSuccess = (): void => {

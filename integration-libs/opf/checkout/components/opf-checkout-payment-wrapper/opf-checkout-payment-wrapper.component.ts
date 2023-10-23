@@ -13,7 +13,10 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { OpfGlobalFunctionsFacade, TargetPage } from '@spartacus/opf/base/root';
+import {
+  GlobalFunctionsDomain,
+  OpfGlobalFunctionsFacade,
+} from '@spartacus/opf/base/root';
 import {
   OpfPaymentMethodType,
   PaymentPattern,
@@ -52,7 +55,9 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.globalFunctionsService.removeGlobalFunctions();
+    this.globalFunctionsService.removeGlobalFunctions(
+      GlobalFunctionsDomain.CHECKOUT
+    );
     this.sub.unsubscribe();
   }
 
@@ -66,13 +71,15 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
         next: (paymentSessionData) => {
           if (this.isHostedFields(paymentSessionData)) {
             this.globalFunctionsService.registerGlobalFunctions({
-              targetPage: TargetPage.CHECKOUT_REVIEW,
+              domain: GlobalFunctionsDomain.CHECKOUT,
               paymentSessionId: (paymentSessionData as PaymentSessionData)
                 .paymentSessionId as string,
               vcr: this.vcr,
             });
           } else {
-            this.globalFunctionsService.removeGlobalFunctions();
+            this.globalFunctionsService.removeGlobalFunctions(
+              GlobalFunctionsDomain.CHECKOUT
+            );
           }
         },
       })

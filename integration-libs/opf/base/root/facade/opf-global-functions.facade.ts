@@ -7,7 +7,10 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { OPF_BASE_FEATURE } from '../feature-name';
-import { GlobalFunctionsInput } from '../model/opf.model';
+import {
+  GlobalFunctionsDomain,
+  GlobalFunctionsInput,
+} from '../model/opf.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,5 +34,5 @@ export abstract class OpfGlobalFunctionsFacade {
   /**
    * Abstract method to remove global functions used in Hosted-Fields pattern
    */
-  abstract removeGlobalFunctions(): void;
+  abstract removeGlobalFunctions(domain: GlobalFunctionsDomain): void;
 }
