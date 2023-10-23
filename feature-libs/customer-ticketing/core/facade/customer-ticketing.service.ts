@@ -83,7 +83,6 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return [GetTicketsQueryResetEvents];
   }
 
-  // here for create ticket
   protected createTicketCommand: Command<TicketStarter, TicketDetails> =
     this.commandService.create<TicketStarter, TicketDetails>(
       (ticketStarted) =>
@@ -241,7 +240,6 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       () =>
         this.customerTicketingPreConditions().pipe(
           switchMap(([customerId]) =>
-            // here
             this.customerTicketingConnector.getTicketAssociatedObjects(
               customerId
             )
