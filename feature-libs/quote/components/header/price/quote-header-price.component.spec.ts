@@ -1,34 +1,13 @@
-import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, Price } from '@spartacus/core';
-import {
-  Quote,
-  QuoteActionType,
-  QuoteFacade,
-  QuoteState,
-} from '@spartacus/quote/root';
-import { OutletDirective } from '@spartacus/storefront';
+import { I18nTestingModule } from '@spartacus/core';
+import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { BehaviorSubject, NEVER, Observable } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
-import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
+import { CommonQuoteTestUtilsService as TestUtil } from '../../testing/common-quote-test-utils.service';
 import { QuoteHeaderPriceComponent } from './quote-header-price.component';
-
-const cartId = '1234';
-const quoteCode = '3333';
-const threshold = 20;
-const totalPrice: Price = { value: threshold + 1 };
 
 const quote: Quote = {
   ...createEmptyQuote(),
-  allowedActions: [
-    { type: QuoteActionType.EDIT, isPrimary: false },
-    { type: QuoteActionType.REQUOTE, isPrimary: true },
-  ],
-  state: QuoteState.BUYER_DRAFT,
-  cartId: cartId,
-  code: quoteCode,
-  threshold: threshold,
-  totalPrice: totalPrice,
 };
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(quote);
@@ -39,24 +18,15 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   }
 }
 
-@Directive({
-  selector: '[cxOutlet]',
-})
-class MockOutletDirective implements Partial<OutletDirective> {
-  @Input() cxOutlet: string;
-  @Input() cxOutletContext: string;
-}
-
 describe('QuoteHeaderPriceComponent', () => {
   let fixture: ComponentFixture<QuoteHeaderPriceComponent>;
   let htmlElem: HTMLElement;
   let component: QuoteHeaderPriceComponent;
-  let facade: QuoteFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [QuoteHeaderPriceComponent, MockOutletDirective],
+      declarations: [QuoteHeaderPriceComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -70,13 +40,119 @@ describe('QuoteHeaderPriceComponent', () => {
     fixture = TestBed.createComponent(QuoteHeaderPriceComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
-    facade = TestBed.inject(QuoteFacade);
-    mockQuoteDetails$.next(quote);
+    withPrices();
+    fixture.detectChanges();
   });
+
+  function withPrices() {
+    quote.totalPrice = { value: 1000, formattedValue: '$1,000.00' };
+    quote.orderDiscounts = { value: 5.99, formattedValue: '$5.99' };
+    quote.productDiscounts = { value: 50, formattedValue: '$50.00' };
+    quote.quoteDiscounts = { value: 100, formattedValue: '$100.00' };
+  }
 
   it('should create component', () => {
     expect(component).toBeDefined();
-    expect(facade).toBeDefined();
+  });
+
+  it('should display all prices and discounts when present', () => {
+    TestUtil.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      '.cx-price-row',
+      5
+    );
+    TestUtil.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      '.cx-price-savings',
+      3
+    );
+
+    TestUtil.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-price-row',
+      '.subtotal  $1,000.00',
+      0
+    );
+    TestUtil.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-price-row',
+      '.orderDiscount  $5.99',
+      1
+    );
+    TestUtil.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-price-row',
+      '.productDiscount  $50.00',
+      2
+    );
+    TestUtil.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-price-row',
+      '.quoteDiscount  $100.00',
+      3
+    );
+    TestUtil.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-price-row',
+      '.total  $1,000.00',
+      4
+    );
+  });
+
+  it('should display only totals when discounts are zero', () => {
+    quote.orderDiscounts = {};
+    quote.productDiscounts = undefined;
+    quote.quoteDiscounts = { value: 0, formattedValue: '$0.00' };
+    fixture.detectChanges();
+
+    TestUtil.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      '.cx-price-row',
+      2
+    );
+    TestUtil.expectElementNotPresent(expect, htmlElem, '.cx-price-savings');
+
+    TestUtil.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-price-row',
+      '.subtotal  $1,000.00',
+      0
+    );
+
+    TestUtil.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-price-row',
+      '.total  $1,000.00',
+      1
+    );
+  });
+
+  describe('hasNonZeroPriceValue', () => {
+    it('should return true if price value is present', () => {
+      expect(component.hasNonZeroPriceValue({ value: 99.99 })).toBe(true);
+    });
+
+    it('should return false if price is not present', () => {
+      expect(component.hasNonZeroPriceValue(undefined)).toBe(false);
+    });
+
+    it('should return false if price value is not present', () => {
+      expect(component.hasNonZeroPriceValue({})).toBe(false);
+    });
+
+    it('should return false if price value is zero', () => {
+      expect(component.hasNonZeroPriceValue({ value: 0.0 })).toBe(false);
+    });
   });
 
   describe('Ghost animation', () => {
@@ -84,39 +160,35 @@ describe('QuoteHeaderPriceComponent', () => {
       component.quoteDetails$ = NEVER;
       fixture.detectChanges();
 
-      CommonQuoteTestUtilsService.expectElementPresent(
+      TestUtil.expectElementPresent(
         expect,
         htmlElem,
         '.cx-ghost-summary-heading'
       );
 
-      CommonQuoteTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-title'
-      );
+      TestUtil.expectElementPresent(expect, htmlElem, '.cx-ghost-title');
 
-      CommonQuoteTestUtilsService.expectElementPresent(
+      TestUtil.expectElementPresent(
         expect,
         htmlElem,
         '.cx-ghost-summary-partials'
       );
 
-      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+      TestUtil.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-row',
         4
       );
 
-      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+      TestUtil.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-summary-label',
         4
       );
 
-      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
+      TestUtil.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-ghost-summary-amount',
