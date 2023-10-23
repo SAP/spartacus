@@ -40,9 +40,13 @@
       </label>
 
       <label>
-        <span class="label-content bold">{{
-          'quote.header.sellerEdit.expiryDate' | cxTranslate
-        }}</span>
+        <span
+          [attr.aria-label]="
+            'quote.header.sellerEdit.a11y.expiryDate' | cxTranslate
+          "
+          class="label-content bold"
+          >{{ 'quote.header.sellerEdit.expiryDate' | cxTranslate }}</span
+        >
         <cx-date-picker
           [control]="$any(form.get('validityDate'))"
           [required]="true"
