@@ -93,11 +93,10 @@ The objects has to conform to the `SchematicsConfig` interface:
 - `styles` - configuration for the styles.
 - `assets` - configuration for the assets - e.g. Smartedit has to provide some configuration to the angular.json's assets.
 - `customConfig` - generates some non-standard configuration providers in the feature module.
-- `dependencyFeatures` - should configure the runtime features on which your library depends on. This prevents Spartacus to install e.g. `Checkout` feature without configuring its dependency feature module - `Order`. In this case, `Checkout` depends on the `User` features as well, which _don't have to be specified_, as they're the transitive dependencies of the already specified `Order` feature.
-- `importAfter` - related to wrapper modules, and specifies after which module (aka "marker" module) should the given module be imported. E.g. the `CheckoutB2BModule` should be imported after the base checkout's `CheckoutModule`.
+- `dependencyFeatures` - should configure the runtime features on which your library depends (e.g. `Order` feature depends on `User` feature). By specifying this dependency you ensure 2 things: 1) when the user chooses in the Spartacus installation schematics to install the feature `Checkout`, then the feature `Order` will be installed automatically even when the user doesn't explicitly choose to install `Order`. 2) Moreover, during the actual process of inserting code via schematics into the customer's codebase, we ensure that installation schematics of `Order` will run first, and`Checkout` only later. The aforementioned 2 points apply also for any transitive dependencies, e.g. when `Checkout` depends on `Order` which depends on `User` - in this case `User` will be installed first, then `Order` and finally `Checkout`, even when the user only explicitly chose to install `Checkout`.
+- `importAfter` - related to lazy loadable wrapper modules, and specifies after which module (aka "marker" module) should the given module be imported. E.g. the `CheckoutB2BModule` should be imported after the base checkout's `CheckoutModule` within the lazy loadable `CheckoutWrapperModule`. This is needed for extension feature modules, when they overwrite some cms components or services of a core feature that is lazy-loaded.
 
 The finished configuration file needs to imported to `projects/schematics/src/shared/schematics-config-mappings.ts`' `SCHEMATICS_CONFIGS` array. `SCHEMATICS_CONFIGS`' order follows the order in which features are sorted in the file explorer's tree.
-
 
 ## Update schematics
 
