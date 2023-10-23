@@ -24,7 +24,6 @@ export abstract class QuoteCoreConfig {
    * Commerce quotes config
    */
   quote?: {
-    //tresholds?: QuoteTresholdsConfig;
     actions?: QuoteActionsConfig;
   };
 }

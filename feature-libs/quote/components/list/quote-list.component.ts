@@ -15,11 +15,11 @@ import { QuoteListComponentService } from './quote-list-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteListComponent {
-  protected quoteListService = inject(QuoteListComponentService);
+  protected quoteListComponentService = inject(QuoteListComponentService);
 
-  sorts = this.quoteListService.sorts;
-  sortLabels$ = this.quoteListService.sortLabels$;
-  quotesState$ = this.quoteListService.quotesState$;
+  sorts = this.quoteListComponentService.sorts;
+  sortLabels$ = this.quoteListComponentService.sortLabels$;
+  quotesState$ = this.quoteListComponentService.quotesState$;
   dateFormat: string = 'MMMM d, YYYY h:mm aa';
   iconTypes = ICON_TYPE;
 
@@ -29,11 +29,11 @@ export class QuoteListComponent {
   }
 
   changeSortCode(sortCode: string): void {
-    this.quoteListService.setSort(sortCode);
+    this.quoteListComponentService.setSort(sortCode);
   }
 
   changePage(page: number): void {
-    this.quoteListService.setCurrentPage(page);
+    this.quoteListComponentService.setCurrentPage(page);
   }
 
   /**

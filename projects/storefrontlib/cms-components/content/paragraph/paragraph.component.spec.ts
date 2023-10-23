@@ -1,16 +1,23 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By, SafeHtml } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CmsComponent, CmsParagraphComponent } from '@spartacus/core';
+import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { ParagraphComponent } from './paragraph.component';
-import { CmsComponentData } from '@spartacus/storefront';
-import { CmsParagraphComponent, CmsComponent } from '@spartacus/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
 
 @Pipe({ name: 'cxSupplementHashAnchors' })
 export class MockAnchorPipe implements PipeTransform {
   public transform(html: string): string {
+    return html;
+  }
+}
+
+@Pipe({ name: 'cxSafeHtml' })
+export class MockSafeHtmlPipe implements PipeTransform {
+  public transform(html: string): SafeHtml {
     return html;
   }
 }
@@ -41,7 +48,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [RouterTestingModule],
-        declarations: [MockAnchorPipe, ParagraphComponent],
+        declarations: [MockAnchorPipe, ParagraphComponent, MockSafeHtmlPipe],
         providers: [
           {
             provide: CmsComponentData,

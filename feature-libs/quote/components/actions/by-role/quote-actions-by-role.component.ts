@@ -115,6 +115,8 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     action: QuoteActionType,
     context: ConfirmationContext
   ) {
+    this.subscription.unsubscribe();
+    this.subscription = new Subscription();
     this.subscription.add(
       this.launchDialogService.dialogClose
         .pipe(
@@ -182,18 +184,22 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     const dialogConfig = this.getDialogConfig(action, quote.state);
     const confirmationContext: ConfirmationContext = {
       quote: quote,
-      title: dialogConfig.i18nKey + '.title',
-      confirmNote: dialogConfig.i18nKey + '.confirmNote',
+      title: dialogConfig.i18nKeyPrefix + '.title',
+      confirmNote: dialogConfig.i18nKeyPrefix + '.confirmNote',
+      a11y: {
+        close: dialogConfig.i18nKeyPrefix + '.a11y.close',
+      },
     };
     if (dialogConfig.showWarningNote) {
-      confirmationContext.warningNote = dialogConfig.i18nKey + '.warningNote';
+      confirmationContext.warningNote =
+        dialogConfig.i18nKeyPrefix + '.warningNote';
     }
     if (dialogConfig.showExpirationDate) {
       confirmationContext.validity = 'quote.actions.confirmDialog.validity';
     }
     if (dialogConfig.showSuccessMessage) {
       confirmationContext.successMessage =
-        dialogConfig.i18nKey + '.successMessage';
+        dialogConfig.i18nKeyPrefix + '.successMessage';
     }
     return confirmationContext;
   }

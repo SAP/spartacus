@@ -4,19 +4,23 @@ exports[`Spartacus Quote schematics: ng-add Quote feature eager loading should i
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { QuoteModule } from "@spartacus/quote";
-import { QuoteTranslationChunksConfig, QuoteTranslations } from "@spartacus/quote/assets";
+import { quoteTranslationChunksConfig, quoteTranslations } from "@spartacus/quote/assets";
+import { QuoteAwareComponentModule } from "@spartacus/quote/components/aware";
+import { QuoteRequestButtonModule } from "@spartacus/quote/components/request-button";
 import { QuoteRootModule } from "@spartacus/quote/root";
 
 @NgModule({
   declarations: [],
   imports: [
     QuoteRootModule,
-    QuoteModule
+    QuoteModule,
+    QuoteAwareComponentModule,
+    QuoteRequestButtonModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: QuoteTranslations,
-      chunks: QuoteTranslationChunksConfig,
+      resources: quoteTranslations,
+      chunks: quoteTranslationChunksConfig,
     },
   })]
 })
@@ -27,8 +31,8 @@ export class QuoteFeatureModule { }
 exports[`Spartacus Quote schematics: ng-add Quote feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { QuoteTranslationChunksConfig, QuoteTranslations } from "@spartacus/quote/assets";
-import { QuoteRootModule, QUOTE_FEATURE } from "@spartacus/quote/root";
+import { quoteTranslationChunksConfig, quoteTranslations } from "@spartacus/quote/assets";
+import { QuoteRootModule, QUOTE_AWARE_FEATURE, QUOTE_FEATURE, QUOTE_REQUEST_FEATURE } from "@spartacus/quote/root";
 
 @NgModule({
   declarations: [],
@@ -43,10 +47,26 @@ import { QuoteRootModule, QUOTE_FEATURE } from "@spartacus/quote/root";
       },
     }
   }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [QUOTE_AWARE_FEATURE]: {
+        module: () =>
+          import('@spartacus/quote/components/aware').then((m) => m.QuoteAwareComponentModule),
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [QUOTE_REQUEST_FEATURE]: {
+        module: () =>
+          import('@spartacus/quote/components/request-button').then((m) => m.QuoteRequestButtonModule),
+      },
+    }
+  }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: QuoteTranslations,
-      chunks: QuoteTranslationChunksConfig,
+      resources: quoteTranslations,
+      chunks: quoteTranslationChunksConfig,
     },
   })
   ]

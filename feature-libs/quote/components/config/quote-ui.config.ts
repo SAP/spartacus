@@ -22,7 +22,7 @@ export interface QuoteUIConfigFragment {
 }
 
 export type ConfirmActionDialogConfig = {
-  i18nKey: string;
+  i18nKeyPrefix: string;
   showWarningNote: boolean;
   showExpirationDate: boolean;
   showSuccessMessage: boolean;
@@ -48,4 +48,8 @@ export type ConfirmActionDialogMappingConfig = {
 })
 export abstract class QuoteUIConfig {
   quote?: QuoteUIConfigFragment;
+}
+
+declare module '@spartacus/core' {
+  interface Config extends QuoteUIConfig {}
 }

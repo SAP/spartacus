@@ -26,7 +26,7 @@ export class QuoteItemsComponent {
   protected quoteFacade = inject(QuoteFacade);
   protected activeCartFacade = inject(ActiveCartFacade);
   protected multiCartFacade = inject(MultiCartFacade);
-  protected quoteItemsService = inject(QuoteItemsComponentService);
+  protected quoteItemsComponentService = inject(QuoteItemsComponentService);
   protected userIdService = inject(UserIdService);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
@@ -50,12 +50,12 @@ export class QuoteItemsComponent {
   );
 
   activeCart$: Observable<Cart> = this.activeCartFacade.getActive();
-  showCart$ = this.quoteItemsService.getQuoteEntriesExpanded();
+  showCart$ = this.quoteItemsComponentService.getQuoteEntriesExpanded();
   iconTypes = ICON_TYPE;
   readonly cartOutlets = CartOutlets;
   protected subscription: Subscription;
 
   onToggleShowOrHideCart(showCart: boolean) {
-    this.quoteItemsService.setQuoteEntriesExpanded(!showCart);
+    this.quoteItemsComponentService.setQuoteEntriesExpanded(!showCart);
   }
 }

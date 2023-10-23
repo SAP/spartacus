@@ -20,7 +20,7 @@ import { take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
-  protected quoteConfig = inject(QuoteCoreConfig);
+  protected quoteCoreConfig = inject(QuoteCoreConfig);
   protected quoteCartService = inject(QuoteCartService);
 
   convert(source: OccQuote, target?: Quote): Quote {
@@ -48,7 +48,7 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
 
   protected getActionCategory(type: QuoteActionType): QuoteAction {
     const primaryActions: QuoteActionType[] =
-      this.quoteConfig.quote?.actions?.primaryActions || [];
+      this.quoteCoreConfig.quote?.actions?.primaryActions || [];
 
     return { type, isPrimary: primaryActions.includes(type) };
   }
@@ -58,7 +58,8 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
     list: QuoteActionType[],
     quoteId: string
   ) {
-    const order = this.quoteConfig.quote?.actions?.actionsOrderByState?.[state];
+    const order =
+      this.quoteCoreConfig.quote?.actions?.actionsOrderByState?.[state];
     if (order) {
       //deep copy order list
       const clonedActionList = structuredClone(order);

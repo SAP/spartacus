@@ -1,0 +1,68 @@
+<cx-asm-customer-360-promotion-listing
+  [headerText]="'asmCustomer360.customerCoupons.headerText' | cxTranslate"
+  [emptyStateText]="
+    'asmCustomer360.customerCoupons.emptyDescription' | cxTranslate
+  "
+  [applyButtonText]="
+    'asmCustomer360.customerCoupons.applyButtonText' | cxTranslate
+  "
+  [applied]="'asmCustomer360.customerCoupons.applied' | cxTranslate"
+  [removeButtonText]="
+    'asmCustomer360.customerCoupons.removeButtonText' | cxTranslate
+  "
+  [entries]="entries$ | async"
+  [showRemoveButton]="true"
+  [showApplyButton]="true"
+  [isCustomerCoupon]="true"
+  (apply)="claimCouponToCustomer($event)"
+  (remove)="disclaimCouponToCustomer($event)"
+  [showAlert]="showErrorAlert$ | async"
+  [showAlertForApplyAction]="showErrorAlertForApplyAction$ | async"
+  (removeAlert)="closeErrorAlert()"
+  (removeAlertForApplyAction)="closeErrorAlertForApplyAction()"
+>
+  <ng-container>
+    <div class="cx-asm-customer-360-promotion-listing-tabs">
+      <button
+        class="cx-tab-header"
+        [class.active]="this.activeTab === 0"
+        [textContent]="
+          'asmCustomer360.customerCoupons.availableTab' | cxTranslate
+        "
+        (click)="this.changeTab(true); searchBox.value = ''"
+      ></button>
+      <button
+        class="cx-tab-header"
+        [class.active]="this.activeTab === 1"
+        [textContent]="'asmCustomer360.customerCoupons.sentTab' | cxTranslate"
+        (click)="this.changeTab(false); searchBox.value = ''"
+      ></button>
+    </div>
+    <hr
+      class="cx-asm-customer-360-promotion-listing-separator"
+      aria-hidden="true"
+    />
+    <div class="cx-asm-customer-360-promotion-listing-search">
+      <input
+        #searchBox
+        class="cx-asm-customer-360-promotion-listing-search-input"
+        placeholder="{{
+          'asmCustomer360.customerCoupons.searchBox' | cxTranslate
+        }}"
+        (keydown.enter)="this.searchCustomerCoupon(searchBox.value)"
+      />
+      <cx-icon
+        class="cx-asm-customer-360-promotion-listing-search-icon-reset"
+        [type]="iconTypes.CLOSE"
+        role="button"
+        (click)="this.searchBox.value = ''"
+      ></cx-icon>
+      <cx-icon
+        class="cx-asm-customer-360-promotion-listing-search-icon-search"
+        [type]="iconTypes.SEARCH"
+        role="button"
+        (click)="this.searchCustomerCoupon(searchBox.value)"
+      ></cx-icon>
+    </div>
+  </ng-container>
+</cx-asm-customer-360-promotion-listing>

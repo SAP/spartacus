@@ -7,8 +7,10 @@
 import * as authentication from './auth-forms';
 import * as common from './common';
 
-/** alias for GET Quote Route */
+/** Aliases for Quote Routes */
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
+export const PATH_QUANTITY_ALIAS = '@PATH_QUANTITY';
+
 export const STATUS_SUBMITTED = 'Submitted';
 export const STATUS_CANCELED = 'Cancelled';
 const STATUS_DRAFT = 'Draft';
@@ -167,7 +169,15 @@ export function changeItemQuantityByStepper(
   }
   cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
     () => {
-      cy.get('cx-item-counter button').contains(changeType).click();
+      cy.get('cx-item-counter button')
+        .contains(changeType)
+        .click()
+        .then(() => {
+          cy.wait(PATH_QUANTITY_ALIAS)
+            .its('response.statusCode')
+            .should('eq', 200);
+          cy.get('cx-item-counter input[type=number]:not([disabled])'); // wait until counter is accessible after clicking '+' or '-'
+        });
     }
   );
 }
@@ -189,8 +199,12 @@ export function changeItemQuantityByCounter(
   cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
     () => {
       cy.get('cx-item-counter input')
-        .type('{selectall}' + newQuantity)
+        .click()
+        .focused()
+        .type('{selectall}' + newQuantity, { force: true })
         .pressTab();
+
+      cy.wait(PATH_QUANTITY_ALIAS).its('response.statusCode').should('eq', 200);
     }
   );
 }
@@ -777,6 +791,7 @@ export function checkExpiryDate() {
       cy.get('.cx-card-paragraph-text').contains(createFormattedExpiryDate());
     });
 }
+
 /**
  * Creates the formatted expiry date string.
  *
@@ -908,6 +923,21 @@ export function registerGetQuoteRoute(shopName: string) {
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/*/quotes/*`,
   }).as(GET_QUOTE_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Registers PATCH quantity route.
+ *
+ * @param shopName - Name of the current shop
+ */
+export function registerUpdateQuantityRoute(shopName: string) {
+  log('Registers GET quote route.', registerUpdateQuantityRoute.name);
+  cy.intercept({
+    method: 'PATCH',
+    path: `${Cypress.env(
+      'OCC_PREFIX'
+    )}/${shopName}/users/*/carts/*/entries/0?lang=en&curr=USD`,
+  }).as(PATH_QUANTITY_ALIAS.substring(1)); // strip the '@'
 }
 
 /**

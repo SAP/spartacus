@@ -18,7 +18,7 @@ export const defaultOccQuoteConfig: OccConfig = {
         performQuoteAction: 'users/${userId}/quotes/${quoteCode}/action',
         addComment: 'users/${userId}/quotes/${quoteCode}/comments',
         addDiscount: 'users/${userId}/quotes/${quoteCode}/discounts',
-        addCartEntryComment:
+        addQuoteEntryComment:
           'users/${userId}/quotes/${quoteCode}/entries/${entryNumber}/comments',
       },
     },
