@@ -365,7 +365,9 @@ describe('ConfigAttributeDropDownComponent', () => {
         0,
         undefined,
         undefined,
-        'configurator.a11y.listbox count:' +
+        'configurator.a11y.listbox attribute:' +
+          component.attribute.label +
+          ' count:' +
           (component.attribute.values ? component.attribute.values.length : 0)
       );
     });

@@ -204,7 +204,7 @@ export const configurator = {
       itemOfAttributeFullWithPriceAndQuantity:
         'Item {{ item }} of attribute {{ attribute }}, Quantity {{ quantity }}, Surcharge {{ price }}',
       itemDescription: 'Description for item {{ item }}',
-      listbox: 'Listbox with {{ count }} values.',
+      listbox: 'Listbox with {{ count }} values for attribute {{ attribute }}',
       valueSurcharge: 'Value surcharge',
       conflictDetected:
         'Conflict detected! Check the conflicts at top of group list.',
