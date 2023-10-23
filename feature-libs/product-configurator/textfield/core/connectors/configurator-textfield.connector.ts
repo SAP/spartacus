@@ -49,16 +49,6 @@ export class ConfiguratorTextfieldConnector {
   }
 
   /**
-   * Reads an existing configuration for a quote entry
-   * @param {CommonConfigurator.ReadConfigurationFromQuoteEntryParameters} parameters Attributes needed to read a product configuration for a quote entry
-   * @returns {Observable<ConfiguratorTextfield.Configuration>} Observable of product configurations
-   */
-  readConfigurationForQuoteEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
-  ): Observable<ConfiguratorTextfield.Configuration> {
-    return this.adapter.readConfigurationForQuoteEntry(parameters);
-  }
-  /**
    * Updates a configuration that is attached to a cart entry
    * @param parameters Attributes needed to update a cart entries' configuration
    * @returns Observable of cart modifications

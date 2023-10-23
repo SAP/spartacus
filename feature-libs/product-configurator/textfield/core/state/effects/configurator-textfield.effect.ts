@@ -178,36 +178,6 @@ export class ConfiguratorTextfieldEffects {
     )
   );
 
-  readConfigurationForQuoteEntry$: Observable<
-    | ConfiguratorTextfieldActions.ReadQuoteEntryConfigurationSuccess
-    | ConfiguratorTextfieldActions.ReadQuoteEntryConfigurationFail
-  > = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ConfiguratorTextfieldActions.READ_QUOTE_ENTRY_CONFIGURATION),
-      switchMap(
-        (action: ConfiguratorTextfieldActions.ReadQuoteEntryConfiguration) => {
-          const parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
-            action.payload;
-
-          return this.configuratorTextfieldConnector
-            .readConfigurationForQuoteEntry(parameters)
-            .pipe(
-              switchMap((result: ConfiguratorTextfield.Configuration) => [
-                new ConfiguratorTextfieldActions.ReadQuoteEntryConfigurationSuccess(
-                  result
-                ),
-              ]),
-              catchError((error) => [
-                new ConfiguratorTextfieldActions.ReadQuoteEntryConfigurationFail(
-                  normalizeHttpError(error, this.logger)
-                ),
-              ])
-            );
-        }
-      )
-    )
-  );
-
   constructor(
     private actions$: Actions,
     private configuratorTextfieldConnector: ConfiguratorTextfieldConnector

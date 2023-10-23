@@ -5,8 +5,8 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  CartModification,
   CART_MODIFICATION_NORMALIZER,
+  CartModification,
 } from '@spartacus/cart/base/root';
 import {
   BaseOccUrlProperties,
@@ -22,17 +22,17 @@ import {
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import {
+  CPQ_CONFIGURATOR_NORMALIZER,
+  CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
+  CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
+  CPQ_CONFIGURATOR_SERIALIZER,
+} from '../common/converters/cpq-configurator.converters';
+import { Cpq } from '../common/cpq.models';
+import {
   CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './converters/cpq-configurator-occ.converters';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
-import {
-  CPQ_CONFIGURATOR_NORMALIZER,
-  CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
-  CPQ_CONFIGURATOR_SERIALIZER,
-  CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
-} from '../common/converters/cpq-configurator.converters';
-import { Cpq } from '../common/cpq.models';
 
 describe('CpqConfigurationOccService', () => {
   const configId = '1234-56-7890';
@@ -105,22 +105,6 @@ describe('CpqConfigurationOccService', () => {
         id: productCode,
         key: ConfiguratorModelUtils.getOwnerKey(
           CommonConfigurator.OwnerType.ORDER_ENTRY,
-          productCode
-        ),
-        configuratorType: ConfiguratorType.CPQ,
-      },
-    };
-
-  const readConfigQuoteEntryParams: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
-    {
-      userId: userId,
-      quoteId: documentId,
-      quoteEntryNumber: '3',
-      owner: {
-        type: CommonConfigurator.OwnerType.QUOTE_ENTRY,
-        id: productCode,
-        key: ConfiguratorModelUtils.getOwnerKey(
-          CommonConfigurator.OwnerType.QUOTE_ENTRY,
           productCode
         ),
         configuratorType: ConfiguratorType.CPQ,
@@ -291,32 +275,6 @@ describe('CpqConfigurationOccService', () => {
           userId: userId,
           orderId: documentId,
           orderEntryNumber: '3',
-        },
-      }
-    );
-  });
-
-  it('should call readCpqConfigurationForQuoteEntry endpoint', () => {
-    serviceUnderTest
-      .getConfigIdForQuoteEntry(readConfigQuoteEntryParams)
-      .subscribe((response) => {
-        expect(response).toBe(configId);
-      });
-
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'GET' && req.url === 'readCpqConfigurationForQuoteEntry'
-      );
-    });
-    mockReq.flush({ configId: configId });
-
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'readCpqConfigurationForQuoteEntry',
-      {
-        urlParams: {
-          userId: userId,
-          quoteId: documentId,
-          quoteEntryNumber: '3',
         },
       }
     );
@@ -575,33 +533,6 @@ describe('CpqConfigurationOccService', () => {
           userId: userId,
           orderId: documentId,
           orderEntryNumber: '3',
-        },
-      }
-    );
-  });
-
-  it('should read the configuration for a quote entry and call normalizer', () => {
-    serviceUnderTest
-      .readConfigurationForQuoteEntry(readConfigQuoteEntryParams)
-      .subscribe((config) => {
-        expect(config.errorMessages).toBe(errorMessages);
-      });
-
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'GET' &&
-        req.url === 'readCpqConfigurationForQuoteEntryFull'
-      );
-    });
-    mockReq.flush(cpqConfiguration);
-
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'readCpqConfigurationForQuoteEntryFull',
-      {
-        urlParams: {
-          userId: userId,
-          quoteId: documentId,
-          quoteEntryNumber: '3',
         },
       }
     );

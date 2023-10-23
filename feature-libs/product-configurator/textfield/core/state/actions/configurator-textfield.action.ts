@@ -31,12 +31,6 @@ export const READ_ORDER_ENTRY_CONFIGURATION_FAIL =
   '[Configurator] Read order entry configuration textfield Fail';
 export const READ_ORDER_ENTRY_CONFIGURATION_SUCCESS =
   '[Configurator] Read order entry configuration textfield Success';
-export const READ_QUOTE_ENTRY_CONFIGURATION =
-  '[Configurator] Read quote entry configuration textfield';
-export const READ_QUOTE_ENTRY_CONFIGURATION_FAIL =
-  '[Configurator] Read quote entry configuration textfield Fail';
-export const READ_QUOTE_ENTRY_CONFIGURATION_SUCCESS =
-  '[Configurator] Read quote entry configuration textfield Success';
 export const UPDATE_CART_ENTRY_CONFIGURATION =
   '[Configurator] Update cart entry configuration Textfield';
 export const UPDATE_CART_ENTRY_CONFIGURATION_FAIL =
@@ -149,29 +143,6 @@ export class ReadOrderEntryConfigurationFail extends StateUtils.LoaderFailAction
   }
 }
 
-export class ReadQuoteEntryConfiguration extends StateUtils.LoaderLoadAction {
-  readonly type = READ_QUOTE_ENTRY_CONFIGURATION;
-  constructor(
-    public payload: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
-  ) {
-    super(CONFIGURATION_TEXTFIELD_DATA);
-  }
-}
-
-export class ReadQuoteEntryConfigurationSuccess extends StateUtils.LoaderSuccessAction {
-  readonly type = READ_QUOTE_ENTRY_CONFIGURATION_SUCCESS;
-  constructor(public payload: ConfiguratorTextfield.Configuration) {
-    super(CONFIGURATION_TEXTFIELD_DATA);
-  }
-}
-
-export class ReadQuoteEntryConfigurationFail extends StateUtils.LoaderFailAction {
-  readonly type = READ_QUOTE_ENTRY_CONFIGURATION_FAIL;
-  constructor(public payload: any) {
-    super(CONFIGURATION_TEXTFIELD_DATA, payload);
-  }
-}
-
 export class RemoveConfiguration extends StateUtils.LoaderResetAction {
   readonly type = REMOVE_CONFIGURATION;
   constructor() {
@@ -190,8 +161,5 @@ export type ConfiguratorActions =
   | ReadOrderEntryConfigurationFail
   | ReadOrderEntryConfigurationSuccess
   | ReadOrderEntryConfiguration
-  | ReadQuoteEntryConfigurationFail
-  | ReadQuoteEntryConfigurationSuccess
-  | ReadQuoteEntryConfiguration
   | UpdateCartEntryConfiguration
   | RemoveConfiguration;

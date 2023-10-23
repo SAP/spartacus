@@ -29,13 +29,9 @@ export class ConfiguratorTextfieldFormComponent {
               routerData.owner
             );
           }
-          case CommonConfigurator.OwnerType.ORDER_ENTRY: {
-            return this.configuratorTextfieldService.readConfigurationForOrderEntry(
-              routerData.owner
-            );
-          }
+          case CommonConfigurator.OwnerType.ORDER_ENTRY:
           case CommonConfigurator.OwnerType.QUOTE_ENTRY: {
-            return this.configuratorTextfieldService.readConfigurationForQuoteEntry(
+            return this.configuratorTextfieldService.readConfigurationForOrderEntry(
               routerData.owner
             );
           }

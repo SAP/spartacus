@@ -42,20 +42,6 @@ export namespace CommonConfigurator {
     owner: CommonConfigurator.Owner;
   }
 
-  export interface ReadConfigurationFromSavedCartEntryParameters {
-    userId?: string;
-    savedCartId?: string;
-    cartEntryNumber?: string;
-    owner: CommonConfigurator.Owner;
-  }
-
-  export interface ReadConfigurationFromQuoteEntryParameters {
-    userId?: string;
-    quoteId?: string;
-    quoteEntryNumber?: string;
-    owner: CommonConfigurator.Owner;
-  }
-
   /**
    * Possible types of owners: Product, cart or order entry
    */

@@ -243,29 +243,6 @@ export class ConfiguratorTextfieldService {
       map(this.ensureConfigurationDefined)
     );
   }
-
-  readConfigurationForQuoteEntry(
-    owner: CommonConfigurator.Owner
-  ): Observable<ConfiguratorTextfield.Configuration> {
-    const ownerIdParts = this.configuratorUtils.decomposeOwnerId(owner.id);
-    const readFromQuoteEntryParameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
-      {
-        userId: OCC_USER_ID_CURRENT,
-        quoteId: ownerIdParts.documentId,
-        quoteEntryNumber: ownerIdParts.entryNumber,
-        owner: owner,
-      };
-    this.store.dispatch(
-      new ConfiguratorTextfieldActions.ReadQuoteEntryConfiguration(
-        readFromQuoteEntryParameters
-      )
-    );
-    return this.store.pipe(
-      select(ConfiguratorTextFieldSelectors.getConfigurationContent),
-      filter((configuration) => !this.isConfigurationInitial(configuration)),
-      map(this.ensureConfigurationDefined)
-    );
-  }
   /**
    * Creates a textfield configuration supposed to be sent to the backend when an attribute
    * has been changed

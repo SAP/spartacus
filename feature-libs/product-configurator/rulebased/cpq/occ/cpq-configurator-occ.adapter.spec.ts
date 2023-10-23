@@ -139,9 +139,6 @@ describe('CpqConfiguratorOccAdapter', () => {
     asSpy(mockedOccService.readConfigurationForOrderEntry).and.callFake(() => {
       return of(productConfiguration);
     });
-    asSpy(mockedOccService.readConfigurationForQuoteEntry).and.callFake(() => {
-      return of(productConfiguration);
-    });
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
