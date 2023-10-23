@@ -1,9 +1,9 @@
-import { TestBed, fakeAsync } from '@angular/core/testing';
 import { DOCUMENT } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
-import { OpfResourceLoaderService } from './opf-resource-loader.service';
+import { TestBed, fakeAsync } from '@angular/core/testing';
 import { ScriptLoader } from '@spartacus/core';
-import { PaymentDynamicScriptResourceType } from '@spartacus/opf/checkout/root';
+import { AfterRedirectDynamicScriptResourceType } from '../model';
+import { OpfResourceLoaderService } from './opf-resource-loader.service';
 
 describe('OpfResourceLoaderService', () => {
   let opfResourceLoaderService: OpfResourceLoaderService;
@@ -54,12 +54,12 @@ describe('OpfResourceLoaderService', () => {
     it('should load provider resources successfully for both scripts and styles', fakeAsync(() => {
       const mockScriptResource = {
         url: 'script-url',
-        type: PaymentDynamicScriptResourceType.SCRIPT,
+        type: AfterRedirectDynamicScriptResourceType.SCRIPT,
       };
 
       const mockStyleResource = {
         url: 'style-url',
-        type: PaymentDynamicScriptResourceType.STYLES,
+        type: AfterRedirectDynamicScriptResourceType.STYLES,
       };
 
       spyOn<any>(opfResourceLoaderService, 'loadScript').and.callThrough();
@@ -77,7 +77,7 @@ describe('OpfResourceLoaderService', () => {
     it('should load provider resources successfully for scripts', fakeAsync(() => {
       const mockScriptResource = {
         url: 'script-url',
-        type: PaymentDynamicScriptResourceType.SCRIPT,
+        type: AfterRedirectDynamicScriptResourceType.SCRIPT,
       };
 
       spyOn<any>(opfResourceLoaderService, 'loadScript').and.callThrough();
@@ -92,7 +92,7 @@ describe('OpfResourceLoaderService', () => {
     it('should load provider resources successfully for styles', fakeAsync(() => {
       const mockStyleResource = {
         url: 'style-url',
-        type: PaymentDynamicScriptResourceType.STYLES,
+        type: AfterRedirectDynamicScriptResourceType.STYLES,
       };
 
       spyOn<any>(opfResourceLoaderService, 'loadScript').and.callThrough();
@@ -106,7 +106,7 @@ describe('OpfResourceLoaderService', () => {
 
     it('should load provider resources successfully for styles with no url', fakeAsync(() => {
       const mockStyleResource = {
-        type: PaymentDynamicScriptResourceType.STYLES,
+        type: AfterRedirectDynamicScriptResourceType.STYLES,
       };
 
       spyOn<any>(opfResourceLoaderService, 'loadScript').and.callThrough();
@@ -145,7 +145,7 @@ describe('OpfResourceLoaderService', () => {
     it('should mark resource as loaded when script is successfully loaded', fakeAsync(() => {
       const mockScriptResource = {
         url: 'script-url',
-        type: PaymentDynamicScriptResourceType.SCRIPT,
+        type: AfterRedirectDynamicScriptResourceType.SCRIPT,
       };
 
       spyOn<any>(opfResourceLoaderService, 'loadScript').and.callThrough();
@@ -173,7 +173,7 @@ describe('OpfResourceLoaderService', () => {
     it('should handle resource loading error when script is not successfully loaded', fakeAsync(() => {
       const mockScriptResource = {
         url: 'script-url',
-        type: PaymentDynamicScriptResourceType.SCRIPT,
+        type: AfterRedirectDynamicScriptResourceType.SCRIPT,
       };
 
       spyOn<any>(opfResourceLoaderService, 'loadScript').and.callThrough();
@@ -208,7 +208,7 @@ describe('OpfResourceLoaderService', () => {
     it('should mark resource as loaded when style is successfully loaded', fakeAsync(() => {
       const mockStylesResources = {
         url: 'style-url',
-        type: PaymentDynamicScriptResourceType.STYLES,
+        type: AfterRedirectDynamicScriptResourceType.STYLES,
       };
 
       spyOn<any>(opfResourceLoaderService, 'loadScript').and.callThrough();
@@ -236,7 +236,7 @@ describe('OpfResourceLoaderService', () => {
     it('should handle resource loading error when style is not successfully loaded', fakeAsync(() => {
       const mockStylesResources = {
         url: 'style-url',
-        type: PaymentDynamicScriptResourceType.STYLES,
+        type: AfterRedirectDynamicScriptResourceType.STYLES,
       };
 
       spyOn<any>(opfResourceLoaderService, 'loadScript').and.callThrough();
@@ -271,7 +271,7 @@ describe('OpfResourceLoaderService', () => {
     it('should not embed styles if there is no style in the element', fakeAsync(() => {
       const mockStyleResource = {
         url: 'style-url',
-        type: PaymentDynamicScriptResourceType.STYLES,
+        type: AfterRedirectDynamicScriptResourceType.STYLES,
       };
 
       spyOn<any>(opfResourceLoaderService, 'embedStyles').and.callThrough();
@@ -294,7 +294,7 @@ describe('OpfResourceLoaderService', () => {
     it('should not embed script if there is no script in the element', fakeAsync(() => {
       const mockScriptResource = {
         url: 'script-url',
-        type: PaymentDynamicScriptResourceType.SCRIPT,
+        type: AfterRedirectDynamicScriptResourceType.SCRIPT,
       };
 
       spyOn<any>(opfResourceLoaderService, 'embedScript').and.callThrough();
@@ -324,7 +324,7 @@ describe('OpfResourceLoaderService', () => {
     it('should embed styles with SSR when platform is set to server', fakeAsync(() => {
       const mockStyleResource = {
         url: 'style-url',
-        type: PaymentDynamicScriptResourceType.STYLES,
+        type: AfterRedirectDynamicScriptResourceType.STYLES,
       };
 
       spyOn<any>(opfResourceLoaderService, 'embedStyles').and.callThrough();

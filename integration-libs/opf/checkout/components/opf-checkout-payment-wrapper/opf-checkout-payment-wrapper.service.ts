@@ -17,9 +17,9 @@ import {
 import {
   OpfOrderFacade,
   OpfOtpFacade,
+  OpfResourceLoaderService,
   OpfService,
 } from '@spartacus/opf/base/root';
-import { OpfResourceLoaderService } from '@spartacus/opf/checkout/core';
 import {
   OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE,
   OpfCheckoutFacade,
