@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AfterRedirectDynamicScript } from '@spartacus/opf/base/root';
+import { OpfDynamicScript } from '@spartacus/opf/base/root';
 
 export interface PaymentInitiationConfig {
   otpKey?: string;
@@ -46,7 +46,7 @@ export interface PaymentSessionData {
   paymentIntent?: string;
   pattern?: string;
   destination?: PaymentDestination;
-  dynamicScript?: AfterRedirectDynamicScript;
+  dynamicScript?: OpfDynamicScript;
 }
 
 export interface PaymentDestination {
