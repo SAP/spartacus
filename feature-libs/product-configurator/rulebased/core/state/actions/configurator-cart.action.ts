@@ -23,18 +23,6 @@ export const READ_ORDER_ENTRY_CONFIGURATION_SUCCESS =
   '[Configurator] Read Order Entry Configuration Success';
 export const READ_ORDER_ENTRY_CONFIGURATION_FAIL =
   '[Configurator] Read Order Entry Configuration Fail';
-export const READ_SAVED_CART_ENTRY_CONFIGURATION =
-  '[Configurator] Read Saved Cart Entry Configuration';
-export const READ_SAVED_CART_ENTRY_CONFIGURATION_SUCCESS =
-  '[Configurator] Read Saved Cart Entry Configuration Success';
-export const READ_SAVED_CART_ENTRY_CONFIGURATION_FAIL =
-  '[Configurator] Read Saved Cart Entry Configuration Fail';
-export const READ_QUOTE_ENTRY_CONFIGURATION =
-  '[Configurator] Read Quote Entry Configuration';
-export const READ_QUOTE_ENTRY_CONFIGURATION_SUCCESS =
-  '[Configurator] Read Quote Entry Configuration Success';
-export const READ_QUOTE_ENTRY_CONFIGURATION_FAIL =
-  '[Configurator] Read Quote Entry Configuration Fail';
 
 export const ADD_TO_CART = '[Configurator] Add to cart';
 export const UPDATE_CART_ENTRY = '[Configurator] Update cart entry';
