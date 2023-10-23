@@ -10,6 +10,7 @@ import {
   CommandService,
   CommandStrategy,
   EventService,
+  HttpErrorModel,
   Query,
   QueryNotifier,
   QueryService,
@@ -40,8 +41,9 @@ import {
   TicketStarter,
   UploadAttachmentSuccessEvent,
 } from '@spartacus/customer-ticketing/root';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of, throwError } from 'rxjs';
 import {
+  concatMap,
   distinctUntilChanged,
   map,
   switchMap,
@@ -81,6 +83,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return [GetTicketsQueryResetEvents];
   }
 
+  // here for create ticket
   protected createTicketCommand: Command<TicketStarter, TicketDetails> =
     this.commandService.create<TicketStarter, TicketDetails>(
       (ticketStarted) =>
@@ -238,6 +241,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       () =>
         this.customerTicketingPreConditions().pipe(
           switchMap(([customerId]) =>
+            // here
             this.customerTicketingConnector.getTicketAssociatedObjects(
               customerId
             )
@@ -295,6 +299,9 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   }
   getTicketAssociatedObjects(): Observable<AssociatedObject[]> {
     return this.getTicketAssociatedObjectsState().pipe(
+      concatMap((state) =>
+        state?.error ? throwError(state.error as HttpErrorModel) : of(state)
+      ),
       map((state) => state.data ?? [])
     );
   }
