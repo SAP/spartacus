@@ -181,6 +181,10 @@ export const quote = {
         discount: 'Discount',
         expiryDate: 'Expiry Date',
         discountValidationText: 'Enter a valid absolute discount',
+        a11y: {
+          apply: 'Click to apply the entered discount value to this quote',
+          discount: 'Enter a discount value to be applied to this quote',
+        },
       },
     },
     httpHandlers: {
