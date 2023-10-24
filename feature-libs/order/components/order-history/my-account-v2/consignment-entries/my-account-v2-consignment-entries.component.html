@@ -1,0 +1,88 @@
+<ng-container *ngFor="let consignment of consignments">
+  <!--
+example:
+Consignment 1 | In Process | Last Updated: 13, September, 2023
+Consignment 2 | Tracking Number: 5657474 | Estimated Delivery: 22, September, 2023
+  -->
+  <div
+    class="cx-consignment-info"
+    [attr.aria-label]="
+      'myAccountV2OrderHistory.consignmentDetailLabel' | cxTranslate
+    "
+    *ngIf="consignment"
+  >
+    <span
+      [attr.aria-label]="
+        'myAccountV2OrderHistory.consignmentNumberLabel' | cxTranslate
+      "
+    >
+      {{
+        'myAccountV2OrderHistory.consignmentCode'
+          | cxTranslate: { param: getConsignmentNumber(consignment?.code) }
+      }}
+    </span>
+    |
+    <ng-container *ngIf="consignment.trackingID; else showLastUpdated">
+      <ng-container *ngIf="consignment.consignmentTracking as tracking">
+        <span
+          [attr.aria-label]="
+            'orderDetails.consignmentTracking.dialog.trackingId' | cxTranslate
+          "
+        >
+          {{
+            'orderDetails.consignmentTracking.dialog.trackingId' | cxTranslate
+          }}:
+          <ng-container *ngIf="tracking.trackingUrl; else showNumber">
+            <a
+              class="cx-tracking-id"
+              target="_blank"
+              rel="noopener noreferrer"
+              [href]="tracking.trackingUrl"
+              >{{ tracking.trackingID }}</a
+            >
+          </ng-container>
+          |
+        </span>
+        <span
+          [attr.aria-label]="
+            'myAccountV2OrderHistory.estimateDeliveryLabel' | cxTranslate
+          "
+        >
+          {{
+            'orderDetails.consignmentTracking.dialog.estimate' | cxTranslate
+          }}:
+          {{ tracking.targetArrivalDate | cxDate: 'd, MMMM, yyyy' }}
+        </span>
+        <ng-template #showNumber>
+          {{ tracking.trackingID }}
+        </ng-template>
+      </ng-container>
+    </ng-container>
+    <ng-template #showLastUpdated>
+      <span
+        [attr.aria-label]="
+          'myAccountV2OrderHistory.consignmentStatusLabel' | cxTranslate
+        "
+        *ngIf="consignment.status"
+      >
+        {{
+          'orderDetails.deliveryStatus_' + consignment?.status?.toUpperCase()
+            | cxTranslate
+        }}
+      </span>
+      <span
+        *ngIf="consignment.statusDate"
+        [attr.aria-label]="
+          'myAccountV2OrderHistory.consignmentStatusDateLabel' | cxTranslate
+        "
+      >
+        |
+        {{
+          'myAccountV2OrderHistory.statusDate'
+            | cxTranslate
+              : { param: consignment.statusDate | cxDate: 'd, MMMM, yyyy' }
+        }}
+      </span>
+    </ng-template>
+  </div>
+</ng-container>

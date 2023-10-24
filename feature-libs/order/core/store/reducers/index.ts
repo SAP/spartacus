@@ -8,6 +8,7 @@ import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
 import {
+  ConsignmentTracking,
   Order,
   OrderHistoryList,
   ReplenishmentOrder,
@@ -16,14 +17,18 @@ import {
   ReturnRequestList,
 } from '@spartacus/order/root';
 import {
+  CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
   ORDERS,
   OrderState,
+  ORDER_BY_ID_ENTITIES,
   ORDER_DETAILS,
   REPLENISHMENT_ORDERS,
   REPLENISHMENT_ORDER_DETAILS,
   RETURN_REQUESTS,
   RETURN_REQUEST_DETAILS,
 } from '../order-state';
+import * as fromConsignmentTrackingByIDReducer from './consignment-tracking-by-id.reducer';
+import * as fromOrderByIDReducer from './order-by-id.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
 import * as fromOrderDetailsReducer from './order-details.reducer';
 import * as fromOrderReturnRequestReducer from './order-return-request.reducer';
@@ -56,6 +61,17 @@ export function getReducers(): ActionReducerMap<OrderState, any> {
     replenishmentOrder: StateUtils.loaderReducer<ReplenishmentOrder, any>(
       REPLENISHMENT_ORDER_DETAILS,
       fromReplenishmentOrderDetailsReducer.reducer
+    ),
+    orderById: StateUtils.entityLoaderReducer<Order, any>(
+      ORDER_BY_ID_ENTITIES,
+      fromOrderByIDReducer.reducer
+    ),
+    consignmentTrackingById: StateUtils.entityLoaderReducer<
+      ConsignmentTracking,
+      any
+    >(
+      CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
+      fromConsignmentTrackingByIDReducer.reducer
     ),
   };
 }

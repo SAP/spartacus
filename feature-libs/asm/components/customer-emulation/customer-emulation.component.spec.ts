@@ -1,41 +1,78 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, User } from '@spartacus/core';
+import {
+  FeatureModulesService,
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+  User,
+} from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { CustomerEmulationComponent } from './customer-emulation.component';
 
-class MockUserAccountFacade implements Partial<UserAccountFacade> {
-  get(): Observable<User> {
-    return of({});
-  }
-}
-
-class MockAsmComponentService {
-  logoutCustomer(): void {}
-  isCustomerEmulationSessionInProgress(): Observable<boolean> {
-    return of(true);
-  }
-}
-
 describe('CustomerEmulationComponent', () => {
+  class MockUserAccountFacade implements Partial<UserAccountFacade> {
+    get(): Observable<User> {
+      return of({});
+    }
+  }
+
+  class MockAsmComponentService {
+    logoutCustomer(): void {}
+    isCustomerEmulationSessionInProgress(): Observable<boolean> {
+      return of(true);
+    }
+    handleAsmDialogAction(): void {}
+  }
+
+  const dialogClose$ = new BehaviorSubject<any>('');
+  class MockLaunchDialogService implements Partial<LaunchDialogService> {
+    openDialogAndSubscribe() {}
+    get dialogClose() {
+      return dialogClose$.asObservable();
+    }
+  }
+
+  class mockFeatureModulesService implements Partial<FeatureModulesService> {
+    isConfigured(): boolean {
+      return true;
+    }
+    resolveFeature(featureName: string): Observable<any> {
+      return of(featureName);
+    }
+  }
+
   let component: CustomerEmulationComponent;
   let fixture: ComponentFixture<CustomerEmulationComponent>;
   let userAccountFacade: UserAccountFacade;
   let asmComponentService: AsmComponentService;
   let el: DebugElement;
+  let featureModulesService: FeatureModulesService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
+        imports: [I18nTestingModule, FeaturesConfigModule],
         declarations: [CustomerEmulationComponent, MockFeatureLevelDirective],
         providers: [
+          {
+            provide: FeatureModulesService,
+            useClass: mockFeatureModulesService,
+          },
           { provide: UserAccountFacade, useClass: MockUserAccountFacade },
           { provide: AsmComponentService, useClass: MockAsmComponentService },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '6.3' },
+            },
+          },
         ],
       }).compileComponents();
     })
@@ -47,6 +84,7 @@ describe('CustomerEmulationComponent', () => {
     fixture.detectChanges();
     userAccountFacade = TestBed.inject(UserAccountFacade);
     asmComponentService = TestBed.inject(AsmComponentService);
+    featureModulesService = TestBed.inject(FeatureModulesService);
     el = fixture.debugElement;
   });
 
@@ -88,5 +126,55 @@ describe('CustomerEmulationComponent', () => {
 
     //assert
     expect(asmComponentService.logoutCustomer).toHaveBeenCalled();
+  });
+
+  it('should open customer 360 dialog', () => {
+    const launchDialogService = TestBed.inject(LaunchDialogService);
+
+    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
+
+    spyOn(asmComponentService, 'handleAsmDialogAction').and.stub();
+
+    component.openAsmCustomer360();
+
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledTimes(1);
+    const [caller, , data] = (<jasmine.Spy>(
+      launchDialogService.openDialogAndSubscribe
+    )).calls.argsFor(0);
+    expect(caller).toBe(LAUNCH_CALLER.ASM_CUSTOMER_360);
+    expect(data).toEqual({ customer: {} });
+
+    expect(asmComponentService.handleAsmDialogAction).not.toHaveBeenCalled();
+
+    dialogClose$.next({});
+
+    expect(asmComponentService.handleAsmDialogAction).toHaveBeenCalledTimes(1);
+    expect(asmComponentService.handleAsmDialogAction).toHaveBeenCalledWith(
+      {} as any
+    );
+  });
+
+  it('should display customer 360 button if asm customer360 is configured.', () => {
+    spyOn(featureModulesService, 'isConfigured').and.returnValue(true);
+    spyOn(userAccountFacade, 'get').and.returnValue(
+      of({ uid: 'user@test.com', name: 'Test User' })
+    );
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(component.isAsmCustomer360Configured).toBeTruthy();
+    expect(el.query(By.css('.cx-360-button'))).toBeTruthy();
+  });
+
+  it('should not display customer 360 button if asm customer360 is not configured.', () => {
+    spyOn(featureModulesService, 'isConfigured').and.returnValue(false);
+    spyOn(userAccountFacade, 'get').and.returnValue(
+      of({ uid: 'user@test.com', name: 'Test User' })
+    );
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(component.isAsmCustomer360Configured).toBeFalsy();
+    expect(el.query(By.css('.cx-360-button'))).toBeFalsy();
   });
 });
