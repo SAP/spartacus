@@ -9,6 +9,7 @@
 
 # test output
 test-results.xml
+*-test-results-*.xml
 
 # docs archives
 docs.tar.gz
