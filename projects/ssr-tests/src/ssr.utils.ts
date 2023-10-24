@@ -16,11 +16,9 @@ import * as Log from './log.utils';
  * The server will output a log file at the test project root named "ssr.log".
  * Funtion finishes once the server is initialized.
  */
-export async function startSsrServer(port = 4000, args?: string) {
+export async function startSsrServer(port = 4000, args: string = '') {
   childProcess.exec(
-    `NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=${port} ${
-      args ? args + ' ' : ''
-    }npm run serve:ssr:dev --prefix ../../> ssr.log`
+    `NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=${port} ${args} npm run serve:ssr:dev --prefix ../../> ssr.log`
   );
   await Log.waitUntilLogContainsText(`Node Express server listening on `);
 }
