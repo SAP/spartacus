@@ -414,7 +414,11 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       params: { quoteId: entryKeys.documentId },
     });
   }
-
+  /**
+   * Navigates to the quote that is attached to the saved cart. At the moment we
+   * only support saved carts if linked to quotes.
+   * @param owner Configuration owner
+   */
   protected goToSavedCartDetails(owner: CommonConfigurator.Owner): void {
     const entryKeys = this.commonConfiguratorUtilsService.decomposeOwnerId(
       owner.id
