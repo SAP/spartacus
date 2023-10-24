@@ -10,13 +10,14 @@ import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
+const user = getSampleUser();
+
 context('Assisted Service Module', () => {
   beforeEach(() => {
     clearAllStorage();
   });
 
   describe('Create Customer', () => {
-    const user = getSampleUser();
     it('should be able to create a new customer by agent click button (CXSPA-1594)', () => {
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
@@ -54,26 +55,28 @@ context('Assisted Service Module', () => {
       const sentArgs = { email: user.email, password: user.password };
       cy.origin(backOfficeUrl, { args: sentArgs }, ({ email, password }) => {
         cy.get('.z-loading-indicator', { timeout: 30000 }).should('not.exist');
-        cy.get('[ytestid="loginButton"]').should('exist');
-        cy.get('[ytestid="loginButton"]').should('be.visible');
-
-        cy.get('[ytestid="j_username"]').clear({ force: true });
-        cy.get('[ytestid="j_password"]').clear({ force: true });
-
-        cy.get('[ytestid="j_username"]')
-          .scrollIntoView()
-          .type('CustomerSupportAgent');
-        cy.get('[ytestid="j_username"]').should(
-          'have.value',
-          'CustomerSupportAgent'
+        cy.get("[type='button'],[type='submit']", { timeout: 30000 }).contains(
+          'Sign'
         );
-        cy.get('[ytestid="j_password"]').scrollIntoView().type('pw4all');
-        cy.get('[ytestid="j_password"]').should('have.value', 'pw4all');
-        cy.get('[ytestid="loginButton"]').click({ force: true });
+        cy.get("input[name='j_username']").clear({ force: true });
+        cy.wait(2000);
+        cy.get("input[name='j_username']")
+          .scrollIntoView()
+          .type('CustomerSupportAgent', { force: true, log: true });
+        cy.get("input[name='j_password']").clear({ force: true });
+        cy.wait(2000);
+        cy.get("input[name='j_password']")
+          .scrollIntoView()
+          .type('pw4all', { force: true, log: false });
+        cy.get("[type='button'],[type='submit']")
+          .contains('Sign')
+          .click({ force: true });
 
-        cy.get('[ytestid="yw-textsearch-searchbox"]', {
-          timeout: 30000,
-        }).should('be.visible');
+        cy.get('[aria-label="Tickets selected"]', { timeout: 30000 }).should(
+          'have.class',
+          'z-treerow-selected'
+        );
+        cy.wait(2000);
 
         cy.get('[ytestid="customersupport_backoffice_explorerTree_customers"]')
           .scrollIntoView()
@@ -125,6 +128,7 @@ context('Assisted Service Module', () => {
       checkout.visitHomePage();
       cy.log('--> Log in to Spartacus');
       checkout.signInUser(user);
+      cy.get('cx-login .cx-login-greet').should('be.visible');
     });
   });
 
@@ -151,7 +155,7 @@ context('Assisted Service Module', () => {
       cy.log('--> close create customer dialog');
       asm.asmCloseCreateCustomerDialog();
     });
-    it('should be not able to create a new customer with invalid user data by agent (CXSPA-1594)', () => {
+    it('should be not able to create a new customer with duplicated user data by agent (CXSPA-1594)', () => {
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
@@ -161,7 +165,6 @@ context('Assisted Service Module', () => {
       cy.log('--> Open create customer dialog on customer list dialog');
       asm.asmOpenCreateCustomerDialogOnCustomerListDialog();
 
-      let user = getSampleUser();
       user.email = myCompanyAdminUser.registrationData?.email;
       cy.log('--> fill form');
       asm.fillCreateCustomerForm(user);
@@ -178,6 +181,19 @@ context('Assisted Service Module', () => {
       cy.get('div.message-container cx-message')
         .eq(1)
         .should('contain', 'Enter a different email address as');
+
+      asm.asmCloseCreateCustomerDialog();
+    });
+
+    it('should be not able to create a new customer with invalid user data by agent (CXSPA-1594)', () => {
+      cy.log('--> Agent logging in');
+      checkout.visitHomePage('asm=true');
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
+      asm.agentLogin('asagent', 'pw4all');
+
+      cy.log('--> Open create customer dialog on customer list dialog');
+      asm.asmOpenCreateCustomerDialogOnCustomerListDialog();
 
       let invalidUser = asm.invalidUser;
       cy.log('--> fill form');
