@@ -2,8 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import {
   CommonConfigurator,
   OrderEntryStatus,
@@ -12,7 +13,15 @@ import { CommonConfiguratorTestUtilsService } from '../../testing/common-configu
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
 const orderCode = '01008765';
+const savedCartCode = '0108336';
 const quoteCode = '01008764';
+const cartCode = '876';
+const cart: Cart = { code: cartCode };
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  getActive(): Observable<Cart> {
+    return of(cart);
+  }
+}
 
 @Pipe({
   name: 'cxUrl',
@@ -33,6 +42,12 @@ describe('ConfigureCartEntryComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, RouterTestingModule, RouterModule],
         declarations: [ConfigureCartEntryComponent, MockUrlPipe],
+        providers: [
+          {
+            provide: ActiveCartFacade,
+            useClass: MockActiveCartFacade,
+          },
+        ],
       }).compileComponents();
     })
   );
@@ -62,7 +77,7 @@ describe('ConfigureCartEntryComponent', () => {
       );
     });
 
-    it('should find correct owner type quoteEntry in case entry knows quote and it is read-only', () => {
+    it('should find owner type quoteEntry in case entry knows quote and it is read-only', () => {
       component.readOnly = true;
       component.cartEntry = { quoteCode: quoteCode };
       expect(component.getOwnerType()).toBe(
@@ -77,10 +92,10 @@ describe('ConfigureCartEntryComponent', () => {
       );
     });
 
-    it('should find correct owner type saved cart entry in case entry knows saved cart', () => {
+    it('should find correct owner type saved cart entry in case entry knows saved cart and cart is not active', () => {
       component.readOnly = true;
-      component.cartEntry = { savedCartCode: orderCode };
-      expect(component.getOwnerType()).toBe(
+      component.cartEntry = { savedCartCode: savedCartCode };
+      expect(component.getOwnerTypeKnowingActiveCart(cartCode)).toBe(
         CommonConfigurator.OwnerType.SAVED_CART_ENTRY
       );
     });
@@ -99,9 +114,31 @@ describe('ConfigureCartEntryComponent', () => {
 
     it('should take order code into account in case entry is from order', () => {
       component.readOnly = true;
-      const orderCode = '01008765';
+
       component.cartEntry = { entryNumber: 0, orderCode: orderCode };
       expect(component.getEntityKey()).toBe(orderCode + '+0');
+    });
+
+    it('should take quote code into account in case entry is from quote', () => {
+      component.readOnly = true;
+
+      component.cartEntry = { entryNumber: 0, quoteCode: quoteCode };
+      expect(component.getEntityKey()).toBe(quoteCode + '+0');
+    });
+  });
+  describe('getEntityKeyKnowingActiveCart', () => {
+    it('should find correct entity key for saved cart entry', () => {
+      component.cartEntry = { entryNumber: 0, savedCartCode: savedCartCode };
+      component.readOnly = true;
+      expect(component.getEntityKeyKnowingActiveCart(cartCode)).toBe(
+        savedCartCode + '+0'
+      );
+    });
+
+    it('should find correct entity key for cart entry in case it is active and read-only', () => {
+      component.cartEntry = { entryNumber: 0, savedCartCode: cartCode };
+      component.readOnly = true;
+      expect(component.getEntityKeyKnowingActiveCart(cartCode)).toBe('0');
     });
   });
 
