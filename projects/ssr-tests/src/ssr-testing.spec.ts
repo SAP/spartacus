@@ -33,7 +33,7 @@ describe('SSR E2E', () => {
     ]);
   });
 
-  it('should receive cached response with next request', async () => {
+  it('should receive cached response with next request if previous request timed out', async () => {
     await Ssr.startSsrServer();
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
