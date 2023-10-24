@@ -1,7 +1,16 @@
 import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { EventService, I18nTestingModule, Price } from '@spartacus/core';
+import {
+  ActiveCartFacade,
+  Cart,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
+import {
+  EventService,
+  I18nTestingModule,
+  Price,
+  UserIdService,
+} from '@spartacus/core';
 import {
   Quote,
   QuoteActionType,
@@ -9,15 +18,16 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import { IconTestingModule, OutletDirective } from '@spartacus/storefront';
+import { cold } from 'jasmine-marbles';
 import { BehaviorSubject, EMPTY, NEVER, Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import {
-  createEmptyQuote,
   QUOTE_CODE,
+  createEmptyQuote,
 } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteItemsComponent } from './quote-items.component';
 import { QuoteItemsComponentService } from './quote-items.component.service';
-import { tap } from 'rxjs/operators';
 
 @Directive({
   selector: '[cxOutlet]',
@@ -45,6 +55,11 @@ const quote: Quote = {
   entries: [{ entryNumber: 1 }],
 };
 
+const quoteWoCartId: Quote = {
+  ...quote,
+  cartId: undefined,
+};
+
 const cart: Cart = {};
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(quote);
@@ -63,6 +78,19 @@ class MockQuoteFacade implements Partial<QuoteFacade> {
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
     return mockCart$.asObservable().pipe(tap(() => (cartObsHasFired = true)));
+  }
+}
+
+class MockMultiCartFacade implements Partial<MultiCartFacade> {
+  getCart(): Observable<Cart> {
+    return cold('a', { a: cart });
+  }
+  loadCart(): void {}
+}
+
+class MockUserIdService implements Partial<UserIdService> {
+  takeUserId(): Observable<string> {
+    return of('user');
   }
 }
 
@@ -89,6 +117,14 @@ describe('QuoteItemsComponent', () => {
             useClass: MockActiveCartFacade,
           },
           {
+            provide: MultiCartFacade,
+            useClass: MockMultiCartFacade,
+          },
+          {
+            provide: UserIdService,
+            useClass: MockUserIdService,
+          },
+          {
             provide: EventService,
             useValue: mockedEventService,
           },
@@ -102,6 +138,7 @@ describe('QuoteItemsComponent', () => {
   );
 
   beforeEach(() => {
+    mockQuoteDetails$.next(quote);
     fixture = TestBed.createComponent(QuoteItemsComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
@@ -134,8 +171,25 @@ describe('QuoteItemsComponent', () => {
     quoteObsHasFired = false;
   }
 
-  it('should create the component', () => {
-    expect(component).toBeTruthy();
+  describe('Initialization', () => {
+    it('should create the component', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should provide quoteCartReadOnly$ observable if quote is linked to a cart', () => {
+      expect(component.quoteCartReadOnly$).toBeObservable(
+        cold('a', {
+          a: cart,
+        })
+      );
+    });
+
+    it('should not provide quoteCartReadOnly$ observable if quote is not linked to a cart', () => {
+      mockQuoteDetails$.next(quoteWoCartId);
+      fixture = TestBed.createComponent(QuoteItemsComponent);
+      component = fixture.componentInstance;
+      expect(component.quoteCartReadOnly$).toBeObservable(cold(''));
+    });
   });
 
   describe('Rendering', () => {

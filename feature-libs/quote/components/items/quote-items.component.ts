@@ -30,7 +30,6 @@ export class QuoteItemsComponent {
   protected userIdService = inject(UserIdService);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
-  //TODO CHHI add tests
   quoteCartReadOnly$: Observable<Cart> = this.userIdService.takeUserId().pipe(
     switchMap((userId) => zip(this.quoteDetails$, of(userId))),
     tap(([quote, userId]) => {

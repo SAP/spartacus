@@ -415,7 +415,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     });
   }
 
-  //TODO CHHI test
   protected goToSavedCartDetails(owner: CommonConfigurator.Owner): void {
     const entryKeys = this.commonConfiguratorUtilsService.decomposeOwnerId(
       owner.id
