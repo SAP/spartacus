@@ -30,8 +30,6 @@ import { finalize, take } from 'rxjs/operators';
 
 @Injectable()
 export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
-  protected _isGlobalServiceInit = false;
-
   constructor(
     protected winRef: WindowRef,
     private ngZone: NgZone,
@@ -50,6 +48,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.registerSubmit(domain, paymentSessionId, vcr);
         this.registerSubmitComplete(domain, paymentSessionId, vcr);
         this.registerThrowPaymentError(domain, vcr);
+
         break;
       case GlobalFunctionsDomain.REDIRECT:
         this.registerSubmitCompleteRedirect(domain, paymentSessionId, vcr);
@@ -58,23 +57,12 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       default:
         break;
     }
-
-    this._isGlobalServiceInit = true;
   }
 
   removeGlobalFunctions(domain: GlobalFunctionsDomain): void {
-    if (
-      domain === GlobalFunctionsDomain.CHECKOUT &&
-      !this._isGlobalServiceInit
-    ) {
-      return;
-    }
     const window = this.winRef.nativeWindow as any;
     if (window?.Opf?.payments[domain]) {
       window.Opf.payments[domain] = undefined;
-    }
-    if (domain === GlobalFunctionsDomain.CHECKOUT) {
-      this._isGlobalServiceInit = false;
     }
   }
 
