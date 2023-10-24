@@ -324,16 +324,42 @@ export class CpqConfiguratorOccService {
   protected callReadConfigurationForOrderEntry(
     parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<Cpq.Configuration> {
-    const url = this.occEndpointsService.buildUrl(
-      'readCpqConfigurationForOrderEntryFull',
-      {
-        urlParams: {
-          userId: parameters.userId,
-          orderId: parameters.orderId,
-          orderEntryNumber: parameters.orderEntryNumber,
-        },
-      }
-    );
+    let url;
+    const ownerType = parameters.owner.type;
+    if (ownerType === CommonConfigurator.OwnerType.ORDER_ENTRY) {
+      url = this.occEndpointsService.buildUrl(
+        'readCpqConfigurationForOrderEntryFull',
+        {
+          urlParams: {
+            userId: parameters.userId,
+            orderId: parameters.orderId,
+            orderEntryNumber: parameters.orderEntryNumber,
+          },
+        }
+      );
+    } else if (ownerType === CommonConfigurator.OwnerType.QUOTE_ENTRY) {
+      url = this.occEndpointsService.buildUrl(
+        'readCpqConfigurationForQuoteEntryFull',
+        {
+          urlParams: {
+            userId: parameters.userId,
+            quoteId: parameters.orderId,
+            quoteEntryNumber: parameters.orderEntryNumber,
+          },
+        }
+      );
+    } else {
+      url = this.occEndpointsService.buildUrl(
+        'readCpqConfigurationForSavedCartEntryFull',
+        {
+          urlParams: {
+            userId: parameters.userId,
+            savedCartId: parameters.orderId,
+            entryNumber: parameters.orderEntryNumber,
+          },
+        }
+      );
+    }
     return this.http.get<Cpq.Configuration>(url);
   }
 }

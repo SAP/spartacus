@@ -39,6 +39,7 @@ describe('CpqConfigurationOccService', () => {
   const userId = 'Anony';
   const documentId = '82736353';
   const entryNumber = 3;
+  const entryNumberString = '3';
   const productCode = 'Product';
   const cartResponse: CartModification = {
     quantityAdded: 1,
@@ -532,7 +533,75 @@ describe('CpqConfigurationOccService', () => {
         urlParams: {
           userId: userId,
           orderId: documentId,
-          orderEntryNumber: '3',
+          orderEntryNumber: entryNumberString,
+        },
+      }
+    );
+  });
+
+  it('should read the configuration for a quote entry and call normalizer in case owner is quote', () => {
+    const readConfigFromQuoteEntryParams = {
+      ...readConfigOrderEntryParams,
+      owner: {
+        ...readConfigOrderEntryParams.owner,
+        type: CommonConfigurator.OwnerType.QUOTE_ENTRY,
+      },
+    };
+    serviceUnderTest
+      .readConfigurationForOrderEntry(readConfigFromQuoteEntryParams)
+      .subscribe((config) => {
+        expect(config.errorMessages).toBe(errorMessages);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readCpqConfigurationForQuoteEntryFull'
+      );
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'readCpqConfigurationForQuoteEntryFull',
+      {
+        urlParams: {
+          userId: userId,
+          quoteId: documentId,
+          quoteEntryNumber: entryNumberString,
+        },
+      }
+    );
+  });
+
+  it('should read the configuration for a saved cart entry and call normalizer in case owner is quote', () => {
+    const readConfigFromSavedCartEntryParams = {
+      ...readConfigOrderEntryParams,
+      owner: {
+        ...readConfigOrderEntryParams.owner,
+        type: CommonConfigurator.OwnerType.SAVED_CART_ENTRY,
+      },
+    };
+    serviceUnderTest
+      .readConfigurationForOrderEntry(readConfigFromSavedCartEntryParams)
+      .subscribe((config) => {
+        expect(config.errorMessages).toBe(errorMessages);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readCpqConfigurationForSavedCartEntryFull'
+      );
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'readCpqConfigurationForSavedCartEntryFull',
+      {
+        urlParams: {
+          userId: userId,
+          savedCartId: documentId,
+          entryNumber: entryNumberString,
         },
       }
     );
