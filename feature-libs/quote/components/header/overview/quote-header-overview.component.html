@@ -21,6 +21,7 @@
           [charactersLimit]="getCharactersLimitForCardTile()"
         ></cx-card>
         <button
+          [attr.aria-label]="'quote.header.overview.a11y.edit' | cxTranslate"
           *ngIf="isQuoteEditableForBuyer(quoteDetails)"
           class="link cx-action-link cx-edit-btn"
           (click)="toggleEditMode()"

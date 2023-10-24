@@ -31,6 +31,7 @@ context('Quote', () => {
     cy.visit('/');
     quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
     quote.registerGetQuoteRoute(POWERTOOLS);
+    quote.registerUpdateQuantityRoute(POWERTOOLS);
   });
 
   describe('Request quote process', () => {
