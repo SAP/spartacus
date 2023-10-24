@@ -9,6 +9,15 @@
     }
   }
 
+  @include forVersion(6.6) {
+    @media (max-width: 1090px) {
+      flex-direction: column;
+      > * {
+        margin-bottom: 12px;
+      }
+    }
+  }
+
   button {
     color: #aa0808;
     font-weight: 700;
@@ -19,6 +28,11 @@
 
     @media (max-width: 940px) {
       width: 100%;
+    }
+    @include forVersion(6.6) {
+      @media (max-width: 1090px) {
+        width: 100%;
+      }
     }
 
     &.cx-360-button {
