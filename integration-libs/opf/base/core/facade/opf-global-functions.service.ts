@@ -48,7 +48,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.registerSubmit(domain, paymentSessionId, vcr);
         this.registerSubmitComplete(domain, paymentSessionId, vcr);
         this.registerThrowPaymentError(domain, vcr);
-
         break;
       case GlobalFunctionsDomain.REDIRECT:
         this.registerSubmitCompleteRedirect(domain, paymentSessionId, vcr);
