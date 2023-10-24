@@ -19,7 +19,7 @@ export class QuoteHeaderPriceComponent {
 
   /**
    * Checks whether the price has a non-zero value
-   * 
+   *
    * @param price to check
    * @returns true, only if the price has a non zero value
    */
