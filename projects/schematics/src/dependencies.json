@@ -12,7 +12,7 @@
     "i18next": "^21.10.0",
     "i18next-http-backend": "^1.4.5",
     "i18next-resources-to-backend": "^1.1.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/schematics": {
     "@angular-devkit/core": "^15.2.9",
@@ -37,7 +37,7 @@
     "@ngrx/store": "^15.3.0",
     "@spartacus/core": "6.6.0-1",
     "ngx-infinite-scroll": "^15.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/styles": {
     "@fontsource/open-sans": "^4.5.14",
@@ -69,7 +69,7 @@
     "@spartacus/storefront": "6.6.0-1",
     "@spartacus/styles": "6.6.0-1",
     "@spartacus/user": "6.6.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/cart": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -86,7 +86,7 @@
     "@spartacus/styles": "6.6.0-1",
     "@spartacus/user": "6.6.0-1",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/checkout": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -104,7 +104,7 @@
     "@spartacus/styles": "6.6.0-1",
     "@spartacus/user": "6.6.0-1",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/customer-ticketing": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -117,7 +117,7 @@
     "@spartacus/schematics": "6.6.0-1",
     "@spartacus/storefront": "6.6.0-1",
     "@spartacus/styles": "6.6.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/order": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -135,7 +135,7 @@
     "@spartacus/storefront": "6.6.0-1",
     "@spartacus/styles": "6.6.0-1",
     "@spartacus/user": "6.6.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/organization": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -154,7 +154,7 @@
     "@spartacus/styles": "6.6.0-1",
     "@spartacus/user": "6.6.0-1",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/pdf-invoices": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -165,7 +165,7 @@
     "@spartacus/schematics": "6.6.0-1",
     "@spartacus/storefront": "6.6.0-1",
     "@spartacus/styles": "6.6.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/pickup-in-store": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -184,7 +184,7 @@
     "@spartacus/styles": "6.6.0-1",
     "@spartacus/user": "6.6.0-1",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/product": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -196,7 +196,7 @@
     "@spartacus/storefront": "6.6.0-1",
     "@spartacus/styles": "6.6.0-1",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/product-configurator": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -214,7 +214,7 @@
     "@spartacus/schematics": "6.6.0-1",
     "@spartacus/storefront": "6.6.0-1",
     "@spartacus/styles": "6.6.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/qualtrics": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -224,7 +224,7 @@
     "@spartacus/schematics": "6.6.0-1",
     "@spartacus/styles": "6.6.0-1",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/requested-delivery-date": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -238,7 +238,7 @@
     "@spartacus/schematics": "6.6.0-1",
     "@spartacus/storefront": "6.6.0-1",
     "@spartacus/styles": "6.6.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/smartedit": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -246,7 +246,7 @@
     "@angular/core": "^15.2.9",
     "@spartacus/core": "6.6.0-1",
     "@spartacus/schematics": "6.6.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/storefinder": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -261,7 +261,7 @@
     "@spartacus/storefront": "6.6.0-1",
     "@spartacus/styles": "6.6.0-1",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/tracking": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -269,7 +269,7 @@
     "@angular/core": "^15.2.9",
     "@spartacus/core": "6.6.0-1",
     "@spartacus/schematics": "6.6.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/user": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -283,7 +283,7 @@
     "@spartacus/schematics": "6.6.0-1",
     "@spartacus/storefront": "6.6.0-1",
     "@spartacus/styles": "6.6.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/cdc": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -300,7 +300,7 @@
     "@spartacus/schematics": "6.6.0-1",
     "@spartacus/storefront": "6.6.0-1",
     "@spartacus/user": "6.6.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/cds": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -314,7 +314,7 @@
     "@spartacus/schematics": "6.6.0-1",
     "@spartacus/storefront": "6.6.0-1",
     "@spartacus/tracking": "6.6.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/digital-payments": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -328,7 +328,7 @@
     "@spartacus/core": "6.6.0-1",
     "@spartacus/schematics": "6.6.0-1",
     "@spartacus/storefront": "6.6.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/epd-visualization": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -343,7 +343,7 @@
     "@spartacus/storefront": "6.6.0-1",
     "@spartacus/styles": "6.6.0-1",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/s4om": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -356,7 +356,7 @@
     "@spartacus/schematics": "6.6.0-1",
     "@spartacus/storefront": "6.6.0-1",
     "@spartacus/styles": "6.6.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/segment-refs": {
     "@angular-devkit/schematics": "^15.2.9",
@@ -364,7 +364,7 @@
     "@angular/core": "^15.2.9",
     "@spartacus/core": "6.6.0-1",
     "@spartacus/schematics": "6.6.0-1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "storefrontapp": {
     "@angular/animations": "^15.2.9",
@@ -395,7 +395,7 @@
     "i18next-http-backend": "^1.4.5",
     "i18next-resources-to-backend": "^1.1.2",
     "ngx-infinite-scroll": "^15.0.0",
-    "rxjs": "^6.6.0",
+    "rxjs": "^7.8.0",
     "ts-loader": "^9.4.4",
     "tslib": "^2.6.2",
     "zone.js": "~0.12.0"

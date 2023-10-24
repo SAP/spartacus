@@ -37,7 +37,7 @@
     "@spartacus/storefront": "6.6.0-1",
     "@spartacus/styles": "6.6.0-1",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "publishConfig": {
     "access": "public"

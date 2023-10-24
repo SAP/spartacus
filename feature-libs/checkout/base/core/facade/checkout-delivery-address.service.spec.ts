@@ -14,7 +14,7 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { config, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutDeliveryAddressConnector } from '../connectors/checkout-delivery-address/checkout-delivery-address.connector';
 import { CheckoutDeliveryAddressService } from './checkout-delivery-address.service';
@@ -60,6 +60,22 @@ describe(`CheckoutDeliveryAddressService`, () => {
   let connector: CheckoutDeliveryAddressConnector;
   let checkoutQuery: CheckoutQueryFacade;
   let eventService: EventService;
+
+  // TODO: CXSPA-4870 verify if can be avoided
+  let originalOnUnhandledError: ((err: any) => void) | null;
+
+  beforeAll(() => {
+    // configure rxjs to not crash node instance with thrown errors
+    // TODO: CXSPA-4870 verify if can be avoided
+    originalOnUnhandledError = config.onUnhandledError;
+    config.onUnhandledError = () => {};
+  });
+
+  afterAll(() => {
+    // reset rxjs configuration
+    // TODO: CXSPA-4870 verify if can be avoided
+    config.onUnhandledError = originalOnUnhandledError;
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({

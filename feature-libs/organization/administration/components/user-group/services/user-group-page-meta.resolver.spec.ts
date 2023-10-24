@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { UserGroup } from '@spartacus/organization/administration/core';
-import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { CurrentUserGroupService } from './current-user-group.service';
 import { UserGroupRoutePageMetaResolver } from './user-group-route-page-meta.resolver';
 
@@ -29,13 +28,12 @@ describe('UserGroupRoutePageMetaResolver', () => {
 
   it('should emit breadcrumb with translated i18n key, using current item as params', async () => {
     expect(
-      await resolver
-        .resolveBreadcrumbs({
+      await firstValueFrom(
+        resolver.resolveBreadcrumbs({
           url: 'testPath',
           pageMetaConfig: { breadcrumb: { i18n: 'testTranslation' } },
         })
-        .pipe(take(1))
-        .toPromise()
+      )
     ).toEqual([{ label: 'testTranslation name:testName', link: 'testPath' }]);
   });
 });

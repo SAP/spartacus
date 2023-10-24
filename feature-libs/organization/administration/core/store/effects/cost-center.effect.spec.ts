@@ -133,7 +133,7 @@ describe('CostCenter Effects', () => {
 
     it('should return LoadCostCenterFail action if costCenter not updated', () => {
       costCenterConnector.get = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new CostCenterActions.LoadCostCenter({
         userId,
@@ -175,7 +175,7 @@ describe('CostCenter Effects', () => {
 
     it('should return LoadCostCentersFail action if costCenters not loaded', () => {
       costCenterConnector.getList = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new CostCenterActions.LoadCostCenters({ userId, params });
       const completion = new CostCenterActions.LoadCostCentersFail({
@@ -212,7 +212,7 @@ describe('CostCenter Effects', () => {
 
     it('should return CreateCostCenterFail action if costCenter not created', () => {
       costCenterConnector.create = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new CostCenterActions.CreateCostCenter({
         userId,
@@ -258,7 +258,7 @@ describe('CostCenter Effects', () => {
 
     it('should return UpdateCostCenterFail action if costCenter not created', () => {
       costCenterConnector.update = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new CostCenterActions.UpdateCostCenter({
         userId,
@@ -310,7 +310,7 @@ describe('CostCenter Effects', () => {
 
     it('should return LoadAssignedBudgetsFail action if budgets not loaded', () => {
       costCenterConnector.getBudgets = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new CostCenterActions.LoadAssignedBudgets({
         userId,
@@ -359,7 +359,7 @@ describe('CostCenter Effects', () => {
 
     it('should return UpdateCostCenterFail action if budget not assigned', () => {
       costCenterConnector.assignBudget = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new CostCenterActions.AssignBudget({
         userId,
@@ -407,7 +407,7 @@ describe('CostCenter Effects', () => {
 
     it('should return UnassignBudgetFail action if budget not unassigned', () => {
       costCenterConnector.unassignBudget = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new CostCenterActions.UnassignBudget({
         userId,
