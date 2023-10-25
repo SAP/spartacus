@@ -79,10 +79,10 @@ export function setQuantity(quantity: string): void {
 /**
  * Verifies whether the quote list is displayed.
  */
-export function isQuoteListDisplayed() {
+export function checkQuoteListDisplayed() {
   log(
     'Verifies whether the quote list page is displayed',
-    isQuoteListDisplayed.name
+    checkQuoteListDisplayed.name
   );
   cy.get(quoteListSelector).should('be.visible');
 }
@@ -125,27 +125,27 @@ export function checkQuoteStatusInQuoteList(status: string) {
 /**
  * Verifies whether the quote overview page is displayed.
  */
-function isQuoteHeaderOverviewPageDisplayed() {
+function checkQuoteHeaderOverviewPageDisplayed() {
   log(
     'Verifies whether the quote overview page is displayed',
-    isQuoteHeaderOverviewPageDisplayed.name
+    checkQuoteHeaderOverviewPageDisplayed.name
   );
   cy.get('.QuoteDetailsPageTemplate').should('be.visible');
 
-  isQuoteActionsLinkDisplayed();
-  isQuoteHeaderOverviewDisplayed();
-  isQuoteItemsDisplayed();
-  isQuoteHeaderPriceDisplayed();
-  isQuoteActionsByRoleDisplayed();
+  checkQuoteActionsLinkDisplayed();
+  checkQuoteHeaderOverviewDisplayed();
+  checkQuoteItemsDisplayed();
+  checkQuoteHeaderPriceDisplayed();
+  checkQuoteActionsByRoleDisplayed();
 }
 
 /**
  * Verifies whether the quote actions link component is displayed.
  */
-export function isQuoteActionsLinkDisplayed() {
+export function checkQuoteActionsLinkDisplayed() {
   log(
     'Verifies whether the quote actions link component is displayed.',
-    isQuoteActionsLinkDisplayed.name
+    checkQuoteActionsLinkDisplayed.name
   );
   cy.get(actionsLinkSelector).should('be.visible');
 }
@@ -153,10 +153,10 @@ export function isQuoteActionsLinkDisplayed() {
 /**
  * Verifies whether the quote header overview component is displayed.
  */
-export function isQuoteHeaderOverviewDisplayed() {
+export function checkQuoteHeaderOverviewDisplayed() {
   log(
     'Verifies whether the quote header overview component is displayed',
-    isQuoteHeaderOverviewDisplayed.name
+    checkQuoteHeaderOverviewDisplayed.name
   );
   cy.get(headerOverviewSelector).should('be.visible');
 }
@@ -164,10 +164,10 @@ export function isQuoteHeaderOverviewDisplayed() {
 /**
  * Verifies whether the quote comments component is displayed.
  */
-export function isQuoteCommentsDisplayed() {
+export function checkQuoteCommentsDisplayed() {
   log(
     'Verifies whether the quote comments component is displayed',
-    isQuoteCommentsDisplayed.name
+    checkQuoteCommentsDisplayed.name
   );
   cy.get(commentsSelector).should('be.visible');
 }
@@ -175,10 +175,10 @@ export function isQuoteCommentsDisplayed() {
 /**
  * Verifies whether the quote items component is displayed.
  */
-export function isQuoteItemsDisplayed() {
+export function checkQuoteItemsDisplayed() {
   log(
     'Verifies whether the quote items component is displayed',
-    isQuoteItemsDisplayed.name
+    checkQuoteItemsDisplayed.name
   );
   cy.get(itemsSelector).should('be.visible');
 }
@@ -186,10 +186,10 @@ export function isQuoteItemsDisplayed() {
 /**
  * Verifies whether the quote header price component is displayed.
  */
-export function isQuoteHeaderPriceDisplayed() {
+export function checkQuoteHeaderPriceDisplayed() {
   log(
     'Verifies whether the quote header price component is displayed',
-    isQuoteHeaderPriceDisplayed.name
+    checkQuoteHeaderPriceDisplayed.name
   );
   cy.get('cx-quote-header-price').should('be.visible');
 }
@@ -197,10 +197,10 @@ export function isQuoteHeaderPriceDisplayed() {
 /**
  * Verifies whether the quote actions by role component is displayed.
  */
-export function isQuoteActionsByRoleDisplayed() {
+export function checkQuoteActionsByRoleDisplayed() {
   log(
     'Verifies whether the quote actions by role component is displayed',
-    isQuoteActionsByRoleDisplayed.name
+    checkQuoteActionsByRoleDisplayed.name
   );
   cy.get(actionsByRoleSelector).should('be.visible');
 }
@@ -217,7 +217,7 @@ export function clickOnRequestQuote(cartHasIssues = false): void {
     .click()
     .then(() => {
       if (!cartHasIssues) {
-        isQuoteHeaderOverviewPageDisplayed();
+        checkQuoteHeaderOverviewPageDisplayed();
       } else {
         // If there is a cart item with issues in the cart then display a corresponding global message and stay in the cart
         checkGlobalMessageDisplayed(
@@ -318,17 +318,17 @@ export function prepareSellerQuote(
   enableASMMode(shopName);
   asm.agentLogin(salesrep_email, salesrep_password);
   asm.startCustomerEmulation(buyer, true);
-  isQuoteAvailableForSeller(shopName);
+  checkQuoteAvailableForSeller(shopName);
   gotToQuoteOverviewPage();
 }
 
 /**
  * Verifies whether the account page template is displayed.
  */
-export function isAccountPageTemplateDisplayed() {
+export function checkAccountPageTemplateDisplayed() {
   log(
     'Verifies whether the account page template is displayed',
-    isAccountPageTemplateDisplayed.name
+    checkAccountPageTemplateDisplayed.name
   );
   cy.get(accountPageTemplateSelector).should('be.visible');
 }
@@ -338,11 +338,11 @@ export function isAccountPageTemplateDisplayed() {
  *
  * @param shopName Name of the given shop
  */
-function isQuoteAvailableForSeller(shopName: string) {
+function checkQuoteAvailableForSeller(shopName: string) {
   const quoteListPath = `${shopName}/en/USD/my-account/quotes`;
   cy.visit(quoteListPath).then(() => {
     cy.location('pathname').should('contain', quoteListPath);
-    isAccountPageTemplateDisplayed();
+    checkAccountPageTemplateDisplayed();
   });
   waitUntilQuoteExists(5, quoteListPath);
 }
@@ -377,7 +377,7 @@ function waitUntilQuoteExists(
             );
             cy.visit(quoteListPath).then(() => {
               cy.location('pathname').should('contain', quoteListPath);
-              isAccountPageTemplateDisplayed();
+              checkAccountPageTemplateDisplayed();
               return cy.wait(1000).then(() => {
                 return waitUntilQuoteExists(remainingAttempts, quoteListPath);
               });
@@ -455,10 +455,10 @@ export function submitQuote(status: string, shopName?: string): void {
 /**
  * Verifies whether the quote confirm dialog is displayed.
  */
-export function isQuoteActionsConfirmDialogDisplayed() {
+export function checkQuoteActionsConfirmDialogDisplayed() {
   log(
     'Verifies whether the quote confirm dialog is displayed',
-    isQuoteActionsConfirmDialogDisplayed.name
+    checkQuoteActionsConfirmDialogDisplayed.name
   );
   cy.get(confirmDialogSelector).should('be.visible');
 }
@@ -474,7 +474,7 @@ function clickSubmitQuoteBtn(): void {
   cy.get(primaryBtnActionsByRoleSelector)
     .click()
     .then(() => {
-      isQuoteActionsConfirmDialogDisplayed();
+      checkQuoteActionsConfirmDialogDisplayed();
     });
 }
 
@@ -713,7 +713,7 @@ export function saveEditedData(): void {
         .click()
         .then(() => {
           cy.wait(POST_QUOTE_ALIAS);
-          isQuoteHeaderOverviewPageDisplayed();
+          checkQuoteHeaderOverviewPageDisplayed();
         });
     });
 }
@@ -772,7 +772,7 @@ export function clickOnYesBtnWithinRequestPopUp(
     .then(() => {
       switch (status) {
         case STATUS_BUYER_SUBMIT: {
-          isQuoteListDisplayed();
+          checkQuoteListDisplayed();
           checkQuoteListContainsQuoteId();
           checkQuoteStatusInQuoteList(STATUS_SUBMITTED);
           break;
@@ -785,7 +785,7 @@ export function clickOnYesBtnWithinRequestPopUp(
           break;
         }
         case STATUS_SALES_REPORTER_SUBMIT: {
-          isQuoteListDisplayed();
+          checkQuoteListDisplayed();
           checkQuoteListContainsQuoteId();
           checkQuoteStatusInQuoteList(STATUS_SUBMITTED);
           break;
@@ -1116,7 +1116,7 @@ function clickCancelQuoteBtn() {
   cy.get(secondaryBtnActionsByRoleSelector)
     .click()
     .then(() => {
-      isQuoteActionsConfirmDialogDisplayed();
+      checkQuoteActionsConfirmDialogDisplayed();
     });
 }
 
@@ -1129,7 +1129,7 @@ export function goToQuoteListPage(shopName: string): void {
   const location = `${shopName}/en/USD/my-account/quotes`;
   cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
-    isAccountPageTemplateDisplayed();
+    checkAccountPageTemplateDisplayed();
   });
 }
 
@@ -1141,7 +1141,7 @@ export function gotToQuoteOverviewPage() {
   cy.get<string>('@quoteURL')
     .then(cy.visit)
     .then(() => {
-      isQuoteHeaderOverviewPageDisplayed();
+      checkQuoteHeaderOverviewPageDisplayed();
     });
 }
 
@@ -1397,7 +1397,7 @@ export function clickOnViewCartBtnOnPD(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/quote');
-      isQuoteItemsDisplayed();
+      checkQuoteItemsDisplayed();
     });
 }
 

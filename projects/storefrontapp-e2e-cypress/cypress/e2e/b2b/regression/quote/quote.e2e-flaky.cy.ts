@@ -125,13 +125,13 @@ context('Quote', () => {
     it('should be accessible from My Account', () => {
       quote.requestQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, '1');
       quote.navigateToQuoteListFromMyAccount();
-      quote.isQuoteListDisplayed();
+      quote.checkQuoteListDisplayed();
     });
 
     it('should be accessible from the quote details', () => {
       quote.requestQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, '1');
       quote.navigateToQuoteListFromQuoteDetails();
-      quote.isQuoteListDisplayed();
+      quote.checkQuoteListDisplayed();
     });
 
     it('should cancel a quote and be redirected back to the quote list (CXSPA-4035)', () => {
@@ -142,7 +142,7 @@ context('Quote', () => {
         true
       );
       quote.cancelQuote(quote.STATUS_BUYER_CANCEL);
-      quote.isQuoteListDisplayed();
+      quote.checkQuoteListDisplayed();
       quote.gotToQuoteOverviewPage();
       quote.checkQuoteState(quote.STATUS_CANCELED);
     });
