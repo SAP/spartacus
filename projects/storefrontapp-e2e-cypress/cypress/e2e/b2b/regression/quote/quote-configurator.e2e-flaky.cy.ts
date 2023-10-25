@@ -5,7 +5,7 @@
  */
 
 import * as quote from '../../../../helpers/quote';
-import * as cart from '../../../../helpers/cart';
+import * as configuration from '../../../../helpers/product-configurator';
 import * as configurationVc from '../../../../helpers/product-configurator-vc';
 import * as configurationOverview from '../../../../helpers/product-configurator-overview';
 
@@ -16,22 +16,17 @@ const TEST_PRODUCT_CONFIGURABLE_TEXTFIELD = '2116282';
 const EMAIL = 'gi.sun@pronto-hw.com';
 const PASSWORD = '12341234';
 const USER = 'Gi Sun';
-
 // List of attributes
 const CONF_BS_THROATWIDTH = 'CONF_BS_THROATWIDTH';
-
 // List of attribute values
 const CONF_BS_LARGEWIDTH = 'CONF_BS_LARGEWIDTH';
-
 // UI types
 const radioGroup = 'radioGroup';
-
 context('Quote<->Configurator integration', () => {
   beforeEach(() => {
     cy.visit('/');
     quote.login(EMAIL, PASSWORD, USER);
   });
-
   describe('Request quote process with VC configurable product', () => {
     it('should not allow to request quote if the configuration has issues', () => {
       quote.addProductToCart(
@@ -39,42 +34,31 @@ context('Quote<->Configurator integration', () => {
         TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES,
         '1'
       );
-      quote.clickOnRequestQuote();
 
-      //we are still in cart, for now just check that
-      //TODO check for messages once https://jira.tools.sap/browse/CXSPA-4079 is done
-      cy.get('cx-cart-details').should('exist');
-
-      //remove conflicting entry
-      cart.removeCartItem({ name: TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES });
+      quote.clickOnRequestQuote(true);
+      quote.removeCartItem({ name: TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES });
     });
 
     it('should support creation of a draft quote including VC configurable product (CXSPA-4158)', () => {
-      configurationVc.registerConfigurationUpdateRoute();
       quote.prepareQuote(POWERTOOLS, TEST_PRODUCT_CONFIGURABLE, 1, false);
       quote.checkTotalEstimatedPrice('$270.00');
       quote.clickOnEditConfigurationLink(1);
-      configurationVc.selectAttributeAndWait(
+      configuration.selectAttribute(
         CONF_BS_THROATWIDTH,
         radioGroup,
-        CONF_BS_LARGEWIDTH,
-        false
+        CONF_BS_LARGEWIDTH
       );
       configurationVc.clickAddToCartBtn();
       configurationOverview.clickContinueToCartBtnOnOPAndExpectQuote();
       quote.checkQuoteInDraftState(false, TEST_PRODUCT_CONFIGURABLE);
-      quote.gotToQuoteDetailsOverviewPage(); //remove when CXSPA-4840 is done
       quote.checkTotalEstimatedPrice('$300.00');
     });
   });
-
   describe('Request quote process with textfield configurable product', () => {
     it('should support creation of a draft quote including textfield configurable product', () => {
       quote.requestQuote(POWERTOOLS, TEST_PRODUCT_CONFIGURABLE_TEXTFIELD, '1');
-
       //check: quote is in status draft
       quote.checkQuoteInDraftState(false, TEST_PRODUCT_CONFIGURABLE_TEXTFIELD);
-
       // TODO: edit configuration does not work for quote
       //check: we can navigate to the textfield configurator form
       //configurationCart.clickOnEditConfigurationLink(0);
