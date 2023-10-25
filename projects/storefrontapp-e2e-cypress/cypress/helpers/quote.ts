@@ -5,11 +5,9 @@
  */
 
 import * as authentication from './auth-forms';
-import * as cart from './cart';
 import * as common from './common';
 import * as productConfigurator from './product-configurator';
 import * as asm from './asm';
-import { scrollToTopOfPage } from './infinite-scroll';
 
 /** aliases for Quote Routes */
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
