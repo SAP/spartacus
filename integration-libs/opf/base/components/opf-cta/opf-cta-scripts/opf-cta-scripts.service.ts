@@ -63,9 +63,10 @@ export class OpfCtaScriptsService {
         if (!ctaScriptsResponse?.value?.length) {
           return throwError('Invalid CTA Scripts Response');
         }
-        return of(
-          ctaScriptsResponse.value.map((ctaScript) => ctaScript.dynamicScript)
+        const dynamicScripts = ctaScriptsResponse.value.map(
+          (ctaScript) => ctaScript.dynamicScript
         );
+        return of(dynamicScripts);
       }),
       take(1)
     );
@@ -79,7 +80,7 @@ export class OpfCtaScriptsService {
         paymentAccountIds = accIds;
         return this.getScriptLocation();
       }),
-      concatMap((scriptsLocation: CtaScriptsLocation | null) => {
+      concatMap((scriptsLocation: CtaScriptsLocation | undefined) => {
         return this.fillRequestForTargetPage(
           scriptsLocation,
           paymentAccountIds
@@ -89,22 +90,42 @@ export class OpfCtaScriptsService {
   }
 
   protected fillRequestForTargetPage(
-    scriptsLocation: CtaScriptsLocation | null,
+    scriptsLocation: CtaScriptsLocation | undefined,
     paymentAccountIds: number[]
   ): Observable<CtaScriptsRequest> {
-    if (scriptsLocation === CtaScriptsLocation.PDP_QUICK_BUY) {
-      return this.fillCtaRequestforPDP(scriptsLocation, paymentAccountIds);
-    } else if (
-      scriptsLocation === CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE ||
-      scriptsLocation === CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE
-    ) {
-      return this.fillCtaRequestforPagesWithOrder(
-        scriptsLocation,
-        paymentAccountIds
-      );
-    } else {
+    if (!scriptsLocation) {
       return throwError('Invalid Script Location');
     }
+    const locationToFunctionMap: Record<
+      CtaScriptsLocation,
+      () => Observable<CtaScriptsRequest>
+    > = {
+      [CtaScriptsLocation.PDP_QUICK_BUY]: () =>
+        this.fillCtaRequestforPDP(scriptsLocation, paymentAccountIds),
+      [CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE]: () =>
+        this.fillCtaRequestforPagesWithOrder(
+          scriptsLocation,
+          paymentAccountIds
+        ),
+      [CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE]: () =>
+        this.fillCtaRequestforPagesWithOrder(
+          scriptsLocation,
+          paymentAccountIds
+        ),
+      [CtaScriptsLocation.CART_MESSAGING]: () =>
+        throwError('to be implemented'),
+      [CtaScriptsLocation.CART_QUICK_BUY]: () =>
+        throwError('to be implemented'),
+      [CtaScriptsLocation.CHECKOUT_QUICK_BUY]: () =>
+        throwError('to be implemented'),
+      [CtaScriptsLocation.PDP_MESSAGING]: () => throwError('to be implemented'),
+    };
+
+    const selectedFunction = locationToFunctionMap[scriptsLocation];
+
+    return selectedFunction
+      ? selectedFunction()
+      : throwError('Invalid Script Location');
   }
 
   protected fillCtaRequestforPagesWithOrder(
@@ -157,21 +178,22 @@ export class OpfCtaScriptsService {
     );
   }
 
-  protected getScriptLocation(): Observable<CtaScriptsLocation | null> {
+  protected getScriptLocation(): Observable<CtaScriptsLocation | undefined> {
+    const cmsToCtaLocationMap: Record<CmsPageLocation, CtaScriptsLocation> = {
+      [CmsPageLocation.ORDER_PAGE]:
+        CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE,
+      [CmsPageLocation.ORDER_CONFIRMATION_PAGE]:
+        CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE,
+      [CmsPageLocation.PDP_PAGE]: CtaScriptsLocation.PDP_QUICK_BUY,
+      [CmsPageLocation.CART_PAGE]: CtaScriptsLocation.CART_QUICK_BUY,
+    };
     return this.cmsService.getCurrentPage().pipe(
       take(1),
-      map((page) => {
-        switch (page.pageId) {
-          case CmsPageLocation.ORDER_PAGE:
-            return CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE;
-          case CmsPageLocation.ORDER_CONFIRMATION_PAGE:
-            return CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE;
-          case CmsPageLocation.PDP_PAGE:
-            return CtaScriptsLocation.PDP_QUICK_BUY;
-          default:
-            return null;
-        }
-      })
+      map((page) =>
+        page.pageId
+          ? cmsToCtaLocationMap[page.pageId as CmsPageLocation]
+          : undefined
+      )
     );
   }
 
