@@ -6,6 +6,7 @@
 
 import * as asm from '../../../helpers/asm';
 import * as checkout from '../../../helpers/checkout-flow';
+import { generateMail, randomString } from '../../../helpers/user';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
@@ -37,6 +38,8 @@ context('Assisted Service Module', () => {
       asm.asmOpenCreateCustomerDialogOnCustomerListDialog();
 
       cy.log('--> fill form');
+
+      user.email = generateMail(randomString(), true);
       asm.fillCreateCustomerForm(user);
 
       cy.log('--> submit form');
@@ -58,13 +61,10 @@ context('Assisted Service Module', () => {
         cy.get("[type='button'],[type='submit']", { timeout: 30000 }).contains(
           'Sign'
         );
-        cy.get("input[name='j_username']").clear({ force: true });
-        cy.wait(2000);
+        cy.wait(5000);
         cy.get("input[name='j_username']")
           .scrollIntoView()
           .type('CustomerSupportAgent', { force: true, log: true });
-        cy.get("input[name='j_password']").clear({ force: true });
-        cy.wait(2000);
         cy.get("input[name='j_password']")
           .scrollIntoView()
           .type('pw4all', { force: true, log: false });
@@ -72,11 +72,11 @@ context('Assisted Service Module', () => {
           .contains('Sign')
           .click({ force: true });
 
-        cy.get('[aria-label="Tickets selected"]', { timeout: 30000 }).should(
+        cy.get('[aria-label="Tickets selected"]', { timeout: 50000 }).should(
           'have.class',
           'z-treerow-selected'
         );
-        cy.wait(2000);
+        cy.wait(5000);
 
         cy.get('[ytestid="customersupport_backoffice_explorerTree_customers"]')
           .scrollIntoView()
