@@ -100,8 +100,7 @@ describe('Spartacus Schematics: ng-add', () => {
     }
   });
 
-  //TODO: CXSPA-5088 remove 'skip' after verification!!!
-  it.skip('should add spartacus properly with SSR', async () => {
+  it('should add spartacus properly with SSR', async () => {
     const tree = await schematicRunner.runSchematic(
       'ng-add',
       {

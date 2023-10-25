@@ -15,7 +15,7 @@ import { SpartacusModule } from './spartacus/spartacus.module';
     AppComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot({}),
