@@ -6,6 +6,7 @@
 
 import * as authentication from './auth-forms';
 import * as common from './common';
+import * as cart from './cart';
 
 /** Aliases for Quote Routes */
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
