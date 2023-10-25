@@ -158,6 +158,15 @@ export const quote = {
           save: 'Save quote header information',
         },
       },
+      price: {
+        hint: 'No taxes are included in the total',
+        orderDiscount: 'Order Discount',
+        productDiscount: 'Item Discount',
+        quoteDiscount: 'Quote Discount',
+        subtotal: 'Subtotal',
+        title: 'Order Summary',
+        total: 'Total',
+      },
       overview: {
         id: 'Quote ID',
         status: 'Status',

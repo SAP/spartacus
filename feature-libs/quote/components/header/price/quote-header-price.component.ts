@@ -5,7 +5,7 @@
  */
 
 import { Component, inject } from '@angular/core';
-import { CartOutlets } from '@spartacus/cart/base/root';
+import { Price } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';
 
 @Component({
@@ -15,6 +15,15 @@ import { QuoteFacade } from '@spartacus/quote/root';
 export class QuoteHeaderPriceComponent {
   protected quoteFacade = inject(QuoteFacade);
 
-  readonly cartOutlets = CartOutlets;
   quoteDetails$ = this.quoteFacade.getQuoteDetails();
+
+  /**
+   * Checks whether the price has a non-zero value
+   *
+   * @param price to check
+   * @returns true, only if the price has a non zero value
+   */
+  hasNonZeroPriceValue(price?: Price): boolean {
+    return !!price && !!price.value && price.value > 0;
+  }
 }
