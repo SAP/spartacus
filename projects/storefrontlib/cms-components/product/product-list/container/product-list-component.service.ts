@@ -79,9 +79,7 @@ export class ProductListComponentService {
       ...this.siteContext,
     ]).pipe(
       debounceTime(0),
-      map(
-        ([routerState, _, ..._context]) => (routerState as RouterState).state
-      ),
+      map(([routerState, ..._context]) => (routerState as RouterState).state),
       tap((state: ActivatedRouterStateSnapshot) => {
         const criteria = this.getCriteriaFromRoute(
           state.params,
@@ -198,7 +196,6 @@ export class ProductListComponentService {
           ...routeCriteria,
           currentPage: pageNumber,
         };
-        console.log('search by getPageItems()');
         this.search(criteria);
       })
       .unsubscribe();
