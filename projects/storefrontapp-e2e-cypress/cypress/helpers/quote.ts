@@ -1454,19 +1454,6 @@ export function registerPatchQuoteRoute() {
 }
 
 /**
- * Remove the cart item in the cart.
- *
- * @param product
- */
-export function removeCartItem(product) {
-  log('Remove the cart item in the cart.', removeCartItem.name);
-  scrollToTopOfPage();
-  cart.getCartItem(product.name).within(() => {
-    cy.get('button.cx-remove-btn').should('be.enabled').click();
-  });
-}
-
-/**
  * Reloads the quote page.
  * This method is equal to F5.
  */
