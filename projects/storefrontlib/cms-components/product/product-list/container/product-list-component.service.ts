@@ -22,6 +22,7 @@ import {
   filter,
   map,
   shareReplay,
+  take,
   tap,
 } from 'rxjs/operators';
 import { ViewConfig } from '../../../../shared/config/view-config';
@@ -78,15 +79,33 @@ export class ProductListComponentService {
       ...this.siteContext,
     ]).pipe(
       debounceTime(0),
-      map(([routerState, ..._context]) => (routerState as RouterState).state),
+      map(
+        ([routerState, _, ..._context]) => (routerState as RouterState).state
+      ),
       tap((state: ActivatedRouterStateSnapshot) => {
         const criteria = this.getCriteriaFromRoute(
           state.params,
           state.queryParams
         );
-        this.search(criteria);
+        this.searchIfQueryHasChanged(criteria);
       })
     );
+
+  /**
+   * Search only if the previous search query does NOT match the new one.
+   * This prevents repeating product search calls for queries that already have loaded data.
+   */
+  protected searchIfQueryHasChanged(criteria: SearchCriteria) {
+    this.productSearchService
+      .getResults()
+      .pipe(take(1))
+      .subscribe((results) => {
+        const loadedQuery = results?.currentQuery?.query?.value;
+        if (loadedQuery !== criteria.query) {
+          this.search(criteria);
+        }
+      });
+  }
 
   /**
    * This stream is used for the Product Listing and Product Facets.
@@ -179,6 +198,7 @@ export class ProductListComponentService {
           ...routeCriteria,
           currentPage: pageNumber,
         };
+        console.log('search by getPageItems()');
         this.search(criteria);
       })
       .unsubscribe();
