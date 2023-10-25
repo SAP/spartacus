@@ -1,0 +1,45 @@
+%cx-my-account-v2-customer-ticketing {
+  margin: 1rem 0rem;
+  border: 1px solid var(--cx-color-medium);
+  .cx-my-account-customer-ticket-header {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem; //top-right-bottom-left
+    .cx-my-account-customer-ticket-heading {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .cx-my-account-customer-ticket-show-more {
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+  .cx-my-account-customer-ticket-body {
+    display: flex;
+    justify-content: space-between;
+
+    margin: 1rem 1rem 1rem 1rem; //top-right-bottom-left
+    padding: 15px 30px;
+    background-color: var(--cx-color-light);
+    border: 1px solid var(--cx-color-medium);
+    border-radius: 0;
+    .cx-my-account-customer-ticket-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cx-my-account-customer-ticket-subject {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .cx-my-account-customer-ticket-details-light {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--cx-color-secondary);
+    }
+  }
+  .cx-my-account-no-ticket {
+    margin: 1rem;
+    padding: 15px;
+  }
+}
