@@ -1404,12 +1404,14 @@ export function clickOnViewCartBtnOnPD(): void {
  *
  * @param productName Name of the product that should be added to the cart
  * @param globalMessage Global message which should be shown
+ * @param shopName Name of the current shop
  */
 export function addProductAndCheckForGlobalMessage(
   productName: string,
-  globalMessage: string
+  globalMessage: string,
+  shopName: String
 ) {
-  productConfigurator.searchForProduct(productName);
+  productConfigurator.searchForProductInQuote(productName, shopName);
   cy.get('cx-add-to-cart' + primaryBtnSelector)
     .first()
     .click()

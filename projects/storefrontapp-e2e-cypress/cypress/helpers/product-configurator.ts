@@ -515,7 +515,25 @@ export function searchForProduct(productName: string): void {
   }).as('productSearch');
 
   productSearch.searchForProduct(productName);
-  //cy.wait('@productSearch');
+  cy.wait('@productSearch');
+}
+
+/**
+ * Searches for a product by a product name within the quote scenario.
+ *
+ * @param {string} productName - Product name
+ * @param shopname Name of the current shop
+ */
+export function searchForProductInQuote(productName: string, shopName): void {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env(
+      'OCC_PREFIX'
+    )}/${shopName}/products/suggestions?term=${productName}*`,
+  }).as('productSearchInQuote');
+
+  productSearch.searchForProduct(productName);
+  cy.wait('@productSearchInQuote');
 }
 
 /**
