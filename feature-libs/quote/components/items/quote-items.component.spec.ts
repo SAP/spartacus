@@ -55,6 +55,11 @@ const quote: Quote = {
   entries: [{ entryNumber: 1 }],
 };
 
+const quoteEditable: Quote = {
+  ...quote,
+  isEditable: true,
+};
+
 const quoteWoCartId: Quote = {
   ...quote,
   cartId: undefined,
@@ -66,6 +71,7 @@ const mockQuoteDetails$ = new BehaviorSubject<Quote>(quote);
 const mockCart$ = new BehaviorSubject<Cart>(cart);
 let cartObsHasFired = false;
 let quoteObsHasFired = false;
+let savedCartObsHasFired = false;
 
 class MockQuoteFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<Quote> {
@@ -83,7 +89,9 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
   getCart(): Observable<Cart> {
-    return cold('a', { a: cart });
+    return mockCart$
+      .asObservable()
+      .pipe(tap(() => (savedCartObsHasFired = true)));
   }
   loadCart(): void {}
 }
@@ -169,6 +177,7 @@ describe('QuoteItemsComponent', () => {
   function initEmitCounters() {
     cartObsHasFired = false;
     quoteObsHasFired = false;
+    savedCartObsHasFired = false;
   }
 
   describe('Initialization', () => {
@@ -193,18 +202,28 @@ describe('QuoteItemsComponent', () => {
   });
 
   describe('Rendering', () => {
-    it('should request quote for the item list outlet in case quote is read-only', () => {
-      expect(quoteObsHasFired).toBe(true);
+    it('should request saved quote cart for item list outlet in case quote is not editable and linked to cart', () => {
       expect(cartObsHasFired).toBe(false);
+      expect(savedCartObsHasFired).toBe(true);
     });
 
-    it('should request cart for the item list outlet in case quote is editable', () => {
-      quote.isEditable = true;
+    it('should request active cart for the item list outlet in case quote is editable', () => {
       initEmitCounters();
+      mockQuoteDetails$.next(quoteEditable);
       fixture.detectChanges();
 
-      expect(quoteObsHasFired).toBe(false);
       expect(cartObsHasFired).toBe(true);
+      expect(savedCartObsHasFired).toBe(false);
+    });
+
+    it('should neither request a saved or active cart for the item list outlet in case quote has no attached quote cart, because then items are used from quote', () => {
+      initEmitCounters();
+      mockQuoteDetails$.next(quoteWoCartId);
+      fixture.detectChanges();
+
+      expect(quoteObsHasFired).toBe(true);
+      expect(cartObsHasFired).toBe(false);
+      expect(savedCartObsHasFired).toBe(false);
     });
   });
 
