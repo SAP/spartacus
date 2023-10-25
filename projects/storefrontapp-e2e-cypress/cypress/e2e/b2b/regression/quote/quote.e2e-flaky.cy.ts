@@ -37,8 +37,11 @@ context('Quote', () => {
     cy.visit('/');
     quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
     quote.registerGetQuoteRoute(POWERTOOLS);
-    quote.registerPostQuoteRoute();
-    quote.registerPatchQuoteRoute();
+    quote.registerCommentsPostQuoteRoute(POWERTOOLS);
+    quote.registerActionsPostQuoteRoute(POWERTOOLS);
+    quote.registerPatchQuoteRoute(POWERTOOLS);
+    quote.registerPatchCartRoute(POWERTOOLS);
+    quote.registerDeleteQuoteRoute(POWERTOOLS);
   });
 
   describe('Request quote process', () => {

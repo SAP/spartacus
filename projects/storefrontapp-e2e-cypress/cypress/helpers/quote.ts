@@ -12,7 +12,10 @@ import * as asm from './asm';
 /** aliases for Quote Routes */
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
 export const PATCH_QUOTE_ALIAS = '@PATCH_QUOTE';
-export const POST_QUOTE_ALIAS = '@POST_QUOTE';
+export const PATCH_CART_ALIAS = '@PATCH_CART';
+export const DELETE_QUOTE_ALIAS = '@DELETE_QUOTE';
+export const POST_QUOTE_ALIAS_COMMENTS = '@POST_QUOTE_COMMENTS';
+export const POST_QUOTE_ALIAS_ACTIONS = '@POST_QUOTE_ACTIONS';
 
 export const STATUS_SUBMITTED = 'Submitted';
 export const STATUS_REQUESTED = 'Requested';
@@ -503,7 +506,7 @@ export function changeItemQuantityByStepper(
       .contains(changeType)
       .click()
       .then(() => {
-        cy.wait(PATCH_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
+        cy.wait(PATCH_CART_ALIAS).its('response.statusCode').should('eq', 200);
         cy.wait(GET_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
         comparePriceForQuantityStepperUpdate();
       });
@@ -561,7 +564,7 @@ export function changeItemQuantityByCounter(
     cy.get(itemCounterSelector + inputSelector)
       .type('{selectall}' + newQuantity)
       .pressTab();
-    cy.wait(PATCH_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
+    cy.wait(PATCH_CART_ALIAS).its('response.statusCode').should('eq', 200);
     cy.wait(GET_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
     comparePriceForQuantityStepperUpdate();
   });
@@ -601,7 +604,9 @@ export function removeItem(itemIndex: number): void {
       .contains('Remove')
       .click()
       .then(() => {
-        cy.wait(PATCH_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
+        cy.wait(DELETE_QUOTE_ALIAS)
+          .its('response.statusCode')
+          .should('eq', 200);
         cy.get(itemListRowSelector + `(${itemIndex})`).should('not.exist');
       });
   });
@@ -710,7 +715,7 @@ export function saveEditedData(): void {
         .should('exist')
         .click()
         .then(() => {
-          cy.wait(POST_QUOTE_ALIAS);
+          cy.wait(PATCH_QUOTE_ALIAS);
           checkQuoteHeaderOverviewPageDisplayed();
         });
     });
@@ -776,7 +781,7 @@ export function clickOnYesBtnWithinRequestPopUp(
           break;
         }
         case STATUS_BUYER_CANCEL: {
-          cy.wait(POST_QUOTE_ALIAS)
+          cy.wait(POST_QUOTE_ALIAS_ACTIONS)
             .its('response.statusCode')
             .should('eq', 200);
           cy.url().should('include', 'quotes');
@@ -970,7 +975,7 @@ export function addHeaderComment(text: string) {
     cy.get(btnSelector)
       .click()
       .then(() => {
-        cy.wait(POST_QUOTE_ALIAS);
+        cy.wait(POST_QUOTE_ALIAS_COMMENTS);
         checkCommentAmountChanged();
       });
   });
@@ -1041,7 +1046,9 @@ export function addItemComment(item: string, text: string) {
     cy.get(btnSelector)
       .click()
       .then(() => {
-        cy.wait(POST_QUOTE_ALIAS);
+        cy.wait(POST_QUOTE_ALIAS_COMMENTS)
+          .its('response.statusCode')
+          .should('eq', 201);
         checkCommentAmountChanged();
       });
   });
@@ -1298,7 +1305,7 @@ export function setDiscount(discount: string) {
   cy.get(sellerEditSelector + secondaryBtnSelector)
     .click()
     .then(() => {
-      cy.wait(POST_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
+      cy.wait(PATCH_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
       cy.wait(GET_QUOTE_ALIAS);
       checkDiscountApplied();
     });
@@ -1422,6 +1429,8 @@ export function addProductAndCheckForGlobalMessage(
 
 /**
  * Registers GET quote route.
+ *
+ * @param shopName Name of the current shop
  */
 export function registerGetQuoteRoute(shopName: string) {
   log('Registers GET quote route.', registerGetQuoteRoute.name);
@@ -1432,25 +1441,73 @@ export function registerGetQuoteRoute(shopName: string) {
 }
 
 /**
- * Registers POST quote route.
+ * Registers POST quote route for comments.
+ *
+ * @param shopName Name of the current shop
  */
-export function registerPostQuoteRoute() {
-  log('Registers POST quote route.', registerPostQuoteRoute.name);
+export function registerCommentsPostQuoteRoute(shopName: string) {
+  log('Registers POST quote route.', registerCommentsPostQuoteRoute.name);
   cy.intercept({
     method: 'POST',
-    path: `*`, //ToDo: specify the path
-  }).as(POST_QUOTE_ALIAS.substring(1)); // strip the '@'
+    path: `${Cypress.env(
+      'OCC_PREFIX'
+    )}/${shopName}/users/**/quotes/**/comments*`,
+  }).as(POST_QUOTE_ALIAS_COMMENTS.substring(1)); // strip the '@'
+}
+
+/**
+ * Registers POST quote route for actions.
+ *
+ * @param shopName Name of the current shop
+ */
+export function registerActionsPostQuoteRoute(shopName: string) {
+  log(
+    'Registers POST quote route for actions.',
+    registerActionsPostQuoteRoute.name
+  );
+  cy.intercept({
+    method: 'POST',
+    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/**/quotes/**/action*`,
+  }).as(POST_QUOTE_ALIAS_ACTIONS.substring(1)); // strip the '@'
 }
 
 /**
  * Registers PATCH quote route.
+ *
+ * @param shopName Name of the current shop
  */
-export function registerPatchQuoteRoute() {
+export function registerPatchQuoteRoute(shopName: string) {
   log('Registers PATCH quote route.', registerPatchQuoteRoute.name);
   cy.intercept({
     method: 'PATCH',
-    path: `*`, //ToDo: specify the path
+    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/**/quotes/**`,
   }).as(PATCH_QUOTE_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Registers PATCH cart route.
+ *
+ * @param shopName Name of the current shop
+ */
+export function registerPatchCartRoute(shopName: string) {
+  log('Registers PATCH cart route.', registerPatchQuoteRoute.name);
+  cy.intercept({
+    method: 'PATCH',
+    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/current/carts/**`,
+  }).as(PATCH_CART_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Registers DELETE quote route.
+ *
+ * @param shopName Name of the current shop
+ */
+export function registerDeleteQuoteRoute(shopName: string) {
+  log('Registers DELETE quote route.', registerDeleteQuoteRoute.name);
+  cy.intercept({
+    method: 'DELETE',
+    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/current/carts/**`,
+  }).as(DELETE_QUOTE_ALIAS.substring(1)); // strip the '@'
 }
 
 /**
