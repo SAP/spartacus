@@ -1,0 +1,43 @@
+%cx-asm-customer-360-profile {
+  display: block;
+  padding: 0 48px;
+
+  h4 {
+    font-weight: var(--cx-font-weight-semi);
+  }
+
+  .cx-asm-profile-address-cell {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cx-card-img-container {
+    .fab,
+    .fas {
+      &::before {
+        font-size: var(--cx-font-size, 48px);
+      }
+    }
+  }
+  .cx-asm-profile-subheader {
+    font-size: 0.875rem;
+    font-weight: var(--cx-font-weight-bold);
+    padding: 15px 0;
+    color: $asmMainTextColor;
+  }
+  .cx-asm-profile-container {
+    color: var(--cx-color-secondary);
+  }
+  .cx-asm-profile-cards {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    .cx-asm-profile-card {
+      width: 300px;
+      padding-top: 0;
+      padding-inline-end: 15px;
+      padding-bottom: 15px;
+      padding-inline-start: 0;
+    }
+  }
+}

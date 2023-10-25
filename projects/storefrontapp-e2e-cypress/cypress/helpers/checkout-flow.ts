@@ -15,6 +15,7 @@ import {
   SampleUser,
   user,
 } from '../sample-data/checkout-flow';
+import { interceptPost } from '../support/utils/intercept';
 import { addProductToCart as addToCart } from './applied-promotions';
 import { login, register } from './auth-forms';
 import {
@@ -188,12 +189,17 @@ export function addProductToCart() {
   addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
-    cy.findByText(/proceed to checkout/i).click();
   });
 }
 
 export function loginUser(sampleUser: SampleUser = user) {
+  const succsesfulLogin = interceptPost(
+    'succsesfulLogin',
+    '/authorizationserver/oauth/token',
+    false
+  );
   login(sampleUser.email, sampleUser.password);
+  cy.wait(succsesfulLogin).its('response.statusCode').should('eq', 200);
 }
 
 export function fillAddressForm(shippingAddressData: AddressData = user) {

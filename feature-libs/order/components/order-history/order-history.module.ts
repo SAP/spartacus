@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -14,10 +14,36 @@ import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
+  provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
-import { ListNavigationModule } from '@spartacus/storefront';
+import {
+  ListNavigationModule,
+  MediaModule,
+  SpinnerModule,
+} from '@spartacus/storefront';
 import { OrderHistoryComponent } from './order-history.component';
+import { MY_ACCOUNT_V2_ORDER } from '@spartacus/order/root';
+import {
+  MyAccountV2OrderHistoryComponent,
+  MyAccountV2OrderConsolidatedInformationComponent,
+  MyAccountV2ConsignmentEntriesComponent,
+} from './my-account-v2';
+
+const myAccountV2CmsMapping: CmsConfig = {
+  cmsComponents: {
+    AccountOrderHistoryComponent: {
+      component: MyAccountV2OrderHistoryComponent,
+      //guards: inherited from standard config,
+    },
+  },
+};
+
+const moduleComponents = [
+  MyAccountV2OrderHistoryComponent,
+  MyAccountV2OrderConsolidatedInformationComponent,
+  MyAccountV2ConsignmentEntriesComponent,
+];
 
 @NgModule({
   imports: [
@@ -28,9 +54,11 @@ import { OrderHistoryComponent } from './order-history.component';
     ListNavigationModule,
     UrlModule,
     I18nModule,
+    SpinnerModule,
+    MediaModule,
   ],
-  declarations: [OrderHistoryComponent],
-  exports: [OrderHistoryComponent],
+  declarations: [OrderHistoryComponent, ...moduleComponents],
+  exports: [OrderHistoryComponent, ...moduleComponents],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -40,6 +68,9 @@ import { OrderHistoryComponent } from './order-history.component';
         },
       },
     }),
+    provideDefaultConfigFactory(() =>
+      inject(MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
+    ),
   ],
 })
 export class OrderHistoryModule {}
