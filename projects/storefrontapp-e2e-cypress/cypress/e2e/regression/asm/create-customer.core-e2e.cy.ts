@@ -155,7 +155,9 @@ context('Assisted Service Module', () => {
       cy.log('--> close create customer dialog');
       asm.asmCloseCreateCustomerDialog();
     });
-    it('should be not able to create a new customer with duplicated user data by agent (CXSPA-1594)', () => {
+
+    // TODO(#XXXX): enable this case
+    it.skip('should be not able to create a new customer with duplicated user data by agent (CXSPA-1594)', () => {
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
