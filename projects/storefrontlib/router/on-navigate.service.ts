@@ -11,7 +11,13 @@ import {
   Injectable,
   Injector,
 } from '@angular/core';
-import { Router, Scroll } from '@angular/router';
+import {
+  EventType,
+  NavigationEnd,
+  NavigationSkipped,
+  Router,
+  Scroll,
+} from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, pairwise } from 'rxjs/operators';
 import { OnNavigateConfig } from './config';
@@ -98,8 +104,10 @@ export class OnNavigateService {
    */
   private isChildRoute(route: Scroll): boolean {
     return (
-      this.config.enableResetViewOnNavigate?.ignoreRoutes?.some((configRoute) =>
-        route.routerEvent.urlAfterRedirects.split('/').includes(configRoute)
+      this.config.enableResetViewOnNavigate?.ignoreRoutes?.some(
+        (configRoute) =>
+          this.isNavigationEnd(route.routerEvent) &&
+          route.routerEvent.urlAfterRedirects.split('/').includes(configRoute)
       ) ?? false
     );
   }
@@ -112,9 +120,26 @@ export class OnNavigateService {
    * @returns boolean depending on the previous and current route are equal without the query strings
    */
   private isPathEqual(previousRoute: Scroll, currentRoute: Scroll): boolean {
+    if (
+      !this.isNavigationEnd(previousRoute.routerEvent) ||
+      !this.isNavigationEnd(currentRoute.routerEvent)
+    ) {
+      return false;
+    }
+
     return (
       previousRoute.routerEvent.urlAfterRedirects.split('?')[0] ===
       currentRoute.routerEvent.urlAfterRedirects.split('?')[0]
     );
+  }
+
+  /**
+   * Verifies if router event is a navigation end event
+   * @private
+   */
+  private isNavigationEnd(
+    event: NavigationEnd | NavigationSkipped
+  ): event is NavigationEnd {
+    return event.type === EventType.NavigationEnd;
   }
 }
