@@ -6,6 +6,7 @@
 
 import { Component, inject } from '@angular/core';
 import {
+  AbstractOrderEntryOwnerType,
   ActiveCartFacade,
   Cart,
   CartOutlets,
@@ -28,6 +29,8 @@ export class QuoteItemsComponent {
   protected multiCartFacade = inject(MultiCartFacade);
   protected quoteItemsComponentService = inject(QuoteItemsComponentService);
   protected userIdService = inject(UserIdService);
+
+  readonly OWNER_TYPE = AbstractOrderEntryOwnerType;
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   quoteCartReadOnly$: Observable<Cart> = this.userIdService.takeUserId().pipe(

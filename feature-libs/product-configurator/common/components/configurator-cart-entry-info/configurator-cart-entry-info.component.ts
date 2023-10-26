@@ -6,8 +6,13 @@
 
 import { Component, Optional } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  CartItemComponentOptions,
+  CartItemContext,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import { EMPTY, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
 @Component({
@@ -28,6 +33,9 @@ export class ConfiguratorCartEntryInfoComponent {
 
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
+
+  readonly options$: Observable<CartItemComponentOptions> =
+    this.cartItemContext?.options$.pipe(tap((options)=>console.log("CHHI ConfiguratorCartEntryInfoComponent owner: " + options.ownerType))) ?? EMPTY;
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
   readonly shouldShowButton$: Observable<boolean> =

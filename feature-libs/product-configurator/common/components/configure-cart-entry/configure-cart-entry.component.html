@@ -11,8 +11,8 @@
         {
           cxRoute: getRoute(),
           params: {
-            ownerType: getOwnerTypeKnowingActiveCart(activeCartCode),
-            entityKey: getEntityKeyKnowingActiveCart(activeCartCode),
+            ownerType: getOwnerType(),
+            entityKey: getEntityKey(),
             displayOnly: getDisplayOnly()
           }
         } | cxUrl

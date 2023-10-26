@@ -6,11 +6,15 @@
 
 import { Component, Optional } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  CartItemComponentOptions,
+  CartItemContext,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
@@ -40,6 +44,16 @@ export class ConfiguratorCartEntryBundleInfoComponent {
 
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
+
+  readonly options$: Observable<CartItemComponentOptions> =
+    this.cartItemContext?.options$.pipe(
+      tap((options) =>
+        console.log(
+          'CHHI ConfiguratorCartEntryBundleInfoComponent owner: ' +
+            options.ownerType
+        )
+      )
+    ) ?? EMPTY;
 
   hideItems = true;
 

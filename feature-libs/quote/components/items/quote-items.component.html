@@ -20,7 +20,8 @@
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
         [cxOutletContext]="{
           items: quoteDetails.entries ?? [],
-          readonly: true
+          readonly: true,
+          options: { ownerType: OWNER_TYPE.QUOTE, ownerId: quoteDetails.code }
         }"
       >
       </ng-template>
@@ -30,7 +31,8 @@
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
         [cxOutletContext]="{
           items: activeCart.entries ?? [],
-          readonly: false
+          readonly: false,
+          options: { ownerType: OWNER_TYPE.CART, ownerId: activeCart.code}
         }"
       >
       </ng-template>
@@ -43,7 +45,8 @@
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
         [cxOutletContext]="{
           items: quoteCartReadOnly.entries ?? [],
-          readonly: true
+          readonly: true,
+          options: { ownerType: OWNER_TYPE.SAVED_CART, ownerId: quoteCartReadOnly.code}
         }"
       >
       </ng-template>

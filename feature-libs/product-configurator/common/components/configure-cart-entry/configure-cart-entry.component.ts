@@ -11,7 +11,12 @@ import {
   inject,
 } from '@angular/core';
 import { Params } from '@angular/router';
-import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  AbstractOrderEntryOwnerType,
+  ActiveCartFacade,
+  CartItemComponentOptions,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 
 import { map } from 'rxjs/operators';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
@@ -35,6 +40,7 @@ export class ConfigureCartEntryComponent {
   @Input() readOnly: boolean;
   @Input() msgBanner: boolean;
   @Input() disabled: boolean;
+  @Input() options: CartItemComponentOptions;
 
   /**
    * Verifies whether the entry has any issues.
@@ -51,7 +57,24 @@ export class ConfigureCartEntryComponent {
    * @returns - an owner type
    */
   getOwnerType(): CommonConfigurator.OwnerType {
-    return this.getOwnerTypeInternal(true);
+    console.log('CHHI getOwnerType for: ' + this.options?.ownerType);
+    switch (this.options?.ownerType) {
+      case AbstractOrderEntryOwnerType.CART: {
+        return CommonConfigurator.OwnerType.CART_ENTRY;
+      }
+      case AbstractOrderEntryOwnerType.ORDER: {
+        return CommonConfigurator.OwnerType.ORDER_ENTRY;
+      }
+      case AbstractOrderEntryOwnerType.QUOTE: {
+        return CommonConfigurator.OwnerType.QUOTE_ENTRY;
+      }
+      case AbstractOrderEntryOwnerType.SAVED_CART: {
+        return CommonConfigurator.OwnerType.SAVED_CART_ENTRY;
+      }
+      default: {
+        return CommonConfigurator.OwnerType.PRODUCT;
+      }
+    }
   }
 
   /**
@@ -73,7 +96,21 @@ export class ConfigureCartEntryComponent {
    * @returns - an entry key
    */
   getEntityKey(): string {
-    return this.getEntityKeyInternal(true);
+    const ownerType = this.options.ownerType;
+    const ownerDocumentIdNeeded: boolean =
+      ownerType === AbstractOrderEntryOwnerType.ORDER ||
+      ownerType === AbstractOrderEntryOwnerType.QUOTE ||
+      ownerType === AbstractOrderEntryOwnerType.SAVED_CART;
+    const entryNumber = this.cartEntry.entryNumber;
+    if (entryNumber === undefined) {
+      throw new Error('No entryNumber present in entry');
+    }
+    return ownerDocumentIdNeeded
+      ? this.commonConfigUtilsService.getComposedOwnerId(
+          this.options.ownerId ?? '',
+          entryNumber
+        )
+      : entryNumber.toString();
   }
   /**
    * Verifies whether the cart entry has an order code, retrieves a composed owner ID
