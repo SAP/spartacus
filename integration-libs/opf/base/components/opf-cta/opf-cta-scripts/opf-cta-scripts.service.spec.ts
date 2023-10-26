@@ -81,7 +81,6 @@ describe('OpfCtaScriptsService', () => {
 
   it('should call orderHistoryFacade for CTA on ConfirmationPage', (done) => {
     service.getCtaHtmlslList().subscribe((htmlsList) => {
-      console.log('htmlsList', htmlsList);
       expect(htmlsList[0]).toContain(
         'Thanks for purchasing our great products'
       );
@@ -97,7 +96,6 @@ describe('OpfCtaScriptsService', () => {
     );
 
     service.getCtaHtmlslList().subscribe((htmlsList) => {
-      console.log('htmlsList', htmlsList);
       expect(htmlsList[0]).toContain(
         'Thanks for purchasing our great products'
       );
@@ -113,7 +111,6 @@ describe('OpfCtaScriptsService', () => {
     );
 
     service.getCtaHtmlslList().subscribe((htmlsList) => {
-      console.log('htmlsList', htmlsList);
       expect(htmlsList[0]).toContain(
         'Thanks for purchasing our great products'
       );
@@ -143,7 +140,6 @@ describe('OpfCtaScriptsService', () => {
     service.getCtaHtmlslList().subscribe({
       error: (error) => {
         expect(error).toEqual('Invalid Script Location');
-
         done();
       },
     });
@@ -157,7 +153,6 @@ describe('OpfCtaScriptsService', () => {
     service.getCtaHtmlslList().subscribe({
       next: (htmlsList) => {
         expect(htmlsList.length).toEqual(0);
-
         done();
       },
     });

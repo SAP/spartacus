@@ -25,27 +25,24 @@ import { OpfPaymentService } from './opf-payment.service';
 
 class MockPaymentConnector implements Partial<OpfPaymentConnector> {
   verifyPayment(
-    paymentSessionId: string,
-    payload: OpfPaymentVerificationPayload
+    _paymentSessionId: string,
+    _payload: OpfPaymentVerificationPayload
   ): Observable<OpfPaymentVerificationResponse> {
-    console.log(paymentSessionId, payload);
     return of({
       result: 'result',
     }) as Observable<OpfPaymentVerificationResponse>;
   }
   afterRedirectScripts(
-    paymentSessionId: string
+    _paymentSessionId: string
   ): Observable<AfterRedirectScriptResponse> {
-    console.log(paymentSessionId);
     return of({ afterRedirectScript: {} });
   }
   getActiveConfigurations(): Observable<ActiveConfiguration[]> {
     return of(mockActiveConfigurations);
   }
   getCtaScripts(
-    ctaScriptsRequest: CtaScriptsRequest
+    _ctaScriptsRequest: CtaScriptsRequest
   ): Observable<CtaScriptsResponse> {
-    console.log(ctaScriptsRequest);
     return of(MockCtaScriptsResponse);
   }
 }
