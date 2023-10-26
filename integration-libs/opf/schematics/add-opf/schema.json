@@ -25,10 +25,10 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["OPF-Base"],
+        "enum": ["OPF"],
         "type": "string"
       },
-      "default": ["OPF-Base"]
+      "default": ["OPF"]
     },
     "baseUrl": {
       "type": "string",

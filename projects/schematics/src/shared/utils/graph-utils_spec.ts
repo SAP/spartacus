@@ -185,7 +185,7 @@ describe('Graph utils', () => {
           "Textfield-Configurator",
           "Store-Finder",
           "Segment-Refs",
-          "OPF-Base",
+          "OPF",
           "S4HANA-Order-Management",
           "EPD-Visualization",
           "Digital-Payments",

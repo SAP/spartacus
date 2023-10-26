@@ -297,7 +297,7 @@ export const SEGMENT_REFS_FEATURE_NAME = 'Segment-Refs';
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 export const OPF_FEATURE_NAME = 'OPF';
 export const OPF_CHECKOUT_FEATURE_NAME = 'OPF-Checkout';
-export const OPF_BASE_FEATURE_NAME = 'OPF-Base';
+export const OPF_BASE_FEATURE_NAME = 'OPF';
 /***** Feature name end *****/
 
 /***** Feature name start *****/
