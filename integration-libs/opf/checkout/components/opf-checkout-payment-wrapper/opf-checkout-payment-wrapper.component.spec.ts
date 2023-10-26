@@ -3,9 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
 import { OpfGlobalFunctionsService } from '@spartacus/opf/base/core';
 import {
+  GlobalFunctionsDomain,
   GlobalFunctionsInput,
   OpfGlobalFunctionsFacade,
-  TargetPage,
 } from '@spartacus/opf/base/root';
 import { of } from 'rxjs';
 import { OpfCheckoutPaymentWrapperComponent } from './opf-checkout-payment-wrapper.component';
@@ -78,7 +78,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
     component.ngOnInit();
 
     const globalFunctionsInput: GlobalFunctionsInput = {
-      targetPage: TargetPage.CHECKOUT_REVIEW,
+      domain: GlobalFunctionsDomain.CHECKOUT,
       paymentSessionId: mockPaymentSessionData.paymentSessionId,
     };
 

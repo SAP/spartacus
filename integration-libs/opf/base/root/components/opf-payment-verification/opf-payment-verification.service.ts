@@ -27,11 +27,11 @@ import {
   OpfPaymentVerificationResult,
 } from '../../model';
 import {
+  GlobalFunctionsDomain,
   KeyValuePair,
   OpfDynamicScript,
   OpfPage,
   OpfPaymentMetadata,
-  TargetPage,
 } from '../../model/opf.model';
 import { OpfService } from '../../services';
 import { OpfResourceLoaderService } from '../../services/opf-resource-loader.service';
@@ -196,13 +196,13 @@ export class OpfPaymentVerificationService {
   }
 
   runHostedFieldsPattern(
-    targetPage: TargetPage,
+    domain: GlobalFunctionsDomain,
     paymentSessionId: string,
     vcr: ViewContainerRef,
     paramsMap: Array<KeyValuePair>
   ): Observable<boolean> {
     this.globalFunctionsService.registerGlobalFunctions({
-      targetPage,
+      domain,
       paymentSessionId,
       vcr,
       paramsMap,
@@ -243,7 +243,9 @@ export class OpfPaymentVerificationService {
   }
 
   removeResourcesAndGlobalFunctions(): void {
-    this.globalFunctionsService.removeGlobalFunctions();
+    this.globalFunctionsService.removeGlobalFunctions(
+      GlobalFunctionsDomain.REDIRECT
+    );
     this.opfResourceLoaderService.clearAllProviderResources();
   }
 }

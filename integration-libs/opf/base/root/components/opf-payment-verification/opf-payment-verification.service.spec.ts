@@ -21,11 +21,11 @@ import {
   OpfPaymentFacade,
 } from '../../facade';
 import {
+  GlobalFunctionsDomain,
   OpfDynamicScript,
   OpfPaymentMetadata,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
-  TargetPage,
 } from '../../model';
 import { OpfResourceLoaderService, OpfService } from '../../services';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
@@ -306,7 +306,7 @@ describe('OpfPaymentVerificationService', () => {
 
       service
         .runHostedFieldsPattern(
-          TargetPage.RESULT,
+          GlobalFunctionsDomain.REDIRECT,
           'paymentSessionIdTest',
           {} as ViewContainerRef,
           [{ key: 'key test', value: 'value test' }]
@@ -336,7 +336,7 @@ describe('OpfPaymentVerificationService', () => {
 
       service
         .runHostedFieldsPattern(
-          TargetPage.RESULT,
+          GlobalFunctionsDomain.REDIRECT,
           'paymentSessionIdTest',
           {} as ViewContainerRef,
           [{ key: 'key test', value: 'value test' }]
@@ -366,7 +366,7 @@ describe('OpfPaymentVerificationService', () => {
 
       service
         .runHostedFieldsPattern(
-          TargetPage.RESULT,
+          GlobalFunctionsDomain.REDIRECT,
           'paymentSessionIdTest',
           {} as ViewContainerRef,
           [{ key: 'key test', value: 'value test' }]
@@ -394,7 +394,7 @@ describe('OpfPaymentVerificationService', () => {
 
       service
         .runHostedFieldsPattern(
-          TargetPage.RESULT,
+          GlobalFunctionsDomain.REDIRECT,
           'paymentSessionIdTest',
           {} as ViewContainerRef,
           [{ key: 'key test', value: 'value test' }]

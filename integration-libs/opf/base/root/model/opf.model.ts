@@ -158,7 +158,7 @@ export interface GlobalFunctionsInput {
   paymentSessionId: string;
   vcr?: ViewContainerRef;
   paramsMap?: Array<KeyValuePair>;
-  targetPage: TargetPage;
+  domain: GlobalFunctionsDomain;
 }
 
 export enum TargetPage {
@@ -185,4 +185,10 @@ export enum OpfPage {
   CONFIRMATION_PAGE = 'orderConfirmation',
   RESULT_PAGE = 'paymentVerificationResult',
   CART_PAGE = 'cart',
+}
+
+export enum GlobalFunctionsDomain {
+  CHECKOUT = 'checkout',
+  GLOBAL = 'global',
+  REDIRECT = 'redirect',
 }
