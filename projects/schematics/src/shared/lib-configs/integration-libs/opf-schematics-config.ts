@@ -5,7 +5,7 @@
  */
 
 import {
-  OPF_BASE_FEATURE_NAME,
+  OPF_FEATURE_NAME,
   SPARTACUS_OPF,
   SPARTACUS_OPF_BASE,
   SPARTACUS_OPF_BASE_ASSETS,
@@ -41,7 +41,7 @@ export const OPF_BASE_TRANSLATION_CHUNKS_CONFIG =
 
 export const OPF_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    featureName: OPF_BASE_FEATURE_NAME,
+    featureName: OPF_FEATURE_NAME,
     mainScope: SPARTACUS_OPF,
     featureScope: SPARTACUS_OPF_BASE,
   },

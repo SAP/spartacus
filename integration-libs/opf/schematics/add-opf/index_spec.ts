@@ -11,8 +11,7 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  OPF_BASE_FEATURE_NAME,
-  OPF_CHECKOUT_FEATURE_NAME,
+  OPF_FEATURE_NAME,
   SPARTACUS_CHECKOUT,
   SPARTACUS_OPF,
   SPARTACUS_SCHEMATICS,
@@ -61,14 +60,9 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
     features: [],
   };
 
-  const checkoutFeatureOptions: SpartacusOpfOptions = {
-    ...libraryNoFeaturesOptions,
-    features: [OPF_CHECKOUT_FEATURE_NAME],
-  };
-
   const opfFeatureOptions: SpartacusOpfOptions = {
     ...libraryNoFeaturesOptions,
-    features: [OPF_BASE_FEATURE_NAME],
+    features: [OPF_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -128,7 +122,7 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
-          { ...checkoutFeatureOptions, ...opfFeatureOptions },
+          { ...opfFeatureOptions },
           appTree
         );
       });
