@@ -156,7 +156,7 @@ context('Assisted Service Module', () => {
       asm.asmCloseCreateCustomerDialog();
     });
 
-    // TODO(#XXXX): enable this case
+    // TODO(#CXSPA-5165): enable this case
     it.skip('should be not able to create a new customer with duplicated user data by agent (CXSPA-1594)', () => {
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
