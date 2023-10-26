@@ -11,7 +11,7 @@ import { HttpErrorModel } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
-import { KeyValuePair, OpfPage, TargetPage } from '../../model';
+import { GlobalFunctionsDomain, KeyValuePair, OpfPage } from '../../model';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 @Component({
@@ -69,7 +69,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
     if (afterRedirectScriptFlag === 'true') {
       this.isHostedFieldPattern = true;
       return this.paymentService.runHostedFieldsPattern(
-        TargetPage.RESULT,
+        GlobalFunctionsDomain.REDIRECT,
         paymentSessionId,
         this.vcr,
         paramsMap
