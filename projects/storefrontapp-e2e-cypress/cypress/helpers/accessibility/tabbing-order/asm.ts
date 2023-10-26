@@ -128,7 +128,10 @@ export function asmTabbingOrderForCustomer360CustomerCouponList(
 ) {
   lanuchPromotiontab();
   cy.get('cx-asm-customer-360-customer-coupon').within(() => {
-    verifyTabbingOrderWithElementsLengthGte
+    verifyTabbingOrderWithElementsLengthGte(
+      containerSelectorForCustomer360CouponList,
+      config
+    );
   });
 }
 
