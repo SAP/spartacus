@@ -96,6 +96,7 @@ export class OpfCtaScriptsService {
     if (!scriptsLocation) {
       return throwError('Invalid Script Location');
     }
+    const toBeImplementedException = () => throwError('to be implemented');
     const locationToFunctionMap: Record<
       CtaScriptsLocation,
       () => Observable<CtaScriptsRequest>
@@ -112,13 +113,10 @@ export class OpfCtaScriptsService {
           scriptsLocation,
           paymentAccountIds
         ),
-      [CtaScriptsLocation.CART_MESSAGING]: () =>
-        throwError('to be implemented'),
-      [CtaScriptsLocation.CART_QUICK_BUY]: () =>
-        throwError('to be implemented'),
-      [CtaScriptsLocation.CHECKOUT_QUICK_BUY]: () =>
-        throwError('to be implemented'),
-      [CtaScriptsLocation.PDP_MESSAGING]: () => throwError('to be implemented'),
+      [CtaScriptsLocation.CART_MESSAGING]: toBeImplementedException,
+      [CtaScriptsLocation.CART_QUICK_BUY]: toBeImplementedException,
+      [CtaScriptsLocation.CHECKOUT_QUICK_BUY]: toBeImplementedException,
+      [CtaScriptsLocation.PDP_MESSAGING]: toBeImplementedException,
     };
 
     const selectedFunction = locationToFunctionMap[scriptsLocation];
