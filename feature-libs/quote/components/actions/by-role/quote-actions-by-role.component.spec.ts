@@ -51,7 +51,7 @@ const mockQuote: Quote = {
 const testMappings: ConfirmActionDialogMappingConfig = {
   BUYER_OFFER: {
     EDIT: {
-      i18nKey: 'quote.actions.confirmDialog.buyer_offer.edit',
+      i18nKeyPrefix: 'quote.actions.confirmDialog.buyer_offer.edit',
       showWarningNote: true,
       showExpirationDate: true,
       showSuccessMessage: false,
@@ -60,7 +60,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   BUYER: {
     SUBMIT: {
-      i18nKey: 'quote.actions.confirmDialog.buyer.submit',
+      i18nKeyPrefix: 'quote.actions.confirmDialog.buyer.submit',
       showWarningNote: false,
       showExpirationDate: false,
       showSuccessMessage: true,
@@ -69,7 +69,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   EXPIRED: {
     REQUOTE: {
-      i18nKey: 'quote.actions.confirmDialog.expired.requote',
+      i18nKeyPrefix: 'quote.actions.confirmDialog.expired.requote',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
@@ -78,7 +78,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   ALL: {
     EDIT: {
-      i18nKey: 'quote.confirmActionDialog.all.edit',
+      i18nKeyPrefix: 'quote.confirmActionDialog.all.edit',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
@@ -92,10 +92,12 @@ const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
 const currentCart: Partial<Cart> = {};
 
 let dialogClose$: BehaviorSubject<any | undefined>;
+
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(reason: any): void {
     dialogClose$.next(reason);
   }
+
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
@@ -104,6 +106,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   ) {
     return of();
   }
+
   get dialogClose() {
     return dialogClose$.asObservable();
   }
@@ -113,12 +116,14 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<Quote> {
     return mockQuoteDetails$.asObservable();
   }
+
   performQuoteAction(
     _quote: Quote,
     _quoteAction: QuoteActionType
   ): Observable<unknown> {
     return EMPTY;
   }
+
   requote = createSpy();
 }
 
@@ -226,6 +231,9 @@ describe('QuoteActionsByRoleComponent', () => {
       title: 'quote.actions.confirmDialog.buyer.submit.title',
       confirmNote: 'quote.actions.confirmDialog.buyer.submit.confirmNote',
       successMessage: 'quote.actions.confirmDialog.buyer.submit.successMessage',
+      a11y: {
+        close: 'quote.actions.confirmDialog.buyer.submit.a11y.close',
+      },
     };
     mockQuoteDetails$.next(quoteForSubmitAction);
     fixture.detectChanges();
@@ -259,6 +267,9 @@ describe('QuoteActionsByRoleComponent', () => {
       confirmNote: 'quote.actions.confirmDialog.buyer_offer.edit.confirmNote',
       warningNote: 'quote.actions.confirmDialog.buyer_offer.edit.warningNote',
       validity: 'quote.actions.confirmDialog.validity',
+      a11y: {
+        close: 'quote.actions.confirmDialog.buyer_offer.edit.a11y.close',
+      },
     };
     mockQuoteDetails$.next(quoteInBuyerOfferState);
     fixture.detectChanges();
@@ -308,6 +319,9 @@ describe('QuoteActionsByRoleComponent', () => {
       title: 'quote.actions.confirmDialog.expired.requote.title',
       confirmNote: 'quote.actions.confirmDialog.expired.requote.confirmNote',
       warningNote: 'quote.actions.confirmDialog.expired.requote.warningNote',
+      a11y: {
+        close: 'quote.actions.confirmDialog.expired.requote.a11y.close',
+      },
     };
     mockQuoteDetails$.next(expiredQuote);
     fixture.detectChanges();
@@ -322,8 +336,6 @@ describe('QuoteActionsByRoleComponent', () => {
   });
 
   describe('Threshold check', () => {
-    const attributeName = 'disabled';
-
     const allowedActionsSubmit = [
       { type: QuoteActionType.SUBMIT, isPrimary: true },
     ];
@@ -348,7 +360,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
     });
 
@@ -360,7 +372,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
     });
 
@@ -373,7 +385,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
       expect(globalMessageService.add).toHaveBeenCalled();
     });
@@ -387,7 +399,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
     });
 
@@ -399,7 +411,7 @@ describe('QuoteActionsByRoleComponent', () => {
         expect,
         htmlElem,
         '.btn:first-child',
-        attributeName
+        'disabled'
       );
     });
 
@@ -542,7 +554,7 @@ describe('QuoteActionsByRoleComponent', () => {
           QuoteState.BUYER_OFFER
         )
       ).toEqual({
-        i18nKey: 'quote.actions.confirmDialog.buyer_offer.edit',
+        i18nKeyPrefix: 'quote.actions.confirmDialog.buyer_offer.edit',
         showWarningNote: true,
         showExpirationDate: true,
         showSuccessMessage: false,
@@ -556,7 +568,7 @@ describe('QuoteActionsByRoleComponent', () => {
           QuoteState.BUYER_DRAFT
         )
       ).toEqual({
-        i18nKey: 'quote.confirmActionDialog.all.edit',
+        i18nKeyPrefix: 'quote.confirmActionDialog.all.edit',
         showWarningNote: true,
         showExpirationDate: false,
         showSuccessMessage: false,
@@ -575,6 +587,9 @@ describe('QuoteActionsByRoleComponent', () => {
         title: 'title',
         confirmNote: 'confirmNote',
         successMessage: 'successMessage',
+        a11y: {
+          close: 'A11y text for close modal',
+        },
       };
     });
 
@@ -596,6 +611,16 @@ describe('QuoteActionsByRoleComponent', () => {
         mockQuote,
         QuoteActionType.EDIT
       );
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+    });
+
+    it("should perform quote action once if dialog was closed a few times selecting 'no', before finally selecting 'yes'", () => {
+      context.successMessage = undefined;
+      component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
+      launchDialogService.closeDialog('no');
+      component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
+      launchDialogService.closeDialog('yes');
+      expect(facade.performQuoteAction).toHaveBeenCalledTimes(1);
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
 

@@ -1,0 +1,53 @@
+%cx-my-account-v2-navigation {
+  background: var(--cx-color-inverse);
+  font-family: sans-serif;
+  padding: 5px 5px 5px 5px;
+  width: 250px;
+  a {
+    font-size: var(--cx-font-medium);
+    font-weight: bold;
+    width: 250px;
+    height: 50px;
+    display: flex;
+    text-indent: 5px;
+    padding: 16px !important;
+    &:hover {
+      color: var(--cx-color-primary);
+      text-decoration: underline;
+    }
+  }
+
+  cx-navigation-ui {
+    background: var(--cx-color-inverse);
+    // Node Heading
+    span {
+      text-indent: 5px;
+      font-weight: bold;
+      display: block;
+      padding: 10px 5px 15px 5px;
+      background-color: var(--cx-color-background);
+      width: 250px;
+      height: 40px;
+      margin-top: 20px;
+    }
+
+    > nav > ul {
+      > li {
+        a {
+          border: 1px solid var(--cx-color-light);
+        }
+        margin-bottom: 20px;
+      }
+    }
+  }
+  // The links in the my-account-v2-navigation are meant to be decorated with an icon.
+  // Instead of leveraging Spartacus `<cx-icon>` component to display icons,
+  // we use here a pure CSS classes approach. The classes are defined in CMS
+  // via the `styleClasses` option. The final HTML looks like in the following example:
+  // <a href="..." class="fas fa-shoping-cart">Order Information</a>
+  .fas {
+    font-family: sans-serif, 'Font Awesome 5 Free';
+    font-size: var(--cx-font-medium);
+    display: inline-block;
+  }
+}

@@ -12,11 +12,10 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { OutletModule } from '@spartacus/storefront';
 import { QuoteHeaderPriceComponent } from './quote-header-price.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, OutletModule],
+  imports: [CommonModule, I18nModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

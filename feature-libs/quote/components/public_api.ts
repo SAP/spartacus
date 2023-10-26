@@ -10,4 +10,3 @@ export * from './config';
 export * from './header';
 export * from './quote-components.module';
 export * from './list';
-export * from './request-button';

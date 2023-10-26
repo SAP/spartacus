@@ -25,6 +25,24 @@
         "../../feature-libs/asm/components/public_api"
       ],
       "@spartacus/asm/core": ["../../feature-libs/asm/core/public_api"],
+      "@spartacus/asm/customer-360/assets": [
+        "../../feature-libs/asm/customer-360/assets/public_api"
+      ],
+      "@spartacus/asm/customer-360/components": [
+        "../../feature-libs/asm/customer-360/components/public_api"
+      ],
+      "@spartacus/asm/customer-360/core": [
+        "../../feature-libs/asm/customer-360/core/public_api"
+      ],
+      "@spartacus/asm/customer-360": [
+        "../../feature-libs/asm/customer-360/public_api"
+      ],
+      "@spartacus/asm/customer-360/occ": [
+        "../../feature-libs/asm/customer-360/occ/public_api"
+      ],
+      "@spartacus/asm/customer-360/root": [
+        "../../feature-libs/asm/customer-360/root/public_api"
+      ],
       "@spartacus/asm": ["../../feature-libs/asm/public_api"],
       "@spartacus/asm/occ": ["../../feature-libs/asm/occ/public_api"],
       "@spartacus/asm/root": ["../../feature-libs/asm/root/public_api"],
@@ -402,15 +420,18 @@
         "../../feature-libs/qualtrics/root/public_api"
       ],
       "@spartacus/quote/assets": ["../../feature-libs/quote/assets/public_api"],
+      "@spartacus/quote/components/aware": [
+        "../../feature-libs/quote/components/aware/public_api"
+      ],
       "@spartacus/quote/components": [
         "../../feature-libs/quote/components/public_api"
+      ],
+      "@spartacus/quote/components/request-button": [
+        "../../feature-libs/quote/components/request-button/public_api"
       ],
       "@spartacus/quote/core": ["../../feature-libs/quote/core/public_api"],
       "@spartacus/quote": ["../../feature-libs/quote/public_api"],
       "@spartacus/quote/occ": ["../../feature-libs/quote/occ/public_api"],
-      "@spartacus/quote/quote-aware": [
-        "../../feature-libs/quote/quote-aware/public_api"
-      ],
       "@spartacus/quote/root": ["../../feature-libs/quote/root/public_api"],
       "@spartacus/requested-delivery-date/assets": [
         "../../feature-libs/requested-delivery-date/assets/public_api"

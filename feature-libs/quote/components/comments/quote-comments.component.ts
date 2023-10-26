@@ -34,7 +34,7 @@ export class QuoteCommentsComponent {
   protected quoteItemsComponentService = inject(QuoteItemsComponentService);
   protected eventService = inject(EventService);
   protected translationService = inject(TranslationService);
-  protected config = inject(QuoteUIConfig);
+  protected quoteUIConfig = inject(QuoteUIConfig);
   protected document = inject(DOCUMENT);
 
   @ViewChild(MessagingComponent) commentsComponent: MessagingComponent;
@@ -103,7 +103,8 @@ export class QuoteCommentsComponent {
   protected prepareMessagingConfigs(): MessagingConfigs {
     return {
       charactersLimit:
-        this.config.quote?.maxCharsForComments ?? DEFAULT_COMMENT_MAX_CHARS,
+        this.quoteUIConfig.quote?.maxCharsForComments ??
+        DEFAULT_COMMENT_MAX_CHARS,
       displayAddMessageSection: this.quoteDetails$.pipe(
         map((quote) => quote.isEditable)
       ),

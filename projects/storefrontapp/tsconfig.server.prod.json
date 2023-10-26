@@ -8,6 +8,16 @@
       "@spartacus/asm/assets": ["../../dist/asm/assets"],
       "@spartacus/asm/components": ["../../dist/asm/components"],
       "@spartacus/asm/core": ["../../dist/asm/core"],
+      "@spartacus/asm/customer-360/assets": [
+        "../../dist/asm/customer-360/assets"
+      ],
+      "@spartacus/asm/customer-360/components": [
+        "../../dist/asm/customer-360/components"
+      ],
+      "@spartacus/asm/customer-360/core": ["../../dist/asm/customer-360/core"],
+      "@spartacus/asm/customer-360": ["../../dist/asm/customer-360"],
+      "@spartacus/asm/customer-360/occ": ["../../dist/asm/customer-360/occ"],
+      "@spartacus/asm/customer-360/root": ["../../dist/asm/customer-360/root"],
       "@spartacus/asm": ["../../dist/asm"],
       "@spartacus/asm/occ": ["../../dist/asm/occ"],
       "@spartacus/asm/root": ["../../dist/asm/root"],
@@ -295,11 +305,16 @@
       "@spartacus/qualtrics": ["../../dist/qualtrics"],
       "@spartacus/qualtrics/root": ["../../dist/qualtrics/root"],
       "@spartacus/quote/assets": ["../../dist/quote/assets"],
+      "@spartacus/quote/components/aware": [
+        "../../dist/quote/components/aware"
+      ],
       "@spartacus/quote/components": ["../../dist/quote/components"],
+      "@spartacus/quote/components/request-button": [
+        "../../dist/quote/components/request-button"
+      ],
       "@spartacus/quote/core": ["../../dist/quote/core"],
       "@spartacus/quote": ["../../dist/quote"],
       "@spartacus/quote/occ": ["../../dist/quote/occ"],
-      "@spartacus/quote/quote-aware": ["../../dist/quote/quote-aware"],
       "@spartacus/quote/root": ["../../dist/quote/root"],
       "@spartacus/requested-delivery-date/assets": [
         "../../dist/requested-delivery-date/assets"

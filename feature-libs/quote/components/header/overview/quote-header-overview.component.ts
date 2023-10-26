@@ -31,11 +31,11 @@ export class QuoteHeaderOverviewComponent {
   protected quoteFacade = inject(QuoteFacade);
   protected eventService = inject(EventService);
   protected translationService = inject(TranslationService);
-  protected config = inject(QuoteUIConfig);
+  protected quoteUIConfig = inject(QuoteUIConfig);
 
-  private static NO_DATA = '-';
-  private static CHARACTERS_LIMIT = 255;
-  private static DEFAULT_CARD_TILE_MAX_CHARS = 100;
+  protected static NO_DATA = '-';
+  protected static CHARACTERS_LIMIT = 255;
+  protected static DEFAULT_CARD_TILE_MAX_CHARS = 100;
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
@@ -56,12 +56,12 @@ export class QuoteHeaderOverviewComponent {
   }
 
   /**
-   * Verifies whether the quote information card tile is editable.
+   * Verifies whether the quote is editable and is viewed from a user acting as buyer.
    *
    * @param {Quote} quote - quote
    * @returns {boolean} - if the quote is editable and its state is 'QuoteState.BUYER_DRAFT' or 'QuoteState.BUYER_OFFER', otherwise returns 'false'.
    */
-  isQuoteInformationEditable(quote: Quote): boolean {
+  isQuoteEditableForBuyer(quote: Quote): boolean {
     return (
       quote.isEditable &&
       (quote.state === QuoteState.BUYER_DRAFT ||
@@ -146,24 +146,22 @@ export class QuoteHeaderOverviewComponent {
   }
 
   /**
-   * Retrieves the card content that represents the estimated and date information.
+   * Retrieves the card content that represents the estimated total and expiry date information.
    *
    * @param {Quote} quote - Quote
-   * @param {any} createdDate - Created date
+   * @param {any} expiryDate -  Expiry date
    * @returns {Observable<Card>} - Card content
    */
-  getEstimatedAndDate(
+  getEstimatedTotalAndExpiryDate(
     quote: Quote,
-    createdDate?: string | null
+    expiryDate?: string | null
   ): Observable<Card> {
     const totalPrice =
       this.getTotalPrice(quote) ?? this.getTotalPriceDescription(quote);
     return combineLatest([
-      this.translationService.translate(
-        'quote.header.overview.estimateAndDate'
-      ),
+      this.translationService.translate('quote.header.overview.priceAndExpiry'),
       this.translationService.translate('quote.header.overview.estimatedTotal'),
-      this.translationService.translate('quote.header.overview.created'),
+      this.translationService.translate('quote.header.overview.expirationTime'),
     ]).pipe(
       map(([firstTitle, secondTitle, thirdTitle]) => {
         return {
@@ -175,7 +173,7 @@ export class QuoteHeaderOverviewComponent {
             },
             {
               title: thirdTitle,
-              text: [createdDate ?? QuoteHeaderOverviewComponent.NO_DATA],
+              text: [expiryDate ?? QuoteHeaderOverviewComponent.NO_DATA],
             },
           ],
         };
@@ -184,20 +182,24 @@ export class QuoteHeaderOverviewComponent {
   }
 
   /**
-   * Retrieves the card content that represents the update information.
+   * Retrieves the card content that represents the created and last updated dates.
    *
-   * @param {string} lastUpdated - last updated time
-   * @param {string} expirationTime - expiration time
+   * @param {string} createdDate - Created date
+   * @param {string} lastUpdatedDate - Last updated date
    * @returns {Observable<Card>} - Card content
    */
-  getUpdate(
-    lastUpdated?: string | null,
-    expirationTime?: string | null
+  getCreatedAndUpdatedDates(
+    createdDate?: string | null,
+    lastUpdatedDate?: string | null
   ): Observable<Card> {
     return combineLatest([
-      this.translationService.translate('quote.header.overview.update'),
-      this.translationService.translate('quote.header.overview.lastUpdated'),
-      this.translationService.translate('quote.header.overview.expirationTime'),
+      this.translationService.translate(
+        'quote.header.overview.createdAndUpdated'
+      ),
+      this.translationService.translate('quote.header.overview.createdDate'),
+      this.translationService.translate(
+        'quote.header.overview.lastUpdatedDate'
+      ),
     ]).pipe(
       map(([firstTitle, secondTitle, thirdTitle]) => {
         return {
@@ -205,11 +207,11 @@ export class QuoteHeaderOverviewComponent {
           paragraphs: [
             {
               title: secondTitle,
-              text: [lastUpdated ?? QuoteHeaderOverviewComponent.NO_DATA],
+              text: [createdDate ?? QuoteHeaderOverviewComponent.NO_DATA],
             },
             {
               title: thirdTitle,
-              text: [expirationTime ?? QuoteHeaderOverviewComponent.NO_DATA],
+              text: [lastUpdatedDate ?? QuoteHeaderOverviewComponent.NO_DATA],
             },
           ],
         };
@@ -225,7 +227,7 @@ export class QuoteHeaderOverviewComponent {
    */
   getCharactersLimitForCardTile(): number {
     return (
-      this.config.quote?.truncateCardTileContentAfterNumChars ??
+      this.quoteUIConfig.quote?.truncateCardTileContentAfterNumChars ??
       QuoteHeaderOverviewComponent.DEFAULT_CARD_TILE_MAX_CHARS
     );
   }

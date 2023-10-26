@@ -9,7 +9,6 @@ import * as common from './common';
 import * as productConfigurator from './product-configurator';
 import * as asm from './asm';
 
-/** aliases for Quote Routes */
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
 export const PATCH_QUOTE_ALIAS = '@PATCH_QUOTE';
 export const PATCH_CART_ALIAS = '@PATCH_CART';

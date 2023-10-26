@@ -15,7 +15,7 @@ const mockLaunchConfig: LayoutConfig = {
     },
     TEST_OUTLET: {
       outlet: 'cx-outlet-test',
-      component: {},
+      component: class test {},
     },
   },
 };

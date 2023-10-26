@@ -20,24 +20,24 @@ import { QuoteAdapter } from './quote.adapter';
 
 @Injectable()
 export class QuoteConnector {
-  protected adapter = inject(QuoteAdapter);
+  protected quoteAdapter = inject(QuoteAdapter);
 
   public getQuotes(
     userId: string,
     pagination: PaginationModel
   ): Observable<QuoteList> {
-    return this.adapter.getQuotes(userId, pagination);
+    return this.quoteAdapter.getQuotes(userId, pagination);
   }
 
   public createQuote(
     userId: string,
     quoteStarter: QuoteStarter
   ): Observable<Quote> {
-    return this.adapter.createQuote(userId, quoteStarter);
+    return this.quoteAdapter.createQuote(userId, quoteStarter);
   }
 
   public getQuote(userId: string, quoteCode: string): Observable<Quote> {
-    return this.adapter.getQuote(userId, quoteCode);
+    return this.quoteAdapter.getQuote(userId, quoteCode);
   }
 
   public editQuote(
@@ -45,7 +45,7 @@ export class QuoteConnector {
     quoteCode: string,
     quoteMetadata: QuoteMetadata
   ): Observable<unknown> {
-    return this.adapter.editQuote(userId, quoteCode, quoteMetadata);
+    return this.quoteAdapter.editQuote(userId, quoteCode, quoteMetadata);
   }
 
   public performQuoteAction(
@@ -53,7 +53,7 @@ export class QuoteConnector {
     quoteCode: string,
     quoteAction: QuoteActionType
   ): Observable<unknown> {
-    return this.adapter.performQuoteAction(userId, quoteCode, quoteAction);
+    return this.quoteAdapter.performQuoteAction(userId, quoteCode, quoteAction);
   }
 
   public addComment(
@@ -61,7 +61,7 @@ export class QuoteConnector {
     quoteCode: string,
     quoteComment: Comment
   ): Observable<unknown> {
-    return this.adapter.addComment(userId, quoteCode, quoteComment);
+    return this.quoteAdapter.addComment(userId, quoteCode, quoteComment);
   }
 
   public addDiscount(
@@ -69,16 +69,16 @@ export class QuoteConnector {
     quoteCode: string,
     discount: QuoteDiscount
   ): Observable<unknown> {
-    return this.adapter.addDiscount(userId, quoteCode, discount);
+    return this.quoteAdapter.addDiscount(userId, quoteCode, discount);
   }
 
-  public addCartEntryComment(
+  public addQuoteEntryComment(
     userId: string,
     quoteCode: string,
     entryNumber: string,
     comment: Comment
   ): Observable<unknown> {
-    return this.adapter.addCartEntryComment(
+    return this.quoteAdapter.addQuoteEntryComment(
       userId,
       quoteCode,
       entryNumber,
