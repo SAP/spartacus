@@ -8,9 +8,9 @@ import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-d
 import { ExpressServerLogger, ExpressServerLoggerContext } from '../logger';
 import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
+  defaultSsrOptimizationOptions,
   RenderingStrategy,
   SsrOptimizationOptions,
-  defaultSsrOptimizationOptions,
 } from './ssr-optimization-options';
 
 const defaultRenderTime = 100;
@@ -38,8 +38,8 @@ class MockExpressServerLogger implements Partial<ExpressServerLogger> {
  * 3. Examine renders property for the renders
  */
 class TestEngineRunner {
-  /** Accumulates html output for engine runs */
-  renders: string[] = [];
+  /** Accumulates responses produced by engine runs (either successful html or Error) */
+  renders: (string | Error)[] = [];
 
   /** Accumulates response parameters for engine runs */
   responseParams: object[] = [];
@@ -48,7 +48,11 @@ class TestEngineRunner {
   optimizedSsrEngine: OptimizedSsrEngine;
   engineInstance: NgExpressEngineInstance;
 
-  constructor(options: SsrOptimizationOptions, renderTime?: number) {
+  constructor(
+    options: SsrOptimizationOptions,
+    renderTime?: number,
+    params?: { renderError?: boolean } // SPIKE NEW
+  ) {
     // mocked engine instance that will render test output in 100 milliseconds
     const engineInstanceMock = (
       filePath: string,
@@ -56,7 +60,14 @@ class TestEngineRunner {
       callback: SsrCallbackFn
     ) => {
       setTimeout(() => {
-        callback(undefined, `${filePath}-${this.renderCount++}`);
+        const result = `${filePath}-${this.renderCount++}`;
+
+        if (params?.renderError) {
+          const err = new Error(result);
+          callback(err);
+        } else {
+          callback(undefined, result);
+        }
       }, renderTime ?? defaultRenderTime);
     };
 
@@ -102,8 +113,8 @@ class TestEngineRunner {
       },
     };
 
-    this.engineInstance(url, optionsMock, (_, html): void => {
-      this.renders.push(html ?? '');
+    this.engineInstance(url, optionsMock, (err, html): void => {
+      this.renders.push(err ?? html ?? ''); // SPIKE TODO: change to `?? undefined`
       this.responseParams.push(response);
     });
 
