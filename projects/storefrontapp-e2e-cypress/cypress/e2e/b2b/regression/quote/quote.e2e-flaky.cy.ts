@@ -210,7 +210,6 @@ context('Quote', () => {
       quote.addProductAndCheckForGlobalMessage(
         TEST_PRODUCT_HAMMER_DRILLING_NAME,
         'Not possible to do changes to cart entries. Proceed to checkout',
-        POWERTOOLS
       );
     });
   });
