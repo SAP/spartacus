@@ -25,10 +25,10 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["OPF-Checkout", "OPF-Base"],
+        "enum": ["OPF-Base"],
         "type": "string"
       },
-      "default": ["OPF-Checkout", "OPF-Base"]
+      "default": ["OPF-Base"]
     },
     "baseUrl": {
       "type": "string",
