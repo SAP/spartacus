@@ -163,22 +163,6 @@ describe('TextfieldFormComponent', () => {
     );
   });
 
-  it('should know textfield configuration after init when starting from quote entry', () => {
-    mockRouterState.state = {
-      params: {
-        ownerType: CommonConfigurator.OwnerType.QUOTE_ENTRY,
-        entityKey: ORDER_ENTRY_KEY,
-      },
-      semanticRoute: ROUTE_CONFIGURATION,
-    };
-
-    expect(component.configuration$).toBeObservable(
-      cold('--p', {
-        p: productConfig,
-      })
-    );
-  });
-
   it('should call update configuration on facade in case it was triggered on component', () => {
     spyOn(textfieldService, 'updateConfiguration').and.callThrough();
     component.updateConfiguration(productConfig.configurationInfos[0]);

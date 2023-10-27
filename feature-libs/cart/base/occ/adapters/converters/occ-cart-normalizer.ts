@@ -31,6 +31,8 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
     if (source.entries) {
       target.entries = source.entries.map((entry) => ({
         ...entry,
+        //TODO CHHI that's a hack in order to let entry outlets know about cart id
+        savedCartCode: source.code,
         product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
         promotions: this.converter.convert(
           { item: entry, promotions: target?.appliedProductPromotions },

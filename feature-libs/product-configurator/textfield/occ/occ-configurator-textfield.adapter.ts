@@ -7,8 +7,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  CartModification,
   CART_MODIFICATION_NORMALIZER,
+  CartModification,
 } from '@spartacus/cart/base/root';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -115,33 +115,6 @@ export class OccConfiguratorTextfieldAdapter
           userId: parameters.userId,
           orderId: parameters.orderId,
           orderEntryNumber: parameters.orderEntryNumber,
-        },
-      }
-    );
-
-    return this.http.get<ConfiguratorTextfield.Configuration>(url).pipe(
-      this.converterService.pipeable(CONFIGURATION_TEXTFIELD_NORMALIZER),
-      map((resultConfiguration) => {
-        return {
-          ...resultConfiguration,
-          owner: {
-            ...parameters.owner,
-          },
-        };
-      })
-    );
-  }
-
-  readConfigurationForQuoteEntry(
-    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
-  ): Observable<ConfiguratorTextfield.Configuration> {
-    const url = this.occEndpointsService.buildUrl(
-      'readTextfieldConfigurationForQuoteEntry',
-      {
-        urlParams: {
-          userId: parameters.userId,
-          quoteId: parameters.quoteId,
-          quoteEntryNumber: parameters.quoteEntryNumber,
         },
       }
     );

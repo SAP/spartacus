@@ -10,8 +10,8 @@ import {
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
 import { CpqConfiguratorOccAdapter } from './cpq-configurator-occ.adapter';
+import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
@@ -79,14 +79,6 @@ const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderE
     owner: owner,
   };
 
-const readConfigQuoteEntryParams: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
-  {
-    userId: userId,
-    quoteId: documentId,
-    quoteEntryNumber: '3',
-    owner: owner,
-  };
-
 const asSpy = (f: any) => <jasmine.Spy>f;
 
 describe('CpqConfiguratorOccAdapter', () => {
@@ -145,9 +137,6 @@ describe('CpqConfiguratorOccAdapter', () => {
       return of(productConfiguration);
     });
     asSpy(mockedOccService.readConfigurationForOrderEntry).and.callFake(() => {
-      return of(productConfiguration);
-    });
-    asSpy(mockedOccService.readConfigurationForQuoteEntry).and.callFake(() => {
       return of(productConfiguration);
     });
 
@@ -281,18 +270,6 @@ describe('CpqConfiguratorOccAdapter', () => {
         expect(
           mockedOccService.readConfigurationForOrderEntry
         ).toHaveBeenCalledWith(readConfigOrderEntryParams);
-      });
-  });
-
-  it('should delegate readConfigurationForQuoteEntry to OCC service', () => {
-    adapterUnderTest
-      .readConfigurationForQuoteEntry(readConfigQuoteEntryParams)
-      .subscribe((response) => {
-        expect(response).toBe(productConfiguration);
-        expect(response.owner).toBe(readConfigQuoteEntryParams.owner);
-        expect(
-          mockedOccService.readConfigurationForQuoteEntry
-        ).toHaveBeenCalledWith(readConfigQuoteEntryParams);
       });
   });
 

@@ -1,7 +1,16 @@
 import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { EventService, I18nTestingModule, Price } from '@spartacus/core';
+import {
+  ActiveCartFacade,
+  Cart,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
+import {
+  EventService,
+  I18nTestingModule,
+  Price,
+  UserIdService,
+} from '@spartacus/core';
 import {
   Quote,
   QuoteActionType,
@@ -9,15 +18,16 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import { IconTestingModule, OutletDirective } from '@spartacus/storefront';
+import { cold } from 'jasmine-marbles';
 import { BehaviorSubject, EMPTY, NEVER, Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import {
-  createEmptyQuote,
   QUOTE_CODE,
+  createEmptyQuote,
 } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteItemsComponent } from './quote-items.component';
 import { QuoteItemsComponentService } from './quote-items.component.service';
-import { tap } from 'rxjs/operators';
 
 @Directive({
   selector: '[cxOutlet]',
@@ -45,12 +55,23 @@ const quote: Quote = {
   entries: [{ entryNumber: 1 }],
 };
 
+const quoteEditable: Quote = {
+  ...quote,
+  isEditable: true,
+};
+
+const quoteWoCartId: Quote = {
+  ...quote,
+  cartId: undefined,
+};
+
 const cart: Cart = {};
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(quote);
 const mockCart$ = new BehaviorSubject<Cart>(cart);
 let cartObsHasFired = false;
 let quoteObsHasFired = false;
+let savedCartObsHasFired = false;
 
 class MockQuoteFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<Quote> {
@@ -63,6 +84,21 @@ class MockQuoteFacade implements Partial<QuoteFacade> {
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
     return mockCart$.asObservable().pipe(tap(() => (cartObsHasFired = true)));
+  }
+}
+
+class MockMultiCartFacade implements Partial<MultiCartFacade> {
+  getCart(): Observable<Cart> {
+    return mockCart$
+      .asObservable()
+      .pipe(tap(() => (savedCartObsHasFired = true)));
+  }
+  loadCart(): void {}
+}
+
+class MockUserIdService implements Partial<UserIdService> {
+  takeUserId(): Observable<string> {
+    return of('user');
   }
 }
 
@@ -89,6 +125,14 @@ describe('QuoteItemsComponent', () => {
             useClass: MockActiveCartFacade,
           },
           {
+            provide: MultiCartFacade,
+            useClass: MockMultiCartFacade,
+          },
+          {
+            provide: UserIdService,
+            useClass: MockUserIdService,
+          },
+          {
             provide: EventService,
             useValue: mockedEventService,
           },
@@ -102,6 +146,7 @@ describe('QuoteItemsComponent', () => {
   );
 
   beforeEach(() => {
+    mockQuoteDetails$.next(quote);
     fixture = TestBed.createComponent(QuoteItemsComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
@@ -132,25 +177,53 @@ describe('QuoteItemsComponent', () => {
   function initEmitCounters() {
     cartObsHasFired = false;
     quoteObsHasFired = false;
+    savedCartObsHasFired = false;
   }
 
-  it('should create the component', () => {
-    expect(component).toBeTruthy();
+  describe('Initialization', () => {
+    it('should create the component', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should provide quoteCartReadOnly$ observable if quote is linked to a cart', () => {
+      expect(component.quoteCartReadOnly$).toBeObservable(
+        cold('a', {
+          a: cart,
+        })
+      );
+    });
+
+    it('should not provide quoteCartReadOnly$ observable if quote is not linked to a cart', () => {
+      mockQuoteDetails$.next(quoteWoCartId);
+      fixture = TestBed.createComponent(QuoteItemsComponent);
+      component = fixture.componentInstance;
+      expect(component.quoteCartReadOnly$).toBeObservable(cold(''));
+    });
   });
 
   describe('Rendering', () => {
-    it('should request quote for the item list outlet in case quote is read-only', () => {
-      expect(quoteObsHasFired).toBe(true);
+    it('should request saved quote cart for item list outlet in case quote is not editable and linked to cart', () => {
       expect(cartObsHasFired).toBe(false);
+      expect(savedCartObsHasFired).toBe(true);
     });
 
-    it('should request cart for the item list outlet in case quote is editable', () => {
-      quote.isEditable = true;
+    it('should request active cart for the item list outlet in case quote is editable', () => {
       initEmitCounters();
+      mockQuoteDetails$.next(quoteEditable);
       fixture.detectChanges();
 
-      expect(quoteObsHasFired).toBe(false);
       expect(cartObsHasFired).toBe(true);
+      expect(savedCartObsHasFired).toBe(false);
+    });
+
+    it('should neither request a saved or active cart for the item list outlet in case quote has no attached quote cart, because then items are used from quote', () => {
+      initEmitCounters();
+      mockQuoteDetails$.next(quoteWoCartId);
+      fixture.detectChanges();
+
+      expect(quoteObsHasFired).toBe(true);
+      expect(cartObsHasFired).toBe(false);
+      expect(savedCartObsHasFired).toBe(false);
     });
   });
 

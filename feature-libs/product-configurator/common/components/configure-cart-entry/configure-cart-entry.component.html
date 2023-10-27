@@ -1,38 +1,42 @@
-<ng-container *ngIf="cartEntry">
-  <label *ngIf="isDisabled()" class="disabled-link">
-    <ng-container *ngIf="isDisabled(); then configureText"> </ng-container>
-  </label>
+<ng-container *ngIf="activeCartCode$ | async as activeCartCode">
+  <ng-container *ngIf="cartEntry">
+    <label *ngIf="isDisabled()" class="disabled-link">
+      <ng-container *ngIf="isDisabled(); then configureText"> </ng-container>
+    </label>
 
-  <a
-    *ngIf="!isDisabled()"
-    class="link cx-action-link"
-    [routerLink]="
-      {
-        cxRoute: getRoute(),
-        params: {
-          ownerType: getOwnerType(),
-          entityKey: getEntityKey(),
-          displayOnly: getDisplayOnly()
-        }
-      } | cxUrl
-    "
-    [queryParams]="getQueryParams()"
-    cxAutoFocus
-    attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
-  >
-    <ng-container *ngIf="!isDisabled(); then configureText"> </ng-container>
-  </a>
+    <a
+      *ngIf="!isDisabled()"
+      class="link cx-action-link"
+      [routerLink]="
+        {
+          cxRoute: getRoute(),
+          params: {
+            ownerType: getOwnerTypeKnowingActiveCart(activeCartCode),
+            entityKey: getEntityKeyKnowingActiveCart(activeCartCode),
+            displayOnly: getDisplayOnly()
+          }
+        } | cxUrl
+      "
+      [queryParams]="getQueryParams()"
+      cxAutoFocus
+      attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
+    >
+      <ng-container *ngIf="!isDisabled(); then configureText"> </ng-container>
+    </a>
+  </ng-container>
+
+  <ng-template #configureText>
+    <ng-container *ngIf="readOnly">
+      {{
+        'configurator.header.displayConfiguration' | cxTranslate
+      }}</ng-container
+    >
+    <ng-container *ngIf="!readOnly && !msgBanner">
+      {{ 'configurator.header.editConfiguration' | cxTranslate }}
+    </ng-container>
+
+    <ng-container *ngIf="!readOnly && msgBanner">
+      {{ 'configurator.header.resolveIssues' | cxTranslate }}
+    </ng-container>
+  </ng-template>
 </ng-container>
-
-<ng-template #configureText>
-  <ng-container *ngIf="readOnly">
-    {{ 'configurator.header.displayConfiguration' | cxTranslate }}</ng-container
-  >
-  <ng-container *ngIf="!readOnly && !msgBanner">
-    {{ 'configurator.header.editConfiguration' | cxTranslate }}
-  </ng-container>
-
-  <ng-container *ngIf="!readOnly && msgBanner">
-    {{ 'configurator.header.resolveIssues' | cxTranslate }}
-  </ng-container>
-</ng-template>
