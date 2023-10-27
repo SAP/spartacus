@@ -25,17 +25,6 @@
         }"
       >
       </ng-template>
-
-      <ng-template
-        *ngIf="quoteDetails.isEditable && (activeCart$ | async) as activeCart"
-        [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-        [cxOutletContext]="{
-          items: activeCart.entries ?? [],
-          readonly: false,
-          options: { ownerType: OWNER_TYPE.CART, ownerId: activeCart.code }
-        }"
-      >
-      </ng-template>
       <ng-template
         *ngIf="
           !quoteDetails.isEditable &&
@@ -50,6 +39,16 @@
             ownerType: OWNER_TYPE.SAVED_CART,
             ownerId: quoteCartReadOnly.code
           }
+        }"
+      >
+      </ng-template>
+      <ng-template
+        *ngIf="quoteDetails.isEditable && (activeCart$ | async) as activeCart"
+        [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+        [cxOutletContext]="{
+          items: activeCart.entries ?? [],
+          readonly: false,
+          options: { ownerType: OWNER_TYPE.CART, ownerId: activeCart.code }
         }"
       >
       </ng-template>

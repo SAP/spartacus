@@ -72,8 +72,8 @@ const defaultDialogMappings: ConfirmActionDialogMappingConfig = {
     },
   },
   SELLERAPPROVER: {
-    SUBMIT: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.sellerapprover.submit',
+    APPROVE: {
+      i18nKeyPrefix: 'quote.actions.confirmDialog.sellerapprover.approve',
       ...defaultConfirmActionDialogConfig,
     },
     REJECT: {

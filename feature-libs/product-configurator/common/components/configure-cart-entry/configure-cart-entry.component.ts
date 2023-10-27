@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input
+} from '@angular/core';
 import { Params } from '@angular/router';
 import {
   AbstractOrderEntryOwnerType,
@@ -44,7 +48,6 @@ export class ConfigureCartEntryComponent {
    * @returns - an owner type
    */
   getOwnerType(): CommonConfigurator.OwnerType {
-    console.log('CHHI getOwnerType for: ' + this.options?.ownerType);
     switch (this.options?.ownerType) {
       case AbstractOrderEntryOwnerType.ORDER: {
         return CommonConfigurator.OwnerType.ORDER_ENTRY;
