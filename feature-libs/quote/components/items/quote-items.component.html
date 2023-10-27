@@ -32,7 +32,7 @@
         [cxOutletContext]="{
           items: activeCart.entries ?? [],
           readonly: false,
-          options: { ownerType: OWNER_TYPE.CART, ownerId: activeCart.code}
+          options: { ownerType: OWNER_TYPE.CART, ownerId: activeCart.code }
         }"
       >
       </ng-template>
@@ -46,7 +46,10 @@
         [cxOutletContext]="{
           items: quoteCartReadOnly.entries ?? [],
           readonly: true,
-          options: { ownerType: OWNER_TYPE.SAVED_CART, ownerId: quoteCartReadOnly.code}
+          options: {
+            ownerType: OWNER_TYPE.SAVED_CART,
+            ownerId: quoteCartReadOnly.code
+          }
         }"
       >
       </ng-template>
