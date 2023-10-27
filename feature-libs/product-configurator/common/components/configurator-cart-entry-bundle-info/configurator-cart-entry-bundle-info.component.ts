@@ -14,7 +14,7 @@ import {
 import { TranslationService } from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
@@ -46,14 +46,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     this.cartItemContext?.readonly$ ?? EMPTY;
 
   readonly options$: Observable<CartItemComponentOptions> =
-    this.cartItemContext?.options$.pipe(
-      tap((options) =>
-        console.log(
-          'CHHI ConfiguratorCartEntryBundleInfoComponent owner: ' +
-            options.ownerType
-        )
-      )
-    ) ?? EMPTY;
+    this.cartItemContext?.options$ ?? EMPTY;
 
   hideItems = true;
 
