@@ -6,22 +6,22 @@
 
 import { Injectable, OnDestroy } from '@angular/core';
 import {
+  defer,
   EMPTY,
   Observable,
   ReplaySubject,
   Subject,
   Subscription,
-  defer,
   zip,
 } from 'rxjs';
 import {
-  TapObserver,
   catchError,
   concatMap,
   finalize,
   mergeMap,
   switchMap,
   tap,
+  TapObserver,
 } from 'rxjs/operators';
 
 export abstract class Command<PARAMS = undefined, RESULT = unknown> {
@@ -54,6 +54,7 @@ export class CommandService implements OnDestroy {
     const commands$ = new Subject<PARAMS>();
     const results$ = new Subject<ReplaySubject<RESULT>>();
 
+    let notifierHasError = false;
     // We have to specify selectively the handlers after RxJS version 7.3.0.
     // Otherwise, the `unsubscribe` handler would be forwarded implicitly
     // to `notifier$` when calling `tap(notifier$)`.
@@ -63,7 +64,10 @@ export class CommandService implements OnDestroy {
       notifier$: ReplaySubject<RESULT>
     ): Partial<TapObserver<RESULT>> => ({
       next: (x) => notifier$.next(x),
-      error: (e) => notifier$.error(e),
+      error: (e) => {
+        notifierHasError = true;
+        notifier$.error(e);
+      },
       complete: () => notifier$.complete(),
     });
 
@@ -79,7 +83,7 @@ export class CommandService implements OnDestroy {
               catchError(() => EMPTY),
               finalize(() => {
                 // do not overwrite existing existing ending state
-                if (!notifier$.closed && !notifier$.hasError) {
+                if (!notifier$.closed && !notifierHasError) {
                   // command has not ended yet, so close notifier$ according to strategy
                   if (options.strategy === CommandStrategy.ErrorPrevious) {
                     notifier$.error(new Error('Canceled by next command'));
