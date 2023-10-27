@@ -10,8 +10,8 @@ import { ScriptLoader } from '@spartacus/core';
 
 import { throwError } from 'rxjs';
 import {
-  AfterRedirectDynamicScriptResource,
-  AfterRedirectDynamicScriptResourceType,
+  OpfDynamicScriptResource,
+  OpfDynamicScriptResourceType,
 } from '../model';
 
 @Injectable({
@@ -27,7 +27,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
 
   protected readonly OPF_RESOURCE_ATTRIBUTE_KEY = 'data-opf-resource';
 
-  protected loadedResources: AfterRedirectDynamicScriptResource[] = [];
+  protected loadedResources: OpfDynamicScriptResource[] = [];
 
   protected embedStyles(embedOptions: {
     src: string;
@@ -71,15 +71,13 @@ export class OpfResourceLoaderService extends ScriptLoader {
     return throwError(`Error while loading external ${src} resource.`);
   }
 
-  protected isResourceLoadingCompleted(
-    resources: AfterRedirectDynamicScriptResource[]
-  ) {
+  protected isResourceLoadingCompleted(resources: OpfDynamicScriptResource[]) {
     return resources.length === this.loadedResources.length;
   }
 
   protected markResourceAsLoaded(
-    resource: AfterRedirectDynamicScriptResource,
-    resources: AfterRedirectDynamicScriptResource[],
+    resource: OpfDynamicScriptResource,
+    resources: OpfDynamicScriptResource[],
     resolve: (value: void | PromiseLike<void>) => void
   ) {
     this.loadedResources.push(resource);
@@ -89,8 +87,8 @@ export class OpfResourceLoaderService extends ScriptLoader {
   }
 
   protected loadScript(
-    resource: AfterRedirectDynamicScriptResource,
-    resources: AfterRedirectDynamicScriptResource[],
+    resource: OpfDynamicScriptResource,
+    resources: OpfDynamicScriptResource[],
     resolve: (value: void | PromiseLike<void>) => void
   ) {
     if (resource.url && !this.hasScript(resource.url)) {
@@ -101,8 +99,12 @@ export class OpfResourceLoaderService extends ScriptLoader {
           [this.OPF_RESOURCE_ATTRIBUTE_KEY]: true,
         },
 
-        callback: () => this.markResourceAsLoaded(resource, resources, resolve),
-        errorCallback: () => this.handleLoadingResourceError(resource.url),
+        callback: () => {
+          this.markResourceAsLoaded(resource, resources, resolve);
+        },
+        errorCallback: () => {
+          this.handleLoadingResourceError(resource.url);
+        },
       });
     } else {
       this.markResourceAsLoaded(resource, resources, resolve);
@@ -110,15 +112,17 @@ export class OpfResourceLoaderService extends ScriptLoader {
   }
 
   protected loadStyles(
-    resource: AfterRedirectDynamicScriptResource,
-    resources: AfterRedirectDynamicScriptResource[],
+    resource: OpfDynamicScriptResource,
+    resources: OpfDynamicScriptResource[],
     resolve: (value: void | PromiseLike<void>) => void
   ) {
     if (resource.url && !this.hasStyles(resource.url)) {
       this.embedStyles({
         src: resource.url,
         callback: () => this.markResourceAsLoaded(resource, resources, resolve),
-        errorCallback: () => this.handleLoadingResourceError(resource.url),
+        errorCallback: () => {
+          this.handleLoadingResourceError(resource.url);
+        },
       });
     } else {
       this.markResourceAsLoaded(resource, resources, resolve);
@@ -144,32 +148,32 @@ export class OpfResourceLoaderService extends ScriptLoader {
   }
 
   loadProviderResources(
-    scripts: AfterRedirectDynamicScriptResource[] = [],
-    styles: AfterRedirectDynamicScriptResource[] = []
+    scripts: OpfDynamicScriptResource[] = [],
+    styles: OpfDynamicScriptResource[] = []
   ): Promise<void> {
-    const resources: AfterRedirectDynamicScriptResource[] = [
+    const resources: OpfDynamicScriptResource[] = [
       ...scripts.map((script) => ({
         ...script,
-        type: AfterRedirectDynamicScriptResourceType.SCRIPT,
+        type: OpfDynamicScriptResourceType.SCRIPT,
       })),
       ...styles.map((style) => ({
         ...style,
-        type: AfterRedirectDynamicScriptResourceType.STYLES,
+        type: OpfDynamicScriptResourceType.STYLES,
       })),
     ];
 
     return new Promise((resolve) => {
       this.loadedResources = [];
 
-      resources.forEach((resource: AfterRedirectDynamicScriptResource) => {
+      resources.forEach((resource: OpfDynamicScriptResource) => {
         if (!resource.url) {
           this.markResourceAsLoaded(resource, resources, resolve);
         } else {
           switch (resource.type) {
-            case AfterRedirectDynamicScriptResourceType.SCRIPT:
+            case OpfDynamicScriptResourceType.SCRIPT:
               this.loadScript(resource, resources, resolve);
               break;
-            case AfterRedirectDynamicScriptResourceType.STYLES:
+            case OpfDynamicScriptResourceType.STYLES:
               this.loadStyles(resource, resources, resolve);
               break;
             default:

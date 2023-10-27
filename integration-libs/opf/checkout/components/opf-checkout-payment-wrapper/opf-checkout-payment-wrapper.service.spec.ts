@@ -7,7 +7,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
-  AfterRedirectDynamicScriptResourceType,
+  OpfDynamicScriptResourceType,
   OpfOrderFacade,
   OpfOtpFacade,
   OpfResourceLoaderService,
@@ -118,13 +118,13 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         jsUrls: [
           {
             url: 'script.js',
-            type: AfterRedirectDynamicScriptResourceType.SCRIPT,
+            type: OpfDynamicScriptResourceType.SCRIPT,
           },
         ],
         cssUrls: [
           {
             url: 'styles.css',
-            type: AfterRedirectDynamicScriptResourceType.STYLES,
+            type: OpfDynamicScriptResourceType.STYLES,
           },
         ],
       },
@@ -165,13 +165,13 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         [
           {
             url: 'script.js',
-            type: AfterRedirectDynamicScriptResourceType.SCRIPT,
+            type: OpfDynamicScriptResourceType.SCRIPT,
           },
         ],
         [
           {
             url: 'styles.css',
-            type: AfterRedirectDynamicScriptResourceType.STYLES,
+            type: OpfDynamicScriptResourceType.STYLES,
           },
         ]
       );
@@ -182,13 +182,13 @@ describe('OpfCheckoutPaymentWrapperService', () => {
           jsUrls: [
             {
               url: 'script.js',
-              type: AfterRedirectDynamicScriptResourceType.SCRIPT,
+              type: OpfDynamicScriptResourceType.SCRIPT,
             },
           ],
           cssUrls: [
             {
               url: 'styles.css',
-              type: AfterRedirectDynamicScriptResourceType.STYLES,
+              type: OpfDynamicScriptResourceType.STYLES,
             },
           ],
         },
@@ -302,13 +302,13 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         jsUrls: [
           {
             url: 'script.js',
-            type: AfterRedirectDynamicScriptResourceType.SCRIPT,
+            type: OpfDynamicScriptResourceType.SCRIPT,
           },
         ],
         cssUrls: [
           {
             url: 'styles.css',
-            type: AfterRedirectDynamicScriptResourceType.STYLES,
+            type: OpfDynamicScriptResourceType.STYLES,
           },
         ],
       },
@@ -326,13 +326,13 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       [
         {
           url: 'script.js',
-          type: AfterRedirectDynamicScriptResourceType.SCRIPT,
+          type: OpfDynamicScriptResourceType.SCRIPT,
         },
       ],
       [
         {
           url: 'styles.css',
-          type: AfterRedirectDynamicScriptResourceType.STYLES,
+          type: OpfDynamicScriptResourceType.STYLES,
         },
       ]
     );

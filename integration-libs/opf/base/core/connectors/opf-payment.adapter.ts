@@ -7,6 +7,8 @@
 import {
   ActiveConfiguration,
   AfterRedirectScriptResponse,
+  CtaScriptsRequest,
+  CtaScriptsResponse,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
   SubmitCompleteRequest,
@@ -46,6 +48,9 @@ export abstract class OpfPaymentAdapter {
     paymentSessionId: string
   ): Observable<SubmitCompleteResponse>;
 
+  /**
+   * Abstract method used to get AfterRedirect scripts used in hosted-fields pattern
+   */
   abstract afterRedirectScripts(
     paymentSessionId: string
   ): Observable<AfterRedirectScriptResponse>;
@@ -54,4 +59,11 @@ export abstract class OpfPaymentAdapter {
    * Abstract method used to get payment active configurations
    */
   abstract getActiveConfigurations(): Observable<ActiveConfiguration[]>;
+
+  /**
+   * Abstract method used to get CTA scripts list, used by QuickBuy functionality
+   */
+  abstract getCtaScripts(
+    ctaScriptsRequest: CtaScriptsRequest
+  ): Observable<CtaScriptsResponse>;
 }

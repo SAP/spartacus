@@ -15,6 +15,8 @@ import {
 import {
   ActiveConfiguration,
   AfterRedirectScriptResponse,
+  CtaScriptsRequest,
+  CtaScriptsResponse,
   OpfPaymentFacade,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
@@ -73,6 +75,15 @@ export class OpfPaymentService implements OpfPaymentFacade {
     );
   });
 
+  protected ctaScriptsCommand: Command<
+    {
+      ctaScriptsRequest: CtaScriptsRequest;
+    },
+    CtaScriptsResponse
+  > = this.commandService.create((payload) => {
+    return this.opfPaymentConnector.getCtaScripts(payload.ctaScriptsRequest);
+  });
+
   protected activeConfigurationsQuery: Query<ActiveConfiguration[]> =
     this.queryService.create<ActiveConfiguration[]>(() =>
       this.opfPaymentConnector.getActiveConfigurations()
@@ -115,5 +126,9 @@ export class OpfPaymentService implements OpfPaymentFacade {
     QueryState<ActiveConfiguration[] | undefined>
   > {
     return this.activeConfigurationsQuery.getState();
+  }
+
+  getCtaScripts(ctaScriptsRequest: CtaScriptsRequest) {
+    return this.ctaScriptsCommand.execute({ ctaScriptsRequest });
   }
 }

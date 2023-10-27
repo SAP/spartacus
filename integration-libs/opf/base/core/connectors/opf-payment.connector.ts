@@ -8,6 +8,8 @@ import { Injectable } from '@angular/core';
 import {
   ActiveConfiguration,
   AfterRedirectScriptResponse,
+  CtaScriptsRequest,
+  CtaScriptsResponse,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
   SubmitCompleteRequest,
@@ -58,5 +60,11 @@ export class OpfPaymentConnector {
 
   public getActiveConfigurations(): Observable<ActiveConfiguration[]> {
     return this.adapter.getActiveConfigurations();
+  }
+
+  public getCtaScripts(
+    ctaScriptsRequest: CtaScriptsRequest
+  ): Observable<CtaScriptsResponse> {
+    return this.adapter.getCtaScripts(ctaScriptsRequest);
   }
 }

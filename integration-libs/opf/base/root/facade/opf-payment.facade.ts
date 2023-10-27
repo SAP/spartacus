@@ -11,6 +11,8 @@ import { OPF_BASE_FEATURE } from '../feature-name';
 import {
   ActiveConfiguration,
   AfterRedirectScriptResponse,
+  CtaScriptsRequest,
+  CtaScriptsResponse,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
   SubmitCompleteInput,
@@ -29,6 +31,7 @@ import {
         'submitCompletePayment',
         'afterRedirectScripts',
         'getActiveConfigurationsState',
+        'getCtaScripts',
       ],
     }),
 })
@@ -75,4 +78,8 @@ export abstract class OpfPaymentFacade {
   abstract getActiveConfigurationsState(): Observable<
     QueryState<ActiveConfiguration[] | undefined>
   >;
+
+  abstract getCtaScripts(
+    ctaScriptsRequest: CtaScriptsRequest
+  ): Observable<CtaScriptsResponse>;
 }

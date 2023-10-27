@@ -9,7 +9,7 @@
 $opf-components-allowlist: cx-opf-checkout-payment-and-review,
   cx-opf-checkout-payments, cx-opf-checkout-billing-address-form,
   cx-opf-checkout-payment-wrapper, cx-opf-checkout-terms-and-conditions-alert,
-  cx-opf-error-modal !default;
+  cx-opf-error-modal, cx-opf-cta-element !default;
 
 $skipComponentStyles: () !default;
 
