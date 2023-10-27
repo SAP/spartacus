@@ -24,16 +24,6 @@
         }"
       >
       </ng-template>
-
-      <ng-template
-        *ngIf="quoteDetails.isEditable && (activeCart$ | async) as activeCart"
-        [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-        [cxOutletContext]="{
-          items: activeCart.entries ?? [],
-          readonly: false
-        }"
-      >
-      </ng-template>
       <ng-template
         *ngIf="
           !quoteDetails.isEditable &&
@@ -44,6 +34,16 @@
         [cxOutletContext]="{
           items: quoteCartReadOnly.entries ?? [],
           readonly: true
+        }"
+      >
+      </ng-template>
+
+      <ng-template
+        *ngIf="quoteDetails.isEditable && (activeCart$ | async) as activeCart"
+        [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+        [cxOutletContext]="{
+          items: activeCart.entries ?? [],
+          readonly: false
         }"
       >
       </ng-template>

@@ -59,7 +59,6 @@ export class ConfigureCartEntryComponent {
    * @param cartCode Code of active cart
    * @returns - an owner type
    */
-
   getOwnerTypeKnowingActiveCart(
     cartCode: string
   ): CommonConfigurator.OwnerType {
@@ -75,6 +74,7 @@ export class ConfigureCartEntryComponent {
   getEntityKey(): string {
     return this.getEntityKeyInternal(true);
   }
+
   /**
    * Verifies whether the cart entry has an order code, retrieves a composed owner ID
    * and concatenates a corresponding entry number.
