@@ -119,17 +119,15 @@ export interface CartItemComponentOptions {
   ownerId?: string;
 }
 
-export enum AbstractOrderEntryOwnerType{
+export enum AbstractOrderEntryOwnerType {
   CART = 'Cart',
   ORDER = 'Order',
   QUOTE = 'Quote',
-  SAVED_CART = 'SavedCart'
+  SAVED_CART = 'SavedCart',
 }
 
 export interface OrderEntry {
   orderCode?: string;
-  quoteCode?: string;
-  savedCartCode?: string;
   basePrice?: Price;
   deliveryMode?: DeliveryMode;
   deliveryPointOfService?: PointOfService;

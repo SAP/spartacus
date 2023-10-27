@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
-  UntypedFormControl,
   ReactiveFormsModule,
+  UntypedFormControl,
 } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  CartItemComponentOptions,
   CartItemContext,
   OrderEntry,
   PromotionLocation,
@@ -22,6 +23,7 @@ class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
   quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
+  options$ = new ReplaySubject<CartItemComponentOptions>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
     PromotionLocation.SaveForLater
   );
@@ -235,6 +237,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
       it('should allow the rendering of "edit configuration" if context is active cart', () => {
         mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.options$.next({});
         fixture.detectChanges();
 
         const htmlElementAfterChanges = fixture.nativeElement;

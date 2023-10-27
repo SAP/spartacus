@@ -47,9 +47,4 @@ describe('OccQuoteEntryNormalizer', () => {
     expect(result.entries?.length).toBe(1);
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
   });
-
-  it('should map quote code to each entry', () => {
-    const result = occQuoteEntryNormalizer.convert(quote);
-    expect((result.entries ?? [])[0].quoteCode).toBe(quote.code);
-  });
 });
