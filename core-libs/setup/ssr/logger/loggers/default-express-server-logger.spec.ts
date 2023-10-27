@@ -1,4 +1,11 @@
-import * as angularCore from '@angular/core';
+jest.mock('@angular/core', () => {
+  return {
+    ...jest.requireActual('@angular/core'),
+    isDevMode: jest.fn(),
+  };
+});
+
+import { isDevMode } from '@angular/core';
 import { Request } from 'express';
 import { DefaultExpressServerLogger } from './default-express-server-logger';
 
@@ -37,7 +44,7 @@ describe('DefaultExpressServerLogger', () => {
 
     describe('is not dev mode', () => {
       beforeEach(() => {
-        jest.spyOn(angularCore, 'isDevMode').mockReturnValue(false);
+        (isDevMode as jest.Mock).mockReturnValue(false);
       });
 
       it('should log proper shape of the JSON', () => {
@@ -113,7 +120,7 @@ describe('DefaultExpressServerLogger', () => {
 
     describe('is dev mode', () => {
       beforeEach(() => {
-        jest.spyOn(angularCore, 'isDevMode').mockReturnValue(true);
+        (isDevMode as jest.Mock).mockReturnValue(true);
       });
 
       it('should log proper shape of the JSON', () => {

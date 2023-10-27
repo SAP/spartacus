@@ -42,7 +42,7 @@ if (!environment.production) {
 
 @NgModule({
   imports: [
-    BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
+    BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot({}),
