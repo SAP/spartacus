@@ -10,7 +10,7 @@ import * as productConfigurator from './product-configurator';
 import * as asm from './asm';
 
 //toDo MS rename constants
-export const GET_QUOTE_ALIAS = '@_QUOTE'; //READ_QUOTE
+export const GET_QUOTE_ALIAS = '@GET_QUOTE'; //READ_QUOTE
 export const PATCH_QUOTE_ALIAS = '@PATCH_QUOTE'; //UPDATE_QUOTE_ITEM
 export const PATCH_CART_ALIAS = '@PATCH_CART'; //UPDATE_CART_ITEM
 export const DELETE_QUOTE_ALIAS = '@DELETE_QUOTE'; //DELETE_QUOTE_ITEM
