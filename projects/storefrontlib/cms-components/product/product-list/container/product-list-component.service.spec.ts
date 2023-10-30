@@ -139,15 +139,21 @@ describe('ProductListComponentService', () => {
 
     describe('should perform search on change of routing', () => {
       it('with default "pageSize" 12', fakeAsync(() => {
+        mockRoutingState({
+          params: { query: 'testQuery' },
+        });
         const subscription: Subscription = service.model$.subscribe();
 
         tick();
 
         subscription.unsubscribe();
 
-        expect(productSearchService.search).toHaveBeenCalledWith(undefined, {
-          pageSize: 12,
-        });
+        expect(productSearchService.search).toHaveBeenCalledWith(
+          jasmine.any(String),
+          {
+            pageSize: 12,
+          }
+        );
       }));
 
       it('param "categoryCode"', fakeAsync(() => {
