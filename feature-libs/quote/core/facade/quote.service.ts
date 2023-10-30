@@ -20,6 +20,7 @@ import {
   QueryState,
   RoutingService,
   UserIdService,
+  WindowRef,
   uniteLatest,
 } from '@spartacus/core';
 import {
@@ -73,6 +74,7 @@ export class QuoteService implements QuoteFacade {
   protected quoteCartService = inject(QuoteCartService);
   protected cartUtilsService = inject(CartUtilsService);
   protected globalMessageService = inject(GlobalMessageService);
+  protected windowRef = inject(WindowRef);
 
   /**
    * Indicator whether an action is currently performing.
@@ -116,6 +118,7 @@ export class QuoteService implements QuoteFacade {
 
           this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
         }),
+        tap(() => this.setFocusForCreateOrEditAction(QuoteActionType.CREATE)),
         map(([_, _userId, quote]) => quote)
       ),
     {
@@ -272,6 +275,7 @@ export class QuoteService implements QuoteFacade {
             this.isActionPerforming$.next(false);
           }
         }),
+        tap(() => this.setFocusForCreateOrEditAction(payload.quoteAction)),
         catchError((error) => {
           this.triggerReloadAndCompleteAction();
           return this.handleError(error);
@@ -417,6 +421,20 @@ export class QuoteService implements QuoteFacade {
         resetOn: [LoginEvent, NavigationEvent],
       }
     );
+
+  protected setFocusForCreateOrEditAction(action: QuoteActionType) {
+    if (
+      (action === QuoteActionType.EDIT || action === QuoteActionType.CREATE) &&
+      this.windowRef.isBrowser()
+    ) {
+      const storefrontElement = this.windowRef.document.querySelector(
+        'cx-storefront'
+      ) as HTMLElement;
+      if (storefrontElement) {
+        storefrontElement.focus();
+      }
+    }
+  }
 
   addDiscount(quoteCode: string, discount: QuoteDiscount): Observable<unknown> {
     return this.addDiscountCommand.execute({

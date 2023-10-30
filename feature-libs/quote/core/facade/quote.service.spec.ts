@@ -26,6 +26,7 @@ import {
   RouterState,
   RoutingService,
   UserIdService,
+  WindowRef,
 } from '@spartacus/core';
 import { ViewConfig } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
@@ -158,8 +159,16 @@ describe('QuoteService', () => {
   let quoteCartService: QuoteCartService;
   let cartUtilsService: CartUtilsService;
   let globalMessageService: GlobalMessageService;
+  let windowRef: WindowRef;
 
   beforeEach(() => {
+    let mockedWindowRef = {
+      isBrowser: createSpy().and.returnValue(of(true)),
+      document: {
+        querySelector: createSpy(),
+      },
+    };
+
     TestBed.configureTestingModule({
       providers: [
         QuoteService,
@@ -176,6 +185,7 @@ describe('QuoteService', () => {
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: QuoteCartService, useClass: MockQuoteCartService },
         { provide: CartUtilsService, useClass: MockCartUtilsService },
+        { provide: WindowRef, useValue: mockedWindowRef },
       ],
     });
 
@@ -189,6 +199,7 @@ describe('QuoteService', () => {
     quoteCartService = TestBed.inject(QuoteCartService);
     cartUtilsService = TestBed.inject(CartUtilsService);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    windowRef = TestBed.inject(WindowRef);
 
     isQuoteCartActive = false;
     quoteId = '';
@@ -378,6 +389,29 @@ describe('QuoteService', () => {
           quoteComment
         );
       });
+  });
+
+  describe('setFocusForCreateOrEditAction', () => {
+    it('should call querySelector method if action type is CREATE for setting focus', () => {
+      service['setFocusForCreateOrEditAction'](QuoteActionType.CREATE);
+      expect(windowRef.document.querySelector).toHaveBeenCalledWith(
+        'cx-storefront'
+      );
+    });
+
+    it('should call querySelector method if action type is EDIT for setting focus', () => {
+      service['setFocusForCreateOrEditAction'](QuoteActionType.EDIT);
+      expect(windowRef.document.querySelector).toHaveBeenCalledWith(
+        'cx-storefront'
+      );
+    });
+
+    it('should not call querySelector method if action type is not EDIT or CREATE', () => {
+      service['setFocusForCreateOrEditAction'](QuoteActionType.CANCEL);
+      expect(windowRef.document.querySelector).not.toHaveBeenCalledWith(
+        'cx-storefront'
+      );
+    });
   });
 
   describe('performQuoteAction', () => {
