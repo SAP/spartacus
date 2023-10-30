@@ -7,7 +7,7 @@
 import { OccConfig } from '@spartacus/core';
 
 const PRICE_HEADER_FIELDS =
-  'totalPrice(formattedValue),quoteDiscounts(formattedValue),orderDiscounts(formattedValue),productDiscounts(formattedValue)';
+  ',totalPrice(formattedValue),quoteDiscounts(formattedValue),orderDiscounts(formattedValue),productDiscounts(formattedValue)';
 
 export const defaultOccQuoteConfig: OccConfig = {
   backend: {
