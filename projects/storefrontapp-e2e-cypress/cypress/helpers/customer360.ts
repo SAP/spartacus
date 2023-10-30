@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as checkout from '../helpers/checkout-flow';
-import { SampleUser, getSampleUser } from '../sample-data/checkout-flow';
-import * as customerTicketing from '../helpers/customer-ticketing/customer-ticketing';
 import * as asm from '../helpers/asm';
+import * as checkout from '../helpers/checkout-flow';
+import * as customerTicketing from '../helpers/customer-ticketing/customer-ticketing';
 import * as productDetails from '../helpers/product-details';
+import { SampleUser, getSampleUser } from '../sample-data/checkout-flow';
 import { subscribeStockNotification } from './notification';
 
 let user: SampleUser | undefined;
@@ -69,6 +69,7 @@ function saveCart(): void {
     cy.get('[formcontrolname="description"]').type('Entering a description');
   });
   cy.get('button[aria-label="Save"]').click();
+  cy.wait(1000);
 }
 
 function createTicket(): void {
