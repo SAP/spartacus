@@ -99,11 +99,6 @@ export class ProductListComponentService {
       .pipe(take(1))
       .subscribe((results) => {
         const loadedQuery = results?.currentQuery?.query?.value;
-        console.log(
-          loadedQuery,
-          criteria.query,
-          loadedQuery !== criteria.query
-        );
         if (loadedQuery !== criteria.query) {
           this.search(criteria);
         }
