@@ -7,6 +7,9 @@
   margin: 0 auto;
   padding: 12px 28px 0;
   width: 100%;
+  @media (max-width: 940px) {
+    grid-template-columns: 1fr;
+  }
 
   .bold {
     font-weight: 600;
@@ -17,6 +20,9 @@
     color: #6c7079;
     font-size: 1rem;
     grid-column: 1 / span 2;
+    @media (max-width: 940px) {
+      grid-column: 1;
+    }
   }
 
   .store-details {
