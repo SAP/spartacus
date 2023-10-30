@@ -5,23 +5,24 @@
  */
 
 import { PaginationModel } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import {
-  QuoteList,
-  QuoteStarter,
-  Quote,
-  QuoteMetadata,
-  QuoteActionType,
   Comment,
+  Quote,
+  QuoteActionType,
   QuoteDiscount,
+  QuoteList,
+  QuoteMetadata,
+  QuoteStarter,
 } from '@spartacus/quote/root';
+import { Observable } from 'rxjs';
 
 export abstract class QuoteAdapter {
   /**
-   * Abstract method used to list of quotes for user
+   * Fetches a list of quotes
    *
-   * @param userId
-   * @param pagination
+   * @param userId Quote user
+   * @param pagination Pagination options
+   * @returns Observable emitting a quote list
    */
   abstract getQuotes(
     userId: string,
@@ -29,9 +30,10 @@ export abstract class QuoteAdapter {
   ): Observable<QuoteList>;
 
   /**
-   * Abstract method used to request / create a quote
-   *
-   * @param userId
+   * Creates a quote
+   * @param userId Quote user
+   * @param quoteStarter Attributes needed to create a quote
+   * @returns Observable emitting a quote
    */
   abstract createQuote(
     userId: string,
@@ -39,18 +41,19 @@ export abstract class QuoteAdapter {
   ): Observable<Quote>;
 
   /**
-   * Abstract method used to get quote details
-   *
-   * @param userId
-   * @param quoteCode
+   * Gets a quote specified by its ID (aka code)
+   * @param userId Quote user
+   * @param quoteCode Quote code
+   * @returns Observable emitting a quote
    */
   abstract getQuote(userId: string, quoteCode: string): Observable<Quote>;
 
   /**
-   * Abstract method used to edit a quote
-   *
-   * @param userId
-   * @param quoteCode
+   * Edits a quote in its main header aspects (name, description and expiry date)
+   * @param userId Quote user
+   * @param quoteCode Quote code, identifies a quote uniquely for a given user role
+   * @param quoteMetadata Attributes that are going to be changed
+   * @returns Observable emitting unknown
    */
   abstract editQuote(
     userId: string,
@@ -59,10 +62,11 @@ export abstract class QuoteAdapter {
   ): Observable<unknown>;
 
   /**
-   * Abstract method used to perform actions on a quote`
-   *
-   * @param userId
-   * @param quoteCode
+   * Triggers an action on a quote idenfified by its code
+   * @param userId Quote user
+   * @param quoteCode Quote code, identifies a quote uniquely for a given user role
+   * @param quoteAction Quote action
+   * @returns Observable emitting unknown
    */
   abstract performQuoteAction(
     userId: string,
@@ -71,10 +75,11 @@ export abstract class QuoteAdapter {
   ): Observable<unknown>;
 
   /**
-   * Abstract method used to add comment to a quote`
-   *
-   * @param userId
-   * @param quoteCode
+   * Adds a header comment to a quote
+   * @param userId Quote user
+   * @param quoteCode Quote code
+   * @param quoteComment Quote comment
+   * @returns Observable emitting unknown
    */
   abstract addComment(
     userId: string,
@@ -83,10 +88,11 @@ export abstract class QuoteAdapter {
   ): Observable<unknown>;
 
   /**
-   * Abstract method used to add discount to a quote`
-   *
-   * @param userId
-   * @param quoteCode
+   * Adds a discount to a quote. A previous discount will be overwritten
+   * @param userId Quote user
+   * @param quoteCode Quote code
+   * @param discount Quote discount
+   * @returns Observable emitting unknown
    */
   abstract addDiscount(
     userId: string,
@@ -95,11 +101,12 @@ export abstract class QuoteAdapter {
   ): Observable<unknown>;
 
   /**
-   * Abstract method used to add comment to quotes cart entry`
-   *
-   * @param userId
-   * @param quoteCode
-   * @param entryNumber
+   * Adds an entry comment to a quote
+   * @param userId Quote user
+   * @param quoteCode Quote code
+   * @param entryNumber Quote entry number
+   * @param comment Quote comment
+   * @returns Observable emitting unknown
    */
   abstract addQuoteEntryComment(
     userId: string,

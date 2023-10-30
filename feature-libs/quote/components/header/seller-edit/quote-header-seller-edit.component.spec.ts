@@ -130,7 +130,7 @@ class MockCxIconComponent {
 describe('QuoteHeaderSellerEditComponent', () => {
   let fixture: ComponentFixture<QuoteHeaderSellerEditComponent>;
   let component: QuoteHeaderSellerEditComponent;
-  let facade: QuoteFacade;
+  let quoteFacade: QuoteFacade;
 
   beforeEach(() => {
     uiConfig = {
@@ -163,14 +163,14 @@ describe('QuoteHeaderSellerEditComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteHeaderSellerEditComponent);
     component = fixture.componentInstance;
-    facade = TestBed.inject(QuoteFacade);
+    quoteFacade = TestBed.inject(QuoteFacade);
     mockQuote.quoteDiscounts = {};
     mockQuoteDetails$.next(mockQuote);
   });
 
   it('should create component', () => {
     expect(component).toBeDefined();
-    expect(facade).toBeDefined();
+    expect(quoteFacade).toBeDefined();
   });
 
   it('should emit data for in case seller status is provided', (done) => {
@@ -232,7 +232,7 @@ describe('QuoteHeaderSellerEditComponent', () => {
         discountType: QuoteDiscountType.ABSOLUTE,
       };
       component.onApply(QUOTE_CODE);
-      expect(facade.addDiscount).toHaveBeenCalledWith(
+      expect(quoteFacade.addDiscount).toHaveBeenCalledWith(
         QUOTE_CODE,
         expectedDiscount
       );
@@ -247,9 +247,9 @@ describe('QuoteHeaderSellerEditComponent', () => {
       (uiConfig.quote ?? {}).updateDebounceTime = undefined;
       component.ngOnInit();
       component.onSetDate(QUOTE_CODE);
-      expect(facade.editQuote).not.toHaveBeenCalled();
+      expect(quoteFacade.editQuote).not.toHaveBeenCalled();
       tick(DEFAULT_DEBOUNCE_TIME);
-      expect(facade.editQuote).toHaveBeenCalledWith(
+      expect(quoteFacade.editQuote).toHaveBeenCalledWith(
         QUOTE_CODE,
         expectedQuoteMetaData
       );
@@ -263,9 +263,9 @@ describe('QuoteHeaderSellerEditComponent', () => {
       component.onSetDate('INVALID');
       tick(DEFAULT_DEBOUNCE_TIME);
       component.onSetDate(QUOTE_CODE);
-      expect(facade.editQuote).not.toHaveBeenCalled();
+      expect(quoteFacade.editQuote).not.toHaveBeenCalled();
       tick(DEBOUNCE_TIME);
-      expect(facade.editQuote).toHaveBeenCalledWith(
+      expect(quoteFacade.editQuote).toHaveBeenCalledWith(
         QUOTE_CODE,
         expectedQuoteMetaData
       );
