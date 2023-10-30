@@ -10,12 +10,12 @@ import * as productConfigurator from './product-configurator';
 import * as asm from './asm';
 
 //toDo MS rename constants
-export const GET_QUOTE_ALIAS = '@GET_QUOTE'; //READ_QUOTE
-export const PATCH_QUOTE_ALIAS = '@PATCH_QUOTE'; //UPDATE_QUOTE_ITEM
-export const PATCH_CART_ALIAS = '@PATCH_CART'; //UPDATE_CART_ITEM
-export const DELETE_QUOTE_ALIAS = '@DELETE_QUOTE'; //DELETE_QUOTE_ITEM
-export const POST_QUOTE_ALIAS_COMMENTS = '@POST_QUOTE_COMMENTS'; //ADD_QUOTE_COMMENT
-export const POST_QUOTE_ALIAS_ACTIONS = '@POST_QUOTE_ACTIONS'; //PERFORM_QUOTE_ACTION
+export const READ_QUOTE = '@READ_QUOTE';
+export const UPDATE_QUOTE_ITEM = '@UPDATE_QUOTE_ITEM';
+export const UPDATE_CART_ITEM = '@UPDATE_CART_ITEM';
+export const DELETE_QUOTE_ITEM = '@DELETE_QUOTE_ITEM';
+export const ADD_QUOTE_COMMENT = '@ADD_QUOTE_COMMENT';
+export const PERFORM_QUOTE_ACTION = '@PERFORM_QUOTE_ACTION';
 //toDo End
 
 export const STATUS_SUBMITTED = 'Submitted';
@@ -487,8 +487,8 @@ export function changeItemQuantityByStepper(
       .contains(changeType)
       .click()
       .then(() => {
-        cy.wait(PATCH_CART_ALIAS).its('response.statusCode').should('eq', 200);
-        cy.wait(GET_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
+        cy.wait(UPDATE_CART_ITEM).its('response.statusCode').should('eq', 200);
+        cy.wait(READ_QUOTE).its('response.statusCode').should('eq', 200);
         comparePriceForQuantityStepperUpdate();
       });
   });
@@ -545,8 +545,8 @@ export function changeItemQuantityByCounter(
     cy.get(itemCounterSelector + inputSelector)
       .type('{selectall}' + newQuantity)
       .pressTab();
-    cy.wait(PATCH_CART_ALIAS).its('response.statusCode').should('eq', 200);
-    cy.wait(GET_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
+    cy.wait(UPDATE_CART_ITEM).its('response.statusCode').should('eq', 200);
+    cy.wait(READ_QUOTE).its('response.statusCode').should('eq', 200);
     comparePriceForQuantityStepperUpdate();
   });
 }
@@ -585,9 +585,7 @@ export function removeItem(itemIndex: number): void {
       .contains('Remove')
       .click()
       .then(() => {
-        cy.wait(DELETE_QUOTE_ALIAS)
-          .its('response.statusCode')
-          .should('eq', 200);
+        cy.wait(DELETE_QUOTE_ITEM).its('response.statusCode').should('eq', 200);
         cy.get(itemListRowSelector + `(${itemIndex})`).should('not.exist');
       });
   });
@@ -696,7 +694,7 @@ export function saveEditedData(): void {
         .should('exist')
         .click()
         .then(() => {
-          cy.wait(PATCH_QUOTE_ALIAS);
+          cy.wait(UPDATE_QUOTE_ITEM);
           checkQuoteHeaderOverviewPageDisplayed();
         });
     });
@@ -759,7 +757,7 @@ export function clickOnYesBtnWithinRequestPopUp(status: string): void {
           break;
         }
         case STATUS_BUYER_CANCEL: {
-          cy.wait(POST_QUOTE_ALIAS_ACTIONS)
+          cy.wait(PERFORM_QUOTE_ACTION)
             .its('response.statusCode')
             .should('eq', 200);
           cy.url().should('include', 'quotes');
@@ -863,7 +861,7 @@ export function navigateToQuoteListFromMyAccount() {
           .should('be.visible')
           .click()
           .then(() => {
-            cy.wait(GET_QUOTE_ALIAS);
+            cy.wait(READ_QUOTE);
             cy.url().should('include', 'quotes');
           });
       });
@@ -887,7 +885,7 @@ export function navigateToQuoteListFromQuoteDetails() {
           .first()
           .click()
           .then(() => {
-            cy.wait(GET_QUOTE_ALIAS);
+            cy.wait(READ_QUOTE);
             cy.url().should('include', 'quotes');
           });
       });
@@ -953,7 +951,7 @@ export function addHeaderComment(text: string) {
     cy.get(btnSelector)
       .click()
       .then(() => {
-        cy.wait(POST_QUOTE_ALIAS_COMMENTS);
+        cy.wait(ADD_QUOTE_COMMENT);
         checkCommentAmountChanged();
       });
   });
@@ -1024,9 +1022,7 @@ export function addItemComment(item: string, text: string) {
     cy.get(btnSelector)
       .click()
       .then(() => {
-        cy.wait(POST_QUOTE_ALIAS_COMMENTS)
-          .its('response.statusCode')
-          .should('eq', 201);
+        cy.wait(ADD_QUOTE_COMMENT).its('response.statusCode').should('eq', 201);
         checkCommentAmountChanged();
       });
   });
@@ -1065,7 +1061,7 @@ export function clickItemLinkInComment(index: number, item: string) {
     .contains(item)
     .click()
     .then(() => {
-      cy.get(GET_QUOTE_ALIAS);
+      cy.get(READ_QUOTE);
       cy.get(itemsSelector).should('contain', item).focused();
     });
 }
@@ -1176,7 +1172,7 @@ export function setExpiryDate() {
     .type(expiryDateString)
     .trigger('change')
     .then(() => {
-      cy.wait(PATCH_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
+      cy.wait(UPDATE_QUOTE_ITEM).its('response.statusCode').should('eq', 200);
       checkExpiryDate();
     });
 }
@@ -1281,8 +1277,8 @@ export function setDiscount(discount: string) {
   cy.get(sellerEditSelector + secondaryBtnSelector)
     .click()
     .then(() => {
-      cy.wait(PATCH_QUOTE_ALIAS).its('response.statusCode').should('eq', 200);
-      cy.wait(GET_QUOTE_ALIAS);
+      cy.wait(UPDATE_QUOTE_ITEM).its('response.statusCode').should('eq', 200);
+      cy.wait(READ_QUOTE);
       checkDiscountApplied();
     });
 }
@@ -1410,7 +1406,7 @@ export function registerGetQuoteRoute() {
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${SHOPNAME}/users/*/quotes/*`,
-  }).as(GET_QUOTE_ALIAS.substring(1)); // strip the '@'
+  }).as(READ_QUOTE.substring(1)); // strip the '@'
 }
 
 /**
@@ -1423,7 +1419,7 @@ export function registerCommentsPostQuoteRoute() {
     path: `${Cypress.env(
       'OCC_PREFIX'
     )}/${SHOPNAME}/users/**/quotes/**/comments*`,
-  }).as(POST_QUOTE_ALIAS_COMMENTS.substring(1)); // strip the '@'
+  }).as(ADD_QUOTE_COMMENT.substring(1)); // strip the '@'
 }
 
 /**
@@ -1437,7 +1433,7 @@ export function registerActionsPostQuoteRoute() {
   cy.intercept({
     method: 'POST',
     path: `${Cypress.env('OCC_PREFIX')}/${SHOPNAME}/users/**/quotes/**/action*`,
-  }).as(POST_QUOTE_ALIAS_ACTIONS.substring(1)); // strip the '@'
+  }).as(PERFORM_QUOTE_ACTION.substring(1)); // strip the '@'
 }
 
 /**
@@ -1448,7 +1444,7 @@ export function registerPatchQuoteRoute() {
   cy.intercept({
     method: 'PATCH',
     path: `${Cypress.env('OCC_PREFIX')}/${SHOPNAME}/users/**/quotes/**`,
-  }).as(PATCH_QUOTE_ALIAS.substring(1)); // strip the '@'
+  }).as(UPDATE_QUOTE_ITEM.substring(1)); // strip the '@'
 }
 
 /**
@@ -1459,7 +1455,7 @@ export function registerPatchCartRoute() {
   cy.intercept({
     method: 'PATCH',
     path: `${Cypress.env('OCC_PREFIX')}/${SHOPNAME}/users/current/carts/**`,
-  }).as(PATCH_CART_ALIAS.substring(1)); // strip the '@'
+  }).as(UPDATE_CART_ITEM.substring(1)); // strip the '@'
 }
 
 /**
@@ -1470,7 +1466,7 @@ export function registerDeleteQuoteRoute() {
   cy.intercept({
     method: 'DELETE',
     path: `${Cypress.env('OCC_PREFIX')}/${SHOPNAME}/users/current/carts/**`,
-  }).as(DELETE_QUOTE_ALIAS.substring(1)); // strip the '@'
+  }).as(DELETE_QUOTE_ITEM.substring(1)); // strip the '@'
 }
 
 /**
