@@ -9,12 +9,14 @@ import * as common from './common';
 import * as productConfigurator from './product-configurator';
 import * as asm from './asm';
 
+//toDo MS rename constants
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
 export const PATCH_QUOTE_ALIAS = '@PATCH_QUOTE';
 export const PATCH_CART_ALIAS = '@PATCH_CART';
 export const DELETE_QUOTE_ALIAS = '@DELETE_QUOTE';
 export const POST_QUOTE_ALIAS_COMMENTS = '@POST_QUOTE_COMMENTS';
 export const POST_QUOTE_ALIAS_ACTIONS = '@POST_QUOTE_ACTIONS';
+//toDo End
 
 export const STATUS_SUBMITTED = 'Submitted';
 export const STATUS_REQUESTED = 'Requested';

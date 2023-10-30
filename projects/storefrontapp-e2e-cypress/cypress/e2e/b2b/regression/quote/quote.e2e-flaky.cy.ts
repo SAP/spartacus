@@ -8,7 +8,7 @@ import * as asm from '../../../../helpers/asm';
 import * as common from '../../../../helpers/common';
 import * as quote from '../../../../helpers/quote';
 
-const POWERTOOLS = 'powertools-spa';
+const POWERTOOLS = 'powertools-spa'; //ToDo MS  replace usage with ENV variable
 const TEST_PRODUCT_HAMMER_DRILLING_ID = '3887130';
 const TEST_PRODUCT_HAMMER_DRILLING_NAME = 'DH40MR';
 const BUYER_EMAIL = 'gi.sun@pronto-hw.com';
