@@ -5,7 +5,8 @@
  */
 
 import * as asm from '../../../helpers/asm';
-import { verifyTabbingOrder } from '../tabbing-order';
+import { focusableSelectors } from '../../../support/utils/a11y-tab';
+import { verifyTabElement, verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
 
 const containerSelector = 'cx-asm-main-ui';
@@ -127,7 +128,10 @@ export function asmTabbingOrderForCustomer360CustomerCouponList(
 ) {
   lanuchPromotiontab();
   cy.get('cx-asm-customer-360-customer-coupon').within(() => {
-    verifyTabbingOrder(containerSelectorForCustomer360CouponList, config);
+    verifyTabbingOrderWithElementsLengthGte(
+      containerSelectorForCustomer360CouponList,
+      config
+    );
   });
 }
 
@@ -146,4 +150,27 @@ function lanuchPromotiontab() {
   cy.get('button').contains('Start Emulation').click();
   cy.get('button.cx-360-button').click();
   cy.get('button.cx-tab-header').contains('Promotion').click();
+}
+
+export function verifyTabbingOrderWithElementsLengthGte(
+  containerSelector: string,
+  elements: TabElement[]
+) {
+  cy.get(containerSelector)
+    .find(focusableSelectors.join(','))
+    .then((focusableElements) =>
+      focusableElements.filter((_, element) => element.offsetParent != null)
+    )
+    .as('children')
+    .should('have.length.of.at.least', elements.length);
+
+  cy.get('@children').first().focus();
+
+  elements.forEach((element: TabElement, index: number) => {
+    // skip tabbing on first element
+    if (index !== 0) {
+      cy.pressTab();
+    }
+    verifyTabElement(element);
+  });
 }
