@@ -17,7 +17,7 @@ import { QuoteListComponentService } from './quote-list-component.service';
 export class QuoteListComponent {
   protected quoteListComponentService = inject(QuoteListComponentService);
 
-  sorts = this.quoteListComponentService.sorts;
+  sorts = this.quoteListComponentService.sortOptions;
   sortLabels$ = this.quoteListComponentService.sortLabels$;
   quotesState$ = this.quoteListComponentService.quotesState$;
   dateFormat: string = 'MMMM d, YYYY h:mm aa';
@@ -25,7 +25,7 @@ export class QuoteListComponent {
 
   constructor() {
     this.changePage(0);
-    this.changeSortCode('byCode');
+    this.changeSortCode(this.quoteListComponentService.defaultSortOption);
   }
 
   changeSortCode(sortCode: string): void {

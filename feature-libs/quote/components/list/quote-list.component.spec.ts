@@ -101,7 +101,7 @@ class MockCxIconComponent {
 class MockCommerceQuotesListComponentService
   implements Partial<QuoteListComponentService>
 {
-  sorts?: SortModel[] | undefined = mockSorts;
+  sortOptions?: SortModel[] | undefined = mockSorts;
   sortLabels$ = of({
     byDate: 'sorting.date',
     byCode: 'quote.list.quoteId',
