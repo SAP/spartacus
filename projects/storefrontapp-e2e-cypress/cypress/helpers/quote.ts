@@ -10,12 +10,12 @@ import * as productConfigurator from './product-configurator';
 import * as asm from './asm';
 
 //toDo MS rename constants
-export const GET_QUOTE_ALIAS = '@GET_QUOTE';
-export const PATCH_QUOTE_ALIAS = '@PATCH_QUOTE';
-export const PATCH_CART_ALIAS = '@PATCH_CART';
-export const DELETE_QUOTE_ALIAS = '@DELETE_QUOTE';
-export const POST_QUOTE_ALIAS_COMMENTS = '@POST_QUOTE_COMMENTS';
-export const POST_QUOTE_ALIAS_ACTIONS = '@POST_QUOTE_ACTIONS';
+export const GET_QUOTE_ALIAS = '@_QUOTE'; //READ_QUOTE
+export const PATCH_QUOTE_ALIAS = '@PATCH_QUOTE'; //UPDATE_QUOTE_ITEM
+export const PATCH_CART_ALIAS = '@PATCH_CART'; //UPDATE_CART_ITEM
+export const DELETE_QUOTE_ALIAS = '@DELETE_QUOTE'; //DELETE_QUOTE_ITEM
+export const POST_QUOTE_ALIAS_COMMENTS = '@POST_QUOTE_COMMENTS'; //ADD_QUOTE_COMMENT
+export const POST_QUOTE_ALIAS_ACTIONS = '@POST_QUOTE_ACTIONS'; //PERFORM_QUOTE_ACTION
 //toDo End
 
 export const STATUS_SUBMITTED = 'Submitted';
@@ -26,6 +26,7 @@ export const STATUS_BUYER_SUBMIT = 'status_buyer_submit';
 export const STATUS_BUYER_CANCEL = 'status_buyer_cancel';
 export const STATUS_BUYER_CHECKOUT = 'status_buyer_checkout';
 export const STATUS_SALES_REPORTER_SUBMIT = 'status_sales_reporter_submit';
+const SHOPNAME = Cypress.env('BASE_SITE'); //Powertools-spa
 const STATUS_DRAFT = 'Draft';
 const CARD_TITLE_QUOTE_INFORMATION = 'Quote Information';
 const SUBMIT_BTN = 'Submit Quote';
@@ -252,24 +253,20 @@ export function login(email: string, password: string, name: string): void {
 
 /**
  * Uses a cx-login-form to log out a user.
- *
- * @param shopName Name of the current shop (Powertools)
  */
-export function logout(shopName: string): void {
+export function logout(): void {
   log('Logout buyer user', logout.name);
-  cy.visit(`${shopName}/en/USD/logout`).then(() => {
+  cy.visit(`${SHOPNAME}/en/USD/logout`).then(() => {
     cy.get('cx-login [role="link"]');
   });
 }
 
 /**
  * Enables the asm mode for the given shop.
- *
- * @param shopName Name of the shop (Powertools)
  */
-export function enableASMMode(shopName: string) {
+export function enableASMMode() {
   log('Enables the asm mode for the given shop', enableASMMode.name);
-  cy.visit(`${shopName}/en/USD/?asm=true`).then(() => {
+  cy.visit(`${SHOPNAME}/en/USD/?asm=true`).then(() => {
     cy.get('cx-asm-main-ui').should('be.visible');
   });
 }
@@ -277,13 +274,11 @@ export function enableASMMode(shopName: string) {
 /**
  * Requests a quote and verifies if it is in draft state.
  *
- * @param shopName Name of the given shop
  * @param productId Id of the product added to the quote
  * @param productAmount Amount of the product added to the quote
  * @param submitThresholdMet Defines wether the $25.000 threshold is met and the submit button is available
  */
 export function prepareQuote(
-  shopName: string,
   productId: string,
   productAmount: number,
   submitThresholdMet: boolean
@@ -292,20 +287,18 @@ export function prepareQuote(
     'Requests a quote and verifies if it is in draft state',
     prepareQuote.name
   );
-  requestQuote(shopName, productId, productAmount.toString());
+  requestQuote(productId, productAmount.toString());
   checkQuoteInDraftState(submitThresholdMet, productId);
 }
 
 /**
  * 'Requests a quote as buyer, starts asm mode and and verifies if it is in draft state.
  *
- * @param shopName Name of the given shop
  * @param salesrep_email Email of the sales reporter
  * @param salesrep_password password of the sales reporter
  * @param buyer Buyer object, containing full name and email of the buyer
  */
 export function prepareSellerQuote(
-  shopName: string,
   salesrep_email: string,
   salesrep_password: string,
   buyer: object
@@ -316,11 +309,11 @@ export function prepareSellerQuote(
   );
   submitQuote(STATUS_BUYER_SUBMIT);
   checkQuoteState(STATUS_SUBMITTED);
-  logout(shopName);
-  enableASMMode(shopName);
+  logout();
+  enableASMMode();
   asm.agentLogin(salesrep_email, salesrep_password);
   asm.startCustomerEmulation(buyer, true);
-  checkQuoteAvailableForSeller(shopName);
+  checkQuoteAvailableForSeller();
   gotToQuoteOverviewPage();
 }
 
@@ -337,11 +330,9 @@ export function checkAccountPageTemplateDisplayed() {
 
 /**
  * Verifies if the most recent created quote of the buyer is available for the seller.
- *
- * @param shopName Name of the given shop
  */
-function checkQuoteAvailableForSeller(shopName: string) {
-  const quoteListPath = `${shopName}/en/USD/my-account/quotes`;
+function checkQuoteAvailableForSeller() {
+  const quoteListPath = `${SHOPNAME}/en/USD/my-account/quotes`;
   cy.visit(quoteListPath).then(() => {
     cy.location('pathname').should('contain', quoteListPath);
     checkAccountPageTemplateDisplayed();
@@ -397,17 +388,12 @@ function waitUntilQuoteExists(
 /**
  * Requests a quote from cart and verifies the quote page is visible.
  *
- * @param shopName Name of the given shop
  * @param productName Name of the product that should be used for the quote
  * @param quantity Quantity of the product used for the quote
  */
-export function requestQuote(
-  shopName,
-  productName: string,
-  quantity: string
-): void {
+export function requestQuote(productName: string, quantity: string): void {
   log('Requests a quote from cart', requestQuote.name);
-  addProductToCart(shopName, productName, quantity);
+  addProductToCart(productName, quantity);
   clickOnRequestQuote();
   cy.url().should('contain', '/quote').as('quoteURL');
   cy.url().then((url) => {
@@ -421,17 +407,12 @@ export function requestQuote(
 /**
  * Adds a product to the cart.
  *
- * @param shopName Name of the given shop
  * @param productName Name of the product that should be used for the quote
  * @param quantity Quantity of the product used for the quote
  */
-export function addProductToCart(
-  shopName,
-  productName: string,
-  quantity: string
-): void {
+export function addProductToCart(productName: string, quantity: string): void {
   log('Adds a product to the cart', addProductToCart.name);
-  common.goToPDPage(shopName, productName);
+  common.goToPDPage(SHOPNAME, productName);
   setQuantity(quantity);
   common.clickOnAddToCartBtnOnPD();
   common.clickOnViewCartBtnOnPD();
@@ -441,16 +422,15 @@ export function addProductToCart(
  * Submits a quote via clicking "Yes" button in the confirmation popover.
  *
  * @param status Status of the submit within the quote process
- * @param shopName Name of the given shop
  */
-export function submitQuote(status: string, shopName?: string): void {
+export function submitQuote(status: string): void {
   log(
     'Submits a quote via clicking "Yes" button in the confirmation popover',
     submitQuote.name
   );
   gotToQuoteOverviewPage();
   clickSubmitQuoteBtn();
-  clickOnYesBtnWithinRequestPopUp(status, shopName);
+  clickOnYesBtnWithinRequestPopUp(status);
   gotToQuoteOverviewPage();
 }
 
@@ -763,10 +743,7 @@ export function clickEditPencil(): void {
 /**
  * Clicks on 'Yes' button within the quote confirmation popover.
  */
-export function clickOnYesBtnWithinRequestPopUp(
-  status: string,
-  shopName?: string
-): void {
+export function clickOnYesBtnWithinRequestPopUp(status: string): void {
   log(
     'Clicks on "Yes" button within the quote confirmation popover',
     clickOnYesBtnWithinRequestPopUp.name
@@ -803,7 +780,7 @@ export function clickOnYesBtnWithinRequestPopUp(
               )
                 .should('be.visible')
                 .then(() => {
-                  goToQuoteListPage(shopName);
+                  goToQuoteListPage();
                 })
                 .then(() => {
                   checkQuoteStatusInQuoteList(STATUS_VENDOR_QUOTE);
@@ -1128,11 +1105,9 @@ function clickCancelQuoteBtn() {
 
 /**
  * Navigates to the quote list page.
- *
- * @param {string} shopName - shop name
  */
-export function goToQuoteListPage(shopName: string): void {
-  const location = `${shopName}/en/USD/my-account/quotes`;
+export function goToQuoteListPage(): void {
+  const location = `${SHOPNAME}/en/USD/my-account/quotes`;
   cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
     checkAccountPageTemplateDisplayed();
@@ -1429,84 +1404,72 @@ export function addProductAndCheckForGlobalMessage(
 
 /**
  * Registers GET quote route.
- *
- * @param shopName Name of the current shop
  */
-export function registerGetQuoteRoute(shopName: string) {
+export function registerGetQuoteRoute() {
   log('Registers GET quote route.', registerGetQuoteRoute.name);
   cy.intercept({
     method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/*/quotes/*`,
+    path: `${Cypress.env('OCC_PREFIX')}/${SHOPNAME}/users/*/quotes/*`,
   }).as(GET_QUOTE_ALIAS.substring(1)); // strip the '@'
 }
 
 /**
  * Registers POST quote route for comments.
- *
- * @param shopName Name of the current shop
  */
-export function registerCommentsPostQuoteRoute(shopName: string) {
+export function registerCommentsPostQuoteRoute() {
   log('Registers POST quote route.', registerCommentsPostQuoteRoute.name);
   cy.intercept({
     method: 'POST',
     path: `${Cypress.env(
       'OCC_PREFIX'
-    )}/${shopName}/users/**/quotes/**/comments*`,
+    )}/${SHOPNAME}/users/**/quotes/**/comments*`,
   }).as(POST_QUOTE_ALIAS_COMMENTS.substring(1)); // strip the '@'
 }
 
 /**
  * Registers POST quote route for actions.
- *
- * @param shopName Name of the current shop
  */
-export function registerActionsPostQuoteRoute(shopName: string) {
+export function registerActionsPostQuoteRoute() {
   log(
     'Registers POST quote route for actions.',
     registerActionsPostQuoteRoute.name
   );
   cy.intercept({
     method: 'POST',
-    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/**/quotes/**/action*`,
+    path: `${Cypress.env('OCC_PREFIX')}/${SHOPNAME}/users/**/quotes/**/action*`,
   }).as(POST_QUOTE_ALIAS_ACTIONS.substring(1)); // strip the '@'
 }
 
 /**
  * Registers PATCH quote route.
- *
- * @param shopName Name of the current shop
  */
-export function registerPatchQuoteRoute(shopName: string) {
+export function registerPatchQuoteRoute() {
   log('Registers PATCH quote route.', registerPatchQuoteRoute.name);
   cy.intercept({
     method: 'PATCH',
-    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/**/quotes/**`,
+    path: `${Cypress.env('OCC_PREFIX')}/${SHOPNAME}/users/**/quotes/**`,
   }).as(PATCH_QUOTE_ALIAS.substring(1)); // strip the '@'
 }
 
 /**
  * Registers PATCH cart route.
- *
- * @param shopName Name of the current shop
  */
-export function registerPatchCartRoute(shopName: string) {
+export function registerPatchCartRoute() {
   log('Registers PATCH cart route.', registerPatchQuoteRoute.name);
   cy.intercept({
     method: 'PATCH',
-    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/current/carts/**`,
+    path: `${Cypress.env('OCC_PREFIX')}/${SHOPNAME}/users/current/carts/**`,
   }).as(PATCH_CART_ALIAS.substring(1)); // strip the '@'
 }
 
 /**
  * Registers DELETE quote route.
- *
- * @param shopName Name of the current shop
  */
-export function registerDeleteQuoteRoute(shopName: string) {
+export function registerDeleteQuoteRoute() {
   log('Registers DELETE quote route.', registerDeleteQuoteRoute.name);
   cy.intercept({
     method: 'DELETE',
-    path: `${Cypress.env('OCC_PREFIX')}/${shopName}/users/current/carts/**`,
+    path: `${Cypress.env('OCC_PREFIX')}/${SHOPNAME}/users/current/carts/**`,
   }).as(DELETE_QUOTE_ALIAS.substring(1)); // strip the '@'
 }
 
