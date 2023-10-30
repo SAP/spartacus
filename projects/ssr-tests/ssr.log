@@ -1,8 +1,0 @@
-
-> storefrontapp@0.0.0 serve:ssr:dev
-> cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node dist/storefrontapp-server/main.js
-
-{"message":"[spartacus] SSR optimization engine initialized","context":{"timestamp":"2023-10-24T13:57:25.929Z","options":{"concurrency":10,"timeout":3000,"forcedSsrTimeout":60000,"maxRenderTime":300000,"reuseCurrentRendering":true,"debug":false,"renderingStrategyResolver":"request=>shouldFallbackToCsr(request,options)?RenderingStrategy.ALWAYS_CSR:RenderingStrategy.DEFAULT","logger":true}}}
-Node Express server listening on http://localhost:4000
-{"message":"Rendering started (/electronics-spa/en/USD/)","context":{"timestamp":"2023-10-24T13:57:25.984Z","request":{"url":"/electronics-spa/en/USD/","uuid":"a61b1023-9ff5-48e5-8daf-7ba1f0ac521d","timeReceived":"2023-10-24T13:57:25.983Z"}}}
-{"message":"Request is waiting for the SSR rendering to complete (/electronics-spa/en/USD/)","context":{"timestamp":"2023-10-24T13:57:25.985Z","request":{"url":"/electronics-spa/en/USD/","uuid":"a61b1023-9ff5-48e5-8daf-7ba1f0ac521d","timeReceived":"2023-10-24T13:57:25.983Z"}}}
