@@ -23,7 +23,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { OrderHistoryComponent } from './order-history.component';
-import { MY_ACCOUNT_V2_ORDER } from '@spartacus/order/root';
+import { USE_MY_ACCOUNT_V2_ORDER } from '@spartacus/order/root';
 import {
   MyAccountV2OrderHistoryComponent,
   MyAccountV2OrderConsolidatedInformationComponent,
@@ -69,7 +69,7 @@ const moduleComponents = [
       },
     }),
     provideDefaultConfigFactory(() =>
-      inject(MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
+      inject(USE_MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
     ),
   ],
 })

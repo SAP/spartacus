@@ -26,6 +26,7 @@
       display: block;
       padding: 10px 5px 15px 5px;
       background-color: var(--cx-color-background);
+      border: 1px solid var(--cx-color-medium);
       width: 250px;
       height: 40px;
       margin-top: 20px;
@@ -34,7 +35,8 @@
     > nav > ul {
       > li {
         a {
-          border: 1px solid var(--cx-color-light);
+          border: 1px solid var(--cx-color-medium);
+          border-top: none; //to avoid double border
         }
         margin-bottom: 20px;
       }

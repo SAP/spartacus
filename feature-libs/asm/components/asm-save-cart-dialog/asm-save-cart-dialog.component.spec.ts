@@ -1,14 +1,23 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  EventEmitter,
+  Input,
+  Output,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { FocusDirective, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   AsmSaveCartDialogComponent,
   SAVE_CART_DIALOG_ACTION,
 } from './asm-save-cart-dialog.component';
+import { GlobalMessageType } from '@spartacus/core';
 
 @Pipe({
   name: 'cxTranslate',
@@ -35,6 +44,16 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: any) {}
 }
 
+@Component({
+  selector: 'cx-message',
+  template: '',
+})
+class MockCxMessageComponent {
+  @Input() text: string;
+  @Input() type: GlobalMessageType;
+  @Output() closeMessage = new EventEmitter();
+}
+
 describe('AsmBindCartDialogComponent', () => {
   let component: AsmSaveCartDialogComponent;
   let fixture: ComponentFixture<AsmSaveCartDialogComponent>;
@@ -44,7 +63,12 @@ describe('AsmBindCartDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AsmSaveCartDialogComponent, MockTranslatePipe],
+      declarations: [
+        AsmSaveCartDialogComponent,
+        MockTranslatePipe,
+        FocusDirective,
+        MockCxMessageComponent,
+      ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
