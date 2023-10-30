@@ -262,8 +262,8 @@ Use the following template:
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "forceConsistentCasingInFileNames": true,
-    "target": "es2020",
-    "module": "es2020",
+    "target": "es2022",
+    "module": "es2022",
     "moduleResolution": "node",
     "declaration": true,
     "declarationMap": true,
@@ -292,15 +292,15 @@ Use the following template:
 }
 ```
 
-- `tsconfig.spec.json` - add `"target": "es2020", "module": "es2020"` in `"compilerOptions"`:
+- `tsconfig.spec.json` - add `"target": "es2022", "module": "es2022"` in `"compilerOptions"`:
 
 ```json
 {
   /* ... */
   "compilerOptions": {
     /* ... */
-    "target": "es2020",
-    "module": "es2020"
+    "target": "es2022",
+    "module": "es2022"
   }
 }
 ```
