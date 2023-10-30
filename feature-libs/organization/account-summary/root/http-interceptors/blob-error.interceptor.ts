@@ -13,6 +13,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FileReaderService } from '@spartacus/storefront';
+import { WindowRef } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
@@ -20,7 +21,10 @@ import { catchError, switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class BlobErrorInterceptor implements HttpInterceptor {
-  constructor(private fileReaderService: FileReaderService) {}
+  constructor(
+    protected fileReaderService: FileReaderService,
+    protected windowRef: WindowRef
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -29,6 +33,7 @@ export class BlobErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((errResponse: any) => {
         if (
+          this.windowRef.isBrowser() &&
           errResponse instanceof HttpErrorResponse &&
           errResponse.error instanceof Blob &&
           errResponse.error.type === 'application/json'
