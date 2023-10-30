@@ -40,6 +40,11 @@
       border: 1px solid #0070f2;
       color: #ffffff;
       margin: 0 8px 0 0;
+      @include forVersion(6.6) {
+        @media (max-width: 1090px) {
+          margin: 0 8px 10px 0;
+        }
+      }
     }
   }
 
