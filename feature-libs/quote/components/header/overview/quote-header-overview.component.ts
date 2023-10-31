@@ -156,11 +156,9 @@ export class QuoteHeaderOverviewComponent {
     quote: Quote,
     expiryDate?: string | null
   ): Observable<Card> {
-    const totalPrice =
-      this.getTotalPrice(quote) ?? this.getTotalPriceDescription(quote);
     return combineLatest([
       this.translationService.translate('quote.header.overview.priceAndExpiry'),
-      this.translationService.translate('quote.header.overview.estimatedTotal'),
+      this.translationService.translate(this.getTotalPriceDescription(quote)),
       this.translationService.translate('quote.header.overview.expirationTime'),
     ]).pipe(
       map(([firstTitle, secondTitle, thirdTitle]) => {
@@ -169,7 +167,10 @@ export class QuoteHeaderOverviewComponent {
           paragraphs: [
             {
               title: secondTitle,
-              text: [totalPrice ?? QuoteHeaderOverviewComponent.NO_DATA],
+              text: [
+                this.getTotalPrice(quote) ??
+                  QuoteHeaderOverviewComponent.NO_DATA,
+              ],
             },
             {
               title: thirdTitle,

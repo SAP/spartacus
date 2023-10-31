@@ -21,7 +21,7 @@ import {
   QuoteMetadata,
 } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable, Subject, Subscription, combineLatest } from 'rxjs';
+import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, filter, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config';
 import { QuoteHeaderSellerEditComponentService } from './quote-header-seller-edit.component.service';
@@ -121,7 +121,7 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * On applying discount, the value will be sent to the facade layer
+   * Parses current discount from control and sends absolute discount to the facade layer
    * @param quoteCode Quote code
    */
   onApply(quoteCode: string): void {
@@ -145,7 +145,7 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * On setting a date, the value will be sent to the facade layer
+   * Prepares date for facade layer and sends it
    * @param quoteCode Quote code
    */
   onSetDate(quoteCode: string): void {
