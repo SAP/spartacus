@@ -538,10 +538,10 @@ describe('QuoteActionsByRoleComponent', () => {
     });
   });
 
-  describe('getDialogConfig', () => {
+  describe('getConfirmDialogConfig', () => {
     it('should throw an error if state/action are not matching', () => {
       expect(() =>
-        component['getDialogConfig'](
+        component['getConfirmDialogConfig'](
           QuoteActionType.ORDER,
           QuoteState.BUYER_DRAFT
         )
@@ -549,7 +549,7 @@ describe('QuoteActionsByRoleComponent', () => {
     });
     it('should return configured config if state/action are matching', () => {
       expect(
-        component['getDialogConfig'](
+        component['getConfirmDialogConfig'](
           QuoteActionType.EDIT,
           QuoteState.BUYER_OFFER
         )
@@ -563,7 +563,7 @@ describe('QuoteActionsByRoleComponent', () => {
     });
     it('should return configured config if action with ALL role is matching', () => {
       expect(
-        component['getDialogConfig'](
+        component['getConfirmDialogConfig'](
           QuoteActionType.EDIT,
           QuoteState.BUYER_DRAFT
         )
