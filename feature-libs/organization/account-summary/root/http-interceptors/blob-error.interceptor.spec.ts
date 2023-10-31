@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -14,10 +14,12 @@ import { TestBed } from '@angular/core/testing';
 import { FileReaderService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
 import { BlobErrorInterceptor } from './blob-error.interceptor';
+import { WindowRef } from '@spartacus/core';
 
 describe('BlobErrorInterceptor', () => {
   let httpMock: HttpTestingController;
   let http: HttpClient;
+  let windowRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,9 +36,12 @@ describe('BlobErrorInterceptor', () => {
 
     httpMock = TestBed.inject(HttpTestingController);
     http = TestBed.inject(HttpClient);
+    windowRef = TestBed.inject(WindowRef);
   });
 
-  it(`Should extract json from errors wrapped in blob`, async () => {
+  it(`Should extract json from errors wrapped in blob`, (done) => {
+    spyOn(windowRef, 'isBrowser').and.returnValue(true);
+
     http
       .get('/occ', { responseType: 'blob' as 'json' })
       .pipe(take(1))
@@ -62,5 +67,8 @@ describe('BlobErrorInterceptor', () => {
       status: 401,
       statusText: 'Unauthorized',
     });
+
+    expect(windowRef.isBrowser).toHaveBeenCalled();
+    done();
   });
 });

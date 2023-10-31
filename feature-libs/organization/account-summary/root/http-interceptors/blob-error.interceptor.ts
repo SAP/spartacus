@@ -11,7 +11,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { FileReaderService } from '@spartacus/storefront';
 import { WindowRef } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
@@ -21,10 +21,8 @@ import { catchError, switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class BlobErrorInterceptor implements HttpInterceptor {
-  constructor(
-    protected fileReaderService: FileReaderService,
-    protected windowRef: WindowRef
-  ) {}
+  fileReaderService = inject(FileReaderService);
+  windowRef = inject(WindowRef);
 
   intercept(
     request: HttpRequest<any>,
