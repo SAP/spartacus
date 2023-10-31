@@ -46,7 +46,7 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
-   * Determines owner for an entry (can be part of cart, order or quote)
+   * Retrieves owner for an entry (can be part of cart, order or quote)
    *
    * @returns - an owner type
    */
@@ -122,7 +122,7 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
-   * Returns a document code in case the entry is order or quote bound. In this case the code
+   * Retrieves a document code in case the entry is order or quote bound. In this case the code
    * represents order or quote ID
    * @returns Document code if order or quote bound, undefined in other cases
    */

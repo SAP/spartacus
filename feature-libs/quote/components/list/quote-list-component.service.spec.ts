@@ -1,20 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  QuoteFacade,
-  Quote,
-  QuoteActionType,
-  QuoteList,
-} from '@spartacus/quote/root';
-import {
   I18nTestingModule,
   PaginationModel,
   QueryState,
   TranslationService,
 } from '@spartacus/core';
+import {
+  Quote,
+  QuoteActionType,
+  QuoteFacade,
+  QuoteList,
+} from '@spartacus/quote/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { QuoteListComponentService as QuoteListComponentService } from './quote-list-component.service';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { QuoteListComponentService } from './quote-list-component.service';
 import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
@@ -129,7 +129,7 @@ describe('QuoteListComponentService', () => {
     //then
     service.quotesState$.pipe(take(1)).subscribe(() => {
       // expect(warnSpy).toHaveBeenCalledTimes(1);
-      expect(service.sorts).toEqual(mockSorts);
+      expect(service.sortOptions).toEqual(mockSorts);
     });
     done();
   });
@@ -139,7 +139,7 @@ describe('QuoteListComponentService', () => {
     const sort = 'byDate';
 
     //when
-    service.setSort(sort);
+    service.setSorting(sort);
 
     //then
     service['sort'].subscribe((result) => {
@@ -152,7 +152,7 @@ describe('QuoteListComponentService', () => {
     const currentPage = 5;
 
     //when
-    service.setCurrentPage(currentPage);
+    service.setPage(currentPage);
 
     //then
     service['currentPage'].subscribe((result) => {

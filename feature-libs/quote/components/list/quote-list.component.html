@@ -20,7 +20,7 @@
             <cx-sorting
               [sortOptions]="sorts"
               [sortLabels]="sortLabels$ | async"
-              (sortListEvent)="changeSortCode($event)"
+              (sortListEvent)="changeSorting($event)"
               [selectedOption]="quotesState.data.pagination.sort"
               placeholder="{{ 'quote.list.sortBy' | cxTranslate }}"
               [ariaLabel]="'quote.list.sortQuotes' | cxTranslate"

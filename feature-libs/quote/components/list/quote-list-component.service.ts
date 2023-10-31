@@ -5,8 +5,8 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { QuoteFacade, QuoteList } from '@spartacus/quote/root';
 import { QueryState, SortModel, TranslationService } from '@spartacus/core';
+import { QuoteFacade, QuoteList } from '@spartacus/quote/root';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 
@@ -14,13 +14,14 @@ import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 export class QuoteListComponentService {
   protected quoteFacade = inject(QuoteFacade);
   protected translationService = inject(TranslationService);
+  readonly defaultSortOption = 'byCode';
 
-  protected sort = new BehaviorSubject('byCode');
+  protected sort = new BehaviorSubject(this.defaultSortOption);
   protected currentPage = new BehaviorSubject(0);
 
   //TODO: temporary solution caused by gaps in the API. Refer to
   //https://jira.tools.sap/browse/CXEC-31715
-  sorts: SortModel[] = [
+  sortOptions: SortModel[] = [
     { code: 'byDate' },
     { code: 'byCode' },
     { code: 'byName' },
@@ -37,7 +38,7 @@ export class QuoteListComponentService {
     .pipe(
       tap((quotesState: QueryState<QuoteList | undefined>) => {
         if (quotesState.data?.sorts) {
-          this.sorts = quotesState.data.sorts;
+          this.sortOptions = quotesState.data.sorts;
         }
       })
     );
@@ -65,11 +66,19 @@ export class QuoteListComponentService {
     )
   );
 
-  setSort(sort: string): void {
+  /**
+   * Sets sorting for quote list
+   * @param sort Code of desired sort option that will be applied to the quote list
+   */
+  setSorting(sort: string): void {
     this.sort.next(sort);
   }
 
-  setCurrentPage(page: number): void {
+  /**
+   * Sets current page
+   * @param page number of page that will be applied to the quote list
+   */
+  setPage(page: number): void {
     this.currentPage.next(page);
   }
 }
