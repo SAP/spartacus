@@ -26,7 +26,6 @@ import {
   RouterState,
   RoutingService,
   UserIdService,
-  WindowRef,
 } from '@spartacus/core';
 import { ViewConfig } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
@@ -37,6 +36,7 @@ import { createEmptyQuote, QUOTE_CODE } from '../testing/quote-test-utils';
 import createSpy = jasmine.createSpy;
 import { CartUtilsService } from '../services/cart-utils.service';
 import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
+import { QuoteStorefrontUtilsService } from '../services';
 
 const userId = OCC_USER_ID_CURRENT;
 const cartId = '1234';
@@ -159,14 +159,11 @@ describe('QuoteService', () => {
   let quoteCartService: QuoteCartService;
   let cartUtilsService: CartUtilsService;
   let globalMessageService: GlobalMessageService;
-  let windowRef: WindowRef;
+  let quoteStorefrontUtilsService: QuoteStorefrontUtilsService;
 
   beforeEach(() => {
-    let mockedWindowRef = {
-      isBrowser: createSpy().and.returnValue(of(true)),
-      document: {
-        querySelector: createSpy(),
-      },
+    let mockedQuoteStorefontUtilsService = {
+      getElement: createSpy(),
     };
 
     TestBed.configureTestingModule({
@@ -185,7 +182,10 @@ describe('QuoteService', () => {
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: QuoteCartService, useClass: MockQuoteCartService },
         { provide: CartUtilsService, useClass: MockCartUtilsService },
-        { provide: WindowRef, useValue: mockedWindowRef },
+        {
+          provide: QuoteStorefrontUtilsService,
+          useValue: mockedQuoteStorefontUtilsService,
+        },
       ],
     });
 
@@ -199,7 +199,7 @@ describe('QuoteService', () => {
     quoteCartService = TestBed.inject(QuoteCartService);
     cartUtilsService = TestBed.inject(CartUtilsService);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    windowRef = TestBed.inject(WindowRef);
+    quoteStorefrontUtilsService = TestBed.inject(QuoteStorefrontUtilsService);
 
     isQuoteCartActive = false;
     quoteId = '';
@@ -392,23 +392,23 @@ describe('QuoteService', () => {
   });
 
   describe('setFocusForCreateOrEditAction', () => {
-    it('should call querySelector method if action type is CREATE for setting focus', () => {
+    it('should call getElement method of QuoteStorefrontUtilsService if action type is CREATE for setting focus', () => {
       service['setFocusForCreateOrEditAction'](QuoteActionType.CREATE);
-      expect(windowRef.document.querySelector).toHaveBeenCalledWith(
+      expect(quoteStorefrontUtilsService.getElement).toHaveBeenCalledWith(
         'cx-storefront'
       );
     });
 
-    it('should call querySelector method if action type is EDIT for setting focus', () => {
+    it('should call getElement method of QuoteStorefrontUtilsService if action type is EDIT for setting focus', () => {
       service['setFocusForCreateOrEditAction'](QuoteActionType.EDIT);
-      expect(windowRef.document.querySelector).toHaveBeenCalledWith(
+      expect(quoteStorefrontUtilsService.getElement).toHaveBeenCalledWith(
         'cx-storefront'
       );
     });
 
-    it('should not call querySelector method if action type is not EDIT or CREATE', () => {
+    it('should not call getElement method of QuoteStorefrontUtilsService if action type is not EDIT or CREATE', () => {
       service['setFocusForCreateOrEditAction'](QuoteActionType.CANCEL);
-      expect(windowRef.document.querySelector).not.toHaveBeenCalledWith(
+      expect(quoteStorefrontUtilsService.getElement).not.toHaveBeenCalledWith(
         'cx-storefront'
       );
     });

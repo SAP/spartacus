@@ -20,7 +20,6 @@ import {
   QueryState,
   RoutingService,
   UserIdService,
-  WindowRef,
   uniteLatest,
 } from '@spartacus/core';
 import {
@@ -59,6 +58,7 @@ import {
 import { QuoteConnector } from '../connectors/quote.connector';
 import { CartUtilsService } from '../services/cart-utils.service';
 import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
+import { QuoteStorefrontUtilsService } from '../services/quote-storefront-utils.service';
 
 @Injectable()
 export class QuoteService implements QuoteFacade {
@@ -74,7 +74,7 @@ export class QuoteService implements QuoteFacade {
   protected quoteCartService = inject(QuoteCartService);
   protected cartUtilsService = inject(CartUtilsService);
   protected globalMessageService = inject(GlobalMessageService);
-  protected windowRef = inject(WindowRef);
+  protected quoteStorefrontUtilsService = inject(QuoteStorefrontUtilsService);
 
   /**
    * Indicator whether an action is currently performing.
@@ -423,13 +423,9 @@ export class QuoteService implements QuoteFacade {
     );
 
   protected setFocusForCreateOrEditAction(action: QuoteActionType) {
-    if (
-      (action === QuoteActionType.EDIT || action === QuoteActionType.CREATE) &&
-      this.windowRef.isBrowser()
-    ) {
-      const storefrontElement = this.windowRef.document.querySelector(
-        'cx-storefront'
-      ) as HTMLElement;
+    if (action === QuoteActionType.EDIT || action === QuoteActionType.CREATE) {
+      const storefrontElement =
+        this.quoteStorefrontUtilsService.getElement('cx-storefront');
       if (storefrontElement) {
         storefrontElement.focus();
       }
