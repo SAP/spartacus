@@ -2,6 +2,7 @@ import {
   Component,
   DebugElement,
   EventEmitter,
+  Injectable,
   Input,
   Output,
 } from '@angular/core';
@@ -17,12 +18,17 @@ import {
 import {
   AuthService,
   FeatureConfigService,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
   User,
 } from '@spartacus/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
@@ -32,6 +38,14 @@ class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of(false);
   }
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
 
 class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
@@ -125,7 +139,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
-
+@Injectable()
 class MockAsmComponentService extends AsmComponentService {
   logoutCustomerSupportAgentAndCustomer(): void {}
   unload() {}
@@ -163,7 +177,7 @@ describe('AsmMainUiComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
+        imports: [I18nTestingModule, FeaturesConfigModule],
         declarations: [
           AsmMainUiComponent,
           MockAsmToggleUiComponent,
@@ -171,6 +185,7 @@ describe('AsmMainUiComponent', () => {
           MockCustomerSelectionComponent,
           MockAsmSessionTimerComponent,
           MockCustomerEmulationComponent,
+          MockCxIconComponent,
         ],
         providers: [
           { provide: AuthService, useClass: MockAuthService },
