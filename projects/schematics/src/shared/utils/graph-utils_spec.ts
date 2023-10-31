@@ -6,7 +6,6 @@ import {
   SPARTACUS_CDC,
   SPARTACUS_CDS,
   SPARTACUS_CHECKOUT,
-  SPARTACUS_QUOTE,
   SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
@@ -17,6 +16,7 @@ import {
   SPARTACUS_PRODUCT,
   SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_QUALTRICS,
+  SPARTACUS_QUOTE,
   SPARTACUS_REQUESTED_DELIVERY_DATE,
   SPARTACUS_S4OM,
   SPARTACUS_SEGMENT_REFS,
@@ -26,9 +26,9 @@ import {
   SPARTACUS_USER,
 } from '../libs-constants';
 import {
+  Graph,
   crossFeatureInstallationOrder,
   crossLibraryInstallationOrder,
-  Graph,
   kahnsAlgorithm,
 } from './graph-utils';
 
@@ -159,7 +159,6 @@ describe('Graph utils', () => {
     it('should generate the correct installation order', () => {
       expect(crossFeatureInstallationOrder).toMatchInlineSnapshot(`
         [
-          [
           "User-Account",
           "User-Profile",
           "Cart",
