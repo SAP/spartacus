@@ -86,11 +86,6 @@ export function checkout(): void {
       cy.get('cx-delivery-mode').should('be.visible');
     });
 
-  cy.log('choose first delivery method');
-  cy.get('cx-delivery-mode input#deliveryMode-premium-gross').first().click({
-    force: true,
-  });
-
   cy.log("Navigate to the next step 'Payment details' tab");
   cy.get('button.btn-primary')
     .contains('Continue')
