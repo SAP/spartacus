@@ -183,6 +183,7 @@ export class AsmCustomer360CustomerCouponComponent
   }
 
   public disclaimCouponToCustomer(entry: CustomerCouponEntry): void {
+    this.customerCouponService.resetDisclaimCustomerCoupon();
     this.customerCouponService.disclaimCustomerCoupon(entry.codeForApplyAction);
     this.refreshActionButton(entry?.codeForApplyAction);
   }
