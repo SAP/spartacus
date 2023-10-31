@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
-import { QuoteHeaderSellerEditComponentService } from './quote-header-seller-edit.component.service';
-import { CurrencyService, LanguageService, TimeUtils } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { Quote, QuoteState } from '@spartacus/quote/root';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { CurrencyService, LanguageService, TimeUtils } from '@spartacus/core';
+import { Quote, QuoteState } from '@spartacus/quote/root';
+import { Observable, of } from 'rxjs';
 import {
   EXPIRATION_DATE_AS_STRING,
   EXPIRATION_TIME_AS_STRING,
   createEmptyQuote,
 } from '../../../core/testing/quote-test-utils';
+import { QuoteHeaderSellerEditComponentService } from './quote-header-seller-edit.component.service';
 
 const TOTAL_PRICE = 1000;
 const DISCOUNT_RATE = 10000;
@@ -52,7 +52,7 @@ describe('QuoteHeaderSellerEditComponentService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('isEditableForSeller', () => {
+  describe('isEditable', () => {
     it('should allow seller edit for editable quote in state draft', () => {
       expect(service.isEditable(quote)).toBe(true);
     });

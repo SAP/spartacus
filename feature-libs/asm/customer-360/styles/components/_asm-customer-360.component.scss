@@ -229,4 +229,44 @@
       color: #1d2d3e;
     }
   }
+
+  @media (max-width: 575px) {
+    .cx-asm-customer-360 {
+      align-items: flex-start !important;
+      .cx-dialog-header {
+        .header-content {
+          margin-top: 1rem;
+          .header-profile-details {
+            margin-bottom: 1rem;
+            .header-profile-details-info {
+              .cx-avatar {
+                font-size: 1rem;
+                flex-shrink: 0;
+                width: 2.25rem;
+                height: 2.25rem;
+                line-height: 2.25rem;
+              }
+              .cx-avatar-image {
+                cx-media {
+                  img {
+                    min-width: 2.25rem;
+                    width: 2.25rem;
+                    height: 2.25rem;
+                  }
+                }
+              }
+            }
+          }
+          .header-account-details {
+            span {
+              margin: 0;
+            }
+          }
+        }
+      }
+      .cx-tab-headers {
+        padding: 1rem 0 0 0;
+      }
+    }
+  }
 }

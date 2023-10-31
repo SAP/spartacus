@@ -80,14 +80,14 @@ describe('QuoteHeaderPriceComponent', () => {
       expect,
       htmlElem,
       '.cx-price-row',
-      '.orderDiscount  $5.99',
+      '.productDiscount  $50.00',
       1
     );
     TestUtil.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-price-row',
-      '.productDiscount  $50.00',
+      '.orderDiscount  $5.99',
       2
     );
     TestUtil.expectElementToContainText(

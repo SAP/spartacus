@@ -53,10 +53,7 @@ export abstract class QuoteFacade {
   /**
    * Edit quote name, description or expiry date.
    */
-  abstract editQuote(
-    quoteCode: string,
-    quoteMetadata: QuoteMetadata
-  ): Observable<unknown>;
+  abstract editQuote(quoteCode: string, quoteMetadata: QuoteMetadata): void;
 
   /**
    * Adds a comment to a quote. If an entry number is provided,
