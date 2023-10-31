@@ -25,15 +25,23 @@ export class QuoteListComponent {
 
   constructor() {
     this.changePage(0);
-    this.changeSortCode(this.quoteListComponentService.defaultSortOption);
+    this.changeSorting(this.quoteListComponentService.defaultSortOption);
   }
 
-  changeSortCode(sortCode: string): void {
-    this.quoteListComponentService.setSort(sortCode);
+  /**
+   * Changes current sorting
+   * @param sortCode Identifies sort option that should be applied
+   */
+  changeSorting(sortCode: string): void {
+    this.quoteListComponentService.setSorting(sortCode);
   }
 
+  /**
+   * Changes current page
+   * @param page Desired page number
+   */
   changePage(page: number): void {
-    this.quoteListComponentService.setCurrentPage(page);
+    this.quoteListComponentService.setPage(page);
   }
 
   /**

@@ -139,7 +139,7 @@ describe('QuoteListComponentService', () => {
     const sort = 'byDate';
 
     //when
-    service.setSort(sort);
+    service.setSorting(sort);
 
     //then
     service['sort'].subscribe((result) => {
@@ -152,7 +152,7 @@ describe('QuoteListComponentService', () => {
     const currentPage = 5;
 
     //when
-    service.setCurrentPage(currentPage);
+    service.setPage(currentPage);
 
     //then
     service['currentPage'].subscribe((result) => {
