@@ -42,6 +42,13 @@ describe('SSR', () => {
     seoChecks();
   });
 
+  it('should not flicker on PLP', () => {
+    cy.visit(plpUrl);
+    const products = cy.get('cx-product-list-item');
+    cy.wait(3_000); // Wait some time for DOM to detach if extra requests occur.
+    products.should('be.visible');
+  });
+
   it('should render PDP', () => {
     cy.visit(pdpUrl);
     seoChecks();
