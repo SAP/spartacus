@@ -6,17 +6,6 @@ import {
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
 import {
-  Comment,
-  Quote,
-  QuoteActionType,
-  QuoteCartService,
-  QuoteDiscount,
-  QuoteDiscountType,
-  QuoteList,
-  QuoteMetadata,
-  QuotesStateParams,
-} from '@spartacus/quote/root';
-import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -27,15 +16,26 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
+import {
+  Comment,
+  Quote,
+  QuoteActionType,
+  QuoteCartService,
+  QuoteDiscount,
+  QuoteDiscountType,
+  QuoteList,
+  QuoteMetadata,
+  QuotesStateParams,
+} from '@spartacus/quote/root';
 import { ViewConfig } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors';
-import { QuoteService } from './quote.service';
-import { createEmptyQuote, QUOTE_CODE } from '../testing/quote-test-utils';
-import createSpy = jasmine.createSpy;
-import { CartUtilsService } from '../services/cart-utils.service';
 import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
+import { CartUtilsService } from '../services/cart-utils.service';
+import { createEmptyQuote, QUOTE_CODE } from '../testing/quote-test-utils';
+import { QuoteService } from './quote.service';
+import createSpy = jasmine.createSpy;
 
 const userId = OCC_USER_ID_CURRENT;
 const cartId = '1234';
@@ -148,10 +148,10 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 }
 
 describe('QuoteService', () => {
-  let service: QuoteService;
-  let connector: QuoteConnector;
+  let classUnderTest: QuoteService;
+  let quoteConnector: QuoteConnector;
   let eventService: EventService;
-  let config: ViewConfig;
+  let viewConfig: ViewConfig;
   let multiCartFacade: MultiCartFacade;
   let activeCartFacade: ActiveCartFacade;
   let routingService: RoutingService;
@@ -179,10 +179,10 @@ describe('QuoteService', () => {
       ],
     });
 
-    service = TestBed.inject(QuoteService);
-    connector = TestBed.inject(QuoteConnector);
+    classUnderTest = TestBed.inject(QuoteService);
+    quoteConnector = TestBed.inject(QuoteConnector);
     eventService = TestBed.inject(EventService);
-    config = TestBed.inject(ViewConfig);
+    viewConfig = TestBed.inject(ViewConfig);
     multiCartFacade = TestBed.inject(MultiCartFacade);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
     routingService = TestBed.inject(RoutingService);
@@ -208,7 +208,7 @@ describe('QuoteService', () => {
     done: any
   ) {
     quoteActionResult
-      .pipe(switchMap(() => service['isActionPerforming$']))
+      .pipe(switchMap(() => classUnderTest['isActionPerforming$']))
       .subscribe((isPerforming) => {
         expect(isPerforming).toBe(false);
         done();
@@ -223,11 +223,14 @@ describe('QuoteService', () => {
   ));
 
   it('should return quotes after calling quoteConnector.getQuotes', () => {
-    service
+    classUnderTest
       .getQuotesState(mockQuotesStateParams)
       .pipe(take(1))
       .subscribe((state) => {
-        expect(connector.getQuotes).toHaveBeenCalledWith(userId, pagination);
+        expect(quoteConnector.getQuotes).toHaveBeenCalledWith(
+          userId,
+          pagination
+        );
         expect(state).toEqual(<QueryState<QuoteList | undefined>>{
           loading: false,
           error: false,
@@ -238,14 +241,14 @@ describe('QuoteService', () => {
 
   it('should return quotes after calling quoteConnector.getQuotes with default CMS page size if not set', () => {
     //given
-    config.view = undefined;
+    viewConfig.view = undefined;
 
     //then
-    service
+    classUnderTest
       .getQuotesState(mockQuotesStateParams)
       .pipe(take(1))
       .subscribe((state) => {
-        expect(connector.getQuotes).toHaveBeenCalledWith(userId, {
+        expect(quoteConnector.getQuotes).toHaveBeenCalledWith(userId, {
           ...pagination,
           pageSize: undefined,
         });
@@ -258,7 +261,7 @@ describe('QuoteService', () => {
   });
 
   it('should signal that quote details need to be re-read when performing search', () => {
-    service
+    classUnderTest
       .getQuotesState(mockQuotesStateParams)
       .pipe(take(1))
       .subscribe(() => {
@@ -270,11 +273,11 @@ describe('QuoteService', () => {
   });
 
   it('should return quote details query state after calling quoteConnector.getQuote', () => {
-    service
+    classUnderTest
       .getQuoteDetailsQueryState()
       .pipe(take(1))
       .subscribe((details) => {
-        expect(connector.getQuote).toHaveBeenCalledWith(
+        expect(quoteConnector.getQuote).toHaveBeenCalledWith(
           userId,
           routeParams.quoteId
         );
@@ -285,11 +288,11 @@ describe('QuoteService', () => {
 
   describe('getQuoteDetails', () => {
     it('should return quote details after calling quoteConnector.getQuote', () => {
-      service
+      classUnderTest
         .getQuoteDetails()
         .pipe(take(1))
         .subscribe((details) => {
-          expect(connector.getQuote).toHaveBeenCalledWith(
+          expect(quoteConnector.getQuote).toHaveBeenCalledWith(
             userId,
             routeParams.quoteId
           );
@@ -300,7 +303,7 @@ describe('QuoteService', () => {
     it('should wait until active cart has been loaded', (done) => {
       isQuoteCartActive = true;
       quoteId = quote.code;
-      service
+      classUnderTest
         .getQuoteDetails()
         .pipe(take(1))
         .subscribe((details) => {
@@ -313,11 +316,11 @@ describe('QuoteService', () => {
     it('should call connector once if isStable emits twice', () => {
       isQuoteCartActive = true;
       quoteId = quote.code;
-      service
+      classUnderTest
         .getQuoteDetails()
         .pipe()
         .subscribe(() => {
-          expect(connector.getQuote).toHaveBeenCalledTimes(1);
+          expect(quoteConnector.getQuote).toHaveBeenCalledTimes(1);
         });
     });
   });
@@ -328,51 +331,45 @@ describe('QuoteService', () => {
       discountType: QuoteDiscountType.ABSOLUTE,
     };
     it('should call respective connector method ', () => {
-      service
-        .addDiscount(QUOTE_CODE, discount)
-        .pipe(take(1))
-        .subscribe(() => {
-          expect(connector.addDiscount).toHaveBeenCalledWith(
-            userId,
-            QUOTE_CODE,
-            discount
-          );
-        });
+      classUnderTest.addDiscount(QUOTE_CODE, discount);
+
+      expect(quoteConnector.addDiscount).toHaveBeenCalledWith(
+        userId,
+        QUOTE_CODE,
+        discount
+      );
     });
   });
 
   it('should call createQuote command', () => {
-    service
+    classUnderTest
       .createQuote(quoteMetaData)
       .pipe(take(1))
       .subscribe((quote) => {
-        expect(connector.createQuote).toHaveBeenCalled();
+        expect(quoteConnector.createQuote).toHaveBeenCalled();
         expect(quote.code).toEqual(quote.code);
-        expect(connector.editQuote).toHaveBeenCalled();
+        expect(quoteConnector.editQuote).toHaveBeenCalled();
         expect(multiCartFacade.loadCart).toHaveBeenCalled();
         expect(eventService.dispatch).toHaveBeenCalled();
       });
   });
 
   it('should call editQuote command', () => {
-    service
-      .editQuote(quote.code, quoteMetaData)
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(connector.editQuote).toHaveBeenCalledWith(
-          userId,
-          quote.code,
-          quoteMetaData
-        );
-      });
+    classUnderTest.editQuote(quote.code, quoteMetaData);
+
+    expect(quoteConnector.editQuote).toHaveBeenCalledWith(
+      userId,
+      quote.code,
+      quoteMetaData
+    );
   });
 
   it('should call addQuoteComment command', () => {
-    service
+    classUnderTest
       .addQuoteComment(quote.code, quoteComment)
       .pipe(take(1))
       .subscribe(() => {
-        expect(connector.addComment).toHaveBeenCalledWith(
+        expect(quoteConnector.addComment).toHaveBeenCalledWith(
           userId,
           quote.code,
           quoteComment
@@ -382,31 +379,35 @@ describe('QuoteService', () => {
 
   describe('performQuoteAction', () => {
     it('should call respective connector method', (done) => {
-      service.performQuoteAction(quote, quoteAction.type).subscribe(() => {
-        expect(connector.performQuoteAction).toHaveBeenCalledWith(
-          userId,
-          quote.code,
-          quoteAction.type
-        );
-        done();
-      });
+      classUnderTest
+        .performQuoteAction(quote, quoteAction.type)
+        .subscribe(() => {
+          expect(quoteConnector.performQuoteAction).toHaveBeenCalledWith(
+            userId,
+            quote.code,
+            quoteAction.type
+          );
+          done();
+        });
     });
 
     it('should raise re-load event', (done) => {
-      service.performQuoteAction(quote, quoteAction.type).subscribe(() => {
-        expect(eventService.dispatch).toHaveBeenCalledWith(
-          {},
-          QuoteDetailsReloadQueryEvent
-        );
-        done();
-      });
+      classUnderTest
+        .performQuoteAction(quote, quoteAction.type)
+        .subscribe(() => {
+          expect(eventService.dispatch).toHaveBeenCalledWith(
+            {},
+            QuoteDetailsReloadQueryEvent
+          );
+          done();
+        });
     });
 
     it('should raise re-load event, even if action fails', (done) => {
-      connector.performQuoteAction = createSpy().and.returnValue(
+      quoteConnector.performQuoteAction = createSpy().and.returnValue(
         throwError({})
       );
-      service.performQuoteAction(quote, quoteAction.type).subscribe({
+      classUnderTest.performQuoteAction(quote, quoteAction.type).subscribe({
         error: () => {
           expect(eventService.dispatch).toHaveBeenCalledWith(
             {},
@@ -419,7 +420,7 @@ describe('QuoteService', () => {
 
     describe('on submit', () => {
       it('should create new cart and navigate to quote list, but not reload', (done) => {
-        service
+        classUnderTest
           .performQuoteAction(quote, QuoteActionType.SUBMIT)
           .subscribe(() => {
             expect(
@@ -435,7 +436,7 @@ describe('QuoteService', () => {
 
       it('should set loading state to false when action is completed', (done) => {
         checkNoActionPerforming(
-          service.performQuoteAction(quote, QuoteActionType.SUBMIT),
+          classUnderTest.performQuoteAction(quote, QuoteActionType.SUBMIT),
           done
         );
       });
@@ -443,7 +444,7 @@ describe('QuoteService', () => {
 
     describe('on cancel', () => {
       it('should create new cart and navigate to quote list', (done) => {
-        service
+        classUnderTest
           .performQuoteAction(quote, QuoteActionType.CANCEL)
           .subscribe(() => {
             expect(
@@ -455,7 +456,7 @@ describe('QuoteService', () => {
 
       it('should set loading state to false when action is completed', (done) => {
         checkNoActionPerforming(
-          service.performQuoteAction(quote, QuoteActionType.CANCEL),
+          classUnderTest.performQuoteAction(quote, QuoteActionType.CANCEL),
           done
         );
       });
@@ -463,7 +464,7 @@ describe('QuoteService', () => {
 
     describe('on edit', () => {
       it('should load quote cart', (done) => {
-        service
+        classUnderTest
           .performQuoteAction(quote, QuoteActionType.EDIT)
           .subscribe(() => {
             checkQuoteCartFacadeCalls();
@@ -472,7 +473,7 @@ describe('QuoteService', () => {
       });
 
       it('should trigger a quote refresh', (done) => {
-        service
+        classUnderTest
           .performQuoteAction(quote, QuoteActionType.EDIT)
           .subscribe(() => {
             expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -484,17 +485,20 @@ describe('QuoteService', () => {
       });
 
       it('should trigger quote re-read in case quote does not carry a cart id', (done) => {
-        service
+        classUnderTest
           .performQuoteAction(quoteWithoutCartId, QuoteActionType.EDIT)
           .subscribe(() => {
-            expect(connector.getQuote).toHaveBeenCalledWith(userId, quote.code);
+            expect(quoteConnector.getQuote).toHaveBeenCalledWith(
+              userId,
+              quote.code
+            );
             done();
           });
       });
 
       it('should set loading state to false when action is completed', (done) => {
         checkNoActionPerforming(
-          service.performQuoteAction(quote, QuoteActionType.EDIT),
+          classUnderTest.performQuoteAction(quote, QuoteActionType.EDIT),
           done
         );
       });
@@ -502,7 +506,7 @@ describe('QuoteService', () => {
 
     describe('on checkout', () => {
       it('should load cart on checkout and signal that checkout is allowed', (done) => {
-        service
+        classUnderTest
           .performQuoteAction(quote, QuoteActionType.CHECKOUT)
           .subscribe(() => {
             checkQuoteCartFacadeCalls();
@@ -514,7 +518,7 @@ describe('QuoteService', () => {
       });
 
       it('should navigate to checkout', (done) => {
-        service
+        classUnderTest
           .performQuoteAction(quote, QuoteActionType.CHECKOUT)
           .subscribe(() => {
             expect(routingService.go).toHaveBeenCalledWith({
@@ -526,7 +530,7 @@ describe('QuoteService', () => {
 
       it('should set loading state to false when action is completed', (done) => {
         checkNoActionPerforming(
-          service.performQuoteAction(quote, QuoteActionType.CHECKOUT),
+          classUnderTest.performQuoteAction(quote, QuoteActionType.CHECKOUT),
           done
         );
       });
@@ -535,7 +539,7 @@ describe('QuoteService', () => {
     describe('on reject', () => {
       it('should set loading state to false when action is completed', (done) => {
         checkNoActionPerforming(
-          service.performQuoteAction(quote, QuoteActionType.REJECT),
+          classUnderTest.performQuoteAction(quote, QuoteActionType.REJECT),
           done
         );
       });
@@ -543,11 +547,11 @@ describe('QuoteService', () => {
   });
 
   it('should call addQuoteComment command when called with empty string of an entry number', () => {
-    service
+    classUnderTest
       .addQuoteComment(quote.code, quoteComment, '')
       .pipe(take(1))
       .subscribe(() => {
-        expect(connector.addComment).toHaveBeenCalledWith(
+        expect(quoteConnector.addComment).toHaveBeenCalledWith(
           userId,
           quote.code,
           quoteComment
@@ -556,11 +560,11 @@ describe('QuoteService', () => {
   });
 
   it('should call addQuoteEntryComment command when an entry number is provided', () => {
-    service
+    classUnderTest
       .addQuoteComment(quote.code, quoteComment, '0')
       .pipe(take(1))
       .subscribe(() => {
-        expect(connector.addQuoteEntryComment).toHaveBeenCalledWith(
+        expect(quoteConnector.addQuoteEntryComment).toHaveBeenCalledWith(
           userId,
           quote.code,
           '0',
@@ -570,11 +574,11 @@ describe('QuoteService', () => {
   });
   describe('requote', () => {
     it('should call requote command and return new quote', () => {
-      service
+      classUnderTest
         .requote(quote.code)
         .pipe(take(1))
         .subscribe((reQuoted) => {
-          expect(connector.createQuote).toHaveBeenCalledWith(userId, {
+          expect(quoteConnector.createQuote).toHaveBeenCalledWith(userId, {
             quoteCode: quote.code,
           });
           expect(routingService.go).toHaveBeenCalledWith({
@@ -586,7 +590,7 @@ describe('QuoteService', () => {
     });
 
     it('should load quote cart', (done) => {
-      service
+      classUnderTest
         .requote(quote.code)
         .pipe(take(1))
         .subscribe(() => {
@@ -596,13 +600,16 @@ describe('QuoteService', () => {
     });
 
     it('should set loading state to false when action is completed', (done) => {
-      checkNoActionPerforming(service.requote(quote.code), done);
+      checkNoActionPerforming(classUnderTest.requote(quote.code), done);
     });
   });
 
   describe('handleError', () => {
     it('should ignore unknown errors', () => {
-      service['handleError']({ message: 'some error', details: [] }).subscribe({
+      classUnderTest['handleError']({
+        message: 'some error',
+        details: [],
+      }).subscribe({
         complete: () => fail('should signal error'),
         error: (error) => {
           expect(error).toEqual({ message: 'some error', details: [] });
@@ -611,7 +618,7 @@ describe('QuoteService', () => {
     });
 
     it('should handle CommerceQuoteExpirationTimeError', () => {
-      service['handleError']({
+      classUnderTest['handleError']({
         details: [{ type: 'CommerceQuoteExpirationTimeError' }],
       }).subscribe({
         error: () => {

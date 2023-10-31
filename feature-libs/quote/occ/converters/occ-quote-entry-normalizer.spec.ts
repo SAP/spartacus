@@ -21,7 +21,7 @@ class MockConverterService {
 }
 
 describe('OccQuoteEntryNormalizer', () => {
-  let occQuoteEntryNormalizer: OccQuoteEntryNormalizer;
+  let classUnderTest: OccQuoteEntryNormalizer;
   let converter: ConverterService;
 
   beforeEach(() => {
@@ -32,17 +32,17 @@ describe('OccQuoteEntryNormalizer', () => {
       ],
     });
 
-    occQuoteEntryNormalizer = TestBed.inject(OccQuoteEntryNormalizer);
+    classUnderTest = TestBed.inject(OccQuoteEntryNormalizer);
     converter = TestBed.inject(ConverterService);
     spyOn(converter, 'convert').and.callThrough();
   });
 
   it('should be created', () => {
-    expect(occQuoteEntryNormalizer).toBeTruthy();
+    expect(classUnderTest).toBeTruthy();
   });
 
   it('should convert quote entries', () => {
-    const result = occQuoteEntryNormalizer.convert(quote);
+    const result = classUnderTest.convert(quote);
     expect(result.code).toBe(quote.code);
     expect(result.entries?.length).toBe(1);
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);

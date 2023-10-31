@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { getLocaleNumberSymbol, NumberSymbol } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
-import { CurrencyService, LanguageService, TimeUtils } from '@spartacus/core';
-import { map } from 'rxjs/operators';
-import { Observable, combineLatest } from 'rxjs';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { NumberSymbol, getLocaleNumberSymbol } from '@angular/common';
+import { CurrencyService, LanguageService, TimeUtils } from '@spartacus/core';
 import { Quote, QuoteState } from '@spartacus/quote/root';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export type LocalizationElements = {
   locale: string;
@@ -134,7 +134,7 @@ export class QuoteHeaderSellerEditComponentService {
   }
 
   /**
-   * Verify if quote state belongs to seller and can be edited
+   * Verifies if quote state belongs to seller and can be edited
    * @param quoteState
    * @returns Is it for seller?
    */

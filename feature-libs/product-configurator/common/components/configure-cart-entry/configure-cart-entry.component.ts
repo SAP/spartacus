@@ -39,7 +39,7 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
-   * Determines owner for an entry (can be part of cart, order or quote)
+   * Retrieves owner for an entry (can be part of cart, order or quote)
    *
    * @returns - an owner type
    */

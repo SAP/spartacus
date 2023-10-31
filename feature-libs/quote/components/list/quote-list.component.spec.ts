@@ -101,7 +101,7 @@ class MockCxIconComponent {
 class MockCommerceQuotesListComponentService
   implements Partial<QuoteListComponentService>
 {
-  sorts?: SortModel[] | undefined = mockSorts;
+  sortOptions?: SortModel[] | undefined = mockSorts;
   sortLabels$ = of({
     byDate: 'sorting.date',
     byCode: 'quote.list.quoteId',
@@ -111,8 +111,8 @@ class MockCommerceQuotesListComponentService
   quotesState$ = mockQuoteListState$.asObservable();
   sort = new BehaviorSubject('byCode');
   currentPage = new BehaviorSubject(0);
-  setSort = createSpy();
-  setCurrentPage = createSpy();
+  setSorting = createSpy();
+  setPage = createSpy();
 }
 
 describe('QuoteListComponent', () => {
@@ -149,16 +149,16 @@ describe('QuoteListComponent', () => {
 
   it('should call service if sort changed', () => {
     const sortCode = 'byDate';
-    component.changeSortCode(sortCode);
+    component.changeSorting(sortCode);
 
-    expect(componentService.setSort).toHaveBeenCalledWith(sortCode);
+    expect(componentService.setSorting).toHaveBeenCalledWith(sortCode);
   });
 
   it('should call service if page changed', () => {
     const page = 5;
     component.changePage(page);
 
-    expect(componentService.setCurrentPage).toHaveBeenCalledWith(page);
+    expect(componentService.setPage).toHaveBeenCalledWith(page);
   });
 
   it('should display table and sorting if quote list is not empty', () => {
