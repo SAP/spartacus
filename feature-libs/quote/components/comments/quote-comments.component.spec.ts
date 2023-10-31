@@ -52,9 +52,9 @@ describe('QuoteCommentsComponent', () => {
   let fixture: ComponentFixture<QuoteCommentsComponent>;
   let htmlElem: HTMLElement;
   let component: QuoteCommentsComponent;
-  let mockedQuoteFacade: QuoteFacade;
-  let mockedEventService: EventService;
-  let quoteUiConfig: QuoteUIConfig;
+  let quoteFacade: QuoteFacade;
+  let eventService: EventService;
+  let quoteUIConfig: QuoteUIConfig;
 
   let quote: Quote;
 
@@ -72,15 +72,15 @@ describe('QuoteCommentsComponent', () => {
         providers: [
           {
             provide: QuoteFacade,
-            useValue: mockedQuoteFacade,
+            useValue: quoteFacade,
           },
           {
             provide: EventService,
-            useValue: mockedEventService,
+            useValue: eventService,
           },
           {
             provide: QuoteUIConfig,
-            useValue: quoteUiConfig,
+            useValue: quoteUIConfig,
           },
         ],
       }).compileComponents();
@@ -99,20 +99,20 @@ describe('QuoteCommentsComponent', () => {
   function initTestData() {
     quote = createEmptyQuote();
     quote.code = QUOTE_CODE;
-    quoteUiConfig = {
+    quoteUIConfig = {
       quote: { maxCharsForComments: 5000 },
     };
   }
 
   function initMocks() {
-    mockedQuoteFacade = jasmine.createSpyObj('QuoteFacade', [
+    quoteFacade = jasmine.createSpyObj('QuoteFacade', [
       'getQuoteDetails',
       'addQuoteComment',
     ]);
-    asSpy(mockedQuoteFacade.getQuoteDetails).and.returnValue(of(quote));
-    asSpy(mockedQuoteFacade.addQuoteComment).and.returnValue(of({}));
+    asSpy(quoteFacade.getQuoteDetails).and.returnValue(of(quote));
+    asSpy(quoteFacade.addQuoteComment).and.returnValue(of({}));
 
-    mockedEventService = jasmine.createSpyObj('EventService', ['dispatch']);
+    eventService = jasmine.createSpyObj('EventService', ['dispatch']);
   }
 
   function asSpy(f: any) {
@@ -246,7 +246,7 @@ describe('QuoteCommentsComponent', () => {
       expect(component.messagingConfigs).toBeDefined();
     });
     it('should set chars limit to default 1000 when not provided via config', () => {
-      quoteUiConfig.quote = undefined;
+      quoteUIConfig.quote = undefined;
       // re-create component so changed config is evaluated
       fixture = TestBed.createComponent(QuoteCommentsComponent);
       expect(fixture.componentInstance.messagingConfigs.charactersLimit).toBe(
@@ -379,7 +379,7 @@ describe('QuoteCommentsComponent', () => {
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
         QUOTE_CODE
       );
-      expect(mockedQuoteFacade.addQuoteComment).toHaveBeenCalledWith(
+      expect(quoteFacade.addQuoteComment).toHaveBeenCalledWith(
         QUOTE_CODE,
         {
           text: 'test comment',
@@ -389,7 +389,7 @@ describe('QuoteCommentsComponent', () => {
     });
     it('should add a item quote comment with the given text', () => {
       component.onSend({ message: 'test comment', itemId: '3' }, QUOTE_CODE);
-      expect(mockedQuoteFacade.addQuoteComment).toHaveBeenCalledWith(
+      expect(quoteFacade.addQuoteComment).toHaveBeenCalledWith(
         QUOTE_CODE,
         {
           text: 'test comment',
@@ -402,7 +402,7 @@ describe('QuoteCommentsComponent', () => {
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
         QUOTE_CODE
       );
-      expect(mockedEventService.dispatch).toHaveBeenCalledWith(
+      expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         QuoteDetailsReloadQueryEvent
       );
@@ -416,7 +416,7 @@ describe('QuoteCommentsComponent', () => {
       expect(component.messagingConfigs.newMessagePlaceHolder).toBeUndefined();
     });
     it('should handle errors', () => {
-      asSpy(mockedQuoteFacade.addQuoteComment).and.returnValue(
+      asSpy(quoteFacade.addQuoteComment).and.returnValue(
         throwError(new Error('test error'))
       );
       component.onSend(

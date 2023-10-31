@@ -148,7 +148,7 @@ describe('QuoteActionsByRoleComponent', () => {
   let htmlElem: HTMLElement;
   let component: QuoteActionsByRoleComponent;
   let launchDialogService: LaunchDialogService;
-  let facade: QuoteFacade;
+  let quoteFacade: QuoteFacade;
   let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
@@ -179,7 +179,7 @@ describe('QuoteActionsByRoleComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
-    facade = TestBed.inject(QuoteFacade);
+    quoteFacade = TestBed.inject(QuoteFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
     mockQuoteDetails$.next(mockQuote);
     dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
@@ -187,7 +187,7 @@ describe('QuoteActionsByRoleComponent', () => {
 
   it('should create component', () => {
     expect(component).toBeDefined();
-    expect(facade).toBeDefined();
+    expect(quoteFacade).toBeDefined();
   });
 
   describe('Ghost animation', () => {
@@ -425,7 +425,7 @@ describe('QuoteActionsByRoleComponent', () => {
   });
 
   it('should perform quote action when action is SUBMIT and confirm dialogClose reason is yes', () => {
-    spyOn(facade, 'performQuoteAction').and.callThrough();
+    spyOn(quoteFacade, 'performQuoteAction').and.callThrough();
     const newMockQuoteWithSubmitAction: Quote = {
       ...mockQuote,
       allowedActions: [
@@ -442,14 +442,14 @@ describe('QuoteActionsByRoleComponent', () => {
       currentCart
     );
     launchDialogService.closeDialog('yes');
-    expect(facade.performQuoteAction).toHaveBeenCalledWith(
+    expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
       newMockQuoteWithSubmitAction,
       QuoteActionType.SUBMIT
     );
   });
 
   it("should click on 'CANCEL' button", () => {
-    spyOn(facade, 'performQuoteAction').and.callThrough();
+    spyOn(quoteFacade, 'performQuoteAction').and.callThrough();
     const newMockQuoteWithSubmitAction: Quote = {
       ...mockQuote,
       allowedActions: [
@@ -464,21 +464,21 @@ describe('QuoteActionsByRoleComponent', () => {
       '.btn-secondary'
     );
     editButton.click();
-    expect(facade.performQuoteAction).toHaveBeenCalledWith(
+    expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
       newMockQuoteWithSubmitAction,
       QuoteActionType.CANCEL
     );
   });
 
   it("should click on 'REQUOTE' button", () => {
-    spyOn(facade, 'performQuoteAction').and.callThrough();
+    spyOn(quoteFacade, 'performQuoteAction').and.callThrough();
     fixture.detectChanges();
     const requoteButton = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
       '.btn-primary'
     );
     requoteButton.click();
-    expect(facade.requote).toHaveBeenCalledWith(mockQuote.code);
+    expect(quoteFacade.requote).toHaveBeenCalledWith(mockQuote.code);
   });
 
   describe('isConfirmationPopupRequired', () => {
@@ -580,7 +580,7 @@ describe('QuoteActionsByRoleComponent', () => {
   describe('handleConfirmationDialogClose', () => {
     let context: ConfirmationContext;
     beforeEach(() => {
-      spyOn(facade, 'performQuoteAction').and.callThrough();
+      spyOn(quoteFacade, 'performQuoteAction').and.callThrough();
       spyOn(globalMessageService, 'add').and.callThrough();
       context = {
         quote: mockQuote,
@@ -599,7 +599,7 @@ describe('QuoteActionsByRoleComponent', () => {
         context
       );
       launchDialogService.closeDialog('no');
-      expect(facade.performQuoteAction).not.toHaveBeenCalled();
+      expect(quoteFacade.performQuoteAction).not.toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
 
@@ -607,7 +607,7 @@ describe('QuoteActionsByRoleComponent', () => {
       context.successMessage = undefined;
       component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
       launchDialogService.closeDialog('yes');
-      expect(facade.performQuoteAction).toHaveBeenCalledWith(
+      expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
         mockQuote,
         QuoteActionType.EDIT
       );
@@ -620,7 +620,7 @@ describe('QuoteActionsByRoleComponent', () => {
       launchDialogService.closeDialog('no');
       component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
       launchDialogService.closeDialog('yes');
-      expect(facade.performQuoteAction).toHaveBeenCalledTimes(1);
+      expect(quoteFacade.performQuoteAction).toHaveBeenCalledTimes(1);
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
 
@@ -630,7 +630,7 @@ describe('QuoteActionsByRoleComponent', () => {
         context
       );
       launchDialogService.closeDialog('yes');
-      expect(facade.performQuoteAction).toHaveBeenCalledWith(
+      expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
         mockQuote,
         QuoteActionType.SUBMIT
       );
