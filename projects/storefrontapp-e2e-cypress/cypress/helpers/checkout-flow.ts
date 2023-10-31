@@ -188,7 +188,7 @@ export function addProductToCart() {
   cy.get('cx-item-counter').findByText('+').click();
   addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.get('.cx-name .cx-link').should('contain', product.name);
+    cy.get('div.cx-name a.cx-link').should('contain', product.name);
   });
 }
 
