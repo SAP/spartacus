@@ -19,7 +19,7 @@ import {
   provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
-import { MY_ACCOUNT_V2_ORDER, OrderOutlets } from '@spartacus/order/root';
+import { USE_MY_ACCOUNT_V2_ORDER, OrderOutlets } from '@spartacus/order/root';
 import {
   CardModule,
   IconModule,
@@ -50,7 +50,7 @@ import { OrderOverviewComponent } from './order-overview/order-overview.componen
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
 
 function registerOrderOutletFactory(): () => void {
-  const isMyAccountV2 = inject(MY_ACCOUNT_V2_ORDER);
+  const isMyAccountV2 = inject(USE_MY_ACCOUNT_V2_ORDER);
   const outletService = inject(OutletService);
   const componentFactoryResolver = inject(ComponentFactoryResolver);
   return () => {
@@ -157,7 +157,7 @@ const moduleComponents = [
     provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
     provideDefaultConfig(defaultReorderLayoutConfig),
     provideDefaultConfigFactory(() =>
-      inject(MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
+      inject(USE_MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
     ),
     {
       provide: MODULE_INITIALIZER,

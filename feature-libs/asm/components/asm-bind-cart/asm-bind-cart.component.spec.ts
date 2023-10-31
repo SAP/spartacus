@@ -1,4 +1,10 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  Injectable,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmBindCartFacade, CsAgentAuthService } from '@spartacus/asm/root';
@@ -11,6 +17,7 @@ import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   AuthService,
   FeatureConfigService,
+  FeaturesConfigModule,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
@@ -18,7 +25,11 @@ import {
   RoutingService,
   Translatable,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import {
+  LaunchDialogService,
+  LAUNCH_CALLER,
+  ICON_TYPE,
+} from '@spartacus/storefront';
 import { ProcessesLoaderState } from 'projects/core/src/state/utils/processes-loader';
 import {
   BehaviorSubject,
@@ -33,6 +44,16 @@ import { SAVE_CART_DIALOG_ACTION } from '../asm-save-cart-dialog/asm-save-cart-d
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmBindCartComponent } from './asm-bind-cart.component';
 import createSpy = jasmine.createSpy;
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
 
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
@@ -107,7 +128,7 @@ class MockSavedCartFacade implements Partial<SavedCartFacade> {
     return EMPTY;
   }
 }
-
+@Injectable()
 class MockAsmComponentService extends AsmComponentService {
   logoutCustomerSupportAgentAndCustomer(): void {}
   unload() {}
@@ -143,7 +164,13 @@ describe('AsmBindCartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AsmBindCartComponent, MockTranslatePipe],
+      imports: [FormsModule, ReactiveFormsModule, FeaturesConfigModule],
+      declarations: [
+        AsmBindCartComponent,
+        MockTranslatePipe,
+        MockCxIconComponent,
+        DotSpinnerComponent,
+      ],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },

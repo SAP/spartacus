@@ -14,7 +14,7 @@ export const OrderConfirmationOrderEntriesContextToken = new InjectionToken(
   'OrderConfirmationOrderEntriesContext'
 );
 
-export const MY_ACCOUNT_V2_ORDER = new InjectionToken<boolean>(
+export const USE_MY_ACCOUNT_V2_ORDER = new InjectionToken<boolean>(
   'feature flag to enable enhanced UI for Order related pages under My-Account',
   { providedIn: 'root', factory: () => false }
 );

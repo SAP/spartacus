@@ -12,8 +12,18 @@ import { AsmCustomer360PromotionComponent } from './asm-customer-360-promotion.c
 import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { Observable, of } from 'rxjs';
+import { Component, Input } from '@angular/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 describe('AsmCustomer360PromotionComponent', () => {
+  @Component({
+    selector: 'cx-icon',
+    template: '',
+  })
+  class MockCxIconComponent {
+    @Input() type: ICON_TYPE;
+  }
+
   let component: AsmCustomer360PromotionComponent;
   let fixture: ComponentFixture<AsmCustomer360PromotionComponent>;
   let context: AsmCustomer360SectionContextSource<AsmCustomer360PromotionList>;
@@ -88,6 +98,7 @@ describe('AsmCustomer360PromotionComponent', () => {
       declarations: [
         AsmCustomer360PromotionComponent,
         AsmCustomer360PromotionListingComponent,
+        MockCxIconComponent,
       ],
       providers: [
         AsmCustomer360SectionContextSource,
