@@ -35,12 +35,12 @@ context('Quote', () => {
     cy.cxConfig(globalMessageSettings);
     cy.visit('/');
     quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
-    quote.registerGetQuoteRoute();
-    quote.registerCommentsPostQuoteRoute();
-    quote.registerActionsPostQuoteRoute();
-    quote.registerPatchQuoteRoute();
-    quote.registerPatchCartRoute();
-    quote.registerDeleteQuoteRoute();
+    quote.registerReadQuoteRoute();
+    quote.registerAddQuoteCommentRoute();
+    quote.registerPerformQuoteActionRoute();
+    quote.registerUpdateQuoteItemRoute();
+    quote.registerUpdateCartItemRoute();
+    quote.registerDeleteQuoteItemRoute();
   });
 
   describe('Request quote process', () => {
