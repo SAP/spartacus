@@ -1,33 +1,19 @@
 %MyAccountViewPageTemplate {
   max-width: var(--cx-page-width-max);
   margin: auto;
-  display: flex;
   cx-page-slot {
     cx-banner {
-      height: 120px;
-      margin-top: 40px;
-      margin-bottom: -500px;
-      border: 1px solid var(--cx-color-light);
+      margin: 2rem 0rem 0.5rem 0rem;
+      border: 1px solid var(--cx-color-medium);
     }
-  }
-
-  @include media-breakpoint-down(md) {
-    flex-direction: column;
   }
   .LeftContentSlot {
+    float: left;
     max-width: 25%;
-    @include media-breakpoint-down(md) {
-      width: 100%;
-      max-width: none;
-    }
   }
 
   .RightContentSlot {
+    float: left;
     max-width: 75%;
-
-    @include media-breakpoint-down(md) {
-      width: 100%;
-      max-width: none;
-    }
   }
 }
