@@ -14,7 +14,7 @@ import {
   Optional,
 } from '@angular/core';
 import {
-  AbstractOrderEntryOwnerType,
+  AbstractOrderType,
   CartOutlets,
   DeliveryMode,
   OrderEntry,
@@ -39,7 +39,7 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
   @Input() showItemList: boolean = true;
 
   readonly cartOutlets = CartOutlets;
-  readonly abstractOrderEntryOwnerType = AbstractOrderEntryOwnerType;
+  readonly abstractOrderEntryOwnerType = AbstractOrderType;
 
   entries: OrderEntry[] | undefined;
 

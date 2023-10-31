@@ -115,11 +115,11 @@ export interface CartItemComponentOptions {
   displayAddToCart?: boolean;
   addToCartString?: string;
   cartType?: CartType;
-  ownerType?: AbstractOrderEntryOwnerType;
+  ownerType?: AbstractOrderType;
   ownerId?: string;
 }
 
-export enum AbstractOrderEntryOwnerType {
+export enum AbstractOrderType {
   CART = 'Cart',
   ORDER = 'Order',
   QUOTE = 'Quote',

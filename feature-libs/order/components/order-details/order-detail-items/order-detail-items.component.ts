@@ -6,7 +6,7 @@
 
 import { Component, inject } from '@angular/core';
 import {
-  AbstractOrderEntryOwnerType,
+  AbstractOrderType,
   CartOutlets,
   OrderEntry,
   PromotionLocation,
@@ -29,7 +29,7 @@ export class OrderDetailItemsComponent {
   );
   readonly OrderOutlets = OrderOutlets;
   readonly CartOutlets = CartOutlets;
-  readonly abstractOrderEntryOwnerType = AbstractOrderEntryOwnerType;
+  readonly abstractOrderEntryOwnerType = AbstractOrderType;
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
 

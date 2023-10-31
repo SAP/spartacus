@@ -6,7 +6,7 @@
 
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
-  AbstractOrderEntryOwnerType,
+  AbstractOrderType,
   CartOutlets,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
@@ -20,7 +20,7 @@ import { Observable } from 'rxjs';
 })
 export class OrderConfirmationItemsComponent implements OnDestroy {
   readonly cartOutlets = CartOutlets;
-  readonly abstractOrderEntryOwnerType = AbstractOrderEntryOwnerType;
+  readonly abstractOrderEntryOwnerType = AbstractOrderType;
   promotionLocation: PromotionLocation = PromotionLocation.Checkout;
   order$: Observable<Order | undefined> = this.orderFacade.getOrderDetails();
 

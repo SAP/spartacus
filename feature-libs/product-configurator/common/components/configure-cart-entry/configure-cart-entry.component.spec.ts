@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  AbstractOrderEntryOwnerType,
+  AbstractOrderType,
   ActiveCartFacade,
   Cart,
   OrderEntry,
@@ -78,7 +78,7 @@ describe('ConfigureCartEntryComponent', () => {
     it('should find correct owner type in case entry knows order', () => {
       component.readOnly = true;
       component.options = {
-        ownerType: AbstractOrderEntryOwnerType.ORDER,
+        ownerType: AbstractOrderType.ORDER,
         ownerId: orderCode,
       };
       expect(component.getOwnerType()).toBe(
@@ -88,7 +88,7 @@ describe('ConfigureCartEntryComponent', () => {
 
     it('should find owner type quoteEntry in case entry is from quote and it is read-only', () => {
       component.readOnly = true;
-      component.options = { ownerType: AbstractOrderEntryOwnerType.QUOTE };
+      component.options = { ownerType: AbstractOrderType.QUOTE };
       expect(component.getOwnerType()).toBe(
         CommonConfigurator.OwnerType.QUOTE_ENTRY
       );
@@ -102,7 +102,7 @@ describe('ConfigureCartEntryComponent', () => {
 
     it('should find correct owner type saved cart entry in case entry knows saved cart and cart is not active', () => {
       component.readOnly = true;
-      component.options = { ownerType: AbstractOrderEntryOwnerType.SAVED_CART };
+      component.options = { ownerType: AbstractOrderType.SAVED_CART };
       expect(component.getOwnerType()).toBe(
         CommonConfigurator.OwnerType.SAVED_CART_ENTRY
       );
@@ -123,7 +123,7 @@ describe('ConfigureCartEntryComponent', () => {
     it('should take order code into account in case entry is owned by order', () => {
       component.readOnly = true;
       component.options = {
-        ownerType: AbstractOrderEntryOwnerType.ORDER,
+        ownerType: AbstractOrderType.ORDER,
         ownerId: orderCode,
       };
       component.cartEntry = { entryNumber: 0 };
@@ -135,7 +135,7 @@ describe('ConfigureCartEntryComponent', () => {
 
       component.cartEntry = { entryNumber: 0 };
       component.options = {
-        ownerType: AbstractOrderEntryOwnerType.QUOTE,
+        ownerType: AbstractOrderType.QUOTE,
         ownerId: quoteCode,
       };
       expect(component.getEntityKey()).toBe(quoteCode + '+0');
@@ -145,7 +145,7 @@ describe('ConfigureCartEntryComponent', () => {
     it('should find correct entity key for saved cart entry', () => {
       component.cartEntry = { entryNumber: 0 };
       component.options = {
-        ownerType: AbstractOrderEntryOwnerType.SAVED_CART,
+        ownerType: AbstractOrderType.SAVED_CART,
         ownerId: savedCartCode,
       };
       component.readOnly = true;
@@ -155,7 +155,7 @@ describe('ConfigureCartEntryComponent', () => {
     it('should find correct entity key for cart entry in case it is active and read-only', () => {
       component.cartEntry = { entryNumber: 0 };
       component.options = {
-        ownerType: AbstractOrderEntryOwnerType.CART,
+        ownerType: AbstractOrderType.CART,
         ownerId: cartCode,
       };
       component.readOnly = true;

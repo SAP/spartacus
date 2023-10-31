@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { Params } from '@angular/router';
 import {
-  AbstractOrderEntryOwnerType,
+  AbstractOrderContext,
+  AbstractOrderType,
   CartItemComponentOptions,
   OrderEntry,
 } from '@spartacus/cart/base/root';
@@ -29,12 +30,16 @@ export class ConfigureCartEntryComponent {
   @Input() disabled: boolean;
   @Input() options: CartItemComponentOptions;
 
+  //TODO CHHI inject new context in component, subscribe to it on view and pass to methods for determining owner type etc
+  abstractOrderContext = inject(AbstractOrderContext);
+
   /**
    * Verifies whether the entry has any issues.
    *
    * @returns - whether there are any issues
    */
   hasIssues(): boolean {
+
     return this.commonConfigUtilsService.hasIssues(this.cartEntry);
   }
 
@@ -44,14 +49,16 @@ export class ConfigureCartEntryComponent {
    * @returns - an owner type
    */
   getOwnerType(): CommonConfigurator.OwnerType {
+        //just check
+        this.abstractOrderContext.id$.subscribe((id)=>console.log("CHHI context was passed to component: " + id));
     switch (this.options?.ownerType) {
-      case AbstractOrderEntryOwnerType.ORDER: {
+      case AbstractOrderType.ORDER: {
         return CommonConfigurator.OwnerType.ORDER_ENTRY;
       }
-      case AbstractOrderEntryOwnerType.QUOTE: {
+      case AbstractOrderType.QUOTE: {
         return CommonConfigurator.OwnerType.QUOTE_ENTRY;
       }
-      case AbstractOrderEntryOwnerType.SAVED_CART: {
+      case AbstractOrderType.SAVED_CART: {
         return CommonConfigurator.OwnerType.SAVED_CART_ENTRY;
       }
       default: {
@@ -69,9 +76,9 @@ export class ConfigureCartEntryComponent {
   getEntityKey(): string {
     const ownerType = this.options.ownerType;
     const ownerDocumentIdNeeded: boolean =
-      ownerType === AbstractOrderEntryOwnerType.ORDER ||
-      ownerType === AbstractOrderEntryOwnerType.QUOTE ||
-      ownerType === AbstractOrderEntryOwnerType.SAVED_CART;
+      ownerType === AbstractOrderType.ORDER ||
+      ownerType === AbstractOrderType.QUOTE ||
+      ownerType === AbstractOrderType.SAVED_CART;
     const entryNumber = this.cartEntry.entryNumber;
     if (entryNumber === undefined) {
       throw new Error('No entryNumber present in entry');
