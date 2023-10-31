@@ -21,8 +21,8 @@ import { catchError, switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class BlobErrorInterceptor implements HttpInterceptor {
-  fileReaderService = inject(FileReaderService);
-  windowRef = inject(WindowRef);
+  protected readonly fileReaderService = inject(FileReaderService);
+  protected readonly windowRef = inject(WindowRef);
 
   intercept(
     request: HttpRequest<any>,
