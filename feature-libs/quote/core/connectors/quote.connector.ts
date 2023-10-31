@@ -46,7 +46,7 @@ export class QuoteConnector {
   }
 
   /**
-   * Gets a quote specified by its ID (aka code)
+   * Fetches a quote specified by its ID (aka code)
    * @param userId Quote user
    * @param quoteCode Quote code
    * @returns Observable emitting a quote
