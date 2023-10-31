@@ -160,9 +160,10 @@
       Return Processed: 15, September, 2022
   -->
     <div *ngFor="let returnRequest of order.returnRequests">
-      <div *ngIf="returnRequest.rma" class="cx-order-status-critical">
+      <div class="cx-order-status-critical">
         {{ 'returnRequestList.returnRequestId' | cxTranslate }}
         <a
+          *ngIf="returnRequest.rma; else showReturnCode"
           [routerLink]="
             {
               cxRoute: 'returnRequestDetails',
@@ -174,6 +175,9 @@
           {{ returnRequest.rma }}</a
         >
       </div>
+      <ng-template #showReturnCode>
+        {{ returnRequest.code }}
+      </ng-template>
       <div
         class="cx-consignment-info"
         *ngIf="returnRequest.creationTime as creationTime"

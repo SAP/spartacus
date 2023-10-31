@@ -2441,4 +2441,19 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Cancel',
     },
   ],
+  asmCustomer360CouponList: [
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
+  ],
+  asmCustomer360CustomerCouponList: [
+    { type: TabbingOrderTypes.BUTTON, value: 'Available' },
+    { type: TabbingOrderTypes.BUTTON, value: 'Sent' },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    // uncomment the following line to test againt S4,S7
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+  ],
 };
