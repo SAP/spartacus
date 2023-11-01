@@ -15,6 +15,7 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { FileReaderService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
 import { BlobErrorInterceptor } from './blob-error.interceptor';
 
@@ -26,6 +27,7 @@ describe('BlobErrorInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
+        FileReaderService,
         {
           provide: HTTP_INTERCEPTORS,
           useClass: BlobErrorInterceptor,
@@ -40,13 +42,13 @@ describe('BlobErrorInterceptor', () => {
 
   it(`Should extract JSON from errors wrapped in blob`, (done: DoneFn) => {
     http
-      .get('/occ', { responseType: 'blob' })
+      .get('/occ', { responseType: 'blob' as 'json' })
       .pipe(take(1))
       .subscribe({
         error: (err: HttpErrorResponse) => {
           expect(err.status).toEqual(401);
           expect(err.error.errors[0].type).toEqual('InvalidTokenError');
-          done(); // Ensure the test completes after expectations
+          done();
         },
       });
 
