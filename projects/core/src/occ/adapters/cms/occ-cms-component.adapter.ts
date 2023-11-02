@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -21,6 +21,7 @@ import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { UserIdService } from '../../../auth';
 import { FeatureConfigService } from '../../../features-config';
+import { OCC_HTTP_TOKEN } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -54,10 +55,11 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
         this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER)
       );
     }
+    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
+      sendUserIdAsHeader: true,
+    });
     return this.http
-      .get<T>(this.getComponentEndPoint(id, pageContext), {
-        headers: this.headers,
-      })
+      .get<T>(this.getComponentEndPoint(id, pageContext), { context })
       .pipe(this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER));
   }
 
@@ -90,12 +92,13 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
         this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
       );
     }
+    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
+      sendUserIdAsHeader: true,
+    });
     return this.http
       .get<Occ.ComponentList>(
         this.getComponentsEndpoint(requestParams, fields),
-        {
-          headers: this.headers,
-        }
+        { context }
       )
       .pipe(
         map((componentList) => componentList.component ?? []),

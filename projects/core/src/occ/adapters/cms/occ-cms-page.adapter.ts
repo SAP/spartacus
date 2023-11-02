@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
@@ -21,6 +21,7 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { UserIdService } from '../../../auth';
 import { switchMap } from 'rxjs/operators';
 import { FeatureConfigService } from '../../../features-config';
+import { OCC_HTTP_TOKEN } from '@spartacus/core';
 
 export interface OccCmsPageRequest {
   pageLabelOrId?: string;
@@ -74,8 +75,11 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
       : this.occEndpoints.buildUrl('pages', {
           queryParams: params,
         });
+    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
+      sendUserIdAsHeader: true,
+    });
     return this.http
-      .get(endpoint, { headers: this.headers })
+      .get(endpoint, { context })
       .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
   }
 
