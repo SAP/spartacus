@@ -27,14 +27,20 @@ const CONF_BS_LARGEWIDTH = 'CONF_BS_LARGEWIDTH';
 const radioGroup = 'radioGroup';
 
 context('Quote<->Configurator integration', () => {
-  // before each test - ensure that cart is empty
-  beforeEach(() => {
+  // before all tests - ensure that cart is empty
+  before(() => {
     cy.visit('/');
     quote.login(EMAIL, PASSWORD, USER);
     // add a product - so that it is guaranteed that clear cart link is available
     quote.addProductToCart(TEST_PRODUCT_NON_CONFIGURABLE, '1');
     cart.clearActiveCart();
     cart.validateEmptyCart();
+    quote.logout();
+  });
+
+  beforeEach(() => {
+    cy.visit('/');
+    quote.login(EMAIL, PASSWORD, USER);
   });
 
   describe('Request quote process with VC configurable product', () => {
