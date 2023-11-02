@@ -5,3 +5,4 @@
  */
 
 export * from './cart-utils.service';
+export * from './quote-storefront-utils.service';

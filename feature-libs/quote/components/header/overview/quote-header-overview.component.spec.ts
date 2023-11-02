@@ -92,9 +92,9 @@ describe('QuoteHeaderOverviewComponent', () => {
   let fixture: ComponentFixture<QuoteHeaderOverviewComponent>;
   let component: QuoteHeaderOverviewComponent;
   let htmlElem: HTMLElement;
-  let mockedQuoteFacade: QuoteFacade;
-  let mockedEventService: EventService;
-  let quoteUiConfig: QuoteUIConfig;
+  let quoteFacade: QuoteFacade;
+  let eventService: EventService;
+  let quoteUIConfig: QuoteUIConfig;
 
   beforeEach(
     waitForAsync(() => {
@@ -114,12 +114,12 @@ describe('QuoteHeaderOverviewComponent', () => {
           },
           {
             provide: EventService,
-            useValue: mockedEventService,
+            useValue: eventService,
           },
           { provide: TranslationService, useClass: MockTranslationService },
           {
             provide: QuoteUIConfig,
-            useValue: quoteUiConfig,
+            useValue: quoteUIConfig,
           },
         ],
       }).compileComponents();
@@ -133,14 +133,14 @@ describe('QuoteHeaderOverviewComponent', () => {
 
     fixture.detectChanges();
 
-    mockedQuoteFacade = TestBed.inject(QuoteFacade as Type<QuoteFacade>);
-    spyOn(mockedQuoteFacade, 'editQuote').and.callThrough();
+    quoteFacade = TestBed.inject(QuoteFacade as Type<QuoteFacade>);
+    spyOn(quoteFacade, 'editQuote').and.callThrough();
   });
 
   function initMocks() {
-    mockedEventService = jasmine.createSpyObj('eventService', ['dispatch']);
+    eventService = jasmine.createSpyObj('eventService', ['dispatch']);
 
-    quoteUiConfig = {
+    quoteUIConfig = {
       quote: { truncateCardTileContentAfterNumChars: 30 },
     };
   }
@@ -351,7 +351,7 @@ describe('QuoteHeaderOverviewComponent', () => {
 
       component.save(mockQuote, editEvent);
       expect(component.editMode).toBe(false);
-      expect(mockedQuoteFacade.editQuote).toHaveBeenCalledWith(
+      expect(quoteFacade.editQuote).toHaveBeenCalledWith(
         mockQuote.code,
         quoteMetaData
       );
@@ -403,7 +403,7 @@ describe('QuoteHeaderOverviewComponent', () => {
       expect(result).toEqual(expected);
     });
 
-    it('should the card content that represents an empty estimated total and expiry date information', () => {
+    it('should retrieve the card content that represents an empty estimated total and expiry date information', () => {
       fixture.detectChanges();
 
       const expected = {
@@ -456,7 +456,7 @@ describe('QuoteHeaderOverviewComponent', () => {
 
   describe('getCharactersLimitForCardTile', () => {
     it('should set card tile characters limit to 100 when not provided via config', () => {
-      quoteUiConfig.quote = undefined;
+      quoteUIConfig.quote = undefined;
 
       // re-create component so changed config is evaluated
       fixture = TestBed.createComponent(QuoteHeaderOverviewComponent);

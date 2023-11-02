@@ -22,22 +22,42 @@ export class QuoteCartService {
     this.checkoutAllowed.next(false);
   }
 
+  /**
+   * Returns a quote ID.
+   *
+   * @returns Observable emitting string or unknown
+   */
   public getQuoteId(): Observable<string | undefined> {
     return this.activeCartFacade
       .getActive()
       .pipe(map((cart) => cart.quoteCode));
   }
 
+  /**
+   * Verifies if a quote cart is active.
+   *
+   * @returns Observable emitting boolean
+   */
   public isQuoteCartActive(): Observable<boolean> {
     return this.activeCartFacade
       .getActive()
       .pipe(map((cart) => cart.quoteCode !== undefined));
   }
 
+  /**
+   * Defines whether the checkout is allowed.
+   *
+   * @param checkoutAllowed - is checkout allowed
+   */
   public setCheckoutAllowed(checkoutAllowed: boolean): void {
     this.checkoutAllowed.next(checkoutAllowed);
   }
 
+  /**
+   * Verifies if the checkout is allowed.
+   *
+   * @returns Observable emitting boolean
+   */
   public isCheckoutAllowed(): Observable<boolean> {
     return this.checkoutAllowedAsObservable;
   }
