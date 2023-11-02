@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { Injectable, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 
