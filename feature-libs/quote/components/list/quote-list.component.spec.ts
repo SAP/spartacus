@@ -640,36 +640,51 @@ describe('QuoteListComponent', () => {
     });
 
     it("should contain 'div' HTML element with 'role' attribute that indicates the role for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'div',
+          '',
+          0
+        );
+
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
-        'div',
-        '',
-        0,
+        element,
         'role',
         'region'
       );
     });
 
     it("should contain 'div' HTML element with 'aria-label' attribute that indicates the text for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'div',
+          '',
+          0
+        );
+
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
-        'div',
-        '',
-        0,
+        element,
         'aria-label',
         'quote.list.regionTitle'
       );
     });
 
     it("should contain 'table' HTML element with 'aria-describedby' attribute that indicates the element on which the attribute is set", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'table',
+          '',
+          0
+        );
+
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
-        'table',
-        '',
-        0,
+        element,
         'aria-describedby',
         'quote-list-desc'
       );
@@ -685,84 +700,119 @@ describe('QuoteListComponent', () => {
     });
 
     it("should contain 'thead' HTML element with 'role' attribute that indicates a group of rows within a tabular structure", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'thead',
+          '',
+          0
+        );
+
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
-        'thead',
-        '',
-        0,
+        element,
         'role',
         'rowgroup'
       );
     });
 
     it("should contain 'tbody' HTML element with 'role' attribute that indicates a group of rows within a tabular structure", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'tbody',
+          '',
+          0
+        );
+
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
-        'tbody',
-        '',
-        0,
+        element,
         'role',
         'rowgroup'
       );
     });
 
     it("should contain 'th' HTML element with 'role' attribute that indicates the role for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'th',
+          '',
+          0
+        );
+
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
-        'th',
-        '',
-        0,
+        element,
         'role',
         'columnheader'
       );
     });
 
     it("should contain 'th' HTML element with 'aria-sort' attribute that indicates if there is no defined sort applied to the column", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'th',
+          '',
+          0
+        );
+
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
-        'th',
-        '',
-        0,
+        element,
         'aria-sort',
         'none'
       );
     });
 
     it("should contain 'tr' HTML element with 'role' attribute that indicates the role for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'tr',
+          '',
+          1
+        );
+
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
-        'tr',
-        '',
-        1,
+        element,
         'role',
         'row'
       );
     });
 
     it("should contain 'tr' HTML element with 'aria-label' attribute that labels an interactive element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'tr',
+          '',
+          1
+        );
+
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
-        'tr',
-        '',
-        1,
+        element,
         'aria-label',
         'quote.list.clickableRow'
       );
     });
 
     it("should contain 'td' HTML element with 'role' attribute that indicates the role for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'td',
+          'cx-name',
+          0
+        );
+
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
-        'td',
-        'cx-name',
-        0,
+        element,
         'role',
         'cell'
       );
