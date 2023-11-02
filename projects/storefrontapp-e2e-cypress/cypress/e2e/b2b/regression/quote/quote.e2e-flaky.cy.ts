@@ -8,7 +8,6 @@ import * as asm from '../../../../helpers/asm';
 import * as common from '../../../../helpers/common';
 import * as quote from '../../../../helpers/quote';
 
-const POWERTOOLS = 'powertools-spa';
 const TEST_PRODUCT_HAMMER_DRILLING_ID = '3887130';
 const TEST_PRODUCT_HAMMER_DRILLING_NAME = 'DH40MR';
 const BUYER_EMAIL = 'gi.sun@pronto-hw.com';
@@ -36,22 +35,21 @@ context('Quote', () => {
     cy.cxConfig(globalMessageSettings);
     cy.visit('/');
     quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
-    quote.registerGetQuoteRoute(POWERTOOLS);
-    quote.registerCommentsPostQuoteRoute(POWERTOOLS);
-    quote.registerActionsPostQuoteRoute(POWERTOOLS);
-    quote.registerPatchQuoteRoute(POWERTOOLS);
-    quote.registerPatchCartRoute(POWERTOOLS);
-    quote.registerDeleteQuoteRoute(POWERTOOLS);
+    quote.registerReadQuoteRoute();
+    quote.registerAddQuoteCommentRoute();
+    quote.registerPerformQuoteActionRoute();
+    quote.registerUpdateQuoteItemRoute();
+    quote.registerUpdateCartItemRoute();
+    quote.registerDeleteQuoteItemRoute();
   });
 
   describe('Request quote process', () => {
     it('should display a global message and disable submit button if threshold is not met', () => {
-      quote.prepareQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, 1, false);
+      quote.prepareQuote(TEST_PRODUCT_HAMMER_DRILLING_ID, 1, false);
     });
 
     it('should be possible(submit) if threshold is met', () => {
       quote.prepareQuote(
-        POWERTOOLS,
         TEST_PRODUCT_HAMMER_DRILLING_ID,
         PRODUCT_AMOUNT_30,
         true
@@ -88,7 +86,6 @@ context('Quote', () => {
   describe('Edit quote process - buyer perspective', () => {
     beforeEach(() => {
       quote.prepareQuote(
-        POWERTOOLS,
         TEST_PRODUCT_HAMMER_DRILLING_ID,
         PRODUCT_AMOUNT_30,
         true
@@ -126,20 +123,19 @@ context('Quote', () => {
 
   describe('Navigate to quote list', () => {
     it('should be accessible from My Account', () => {
-      quote.requestQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, '1');
+      quote.requestQuote(TEST_PRODUCT_HAMMER_DRILLING_ID, '1');
       quote.navigateToQuoteListFromMyAccount();
       quote.checkQuoteListDisplayed();
     });
 
     it('should be accessible from the quote details', () => {
-      quote.requestQuote(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID, '1');
+      quote.requestQuote(TEST_PRODUCT_HAMMER_DRILLING_ID, '1');
       quote.navigateToQuoteListFromQuoteDetails();
       quote.checkQuoteListDisplayed();
     });
 
     it('should cancel a quote and be redirected back to the quote list (CXSPA-4035)', () => {
       quote.prepareQuote(
-        POWERTOOLS,
         TEST_PRODUCT_HAMMER_DRILLING_ID,
         PRODUCT_AMOUNT_30,
         true
@@ -154,17 +150,11 @@ context('Quote', () => {
   describe('Edit quote process - seller (sales assistant) perspective (CXSPA-4235)', () => {
     it('should set an expiry date, give a discount and submit the quote', () => {
       quote.prepareQuote(
-        POWERTOOLS,
         TEST_PRODUCT_HAMMER_DRILLING_ID,
         PRODUCT_AMOUNT_30,
         true
       );
-      quote.prepareSellerQuote(
-        POWERTOOLS,
-        SALESREP_EMAIL,
-        SALESREP_PASSWORD,
-        buyer
-      );
+      quote.prepareSellerQuote(SALESREP_EMAIL, SALESREP_PASSWORD, buyer);
       quote.enableEditQuoteMode();
       quote.setExpiryDate();
       quote.checkTotalEstimatedPrice('$26,160.00');
@@ -178,7 +168,6 @@ context('Quote', () => {
   describe('Quote cart support (CXSPA-4036)', () => {
     beforeEach(() => {
       quote.prepareQuote(
-        POWERTOOLS,
         TEST_PRODUCT_HAMMER_DRILLING_ID,
         PRODUCT_AMOUNT_30,
         true
@@ -187,7 +176,10 @@ context('Quote', () => {
 
     it('should request a quote and add several items to the same quote', () => {
       quote.checkItemQuantity(1, '30');
-      common.goToPDPage(POWERTOOLS, TEST_PRODUCT_HAMMER_DRILLING_ID);
+      common.goToPDPage(
+        Cypress.env('BASE_SITE'),
+        TEST_PRODUCT_HAMMER_DRILLING_ID
+      );
       quote.setQuantity(PRODUCT_AMOUNT_30.toString());
       common.clickOnAddToCartBtnOnPD();
       quote.clickOnViewCartBtnOnPD();
@@ -195,18 +187,13 @@ context('Quote', () => {
     });
 
     it('should submit a quote and not be able to add any further items to the quote in checkout', () => {
-      quote.prepareSellerQuote(
-        POWERTOOLS,
-        SALESREP_EMAIL,
-        SALESREP_PASSWORD,
-        buyer
-      );
+      quote.prepareSellerQuote(SALESREP_EMAIL, SALESREP_PASSWORD, buyer);
       quote.checkQuoteState(quote.STATUS_REQUESTED);
       quote.submitQuote(quote.STATUS_SALES_REPORTER_SUBMIT);
       asm.agentSignOut();
       quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
       quote.gotToQuoteOverviewPage();
-      quote.submitQuote(quote.STATUS_BUYER_CHECKOUT, POWERTOOLS);
+      quote.submitQuote(quote.STATUS_BUYER_CHECKOUT);
       quote.addProductAndCheckForGlobalMessage(
         TEST_PRODUCT_HAMMER_DRILLING_NAME,
         'Not possible to do changes to cart entries. Proceed to checkout'
