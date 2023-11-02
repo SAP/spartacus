@@ -112,27 +112,61 @@ export class ProductListComponentService {
       .subscribe((results) => {
         const previousCriteria: SearchCriteria = {
           query: results?.currentQuery?.query?.value,
-          // Can be stored as zero as previousCriteria but undefined as new criteria.
-          // We need to set these to the zero-values to perform the equivalency check.
-          currentPage:
-            results?.pagination?.currentPage > 0
-              ? results?.pagination?.currentPage
-              : undefined,
+          currentPage: results?.pagination?.currentPage,
           pageSize: results?.pagination?.pageSize,
-          // Only check "sortCode" if it is defined in criteria as sortCode is often an undefined queryParam
-          // but it will always get defined as a string in previousCriteria if a search was made.
-          sortCode: criteria.sortCode ? results?.pagination?.sort : undefined,
+          sortCode: results?.pagination?.sort,
         };
-        const isChanged: string | undefined = Object.keys(
-          previousCriteria
-        ).find(
-          (key: string) =>
-            previousCriteria[key]?.toString() !== criteria[key]?.toString()
-        );
-        if (isChanged) {
+        if (
+          checkQueriesDiffer(previousCriteria, criteria) ||
+          checkCurrentPagesDiffer(previousCriteria, criteria) ||
+          checkPageSizesDiffer(previousCriteria, criteria) ||
+          checkSortCodesDiffer(previousCriteria, criteria)
+        ) {
           this.search(criteria);
         }
       });
+
+    function checkQueriesDiffer(
+      previous: SearchCriteria,
+      criteria: SearchCriteria
+    ): boolean {
+      // Remove sortCode portion from queries.
+      const previousQuery = previous.query?.slice(
+        previous.query.indexOf(':', 1)
+      );
+      const currentQuery = criteria.query?.slice(
+        criteria.query.indexOf(':', 1)
+      );
+      return previousQuery !== currentQuery;
+    }
+
+    function checkCurrentPagesDiffer(
+      previous: SearchCriteria,
+      criteria: SearchCriteria
+    ) {
+      // Can be stored as zero for previousCriteria but undefined as new criteria.
+      // We need to set these to the zero-values to perform the equivalency check.
+      const previousPage =
+        previous?.currentPage > 0 ? previous.currentPage : undefined;
+      return previousPage?.toString() !== criteria.currentPage?.toString();
+    }
+
+    function checkPageSizesDiffer(
+      previous: SearchCriteria,
+      criteria: SearchCriteria
+    ) {
+      return previous.pageSize?.toString() !== criteria.pageSize?.toString();
+    }
+
+    function checkSortCodesDiffer(
+      previous: SearchCriteria,
+      criteria: SearchCriteria
+    ) {
+      // Only check "sortCode" if it is defined in criteria as sortCode is often an undefined queryParam
+      // but it will always get defined as a string in previousCriteria if a search was made.
+      const previousCode = criteria.sortCode ? previous?.sortCode : undefined;
+      return previousCode?.toString() !== criteria.sortCode?.toString();
+    }
   }
 
   /**
