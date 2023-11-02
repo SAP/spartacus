@@ -104,7 +104,7 @@ export class QuoteHeaderOverviewComponent {
    *
    * @param {string} name - Quote name
    * @param {string} description - Quote description
-   * @returns {Observable<Card>} - Card content
+   * @returns {Observable<Card>} - Observable emitting a card content
    */
   getQuoteInformation(name?: string, description?: string): Observable<Card> {
     return combineLatest([
@@ -135,7 +135,7 @@ export class QuoteHeaderOverviewComponent {
    *
    * @param {string} name - Quote name
    * @param {string} description - Quote description
-   * @returns {Observable<EditCard>} - Edit card content
+   * @returns {Observable<EditCard>} - Observable emitting an edit card content
    */
   getEditQuoteInformation(name: string, description: string): EditCard {
     return {
@@ -150,7 +150,7 @@ export class QuoteHeaderOverviewComponent {
    *
    * @param {Quote} quote - Quote
    * @param {any} expiryDate -  Expiry date
-   * @returns {Observable<Card>} - Card content
+   * @returns {Observable<Card>} - Observable emitting a card content
    */
   getEstimatedTotalAndExpiryDate(
     quote: Quote,
@@ -187,7 +187,7 @@ export class QuoteHeaderOverviewComponent {
    *
    * @param {string} createdDate - Created date
    * @param {string} lastUpdatedDate - Last updated date
-   * @returns {Observable<Card>} - Card content
+   * @returns {Observable<Card>} - Observable emitting a card content
    */
   getCreatedAndUpdatedDates(
     createdDate?: string | null,

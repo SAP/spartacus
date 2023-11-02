@@ -161,7 +161,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * returns the style class to be used for the button, so wether its a primary, secondary or tertiary button.
+   * Returns the style class to be used for the button, so whether its a primary, secondary or tertiary button.
    *
    * @param allowedActions currently displayed actions
    * @param action action associated with this button

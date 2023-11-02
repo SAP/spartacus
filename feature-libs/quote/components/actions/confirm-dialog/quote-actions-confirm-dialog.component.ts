@@ -51,6 +51,11 @@ export class QuoteActionsConfirmDialogComponent implements OnInit {
     );
   }
 
+  /**
+   * Closes a modal with a certain reason.
+   *
+   * @param {any} reason - Reason
+   */
   dismissModal(reason?: any): void {
     this.launchDialogService.closeDialog(reason);
   }

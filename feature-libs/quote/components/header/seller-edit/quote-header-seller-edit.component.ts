@@ -112,6 +112,7 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
   /**
    * Should the validation message be displayed?
    * @returns True in case discount control has errors

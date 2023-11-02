@@ -162,7 +162,7 @@ describe('QuoteService', () => {
   let quoteStorefrontUtilsService: QuoteStorefrontUtilsService;
 
   beforeEach(() => {
-    let mockedQuoteStorefontUtilsService = {
+    let mockedQuoteStorefrontUtilsService = {
       getElement: createSpy(),
     };
 
@@ -184,7 +184,7 @@ describe('QuoteService', () => {
         { provide: CartUtilsService, useClass: MockCartUtilsService },
         {
           provide: QuoteStorefrontUtilsService,
-          useValue: mockedQuoteStorefontUtilsService,
+          useValue: mockedQuoteStorefrontUtilsService,
         },
       ],
     });

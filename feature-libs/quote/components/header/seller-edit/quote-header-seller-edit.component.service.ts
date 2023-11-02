@@ -56,6 +56,7 @@ export class QuoteHeaderSellerEditComponentService {
       map((localizationElements) => localizationElements.formatter)
     );
   }
+
   /**
    * Retrieves localization elements according to current locale and currency
    * @returns Observables of localization elements
@@ -148,10 +149,10 @@ export class QuoteHeaderSellerEditComponentService {
   }
 
   /**
-   * Retrieve maximum number of decimal places. This supports validation, but it is not sufficient to do a complete validation,
+   * Retrieves maximum number of decimal places. This supports validation, but it is not sufficient to do a complete validation,
    * cases where the granted discount exceeds the total quote value by 1 are not covered (covered in OCC call).
    * Still we want to inform the user as early as possible.
-   * Note that we assume currencies always come with 2 decimal places. In case this is not desired, this service can be overriden.
+   * Note that we assume currencies always come with 2 decimal places. In case this is not desired, this service can be overridden.
    * @param quote Quote
    * @returns Maximum number of places, including 2 decimal places
    */

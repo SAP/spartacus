@@ -101,7 +101,7 @@ export class QuoteCommentsComponent {
   }
 
   /**
-   * Check whether the comment section shall be shown at all.
+   * Checks whether the comment section shall be shown at all.
    * In case the quote is in readonly mode and no comments are present, comment section is hidden, as there is nothing to display.
    * In case the quote is editable the comment section is always shown, as you could at least add comments from it.
    *

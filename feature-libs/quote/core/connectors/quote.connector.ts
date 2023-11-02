@@ -71,7 +71,7 @@ export class QuoteConnector {
   }
 
   /**
-   * Triggers an action on a quote idenfified by its code
+   * Triggers an action on a quote identified by its code
    * @param userId Quote user
    * @param quoteCode Quote code, identifies a quote for a given user role
    * @param quoteAction Quote action

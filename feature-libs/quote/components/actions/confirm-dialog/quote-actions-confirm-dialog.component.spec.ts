@@ -50,7 +50,7 @@ class MockCxIconComponent {
 @Directive({
   selector: '[cxFocus]',
 })
-export class MockKeyboadFocusDirective {
+export class MockKeyboardFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 

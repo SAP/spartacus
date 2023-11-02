@@ -49,7 +49,7 @@ const mockQuoteDiscountResponse = {
     errors: [
       {
         message:
-          'Discount type is absolute, but the discont rate is greater than cart total [258.0]!',
+          'Discount type is absolute, but the discount rate is greater than cart total [258.0]!',
         type: 'IllegalArgumentError',
       },
     ],
@@ -124,7 +124,7 @@ describe('QuoteBadRequestHandler', () => {
     );
   });
 
-  it('should handle treshold error', () => {
+  it('should handle threshold error', () => {
     spyOn(globalMessageService, 'add');
     classUnderTest.handleError(mockRequest, mockQuoteUnderThresholdResponse);
 

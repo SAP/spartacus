@@ -14,7 +14,7 @@ export class QuoteStorefrontUtilsService {
   protected windowRef = inject(WindowRef);
 
   /**
-   * Get HTML element based on querySelector when running in browser
+   * Retrieves HTML element based on querySelector when running in browser.
    * @param querySelector - querySelector
    * @returns selected HTML element
    */
