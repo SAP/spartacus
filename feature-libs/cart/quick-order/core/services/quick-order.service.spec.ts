@@ -328,22 +328,16 @@ describe('QuickOrderService', () => {
   it('should add deleted entry and after 7s delete it', fakeAsync(() => {
     service.loadEntries(mockEntries);
     service.softDeleteEntry(0);
+    let result: Record<string, OrderEntry>;
 
-    service
-      .getSoftDeletedEntries()
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual({ mockCode1: mockEntry1 });
-      });
+    service.getSoftDeletedEntries().subscribe((val) => {
+      result = val;
+    });
+    expect(result).toEqual({ mockCode1: mockEntry1 });
 
     tick(7000);
 
-    service
-      .getSoftDeletedEntries()
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual({});
-      });
+    expect(result).toEqual({});
   }));
 
   it('should not add deleted entry', (done) => {

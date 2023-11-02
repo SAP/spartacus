@@ -35,13 +35,13 @@ import {
   SPARTACUS_SCOPE,
 } from './const';
 import {
-  error,
   Library,
-  logUpdatedFile,
   PackageJson,
   ProgramOptions,
-  reportProgress,
   Repository,
+  error,
+  logUpdatedFile,
+  reportProgress,
   success,
 } from './index';
 
@@ -162,7 +162,7 @@ export function manageDependencies(
         const sourceFile = ts.createSourceFile(
           fileName,
           readFileSync(fileName).toString(),
-          ts.ScriptTarget.ES2020,
+          ts.ScriptTarget.ES2022,
           true
         );
 
