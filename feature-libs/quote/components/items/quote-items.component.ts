@@ -12,7 +12,7 @@ import {
   ActiveCartFacade,
   CartOutlets,
   MultiCartFacade,
-  OrderEntry
+  OrderEntry,
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';

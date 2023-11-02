@@ -1,6 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  AbstractOrderType,
   ActiveCartFacade,
   Cart,
   MultiCartFacade,
@@ -21,10 +22,7 @@ import { IconTestingModule, OutletDirective } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { BehaviorSubject, EMPTY, NEVER, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import {
-  QUOTE_CODE,
-  createEmptyQuote,
-} from '../../core/testing/quote-test-utils';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteItemsComponent } from './quote-items.component';
 import { QuoteItemsComponentService } from './quote-items.component.service';
@@ -65,10 +63,14 @@ const quoteWoCartId: Quote = {
   cartId: undefined,
 };
 
-const cart: Cart = {};
+const cartAttachedToQuote: Cart = { code: cartId, entries: [] };
+const activeCartAttachedToQuote: Cart = { code: cartId, entries: [{}] };
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(quote);
-const mockCart$ = new BehaviorSubject<Cart>(cart);
+const mockCartAttachedToQuote$ = new BehaviorSubject<Cart>(cartAttachedToQuote);
+const mockActiveCartAttachedToQuote$ = new BehaviorSubject<Cart>(
+  activeCartAttachedToQuote
+);
 let cartObsHasFired = false;
 let quoteObsHasFired = false;
 let savedCartObsHasFired = false;
@@ -83,13 +85,15 @@ class MockQuoteFacade implements Partial<QuoteFacade> {
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
-    return mockCart$.asObservable().pipe(tap(() => (cartObsHasFired = true)));
+    return mockActiveCartAttachedToQuote$
+      .asObservable()
+      .pipe(tap(() => (cartObsHasFired = true)));
   }
 }
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
   getCart(): Observable<Cart> {
-    return mockCart$
+    return mockCartAttachedToQuote$
       .asObservable()
       .pipe(tap(() => (savedCartObsHasFired = true)));
   }
@@ -185,19 +189,93 @@ describe('QuoteItemsComponent', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should provide quoteCartReadOnly$ observable if quote is linked to a cart', () => {
-      expect(component.quoteCartReadOnly$).toBeObservable(
+    it('should provide quoteItemsData$ observable based on quote cart if quote is linked to a cart and read-only', () => {
+      mockQuoteDetails$.next(quote);
+      expect(component.quoteItemsData$).toBeObservable(
         cold('a', {
-          a: cart,
+          a: { readOnly: true, entries: cartAttachedToQuote.entries },
         })
       );
     });
 
-    it('should not provide quoteCartReadOnly$ observable if quote is not linked to a cart', () => {
+    it('should provide quoteItemsData$ observable based on quote if quote is not linked to a cart', () => {
       mockQuoteDetails$.next(quoteWoCartId);
       fixture = TestBed.createComponent(QuoteItemsComponent);
       component = fixture.componentInstance;
-      expect(component.quoteCartReadOnly$).toBeObservable(cold(''));
+      expect(component.quoteItemsData$).toBeObservable(
+        cold('a', { a: { readOnly: true, entries: quote.entries } })
+      );
+    });
+
+    it('should provide quoteItemsData$ observable based on active cart if quote is editable', () => {
+      mockQuoteDetails$.next(quoteEditable);
+      fixture = TestBed.createComponent(QuoteItemsComponent);
+      component = fixture.componentInstance;
+      expect(component.quoteItemsData$).toBeObservable(
+        cold('a', {
+          a: { readOnly: false, entries: activeCartAttachedToQuote.entries },
+        })
+      );
+    });
+  });
+
+  describe('Abstract order context', () => {
+    it('should emit type SAVED_CART if quote is linked to a cart and read-only', () => {
+      mockQuoteDetails$.next(quote);
+      expect(component['abstractOrderContextSource'].type$).toBeObservable(
+        cold('a', {
+          a: AbstractOrderType.SAVED_CART,
+        })
+      );
+    });
+
+    it('should emit id from quote cart if quote is linked to a cart and read-only', () => {
+      mockQuoteDetails$.next(quote);
+      expect(component['abstractOrderContextSource'].id$).toBeObservable(
+        cold('a', {
+          a: cartId,
+        })
+      );
+    });
+
+    it('should emit type QUOTE if quote is not linked to a cart', () => {
+      mockQuoteDetails$.next(quoteWoCartId);
+      fixture.detectChanges();
+      expect(component['abstractOrderContextSource'].type$).toBeObservable(
+        cold('a', {
+          a: AbstractOrderType.QUOTE,
+        })
+      );
+    });
+
+    it('should emit id from quote if quote is linked to a cart and read-only', () => {
+      mockQuoteDetails$.next(quoteWoCartId);
+      fixture.detectChanges();
+      expect(component['abstractOrderContextSource'].id$).toBeObservable(
+        cold('a', {
+          a: quote.code,
+        })
+      );
+    });
+
+    it('should emit type CART if quote is editable', () => {
+      mockQuoteDetails$.next(quoteEditable);
+      fixture.detectChanges();
+      expect(component['abstractOrderContextSource'].type$).toBeObservable(
+        cold('a', {
+          a: AbstractOrderType.CART,
+        })
+      );
+    });
+
+    it('should emit id from active cart if quote is editable', () => {
+      mockQuoteDetails$.next(quoteEditable);
+      fixture.detectChanges();
+      expect(component['abstractOrderContextSource'].id$).toBeObservable(
+        cold('a', {
+          a: cartId,
+        })
+      );
     });
   });
 
@@ -229,9 +307,8 @@ describe('QuoteItemsComponent', () => {
 
   describe('Ghost animation', () => {
     it('should render view for ghost animation', () => {
-      component.quoteDetails$ = NEVER;
+      component.quoteItemsData$ = NEVER;
       fixture.detectChanges();
-
       CommonQuoteTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -367,12 +444,5 @@ describe('QuoteItemsComponent', () => {
     expect(
       mockQuoteItemsComponentService.setQuoteEntriesExpanded
     ).toHaveBeenCalledWith(true);
-  });
-
-  it('should provide quote details observable', (done) => {
-    component.quoteDetails$.subscribe((quoteDetails) => {
-      expect(quoteDetails.code).toBe(QUOTE_CODE);
-      done();
-    });
   });
 });

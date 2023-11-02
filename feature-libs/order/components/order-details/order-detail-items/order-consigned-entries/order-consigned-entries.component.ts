@@ -5,10 +5,7 @@
  */
 
 import { Component, Input } from '@angular/core';
-import {
-  CartOutlets,
-  PromotionLocation
-} from '@spartacus/cart/base/root';
+import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 
 @Component({

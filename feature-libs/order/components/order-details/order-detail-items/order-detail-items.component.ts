@@ -11,7 +11,7 @@ import {
   AbstractOrderType,
   CartOutlets,
   OrderEntry,
-  PromotionLocation
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { CmsOrderDetailItemsComponent } from '@spartacus/core';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
@@ -27,7 +27,7 @@ import { OrderDetailsService } from '../order-details.service';
   providers: [
     AbstractOrderContextSource,
     { provide: AbstractOrderContext, useExisting: AbstractOrderContextSource },
-  ],  
+  ],
 })
 export class OrderDetailItemsComponent {
   protected orderConsignmentsService = inject(

@@ -11,7 +11,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional
+  Optional,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
@@ -22,7 +22,7 @@ import {
   MultiCartFacade,
   OrderEntry,
   PromotionLocation,
-  SelectiveCartFacade
+  SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';

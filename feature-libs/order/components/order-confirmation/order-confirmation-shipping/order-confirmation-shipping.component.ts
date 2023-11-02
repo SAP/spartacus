@@ -20,7 +20,7 @@ import {
   AbstractOrderType,
   CartOutlets,
   DeliveryMode,
-  OrderEntry
+  OrderEntry,
 } from '@spartacus/cart/base/root';
 import { Address, TranslationService } from '@spartacus/core';
 import {
