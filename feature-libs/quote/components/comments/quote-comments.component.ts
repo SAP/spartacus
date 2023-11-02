@@ -46,6 +46,13 @@ export class QuoteCommentsComponent {
   messageEvents$: Observable<Array<MessageEvent>> = this.prepareMessageEvents();
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
 
+  /**
+   * Creates a quote comment based on the provided message event.
+   * In case it contains an itemId the comment will be associated with this item, otherwise a header comment is created.
+   *
+   * @param event message event
+   * @param code quote code
+   */
   onSend(event: { message: string; itemId?: string }, code: string) {
     this.quoteFacade
       .addQuoteComment(code, { text: event.message }, event.itemId)
@@ -72,6 +79,11 @@ export class QuoteCommentsComponent {
       );
   }
 
+  /**
+   * Ensures that the quote item list is expanded, before scrolling to the corresponding item.
+   *
+   * @param event click event containing the target item
+   */
   onItemClicked(event: { item: Item }) {
     this.quoteItemsComponentService.setQuoteEntriesExpanded(true);
     this.quoteItemsComponentService
@@ -88,6 +100,14 @@ export class QuoteCommentsComponent {
       });
   }
 
+  /**
+   * Check whether the comment section shall be shown at all.
+   * In case the quote is in readonly mode and no comments are present, comment section is hidden, as there is nothing to display.
+   * In case the quote is editable the comment section is always shown, as you could at least add comments from it.
+   *
+   * @param quote quote
+   * @returns true, only is the comment section shall be shown
+   */
   showComments(quote: Quote): boolean {
     let numItemComments = 0;
     quote.entries?.forEach(
