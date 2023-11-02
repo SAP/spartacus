@@ -30,11 +30,7 @@
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
         [cxOutletContext]="{
           items: entries,
-          readonly: true,
-          options: {
-            ownerType: abstractOrderEntryOwnerType.ORDER,
-            ownerId: order.code
-          }
+          readonly: true
         }"
       >
       </ng-template>

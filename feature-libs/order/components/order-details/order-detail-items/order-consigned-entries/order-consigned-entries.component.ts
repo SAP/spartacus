@@ -6,9 +6,8 @@
 
 import { Component, Input } from '@angular/core';
 import {
-  AbstractOrderType,
   CartOutlets,
-  PromotionLocation,
+  PromotionLocation
 } from '@spartacus/cart/base/root';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 
@@ -26,5 +25,4 @@ export class OrderConsignedEntriesComponent {
 
   readonly OrderOutlets = OrderOutlets;
   readonly CartOutlets = CartOutlets;
-  readonly abstractOrderEntryOwnerType = AbstractOrderType;
 }

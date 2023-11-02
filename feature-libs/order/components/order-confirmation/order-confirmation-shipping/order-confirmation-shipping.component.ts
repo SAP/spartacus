@@ -12,12 +12,15 @@ import {
   OnDestroy,
   OnInit,
   Optional,
+  inject,
 } from '@angular/core';
+import { AbstractOrderContextSource } from '@spartacus/cart/base/components';
 import {
+  AbstractOrderContext,
   AbstractOrderType,
   CartOutlets,
   DeliveryMode,
-  OrderEntry,
+  OrderEntry
 } from '@spartacus/cart/base/root';
 import { Address, TranslationService } from '@spartacus/core';
 import {
@@ -34,12 +37,16 @@ import { map, tap } from 'rxjs/operators';
   selector: 'cx-order-confirmation-shipping',
   templateUrl: './order-confirmation-shipping.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    AbstractOrderContextSource,
+    { provide: AbstractOrderContext, useExisting: AbstractOrderContextSource },
+  ],
 })
 export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
   @Input() showItemList: boolean = true;
 
   readonly cartOutlets = CartOutlets;
-  readonly abstractOrderEntryOwnerType = AbstractOrderType;
+  protected abstractOrderContextSource = inject(AbstractOrderContextSource);
 
   entries: OrderEntry[] | undefined;
 
@@ -50,6 +57,10 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
         this.entries = order?.entries?.filter(
           (entry) => entry.deliveryPointOfService === undefined
         );
+      }),
+      tap((order) => {
+        this.abstractOrderContextSource.id$.next(order?.code);
+        this.abstractOrderContextSource.type$.next(AbstractOrderType.ORDER);
       })
     );
 

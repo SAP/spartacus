@@ -1,3 +1,4 @@
+<ng-container *ngIf="abstractOrderData$ | async as abstractOrderData">
 <ng-container *ngIf="cartEntry">
   <label *ngIf="isDisabled()" class="disabled-link">
     <ng-container *ngIf="isDisabled(); then configureText"> </ng-container>
@@ -10,8 +11,8 @@
       {
         cxRoute: getRoute(),
         params: {
-          ownerType: getOwnerType(),
-          entityKey: getEntityKey(),
+          ownerType: retrieveOwnerTypeFromAbstractOrderType(abstractOrderData),
+          entityKey: retrieveEntityKey(abstractOrderData),
           displayOnly: getDisplayOnly()
         }
       } | cxUrl
@@ -36,3 +37,4 @@
     {{ 'configurator.header.resolveIssues' | cxTranslate }}
   </ng-container>
 </ng-template>
+</ng-container>

@@ -5,11 +5,13 @@
  */
 
 import { Component, inject } from '@angular/core';
+import { AbstractOrderContextSource } from '@spartacus/cart/base/components';
 import {
+  AbstractOrderContext,
   AbstractOrderType,
   CartOutlets,
   OrderEntry,
-  PromotionLocation,
+  PromotionLocation
 } from '@spartacus/cart/base/root';
 import { CmsOrderDetailItemsComponent } from '@spartacus/core';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
@@ -22,6 +24,10 @@ import { OrderDetailsService } from '../order-details.service';
 @Component({
   selector: 'cx-order-details-items',
   templateUrl: './order-detail-items.component.html',
+  providers: [
+    AbstractOrderContextSource,
+    { provide: AbstractOrderContext, useExisting: AbstractOrderContextSource },
+  ],  
 })
 export class OrderDetailItemsComponent {
   protected orderConsignmentsService = inject(
@@ -29,7 +35,7 @@ export class OrderDetailItemsComponent {
   );
   readonly OrderOutlets = OrderOutlets;
   readonly CartOutlets = CartOutlets;
-  readonly abstractOrderEntryOwnerType = AbstractOrderType;
+  protected abstractOrderContextSource = inject(AbstractOrderContextSource);
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
 
@@ -49,6 +55,10 @@ export class OrderDetailItemsComponent {
         order,
         false
       );
+    }),
+    tap((order) => {
+      this.abstractOrderContextSource.id$.next(order?.code);
+      this.abstractOrderContextSource.type$.next(AbstractOrderType.ORDER);
     })
   );
 

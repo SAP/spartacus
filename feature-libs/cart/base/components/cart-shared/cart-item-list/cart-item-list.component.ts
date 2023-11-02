@@ -11,13 +11,10 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
-  inject,
+  Optional
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
-  AbstractOrderContext,
-  AbstractOrderType,
   ActiveCartFacade,
   CartItemComponentOptions,
   CartOutlets,
@@ -25,13 +22,12 @@ import {
   MultiCartFacade,
   OrderEntry,
   PromotionLocation,
-  SelectiveCartFacade,
+  SelectiveCartFacade
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
-import { AbstractOrderContextSource } from '../abstract-order';
 
 interface ItemListContext {
   readonly?: boolean;
@@ -47,10 +43,6 @@ interface ItemListContext {
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    AbstractOrderContextSource,
-    { provide: AbstractOrderContext, useExisting: AbstractOrderContextSource },
-  ],
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
@@ -93,7 +85,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       this.cd.markForCheck();
     }
   }
-  protected abstractOrderContextSource = inject(AbstractOrderContextSource);
 
   readonly CartOutlets = CartOutlets;
   constructor(
@@ -112,16 +103,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       this.userIdService
         ?.getUserId()
         .subscribe((userId) => (this.userId = userId))
-    );
-
-    //TODO CHHI just temp
-    //Do this even higher in the comp. hierachy so we are sure which abstract order entry is used
-    this.subscription.add(
-      this.activeCartService.getActiveCartId().subscribe((id) => {
-        this.abstractOrderContextSource.id$.next(id);
-        this.abstractOrderContextSource.type$.next(AbstractOrderType.CART);
-        console.log('CHHI emitting new context values');
-      })
     );
   }
 

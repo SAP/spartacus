@@ -19,9 +19,6 @@ import { ReplaySubject } from 'rxjs';
  */
 @Injectable()
 export class AbstractOrderContextSource implements AbstractOrderContext {
-  constructor(){
-    console.log("CHHI AbstractOrderContextSource created");
-  }
   readonly type$ = new ReplaySubject<AbstractOrderType>(1);
   readonly id$ = new ReplaySubject<string>(1);
 }

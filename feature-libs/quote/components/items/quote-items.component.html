@@ -1,4 +1,4 @@
-<ng-container *ngIf="quoteDetails$ | async as quoteDetails; else ghostCart">
+<ng-container *ngIf="quoteItemsData$ | async as quoteItemsData; else ghostCart">
   <ng-container *ngIf="{ showCart: showCart$ | async } as state">
     <div
       class="cx-toggle"
@@ -16,39 +16,10 @@
     </div>
     <ng-container *ngIf="state.showCart">
       <ng-template
-        *ngIf="!quoteDetails.isEditable && quoteDetails.cartId === undefined"
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
         [cxOutletContext]="{
-          items: quoteDetails.entries ?? [],
-          readonly: true,
-          options: { ownerType: OWNER_TYPE.QUOTE, ownerId: quoteDetails.code }
-        }"
-      >
-      </ng-template>
-      <ng-template
-        *ngIf="
-          !quoteDetails.isEditable &&
-          quoteDetails.cartId !== undefined &&
-          (quoteCartReadOnly$ | async) as quoteCartReadOnly
-        "
-        [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-        [cxOutletContext]="{
-          items: quoteCartReadOnly.entries ?? [],
-          readonly: true,
-          options: {
-            ownerType: OWNER_TYPE.SAVED_CART,
-            ownerId: quoteCartReadOnly.code
-          }
-        }"
-      >
-      </ng-template>
-      <ng-template
-        *ngIf="quoteDetails.isEditable && (activeCart$ | async) as activeCart"
-        [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-        [cxOutletContext]="{
-          items: activeCart.entries ?? [],
-          readonly: false,
-          options: { ownerType: OWNER_TYPE.CART, ownerId: activeCart.code }
+          items: quoteItemsData.entries,
+          readonly: quoteItemsData.readOnly
         }"
       >
       </ng-template>
