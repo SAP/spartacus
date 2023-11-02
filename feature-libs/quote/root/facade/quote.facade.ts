@@ -39,25 +39,38 @@ import {
 export abstract class QuoteFacade {
   /**
    * Returns the query list state.
-   * @param params QueryStateParams
+   *
+   * @param params QueryStateParams - query state parameters
+   * @returns Observable emitting a list of quote states
    */
   abstract getQuotesState(
     params: QuotesStateParams
   ): Observable<QueryState<QuoteList | undefined>>;
 
   /**
-   * Create quote with name and comment.
+   * Creates quote with name and comment.
+   *
+   * @param quoteMetadata - quote meta data
+   * @returns Observable emitting a quote
    */
   abstract createQuote(quoteMetadata: QuoteMetadata): Observable<Quote>;
 
   /**
-   * Edit quote name, description or expiry date.
+   * Edits quote name, description or expiry date.
+   *
+   * @param quoteCode - quote code
+   * @param quoteMetadata - quote meta data
    */
   abstract editQuote(quoteCode: string, quoteMetadata: QuoteMetadata): void;
 
   /**
    * Adds a comment to a quote. If an entry number is provided,
    * it will be added as item comment for this entry, otherwise as header comment.
+   *
+   * @param quoteCode - quote code
+   * @param quoteComment - quote comment
+   * @param entryNumber - entry number
+   * @returns Observable emitting unknown
    */
   abstract addQuoteComment(
     quoteCode: string,
@@ -66,7 +79,11 @@ export abstract class QuoteFacade {
   ): Observable<unknown>;
 
   /**
-   * Perform action on quote.
+   * Performs action on quote.
+   *
+   * @param quote - quote
+   * @param quoteAction - quote action
+   * @returns Observable emitting unknown
    */
   abstract performQuoteAction(
     quote: Quote,
@@ -74,12 +91,17 @@ export abstract class QuoteFacade {
   ): Observable<unknown>;
 
   /**
-   * Re-quote a quote.
+   * Re-quotes a quote.
+   *
+   * @param quoteCode - quote code
+   * @returns Observable emitting a quote
    */
   abstract requote(quoteCode: string): Observable<Quote>;
 
   /**
    * Returns the quote details query state.
+   *
+   * @returns Observable emitting a query state of quote or unknown
    */
   abstract getQuoteDetailsQueryState(): Observable<
     QueryState<Quote | undefined>
@@ -87,13 +109,16 @@ export abstract class QuoteFacade {
 
   /**
    * Returns the quote details once it has been fully loaded.
+   *
+   * @returns Observable emitting a quote
    */
   abstract getQuoteDetails(): Observable<Quote>;
 
   /**
-   * Adds a discount to a quote
-   * @param quoteCode Unique quote code
-   * @param discount Discount
+   * Adds a discount to a quote.
+   *
+   * @param quoteCode - Unique quote code
+   * @param discount - Discount
    */
   abstract addDiscount(quoteCode: string, discount: QuoteDiscount): void;
 }
