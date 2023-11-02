@@ -131,12 +131,15 @@ export class ProductListComponentService {
       criteria: SearchCriteria
     ): boolean {
       // Remove sortCode portion from queries.
-      const previousQuery = previous.query?.slice(
-        previous.query.indexOf(':', 1)
-      );
-      const currentQuery = criteria.query?.slice(
-        criteria.query.indexOf(':', 1)
-      );
+      const DEFAULT_SORT_CODE = 'relevance';
+      const previousQuery = previous.sortCode
+        ? previous.query?.replace(':' + previous.sortCode, '')
+        : previous.query;
+      let currentQuery = criteria.sortCode
+        ? criteria.query?.replace(':' + criteria.sortCode, '')
+        : criteria.query;
+      currentQuery = currentQuery.replace(':' + DEFAULT_SORT_CODE, '');
+
       return previousQuery !== currentQuery;
     }
 
