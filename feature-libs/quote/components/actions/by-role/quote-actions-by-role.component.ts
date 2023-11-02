@@ -71,6 +71,14 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Checks whether the given action must be disabled on the UI based on the details of the quote.
+   * For example the SUBMIT action is disabled when the quote threshold is not exceeded.
+   *
+   * @param type type of the quote action
+   * @param quote quote
+   * @returns true, only of the action shall be disabled
+   */
   mustDisableAction(type: string, quote: Quote): boolean {
     return type === QuoteActionType.SUBMIT && !this.isThresholdReached(quote);
   }
@@ -80,6 +88,13 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     return (quote.totalPrice.value || 0) >= requestThreshold;
   }
 
+  /**
+   * Generic click handler for quote action buttons.
+   *
+   * @param action the action to be triggered
+   * @param quote quote
+   * @param cart cart
+   */
   onClick(action: QuoteActionType, quote: Quote, cart: Cart) {
     const cartIsEmpty = (cart.entries?.length ?? 0) === 0;
     if (!this.isConfirmationDialogRequired(action, quote.state, cartIsEmpty)) {
@@ -144,7 +159,14 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   protected requote(quoteId: string) {
     this.quoteFacade.requote(quoteId);
   }
-
+  
+  /**
+   * returns the style class to be used for the button, so wether its a primary, secondary or tertiary button.
+   *
+   * @param allowedActions currently displayed actions
+   * @param action action associated with this button
+   * @returns 'btn-primary' | 'btn-secondary' | 'btn-tertiary'
+   */
   getButtonStyle(allowedActions: QuoteAction[], action: QuoteAction): string {
     if (action.isPrimary) {
       return 'btn-primary';
@@ -181,7 +203,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     action: QuoteActionType,
     quote: Quote
   ): ConfirmationContext {
-    const dialogConfig = this.getDialogConfig(action, quote.state);
+    const dialogConfig = this.getConfirmDialogConfig(action, quote.state);
     const confirmationContext: ConfirmationContext = {
       quote: quote,
       title: dialogConfig.i18nKeyPrefix + '.title',
@@ -204,7 +226,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     return confirmationContext;
   }
 
-  protected getDialogConfig(
+  protected getConfirmDialogConfig(
     action: QuoteActionType,
     state: QuoteState
   ): ConfirmActionDialogConfig {
