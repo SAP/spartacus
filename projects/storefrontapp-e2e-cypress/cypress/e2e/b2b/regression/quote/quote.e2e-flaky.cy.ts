@@ -26,7 +26,7 @@ const buyer = {
 context('Quote', () => {
   // before all tests - ensure that cart is empty
   before(() => {
-    // add a product - do that it is guaranteed that clear cart link is available
+    // add a product - so that it is guaranteed that clear cart link is available
     cy.visit('/');
     quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
     quote.addProductToCart(TEST_PRODUCT_HAMMER_DRILLING_ID, '1');
