@@ -7,6 +7,7 @@
 import * as asm from '../../../../helpers/asm';
 import * as common from '../../../../helpers/common';
 import * as quote from '../../../../helpers/quote';
+import * as cart from '../../../../helpers/cart';
 
 const TEST_PRODUCT_HAMMER_DRILLING_ID = '3887130';
 const TEST_PRODUCT_HAMMER_DRILLING_NAME = 'DH40MR';
@@ -23,6 +24,17 @@ const buyer = {
 };
 
 context('Quote', () => {
+  // before all tests - ensure that cart is empty
+  before(() => {
+    // add a product - so that it is guaranteed that clear cart link is available
+    cy.visit('/');
+    quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
+    quote.addProductToCart(TEST_PRODUCT_HAMMER_DRILLING_ID, '1');
+    cart.clearActiveCart();
+    cart.validateEmptyCart();
+    quote.logout();
+  });
+
   let globalMessageSettings: any;
   beforeEach(() => {
     globalMessageSettings = {
