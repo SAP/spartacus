@@ -403,7 +403,7 @@ describe('QuoteHeaderOverviewComponent', () => {
       expect(result).toEqual(expected);
     });
 
-    it('should the card content that represents an empty estimated total and expiry date information', () => {
+    it('should retrieve the card content that represents an empty estimated total and expiry date information', () => {
       fixture.detectChanges();
 
       const expected = {

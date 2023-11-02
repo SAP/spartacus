@@ -43,8 +43,9 @@ export class QuoteCartGuard implements CanActivate {
       })
     );
   }
+
   /**
-   * Check if the current navigation is an allowed checkout navigation.
+   * Verifies if the current navigation is an allowed checkout navigation.
    * @param routerState Used to assess if a checkout navigation is attempted
    * @param isCheckoutAllowed Is checkout allowed although this guard is active? Only happens for quotes in state BUYER_OFFER
    * that can be ordered
