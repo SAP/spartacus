@@ -22,7 +22,7 @@ class MockConverterService {
 
 describe('OccQuoteEntryNormalizer', () => {
   let classUnderTest: OccQuoteEntryNormalizer;
-  let converter: ConverterService;
+  let converterService: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,8 +33,8 @@ describe('OccQuoteEntryNormalizer', () => {
     });
 
     classUnderTest = TestBed.inject(OccQuoteEntryNormalizer);
-    converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callThrough();
+    converterService = TestBed.inject(ConverterService);
+    spyOn(converterService, 'convert').and.callThrough();
   });
 
   it('should be created', () => {
@@ -45,7 +45,10 @@ describe('OccQuoteEntryNormalizer', () => {
     const result = classUnderTest.convert(quote);
     expect(result.code).toBe(quote.code);
     expect(result.entries?.length).toBe(1);
-    expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
+    expect(converterService.convert).toHaveBeenCalledWith(
+      product,
+      PRODUCT_NORMALIZER
+    );
   });
 
   it('should map quote code to each entry', () => {

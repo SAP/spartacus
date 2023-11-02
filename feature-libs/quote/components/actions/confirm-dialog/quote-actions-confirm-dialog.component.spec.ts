@@ -64,8 +64,8 @@ describe('QuoteActionsConfirmDialogComponent', () => {
   let component: QuoteActionsConfirmDialogComponent;
   let fixture: ComponentFixture<QuoteActionsConfirmDialogComponent>;
   let htmlElem: HTMLElement;
-  let mockLaunchDialogService: LaunchDialogService;
-  let datePipe: CxDatePipe;
+  let launchDialogService: LaunchDialogService;
+  let cxDatePipe: CxDatePipe;
 
   let dialogDataSender: BehaviorSubject<{
     confirmationContext: ConfirmationContext;
@@ -105,9 +105,9 @@ describe('QuoteActionsConfirmDialogComponent', () => {
     fixture = TestBed.createComponent(QuoteActionsConfirmDialogComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
-    mockLaunchDialogService = TestBed.inject(LaunchDialogService);
-    datePipe = TestBed.inject(CxDatePipe);
-    spyOn(mockLaunchDialogService, 'closeDialog');
+    launchDialogService = TestBed.inject(LaunchDialogService);
+    cxDatePipe = TestBed.inject(CxDatePipe);
+    spyOn(launchDialogService, 'closeDialog');
     component.ngOnInit();
     fixture.detectChanges();
   });
@@ -122,7 +122,7 @@ describe('QuoteActionsConfirmDialogComponent', () => {
       'button.btn-primary'
     );
     primaryButton.click();
-    expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('yes');
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith('yes');
   });
 
   it('should close the dialog on no', () => {
@@ -131,7 +131,7 @@ describe('QuoteActionsConfirmDialogComponent', () => {
       'button.btn-secondary'
     );
     secondaryButton.click();
-    expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('no');
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith('no');
   });
 
   it('should contain expected title', () => {
@@ -176,7 +176,7 @@ describe('QuoteActionsConfirmDialogComponent', () => {
       '.cx-modal-container'
     );
     modal.dispatchEvent(new Event('esc'));
-    expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
+    expect(launchDialogService.closeDialog).toHaveBeenCalled();
   });
 
   describe('isNotEmpty', () => {
@@ -226,7 +226,7 @@ describe('QuoteActionsConfirmDialogComponent', () => {
     it('should return a validity with date and a confirmation note', () => {
       const context = structuredClone(confirmationContext);
       context.warningNote = null;
-      const expirationTime = datePipe.transform(
+      const expirationTime = cxDatePipe.transform(
         confirmationContext.quote.expirationTime
       );
       const a11yModalText =
@@ -239,7 +239,7 @@ describe('QuoteActionsConfirmDialogComponent', () => {
 
     it('should return a complete a11y relevant information', () => {
       const context = structuredClone(confirmationContext);
-      const expirationTime = datePipe.transform(
+      const expirationTime = cxDatePipe.transform(
         confirmationContext.quote.expirationTime
       );
       const a11yModalText =
@@ -305,7 +305,7 @@ describe('QuoteActionsConfirmDialogComponent', () => {
     });
 
     it('should contain a explanatory text that is seen only for a screen reader and explains that the conflicts must be resolved to continue', () => {
-      const expirationTime = datePipe.transform(
+      const expirationTime = cxDatePipe.transform(
         confirmationContext.quote.expirationTime
       );
       const a11yModalText =
