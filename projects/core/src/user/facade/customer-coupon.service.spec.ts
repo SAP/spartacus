@@ -234,4 +234,11 @@ describe('CustomerCouponService', () => {
       })
     );
   });
+  it('should dispatch ResetDisclaimCustomerCoupon action', () => {
+    service.resetDisclaimCustomerCoupon();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.ResetDisclaimCustomerCoupon()
+    );
+  });
 });
