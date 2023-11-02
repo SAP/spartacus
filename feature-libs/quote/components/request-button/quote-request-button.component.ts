@@ -12,8 +12,8 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
-import { QuoteFacade } from '@spartacus/quote/root';
 import { RoutingService } from '@spartacus/core';
+import { QuoteFacade } from '@spartacus/quote/root';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -30,6 +30,10 @@ export class QuoteRequestButtonComponent implements OnDestroy {
 
   protected subscription = new Subscription();
 
+  /**
+   * Creates a new quote and triggers the navigation according to route 'quoteDetails',
+   * in order to land on the quote details page
+   */
   goToQuoteDetails(): void {
     this.subscription.add(
       this.quoteFacade

@@ -9,8 +9,8 @@ import {
 } from '@angular/core/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
-import { Comment, Quote, QuoteFacade } from '@spartacus/quote/root';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
+import { Comment, Quote, QuoteFacade } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
   MessagingComponent,
@@ -20,9 +20,9 @@ import { cold } from 'jasmine-marbles';
 import { NEVER, Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../config';
-import { QuoteCommentsComponent } from './quote-comments.component';
 import { QuoteItemsComponentService } from '../items';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
+import { QuoteCommentsComponent } from './quote-comments.component';
 
 const QUOTE_CODE = 'q123';
 const ALL_PRODUCTS_ID = '';
@@ -156,87 +156,91 @@ describe('QuoteCommentsComponent', () => {
     );
   });
 
-  it('should collapse the comments area when clicking the toggle', () => {
-    CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
-    fixture.detectChanges();
-    CommonQuoteTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-messaging'
-    );
-  });
-
-  it('should toggle the comments on enter', () => {
-    CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
-    fixture.detectChanges();
-    CommonQuoteTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-messaging'
-    );
-  });
-
-  it('should expand the comments area when clicking the toggle', () => {
-    component.expandComments = false;
-    CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
-    CommonQuoteTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-messaging'
-    );
-  });
-
-  it('should pipe empty quote comments to empty message events', () => {
-    component.messageEvents$
-      .subscribe((messageEvent) => {
-        expect(messageEvent.length).toBe(0);
-      })
-      .unsubscribe();
-  });
-
-  it('should pipe quote comments to message events', () => {
-    quote.comments = [];
-    quote.comments.push({});
-    quote.comments.push({});
-    component.messageEvents$
-      .subscribe((messageEvent) => {
-        expect(messageEvent.length).toBe(2);
-      })
-      .unsubscribe();
-  });
-
-  it('should merge header and item quote comments and sort the resulting message events by date', () => {
-    quote.comments = [];
-    quote.entries = [];
-    quote.comments.push({
-      text: 'header #1',
-      creationDate: new Date('2022-10-01 10:00'),
+  describe('clickToggle', () => {
+    it('should collapse the comments area when clicking the toggle', () => {
+      CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
+      fixture.detectChanges();
+      CommonQuoteTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-messaging'
+      );
     });
-    quote.comments.push({
-      text: 'header #4',
-      creationDate: new Date('2022-10-04 10:00'),
+
+    it('should toggle the comments on enter', () => {
+      CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
+      fixture.detectChanges();
+      CommonQuoteTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-messaging'
+      );
     });
-    quote.entries.push({
-      entryNumber: 0,
-      comments: [
-        { text: 'item 0 #3', creationDate: new Date('2022-10-02 09:30') },
-      ],
+
+    it('should expand the comments area when clicking the toggle', () => {
+      component.expandComments = false;
+      CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-messaging'
+      );
     });
-    quote.entries.push({
-      entryNumber: 1,
-      comments: [
-        { text: 'item 1 #2', creationDate: new Date('2022-10-01 10:30') },
-      ],
+  });
+
+  describe('messageEvents$ pipe', () => {
+    it('should pipe empty quote comments to empty message events', () => {
+      component.messageEvents$
+        .subscribe((messageEvent) => {
+          expect(messageEvent.length).toBe(0);
+        })
+        .unsubscribe();
     });
-    component.messageEvents$
-      .subscribe((messageEvent) => {
-        expect(messageEvent.length).toBe(4);
-        expect(messageEvent[0].text).toEqual('header #1');
-        expect(messageEvent[1].text).toEqual('item 1 #2');
-        expect(messageEvent[2].text).toEqual('item 0 #3');
-        expect(messageEvent[3].text).toEqual('header #4');
-      })
-      .unsubscribe();
+
+    it('should pipe quote comments to message events', () => {
+      quote.comments = [];
+      quote.comments.push({});
+      quote.comments.push({});
+      component.messageEvents$
+        .subscribe((messageEvent) => {
+          expect(messageEvent.length).toBe(2);
+        })
+        .unsubscribe();
+    });
+
+    it('should merge header and item quote comments and sort the resulting message events by date', () => {
+      quote.comments = [];
+      quote.entries = [];
+      quote.comments.push({
+        text: 'header #1',
+        creationDate: new Date('2022-10-01 10:00'),
+      });
+      quote.comments.push({
+        text: 'header #4',
+        creationDate: new Date('2022-10-04 10:00'),
+      });
+      quote.entries.push({
+        entryNumber: 0,
+        comments: [
+          { text: 'item 0 #3', creationDate: new Date('2022-10-02 09:30') },
+        ],
+      });
+      quote.entries.push({
+        entryNumber: 1,
+        comments: [
+          { text: 'item 1 #2', creationDate: new Date('2022-10-01 10:30') },
+        ],
+      });
+      component.messageEvents$
+        .subscribe((messageEvent) => {
+          expect(messageEvent.length).toBe(4);
+          expect(messageEvent[0].text).toEqual('header #1');
+          expect(messageEvent[1].text).toEqual('item 1 #2');
+          expect(messageEvent[2].text).toEqual('item 0 #3');
+          expect(messageEvent[3].text).toEqual('header #4');
+        })
+        .unsubscribe();
+    });
   });
 
   describe('messagingConfigs', () => {

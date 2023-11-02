@@ -1,9 +1,19 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  Injectable,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CsAgentAuthService } from '@spartacus/asm/root';
 import { AuthService, RoutingService } from '@spartacus/core';
-import { LaunchDialogService } from '@spartacus/storefront';
+import {
+  FocusDirective,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services';
 import {
@@ -28,9 +38,17 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   }
   closeDialog(_reason: any) {}
 }
-
+@Injectable()
 class MockAsmComponentService extends AsmComponentService {
   logoutCustomer() {}
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
 
 class MockAuthService implements Partial<AuthService> {
@@ -63,7 +81,12 @@ describe('AsmSwitchCustomerDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AsmSwitchCustomerDialogComponent, MockTranslatePipe],
+      declarations: [
+        AsmSwitchCustomerDialogComponent,
+        MockTranslatePipe,
+        FocusDirective,
+        MockCxIconComponent,
+      ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: AsmComponentService, useClass: MockAsmComponentService },

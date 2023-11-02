@@ -9,7 +9,7 @@ import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import { QuoteCartService } from '@spartacus/quote/root';
 import { Observable } from 'rxjs';
-import { take, switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +33,9 @@ export class CartUtilsService {
     );
   }
 
+  /**
+   * Creates a new cart and navigates according to the 'cart' route
+   */
   goToNewCart(): void {
     this.createNewCart()
       .pipe(take(1))
@@ -41,6 +44,9 @@ export class CartUtilsService {
       });
   }
 
+  /**
+   * Creates a new cart and navigates according to the 'quotes' route
+   */
   createNewCartAndGoToQuoteList(): void {
     this.createNewCart()
       .pipe(take(1))

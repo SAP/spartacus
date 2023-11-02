@@ -19,8 +19,8 @@ import {
   QueryService,
   QueryState,
   RoutingService,
-  UserIdService,
   uniteLatest,
+  UserIdService,
 } from '@spartacus/core';
 import {
   Comment,
@@ -31,15 +31,15 @@ import {
   QuoteFacade,
   QuoteList,
   QuoteMetadata,
-  QuoteStarter,
   QuotesStateParams,
+  QuoteStarter,
 } from '@spartacus/quote/root';
 import { NavigationEvent, ViewConfig } from '@spartacus/storefront';
 import {
   BehaviorSubject,
+  combineLatest,
   EMPTY,
   Observable,
-  combineLatest,
   of,
   throwError,
   zip,
@@ -56,9 +56,9 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors/quote.connector';
-import { CartUtilsService } from '../services/cart-utils.service';
 import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
 import { QuoteStorefrontUtilsService } from '../services/quote-storefront-utils.service';
+import { CartUtilsService } from '../services/cart-utils.service';
 
 @Injectable()
 export class QuoteService implements QuoteFacade {
@@ -432,8 +432,8 @@ export class QuoteService implements QuoteFacade {
     }
   }
 
-  addDiscount(quoteCode: string, discount: QuoteDiscount): Observable<unknown> {
-    return this.addDiscountCommand.execute({
+  addDiscount(quoteCode: string, discount: QuoteDiscount): void {
+    this.addDiscountCommand.execute({
       quoteCode,
       quoteDiscount: discount,
     });
@@ -445,11 +445,8 @@ export class QuoteService implements QuoteFacade {
     });
   }
 
-  editQuote(
-    quoteCode: string,
-    quoteMetadata: QuoteMetadata
-  ): Observable<unknown> {
-    return this.editQuoteCommand.execute({ quoteCode, quoteMetadata });
+  editQuote(quoteCode: string, quoteMetadata: QuoteMetadata): void {
+    this.editQuoteCommand.execute({ quoteCode, quoteMetadata });
   }
 
   addQuoteComment(
