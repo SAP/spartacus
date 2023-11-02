@@ -38,9 +38,6 @@ class MockConfiguratorTextfieldAdapter implements ConfiguratorTextfieldAdapter {
   readConfigurationForOrderEntry = createSpy().and.callFake(() =>
     of(configuration)
   );
-  readConfigurationForQuoteEntry = createSpy().and.callFake(() =>
-    of(configuration)
-  );
 }
 
 describe('ConfiguratorTextfieldConnector', () => {
