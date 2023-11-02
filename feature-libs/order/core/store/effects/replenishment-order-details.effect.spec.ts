@@ -72,6 +72,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
 
     connector = TestBed.inject(ReplenishmentOrderHistoryConnector);
     effects = TestBed.inject(fromEffects.ReplenishmentOrderDetailsEffect);
+    spyOn(console, 'error').and.stub();
   });
 
   describe('loadReplenishmentOrderDetails$', () => {

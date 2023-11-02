@@ -71,6 +71,7 @@ describe('Order Details effect', () => {
     );
     orderHistoryConnector = TestBed.inject(OrderHistoryConnector);
     store = TestBed.inject(Store);
+    spyOn(console, 'error').and.stub();
   });
 
   describe('loadOrderDetails$', () => {

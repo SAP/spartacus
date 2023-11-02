@@ -42,6 +42,7 @@ describe('Order By Id effect', () => {
     actions$ = TestBed.inject(Actions);
     effect = TestBed.inject(OrderByIdEffect);
     orderHistoryConnector = TestBed.inject(OrderHistoryConnector);
+    spyOn(console, 'error').and.stub();
   });
 
   describe('loadOrderById$', () => {
