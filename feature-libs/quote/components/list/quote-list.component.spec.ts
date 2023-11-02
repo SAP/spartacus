@@ -784,13 +784,11 @@ describe('QuoteListComponent', () => {
       );
     });
 
-    it("should contain 'tr' HTML element with 'aria-label' attribute that labels an interactive element", () => {
+    it("should contain 'cx-icon' element with 'aria-label' attribute that labels an interactive element", () => {
       const element =
         CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
           htmlElem,
-          'tr',
-          '',
-          1
+          'cx-icon'
         );
 
       CommonQuoteTestUtilsService.expectElementContainsA11y(

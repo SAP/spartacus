@@ -64,7 +64,6 @@
               "
               (keydown.enter)="row.click()"
               title="{{ quote.name }}"
-              [attr.aria-label]="'quote.list.clickableRow' | cxTranslate"
             >
               <td role="cell" class="cx-name">
                 <div class="cx-mobile-header">
@@ -93,7 +92,11 @@
                 {{ quote?.updatedTime | cxDate: dateFormat }}
               </td>
               <td role="cell" class="cx-nav-caret">
-                <cx-icon [type]="iconTypes.CARET_RIGHT"></cx-icon>
+                <cx-icon
+                  [type]="iconTypes.CARET_RIGHT"
+                  [attr.aria-label]="'quote.list.clickableRow' | cxTranslate"
+                >
+                </cx-icon>
               </td>
             </tr>
           </tbody>
