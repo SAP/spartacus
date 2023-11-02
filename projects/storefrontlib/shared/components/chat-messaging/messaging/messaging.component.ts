@@ -204,11 +204,12 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   }
 
   /**
-   * Returns a message test
+   * A message can be linked to an item. In this case the item name will be prefixed to the message text.
    *
-   * @param message - message event
+   * @param {MessageEvent} message message
+   * @returns {string | undefined} message text prefixed with item name, in case its given.
    */
-  getMessageText(message: MessageEvent) {
+  getMessageText(message: MessageEvent): string | undefined {
     return message.item
       ? message.item.name + ': ' + message.text
       : message.text;
