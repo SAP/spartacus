@@ -356,10 +356,14 @@ describe('QuoteActionsByRoleComponent', () => {
     it('should let submit button enabled if threshold is met', () => {
       mockQuoteDetails$.next(submittableQuote);
       fixture.detectChanges();
+
+      const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        '.btn:first-child'
+      );
       CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
         expect,
-        htmlElem,
-        '.btn:first-child',
+        submitBtn,
         'disabled'
       );
     });
@@ -368,10 +372,14 @@ describe('QuoteActionsByRoleComponent', () => {
       mockQuote.threshold = undefined;
       mockQuoteDetails$.next(submittableQuote);
       fixture.detectChanges();
+
+      const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        '.btn:first-child'
+      );
       CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
         expect,
-        htmlElem,
-        '.btn:first-child',
+        submitBtn,
         'disabled'
       );
     });
@@ -381,10 +389,13 @@ describe('QuoteActionsByRoleComponent', () => {
       mockQuoteDetails$.next(quoteFailingThreshold);
       fixture.detectChanges();
 
+      const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        '.btn:first-child'
+      );
       CommonQuoteTestUtilsService.expectElementToContainAttribute(
         expect,
-        htmlElem,
-        '.btn:first-child',
+        submitBtn,
         'disabled'
       );
       expect(globalMessageService.add).toHaveBeenCalled();
@@ -395,10 +406,13 @@ describe('QuoteActionsByRoleComponent', () => {
       mockQuoteDetails$.next(quoteFailingThreshold);
       fixture.detectChanges();
 
+      const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        '.btn:first-child'
+      );
       CommonQuoteTestUtilsService.expectElementToContainAttribute(
         expect,
-        htmlElem,
-        '.btn:first-child',
+        submitBtn,
         'disabled'
       );
     });
@@ -407,10 +421,13 @@ describe('QuoteActionsByRoleComponent', () => {
       mockQuoteDetails$.next(cancellableQuote);
       fixture.detectChanges();
 
+      const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        '.btn:first-child'
+      );
       CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
         expect,
-        htmlElem,
-        '.btn:first-child',
+        submitBtn,
         'disabled'
       );
     });

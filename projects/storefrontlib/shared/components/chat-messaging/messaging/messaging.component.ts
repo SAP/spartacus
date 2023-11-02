@@ -203,6 +203,11 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  /**
+   * Returns a message test
+   *
+   * @param message - message event
+   */
   getMessageText(message: MessageEvent) {
     return message.item
       ? message.item.name + ': ' + message.text
