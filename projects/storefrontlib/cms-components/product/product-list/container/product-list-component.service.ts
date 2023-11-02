@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ActivatedRouterStateSnapshot,
   CurrencyService,
+  FeatureConfigService,
   LanguageService,
   ProductSearchPage,
   ProductSearchService,
@@ -39,6 +40,11 @@ import { ProductListRouteParams, SearchCriteria } from './product-list.model';
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
   protected readonly RELEVANCE_ALLCATEGORIES = ':relevance:allCategories:';
+
+  // TODO: Remove in 7.0
+  protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   constructor(
     protected productSearchService: ProductSearchService,
@@ -85,21 +91,45 @@ export class ProductListComponentService {
           state.params,
           state.queryParams
         );
-        this.searchIfQueryHasChanged(criteria);
+
+        // TODO: Remove featureLevel condition in 7.0
+        if (this.featureConfigService?.isLevel('7.0')) {
+          this.searchIfCriteriaHasChanged(criteria);
+        } else {
+          this.search(criteria);
+        }
       })
     );
 
   /**
-   * Search only if the previous search query does NOT match the new one.
+   * Search only if the previous search criteria does NOT match the new one.
    * This prevents repeating product search calls for queries that already have loaded data.
    */
-  protected searchIfQueryHasChanged(criteria: SearchCriteria) {
+  protected searchIfCriteriaHasChanged(criteria: SearchCriteria) {
     this.productSearchService
       .getResults()
       .pipe(take(1))
       .subscribe((results) => {
-        const loadedQuery = results?.currentQuery?.query?.value;
-        if (loadedQuery !== criteria.query) {
+        const previousCriteria: SearchCriteria = {
+          query: results?.currentQuery?.query?.value,
+          // Can be stored as zero as previousCriteria but undefined as new criteria.
+          // We need to set these to the zero-values to perform the equivalency check.
+          currentPage:
+            results?.pagination?.currentPage > 0
+              ? results?.pagination?.currentPage
+              : undefined,
+          pageSize: results?.pagination?.pageSize,
+          // Only check "sortCode" if it is defined in criteria as sortCode is often an undefined queryParam
+          // but it will always get defined as a string in previousCriteria if a search was made.
+          sortCode: criteria.sortCode ? results?.pagination?.sort : undefined,
+        };
+        const isChanged: string | undefined = Object.keys(
+          previousCriteria
+        ).find(
+          (key: string) =>
+            previousCriteria[key]?.toString() !== criteria[key]?.toString()
+        );
+        if (isChanged) {
           this.search(criteria);
         }
       });
