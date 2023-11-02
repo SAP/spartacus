@@ -57,6 +57,7 @@ import {
 } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors/quote.connector';
 import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
+import { QuoteStorefrontUtilsService } from '../services/quote-storefront-utils.service';
 import { CartUtilsService } from '../services/cart-utils.service';
 
 @Injectable()
@@ -73,6 +74,7 @@ export class QuoteService implements QuoteFacade {
   protected quoteCartService = inject(QuoteCartService);
   protected cartUtilsService = inject(CartUtilsService);
   protected globalMessageService = inject(GlobalMessageService);
+  protected quoteStorefrontUtilsService = inject(QuoteStorefrontUtilsService);
 
   /**
    * Indicator whether an action is currently performing.
@@ -116,6 +118,7 @@ export class QuoteService implements QuoteFacade {
 
           this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
         }),
+        tap(() => this.setFocusForCreateOrEditAction(QuoteActionType.CREATE)),
         map(([_, _userId, quote]) => quote)
       ),
     {
@@ -272,6 +275,7 @@ export class QuoteService implements QuoteFacade {
             this.isActionPerforming$.next(false);
           }
         }),
+        tap(() => this.setFocusForCreateOrEditAction(payload.quoteAction)),
         catchError((error) => {
           this.triggerReloadAndCompleteAction();
           return this.handleError(error);
@@ -417,6 +421,16 @@ export class QuoteService implements QuoteFacade {
         resetOn: [LoginEvent, NavigationEvent],
       }
     );
+
+  protected setFocusForCreateOrEditAction(action: QuoteActionType) {
+    if (action === QuoteActionType.EDIT || action === QuoteActionType.CREATE) {
+      const storefrontElement =
+        this.quoteStorefrontUtilsService.getElement('cx-storefront');
+      if (storefrontElement) {
+        storefrontElement.focus();
+      }
+    }
+  }
 
   addDiscount(quoteCode: string, discount: QuoteDiscount): void {
     this.addDiscountCommand.execute({
