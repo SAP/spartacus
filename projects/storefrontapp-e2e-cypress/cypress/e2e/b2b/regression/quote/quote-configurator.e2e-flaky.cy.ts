@@ -9,7 +9,6 @@ import * as cart from '../../../../helpers/cart';
 import * as configurationVc from '../../../../helpers/product-configurator-vc';
 import * as configurationOverview from '../../../../helpers/product-configurator-overview';
 
-const POWERTOOLS = 'powertools-spa';
 const TEST_PRODUCT_CONFIGURABLE = 'CONF_BANDSAW_ML';
 const TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES = 'CONF_SCREWDRIVER_S';
 const TEST_PRODUCT_CONFIGURABLE_TEXTFIELD = '2116282';
@@ -34,11 +33,7 @@ context('Quote<->Configurator integration', () => {
 
   describe('Request quote process with VC configurable product', () => {
     it('should not allow to request quote if the configuration has issues', () => {
-      quote.addProductToCart(
-        POWERTOOLS,
-        TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES,
-        '1'
-      );
+      quote.addProductToCart(TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES, '1');
       quote.clickOnRequestQuote();
 
       //we are still in cart, for now just check that
@@ -51,7 +46,7 @@ context('Quote<->Configurator integration', () => {
 
     it('should support creation of a draft quote including VC configurable product (CXSPA-4158)', () => {
       configurationVc.registerConfigurationUpdateRoute();
-      quote.prepareQuote(POWERTOOLS, TEST_PRODUCT_CONFIGURABLE, 1, false);
+      quote.prepareQuote(TEST_PRODUCT_CONFIGURABLE, 1, false);
       quote.checkTotalEstimatedPrice('$270.00');
       quote.clickOnEditConfigurationLink(1);
       configurationVc.selectAttributeAndWait(
@@ -69,7 +64,7 @@ context('Quote<->Configurator integration', () => {
 
   describe('Request quote process with textfield configurable product', () => {
     it('should support creation of a draft quote including textfield configurable product', () => {
-      quote.requestQuote(POWERTOOLS, TEST_PRODUCT_CONFIGURABLE_TEXTFIELD, '1');
+      quote.requestQuote(TEST_PRODUCT_CONFIGURABLE_TEXTFIELD, '1');
 
       //check: quote is in status draft
       quote.checkQuoteInDraftState(false, TEST_PRODUCT_CONFIGURABLE_TEXTFIELD);
