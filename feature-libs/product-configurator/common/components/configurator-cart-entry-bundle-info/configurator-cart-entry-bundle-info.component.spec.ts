@@ -9,10 +9,9 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ControlContainer, UntypedFormControl } from '@angular/forms';
 import {
-  CartItemComponentOptions,
   CartItemContext,
   OrderEntry,
-  PromotionLocation,
+  PromotionLocation
 } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import {
@@ -52,7 +51,6 @@ class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
   quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
-  options$ = new ReplaySubject<CartItemComponentOptions>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
     PromotionLocation.SaveForLater
   );
@@ -146,7 +144,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
-    mockCartItemContext.options$.next({});
 
     fixture.detectChanges();
   });
@@ -346,7 +343,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
         mockCartItemContext.readonly$.next(false);
         mockCartItemContext.quantityControl$.next(new UntypedFormControl());
-        mockCartItemContext.options$.next({});
         fixture.detectChanges();
       });
 

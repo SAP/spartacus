@@ -7,10 +7,9 @@ import {
 } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CartItemComponentOptions,
   CartItemContext,
   OrderEntry,
-  PromotionLocation,
+  PromotionLocation
 } from '@spartacus/cart/base/root';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
@@ -23,7 +22,6 @@ class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
   quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
-  options$ = new ReplaySubject<CartItemComponentOptions>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
     PromotionLocation.SaveForLater
   );
@@ -237,7 +235,6 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
       it('should allow the rendering of "edit configuration" if context is active cart', () => {
         mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
-        mockCartItemContext.options$.next({});
         fixture.detectChanges();
 
         const htmlElementAfterChanges = fixture.nativeElement;

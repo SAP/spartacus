@@ -14,8 +14,7 @@ import { Params } from '@angular/router';
 import {
   AbstractOrderContext,
   AbstractOrderType,
-  CartItemComponentOptions,
-  OrderEntry,
+  OrderEntry
 } from '@spartacus/cart/base/root';
 
 import { Observable, combineLatest, of } from 'rxjs';
@@ -40,7 +39,6 @@ export class ConfigureCartEntryComponent {
   @Input() readOnly: boolean;
   @Input() msgBanner: boolean;
   @Input() disabled: boolean;
-  @Input() options: CartItemComponentOptions;
 
   abstractOrderContext = inject(AbstractOrderContext, { optional: true });
 

@@ -7,9 +7,8 @@
 import { Component, Optional } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import {
-  CartItemComponentOptions,
   CartItemContext,
-  OrderEntry,
+  OrderEntry
 } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
@@ -44,9 +43,6 @@ export class ConfiguratorCartEntryBundleInfoComponent {
 
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
-
-  readonly options$: Observable<CartItemComponentOptions> =
-    this.cartItemContext?.options$ ?? EMPTY;
 
   hideItems = true;
 

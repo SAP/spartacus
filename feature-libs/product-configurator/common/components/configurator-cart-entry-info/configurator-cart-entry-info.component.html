@@ -34,17 +34,13 @@
       </div>
     </ng-container>
     <ng-container *ngIf="quantityControl$ | async as quantityControl">
-      <ng-container *ngIf="options$ | async as options">
-        <cx-configure-cart-entry
-          *ngIf="
-            (shouldShowButton$ | async) && orderEntry?.product?.configurable
-          "
-          [cartEntry]="orderEntry"
-          [readOnly]="(readonly$ | async) ?? true"
-          [msgBanner]="false"
-          [disabled]="quantityControl.disabled"
-          [options]="options"
-        ></cx-configure-cart-entry></ng-container
+      <cx-configure-cart-entry
+        *ngIf="(shouldShowButton$ | async) && orderEntry?.product?.configurable"
+        [cartEntry]="orderEntry"
+        [readOnly]="(readonly$ | async) ?? true"
+        [msgBanner]="false"
+        [disabled]="quantityControl.disabled"
+      ></cx-configure-cart-entry
     ></ng-container>
   </ng-container>
 </ng-container>
