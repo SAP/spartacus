@@ -254,36 +254,51 @@ describe('QuoteActionsConfirmDialogComponent', () => {
 
   describe('Accessibility', () => {
     it("should contain action button element with class name 'close' and 'aria-label' attribute that indicates the text for close button", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'button',
+          'close',
+          0
+        );
+
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
-        'button',
-        'close',
-        0,
+        element,
         'aria-label',
         'confirmActionDialog.buyer_offer.edit.a11y.close'
       );
     });
 
     it("should contain div element with class name 'cx-visually-hidden' and 'aria-live' attribute that indicates that the appeared modal requires the user's attention", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'div',
+          'cx-visually-hidden',
+          0
+        );
+
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
-        'div',
-        'cx-visually-hidden',
-        0,
+        element,
         'aria-live',
         'polite'
       );
     });
 
     it("should contain action div element with class name 'cx-visually-hidden' and 'aria-atomic' attribute that indicates whether a screen reader will present all changed region", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'div',
+          'cx-visually-hidden',
+          0
+        );
+
       CommonQuoteTestUtilsService.expectElementContainsA11y(
         expect,
-        htmlElem,
-        'div',
-        'cx-visually-hidden',
-        0,
+        element,
         'aria-atomic',
         'true'
       );
