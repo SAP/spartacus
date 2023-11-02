@@ -23,8 +23,8 @@ class MockQuoteFacade implements Partial<QuoteFacade> {
   createQuote = createSpy().and.returnValue(of(mockCreatedQuote));
 }
 describe('QuoteRequestButtonComponent', () => {
-  let component: QuoteRequestButtonComponent;
   let fixture: ComponentFixture<QuoteRequestButtonComponent>;
+  let component: QuoteRequestButtonComponent;
   let quoteFacade: QuoteFacade;
   const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
 

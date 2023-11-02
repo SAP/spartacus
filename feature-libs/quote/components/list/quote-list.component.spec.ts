@@ -119,7 +119,7 @@ describe('QuoteListComponent', () => {
   let fixture: ComponentFixture<QuoteListComponent>;
   let htmlElem: HTMLElement;
   let component: QuoteListComponent;
-  let componentService: QuoteListComponentService;
+  let quoteListComponentService: QuoteListComponentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -144,21 +144,21 @@ describe('QuoteListComponent', () => {
     fixture = TestBed.createComponent(QuoteListComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
-    componentService = TestBed.inject(QuoteListComponentService);
+    quoteListComponentService = TestBed.inject(QuoteListComponentService);
   });
 
   it('should call service if sort changed', () => {
     const sortCode = 'byDate';
     component.changeSorting(sortCode);
 
-    expect(componentService.setSorting).toHaveBeenCalledWith(sortCode);
+    expect(quoteListComponentService.setSorting).toHaveBeenCalledWith(sortCode);
   });
 
   it('should call service if page changed', () => {
     const page = 5;
     component.changePage(page);
 
-    expect(componentService.setPage).toHaveBeenCalledWith(page);
+    expect(quoteListComponentService.setPage).toHaveBeenCalledWith(page);
   });
 
   it('should display table and sorting if quote list is not empty', () => {
@@ -538,8 +538,8 @@ describe('QuoteListComponent', () => {
 
   describe('Ghost animation', () => {
     beforeEach(() => {
-      componentService = TestBed.inject(QuoteListComponentService);
-      componentService.quotesState$ = NEVER;
+      quoteListComponentService = TestBed.inject(QuoteListComponentService);
+      quoteListComponentService.quotesState$ = NEVER;
       fixture = TestBed.createComponent(QuoteListComponent);
       component = fixture.componentInstance;
       htmlElem = fixture.nativeElement;
