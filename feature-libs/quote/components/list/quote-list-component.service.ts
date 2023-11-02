@@ -67,16 +67,18 @@ export class QuoteListComponentService {
   );
 
   /**
-   * Sets sorting for quote list
-   * @param sort Code of desired sort option that will be applied to the quote list
+   * Sets sorting for quote list.
+   *
+   * @param sort - Code of desired sort option that will be applied to the quote list
    */
   setSorting(sort: string): void {
     this.sort.next(sort);
   }
 
   /**
-   * Sets current page
-   * @param page number of page that will be applied to the quote list
+   * Sets current page.
+   *
+   * @param page - number of page that will be applied to the quote list
    */
   setPage(page: number): void {
     this.currentPage.next(page);

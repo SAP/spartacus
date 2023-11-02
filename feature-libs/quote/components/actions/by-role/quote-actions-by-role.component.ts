@@ -75,8 +75,8 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
    * Checks whether the given action must be disabled on the UI based on the details of the quote.
    * For example the SUBMIT action is disabled when the quote threshold is not exceeded.
    *
-   * @param type type of the quote action
-   * @param quote quote
+   * @param type - type of the quote action
+   * @param quote - quote
    * @returns true, only of the action shall be disabled
    */
   mustDisableAction(type: string, quote: Quote): boolean {
@@ -91,9 +91,9 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   /**
    * Generic click handler for quote action buttons.
    *
-   * @param action the action to be triggered
-   * @param quote quote
-   * @param cart cart
+   * @param action - the action to be triggered
+   * @param quote - quote
+   * @param cart - cart
    */
   onClick(action: QuoteActionType, quote: Quote, cart: Cart) {
     const cartIsEmpty = (cart.entries?.length ?? 0) === 0;
@@ -163,8 +163,8 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   /**
    * Returns the style class to be used for the button, so whether its a primary, secondary or tertiary button.
    *
-   * @param allowedActions currently displayed actions
-   * @param action action associated with this button
+   * @param allowedActions - currently displayed actions
+   * @param action - action associated with this button
    * @returns 'btn-primary' | 'btn-secondary' | 'btn-tertiary'
    */
   getButtonStyle(allowedActions: QuoteAction[], action: QuoteAction): string {

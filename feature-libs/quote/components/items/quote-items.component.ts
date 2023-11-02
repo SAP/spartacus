@@ -57,7 +57,7 @@ export class QuoteItemsComponent {
   /**
    * Handler to toggle expanded state of quote entries section.
    *
-   * @param showCart current expanded state, will be inverted
+   * @param showCart - current expanded state, will be inverted
    */
   onToggleShowOrHideCart(showCart: boolean) {
     this.quoteItemsComponentService.setQuoteEntriesExpanded(!showCart);

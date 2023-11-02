@@ -29,16 +29,18 @@ export class QuoteListComponent {
   }
 
   /**
-   * Changes current sorting
-   * @param sortCode Identifies sort option that should be applied
+   * Changes current sorting.
+   *
+   * @param sortCode - Identifies sort option that should be applied
    */
   changeSorting(sortCode: string): void {
     this.quoteListComponentService.setSorting(sortCode);
   }
 
   /**
-   * Changes current page
-   * @param page Desired page number
+   * Changes current page.
+   *
+   * @param page - Desired page number
    */
   changePage(page: number): void {
     this.quoteListComponentService.setPage(page);
@@ -47,10 +49,10 @@ export class QuoteListComponent {
   /**
    * Retrieves the class name for the quote state. This class name is composed
    * using 'quote-' as prefix and the last part of the status name in lower case
-   * (like e.g. draft for SELLER_DRAFT)
+   * (like e.g. draft for SELLER_DRAFT).
    *
-   * @param {QuoteState} state - quote state
-   * @returns {string} - class name corresponding to quote state.
+   * @param state - quote state
+   * @returns class name corresponding to quote state.
    */
   getQuoteStateClass(state: QuoteState): string {
     const stateAsString = state.toString();

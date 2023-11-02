@@ -23,9 +23,10 @@ export class QuoteConnector {
   protected quoteAdapter = inject(QuoteAdapter);
 
   /**
-   * Fetches a list of quotes according to the pagination provided
-   * @param userId Quote user
-   * @param pagination Pagination attributes
+   * Fetches a list of quotes according to the pagination provided.
+   *
+   * @param userId - Quote user
+   * @param pagination - Pagination attributes
    * @returns Observable emitting a quote list
    */
   getQuotes(
@@ -36,9 +37,10 @@ export class QuoteConnector {
   }
 
   /**
-   * Creates a quote
-   * @param userId Quote user
-   * @param quoteStarter Attributes needed to create a quote
+   * Creates a quote.
+   *
+   * @param userId - Quote user
+   * @param quoteStarter - Attributes needed to create a quote
    * @returns Observable emitting a quote
    */
   createQuote(userId: string, quoteStarter: QuoteStarter): Observable<Quote> {
@@ -46,9 +48,10 @@ export class QuoteConnector {
   }
 
   /**
-   * Fetches a quote specified by its ID (aka code)
-   * @param userId Quote user
-   * @param quoteCode Quote code
+   * Fetches a quote specified by its ID (aka code).
+   *
+   * @param userId - Quote user
+   * @param quoteCode - Quote code
    * @returns Observable emitting a quote
    */
   getQuote(userId: string, quoteCode: string): Observable<Quote> {
@@ -56,10 +59,11 @@ export class QuoteConnector {
   }
 
   /**
-   * Edits a quote in its main header aspects (name, description and expiry date)
-   * @param userId Quote user
-   * @param quoteCode Quote code, identifies a quote uniquely for a given user role
-   * @param quoteMetadata Attributes that are going to be changed
+   * Edits a quote in its main header aspects (name, description and expiry date).
+   *
+   * @param userId - Quote user
+   * @param quoteCode - Quote code, identifies a quote uniquely for a given user role
+   * @param quoteMetadata - Attributes that are going to be changed
    * @returns Observable emitting unknown
    */
   editQuote(
@@ -71,10 +75,11 @@ export class QuoteConnector {
   }
 
   /**
-   * Triggers an action on a quote identified by its code
-   * @param userId Quote user
-   * @param quoteCode Quote code, identifies a quote for a given user role
-   * @param quoteAction Quote action
+   * Triggers an action on a quote identified by its code.
+   *
+   * @param userId - Quote user
+   * @param quoteCode - Quote code, identifies a quote for a given user role
+   * @param quoteAction - Quote action
    * @returns Observable emitting unknown
    */
   performQuoteAction(
@@ -86,10 +91,11 @@ export class QuoteConnector {
   }
 
   /**
-   * Adds a header comment to a quote
-   * @param userId Quote user
-   * @param quoteCode Quote code
-   * @param quoteComment Quote comment
+   * Adds a header comment to a quote.
+   *
+   * @param userId - Quote user
+   * @param quoteCode - Quote code
+   * @param quoteComment - Quote comment
    * @returns Observable emitting unknown
    */
   addComment(
@@ -101,10 +107,11 @@ export class QuoteConnector {
   }
 
   /**
-   * Adds a discount to a quote. A previous discount will be overwritten
-   * @param userId Quote user
-   * @param quoteCode Quote code
-   * @param discount Quote discount
+   * Adds a discount to a quote. A previous discount will be overwritten.
+   *
+   * @param userId - Quote user
+   * @param quoteCode - Quote code
+   * @param discount - Quote discount
    * @returns Observable emitting unknown
    */
   addDiscount(
@@ -116,11 +123,12 @@ export class QuoteConnector {
   }
 
   /**
-   * Adds an entry comment to a quote
-   * @param userId Quote user
-   * @param quoteCode Quote code
-   * @param entryNumber Quote entry number
-   * @param comment Quote comment
+   * Adds an entry comment to a quote.
+   *
+   * @param userId - Quote user
+   * @param quoteCode - Quote code
+   * @param entryNumber - Quote entry number
+   * @param comment - Quote comment
    * @returns Observable emitting unknown
    */
   addQuoteEntryComment(

@@ -30,8 +30,9 @@ export class QuoteHeaderSellerEditComponentService {
   protected languageService = inject(LanguageService);
 
   /**
-   * Parses a discount value to numeric format
-   * @param input Discount as string, can include currency symbol, decimal and grouping separators
+   * Parses a discount value to numeric format.
+   *
+   * @param input - Discount as string, can include currency symbol, decimal and grouping separators
    * @returns Observable of discount as number
    */
   parseDiscountValue(input: string | undefined | null): Observable<number> {
@@ -87,9 +88,9 @@ export class QuoteHeaderSellerEditComponentService {
 
   /**
    * Retrieves number format validator according to inputs
-   * @param locale Current locale
-   * @param currency Currency
-   * @param numberTotalPlaces Number of maximum total places
+   * @param locale - Current locale
+   * @param currency - Currency
+   * @param numberTotalPlaces - Number of maximum total places
    * @returns Formatter that can be attached to a form control
    */
   getNumberFormatValidator(
@@ -113,7 +114,7 @@ export class QuoteHeaderSellerEditComponentService {
 
   /**
    * Adds current time and time zone to a date. Result is a timestamp string that can be handed over to OCC
-   * @param date Date as string
+   * @param date - Date as string
    * @returns Timestamp as string
    */
   addTimeToDate(date: string): string {
@@ -127,7 +128,7 @@ export class QuoteHeaderSellerEditComponentService {
 
   /**
    * Removes time portion from timestamp
-   * @param timestamp Timestamp as string
+   * @param timestamp - Timestamp as string
    * @returns Date portion of timestamp
    */
   removeTimeFromDate(timestamp?: string): string | undefined {
@@ -136,7 +137,7 @@ export class QuoteHeaderSellerEditComponentService {
 
   /**
    * Verifies if quote state belongs to seller and can be edited
-   * @param quoteState
+   * @param quote - Quote
    * @returns Is it for seller?
    */
   isEditable(quote: Quote): boolean {
@@ -153,7 +154,7 @@ export class QuoteHeaderSellerEditComponentService {
    * cases where the granted discount exceeds the total quote value by 1 are not covered (covered in OCC call).
    * Still we want to inform the user as early as possible.
    * Note that we assume currencies always come with 2 decimal places. In case this is not desired, this service can be overridden.
-   * @param quote Quote
+   * @param quote - Quote
    * @returns Maximum number of places, including 2 decimal places
    */
   getMaximumNumberOfTotalPlaces(quote: Quote): number {

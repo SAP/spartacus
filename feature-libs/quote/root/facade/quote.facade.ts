@@ -40,7 +40,7 @@ export abstract class QuoteFacade {
   /**
    * Returns the query list state.
    *
-   * @param params QueryStateParams - query state parameters
+   * @param params - QueryStateParams - query state parameters
    * @returns Observable emitting a list of quote states
    */
   abstract getQuotesState(

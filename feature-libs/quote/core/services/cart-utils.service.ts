@@ -34,7 +34,7 @@ export class CartUtilsService {
   }
 
   /**
-   * Creates a new cart and navigates according to the 'cart' route
+   * Creates a new cart and navigates according to the 'cart' route.
    */
   goToNewCart(): void {
     this.createNewCart()
@@ -45,7 +45,7 @@ export class CartUtilsService {
   }
 
   /**
-   * Creates a new cart and navigates according to the 'quotes' route
+   * Creates a new cart and navigates according to the 'quotes' route.
    */
   createNewCartAndGoToQuoteList(): void {
     this.createNewCart()

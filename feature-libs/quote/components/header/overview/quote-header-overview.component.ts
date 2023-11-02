@@ -58,8 +58,8 @@ export class QuoteHeaderOverviewComponent {
   /**
    * Verifies whether the quote is editable and is viewed from a user acting as buyer.
    *
-   * @param {Quote} quote - quote
-   * @returns {boolean} - if the quote is editable and its state is 'QuoteState.BUYER_DRAFT' or 'QuoteState.BUYER_OFFER', otherwise returns 'false'.
+   * @param quote - quote
+   * @returns if the quote is editable and its state is 'QuoteState.BUYER_DRAFT' or 'QuoteState.BUYER_OFFER', otherwise returns 'false'.
    */
   isQuoteEditableForBuyer(quote: Quote): boolean {
     return (
@@ -80,8 +80,8 @@ export class QuoteHeaderOverviewComponent {
   /**
    * Saves the edited card tile.
    *
-   * @param {Quote} quote - Quote
-   * @param {SaveEvent} event - edit event
+   * @param quote - Quote
+   * @param event - edit event
    */
   save(quote: Quote, event: SaveEvent) {
     this.editMode = false;
@@ -102,9 +102,9 @@ export class QuoteHeaderOverviewComponent {
   /**
    * Retrieves the card content that represents the quote information with its name and description.
    *
-   * @param {string} name - Quote name
-   * @param {string} description - Quote description
-   * @returns {Observable<Card>} - Observable emitting a card content
+   * @param name - Quote name
+   * @param description - Quote description
+   * @returns Observable emitting a card content
    */
   getQuoteInformation(name?: string, description?: string): Observable<Card> {
     return combineLatest([
@@ -133,9 +133,9 @@ export class QuoteHeaderOverviewComponent {
   /**
    * Retrieves the edit card content that represents the edit quote information with its name and description.
    *
-   * @param {string} name - Quote name
-   * @param {string} description - Quote description
-   * @returns {Observable<EditCard>} - Observable emitting an edit card content
+   * @param name - Quote name
+   * @param description - Quote description
+   * @returns Observable emitting an edit card content
    */
   getEditQuoteInformation(name: string, description: string): EditCard {
     return {
@@ -148,9 +148,9 @@ export class QuoteHeaderOverviewComponent {
   /**
    * Retrieves the card content that represents the estimated total and expiry date information.
    *
-   * @param {Quote} quote - Quote
-   * @param {any} expiryDate -  Expiry date
-   * @returns {Observable<Card>} - Observable emitting a card content
+   * @param quote - Quote
+   * @param expiryDate -  Expiry date
+   * @returns Observable emitting a card content
    */
   getEstimatedTotalAndExpiryDate(
     quote: Quote,
@@ -185,9 +185,9 @@ export class QuoteHeaderOverviewComponent {
   /**
    * Retrieves the card content that represents the created and last updated dates.
    *
-   * @param {string} createdDate - Created date
-   * @param {string} lastUpdatedDate - Last updated date
-   * @returns {Observable<Card>} - Observable emitting a card content
+   * @param createdDate - Created date
+   * @param lastUpdatedDate - Last updated date
+   * @returns Observable emitting a card content
    */
   getCreatedAndUpdatedDates(
     createdDate?: string | null,
@@ -224,7 +224,7 @@ export class QuoteHeaderOverviewComponent {
    * Retrieves a characters limit for a card tile.
    * If the card tile contains more characters, they will be truncated.
    *
-   * @returns {number} - characters limit for a card tile
+   * @returns characters limit for a card tile
    */
   getCharactersLimitForCardTile(): number {
     return (
@@ -234,8 +234,9 @@ export class QuoteHeaderOverviewComponent {
   }
 
   /**
-   * Returns total price as formatted string
-   * @param quote Quote
+   * Returns total price as formatted string.
+   *
+   * @param quote - Quote
    * @returns Total price formatted format, null if that is not available
    * @protected
    */
@@ -244,8 +245,9 @@ export class QuoteHeaderOverviewComponent {
   }
 
   /**
-   * Returns total price description
-   * @param quote Quote
+   * Returns total price description.
+   *
+   * @param quote - Quote
    * @returns 'Total' price if quote is in final state, 'Estimated total' otherwise
    * @protected
    */

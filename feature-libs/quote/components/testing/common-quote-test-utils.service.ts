@@ -11,9 +11,9 @@ export class CommonQuoteTestUtilsService {
   /**
    * Helper function for verifying whether the element is present in the HTML tree.
    *
-   * @param {any} expect - Expectation for a spec.
-   * @param {Element} element - HTML element.
-   * @param {string} querySelector - Query selector.
+   * @param expect - Expectation for a spec.
+   * @param element - HTML element.
+   * @param querySelector - Query selector.
    */
   static expectElementPresent(
     expect: any,
@@ -29,10 +29,10 @@ export class CommonQuoteTestUtilsService {
   /**
    * Helper function for verifying whether the expected number of elements is present in the HTML tree.
    *
-   * @param {any} expect - Expectation for a spec.
-   * @param {Element} element - HTML element.
-   * @param {string} querySelector - Query selector.
-   * @param {number} numberOfElements - Number of elements.
+   * @param expect - Expectation for a spec.
+   * @param element - HTML element.
+   * @param querySelector - Query selector.
+   * @param numberOfElements - Number of elements.
    */
   static expectNumberOfElementsPresent(
     expect: any,
@@ -49,11 +49,11 @@ export class CommonQuoteTestUtilsService {
   /**
    * Helper function for verifying whether the element contains text.
    *
-   * @param {any} expect - Expectation for a spec.
-   * @param {Element} element - HTML element.
-   * @param {string} querySelector - Query selector.
-   * @param {any} expectedText - Expected text.
-   * @param {number} index - Optional index of the element.
+   * @param expect - Expectation for a spec.
+   * @param element - HTML element.
+   * @param querySelector - Query selector.
+   * @param expectedText - Expected text.
+   * @param index - Optional index of the element.
    */
   static expectElementToContainText(
     expect: any,
@@ -74,9 +74,9 @@ export class CommonQuoteTestUtilsService {
   /**
    * Helper function for verifying whether the element is not present in the HTML tree.
    *
-   * @param {any} expect - Expectation for a spec.
-   * @param {Element} element - HTML element.
-   * @param {string} querySelector - Query selector.
+   * @param expect - Expectation for a spec.
+   * @param element - HTML element.
+   * @param querySelector - Query selector.
    */
   static expectElementNotPresent(
     expect: any,
@@ -92,9 +92,9 @@ export class CommonQuoteTestUtilsService {
   /**
    * Helper function for verifying whether the element contains attribute.
    *
-   * @param {any} expect - Expectation for a spec.
-   * @param {HTMLElement} htmlElement - HTML element.
-   * @param {string} attributeName - Name of the attribute.
+   * @param expect - Expectation for a spec.
+   * @param htmlElement - HTML element.
+   * @param attributeName - Name of the attribute.
    */
   static expectElementToContainAttribute(
     expect: any,
@@ -110,9 +110,9 @@ export class CommonQuoteTestUtilsService {
   /**
    * Helper function for verifying whether the element does not contain attribute.
    *
-   * @param {any} expect - Expectation for a spec.
-   * @param {HTMLElement} htmlElement - HTML element.
-   * @param {string} attributeName - Name of the attribute.
+   * @param expect - Expectation for a spec.
+   * @param htmlElement - HTML element.
+   * @param attributeName - Name of the attribute.
    */
   static expectElementNotToContainAttribute(
     expect: any,
@@ -132,10 +132,10 @@ export class CommonQuoteTestUtilsService {
    *
    * Fails if no element is found.
    *
-   * @param {Element} htmlElement - HTML element.
-   * @param {string} querySelector - Query selector.
-   * @param {number} index - Optional index of the element.
-   * @returns {HTMLElement} - searched HTML element
+   * @param htmlElement - HTML element.
+   * @param querySelector - Query selector.
+   * @param index - Optional index of the element.
+   * @returns searched HTML element
    */
   static getHTMLElement(
     htmlElement: Element,
@@ -160,8 +160,8 @@ export class CommonQuoteTestUtilsService {
   /**
    * Clicks first toggle element found.
    *
-   * @param {Element} element - HTML element.
-   * @param {boolean} useKeyboard - optional - if 'true' the click is executed using the enter key,
+   * @param element - HTML element.
+   * @param useKeyboard - optional - if 'true' the click is executed using the enter key,
    *  otherwise a mouse click is used. 'false' is default.
    */
   static clickToggle(element: Element, useKeyboard: boolean) {
@@ -198,11 +198,11 @@ export class CommonQuoteTestUtilsService {
    * If there are more than one element in the HTML tree,
    * one could give the index of the searched element.
    *
-   * @param {HTMLElement} htmlElement - whole HTML element
-   * @param {string} tagName - tag name
-   * @param {string} tagClass - class name of element
-   * @param {number} tagIndex - index of the element
-   * @returns {Element} - searched HTML element
+   * @param htmlElement - whole HTML element
+   * @param tagName - tag name
+   * @param tagClass - class name of element
+   * @param tagIndex - index of the element
+   * @returns searched HTML element
    */
   static getElementByClassNameOrTreeOrder(
     htmlElements: HTMLElement,
@@ -227,10 +227,10 @@ export class CommonQuoteTestUtilsService {
   /**
    * Helper function for proving whether the element contains corresponding accessibility attribute with expected content.
    *
-   * @param {any} expect - Expectation for a spec
-   * @param {Element} element - HTML element
-   * @param {string} a11yAttr - A11y attribute
-   * @param {string} a11yAttrContent - Content of a11y attribute
+   * @param expect - Expectation for a spec
+   * @param element - HTML element
+   * @param a11yAttr - A11y attribute
+   * @param a11yAttrContent - Content of a11y attribute
    */
   static expectElementContainsA11y(
     expect: any,

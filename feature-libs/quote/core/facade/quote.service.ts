@@ -301,9 +301,9 @@ export class QuoteService implements QuoteFacade {
   /**
    * Loads the quote cart and waits until load is done. Afterwards triggers specific actions depending on the
    * action we perform
-   * @param userId Current user
-   * @param cartId Quote cart ID
-   * @param actionType The action we are currently processing
+   * @param userId - Current user
+   * @param cartId - Quote cart ID
+   * @param actionType - The action we are currently processing
    */
   protected loadQuoteCartAndProceed(
     userId: string,

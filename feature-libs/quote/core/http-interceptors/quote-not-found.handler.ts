@@ -34,8 +34,9 @@ export class QuoteNotFoundHandler extends HttpErrorHandler {
 
   /**
    * This situation can happen e.g. if one ends an ASM emulation while viewing a quote and afterwards emulates a session
-   * for a different user
-   * @param response HTTP response
+   * for a different user.
+   *
+   * @param response - HTTP response
    * @returns Array of error models or empty array if no issues occurred
    */
   protected getQuoteNotFoundErrors(response: HttpErrorResponse): ErrorModel[] {

@@ -54,7 +54,7 @@ export class QuoteActionsConfirmDialogComponent implements OnInit {
   /**
    * Closes a modal with a certain reason.
    *
-   * @param {any} reason - Reason
+   * @param reason - Reason
    */
   dismissModal(reason?: any): void {
     this.launchDialogService.closeDialog(reason);
@@ -67,7 +67,7 @@ export class QuoteActionsConfirmDialogComponent implements OnInit {
   /**
    * Retrieves an accessibility text for the confirmation modal.
    *
-   * @param {ConfirmationContext} context - confirmation context
+   * @param context - confirmation context
    */
   getA11yModalText(context: ConfirmationContext): string {
     let translatedText = '';
