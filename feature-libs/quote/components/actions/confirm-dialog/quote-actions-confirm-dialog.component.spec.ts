@@ -83,7 +83,7 @@ describe('QuoteActionsConfirmDialogComponent', () => {
         imports: [I18nTestingModule],
         declarations: [
           QuoteActionsConfirmDialogComponent,
-          MockKeyboadFocusDirective,
+          MockKeyboardFocusDirective,
           MockCxIconComponent,
         ],
         providers: [
