@@ -330,7 +330,7 @@ describe('QuickOrderService', () => {
     service.softDeleteEntry(0);
     let result: Record<string, OrderEntry>;
 
-    service.getSoftDeletedEntries().subscribe((val) => {
+    const subscription = service.getSoftDeletedEntries().subscribe((val) => {
       result = val;
     });
     expect(result).toEqual({ mockCode1: mockEntry1 });
@@ -338,6 +338,8 @@ describe('QuickOrderService', () => {
     tick(7000);
 
     expect(result).toEqual({});
+
+    subscription.unsubscribe();
   }));
 
   it('should not add deleted entry', (done) => {
