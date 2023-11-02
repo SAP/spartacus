@@ -159,7 +159,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   protected requote(quoteId: string) {
     this.quoteFacade.requote(quoteId);
   }
-  
+
   /**
    * returns the style class to be used for the button, so wether its a primary, secondary or tertiary button.
    *
