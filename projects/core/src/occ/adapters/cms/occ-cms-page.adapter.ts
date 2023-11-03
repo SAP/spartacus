@@ -5,11 +5,14 @@
  */
 
 import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { UserIdService } from '../../../auth';
 import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
 import { CmsStructureModel } from '../../../cms/model/page.model';
+import { FeatureConfigService } from '../../../features-config';
 import { PageType, USER_CMS_ENDPOINTS } from '../../../model/cms.model';
 import {
   HOME_PAGE_CONTEXT,
@@ -18,11 +21,7 @@ import {
 } from '../../../routing/models/page-context.model';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { UserIdService } from '../../../auth';
-import { switchMap } from 'rxjs/operators';
-import { FeatureConfigService } from '../../../features-config';
 import { OCC_HTTP_TOKEN } from '../../utils';
-
 
 export interface OccCmsPageRequest {
   pageLabelOrId?: string;

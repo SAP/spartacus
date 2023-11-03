@@ -5,11 +5,13 @@
  */
 
 import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { UserIdService } from '../../../auth';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
+import { FeatureConfigService } from '../../../features-config';
 import {
   CmsComponent,
   PageType,
@@ -19,10 +21,7 @@ import { PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { UserIdService } from '../../../auth';
-import { FeatureConfigService } from '../../../features-config';
 import { OCC_HTTP_TOKEN } from '../../utils';
-
 
 @Injectable({
   providedIn: 'root',
