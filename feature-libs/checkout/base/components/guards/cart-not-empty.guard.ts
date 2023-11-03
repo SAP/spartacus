@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { SemanticPathService } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -14,7 +14,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class CartNotEmptyGuard implements CanActivate {
+export class CartNotEmptyGuard {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected semanticPathService: SemanticPathService,

@@ -44,7 +44,7 @@ describe('dependency management migrations', () => {
       '/tsconfig.json',
       JSON.stringify({
         compilerOptions: {
-          lib: ['es2020'],
+          lib: ['es2022'],
         },
       })
     );

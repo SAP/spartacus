@@ -25,10 +25,10 @@
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^15.2.9",
-    "@angular/common": "^15.2.9",
-    "@angular/core": "^15.2.9",
-    "@angular/forms": "^15.2.9",
+    "@angular-devkit/schematics": "^16.2.7",
+    "@angular/common": "^16.2.10",
+    "@angular/core": "^16.2.10",
+    "@angular/forms": "^16.2.10",
     "@spartacus/cart": "6.6.0-1",
     "@spartacus/checkout": "6.6.0-1",
     "@spartacus/core": "6.6.0-1",

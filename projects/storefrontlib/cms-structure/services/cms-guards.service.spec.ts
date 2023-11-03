@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
@@ -20,25 +19,25 @@ describe('CmsGuardsService', () => {
     getGuards = jasmine.createSpy('getGuards').and.returnValue(guards);
   }
 
-  class PositiveGuard implements CanActivate {
+  class PositiveGuard {
     canActivate = jasmine
       .createSpy('PositiveGuard.canActivate')
       .and.returnValue(true);
   }
 
-  class PositiveGuardObservable implements CanActivate {
+  class PositiveGuardObservable {
     canActivate() {
       return of(true);
     }
   }
 
-  class NegativeGuard implements CanActivate {
+  class NegativeGuard {
     canActivate() {
       return false;
     }
   }
 
-  class UrlTreeGuard implements CanActivate {
+  class UrlTreeGuard {
     canActivate() {
       return mockUrlTree;
     }
