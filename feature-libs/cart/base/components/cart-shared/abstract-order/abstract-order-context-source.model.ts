@@ -13,9 +13,9 @@ import {
 import { ReplaySubject } from 'rxjs';
 
 /**
- * Context source for `AbstractOrderContext`.
+ * Context source for AbstractOrderContext.
  *
- * `AbstractOrderContext` should be injected instead in child components.
+ * AbstractOrderContext should be injected in child components.
  */
 @Injectable()
 export class AbstractOrderContextSource implements AbstractOrderContext {
