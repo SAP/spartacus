@@ -22,7 +22,7 @@ import {
   LineItem,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, ReplaySubject, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, of, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
@@ -586,7 +586,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       beforeEach(() => {
         const quantityControl = new UntypedFormControl();
         mockCartItemContext.quantityControl$?.next(quantityControl);
-
         mockCartItemContext.item$?.next({
           product: { configurable: true },
           configurationInfos: [
