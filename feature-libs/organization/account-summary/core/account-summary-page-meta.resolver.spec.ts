@@ -8,8 +8,7 @@ import {
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { AccountSummaryPageMetaResolver } from './account-summary-page-meta.resolver';
 
 class MockRoutingService {
@@ -78,7 +77,7 @@ describe('AccountSummaryPageMetaResolver', () => {
 
   describe('resolveTitle', () => {
     it('should emit title of CMS content page ', async () => {
-      expect(await service.resolveTitle().pipe(take(1)).toPromise()).toBe(
+      expect(await firstValueFrom(service.resolveTitle())).toBe(
         'testContentPageTitle'
       );
     });
@@ -92,7 +91,7 @@ describe('AccountSummaryPageMetaResolver', () => {
         );
       });
       it('should NOT return breadcrumb for the Account Summary page', async () => {
-        let val = await service.resolveBreadcrumbs().pipe(take(1)).toPromise();
+        let val = await firstValueFrom(service.resolveBreadcrumbs());
         expect(val).toEqual([testHomeBreadcrumb, organizationBreadcrumb]);
       });
     });
@@ -114,7 +113,7 @@ describe('AccountSummaryPageMetaResolver', () => {
       });
 
       it('should insert breadcrumb for the Account Summary page right after the Homepage breadcrumb', async () => {
-        let val = await service.resolveBreadcrumbs().pipe(take(1)).toPromise();
+        let val = await firstValueFrom(service.resolveBreadcrumbs());
         expect(val).toEqual([
           testHomeBreadcrumb,
           organizationBreadcrumb,

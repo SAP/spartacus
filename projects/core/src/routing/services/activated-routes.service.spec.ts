@@ -7,8 +7,7 @@ import {
   Router,
   RouterEvent,
 } from '@angular/router';
-import { Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, Subject } from 'rxjs';
 import { ActivatedRoutesService } from './activated-routes.service';
 
 describe('ActivatedRoutesService', () => {
@@ -40,7 +39,7 @@ describe('ActivatedRoutesService', () => {
 
   describe(`routes$`, () => {
     it('should emit on subscription', async () => {
-      expect(await service.routes$.pipe(take(1)).toPromise()).toEqual([
+      expect(await firstValueFrom(service.routes$)).toEqual([
         router.routerState.snapshot.root,
       ]);
     });
@@ -80,7 +79,7 @@ describe('ActivatedRoutesService', () => {
       };
       (router as any).routerState = mockRouterState; // as any => mitigate readonly
 
-      expect(await service.routes$.pipe(take(1)).toPromise()).toEqual([
+      expect(await firstValueFrom(service.routes$)).toEqual([
         mockRouterState.snapshot.root,
         mockRouterState.snapshot.root.firstChild,
         mockRouterState.snapshot.root.firstChild.firstChild,

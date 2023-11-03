@@ -1,18 +1,37 @@
-import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpRequest,
+} from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import {
+  ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
   HttpResponseStatus,
+  OccHttpErrorReason,
+  OccHttpErrorType,
+  Priority,
+  RouterState,
   RoutingService,
 } from '@spartacus/core';
+import { of } from 'rxjs';
 import { NotFoundTicketRequestHandler } from './not-found-ticket-request.handler';
 
-const MockRequest = {} as HttpRequest<any>;
+/** Taken from the constructor argument of `HttpErrorResponse` */
+type HttpErrorResponseInit = {
+  error?: any;
+  headers?: HttpHeaders;
+  status?: number;
+  statusText?: string;
+  url?: string;
+};
 
-const MockRandomResponse = {} as HttpErrorResponse;
+const mockRequest = {} as HttpRequest<any>;
 
-const MockTicketNotFoundResponse = {
+const mockRandomResponse = {} as HttpErrorResponse;
+
+const mockTicketNotFoundResponse = {
   error: {
     errors: [
       {
@@ -63,17 +82,23 @@ describe('NotFoundTicketRequestHandler', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should have a priority of medium', () => {
+    expect(service.getPriority()).toEqual(Priority.NORMAL);
+  });
+
   it('should register 404 responseStatus', () => {
     expect(service.responseStatus).toEqual(HttpResponseStatus.NOT_FOUND);
   });
 
   it('should not handle response without errors', () => {
-    service.handleError(MockRequest, MockRandomResponse);
+    service.handleError(mockRequest, mockRandomResponse);
+
     expect(globalMessageService.add).not.toHaveBeenCalled();
   });
 
   it('should handle ticket not found error', () => {
-    service.handleError(MockRequest, MockTicketNotFoundResponse);
+    service.handleError(mockRequest, mockTicketNotFoundResponse);
+
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'supportTickets',
     });
@@ -81,5 +106,48 @@ describe('NotFoundTicketRequestHandler', () => {
       { key: 'customerTicketingDetails.ticketNotFound' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
+  });
+
+  describe('hasMatch', () => {
+    let errorResponseInit: HttpErrorResponseInit;
+
+    describe('when statis is NOT_FOUND', () => {
+      beforeEach(() => {
+        errorResponseInit = {
+          status: 404,
+          statusText: 'NOT FOUND',
+        };
+      });
+
+      describe('when the route is supportTicketDetails', () => {
+        beforeEach(() => {
+          routingService.getRouterState;
+          spyOn(routingService, 'getRouterState').and.returnValue(
+            of({
+              state: { semanticRoute: 'supportTicketDetails' },
+            } as RouterState)
+          );
+        });
+
+        describe('when the error response contains an error of type notFound', () => {
+          beforeEach(() => {
+            errorResponseInit.error = {
+              errors: [
+                {
+                  type: OccHttpErrorType.NOT_FOUND_ERROR,
+                  reason: OccHttpErrorReason.NOT_FOUND_ERROR,
+                } as ErrorModel,
+              ],
+            };
+          });
+
+          it('should match to the error', () => {
+            const httpErrorResponse = new HttpErrorResponse(errorResponseInit);
+
+            expect(service.hasMatch(httpErrorResponse)).toBe(true);
+          });
+        });
+      });
+    });
   });
 });

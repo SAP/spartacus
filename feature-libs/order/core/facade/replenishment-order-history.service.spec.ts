@@ -90,7 +90,7 @@ describe('UserReplenishmentOrderService', () => {
 
     it('should NOT be able to load replenishment order details when user is anonymous', () => {
       spyOn(userIdService, 'takeUserId').and.callFake(() => {
-        return throwError('Error');
+        return throwError(() => 'Error');
       });
 
       userReplenishmentOrderService.loadReplenishmentOrderDetails(
@@ -191,7 +191,7 @@ describe('UserReplenishmentOrderService', () => {
 
     it('should NOT be able to load replenishment order details when user is anonymous', () => {
       spyOn(userIdService, 'takeUserId').and.callFake(() => {
-        return throwError('Error');
+        return throwError(() => 'Error');
       });
 
       userReplenishmentOrderService.cancelReplenishmentOrder(

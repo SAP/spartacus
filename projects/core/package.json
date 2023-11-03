@@ -26,7 +26,7 @@
     "i18next": "^21.10.0",
     "i18next-http-backend": "^1.4.5",
     "i18next-resources-to-backend": "^1.1.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "publishConfig": {
     "access": "public"
