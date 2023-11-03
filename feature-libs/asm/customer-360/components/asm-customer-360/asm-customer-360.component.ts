@@ -5,7 +5,6 @@
  */
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -51,9 +50,7 @@ import { AsmCustomer360Config } from '../config/asm-customer-360-config';
   selector: 'cx-asm-customer-360',
   templateUrl: './asm-customer-360.component.html',
 })
-export class AsmCustomer360Component
-  implements OnDestroy, OnInit, AfterViewInit
-{
+export class AsmCustomer360Component implements OnDestroy, OnInit {
   @HostBinding('attr.role') role = 'dialog';
   @HostBinding('attr.aria-modal') modal = true;
   @HostBinding('attr.aria-labelledby') labelledby = 'asm-customer-360-title';
@@ -71,7 +68,7 @@ export class AsmCustomer360Component
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
-    autofocus: '.cx-tab-header.active',
+    autofocus: '.close',
     focusOnEscape: true,
   };
 
@@ -141,10 +138,6 @@ export class AsmCustomer360Component
       })
     );
     this.setTabData();
-  }
-
-  ngAfterViewInit(): void {
-    this.updateTabIndex(this.activeTab);
   }
 
   ngOnDestroy(): void {

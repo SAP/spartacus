@@ -19,6 +19,7 @@ import {
 import {
   DirectionMode,
   DirectionService,
+  FocusDirective,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
@@ -177,6 +178,7 @@ describe('AsmCustomer360Component', () => {
         AsmCustomer360Component,
         MockAsmCustomer360SectionComponent,
         ArgsPipe,
+        FocusDirective,
       ],
       providers: [
         CxDatePipe,
@@ -327,15 +329,16 @@ describe('AsmCustomer360Component', () => {
         mockAsmConfig.asmCustomer360?.tabs?.length
       );
     });
-    it('should activate the first tab when dialog opens', () => {
-      expect(document.activeElement).toBe(
-        component.tabHeaderItems.toArray()[0].nativeElement
-      );
+    it('should activate the close button', () => {
+      expect(document.activeElement?.className).toBe('close');
     });
 
     it('should switch tab selection', () => {
       const firstTab = component.tabHeaderItems.toArray()[0].nativeElement;
       const secondTab = component.tabHeaderItems.toArray()[1].nativeElement;
+
+      component.selectTab(0);
+
       let event = {
         code: 'ArrowRight',
         stopPropagation: () => {},
