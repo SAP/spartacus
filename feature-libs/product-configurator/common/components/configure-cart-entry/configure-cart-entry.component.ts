@@ -14,7 +14,7 @@ import { Params } from '@angular/router';
 import {
   AbstractOrderContext,
   AbstractOrderType,
-  OrderEntry
+  OrderEntry,
 } from '@spartacus/cart/base/root';
 
 import { Observable, combineLatest, of } from 'rxjs';

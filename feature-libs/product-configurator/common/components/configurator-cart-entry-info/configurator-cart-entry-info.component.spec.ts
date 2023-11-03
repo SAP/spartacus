@@ -9,7 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartItemContext,
   OrderEntry,
-  PromotionLocation
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';

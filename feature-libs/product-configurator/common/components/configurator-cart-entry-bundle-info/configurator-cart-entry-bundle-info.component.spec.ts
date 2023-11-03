@@ -11,7 +11,7 @@ import { ControlContainer, UntypedFormControl } from '@angular/forms';
 import {
   CartItemContext,
   OrderEntry,
-  PromotionLocation
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import {
