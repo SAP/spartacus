@@ -5,7 +5,13 @@
       [ctaScriptHtml]="ctaHtml"
     ></cx-opf-cta-element>
   </ng-container>
+
+  <apple-pay-button (click)="quickBuyProduct()"></apple-pay-button>
 </ng-container>
+<!-- <ng-container *ngIf="canMakePayment$ | async as canMakePayment"> -->
+canMakePayment: {{ canMakePayment$ | async }}
+<!-- </ng-container> -->
+
 <ng-template #loading>
   <div class="cx-spinner">
     <cx-spinner></cx-spinner>

@@ -16,6 +16,7 @@ import {
   reduce,
   switchMap,
   take,
+  tap,
 } from 'rxjs/operators';
 
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -26,6 +27,7 @@ import {
   CtaScriptsResponse,
   OpfDynamicScript,
   OpfPaymentFacade,
+  OpfPaymentProviderType,
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
 import { CurrentProductService } from '@spartacus/storefront';
@@ -40,6 +42,8 @@ export class OpfCtaScriptsService {
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);
   protected cmsService = inject(CmsService);
   protected currentProductService = inject(CurrentProductService);
+
+  showApplePayButton = false;
 
   getCtaHtmlslList(): Observable<string[]> {
     return this.fillCtaScriptRequest().pipe(
@@ -210,6 +214,18 @@ export class OpfCtaScriptsService {
       filter(
         (state) => !state.loading && !state.error && Boolean(state.data?.length)
       ),
+      tap((state) => {
+        let paymentGatewayConfig = state.data?.find(
+          (config) =>
+            config.providerType === OpfPaymentProviderType.PAYMENT_GATEWAY
+        );
+        if (paymentGatewayConfig?.digitalWalletQuickBuy) {
+          let applePayConfig = paymentGatewayConfig?.digitalWalletQuickBuy.find(
+            (otb) => otb.provider === 'APPLE_PAY'
+          );
+          this.showApplePayButton = applePayConfig?.enabled as boolean;
+        }
+      }),
       map((state) => state.data?.map((val) => val.id) as number[])
     );
   }

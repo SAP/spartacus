@@ -44,6 +44,27 @@ export interface CTAProductItem {
   fulfillmentLocationId?: string;
 }
 
+export interface CTAProductInfo extends CTAProductItem {
+  price?: Price;
+}
+
+export interface Price {
+  // cogs?: number;
+  // msrp?: number;
+  // originalPrice?: number;
+  sellingPrice?: number;
+  // surcharge?: PriceSurcharge;
+  // pricebook?: PricebookIdentifiable;
+  // variantDetails?: VariantDetails;
+  // bulkPricing?: BulkPricing;
+}
+
+export interface CTAProductItem {
+  productId: string;
+  quantity: number;
+  fulfillmentLocationId?: string;
+}
+
 export enum CtaScriptsLocation {
   CART_MESSAGING = 'CART_MESSAGING',
   PDP_MESSAGING = 'PDP_MESSAGING',
@@ -68,4 +89,70 @@ export interface CtaScriptsResponse {
 export interface CtaScript {
   paymentAccountId: number;
   dynamicScript: OpfDynamicScript;
+}
+
+export enum PaymentProvider {
+  ADYEN = 'ADYEN',
+  CYBERSOURCE = 'CYBERSOURCE',
+  PAYMENT_GATEWAY = 'PAYMENT_GATEWAY',
+  PAYMENT_METHOD = 'PAYMENT_METHOD',
+  UPSCALE_GATEWAY = 'UPSCALE_GATEWAY',
+}
+
+export interface ShippingMethodData {
+  id: string;
+  name: string;
+  defaultFlag: boolean;
+}
+
+export interface AddressDto {
+  firstName?: string;
+  lastName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  zip?: string;
+  phoneNumber?: string;
+  emailAddress?: string;
+}
+
+export interface CopyProductData {
+  name?: string;
+  price?: number;
+}
+export interface OrderLineData {
+  lineTotal?: number;
+  lineTax?: number;
+  lineShFeeTax?: number;
+  unitPrice?: number;
+  unitPriceWithTax?: number;
+  lineDiscount?: number;
+  lineSubTotalWithTax?: number;
+  lineTotalDiscount?: number;
+  lineTaxPercent?: number;
+  lineShFeeTaxPercent?: number;
+  productId?: string;
+  productName?: string;
+  quantity?: number;
+  productDescription?: string;
+  deliveryMethod?: string;
+  copyProduct?: CopyProductData;
+}
+
+export interface OrderData {
+  orderId: string;
+  divisionId?: string;
+  currency?: string;
+  total?: number;
+  subTotalWithTax?: number;
+  totalDiscount?: number;
+  shFeeTax?: number;
+  shFeeWithTax?: number;
+  customerEmail?: string;
+  shippingMethod?: ShippingMethodData;
+  billingAddress?: AddressDto;
+  shippingAddress?: AddressDto;
+  orderLines?: Array<OrderLineData>;
 }

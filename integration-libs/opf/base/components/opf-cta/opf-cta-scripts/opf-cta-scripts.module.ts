@@ -12,6 +12,7 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
+import { ApplePayModule } from '../../apple-pay/apple-pay.module';
 import { OpfCtaElementModule } from '../opf-cta-element';
 import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
 
@@ -27,6 +28,6 @@ import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
     }),
   ],
   exports: [OpfCtaScriptsComponent],
-  imports: [CommonModule, OpfCtaElementModule, SpinnerModule],
+  imports: [CommonModule, OpfCtaElementModule, SpinnerModule, ApplePayModule],
 })
 export class OpfCtaScriptsModule {}

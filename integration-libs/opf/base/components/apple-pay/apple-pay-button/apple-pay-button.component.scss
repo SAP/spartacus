@@ -1,0 +1,25 @@
+.apple-pay-button {
+  display: inline-block;
+  -webkit-appearance: -apple-pay-button;
+  -apple-pay-button-type: buy;
+  margin-top: 1rem
+    /* Use any supported button type. */
+}
+
+@media(min-width:992px) {
+  .apple-pay-button {
+    margin: 1rem 0 1rem -1.2rem;
+  }
+}
+
+.apple-pay-button-black {
+  -apple-pay-button-style: black;
+}
+
+.apple-pay-button-white {
+  -apple-pay-button-style: white;
+}
+
+.apple-pay-button-white-with-line {
+  -apple-pay-button-style: white-outline;
+}

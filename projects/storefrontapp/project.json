@@ -19,6 +19,12 @@
         "polyfills": ["core-js/es/reflect", "zone.js"],
         "tsConfig": "projects/storefrontapp/tsconfig.app.json",
         "assets": [
+          "projects/storefrontapp/src/.well-known/apple-developer-merchantid-domain-association.txt",
+          {
+            "glob": "apple-developer-merchantid-domain-association.txt",
+            "input": "projects/storefrontapp/src/.well-known",
+            "output": "/"
+          },
           "projects/storefrontapp/src/favicon.ico",
           "projects/storefrontapp/src/assets",
           "projects/storefrontapp/src/manifest.json",
@@ -143,7 +149,8 @@
     "serve": {
       "executor": "@angular-builders/custom-webpack:dev-server",
       "options": {
-        "browserTarget": "storefrontapp:build"
+        "browserTarget": "storefrontapp:build",
+        "disableHostCheck": true
       },
       "configurations": {
         "production": {

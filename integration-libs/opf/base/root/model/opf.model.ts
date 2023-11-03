@@ -90,6 +90,7 @@ export interface SubmitInput {
   callbackArray: [MerchantCallback, MerchantCallback, MerchantCallback];
   returnPath?: string;
   paymentMethod: PaymentMethod;
+  encryptedToken?: string;
 }
 
 export enum SubmitStatus {

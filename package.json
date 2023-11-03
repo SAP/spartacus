@@ -125,6 +125,7 @@
     "@ngrx/router-store": "^15.3.0",
     "@ngrx/store": "^15.3.0",
     "@nguniversal/express-engine": "^15.2.0",
+    "@types/applepayjs": "^14.0.2",
     "@types/google.maps": "^3.54.0",
     "angular-oauth2-oidc": "^15.0.1",
     "bootstrap": "^4.6.2",
