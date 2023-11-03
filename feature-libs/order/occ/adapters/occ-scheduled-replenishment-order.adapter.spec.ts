@@ -127,7 +127,9 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
 
   describe(`back-off`, () => {
     it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-      spyOn(httpClient, 'post').and.returnValue(throwError(mockJaloError));
+      spyOn(httpClient, 'post').and.returnValue(
+        throwError(() => mockJaloError)
+      );
 
       let result: HttpErrorModel | undefined;
       const subscription = occAdapter
@@ -156,7 +158,7 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
           if (calledTimes === 3) {
             return of(mockReplenishmentOrder);
           }
-          return throwError(mockJaloError);
+          return throwError(() => mockJaloError);
         })
       );
 

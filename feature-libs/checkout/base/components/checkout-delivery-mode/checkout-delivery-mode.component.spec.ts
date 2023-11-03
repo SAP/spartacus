@@ -11,6 +11,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
+  FeaturesConfigModule,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -118,7 +119,12 @@ describe('CheckoutDeliveryModeComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
+        imports: [
+          ReactiveFormsModule,
+          I18nTestingModule,
+          OutletModule,
+          FeaturesConfigModule,
+        ],
         declarations: [CheckoutDeliveryModeComponent, MockSpinnerComponent],
         providers: [
           {

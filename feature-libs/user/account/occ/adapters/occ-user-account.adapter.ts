@@ -18,7 +18,7 @@ import {
   UserAccountAdapter,
 } from '@spartacus/user/account/core';
 import { User } from '@spartacus/user/account/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -34,7 +34,9 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
   load(userId: string): Observable<User> {
     const url = this.occEndpoints.buildUrl('user', { urlParams: { userId } });
     return this.http.get<Occ.User>(url).pipe(
-      catchError((error) => throwError(normalizeHttpError(error, this.logger))),
+      catchError((error) => {
+        throw normalizeHttpError(error, this.logger);
+      }),
       this.converter.pipeable(USER_ACCOUNT_NORMALIZER)
     );
   }

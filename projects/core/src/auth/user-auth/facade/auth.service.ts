@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
@@ -91,9 +91,9 @@ export class AuthService {
     let uid = userId;
 
     if (this.authMultisiteIsolationService) {
-      uid = await this.authMultisiteIsolationService
-        .decorateUserId(uid)
-        .toPromise();
+      uid = await lastValueFrom(
+        this.authMultisiteIsolationService.decorateUserId(uid)
+      );
     }
 
     try {

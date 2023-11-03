@@ -156,7 +156,7 @@ describe('ConfiguratorVariantEffect', () => {
   });
 
   it('should emit a fail action in case something goes wrong', () => {
-    searchVariantsMock.and.returnValue(throwError(errorResponse));
+    searchVariantsMock.and.returnValue(throwError(() => errorResponse));
 
     const action = new ConfiguratorActions.SearchVariants(productConfiguration);
 

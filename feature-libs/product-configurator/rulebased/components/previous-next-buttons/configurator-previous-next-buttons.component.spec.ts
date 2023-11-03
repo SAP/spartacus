@@ -11,9 +11,8 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { cold } from 'jasmine-marbles';
+import { cold, getTestScheduler } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { TestScheduler } from 'rxjs/testing';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -311,12 +310,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should call focusFirstAttribute', () => {
-    const testScheduler = new TestScheduler((actual, expected) => {
-      expect(actual).toEqual(expected);
-    });
     //we need to run the test in a test scheduler
     //because of the delay() in method focusFirstAttribute
-    testScheduler.run(() => {
+    getTestScheduler().run(({ cold, flush }) => {
       const configurationLoading = cold('-a-b', {
         a: true,
         b: false,
@@ -326,10 +322,11 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         'isConfigurationLoading'
       ).and.returnValue(configurationLoading);
       classUnderTest['focusFirstAttribute']();
+      flush();
+      expect(
+        configuratorStorefrontUtilsService.focusFirstAttribute
+      ).toHaveBeenCalledTimes(1);
     });
-    expect(
-      configuratorStorefrontUtilsService.focusFirstAttribute
-    ).toHaveBeenCalledTimes(1);
   });
 
   describe('Accessibility', () => {

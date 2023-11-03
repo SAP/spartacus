@@ -31,6 +31,7 @@ export function defaultCustomerTicketingComponentsConfig(): CmsConfig {
           'SupportTicketDetailsComponent',
           'SupportTicketReopenComponent',
           'SupportTicketCloseComponent',
+          'MyAccountViewRequestsComponent',
         ],
       },
 

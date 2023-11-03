@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, StoreModule } from '@ngrx/store';
+import { normalizeHttpError } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
@@ -14,8 +16,6 @@ import { CmsStructureModel, Page } from '../../model/page.model';
 import { CmsActions } from '../actions/index';
 import { CMS_FEATURE } from '../cms-state';
 import * as fromEffects from './page.effect';
-import { HttpErrorResponse } from '@angular/common/http';
-import { normalizeHttpError } from '@spartacus/core';
 
 function mockDateNow(): number {
   return 1000000000000;
@@ -137,7 +137,9 @@ describe('Page Effects', () => {
 
       it('should dispatch LoadPageDataFail action', () => {
         const error = new HttpErrorResponse({ error: 'error' });
-        spyOn<any>(cmsPageConnector, 'get').and.returnValue(throwError(error));
+        spyOn<any>(cmsPageConnector, 'get').and.returnValue(
+          throwError(() => error)
+        );
         const action = new CmsActions.LoadCmsPageData(pageContext);
 
         const completion = new CmsActions.LoadCmsPageDataFail(

@@ -89,7 +89,9 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for load order details', () => {
-      spyOn(orderHistoryConnector, 'get').and.returnValue(throwError('Error'));
+      spyOn(orderHistoryConnector, 'get').and.returnValue(
+        throwError(() => 'Error')
+      );
 
       const action = new OrderActions.LoadOrderDetails(mockOrderDetailsParams);
 
@@ -118,7 +120,7 @@ describe('Order Details effect', () => {
 
     it('should handle failures for cancel an order', () => {
       spyOn(orderHistoryConnector, 'cancel').and.returnValue(
-        throwError('Error')
+        throwError(() => 'Error')
       );
 
       const action = new OrderActions.CancelOrder(mockCancelOrderParams);

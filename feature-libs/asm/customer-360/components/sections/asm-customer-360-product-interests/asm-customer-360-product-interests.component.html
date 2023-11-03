@@ -1,0 +1,13 @@
+<cx-asm-customer-360-product-listing
+  *ngIf="products$ | async as products"
+  [emptyResultDescription]="
+    'asmCustomer360.productInterests.emptyDescription' | cxTranslate
+  "
+  [headerText]="'asmCustomer360.productInterests.header' | cxTranslate"
+  [products]="products"
+  (clickHeader)="sectionContext.navigate$.next({ cxRoute: 'myInterests' })"
+  (selectProduct)="
+    sectionContext.navigate$.next({ cxRoute: 'product', params: $event })
+  "
+>
+</cx-asm-customer-360-product-listing>

@@ -1,7 +1,7 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
 
 import { CustomerTicketingCreateComponent } from './customer-ticketing-create.component';
@@ -42,7 +42,7 @@ describe('CustomerTicketingCreateComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should trigger create new ticket dialog', () => {
-    spyOn(launchDialogService, 'openDialog');
+    spyOn(launchDialogService, 'openDialog').and.callThrough();
     component.openCreateNewTicketDialog();
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
