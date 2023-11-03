@@ -21,7 +21,8 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { UserIdService } from '../../../auth';
 import { switchMap } from 'rxjs/operators';
 import { FeatureConfigService } from '../../../features-config';
-import { OCC_HTTP_TOKEN } from '@spartacus/core';
+import { OCC_HTTP_TOKEN } from '../../utils';
+
 
 export interface OccCmsPageRequest {
   pageLabelOrId?: string;

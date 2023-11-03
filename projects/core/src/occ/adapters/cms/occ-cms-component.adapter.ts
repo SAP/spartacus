@@ -21,7 +21,8 @@ import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { UserIdService } from '../../../auth';
 import { FeatureConfigService } from '../../../features-config';
-import { OCC_HTTP_TOKEN } from '@spartacus/core';
+import { OCC_HTTP_TOKEN } from '../../utils';
+
 
 @Injectable({
   providedIn: 'root',
