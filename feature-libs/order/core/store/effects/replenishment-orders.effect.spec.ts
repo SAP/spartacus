@@ -41,7 +41,6 @@ describe('Replenishment Orders effect', () => {
     replenishmentOrderHistoryConnector = TestBed.inject(
       ReplenishmentOrderHistoryConnector
     );
-    spyOn(console, 'error').and.stub();
   });
 
   describe('loadUserReplenishmentOrders$', () => {

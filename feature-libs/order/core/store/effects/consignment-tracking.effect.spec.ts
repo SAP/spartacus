@@ -48,7 +48,6 @@ describe('Consignment Tracking effect', () => {
     actions$ = TestBed.inject(Actions);
     trackingEffect = TestBed.inject(ConsignmentTrackingEffects);
     orderHistoryConnector = TestBed.inject(OrderHistoryConnector);
-    spyOn(console, 'error').and.stub();
   });
 
   describe('loadConsignmentTracking$', () => {

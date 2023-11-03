@@ -56,7 +56,6 @@ describe('Order Return Request effect', () => {
       fromOrderReturnRequestEffect.OrderReturnRequestEffect
     );
     orderHistoryConnector = TestBed.inject(OrderHistoryConnector);
-    spyOn(console, 'error').and.stub();
   });
 
   describe('createReturnRequest$', () => {

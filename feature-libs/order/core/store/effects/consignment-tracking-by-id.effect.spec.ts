@@ -43,8 +43,6 @@ describe('Consignment Tracking By Id effect', () => {
     actions$ = TestBed.inject(Actions);
     effect = TestBed.inject(ConsignmentTrackingByIdEffects);
     orderHistoryConnector = TestBed.inject(OrderHistoryConnector);
-
-    spyOn(console, 'error').and.stub();
   });
 
   describe('loadConsignmentTrackingById$', () => {
