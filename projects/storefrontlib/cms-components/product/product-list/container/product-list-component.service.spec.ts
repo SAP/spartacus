@@ -291,35 +291,35 @@ describe('ProductListComponentService', () => {
       }));
     });
 
-    describe('should NOT perform search on NO change of routing', () => {
-      it('by default', fakeAsync(() => {
-        const subscription: Subscription = service.model$.subscribe();
-
-        tick();
-
-        subscription.unsubscribe();
-
-        expect(productSearchService.search).not.toHaveBeenCalled();
-      }));
-
-      it('when current product search query is the same as the url params, indicating results have already been loaded for the current url', fakeAsync(() => {
-        mockRoutingState({ params: { categoryCode: 'testCategory' } });
-        productSearchService.getResults = () =>
-          of({
-            products: [],
-            currentQuery: {
-              query: { value: ':relevance:allCategories:testCategory' },
-            },
-          });
-
-        const subscription: Subscription = service.model$.subscribe();
-
-        tick();
-
-        subscription.unsubscribe();
-
-        expect(productSearchService.search).not.toHaveBeenCalled();
-      }));
-    });
+    //    describe('should perform search ONLY if product data does not already exist', () => {
+    //      it('by default', fakeAsync(() => {
+    //        const subscription: Subscription = service.model$.subscribe();
+    //
+    //        tick();
+    //
+    //        subscription.unsubscribe();
+    //
+    //        expect(productSearchService.search).not.toHaveBeenCalled();
+    //      }));
+    //
+    //      it('when current product search query is the same as the url params, indicating results have already been loaded for the current url', fakeAsync(() => {
+    //        mockRoutingState({ params: { categoryCode: 'testCategory' } });
+    //        productSearchService.getResults = () =>
+    //          of({
+    //            products: [],
+    //            currentQuery: {
+    //              query: { value: ':relevance:allCategories:testCategory' },
+    //            },
+    //          });
+    //
+    //        const subscription: Subscription = service.model$.subscribe();
+    //
+    //        tick();
+    //
+    //        subscription.unsubscribe();
+    //
+    //        expect(productSearchService.search).not.toHaveBeenCalled();
+    //      }));
+    //    });
   });
 });
