@@ -3,6 +3,12 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import {
+  FeatureConfigService,
+  OCC_HTTP_TOKEN,
+  UserIdService,
+} from '@spartacus/core';
+import { of } from 'rxjs';
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors';
 import { CmsStructureConfigService } from '../../../cms/services';
 import { CmsComponent, PageType } from '../../../model/cms.model';
@@ -10,8 +16,6 @@ import { HOME_PAGE_CONTEXT, PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
-import { FeatureConfigService, UserIdService } from '@spartacus/core';
-import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 const components: CmsComponent[] = [
@@ -378,6 +382,10 @@ describe('OccCmsPageAdapter', () => {
         });
         expect(testRequest.cancelled).toBeFalsy();
         expect(testRequest.request.responseType).toEqual('json');
+        expect(testRequest.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+          sendUserIdAsHeader: true,
+        });
+
         testRequest.flush(cmsPageData);
       });
 
@@ -408,6 +416,9 @@ describe('OccCmsPageAdapter', () => {
         });
         expect(testRequest.cancelled).toBeFalsy();
         expect(testRequest.request.responseType).toEqual('json');
+        expect(testRequest.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+          sendUserIdAsHeader: true,
+        });
         testRequest.flush(cmsPageData);
       });
 
@@ -428,6 +439,9 @@ describe('OccCmsPageAdapter', () => {
 
         expect(testRequest.cancelled).toBeFalsy();
         expect(testRequest.request.responseType).toEqual('json');
+        expect(testRequest.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+          sendUserIdAsHeader: true,
+        });
         testRequest.flush(cmsPageData);
       });
     });

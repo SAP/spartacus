@@ -4,6 +4,13 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import {
+  FeatureConfigService,
+  OCC_HTTP_TOKEN,
+  UserIdService,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
 import { CmsStructureConfigService } from '../../../cms/services';
 import { CmsComponent, PageType } from '../../../model/cms.model';
@@ -12,9 +19,6 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
-import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { FeatureConfigService, UserIdService } from '@spartacus/core';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -199,6 +203,9 @@ describe('OccCmsComponentAdapter', () => {
         });
 
         assertTestRequest(testRequest, component);
+        expect(testRequest.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+          sendUserIdAsHeader: true,
+        });
         done();
       });
 
@@ -227,6 +234,9 @@ describe('OccCmsComponentAdapter', () => {
         assertGetRequestGetUrl('DEFAULT', '2');
 
         assertTestRequest(testRequest, componentList);
+        expect(testRequest.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+          sendUserIdAsHeader: true,
+        });
         done();
       });
 
@@ -240,6 +250,9 @@ describe('OccCmsComponentAdapter', () => {
         assertGetRequestGetUrl('FULL', '5');
 
         assertTestRequest(testRequest, componentList);
+        expect(testRequest.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+          sendUserIdAsHeader: true,
+        });
         done();
       });
 
