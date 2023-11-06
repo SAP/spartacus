@@ -6,6 +6,9 @@
 
 import { OccConfig } from '@spartacus/core';
 
+const PRICE_HEADER_FIELDS =
+  ',totalPrice(formattedValue),quoteDiscounts(formattedValue),orderDiscounts(formattedValue),productDiscounts(formattedValue)';
+
 export const defaultOccQuoteConfig: OccConfig = {
   backend: {
     occ: {
@@ -13,12 +16,14 @@ export const defaultOccQuoteConfig: OccConfig = {
         getQuotes: 'users/${userId}/quotes',
         createQuote: 'users/${userId}/quotes',
         getQuote:
-          'users/${userId}/quotes/${quoteCode}?fields=FULL,expirationTime,previousEstimatedTotal(formattedValue),totalPrice(formattedValue),quoteDiscounts(formattedValue),entries(FULL)',
+          'users/${userId}/quotes/${quoteCode}?fields=FULL,expirationTime' +
+          PRICE_HEADER_FIELDS +
+          ',entries(FULL)',
         editQuote: 'users/${userId}/quotes/${quoteCode}',
         performQuoteAction: 'users/${userId}/quotes/${quoteCode}/action',
         addComment: 'users/${userId}/quotes/${quoteCode}/comments',
         addDiscount: 'users/${userId}/quotes/${quoteCode}/discounts',
-        addCartEntryComment:
+        addQuoteEntryComment:
           'users/${userId}/quotes/${quoteCode}/entries/${entryNumber}/comments',
       },
     },

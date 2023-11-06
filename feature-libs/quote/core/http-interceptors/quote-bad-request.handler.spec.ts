@@ -1,14 +1,14 @@
-import { HttpRequest, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import {
   GlobalMessageService,
-  HttpResponseStatus,
   GlobalMessageType,
+  HttpResponseStatus,
   Priority,
 } from '@spartacus/core';
-import { QuoteBadRequestHandler } from './quote-bad-request.handler';
-import { of } from 'rxjs';
 import { QuoteCartService } from '@spartacus/quote/root';
+import { of } from 'rxjs';
+import { QuoteBadRequestHandler } from './quote-bad-request.handler';
 
 const mockRequest = {} as HttpRequest<any>;
 
@@ -49,7 +49,7 @@ const mockQuoteDiscountResponse = {
     errors: [
       {
         message:
-          'Discount type is absolute, but the discont rate is greater than cart total [258.0]!',
+          'Discount type is absolute, but the discount rate is greater than cart total [258.0]!',
         type: 'IllegalArgumentError',
       },
     ],
@@ -95,7 +95,7 @@ class MockQuoteCartService {
 }
 
 describe('QuoteBadRequestHandler', () => {
-  let service: QuoteBadRequestHandler;
+  let classUnderTest: QuoteBadRequestHandler;
   let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
@@ -109,22 +109,24 @@ describe('QuoteBadRequestHandler', () => {
         { provide: QuoteCartService, useClass: MockQuoteCartService },
       ],
     });
-    service = TestBed.inject(QuoteBadRequestHandler);
+    classUnderTest = TestBed.inject(QuoteBadRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
     isQuoteCartActive = false;
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(classUnderTest).toBeTruthy();
   });
 
   it('should register 400 responseStatus', () => {
-    expect(service.responseStatus).toEqual(HttpResponseStatus.BAD_REQUEST);
+    expect(classUnderTest.responseStatus).toEqual(
+      HttpResponseStatus.BAD_REQUEST
+    );
   });
 
-  it('should handle treshold error', () => {
+  it('should handle threshold error', () => {
     spyOn(globalMessageService, 'add');
-    service.handleError(mockRequest, mockQuoteUnderThresholdResponse);
+    classUnderTest.handleError(mockRequest, mockQuoteUnderThresholdResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
@@ -136,7 +138,7 @@ describe('QuoteBadRequestHandler', () => {
 
   it('should handle cart validation error', () => {
     spyOn(globalMessageService, 'add');
-    service.handleError(mockRequest, mockCartValidationResponse);
+    classUnderTest.handleError(mockRequest, mockCartValidationResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
@@ -148,7 +150,7 @@ describe('QuoteBadRequestHandler', () => {
 
   it('should do nothing on domain error issues in case cart is not linked to quote', () => {
     spyOn(globalMessageService, 'add');
-    service.handleError(mockRequest, mockDomainErrorResponse);
+    classUnderTest.handleError(mockRequest, mockDomainErrorResponse);
 
     expect(globalMessageService.add).not.toHaveBeenCalled();
   });
@@ -156,7 +158,7 @@ describe('QuoteBadRequestHandler', () => {
   it('should handle domain error issues in case cart is linked to quote', () => {
     isQuoteCartActive = true;
     spyOn(globalMessageService, 'add');
-    service.handleError(mockRequest, mockDomainErrorResponse);
+    classUnderTest.handleError(mockRequest, mockDomainErrorResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
@@ -168,7 +170,7 @@ describe('QuoteBadRequestHandler', () => {
 
   it('should handle quote discount error', () => {
     spyOn(globalMessageService, 'add');
-    service.handleError(mockRequest, mockQuoteDiscountResponse);
+    classUnderTest.handleError(mockRequest, mockQuoteDiscountResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
@@ -180,7 +182,7 @@ describe('QuoteBadRequestHandler', () => {
 
   it('should handle expiration date error', () => {
     spyOn(globalMessageService, 'add');
-    service.handleError(mockRequest, mockQuoteExpirationDateResponse);
+    classUnderTest.handleError(mockRequest, mockQuoteExpirationDateResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
@@ -193,19 +195,19 @@ describe('QuoteBadRequestHandler', () => {
   it('should raise no message for IllegalArgumentErrors that are not related to quote discounts', () => {
     spyOn(globalMessageService, 'add');
 
-    service.handleError(mockRequest, mockIllegalArgumentResponse);
+    classUnderTest.handleError(mockRequest, mockIllegalArgumentResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledTimes(0);
   });
 
   it('should be able to deal with an empty error response', () => {
     spyOn(globalMessageService, 'add');
-    service.handleError(mockRequest, mockEmptyResponse);
+    classUnderTest.handleError(mockRequest, mockEmptyResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledTimes(0);
   });
 
   it('should carry normal priority', () => {
-    expect(service.getPriority()).toBe(Priority.NORMAL);
+    expect(classUnderTest.getPriority()).toBe(Priority.NORMAL);
   });
 });

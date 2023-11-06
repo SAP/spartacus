@@ -18,8 +18,6 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator',
           readCpqConfigurationForOrderEntry:
             'users/${userId}/orders/${orderId}/entries/${orderEntryNumber}/cpqconfigurator',
-          readCpqConfigurationForQuoteEntry:
-            'users/${userId}/quotes/${quoteId}/entries/${quoteEntryNumber}/cpqconfigurator',
           updateCpqConfigurationForCartEntry:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator',
           createCpqConfiguration:
@@ -38,6 +36,8 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
             'users/${userId}/orders/${orderId}/entries/${orderEntryNumber}/cpqconfigurator/configuration',
           readCpqConfigurationForQuoteEntryFull:
             'users/${userId}/quotes/${quoteId}/entries/${quoteEntryNumber}/cpqconfigurator/configuration',
+          readCpqConfigurationForSavedCartEntryFull:
+            'users/${userId}/savedCarts/${savedCartId}/entries/${entryNumber}/cpqconfigurator/configuration',
         },
       },
     },

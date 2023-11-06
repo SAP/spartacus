@@ -20,6 +20,9 @@ export class QuoteActionsLinkComponent {
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
 
+  /**
+   * Creates a new cart and navigates according to the 'cart' route.
+   */
   goToNewCart(): void {
     this.cartUtilsService.goToNewCart();
   }

@@ -101,7 +101,7 @@ class MockCxIconComponent {
 class MockCommerceQuotesListComponentService
   implements Partial<QuoteListComponentService>
 {
-  sorts?: SortModel[] | undefined = mockSorts;
+  sortOptions?: SortModel[] | undefined = mockSorts;
   sortLabels$ = of({
     byDate: 'sorting.date',
     byCode: 'quote.list.quoteId',
@@ -111,15 +111,15 @@ class MockCommerceQuotesListComponentService
   quotesState$ = mockQuoteListState$.asObservable();
   sort = new BehaviorSubject('byCode');
   currentPage = new BehaviorSubject(0);
-  setSort = createSpy();
-  setCurrentPage = createSpy();
+  setSorting = createSpy();
+  setPage = createSpy();
 }
 
 describe('QuoteListComponent', () => {
   let fixture: ComponentFixture<QuoteListComponent>;
   let htmlElem: HTMLElement;
   let component: QuoteListComponent;
-  let componentService: QuoteListComponentService;
+  let quoteListComponentService: QuoteListComponentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -144,21 +144,21 @@ describe('QuoteListComponent', () => {
     fixture = TestBed.createComponent(QuoteListComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
-    componentService = TestBed.inject(QuoteListComponentService);
+    quoteListComponentService = TestBed.inject(QuoteListComponentService);
   });
 
   it('should call service if sort changed', () => {
     const sortCode = 'byDate';
-    component.changeSortCode(sortCode);
+    component.changeSorting(sortCode);
 
-    expect(componentService.setSort).toHaveBeenCalledWith(sortCode);
+    expect(quoteListComponentService.setSorting).toHaveBeenCalledWith(sortCode);
   });
 
   it('should call service if page changed', () => {
     const page = 5;
     component.changePage(page);
 
-    expect(componentService.setCurrentPage).toHaveBeenCalledWith(page);
+    expect(quoteListComponentService.setPage).toHaveBeenCalledWith(page);
   });
 
   it('should display table and sorting if quote list is not empty', () => {
@@ -538,8 +538,8 @@ describe('QuoteListComponent', () => {
 
   describe('Ghost animation', () => {
     beforeEach(() => {
-      componentService = TestBed.inject(QuoteListComponentService);
-      componentService.quotesState$ = NEVER;
+      quoteListComponentService = TestBed.inject(QuoteListComponentService);
+      quoteListComponentService.quotesState$ = NEVER;
       fixture = TestBed.createComponent(QuoteListComponent);
       component = fixture.componentInstance;
       htmlElem = fixture.nativeElement;
@@ -623,6 +623,196 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         '.cx-ghost-pagination'
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          pagination: { ...mockPagination, totalPages: 2 },
+        },
+      });
+      fixture.detectChanges();
+    });
+
+    it("should contain 'div' HTML element with 'role' attribute that indicates the role for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'div',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'region'
+      );
+    });
+
+    it("should contain 'div' HTML element with 'aria-label' attribute that indicates the text for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'div',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'aria-label',
+        'quote.list.regionTitle'
+      );
+    });
+
+    it("should contain 'table' HTML element with 'aria-describedby' attribute that indicates the element on which the attribute is set", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'table',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'aria-describedby',
+        'quote-list-desc'
+      );
+    });
+
+    it('should contain a explanatory text that is seen only for a screen reader and defines a table caption', () => {
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'caption.cx-visually-hidden',
+        'quote.list.title'
+      );
+    });
+
+    it("should contain 'thead' HTML element with 'role' attribute that indicates a group of rows within a tabular structure", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'thead',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'rowgroup'
+      );
+    });
+
+    it("should contain 'tbody' HTML element with 'role' attribute that indicates a group of rows within a tabular structure", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'tbody',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'rowgroup'
+      );
+    });
+
+    it("should contain 'th' HTML element with 'role' attribute that indicates the role for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'th',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'columnheader'
+      );
+    });
+
+    it("should contain 'th' HTML element with 'aria-sort' attribute that indicates if there is no defined sort applied to the column", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'th',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'aria-sort',
+        'none'
+      );
+    });
+
+    it("should contain 'tr' HTML element with 'role' attribute that indicates the role for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'tr',
+          '',
+          1
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'row'
+      );
+    });
+
+    it("should contain 'cx-icon' element with 'aria-label' attribute that labels an interactive element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'cx-icon'
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'aria-label',
+        'quote.list.clickableRow'
+      );
+    });
+
+    it("should contain 'td' HTML element with 'role' attribute that indicates the role for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'td',
+          'cx-name',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'cell'
       );
     });
   });

@@ -14,6 +14,24 @@
         "../../feature-libs/asm/components/public_api"
       ],
       "@spartacus/asm/core": ["../../feature-libs/asm/core/public_api"],
+      "@spartacus/asm/customer-360/assets": [
+        "../../feature-libs/asm/customer-360/assets/public_api"
+      ],
+      "@spartacus/asm/customer-360/components": [
+        "../../feature-libs/asm/customer-360/components/public_api"
+      ],
+      "@spartacus/asm/customer-360/core": [
+        "../../feature-libs/asm/customer-360/core/public_api"
+      ],
+      "@spartacus/asm/customer-360": [
+        "../../feature-libs/asm/customer-360/public_api"
+      ],
+      "@spartacus/asm/customer-360/occ": [
+        "../../feature-libs/asm/customer-360/occ/public_api"
+      ],
+      "@spartacus/asm/customer-360/root": [
+        "../../feature-libs/asm/customer-360/root/public_api"
+      ],
       "@spartacus/asm": ["../../feature-libs/asm/public_api"],
       "@spartacus/asm/occ": ["../../feature-libs/asm/occ/public_api"],
       "@spartacus/asm/root": ["../../feature-libs/asm/root/public_api"],

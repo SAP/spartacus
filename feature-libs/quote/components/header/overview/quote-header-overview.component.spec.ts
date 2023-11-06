@@ -92,9 +92,9 @@ describe('QuoteHeaderOverviewComponent', () => {
   let fixture: ComponentFixture<QuoteHeaderOverviewComponent>;
   let component: QuoteHeaderOverviewComponent;
   let htmlElem: HTMLElement;
-  let mockedQuoteFacade: QuoteFacade;
-  let mockedEventService: EventService;
-  let quoteUiConfig: QuoteUIConfig;
+  let quoteFacade: QuoteFacade;
+  let eventService: EventService;
+  let quoteUIConfig: QuoteUIConfig;
 
   beforeEach(
     waitForAsync(() => {
@@ -114,12 +114,12 @@ describe('QuoteHeaderOverviewComponent', () => {
           },
           {
             provide: EventService,
-            useValue: mockedEventService,
+            useValue: eventService,
           },
           { provide: TranslationService, useClass: MockTranslationService },
           {
             provide: QuoteUIConfig,
-            useValue: quoteUiConfig,
+            useValue: quoteUIConfig,
           },
         ],
       }).compileComponents();
@@ -133,14 +133,14 @@ describe('QuoteHeaderOverviewComponent', () => {
 
     fixture.detectChanges();
 
-    mockedQuoteFacade = TestBed.inject(QuoteFacade as Type<QuoteFacade>);
-    spyOn(mockedQuoteFacade, 'editQuote').and.callThrough();
+    quoteFacade = TestBed.inject(QuoteFacade as Type<QuoteFacade>);
+    spyOn(quoteFacade, 'editQuote').and.callThrough();
   });
 
   function initMocks() {
-    mockedEventService = jasmine.createSpyObj('eventService', ['dispatch']);
+    eventService = jasmine.createSpyObj('eventService', ['dispatch']);
 
-    quoteUiConfig = {
+    quoteUIConfig = {
       quote: { truncateCardTileContentAfterNumChars: 30 },
     };
   }
@@ -313,22 +313,22 @@ describe('QuoteHeaderOverviewComponent', () => {
 
     it('should return "false" if the quote information is not editable', () => {
       quote.isEditable = false;
-      expect(component.isQuoteInformationEditable(quote)).toBe(false);
+      expect(component.isQuoteEditableForBuyer(quote)).toBe(false);
     });
 
     it('should return "false" if the quote information is not editable for "SELLER_DRAFT"', () => {
       quote.state = QuoteState.SELLER_DRAFT;
-      expect(component.isQuoteInformationEditable(quote)).toBe(false);
+      expect(component.isQuoteEditableForBuyer(quote)).toBe(false);
     });
 
     it('should return "true" if the quote information is editable for "BUYER_DRAFT"', () => {
       quote.state = QuoteState.BUYER_DRAFT;
-      expect(component.isQuoteInformationEditable(quote)).toBe(true);
+      expect(component.isQuoteEditableForBuyer(quote)).toBe(true);
     });
 
     it('should return "true" if the quote information is editable for "BUYER_OFFER"', () => {
       quote.state = QuoteState.BUYER_OFFER;
-      expect(component.isQuoteInformationEditable(quote)).toBe(true);
+      expect(component.isQuoteEditableForBuyer(quote)).toBe(true);
     });
   });
 
@@ -351,7 +351,7 @@ describe('QuoteHeaderOverviewComponent', () => {
 
       component.save(mockQuote, editEvent);
       expect(component.editMode).toBe(false);
-      expect(mockedQuoteFacade.editQuote).toHaveBeenCalledWith(
+      expect(quoteFacade.editQuote).toHaveBeenCalledWith(
         mockQuote.code,
         quoteMetaData
       );
@@ -403,41 +403,15 @@ describe('QuoteHeaderOverviewComponent', () => {
       expect(result).toEqual(expected);
     });
 
-    it('should the card content that represents an empty estimated and date information', () => {
+    it('should retrieve the card content that represents an empty estimated total and expiry date information', () => {
       fixture.detectChanges();
 
       const expected = {
-        title: 'quote.header.overview.estimateAndDate',
+        title: 'quote.header.overview.priceAndExpiry',
         paragraphs: [
           {
             title: 'quote.header.overview.estimatedTotal',
             text: [mockQuote.totalPrice.formattedValue],
-          },
-          {
-            title: 'quote.header.overview.created',
-            text: ['-'],
-          },
-        ],
-      };
-
-      component
-        .getEstimatedAndDate(mockQuote, undefined)
-        .subscribe((result) => {
-          expect(result).toEqual(expected);
-        });
-    });
-
-    it('should retrieve the card content that represents an empty update information', () => {
-      mockQuote.updatedTime = undefined;
-      mockQuote.expirationTime = undefined;
-      fixture.detectChanges();
-
-      const expected = {
-        title: 'quote.header.overview.update',
-        paragraphs: [
-          {
-            title: 'quote.header.overview.lastUpdated',
-            text: ['-'],
           },
           {
             title: 'quote.header.overview.expirationTime',
@@ -446,15 +420,43 @@ describe('QuoteHeaderOverviewComponent', () => {
         ],
       };
 
-      component.getUpdate(undefined, undefined).subscribe((result) => {
-        expect(result).toEqual(expected);
-      });
+      component
+        .getEstimatedTotalAndExpiryDate(mockQuote, undefined)
+        .subscribe((result) => {
+          expect(result).toEqual(expected);
+        });
+    });
+
+    it('should retrieve the card content that represents an empty created and updated dates information', () => {
+      mockQuote.updatedTime = undefined;
+      mockQuote.expirationTime = undefined;
+      fixture.detectChanges();
+
+      const expected = {
+        title: 'quote.header.overview.createdAndUpdated',
+        paragraphs: [
+          {
+            title: 'quote.header.overview.createdDate',
+            text: ['-'],
+          },
+          {
+            title: 'quote.header.overview.lastUpdatedDate',
+            text: ['-'],
+          },
+        ],
+      };
+
+      component
+        .getCreatedAndUpdatedDates(undefined, undefined)
+        .subscribe((result) => {
+          expect(result).toEqual(expected);
+        });
     });
   });
 
   describe('getCharactersLimitForCardTile', () => {
     it('should set card tile characters limit to 100 when not provided via config', () => {
-      quoteUiConfig.quote = undefined;
+      quoteUIConfig.quote = undefined;
 
       // re-create component so changed config is evaluated
       fixture = TestBed.createComponent(QuoteHeaderOverviewComponent);

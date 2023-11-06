@@ -4,9 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { Params } from '@angular/router';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+
+import { map } from 'rxjs/operators';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
@@ -16,6 +23,12 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigureCartEntryComponent {
+  protected activeCartFacade = inject(ActiveCartFacade);
+
+  activeCartCode$ = this.activeCartFacade
+    .getActive()
+    .pipe(map((cart) => cart.code));
+
   protected static readonly ERROR_MESSAGE_ENTRY_INCONSISTENT =
     "We don't expect order and quote code defined at the same time";
   @Input() cartEntry: OrderEntry;
@@ -33,24 +46,23 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
-   * Determines owner for an entry (can be part of cart, order or quote)
+   * Retrieves owner for an entry (can be part of cart, order or quote)
    *
    * @returns - an owner type
    */
   getOwnerType(): CommonConfigurator.OwnerType {
-    if (this.isOrderOrQuoteRelated()) {
-      if (!this.cartEntry.quoteCode) {
-        return CommonConfigurator.OwnerType.ORDER_ENTRY;
-      }
-      if (!this.cartEntry.orderCode) {
-        return CommonConfigurator.OwnerType.QUOTE_ENTRY;
-      }
-      throw new Error(
-        ConfigureCartEntryComponent.ERROR_MESSAGE_ENTRY_INCONSISTENT
-      );
-    } else {
-      return CommonConfigurator.OwnerType.CART_ENTRY;
-    }
+    return this.getOwnerTypeInternal(true);
+  }
+
+  /**
+   * Determines owner for an entry (can be part of cart, order or quote)
+   * @param cartCode Code of active cart
+   * @returns - an owner type
+   */
+  getOwnerTypeKnowingActiveCart(
+    cartCode: string
+  ): CommonConfigurator.OwnerType {
+    return this.getOwnerTypeInternal(this.isActiveCart(cartCode));
   }
 
   /**
@@ -60,39 +72,78 @@ export class ConfigureCartEntryComponent {
    * @returns - an entry key
    */
   getEntityKey(): string {
+    return this.getEntityKeyInternal(true);
+  }
+
+  /**
+   * Verifies whether the cart entry has an order code, retrieves a composed owner ID
+   * and concatenates a corresponding entry number.
+   * @param cartCode Code of active cart
+   * @returns - an entry key
+   */
+  getEntityKeyKnowingActiveCart(cartCode: string): string {
+    return this.getEntityKeyInternal(this.isActiveCart(cartCode));
+  }
+
+  protected isActiveCart(cartCode: string): boolean {
+    return cartCode === this.cartEntry.savedCartCode;
+  }
+
+  protected getOwnerTypeInternal(
+    readOnlyCartIsActive: boolean
+  ): CommonConfigurator.OwnerType {
+    if (this.cartEntry.orderCode) {
+      return CommonConfigurator.OwnerType.ORDER_ENTRY;
+    } else if (this.readOnly && this.cartEntry.quoteCode) {
+      return CommonConfigurator.OwnerType.QUOTE_ENTRY;
+    } else if (this.readOnly && !readOnlyCartIsActive) {
+      return CommonConfigurator.OwnerType.SAVED_CART_ENTRY;
+    } else {
+      return CommonConfigurator.OwnerType.CART_ENTRY;
+    }
+  }
+
+  protected getEntityKeyInternal(readOnlyCartIsActive: boolean): string {
     const entryNumber = this.cartEntry.entryNumber;
     if (entryNumber === undefined) {
       throw new Error('No entryNumber present in entry');
     }
-
-    const code = this.getCode();
+    let code;
+    if (this.cartEntry.orderCode) {
+      code = this.cartEntry.orderCode;
+    } else if (this.readOnly && this.cartEntry.quoteCode) {
+      code = this.cartEntry.quoteCode;
+    } else if (this.readOnly && !readOnlyCartIsActive) {
+      code = this.cartEntry.savedCartCode;
+    }
     return code
       ? this.commonConfigUtilsService.getComposedOwnerId(code, entryNumber)
       : entryNumber.toString();
   }
+
   /**
-   * Returns a document code in case the entry is order or quote bound. In this case the code
+   * Retrieves a document code in case the entry is order or quote bound. In this case the code
    * represents order or quote ID
    * @returns Document code if order or quote bound, undefined in other cases
    */
   protected getCode(): string | undefined {
-    if (this.isOrderOrQuoteRelated()) {
-      if (!this.cartEntry.quoteCode) {
+    if (this.isReadOnly()) {
+      if (this.cartEntry.orderCode) {
         return this.cartEntry.orderCode;
-      }
-      if (!this.cartEntry.orderCode) {
+      } else if (this.cartEntry.quoteCode) {
         return this.cartEntry.quoteCode;
+      } else {
+        return this.cartEntry.savedCartCode;
       }
-      throw new Error(
-        ConfigureCartEntryComponent.ERROR_MESSAGE_ENTRY_INCONSISTENT
-      );
     } else {
       return undefined;
     }
   }
 
-  protected isOrderOrQuoteRelated(): boolean {
-    return this.cartEntry.quoteCode || this.cartEntry.orderCode
+  protected isReadOnly(): boolean {
+    return this.cartEntry.quoteCode ||
+      this.cartEntry.orderCode ||
+      this.cartEntry.savedCartCode
       ? this.readOnly
       : false;
   }

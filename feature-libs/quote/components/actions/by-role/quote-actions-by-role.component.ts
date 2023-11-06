@@ -41,7 +41,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   protected launchDialogService = inject(LaunchDialogService);
   protected viewContainerRef = inject(ViewContainerRef);
   protected globalMessageService = inject(GlobalMessageService);
-  protected config = inject(QuoteUIConfig);
+  protected quoteUIConfig = inject(QuoteUIConfig);
   protected activeCartFacade = inject(ActiveCartFacade);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
@@ -71,6 +71,14 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Checks whether the given action must be disabled on the UI based on the details of the quote.
+   * For example the SUBMIT action is disabled when the quote threshold is not exceeded.
+   *
+   * @param type - type of the quote action
+   * @param quote - quote
+   * @returns true, only of the action shall be disabled
+   */
   mustDisableAction(type: string, quote: Quote): boolean {
     return type === QuoteActionType.SUBMIT && !this.isThresholdReached(quote);
   }
@@ -80,6 +88,13 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     return (quote.totalPrice.value || 0) >= requestThreshold;
   }
 
+  /**
+   * Generic click handler for quote action buttons.
+   *
+   * @param action - the action to be triggered
+   * @param quote - quote
+   * @param cart - cart
+   */
   onClick(action: QuoteActionType, quote: Quote, cart: Cart) {
     const cartIsEmpty = (cart.entries?.length ?? 0) === 0;
     if (!this.isConfirmationDialogRequired(action, quote.state, cartIsEmpty)) {
@@ -115,6 +130,8 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     action: QuoteActionType,
     context: ConfirmationContext
   ) {
+    this.subscription.unsubscribe();
+    this.subscription = new Subscription();
     this.subscription.add(
       this.launchDialogService.dialogClose
         .pipe(
@@ -143,6 +160,13 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     this.quoteFacade.requote(quoteId);
   }
 
+  /**
+   * Returns the style class to be used for the button, so whether its a primary, secondary or tertiary button.
+   *
+   * @param allowedActions - currently displayed actions
+   * @param action - action associated with this button
+   * @returns 'btn-primary' | 'btn-secondary' | 'btn-tertiary'
+   */
   getButtonStyle(allowedActions: QuoteAction[], action: QuoteAction): string {
     if (action.isPrimary) {
       return 'btn-primary';
@@ -164,7 +188,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     state: QuoteState,
     cartIsEmpty: boolean
   ): boolean {
-    const mappingConfig = this.config.quote?.confirmActionDialogMapping;
+    const mappingConfig = this.quoteUIConfig.quote?.confirmActionDialogMapping;
     const dialogConfig =
       mappingConfig?.[state]?.[action] ??
       mappingConfig?.[this.stateToRoleTypeForDialogConfig(state)]?.[action] ??
@@ -179,30 +203,34 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     action: QuoteActionType,
     quote: Quote
   ): ConfirmationContext {
-    const dialogConfig = this.getDialogConfig(action, quote.state);
+    const dialogConfig = this.getConfirmDialogConfig(action, quote.state);
     const confirmationContext: ConfirmationContext = {
       quote: quote,
-      title: dialogConfig.i18nKey + '.title',
-      confirmNote: dialogConfig.i18nKey + '.confirmNote',
+      title: dialogConfig.i18nKeyPrefix + '.title',
+      confirmNote: dialogConfig.i18nKeyPrefix + '.confirmNote',
+      a11y: {
+        close: dialogConfig.i18nKeyPrefix + '.a11y.close',
+      },
     };
     if (dialogConfig.showWarningNote) {
-      confirmationContext.warningNote = dialogConfig.i18nKey + '.warningNote';
+      confirmationContext.warningNote =
+        dialogConfig.i18nKeyPrefix + '.warningNote';
     }
     if (dialogConfig.showExpirationDate) {
       confirmationContext.validity = 'quote.actions.confirmDialog.validity';
     }
     if (dialogConfig.showSuccessMessage) {
       confirmationContext.successMessage =
-        dialogConfig.i18nKey + '.successMessage';
+        dialogConfig.i18nKeyPrefix + '.successMessage';
     }
     return confirmationContext;
   }
 
-  protected getDialogConfig(
+  protected getConfirmDialogConfig(
     action: QuoteActionType,
     state: QuoteState
   ): ConfirmActionDialogConfig {
-    const mappingConfig = this.config.quote?.confirmActionDialogMapping;
+    const mappingConfig = this.quoteUIConfig.quote?.confirmActionDialogMapping;
 
     const config =
       mappingConfig?.[state]?.[action] ??

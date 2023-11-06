@@ -38,9 +38,6 @@ class MockConfiguratorTextfieldAdapter implements ConfiguratorTextfieldAdapter {
   readConfigurationForOrderEntry = createSpy().and.callFake(() =>
     of(configuration)
   );
-  readConfigurationForQuoteEntry = createSpy().and.callFake(() =>
-    of(configuration)
-  );
 }
 
 describe('ConfiguratorTextfieldConnector', () => {
@@ -118,23 +115,6 @@ describe('ConfiguratorTextfieldConnector', () => {
       .subscribe((res) => expect(res).toBe(configuration));
 
     expect(adapter.readConfigurationForOrderEntry).toHaveBeenCalledWith(params);
-  });
-
-  it('should call adapter on readConfigurationForQuoteEntry', () => {
-    const adapter = TestBed.inject(
-      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
-    );
-
-    const params: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
-      {
-        owner: ConfiguratorModelUtils.createInitialOwner(),
-      };
-
-    service
-      .readConfigurationForQuoteEntry(params)
-      .subscribe((res) => expect(res).toBe(configuration));
-
-    expect(adapter.readConfigurationForQuoteEntry).toHaveBeenCalledWith(params);
   });
 
   it('should call adapter on addToCart', () => {

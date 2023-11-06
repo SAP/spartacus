@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { UntypedFormControl } from '@angular/forms';
+import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   I18nTestingModule,
@@ -15,6 +17,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE, IntersectionService } from '@spartacus/storefront';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -22,13 +25,10 @@ import { ConfiguratorCartService } from '../../core/facade/configurator-cart.ser
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorQuantityService } from '../../core/services/configurator-quantity.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../service';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { UntypedFormControl } from '@angular/forms';
-import { ConfiguratorQuantityService } from '../../core/services/configurator-quantity.service';
 
 const CART_ENTRY_KEY = '001+1';
 const ORDER_ENTRY_KEY = '001+1';
@@ -182,6 +182,12 @@ class MockIntersectionService {
     return of(false);
   }
 }
+const cart: Cart = { quoteCode: QUOTE_CODE };
+class MockMultiCartFacade implements Partial<MultiCartFacade> {
+  getCart(): Observable<Cart> {
+    return of(cart);
+  }
+}
 
 function setRouterTestDataCartBoundAndConfigPage() {
   mockRouterState.state.params = {
@@ -240,6 +246,19 @@ function setRouterTestDataReadOnlyQuote() {
   mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
   mockRouterData.isOwnerCartEntry = false;
   mockRouterData.owner.type = CommonConfigurator.OwnerType.QUOTE_ENTRY;
+  mockRouterData.owner.id = QUOTE_ENTRY_KEY;
+  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+  mockRouterData.displayOnly = true;
+}
+
+function setRouterTestDataReadOnlySavedCart() {
+  mockRouterState.state.params = {
+    entityKey: QUOTE_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.SAVED_CART_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.isOwnerCartEntry = false;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.SAVED_CART_ENTRY;
   mockRouterData.owner.id = QUOTE_ENTRY_KEY;
   mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
   mockRouterData.displayOnly = true;
@@ -371,6 +390,10 @@ describe('ConfigAddToCartButtonComponent', () => {
           {
             provide: IntersectionService,
             useClass: MockIntersectionService,
+          },
+          {
+            provide: MultiCartFacade,
+            useClass: MockMultiCartFacade,
           },
         ],
       })
@@ -704,6 +727,16 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
 
     it('should navigate to quote details in case owner is quote entry', () => {
+      setRouterTestDataReadOnlySavedCart();
+      initialize();
+      component.leaveConfigurationOverview();
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'quoteDetails',
+        params: { quoteId: QUOTE_CODE },
+      });
+    });
+
+    it('should navigate to quote details in case owner is saved cart entry and saved cart is bound to a quote', () => {
       setRouterTestDataReadOnlyQuote();
       initialize();
       component.leaveConfigurationOverview();

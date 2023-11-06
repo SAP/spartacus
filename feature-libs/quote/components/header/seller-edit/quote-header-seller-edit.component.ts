@@ -21,7 +21,7 @@ import {
   QuoteMetadata,
 } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable, Subject, Subscription, combineLatest } from 'rxjs';
+import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, filter, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config';
 import { QuoteHeaderSellerEditComponentService } from './quote-header-seller-edit.component.service';
@@ -35,7 +35,7 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
   protected quoteHeaderSellerEditComponentService = inject(
     QuoteHeaderSellerEditComponentService
   );
-  protected config = inject(QuoteUIConfig);
+  protected quoteUIConfig = inject(QuoteUIConfig);
 
   quoteDetailsForSeller$: Observable<Quote> = this.quoteFacade
     .getQuoteDetails()
@@ -96,7 +96,9 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.dateUpdates
         .pipe(
-          debounceTime(this.config.quote?.updateDebounceTime?.expiryDate ?? 500)
+          debounceTime(
+            this.quoteUIConfig.quote?.updateDebounceTime?.expiryDate ?? 500
+          )
         )
         .subscribe((payload) => {
           const quoteMetaData: QuoteMetadata = {
@@ -110,8 +112,10 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
   /**
    * Should the validation message be displayed?
+   *
    * @returns True in case discount control has errors
    */
   mustDisplayValidationMessage(): boolean {
@@ -119,8 +123,9 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * On applying discount, the value will be sent to the facade layer
-   * @param quoteCode Quote code
+   * Parses current discount from control and sends absolute discount to the facade layer.
+   *
+   * @param quoteCode - Quote code
    */
   onApply(quoteCode: string): void {
     if (this.form.controls.discount.valid) {
@@ -143,8 +148,9 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * On setting a date, the value will be sent to the facade layer
-   * @param quoteCode Quote code
+   * Prepares date for facade layer and sends it.
+   *
+   * @param quoteCode - Quote code
    */
   onSetDate(quoteCode: string): void {
     const dateWithTime =

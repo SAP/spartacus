@@ -1,20 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  QuoteFacade,
-  Quote,
-  QuoteActionType,
-  QuoteList,
-} from '@spartacus/quote/root';
-import {
   I18nTestingModule,
   PaginationModel,
   QueryState,
   TranslationService,
 } from '@spartacus/core';
+import {
+  Quote,
+  QuoteActionType,
+  QuoteFacade,
+  QuoteList,
+} from '@spartacus/quote/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { QuoteListComponentService as QuoteListComponentService } from './quote-list-component.service';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { QuoteListComponentService } from './quote-list-component.service';
 import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
@@ -66,8 +66,7 @@ class MockTranslationService implements Partial<TranslationService> {
 }
 
 describe('QuoteListComponentService', () => {
-  let service: QuoteListComponentService;
-
+  let classUnderTest: QuoteListComponentService;
   let translateSpy: jasmine.Spy;
 
   beforeEach(() => {
@@ -93,11 +92,11 @@ describe('QuoteListComponentService', () => {
       'translate'
     ).and.callThrough();
 
-    service = TestBed.inject(QuoteListComponentService);
+    classUnderTest = TestBed.inject(QuoteListComponentService);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(classUnderTest).toBeTruthy();
   });
 
   it('should get translated sort labels', (done) => {
@@ -110,7 +109,7 @@ describe('QuoteListComponentService', () => {
     };
 
     //then
-    service.sortLabels$.subscribe((result) => {
+    classUnderTest.sortLabels$.subscribe((result) => {
       expect(result).toEqual(labels);
       expect(translateSpy).toHaveBeenCalledTimes(4);
       Object.keys(labels).forEach((key, index) => {
@@ -127,9 +126,9 @@ describe('QuoteListComponentService', () => {
     //const warnSpy = spyOn(console, 'warn');
 
     //then
-    service.quotesState$.pipe(take(1)).subscribe(() => {
+    classUnderTest.quotesState$.pipe(take(1)).subscribe(() => {
       // expect(warnSpy).toHaveBeenCalledTimes(1);
-      expect(service.sorts).toEqual(mockSorts);
+      expect(classUnderTest.sortOptions).toEqual(mockSorts);
     });
     done();
   });
@@ -139,10 +138,10 @@ describe('QuoteListComponentService', () => {
     const sort = 'byDate';
 
     //when
-    service.setSort(sort);
+    classUnderTest.setSorting(sort);
 
     //then
-    service['sort'].subscribe((result) => {
+    classUnderTest['sort'].subscribe((result) => {
       expect(result).toEqual(sort);
     });
   });
@@ -152,10 +151,10 @@ describe('QuoteListComponentService', () => {
     const currentPage = 5;
 
     //when
-    service.setCurrentPage(currentPage);
+    classUnderTest.setPage(currentPage);
 
     //then
-    service['currentPage'].subscribe((result) => {
+    classUnderTest['currentPage'].subscribe((result) => {
       expect(result).toEqual(currentPage);
     });
   });

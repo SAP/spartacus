@@ -34,11 +34,6 @@ export class ConfiguratorTextfieldFormComponent {
               routerData.owner
             );
           }
-          case CommonConfigurator.OwnerType.QUOTE_ENTRY: {
-            return this.configuratorTextfieldService.readConfigurationForQuoteEntry(
-              routerData.owner
-            );
-          }
           default: {
             return this.configuratorTextfieldService.createConfiguration(
               routerData.owner

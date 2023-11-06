@@ -16,7 +16,7 @@
     </div>
     <ng-container *ngIf="state.showCart">
       <ng-template
-        *ngIf="!quoteDetails.isEditable"
+        *ngIf="!quoteDetails.isEditable && quoteDetails.cartId === undefined"
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
         [cxOutletContext]="{
           items: quoteDetails.entries ?? [],
@@ -25,10 +25,24 @@
       >
       </ng-template>
       <ng-template
-        *ngIf="quoteDetails.isEditable && (cartDetails$ | async) as cartDetails"
+        *ngIf="
+          !quoteDetails.isEditable &&
+          quoteDetails.cartId !== undefined &&
+          (quoteCartReadOnly$ | async) as quoteCartReadOnly
+        "
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
         [cxOutletContext]="{
-          items: cartDetails.entries ?? [],
+          items: quoteCartReadOnly.entries ?? [],
+          readonly: true
+        }"
+      >
+      </ng-template>
+
+      <ng-template
+        *ngIf="quoteDetails.isEditable && (activeCart$ | async) as activeCart"
+        [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+        [cxOutletContext]="{
+          items: activeCart.entries ?? [],
           readonly: false
         }"
       >

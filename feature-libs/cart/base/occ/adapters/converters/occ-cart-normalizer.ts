@@ -26,11 +26,13 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
     }
 
     this.removeDuplicatePromotions(source, target);
-    this.handleQuote(source, target);
+    this.handleQuoteCode(source, target);
 
     if (source.entries) {
       target.entries = source.entries.map((entry) => ({
         ...entry,
+        //TODO CHHI that's a hack in order to let entry outlets know about cart id
+        savedCartCode: source.code,
         product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
         promotions: this.converter.convert(
           { item: entry, promotions: target?.appliedProductPromotions },
@@ -42,7 +44,7 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
     return target;
   }
 
-  protected handleQuote(source: Occ.Cart, target: Cart) {
+  protected handleQuoteCode(source: Occ.Cart, target: Cart) {
     if (source.sapQuote) {
       target.quoteCode = source.sapQuote.code;
     }

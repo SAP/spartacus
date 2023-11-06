@@ -15,34 +15,44 @@ import { QuoteListComponentService } from './quote-list-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteListComponent {
-  protected quoteListService = inject(QuoteListComponentService);
+  protected quoteListComponentService = inject(QuoteListComponentService);
 
-  sorts = this.quoteListService.sorts;
-  sortLabels$ = this.quoteListService.sortLabels$;
-  quotesState$ = this.quoteListService.quotesState$;
+  sorts = this.quoteListComponentService.sortOptions;
+  sortLabels$ = this.quoteListComponentService.sortLabels$;
+  quotesState$ = this.quoteListComponentService.quotesState$;
   dateFormat: string = 'MMMM d, YYYY h:mm aa';
   iconTypes = ICON_TYPE;
 
   constructor() {
     this.changePage(0);
-    this.changeSortCode('byCode');
+    this.changeSorting(this.quoteListComponentService.defaultSortOption);
   }
 
-  changeSortCode(sortCode: string): void {
-    this.quoteListService.setSort(sortCode);
+  /**
+   * Changes current sorting.
+   *
+   * @param sortCode - Identifies sort option that should be applied
+   */
+  changeSorting(sortCode: string): void {
+    this.quoteListComponentService.setSorting(sortCode);
   }
 
+  /**
+   * Changes current page.
+   *
+   * @param page - Desired page number
+   */
   changePage(page: number): void {
-    this.quoteListService.setCurrentPage(page);
+    this.quoteListComponentService.setPage(page);
   }
 
   /**
    * Retrieves the class name for the quote state. This class name is composed
    * using 'quote-' as prefix and the last part of the status name in lower case
-   * (like e.g. draft for SELLER_DRAFT)
+   * (like e.g. draft for SELLER_DRAFT).
    *
-   * @param {QuoteState} state - quote state
-   * @returns {string} - class name corresponding to quote state.
+   * @param state - quote state
+   * @returns class name corresponding to quote state.
    */
   getQuoteStateClass(state: QuoteState): string {
     const stateAsString = state.toString();

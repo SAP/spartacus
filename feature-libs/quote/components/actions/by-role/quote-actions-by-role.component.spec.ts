@@ -51,7 +51,7 @@ const mockQuote: Quote = {
 const testMappings: ConfirmActionDialogMappingConfig = {
   BUYER_OFFER: {
     EDIT: {
-      i18nKey: 'quote.actions.confirmDialog.buyer_offer.edit',
+      i18nKeyPrefix: 'quote.actions.confirmDialog.buyer_offer.edit',
       showWarningNote: true,
       showExpirationDate: true,
       showSuccessMessage: false,
@@ -60,7 +60,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   BUYER: {
     SUBMIT: {
-      i18nKey: 'quote.actions.confirmDialog.buyer.submit',
+      i18nKeyPrefix: 'quote.actions.confirmDialog.buyer.submit',
       showWarningNote: false,
       showExpirationDate: false,
       showSuccessMessage: true,
@@ -69,7 +69,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   EXPIRED: {
     REQUOTE: {
-      i18nKey: 'quote.actions.confirmDialog.expired.requote',
+      i18nKeyPrefix: 'quote.actions.confirmDialog.expired.requote',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
@@ -78,7 +78,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   ALL: {
     EDIT: {
-      i18nKey: 'quote.confirmActionDialog.all.edit',
+      i18nKeyPrefix: 'quote.confirmActionDialog.all.edit',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
@@ -92,10 +92,12 @@ const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
 const currentCart: Partial<Cart> = {};
 
 let dialogClose$: BehaviorSubject<any | undefined>;
+
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(reason: any): void {
     dialogClose$.next(reason);
   }
+
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
@@ -104,6 +106,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   ) {
     return of();
   }
+
   get dialogClose() {
     return dialogClose$.asObservable();
   }
@@ -113,12 +116,14 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<Quote> {
     return mockQuoteDetails$.asObservable();
   }
+
   performQuoteAction(
     _quote: Quote,
     _quoteAction: QuoteActionType
   ): Observable<unknown> {
     return EMPTY;
   }
+
   requote = createSpy();
 }
 
@@ -143,7 +148,7 @@ describe('QuoteActionsByRoleComponent', () => {
   let htmlElem: HTMLElement;
   let component: QuoteActionsByRoleComponent;
   let launchDialogService: LaunchDialogService;
-  let facade: QuoteFacade;
+  let quoteFacade: QuoteFacade;
   let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
@@ -174,7 +179,7 @@ describe('QuoteActionsByRoleComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
-    facade = TestBed.inject(QuoteFacade);
+    quoteFacade = TestBed.inject(QuoteFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
     mockQuoteDetails$.next(mockQuote);
     dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
@@ -182,7 +187,7 @@ describe('QuoteActionsByRoleComponent', () => {
 
   it('should create component', () => {
     expect(component).toBeDefined();
-    expect(facade).toBeDefined();
+    expect(quoteFacade).toBeDefined();
   });
 
   describe('Ghost animation', () => {
@@ -226,6 +231,9 @@ describe('QuoteActionsByRoleComponent', () => {
       title: 'quote.actions.confirmDialog.buyer.submit.title',
       confirmNote: 'quote.actions.confirmDialog.buyer.submit.confirmNote',
       successMessage: 'quote.actions.confirmDialog.buyer.submit.successMessage',
+      a11y: {
+        close: 'quote.actions.confirmDialog.buyer.submit.a11y.close',
+      },
     };
     mockQuoteDetails$.next(quoteForSubmitAction);
     fixture.detectChanges();
@@ -259,6 +267,9 @@ describe('QuoteActionsByRoleComponent', () => {
       confirmNote: 'quote.actions.confirmDialog.buyer_offer.edit.confirmNote',
       warningNote: 'quote.actions.confirmDialog.buyer_offer.edit.warningNote',
       validity: 'quote.actions.confirmDialog.validity',
+      a11y: {
+        close: 'quote.actions.confirmDialog.buyer_offer.edit.a11y.close',
+      },
     };
     mockQuoteDetails$.next(quoteInBuyerOfferState);
     fixture.detectChanges();
@@ -308,6 +319,9 @@ describe('QuoteActionsByRoleComponent', () => {
       title: 'quote.actions.confirmDialog.expired.requote.title',
       confirmNote: 'quote.actions.confirmDialog.expired.requote.confirmNote',
       warningNote: 'quote.actions.confirmDialog.expired.requote.warningNote',
+      a11y: {
+        close: 'quote.actions.confirmDialog.expired.requote.a11y.close',
+      },
     };
     mockQuoteDetails$.next(expiredQuote);
     fixture.detectChanges();
@@ -322,8 +336,6 @@ describe('QuoteActionsByRoleComponent', () => {
   });
 
   describe('Threshold check', () => {
-    const attributeName = 'disabled';
-
     const allowedActionsSubmit = [
       { type: QuoteActionType.SUBMIT, isPrimary: true },
     ];
@@ -344,11 +356,15 @@ describe('QuoteActionsByRoleComponent', () => {
     it('should let submit button enabled if threshold is met', () => {
       mockQuoteDetails$.next(submittableQuote);
       fixture.detectChanges();
+
+      const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        '.btn:first-child'
+      );
       CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
         expect,
-        htmlElem,
-        '.btn:first-child',
-        attributeName
+        submitBtn,
+        'disabled'
       );
     });
 
@@ -356,11 +372,15 @@ describe('QuoteActionsByRoleComponent', () => {
       mockQuote.threshold = undefined;
       mockQuoteDetails$.next(submittableQuote);
       fixture.detectChanges();
+
+      const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        '.btn:first-child'
+      );
       CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
         expect,
-        htmlElem,
-        '.btn:first-child',
-        attributeName
+        submitBtn,
+        'disabled'
       );
     });
 
@@ -369,11 +389,14 @@ describe('QuoteActionsByRoleComponent', () => {
       mockQuoteDetails$.next(quoteFailingThreshold);
       fixture.detectChanges();
 
+      const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        '.btn:first-child'
+      );
       CommonQuoteTestUtilsService.expectElementToContainAttribute(
         expect,
-        htmlElem,
-        '.btn:first-child',
-        attributeName
+        submitBtn,
+        'disabled'
       );
       expect(globalMessageService.add).toHaveBeenCalled();
     });
@@ -383,11 +406,14 @@ describe('QuoteActionsByRoleComponent', () => {
       mockQuoteDetails$.next(quoteFailingThreshold);
       fixture.detectChanges();
 
+      const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        '.btn:first-child'
+      );
       CommonQuoteTestUtilsService.expectElementToContainAttribute(
         expect,
-        htmlElem,
-        '.btn:first-child',
-        attributeName
+        submitBtn,
+        'disabled'
       );
     });
 
@@ -395,11 +421,14 @@ describe('QuoteActionsByRoleComponent', () => {
       mockQuoteDetails$.next(cancellableQuote);
       fixture.detectChanges();
 
+      const submitBtn = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        '.btn:first-child'
+      );
       CommonQuoteTestUtilsService.expectElementNotToContainAttribute(
         expect,
-        htmlElem,
-        '.btn:first-child',
-        attributeName
+        submitBtn,
+        'disabled'
       );
     });
 
@@ -413,7 +442,7 @@ describe('QuoteActionsByRoleComponent', () => {
   });
 
   it('should perform quote action when action is SUBMIT and confirm dialogClose reason is yes', () => {
-    spyOn(facade, 'performQuoteAction').and.callThrough();
+    spyOn(quoteFacade, 'performQuoteAction').and.callThrough();
     const newMockQuoteWithSubmitAction: Quote = {
       ...mockQuote,
       allowedActions: [
@@ -430,14 +459,14 @@ describe('QuoteActionsByRoleComponent', () => {
       currentCart
     );
     launchDialogService.closeDialog('yes');
-    expect(facade.performQuoteAction).toHaveBeenCalledWith(
+    expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
       newMockQuoteWithSubmitAction,
       QuoteActionType.SUBMIT
     );
   });
 
   it("should click on 'CANCEL' button", () => {
-    spyOn(facade, 'performQuoteAction').and.callThrough();
+    spyOn(quoteFacade, 'performQuoteAction').and.callThrough();
     const newMockQuoteWithSubmitAction: Quote = {
       ...mockQuote,
       allowedActions: [
@@ -452,21 +481,21 @@ describe('QuoteActionsByRoleComponent', () => {
       '.btn-secondary'
     );
     editButton.click();
-    expect(facade.performQuoteAction).toHaveBeenCalledWith(
+    expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
       newMockQuoteWithSubmitAction,
       QuoteActionType.CANCEL
     );
   });
 
   it("should click on 'REQUOTE' button", () => {
-    spyOn(facade, 'performQuoteAction').and.callThrough();
+    spyOn(quoteFacade, 'performQuoteAction').and.callThrough();
     fixture.detectChanges();
     const requoteButton = CommonQuoteTestUtilsService.getHTMLElement(
       htmlElem,
       '.btn-primary'
     );
     requoteButton.click();
-    expect(facade.requote).toHaveBeenCalledWith(mockQuote.code);
+    expect(quoteFacade.requote).toHaveBeenCalledWith(mockQuote.code);
   });
 
   describe('isConfirmationPopupRequired', () => {
@@ -526,10 +555,10 @@ describe('QuoteActionsByRoleComponent', () => {
     });
   });
 
-  describe('getDialogConfig', () => {
+  describe('getConfirmDialogConfig', () => {
     it('should throw an error if state/action are not matching', () => {
       expect(() =>
-        component['getDialogConfig'](
+        component['getConfirmDialogConfig'](
           QuoteActionType.ORDER,
           QuoteState.BUYER_DRAFT
         )
@@ -537,12 +566,12 @@ describe('QuoteActionsByRoleComponent', () => {
     });
     it('should return configured config if state/action are matching', () => {
       expect(
-        component['getDialogConfig'](
+        component['getConfirmDialogConfig'](
           QuoteActionType.EDIT,
           QuoteState.BUYER_OFFER
         )
       ).toEqual({
-        i18nKey: 'quote.actions.confirmDialog.buyer_offer.edit',
+        i18nKeyPrefix: 'quote.actions.confirmDialog.buyer_offer.edit',
         showWarningNote: true,
         showExpirationDate: true,
         showSuccessMessage: false,
@@ -551,12 +580,12 @@ describe('QuoteActionsByRoleComponent', () => {
     });
     it('should return configured config if action with ALL role is matching', () => {
       expect(
-        component['getDialogConfig'](
+        component['getConfirmDialogConfig'](
           QuoteActionType.EDIT,
           QuoteState.BUYER_DRAFT
         )
       ).toEqual({
-        i18nKey: 'quote.confirmActionDialog.all.edit',
+        i18nKeyPrefix: 'quote.confirmActionDialog.all.edit',
         showWarningNote: true,
         showExpirationDate: false,
         showSuccessMessage: false,
@@ -568,13 +597,16 @@ describe('QuoteActionsByRoleComponent', () => {
   describe('handleConfirmationDialogClose', () => {
     let context: ConfirmationContext;
     beforeEach(() => {
-      spyOn(facade, 'performQuoteAction').and.callThrough();
+      spyOn(quoteFacade, 'performQuoteAction').and.callThrough();
       spyOn(globalMessageService, 'add').and.callThrough();
       context = {
         quote: mockQuote,
         title: 'title',
         confirmNote: 'confirmNote',
         successMessage: 'successMessage',
+        a11y: {
+          close: 'A11y text for close modal',
+        },
       };
     });
 
@@ -584,7 +616,7 @@ describe('QuoteActionsByRoleComponent', () => {
         context
       );
       launchDialogService.closeDialog('no');
-      expect(facade.performQuoteAction).not.toHaveBeenCalled();
+      expect(quoteFacade.performQuoteAction).not.toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
 
@@ -592,10 +624,20 @@ describe('QuoteActionsByRoleComponent', () => {
       context.successMessage = undefined;
       component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
       launchDialogService.closeDialog('yes');
-      expect(facade.performQuoteAction).toHaveBeenCalledWith(
+      expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
         mockQuote,
         QuoteActionType.EDIT
       );
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+    });
+
+    it("should perform quote action once if dialog was closed a few times selecting 'no', before finally selecting 'yes'", () => {
+      context.successMessage = undefined;
+      component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
+      launchDialogService.closeDialog('no');
+      component['handleConfirmationDialogClose'](QuoteActionType.EDIT, context);
+      launchDialogService.closeDialog('yes');
+      expect(quoteFacade.performQuoteAction).toHaveBeenCalledTimes(1);
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
 
@@ -605,7 +647,7 @@ describe('QuoteActionsByRoleComponent', () => {
         context
       );
       launchDialogService.closeDialog('yes');
-      expect(facade.performQuoteAction).toHaveBeenCalledWith(
+      expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
         mockQuote,
         QuoteActionType.SUBMIT
       );

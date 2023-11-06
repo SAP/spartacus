@@ -16,8 +16,8 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {
-  ConfiguratorState,
   CONFIGURATOR_FEATURE,
+  ConfiguratorState,
   StateWithConfigurator,
 } from '../state/configurator-state';
 import { getConfiguratorReducers } from '../state/reducers/index';
@@ -29,7 +29,6 @@ const PRODUCT_CODE = 'CONF_LAPTOP';
 let OWNER_PRODUCT = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_CART_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createInitialOwner();
-let OWNER_QUOTE_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 
 const CONFIG_ID = '1234-56-7890';
 const CONFIG_ID_TEMPLATE = '1234-56-78aa';
@@ -44,9 +43,6 @@ const ATTRIBUTE_NAME_2 = 'Attribute_DropDown';
 
 const ORDER_ID = '0000011';
 const ORDER_ENTRY_NUMBER = 2;
-
-const QUOTE_ID = '0000022';
-const QUOTE_ENTRY_NUMBER = 4;
 
 const group1: Configurator.Group = {
   ...ConfiguratorTestUtils.createGroup(GROUP_ID_1),
@@ -218,11 +214,6 @@ describe('ConfiguratorCommonsService', () => {
     OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.ORDER_ENTRY,
       configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER)
-    );
-
-    OWNER_QUOTE_ENTRY = ConfiguratorModelUtils.createOwner(
-      CommonConfigurator.OwnerType.QUOTE_ENTRY,
-      configuratorUtils.getComposedOwnerId(QUOTE_ID, QUOTE_ENTRY_NUMBER)
     );
 
     productConfiguration = {
@@ -551,19 +542,6 @@ describe('ConfiguratorCommonsService', () => {
       expect(
         configuratorCartService.readConfigurationForOrderEntry
       ).toHaveBeenCalledWith(OWNER_ORDER_ENTRY);
-    });
-
-    it('should delegate to config cart service for quote bound configurations', () => {
-      spyOn(
-        configuratorCartService,
-        'readConfigurationForQuoteEntry'
-      ).and.callThrough();
-
-      serviceUnderTest.getOrCreateConfiguration(OWNER_QUOTE_ENTRY);
-
-      expect(
-        configuratorCartService.readConfigurationForQuoteEntry
-      ).toHaveBeenCalledWith(OWNER_QUOTE_ENTRY);
     });
 
     it('should create a new configuration if not existing yet', () => {

@@ -58,8 +58,8 @@ class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
     (userId: string, quoteCode: string, discount: QuoteDiscount) =>
       of(`addDiscount-${userId}-${quoteCode}-${discount}`)
   );
-  addCartEntryComment = createSpy(
-    'CommerceQuotesAdapter.addCartEntryComment'
+  addQuoteEntryComment = createSpy(
+    'CommerceQuotesAdapter.addQuoteEntryComment'
   ).and.callFake(
     (
       userId: string,
@@ -67,13 +67,15 @@ class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
       entryNumber: string,
       comment: Comment
     ) =>
-      of(`addCartEntryComment-${userId}-${quoteCode}-${entryNumber}-${comment}`)
+      of(
+        `addQuoteEntryComment-${userId}-${quoteCode}-${entryNumber}-${comment}`
+      )
   );
 }
 
 describe('QuoteConnector', () => {
-  let service: QuoteConnector;
-  let adapter: QuoteAdapter;
+  let classUnderTest: QuoteConnector;
+  let quoteAdapter: QuoteAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -83,43 +85,43 @@ describe('QuoteConnector', () => {
       ],
     });
 
-    service = TestBed.inject(QuoteConnector);
-    adapter = TestBed.inject(QuoteAdapter);
+    classUnderTest = TestBed.inject(QuoteConnector);
+    quoteAdapter = TestBed.inject(QuoteAdapter);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(classUnderTest).toBeTruthy();
   });
 
   it('getQuotes should call adapter', () => {
     let result;
-    service
+    classUnderTest
       .getQuotes(userId, pagination)
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(`getQuotes-${userId}-${pagination.toString()}`);
-    expect(adapter.getQuotes).toHaveBeenCalledWith(userId, pagination);
+    expect(quoteAdapter.getQuotes).toHaveBeenCalledWith(userId, pagination);
   });
 
   it('createQuote should call adapter', () => {
     let result;
     const quoteStarter = { cartId, quoteCode };
-    service
+    classUnderTest
       .createQuote(userId, quoteStarter)
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(`createQuote-${userId}-${quoteStarter.toString()}`);
-    expect(adapter.createQuote).toHaveBeenCalledWith(userId, quoteStarter);
+    expect(quoteAdapter.createQuote).toHaveBeenCalledWith(userId, quoteStarter);
   });
 
   it('getQuote should call adapter', () => {
     let result;
-    service
+    classUnderTest
       .getQuote(userId, quoteCode)
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(`getQuote-${userId}-${quoteCode}`);
-    expect(adapter.getQuote).toHaveBeenCalledWith(userId, quoteCode);
+    expect(quoteAdapter.getQuote).toHaveBeenCalledWith(userId, quoteCode);
   });
 
   it('editQuote should call adapter', () => {
@@ -129,14 +131,14 @@ describe('QuoteConnector', () => {
       expirationTime: new Date().toString(),
       name: 'test1',
     };
-    service
+    classUnderTest
       .editQuote(userId, quoteCode, quoteMetadata)
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
       `editQuote-${userId}-${quoteCode}-${quoteMetadata.toString()}`
     );
-    expect(adapter.editQuote).toHaveBeenCalledWith(
+    expect(quoteAdapter.editQuote).toHaveBeenCalledWith(
       userId,
       quoteCode,
       quoteMetadata
@@ -146,14 +148,14 @@ describe('QuoteConnector', () => {
   it('performQuoteAction should call adapter', () => {
     let result;
     const action = QuoteActionType.EDIT;
-    service
+    classUnderTest
       .performQuoteAction(userId, quoteCode, action)
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
       `performQuoteAction-${userId}-${quoteCode}-${action.toString()}`
     );
-    expect(adapter.performQuoteAction).toHaveBeenCalledWith(
+    expect(quoteAdapter.performQuoteAction).toHaveBeenCalledWith(
       userId,
       quoteCode,
       action
@@ -162,14 +164,18 @@ describe('QuoteConnector', () => {
 
   it('addComment should call adapter', () => {
     let result;
-    service
+    classUnderTest
       .addComment(userId, quoteCode, comment)
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
       `addComment-${userId}-${quoteCode}-${comment.toString()}`
     );
-    expect(adapter.addComment).toHaveBeenCalledWith(userId, quoteCode, comment);
+    expect(quoteAdapter.addComment).toHaveBeenCalledWith(
+      userId,
+      quoteCode,
+      comment
+    );
   });
 
   it('addDiscount should call adapter', () => {
@@ -178,30 +184,30 @@ describe('QuoteConnector', () => {
       discountRate: 10,
       discountType: QuoteDiscountType.ABSOLUTE,
     };
-    service
+    classUnderTest
       .addDiscount(userId, quoteCode, discount)
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
       `addDiscount-${userId}-${quoteCode}-${discount.toString()}`
     );
-    expect(adapter.addDiscount).toHaveBeenCalledWith(
+    expect(quoteAdapter.addDiscount).toHaveBeenCalledWith(
       userId,
       quoteCode,
       discount
     );
   });
 
-  it('addCartEntryComment should call adapter', () => {
+  it('addQuoteEntryComment should call adapter', () => {
     let result;
-    service
-      .addCartEntryComment(userId, quoteCode, quoteEntryNumber, comment)
+    classUnderTest
+      .addQuoteEntryComment(userId, quoteCode, quoteEntryNumber, comment)
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
-      `addCartEntryComment-${userId}-${quoteCode}-${quoteEntryNumber}-${comment.toString()}`
+      `addQuoteEntryComment-${userId}-${quoteCode}-${quoteEntryNumber}-${comment.toString()}`
     );
-    expect(adapter.addCartEntryComment).toHaveBeenCalledWith(
+    expect(quoteAdapter.addQuoteEntryComment).toHaveBeenCalledWith(
       userId,
       quoteCode,
       'entryNumber1',

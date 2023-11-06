@@ -89,19 +89,19 @@ describe('OccCartNormalizer', () => {
       },
     ]);
   });
-  describe('handleQuote', () => {
+  describe('handleQuoteCode', () => {
     const quoteCode = '00100092';
     const source: Occ.Cart = { sapQuote: { code: quoteCode } };
 
     it('should set quote code if sapQuote is present in OCC response', () => {
       const target: Cart = {};
-      occCartNormalizer['handleQuote'](source, target);
+      occCartNormalizer['handleQuoteCode'](source, target);
       expect(target.quoteCode).toBe(quoteCode);
     });
 
     it('should ignore missing sapQuote in OCC response', () => {
       const target: Cart = {};
-      occCartNormalizer['handleQuote'](
+      occCartNormalizer['handleQuoteCode'](
         { ...source, sapQuote: undefined },
         target
       );

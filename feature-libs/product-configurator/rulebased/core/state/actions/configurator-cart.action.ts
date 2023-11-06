@@ -23,12 +23,6 @@ export const READ_ORDER_ENTRY_CONFIGURATION_SUCCESS =
   '[Configurator] Read Order Entry Configuration Success';
 export const READ_ORDER_ENTRY_CONFIGURATION_FAIL =
   '[Configurator] Read Order Entry Configuration Fail';
-export const READ_QUOTE_ENTRY_CONFIGURATION =
-  '[Configurator] Read Quote Entry Configuration';
-export const READ_QUOTE_ENTRY_CONFIGURATION_SUCCESS =
-  '[Configurator] Read Quote Entry Configuration Success';
-export const READ_QUOTE_ENTRY_CONFIGURATION_FAIL =
-  '[Configurator] Read Quote Entry Configuration Fail';
 
 export const ADD_TO_CART = '[Configurator] Add to cart';
 export const UPDATE_CART_ENTRY = '[Configurator] Update cart entry';
@@ -94,32 +88,6 @@ export class ReadOrderEntryConfigurationFail extends StateUtils.EntityFailAction
   }
 }
 
-export class ReadQuoteEntryConfiguration extends StateUtils.EntityLoadAction {
-  readonly type = READ_QUOTE_ENTRY_CONFIGURATION;
-
-  constructor(
-    public payload: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
-  ) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
-  }
-}
-
-export class ReadQuoteEntryConfigurationSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = READ_QUOTE_ENTRY_CONFIGURATION_SUCCESS;
-
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
-  }
-}
-
-export class ReadQuoteEntryConfigurationFail extends StateUtils.EntityFailAction {
-  readonly type = READ_QUOTE_ENTRY_CONFIGURATION_FAIL;
-
-  constructor(public payload: { ownerKey: string; error: any }) {
-    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
-  }
-}
-
 export class AddToCart extends StateUtils.EntityProcessesIncrementAction {
   readonly type = ADD_TO_CART;
 
@@ -174,8 +142,5 @@ export type ConfiguratorCartAction =
   | ReadOrderEntryConfiguration
   | ReadOrderEntryConfigurationSuccess
   | ReadOrderEntryConfigurationFail
-  | ReadQuoteEntryConfiguration
-  | ReadQuoteEntryConfigurationSuccess
-  | ReadQuoteEntryConfigurationFail
   | RemoveCartBoundConfigurations
   | UpdateCartEntry;

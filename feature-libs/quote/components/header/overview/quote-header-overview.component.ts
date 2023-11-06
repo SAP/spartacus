@@ -31,11 +31,11 @@ export class QuoteHeaderOverviewComponent {
   protected quoteFacade = inject(QuoteFacade);
   protected eventService = inject(EventService);
   protected translationService = inject(TranslationService);
-  protected config = inject(QuoteUIConfig);
+  protected quoteUIConfig = inject(QuoteUIConfig);
 
-  private static NO_DATA = '-';
-  private static CHARACTERS_LIMIT = 255;
-  private static DEFAULT_CARD_TILE_MAX_CHARS = 100;
+  protected static NO_DATA = '-';
+  protected static CHARACTERS_LIMIT = 255;
+  protected static DEFAULT_CARD_TILE_MAX_CHARS = 100;
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
@@ -56,12 +56,12 @@ export class QuoteHeaderOverviewComponent {
   }
 
   /**
-   * Verifies whether the quote information card tile is editable.
+   * Verifies whether the quote is editable and is viewed from a user acting as buyer.
    *
-   * @param {Quote} quote - quote
-   * @returns {boolean} - if the quote is editable and its state is 'QuoteState.BUYER_DRAFT' or 'QuoteState.BUYER_OFFER', otherwise returns 'false'.
+   * @param quote - quote
+   * @returns if the quote is editable and its state is 'QuoteState.BUYER_DRAFT' or 'QuoteState.BUYER_OFFER', otherwise returns 'false'.
    */
-  isQuoteInformationEditable(quote: Quote): boolean {
+  isQuoteEditableForBuyer(quote: Quote): boolean {
     return (
       quote.isEditable &&
       (quote.state === QuoteState.BUYER_DRAFT ||
@@ -80,8 +80,8 @@ export class QuoteHeaderOverviewComponent {
   /**
    * Saves the edited card tile.
    *
-   * @param {Quote} quote - Quote
-   * @param {SaveEvent} event - edit event
+   * @param quote - Quote
+   * @param event - edit event
    */
   save(quote: Quote, event: SaveEvent) {
     this.editMode = false;
@@ -102,9 +102,9 @@ export class QuoteHeaderOverviewComponent {
   /**
    * Retrieves the card content that represents the quote information with its name and description.
    *
-   * @param {string} name - Quote name
-   * @param {string} description - Quote description
-   * @returns {Observable<Card>} - Card content
+   * @param name - Quote name
+   * @param description - Quote description
+   * @returns Observable emitting a card content
    */
   getQuoteInformation(name?: string, description?: string): Observable<Card> {
     return combineLatest([
@@ -133,9 +133,9 @@ export class QuoteHeaderOverviewComponent {
   /**
    * Retrieves the edit card content that represents the edit quote information with its name and description.
    *
-   * @param {string} name - Quote name
-   * @param {string} description - Quote description
-   * @returns {Observable<EditCard>} - Edit card content
+   * @param name - Quote name
+   * @param description - Quote description
+   * @returns Observable emitting an edit card content
    */
   getEditQuoteInformation(name: string, description: string): EditCard {
     return {
@@ -146,57 +146,19 @@ export class QuoteHeaderOverviewComponent {
   }
 
   /**
-   * Retrieves the card content that represents the estimated and date information.
+   * Retrieves the card content that represents the estimated total and expiry date information.
    *
-   * @param {Quote} quote - Quote
-   * @param {any} createdDate - Created date
-   * @returns {Observable<Card>} - Card content
+   * @param quote - Quote
+   * @param expiryDate -  Expiry date
+   * @returns Observable emitting a card content
    */
-  getEstimatedAndDate(
+  getEstimatedTotalAndExpiryDate(
     quote: Quote,
-    createdDate?: string | null
-  ): Observable<Card> {
-    const totalPrice =
-      this.getTotalPrice(quote) ?? this.getTotalPriceDescription(quote);
-    return combineLatest([
-      this.translationService.translate(
-        'quote.header.overview.estimateAndDate'
-      ),
-      this.translationService.translate('quote.header.overview.estimatedTotal'),
-      this.translationService.translate('quote.header.overview.created'),
-    ]).pipe(
-      map(([firstTitle, secondTitle, thirdTitle]) => {
-        return {
-          title: firstTitle,
-          paragraphs: [
-            {
-              title: secondTitle,
-              text: [totalPrice ?? QuoteHeaderOverviewComponent.NO_DATA],
-            },
-            {
-              title: thirdTitle,
-              text: [createdDate ?? QuoteHeaderOverviewComponent.NO_DATA],
-            },
-          ],
-        };
-      })
-    );
-  }
-
-  /**
-   * Retrieves the card content that represents the update information.
-   *
-   * @param {string} lastUpdated - last updated time
-   * @param {string} expirationTime - expiration time
-   * @returns {Observable<Card>} - Card content
-   */
-  getUpdate(
-    lastUpdated?: string | null,
-    expirationTime?: string | null
+    expiryDate?: string | null
   ): Observable<Card> {
     return combineLatest([
-      this.translationService.translate('quote.header.overview.update'),
-      this.translationService.translate('quote.header.overview.lastUpdated'),
+      this.translationService.translate('quote.header.overview.priceAndExpiry'),
+      this.translationService.translate(this.getTotalPriceDescription(quote)),
       this.translationService.translate('quote.header.overview.expirationTime'),
     ]).pipe(
       map(([firstTitle, secondTitle, thirdTitle]) => {
@@ -205,11 +167,52 @@ export class QuoteHeaderOverviewComponent {
           paragraphs: [
             {
               title: secondTitle,
-              text: [lastUpdated ?? QuoteHeaderOverviewComponent.NO_DATA],
+              text: [
+                this.getTotalPrice(quote) ??
+                  QuoteHeaderOverviewComponent.NO_DATA,
+              ],
             },
             {
               title: thirdTitle,
-              text: [expirationTime ?? QuoteHeaderOverviewComponent.NO_DATA],
+              text: [expiryDate ?? QuoteHeaderOverviewComponent.NO_DATA],
+            },
+          ],
+        };
+      })
+    );
+  }
+
+  /**
+   * Retrieves the card content that represents the created and last updated dates.
+   *
+   * @param createdDate - Created date
+   * @param lastUpdatedDate - Last updated date
+   * @returns Observable emitting a card content
+   */
+  getCreatedAndUpdatedDates(
+    createdDate?: string | null,
+    lastUpdatedDate?: string | null
+  ): Observable<Card> {
+    return combineLatest([
+      this.translationService.translate(
+        'quote.header.overview.createdAndUpdated'
+      ),
+      this.translationService.translate('quote.header.overview.createdDate'),
+      this.translationService.translate(
+        'quote.header.overview.lastUpdatedDate'
+      ),
+    ]).pipe(
+      map(([firstTitle, secondTitle, thirdTitle]) => {
+        return {
+          title: firstTitle,
+          paragraphs: [
+            {
+              title: secondTitle,
+              text: [createdDate ?? QuoteHeaderOverviewComponent.NO_DATA],
+            },
+            {
+              title: thirdTitle,
+              text: [lastUpdatedDate ?? QuoteHeaderOverviewComponent.NO_DATA],
             },
           ],
         };
@@ -221,18 +224,19 @@ export class QuoteHeaderOverviewComponent {
    * Retrieves a characters limit for a card tile.
    * If the card tile contains more characters, they will be truncated.
    *
-   * @returns {number} - characters limit for a card tile
+   * @returns characters limit for a card tile
    */
   getCharactersLimitForCardTile(): number {
     return (
-      this.config.quote?.truncateCardTileContentAfterNumChars ??
+      this.quoteUIConfig.quote?.truncateCardTileContentAfterNumChars ??
       QuoteHeaderOverviewComponent.DEFAULT_CARD_TILE_MAX_CHARS
     );
   }
 
   /**
-   * Returns total price as formatted string
-   * @param quote Quote
+   * Returns total price as formatted string.
+   *
+   * @param quote - Quote
    * @returns Total price formatted format, null if that is not available
    * @protected
    */
@@ -241,8 +245,9 @@ export class QuoteHeaderOverviewComponent {
   }
 
   /**
-   * Returns total price description
-   * @param quote Quote
+   * Returns total price description.
+   *
+   * @param quote - Quote
    * @returns 'Total' price if quote is in final state, 'Estimated total' otherwise
    * @protected
    */

@@ -8,8 +8,8 @@ import {
 import { EventService } from '@spartacus/core';
 import { NEVER, Observable, Subscription, of } from 'rxjs';
 import { QuoteCartEventListener } from './quote-cart-event.listener';
-import createSpy = jasmine.createSpy;
 import { QuoteDetailsReloadQueryEvent } from './quote.events';
+import createSpy = jasmine.createSpy;
 
 const cartRemoveEntrySuccessEvent = new CartRemoveEntrySuccessEvent();
 cartRemoveEntrySuccessEvent.entry = {};
@@ -46,11 +46,11 @@ class MockEventService implements Partial<EventService> {
 }
 
 describe('QuoteCartEventListener', () => {
-  let listener: QuoteCartEventListener;
+  let classUnderTest: QuoteCartEventListener;
   let eventService: EventService;
 
   function createListenerAndExpectPropagation() {
-    listener = TestBed.inject(QuoteCartEventListener);
+    classUnderTest = TestBed.inject(QuoteCartEventListener);
     expect(eventService.dispatch).toHaveBeenCalledWith(
       {},
       QuoteDetailsReloadQueryEvent
@@ -76,8 +76,8 @@ describe('QuoteCartEventListener', () => {
   });
 
   it('should create listener ', () => {
-    listener = TestBed.inject(QuoteCartEventListener);
-    expect(listener).toBeDefined();
+    classUnderTest = TestBed.inject(QuoteCartEventListener);
+    expect(classUnderTest).toBeDefined();
   });
 
   it('should dispatch QuoteDetailsReloadQueryEvent on CartAddEntrySuccessEvent event ', () => {
@@ -97,13 +97,13 @@ describe('QuoteCartEventListener', () => {
 
   it('should not dispatch QuoteDetailsReloadQueryEvent on CartAddEntryFailEvent event ', () => {
     addEntryFail = true;
-    listener = TestBed.inject(QuoteCartEventListener);
+    classUnderTest = TestBed.inject(QuoteCartEventListener);
     expect(eventService.dispatch).not.toHaveBeenCalled();
   });
 
   it('should unsubscribe on ngOnDestroy', () => {
     const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
-    listener.ngOnDestroy();
+    classUnderTest.ngOnDestroy();
     expect(spyUnsubscribe).toHaveBeenCalled();
   });
 });

@@ -9,8 +9,8 @@ import {
 } from '@angular/core/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
-import { Comment, Quote, QuoteFacade } from '@spartacus/quote/root';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
+import { Comment, Quote, QuoteFacade } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
   MessagingComponent,
@@ -20,9 +20,9 @@ import { cold } from 'jasmine-marbles';
 import { NEVER, Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../config';
-import { QuoteCommentsComponent } from './quote-comments.component';
 import { QuoteItemsComponentService } from '../items';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
+import { QuoteCommentsComponent } from './quote-comments.component';
 
 const QUOTE_CODE = 'q123';
 const ALL_PRODUCTS_ID = '';
@@ -52,9 +52,9 @@ describe('QuoteCommentsComponent', () => {
   let fixture: ComponentFixture<QuoteCommentsComponent>;
   let htmlElem: HTMLElement;
   let component: QuoteCommentsComponent;
-  let mockedQuoteFacade: QuoteFacade;
-  let mockedEventService: EventService;
-  let quoteUiConfig: QuoteUIConfig;
+  let quoteFacade: QuoteFacade;
+  let eventService: EventService;
+  let quoteUIConfig: QuoteUIConfig;
 
   let quote: Quote;
 
@@ -72,15 +72,15 @@ describe('QuoteCommentsComponent', () => {
         providers: [
           {
             provide: QuoteFacade,
-            useValue: mockedQuoteFacade,
+            useValue: quoteFacade,
           },
           {
             provide: EventService,
-            useValue: mockedEventService,
+            useValue: eventService,
           },
           {
             provide: QuoteUIConfig,
-            useValue: quoteUiConfig,
+            useValue: quoteUIConfig,
           },
         ],
       }).compileComponents();
@@ -99,20 +99,20 @@ describe('QuoteCommentsComponent', () => {
   function initTestData() {
     quote = createEmptyQuote();
     quote.code = QUOTE_CODE;
-    quoteUiConfig = {
+    quoteUIConfig = {
       quote: { maxCharsForComments: 5000 },
     };
   }
 
   function initMocks() {
-    mockedQuoteFacade = jasmine.createSpyObj('QuoteFacade', [
+    quoteFacade = jasmine.createSpyObj('QuoteFacade', [
       'getQuoteDetails',
       'addQuoteComment',
     ]);
-    asSpy(mockedQuoteFacade.getQuoteDetails).and.returnValue(of(quote));
-    asSpy(mockedQuoteFacade.addQuoteComment).and.returnValue(of({}));
+    asSpy(quoteFacade.getQuoteDetails).and.returnValue(of(quote));
+    asSpy(quoteFacade.addQuoteComment).and.returnValue(of({}));
 
-    mockedEventService = jasmine.createSpyObj('EventService', ['dispatch']);
+    eventService = jasmine.createSpyObj('EventService', ['dispatch']);
   }
 
   function asSpy(f: any) {
@@ -156,87 +156,91 @@ describe('QuoteCommentsComponent', () => {
     );
   });
 
-  it('should collapse the comments area when clicking the toggle', () => {
-    CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
-    fixture.detectChanges();
-    CommonQuoteTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-messaging'
-    );
-  });
-
-  it('should toggle the comments on enter', () => {
-    CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
-    fixture.detectChanges();
-    CommonQuoteTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-messaging'
-    );
-  });
-
-  it('should expand the comments area when clicking the toggle', () => {
-    component.expandComments = false;
-    CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
-    CommonQuoteTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-messaging'
-    );
-  });
-
-  it('should pipe empty quote comments to empty message events', () => {
-    component.messageEvents$
-      .subscribe((messageEvent) => {
-        expect(messageEvent.length).toBe(0);
-      })
-      .unsubscribe();
-  });
-
-  it('should pipe quote comments to message events', () => {
-    quote.comments = [];
-    quote.comments.push({});
-    quote.comments.push({});
-    component.messageEvents$
-      .subscribe((messageEvent) => {
-        expect(messageEvent.length).toBe(2);
-      })
-      .unsubscribe();
-  });
-
-  it('should merge header and item quote comments and sort the resulting message events by date', () => {
-    quote.comments = [];
-    quote.entries = [];
-    quote.comments.push({
-      text: 'header #1',
-      creationDate: new Date('2022-10-01 10:00'),
+  describe('clickToggle', () => {
+    it('should collapse the comments area when clicking the toggle', () => {
+      CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
+      fixture.detectChanges();
+      CommonQuoteTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-messaging'
+      );
     });
-    quote.comments.push({
-      text: 'header #4',
-      creationDate: new Date('2022-10-04 10:00'),
+
+    it('should toggle the comments on enter', () => {
+      CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
+      fixture.detectChanges();
+      CommonQuoteTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-messaging'
+      );
     });
-    quote.entries.push({
-      entryNumber: 0,
-      comments: [
-        { text: 'item 0 #3', creationDate: new Date('2022-10-02 09:30') },
-      ],
+
+    it('should expand the comments area when clicking the toggle', () => {
+      component.expandComments = false;
+      CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-messaging'
+      );
     });
-    quote.entries.push({
-      entryNumber: 1,
-      comments: [
-        { text: 'item 1 #2', creationDate: new Date('2022-10-01 10:30') },
-      ],
+  });
+
+  describe('messageEvents$ pipe', () => {
+    it('should pipe empty quote comments to empty message events', () => {
+      component.messageEvents$
+        .subscribe((messageEvent) => {
+          expect(messageEvent.length).toBe(0);
+        })
+        .unsubscribe();
     });
-    component.messageEvents$
-      .subscribe((messageEvent) => {
-        expect(messageEvent.length).toBe(4);
-        expect(messageEvent[0].text).toEqual('header #1');
-        expect(messageEvent[1].text).toEqual('item 1 #2');
-        expect(messageEvent[2].text).toEqual('item 0 #3');
-        expect(messageEvent[3].text).toEqual('header #4');
-      })
-      .unsubscribe();
+
+    it('should pipe quote comments to message events', () => {
+      quote.comments = [];
+      quote.comments.push({});
+      quote.comments.push({});
+      component.messageEvents$
+        .subscribe((messageEvent) => {
+          expect(messageEvent.length).toBe(2);
+        })
+        .unsubscribe();
+    });
+
+    it('should merge header and item quote comments and sort the resulting message events by date', () => {
+      quote.comments = [];
+      quote.entries = [];
+      quote.comments.push({
+        text: 'header #1',
+        creationDate: new Date('2022-10-01 10:00'),
+      });
+      quote.comments.push({
+        text: 'header #4',
+        creationDate: new Date('2022-10-04 10:00'),
+      });
+      quote.entries.push({
+        entryNumber: 0,
+        comments: [
+          { text: 'item 0 #3', creationDate: new Date('2022-10-02 09:30') },
+        ],
+      });
+      quote.entries.push({
+        entryNumber: 1,
+        comments: [
+          { text: 'item 1 #2', creationDate: new Date('2022-10-01 10:30') },
+        ],
+      });
+      component.messageEvents$
+        .subscribe((messageEvent) => {
+          expect(messageEvent.length).toBe(4);
+          expect(messageEvent[0].text).toEqual('header #1');
+          expect(messageEvent[1].text).toEqual('item 1 #2');
+          expect(messageEvent[2].text).toEqual('item 0 #3');
+          expect(messageEvent[3].text).toEqual('header #4');
+        })
+        .unsubscribe();
+    });
   });
 
   describe('messagingConfigs', () => {
@@ -244,7 +248,7 @@ describe('QuoteCommentsComponent', () => {
       expect(component.messagingConfigs).toBeDefined();
     });
     it('should set chars limit to default 1000 when not provided via config', () => {
-      quoteUiConfig.quote = undefined;
+      quoteUIConfig.quote = undefined;
       // re-create component so changed config is evaluated
       fixture = TestBed.createComponent(QuoteCommentsComponent);
       expect(fixture.componentInstance.messagingConfigs.charactersLimit).toBe(
@@ -377,7 +381,7 @@ describe('QuoteCommentsComponent', () => {
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
         QUOTE_CODE
       );
-      expect(mockedQuoteFacade.addQuoteComment).toHaveBeenCalledWith(
+      expect(quoteFacade.addQuoteComment).toHaveBeenCalledWith(
         QUOTE_CODE,
         {
           text: 'test comment',
@@ -387,7 +391,7 @@ describe('QuoteCommentsComponent', () => {
     });
     it('should add a item quote comment with the given text', () => {
       component.onSend({ message: 'test comment', itemId: '3' }, QUOTE_CODE);
-      expect(mockedQuoteFacade.addQuoteComment).toHaveBeenCalledWith(
+      expect(quoteFacade.addQuoteComment).toHaveBeenCalledWith(
         QUOTE_CODE,
         {
           text: 'test comment',
@@ -400,7 +404,7 @@ describe('QuoteCommentsComponent', () => {
         { message: 'test comment', itemId: ALL_PRODUCTS_ID },
         QUOTE_CODE
       );
-      expect(mockedEventService.dispatch).toHaveBeenCalledWith(
+      expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         QuoteDetailsReloadQueryEvent
       );
@@ -414,7 +418,7 @@ describe('QuoteCommentsComponent', () => {
       expect(component.messagingConfigs.newMessagePlaceHolder).toBeUndefined();
     });
     it('should handle errors', () => {
-      asSpy(mockedQuoteFacade.addQuoteComment).and.returnValue(
+      asSpy(quoteFacade.addQuoteComment).and.returnValue(
         throwError(new Error('test error'))
       );
       component.onSend(

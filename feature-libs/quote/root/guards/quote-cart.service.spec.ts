@@ -20,7 +20,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
 }
 
 describe('QuoteCartService', () => {
-  let quoteCartService: QuoteCartService;
+  let classUnderTest: QuoteCartService;
   let activeCartFacade: ActiveCartFacade;
 
   beforeEach(() => {
@@ -31,18 +31,18 @@ describe('QuoteCartService', () => {
       ],
     });
 
-    quoteCartService = TestBed.inject(QuoteCartService);
+    classUnderTest = TestBed.inject(QuoteCartService);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
   });
 
   it('should create service', () => {
-    expect(quoteCartService).toBeDefined();
+    expect(classUnderTest).toBeDefined();
   });
 
   describe('setCheckoutActive', () => {
     it('should trigger emission of new state', () => {
-      quoteCartService.setCheckoutAllowed(true);
-      quoteCartService.isCheckoutAllowed().subscribe((isAllowed) => {
+      classUnderTest.setCheckoutAllowed(true);
+      classUnderTest.isCheckoutAllowed().subscribe((isAllowed) => {
         expect(isAllowed).toBe(true);
       });
     });
@@ -50,7 +50,7 @@ describe('QuoteCartService', () => {
   describe('getQuoteId', () => {
     it('should request activeCartFacade to find quote id', () => {
       cart.quoteCode = quoteAttachedToCart;
-      quoteCartService.getQuoteId().subscribe((quoteId) => {
+      classUnderTest.getQuoteId().subscribe((quoteId) => {
         expect(activeCartFacade.getActive).toHaveBeenCalled();
         expect(quoteId).toEqual(quoteAttachedToCart);
       });
@@ -60,14 +60,14 @@ describe('QuoteCartService', () => {
   describe('isQuoteCartActive', () => {
     it('should request activeCartFacade to find quote id and determine if a link exists', () => {
       cart.quoteCode = quoteAttachedToCart;
-      quoteCartService.isQuoteCartActive().subscribe((isActive) => {
+      classUnderTest.isQuoteCartActive().subscribe((isActive) => {
         expect(activeCartFacade.getActive).toHaveBeenCalled();
         expect(isActive).toBe(true);
       });
     });
     it('should return false in case cart is not linked to any quote', () => {
       cart.quoteCode = undefined;
-      quoteCartService.isQuoteCartActive().subscribe((isActive) => {
+      classUnderTest.isQuoteCartActive().subscribe((isActive) => {
         expect(isActive).toBe(false);
       });
     });

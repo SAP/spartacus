@@ -19,8 +19,8 @@ import {
   QueryService,
   QueryState,
   RoutingService,
-  UserIdService,
   uniteLatest,
+  UserIdService,
 } from '@spartacus/core';
 import {
   Comment,
@@ -31,15 +31,15 @@ import {
   QuoteFacade,
   QuoteList,
   QuoteMetadata,
-  QuoteStarter,
   QuotesStateParams,
+  QuoteStarter,
 } from '@spartacus/quote/root';
 import { NavigationEvent, ViewConfig } from '@spartacus/storefront';
 import {
   BehaviorSubject,
+  combineLatest,
   EMPTY,
   Observable,
-  combineLatest,
   of,
   throwError,
   zip,
@@ -56,8 +56,9 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors/quote.connector';
-import { CartUtilsService } from '../services/cart-utils.service';
 import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
+import { QuoteStorefrontUtilsService } from '../services/quote-storefront-utils.service';
+import { CartUtilsService } from '../services/cart-utils.service';
 
 @Injectable()
 export class QuoteService implements QuoteFacade {
@@ -65,14 +66,15 @@ export class QuoteService implements QuoteFacade {
   protected quoteConnector = inject(QuoteConnector);
   protected eventService = inject(EventService);
   protected queryService = inject(QueryService);
-  protected config = inject(ViewConfig);
+  protected viewConfig = inject(ViewConfig);
   protected commandService = inject(CommandService);
   protected activeCartFacade = inject(ActiveCartFacade);
   protected routingService = inject(RoutingService);
-  protected multiCartService = inject(MultiCartFacade);
+  protected multiCartFacade = inject(MultiCartFacade);
   protected quoteCartService = inject(QuoteCartService);
   protected cartUtilsService = inject(CartUtilsService);
   protected globalMessageService = inject(GlobalMessageService);
+  protected quoteStorefrontUtilsService = inject(QuoteStorefrontUtilsService);
 
   /**
    * Indicator whether an action is currently performing.
@@ -106,7 +108,7 @@ export class QuoteService implements QuoteFacade {
           )
         ),
         tap(([_, userId, quote]) => {
-          this.multiCartService.loadCart({
+          this.multiCartFacade.loadCart({
             userId,
             cartId: quote.cartId as string,
             extraData: {
@@ -116,6 +118,7 @@ export class QuoteService implements QuoteFacade {
 
           this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
         }),
+        tap(() => this.setFocusForCreateOrEditAction(QuoteActionType.CREATE)),
         map(([_, _userId, quote]) => quote)
       ),
     {
@@ -164,7 +167,7 @@ export class QuoteService implements QuoteFacade {
         take(1),
         switchMap((userId) => {
           if (payload.entryNumber) {
-            return this.quoteConnector.addCartEntryComment(
+            return this.quoteConnector.addQuoteEntryComment(
               userId,
               payload.quoteCode,
               payload.entryNumber,
@@ -272,6 +275,7 @@ export class QuoteService implements QuoteFacade {
             this.isActionPerforming$.next(false);
           }
         }),
+        tap(() => this.setFocusForCreateOrEditAction(payload.quoteAction)),
         catchError((error) => {
           this.triggerReloadAndCompleteAction();
           return this.handleError(error);
@@ -297,9 +301,9 @@ export class QuoteService implements QuoteFacade {
   /**
    * Loads the quote cart and waits until load is done. Afterwards triggers specific actions depending on the
    * action we perform
-   * @param userId Current user
-   * @param cartId Quote cart ID
-   * @param actionType The action we are currently processing
+   * @param userId - Current user
+   * @param cartId - Quote cart ID
+   * @param actionType - The action we are currently processing
    */
   protected loadQuoteCartAndProceed(
     userId: string,
@@ -307,7 +311,7 @@ export class QuoteService implements QuoteFacade {
     quoteId: string,
     actionType: QuoteActionType
   ) {
-    this.multiCartService.loadCart({
+    this.multiCartFacade.loadCart({
       userId: userId,
       cartId: cartId,
       extraData: {
@@ -403,7 +407,7 @@ export class QuoteService implements QuoteFacade {
             return this.quoteConnector.getQuotes(userId, {
               currentPage,
               sort,
-              pageSize: this.config.view?.defaultPageSize,
+              pageSize: this.viewConfig.view?.defaultPageSize,
             });
           }),
           tap(() => {
@@ -418,8 +422,18 @@ export class QuoteService implements QuoteFacade {
       }
     );
 
-  addDiscount(quoteCode: string, discount: QuoteDiscount): Observable<unknown> {
-    return this.addDiscountCommand.execute({
+  protected setFocusForCreateOrEditAction(action: QuoteActionType) {
+    if (action === QuoteActionType.EDIT || action === QuoteActionType.CREATE) {
+      const storefrontElement =
+        this.quoteStorefrontUtilsService.getElement('cx-storefront');
+      if (storefrontElement) {
+        storefrontElement.focus();
+      }
+    }
+  }
+
+  addDiscount(quoteCode: string, discount: QuoteDiscount): void {
+    this.addDiscountCommand.execute({
       quoteCode,
       quoteDiscount: discount,
     });
@@ -431,11 +445,8 @@ export class QuoteService implements QuoteFacade {
     });
   }
 
-  editQuote(
-    quoteCode: string,
-    quoteMetadata: QuoteMetadata
-  ): Observable<unknown> {
-    return this.editQuoteCommand.execute({ quoteCode, quoteMetadata });
+  editQuote(quoteCode: string, quoteMetadata: QuoteMetadata): void {
+    this.editQuoteCommand.execute({ quoteCode, quoteMetadata });
   }
 
   addQuoteComment(

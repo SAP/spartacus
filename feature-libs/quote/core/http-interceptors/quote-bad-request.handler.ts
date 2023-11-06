@@ -77,8 +77,8 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
   }
 
   protected handleQuoteThresholdErrors(message: string) {
-    const unmetTresholdMask = /does not meet the threshold\./;
-    const result = message.match(unmetTresholdMask);
+    const unmetThresholdMask = /does not meet the threshold\./;
+    const result = message.match(unmetThresholdMask);
 
     if (result) {
       this.globalMessageService.add(

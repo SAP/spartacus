@@ -6,7 +6,6 @@ import {
   SPARTACUS_CDC,
   SPARTACUS_CDS,
   SPARTACUS_CHECKOUT,
-  SPARTACUS_QUOTE,
   SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
@@ -17,6 +16,7 @@ import {
   SPARTACUS_PRODUCT,
   SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_QUALTRICS,
+  SPARTACUS_QUOTE,
   SPARTACUS_REQUESTED_DELIVERY_DATE,
   SPARTACUS_S4OM,
   SPARTACUS_SEGMENT_REFS,
@@ -26,9 +26,9 @@ import {
   SPARTACUS_USER,
 } from '../libs-constants';
 import {
+  Graph,
   crossFeatureInstallationOrder,
   crossLibraryInstallationOrder,
-  Graph,
   kahnsAlgorithm,
 } from './graph-utils';
 
@@ -129,15 +129,15 @@ describe('Graph utils', () => {
     it('should have generated the correct order', () => {
       expect(crossLibraryInstallationOrder).toEqual([
         SPARTACUS_USER,
+        SPARTACUS_PDF_INVOICES,
         SPARTACUS_CART,
         SPARTACUS_ORDER,
         SPARTACUS_CHECKOUT,
+        SPARTACUS_STOREFINDER,
         SPARTACUS_REQUESTED_DELIVERY_DATE,
-        SPARTACUS_PDF_INVOICES,
         SPARTACUS_TRACKING,
         SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,
-        SPARTACUS_STOREFINDER,
         SPARTACUS_SEGMENT_REFS,
         SPARTACUS_S4OM,
         SPARTACUS_EPD_VISUALIZATION,
@@ -184,6 +184,8 @@ describe('Graph utils', () => {
           "CPQ-Configurator",
           "Textfield-Configurator",
           "Store-Finder",
+          "ASM",
+          "ASM-Customer-360",
           "Segment-Refs",
           "S4HANA-Order-Management",
           "EPD-Visualization",
@@ -199,7 +201,6 @@ describe('Graph utils', () => {
           "Bulk-Pricing",
           "Pickup-In-Store",
           "Quote",
-          "ASM",
         ]
       `);
     });
