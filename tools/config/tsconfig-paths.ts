@@ -27,12 +27,12 @@ import glob from 'glob';
 import path from 'path';
 import { SPARTACUS_SCHEMATICS, SPARTACUS_SCOPE } from './const';
 import {
-  error,
   Library,
-  logUpdatedFile,
   ProgramOptions,
-  reportProgress,
   Repository,
+  error,
+  logUpdatedFile,
+  reportProgress,
   success,
 } from './index';
 
