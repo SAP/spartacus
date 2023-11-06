@@ -126,17 +126,33 @@ export class ProductListComponentService {
         }
 
         function checkQueriesDiffer(): boolean {
-          // Remove sortCode portion from queries.
-          const DEFAULT_SORT_CODE = 'relevance';
-          const previousQuery = previous.sortCode
-            ? previous.query?.replace(':' + previous.sortCode, '')
-            : previous.query;
-          let currentQuery = criteria.sortCode
-            ? criteria.query?.replace(':' + criteria.sortCode, '')
-            : criteria.query;
-          currentQuery = currentQuery?.replace(':' + DEFAULT_SORT_CODE, '');
+          const previousQuery = sanitizeQuery(
+            previous.query,
+            previous.sortCode
+          );
+          const currentQuery = sanitizeQuery(criteria.query, criteria.sortCode);
 
           return previousQuery !== currentQuery;
+
+          // Remove sortCode portion from queries.
+          function sanitizeQuery(
+            query?: string,
+            sortCode?: string
+          ): string | undefined {
+            const DEFAULT_SORT_CODE = 'relevance';
+
+            if (query) {
+              query = query
+                .replace(':' + DEFAULT_SORT_CODE, '')
+                .replace(DEFAULT_SORT_CODE, '');
+
+              if (sortCode) {
+                query = query.replace(':' + sortCode, '').replace(sortCode, '');
+              }
+            }
+
+            return query;
+          }
         }
 
         function checkCurrentPagesDiffer() {
