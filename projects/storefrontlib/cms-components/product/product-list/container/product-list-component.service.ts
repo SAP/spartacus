@@ -134,7 +134,7 @@ export class ProductListComponentService {
           let currentQuery = criteria.sortCode
             ? criteria.query?.replace(':' + criteria.sortCode, '')
             : criteria.query;
-          currentQuery = currentQuery.replace(':' + DEFAULT_SORT_CODE, '');
+          currentQuery = currentQuery?.replace(':' + DEFAULT_SORT_CODE, '');
 
           return previousQuery !== currentQuery;
         }
@@ -143,7 +143,9 @@ export class ProductListComponentService {
           // Can be stored as zero for previousCriteria but undefined as new criteria.
           // We need to set these to the zero-values to perform the equivalency check.
           const previousPage =
-            previous?.currentPage > 0 ? previous.currentPage : undefined;
+            previous.currentPage && previous.currentPage > 0
+              ? previous.currentPage
+              : undefined;
           return previousPage?.toString() !== criteria.currentPage?.toString();
         }
 
