@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+
 import {
   B2BUserRole,
   GlobalMessageService,
@@ -19,7 +19,7 @@ import { filter, map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class ApproverGuard implements CanActivate {
+export class ApproverGuard {
   constructor(
     protected userAccountFacade: UserAccountFacade,
     protected routingService: RoutingService,

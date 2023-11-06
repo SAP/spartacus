@@ -204,11 +204,11 @@ describe('QuickOrderOrderEntriesContext', () => {
     it('should catch unknown identifier error', () => {
       canAdd$.next(true);
       productConnector.get = createSpy().and.returnValue(
-        throwError({
+        throwError(() => ({
           error: {
             errors: [{ type: 'UnknownIdentifierError' }],
           },
-        })
+        }))
       );
 
       const unableToAddProductsData: ProductData[] = [
@@ -240,7 +240,9 @@ describe('QuickOrderOrderEntriesContext', () => {
 
     it('should catch unknown errors', () => {
       canAdd$.next(true);
-      productConnector.get = createSpy().and.returnValue(throwError({}));
+      productConnector.get = createSpy().and.returnValue(
+        throwError(() => ({}))
+      );
 
       const unableToAddProductsData: ProductData[] = [
         { productCode: unhandledItemErrorId, quantity: 1 },

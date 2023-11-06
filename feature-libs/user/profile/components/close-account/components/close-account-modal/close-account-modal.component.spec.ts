@@ -125,7 +125,7 @@ describe('CloseAccountModalComponent', () => {
   it('should dismiss modal when account failed to close', () => {
     spyOn(component, 'onError').and.callThrough();
     // spyOn(launchDialogService, 'closeDialog').and.callThrough();
-    (userFacade.close as any).and.returnValue(throwError(undefined));
+    (userFacade.close as any).and.returnValue(throwError(() => undefined));
 
     component.ngOnInit();
     component.closeAccount();

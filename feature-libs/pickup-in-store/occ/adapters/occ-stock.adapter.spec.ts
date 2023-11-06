@@ -85,7 +85,7 @@ describe(`OccStockAdapter`, () => {
       expect(mockReq.request.responseType).toEqual('json');
     });
     it('should call normalized http error for loadStockLevels', fakeAsync(() => {
-      spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
+      spyOn(httpClient, 'get').and.returnValue(throwError(() => mockJaloError));
       let result: HttpErrorModel | undefined;
       const subscription = occAdapter
         .loadStockLevels(productCode, locationParam)
@@ -115,7 +115,7 @@ describe(`OccStockAdapter`, () => {
       expect(mockReq.request.responseType).toEqual('json');
     });
     it('should call normalized http error for loadStockLevelAtStore', fakeAsync(() => {
-      spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
+      spyOn(httpClient, 'get').and.returnValue(throwError(() => mockJaloError));
       let result: HttpErrorModel | undefined;
       const subscription = occAdapter
         .loadStockLevelAtStore(productCode, storeName)

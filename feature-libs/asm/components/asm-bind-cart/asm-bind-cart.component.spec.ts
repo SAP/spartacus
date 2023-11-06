@@ -326,7 +326,9 @@ describe('AsmBindCartComponent', () => {
       it('should alert through global messsages when the bind cart fails', () => {
         const expectedErrorMessage = 'mock-error-message';
         (asmBindCartFacade.bindCart as jasmine.Spy).and.returnValue(
-          throwError({ details: [{ message: expectedErrorMessage }] })
+          throwError(() => ({
+            details: [{ message: expectedErrorMessage }],
+          }))
         );
 
         component.bindCartToCustomer();
