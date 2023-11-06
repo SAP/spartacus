@@ -1,13 +1,13 @@
 <ng-container *ngIf="quoteDetails$ | async as quoteDetails; else ghostDetails">
   <div class="cx-header-container">
-    <h3 class="cx-header">
+    <h2 class="cx-header">
       {{ 'quote.header.overview.id' | cxTranslate }}:
       {{ quoteDetails.code }}
-    </h3>
-    <h3 class="cx-status">
+    </h2>
+    <h2 class="cx-status">
       {{ 'quote.header.overview.status' | cxTranslate }}:
       {{ 'quote.states.' + quoteDetails.state | cxTranslate }}
-    </h3>
+    </h2>
   </div>
   <div class="cx-container">
     <div class="cx-summary-card">

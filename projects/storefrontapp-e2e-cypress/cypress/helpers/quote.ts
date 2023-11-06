@@ -932,7 +932,7 @@ export function checkItem(productId: string) {
  */
 export function checkQuoteState(status: string) {
   log('Verifies the quote state', checkQuoteState.name);
-  cy.get(headerOverviewSelector + ' h3.cx-status').contains(status);
+  cy.get(headerOverviewSelector + ' .cx-status').contains(status);
 }
 
 /**
