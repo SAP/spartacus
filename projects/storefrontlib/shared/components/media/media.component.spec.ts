@@ -1,16 +1,50 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Pipe, PipeTransform } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MediaComponent } from './media.component';
 import { ImageLoadingStrategy, Media } from './media.model';
 import { MediaService } from './media.service';
+import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
 
 const mediaUrl = 'mockProductImageUrl.jpg';
 
+@Pipe({
+  name: 'cxMediaSources',
+})
+export class MockMediaSourcesPipe implements PipeTransform {
+  transform() {
+    return [
+      {
+        srcset: mediaUrl,
+        media: '(min-width: 1400px)',
+      },
+      {
+        srcset: mediaUrl,
+        media: '(min-width: 1140px)',
+      },
+      {
+        srcset: mediaUrl,
+        media: '(min-width: 770px)',
+      },
+      {
+        srcset: mediaUrl,
+        media: '(min-width: 400px)',
+      },
+    ];
+  }
+}
+
 class MockMediaService {
-  getMedia(media): Media {
+  srcset: string | undefined;
+
+  constructor(srcset?: string) {
+    this.srcset = srcset;
+  }
+
+  getMedia(media: any): Media {
     return {
       src: media ? media.product.url : undefined,
-      srcset: undefined,
+      srcset: this.srcset,
       alt: undefined,
     };
   }
@@ -28,37 +62,56 @@ const mockImageContainer = {
   product: { url: mediaUrl },
 };
 
-const mockMissingImageContainer = null;
+const mockMissingImageContainer = undefined;
+
+function configureTestingModule(
+  mockMediaService: MockMediaService,
+  isLegacy: boolean = true
+): void {
+  TestBed.configureTestingModule({
+    declarations: [MediaComponent, MockMediaSourcesPipe],
+    providers: [
+      { provide: MediaService, useValue: mockMediaService },
+      {
+        provide: USE_LEGACY_MEDIA_COMPONENT,
+        useValue: isLegacy,
+      },
+    ],
+  }).compileComponents();
+}
+
+function createComponent() {
+  const service = TestBed.inject(MediaService);
+  const fixture = TestBed.createComponent(MediaComponent);
+  const component = fixture.componentInstance;
+
+  component.container = mockImageContainer;
+
+  component.ngOnChanges();
+  fixture.detectChanges();
+
+  return { service, fixture, component };
+}
 
 describe('MediaComponent', () => {
-  let component: MediaComponent;
-  let fixture: ComponentFixture<MediaComponent>;
-  let service: MediaService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [MediaComponent],
-      providers: [{ provide: MediaService, useClass: MockMediaService }],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(MediaComponent);
-    service = TestBed.inject(MediaService);
-    component = fixture.componentInstance;
-    component.container = mockImageContainer;
-
-    component.ngOnChanges();
-    fixture.detectChanges();
-  });
-
   it('should create', () => {
+    configureTestingModule(new MockMediaService());
+    const { component } = createComponent();
+
     expect(component).toBeTruthy();
   });
 
   it('should create media object with valid image url', () => {
-    expect(component.media.src).toEqual(mediaUrl);
+    configureTestingModule(new MockMediaService());
+    const { component } = createComponent();
+
+    expect(component?.media?.src).toEqual(mediaUrl);
   });
 
   it('should update the img element with image url', () => {
+    configureTestingModule(new MockMediaService());
+    const { fixture } = createComponent();
+
     expect(
       (<HTMLImageElement>(
         fixture.debugElement.query(By.css('img')).nativeElement
@@ -67,14 +120,21 @@ describe('MediaComponent', () => {
   });
 
   it('should not contain the loading attribute for the image element', () => {
+    configureTestingModule(new MockMediaService());
+    const { fixture } = createComponent();
+
     const el: HTMLElement = <HTMLImageElement>(
       fixture.debugElement.query(By.css('img')).nativeElement
     );
+
     fixture.detectChanges();
-    expect(el.getAttribute('loading')).toBeNull();
+    expect(JSON.parse(el.getAttribute('loading') as string)).toBeNull();
   });
 
   it('should contain loading="lazy" for the image element', () => {
+    configureTestingModule(new MockMediaService());
+    const { service } = createComponent();
+
     spyOnProperty(service, 'loadingStrategy').and.returnValue(
       ImageLoadingStrategy.LAZY
     );
@@ -90,12 +150,18 @@ describe('MediaComponent', () => {
   });
 
   it('should contain is-loading classes while loading', () => {
+    configureTestingModule(new MockMediaService());
+    const { fixture } = createComponent();
+
     expect(
       (<HTMLImageElement>fixture.debugElement.nativeElement).classList
     ).toContain('is-loading');
   });
 
   it('should update classes when loaded', () => {
+    configureTestingModule(new MockMediaService());
+    const { fixture } = createComponent();
+
     const load = new UIEvent('load');
     fixture.debugElement.query(By.css('img')).nativeElement.dispatchEvent(load);
 
@@ -110,6 +176,14 @@ describe('MediaComponent', () => {
   });
 
   it('should have is-missing class when there is no image', () => {
+    configureTestingModule(new MockMediaService());
+    const { service, fixture, component } = createComponent();
+
+    component.container = mockImageContainer;
+
+    component.ngOnChanges();
+    fixture.detectChanges();
+
     spyOn(service, 'getMedia').and.returnValue(null);
     component.container = mockMissingImageContainer;
 
@@ -119,5 +193,32 @@ describe('MediaComponent', () => {
     expect(
       (<HTMLImageElement>fixture.debugElement.nativeElement).classList
     ).toContain('is-missing');
+  });
+
+  it('should not have picture element if there is no srcset in media', () => {
+    configureTestingModule(new MockMediaService());
+    const { fixture } = createComponent();
+
+    const picture = fixture.debugElement.query(By.css('picture'));
+
+    expect(picture).toBeNull();
+  });
+
+  it('should have picture element if there is srcset in media', () => {
+    configureTestingModule(new MockMediaService('srcset'), false);
+    const { fixture } = createComponent();
+
+    const picture = fixture.debugElement.query(By.css('picture'));
+
+    expect(picture).not.toBeNull();
+  });
+
+  it('should not have picture element if there is srcset in media but isLegacy mode', () => {
+    configureTestingModule(new MockMediaService('srcset'));
+    const { fixture } = createComponent();
+
+    const picture = fixture.debugElement.query(By.css('picture'));
+
+    expect(picture).toBeNull();
   });
 });
