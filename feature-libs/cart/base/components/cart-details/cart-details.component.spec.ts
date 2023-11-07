@@ -65,6 +65,12 @@ class MockCartCouponComponent {
   cartIsLoading = false;
 }
 
+@Component({
+  selector: 'cx-cart-validation-warnings',
+  template: '',
+})
+class MockCartValidationWarningsComponent {}
+
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
@@ -96,6 +102,7 @@ describe('CartDetailsComponent', () => {
           CartDetailsComponent,
           MockCartItemListComponent,
           MockCartCouponComponent,
+          MockCartValidationWarningsComponent,
         ],
         providers: [
           { provide: SelectiveCartFacade, useValue: mockSelectiveCartFacade },

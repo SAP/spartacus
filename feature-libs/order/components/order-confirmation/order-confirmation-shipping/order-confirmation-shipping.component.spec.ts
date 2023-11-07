@@ -1,8 +1,14 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import { Address, Country, I18nTestingModule } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
-import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
+import {
+  Card,
+  OutletContextData,
+  OutletModule,
+  PromotionsModule,
+} from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OrderConfirmationShippingComponent } from './order-confirmation-shipping.component';
 import createSpy = jasmine.createSpy;
@@ -38,14 +44,29 @@ class MockOrderFacade implements Partial<OrderFacade> {
   );
 }
 
+@Component({
+  selector: 'cx-card',
+  template: '',
+})
+class MockCardComponent {
+  @Input()
+  border: boolean;
+  @Input()
+  content: Card;
+  @Input()
+  fitToContainer: boolean;
+  @Input()
+  index: number;
+}
+
 describe('OrderConfirmationShippingComponent', () => {
   let component: OrderConfirmationShippingComponent;
   let fixture: ComponentFixture<OrderConfirmationShippingComponent>;
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [I18nTestingModule, PromotionsModule],
-      declarations: [OrderConfirmationShippingComponent],
+      imports: [I18nTestingModule, PromotionsModule, OutletModule],
+      declarations: [OrderConfirmationShippingComponent, MockCardComponent],
       providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
     });
   }
