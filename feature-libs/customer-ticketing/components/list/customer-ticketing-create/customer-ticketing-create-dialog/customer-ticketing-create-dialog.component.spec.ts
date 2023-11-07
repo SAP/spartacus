@@ -13,10 +13,18 @@ import {
   CustomerTicketingFacade,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
-import { LaunchDialogService } from '@spartacus/storefront';
+import {
+  FileUploadModule,
+  FocusConfig,
+  FormErrorsModule,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog.component';
 import createSpy = jasmine.createSpy;
+import { Component, Directive, Input } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const mockCategories = [
   {
@@ -77,6 +85,21 @@ class MockTranslationService {
   }
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockKeyboadFocusDirective {
+  @Input('cxFocus') config: FocusConfig = {};
+}
+
 describe('CustomerTicketingCreateDialogComponent', () => {
   let component: CustomerTicketingCreateDialogComponent;
   let fixture: ComponentFixture<CustomerTicketingCreateDialogComponent>;
@@ -85,8 +108,17 @@ describe('CustomerTicketingCreateDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CustomerTicketingCreateDialogComponent],
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        FileUploadModule,
+      ],
+      declarations: [
+        CustomerTicketingCreateDialogComponent,
+        MockCxIconComponent,
+        MockKeyboadFocusDirective,
+      ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
