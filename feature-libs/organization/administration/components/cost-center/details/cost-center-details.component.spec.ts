@@ -12,6 +12,7 @@ import { MessageTestingModule } from '../../shared/message/message.testing.modul
 import { MessageService } from '../../shared/message/services/message.service';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 import createSpy = jasmine.createSpy;
+import { FocusDirective } from '@spartacus/storefront';
 
 const mockCode = 'c1';
 
@@ -46,7 +47,7 @@ describe('CostCenterDetailsComponent', () => {
         ToggleStatusModule,
         DisableInfoModule,
       ],
-      declarations: [CostCenterDetailsComponent],
+      declarations: [CostCenterDetailsComponent, FocusDirective],
       providers: [{ provide: ItemService, useClass: MockItemService }],
     })
       .overrideComponent(CostCenterDetailsComponent, {
