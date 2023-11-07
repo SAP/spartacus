@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpClient,
+  HTTP_INTERCEPTORS,
+  HttpErrorResponse,
+} from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -36,14 +40,15 @@ describe('BlobErrorInterceptor', () => {
     http = TestBed.inject(HttpClient);
   });
 
-  it(`Should extract json from errors wrapped in blob`, async () => {
+  it(`Should extract JSON from errors wrapped in blob`, (done: DoneFn) => {
     http
       .get('/occ', { responseType: 'blob' as 'json' })
       .pipe(take(1))
       .subscribe({
-        error: (err) => {
+        error: (err: HttpErrorResponse) => {
           expect(err.status).toEqual(401);
           expect(err.error.errors[0].type).toEqual('InvalidTokenError');
+          done();
         },
       });
 
@@ -51,14 +56,12 @@ describe('BlobErrorInterceptor', () => {
       return req.method === 'GET' && req.url === '/occ';
     });
 
-    const errors = JSON.stringify({
-      errors: [{ type: 'InvalidTokenError' }],
-    });
-    const error = new Blob([errors], {
+    const errors = { errors: [{ type: 'InvalidTokenError' }] };
+    const errorBlob = new Blob([JSON.stringify(errors)], {
       type: 'application/json',
     });
 
-    mockReq.flush(error, {
+    mockReq.flush(errorBlob, {
       status: 401,
       statusText: 'Unauthorized',
     });
