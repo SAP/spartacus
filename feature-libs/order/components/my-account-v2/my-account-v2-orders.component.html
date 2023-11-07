@@ -33,6 +33,7 @@
           <div class="cx-my-account-view-order-header">
             <div
               class="cx-my-account-view-status"
+              *ngIf="order.statusDisplay"
               [attr.aria-label]="
                 'myAccountV2Orders.orderStatusLabel' | cxTranslate
               "

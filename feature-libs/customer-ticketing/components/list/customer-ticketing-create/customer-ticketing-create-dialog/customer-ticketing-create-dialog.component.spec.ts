@@ -1,11 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  GlobalMessageEntities,
+  GlobalMessageService,
+  GlobalMessageType,
+  HttpErrorModel,
+  I18nTestingModule,
+  RoutingService,
+  Translatable,
+  TranslationService,
+} from '@spartacus/core';
 import {
   CustomerTicketingFacade,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog.component';
 import createSpy = jasmine.createSpy;
 
@@ -54,10 +63,25 @@ class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
   );
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  get(): Observable<GlobalMessageEntities> {
+    return of({});
+  }
+  add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
+  remove(_: GlobalMessageType, __?: number): void {}
+}
+
+class MockTranslationService {
+  translate(): Observable<string> {
+    return of('translated string');
+  }
+}
+
 describe('CustomerTicketingCreateDialogComponent', () => {
   let component: CustomerTicketingCreateDialogComponent;
   let fixture: ComponentFixture<CustomerTicketingCreateDialogComponent>;
   let customerTicketingFacade: CustomerTicketingFacade;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -70,9 +94,14 @@ describe('CustomerTicketingCreateDialogComponent', () => {
           useClass: MockCustomerTicketingFacade,
         },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+
+    spyOn(globalMessageService, 'add').and.callThrough();
   });
 
   beforeEach(() => {
@@ -108,6 +137,42 @@ describe('CustomerTicketingCreateDialogComponent', () => {
       component.form.get('subject')?.setValue('');
       component.createTicketRequest();
       expect(customerTicketingFacade.createTicket).not.toHaveBeenCalled();
+    });
+
+    it('should handle HttpErrorModel error correctly when creating a ticket', () => {
+      const expectedErrorMessage = 'mock-error-message';
+      const error = new HttpErrorModel();
+      error.details = [{ message: expectedErrorMessage }];
+      customerTicketingFacade.createTicket = createSpy().and.returnValue(
+        throwError(error)
+      );
+      component.form.get('message')?.setValue(mockTicketStarter.message);
+      component.form.get('subject')?.setValue(mockTicketStarter.subject);
+      component.form.get('ticketCategory')?.setValue(mockCategories);
+      component.form.get('associatedTo')?.setValue(mockTicketAssociatedObjects);
+      component.createTicketRequest();
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { raw: expectedErrorMessage },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    });
+
+    it('should handle other error correctly when creating a ticket', () => {
+      const expectedErrorMessage = 'error';
+      customerTicketingFacade.createTicket = createSpy().and.returnValue(
+        throwError(expectedErrorMessage)
+      );
+      component.form.get('message')?.setValue(mockTicketStarter.message);
+      component.form.get('subject')?.setValue(mockTicketStarter.subject);
+      component.form.get('ticketCategory')?.setValue(mockCategories);
+      component.form.get('associatedTo')?.setValue(mockTicketAssociatedObjects);
+      component.createTicketRequest();
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { raw: 'translated string' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
   });
 });
