@@ -7,6 +7,7 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   FeaturesConfigModule,
@@ -14,12 +15,11 @@ import {
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import { ReplenishmentOrderHistoryFacade } from '../../../root/facade';
-import { EMPTY, Observable, of } from 'rxjs';
-import { MyAccountV2OrderHistoryComponent } from './my-account-v2-order-history.component';
-import { OrderHistoryList } from '../../../root/model';
 import { MyAccountV2OrderHistoryService } from '@spartacus/order/core';
-import { By } from '@angular/platform-browser';
+import { EMPTY, Observable, of } from 'rxjs';
+import { ReplenishmentOrderHistoryFacade } from '../../../root/facade';
+import { OrderHistoryList, OrderHistoryView } from '../../../root/model';
+import { MyAccountV2OrderHistoryComponent } from './my-account-v2-order-history.component';
 
 const mockOrders: OrderHistoryList = {
   orders: [
@@ -89,6 +89,20 @@ class MockReplenishmentOrderHistoryFacade
   }
 }
 
+@Component({
+  selector: 'cx-my-account-v2-order-consolidated-information',
+  template: '',
+})
+export class MockMyAccountV2OrderConsolidatedInformationComponent {
+  @Input() order?: OrderHistoryView;
+}
+
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockSpinnerComponent {}
+
 describe('MyAccountV2OrderHistoryComponent', () => {
   let component: MyAccountV2OrderHistoryComponent;
   let fixture: ComponentFixture<MyAccountV2OrderHistoryComponent>;
@@ -102,6 +116,8 @@ describe('MyAccountV2OrderHistoryComponent', () => {
           MyAccountV2OrderHistoryComponent,
           MockUrlPipe,
           MockPaginationComponent,
+          MockMyAccountV2OrderConsolidatedInformationComponent,
+          MockSpinnerComponent,
         ],
         providers: [
           { provide: RoutingService, useClass: MockRoutingService },
