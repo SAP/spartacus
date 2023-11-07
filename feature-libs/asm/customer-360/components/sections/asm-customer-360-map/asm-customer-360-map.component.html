@@ -48,18 +48,6 @@
         <div>{{ selectedStore.address?.town }}</div>
       </div>
     </div>
-    <div class="store-map-container">
-      <iframe
-        *ngIf="storeFinderConfig?.googleMaps?.apiKey"
-        [title]="selectedStore.displayName"
-        class="store-map"
-        loading="lazy"
-        allowfullscreen
-        referrerpolicy="no-referrer-when-downgrade"
-        [src]="googleMapsUrl"
-      >
-      </iframe>
-    </div>
     <div
       class="store-openings"
       *ngIf="selectedStore?.openingHours as openingHours"
