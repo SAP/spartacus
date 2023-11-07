@@ -22,7 +22,6 @@
           "Saved-Cart",
           "Quick-Order",
           "CDC",
-          "CDC-B2B",
           "CDS",
           "Cart",
           "WishList",
@@ -105,11 +104,7 @@
           },
           {
             "value": "CDC",
-            "label": "Customer Data Cloud Integration - B2C"
-          },
-          {
-            "value": "CDC-B2B",
-            "label": "Customer Data Cloud Integration - B2B"
+            "label": "Customer Data Cloud Integration"
           },
           {
             "value": "CDS",
