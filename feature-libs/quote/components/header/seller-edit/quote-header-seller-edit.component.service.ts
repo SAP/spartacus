@@ -7,18 +7,15 @@
 import { getLocaleNumberSymbol, NumberSymbol } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { CurrencyService, LanguageService, TimeUtils } from '@spartacus/core';
+import { LanguageService, TimeUtils } from '@spartacus/core';
 import { Quote, QuoteState } from '@spartacus/quote/root';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export type LocalizationElements = {
   locale: string;
   formatter: Intl.NumberFormat;
-  /**
-   * A currency symbol where that is available, currency ISO code otherwise
-   */
-  currencySymbol: string;
+  percentageSign: string;
 };
 
 /**
@@ -26,20 +23,19 @@ export type LocalizationElements = {
  */
 @Injectable({ providedIn: 'root' })
 export class QuoteHeaderSellerEditComponentService {
-  protected currencyService = inject(CurrencyService);
   protected languageService = inject(LanguageService);
 
   /**
    * Parses a discount value to numeric format.
    *
-   * @param input - Discount as string, can include currency symbol, decimal and grouping separators
+   * @param input - Discount as string, can include unit symbol, decimal and grouping separators
    * @returns Observable of discount as number
    */
   parseDiscountValue(input: string | undefined | null): Observable<number> {
     return this.getLocalizationElements().pipe(
       map((localizationElements) => {
         if (input) {
-          input = input.replace(localizationElements.currencySymbol, '');
+          input = input.replace(localizationElements.percentageSign, '');
           return this.parseInput(input, localizationElements.locale);
         } else {
           return 0;
@@ -49,7 +45,7 @@ export class QuoteHeaderSellerEditComponentService {
   }
 
   /**
-   * Retrieves formatter according to current locale and currency
+   * Retrieves formatter according to current locale and unit
    * @returns Observable of formatters
    */
   getFormatter(): Observable<Intl.NumberFormat> {
@@ -59,25 +55,20 @@ export class QuoteHeaderSellerEditComponentService {
   }
 
   /**
-   * Retrieves localization elements according to current locale and currency
+   * Retrieves localization elements according to current locale and unit
    * @returns Observables of localization elements
    */
   getLocalizationElements(): Observable<LocalizationElements> {
-    return combineLatest([
-      this.currencyService.getActive(),
-      this.languageService.getActive(),
-    ]).pipe(
-      map(([currency, locale]) => {
+    return this.languageService.getActive().pipe(
+      map((locale) => {
         const formatter = new Intl.NumberFormat(locale, {
-          style: 'currency',
-          currency: currency,
-          currencyDisplay: 'narrowSymbol',
+          style: 'percent',
+          maximumFractionDigits: 3,
         });
-        //Symbol for currencies with symbol available, currency ISO code otherwise
         const symbol = formatter
           .formatToParts(0)
-          .find((x) => x.type === 'currency');
-        return this.checkAndReportCurrencyIfMissing(
+          .find((x) => x.type === 'percentSign');
+        return this.checkAndReportPercentageSignIfMissing(
           locale,
           formatter,
           symbol?.value
@@ -89,24 +80,14 @@ export class QuoteHeaderSellerEditComponentService {
   /**
    * Retrieves number format validator according to inputs
    * @param locale - Current locale
-   * @param currency - Currency
-   * @param numberTotalPlaces - Number of maximum total places
+   * @param unit - Unit
    * @returns Formatter that can be attached to a form control
    */
-  getNumberFormatValidator(
-    locale: string,
-    currency: string,
-    numberTotalPlaces: number
-  ): ValidatorFn {
+  getNumberFormatValidator(locale: string, unit: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const input = control.value?.trim();
       if (input) {
-        return this.getValidationErrorsNumericFormat(
-          input,
-          locale,
-          currency,
-          numberTotalPlaces
-        );
+        return this.getValidationErrorsNumericFormat(input, locale, unit);
       }
       return null;
     };
@@ -166,15 +147,15 @@ export class QuoteHeaderSellerEditComponentService {
     return Math.floor(Math.log10(maximum)) + 1 + numberOfDecimalPlaces;
   }
 
-  protected checkAndReportCurrencyIfMissing(
+  protected checkAndReportPercentageSignIfMissing(
     locale: string,
     formatter: Intl.NumberFormat,
-    currency?: string
+    percentageSign?: string
   ): LocalizationElements {
-    if (currency) {
-      return { locale, formatter, currencySymbol: currency };
+    if (percentageSign) {
+      return { locale, formatter, percentageSign: percentageSign };
     } else {
-      throw new Error('Currency must have symbol or ISO code');
+      throw new Error('No percentage sign present');
     }
   }
 
@@ -207,10 +188,9 @@ export class QuoteHeaderSellerEditComponentService {
   protected getValidationErrorsNumericFormat(
     input: string,
     locale: string,
-    currency: string,
-    numberTotalPlaces: number
+    unit: string
   ): { [key: string]: any } | null {
-    input = input.replace(currency, '').trim();
+    input = input.replace(unit, '').trim();
 
     const groupingSeparator = getLocaleNumberSymbol(locale, NumberSymbol.Group);
     const decimalSeparator = getLocaleNumberSymbol(
@@ -233,8 +213,7 @@ export class QuoteHeaderSellerEditComponentService {
       this.performValidationAccordingToMetaData(
         input,
         groupingSeparator,
-        decimalSeparator,
-        numberTotalPlaces
+        decimalSeparator
       )
     );
   }
@@ -248,10 +227,10 @@ export class QuoteHeaderSellerEditComponentService {
   protected performValidationAccordingToMetaData(
     input: string,
     groupingSeparator: string,
-    decimalSeparator: string,
-    numberTotalPlaces: number
+    decimalSeparator: string
   ): boolean {
-    const numberDecimalPlaces = 2;
+    //TODO CHHI Make this more explicit and easier to extend
+    const numberDecimalPlaces = 3;
     const regexEscape = '\\';
     const search: RegExp = new RegExp(regexEscape + groupingSeparator, 'g');
     const woGrouping = input.replace(search, '');
@@ -261,11 +240,11 @@ export class QuoteHeaderSellerEditComponentService {
       return true;
     }
     if (splitParts.length === 1) {
-      return woGrouping.length > numberTotalPlaces - numberDecimalPlaces;
+      return Number.parseFloat(woGrouping) > 100;
     }
 
     return (
-      splitParts[0].length > numberTotalPlaces - numberDecimalPlaces ||
+      Number.parseFloat(splitParts[0]) > 100 ||
       splitParts[1].length > numberDecimalPlaces
     );
   }

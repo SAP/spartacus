@@ -122,7 +122,7 @@ describe('QuoteHeaderSellerEditComponentService', () => {
   describe('checkAndReportCurrencyIfMissing', () => {
     it('should throw error in case we do not find symbol or currency ISO code', () => {
       expect(() =>
-        classUnderTest['checkAndReportCurrencyIfMissing'](
+        classUnderTest['checkAndReportPercentageSignIfMissing'](
           'en',
           new Intl.NumberFormat('en', {
             style: 'currency',
