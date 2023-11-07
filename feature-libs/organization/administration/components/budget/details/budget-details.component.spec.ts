@@ -16,6 +16,7 @@ import { ItemService } from '../../shared/item.service';
 import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;
+import { FocusDirective } from '@spartacus/storefront';
 
 const mockCode = 'b1';
 
@@ -50,7 +51,11 @@ describe('BudgetDetailsComponent', () => {
         ToggleStatusModule,
         DisableInfoModule,
       ],
-      declarations: [BudgetDetailsComponent, ItemExistsDirective],
+      declarations: [
+        BudgetDetailsComponent,
+        ItemExistsDirective,
+        FocusDirective,
+      ],
       providers: [{ provide: ItemService, useClass: MockBudgetItemService }],
     })
       .overrideComponent(BudgetDetailsComponent, {

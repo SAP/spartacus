@@ -22,6 +22,8 @@ import { MessageTestingModule } from '../../shared/message/message.testing.modul
 import { MessageService } from '../../shared/message/services/message.service';
 import { UserDetailsComponent } from './user-details.component';
 import createSpy = jasmine.createSpy;
+import { Directive, Input } from '@angular/core';
+import { FocusConfig } from '@spartacus/storefront';
 
 const mockCode = 'c1';
 
@@ -64,6 +66,14 @@ class MockB2BUserService implements Partial<B2BUserService> {
   }
 }
 
+@Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
+  selector: '[cxFocus]',
+})
+export class MockKeyboadFocusDirective {
+  @Input('cxFocus') config: FocusConfig = {};
+}
+
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
   let fixture: ComponentFixture<UserDetailsComponent>;
@@ -82,7 +92,11 @@ describe('UserDetailsComponent', () => {
         ToggleStatusModule,
         DisableInfoModule,
       ],
-      declarations: [UserDetailsComponent, ItemExistsDirective],
+      declarations: [
+        UserDetailsComponent,
+        ItemExistsDirective,
+        MockKeyboadFocusDirective,
+      ],
       providers: [
         { provide: ItemService, useClass: MockUserItemService },
         { provide: B2BUserService, useClass: MockB2BUserService },
