@@ -93,7 +93,7 @@ export class ProductListComponentService {
         );
 
         // TODO: Remove featureLevel condition in 7.0
-        if (this.featureConfigService?.isLevel('7.0')) {
+        if (this.featureConfigService?.isLevel('6.7')) {
           this.searchIfCriteriaHasChanged(criteria);
         } else {
           this.search(criteria);
