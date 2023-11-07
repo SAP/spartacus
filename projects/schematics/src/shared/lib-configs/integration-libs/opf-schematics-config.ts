@@ -70,7 +70,7 @@ export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  dependencyFeatures: [CHECKOUT_BASE_FEATURE_NAME],
+  dependencyFeatures: [CHECKOUT_BASE_FEATURE_NAME, OPF_BASE_FEATURE_NAME],
   importAfter: [
     {
       markerModuleName: CHECKOUT_BASE_MODULE,

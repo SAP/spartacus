@@ -6,8 +6,8 @@
 
 import { SchematicsException } from '@angular-devkit/schematics';
 import {
-  ASM_SCHEMATICS_CONFIG,
   ASM_CUSTOMER_360_SCHEMATICS_CONFIG,
+  ASM_SCHEMATICS_CONFIG,
 } from './lib-configs/asm-schematics-config';
 import {
   CART_BASE_SCHEMATICS_CONFIG,
@@ -136,8 +136,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
 
   S4OM_SCHEMATICS_CONFIG,
 
-  OPF_CHECKOUT_SCHEMATICS_CONFIG,
   OPF_BASE_SCHEMATICS_CONFIG,
+  OPF_CHECKOUT_SCHEMATICS_CONFIG,
 
   SEGMENT_REFS_SCHEMATICS_CONFIG,
 ];
