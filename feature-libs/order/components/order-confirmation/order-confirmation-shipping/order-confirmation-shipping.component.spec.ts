@@ -125,6 +125,39 @@ describe('OrderConfirmationShippingComponent', () => {
     });
   });
 
+  describe('use Order with different deliveryPointOfService value', () => {
+    class MockOrderFacade implements Partial<OrderFacade> {
+      getOrderDetails = createSpy().and.returnValue(
+        of({
+          entries: [
+            {
+              entryNumber: 1,
+              quantity: 1,
+              deliveryPointOfService: null,
+            },
+          ],
+          deliveryAddress: { id: 'testAddress' },
+          deliveryMode: { code: 'testCode' },
+        })
+      );
+    }
+    function configureTestingModule(): TestBed {
+      return TestBed.configureTestingModule({
+        imports: [I18nTestingModule, PromotionsModule],
+        declarations: [OrderConfirmationShippingComponent],
+        providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
+      });
+    }
+    beforeEach(() => {
+      configureTestingModule();
+      stubSeviceAndCreateComponent();
+    });
+    it('should get entries when deliveryPointOfService is null', () => {
+      fixture.detectChanges();
+      expect(component.entries?.length).toEqual(1);
+    });
+  });
+
   describe('Use outlet with outlet context data', () => {
     const context$ = of({
       showItemList: false,
