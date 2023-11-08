@@ -6,11 +6,11 @@
     justify-content: space-between;
     margin: 1rem; //top-right-bottom-left
     .cx-my-account-view-heading {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
     }
     .cx-my-account-view-show-more {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
     }
   }
@@ -28,11 +28,11 @@
         border: 1px solid var(--cx-color-medium);
         border-radius: 0;
         .cx-my-account-view-status {
-          font-size: 18px;
+          font-size: 16px;
           font-weight: 700;
         }
         .cx-my-account-view-code {
-          font-size: 14px;
+          font-size: 12px;
           font-weight: 400;
           color: var(--cx-color-secondary);
         }
@@ -65,22 +65,22 @@
               margin: 1 rem;
               padding: 15px 15px 15px 20px;
               .cx-my-account-view-product-name {
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: 600;
               }
               .cx-my-account-view-purchased-on {
-                font-size: 14px;
+                font-size: 12px;
                 font-weight: 400;
               }
               .cx-my-account-view-item-count {
-                font-size: 14px;
+                font-size: 12px;
                 font-weight: 400;
               }
             }
             .cx-my-account-view-order-column-1-details-bottom {
               padding: 15px 15px 15px 20px;
               .cx-my-account-view-total-price {
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: 600;
               }
             }
@@ -92,7 +92,7 @@
           display: flex;
           justify-content: right;
           color: var(--cx-color-secondary);
-          font-size: 16px;
+          font-size: 14px;
           font-weight: 600;
           align-items: flex-end;
         }

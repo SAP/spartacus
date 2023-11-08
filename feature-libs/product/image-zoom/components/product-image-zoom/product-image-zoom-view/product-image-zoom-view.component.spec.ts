@@ -1,4 +1,10 @@
-import { Component, ElementRef, Input } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ImageGroup, Product } from '@spartacus/core';
@@ -94,6 +100,16 @@ class MockIconComponent {
   @Input() type;
 }
 
+@Component({
+  selector: 'cx-product-image-zoom-thumbnails',
+  template: '',
+})
+export class MockProductImageZoomThumbnailsComponent {
+  @Output() productImage = new EventEmitter<{ image: any; index: number }>();
+  @Input() thumbs$: Observable<ThumbnailsGroup[]>;
+  @Input() activeThumb: EventEmitter<ImageGroup>;
+}
+
 describe('ProductImageZoomViewComponent', () => {
   let productImageZoomViewComponent: ProductImageZoomViewComponent;
   let fixture: ComponentFixture<ProductImageZoomViewComponent>;
@@ -106,6 +122,7 @@ describe('ProductImageZoomViewComponent', () => {
         MockIconComponent,
         MockMediaComponent,
         MockProductThumbnailsComponent,
+        MockProductImageZoomThumbnailsComponent,
       ],
       providers: [
         { provide: CurrentProductService, useClass: MockCurrentProductService },

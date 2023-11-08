@@ -26,6 +26,7 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
 import { CustomerSelectionComponent } from './customer-selection.component';
+import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 
 class MockGlobalMessageService {
   add = jasmine.createSpy();
@@ -123,7 +124,7 @@ describe('CustomerSelectionComponent', () => {
           FormErrorsModule,
           FeaturesConfigModule,
         ],
-        declarations: [CustomerSelectionComponent],
+        declarations: [CustomerSelectionComponent, DotSpinnerComponent],
         providers: [
           { provide: AsmService, useClass: MockAsmService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
