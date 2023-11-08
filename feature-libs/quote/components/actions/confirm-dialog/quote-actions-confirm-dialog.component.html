@@ -85,7 +85,12 @@
     </div>
 
     <!-- For screen reader purposes (not visual)-->
-    <div class="cx-visually-hidden" aria-live="polite" aria-atomic="true">
+    <div
+      class="cx-visually-hidden"
+      aria-live="polite"
+      role="alert"
+      aria-atomic="true"
+    >
       {{ getA11yModalText(confirmationContext) }}
     </div>
   </div>
