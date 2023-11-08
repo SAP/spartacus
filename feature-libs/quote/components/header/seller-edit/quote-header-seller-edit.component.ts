@@ -30,7 +30,7 @@ import {
 } from 'rxjs';
 import { debounceTime, filter, map, take, tap } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config';
-import { QuoteHeaderSellerEditComponentService } from './quote-header-seller-edit.component.service';
+import { LocalizationElements, QuoteHeaderSellerEditComponentService } from './quote-header-seller-edit.component.service';
 
 @Component({
   selector: 'cx-quote-header-seller-edit',
@@ -51,27 +51,7 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
       this.quoteHeaderSellerEditComponentService.isEditable(quote)
     ),
     tap(([localizationElements, quote]) => {
-      this.discountPlaceholder = localizationElements.percentageSign;
-      const numberFormatValidator =
-        this.quoteHeaderSellerEditComponentService.getNumberFormatValidator(
-          localizationElements.locale,
-          localizationElements.percentageSign
-        );
-      this.form.controls.discount.addValidators([numberFormatValidator]);
-      this.discountUpdatePerforming$.next(false);
-      const discountValue = quote.sapQuoteDiscountsRate
-        ? quote.sapQuoteDiscountsRate / 100
-        : 0;
-      if (discountValue) {
-        this.form.controls.discount.setValue(
-          localizationElements.formatter.format(discountValue)
-        );
-      }
-      this.form.controls.validityDate.setValue(
-        this.quoteHeaderSellerEditComponentService.removeTimeFromDate(
-          quote.expirationTime?.toString()
-        )
-      );
+      this.initializeFormAttributes(localizationElements, quote);
     }),
     map(([_localizationElements, quote]) => quote)
   );
@@ -92,6 +72,29 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
     new Subject();
 
   discountUpdatePerforming$ = new BehaviorSubject<boolean>(false);
+
+  protected initializeFormAttributes(localizationElements: LocalizationElements, quote: Quote) {
+    this.discountPlaceholder = localizationElements.percentageSign;
+    const numberFormatValidator = this.quoteHeaderSellerEditComponentService.getNumberFormatValidator(
+      localizationElements.locale,
+      localizationElements.percentageSign
+    );
+    this.form.controls.discount.addValidators([numberFormatValidator]);
+    this.discountUpdatePerforming$.next(false);
+    const discountValue = quote.sapQuoteDiscountsRate && quote.sapQuoteDiscountsType === QuoteDiscountType.PERCENT
+      ? quote.sapQuoteDiscountsRate / 100
+      : 0;
+    if (discountValue) {
+      this.form.controls.discount.setValue(
+        localizationElements.formatter.format(discountValue)
+      );
+    }
+    this.form.controls.validityDate.setValue(
+      this.quoteHeaderSellerEditComponentService.removeTimeFromDate(
+        quote.expirationTime?.toString()
+      )
+    );
+  }
 
   ngOnInit(): void {
     this.subscription.add(

@@ -25,6 +25,7 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { cold } from 'jasmine-marbles';
 import {
   createEmptyQuote,
   EXPIRATION_DATE_AS_STRING,
@@ -172,31 +173,56 @@ describe('QuoteHeaderSellerEditComponent', () => {
     expect(quoteFacade).toBeDefined();
   });
 
-  it('should emit data for in case seller status is provided', (done) => {
-    component.quoteDetailsForSeller$
-      .subscribe((quote) => {
-        expect(quote.code).toBe(QUOTE_CODE);
-        done();
-      })
-      .unsubscribe();
-  });
-
   it('should unsubscribe subscription on ngOnDestroy', () => {
     const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
     component.ngOnDestroy();
     expect(spyUnsubscribe).toHaveBeenCalled();
   });
 
-  describe('ngOnInit', () => {
-    it('should provide initial value for discount control', () => {
+  describe('quoteDetailsForSeller$ observable', () => {
+    it('should emit data in case seller status is provided', () => {
+      component.quoteDetailsForSeller$
+        .subscribe((quote) => {
+          expect(quote).toBe(mockQuote);
+        })
+        .unsubscribe();
+    });
+
+    it('should not emit data in case quote belongs to buyer', () => {
+      mockQuote.state = QuoteState.BUYER_DRAFT;
+      mockQuoteDetails$.next(mockQuote);
+      fixture = TestBed.createComponent(QuoteHeaderSellerEditComponent);
+      component = fixture.componentInstance;
+      //fixture.detectChanges();
+      expect(component.quoteDetailsForSeller$).toBeObservable(
+        cold('a', { a: mockQuote })
+      );
+    });
+  });
+
+  describe('quoteDetailsForSeller$ observable (after emission)', () => {
+    it('should provide initial value for discount control in case quote does not carry discount', () => {
       fixture.detectChanges();
       expect(component.form.controls.discount.value).toBe(null);
     });
 
+    it('should provide placeholder for discount control in case quote does not carry discount', () => {
+      fixture.detectChanges();
+      expect(component.discountPlaceholder).toBe('%');
+    });
+
     it('should provide formatted value for discount control in case a discount exists', () => {
       mockQuote.sapQuoteDiscountsRate = 1;
+      mockQuote.sapQuoteDiscountsType = QuoteDiscountType.PERCENT;
       fixture.detectChanges();
       expect(component.form.controls.discount.value).toBe('1%');
+    });
+
+    it('should not provide value for discount control in case a discount exists but it is not of type percent', () => {
+      mockQuote.sapQuoteDiscountsRate = 1;
+      mockQuote.sapQuoteDiscountsType = QuoteDiscountType.ABSOLUTE;
+      fixture.detectChanges();
+      expect(component.form.controls.discount.value).toBe(null);
     });
 
     it('should provide initial value for expiry date control', () => {
