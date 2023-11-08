@@ -13,13 +13,6 @@ export class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
 
-@Directive({
-  selector: '[cxFocus]',
-})
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
-}
-
 @Component({
   selector: 'cx-icon',
   template: '',
