@@ -5,17 +5,22 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { QuoteState } from '@spartacus/quote/root';
+import { QuoteState, Quote } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { QuoteListComponentService } from './quote-list-component.service';
+import { CxDatePipe, TranslationService } from '@spartacus/core';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quote-list',
   templateUrl: './quote-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CxDatePipe],
 })
 export class QuoteListComponent {
   protected quoteListComponentService = inject(QuoteListComponentService);
+  protected translation = inject(TranslationService);
+  protected cxDatePipe = inject(CxDatePipe);
 
   sorts = this.quoteListComponentService.sortOptions;
   sortLabels$ = this.quoteListComponentService.sortLabels$;
@@ -60,5 +65,48 @@ export class QuoteListComponent {
     //note: in case not found: indexSeparator is -1, lastPart will be stateAsString
     const lastPart = stateAsString.substring(indexSeparator + 1);
     return 'quote-' + lastPart.toLowerCase();
+  }
+
+  /**
+   * Retrieves an accessibility text for a row in the quote list.
+   *
+   * @param quote - quote
+   */
+  getRowTitle(quote: Quote): string {
+    let translatedText = '';
+    translatedText += quote.name;
+    translatedText += ' ';
+    this.translation
+      .translate('quote.header.overview.id')
+      .pipe(take(1))
+      .subscribe((text) => (translatedText += text));
+    translatedText += ': ';
+    translatedText += quote.code;
+    translatedText += ' ';
+    this.translation
+      .translate('quote.header.overview.status')
+      .pipe(take(1))
+      .subscribe((text) => (translatedText += text));
+    translatedText += ': ';
+    this.translation
+      .translate('quote.states.' + quote.state)
+      .pipe(take(1))
+      .subscribe((text) => (translatedText += text));
+    translatedText += ' ';
+    this.translation
+      .translate('quote.list.updated')
+      .pipe(take(1))
+      .subscribe((text) => (translatedText += text));
+    translatedText += ': ';
+    translatedText += this.cxDatePipe.transform(
+      quote?.updatedTime,
+      this.dateFormat
+    );
+    translatedText += ' ';
+    this.translation
+      .translate('quote.list.clickableRow')
+      .pipe(take(1))
+      .subscribe((text) => (translatedText += text));
+    return translatedText;
   }
 }
