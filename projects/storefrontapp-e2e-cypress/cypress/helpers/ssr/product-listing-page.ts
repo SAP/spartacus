@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const CASE_TITLES = {
   ALL_BRANDS: 'All Brands',
   QUERY_GRIP: 'Search Query "grip"',
