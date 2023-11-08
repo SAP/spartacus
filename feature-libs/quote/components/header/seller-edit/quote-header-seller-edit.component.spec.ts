@@ -59,9 +59,8 @@ const mockQuote: Quote = {
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
 const formatter = new Intl.NumberFormat('en', {
-  style: 'currency',
-  currency: 'USD',
-  currencyDisplay: 'narrowSymbol',
+  style: 'percent',
+  maximumFractionDigits: 3,
 });
 
 let uiConfig: QuoteUIConfig;
@@ -84,7 +83,7 @@ class MockQuoteHeaderSellerEditComponentService {
   getLocalizationElements() {
     return of({
       locale: 'en',
-      currencySymbol: '$',
+      percentageSign: '%',
       formatter: formatter,
     });
   }
@@ -195,9 +194,9 @@ describe('QuoteHeaderSellerEditComponent', () => {
     });
 
     it('should provide formatted value for discount control in case a discount exists', () => {
-      mockQuote.quoteDiscounts = { value: 1 };
+      mockQuote.sapQuoteDiscountsRate = 1;
       fixture.detectChanges();
-      expect(component.form.controls.discount.value).toBe('$1.00');
+      expect(component.form.controls.discount.value).toBe('1%');
     });
 
     it('should provide initial value for expiry date control', () => {
@@ -229,7 +228,7 @@ describe('QuoteHeaderSellerEditComponent', () => {
       component.form.controls.discount.setValue(0);
       const expectedDiscount: QuoteDiscount = {
         discountRate: component.form.controls.discount.value,
-        discountType: QuoteDiscountType.ABSOLUTE,
+        discountType: QuoteDiscountType.PERCENT,
       };
       component.onApply(QUOTE_CODE);
       expect(quoteFacade.addDiscount).toHaveBeenCalledWith(

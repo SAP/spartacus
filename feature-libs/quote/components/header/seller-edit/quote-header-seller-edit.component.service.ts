@@ -130,23 +130,6 @@ export class QuoteHeaderSellerEditComponentService {
     );
   }
 
-  /**
-   * Retrieves maximum number of decimal places. This supports validation, but it is not sufficient to do a complete validation,
-   * cases where the granted discount exceeds the total quote value by 1 are not covered (covered in OCC call).
-   * Still we want to inform the user as early as possible.
-   * Note that we assume currencies always come with 2 decimal places. In case this is not desired, this service can be overridden.
-   * @param quote - Quote
-   * @returns Maximum number of places, including 2 decimal places
-   */
-  getMaximumNumberOfTotalPlaces(quote: Quote): number {
-    const numberOfDecimalPlaces = 2;
-    const maximum = Math.max(
-      quote.totalPrice.value ?? 1,
-      quote.quoteDiscounts?.value ?? 1
-    );
-    return Math.floor(Math.log10(maximum)) + 1 + numberOfDecimalPlaces;
-  }
-
   protected checkAndReportPercentageSignIfMissing(
     locale: string,
     formatter: Intl.NumberFormat,
