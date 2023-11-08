@@ -133,7 +133,7 @@ export class OpfCtaScriptsService {
     return this.getOrderDetails(scriptLocation).pipe(
       map((order) => {
         const ctaScriptsRequest: CtaScriptsRequest = {
-          orderId: order?.code,
+          orderId: order?.paymentInfo?.id,
           ctaProductItems: this.getProductItems(order as Order),
           paymentAccountIds: paymentAccountIds,
           scriptLocations: [scriptLocation],
