@@ -287,6 +287,23 @@ describe('QuoteActionsConfirmDialogComponent', () => {
       );
     });
 
+    it("should contain div element with class name 'cx-visually-hidden' and 'role' attribute that indicates that the appeared modal requires the user's attention", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'div',
+          'cx-visually-hidden',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'alert'
+      );
+    });
+
     it("should contain action div element with class name 'cx-visually-hidden' and 'aria-atomic' attribute that indicates whether a screen reader will present all changed region", () => {
       const element =
         CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
