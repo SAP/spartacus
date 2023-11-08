@@ -16,6 +16,7 @@ export interface QuoteUIConfigFragment {
   maxCharsForComments?: number;
   truncateCardTileContentAfterNumChars?: number;
   confirmActionDialogMapping?: ConfirmActionDialogMappingConfig;
+  maximumDecimalsForPercentageDiscount?: number;
   updateDebounceTime?: {
     expiryDate?: number;
   };

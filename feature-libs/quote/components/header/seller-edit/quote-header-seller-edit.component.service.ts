@@ -11,6 +11,7 @@ import { LanguageService, TimeUtils } from '@spartacus/core';
 import { Quote, QuoteState } from '@spartacus/quote/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { QuoteUIConfig } from '../../config/quote-ui.config';
 
 export type LocalizationElements = {
   locale: string;
@@ -24,6 +25,8 @@ export type LocalizationElements = {
 @Injectable({ providedIn: 'root' })
 export class QuoteHeaderSellerEditComponentService {
   protected languageService = inject(LanguageService);
+  protected quoteUIConfig = inject(QuoteUIConfig);
+  private readonly maximumDecimalsForPercentageDiscountDefault = 8;
 
   /**
    * Parses a discount value to numeric format.
@@ -63,7 +66,7 @@ export class QuoteHeaderSellerEditComponentService {
       map((locale) => {
         const formatter = new Intl.NumberFormat(locale, {
           style: 'percent',
-          maximumFractionDigits: 3,
+          maximumFractionDigits: this.retrieveMaxNumberOfDecimalPlaces(),
         });
         const symbol = formatter
           .formatToParts(0)
@@ -193,7 +196,7 @@ export class QuoteHeaderSellerEditComponentService {
       return this.createValidationError(true);
     }
     return this.createValidationError(
-      this.performValidationAccordingToMetaData(
+      this.performValidationForPercentageValue(
         input,
         groupingSeparator,
         decimalSeparator
@@ -207,13 +210,26 @@ export class QuoteHeaderSellerEditComponentService {
     return isError ? { wrongFormat: {} } : null;
   }
 
-  protected performValidationAccordingToMetaData(
+  /**
+   * Returns maximum number of decimal places for the percentage discount.
+   * The value is read from the configuration, refer to attribute quote/maximumDecimalsForPercentageDiscount.
+   * In case this configuration is not present, default value is 8
+   *
+   * @returns Maximum number of decimal places for percentage discount
+   */
+  protected retrieveMaxNumberOfDecimalPlaces() {
+    return (
+      this.quoteUIConfig?.quote?.maximumDecimalsForPercentageDiscount ??
+      this.maximumDecimalsForPercentageDiscountDefault
+    );
+  }
+
+  protected performValidationForPercentageValue(
     input: string,
     groupingSeparator: string,
     decimalSeparator: string
   ): boolean {
-    //TODO CHHI Make this more explicit and easier to extend
-    const numberDecimalPlaces = 3;
+    const numberDecimalPlaces = this.retrieveMaxNumberOfDecimalPlaces();
     const regexEscape = '\\';
     const search: RegExp = new RegExp(regexEscape + groupingSeparator, 'g');
     const woGrouping = input.replace(search, '');

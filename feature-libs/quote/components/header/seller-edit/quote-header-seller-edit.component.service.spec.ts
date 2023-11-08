@@ -9,6 +9,7 @@ import {
   EXPIRATION_TIME_AS_STRING,
   createEmptyQuote,
 } from '../../../core/testing/quote-test-utils';
+import { QuoteUIConfig } from '../../config/quote-ui.config';
 import { QuoteHeaderSellerEditComponentService } from './quote-header-seller-edit.component.service';
 
 const TOTAL_PRICE = 1000;
@@ -18,6 +19,13 @@ class MockLanguageService {
     return of('en');
   }
 }
+const maximumDecimalsForPercentageDiscount = 10;
+
+const quoteUIConfig: QuoteUIConfig = {
+  quote: {
+    maximumDecimalsForPercentageDiscount: maximumDecimalsForPercentageDiscount,
+  },
+};
 
 describe('QuoteHeaderSellerEditComponentService', () => {
   let classUnderTest: QuoteHeaderSellerEditComponentService;
@@ -25,7 +33,13 @@ describe('QuoteHeaderSellerEditComponentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: LanguageService, useClass: MockLanguageService }],
+      providers: [
+        { provide: LanguageService, useClass: MockLanguageService },
+        {
+          provide: QuoteUIConfig,
+          useValue: quoteUIConfig,
+        },
+      ],
     }).compileComponents();
   });
 
@@ -146,10 +160,10 @@ describe('QuoteHeaderSellerEditComponentService', () => {
     });
   });
 
-  describe('performValidationAccordingToMetaData', () => {
+  describe('performValidationForPercentageValue', () => {
     it('should accept input according to group and decimal separators', () => {
       expect(
-        classUnderTest['performValidationAccordingToMetaData'](
+        classUnderTest['performValidationForPercentageValue'](
           '33,76%',
           '.',
           ','
@@ -158,7 +172,7 @@ describe('QuoteHeaderSellerEditComponentService', () => {
     });
     it('should accept input even if a grouping separator is present somewhere', () => {
       expect(
-        classUnderTest['performValidationAccordingToMetaData'](
+        classUnderTest['performValidationForPercentageValue'](
           '3.3,7.6%',
           '.',
           ','
@@ -167,7 +181,7 @@ describe('QuoteHeaderSellerEditComponentService', () => {
     });
     it('should not accept input with 2 decimal separators', () => {
       expect(
-        classUnderTest['performValidationAccordingToMetaData'](
+        classUnderTest['performValidationForPercentageValue'](
           '1,000,76',
           '.',
           ','
@@ -194,7 +208,7 @@ describe('QuoteHeaderSellerEditComponentService', () => {
       form.controls.discount.setValue('A');
       expect(
         classUnderTest
-          .getNumberFormatValidator('en', 'USD')
+          .getNumberFormatValidator('en', '%')
           .apply({}, [form.controls.discount])
       ).toBeTruthy();
     });
@@ -203,9 +217,24 @@ describe('QuoteHeaderSellerEditComponentService', () => {
       form.controls.discount.setValue(undefined);
       expect(
         classUnderTest
-          .getNumberFormatValidator('en', 'USD')
+          .getNumberFormatValidator('en', '%')
           .apply({}, [form.controls.discount])
       ).toBeFalsy();
+    });
+  });
+
+  describe('retrieveMaxNumberOfDecimalPlaces', () => {
+    it('should return the number of decimal places from configuration', () => {
+      expect(classUnderTest['retrieveMaxNumberOfDecimalPlaces']()).toBe(
+        maximumDecimalsForPercentageDiscount
+      );
+    });
+
+    it('should return the number of decimal places as component default if configuration is not present', () => {
+      quoteUIConfig.quote = undefined;
+      expect(classUnderTest['retrieveMaxNumberOfDecimalPlaces']()).toBe(
+        classUnderTest['maximumDecimalsForPercentageDiscountDefault']
+      );
     });
   });
 });

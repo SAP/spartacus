@@ -73,7 +73,7 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   addDiscount = createSpy();
   editQuote = createSpy();
 }
-
+let quoteIsEditable = true;
 class MockQuoteHeaderSellerEditComponentService {
   parseDiscountValue() {
     return of(0);
@@ -94,7 +94,7 @@ class MockQuoteHeaderSellerEditComponentService {
     };
   }
   isEditable(): boolean {
-    return true;
+    return quoteIsEditable;
   }
   addTimeToDate(): string {
     return EXPIRATION_TIME_AS_STRING;
@@ -166,6 +166,7 @@ describe('QuoteHeaderSellerEditComponent', () => {
     quoteFacade = TestBed.inject(QuoteFacade);
     mockQuote.quoteDiscounts = {};
     mockQuoteDetails$.next(mockQuote);
+    quoteIsEditable = true;
   });
 
   it('should create component', () => {
@@ -180,7 +181,7 @@ describe('QuoteHeaderSellerEditComponent', () => {
   });
 
   describe('quoteDetailsForSeller$ observable', () => {
-    it('should emit data in case seller status is provided', () => {
+    it('should emit data in case it is editable for seller', () => {
       component.quoteDetailsForSeller$
         .subscribe((quote) => {
           expect(quote).toBe(mockQuote);
@@ -188,15 +189,10 @@ describe('QuoteHeaderSellerEditComponent', () => {
         .unsubscribe();
     });
 
-    it('should not emit data in case quote belongs to buyer', () => {
-      mockQuote.state = QuoteState.BUYER_DRAFT;
-      mockQuoteDetails$.next(mockQuote);
-      fixture = TestBed.createComponent(QuoteHeaderSellerEditComponent);
-      component = fixture.componentInstance;
-      //fixture.detectChanges();
-      expect(component.quoteDetailsForSeller$).toBeObservable(
-        cold('a', { a: mockQuote })
-      );
+    it('should not emit data in case quote is not editable for seller', () => {
+      quoteIsEditable = false;
+
+      expect(component.quoteDetailsForSeller$).toBeObservable(cold(''));
     });
   });
 
@@ -261,6 +257,23 @@ describe('QuoteHeaderSellerEditComponent', () => {
         QUOTE_CODE,
         expectedDiscount
       );
+    });
+
+    it('should call corresponding facade method once even if multiple invocations occur', () => {
+      component.form.controls.discount.setValue(0);
+      component.onApply(QUOTE_CODE);
+      expect(quoteFacade.addDiscount).toHaveBeenCalledTimes(1);
+      component.onApply(QUOTE_CODE);
+      expect(quoteFacade.addDiscount).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call corresponding facade again after quoteDetailsForSeller$ has emitted', () => {
+      component.form.controls.discount.setValue(0);
+      component.onApply(QUOTE_CODE);
+      expect(quoteFacade.addDiscount).toHaveBeenCalledTimes(1);
+      fixture.detectChanges();
+      component.onApply(QUOTE_CODE);
+      expect(quoteFacade.addDiscount).toHaveBeenCalledTimes(2);
     });
   });
 
