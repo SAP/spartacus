@@ -5,7 +5,7 @@
  */
 
 import * as quote from '../../../../helpers/quote';
-import * as cart from '../../../../helpers/cart';
+import * as configuration from '../../../../helpers/product-configurator';
 import * as configurationVc from '../../../../helpers/product-configurator-vc';
 import * as configurationOverview from '../../../../helpers/product-configurator-overview';
 
@@ -33,8 +33,7 @@ context('Quote<->Configurator integration', () => {
     quote.login(EMAIL, PASSWORD, USER);
     // add a product - so that it is guaranteed that clear cart link is available
     quote.addProductToCart(TEST_PRODUCT_NON_CONFIGURABLE, '1');
-    cart.clearActiveCart();
-    cart.validateEmptyCart();
+    quote.clearActiveCart();
     quote.logout();
   });
 
@@ -47,25 +46,17 @@ context('Quote<->Configurator integration', () => {
     it('should not allow to request quote if the configuration has issues', () => {
       quote.addProductToCart(TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES, '1');
       quote.clickOnRequestQuote(true);
-
-      //we are still in cart, for now just check that
-      //TODO check for messages once https://jira.tools.sap/browse/CXSPA-4079 is done
-      cy.get('cx-cart-details').should('exist');
-
-      //remove conflicting entry
-      cart.removeCartItem({ name: TEST_PRODUCT_CONFIGURABLE_WITH_ISSUES });
+      quote.clearActiveCart();
     });
 
     it('should support creation of a draft quote including VC configurable product (CXSPA-4158)', () => {
-      configurationVc.registerConfigurationUpdateRoute();
       quote.prepareQuote(TEST_PRODUCT_CONFIGURABLE, 1, false);
       quote.checkTotalEstimatedPrice('$270.00');
       quote.clickOnEditConfigurationLink(1);
-      configurationVc.selectAttributeAndWait(
+      configuration.selectAttribute(
         CONF_BS_THROATWIDTH,
         radioGroup,
-        CONF_BS_LARGEWIDTH,
-        false
+        CONF_BS_LARGEWIDTH
       );
       configurationVc.clickAddToCartBtn();
       configurationOverview.clickContinueToCartBtnOnOPAndExpectQuote();

@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
 import { Card, CardComponent, CardLinkAction } from './card.component';
+import { FocusDirective } from '@spartacus/storefront';
 
 @Directive({
   selector: '[cxAtMessage]',
@@ -52,9 +53,9 @@ describe('CardComponent', () => {
         imports: [I18nTestingModule],
         declarations: [
           CardComponent,
-          MockAtMessageDirective,
-          MockFocusDirective,
           MockCxIconComponent,
+          MockAtMessageDirective,
+          FocusDirective,
           MockCxTruncateTextPopoverComponent,
         ],
       }).compileComponents();
