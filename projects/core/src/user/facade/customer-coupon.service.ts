@@ -218,6 +218,13 @@ export class CustomerCouponService {
   }
 
   /**
+   * Resets the processing state for customer coupon
+   */
+  resetDisclaimCustomerCoupon(): void {
+    this.store.dispatch(new UserActions.ResetDisclaimCustomerCoupon());
+  }
+
+  /**
    * Returns the claim customer coupon notification process success flag
    */
   getClaimCustomerCouponResultSuccess(): Observable<boolean> {

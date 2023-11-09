@@ -1,9 +1,6 @@
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LaunchDialogService } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
-
-import createSpy = jasmine.createSpy;
-import { MyAccountV2DownloadInvoicesComponent } from './my-account-v2-download-invoices.component';
+import { By } from '@angular/platform-browser';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
@@ -13,15 +10,22 @@ import {
   Translatable,
   TranslationService,
 } from '@spartacus/core';
-import { ChangeDetectorRef } from '@angular/core';
-import { By } from '@angular/platform-browser';
-import { InvoicesListComponent } from '@spartacus/pdf-invoices/components';
 import { PDFInvoicesModule } from '@spartacus/pdf-invoices';
+import { InvoicesListComponent } from '@spartacus/pdf-invoices/components';
 import {
   InvoiceQueryParams,
   OrderInvoiceList,
   PDFInvoicesFacade,
 } from '@spartacus/pdf-invoices/root';
+import {
+  ICON_TYPE,
+  KeyboardFocusTestingModule,
+  LaunchDialogService,
+} from '@spartacus/storefront';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { MyAccountV2DownloadInvoicesComponent } from './my-account-v2-download-invoices.component';
+
+import createSpy = jasmine.createSpy;
 
 const invoiceCount = 4;
 const invoicesEvent = {
@@ -69,6 +73,21 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
   remove(_: GlobalMessageType, __?: number): void {}
 }
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockSpinnerComponent {}
+
 describe('MyAccountV2DownloadInvoicesComponent', () => {
   let component: MyAccountV2DownloadInvoicesComponent;
   let fixture: ComponentFixture<MyAccountV2DownloadInvoicesComponent>;
@@ -78,7 +97,7 @@ describe('MyAccountV2DownloadInvoicesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nModule, PDFInvoicesModule],
+      imports: [I18nModule, PDFInvoicesModule, KeyboardFocusTestingModule],
       providers: [
         ChangeDetectorRef,
         { provide: LanguageService, useClass: MockLanguageService },
@@ -90,6 +109,8 @@ describe('MyAccountV2DownloadInvoicesComponent', () => {
       declarations: [
         MyAccountV2DownloadInvoicesComponent,
         InvoicesListComponent,
+        MockCxIconComponent,
+        MockSpinnerComponent,
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(MyAccountV2DownloadInvoicesComponent);

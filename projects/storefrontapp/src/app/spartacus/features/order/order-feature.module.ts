@@ -11,7 +11,7 @@ import {
   orderTranslations,
 } from '@spartacus/order/assets';
 import {
-  MY_ACCOUNT_V2_ORDER,
+  USE_MY_ACCOUNT_V2_ORDER,
   OrderRootModule,
   ORDER_FEATURE,
 } from '@spartacus/order/root';
@@ -28,7 +28,7 @@ import { environment } from '../../../../environments/environment';
       },
     }),
     {
-      provide: MY_ACCOUNT_V2_ORDER,
+      provide: USE_MY_ACCOUNT_V2_ORDER,
       useValue: environment.myAccountV2,
     },
     provideConfig(<I18nConfig>{

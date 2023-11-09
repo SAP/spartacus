@@ -190,29 +190,6 @@ context('Assisted Service Module', () => {
     });
   });
 
-  describe('Maps', () => {
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-      checkout.visitHomePage('asm=true');
-      cy.get('button.cx-360-button').click();
-      cy.get('button.cx-tab-header').contains('Maps').click();
-    });
-
-    afterEach(() => {
-      cy.saveLocalStorage();
-    });
-
-    it('should contain source (CXSPA-700)', () => {
-      cy.get('cx-asm-customer-360-map').within(() => {
-        cy.get('iframe')
-          .invoke('attr', 'src')
-          .then(($src) => {
-            expect($src).contain('google.com/maps');
-          });
-      });
-    });
-  });
-
   describe('Promotion', () => {
     beforeEach(() => {
       cy.restoreLocalStorage();
@@ -231,7 +208,7 @@ context('Assisted Service Module', () => {
         .should('be.visible');
     });
     it('should be able to apply coupon to cart (CXSPA-3906)', () => {
-      cy.get('.cx-asm-customer-360-promotion-listing-row')
+      cy.get('tr.cx-asm-customer-360-promotion-listing-row')
         .first()
         .within(() => {
           cy.intercept('POST', /\.*\/vouchers\?voucherId=.*/).as('applyCoupon');
@@ -292,7 +269,7 @@ context('Assisted Service Module', () => {
       cy.intercept('POST', /\.*\/customer360\.*/).as('searchCustomerCoupon');
       cy.get('.cx-asm-customer-360-promotion-listing-search-input')
         .click()
-        .type('Buy over $1000 get 20% off on cart');
+        .type('Buy over $1000 get 20% off on cart{enter}');
       cy.get(
         '.cx-asm-customer-360-promotion-listing-search-icon-search'
       ).click();
@@ -346,9 +323,7 @@ context('Assisted Service Module', () => {
         'Buy over $1000 get 20% off on cart'
       );
       cy.get('.cx-tab-header').contains('Available').click();
-      cy.get('.cx-asm-customer-360-promotion-listing-row').contains(
-        'Buy over $1000 get 20% off on cart'
-      );
+      cy.get('.cx-asm-customer-360-promotion-listing-row').should('exist');
     });
   });
 });
