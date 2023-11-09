@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -54,7 +54,7 @@ describe('BlobErrorInterceptor', () => {
       .get('/occ', { responseType: 'blob' as 'json' })
       .pipe(take(1))
       .subscribe({
-        error: (err) => {
+        error: (err: HttpErrorResponse) => {
           expect(err.status).toEqual(401);
           expect(err.error.errors[0].type).toEqual('InvalidTokenError');
         },

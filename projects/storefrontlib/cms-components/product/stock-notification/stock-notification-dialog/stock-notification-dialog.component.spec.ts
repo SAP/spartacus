@@ -13,6 +13,7 @@ import { Observable, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { LaunchDialogService } from '../../../../layout/launch-dialog/services/index';
+import { FocusDirective } from '@spartacus/storefront';
 
 describe('StockNotificationDialogComponent', () => {
   let component: StockNotificationDialogComponent;
@@ -44,7 +45,7 @@ describe('StockNotificationDialogComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [StockNotificationDialogComponent],
+        declarations: [StockNotificationDialogComponent, FocusDirective],
         imports: [
           I18nTestingModule,
           RouterTestingModule,
