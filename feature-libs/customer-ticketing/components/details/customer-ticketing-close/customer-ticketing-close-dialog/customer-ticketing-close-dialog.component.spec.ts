@@ -5,10 +5,18 @@ import {
   STATUS,
   STATUS_NAME,
 } from '@spartacus/customer-ticketing/root';
-import { LaunchDialogService } from '@spartacus/storefront';
-import { EMPTY } from 'rxjs';
+import {
+  FocusConfig,
+  FormErrorsModule,
+  ICON_TYPE,
+  LaunchDialogService,
+  MessagingConfigs,
+} from '@spartacus/storefront';
+import { EMPTY, Observable } from 'rxjs';
 import { CustomerTicketingCloseDialogComponent } from './customer-ticketing-close-dialog.component';
 import createSpy = jasmine.createSpy;
+import { Component, Directive, Input } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
@@ -22,6 +30,30 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
+@Component({
+  selector: 'cx-messaging',
+})
+class MockCxMessagingComponent {
+  @Input() messageEvents$: Observable<Array<MessageEvent>>;
+  @Input() scrollToInput?: boolean = true;
+  @Input() messagingConfigs?: MessagingConfigs;
+}
+
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockKeyboadFocusDirective {
+  @Input('cxFocus') config: FocusConfig = {};
+}
+
 describe('CustomerTicketingCloseDialogComponent', () => {
   let component: CustomerTicketingCloseDialogComponent;
   let fixture: ComponentFixture<CustomerTicketingCloseDialogComponent>;
@@ -29,8 +61,13 @@ describe('CustomerTicketingCloseDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CustomerTicketingCloseDialogComponent],
+      imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
+      declarations: [
+        CustomerTicketingCloseDialogComponent,
+        MockCxIconComponent,
+        MockCxMessagingComponent,
+        MockKeyboadFocusDirective,
+      ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
