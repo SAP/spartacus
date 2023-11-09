@@ -132,6 +132,9 @@ export class OpfCtaScriptsService {
   ): Observable<CtaScriptsRequest> {
     return this.getOrderDetails(scriptLocation).pipe(
       map((order) => {
+        if (!order?.paymentInfo?.id) {
+          throw new Error('OrderPaymentInfoId missing');
+        }
         const ctaScriptsRequest: CtaScriptsRequest = {
           orderId: order?.paymentInfo?.id,
           ctaProductItems: this.getProductItems(order as Order),

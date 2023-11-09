@@ -259,6 +259,9 @@ describe('OpfCtaScriptsService', () => {
 
   const mockOrder: Order = {
     code: 'mockOrder',
+    paymentInfo: {
+      id: 'mockPaymentInfoId',
+    },
     entries: [
       {
         product: {
