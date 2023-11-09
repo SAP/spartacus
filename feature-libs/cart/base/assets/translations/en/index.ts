@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { cart } from './cart.i18n';
+import cart from './cart.json';
 
 export const en = {
   cart,

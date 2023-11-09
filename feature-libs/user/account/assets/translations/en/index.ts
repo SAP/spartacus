@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { userAccount } from './user-account';
+import userAccount from './userAccount.json';
 
 export const en = {
   userAccount,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { checkout } from './checkout.i18n';
+import checkout from './checkout.json';
 
 export const en = {
   checkout,

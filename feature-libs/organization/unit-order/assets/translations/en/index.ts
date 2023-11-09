@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { unitOrder } from './unit-order.i18n';
+import unitOrder from './unitOrder.json';
 
 export const en = {
   unitOrder,

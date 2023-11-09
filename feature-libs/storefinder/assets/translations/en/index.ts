@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { storeFinder } from './store-finder';
+import storeFinder from './storeFinder.json';
 
 export const en = {
   storeFinder,

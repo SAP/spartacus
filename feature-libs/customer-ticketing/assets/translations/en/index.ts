@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { customerTicketing } from './customer-ticketing';
-import { myAccountV2CustomerTicketing } from './my-account-v2-customer-ticketing';
+import customerTicketing from './customerTicketing.json';
+import myAccountV2CustomerTicketing from './myAccountV2CustomerTicketing.json';
 
 export const en = {
   customerTicketing,

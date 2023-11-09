@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { wishlist } from './wish-list.i18n';
+import wishlist from './wishlist.json';
 
 export const en = {
   wishlist,

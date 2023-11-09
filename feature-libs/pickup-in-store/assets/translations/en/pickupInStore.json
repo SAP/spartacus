@@ -1,0 +1,84 @@
+{
+  "pickupInfo": {
+    "inStorePickup": "In Store Pickup",
+    "pickupBy": "Pick up by",
+    "pickupFrom": "Pick up from"
+  },
+  "pickupOptionDialog": {
+    "close": "Close",
+    "modalHeader": "Pickup in Store"
+  },
+  "pickupOptions": {
+    "changeStore": "Change Store",
+    "delivery": "Ship It (Free Return)",
+    "pickup": "Free Pickup In Store",
+    "selectStore": "Select Store"
+  },
+  "setPreferredStore": {
+    "makeThisMyStore": "Make This My Store",
+    "myStore": "My Store"
+  },
+  "store": {
+    "pickupFromHere": "Pick Up from here",
+    "stockLevel_inStock": "{{ count }} in Stock",
+    "stockLevel_outOfStock": "Out of Stock",
+    "viewHours": "View Hours"
+  },
+  "storeList": {
+    "noStoresMessage": "No stores found in database..."
+  },
+  "storeSchedule": {
+    "closed": "Closed",
+    "storeHours": "Store hours"
+  },
+  "storeSearch": {
+    "findAStore": "Find a Store",
+    "findStores": "Find Stores",
+    "hideOutOfStockOptions": "Hide out of stock options",
+    "searchPlaceholder": "Enter Zip Code, Town or Address",
+    "useMyLocation": "Use my location"
+  },
+  "addressBookPickupInStore": {
+    "heading": "Pick-Up Store"
+  },
+  "storeFinderPickupInStore": {
+    "heading": "My Store"
+  },
+  "checkoutPickupInStore": {
+    "heading": "Items to be Picked Up",
+    "storeItemHeading": "Pick Up Store Address"
+  },
+  "cartItems": {
+    "item": "Item"
+  },
+  "deliveryPointOfServiceDetails": {
+    "itemsToBePickUp": "Items To Be Pick-Up",
+    "pickUpInStoreAddress": "Pick Up Store Address",
+    "itemsToBeShipped": "Items To Be Shipped",
+    "shippingAddress": "Shipping Address",
+    "deliveryMethod": "Delivery Method",
+    "statusDisplay_cancelled": "Cancelled",
+    "statusDisplay_cancelling": "Cancel Pending",
+    "statusDisplay_completed": "Completed",
+    "statusDisplay_created": "Created",
+    "statusDisplay_error": "Pending",
+    "statusDisplay_Error": "Pending",
+    "statusDisplay_processing": "Pending",
+    "statusDisplay_open": "Open",
+    "statusDisplay_pending": {
+      "approval": "Pending Approval",
+      "merchant": {
+        "approval": "Pending Merchant Approval"
+      }
+    },
+    "statusDisplay_approved": "Approved",
+    "statusDisplay_rejected": "Rejected",
+    "statusDisplay_merchant": {
+      "approved": "Merchant Approved",
+      "rejected": "Merchant Rejected"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Assigned To Administrator"
+    }
+  }
+}
