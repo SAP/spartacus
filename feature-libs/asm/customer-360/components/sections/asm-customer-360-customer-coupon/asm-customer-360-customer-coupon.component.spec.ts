@@ -152,6 +152,8 @@ describe('AsmCustomer360CouponComponent', () => {
     claimCustomerCoupon(_couponCode: string): void {}
 
     disclaimCustomerCoupon(_couponCode: string): void {}
+
+    resetDisclaimCustomerCoupon(): void {}
   }
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -246,8 +248,12 @@ describe('AsmCustomer360CouponComponent', () => {
 
   it('should be able to remove customer coupon from customer', () => {
     spyOn(customerCouponService, 'disclaimCustomerCoupon').and.stub();
+    spyOn(customerCouponService, 'resetDisclaimCustomerCoupon').and.stub();
     mockCustomerCouponEntryList[0].applied = true;
     component.disclaimCouponToCustomer(mockCustomerCouponEntryList[0]);
+    expect(
+      customerCouponService.resetDisclaimCustomerCoupon
+    ).toHaveBeenCalled();
     expect(customerCouponService.disclaimCustomerCoupon).toHaveBeenCalled();
     component.entries$.subscribe((entries) => {
       expect(entries[1].applied).toBe(false);
