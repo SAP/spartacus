@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// TODO: Do not run on core (only for testing)
+
 import { SSR_E2E_PLP_SCENARIOS } from '../../helpers/ssr/product-listing-page';
 
 /**
@@ -19,16 +21,18 @@ const scenarios = SSR_E2E_PLP_SCENARIOS;
 describe('SSR - Product Listing Page', () => {
   describe('search request should only be made once and NOT on page reload', () => {
     for (let scenario of scenarios) {
-      it(scenario.case, () => {
-        cy.intercept(SEARCH_REQUEST_URL).as('search-init');
-        cy.visit(scenario.url);
-        cy.wait('@search-init');
+      if (!scenario.skipReloadTest) {
+        it(scenario.case, () => {
+          cy.intercept(SEARCH_REQUEST_URL).as('search-init');
+          cy.visit(scenario.url);
+          cy.wait('@search-init');
 
-        cy.intercept(SEARCH_REQUEST_URL, cy.spy().as('search-2nd'));
-        cy.reload();
-        cy.get('cx-product-list');
-        cy.get('@search-2nd').should('not.have.been.called');
-      });
+          cy.intercept(SEARCH_REQUEST_URL, cy.spy().as('search-2nd'));
+          cy.reload();
+          cy.get('cx-product-list');
+          cy.get('@search-2nd').should('not.have.been.called');
+        });
+      }
     }
   });
 
@@ -38,16 +42,25 @@ describe('SSR - Product Listing Page', () => {
     () => {
       before(() => {
         // Begin at first scenario url
-        cy.visit(scenarios[0].url);
       });
 
-      for (let scenario of scenarios) {
+      for (let i = 0; i < scenarios.length; i++) {
+        const scenario = scenarios[i];
+        const previous = scenarios[i - 1];
         it(scenario.case, () => {
+          // Visit whenever no next step from previous scenario to begin from new search type.
+          if (!previous?.navigateToNext) {
+            cy.visit(scenarios[i].url);
+          }
+
           cy.get('cx-product-list');
           cy.url().should('contain', scenario.url);
-          cy.intercept(SEARCH_REQUEST_URL).as('search');
-          scenario.navigateToNext();
-          cy.wait('@search');
+
+          if (scenario.navigateToNext) {
+            cy.intercept(SEARCH_REQUEST_URL).as('search');
+            scenario.navigateToNext();
+            cy.wait('@search');
+          }
         });
       }
     }
