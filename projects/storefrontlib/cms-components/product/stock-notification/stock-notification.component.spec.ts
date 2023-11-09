@@ -30,6 +30,7 @@ import { StockNotificationComponent } from './stock-notification.component';
 
 import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/index';
 import { LaunchDialogService } from '../../../layout/launch-dialog/services/index';
+import { FocusDirective } from '@spartacus/storefront';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -125,6 +126,7 @@ describe('StockNotificationComponent', () => {
           StockNotificationComponent,
           StockNotificationDialogComponent,
           MockUrlPipe,
+          FocusDirective,
         ],
         providers: [
           { provide: UserIdService, useValue: userIdService },

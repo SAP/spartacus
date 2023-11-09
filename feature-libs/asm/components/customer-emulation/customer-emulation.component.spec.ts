@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { Component, DebugElement, Injectable } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -21,7 +21,7 @@ describe('CustomerEmulationComponent', () => {
       return of({});
     }
   }
-
+  @Injectable()
   class MockAsmComponentService {
     logoutCustomer(): void {}
     isCustomerEmulationSessionInProgress(): Observable<boolean> {
@@ -29,6 +29,12 @@ describe('CustomerEmulationComponent', () => {
     }
     handleAsmDialogAction(): void {}
   }
+
+  @Component({
+    selector: 'cx-asm-bind-cart',
+    template: '',
+  })
+  class MockAsmBindCartComponent {}
 
   const dialogClose$ = new BehaviorSubject<any>('');
   class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -58,7 +64,11 @@ describe('CustomerEmulationComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, FeaturesConfigModule],
-        declarations: [CustomerEmulationComponent, MockFeatureLevelDirective],
+        declarations: [
+          CustomerEmulationComponent,
+          MockFeatureLevelDirective,
+          MockAsmBindCartComponent,
+        ],
         providers: [
           {
             provide: FeatureModulesService,
@@ -109,7 +119,7 @@ describe('CustomerEmulationComponent', () => {
     expect(el.query(By.css('dev.fd-alert'))).toBeFalsy();
   });
 
-  it("should call logoutCustomer() on 'End Emulation' button click", () => {
+  it("should call logoutCustomer() on 'End Session' button click", () => {
     //customer login
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
     spyOn(userAccountFacade, 'get').and.returnValue(of(testUser));

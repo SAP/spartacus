@@ -1,4 +1,4 @@
-import { ElementRef, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, Input, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
@@ -7,7 +7,11 @@ import {
   STATUS_NAME,
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import {
+  LaunchDialogService,
+  LAUNCH_CALLER,
+  ICON_TYPE,
+} from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -44,6 +48,14 @@ class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
   }
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
 describe('CustomerTicketingCloseComponent', () => {
   let component: CustomerTicketingCloseComponent;
   let fixture: ComponentFixture<CustomerTicketingCloseComponent>;
@@ -52,7 +64,7 @@ describe('CustomerTicketingCloseComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [CustomerTicketingCloseComponent],
+      declarations: [CustomerTicketingCloseComponent, MockCxIconComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {

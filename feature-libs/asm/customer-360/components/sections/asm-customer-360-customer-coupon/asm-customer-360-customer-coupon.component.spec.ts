@@ -13,9 +13,18 @@ import { AsmCustomer360CustomerCouponComponent } from './asm-customer-360-custom
 import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
 import { CustomerCouponEntry } from './asm-customer-360-customer-coupon.model';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 describe('AsmCustomer360CouponComponent', () => {
+  @Component({
+    selector: 'cx-icon',
+    template: '',
+  })
+  class MockCxIconComponent {
+    @Input() type: ICON_TYPE;
+  }
+
   let customerCouponService: CustomerCouponService;
   let component: AsmCustomer360CustomerCouponComponent;
   let fixture: ComponentFixture<AsmCustomer360CustomerCouponComponent>;
@@ -143,6 +152,8 @@ describe('AsmCustomer360CouponComponent', () => {
     claimCustomerCoupon(_couponCode: string): void {}
 
     disclaimCustomerCoupon(_couponCode: string): void {}
+
+    resetDisclaimCustomerCoupon(): void {}
   }
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -150,6 +161,7 @@ describe('AsmCustomer360CouponComponent', () => {
       declarations: [
         AsmCustomer360CustomerCouponComponent,
         AsmCustomer360PromotionListingComponent,
+        MockCxIconComponent,
       ],
       providers: [
         AsmCustomer360SectionContextSource,
@@ -236,8 +248,12 @@ describe('AsmCustomer360CouponComponent', () => {
 
   it('should be able to remove customer coupon from customer', () => {
     spyOn(customerCouponService, 'disclaimCustomerCoupon').and.stub();
+    spyOn(customerCouponService, 'resetDisclaimCustomerCoupon').and.stub();
     mockCustomerCouponEntryList[0].applied = true;
     component.disclaimCouponToCustomer(mockCustomerCouponEntryList[0]);
+    expect(
+      customerCouponService.resetDisclaimCustomerCoupon
+    ).toHaveBeenCalled();
     expect(customerCouponService.disclaimCustomerCoupon).toHaveBeenCalled();
     component.entries$.subscribe((entries) => {
       expect(entries[1].applied).toBe(false);
