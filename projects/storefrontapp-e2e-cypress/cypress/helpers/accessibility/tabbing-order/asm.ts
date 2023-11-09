@@ -147,7 +147,7 @@ function lanuchPromotiontab() {
     .its('response.statusCode')
     .should('eq', 200);
   cy.get('cx-customer-selection div.asm-results button').first().click();
-  cy.get('button').contains('Start Emulation').click();
+  cy.get('button').contains('Start Session').click();
   cy.get('button.cx-360-button').click();
   cy.get('button.cx-tab-header').contains('Promotion').click();
 }
