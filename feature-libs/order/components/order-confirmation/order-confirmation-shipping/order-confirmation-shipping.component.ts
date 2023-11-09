@@ -46,7 +46,7 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
     .pipe(
       tap((order) => {
         this.entries = order?.entries?.filter(
-          (entry) => entry.deliveryPointOfService === undefined
+          (entry) => !entry.deliveryPointOfService
         );
       })
     );
