@@ -19,7 +19,9 @@ import { FormService } from '../../shared/form/form.service';
   providedIn: 'root',
 })
 export class UserFormService extends FormService<B2BUser> {
-  protected readonly featureConfigService = inject(FeatureConfigService);
+  protected readonly featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   protected build() {
     const form = new UntypedFormGroup({});
