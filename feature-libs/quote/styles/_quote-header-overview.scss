@@ -123,3 +123,14 @@
     }
   }
 }
+
+html[dir='rtl'] cx-quote-header-overview {
+  .cx-container {
+    .cx-summary-card {
+      .cx-edit-btn {
+        margin-inline-end: 1rem;
+        margin-inline-start: 0;
+      }
+    }
+  }
+}
