@@ -19,7 +19,7 @@ import { take } from 'rxjs/operators';
 })
 export class QuoteListComponent {
   protected quoteListComponentService = inject(QuoteListComponentService);
-  protected translation = inject(TranslationService);
+  protected translationService = inject(TranslationService);
   protected cxDatePipe = inject(CxDatePipe);
 
   sorts = this.quoteListComponentService.sortOptions;
@@ -71,29 +71,30 @@ export class QuoteListComponent {
    * Retrieves an accessibility text for a row in the quote list.
    *
    * @param quote - quote
+   * @returns an accessibility text for a row in the quote list
    */
   getRowTitle(quote: Quote): string {
     let translatedText = '';
     translatedText += quote.name;
     translatedText += ' ';
-    this.translation
+    this.translationService
       .translate('quote.header.overview.id')
       .pipe(take(1))
       .subscribe((text) => (translatedText += text));
     translatedText += ': ';
     translatedText += quote.code;
     translatedText += ' ';
-    this.translation
+    this.translationService
       .translate('quote.header.overview.status')
       .pipe(take(1))
       .subscribe((text) => (translatedText += text));
     translatedText += ': ';
-    this.translation
+    this.translationService
       .translate('quote.states.' + quote.state)
       .pipe(take(1))
       .subscribe((text) => (translatedText += text));
     translatedText += ' ';
-    this.translation
+    this.translationService
       .translate('quote.list.updated')
       .pipe(take(1))
       .subscribe((text) => (translatedText += text));
@@ -103,7 +104,7 @@ export class QuoteListComponent {
       this.dateFormat
     );
     translatedText += ' ';
-    this.translation
+    this.translationService
       .translate('quote.list.clickableRow')
       .pipe(take(1))
       .subscribe((text) => (translatedText += text));
