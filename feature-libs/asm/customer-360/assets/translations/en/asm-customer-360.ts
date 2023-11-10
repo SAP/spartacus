@@ -123,6 +123,7 @@ export const asmCustomer360 = {
     feedbackTab: 'Feedback',
     promotionsTab: 'Promotions',
     mapsTab: 'Maps',
+    storeLocationsTab: 'Store Locations',
     aria: {
       activeCartCode: 'Active Cart {{code}}',
       recentOrderCode: 'Last Order {{code}}',

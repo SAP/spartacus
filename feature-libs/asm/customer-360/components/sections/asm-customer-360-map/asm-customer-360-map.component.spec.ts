@@ -153,14 +153,12 @@ describe('AsmCustomer360MapComponent', () => {
       totalPages: 2,
     });
     expect(component.selectedStore?.displayName).toBe('Boston');
-    expect(component.googleMapsUrl).toBeTruthy();
   });
 
   it('should select a store', () => {
     component.selectStore(stores[1]);
 
     expect(component.selectedStore?.displayName).toBe('New York');
-    expect(component.googleMapsUrl).toBeTruthy();
   });
 
   it('should parse store openings into strings', (done) => {

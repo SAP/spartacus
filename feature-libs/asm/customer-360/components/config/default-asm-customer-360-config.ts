@@ -124,7 +124,7 @@ export const defaultAsmCustomer360Config: AsmCustomer360Config = {
         ],
       },
       {
-        i18nNameKey: 'asmCustomer360.mapsTab',
+        i18nNameKey: 'asmCustomer360.storeLocationsTab',
         components: [
           {
             component: AsmCustomer360MapComponent,

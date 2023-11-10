@@ -190,29 +190,6 @@ context('Assisted Service Module', () => {
     });
   });
 
-  describe('Maps', () => {
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-      checkout.visitHomePage('asm=true');
-      cy.get('button.cx-360-button').click();
-      cy.get('button.cx-tab-header').contains('Maps').click();
-    });
-
-    afterEach(() => {
-      cy.saveLocalStorage();
-    });
-
-    it('should contain source (CXSPA-700)', () => {
-      cy.get('cx-asm-customer-360-map').within(() => {
-        cy.get('iframe')
-          .invoke('attr', 'src')
-          .then(($src) => {
-            expect($src).contain('google.com/maps');
-          });
-      });
-    });
-  });
-
   describe('Promotion', () => {
     beforeEach(() => {
       cy.restoreLocalStorage();

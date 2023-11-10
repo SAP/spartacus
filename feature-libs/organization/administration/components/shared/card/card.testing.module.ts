@@ -13,6 +13,7 @@ import { Component, Input, NgModule } from '@angular/core';
 class MockCardComponent {
   @Input() i18nRoot;
   @Input() previous;
+  @Input() showHint? = false;
 }
 
 @NgModule({

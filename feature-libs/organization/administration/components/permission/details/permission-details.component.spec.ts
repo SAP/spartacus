@@ -15,6 +15,7 @@ import { MessageService } from '../../shared/message/services/message.service';
 import { PermissionDetailsComponent } from './permission-details.component';
 
 import createSpy = jasmine.createSpy;
+import { FocusDirective } from '@spartacus/storefront';
 
 const mockCode = 'p1';
 
@@ -49,7 +50,11 @@ describe('PermissionDetailsComponent', () => {
         ToggleStatusModule,
         DisableInfoModule,
       ],
-      declarations: [PermissionDetailsComponent, ItemExistsDirective],
+      declarations: [
+        PermissionDetailsComponent,
+        ItemExistsDirective,
+        FocusDirective,
+      ],
       providers: [
         {
           provide: ItemService,

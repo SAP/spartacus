@@ -1,6 +1,6 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By, SafeHtml } from '@angular/platform-browser';
+import { By, DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CmsComponent, CmsParagraphComponent } from '@spartacus/core';
@@ -15,18 +15,12 @@ export class MockAnchorPipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'cxSafeHtml' })
-export class MockSafeHtmlPipe implements PipeTransform {
-  public transform(html: string): SafeHtml {
-    return html;
-  }
-}
-
 describe('CmsParagraphComponent in CmsLib', () => {
   let paragraphComponent: ParagraphComponent;
   let fixture: ComponentFixture<ParagraphComponent>;
   let el: DebugElement;
   let router: Router;
+  let domSanitizer: DomSanitizer;
 
   const componentData: CmsParagraphComponent = {
     uid: '001',
@@ -44,16 +38,23 @@ describe('CmsParagraphComponent in CmsLib', () => {
     data$: data$.asObservable(),
   };
 
+  class MockDomSanitizer {
+    bypassSecurityTrustHtml(html = '') {
+      return html;
+    }
+  }
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [RouterTestingModule],
-        declarations: [MockAnchorPipe, ParagraphComponent, MockSafeHtmlPipe],
+        declarations: [MockAnchorPipe, ParagraphComponent],
         providers: [
           {
             provide: CmsComponentData,
             useValue: MockCmsComponentData,
           },
+          { provide: DomSanitizer, useClass: MockDomSanitizer },
         ],
       }).compileComponents();
     })
@@ -63,6 +64,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
     fixture = TestBed.createComponent(ParagraphComponent);
     paragraphComponent = fixture.componentInstance;
     router = TestBed.inject(Router);
+    domSanitizer = TestBed.inject(DomSanitizer);
 
     el = fixture.debugElement;
   });
@@ -141,6 +143,18 @@ describe('CmsParagraphComponent in CmsLib', () => {
       const link = setupLink(url);
       link.click();
       expect(router.navigateByUrl).not.toHaveBeenCalled();
+    });
+
+    it('should call DOM sanitizer', () => {
+      const bypassSecurityTrustHtmlSpy = spyOn(
+        domSanitizer,
+        'bypassSecurityTrustHtml'
+      ).and.callThrough();
+
+      data$.next(componentData);
+      fixture.detectChanges();
+
+      expect(bypassSecurityTrustHtmlSpy).toHaveBeenCalled();
     });
 
     function setupLink(url: string): HTMLLinkElement {

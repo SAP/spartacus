@@ -8,6 +8,7 @@ import * as authentication from './auth-forms';
 import * as common from './common';
 import * as productConfigurator from './product-configurator';
 import * as asm from './asm';
+import * as cart from './cart';
 
 export const READ_QUOTE = '@READ_QUOTE';
 export const UPDATE_QUOTE_ITEM = '@UPDATE_QUOTE_ITEM';
@@ -1393,6 +1394,14 @@ export function addProductAndCheckForGlobalMessage(
     .then(() => {
       this.checkGlobalMessageDisplayed(true, globalMessage);
     });
+}
+
+/**
+ * Clear the active cart and verify the cart is empty.
+ */
+export function clearActiveCart() {
+  cart.clearActiveCart();
+  cart.validateEmptyCart();
 }
 
 /**
