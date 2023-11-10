@@ -116,6 +116,7 @@ export class ProductListComponentService {
           pageSize: results?.pagination?.pageSize,
           sortCode: results?.pagination?.sort,
         };
+
         if (
           checkQueriesDiffer() ||
           checkCurrentPagesDiffer() ||
@@ -131,7 +132,6 @@ export class ProductListComponentService {
             previous.sortCode
           );
           const currentQuery = sanitizeQuery(criteria.query, criteria.sortCode);
-
           return previousQuery !== currentQuery;
 
           // Remove sortCode portion from queries.
@@ -141,14 +141,12 @@ export class ProductListComponentService {
           ): string | undefined {
             const DEFAULT_SORT_CODE = 'relevance';
 
-            if (query) {
-              query = query
-                .replace(':' + DEFAULT_SORT_CODE, '')
-                .replace(DEFAULT_SORT_CODE, '');
+            query = query
+              ?.replace(':' + DEFAULT_SORT_CODE, '')
+              .replace(DEFAULT_SORT_CODE, '');
 
-              if (sortCode) {
-                query = query.replace(':' + sortCode, '').replace(sortCode, '');
-              }
+            if (sortCode) {
+              query = query?.replace(':' + sortCode, '').replace(sortCode, '');
             }
 
             return query;
