@@ -558,7 +558,7 @@ export function testCustomerEmulation() {
 
     cy.log('--> Stop customer emulation');
     cy.get('cx-customer-emulation')
-      .findByText(/End Emulation/i)
+      .findByText(/End Session/i)
       .click();
     cy.get('cx-csagent-login-form').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
@@ -581,7 +581,7 @@ export function testCustomerEmulation() {
       '--> Stop customer emulation using the end emulation button in the ASM UI'
     );
     cy.get('cx-customer-emulation')
-      .findByText(/End Emulation/i)
+      .findByText(/End Session/i)
       .click();
     cy.get('cx-customer-emulation').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
