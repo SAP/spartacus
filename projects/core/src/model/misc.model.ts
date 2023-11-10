@@ -5,6 +5,7 @@
  */
 
 import { Address } from './address.model';
+import { B2BUnit } from '.';
 
 export interface Currency {
   active?: boolean;
@@ -51,6 +52,9 @@ export interface User {
   titleCode?: string;
   uid?: string;
   roles?: string[];
+  orgUnit?: B2BUnit;
+  lastCartId?: string;
+  hasOrder?: boolean;
 }
 
 export interface ListModel {

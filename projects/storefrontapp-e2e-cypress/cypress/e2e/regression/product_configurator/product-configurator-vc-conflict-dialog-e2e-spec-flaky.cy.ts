@@ -18,7 +18,7 @@ context('Product Configuration', () => {
     clickAllowAllFromBanner();
   });
 
-  it('should follow the immediate conflict resolution process', () => {
+  it('should follow the immediate conflict resolution process (CXSPA-1485)', () => {
     configurationVc.clickOnNextBtnAndWait('Specification');
     configurationVc.selectAttributeAndWait('CAMERA_VIEWFINDER', RB, 'E'); // CONFLICT 1
     configurationVc.selectAttributeAndWait('CAMERA_APERTURE', RB, 'F3\\.5'); // CONFLICT 2
@@ -42,7 +42,7 @@ context('Product Configuration', () => {
     conflictDialog.checkIsClosed();
   });
 
-  it('should restrict navigation when immediate conflict resolving is active', () => {
+  it('should restrict navigation when immediate conflict resolving is active (CXSPA-1485)', () => {
     configurationVc.clickOnNextBtnAndWait('Specification');
     configurationVc.selectAttributeAndWait('CAMERA_VIEWFINDER', RB, 'E');
     configurationVc.selectAttributeAndWait('CAMERA_MAX_ISO', RB, '25600');

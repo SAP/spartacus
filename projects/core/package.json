@@ -15,10 +15,10 @@
     "tslib": "^2.4.0"
   },
   "peerDependencies": {
-    "@angular/common": "^15.2.0",
-    "@angular/core": "^15.2.0",
-    "@angular/platform-browser": "^15.2.0",
-    "@angular/router": "^15.2.0",
+    "@angular/common": "^15.2.4",
+    "@angular/core": "^15.2.4",
+    "@angular/platform-browser": "^15.2.4",
+    "@angular/router": "^15.2.4",
     "@ngrx/effects": "^15.3.0",
     "@ngrx/router-store": "^15.3.0",
     "@ngrx/store": "^15.3.0",

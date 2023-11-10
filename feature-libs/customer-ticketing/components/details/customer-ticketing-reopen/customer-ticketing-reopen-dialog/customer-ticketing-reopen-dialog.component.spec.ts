@@ -6,7 +6,7 @@ import {
   STATUS_NAME,
 } from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog.component';
 import createSpy = jasmine.createSpy;
 
@@ -14,7 +14,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
-  createTicketEvent = createSpy().and.returnValue(of());
+  createTicketEvent = createSpy().and.returnValue(EMPTY);
 }
 
 class MockRoutingService implements Partial<RoutingService> {

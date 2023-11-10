@@ -35,6 +35,12 @@
     padding: 0 30px;
   }
 
+  .cx-review-header {
+    font-size: var(--cx-font-size, 1.125rem);
+    font-weight: var(--cx-font-weight-semi);
+    padding-inline-start: 30px;
+  }
+
   .cx-pickup-order-consigned-entries-header {
     background-color: var(--cx-color-background);
     font-weight: var(--cx-font-weight-semi);

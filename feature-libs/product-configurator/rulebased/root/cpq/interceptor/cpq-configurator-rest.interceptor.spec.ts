@@ -236,9 +236,9 @@ describe('CpqConfiguratorRestInterceptor', () => {
   it('should not handle other errors', (done) => {
     cpqResponseStack = [];
     cpqResponseStack.push(new HttpErrorResponse({ status: 401 })); // first error
-    interceptorUnderTest.intercept(cpqRequest, mockedNextHandler).subscribe(
-      () => fail('error should be propagated'),
-      () => {
+    interceptorUnderTest.intercept(cpqRequest, mockedNextHandler).subscribe({
+      next: () => fail('error should be propagated'),
+      error: () => {
         expect(
           cpqAccessStorageServiceMock.getCpqAccessData
         ).toHaveBeenCalledTimes(1);
@@ -247,7 +247,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
         ).not.toHaveBeenCalled();
         expect(mockedNextHandler.handle).toHaveBeenCalledTimes(1);
         done();
-      }
-    );
+      },
+    });
   });
 });

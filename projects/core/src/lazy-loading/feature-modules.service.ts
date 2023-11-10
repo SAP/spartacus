@@ -5,7 +5,7 @@
  */
 
 import { Injectable, NgModuleRef } from '@angular/core';
-import { defer, forkJoin, Observable, of, throwError } from 'rxjs';
+import { EMPTY, Observable, defer, forkJoin, of, throwError } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
 import { CmsConfig, FeatureModuleConfig } from '../cms/config/cms-config';
 import { LazyModulesService } from './lazy-modules.service';
@@ -67,7 +67,7 @@ export class FeatureModulesService {
         );
       }
 
-      return this.features.get(featureName);
+      return this.features.get(featureName) ?? EMPTY;
     });
   }
 

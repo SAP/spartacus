@@ -1,16 +1,16 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import {
-  I18nTestingModule,
-  Product,
+  Classification,
   Feature,
   FeatureUnit,
-  Classification,
   FeatureValue,
+  I18nTestingModule,
+  Product,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductAttributesComponent } from './product-attributes.component';
-import { By } from '@angular/platform-browser';
 
 const createMock = function (mockFeatures: Feature[]): Product {
   const mockClass: Classification = { features: mockFeatures };
@@ -49,7 +49,7 @@ const mockProduct3 = createMock([mockFeature, mockFeature2]);
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
 }
 

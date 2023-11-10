@@ -11,12 +11,12 @@ import {
   CmsConfig,
   ConfigChunk,
   ConfigInitializerService,
-  deepMerge,
   DefaultConfigChunk,
   FeatureModuleConfig,
   FeatureModulesService,
+  deepMerge,
 } from '@spartacus/core';
-import { defer, Observable, of } from 'rxjs';
+import { EMPTY, Observable, defer, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
 interface FeatureInstance extends FeatureModuleConfig {
@@ -147,7 +147,7 @@ export class CmsFeaturesService {
         );
       }
 
-      return this.featureInstances.get(featureName);
+      return this.featureInstances.get(featureName) ?? EMPTY;
     });
   }
 

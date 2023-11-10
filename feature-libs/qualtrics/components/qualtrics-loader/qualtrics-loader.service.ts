@@ -52,7 +52,7 @@ export class QualtricsLoaderService implements OnDestroy {
   private qsiLoaded$: Observable<any> =
     isPlatformBrowser(this.platformId) && this.window
       ? fromEvent(this.window, QUALTRICS_EVENT_NAME)
-      : of();
+      : EMPTY;
 
   /**
    * Emits the Qualtrics Site Intercept (QSI) JavaScript API whenever available.

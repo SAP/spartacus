@@ -11,6 +11,8 @@ export const asm = {
     logout: 'Sign Out',
     hideUi: 'Close ASM',
     customers: 'Customers',
+    createCustomerSuccessfullyAlert:
+      'The customer account has been created and the customer session has started.',
     toggleUi: {
       collapse: 'Hide ASM',
       expand: 'Show ASM',
@@ -32,26 +34,56 @@ export const asm = {
       },
       submit: 'Start Session',
       noMatch: 'No customer found.',
+      noMatchResult: 'This account cannot be found. ',
+      createCustomer: 'Create New Customer',
+    },
+    createCustomerForm: {
+      title: 'Create New Customer',
+      createAccount: 'Create',
+      cancel: 'Cancel',
+      firstName: {
+        label: 'First Name',
+        placeholder: 'First name',
+      },
+      lastName: {
+        label: 'Last Name',
+        placeholder: 'Last name',
+      },
+      emailAddress: {
+        label: 'Email Address',
+        placeholder: 'Email address',
+      },
+      createAccountAlert:
+        'The customer session starts once you create the customer account.',
     },
     customerList: {
       title: 'Customer List',
       description: 'Select a customer from one of several provided lists.',
+      createCustomer: 'Create New Customer',
+      cancel: 'Cancel',
       tableHeader: {
         customer: 'Customer',
+        customerName: 'Customer Name',
         name: 'Name',
         email: 'Email',
+        emailId: 'Email/ID',
         phone: 'Phone',
+        account: 'Account',
         cart: 'Cart',
         order: 'Order',
+        view: '360 View',
       },
       tableSort: {
         sortBy: 'Sort by',
+        byName: 'Name (Asc)',
         byNameAsc: 'Name (Asc)',
         byNameDesc: 'Name (Desc)',
         byDateAsc: 'Date (Asc)',
         byDateDesc: 'Date (Desc)',
         byOrderDateAsc: 'Order date (Asc)',
         byOrderDateDesc: 'Order date (Desc)',
+        byUnit: 'Unit (Asc)',
+        byUnitDesc: 'Unit (Desc)',
       },
       page: {
         page: 'Page {{count}}',
@@ -64,6 +96,7 @@ export const asm = {
         'There are currently no customer lists available. Contact your system administrator.',
       listsError:
         'The customer lists could not be retrieved. Please try again later.',
+      searchBox: 'Search',
     },
     bindCart: {
       cartNumber: 'Cart Number',

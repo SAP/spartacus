@@ -4,7 +4,7 @@ import { Actions } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
-import { NEVER, Observable, of, Subject, timer } from 'rxjs';
+import { EMPTY, NEVER, Observable, of, Subject, timer } from 'rxjs';
 import { delay, switchMap, take } from 'rxjs/operators';
 import { CxEvent } from '../../event/cx-event';
 import { EventService } from '../../event/event.service';
@@ -28,7 +28,7 @@ class MockLoadingScopesService {
 
 class MockEventService implements Partial<EventService> {
   get<T>(_eventType: AbstractType<T>): Observable<T> {
-    return of();
+    return EMPTY;
   }
 }
 

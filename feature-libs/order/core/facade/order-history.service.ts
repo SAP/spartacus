@@ -99,8 +99,8 @@ export class OrderHistoryService implements OrderHistoryFacade {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         let replenishmentOrderCode: string | undefined;
 
         this.routingService
@@ -122,10 +122,10 @@ export class OrderHistoryService implements OrderHistoryFacade {
           })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**

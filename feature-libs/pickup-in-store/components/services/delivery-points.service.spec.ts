@@ -48,6 +48,7 @@ export class DeliveryPointsServiceMock {
   > {
     return of([]);
   }
+  getDeliveryPointsOfServiceFromOrder() {}
 }
 
 export class MockOrderFacade {

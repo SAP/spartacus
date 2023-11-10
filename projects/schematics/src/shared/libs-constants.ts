@@ -191,8 +191,6 @@ export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
-export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
-
 export const SPARTACUS_CUSTOMER_TICKETING_ROOT = `@spartacus/customer-ticketing/root`;
 export const SPARTACUS_CUSTOMER_TICKETING_ASSETS = `@spartacus/customer-ticketing/assets`;
 export const SPARTACUS_CUSTOMER_TICKETING = '@spartacus/customer-ticketing';

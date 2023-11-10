@@ -10,14 +10,13 @@ import { I18nModule } from '@spartacus/core';
 import { StoreFinderOutlets } from '@spartacus/storefinder/root';
 import {
   IconModule,
-  OutletModule,
   OutletPosition,
   provideOutlet,
 } from '@spartacus/storefront';
 import { SetPreferredStoreComponent } from './set-preferred-store.component';
 
 @NgModule({
-  imports: [CommonModule, IconModule, I18nModule, OutletModule.forChild()],
+  imports: [CommonModule, IconModule, I18nModule],
   exports: [SetPreferredStoreComponent],
   declarations: [SetPreferredStoreComponent],
   providers: [

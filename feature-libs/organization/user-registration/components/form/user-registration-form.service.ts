@@ -22,12 +22,12 @@ import {
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
-import { Title, UserRegisterFacade } from '@spartacus/user/profile/root';
 import {
   OrganizationUserRegistration,
   UserRegistrationFacade,
 } from '@spartacus/organization/user-registration/root';
+import { CustomFormValidators } from '@spartacus/storefront';
+import { Title, UserRegisterFacade } from '@spartacus/user/profile/root';
 import { Observable, of } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 
@@ -45,6 +45,7 @@ export class UserRegistrationFormService {
       titleCode: [null],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
+      companyName: ['', Validators.required],
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       country: this.formBuilder.group({
         isocode: [null],
@@ -143,6 +144,7 @@ export class UserRegistrationFormService {
         state: form.get('region')?.get('isocode')?.value,
         postalCode: form.get('postalCode')?.value,
         country: form.get('country')?.get('isocode')?.value,
+        companyName: form.get('companyName')?.value,
         message: form.get('message')?.value,
       }
     );

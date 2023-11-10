@@ -12,7 +12,7 @@ import {
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
@@ -142,7 +142,7 @@ export class ConfiguratorCommonsService {
               }
             }),
             filter((stable) => !cart.code || stable),
-            switchMapTo(
+            switchMap(() =>
               this.store.pipe(
                 select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
                 take(1)

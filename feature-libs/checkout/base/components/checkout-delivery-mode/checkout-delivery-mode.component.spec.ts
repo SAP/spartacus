@@ -11,7 +11,7 @@ import {
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import { I18nTestingModule, QueryState } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
@@ -37,11 +37,11 @@ class MockCheckoutDeliveryModeService
   implements Partial<CheckoutDeliveryModesFacade>
 {
   loadSupportedDeliveryModes = createSpy();
-  setDeliveryMode = createSpy().and.returnValue(of());
+  setDeliveryMode = createSpy().and.returnValue(EMPTY);
   getSupportedDeliveryModes = () => supportedDeliveryModes$.asObservable();
   getSelectedDeliveryModeState = () =>
     selectedDeliveryModeState$.asObservable();
-  getLoadSupportedDeliveryModeProcess = createSpy().and.returnValue(of());
+  getLoadSupportedDeliveryModeProcess = createSpy().and.returnValue(EMPTY);
 }
 
 const preferredDeliveryMode$ = new BehaviorSubject<string | undefined>('');

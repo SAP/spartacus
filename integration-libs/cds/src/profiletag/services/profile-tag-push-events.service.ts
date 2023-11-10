@@ -28,10 +28,9 @@ import {
   distinctUntilChanged,
   distinctUntilKeyChanged,
   map,
-  mapTo,
   pairwise,
   startWith,
-  switchMapTo,
+  switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
@@ -221,7 +220,7 @@ export class ProfileTagPushEventsService {
   protected navigatedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(PageEvent)
-      .pipe(mapTo(new NavigatedPushEvent()));
+      .pipe(map(() => new NavigatedPushEvent()));
   }
 
   /**
@@ -234,7 +233,7 @@ export class ProfileTagPushEventsService {
   protected cartPageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(CartPageEvent)
-      .pipe(mapTo(new CartViewPushEvent()));
+      .pipe(map(() => new CartViewPushEvent()));
   }
 
   /**
@@ -247,7 +246,7 @@ export class ProfileTagPushEventsService {
   protected homePageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(HomePageEvent)
-      .pipe(mapTo(new HomePageViewPushEvent()));
+      .pipe(map(() => new HomePageViewPushEvent()));
   }
 
   /**
@@ -260,7 +259,7 @@ export class ProfileTagPushEventsService {
   protected orderConfirmationPageVisited(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(OrderPlacedEvent)
-      .pipe(mapTo(new OrderConfirmationPushEvent()));
+      .pipe(map(() => new OrderConfirmationPushEvent()));
   }
 
   /**
@@ -380,7 +379,7 @@ export class ProfileTagPushEventsService {
       this.eventService.get(CartRemoveEntrySuccessEvent),
       this.eventService.get(MergeCartSuccessEvent)
     ).pipe(
-      switchMapTo(this.activeCartFacade.takeActive()),
+      switchMap(() => this.activeCartFacade.takeActive()),
       map(
         (cart) =>
           new CartSnapshotPushEvent({

@@ -24,7 +24,7 @@ class MockActiveCartService {
   loadDetails(): void {}
   updateEntry(): void {}
   getActive(): Observable<Cart> {
-    return of<Cart>({ code: '123', totalItems: 1 });
+    return of({ code: '123', totalItems: 1 } as Cart);
   }
   getEntries(): Observable<OrderEntry[]> {
     return of([{}]);

@@ -5,9 +5,18 @@
  */
 
 import { Component } from '@angular/core';
-import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
+import {
+  CartOutlets,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/cart/base/root';
 import { CmsOrderDetailItemsComponent } from '@spartacus/core';
-import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
+import {
+  Consignment,
+  Order,
+  OrderOutlets,
+  ReplenishmentOrder,
+} from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -30,10 +39,19 @@ export class OrderDetailItemsComponent {
   pickupConsignments: Consignment[] | undefined;
   deliveryConsignments: Consignment[] | undefined;
 
+  pickupUnconsignedEntries: OrderEntry[] | undefined;
+  deliveryUnConsignedEntries: OrderEntry[] | undefined;
+
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails().pipe(
     tap((order) => {
       this.pickupConsignments = this.getGroupedConsignments(order, true);
       this.deliveryConsignments = this.getGroupedConsignments(order, false);
+
+      this.pickupUnconsignedEntries = this.getUnconsignedEntries(order, true);
+      this.deliveryUnConsignedEntries = this.getUnconsignedEntries(
+        order,
+        false
+      );
     })
   );
 
@@ -46,8 +64,9 @@ export class OrderDetailItemsComponent {
       ? this.orderDetailsService.isOrderDetailsLoading()
       : of(false);
 
-  displayConsignmentDelivery$: Observable<boolean | undefined> =
-    this.component.data$.pipe(map((data) => data.displayConsignmentDelivery));
+  groupCartItems$: Observable<boolean | undefined> = this.component.data$.pipe(
+    map((data) => data.groupCartItems)
+  );
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
@@ -60,13 +79,29 @@ export class OrderDetailItemsComponent {
   ): Consignment[] | undefined {
     const consignments = pickup
       ? order.consignments?.filter(
-          (entry) => entry.deliveryPointOfService !== undefined
+          (consignment) => consignment.deliveryPointOfService !== undefined
         )
       : order.consignments?.filter(
-          (entry) => entry.deliveryPointOfService === undefined
+          (consignment) => consignment.deliveryPointOfService === undefined
         );
 
     return this.groupConsignments(consignments);
+  }
+
+  protected getUnconsignedEntries(
+    order: Order,
+    pickup: boolean
+  ): OrderEntry[] | undefined {
+    if ((order as ReplenishmentOrder).replenishmentOrderCode) {
+      return [];
+    }
+    return pickup
+      ? order.unconsignedEntries?.filter(
+          (entry) => entry.deliveryPointOfService !== undefined
+        )
+      : order.unconsignedEntries?.filter(
+          (entry) => entry.deliveryPointOfService === undefined
+        );
   }
 
   protected groupConsignments(

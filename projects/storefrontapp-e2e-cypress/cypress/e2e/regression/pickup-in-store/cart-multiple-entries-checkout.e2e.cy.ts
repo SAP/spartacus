@@ -39,7 +39,7 @@ describe('A user who has a cart with multiple entries checkout with BOPIS are ru
       configureApparelProduct();
     });
 
-    it('A user who has a cart with multiple entries checkout with BOPIS are run in CSR mode', () => {
+    it('A user who has a cart with multiple entries checkout with BOPIS are run in CSR mode (CXSPA-201)', () => {
       cy.intercept({
         method: 'POST',
         url: /users\/anonymous\/carts\/[0-9a-zA-Z|-]*\/entries/,

@@ -6,7 +6,7 @@ import {
   PipeTransform,
   TemplateRef,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -16,7 +16,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingMetadata, MerchandisingProduct } from '../../model/index';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
@@ -137,7 +137,7 @@ const MockCmsMerchandisingCarouselComponent = <CmsComponentData<any>>{
 class MockMerchandisingCarouselComponentService {
   sendCarouselViewEvent = createSpy(
     'MerchandisingCarouselComponentService.sendCarouselViewEvent'
-  ).and.callFake(() => of());
+  ).and.callFake(() => EMPTY);
 
   getMerchandisingCarouselModel(): Observable<MerchandisingCarouselModel> {
     return of(merchandisingCarouselModel);
@@ -156,7 +156,7 @@ class RoutingServiceStub {
 
 class IntersectionServiceStub {
   isIntersected(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
 }
 

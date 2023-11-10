@@ -6,20 +6,20 @@
 
 import { Injectable } from '@angular/core';
 import {
+  ActiveCartFacade,
+  DeleteCartFailEvent,
+  DeleteCartSuccessEvent,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
+import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
   UserIdService,
 } from '@spartacus/core';
-import {
-  ActiveCartFacade,
-  MultiCartFacade,
-  DeleteCartSuccessEvent,
-  DeleteCartFailEvent,
-} from '@spartacus/cart/base/root';
-import { mapTo, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { merge } from 'rxjs';
+import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -48,8 +48,8 @@ export class ClearCartDialogComponentService {
         }),
         switchMap(() =>
           merge(
-            this.eventService.get(DeleteCartSuccessEvent).pipe(mapTo(true)),
-            this.eventService.get(DeleteCartFailEvent).pipe(mapTo(false))
+            this.eventService.get(DeleteCartSuccessEvent).pipe(map(() => true)),
+            this.eventService.get(DeleteCartFailEvent).pipe(map(() => false))
           ).pipe(take(1))
         ),
         tap(() => this.closeDialog('Close dialog after cart cleared'))

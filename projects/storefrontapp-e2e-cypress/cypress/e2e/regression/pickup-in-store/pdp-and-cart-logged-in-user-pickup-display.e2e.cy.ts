@@ -51,7 +51,7 @@ describe('Check for presence or absence of displayed pick up store on PDP page',
       configureApparelProduct();
     });
 
-    it('As a logged in user, pick a store for pickup that is not the default store. Then click Ship It radio button. Then click Pickup in store radio button. The displayed store should be the one picked earlier, not the default', () => {
+    it('As a logged in user, pick a store for pickup that is not the default store. Then click Ship It radio button. Then click Pickup in store radio button. The displayed store should be the one picked earlier, not the default (CXSPA-201)', () => {
       cy.intercept({
         method: 'POST',
         url: '/authorizationserver/oauth/token',

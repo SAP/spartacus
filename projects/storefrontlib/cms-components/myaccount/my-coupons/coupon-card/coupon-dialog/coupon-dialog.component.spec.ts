@@ -1,11 +1,11 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CouponDialogComponent } from './coupon-dialog.component';
+import { Component, DebugElement, Input } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
-import { Input, Component, DebugElement } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { LaunchDialogService } from '../../../../../layout/index';
-import { Observable, of } from 'rxjs';
+import { CouponDialogComponent } from './coupon-dialog.component';
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',

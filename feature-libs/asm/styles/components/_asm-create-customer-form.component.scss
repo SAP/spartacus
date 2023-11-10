@@ -1,0 +1,152 @@
+%cx-asm-create-customer-form {
+  $modal-max-width-asm-create-customer: 30% !important;
+  $modal-min-width-asm-create-customer: 30% !important;
+
+  .cx-message {
+    border-radius: 8px;
+    margin-bottom: 15px;
+    .cx-message-content {
+      margin-inline-start: 0;
+      max-width: 100%;
+
+      .cx-message-header {
+        padding-inline-end: 1rem;
+        font-size: 14px;
+        font-family: '72';
+        font-style: normal;
+        font-weight: 400;
+        line-height: 16px;
+        text-align: start;
+      }
+    }
+    .close {
+      align-self: center;
+      margin-inline-start: auto;
+      position: unset;
+      color: #0064d8;
+      font-size: 16px;
+    }
+  }
+
+  .cx-message-info {
+    background-color: #e1f4ff;
+    border-color: #7bcfff;
+
+    .cx-message-icon {
+      cx-icon {
+        color: #0070f2;
+      }
+    }
+  }
+
+  .cx-message-danger {
+    background-color: #ffeaf4;
+    border-color: #ff8ec4;
+  }
+
+  .cx-asm-dialog {
+    @include media-breakpoint-up(lg) {
+      max-width: $modal-max-width-asm-create-customer;
+      min-width: $modal-min-width-asm-create-customer;
+    }
+
+    .cx-modal-content {
+      border-radius: 16px;
+    }
+  }
+
+  .cx-dialog-header {
+    padding-top: 1rem;
+    padding-inline-end: 1.75rem;
+    padding-bottom: 2rem;
+    padding-inline-start: 2rem;
+    border-width: 0;
+    display: flex;
+    border-bottom: 1px solid #dee2e6;
+    height: 50px;
+    .title {
+      font-size: 18px;
+      font-weight: 900;
+    }
+  }
+
+  .cx-dialog-body {
+    padding-top: 15px;
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+  }
+
+  label .label-content {
+    color: #556b82;
+  }
+
+  .form-control {
+    border-bottom-color: #556b81;
+    box-shadow: inset 0px 0px 0px 1px rgba(85, 107, 130, 0.25);
+    border-radius: 4px;
+    &::placeholder {
+      color: #556b82;
+      font-style: italic;
+    }
+
+    &:focus {
+      border: 2px solid #004da5;
+      box-shadow: 0px 0px 1px rgba(120, 143, 166, 0.72);
+      outline: none;
+      background-color: #ffffff;
+    }
+  }
+
+  input:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px white inset !important;
+  }
+  input.ng-invalid.ng-touched {
+    border: 1px #f1f1f1;
+    background-color: #ffeaf4;
+    box-shadow: inset 0px 0px 0px 1px rgba(255, 143, 197, 0.45);
+    border-block-end: 2px solid #e90b0b;
+  }
+
+  cx-form-errors p {
+    color: #db0002;
+  }
+
+  .cx-asm-create-customer-btn {
+    margin: 0 2px 0 2px;
+    padding: 0 10px 0 10px;
+    border-radius: 8px;
+
+    min-height: 42px;
+    min-width: 70px;
+    font-size: 14px;
+    font-family: '72';
+    font-style: normal;
+    font-weight: 600;
+    line-height: 19px;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  .cx-asm-create-customer-btn-create {
+    color: #fff;
+    background-color: #0070f2;
+    border-color: #0070f2;
+
+    &:hover {
+      color: #fff;
+      background-color: #0050f2;
+    }
+  }
+
+  .cx-asm-create-customer-btn-cancel {
+    color: #0064d9;
+    border-color: #fff;
+
+    &:hover {
+      color: #0064d9;
+      background-color: #d9d9d9;
+    }
+  }
+}

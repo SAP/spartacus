@@ -7,7 +7,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import {
   ProductSearchPage,
   Suggestion,
@@ -56,8 +56,7 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
         this.getSuggestionEndpoint(term, pageSize.toString())
       )
       .pipe(
-        pluck('suggestions'),
-        map((suggestions) => suggestions ?? []),
+        map((suggestionsList) => suggestionsList.suggestions ?? []),
         this.converter.pipeableMany(PRODUCT_SUGGESTION_NORMALIZER)
       );
   }

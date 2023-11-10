@@ -2,7 +2,7 @@ import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 
 import { CustomerTicketingCreateComponent } from './customer-ticketing-create.component';
 
@@ -17,7 +17,7 @@ describe('CustomerTicketingCreateComponent', () => {
       _openElement?: ElementRef,
       _vcr?: ViewContainerRef
     ) {
-      return of();
+      return EMPTY;
     }
   }
 

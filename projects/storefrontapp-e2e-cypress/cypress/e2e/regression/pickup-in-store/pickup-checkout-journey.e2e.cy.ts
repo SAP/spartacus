@@ -41,7 +41,7 @@ describe('Pickup Delivery Option - A guest user logs in while checking out with 
       configureApparelProduct();
     });
 
-    it('A user who has a cart with multiple entries checkout with BOPIS', () => {
+    it('A user who has a cart with multiple entries checkout with BOPIS (CXSPA-201)', () => {
       const url = new RegExp(
         `\/${encodeURIComponent(
           EMAIL_ADDRESS

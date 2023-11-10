@@ -36,39 +36,40 @@ export class PermissionService {
   ) {}
 
   loadPermission(permissionCode: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new PermissionActions.LoadPermission({
             userId,
             permissionCode,
           })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   loadPermissions(params: SearchConfig): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new PermissionActions.LoadPermissions({ userId, params })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   loadPermissionTypes() {
-    this.userIdService.takeUserId(true).subscribe(
-      () => this.store.dispatch(new PermissionActions.LoadPermissionTypes()),
-      () => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: () =>
+        this.store.dispatch(new PermissionActions.LoadPermissionTypes()),
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   private getPermission(
@@ -144,20 +145,20 @@ export class PermissionService {
   }
 
   create(permission: Permission): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new PermissionActions.CreatePermission({ userId, permission })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   update(permissionCode: string, permission: Permission): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new PermissionActions.UpdatePermission({
             userId,
@@ -165,10 +166,10 @@ export class PermissionService {
             permission,
           })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   getLoadingStatus(

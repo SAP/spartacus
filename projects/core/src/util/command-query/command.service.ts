@@ -87,8 +87,11 @@ export class CommandService implements OnDestroy {
 
     this.subscriptions.add(process$.subscribe());
 
-    const command: Command<PARAMS, RESULT> = new (class extends Command {
-      execute = (parameters: PARAMS | undefined) => {
+    const command: Command<PARAMS, RESULT> = new (class extends Command<
+      PARAMS,
+      RESULT
+    > {
+      execute = (parameters: PARAMS) => {
         const result$ = new ReplaySubject<RESULT>();
         results$.next(result$);
         commands$.next(parameters);

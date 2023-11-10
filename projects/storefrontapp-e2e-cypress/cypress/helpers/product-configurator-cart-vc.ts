@@ -111,7 +111,7 @@ export function checkout(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/order-confirmation');
-      cy.get('cx-breadcrumb').should('contain', 'Order Confirmation');
+      cy.get('cx-order-confirmation-thank-you-message').should('be.visible');
     });
 
   cy.log('Define order number alias');

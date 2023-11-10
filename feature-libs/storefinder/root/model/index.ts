@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './store-finder.model';
+export * from './store-entities.model';

@@ -39,7 +39,7 @@ export class LazyComponentHandler implements ComponentHandler {
   }
 
   private isNotClass(symbol: any): boolean {
-    const signature = symbol.toString().substr(0, 20).replace(' ', '');
+    const signature = symbol.toString().substring(0, 20).replace(' ', '');
     return signature.startsWith('function()') || signature.startsWith('()=>');
   }
 

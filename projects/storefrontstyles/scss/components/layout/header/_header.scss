@@ -39,6 +39,11 @@ $space: 0.5rem;
       position: absolute;
       width: 100%;
       z-index: 3;
+
+      @include media-breakpoint-down(md) {
+        height: 100vh;
+        background-color: var(--cx-color-background);
+      }
     }
     .PreHeader {
       z-index: 4;

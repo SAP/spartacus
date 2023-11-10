@@ -76,6 +76,8 @@ export const cart = {
     lowStock: 'Quantity has reduced to {{quantity}} due to insufficient stock.',
     reviewConfiguration:
       'Resolve the issues in the configuration for cart entry first.',
+    configurationError:
+      'Resolve the issues in the configuration for cart entries first.',
     pricingError:
       'Configurator pricing is currently not available. Checkout/quote submission is not possible. Please try again later.',
     unresolvableIssues:

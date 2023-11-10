@@ -3,13 +3,13 @@ import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { AuthRedirectService, I18nTestingModule, User } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { CheckoutLoginComponent } from './checkout-login.component';
 import createSpy = jasmine.createSpy;
 
 class MockActiveCartService {
   addEmail = createSpy('MockCartService.addEmail');
-  getAssignedUser = createSpy().and.returnValue(of());
+  getAssignedUser = createSpy().and.returnValue(EMPTY);
   isGuestCart = createSpy().and.returnValue(false);
 }
 class MockRedirectAfterAuthService {

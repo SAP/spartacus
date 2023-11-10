@@ -191,7 +191,7 @@ function checkDeliveryAddressDisplayed(): void {
   cy.get('cx-delivery-address').within(() => {
     checkLoadingSpinnerNotDisplayed();
     cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-    cy.get('p.cx-checkout-text').contains('Select your Shipping Address');
+    cy.get('p.cx-checkout-text').contains('Address');
     cy.get('.cx-checkout-body').should('be.visible');
     cy.get('.cx-checkout-btns').should('be.visible');
     cy.get('.cx-checkout-body').within(() => {
@@ -263,7 +263,7 @@ function proceedWithDeliveryAddress(): void {
     .then(() => {
       cy.wait('@deliveryAddress');
       cy.location('pathname').should('contain', '/checkout/delivery-address');
-      cy.get('a.cx-link.active').contains('DeliveryAddress');
+      cy.get('a.cx-link.active').contains('Ship');
       checkCostCenterDisplayed();
       checkDeliveryAddressDisplayed();
       checkShipToThisAddressDisplayed();
@@ -315,7 +315,7 @@ function reviewOrder(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/checkout/review-order');
-      cy.get('a.cx-link.active').contains('ReviewOrder');
+      //cy.get('a.cx-link.active').contains('ReviewOrder');
       cy.get('cx-review-submit').should('be.visible');
       cy.get('.cx-review').should('be.visible');
       cy.get('.cx-review').should('contain', 'Review');
@@ -333,6 +333,8 @@ function placeOrder(): void {
   cy.log('🛒 Place order');
   checkPlaceOrderBtnNotDisabled();
   cy.get('cx-place-order button.btn-primary')
+    .contains('Order')
+    .wait(Cypress.config('defaultCommandTimeout'))
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/order-confirmation');

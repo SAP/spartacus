@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
+import { EMPTY, of } from 'rxjs';
 import { Command, CommandService } from './command.service';
-import { of } from 'rxjs';
 
 describe('CommandService', () => {
   let service: CommandService;
@@ -16,7 +16,7 @@ describe('CommandService', () => {
   });
 
   it('create should return command', () => {
-    const command = service.create(() => of());
+    const command = service.create(() => EMPTY);
     expect(command.execute).toBeDefined();
   });
 

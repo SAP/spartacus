@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AnonymousConsentsConfig,
@@ -19,7 +19,7 @@ import {
   Translatable,
   UserConsentService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { ConsentManagementComponent } from './consent-management.component';
 
 @Component({
@@ -47,22 +47,22 @@ class MockConsentManagementFormComponent {
 class UserConsentServiceMock {
   loadConsents(): void {}
   getConsentsResultLoading(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getGiveConsentResultLoading(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getGiveConsentResultSuccess(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getWithdrawConsentResultLoading(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getWithdrawConsentResultSuccess(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getConsents(): Observable<ConsentTemplate[]> {
-    return of();
+    return EMPTY;
   }
   giveConsent(
     _consentTemplateId: string,

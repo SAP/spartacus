@@ -5,13 +5,15 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CART_BASE_FEATURE } from '@spartacus/cart/base/root';
-import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import {
-  CartPickupOptionsContainerModule,
-  OrderConsignmentContainerModule,
-  PdpPickupOptionsContainerModule,
-} from './components/index';
+  ADD_TO_CART_FEATURE,
+  CART_BASE_FEATURE,
+} from '@spartacus/cart/base/root';
+import {
+  CmsConfig,
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 
 import {
   PICKUP_IN_STORE_CORE_FEATURE,
@@ -28,7 +30,6 @@ export function defaultPickupInStoreComponentsConfig(): CmsConfig {
           'OrderConfirmationPickUpComponent',
           'PickupInStoreDeliveryModeComponent',
         ],
-        dependencies: [CART_BASE_FEATURE],
       },
       [PICKUP_IN_STORE_CORE_FEATURE]: PICKUP_IN_STORE_FEATURE,
     },
@@ -36,13 +37,24 @@ export function defaultPickupInStoreComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
-  imports: [
-    CartPickupOptionsContainerModule,
-    PdpPickupOptionsContainerModule,
-    OrderConsignmentContainerModule,
-  ],
   providers: [
     provideDefaultConfigFactory(defaultPickupInStoreComponentsConfig),
+    // make pickup lib loaded before add-to-cart
+    provideDefaultConfig({
+      featureModules: {
+        [ADD_TO_CART_FEATURE]: {
+          dependencies: [PICKUP_IN_STORE_FEATURE],
+        },
+      },
+    }),
+    // make pickup lib loaded before cart base
+    provideDefaultConfig({
+      featureModules: {
+        [CART_BASE_FEATURE]: {
+          dependencies: [PICKUP_IN_STORE_FEATURE],
+        },
+      },
+    }),
   ],
 })
 export class PickupInStoreRootModule {}

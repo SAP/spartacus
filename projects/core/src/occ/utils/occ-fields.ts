@@ -56,7 +56,7 @@ export function parseFields(
   while (i < fields.length) {
     if (fields[i] === ',') {
       if (i > startIndex) {
-        parsedFields[fields.substr(startIndex, i - startIndex)] = {};
+        parsedFields[fields.substring(startIndex, i)] = {};
       }
       startIndex = i + 1;
     } else if (fields[i] === '(') {
@@ -64,12 +64,12 @@ export function parseFields(
       if (!Array.isArray(subFields)) {
         return parsedFields;
       }
-      parsedFields[fields.substr(startIndex, i - startIndex)] = subFields[0];
+      parsedFields[fields.substring(startIndex, i)] = subFields[0];
       startIndex = subFields[1];
       i = startIndex - 1;
     } else if (fields[i] === ')') {
       if (i > startIndex) {
-        parsedFields[fields.substr(startIndex, i - startIndex)] = {};
+        parsedFields[fields.substring(startIndex, i)] = {};
       }
       return [parsedFields, i + 1];
     }
@@ -77,7 +77,7 @@ export function parseFields(
   }
 
   if (startIndex < fields.length) {
-    parsedFields[fields.substr(startIndex, i - startIndex)] = {};
+    parsedFields[fields.substring(startIndex, i)] = {};
   }
 
   return parsedFields;

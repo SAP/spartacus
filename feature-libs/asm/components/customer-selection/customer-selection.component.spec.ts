@@ -1,8 +1,8 @@
 import { DebugElement, ElementRef } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
@@ -15,8 +15,10 @@ import {
   DirectionMode,
   DirectionService,
   FormErrorsModule,
+  LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
 import { CustomerSelectionComponent } from './customer-selection.component';
 
 class MockGlobalMessageService {
@@ -68,6 +70,12 @@ const MockAsmConfig: AsmConfig = {
   },
 };
 
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialogAndSubscribe() {
+    return EMPTY;
+  }
+}
+
 describe('CustomerSelectionComponent', () => {
   let customerSearchResults: Subject<CustomerSearchPage>;
   let customerSearchResultsLoading: Subject<boolean>;
@@ -91,6 +99,7 @@ describe('CustomerSelectionComponent', () => {
   let asmService: AsmService;
   let el: DebugElement;
   let searchResultItems: Array<ElementRef<HTMLElement>> = [];
+  let launchDialogService: LaunchDialogService;
 
   const validSearchTerm = 'cUstoMer@test.com';
 
@@ -112,8 +121,11 @@ describe('CustomerSelectionComponent', () => {
             provide: DirectionService,
             useClass: MockDirectionService,
           },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         ],
       }).compileComponents();
+
+      launchDialogService = TestBed.inject(LaunchDialogService);
     })
   );
 
@@ -214,9 +226,7 @@ describe('CustomerSelectionComponent', () => {
     );
     fixture.detectChanges();
     expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(1);
-    expect(
-      el.query(By.css('div.asm-results button')).nativeElement.innerText
-    ).toEqual('asm.customerSearch.noMatch');
+    // TODO(CXSPA-2935): Refactor customer lookup in ASM to get rid of buttons in drop list
     el.query(By.css('div.asm-results button')).nativeElement.dispatchEvent(
       new MouseEvent('click')
     );
@@ -381,6 +391,15 @@ describe('CustomerSelectionComponent', () => {
       );
       expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
         validSearchTerm.length
+      );
+    });
+
+    it('should be able to open dialog', () => {
+      spyOn(launchDialogService, 'openDialogAndSubscribe');
+      component.createCustomer();
+      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+        LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+        component.createCustomerLink
       );
     });
   });

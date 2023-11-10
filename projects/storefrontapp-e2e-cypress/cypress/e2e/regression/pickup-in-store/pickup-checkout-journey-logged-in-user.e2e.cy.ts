@@ -36,7 +36,7 @@ describe('Pickup Delivery Option - A logged in user which checkout with BOPIS', 
       configureApparelProduct();
     });
 
-    it('A logged in user which checkout with BOPIS', () => {
+    it('A logged in user which checkout with BOPIS (CXSPA-201)', () => {
       cy.intercept({
         method: 'POST',
         url: '/authorizationserver/oauth/token',

@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { LoadStatus } from '@spartacus/organization/administration/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { first, map, switchMap, take } from 'rxjs/operators';
 import { CardComponent } from '../card/card.component';
 import { ItemService } from '../item.service';
@@ -62,7 +62,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
    * To handle the case of receiving a negative response during creation an item
    */
   disabled$ = this.form$.pipe(
-    switchMap((form) => form?.statusChanges ?? of()),
+    switchMap((form) => form?.statusChanges ?? EMPTY),
     map((status) => status === DISABLED_STATUS)
   );
 

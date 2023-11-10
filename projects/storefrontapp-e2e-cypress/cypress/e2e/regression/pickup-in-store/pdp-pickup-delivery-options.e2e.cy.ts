@@ -17,7 +17,7 @@ describe('Pickup delivery options', () => {
       configureApparelProduct();
     });
 
-    it('Delivery selected by default. Click Pickup. Pickup radio becomes selected. Dismiss dialog witout picking a store. Delivery is selected', () => {
+    it('Delivery selected by default. Click Pickup. Pickup radio becomes selected. Dismiss dialog witout picking a store. Delivery is selected (CXSPA-201)', () => {
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should(
         'have.attr',
         'aria-checked',
@@ -37,7 +37,7 @@ describe('Pickup delivery options', () => {
       );
     });
 
-    it('No store is selected, clicking on BOPIS radio button opens modal, can pick a store, clicking on BOPIS radio no longer opens modal, but clicking on "Select Store" link does open modal', () => {
+    it('No store is selected, clicking on BOPIS radio button opens modal, can pick a store, clicking on BOPIS radio no longer opens modal, but clicking on "Select Store" link does open modal (CXSPA-201)', () => {
       cy.get(L.BOPIS_TAG).should('exist');
       cy.get(L.SELECT_STORE_LINK).should('have.text', 'Select Store');
       cy.wait(1000); // allow time for event handlers to be attached
@@ -53,7 +53,7 @@ describe('Pickup delivery options', () => {
       cy.get(L.PICKUP_IN_STORE_MODAL).should('exist');
     });
 
-    it('should open the pickup locations dialog, and dialog should be closeable', () => {
+    it('should open the pickup locations dialog, and dialog should be closeable (CXSPA-201)', () => {
       cy.get(L.BOPIS_TAG).should('exist');
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should(
         'have.attr',
@@ -67,7 +67,7 @@ describe('Pickup delivery options', () => {
       cy.get(L.PICKUP_IN_STORE_MODAL).should('not.exist');
     });
 
-    it('should filter out stores with no stock when "Hide out of stock options" is checked', () => {
+    it('should filter out stores with no stock when "Hide out of stock options" is checked (CXSPA-201)', () => {
       cy.get(L.BOPIS_TAG).should('exist');
       cy.wait(1000); // allow time for event handlers to be attached
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).click();
@@ -78,7 +78,7 @@ describe('Pickup delivery options', () => {
       cy.get('cx-store').its('length').should('be.lessThan', 20);
     });
 
-    it('uses the search term entered if Find Stores button clicked ', () => {
+    it('uses the search term entered if Find Stores button clicked (CXSPA-201)', () => {
       cy.get(L.BOPIS_TAG).should('exist');
       cy.wait(1000); // allow time for event handlers to be attached
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).click();
@@ -94,7 +94,7 @@ describe('Pickup delivery options', () => {
       });
     });
 
-    it('uses the location if "Use My Location" link clicked ', () => {
+    it('uses the location if "Use My Location" link clicked (CXSPA-201)', () => {
       cy.get(L.BOPIS_TAG).should('exist');
       cy.wait(1000); // allow time for event handlers to be attached
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).click();

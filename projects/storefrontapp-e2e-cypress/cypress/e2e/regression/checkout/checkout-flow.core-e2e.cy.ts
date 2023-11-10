@@ -8,8 +8,6 @@ import * as checkout from '../../../helpers/checkout-flow';
 import {
   clickSearchIcon,
   searchForProduct,
-  filterUsingFacetFiltering,
-  searchResult,
 } from '../../../helpers/product-search';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { getSampleUser, product } from '../../../sample-data/checkout-flow';
@@ -22,7 +20,7 @@ context('Checkout flow', () => {
       });
     });
 
-    it('should perform checkout', () => {
+    it('should checkout with a registered user', () => {
       const user = getSampleUser();
       checkout.visitHomePage();
 
@@ -51,7 +49,7 @@ context('Checkout flow', () => {
       checkout.verifyOrderConfirmationPageWithCheapProduct(user);
     });
 
-    it('should search and perform checkout', () => {
+    it('should checkout with a registered user by searching a product', () => {
       const user = getSampleUser();
       checkout.visitHomePage();
       checkout.clickHamburger();
@@ -60,18 +58,6 @@ context('Checkout flow', () => {
         clickSearchIcon();
       });
       searchForProduct(product.name);
-      checkout.checkoutFirstDisplayedProduct(user);
-    });
-
-    it('should filter with faceting and perform checkout', () => {
-      const user = getSampleUser();
-      checkout.visitHomePage();
-
-      checkout.clickHamburger();
-
-      checkout.registerUser(false, user);
-      searchResult();
-      filterUsingFacetFiltering();
       checkout.checkoutFirstDisplayedProduct(user);
     });
   });

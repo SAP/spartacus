@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
 import {
-  StrategyProducts,
-  MerchandisingStrategyConnector,
-  MerchandisingSiteContext,
-  MerchandisingUserContext,
   CdsMerchandisingProductService,
   CdsMerchandisingSiteContextService,
   CdsMerchandisingUserContextService,
+  MerchandisingSiteContext,
+  MerchandisingStrategyConnector,
+  MerchandisingUserContext,
+  StrategyProducts,
   StrategyResponse,
 } from '@spartacus/cds';
+import { EMPTY, Observable, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 const CONSENT_REFERENCE = '75b75543-950f-4e53-a36c-ab8737a0974a';
@@ -39,12 +39,12 @@ class MockStrategyConnector {
 
 class SiteContextServiceStub {
   getSiteContext(): Observable<MerchandisingSiteContext> {
-    return of();
+    return EMPTY;
   }
 }
 class UserContextServiceStub {
   getUserContext(): Observable<MerchandisingUserContext> {
-    return of();
+    return EMPTY;
   }
 }
 

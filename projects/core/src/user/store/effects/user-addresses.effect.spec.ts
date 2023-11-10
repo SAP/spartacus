@@ -2,7 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { GlobalMessageService } from '../../../global-message/index';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+} from '../../../global-message/index';
 import { Address } from '../../../model/address.model';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { UserAddressAdapter } from '../../connectors/address/user-address.adapter';
@@ -15,9 +18,10 @@ class MockUserAddressService {
   loadAddresses = jasmine.createSpy();
 }
 
-class MockGlobalMessageService {
-  add = jasmine.createSpy();
-}
+const mockedGlobalMessageService = {
+  add: () => {},
+  remove: () => {},
+};
 
 const mockUserAddresses: Address[] = [{ id: 'address123' }];
 const mockUserAddress: Address = {
@@ -36,6 +40,7 @@ describe('User Addresses effect', () => {
   let userAddressesEffect: fromUserAddressesEffect.UserAddressesEffects;
   let userAddressConnector: UserAddressConnector;
   let actions$: Observable<any>;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,7 +48,7 @@ describe('User Addresses effect', () => {
         fromUserAddressesEffect.UserAddressesEffects,
         { provide: UserAddressAdapter, useValue: {} },
         { provide: UserAddressService, useClass: MockUserAddressService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: GlobalMessageService, useValue: mockedGlobalMessageService },
         provideMockActions(() => actions$),
       ],
     });
@@ -52,6 +57,7 @@ describe('User Addresses effect', () => {
       fromUserAddressesEffect.UserAddressesEffects
     );
     userAddressConnector = TestBed.inject(UserAddressConnector);
+    globalMessageService = TestBed.inject(GlobalMessageService);
 
     spyOn(userAddressConnector, 'getAll').and.returnValue(
       of(mockUserAddresses)
@@ -60,6 +66,8 @@ describe('User Addresses effect', () => {
 
     spyOn(userAddressConnector, 'update').and.returnValue(of({}));
     spyOn(userAddressConnector, 'delete').and.returnValue(of({}));
+    spyOn(globalMessageService, 'remove');
+    spyOn(globalMessageService, 'add');
   });
 
   describe('loadUserAddresses$', () => {
@@ -92,18 +100,39 @@ describe('User Addresses effect', () => {
 
   describe('updateUserAddress$', () => {
     it('should update user address', () => {
-      const action = new UserActions.UpdateUserAddress({
+      const payload = {
         userId: OCC_USER_ID_CURRENT,
         addressId: '123',
         address: {
           firstName: 'test',
         },
-      });
-      const completion = new UserActions.UpdateUserAddressSuccess({});
+      };
+      const action = new UserActions.UpdateUserAddress(payload);
+      const completion = new UserActions.UpdateUserAddressSuccess(payload);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(userAddressesEffect.updateUserAddress$).toBeObservable(expected);
+    });
+
+    it('should not show userAddressUpdateSuccess message when user address is set as default ', () => {
+      const payload = {
+        userId: OCC_USER_ID_CURRENT,
+        addressId: '123',
+        address: {
+          defaultAddress: true,
+        },
+      };
+      const action = new UserActions.UpdateUserAddress(payload);
+      const completion = new UserActions.UpdateUserAddressSuccess(payload);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(userAddressesEffect.updateUserAddress$).toBeObservable(expected);
+      expect(globalMessageService.add).not.toHaveBeenCalledWith(
+        { key: 'addressForm.userAddressUpdateSuccess' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
     });
   });
 

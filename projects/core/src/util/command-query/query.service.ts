@@ -8,20 +8,20 @@ import { Injectable, OnDestroy, Type } from '@angular/core';
 import {
   BehaviorSubject,
   EMPTY,
+  Observable,
+  Subscription,
   iif,
   isObservable,
   merge,
-  Observable,
   of,
-  Subscription,
   using,
 } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
-  pluck,
+  map,
   share,
-  switchMapTo,
+  switchMap,
   takeUntil,
   tap,
 } from 'rxjs/operators';
@@ -68,7 +68,11 @@ export class QueryService implements OnDestroy {
 
     // if the query will be unsubscribed from while the data is being loaded, we will end up with the loading flag set to true
     // we want to retry this load on next subscription
-    const onSubscribeLoad$ = iif(() => state$.value.loading, of(undefined));
+    const onSubscribeLoad$ = iif(
+      () => state$.value.loading,
+      of(undefined),
+      EMPTY
+    );
 
     const loadTrigger$ = this.getTriggersStream([
       onSubscribeLoad$, // we need to evaluate onSubscribeLoad$ before other triggers in order to avoid other triggers changing state$ value
@@ -79,13 +83,15 @@ export class QueryService implements OnDestroy {
     const resetTrigger$ = this.getTriggersStream(options?.resetOn ?? []);
     const reloadTrigger$ = this.getTriggersStream(options?.reloadOn ?? []);
 
+    const loader$ = loaderFactory().pipe(takeUntil(resetTrigger$));
+
     const load$ = loadTrigger$.pipe(
       tap(() => {
         if (!state$.value.loading) {
           state$.next({ ...state$.value, loading: true });
         }
       }),
-      switchMapTo(loaderFactory().pipe(takeUntil(resetTrigger$))),
+      switchMap(() => loader$),
       tap((data) => {
         state$.next({ loading: false, error: false, data });
       }),
@@ -127,7 +133,10 @@ export class QueryService implements OnDestroy {
       () => state$
     );
 
-    const data$ = query$.pipe(pluck('data'), distinctUntilChanged());
+    const data$ = query$.pipe(
+      map((queryState) => queryState.data),
+      distinctUntilChanged()
+    );
 
     return { get: () => data$, getState: () => query$ };
   }

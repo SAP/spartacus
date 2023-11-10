@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import {
@@ -70,7 +70,7 @@ class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
     if (orgDocumentId && orgDocumentAttachmentId) {
       return of(blob);
     } else {
-      return of();
+      return EMPTY;
     }
   }
 }

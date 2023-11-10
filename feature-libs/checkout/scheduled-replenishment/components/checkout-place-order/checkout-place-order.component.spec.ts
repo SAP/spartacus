@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
@@ -12,7 +12,7 @@ import {
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-place-order.component';
 import createSpy = jasmine.createSpy;
@@ -32,14 +32,14 @@ const mockReplenishmentOrderFormData$ =
   );
 
 class MockOrderFacade implements Partial<OrderFacade> {
-  placeOrder = createSpy().and.returnValue(of());
+  placeOrder = createSpy().and.returnValue(EMPTY);
   clearPlacedOrder = createSpy();
 }
 
 class MockScheduledReplenishmentOrderFacade
   implements Partial<ScheduledReplenishmentOrderFacade>
 {
-  scheduleReplenishmentOrder = createSpy().and.returnValue(of());
+  scheduleReplenishmentOrder = createSpy().and.returnValue(EMPTY);
 }
 
 class MockCheckoutReplenishmentFormService

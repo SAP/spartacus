@@ -7,7 +7,7 @@ import {
   LoadStatus,
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { BudgetFormService } from '../form/budget-form.service';
 import { BudgetItemService } from './budget-item.service';
 import { CurrentBudgetService } from './current-budget.service';
@@ -27,7 +27,7 @@ form.addControl('code', new UntypedFormControl('new code'));
 
 class MockBudgetService {
   get() {
-    return of();
+    return EMPTY;
   }
   loadBudget() {}
   update() {}
@@ -40,7 +40,7 @@ class MockBudgetService {
 class MockBudgetFormService {}
 class MockCurrentBudgetService {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(false);
 }
 

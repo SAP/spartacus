@@ -5,7 +5,13 @@
       "files": ["*.ts"],
       "rules": {
         "@angular-eslint/component-selector": "off",
-        "@spartacus-eslint/use-default-provide-config": "off"
+        "@nrwl/nx/workspace/use-default-provide-config": "off",
+        "@nrwl/nx/enforce-module-boundaries": [
+          "error",
+          {
+            "checkDynamicDependenciesExceptions": ["@spartacus/**"]
+          }
+        ]
       }
     }
   ]

@@ -60,6 +60,16 @@
   >
     <ng-container *ngIf="customer$ | async; else showCustomerSelection">
       <cx-customer-emulation *ngIf="notCollapsed"></cx-customer-emulation>
+      <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
+      <ng-container *cxFeatureLevel="'6.1'">
+        <cx-message
+          *ngIf="notCollapsed && showCreateCustomerSuccessfullyAlert"
+          [text]="'asm.createCustomerSuccessfullyAlert' | cxTranslate"
+          [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
+          (closeMessage)="closeDialogConfirmationAlert()"
+        >
+        </cx-message>
+      </ng-container>
     </ng-container>
     <ng-template #showCustomerSelection>
       <cx-customer-selection

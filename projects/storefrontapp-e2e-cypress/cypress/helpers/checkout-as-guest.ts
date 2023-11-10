@@ -98,5 +98,7 @@ export function createAccountFromGuest(password: string) {
     cy.get('[formcontrolname="passwordconf"]').clear().type(password);
     cy.get('button[type=submit]').click();
   });
+
   cy.wait(`@${homePage}`);
+  cy.get('cx-page-slot.Section1 cx-banner');
 }

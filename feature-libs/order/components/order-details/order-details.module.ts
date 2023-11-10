@@ -85,7 +85,7 @@ const moduleComponents = [
           guards: [AuthGuard],
           data: {
             enableAddToCart: true,
-            displayConsignmentDelivery: true,
+            groupCartItems: true,
           },
         },
         AccountOrderDetailsTotalsComponent: {
