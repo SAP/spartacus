@@ -40,6 +40,8 @@ const addToCartComponentSelector = 'cx-add-to-cart';
 const quoteListComponentSelector = 'cx-quote-list';
 const actionsLinkComponentSelector = 'cx-quote-actions-link';
 const headerOverviewComponentSelector = 'cx-quote-header-overview';
+
+const commentsComponentSelector = 'cx-quote-comments';
 //const itemCounterSelector = 'cx-item-counter';
 //const inputSelector = ' input';
 
@@ -50,7 +52,7 @@ const headerOverviewComponentSelector = 'cx-quote-header-overview';
 // const cardBodySelector =
 //   'cx-quote-header-overview .cx-container .card-body';
 //const cardParagraphSelector = 'cx-quote-header-overview .cx-container .card-body .cx-card-paragraph-title';
-//const commentsSelector = 'cx-quote-comments';
+
 //const commentsMsgSelector = 'cx-quote-comments .cx-message-input';
 //const messagingSelector = 'cx-messaging';
 //const messagingCardSelector = ' .cx-message-card';
@@ -177,7 +179,7 @@ export function checkQuoteCommentsDisplayed() {
     'Verifies whether the quote comments component is displayed',
     checkQuoteCommentsDisplayed.name
   );
-  cy.get('cx-quote-comments').should('be.visible');
+  cy.get(commentsComponentSelector).should('be.visible');
 }
 
 /**
@@ -865,7 +867,9 @@ export function checkCommentsNotEditable(): void {
     'Verifies if the comments are no longer editable and the input field does not exist anymore',
     checkCommentsNotEditable.name
   );
-  cy.get('cx-quote-comments .cx-message-input').should('not.exist');
+  cy.get(commentsComponentSelector).within(() => {
+    cy.get('.cx-message-input').should('not.exist');
+  });
 }
 
 /**
@@ -978,14 +982,16 @@ export function checkQuoteState(status: string) {
 export function addHeaderComment(text: string) {
   log('Adds a header comment to the quote', addHeaderComment.name);
   getCommentAmount();
-  cy.get('cx-quote-comments .cx-message-input').within(() => {
-    cy.get('input').type(text);
-    cy.get('button')
-      .click()
-      .then(() => {
-        cy.wait(ADD_QUOTE_COMMENT);
-        checkCommentAmountChanged();
-      });
+  cy.get(commentsComponentSelector).within(() => {
+    cy.get('.cx-message-input').within(() => {
+      cy.get('input').type(text);
+      cy.get('button')
+        .click()
+        .then(() => {
+          cy.wait(ADD_QUOTE_COMMENT);
+          checkCommentAmountChanged();
+        });
+    });
   });
 }
 
@@ -1029,10 +1035,9 @@ function getCommentAmount() {
  */
 export function checkComment(index: number, text: string) {
   log('Verifies a comment', checkComment.name);
-  cy.get(`cx-quote-comments .cx-message-card:nth-child(${index})`).should(
-    'contain.text',
-    text
-  );
+  cy.get(commentsComponentSelector).within(() => {
+    cy.get(`.cx-message-card:nth-child(${index})`).should('contain.text', text);
+  });
 }
 
 /**
@@ -1044,17 +1049,23 @@ export function checkComment(index: number, text: string) {
 export function addItemComment(item: string, text: string) {
   log('Adds an item comment to the quote', addItemComment.name);
   getCommentAmount();
-  cy.get('cx-quote-comments .cx-footer-label').within(() => {
-    cy.get('select').select(item);
+  cy.get(commentsComponentSelector).within(() => {
+    cy.get('.cx-footer-label').within(() => {
+      cy.get('select').select(item);
+    });
   });
-  cy.get('cx-quote-comments .cx-message-input').within(() => {
-    cy.get('input').type(text);
-    cy.get('button')
-      .click()
-      .then(() => {
-        cy.wait(ADD_QUOTE_COMMENT).its('response.statusCode').should('eq', 201);
-        checkCommentAmountChanged();
-      });
+  cy.get(commentsComponentSelector).within(() => {
+    cy.get('.cx-message-input').within(() => {
+      cy.get('input').type(text);
+      cy.get('button')
+        .click()
+        .then(() => {
+          cy.wait(ADD_QUOTE_COMMENT)
+            .its('response.statusCode')
+            .should('eq', 201);
+          checkCommentAmountChanged();
+        });
+    });
   });
 }
 
@@ -1067,14 +1078,14 @@ export function addItemComment(item: string, text: string) {
  */
 export function checkItemComment(index: number, item: string, text: string) {
   log('Verifies an item comment', checkItemComment.name);
-  cy.get(`cx-quote-comments .cx-message-card:nth-child(${index})`).should(
-    'contain.text',
-    text
-  );
-  cy.get(
-    `cx-quote-comments .cx-message-card:nth-child(${index})` +
-      ' .cx-message-item-link'
-  ).contains(item);
+  cy.get(commentsComponentSelector).within(() => {
+    cy.get(`.cx-message-card:nth-child(${index})`).should('contain.text', text);
+  });
+  cy.get(commentsComponentSelector).within(() => {
+    cy.get(
+      `.cx-message-card:nth-child(${index})` + ' .cx-message-item-link'
+    ).contains(item);
+  });
 }
 
 /**
@@ -1088,14 +1099,16 @@ export function clickItemLinkInComment(index: number, item: string) {
     'Clicks on the item link provided in the comment',
     clickItemLinkInComment.name
   );
-  cy.get(
-    `cx-quote-comments .cx-message-card:nth-child(${index})` +
-      ' .cx-message-item-link'
-  )
-    .contains(item)
-    .click()
+  cy.get(commentsComponentSelector)
+    .within(() => {
+      cy.get(`.cx-message-card:nth-child(${index})` + ' .cx-message-item-link')
+        .contains(item)
+        .click()
+        .then(() => {
+          cy.get(READ_QUOTE);
+        });
+    })
     .then(() => {
-      cy.get(READ_QUOTE);
       cy.get('cx-quote-items').should('contain', item).focused();
     });
 }
