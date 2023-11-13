@@ -119,7 +119,7 @@ describe('CustomerEmulationComponent', () => {
     expect(el.query(By.css('dev.fd-alert'))).toBeFalsy();
   });
 
-  it("should call logoutCustomer() on 'End Emulation' button click", () => {
+  it("should call logoutCustomer() on 'End Session' button click", () => {
     //customer login
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
     spyOn(userAccountFacade, 'get').and.returnValue(of(testUser));
