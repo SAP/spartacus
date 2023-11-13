@@ -1,4 +1,4 @@
-<ng-container *ngFor="let consignment of consignments">
+<ng-container *ngFor="let consignment of consignments; index as i">
   <!--
 example:
 Consignment 1 | In Process | Last Updated: 13, September, 2023
@@ -18,7 +18,7 @@ Consignment 2 | Tracking Number: 5657474 | Estimated Delivery: 22, September, 20
     >
       {{
         'myAccountV2OrderHistory.consignmentCode'
-          | cxTranslate: { param: getConsignmentNumber(consignment?.code) }
+          | cxTranslate: { param: i + 1 }
       }}
     </span>
     |
