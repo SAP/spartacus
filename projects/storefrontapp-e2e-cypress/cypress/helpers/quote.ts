@@ -38,14 +38,15 @@ const GLOBAL_MSG_QUOTE_REQUEST_NOT_POSSIBLE =
 
 const addToCartComponentSelector = 'cx-add-to-cart';
 const quoteListComponentSelector = 'cx-quote-list';
+const actionsLinkComponentSelector = 'cx-quote-actions-link';
+const headerOverviewComponentSelector = 'cx-quote-header-overview';
 //const itemCounterSelector = 'cx-item-counter';
 //const inputSelector = ' input';
 
 //const codeCellSelector = ' td.cx-code';
 //const statusCellSelector = 'td.cx-status';
 //const rowSelector = ' tr';
-//const actionsLinkSelector = 'cx-quote-actions-link';
-//const headerOverviewSelector = 'cx-quote-header-overview';
+
 // const cardBodySelector =
 //   'cx-quote-header-overview .cx-container .card-body';
 //const cardParagraphSelector = 'cx-quote-header-overview .cx-container .card-body .cx-card-paragraph-title';
@@ -154,7 +155,7 @@ export function checkQuoteActionsLinkDisplayed() {
     'Verifies whether the quote actions link component is displayed.',
     checkQuoteActionsLinkDisplayed.name
   );
-  cy.get('cx-quote-actions-link').should('be.visible');
+  cy.get(actionsLinkComponentSelector).should('be.visible');
 }
 
 /**
@@ -164,8 +165,8 @@ export function checkQuoteHeaderOverviewDisplayed() {
   log(
     'Verifies whether the quote header overview component is displayed',
     checkQuoteHeaderOverviewDisplayed.name
-  );
-  cy.get('cx-quote-header-overview').should('be.visible');
+  ); //MS
+  cy.get(headerOverviewComponentSelector).should('be.visible');
 }
 
 /**
@@ -656,16 +657,18 @@ export function checkQuoteInformationCard(isEditModeActive: boolean): void {
     'Verifies if the "Quote Information" card tile is in edit mode',
     checkQuoteInformationCard.name
   );
-  cy.get('cx-quote-header-overview .cx-container .card-body')
-    .contains(CARD_TITLE_QUOTE_INFORMATION)
-    .should('exist')
-    .then(() => {
-      if (isEditModeActive) {
-        cy.get('button').contains('Save').should('exist');
-      } else {
-        cy.get('button').contains('Save').should('not.exist');
-      }
-    });
+  cy.get(headerOverviewComponentSelector).within(() => {
+    cy.get('.cx-container .card-body')
+      .contains(CARD_TITLE_QUOTE_INFORMATION)
+      .should('exist')
+      .then(() => {
+        if (isEditModeActive) {
+          cy.get('button').contains('Save').should('exist');
+        } else {
+          cy.get('button').contains('Save').should('not.exist');
+        }
+      });
+  });
 }
 
 /**
@@ -682,22 +685,18 @@ export function editQuoteInformationCard(
     'Edits the "Quote Information" card tile with given values',
     editQuoteInformationCard.name
   );
-  cy.get('cx-quote-header-overview .cx-container .card-body')
-    .contains(CARD_TITLE_QUOTE_INFORMATION)
-    .then(() => {
-      if (newQuoteName) {
-        cy.get('cx-quote-header-overview .cx-container .card-body input')
-          .clear()
-          .type(newQuoteName);
-      }
-      if (newQuoteDescription) {
-        cy.get(
-          'cx-quote-header-overview .cx-container .card-body' + ` textarea`
-        )
-          .clear()
-          .type(newQuoteDescription);
-      }
-    });
+  cy.get(headerOverviewComponentSelector).within(() => {
+    cy.get('.cx-container .card-body')
+      .contains(CARD_TITLE_QUOTE_INFORMATION)
+      .then(() => {
+        if (newQuoteName) {
+          cy.get('input').clear().type(newQuoteName);
+        }
+        if (newQuoteDescription) {
+          cy.get('textarea').clear().type(newQuoteDescription);
+        }
+      });
+  });
 }
 
 /**
@@ -709,17 +708,22 @@ export function saveEditedData(): void {
     saveEditedData.name
   );
   checkQuoteInformationCard(true);
-  cy.get('cx-quote-header-overview .cx-container .card-body')
-    .contains(CARD_TITLE_QUOTE_INFORMATION)
-    .then(() => {
-      cy.get('button')
-        .contains('Save')
-        .should('exist')
-        .click()
+  cy.get(headerOverviewComponentSelector)
+    .within(() => {
+      cy.get('.cx-container .card-body')
+        .contains(CARD_TITLE_QUOTE_INFORMATION)
         .then(() => {
-          cy.wait(UPDATE_QUOTE_ITEM);
-          checkQuoteHeaderOverviewPageDisplayed();
+          cy.get('button')
+            .contains('Save')
+            .should('exist')
+            .click()
+            .then(() => {
+              cy.wait(UPDATE_QUOTE_ITEM);
+            });
         });
+    })
+    .then(() => {
+      checkQuoteHeaderOverviewPageDisplayed();
     });
 }
 
@@ -735,9 +739,11 @@ export function checkQuoteInformationCardContent(
     'Verifies if the expected quote name equals the current quote name',
     checkQuoteInformationCardContent.name
   );
-  cy.get('cx-quote-header-overview .cx-container .card-body')
-    .find('.cx-card-paragraph-text')
-    .contains(expectedQuoteInformationContent);
+  cy.get(headerOverviewComponentSelector).within(() => {
+    cy.get('.cx-container .card-body')
+      .find('.cx-card-paragraph-text')
+      .contains(expectedQuoteInformationContent);
+  });
 }
 
 /**
@@ -748,16 +754,17 @@ export function clickEditPencil(): void {
     'Clicks on the pencil to change the quote information within the "Quote Information" card tile.',
     clickEditPencil.name
   );
-  cy.get('cx-quote-header-overview .cx-container .card-body')
-    .contains(CARD_TITLE_QUOTE_INFORMATION)
-    .should('exist')
-    .then(() => {
-      cy.get('.cx-edit-btn')
+  cy.get(headerOverviewComponentSelector)
+    .within(() => {
+      cy.get('.cx-container .card-body')
+        .contains(CARD_TITLE_QUOTE_INFORMATION)
         .should('exist')
-        .click()
         .then(() => {
-          checkQuoteInformationCard(true);
+          cy.get('.cx-edit-btn').should('exist').click();
         });
+    })
+    .then(() => {
+      checkQuoteInformationCard(true);
     });
 }
 
@@ -899,7 +906,7 @@ export function navigateToQuoteListFromQuoteDetails() {
     'Navigates to the quote list from the quote details overview page',
     navigateToQuoteListFromQuoteDetails.name
   );
-  cy.get('cx-quote-actions-link').within(() => {
+  cy.get(actionsLinkComponentSelector).within(() => {
     cy.get('section > ul > li')
       .next()
       .within(() => {
@@ -958,7 +965,9 @@ export function checkItem(productId: string) {
  */
 export function checkQuoteState(status: string) {
   log('Verifies the quote state', checkQuoteState.name);
-  cy.get('cx-quote-header-overview' + ' .cx-status').contains(status);
+  cy.get(headerOverviewComponentSelector).within(() => {
+    cy.get('.cx-status').contains(status);
+  });
 }
 
 /**
@@ -1211,14 +1220,14 @@ export function checkExpiryDate() {
     checkExpiryDate.name
   );
 
-  cy.get(
-    'cx-quote-header-overview .cx-container .card-body .cx-card-paragraph-title'
-  )
-    .contains('Expiry Date')
-    .parent()
-    .within(() => {
-      cy.get('.cx-card-paragraph-text').contains(createFormattedExpiryDate());
-    });
+  cy.get(headerOverviewComponentSelector).within(() => {
+    cy.get('.cx-container .card-body .cx-card-paragraph-title')
+      .contains('Expiry Date')
+      .parent()
+      .within(() => {
+        cy.get('.cx-card-paragraph-text').contains(createFormattedExpiryDate());
+      });
+  });
 }
 
 /**
@@ -1320,18 +1329,18 @@ function checkDiscountApplied() {
     'Verifies the total value price is updated after applying a discount',
     checkDiscountApplied.name
   );
-  cy.get(
-    'cx-quote-header-overview .cx-container .card-body .cx-card-paragraph-title'
-  )
-    .contains('Estimated Total')
-    .parent()
-    .within(() => {
-      cy.get('@priceBeforeDiscount').then(($priceBeforeDiscount) => {
-        cy.get('.cx-card-paragraph-text')
-          .invoke('text')
-          .should('not.equal', $priceBeforeDiscount);
+  cy.get(headerOverviewComponentSelector).within(() => {
+    cy.get('.cx-container .card-body .cx-card-paragraph-title')
+      .contains('Estimated Total')
+      .parent()
+      .within(() => {
+        cy.get('@priceBeforeDiscount').then(($priceBeforeDiscount) => {
+          cy.get('.cx-card-paragraph-text')
+            .invoke('text')
+            .should('not.equal', $priceBeforeDiscount);
+        });
       });
-    });
+  });
 }
 
 /**
@@ -1342,18 +1351,18 @@ function getEstimatedTotalPriceBeforeDiscount() {
     'Creates an alias for the estimated total price before the discount is applied',
     getEstimatedTotalPriceBeforeDiscount.name
   );
-  cy.get(
-    'cx-quote-header-overview .cx-container .card-body .cx-card-paragraph-title'
-  )
-    .contains('Estimated Total')
-    .parent()
-    .within(() => {
-      cy.get('.cx-card-paragraph-text')
-        .invoke('text')
-        .then(($text) => {
-          cy.wrap($text).as('priceBeforeDiscount');
-        });
-    });
+  cy.get(headerOverviewComponentSelector).within(() => {
+    cy.get('.cx-container .card-body .cx-card-paragraph-title')
+      .contains('Estimated Total')
+      .parent()
+      .within(() => {
+        cy.get('.cx-card-paragraph-text')
+          .invoke('text')
+          .then(($text) => {
+            cy.wrap($text).as('priceBeforeDiscount');
+          });
+      });
+  });
 }
 
 /**
@@ -1366,14 +1375,14 @@ export function checkTotalEstimatedPrice(newEstimatedTotalPrice: string) {
     'Verifies the discount was applied correctly and the estimated total price is updated',
     checkTotalEstimatedPrice.name
   );
-  cy.get(
-    'cx-quote-header-overview .cx-container .card-body .cx-card-paragraph-title'
-  )
-    .contains('Estimated Total')
-    .parent()
-    .within(() => {
-      cy.get('.cx-card-paragraph-text').contains(newEstimatedTotalPrice);
-    });
+  cy.get(headerOverviewComponentSelector).within(() => {
+    cy.get('.cx-container .card-body .cx-card-paragraph-title')
+      .contains('Estimated Total')
+      .parent()
+      .within(() => {
+        cy.get('.cx-card-paragraph-text').contains(newEstimatedTotalPrice);
+      });
+  });
 }
 
 /**
