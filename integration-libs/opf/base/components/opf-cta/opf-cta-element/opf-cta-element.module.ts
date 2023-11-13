@@ -6,12 +6,11 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SafeHtmlModule } from '@spartacus/storefront';
 import { OpfCtaElementComponent } from './opf-cta-element.component';
 
 @NgModule({
   declarations: [OpfCtaElementComponent],
-  imports: [CommonModule, SafeHtmlModule],
+  imports: [CommonModule],
   exports: [OpfCtaElementComponent],
 })
 export class OpfCtaElementModule {}

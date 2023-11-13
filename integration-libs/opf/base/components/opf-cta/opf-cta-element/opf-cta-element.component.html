@@ -1,1 +1,1 @@
-<div *ngIf="ctaScriptHtml" [innerHTML]="ctaScriptHtml | cxSafeHtml"></div>
+<div *ngIf="ctaScriptHtml" [innerHTML]="renderHtml(ctaScriptHtml)"></div>

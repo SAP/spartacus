@@ -161,7 +161,9 @@ export class OpfResourceLoaderService extends ScriptLoader {
         type: OpfDynamicScriptResourceType.STYLES,
       })),
     ];
-
+    if (!resources.length) {
+      return Promise.resolve();
+    }
     return new Promise((resolve) => {
       this.loadedResources = [];
 
