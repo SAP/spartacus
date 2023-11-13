@@ -35,9 +35,12 @@ const GLOBAL_MSG_QUOTE_REQUEST_NOT_POSSIBLE =
 /**
  * Selectors
  */
+
+const addToCartComponentSelector = 'cx-add-to-cart';
+const quoteListComponentSelector = 'cx-quote-list';
 //const itemCounterSelector = 'cx-item-counter';
 //const inputSelector = ' input';
-// const quoteListSelector = 'cx-quote-list';
+
 //const codeCellSelector = ' td.cx-code';
 //const statusCellSelector = 'td.cx-status';
 //const rowSelector = ' tr';
@@ -73,7 +76,9 @@ const GLOBAL_MSG_QUOTE_REQUEST_NOT_POSSIBLE =
  */
 export function setQuantity(quantity: string): void {
   log('Sets quantity', setQuantity.name);
-  cy.get('cx-item-counter input').clear().type(`{selectall}${quantity}`);
+  cy.get(addToCartComponentSelector).within(() => {
+    cy.get('input').clear().type(`{selectall}${quantity}`);
+  });
 }
 
 /**
@@ -84,7 +89,7 @@ export function checkQuoteListDisplayed() {
     'Verifies whether the quote list page is displayed',
     checkQuoteListDisplayed.name
   );
-  cy.get('cx-quote-list').should('be.visible');
+  cy.get(quoteListComponentSelector).should('be.visible');
 }
 
 /**
@@ -96,9 +101,9 @@ export function checkQuoteListContainsQuoteId() {
     checkQuoteListContainsQuoteId.name
   );
   cy.get('@quoteId').then((quoteId) => {
-    cy.get('cx-quote-list tr')
-      .contains('td.cx-code', `${quoteId}`)
-      .should('be.visible');
+    cy.get(quoteListComponentSelector).within(() => {
+      cy.get('tr').contains('td.cx-code', `${quoteId}`).should('be.visible');
+    });
   });
 }
 
@@ -113,12 +118,14 @@ export function checkQuoteStatusInQuoteList(status: string) {
     checkQuoteStatusInQuoteList.name
   );
   cy.get('@quoteId').then((quoteId) => {
-    cy.get('cx-quote-list tr')
-      .contains('td.cx-code', `${quoteId}`)
-      .parent()
-      .within(() => {
-        cy.get('td.cx-status').contains('td.cx-status', status);
-      });
+    cy.get(quoteListComponentSelector).within(() => {
+      cy.get('tr')
+        .contains('td.cx-code', `${quoteId}`)
+        .parent()
+        .within(() => {
+          cy.get('td.cx-status').contains('td.cx-status', status);
+        });
+    });
   });
 }
 
@@ -353,32 +360,34 @@ function waitUntilQuoteExists(
   );
   let elementFound: boolean = false;
   cy.get('@quoteId').then((quoteId) => {
-    cy.get('cx-quote-list td.cx-code')
-      .then((elem) => {
-        if (elem.text().includes(`${quoteId}`)) {
-          elementFound = true;
-        }
-      })
-      .then(() => {
-        if (elementFound === false) {
-          if (--remainingAttempts > 0) {
-            cy.log(
-              'Quote not found yet. Remaining attempts: ' + remainingAttempts
-            );
-            cy.visit(quoteListPath).then(() => {
-              cy.location('pathname').should('contain', quoteListPath);
-              checkAccountPageTemplateDisplayed();
-              return cy.wait(1000).then(() => {
-                return waitUntilQuoteExists(remainingAttempts, quoteListPath);
-              });
-            });
-          } else {
-            cy.get('@quoteId').then(($quoteId) => {
-              throw Error(`Quote for ${$quoteId} was not found.`);
-            });
+    cy.get(quoteListComponentSelector).within(() => {
+      cy.get('td.cx-code')
+        .then((elem) => {
+          if (elem.text().includes(`${quoteId}`)) {
+            elementFound = true;
           }
-        }
-      });
+        })
+        .then(() => {
+          if (elementFound === false) {
+            if (--remainingAttempts > 0) {
+              cy.log(
+                'Quote not found yet. Remaining attempts: ' + remainingAttempts
+              );
+              cy.visit(quoteListPath).then(() => {
+                cy.location('pathname').should('contain', quoteListPath);
+                checkAccountPageTemplateDisplayed();
+                return cy.wait(1000).then(() => {
+                  return waitUntilQuoteExists(remainingAttempts, quoteListPath);
+                });
+              });
+            } else {
+              cy.get('@quoteId').then(($quoteId) => {
+                throw Error(`Quote for ${$quoteId} was not found.`);
+              });
+            }
+          }
+        });
+    });
   });
 }
 
