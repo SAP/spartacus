@@ -28,7 +28,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CdsConfig } from '../../config/index';
+import { CdsConfig, CdsConfiguration } from "../../config/index";
 import {
   ConsentReferenceEvent,
   DebugEvent,
@@ -112,7 +112,7 @@ export class ProfileTagEventService implements OnDestroy {
       filter(() => isPlatformBrowser(this.platform)),
       filter((siteId: string) => Boolean(siteId)),
       distinctUntilChanged(),
-      tap(() => this.addScript()),
+      tap((siteId: string) => this.addScript(siteId)),
       tap((siteId: string) => this.createConfig(siteId))
     );
   }
@@ -146,9 +146,10 @@ export class ProfileTagEventService implements OnDestroy {
   }
 
   private createConfig(siteId: string): void {
+    const config = this.getCdsConfig(siteId)
     const newConfig: ProfileTagJsConfig = {
-      ...this.config.cds.profileTag,
-      tenant: this.config.cds.tenant,
+      ...config.cds.profileTag,
+      tenant: config.cds.tenant,
       siteId,
       spa: true,
     };
@@ -164,14 +165,15 @@ export class ProfileTagEventService implements OnDestroy {
     );
   }
 
-  private addScript(): void {
-    if (this.isScriptLoaded(this.config.cds.profileTag.javascriptUrl)) {
+  private addScript(siteId: string): void {
+    const config = this.getCdsConfig(siteId)
+    if (this.isScriptLoaded(config.cds.profileTag.javascriptUrl)) {
       return;
     }
     const profileTagScript = this.winRef.document.createElement('script');
     profileTagScript.type = 'text/javascript';
     profileTagScript.async = true;
-    profileTagScript.src = this.config.cds.profileTag.javascriptUrl;
+    profileTagScript.src = config.cds.profileTag.javascriptUrl;
     this.winRef.document
       .getElementsByTagName('head')[0]
       .appendChild(profileTagScript);
@@ -196,6 +198,17 @@ export class ProfileTagEventService implements OnDestroy {
     }
     q.push([options]);
     this.profileTagWindow.Y_TRACKING.q = q;
+  }
+
+  private getCdsConfig(site: string) {
+    const foundConfig = this.config.cdsConfigs?.filter(
+      (config: CdsConfiguration) => config.site === site
+    );
+    return foundConfig?.length
+      ? {
+        cds: foundConfig[0],
+      }
+      : this.config;
   }
 
   ngOnDestroy(): void {

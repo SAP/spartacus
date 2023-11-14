@@ -10,19 +10,29 @@ import { CdsEndpoints } from '../cds-models/cds-endpoints.model';
 import { MerchandisingConfig } from './merchandising.config';
 import { ProfileTagConfig } from './profile-tag.config';
 
+export interface CdsConfiguration {
+  site?: string;
+
+  tenant?: string;
+  baseUrl?: string;
+  consentTemplateId?: string;
+  endpoints?: CdsEndpoints;
+  merchandising?: MerchandisingConfig;
+  profileTag?: ProfileTagConfig;
+}
+
+// export interface CdsConfigurations {
+//   cds?: CdsConfiguration;
+//   site?: string;
+// }
+
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
 })
 export abstract class CdsConfig {
-  cds?: {
-    tenant?: string;
-    baseUrl?: string;
-    consentTemplateId?: string;
-    endpoints?: CdsEndpoints;
-    merchandising?: MerchandisingConfig;
-    profileTag?: ProfileTagConfig;
-  };
+  cds?: CdsConfiguration;
+  cdsConfigs?: CdsConfiguration[];
 }
 
 declare module '@spartacus/core' {

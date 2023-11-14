@@ -58,7 +58,7 @@ if (!environment.production) {
     provideConfig(<OccConfig>{
       backend: {
         occ: {
-          baseUrl: environment.occBaseUrl,
+          baseUrl: '',
           prefix: environment.occApiPrefix,
         },
       },

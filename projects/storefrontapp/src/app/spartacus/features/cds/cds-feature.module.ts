@@ -8,6 +8,10 @@ import { NgModule } from '@angular/core';
 import { CdsConfig, CdsModule } from '@spartacus/cds';
 import { provideConfig } from '@spartacus/core';
 
+const cdsConfigs = [
+
+];
+
 @NgModule({
   imports: [CdsModule.forRoot()],
   providers: [
@@ -22,10 +26,6 @@ import { provideConfig } from '@spartacus/core';
         merchandising: {
           defaultCarouselViewportThreshold: 80,
         },
-      },
-    }),
-    provideConfig(<CdsConfig>{
-      cds: {
         profileTag: {
           javascriptUrl:
             'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
@@ -34,6 +34,7 @@ import { provideConfig } from '@spartacus/core';
           allowInsecureCookies: true,
         },
       },
+      cdsConfigs,
     }),
   ],
 })
