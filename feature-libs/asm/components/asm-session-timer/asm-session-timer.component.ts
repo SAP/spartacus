@@ -20,6 +20,8 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   protected interval: any;
   protected maxStartDelayInSeconds = 60000;
   timeLeft: number;
+  expiredTime: number;
+  timeout: number;
 
   constructor(
     protected config: AsmConfig,
@@ -30,11 +32,12 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.timeLeft = this.getTimerStartDelayInSeconds();
+    this.timeout = this.getTimerStartDelayInSeconds();
+    this.initTimer();
     this.interval = setInterval(() => {
-      if (this.timeLeft > 0) {
-        this.timeLeft--;
-      } else {
+      let currentSeconds = new Date().getTime() / 1000;
+      this.timeLeft = Math.floor(this.expiredTime - currentSeconds);
+      if (this.timeLeft <= 0) {
         clearInterval(this.interval);
         this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
       }
@@ -64,9 +67,15 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     );
   }
 
+  protected initTimer(): void {
+    let currentSeconds = new Date().getTime() / 1000;
+    this.timeLeft = this.timeout;
+    this.expiredTime = currentSeconds + this.timeLeft;
+  }
+
   resetTimer(): void {
     if (this.timeLeft > 0) {
-      this.timeLeft = this.getTimerStartDelayInSeconds();
+      this.initTimer();
     }
   }
 
