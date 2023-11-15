@@ -7,7 +7,7 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import { I18nTestingModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { ItemCounterComponent } from '@spartacus/storefront';
@@ -101,6 +101,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
           ReactiveFormsModule,
           StoreModule.forRoot({}),
           StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+          FeaturesConfigModule,
         ],
         providers: [
           ConfiguratorStorefrontUtilsService,
