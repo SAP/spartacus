@@ -12,22 +12,12 @@ import {
   inject,
 } from '@angular/core';
 
-import {
-  ActiveCartFacade,
-  CartAddEntrySuccessEvent,
-  DeliveryMode,
-} from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
-  CheckoutQueryResetEvent,
 } from '@spartacus/checkout/base/root';
-import {
-  Address,
-  EventService,
-  Product,
-  UserAddressService,
-} from '@spartacus/core';
+import { EventService, Product, UserAddressService } from '@spartacus/core';
 import {
   CTAProductInfo,
   OpfPaymentFacade,
@@ -36,15 +26,7 @@ import {
 } from '@spartacus/opf/base/root';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest, of } from 'rxjs';
-import {
-  catchError,
-  debounceTime,
-  filter,
-  first,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import { ApplePayService } from '../../apple-pay/apple-pay.service';
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
 
@@ -69,7 +51,7 @@ export class OpfCtaScriptsComponent implements OnInit, OnDestroy {
   // constructor(protected activeCartService: ActiveCartService) {}
 
   canMakePayment$ = this.applePayService.canMakePayment$.pipe(
-    tap((val) => console.log('val', val))
+    tap((val) => console.log('canMakePayment', val))
   );
 
   _subs: Array<Subscription> = [];
@@ -77,6 +59,7 @@ export class OpfCtaScriptsComponent implements OnInit, OnDestroy {
   selectedProduct$: Observable<Product | null>;
   quantity = 1;
   showApplePayButton = false;
+  currentCart = '';
 
   applePayPayment: ApplePayJS.ApplePayPayment;
   ctaHtmls$ = this.opfCtaScriptService.getCtaHtmlslList().pipe(
@@ -93,6 +76,8 @@ export class OpfCtaScriptsComponent implements OnInit, OnDestroy {
         return of(this.generateCtaItems(product as Product));
       })
     );
+
+    this.userAddressService.loadAddresses();
   }
 
   ngOnDestroy() {
@@ -104,32 +89,46 @@ export class OpfCtaScriptsComponent implements OnInit, OnDestroy {
     this._subs.push(sub);
   }
 
+  addProductToCart$() {
+    return this.selectedProduct$.pipe(
+      take(1),
+      tap((product) => {
+        this.activeCartService.addEntry(product?.code as string, 1);
+      })
+    );
+  }
+
   quickBuyProduct(): void {
     console.log('quickBuy clicked');
-    this.eventService.dispatch({}, CheckoutQueryResetEvent);
+    this._subs.forEach((s) => s.unsubscribe());
+    // this.eventService.dispatch({}, CheckoutQueryResetEvent);
     // this.checkoutDeliveryFacade.resetSetDeliveryAddressProcess();
     // this.checkoutDeliveryFacade.resetSetDeliveryModeProcess();
 
-    this.subs = this.getDefaultAddressAfterSuccessfulCartEntryAdd()
-      .pipe(first())
-      .subscribe((address) => {
-        console.log('address', address);
-        this.checkoutDeliveryAddressFacade.setDeliveryAddress(address);
-      });
+    // this.subs = this.getDefaultAddressAfterSuccessfulCartEntryAdd()
+    //   .pipe(first())
+    //   .subscribe((address) => {
+    //     console.log('address', address);
+    //     this.checkoutDeliveryAddressFacade.setDeliveryAddress(address);
+    //   });
 
-    this.subs = this.getDefaultDeliveryModeAfterSuccessfulAddressSetup()
-      .pipe(first())
-      .subscribe((mode) => {
-        console.log('mode', mode);
-        this.checkoutDeliveryModesFacade.setDeliveryMode(mode?.code as string);
-      });
+    // this.subs = this.getDefaultDeliveryModeAfterSuccessfulAddressSetup()
+    //   .pipe(first())
+    //   .subscribe((mode) => {
+    //     console.log('mode', mode);
+    //     this.checkoutDeliveryModesFacade.setDeliveryMode(mode?.code as string);
+    //   });
 
-    this.subs = this.onDeliveryModeSetup()
-      .pipe(
-        first(),
-        switchMap(() => this.quickBuyAfterSettingUpDeliveryMode())
-      )
-      .subscribe();
+    // this.subs = this.onDeliveryModeSetup()
+    //   .pipe(
+    //     first(),
+    //     switchMap(() => this.quickBuyAfterSettingUpDeliveryMode())
+    //   )
+    //   .subscribe();
+
+    this.subs = this.addProductToCart$().subscribe(() => {
+      console.log('addProductToCart subscribed');
+    });
 
     this.subs = combineLatest([
       this.selectedProduct$,
@@ -144,64 +143,75 @@ export class OpfCtaScriptsComponent implements OnInit, OnDestroy {
       .subscribe(({ payment, product }) => {
         console.log('Added product to cart', payment, product);
         this.applePayPayment = payment;
-        this.activeCartService.addEntry(product?.code as string, 1);
+        //  this.activeCartService.addEntry(product?.code as string, 1);
+
+        this.quickBuyAfterSettingUpDeliveryMode().subscribe(
+          (val) => {
+            console.log(val);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       });
   }
 
-  private getDefaultAddressAfterSuccessfulCartEntryAdd(): Observable<Address> {
-    return this.eventService.get(CartAddEntrySuccessEvent).pipe(
-      // combineLatest([
-      //   this.userAddressService.getAddresses(),
-      //   this.userAddressService.getAddressesLoadedSuccess(),
-      // ]).pipe(
-      //   debounceTime(0),
-      //   tap(([, addressesLoadedSuccess]) => {
-      //     if (!addressesLoadedSuccess) {
-      //       this.userAddressService.loadAddresses();
-      //     }
-      //   }),
-      //   filter(([, addressesLoadedSuccess]) => addressesLoadedSuccess),
-      //   switchMap(([addresses]) => addresses[0]))
+  // private getDefaultAddressAfterSuccessfulCartEntryAdd(): Observable<Address> {
+  //   return this.eventService.get(CartAddEntrySuccessEvent).pipe(
+  //     // combineLatest([
+  //     //   this.userAddressService.getAddresses(),
+  //     //   this.userAddressService.getAddressesLoadedSuccess(),
+  //     // ]).pipe(
+  //     //   debounceTime(0),
+  //     //   tap(([, addressesLoadedSuccess]) => {
+  //     //     if (!addressesLoadedSuccess) {
+  //     //       this.userAddressService.loadAddresses();
+  //     //     }
+  //     //   }),
+  //     //   filter(([, addressesLoadedSuccess]) => addressesLoadedSuccess),
+  //     //   switchMap(([addresses]) => addresses[0]))
 
-      tap((val) => console.log('flo1', val)),
-      switchMap(() => this.userAddressService.getAddressesLoadedSuccess()),
-      debounceTime(0),
-      tap((addressesLoadedSuccess) => {
-        if (!addressesLoadedSuccess) {
-          this.userAddressService.loadAddresses();
-        }
-      }),
-      tap((val) => console.log('flo1.5', val)),
-      filter((success) => success),
-      switchMap(() => this.userAddressService.getAddresses()),
-      tap((val) => console.log('flo2', val)),
-      map((addresses) => addresses[0])
-    );
-  }
+  //     tap((val) => console.log('flo1', val)),
+  //     switchMap(() => this.userAddressService.getAddressesLoadedSuccess()),
+  //     debounceTime(0),
+  //     tap((addressesLoadedSuccess) => {
+  //       if (!addressesLoadedSuccess) {
+  //         this.userAddressService.loadAddresses();
+  //       }
+  //     }),
+  //     tap((val) => console.log('flo1.5', val)),
+  //     filter((success) => success),
+  //     switchMap(() => this.userAddressService.getAddresses()),
+  //     tap((val) => console.log('flo2', val)),
+  //     map((addresses) => addresses[0])
+  //   );
+  // }
 
-  private getDefaultDeliveryModeAfterSuccessfulAddressSetup(): Observable<DeliveryMode> {
-    return combineLatest([
-      this.checkoutDeliveryAddressFacade.getDeliveryAddressState(),
-      this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState(),
-    ]).pipe(
-      tap((val) => console.log('flo3', val)),
-      filter(
-        ([s1, s2]) => !s1.loading && !s1.error && !s2.loading && !s2.error
-      ),
-      switchMap(() =>
-        this.checkoutDeliveryModesFacade.getSupportedDeliveryModes()
-      ),
-      tap((val) => console.log('flo4', val)),
-      map((modes) => modes[0])
-    );
-  }
+  // private getDefaultDeliveryModeAfterSuccessfulAddressSetup(): Observable<DeliveryMode> {
+  //   return combineLatest([
+  //     this.checkoutDeliveryAddressFacade.getDeliveryAddressState(),
+  //     this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState(),
+  //   ]).pipe(
+  //     tap((val) => console.log('flo3', val)),
+  //     filter(
+  //       ([s1, s2]) => !s1.loading && !s1.error && !s2.loading && !s2.error
+  //     ),
+  //     switchMap(() =>
+  //       this.checkoutDeliveryModesFacade.getSupportedDeliveryModes()
+  //     ),
+  //     filter((deliveryModes) => !!deliveryModes?.length),
+  //     tap((val) => console.log('flo4', val)),
+  //     map((modes) => modes[0])
+  //   );
+  // }
 
-  private onDeliveryModeSetup(): Observable<any> {
-    return this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
-      tap((val) => console.log('flo5', val)),
-      filter((state) => !state.loading && !state.error)
-    );
-  }
+  // private onDeliveryModeSetup(): Observable<any> {
+  //   return this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
+  //     tap((val) => console.log('flo5', val)),
+  //     filter((state) => !state.loading && !state.error),
+  //     tap((val) => console.log('flo55', val))
+  //   );
+  // }
 
   private generateCtaItems(product: Product): Array<CTAProductInfo> {
     const productItems: Array<CTAProductInfo> = [];
@@ -231,9 +241,11 @@ export class OpfCtaScriptsComponent implements OnInit, OnDestroy {
         ([_, cartId, isStable]) =>
           isStable && cartId !== undefined && cartId !== null && cartId !== ''
       ),
-      tap((val) => console.log('flo7', val)),
       switchMap(([product, cartId, _]) => {
         console.log('Preparing opf order', product, this.applePayPayment);
+        if (!this.applePayPayment) {
+          return of({});
+        }
         const billingAddress = this.applePayPayment.billingContact;
         const shippingAddress = this.applePayPayment.shippingContact;
         console.log('Billing', billingAddress);
@@ -301,6 +313,7 @@ export class OpfCtaScriptsComponent implements OnInit, OnDestroy {
         const encryptedToken = btoa(
           JSON.stringify(this.applePayPayment.token.paymentData)
         );
+        console.log('flo8');
 
         return this.opfPaymentFacade.submitPayment({
           additionalData: [],

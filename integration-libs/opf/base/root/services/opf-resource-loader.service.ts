@@ -89,7 +89,8 @@ export class OpfResourceLoaderService extends ScriptLoader {
   protected loadScript(
     resource: OpfDynamicScriptResource,
     resources: OpfDynamicScriptResource[],
-    resolve: (value: void | PromiseLike<void>) => void
+    resolve: (value: void | PromiseLike<void>) => void,
+    reject: (value: void | PromiseLike<void>) => void
   ) {
     if (resource.url && !this.hasScript(resource.url)) {
       super.embedScript({
@@ -104,6 +105,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
         },
         errorCallback: () => {
           this.handleLoadingResourceError(resource.url);
+          reject();
         },
       });
     } else {
@@ -114,7 +116,8 @@ export class OpfResourceLoaderService extends ScriptLoader {
   protected loadStyles(
     resource: OpfDynamicScriptResource,
     resources: OpfDynamicScriptResource[],
-    resolve: (value: void | PromiseLike<void>) => void
+    resolve: (value: void | PromiseLike<void>) => void,
+    reject: (value: void | PromiseLike<void>) => void
   ) {
     if (resource.url && !this.hasStyles(resource.url)) {
       this.embedStyles({
@@ -122,6 +125,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
         callback: () => this.markResourceAsLoaded(resource, resources, resolve),
         errorCallback: () => {
           this.handleLoadingResourceError(resource.url);
+          reject();
         },
       });
     } else {
@@ -162,7 +166,11 @@ export class OpfResourceLoaderService extends ScriptLoader {
       })),
     ];
 
-    return new Promise((resolve) => {
+    if (!resources.length) {
+      return Promise.resolve();
+    }
+
+    return new Promise((resolve, reject) => {
       this.loadedResources = [];
 
       resources.forEach((resource: OpfDynamicScriptResource) => {
@@ -171,10 +179,10 @@ export class OpfResourceLoaderService extends ScriptLoader {
         } else {
           switch (resource.type) {
             case OpfDynamicScriptResourceType.SCRIPT:
-              this.loadScript(resource, resources, resolve);
+              this.loadScript(resource, resources, resolve, reject);
               break;
             case OpfDynamicScriptResourceType.STYLES:
-              this.loadStyles(resource, resources, resolve);
+              this.loadStyles(resource, resources, resolve, reject);
               break;
             default:
               break;

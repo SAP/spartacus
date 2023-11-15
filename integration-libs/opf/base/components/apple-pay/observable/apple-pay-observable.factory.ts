@@ -44,6 +44,7 @@ export class ApplePayObservableFactory {
       session.addEventListener('validatemerchant', (event: Event) => {
         console.log('Validate merchant callback', event);
         config.validateMerchant(<any>event).subscribe((merchantSession) => {
+          console.log('merchantSession', merchantSession);
           session.completeMerchantValidation(merchantSession);
         }, handleUnspecifiedError);
       });

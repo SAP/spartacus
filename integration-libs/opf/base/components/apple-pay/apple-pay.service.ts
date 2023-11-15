@@ -1,17 +1,33 @@
 import { Inject, Injectable } from '@angular/core';
-import { Product } from '@spartacus/core';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Product, UserIdService } from '@spartacus/core';
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatest,
+  of,
+  throwError,
+} from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { WINDOW_TOKEN } from '@spartacus/opf/base/core';
+import { OpfOtpFacade } from '@spartacus/opf/base/root';
 import { ApplePaySessionFactory } from './apple-pay-session/apple-pay-session.factory';
 import { ApplePayAuthorizationResult } from './observable/apple-pay-observable-config.interface';
 import { ApplePayObservableFactory } from './observable/apple-pay-observable.factory';
 import { ApplePayConfigState } from './utils/apple-pay-config-state.model';
 
 export interface ApplePaySessionVerificationRequest {
-  divisionId: string;
+  cartId: string;
   validationUrl: string;
   initiative: 'web';
   initiativeContext: string;
@@ -58,7 +74,10 @@ export class ApplePayService {
     private applePaySession: ApplePaySessionFactory,
     private applePayObservable: ApplePayObservableFactory,
     @Inject(WINDOW_TOKEN) private window: Window,
-    private http: HttpClient
+    private http: HttpClient,
+    protected opfOtpFacade: OpfOtpFacade,
+    protected activeCartFacade: ActiveCartFacade,
+    protected userIdService: UserIdService
   ) {
     this.availableChange = this.configState.availableChange;
     this.configuredChange = this.configState.configuredChange;
@@ -74,7 +93,6 @@ export class ApplePayService {
         applePaySession.canMakePayments() && applePaySession.supportsVersion(3);
     } catch (err) {
       applePayAvailable = false;
-      // this.canMakePaymentSubject.next('fail on canMakePayments ');
     }
     if (!applePaySession.canMakePayments()) {
       this.canMakePaymentSubject.next('fail on canMakePayments ');
@@ -101,7 +119,7 @@ export class ApplePayService {
                 ? 'success'
                 : 'fail on canMakePaymentsWithActiveCard'
             );
-            this.configState.canMakePaymentsWithActiveCard(true);
+            this.configState.canMakePaymentsWithActiveCard(canMakePayments);
           },
           (error) => {
             this.canMakePaymentSubject.next(
@@ -180,14 +198,35 @@ export class ApplePayService {
   private handleValidation(
     event: ApplePayJS.ApplePayValidateMerchantEvent
   ): Observable<any> {
-    const verificationRequest: ApplePaySessionVerificationRequest = {
-      divisionId: 'electronics-spa',
-      validationUrl: event.validationURL,
-      initiative: 'web',
-      initiativeContext: this.window.location?.hostname,
-    };
-    console.log('Veryfing ApplyPay session with request', verificationRequest);
-    return this.verifyApplePaySession(verificationRequest);
+    let cartId = '';
+    return combineLatest([
+      this.userIdService.getUserId(),
+      this.activeCartFacade.getActiveCartId(),
+    ]).pipe(
+      filter(([userId, _]: [string, string]) => !!userId),
+      switchMap(([userId, activeCartId]: [string, string]) => {
+        cartId = activeCartId ?? 'current';
+        return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
+      }),
+      filter((response) => Boolean(response?.accessCode)),
+      take(1),
+      concatMap(({ accessCode: otpKey }) => {
+        cartId;
+        const verificationRequest: ApplePaySessionVerificationRequest = {
+          cartId,
+          validationUrl: event.validationURL,
+          initiative: 'web',
+          initiativeContext: this.window.location?.hostname,
+        };
+        console.log(
+          'Veryfing ApplyPay session with request',
+          verificationRequest
+        );
+
+        return this.verifyApplePaySession(verificationRequest, otpKey);
+      })
+    );
+    // return this.verifyApplePaySession(verificationRequest);
   }
 
   private handleShippingContactSelected(
@@ -269,10 +308,11 @@ export class ApplePayService {
   }
 
   verifyApplePaySession(
-    request: ApplePaySessionVerificationRequest
+    request: ApplePaySessionVerificationRequest,
+    otpKey: string
   ): Observable<ApplePaySessionVerificationResponse> {
     return this.http.post<ApplePaySessionVerificationResponse>(
-      `https://opf-iss-d0.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront/electronics-spa/applePayWebSession`,
+      `https://opf-iss-d0.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront/electronics-spa/payments/apple-pay-web-sessions`,
       request,
       {
         headers: new HttpHeaders({
@@ -282,6 +322,7 @@ export class ApplePayService {
           'Content-Language': 'en-US',
           'sap-commerce-cloud-public-key':
             'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
+          'sap-commerce-cloud-access-code': otpKey,
         }),
       }
     );
