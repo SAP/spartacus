@@ -32,7 +32,6 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.timeout = this.getTimerStartDelayInSeconds();
     this.initTimer();
     this.interval = setInterval(() => {
       let currentSeconds = new Date().getTime() / 1000;
@@ -68,6 +67,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   }
 
   protected initTimer(): void {
+    this.timeout = this.getTimerStartDelayInSeconds();
     let currentSeconds = new Date().getTime() / 1000;
     this.timeLeft = this.timeout;
     this.expiredTime = currentSeconds + this.timeLeft;
