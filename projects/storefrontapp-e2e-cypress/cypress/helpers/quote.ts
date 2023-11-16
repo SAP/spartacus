@@ -42,6 +42,9 @@ const actionsLinkComponentSelector = 'cx-quote-actions-link';
 const headerOverviewComponentSelector = 'cx-quote-header-overview';
 
 const commentsComponentSelector = 'cx-quote-comments';
+const quoteItemsComponentSelector = 'cx-quote-items';
+const quoteActionsByRoleComponentSelector = 'cx-quote-actions-by-role';
+
 //const itemCounterSelector = 'cx-item-counter';
 //const inputSelector = ' input';
 
@@ -58,9 +61,8 @@ const commentsComponentSelector = 'cx-quote-comments';
 //const messagingCardSelector = ' .cx-message-card';
 // const messagingCardChildSelector =
 //   'cx-quote-comments .cx-message-card:nth-child';
-//const itemsSelector = 'cx-quote-items';
+
 //const itemListRowSelector = `cx-quote-items .cx-item-list-row:nth-child`;
-//const actionsByRoleSelector = 'cx-quote-actions-by-role';
 //const btnSelector = 'button';
 //const primaryBtnSelector = ' button.btn-primary';
 //const secondaryBtnSelector = 'button.btn-secondary';
@@ -167,7 +169,7 @@ export function checkQuoteHeaderOverviewDisplayed() {
   log(
     'Verifies whether the quote header overview component is displayed',
     checkQuoteHeaderOverviewDisplayed.name
-  ); //MS
+  );
   cy.get(headerOverviewComponentSelector).should('be.visible');
 }
 
@@ -190,7 +192,7 @@ export function checkQuoteItemsDisplayed() {
     'Verifies whether the quote items component is displayed',
     checkQuoteItemsDisplayed.name
   );
-  cy.get('cx-quote-items').should('be.visible');
+  cy.get(quoteItemsComponentSelector).should('be.visible');
 }
 
 /**
@@ -212,7 +214,7 @@ export function checkQuoteActionsByRoleDisplayed() {
     'Verifies whether the quote actions by role component is displayed',
     checkQuoteActionsByRoleDisplayed.name
   );
-  cy.get('cx-quote-actions-by-role').should('be.visible');
+  cy.get(quoteActionsByRoleComponentSelector).should('be.visible');
 }
 
 /**
@@ -462,8 +464,10 @@ function clickSubmitQuoteBtn(): void {
     'Submits a quote via clicking "Submit" button on the quote details overview page',
     clickSubmitQuoteBtn.name
   );
-  cy.get('cx-quote-actions-by-role button.btn-primary')
-    .click()
+  cy.get(quoteActionsByRoleComponentSelector)
+    .within(() => {
+      cy.get('button.btn-primary').click();
+    })
     .then(() => {
       checkQuoteActionsConfirmDialogDisplayed();
     });
@@ -491,8 +495,8 @@ export function changeItemQuantityByStepper(
       changeItemQuantityByStepper.name
     );
   }
-  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
-    () => {
+  cy.get(quoteItemsComponentSelector).within(() => {
+    cy.get(`.cx-item-list-row:nth-child(${itemIndex})`).within(() => {
       cy.get('cx-item-counter' + ' button')
         .contains(changeType)
         .click()
@@ -503,8 +507,8 @@ export function changeItemQuantityByStepper(
           cy.wait(READ_QUOTE).its('response.statusCode').should('eq', 200);
           comparePriceForQuantityStepperUpdate();
         });
-    }
-  );
+    });
+  });
 }
 
 /**
@@ -513,8 +517,8 @@ export function changeItemQuantityByStepper(
  * @param itemIndex Index of the item in the QDP cart list
  */
 function getCurrentPriceForQuantityStepperUpdate(itemIndex: number) {
-  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
-    () => {
+  cy.get(quoteItemsComponentSelector).within(() => {
+    cy.get(`.cx-item-list-row:nth-child(${itemIndex})`).within(() => {
       cy.get('td[class= cx-total]').within(() => {
         cy.get('div[class=cx-value]')
           .invoke('text')
@@ -522,8 +526,8 @@ function getCurrentPriceForQuantityStepperUpdate(itemIndex: number) {
             cy.wrap(text).as('oldPrice');
           });
       });
-    }
-  );
+    });
+  });
 }
 
 /**
@@ -556,16 +560,16 @@ export function changeItemQuantityByCounter(
     'Changes the quantity of the cart item in the quote details overview using the quantity counter',
     changeItemQuantityByCounter.name
   );
-  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
-    () => {
+  cy.get(quoteItemsComponentSelector).within(() => {
+    cy.get(`.cx-item-list-row:nth-child(${itemIndex})`).within(() => {
       cy.get('cx-item-counter input')
         .type('{selectall}' + newQuantity)
         .pressTab();
       cy.wait(UPDATE_CART_ITEM).its('response.statusCode').should('eq', 200);
       cy.wait(READ_QUOTE).its('response.statusCode').should('eq', 200);
       comparePriceForQuantityStepperUpdate();
-    }
-  );
+    });
+  });
 }
 
 /**
@@ -582,11 +586,11 @@ export function checkItemQuantity(
     'Verifies if the quantity of an item at the given index equals the expected quantity given',
     checkItemQuantity.name
   );
-  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
-    () => {
+  cy.get(quoteItemsComponentSelector).within(() => {
+    cy.get(`.cx-item-list-row:nth-child(${itemIndex})`).within(() => {
       cy.get('cx-item-counter input').should('have.value', expectedQuantity);
-    }
-  );
+    });
+  });
 }
 
 /**
@@ -596,21 +600,16 @@ export function checkItemQuantity(
  */
 export function removeItem(itemIndex: number): void {
   log('Removes the item at index', removeItem.name);
-  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).within(
-    () => {
-      cy.get('button')
-        .contains('Remove')
-        .click()
-        .then(() => {
-          cy.wait(DELETE_QUOTE_ITEM)
-            .its('response.statusCode')
-            .should('eq', 200);
-          cy.get(
-            `cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`
-          ).should('not.exist');
-        });
-    }
-  );
+  cy.get(quoteItemsComponentSelector).within(() => {
+    cy.get(`.cx-item-list-row:nth-child(${itemIndex})`)
+      .within(() => {
+        cy.get('button').contains('Remove').click();
+      })
+      .then(() => {
+        cy.wait(DELETE_QUOTE_ITEM).its('response.statusCode').should('eq', 200);
+        cy.get(`.cx-item-list-row:nth-child(${itemIndex})`).should('not.exist');
+      });
+  });
   gotToQuoteOverviewPage();
 }
 
@@ -625,9 +624,11 @@ export function checkItemVisible(itemIndex: number, productID: string): void {
     'Verifies the given item is visible within the QDP at the given index',
     checkItemVisible.name
   );
-  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`)
-    .should('be.visible')
-    .contains(productID);
+  cy.get(quoteItemsComponentSelector).within(() => {
+    cy.get(`.cx-item-list-row:nth-child(${itemIndex})`)
+      .should('be.visible')
+      .contains(productID);
+  });
 }
 
 /**
@@ -639,13 +640,15 @@ export function checkItemVisible(itemIndex: number, productID: string): void {
 export function checkItemExists(itemIndex: number, productID: string): void {
   log('Verifies if the item at the given index exists', checkItemExists.name);
   if (itemIndex === 1) {
-    cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`).should(
-      'not.exist'
-    );
+    cy.get(quoteItemsComponentSelector).within(() => {
+      cy.get(`.cx-item-list-row:nth-child(${itemIndex})`).should('not.exist');
+    });
   } else {
-    cy.get(`cx-quote-items .cx-item-list-row:nth-child(${itemIndex})`)
-      .contains(productID)
-      .should('not.exist');
+    cy.get(quoteItemsComponentSelector).within(() => {
+      cy.get(`.cx-item-list-row:nth-child(${itemIndex})`)
+        .contains(productID)
+        .should('not.exist');
+    });
   }
 }
 
@@ -957,9 +960,9 @@ export function checkItem(productId: string) {
     'Verifies if the given item exists within the quote cart',
     checkItem.name
   );
-  cy.get('cx-quote-items .cx-table-item-container .cx-info').contains(
-    productId
-  );
+  cy.get(quoteItemsComponentSelector).within(() => {
+    cy.get('.cx-table-item-container .cx-info').contains(productId);
+  });
 }
 
 /**
@@ -1109,7 +1112,7 @@ export function clickItemLinkInComment(index: number, item: string) {
         });
     })
     .then(() => {
-      cy.get('cx-quote-items').should('contain', item).focused();
+      cy.get(quoteItemsComponentSelector).should('contain', item).focused();
     });
 }
 
@@ -1120,9 +1123,9 @@ export function clickItemLinkInComment(index: number, item: string) {
  */
 export function checkLinkedItemInViewport(index: number) {
   log('Verifies if the item in the viewport', checkLinkedItemInViewport.name);
-  cy.get(`cx-quote-items .cx-item-list-row:nth-child(${index})`).should(
-    'be.visible'
-  );
+  cy.get(quoteItemsComponentSelector).within(() => {
+    cy.get(`.cx-item-list-row:nth-child(${index})`).should('be.visible');
+  });
 }
 
 /**
@@ -1139,8 +1142,10 @@ export function cancelQuote(status: string) {
  */
 function clickCancelQuoteBtn() {
   log('Clicks on "Cancel Quote" button', clickCancelQuoteBtn.name);
-  cy.get('cx-quote-actions-by-role button.btn-secondary')
-    .click()
+  cy.get(quoteActionsByRoleComponentSelector)
+    .within(() => {
+      cy.get('button.btn-secondary').click();
+    })
     .then(() => {
       checkQuoteActionsConfirmDialogDisplayed();
     });
@@ -1174,8 +1179,10 @@ export function gotToQuoteOverviewPage() {
  */
 export function enableEditQuoteMode() {
   log('Enables the edit mode for the quote', enableEditQuoteMode.name);
-  cy.get('cx-quote-actions-by-role button.btn-secondary')
-    .click()
+  cy.get(quoteActionsByRoleComponentSelector)
+    .within(() => {
+      cy.get('button.btn-secondary').click();
+    })
     .then(() => {
       cy.get('cx-quote-header-seller-edit').should('be.visible');
     });
@@ -1405,16 +1412,18 @@ export function checkTotalEstimatedPrice(newEstimatedTotalPrice: string) {
  */
 export function clickOnEditConfigurationLink(itemIndex: number) {
   log('click on "Edit Configuration"', clickOnEditConfigurationLink.name);
-  cy.get(
-    `cx-quote-items cx-cart-item-list .cx-item-list-row:nth-child(${itemIndex})`
-  ).within(() => {
-    cy.get('.cx-action-link')
-      .click({
-        force: true,
-      })
-      .then(() => {
-        cy.location('pathname').should('contain', '/cartEntry/entityKey/');
-      });
+  cy.get(quoteItemsComponentSelector).within(() => {
+    cy.get(
+      `cx-cart-item-list .cx-item-list-row:nth-child(${itemIndex})`
+    ).within(() => {
+      cy.get('.cx-action-link')
+        .click({
+          force: true,
+        })
+        .then(() => {
+          cy.location('pathname').should('contain', '/cartEntry/entityKey/');
+        });
+    });
   });
 }
 
