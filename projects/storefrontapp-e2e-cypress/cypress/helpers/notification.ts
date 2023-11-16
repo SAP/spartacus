@@ -233,9 +233,9 @@ export function verifyRemovingCustomerInterestInPDP() {
 export function navigateToPDPInCustomerInterest(productCode: string) {
   cy.get('.cx-product-interests-product-item').within(() => {
     cy.get('.cx-code').should('contain', productCode);
-    cy.get(
-      '.cx-product-interests-product-image-link > .is-initialized > img'
-    ).click();
+    cy.get('.cx-product-interests-product-image-link > .is-initialized')
+      .find('img')
+      .click();
   });
 }
 
