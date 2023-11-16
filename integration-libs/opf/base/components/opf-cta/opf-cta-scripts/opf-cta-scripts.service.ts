@@ -104,15 +104,9 @@ export class OpfCtaScriptsService {
       [CtaScriptsLocation.PDP_QUICK_BUY]: () =>
         this.fillCtaRequestforPDP(scriptsLocation, paymentAccountIds),
       [CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE]: () =>
-        this.fillCtaRequestforPagesWithOrder(
-          scriptsLocation,
-          paymentAccountIds
-        ),
+        this.fillCtaRequestforPagesWithOrder(scriptsLocation),
       [CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE]: () =>
-        this.fillCtaRequestforPagesWithOrder(
-          scriptsLocation,
-          paymentAccountIds
-        ),
+        this.fillCtaRequestforPagesWithOrder(scriptsLocation),
       [CtaScriptsLocation.CART_MESSAGING]: toBeImplementedException,
       [CtaScriptsLocation.CART_QUICK_BUY]: toBeImplementedException,
       [CtaScriptsLocation.CHECKOUT_QUICK_BUY]: toBeImplementedException,
@@ -127,8 +121,7 @@ export class OpfCtaScriptsService {
   }
 
   protected fillCtaRequestforPagesWithOrder(
-    scriptLocation: CtaScriptsLocation,
-    paymentAccountIds: number[]
+    scriptLocation: CtaScriptsLocation
   ): Observable<CtaScriptsRequest> {
     return this.getOrderDetails(scriptLocation).pipe(
       map((order) => {
@@ -136,9 +129,8 @@ export class OpfCtaScriptsService {
           throw new Error('OrderPaymentInfoId missing');
         }
         const ctaScriptsRequest: CtaScriptsRequest = {
-          orderId: order?.paymentInfo?.id,
+          cartId: order?.paymentInfo?.id,
           ctaProductItems: this.getProductItems(order as Order),
-          paymentAccountIds: paymentAccountIds,
           scriptLocations: [scriptLocation],
         };
 
@@ -250,7 +242,11 @@ export class OpfCtaScriptsService {
             }
           })
           .catch(() => {
+            // if (html) {
+            //   resolve(script);
+            // } else {
             resolve(undefined);
+            //  }
           });
       }
     );

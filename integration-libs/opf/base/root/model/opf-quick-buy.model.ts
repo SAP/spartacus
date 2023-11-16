@@ -29,7 +29,7 @@ export type CtaAdditionalDataKey =
   | 'scriptIdentifier';
 export interface CtaScriptsRequest {
   paymentAccountIds?: Array<number>;
-  orderId?: string;
+  cartId?: string;
   ctaProductItems?: Array<CTAProductItem>;
   scriptLocations?: Array<CtaScriptsLocation>;
   additionalData?: Array<{
