@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { productImageZoom } from './product-image-zoom.i18n';
+import productImageZoom from './productImageZoom.json';
 
 export const en = {
   productImageZoom,
