@@ -242,11 +242,7 @@ export class OpfCtaScriptsService {
             }
           })
           .catch(() => {
-            // if (html) {
-            //   resolve(script);
-            // } else {
             resolve(undefined);
-            //  }
           });
       }
     );
