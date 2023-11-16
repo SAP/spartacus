@@ -10,7 +10,7 @@ export interface OccEndpoint {
   default?: string;
   [scope: string]: string | undefined;
 }
-
+// force full e2e test suite run
 export interface ProductOccEndpoint extends OccEndpoint {
   list?: string;
   details?: string;
