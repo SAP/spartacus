@@ -19,7 +19,7 @@ import { LoggerService } from '../../logger';
 import { OccConfig } from '../../occ/config/occ-config';
 import { WindowRef } from '../../window/window-ref';
 import { HTTP_TIMEOUT_CONFIG } from './http-timeout.config';
-// force full e2e test suite run
+
 /**
  * It throws an error when a request takes longer than the specified time.
  */

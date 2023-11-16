@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// force full e2e test suite run
 /**
  * Supported OAuth flows.
  */
