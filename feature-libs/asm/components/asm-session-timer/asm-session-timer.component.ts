@@ -21,7 +21,6 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   protected maxStartDelayInSeconds = 60000;
   timeLeft: number;
   expiredTime: number;
-  timeout: number;
 
   constructor(
     protected config: AsmConfig,
@@ -67,9 +66,9 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   }
 
   protected initTimer(): void {
-    this.timeout = this.getTimerStartDelayInSeconds();
+    const timeoutPropertyInSeconds = this.getTimerStartDelayInSeconds();
     const currentSeconds = new Date().getTime() / 1000;
-    this.timeLeft = this.timeout;
+    this.timeLeft = timeoutPropertyInSeconds;
     this.expiredTime = currentSeconds + this.timeLeft;
   }
 
