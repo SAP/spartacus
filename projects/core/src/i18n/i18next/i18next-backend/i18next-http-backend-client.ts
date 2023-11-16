@@ -6,7 +6,10 @@
 
 import { HttpClient } from '@angular/common/http';
 import { inject, InjectionToken } from '@angular/core';
-import type { HttpBackendOptions, RequestCallback } from 'i18next-http-backend/cjs';
+import type {
+  HttpBackendOptions,
+  RequestCallback,
+} from 'i18next-http-backend/cjs';
 
 export type I18nextHttpBackendClient = HttpBackendOptions['request'];
 
