@@ -25,6 +25,7 @@ export const STATUS_BUYER_CANCEL = 'status_buyer_cancel';
 export const STATUS_BUYER_CHECKOUT = 'status_buyer_checkout';
 export const STATUS_SALES_REPORTER_SUBMIT = 'status_sales_reporter_submit';
 const SHOP_NAME = Cypress.env('BASE_SITE'); //Powertools-spa
+const QUOTE_LIST_PATH = `${SHOP_NAME}/en/USD/my-account/quotes`;
 const STATUS_DRAFT = 'Draft';
 const CARD_TITLE_QUOTE_INFORMATION = 'Quote Information';
 const SUBMIT_BTN = 'Submit Quote';
@@ -44,8 +45,9 @@ const headerOverviewComponentSelector = 'cx-quote-header-overview';
 const commentsComponentSelector = 'cx-quote-comments';
 const quoteItemsComponentSelector = 'cx-quote-items';
 const quoteActionsByRoleComponentSelector = 'cx-quote-actions-by-role';
+const quoteRequestButtonComponentSelector = 'cx-quote-request-button';
+const itemCounterComponentSelector = 'cx-item-counter';
 
-//const itemCounterSelector = 'cx-item-counter';
 //const inputSelector = ' input';
 
 //const codeCellSelector = ' td.cx-code';
@@ -225,8 +227,10 @@ export function clickOnRequestQuote(cartHasIssues = false): void {
     'Clicks on "Request Quote" button on the cart page.',
     clickOnRequestQuote.name
   );
-  cy.get('cx-quote-request-button button')
-    .click()
+  cy.get(quoteRequestButtonComponentSelector)
+    .within(() => {
+      cy.get('button').click();
+    })
     .then(() => {
       if (!cartHasIssues) {
         checkQuoteHeaderOverviewPageDisplayed();
@@ -341,12 +345,11 @@ export function checkAccountPageTemplateDisplayed() {
  * Verifies if the most recent created quote of the buyer is available for the seller.
  */
 function checkQuoteAvailableForSeller() {
-  const quoteListPath = `${SHOP_NAME}/en/USD/my-account/quotes`;
-  cy.visit(quoteListPath).then(() => {
-    cy.location('pathname').should('contain', quoteListPath);
+  cy.visit(QUOTE_LIST_PATH).then(() => {
+    cy.location('pathname').should('contain', QUOTE_LIST_PATH);
     checkAccountPageTemplateDisplayed();
   });
-  waitUntilQuoteExists(5, quoteListPath);
+  waitUntilQuoteExists(5, QUOTE_LIST_PATH);
 }
 
 /**
@@ -497,9 +500,10 @@ export function changeItemQuantityByStepper(
   }
   cy.get(quoteItemsComponentSelector).within(() => {
     cy.get(`.cx-item-list-row:nth-child(${itemIndex})`).within(() => {
-      cy.get('cx-item-counter' + ' button')
-        .contains(changeType)
-        .click()
+      cy.get(itemCounterComponentSelector)
+        .within(() => {
+          cy.get(' button').contains(changeType).click();
+        })
         .then(() => {
           cy.wait(UPDATE_CART_ITEM)
             .its('response.statusCode')
@@ -562,12 +566,19 @@ export function changeItemQuantityByCounter(
   );
   cy.get(quoteItemsComponentSelector).within(() => {
     cy.get(`.cx-item-list-row:nth-child(${itemIndex})`).within(() => {
-      cy.get('cx-item-counter input')
-        .type('{selectall}' + newQuantity)
-        .pressTab();
-      cy.wait(UPDATE_CART_ITEM).its('response.statusCode').should('eq', 200);
-      cy.wait(READ_QUOTE).its('response.statusCode').should('eq', 200);
-      comparePriceForQuantityStepperUpdate();
+      cy.get(itemCounterComponentSelector)
+        .within(() => {
+          cy.get('input')
+            .type('{selectall}' + newQuantity)
+            .pressTab();
+        })
+        .then(() => {
+          cy.wait(UPDATE_CART_ITEM)
+            .its('response.statusCode')
+            .should('eq', 200);
+          cy.wait(READ_QUOTE).its('response.statusCode').should('eq', 200);
+          comparePriceForQuantityStepperUpdate();
+        });
     });
   });
 }
@@ -588,7 +599,9 @@ export function checkItemQuantity(
   );
   cy.get(quoteItemsComponentSelector).within(() => {
     cy.get(`.cx-item-list-row:nth-child(${itemIndex})`).within(() => {
-      cy.get('cx-item-counter input').should('have.value', expectedQuantity);
+      cy.get(itemCounterComponentSelector).within(() => {
+        cy.get('input').should('have.value', expectedQuantity);
+      });
     });
   });
 }
