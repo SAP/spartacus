@@ -5,7 +5,7 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { RequestCallback } from 'i18next-http-backend';
+import { RequestCallback } from 'i18next-http-backend/cjs';
 import { I18NEXT_HTTP_BACKEND_CLIENT } from './i18next-http-backend-client';
 
 const testUrl = 'test/url';

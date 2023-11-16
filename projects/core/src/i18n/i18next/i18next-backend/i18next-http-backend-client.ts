@@ -6,15 +6,15 @@
 
 import { HttpClient } from '@angular/common/http';
 import { inject, InjectionToken } from '@angular/core';
-import type { BackendOptions, RequestCallback } from 'i18next-http-backend';
+import type { HttpBackendOptions, RequestCallback } from 'i18next-http-backend/cjs';
 
-export type I18nextHttpBackendClient = BackendOptions['request'];
+export type I18nextHttpBackendClient = HttpBackendOptions['request'];
 
 /**
  * Function to be used by the `i18next-http-backend` plugin for loading translations via http.
  */
 export const I18NEXT_HTTP_BACKEND_CLIENT = new InjectionToken<
-  BackendOptions['request']
+  HttpBackendOptions['request']
 >('I18NEXT_HTTP_BACKEND_CLIENT', {
   providedIn: 'root',
   factory: (): I18nextHttpBackendClient => {
@@ -25,7 +25,7 @@ export const I18NEXT_HTTP_BACKEND_CLIENT = new InjectionToken<
     //
     // It uses Angular HttpClient under the hood, so it works in SSR.
     return (
-      _options: BackendOptions,
+      _options: HttpBackendOptions,
       url: string,
       _payload: object | string,
       callback: RequestCallback

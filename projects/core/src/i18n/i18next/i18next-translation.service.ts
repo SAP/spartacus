@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, inject, isDevMode } from '@angular/core';
+import { Inject, inject, Injectable, isDevMode } from '@angular/core';
 import { i18n } from 'i18next';
 import { Observable } from 'rxjs';
 import { LoggerService } from '../../logger';
@@ -48,7 +48,7 @@ export class I18nextTranslationService implements TranslationService {
           return;
         }
         if (this.i18next.exists(namespacedKey, options)) {
-          subscriber.next(this.i18next.t(namespacedKey, options));
+          subscriber.next(this.i18next.t(namespacedKey, options) as string);
         } else {
           if (whitespaceUntilLoaded) {
             subscriber.next(this.NON_BREAKING_SPACE);
@@ -58,7 +58,7 @@ export class I18nextTranslationService implements TranslationService {
               this.reportMissingKey(key, chunkName);
               subscriber.next(this.getFallbackValue(namespacedKey));
             } else {
-              subscriber.next(this.i18next.t(namespacedKey, options));
+              subscriber.next(this.i18next.t(namespacedKey, options) as string);
             }
           });
         }

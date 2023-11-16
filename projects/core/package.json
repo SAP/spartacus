@@ -23,8 +23,8 @@
     "@ngrx/router-store": "^16.0.1",
     "@ngrx/store": "^16.0.1",
     "angular-oauth2-oidc": "^15.0.1",
-    "i18next": "^21.10.0",
-    "i18next-http-backend": "^1.4.5",
+    "i18next": "^23.7.6",
+    "i18next-http-backend": "^2.4.1",
     "i18next-resources-to-backend": "^1.1.2",
     "rxjs": "^7.8.0"
   },
