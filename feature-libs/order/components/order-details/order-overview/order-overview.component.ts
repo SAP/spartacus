@@ -226,7 +226,7 @@ export class OrderOverviewComponent {
           ({
             title: textTitle,
             textBold: payment.accountHolderName,
-            text: [payment.cardNumber, textExpires],
+            text: [payment.cardType?.name, payment.cardNumber, textExpires],
           } as Card)
       )
     );
