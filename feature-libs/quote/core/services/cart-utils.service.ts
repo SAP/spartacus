@@ -10,7 +10,6 @@ import { RoutingService, UserIdService } from '@spartacus/core';
 import { QuoteCartService } from '@spartacus/quote/root';
 import { Observable } from 'rxjs';
 import { take, switchMap } from 'rxjs/operators';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +19,6 @@ export class CartUtilsService {
   protected multiCartFacade = inject(MultiCartFacade);
   protected routingService = inject(RoutingService);
   protected quoteCartService = inject(QuoteCartService);
-  protected activeCartFacade = inject(ActiveCartFacade);
 
   protected createNewCart(): Observable<Cart> {
     return this.userIdService.takeUserId().pipe(
