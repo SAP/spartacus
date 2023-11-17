@@ -11,7 +11,7 @@
     "angular-oauth2-oidc": "^15.0.1",
     "i18next": "^23.7.6",
     "i18next-http-backend": "^2.4.1",
-    "i18next-resources-to-backend": "^1.1.2",
+    "i18next-resources-to-backend": "^1.2.0",
     "rxjs": "^7.8.0"
   },
   "@spartacus/schematics": {
@@ -392,7 +392,7 @@
     "hamburgers": "^1.2.1",
     "i18next": "^23.7.6",
     "i18next-http-backend": "^2.4.1",
-    "i18next-resources-to-backend": "^1.1.2",
+    "i18next-resources-to-backend": "^1.2.0",
     "ngx-infinite-scroll": "^16.0.0",
     "rxjs": "^7.8.0",
     "ts-loader": "^9.4.4",

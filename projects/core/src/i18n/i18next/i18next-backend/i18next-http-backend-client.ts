@@ -6,10 +6,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { inject, InjectionToken } from '@angular/core';
-import type {
-  HttpBackendOptions,
-  RequestCallback,
-} from 'i18next-http-backend/cjs';
+import type { HttpBackendOptions } from 'i18next-http-backend';
 
 export type I18nextHttpBackendClient = HttpBackendOptions['request'];
 
@@ -27,12 +24,7 @@ export const I18NEXT_HTTP_BACKEND_CLIENT = new InjectionToken<
     // See docs for `i18next-http-backend`: https://github.com/i18next/i18next-http-backend#backend-options
     //
     // It uses Angular HttpClient under the hood, so it works in SSR.
-    return (
-      _options: HttpBackendOptions,
-      url: string,
-      _payload: object | string,
-      callback: RequestCallback
-    ) => {
+    return (_options, url, _payload, callback) => {
       httpClient.get(url, { responseType: 'text' }).subscribe({
         next: (data) => callback(null, { status: 200, data }),
         error: (error) =>
