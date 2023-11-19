@@ -399,10 +399,12 @@ describe('OrderOverviewComponent', () => {
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
-          expect(data.textBold).toEqual(
-            mockOrder.paymentInfo.accountHolderName
-          );
-          expect(data.text).toEqual([mockOrder.paymentInfo.cardNumber, 'test']);
+          expect(data.text).toEqual([
+            mockOrder.paymentInfo?.cardType?.name,
+            mockOrder.paymentInfo?.accountHolderName,
+            mockOrder.paymentInfo?.cardNumber,
+            'test',
+          ]);
         })
         .unsubscribe();
 
