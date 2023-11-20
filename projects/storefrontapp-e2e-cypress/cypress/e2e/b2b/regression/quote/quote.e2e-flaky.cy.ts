@@ -117,7 +117,7 @@ context('Quote', () => {
       quote.checkSubmitBtn(false);
       quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
       quote.removeItem(itemIndex);
-      quote.checkItemExists(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
+      quote.checkQuoteCartIsEmpty();
     });
 
     it('should edit name and description of the quote while in buyer draft (CXSPA-3852)', () => {
@@ -154,7 +154,7 @@ context('Quote', () => {
       );
       quote.cancelQuote(quote.STATUS_BUYER_CANCEL);
       quote.checkQuoteListDisplayed();
-      quote.gotToQuoteOverviewPage();
+      quote.goToQuoteOverviewPage();
       quote.checkQuoteState(quote.STATUS_CANCELED);
     });
   });
@@ -204,7 +204,7 @@ context('Quote', () => {
       quote.submitQuote(quote.STATUS_SALES_REPORTER_SUBMIT);
       asm.agentSignOut();
       quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
-      quote.gotToQuoteOverviewPage();
+      quote.goToQuoteOverviewPage();
       quote.submitQuote(quote.STATUS_BUYER_CHECKOUT);
       quote.addProductAndCheckForGlobalMessage(
         TEST_PRODUCT_HAMMER_DRILLING_NAME,

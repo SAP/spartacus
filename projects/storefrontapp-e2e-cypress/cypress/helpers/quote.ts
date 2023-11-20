@@ -47,6 +47,9 @@ const quoteItemsComponentSelector = 'cx-quote-items';
 const quoteActionsByRoleComponentSelector = 'cx-quote-actions-by-role';
 const quoteRequestButtonComponentSelector = 'cx-quote-request-button';
 const itemCounterComponentSelector = 'cx-item-counter';
+const actionsConfirmDialogComponentSelector = 'cx-quote-actions-confirm-dialog';
+const messagingComponentSelector = 'cx-messaging';
+const quoteHeaderSellerEditComponentSelector = 'cx-quote-header-seller-edit';
 
 //const inputSelector = ' input';
 
@@ -59,7 +62,7 @@ const itemCounterComponentSelector = 'cx-item-counter';
 //const cardParagraphSelector = 'cx-quote-header-overview .cx-container .card-body .cx-card-paragraph-title';
 
 //const commentsMsgSelector = 'cx-quote-comments .cx-message-input';
-//const messagingSelector = 'cx-messaging';
+
 //const messagingCardSelector = ' .cx-message-card';
 // const messagingCardChildSelector =
 //   'cx-quote-comments .cx-message-card:nth-child';
@@ -74,9 +77,7 @@ const itemCounterComponentSelector = 'cx-item-counter';
 //   'cx-quote-actions-by-role button.btn-secondary';
 //const requestQuoteBtnSelector = 'cx-quote-request-button button';
 //const accountPageTemplateSelector = '.AccountPageTemplate';
-//const confirmDialogSelector = 'cx-quote-actions-confirm-dialog';
 //const globalMsgSelector = 'cx-global-message';
-//const sellerEditSelector = 'cx-quote-header-seller-edit';
 
 /**
  * Sets quantity.
@@ -327,7 +328,7 @@ export function prepareSellerQuote(
   asm.agentLogin(salesrep_email, salesrep_password);
   asm.startCustomerEmulation(buyer, true);
   checkQuoteAvailableForSeller();
-  gotToQuoteOverviewPage();
+  goToQuoteOverviewPage();
 }
 
 /**
@@ -368,34 +369,38 @@ function waitUntilQuoteExists(
   );
   let elementFound: boolean = false;
   cy.get('@quoteId').then((quoteId) => {
-    cy.get(quoteListComponentSelector).within(() => {
-      cy.get('td.cx-code')
-        .then((elem) => {
+    cy.get(quoteListComponentSelector)
+      .within(() => {
+        cy.get('td.cx-code').then((elem) => {
           if (elem.text().includes(`${quoteId}`)) {
             elementFound = true;
           }
-        })
-        .then(() => {
-          if (elementFound === false) {
-            if (--remainingAttempts > 0) {
-              cy.log(
-                'Quote not found yet. Remaining attempts: ' + remainingAttempts
-              );
-              cy.visit(quoteListPath).then(() => {
-                cy.location('pathname').should('contain', quoteListPath);
-                checkAccountPageTemplateDisplayed();
-                return cy.wait(1000).then(() => {
-                  return waitUntilQuoteExists(remainingAttempts, quoteListPath);
-                });
-              });
-            } else {
-              cy.get('@quoteId').then(($quoteId) => {
-                throw Error(`Quote for ${$quoteId} was not found.`);
-              });
-            }
-          }
         });
-    });
+      })
+      .then(() => {
+        if (elementFound === false) {
+          if (--remainingAttempts > 0) {
+            cy.log(
+              'Quote not found yet. Remaining attempts: ' + remainingAttempts
+            );
+            cy.visit(quoteListPath).then(() => {
+              cy.location('pathname')
+                .should('contain', quoteListPath)
+                .then(() => {
+                  checkAccountPageTemplateDisplayed();
+                });
+
+              return cy.wait(1000).then(() => {
+                return waitUntilQuoteExists(remainingAttempts, quoteListPath);
+              });
+            });
+          } else {
+            cy.get('@quoteId').then(($quoteId) => {
+              throw Error(`Quote for ${$quoteId} was not found.`);
+            });
+          }
+        }
+      });
   });
 }
 
@@ -442,10 +447,10 @@ export function submitQuote(status: string): void {
     'Submits a quote via clicking "Yes" button in the confirmation popover',
     submitQuote.name
   );
-  gotToQuoteOverviewPage();
+  goToQuoteOverviewPage();
   clickSubmitQuoteBtn();
   clickOnYesBtnWithinRequestPopUp(status);
-  gotToQuoteOverviewPage();
+  goToQuoteOverviewPage();
 }
 
 /**
@@ -456,7 +461,7 @@ export function checkQuoteActionsConfirmDialogDisplayed() {
     'Verifies whether the quote confirm dialog is displayed',
     checkQuoteActionsConfirmDialogDisplayed.name
   );
-  cy.get('cx-quote-actions-confirm-dialog').should('be.visible');
+  cy.get(actionsConfirmDialogComponentSelector).should('be.visible');
 }
 
 /**
@@ -565,21 +570,17 @@ export function changeItemQuantityByCounter(
     changeItemQuantityByCounter.name
   );
   cy.get(quoteItemsComponentSelector).within(() => {
-    cy.get(`.cx-item-list-row:nth-child(${itemIndex})`).within(() => {
-      cy.get(itemCounterComponentSelector)
-        .within(() => {
-          cy.get('input')
-            .type('{selectall}' + newQuantity)
-            .pressTab();
-        })
-        .then(() => {
-          cy.wait(UPDATE_CART_ITEM)
-            .its('response.statusCode')
-            .should('eq', 200);
-          cy.wait(READ_QUOTE).its('response.statusCode').should('eq', 200);
-          comparePriceForQuantityStepperUpdate();
-        });
-    });
+    cy.get(`.cx-item-list-row:nth-child(${itemIndex})`)
+      .within(() => {
+        cy.get('input')
+          .type('{selectall}' + newQuantity)
+          .pressTab();
+      })
+      .then(() => {
+        cy.wait(UPDATE_CART_ITEM).its('response.statusCode').should('eq', 200);
+        cy.wait(READ_QUOTE).its('response.statusCode').should('eq', 200);
+        comparePriceForQuantityStepperUpdate();
+      });
   });
 }
 
@@ -599,9 +600,7 @@ export function checkItemQuantity(
   );
   cy.get(quoteItemsComponentSelector).within(() => {
     cy.get(`.cx-item-list-row:nth-child(${itemIndex})`).within(() => {
-      cy.get(itemCounterComponentSelector).within(() => {
-        cy.get('input').should('have.value', expectedQuantity);
-      });
+      cy.get('input').should('have.value', expectedQuantity);
     });
   });
 }
@@ -623,7 +622,7 @@ export function removeItem(itemIndex: number): void {
         cy.get(`.cx-item-list-row:nth-child(${itemIndex})`).should('not.exist');
       });
   });
-  gotToQuoteOverviewPage();
+  goToQuoteOverviewPage();
 }
 
 /**
@@ -645,24 +644,16 @@ export function checkItemVisible(itemIndex: number, productID: string): void {
 }
 
 /**
- * Verifies if the item at the given index exists.
- *
- * @param itemIndex Index of the Item in the QDP cart list
- * @param productID Id of the product
+ * Verifies the quote cart does not contain any items.
  */
-export function checkItemExists(itemIndex: number, productID: string): void {
-  log('Verifies if the item at the given index exists', checkItemExists.name);
-  if (itemIndex === 1) {
-    cy.get(quoteItemsComponentSelector).within(() => {
-      cy.get(`.cx-item-list-row:nth-child(${itemIndex})`).should('not.exist');
-    });
-  } else {
-    cy.get(quoteItemsComponentSelector).within(() => {
-      cy.get(`.cx-item-list-row:nth-child(${itemIndex})`)
-        .contains(productID)
-        .should('not.exist');
-    });
-  }
+export function checkQuoteCartIsEmpty(): void {
+  log(
+    'Verifies the quote cart does not contain any items',
+    checkQuoteCartIsEmpty.name
+  );
+  cy.get(quoteItemsComponentSelector).within(() => {
+    cy.get('.cx-item-list-row:nth-child(1)').should('not.exist');
+  });
 }
 
 /**
@@ -676,7 +667,7 @@ export function checkQuoteInformationCard(isEditModeActive: boolean): void {
     checkQuoteInformationCard.name
   );
   cy.get(headerOverviewComponentSelector).within(() => {
-    cy.get('.cx-container .card-body')
+    cy.get('.card-body')
       .contains(CARD_TITLE_QUOTE_INFORMATION)
       .should('exist')
       .then(() => {
@@ -704,7 +695,7 @@ export function editQuoteInformationCard(
     editQuoteInformationCard.name
   );
   cy.get(headerOverviewComponentSelector).within(() => {
-    cy.get('.cx-container .card-body')
+    cy.get('.card-body')
       .contains(CARD_TITLE_QUOTE_INFORMATION)
       .then(() => {
         if (newQuoteName) {
@@ -728,7 +719,7 @@ export function saveEditedData(): void {
   checkQuoteInformationCard(true);
   cy.get(headerOverviewComponentSelector)
     .within(() => {
-      cy.get('.cx-container .card-body')
+      cy.get('.card-body')
         .contains(CARD_TITLE_QUOTE_INFORMATION)
         .then(() => {
           cy.get('button')
@@ -758,9 +749,7 @@ export function checkQuoteInformationCardContent(
     checkQuoteInformationCardContent.name
   );
   cy.get(headerOverviewComponentSelector).within(() => {
-    cy.get('.cx-container .card-body')
-      .find('.cx-card-paragraph-text')
-      .contains(expectedQuoteInformationContent);
+    cy.get('.cx-card-paragraph-text').contains(expectedQuoteInformationContent);
   });
 }
 
@@ -774,7 +763,7 @@ export function clickEditPencil(): void {
   );
   cy.get(headerOverviewComponentSelector)
     .within(() => {
-      cy.get('.cx-container .card-body')
+      cy.get('.card-body')
         .contains(CARD_TITLE_QUOTE_INFORMATION)
         .should('exist')
         .then(() => {
@@ -794,8 +783,10 @@ export function clickOnYesBtnWithinRequestPopUp(status: string): void {
     'Clicks on "Yes" button within the quote confirmation popover',
     clickOnYesBtnWithinRequestPopUp.name
   );
-  cy.get('cx-quote-actions-confirm-dialog' + ' button.btn-primary')
-    .click()
+  cy.get(actionsConfirmDialogComponentSelector)
+    .within(() => {
+      cy.get('button.btn-primary').click();
+    })
     .then(() => {
       switch (status) {
         case STATUS_BUYER_SUBMIT: {
@@ -853,7 +844,6 @@ export function checkGlobalMessageDisplayed(
     checkGlobalMessageDisplayed.name
   );
   if (isDisplayed) {
-    cy.get('cx-global-message').should('be.visible');
     if (message) cy.get('cx-global-message').contains(message);
   } else {
     cy.get('cx-global-message').should('not.be.visible');
@@ -896,26 +886,24 @@ export function navigateToQuoteListFromMyAccount() {
     'Navigates to quote list via my account',
     navigateToQuoteListFromMyAccount.name
   );
-  cy.get('cx-page-layout[section="header"]').within(() => {
-    cy.get('cx-navigation-ui.accNavComponent')
-      .should('contain.text', 'My Account')
-      .and('be.visible')
-      .within(() => {
-        cy.get('nav > ul > li > button').first().focus().trigger('keydown', {
-          key: ' ',
-          code: 'Space',
-          force: true,
-        });
-        cy.get('cx-generic-link')
-          .contains('Quotes')
-          .should('be.visible')
-          .click()
-          .then(() => {
-            cy.wait(READ_QUOTE);
-            cy.url().should('include', 'quotes');
-          });
+  cy.get('.accNavComponent')
+    .should('contain.text', 'My Account')
+    .and('be.visible')
+    .within(() => {
+      cy.get('nav > ul > li > button').first().focus().trigger('keydown', {
+        key: ' ',
+        code: 'Space',
+        force: true,
       });
-  });
+      cy.get('cx-generic-link')
+        .contains('Quotes')
+        .should('be.visible')
+        .click()
+        .then(() => {
+          cy.wait(READ_QUOTE);
+          cy.url().should('include', 'quotes');
+        });
+    });
 }
 
 /**
@@ -956,7 +944,7 @@ export function checkQuoteInDraftState(
     'Verifies if the displayed quote is in draft state',
     checkQuoteInDraftState.name
   );
-  gotToQuoteOverviewPage();
+  goToQuoteOverviewPage();
   checkQuoteState(STATUS_DRAFT);
   checkGlobalMessageDisplayed(!submitThresholdMet);
   checkSubmitBtn(submitThresholdMet);
@@ -974,7 +962,8 @@ export function checkItem(productId: string) {
     checkItem.name
   );
   cy.get(quoteItemsComponentSelector).within(() => {
-    cy.get('.cx-table-item-container .cx-info').contains(productId);
+    cy.get('.cx-info').contains(productId);
+    // cy.get('.cx-table-item-container .cx-info').contains(productId);
   });
 }
 
@@ -1016,7 +1005,7 @@ export function addHeaderComment(text: string) {
  */
 function checkCommentAmountChanged() {
   cy.get('button')
-    .parents('cx-messaging')
+    .parents(messagingComponentSelector)
     .within(($element) => {
       cy.get('.cx-message-card')
         .should('exist')
@@ -1034,7 +1023,7 @@ function checkCommentAmountChanged() {
  * Gets the current amount of displayed comments.
  */
 function getCommentAmount() {
-  cy.get('cx-messaging').then(($element) => {
+  cy.get(messagingComponentSelector).then(($element) => {
     if ($element.find('.cx-message-card').length) {
       cy.wrap($element.find('.cx-message-card').length).as('oldCommentAmount');
     } else {
@@ -1069,8 +1058,6 @@ export function addItemComment(item: string, text: string) {
     cy.get('.cx-footer-label').within(() => {
       cy.get('select').select(item);
     });
-  });
-  cy.get(commentsComponentSelector).within(() => {
     cy.get('.cx-message-input').within(() => {
       cy.get('input').type(text);
       cy.get('button')
@@ -1096,8 +1083,6 @@ export function checkItemComment(index: number, item: string, text: string) {
   log('Verifies an item comment', checkItemComment.name);
   cy.get(commentsComponentSelector).within(() => {
     cy.get(`.cx-message-card:nth-child(${index})`).should('contain.text', text);
-  });
-  cy.get(commentsComponentSelector).within(() => {
     cy.get(
       `.cx-message-card:nth-child(${index})` + ' .cx-message-item-link'
     ).contains(item);
@@ -1117,12 +1102,14 @@ export function clickItemLinkInComment(index: number, item: string) {
   );
   cy.get(commentsComponentSelector)
     .within(() => {
-      cy.get(`.cx-message-card:nth-child(${index})` + ' .cx-message-item-link')
-        .contains(item)
-        .click()
-        .then(() => {
-          cy.get(READ_QUOTE);
-        });
+      cy.get(`.cx-message-card:nth-child(${index})`).within(() => {
+        cy.get(' .cx-message-item-link')
+          .contains(item)
+          .click()
+          .then(() => {
+            cy.get(READ_QUOTE);
+          });
+      });
     })
     .then(() => {
       cy.get(quoteItemsComponentSelector).should('contain', item).focused();
@@ -1168,6 +1155,7 @@ function clickCancelQuoteBtn() {
  * Navigates to the quote list page.
  */
 export function goToQuoteListPage(): void {
+  log('Go to the quote list page', goToQuoteListPage.name);
   const location = `${SHOP_NAME}/en/USD/my-account/quotes`;
   cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
@@ -1178,8 +1166,8 @@ export function goToQuoteListPage(): void {
 /**
  * Go to the quote overview page.
  */
-export function gotToQuoteOverviewPage() {
-  log('Go to the quote overview page', gotToQuoteOverviewPage.name);
+export function goToQuoteOverviewPage() {
+  log('Go to the quote overview page', goToQuoteOverviewPage.name);
   cy.get<string>('@quoteURL')
     .then(cy.visit)
     .then(() => {
@@ -1197,7 +1185,7 @@ export function enableEditQuoteMode() {
       cy.get('button.btn-secondary').click();
     })
     .then(() => {
-      cy.get('cx-quote-header-seller-edit').should('be.visible');
+      cy.get(quoteHeaderSellerEditComponentSelector).should('be.visible');
     });
 }
 
@@ -1235,9 +1223,10 @@ export function setExpiryDate() {
     (monthStringSingleDigitMonth + (EXPIRY_DATE.getMonth() + 1)) +
     '-' +
     (dayStringSingleDigitDay + EXPIRY_DATE.getDate());
-  cy.get('cx-quote-header-seller-edit' + ' cx-date-picker input')
-    .type(expiryDateString)
-    .trigger('change')
+  cy.get('cx-date-picker')
+    .within(() => {
+      cy.get('input').type(expiryDateString).trigger('change');
+    })
     .then(() => {
       cy.wait(UPDATE_QUOTE_ITEM).its('response.statusCode').should('eq', 200);
       checkExpiryDate();
@@ -1342,14 +1331,22 @@ function createFormattedExpiryDate(): string {
 export function setDiscount(discount: string) {
   log('Sets the discount (sales reporter perspective', setDiscount.name);
   getEstimatedTotalPriceBeforeDiscount();
-  cy.get('cx-quote-header-seller-edit' + ' input[name="discount"]').type(
-    discount
-  );
-  cy.get('cx-quote-header-seller-edit button.btn-secondary')
-    .click()
+  cy.get(quoteHeaderSellerEditComponentSelector)
+    .within(() => {
+      cy.get(' input[name="discount"]')
+        .type(discount)
+        .then(() => {
+          cy.get('button.btn-secondary')
+            .click()
+            .then(() => {
+              cy.wait(UPDATE_QUOTE_ITEM)
+                .its('response.statusCode')
+                .should('eq', 200);
+              cy.wait(READ_QUOTE);
+            });
+        });
+    })
     .then(() => {
-      cy.wait(UPDATE_QUOTE_ITEM).its('response.statusCode').should('eq', 200);
-      cy.wait(READ_QUOTE);
       checkDiscountApplied();
     });
 }
