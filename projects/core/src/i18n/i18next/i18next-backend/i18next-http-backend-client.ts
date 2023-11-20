@@ -9,7 +9,7 @@ import { inject, InjectionToken } from '@angular/core';
 import type {
   HttpBackendOptions,
   RequestCallback,
-} from 'i18next-http-backend/cjs';
+} from 'i18next-http-backend/cjs'; // added cjs is a workaround for https://github.com/i18next/i18next-http-backend/issues/125
 
 export type I18nextHttpBackendClient = HttpBackendOptions['request'];
 
