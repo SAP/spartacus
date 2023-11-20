@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject, isDevMode } from '@angular/core';
+import { inject, Injectable, isDevMode } from '@angular/core';
 import { LoggerService } from '../logger';
 import { I18nConfig } from './config/i18n-config';
 
@@ -57,10 +57,10 @@ export class TranslationChunkService {
         }.${key}'.`
       );
     });
-    this.logger.warn(
-      `Duplicated keys has been found in the config of i18n chunks:\n${dupes.join(
-        '\n'
-      )}`
-    );
+    // this.logger.warn(
+    //   `Duplicated keys has been found in the config of i18n chunks:\n${dupes.join(
+    //     '\n'
+    //   )}`
+    // );
   }
 }

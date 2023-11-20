@@ -3,3 +3,6 @@ feature-libs/smartedit/assets/webApplicationInjector.js
 **/*.md
 **/*.yml
 coverage
+
+# spike todo remove:
+!$spikes/*.md

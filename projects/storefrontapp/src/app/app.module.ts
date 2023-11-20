@@ -20,13 +20,14 @@ import {
   FeaturesConfig,
   I18nConfig,
   OccConfig,
+  provideConfig,
   RoutingConfig,
   TestConfigModule,
-  provideConfig,
 } from '@spartacus/core';
 import { StoreFinderConfig } from '@spartacus/storefinder/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
 import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
+import { $spikeProviders } from '../$spikes/angular/$spike.providers';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
@@ -94,6 +95,8 @@ if (!environment.production) {
       // without a key, for development or demo purposes.
       googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
     }),
+    // SPIKE NEW
+    ...$spikeProviders,
   ],
   bootstrap: [StorefrontComponent],
 })

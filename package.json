@@ -130,6 +130,7 @@
     "i18next-http-backend": "^1.4.5",
     "i18next-resources-to-backend": "^1.1.2",
     "ngx-infinite-scroll": "^15.0.0",
+    "pino": "^8.16.2",
     "rxjs": "^6.6.0",
     "ts-loader": "^9.4.4",
     "tslib": "^2.6.2",

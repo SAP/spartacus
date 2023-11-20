@@ -170,10 +170,10 @@ export class CmsComponentsService {
     if (isDevMode() && !componentConfig) {
       if (!this.missingComponents.includes(componentType)) {
         this.missingComponents.push(componentType);
-        this.logger.warn(
-          `No component implementation found for the CMS component type '${componentType}'.\n`,
-          `Make sure you implement a component and register it in the mapper.`
-        );
+        // this.logger.warn(
+        //   `No component implementation found for the CMS component type '${componentType}'.\n`,
+        //   `Make sure you implement a component and register it in the mapper.`
+        // );
       }
     }
 

@@ -7,16 +7,27 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
+  defaultSsrOptimizationOptions,
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
-  defaultSsrOptimizationOptions,
 } from '@spartacus/setup/ssr';
 
 import { Express } from 'express';
 import { existsSync } from 'fs';
 import { join } from 'path';
 import 'zone.js/node';
+import { setLogger } from './src/$spikes/node/express-logger';
+import { registerRequestsStats } from './src/$spikes/node/get-requests-stats';
+import { pinoLogger } from './src/$spikes/node/pino-logger';
+import { addRoute_GetGlobalAgent } from './src/$spikes/node/routes/get-global-agent.express';
+import { addRoute_GetRequestsStats } from './src/$spikes/node/routes/get-requests-stats';
+import { addRoute_HealthCheck } from './src/$spikes/node/routes/health-check.express';
+import { addRoute_SetGlobalAgent } from './src/$spikes/node/routes/set-global-agent.express';
+import { spikeSsrOptimizationOptions } from './src/$spikes/node/spike-ssr-optimization-options';
 import { AppServerModule } from './src/main.server';
+
+// SPIKE NEW
+registerRequestsStats();
 
 // Require is used here, because we can't use `import * as express` together with TS esModuleInterop option.
 // And we need to use esModuleInterop option in ssr dev mode, because i18next enforce usage of this option for cjs module.
@@ -26,7 +37,9 @@ const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
-  logger: true,
+  // SPIKE NEW
+  logger: pinoLogger,
+  ...spikeSsrOptimizationOptions,
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
@@ -46,11 +59,19 @@ export function app() {
     'html',
     ngExpressEngine({
       bootstrap: AppServerModule,
+      inlineCriticalCss: false,
     })
   );
 
   server.set('view engine', 'html');
   server.set('views', distFolder);
+
+  // SPIKE NEW
+  setLogger(server, pinoLogger); // needed by next routes
+  addRoute_HealthCheck(server);
+  addRoute_SetGlobalAgent(server);
+  addRoute_GetGlobalAgent(server);
+  addRoute_GetRequestsStats(server);
 
   // Serve static files from /browser
   server.get(
