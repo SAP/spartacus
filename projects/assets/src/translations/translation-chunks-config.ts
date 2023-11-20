@@ -37,6 +37,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
   payment: [
     'paymentForm',
     'paymentMethods',
+    'newPaymentMethods',
     'paymentCard',
     'paymentTypes',
     'paymentMessages',
