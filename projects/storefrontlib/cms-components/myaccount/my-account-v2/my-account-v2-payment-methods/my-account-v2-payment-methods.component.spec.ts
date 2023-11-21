@@ -10,9 +10,9 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
-import { ICON_TYPE } from '../../misc/icon';
-import { CardComponent } from '../../../shared/components/card/card.component';
-import { NewPaymentMethodsComponent } from './new-payment-methods.component';
+import { ICON_TYPE } from '../../../misc/icon';
+import { CardComponent } from '../../../../shared/components/card/card.component';
+import { MyAccountV2PaymentMethodsComponent } from './my-account-v2-payment-methods.component';
 import { FocusDirective } from '@spartacus/storefront';
 
 class MockGlobalMessageService {
@@ -64,9 +64,9 @@ class MockUserPaymentService {
   setPaymentMethodAsDefault(_paymentMethodId: string): void {}
 }
 
-describe('NewPaymentMethodsComponent', () => {
-  let component: NewPaymentMethodsComponent;
-  let fixture: ComponentFixture<NewPaymentMethodsComponent>;
+describe('MyAccountV2PaymentMethodsComponent', () => {
+  let component: MyAccountV2PaymentMethodsComponent;
+  let fixture: ComponentFixture<MyAccountV2PaymentMethodsComponent>;
   let userService: UserPaymentService;
   let el: DebugElement;
 
@@ -75,7 +75,7 @@ describe('NewPaymentMethodsComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, FeaturesConfigModule],
         declarations: [
-          NewPaymentMethodsComponent,
+          MyAccountV2PaymentMethodsComponent,
           MockCxSpinnerComponent,
           CardComponent,
           MockCxIconComponent,
@@ -97,7 +97,7 @@ describe('NewPaymentMethodsComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewPaymentMethodsComponent);
+    fixture = TestBed.createComponent(MyAccountV2PaymentMethodsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     userService = TestBed.inject(UserPaymentService);

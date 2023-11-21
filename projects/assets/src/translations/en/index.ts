@@ -14,6 +14,7 @@ import { product } from './product';
 import { pwa } from './pwa';
 import { user } from './user';
 import { video } from './video';
+import { myAccountV2Payment } from './my-account-v2-payment';
 
 export const en = {
   address,
@@ -26,4 +27,5 @@ export const en = {
   video,
   pdf,
   deliveryMode,
+  myAccountV2Payment
 };

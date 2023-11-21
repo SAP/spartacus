@@ -40,13 +40,6 @@ export const payment = {
       'New payment methods are added during checkout.',
     invalidField: 'InvalidField: {{ field }}',
   },
-  newPaymentMethods: {
-    paymentMethods: 'Payment methods',
-    paymentMethodSelected: 'Payment method selected',
-    newPaymentMethodsAreAddedDuringCheckout:
-      'New payment methods are added during checkout.',
-    invalidField: 'InvalidField: {{ field }}',
-  },
   paymentCard: {
     deleteConfirmation: 'Are you sure you want to delete this payment method?',
     setAsDefault: 'Set as default',

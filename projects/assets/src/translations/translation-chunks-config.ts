@@ -56,6 +56,9 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'returnRequestList',
     'returnRequest',
   ],
+  myAccountV2Payment: [
+    'myAccountV2PaymentMethods'
+  ],
   pwa: ['pwa'],
   product: [
     'productDetails',

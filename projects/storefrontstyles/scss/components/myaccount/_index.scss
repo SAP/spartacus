@@ -11,10 +11,10 @@
 @import './my-coupons-card';
 @import './my-coupons-dialog';
 @import './my-interests';
-@import './new-payment-methods';
+@import './my-account-v2-payment-methods';
 
 $myaccount-components-allowlist: cx-address-book, cx-address-form,
   cx-suggested-addresses-dialog, cx-anonymous-consent-management-banner,
   cx-anonymous-consent-dialog, cx-anonymous-consent-open-dialog,
   cx-consent-management-form, cx-consent-management, cx-my-interests,
-  cx-my-coupons, cx-coupon-card, cx-coupon-dialog, cx-payment-methods, cx-new-payment-methods !default;
+  cx-my-coupons, cx-coupon-card, cx-coupon-dialog, cx-payment-methods, cx-my-account-v2-payment-methods !default;

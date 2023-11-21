@@ -14,14 +14,14 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../misc/icon';
-import { Card } from '../../../shared/components/card/card.component';
+import { ICON_TYPE } from '../../../misc/icon';
+import { Card } from '../../../../shared/components/card/card.component';
 
 @Component({
-  selector: 'cx-new-payment-methods',
-  templateUrl: './new-payment-methods.component.html',
+  selector: 'cx-my-account-v2-payment-methods',
+  templateUrl: './my-account-v2-payment-methods.component.html',
 })
-export class NewPaymentMethodsComponent implements OnInit {
+export class MyAccountV2PaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string | undefined;
   iconTypes = ICON_TYPE;

@@ -60,3 +60,8 @@ export const ConfigChunk = new InjectionToken<Config[]>('ConfigurationChunk');
 export const DefaultConfigChunk = new InjectionToken<Config[]>(
   'DefaultConfigurationChunk'
 );
+
+export const USE_MY_ACCOUNT_V2_PAYMENT = new InjectionToken<boolean>(
+  'feature flag to enable enhanced UI for Payment related pages under My-Account',
+  { providedIn: 'root', factory: () => false }
+);

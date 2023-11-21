@@ -2,14 +2,14 @@
   <div class="cx-payment container">
     <div class="cx-header">
       <h2>
-        {{ 'newPaymentMethods.paymentMethods' | cxTranslate }}
+        {{ 'myAccountV2PaymentMethods.paymentMethods' | cxTranslate }}
       </h2>
     </div>
 
     <div class="cx-body">
       <div class="cx-msg">
         {{
-          'newPaymentMethods.newPaymentMethodsAreAddedDuringCheckout' | cxTranslate
+          'myAccountV2PaymentMethods.newPaymentMethodsAreAddedDuringCheckout' | cxTranslate
         }}
       </div>
       <div *ngIf="loading$ | async; else cards"><cx-spinner></cx-spinner></div>

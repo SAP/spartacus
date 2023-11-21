@@ -5,4 +5,6 @@
  */
 
 export * from './my-account-v2-navigation/index';
+export * from './my-account-v2-payment-methods/my-account-v2-payment-methods.module';
+export * from './my-account-v2-payment-methods/my-account-v2-payment-methods.component';
 export * from './my-account-v2.module';
