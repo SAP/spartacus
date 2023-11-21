@@ -30,6 +30,7 @@ export function defaultOrganizationAdministrationComponentsConfig(): CmsConfig {
           'ManageCostCentersListComponent',
           'ManagePermissionsListComponent',
           'ManageUnitsListComponent',
+          'ManageUnitsListComponent2',
           'ManageUsersListComponent',
           'ManageUserGroupsListComponent',
         ],

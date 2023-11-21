@@ -47,6 +47,7 @@ import { UnitAddressRoutePageMetaResolver } from './services/unit-address-route-
 import { UnitItemService } from './services/unit-item.service';
 import { UnitListService } from './services/unit-list.service';
 import { UnitRoutePageMetaResolver } from './services/unit-route-page-meta.resolver';
+import { GraceConsentTestComponent } from 'projects/storefrontlib/cms-components/myaccount/grace-test-consent';
 
 export const unitsCmsConfig: CmsConfig = {
   cmsComponents: {
@@ -190,6 +191,9 @@ export const unitsCmsConfig: CmsConfig = {
         ],
       },
       guards: [AuthGuard, AdminGuard],
+    },
+    ManageUnitsListComponent2: {
+      component: GraceConsentTestComponent,
     },
   },
 };
