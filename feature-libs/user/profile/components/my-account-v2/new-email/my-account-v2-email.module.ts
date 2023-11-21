@@ -26,20 +26,20 @@ import {
   MessageComponentModule,
 } from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
-import { NewEmailComponentService } from './new-email-component.service';
-import { NewEmailComponent } from './new-email.component';
+import { MyAccountV2EmailComponentService } from './my-account-v2-email-component.service';
+import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
 
 @NgModule({
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        NewEmailComponent: {
-          component: NewEmailComponent,
+        MyAccountV2EmailComponent: {
+          component: MyAccountV2EmailComponent,
           guards: [AuthGuard],
           providers: [
             {
-              provide: NewEmailComponentService,
-              useClass: NewEmailComponentService,
+              provide: MyAccountV2EmailComponentService,
+              useClass: MyAccountV2EmailComponentService,
               deps: [
                 UserEmailFacade,
                 RoutingService,
@@ -53,8 +53,8 @@ import { NewEmailComponent } from './new-email.component';
       },
     }),
   ],
-  declarations: [NewEmailComponent],
-  exports: [NewEmailComponent],
+  declarations: [MyAccountV2EmailComponent],
+  exports: [MyAccountV2EmailComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -68,4 +68,4 @@ import { NewEmailComponent } from './new-email.component';
     MessageComponentModule,
   ],
 })
-export class NewEmailModule {}
+export class MyAccountV2EmailModule {}

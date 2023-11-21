@@ -5,9 +5,9 @@
  */
 
 import { userProfile } from './user-profile';
-import { newUserProfile } from './new-user-profile';
+import { myAccountV2UserProfile } from './my-account-v2-user-profile.18n';
 
 export const en = {
   userProfile,
-  newUserProfile,
+  myAccountV2UserProfile,
 };

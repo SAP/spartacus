@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const newUserProfile = {
-  newUserProfile: {
+export const myAccountV2UserProfile = {
+  myAccountV2UserProfile: {
     myEmailAddress: 'My Email Address',
     myInformation: 'My Information',
     name: 'Name',

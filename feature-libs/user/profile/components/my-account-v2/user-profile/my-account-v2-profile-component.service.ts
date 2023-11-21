@@ -17,7 +17,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
-export class NewProfileComponentService {
+export class MyAccountV2ProfileComponentService {
   constructor(
     protected userProfile: UserProfileFacade,
     protected globalMessageService: GlobalMessageService

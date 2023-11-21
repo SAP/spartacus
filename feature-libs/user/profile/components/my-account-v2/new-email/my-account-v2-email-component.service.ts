@@ -23,7 +23,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
-export class NewEmailComponentService {
+export class MyAccountV2EmailComponentService {
   constructor(
     protected userEmail: UserEmailFacade,
     protected routingService: RoutingService,

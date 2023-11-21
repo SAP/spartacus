@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,78 +12,65 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, User } from '@spartacus/core';
-import {
-  FormErrorsModule,
-  PasswordVisibilityToggleModule,
-} from '@spartacus/storefront';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Subject, of } from 'rxjs';
-import { NewEmailComponentService } from './new-email-component.service';
-import { NewEmailComponent } from './new-email.component';
+import { MyAccountV2ProfileComponentService } from './my-account-v2-profile-component.service';
+import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import createSpy = jasmine.createSpy;
-import { UserProfileFacade } from '../../root/facade';
-
 @Component({
   selector: 'cx-spinner',
-  template: '',
+  template: ` <div>spinner</div> `,
 })
 class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
-class MockNewEmailService implements Partial<NewEmailComponentService> {
-  updateSucceed$ = new Subject();
+
+class MockProfileService implements Partial<MyAccountV2ProfileComponentService> {
+  user$ = of({});
+  titles$ = of([]);
+  updateSucceed$ = new Subject<boolean>();
   form: UntypedFormGroup = new UntypedFormGroup({
-    oldEmail: new UntypedFormControl(),
-    email: new UntypedFormControl(),
-    confirmEmail: new UntypedFormControl(),
-    password: new UntypedFormControl(),
+    customerId: new UntypedFormControl(),
+    titleCode: new UntypedFormControl(),
+    firstName: new UntypedFormControl(),
+    lastName: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  save = createSpy().and.stub();
-  resetForm = createSpy().and.stub();
+  updateProfile = createSpy().and.stub();
 }
 
-const sampleUser: User = {
-  uid: 'sampleUid',
-};
-class MockNewProfileFacade implements Partial<UserProfileFacade> {
-  get() {
-    return of(sampleUser);
-  }
-}
-
-describe('NewEmailComponent', () => {
-  let component: NewEmailComponent;
-  let fixture: ComponentFixture<NewEmailComponent>;
+describe('MyAccountV2ProfileComponent', () => {
+  let component: MyAccountV2ProfileComponent;
+  let fixture: ComponentFixture<MyAccountV2ProfileComponent>;
   let el: DebugElement;
 
-  let service: NewEmailComponentService;
+  let service: MyAccountV2ProfileComponentService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
+          CommonModule,
           ReactiveFormsModule,
           I18nTestingModule,
           FormErrorsModule,
           RouterTestingModule,
           UrlTestingModule,
-          PasswordVisibilityToggleModule,
+          NgSelectModule,
+          FeaturesConfigModule,
         ],
-        declarations: [NewEmailComponent, MockCxSpinnerComponent],
+        declarations: [MyAccountV2ProfileComponent, MockCxSpinnerComponent],
         providers: [
           {
-            provide: NewEmailComponentService,
-            useClass: MockNewEmailService,
-          },
-          {
-            provide: UserProfileFacade,
-            useClass: MockNewProfileFacade,
+            provide: MyAccountV2ProfileComponentService,
+            useClass: MockProfileService,
           },
         ],
       })
-        .overrideComponent(NewEmailComponent, {
+        .overrideComponent(MyAccountV2ProfileComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
         })
         .compileComponents();
@@ -90,12 +78,12 @@ describe('NewEmailComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewEmailComponent);
+    fixture = TestBed.createComponent(MyAccountV2ProfileComponent);
     component = fixture.componentInstance;
-    component.onEdit();
     el = fixture.debugElement;
-    service = TestBed.inject(NewEmailComponentService);
-    TestBed.inject(UserProfileFacade);
+    component.onEdit();
+    service = TestBed.inject(MyAccountV2ProfileComponentService);
+
     fixture.detectChanges();
   });
 
@@ -135,21 +123,6 @@ describe('NewEmailComponent', () => {
       fixture.detectChanges();
       expect(el.query(By.css('cx-spinner'))).toBeNull();
     });
-
-    it('should show cx message strip', () => {
-      component.onEdit();
-      fixture.detectChanges();
-      const cxMsg = el.query(By.css('cx-message'));
-      expect(cxMsg.nativeElement).toBeTruthy();
-    });
-
-    it('should hide cx message strip when close clicked', () => {
-      component.onEdit();
-      component.closeDialogConfirmationAlert();
-      fixture.detectChanges();
-      const cxMsg = el.query(By.css('cx-message'));
-      expect(cxMsg).toBeNull();
-    });
   });
 
   describe('idle - display', () => {
@@ -171,16 +144,14 @@ describe('NewEmailComponent', () => {
     });
 
     it('should call the service method on submit', () => {
-      component.form.enable();
-      component.onEdit();
       component.onSubmit();
-      expect(service.save).toHaveBeenCalled();
+      expect(service.updateProfile).toHaveBeenCalled();
     });
 
     it('when cancel is called. submit button is not visible', () => {
       component.form.enable();
-      component.cancelEdit();
       fixture.detectChanges();
+      component.cancelEdit();
       const submitBtn = el.query(By.css('button.btn-primary'));
       expect(submitBtn).toBeNull();
     });

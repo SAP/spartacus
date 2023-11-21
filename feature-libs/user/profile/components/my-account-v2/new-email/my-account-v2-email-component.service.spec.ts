@@ -11,7 +11,7 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
-import { NewEmailComponentService } from './new-email-component.service';
+import { MyAccountV2EmailComponentService } from './my-account-v2-email-component.service';
 import createSpy = jasmine.createSpy;
 class MockUserEmailService implements Partial<UserEmailFacade> {
   update = createSpy().and.returnValue(of({}));
@@ -31,8 +31,8 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
   setRedirectUrl = createSpy('setRedirectUrl');
 }
 
-describe('NewEmailComponentService', () => {
-  let service: NewEmailComponentService;
+describe('MyAccountV2EmailComponentService', () => {
+  let service: MyAccountV2EmailComponentService;
   let userService: UserEmailFacade;
   let authService: AuthService;
   let routingService: RoutingService;
@@ -46,7 +46,7 @@ describe('NewEmailComponentService', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       providers: [
-        NewEmailComponentService,
+        MyAccountV2EmailComponentService,
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -72,7 +72,7 @@ describe('NewEmailComponentService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.inject(NewEmailComponentService);
+    service = TestBed.inject(MyAccountV2EmailComponentService);
 
     routingService = TestBed.inject(RoutingService);
     authService = TestBed.inject(AuthService);

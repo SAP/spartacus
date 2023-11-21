@@ -23,8 +23,8 @@ import {
   NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { NewProfileComponent } from './new-profile.component';
-import { NewProfileComponentService } from './new-profile-component.service';
+import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
+import { MyAccountV2ProfileComponentService } from './my-account-v2-profile-component.service';
 
 @NgModule({
   imports: [
@@ -43,12 +43,12 @@ import { NewProfileComponentService } from './new-profile-component.service';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         NewProfileComponent: {
-          component: NewProfileComponent,
+          component: MyAccountV2ProfileComponent,
           guards: [AuthGuard],
           providers: [
             {
-              provide: NewProfileComponentService,
-              useClass: NewProfileComponentService,
+              provide: MyAccountV2ProfileComponentService,
+              useClass: MyAccountV2ProfileComponentService,
               deps: [UserProfileFacade, GlobalMessageService],
             },
           ],

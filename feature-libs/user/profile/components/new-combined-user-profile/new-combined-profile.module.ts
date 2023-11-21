@@ -29,8 +29,8 @@ import { NewCombinedProfileComponent } from './new-combined-profile.component';
 import {
   NewProfileComponentService,
   NewProfileModule,
-} from '../new-user-profile';
-import { NewEmailComponentService, NewEmailModule } from '../new-email';
+} from '../my-account-v2/user-profile';
+import { NewEmailComponentService, NewEmailModule } from '../my-account-v2/new-email';
 
 @NgModule({
   imports: [

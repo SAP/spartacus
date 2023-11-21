@@ -9,7 +9,7 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { EMPTY, of } from 'rxjs';
-import { NewProfileComponentService } from './new-profile-component.service';
+import { MyAccountV2ProfileComponentService } from './my-account-v2-profile-component.service';
 import createSpy = jasmine.createSpy;
 
 const mockUser = {
@@ -29,8 +29,8 @@ class MockGlobalMessageService {
   add = createSpy().and.stub();
 }
 
-describe('NewUpdateProfileComponentService', () => {
-  let service: NewProfileComponentService;
+describe('MyAccountV2ProfileComponentService', () => {
+  let service: MyAccountV2ProfileComponentService;
   let userService: UserProfileFacade;
   let globalMessageService: GlobalMessageService;
 
@@ -38,7 +38,7 @@ describe('NewUpdateProfileComponentService', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       providers: [
-        NewProfileComponentService,
+        MyAccountV2ProfileComponentService,
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
@@ -52,7 +52,7 @@ describe('NewUpdateProfileComponentService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.inject(NewProfileComponentService);
+    service = TestBed.inject(MyAccountV2ProfileComponentService);
     userService = TestBed.inject(UserProfileFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
   });

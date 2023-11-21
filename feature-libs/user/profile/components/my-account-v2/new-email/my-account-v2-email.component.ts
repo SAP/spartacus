@@ -7,7 +7,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { NewEmailComponentService } from './new-email-component.service';
+import { MyAccountV2EmailComponentService } from './my-account-v2-email-component.service';
 import { GlobalMessageType, User } from '@spartacus/core';
 
 import { UserProfileFacade } from '@spartacus/user/profile/root';
@@ -15,11 +15,11 @@ import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-new-email',
-  templateUrl: './new-email.component.html',
+  templateUrl: './my-account-v2-email.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {},
 })
-export class NewEmailComponent implements OnInit {
+export class MyAccountV2EmailComponent implements OnInit {
   form: UntypedFormGroup = this.emailComponentservice.form;
   isUpdating$: Observable<boolean> = this.emailComponentservice.isUpdating$;
   isEditing: boolean;
@@ -31,7 +31,7 @@ export class NewEmailComponent implements OnInit {
   globalMessageType = GlobalMessageType;
 
   constructor(
-    protected emailComponentservice: NewEmailComponentService,
+    protected emailComponentservice: MyAccountV2EmailComponentService,
     protected userProfile: UserProfileFacade
   ) {}
   ngOnInit(): void {

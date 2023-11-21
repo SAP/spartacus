@@ -9,16 +9,16 @@ import { UntypedFormGroup } from '@angular/forms';
 import { Title } from '@spartacus/user/profile/root';
 import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
-import { NewProfileComponentService } from './new-profile-component.service';
+import { MyAccountV2ProfileComponentService } from './my-account-v2-profile-component.service';
 
 @Component({
   selector: 'cx-new-profile',
-  templateUrl: './new-profile.component.html',
+  templateUrl: './my-account-v2-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {},
 })
-export class NewProfileComponent implements OnInit {
-  constructor(protected service: NewProfileComponentService) {}
+export class MyAccountV2ProfileComponent implements OnInit {
+  constructor(protected service: MyAccountV2ProfileComponentService) {}
   ngOnInit(): void {
     this.isEditing = false;
   }
