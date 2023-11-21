@@ -36,12 +36,10 @@ const GLOBAL_MSG_QUOTE_REQUEST_NOT_POSSIBLE =
 /**
  * Selectors
  */
-
 const addToCartComponentSelector = 'cx-add-to-cart';
 const quoteListComponentSelector = 'cx-quote-list';
 const actionsLinkComponentSelector = 'cx-quote-actions-link';
 const headerOverviewComponentSelector = 'cx-quote-header-overview';
-
 const commentsComponentSelector = 'cx-quote-comments';
 const quoteItemsComponentSelector = 'cx-quote-items';
 const quoteActionsByRoleComponentSelector = 'cx-quote-actions-by-role';
@@ -50,34 +48,6 @@ const itemCounterComponentSelector = 'cx-item-counter';
 const actionsConfirmDialogComponentSelector = 'cx-quote-actions-confirm-dialog';
 const messagingComponentSelector = 'cx-messaging';
 const quoteHeaderSellerEditComponentSelector = 'cx-quote-header-seller-edit';
-
-//const inputSelector = ' input';
-
-//const codeCellSelector = ' td.cx-code';
-//const statusCellSelector = 'td.cx-status';
-//const rowSelector = ' tr';
-
-// const cardBodySelector =
-//   'cx-quote-header-overview .cx-container .card-body';
-//const cardParagraphSelector = 'cx-quote-header-overview .cx-container .card-body .cx-card-paragraph-title';
-
-//const commentsMsgSelector = 'cx-quote-comments .cx-message-input';
-
-//const messagingCardSelector = ' .cx-message-card';
-// const messagingCardChildSelector =
-//   'cx-quote-comments .cx-message-card:nth-child';
-
-//const itemListRowSelector = `cx-quote-items .cx-item-list-row:nth-child`;
-//const btnSelector = 'button';
-//const primaryBtnSelector = ' button.btn-primary';
-//const secondaryBtnSelector = 'button.btn-secondary';
-// const primaryBtnActionsByRoleSelector =
-//   'cx-quote-actions-by-role button.btn-primary';
-// const secondaryBtnActionsByRoleSelector =
-//   'cx-quote-actions-by-role button.btn-secondary';
-//const requestQuoteBtnSelector = 'cx-quote-request-button button';
-//const accountPageTemplateSelector = '.AccountPageTemplate';
-//const globalMsgSelector = 'cx-global-message';
 
 /**
  * Sets quantity.
@@ -1243,7 +1213,7 @@ export function checkExpiryDate() {
   );
 
   cy.get(headerOverviewComponentSelector).within(() => {
-    cy.get('.cx-container .card-body .cx-card-paragraph-title')
+    cy.get('.cx-card-paragraph-title')
       .contains('Expiry Date')
       .parent()
       .within(() => {
@@ -1360,7 +1330,7 @@ function checkDiscountApplied() {
     checkDiscountApplied.name
   );
   cy.get(headerOverviewComponentSelector).within(() => {
-    cy.get('.cx-container .card-body .cx-card-paragraph-title')
+    cy.get('.cx-card-paragraph-title')
       .contains('Estimated Total')
       .parent()
       .within(() => {
@@ -1382,7 +1352,7 @@ function getEstimatedTotalPriceBeforeDiscount() {
     getEstimatedTotalPriceBeforeDiscount.name
   );
   cy.get(headerOverviewComponentSelector).within(() => {
-    cy.get('.cx-container .card-body .cx-card-paragraph-title')
+    cy.get('.cx-card-paragraph-title')
       .contains('Estimated Total')
       .parent()
       .within(() => {
@@ -1406,7 +1376,7 @@ export function checkTotalEstimatedPrice(newEstimatedTotalPrice: string) {
     checkTotalEstimatedPrice.name
   );
   cy.get(headerOverviewComponentSelector).within(() => {
-    cy.get('.cx-container .card-body .cx-card-paragraph-title')
+    cy.get('.cx-card-paragraph-title')
       .contains('Estimated Total')
       .parent()
       .within(() => {
@@ -1423,9 +1393,7 @@ export function checkTotalEstimatedPrice(newEstimatedTotalPrice: string) {
 export function clickOnEditConfigurationLink(itemIndex: number) {
   log('click on "Edit Configuration"', clickOnEditConfigurationLink.name);
   cy.get(quoteItemsComponentSelector).within(() => {
-    cy.get(
-      `cx-cart-item-list .cx-item-list-row:nth-child(${itemIndex})`
-    ).within(() => {
+    cy.get(`.cx-item-list-row:nth-child(${itemIndex})`).within(() => {
       cy.get('.cx-action-link')
         .click({
           force: true,
@@ -1445,7 +1413,7 @@ export function clickOnViewCartBtnOnPD(): void {
     'Clicks on "View Cart" on the product details page',
     clickOnViewCartBtnOnPD.name
   );
-  cy.get('div.cx-dialog-buttons a.btn-primary')
+  cy.get('.btn-primary')
     .contains('view cart')
     .click()
     .then(() => {
@@ -1466,9 +1434,11 @@ export function addProductAndCheckForGlobalMessage(
   globalMessage: string
 ) {
   productConfigurator.searchForProduct(productName);
-  cy.get('cx-add-to-cart button.btn-primary')
+  cy.get(addToCartComponentSelector)
     .first()
-    .click()
+    .within(() => {
+      cy.get('button.btn-primary').click();
+    })
     .then(() => {
       this.checkGlobalMessageDisplayed(true, globalMessage);
     });
