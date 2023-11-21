@@ -20,8 +20,8 @@ import {
   UserConsentService,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
-import { NewConsentManagementComponent } from './new-consent-management.component';
-import { ConsentManagementComponentService } from '../../consent-management';
+import { MyAccountV2ConsentManagementComponent } from './my-account-v2-consent-management.component';
+import { ConsentManagementComponentService } from '../../../consent-management';
 
 @Component({
   selector: 'cx-spinner',
@@ -111,8 +111,8 @@ const mockConsentTemplate: ConsentTemplate = {
 };
 
 describe('NewConsentManagementComponent', () => {
-  let component: NewConsentManagementComponent;
-  let fixture: ComponentFixture<NewConsentManagementComponent>;
+  let component: MyAccountV2ConsentManagementComponent;
+  let fixture: ComponentFixture<MyAccountV2ConsentManagementComponent>;
   let el: DebugElement;
 
   let userService: UserConsentService;
@@ -131,7 +131,7 @@ describe('NewConsentManagementComponent', () => {
         declarations: [
           MockCxSpinnerComponent,
           MockConsentManagementFormComponent,
-          NewConsentManagementComponent,
+          MyAccountV2ConsentManagementComponent,
         ],
         providers: [
           ConsentManagementComponentService,
@@ -155,7 +155,7 @@ describe('NewConsentManagementComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewConsentManagementComponent);
+    fixture = TestBed.createComponent(MyAccountV2ConsentManagementComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
 

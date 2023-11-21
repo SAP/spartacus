@@ -6,24 +6,26 @@ import {
   ConsentTemplate,
   I18nTestingModule,
 } from '@spartacus/core';
-import { NewConsentManagementFormComponent } from './new-consent-management-form.component';
+import { MyAccountV2ConsentManagementFormComponent } from './my-account-v2-consent-management-form.component';
 
-describe('NewConsentManagementFormComponent', () => {
-  let component: NewConsentManagementFormComponent;
-  let fixture: ComponentFixture<NewConsentManagementFormComponent>;
+describe('MyAccountV2ConsentManagementFormComponent', () => {
+  let component: MyAccountV2ConsentManagementFormComponent;
+  let fixture: ComponentFixture<MyAccountV2ConsentManagementFormComponent>;
   let el: DebugElement;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [NewConsentManagementFormComponent],
+        declarations: [MyAccountV2ConsentManagementFormComponent],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewConsentManagementFormComponent);
+    fixture = TestBed.createComponent(
+      MyAccountV2ConsentManagementFormComponent
+    );
     component = fixture.componentInstance;
     component.consentTemplate = {};
     component.requiredConsents = [];

@@ -12,10 +12,10 @@ import {
 } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-new-consent-management-form',
-  templateUrl: './new-consent-management-form.component.html',
+  selector: 'cx-my-account-v2-consent-management-form',
+  templateUrl: './my-account-v2-consent-management-form.component.html',
 })
-export class NewConsentManagementFormComponent implements OnInit {
+export class MyAccountV2ConsentManagementFormComponent implements OnInit {
   consentGiven = false;
   consentApprovedTime: string;
 

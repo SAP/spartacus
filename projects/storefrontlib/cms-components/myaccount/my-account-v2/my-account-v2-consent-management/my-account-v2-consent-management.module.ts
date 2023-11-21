@@ -13,11 +13,11 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { IconModule } from '../../misc/icon/icon.module';
-import { NewConsentManagementComponent } from './components/new-consent-management.component';
-import { NewConsentManagementFormComponent } from './components/consent-form/new-consent-management-form.component';
-import { ConsentManagementComponentService } from '../consent-management';
+import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
+import { IconModule } from '../../../misc/icon/icon.module';
+import { MyAccountV2ConsentManagementComponent } from './components/my-account-v2-consent-management.component';
+import { MyAccountV2ConsentManagementFormComponent } from './components/consent-form/my-account-v2-consent-management-form.component';
+import { ConsentManagementComponentService } from '../../consent-management';
 
 @NgModule({
   imports: [
@@ -33,16 +33,19 @@ import { ConsentManagementComponentService } from '../consent-management';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         NewConsentManagementComponent: {
-          component: NewConsentManagementComponent,
+          component: MyAccountV2ConsentManagementComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
   declarations: [
-    NewConsentManagementComponent,
-    NewConsentManagementFormComponent,
+    MyAccountV2ConsentManagementComponent,
+    MyAccountV2ConsentManagementFormComponent,
   ],
-  exports: [NewConsentManagementComponent, NewConsentManagementFormComponent],
+  exports: [
+    MyAccountV2ConsentManagementComponent,
+    MyAccountV2ConsentManagementFormComponent,
+  ],
 })
 export class NewConsentManagementModule {}

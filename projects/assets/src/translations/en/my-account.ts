@@ -60,18 +60,6 @@ export const myAccount = {
       },
     },
   },
-  newConsentManagement: {
-    header: 'Consent Management',
-    dateDescription: 'Approved on ',
-    clearAll: 'Disable All',
-    selectAll: 'Enable All',
-    message: {
-      success: {
-        given: 'Consent successfully given.',
-        withdrawn: 'Consent successfully withdrawn.',
-      },
-    },
-  },
   myCoupons: {
     noCouponsMessage: 'You have no coupons available.',
     effectiveTitle: 'Effective:',
