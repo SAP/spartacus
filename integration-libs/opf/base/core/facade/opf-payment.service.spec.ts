@@ -75,7 +75,7 @@ const mockActiveConfigurations: ActiveConfiguration[] = [
 ];
 
 const MockCtaRequest: CtaScriptsRequest = {
-  orderId: '00259012',
+  cartId: '00259012',
   ctaProductItems: [
     {
       productId: '301233',
