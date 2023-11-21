@@ -50,9 +50,4 @@ describe('OccQuoteEntryNormalizer', () => {
       PRODUCT_NORMALIZER
     );
   });
-
-  it('should map quote code to each entry', () => {
-    const result = classUnderTest.convert(quote);
-    expect((result.entries ?? [])[0].quoteCode).toBe(quote.code);
-  });
 });

@@ -9,6 +9,7 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ControlContainer, UntypedFormControl } from '@angular/forms';
 import {
+  CartItemComponentOptions,
   CartItemContext,
   OrderEntry,
   PromotionLocation,
@@ -22,7 +23,7 @@ import {
   LineItem,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, EMPTY, ReplaySubject, of } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
@@ -51,6 +52,7 @@ class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
   quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
+  options$ = new ReplaySubject<CartItemComponentOptions>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
     PromotionLocation.SaveForLater
   );
@@ -144,6 +146,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
+    mockCartItemContext.options$.next({});
 
     fixture.detectChanges();
   });
@@ -343,6 +346,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
         mockCartItemContext.readonly$.next(false);
         mockCartItemContext.quantityControl$.next(new UntypedFormControl());
+        mockCartItemContext.options$.next({});
         fixture.detectChanges();
       });
 
@@ -586,6 +590,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       beforeEach(() => {
         const quantityControl = new UntypedFormControl();
         mockCartItemContext.quantityControl$?.next(quantityControl);
+
         mockCartItemContext.item$?.next({
           product: { configurable: true },
           configurationInfos: [
