@@ -1,12 +1,12 @@
-%cx-new-profile {
-  .myaccount-enhancedUI-headertext {
+%cx-my-new-accout-v2-email {
+  .email-enhancedUI-headertext {
     font-size: $h3-font-size;
     font-weight: var(--cx-font-weight-semi);
     color: $text;
     padding-bottom: 1.5rem;
   }
 
-  .myaccount-enhancedUI-editButton {
+  .email-enhancedUI-editButton {
     float: right;
     font-size: $font-size-base;
     color: $primary;
@@ -14,31 +14,46 @@
     background-color: transparent;
   }
 
-  .myaccount-enhancedUI-text-head {
+  .email-enhancedUI-text-head {
     font-weight: var(--cx-font-weight-semi);
     min-width: 7.5rem;
     color: $background-dark;
   }
 
-  .myaccount-enhancedUI-value {
+  .email-enhancedUI-value {
     font-weight: var(--cx-font-weight-normal);
     color: $dark;
   }
 
-  .myaccount-enhancedUI-button {
+  .email-enhancedUI-button {
     font-weight: var(--cx-font-weight-normal);
     padding: 0.8rem, 1.5rem, 0.8rem, 1.5rem;
     font-size: $font-size-base;
   }
 
-  .myaccount-enhancedUI-button-cancel {
+  .email-enhancedUI-button-cancel {
     color: $primary;
   }
 
-  .myaccount-editing-area {
+  .form-control::placeholder {
+    color: $medium;
+  }
+
+  .email-editing-area {
     float: left;
     width: 100%;
     max-width: 35rem;
+  }
+
+  .cx-message-info {
+    background-color: $info-accent;
+    border-color: $visual-focus;
+
+    .cx-message-icon {
+      cx-icon {
+        color: $primary-accent;
+      }
+    }
   }
 
   .btn-group-row {
@@ -52,10 +67,6 @@
     display: flex;
     justify-content: space-between;
     width: 40%;
-  }
-
-  .ng-select .ng-select-container {
-    background-color: $background;
   }
 
   form {

@@ -124,7 +124,6 @@ describe('schematics-config-mappings', () => {
       );
       expect(result.get(ORDER_FEATURE_NAME)).toEqual([ORDER_ROOT_MODULE]);
       expect(result.get(CDC_FEATURE_NAME)).toEqual([CDC_ROOT_MODULE]);
-      expect(result.get(CDC_B2B_FEATURE_NAME)).toEqual([CDC_ROOT_MODULE]);
       expect(result.get(CDS_FEATURE_NAME)).toEqual([]);
       expect(result.get(CDC_B2B_FEATURE_NAME)).toEqual([CDC_ROOT_MODULE]);
       expect(result.get(DIGITAL_PAYMENTS_FEATURE_NAME)).toEqual([]);

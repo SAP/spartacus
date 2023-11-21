@@ -14,7 +14,7 @@ import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-new-email',
+  selector: 'cx-my-new-accout-v2-email',
   templateUrl: './my-account-v2-email.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {},
