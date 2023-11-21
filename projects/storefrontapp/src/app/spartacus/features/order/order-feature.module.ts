@@ -10,7 +10,12 @@ import {
   orderTranslationChunksConfig,
   orderTranslations,
 } from '@spartacus/order/assets';
-import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
+import {
+  USE_MY_ACCOUNT_V2_ORDER,
+  OrderRootModule,
+  ORDER_FEATURE,
+} from '@spartacus/order/root';
+import { environment } from '../../../../environments/environment';
 
 @NgModule({
   imports: [OrderRootModule],
@@ -22,6 +27,10 @@ import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
         },
       },
     }),
+    {
+      provide: USE_MY_ACCOUNT_V2_ORDER,
+      useValue: environment.myAccountV2,
+    },
     provideConfig(<I18nConfig>{
       i18n: {
         resources: orderTranslations,

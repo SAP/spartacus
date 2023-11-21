@@ -11,6 +11,7 @@ export const asm = {
     logout: 'Sign Out',
     hideUi: 'Close ASM',
     customers: 'Customers',
+    asmCustomer360Button: '360 Customer View',
     createCustomerSuccessfullyAlert:
       'The customer account has been created and the customer session has started.',
     saveInactiveCartAlertInfo:

@@ -128,15 +128,15 @@ describe('Graph utils', () => {
     it('should have generated the correct order', () => {
       expect(crossLibraryInstallationOrder).toEqual([
         SPARTACUS_USER,
+        SPARTACUS_PDF_INVOICES,
         SPARTACUS_CART,
         SPARTACUS_ORDER,
         SPARTACUS_CHECKOUT,
+        SPARTACUS_STOREFINDER,
         SPARTACUS_REQUESTED_DELIVERY_DATE,
-        SPARTACUS_PDF_INVOICES,
         SPARTACUS_TRACKING,
         SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,
-        SPARTACUS_STOREFINDER,
         SPARTACUS_SEGMENT_REFS,
         SPARTACUS_S4OM,
         SPARTACUS_EPD_VISUALIZATION,
@@ -182,6 +182,8 @@ describe('Graph utils', () => {
           "CPQ-Configurator",
           "Textfield-Configurator",
           "Store-Finder",
+          "ASM",
+          "ASM-Customer-360",
           "Segment-Refs",
           "S4HANA-Order-Management",
           "EPD-Visualization",
@@ -197,7 +199,6 @@ describe('Graph utils', () => {
           "Image-Zoom",
           "Bulk-Pricing",
           "Pickup-In-Store",
-          "ASM",
         ]
       `);
     });

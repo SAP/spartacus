@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { FocusDirective, LaunchDialogService } from '@spartacus/storefront';
 import {
   AsmBindCartDialogComponent,
   BIND_CART_DIALOG_ACTION,
@@ -26,7 +26,11 @@ describe('AsmBindCartDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AsmBindCartDialogComponent, MockTranslatePipe],
+      declarations: [
+        AsmBindCartDialogComponent,
+        MockTranslatePipe,
+        FocusDirective,
+      ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
