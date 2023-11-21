@@ -16,7 +16,6 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import {
   CommonConfigurator,
@@ -28,6 +27,7 @@ import {
 import {
   IntersectionOptions,
   IntersectionService,
+  ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import {

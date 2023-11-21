@@ -1,0 +1,162 @@
+<div class="cx-asm-customer-360-table-heading" *ngIf="headerText">
+  <h4 class="cx-asm-customer-360-table-heading-text">
+    {{ headerText }}
+  </h4>
+  <div
+    [attr.aria-label]="'asmCustomer360.pagination' | cxTranslate"
+    class="cx-asm-customer-360-table-heading-pages"
+    *ngIf="entryPages"
+  >
+    <ng-container *ngFor="let page of entryPages; let pageNumber = index">
+      <button
+        *ngIf="entryPages.length > 1"
+        (click)="setPageNumber(pageNumber, true)"
+        class="cx-asm-customer-360-table-heading-page link"
+        [class.active]="currentPageNumber === pageNumber"
+        [attr.aria-current]="currentPageNumber === pageNumber ? 'page' : null"
+        [disabled]="currentPageNumber === pageNumber"
+        [attr.aria-label]="
+          'asmCustomer360.page' | cxTranslate: { number: pageNumber + 1 }
+        "
+      >
+        {{ pageNumber + 1 }}
+      </button>
+    </ng-container>
+  </div>
+</div>
+<hr class="cx-asm-customer-360-table-separator" aria-hidden="true" />
+<ng-container *ngIf="entryPages?.length && columns?.length">
+  <table
+    #table
+    class="cx-asm-customer-360-table"
+    role="grid"
+    [attr.aria-rowcount]="entries.length"
+    [attr.aria-colcount]="columns.length"
+    [attr.data-per-page]="pageSize"
+  >
+    <caption class="cx-visually-hidden">
+      {{
+        headerText
+      }}
+    </caption>
+    <thead>
+      <tr class="cx-asm-customer-360-table-row-header" role="row">
+        <th
+          class="cx-asm-customer-360-table-header"
+          role="columnheader"
+          *ngFor="let column of columns; let columnIndex = index"
+          [class.active]="sortProperty === column.property"
+          [class.asc]="listSortOrder === SortOrder.ASC"
+          [class.desc]="listSortOrder !== SortOrder.ASC"
+          [attr.aria-sort]="
+            sortDirection | cxArgs: column.property:sortProperty:listSortOrder
+          "
+          [ngClass]="{
+            'text-start':
+              column.headerTextAlign === CustomerTableTextAlign.START,
+            'text-center':
+              column.headerTextAlign === CustomerTableTextAlign.CENTER,
+            'text-end': column.headerTextAlign === CustomerTableTextAlign.END
+          }"
+          (click)="setSelectedTabIndex(columnIndex, 0)"
+        >
+          <button
+            [tabindex]="
+              tabIndexValue
+                | cxArgs
+                  : focusedTableColumnIndex
+                  : focusedTableRowIndex
+                  : columnIndex
+            "
+            class="link"
+            (click)="sortEntriesAndUpdatePages(column.property)"
+            (keydown)="onKeyDownCell($event, columnIndex, 0)"
+          >
+            <span *ngIf="column?.i18nTextKey">{{
+              column.i18nTextKey | cxTranslate
+            }}</span>
+            <span *ngIf="!column?.i18nTextKey">{{ column.text }}</span>
+          </button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="cx-asm-customer-360-table-row"
+        role="row"
+        *ngFor="let entry of currentPage$ | async; let rowIndex = index"
+      >
+        <td
+          role="cell"
+          tabindex="-1"
+          *ngFor="let column of columns; let columnIndex = index"
+          (keydown)="onKeyDownCell($event, columnIndex, rowIndex + 1)"
+          (click)="setSelectedTabIndex(columnIndex, rowIndex + 1)"
+          [ngClass]="{
+            'text-start': column.textAlign === CustomerTableTextAlign.START,
+            'text-center': column.textAlign === CustomerTableTextAlign.CENTER,
+            'text-end': column.textAlign === CustomerTableTextAlign.END
+          }"
+        >
+          <ng-container
+            *ngIf="column.navigatable; then linkTemplate; else starRating"
+          ></ng-container>
+
+          <ng-template #linkTemplate>
+            <button
+              tabindex="-1"
+              [attr.aria-label]="entry[column.property]"
+              (click)="selectItem.emit(entry)"
+              class="cx-asm-customer-360-table-link link"
+              [title]="
+                entry[column.property] ||
+                ('asmCustomer360.emptyCellValue' | cxTranslate)
+              "
+            >
+              {{
+                entry[column.property] ||
+                  ('asmCustomer360.emptyCellValue' | cxTranslate)
+              }}
+            </button>
+          </ng-template>
+
+          <ng-template #starRating>
+            <cx-star-rating
+              tabindex="-1"
+              *ngIf="column.renderAsStarRating; else dateCell"
+              [rating]="entry[column.property]"
+            ></cx-star-rating>
+          </ng-template>
+
+          <ng-template #dateCell>
+            <ng-container
+              *ngIf="column?.isDate && entry[column.property]; else tableCell"
+              ><span>{{
+                entry[column.property]
+                  | cxDate: asmCustomer360Config?.asmCustomer360?.dateTimeFormat
+              }}</span></ng-container
+            >
+          </ng-template>
+
+          <ng-template #tableCell>
+            <ng-container
+              ><span
+                [title]="
+                  entry[column.property] ||
+                  ('asmCustomer360.emptyCellValue' | cxTranslate)
+                "
+                >{{
+                  entry[column.property] ||
+                    ('asmCustomer360.emptyCellValue' | cxTranslate)
+                }}</span
+              ></ng-container
+            >
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
+<div class="cx-asm-customer-360-table-empty" *ngIf="!entryPages?.length">
+  {{ emptyStateText }}
+</div>

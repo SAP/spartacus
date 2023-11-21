@@ -51,7 +51,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '6.5'
+      level: '6.6'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -266,7 +266,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '6.5'
+      level: '6.6'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -481,7 +481,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '6.5'
+      level: '6.6'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -696,7 +696,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '6.5'
+      level: '6.6'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -911,7 +911,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '6.5'
+      level: '6.6'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })

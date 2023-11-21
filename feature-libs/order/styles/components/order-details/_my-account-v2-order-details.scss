@@ -1,0 +1,51 @@
+%cx-my-account-v2-order-details-actions {
+  .cx-order-details-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 1rem 1.5rem 1rem; //top-right-bottom-left
+    .cx-action-button {
+      float: right;
+      margin: 0 0 0 10px;
+    }
+    .cx-action-button-left {
+      float: left;
+      margin: 0 10px 0 0;
+    }
+  }
+}
+%cx-my-account-v2-consignment-tracking {
+  .cx-list-status {
+    padding: 15px 30px 30px 30px;
+    display: flex;
+    @include type('4');
+    font-weight: bold;
+    justify-content: space-between;
+    .cx-item-list-tracking-id {
+      display: inline;
+      color: var(--cx-color-secondary);
+      font-weight: var(--cx-font-weight-semi);
+      padding: 0 0px 0px 15px;
+      .cx-tracking-id-link {
+        cursor: pointer;
+        color: var(--cx-color-secondary);
+        text-decoration: underline;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+    .cx-consignment-status-date {
+      font-weight: var(--cx-font-weight-semi);
+    }
+  }
+}
+
+%cx-my-account-v2-download-invoices {
+  .cx-modal-container {
+    .cx-modal-content {
+      .cx-dialog-title {
+        @include type('3');
+      }
+    }
+  }
+}
