@@ -18,9 +18,15 @@ import {
 } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  Cart,
+  MultiCartFacade,
+  ProductData,
+} from '@spartacus/cart/base/root';
 import { WINDOW_TOKEN } from '@spartacus/opf/base/core';
 import { OpfOtpFacade } from '@spartacus/opf/base/root';
+import { CurrentProductService } from '@spartacus/storefront';
 import { ApplePaySessionFactory } from './apple-pay-session/apple-pay-session.factory';
 import { ApplePayAuthorizationResult } from './observable/apple-pay-observable-config.interface';
 import { ApplePayObservableFactory } from './observable/apple-pay-observable.factory';
@@ -56,6 +62,7 @@ export class ApplePayService {
   private configState = new ApplePayConfigState();
 
   private product: Product;
+  cartId = '';
 
   get available(): boolean {
     return this.configState.available;
@@ -77,7 +84,10 @@ export class ApplePayService {
     private http: HttpClient,
     protected opfOtpFacade: OpfOtpFacade,
     protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected currentProductService: CurrentProductService,
+
+    protected multiCartService: MultiCartFacade
   ) {
     this.availableChange = this.configState.availableChange;
     this.configuredChange = this.configState.configuredChange;
@@ -132,9 +142,11 @@ export class ApplePayService {
     }
   }
 
-  start(
-    product: Product
-  ): Observable<{ product: Product; payment: ApplePayJS.ApplePayPayment }> {
+  start(product: Product): Observable<{
+    product: Product;
+    payment: ApplePayJS.ApplePayPayment;
+    cartId: string;
+  }> {
     if (this.inProgress) {
       return throwError(new Error('Apple Pay is already in progress'));
     }
@@ -179,12 +191,19 @@ export class ApplePayService {
       })
       .pipe(
         tap(() => {
+          console.log('complete tap');
           // check payment
           // route to order confirmation
           // next
         }),
-        map((payment) => ({ payment: payment, product: product })),
+        map((payment) => ({
+          payment: payment,
+          product: product,
+          cartId: this.cartId,
+        })),
         catchError((err) => {
+          console.log('in catch error');
+          // this.removeProductFromCart();
           this.inProgress = false;
           throw err;
         })
@@ -195,23 +214,100 @@ export class ApplePayService {
     this.inProgress = false;
   }
 
-  private handleValidation(
-    event: ApplePayJS.ApplePayValidateMerchantEvent
-  ): Observable<any> {
-    let cartId = '';
+  protected createCart(productData: ProductData): Observable<string> {
+    console.log('createCart');
+    let _userId = '';
+    return this.userIdService.takeUserId().pipe(
+      switchMap((userId: string) => {
+        console.log('userId', userId);
+        _userId = userId;
+        return this.multiCartService
+          .createCart({
+            userId,
+            extraData: { active: false },
+          })
+          .pipe(
+            map((cart: Cart) => {
+              console.log('cart created', cart);
+              return _userId === 'current'
+                ? (cart.code as string)
+                : (cart.guid as string);
+            }),
+            tap((cartId: string) => {
+              console.log('addEntry on ', cartId);
+              return this.multiCartService.addEntry(
+                userId,
+                cartId,
+                productData.productCode,
+                productData.quantity
+              );
+            })
+          );
+      })
+    );
+  }
+
+  private addProductToCart() {
+    console.log('addProductToCart');
+    // if (this.product.code) {
+    //   this.activeCartFacade
+    //     .getLastEntry(this.product.code)
+    //     .subscribe((entry) => {
+    //       if (entry) {
+    //         this.activeCartFacade.addEntry(
+    //           this.product.code as string,
+    //           entry.quantity as number
+    //         );
+    //       }
+    //     });
+    // }
+    const producData = {
+      productCode: this.product?.code as string,
+      quantity: 1,
+    };
+    return this.createCart(producData);
+    // .subscribe((value) => {
+    //   console.log('createCart subscribe', value);
+    // });
+    // this.activeCartFacade.addEntry(this.product?.code as string, 1);
+    // return this.currentProductService.getProduct().pipe(
+    //   take(1),
+    //   tap((product) => {
+    //     console.log('addEntry');
+    //     this.activeCartFacade.addEntry(this.product?.code as string, 1);
+    //   })
+    // );
+  }
+
+  removeProductFromCart() {
+    console.log('removeProductFromCart');
+    // if (this.product.code) {
+    //   this.activeCartFacade
+    //     .getLastEntry(this.product.code)
+    //     .subscribe((entry) => {
+    //       if (entry) {
+    //         this.activeCartFacade.removeEntry(entry);
+    //       }
+    //     });
+    // }
+  }
+
+  private validateOpfAppleSession(
+    event: ApplePayJS.ApplePayValidateMerchantEvent,
+    cartId = ''
+  ) {
     return combineLatest([
       this.userIdService.getUserId(),
-      this.activeCartFacade.getActiveCartId(),
+      this.multiCartService.isStable(cartId),
     ]).pipe(
-      filter(([userId, _]: [string, string]) => !!userId),
-      switchMap(([userId, activeCartId]: [string, string]) => {
-        cartId = activeCartId ?? 'current';
-        return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
+      filter(([userId, isStable]: [string, boolean]) => !!userId && isStable),
+      switchMap(([userId, _]: [string, boolean]) => {
+        // cartId = activeCartId ?? 'current';
+        return this.opfOtpFacade.generateOtpKey(userId, cartId);
       }),
       filter((response) => Boolean(response?.accessCode)),
       take(1),
       concatMap(({ accessCode: otpKey }) => {
-        cartId;
         const verificationRequest: ApplePaySessionVerificationRequest = {
           cartId,
           validationUrl: event.validationURL,
@@ -226,6 +322,52 @@ export class ApplePayService {
         return this.verifyApplePaySession(verificationRequest, otpKey);
       })
     );
+  }
+
+  private handleValidation(
+    event: ApplePayJS.ApplePayValidateMerchantEvent
+  ): Observable<any> {
+    // let cartId = '';
+    console.log('handleValidation');
+    // this.addProductToCart();
+    // return this.addProductToCart$().pipe(
+    //   concatMap(() => {
+    return this.addProductToCart().pipe(
+      take(1),
+      switchMap((cartId) => {
+        this.cartId = cartId;
+        return this.validateOpfAppleSession(event, cartId);
+      })
+    );
+    //  })
+    //);
+    // return combineLatest([
+    //   this.userIdService.getUserId(),
+    //   this.activeCartFacade.getActiveCartId(),
+    // ]).pipe(
+    //   filter(([userId, _]: [string, string]) => !!userId),
+    //   switchMap(([userId, activeCartId]: [string, string]) => {
+    //     cartId = activeCartId ?? 'current';
+    //     return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
+    //   }),
+    //   filter((response) => Boolean(response?.accessCode)),
+    //   take(1),
+    //   concatMap(({ accessCode: otpKey }) => {
+    //     cartId;
+    //     const verificationRequest: ApplePaySessionVerificationRequest = {
+    //       cartId,
+    //       validationUrl: event.validationURL,
+    //       initiative: 'web',
+    //       initiativeContext: this.window.location?.hostname,
+    //     };
+    //     console.log(
+    //       'Veryfing ApplyPay session with request',
+    //       verificationRequest
+    //     );
+
+    //     return this.verifyApplePaySession(verificationRequest, otpKey);
+    //   })
+    // );
     // return this.verifyApplePaySession(verificationRequest);
   }
 

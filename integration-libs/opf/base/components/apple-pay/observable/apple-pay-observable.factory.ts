@@ -95,6 +95,7 @@ export class ApplePayObservableFactory {
           const { authResult, payment } = result;
           session.completePayment(authResult);
           if (!authResult.errors || !authResult.errors.length) {
+            console.log('no error condition', observer);
             observer.next(payment);
             observer.complete();
           }

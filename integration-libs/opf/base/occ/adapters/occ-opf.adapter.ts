@@ -218,9 +218,11 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
   }
 
   protected getSubmitPaymentEndpoint(paymentSessionId: string): string {
-    return this.opfEndpointsService.buildUrl('submitPayment', {
-      urlParams: { paymentSessionId },
-    });
+    return this.opfEndpointsService
+      .buildUrl('submitPayment', {
+        urlParams: { paymentSessionId },
+      })
+      .replace('//submit', '/submit');
   }
 
   protected getSubmitCompletePaymentEndpoint(paymentSessionId: string): string {
