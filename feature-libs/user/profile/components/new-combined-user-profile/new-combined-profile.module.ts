@@ -27,10 +27,10 @@ import {
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { NewCombinedProfileComponent } from './new-combined-profile.component';
 import {
-  NewProfileComponentService,
-  NewProfileModule,
+  MyAccountV2ProfileComponentService,
+  MyAccountV2ProfileModule,
 } from '../my-account-v2/user-profile';
-import { NewEmailComponentService, NewEmailModule } from '../my-account-v2/new-email';
+import { MyAccountV2EmailComponentService, MyAccountV2EmailModule } from '../my-account-v2/new-email';
 
 @NgModule({
   imports: [
@@ -45,8 +45,8 @@ import { NewEmailComponentService, NewEmailModule } from '../my-account-v2/new-e
     NgSelectModule,
     NgSelectA11yModule,
     MessageComponentModule,
-    NewProfileModule,
-    NewEmailModule,
+    MyAccountV2ProfileModule,
+    MyAccountV2EmailModule,
     PageSlotModule,
   ],
   providers: [
@@ -61,8 +61,8 @@ import { NewEmailComponentService, NewEmailModule } from '../my-account-v2/new-e
               useClass: NewCombinedProfileComponent,
               deps: [UserProfileFacade, GlobalMessageService],
             },
-            NewEmailComponentService,
-            NewProfileComponentService,
+            MyAccountV2EmailComponentService,
+            MyAccountV2ProfileComponentService,
           ],
         },
       },

@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col-sm-6">
         <label class="email-enhancedUI-headertext"
-          >{{ 'myAccountV2UserProfile.myEmailAddress' | cxTranslate }}
+          >{{ 'myAccountV2Email.confirmNewEmailAddress' | cxTranslate }}
         </label>
       </div>
       <div class="col-sm-6">
@@ -27,7 +27,7 @@
       <div class="row">
         <div class="col-sm-2">
           <label class="email-enhancedUI-text-head">
-            {{ 'myAccountV2UserProfile.email' | cxTranslate }}
+            {{ 'myAccountV2Email.email' | cxTranslate }}
           </label>
         </div>
         <div class="col-sm-8">
@@ -40,7 +40,7 @@
   </div>
   <cx-message
     *ngIf="isEditing && showingAlert"
-    [text]="'myAccountV2UserProfile.reloginIndicator' | cxTranslate"
+    [text]="'myAccountV2Email.reloginIndicator' | cxTranslate"
     [type]="globalMessageType.MSG_TYPE_INFO"
     (closeMessage)="closeDialogConfirmationAlert()"
   ></cx-message>
@@ -48,7 +48,7 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <label>
         <span class="email-enhancedUI-text-head">{{
-          'myAccountV2UserProfile.emailAddress' | cxTranslate
+          'myAccountV2Email.emailAddress' | cxTranslate
         }}</span>
         <input
           required="true"
@@ -63,14 +63,14 @@
 
       <label>
         <span class="email-enhancedUI-text-head">{{
-          'myAccountV2UserProfile.newEmailAddress' | cxTranslate
+          'myAccountV2Email.newEmailAddress' | cxTranslate
         }}</span>
         <input
           required="true"
           type="email"
           name="email"
           formControlName="email"
-          placeholder="{{ 'myAccountV2UserProfile.emailPlaceHolder' | cxTranslate }}"
+          placeholder="{{ 'myAccountV2Email.emailPlaceHolder' | cxTranslate }}"
           class="form-control"
         />
         <cx-form-errors [control]="form.get('email')"></cx-form-errors>
@@ -78,14 +78,14 @@
 
       <label>
         <span class="email-enhancedUI-text-head">{{
-          'myAccountV2UserProfile.confirmMyAccountV2EmailAddress' | cxTranslate
+          'myAccountV2Email.confirmNewEmailAddress' | cxTranslate
         }}</span>
         <input
           required="true"
           type="email"
           name="confirmEmail"
           formControlName="confirmEmail"
-          placeholder="{{ 'myAccountV2UserProfile.emailPlaceHolder' | cxTranslate }}"
+          placeholder="{{ 'myAccountV2Email.emailPlaceHolder' | cxTranslate }}"
           class="form-control"
         />
         <cx-form-errors [control]="form.get('confirmEmail')"></cx-form-errors>
@@ -93,17 +93,17 @@
 
       <label>
         <span class="label-content, email-enhancedUI-text-head">{{
-          'myAccountV2UserProfile.password' | cxTranslate
+          'myAccountV2Email.password' | cxTranslate
         }}</span>
         <input
           required="true"
           type="password"
           name="password"
           formControlName="password"
-          placeholder="{{ 'myAccountV2UserProfile.passwordPlaceHolder' | cxTranslate }}"
+          placeholder="{{ 'myAccountV2Email.passwordPlaceHolder' | cxTranslate }}"
           class="form-control"
           autocomplete="new-password"
-          [attr.aria-label]="'myAccountV2UserProfile.passwordPlaceHolder' | cxTranslate"
+          [attr.aria-label]="'myAccountV2Email.passwordPlaceHolder' | cxTranslate"
           cxPasswordVisibilitySwitch
         />
         <cx-form-errors [control]="form.get('password')"></cx-form-errors>

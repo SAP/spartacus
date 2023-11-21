@@ -56,7 +56,7 @@ import { MyAccountV2ProfileComponentService } from './my-account-v2-profile-comp
       },
     }),
   ],
-  declarations: [NewProfileComponent],
-  exports: [NewProfileComponent],
+  declarations: [MyAccountV2ProfileComponent],
+  exports: [MyAccountV2ProfileComponent],
 })
-export class NewProfileModule {}
+export class MyAccountV2ProfileModule {}

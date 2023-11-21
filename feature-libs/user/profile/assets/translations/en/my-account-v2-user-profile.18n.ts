@@ -13,14 +13,5 @@ export const myAccountV2UserProfile = {
     title: 'Title',
     firstName: 'First name',
     lastName: 'Last name',
-    email: 'Email',
-    emailAddress: 'Email Address',
-    newEmailAddress: 'New Email Address',
-    confirmNewEmailAddress: 'Confirm New Email Address',
-    password: 'Password',
-    emailPlaceHolder: 'Enter email',
-    passwordPlaceHolder: 'Enter password',
-    reloginIndicator:
-      'You need to log in again after setting a new email address.',
   },
 };
