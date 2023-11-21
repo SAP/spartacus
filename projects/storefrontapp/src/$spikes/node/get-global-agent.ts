@@ -1,4 +1,6 @@
-import https, { Agent } from 'https';
+import type { Agent } from 'https';
+
+const https = require('https');
 
 /**
  * Returns a stringified version of the global agent.

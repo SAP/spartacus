@@ -1,4 +1,4 @@
-import { AgentOptions } from 'https';
+import type { AgentOptions } from 'https';
 
 const https = require('https');
 

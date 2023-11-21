@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import https from 'https';
+const https = require('https');
+
 import { IncomingMessage } from 'node:http';
 
 import type { Socket } from 'node:net';
