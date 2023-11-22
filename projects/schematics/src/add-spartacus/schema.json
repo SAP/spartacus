@@ -17,10 +17,12 @@
       "items": {
         "enum": [
           "ASM",
+          "ASM-Customer-360",
           "Import-Export",
           "Saved-Cart",
           "Quick-Order",
           "CDC",
+          "CDC-B2B",
           "CDS",
           "Cart",
           "WishList",
@@ -61,6 +63,7 @@
       },
       "default": [
         "ASM",
+        "ASM-Customer-360",
         "Cart",
         "WishList",
         "Checkout",
@@ -85,6 +88,10 @@
             "label": "Assisted Services Module"
           },
           {
+            "value": "ASM-Customer-360",
+            "label": "ASM Customer 360"
+          },
+          {
             "value": "Import-Export",
             "label": "Import/Export"
           },
@@ -98,7 +105,11 @@
           },
           {
             "value": "CDC",
-            "label": "Customer Data Cloud Integration"
+            "label": "Customer Data Cloud Integration - B2C"
+          },
+          {
+            "value": "CDC-B2B",
+            "label": "Customer Data Cloud Integration - B2B"
           },
           {
             "value": "CDS",

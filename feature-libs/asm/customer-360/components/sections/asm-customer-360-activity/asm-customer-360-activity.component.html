@@ -1,0 +1,9 @@
+<cx-asm-customer-360-table
+  [emptyStateText]="'asmCustomer360.activity.emptyStateText' | cxTranslate"
+  [headerText]="'asmCustomer360.activity.headerText' | cxTranslate"
+  sortProperty="createdAt"
+  [columns]="columns"
+  [entries]="entries$ | async"
+  [pageSize]="(context.config$ | async)?.pageSize"
+  (selectItem)="itemSelected($event)"
+></cx-asm-customer-360-table>

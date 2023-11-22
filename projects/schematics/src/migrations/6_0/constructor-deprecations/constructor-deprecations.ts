@@ -5,17 +5,15 @@
  */
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
-
-export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [];
+import { GENERATED_CONSTRUCTOR_MIGRATIONS } from './data/generated-constructor.migration';
 
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     return migrateConstructorDeprecation(
       tree,
       context,
-      CONSTRUCTOR_DEPRECATIONS_DATA
+      GENERATED_CONSTRUCTOR_MIGRATIONS
     );
   };
 }

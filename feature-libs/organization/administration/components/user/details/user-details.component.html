@@ -33,7 +33,12 @@
     <div class="property full-width">
       <label>{{ 'orgUser.uid' | cxTranslate }}</label>
       <span class="value">
-        {{ model.uid }}
+        <ng-container *cxFeatureLevel="'6.7'">
+          {{ model.displayUid }}
+        </ng-container>
+        <ng-container *cxFeatureLevel="'!6.7'">
+          {{ model.uid }}
+        </ng-container>
       </span>
     </div>
 

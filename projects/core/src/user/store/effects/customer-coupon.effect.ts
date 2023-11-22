@@ -139,6 +139,35 @@ export class CustomerCouponEffects {
       )
     );
 
+  disclaimCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(fromCustomerCouponsAction.DISCLAIM_CUSTOMER_COUPON),
+        map(
+          (action: fromCustomerCouponsAction.DisclaimCustomerCoupon) =>
+            action.payload
+        ),
+        mergeMap((payload) => {
+          return this.customerCouponConnector
+            .disclaimCustomerCoupon(payload.userId, payload.couponCode)
+            .pipe(
+              map((data) => {
+                return new fromCustomerCouponsAction.DisclaimCustomerCouponSuccess(
+                  data
+                );
+              }),
+              catchError((error) =>
+                of(
+                  new fromCustomerCouponsAction.DisclaimCustomerCouponFail(
+                    normalizeHttpError(error, this.logger)
+                  )
+                )
+              )
+            );
+        })
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private customerCouponConnector: CustomerCouponConnector

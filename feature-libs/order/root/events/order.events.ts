@@ -56,3 +56,17 @@ export class ReplenishmentOrderScheduledEvent extends OrderEvent {
    */
   replenishmentOrder: ReplenishmentOrder;
 }
+
+/**
+ * Indicates that a user has click on 'Download Invoices' button on Order details page
+ */
+export class DownloadOrderInvoicesEvent extends CxEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'DownloadOrderInvoicesEvent';
+  /**
+   * Order
+   */
+  order: Order;
+}

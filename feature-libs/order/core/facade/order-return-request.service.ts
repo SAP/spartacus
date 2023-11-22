@@ -61,7 +61,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
    * Gets order return request list
    */
   getOrderReturnRequestList(
-    pageSize: number
+    pageSize?: number
   ): Observable<ReturnRequestList | undefined> {
     return this.store.pipe(
       select(OrderSelectors.getOrderReturnRequestListState),
@@ -100,7 +100,7 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
    * @param sort sort
    */
   loadOrderReturnRequestList(
-    pageSize: number,
+    pageSize?: number,
     currentPage?: number,
     sort?: string
   ): void {

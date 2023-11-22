@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
@@ -12,7 +12,10 @@ import createSpy = jasmine.createSpy;
   template: '<ng-content select="[actions]"></ng-content>',
   selector: 'cx-org-list',
 })
-class MockListComponent {}
+class MockListComponent {
+  @Input() key: any;
+  @Input() hideAddButton = false;
+}
 
 class MockUnitTreeService {
   expandAll = createSpy('expandAll');

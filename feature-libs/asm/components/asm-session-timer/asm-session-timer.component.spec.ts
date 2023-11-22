@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Injectable,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -31,7 +36,7 @@ class MockUserIdService implements Partial<UserIdService> {
     return of('');
   }
 }
-
+@Injectable()
 class MockAsmComponentService implements Partial<AsmComponentService> {
   logoutCustomerSupportAgentAndCustomer(): void {}
 }

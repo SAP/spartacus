@@ -3,6 +3,7 @@ import {
   SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
   UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
   CLAIM_CUSTOMER_COUPON_PROCESS_ID,
+  DISCLAIM_CUSTOMER_COUPON_PROCESS_ID,
 } from '../user-state';
 import {
   loadMeta,
@@ -302,6 +303,20 @@ describe('Customer Coupon Actions', () => {
         meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
           CLAIM_CUSTOMER_COUPON_PROCESS_ID
+        ),
+      });
+    });
+  });
+
+  describe('ResetDisclaimCustomerCoupon Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.ResetDisclaimCustomerCoupon();
+
+      expect({ ...action }).toEqual({
+        type: UserActions.RESET_DISCLAIM_CUSTOMER_COUPON,
+        meta: StateUtils.entityResetMeta(
+          PROCESS_FEATURE,
+          DISCLAIM_CUSTOMER_COUPON_PROCESS_ID
         ),
       });
     });

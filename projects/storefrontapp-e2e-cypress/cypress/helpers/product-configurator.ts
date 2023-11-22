@@ -539,7 +539,7 @@ export function completeOrderProcess(productName: string): void {
   this.searchForProduct(productName);
   common.clickOnAddToCartBtnOnPD();
   this.clickOnProceedToCheckoutBtnOnPD();
-  configurationCartVc.checkout();
+  configurationCartVc.completeCheckout();
   //TODO: activate after 22.05
   //configurationCart.navigateToOrderDetails();
   //don't check the order history aspect because this part is flaky
