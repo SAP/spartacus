@@ -1176,8 +1176,20 @@ describe('OptimizedSsrEngine', () => {
   });
 
   describe('logger option', () => {
+    let dateSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      const mockDate = new Date('2023-05-26');
+      dateSpy = jest
+        .spyOn(global, 'Date')
+        .mockImplementationOnce(() => mockDate);
+    });
+
+    afterEach(() => {
+      dateSpy.mockReset();
+    });
+
     it('should use ExpressServerLogger if logger is true', () => {
-      jest.useFakeTimers().setSystemTime(new Date('2023-05-26'));
       new TestEngineRunner({
         logger: true,
       });
@@ -1202,6 +1214,7 @@ describe('OptimizedSsrEngine', () => {
         ]
       `);
     });
+
     it('should use the provided logger', () => {
       new TestEngineRunner({
         logger: new MockExpressServerLogger() as ExpressServerLogger,
@@ -1228,6 +1241,7 @@ describe('OptimizedSsrEngine', () => {
     ]
             `);
     });
+
     it('should use the legacy server logger, if logger option not specified', () => {
       new TestEngineRunner({});
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`

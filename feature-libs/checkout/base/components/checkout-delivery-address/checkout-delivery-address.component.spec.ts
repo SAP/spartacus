@@ -9,11 +9,11 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeaturesConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
-  FeaturesConfig,
-  FeaturesConfigModule,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
@@ -92,6 +92,7 @@ class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
   @Input() showTitleCode: boolean;
   @Input() setAsDefaultField: boolean;
+  @Input() addressData: Address;
 }
 
 @Component({
@@ -111,6 +112,8 @@ class MockCardComponent {
   content: Card;
   @Input()
   fitToContainer: boolean;
+  @Input()
+  index: number;
 }
 
 class MockCheckoutDeliveryModesFacade

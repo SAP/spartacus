@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, ImageGroup, Product } from '@spartacus/core';
@@ -68,7 +68,7 @@ class MockCurrentProductService {
   template: '',
 })
 class MockMediaComponent {
-  @Input() container;
+  @Input() container: any;
 }
 
 @Component({
@@ -82,10 +82,20 @@ class MockMediaComponent {
   `,
 })
 class MockCarouselComponent {
-  @Input() items;
-  @Input() itemWidth;
-  @Input() template;
-  @Input() hideIndicators;
+  @Input() items: any;
+  @Input() itemWidth: any;
+  @Input() template: any;
+  @Input() hideIndicators: any;
+}
+
+@Component({
+  selector: 'cx-product-image-zoom-trigger',
+  template: ``,
+})
+class MockProductImageZoomTriggerComponent {
+  @Input() expandImage: any;
+  @Input() galleryIndex: any;
+  @Output() dialogClose = new EventEmitter<void>();
 }
 
 describe('ProductImagesComponent', () => {
@@ -101,6 +111,7 @@ describe('ProductImagesComponent', () => {
           ProductImageZoomProductImagesComponent,
           MockMediaComponent,
           MockCarouselComponent,
+          MockProductImageZoomTriggerComponent,
         ],
         providers: [
           {

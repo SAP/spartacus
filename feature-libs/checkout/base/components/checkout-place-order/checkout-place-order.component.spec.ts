@@ -1,10 +1,18 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import {
+  AtMessageModule,
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
 import createSpy = jasmine.createSpy;
@@ -42,12 +50,18 @@ describe('CheckoutPlaceOrderComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule,
+          I18nTestingModule,
+          AtMessageModule,
+        ],
         declarations: [MockUrlPipe, CheckoutPlaceOrderComponent],
         providers: [
           { provide: OrderFacade, useClass: MockOrderFacade },
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+          { provide: GlobalMessageService, useValue: {} },
         ],
       }).compileComponents();
     })

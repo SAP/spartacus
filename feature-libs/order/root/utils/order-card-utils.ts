@@ -33,10 +33,18 @@ export function deliveryAddressCard(
   }
 
   const numbers = getAddressNumbers(deliveryAddress, textPhone, textMobile);
+  let fullName;
+  if (deliveryAddress.firstName && deliveryAddress.lastName) {
+    fullName = deliveryAddress.firstName + ' ' + deliveryAddress.lastName;
+  } else if (deliveryAddress.firstName) {
+    fullName = deliveryAddress.firstName;
+  } else if (deliveryAddress.lastName) {
+    fullName = deliveryAddress.lastName;
+  }
 
   return {
     title: textTitle,
-    textBold: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
+    textBold: fullName,
     text: [
       deliveryAddress.line1,
       deliveryAddress.line2,

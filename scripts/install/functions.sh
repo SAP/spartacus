@@ -82,7 +82,7 @@ function update_projects_versions {
     fi
 
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
-    (cd "${CLONE_DIR}/tools/config" && pwd && sed -i -E 's/PUBLISHING_VERSION = '\'\''/PUBLISHING_VERSION = '\'"${SPARTACUS_VERSION}"\''/g' const.ts);
+    (cd "${CLONE_DIR}/tools/config" && pwd && sed -i -E 's/PUBLISHING_VERSION = '\'.*\''/PUBLISHING_VERSION = '\'"${SPARTACUS_VERSION}"\''/g' const.ts);
     (cd "${CLONE_DIR}" && pwd && npm run config:update -- --generate-deps);
 
 }
@@ -148,8 +148,8 @@ function add_feature_libs {
   ng add @spartacus/tracking --skip-confirmation --no-interactive --features "TMS-GTM" --features "TMS-AEPL"
   
   ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
-  ng add @spartacus/customer-ticketing --skip-confirmation --no-interactive
-  ng add @spartacus/pickup-in-store --skip-confirmation --no-interactive
+  ng add @spartacus/customer-ticketing@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+  ng add @spartacus/pickup-in-store@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
 }
 
 function add_spartacus_csr {

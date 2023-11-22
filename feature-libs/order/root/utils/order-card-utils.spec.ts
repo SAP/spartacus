@@ -24,6 +24,24 @@ describe('Order Card utils', () => {
       postalCode: 'zip',
       country: mockCountry,
     };
+    const mockAddress2: Address = {
+      line1: 'Toyosaki 2 create on cart',
+      line2: 'line2',
+      town: 'town',
+      region: { isocode: 'JP-27' },
+      postalCode: 'zip',
+      country: mockCountry,
+    };
+    const mockAddress3: Address = {
+      titleCode: 'mr',
+      firstName: 'John',
+      line1: 'Toyosaki 2 create on cart',
+      line2: 'line2',
+      town: 'town',
+      region: { isocode: 'JP-27' },
+      postalCode: 'zip',
+      country: mockCountry,
+    };
 
     it('should return delivery address card', () => {
       const card = deliveryAddressCard(
@@ -42,6 +60,22 @@ describe('Order Card utils', () => {
         'zip',
         undefined,
       ]);
+      const card2 = deliveryAddressCard(
+        'title',
+        'phone',
+        'mobile',
+        mockAddress2,
+        'Canada'
+      );
+      expect(card2.textBold).toEqual(undefined);
+      const card3 = deliveryAddressCard(
+        'title',
+        'phone',
+        'mobile',
+        mockAddress3,
+        'Canada'
+      );
+      expect(card3.textBold).toEqual('John');
     });
   });
 
