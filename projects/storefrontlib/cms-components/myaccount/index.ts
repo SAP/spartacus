@@ -6,7 +6,6 @@
 
 export * from './address-book/index';
 export * from './consent-management/index';
-export * from './my-account-v2/my-account-v2-consent-management/index';
 export * from './my-coupons/index';
 export * from './my-interests/my-interests.component';
 export * from './my-interests/my-interests.module';
