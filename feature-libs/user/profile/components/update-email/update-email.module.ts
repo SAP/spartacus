@@ -30,7 +30,10 @@ import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { UpdateEmailComponentService } from './update-email-component.service';
 import { UpdateEmailComponent } from './update-email.component';
 import { USE_MY_ACCOUNT_V2_EMAIL } from '../../root/tokens/context';
-import { MyAccountV2EmailComponent, MyAccountV2EmailComponentService } from '../my-account-v2';
+import {
+  MyAccountV2EmailComponent,
+  MyAccountV2EmailComponentService,
+} from '../my-account-v2';
 
 const myAccountV2EmailMapping: CmsConfig = {
   cmsComponents: {
@@ -92,8 +95,8 @@ const myAccountV2EmailMapping: CmsConfig = {
       },
     }),
     provideDefaultConfigFactory(() =>
-    inject(USE_MY_ACCOUNT_V2_EMAIL) ? myAccountV2EmailMapping : {}
-  ),
+      inject(USE_MY_ACCOUNT_V2_EMAIL) ? myAccountV2EmailMapping : {}
+    ),
   ],
 })
 export class UpdateEmailModule {}

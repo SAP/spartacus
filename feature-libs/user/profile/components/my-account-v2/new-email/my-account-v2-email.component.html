@@ -100,10 +100,14 @@
           type="password"
           name="password"
           formControlName="password"
-          placeholder="{{ 'myAccountV2Email.passwordPlaceHolder' | cxTranslate }}"
+          placeholder="{{
+            'myAccountV2Email.passwordPlaceHolder' | cxTranslate
+          }}"
           class="form-control"
           autocomplete="new-password"
-          [attr.aria-label]="'myAccountV2Email.passwordPlaceHolder' | cxTranslate"
+          [attr.aria-label]="
+            'myAccountV2Email.passwordPlaceHolder' | cxTranslate
+          "
           cxPasswordVisibilitySwitch
         />
         <cx-form-errors [control]="form.get('password')"></cx-form-errors>

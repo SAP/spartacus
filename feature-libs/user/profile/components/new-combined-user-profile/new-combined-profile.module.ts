@@ -28,9 +28,10 @@ import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { NewCombinedProfileComponent } from './new-combined-profile.component';
 import {
   MyAccountV2ProfileComponentService,
-  MyAccountV2ProfileModule,
 } from '../my-account-v2/user-profile';
-import { MyAccountV2EmailComponentService, MyAccountV2EmailModule } from '../my-account-v2/new-email';
+import {
+  MyAccountV2EmailComponentService,
+} from '../my-account-v2/new-email';
 
 @NgModule({
   imports: [
@@ -45,8 +46,6 @@ import { MyAccountV2EmailComponentService, MyAccountV2EmailModule } from '../my-
     NgSelectModule,
     NgSelectA11yModule,
     MessageComponentModule,
-    MyAccountV2ProfileModule,
-    MyAccountV2EmailModule,
     PageSlotModule,
   ],
   providers: [

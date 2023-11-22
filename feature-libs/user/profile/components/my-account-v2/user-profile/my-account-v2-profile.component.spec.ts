@@ -28,7 +28,9 @@ class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
 
-class MockProfileService implements Partial<MyAccountV2ProfileComponentService> {
+class MockProfileService
+  implements Partial<MyAccountV2ProfileComponentService>
+{
   user$ = of({});
   titles$ = of([]);
   updateSucceed$ = new Subject<boolean>();

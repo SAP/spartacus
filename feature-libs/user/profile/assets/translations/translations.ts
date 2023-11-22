@@ -15,5 +15,4 @@ export const userProfileTranslationChunksConfig: TranslationChunksConfig = {
   userProfile: ['updateEmailForm', 'register', 'forgottenPassword'],
   myAccountV2UserProfile: ['myAccountV2UserProfile'],
   myAccountV2Email: ['myAccountV2Email'],
-
 };

@@ -30,7 +30,9 @@ import { UserProfileFacade } from '../../../root/facade';
 class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
-class MockMyAccountV2EmailService implements Partial<MyAccountV2EmailComponentService> {
+class MockMyAccountV2EmailService
+  implements Partial<MyAccountV2EmailComponentService>
+{
   updateSucceed$ = new Subject();
   form: UntypedFormGroup = new UntypedFormGroup({
     oldEmail: new UntypedFormControl(),

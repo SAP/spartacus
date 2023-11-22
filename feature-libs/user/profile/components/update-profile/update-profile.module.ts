@@ -27,7 +27,10 @@ import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
 import { USE_MY_ACCOUNT_V2_PROFILE } from '../../root/tokens/context';
-import { MyAccountV2ProfileComponent, MyAccountV2ProfileComponentService } from '../my-account-v2';
+import {
+  MyAccountV2ProfileComponent,
+  MyAccountV2ProfileComponentService,
+} from '../my-account-v2';
 
 const myAccountV2ProfileMapping: CmsConfig = {
   cmsComponents: {
@@ -44,7 +47,6 @@ const myAccountV2ProfileMapping: CmsConfig = {
     },
   },
 };
-
 
 @NgModule({
   imports: [
@@ -78,8 +80,8 @@ const myAccountV2ProfileMapping: CmsConfig = {
       },
     }),
     provideDefaultConfigFactory(() =>
-    inject(USE_MY_ACCOUNT_V2_PROFILE) ? myAccountV2ProfileMapping : {}
-  ),
+      inject(USE_MY_ACCOUNT_V2_PROFILE) ? myAccountV2ProfileMapping : {}
+    ),
   ],
 })
 export class UpdateProfileModule {}
