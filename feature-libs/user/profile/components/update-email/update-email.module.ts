@@ -29,11 +29,11 @@ import {
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { UpdateEmailComponentService } from './update-email-component.service';
 import { UpdateEmailComponent } from './update-email.component';
-import { USE_MY_ACCOUNT_V2_EMAIL } from '../../root/tokens/context';
 import {
   MyAccountV2EmailComponent,
   MyAccountV2EmailComponentService,
 } from '../my-account-v2';
+import { USE_MY_ACCOUNT_V2_EMAIL } from './token/context';
 
 const myAccountV2EmailMapping: CmsConfig = {
   cmsComponents: {

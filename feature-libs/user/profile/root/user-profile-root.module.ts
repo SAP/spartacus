@@ -29,9 +29,6 @@ export function defaultUserProfileComponentsConfig(): CmsConfig {
           'ForgotPasswordComponent',
           'ResetPasswordComponent',
           'CloseAccountComponent',
-          'MyAccountV2ProfileComponent',
-          'MyAccountV2EmailComponent',
-          'NewCombinedProfileComponent',
         ],
       },
       // by default core is bundled together with components

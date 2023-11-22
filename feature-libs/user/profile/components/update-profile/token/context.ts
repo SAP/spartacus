@@ -6,12 +6,7 @@
 
 import { InjectionToken } from '@angular/core';
 
-export const USE_MY_ACCOUNT_V2_EMAIL = new InjectionToken<boolean>(
-  'feature flag to enable enhanced UI for Order related pages under My-Account',
-  { providedIn: 'root', factory: () => false }
-);
-
 export const USE_MY_ACCOUNT_V2_PROFILE = new InjectionToken<boolean>(
-  'feature flag to enable enhanced UI for Order related pages under My-Account',
+  'feature flag to enable enhanced UI for profile related pages under My-Account',
   { providedIn: 'root', factory: () => false }
 );

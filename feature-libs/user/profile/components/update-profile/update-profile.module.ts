@@ -26,7 +26,7 @@ import {
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
-import { USE_MY_ACCOUNT_V2_PROFILE } from '../../root/tokens/context';
+import { USE_MY_ACCOUNT_V2_PROFILE } from './token/context';
 import {
   MyAccountV2ProfileComponent,
   MyAccountV2ProfileComponentService,
