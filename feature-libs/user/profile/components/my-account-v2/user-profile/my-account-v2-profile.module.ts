@@ -42,7 +42,7 @@ import { MyAccountV2ProfileComponentService } from './my-account-v2-profile-comp
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        NewProfileComponent: {
+        MyAccountV2ProfileComponent: {
           component: MyAccountV2ProfileComponent,
           guards: [AuthGuard],
           providers: [

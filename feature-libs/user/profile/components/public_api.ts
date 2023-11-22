@@ -11,7 +11,4 @@ export * from './reset-password/index';
 export * from './update-email/index';
 export * from './update-password/index';
 export * from './update-profile/index';
-export * from './my-account-v2/new-email/index';
-export * from './my-account-v2/user-profile/index';
-export * from './new-combined-user-profile/index';
 export * from './user-profile-components.module';
