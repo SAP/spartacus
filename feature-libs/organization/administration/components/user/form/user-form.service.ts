@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   UntypedFormArray,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { B2BUser, B2BUserRole } from '@spartacus/core';
+import { B2BUser, B2BUserRole, FeatureConfigService } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { FormService } from '../../shared/form/form.service';
 
@@ -19,6 +19,10 @@ import { FormService } from '../../shared/form/form.service';
   providedIn: 'root',
 })
 export class UserFormService extends FormService<B2BUser> {
+  protected readonly featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
   protected build() {
     const form = new UntypedFormGroup({});
     form.setControl('customerId', new UntypedFormControl(''));
@@ -68,6 +72,10 @@ export class UserFormService extends FormService<B2BUser> {
           roles.push(new UntypedFormControl(role));
         }
       });
+
+      if (this.featureConfigService?.isLevel('6.7')) {
+        this.form?.get('email')?.setValue(item?.displayUid);
+      }
     }
   }
 }
