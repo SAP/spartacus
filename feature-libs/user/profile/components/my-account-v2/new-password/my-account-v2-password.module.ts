@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
@@ -18,6 +18,7 @@ import {
   RoutingService,
   UrlModule,
   provideDefaultConfig,
+  provideDefaultConfigFactory,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -25,9 +26,18 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { UserPasswordFacade } from '@spartacus/user/profile/root';
-import { MyAccountV2PasswordComponentService } from './my-account-v2-password-component.service';
+import { USE_MY_ACCOUNT_V2_USER, UserPasswordFacade } from '@spartacus/user/profile/root';
 import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
+import { MyAccountV2PasswordComponentService } from './my-account-v2-password-component.service';
+
+const myAccountV2CmsMapping: CmsConfig = {
+  cmsComponents: {
+    MyAccountV2PasswordComponent: {
+      component: MyAccountV2PasswordComponent,
+      //guards: inherited from standard config,
+    },
+  },
+};
 
 @NgModule({
   imports: [
@@ -43,6 +53,7 @@ import { MyAccountV2PasswordComponent } from './my-account-v2-password.component
     MessageComponentModule,
   ],
   providers: [
+    MyAccountV2PasswordComponentService,
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         MyAccountV2PasswordComponent: {
@@ -64,6 +75,9 @@ import { MyAccountV2PasswordComponent } from './my-account-v2-password.component
         },
       },
     }),
+    provideDefaultConfigFactory(() =>
+      inject(USE_MY_ACCOUNT_V2_USER) ? myAccountV2CmsMapping : {}
+    ),
   ],
   declarations: [MyAccountV2PasswordComponent],
   exports: [MyAccountV2PasswordComponent],
