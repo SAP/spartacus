@@ -7,12 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  AuthGuard,
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { IconModule } from '../../../misc/icon/icon.module';
 import { MyAccountV2ConsentManagementComponent } from './components/my-account-v2-consent-management.component';
@@ -28,17 +23,7 @@ import { ConsentManagementComponentService } from '../../consent-management';
     I18nModule,
     IconModule,
   ],
-  providers: [
-    ConsentManagementComponentService,
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        NewConsentManagementComponent: {
-          component: MyAccountV2ConsentManagementComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
+  providers: [ConsentManagementComponentService],
   declarations: [
     MyAccountV2ConsentManagementComponent,
     MyAccountV2ConsentManagementFormComponent,
