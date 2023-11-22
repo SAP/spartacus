@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
@@ -16,6 +16,7 @@ import {
   GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
+  provideDefaultConfigFactory,
   RoutingService,
   UrlModule,
 } from '@spartacus/core';
@@ -23,10 +24,35 @@ import {
   FormErrorsModule,
   SpinnerModule,
   PasswordVisibilityToggleModule,
+  MessageComponentModule,
 } from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { UpdateEmailComponentService } from './update-email-component.service';
 import { UpdateEmailComponent } from './update-email.component';
+import { USE_MY_ACCOUNT_V2_EMAIL } from '../../root/tokens/context';
+import { MyAccountV2EmailComponent, MyAccountV2EmailComponentService } from '../my-account-v2';
+
+const myAccountV2EmailMapping: CmsConfig = {
+  cmsComponents: {
+    UpdateEmailComponent: {
+      component: MyAccountV2EmailComponent,
+      guards: [AuthGuard],
+      providers: [
+        {
+          provide: MyAccountV2EmailComponentService,
+          useClass: MyAccountV2EmailComponentService,
+          deps: [
+            UserEmailFacade,
+            RoutingService,
+            GlobalMessageService,
+            AuthService,
+            AuthRedirectService,
+          ],
+        },
+      ],
+    },
+  },
+};
 
 @NgModule({
   imports: [
@@ -39,7 +65,10 @@ import { UpdateEmailComponent } from './update-email.component';
     I18nModule,
     FormErrorsModule,
     PasswordVisibilityToggleModule,
+    MessageComponentModule,
   ],
+  declarations: [UpdateEmailComponent, MyAccountV2EmailComponent],
+  exports: [UpdateEmailComponent, MyAccountV2EmailComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -62,7 +91,9 @@ import { UpdateEmailComponent } from './update-email.component';
         },
       },
     }),
+    provideDefaultConfigFactory(() =>
+    inject(USE_MY_ACCOUNT_V2_EMAIL) ? myAccountV2EmailMapping : {}
+  ),
   ],
-  declarations: [UpdateEmailComponent],
 })
 export class UpdateEmailModule {}

@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -15,6 +15,7 @@ import {
   GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
+  provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
 import {
@@ -25,6 +26,25 @@ import {
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
+import { USE_MY_ACCOUNT_V2_PROFILE } from '../../root/tokens/context';
+import { MyAccountV2ProfileComponent, MyAccountV2ProfileComponentService } from '../my-account-v2';
+
+const myAccountV2ProfileMapping: CmsConfig = {
+  cmsComponents: {
+    UpdateProfileComponent: {
+      component: MyAccountV2ProfileComponent,
+      guards: [AuthGuard],
+      providers: [
+        {
+          provide: MyAccountV2ProfileComponentService,
+          useClass: MyAccountV2ProfileComponentService,
+          deps: [UserProfileFacade, GlobalMessageService],
+        },
+      ],
+    },
+  },
+};
+
 
 @NgModule({
   imports: [
@@ -39,6 +59,8 @@ import { UpdateProfileComponent } from './update-profile.component';
     NgSelectModule,
     NgSelectA11yModule,
   ],
+  declarations: [UpdateProfileComponent, MyAccountV2ProfileComponent],
+  exports: [UpdateProfileComponent, MyAccountV2ProfileComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -55,7 +77,9 @@ import { UpdateProfileComponent } from './update-profile.component';
         },
       },
     }),
+    provideDefaultConfigFactory(() =>
+    inject(USE_MY_ACCOUNT_V2_PROFILE) ? myAccountV2ProfileMapping : {}
+  ),
   ],
-  declarations: [UpdateProfileComponent],
 })
 export class UpdateProfileModule {}

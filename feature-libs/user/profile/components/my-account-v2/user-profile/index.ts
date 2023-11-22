@@ -6,4 +6,3 @@
 
 export * from './my-account-v2-profile-component.service';
 export * from './my-account-v2-profile.component';
-export * from './my-account-v2-profile.module';
