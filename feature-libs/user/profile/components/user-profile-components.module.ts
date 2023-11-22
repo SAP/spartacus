@@ -15,7 +15,7 @@ import { UpdateProfileModule } from './update-profile/update-profile.module';
 import { NewProfileModule } from './new-user-profile/new-profile.module';
 import { NewEmailModule } from './new-email/new-email.module';
 import { NewCombinedProfileModule } from './new-combined-user-profile/new-combined-profile.module';
-import { MyAccountV2UserModule } from './my-account-v2/my-account-v2-user.module';
+import { MyAccountV2PasswordModule } from './my-account-v2/new-password/my-account-v2-password.module';
 
 @NgModule({
   imports: [
@@ -28,7 +28,7 @@ import { MyAccountV2UserModule } from './my-account-v2/my-account-v2-user.module
     CloseAccountModule,
     NewProfileModule,
     NewEmailModule,
-    MyAccountV2UserModule,
+    MyAccountV2PasswordModule,
     NewCombinedProfileModule,
   ],
 })
