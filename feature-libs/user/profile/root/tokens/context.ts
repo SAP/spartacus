@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { InjectionToken } from '@angular/core';
 
 export const USE_MY_ACCOUNT_V2_EMAIL = new InjectionToken<boolean>(
