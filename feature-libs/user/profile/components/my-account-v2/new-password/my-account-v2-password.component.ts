@@ -8,21 +8,21 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { GlobalMessageType } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { NewPasswordComponentService } from './new-password-component.service';
+import { MyAccountV2PasswordComponentService } from './my-account-v2-password-component.service';
 
 @Component({
-  selector: 'cx-new-password',
-  templateUrl: './new-password.component.html',
+  selector: 'cx-my-account-v2-password',
+  templateUrl: './my-account-v2-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NewPasswordComponent {
+export class MyAccountV2PasswordComponent {
   showingAlert: boolean = true;
   globalMessageType = GlobalMessageType;
   oldPassword: string;
   newPassword: string;
   newPasswordConfirm: string;
 
-  constructor(protected service: NewPasswordComponentService) {}
+  constructor(protected service: MyAccountV2PasswordComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;

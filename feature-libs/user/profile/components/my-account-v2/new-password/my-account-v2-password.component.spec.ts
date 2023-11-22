@@ -18,8 +18,8 @@ import {
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject } from 'rxjs';
-import { NewPasswordComponentService } from './new-password-component.service';
-import { NewPasswordComponent } from './new-password.component';
+import { MyAccountV2PasswordComponentService } from './my-account-v2-password-component.service';
+import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -30,7 +30,7 @@ class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
 class MockUpdatePasswordService
-  implements Partial<NewPasswordComponentService>
+  implements Partial<MyAccountV2PasswordComponentService>
 {
   form: UntypedFormGroup = new UntypedFormGroup({
     oldPassword: new UntypedFormControl(),
@@ -42,12 +42,12 @@ class MockUpdatePasswordService
   resetForm = createSpy().and.stub();
 }
 
-describe('NewPasswordComponent', () => {
-  let component: NewPasswordComponent;
-  let fixture: ComponentFixture<NewPasswordComponent>;
+describe('MyAccountV2PasswordComponent', () => {
+  let component: MyAccountV2PasswordComponent;
+  let fixture: ComponentFixture<MyAccountV2PasswordComponent>;
   let el: DebugElement;
 
-  let service: NewPasswordComponentService;
+  let service: MyAccountV2PasswordComponentService;
 
   beforeEach(
     waitForAsync(() => {
@@ -60,15 +60,15 @@ describe('NewPasswordComponent', () => {
           UrlTestingModule,
           PasswordVisibilityToggleModule,
         ],
-        declarations: [NewPasswordComponent, MockCxSpinnerComponent],
+        declarations: [MyAccountV2PasswordComponent, MockCxSpinnerComponent],
         providers: [
           {
-            provide: NewPasswordComponentService,
+            provide: MyAccountV2PasswordComponentService,
             useClass: MockUpdatePasswordService,
           },
         ],
       })
-        .overrideComponent(NewPasswordComponent, {
+        .overrideComponent(MyAccountV2PasswordComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
         })
         .compileComponents();
@@ -76,10 +76,10 @@ describe('NewPasswordComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewPasswordComponent);
+    fixture = TestBed.createComponent(MyAccountV2PasswordComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    service = TestBed.inject(NewPasswordComponentService);
+    service = TestBed.inject(MyAccountV2PasswordComponentService);
     fixture.detectChanges();
   });
 

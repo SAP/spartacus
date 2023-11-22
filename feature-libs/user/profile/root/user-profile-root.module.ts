@@ -31,7 +31,7 @@ export function defaultUserProfileComponentsConfig(): CmsConfig {
           'CloseAccountComponent',
           'NewProfileComponent',
           'NewEmailComponent',
-          'NewPasswordComponent',
+          'MyAccountV2PasswordComponent',
           'NewCombinedProfileComponent',
         ],
       },

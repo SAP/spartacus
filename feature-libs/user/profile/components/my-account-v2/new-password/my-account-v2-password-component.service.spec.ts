@@ -11,7 +11,7 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
-import { NewPasswordComponentService } from './new-password-component.service';
+import { MyAccountV2PasswordComponentService } from './my-account-v2-password-component.service';
 import createSpy = jasmine.createSpy;
 
 class MockUserPasswordFacade implements Partial<UserPasswordFacade> {
@@ -35,8 +35,8 @@ class MockAuthService implements Partial<AuthService> {
   coreLogout = createSpy().and.returnValue(Promise.resolve());
 }
 
-describe('NewPasswordComponentService', () => {
-  let service: NewPasswordComponentService;
+describe('MyAccountV2PasswordComponentService', () => {
+  let service: MyAccountV2PasswordComponentService;
   let userPasswordFacade: UserPasswordFacade;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
@@ -51,7 +51,7 @@ describe('NewPasswordComponentService', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       providers: [
-        NewPasswordComponentService,
+        MyAccountV2PasswordComponentService,
         {
           provide: UserPasswordFacade,
           useClass: MockUserPasswordFacade,
@@ -77,7 +77,7 @@ describe('NewPasswordComponentService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.inject(NewPasswordComponentService);
+    service = TestBed.inject(MyAccountV2PasswordComponentService);
     userPasswordFacade = TestBed.inject(UserPasswordFacade);
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
@@ -131,7 +131,7 @@ describe('NewPasswordComponentService', () => {
         service.updatePassword();
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
-            key: 'newPasswordForm.passwordUpdateSuccess',
+            key: 'myAccountV2PasswordForm.passwordUpdateSuccess',
           },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );

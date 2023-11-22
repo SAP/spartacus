@@ -26,8 +26,8 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
-import { NewPasswordComponentService } from './new-password-component.service';
-import { NewPasswordComponent } from './new-password.component';
+import { MyAccountV2PasswordComponentService } from './my-account-v2-password-component.service';
+import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 
 @NgModule({
   imports: [
@@ -45,13 +45,13 @@ import { NewPasswordComponent } from './new-password.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        NewPasswordComponent: {
-          component: NewPasswordComponent,
+        MyAccountV2PasswordComponent: {
+          component: MyAccountV2PasswordComponent,
           guards: [AuthGuard],
           providers: [
             {
-              provide: NewPasswordComponentService,
-              useClass: NewPasswordComponentService,
+              provide: MyAccountV2PasswordComponentService,
+              useClass: MyAccountV2PasswordComponentService,
               deps: [
                 UserPasswordFacade,
                 RoutingService,
@@ -65,7 +65,7 @@ import { NewPasswordComponent } from './new-password.component';
       },
     }),
   ],
-  declarations: [NewPasswordComponent],
-  exports: [NewPasswordComponent],
+  declarations: [MyAccountV2PasswordComponent],
+  exports: [MyAccountV2PasswordComponent],
 })
-export class NewPasswordModule {}
+export class MyAccountV2PasswordModule {}

@@ -24,7 +24,7 @@ import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
-export class NewPasswordComponentService {
+export class MyAccountV2PasswordComponentService {
   constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
@@ -75,7 +75,7 @@ export class NewPasswordComponentService {
 
   protected onSuccess(): void {
     this.globalMessageService.add(
-      { key: 'newPasswordForm.passwordUpdateSuccess' },
+      { key: 'myAccountV2PasswordForm.passwordUpdateSuccess' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
     this.busy$.next(false);
@@ -97,7 +97,7 @@ export class NewPasswordComponentService {
       _error.details?.[0].type === 'AccessDeniedError'
     ) {
       this.globalMessageService.add(
-        { key: 'newPasswordForm.accessDeniedError' },
+        { key: 'myAccountV2PasswordForm.accessDeniedError' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }
