@@ -45,6 +45,7 @@ describe('SSR E2E', () => {
   });
 
   it('should receive 404 response when page is not existing', async () => {
+    await Ssr.startSsrServer();
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
     });
@@ -55,6 +56,7 @@ describe('SSR E2E', () => {
   });
 
   it('should receive 500 error response when a backend API returned server error', async () => {
+    await Ssr.startSsrServer();
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
       throwStatus: 500,
