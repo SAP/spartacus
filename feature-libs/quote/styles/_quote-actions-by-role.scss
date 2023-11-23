@@ -2,25 +2,14 @@
   &:not(:empty) {
     padding-block-start: 1rem;
 
-    section,
-    .cx-ghost-actions {
+    section {
       width: 100%;
       display: flex;
       flex-direction: column;
       gap: 1em;
-    }
 
-    section {
       @include media-breakpoint-down(sm) {
         justify-content: center;
-      }
-    }
-
-    .cx-ghost-actions {
-      .cx-ghost-button {
-        width: 100%;
-        height: 50px;
-        background-color: var(--cx-color-ghost);
       }
     }
   }

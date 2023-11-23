@@ -30,12 +30,10 @@ export function defaultQuoteComponentsConfig() {
         cmsComponents: [
           'AccountMyQuotesComponent',
           'QuoteActionsLinkComponent',
-          'QuoteActionsByRoleComponent',
           'QuoteCommentsComponent',
           'QuoteHeaderOverviewComponent',
-          'QuoteHeaderPriceComponent',
-          'QuoteHeaderSellerEditComponent',
           'QuoteItemsComponent',
+          'QuoteHeaderOrderSummaryComponent',
         ],
       },
     },

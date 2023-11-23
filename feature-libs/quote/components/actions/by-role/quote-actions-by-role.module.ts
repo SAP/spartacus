@@ -6,26 +6,11 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  AuthGuard,
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 
 @NgModule({
   imports: [CommonModule, I18nModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        QuoteActionsByRoleComponent: {
-          component: QuoteActionsByRoleComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
   declarations: [QuoteActionsByRoleComponent],
   exports: [QuoteActionsByRoleComponent],
 })

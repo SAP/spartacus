@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
-import { BehaviorSubject, NEVER, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService as TestUtil } from '../../testing/common-quote-test-utils.service';
 import { QuoteHeaderPriceComponent } from './quote-header-price.component';
@@ -152,48 +152,6 @@ describe('QuoteHeaderPriceComponent', () => {
 
     it('should return false if price value is zero', () => {
       expect(component.hasNonZeroPriceValue({ value: 0.0 })).toBe(false);
-    });
-  });
-
-  describe('Ghost animation', () => {
-    it('should render view for ghost animation', () => {
-      component.quoteDetails$ = NEVER;
-      fixture.detectChanges();
-
-      TestUtil.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-summary-heading'
-      );
-
-      TestUtil.expectElementPresent(expect, htmlElem, '.cx-ghost-title');
-
-      TestUtil.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-summary-partials'
-      );
-
-      TestUtil.expectNumberOfElementsPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-row',
-        4
-      );
-
-      TestUtil.expectNumberOfElementsPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-summary-label',
-        4
-      );
-
-      TestUtil.expectNumberOfElementsPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-summary-amount',
-        4
-      );
     });
   });
 });
