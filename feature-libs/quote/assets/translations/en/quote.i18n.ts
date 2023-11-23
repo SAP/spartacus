@@ -141,7 +141,7 @@ export const quote = {
       },
     },
     comments: {
-      regionTitle: 'Comment box',
+      regionTitle: 'Contact/Comment Box',
       title: 'Contact',
       invalidComment: 'Invalid Input - Please type again...',
       allProducts: 'All Products',
