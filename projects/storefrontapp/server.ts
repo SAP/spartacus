@@ -26,6 +26,9 @@ const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
+  debug: Boolean(
+    process.env['SSR_DEBUG'] ?? defaultSsrOptimizationOptions.debug
+  ),
   logger: true,
 };
 
