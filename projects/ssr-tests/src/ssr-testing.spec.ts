@@ -10,7 +10,6 @@ describe('SSR E2E', () => {
 
   beforeEach(async () => {
     Log.clearSsrLogFile();
-    await Ssr.startSsrServer();
   });
 
   afterEach(async () => {
@@ -19,6 +18,7 @@ describe('SSR E2E', () => {
   });
 
   it('should receive success response with request', async () => {
+    await Ssr.startSsrServer();
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
     });
@@ -45,6 +45,7 @@ describe('SSR E2E', () => {
   });
 
   it('should receive 404 response when page is not existing', async () => {
+    await Ssr.startSsrServer();
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
     });
@@ -55,6 +56,7 @@ describe('SSR E2E', () => {
   });
 
   it('should receive 500 error response when a backend API returned server error', async () => {
+    await Ssr.startSsrServer();
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
       throwStatus: 500,
@@ -63,21 +65,29 @@ describe('SSR E2E', () => {
     expect(response.statusCode).toEqual(500);
   });
 
-  // TODO: Currently, the ssr server still responds with 200 quickly despite the proxy delay
-  // TODO: Test incomplete
-  xit('should receive 500 error response with timed-out request', async () => {
+  it('should receive 500 error response with timed-out request', async () => {
+    // Tolerated request timeout set to double the default timeout value.
+    const TIMEOUT = 40_000;
+    await Ssr.startSsrServer(4000, `SSR_TIMEOUT=${TIMEOUT} SSR_DEBUG=1`);
+
+    /**
+     * By default, Spartacus has a default backend timeout of 20 seconds.
+     * So we need to set the proxy delay to 20 seconds to match the default.
+     */
     proxy = await ProxyServer.startProxyServer({
       target: BACKEND_BASE_URL,
-      delay: 10000,
+      delay: 20_000,
     });
-    const response: any = await ProxyServer.sendRequest('/timeout');
+    const response: any = await ProxyServer.sendRequest(REQUEST_PATH);
 
-    // Waits a time for server to timeout
-    await new Promise((res) => setTimeout(res, 15000));
+    // Wait 25 seconds for timeout to occur
+    await new Promise((resolve) => setTimeout(resolve, 25_000));
 
-    // TODO: Assert ssr server log for timeout error
-    Log.assertMessages(['timeout']);
+    // TODO: Should we wait for a log from the server app? Can we rely on one?
+    // await Log.waitUntilLogContainsText(
+    //  `SSR rendering exceeded timeout ${TIMEOUT}, fallbacking to CSR for ${REQUEST_PATH}`
+    // );
 
     expect(response.statusCode).toEqual(500);
-  }, 20000);
+  }, 40000);
 });
