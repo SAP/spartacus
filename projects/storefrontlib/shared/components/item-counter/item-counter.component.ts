@@ -13,10 +13,12 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
+import { ItemCounterService } from './item-counter.service';
 
 /**
  * Provides a UI to manage the count of the quantity, typically by using
@@ -32,6 +34,7 @@ import { startWith } from 'rxjs/operators';
   // the cart is updated.
 })
 export class ItemCounterComponent implements OnInit, OnDestroy {
+  protected itemCounterService = inject(ItemCounterService);
   /**
    * Holds the value of the counter, the state of the `FormControl`
    * can be managed outside of the item counter.
@@ -85,9 +88,12 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sub = this.control.valueChanges
       .pipe(startWith(this.control.value))
-      .subscribe((value) =>
-        this.control.setValue(this.getValidCount(value), { emitEvent: false })
-      );
+      .subscribe((value) => {
+        if (this.itemCounterService) {
+          this.itemCounterService.setCounter(this.getValidCount(value));
+        }
+        this.control.setValue(this.getValidCount(value), { emitEvent: false });
+      });
   }
 
   ngOnDestroy() {
