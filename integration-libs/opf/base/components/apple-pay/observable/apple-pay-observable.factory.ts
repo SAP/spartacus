@@ -72,6 +72,7 @@ export class ApplePayObservableFactory {
           config
             .shippingContactSelected(<any>event)
             .subscribe((shippingContactUpdate) => {
+              console.log('shippingContactUpdate', shippingContactUpdate);
               session.completeShippingContactSelection(shippingContactUpdate);
             }, handleUnspecifiedError);
         });
@@ -94,10 +95,13 @@ export class ApplePayObservableFactory {
           console.log('ApplePay payment auth result', result);
           const { authResult, payment } = result;
           session.completePayment(authResult);
+          console.log('complete1');
           if (!authResult.errors || !authResult.errors.length) {
+            console.log('complete2');
             observer.next(payment);
             observer.complete();
           }
+          // session.completePayment(authResult);
         }, handleUnspecifiedError);
       });
 

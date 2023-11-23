@@ -8,7 +8,6 @@ import { Injectable } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressClearedEvent,
-  CheckoutDeliveryAddressCreatedEvent,
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryAddressSetEvent,
   CheckoutQueryFacade,
@@ -23,7 +22,7 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDeliveryAddressConnector } from '../connectors/checkout-delivery-address/checkout-delivery-address.connector';
 
@@ -48,13 +47,13 @@ export class CheckoutDeliveryAddressService
                     };
                   }
                   return address;
-                }),
-                tap((address) =>
-                  this.eventService.dispatch(
-                    { userId, cartId, address },
-                    CheckoutDeliveryAddressCreatedEvent
-                  )
-                )
+                })
+                // tap((address) =>
+                //   this.eventService.dispatch(
+                //     { userId, cartId, address },
+                //     CheckoutDeliveryAddressCreatedEvent
+                //   )
+                // )
               );
           })
         ),
@@ -143,6 +142,12 @@ export class CheckoutDeliveryAddressService
           !cartId ||
           (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
         ) {
+          console.log(
+            'checkoutPreconditions not met:',
+            userId,
+            cartId,
+            isGuestCart
+          );
           throw new Error('Checkout conditions not met');
         }
         return [userId, cartId];

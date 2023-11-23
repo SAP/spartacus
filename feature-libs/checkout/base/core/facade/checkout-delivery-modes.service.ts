@@ -27,7 +27,7 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable, throwError } from 'rxjs';
+import { Observable, combineLatest, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDeliveryModesConnector } from '../connectors/checkout-delivery-modes/checkout-delivery-modes.connector';
 
@@ -147,6 +147,7 @@ export class CheckoutDeliveryModesService
    * Performs the necessary checkout preconditions.
    */
   protected checkoutPreconditions(): Observable<[string, string]> {
+    console.log('checkoutPreconditions');
     return combineLatest([
       this.userIdService.takeUserId(),
       this.activeCartFacade.takeActiveCartId(),

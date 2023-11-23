@@ -14,10 +14,16 @@ import {
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
+  CheckoutBillingAddressFacade,
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
 } from '@spartacus/checkout/base/root';
-import { EventService, Product, UserAddressService } from '@spartacus/core';
+import {
+  Address,
+  EventService,
+  Product,
+  UserAddressService,
+} from '@spartacus/core';
 import {
   CTAProductInfo,
   OpfPaymentFacade,
@@ -26,7 +32,7 @@ import {
 } from '@spartacus/opf/base/root';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest, of } from 'rxjs';
-import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ApplePayService } from '../../apple-pay/apple-pay.service';
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
 
@@ -48,6 +54,7 @@ export class OpfCtaScriptsComponent implements OnInit, OnDestroy {
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected activeCartService = inject(ActiveCartFacade);
   protected currentProductService = inject(CurrentProductService);
+  protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
   // constructor(protected activeCartService: ActiveCartService) {}
 
   canMakePayment$ = this.applePayService.canMakePayment$.pipe(
@@ -126,9 +133,9 @@ export class OpfCtaScriptsComponent implements OnInit, OnDestroy {
     //   )
     //   .subscribe();
 
-    this.subs = this.addProductToCart$().subscribe(() => {
-      console.log('addProductToCart subscribed');
-    });
+    // this.subs = this.addProductToCart$().subscribe(() => {
+    //   console.log('addProductToCart subscribed');
+    // });
 
     this.subs = combineLatest([
       this.selectedProduct$,
@@ -136,24 +143,34 @@ export class OpfCtaScriptsComponent implements OnInit, OnDestroy {
     ]) //this.selectedProduct$
       .pipe(
         filter(([_, isStable]) => isStable),
+        take(1),
         switchMap(([product, _]) =>
           this.applePayService.start(product as Product)
-        )
-      )
-      .subscribe(({ payment, product }) => {
-        console.log('Added product to cart', payment, product);
-        this.applePayPayment = payment;
-        //  this.activeCartService.addEntry(product?.code as string, 1);
+        ),
 
-        this.quickBuyAfterSettingUpDeliveryMode().subscribe(
-          (val) => {
-            console.log(val);
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-      });
+        tap(({ payment, product }) => {
+          // console.log('Added product to cart', payment, product);
+          this.applePayPayment = payment;
+          //  this.activeCartService.addEntry(product?.code as string, 1);
+
+          this.placeOrderAfterPayment(product, payment).subscribe(
+            (val) => {
+              console.log(val);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+        })
+      )
+      .subscribe(
+        (val) => {
+          console.log('main obs', val);
+        },
+        (error) => {
+          console.log('main obs', error);
+        }
+      );
   }
 
   // private getDefaultAddressAfterSuccessfulCartEntryAdd(): Observable<Address> {
@@ -229,29 +246,46 @@ export class OpfCtaScriptsComponent implements OnInit, OnDestroy {
     return productItems;
   }
 
-  private quickBuyAfterSettingUpDeliveryMode(): Observable<any> {
-    console.log('quickBuyAfterSettingUpDeliveryMode');
+  private placeOrderAfterPayment(
+    product: Product,
+    applePayPayment: ApplePayJS.ApplePayPayment
+  ) {
+    let _cartId = '';
+    console.log('placeOrderAfterPayment');
     return combineLatest([
-      this.selectedProduct$,
       this.activeCartService.getActiveCartId(),
       this.activeCartService.isStable(),
     ]).pipe(
-      tap((val) => console.log('flo6', val)),
-      filter(
-        ([_, cartId, isStable]) =>
-          isStable && cartId !== undefined && cartId !== null && cartId !== ''
-      ),
-      switchMap(([product, cartId, _]) => {
-        console.log('Preparing opf order', product, this.applePayPayment);
-        if (!this.applePayPayment) {
+      filter(([_, isStable]) => !!isStable),
+      take(1),
+      switchMap(([cartId, _]) => {
+        _cartId = cartId;
+
+        return this.fillCartAddresses(
+          applePayPayment.billingContact,
+          applePayPayment.shippingContact
+        );
+      }),
+      tap(() => {
+        this.activeCartService
+          .getActive()
+          .pipe(take(1))
+          .subscribe((cart) => {
+            console.log('final cart', cart);
+          });
+      }),
+      switchMap(() => {
+        console.log('Preparing opf order', product, applePayPayment);
+        if (!applePayPayment) {
           return of({});
         }
-        const billingAddress = this.applePayPayment.billingContact;
-        const shippingAddress = this.applePayPayment.shippingContact;
+
+        const billingAddress = applePayPayment.billingContact;
+        const shippingAddress = applePayPayment.shippingContact;
         console.log('Billing', billingAddress);
         console.log('Shipping', shippingAddress);
         const order: OrderData = {
-          orderId: cartId,
+          orderId: _cartId,
           total: product?.price?.value,
           currency: product?.price?.currencyIso,
           subTotalWithTax: product?.price?.value,
@@ -310,10 +344,12 @@ export class OpfCtaScriptsComponent implements OnInit, OnDestroy {
           ],
         };
 
+        console.log('order Info', order);
+
         const encryptedToken = btoa(
-          JSON.stringify(this.applePayPayment.token.paymentData)
+          JSON.stringify(applePayPayment.token.paymentData)
         );
-        console.log('flo8');
+        console.log('flo8', encryptedToken);
 
         return this.opfPaymentFacade.submitPayment({
           additionalData: [],
@@ -327,4 +363,176 @@ export class OpfCtaScriptsComponent implements OnInit, OnDestroy {
       })
     );
   }
+
+  protected fillCartAddresses(
+    billingAddress: ApplePayJS.ApplePayPaymentContact | undefined,
+    shippingAddress: ApplePayJS.ApplePayPaymentContact | undefined
+  ): Observable<unknown> {
+    console.log('fillCartAddresses');
+
+    const _billingAddress: Address = {
+      firstName: billingAddress?.givenName,
+      lastName: billingAddress?.familyName,
+      line1: billingAddress?.addressLines?.[0],
+      line2: billingAddress?.addressLines?.[1],
+      email: shippingAddress?.emailAddress,
+      town: billingAddress?.locality,
+      district: billingAddress?.administrativeArea,
+      postalCode: billingAddress?.postalCode,
+      phone: shippingAddress?.phoneNumber,
+      country: {
+        isocode: billingAddress?.countryCode,
+        name: billingAddress?.country,
+      },
+      defaultAddress: true,
+    };
+    const _shippingAddress: Address = {
+      id: '',
+      firstName: shippingAddress?.givenName,
+      lastName: shippingAddress?.familyName,
+      line1: shippingAddress?.addressLines?.[0],
+      line2: shippingAddress?.addressLines?.[1],
+      email: shippingAddress?.emailAddress,
+      town: shippingAddress?.locality,
+      district: shippingAddress?.administrativeArea,
+      postalCode: shippingAddress?.postalCode,
+      phone: shippingAddress?.phoneNumber,
+      country: {
+        isocode: shippingAddress?.countryCode,
+        name: shippingAddress?.country,
+      },
+      defaultAddress: true,
+    };
+    console.log(
+      '_shippingAddress',
+      _shippingAddress,
+      '_billingAddress',
+      _billingAddress
+    );
+    let _address: Address;
+    return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
+      filter((state) => !state.loading),
+      take(1),
+      map((state) => {
+        _address = state.data as Address;
+        return state.data;
+      }),
+      // switchMap(() =>
+      //   this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress()
+      // ),
+      switchMap((address) => {
+        console.log('stored address', address);
+        _shippingAddress.id = _address.id;
+        return this.checkoutDeliveryAddressFacade.createAndSetAddress(
+          _shippingAddress
+        );
+      }),
+      tap((value) => console.log('setDeliveryAddress', value))
+      // switchMap(() =>
+      //   this.checkoutBillingAddressFacade.setBillingAddress(_billingAddress)
+      // ),
+      // tap(() => console.log('setBillingAddress'))
+    );
+
+    //  return  this.checkoutBillingAddressFacade.setBillingAddress(_billingAddress)
+  }
+
+  // private quickBuyAfterSettingUpDeliveryMode(): Observable<any> {
+  //   console.log('quickBuyAfterSettingUpDeliveryMode');
+  //   return combineLatest([
+  //     this.selectedProduct$,
+  //     this.activeCartService.getActiveCartId(),
+  //     this.activeCartService.isStable(),
+  //   ]).pipe(
+  //     tap((val) => console.log('flo6', val)),
+  //     filter(
+  //       ([_, cartId, isStable]) =>
+  //         isStable && cartId !== undefined && cartId !== null && cartId !== ''
+  //     ),
+  //     switchMap(([product, cartId, _]) => {
+  //       console.log('Preparing opf order', product, this.applePayPayment);
+  //       if (!this.applePayPayment) {
+  //         return of({});
+  //       }
+  //       const billingAddress = this.applePayPayment.billingContact;
+  //       const shippingAddress = this.applePayPayment.shippingContact;
+  //       console.log('Billing', billingAddress);
+  //       console.log('Shipping', shippingAddress);
+  //       const order: OrderData = {
+  //         orderId: cartId,
+  //         total: product?.price?.value,
+  //         currency: product?.price?.currencyIso,
+  //         subTotalWithTax: product?.price?.value,
+  //         customerEmail: shippingAddress?.emailAddress,
+  //         totalDiscount: 0,
+  //         shFeeWithTax: 0,
+  //         shFeeTax: 0,
+  //         shippingMethod: {
+  //           id: '1',
+  //           name: 'Direct shipping',
+  //           defaultFlag: false,
+  //         },
+  //         billingAddress: {
+  //           firstName: billingAddress?.givenName,
+  //           lastName: billingAddress?.familyName,
+  //           addressLine1: billingAddress?.addressLines?.[0],
+  //           addressLine2: billingAddress?.addressLines?.[1],
+  //           emailAddress: shippingAddress?.emailAddress,
+  //           city: billingAddress?.locality,
+  //           state: billingAddress?.administrativeArea,
+  //           zip: billingAddress?.postalCode,
+  //           phoneNumber: shippingAddress?.phoneNumber,
+  //           country: billingAddress?.countryCode,
+  //         },
+  //         shippingAddress: {
+  //           firstName: shippingAddress?.givenName,
+  //           lastName: shippingAddress?.familyName,
+  //           addressLine1: shippingAddress?.addressLines?.[0],
+  //           addressLine2: shippingAddress?.addressLines?.[1],
+  //           emailAddress: shippingAddress?.emailAddress,
+  //           city: shippingAddress?.locality,
+  //           state: shippingAddress?.administrativeArea,
+  //           zip: shippingAddress?.postalCode,
+  //           phoneNumber: shippingAddress?.phoneNumber,
+  //           country: shippingAddress?.countryCode,
+  //         },
+  //         orderLines: [
+  //           {
+  //             lineTax: 0,
+  //             lineShFeeTaxPercent: 0,
+  //             productId: product?.code,
+  //             copyProduct: {
+  //               name: product?.name,
+  //               price: product?.price?.value,
+  //             },
+  //             quantity: 1,
+  //             unitPriceWithTax: product?.price?.value,
+  //             lineTaxPercent: 0,
+  //             lineSubTotalWithTax: product?.price?.value,
+  //             productName: product?.name,
+  //             productDescription: product?.description,
+  //             lineTotal: product?.price?.value,
+  //             deliveryMethod: 'SFDC',
+  //             lineTotalDiscount: 0,
+  //           },
+  //         ],
+  //       };
+
+  //       const encryptedToken = btoa(
+  //         JSON.stringify(this.applePayPayment.token.paymentData)
+  //       );
+  //       console.log('flo8');
+
+  //       return this.opfPaymentFacade.submitPayment({
+  //         additionalData: [],
+  //         paymentSessionId: '',
+  //         cartId: order.orderId,
+  //         callbackArray: [() => {}, () => {}, () => {}],
+
+  //         paymentMethod: PaymentMethod.APPLE_PAY,
+  //         encryptedToken: encryptedToken,
+  //       });
+  //     })
+  //   );
+  // }
 }

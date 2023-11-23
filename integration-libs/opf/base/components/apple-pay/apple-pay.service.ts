@@ -1,5 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
-import { Product, UserIdService } from '@spartacus/core';
+import {
+  Address,
+  Product,
+  UserAddressService,
+  UserIdService,
+} from '@spartacus/core';
 import {
   BehaviorSubject,
   Observable,
@@ -19,6 +24,10 @@ import {
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import {
+  CheckoutDeliveryAddressFacade,
+  CheckoutDeliveryModesFacade,
+} from '@spartacus/checkout/base/root';
 import { WINDOW_TOKEN } from '@spartacus/opf/base/core';
 import { OpfOtpFacade } from '@spartacus/opf/base/root';
 import { ApplePaySessionFactory } from './apple-pay-session/apple-pay-session.factory';
@@ -53,9 +62,9 @@ export class ApplePayService {
 
   inProgress = false;
 
-  private configState = new ApplePayConfigState();
+  protected configState = new ApplePayConfigState();
 
-  private product: Product;
+  protected product: Product;
 
   get available(): boolean {
     return this.configState.available;
@@ -71,13 +80,16 @@ export class ApplePayService {
   canMakePayment$ = this.canMakePaymentSubject.asObservable();
 
   constructor(
-    private applePaySession: ApplePaySessionFactory,
-    private applePayObservable: ApplePayObservableFactory,
+    protected applePaySession: ApplePaySessionFactory,
+    protected applePayObservable: ApplePayObservableFactory,
     @Inject(WINDOW_TOKEN) private window: Window,
-    private http: HttpClient,
+    protected http: HttpClient,
     protected opfOtpFacade: OpfOtpFacade,
     protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected userAddressService: UserAddressService,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade
   ) {
     this.availableChange = this.configState.availableChange;
     this.configuredChange = this.configState.configuredChange;
@@ -153,13 +165,8 @@ export class ApplePayService {
       shippingMethods: [],
       merchantCapabilities: ['supports3DS'],
       supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
-      requiredShippingContactFields: [
-        'email',
-        'name',
-        'phone',
-        'postalAddress',
-      ],
-      requiredBillingContactFields: ['email', 'name', 'phone', 'postalAddress'],
+      requiredShippingContactFields: ['email', 'name', 'postalAddress'],
+      requiredBillingContactFields: ['email', 'name', 'postalAddress'],
     };
 
     console.log('Starting ApplePay payment with request', request);
@@ -185,33 +192,83 @@ export class ApplePayService {
         }),
         map((payment) => ({ payment: payment, product: product })),
         catchError((err) => {
+          this.removeProductFromCart();
           this.inProgress = false;
           throw err;
         })
       );
   }
 
-  private handlePaymentCanceled(): void {
+  protected handlePaymentCanceled(): void {
+    this.removeProductFromCart();
     this.inProgress = false;
   }
 
-  private handleValidation(
+  protected handleValidation(
     event: ApplePayJS.ApplePayValidateMerchantEvent
   ): Observable<any> {
-    let cartId = '';
+    this.addProductToCart();
+
+    return this.validateOpfAppleSession(event);
+
+    // let cartId = '';
+    // return combineLatest([
+    //   this.userIdService.getUserId(),
+    //   this.activeCartFacade.getActiveCartId(),
+    // ]).pipe(
+    //   filter(([userId, _]: [string, string]) => !!userId),
+    //   switchMap(([userId, activeCartId]: [string, string]) => {
+    //     cartId = activeCartId ?? 'current';
+    //     return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
+    //   }),
+    //   filter((response) => Boolean(response?.accessCode)),
+    //   take(1),
+    //   concatMap(({ accessCode: otpKey }) => {
+    //     cartId;
+    //     const verificationRequest: ApplePaySessionVerificationRequest = {
+    //       cartId,
+    //       validationUrl: event.validationURL,
+    //       initiative: 'web',
+    //       initiativeContext: this.window.location?.hostname,
+    //     };
+    //     console.log(
+    //       'Veryfing ApplyPay session with request',
+    //       verificationRequest
+    //     );
+
+    //     return this.verifyApplePaySession(verificationRequest, otpKey);
+    //   })
+    // );
+    // return this.verifyApplePaySession(verificationRequest);
+  }
+
+  private addProductToCart() {
+    console.log('addProductToCart');
+    if (this.product.code) {
+      this.activeCartFacade.addEntry(this.product.code as string, 1);
+    }
+  }
+
+  private validateOpfAppleSession(
+    event: ApplePayJS.ApplePayValidateMerchantEvent,
+    cartId = ''
+  ) {
     return combineLatest([
-      this.userIdService.getUserId(),
       this.activeCartFacade.getActiveCartId(),
+      this.userIdService.getUserId(),
+      this.activeCartFacade.isStable(),
     ]).pipe(
-      filter(([userId, _]: [string, string]) => !!userId),
-      switchMap(([userId, activeCartId]: [string, string]) => {
+      filter(
+        ([_, userId, isStable]: [string, string, boolean]) =>
+          !!userId && isStable
+      ),
+      switchMap(([activeCartId, userId, _]: [string, string, boolean]) => {
         cartId = activeCartId ?? 'current';
-        return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
+        return this.opfOtpFacade.generateOtpKey(userId, cartId);
       }),
       filter((response) => Boolean(response?.accessCode)),
       take(1),
       concatMap(({ accessCode: otpKey }) => {
-        cartId;
         const verificationRequest: ApplePaySessionVerificationRequest = {
           cartId,
           validationUrl: event.validationURL,
@@ -226,12 +283,26 @@ export class ApplePayService {
         return this.verifyApplePaySession(verificationRequest, otpKey);
       })
     );
-    // return this.verifyApplePaySession(verificationRequest);
   }
 
-  private handleShippingContactSelected(
+  removeProductFromCart() {
+    console.log('removeProductFromCart');
+    if (this.product.code) {
+      this.activeCartFacade
+        .getLastEntry(this.product.code)
+        .pipe(take(1))
+        .subscribe((entry) => {
+          if (entry) {
+            this.activeCartFacade.removeEntry(entry);
+          }
+        });
+    }
+  }
+
+  protected handleShippingContactSelected(
     _event: ApplePayJS.ApplePayShippingContactSelectedEvent
   ): Observable<any> {
+    console.log('handleShippingContactSelected', _event);
     const result: ApplePayJS.ApplePayShippingContactUpdate = {
       newTotal: {
         amount: `${this.product?.price?.value}`,
@@ -243,17 +314,70 @@ export class ApplePayService {
           label: this.product.name as string,
         },
       ],
-      newShippingMethods: [
-        // TODO ?
-      ],
     };
-    console.log('ApplePay shipping contact update', result);
-    return of(result);
+    // return of(result);
+    // return this.fetchDeliveryModes().pipe(
+    //   take(1),
+    //   switchMap((newShippingMethods) => {
+    //     if (!newShippingMethods.length) {
+    //       return of(result);
+    //     }
+    //     result.newShippingMethods = newShippingMethods;
+    //     return of(result);
+    //   })
+    // );
+    return this.setDeliveryaddress(_event.shippingContact).pipe(
+      switchMap(() => this.fetchDeliveryModes()),
+      switchMap((newShippingMethods) => {
+        if (!newShippingMethods.length) {
+          return of(result);
+        }
+        result.newShippingMethods = newShippingMethods;
+        return of(result);
+      }),
+      take(1),
+      switchMap((success) => {
+        console.log('setDeliveryaddress set', success);
+        return this.activeCartFacade.getActive();
+      }),
+      switchMap((cart) => {
+        console.log('setDeliveryaddress cart', cart);
+        return of(result);
+      })
+    );
+    // return this.fetchDeliveryModes().pipe(
+    //   switchMap((newShippingMethods) => {
+    //     if (!newShippingMethods.length) {
+    //       return of(result);
+    //     }
+    //     result.newShippingMethods = newShippingMethods;
+    //     return of(result);
+    //   })
+    // );
+
+    // const result: ApplePayJS.ApplePayShippingContactUpdate = {
+    //   newTotal: {
+    //     amount: `${this.product?.price?.value}`,
+    //     label: this.product.name as string,
+    //   },
+    //   newLineItems: [
+    //     {
+    //       amount: `${this.product?.price?.value}`,
+    //       label: this.product.name as string,
+    //     },
+    //   ],
+    //   newShippingMethods: [
+    //     // TODO ?
+    //   ],
+    // };
+    // console.log('ApplePay shipping contact update', result);
+    // return of(result);
   }
 
-  private handlePaymentMethodSelected(
+  protected handlePaymentMethodSelected(
     _event: ApplePayJS.ApplePayPaymentMethodSelectedEvent
   ): Observable<any> {
+    console.log('handlePaymentMethodSelected');
     const result: ApplePayJS.ApplePayPaymentMethodUpdate = {
       newTotal: {
         amount: `${this.product?.price?.value}`,
@@ -270,10 +394,12 @@ export class ApplePayService {
     return of(result);
   }
 
-  private handleShippingMethodSelected(
+  protected handleShippingMethodSelected(
     _event: ApplePayJS.ApplePayShippingMethodSelectedEvent
   ): Observable<any> {
-    const result: ApplePayJS.ApplePayShippingMethodUpdate = {
+    console.log('handleShippingAddressSelected');
+
+    const result: ApplePayJS.ApplePayShippingContactUpdate = {
       newTotal: {
         amount: `${this.product?.price?.value}`,
         label: this.product.name as string,
@@ -285,14 +411,61 @@ export class ApplePayService {
         },
       ],
     };
-    console.log('ApplePay shipping method update', result);
-    return of(result);
+
+    // return of(result);
+
+    return this.checkoutDeliveryModesFacade
+      .setDeliveryMode(_event.shippingMethod.identifier)
+      .pipe(
+        switchMap(() =>
+          this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState()
+        ),
+        filter((state) => !state.error && !state.loading),
+        map((state) => state.data),
+        map((data) => !!(data && Object.keys(data).length)),
+        switchMap((success) => {
+          console.log('new delivery mode set', success);
+          return this.activeCartFacade.getActive();
+        }),
+        switchMap((cart) => {
+          console.log('cart', cart);
+          result.newTotal.amount = '' + cart.totalPrice?.value;
+          return of(result);
+        }),
+        take(1)
+      );
+
+    // return of(result);
+    // return this.fetchDeliveryModes().pipe(
+    //   switchMap((newShippingMethods) => {
+    //     if (!newShippingMethods.length) {
+    //       return of(result);
+    //     }
+    //     result.newShippingMethods = newShippingMethods;
+    //     return of(result);
+    //   })
+    // );
+    // const result: ApplePayJS.ApplePayShippingMethodUpdate = {
+    //   newTotal: {
+    //     amount: `${this.product?.price?.value}`,
+    //     label: this.product.name as string,
+    //   },
+    //   newLineItems: [
+    //     {
+    //       amount: `${this.product?.price?.value}`,
+    //       label: this.product.name as string,
+    //     },
+    //   ],
+    // };
+    // console.log('ApplePay shipping method update', result);
+    // return of(result);
   }
 
-  private handlePaymentAuthorized(
+  protected handlePaymentAuthorized(
     event: ApplePayJS.ApplePayPaymentAuthorizedEvent
   ): Observable<ApplePayAuthorizationResult> {
     console.log('Product', this.product);
+    console.log('handlePaymentAuthorized', event);
     const payment = event.payment;
 
     const result: ApplePayJS.ApplePayPaymentAuthorizationResult = {
@@ -305,6 +478,74 @@ export class ApplePayService {
       authResult: result,
       payment: payment,
     });
+  }
+
+  fetchDeliveryModes() {
+    this.activeCartFacade.addEmail('flolete@letlet.com');
+
+    return this.activeCartFacade.isStable().pipe(
+      filter((isStable) => !!isStable),
+      switchMap(() => this.activeCartFacade.isGuestCart()),
+      switchMap((isGuest) => {
+        console.log('isGuest', isGuest);
+        return this.checkoutDeliveryModesFacade.getSupportedDeliveryModes();
+      }),
+      take(1),
+      switchMap((modes) => {
+        console.log('modes', modes);
+        const result = modes.map((mode) => {
+          const applePayMethod: ApplePayJS.ApplePayShippingMethod = {
+            identifier: mode.code as string,
+            label: mode.name as string,
+            amount: (mode.deliveryCost?.value as number).toFixed(2),
+            detail: '',
+          };
+          return applePayMethod;
+        });
+        return of(result);
+      })
+    );
+  }
+
+  setDeliveryaddress(contact: ApplePayJS.ApplePayPaymentContact) {
+    console.log('setDeliveryaddress contact', contact);
+    // this.userAddressService.addUserAddress(address)
+    // combineLatest([
+    //          this.userAddressService.getAddresses(),
+    //          this.userAddressService.getAddressesLoadedSuccess(),
+    //        ]).pipe(
+    //         switchMap(addr,)
+    //        )
+    const _address: Address = {
+      email: contact.emailAddress,
+      firstName: 'xxxx',
+      lastName: 'xxxx',
+      line1: !!contact?.addressLines?.length ? contact.addressLines[0] : 'xxxx',
+      town: contact.locality,
+      postalCode: contact.postalCode,
+      country: {
+        isocode: contact.countryCode,
+        name: contact.country,
+      },
+      defaultAddress: true,
+      shippingAddress: true,
+      phone: contact.phoneNumber,
+      visibleInAddressBook: false,
+    };
+    return this.checkoutDeliveryAddressFacade
+      .createAndSetAddress(_address)
+      .pipe(
+        // switchMap(() =>
+        //   this.checkoutDeliveryAddressFacade.getDeliveryAddressState()
+        // ),
+        // filter((state) => !state.error && !state.loading),
+        // map((state) => state.data),
+        // map((data) => !!(data && Object.keys(data).length)),
+        catchError((error) => {
+          console.log('catch error', error);
+          return throwError(error);
+        })
+      );
   }
 
   verifyApplePaySession(
