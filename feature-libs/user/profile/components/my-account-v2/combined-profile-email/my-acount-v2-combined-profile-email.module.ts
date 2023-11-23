@@ -46,7 +46,7 @@ import { UpdateEmailModule } from '../../update-email';
     MessageComponentModule,
     PageSlotModule,
     UpdateProfileModule,
-    UpdateEmailModule
+    UpdateEmailModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
