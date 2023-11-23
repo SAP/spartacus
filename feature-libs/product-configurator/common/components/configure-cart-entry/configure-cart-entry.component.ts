@@ -18,7 +18,7 @@ import {
 } from '@spartacus/cart/base/root';
 
 import { Observable, combineLatest, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
@@ -47,8 +47,8 @@ export class ConfigureCartEntryComponent {
   abstractOrderData$: Observable<AbstractOrderData> = this.abstractOrderContext
     ? combineLatest([
         this.abstractOrderContext.id$,
-        this.abstractOrderContext.type$,
-      ]).pipe(map(([id, type]) => ({ id, type })))
+        this.abstractOrderContext.type$, 
+      ]).pipe(tap(([id, _type])=>console.log("CHHI id from context: "+ id)),map(([id, type]) => ({ id, type })))
     : of({ type: AbstractOrderType.CART });
 
   /**

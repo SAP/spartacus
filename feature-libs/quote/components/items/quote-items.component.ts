@@ -5,14 +5,12 @@
  */
 
 import { Component, inject } from '@angular/core';
-import { AbstractOrderContextSource } from '@spartacus/cart/base/components';
 import {
-  AbstractOrderContext,
   AbstractOrderType,
   ActiveCartFacade,
   CartOutlets,
   MultiCartFacade,
-  OrderEntry,
+  OrderEntry
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';
@@ -24,6 +22,8 @@ import { QuoteItemsComponentService } from './quote-items.component.service';
 interface QuoteItemsData {
   entries: OrderEntry[] | undefined;
   readOnly: boolean;
+  abstractOrderType: AbstractOrderType;
+  abstractOrderId?: string;
 }
 /**
  * Renders quote items. These items are either taken from the actual quote,
@@ -41,10 +41,7 @@ interface QuoteItemsData {
 @Component({
   selector: 'cx-quote-items',
   templateUrl: './quote-items.component.html',
-  providers: [
-    AbstractOrderContextSource,
-    { provide: AbstractOrderContext, useExisting: AbstractOrderContextSource },
-  ],
+
 })
 export class QuoteItemsComponent {
   protected quoteFacade = inject(QuoteFacade);
@@ -52,7 +49,6 @@ export class QuoteItemsComponent {
   protected multiCartFacade = inject(MultiCartFacade);
   protected quoteItemsComponentService = inject(QuoteItemsComponentService);
   protected userIdService = inject(UserIdService);
-  protected abstractOrderContextSource = inject(AbstractOrderContextSource);
 
   quoteItemsData$: Observable<QuoteItemsData> = this.userIdService
     .takeUserId()
@@ -71,33 +67,36 @@ export class QuoteItemsComponent {
       }),
       switchMap(([quote, _userId]) => {
         if (!quote.cartId) {
-          this.abstractOrderContextSource.id$.next(quote.code);
-          this.abstractOrderContextSource.type$.next(AbstractOrderType.QUOTE);
-          return zip(of(quote), of(true));
+          return zip(of(quote), of(true), of(AbstractOrderType.QUOTE));
         } else if (!quote.isEditable) {
-          this.abstractOrderContextSource.id$.next(quote.cartId);
-          this.abstractOrderContextSource.type$.next(
-            AbstractOrderType.SAVED_CART
-          );
           return combineLatest([
             this.multiCartFacade.getCart(quote.cartId),
             of(true),
+            of(AbstractOrderType.SAVED_CART),
           ]);
         } else {
-          this.abstractOrderContextSource.id$.next(quote.cartId);
-          this.abstractOrderContextSource.type$.next(AbstractOrderType.CART);
-          return combineLatest([this.activeCartFacade.getActive(), of(false)]);
+          return combineLatest([
+            this.activeCartFacade.getActive(),
+            of(false),
+            of(AbstractOrderType.CART),
+          ]);
         }
       }),
       filter(([abstractOrder, _readOnly]) => abstractOrder !== undefined),
-      map(([abstractOrder, readOnly]) => {
-        return { entries: abstractOrder.entries, readOnly: readOnly };
+      map(([abstractOrder, readOnly, abstractOrderType]) => {
+        return {
+          entries: abstractOrder.entries,
+          readOnly: readOnly,
+          abstractOrderId: abstractOrder.code,
+          abstractOrderType: abstractOrderType,
+        };
       })
     );
 
   showCart$ = this.quoteItemsComponentService.getQuoteEntriesExpanded();
   iconTypes = ICON_TYPE;
   readonly cartOutlets = CartOutlets;
+  readonly abstractOrderType = AbstractOrderType;
   protected subscription: Subscription;
 
   /**
