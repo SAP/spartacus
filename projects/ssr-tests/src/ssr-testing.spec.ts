@@ -40,6 +40,7 @@ describe('SSR E2E', () => {
     });
     const response: any = await ProxyServer.sendRequest(REQUEST_PATH);
     expect(response.statusCode).toEqual(200);
+
     Log.assertMessages(['Render from cache (/)']);
   });
 
