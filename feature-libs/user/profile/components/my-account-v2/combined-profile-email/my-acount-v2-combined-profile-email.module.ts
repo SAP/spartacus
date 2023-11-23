@@ -25,9 +25,11 @@ import {
   PageSlotModule,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { NewCombinedProfileComponent } from './new-combined-profile.component';
-import { MyAccountV2ProfileComponentService } from '../my-account-v2/user-profile';
-import { MyAccountV2EmailComponentService } from '../my-account-v2/new-email';
+import { MyAccountV2CombinedProfileEmailComponent } from './my-account-v2-combined-profile-email.component';
+import { MyAccountV2ProfileComponentService } from '../user-profile';
+import { MyAccountV2EmailComponentService } from '../email';
+import { UpdateProfileModule } from '../../update-profile';
+import { UpdateEmailModule } from '../../update-email';
 
 @NgModule({
   imports: [
@@ -43,17 +45,19 @@ import { MyAccountV2EmailComponentService } from '../my-account-v2/new-email';
     NgSelectA11yModule,
     MessageComponentModule,
     PageSlotModule,
+    UpdateProfileModule,
+    UpdateEmailModule
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        NewCombinedProfileComponent: {
-          component: NewCombinedProfileComponent,
+        MyAccountV2CombinedProfileEmailComponent: {
+          component: MyAccountV2CombinedProfileEmailComponent,
           guards: [AuthGuard],
           providers: [
             {
-              provide: NewCombinedProfileComponent,
-              useClass: NewCombinedProfileComponent,
+              provide: MyAccountV2CombinedProfileEmailComponent,
+              useClass: MyAccountV2CombinedProfileEmailComponent,
               deps: [UserProfileFacade, GlobalMessageService],
             },
             MyAccountV2EmailComponentService,
@@ -63,7 +67,7 @@ import { MyAccountV2EmailComponentService } from '../my-account-v2/new-email';
       },
     }),
   ],
-  declarations: [NewCombinedProfileComponent],
-  exports: [NewCombinedProfileComponent],
+  declarations: [MyAccountV2CombinedProfileEmailComponent],
+  exports: [MyAccountV2CombinedProfileEmailComponent],
 })
 export class NewCombinedProfileModule {}
