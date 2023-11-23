@@ -112,8 +112,10 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
   /**
    * Should the validation message be displayed?
+   *
    * @returns True in case discount control has errors
    */
   mustDisplayValidationMessage(): boolean {
@@ -121,8 +123,9 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Parses current discount from control and sends absolute discount to the facade layer
-   * @param quoteCode Quote code
+   * Parses current discount from control and sends absolute discount to the facade layer.
+   *
+   * @param quoteCode - Quote code
    */
   onApply(quoteCode: string): void {
     if (this.form.controls.discount.valid) {
@@ -145,8 +148,9 @@ export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Prepares date for facade layer and sends it
-   * @param quoteCode Quote code
+   * Prepares date for facade layer and sends it.
+   *
+   * @param quoteCode - Quote code
    */
   onSetDate(quoteCode: string): void {
     const dateWithTime =

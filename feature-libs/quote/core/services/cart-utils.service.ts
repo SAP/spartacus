@@ -9,7 +9,7 @@ import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import { QuoteCartService } from '@spartacus/quote/root';
 import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { take, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +34,7 @@ export class CartUtilsService {
   }
 
   /**
-   * Creates a new cart and navigates according to the 'cart' route
+   * Creates a new cart and navigates according to the 'cart' route.
    */
   goToNewCart(): void {
     this.createNewCart()
@@ -45,13 +45,19 @@ export class CartUtilsService {
   }
 
   /**
-   * Creates a new cart and navigates according to the 'quotes' route
+   * Handels a cart depending whether the quote is editable or not and navigates according to the 'quotes' route.
+   *
+   * @param isEditable - Is a quote editable?
    */
-  createNewCartAndGoToQuoteList(): void {
-    this.createNewCart()
-      .pipe(take(1))
-      .subscribe(() => {
-        this.routingService.go({ cxRoute: 'quotes' });
-      });
+  handelCartAndGoToQuoteList(isEditable: boolean): void {
+    if (isEditable) {
+      this.createNewCart()
+        .pipe(take(1))
+        .subscribe(() => {
+          this.routingService.go({ cxRoute: 'quotes' });
+        });
+    } else {
+      this.routingService.go({ cxRoute: 'quotes' });
+    }
   }
 }

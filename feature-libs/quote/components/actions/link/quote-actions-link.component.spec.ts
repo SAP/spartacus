@@ -57,7 +57,7 @@ describe('QuoteActionsLinkComponent', () => {
   let fixture: ComponentFixture<QuoteActionsLinkComponent>;
   let htmlElem: HTMLElement;
   let component: QuoteActionsLinkComponent;
-  let cartUtilService: CartUtilsService;
+  let cartUtilsService: CartUtilsService;
   let router: Router;
 
   beforeEach(() => {
@@ -84,7 +84,7 @@ describe('QuoteActionsLinkComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteActionsLinkComponent);
     htmlElem = fixture.nativeElement;
-    cartUtilService = TestBed.inject(CartUtilsService);
+    cartUtilsService = TestBed.inject(CartUtilsService);
     router = TestBed.inject(Router);
     component = fixture.componentInstance;
     mockQuoteDetails$.next(mockQuote);
@@ -98,7 +98,7 @@ describe('QuoteActionsLinkComponent', () => {
   it('should render empty component', () => {
     fixture = TestBed.createComponent(QuoteActionsLinkComponent);
     htmlElem = fixture.nativeElement;
-    cartUtilService = TestBed.inject(CartUtilsService);
+    cartUtilsService = TestBed.inject(CartUtilsService);
     router = TestBed.inject(Router);
     component = fixture.componentInstance;
     component.quoteDetails$ = NEVER;
@@ -145,7 +145,7 @@ describe('QuoteActionsLinkComponent', () => {
     );
     link.click();
     expect(component.goToNewCart).toHaveBeenCalled();
-    expect(cartUtilService.goToNewCart).toHaveBeenCalled();
+    expect(cartUtilsService.goToNewCart).toHaveBeenCalled();
   });
 
   it('should redirect to Quotes list when "Quotes" button was clicked', fakeAsync(() => {

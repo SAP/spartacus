@@ -25,6 +25,18 @@ interface QuoteItemsData {
   entries: OrderEntry[] | undefined;
   readOnly: boolean;
 }
+/**
+ * Renders quote items. These items are either taken from the actual quote,
+ * or from the attached quote cart.
+ * Specifically if the quote is editable, changes to the entries will be
+ * done by changing the attached quote cart's entries.
+ *
+ * Note that the component makes use of outlet CART_ITEM_LIST in order to
+ * render the quote entries. The default implementation of this outlet is
+ * in feature lib 'cartBase'. This lib is always loaded, because
+ * quoteFacade.getQuoteDetails() always triggers activeCartFacade for checking
+ * on the quote/cart link.
+ */
 
 @Component({
   selector: 'cx-quote-items',
@@ -88,6 +100,11 @@ export class QuoteItemsComponent {
   readonly cartOutlets = CartOutlets;
   protected subscription: Subscription;
 
+  /**
+   * Handler to toggle expanded state of quote entries section.
+   *
+   * @param showCart - current expanded state, will be inverted
+   */
   onToggleShowOrHideCart(showCart: boolean) {
     this.quoteItemsComponentService.setQuoteEntriesExpanded(!showCart);
   }

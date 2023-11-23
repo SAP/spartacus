@@ -73,7 +73,7 @@ class MockQuoteCartService {
 }
 
 describe('QuoteCartGuard', () => {
-  let guard: QuoteCartGuard;
+  let classUnderTest: QuoteCartGuard;
   let routingService: RoutingService;
 
   beforeEach(() => {
@@ -90,17 +90,17 @@ describe('QuoteCartGuard', () => {
     checkoutAllowed = false;
     quoteId = '';
     routerState = routerStateCheckout;
-    guard = TestBed.inject(QuoteCartGuard);
+    classUnderTest = TestBed.inject(QuoteCartGuard);
     routingService = TestBed.inject(RoutingService);
   });
 
   it('should create guard', () => {
-    expect(guard).toBeDefined();
+    expect(classUnderTest).toBeDefined();
   });
 
   describe('canActivate', () => {
     it('should return true if quote cart is not present', (done) => {
-      guard.canActivate().subscribe((canActive) => {
+      classUnderTest.canActivate().subscribe((canActive) => {
         expect(canActive).toBe(true);
         done();
       });
@@ -108,7 +108,7 @@ describe('QuoteCartGuard', () => {
 
     it('should return false if quote cart is present', (done) => {
       isQuoteCartActive = true;
-      guard.canActivate().subscribe((canActive) => {
+      classUnderTest.canActivate().subscribe((canActive) => {
         expect(canActive).toBe(false);
         done();
       });
@@ -117,7 +117,7 @@ describe('QuoteCartGuard', () => {
     it('should navigate to quote details if quote cart is present', (done) => {
       isQuoteCartActive = true;
       quoteId = QUOTE_CODE;
-      guard.canActivate().subscribe(() => {
+      classUnderTest.canActivate().subscribe(() => {
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'quoteDetails',
           params: { quoteId: QUOTE_CODE },
@@ -130,7 +130,7 @@ describe('QuoteCartGuard', () => {
       isQuoteCartActive = true;
       checkoutAllowed = true;
       quoteId = QUOTE_CODE;
-      guard.canActivate().subscribe((result) => {
+      classUnderTest.canActivate().subscribe((result) => {
         expect(result).toBe(true);
         done();
       });
@@ -141,7 +141,7 @@ describe('QuoteCartGuard', () => {
       checkoutAllowed = true;
       routerState = routerStateCheckoutWoNextState;
       quoteId = QUOTE_CODE;
-      guard.canActivate().subscribe((result) => {
+      classUnderTest.canActivate().subscribe((result) => {
         expect(result).toBe(true);
         done();
       });
@@ -152,7 +152,7 @@ describe('QuoteCartGuard', () => {
       checkoutAllowed = true;
       routerState = routerStateCart;
       quoteId = QUOTE_CODE;
-      guard.canActivate().subscribe((result) => {
+      classUnderTest.canActivate().subscribe((result) => {
         expect(result).toBe(false);
         done();
       });

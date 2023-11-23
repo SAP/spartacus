@@ -32,7 +32,7 @@ export class QuoteRequestButtonComponent implements OnDestroy {
 
   /**
    * Creates a new quote and triggers the navigation according to route 'quoteDetails',
-   * in order to land on the quote details page
+   * in order to land on the quote details page.
    */
   goToQuoteDetails(): void {
     this.subscription.add(

@@ -88,9 +88,9 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 describe(`OccQuoteAdapter`, () => {
-  let service: OccQuoteAdapter;
-  let httpMock: HttpTestingController;
-  let converter: ConverterService;
+  let classUnderTest: OccQuoteAdapter;
+  let httpTestingController: HttpTestingController;
+  let converterService: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -100,21 +100,21 @@ describe(`OccQuoteAdapter`, () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
-    service = TestBed.inject(OccQuoteAdapter);
-    httpMock = TestBed.inject(HttpTestingController);
-    converter = TestBed.inject(ConverterService);
+    classUnderTest = TestBed.inject(OccQuoteAdapter);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(converter, 'convert').and.callThrough();
+    spyOn(converterService, 'pipeable').and.callThrough();
+    spyOn(converterService, 'pipeableMany').and.callThrough();
+    spyOn(converterService, 'convert').and.callThrough();
   });
 
   afterEach(() => {
-    httpMock.verify();
+    httpTestingController.verify();
   });
 
   it('getQuotes should return users quotes list', (done) => {
-    service
+    classUnderTest
       .getQuotes(userId, pagination)
       .pipe(take(1))
       .subscribe((result) => {
@@ -122,7 +122,7 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) =>
+    const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(
         req,
         'GET',
@@ -133,11 +133,13 @@ describe(`OccQuoteAdapter`, () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockQuoteList);
-    expect(converter.pipeable).toHaveBeenCalledWith(QUOTE_LIST_NORMALIZER);
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      QUOTE_LIST_NORMALIZER
+    );
   });
 
   it('createQuote should create quote based on provided cartId', (done) => {
-    service
+    classUnderTest
       .createQuote(userId, mockQuoteStarter)
       .pipe(take(1))
       .subscribe((result) => {
@@ -145,20 +147,22 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) => isQuoteReq(req, 'POST', ''));
+    const mockReq = httpTestingController.expectOne((req) =>
+      isQuoteReq(req, 'POST', '')
+    );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockQuote);
-    expect(converter.pipeable).toHaveBeenCalledWith(QUOTE_NORMALIZER);
-    expect(converter.convert).toHaveBeenCalledWith(
+    expect(converterService.pipeable).toHaveBeenCalledWith(QUOTE_NORMALIZER);
+    expect(converterService.convert).toHaveBeenCalledWith(
       mockQuoteStarter,
       QUOTE_STARTER_SERIALIZER
     );
   });
 
   it('getQuote should return quote details based on provided quoteCode', (done) => {
-    service
+    classUnderTest
       .getQuote(userId, mockQuote.code)
       .pipe(take(1))
       .subscribe((result) => {
@@ -166,16 +170,18 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) => isQuoteReq(req, 'GET'));
+    const mockReq = httpTestingController.expectOne((req) =>
+      isQuoteReq(req, 'GET')
+    );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockQuote);
-    expect(converter.pipeable).toHaveBeenCalledWith(QUOTE_NORMALIZER);
+    expect(converterService.pipeable).toHaveBeenCalledWith(QUOTE_NORMALIZER);
   });
 
   it('getQuote should call httpErrorHandler on error', (done) => {
-    service
+    classUnderTest
       .getQuote(userId, mockQuote.code)
       .pipe(take(1))
       .subscribe(
@@ -188,7 +194,9 @@ describe(`OccQuoteAdapter`, () => {
         }
       );
 
-    const mockReq = httpMock.expectOne((req) => isQuoteReq(req, 'GET'));
+    const mockReq = httpTestingController.expectOne((req) =>
+      isQuoteReq(req, 'GET')
+    );
     mockReq.flush("quote id 'undefined' not found", {
       status: 400,
       statusText: 'Bad request',
@@ -196,7 +204,7 @@ describe(`OccQuoteAdapter`, () => {
   });
 
   it('editQuote should editQuote quote', (done) => {
-    service
+    classUnderTest
       .editQuote(userId, mockQuote.code, mockQuoteMetadata)
       .pipe(take(1))
       .subscribe((result) => {
@@ -204,19 +212,21 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) => isQuoteReq(req, 'PATCH'));
+    const mockReq = httpTestingController.expectOne((req) =>
+      isQuoteReq(req, 'PATCH')
+    );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(null);
-    expect(converter.convert).toHaveBeenCalledWith(
+    expect(converterService.convert).toHaveBeenCalledWith(
       mockQuoteMetadata,
       QUOTE_METADATA_SERIALIZER
     );
   });
 
   it('performQuoteAction should send action to be performed for quote', (done) => {
-    service
+    classUnderTest
       .performQuoteAction(userId, mockQuote.code, mockQuoteAction)
       .pipe(take(1))
       .subscribe((result) => {
@@ -224,21 +234,21 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) =>
+    const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(req, 'POST', `/${mockQuote.code}/action`)
     );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(null);
-    expect(converter.convert).toHaveBeenCalledWith(
+    expect(converterService.convert).toHaveBeenCalledWith(
       mockQuoteAction,
       QUOTE_ACTION_SERIALIZER
     );
   });
 
   it('addComment should add comment to quote', (done) => {
-    service
+    classUnderTest
       .addComment(userId, mockQuote.code, mockQuoteComment)
       .pipe(take(1))
       .subscribe((result) => {
@@ -246,21 +256,21 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) =>
+    const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(req, 'POST', `/${mockQuote.code}/comments`)
     );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(null);
-    expect(converter.convert).toHaveBeenCalledWith(
+    expect(converterService.convert).toHaveBeenCalledWith(
       mockQuoteComment,
       QUOTE_COMMENT_SERIALIZER
     );
   });
 
   it('addDiscount should add discount to quote', (done) => {
-    service
+    classUnderTest
       .addDiscount(userId, mockQuote.code, mockQuoteDiscount)
       .pipe(take(1))
       .subscribe((result) => {
@@ -268,21 +278,21 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) =>
+    const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(req, 'POST', `/${mockQuote.code}/discounts`)
     );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(null);
-    expect(converter.convert).toHaveBeenCalledWith(
+    expect(converterService.convert).toHaveBeenCalledWith(
       mockQuoteDiscount,
       QUOTE_DISCOUNT_SERIALIZER
     );
   });
 
   it('addQuoteEntryComment should add comment to product entry in quote cart', (done) => {
-    service
+    classUnderTest
       .addQuoteEntryComment(
         userId,
         mockQuote.code,
@@ -295,7 +305,7 @@ describe(`OccQuoteAdapter`, () => {
         done();
       });
 
-    const mockReq = httpMock.expectOne((req) =>
+    const mockReq = httpTestingController.expectOne((req) =>
       isQuoteReq(
         req,
         'POST',
@@ -306,7 +316,7 @@ describe(`OccQuoteAdapter`, () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(null);
-    expect(converter.convert).toHaveBeenCalledWith(
+    expect(converterService.convert).toHaveBeenCalledWith(
       mockQuoteEntryComment,
       QUOTE_COMMENT_SERIALIZER
     );

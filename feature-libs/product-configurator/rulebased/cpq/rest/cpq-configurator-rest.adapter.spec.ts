@@ -99,7 +99,6 @@ describe('CpqConfiguratorRestAdapter', () => {
       'addToCart',
       'getConfigIdForCartEntry',
       'getConfigIdForOrderEntry',
-      'getConfigIdForQuoteEntry',
       'updateCartEntry',
     ]);
 

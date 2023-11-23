@@ -107,11 +107,11 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 describe('QuoteItemsComponent', () => {
-  let mockedEventService: EventService;
-  let mockQuoteItemsComponentService: QuoteItemsComponentService;
   let fixture: ComponentFixture<QuoteItemsComponent>;
   let htmlElem: HTMLElement;
   let component: QuoteItemsComponent;
+  let eventService: EventService;
+  let quoteItemsComponentService: QuoteItemsComponentService;
 
   beforeEach(
     waitForAsync(() => {
@@ -138,11 +138,11 @@ describe('QuoteItemsComponent', () => {
           },
           {
             provide: EventService,
-            useValue: mockedEventService,
+            useValue: eventService,
           },
           {
             provide: QuoteItemsComponentService,
-            useValue: mockQuoteItemsComponentService,
+            useValue: quoteItemsComponentService,
           },
         ],
       }).compileComponents();
@@ -160,18 +160,15 @@ describe('QuoteItemsComponent', () => {
   });
 
   function initMocks() {
-    mockedEventService = jasmine.createSpyObj('EventService', [
-      'get',
-      'dispatch',
-    ]);
-    mockQuoteItemsComponentService = jasmine.createSpyObj(
+    eventService = jasmine.createSpyObj('EventService', ['get', 'dispatch']);
+    quoteItemsComponentService = jasmine.createSpyObj(
       'QuoteItemsComponentService',
       ['setQuoteEntriesExpanded', 'getQuoteEntriesExpanded']
     );
-    asSpy(mockedEventService.get).and.returnValue(EMPTY);
-    asSpy(
-      mockQuoteItemsComponentService.getQuoteEntriesExpanded
-    ).and.returnValue(true);
+    asSpy(eventService.get).and.returnValue(EMPTY);
+    asSpy(quoteItemsComponentService.getQuoteEntriesExpanded).and.returnValue(
+      true
+    );
   }
 
   function asSpy(f: any) {
@@ -396,14 +393,14 @@ describe('QuoteItemsComponent', () => {
     it('should call quoteItemsComponentService correctly if argument is true', () => {
       component.onToggleShowOrHideCart(true);
       expect(
-        mockQuoteItemsComponentService.setQuoteEntriesExpanded
+        quoteItemsComponentService.setQuoteEntriesExpanded
       ).toHaveBeenCalledWith(false);
     });
 
     it('should call quoteItemsComponentService correctly if argument is false', () => {
       component.onToggleShowOrHideCart(false);
       expect(
-        mockQuoteItemsComponentService.setQuoteEntriesExpanded
+        quoteItemsComponentService.setQuoteEntriesExpanded
       ).toHaveBeenCalledWith(true);
     });
   });
@@ -432,7 +429,7 @@ describe('QuoteItemsComponent', () => {
     CommonQuoteTestUtilsService.clickToggle(htmlElem, true);
     fixture.detectChanges();
     expect(
-      mockQuoteItemsComponentService.setQuoteEntriesExpanded
+      quoteItemsComponentService.setQuoteEntriesExpanded
     ).toHaveBeenCalledWith(false);
   });
 
@@ -442,7 +439,7 @@ describe('QuoteItemsComponent', () => {
     CommonQuoteTestUtilsService.clickToggle(htmlElem, false);
     fixture.detectChanges();
     expect(
-      mockQuoteItemsComponentService.setQuoteEntriesExpanded
+      quoteItemsComponentService.setQuoteEntriesExpanded
     ).toHaveBeenCalledWith(true);
   });
 });

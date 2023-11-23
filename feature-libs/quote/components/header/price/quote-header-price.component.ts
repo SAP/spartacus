@@ -18,9 +18,9 @@ export class QuoteHeaderPriceComponent {
   quoteDetails$ = this.quoteFacade.getQuoteDetails();
 
   /**
-   * Checks whether the price has a non-zero value
+   * Checks whether the price has a non-zero value.
    *
-   * @param price to check
+   * @param price - Price to check
    * @returns true, only if the price has a non zero value
    */
   hasNonZeroPriceValue(price?: Price): boolean {

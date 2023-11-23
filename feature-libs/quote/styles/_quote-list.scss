@@ -85,15 +85,10 @@
         }
       }
 
-      .cx-nav-caret {
-        width: 10%;
-      }
-
       @include media-breakpoint-down(md) {
         .cx-nav-caret {
           position: absolute;
           top: 40%;
-          right: 5px;
         }
       }
 
@@ -340,6 +335,30 @@
 
         .cx-ghost-cell-nav-caret {
           display: none;
+        }
+      }
+    }
+  }
+}
+
+html[dir='rtl'] cx-quote-list {
+  table {
+    tbody {
+      @include media-breakpoint-down(md) {
+        .cx-nav-caret {
+          left: 5px;
+        }
+      }
+    }
+  }
+}
+
+html[dir='ltr'] cx-quote-list {
+  table {
+    tbody {
+      @include media-breakpoint-down(md) {
+        .cx-nav-caret {
+          right: 5px;
         }
       }
     }

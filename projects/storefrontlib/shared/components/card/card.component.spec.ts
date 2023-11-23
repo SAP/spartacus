@@ -4,19 +4,13 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
 import { Card, CardComponent, CardLinkAction } from './card.component';
+import { FocusDirective } from '@spartacus/storefront';
 
 @Directive({
   selector: '[cxAtMessage]',
 })
 export class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
-}
-
-@Directive({
-  selector: '[cxFocus]',
-})
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
 }
 
 @Component({
@@ -52,9 +46,9 @@ describe('CardComponent', () => {
         imports: [I18nTestingModule],
         declarations: [
           CardComponent,
-          MockAtMessageDirective,
-          MockFocusDirective,
           MockCxIconComponent,
+          MockAtMessageDirective,
+          FocusDirective,
           MockCxTruncateTextPopoverComponent,
         ],
       }).compileComponents();

@@ -11,62 +11,62 @@ export class CommonQuoteTestUtilsService {
   /**
    * Helper function for verifying whether the element is present in the HTML tree.
    *
-   * @param {any} expect - Expectation for a spec.
-   * @param {Element} htmlElement - HTML element.
-   * @param {string} querySelector - Query selector.
+   * @param expect - Expectation for a spec.
+   * @param element - HTML element.
+   * @param querySelector - Query selector.
    */
   static expectElementPresent(
     expect: any,
-    htmlElement: Element,
+    element: Element,
     querySelector: string
   ) {
-    expect(htmlElement.querySelectorAll(querySelector).length).toBeGreaterThan(
+    expect(element.querySelectorAll(querySelector).length).toBeGreaterThan(
       0,
-      `expected element identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
+      `expected element identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${element.innerHTML}`
     );
   }
 
   /**
    * Helper function for verifying whether the expected number of elements is present in the HTML tree.
    *
-   * @param {any} expect - Expectation for a spec.
-   * @param {Element} htmlElement - HTML element.
-   * @param {string} querySelector - Query selector.
-   * @param {number} numberOfElements - Number of elements.
+   * @param expect - Expectation for a spec.
+   * @param element - HTML element.
+   * @param querySelector - Query selector.
+   * @param numberOfElements - Number of elements.
    */
   static expectNumberOfElementsPresent(
     expect: any,
-    htmlElement: Element,
+    element: Element,
     querySelector: string,
     numberOfElements: number
   ) {
-    expect(htmlElement.querySelectorAll(querySelector).length).toBe(
+    expect(element.querySelectorAll(querySelector).length).toBe(
       numberOfElements,
-      `expected elements identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
+      `expected elements identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${element.innerHTML}`
     );
   }
 
   /**
    * Helper function for verifying whether the element contains text.
    *
-   * @param {any} expect - Expectation for a spec.
-   * @param {Element} htmlElement - HTML element.
-   * @param {string} querySelector - Query selector.
-   * @param {any} expectedText - Expected text.
-   * @param {number} index - Optional index of the element.
+   * @param expect - Expectation for a spec.
+   * @param element - HTML element.
+   * @param querySelector - Query selector.
+   * @param expectedText - Expected text.
+   * @param index - Optional index of the element.
    */
   static expectElementToContainText(
     expect: any,
-    htmlElement: Element,
+    element: Element,
     querySelector: string,
     expectedText: string,
     index?: number
   ) {
     let text;
     if (index) {
-      text = htmlElement.querySelectorAll(querySelector)[index]?.textContent;
+      text = element.querySelectorAll(querySelector)[index]?.textContent;
     } else {
-      text = htmlElement.querySelector(querySelector)?.textContent;
+      text = element.querySelector(querySelector)?.textContent;
     }
     expect(text).toContain(expectedText);
   }
@@ -74,72 +74,54 @@ export class CommonQuoteTestUtilsService {
   /**
    * Helper function for verifying whether the element is not present in the HTML tree.
    *
-   * @param {any} expect - Expectation for a spec.
-   * @param {Element} htmlElement - HTML element.
-   * @param {string} querySelector - Query selector.
+   * @param expect - Expectation for a spec.
+   * @param element - HTML element.
+   * @param querySelector - Query selector.
    */
   static expectElementNotPresent(
     expect: any,
-    htmlElement: Element,
+    element: Element,
     querySelector: string
   ) {
-    expect(htmlElement.querySelectorAll(querySelector).length).toBe(
+    expect(element.querySelectorAll(querySelector).length).toBe(
       0,
-      `expected element identified by selector '${querySelector}' to be NOT present, but it is! innerHtml: ${htmlElement.innerHTML}`
+      `expected element identified by selector '${querySelector}' to be NOT present, but it is! innerHtml: ${element.innerHTML}`
     );
   }
 
   /**
    * Helper function for verifying whether the element contains attribute.
    *
-   * @param {any} expect - Expectation for a spec.
-   * @param {Element} htmlElement - HTML element.
-   * @param {string} querySelector - Query selector.
-   * @param {string} attributeName - Name of the attribute.
-   * @param {number} index - Optional index of the element.
+   * @param expect - Expectation for a spec.
+   * @param htmlElement - HTML element.
+   * @param attributeName - Name of the attribute.
    */
   static expectElementToContainAttribute(
     expect: any,
-    htmlElement: Element,
-    querySelector: string,
-    attributeName: string,
-    index?: number
+    htmlElement: HTMLElement,
+    attributeName: string
   ) {
-    const element = CommonQuoteTestUtilsService.getHTMLElement(
-      htmlElement,
-      querySelector,
-      index
-    );
-    expect(element.getAttributeNames().indexOf(attributeName) >= 0).toBe(
+    expect(htmlElement.getAttributeNames().indexOf(attributeName) >= 0).toBe(
       true,
-      `expected elements identified by selector '${querySelector}' should contain attribute name '${attributeName}', but it is NOT!`
+      `expected element should contain attribute name '${attributeName}', but it is NOT!`
     );
   }
 
   /**
    * Helper function for verifying whether the element does not contain attribute.
    *
-   * @param {any} expect - Expectation for a spec.
-   * @param {Element} htmlElement - HTML element.
-   * @param {string} querySelector - Query selector.
-   * @param {string} attributeName - Name of the attribute.
-   * @param {number} index - Optional index of the element.
+   * @param expect - Expectation for a spec.
+   * @param htmlElement - HTML element.
+   * @param attributeName - Name of the attribute.
    */
   static expectElementNotToContainAttribute(
     expect: any,
-    htmlElement: Element,
-    querySelector: string,
-    attributeName: string,
-    index?: number
+    htmlElement: HTMLElement,
+    attributeName: string
   ) {
-    const element = CommonQuoteTestUtilsService.getHTMLElement(
-      htmlElement,
-      querySelector,
-      index
-    );
-    expect(element.getAttributeNames().indexOf(attributeName) <= -1).toBe(
+    expect(htmlElement.getAttributeNames().indexOf(attributeName) <= -1).toBe(
       true,
-      `expected elements identified by selector '${querySelector}' should not contain attribute name '${attributeName}', but it is NOT!`
+      `expected element should not contain attribute name '${attributeName}', but it is NOT!`
     );
   }
 
@@ -150,10 +132,10 @@ export class CommonQuoteTestUtilsService {
    *
    * Fails if no element is found.
    *
-   * @param {Element} htmlElement - HTML element.
-   * @param {string} querySelector - Query selector.
-   * @param {number} index - Optional index of the element.
-   * @returns {HTMLElement} - searched HTML element
+   * @param htmlElement - HTML element.
+   * @param querySelector - Query selector.
+   * @param index - Optional index of the element.
+   * @returns searched HTML element
    */
   static getHTMLElement(
     htmlElement: Element,
@@ -177,13 +159,14 @@ export class CommonQuoteTestUtilsService {
 
   /**
    * Clicks first toggle element found.
-   * @param {Element} htmlElement - HTML element.
-   * @param {boolean} useKeyboard - optional - if 'true' the click is executed using the enter key,
+   *
+   * @param element - HTML element.
+   * @param useKeyboard - optional - if 'true' the click is executed using the enter key,
    *  otherwise a mouse click is used. 'false' is default.
    */
-  static clickToggle(htmlElement: Element, useKeyboard: boolean) {
+  static clickToggle(element: Element, useKeyboard: boolean) {
     const caret = CommonQuoteTestUtilsService.getHTMLElement(
-      htmlElement,
+      element,
       '.cx-toggle'
     );
     if (useKeyboard) {
@@ -210,14 +193,25 @@ export class CommonQuoteTestUtilsService {
     });
   }
 
-  protected static getElement(
+  /**
+   * Retrieves a HTML element by its class name or the order within the HTML tree.
+   * If there are more than one element in the HTML tree,
+   * one could give the index of the searched element.
+   *
+   * @param htmlElement - whole HTML element
+   * @param tagName - tag name
+   * @param tagClass - class name of element
+   * @param tagIndex - index of the element
+   * @returns searched HTML element
+   */
+  static getElementByClassNameOrTreeOrder(
     htmlElements: HTMLElement,
-    tag: string,
+    tagName: string,
     tagClass?: string,
     tagIndex?: number
   ): Element | undefined {
     const foundElements: Element[] = [];
-    const elements = Array.from(htmlElements.getElementsByTagName(tag));
+    const elements = Array.from(htmlElements.getElementsByTagName(tagName));
     if (!tagClass) {
       return !tagIndex ? elements[0] : elements[tagIndex];
     } else {
@@ -234,34 +228,22 @@ export class CommonQuoteTestUtilsService {
    * Helper function for proving whether the element contains corresponding accessibility attribute with expected content.
    *
    * @param expect - Expectation for a spec
-   * @param htmlElement - whole HTML element
-   * @param tag - certain HTML element
-   * @param tagClass - Class of the HTML element
-   * @param tagIndex - Index of HTML element
+   * @param element - HTML element
    * @param a11yAttr - A11y attribute
    * @param a11yAttrContent - Content of a11y attribute
    */
   static expectElementContainsA11y(
     expect: any,
-    htmlElement: HTMLElement,
-    tag: string,
-    tagClass?: string,
-    tagIndex?: number,
+    element: Element,
     a11yAttr?: string,
     a11yAttrContent?: string
   ) {
-    const item = CommonQuoteTestUtilsService.getElement(
-      htmlElement,
-      tag,
-      tagClass,
-      tagIndex
-    );
+    const attributes = element?.attributes;
 
-    const attributes = item?.attributes;
     if (a11yAttr) {
       expect(attributes?.hasOwnProperty(a11yAttr)).toBe(true);
       if (a11yAttrContent) {
-        expect(item?.getAttribute(a11yAttr)).toEqual(a11yAttrContent);
+        expect(element?.getAttribute(a11yAttr)).toEqual(a11yAttrContent);
       }
     }
   }

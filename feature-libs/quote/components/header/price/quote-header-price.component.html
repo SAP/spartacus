@@ -14,18 +14,6 @@
   </div>
 
   <div
-    *ngIf="hasNonZeroPriceValue(quoteDetails.orderDiscounts)"
-    class="cx-price-row cx-price-savings"
-  >
-    <div class="cx-price-label">
-      {{ 'quote.header.price.orderDiscount' | cxTranslate }}
-    </div>
-    <div class="cx-price-amount">
-      {{ quoteDetails.orderDiscounts?.formattedValue }}
-    </div>
-  </div>
-
-  <div
     *ngIf="hasNonZeroPriceValue(quoteDetails.productDiscounts)"
     class="cx-price-row cx-price-savings"
   >
@@ -34,6 +22,18 @@
     </div>
     <div class="cx-price-amount">
       {{ quoteDetails.productDiscounts?.formattedValue }}
+    </div>
+  </div>
+
+  <div
+    *ngIf="hasNonZeroPriceValue(quoteDetails.orderDiscounts)"
+    class="cx-price-row cx-price-savings"
+  >
+    <div class="cx-price-label">
+      {{ 'quote.header.price.orderDiscount' | cxTranslate }}
+    </div>
+    <div class="cx-price-amount">
+      {{ quoteDetails.orderDiscounts?.formattedValue }}
     </div>
   </div>
 

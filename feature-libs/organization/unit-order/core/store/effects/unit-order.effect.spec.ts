@@ -10,6 +10,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { UnitOrderAdapter, UnitOrderConnector } from '../../connectors/index';
 import { UnitOrderActions } from '../actions/index';
 import { UnitOrderEffect } from './unit-order.effect';
+import { HttpErrorResponse } from '@angular/common/http';
 
 const mockOrderDetails: Order = {};
 
@@ -24,7 +25,7 @@ const mockUserOrders: OrderHistoryList = {
   sorts: [],
 };
 
-const mockError = 'test-error';
+const mockError = new HttpErrorResponse({ error: 'test-error' });
 
 describe('Orders effect', () => {
   let ordersEffect: UnitOrderEffect;
@@ -126,15 +127,18 @@ describe('Orders effect', () => {
       });
 
       it('should handle failures for load order details', () => {
+        const mockNormalizedError = normalizeHttpError(mockError);
         spyOn(orderHistoryConnector, 'getUnitOrderDetail').and.returnValue(
-          throwError('Error')
+          throwError(mockError)
         );
 
         const action = new UnitOrderActions.LoadOrderDetails(
           mockOrderDetailsParams
         );
 
-        const completion = new UnitOrderActions.LoadOrderDetailsFail(undefined);
+        const completion = new UnitOrderActions.LoadOrderDetailsFail(
+          mockNormalizedError
+        );
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', { b: completion });

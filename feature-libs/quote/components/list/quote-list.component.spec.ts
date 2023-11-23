@@ -10,9 +10,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
+  LanguageService,
   PaginationModel,
   QueryState,
   SortModel,
+  CxDatePipe,
 } from '@spartacus/core';
 import {
   Quote,
@@ -21,7 +23,7 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, NEVER, of } from 'rxjs';
+import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteListComponentService } from './quote-list-component.service';
@@ -41,6 +43,7 @@ const mockQuote: Quote = {
   allowedActions: [mockAction],
   cartId: mockCartId,
   code: '333333',
+  updatedTime: new Date('2017-01-11T10:14:39+0000'),
 };
 
 const mockQuoteList: QuoteList = {
@@ -115,11 +118,18 @@ class MockCommerceQuotesListComponentService
   setPage = createSpy();
 }
 
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('en-US');
+  }
+}
+
 describe('QuoteListComponent', () => {
   let fixture: ComponentFixture<QuoteListComponent>;
   let htmlElem: HTMLElement;
   let component: QuoteListComponent;
-  let componentService: QuoteListComponentService;
+  let quoteListComponentService: QuoteListComponentService;
+  let cxDatePipe: CxDatePipe;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -132,10 +142,12 @@ describe('QuoteListComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
+        CxDatePipe,
         {
           provide: QuoteListComponentService,
           useClass: MockCommerceQuotesListComponentService,
         },
+        { provide: LanguageService, useClass: MockLanguageService },
       ],
     }).compileComponents();
   });
@@ -144,21 +156,22 @@ describe('QuoteListComponent', () => {
     fixture = TestBed.createComponent(QuoteListComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
-    componentService = TestBed.inject(QuoteListComponentService);
+    quoteListComponentService = TestBed.inject(QuoteListComponentService);
+    cxDatePipe = TestBed.inject(CxDatePipe);
   });
 
   it('should call service if sort changed', () => {
     const sortCode = 'byDate';
     component.changeSorting(sortCode);
 
-    expect(componentService.setSorting).toHaveBeenCalledWith(sortCode);
+    expect(quoteListComponentService.setSorting).toHaveBeenCalledWith(sortCode);
   });
 
   it('should call service if page changed', () => {
     const page = 5;
     component.changePage(page);
 
-    expect(componentService.setPage).toHaveBeenCalledWith(page);
+    expect(quoteListComponentService.setPage).toHaveBeenCalledWith(page);
   });
 
   it('should display table and sorting if quote list is not empty', () => {
@@ -538,8 +551,8 @@ describe('QuoteListComponent', () => {
 
   describe('Ghost animation', () => {
     beforeEach(() => {
-      componentService = TestBed.inject(QuoteListComponentService);
-      componentService.quotesState$ = NEVER;
+      quoteListComponentService = TestBed.inject(QuoteListComponentService);
+      quoteListComponentService.quotesState$ = NEVER;
       fixture = TestBed.createComponent(QuoteListComponent);
       component = fixture.componentInstance;
       htmlElem = fixture.nativeElement;
@@ -623,6 +636,210 @@ describe('QuoteListComponent', () => {
         expect,
         htmlElem,
         '.cx-ghost-pagination'
+      );
+    });
+  });
+
+  describe('getRowTitle', () => {
+    it('should create row title for a quote', () => {
+      const expectedUpdatedTime = cxDatePipe.transform(
+        mockQuote.updatedTime,
+        'MMMM d, YYYY h:mm aa'
+      );
+      expect(component.getRowTitle(mockQuote)).toEqual(
+        'Quote quote.header.overview.id: 333333 quote.header.overview.status: quote.states.BUYER_DRAFT quote.list.updated: ' +
+          expectedUpdatedTime +
+          ' quote.list.clickableRow'
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          pagination: { ...mockPagination, totalPages: 2 },
+        },
+      });
+      fixture.detectChanges();
+    });
+
+    it("should contain 'div' HTML element with 'role' attribute that indicates the role for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'div',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'region'
+      );
+    });
+
+    it("should contain 'div' HTML element with 'aria-label' attribute that indicates the text for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'div',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'aria-label',
+        'quote.list.regionTitle'
+      );
+    });
+
+    it("should contain 'table' HTML element with 'aria-describedby' attribute that indicates the element on which the attribute is set", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'table',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'aria-describedby',
+        'quote-list-desc'
+      );
+    });
+
+    it('should contain a explanatory text that is seen only for a screen reader and defines a table caption', () => {
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'caption.cx-visually-hidden',
+        'quote.list.title'
+      );
+    });
+
+    it("should contain 'thead' HTML element with 'role' attribute that indicates a group of rows within a tabular structure", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'thead',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'rowgroup'
+      );
+    });
+
+    it("should contain 'tbody' HTML element with 'role' attribute that indicates a group of rows within a tabular structure", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'tbody',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'rowgroup'
+      );
+    });
+
+    it("should contain 'th' HTML element with 'role' attribute that indicates the role for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'th',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'columnheader'
+      );
+    });
+
+    it("should contain 'th' HTML element with 'aria-sort' attribute that indicates if there is no defined sort applied to the column", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'th',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'aria-sort',
+        'none'
+      );
+    });
+
+    it("should contain 'tr' HTML element with 'role' attribute that indicates the role for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'tr',
+          '',
+          1
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'row'
+      );
+    });
+
+    it("should contain 'cx-icon' element with 'aria-label' attribute that labels an interactive element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'cx-icon'
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'aria-label',
+        'quote.list.clickableRow'
+      );
+    });
+
+    it("should contain 'td' HTML element with 'role' attribute that indicates the role for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'td',
+          'cx-name',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'cell'
       );
     });
   });

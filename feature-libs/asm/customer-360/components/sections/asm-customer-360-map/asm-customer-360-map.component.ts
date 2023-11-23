@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpParams } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,7 +11,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import {
   AsmCustomer360SectionConfig,
   AsmCustomer360StoreLocation,
@@ -28,7 +26,7 @@ import {
   StoreFinderService,
 } from '@spartacus/storefinder/core';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
-import { concatMap, mapTo, take, tap } from 'rxjs/operators';
+import { concatMap } from 'rxjs/operators';
 
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
@@ -39,8 +37,6 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
 })
 export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
   storeData: StoreFinderSearchPage;
-
-  googleMapsUrl: SafeResourceUrl;
 
   selectedStore: PointOfService | undefined;
 
@@ -55,7 +51,6 @@ export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
   constructor(
     public source: AsmCustomer360SectionContext<AsmCustomer360StoreLocation>,
     protected changeDetectorRef: ChangeDetectorRef,
-    protected sanitizer: DomSanitizer,
     protected storeFinderService: StoreFinderService,
     protected translationService: TranslationService,
     protected storeFinderConfig: StoreFinderConfig
@@ -85,11 +80,8 @@ export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
             if (storeSearchData) {
               this.storeData = storeSearchData as StoreFinderSearchPage;
               this.selectedStore = this.storeData.stores?.[0];
-
-              return this.updateGoogleMapsUrl();
-            } else {
-              return of(undefined);
             }
+            return of(undefined);
           })
         )
         .subscribe(() => this.changeDetectorRef.detectChanges())
@@ -100,38 +92,8 @@ export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
     this.subscription.unsubscribe();
   }
 
-  updateGoogleMapsUrl(): Observable<void> {
-    return this.dataSource$.pipe(
-      take(1),
-      tap(([_, data]) => {
-        if (
-          this.storeFinderConfig.googleMaps?.apiKey &&
-          this.selectedStore?.geoPoint
-        ) {
-          const coordinates = `${this.selectedStore.geoPoint.latitude},${this.selectedStore.geoPoint.longitude}`;
-
-          const params = new HttpParams()
-            .append('key', this.storeFinderConfig.googleMaps?.apiKey)
-            .append('origin', data.address)
-            .append('destination', coordinates);
-
-          this.googleMapsUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-            `https://www.google.com/maps/embed/v1/directions?${params.toString()}`
-          );
-
-          this.changeDetectorRef.detectChanges();
-        }
-      }),
-      mapTo(undefined)
-    );
-  }
-
   selectStore(store: PointOfService): void {
     this.selectedStore = store;
-
-    this.updateGoogleMapsUrl().subscribe(() =>
-      this.changeDetectorRef.detectChanges()
-    );
   }
 
   getStoreOpening(opening: WeekdayOpeningDay): Observable<string> {

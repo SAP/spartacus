@@ -5,10 +5,18 @@ import {
   STATUS,
   STATUS_NAME,
 } from '@spartacus/customer-ticketing/root';
-import { LaunchDialogService } from '@spartacus/storefront';
+import {
+  FileUploadModule,
+  FocusConfig,
+  FormErrorsModule,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
 import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog.component';
 import createSpy = jasmine.createSpy;
+import { Component, Directive, Input } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
@@ -21,6 +29,21 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockKeyboadFocusDirective {
+  @Input('cxFocus') config: FocusConfig = {};
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
 describe('CustomerTicketingReopenDialogComponent', () => {
   let component: CustomerTicketingReopenDialogComponent;
   let fixture: ComponentFixture<CustomerTicketingReopenDialogComponent>;
@@ -28,8 +51,17 @@ describe('CustomerTicketingReopenDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CustomerTicketingReopenDialogComponent],
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        FileUploadModule,
+      ],
+      declarations: [
+        CustomerTicketingReopenDialogComponent,
+        MockKeyboadFocusDirective,
+        MockCxIconComponent,
+      ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {

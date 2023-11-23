@@ -10,7 +10,6 @@ import { clickAllowAllFromBanner } from '../../helpers/anonymous-consents';
 import { tabbingOrderConfig } from '../../helpers/accessibility/b2b/tabbing-order.config';
 
 const containerSelectorQuoteDetails = 'main';
-const POWERTOOLS = 'powertools-spa';
 const TEST_PRODUCT_HAMMER_DRILLING_ID = '3887130';
 const BUYER_EMAIL = 'gi.sun@pronto-hw.com';
 const BUYER_PASSWORD = '12341234';
@@ -33,9 +32,8 @@ describe('Tabbing order for Quote', () => {
       cy.visit('/');
       clickAllowAllFromBanner();
       quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
-      quote.registerGetQuoteRoute(POWERTOOLS);
+      quote.registerReadQuoteRoute();
       quote.prepareQuote(
-        POWERTOOLS,
         TEST_PRODUCT_HAMMER_DRILLING_ID,
         PRODUCT_AMOUNT_30,
         true

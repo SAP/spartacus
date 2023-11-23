@@ -32,6 +32,7 @@ import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors';
 import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
+import { QuoteStorefrontUtilsService } from '../services/quote-storefront-utils.service';
 import { CartUtilsService } from '../services/cart-utils.service';
 import { createEmptyQuote, QUOTE_CODE } from '../testing/quote-test-utils';
 import { QuoteService } from './quote.service';
@@ -139,7 +140,7 @@ class MockMultiCartFacade implements Partial<MultiCartFacade> {
 }
 
 class MockCartUtilsService implements Partial<CartUtilsService> {
-  createNewCartAndGoToQuoteList = createSpy();
+  handelCartAndGoToQuoteList = createSpy();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -158,8 +159,13 @@ describe('QuoteService', () => {
   let quoteCartService: QuoteCartService;
   let cartUtilsService: CartUtilsService;
   let globalMessageService: GlobalMessageService;
+  let quoteStorefrontUtilsService: QuoteStorefrontUtilsService;
 
   beforeEach(() => {
+    let mockedQuoteStorefrontUtilsService = {
+      getElement: createSpy(),
+    };
+
     TestBed.configureTestingModule({
       providers: [
         QuoteService,
@@ -176,6 +182,10 @@ describe('QuoteService', () => {
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: QuoteCartService, useClass: MockQuoteCartService },
         { provide: CartUtilsService, useClass: MockCartUtilsService },
+        {
+          provide: QuoteStorefrontUtilsService,
+          useValue: mockedQuoteStorefrontUtilsService,
+        },
       ],
     });
 
@@ -189,6 +199,7 @@ describe('QuoteService', () => {
     quoteCartService = TestBed.inject(QuoteCartService);
     cartUtilsService = TestBed.inject(CartUtilsService);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    quoteStorefrontUtilsService = TestBed.inject(QuoteStorefrontUtilsService);
 
     isQuoteCartActive = false;
     quoteId = '';
@@ -377,6 +388,29 @@ describe('QuoteService', () => {
       });
   });
 
+  describe('setFocusForCreateOrEditAction', () => {
+    it('should call getElement method of QuoteStorefrontUtilsService if action type is CREATE for setting focus', () => {
+      classUnderTest['setFocusForCreateOrEditAction'](QuoteActionType.CREATE);
+      expect(quoteStorefrontUtilsService.getElement).toHaveBeenCalledWith(
+        'cx-storefront'
+      );
+    });
+
+    it('should call getElement method of QuoteStorefrontUtilsService if action type is EDIT for setting focus', () => {
+      classUnderTest['setFocusForCreateOrEditAction'](QuoteActionType.EDIT);
+      expect(quoteStorefrontUtilsService.getElement).toHaveBeenCalledWith(
+        'cx-storefront'
+      );
+    });
+
+    it('should not call getElement method of QuoteStorefrontUtilsService if action type is not EDIT or CREATE', () => {
+      classUnderTest['setFocusForCreateOrEditAction'](QuoteActionType.CANCEL);
+      expect(quoteStorefrontUtilsService.getElement).not.toHaveBeenCalledWith(
+        'cx-storefront'
+      );
+    });
+  });
+
   describe('performQuoteAction', () => {
     it('should call respective connector method', (done) => {
       classUnderTest
@@ -424,7 +458,7 @@ describe('QuoteService', () => {
           .performQuoteAction(quote, QuoteActionType.SUBMIT)
           .subscribe(() => {
             expect(
-              cartUtilsService.createNewCartAndGoToQuoteList
+              cartUtilsService.handelCartAndGoToQuoteList
             ).toHaveBeenCalled();
             expect(eventService.dispatch).not.toHaveBeenCalledWith(
               {},
@@ -448,7 +482,7 @@ describe('QuoteService', () => {
           .performQuoteAction(quote, QuoteActionType.CANCEL)
           .subscribe(() => {
             expect(
-              cartUtilsService.createNewCartAndGoToQuoteList
+              cartUtilsService.handelCartAndGoToQuoteList
             ).toHaveBeenCalled();
             done();
           });

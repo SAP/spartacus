@@ -140,7 +140,6 @@ describe('ConfiguratorCartEffect', () => {
   let updateCartEntryMock: jasmine.Spy;
 
   let readConfigurationForOrderEntryMock: jasmine.Spy;
-  let readConfigurationForQuoteEntryMock: jasmine.Spy;
   let configCartEffects: fromEffects.ConfiguratorCartEffects;
 
   let actions$: Observable<any>;
@@ -155,16 +154,11 @@ describe('ConfiguratorCartEffect', () => {
       .createSpy()
       .and.returnValue(of(productConfiguration));
 
-    readConfigurationForQuoteEntryMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration));
-
     class MockConnector {
       addToCart = addToCartMock;
       updateConfigurationForCartEntry = updateCartEntryMock;
       readConfigurationForCartEntry = () => readFromCartEntryObs;
       readConfigurationForOrderEntry = readConfigurationForOrderEntryMock;
-      readConfigurationForQuoteEntry = readConfigurationForQuoteEntryMock;
     }
     TestBed.configureTestingModule({
       imports: [

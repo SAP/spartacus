@@ -7,7 +7,7 @@
 import { Quote, QuoteState } from '@spartacus/quote/root';
 
 /**
- * Quote test utils
+ * Quote test utils.
  */
 export const QUOTE_CODE = '00010000';
 export const EXPIRATION_TIME_AS_STRING = '2023-08-26T09:13:00+02:00';

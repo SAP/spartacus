@@ -1,4 +1,4 @@
 <div
   *ngIf="component.data$ | async as data"
-  [innerHTML]="data.content ?? '' | cxSupplementHashAnchors | cxSafeHtml"
+  [innerHTML]="bypassSecurityTrustHtml(data.content | cxSupplementHashAnchors)"
 ></div>

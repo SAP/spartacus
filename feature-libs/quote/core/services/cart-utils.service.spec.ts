@@ -24,9 +24,10 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 describe('CartUtilsService', () => {
-  let service: CartUtilsService;
+  let classUnderTest: CartUtilsService;
   let userIdService: UserIdService;
   let routingService: RoutingService;
+  let multiCartFacade: MultiCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,19 +38,21 @@ describe('CartUtilsService', () => {
       ],
     }).compileComponents();
 
-    service = TestBed.inject(CartUtilsService);
+    classUnderTest = TestBed.inject(CartUtilsService);
     userIdService = TestBed.inject(UserIdService);
     routingService = TestBed.inject(RoutingService);
+    multiCartFacade = TestBed.inject(MultiCartFacade);
     spyOn(userIdService, 'takeUserId').and.returnValue(of('current'));
+    spyOn(multiCartFacade, 'createCart').and.callThrough();
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(classUnderTest).toBeTruthy();
   });
 
   describe('createNewCart', () => {
     it('should create a new cart ', (done) => {
-      service['createNewCart']().subscribe((cart) => {
+      classUnderTest['createNewCart']().subscribe((cart) => {
         expect(cart).toBe(newCart);
         expect(userIdService.takeUserId).toHaveBeenCalled();
         done();
@@ -59,14 +62,21 @@ describe('CartUtilsService', () => {
 
   describe('goToNewCart', () => {
     it('should redirect to the cart page', () => {
-      service.goToNewCart();
+      classUnderTest.goToNewCart();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
     });
   });
 
-  describe('createNewCartAndGoToQuoteList', () => {
+  describe('handelCartAndGoToQuoteList', () => {
+    it('should create a new cart and redirect to the quote list page', () => {
+      classUnderTest.handelCartAndGoToQuoteList(true);
+      expect(userIdService.takeUserId).toHaveBeenCalled();
+      expect(multiCartFacade.createCart).toHaveBeenCalled();
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'quotes' });
+    });
+
     it('should redirect to the quote list page', () => {
-      service.createNewCartAndGoToQuoteList();
+      classUnderTest.handelCartAndGoToQuoteList(false);
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'quotes' });
     });
   });

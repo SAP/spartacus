@@ -214,13 +214,16 @@ export const quote = {
         'This quote has expired. You must resubmit your quote request to receive another vendor quote.',
     },
     list: {
+      regionTitle: 'Group with quote list details',
+      title: 'Quote List',
       name: 'Name',
       updated: 'Updated',
       sortBy: 'Sort by',
-      sortOrders: 'Sort orders',
+      sortQuotes: 'Sort Quotes',
       empty: 'We have no quote records for this account.',
       quoteId: 'Quote ID',
       status: 'Status',
+      clickableRow: 'Click on the row for more quote details',
     },
     states: {
       BUYER_DRAFT: 'Draft',

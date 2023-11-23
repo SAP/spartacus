@@ -62,6 +62,8 @@ export const DISCLAIM_CUSTOMER_COUPON_FAIL = '[User] Disclaim Customer Fail';
 export const DISCLAIM_CUSTOMER_COUPON_SUCCESS =
   '[User] Disclaim Customer Success';
 
+export const RESET_DISCLAIM_CUSTOMER_COUPON = '[User] Reset Disclaim Customer';
+
 export class LoadCustomerCoupons extends LoaderLoadAction {
   readonly type = LOAD_CUSTOMER_COUPONS;
   constructor(
@@ -188,6 +190,13 @@ export class DisclaimCustomerCoupon extends EntityLoadAction {
   }
 }
 
+export class ResetDisclaimCustomerCoupon extends EntityLoaderResetAction {
+  readonly type = RESET_DISCLAIM_CUSTOMER_COUPON;
+  constructor() {
+    super(PROCESS_FEATURE, DISCLAIM_CUSTOMER_COUPON_PROCESS_ID);
+  }
+}
+
 export class DisclaimCustomerCouponFail extends EntityFailAction {
   readonly type = DISCLAIM_CUSTOMER_COUPON_FAIL;
   constructor(public payload: any) {
@@ -235,4 +244,5 @@ export type CustomerCouponAction =
   | ClaimCustomerCouponSuccess
   | DisclaimCustomerCoupon
   | DisclaimCustomerCouponFail
-  | DisclaimCustomerCouponSuccess;
+  | DisclaimCustomerCouponSuccess
+  | ResetDisclaimCustomerCoupon;

@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { LaunchDialogService } from '../../../../../layout/index';
 import { CouponDialogComponent } from './coupon-dialog.component';
+import { FocusDirective } from '@spartacus/storefront';
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
@@ -41,7 +42,11 @@ describe('CouponDialogComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [CouponDialogComponent, MockCxIconComponent],
+        declarations: [
+          CouponDialogComponent,
+          MockCxIconComponent,
+          FocusDirective,
+        ],
         imports: [I18nTestingModule],
         providers: [
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
