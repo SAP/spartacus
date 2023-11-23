@@ -92,7 +92,9 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
         if (this.itemCounterService) {
           this.itemCounterService.setCounter(this.getValidCount(value));
         }
-        this.control.setValue(this.getValidCount(value), { emitEvent: false });
+        return this.control.setValue(this.getValidCount(value), {
+          emitEvent: false,
+        });
       });
   }
 
