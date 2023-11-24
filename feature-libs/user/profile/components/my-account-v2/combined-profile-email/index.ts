@@ -5,4 +5,4 @@
  */
 
 export * from './my-account-v2-combined-profile-email.component';
-export * from './my-acount-v2-combined-profile-email.module';
+export * from './my-account-v2-combined-profile-email.module';
