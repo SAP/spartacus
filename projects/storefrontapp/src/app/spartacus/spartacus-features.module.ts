@@ -248,7 +248,7 @@ if (environment.requestedDeliveryDate) {
     {
       provide: USE_MY_ACCOUNT_V2_CONSENT,
       useValue: environment.myAccountV2,
-    }
-  ]
+    },
+  ],
 })
 export class SpartacusFeaturesModule {}

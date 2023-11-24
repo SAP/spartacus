@@ -518,6 +518,25 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'I approve to this sample STORE USER INFORMATION consent',
     },
   ],
+  consentManagementV2: [
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Disable all',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Enable all',
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+  ],
   addToCart: [
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
