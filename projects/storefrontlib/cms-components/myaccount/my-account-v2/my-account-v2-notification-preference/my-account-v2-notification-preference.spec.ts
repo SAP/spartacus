@@ -1,5 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NewNotificationPreferenceComponent } from './new-notification-preference.component';
+import { MyAccountV2NotificationPreferenceComponent } from './my-account-v2-notification-preference.component';
 import {
   I18nTestingModule,
   NotificationPreference,
@@ -16,12 +16,12 @@ import { cold, getTestScheduler } from 'jasmine-marbles';
 })
 class MockCxSpinnerComponent {}
 
-describe('NewNotificationPreferenceComponent', () => {
-  let component: NewNotificationPreferenceComponent;
-  let fixture: ComponentFixture<NewNotificationPreferenceComponent>;
+describe('MyAccountV2NotificationPreferenceComponent', () => {
+  let component: MyAccountV2NotificationPreferenceComponent;
+  let fixture: ComponentFixture<MyAccountV2NotificationPreferenceComponent>;
   let el: DebugElement;
 
-  const newNotificationPreferenceService = jasmine.createSpyObj(
+  const notificationPreferenceService = jasmine.createSpyObj(
     'UserNotificationPreferenceService',
     [
       'getPreferences',
@@ -33,7 +33,7 @@ describe('NewNotificationPreferenceComponent', () => {
     ]
   );
 
-  const newNotificationPreference: NotificationPreference[] = [
+  const notificationPreference: NotificationPreference[] = [
     {
       channel: 'EMAIL',
       enabled: true,
@@ -52,14 +52,11 @@ describe('NewNotificationPreferenceComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [
-          NewNotificationPreferenceComponent,
-          MockCxSpinnerComponent,
-        ],
+        declarations: [MyAccountV2NotificationPreferenceComponent, MockCxSpinnerComponent],
         providers: [
           {
             provide: UserNotificationPreferenceService,
-            useValue: newNotificationPreferenceService,
+            useValue: notificationPreferenceService,
           },
         ],
       }).compileComponents();
@@ -67,22 +64,22 @@ describe('NewNotificationPreferenceComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewNotificationPreferenceComponent);
+    fixture = TestBed.createComponent(MyAccountV2NotificationPreferenceComponent);
     el = fixture.debugElement;
     component = fixture.componentInstance;
 
-    newNotificationPreferenceService.loadPreferences.and.stub();
-    newNotificationPreferenceService.updatePreferences.and.stub();
-    newNotificationPreferenceService.getPreferences.and.returnValue(
-      of(newNotificationPreference)
+    notificationPreferenceService.loadPreferences.and.stub();
+    notificationPreferenceService.updatePreferences.and.stub();
+    notificationPreferenceService.getPreferences.and.returnValue(
+      of(notificationPreference)
     );
-    newNotificationPreferenceService.getPreferencesLoading.and.returnValue(
+    notificationPreferenceService.getPreferencesLoading.and.returnValue(
       of(false)
     );
-    newNotificationPreferenceService.getUpdatePreferencesResultLoading.and.returnValue(
+    notificationPreferenceService.getUpdatePreferencesResultLoading.and.returnValue(
       of(false)
     );
-    newNotificationPreferenceService.resetNotificationPreferences.and.stub();
+    notificationPreferenceService.resetNotificationPreferences.and.stub();
   });
 
   it('should create', () => {
@@ -92,67 +89,63 @@ describe('NewNotificationPreferenceComponent', () => {
 
   it('should show channels', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('.header'))).toBeTruthy();
-    expect(el.query(By.css('.pref-info'))).toBeTruthy();
+    expect(el.query(By.css('.pref-header'))).toBeTruthy();
+    expect(el.query(By.css('.pref-note'))).toBeTruthy();
     expect(
       el.queryAll(By.css('.form-check-input')).length ===
-        newNotificationPreference.length
+        notificationPreference.length
     ).toBeTruthy();
     expect(
-      el.queryAll(By.css('.pref-channels')).length ===
-        newNotificationPreference.length
+      el.queryAll(By.css('.pref-channel')).length ===
+        notificationPreference.length
     ).toBeTruthy();
   });
 
   it('should show spinner when loading', () => {
-    newNotificationPreferenceService.getPreferences.and.returnValue(of([]));
+    notificationPreferenceService.getPreferences.and.returnValue(of([]));
     fixture.detectChanges();
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
 
   it('should be able to disable a channel when get loading', () => {
-    newNotificationPreferenceService.getUpdatePreferencesResultLoading.and.returnValue(
+    notificationPreferenceService.getUpdatePreferencesResultLoading.and.returnValue(
       of(false)
     );
-    newNotificationPreferenceService.getPreferencesLoading.and.returnValue(
+    notificationPreferenceService.getPreferencesLoading.and.returnValue(
       cold('-a|', { a: true })
     );
     fixture.detectChanges();
 
     const cheboxies = el.queryAll(By.css('.form-check-input'));
-    expect(cheboxies.length).toEqual(newNotificationPreference.length);
+    expect(cheboxies.length).toEqual(notificationPreference.length);
     const chx = cheboxies[0].nativeElement;
     chx.click();
 
     getTestScheduler().flush();
     fixture.detectChanges();
 
-    expect(
-      newNotificationPreferenceService.updatePreferences
-    ).toHaveBeenCalled();
+    expect(notificationPreferenceService.updatePreferences).toHaveBeenCalled();
     expect(chx.disabled).toEqual(true);
   });
 
   it('should be able to disable a channel when update loading', () => {
-    newNotificationPreferenceService.getPreferencesLoading.and.returnValue(
+    notificationPreferenceService.getPreferencesLoading.and.returnValue(
       of(false)
     );
-    newNotificationPreferenceService.getUpdatePreferencesResultLoading.and.returnValue(
+    notificationPreferenceService.getUpdatePreferencesResultLoading.and.returnValue(
       cold('-a|', { a: true })
     );
     fixture.detectChanges();
 
     const cheboxies = el.queryAll(By.css('.form-check-input'));
-    expect(cheboxies.length).toEqual(newNotificationPreference.length);
+    expect(cheboxies.length).toEqual(notificationPreference.length);
     const chx = cheboxies[0].nativeElement;
     chx.click();
 
     getTestScheduler().flush();
     fixture.detectChanges();
 
-    expect(
-      newNotificationPreferenceService.updatePreferences
-    ).toHaveBeenCalled();
+    expect(notificationPreferenceService.updatePreferences).toHaveBeenCalled();
     expect(chx.disabled).toEqual(true);
   });
 });

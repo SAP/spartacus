@@ -5,21 +5,21 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
-  I18nModule,
   CmsConfig,
+  I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
-import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { NewNotificationPreferenceComponent } from './new-notification-preference.component';
+import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
+import { MyAccountV2NotificationPreferenceComponent } from './my-account-v2-notification-preference.component';
+import { CmsPageGuard } from 'projects/storefrontlib/cms-structure/guards/cms-page.guard';
+import { PageLayoutComponent } from 'projects/storefrontlib/cms-structure/page/page-layout/page-layout.component';
 
 @NgModule({
-  declarations: [NewNotificationPreferenceComponent],
+  declarations: [MyAccountV2NotificationPreferenceComponent],
   imports: [
     CommonModule,
     SpinnerModule,
@@ -27,7 +27,7 @@ import { NewNotificationPreferenceComponent } from './new-notification-preferenc
     RouterModule.forChild([
       {
         // @ts-ignore
-        path: '',
+        path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'notificationPreference' },
@@ -37,13 +37,13 @@ import { NewNotificationPreferenceComponent } from './new-notification-preferenc
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        NewNotificationPreferenceComponent: {
-          component: NewNotificationPreferenceComponent,
+        NotificationPreferenceComponent: {
+          component: MyAccountV2NotificationPreferenceComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
-  exports: [NewNotificationPreferenceComponent],
+  exports: [MyAccountV2NotificationPreferenceComponent],
 })
 export class NewNotificationPreferenceModule {}

@@ -13,18 +13,18 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-new-notification-preference',
-  templateUrl: './new-notification-preference.component.html',
+  selector: 'cx-my-account-v2-notification-preference',
+  templateUrl: './my-account-v2-notification-preference.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NewNotificationPreferenceComponent implements OnInit {
+export class MyAccountV2NotificationPreferenceComponent implements OnInit {
   preferences$: Observable<NotificationPreference[]>;
   isLoading$: Observable<boolean>;
 
   protected preferences: NotificationPreference[] = [];
 
   constructor(
-    protected notificationPreferenceService: UserNotificationPreferenceService
+    private notificationPreferenceService: UserNotificationPreferenceService
   ) {}
 
   ngOnInit() {
