@@ -52,7 +52,10 @@ describe('MyAccountV2NotificationPreferenceComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [MyAccountV2NotificationPreferenceComponent, MockCxSpinnerComponent],
+        declarations: [
+          MyAccountV2NotificationPreferenceComponent,
+          MockCxSpinnerComponent,
+        ],
         providers: [
           {
             provide: UserNotificationPreferenceService,
@@ -64,7 +67,9 @@ describe('MyAccountV2NotificationPreferenceComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MyAccountV2NotificationPreferenceComponent);
+    fixture = TestBed.createComponent(
+      MyAccountV2NotificationPreferenceComponent
+    );
     el = fixture.debugElement;
     component = fixture.componentInstance;
 
@@ -89,7 +94,7 @@ describe('MyAccountV2NotificationPreferenceComponent', () => {
 
   it('should show channels', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('.pref-header'))).toBeTruthy();
+    expect(el.query(By.css('.header'))).toBeTruthy();
     expect(el.query(By.css('.pref-note'))).toBeTruthy();
     expect(
       el.queryAll(By.css('.form-check-input')).length ===

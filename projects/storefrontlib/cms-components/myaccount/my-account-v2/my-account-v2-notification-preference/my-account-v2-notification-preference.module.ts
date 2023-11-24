@@ -5,12 +5,9 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  AuthGuard,
-  I18nModule,
-} from '@spartacus/core';
+import { AuthGuard, I18nModule } from '@spartacus/core';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { CmsPageGuard } from '../../../../../storefrontlib/cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../../storefrontlib/cms-structure/page/page-layout/page-layout.component';

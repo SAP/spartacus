@@ -5,12 +5,12 @@
  */
 
 export const myAccountV2NotifiationPerference = {
-    myAccountV2NotifiationPerference: {
-      header: 'Notification Channels',
-      message: 'Select your preferred notification channels',
-      note: 'Note: ',
-      noteMessage:
-        'If you deactivate all channels you will not be able to receive any further notifications.',
-      EMAIL: 'Email:',
-    },
-  };
+  myAccountV2NotifiationPerference: {
+    header: 'Notification Channels',
+    message: 'Select your preferred notification channels',
+    note: 'Note: ',
+    noteMessage:
+      'If you deactivate all channels you will not be able to receive any further notifications.',
+    EMAIL: 'Email:',
+  },
+};

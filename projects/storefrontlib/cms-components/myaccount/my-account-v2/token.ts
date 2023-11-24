@@ -6,7 +6,8 @@
 
 import { InjectionToken } from '@angular/core';
 
-export const USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE = new InjectionToken<boolean>(
-  'feature flag to enable enhanced UI for notification preference pages under My-Account',
-  { providedIn: 'root', factory: () => false }
-);
+export const USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE =
+  new InjectionToken<boolean>(
+    'feature flag to enable enhanced UI for notification preference pages under My-Account',
+    { providedIn: 'root', factory: () => false }
+  );
