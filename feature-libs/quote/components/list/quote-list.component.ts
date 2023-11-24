@@ -4,18 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { QuoteState, Quote } from '@spartacus/quote/root';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { QuoteListComponentService } from './quote-list-component.service';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import {
   CxDatePipe,
   PaginationModel,
   TranslationService,
 } from '@spartacus/core';
-import { take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { QuoteState, Quote } from '@spartacus/quote/root';
+import {
+  ICON_TYPE,
+  BREAKPOINT,
+  BreakpointService,
+} from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-quote-list',
