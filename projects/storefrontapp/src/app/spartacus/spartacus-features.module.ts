@@ -95,6 +95,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { USE_MY_ACCOUNT_V2_CONSENT } from 'projects/storefrontlib/cms-components/myaccount/my-account-v2/token';
 
 const featureModules = [];
 
@@ -243,5 +244,11 @@ if (environment.requestedDeliveryDate) {
     ProductConfiguratorRulebasedFeatureModule,
     ...featureModules,
   ],
+  providers: [
+    {
+      provide: USE_MY_ACCOUNT_V2_CONSENT,
+      useValue: environment.myAccountV2,
+    }
+  ]
 })
 export class SpartacusFeaturesModule {}
