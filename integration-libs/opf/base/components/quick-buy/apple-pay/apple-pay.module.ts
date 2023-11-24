@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NgModule, PLATFORM_ID } from '@angular/core';
 import { APPLE_PAY_SESSION } from './apple-pay-session.token';
