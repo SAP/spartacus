@@ -1,12 +1,29 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  DeleteCartFailEvent,
+  DeleteCartSuccessEvent,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
 } from '@spartacus/checkout/base/root';
-import { Address, UserAddressService } from '@spartacus/core';
-import { throwError } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  Address,
+  EventService,
+  UserAddressService,
+  UserIdService,
+} from '@spartacus/core';
+import { merge, throwError } from 'rxjs';
+import {
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 @Injectable()
 export class CartHandlerService {
@@ -14,7 +31,10 @@ export class CartHandlerService {
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected userAddressService: UserAddressService
+    protected userAddressService: UserAddressService,
+    protected multiCartFacade: MultiCartFacade,
+    protected userIdService: UserIdService,
+    protected eventService: EventService
   ) {}
 
   addProductTocart(
@@ -53,7 +73,7 @@ export class CartHandlerService {
     );
   }
 
-  getShippingMethods() {
+  getDeliveryModes() {
     return this.checkoutDeliveryModesFacade.getSupportedDeliveryModes();
   }
 
@@ -63,14 +83,74 @@ export class CartHandlerService {
       .pipe(switchMap(() => this.checkStableCart()));
   }
 
-  updateDeliveryAddress(targetId: string, address: Address) {
-    this.userAddressService.updateUserAddress(targetId, address);
-    this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
+  getDeliveryAddress() {
+    return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       take(1),
       map((state) => {
-        return state.data as Address;
+        return state.data;
       })
+    );
+  }
+
+  updateCurrentCartDeliveryAddress(newAddress: Address) {
+    return this.getDeliveryAddress().pipe(
+      switchMap((address) => {
+        if (!address?.id) {
+          return this.setDeliveryAddress(newAddress);
+        }
+        return this.updateDeliveryAddress(address?.id as string, newAddress);
+      })
+    );
+  }
+
+  getCurrentCart() {
+    return this.activeCartFacade.getActive();
+  }
+
+  setDeliveryMode(mode: string) {
+    return this.checkoutDeliveryModesFacade.setDeliveryMode(mode).pipe(
+      switchMap(() =>
+        this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState()
+      ),
+      filter((state) => !state.error && !state.loading),
+      take(1),
+      map((state) => state.data)
+    );
+  }
+
+  getSelectedDeliveryMode() {
+    this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
+      filter((state) => !state.error && !state.loading),
+      take(1),
+      map((state) => state.data)
+    );
+  }
+
+  updateDeliveryAddress(targetId: string, address: Address) {
+    this.userAddressService.updateUserAddress(targetId, address);
+    return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
+      filter((state) => !state.error && !state.loading),
+      take(1),
+      map((state) => {
+        !!state.data;
+      })
+    );
+  }
+
+  deleteCurrentCart() {
+    return this.activeCartFacade.getActiveCartId().pipe(
+      withLatestFrom(this.userIdService.getUserId()),
+      take(1),
+      tap(([cartId, userId]) => {
+        this.multiCartFacade.deleteCart(cartId, userId);
+      }),
+      switchMap(() =>
+        merge(
+          this.eventService.get(DeleteCartSuccessEvent).pipe(map(() => true)),
+          this.eventService.get(DeleteCartFailEvent).pipe(map(() => false))
+        ).pipe(take(1))
+      )
     );
   }
 }

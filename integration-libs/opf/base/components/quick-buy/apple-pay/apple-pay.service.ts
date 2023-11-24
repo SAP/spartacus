@@ -25,6 +25,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import { WINDOW_TOKEN } from '@spartacus/opf/base/core';
 import { OpfOtpFacade } from '@spartacus/opf/base/root';
+import { CartHandlerService } from '../cart-handler.service';
 import { ApplePaySessionFactory } from './apple-pay-session/apple-pay-session.factory';
 import { ApplePayAuthorizationResult } from './observable/apple-pay-observable-config.interface';
 import { ApplePayObservableFactory } from './observable/apple-pay-observable.factory';
@@ -83,7 +84,8 @@ export class ApplePayService {
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected cartHandlerService: CartHandlerService
   ) {
     this.availableChange = this.configState.availableChange;
     this.configuredChange = this.configState.configuredChange;
@@ -184,7 +186,9 @@ export class ApplePayService {
           return { payment: payment, product: product };
         }),
         catchError((error) => {
-          this.removeProductFromCart();
+          this.cartHandlerService.deleteCurrentCart().subscribe((success) => {
+            console.log('deleteCurrentCart', success);
+          });
           return throwError(error);
         }),
         finalize(() => {
@@ -194,7 +198,10 @@ export class ApplePayService {
   }
 
   protected handlePaymentCanceled(): void {
-    this.removeProductFromCart();
+    // this.removeProductFromCart();
+    this.cartHandlerService.deleteCurrentCart().subscribe((success) => {
+      console.log('deleteCurrentCart', success);
+    });
     this.inProgress = false;
   }
 
