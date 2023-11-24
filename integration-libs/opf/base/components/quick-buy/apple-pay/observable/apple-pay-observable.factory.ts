@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { ApplePaySessionFactory } from '../apple-pay-session/apple-pay-session.factory';
@@ -101,11 +95,12 @@ export class ApplePayObservableFactory {
           console.log('ApplePay payment auth result', result);
           const { authResult, payment } = result;
           session.completePayment(authResult);
-          console.log('complete1');
+
           if (!authResult.errors || !authResult.errors.length) {
-            console.log('complete2');
             observer.next(payment);
             observer.complete();
+          } else {
+            handleUnspecifiedError;
           }
           // session.completePayment(authResult);
         }, handleUnspecifiedError);
