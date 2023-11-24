@@ -66,6 +66,7 @@ export class OpfPaymentHostedFieldsService {
       additionalData,
       paymentSessionId,
       returnPath,
+      encryptedToken,
     } = submitInput;
 
     const submitRequest: SubmitRequest = {
@@ -77,6 +78,9 @@ export class OpfPaymentHostedFieldsService {
     };
     if (paymentMethod !== PaymentMethod.CREDIT_CARD) {
       submitRequest.encryptedToken = '';
+    }
+    if (encryptedToken) {
+      submitRequest.encryptedToken = encryptedToken;
     }
 
     return combineLatest([

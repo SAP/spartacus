@@ -38,3 +38,9 @@ export const OPF_ACTIVE_CONFIGURATION_NORMALIZER = new InjectionToken<
 export const OPF_CTA_SCRIPTS_NORMALIZER = new InjectionToken<
   Converter<any, CtaScriptsResponse>
 >('OpfCtaScriptsNormalizer');
+
+export const WINDOW_TOKEN = new InjectionToken<Window>('window');
+
+export function windowFactory(): Window {
+  return window;
+}
