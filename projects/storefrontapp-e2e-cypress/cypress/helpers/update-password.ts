@@ -66,6 +66,3 @@ export function testUpdatePasswordLoggedInUser(myAccountV2?: boolean) {
     });
   });
 }
-
-
-

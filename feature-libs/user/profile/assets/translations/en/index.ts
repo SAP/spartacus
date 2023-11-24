@@ -9,7 +9,6 @@ import { myAccountV2UserProfile } from './my-account-v2-user-profile.18n';
 import { myAccountV2Email } from './my-account-v2-email.18n';
 import { myAccountV2Password } from './my-account-v2-password.i18n';
 
-
 export const en = {
   userProfile,
   myAccountV2UserProfile,
