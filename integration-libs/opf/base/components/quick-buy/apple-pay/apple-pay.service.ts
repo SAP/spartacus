@@ -183,8 +183,11 @@ export class ApplePayService {
           this.inProgress = false;
           return { payment: payment, product: product };
         }),
-        finalize(() => {
+        catchError((error) => {
           this.removeProductFromCart();
+          return throwError(error);
+        }),
+        finalize(() => {
           this.inProgress = false;
         })
       );
