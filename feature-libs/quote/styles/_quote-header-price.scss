@@ -1,17 +1,14 @@
 %cx-quote-header-price {
   &:not(:empty) {
-    > div {
-      padding-block-end: 0.5rem;
-    }
-
     .cx-price-heading {
       @include type('4');
-      font-weight: var(--cx-font-weight-bold);
       padding-block-end: 20px;
     }
 
     .cx-price-footer {
       font-style: italic;
+      font-size: var(--cx-font-size, 0.85rem);
+      font-weight: var(--cx-font-weight-light);
     }
 
     .cx-price-row {
