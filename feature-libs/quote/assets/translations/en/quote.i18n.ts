@@ -141,6 +141,7 @@ export const quote = {
       },
     },
     comments: {
+      regionTitle: 'Contact/Comment Box',
       title: 'Contact',
       invalidComment: 'Invalid Input - Please type again...',
       allProducts: 'All Products',
@@ -159,6 +160,7 @@ export const quote = {
         },
       },
       price: {
+        regionTitle: 'Order summary',
         hint: 'No taxes are included in the total',
         orderDiscount: 'Order Discount',
         productDiscount: 'Item Discount',
@@ -171,6 +173,7 @@ export const quote = {
         regionTitle: 'Order Summary',
       },
       overview: {
+        regionTitle: 'Quote details summary',
         id: 'Quote ID',
         status: 'Status',
         information: 'Quote Information',
@@ -216,8 +219,11 @@ export const quote = {
       expired:
         'This quote has expired. You must resubmit your quote request to receive another vendor quote.',
     },
+    items: {
+      regionTitle: 'Cart items',
+    },
     list: {
-      regionTitle: 'Group with quote list details',
+      regionTitle: 'Quote list summary',
       title: 'Quote List',
       name: 'Name',
       updated: 'Updated',

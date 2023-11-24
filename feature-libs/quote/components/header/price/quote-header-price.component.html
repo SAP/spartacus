@@ -10,7 +10,6 @@
       {{ quoteDetails.totalPrice?.formattedValue }}
     </div>
   </div>
-
   <div
     *ngIf="hasNonZeroPriceValue(quoteDetails.productDiscounts)"
     class="cx-price-row cx-price-savings"
@@ -22,7 +21,6 @@
       {{ quoteDetails.productDiscounts?.formattedValue }}
     </div>
   </div>
-
   <div
     *ngIf="hasNonZeroPriceValue(quoteDetails.orderDiscounts)"
     class="cx-price-row cx-price-savings"
@@ -34,7 +32,6 @@
       {{ quoteDetails.orderDiscounts?.formattedValue }}
     </div>
   </div>
-
   <div
     *ngIf="hasNonZeroPriceValue(quoteDetails.quoteDiscounts)"
     class="cx-price-row cx-price-savings"
@@ -46,7 +43,6 @@
       {{ quoteDetails.quoteDiscounts?.formattedValue }}
     </div>
   </div>
-
   <div class="cx-price-row cx-price-total">
     <div class="cx-price-label">
       {{ 'quote.header.price.total' | cxTranslate }}
