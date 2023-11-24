@@ -28,7 +28,7 @@ const myAccountV2CmsMapping: CmsConfig = {
       //guards: inherited from standard config,
     },
   },
-}; 
+};
 @NgModule({
   declarations: [NotificationPreferenceComponent],
   imports: [
