@@ -9,9 +9,7 @@ import { NgModule} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
-  CmsConfig,
   I18nModule,
-  provideDefaultConfig,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { MyAccountV2NotificationPreferenceComponent } from './my-account-v2-notification-preference.component';
@@ -34,16 +32,6 @@ import { PageLayoutComponent } from 'projects/storefrontlib/cms-structure/page/p
       },
     ]),
   ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        NotificationPreferenceComponent: {
-          component: MyAccountV2NotificationPreferenceComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
   exports: [MyAccountV2NotificationPreferenceComponent],
 })
-export class NewNotificationPreferenceModule {}
+export class MyAccountV2NotificationPreferenceModule {}
