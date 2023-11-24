@@ -33,4 +33,4 @@ import { ConsentManagementComponentService } from '../../consent-management';
     MyAccountV2ConsentManagementFormComponent,
   ],
 })
-export class NewConsentManagementModule {}
+export class MyAccountV2ConsentManagementModule {}

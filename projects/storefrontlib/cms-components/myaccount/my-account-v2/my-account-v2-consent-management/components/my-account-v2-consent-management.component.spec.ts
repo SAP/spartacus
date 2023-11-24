@@ -30,7 +30,7 @@ import { ConsentManagementComponentService } from '../../../consent-management';
 class MockCxSpinnerComponent {}
 
 @Component({
-  selector: 'cx-new-consent-management-form',
+  selector: 'cx-my-account-v2-consent-management',
   template: ` <div>form</div> `,
 })
 class MockConsentManagementFormComponent {
@@ -110,7 +110,7 @@ const mockConsentTemplate: ConsentTemplate = {
   },
 };
 
-describe('NewConsentManagementComponent', () => {
+describe('MyAccountV2ConsentManagementComponent', () => {
   let component: MyAccountV2ConsentManagementComponent;
   let fixture: ComponentFixture<MyAccountV2ConsentManagementComponent>;
   let el: DebugElement;
@@ -751,7 +751,7 @@ describe('NewConsentManagementComponent', () => {
           expect(el.query(By.css('cx-spinner'))).toBeFalsy();
           expect(
             (el.nativeElement as HTMLElement).querySelectorAll(
-              'cx-new-consent-management-form'
+              'cx-my-account-v2-consent-management-form'
             ).length
           ).toEqual(3);
         });
