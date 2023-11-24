@@ -1,62 +1,68 @@
 <ng-container *ngIf="quoteDetails$ | async as quoteDetails; else ghostDetails">
-  <div class="cx-header-container">
-    <h2 class="cx-header">
-      {{ 'quote.header.overview.id' | cxTranslate }}:
-      {{ quoteDetails.code }}
-    </h2>
-    <h2 class="cx-status">
-      {{ 'quote.header.overview.status' | cxTranslate }}:
-      {{ 'quote.states.' + quoteDetails.state | cxTranslate }}
-    </h2>
-  </div>
-  <div class="cx-container">
-    <div class="cx-summary-card">
-      <ng-container *ngIf="!editMode">
+  <div
+    role="region"
+    tabindex="-1"
+    [attr.aria-label]="'quote.header.overview.regionTitle' | cxTranslate"
+  >
+    <div class="cx-header-container">
+      <h2 class="cx-header">
+        {{ 'quote.header.overview.id' | cxTranslate }}:
+        {{ quoteDetails.code }}
+      </h2>
+      <h2 class="cx-status">
+        {{ 'quote.header.overview.status' | cxTranslate }}:
+        {{ 'quote.states.' + quoteDetails.state | cxTranslate }}
+      </h2>
+    </div>
+    <div class="cx-container">
+      <div class="cx-summary-card">
+        <ng-container *ngIf="!editMode">
+          <cx-card
+            [content]="
+              getQuoteInformation(quoteDetails.name, quoteDetails.description)
+                | async
+            "
+            [truncateParagraphText]="true"
+            [charactersLimit]="getCharactersLimitForCardTile()"
+          ></cx-card>
+          <button
+            [attr.aria-label]="'quote.header.overview.a11y.edit' | cxTranslate"
+            *ngIf="isQuoteEditableForBuyer(quoteDetails)"
+            class="link cx-action-link cx-edit-btn"
+            (click)="toggleEditMode()"
+          >
+            <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+          </button>
+        </ng-container>
+        <cx-quote-header-buyer-edit
+          *ngIf="editMode"
+          [content]="
+            getEditQuoteInformation(quoteDetails.name, quoteDetails.description)
+          "
+          (saveCard)="save(quoteDetails, $event)"
+          (cancelCard)="cancel()"
+        ></cx-quote-header-buyer-edit>
+      </div>
+      <div class="cx-summary-card">
         <cx-card
           [content]="
-            getQuoteInformation(quoteDetails.name, quoteDetails.description)
-              | async
+            getEstimatedTotalAndExpiryDate(
+              quoteDetails,
+              quoteDetails.expirationTime | cxDate
+            ) | async
           "
-          [truncateParagraphText]="true"
-          [charactersLimit]="getCharactersLimitForCardTile()"
         ></cx-card>
-        <button
-          [attr.aria-label]="'quote.header.overview.a11y.edit' | cxTranslate"
-          *ngIf="isQuoteEditableForBuyer(quoteDetails)"
-          class="link cx-action-link cx-edit-btn"
-          (click)="toggleEditMode()"
-        >
-          <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
-        </button>
-      </ng-container>
-      <cx-quote-header-buyer-edit
-        *ngIf="editMode"
-        [content]="
-          getEditQuoteInformation(quoteDetails.name, quoteDetails.description)
-        "
-        (saveCard)="save(quoteDetails, $event)"
-        (cancelCard)="cancel()"
-      ></cx-quote-header-buyer-edit>
-    </div>
-    <div class="cx-summary-card">
-      <cx-card
-        [content]="
-          getEstimatedTotalAndExpiryDate(
-            quoteDetails,
-            quoteDetails.expirationTime | cxDate
-          ) | async
-        "
-      ></cx-card>
-    </div>
-    <div class="cx-summary-card">
-      <cx-card
-        [content]="
-          getCreatedAndUpdatedDates(
-            quoteDetails.creationTime | cxDate,
-            quoteDetails.updatedTime | cxDate
-          ) | async
-        "
-      ></cx-card>
+      </div>
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="
+            getCreatedAndUpdatedDates(
+              quoteDetails.creationTime | cxDate,
+              quoteDetails.updatedTime | cxDate
+            ) | async
+          "
+        ></cx-card>
+      </div>
     </div>
   </div>
 </ng-container>
