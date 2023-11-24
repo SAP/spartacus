@@ -12,9 +12,9 @@ import {
   I18nModule,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
+import { CmsPageGuard } from '../../../../../storefrontlib/cms-structure/guards/cms-page.guard';
+import { PageLayoutComponent } from '../../../../../storefrontlib/cms-structure/page/page-layout/page-layout.component';
 import { MyAccountV2NotificationPreferenceComponent } from './my-account-v2-notification-preference.component';
-import { CmsPageGuard } from 'projects/storefrontlib/cms-structure/guards/cms-page.guard';
-import { PageLayoutComponent } from 'projects/storefrontlib/cms-structure/page/page-layout/page-layout.component';
 
 @NgModule({
   declarations: [MyAccountV2NotificationPreferenceComponent],
