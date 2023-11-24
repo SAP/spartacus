@@ -83,7 +83,7 @@ jobs:
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
-    name: MC - E2E SSR (B2C)
+    name: MC - E2E SSR core (B2C)
     runs-on: ubuntu-latest
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
