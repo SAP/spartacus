@@ -6,8 +6,8 @@
 
 $skipComponentStyles: () !default;
 $selectors: cx-login, cx-login-form, cx-register, cx-reset-password,
-  cx-close-account, cx-close-account-modal, cx-my-new-accout-v2-profile,
-  cx-my-new-accout-v2-email, cx-my-account-v2-password, cx-new-combined-profile !default;
+cx-close-account, cx-close-account-modal, cx-my-new-account-v2-profile,
+  cx-my-new-account-v2-email, cx-my-account-v2-password,cx-my-account-v2-combined-profile-email, !default;
 
 @each $selector in $selectors {
   #{$selector} {

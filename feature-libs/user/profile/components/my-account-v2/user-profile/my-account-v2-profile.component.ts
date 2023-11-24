@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 import { MyAccountV2ProfileComponentService } from './my-account-v2-profile-component.service';
 
 @Component({
-  selector: 'cx-my-new-accout-v2-profile',
+  selector: 'cx-my-new-account-v2-profile',
   templateUrl: './my-account-v2-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {},
