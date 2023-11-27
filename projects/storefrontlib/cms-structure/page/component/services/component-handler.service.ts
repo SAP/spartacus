@@ -7,6 +7,7 @@
 import {
   ComponentRef,
   ElementRef,
+  inject,
   Inject,
   Injectable,
   Injector,
@@ -15,7 +16,11 @@ import {
   Optional,
   ViewContainerRef,
 } from '@angular/core';
-import { CmsComponentMapping, resolveApplicable } from '@spartacus/core';
+import {
+  CmsComponentMapping,
+  LoggerService,
+  resolveApplicable,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ComponentHandler } from '../handlers/component-handler';
 
@@ -26,6 +31,8 @@ import { ComponentHandler } from '../handlers/component-handler';
   providedIn: 'root',
 })
 export class ComponentHandlerService {
+  protected logger = inject(LoggerService);
+
   constructor(
     @Optional()
     @Inject(ComponentHandler)
@@ -47,7 +54,7 @@ export class ComponentHandlerService {
     if (isDevMode() && !handler) {
       if (!this.invalidMappings.has(componentMapping)) {
         this.invalidMappings.add(componentMapping);
-        console.warn(
+        this.logger.warn(
           "Can't resolve handler for component mapping: ",
           componentMapping
         );

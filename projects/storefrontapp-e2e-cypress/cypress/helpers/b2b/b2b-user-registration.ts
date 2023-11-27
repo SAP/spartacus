@@ -54,7 +54,9 @@ export function fillOrganizationUserRegistrationForm(
       cy.get('#region-select').ngSelect(address?.state);
     }
 
-    cy.get('[formcontrolname="phoneNumber"]').type(phone);
+    if (phone) {
+      cy.get('[formcontrolname="phoneNumber"]').type(phone);
+    }
 
     if (message) {
       cy.get('[formcontrolname="message"]').type(message);

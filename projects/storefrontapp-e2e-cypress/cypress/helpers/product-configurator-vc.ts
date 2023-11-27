@@ -5,8 +5,10 @@
  */
 
 import * as configuration from './product-configurator';
+import * as common from './common';
 
-const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
+const addToCartButtonSelector =
+  'cx-configurator-add-to-cart-button button.cx-add-to-cart-btn';
 
 const conflictDetectedMsgSelector = '.cx-conflict-msg';
 const conflictHeaderGroupSelector =
@@ -93,21 +95,6 @@ export function registerCreateConfigurationRoute() {
 }
 
 /**
- * Navigates to the product detail page.
- *
- * @param {string} shopName - shop name
- * @param {string} productId - Product ID
- */
-export function goToPDPage(shopName: string, productId: string): void {
-  const location = `${shopName}/en/USD/product/${productId}/${productId}`;
-  cy.visit(location).then(() => {
-    checkLoadingMsgNotDisplayed();
-    cy.location('pathname').should('contain', location);
-    cy.get('.ProductDetailsPageTemplate').should('be.visible');
-  });
-}
-
-/**
  * Navigates to the cart page.
  *
  * @param {string} shopName - shop name
@@ -121,18 +108,18 @@ export function goToCart(shopName: string) {
 }
 
 /**
- * Verifies whether the loading message is not displayed.
- */
-export function checkLoadingMsgNotDisplayed(): void {
-  cy.log('Wait until the loading notification is not displayed anymore');
-  cy.get('cx-storefront').should('not.contain.value', 'Loading');
-}
-
-/**
  * Verifies whether the global message is not displayed on the top of the configuration.
  */
 export function checkGlobalMessageNotDisplayed(): void {
   cy.get('cx-global-message').should('not.be.visible');
+}
+
+/**
+ * Verifies whether the global message is displayed and contains a text
+ * @param {string} text - We expect this text to appear in the global message
+ */
+export function checkGlobalMessageContains(text: string): void {
+  cy.get('cx-global-message').should('contain', text);
 }
 
 /**
@@ -162,7 +149,7 @@ export function checkGhostAnimationNotDisplayed(): void {
  */
 export function checkConfigPageDisplayed(): void {
   checkGhostAnimationNotDisplayed();
-  checkLoadingMsgNotDisplayed();
+  common.checkLoadingMsgNotDisplayed();
   checkGlobalMessageNotDisplayed();
   configuration.checkTabBarDisplayed();
   configuration.checkGroupTitleDisplayed();

@@ -98,6 +98,15 @@ export class VisualPickingTabService implements OnDestroy {
   private getProductReferencesSubscription: Subscription;
   private getFilteredProductReferencesSubscription: Subscription;
 
+  private _selectedProductCodes: string[] = [];
+  public get selectedProductCodes() {
+    return this._selectedProductCodes;
+  }
+  public set selectedProductCodes(selectedProducts: string[]) {
+    this._selectedProductCodes = selectedProducts;
+    this.changeDetectorRef.detectChanges();
+  }
+
   /**
    * When true, error messages will be shown when visualization load/lookup failures occur.
    */

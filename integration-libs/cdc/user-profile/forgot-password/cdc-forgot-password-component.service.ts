@@ -59,7 +59,7 @@ export class CDCForgotPasswordComponentService
               next: (response) => {
                 this.busy$.next(false);
                 if (response.status === 'OK') {
-                  this.redirect();
+                  this.onSuccess();
                 }
               },
               error: () => this.busy$.next(false),

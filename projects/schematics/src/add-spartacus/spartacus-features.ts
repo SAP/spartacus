@@ -93,6 +93,8 @@ function configureSpartacusModules(
         'BreadcrumbModule,',
         'ScrollToTopModule,',
         'PageTitleModule',
+        'VideoModule',
+        'PDFModule',
       ].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
@@ -112,6 +114,8 @@ function configureSpartacusModules(
                 'BreadcrumbModule',
                 'ScrollToTopModule',
                 'PageTitleModule',
+                'VideoModule',
+                'PDFModule',
               ],
             },
           ],
@@ -126,6 +130,7 @@ function configureSpartacusModules(
         'PaymentMethodsModule,',
         'NotificationPreferenceModule,',
         'MyInterestsModule,',
+        'MyAccountV2Module',
         'StockNotificationModule,',
         'ConsentManagementModule,',
         'MyCouponsModule,',
@@ -143,6 +148,7 @@ function configureSpartacusModules(
                 'PaymentMethodsModule',
                 'NotificationPreferenceModule',
                 'MyInterestsModule',
+                'MyAccountV2Module',
                 'StockNotificationModule',
                 'ConsentManagementModule',
                 'MyCouponsModule',

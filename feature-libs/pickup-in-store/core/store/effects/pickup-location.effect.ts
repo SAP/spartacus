@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { PickupLocationConnector } from '../../connectors';
@@ -14,6 +14,8 @@ import * as PickupLocationActions from '../actions/pickup-location.action';
 
 @Injectable()
 export class PickupLocationEffect {
+  protected logger = inject(LoggerService);
+
   constructor(
     private actions$: Actions,
     private pickupLocationConnector: PickupLocationConnector
@@ -39,7 +41,7 @@ export class PickupLocationEffect {
           catchError((error) =>
             of(
               PickupLocationActions.SetStoreDetailsFailure({
-                payload: normalizeHttpError(error),
+                payload: normalizeHttpError(error, this.logger),
               })
             )
           )

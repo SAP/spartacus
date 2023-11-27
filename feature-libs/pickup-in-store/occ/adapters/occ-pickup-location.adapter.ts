@@ -5,8 +5,9 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
+  LoggerService,
   normalizeHttpError,
   OccEndpointsService,
   PointOfService,
@@ -17,6 +18,8 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccPickupLocationAdapter implements PickupLocationAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService
@@ -32,6 +35,10 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
           queryParams: { fields: 'FULL' },
         })
       )
-      .pipe(catchError((error: any) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error: any) =>
+          throwError(normalizeHttpError(error, this.logger))
+        )
+      );
   }
 }

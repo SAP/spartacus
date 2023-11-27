@@ -30,6 +30,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { ConsentManagementComponentService } from '../consent-management-component.service';
 
 @Component({
   selector: 'cx-consent-management',
@@ -49,7 +50,8 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected anonymousConsentsService: AnonymousConsentsService,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected consentManagementComponentService?: ConsentManagementComponentService
   ) {}
 
   ngOnInit(): void {
@@ -95,11 +97,12 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
         }
       }),
       map(([templateList, anonymousTemplates]) => {
+        this.requiredConsents = this.consentManagementComponentService
+          ? this.consentManagementComponentService.getRequiredConsents(
+              templateList
+            )
+          : [];
         if (this.anonymousConsentsConfig.anonymousConsents) {
-          if (this.anonymousConsentsConfig.anonymousConsents.requiredConsents) {
-            this.requiredConsents =
-              this.anonymousConsentsConfig.anonymousConsents.requiredConsents;
-          }
           if (
             this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
           ) {
@@ -192,7 +195,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     if (given && template.id && template.version !== undefined) {
       this.userConsentService.giveConsent(template.id, template.version);
     } else if (template.currentConsent?.code) {
-      this.userConsentService.withdrawConsent(template.currentConsent.code);
+      this.userConsentService.withdrawConsent(
+        template.currentConsent.code,
+        template?.id
+      );
     }
   }
 
@@ -253,8 +259,9 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       tap((i) => {
         if (i < consentsToWithdraw.length) {
           const code = consentsToWithdraw[i].currentConsent?.code;
+          const id = consentsToWithdraw[i]?.id;
           if (code) {
-            this.userConsentService.withdrawConsent(code);
+            this.userConsentService.withdrawConsent(code, id);
           }
         }
       })

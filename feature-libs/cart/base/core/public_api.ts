@@ -12,6 +12,7 @@ export * from './facade/index';
 export * from './guards/index';
 export * from './services/index';
 export * from './store/actions/index';
+export * from './store/effects/multi-cart-effect.service';
 export * from './store/multi-cart-state';
 export * from './store/selectors/index';
 export * from './utils/utils';

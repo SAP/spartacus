@@ -12,6 +12,9 @@ const resolveIssuesLinkSelector =
 const resolveConflictsLinkSelector =
   'cx-configurator-overview-notification-banner #cx-configurator-overview-conflict-msg button.cx-action-link';
 
+const addToCartQuantitySelector =
+  '.cx-add-to-cart-btn-container .cx-quantity-value';
+
 /**
  * Navigates to the configured product overview page.
  *
@@ -232,6 +235,7 @@ export function checkNumberOfMenuEntriesDisplayed(num: number) {
 
 /**
  * Clicks on the menu item with the given index. Does not wait, but returns immediately.
+ *
  * @param {number} index index of the menu item
  */
 export function clickMenuItem(index: number) {
@@ -252,4 +256,11 @@ export function checkViewPortScrolledToGroup(groupIdx: number) {
         .to.be.greaterThan(-1)
         .and.to.be.below(1);
     });
+}
+
+/**
+ * Verifies that quantity is not displayed.
+ */
+export function checkQuantityNotDisplayed() {
+  cy.get(addToCartQuantitySelector).should('not.exist');
 }

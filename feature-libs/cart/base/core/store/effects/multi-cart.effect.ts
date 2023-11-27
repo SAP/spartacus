@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { isSelectiveCart } from '../../utils/utils';
 import { CartActions } from '../actions/index';
+import { MultiCartEffectsService } from './multi-cart-effect.service';
 
 @Injectable()
 export class MultiCartEffects {
@@ -64,20 +65,7 @@ export class MultiCartEffects {
               return this.getActiveCartTypeOnLoad(action);
             }
             case CartActions.LOAD_CART_SUCCESS: {
-              if (action?.payload?.extraData?.active) {
-                // saved cart is not active cart
-                if (action.payload?.cart.saveTime) {
-                  return new CartActions.SetCartTypeIndex({
-                    cartType: CartType.ACTIVE,
-                    cartId: '',
-                  });
-                }
-                return new CartActions.SetCartTypeIndex({
-                  cartType: CartType.ACTIVE,
-                  cartId: action.meta.entityId as string,
-                });
-              }
-              break;
+              return this.getActiveCartTypeOnLoadSuccess(action);
             }
             case CartActions.CREATE_CART: {
               return this.getActiveCartTypeOnCreate(action);
@@ -120,6 +108,19 @@ export class MultiCartEffects {
   }
 
   /**
+   * Verifies if cart is the active cart or saved cart and returns the appropriate cart type
+   * @param action
+   * @returns cart type
+   */
+  private getActiveCartTypeOnLoadSuccess(
+    action: CartActions.LoadCartSuccess
+  ): CartActions.SetCartTypeIndex | undefined {
+    // Extracted small portion of private effect's logic to a public service
+    // to allow FSA for customizing it (for more, see CXSPA-3551)
+    return this.multiCartEffectsService.getActiveCartTypeOnLoadSuccess(action);
+  }
+
+  /**
    * Verifies if cart is active and returns the appropriate cart type
    * @param action
    * @returns cart type needed on creation
@@ -136,5 +137,8 @@ export class MultiCartEffects {
     return undefined;
   }
 
-  constructor(private actions$: Actions) {}
+  constructor(
+    private actions$: Actions,
+    private multiCartEffectsService: MultiCartEffectsService
+  ) {}
 }

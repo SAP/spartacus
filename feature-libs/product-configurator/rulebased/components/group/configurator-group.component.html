@@ -17,35 +17,40 @@
       ></cx-configurator-conflict-suggestion>
     </ng-container>
 
-    <div
-      [cxConfiguratorAttributeComponent]="{
-        componentKey: 'Header',
-        attribute: attribute,
-        owner: owner,
-        group: group,
-        expMode: expMode | async,
-        isNavigationToGroupEnabled: isNavigationToGroupEnabled
-      }"
-    ></div>
+    <ng-container *ngIf="activeLanguage$ | async as activeLanguage">
+      <div
+        [cxConfiguratorAttributeComponent]="{
+          componentKey: 'Header',
+          attribute: attribute,
+          owner: owner,
+          group: group,
+          language: activeLanguage,
+          expMode: (expMode | async) ?? false,
+          isNavigationToGroupEnabled: isNavigationToGroupEnabled
+        }"
+      ></div>
 
-    <div
-      [cxConfiguratorAttributeComponent]="{
-        componentKey: getComponentKey(attribute),
-        attribute: attribute,
-        owner: owner,
-        group: group,
-        language: activeLanguage$ | async,
-        expMode: expMode | async
-      }"
-    ></div>
+      <div
+        [cxConfiguratorAttributeComponent]="{
+          componentKey: getComponentKey(attribute),
+          attribute: attribute,
+          owner: owner,
+          group: group,
+          language: activeLanguage,
+          expMode: (expMode | async) ?? false
+        }"
+      ></div>
 
-    <div
-      [cxConfiguratorAttributeComponent]="{
-        componentKey: 'Footer',
-        attribute: attribute,
-        owner: owner,
-        group: group
-      }"
-    ></div>
+      <div
+        [cxConfiguratorAttributeComponent]="{
+          componentKey: 'Footer',
+          attribute: attribute,
+          owner: owner,
+          group: group,
+          language: activeLanguage,
+          expMode: (expMode | async) ?? false
+        }"
+      ></div>
+    </ng-container>
   </div>
 </div>

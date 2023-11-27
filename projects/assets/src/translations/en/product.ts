@@ -80,6 +80,8 @@ export const product = {
     less: 'Show Less Reviews',
     thankYouForReview:
       'Thank you for the review! Note that reviews may require review before appearing here.',
+    postReviewFail:
+      'Something went wrong while posting your review. Please try again later.',
   },
   productCarousel: {
     carouselLabel: 'Carousel, {{title}}',

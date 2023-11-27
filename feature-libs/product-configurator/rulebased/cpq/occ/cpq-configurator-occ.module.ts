@@ -14,6 +14,8 @@ import {
 import { OccConfiguratorCpqAddToCartSerializer } from './converters/occ-configurator-cpq-add-to-cart-serializer';
 import { defaultOccCpqConfiguratorConfigFactory } from './default-occ-configurator-cpq-config';
 import { provideDefaultConfigFactory } from '@spartacus/core';
+import { RulebasedConfiguratorConnector } from '@spartacus/product-configurator/rulebased';
+import { CpqConfiguratorOccAdapter } from './cpq-configurator-occ.adapter';
 
 @NgModule({
   imports: [CommonModule],
@@ -27,6 +29,11 @@ import { provideDefaultConfigFactory } from '@spartacus/core';
     {
       provide: CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
       useExisting: OccConfiguratorCpqUpdateCartEntrySerializer,
+      multi: true,
+    },
+    {
+      provide: RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST,
+      useClass: CpqConfiguratorOccAdapter,
       multi: true,
     },
   ],

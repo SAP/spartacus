@@ -84,7 +84,8 @@
     "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "enableResourceInlining": false
+    "enableResourceInlining": false,
+    "strictTemplates": false
   },
   "exclude": ["test.ts", "setup-jest.ts", "**/*.spec.ts"]
 }

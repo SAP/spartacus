@@ -20,8 +20,26 @@
       display: block;
       margin-inline-start: auto;
 
+      @include forVersion(6.1) {
+        @include media-breakpoint-down(md) {
+          margin-inline-start: auto;
+        }
+      }
+
       @include media-breakpoint-down(sm) {
         min-height: 48px;
+      }
+    }
+
+    @include forVersion(6.1) {
+      .cx-remove-btn {
+        @include media-breakpoint-down(md) {
+          margin: 0;
+        }
+
+        @include media-breakpoint-down(xs) {
+          margin-inline-start: auto;
+        }
       }
     }
   }
@@ -57,9 +75,16 @@
   .cx-cart-addons {
     display: flex;
     width: 100%;
+    flex-direction: column;
 
     cx-configurator-cart-entry-info {
       margin-inline-start: 6rem;
+    }
+
+    @include forVersion(6.1) {
+      cx-cart-pickup-options-container {
+        margin-inline-start: 6rem;
+      }
     }
   }
 

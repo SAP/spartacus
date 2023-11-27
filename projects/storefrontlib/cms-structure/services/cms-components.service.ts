@@ -6,6 +6,7 @@
 
 import { isPlatformServer } from '@angular/common';
 import {
+  inject,
   Inject,
   Injectable,
   isDevMode,
@@ -23,6 +24,7 @@ import {
   deepMerge,
   DeferLoadingStrategy,
   isNotUndefined,
+  LoggerService,
 } from '@spartacus/core';
 import { defer, forkJoin, Observable, of } from 'rxjs';
 import { filter, map, share, tap } from 'rxjs/operators';
@@ -47,6 +49,8 @@ export class CmsComponentsService {
   // Contains already initialized resolvers for specified component typez
   protected mappingResolvers: Map<string, Observable<CmsComponentMapping>> =
     new Map();
+
+  protected logger = inject(LoggerService);
 
   constructor(
     protected config: CmsConfig,
@@ -166,7 +170,7 @@ export class CmsComponentsService {
     if (isDevMode() && !componentConfig) {
       if (!this.missingComponents.includes(componentType)) {
         this.missingComponents.push(componentType);
-        console.warn(
+        this.logger.warn(
           `No component implementation found for the CMS component type '${componentType}'.\n`,
           `Make sure you implement a component and register it in the mapper.`
         );

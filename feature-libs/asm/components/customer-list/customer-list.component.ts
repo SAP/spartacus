@@ -195,6 +195,20 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.teardown.unsubscribe();
   }
 
+  changePage(page: number): void {
+    const options: CustomerSearchOptions = {
+      customerListId: this.selectedUserGroupId,
+      pageSize: this.pageSize,
+      currentPage: page,
+      sort: this.sortCode,
+    };
+    if (this.searchBox?.value) {
+      options.query = this.searchBox.value;
+    }
+
+    this.asmCustomerListFacade.customerListCustomersSearch(options);
+  }
+
   fetchCustomers(): void {
     // TODO: (CXSPA-2722 for remove ) Remove FeatureConfigService for 7.0
     this.enableAsmB2bCustomerList =
@@ -217,16 +231,30 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
       this.asmCustomerListFacade.customerListCustomersSearch(options);
     }
-    this.customerListConfig?.columns?.forEach((item) => {
+    this.updateCustomerListColumns();
+  }
+
+  private updateCustomerListColumns(): void {
+    const columns = this.customerListConfig?.columns || [];
+
+    for (const column of columns) {
       if (
-        item.headerLocalizationKey === 'asm.customerList.tableHeader.account' ||
-        item.headerLocalizationKey === 'hideAccount'
+        column.headerLocalizationKey ===
+          'asm.customerList.tableHeader.account' ||
+        column.headerLocalizationKey === 'hideHeaders'
       ) {
-        item.headerLocalizationKey = this.enableAsmB2bCustomerList
+        column.headerLocalizationKey = this.enableAsmB2bCustomerList
           ? 'asm.customerList.tableHeader.account'
-          : 'hideAccount';
+          : 'hideHeaders';
       }
-    });
+      if (
+        column.headerLocalizationKey === 'asm.customerList.tableHeader.cart'
+      ) {
+        column.headerLocalizationKey = this.featureConfig?.isLevel('6.1')
+          ? column.headerLocalizationKey
+          : 'hideHeaders';
+      }
+    }
   }
 
   onChangeCustomerGroup(): void {
@@ -267,8 +295,12 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   onKey(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
-      this.fetchCustomers();
+      this.searchCustomers();
     }
+  }
+  searchCustomers(): void {
+    this.currentPage = 0;
+    this.fetchCustomers();
   }
 
   isRequired(customerEntry: User, type: string): boolean {

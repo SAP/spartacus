@@ -9,6 +9,13 @@
       "options": {
         "lintFilePatterns": ["projects/schematics/**/*.ts"]
       }
+    },
+    "test-jest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test",
+        "cwd": "projects/schematics"
+      }
     }
   },
   "tags": ["type:util"]

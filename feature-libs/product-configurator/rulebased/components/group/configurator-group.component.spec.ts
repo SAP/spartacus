@@ -191,7 +191,9 @@ class MockConfiguratorExpertModeService {
 
   setExpModeActive(): void {}
 
-  getExpModeActive() {}
+  getExpModeActive() {
+    return of(false);
+  }
 }
 
 const product: Product = {

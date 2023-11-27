@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorModel } from '../../../model/misc.model';
+import { ErrorModel, HttpErrorModel } from '../../../model/misc.model';
 import { Review } from '../../../model/product.model';
 
 export const LOAD_PRODUCT_REVIEWS = '[Product] Load Product Reviews Data';
@@ -25,7 +25,7 @@ export class LoadProductReviews implements Action {
 
 export class LoadProductReviewsFail implements Action {
   readonly type = LOAD_PRODUCT_REVIEWS_FAIL;
-  constructor(public payload: ErrorModel) {}
+  constructor(public payload?: ErrorModel) {}
 }
 
 export class LoadProductReviewsSuccess implements Action {
@@ -40,7 +40,7 @@ export class PostProductReview implements Action {
 
 export class PostProductReviewFail implements Action {
   readonly type = POST_PRODUCT_REVIEW_FAIL;
-  constructor(public payload: string) {}
+  constructor(public payload?: HttpErrorModel) {}
 }
 
 export class PostProductReviewSuccess implements Action {

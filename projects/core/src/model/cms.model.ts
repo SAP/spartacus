@@ -249,3 +249,6 @@ export interface CmsPickupItemDetails extends CmsComponent {
   showEdit: boolean;
   context: string;
 }
+
+// TODO: (CXSPA-4886) Remove this flag in the major
+export const USER_CMS_ENDPOINTS = 'userCmsEndpoints';

@@ -5,7 +5,9 @@
  */
 
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
+
+import { LoggerService } from '../../../../logger';
 import { Priority } from '../../../../util/applicable';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
@@ -20,6 +22,8 @@ import { HttpErrorHandler } from '../http-error.handler';
 export class UnknownErrorHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.UNKNOWN;
 
+  protected logger = inject(LoggerService);
+
   /**
    * hasMatch always returns true, to mach all errors
    */
@@ -29,7 +33,10 @@ export class UnknownErrorHandler extends HttpErrorHandler {
 
   handleError(_request: HttpRequest<any>, errorResponse: HttpErrorResponse) {
     if (isDevMode() || this.isSsr()) {
-      console.warn(`An unknown http error occurred\n`, errorResponse.message);
+      this.logger.warn(
+        `An unknown http error occurred\n`,
+        errorResponse.message
+      );
     }
   }
 

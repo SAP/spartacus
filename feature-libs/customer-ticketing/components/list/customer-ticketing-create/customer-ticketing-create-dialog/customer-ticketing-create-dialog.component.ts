@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   AssociatedObject,
@@ -14,8 +14,15 @@ import {
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  HttpErrorModel,
+  TranslationService,
+} from '@spartacus/core';
+import { catchError, first } from 'rxjs/operators';
 @Component({
   selector: 'cx-customer-ticketing-create-dialog',
   templateUrl: './customer-ticketing-create-dialog.component.html',
@@ -27,7 +34,12 @@ export class CustomerTicketingCreateDialogComponent
   ticketCategories$: Observable<Category[]> =
     this.customerTicketingFacade.getTicketCategories();
   ticketAssociatedObjects$: Observable<AssociatedObject[]> =
-    this.customerTicketingFacade.getTicketAssociatedObjects();
+    this.customerTicketingFacade.getTicketAssociatedObjects().pipe(
+      catchError((error: any) => {
+        this.handleError(error);
+        return of([]);
+      })
+    );
   subscription: Subscription;
 
   @Input()
@@ -37,6 +49,10 @@ export class CustomerTicketingCreateDialogComponent
   selectedAssociatedObject: AssociatedObject;
 
   attachment: File;
+
+  protected globalMessage = inject(GlobalMessageService);
+
+  protected translationService = inject(TranslationService);
 
   protected getCreateTicketPayload(form: FormGroup): TicketStarter {
     return {
@@ -108,11 +124,35 @@ export class CustomerTicketingCreateDialogComponent
           complete: () => {
             this.onComplete();
           },
-          error: () => {
-            this.onError();
+          error: (error: any) => {
+            this.handleError(error);
           },
         });
     }
+  }
+
+  protected handleError(error: any): void {
+    if (error instanceof HttpErrorModel) {
+      (error.details ?? []).forEach((err) => {
+        if (err.message) {
+          this.globalMessage.add(
+            { raw: err.message },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        }
+      });
+    } else {
+      this.translationService
+        .translate('httpHandlers.unknownError')
+        .pipe(first())
+        .subscribe((text) => {
+          this.globalMessage.add(
+            { raw: text },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        });
+    }
+    this.onError();
   }
 
   protected onComplete(): void {

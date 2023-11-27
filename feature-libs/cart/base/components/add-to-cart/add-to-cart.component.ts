@@ -110,6 +110,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   protected setStockInfo(product: Product): void {
     this.quantity = 1;
+
+    this.addToCartForm.controls['quantity'].setValue(1);
+
     this.hasStock = Boolean(product.stock?.stockLevelStatus !== 'outOfStock');
 
     this.inventoryThreshold = product.stock?.isValueRounded ?? false;

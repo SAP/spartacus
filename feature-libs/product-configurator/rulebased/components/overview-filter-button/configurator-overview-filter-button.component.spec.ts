@@ -39,7 +39,9 @@ function asSpy(f: any) {
 function initTestData() {
   ovConfig = structuredClone({
     ...ConfiguratorTestUtils.createConfiguration(configId, owner),
-    overview: ConfigurationTestData.productConfiguration.overview,
+    overview: ConfigurationTestData.productConfiguration.overview
+      ? ConfigurationTestData.productConfiguration.overview
+      : { configId: '', productCode: '' },
   });
   ovConfig.overview.possibleGroups = structuredClone(ovConfig.overview.groups);
 }
@@ -105,6 +107,13 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
 
     it('should create component', () => {
       expect(component).toBeDefined();
+    });
+
+    it('should support obsolete observable that we keep until next major for compatibility reasons', (done) => {
+      component.config$.subscribe((config) => {
+        expect(config.configId).toBe(configId);
+        done();
+      });
     });
 
     it('should open filter modal on request', () => {

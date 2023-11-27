@@ -4,8 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, InjectionToken, Injector, isDevMode } from '@angular/core';
+import {
+  Injectable,
+  InjectionToken,
+  Injector,
+  inject,
+  isDevMode,
+} from '@angular/core';
 import { Route, Router, Routes, UrlMatcher } from '@angular/router';
+import { LoggerService } from '../../logger';
 import { UrlMatcherService } from '../services/url-matcher.service';
 import { UrlMatcherFactory } from '../url-matcher/url-matcher-factory';
 import { RouteConfig } from './routes-config';
@@ -13,6 +20,8 @@ import { RoutingConfigService } from './routing-config.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurableRoutesService {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected injector: Injector,
     protected routingConfigService: RoutingConfigService,
@@ -171,7 +180,7 @@ export class ConfigurableRoutesService {
 
   private warn(...args: any[]) {
     if (isDevMode()) {
-      console.warn(...args);
+      this.logger.warn(...args);
     }
   }
 }

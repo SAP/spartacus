@@ -32,6 +32,7 @@ export const myAccount = {
     },
     bothPasswordMustMatch: 'Both password must match',
     passwordUpdateSuccess: 'Password updated with success',
+    accessDeniedError: 'Access is denied',
   },
   updateProfileForm: {
     title: 'Title',

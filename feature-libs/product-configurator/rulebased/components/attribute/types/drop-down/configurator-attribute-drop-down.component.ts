@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Optional,
+} from '@angular/core';
 
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -14,6 +19,7 @@ import { TranslationService } from '@spartacus/core';
 
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-attribute-drop-down',
@@ -27,18 +33,42 @@ export class ConfiguratorAttributeDropDownComponent
   attributeDropDownForm = new UntypedFormControl('');
   group: string;
 
+  // TODO (CXSPA-3392): make ConfiguratorStorefrontUtilsService a required dependency
+  constructor(
+    quantityService: ConfiguratorAttributeQuantityService,
+    translation: TranslationService,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    configuratorCommonsService: ConfiguratorCommonsService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+  );
+
+  /**
+   * @deprecated since 6.2
+   */
+  constructor(
+    quantityService: ConfiguratorAttributeQuantityService,
+    translation: TranslationService,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    configuratorCommonsService: ConfiguratorCommonsService
+  );
+
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    @Optional()
+    protected configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService
   ) {
     super(
       quantityService,
       translation,
       attributeComponentContext,
-      configuratorCommonsService
+      configuratorCommonsService,
+      configuratorStorefrontUtilsService
     );
+
     this.group = attributeComponentContext.group.id;
   }
 

@@ -69,6 +69,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     if (errorResponse instanceof HttpErrorResponse) {
       if (errorResponse.status === 403) {
+        this.cpqSessionId = null;
         this.cpqAccessStorageService.renewCpqAccessData();
         return this.cpqAccessStorageService.getCpqAccessData().pipe(
           take(1),

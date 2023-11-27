@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, DeleteCartEvent } from '@spartacus/cart/base/root';
 import {
   createFrom,
   CxEvent,
@@ -232,6 +232,17 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
   describe(`onDeliveryAddressCleared`, () => {
     it(`CheckoutDeliveryAddressClearedEvent should dispatch CheckoutQueryResetEvent`, () => {
       mockEventStream$.next(new CheckoutDeliveryAddressClearedEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutQueryResetEvent
+      );
+    });
+  });
+
+  describe(`onCartDeleted`, () => {
+    it(`DeleteCartEvent should dispatch CheckoutQueryResetEvent`, () => {
+      mockEventStream$.next(new DeleteCartEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},

@@ -9,6 +9,8 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeaturesConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
@@ -90,6 +92,7 @@ class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
   @Input() showTitleCode: boolean;
   @Input() setAsDefaultField: boolean;
+  @Input() addressData: Address;
 }
 
 @Component({
@@ -109,6 +112,8 @@ class MockCardComponent {
   content: Card;
   @Input()
   fitToContainer: boolean;
+  @Input()
+  index: number;
 }
 
 class MockCheckoutDeliveryModesFacade
@@ -130,7 +135,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
+        imports: [I18nTestingModule, FeaturesConfigModule],
         declarations: [
           CheckoutDeliveryAddressComponent,
           MockAddressFormComponent,
@@ -150,6 +155,12 @@ describe('CheckoutDeliveryAddressComponent', () => {
           {
             provide: CheckoutDeliveryModesFacade,
             useClass: MockCheckoutDeliveryModesFacade,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '6.3' },
+            },
           },
         ],
       })

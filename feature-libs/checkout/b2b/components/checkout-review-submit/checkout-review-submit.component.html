@@ -131,10 +131,33 @@
   <!-- DELIVERY MODE SECTION -->
   <ng-template #deliveryMode>
     <div class="cx-review-summary-card cx-review-card-shipping">
-      <cx-card
-        *ngIf="deliveryMode$ | async as deliveryMode"
-        [content]="getDeliveryModeCard(deliveryMode) | async"
-      ></cx-card>
+      <!-- TODO:(CXINT-2309) for next major release remove feature level -->
+      <ng-container *cxFeatureLevel="'!6.4'">
+        <cx-card
+          *ngIf="deliveryMode$ | async as deliveryMode"
+          [content]="getDeliveryModeCard(deliveryMode) | async"
+        >
+        </cx-card>
+      </ng-container>
+      <!-- TODO:(CXINT-2309) for next major release remove feature level -->
+      <ng-container *cxFeatureLevel="'6.4'">
+        <div>
+          <cx-card
+            *ngIf="deliveryMode$ | async as deliveryMode"
+            [content]="getDeliveryModeCard(deliveryMode) | async"
+          >
+          </cx-card>
+          <ng-template
+            [cxOutlet]="cartOutlets.DELIVERY_MODE"
+            [cxOutletContext]="{
+              item: cart$ | async,
+              readonly: true
+            }"
+          >
+          </ng-template>
+        </div>
+      </ng-container>
+
       <div class="cx-review-summary-edit-step">
         <a
           [attr.aria-label]="'checkoutReview.editDeliveryMode' | cxTranslate"

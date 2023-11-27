@@ -38,7 +38,7 @@ $space: 0.5rem;
     .navigation {
       position: absolute;
       width: 100%;
-      z-index: 3;
+      z-index: 20;
 
       @include media-breakpoint-down(md) {
         height: 100vh;

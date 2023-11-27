@@ -1,8 +1,14 @@
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Injectable } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { EMPTY, of } from 'rxjs';
+import { MockTranslationService } from './testing/mock-translation.service';
 import { TranslatePipe } from './translate.pipe';
 import { TranslationService } from './translation.service';
-import createSpy = jasmine.createSpy;
+
+@Injectable()
+class MockChangeDetectorRef implements Partial<ChangeDetectorRef> {
+  markForCheck() {}
+}
 
 describe('TranslatePipe', () => {
   let pipe: TranslatePipe;
@@ -10,11 +16,16 @@ describe('TranslatePipe', () => {
   let cd: ChangeDetectorRef;
 
   beforeEach(() => {
-    service = {
-      translate: () => {},
-    } as any;
-    cd = { markForCheck: createSpy('markForCheck') } as any;
-    pipe = new TranslatePipe(service, cd);
+    TestBed.configureTestingModule({
+      providers: [
+        TranslatePipe,
+        { provide: TranslationService, useClass: MockTranslationService },
+        { provide: ChangeDetectorRef, useClass: MockChangeDetectorRef },
+      ],
+    });
+    pipe = TestBed.inject(TranslatePipe);
+    service = TestBed.inject(TranslationService);
+    cd = TestBed.inject(ChangeDetectorRef);
   });
 
   describe('transform', () => {
@@ -75,13 +86,14 @@ describe('TranslatePipe', () => {
     });
 
     it('should call cd.markForCheck every time when service.translate emits value', () => {
+      const markForCheckSpy = spyOn(cd, 'markForCheck').and.callThrough();
       spyOn(service, 'translate').and.returnValues(
         of('value1', 'value2'),
         of('value3')
       );
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKey', { param: 'param2' });
-      expect(cd.markForCheck).toHaveBeenCalledTimes(3);
+      expect(markForCheckSpy).toHaveBeenCalledTimes(3);
     });
   });
 });

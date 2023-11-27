@@ -12,6 +12,18 @@
     font-weight: var(--cx-font-weight-semi);
   }
 
+  @include forVersion(6.3) {
+    .cx-summary-heading {
+      border-bottom: 1px solid var(--cx-color-medium);
+      padding-bottom: 2.188rem;
+
+      @include media-breakpoint-down(md) {
+        margin-bottom: 0.438rem;
+        padding-bottom: 0.938rem;
+      }
+    }
+  }
+
   .cx-summary-label {
     text-align: start;
     padding: 0;

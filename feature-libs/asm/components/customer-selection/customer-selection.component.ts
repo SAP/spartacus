@@ -252,6 +252,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   createCustomer(): void {
+    this.asmService.customerSearchReset();
     this.launchDialogService?.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
       this.createCustomerLink

@@ -8,7 +8,11 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -18,6 +22,8 @@ import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribu
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { Observable, of } from 'rxjs';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 
 @Directive({
   selector: '[cxFocus]',
@@ -27,6 +33,13 @@ export class MockFocusDirective {
 }
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+}
+
+const isCartEntryOrGroupVisited = true;
+class MockConfigUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(isCartEntryOrGroupVisited);
+  }
 }
 
 describe('ConfigAttributeInputFieldComponent', () => {
@@ -46,7 +59,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
           ConfiguratorAttributeInputFieldComponent,
           MockFocusDirective,
         ],
-        imports: [ReactiveFormsModule, I18nTestingModule],
+        imports: [ReactiveFormsModule, I18nTestingModule, FeaturesConfigModule],
         providers: [
           {
             provide: ConfiguratorUISettingsConfig,
@@ -59,6 +72,16 @@ describe('ConfigAttributeInputFieldComponent', () => {
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '*' },
+            },
           },
         ],
       })
@@ -116,6 +139,10 @@ describe('ConfigAttributeInputFieldComponent', () => {
     ).nativeElement.classList;
     expect(styleClasses).toContain('ng-touched');
     expect(styleClasses).toContain('ng-invalid');
+  });
+
+  it('should not consider empty required input field as invalid, despite that it will be marked as error on the UI, so that engine is still called', () => {
+    expect(component.attributeInputForm.valid).toBe(true);
   });
 
   it('should set form as touched on init', () => {
@@ -275,6 +302,23 @@ describe('ConfigAttributeInputFieldComponent', () => {
       component.attribute.uiType =
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
       expect(component.isRequired).toBe(false);
+    });
+  });
+
+  describe('isUserInputEmpty', () => {
+    it('should return false if a value is present', () => {
+      component.attribute.userInput = 'abc';
+      expect(component.isUserInputEmpty).toBe(false);
+    });
+
+    it('should return true if the user input only contains blanks', () => {
+      component.attribute.userInput = '  ';
+      expect(component.isUserInputEmpty).toBe(true);
+    });
+
+    it('should return true if there is no user input', () => {
+      component.attribute.userInput = undefined;
+      expect(component.isUserInputEmpty).toBe(true);
     });
   });
 });

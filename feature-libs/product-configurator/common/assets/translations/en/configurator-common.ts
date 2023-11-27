@@ -18,6 +18,7 @@ export const configurator = {
       resolveConflicts: 'Resolve Conflicts',
       conflictWarning: 'Conflict must be resolved to continue',
       updateMessage: 'The configuration is being updated in the background',
+      conflictsResolved: 'Conflicts have been resolved',
       showMore: 'show more',
       showLess: 'show less',
       items: '{{count}} item',
@@ -55,8 +56,12 @@ export const configurator = {
       singleSelectRequiredMessage: 'Select a value',
       singleSelectAdditionalRequiredMessage: 'Select or enter a value',
       multiSelectRequiredMessage: 'Select one or more values',
+      // TODO (CXSPA-3392): `wrongNumericFormat` is deprecated and will be removed for the next major release
       wrongNumericFormat:
         'Wrong format, this numerical attribute should be entered according to pattern {{pattern}}',
+      wrongNumericFormatMessage:
+        'Enter the number in the following format: {{pattern}}',
+      wrongIntervalFormat: 'Enter a value within the indicated boundaries',
       deselectionNotPossible:
         'Add a different product before removing this one',
       dropDownSelectMsg: 'Make a selection',
@@ -90,14 +95,17 @@ export const configurator = {
       basePrice: 'Base Price',
       selectedOptions: 'Selected Options',
       totalPrice: 'Total',
+      totalPricePerItem: 'Total per Item',
     },
     addToCart: {
       button: 'Add to Cart',
       buttonAfterAddToCart: 'Continue to Cart',
       buttonUpdateCart: 'Done',
       buttonDisplayOnly: 'Done',
+      buttonClose: 'Close',
       confirmation: 'Configuration has been added to the cart',
       confirmationUpdate: 'Cart has been updated with configuration',
+      quantity: 'Qty',
     },
     overviewForm: {
       noAttributeHeader: 'No Results',

@@ -7,6 +7,7 @@
 import * as cart from '../../../helpers/cart';
 import * as configuration from '../../../helpers/product-configurator';
 import * as textfieldConfiguration from '../../../helpers/textfield-configuration';
+import * as common from '../../../helpers/common';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = '1934793';
@@ -46,8 +47,8 @@ context('Textfield Configuration', () => {
         electronicsShop,
         testProduct
       );
-      textfieldConfiguration.clickOnAddToCartBtnOnPD();
-      textfieldConfiguration.clickOnViewCartBtnOnPD();
+      common.clickOnAddToCartBtnOnPD();
+      common.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();
       textfieldConfiguration.clickOnEditConfigurationLink(0);
     });

@@ -4,9 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { normalizeHttpError, SiteContextActions } from '@spartacus/core';
+import {
+  LoggerService,
+  SiteContextActions,
+  normalizeHttpError,
+} from '@spartacus/core';
 import { OrderHistoryList } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -18,6 +22,8 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class OrdersEffect {
+  protected logger = inject(LoggerService);
+
   constructor(
     private actions$: Actions,
     private orderConnector: OrderHistoryConnector,
@@ -50,7 +56,11 @@ export class OrdersEffect {
               return new OrderActions.LoadUserOrdersSuccess(orders);
             }),
             catchError((error) =>
-              of(new OrderActions.LoadUserOrdersFail(normalizeHttpError(error)))
+              of(
+                new OrderActions.LoadUserOrdersFail(
+                  normalizeHttpError(error, this.logger)
+                )
+              )
             )
           );
         })

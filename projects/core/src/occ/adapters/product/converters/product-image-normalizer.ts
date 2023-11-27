@@ -37,7 +37,7 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
     const images: Images = {};
     if (source) {
       for (const image of source) {
-        const isList = image.hasOwnProperty('galleryIndex');
+        const isList = this.hasGalleryIndex(image);
         if (image.imageType) {
           if (!images.hasOwnProperty(image.imageType)) {
             images[image.imageType] = isList ? [] : {};
@@ -97,5 +97,10 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
         this.config.backend?.occ?.baseUrl ||
         '') + url
     );
+  }
+
+  private hasGalleryIndex(image: Occ.Image) {
+    const galleryIndex = image.galleryIndex ?? false;
+    return galleryIndex !== false;
   }
 }

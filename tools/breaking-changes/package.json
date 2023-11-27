@@ -22,7 +22,7 @@
     "gen-all": "npm run gen-const && npm run gen-methods-props && npm run gen-deleted && npm run gen-moved && npm run gen-doc"
   },
   "dependencies": {
-    "@microsoft/api-extractor": "^7.34.4"
+    "@microsoft/api-extractor": "^7.36.3"
   },
   "devDependencies": {
     "@types/deep-equal": "^1.0.1",

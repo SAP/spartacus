@@ -36,6 +36,32 @@
       cx-cart-proceed-to-checkout {
         max-width: 50%;
       }
+
+      @include forVersion(6.1) {
+        cx-cart-totals,
+        cx-cart-coupon,
+        cx-cart-proceed-to-checkout {
+          min-width: 100%;
+        }
+      }
+
+      @include forVersion(6.1) {
+        cx-cart-coupon {
+          order: 2;
+        }
+
+        cx-cart-quick-order-form {
+          order: 3;
+        }
+
+        cx-cart-totals {
+          order: 4;
+        }
+
+        cx-cart-proceed-to-checkout {
+          order: 5;
+        }
+      }
     }
 
     @include media-breakpoint-down(sm) {

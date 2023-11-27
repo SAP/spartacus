@@ -16,12 +16,13 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
+  ErrorHandlingModule,
   FeaturesConfig,
   I18nConfig,
   OccConfig,
-  provideConfig,
   RoutingConfig,
   TestConfigModule,
+  provideConfig,
 } from '@spartacus/core';
 import { StoreFinderConfig } from '@spartacus/storefinder/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
@@ -48,6 +49,7 @@ if (!environment.production) {
     EffectsModule.forRoot([]),
     SpartacusModule,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
+    ErrorHandlingModule.forRoot(), // custom error handling that delegates to LoggerService. Remove for 7.0 as it will be the part of BaseCoreModule (CXSPA-3680).
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,

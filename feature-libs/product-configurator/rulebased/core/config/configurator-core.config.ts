@@ -9,6 +9,7 @@ import { Config } from '@spartacus/core';
 
 export interface ProductConfiguratorCoreConfig {
   enableVariantSearch?: boolean;
+  cpqOverOcc?: boolean;
 }
 
 @Injectable({

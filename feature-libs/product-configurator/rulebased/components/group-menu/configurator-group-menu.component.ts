@@ -271,6 +271,22 @@ export class ConfiguratorGroupMenuComponent {
     return this.configuratorGroupsService.isConflictGroupType(groupType);
   }
 
+  //TODO(CXSPA-3392) get rid of this method in next major. Change signature of
+  //isConflictGroupType to allow undefined, and use this method instead
+  /**
+   * Verifies whether the current group is conflict one but allows for undefined input
+   *
+   * @param {Configurator.GroupType} groupType - Group type
+   * @return {boolean} - 'True' if the current group is conflict one, otherwise 'false'.
+   */
+  isConflictGroupTypeAllowingUndefined(
+    groupType: Configurator.GroupType | undefined
+  ): boolean {
+    return groupType
+      ? this.configuratorGroupsService.isConflictGroupType(groupType)
+      : false;
+  }
+
   /**
    * Returns true if group is conflict header group.
    *

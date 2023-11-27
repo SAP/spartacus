@@ -17,6 +17,13 @@
         }
       }
     },
+    "test-jest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test",
+        "cwd": "core-libs/setup"
+      }
+    },
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {

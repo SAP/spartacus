@@ -55,7 +55,7 @@ const groups: Configurator.Group = {
   subGroups: [],
 };
 
-const configWithoutGroups: Configurator.Configuration = {
+const configWithSingleGroup: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
     'CONFIG_ID',
     ConfiguratorModelUtils.createOwner(
@@ -170,9 +170,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
-  it("should not display 'previous' & 'next' buttons", () => {
+  it("should not display 'previous' & 'next' buttons in case configuration contains one group", () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(configWithoutGroups)
+      of(configWithSingleGroup)
     );
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;

@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -14,8 +14,8 @@ import {
   GlobalMessageService,
   I18nModule,
   NotAuthGuard,
-  provideDefaultConfig,
   UrlModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -50,7 +50,11 @@ import { RegisterComponent } from './register.component';
             {
               provide: RegisterComponentService,
               useClass: RegisterComponentService,
-              deps: [UserRegisterFacade, GlobalMessageService],
+              deps: [
+                UserRegisterFacade,
+                GlobalMessageService,
+                UntypedFormBuilder,
+              ],
             },
           ],
         },

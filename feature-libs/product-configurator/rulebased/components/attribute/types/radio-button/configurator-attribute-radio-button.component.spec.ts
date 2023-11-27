@@ -7,7 +7,7 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import { I18nTestingModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { ItemCounterComponent } from '@spartacus/storefront';
@@ -23,6 +23,7 @@ import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configu
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { Observable, of } from 'rxjs';
 
 const VALUE_NAME_2 = 'val2';
 
@@ -60,6 +61,14 @@ class MockConfiguratorAttributeQuantityComponent {
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
+
+const isCartEntryOrGroupVisited = true;
+class MockConfigUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(isCartEntryOrGroupVisited);
+  }
+}
+
 describe('ConfigAttributeRadioButtonComponent', () => {
   let component: ConfiguratorAttributeRadioButtonComponent;
   let htmlElem: HTMLElement;
@@ -92,6 +101,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
           ReactiveFormsModule,
           StoreModule.forRoot({}),
           StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+          FeaturesConfigModule,
         ],
         providers: [
           ConfiguratorStorefrontUtilsService,
@@ -102,6 +112,10 @@ describe('ConfigAttributeRadioButtonComponent', () => {
           {
             provide: ConfiguratorAttributeCompositionContext,
             useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
           },
         ],
       })

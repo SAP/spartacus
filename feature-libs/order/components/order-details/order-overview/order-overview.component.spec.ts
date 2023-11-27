@@ -399,16 +399,27 @@ describe('OrderOverviewComponent', () => {
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
-          expect(data.textBold).toEqual(
-            mockOrder.paymentInfo.accountHolderName
-          );
-          expect(data.text).toEqual([mockOrder.paymentInfo.cardNumber, 'test']);
+          expect(data.text).toEqual([
+            mockOrder.paymentInfo?.cardType?.name,
+            mockOrder.paymentInfo?.accountHolderName,
+            mockOrder.paymentInfo?.cardNumber,
+            'test',
+          ]);
         })
         .unsubscribe();
 
       expect(component.getPaymentInfoCardContent).toHaveBeenCalledWith(
         mockOrder.paymentInfo
       );
+    });
+
+    it('should isPaymentInfoCardFull be falsy when paymentInfo is partial', () => {
+      expect(
+        component.isPaymentInfoCardFull({
+          ...mockOrder.paymentInfo,
+          expiryMonth: undefined,
+        })
+      ).toBeFalsy();
     });
 
     it('should call getBillingAddressCardContent(billingAddress: Address)', () => {

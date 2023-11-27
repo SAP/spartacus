@@ -9,7 +9,7 @@ on:
     # empty as it is used only to manually trigger the workflow
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  NODE_VERSION: '16'
+  NODE_VERSION: '18'
 
 concurrency: 
   group: lighthouse-${{ github.head_ref || github.run_id }}

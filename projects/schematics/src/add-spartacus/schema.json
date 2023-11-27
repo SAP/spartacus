@@ -17,10 +17,12 @@
       "items": {
         "enum": [
           "ASM",
+          "ASM-Customer-360",
           "Import-Export",
           "Saved-Cart",
           "Quick-Order",
           "CDC",
+          "CDC-B2B",
           "CDS",
           "Cart",
           "WishList",
@@ -39,15 +41,18 @@
           "Bulk-Pricing",
           "Image-Zoom",
           "Future-Stock",
+          "PDF-Invoices",
           "Product-Variants",
           "VC-Configurator",
           "Textfield-Configurator",
           "CPQ-Configurator",
           "Qualtrics",
+          "Requested-Delivery-Date",
           "S4HANA-Order-Management",
           "SmartEdit",
           "Store-Finder",
           "Personalization",
+          "Segment-Refs",
           "TMS-GTM",
           "TMS-AEPL",
           "Pickup-In-Store",
@@ -58,6 +63,7 @@
       },
       "default": [
         "ASM",
+        "ASM-Customer-360",
         "Cart",
         "WishList",
         "Checkout",
@@ -82,6 +88,10 @@
             "label": "Assisted Services Module"
           },
           {
+            "value": "ASM-Customer-360",
+            "label": "ASM Customer 360"
+          },
+          {
             "value": "Import-Export",
             "label": "Import/Export"
           },
@@ -95,7 +105,11 @@
           },
           {
             "value": "CDC",
-            "label": "Customer Data Cloud Integration"
+            "label": "Customer Data Cloud Integration - B2C"
+          },
+          {
+            "value": "CDC-B2B",
+            "label": "Customer Data Cloud Integration - B2B"
           },
           {
             "value": "CDS",
@@ -182,8 +196,16 @@
             "label": "Product Configurator - CPQ Configurator (b2b feature)"
           },
           {
+            "value": "PDF-Invoices",
+            "label": "PDF Invoices"
+          },
+          {
             "value": "Qualtrics",
             "label": "Qualtrics"
+          },
+          {
+            "value": "Requested-Delivery-Date",
+            "label": "Requested Delivery Date"
           },
           {
             "value": "S4HANA-Order-Management",
@@ -200,6 +222,10 @@
           {
             "value": "Personalization",
             "label": "Tracking - Personalization"
+          },
+          {
+            "value": "Segment-Refs",
+            "label": "Segment Reference"
           },
           {
             "value": "TMS-GTM",

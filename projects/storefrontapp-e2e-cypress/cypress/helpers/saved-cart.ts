@@ -234,7 +234,7 @@ export function waitForSavedCartDetailsPageData(product: SampleProduct) {
     });
 }
 
-export function saveActiveCart() {
+export function saveActiveCart(verify = true) {
   clickSavedCartButtonsFromCartPage(1);
 
   cy.window()
@@ -247,12 +247,12 @@ export function saveActiveCart() {
       // open modal to save the cart
 
       cy.get('cx-saved-cart-form-dialog').within(() => {
-        cy.get('[formcontrolname="name"]').type(
-          sampleData.savedActiveCartForm[0].name
-        );
-        cy.get('[formcontrolname="description"]').type(
-          sampleData.savedActiveCartForm[0].description
-        );
+        cy.get('[formcontrolname="name"]')
+          .clear()
+          .type(sampleData.savedActiveCartForm[0].name);
+        cy.get('[formcontrolname="description"]')
+          .clear()
+          .type(sampleData.savedActiveCartForm[0].description);
 
         cy.get('button[aria-label="Save"]').click();
       });
@@ -269,7 +269,9 @@ export function saveActiveCart() {
       cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
 
       // assert the cart was saved in the listing page
-      verifyActiveCartWasSaved(active);
+      if (verify) {
+        verifyActiveCartWasSaved(active);
+      }
     });
 }
 

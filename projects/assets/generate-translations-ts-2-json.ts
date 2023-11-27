@@ -19,6 +19,7 @@ const getFileName = (lang: string, chunk: string) =>
   `${getLangDir(lang)}${chunk}.json`;
 
 if (!fs.existsSync(assetsDistDir)) {
+  /* eslint-disable-next-line no-console */
   console.log(
     `Cannot generate translations. Directory '${assetsDistDir}' does not exist.`
   );
@@ -37,5 +38,6 @@ if (!fs.existsSync(assetsDistDir)) {
       fs.writeFileSync(fileName, json, 'utf8');
     });
   });
+  /* eslint-disable-next-line no-console */
   console.log(`Translations generated in '${assetsDistDir}'`);
 }

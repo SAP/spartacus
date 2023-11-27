@@ -17,6 +17,9 @@ export class OccConfiguratorVariantNormalizer
   implements
     Converter<OccConfigurator.Configuration, Configurator.Configuration>
 {
+  /**
+   * @deprecated since 6.2
+   */
   static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
 
   constructor(
@@ -245,7 +248,7 @@ export class OccConfiguratorVariantNormalizer
           attributeType === Configurator.UiType.DROPDOWN
         ) {
           const value: Configurator.Value = {
-            valueCode: OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE,
+            valueCode: Configurator.RetractValueCode,
             selected: this.isRetractValueSelected(sourceAttribute),
           };
 
@@ -457,8 +460,7 @@ export class OccConfiguratorVariantNormalizer
       case Configurator.UiType.DROPDOWN: {
         if (
           !attribute.selectedSingleValue ||
-          attribute.selectedSingleValue ===
-            OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+          attribute.selectedSingleValue === Configurator.RetractValueCode
         ) {
           attribute.incomplete = true;
         }

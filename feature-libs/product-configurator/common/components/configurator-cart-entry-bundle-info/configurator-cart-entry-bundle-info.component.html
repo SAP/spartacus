@@ -49,16 +49,14 @@
         </div>
       </div>
     </ng-container>
-    <cx-configure-cart-entry
-      *ngIf="
-        (shouldShowButton$ | async) &&
-          orderEntry?.product?.configurable &&
-          quantityControl$ | async as quantityControl
-      "
-      [cartEntry]="orderEntry"
-      [readOnly]="readonly$ | async"
-      [msgBanner]="false"
-      [disabled]="quantityControl.disabled"
-    ></cx-configure-cart-entry>
+    <ng-container *ngIf="quantityControl$ | async as quantityControl">
+      <cx-configure-cart-entry
+        *ngIf="(shouldShowButton$ | async) && orderEntry?.product?.configurable"
+        [cartEntry]="orderEntry"
+        [readOnly]="(readonly$ | async) ?? true"
+        [msgBanner]="false"
+        [disabled]="quantityControl.disabled"
+      ></cx-configure-cart-entry
+    ></ng-container>
   </ng-container>
 </ng-container>

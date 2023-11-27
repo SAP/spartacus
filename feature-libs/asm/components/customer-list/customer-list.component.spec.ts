@@ -579,6 +579,42 @@ describe('CustomerListComponent', () => {
     expect(component.currentPage).toBe(0);
   });
 
+  it('should change to corresponding page when page changed with search query', () => {
+    spyOn(
+      asmCustomerListFacade,
+      'customerListCustomersSearch'
+    ).and.callThrough();
+    component.searchBox.setValue(query.queryParams.query);
+    component.changePage(1);
+    const expectedOptions: CustomerSearchOptions = {
+      customerListId: component.selectedUserGroupId,
+      pageSize: component.pageSize,
+      currentPage: 1,
+      sort: component.sortCode,
+      query: component.searchBox?.value,
+    };
+    expect(
+      asmCustomerListFacade.customerListCustomersSearch
+    ).toHaveBeenCalledWith(expectedOptions);
+  });
+
+  it('should change to corresponding page when page changed without search query', () => {
+    spyOn(
+      asmCustomerListFacade,
+      'customerListCustomersSearch'
+    ).and.callThrough();
+    component.changePage(1);
+    const expectedOptions: CustomerSearchOptions = {
+      customerListId: component.selectedUserGroupId,
+      pageSize: component.pageSize,
+      currentPage: 1,
+      sort: component.sortCode,
+    };
+    expect(
+      asmCustomerListFacade.customerListCustomersSearch
+    ).toHaveBeenCalledWith(expectedOptions);
+  });
+
   it('should get user group name', () => {
     const userGroupName = component.getGroupName(
       mockCustomerListPage,

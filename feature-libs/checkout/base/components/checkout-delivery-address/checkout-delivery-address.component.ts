@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Optional,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -29,6 +34,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
+import { CheckoutConfigService } from '../services';
 
 export interface CardWithAddress {
   card: Card;
@@ -49,6 +55,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   addressFormOpened = false;
   doneAutoSelect = false;
 
+  selectedAddress?: Address;
+
   get isGuestCheckout(): boolean {
     return !!getLastValueSync(this.activeCartFacade.isGuestCart());
   }
@@ -65,6 +73,32 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
   }
 
+  // TODO(CXSPA-): make checkoutConfigService a required dependency
+  constructor(
+    userAddressService: UserAddressService,
+    checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    activatedRoute: ActivatedRoute,
+    translationService: TranslationService,
+    activeCartFacade: ActiveCartFacade,
+    checkoutStepService: CheckoutStepService,
+    checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+    globalMessageService: GlobalMessageService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    checkoutConfigService: CheckoutConfigService
+  );
+  /**
+   * @deprecated since 6.2
+   */
+  constructor(
+    userAddressService: UserAddressService,
+    checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    activatedRoute: ActivatedRoute,
+    translationService: TranslationService,
+    activeCartFacade: ActiveCartFacade,
+    checkoutStepService: CheckoutStepService,
+    checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+    globalMessageService: GlobalMessageService
+  );
   constructor(
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -73,7 +107,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    @Optional() protected checkoutConfigService?: CheckoutConfigService
   ) {}
 
   ngOnInit(): void {
@@ -137,6 +172,14 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   addAddress(address: Address | undefined): void {
+    if (
+      !address &&
+      this.shouldUseAddressSavedInCart() &&
+      this.selectedAddress
+    ) {
+      this.next();
+    }
+
     if (!address) {
       return;
     }
@@ -242,6 +285,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         this.setAddress(selected);
       }
       this.doneAutoSelect = true;
+    } else if (selected && this.shouldUseAddressSavedInCart()) {
+      this.selectedAddress = selected;
     }
   }
 
@@ -295,5 +340,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   protected onError(): void {
     this.busy$.next(false);
+  }
+
+  protected shouldUseAddressSavedInCart(): boolean {
+    return !!this.checkoutConfigService?.shouldUseAddressSavedInCart();
   }
 }

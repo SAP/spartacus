@@ -3,6 +3,23 @@
 
   @include media-breakpoint-down(md) {
     padding: 20px 0;
+
+    @include forVersion(6.3) {
+      background-color: var(--cx-color-transparent);
+      margin-top: 32px;
+      padding: 23px 30px 8px;
+    }
+  }
+
+  @include forVersion(6.3) {
+    border: 1px solid var(--cx-color-light);
+    border-radius: 10px;
+    padding: 23px 30px 8px;
+    background-color: var(--cx-color-inverse);
+
+    @include media-breakpoint-up(lg) {
+      margin: 2rem 0 2rem;
+    }
   }
 
   .cx-delivery-mode-wrapper {
@@ -13,10 +30,24 @@
 
     @include media-breakpoint-down(md) {
       margin: 0 55px;
+
+      @include forVersion(6.3) {
+        margin: 0;
+      }
     }
 
     @include media-breakpoint-down(sm) {
       margin: 0 22px;
+
+      @include forVersion(6.3) {
+        margin: 0;
+      }
+    }
+
+    @include forVersion(6.3) {
+      border: none;
+      border-radius: 0px;
+      padding: 0;
     }
   }
 
@@ -49,6 +80,14 @@
         flex: 100%;
         flex-basis: 100%;
         color: var(--cx-color-success);
+      }
+
+      @include forVersion(6.3) {
+        .cx-delivery-mode-description {
+          width: 100%;
+          display: block;
+          color: var(--cx-color-success);
+        }
       }
     }
   }

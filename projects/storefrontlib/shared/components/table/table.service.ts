@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
@@ -31,6 +32,8 @@ import { TableStructure, TableStructureConfiguration } from './table.model';
   providedIn: 'root',
 })
 export class TableService {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected breakpointService: BreakpointService,
     protected config: TableConfig
@@ -177,7 +180,7 @@ export class TableService {
    */
   private logWarning(message: string) {
     if (isDevMode()) {
-      console.warn(message);
+      this.logger.warn(message);
     }
   }
 }

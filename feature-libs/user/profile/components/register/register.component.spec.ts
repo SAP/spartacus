@@ -110,6 +110,8 @@ class MockRegisterComponentService
   getTitles = createSpy().and.returnValue(of(mockTitlesList));
   register = createSpy().and.returnValue(of(undefined));
   postRegisterMessage = createSpy();
+  getAdditionalConsents = createSpy();
+  generateAdditionalConsentsFormControl = createSpy();
 }
 
 describe('RegisterComponent', () => {

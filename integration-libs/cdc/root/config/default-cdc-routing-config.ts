@@ -17,6 +17,11 @@ export const cdcRoutesConfig: RoutesConfig = {
     protected: false,
     authFlow: true,
   },
+  cdcOrgRegistration: {
+    paths: ['/cdc/register-org'],
+    protected: false,
+    authFlow: true,
+  },
 };
 
 export const defaultCdcRoutingConfig: RoutingConfig = {

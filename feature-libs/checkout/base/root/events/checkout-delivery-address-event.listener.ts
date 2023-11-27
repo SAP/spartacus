@@ -5,7 +5,7 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, DeleteCartEvent } from '@spartacus/cart/base/root';
 import {
   DeleteUserAddressEvent,
   EventService,
@@ -47,6 +47,8 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     this.onDeliveryAddressCleared();
 
     this.onUserAddressChange();
+
+    this.onCartDeleted();
   }
 
   /**
@@ -123,6 +125,16 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     this.subscriptions.add(
       this.eventService
         .get(CheckoutDeliveryAddressClearedEvent)
+        .subscribe(() =>
+          this.eventService.dispatch({}, CheckoutQueryResetEvent)
+        )
+    );
+  }
+
+  protected onCartDeleted(): void {
+    this.subscriptions.add(
+      this.eventService
+        .get(DeleteCartEvent)
         .subscribe(() =>
           this.eventService.dispatch({}, CheckoutQueryResetEvent)
         )

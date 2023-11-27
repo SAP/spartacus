@@ -5,6 +5,8 @@
  */
 
 import {
+  b2bDeliveryAddress,
+  b2bDeliveryModeStub,
   cartWithB2bProductAndPremiumShipping,
   poNumber,
   POWERTOOLS_BASESITE,
@@ -16,18 +18,21 @@ import {
   SampleUser,
 } from '../../../sample-data/checkout-flow';
 import { AccountData } from '../../../support/require-logged-in.commands';
+import { interceptGet, interceptPost } from '../../../support/utils/intercept';
 import { tabbingOrderConfig } from '../../accessibility/b2b/tabbing-order.config';
 import { verifyTabbingOrder } from '../../accessibility/tabbing-order';
 import {
   TabbingOrderConfig,
   TabbingOrderTypes,
 } from '../../accessibility/tabbing-order.model';
-import { addProductToCart } from '../../applied-promotions';
 import { login } from '../../auth-forms';
-import { interceptPutDeliveryModeEndpoint } from '../../b2b/b2b-checkout';
+import {
+  interceptCheckoutB2BDetailsEndpoint,
+  interceptPutDeliveryModeEndpoint,
+} from '../../b2b/b2b-checkout';
 import { clearActiveCart, goToCart, validateEmptyCart } from '../../cart';
-//import { interceptPaymentTypesEndpoint } from "../../b2b/b2b-checkout";
 import { waitForPage, waitForProductPage } from '../../checkout-flow';
+import { LOCATORS } from '../../pickup-in-store-utils';
 
 export const s4omB2BUser: AccountData = {
   registrationData: {
@@ -46,14 +51,14 @@ export const s4omB2bAccountShipToUser: SampleUser = {
   fullName: 'James Weber',
   address: {
     city: 'Chicago',
-    line1: 'Sunset, 87654, California, Beverly Hills, 90210',
+    line1: 'Sunset',
   },
 };
 
 export const cartWithS4OMB2bProductAndPremiumShipping: SampleCartProduct = {
   estimatedShipping: '$16.99',
-  total: '$17.55',
-  totalAndShipping: '$34.54',
+  total: '$12.55',
+  totalAndShipping: '$30.72',
 };
 
 export const s4omProduct: SampleProduct = {
@@ -62,9 +67,10 @@ export const s4omProduct: SampleProduct = {
 };
 
 export const s4omProductLink: string = s4omProduct.code + '/multi-eco-33i';
-export const s4omCostCenter: string = '17100005_CC';
+export const s4omPONumber: string = poNumber;
+export const s4omCostCenter: string = '17100003_CC';
 export const s4omB2BUnit: string = 'Dell Bont Industries';
-export const s4omPastOrderId: string = '787';
+export const s4omPastOrderId: string = '103300';
 
 const acceptAndSubmitOrder = [
   {
@@ -80,7 +86,7 @@ const acceptAndSubmitOrder = [
 
 export const s4omAccountReviewOrderGeneral = [
   { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-  { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
+  { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
   { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
   {
     value: '/powertools-spa/en/USD/checkout/payment-type',
@@ -120,6 +126,19 @@ export const s4omAccountReviewOrderGeneral = [
   },
 ];
 
+export const s4omDeliveryModeTabbingConfig: TabbingOrderConfig = {
+  ...tabbingOrderConfig,
+  deliveryMode: [
+    { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
+    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+    { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
+    { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
+    { value: 'requestedDeliveryDate', type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'Back', type: TabbingOrderTypes.BUTTON },
+    { value: 'Continue', type: TabbingOrderTypes.BUTTON },
+  ],
+};
+
 export const s4omTabbingOrderConfig: TabbingOrderConfig = {
   ...tabbingOrderConfig,
   checkoutReviewOrder: [
@@ -145,6 +164,7 @@ export function loginS4OMB2bUser() {
 
   cy.window().then((win) => win.sessionStorage.clear());
   cy.visit('/login');
+  cy.get(LOCATORS.ALLOW_COOKIES_BUTTON).click();
   login(
     s4omB2BUser.registrationData.email,
     s4omB2BUser.registrationData.password
@@ -165,7 +185,41 @@ export function addB2bS4ProductToCart() {
     cy.get('h1').should('contain', s4omProduct.name);
   });
 
-  addProductToCart();
+  interceptPost(`cart_entry`, `/orgUsers/current/carts/*/entries*`);
+
+  interceptGet(
+    'cart_refresh',
+    '/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*'
+  );
+  cy.get('cx-add-to-cart')
+    .findByText(/Add To Cart/i)
+    .click();
+
+  //Obtain schedule line info from Cart Entry
+  cy.wait('@cart_entry')
+    .then((xhr) => {
+      expect(xhr.request.method).to.eq('POST');
+      if (
+        xhr &&
+        xhr.response &&
+        xhr.response.body &&
+        xhr.response.body.entry &&
+        xhr.response.body.entry.scheduleLines
+      ) {
+        window.sessionStorage.setItem(
+          'TG11-scheduleLines',
+          JSON.stringify(xhr.response.body.entry.scheduleLines)
+        );
+      }
+    })
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.wait(`@cart_refresh`);
+
+  cy.get('cx-added-to-cart-dialog').within(() => {
+    cy.get('.cx-name .cx-link').should('contain', s4omProduct.name);
+  });
 }
 
 export function resetCart() {
@@ -184,9 +238,29 @@ export function goToCart() {
 }
 
 export function verifyScheduleLineInfo() {
-  cy.get('[class="cx-schedule-line-info"]').within(() => {
-    cy.findByText('Quantity');
-  });
+  let scheduleLines = window.sessionStorage.getItem('TG11-scheduleLines');
+  cy.wrap('scheduleLines').should('not.be.null');
+
+  scheduleLines = JSON.parse(scheduleLines);
+  cy.wrap('scheduleLines').should('have.length.at.least', 1);
+
+  for (let i = 0; i < scheduleLines.length; i++) {
+    cy.get('[aria-describedby="cx-schedule-line-info-' + i + '"]').within(
+      () => {
+        const confirmedDate = new Date(
+          scheduleLines[i]['confirmedAt']
+        ).toLocaleDateString('en', {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+        });
+
+        cy.contains(confirmedDate);
+        cy.contains('Qty');
+        cy.contains(scheduleLines[i]['confirmedQuantity']);
+      }
+    );
+  }
 }
 
 export function proceedtoCheckOutS4Product() {
@@ -200,7 +274,9 @@ export function proceedtoCheckOutS4Product() {
 
 export function selectS4OMAccountShippingAddress() {
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
-  cy.wait(7000); //delivery address loads slow
+  cy.get('.cx-delivery-address-card-inner > cx-card .card-header', {
+    timeout: 15000,
+  }).should('contain', 'Selected'); //delivery address loads slow
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
@@ -234,12 +310,53 @@ export function selectS4OMAccountShippingAddress() {
   cy.wait(`@${putDeliveryMode}`).its('response.statusCode').should('eq', 200);
 }
 
+export function selectAccountDeliveryMode() {
+  const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
+    b2bDeliveryModeStub,
+    b2bDeliveryAddress.id
+  );
+  const putDeliveryMode = interceptPutDeliveryModeEndpoint();
+
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+
+  cy.get('cx-delivery-mode input').first().should('be.checked');
+  cy.get('cx-delivery-mode input').eq(1).click();
+
+  cy.wait(`@${putDeliveryMode}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${getCheckoutDetails}`)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-delivery-mode input').first().should('not.be.checked');
+
+  cy.get(
+    'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)'
+  ).then(() => {
+    // Accessibility
+    verifyTabbingOrder(
+      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+      s4omDeliveryModeTabbingConfig.deliveryMode
+    );
+  });
+
+  const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
+
+  cy.get('.cx-checkout-btns button.btn-primary')
+    .should('be.enabled')
+    .click({ force: true });
+
+  cy.wait(`@${orderReview}`, { timeout: 30000 })
+    .its('response.statusCode')
+    .should('eq', 200);
+}
+
 export function reviewB2bOrderDetail(
   sampleUser: SampleUser = s4omB2bAccountShipToUser,
   sampleProduct: SampleProduct = s4omProduct,
   cartData: SampleCartProduct,
   isAccount: boolean = true,
   replenishment?: string,
+  poNum: string = s4omPONumber,
   costCtr: string = s4omCostCenter,
   b2bUnt: string = s4omB2BUnit,
   isOrderConfirmation: boolean = true
@@ -253,14 +370,16 @@ export function reviewB2bOrderDetail(
 
   cy.get('cx-order-overview .container').within(() => {
     cy.get('.cx-summary-card:nth-child(1)').within(() => {
-      cy.get('cx-card:nth-child(1)').within(() => {
-        if (!replenishment) {
-          cy.get('.cx-card-title').should('contain', 'Order Number');
-        } else {
-          cy.get('.cx-card-title').should('contain', 'Replenishment #');
-        }
-        cy.get('.cx-card-label').should('not.be.empty');
-      });
+      cy.get('cx-card:nth-child(1)')
+        .first()
+        .within(() => {
+          if (!replenishment) {
+            cy.get('.cx-card-title').should('contain', 'Order Number');
+          } else {
+            cy.get('.cx-card-title').should('contain', 'Replenishment #');
+          }
+          cy.get('.cx-card-label').should('not.be.empty');
+        });
       if (!replenishment) {
         cy.get('cx-card:nth-child(2)').within(() => {
           cy.get('.cx-card-title').should('contain', 'Placed on');
@@ -279,15 +398,29 @@ export function reviewB2bOrderDetail(
     });
 
     if (!replenishment) {
-      cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
-        cy.contains(poNumber);
-        if (isAccount) {
-          cy.contains('Account');
-          cy.contains(costCtr);
-          cy.contains(`(${b2bUnt})`);
-        } else {
-          cy.contains('Credit Card');
-        }
+      cy.get('.cx-summary-card:nth-child(2)').within(() => {
+        cy.get('.cx-card')
+          .eq(0)
+          .within(() => {
+            cy.contains(poNum);
+          });
+        cy.get('.cx-card')
+          .eq(1)
+          .within(() => {
+            if (isAccount) {
+              cy.contains('Account');
+            } else {
+              cy.contains('Credit Card');
+            }
+          });
+        cy.get('.cx-card')
+          .eq(2)
+          .within(() => {
+            if (isAccount) {
+              cy.contains(costCtr);
+              cy.contains(`(${b2bUnt})`);
+            }
+          });
       });
     } else {
       cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
@@ -296,7 +429,7 @@ export function reviewB2bOrderDetail(
       });
 
       cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
-        cy.contains(poNumber);
+        cy.contains(poNum);
         if (isAccount) {
           cy.contains('Account');
           cy.contains(costCtr);
@@ -308,18 +441,25 @@ export function reviewB2bOrderDetail(
     }
 
     if (!replenishment) {
-      cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
-        cy.contains(sampleUser.fullName);
-        cy.contains(sampleUser.address.line1);
-
-        if (
-          cartData.estimatedShipping ===
-          cartWithB2bProductAndPremiumShipping.estimatedShipping
-        ) {
-          cy.contains('Premium Delivery');
-        } else {
-          cy.contains('Standard Delivery');
-        }
+      cy.get('.cx-summary-card:nth-child(3)').within(() => {
+        cy.get('.cx-card')
+          .eq(0)
+          .within(() => {
+            cy.contains(sampleUser.fullName);
+            cy.contains(sampleUser.address.line1);
+          });
+        cy.get('.cx-card')
+          .eq(1)
+          .within(() => {
+            if (
+              cartData.estimatedShipping ===
+              cartWithB2bProductAndPremiumShipping.estimatedShipping
+            ) {
+              cy.contains('Premium Delivery');
+            } else {
+              cy.contains('Standard Delivery');
+            }
+          });
       });
     } else {
       cy.get('.cx-summary-card:nth-child(4) .cx-card').within(() => {
@@ -344,4 +484,48 @@ export function reviewB2bOrderDetail(
     'contain',
     cartData.totalAndShipping
   );
+}
+
+export function setOrderConfirmationIdInSessionStorage(alias: string) {
+  cy.get('cx-order-overview .container').within(() => {
+    cy.get('.cx-summary-card:nth-child(1)').within(() => {
+      cy.get('cx-card:nth-child(1)')
+        .first()
+        .within(() => {
+          cy.get('.cx-card-title').should('contain', 'Order Number');
+          cy.get('.cx-card-label').then(($el) => {
+            window.sessionStorage.setItem(alias, $el.text().trim());
+          });
+        });
+    });
+  });
+  return alias;
+}
+
+export function findRowInOrderHistoryTable(
+  orderAPIAlias: string,
+  orderId: string,
+  poNum: string,
+  costCenter?: string
+) {
+  cy.get('cx-order-history h2').should('contain', 'Order history');
+
+  let index = 2; //start navigating from the second page
+  cy.get('#order-history-table').as('orderHistoryTable');
+  const goToNextPage = () => {
+    cy.get('@orderHistoryTable').then(($odt) => {
+      if ($odt.html().includes(orderId)) {
+        cy.get('.cx-order-history-code a').should('contain', orderId);
+        cy.get('.cx-order-history-po a').should('contain', poNum);
+        if (costCenter) {
+          cy.get('.cx-order-history-po a').should('contain', costCenter);
+        }
+      } else {
+        cy.get('cx-pagination').findByText(index).first().click();
+        index++;
+        cy.wait(`@${orderAPIAlias}`).then(goToNextPage);
+      }
+    });
+  };
+  goToNextPage();
 }

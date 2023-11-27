@@ -1,4 +1,4 @@
-<form (submit)="bindCartToCustomer()">
+<form>
   <label for="cartNumber">{{ 'asm.bindCart.cartNumber' | cxTranslate }} </label>
   <div
     role="search"
@@ -27,11 +27,13 @@
   </div>
   <button
     #bindToCart
+    *ngIf="displayBindCartBtn$ | async"
     class="cx-asm-bindCartToCustomer"
     [disabled]="!(valid$ | async)"
     type="submit"
     [class.cx-asm-active]="valid$ | async"
     [class.cx-bind-loading]="loading$ | async"
+    (click)="bindCartToCustomer()"
   >
     <span [attr.aria-hidden]="loading$ | async">
       {{ 'asm.bindCart.bindCartToCustomer' | cxTranslate }}
@@ -41,4 +43,24 @@
       [attr.aria-label]="'common.loading' | cxTranslate"
     ></cx-dot-spinner>
   </button>
+
+  <ng-container *cxFeatureLevel="'6.2'">
+    <button
+      id="asm-save-inactive-cart-btn"
+      #saveInactiveCart
+      *ngIf="displaySaveCartBtn$ | async"
+      class="cx-asm-bindCartToCustomer cx-asm-active"
+      type="submit"
+      [class.cx-bind-loading]="loading$ | async"
+      (click)="onSaveInactiveCart()"
+    >
+      <span [attr.aria-hidden]="loading$ | async">
+        {{ 'asm.saveCart.saveCartBtn' | cxTranslate }}
+      </span>
+      <cx-dot-spinner
+        [attr.aria-hidden]="!(loading$ | async)"
+        [attr.aria-label]="'common.loading' | cxTranslate"
+      ></cx-dot-spinner>
+    </button>
+  </ng-container>
 </form>

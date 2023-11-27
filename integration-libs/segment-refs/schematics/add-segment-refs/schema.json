@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SegmentRefsSchematics",
+  "title": "Segment Refs Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "debug": {
+      "description": "Display additional details during the running process.",
+      "type": "boolean",
+      "default": false
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "default": ["Segment-Refs"]
+    }
+  }
+}

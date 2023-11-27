@@ -38,6 +38,7 @@ scripts/install/config.sh
 *.launch
 .settings/
 *.sublime-workspace
+*.swp
 
 # IDE - VSCode
 .vscode/settings.json

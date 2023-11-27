@@ -5,12 +5,15 @@
  */
 
 import { DatePipe, getLocaleId } from '@angular/common';
-import { isDevMode, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, inject, isDevMode } from '@angular/core';
+import { LoggerService } from '../logger';
 import { LanguageService } from '../site-context/facade/language.service';
 
 // type CxDatePipe, not DatePipe, due to conflict with Angular's DatePipe - problem occurs for the backward compatibility compiler of Ivy
 @Pipe({ name: 'cxDate' })
 export class CxDatePipe extends DatePipe implements PipeTransform {
+  protected logger = inject(LoggerService);
+
   constructor(protected language: LanguageService) {
     super('');
   }
@@ -45,7 +48,7 @@ export class CxDatePipe extends DatePipe implements PipeTransform {
 
   private reportMissingLocaleData(lang: string) {
     if (isDevMode()) {
-      console.warn(
+      this.logger.warn(
         `cxDate pipe: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
       );
     }

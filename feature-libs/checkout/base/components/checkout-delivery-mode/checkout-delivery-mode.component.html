@@ -27,9 +27,20 @@
           class="cx-delivery-label form-check-label form-radio-label"
           for="deliveryMode-{{ mode.code }}"
         >
-          <div class="cx-delivery-mode">
-            {{ mode.name }} ({{ mode.description }})
-          </div>
+          <ng-container *cxFeatureLevel="'!6.3'">
+            <div class="cx-delivery-mode">
+              {{ mode.name }} ({{ mode.description }})
+            </div>
+          </ng-container>
+
+          <ng-container *cxFeatureLevel="'6.3'">
+            <div class="cx-delivery-mode">
+              {{ mode.name }}
+              <span class="cx-delivery-mode-description"
+                >({{ mode.description }})</span
+              >
+            </div>
+          </ng-container>
           <div class="cx-delivery-price">
             {{ mode.deliveryCost?.formattedValue }}
           </div>
@@ -37,6 +48,16 @@
         </label>
       </div>
     </div>
+    <!-- TODO:(CXINT-2309) for next major release remove feature level -->
+    <ng-container *cxFeatureLevel="'6.4'">
+      <ng-template
+        [cxOutlet]="CartOutlets.DELIVERY_MODE"
+        [cxOutletContext]="{
+          item: activeCartFacade.getActive() | async
+        }"
+      >
+      </ng-template>
+    </ng-container>
   </div>
 </ng-container>
 
@@ -72,7 +93,7 @@
   <div class="col-md-12 col-lg-6">
     <button
       class="btn btn-block btn-primary"
-      [disabled]="deliveryModeInvalid"
+      [disabled]="deliveryModeInvalid || (isSetDeliveryModeHttpError$ | async)"
       (click)="next()"
     >
       {{ 'common.continue' | cxTranslate }}

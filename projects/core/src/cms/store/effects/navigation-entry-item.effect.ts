@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, take } from 'rxjs/operators';
+import { LoggerService } from '../../../logger';
 import { RoutingService } from '../../../routing/index';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { isNotUndefined } from '../../../util/type-guards';
@@ -16,6 +17,8 @@ import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class NavigationEntryItemEffects {
+  protected logger = inject(LoggerService);
+
   loadNavigationItems$: Observable<
     | CmsActions.LoadCmsNavigationItemsSuccess
     | CmsActions.LoadCmsNavigationItemsFail
@@ -51,7 +54,7 @@ export class NavigationEntryItemEffects {
                     of(
                       new CmsActions.LoadCmsNavigationItemsFail(
                         data.nodeId,
-                        normalizeHttpError(error)
+                        normalizeHttpError(error, this.logger)
                       )
                     )
                   )

@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { LoggerService } from '../../../logger';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
@@ -16,6 +17,8 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class ProductInterestsEffect {
+  protected logger = inject(LoggerService);
+
   constructor(
     private actions$: Actions,
     private userInterestsConnector: UserInterestsConnector
@@ -43,7 +46,7 @@ export class ProductInterestsEffect {
               catchError((error) =>
                 of(
                   new UserActions.LoadProductInterestsFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -76,7 +79,7 @@ export class ProductInterestsEffect {
             catchError((error) =>
               of(
                 new UserActions.RemoveProductInterestFail(
-                  normalizeHttpError(error)
+                  normalizeHttpError(error, this.logger)
                 )
               )
             )
@@ -108,7 +111,7 @@ export class ProductInterestsEffect {
             catchError((error) =>
               of(
                 new UserActions.AddProductInterestFail(
-                  normalizeHttpError(error)
+                  normalizeHttpError(error, this.logger)
                 )
               )
             )

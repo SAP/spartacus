@@ -265,21 +265,6 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
       stockNotificationNotLoginTabbingOrder(config.stockNotificationNotLogin);
     });
   });
-
-  // TODO: Fix helpers and renable
-  // context('ASM', () => {
-  //   it('should allow to navigate with tab key (not logged in)', () => {
-  //     asmTabbingOrderNotLoggedIn(config.asmNotLoggedIn);
-  //   });
-
-  //   it('should allow to navigate with tab key (no user selected)', () => {
-  //     asmTabbingOrderNoSelectedUser(config.asmNoSelectedUser);
-  //   });
-
-  //   it('should allow to navigate with tab key (with user selected)', () => {
-  //     asmTabbingOrderWithSelectedUser(config.asmWithSelectedUser);
-  //   });
-  // });
 });
 
 describe('Tabbing order - tests do require user to be logged in', () => {

@@ -8,7 +8,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
@@ -29,6 +33,7 @@ import { ConfiguratorAttributeInputFieldModule } from '../input-field/configurat
     ConfiguratorPriceModule,
     ConfiguratorAttributeNumericInputFieldModule,
     ConfiguratorAttributeInputFieldModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{

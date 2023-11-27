@@ -76,6 +76,10 @@ export class CheckoutConfigService {
       : this.findMatchingDeliveryMode(deliveryModes, index + 1);
   }
 
+  shouldUseAddressSavedInCart(): boolean {
+    return !!this.checkoutConfig?.checkout?.guestUseSavedAddress;
+  }
+
   getPreferredDeliveryMode(deliveryModes: DeliveryMode[]): string | undefined {
     deliveryModes.sort(this.compareDeliveryCost);
     return this.findMatchingDeliveryMode(deliveryModes);

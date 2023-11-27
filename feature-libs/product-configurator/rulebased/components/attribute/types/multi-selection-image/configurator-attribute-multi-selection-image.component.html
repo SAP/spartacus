@@ -43,12 +43,12 @@
         class="form-check-label"
       >
         <img
-          *ngIf="value.images[0]"
+          *ngIf="getImage(value) as image"
           class="cx-img"
-          src="{{ value.images[0].url }}"
-          alt="{{ value.images[0].altText }}"
+          src="{{ image?.url }}"
+          alt="{{ image?.altText }}"
         />
-        <div *ngIf="!value.images[0]" class="cx-img-dummy"></div>
+        <div *ngIf="!getImage(value)" class="cx-img-dummy"></div>
         {{ getLabel(expMode, value.valueDisplay, value.valueCode) }}
         <cx-configurator-price
           [formula]="extractValuePriceFormulaParameters(value)"

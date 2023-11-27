@@ -61,6 +61,5 @@ export class SuggestedAddressDialogComponent implements OnInit {
     this.selectedAddress = data.suggestedAddresses?.length
       ? data.suggestedAddresses[0]
       : data.enteredAddress;
-    console.log(this.selectedAddress);
   }
 }

@@ -8,14 +8,14 @@
       'configurator.a11y.itemOfAttribute'
         | cxTranslate
           : {
-              attribute: productCardOptions?.attributeLabel
+              attribute: productCardOptions.attributeLabel
             }
     "
   >
     <div class="cx-product-card-rows">
       <div class="cx-product-card-imgs">
         <cx-media
-          [container]="product?.images?.PRIMARY"
+          [container]="product.images?.PRIMARY"
           format="product"
           aria-hidden="true"
         ></cx-media>
@@ -32,8 +32,8 @@
           {{ product.code }}
         </div>
         <cx-configurator-show-more
-          *ngIf="product?.description"
-          [text]="product?.description"
+          *ngIf="product.description && product.code"
+          [text]="product.description"
           [textSize]="45"
           [productName]="product.code"
         ></cx-configurator-show-more>
@@ -74,7 +74,7 @@
               [cxFocus]="focusConfig"
               [attr.aria-label]="getAriaLabelMultiSelected(product)"
               [attr.aria-describedby]="
-                createAttributeUiKey('label', productCardOptions?.attributeName)
+                createAttributeUiKey('label', attributeName)
               "
             >
               {{ 'configurator.button.remove' | cxTranslate }}
@@ -85,15 +85,12 @@
                 class="btn btn-primary"
                 (click)="onHandleSelect()"
                 [disabled]="
-                  productCardOptions?.disableAllButtons || (loading$ | async)
+                  productCardOptions.disableAllButtons || (loading$ | async)
                 "
                 [cxFocus]="focusConfig"
                 [attr.aria-label]="getAriaLabelMultiUnselected(product)"
                 [attr.aria-describedby]="
-                  createAttributeUiKey(
-                    'label',
-                    productCardOptions?.attributeName
-                  )
+                  createAttributeUiKey('label', attributeName)
                 "
               >
                 {{ 'configurator.button.add' | cxTranslate }}
@@ -106,7 +103,7 @@
               class="btn btn-primary"
               (click)="onHandleSelect()"
               [disabled]="
-                productCardOptions?.disableAllButtons || (loading$ | async)
+                productCardOptions.disableAllButtons || (loading$ | async)
               "
               *ngIf="
                 !productCardOptions?.productBoundValue?.selected;
@@ -115,7 +112,7 @@
               [cxFocus]="focusConfig"
               [attr.aria-label]="getAriaLabelSingleUnselected(product)"
               [attr.aria-describedby]="
-                createAttributeUiKey('label', productCardOptions?.attributeName)
+                createAttributeUiKey('label', attributeName)
               "
             >
               {{ 'configurator.button.select' | cxTranslate }}
@@ -133,15 +130,12 @@
                   class="btn btn-secondary"
                   (click)="onHandleDeselect()"
                   [disabled]="
-                    productCardOptions?.hideRemoveButton || (loading$ | async)
+                    productCardOptions.hideRemoveButton || (loading$ | async)
                   "
                   [cxFocus]="focusConfig"
                   [attr.aria-label]="getAriaLabelSingleSelected(product)"
                   [attr.aria-describedby]="
-                    createAttributeUiKey(
-                      'label',
-                      productCardOptions?.attributeName
-                    )
+                    createAttributeUiKey('label', attributeName)
                   "
                 >
                   {{ 'configurator.button.deselect' | cxTranslate }}
@@ -165,12 +159,7 @@
         aria-live="assertive"
         aria-atomic="true"
         role="alert"
-        id="{{
-          createAttributeUiKey(
-            'attribute-msg',
-            productCardOptions?.attributeName
-          )
-        }}"
+        id="{{ createAttributeUiKey('attribute-msg', attributeName) }}"
       >
         <cx-icon class="deselection-error-symbol" type="ERROR"></cx-icon>
         {{ 'configurator.attribute.deselectionNotPossible' | cxTranslate }}

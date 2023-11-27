@@ -57,20 +57,6 @@ export function goToCPQConfigurationPage(
 }
 
 /**
- * Navigates to the product detail page.
- *
- * @param {string} shopName - shop name
- * @param {string} productId - Product ID
- */
-export function goToPDPage(shopName: string, productId: string): void {
-  const location = `${shopName}/en/USD/product/${productId}/${productId}`;
-  cy.visit(location).then(() => {
-    cy.location('pathname').should('contain', location);
-    cy.get('.ProductDetailsPageTemplate').should('be.visible');
-  });
-}
-
-/**
  * Clicks on 'Add to Cart' button in catalog list.
  */
 export function clickOnConfigureBtnInCatalog(): void {
@@ -131,10 +117,11 @@ export function checkAttributeHeaderDisplayed(
 export function selectProductCard(
   cardType: cardType,
   attributeName: string,
-  valueName: string
+  valueName: string,
+  cpqOverOcc?: boolean
 ) {
   const uiType: configuration.uiType = convertCardTypeToUiType(cardType);
-  selectAttributeAndWait(attributeName, uiType, valueName);
+  selectAttributeAndWait(attributeName, uiType, valueName, cpqOverOcc);
   configuration.checkValueSelected(uiType, attributeName, valueName);
 }
 
@@ -147,10 +134,11 @@ export function selectProductCard(
 export function deSelectProductCard(
   cardType: cardType,
   attributeName: string,
-  valueName: string
+  valueName: string,
+  cpqOverOcc?: boolean
 ) {
   const uiType: configuration.uiType = convertCardTypeToUiType(cardType);
-  selectAttributeAndWait(attributeName, uiType, valueName);
+  selectAttributeAndWait(attributeName, uiType, valueName, cpqOverOcc);
   checkValueNotSelected(uiType, attributeName, valueName);
 }
 
@@ -184,11 +172,14 @@ export function convertCardTypeToUiType(cardType: cardType) {
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string
+  valueName: string,
+  cpqOverOcc?: boolean
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName);
   cy.wait('@updateConfig');
-  cy.wait('@readConfig');
+  if (!cpqOverOcc) {
+    cy.wait('@readConfig');
+  }
 }
 
 /**
@@ -230,7 +221,8 @@ export function setQuantity(
   uiType: configuration.uiType,
   quantity: number,
   attributeName: string,
-  valueName?: string
+  valueName?: string,
+  cpqOverOcc?: boolean
 ): void {
   let containerId = configuration.getAttributeId(attributeName, uiType);
   if (valueName) {
@@ -242,7 +234,9 @@ export function setQuantity(
   );
   configuration.checkUpdatingMessageNotDisplayed();
   cy.wait('@updateConfig');
-  cy.wait('@readConfig');
+  if (!cpqOverOcc) {
+    cy.wait('@readConfig');
+  }
 }
 
 /**

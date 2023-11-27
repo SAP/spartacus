@@ -14,6 +14,7 @@ export * from './interceptor-util';
 export * from './occ-constants';
 export * from './occ-url-util';
 export * from './occ-http-token';
+export * from './occ-fields';
 
 export const OCC_USER_ID_CONSTANTS = new InjectionToken<{
   [identifier: string]: string;

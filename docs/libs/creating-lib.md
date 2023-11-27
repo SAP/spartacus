@@ -110,7 +110,7 @@ module.exports = function (config) {
 
   - add the lint `targets > lint`
 
-    replace the TODO: with the library name
+    replace the TODO: with the library name. Please remember it can either be a feature-libs or integration-libs.
 
     ```json
     "lint": {
@@ -120,6 +120,19 @@ module.exports = function (config) {
           "integration-libs/TODO:/**/*.ts",
           "integration-libs/TODO:/**/*.html"
         ]
+      }
+    }
+    ```
+  - add the test-jest `targets > test-jest`
+
+    replace the TODO: with the library name. Please remember it can either be a feature-libs or integration-libs.
+
+    ```json
+    "test-jest": {
+      "executor": "nx:run-commands",,
+      "options": {
+        "command": "npm run test:schematics",
+        "cwd": "feature-libs/TODO:
       }
     }
     ```
@@ -338,20 +351,6 @@ Also, add the new lib to the `build:libs` and `test:libs` scripts.
 - `projects/schematics/package.json` - add the library to the package group
 
 - `ci-scripts/unit-tests.sh`
-
-Add the library unit tests with code coverage
-
-```sh
-echo "Running unit tests and code coverage for TODO:"
-
-npx nx test TODO: --source-map --no-watch --code-coverage --browsers ChromeHeadless
-
-echo "Running schematics unit tests and code coverage for TODO: library"
-
-npm --prefix feature-libs/TODO: run test:schematics -- --coverage
-```
-
-Replace `TODO:` with the appropriate name.
 
 
 ### Sample data release entry ONLY if applicable

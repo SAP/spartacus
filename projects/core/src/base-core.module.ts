@@ -36,6 +36,9 @@ import { StateModule } from './state/state.module';
     BaseOccModule.forRoot(),
     LazyLoadingModule.forRoot(),
     HttpModule.forRoot(),
+
+    /* This module should be imported by default starting from version 7.0 (CXSPA-3680)*/
+    //ErrorHandlingModule.forRoot(),
   ],
 })
 export class BaseCoreModule {

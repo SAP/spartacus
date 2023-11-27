@@ -236,12 +236,13 @@ export class UserConsentService {
    * Withdraw consent for the given `consentCode`
    * @param consentCode for which to withdraw the consent
    */
-  withdrawConsent(consentCode: string): void {
+  withdrawConsent(consentCode: string, consentId?: string): void {
     this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.WithdrawUserConsent({
           userId,
           consentCode,
+          consentId,
         })
       );
     });

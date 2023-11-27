@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { LoggerService } from '../../logger';
 import { RouteLoadStrategy, RoutingConfig } from './config/routing-config';
 import { RouteConfig } from './routes-config';
 
@@ -14,6 +15,8 @@ export class RoutingConfigService {
    * Reversed routing config for quick lookup of the route name by the configured path.
    */
   protected routeNamesByPath: { [path: string]: string };
+
+  protected logger = inject(LoggerService);
 
   constructor(protected config: RoutingConfig) {}
 
@@ -32,7 +35,7 @@ export class RoutingConfigService {
 
   private warn(...args: string[]): void {
     if (isDevMode()) {
-      console.warn(...args);
+      this.logger.warn(...args);
     }
   }
 
@@ -79,7 +82,7 @@ export class RoutingConfigService {
     )) {
       routeConfig?.paths?.forEach((path) => {
         if (isDevMode() && this.routeNamesByPath[path]) {
-          console.error(
+          this.logger.error(
             `The same path '${path}' is configured for two different route names: '${this.routeNamesByPath[path]}' and '${routeName}`
           );
         }

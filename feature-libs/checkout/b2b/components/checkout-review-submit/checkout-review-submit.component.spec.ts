@@ -30,7 +30,7 @@ import {
   QueryState,
   UserCostCenterService,
 } from '@spartacus/core';
-import { Card, PromotionsModule } from '@spartacus/storefront';
+import { Card, OutletModule, PromotionsModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';
@@ -221,6 +221,7 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
           PromotionsModule,
           RouterTestingModule,
           IconTestingModule,
+          OutletModule,
         ],
         declarations: [
           B2BCheckoutReviewSubmitComponent,

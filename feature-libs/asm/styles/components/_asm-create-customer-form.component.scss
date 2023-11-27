@@ -10,6 +10,8 @@
       max-width: 100%;
 
       .cx-message-header {
+        padding: 0.25rem 1rem;
+        min-height: auto;
         padding-inline-end: 1rem;
         font-size: 14px;
         font-family: '72';
@@ -17,10 +19,17 @@
         font-weight: 400;
         line-height: 16px;
         text-align: start;
+        .cx-message-icon {
+          align-self: flex-start;
+        }
+        .cx-message-text {
+          padding: 0.25rem 0;
+        }
       }
     }
     .close {
-      align-self: center;
+      align-self: flex-start;
+      padding: 0.25rem 0;
       margin-inline-start: auto;
       position: unset;
       color: #0064d8;

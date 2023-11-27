@@ -204,8 +204,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Next',
       type: TabbingOrderTypes.BUTTON,
     },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'Add to Cart',
       type: TabbingOrderTypes.BUTTON,
     },
   ],
@@ -235,8 +236,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Basics',
       type: TabbingOrderTypes.LINK,
     },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'Add to Cart',
       type: TabbingOrderTypes.BUTTON,
     },
   ],
@@ -2315,6 +2317,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   asmNotLoggedIn: [
     {
+      type: TabbingOrderTypes.LINK,
+      value: 'Hide ASM',
+    },
+    {
       type: TabbingOrderTypes.BUTTON,
       value: '',
     },
@@ -2323,6 +2329,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
     },
     {
       type: TabbingOrderTypes.BUTTON,
@@ -2331,12 +2340,18 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   asmNoSelectedUser: [
     {
-      type: TabbingOrderTypes.BUTTON,
-      value: '',
+      type: TabbingOrderTypes.LINK,
+      value: 'Customers',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Hide ASM',
     },
     {
       type: TabbingOrderTypes.BUTTON,
-      value: '',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
     },
     {
       type: TabbingOrderTypes.FORM_FIELD,
@@ -2345,24 +2360,22 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.BUTTON,
       value: 'Start Session',
-    },
-    {
-      type: TabbingOrderTypes.BUTTON,
-      value: 'Linda Wolf',
-    },
-    {
-      type: TabbingOrderTypes.BUTTON,
-      value: 'Linda Wolf',
     },
   ],
   asmWithSelectedUser: [
     {
-      type: TabbingOrderTypes.BUTTON,
-      value: '',
+      type: TabbingOrderTypes.LINK,
+      value: 'Customers',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Hide ASM',
     },
     {
       type: TabbingOrderTypes.BUTTON,
-      value: '',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
     },
     {
       type: TabbingOrderTypes.FORM_FIELD,
@@ -2372,5 +2385,75 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
       value: 'Start Session',
     },
+  ],
+  asmWithCustomerLists: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Create New Customer',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Cancel',
+    },
+  ],
+  asmWithCreateCustomerForm: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: 'Create',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Cancel',
+    },
+  ],
+  asmInactiveCartSaveDialog: [
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: '',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: 'Save for Later',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Cancel',
+    },
+  ],
+  asmCustomer360CouponList: [
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
+  ],
+  asmCustomer360CustomerCouponList: [
+    { type: TabbingOrderTypes.BUTTON, value: 'Available' },
+    { type: TabbingOrderTypes.BUTTON, value: 'Sent' },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    // uncomment the following line to test againt S4,S7
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
   ],
 };

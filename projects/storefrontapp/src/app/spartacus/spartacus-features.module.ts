@@ -34,6 +34,7 @@ import {
   LogoutModule,
   MyCouponsModule,
   MyInterestsModule,
+  MyAccountV2Module,
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
@@ -60,6 +61,7 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AsmFeatureModule } from './features/asm/asm-feature.module';
+import { AsmCustomer360FeatureModule } from './features/asm/asm-customer-360-feature.module';
 import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module';
 import { ImportExportFeatureModule } from './features/cart/cart-import-export-feature.module';
 import { QuickOrderFeatureModule } from './features/cart/cart-quick-order-feature.module';
@@ -76,6 +78,7 @@ import { AccountSummaryFeatureModule } from './features/organization/organizatio
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
 import { OrderApprovalFeatureModule } from './features/organization/organization-order-approval-feature.module';
 import { UnitOrderFeatureModule } from './features/organization/organization-unit-order-feature.module';
+import { PDFInvoicesFeatureModule } from './features/pdf-invoices/pdf-invoices-feature.module';
 import { PickupInStoreFeatureModule } from './features/pickup-in-store/pickup-in-store-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator/product-configurator-textfield-feature.module';
@@ -85,7 +88,9 @@ import { ImageZoomFeatureModule } from './features/product/product-image-zoom-fe
 import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
+import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
+import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
@@ -119,8 +124,17 @@ if (environment.digitalPayments) {
 if (environment.epdVisualization) {
   featureModules.push(EpdVisualizationFeatureModule);
 }
+if (environment.pdfInvoices) {
+  featureModules.push(PDFInvoicesFeatureModule);
+}
 if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);
+}
+if (environment.segmentRefs) {
+  featureModules.push(SegmentRefsFeatureModule);
+}
+if (environment.requestedDeliveryDate) {
+  featureModules.push(RequestedDeliveryDateFeatureModule);
 }
 
 @NgModule({
@@ -155,6 +169,7 @@ if (environment.s4om) {
     PaymentMethodsModule,
     NotificationPreferenceModule,
     MyInterestsModule,
+    MyAccountV2Module,
     StockNotificationModule,
     ConsentManagementModule,
     MyCouponsModule,
@@ -211,6 +226,7 @@ if (environment.s4om) {
     TrackingFeatureModule,
 
     AsmFeatureModule,
+    AsmCustomer360FeatureModule,
 
     StorefinderFeatureModule,
 

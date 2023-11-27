@@ -12,7 +12,7 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UpdatePasswordModule } from '@spartacus/user/profile/components';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { CDCUpdatePasswordComponentService } from './cdc-update-password-component.service';
 import createSpy = jasmine.createSpy;
 
@@ -35,11 +35,7 @@ class MockAuthService implements Partial<AuthService> {
   coreLogout = createSpy().and.returnValue(Promise.resolve());
 }
 
-class MockCDCJsService implements Partial<CdcJsService> {
-  updateUserPasswordWithoutScreenSet = createSpy().and.returnValue(
-    of({ status: 'OK' })
-  );
-}
+class MockCDCJsService implements Partial<CdcJsService> {}
 
 describe('CDCUpdatePasswordComponentService', () => {
   let service: CDCUpdatePasswordComponentService;
@@ -49,6 +45,7 @@ describe('CDCUpdatePasswordComponentService', () => {
   let newPassword: AbstractControl;
   let newPasswordConfirm: AbstractControl;
   let cdcJsService: CdcJsService;
+  let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -67,14 +64,13 @@ describe('CDCUpdatePasswordComponentService', () => {
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         { provide: AuthService, useClass: MockAuthService },
       ],
-    }).compileComponents();
-  });
+    });
 
-  beforeEach(() => {
     service = TestBed.inject(CDCUpdatePasswordComponentService);
     userService = TestBed.inject(UserPasswordFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
     cdcJsService = TestBed.inject(CdcJsService);
+    authService = TestBed.inject(AuthService);
 
     oldPassword = service.form.controls.oldPassword;
     newPassword = service.form.controls.newPassword;
@@ -91,6 +87,9 @@ describe('CDCUpdatePasswordComponentService', () => {
         oldPassword.setValue('Old123!');
         newPassword.setValue('New123!');
         newPasswordConfirm.setValue('New123!');
+        cdcJsService.updateUserPasswordWithoutScreenSet =
+          createSpy().and.returnValue(of({ status: 'OK' }));
+        TestBed.compileComponents();
       });
 
       it('should update password', () => {
@@ -127,6 +126,13 @@ describe('CDCUpdatePasswordComponentService', () => {
     });
 
     describe('error', () => {
+      beforeEach(() => {
+        cdcJsService.updateUserPasswordWithoutScreenSet =
+          createSpy().and.returnValue(
+            throwError({ status: 'ERROR', errorDetails: 'Error occured' })
+          );
+        TestBed.compileComponents();
+      });
       it('should not update the password', () => {
         newPassword.setValue('testpassword123');
         service.updatePassword();
@@ -135,6 +141,21 @@ describe('CDCUpdatePasswordComponentService', () => {
           cdcJsService.updateUserPasswordWithoutScreenSet
         ).not.toHaveBeenCalled();
         expect(globalMessageService.add).not.toHaveBeenCalled();
+      });
+
+      it('should not update the password or logout the user if CDC invocation fails', (done) => {
+        oldPassword.setValue('Old123!');
+        newPassword.setValue('New123!');
+        newPasswordConfirm.setValue('New123!');
+
+        service.updatePassword();
+        expect(userService.update).not.toHaveBeenCalled();
+        expect(authService.coreLogout).not.toHaveBeenCalled();
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          'Error occured',
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+        done();
       });
     });
   });

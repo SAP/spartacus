@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { LoggerService } from '../logger';
 import { I18nConfig } from './config/i18n-config';
 
 @Injectable({
@@ -13,6 +14,9 @@ import { I18nConfig } from './config/i18n-config';
 export class TranslationChunkService {
   protected duplicates: { [key: string]: string[] } = {};
   protected chunks: { [key: string]: string } = {};
+
+  protected logger = inject(LoggerService);
+
   constructor(protected config: I18nConfig) {
     const chunks = (config.i18n && config.i18n.chunks) || {};
     Object.keys(chunks).forEach((chunk) => {
@@ -53,7 +57,7 @@ export class TranslationChunkService {
         }.${key}'.`
       );
     });
-    console.warn(
+    this.logger.warn(
       `Duplicated keys has been found in the config of i18n chunks:\n${dupes.join(
         '\n'
       )}`

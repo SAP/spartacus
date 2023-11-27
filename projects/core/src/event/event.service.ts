@@ -4,9 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AbstractType, Injectable, isDevMode, Type } from '@angular/core';
+import {
+  AbstractType,
+  inject,
+  Injectable,
+  isDevMode,
+  Type,
+} from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { LoggerService } from '../logger';
 import { createFrom } from '../util/create-from';
 import { CxEvent } from './cx-event';
 import { MergingSubject } from './utils/merging-subject';
@@ -38,6 +45,7 @@ interface EventMeta<T> {
   providedIn: 'root',
 })
 export class EventService {
+  protected logger = inject(LoggerService);
   /**
    * The various events meta are collected in a map, stored by the event type class
    */
@@ -61,7 +69,7 @@ export class EventService {
     const eventMeta = this.getEventMeta(eventType);
     if (eventMeta.mergingSubject.has(source$)) {
       if (isDevMode()) {
-        console.warn(
+        this.logger.warn(
           `EventService: the event source`,
           source$,
           `has been already registered for the type`,
@@ -183,7 +191,7 @@ export class EventService {
       parentType = Object.getPrototypeOf(parentType);
     }
 
-    console.warn(
+    this.logger.warn(
       `The ${eventType.name} (or one of its parent classes) does not inherit from the ${CxEvent.type}`
     );
   }
@@ -200,7 +208,7 @@ export class EventService {
     return source$.pipe(
       tap((event) => {
         if (!(event instanceof eventType)) {
-          console.warn(
+          this.logger.warn(
             `EventService: The stream`,
             source$,
             `emitted the event`,

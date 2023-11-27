@@ -1,5 +1,5 @@
 <ng-container *ngIf="configuration$ | async as configuration">
-  <ng-container *ngIf="configuration?.groups?.length > 1">
+  <ng-container *ngIf="configuration.groups.length > 1">
     <button
       class="btn btn-block btn-secondary cx-previous"
       [disabled]="isFirstGroup(configuration.owner) | async"
