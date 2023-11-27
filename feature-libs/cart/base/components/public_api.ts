@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './abstract-order/abstract-order.directive';
-export * from './abstract-order/abstract-order.module';
+export * from './abstract-order/index';
 export * from './added-to-cart-dialog/index';
 export * from './cart-base-components.module';
 export * from './cart-coupon/index';
