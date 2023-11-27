@@ -383,12 +383,14 @@ function recreateFolder(folderPath: string): void {
     fs.mkdirSync(folderPath, { recursive: true });
   }
 }
-// enable below consoles for logging:  disabled for sonar issues
+/**
+ * enable below consoles for logging:  disabled for sonar issues
+ * for LogError add console.error(...args);
+ * for logMessage add console.log(...args);
+ */
 function logError(...args: Parameters<typeof console.log>): number {
-  // console.error(...args);
   return args.length;
 }
 function logMessage(...args: Parameters<typeof console.error>): number {
-  //console.log(...args);
   return args.length;
 }
