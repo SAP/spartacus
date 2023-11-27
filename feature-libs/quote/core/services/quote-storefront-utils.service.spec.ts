@@ -58,4 +58,21 @@ describe('QuoteStorefrontUtilsService', () => {
       expect(classUnderTest.getElement('unknownElement')).toEqual(null);
     });
   });
+
+  describe('changeStyling', () => {
+    it('should not change styling of HTML element', () => {
+      const element = document.createElement('notExistingElement');
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(undefined);
+
+      classUnderTest.changeStyling('notExistingElement', 'position', 'sticky');
+      expect(element.style.position).not.toEqual('sticky');
+    });
+
+    it('should change styling of HTML element', () => {
+      classUnderTest.changeStyling('elementMock', 'position', 'sticky');
+      expect(theElement.style.position).toEqual('sticky');
+    });
+  });
 });

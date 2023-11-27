@@ -23,7 +23,11 @@ import {
   QuoteRoleType,
   QuoteState,
 } from '@spartacus/quote/root';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  IntersectionService,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import {
@@ -31,6 +35,7 @@ import {
   QuoteUIConfig,
 } from '../../config/quote-ui.config';
 import { ConfirmationContext } from '../confirm-dialog/quote-actions-confirm-dialog.model';
+import { QuoteStorefrontUtilsService } from '../../../core/services/quote-storefront-utils.service';
 
 @Component({
   selector: 'cx-quote-actions-by-role',
@@ -43,6 +48,24 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   protected globalMessageService = inject(GlobalMessageService);
   protected quoteUIConfig = inject(QuoteUIConfig);
   protected activeCartFacade = inject(ActiveCartFacade);
+  protected quoteStorefrontUtilsService = inject(QuoteStorefrontUtilsService);
+  protected intersectionService = inject(IntersectionService);
+
+  protected readonly CX_SECTION_SELECTOR = 'cx-quote-actions-by-role section';
+
+  stickyStyles: readonly [property: string, value: string][] = [
+    ['width', '100%'],
+    ['position', '-webkit-sticky'],
+    ['position', 'sticky'],
+    ['bottom', '0'],
+    ['padding-inline-end', '0'],
+  ];
+
+  fixedStyles: readonly [property: string, value: string][] = [
+    ['width', '95%'],
+    ['position', 'fixed'],
+    ['padding-inline-end', '1.5rem'],
+  ];
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
@@ -52,6 +75,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   ngOnInit(): void {
+    this.makeButtonsSticky();
     //submit button present and threshold not reached: Display message
     this.quoteDetails$.pipe(take(1)).subscribe((quote) => {
       const mustDisableAction = quote.allowedActions.find((action) =>
@@ -69,6 +93,35 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
         );
       }
     });
+  }
+
+  protected makeButtonsSticky(): void {
+    const slot = this.quoteStorefrontUtilsService.getElement(
+      'cx-page-slot.CenterRightContent'
+    );
+    if (slot) {
+      this.intersectionService
+        .isIntersecting(slot)
+        .subscribe((isIntersecting) => {
+          if (isIntersecting) {
+            this.stickyStyles.forEach((style) => {
+              this.quoteStorefrontUtilsService.changeStyling(
+                this.CX_SECTION_SELECTOR,
+                style[0],
+                style[1]
+              );
+            });
+          } else {
+            this.fixedStyles.forEach((style) => {
+              this.quoteStorefrontUtilsService.changeStyling(
+                this.CX_SECTION_SELECTOR,
+                style[0],
+                style[1]
+              );
+            });
+          }
+        });
+    }
   }
 
   /**

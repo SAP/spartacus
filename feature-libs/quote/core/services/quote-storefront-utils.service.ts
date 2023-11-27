@@ -26,4 +26,18 @@ export class QuoteStorefrontUtilsService {
       ) as HTMLElement;
     }
   }
+
+  /**
+   * Change styling of a HTML element.
+   *
+   * @param querySelector - querySelector
+   * @param property - CSS property
+   * @param value - CSS value
+   */
+  changeStyling(querySelector: string, property: string, value: string): void {
+    const element = this.getElement(querySelector);
+    if (element) {
+      element.style.setProperty(property, value);
+    }
+  }
 }

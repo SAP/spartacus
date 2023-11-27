@@ -16,7 +16,11 @@ import {
 } from '@spartacus/quote/root';
 
 import { ElementRef, ViewContainerRef } from '@angular/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  IntersectionService,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
@@ -29,11 +33,14 @@ import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-uti
 import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 import createSpy = jasmine.createSpy;
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { QuoteStorefrontUtilsService } from '@spartacus/quote/core';
 
 const mockCartId = '1234';
 const mockCode = '3333';
 const threshold = 20;
 const totalPrice: Price = { value: threshold + 1 };
+const slot = document.createElement('cx-page-slot');
+slot.classList.add('CenterRightContent');
 
 const mockQuote: Quote = {
   ...createEmptyQuote(),
@@ -143,6 +150,17 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   }
 }
 
+class MockIntersectionService {
+  isIntersecting(): Observable<boolean> {
+    return of(false);
+  }
+}
+
+class MockQuoteStorefrontUtilsService {
+  getElement() {}
+  changeStyling() {}
+}
+
 describe('QuoteActionsByRoleComponent', () => {
   let fixture: ComponentFixture<QuoteActionsByRoleComponent>;
   let htmlElem: HTMLElement;
@@ -150,6 +168,8 @@ describe('QuoteActionsByRoleComponent', () => {
   let launchDialogService: LaunchDialogService;
   let quoteFacade: QuoteFacade;
   let globalMessageService: GlobalMessageService;
+  let intersectionService: IntersectionService;
+  let quoteStorefrontUtilsService: QuoteStorefrontUtilsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -170,6 +190,14 @@ describe('QuoteActionsByRoleComponent', () => {
           },
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        {
+          provide: IntersectionService,
+          useClass: MockIntersectionService,
+        },
+        {
+          provide: QuoteStorefrontUtilsService,
+          useClass: MockQuoteStorefrontUtilsService,
+        },
       ],
     }).compileComponents();
   });
@@ -181,8 +209,13 @@ describe('QuoteActionsByRoleComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     quoteFacade = TestBed.inject(QuoteFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    quoteStorefrontUtilsService = TestBed.inject(QuoteStorefrontUtilsService);
+    intersectionService = TestBed.inject(IntersectionService);
     mockQuoteDetails$.next(mockQuote);
     dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
+
+    spyOn(quoteStorefrontUtilsService, 'getElement').and.returnValue(slot);
+    spyOn(quoteStorefrontUtilsService, 'changeStyling').and.callThrough();
   });
 
   it('should create component', () => {
@@ -721,6 +754,34 @@ describe('QuoteActionsByRoleComponent', () => {
       expect(
         component['stateToRoleTypeForDialogConfig'](QuoteState.CANCELLED)
       ).toBe(QuoteRoleType.ALL);
+    });
+  });
+
+  describe('Floating actions by role buttons', () => {
+    it('should make actions by role buttons sticky', () => {
+      spyOn(intersectionService, 'isIntersecting').and.returnValue(of(true));
+      component.ngOnInit();
+      expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledTimes(
+        5
+      );
+      expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
+        'cx-quote-actions-by-role section',
+        'position',
+        'sticky'
+      );
+    });
+
+    it('should make actions by role buttons fixed when not intersecting', () => {
+      component.ngOnInit();
+      spyOn(intersectionService, 'isIntersecting').and.callThrough();
+      expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledTimes(
+        3
+      );
+      expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
+        'cx-quote-actions-by-role section',
+        'position',
+        'fixed'
+      );
     });
   });
 });
