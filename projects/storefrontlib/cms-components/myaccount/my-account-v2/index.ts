@@ -7,3 +7,4 @@
 export * from './my-account-v2-navigation/index';
 export * from './my-account-v2.module';
 export * from './my-account-v2-consent-management/index';
+export * from './token';
