@@ -327,13 +327,11 @@ function recreateFolder(folderPath: string): void {
 }
 
 // enable below consoles for logging:  disabled for sonar issues
-function logError(...args: Parameters<typeof console.error>): void {
-  if (args) {
-    //console.error(...args);
-  }
+function logError(...args: Parameters<typeof console.log>): number {
+  // console.error(...args);
+  return args.length;
 }
-function logMessage(...args: Parameters<typeof console.error>): void {
-  if (args) {
-    //console.log(...args);
-  }
+function logMessage(...args: Parameters<typeof console.error>): number {
+  //console.log(...args);
+  return args.length;
 }
