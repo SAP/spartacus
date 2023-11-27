@@ -400,8 +400,6 @@ describe('QuoteItemsComponent', () => {
     ).toHaveBeenCalledWith(true);
   });
 
-
-
   describe('Accessibility', () => {
     it("should contain 'div' HTML element with 'role' attribute that indicates the role for this element", () => {
       const element =
