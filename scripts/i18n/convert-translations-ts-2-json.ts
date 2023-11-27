@@ -292,12 +292,16 @@ function getImportedFileName(node: ts.ImportDeclaration): string {
  * @returns
  */
 function getImportedObjectName(node: ts.ImportDeclaration): string {
-  let result: string = '';
-  const matches: RegExpMatchArray | null = node.getText().match(/{([^}]*)}/);
-  if (matches && matches.length > 1) {
-    result = matches[1].trim();
+  const inputString = node.getText();
+  const startIdx = inputString.indexOf('{'); // Find the index of the opening curly brace
+  const endIdx = inputString.indexOf('}'); // Find the index of the closing curly brace
+
+  if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
+    const objectName = inputString.substring(startIdx + 1, endIdx).trim(); // Extract the substring between curly braces
+    return objectName;
+  } else {
+    return '';
   }
-  return result;
 }
 /**
  * update import statement in index file.  remove TS import statements and replace with JSON
