@@ -1,5 +1,8 @@
 {
-  "@spartacus/assets": {},
+  "@spartacus/assets": {
+    "fs-extra": "^11.1.1",
+    "typescript": "5.1.6"
+  },
   "@spartacus/core": {
     "@angular/common": "^16.2.10",
     "@angular/core": "^16.2.10",

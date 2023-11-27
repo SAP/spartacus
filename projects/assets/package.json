@@ -5,12 +5,18 @@
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/assets",
   "scripts": {
     "build": "nx build assets --configuration production && npm run generate:translations:ts-2-json",
+    "convert:translations:json-2-ts": "ts-node ./convert-translations-json-2-ts.ts",
+    "convert:translations:ts-2-json": "ts-node ./convert-translations-ts-2-json.ts",
     "generate:translations:properties-2-ts": "ts-node ./generate-translations-properties-2-ts && cd ../.. && npx prettier \"./projects/assets/src/translations/**/*.ts\" --write",
     "generate:translations:ts-2-json": "ts-node ./generate-translations-ts-2-json",
     "generate:translations:ts-2-properties": "ts-node ./generate-translations-ts-2-properties"
   },
   "dependencies": {
     "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "fs-extra": "^11.1.1",
+    "typescript": "5.1.6"
   },
   "publishConfig": {
     "access": "public"
