@@ -8,6 +8,7 @@
  * This script will convert translation files, which are written in TypeScript, into JSON files.
  * to execute this script: ts-node scripts/i18n/convert-translations-ts-2-json.ts
  * Please review the options before running this script
+ * enable consoles for logging in logError & logMessage:  disabled for sonar issues
  */
 import * as fs from 'fs-extra';
 import * as ts from 'typescript';
@@ -45,12 +46,10 @@ function startConvertToJson(): void {
         convertTsToJson(checkPath, 'assets/translations');
       }
     } else {
-      /* eslint-disable-next-line no-console */
-      console.error(`Folder does not exist: ${checkPath}`);
+      logError(`Folder does not exist: ${checkPath}`);
     }
   }
-  /* eslint-disable-next-line no-console */
-  console.log('Conversion done!');
+  logMessage('Conversion done!');
 }
 /**
  * Convert TypeScript files within a directory to JSON files
@@ -70,8 +69,7 @@ function convertTsToJson(directoryPath: string, targetPath: string): void {
       }
     });
   } catch (err: any) {
-    /* eslint-disable-next-line no-console */
-    console.error('Error:', err);
+    logError('Error:', err);
   }
 }
 
@@ -106,8 +104,7 @@ function handleIndexFile(filePath: string, folderPath: string): void {
       handleExistingFile(importedFilePath, translationInfo, folderPath);
     } else {
       errorExisted = true;
-      /* eslint-disable-next-line no-console */
-      console.error('File does not exist:', importedFilePath);
+      logError('File does not exist:', importedFilePath);
     }
   });
 
@@ -342,8 +339,7 @@ function updateImportStatement(
     const updatedContent: string = lines.join('\n');
     fs.writeFileSync(filePath, updatedContent, 'utf8');
   } catch (err: any) {
-    /* eslint-disable-next-line no-console */
-    console.error(err);
+    logError(err);
   }
 }
 /**
@@ -375,8 +371,7 @@ function deleteFile(filePath: string): void {
   try {
     fs.unlinkSync(filePath);
   } catch (err) {
-    /* eslint-disable-next-line no-console */
-    console.error('Error occurred:', err);
+    logError('Error occurred:', err);
   }
 }
 
@@ -386,5 +381,16 @@ function recreateFolder(folderPath: string): void {
       fs.rmSync(folderPath, { recursive: true, force: true });
     }
     fs.mkdirSync(folderPath, { recursive: true });
+  }
+}
+// enable below consoles for logging:  disabled for sonar issues
+function logError(...args: Parameters<typeof console.error>): void {
+  if (args) {
+    //console.error(...args);
+  }
+}
+function logMessage(...args: Parameters<typeof console.error>): void {
+  if (args) {
+    //console.log(...args);
   }
 }

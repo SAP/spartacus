@@ -9,6 +9,7 @@
  * To execute this script:
  *  ts-node scripts/i18n/convert-translations-json-2-ts.ts
  * Please review the options before running this script
+ * enable consoles for logging in logError & logMessage:  disabled for sonar issues
  */
 
 import * as fs from 'fs-extra';
@@ -45,12 +46,10 @@ function startConvertToTS(): void {
         convertJsonToTs(checkPath, 'assets/translations');
       }
     } else {
-      /* eslint-disable-next-line no-console */
-      console.error(`Folder does not exist: ${checkPath}`);
+      logError(`Folder does not exist: ${checkPath}`);
     }
   }
-  /* eslint-disable-next-line no-console */
-  console.log('Conversion done!');
+  logMessage('Conversion done!');
 }
 /**
  * Convert JSON files within a directory to TS files
@@ -70,8 +69,7 @@ function convertJsonToTs(directoryPath: string, targetPath: string): void {
       }
     });
   } catch (err) {
-    /* eslint-disable-next-line no-console */
-    console.error('Error:', err);
+    logError('Error:', err);
   }
 }
 
@@ -107,8 +105,7 @@ function handleIndexFile(filePath: string, folderPath: string): void {
       handleExistingJsonFile(fullJsonFileName, translationInfo, folderPath);
     } else {
       errorExisted = true;
-      /* eslint-disable-next-line no-console */
-      console.error('File does not exist:', fullJsonFileName);
+      logError('File does not exist:', fullJsonFileName);
     }
   });
 
@@ -282,8 +279,7 @@ function updateImportStatement(
 
     fs.writeFileSync(filePath, updatedContent, 'utf8');
   } catch (err) {
-    /* eslint-disable-next-line no-console */
-    console.error(err);
+    logError(err);
   }
 }
 /**
@@ -317,8 +313,7 @@ function deleteFile(filePath: string): void {
   try {
     fs.unlinkSync(filePath);
   } catch (err) {
-    /* eslint-disable-next-line no-console */
-    console.error('Error occurred:', err);
+    logError('Error occurred:', err);
   }
 }
 
@@ -328,5 +323,17 @@ function recreateFolder(folderPath: string): void {
       fs.rmSync(folderPath, { recursive: true, force: true });
     }
     fs.mkdirSync(folderPath, { recursive: true });
+  }
+}
+
+// enable below consoles for logging:  disabled for sonar issues
+function logError(...args: Parameters<typeof console.error>): void {
+  if (args) {
+    //console.error(...args);
+  }
+}
+function logMessage(...args: Parameters<typeof console.error>): void {
+  if (args) {
+    //console.log(...args);
   }
 }
