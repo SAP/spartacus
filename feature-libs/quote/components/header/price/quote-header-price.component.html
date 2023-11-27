@@ -1,6 +1,4 @@
-<ng-container
-  *ngIf="quoteDetails$ | async as quoteDetails; else ghostQuoteSummary"
->
+<ng-container *ngIf="quoteDetails$ | async as quoteDetails">
   <div class="cx-price-heading">
     {{ 'quote.header.price.title' | cxTranslate }}
   </div>
@@ -57,17 +55,3 @@
     *{{ 'quote.header.price.hint' | cxTranslate }}
   </div>
 </ng-container>
-
-<ng-template #ghostQuoteSummary>
-  <div class="cx-ghost-summary-heading">
-    <div class="cx-ghost-title ghost"></div>
-  </div>
-  <div class="cx-ghost-summary-partials">
-    <ng-container *ngFor="let number of [0, 1, 2, 3]">
-      <div class="cx-ghost-row">
-        <div class="cx-ghost-summary-label ghost"></div>
-        <div class="cx-ghost-summary-amount ghost"></div>
-      </div>
-    </ng-container>
-  </div>
-</ng-template>

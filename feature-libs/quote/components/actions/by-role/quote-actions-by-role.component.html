@@ -1,5 +1,5 @@
-<ng-container *ngIf="quoteDetails$ | async as quoteDetails; else ghostActions">
-  <ng-container *ngIf="cartDetails$ | async as cartDetails; else ghostActions">
+<ng-container *ngIf="quoteDetails$ | async as quoteDetails">
+  <ng-container *ngIf="cartDetails$ | async as cartDetails">
     <section>
       <button
         #element
@@ -15,11 +15,3 @@
     </section>
   </ng-container>
 </ng-container>
-
-<ng-template #ghostActions>
-  <div class="cx-ghost-actions">
-    <ng-container *ngFor="let number of [0, 1, 2]">
-      <div class="cx-ghost-button ghost"></div>
-    </ng-container>
-  </div>
-</ng-template>

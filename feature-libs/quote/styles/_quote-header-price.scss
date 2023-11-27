@@ -1,93 +1,28 @@
 %cx-quote-header-price {
-  > div {
-    padding-block-end: 0.5rem;
-  }
-  .cx-price-heading {
-    @include type('4');
-    font-weight: var(--cx-font-weight-bold);
-  }
-  .cx-price-footer {
-    font-style: italic;
-  }
-  .cx-price-row {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-  }
-  .cx-price-savings {
-    color: var(--cx-color-success);
-  }
-  .cx-price-total {
-    font-weight: var(--cx-font-weight-bold);
-  }
-
   &:not(:empty) {
-    .cx-ghost-title,
-    .cx-ghost-summary-label,
-    .cx-ghost-summary-amount {
-      @include cx-ghost-bar();
+    .cx-price-heading {
+      @include type('4');
+      padding-block-end: 20px;
     }
 
-    .cx-ghost-summary-heading,
-    .cx-ghost-row {
+    .cx-price-footer {
+      font-style: italic;
+      font-size: var(--cx-font-size, 0.85rem);
+      font-weight: var(--cx-font-weight-normal);
+    }
+
+    .cx-price-row {
       display: flex;
-      flex-direction: row;
-      gap: 1rem;
+      flex-wrap: nowrap;
+      justify-content: space-between;
     }
 
-    .cx-ghost-summary-heading {
-      .cx-ghost-title {
-        width: 100%;
-      }
+    .cx-price-savings {
+      color: var(--cx-color-success);
     }
 
-    .cx-ghost-summary-partials {
-      padding-block-end: 1rem;
-
-      .cx-ghost-row {
-        justify-content: space-between;
-        padding-block-start: 1rem;
-      }
-
-      .cx-ghost-row:nth-child(1) {
-        .cx-ghost-summary-label {
-          width: 45%;
-        }
-
-        .cx-ghost-summary-amount {
-          width: 35%;
-        }
-      }
-
-      .cx-ghost-row:nth-child(2) {
-        .cx-ghost-summary-label {
-          width: 55%;
-        }
-
-        .cx-ghost-summary-amount {
-          width: 20%;
-        }
-      }
-
-      .cx-ghost-row:nth-child(3) {
-        .cx-ghost-summary-label {
-          width: 35%;
-        }
-
-        .cx-ghost-summary-amount {
-          width: 35%;
-        }
-      }
-
-      .cx-ghost-row:nth-child(4) {
-        .cx-ghost-summary-label {
-          width: 55%;
-        }
-
-        .cx-ghost-summary-amount {
-          width: 20%;
-        }
-      }
+    .cx-price-total {
+      font-weight: var(--cx-font-weight-bold);
     }
   }
 }

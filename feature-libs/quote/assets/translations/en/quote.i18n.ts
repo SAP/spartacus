@@ -169,6 +169,9 @@ export const quote = {
         title: 'Order Summary',
         total: 'Total',
       },
+      orderSummary: {
+        regionTitle: 'Order Summary',
+      },
       overview: {
         regionTitle: 'Quote details summary',
         id: 'Quote ID',

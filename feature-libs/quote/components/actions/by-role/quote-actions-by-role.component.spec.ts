@@ -17,7 +17,7 @@ import {
 
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, NEVER, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import {
@@ -188,26 +188,6 @@ describe('QuoteActionsByRoleComponent', () => {
   it('should create component', () => {
     expect(component).toBeDefined();
     expect(quoteFacade).toBeDefined();
-  });
-
-  describe('Ghost animation', () => {
-    it('should render view for ghost animation', () => {
-      component.quoteDetails$ = NEVER;
-      fixture.detectChanges();
-
-      CommonQuoteTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-actions'
-      );
-
-      CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
-        expect,
-        htmlElem,
-        '.cx-ghost-button',
-        3
-      );
-    });
   });
 
   it('should read quote details state', (done) => {

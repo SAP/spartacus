@@ -7,12 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import {
-  AuthGuard,
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 import { QuoteHeaderSellerEditComponent } from './quote-header-seller-edit.component';
 import { IconModule, DatePickerModule } from '@spartacus/storefront';
 
@@ -24,16 +19,6 @@ import { IconModule, DatePickerModule } from '@spartacus/storefront';
     ReactiveFormsModule,
     IconModule,
     DatePickerModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        QuoteHeaderSellerEditComponent: {
-          component: QuoteHeaderSellerEditComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
   ],
   declarations: [QuoteHeaderSellerEditComponent],
   exports: [QuoteHeaderSellerEditComponent],

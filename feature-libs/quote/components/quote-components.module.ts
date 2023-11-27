@@ -13,7 +13,8 @@ import { QuoteActionsConfirmDialogModule } from './actions/confirm-dialog/quote-
 import { QuoteActionsLinkModule } from './actions/link/quote-actions-link.module';
 import { QuoteCommentsModule } from './comments/quote-comments.module';
 import { defaultQuoteUIConfig } from './config/default-quote-ui.config';
-import { QuoteHeaderPriceModule } from './header';
+import { QuoteHeaderOrderSummaryModule } from './header/order-summary/quote-header-order-summary.module';
+import { QuoteHeaderPriceModule } from './header/price/quote-header-price.module';
 import { QuoteHeaderBuyerEditModule } from './header/buyer-edit/quote-header-buyer-edit.module';
 import { QuoteHeaderOverviewModule } from './header/overview/quote-header-overview.module';
 import { QuoteHeaderSellerEditModule } from './header/seller-edit/quote-header-seller-edit.module';
@@ -29,6 +30,7 @@ import { QuoteListModule } from './list/quote-list.module';
     QuoteActionsLinkModule,
     QuoteCommentsModule,
     QuoteHeaderBuyerEditModule,
+    QuoteHeaderOrderSummaryModule,
     QuoteHeaderOverviewModule,
     QuoteHeaderPriceModule,
     QuoteHeaderSellerEditModule,
