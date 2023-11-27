@@ -7,7 +7,7 @@
 /**
  * This script will convert translation files, which are written in JSON, into TypeScript files.
  * To execute this script:
- *  ts-node projects/assets/convert-translations-json-2-ts.ts
+ *  ts-node scripts/i18n/convert-translations-json-2-ts.ts
  * Please review the options before running this script
  */
 
@@ -16,7 +16,7 @@ import * as path from 'path';
 import * as ts from 'typescript';
 
 // options
-const TS_FOLDER = ''; // create TS files to given location e.g. 'projects/assets/ts'
+const TS_FOLDER = ''; // create TS files to given location e.g. 'scripts/i18n/ts'
 const CREATE_TS_FILES = true; // Generate TS files within the respective Spartacus translation directories
 const UPDATE_IMPORT_FILES = true; // update the import statements in the index.ts files
 const DELETE_JSON_FILES = true; // Remove the JSON translation files once they have been converted to TS.
