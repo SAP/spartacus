@@ -2,7 +2,12 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { LoggerService, normalizeHttpError, OccConfig } from '@spartacus/core';
+import {
+  LoggerService,
+  MockLoggerService,
+  normalizeHttpError,
+  OccConfig,
+} from '@spartacus/core';
 import { ConsignmentTracking } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -16,14 +21,6 @@ const mockTrackingParams = {
   orderCode: 'order1',
   consignmentCode: 'cons1',
 };
-
-class MockLoggerService {
-  log(): void {}
-  warn(): void {}
-  error(): void {}
-  info(): void {}
-  debug(): void {}
-}
 
 const MockOccModuleConfig: OccConfig = {
   backend: {

@@ -5,6 +5,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   GlobalMessageService,
   LoggerService,
+  MockLoggerService,
   SiteContextActions,
   UserIdService,
 } from '@spartacus/core';
@@ -39,14 +40,6 @@ class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return of('testUserId');
   }
-}
-
-class MockLoggerService {
-  log(): void {}
-  warn(): void {}
-  error(): void {}
-  info(): void {}
-  debug(): void {}
 }
 
 describe('Order Details effect', () => {
