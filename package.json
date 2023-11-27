@@ -53,6 +53,7 @@
     "e2e:run:core": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:core",
     "e2e:run:ci": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci",
     "e2e:run:ci:ssr": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ssr",
+    "e2e:run:ci:core:ssr": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:core:ssr",
     "e2e:run:ci:b2b": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:b2b",
     "e2e:run:ci:flaky": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:flaky",
     "e2e:run:ci:core": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:core",
