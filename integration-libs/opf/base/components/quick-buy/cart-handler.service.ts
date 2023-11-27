@@ -9,6 +9,7 @@ import {
   ActiveCartFacade,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
+  DeliveryMode,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
 import {
@@ -22,7 +23,7 @@ import {
   UserAddressService,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, merge, of, throwError, timer } from 'rxjs';
+import { Observable, combineLatest, merge, throwError, timer } from 'rxjs';
 import {
   filter,
   map,
@@ -149,6 +150,7 @@ export class CartHandlerService {
   }
 
   setDeliveryMode(mode: string) {
+    console.log('Setting Delivery Mode as: ' + mode);
     return this.checkoutDeliveryModesFacade.setDeliveryMode(mode).pipe(
       switchMap(() =>
         this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState()
@@ -159,8 +161,8 @@ export class CartHandlerService {
     );
   }
 
-  getSelectedDeliveryMode() {
-    this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
+  getSelectedDeliveryMode(): Observable<DeliveryMode | undefined> {
+    return this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
       filter((state) => !state.error && !state.loading),
       take(1),
       map((state) => state.data)
@@ -193,7 +195,7 @@ export class CartHandlerService {
   }
 
   deleteCurrentCart() {
-    return of({});
+    // return of({});
     return this.activeCartFacade.getActiveCartId().pipe(
       withLatestFrom(this.userIdService.getUserId()),
       take(1),
