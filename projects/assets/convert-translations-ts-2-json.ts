@@ -6,15 +6,14 @@
 
 /**
  * This script will convert translation files, which are written in TypeScript, into JSON files.
- * to execute this script: node projects/assets/convert-translations-ts-2-json.js
+ * to execute this script: ts-node projects/assets/convert-translations-ts-2-json.ts
  * Please review the options before running this script
  */
-'use strict';
-/* eslint-env es6 */
-const fs = require('fs');
-const path = require('path');
-const ts = require('typescript');
-const vm = require('vm');
+import * as fs from 'fs-extra';
+import * as path from 'path';
+import * as ts from 'typescript';
+import * as vm from 'vm';
+
 // Options
 const JSON_FOLDER = ''; // Generate JSON files to given location e.g. projects/assets/json
 const CREATE_JSON_FILES = true; // Generate JSON files within the respective Spartacus translation directories
@@ -22,7 +21,6 @@ const UPDATE_IMPORT_FILES = true; // update the import statements in the index.t
 const DELETE_TS_FILES = true; // Remove the TypeScript translation files once they have been converted to JSON.
 
 startConvertToJson();
-
 /**
  * Initiates the conversion of translation files to JSON format.
  * Recreates the JSON folder, if necessary, based on the specified JSON_FOLDER.
@@ -30,15 +28,17 @@ startConvertToJson();
  * Converts TypeScript files to JSON.
  * Deletes the TypeScript files
  */
-function startConvertToJson() {
+function startConvertToJson(): void {
   recreateFolder(JSON_FOLDER);
-  // path to check: look for translation files in below pathes
-  const checkPathes = ['feature-libs', 'integration-libs', 'projects'];
+  const checkPathes: string[] = [
+    'feature-libs',
+    'integration-libs',
+    'projects',
+  ];
 
-  // Iterate through each checkPath
-  const projectPath = process.cwd();
+  const projectPath: string = process.cwd();
   for (const pathSegment of checkPathes) {
-    const checkPath = `${projectPath}/${pathSegment}`;
+    const checkPath: string = `${projectPath}/${pathSegment}`;
     if (fs.existsSync(checkPath)) {
       if (pathSegment === 'projects') {
         convertTsToJson(checkPath, 'src/translations');
@@ -53,41 +53,50 @@ function startConvertToJson() {
 }
 /**
  * Convert TypeScript files within a directory to JSON files
- * @param string directoryPath: root directory of project
- * @param string targetPath: location of target file e.g. "src/translations"
+ * @param {string} directoryPath: root directory of project
+ * @param {string} targetPath: location of target file e.g. "src/translations"
  */
-function convertTsToJson(directoryPath, targetPath) {
+function convertTsToJson(directoryPath: string, targetPath: string): void {
   try {
-    const files = fs.readdirSync(directoryPath);
+    const files: string[] = fs.readdirSync(directoryPath);
 
     files.forEach((file) => {
-      const filePath = path.join(directoryPath, file);
-      const stats = fs.statSync(filePath);
+      const filePath: string = path.join(directoryPath, file);
+      const stats: fs.Stats = fs.statSync(filePath);
 
       if (stats.isDirectory()) {
         if (isTranslationFolder(targetPath, filePath)) {
-          const subFiles = fs.readdirSync(filePath);
+          const subFiles: string[] = fs.readdirSync(filePath);
 
           subFiles.forEach((subFile) => {
             if (subFile === 'index.ts') {
-              const indexFilePath = path.join(filePath, subFile);
-              const translationInfos = extractTranslationInfo(indexFilePath);
-              let errorExisted = false;
+              const indexFilePath: string = path.join(filePath, subFile);
+              const translationInfos: TranslationInfo[] =
+                extractTranslationInfo(indexFilePath);
+              let errorExisted: boolean = false;
 
               translationInfos.forEach((translationInfo) => {
-                const importedFilePath = path.join(
+                const importedFilePath: string = path.join(
                   filePath,
                   translationInfo.importedFileName
                 );
 
                 if (fs.existsSync(importedFilePath)) {
-                  const variablesObject = loadObjectsFromFile(importedFilePath);
-                  const selectedObject = variablesObject.find(
-                    (obj) => obj.name === translationInfo.importedObjectName
-                  );
+                  const variablesObject: VariableObject[] =
+                    loadObjectsFromFile(importedFilePath);
+                  const selectedObject: VariableObject | undefined =
+                    variablesObject.find(
+                      (obj) => obj.name === translationInfo.importedObjectName
+                    );
 
-                  const jsonStr = JSON.stringify(selectedObject.value, null, 2);
-                  createJsonFile(filePath, selectedObject.name, jsonStr);
+                  if (selectedObject) {
+                    const jsonStr: string = JSON.stringify(
+                      selectedObject.value,
+                      null,
+                      2
+                    );
+                    createJsonFile(filePath, selectedObject.name, jsonStr);
+                  }
                 } else {
                   errorExisted = true;
                   console.error('File does not exist:', importedFilePath);
@@ -104,50 +113,61 @@ function convertTsToJson(directoryPath, targetPath) {
         }
       }
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error('Error:', err);
   }
 }
 
-function createJsonFile(filePath, objectName, content) {
-  const jsonFile = objectName + '.json';
-  // write to project folder
+interface VariableObject {
+  name: string;
+  value: any;
+}
+
+interface TranslationInfo {
+  importedFileName: string;
+  importedObjectName: string;
+}
+
+function createJsonFile(
+  filePath: string,
+  objectName: string,
+  content: string
+): void {
+  const jsonFile: string = objectName + '.json';
   if (CREATE_JSON_FILES) {
     if (!filePath.endsWith('/')) {
       filePath += '/';
     }
     fs.writeFileSync(filePath + jsonFile, content + '\n');
   }
-  // write to JSON_FOLDER folder
   if (JSON_FOLDER) {
     fs.writeFileSync(JSON_FOLDER + '/' + jsonFile, content + '\n');
   }
 }
-
 /**
  * Reads and processes TypeScript files. It handles imports, tracks variable dependencies,
  * and transpiles TypeScript to JavaScript.
  * returns an array of objects containing variable names and their values.
  */
-function loadObjectsFromFile(filePath) {
-  const tsFilesFullPath = [];
+function loadObjectsFromFile(filePath: string): VariableObject[] {
+  const tsFilesFullPath: string[] = [];
   tsFilesFullPath.push(filePath);
-  const fileContents = fs.readFileSync(filePath, 'utf-8');
-  let sourceFile = ts.createSourceFile(
+  const fileContents: string = fs.readFileSync(filePath, 'utf-8');
+  let sourceFile: ts.SourceFile = ts.createSourceFile(
     filePath,
     fileContents,
     ts.ScriptTarget.ESNext,
     true
   );
 
-  const importStatements = [];
-  const orgVariableDeclarations = [];
-  // check if TS file contains imports and saving original variables
-  function visitNode(node) {
+  const importStatements: ts.ImportDeclaration[] = [];
+  const orgVariableDeclarations: string[] = [];
+
+  function visitNode(node: ts.Node): void {
     if (ts.isImportDeclaration(node)) {
       importStatements.push(node);
     } else if (ts.isVariableDeclaration(node)) {
-      const variableName = node.name.getText();
+      const variableName: string = node.name.getText();
       orgVariableDeclarations.push(variableName);
     }
     ts.forEachChild(node, visitNode);
@@ -155,25 +175,22 @@ function loadObjectsFromFile(filePath) {
 
   visitNode(sourceFile);
 
-  // if import statement exist then get content and merge into original code file
   if (importStatements.length > 0) {
-    const importedFileContents = [];
-    const lastSlashIndex = filePath.lastIndexOf('/');
-    const rootPath = filePath.substring(0, lastSlashIndex) + '/';
+    const importedFileContents: string[] = [];
+    const lastSlashIndex: number = filePath.lastIndexOf('/');
+    const rootPath: string = filePath.substring(0, lastSlashIndex) + '/';
 
-    // read and save imported file contents
     importStatements.forEach((importStatement) => {
-      // Extract the imported file path from the import statement
-      const importFile = getImportedFileName(importStatement);
-      const importedFileContent = fs.readFileSync(
+      const importFile: string = getImportedFileName(importStatement);
+      const importedFileContent: string = fs.readFileSync(
         rootPath + importFile,
         'utf-8'
       );
       tsFilesFullPath.push(rootPath + importFile);
       importedFileContents.push(importedFileContent);
     });
-    // merge imported file contents with original file content
-    const mergedSourceFile = ts.createSourceFile(
+
+    const mergedSourceFile: ts.SourceFile = ts.createSourceFile(
       filePath,
       importedFileContents.join('\n') + '\n' + fileContents,
       ts.ScriptTarget.ESNext,
@@ -182,59 +199,56 @@ function loadObjectsFromFile(filePath) {
     sourceFile = mergedSourceFile;
   }
 
-  const objectNodes = [];
-  // find/save all variable declarations
-  function visit(node) {
+  const objectNodes: ts.VariableDeclaration[] = [];
+
+  function visit(node: ts.Node): void {
     if (ts.isVariableDeclaration(node)) {
       objectNodes.push(node);
     }
     ts.forEachChild(node, visit);
   }
+
   visit(sourceFile);
 
-  // Transpile TypeScript to JavaScript code
-  const printer = ts.createPrinter();
-  const jsCode = objectNodes
+  const printer: ts.Printer = ts.createPrinter();
+  const jsCode: string = objectNodes
     .map((node) => {
       return printer.printNode(ts.EmitHint.Unspecified, node, sourceFile);
     })
     .join('\n');
 
-  const sandbox = {};
+  const sandbox: { [key: string]: any } = {};
   vm.runInNewContext(jsCode, sandbox, { filename: filePath });
 
-  // delete TS files
   if (DELETE_TS_FILES) {
     tsFilesFullPath.forEach((file) => {
       deleteFile(file);
     });
   }
 
-  // Return an array of objects with variable names and their corresponding values
   return orgVariableDeclarations.map((variable) => {
-    const value = sandbox[variable];
+    const value: any = sandbox[variable];
     return {
       name: variable,
       value: value,
     };
   });
 }
-
 /**
  * extracts translation information from index.ts file.
- * @param string tsFilePath
+ * @param {string} tsFilePath
  * @returns
  */
-function extractTranslationInfo(tsFilePath) {
-  const tsFileContent = fs.readFileSync(tsFilePath, 'utf-8');
-  const sourceFile = ts.createSourceFile(
+function extractTranslationInfo(tsFilePath: string): TranslationInfo[] {
+  const tsFileContent: string = fs.readFileSync(tsFilePath, 'utf-8');
+  const sourceFile: ts.SourceFile = ts.createSourceFile(
     tsFilePath,
     tsFileContent,
     ts.ScriptTarget.Latest,
     true
   );
 
-  let importObjects = [];
+  let importObjects: TranslationInfo[] = [];
   ts.forEachChild(sourceFile, (node) => {
     if (ts.isImportDeclaration(node)) {
       importObjects.push({
@@ -251,9 +265,11 @@ function extractTranslationInfo(tsFilePath) {
  * @param node: abstract syntax tree
  * @returns
  */
-function getImportedFileName(node) {
-  let result = '';
-  const matches = node.getText().match(/from ['"](.*)['"]/);
+function getImportedFileName(node: ts.ImportDeclaration): string {
+  let result: string = '';
+  const matches: RegExpMatchArray | null = node
+    .getText()
+    .match(/from ['"](.*)['"]/);
   if (matches && matches[1]) {
     result = matches[1].replace(/\.\//, '') + '.ts';
   }
@@ -264,9 +280,9 @@ function getImportedFileName(node) {
  * @param node: abstract syntax tree
  * @returns
  */
-function getImportedObjectName(node) {
-  let result = '';
-  const matches = node.getText().match(/{([^}]*)}/);
+function getImportedObjectName(node: ts.ImportDeclaration): string {
+  let result: string = '';
+  const matches: RegExpMatchArray | null = node.getText().match(/{([^}]*)}/);
   if (matches && matches.length > 1) {
     result = matches[1].trim();
   }
@@ -274,22 +290,24 @@ function getImportedObjectName(node) {
 }
 /**
  * update import statement in index file.  remove TS import statements and replace with JSON
- * @param string filePath
- * @param string ImportedObjectName translationInfo.importedObjectName
+ * @param {string} filePath
+ * @param {string} ImportedObjectName translationInfo.importedObjectName
  */
-function updateImportStatement(filePath, translationInfos) {
+function updateImportStatement(
+  filePath: string,
+  translationInfos: TranslationInfo[]
+): void {
   if (!UPDATE_IMPORT_FILES) {
     return;
   }
 
   try {
-    const data = fs.readFileSync(filePath, 'utf8');
-
-    const lines = data.split('\n');
+    const data: string = fs.readFileSync(filePath, 'utf8');
+    const lines: string[] = data.split('\n');
     translationInfos.forEach((translationInfo) => {
-      const searchString =
+      const searchString: string =
         'import { ' + translationInfo.importedObjectName + ' } from ';
-      const replacementLine =
+      const replacementLine: string =
         'import ' +
         translationInfo.importedObjectName +
         " from './" +
@@ -302,26 +320,26 @@ function updateImportStatement(filePath, translationInfos) {
         }
       }
     });
-    const updatedContent = lines.join('\n');
-
+    const updatedContent: string = lines.join('\n');
     fs.writeFileSync(filePath, updatedContent, 'utf8');
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
   }
 }
-
 /**
  * Function to determine if a given path corresponds to a translation folder
- * @param string parentFolderName:  src/translations or assets/translations
- * @param string givenPath: current path
+ * @param {string} parentFolderName:  src/translations or assets/translations
+ * @param {string} givenPath: current path
  * @returns
  */
-function isTranslationFolder(parentFolderName, givenPath) {
-  const parentFolderNames = parentFolderName
+function isTranslationFolder(
+  parentFolderName: string,
+  givenPath: string
+): boolean {
+  const parentFolderNames: string[] = parentFolderName
     .split('/')
     .filter((segment) => segment.trim() !== '');
-
-  const pathSegments = givenPath
+  const pathSegments: string[] = givenPath
     .split('/')
     .filter((segment) => segment.trim() !== '');
 
@@ -331,16 +349,16 @@ function isTranslationFolder(parentFolderName, givenPath) {
     pathSegments[pathSegments.length - 2] === parentFolderNames[1]
   );
 }
-function deleteFile(filePath) {
-  fs.unlinkSync(filePath, (err) => {
-    if (err) {
-      console.error('Error occurred:', err);
-      return;
-    }
-  });
+
+function deleteFile(filePath: string): void {
+  try {
+    fs.unlinkSync(filePath);
+  } catch (err) {
+    console.error('Error occurred:', err);
+  }
 }
 
-function recreateFolder(folderPath) {
+function recreateFolder(folderPath: string): void {
   if (JSON_FOLDER) {
     if (fs.existsSync(folderPath)) {
       fs.rmSync(folderPath, { recursive: true, force: true });
