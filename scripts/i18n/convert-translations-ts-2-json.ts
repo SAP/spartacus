@@ -45,9 +45,11 @@ function startConvertToJson(): void {
         convertTsToJson(checkPath, 'assets/translations');
       }
     } else {
+      /* eslint-disable-next-line no-console */
       console.error(`Folder does not exist: ${checkPath}`);
     }
   }
+  /* eslint-disable-next-line no-console */
   console.log('Conversion done!');
 }
 /**
@@ -68,6 +70,7 @@ function convertTsToJson(directoryPath: string, targetPath: string): void {
       }
     });
   } catch (err: any) {
+    /* eslint-disable-next-line no-console */
     console.error('Error:', err);
   }
 }
@@ -103,6 +106,7 @@ function handleIndexFile(filePath: string, folderPath: string): void {
       handleExistingFile(importedFilePath, translationInfo, folderPath);
     } else {
       errorExisted = true;
+      /* eslint-disable-next-line no-console */
       console.error('File does not exist:', importedFilePath);
     }
   });
@@ -124,7 +128,8 @@ function handleExistingFile(
   );
 
   if (selectedObject) {
-    const jsonStr: string = JSON.stringify(selectedObject.value, null, 2);
+    const spacing = 2;
+    const jsonStr: string = JSON.stringify(selectedObject.value, null, spacing);
     createJsonFile(folderPath, selectedObject.name, jsonStr);
   }
 }
@@ -297,8 +302,7 @@ function getImportedObjectName(node: ts.ImportDeclaration): string {
   const endIdx = inputString.indexOf('}'); // Find the index of the closing curly brace
 
   if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
-    const objectName = inputString.substring(startIdx + 1, endIdx).trim(); // Extract the substring between curly braces
-    return objectName;
+    return inputString.substring(startIdx + 1, endIdx).trim(); // Return the extracted substring directly
   } else {
     return '';
   }
@@ -338,6 +342,7 @@ function updateImportStatement(
     const updatedContent: string = lines.join('\n');
     fs.writeFileSync(filePath, updatedContent, 'utf8');
   } catch (err: any) {
+    /* eslint-disable-next-line no-console */
     console.error(err);
   }
 }
@@ -357,11 +362,12 @@ function isTranslationFolder(
   const pathSegments: string[] = givenPath
     .split('/')
     .filter((segment) => segment.trim() !== '');
-
+  const limitTwo = 2;
+  const limitTree = 3;
   return (
-    pathSegments.length > 2 &&
-    pathSegments[pathSegments.length - 3] === parentFolderNames[0] &&
-    pathSegments[pathSegments.length - 2] === parentFolderNames[1]
+    pathSegments.length > limitTwo &&
+    pathSegments[pathSegments.length - limitTree] === parentFolderNames[0] &&
+    pathSegments[pathSegments.length - limitTwo] === parentFolderNames[1]
   );
 }
 
@@ -369,6 +375,7 @@ function deleteFile(filePath: string): void {
   try {
     fs.unlinkSync(filePath);
   } catch (err) {
+    /* eslint-disable-next-line no-console */
     console.error('Error occurred:', err);
   }
 }

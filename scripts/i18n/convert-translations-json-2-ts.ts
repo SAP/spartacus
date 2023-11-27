@@ -45,9 +45,11 @@ function startConvertToTS(): void {
         convertJsonToTs(checkPath, 'assets/translations');
       }
     } else {
+      /* eslint-disable-next-line no-console */
       console.error(`Folder does not exist: ${checkPath}`);
     }
   }
+  /* eslint-disable-next-line no-console */
   console.log('Conversion done!');
 }
 /**
@@ -68,6 +70,7 @@ function convertJsonToTs(directoryPath: string, targetPath: string): void {
       }
     });
   } catch (err) {
+    /* eslint-disable-next-line no-console */
     console.error('Error:', err);
   }
 }
@@ -104,6 +107,7 @@ function handleIndexFile(filePath: string, folderPath: string): void {
       handleExistingJsonFile(fullJsonFileName, translationInfo, folderPath);
     } else {
       errorExisted = true;
+      /* eslint-disable-next-line no-console */
       console.error('File does not exist:', fullJsonFileName);
     }
   });
@@ -278,6 +282,7 @@ function updateImportStatement(
 
     fs.writeFileSync(filePath, updatedContent, 'utf8');
   } catch (err) {
+    /* eslint-disable-next-line no-console */
     console.error(err);
   }
 }
@@ -299,10 +304,12 @@ function isTranslationFolder(
     .split('/')
     .filter((segment) => segment.trim() !== '');
 
+  const limitTwo = 2;
+  const limitTree = 3;
   return (
-    pathSegments.length > 2 &&
-    pathSegments[pathSegments.length - 3] === parentFolderNames[0] &&
-    pathSegments[pathSegments.length - 2] === parentFolderNames[1]
+    pathSegments.length > limitTwo &&
+    pathSegments[pathSegments.length - limitTree] === parentFolderNames[0] &&
+    pathSegments[pathSegments.length - limitTwo] === parentFolderNames[1]
   );
 }
 
@@ -310,6 +317,7 @@ function deleteFile(filePath: string): void {
   try {
     fs.unlinkSync(filePath);
   } catch (err) {
+    /* eslint-disable-next-line no-console */
     console.error('Error occurred:', err);
   }
 }
