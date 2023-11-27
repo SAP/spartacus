@@ -27,6 +27,18 @@
               ariaControls="quote-list"
             ></cx-sorting>
           </label>
+
+          <ng-container
+            *ngIf="
+              (isMobile() | async) &&
+              isPaginationEnabled(quotesState.data.pagination)
+            "
+          >
+            <cx-pagination
+              [pagination]="quotesState.data.pagination"
+              (viewPageEvent)="changePage($event)"
+            ></cx-pagination>
+          </ng-container>
         </div>
         <table id="quote-list" role="table" aria-describedby="quote-list-desc">
           <caption id="quote-list-desc" class="cx-visually-hidden">
@@ -106,19 +118,14 @@
             </tr>
           </tbody>
         </table>
-        <div class="cx-sort bottom">
-          <div
-            *ngIf="
-              quotesState.data.pagination.totalPages &&
-              quotesState.data.pagination.totalPages > 1
-            "
-          >
+        <ng-container *ngIf="isPaginationEnabled(quotesState.data.pagination)">
+          <div class="cx-sort bottom">
             <cx-pagination
               [pagination]="quotesState.data.pagination"
               (viewPageEvent)="changePage($event)"
             ></cx-pagination>
           </div>
-        </div>
+        </ng-container>
       </ng-container>
     </ng-container>
   </div>

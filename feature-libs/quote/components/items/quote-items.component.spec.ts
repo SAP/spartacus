@@ -399,4 +399,42 @@ describe('QuoteItemsComponent', () => {
       quoteItemsComponentService.setQuoteEntriesExpanded
     ).toHaveBeenCalledWith(true);
   });
+
+
+
+  describe('Accessibility', () => {
+    it("should contain 'div' HTML element with 'role' attribute that indicates the role for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'div',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'region'
+      );
+    });
+
+    it("should contain 'div' HTML element with 'aria-label' attribute that indicates the text for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'div',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'aria-label',
+        'quote.items.regionTitle'
+      );
+    });
+  });
 });

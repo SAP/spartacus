@@ -22,7 +22,7 @@ import {
   QuoteList,
   QuoteState,
 } from '@spartacus/quote/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { BreakpointService, ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
@@ -124,12 +124,19 @@ class MockLanguageService {
   }
 }
 
+class MockBreakpointService {
+  isDown() {}
+
+  isUp() {}
+}
+
 describe('QuoteListComponent', () => {
   let fixture: ComponentFixture<QuoteListComponent>;
   let htmlElem: HTMLElement;
   let component: QuoteListComponent;
   let quoteListComponentService: QuoteListComponentService;
   let cxDatePipe: CxDatePipe;
+  let breakpointService: BreakpointService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -148,6 +155,10 @@ describe('QuoteListComponent', () => {
           useClass: MockCommerceQuotesListComponentService,
         },
         { provide: LanguageService, useClass: MockLanguageService },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
       ],
     }).compileComponents();
   });
@@ -158,6 +169,7 @@ describe('QuoteListComponent', () => {
     component = fixture.componentInstance;
     quoteListComponentService = TestBed.inject(QuoteListComponentService);
     cxDatePipe = TestBed.inject(CxDatePipe);
+    breakpointService = TestBed.inject(BreakpointService);
   });
 
   it('should call service if sort changed', () => {
@@ -651,6 +663,47 @@ describe('QuoteListComponent', () => {
           expectedUpdatedTime +
           ' quote.list.clickableRow'
       );
+    });
+  });
+
+  describe('isMobile', () => {
+    it('should not render pagination in desktop mode', () => {
+      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+      fixture.detectChanges();
+
+      component['isMobile']().subscribe((isMobile) => {
+        expect(isMobile).toBe(false);
+      });
+      CommonQuoteTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-pagination'
+      );
+    });
+
+    it('should render pagination in mobile mode', () => {
+      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+      fixture.detectChanges();
+
+      component['isMobile']().subscribe((isMobile) => {
+        expect(isMobile).toBe(true);
+      });
+      CommonQuoteTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-pagination'
+      );
+    });
+  });
+
+  describe('isPaginationEnabled', () => {
+    it('should not render pagination', () => {
+      expect(component['isPaginationEnabled'](mockPagination)).toBe(false);
+    });
+
+    it('should  render pagination', () => {
+      mockPagination.totalPages = 3;
+      expect(component['isPaginationEnabled'](mockPagination)).toBe(true);
     });
   });
 
