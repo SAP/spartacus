@@ -10,12 +10,11 @@
  * Please review the options before running this script
  */
 import * as fs from 'fs-extra';
-import * as path from 'path';
 import * as ts from 'typescript';
 import * as vm from 'vm';
 
 // Options
-const JSON_FOLDER = 'scripts/i18n/json'; // Generate JSON files to given location e.g. scripts/i18n/json
+const JSON_FOLDER = ''; // Generate JSON files to given location e.g. scripts/i18n/json
 const CREATE_JSON_FILES = true; // Generate JSON files within the respective Spartacus translation directories
 const UPDATE_IMPORT_FILES = true; // update the import statements in the index.ts files
 const DELETE_TS_FILES = true; // Remove the TypeScript translation files once they have been converted to JSON.
@@ -61,60 +60,72 @@ function convertTsToJson(directoryPath: string, targetPath: string): void {
     const files: string[] = fs.readdirSync(directoryPath);
 
     files.forEach((file) => {
-      const filePath: string = path.join(directoryPath, file);
+      const filePath: string = directoryPath + '/' + file;
       const stats: fs.Stats = fs.statSync(filePath);
 
       if (stats.isDirectory()) {
-        if (isTranslationFolder(targetPath, filePath)) {
-          const subFiles: string[] = fs.readdirSync(filePath);
-
-          subFiles.forEach((subFile) => {
-            if (subFile === 'index.ts') {
-              const indexFilePath: string = path.join(filePath, subFile);
-              const translationInfos: TranslationInfo[] =
-                extractTranslationInfo(indexFilePath);
-              let errorExisted: boolean = false;
-
-              translationInfos.forEach((translationInfo) => {
-                const importedFilePath: string = path.join(
-                  filePath,
-                  translationInfo.importedFileName
-                );
-
-                if (fs.existsSync(importedFilePath)) {
-                  const variablesObject: VariableObject[] =
-                    loadObjectsFromFile(importedFilePath);
-                  const selectedObject: VariableObject | undefined =
-                    variablesObject.find(
-                      (obj) => obj.name === translationInfo.importedObjectName
-                    );
-
-                  if (selectedObject) {
-                    const jsonStr: string = JSON.stringify(
-                      selectedObject.value,
-                      null,
-                      2
-                    );
-                    createJsonFile(filePath, selectedObject.name, jsonStr);
-                  }
-                } else {
-                  errorExisted = true;
-                  console.error('File does not exist:', importedFilePath);
-                }
-              });
-
-              if (!errorExisted) {
-                updateImportStatement(indexFilePath, translationInfos);
-              }
-            }
-          });
-        } else {
-          convertTsToJson(filePath, targetPath);
-        }
+        handleDirectory(filePath, targetPath);
       }
     });
   } catch (err: any) {
     console.error('Error:', err);
+  }
+}
+
+function handleDirectory(directoryPath: string, targetPath: string): void {
+  if (isTranslationFolder(targetPath, directoryPath)) {
+    handleTranslationFolder(directoryPath);
+  } else {
+    convertTsToJson(directoryPath, targetPath);
+  }
+}
+
+function handleTranslationFolder(folderPath: string): void {
+  const subFiles: string[] = fs.readdirSync(folderPath);
+
+  subFiles.forEach((subFile) => {
+    if (subFile === 'index.ts') {
+      const indexFilePath: string = folderPath + '/' + subFile;
+      handleIndexFile(indexFilePath, folderPath);
+    }
+  });
+}
+
+function handleIndexFile(filePath: string, folderPath: string): void {
+  const translationInfos: TranslationInfo[] = extractTranslationInfo(filePath);
+  let errorExisted: boolean = false;
+
+  translationInfos.forEach((translationInfo) => {
+    const importedFilePath: string =
+      folderPath + '/' + translationInfo.importedFileName;
+
+    if (fs.existsSync(importedFilePath)) {
+      handleExistingFile(importedFilePath, translationInfo, folderPath);
+    } else {
+      errorExisted = true;
+      console.error('File does not exist:', importedFilePath);
+    }
+  });
+
+  if (!errorExisted) {
+    updateImportStatement(filePath, translationInfos);
+  }
+}
+
+function handleExistingFile(
+  importedFilePath: string,
+  translationInfo: TranslationInfo,
+  folderPath: string
+): void {
+  const variablesObject: VariableObject[] =
+    loadObjectsFromFile(importedFilePath);
+  const selectedObject: VariableObject | undefined = variablesObject.find(
+    (obj) => obj.name === translationInfo.importedObjectName
+  );
+
+  if (selectedObject) {
+    const jsonStr: string = JSON.stringify(selectedObject.value, null, 2);
+    createJsonFile(folderPath, selectedObject.name, jsonStr);
   }
 }
 
@@ -248,7 +259,7 @@ function extractTranslationInfo(tsFilePath: string): TranslationInfo[] {
     true
   );
 
-  let importObjects: TranslationInfo[] = [];
+  const importObjects: TranslationInfo[] = [];
   ts.forEachChild(sourceFile, (node) => {
     if (ts.isImportDeclaration(node)) {
       importObjects.push({

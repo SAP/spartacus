@@ -12,7 +12,6 @@
  */
 
 import * as fs from 'fs-extra';
-import * as path from 'path';
 import * as ts from 'typescript';
 
 // options
@@ -61,66 +60,81 @@ function convertJsonToTs(directoryPath: string, targetPath: string): void {
     const files: string[] = fs.readdirSync(directoryPath);
 
     files.forEach((file) => {
-      const filePath: string = path.join(directoryPath, file);
+      const filePath: string = directoryPath + '/' + file;
       const stats: fs.Stats = fs.statSync(filePath);
 
       if (stats.isDirectory()) {
-        if (isTranslationFolder(targetPath, filePath)) {
-          const subFiles: string[] = fs.readdirSync(filePath);
-          let errorExisted: boolean = false;
-
-          subFiles.forEach((subFile) => {
-            if (subFile === 'index.ts') {
-              const indexFilePath: string = path.join(filePath, subFile);
-              const translationInfos: {
-                importedFileName: string;
-                importedObjectName: string;
-              }[] = extractTranslationInfo(indexFilePath);
-
-              translationInfos.forEach((translationInfo) => {
-                const fullJsonFileName: string = path.join(
-                  filePath,
-                  translationInfo.importedFileName
-                );
-
-                if (fs.existsSync(fullJsonFileName)) {
-                  const jsonData: any = JSON.parse(
-                    fs.readFileSync(fullJsonFileName, 'utf8')
-                  );
-                  const tsConstDeclaration: string = convertJSONtoTSConst(
-                    jsonData,
-                    translationInfo.importedObjectName
-                  );
-
-                  createTSFile(
-                    filePath,
-                    translationInfo.importedObjectName,
-                    tsConstDeclaration
-                  );
-
-                  if (DELETE_JSON_FILES) {
-                    deleteFile(fullJsonFileName);
-                  }
-                } else {
-                  errorExisted = true;
-                  console.error('File does not exist:', fullJsonFileName);
-                }
-              });
-
-              if (!errorExisted) {
-                updateImportStatement(indexFilePath, translationInfos);
-              }
-            }
-          });
-        } else {
-          convertJsonToTs(filePath, targetPath);
-        }
+        handleDirectory(filePath, targetPath);
       }
     });
   } catch (err) {
     console.error('Error:', err);
   }
 }
+
+function handleDirectory(directoryPath: string, targetPath: string): void {
+  if (isTranslationFolder(targetPath, directoryPath)) {
+    handleTranslationFolder(directoryPath);
+  } else {
+    convertJsonToTs(directoryPath, targetPath);
+  }
+}
+
+function handleTranslationFolder(folderPath: string): void {
+  const subFiles: string[] = fs.readdirSync(folderPath);
+
+  subFiles.forEach((subFile) => {
+    if (subFile === 'index.ts') {
+      const indexFilePath: string = folderPath + '/' + subFile;
+      handleIndexFile(indexFilePath, folderPath);
+    }
+  });
+}
+
+function handleIndexFile(filePath: string, folderPath: string): void {
+  const translationInfos = extractTranslationInfo(filePath);
+
+  let errorExisted = false;
+
+  translationInfos.forEach((translationInfo) => {
+    const fullJsonFileName: string =
+      folderPath + '/' + translationInfo.importedFileName;
+
+    if (fs.existsSync(fullJsonFileName)) {
+      handleExistingJsonFile(fullJsonFileName, translationInfo, folderPath);
+    } else {
+      errorExisted = true;
+      console.error('File does not exist:', fullJsonFileName);
+    }
+  });
+
+  if (!errorExisted) {
+    updateImportStatement(filePath, translationInfos);
+  }
+}
+
+function handleExistingJsonFile(
+  fullJsonFileName: string,
+  translationInfo: { importedFileName: string; importedObjectName: string },
+  folderPath: string
+): void {
+  const jsonData: any = JSON.parse(fs.readFileSync(fullJsonFileName, 'utf8'));
+  const tsConstDeclaration: string = convertJSONtoTSConst(
+    jsonData,
+    translationInfo.importedObjectName
+  );
+
+  createTSFile(
+    folderPath,
+    translationInfo.importedObjectName,
+    tsConstDeclaration
+  );
+
+  if (DELETE_JSON_FILES) {
+    deleteFile(fullJsonFileName);
+  }
+}
+
 /**
  * Converts a JavaScript object into a string representation with customizable formatting.
  * @param {any} obj - The input object to stringify.
@@ -198,7 +212,7 @@ function extractTranslationInfo(
     true
   );
 
-  let importObjects: {
+  const importObjects: {
     importedFileName: string;
     importedObjectName: string;
   }[] = [];
@@ -243,7 +257,7 @@ function updateImportStatement(
   }
   try {
     const data: string = fs.readFileSync(filePath, 'utf8');
-    let lines: string[] = data.split('\n');
+    const lines: string[] = data.split('\n');
     translationInfos.forEach((translationInfo) => {
       const searchString: string =
         'import ' + translationInfo.importedObjectName + ' from ';
