@@ -15,5 +15,5 @@ import { AbstractOrderType } from './cart.model';
 @Injectable()
 export abstract class AbstractOrderContext {
   readonly type$: Observable<AbstractOrderType>;
-  readonly id$: Observable<string>;
+  readonly id$: Observable<string | undefined>;
 }

@@ -10,15 +10,18 @@ import {
   AbstractOrderContext,
   AbstractOrderType,
 } from '@spartacus/cart/base/root';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 /**
- * Context source for AbstractOrderContext.
+ * Context source for AbstractOrderContext. Default values represent the context
+ * of an active cart
  *
  * AbstractOrderContext should be injected in child components.
  */
 @Injectable()
 export class AbstractOrderContextSource implements AbstractOrderContext {
-  readonly type$ = new ReplaySubject<AbstractOrderType>(1);
-  readonly id$ = new ReplaySubject<string>(1);
+  readonly type$ = new BehaviorSubject<AbstractOrderType>(
+    AbstractOrderType.CART
+  );
+  readonly id$ = new BehaviorSubject<string | undefined>(undefined);
 }

@@ -13,19 +13,15 @@ import {
 import { Params } from '@angular/router';
 import {
   AbstractOrderContext,
+  AbstractOrderKey,
   AbstractOrderType,
   OrderEntry,
 } from '@spartacus/cart/base/root';
 
 import { Observable, combineLatest, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
-
-interface AbstractOrderData {
-  id?: string;
-  type: AbstractOrderType;
-}
 
 @Component({
   selector: 'cx-configure-cart-entry',
@@ -44,11 +40,11 @@ export class ConfigureCartEntryComponent {
 
   // we default to active cart as owner in case no context is provided
   // in this case no id of abstract order is needed
-  abstractOrderData$: Observable<AbstractOrderData> = this.abstractOrderContext
+  abstractOrderData$: Observable<AbstractOrderKey> = this.abstractOrderContext
     ? combineLatest([
         this.abstractOrderContext.id$,
-        this.abstractOrderContext.type$, 
-      ]).pipe(tap(([id, _type])=>console.log("CHHI id from context: "+ id)),map(([id, type]) => ({ id, type })))
+        this.abstractOrderContext.type$,
+      ]).pipe(map(([id, type]) => ({ id, type })))
     : of({ type: AbstractOrderType.CART });
 
   /**
@@ -78,7 +74,7 @@ export class ConfigureCartEntryComponent {
    * @returns - an owner type
    */
   retrieveOwnerTypeFromAbstractOrderType(
-    abstractOrderData: AbstractOrderData
+    abstractOrderData: AbstractOrderKey
   ): CommonConfigurator.OwnerType {
     switch (abstractOrderData.type) {
       case AbstractOrderType.ORDER: {
@@ -123,7 +119,7 @@ export class ConfigureCartEntryComponent {
    *
    * @returns - an entry key
    */
-  retrieveEntityKey(abstractOrderData: AbstractOrderData): string {
+  retrieveEntityKey(abstractOrderData: AbstractOrderKey): string {
     const orderType = abstractOrderData.type;
     const ownerDocumentIdNeeded: boolean =
       orderType === AbstractOrderType.ORDER ||
@@ -139,7 +135,7 @@ export class ConfigureCartEntryComponent {
   }
 
   protected getConfiguratorOwnerId(
-    abstractOrderData: AbstractOrderData,
+    abstractOrderData: AbstractOrderKey,
     entryNumber: number
   ): string {
     const abstractOrderId = abstractOrderData.id;

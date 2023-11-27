@@ -10,7 +10,7 @@ import {
   ActiveCartFacade,
   CartOutlets,
   MultiCartFacade,
-  OrderEntry
+  OrderEntry,
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';
@@ -41,7 +41,6 @@ interface QuoteItemsData {
 @Component({
   selector: 'cx-quote-items',
   templateUrl: './quote-items.component.html',
-
 })
 export class QuoteItemsComponent {
   protected quoteFacade = inject(QuoteFacade);
@@ -67,26 +66,30 @@ export class QuoteItemsComponent {
       }),
       switchMap(([quote, _userId]) => {
         if (!quote.cartId) {
-          return zip(of(quote), of(true), of(AbstractOrderType.QUOTE));
+          return zip(
+            of(quote),
+            of({ readOnly: true }),
+            of(AbstractOrderType.QUOTE)
+          );
         } else if (!quote.isEditable) {
           return combineLatest([
             this.multiCartFacade.getCart(quote.cartId),
-            of(true),
+            of({ readOnly: true }),
             of(AbstractOrderType.SAVED_CART),
           ]);
         } else {
           return combineLatest([
             this.activeCartFacade.getActive(),
-            of(false),
+            of({ readOnly: false }),
             of(AbstractOrderType.CART),
           ]);
         }
       }),
-      filter(([abstractOrder, _readOnly]) => abstractOrder !== undefined),
-      map(([abstractOrder, readOnly, abstractOrderType]) => {
+      filter(([abstractOrder, _editState]) => abstractOrder !== undefined),
+      map(([abstractOrder, editState, abstractOrderType]) => {
         return {
           entries: abstractOrder.entries,
-          readOnly: readOnly,
+          readOnly: editState.readOnly,
           abstractOrderId: abstractOrder.code,
           abstractOrderType: abstractOrderType,
         };

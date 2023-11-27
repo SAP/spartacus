@@ -190,7 +190,12 @@ describe('QuoteItemsComponent', () => {
       mockQuoteDetails$.next(quote);
       expect(component.quoteItemsData$).toBeObservable(
         cold('a', {
-          a: { readOnly: true, entries: cartAttachedToQuote.entries },
+          a: {
+            readOnly: true,
+            entries: cartAttachedToQuote.entries,
+            abstractOrderId: cartId,
+            abstractOrderType: AbstractOrderType.SAVED_CART,
+          },
         })
       );
     });
@@ -200,7 +205,14 @@ describe('QuoteItemsComponent', () => {
       fixture = TestBed.createComponent(QuoteItemsComponent);
       component = fixture.componentInstance;
       expect(component.quoteItemsData$).toBeObservable(
-        cold('a', { a: { readOnly: true, entries: quote.entries } })
+        cold('a', {
+          a: {
+            readOnly: true,
+            entries: quote.entries,
+            abstractOrderId: quote.code,
+            abstractOrderType: AbstractOrderType.QUOTE,
+          },
+        })
       );
     });
 
@@ -210,67 +222,12 @@ describe('QuoteItemsComponent', () => {
       component = fixture.componentInstance;
       expect(component.quoteItemsData$).toBeObservable(
         cold('a', {
-          a: { readOnly: false, entries: activeCartAttachedToQuote.entries },
-        })
-      );
-    });
-  });
-
-  describe('Abstract order context', () => {
-    it('should emit type SAVED_CART if quote is linked to a cart and read-only', () => {
-      mockQuoteDetails$.next(quote);
-      expect(component['abstractOrderContextSource'].type$).toBeObservable(
-        cold('a', {
-          a: AbstractOrderType.SAVED_CART,
-        })
-      );
-    });
-
-    it('should emit id from quote cart if quote is linked to a cart and read-only', () => {
-      mockQuoteDetails$.next(quote);
-      expect(component['abstractOrderContextSource'].id$).toBeObservable(
-        cold('a', {
-          a: cartId,
-        })
-      );
-    });
-
-    it('should emit type QUOTE if quote is not linked to a cart', () => {
-      mockQuoteDetails$.next(quoteWoCartId);
-      fixture.detectChanges();
-      expect(component['abstractOrderContextSource'].type$).toBeObservable(
-        cold('a', {
-          a: AbstractOrderType.QUOTE,
-        })
-      );
-    });
-
-    it('should emit id from quote if quote is linked to a cart and read-only', () => {
-      mockQuoteDetails$.next(quoteWoCartId);
-      fixture.detectChanges();
-      expect(component['abstractOrderContextSource'].id$).toBeObservable(
-        cold('a', {
-          a: quote.code,
-        })
-      );
-    });
-
-    it('should emit type CART if quote is editable', () => {
-      mockQuoteDetails$.next(quoteEditable);
-      fixture.detectChanges();
-      expect(component['abstractOrderContextSource'].type$).toBeObservable(
-        cold('a', {
-          a: AbstractOrderType.CART,
-        })
-      );
-    });
-
-    it('should emit id from active cart if quote is editable', () => {
-      mockQuoteDetails$.next(quoteEditable);
-      fixture.detectChanges();
-      expect(component['abstractOrderContextSource'].id$).toBeObservable(
-        cold('a', {
-          a: cartId,
+          a: {
+            readOnly: false,
+            entries: activeCartAttachedToQuote.entries,
+            abstractOrderId: cartId,
+            abstractOrderType: AbstractOrderType.CART,
+          },
         })
       );
     });

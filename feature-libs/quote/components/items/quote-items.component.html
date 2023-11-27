@@ -16,7 +16,10 @@
     </div>
     <ng-container *ngIf="state.showCart">
       <ng-template
-        [cxAbstractOrder]="{ id: quoteItemsData.abstractOrderId??'',type: quoteItemsData.abstractOrderType}"
+        [cxAbstractOrder]="{
+          id: quoteItemsData.abstractOrderId,
+          type: quoteItemsData.abstractOrderType
+        }"
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
         [cxOutletContext]="{
           items: quoteItemsData.entries,

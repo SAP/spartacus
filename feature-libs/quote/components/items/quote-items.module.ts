@@ -17,7 +17,13 @@ import { IconModule, OutletModule } from '@spartacus/storefront';
 import { QuoteItemsComponent } from './quote-items.component';
 
 @NgModule({
-  imports: [CommonModule, OutletModule, IconModule, I18nModule,AbstractOrderModule],
+  imports: [
+    CommonModule,
+    OutletModule,
+    IconModule,
+    I18nModule,
+    AbstractOrderModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

@@ -118,8 +118,8 @@ export interface CartItemComponentOptions {
 }
 
 export interface AbstractOrderKey {
-  id: string;
   type: AbstractOrderType;
+  id?: string;
 }
 
 export enum AbstractOrderType {

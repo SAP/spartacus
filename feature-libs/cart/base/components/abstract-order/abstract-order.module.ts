@@ -9,7 +9,6 @@ import { AbstractOrderDirective } from './abstract-order.directive';
 
 @NgModule({
   declarations: [AbstractOrderDirective],
-
   exports: [AbstractOrderDirective],
 })
 export class AbstractOrderModule {}
