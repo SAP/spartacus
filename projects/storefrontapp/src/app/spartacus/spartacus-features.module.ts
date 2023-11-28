@@ -58,6 +58,7 @@ import {
   StockNotificationModule,
   TabParagraphContainerModule,
   VideoModule,
+  USE_MY_ACCOUNT_V2_CONSENT,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AsmFeatureModule } from './features/asm/asm-feature.module';
@@ -95,7 +96,6 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { USE_MY_ACCOUNT_V2_CONSENT } from 'projects/storefrontlib/cms-components/myaccount/my-account-v2/token';
 
 const featureModules = [];
 
@@ -245,6 +245,7 @@ if (environment.requestedDeliveryDate) {
     ...featureModules,
   ],
   providers: [
+    // Adding the provider here because consents feature is not code-splitted to separate library and not lazy-loaded
     {
       provide: USE_MY_ACCOUNT_V2_CONSENT,
       useValue: environment.myAccountV2,
