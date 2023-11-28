@@ -136,6 +136,18 @@ export function verifyEmailChannel(email: String) {
     cy.get('[type="checkbox"]').first().should('not.be.checked');
   });
 }
+
+export function verifyEmailChannelV2(email: String) {
+  navigateToNotificationPreferencePage();
+  cy.get('cx-my-account-v2-notification-preference').within(() => {
+    cy.get('.pref-channel .form-check-label').should(
+      'contain',
+      'Email: ' + email
+    );
+    cy.get('[type="checkbox"]').first().should('not.be.checked');
+  });
+}
+
 //stock notification
 export function verifyStockNotificationAsGuest() {
   navigateToPDP(normalProductCode);

@@ -7,7 +7,7 @@
 import {
   testEnableDisableMyAccountV2NotificationPreference,
   updateEmail,
-  verifyEmailChannel,
+  verifyEmailChannelV2,
 } from '../../../helpers/notification';
 import { registerAndLogin } from '../../../helpers/update-email';
 import { viewportContext } from '../../../helpers/viewport-context';
@@ -48,9 +48,9 @@ describe('My Account V2 Notification preference', () => {
       });
 
       it('should show correct email channel after update email address', () => {
-        verifyEmailChannel(standardUser.registrationData.email);
+        verifyEmailChannelV2(standardUser.registrationData.email);
         const newEmail = updateEmail();
-        verifyEmailChannel(newEmail);
+        verifyEmailChannelV2(newEmail);
       });
     });
   });

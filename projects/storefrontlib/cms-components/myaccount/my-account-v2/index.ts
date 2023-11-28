@@ -6,5 +6,5 @@
 
 export * from './my-account-v2-navigation/index';
 export * from './my-account-v2.module';
-export * from './my-account-v2-notification-preference/index';
+export * from '../my-account-v2-notification-preference/index';
 export * from './token';
