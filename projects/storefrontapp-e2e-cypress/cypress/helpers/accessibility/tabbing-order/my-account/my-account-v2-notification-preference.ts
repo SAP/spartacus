@@ -9,7 +9,9 @@ import { TabElement } from '../../tabbing-order.model';
 
 const containerSelector = '.AccountPageTemplate';
 
-export function myAccountV2notificationPreferenceTabbingOrder(config: TabElement[]) {
+export function myAccountV2notificationPreferenceTabbingOrder(
+  config: TabElement[]
+) {
   cy.visit('/my-account/notification-preference');
 
   verifyTabbingOrder(containerSelector, config);

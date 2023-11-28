@@ -371,9 +371,11 @@ describe('Tabbing order - tests do require user to be logged in', () => {
 
   context('My acoount V2 notification preference', () => {
     it('should allow to navigate with tab key', () => {
-      myAccountV2notificationPreferenceTabbingOrder(config.notificationPreferenceV2);
+      myAccountV2notificationPreferenceTabbingOrder(
+        config.notificationPreferenceV2
+      );
     });
-  })
+  });
 
   context('Change password', () => {
     it('should allow to navigate with tab key', () => {
