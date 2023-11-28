@@ -20,7 +20,7 @@ import {
 } from '@spartacus/quote/root';
 import { IconTestingModule, OutletDirective } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { BehaviorSubject, EMPTY, NEVER, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, NEVER, Observable, from, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
@@ -89,15 +89,22 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
       .asObservable()
       .pipe(tap(() => (cartObsHasFired = true)));
   }
+  isStable(): Observable<boolean> {
+    return from([false, true]);
+  }
 }
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
+  loadCart(): void {}
+
   getCart(): Observable<Cart> {
     return mockCartAttachedToQuote$
       .asObservable()
       .pipe(tap(() => (savedCartObsHasFired = true)));
   }
-  loadCart(): void {}
+  isStable(): Observable<boolean> {
+    return from([false, true]);
+  }
 }
 
 class MockUserIdService implements Partial<UserIdService> {

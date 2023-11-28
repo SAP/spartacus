@@ -71,18 +71,27 @@ export class QuoteItemsComponent {
             of({ readOnly: true }),
             of(AbstractOrderType.QUOTE)
           );
-        } else if (!quote.isEditable) {
-          return combineLatest([
-            this.multiCartFacade.getCart(quote.cartId),
-            of({ readOnly: true }),
-            of(AbstractOrderType.SAVED_CART),
-          ]);
         } else {
-          return combineLatest([
-            this.activeCartFacade.getActive(),
-            of({ readOnly: false }),
-            of(AbstractOrderType.CART),
-          ]);
+          const quoteCartId: string = quote.cartId;
+          if (!quote.isEditable) {
+            return combineLatest([
+              this.multiCartFacade.isStable(quoteCartId).pipe(
+                filter((stable) => stable),
+                switchMap(() => this.multiCartFacade.getCart(quoteCartId))
+              ),
+              of({ readOnly: true }),
+              of(AbstractOrderType.SAVED_CART),
+            ]);
+          } else {
+            return combineLatest([
+              this.activeCartFacade.isStable().pipe(
+                filter((stable) => stable),
+                switchMap(() => this.activeCartFacade.getActive())
+              ),
+              of({ readOnly: false }),
+              of(AbstractOrderType.CART),
+            ]);
+          }
         }
       }),
       filter(([abstractOrder, _editState]) => abstractOrder !== undefined),
