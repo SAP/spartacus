@@ -20,7 +20,7 @@ import { of, throwError } from 'rxjs';
 import { RequestedDeliveryDateFacade } from '../../facade/requested-delivery-date.facade';
 import { DeliveryModeDatePickerComponent } from './delivery-mode-date-picker.component';
 
-fdescribe('DeliveryModeDatePickerComponent', () => {
+describe('DeliveryModeDatePickerComponent', () => {
   let component: DeliveryModeDatePickerComponent;
   let fixture: ComponentFixture<DeliveryModeDatePickerComponent>;
 
