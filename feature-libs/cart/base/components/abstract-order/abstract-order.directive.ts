@@ -11,8 +11,10 @@ import {
   SimpleChanges,
   inject,
 } from '@angular/core';
-import { AbstractOrderContext, AbstractOrderKey } from '../../root/models';
-import { AbstractOrderContextSource } from '../cart-shared/abstract-order/abstract-order-context-source.model';
+
+import { AbstractOrderKey } from '@spartacus/cart/base/root';
+import { AbstractOrderContextSource } from './abstract-order-context-source.model';
+import { AbstractOrderContext } from './abstract-order-context.model';
 
 @Directive({
   selector: '[cxAbstractOrder]',

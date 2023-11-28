@@ -7,10 +7,10 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { AbstractOrderType } from './cart.model';
+import { AbstractOrderType } from '../../root/models/cart.model';
 
 /**
- * Context for transporting information about an abstract order (cart, saved cart, order, quote).
+ * Context for transporting information about an abstract order (active cart, saved cart, order, quote).
  */
 @Injectable()
 export abstract class AbstractOrderContext {

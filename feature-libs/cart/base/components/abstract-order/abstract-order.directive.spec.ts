@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { tap } from 'rxjs/operators';
-import { AbstractOrderContext } from '../../root/models/abstract-order-context.model';
 import { AbstractOrderType } from '../../root/models/cart.model';
+import { AbstractOrderContext } from './abstract-order-context.model';
 import { AbstractOrderModule } from './abstract-order.module';
 
 const abstractOrderId = '129374';

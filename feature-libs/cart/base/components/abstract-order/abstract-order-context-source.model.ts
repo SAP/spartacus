@@ -6,11 +6,9 @@
 
 import { Injectable } from '@angular/core';
 
-import {
-  AbstractOrderContext,
-  AbstractOrderType,
-} from '@spartacus/cart/base/root';
+import { AbstractOrderType } from '@spartacus/cart/base/root';
 import { BehaviorSubject } from 'rxjs';
+import { AbstractOrderContext } from './abstract-order-context.model';
 
 /**
  * Context source for AbstractOrderContext. Default values represent the context

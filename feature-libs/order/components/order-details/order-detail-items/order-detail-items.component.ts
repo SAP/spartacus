@@ -5,9 +5,7 @@
  */
 
 import { Component, inject } from '@angular/core';
-import { AbstractOrderContextSource } from '@spartacus/cart/base/components';
 import {
-  AbstractOrderContext,
   AbstractOrderType,
   CartOutlets,
   OrderEntry,
@@ -24,10 +22,6 @@ import { OrderDetailsService } from '../order-details.service';
 @Component({
   selector: 'cx-order-details-items',
   templateUrl: './order-detail-items.component.html',
-  providers: [
-    AbstractOrderContextSource,
-    { provide: AbstractOrderContext, useExisting: AbstractOrderContextSource },
-  ],
 })
 export class OrderDetailItemsComponent {
   protected orderConsignmentsService = inject(
@@ -35,7 +29,7 @@ export class OrderDetailItemsComponent {
   );
   readonly OrderOutlets = OrderOutlets;
   readonly CartOutlets = CartOutlets;
-  protected abstractOrderContextSource = inject(AbstractOrderContextSource);
+  readonly abstractOrderType = AbstractOrderType;
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
 
@@ -55,10 +49,6 @@ export class OrderDetailItemsComponent {
         order,
         false
       );
-    }),
-    tap((order) => {
-      this.abstractOrderContextSource.id$.next(order?.code);
-      this.abstractOrderContextSource.type$.next(AbstractOrderType.ORDER);
     })
   );
 

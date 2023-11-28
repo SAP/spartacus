@@ -2,11 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  AbstractOrderContext,
-  AbstractOrderType,
-  OrderEntry,
-} from '@spartacus/cart/base/root';
+import { AbstractOrderContext } from '@spartacus/cart/base/components';
+import { AbstractOrderType, OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { of } from 'rxjs';

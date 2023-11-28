@@ -12,12 +12,12 @@ import {
 } from '@angular/core';
 import { Params } from '@angular/router';
 import {
-  AbstractOrderContext,
   AbstractOrderKey,
   AbstractOrderType,
   OrderEntry,
 } from '@spartacus/cart/base/root';
 
+import { AbstractOrderContext } from '@spartacus/cart/base/components';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
