@@ -24,9 +24,9 @@ import {
   ConfirmActionDialogMappingConfig,
   QuoteUIConfig,
 } from '../../config/quote-ui.config';
-import { ConfirmationContext } from '../confirm-dialog/quote-actions-confirm-dialog.model';
+import { ConfirmationContext } from '../../actions/confirm-dialog/quote-actions-confirm-dialog.model';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
-import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
+import { QuoteSummaryActionsComponent } from './quote-summary-actions.component';
 import createSpy = jasmine.createSpy;
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 
@@ -143,10 +143,10 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   }
 }
 
-describe('QuoteActionsByRoleComponent', () => {
-  let fixture: ComponentFixture<QuoteActionsByRoleComponent>;
+describe('QuoteSummaryActionsComponent', () => {
+  let fixture: ComponentFixture<QuoteSummaryActionsComponent>;
   let htmlElem: HTMLElement;
-  let component: QuoteActionsByRoleComponent;
+  let component: QuoteSummaryActionsComponent;
   let launchDialogService: LaunchDialogService;
   let quoteFacade: QuoteFacade;
   let globalMessageService: GlobalMessageService;
@@ -154,7 +154,7 @@ describe('QuoteActionsByRoleComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [QuoteActionsByRoleComponent],
+      declarations: [QuoteSummaryActionsComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -175,7 +175,7 @@ describe('QuoteActionsByRoleComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteActionsByRoleComponent);
+    fixture = TestBed.createComponent(QuoteSummaryActionsComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);

@@ -7,11 +7,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
-import { QuoteHeaderPriceComponent } from './quote-header-price.component';
+import { QuoteSummaryActionsComponent } from './quote-summary-actions.component';
 
 @NgModule({
   imports: [CommonModule, I18nModule],
-  declarations: [QuoteHeaderPriceComponent],
-  exports: [QuoteHeaderPriceComponent],
+  declarations: [QuoteSummaryActionsComponent],
+  exports: [QuoteSummaryActionsComponent],
 })
-export class QuoteHeaderPriceModule {}
+export class QuoteSummaryActionsModule {}

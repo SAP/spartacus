@@ -5,7 +5,7 @@
  */
 
 export * from './buyer-edit';
-export * from './order-summary';
+export * from '../summary';
 export * from './overview';
-export * from './price';
-export * from './seller-edit';
+export * from '../summary/price';
+export * from '../summary/seller-edit';

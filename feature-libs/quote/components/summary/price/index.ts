@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './quote-actions-by-role.component';
-export * from './quote-actions-by-role.module';
+export * from './quote-summary-price.component';
+export * from './quote-summary-price.module';

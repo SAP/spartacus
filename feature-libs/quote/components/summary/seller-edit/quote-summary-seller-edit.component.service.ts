@@ -25,7 +25,7 @@ export type LocalizationElements = {
  * Provides validation and formatting of numeric input
  */
 @Injectable({ providedIn: 'root' })
-export class QuoteHeaderSellerEditComponentService {
+export class QuoteSummarySellerEditComponentService {
   protected currencyService = inject(CurrencyService);
   protected languageService = inject(LanguageService);
 

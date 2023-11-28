@@ -2,26 +2,25 @@
 @import './mixins/mixins';
 
 // Components
-@import './quote-actions-by-role';
+@import 'quote-summary-actions';
 @import './quote-actions-confirm-dialog';
 @import './quote-actions-link';
 @import './quote-comments';
 @import './quote-header-buyer-edit';
 @import './quote-header-overview';
-@import './quote-header-order-summary';
-@import './quote-header-price';
-@import './quote-header-seller-edit';
+@import 'quote-summary';
+@import 'quote-summary-price';
+@import 'quote-summary-seller-edit';
 @import './quote-items';
 @import './quote-list';
 @import './quote-request-button';
 @import './layout/index';
 
-$quote-components-allowlist: cx-quote-actions-by-role
-  cx-quote-actions-confirm-dialog cx-quote-actions-link cx-quote-comments
-  cx-quote-header-buyer-edit cx-quote-header-overview
-  cx-quote-header-order-summary cx-quote-header-price
-  cx-quote-header-seller-edit cx-quote-items cx-quote-list
-  cx-quote-request-button !default;
+$quote-components-allowlist: cx-quote-actions-confirm-dialog
+  cx-quote-actions-link cx-quote-comments cx-quote-header-buyer-edit
+  cx-quote-header-overview cx-quote-summary cx-quote-summary-actions
+  cx-quote-summary-price cx-quote-summary-seller-edit cx-quote-items
+  cx-quote-list cx-quote-request-button !default;
 
 $skipComponentStyles: () !default;
 

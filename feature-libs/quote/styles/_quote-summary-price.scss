@@ -1,4 +1,4 @@
-%cx-quote-header-price {
+%cx-quote-summary-price {
   &:not(:empty) {
     .cx-price-heading {
       @include type('4');

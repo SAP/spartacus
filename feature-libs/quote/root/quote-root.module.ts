@@ -33,7 +33,7 @@ export function defaultQuoteComponentsConfig() {
           'QuoteCommentsComponent',
           'QuoteHeaderOverviewComponent',
           'QuoteItemsComponent',
-          'QuoteHeaderOrderSummaryComponent',
+          'QuoteSummaryComponent',
         ],
       },
     },

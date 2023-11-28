@@ -30,13 +30,13 @@ import {
   ConfirmActionDialogConfig,
   QuoteUIConfig,
 } from '../../config/quote-ui.config';
-import { ConfirmationContext } from '../confirm-dialog/quote-actions-confirm-dialog.model';
+import { ConfirmationContext } from '../../actions/confirm-dialog/quote-actions-confirm-dialog.model';
 
 @Component({
-  selector: 'cx-quote-actions-by-role',
-  templateUrl: './quote-actions-by-role.component.html',
+  selector: 'cx-quote-summary-actions',
+  templateUrl: './quote-summary-actions.component.html',
 })
-export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
+export class QuoteSummaryActionsComponent implements OnInit, OnDestroy {
   protected quoteFacade = inject(QuoteFacade);
   protected launchDialogService = inject(LaunchDialogService);
   protected viewContainerRef = inject(ViewContainerRef);
