@@ -7,9 +7,10 @@
 import { NgModule } from '@angular/core';
 import { OpfCtaScriptsModule } from './opf-cta/opf-cta-scripts';
 import { OpfErrorModalModule } from './opf-error-modal/opf-error-modal.module';
+import { OpfGooglePayModule } from './quick-buy/google-pay/google-pay.module';
 
 @NgModule({
-  imports: [OpfErrorModalModule, OpfCtaScriptsModule],
+  imports: [OpfErrorModalModule, OpfCtaScriptsModule, OpfGooglePayModule],
   providers: [],
 })
 export class OpfBaseComponentsModule {}
