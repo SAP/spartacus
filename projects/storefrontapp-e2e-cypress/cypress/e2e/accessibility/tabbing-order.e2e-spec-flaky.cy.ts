@@ -39,6 +39,7 @@ import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbi
 import { checkoutMyCouponsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-coupons';
 import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
 import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
+import { myAccountV2notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-account-v2-notification-preference';
 import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/order-details';
 import {
   orderHistoryNoOrdersTabbingOrder,
@@ -367,6 +368,12 @@ describe('Tabbing order - tests do require user to be logged in', () => {
       notificationPreferenceTabbingOrder(config.notificationPreference);
     });
   });
+
+  context('My acoount V2 notification preference', () => {
+    it('should allow to navigate with tab key', () => {
+      myAccountV2notificationPreferenceTabbingOrder(config.notificationPreferenceV2);
+    });
+  })
 
   context('Change password', () => {
     it('should allow to navigate with tab key', () => {

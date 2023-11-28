@@ -81,7 +81,28 @@ export function enableNotificationChannel() {
     .should('eq', 200);
 }
 
+export function enableNotificationChannelV2() {
+  navigateToNotificationPreferencePage();
+  const notificationPreferencesChange =
+    interceptNotificationPreferencesChange();
+
+  cy.get('[type="checkbox"]').first().check();
+  cy.wait(`@${notificationPreferencesChange}`)
+    .its('response.statusCode')
+    .should('eq', 200);
+}
+
 export function disableNotificationChannel() {
+  const notificationPreferencesChange =
+    interceptNotificationPreferencesChange();
+
+  cy.get('[type="checkbox"]').first().uncheck();
+  cy.wait(`@${notificationPreferencesChange}`)
+    .its('response.statusCode')
+    .should('eq', 200);
+}
+
+export function disableNotificationChannelV2() {
   const notificationPreferencesChange =
     interceptNotificationPreferencesChange();
 
@@ -278,6 +299,16 @@ export function testEnableDisableNotification() {
     cy.get('[type="checkbox"]').first().should('be.checked');
 
     disableNotificationChannel();
+    cy.get('[type="checkbox"]').first().should('not.be.checked');
+  });
+}
+
+export function testEnableDisableMyAccountV2NotificationPreference() {
+  it('should enable/disable notification preference', () => {
+    enableNotificationChannelV2();
+    cy.get('[type="checkbox"]').first().should('be.checked');
+
+    disableNotificationChannelV2();
     cy.get('[type="checkbox"]').first().should('not.be.checked');
   });
 }
