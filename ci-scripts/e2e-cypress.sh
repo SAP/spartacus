@@ -88,7 +88,15 @@ if [[ "${SSR}" = true ]]; then
     echo '-----'
     echo "Running SSR Cypress smoke test"
 
-    npm run e2e:run:ci:ssr
+    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+      if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
+        npm run e2e:run:ci:ssr
+      else 
+        npm run e2e:run:ci:core:ssr
+      fi
+    else
+        npm run e2e:run:ci:ssr
+    fi
 else
     npm run start:pwa &
 
