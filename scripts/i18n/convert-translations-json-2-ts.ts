@@ -301,10 +301,10 @@ function isTranslationFolder(
     .filter((segment) => segment.trim() !== '');
 
   const limitTwo = 2;
-  const limitTree = 3;
+  const limitThree = 3;
   return (
     pathSegments.length > limitTwo &&
-    pathSegments[pathSegments.length - limitTree] === parentFolderNames[0] &&
+    pathSegments[pathSegments.length - limitThree] === parentFolderNames[0] &&
     pathSegments[pathSegments.length - limitTwo] === parentFolderNames[1]
   );
 }
