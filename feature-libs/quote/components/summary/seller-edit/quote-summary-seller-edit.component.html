@@ -3,12 +3,12 @@
     <form (ngSubmit)="onApply(quoteDetails.code)" [formGroup]="form">
       <label>
         <span class="label-content bold">{{
-          'quote.header.sellerEdit.discount' | cxTranslate
+          'quote.summary.sellerEdit.discount' | cxTranslate
         }}</span>
         <div class="cx-discount-input">
           <input
             [attr.aria-label]="
-              'quote.header.sellerEdit.a11y.discount' | cxTranslate
+              'quote.summary.sellerEdit.a11y.discount' | cxTranslate
             "
             type="text"
             class="form-control"
@@ -18,12 +18,12 @@
           />
           <button
             [attr.aria-label]="
-              'quote.header.sellerEdit.a11y.apply' | cxTranslate
+              'quote.summary.sellerEdit.a11y.apply' | cxTranslate
             "
             class="btn btn-block btn-secondary"
             (click)="onApply(quoteDetails.code)"
           >
-            {{ 'quote.header.sellerEdit.apply' | cxTranslate }}
+            {{ 'quote.summary.sellerEdit.apply' | cxTranslate }}
           </button>
         </div>
 
@@ -35,17 +35,17 @@
           role="alert"
         >
           <cx-icon [type]="iconType.ERROR"></cx-icon>
-          {{ 'quote.header.sellerEdit.discountValidationText' | cxTranslate }}
+          {{ 'quote.summary.sellerEdit.discountValidationText' | cxTranslate }}
         </div>
       </label>
 
       <label>
         <span
           [attr.aria-label]="
-            'quote.header.sellerEdit.a11y.expiryDate' | cxTranslate
+            'quote.summary.sellerEdit.a11y.expiryDate' | cxTranslate
           "
           class="label-content bold"
-          >{{ 'quote.header.sellerEdit.expiryDate' | cxTranslate }}</span
+          >{{ 'quote.summary.sellerEdit.expiryDate' | cxTranslate }}</span
         >
         <cx-date-picker
           [control]="$any(form.get('validityDate'))"

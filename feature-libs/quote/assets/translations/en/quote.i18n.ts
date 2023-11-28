@@ -7,17 +7,6 @@
 export const quote = {
   quote: {
     actions: {
-      byRole: {
-        VIEW: 'View Quote',
-        SUBMIT: 'Submit Quote',
-        SAVE: 'Save Quote',
-        EDIT: 'Edit Quote',
-        CANCEL: 'Cancel Quote',
-        CHECKOUT: 'Accept and Checkout',
-        APPROVE: 'Approve Quote',
-        REJECT: 'Reject Quote',
-        REQUOTE: 'Request new Quote',
-      },
       link: {
         newCart: 'New Cart',
         quotes: 'Quotes',
@@ -159,19 +148,6 @@ export const quote = {
           save: 'Save quote header information',
         },
       },
-      price: {
-        regionTitle: 'Order summary',
-        hint: 'No taxes are included in the total',
-        orderDiscount: 'Order Discount',
-        productDiscount: 'Item Discount',
-        quoteDiscount: 'Quote Discount',
-        subtotal: 'Subtotal',
-        title: 'Order Summary',
-        total: 'Total',
-      },
-      orderSummary: {
-        regionTitle: 'Order Summary',
-      },
       overview: {
         regionTitle: 'Quote details summary',
         id: 'Quote ID',
@@ -190,18 +166,6 @@ export const quote = {
         createdAndUpdated: 'Created & Updated',
         createdDate: 'Created',
         lastUpdatedDate: 'Last Updated',
-      },
-      sellerEdit: {
-        apply: 'Apply',
-        discount: 'Discount',
-        expiryDate: 'Expiry Date',
-        discountValidationText: 'Enter a valid absolute discount',
-        a11y: {
-          apply: 'Click to apply the entered discount value to this quote',
-          discount:
-            'Enter an absolute discount value to be applied to this quote',
-          expiryDate: 'Enter an expiry date for this quote',
-        },
       },
     },
     httpHandlers: {
@@ -253,6 +217,40 @@ export const quote = {
       CANCELLED: 'Cancelled',
       EXPIRED: 'Expired',
     },
-    a11y: {},
+    summary: {
+      regionTitle: 'Order Summary',
+      actions: {
+        APPROVE: 'Approve Quote',
+        CANCEL: 'Cancel Quote',
+        CHECKOUT: 'Accept and Checkout',
+        EDIT: 'Edit Quote',
+        REJECT: 'Reject Quote',
+        REQUOTE: 'Request new Quote',
+        SAVE: 'Save Quote',
+        SUBMIT: 'Submit Quote',
+        VIEW: 'View Quote',
+      },
+      price: {
+        title: 'Order Summary',
+        subtotal: 'Subtotal',
+        productDiscount: 'Item Discount',
+        orderDiscount: 'Order Discount',
+        quoteDiscount: 'Quote Discount',
+        total: 'Total',
+        hint: 'No taxes are included in the total',
+      },
+      sellerEdit: {
+        discount: 'Discount',
+        apply: 'Apply',
+        expiryDate: 'Expiry Date',
+        discountValidationText: 'Enter a valid absolute discount',
+        a11y: {
+          apply: 'Click to apply the entered discount value to this quote',
+          discount:
+            'Enter an absolute discount value to be applied to this quote',
+          expiryDate: 'Enter an expiry date for this quote',
+        },
+      },
+    },
   },
 };
