@@ -22,7 +22,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { delay, take } from 'rxjs/operators';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import {
   ConfirmActionDialogMappingConfig,
@@ -158,6 +158,7 @@ class MockIntersectionService {
 
 class MockQuoteStorefrontUtilsService {
   getElement() {}
+
   changeStyling() {}
 }
 
@@ -757,31 +758,37 @@ describe('QuoteActionsByRoleComponent', () => {
     });
   });
 
-  describe('Floating actions by role buttons', () => {
-    it('should make actions by role buttons sticky', () => {
+  describe('Floating action buttons', () => {
+    it('should make action buttons sticky when intersecting', (done) => {
       spyOn(intersectionService, 'isIntersecting').and.returnValue(of(true));
       component.ngOnInit();
-      expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledTimes(
-        5
-      );
-      expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
-        'cx-quote-actions-by-role section',
-        'position',
-        'sticky'
-      );
+      component.quoteDetails$.pipe(take(1), delay(0)).subscribe(() => {
+        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledTimes(
+          7
+        );
+        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
+          'cx-quote-actions-by-role section',
+          'position',
+          'sticky'
+        );
+        done();
+      });
     });
 
-    it('should make actions by role buttons fixed when not intersecting', () => {
+    it('should make action buttons fixed when not intersecting', (done) => {
       component.ngOnInit();
       spyOn(intersectionService, 'isIntersecting').and.callThrough();
-      expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledTimes(
-        3
-      );
-      expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
-        'cx-quote-actions-by-role section',
-        'position',
-        'fixed'
-      );
+      component.quoteDetails$.pipe(take(1), delay(0)).subscribe(() => {
+        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledTimes(
+          5
+        );
+        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
+          'cx-quote-actions-by-role section',
+          'position',
+          'fixed'
+        );
+        done();
+      });
     });
   });
 });

@@ -1,11 +1,13 @@
 %cx-quote-header-order-summary {
   &:not(:empty) {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 10px;
+    @include media-breakpoint-up(lg) {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 10px;
+    }
 
     .cx-container {
-      @include media-breakpoint-up(md) {
+      @include media-breakpoint-up(lg) {
         padding: 20px;
         border: 1px solid var(--cx-color-medium);
         border-radius: var(--cx-border-radius, 1rem);

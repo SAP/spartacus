@@ -5,8 +5,10 @@
  */
 
 import {
+  AfterViewInit,
   Component,
   ElementRef,
+  HostListener,
   inject,
   OnDestroy,
   OnInit,
@@ -24,6 +26,9 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import {
+  BREAKPOINT,
+  BreakpointService,
+  IntersectionOptions,
   IntersectionService,
   LAUNCH_CALLER,
   LaunchDialogService,
@@ -41,13 +46,16 @@ import { QuoteStorefrontUtilsService } from '../../../core/services/quote-storef
   selector: 'cx-quote-actions-by-role',
   templateUrl: './quote-actions-by-role.component.html',
 })
-export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
+export class QuoteActionsByRoleComponent
+  implements AfterViewInit, OnInit, OnDestroy
+{
   protected quoteFacade = inject(QuoteFacade);
   protected launchDialogService = inject(LaunchDialogService);
   protected viewContainerRef = inject(ViewContainerRef);
   protected globalMessageService = inject(GlobalMessageService);
   protected quoteUIConfig = inject(QuoteUIConfig);
   protected activeCartFacade = inject(ActiveCartFacade);
+  protected breakpointService = inject(BreakpointService);
   protected quoteStorefrontUtilsService = inject(QuoteStorefrontUtilsService);
   protected intersectionService = inject(IntersectionService);
 
@@ -55,16 +63,25 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
 
   stickyStyles: readonly [property: string, value: string][] = [
     ['width', '100%'],
+    ['padding-inline-end', '0'],
+    ['padding-block-start', '1rem'],
+    ['padding-block-end', '0'],
     ['position', '-webkit-sticky'],
     ['position', 'sticky'],
-    ['bottom', '0'],
-    ['padding-inline-end', '0'],
   ];
 
   fixedStyles: readonly [property: string, value: string][] = [
     ['width', '95%'],
-    ['position', 'fixed'],
     ['padding-inline-end', '1.5rem'],
+    ['padding-block-start', '1.5rem'],
+    ['padding-block-end', '1.5rem'],
+    ['position', 'fixed'],
+  ];
+
+  desktopStyling: readonly [property: string, value: string][] = [
+    ['width', '100%'],
+    ['padding-block-start', '1rem'],
+    ['position', 'static'],
   ];
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
@@ -74,8 +91,86 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   QuoteActionType = QuoteActionType;
   protected subscription = new Subscription();
 
-  ngOnInit(): void {
+  protected isDesktop() {
+    return this.breakpointService.isUp(BREAKPOINT.md);
+  }
+
+  protected isMobile() {
+    return this.breakpointService.isDown(BREAKPOINT.sm);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    console.log('resize');
     this.makeButtonsSticky();
+    this.changeBottomStyling();
+    this.prepareButtonsForDesktop();
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(): void {
+    this.changeBottomStyling();
+  }
+
+  @HostListener('window:orientationchange', ['$event'])
+  onOrientationChange(): void {
+    console.log('orientationchange');
+    this.changeBottomStyling();
+  }
+
+  getSpareViewportHeight(): number {
+    const spaHeaderHeight =
+      this.quoteStorefrontUtilsService.getHeight('header');
+    const quoteHeaderHeight =
+      this.quoteStorefrontUtilsService.getHeight('.BottomHeaderSlot');
+
+    const windowHeight = this.quoteStorefrontUtilsService.getWindowHeight();
+
+    return windowHeight - spaHeaderHeight - quoteHeaderHeight;
+  }
+
+  protected changeBottomStyling(): void {
+    this.isMobile()
+      .pipe(take(1))
+      .subscribe((mobile) => {
+        if (mobile) {
+          console.log('(changeBottomStyling) is mobile: ' + mobile);
+          const calculatedActionButtonsHeight =
+            this.quoteStorefrontUtilsService.getHeight(
+              this.CX_SECTION_SELECTOR
+            );
+          const actionButtonsHeight =
+            calculatedActionButtonsHeight !== 0
+              ? calculatedActionButtonsHeight
+              : 226;
+          const sparViewportHeight = this.getSpareViewportHeight();
+
+          if (sparViewportHeight < actionButtonsHeight) {
+            const bottom = sparViewportHeight - actionButtonsHeight;
+            console.log('bottom: ' + bottom);
+            this.quoteStorefrontUtilsService.changeStyling(
+              this.CX_SECTION_SELECTOR,
+              'bottom',
+              bottom + 'px'
+            );
+          } else {
+            this.quoteStorefrontUtilsService.changeStyling(
+              this.CX_SECTION_SELECTOR,
+              'bottom',
+              '0'
+            );
+          }
+        }
+      });
+  }
+
+  ngAfterViewInit(): void {
+    this.makeButtonsSticky();
+    this.changeBottomStyling();
+    this.prepareButtonsForDesktop();
+  }
+
+  ngOnInit(): void {
     //submit button present and threshold not reached: Display message
     this.quoteDetails$.pipe(take(1)).subscribe((quote) => {
       const mustDisableAction = quote.allowedActions.find((action) =>
@@ -95,33 +190,83 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     });
   }
 
+  protected prepareButtonsForDesktop(): void {
+    this.isDesktop()
+      .pipe(take(1))
+      .subscribe((desktop) => {
+        if (desktop) {
+          console.log('prepareButtonsForDesktop() is desktop: ' + desktop);
+          this.stickyStyles.forEach((style) => {
+            this.quoteStorefrontUtilsService.removeStyling(
+              this.CX_SECTION_SELECTOR,
+              style[0]
+            );
+          });
+
+          this.fixedStyles.forEach((style) => {
+            this.quoteStorefrontUtilsService.removeStyling(
+              this.CX_SECTION_SELECTOR,
+              style[0]
+            );
+          });
+
+          this.desktopStyling.forEach((style) => {
+            this.quoteStorefrontUtilsService.changeStyling(
+              this.CX_SECTION_SELECTOR,
+              style[0],
+              style[1]
+            );
+          });
+        }
+      });
+  }
+
   protected makeButtonsSticky(): void {
-    const slot = this.quoteStorefrontUtilsService.getElement(
-      'cx-page-slot.CenterRightContent'
-    );
-    if (slot) {
-      this.intersectionService
-        .isIntersecting(slot)
-        .subscribe((isIntersecting) => {
-          if (isIntersecting) {
-            this.stickyStyles.forEach((style) => {
-              this.quoteStorefrontUtilsService.changeStyling(
-                this.CX_SECTION_SELECTOR,
-                style[0],
-                style[1]
-              );
-            });
-          } else {
-            this.fixedStyles.forEach((style) => {
-              this.quoteStorefrontUtilsService.changeStyling(
-                this.CX_SECTION_SELECTOR,
-                style[0],
-                style[1]
-              );
-            });
+    this.isMobile()
+      .pipe(take(1))
+      .subscribe((mobile) => {
+        if (mobile) {
+          console.log('makeButtonsSticky() is mobile: ' + mobile);
+          this.fixedStyles.forEach((style) => {
+            this.quoteStorefrontUtilsService.changeStyling(
+              this.CX_SECTION_SELECTOR,
+              style[0],
+              style[1]
+            );
+          });
+
+          const options: IntersectionOptions = {
+            rootMargin: '9999px 0px -120px 0px',
+          };
+
+          const slot = this.quoteStorefrontUtilsService.getElement(
+            'cx-page-slot.CenterRightContent'
+          );
+          if (slot) {
+            this.intersectionService
+              .isIntersecting(slot, options)
+              .subscribe((isIntersecting) => {
+                if (isIntersecting) {
+                  this.stickyStyles.forEach((style) => {
+                    this.quoteStorefrontUtilsService.changeStyling(
+                      this.CX_SECTION_SELECTOR,
+                      style[0],
+                      style[1]
+                    );
+                  });
+                } else {
+                  this.fixedStyles.forEach((style) => {
+                    this.quoteStorefrontUtilsService.changeStyling(
+                      this.CX_SECTION_SELECTOR,
+                      style[0],
+                      style[1]
+                    );
+                  });
+                }
+              });
           }
-        });
-    }
+        }
+      });
   }
 
   /**
