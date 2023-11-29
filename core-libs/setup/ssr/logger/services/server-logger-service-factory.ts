@@ -5,7 +5,7 @@
  */
 
 import { inject } from '@angular/core';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
+import { REQUEST } from '../../tokens';
 import { ExpressLoggerService } from './express-logger.service';
 import { PrerenderingLoggerService } from './prerendering-logger.service';
 

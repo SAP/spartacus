@@ -12,6 +12,7 @@ export const ANGULAR_CORE = '@angular/core';
 export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
 export const ANGULAR_HTTP = '@angular/common/http';
+export const ANGULAR_SSR = '@angular/ssr';
 
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';

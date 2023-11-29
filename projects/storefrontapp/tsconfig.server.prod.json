@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.server.json",
   "compilerOptions": {
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "paths": {
       "@spartacus/setup": ["../../dist/setup"],
       "@spartacus/setup/ssr": ["../../dist/setup/ssr"],

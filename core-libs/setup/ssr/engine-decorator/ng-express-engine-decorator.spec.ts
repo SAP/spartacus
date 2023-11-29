@@ -2,9 +2,9 @@ import { NgSetupOptions, RenderOptions } from '@nguniversal/express-engine';
 import { SERVER_REQUEST_URL } from '@spartacus/core';
 import { EXPRESS_SERVER_LOGGER, LegacyExpressServerLogger } from '../logger';
 import {
-  NgExpressEngine,
+  CxExpressEngine,
+  CxExpressEngineInstance,
   NgExpressEngineDecorator,
-  NgExpressEngineInstance,
   decorateExpressEngine,
 } from './ng-express-engine-decorator';
 
@@ -16,8 +16,8 @@ jest.spyOn(console, 'log').mockImplementation(() => {});
 
 describe('NgExpressEngineDecorator', () => {
   describe('get', () => {
-    let originalEngine: NgExpressEngine;
-    let originalEngineInstance: NgExpressEngineInstance;
+    let originalEngine: CxExpressEngine;
+    let originalEngineInstance: CxExpressEngineInstance;
     let mockEngineOptions: Readonly<NgSetupOptions>;
 
     let mockOptions: RenderOptions;
@@ -80,14 +80,14 @@ describe('NgExpressEngineDecorator', () => {
 });
 
 describe('decorateExpressEngine', () => {
-  let originalEngine: NgExpressEngine;
-  let originalEngineInstance: NgExpressEngineInstance;
+  let originalEngine: CxExpressEngine;
+  let originalEngineInstance: CxExpressEngineInstance;
   let mockEngineOptions: Readonly<NgSetupOptions>;
 
   let mockOptions: RenderOptions;
   const mockPath = 'testPath';
   const mockCallback = () => {};
-  let engineInstance: NgExpressEngineInstance;
+  let engineInstance: CxExpressEngineInstance;
 
   beforeEach(() => {
     const app = {

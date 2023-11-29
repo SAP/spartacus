@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgSetupOptions } from '@nguniversal/express-engine';
+import { CommonEngineRenderOptions } from '@angular/ssr';
 import {
   OptimizedSsrEngine,
   SsrCallbackFn,
@@ -15,15 +15,15 @@ import {
 } from '../optimized-engine/ssr-optimization-options';
 import { getServerRequestProviders } from '../providers/ssr-providers';
 
-export type NgExpressEngineInstance = (
+export type CxExpressEngineInstance = (
   filePath: string,
   options: object,
   callback: SsrCallbackFn
 ) => void;
 
-export type NgExpressEngine = (
-  setupOptions: Readonly<NgSetupOptions>
-) => NgExpressEngineInstance;
+export type CxExpressEngine = (
+  setupOptions: Readonly<CommonEngineRenderOptions>
+) => CxExpressEngineInstance;
 
 /**
  * The wrapper over the standard ngExpressEngine, that provides tokens for Spartacus
@@ -33,24 +33,24 @@ export class NgExpressEngineDecorator {
   /**
    * Returns the higher order ngExpressEngine with provided tokens for Spartacus
    *
-   * @param ngExpressEngine
+   * @param cxExpressEngine
    */
   static get(
-    ngExpressEngine: NgExpressEngine,
+    cxExpressEngine: CxExpressEngine,
     optimizationOptions?: SsrOptimizationOptions | null
-  ): NgExpressEngine {
-    return decorateExpressEngine(ngExpressEngine, optimizationOptions);
+  ): CxExpressEngine {
+    return decorateExpressEngine(cxExpressEngine, optimizationOptions);
   }
 }
 
 export function decorateExpressEngine(
-  ngExpressEngine: NgExpressEngine,
+  ngExpressEngine: CxExpressEngine,
   optimizationOptions:
     | SsrOptimizationOptions
     | null
     | undefined = defaultSsrOptimizationOptions
-): NgExpressEngine {
-  return function (setupOptions: NgSetupOptions) {
+): CxExpressEngine {
+  return function (setupOptions: CommonEngineRenderOptions) {
     const engineInstance = ngExpressEngine({
       ...setupOptions,
       providers: [
