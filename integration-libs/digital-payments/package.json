@@ -21,11 +21,11 @@
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "17.0.0",
-    "@angular/common": "17.0.2",
-    "@angular/core": "17.0.2",
-    "@angular/forms": "17.0.2",
-    "@angular/router": "17.0.2",
+    "@angular-devkit/schematics": "^17.0.0",
+    "@angular/common": "^17.0.2",
+    "@angular/core": "^17.0.2",
+    "@angular/forms": "^17.0.2",
+    "@angular/router": "^17.0.2",
     "@ng-select/ng-select": "^12.0.0",
     "@spartacus/cart": "6.6.0-1",
     "@spartacus/checkout": "6.6.0-1",

@@ -32,11 +32,11 @@
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "17.0.0",
-    "@angular/common": "17.0.2",
-    "@angular/core": "17.0.2",
-    "@angular/forms": "17.0.2",
-    "@angular/router": "17.0.2",
+    "@angular-devkit/schematics": "^17.0.0",
+    "@angular/common": "^17.0.2",
+    "@angular/core": "^17.0.2",
+    "@angular/forms": "^17.0.2",
+    "@angular/router": "^17.0.2",
     "@sapui5/ts-types-esm": "1.108.14",
     "@spartacus/cart": "6.6.0-1",
     "@spartacus/core": "6.6.0-1",
