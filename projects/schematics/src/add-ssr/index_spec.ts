@@ -36,6 +36,7 @@ describe('add-ssr', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const defaultOptions: SpartacusOptions = {

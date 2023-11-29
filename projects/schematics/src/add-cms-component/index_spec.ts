@@ -18,9 +18,9 @@ import {
 } from '../shared/constants';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
 import {
+  InsertDirection,
   commitChanges,
   getTsSourceFile,
-  InsertDirection,
 } from '../shared/utils/file-utils';
 import { CxCmsComponentSchema } from './schema';
 
@@ -99,6 +99,7 @@ describe('add-cms-component', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const defaultOptions: SpartacusOptions = {

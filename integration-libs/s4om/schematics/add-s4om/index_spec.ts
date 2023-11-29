@@ -12,9 +12,9 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   LibraryOptions as S4OMOptions,
   S4OM_FEATURE_NAME,
-  SpartacusOptions,
   SPARTACUS_CHECKOUT,
   SPARTACUS_SCHEMATICS,
+  SpartacusOptions,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -41,6 +41,7 @@ describe('Spartacus S4OM schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

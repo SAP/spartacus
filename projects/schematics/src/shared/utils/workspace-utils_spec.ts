@@ -49,6 +49,7 @@ describe('Workspace utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
   const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',

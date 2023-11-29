@@ -33,9 +33,10 @@ import {
 } from '../constants';
 import { SPARTACUS_CORE, SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
+  ClassType,
+  InsertDirection,
   addConstructorParam,
   buildSpartacusComment,
-  ClassType,
   commitChanges,
   defineProperty,
   findConstructor,
@@ -49,7 +50,6 @@ import {
   insertCommentAboveConfigProperty,
   insertCommentAboveIdentifier,
   insertComponentSelectorComment,
-  InsertDirection,
   insertHtmlComment,
   isCandidateForConstructorDeprecation,
   isInheriting,
@@ -313,6 +313,7 @@ describe('File utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
   const defaultOptions = {
     project: 'schematics-test',
