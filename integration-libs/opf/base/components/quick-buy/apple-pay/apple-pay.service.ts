@@ -8,7 +8,6 @@ import { Inject, Injectable } from '@angular/core';
 import { Address, Product } from '@spartacus/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import {
-  catchError,
   concatMap,
   filter,
   finalize,
@@ -165,15 +164,13 @@ export class ApplePayService {
       })
       .pipe(
         switchMap((payment, _) => this.placeOrderAfterPayment(payment)),
-        catchError((error) => {
-          return this.cartHandlerService
-            .deleteCurrentCart()
-            .pipe(switchMap(() => throwError(error)));
-          // this.cartHandlerService.deleteCurrentCart().subscribe((success) => {
-          //   console.log('deleteCurrentCart', success);
-          // });
-          // return throwError(error);
-        }),
+        // catchError((error) => {
+        //   return throwError(error))
+        //   // this.cartHandlerService.deleteCurrentCart().subscribe((success) => {
+        //   //   console.log('deleteCurrentCart', success);
+        //   // });
+        //   // return throwError(error);
+        // }),
         finalize(() => {
           console.log('finalize');
           this.inProgress = false;
@@ -182,13 +179,8 @@ export class ApplePayService {
   }
 
   protected handlePaymentCanceled(): Observable<boolean> {
-    // this.removeProductFromCart();
     console.log('handlePaymentCanceled');
-    return this.cartHandlerService.deleteCurrentCart();
-    // .subscribe((success) => {
-    //   console.log('handlePaymentCanceled deleteCurrentCart', success);
-    // });
-    //  this.inProgress = false;
+    return of(true); // this.cartHandlerService.deleteCurrentCart();
   }
 
   protected handleValidation(
@@ -204,7 +196,14 @@ export class ApplePayService {
   private addProductToCart(product: Product, quantity: number) {
     console.log('addProductToCart');
     if (product.code) {
-      return this.cartHandlerService.addProductToCart(product.code, quantity);
+      return this.cartHandlerService.deleteCurrentCart().pipe(
+        switchMap(() => {
+          return this.cartHandlerService.addProductToCart(
+            product.code as string,
+            quantity
+          );
+        })
+      );
     }
     return throwError('product has no ID');
 
