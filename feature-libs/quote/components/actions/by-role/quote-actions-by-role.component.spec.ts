@@ -78,7 +78,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   ALL: {
     EDIT: {
-      i18nKeyPrefix: 'quote.confirmActionDialog.all.edit',
+      i18nKeyPrefix: 'quote.actions.confirmActionDialog.all.edit',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
@@ -305,6 +305,87 @@ describe('QuoteActionsByRoleComponent', () => {
       currentCart
     );
     expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
+  });
+
+  it('should not open confirmation dialog when action is EDIT and state is BUYER_DRAFT and cart is empty', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const quoteInBuyerDraftState: Quote = {
+      ...mockQuote,
+      allowedActions: [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+        { type: QuoteActionType.EDIT, isPrimary: false },
+      ],
+      state: QuoteState.BUYER_DRAFT,
+    };
+    mockQuoteDetails$.next(quoteInBuyerDraftState);
+    fixture.detectChanges();
+    component.onClick(
+      QuoteActionType.EDIT,
+      quoteInBuyerDraftState,
+      currentCart
+    );
+    expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
+  });
+
+  it('should not open confirmation dialog when action is EDIT and state is BUYER_DRAFT and cart is not empty but is a quote cart', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const quoteInBuyerDraftState: Quote = {
+      ...mockQuote,
+      allowedActions: [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+        { type: QuoteActionType.EDIT, isPrimary: false },
+      ],
+      state: QuoteState.BUYER_DRAFT,
+    };
+    currentCart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
+    currentCart.quoteCode = '1234';
+    mockQuoteDetails$.next(quoteInBuyerDraftState);
+    fixture.detectChanges();
+    component.onClick(
+      QuoteActionType.EDIT,
+      quoteInBuyerDraftState,
+      currentCart
+    );
+    expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
+  });
+
+  it('should open confirmation dialog when action is EDIT and state is BUYER_DRAFT and cart is not empty', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const quoteInBuyerDraftState: Quote = {
+      ...mockQuote,
+      allowedActions: [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+        { type: QuoteActionType.EDIT, isPrimary: false },
+      ],
+      state: QuoteState.BUYER_DRAFT,
+    };
+    const confirmationContextForEditAction: ConfirmationContext = {
+      quote: quoteInBuyerDraftState,
+      title: 'quote.actions.confirmActionDialog.all.edit.title',
+      confirmNote: 'quote.actions.confirmActionDialog.all.edit.confirmNote',
+      warningNote: 'quote.actions.confirmActionDialog.all.edit.warningNote',
+      a11y: {
+        close: 'quote.actions.confirmActionDialog.all.edit.a11y.close',
+      },
+    };
+    currentCart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
+    currentCart.quoteCode = undefined;
+    mockQuoteDetails$.next(quoteInBuyerDraftState);
+    fixture.detectChanges();
+    component.onClick(
+      QuoteActionType.EDIT,
+      quoteInBuyerDraftState,
+      currentCart
+    );
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ACTION_CONFIRMATION,
+      component.element,
+      component['viewContainerRef'],
+      { confirmationContext: confirmationContextForEditAction }
+    );
   });
 
   it('should open confirmation dialog when action is REQUOTE and state is EXPIRED', () => {
@@ -585,7 +666,7 @@ describe('QuoteActionsByRoleComponent', () => {
           QuoteState.BUYER_DRAFT
         )
       ).toEqual({
-        i18nKeyPrefix: 'quote.confirmActionDialog.all.edit',
+        i18nKeyPrefix: 'quote.actions.confirmActionDialog.all.edit',
         showWarningNote: true,
         showExpirationDate: false,
         showSuccessMessage: false,
