@@ -104,14 +104,14 @@ export class QuoteSummaryActionsComponent
   ];
 
   @HostListener('window:resize')
-  onResize() {
+  handleResize() {
     this.prepareButtonsForMobile();
     this.adjustBottomProperty();
     this.prepareButtonsForDesktop();
   }
 
   @HostListener('window:scroll')
-  onScroll(): void {
+  handleScroll(): void {
     this.adjustBottomProperty();
   }
 

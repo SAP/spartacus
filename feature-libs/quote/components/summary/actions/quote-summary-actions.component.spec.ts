@@ -159,13 +159,9 @@ class MockIntersectionService {
 
 class MockQuoteStorefrontUtilsService {
   getElement() {}
-
   changeStyling() {}
-
   removeStyling() {}
-
   getHeight() {}
-
   getWindowHeight() {}
 }
 
@@ -802,9 +798,9 @@ describe('QuoteSummaryActionsComponent', () => {
     });
   });
 
-  describe('onResize', () => {
-    it('should call onResize method', (done) => {
-      component.onResize();
+  describe('handleResize', () => {
+    it('should call handleResize method', (done) => {
+      component.handleResize();
 
       component.quoteDetails$.pipe(take(1), delay(0)).subscribe(() => {
         expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
@@ -817,13 +813,13 @@ describe('QuoteSummaryActionsComponent', () => {
     });
   });
 
-  describe('onScroll', () => {
-    it('should call onScroll method', (done) => {
+  describe('handleScroll', () => {
+    it('should call handleScroll method', (done) => {
       spyOn(quoteStorefrontUtilsService, 'getWindowHeight').and.returnValue(
         500
       );
       spyOn(breakpointService, 'isDown').and.returnValue(of(true));
-      component.onScroll();
+      component.handleScroll();
 
       component.quoteDetails$.pipe(take(1), delay(0)).subscribe(() => {
         expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
