@@ -134,8 +134,7 @@ export const quote = {
             },
             title: 'Edit Quote {{ code }}?',
             confirmNote: 'Are you sure you want to edit this quote?',
-            warningNote:
-              'Your current cart will be discarded. In case you still need it, please safe it beforehand.',
+            warningNote: 'Your current cart will be converted to a saved cart.',
           },
         },
       },
