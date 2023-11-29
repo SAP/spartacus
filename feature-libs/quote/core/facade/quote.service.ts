@@ -243,7 +243,9 @@ export class QuoteService implements QuoteFacade {
             payload.quoteAction === QuoteActionType.SUBMIT ||
             payload.quoteAction === QuoteActionType.CANCEL
           ) {
-            this.cartUtilsService.createNewCartAndGoToQuoteList();
+            this.cartUtilsService.handelCartAndGoToQuoteList(
+              payload.quote.isEditable
+            );
             this.isActionPerforming$.next(false);
           }
           if (

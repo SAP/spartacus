@@ -10,9 +10,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
+  LanguageService,
   PaginationModel,
   QueryState,
   SortModel,
+  CxDatePipe,
 } from '@spartacus/core';
 import {
   Quote,
@@ -20,8 +22,8 @@ import {
   QuoteList,
   QuoteState,
 } from '@spartacus/quote/root';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, NEVER, of } from 'rxjs';
+import { BreakpointService, ICON_TYPE } from '@spartacus/storefront';
+import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteListComponentService } from './quote-list-component.service';
@@ -41,6 +43,7 @@ const mockQuote: Quote = {
   allowedActions: [mockAction],
   cartId: mockCartId,
   code: '333333',
+  updatedTime: new Date('2017-01-11T10:14:39+0000'),
 };
 
 const mockQuoteList: QuoteList = {
@@ -115,11 +118,25 @@ class MockCommerceQuotesListComponentService
   setPage = createSpy();
 }
 
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('en-US');
+  }
+}
+
+class MockBreakpointService {
+  isDown() {}
+
+  isUp() {}
+}
+
 describe('QuoteListComponent', () => {
   let fixture: ComponentFixture<QuoteListComponent>;
   let htmlElem: HTMLElement;
   let component: QuoteListComponent;
   let quoteListComponentService: QuoteListComponentService;
+  let cxDatePipe: CxDatePipe;
+  let breakpointService: BreakpointService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -132,9 +149,15 @@ describe('QuoteListComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
+        CxDatePipe,
         {
           provide: QuoteListComponentService,
           useClass: MockCommerceQuotesListComponentService,
+        },
+        { provide: LanguageService, useClass: MockLanguageService },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
         },
       ],
     }).compileComponents();
@@ -145,6 +168,8 @@ describe('QuoteListComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     quoteListComponentService = TestBed.inject(QuoteListComponentService);
+    cxDatePipe = TestBed.inject(CxDatePipe);
+    breakpointService = TestBed.inject(BreakpointService);
   });
 
   it('should call service if sort changed', () => {
@@ -624,6 +649,61 @@ describe('QuoteListComponent', () => {
         htmlElem,
         '.cx-ghost-pagination'
       );
+    });
+  });
+
+  describe('getRowTitle', () => {
+    it('should create row title for a quote', () => {
+      const expectedUpdatedTime = cxDatePipe.transform(
+        mockQuote.updatedTime,
+        'MMMM d, YYYY h:mm aa'
+      );
+      expect(component.getRowTitle(mockQuote)).toEqual(
+        'Quote quote.header.overview.id: 333333 quote.header.overview.status: quote.states.BUYER_DRAFT quote.list.updated: ' +
+          expectedUpdatedTime +
+          ' quote.list.clickableRow'
+      );
+    });
+  });
+
+  describe('isMobile', () => {
+    it('should not render pagination in desktop mode', () => {
+      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+      fixture.detectChanges();
+
+      component['isMobile']().subscribe((isMobile) => {
+        expect(isMobile).toBe(false);
+      });
+      CommonQuoteTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-pagination'
+      );
+    });
+
+    it('should render pagination in mobile mode', () => {
+      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+      fixture.detectChanges();
+
+      component['isMobile']().subscribe((isMobile) => {
+        expect(isMobile).toBe(true);
+      });
+      CommonQuoteTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-pagination'
+      );
+    });
+  });
+
+  describe('isPaginationEnabled', () => {
+    it('should not render pagination', () => {
+      expect(component['isPaginationEnabled'](mockPagination)).toBe(false);
+    });
+
+    it('should  render pagination', () => {
+      mockPagination.totalPages = 3;
+      expect(component['isPaginationEnabled'](mockPagination)).toBe(true);
     });
   });
 
