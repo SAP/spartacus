@@ -67,6 +67,10 @@ export class QuoteSummaryActionsComponent
   protected subscription = new Subscription();
 
   protected readonly CX_SECTION_SELECTOR = 'cx-quote-summary-actions section';
+  /**
+   * Height of a CSS box model of section for action buttons
+   * See _quote-summary-actions.scss
+   */
   protected readonly ACTION_BUTTONS_HEIGHT = 226;
   protected readonly AMOUNT_OF_ACTION_BUTTONS = 2;
   protected readonly WIDTH = 'width';
@@ -145,6 +149,16 @@ export class QuoteSummaryActionsComponent
     return this.breakpointService.isDown(BREAKPOINT.sm);
   }
 
+  /**
+   * Retrieves the actual height of the spare viewport.
+   *
+   * SPA header and the quote bottom header slot occupy certain height of the viewport, that's why
+   * if SPA header and the quote bottom header slot are in the viewport,
+   * they will be subtracted from the actual viewport height.
+   *
+   * @returns - Height of the spare viewport.
+   * @protected
+   */
   protected getSpareViewportHeight(): number {
     const spaHeaderHeight =
       this.quoteStorefrontUtilsService.getHeight('header');
@@ -155,6 +169,12 @@ export class QuoteSummaryActionsComponent
     return windowHeight - spaHeaderHeight - quoteHeaderHeight;
   }
 
+  /**
+   * Retrieves the actual height of the action buttons.
+   *
+   * @returns - Height of the action buttons.
+   * @protected
+   */
   protected getActionButtonsHeight(): number {
     const calculatedActionButtonsHeight =
       this.quoteStorefrontUtilsService.getHeight(this.CX_SECTION_SELECTOR);
@@ -171,7 +191,6 @@ export class QuoteSummaryActionsComponent
         if (mobile) {
           const actionButtonsHeight = this.getActionButtonsHeight();
           const sparViewportHeight = this.getSpareViewportHeight();
-
           if (sparViewportHeight < actionButtonsHeight) {
             const bottom = sparViewportHeight - actionButtonsHeight;
             this.quoteStorefrontUtilsService.changeStyling(
@@ -195,6 +214,11 @@ export class QuoteSummaryActionsComponent
       });
   }
 
+  /**
+   * Prepares the styling of the action buttons to be displayed on desktop.
+   *
+   * @protected
+   */
   protected prepareButtonsForDesktop(): void {
     this.isDesktop()
       .pipe(take(1))
@@ -225,6 +249,11 @@ export class QuoteSummaryActionsComponent
       });
   }
 
+  /**
+   * Prepares the styling of the action buttons to be displayed on mobile.
+   *
+   * @protected
+   */
   protected prepareButtonsForMobile(): void {
     this.isMobile()
       .pipe(take(1))
