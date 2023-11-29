@@ -24,7 +24,7 @@ import {
   ConfirmActionDialogMappingConfig,
   QuoteUIConfig,
 } from '../../config/quote-ui.config';
-import { ConfirmationContext } from '../../actions/confirm-dialog/quote-actions-confirm-dialog.model';
+import { ConfirmationContext } from '../../confirm-dialog/quote-confirm-dialog.model';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import { QuoteSummaryActionsComponent } from './quote-summary-actions.component';
 import createSpy = jasmine.createSpy;
@@ -51,7 +51,7 @@ const mockQuote: Quote = {
 const testMappings: ConfirmActionDialogMappingConfig = {
   BUYER_OFFER: {
     EDIT: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.buyer_offer.edit',
+      i18nKeyPrefix: 'quote.confirmDialog.buyer_offer.edit',
       showWarningNote: true,
       showExpirationDate: true,
       showSuccessMessage: false,
@@ -60,7 +60,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   BUYER: {
     SUBMIT: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.buyer.submit',
+      i18nKeyPrefix: 'quote.confirmDialog.buyer.submit',
       showWarningNote: false,
       showExpirationDate: false,
       showSuccessMessage: true,
@@ -69,7 +69,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   EXPIRED: {
     REQUOTE: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.expired.requote',
+      i18nKeyPrefix: 'quote.confirmDialog.expired.requote',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
@@ -208,11 +208,11 @@ describe('QuoteSummaryActionsComponent', () => {
     };
     const confirmationContextForSubmitAction: ConfirmationContext = {
       quote: quoteForSubmitAction,
-      title: 'quote.actions.confirmDialog.buyer.submit.title',
-      confirmNote: 'quote.actions.confirmDialog.buyer.submit.confirmNote',
-      successMessage: 'quote.actions.confirmDialog.buyer.submit.successMessage',
+      title: 'quote.confirmDialog.buyer.submit.title',
+      confirmNote: 'quote.confirmDialog.buyer.submit.confirmNote',
+      successMessage: 'quote.confirmDialog.buyer.submit.successMessage',
       a11y: {
-        close: 'quote.actions.confirmDialog.buyer.submit.a11y.close',
+        close: 'quote.confirmDialog.buyer.submit.a11y.close',
       },
     };
     mockQuoteDetails$.next(quoteForSubmitAction);
@@ -243,12 +243,12 @@ describe('QuoteSummaryActionsComponent', () => {
     };
     const confirmationContextForEditAction: ConfirmationContext = {
       quote: quoteInBuyerOfferState,
-      title: 'quote.actions.confirmDialog.buyer_offer.edit.title',
-      confirmNote: 'quote.actions.confirmDialog.buyer_offer.edit.confirmNote',
-      warningNote: 'quote.actions.confirmDialog.buyer_offer.edit.warningNote',
-      validity: 'quote.actions.confirmDialog.validity',
+      title: 'quote.confirmDialog.buyer_offer.edit.title',
+      confirmNote: 'quote.confirmDialog.buyer_offer.edit.confirmNote',
+      warningNote: 'quote.confirmDialog.buyer_offer.edit.warningNote',
+      validity: 'quote.confirmDialog.validity',
       a11y: {
-        close: 'quote.actions.confirmDialog.buyer_offer.edit.a11y.close',
+        close: 'quote.confirmDialog.buyer_offer.edit.a11y.close',
       },
     };
     mockQuoteDetails$.next(quoteInBuyerOfferState);
@@ -296,11 +296,11 @@ describe('QuoteSummaryActionsComponent', () => {
     };
     const confirmationContextForRequoteAction: ConfirmationContext = {
       quote: expiredQuote,
-      title: 'quote.actions.confirmDialog.expired.requote.title',
-      confirmNote: 'quote.actions.confirmDialog.expired.requote.confirmNote',
-      warningNote: 'quote.actions.confirmDialog.expired.requote.warningNote',
+      title: 'quote.confirmDialog.expired.requote.title',
+      confirmNote: 'quote.confirmDialog.expired.requote.confirmNote',
+      warningNote: 'quote.confirmDialog.expired.requote.warningNote',
       a11y: {
-        close: 'quote.actions.confirmDialog.expired.requote.a11y.close',
+        close: 'quote.confirmDialog.expired.requote.a11y.close',
       },
     };
     mockQuoteDetails$.next(expiredQuote);
@@ -551,7 +551,7 @@ describe('QuoteSummaryActionsComponent', () => {
           QuoteState.BUYER_OFFER
         )
       ).toEqual({
-        i18nKeyPrefix: 'quote.actions.confirmDialog.buyer_offer.edit',
+        i18nKeyPrefix: 'quote.confirmDialog.buyer_offer.edit',
         showWarningNote: true,
         showExpirationDate: true,
         showSuccessMessage: false,

@@ -30,7 +30,7 @@ import {
   ConfirmActionDialogConfig,
   QuoteUIConfig,
 } from '../../config/quote-ui.config';
-import { ConfirmationContext } from '../../actions/confirm-dialog/quote-actions-confirm-dialog.model';
+import { ConfirmationContext } from '../../confirm-dialog/quote-confirm-dialog.model';
 
 @Component({
   selector: 'cx-quote-summary-actions',
@@ -217,7 +217,7 @@ export class QuoteSummaryActionsComponent implements OnInit, OnDestroy {
         dialogConfig.i18nKeyPrefix + '.warningNote';
     }
     if (dialogConfig.showExpirationDate) {
-      confirmationContext.validity = 'quote.actions.confirmDialog.validity';
+      confirmationContext.validity = 'quote.confirmDialog.validity';
     }
     if (dialogConfig.showSuccessMessage) {
       confirmationContext.successMessage =

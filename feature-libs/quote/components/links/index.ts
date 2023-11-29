@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './confirm-dialog';
-export * from './link';
+export * from './quote-links.component';
+export * from './quote-links.module';

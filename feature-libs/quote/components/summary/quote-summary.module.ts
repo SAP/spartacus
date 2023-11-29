@@ -13,7 +13,7 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { QuoteSummaryComponent } from './quote-summary.component';
-import { QuoteSummaryPriceModule } from './price/quote-summary-price.module';
+import { QuoteSummaryPricesModule } from './prices/quote-summary-prices.module';
 import { QuoteSummarySellerEditModule } from './seller-edit/quote-summary-seller-edit.module';
 import { QuoteSummaryActionsModule } from './actions/quote-summary-actions.module';
 
@@ -21,7 +21,7 @@ import { QuoteSummaryActionsModule } from './actions/quote-summary-actions.modul
   imports: [
     CommonModule,
     I18nModule,
-    QuoteSummaryPriceModule,
+    QuoteSummaryPricesModule,
     QuoteSummarySellerEditModule,
     QuoteSummaryActionsModule,
   ],

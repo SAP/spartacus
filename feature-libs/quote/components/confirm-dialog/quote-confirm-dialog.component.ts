@@ -19,15 +19,15 @@ import {
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { ConfirmationContext } from './quote-actions-confirm-dialog.model';
+import { ConfirmationContext } from './quote-confirm-dialog.model';
 
 @Component({
-  selector: 'cx-quote-actions-confirm-dialog',
-  templateUrl: './quote-actions-confirm-dialog.component.html',
+  selector: 'cx-quote-confirm-dialog',
+  templateUrl: './quote-confirm-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CxDatePipe],
 })
-export class QuoteActionsConfirmDialogComponent implements OnInit {
+export class QuoteConfirmDialogComponent implements OnInit {
   protected launchDialogService = inject(LaunchDialogService);
   protected quoteCoreConfig = inject(QuoteCoreConfig);
   protected translationService = inject(TranslationService);

@@ -33,7 +33,7 @@
       <div class="cx-content-container">
         <div class="cx-name">
           <div class="cx-heading">
-            {{ 'quote.actions.confirmDialog.name' | cxTranslate }}
+            {{ 'quote.confirmDialog.name' | cxTranslate }}
           </div>
           <div class="cx-content">
             {{ confirmationContext.quote.name }}
@@ -44,7 +44,7 @@
           *ngIf="confirmationContext.quote.description"
         >
           <div class="cx-heading">
-            {{ 'quote.actions.confirmDialog.description' | cxTranslate }}
+            {{ 'quote.confirmDialog.description' | cxTranslate }}
           </div>
           <div class="cx-content">
             {{ confirmationContext.quote.description }}
@@ -76,10 +76,10 @@
       </div>
       <div class="cx-buttons-container">
         <button class="btn btn-secondary" (click)="dismissModal('no')">
-          {{ 'quote.actions.confirmDialog.option.no' | cxTranslate }}
+          {{ 'quote.confirmDialog.option.no' | cxTranslate }}
         </button>
         <button class="btn btn-primary" (click)="dismissModal('yes')">
-          {{ 'quote.actions.confirmDialog.option.yes' | cxTranslate }}
+          {{ 'quote.confirmDialog.option.yes' | cxTranslate }}
         </button>
       </div>
     </div>
