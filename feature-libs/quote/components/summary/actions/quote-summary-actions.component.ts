@@ -67,102 +67,53 @@ export class QuoteSummaryActionsComponent
   protected subscription = new Subscription();
 
   protected readonly CX_SECTION_SELECTOR = 'cx-quote-summary-actions section';
+  protected readonly ACTION_BUTTONS_HEIGHT = 226;
+  protected readonly AMOUNT_OF_ACTION_BUTTONS = 2;
+  protected readonly WIDTH = 'width';
+  protected readonly BOTTOM = 'bottom';
+  protected readonly PADDING_INLINE_END = 'padding-inline-end';
+  protected readonly PADDING_BLOCK_START = 'padding-block-start';
+  protected readonly PADDING_BLOCK_END = 'padding-block-end';
+  protected readonly POSITION = 'position';
 
   stickyStyles: readonly [property: string, value: string][] = [
-    ['width', '100%'],
-    ['padding-inline-end', '0'],
-    ['padding-block-start', '1rem'],
-    ['padding-block-end', '0'],
-    ['position', '-webkit-sticky'],
-    ['position', 'sticky'],
+    [this.WIDTH, '100%'],
+    [this.PADDING_INLINE_END, '0'],
+    [this.PADDING_BLOCK_START, '1rem'],
+    [this.PADDING_BLOCK_END, '0'],
+    [this.POSITION, '-webkit-sticky'],
+    [this.POSITION, 'sticky'],
   ];
 
   fixedStyles: readonly [property: string, value: string][] = [
-    ['width', '95%'],
-    ['padding-inline-end', '1.5rem'],
-    ['padding-block-start', '1.5rem'],
-    ['padding-block-end', '1.5rem'],
-    ['position', 'fixed'],
+    [this.WIDTH, '95%'],
+    [this.PADDING_INLINE_END, '1.5rem'],
+    [this.PADDING_BLOCK_START, '1.5rem'],
+    [this.PADDING_BLOCK_END, '1.5rem'],
+    [this.POSITION, 'fixed'],
   ];
 
   desktopStyling: readonly [property: string, value: string][] = [
-    ['width', '100%'],
-    ['padding-block-start', '1rem'],
-    ['position', 'static'],
+    [this.WIDTH, '100%'],
+    [this.PADDING_BLOCK_START, '1rem'],
+    [this.POSITION, 'static'],
   ];
 
-  protected isDesktop() {
-    return this.breakpointService.isUp(BREAKPOINT.md);
-  }
-
-  protected isMobile() {
-    return this.breakpointService.isDown(BREAKPOINT.sm);
-  }
-
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   onResize() {
-    this.makeButtonsSticky();
-    this.changeBottomStyling();
+    this.prepareButtonsForMobile();
+    this.adjustBottomProperty();
     this.prepareButtonsForDesktop();
   }
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll')
   onScroll(): void {
-    this.changeBottomStyling();
-  }
-
-  @HostListener('window:orientationchange', ['$event'])
-  onOrientationChange(): void {
-    this.changeBottomStyling();
-  }
-
-  getSpareViewportHeight(): number {
-    const spaHeaderHeight =
-      this.quoteStorefrontUtilsService.getHeight('header');
-    const quoteHeaderHeight =
-      this.quoteStorefrontUtilsService.getHeight('.BottomHeaderSlot');
-
-    const windowHeight = this.quoteStorefrontUtilsService.getWindowHeight();
-
-    return windowHeight - spaHeaderHeight - quoteHeaderHeight;
-  }
-
-  protected changeBottomStyling(): void {
-    this.isMobile()
-      .pipe(take(1))
-      .subscribe((mobile) => {
-        if (mobile) {
-          const calculatedActionButtonsHeight =
-            this.quoteStorefrontUtilsService.getHeight(
-              this.CX_SECTION_SELECTOR
-            );
-          const actionButtonsHeight =
-            calculatedActionButtonsHeight !== 0
-              ? calculatedActionButtonsHeight
-              : 226;
-          const sparViewportHeight = this.getSpareViewportHeight();
-
-          if (sparViewportHeight < actionButtonsHeight) {
-            const bottom = sparViewportHeight - actionButtonsHeight;
-            this.quoteStorefrontUtilsService.changeStyling(
-              this.CX_SECTION_SELECTOR,
-              'bottom',
-              bottom + 'px'
-            );
-          } else {
-            this.quoteStorefrontUtilsService.changeStyling(
-              this.CX_SECTION_SELECTOR,
-              'bottom',
-              '0'
-            );
-          }
-        }
-      });
+    this.adjustBottomProperty();
   }
 
   ngAfterViewInit(): void {
-    this.makeButtonsSticky();
-    this.changeBottomStyling();
+    this.prepareButtonsForMobile();
+    this.adjustBottomProperty();
     this.prepareButtonsForDesktop();
   }
 
@@ -184,6 +135,64 @@ export class QuoteSummaryActionsComponent
         );
       }
     });
+  }
+
+  protected isDesktop() {
+    return this.breakpointService.isUp(BREAKPOINT.md);
+  }
+
+  protected isMobile() {
+    return this.breakpointService.isDown(BREAKPOINT.sm);
+  }
+
+  protected getSpareViewportHeight(): number {
+    const spaHeaderHeight =
+      this.quoteStorefrontUtilsService.getHeight('header');
+    const quoteHeaderHeight =
+      this.quoteStorefrontUtilsService.getHeight('.BottomHeaderSlot');
+    const windowHeight = this.quoteStorefrontUtilsService.getWindowHeight();
+
+    return windowHeight - spaHeaderHeight - quoteHeaderHeight;
+  }
+
+  protected getActionButtonsHeight(): number {
+    const calculatedActionButtonsHeight =
+      this.quoteStorefrontUtilsService.getHeight(this.CX_SECTION_SELECTOR);
+
+    return calculatedActionButtonsHeight !== 0
+      ? calculatedActionButtonsHeight
+      : this.ACTION_BUTTONS_HEIGHT;
+  }
+
+  protected adjustBottomProperty(): void {
+    this.isMobile()
+      .pipe(take(1))
+      .subscribe((mobile) => {
+        if (mobile) {
+          const actionButtonsHeight = this.getActionButtonsHeight();
+          const sparViewportHeight = this.getSpareViewportHeight();
+
+          if (sparViewportHeight < actionButtonsHeight) {
+            const bottom = sparViewportHeight - actionButtonsHeight;
+            this.quoteStorefrontUtilsService.changeStyling(
+              this.CX_SECTION_SELECTOR,
+              this.BOTTOM,
+              bottom + 'px'
+            );
+          } else {
+            this.quoteStorefrontUtilsService.changeStyling(
+              this.CX_SECTION_SELECTOR,
+              this.BOTTOM,
+              '0'
+            );
+          }
+        } else {
+          this.quoteStorefrontUtilsService.removeStyling(
+            this.CX_SECTION_SELECTOR,
+            this.BOTTOM
+          );
+        }
+      });
   }
 
   protected prepareButtonsForDesktop(): void {
@@ -216,7 +225,7 @@ export class QuoteSummaryActionsComponent
       });
   }
 
-  protected makeButtonsSticky(): void {
+  protected prepareButtonsForMobile(): void {
     this.isMobile()
       .pipe(take(1))
       .subscribe((mobile) => {
@@ -363,7 +372,7 @@ export class QuoteSummaryActionsComponent
     if (action.isPrimary) {
       return 'btn-primary';
     }
-    if (allowedActions.length <= 2) {
+    if (allowedActions.length <= this.AMOUNT_OF_ACTION_BUTTONS) {
       return 'btn-secondary';
     }
     return action.type === QuoteActionType.CANCEL
