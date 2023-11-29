@@ -250,22 +250,7 @@ export class QuoteService implements QuoteFacade {
             payload.quoteAction === QuoteActionType.EDIT ||
             payload.quoteAction === QuoteActionType.CHECKOUT
           ) {
-            this.activeCartFacade
-              .getActive()
-              .pipe(take(1))
-              .subscribe((activeCart) => {
-                if (
-                  (activeCart?.entries ?? []).length > 0 &&
-                  !activeCart.quoteCode &&
-                  activeCart.code
-                ) {
-                  this.savedCartService.editSavedCart({
-                    cartId: activeCart.code,
-                    saveCartName: '',
-                    saveCartDescription: '',
-                  });
-                }
-              });
+            this.saveActiveCart();
             //no cartId present: ensure that we re-fetch quote cart id from quote
             const cartId = payload.quote.cartId;
             if (!cartId) {
@@ -372,6 +357,7 @@ export class QuoteService implements QuoteFacade {
           switchMap((userId) =>
             this.quoteConnector.createQuote(userId, payload.quoteStarter).pipe(
               tap((quote) => {
+                this.saveActiveCart();
                 this.loadQuoteCartAndProceed(
                   userId,
                   quote.cartId as string,
@@ -450,6 +436,34 @@ export class QuoteService implements QuoteFacade {
         storefrontElement.focus();
       }
     }
+  }
+
+  protected saveActiveCart() {
+    this.activeCartFacade
+      .getActive()
+      .pipe(take(1))
+      .subscribe((activeCart) => {
+        if (
+          (activeCart?.entries ?? []).length > 0 &&
+          !activeCart.quoteCode &&
+          activeCart.code
+        ) {
+          this.savedCartService.editSavedCart({
+            cartId: activeCart.code,
+            saveCartName: '',
+            saveCartDescription: '',
+          });
+          this.globalMessageService.add(
+            {
+              key: 'quote.commons.savedActiveCart',
+              params: {
+                code: activeCart.code,
+              },
+            },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        }
+      });
   }
 
   addDiscount(quoteCode: string, discount: QuoteDiscount): void {

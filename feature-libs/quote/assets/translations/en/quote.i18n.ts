@@ -150,6 +150,8 @@ export const quote = {
       cart: 'Cart',
       minRequestInitiationNote:
         'Minimum ${{minValue}} subtotal is required to submit a quote ',
+      savedActiveCart:
+        'Your active cart was converted to saved cart {{ code }}',
     },
     header: {
       buyerEdit: {
