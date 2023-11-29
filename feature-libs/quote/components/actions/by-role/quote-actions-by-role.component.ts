@@ -97,7 +97,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
    */
   onClick(action: QuoteActionType, quote: Quote, cart: Cart) {
     const cartIsEmptyOrQuoteCart =
-      (cart.entries?.length ?? 0) === 0 || cart.quoteCode != undefined;
+      (cart.entries?.length ?? 0) === 0 || cart.quoteCode !== undefined;
     if (
       !this.isConfirmationDialogRequired(
         action,
