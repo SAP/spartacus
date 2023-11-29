@@ -17,6 +17,7 @@ import {
 
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import {
+  BreakpointService,
   IntersectionService,
   LAUNCH_CALLER,
   LaunchDialogService,
@@ -28,9 +29,9 @@ import {
   ConfirmActionDialogMappingConfig,
   QuoteUIConfig,
 } from '../../config/quote-ui.config';
-import { ConfirmationContext } from '../confirm-dialog/quote-actions-confirm-dialog.model';
+import { ConfirmationContext } from '../../actions/confirm-dialog/quote-actions-confirm-dialog.model';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
-import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
+import { QuoteSummaryActionsComponent } from './quote-summary-actions.component';
 import createSpy = jasmine.createSpy;
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { QuoteStorefrontUtilsService } from '@spartacus/quote/core';
@@ -158,24 +159,37 @@ class MockIntersectionService {
 
 class MockQuoteStorefrontUtilsService {
   getElement() {}
-
   changeStyling() {}
+  removeStyling() {}
+  getHeight() {}
+  getWindowHeight() {}
 }
 
-describe('QuoteActionsByRoleComponent', () => {
-  let fixture: ComponentFixture<QuoteActionsByRoleComponent>;
+class MockBreakpointService {
+  isDown(): Observable<boolean> {
+    return of(false);
+  }
+
+  isUp(): Observable<boolean> {
+    return of(true);
+  }
+}
+
+describe('QuoteSummaryActionsComponent', () => {
+  let fixture: ComponentFixture<QuoteSummaryActionsComponent>;
   let htmlElem: HTMLElement;
-  let component: QuoteActionsByRoleComponent;
+  let component: QuoteSummaryActionsComponent;
   let launchDialogService: LaunchDialogService;
   let quoteFacade: QuoteFacade;
   let globalMessageService: GlobalMessageService;
-  let intersectionService: IntersectionService;
+  let breakpointService: BreakpointService;
   let quoteStorefrontUtilsService: QuoteStorefrontUtilsService;
+  let intersectionService: IntersectionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [QuoteActionsByRoleComponent],
+      declarations: [QuoteSummaryActionsComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -192,24 +206,29 @@ describe('QuoteActionsByRoleComponent', () => {
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         {
-          provide: IntersectionService,
-          useClass: MockIntersectionService,
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
         },
         {
           provide: QuoteStorefrontUtilsService,
           useClass: MockQuoteStorefrontUtilsService,
+        },
+        {
+          provide: IntersectionService,
+          useClass: MockIntersectionService,
         },
       ],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteActionsByRoleComponent);
+    fixture = TestBed.createComponent(QuoteSummaryActionsComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
     quoteFacade = TestBed.inject(QuoteFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    breakpointService = TestBed.inject(BreakpointService);
     quoteStorefrontUtilsService = TestBed.inject(QuoteStorefrontUtilsService);
     intersectionService = TestBed.inject(IntersectionService);
     mockQuoteDetails$.next(mockQuote);
@@ -699,6 +718,7 @@ describe('QuoteActionsByRoleComponent', () => {
         { type: QuoteActionType.CANCEL, isPrimary: false },
       ];
     });
+
     it("should return 'btn-primary' style for action marked as primary", () => {
       expect(
         component.getButtonStyle(allowedActions, {
@@ -761,13 +781,12 @@ describe('QuoteActionsByRoleComponent', () => {
   describe('Floating action buttons', () => {
     it('should make action buttons sticky when intersecting', (done) => {
       spyOn(intersectionService, 'isIntersecting').and.returnValue(of(true));
-      component.ngOnInit();
+      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+      component.ngAfterViewInit();
       component.quoteDetails$.pipe(take(1), delay(0)).subscribe(() => {
-        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledTimes(
-          7
-        );
+        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalled();
         expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
-          'cx-quote-actions-by-role section',
+          'cx-quote-summary-actions section',
           'position',
           'sticky'
         );
@@ -776,14 +795,13 @@ describe('QuoteActionsByRoleComponent', () => {
     });
 
     it('should make action buttons fixed when not intersecting', (done) => {
-      component.ngOnInit();
+      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
       spyOn(intersectionService, 'isIntersecting').and.callThrough();
+      component.ngAfterViewInit();
       component.quoteDetails$.pipe(take(1), delay(0)).subscribe(() => {
-        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledTimes(
-          5
-        );
+        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalled();
         expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
-          'cx-quote-actions-by-role section',
+          'cx-quote-summary-actions section',
           'position',
           'fixed'
         );

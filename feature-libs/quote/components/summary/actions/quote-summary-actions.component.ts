@@ -39,14 +39,14 @@ import {
   ConfirmActionDialogConfig,
   QuoteUIConfig,
 } from '../../config/quote-ui.config';
-import { ConfirmationContext } from '../confirm-dialog/quote-actions-confirm-dialog.model';
+import { ConfirmationContext } from '../../actions/confirm-dialog/quote-actions-confirm-dialog.model';
 import { QuoteStorefrontUtilsService } from '../../../core/services/quote-storefront-utils.service';
 
 @Component({
-  selector: 'cx-quote-actions-by-role',
-  templateUrl: './quote-actions-by-role.component.html',
+  selector: 'cx-quote-summary-actions',
+  templateUrl: './quote-summary-actions.component.html',
 })
-export class QuoteActionsByRoleComponent
+export class QuoteSummaryActionsComponent
   implements AfterViewInit, OnInit, OnDestroy
 {
   protected quoteFacade = inject(QuoteFacade);
@@ -59,7 +59,14 @@ export class QuoteActionsByRoleComponent
   protected quoteStorefrontUtilsService = inject(QuoteStorefrontUtilsService);
   protected intersectionService = inject(IntersectionService);
 
-  protected readonly CX_SECTION_SELECTOR = 'cx-quote-actions-by-role section';
+  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
+  cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
+
+  @ViewChild('element') element: ElementRef;
+  QuoteActionType = QuoteActionType;
+  protected subscription = new Subscription();
+
+  protected readonly CX_SECTION_SELECTOR = 'cx-quote-summary-actions section';
 
   stickyStyles: readonly [property: string, value: string][] = [
     ['width', '100%'],
@@ -84,13 +91,6 @@ export class QuoteActionsByRoleComponent
     ['position', 'static'],
   ];
 
-  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
-  cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
-
-  @ViewChild('element') element: ElementRef;
-  QuoteActionType = QuoteActionType;
-  protected subscription = new Subscription();
-
   protected isDesktop() {
     return this.breakpointService.isUp(BREAKPOINT.md);
   }
@@ -101,7 +101,6 @@ export class QuoteActionsByRoleComponent
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    console.log('resize');
     this.makeButtonsSticky();
     this.changeBottomStyling();
     this.prepareButtonsForDesktop();
@@ -114,7 +113,6 @@ export class QuoteActionsByRoleComponent
 
   @HostListener('window:orientationchange', ['$event'])
   onOrientationChange(): void {
-    console.log('orientationchange');
     this.changeBottomStyling();
   }
 
@@ -134,7 +132,6 @@ export class QuoteActionsByRoleComponent
       .pipe(take(1))
       .subscribe((mobile) => {
         if (mobile) {
-          console.log('(changeBottomStyling) is mobile: ' + mobile);
           const calculatedActionButtonsHeight =
             this.quoteStorefrontUtilsService.getHeight(
               this.CX_SECTION_SELECTOR
@@ -147,7 +144,6 @@ export class QuoteActionsByRoleComponent
 
           if (sparViewportHeight < actionButtonsHeight) {
             const bottom = sparViewportHeight - actionButtonsHeight;
-            console.log('bottom: ' + bottom);
             this.quoteStorefrontUtilsService.changeStyling(
               this.CX_SECTION_SELECTOR,
               'bottom',
@@ -195,7 +191,6 @@ export class QuoteActionsByRoleComponent
       .pipe(take(1))
       .subscribe((desktop) => {
         if (desktop) {
-          console.log('prepareButtonsForDesktop() is desktop: ' + desktop);
           this.stickyStyles.forEach((style) => {
             this.quoteStorefrontUtilsService.removeStyling(
               this.CX_SECTION_SELECTOR,
@@ -226,7 +221,6 @@ export class QuoteActionsByRoleComponent
       .pipe(take(1))
       .subscribe((mobile) => {
         if (mobile) {
-          console.log('makeButtonsSticky() is mobile: ' + mobile);
           this.fixedStyles.forEach((style) => {
             this.quoteStorefrontUtilsService.changeStyling(
               this.CX_SECTION_SELECTOR,

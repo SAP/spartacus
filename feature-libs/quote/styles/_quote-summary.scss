@@ -1,4 +1,4 @@
-%cx-quote-header-order-summary {
+%cx-quote-summary {
   &:not(:empty) {
     @include media-breakpoint-up(lg) {
       position: -webkit-sticky;

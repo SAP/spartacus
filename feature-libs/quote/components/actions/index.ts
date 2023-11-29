@@ -4,6 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './by-role';
 export * from './confirm-dialog';
 export * from './link';

@@ -1,29 +1,29 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { QuoteHeaderOrderSummaryComponent } from '@spartacus/quote/components';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
-import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { BehaviorSubject, NEVER, Observable } from 'rxjs';
-import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
+import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
+import { QuoteSummaryComponent } from './quote-summary.component';
 
 @Component({
-  selector: 'cx-quote-header-price',
+  selector: 'cx-quote-summary-price',
   template: '',
 })
-class MockQuoteHeaderPriceComponent {}
+class MockQuoteSummaryPriceComponent {}
 
 @Component({
-  selector: 'cx-quote-actions-by-role',
+  selector: 'cx-quote-summary-actions',
   template: '',
 })
-class MockQuoteActionsByRoleComponent {}
+class MockQuoteSummaryActionsComponent {}
 
 @Component({
-  selector: 'cx-quote-header-seller-edit',
+  selector: 'cx-quote-summary-seller-edit',
   template: '',
 })
-class MockQuoteHeaderSellerEditComponent {}
+class MockQuoteSummarySellerEditComponent {}
 
 const quote: Quote = {
   ...createEmptyQuote(),
@@ -37,19 +37,19 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   }
 }
 
-describe('QuoteOrderSummaryComponent', () => {
-  let fixture: ComponentFixture<QuoteHeaderOrderSummaryComponent>;
-  let component: QuoteHeaderOrderSummaryComponent;
+describe('QuoteSummaryComponent', () => {
+  let fixture: ComponentFixture<QuoteSummaryComponent>;
+  let component: QuoteSummaryComponent;
   let htmlElem: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [
-        QuoteHeaderOrderSummaryComponent,
-        MockQuoteHeaderPriceComponent,
-        MockQuoteActionsByRoleComponent,
-        MockQuoteHeaderSellerEditComponent,
+        QuoteSummaryComponent,
+        MockQuoteSummaryPriceComponent,
+        MockQuoteSummaryActionsComponent,
+        MockQuoteSummarySellerEditComponent,
       ],
       providers: [
         {
@@ -61,7 +61,7 @@ describe('QuoteOrderSummaryComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteHeaderOrderSummaryComponent);
+    fixture = TestBed.createComponent(QuoteSummaryComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
   });

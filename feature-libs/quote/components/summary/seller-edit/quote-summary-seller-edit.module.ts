@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
-import { QuoteHeaderSellerEditComponent } from './quote-header-seller-edit.component';
+import { QuoteSummarySellerEditComponent } from './quote-summary-seller-edit.component';
 import { IconModule, DatePickerModule } from '@spartacus/storefront';
 
 @NgModule({
@@ -20,7 +20,7 @@ import { IconModule, DatePickerModule } from '@spartacus/storefront';
     IconModule,
     DatePickerModule,
   ],
-  declarations: [QuoteHeaderSellerEditComponent],
-  exports: [QuoteHeaderSellerEditComponent],
+  declarations: [QuoteSummarySellerEditComponent],
+  exports: [QuoteSummarySellerEditComponent],
 })
-export class QuoteHeaderSellerEditModule {}
+export class QuoteSummarySellerEditModule {}

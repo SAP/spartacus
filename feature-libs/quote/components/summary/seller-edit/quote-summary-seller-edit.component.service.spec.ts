@@ -9,7 +9,7 @@ import {
   EXPIRATION_TIME_AS_STRING,
   createEmptyQuote,
 } from '../../../core/testing/quote-test-utils';
-import { QuoteHeaderSellerEditComponentService } from './quote-header-seller-edit.component.service';
+import { QuoteSummarySellerEditComponentService } from './quote-summary-seller-edit.component.service';
 
 const TOTAL_PRICE = 1000;
 const DISCOUNT_RATE = 10000;
@@ -25,8 +25,8 @@ class MockLanguageService {
   }
 }
 
-describe('QuoteHeaderSellerEditComponentService', () => {
-  let classUnderTest: QuoteHeaderSellerEditComponentService;
+describe('QuoteSummarySellerEditComponentService', () => {
+  let classUnderTest: QuoteSummarySellerEditComponentService;
   let quote: Quote;
 
   beforeEach(() => {
@@ -39,7 +39,7 @@ describe('QuoteHeaderSellerEditComponentService', () => {
   });
 
   beforeEach(() => {
-    classUnderTest = TestBed.inject(QuoteHeaderSellerEditComponentService);
+    classUnderTest = TestBed.inject(QuoteSummarySellerEditComponentService);
     quote = {
       ...createEmptyQuote(),
       totalPrice: { value: TOTAL_PRICE },

@@ -26,7 +26,7 @@ describe('QuoteRootModule', () => {
     expect(cmsComponentsQuote).toContain('QuoteCommentsComponent');
     expect(cmsComponentsQuote).toContain('QuoteHeaderOverviewComponent');
     expect(cmsComponentsQuote).toContain('QuoteItemsComponent');
-    expect(cmsComponentsQuote).toContain('QuoteHeaderOrderSummaryComponent');
+    expect(cmsComponentsQuote).toContain('QuoteSummaryComponent');
   });
 
   it('should define quote feature that should contain the quote list component forming the quote list page', () => {

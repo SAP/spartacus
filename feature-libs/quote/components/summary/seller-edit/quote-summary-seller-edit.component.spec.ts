@@ -32,8 +32,8 @@ import {
   QUOTE_CODE,
 } from '../../../core/testing/quote-test-utils';
 import { QuoteUIConfig } from '../../config';
-import { QuoteHeaderSellerEditComponent } from './quote-header-seller-edit.component';
-import { QuoteHeaderSellerEditComponentService } from './quote-header-seller-edit.component.service';
+import { QuoteSummarySellerEditComponent } from './quote-summary-seller-edit.component';
+import { QuoteSummarySellerEditComponentService } from './quote-summary-seller-edit.component.service';
 import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
@@ -127,9 +127,9 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-describe('QuoteHeaderSellerEditComponent', () => {
-  let fixture: ComponentFixture<QuoteHeaderSellerEditComponent>;
-  let component: QuoteHeaderSellerEditComponent;
+describe('QuoteSummarySellerEditComponent', () => {
+  let fixture: ComponentFixture<QuoteSummarySellerEditComponent>;
+  let component: QuoteSummarySellerEditComponent;
   let quoteFacade: QuoteFacade;
 
   beforeEach(() => {
@@ -139,7 +139,7 @@ describe('QuoteHeaderSellerEditComponent', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule],
       declarations: [
-        QuoteHeaderSellerEditComponent,
+        QuoteSummarySellerEditComponent,
         MockCxIconComponent,
         MockDatePickerComponent,
       ],
@@ -149,7 +149,7 @@ describe('QuoteHeaderSellerEditComponent', () => {
           useClass: MockCommerceQuotesFacade,
         },
         {
-          provide: QuoteHeaderSellerEditComponentService,
+          provide: QuoteSummarySellerEditComponentService,
           useClass: MockQuoteHeaderSellerEditComponentService,
         },
         {
@@ -161,7 +161,7 @@ describe('QuoteHeaderSellerEditComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteHeaderSellerEditComponent);
+    fixture = TestBed.createComponent(QuoteSummarySellerEditComponent);
     component = fixture.componentInstance;
     quoteFacade = TestBed.inject(QuoteFacade);
     mockQuote.quoteDiscounts = {};

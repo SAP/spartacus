@@ -9,10 +9,10 @@ import { Price } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';
 
 @Component({
-  selector: 'cx-quote-header-price',
-  templateUrl: 'quote-header-price.component.html',
+  selector: 'cx-quote-summary-price',
+  templateUrl: 'quote-summary-price.component.html',
 })
-export class QuoteHeaderPriceComponent {
+export class QuoteSummaryPriceComponent {
   protected quoteFacade = inject(QuoteFacade);
 
   quoteDetails$ = this.quoteFacade.getQuoteDetails();

@@ -53,7 +53,7 @@ const messagingCardChildSelector =
   commentsSelector + messagingCardSelector + ':nth-child';
 const itemsSelector = 'cx-quote-items';
 const itemListRowSelector = itemsSelector + ` .cx-item-list-row:nth-child`;
-const actionsByRoleSelector = 'cx-quote-actions-by-role';
+const actionsByRoleSelector = 'cx-quote-summary-actions';
 const btnSelector = 'button';
 const primaryBtnSelector = ' button.btn-primary';
 const secondaryBtnSelector = ' button.btn-secondary';
@@ -65,7 +65,7 @@ const requestQuoteBtnSelector = 'cx-quote-request-button button';
 const accountPageTemplateSelector = '.AccountPageTemplate';
 const confirmDialogSelector = 'cx-quote-actions-confirm-dialog';
 const globalMsgSelector = 'cx-global-message';
-const sellerEditSelector = 'cx-quote-header-seller-edit';
+const sellerEditSelector = 'cx-quote-summary-seller-edit';
 
 /**
  * Sets quantity.
@@ -192,7 +192,7 @@ export function checkQuoteHeaderPriceDisplayed() {
     'Verifies whether the quote header price component is displayed',
     checkQuoteHeaderPriceDisplayed.name
   );
-  cy.get('cx-quote-header-price').should('be.visible');
+  cy.get('cx-quote-summary-price').should('be.visible');
 }
 
 /**

@@ -10,7 +10,7 @@
         [disabled]="mustDisableAction(action.type, quoteDetails)"
         (click)="onClick(action.type, quoteDetails, cartDetails)"
       >
-        {{ 'quote.actions.byRole.' + action.type | cxTranslate }}
+        {{ 'quote.summary.actions.' + action.type | cxTranslate }}
       </button>
     </section>
   </ng-container>

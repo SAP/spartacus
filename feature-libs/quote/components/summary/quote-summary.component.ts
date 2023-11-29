@@ -8,10 +8,10 @@ import { Component, inject } from '@angular/core';
 import { QuoteFacade } from '@spartacus/quote/root';
 
 @Component({
-  selector: 'cx-quote-header-order-summary',
-  templateUrl: 'quote-header-order-summary.component.html',
+  selector: 'cx-quote-summary',
+  templateUrl: 'quote-summary.component.html',
 })
-export class QuoteHeaderOrderSummaryComponent {
+export class QuoteSummaryComponent {
   protected quoteFacade = inject(QuoteFacade);
 
   quoteDetails$ = this.quoteFacade.getQuoteDetails();

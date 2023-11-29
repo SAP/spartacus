@@ -24,16 +24,16 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, filter, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config';
-import { QuoteHeaderSellerEditComponentService } from './quote-header-seller-edit.component.service';
+import { QuoteSummarySellerEditComponentService } from './quote-summary-seller-edit.component.service';
 
 @Component({
-  selector: 'cx-quote-header-seller-edit',
-  templateUrl: './quote-header-seller-edit.component.html',
+  selector: 'cx-quote-summary-seller-edit',
+  templateUrl: './quote-summary-seller-edit.component.html',
 })
-export class QuoteHeaderSellerEditComponent implements OnInit, OnDestroy {
+export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
   protected quoteFacade = inject(QuoteFacade);
   protected quoteHeaderSellerEditComponentService = inject(
-    QuoteHeaderSellerEditComponentService
+    QuoteSummarySellerEditComponentService
   );
   protected quoteUIConfig = inject(QuoteUIConfig);
 

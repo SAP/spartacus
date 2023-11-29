@@ -37,7 +37,6 @@ export class QuoteStorefrontUtilsService {
   changeStyling(querySelector: string, property: string, value: string): void {
     const element = this.getElement(querySelector);
     if (element) {
-      console.log('add property: ' + property + '; value: ' + value);
       element.style.setProperty(property, value);
     }
   }
@@ -51,7 +50,6 @@ export class QuoteStorefrontUtilsService {
   removeStyling(querySelector: string, property: string): void {
     const element = this.getElement(querySelector);
     if (element) {
-      console.log('remove property: ' + property);
       element.style.removeProperty(property);
     }
   }
