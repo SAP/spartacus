@@ -57,8 +57,9 @@ export class ApplePayObservableFactory {
 
       session.addEventListener('cancel', (event: Event) => {
         console.log('Cancel callback', event);
-        config.paymentCanceled();
-        observer.complete();
+        config.paymentCanceled().subscribe(() => {
+          observer.complete();
+        });
       });
 
       if (config.paymentMethodSelected) {
