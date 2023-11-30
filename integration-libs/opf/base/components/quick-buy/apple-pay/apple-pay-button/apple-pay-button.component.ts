@@ -11,7 +11,7 @@ import {
   ItemCounterService,
 } from '@spartacus/storefront';
 import { Subscription, combineLatest } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { CartHandlerService } from '../../cart-handler.service';
 import { ApplePayService } from '../apple-pay.service';
 
@@ -27,14 +27,18 @@ import { ApplePayService } from '../apple-pay.service';
   `,
   styleUrls: ['./apple-pay-button.component.scss'],
 })
-export class ApplePayButtonComponent implements OnDestroy{
+export class ApplePayButtonComponent implements OnDestroy {
   protected applePayService = inject(ApplePayService);
   protected currentProductService = inject(CurrentProductService);
   protected itemCounterService = inject(ItemCounterService);
   protected cartHandlerService = inject(CartHandlerService);
 
   sub: Subscription;
-  isApplePaySupported$ = this.applePayService.isApplePaySupported$();
+  isApplePaySupported$ = this.applePayService.isApplePaySupported$().pipe(
+    tap((value) => {
+      console.log('isApplePaySupported', value);
+    })
+  );
 
   quickBuyProduct(): void {
     this.sub = combineLatest([
@@ -53,8 +57,8 @@ export class ApplePayButtonComponent implements OnDestroy{
   }
 
   ngOnDestroy(): void {
-      if(this.sub){
-        this.sub.unsubscribe();
-      }
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 }

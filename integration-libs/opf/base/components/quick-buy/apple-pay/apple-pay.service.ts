@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Address, Product } from '@spartacus/core';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import {
   concatMap,
   filter,
@@ -51,60 +51,26 @@ const merchantIdentifier = 'merchant.com.adyen.upscale.test';
 
 @Injectable()
 export class ApplePayService {
-  availableChange: Observable<boolean>;
-  configuredChange: Observable<boolean>;
+  protected applePaySession = inject(ApplePaySessionFactory);
+  protected applePayObservable = inject(ApplePayObservableFactory);
+  protected window: Window = inject(WINDOW_TOKEN);
+  protected http = inject(HttpClient);
+  protected opfOtpFacade = inject(OpfOtpFacade);
+  protected opfPaymentFacade = inject(OpfPaymentFacade);
+  protected cartHandlerService = inject(CartHandlerService);
 
   inProgress = false;
 
-  // protected configState = new ApplePayConfigState();
-
-  // protected product: Product;
   protected localCart: LocalCart = {
     quantity: 0,
     product: undefined,
     addresses: [],
-    isPsp: true,
+    isPdp: true,
     total: {
       label: '',
       amount: '',
     },
   };
-
-  isApplePayAvailable$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-
-  // get available(): boolean {
-  //   return this.configState.available;
-  // }
-
-  // get configured(): boolean {
-  //   return this.configState.configured;
-  // }
-
-  constructor(
-    protected applePaySession: ApplePaySessionFactory,
-    protected applePayObservable: ApplePayObservableFactory,
-    @Inject(WINDOW_TOKEN) private window: Window,
-    protected http: HttpClient,
-    protected opfOtpFacade: OpfOtpFacade,
-    protected opfPaymentFacade: OpfPaymentFacade,
-    protected cartHandlerService: CartHandlerService
-  ) {
-    //  this.configState.applePayAvailable(applePayAvailable);
-    // if (applePayAvailable) {
-    //   applePaySession
-    //     .canMakePaymentsWithActiveCard(merchantIdentifier)
-    //     .subscribe(
-    //       (canMakePayments) => {
-    //         console.log('CanMakePayments', canMakePayments);
-    //         // this.configState.canMakePaymentsWithActiveCard(canMakePayments);
-    //       },
-    //       (error) => {
-    //         console.log('CanMakePayments error', error);
-    //         //  this.configState.canMakePaymentsWithActiveCard(false);
-    //       }
-    //     );
-    // }
-  }
 
   isApplePaySupported$(): Observable<boolean> {
     return this.applePaySession.canMakePayments() &&
@@ -113,19 +79,21 @@ export class ApplePayService {
       : of(false);
   }
 
+  protected initLocalCart(product: Product, quantity: number): LocalCart {
+    return {
+      quantity,
+      product,
+      addresses: [],
+      isPdp: true,
+      total: {
+        amount: '' + (product.price?.value as number) * quantity,
+        label: `${product?.name as string} x ${quantity as number}`,
+      },
+    };
+  }
+
   start(product: Product, quantity: number): Observable<boolean> {
-    this.localCart.quantity = quantity;
-    this.localCart.product = product;
-    this.localCart.addresses = [];
-    this.localCart.isPsp = true;
-    this.localCart.total.amount =
-      '' + (product.price?.value as number) * quantity;
-    this.localCart.total.label = `${product?.name as string} x ${
-      quantity as number
-    }`;
-
-    console.log(' this.localCart.product', this.localCart?.product);
-
+    this.localCart = this.initLocalCart(product, quantity);
     if (this.inProgress) {
       return throwError(new Error('Apple Pay is already in progress'));
     }
@@ -206,10 +174,6 @@ export class ApplePayService {
       );
     }
     return throwError('product has no ID');
-
-    // if (this.product.code) {
-    //   this.activeCartFacade.addEntry(this.product.code as string, 1);
-    // }
   }
 
   private validateOpfAppleSession(
@@ -245,7 +209,7 @@ export class ApplePayService {
   ): Observable<any> {
     console.log('handleShippingContactSelected', _event);
 
-    const address: Address = {
+    const partialAddress: Address = {
       email: _event.shippingContact.emailAddress,
       firstName: 'xxxx',
       lastName: 'xxxx',
@@ -276,7 +240,7 @@ export class ApplePayService {
       ],
     };
 
-    return this.cartHandlerService.setDeliveryAddress(address).pipe(
+    return this.cartHandlerService.setDeliveryAddress(partialAddress).pipe(
       switchMap(() => this.cartHandlerService.getSupportedDeliveryModes()),
       take(1),
       map((modes) => {
@@ -347,8 +311,6 @@ export class ApplePayService {
       ],
     };
 
-    // return of(result);
-
     return this.cartHandlerService
       .setDeliveryMode(_event.shippingMethod.identifier)
       .pipe(
@@ -370,7 +332,6 @@ export class ApplePayService {
   ): Observable<ApplePayAuthorizationResult> {
     console.log('Product', this.localCart?.product);
     console.log('handlePaymentAuthorized', event);
-    const payment = event.payment;
 
     const result: ApplePayJS.ApplePayPaymentAuthorizationResult = {
       status: this.applePaySession.STATUS_SUCCESS,
@@ -380,7 +341,7 @@ export class ApplePayService {
 
     return of({
       authResult: result,
-      payment: payment,
+      payment: event.payment,
     });
   }
 
@@ -419,7 +380,6 @@ export class ApplePayService {
         headers: new HttpHeaders({
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          // 'Authorization': opfConfig.opf.paymentServiceBearerToken,
           'Content-Language': 'en-US',
           'sap-commerce-cloud-public-key':
             'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
@@ -427,7 +387,6 @@ export class ApplePayService {
         }),
       }
     );
-    // .pipe(wrapErrorsAsErrorSchema());
   }
 
   protected placeOrderAfterPayment(
@@ -469,7 +428,7 @@ export class ApplePayService {
         isocode: billingContact?.countryCode,
         name: billingContact?.country,
       },
-      defaultAddress: true,
+      defaultAddress: false,
     };
     return this.cartHandlerService
       .updateCurrentCartDeliveryAddress(shippingAddress)
@@ -490,7 +449,7 @@ export class ApplePayService {
             callbackArray: [() => {}, () => {}, () => {}],
 
             paymentMethod: PaymentMethod.APPLE_PAY,
-            encryptedToken: encryptedToken,
+            encryptedToken,
           });
         })
       );

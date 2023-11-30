@@ -72,7 +72,7 @@ export interface CtaScript {
 }
 
 export interface LocalCart {
-  isPsp?: boolean;
+  isPdp?: boolean;
   cartId?: string;
   product?: Product;
   quantity?: number;
