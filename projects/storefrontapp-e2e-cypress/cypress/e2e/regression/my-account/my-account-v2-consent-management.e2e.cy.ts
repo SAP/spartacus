@@ -17,12 +17,12 @@ viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
-    describe('consent management test for anonymous user', () => {
+    describe('consent management test for anonymous user(CXSPA-4491)', () => {
       verifyAsAnonymous();
     });
 
     describe(
-      'consent management test for logged in user',
+      'consent management test for logged in user(CXSPA-4491)',
       { testIsolation: false },
       () => {
         isolateTests();
