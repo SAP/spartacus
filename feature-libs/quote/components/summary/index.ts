@@ -5,7 +5,7 @@
  */
 
 export * from './actions';
-export * from './price';
+export * from './prices';
 export * from './seller-edit';
 export * from './quote-summary.component';
 export * from './quote-summary.module';

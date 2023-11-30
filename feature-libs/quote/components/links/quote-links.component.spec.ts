@@ -16,9 +16,9 @@ import {
 } from '@spartacus/quote/root';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, NEVER, Observable } from 'rxjs';
-import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
-import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
-import { QuoteActionsLinkComponent } from './quote-actions-link.component';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
+import { QuoteLinksComponent } from './quote-links.component';
 import createSpy = jasmine.createSpy;
 
 class MockCartUtilsService implements Partial<CartUtilsService> {
@@ -53,10 +53,10 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   }
 }
 
-describe('QuoteActionsLinkComponent', () => {
-  let fixture: ComponentFixture<QuoteActionsLinkComponent>;
+describe('QuoteLinksComponent', () => {
+  let fixture: ComponentFixture<QuoteLinksComponent>;
   let htmlElem: HTMLElement;
-  let component: QuoteActionsLinkComponent;
+  let component: QuoteLinksComponent;
   let cartUtilsService: CartUtilsService;
   let router: Router;
 
@@ -67,7 +67,7 @@ describe('QuoteActionsLinkComponent', () => {
         RouterTestingModule.withRoutes(mockRoutes),
         UrlTestingModule,
       ],
-      declarations: [QuoteActionsLinkComponent],
+      declarations: [QuoteLinksComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -82,7 +82,7 @@ describe('QuoteActionsLinkComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteActionsLinkComponent);
+    fixture = TestBed.createComponent(QuoteLinksComponent);
     htmlElem = fixture.nativeElement;
     cartUtilsService = TestBed.inject(CartUtilsService);
     router = TestBed.inject(Router);
@@ -96,7 +96,7 @@ describe('QuoteActionsLinkComponent', () => {
   });
 
   it('should render empty component', () => {
-    fixture = TestBed.createComponent(QuoteActionsLinkComponent);
+    fixture = TestBed.createComponent(QuoteLinksComponent);
     htmlElem = fixture.nativeElement;
     cartUtilsService = TestBed.inject(CartUtilsService);
     router = TestBed.inject(Router);
@@ -123,7 +123,7 @@ describe('QuoteActionsLinkComponent', () => {
       expect,
       htmlElem,
       'a.link',
-      'quote.actions.link.newCart',
+      'quote.links.newCart',
       0
     );
 
@@ -131,7 +131,7 @@ describe('QuoteActionsLinkComponent', () => {
       expect,
       htmlElem,
       'a.link',
-      'quote.actions.link.quotes',
+      'quote.links.quotes',
       1
     );
   });

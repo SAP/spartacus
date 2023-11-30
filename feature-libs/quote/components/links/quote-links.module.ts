@@ -14,21 +14,21 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { QuoteActionsLinkComponent } from './quote-actions-link.component';
+import { QuoteLinksComponent } from './quote-links.component';
 
 @NgModule({
   imports: [CommonModule, I18nModule, RouterModule, UrlModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        QuoteActionsLinkComponent: {
-          component: QuoteActionsLinkComponent,
+        QuoteLinksComponent: {
+          component: QuoteLinksComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
-  declarations: [QuoteActionsLinkComponent],
-  exports: [QuoteActionsLinkComponent],
+  declarations: [QuoteLinksComponent],
+  exports: [QuoteLinksComponent],
 })
-export class QuoteActionsLinkModule {}
+export class QuoteLinksModule {}

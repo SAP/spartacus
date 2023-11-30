@@ -12,9 +12,9 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
-import { QuoteActionsConfirmDialogComponent } from './quote-actions-confirm-dialog.component';
-import { ConfirmationContext } from './quote-actions-confirm-dialog.model';
+import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
+import { QuoteConfirmDialogComponent } from './quote-confirm-dialog.component';
+import { ConfirmationContext } from './quote-confirm-dialog.model';
 
 const QUOTE_CODE = '00010000';
 const quote: Quote = {
@@ -60,9 +60,9 @@ class MockLanguageService {
   }
 }
 
-describe('QuoteActionsConfirmDialogComponent', () => {
-  let component: QuoteActionsConfirmDialogComponent;
-  let fixture: ComponentFixture<QuoteActionsConfirmDialogComponent>;
+describe('QuoteConfirmDialogComponent', () => {
+  let component: QuoteConfirmDialogComponent;
+  let fixture: ComponentFixture<QuoteConfirmDialogComponent>;
   let htmlElem: HTMLElement;
   let launchDialogService: LaunchDialogService;
   let cxDatePipe: CxDatePipe;
@@ -82,7 +82,7 @@ describe('QuoteActionsConfirmDialogComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
-          QuoteActionsConfirmDialogComponent,
+          QuoteConfirmDialogComponent,
           MockKeyboardFocusDirective,
           MockCxIconComponent,
         ],
@@ -102,7 +102,7 @@ describe('QuoteActionsConfirmDialogComponent', () => {
     dialogDataSender = new BehaviorSubject({
       confirmationContext: confirmationContext,
     });
-    fixture = TestBed.createComponent(QuoteActionsConfirmDialogComponent);
+    fixture = TestBed.createComponent(QuoteConfirmDialogComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);

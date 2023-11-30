@@ -6,126 +6,115 @@
 
 export const quote = {
   quote: {
-    actions: {
-      link: {
-        newCart: 'New Cart',
-        quotes: 'Quotes',
-        a11y: {
-          newCart: 'Create new empty cart and navigate to it.',
-          quotes: 'Navigate to quote search result list.',
+    confirmDialog: {
+      name: 'Name:',
+      description: 'Description:',
+      validity: 'This quote is valid until {{ expirationTime }}',
+      option: { yes: 'Yes', no: 'No' },
+      buyer: {
+        submit: {
+          a11y: {
+            close: 'Close submit quote modal',
+          },
+          title: 'Submit Quote Request {{ code }}?',
+          confirmNote: 'Are you sure you want to submit this quote request?',
+          successMessage: 'Quote request submitted successfully',
+        },
+        cancel: {
+          a11y: {
+            close: 'Close cancel quote modal',
+          },
+          title: 'Cancel Quote Request {{ code }}?',
+          confirmNote: 'Are you sure you want to cancel this quote request?',
+          successMessage: 'Quote request cancelled',
         },
       },
-      confirmDialog: {
-        name: 'Name:',
-        description: 'Description:',
-        validity: 'This quote is valid until {{ expirationTime }}',
-        option: { yes: 'Yes', no: 'No' },
-        buyer: {
-          submit: {
-            a11y: {
-              close: 'Close submit quote modal',
-            },
-            title: 'Submit Quote Request {{ code }}?',
-            confirmNote: 'Are you sure you want to submit this quote request?',
-            successMessage: 'Quote request submitted successfully',
+      buyer_offer: {
+        edit: {
+          a11y: {
+            close: 'Close edit quote modal',
           },
-          cancel: {
-            a11y: {
-              close: 'Close cancel quote modal',
-            },
-            title: 'Cancel Quote Request {{ code }}?',
-            confirmNote: 'Are you sure you want to cancel this quote request?',
-            successMessage: 'Quote request cancelled',
-          },
+          title: 'Confirm Edit Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to edit this approved quote?',
+          warningNote:
+            'This Quote has been Approved. Editing this Quote will prevent Checkout until new edits are approved.',
         },
-        buyer_offer: {
-          edit: {
-            a11y: {
-              close: 'Close edit quote modal',
-            },
-            title: 'Confirm Edit Quote {{ code }}?',
-            confirmNote: 'Are you sure you want to edit this approved quote?',
-            warningNote:
-              'This Quote has been Approved. Editing this Quote will prevent Checkout until new edits are approved.',
+        cancel: {
+          a11y: {
+            close: 'Close cancel quote modal',
           },
-          cancel: {
-            a11y: {
-              close: 'Close cancel quote modal',
-            },
-            title: 'Cancel Quote {{ code }}?',
-            confirmNote: 'Are you sure you want to cancel this quote?',
-            successMessage: 'Quote cancelled',
-          },
-          checkout: {
-            a11y: {
-              close: 'Close checkout quote modal',
-            },
-            title: 'Checkout Quote {{ code }}?',
-            confirmNote:
-              'Are you sure you want to accept and checkout this quote?',
-          },
+          title: 'Cancel Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to cancel this quote?',
+          successMessage: 'Quote cancelled',
         },
-        expired: {
-          edit: {
-            a11y: {
-              close: 'Close edit quote modal',
-            },
-            title: 'Confirm Edit Quote {{ code }}?',
-            confirmNote: 'Are you sure you want to edit this expired quote?',
-            warningNote:
-              'This Quote is expired. Editing this quote will prevent checkout until new edits are approved.',
+        checkout: {
+          a11y: {
+            close: 'Close checkout quote modal',
           },
-          requote: {
-            a11y: {
-              close: 'Close requote modal',
-            },
-            title: 'Recreate Quote Request {{ code }}?',
-            confirmNote:
-              'Are you sure you want to recreate this quote request?',
-            warningNote:
-              'This Quote is expired. Re-quoting it will create a new quote request with same contents, which can be edited and submitted for approval afterwards.',
-          },
+          title: 'Checkout Quote {{ code }}?',
+          confirmNote:
+            'Are you sure you want to accept and checkout this quote?',
         },
-        seller: {
-          submit: {
-            a11y: {
-              close: 'Close submit quote modal',
-            },
-            title: 'Submit Quote {{ code }}?',
-            confirmNote: 'Are you sure you want to submit this quote?',
-            warningNote:
-              'Depending on the total value of the quote, an additional approval might be required before the buyer can check out this quote.',
-            successMessage: 'Quote submitted successfully',
+      },
+      expired: {
+        edit: {
+          a11y: {
+            close: 'Close edit quote modal',
           },
+          title: 'Confirm Edit Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to edit this expired quote?',
+          warningNote:
+            'This Quote is expired. Editing this quote will prevent checkout until new edits are approved.',
         },
-        sellerapprover: {
-          approve: {
-            a11y: {
-              close: 'Close approve quote modal',
-            },
-            title: 'Approve Quote {{ code }}?',
-            confirmNote: 'Are you sure you want to approve this quote?',
-            successMessage: 'Quote approved successfully',
+        requote: {
+          a11y: {
+            close: 'Close requote modal',
           },
-          reject: {
-            a11y: {
-              close: 'Close reject quote modal',
-            },
-            title: 'Reject Quote {{ code }}?',
-            confirmNote: 'Are you sure you want to reject this quote?',
-            successMessage: 'Quote rejected',
-          },
+          title: 'Recreate Quote Request {{ code }}?',
+          confirmNote: 'Are you sure you want to recreate this quote request?',
+          warningNote:
+            'This Quote is expired. Re-quoting it will create a new quote request with same contents, which can be edited and submitted for approval afterwards.',
         },
-        all: {
-          edit: {
-            a11y: {
-              close: 'Close edit quote modal',
-            },
-            title: 'Edit Quote {{ code }}?',
-            confirmNote: 'Are you sure you want to edit this quote?',
-            warningNote:
-              'Your current cart will be discarded. In case you still need it, please safe it beforehand.',
+      },
+      seller: {
+        submit: {
+          a11y: {
+            close: 'Close submit quote modal',
           },
+          title: 'Submit Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to submit this quote?',
+          warningNote:
+            'Depending on the total value of the quote, an additional approval might be required before the buyer can check out this quote.',
+          successMessage: 'Quote submitted successfully',
+        },
+      },
+      sellerapprover: {
+        approve: {
+          a11y: {
+            close: 'Close approve quote modal',
+          },
+          title: 'Approve Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to approve this quote?',
+          successMessage: 'Quote approved successfully',
+        },
+        reject: {
+          a11y: {
+            close: 'Close reject quote modal',
+          },
+          title: 'Reject Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to reject this quote?',
+          successMessage: 'Quote rejected',
+        },
+      },
+      all: {
+        edit: {
+          a11y: {
+            close: 'Close edit quote modal',
+          },
+          title: 'Edit Quote {{ code }}?',
+          confirmNote: 'Are you sure you want to edit this quote?',
+          warningNote:
+            'Your current cart will be discarded. In case you still need it, please safe it beforehand.',
         },
       },
     },
@@ -185,6 +174,14 @@ export const quote = {
     },
     items: {
       regionTitle: 'Cart items',
+    },
+    links: {
+      newCart: 'New Cart',
+      quotes: 'Quotes',
+      a11y: {
+        newCart: 'Create new empty cart and navigate to it.',
+        quotes: 'Navigate to quote search result list.',
+      },
     },
     list: {
       regionTitle: 'Quote list summary',

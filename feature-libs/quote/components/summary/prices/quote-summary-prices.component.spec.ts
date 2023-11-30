@@ -4,7 +4,7 @@ import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService as TestUtil } from '../../testing/common-quote-test-utils.service';
-import { QuoteSummaryPriceComponent } from './quote-summary-price.component';
+import { QuoteSummaryPricesComponent } from './quote-summary-prices.component';
 
 const quote: Quote = {
   ...createEmptyQuote(),
@@ -18,15 +18,15 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   }
 }
 
-describe('QuoteSummaryPriceComponent', () => {
-  let fixture: ComponentFixture<QuoteSummaryPriceComponent>;
+describe('QuoteSummaryPricesComponent', () => {
+  let fixture: ComponentFixture<QuoteSummaryPricesComponent>;
   let htmlElem: HTMLElement;
-  let component: QuoteSummaryPriceComponent;
+  let component: QuoteSummaryPricesComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [QuoteSummaryPriceComponent],
+      declarations: [QuoteSummaryPricesComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -37,7 +37,7 @@ describe('QuoteSummaryPriceComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteSummaryPriceComponent);
+    fixture = TestBed.createComponent(QuoteSummaryPricesComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     withPrices();

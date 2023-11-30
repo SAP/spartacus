@@ -22,7 +22,7 @@ describe('QuoteRootModule', () => {
   it('should define quote feature that should contain the CMS components forming the quote details page', () => {
     const cmsComponentsQuote =
       defaultQuoteComponentsConfig().featureModules.quote.cmsComponents;
-    expect(cmsComponentsQuote).toContain('QuoteActionsLinkComponent');
+    expect(cmsComponentsQuote).toContain('QuoteLinksComponent');
     expect(cmsComponentsQuote).toContain('QuoteCommentsComponent');
     expect(cmsComponentsQuote).toContain('QuoteHeaderOverviewComponent');
     expect(cmsComponentsQuote).toContain('QuoteItemsComponent');

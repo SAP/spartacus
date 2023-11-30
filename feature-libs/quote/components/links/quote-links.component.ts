@@ -10,11 +10,11 @@ import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'cx-quote-actions-link',
-  templateUrl: './quote-actions-link.component.html',
+  selector: 'cx-quote-links',
+  templateUrl: './quote-links.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuoteActionsLinkComponent {
+export class QuoteLinksComponent {
   protected quoteFacade = inject(QuoteFacade);
   protected cartUtilsService = inject(CartUtilsService);
 

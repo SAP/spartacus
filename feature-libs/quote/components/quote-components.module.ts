@@ -9,8 +9,8 @@ import { NgModule } from '@angular/core';
 import { defaultQuoteUIConfig } from './config/default-quote-ui.config';
 import { provideDefaultConfig } from '@spartacus/core';
 import { ListNavigationModule } from '@spartacus/storefront';
-import { QuoteActionsConfirmDialogModule } from './actions/confirm-dialog/quote-actions-confirm-dialog.module';
-import { QuoteActionsLinkModule } from './actions/link/quote-actions-link.module';
+import { QuoteConfirmDialogModule } from './confirm-dialog/quote-confirm-dialog.module';
+import { QuoteLinksModule } from './links/quote-links.module';
 import { QuoteCommentsModule } from './comments/quote-comments.module';
 import { QuoteHeaderBuyerEditModule } from './header/buyer-edit/quote-header-buyer-edit.module';
 import { QuoteHeaderOverviewModule } from './header/overview/quote-header-overview.module';
@@ -18,15 +18,15 @@ import { QuoteItemsModule } from './items/quote-items.module';
 import { QuoteListModule } from './list/quote-list.module';
 import { QuoteSummaryModule } from './summary/quote-summary.module';
 import { QuoteSummaryActionsModule } from './summary/actions/quote-summary-actions.module';
-import { QuoteSummaryPriceModule } from './summary/price/quote-summary-price.module';
+import { QuoteSummaryPricesModule } from './summary/prices/quote-summary-prices.module';
 import { QuoteSummarySellerEditModule } from './summary/seller-edit/quote-summary-seller-edit.module';
 
 @NgModule({
   imports: [
     CommonModule,
     ListNavigationModule,
-    QuoteActionsConfirmDialogModule,
-    QuoteActionsLinkModule,
+    QuoteConfirmDialogModule,
+    QuoteLinksModule,
     QuoteCommentsModule,
     QuoteHeaderBuyerEditModule,
     QuoteHeaderOverviewModule,
@@ -34,7 +34,7 @@ import { QuoteSummarySellerEditModule } from './summary/seller-edit/quote-summar
     QuoteListModule,
     QuoteSummaryModule,
     QuoteSummaryActionsModule,
-    QuoteSummaryPriceModule,
+    QuoteSummaryPricesModule,
     QuoteSummarySellerEditModule,
   ],
   providers: [provideDefaultConfig(defaultQuoteUIConfig)],

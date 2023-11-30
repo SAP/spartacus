@@ -39,7 +39,7 @@ import {
   ConfirmActionDialogConfig,
   QuoteUIConfig,
 } from '../../config/quote-ui.config';
-import { ConfirmationContext } from '../../actions/confirm-dialog/quote-actions-confirm-dialog.model';
+import { ConfirmationContext } from '../../confirm-dialog/quote-confirm-dialog.model';
 import { QuoteStorefrontUtilsService } from '../../../core/services/quote-storefront-utils.service';
 
 @Component({
@@ -104,7 +104,7 @@ export class QuoteSummaryActionsComponent
   ];
 
   @HostListener('window:resize')
-  handleResize() {
+  handleResize(): void {
     this.prepareButtonsForMobile();
     this.adjustBottomProperty();
     this.prepareButtonsForDesktop();
@@ -447,7 +447,7 @@ export class QuoteSummaryActionsComponent
         dialogConfig.i18nKeyPrefix + '.warningNote';
     }
     if (dialogConfig.showExpirationDate) {
-      confirmationContext.validity = 'quote.actions.confirmDialog.validity';
+      confirmationContext.validity = 'quote.confirmDialog.validity';
     }
     if (dialogConfig.showSuccessMessage) {
       confirmationContext.successMessage =
