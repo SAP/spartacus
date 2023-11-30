@@ -22,32 +22,32 @@ const defaultConfirmActionDialogConfig = {
 const defaultDialogMappings: ConfirmActionDialogMappingConfig = {
   BUYER_OFFER: {
     EDIT: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.buyer_offer.edit',
+      i18nKeyPrefix: 'quote.confirmDialog.buyer_offer.edit',
       showWarningNote: true,
       showExpirationDate: true,
       showSuccessMessage: false,
       showOnlyWhenCartIsNotEmpty: false,
     },
     CANCEL: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.buyer_offer.cancel',
+      i18nKeyPrefix: 'quote.confirmDialog.buyer_offer.cancel',
       ...defaultConfirmActionDialogConfig,
     },
     CHECKOUT: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.buyer_offer.checkout',
+      i18nKeyPrefix: 'quote.confirmDialog.buyer_offer.checkout',
       ...defaultConfirmActionDialogConfig,
       showSuccessMessage: false,
     },
   },
   EXPIRED: {
     EDIT: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.expired.edit',
+      i18nKeyPrefix: 'quote.confirmDialog.expired.edit',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
       showOnlyWhenCartIsNotEmpty: false,
     },
     REQUOTE: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.expired.requote',
+      i18nKeyPrefix: 'quote.confirmDialog.expired.requote',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
@@ -56,34 +56,34 @@ const defaultDialogMappings: ConfirmActionDialogMappingConfig = {
   },
   BUYER: {
     SUBMIT: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.buyer.submit',
+      i18nKeyPrefix: 'quote.confirmDialog.buyer.submit',
       ...defaultConfirmActionDialogConfig,
     },
     CANCEL: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.buyer.cancel',
+      i18nKeyPrefix: 'quote.confirmDialog.buyer.cancel',
       ...defaultConfirmActionDialogConfig,
     },
   },
   SELLER: {
     SUBMIT: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.seller.submit',
+      i18nKeyPrefix: 'quote.confirmDialog.seller.submit',
       ...defaultConfirmActionDialogConfig,
       showWarningNote: true,
     },
   },
   SELLERAPPROVER: {
     APPROVE: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.sellerapprover.approve',
+      i18nKeyPrefix: 'quote.confirmDialog.sellerapprover.approve',
       ...defaultConfirmActionDialogConfig,
     },
     REJECT: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.sellerapprover.reject',
+      i18nKeyPrefix: 'quote.confirmDialog.sellerapprover.reject',
       ...defaultConfirmActionDialogConfig,
     },
   },
   ALL: {
     EDIT: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.all.edit',
+      i18nKeyPrefix: 'quote.confirmDialog.all.edit',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,

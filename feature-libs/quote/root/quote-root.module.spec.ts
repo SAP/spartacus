@@ -22,13 +22,11 @@ describe('QuoteRootModule', () => {
   it('should define quote feature that should contain the CMS components forming the quote details page', () => {
     const cmsComponentsQuote =
       defaultQuoteComponentsConfig().featureModules.quote.cmsComponents;
-    expect(cmsComponentsQuote).toContain('QuoteActionsByRoleComponent');
-    expect(cmsComponentsQuote).toContain('QuoteActionsLinkComponent');
+    expect(cmsComponentsQuote).toContain('QuoteLinksComponent');
     expect(cmsComponentsQuote).toContain('QuoteCommentsComponent');
     expect(cmsComponentsQuote).toContain('QuoteHeaderOverviewComponent');
-    expect(cmsComponentsQuote).toContain('QuoteHeaderPriceComponent');
-    expect(cmsComponentsQuote).toContain('QuoteHeaderSellerEditComponent');
     expect(cmsComponentsQuote).toContain('QuoteItemsComponent');
+    expect(cmsComponentsQuote).toContain('QuoteSummaryComponent');
   });
 
   it('should define quote feature that should contain the quote list component forming the quote list page', () => {

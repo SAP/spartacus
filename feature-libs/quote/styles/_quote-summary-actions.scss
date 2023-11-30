@@ -1,0 +1,15 @@
+%cx-quote-summary-actions {
+  &:not(:empty) {
+    section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      padding-block-start: 1rem;
+
+      @include media-breakpoint-down(sm) {
+        justify-content: center;
+      }
+    }
+  }
+}
