@@ -15,7 +15,7 @@ import { QuoteStorefrontUtilsService } from './quote-storefront-utils.service';
 })
 class MockQuoteComponent {}
 
-xdescribe('QuoteStorefrontUtilsService', () => {
+describe('QuoteStorefrontUtilsService', () => {
   let classUnderTest: QuoteStorefrontUtilsService;
   let fixture: ComponentFixture<MockQuoteComponent>;
   let htmlElem: HTMLElement;
