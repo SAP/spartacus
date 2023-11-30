@@ -139,52 +139,52 @@
     },
 
     "00-migration-v6-ssr": {
-      "version": "6.6.0",
+      "version": "6.7.0-2",
       "factory": "./6_0/ssr/ssr#migrate",
       "description": "Updates the SSR setup"
     },
     "01-migration-v6-config-deprecations": {
-      "version": "6.6.0",
+      "version": "6.7.0-2",
       "factory": "./6_0/config-deprecations/config-deprecations#migrate",
       "description": "Handle deprecated configuration properties"
     },
     "02-migration-v6-constructor-deprecations": {
-      "version": "6.6.0",
+      "version": "6.7.0-2",
       "factory": "./6_0/constructor-deprecations/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
     },
     "03-migration-v6-css": {
-      "version": "6.6.0",
+      "version": "6.7.0-2",
       "factory": "./6_0/css/css#migrate",
       "description": "Handle deprecated CSS"
     },
     "04-migration-v6-dependency-management": {
-      "version": "6.6.0",
+      "version": "6.7.0-2",
       "factory": "./6_0/dependency-management/dependency-management#migrate",
       "description": "Update dependencies"
     },
     "05-migration-v6-methods-and-properties-deprecations": {
-      "version": "6.6.0",
+      "version": "6.7.0-2",
       "factory": "./6_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
       "description": "Comment about usage of removed public methods or properties"
     },
     "06-migration-v6-missing-packages": {
-      "version": "6.6.0",
+      "version": "6.7.0-2",
       "factory": "./6_0/missing-packages/missing-packages#migrate",
       "description": "Check missing packages"
     },
     "07-migration-v6-removed-public-api-deprecations": {
-      "version": "6.6.0",
+      "version": "6.7.0-2",
       "factory": "./6_0/removed-public-api-deprecations/removed-public-api-deprecations#migrate",
       "description": "Comment about usage of removed public api"
     },
     "08-migration-v6-rename-symbol": {
-      "version": "6.6.0",
+      "version": "6.7.0-2",
       "factory": "./6_0/rename-symbol/rename-symbol#migrate",
       "description": "Rename import symbols that were moved/changed in majors"
     },
     "09-migration-v6-angular-json-styling": {
-      "version": "6.6.0",
+      "version": "6.7.0-2",
       "factory": "./6_0/angular-json-styles/angular-json-styles#migrate",
       "description": "Update the angular.json with the style preprocessor options"
     }
