@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { tap } from 'rxjs/operators';
 import { AbstractOrderType } from '../../root/models/cart.model';
 import { AbstractOrderContext } from './abstract-order-context.model';
-import { AbstractOrderModule } from './abstract-order.module';
+import { AbstractOrderContextModule } from './abstract-order-context.module';
 
 const abstractOrderId = '129374';
 
@@ -13,7 +13,7 @@ let emissionCounterType = 0;
 @Component({
   selector: 'cx-test-cmp-outer',
   template: `
-<span [cxAbstractOrder]="{id:id, type:type}"><cx-test-cmp-inner/>        
+<span [cxAbstractOrderContext]="{id:id, type:type}"><cx-test-cmp-inner/>        
 </span>`,
 })
 class TestOuterComponent {
@@ -43,7 +43,7 @@ class TestInnerComponent {
   );
 }
 
-describe('AbstractOrderDirective', () => {
+describe('AbstractOrderContextDirective', () => {
   let fixture: ComponentFixture<TestOuterComponent>;
   let testOuterComponent: TestOuterComponent;
 
@@ -51,7 +51,7 @@ describe('AbstractOrderDirective', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [TestOuterComponent, TestInnerComponent],
-        imports: [AbstractOrderModule],
+        imports: [AbstractOrderContextModule],
         providers: [],
       }).compileComponents();
       emissionCounterId = 0;

@@ -27,7 +27,7 @@
     <!-- CART ITEM SECTION -->
     <div *ngIf="showItemList" class="cx-review-cart-item">
       <ng-template
-        [cxAbstractOrder]="{
+        [cxAbstractOrderContext]="{
           id: order.code,
           type: abstractOrderType.ORDER
         }"

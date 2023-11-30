@@ -7,24 +7,15 @@
 import { Component, inject } from '@angular/core';
 import {
   AbstractOrderType,
-  ActiveCartFacade,
-  CartOutlets,
-  MultiCartFacade,
-  OrderEntry,
+  CartOutlets
 } from '@spartacus/cart/base/root';
-import { UserIdService } from '@spartacus/core';
-import { QuoteFacade } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable, Subscription, combineLatest, of, zip } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
-import { QuoteItemsComponentService } from './quote-items.component.service';
+import { Observable } from 'rxjs';
+import {
+  QuoteItemsComponentService,
+  QuoteItemsData,
+} from './quote-items.component.service';
 
-interface QuoteItemsData {
-  entries: OrderEntry[] | undefined;
-  readOnly: boolean;
-  abstractOrderType: AbstractOrderType;
-  abstractOrderId?: string;
-}
 /**
  * Renders quote items. These items are either taken from the actual quote,
  * or from the attached quote cart.
@@ -43,73 +34,15 @@ interface QuoteItemsData {
   templateUrl: './quote-items.component.html',
 })
 export class QuoteItemsComponent {
-  protected quoteFacade = inject(QuoteFacade);
-  protected activeCartFacade = inject(ActiveCartFacade);
-  protected multiCartFacade = inject(MultiCartFacade);
   protected quoteItemsComponentService = inject(QuoteItemsComponentService);
-  protected userIdService = inject(UserIdService);
 
-  quoteItemsData$: Observable<QuoteItemsData> = this.userIdService
-    .takeUserId()
-    .pipe(
-      switchMap((userId) =>
-        combineLatest([this.quoteFacade.getQuoteDetails(), of(userId)])
-      ),
-      tap(([quote, userId]) => {
-        if (quote.cartId && !quote.isEditable) {
-          this.multiCartFacade.loadCart({
-            userId,
-            cartId: quote.cartId,
-            extraData: { active: false },
-          });
-        }
-      }),
-      switchMap(([quote, _userId]) => {
-        if (!quote.cartId) {
-          return zip(
-            of(quote),
-            of({ readOnly: true }),
-            of(AbstractOrderType.QUOTE)
-          );
-        } else {
-          const quoteCartId: string = quote.cartId;
-          if (!quote.isEditable) {
-            return combineLatest([
-              this.multiCartFacade.isStable(quoteCartId).pipe(
-                filter((stable) => stable),
-                switchMap(() => this.multiCartFacade.getCart(quoteCartId))
-              ),
-              of({ readOnly: true }),
-              of(AbstractOrderType.SAVED_CART),
-            ]);
-          } else {
-            return combineLatest([
-              this.activeCartFacade.isStable().pipe(
-                filter((stable) => stable),
-                switchMap(() => this.activeCartFacade.getActive())
-              ),
-              of({ readOnly: false }),
-              of(AbstractOrderType.CART),
-            ]);
-          }
-        }
-      }),
-      filter(([abstractOrder, _editState]) => abstractOrder !== undefined),
-      map(([abstractOrder, editState, abstractOrderType]) => {
-        return {
-          entries: abstractOrder.entries,
-          readOnly: editState.readOnly,
-          abstractOrderId: abstractOrder.code,
-          abstractOrderType: abstractOrderType,
-        };
-      })
-    );
+  quoteItemsData$: Observable<QuoteItemsData> =
+    this.quoteItemsComponentService.retrieveQuoteEntries();
 
   showCart$ = this.quoteItemsComponentService.getQuoteEntriesExpanded();
   iconTypes = ICON_TYPE;
   readonly cartOutlets = CartOutlets;
   readonly abstractOrderType = AbstractOrderType;
-  protected subscription: Subscription;
 
   /**
    * Handler to toggle expanded state of quote entries section.

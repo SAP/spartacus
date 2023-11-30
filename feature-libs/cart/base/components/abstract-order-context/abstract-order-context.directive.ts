@@ -17,29 +17,34 @@ import { AbstractOrderContextSource } from './abstract-order-context-source.mode
 import { AbstractOrderContext } from './abstract-order-context.model';
 
 @Directive({
-  selector: '[cxAbstractOrder]',
+  selector: '[cxAbstractOrderContext]',
   providers: [
     AbstractOrderContextSource,
     { provide: AbstractOrderContext, useExisting: AbstractOrderContextSource },
   ],
 })
-export class AbstractOrderDirective implements OnChanges {
-  @Input() cxAbstractOrder: AbstractOrderKey;
+export class AbstractOrderContextDirective implements OnChanges {
+  @Input() cxAbstractOrderContext: AbstractOrderKey;
 
   protected abstractOrderContextSource = inject(AbstractOrderContextSource);
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.cxAbstractOrder) {
+    if (changes.cxAbstractOrderContext) {
       if (
-        this.cxAbstractOrder.id !== this.abstractOrderContextSource.id$.value
+        this.cxAbstractOrderContext.id !==
+        this.abstractOrderContextSource.id$.value
       ) {
-        this.abstractOrderContextSource.id$.next(this.cxAbstractOrder.id);
+        this.abstractOrderContextSource.id$.next(
+          this.cxAbstractOrderContext.id
+        );
       }
       if (
-        this.cxAbstractOrder.type !==
+        this.cxAbstractOrderContext.type !==
         this.abstractOrderContextSource.type$.value
       ) {
-        this.abstractOrderContextSource.type$.next(this.cxAbstractOrder.type);
+        this.abstractOrderContextSource.type$.next(
+          this.cxAbstractOrderContext.type
+        );
       }
     }
   }

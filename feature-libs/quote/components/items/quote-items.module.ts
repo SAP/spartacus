@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { AbstractOrderModule } from '@spartacus/cart/base/components';
+import { AbstractOrderContextModule } from '@spartacus/cart/base/components';
 import {
   AuthGuard,
   CmsConfig,
@@ -22,7 +22,7 @@ import { QuoteItemsComponent } from './quote-items.component';
     OutletModule,
     IconModule,
     I18nModule,
-    AbstractOrderModule,
+    AbstractOrderContextModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

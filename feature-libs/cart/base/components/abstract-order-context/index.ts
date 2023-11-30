@@ -5,6 +5,6 @@
  */
 
 export * from './abstract-order-context-source.model';
+export * from './abstract-order-context.directive';
 export * from './abstract-order-context.model';
-export * from './abstract-order.directive';
-export * from './abstract-order.module';
+export * from './abstract-order-context.module';
