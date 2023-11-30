@@ -150,7 +150,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 }
 
 class MockSavedCartFacade implements Partial<SavedCartFacade> {
-  saveCart = createSpy();
+  editSavedCart = createSpy();
 }
 
 describe('QuoteService', () => {

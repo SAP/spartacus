@@ -448,7 +448,7 @@ export class QuoteService implements QuoteFacade {
           !activeCart.quoteCode &&
           activeCart.code
         ) {
-          this.savedCartService.saveCart({
+          this.savedCartService.editSavedCart({
             cartId: activeCart.code,
             saveCartName: '',
             saveCartDescription: '',
