@@ -1,0 +1,58 @@
+<ng-container *ngIf="quoteDetailsForSeller$ | async as quoteDetails">
+  <div class="cx-seller-edit-body">
+    <form (ngSubmit)="onApply(quoteDetails.code)" [formGroup]="form">
+      <label>
+        <span class="label-content bold">{{
+          'quote.summary.sellerEdit.discount' | cxTranslate
+        }}</span>
+        <div class="cx-discount-input">
+          <input
+            [attr.aria-label]="
+              'quote.summary.sellerEdit.a11y.discount' | cxTranslate
+            "
+            type="text"
+            class="form-control"
+            name="discount"
+            placeholder="{{ discountPlaceholder }}"
+            formControlName="discount"
+          />
+          <button
+            [attr.aria-label]="
+              'quote.summary.sellerEdit.a11y.apply' | cxTranslate
+            "
+            class="btn btn-block btn-secondary"
+            (click)="onApply(quoteDetails.code)"
+          >
+            {{ 'quote.summary.sellerEdit.apply' | cxTranslate }}
+          </button>
+        </div>
+
+        <div
+          class="cx-validation-msg"
+          *ngIf="mustDisplayValidationMessage()"
+          aria-live="assertive"
+          aria-atomic="true"
+          role="alert"
+        >
+          <cx-icon [type]="iconType.ERROR"></cx-icon>
+          {{ 'quote.summary.sellerEdit.discountValidationText' | cxTranslate }}
+        </div>
+      </label>
+
+      <label>
+        <span
+          [attr.aria-label]="
+            'quote.summary.sellerEdit.a11y.expiryDate' | cxTranslate
+          "
+          class="label-content bold"
+          >{{ 'quote.summary.sellerEdit.expiryDate' | cxTranslate }}</span
+        >
+        <cx-date-picker
+          [control]="$any(form.get('validityDate'))"
+          [required]="true"
+          (update)="onSetDate(quoteDetails.code)"
+        ></cx-date-picker>
+      </label>
+    </form>
+  </div>
+</ng-container>
