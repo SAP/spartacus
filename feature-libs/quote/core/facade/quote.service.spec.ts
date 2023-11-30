@@ -151,7 +151,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 
 class MockSavedCartFacade implements Partial<SavedCartFacade> {
   saveCart = createSpy();
-  editSavedCart = createSpy();
 }
 
 describe('QuoteService', () => {
@@ -679,7 +678,7 @@ describe('QuoteService', () => {
     it('should create saved cart if entries exist and it is not a quote cart', () => {
       cart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
       classUnderTest['saveActiveCart']();
-      expect(savedCartService.editSavedCart).toHaveBeenCalledWith({
+      expect(savedCartService.saveCart).toHaveBeenCalledWith({
         cartId: cart.code,
         saveCartName: '',
         saveCartDescription: '',
@@ -690,13 +689,13 @@ describe('QuoteService', () => {
       cart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
       cart.quoteCode = 'ABC';
       classUnderTest['saveActiveCart']();
-      expect(savedCartService.editSavedCart).not.toHaveBeenCalled();
+      expect(savedCartService.saveCart).not.toHaveBeenCalled();
     });
 
     it('should not create saved cart if noe entries exist', () => {
       cart.entries = [];
       classUnderTest['saveActiveCart']();
-      expect(savedCartService.editSavedCart).not.toHaveBeenCalled();
+      expect(savedCartService.saveCart).not.toHaveBeenCalled();
     });
   });
 });
