@@ -6,11 +6,11 @@ import { QuoteStorefrontUtilsService } from './quote-storefront-utils.service';
 @Component({
   selector: 'cx-quote',
   template: `
-    <cx-quote>
+    <cx-quote-list>
       <label id="ATTR_1--value_1">value_1</label>
       <label id="ATTR_1--value_2">value_2</label>
       <label id="ATTR_1--value_3">value_3</label>
-    </cx-quote>
+    </cx-quote-list>
   `,
 })
 class MockQuoteComponent {}
@@ -20,6 +20,7 @@ describe('QuoteStorefrontUtilsService', () => {
   let fixture: ComponentFixture<MockQuoteComponent>;
   let htmlElem: HTMLElement;
   let windowRef: WindowRef;
+  let querySelectorOriginal: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,9 +35,11 @@ describe('QuoteStorefrontUtilsService', () => {
     htmlElem = fixture.nativeElement;
     windowRef = TestBed.inject(WindowRef);
     fixture.detectChanges();
+    querySelectorOriginal = document.querySelector;
   });
 
   afterEach(() => {
+    document.querySelector = querySelectorOriginal;
     if (htmlElem) {
       document.body.removeChild(htmlElem);
     }
@@ -67,7 +70,7 @@ describe('QuoteStorefrontUtilsService', () => {
   });
 
   describe('changeStyling', () => {
-    it('should not change styling of HTML element', () => {
+    it('should not change styling of HTML element if element does not exist', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const element = document.createElement('notExistingElement');
       document.querySelector = jasmine
@@ -90,7 +93,7 @@ describe('QuoteStorefrontUtilsService', () => {
   });
 
   describe('removeStyling', () => {
-    it('should not remove styling of HTML element', () => {
+    it('should not remove styling of HTML element if element does not exist', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const element = document.createElement('notExistingElement');
       document.querySelector = jasmine
@@ -118,7 +121,7 @@ describe('QuoteStorefrontUtilsService', () => {
     let labels: HTMLElement[];
 
     beforeEach(() => {
-      list = htmlElem.querySelector('cx-quote') as HTMLElement;
+      list = htmlElem.querySelector('cx-quote-list') as HTMLElement;
       list.style.padding = '25px';
       list.style.height = '50px';
       list.style.border = 'thick double #32a1ce;';
@@ -134,11 +137,11 @@ describe('QuoteStorefrontUtilsService', () => {
       );
     });
 
-    it('should return false because the method gets undefined as parameter', () => {
+    it("should return 'false' because the method gets undefined as parameter", () => {
       expect(classUnderTest['isInViewport'](undefined)).toBe(false);
     });
 
-    it('should return false', () => {
+    it("should return 'false'", () => {
       labels.forEach((label) => {
         label.style.padding = '5px';
         label.style.height = '10px';
@@ -149,7 +152,7 @@ describe('QuoteStorefrontUtilsService', () => {
       expect(classUnderTest['isInViewport'](list)).toBe(false);
     });
 
-    it("should return true because window's innerWith is known", () => {
+    it("should return 'true' because window's innerWith is known", () => {
       list.style.display = 'flex';
       list.style.flexDirection = 'column';
 
@@ -158,7 +161,7 @@ describe('QuoteStorefrontUtilsService', () => {
       expect(classUnderTest['isInViewport'](list)).toBe(true);
     });
 
-    it('should return true because clientWidth of element is known and its right is less than its width', () => {
+    it("should return 'true' because clientWidth of element is known and its right is less than its width", () => {
       list.style.display = 'flex';
       list.style.flexDirection = 'column';
 
@@ -167,7 +170,7 @@ describe('QuoteStorefrontUtilsService', () => {
       expect(classUnderTest['isInViewport'](list)).toBe(true);
     });
 
-    it('should return true because clientHeight of element is known and its bottom is less than its height', () => {
+    it("should return 'true' because clientHeight of element is known and its bottom is less than its height", () => {
       list.style.display = 'flex';
       list.style.flexDirection = 'column';
       list.style.height = '1000px';
@@ -182,7 +185,7 @@ describe('QuoteStorefrontUtilsService', () => {
     let list;
 
     beforeEach(() => {
-      //list = htmlElem.querySelector('cx-quote') as HTMLElement;
+      list = htmlElem.querySelector('cx-quote-list') as HTMLElement;
       list.style.padding = '25px';
       list.style.height = '50px';
       list.style.border = 'thick double #32a1ce;';
@@ -196,21 +199,21 @@ describe('QuoteStorefrontUtilsService', () => {
       expect(classUnderTest['getHeight']('unknown-query')).toBe(0);
     });
 
-    it('should return zero because form is not im viewport', () => {
+    it('should return zero because component is not in viewport', () => {
       spyOnProperty(window, 'innerWidth').and.returnValue(100);
 
-      expect(classUnderTest['getHeight']('cx-quote')).toBe(0);
+      expect(classUnderTest['getHeight']('cx-quote-list')).toBe(0);
     });
 
-    it('should return offsetHeight of the element because form is not im viewport', () => {
+    it('should return offsetHeight of the element because component is not in viewport', () => {
       spyOnProperty(window, 'innerWidth').and.returnValue(1000);
 
-      expect(classUnderTest['getHeight']('cx-quote')).toBeGreaterThan(0);
+      expect(classUnderTest['getHeight']('cx-quote-list')).toBeGreaterThan(0);
     });
   });
 
   describe('getWindowHeight', () => {
-    it("should return zero because isBrowser returns 'false'", () => {
+    it('should return zero if not running in browser', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(false);
       expect(classUnderTest.getWindowHeight()).toBe(0);
     });
