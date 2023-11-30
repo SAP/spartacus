@@ -20,7 +20,7 @@ describe('My Account - Update Email', () => {
     });
 
     describe('Anonymous user', () => {
-      it('should redirect to login page', () => {
+      it('should redirect to login page (CXSPA-4442)', () => {
         cy.visit(updateEmail.UPDATE_EMAIL_URL);
         cy.location('pathname').should('contain', '/login');
       });
@@ -40,7 +40,7 @@ describe('My Account - Update Email', () => {
         });
       });
 
-      it('should click edit email and go to edit menu, and cancel works as expected', () => {
+      it('should click edit email and go to edit menu, and cancel works as expected (CXSPA-4442)', () => {
         cy.get('.cx-message-info').should('not.exist');
         cy.get('.email-enhancedUI-value').should('exist');
 
@@ -67,7 +67,7 @@ describe('My Account - Update Email', () => {
       updateEmail.testUpdateEmailAndLogin();
 
       // Below test depends on core test for setup.
-      it('should not allow login with old email address', () => {
+      it('should not allow login with old email address (CXSPA-4442)', () => {
         signOut();
         cy.visit('/login');
         login(

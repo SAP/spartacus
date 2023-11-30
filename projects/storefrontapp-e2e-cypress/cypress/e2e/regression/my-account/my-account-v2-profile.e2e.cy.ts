@@ -23,7 +23,7 @@ describe('My Account - Update Profile', () => {
     });
 
     describe('update profile test for anonymous user', () => {
-      it('should redirect to login page for anonymous user', () => {
+      it('should redirect to login page for anonymous user (CXSPA-4442)', () => {
         cy.visit(updateProfile.UPDATE_PROFILE_URL);
         cy.location('pathname').should('contain', '/login');
       });
@@ -42,7 +42,7 @@ describe('My Account - Update Profile', () => {
         });
       });
 
-      it('should be able to change to edit mode and back', () => {
+      it('should be able to change to edit mode and back (CXSPA-4442)', () => {
         cy.get('.myaccount-enhancedUI-value').should('exist');
 
         cy.log('--> click edit button');
