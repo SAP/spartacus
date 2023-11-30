@@ -127,6 +127,17 @@ export const quote = {
             successMessage: 'Quote rejected',
           },
         },
+        cancelled: {
+          requote: {
+            a11y: {
+              close: 'Close requote modal',
+            },
+            title: 'Recreate Quote Request {{ code }}?',
+            confirmNote:
+              'Are you sure you want to recreate this quote request?',
+            warningNote: 'Your current cart will be converted to a saved cart.',
+          },
+        },
         all: {
           edit: {
             a11y: {

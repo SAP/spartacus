@@ -76,6 +76,15 @@ const testMappings: ConfirmActionDialogMappingConfig = {
       showOnlyWhenCartIsNotEmpty: false,
     },
   },
+  CANCELLED: {
+    REQUOTE: {
+      i18nKeyPrefix: 'quote.actions.confirmDialog.cancelled.requote',
+      showWarningNote: true,
+      showExpirationDate: false,
+      showSuccessMessage: false,
+      showOnlyWhenCartIsNotEmpty: true,
+    },
+  },
   ALL: {
     EDIT: {
       i18nKeyPrefix: 'quote.actions.confirmActionDialog.all.edit',
@@ -414,6 +423,68 @@ describe('QuoteActionsByRoleComponent', () => {
       component['viewContainerRef'],
       { confirmationContext: confirmationContextForRequoteAction }
     );
+  });
+
+  it('should open confirmation dialog when action is REQUOTE and state is CANCELLED and cart has entries', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const cancelledQuote: Quote = {
+      ...mockQuote,
+      allowedActions: [{ type: QuoteActionType.REQUOTE, isPrimary: true }],
+      state: QuoteState.CANCELLED,
+    };
+    currentCart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
+    currentCart.quoteCode = undefined;
+    const confirmationContextForRequoteAction: ConfirmationContext = {
+      quote: cancelledQuote,
+      title: 'quote.actions.confirmDialog.cancelled.requote.title',
+      confirmNote: 'quote.actions.confirmDialog.cancelled.requote.confirmNote',
+      warningNote: 'quote.actions.confirmDialog.cancelled.requote.warningNote',
+      a11y: {
+        close: 'quote.actions.confirmDialog.cancelled.requote.a11y.close',
+      },
+    };
+    mockQuoteDetails$.next(cancelledQuote);
+    fixture.detectChanges();
+
+    component.onClick(QuoteActionType.REQUOTE, cancelledQuote, currentCart);
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ACTION_CONFIRMATION,
+      component.element,
+      component['viewContainerRef'],
+      { confirmationContext: confirmationContextForRequoteAction }
+    );
+  });
+
+  it('should not open confirmation dialog when action is REQUOTE and state is CANCELLED and cart has no entries', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const cancelledQuote: Quote = {
+      ...mockQuote,
+      allowedActions: [{ type: QuoteActionType.REQUOTE, isPrimary: true }],
+      state: QuoteState.CANCELLED,
+    };
+    currentCart.entries = [];
+    currentCart.quoteCode = undefined;
+    mockQuoteDetails$.next(cancelledQuote);
+    fixture.detectChanges();
+
+    component.onClick(QuoteActionType.REQUOTE, cancelledQuote, currentCart);
+    expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
+  });
+
+  it('should not open confirmation dialog when action is REQUOTE and state is CANCELLED and cart has entries but is a quote-cart', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const cancelledQuote: Quote = {
+      ...mockQuote,
+      allowedActions: [{ type: QuoteActionType.REQUOTE, isPrimary: true }],
+      state: QuoteState.CANCELLED,
+    };
+    currentCart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
+    currentCart.quoteCode = 'ABCD';
+    mockQuoteDetails$.next(cancelledQuote);
+    fixture.detectChanges();
+
+    component.onClick(QuoteActionType.REQUOTE, cancelledQuote, currentCart);
+    expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
   });
 
   describe('Threshold check', () => {
