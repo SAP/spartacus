@@ -1,0 +1,53 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { myAccountV2UserEmailManagementTabbingOrder } from './my-account-v2-email-management';
+import { myAccountV2UserProfileManagementTabbingOrder } from './my-account-v2-profile-management';
+
+import { tabbingOrderConfig as config } from './tabbing-order.config';
+
+describe('Tabbing order - tests do require user to be logged in display model', () => {
+  before(() => {
+    cy.requireLoggedIn();
+  });
+
+  beforeEach(() => {
+    cy.requireLoggedIn();
+  });
+
+  afterEach(() => {
+    cy.restoreLocalStorage();
+  });
+
+  context('My Account V2 Profile Management ', () => {
+    it('should allow to navigate with tab key display mode', () => {
+      myAccountV2UserProfileManagementTabbingOrder(
+        config.myAccountProfileV2Display
+      );
+    });
+
+    it('should allow to navigate with tab key edit mode', () => {
+      myAccountV2UserProfileManagementTabbingOrder(
+        config.myAccountProfileV2Edit,
+        true
+      );
+    });
+  });
+
+  context('My Account V2 Email Management', () => {
+    it('should allow to navigate with tab key display mode', () => {
+      myAccountV2UserEmailManagementTabbingOrder(
+        config.myAccountEmailV2Display
+      );
+    });
+    it('should allow to navigate with tab key edit mode', () => {
+      myAccountV2UserEmailManagementTabbingOrder(
+        config.myAccountEmailV2Edit,
+        true
+      );
+    });
+  });
+});
