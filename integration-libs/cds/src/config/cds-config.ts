@@ -16,6 +16,7 @@ import { ProfileTagConfig } from './profile-tag.config';
 })
 export abstract class CdsConfig {
   cds?: {
+    site?: string;
     tenant?: string;
     baseUrl?: string;
     consentTemplateId?: string;
