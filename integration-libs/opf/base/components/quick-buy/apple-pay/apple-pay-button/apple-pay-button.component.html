@@ -1,0 +1,6 @@
+<ng-container *ngIf="isApplePaySupported$ | async">
+  <div
+    (click)="quickBuyProduct()"
+    class="apple-pay-button apple-pay-button-black btn btn-block"
+  ></div>
+</ng-container>

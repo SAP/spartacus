@@ -17,15 +17,7 @@ import { ApplePayService } from '../apple-pay.service';
 
 @Component({
   selector: 'cx-opf-apple-pay',
-  template: `
-    <ng-container *ngIf="isApplePaySupported$ | async">
-      <div
-        (click)="quickBuyProduct()"
-        class="apple-pay-button apple-pay-button-black btn btn-block"
-      ></div>
-    </ng-container>
-  `,
-  styleUrls: ['./apple-pay-button.component.scss'],
+  templateUrl: './apple-pay-button.component.html',
 })
 export class ApplePayButtonComponent implements OnDestroy {
   protected applePayService = inject(ApplePayService);

@@ -8,6 +8,7 @@ import { Injectable, inject } from '@angular/core';
 import { Address, Product } from '@spartacus/core';
 import { Observable, of, throwError } from 'rxjs';
 import {
+  catchError,
   concatMap,
   filter,
   finalize,
@@ -26,7 +27,6 @@ import {
 } from '@spartacus/opf/base/root';
 import { CartHandlerService } from '../cart-handler.service';
 import { ApplePaySessionFactory } from './apple-pay-session/apple-pay-session.factory';
-import { ApplePayAuthorizationResult } from './observable/apple-pay-observable-config.interface';
 import { ApplePayObservableFactory } from './observable/apple-pay-observable.factory';
 
 export interface ApplePaySessionVerificationRequest {
@@ -92,7 +92,10 @@ export class ApplePayService {
     };
   }
 
-  start(product: Product, quantity: number): Observable<boolean> {
+  start(
+    product: Product,
+    quantity: number
+  ): Observable<ApplePayJS.ApplePayPaymentAuthorizationResult> {
     this.localCart = this.initLocalCart(product, quantity);
     if (this.inProgress) {
       return throwError(new Error('Apple Pay is already in progress'));
@@ -100,7 +103,7 @@ export class ApplePayService {
 
     this.inProgress = true;
 
-    const request: ApplePayJS.ApplePayPaymentRequest = {
+    const initialRequest: ApplePayJS.ApplePayPaymentRequest = {
       countryCode: 'US',
       currencyCode: product?.price?.currencyIso as string,
       total: {
@@ -114,11 +117,11 @@ export class ApplePayService {
       requiredBillingContactFields: ['email', 'name', 'postalAddress'],
     };
 
-    console.log('Starting ApplePay payment with request', request);
+    console.log('Starting ApplePay payment with request', initialRequest);
 
     return this.applePayObservable
       .make({
-        request,
+        request: initialRequest,
         validateMerchant: (event) =>
           this.handleValidation(event, this.localCart),
         shippingContactSelected: (event) =>
@@ -131,7 +134,8 @@ export class ApplePayService {
         paymentCanceled: () => this.handlePaymentCanceled(),
       })
       .pipe(
-        switchMap((payment, _) => this.placeOrderAfterPayment(payment)),
+        // map((success) => success),
+        // switchMap((payment, _) => this.placeOrderAfterPayment(payment)),
         // catchError((error) => {
         //   return throwError(error))
         //   // this.cartHandlerService.deleteCurrentCart().subscribe((success) => {
@@ -329,7 +333,7 @@ export class ApplePayService {
 
   protected handlePaymentAuthorized(
     event: ApplePayJS.ApplePayPaymentAuthorizedEvent
-  ): Observable<ApplePayAuthorizationResult> {
+  ): Observable<ApplePayJS.ApplePayPaymentAuthorizationResult> {
     console.log('Product', this.localCart?.product);
     console.log('handlePaymentAuthorized', event);
 
@@ -337,12 +341,32 @@ export class ApplePayService {
       status: this.applePaySession.STATUS_SUCCESS,
     };
 
-    this.inProgress = false;
+    return this.placeOrderAfterPayment(event.payment).pipe(
+      map((success) => {
+        return success
+          ? result
+          : { ...result, status: this.applePaySession.STATUS_FAILURE };
+      }),
+      catchError((error) => {
+        return of({
+          ...result,
+          status: this.applePaySession.STATUS_FAILURE,
+          errors: [
+            {
+              code: 'unknown',
+              message: error?.message ?? 'payment error',
+            },
+          ],
+        } as ApplePayJS.ApplePayPaymentAuthorizationResult);
+      })
+    );
 
-    return of({
-      authResult: result,
-      payment: event.payment,
-    });
+    // this.inProgress = false;
+
+    // return of({
+    //   authResult: result,
+    //   payment: event.payment,
+    // });
   }
 
   fetchDeliveryModes() {
@@ -398,7 +422,6 @@ export class ApplePayService {
     const { shippingContact, billingContact } = applePayPayment;
     console.log('billingContact', billingContact);
     const shippingAddress: Address = {
-      id: '',
       firstName: shippingContact?.givenName,
       lastName: shippingContact?.familyName,
       line1: shippingContact?.addressLines?.[0],
@@ -441,7 +464,7 @@ export class ApplePayService {
           const encryptedToken = btoa(
             JSON.stringify(applePayPayment.token.paymentData)
           );
-          // return of(true);
+
           return this.opfPaymentFacade.submitPayment({
             additionalData: [],
             paymentSessionId: '',
