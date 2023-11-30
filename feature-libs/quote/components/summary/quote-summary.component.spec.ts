@@ -8,10 +8,10 @@ import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.
 import { QuoteSummaryComponent } from './quote-summary.component';
 
 @Component({
-  selector: 'cx-quote-summary-price',
+  selector: 'cx-quote-summary-prices',
   template: '',
 })
-class MockQuoteSummaryPriceComponent {}
+class MockQuoteSummaryPricesComponent {}
 
 @Component({
   selector: 'cx-quote-summary-actions',
@@ -47,7 +47,7 @@ describe('QuoteSummaryComponent', () => {
       imports: [I18nTestingModule],
       declarations: [
         QuoteSummaryComponent,
-        MockQuoteSummaryPriceComponent,
+        MockQuoteSummaryPricesComponent,
         MockQuoteSummaryActionsComponent,
         MockQuoteSummarySellerEditComponent,
       ],
@@ -71,7 +71,7 @@ describe('QuoteSummaryComponent', () => {
   });
 
   describe('Ghost animation', () => {
-    it('should render view for ghost animation', () => {
+    it('should display ghost elements for prices', () => {
       component.quoteDetails$ = NEVER;
       fixture.detectChanges();
 
@@ -115,7 +115,7 @@ describe('QuoteSummaryComponent', () => {
       );
     });
 
-    it('should render view for ghost animation', () => {
+    it('should display ghost elements for quote actions', () => {
       component.quoteDetails$ = NEVER;
       fixture.detectChanges();
 
