@@ -24,7 +24,7 @@ jobs:
     name: CI - Unit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup node
@@ -50,7 +50,7 @@ jobs:
     name: CI - SonarQube Scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: SonarQube Scan
@@ -67,7 +67,7 @@ jobs:
     name: CI - Validations and static code checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v2
         with:

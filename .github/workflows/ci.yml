@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Forcefully fail build if jobs are all retried
-        uses: actions/github-script@v5
+        uses: actions/github-script@v7
         with:
           script: |
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
@@ -33,7 +33,7 @@ jobs:
     outputs:
       SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Determine whether to run e2es
@@ -46,7 +46,7 @@ jobs:
     name: Unit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup node
@@ -73,7 +73,7 @@ jobs:
     name: SonarQube Scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: SonarQube Scan
@@ -91,7 +91,7 @@ jobs:
     name: Validations and static code checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v2
         with:
@@ -121,12 +121,12 @@ jobs:
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
-        uses: actions/github-script@v5
+        uses: actions/github-script@v7
         with:
           script: |
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v2
         with:
@@ -154,12 +154,12 @@ jobs:
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
-        uses: actions/github-script@v5
+        uses: actions/github-script@v7
         with:
           script: |
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v2
         with:
@@ -190,12 +190,12 @@ jobs:
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
-        uses: actions/github-script@v5
+        uses: actions/github-script@v7
         with:
           script: |
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v2
         with:
@@ -223,7 +223,7 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Required build failed
-        uses: actions/github-script@v5
+        uses: actions/github-script@v7
         with:
           script: |
             core.setFailed('Build failed')
