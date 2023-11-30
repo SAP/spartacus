@@ -17,6 +17,7 @@ import {
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { QuoteStorefrontUtilsService } from '@spartacus/quote/core';
 import {
   Quote,
   QuoteAction,
@@ -40,7 +41,6 @@ import {
   QuoteUIConfig,
 } from '../../config/quote-ui.config';
 import { ConfirmationContext } from '../../confirm-dialog/quote-confirm-dialog.model';
-import { QuoteStorefrontUtilsService } from '../../../core/services/quote-storefront-utils.service';
 
 @Component({
   selector: 'cx-quote-summary-actions',
@@ -105,9 +105,7 @@ export class QuoteSummaryActionsComponent
 
   @HostListener('window:resize')
   handleResize(): void {
-    this.prepareButtonsForMobile();
-    this.adjustBottomProperty();
-    this.prepareButtonsForDesktop();
+    this.adjustStyling();
   }
 
   @HostListener('window:scroll')
@@ -116,9 +114,7 @@ export class QuoteSummaryActionsComponent
   }
 
   ngAfterViewInit(): void {
-    this.prepareButtonsForMobile();
-    this.adjustBottomProperty();
-    this.prepareButtonsForDesktop();
+    this.adjustStyling();
   }
 
   ngOnInit(): void {
@@ -184,6 +180,11 @@ export class QuoteSummaryActionsComponent
       : this.ACTION_BUTTONS_HEIGHT;
   }
 
+  /**
+   * Adjusts `bottom` property depending on the widget and the location of the action buttons.
+   *
+   * @protected
+   */
   protected adjustBottomProperty(): void {
     this.isMobile()
       .pipe(take(1))
@@ -299,6 +300,12 @@ export class QuoteSummaryActionsComponent
           }
         }
       });
+  }
+
+  protected adjustStyling(): void {
+    this.prepareButtonsForMobile();
+    this.adjustBottomProperty();
+    this.prepareButtonsForDesktop();
   }
 
   /**

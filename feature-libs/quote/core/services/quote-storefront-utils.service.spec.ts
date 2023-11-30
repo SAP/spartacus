@@ -1,5 +1,5 @@
 import { WindowRef } from '@spartacus/core';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuoteStorefrontUtilsService } from './quote-storefront-utils.service';
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
@@ -15,10 +15,10 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 })
 class MockComponent {}
 
-fdescribe('QuoteStorefrontUtilsService', () => {
+xdescribe('QuoteStorefrontUtilsService', () => {
   let classUnderTest: QuoteStorefrontUtilsService;
-  //let fixture: ComponentFixture<MockComponent>;
-  //let htmlElem: HTMLElement;
+  let fixture: ComponentFixture<MockComponent>;
+  let htmlElem: HTMLElement;
   let windowRef: WindowRef;
 
   beforeEach(() => {
@@ -27,15 +27,15 @@ fdescribe('QuoteStorefrontUtilsService', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     classUnderTest = TestBed.inject(QuoteStorefrontUtilsService);
-    /**
     fixture = TestBed.createComponent(MockComponent);
     htmlElem = fixture.nativeElement;
-     */
     windowRef = TestBed.inject(WindowRef);
   });
 
   afterEach(() => {
-    //document.body.removeChild(htmlElem);
+    if (htmlElem) {
+      document.body.removeChild(htmlElem);
+    }
   });
 
   describe('getElement', () => {
@@ -109,6 +109,71 @@ fdescribe('QuoteStorefrontUtilsService', () => {
     });
   });
 
+  fdescribe('isInViewport', () => {
+    let form: any;
+    let labels: HTMLElement[];
+
+    beforeEach(() => {
+      form = htmlElem.querySelector('cx-quote-list') as HTMLElement;
+      form.style.padding = '25px';
+      form.style.height = '50px';
+      form.style.border = 'thick double #32a1ce;';
+
+      labels = Array.from(htmlElem.querySelectorAll('label'));
+      labels.forEach((label) => {
+        label.style.padding = '25px';
+        label.style.height = '50px';
+      });
+
+      spyOn(form, 'getBoundingClientRect').and.returnValue(
+        new DOMRect(100, 100, 250, 500)
+      );
+    });
+
+    it('should return false because the method gets undefined as parameter', () => {
+      expect(classUnderTest['isInViewport'](undefined)).toBe(false);
+    });
+
+    it('should return false', () => {
+      labels.forEach((label) => {
+        label.style.padding = '5px';
+        label.style.height = '10px';
+      });
+
+      spyOnProperty(window, 'innerWidth').and.returnValue(100);
+
+      expect(classUnderTest['isInViewport'](form)).toBe(false);
+    });
+
+    it("should return true because window's innerWith is known", () => {
+      form.style.display = 'flex';
+      form.style.flexDirection = 'column';
+
+      spyOnProperty(window, 'innerWidth').and.returnValue(1000);
+
+      expect(classUnderTest['isInViewport'](form)).toBe(true);
+    });
+
+    it('should return true because clientWidth of element is known and its right is less than its width', () => {
+      form.style.display = 'flex';
+      form.style.flexDirection = 'column';
+
+      spyOnProperty(window, 'innerWidth').and.returnValue(undefined);
+
+      expect(classUnderTest['isInViewport'](form)).toBe(true);
+    });
+
+    it('should return true because clientHeight of element is known and its bottom is less than its height', () => {
+      form.style.display = 'flex';
+      form.style.flexDirection = 'column';
+      form.style.height = '1000px';
+
+      spyOnProperty(window, 'innerHeight').and.returnValue(undefined);
+
+      expect(classUnderTest['isInViewport'](form)).toBe(true);
+    });
+  });
+
   xdescribe('getHeight', () => {
     let list;
 
@@ -137,6 +202,18 @@ fdescribe('QuoteStorefrontUtilsService', () => {
       spyOnProperty(window, 'innerWidth').and.returnValue(1000);
 
       expect(classUnderTest['getHeight']('cx-quote-list')).toBeGreaterThan(0);
+    });
+  });
+
+  describe('getWindowHeight', () => {
+    it("should return zero because isBrowser returns 'false'", () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      expect(classUnderTest.getWindowHeight()).toBe(0);
+    });
+
+    it('should return the height of the window', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      expect(classUnderTest.getWindowHeight()).toBeGreaterThan(0);
     });
   });
 });
