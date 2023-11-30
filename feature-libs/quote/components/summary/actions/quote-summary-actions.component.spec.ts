@@ -14,7 +14,6 @@ import {
   QuoteRoleType,
   QuoteState,
 } from '@spartacus/quote/root';
-
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import {
   BreakpointService,

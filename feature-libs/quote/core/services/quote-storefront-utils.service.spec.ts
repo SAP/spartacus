@@ -1,35 +1,39 @@
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuoteStorefrontUtilsService } from './quote-storefront-utils.service';
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @Component({
-  selector: 'cx-quote-list',
+  selector: 'cx-quote',
   template: `
-    <cx-quote-list>
+    <cx-quote>
       <label id="ATTR_1--value_1">value_1</label>
       <label id="ATTR_1--value_2">value_2</label>
       <label id="ATTR_1--value_3">value_3</label>
-    </cx-quote-list>
+    </cx-quote>
   `,
 })
-class MockComponent {}
+class MockQuoteComponent {}
 
 xdescribe('QuoteStorefrontUtilsService', () => {
   let classUnderTest: QuoteStorefrontUtilsService;
-  let fixture: ComponentFixture<MockComponent>;
+  let fixture: ComponentFixture<MockQuoteComponent>;
   let htmlElem: HTMLElement;
   let windowRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent],
+      declarations: [MockQuoteComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
     classUnderTest = TestBed.inject(QuoteStorefrontUtilsService);
-    fixture = TestBed.createComponent(MockComponent);
+    fixture = TestBed.createComponent(MockQuoteComponent);
     htmlElem = fixture.nativeElement;
     windowRef = TestBed.inject(WindowRef);
+    fixture.detectChanges();
   });
 
   afterEach(() => {
@@ -109,15 +113,15 @@ xdescribe('QuoteStorefrontUtilsService', () => {
     });
   });
 
-  fdescribe('isInViewport', () => {
-    let form: any;
+  describe('isInViewport', () => {
+    let list: any;
     let labels: HTMLElement[];
 
     beforeEach(() => {
-      form = htmlElem.querySelector('cx-quote-list') as HTMLElement;
-      form.style.padding = '25px';
-      form.style.height = '50px';
-      form.style.border = 'thick double #32a1ce;';
+      list = htmlElem.querySelector('cx-quote') as HTMLElement;
+      list.style.padding = '25px';
+      list.style.height = '50px';
+      list.style.border = 'thick double #32a1ce;';
 
       labels = Array.from(htmlElem.querySelectorAll('label'));
       labels.forEach((label) => {
@@ -125,7 +129,7 @@ xdescribe('QuoteStorefrontUtilsService', () => {
         label.style.height = '50px';
       });
 
-      spyOn(form, 'getBoundingClientRect').and.returnValue(
+      spyOn(list, 'getBoundingClientRect').and.returnValue(
         new DOMRect(100, 100, 250, 500)
       );
     });
@@ -142,43 +146,43 @@ xdescribe('QuoteStorefrontUtilsService', () => {
 
       spyOnProperty(window, 'innerWidth').and.returnValue(100);
 
-      expect(classUnderTest['isInViewport'](form)).toBe(false);
+      expect(classUnderTest['isInViewport'](list)).toBe(false);
     });
 
     it("should return true because window's innerWith is known", () => {
-      form.style.display = 'flex';
-      form.style.flexDirection = 'column';
+      list.style.display = 'flex';
+      list.style.flexDirection = 'column';
 
       spyOnProperty(window, 'innerWidth').and.returnValue(1000);
 
-      expect(classUnderTest['isInViewport'](form)).toBe(true);
+      expect(classUnderTest['isInViewport'](list)).toBe(true);
     });
 
     it('should return true because clientWidth of element is known and its right is less than its width', () => {
-      form.style.display = 'flex';
-      form.style.flexDirection = 'column';
+      list.style.display = 'flex';
+      list.style.flexDirection = 'column';
 
       spyOnProperty(window, 'innerWidth').and.returnValue(undefined);
 
-      expect(classUnderTest['isInViewport'](form)).toBe(true);
+      expect(classUnderTest['isInViewport'](list)).toBe(true);
     });
 
     it('should return true because clientHeight of element is known and its bottom is less than its height', () => {
-      form.style.display = 'flex';
-      form.style.flexDirection = 'column';
-      form.style.height = '1000px';
+      list.style.display = 'flex';
+      list.style.flexDirection = 'column';
+      list.style.height = '1000px';
 
       spyOnProperty(window, 'innerHeight').and.returnValue(undefined);
 
-      expect(classUnderTest['isInViewport'](form)).toBe(true);
+      expect(classUnderTest['isInViewport'](list)).toBe(true);
     });
   });
 
-  xdescribe('getHeight', () => {
+  describe('getHeight', () => {
     let list;
 
     beforeEach(() => {
-      //list = htmlElem.querySelector('cx-quote-list') as HTMLElement;
+      //list = htmlElem.querySelector('cx-quote') as HTMLElement;
       list.style.padding = '25px';
       list.style.height = '50px';
       list.style.border = 'thick double #32a1ce;';
@@ -195,13 +199,13 @@ xdescribe('QuoteStorefrontUtilsService', () => {
     it('should return zero because form is not im viewport', () => {
       spyOnProperty(window, 'innerWidth').and.returnValue(100);
 
-      expect(classUnderTest['getHeight']('cx-quote-list')).toBe(0);
+      expect(classUnderTest['getHeight']('cx-quote')).toBe(0);
     });
 
     it('should return offsetHeight of the element because form is not im viewport', () => {
       spyOnProperty(window, 'innerWidth').and.returnValue(1000);
 
-      expect(classUnderTest['getHeight']('cx-quote-list')).toBeGreaterThan(0);
+      expect(classUnderTest['getHeight']('cx-quote')).toBeGreaterThan(0);
     });
   });
 
