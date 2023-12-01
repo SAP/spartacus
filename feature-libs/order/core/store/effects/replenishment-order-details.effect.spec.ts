@@ -5,7 +5,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   LoggerService,
-  MockLoggerService,
   normalizeHttpError,
   Translatable,
 } from '@spartacus/core';
@@ -49,6 +48,14 @@ class MockGlobalMessageService {
     _type: GlobalMessageType,
     _timeout?: number
   ): void {}
+}
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
 }
 
 describe('ReplenishmentOrderDetailsEffect', () => {
