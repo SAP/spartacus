@@ -7,6 +7,8 @@
 import {
   ActiveConfiguration,
   AfterRedirectScriptResponse,
+  ApplePaySessionVerificationRequest,
+  ApplePaySessionVerificationResponse,
   CtaScriptsRequest,
   CtaScriptsResponse,
   OpfPaymentVerificationPayload,
@@ -66,4 +68,12 @@ export abstract class OpfPaymentAdapter {
   abstract getCtaScripts(
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<CtaScriptsResponse>;
+
+  /**
+   * Abstract method used to request an ApplePay session, used by QuickBuy functionality
+   */
+  abstract getApplePayWebSession(
+    applePayRequest: ApplePaySessionVerificationRequest,
+    otpKey: string
+  ): Observable<ApplePaySessionVerificationResponse>;
 }

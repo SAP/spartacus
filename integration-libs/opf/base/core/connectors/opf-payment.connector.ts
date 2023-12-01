@@ -8,6 +8,8 @@ import { Injectable } from '@angular/core';
 import {
   ActiveConfiguration,
   AfterRedirectScriptResponse,
+  ApplePaySessionVerificationRequest,
+  ApplePaySessionVerificationResponse,
   CtaScriptsRequest,
   CtaScriptsResponse,
   OpfPaymentVerificationPayload,
@@ -66,5 +68,12 @@ export class OpfPaymentConnector {
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<CtaScriptsResponse> {
     return this.adapter.getCtaScripts(ctaScriptsRequest);
+  }
+
+  public getApplePayWebSession(
+    applePayWebRequest: ApplePaySessionVerificationRequest,
+    otpKey: string
+  ): Observable<ApplePaySessionVerificationResponse> {
+    return this.adapter.getApplePayWebSession(applePayWebRequest, otpKey);
   }
 }

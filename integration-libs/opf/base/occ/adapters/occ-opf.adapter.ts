@@ -15,6 +15,7 @@ import {
 import {
   OPF_ACTIVE_CONFIGURATION_NORMALIZER,
   OPF_AFTER_REDIRECT_SCRIPTS_NORMALIZER,
+  OPF_APPLE_PAY_WEB_SESSION_NORMALIZER,
   OPF_CTA_SCRIPTS_NORMALIZER,
   OPF_PAYMENT_SUBMIT_COMPLETE_NORMALIZER,
   OPF_PAYMENT_SUBMIT_NORMALIZER,
@@ -25,6 +26,8 @@ import {
 import {
   ActiveConfiguration,
   AfterRedirectScriptResponse,
+  ApplePaySessionVerificationRequest,
+  ApplePaySessionVerificationResponse,
   CtaScriptsRequest,
   CtaScriptsResponse,
   OPF_CC_OTP_KEY,
@@ -211,6 +214,35 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
       );
   }
 
+  getApplePayWebSession(
+    applePayWebSessionRequest: ApplePaySessionVerificationRequest,
+    otpKey: string
+  ): Observable<ApplePaySessionVerificationResponse> {
+    const headers = new HttpHeaders(this.headerWithContentLanguage)
+      .set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '')
+      .set(OPF_CC_OTP_KEY, otpKey || '');
+
+    const url = this.getApplePayWebSessionEndpoint();
+
+    return this.http
+      .post<ApplePaySessionVerificationResponse>(
+        url,
+        applePayWebSessionRequest,
+        { headers }
+      )
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        }),
+        backOff({
+          shouldRetry: isHttp500Error,
+          maxTries: 2,
+        }),
+        this.converter.pipeable(OPF_APPLE_PAY_WEB_SESSION_NORMALIZER)
+      );
+  }
+
   protected verifyPaymentEndpoint(paymentSessionId: string): string {
     return this.opfEndpointsService.buildUrl('verifyPayment', {
       urlParams: { paymentSessionId },
@@ -243,5 +275,9 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
 
   protected getCtaScriptsEndpoint(): string {
     return this.opfEndpointsService.buildUrl('getCtaScripts');
+  }
+
+  protected getApplePayWebSessionEndpoint(): string {
+    return this.opfEndpointsService.buildUrl('getApplePayWebSession');
   }
 }

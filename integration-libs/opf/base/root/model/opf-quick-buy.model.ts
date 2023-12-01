@@ -83,3 +83,21 @@ export interface LocalCart {
     label: string;
   };
 }
+
+export interface ApplePaySessionVerificationRequest {
+  cartId: string;
+  validationUrl: string;
+  initiative: 'web';
+  initiativeContext: string;
+}
+
+export interface ApplePaySessionVerificationResponse {
+  epochTimestamp: number;
+  expiresAt: number;
+  merchantSessionIdentifier: string;
+  nonce: string;
+  merchantIdentifier: string;
+  domainName: string;
+  displayName: string;
+  signature: string;
+}

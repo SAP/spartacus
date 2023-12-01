@@ -15,6 +15,8 @@ import {
 import {
   ActiveConfiguration,
   AfterRedirectScriptResponse,
+  ApplePaySessionVerificationRequest,
+  ApplePaySessionVerificationResponse,
   CtaScriptsRequest,
   CtaScriptsResponse,
   OpfPaymentFacade,
@@ -25,6 +27,7 @@ import {
 } from '@spartacus/opf/base/root';
 import { Observable } from 'rxjs';
 import { OpfPaymentConnector } from '../connectors/opf-payment.connector';
+import { OpfPaymentApplePayService } from '../services/opf-payment-apple-pay.service';
 import { OpfPaymentHostedFieldsService } from '../services/opf-payment-hosted-fields.service';
 
 @Injectable()
@@ -84,6 +87,17 @@ export class OpfPaymentService implements OpfPaymentFacade {
     return this.opfPaymentConnector.getCtaScripts(payload.ctaScriptsRequest);
   });
 
+  protected applePaySessionCommand: Command<
+    {
+      applePayWebSessionRequest: ApplePaySessionVerificationRequest;
+    },
+    ApplePaySessionVerificationResponse
+  > = this.commandService.create((payload) => {
+    return this.opfPaymentApplePayService.getApplePayWebSession(
+      payload.applePayWebSessionRequest
+    );
+  });
+
   protected activeConfigurationsQuery: Query<ActiveConfiguration[]> =
     this.queryService.create<ActiveConfiguration[]>(() =>
       this.opfPaymentConnector.getActiveConfigurations()
@@ -93,7 +107,8 @@ export class OpfPaymentService implements OpfPaymentFacade {
     protected queryService: QueryService,
     protected commandService: CommandService,
     protected opfPaymentConnector: OpfPaymentConnector,
-    protected opfPaymentHostedFieldsService: OpfPaymentHostedFieldsService
+    protected opfPaymentHostedFieldsService: OpfPaymentHostedFieldsService,
+    protected opfPaymentApplePayService: OpfPaymentApplePayService
   ) {}
 
   verifyPayment(
@@ -130,5 +145,11 @@ export class OpfPaymentService implements OpfPaymentFacade {
 
   getCtaScripts(ctaScriptsRequest: CtaScriptsRequest) {
     return this.ctaScriptsCommand.execute({ ctaScriptsRequest });
+  }
+
+  getApplePayWebSession(
+    applePayWebSessionRequest: ApplePaySessionVerificationRequest
+  ) {
+    return this.applePaySessionCommand.execute({ applePayWebSessionRequest });
   }
 }
