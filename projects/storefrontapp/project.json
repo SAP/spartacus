@@ -139,14 +139,14 @@
     "serve": {
       "executor": "@angular-builders/custom-webpack:dev-server",
       "options": {
-        "browserTarget": "storefrontapp:build"
+        "buildTarget": "storefrontapp:build"
       },
       "configurations": {
         "production": {
-          "browserTarget": "storefrontapp:build:production"
+          "buildTarget": "storefrontapp:build:production"
         },
         "development": {
-          "browserTarget": "storefrontapp:build:development"
+          "buildTarget": "storefrontapp:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -213,7 +213,7 @@
       "defaultConfiguration": "production"
     },
     "serve-ssr": {
-      "executor": "@nguniversal/builders:ssr-dev-server",
+      "executor": "@angular-devkit/build-angular:ssr-dev-server",
       "configurations": {
         "development": {
           "browserTarget": "storefrontapp:build:development",
@@ -227,7 +227,7 @@
       "defaultConfiguration": "development"
     },
     "prerender": {
-      "executor": "@nguniversal/builders:prerender",
+      "executor": "@angular-devkit/build-angular:prerender",
       "options": {
         "routes": ["/"]
       },
