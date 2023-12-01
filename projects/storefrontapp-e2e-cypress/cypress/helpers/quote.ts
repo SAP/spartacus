@@ -52,8 +52,8 @@ const headerSellerEditComponentSelector = 'cx-quote-header-seller-edit';
 /**
  * Sets quantity.
  */
-export function setQuantity(quantity: string): void {
-  log('Sets quantity', setQuantity.name);
+export function setAddToCartQuantity(quantity: string): void {
+  log('Sets quantity', setAddToCartQuantity.name);
   cy.get(defaultAddToCartComponentSelector).within(() => {
     cy.get('input').clear().type(`{selectall}${quantity}`);
   });
@@ -402,7 +402,7 @@ export function requestQuote(productName: string, quantity: string): void {
 export function addProductToCart(productName: string, quantity: string): void {
   log('Adds a product to the cart', addProductToCart.name);
   common.goToPDPage(SHOP_NAME, productName);
-  setQuantity(quantity);
+  setAddToCartQuantity(quantity);
   common.clickOnAddToCartBtnOnPD();
   common.clickOnViewCartBtnOnPD();
 }

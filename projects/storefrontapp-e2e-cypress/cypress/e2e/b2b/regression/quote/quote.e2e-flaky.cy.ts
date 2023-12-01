@@ -192,7 +192,7 @@ context('Quote', () => {
         Cypress.env('BASE_SITE'),
         TEST_PRODUCT_HAMMER_DRILLING_ID
       );
-      quote.setQuantity(PRODUCT_AMOUNT_30.toString());
+      quote.setAddToCartQuantity(PRODUCT_AMOUNT_30.toString());
       common.clickOnAddToCartBtnOnPD();
       quote.clickOnViewCartBtnOnPD();
       quote.checkItemQuantity(1, '60');
