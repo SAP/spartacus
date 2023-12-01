@@ -83,7 +83,7 @@ const defaultDialogMappings: ConfirmActionDialogMappingConfig = {
   },
   CANCELLED: {
     REQUOTE: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.cancelled.requote',
+      i18nKeyPrefix: 'quote.confirmDialog.cancelled.requote',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,

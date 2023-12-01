@@ -78,7 +78,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   CANCELLED: {
     REQUOTE: {
-      i18nKeyPrefix: 'quote.actions.confirmDialog.cancelled.requote',
+      i18nKeyPrefix: 'quote.confirmDialog.cancelled.requote',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
@@ -87,7 +87,7 @@ const testMappings: ConfirmActionDialogMappingConfig = {
   },
   ALL: {
     EDIT: {
-      i18nKeyPrefix: 'quote.actions.confirmActionDialog.all.edit',
+      i18nKeyPrefix: 'quote.confirmDialog.all.edit',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
@@ -353,11 +353,11 @@ describe('QuoteSummaryActionsComponent', () => {
     };
     const confirmationContextForEditAction: ConfirmationContext = {
       quote: quoteInBuyerDraftState,
-      title: 'quote.actions.confirmActionDialog.all.edit.title',
-      confirmNote: 'quote.actions.confirmActionDialog.all.edit.confirmNote',
-      warningNote: 'quote.actions.confirmActionDialog.all.edit.warningNote',
+      title: 'quote.confirmDialog.all.edit.title',
+      confirmNote: 'quote.confirmDialog.all.edit.confirmNote',
+      warningNote: 'quote.confirmDialog.all.edit.warningNote',
       a11y: {
-        close: 'quote.actions.confirmActionDialog.all.edit.a11y.close',
+        close: 'quote.confirmDialog.all.edit.a11y.close',
       },
     };
     currentCart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
@@ -416,11 +416,11 @@ describe('QuoteSummaryActionsComponent', () => {
     currentCart.quoteCode = undefined;
     const confirmationContextForRequoteAction: ConfirmationContext = {
       quote: cancelledQuote,
-      title: 'quote.actions.confirmDialog.cancelled.requote.title',
-      confirmNote: 'quote.actions.confirmDialog.cancelled.requote.confirmNote',
-      warningNote: 'quote.actions.confirmDialog.cancelled.requote.warningNote',
+      title: 'quote.confirmDialog.cancelled.requote.title',
+      confirmNote: 'quote.confirmDialog.cancelled.requote.confirmNote',
+      warningNote: 'quote.confirmDialog.cancelled.requote.warningNote',
       a11y: {
-        close: 'quote.actions.confirmDialog.cancelled.requote.a11y.close',
+        close: 'quote.confirmDialog.cancelled.requote.a11y.close',
       },
     };
     mockQuoteDetails$.next(cancelledQuote);
@@ -717,7 +717,7 @@ describe('QuoteSummaryActionsComponent', () => {
           QuoteState.BUYER_DRAFT
         )
       ).toEqual({
-        i18nKeyPrefix: 'quote.actions.confirmActionDialog.all.edit',
+        i18nKeyPrefix: 'quote.confirmDialog.all.edit',
         showWarningNote: true,
         showExpirationDate: false,
         showSuccessMessage: false,
