@@ -1,10 +1,10 @@
 <ng-container *ngIf="quoteDetails$ | async as quoteDetails">
   <div class="cx-price-heading">
-    {{ 'quote.summary.price.title' | cxTranslate }}
+    {{ 'quote.summary.prices.title' | cxTranslate }}
   </div>
   <div class="cx-price-row">
     <div class="cx-price-label">
-      {{ 'quote.summary.price.subtotal' | cxTranslate }}
+      {{ 'quote.summary.prices.subtotal' | cxTranslate }}
     </div>
     <div class="cx-price-amount">
       {{ quoteDetails.totalPrice?.formattedValue }}
@@ -15,7 +15,7 @@
     class="cx-price-row cx-price-savings"
   >
     <div class="cx-price-label">
-      {{ 'quote.summary.price.productDiscount' | cxTranslate }}
+      {{ 'quote.summary.prices.productDiscount' | cxTranslate }}
     </div>
     <div class="cx-price-amount">
       {{ quoteDetails.productDiscounts?.formattedValue }}
@@ -26,7 +26,7 @@
     class="cx-price-row cx-price-savings"
   >
     <div class="cx-price-label">
-      {{ 'quote.summary.price.orderDiscount' | cxTranslate }}
+      {{ 'quote.summary.prices.orderDiscount' | cxTranslate }}
     </div>
     <div class="cx-price-amount">
       {{ quoteDetails.orderDiscounts?.formattedValue }}
@@ -37,7 +37,7 @@
     class="cx-price-row cx-price-savings"
   >
     <div class="cx-price-label">
-      {{ 'quote.summary.price.quoteDiscount' | cxTranslate }}
+      {{ 'quote.summary.prices.quoteDiscount' | cxTranslate }}
     </div>
     <div class="cx-price-amount">
       {{ quoteDetails.quoteDiscounts?.formattedValue }}
@@ -45,13 +45,13 @@
   </div>
   <div class="cx-price-row cx-price-total">
     <div class="cx-price-label">
-      {{ 'quote.summary.price.total' | cxTranslate }}
+      {{ 'quote.summary.prices.total' | cxTranslate }}
     </div>
     <div class="cx-price-amount">
       {{ quoteDetails.totalPrice?.formattedValue }}
     </div>
   </div>
   <div class="cx-price-footer">
-    *{{ 'quote.summary.price.hint' | cxTranslate }}
+    *{{ 'quote.summary.prices.hint' | cxTranslate }}
   </div>
 </ng-container>

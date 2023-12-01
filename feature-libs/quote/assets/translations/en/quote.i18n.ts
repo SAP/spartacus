@@ -227,7 +227,7 @@ export const quote = {
         SUBMIT: 'Submit Quote',
         VIEW: 'View Quote',
       },
-      price: {
+      prices: {
         title: 'Order Summary',
         subtotal: 'Subtotal',
         productDiscount: 'Item Discount',
