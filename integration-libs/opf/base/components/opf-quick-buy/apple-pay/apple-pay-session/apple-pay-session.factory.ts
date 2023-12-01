@@ -4,22 +4,36 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {Inject, Injectable} from "@angular/core";
-import {APPLE_PAY_SESSION} from "../apple-pay-session.token";
-import {Observable, of} from "rxjs";
-import {fromPromise} from "rxjs/internal-compatibility";
+import { Injectable, inject } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { fromPromise } from 'rxjs/internal-compatibility';
 
 @Injectable()
 export class ApplePaySessionFactory {
-
+  protected winRef = inject(WindowRef);
   canMake = false;
 
-  constructor(@Inject(APPLE_PAY_SESSION) public applePaySession: typeof ApplePaySession) {
+  applePaySession: typeof ApplePaySession;
+
+  constructor() {
     try {
+      // @ts-ignore
+      this.applePaySession = this.createApplePaySession();
       if (this.applePaySession) {
         this.canMake = this.applePaySession.canMakePayments();
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log('err', err);
+    }
+  }
+
+  createApplePaySession(): ApplePaySession | undefined {
+    const window = this.winRef.nativeWindow as any;
+    if (!window['ApplePaySession']) {
+      return undefined;
+    }
+    return window['ApplePaySession'] as ApplePaySession;
   }
 
   get STATUS_SUCCESS(): number {
@@ -48,13 +62,20 @@ export class ApplePaySessionFactory {
 
   canMakePaymentsWithActiveCard(merchantId: string): Observable<boolean> {
     if (this.canMake) {
-      return fromPromise(this.applePaySession.canMakePaymentsWithActiveCard(merchantId));
+      return fromPromise(
+        this.applePaySession.canMakePaymentsWithActiveCard(merchantId)
+      );
     } else {
       return of(false);
     }
   }
 
-  make(version: number, paymentRequest: ApplePayJS.ApplePayPaymentRequest): ApplePaySession | undefined {
-    return this.canMake ? new this.applePaySession(version, paymentRequest) : undefined;
+  make(
+    version: number,
+    paymentRequest: ApplePayJS.ApplePayPaymentRequest
+  ): ApplePaySession | undefined {
+    return this.canMake
+      ? new this.applePaySession(version, paymentRequest)
+      : undefined;
   }
 }

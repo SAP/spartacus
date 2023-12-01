@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { ApplePaySessionFactory } from '../apple-pay-session/apple-pay-session.factory';
 import { ApplePayObservableConfig } from './apple-pay-observable-config.interface';
 
 @Injectable()
 export class ApplePayObservableFactory {
-  constructor(private applePaySessionFactory: ApplePaySessionFactory) {}
+  protected applePaySessionFactory = inject(ApplePaySessionFactory);
 
   make(
     config: ApplePayObservableConfig

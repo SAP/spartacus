@@ -5,7 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { Address, Product } from '@spartacus/core';
+import { Address, Product, WindowRef } from '@spartacus/core';
 import { Observable, of, throwError } from 'rxjs';
 import {
   catchError,
@@ -19,7 +19,7 @@ import {
 } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { OpfCartHandlerService, WINDOW_TOKEN } from '@spartacus/opf/base/core';
+import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ActiveConfiguration,
   LocalCart,
@@ -53,7 +53,7 @@ export interface ApplePaySessionVerificationResponse {
 export class ApplePayService {
   protected applePaySession = inject(ApplePaySessionFactory);
   protected applePayObservable = inject(ApplePayObservableFactory);
-  protected window: Window = inject(WINDOW_TOKEN);
+  protected winRef = inject(WindowRef);
   protected http = inject(HttpClient);
   protected opfOtpFacade = inject(OpfOtpFacade);
   protected opfPaymentFacade = inject(OpfPaymentFacade);
@@ -193,7 +193,8 @@ export class ApplePayService {
           cartId,
           validationUrl: event.validationURL,
           initiative: 'web',
-          initiativeContext: this.window.location?.hostname,
+          initiativeContext: (this.winRef?.nativeWindow as any).location
+            ?.hostname,
         };
         console.log(
           'Veryfing ApplyPay session with request',
