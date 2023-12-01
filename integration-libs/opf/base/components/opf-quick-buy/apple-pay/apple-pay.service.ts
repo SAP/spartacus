@@ -21,6 +21,7 @@ import {
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { OpfCartHandlerService, WINDOW_TOKEN } from '@spartacus/opf/base/core';
 import {
+  ActiveConfiguration,
   LocalCart,
   OpfOtpFacade,
   OpfPaymentFacade,
@@ -48,8 +49,6 @@ export interface ApplePaySessionVerificationResponse {
   signature: string;
 }
 
-const merchantIdentifier = 'merchant.com.adyen.upscale.test';
-
 @Injectable()
 export class ApplePayService {
   protected applePaySession = inject(ApplePaySessionFactory);
@@ -65,7 +64,7 @@ export class ApplePayService {
   protected localCart: LocalCart = {
     quantity: 0,
     product: undefined,
-    addresses: [],
+    addressIds: [],
     isPdp: true,
     total: {
       label: '',
@@ -73,7 +72,7 @@ export class ApplePayService {
     },
   };
 
-  isApplePaySupported$(): Observable<boolean> {
+  isApplePaySupported$(merchantIdentifier: string): Observable<boolean> {
     return this.applePaySession.canMakePayments() &&
       this.applePaySession.supportsVersion(3)
       ? this.applePaySession.canMakePaymentsWithActiveCard(merchantIdentifier)
@@ -84,7 +83,7 @@ export class ApplePayService {
     return {
       quantity,
       product,
-      addresses: [],
+      addressIds: [],
       isPdp: true,
       total: {
         amount: '' + (product.price?.value as number) * quantity,
@@ -98,17 +97,17 @@ export class ApplePayService {
 
   start(
     product: Product,
-    quantity: number
+    quantity: number,
+    activeConfiguration: ActiveConfiguration
   ): Observable<ApplePayJS.ApplePayPaymentAuthorizationResult> {
-    this.localCart = this.initLocalCart(product, quantity);
     if (this.inProgress) {
       return throwError(new Error('Apple Pay is already in progress'));
     }
-
     this.inProgress = true;
+    this.localCart = this.initLocalCart(product, quantity);
 
     const initialRequest: ApplePayJS.ApplePayPaymentRequest = {
-      countryCode: 'US',
+      countryCode: activeConfiguration?.acquirerCountryCode ?? 'US',
       currencyCode: product?.price?.currencyIso as string,
       total: {
         amount: this.localCart.total.amount,
@@ -145,7 +144,9 @@ export class ApplePayService {
         }),
         finalize(() => {
           console.log('finalize');
-          this.cartHandlerService.deleteUserAddresses(this.localCart.addresses);
+          this.cartHandlerService.deleteUserAddresses(
+            this.localCart.addressIds
+          );
           this.inProgress = false;
         })
       );
@@ -414,10 +415,10 @@ export class ApplePayService {
   }
 
   protected recordDeliveryAddress(addrId: string) {
-    if (!this.localCart.addresses?.includes(addrId)) {
-      this.localCart.addresses?.push(addrId);
+    if (!this.localCart.addressIds?.includes(addrId)) {
+      this.localCart.addressIds?.push(addrId);
     }
-    console.log('localCart.addresses', this.localCart.addresses);
+    console.log('localCart.addresses', this.localCart.addressIds);
   }
 
   protected placeOrderAfterPayment(

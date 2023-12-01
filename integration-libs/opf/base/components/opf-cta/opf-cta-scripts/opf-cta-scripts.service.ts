@@ -171,7 +171,6 @@ export class OpfCtaScriptsService {
   protected runCtaScripts(scripts: OpfDynamicScript[]) {
     return from(scripts).pipe(
       concatMap((script) => from(this.loadAndRunScript(script))),
-      tap((script) => console.log('script', script)),
       reduce((loadedList: string[], script) => {
         if (script?.html) {
           loadedList.push(script.html);

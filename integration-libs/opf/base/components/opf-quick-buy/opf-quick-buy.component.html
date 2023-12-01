@@ -11,6 +11,7 @@
     *ngIf="
       isPaymentMethodEnabled(PAYMENT_METHODS.APPLE_PAY, paymentGatewayConfig)
     "
+    [activeConfiguration]="paymentGatewayConfig"
   ></cx-opf-apple-pay>
   <cx-opf-google-pay
     *ngIf="

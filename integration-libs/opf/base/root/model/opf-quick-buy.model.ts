@@ -77,7 +77,7 @@ export interface LocalCart {
   product?: Product;
   quantity?: number;
   pickup?: boolean;
-  addresses: string[];
+  addressIds: string[];
   total: {
     amount: string;
     label: string;
