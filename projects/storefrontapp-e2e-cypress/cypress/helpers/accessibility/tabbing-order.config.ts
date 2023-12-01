@@ -390,6 +390,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   notificationPreference: [
     { value: 'Email', type: TabbingOrderTypes.CHECKBOX_WITH_LABEL },
   ],
+  notificationPreferenceV2: [
+    { value: 'Email', type: TabbingOrderTypes.CHECKBOX_WITH_LABEL },
+  ],
   updateEmail: [
     { value: 'email', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'confirmEmail', type: TabbingOrderTypes.FORM_FIELD },
