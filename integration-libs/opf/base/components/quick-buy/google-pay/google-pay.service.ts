@@ -6,7 +6,11 @@
 
 import { ElementRef, Injectable, inject } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { OpfResourceLoaderService } from '@spartacus/opf/base/root';
+import {
+  OpfPaymentFacade,
+  OpfResourceLoaderService,
+  PaymentMethod,
+} from '@spartacus/opf/base/root';
 import {
   CurrentProductService,
   ItemCounterService,
@@ -25,6 +29,7 @@ export class OpfGooglePayService {
   protected itemCounterService = inject(ItemCounterService);
   protected currentProductService = inject(CurrentProductService);
   protected cartHandlerService = inject(CartHandlerService);
+  protected opfPaymentFacade = inject(OpfPaymentFacade);
 
   protected readonly GOOGLE_PAY_JS_URL =
     'https://pay.google.com/gp/p/js/pay.js';
@@ -59,8 +64,8 @@ export class OpfGooglePayService {
         },
         tokenizationSpecification: {
           parameters: {
-            gateway: 'example',
-            gatewayMerchantId: 'exampleGatewayMerchantId',
+            gateway: 'adyen',
+            gatewayMerchantId: 'SAPCOM_STAGE_GATEWAY',
           },
           type: 'PAYMENT_GATEWAY',
         },
@@ -76,7 +81,7 @@ export class OpfGooglePayService {
     shippingAddressRequired: true,
     // @ts-ignore
     shippingAddressParameters: {
-      phoneNumberRequired: true,
+      phoneNumberRequired: false,
     },
   };
 
@@ -194,12 +199,46 @@ export class OpfGooglePayService {
   }
 
   handlePaymentCallbacks(): google.payments.api.PaymentDataCallbacks {
+    let self = this;
     return {
-      onPaymentAuthorized: () => {
+      onPaymentAuthorized: (paymentDataResponse) => {
+        console.log(paymentDataResponse);
         return new Promise((resolve) => {
-          resolve({ transactionState: 'SUCCESS' });
+          self.cartHandlerService.getCurrentCartId().subscribe((cartId) => {
+            console.log(
+              paymentDataResponse.paymentMethodData.tokenizationData.token
+            );
+            self.opfPaymentFacade
+              .submitPayment({
+                additionalData: [],
+                paymentSessionId: '',
+                cartId,
+                callbackArray: [() => {}, () => {}, () => {}],
+
+                paymentMethod: PaymentMethod.GOOGLE_PAY,
+                encryptedToken: btoa(
+                  paymentDataResponse.paymentMethodData.tokenizationData.token
+                ),
+              })
+              .subscribe(
+                (result) => {
+                  console.log(result);
+                  resolve({ transactionState: 'SUCCESS' });
+                },
+                (error) => {
+                  console.log(error);
+                  resolve({ transactionState: 'SUCCESS' });
+                },
+                () => {
+                  resolve({ transactionState: 'SUCCESS' });
+                  // 'onCompleted' callback.
+                  // No errors, route to new page here
+                }
+              );
+          });
         });
       },
+
       onPaymentDataChanged: (intermediatePaymentData) => {
         console.log(intermediatePaymentData.callbackTrigger);
 
@@ -224,6 +263,7 @@ export class OpfGooglePayService {
                   paymentDataRequestUpdate.newShippingOptionParameters =
                     shippingOptions;
                   self.cartHandlerService.getCurrentCart().subscribe((cart) => {
+                    console.log(cart);
                     self.cartHandlerService
                       .getSelectedDeliveryMode()
                       .subscribe((mode) => {

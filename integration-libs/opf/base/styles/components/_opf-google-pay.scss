@@ -7,7 +7,8 @@
     @include media-breakpoint-down(md) {
       padding: 0;
     }
-    .gpay-button {
+    .gpay-button,
+    .gpay-card-info-container {
       border-radius: var(--cx-buttons-border-radius);
     }
   }
