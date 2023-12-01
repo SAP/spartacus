@@ -5,10 +5,7 @@
  */
 
 import { Component, inject } from '@angular/core';
-import {
-  AbstractOrderType,
-  CartOutlets
-} from '@spartacus/cart/base/root';
+import { AbstractOrderType, CartOutlets } from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
