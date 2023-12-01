@@ -326,7 +326,7 @@ function checkQuoteAvailableForSeller() {
 /**
  * Reloads the quote list up to {remainingAttempt} times and and checks if the recently created quote is present.
  *
- * @param remainingAttempts Amount of attempts to reload the quote list and search for the quoteid
+ * @param remainingAttempts Number of attempts to reload the quote list and search for the quoteid
  * @param quoteListPath Path of the quote list
  */
 function waitUntilQuoteExists(
@@ -957,7 +957,7 @@ export function checkQuoteState(status: string) {
  */
 export function addHeaderComment(text: string) {
   log('Adds a header comment to the quote', addHeaderComment.name);
-  getCommentAmount();
+  getNumberOfComments();
   cy.get(commentsComponentSelector).within(() => {
     cy.get('.cx-message-input').within(() => {
       cy.get('input').type(text);
@@ -965,40 +965,42 @@ export function addHeaderComment(text: string) {
         .click()
         .then(() => {
           cy.wait(ADD_QUOTE_COMMENT);
-          checkCommentAmountChanged();
+          checkNumberOfCommentsChanged();
         });
     });
   });
 }
 
 /**
- * Verifies the amount of shown comments has changed.
+ * Verifies the number of shown comments has changed.
  */
-function checkCommentAmountChanged() {
+function checkNumberOfCommentsChanged() {
   cy.get('button')
     .parents(defaultMessagingComponentSelector)
     .within(($element) => {
       cy.get('.cx-message-card')
         .should('exist')
         .then(() => {
-          cy.get('@oldCommentAmount').then((oldCommentAmount) => {
+          cy.get('@NumberOfOldComments').then((NumberOfOldComments) => {
             cy.wrap($element.parent())
               .find('.cx-message-card')
-              .should('not.have.length', oldCommentAmount);
+              .should('not.have.length', NumberOfOldComments);
           });
         });
     });
 }
 
 /**
- * Gets the current amount of displayed comments.
+ * Gets the current number of displayed comments.
  */
-function getCommentAmount() {
+function getNumberOfComments() {
   cy.get(defaultMessagingComponentSelector).then(($element) => {
     if ($element.find('.cx-message-card').length) {
-      cy.wrap($element.find('.cx-message-card').length).as('oldCommentAmount');
+      cy.wrap($element.find('.cx-message-card').length).as(
+        'NumberOfOldComments'
+      );
     } else {
-      cy.wrap('0').as('oldCommentAmount');
+      cy.wrap('0').as('NumberOfOldComments');
     }
   });
 }
@@ -1024,7 +1026,7 @@ export function checkComment(index: number, text: string) {
  */
 export function addItemComment(item: string, text: string) {
   log('Adds an item comment to the quote', addItemComment.name);
-  getCommentAmount();
+  getNumberOfComments();
   cy.get(commentsComponentSelector).within(() => {
     cy.get('.cx-footer-label').within(() => {
       cy.get('select').select(item);
@@ -1037,7 +1039,7 @@ export function addItemComment(item: string, text: string) {
           cy.wait(ADD_QUOTE_COMMENT)
             .its('response.statusCode')
             .should('eq', 201);
-          checkCommentAmountChanged();
+          checkNumberOfCommentsChanged();
         });
     });
   });
