@@ -1,0 +1,64 @@
+%cx-my-account-v2-consent-management-form {
+  .cx-be-bold {
+    font-weight: var(--cx-font-weight-semi);
+  }
+
+  .name {
+    font-weight: var(--cx-font-weight-semi);
+    font-size: $font-size-base;
+    font-family: $font-family-sans-serif;
+  }
+
+  .description {
+    font-weight: var(--cx-font-weight-normal);
+    font-size: $font-size-base;
+    font-family: $font-family-sans-serif;
+  }
+
+  .consent-container {
+    display: flex;
+  }
+
+  .consent-details {
+    margin: 0 0 0 2.815rem;
+  }
+
+  .custom-switch {
+    margin: 0 0 0 -2.25rem;
+
+    .custom-control-label {
+      &::before {
+        height: $font-size-base * 2;
+        width: $font-size-base * 3.75;
+        border-radius: $border-radius * 10;
+        border: 2px solid $custom-control-indicator-border-color;
+      }
+
+      &::after {
+        width: $grid-gutter-width * 0.8;
+        height: $grid-gutter-width * 0.8;
+        border-radius: $font-size-base * 2.5;
+        top: add(
+          ($font-size-base * $line-height-base - $custom-control-indicator-size) *
+            0.5,
+          $custom-control-indicator-border-width * 4
+        );
+        left: add(
+          -($custom-switch-width + $custom-control-gutter),
+          $custom-control-indicator-border-width * 4
+        );
+      }
+    }
+    .custom-control-input:checked ~ .custom-control-label {
+      &::after {
+        transform: translateX($custom-switch-width);
+      }
+    }
+    .custom-control-input:disabled {
+      &:checked ~ .custom-control-label::before {
+        background-color: $medium;
+        border-color: $medium;
+      }
+    }
+  }
+}
