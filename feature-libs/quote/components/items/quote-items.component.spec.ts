@@ -170,12 +170,19 @@ describe('QuoteItemsComponent', () => {
     eventService = jasmine.createSpyObj('EventService', ['get', 'dispatch']);
     quoteItemsComponentService = jasmine.createSpyObj(
       'QuoteItemsComponentService',
-      ['setQuoteEntriesExpanded', 'getQuoteEntriesExpanded']
+      ['setQuoteEntriesExpanded', 'getQuoteEntriesExpanded','retrieveQuoteEntries']
     );
     asSpy(eventService.get).and.returnValue(EMPTY);
     asSpy(quoteItemsComponentService.getQuoteEntriesExpanded).and.returnValue(
       true
     );
+    asSpy(quoteItemsComponentService.retrieveQuoteEntries).and.returnValue(of(
+      {entries: quote.entries,
+      readOnly:true,
+    abstractOrderType: AbstractOrderType.SAVED_CART,
+  abstractOrderId: quote.cartId})
+    );
+ 
   }
 
   function asSpy(f: any) {
