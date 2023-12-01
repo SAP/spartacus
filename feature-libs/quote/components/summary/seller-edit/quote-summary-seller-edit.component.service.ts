@@ -20,7 +20,7 @@ export type LocalizationElements = {
 };
 
 /**
- * Provides validation and formatting of numeric input
+ * Provides validation and formatting of numeric input.
  */
 @Injectable({ providedIn: 'root' })
 export class QuoteSummarySellerEditComponentService {
@@ -48,7 +48,8 @@ export class QuoteSummarySellerEditComponentService {
   }
 
   /**
-   * Retrieves formatter according to current locale and unit
+   * Retrieves formatter according to current locale and unit.
+   *
    * @returns Observable of formatters
    */
   getFormatter(): Observable<Intl.NumberFormat> {
@@ -58,7 +59,8 @@ export class QuoteSummarySellerEditComponentService {
   }
 
   /**
-   * Retrieves localization elements according to current locale and unit
+   * Retrieves localization elements according to current locale and unit.
+   *
    * @returns Observables of localization elements
    */
   getLocalizationElements(): Observable<LocalizationElements> {
@@ -71,7 +73,7 @@ export class QuoteSummarySellerEditComponentService {
         const symbol = formatter
           .formatToParts(0)
           .find((x) => x.type === 'percentSign');
-        return this.checkAndReportPercentageSignIfMissing(
+        return this.checkAndReportMissingPercentageSign(
           locale,
           formatter,
           symbol?.value
@@ -81,7 +83,8 @@ export class QuoteSummarySellerEditComponentService {
   }
 
   /**
-   * Retrieves number format validator according to inputs
+   * Retrieves number format validator according to inputs.
+   *
    * @param locale - Current locale
    * @param unit - Unit
    * @returns Formatter that can be attached to a form control
@@ -97,7 +100,8 @@ export class QuoteSummarySellerEditComponentService {
   }
 
   /**
-   * Adds current time and time zone to a date. Result is a timestamp string that can be handed over to OCC
+   * Adds current time and time zone to a date. Result is a timestamp string that can be handed over to OCC.
+   *
    * @param date - Date as string
    * @returns Timestamp as string
    */
@@ -111,7 +115,8 @@ export class QuoteSummarySellerEditComponentService {
   }
 
   /**
-   * Removes time portion from timestamp
+   * Removes time portion from timestamp.
+   *
    * @param timestamp - Timestamp as string
    * @returns Date portion of timestamp
    */
@@ -120,7 +125,8 @@ export class QuoteSummarySellerEditComponentService {
   }
 
   /**
-   * Verifies if quote state belongs to seller and can be edited
+   * Verifies if quote state belongs to seller and can be edited.
+   *
    * @param quote - Quote
    * @returns Is it for seller?
    */
@@ -133,7 +139,7 @@ export class QuoteSummarySellerEditComponentService {
     );
   }
 
-  protected checkAndReportPercentageSignIfMissing(
+  protected checkAndReportMissingPercentageSign(
     locale: string,
     formatter: Intl.NumberFormat,
     percentageSign?: string
@@ -213,9 +219,10 @@ export class QuoteSummarySellerEditComponentService {
   /**
    * Returns maximum number of decimal places for the percentage discount.
    * The value is read from the configuration, refer to attribute quote/maximumDecimalsForPercentageDiscount.
-   * In case this configuration is not present, default value is 8
+   * In case this configuration is not present, default value is 8.
    *
    * @returns Maximum number of decimal places for percentage discount
+   * @protected
    */
   protected retrieveMaxNumberOfDecimalPlaces() {
     return (
@@ -229,22 +236,22 @@ export class QuoteSummarySellerEditComponentService {
     groupingSeparator: string,
     decimalSeparator: string
   ): boolean {
-    const numberDecimalPlaces = this.retrieveMaxNumberOfDecimalPlaces();
+    const numberOfDecimalPlaces = this.retrieveMaxNumberOfDecimalPlaces();
     const regexEscape = '\\';
     const search: RegExp = new RegExp(regexEscape + groupingSeparator, 'g');
-    const woGrouping = input.replace(search, '');
-    const splitParts = woGrouping.split(decimalSeparator);
+    const withoutGroupingSeparator = input.replace(search, '');
+    const splitParts = withoutGroupingSeparator.split(decimalSeparator);
 
     if (splitParts.length > 2) {
       return true;
     }
     if (splitParts.length === 1) {
-      return Number.parseFloat(woGrouping) > 100;
+      return Number.parseFloat(withoutGroupingSeparator) > 100;
     }
 
     return (
       Number.parseFloat(splitParts[0]) > 100 ||
-      splitParts[1].length > numberDecimalPlaces
+      splitParts[1].length > numberOfDecimalPlaces
     );
   }
 }

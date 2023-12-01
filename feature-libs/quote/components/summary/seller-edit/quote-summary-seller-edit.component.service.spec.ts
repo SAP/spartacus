@@ -127,7 +127,7 @@ describe('QuoteSummarySellerEditComponentService', () => {
   describe('checkAndReportPercentageSignIfMissing', () => {
     it('should throw error in case we do not pass percentage sign', () => {
       expect(() =>
-        classUnderTest['checkAndReportPercentageSignIfMissing'](
+        classUnderTest['checkAndReportMissingPercentageSign'](
           'en',
           new Intl.NumberFormat('en', {
             style: 'percent',
