@@ -27,11 +27,11 @@ export function opfStatePersistenceFactory(
   return () => opfStatePersistenceService.initSync();
 }
 
-export function defaultOpfCtaScriptsComponentsConfig(): CmsConfig {
+export function defaultOpfBaseCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [OPF_BASE_FEATURE]: {
-        cmsComponents: ['OpfCtaScriptsComponent'],
+        cmsComponents: ['OpfCtaScriptsComponent', 'OpfQuickBuyComponent'],
       },
     },
   };
@@ -72,7 +72,7 @@ export function defaultOpfCtaScriptsComponentsConfig(): CmsConfig {
     // TODO OPF: uncomment once proper type and routing is set up
     provideDefaultConfig(defaultOpfRoutingConfig),
     provideConfigValidator(opfConfigValidator),
-    provideDefaultConfigFactory(defaultOpfCtaScriptsComponentsConfig),
+    provideDefaultConfigFactory(defaultOpfBaseCmsComponentsConfig),
   ],
 })
 export class OpfBaseRootModule {}

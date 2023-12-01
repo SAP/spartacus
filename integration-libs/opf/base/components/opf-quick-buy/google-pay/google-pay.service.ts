@@ -17,9 +17,9 @@ import {
 } from '@spartacus/storefront';
 
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
+import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { CartHandlerService } from '../cart-handler.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +28,7 @@ export class OpfGooglePayService {
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);
   protected itemCounterService = inject(ItemCounterService);
   protected currentProductService = inject(CurrentProductService);
-  protected cartHandlerService = inject(CartHandlerService);
+  protected opfCartHandlerService = inject(OpfCartHandlerService);
   protected opfPaymentFacade = inject(OpfPaymentFacade);
 
   protected readonly GOOGLE_PAY_JS_URL =
@@ -114,7 +114,7 @@ export class OpfGooglePayService {
   getShippingOptionParameters(): Observable<
     google.payments.api.ShippingOptionParameters | undefined
   > {
-    return this.cartHandlerService.getSupportedDeliveryModes().pipe(
+    return this.opfCartHandlerService.getSupportedDeliveryModes().pipe(
       take(1),
       map((modes) => {
         return {
@@ -142,7 +142,7 @@ export class OpfGooglePayService {
   setDeliveryAddress(
     address: google.payments.api.IntermediateAddress | undefined
   ): Observable<string> {
-    return this.cartHandlerService.setDeliveryAddress({
+    return this.opfCartHandlerService.setDeliveryAddress({
       firstName: 'Test',
       lastName: 'Test',
       country: {
@@ -157,7 +157,7 @@ export class OpfGooglePayService {
 
   setDeliveryMode(mode: string): Observable<DeliveryMode | undefined> {
     return mode !== 'shipping_option_unselected'
-      ? this.cartHandlerService.setDeliveryMode(mode)
+      ? this.opfCartHandlerService.setDeliveryMode(mode)
       : of(undefined);
   }
 
@@ -167,9 +167,9 @@ export class OpfGooglePayService {
       .pipe(
         take(1),
         switchMap((product: Product | null) => {
-          return this.cartHandlerService.deleteCurrentCart().pipe(
+          return this.opfCartHandlerService.deleteCurrentCart().pipe(
             switchMap(() => {
-              return this.cartHandlerService.addProductToCart(
+              return this.opfCartHandlerService.addProductToCart(
                 product?.code || '',
                 this.itemCounterService.getCounter()
               );
@@ -204,7 +204,7 @@ export class OpfGooglePayService {
       onPaymentAuthorized: (paymentDataResponse) => {
         console.log(paymentDataResponse);
         return new Promise((resolve) => {
-          self.cartHandlerService.getCurrentCartId().subscribe((cartId) => {
+          self.opfCartHandlerService.getCurrentCartId().subscribe((cartId) => {
             console.log(
               paymentDataResponse.paymentMethodData.tokenizationData.token
             );
@@ -262,23 +262,26 @@ export class OpfGooglePayService {
                 .subscribe(() => {
                   paymentDataRequestUpdate.newShippingOptionParameters =
                     shippingOptions;
-                  self.cartHandlerService.getCurrentCart().subscribe((cart) => {
-                    console.log(cart);
-                    self.cartHandlerService
-                      .getSelectedDeliveryMode()
-                      .subscribe((mode) => {
-                        if (
-                          paymentDataRequestUpdate?.newShippingOptionParameters
-                            ?.defaultSelectedOptionId
-                        ) {
-                          paymentDataRequestUpdate.newShippingOptionParameters.defaultSelectedOptionId =
-                            mode?.code;
-                        }
-                        paymentDataRequestUpdate.newTransactionInfo =
-                          self.getNewTransactionInfo(cart);
-                        resolve(paymentDataRequestUpdate);
-                      });
-                  });
+                  self.opfCartHandlerService
+                    .getCurrentCart()
+                    .subscribe((cart) => {
+                      console.log(cart);
+                      self.opfCartHandlerService
+                        .getSelectedDeliveryMode()
+                        .subscribe((mode) => {
+                          if (
+                            paymentDataRequestUpdate
+                              ?.newShippingOptionParameters
+                              ?.defaultSelectedOptionId
+                          ) {
+                            paymentDataRequestUpdate.newShippingOptionParameters.defaultSelectedOptionId =
+                              mode?.code;
+                          }
+                          paymentDataRequestUpdate.newTransactionInfo =
+                            self.getNewTransactionInfo(cart);
+                          resolve(paymentDataRequestUpdate);
+                        });
+                    });
                 });
             });
         });

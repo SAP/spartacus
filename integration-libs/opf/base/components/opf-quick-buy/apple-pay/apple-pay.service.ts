@@ -19,14 +19,14 @@ import {
 } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { WINDOW_TOKEN } from '@spartacus/opf/base/core';
+import { OpfCartHandlerService, WINDOW_TOKEN } from '@spartacus/opf/base/core';
 import {
   LocalCart,
   OpfOtpFacade,
   OpfPaymentFacade,
   PaymentMethod,
 } from '@spartacus/opf/base/root';
-import { CartHandlerService } from '../cart-handler.service';
+
 import { ApplePaySessionFactory } from './apple-pay-session/apple-pay-session.factory';
 import { ApplePayObservableFactory } from './observable/apple-pay-observable.factory';
 
@@ -58,7 +58,7 @@ export class ApplePayService {
   protected http = inject(HttpClient);
   protected opfOtpFacade = inject(OpfOtpFacade);
   protected opfPaymentFacade = inject(OpfPaymentFacade);
-  protected cartHandlerService = inject(CartHandlerService);
+  protected cartHandlerService = inject(OpfCartHandlerService);
 
   inProgress = false;
 

@@ -6,13 +6,13 @@
 
 import { Component, OnDestroy, inject } from '@angular/core';
 import { Product } from '@spartacus/core';
+import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
   CurrentProductService,
   ItemCounterService,
 } from '@spartacus/storefront';
 import { Subscription, combineLatest } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
-import { CartHandlerService } from '../../cart-handler.service';
 import { ApplePayService } from '../apple-pay.service';
 
 @Component({
@@ -23,7 +23,7 @@ export class ApplePayButtonComponent implements OnDestroy {
   protected applePayService = inject(ApplePayService);
   protected currentProductService = inject(CurrentProductService);
   protected itemCounterService = inject(ItemCounterService);
-  protected cartHandlerService = inject(CartHandlerService);
+  protected cartHandlerService = inject(OpfCartHandlerService);
 
   sub: Subscription;
   isApplePaySupported$ = this.applePayService.isApplePaySupported$().pipe(

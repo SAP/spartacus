@@ -36,7 +36,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class CartHandlerService {
+export class OpfCartHandlerService {
   protected activeCartFacade = inject(ActiveCartFacade);
   protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
   protected checkoutDeliveryAddressFacade = inject(
