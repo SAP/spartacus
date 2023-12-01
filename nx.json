@@ -13,18 +13,8 @@
     "test": {
       "cache": true
     },
-    "@nx/jest:jest": {
-      "cache": true,
-      "inputs": ["default", "^default"],
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
+    "e2e": {
+      "cache": true
     }
   }
 }
