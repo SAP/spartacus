@@ -4,9 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './actions';
-export * from './comments';
-export * from './config';
-export * from './header';
+export * from './comments/index';
+export * from './config/index';
+export * from './confirm-dialog/index';
+export * from './header/index';
+export * from './items/index';
+export * from './links/index';
+export * from './list/index';
 export * from './quote-components.module';
-export * from './list';
+export * from './summary/index';
