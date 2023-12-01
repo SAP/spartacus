@@ -631,10 +631,12 @@ export function checkQuoteCartIsEmpty(): void {
  *
  * @param isEditModeActive Indicates if the card is in edit mode
  */
-export function checkQuoteInformationCard(isEditModeActive: boolean): void {
+export function checkQuoteHeaderOverviewCardState(
+  isEditModeActive: boolean
+): void {
   log(
     'Verifies if the "Quote Information" card tile is in edit mode',
-    checkQuoteInformationCard.name
+    checkQuoteHeaderOverviewCardState.name
   );
   cy.get(headerOverviewComponentSelector).within(() => {
     cy.get('.card-body')
@@ -686,7 +688,7 @@ export function saveEditedData(): void {
     'Saves the edited date (quote name and its description) within the Quote Information card tile...',
     saveEditedData.name
   );
-  checkQuoteInformationCard(true);
+  checkQuoteHeaderOverviewCardState(true);
   cy.get(headerOverviewComponentSelector)
     .within(() => {
       cy.get('.card-body')
@@ -711,12 +713,12 @@ export function saveEditedData(): void {
  *
  * @param expectedQuoteInformationContent expected quote name
  */
-export function checkQuoteInformationCardContent(
+export function checkQuoteHeaderOverviewCardContent(
   expectedQuoteInformationContent: string
 ): void {
   log(
     'Verifies if the expected quote name equals the current quote name',
-    checkQuoteInformationCardContent.name
+    checkQuoteHeaderOverviewCardContent.name
   );
   cy.get(headerOverviewComponentSelector).within(() => {
     cy.get('.cx-card-paragraph-text').contains(expectedQuoteInformationContent);
@@ -741,7 +743,7 @@ export function clickEditPencil(): void {
         });
     })
     .then(() => {
-      checkQuoteInformationCard(true);
+      checkQuoteHeaderOverviewCardState(true);
     });
 }
 
