@@ -45,15 +45,30 @@ export class QuoteItemsComponentService {
   constructor() {
     this._quoteEntriesExpanded$.next(true);
   }
-
+  /**
+   * Signals that the quote entry section is expanded.
+   *
+   * @param expanded Quote entry section expanded?
+   */
   setQuoteEntriesExpanded(expanded: boolean): void {
     this._quoteEntriesExpanded$.next(expanded);
   }
-
+  /**
+   * Emits expanded state of the quote entries section.
+   *
+   * @returns Observable of boolean values telling if the quote entry section is expanded
+   */
   getQuoteEntriesExpanded(): Observable<boolean> {
     return this._quoteEntriesExpanded$;
   }
 
+  /**
+   * Retrieves observable of current quote entries (which can be read from a quote,
+   * a saved cart or an active cart, depending on the quote state and its edit status).
+   *
+   * @returns Observable of quote items data. The return structure also contains information
+   * about the type of the hosting document (quote, saved cart or active cart) and its edit status.
+   */
   retrieveQuoteEntries(): Observable<QuoteItemsData> {
     return this.userIdService.takeUserId().pipe(
       switchMap((userId) =>
