@@ -4,6 +4,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   GlobalMessageService,
+  LoggerService,
+  MockLoggerService,
   SiteContextActions,
   UserIdService,
 } from '@spartacus/core';
@@ -58,6 +60,7 @@ describe('Order Details effect', () => {
         { provide: OrderHistoryAdapter, useValue: {} },
         { provide: UserIdService, useClass: MockUserIdService },
         provideMockActions(() => actions$),
+        { provide: LoggerService, useClass: MockLoggerService },
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
