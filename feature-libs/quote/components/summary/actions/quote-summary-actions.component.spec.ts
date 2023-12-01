@@ -797,6 +797,26 @@ describe('QuoteSummaryActionsComponent', () => {
     });
   });
 
+  describe('isDesktop', () => {
+    it('should not render in desktop mode', () => {
+      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      fixture.detectChanges();
+
+      component['isDesktop']().subscribe((isMobile) => {
+        expect(isMobile).toBe(false);
+      });
+    });
+
+    it('should render in desktop mode', () => {
+      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+      fixture.detectChanges();
+
+      component['isDesktop']().subscribe((isMobile) => {
+        expect(isMobile).toBe(true);
+      });
+    });
+  });
+
   describe('handleResize', () => {
     it('should call handleResize method', (done) => {
       component.handleResize();
@@ -827,26 +847,6 @@ describe('QuoteSummaryActionsComponent', () => {
           '0'
         );
         done();
-      });
-    });
-  });
-
-  describe('isDesktop', () => {
-    it('should not render in desktop mode', () => {
-      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
-      fixture.detectChanges();
-
-      component['isDesktop']().subscribe((isMobile) => {
-        expect(isMobile).toBe(false);
-      });
-    });
-
-    it('should render in desktop mode', () => {
-      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
-      fixture.detectChanges();
-
-      component['isDesktop']().subscribe((isMobile) => {
-        expect(isMobile).toBe(true);
       });
     });
   });
