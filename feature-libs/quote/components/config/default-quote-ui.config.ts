@@ -100,5 +100,6 @@ export const defaultQuoteUIConfig: QuoteUIConfig = {
       expiryDate: 500,
     },
     confirmActionDialogMapping: defaultDialogMappings,
+    maximumDecimalsForPercentageDiscount: 8,
   },
 };
