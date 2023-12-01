@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, of } from 'rxjs';
+import { LoggerService, MockLoggerService } from '../logger';
 import { MockTranslationService } from './testing/mock-translation.service';
 import { TranslatePipe } from './translate.pipe';
 import { TranslationService } from './translation.service';
@@ -21,6 +22,7 @@ describe('TranslatePipe', () => {
         TranslatePipe,
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: ChangeDetectorRef, useClass: MockChangeDetectorRef },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
     pipe = TestBed.inject(TranslatePipe);
@@ -30,7 +32,7 @@ describe('TranslatePipe', () => {
 
   describe('transform', () => {
     it('should return falsy when input is undefined', () => {
-      const result = pipe.transform(undefined);
+      const result = pipe.transform(undefined as any);
       expect(result).toBeFalsy();
     });
 

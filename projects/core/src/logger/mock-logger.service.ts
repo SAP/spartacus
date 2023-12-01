@@ -4,5 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './logger.service';
-export * from './mock-logger.service';
+export class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
