@@ -348,7 +348,7 @@ function waitUntilQuoteExists(
         });
       })
       .then(() => {
-        if (elementFound === false) {
+        if (!elementFound) {
           if (--remainingAttempts > 0) {
             cy.log(
               'Quote not found yet. Remaining attempts: ' + remainingAttempts
