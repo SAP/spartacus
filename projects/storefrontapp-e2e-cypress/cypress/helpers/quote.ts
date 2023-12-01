@@ -933,7 +933,6 @@ export function checkItem(productId: string) {
   );
   cy.get(itemsComponentSelector).within(() => {
     cy.get('.cx-info').contains(productId);
-    // cy.get('.cx-table-item-container .cx-info').contains(productId);
   });
 }
 
