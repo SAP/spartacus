@@ -20,7 +20,6 @@ export class ApplePayObservableFactory {
       console.log('Supports version 3');
       return this.applePayObservableV3(config);
     }
-
     return throwError(new Error('Apple Pay not supported'));
   }
 
@@ -58,9 +57,7 @@ export class ApplePayObservableFactory {
 
         session.addEventListener('cancel', (event: Event) => {
           console.log('Cancel callback', event);
-          config.paymentCanceled().subscribe(() => {
-            observer.complete();
-          });
+          observer.error('canceled payment');
         });
 
         if (config.paymentMethodSelected) {
@@ -112,30 +109,11 @@ export class ApplePayObservableFactory {
                 observer.next(authResult);
                 observer.complete();
               } else {
-                handleUnspecifiedError;
+                handleUnspecifiedError(authResult?.errors[0]?.message);
               }
             },
-            complete: () => {},
-            error: () => {
-              handleUnspecifiedError;
-            },
-            // Method is responsible for placing delivery address as a payment address,
-            // so if was not successful, we know for sure that checkbox 'Same as delivery' should be unchecked
+            error: handleUnspecifiedError,
           });
-
-          // subscribe((authResult) => {
-          //   console.log('ApplePay payment auth result', authResult);
-          //   // const { authResult, payment } = result;
-          //   session.completePayment(authResult);
-          //   console.log('completePayment', authResult);
-          //   if (authResult) {
-          //     observer.next(authResult);
-          //     observer.complete();
-          //   } else {
-          //     handleUnspecifiedError;
-          //   }
-          //   // session.completePayment(authResult);
-          // }, handleUnspecifiedError);
         });
 
         console.log('Begining ApplePay payment session');

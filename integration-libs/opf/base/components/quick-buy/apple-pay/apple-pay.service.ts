@@ -15,6 +15,7 @@ import {
   map,
   switchMap,
   take,
+  tap,
 } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -87,7 +88,10 @@ export class ApplePayService {
       isPdp: true,
       total: {
         amount: '' + (product.price?.value as number) * quantity,
-        label: `${product?.name as string} x ${quantity as number}`,
+        label:
+          quantity > 1
+            ? `${product?.name as string} x ${quantity as number}`
+            : `${product?.name as string}`,
       },
     };
   }
@@ -131,28 +135,20 @@ export class ApplePayService {
         shippingMethodSelected: (event) =>
           this.handleShippingMethodSelected(event),
         paymentAuthorized: (event) => this.handlePaymentAuthorized(event),
-        paymentCanceled: () => this.handlePaymentCanceled(),
       })
       .pipe(
-        // map((success) => success),
-        // switchMap((payment, _) => this.placeOrderAfterPayment(payment)),
-        // catchError((error) => {
-        //   return throwError(error))
-        //   // this.cartHandlerService.deleteCurrentCart().subscribe((success) => {
-        //   //   console.log('deleteCurrentCart', success);
-        //   // });
-        //   // return throwError(error);
-        // }),
+        catchError((error) => {
+          return this.cartHandlerService.deleteCurrentCart().pipe(
+            tap((success) => console.log('delete cart:', success)),
+            switchMap(() => throwError(error))
+          );
+        }),
         finalize(() => {
           console.log('finalize');
+          this.cartHandlerService.deleteUserAddresses(this.localCart.addresses);
           this.inProgress = false;
         })
       );
-  }
-
-  protected handlePaymentCanceled(): Observable<boolean> {
-    console.log('handlePaymentCanceled');
-    return of(true); // this.cartHandlerService.deleteCurrentCart();
   }
 
   protected handleValidation(
@@ -208,29 +204,40 @@ export class ApplePayService {
     );
   }
 
+  protected convertAppleToOpfAddress(
+    addr: ApplePayJS.ApplePayPaymentContact,
+    partial?: boolean
+  ) {
+    const opfAddr = {
+      firstName: partial ? 'xxxx' : addr?.givenName,
+      lastName: partial ? 'xxxx' : addr?.familyName,
+      line1: partial ? 'xxxx' : addr?.addressLines?.[0],
+      line2: addr?.addressLines?.[1],
+      email: addr?.emailAddress,
+      town: addr?.locality,
+      district: addr?.administrativeArea,
+      postalCode: addr?.postalCode,
+      phone: addr?.phoneNumber,
+      country: {
+        isocode: addr?.countryCode,
+        name: addr?.country,
+      },
+      defaultAddress: false,
+    } as Address;
+    console.log('opfAddr', opfAddr);
+    return opfAddr;
+  }
+
   protected handleShippingContactSelected(
     _event: ApplePayJS.ApplePayShippingContactSelectedEvent
   ): Observable<any> {
     console.log('handleShippingContactSelected', _event);
 
-    const partialAddress: Address = {
-      email: _event.shippingContact.emailAddress,
-      firstName: 'xxxx',
-      lastName: 'xxxx',
-      line1: !!_event.shippingContact?.addressLines?.length
-        ? _event.shippingContact.addressLines[0]
-        : 'xxxx',
-      town: _event.shippingContact.locality,
-      postalCode: _event.shippingContact.postalCode,
-      country: {
-        isocode: _event.shippingContact.countryCode,
-        name: _event.shippingContact.country,
-      },
-      defaultAddress: false,
-      shippingAddress: false,
-      phone: _event.shippingContact.phoneNumber,
-      visibleInAddressBook: false,
-    };
+    const partialAddress: Address = this.convertAppleToOpfAddress(
+      _event.shippingContact,
+      true
+    );
+
     const result: ApplePayJS.ApplePayShippingContactUpdate = {
       newTotal: {
         amount: this.localCart.total.amount,
@@ -245,6 +252,9 @@ export class ApplePayService {
     };
 
     return this.cartHandlerService.setDeliveryAddress(partialAddress).pipe(
+      tap((addrId) => {
+        this.recordDeliveryAddress(addrId);
+      }),
       switchMap(() => this.cartHandlerService.getSupportedDeliveryModes()),
       take(1),
       map((modes) => {
@@ -293,7 +303,6 @@ export class ApplePayService {
         },
       ],
     };
-    console.log('ApplePay payment method update', result);
     return of(result);
   }
 
@@ -360,18 +369,9 @@ export class ApplePayService {
         } as ApplePayJS.ApplePayPaymentAuthorizationResult);
       })
     );
-
-    // this.inProgress = false;
-
-    // return of({
-    //   authResult: result,
-    //   payment: event.payment,
-    // });
   }
 
   fetchDeliveryModes() {
-    // this.activeCartFacade.addEmail('flolete@letlet.com');
-
     return this.cartHandlerService.checkStableCart().pipe(
       switchMap(() => {
         return this.cartHandlerService.getSupportedDeliveryModes();
@@ -413,6 +413,13 @@ export class ApplePayService {
     );
   }
 
+  protected recordDeliveryAddress(addrId: string) {
+    if (!this.localCart.addresses?.includes(addrId)) {
+      this.localCart.addresses?.push(addrId);
+    }
+    console.log('localCart.addresses', this.localCart.addresses);
+  }
+
   protected placeOrderAfterPayment(
     applePayPayment: ApplePayJS.ApplePayPayment
   ): Observable<boolean> {
@@ -421,43 +428,20 @@ export class ApplePayService {
     }
     const { shippingContact, billingContact } = applePayPayment;
     console.log('billingContact', billingContact);
-    const shippingAddress: Address = {
-      firstName: shippingContact?.givenName,
-      lastName: shippingContact?.familyName,
-      line1: shippingContact?.addressLines?.[0],
-      line2: shippingContact?.addressLines?.[1],
-      email: shippingContact?.emailAddress,
-      town: shippingContact?.locality,
-      district: shippingContact?.administrativeArea,
-      postalCode: shippingContact?.postalCode,
-      phone: shippingContact?.phoneNumber,
-      country: {
-        isocode: shippingContact?.countryCode,
-        name: shippingContact?.country,
-      },
-      defaultAddress: false,
-    };
-    const billingAddress: Address = {
-      firstName: billingContact?.givenName,
-      lastName: billingContact?.familyName,
-      line1: billingContact?.addressLines?.[0],
-      line2: billingContact?.addressLines?.[1],
-      email: billingContact?.emailAddress,
-      town: billingContact?.locality,
-      district: billingContact?.administrativeArea,
-      postalCode: billingContact?.postalCode,
-      phone: billingContact?.phoneNumber,
-      country: {
-        isocode: billingContact?.countryCode,
-        name: billingContact?.country,
-      },
-      defaultAddress: false,
-    };
+    if (!shippingContact || !billingContact) {
+      throw 'Contact empty';
+    }
+
     return this.cartHandlerService
-      .updateCurrentCartDeliveryAddress(shippingAddress)
+      .setDeliveryAddress(this.convertAppleToOpfAddress(shippingContact))
       .pipe(
+        tap((addrId) => {
+          this.recordDeliveryAddress(addrId);
+        }),
         switchMap(() => {
-          return this.cartHandlerService.setBillingAddress(billingAddress);
+          return this.cartHandlerService.setBillingAddress(
+            this.convertAppleToOpfAddress(billingContact)
+          );
         }),
         switchMap(() => this.cartHandlerService.getCurrentCartId()),
         switchMap((cartId) => {

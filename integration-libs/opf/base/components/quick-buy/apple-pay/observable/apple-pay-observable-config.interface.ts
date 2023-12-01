@@ -28,5 +28,4 @@ export interface ApplePayObservableConfig {
   paymentAuthorized: (
     event: ApplePayJS.ApplePayPaymentAuthorizedEvent
   ) => Observable<ApplePayJS.ApplePayPaymentAuthorizationResult>;
-  paymentCanceled: () => Observable<boolean>;
 }

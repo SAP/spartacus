@@ -136,7 +136,7 @@ export class OpfGooglePayService {
 
   setDeliveryAddress(
     address: google.payments.api.IntermediateAddress | undefined
-  ): Observable<boolean> {
+  ): Observable<string> {
     return this.cartHandlerService.setDeliveryAddress({
       firstName: 'Test',
       lastName: 'Test',

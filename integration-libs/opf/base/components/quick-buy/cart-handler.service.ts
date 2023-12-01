@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   DeleteCartFailEvent,
@@ -37,16 +37,16 @@ import {
   providedIn: 'root',
 })
 export class CartHandlerService {
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected userAddressService: UserAddressService,
-    protected multiCartFacade: MultiCartFacade,
-    protected userIdService: UserIdService,
-    protected eventService: EventService,
-    protected checkoutBillingAddressFacade: CheckoutBillingAddressFacade
-  ) {}
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+  protected checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected userAddressService = inject(UserAddressService);
+  protected multiCartFacade = inject(MultiCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected eventService = inject(EventService);
+  protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
 
   addProductToCart(
     productCode: string,
@@ -102,9 +102,12 @@ export class CartHandlerService {
   }
 
   setDeliveryAddress(address: Address) {
-    return this.checkoutDeliveryAddressFacade
-      .createAndSetAddress(address)
-      .pipe(switchMap(() => this.checkStableCart()));
+    return this.checkoutDeliveryAddressFacade.createAndSetAddress(address).pipe(
+      switchMap(() => this.checkStableCart()),
+      switchMap(() =>
+        this.getDeliveryAddress().pipe(map((address) => address?.id ?? ''))
+      )
+    );
   }
 
   setBillingAddress(address: Address) {
@@ -131,7 +134,10 @@ export class CartHandlerService {
           return this.setDeliveryAddress(newAddress);
         }
         return this.updateDeliveryAddress(address?.id as string, newAddress);
-      })
+      }),
+      switchMap(() =>
+        this.getDeliveryAddress().pipe(map((address) => address?.id ?? ''))
+      )
     );
   }
 
@@ -194,8 +200,15 @@ export class CartHandlerService {
     );
   }
 
+  deleteUserAddresses(addrIds: string[]) {
+    console.log('deleteUserAddresses');
+    addrIds.forEach((addrId) => {
+      console.log('deleteUserAddresses target', addrId);
+      this.userAddressService.deleteUserAddress(addrId);
+    });
+  }
+
   deleteCurrentCart() {
-    // return of({});
     return this.activeCartFacade.getActiveCartId().pipe(
       withLatestFrom(this.userIdService.getUserId()),
       take(1),

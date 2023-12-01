@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Address, Product } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import { OpfDynamicScript } from './opf.model';
 
 export interface DigitalWalletQuickBuy {
@@ -77,7 +77,7 @@ export interface LocalCart {
   product?: Product;
   quantity?: number;
   pickup?: boolean;
-  addresses?: Address[];
+  addresses: string[];
   total: {
     amount: string;
     label: string;
