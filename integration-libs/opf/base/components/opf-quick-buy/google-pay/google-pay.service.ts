@@ -7,6 +7,7 @@
 import { ElementRef, Injectable, inject } from '@angular/core';
 import { Product } from '@spartacus/core';
 import {
+  ActiveConfiguration,
   OpfPaymentFacade,
   OpfResourceLoaderService,
   PaymentMethod,
@@ -33,6 +34,10 @@ export class OpfGooglePayService {
 
   protected readonly GOOGLE_PAY_JS_URL =
     'https://pay.google.com/gp/p/js/pay.js';
+
+  protected activeConfiguration: ActiveConfiguration = {};
+
+  protected shippingAddressId: string;
 
   protected googlePaymentClient: google.payments.api.PaymentsClient;
 
@@ -91,7 +96,9 @@ export class OpfGooglePayService {
     ]);
   }
 
-  initClient(): void {
+  initClient(activeConfguration: ActiveConfiguration): void {
+    this.activeConfiguration = activeConfguration;
+
     this.googlePaymentClient = new google.payments.api.PaymentsClient(
       this.googlePaymentClientOptions
     );
@@ -205,6 +212,10 @@ export class OpfGooglePayService {
         console.log(paymentDataResponse);
         return new Promise((resolve) => {
           self.opfCartHandlerService.getCurrentCartId().subscribe((cartId) => {
+            console.log('THIS CART:');
+
+            console.log(self.shippingAddressId);
+
             console.log(
               paymentDataResponse.paymentMethodData.tokenizationData.token
             );
@@ -223,16 +234,23 @@ export class OpfGooglePayService {
               .subscribe(
                 (result) => {
                   console.log(result);
+                  this.opfCartHandlerService.deleteUserAddresses([
+                    this.shippingAddressId || '',
+                  ]);
                   resolve({ transactionState: 'SUCCESS' });
                 },
                 (error) => {
                   console.log(error);
+                  this.opfCartHandlerService.deleteUserAddresses([
+                    this.shippingAddressId || '',
+                  ]);
                   resolve({ transactionState: 'SUCCESS' });
                 },
                 () => {
+                  this.opfCartHandlerService.deleteUserAddresses([
+                    this.shippingAddressId || '',
+                  ]);
                   resolve({ transactionState: 'SUCCESS' });
-                  // 'onCompleted' callback.
-                  // No errors, route to new page here
                 }
               );
           });
@@ -249,7 +267,12 @@ export class OpfGooglePayService {
 
           self
             .setDeliveryAddress(intermediatePaymentData.shippingAddress)
-            .pipe(switchMap(() => self.getShippingOptionParameters()))
+            .pipe(
+              tap((addressId) => {
+                self.shippingAddressId = addressId;
+              }),
+              switchMap(() => self.getShippingOptionParameters())
+            )
             .subscribe((shippingOptions) => {
               self
                 .setDeliveryMode(
@@ -265,7 +288,6 @@ export class OpfGooglePayService {
                   self.opfCartHandlerService
                     .getCurrentCart()
                     .subscribe((cart) => {
-                      console.log(cart);
                       self.opfCartHandlerService
                         .getSelectedDeliveryMode()
                         .subscribe((mode) => {

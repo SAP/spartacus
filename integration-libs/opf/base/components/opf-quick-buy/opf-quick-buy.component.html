@@ -16,5 +16,6 @@
     *ngIf="
       isPaymentMethodEnabled(PAYMENT_METHODS.GOOGLE_PAY, paymentGatewayConfig)
     "
+    [activeConfiguration]="paymentGatewayConfig"
   ></cx-opf-google-pay>
 </ng-container>

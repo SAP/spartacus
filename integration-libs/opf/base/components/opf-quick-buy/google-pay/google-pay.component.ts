@@ -8,10 +8,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Input,
   OnInit,
   ViewChild,
   inject,
 } from '@angular/core';
+import { ActiveConfiguration } from '@spartacus/opf/base/root';
 import { OpfGooglePayService } from './google-pay.service';
 
 @Component({
@@ -22,11 +24,13 @@ import { OpfGooglePayService } from './google-pay.service';
 export class OpfGooglePayComponent implements OnInit {
   protected opfGooglePayService = inject(OpfGooglePayService);
 
+  @Input() activeConfiguration: ActiveConfiguration;
+
   @ViewChild('googlePayButtonContainer') googlePayButtonContainer: ElementRef;
 
   ngOnInit(): void {
     this.opfGooglePayService.loadProviderResources().then(() => {
-      this.opfGooglePayService.initClient();
+      this.opfGooglePayService.initClient(this.activeConfiguration);
       this.opfGooglePayService.renderPaymentButton(
         this.googlePayButtonContainer
       );
