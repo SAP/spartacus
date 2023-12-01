@@ -80,7 +80,7 @@ export function checkQuoteListContainsQuoteId() {
   );
   cy.get('@quoteId').then((quoteId) => {
     cy.get(listComponentSelector).within(() => {
-      cy.get('tr').contains('td.cx-code', `${quoteId}`).should('be.visible');
+      cy.get('tr').contains('.cx-code', `${quoteId}`).should('be.visible');
     });
   });
 }
@@ -98,10 +98,10 @@ export function checkQuoteStatusInQuoteList(status: string) {
   cy.get('@quoteId').then((quoteId) => {
     cy.get(listComponentSelector).within(() => {
       cy.get('tr')
-        .contains('td.cx-code', `${quoteId}`)
+        .contains('.cx-code', `${quoteId}`)
         .parent()
         .within(() => {
-          cy.get('td.cx-status').contains('td.cx-status', status);
+          cy.get('.cx-status').contains('.cx-status', status);
         });
     });
   });
@@ -341,7 +341,7 @@ function waitUntilQuoteExists(
   cy.get('@quoteId').then((quoteId) => {
     cy.get(listComponentSelector)
       .within(() => {
-        cy.get('td.cx-code').then((elem) => {
+        cy.get('.cx-code').then((elem) => {
           if (elem.text().includes(`${quoteId}`)) {
             elementFound = true;
           }
