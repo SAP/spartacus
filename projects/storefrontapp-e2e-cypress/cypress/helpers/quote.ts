@@ -302,23 +302,12 @@ export function prepareSellerQuote(
 }
 
 /**
- * Verifies whether the account page template is displayed.
- */
-export function checkAccountPageTemplateDisplayed() {
-  log(
-    'Verifies whether the account page template is displayed',
-    checkAccountPageTemplateDisplayed.name
-  );
-  cy.get('.AccountPageTemplate').should('be.visible');
-}
-
-/**
  * Verifies if the most recent created quote of the buyer is available for the seller.
  */
 function checkQuoteAvailableForSeller() {
   cy.visit(QUOTE_LIST_PATH).then(() => {
     cy.location('pathname').should('contain', QUOTE_LIST_PATH);
-    checkAccountPageTemplateDisplayed();
+    checkQuoteListDisplayed();
   });
   waitUntilQuoteExists(5, QUOTE_LIST_PATH);
 }
@@ -357,9 +346,8 @@ function waitUntilQuoteExists(
               cy.location('pathname')
                 .should('contain', quoteListPath)
                 .then(() => {
-                  checkAccountPageTemplateDisplayed();
+                  checkQuoteListDisplayed();
                 });
-
               return cy.wait(1000).then(() => {
                 return waitUntilQuoteExists(remainingAttempts, quoteListPath);
               });
@@ -1132,7 +1120,7 @@ export function goToQuoteListPage(): void {
   const location = `${SHOP_NAME}/en/USD/my-account/quotes`;
   cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
-    checkAccountPageTemplateDisplayed();
+    checkQuoteListDisplayed();
   });
 }
 
