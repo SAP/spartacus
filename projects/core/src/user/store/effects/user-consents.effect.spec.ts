@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
+import { LoggerService, MockLoggerService } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
@@ -38,6 +39,7 @@ describe('User Consents effect', () => {
       providers: [
         fromEffect.UserConsentsEffect,
         { provide: UserConsentAdapter, useClass: MockOccUserAdapter },
+        { provide: LoggerService, useClass: MockLoggerService },
         provideMockActions(() => actions$),
       ],
     });
@@ -111,7 +113,7 @@ describe('User Consents effect', () => {
         consentTemplateVersion,
       });
       const completion = new UserActions.GiveUserConsentFail(
-        normalizeHttpError(mockError)
+        normalizeHttpError(mockError, new MockLoggerService())
       );
       const closeMessage = new GlobalMessageActions.RemoveMessagesByType(
         GlobalMessageType.MSG_TYPE_ERROR
@@ -138,7 +140,7 @@ describe('User Consents effect', () => {
         consentTemplateVersion,
       });
       const completion = new UserActions.GiveUserConsentFail(
-        normalizeHttpError(mockError)
+        normalizeHttpError(mockError, new MockLoggerService())
       );
 
       actions$ = hot('-a', { a: action });

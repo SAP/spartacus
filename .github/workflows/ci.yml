@@ -50,7 +50,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Cache node_modules
@@ -93,7 +93,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Cache node_modules
@@ -128,7 +128,7 @@ jobs:
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Cache node_modules
@@ -161,7 +161,7 @@ jobs:
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Cache node_modules
@@ -197,7 +197,7 @@ jobs:
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Cache node_modules
