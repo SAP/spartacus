@@ -47,6 +47,7 @@ export class MyAccountV2EmailComponent implements OnInit {
   onEdit(): void {
     this.isEditing = true;
     this.showingAlert = true;
+    this.form.reset();
   }
 
   cancelEdit(): void {

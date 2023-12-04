@@ -28,6 +28,7 @@ export class MyAccountV2ProfileComponent implements OnInit {
   titles$: Observable<Title[]> = this.service.titles$;
   user$: Observable<User> = this.service.user$;
   isEditing: boolean;
+  originalEditValue: User;
 
   onSubmit(): void {
     this.service.updateProfile();
@@ -38,9 +39,11 @@ export class MyAccountV2ProfileComponent implements OnInit {
 
   cancelEdit(): void {
     this.isEditing = false;
+    this.form.setValue(this.originalEditValue);
   }
 
   onEdit(): void {
     this.isEditing = true;
+    this.originalEditValue =  this.form.value;
   }
 }
