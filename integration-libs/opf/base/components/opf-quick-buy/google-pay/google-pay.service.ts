@@ -90,6 +90,12 @@ export class OpfGooglePayService {
     },
   };
 
+  protected initialTransactionInfo: google.payments.api.TransactionInfo = {
+    totalPrice: '0.00',
+    totalPriceStatus: 'ESTIMATED',
+    currencyCode: 'USD',
+  };
+
   loadProviderResources(): Promise<void> {
     return this.opfResourceLoaderService.loadProviderResources([
       { url: this.GOOGLE_PAY_JS_URL },
@@ -137,11 +143,17 @@ export class OpfGooglePayService {
   getNewTransactionInfo(
     cart: Cart
   ): google.payments.api.TransactionInfo | undefined {
-    return {
-      totalPrice: (cart?.totalPriceWithTax?.value || 0).toString(),
-      currencyCode: cart?.totalPriceWithTax?.currencyIso?.toString(),
-      totalPriceStatus: 'FINAL',
-    };
+    let transactionInfo: google.payments.api.TransactionInfo | undefined;
+    const priceInfo = cart?.totalPriceWithTax;
+    if (priceInfo && priceInfo.value && priceInfo.currencyIso) {
+      transactionInfo = {
+        totalPrice: priceInfo.value.toString(),
+        currencyCode: priceInfo.currencyIso.toString(),
+        totalPriceStatus: 'FINAL',
+      };
+    }
+
+    return transactionInfo;
   }
 
   setDeliveryAddress(
@@ -198,8 +210,10 @@ export class OpfGooglePayService {
             tap(() => {
               this.updateTransactionInfo({
                 totalPrice: this.estimateTotalPrice(product?.price?.value),
-                currencyCode: product?.price?.currencyIso,
-                totalPriceStatus: 'ESTIMATED',
+                currencyCode:
+                  product?.price?.currencyIso ||
+                  this.initialTransactionInfo.currencyCode,
+                totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
               });
             })
           );
@@ -234,12 +248,11 @@ export class OpfGooglePayService {
                     paymentSessionId: '',
                     cartId,
                     callbackArray: [() => {}, () => {}, () => {}],
-
                     paymentMethod: PaymentMethod.GOOGLE_PAY,
-                    encryptedToken: btoa(
+                    encryptedToken: Buffer.from(
                       paymentDataResponse.paymentMethodData.tokenizationData
                         .token
-                    ),
+                    ).toString('base64'),
                   })
                   .subscribe(
                     () => {
