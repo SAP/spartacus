@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { StateUtils } from '@spartacus/core';
+import { OCC_USER_ID_CURRENT, StateUtils } from '@spartacus/core';
 import { OrderHistoryList } from '@spartacus/order/root';
 import { OrderActions } from '../actions/index';
 import { ORDER_FEATURE, StateWithOrder } from '../order-state';
@@ -79,6 +79,27 @@ describe('Orders Selectors', () => {
 
       store.dispatch(new OrderActions.LoadUserOrdersSuccess(mockUserOrders));
       expect(result).toEqual(true);
+    });
+  });
+
+  describe("getOrdersLoading", () => {
+    it("should return loading flag of orders state", () => {
+      let result: boolean;
+      store
+        .pipe(select(OrderSelectors.getOrdersLoading))
+        .subscribe((value) => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new OrderActions.LoadUserOrders({
+        userId: OCC_USER_ID_CURRENT,
+        currentPage: 1,
+        pageSize: 5
+      }));
+      expect(result).toEqual(true);
+
+      store.dispatch(new OrderActions.LoadUserOrdersSuccess(mockUserOrders));
+      expect(result).toEqual(false);
     });
   });
 });

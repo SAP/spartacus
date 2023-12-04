@@ -93,6 +93,13 @@ export class OrderHistoryService implements OrderHistoryFacade {
   }
 
   /**
+   * Returns a loading flag for order history list
+   */
+  getOrderHistoryListLoading(): Observable<boolean> {
+    return this.store.pipe(select(OrderSelectors.getOrdersLoading));
+  }
+
+  /**
    * Retrieves an order list
    * @param pageSize page size
    * @param currentPage current page
