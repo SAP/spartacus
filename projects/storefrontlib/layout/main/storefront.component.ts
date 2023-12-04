@@ -26,7 +26,6 @@ import { StorefrontOutlets } from './storefront-outlets.model';
 @Component({
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
-  host: { ngSkipHydration: 'true' },
 })
 export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;
