@@ -25,6 +25,7 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { cold } from 'jasmine-marbles';
 import {
   createEmptyQuote,
   EXPIRATION_DATE_AS_STRING,
@@ -59,9 +60,8 @@ const mockQuote: Quote = {
 
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
 const formatter = new Intl.NumberFormat('en', {
-  style: 'currency',
-  currency: 'USD',
-  currencyDisplay: 'narrowSymbol',
+  style: 'percent',
+  maximumFractionDigits: 3,
 });
 
 let uiConfig: QuoteUIConfig;
@@ -73,7 +73,7 @@ class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   addDiscount = createSpy();
   editQuote = createSpy();
 }
-
+let quoteIsEditable = true;
 class MockQuoteHeaderSellerEditComponentService {
   parseDiscountValue() {
     return of(0);
@@ -84,7 +84,7 @@ class MockQuoteHeaderSellerEditComponentService {
   getLocalizationElements() {
     return of({
       locale: 'en',
-      currencySymbol: '$',
+      percentageSign: '%',
       formatter: formatter,
     });
   }
@@ -94,7 +94,7 @@ class MockQuoteHeaderSellerEditComponentService {
     };
   }
   isEditable(): boolean {
-    return true;
+    return quoteIsEditable;
   }
   addTimeToDate(): string {
     return EXPIRATION_TIME_AS_STRING;
@@ -166,20 +166,12 @@ describe('QuoteSummarySellerEditComponent', () => {
     quoteFacade = TestBed.inject(QuoteFacade);
     mockQuote.quoteDiscounts = {};
     mockQuoteDetails$.next(mockQuote);
+    quoteIsEditable = true;
   });
 
   it('should create component', () => {
     expect(component).toBeDefined();
     expect(quoteFacade).toBeDefined();
-  });
-
-  it('should emit data for in case seller status is provided', (done) => {
-    component.quoteDetailsForSeller$
-      .subscribe((quote) => {
-        expect(quote.code).toBe(QUOTE_CODE);
-        done();
-      })
-      .unsubscribe();
   });
 
   it('should unsubscribe subscription on ngOnDestroy', () => {
@@ -188,16 +180,45 @@ describe('QuoteSummarySellerEditComponent', () => {
     expect(spyUnsubscribe).toHaveBeenCalled();
   });
 
-  describe('ngOnInit', () => {
-    it('should provide initial value for discount control', () => {
+  describe('quoteDetailsForSeller$ observable', () => {
+    it('should emit data in case it is editable for seller', () => {
+      component.quoteDetailsForSeller$
+        .subscribe((quote) => {
+          expect(quote).toBe(mockQuote);
+        })
+        .unsubscribe();
+    });
+
+    it('should not emit data in case quote is not editable for seller', () => {
+      quoteIsEditable = false;
+
+      expect(component.quoteDetailsForSeller$).toBeObservable(cold(''));
+    });
+  });
+
+  describe('quoteDetailsForSeller$ observable (after emission)', () => {
+    it('should provide initial value for discount control in case quote does not carry discount', () => {
       fixture.detectChanges();
       expect(component.form.controls.discount.value).toBe(null);
     });
 
-    it('should provide formatted value for discount control in case a discount exists', () => {
-      mockQuote.quoteDiscounts = { value: 1 };
+    it('should provide placeholder for discount control in case quote does not carry discount', () => {
       fixture.detectChanges();
-      expect(component.form.controls.discount.value).toBe('$1.00');
+      expect(component.discountPlaceholder).toBe('%');
+    });
+
+    it('should provide formatted value for discount control in case a discount exists', () => {
+      mockQuote.sapQuoteDiscountsRate = 1;
+      mockQuote.sapQuoteDiscountsType = QuoteDiscountType.PERCENT;
+      fixture.detectChanges();
+      expect(component.form.controls.discount.value).toBe('1%');
+    });
+
+    it('should not provide value for discount control in case a discount exists but it is not of type percent', () => {
+      mockQuote.sapQuoteDiscountsRate = 1;
+      mockQuote.sapQuoteDiscountsType = QuoteDiscountType.ABSOLUTE;
+      fixture.detectChanges();
+      expect(component.form.controls.discount.value).toBe(null);
     });
 
     it('should provide initial value for expiry date control', () => {
@@ -229,13 +250,30 @@ describe('QuoteSummarySellerEditComponent', () => {
       component.form.controls.discount.setValue(0);
       const expectedDiscount: QuoteDiscount = {
         discountRate: component.form.controls.discount.value,
-        discountType: QuoteDiscountType.ABSOLUTE,
+        discountType: QuoteDiscountType.PERCENT,
       };
       component.onApply(QUOTE_CODE);
       expect(quoteFacade.addDiscount).toHaveBeenCalledWith(
         QUOTE_CODE,
         expectedDiscount
       );
+    });
+
+    it('should call corresponding facade method once even if multiple invocations occur', () => {
+      component.form.controls.discount.setValue(0);
+      component.onApply(QUOTE_CODE);
+      expect(quoteFacade.addDiscount).toHaveBeenCalledTimes(1);
+      component.onApply(QUOTE_CODE);
+      expect(quoteFacade.addDiscount).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call corresponding facade again after quoteDetailsForSeller$ has emitted', () => {
+      component.form.controls.discount.setValue(0);
+      component.onApply(QUOTE_CODE);
+      expect(quoteFacade.addDiscount).toHaveBeenCalledTimes(1);
+      fixture.detectChanges();
+      component.onApply(QUOTE_CODE);
+      expect(quoteFacade.addDiscount).toHaveBeenCalledTimes(2);
     });
   });
 

@@ -7,39 +7,38 @@
 import { getLocaleNumberSymbol, NumberSymbol } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { CurrencyService, LanguageService, TimeUtils } from '@spartacus/core';
+import { LanguageService, TimeUtils } from '@spartacus/core';
 import { Quote, QuoteState } from '@spartacus/quote/root';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { QuoteUIConfig } from '../../config/quote-ui.config';
 
 export type LocalizationElements = {
   locale: string;
   formatter: Intl.NumberFormat;
-  /**
-   * A currency symbol where that is available, currency ISO code otherwise
-   */
-  currencySymbol: string;
+  percentageSign: string;
 };
 
 /**
- * Provides validation and formatting of numeric input
+ * Provides validation and formatting of numeric input.
  */
 @Injectable({ providedIn: 'root' })
 export class QuoteSummarySellerEditComponentService {
-  protected currencyService = inject(CurrencyService);
   protected languageService = inject(LanguageService);
+  protected quoteUIConfig = inject(QuoteUIConfig);
+  private readonly maximumDecimalsForPercentageDiscountDefault = 8;
 
   /**
    * Parses a discount value to numeric format.
    *
-   * @param input - Discount as string, can include currency symbol, decimal and grouping separators
+   * @param input - Discount as string, can include unit symbol, decimal and grouping separators
    * @returns Observable of discount as number
    */
   parseDiscountValue(input: string | undefined | null): Observable<number> {
     return this.getLocalizationElements().pipe(
       map((localizationElements) => {
         if (input) {
-          input = input.replace(localizationElements.currencySymbol, '');
+          input = input.replace(localizationElements.percentageSign, '');
           return this.parseInput(input, localizationElements.locale);
         } else {
           return 0;
@@ -49,7 +48,8 @@ export class QuoteSummarySellerEditComponentService {
   }
 
   /**
-   * Retrieves formatter according to current locale and currency
+   * Retrieves formatter according to current locale and unit.
+   *
    * @returns Observable of formatters
    */
   getFormatter(): Observable<Intl.NumberFormat> {
@@ -59,25 +59,21 @@ export class QuoteSummarySellerEditComponentService {
   }
 
   /**
-   * Retrieves localization elements according to current locale and currency
+   * Retrieves localization elements according to current locale and unit.
+   *
    * @returns Observables of localization elements
    */
   getLocalizationElements(): Observable<LocalizationElements> {
-    return combineLatest([
-      this.currencyService.getActive(),
-      this.languageService.getActive(),
-    ]).pipe(
-      map(([currency, locale]) => {
+    return this.languageService.getActive().pipe(
+      map((locale) => {
         const formatter = new Intl.NumberFormat(locale, {
-          style: 'currency',
-          currency: currency,
-          currencyDisplay: 'narrowSymbol',
+          style: 'percent',
+          maximumFractionDigits: this.retrieveMaxNumberOfDecimalPlaces(),
         });
-        //Symbol for currencies with symbol available, currency ISO code otherwise
         const symbol = formatter
           .formatToParts(0)
-          .find((x) => x.type === 'currency');
-        return this.checkAndReportCurrencyIfMissing(
+          .find((x) => x.type === 'percentSign');
+        return this.checkAndReportMissingPercentageSign(
           locale,
           formatter,
           symbol?.value
@@ -87,33 +83,25 @@ export class QuoteSummarySellerEditComponentService {
   }
 
   /**
-   * Retrieves number format validator according to inputs
+   * Retrieves number format validator according to inputs.
+   *
    * @param locale - Current locale
-   * @param currency - Currency
-   * @param numberTotalPlaces - Number of maximum total places
+   * @param unit - Unit
    * @returns Formatter that can be attached to a form control
    */
-  getNumberFormatValidator(
-    locale: string,
-    currency: string,
-    numberTotalPlaces: number
-  ): ValidatorFn {
+  getNumberFormatValidator(locale: string, unit: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const input = control.value?.trim();
       if (input) {
-        return this.getValidationErrorsNumericFormat(
-          input,
-          locale,
-          currency,
-          numberTotalPlaces
-        );
+        return this.getValidationErrorsNumericFormat(input, locale, unit);
       }
       return null;
     };
   }
 
   /**
-   * Adds current time and time zone to a date. Result is a timestamp string that can be handed over to OCC
+   * Adds current time and time zone to a date. Result is a timestamp string that can be handed over to OCC.
+   *
    * @param date - Date as string
    * @returns Timestamp as string
    */
@@ -127,7 +115,8 @@ export class QuoteSummarySellerEditComponentService {
   }
 
   /**
-   * Removes time portion from timestamp
+   * Removes time portion from timestamp.
+   *
    * @param timestamp - Timestamp as string
    * @returns Date portion of timestamp
    */
@@ -136,7 +125,8 @@ export class QuoteSummarySellerEditComponentService {
   }
 
   /**
-   * Verifies if quote state belongs to seller and can be edited
+   * Verifies if quote state belongs to seller and can be edited.
+   *
    * @param quote - Quote
    * @returns Is it for seller?
    */
@@ -149,32 +139,15 @@ export class QuoteSummarySellerEditComponentService {
     );
   }
 
-  /**
-   * Retrieves maximum number of decimal places. This supports validation, but it is not sufficient to do a complete validation,
-   * cases where the granted discount exceeds the total quote value by 1 are not covered (covered in OCC call).
-   * Still we want to inform the user as early as possible.
-   * Note that we assume currencies always come with 2 decimal places. In case this is not desired, this service can be overridden.
-   * @param quote - Quote
-   * @returns Maximum number of places, including 2 decimal places
-   */
-  getMaximumNumberOfTotalPlaces(quote: Quote): number {
-    const numberOfDecimalPlaces = 2;
-    const maximum = Math.max(
-      quote.totalPrice.value ?? 1,
-      quote.quoteDiscounts?.value ?? 1
-    );
-    return Math.floor(Math.log10(maximum)) + 1 + numberOfDecimalPlaces;
-  }
-
-  protected checkAndReportCurrencyIfMissing(
+  protected checkAndReportMissingPercentageSign(
     locale: string,
     formatter: Intl.NumberFormat,
-    currency?: string
+    percentageSign?: string
   ): LocalizationElements {
-    if (currency) {
-      return { locale, formatter, currencySymbol: currency };
+    if (percentageSign) {
+      return { locale, formatter, percentageSign: percentageSign };
     } else {
-      throw new Error('Currency must have symbol or ISO code');
+      throw new Error('No percentage sign present');
     }
   }
 
@@ -207,10 +180,9 @@ export class QuoteSummarySellerEditComponentService {
   protected getValidationErrorsNumericFormat(
     input: string,
     locale: string,
-    currency: string,
-    numberTotalPlaces: number
+    unit: string
   ): { [key: string]: any } | null {
-    input = input.replace(currency, '').trim();
+    input = input.replace(unit, '').trim();
 
     const groupingSeparator = getLocaleNumberSymbol(locale, NumberSymbol.Group);
     const decimalSeparator = getLocaleNumberSymbol(
@@ -230,11 +202,10 @@ export class QuoteSummarySellerEditComponentService {
       return this.createValidationError(true);
     }
     return this.createValidationError(
-      this.performValidationAccordingToMetaData(
+      this.performValidationForPercentageValue(
         input,
         groupingSeparator,
-        decimalSeparator,
-        numberTotalPlaces
+        decimalSeparator
       )
     );
   }
@@ -245,28 +216,42 @@ export class QuoteSummarySellerEditComponentService {
     return isError ? { wrongFormat: {} } : null;
   }
 
-  protected performValidationAccordingToMetaData(
+  /**
+   * Returns maximum number of decimal places for the percentage discount.
+   * The value is read from the configuration, refer to attribute quote/maximumDecimalsForPercentageDiscount.
+   * In case this configuration is not present, default value is 8.
+   *
+   * @returns Maximum number of decimal places for percentage discount
+   * @protected
+   */
+  protected retrieveMaxNumberOfDecimalPlaces() {
+    return (
+      this.quoteUIConfig?.quote?.maximumDecimalsForPercentageDiscount ??
+      this.maximumDecimalsForPercentageDiscountDefault
+    );
+  }
+
+  protected performValidationForPercentageValue(
     input: string,
     groupingSeparator: string,
-    decimalSeparator: string,
-    numberTotalPlaces: number
+    decimalSeparator: string
   ): boolean {
-    const numberDecimalPlaces = 2;
+    const numberOfDecimalPlaces = this.retrieveMaxNumberOfDecimalPlaces();
     const regexEscape = '\\';
     const search: RegExp = new RegExp(regexEscape + groupingSeparator, 'g');
-    const woGrouping = input.replace(search, '');
-    const splitParts = woGrouping.split(decimalSeparator);
+    const withoutGroupingSeparator = input.replace(search, '');
+    const splitParts = withoutGroupingSeparator.split(decimalSeparator);
 
     if (splitParts.length > 2) {
       return true;
     }
     if (splitParts.length === 1) {
-      return woGrouping.length > numberTotalPlaces - numberDecimalPlaces;
+      return Number.parseFloat(withoutGroupingSeparator) > 100;
     }
 
     return (
-      splitParts[0].length > numberTotalPlaces - numberDecimalPlaces ||
-      splitParts[1].length > numberDecimalPlaces
+      Number.parseFloat(splitParts[0]) > 100 ||
+      splitParts[1].length > numberOfDecimalPlaces
     );
   }
 }

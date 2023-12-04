@@ -22,6 +22,8 @@ export interface OccQuote {
   previousEstimatedTotal?: Price;
   productDiscounts?: Price;
   quoteDiscounts?: Price;
+  sapQuoteDiscountsRate?: number;
+  sapQuoteDiscountsType?: QuoteDiscountType;
   state: QuoteState;
   subTotalWithDiscounts?: Price;
   threshold?: number;
@@ -86,7 +88,6 @@ export enum QuoteState {
 }
 
 export enum QuoteDiscountType {
-  //see https://jira.tools.sap/browse/CXEC-31800
   PERCENT = 'PERCENT',
   ABSOLUTE = 'ABSOLUTE',
 }

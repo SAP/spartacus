@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { CurrencyService, LanguageService, TimeUtils } from '@spartacus/core';
+import { LanguageService, TimeUtils } from '@spartacus/core';
 import { Quote, QuoteState } from '@spartacus/quote/root';
 import { Observable, of } from 'rxjs';
 import {
@@ -9,21 +9,23 @@ import {
   EXPIRATION_TIME_AS_STRING,
   createEmptyQuote,
 } from '../../../core/testing/quote-test-utils';
+import { QuoteUIConfig } from '../../config/quote-ui.config';
 import { QuoteSummarySellerEditComponentService } from './quote-summary-seller-edit.component.service';
 
 const TOTAL_PRICE = 1000;
-const DISCOUNT_RATE = 10000;
-class MockCurrencyService {
-  getActive(): Observable<string> {
-    return of('USD');
-  }
-}
 
 class MockLanguageService {
   getActive(): Observable<string> {
     return of('en');
   }
 }
+const maximumDecimalsForPercentageDiscount = 10;
+
+const quoteUIConfig: QuoteUIConfig = {
+  quote: {
+    maximumDecimalsForPercentageDiscount: maximumDecimalsForPercentageDiscount,
+  },
+};
 
 describe('QuoteSummarySellerEditComponentService', () => {
   let classUnderTest: QuoteSummarySellerEditComponentService;
@@ -32,8 +34,11 @@ describe('QuoteSummarySellerEditComponentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: LanguageService, useClass: MockLanguageService },
+        {
+          provide: QuoteUIConfig,
+          useValue: quoteUIConfig,
+        },
       ],
     }).compileComponents();
   });
@@ -111,23 +116,21 @@ describe('QuoteSummarySellerEditComponentService', () => {
   });
 
   describe('getFormatter', () => {
-    it('should return a formatter for currency display ', (done) => {
+    it('should return a formatter for percentage display ', (done) => {
       classUnderTest.getFormatter().subscribe((result) => {
-        expect(result.format(0)).toBe('$0.00');
+        expect(result.format(0)).toBe('0%');
         done();
       });
     });
   });
 
-  describe('checkAndReportCurrencyIfMissing', () => {
-    it('should throw error in case we do not find symbol or currency ISO code', () => {
+  describe('checkAndReportPercentageSignIfMissing', () => {
+    it('should throw error in case we do not pass percentage sign', () => {
       expect(() =>
-        classUnderTest['checkAndReportCurrencyIfMissing'](
+        classUnderTest['checkAndReportMissingPercentageSign'](
           'en',
           new Intl.NumberFormat('en', {
-            style: 'currency',
-            currency: 'ALL',
-            currencyDisplay: 'narrowSymbol',
+            style: 'percent',
           })
         )
       ).toThrowError();
@@ -157,57 +160,33 @@ describe('QuoteSummarySellerEditComponentService', () => {
     });
   });
 
-  describe('performValidationAccordingToMetaData', () => {
-    it('should accept input using group and decimal separators', () => {
+  describe('performValidationForPercentageValue', () => {
+    it('should accept input according to group and decimal separators', () => {
       expect(
-        classUnderTest['performValidationAccordingToMetaData'](
-          '1.000,76',
+        classUnderTest['performValidationForPercentageValue'](
+          '33,76%',
           '.',
-          ',',
-          10
+          ','
+        )
+      ).toBe(false);
+    });
+    it('should accept input even if a grouping separator is present somewhere', () => {
+      expect(
+        classUnderTest['performValidationForPercentageValue'](
+          '3.3,7.6%',
+          '.',
+          ','
         )
       ).toBe(false);
     });
     it('should not accept input with 2 decimal separators', () => {
       expect(
-        classUnderTest['performValidationAccordingToMetaData'](
+        classUnderTest['performValidationForPercentageValue'](
           '1,000,76',
           '.',
-          ',',
-          10
+          ','
         )
       ).toBe(true);
-    });
-  });
-
-  describe('getMaximumNumberOfTotalPlaces', () => {
-    it('should compile number of total places from total if no quote discount is present, taking 2 decimal points into account ', () => {
-      expect(classUnderTest.getMaximumNumberOfTotalPlaces(quote)).toBe(
-        TOTAL_PRICE.toFixed(0).length + 2
-      );
-    });
-
-    it('should compile number of total places for numbers not being a power of ten', () => {
-      const quote999: Quote = { ...quote, totalPrice: { value: 999 } };
-      const quote100: Quote = { ...quote, totalPrice: { value: 100 } };
-      expect(classUnderTest.getMaximumNumberOfTotalPlaces(quote999)).toBe(
-        classUnderTest.getMaximumNumberOfTotalPlaces(quote100)
-      );
-      expect(classUnderTest.getMaximumNumberOfTotalPlaces(quote)).toBe(
-        classUnderTest.getMaximumNumberOfTotalPlaces(quote999) + 1
-      );
-    });
-
-    it('should compile number of total places from absolute discount if that exceeds total ', () => {
-      quote.quoteDiscounts = { value: DISCOUNT_RATE };
-      expect(classUnderTest.getMaximumNumberOfTotalPlaces(quote)).toBe(
-        DISCOUNT_RATE.toFixed(0).length + 2
-      );
-    });
-
-    it('should fall back to price value 1 if no values are available at all (will not happen in production) ', () => {
-      quote.totalPrice.value = undefined;
-      expect(classUnderTest.getMaximumNumberOfTotalPlaces(quote)).toBe(3);
     });
   });
 
@@ -220,7 +199,7 @@ describe('QuoteSummarySellerEditComponentService', () => {
       form.controls.discount.setValue('$10');
       expect(
         classUnderTest
-          .getNumberFormatValidator('en', '$', 10)
+          .getNumberFormatValidator('en', '$')
           .apply({}, [form.controls.discount])
       ).toBeFalsy();
     });
@@ -229,7 +208,7 @@ describe('QuoteSummarySellerEditComponentService', () => {
       form.controls.discount.setValue('A');
       expect(
         classUnderTest
-          .getNumberFormatValidator('en', 'USD', 10)
+          .getNumberFormatValidator('en', '%')
           .apply({}, [form.controls.discount])
       ).toBeTruthy();
     });
@@ -238,9 +217,24 @@ describe('QuoteSummarySellerEditComponentService', () => {
       form.controls.discount.setValue(undefined);
       expect(
         classUnderTest
-          .getNumberFormatValidator('en', 'USD', 10)
+          .getNumberFormatValidator('en', '%')
           .apply({}, [form.controls.discount])
       ).toBeFalsy();
+    });
+  });
+
+  describe('retrieveMaxNumberOfDecimalPlaces', () => {
+    it('should return the number of decimal places from configuration', () => {
+      expect(classUnderTest['retrieveMaxNumberOfDecimalPlaces']()).toBe(
+        maximumDecimalsForPercentageDiscount
+      );
+    });
+
+    it('should return the number of decimal places as component default if configuration is not present', () => {
+      quoteUIConfig.quote = undefined;
+      expect(classUnderTest['retrieveMaxNumberOfDecimalPlaces']()).toBe(
+        classUnderTest['maximumDecimalsForPercentageDiscountDefault']
+      );
     });
   });
 });
