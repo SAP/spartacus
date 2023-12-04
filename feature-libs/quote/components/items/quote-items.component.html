@@ -1,4 +1,4 @@
-<ng-container *ngIf="quoteDetails$ | async as quoteDetails; else ghostCart">
+<ng-container *ngIf="quoteItemsData$ | async as quoteItemsData; else ghostCart">
   <ng-container *ngIf="{ showCart: showCart$ | async } as state">
     <div
       role="region"
@@ -21,34 +21,14 @@
       </div>
       <ng-container *ngIf="state.showCart">
         <ng-template
-          *ngIf="!quoteDetails.isEditable && quoteDetails.cartId === undefined"
-          [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-          [cxOutletContext]="{
-            items: quoteDetails.entries ?? [],
-            readonly: true
+          [cxAbstractOrderContext]="{
+            id: quoteItemsData.abstractOrderId,
+            type: quoteItemsData.abstractOrderType
           }"
-        >
-        </ng-template>
-        <ng-template
-          *ngIf="
-            !quoteDetails.isEditable &&
-            quoteDetails.cartId !== undefined &&
-            (quoteCartReadOnly$ | async) as quoteCartReadOnly
-          "
           [cxOutlet]="cartOutlets.CART_ITEM_LIST"
           [cxOutletContext]="{
-            items: quoteCartReadOnly.entries ?? [],
-            readonly: true
-          }"
-        >
-        </ng-template>
-
-        <ng-template
-          *ngIf="quoteDetails.isEditable && (activeCart$ | async) as activeCart"
-          [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-          [cxOutletContext]="{
-            items: activeCart.entries ?? [],
-            readonly: false
+            items: quoteItemsData.entries,
+            readonly: quoteItemsData.readOnly
           }"
         >
         </ng-template>
