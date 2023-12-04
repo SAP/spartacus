@@ -5,6 +5,8 @@
  */
 
 export * from './engine-decorator/index';
+export * from './engine/cx-express-engine';
 export * from './logger/index';
 export * from './optimized-engine/index';
 export * from './providers/index';
+export * from './tokens/express.tokens';

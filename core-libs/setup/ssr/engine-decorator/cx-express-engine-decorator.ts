@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgSetupOptions } from '@nguniversal/express-engine';
+import { CommonEngineOptions, CommonEngineRenderOptions } from '@angular/ssr';
 import {
   OptimizedSsrEngine,
   SsrCallbackFn,
@@ -15,43 +15,45 @@ import {
 } from '../optimized-engine/ssr-optimization-options';
 import { getServerRequestProviders } from '../providers/ssr-providers';
 
-export type NgExpressEngineInstance = (
+export type CxExpressEngineInstance = (
   filePath: string,
   options: object,
   callback: SsrCallbackFn
 ) => void;
 
-export type NgExpressEngine = (
-  setupOptions: Readonly<NgSetupOptions>
-) => NgExpressEngineInstance;
+export type CxExpressEngine = (
+  setupOptions: Readonly<CommonEngineRenderOptions & CommonEngineOptions>
+) => CxExpressEngineInstance;
 
 /**
  * The wrapper over the standard ngExpressEngine, that provides tokens for Spartacus
- * @param ngExpressEngine
+ * @param cxExpressEngine
  */
-export class NgExpressEngineDecorator {
+export class CxExpressEngineDecorator {
   /**
    * Returns the higher order ngExpressEngine with provided tokens for Spartacus
    *
-   * @param ngExpressEngine
+   * @param cxExpressEngine
    */
   static get(
-    ngExpressEngine: NgExpressEngine,
+    ngExpressEngine: CxExpressEngine,
     optimizationOptions?: SsrOptimizationOptions | null
-  ): NgExpressEngine {
+  ): CxExpressEngine {
     return decorateExpressEngine(ngExpressEngine, optimizationOptions);
   }
 }
 
 export function decorateExpressEngine(
-  ngExpressEngine: NgExpressEngine,
+  cxExpressEngine: CxExpressEngine,
   optimizationOptions:
     | SsrOptimizationOptions
     | null
     | undefined = defaultSsrOptimizationOptions
-): NgExpressEngine {
-  return function (setupOptions: NgSetupOptions) {
-    const engineInstance = ngExpressEngine({
+): CxExpressEngine {
+  return function (
+    setupOptions: CommonEngineRenderOptions & CommonEngineOptions
+  ) {
+    const engineInstance = cxExpressEngine({
       ...setupOptions,
       providers: [
         // add spartacus related providers

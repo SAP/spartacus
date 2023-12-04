@@ -5,11 +5,11 @@
  */
 
 import { APP_BASE_HREF } from '@angular/common';
-import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
-  NgExpressEngineDecorator,
+  CxExpressEngineDecorator,
   SsrOptimizationOptions,
   defaultSsrOptimizationOptions,
+  cxExpressEngine as engine,
 } from '@spartacus/setup/ssr';
 
 import { Express } from 'express';
@@ -29,7 +29,7 @@ const ssrOptions: SsrOptimizationOptions = {
   logger: true,
 };
 
-const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
+const cxExpressEngine = CxExpressEngineDecorator.get(engine, ssrOptions);
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
@@ -44,7 +44,7 @@ export function app() {
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine(
     'html',
-    ngExpressEngine({
+    cxExpressEngine({
       bootstrap: AppServerModule,
     })
   );

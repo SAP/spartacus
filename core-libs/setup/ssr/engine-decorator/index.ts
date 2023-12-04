@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export { NgExpressEngineDecorator } from './ng-express-engine-decorator';
+export { CxExpressEngineDecorator } from './cx-express-engine-decorator';

@@ -3,6 +3,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { TestBed } from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
 import { serverRequestOriginFactory } from './server-request-origin';
 
 jest.mock('@angular/core', () => {
@@ -15,6 +20,14 @@ jest.mock('@angular/core', () => {
 import { inject } from '@angular/core';
 
 describe('serverRequestOriginFactory', () => {
+  beforeAll(() => {
+    TestBed.initTestEnvironment(
+      BrowserDynamicTestingModule,
+      platformBrowserDynamicTesting(),
+      {}
+    );
+  });
+
   describe('when SERVER_REQUEST_ORIGIN is present', () => {
     it('should return SERVER_REQUEST_ORIGIN', () => {
       const mockOrigin = 'https://express.origin.com';

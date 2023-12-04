@@ -11,11 +11,24 @@ jest.mock('@angular/core', () => {
 });
 
 import { inject } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
 import { INITIAL_CONFIG } from '@angular/platform-server';
 import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
 import { serverRequestUrlFactory } from './server-request-url';
 
 describe('serverRequestUrlFactory', () => {
+  beforeAll(() => {
+    TestBed.initTestEnvironment(
+      BrowserDynamicTestingModule,
+      platformBrowserDynamicTesting(),
+      {}
+    );
+  });
+
   describe('when SERVER_REQUEST_URL is present', () => {
     it('should return SERVER_REQUEST_URL', () => {
       const mockOrigin = 'https://express.origin.com';

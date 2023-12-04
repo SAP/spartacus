@@ -1,3 +1,8 @@
+import { TestBed } from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
 import crypto from 'crypto';
 import { Request } from 'express';
 import { IncomingHttpHeaders } from 'http';
@@ -16,6 +21,14 @@ describe('RequestContext', () => {
   let dateSpy: jest.SpyInstance;
   let randomUUIDSpy: jest.SpyInstance;
   const mockDate = new Date('2023-09-07');
+
+  beforeAll(() => {
+    TestBed.initTestEnvironment(
+      BrowserDynamicTestingModule,
+      platformBrowserDynamicTesting(),
+      {}
+    );
+  });
 
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation();

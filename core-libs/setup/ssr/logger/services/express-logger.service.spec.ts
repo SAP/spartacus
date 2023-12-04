@@ -1,6 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
 import { Request } from 'express';
+import { REQUEST } from '../../tokens/express.tokens';
 import { EXPRESS_SERVER_LOGGER, ExpressServerLogger } from '../loggers';
 import { ExpressLoggerService } from './express-logger.service';
 
@@ -18,6 +22,14 @@ describe('ExpressLoggerService', () => {
   let request: Request;
   let logger: ExpressServerLogger;
   let loggerService: ExpressLoggerService;
+
+  beforeAll(() => {
+    TestBed.initTestEnvironment(
+      BrowserDynamicTestingModule,
+      platformBrowserDynamicTesting(),
+      {}
+    );
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({

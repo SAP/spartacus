@@ -7,7 +7,7 @@
 /* webpackIgnore: true */
 import { Request, Response } from 'express';
 import * as fs from 'fs';
-import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
+import { CxExpressEngineInstance } from '../engine-decorator/cx-express-engine-decorator';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import {
   DefaultExpressServerLogger,
@@ -63,12 +63,12 @@ export class OptimizedSsrEngine {
    */
   private renderCallbacks = new Map<string, SsrCallbackFn[]>();
 
-  get engineInstance(): NgExpressEngineInstance {
+  get engineInstance(): CxExpressEngineInstance {
     return this.renderResponse.bind(this);
   }
 
   constructor(
-    protected expressEngine: NgExpressEngineInstance,
+    protected expressEngine: CxExpressEngineInstance,
     protected ssrOptions?: SsrOptimizationOptions
   ) {
     this.ssrOptions = ssrOptions
