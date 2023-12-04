@@ -18,6 +18,7 @@ import {
 import { of, throwError } from 'rxjs';
 import { RequestedDeliveryDateFacade } from '../../facade/requested-delivery-date.facade';
 import { DeliveryModeDatePickerComponent } from './delivery-mode-date-picker.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('DeliveryModeDatePickerComponent', () => {
   let component: DeliveryModeDatePickerComponent;
@@ -47,7 +48,12 @@ describe('DeliveryModeDatePickerComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DeliveryModeDatePickerComponent],
-      imports: [I18nTestingModule, DatePickerModule, CardModule],
+      imports: [
+        I18nTestingModule,
+        DatePickerModule,
+        CardModule,
+        ReactiveFormsModule,
+      ],
       providers: [
         CxDatePipe,
         EventService,
