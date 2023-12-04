@@ -11,17 +11,13 @@ export type CxSetupOptions = Readonly<
   CommonEngineRenderOptions & CommonEngineOptions
 >;
 
-/**
- * @license
- * The MIT License
+/*
  * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
- * Inspired by ngExpressEngine.
- *
- * See:
- * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/src/main.ts
- *
+ * SPDX-License-Identifier: Apache-2.0
  */
+
 function getReqResProviders(req: Request, res?: Response): StaticProvider[] {
   const providers: StaticProvider[] = [
     {
