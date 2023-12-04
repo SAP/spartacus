@@ -42,8 +42,6 @@ export class OpfGooglePayService {
   protected readonly GOOGLE_PAY_JS_URL =
     'https://pay.google.com/gp/p/js/pay.js';
 
-  protected activeConfiguration: ActiveConfiguration = {};
-
   protected associatedShippingAddressIds: string[] = [];
 
   protected googlePaymentClient: google.payments.api.PaymentsClient;
@@ -54,6 +52,9 @@ export class OpfGooglePayService {
   };
 
   protected googlePaymentRequest: google.payments.api.PaymentDataRequest = {
+    /**
+     * TODO: Move this part into configuration layer.
+     */
     apiVersion: 2,
     apiVersionMinor: 0,
     callbackIntents: [
@@ -61,29 +62,7 @@ export class OpfGooglePayService {
       'SHIPPING_OPTION',
       'PAYMENT_AUTHORIZATION',
     ],
-    allowedPaymentMethods: [
-      {
-        parameters: {
-          allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-          allowedCardNetworks: [
-            'AMEX',
-            'DISCOVER',
-            'INTERAC',
-            'JCB',
-            'MASTERCARD',
-            'VISA',
-          ],
-        },
-        tokenizationSpecification: {
-          parameters: {
-            gateway: 'adyen',
-            gatewayMerchantId: 'SAPCOM_STAGE_GATEWAY',
-          },
-          type: 'PAYMENT_GATEWAY',
-        },
-        type: 'CARD',
-      },
-    ],
+
     // @ts-ignore
     merchantInfo: {
       // merchantId: 'spartacusStorefront',
@@ -97,21 +76,14 @@ export class OpfGooglePayService {
     },
   };
 
-  protected initialTransactionInfo: google.payments.api.TransactionInfo = {
-    totalPrice: '0.00',
-    totalPriceStatus: 'ESTIMATED',
-    currencyCode: 'USD',
-  };
-
   loadProviderResources(): Promise<void> {
     return this.opfResourceLoaderService.loadProviderResources([
       { url: this.GOOGLE_PAY_JS_URL },
     ]);
   }
 
-  initClient(activeConfguration: ActiveConfiguration): void {
-    this.activeConfiguration = activeConfguration;
-
+  initClient(activeConfiguration: ActiveConfiguration): void {
+    this.setAllowedPaymentMethodsConfig(activeConfiguration);
     this.googlePaymentClient = new google.payments.api.PaymentsClient(
       this.googlePaymentClientOptions
     );
@@ -358,5 +330,39 @@ export class OpfGooglePayService {
       firstName,
       lastName,
     };
+  }
+
+  protected initialTransactionInfo: google.payments.api.TransactionInfo = {
+    totalPrice: '0.00',
+    totalPriceStatus: 'ESTIMATED',
+    currencyCode: 'USD',
+  };
+
+  protected setAllowedPaymentMethodsConfig(
+    activeConfiguration: ActiveConfiguration
+  ): void {
+    this.googlePaymentRequest.allowedPaymentMethods = [
+      {
+        parameters: {
+          allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+          allowedCardNetworks: [
+            'AMEX',
+            'DISCOVER',
+            'INTERAC',
+            'JCB',
+            'MASTERCARD',
+            'VISA',
+          ],
+        },
+        tokenizationSpecification: {
+          parameters: {
+            gateway: String(activeConfiguration.displayName),
+            gatewayMerchantId: String(activeConfiguration.merchantId),
+          },
+          type: activeConfiguration.providerType as any,
+        },
+        type: 'CARD',
+      },
+    ];
   }
 }
