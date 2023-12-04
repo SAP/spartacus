@@ -5,7 +5,7 @@
  */
 
 import { ElementRef, Injectable, inject } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Address, Product } from '@spartacus/core';
 import {
   ActiveConfiguration,
   OpfPaymentFacade,
@@ -37,7 +37,7 @@ export class OpfGooglePayService {
 
   protected activeConfiguration: ActiveConfiguration = {};
 
-  protected shippingAddressId: string;
+  protected associatedShippingAddressIds: string[] = [];
 
   protected googlePaymentClient: google.payments.api.PaymentsClient;
 
@@ -108,10 +108,8 @@ export class OpfGooglePayService {
     return this.googlePaymentClient;
   }
 
-  isReadyToPay(
-    request: google.payments.api.IsReadyToPayRequest
-  ): Promise<google.payments.api.IsReadyToPayResponse> {
-    return this.googlePaymentClient.isReadyToPay(request);
+  isReadyToPay(): Promise<google.payments.api.IsReadyToPayResponse> {
+    return this.googlePaymentClient.isReadyToPay(this.googlePaymentRequest);
   }
 
   updateTransactionInfo(transactionInfo: google.payments.api.TransactionInfo) {
@@ -147,23 +145,39 @@ export class OpfGooglePayService {
   }
 
   setDeliveryAddress(
-    address: google.payments.api.IntermediateAddress | undefined
+    address: google.payments.api.Address | undefined
   ): Observable<string> {
-    return this.opfCartHandlerService.setDeliveryAddress({
-      firstName: 'Test',
-      lastName: 'Test',
+    const ADDRESS_FIELD_PLACEHOLDER = '[FIELD_NOT_SET]';
+
+    let deliveryAddress: Address = {
+      firstName: ADDRESS_FIELD_PLACEHOLDER,
+      lastName: ADDRESS_FIELD_PLACEHOLDER,
       country: {
         isocode: address?.countryCode,
       },
       town: address?.locality,
       district: address?.administrativeArea,
       postalCode: address?.postalCode,
-      line1: 'Test',
-    });
+      line1: address?.address1 || ADDRESS_FIELD_PLACEHOLDER,
+      line2: `${address?.address2} ${address?.address3}`,
+    };
+
+    if (address?.name) {
+      deliveryAddress = {
+        ...deliveryAddress,
+        ...this.getFirstAndLastName(address?.name),
+      };
+    }
+
+    return this.opfCartHandlerService.setDeliveryAddress(deliveryAddress).pipe(
+      tap((addressId) => {
+        this.associateAddressId(addressId);
+      })
+    );
   }
 
   setDeliveryMode(mode: string): Observable<DeliveryMode | undefined> {
-    return mode !== 'shipping_option_unselected'
+    return this.verifyShippingOption(mode)
       ? this.opfCartHandlerService.setDeliveryMode(mode)
       : of(undefined);
   }
@@ -209,57 +223,42 @@ export class OpfGooglePayService {
     let self = this;
     return {
       onPaymentAuthorized: (paymentDataResponse) => {
-        console.log(paymentDataResponse);
         return new Promise((resolve) => {
           self.opfCartHandlerService.getCurrentCartId().subscribe((cartId) => {
-            console.log('THIS CART:');
+            self
+              .setDeliveryAddress(paymentDataResponse.shippingAddress)
+              .subscribe(() => {
+                self.opfPaymentFacade
+                  .submitPayment({
+                    additionalData: [],
+                    paymentSessionId: '',
+                    cartId,
+                    callbackArray: [() => {}, () => {}, () => {}],
 
-            console.log(self.shippingAddressId);
-
-            console.log(
-              paymentDataResponse.paymentMethodData.tokenizationData.token
-            );
-            self.opfPaymentFacade
-              .submitPayment({
-                additionalData: [],
-                paymentSessionId: '',
-                cartId,
-                callbackArray: [() => {}, () => {}, () => {}],
-
-                paymentMethod: PaymentMethod.GOOGLE_PAY,
-                encryptedToken: btoa(
-                  paymentDataResponse.paymentMethodData.tokenizationData.token
-                ),
-              })
-              .subscribe(
-                (result) => {
-                  console.log(result);
-                  this.opfCartHandlerService.deleteUserAddresses([
-                    this.shippingAddressId || '',
-                  ]);
-                  resolve({ transactionState: 'SUCCESS' });
-                },
-                (error) => {
-                  console.log(error);
-                  this.opfCartHandlerService.deleteUserAddresses([
-                    this.shippingAddressId || '',
-                  ]);
-                  resolve({ transactionState: 'SUCCESS' });
-                },
-                () => {
-                  this.opfCartHandlerService.deleteUserAddresses([
-                    this.shippingAddressId || '',
-                  ]);
-                  resolve({ transactionState: 'SUCCESS' });
-                }
-              );
+                    paymentMethod: PaymentMethod.GOOGLE_PAY,
+                    encryptedToken: btoa(
+                      paymentDataResponse.paymentMethodData.tokenizationData
+                        .token
+                    ),
+                  })
+                  .subscribe(
+                    () => {
+                      this.deleteAssociatedAddresses();
+                      resolve({ transactionState: 'SUCCESS' });
+                    },
+                    () => {
+                      resolve({ transactionState: 'ERROR' });
+                    },
+                    () => {
+                      resolve({ transactionState: 'SUCCESS' });
+                    }
+                  );
+              });
           });
         });
       },
 
       onPaymentDataChanged: (intermediatePaymentData) => {
-        console.log(intermediatePaymentData.callbackTrigger);
-
         let self = this;
         return new Promise(function (resolve) {
           let paymentDataRequestUpdate: google.payments.api.PaymentDataRequestUpdate =
@@ -267,12 +266,7 @@ export class OpfGooglePayService {
 
           self
             .setDeliveryAddress(intermediatePaymentData.shippingAddress)
-            .pipe(
-              tap((addressId) => {
-                self.shippingAddressId = addressId;
-              }),
-              switchMap(() => self.getShippingOptionParameters())
-            )
+            .pipe(switchMap(() => self.getShippingOptionParameters()))
             .subscribe((shippingOptions) => {
               self
                 .setDeliveryMode(
@@ -316,10 +310,39 @@ export class OpfGooglePayService {
   }
 
   protected verifyShippingOption(mode: string | undefined): string | undefined {
-    if (mode === 'shipping_option_unselected') {
-      return undefined;
-    }
+    return mode === 'shipping_option_unselected' ? undefined : mode;
+  }
 
-    return mode;
+  protected associateAddressId(addressId: string): void {
+    if (!this.isAddressIdAssociated(addressId)) {
+      this.associatedShippingAddressIds.push(addressId);
+    }
+  }
+
+  protected isAddressIdAssociated(addressId: string): boolean {
+    return this.associatedShippingAddressIds.includes(addressId);
+  }
+
+  protected resetAssociatedAddresses(): void {
+    this.associatedShippingAddressIds = [];
+  }
+
+  protected deleteAssociatedAddresses(): void {
+    if (this.associatedShippingAddressIds) {
+      this.opfCartHandlerService.deleteUserAddresses(
+        this.associatedShippingAddressIds
+      );
+      this.resetAssociatedAddresses();
+    }
+  }
+
+  protected getFirstAndLastName(name: string) {
+    const firstName = name?.split(' ')[0];
+    const lastName = name?.substring(firstName?.length) || firstName;
+
+    return {
+      firstName,
+      lastName,
+    };
   }
 }
