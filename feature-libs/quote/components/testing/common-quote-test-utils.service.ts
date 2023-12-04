@@ -234,7 +234,7 @@ export class CommonQuoteTestUtilsService {
    */
   static expectElementContainsA11y(
     expect: any,
-    element: Element,
+    element?: Element,
     a11yAttr?: string,
     a11yAttrContent?: string
   ) {
