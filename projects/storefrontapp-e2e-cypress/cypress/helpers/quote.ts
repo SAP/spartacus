@@ -39,16 +39,16 @@ const GLOBAL_MSG_QUOTE_REQUEST_NOT_POSSIBLE =
 
 const defaultAddToCartComponentSelector = 'cx-add-to-cart';
 const listComponentSelector = 'cx-quote-list';
-const actionsLinkComponentSelector = 'cx-quote-actions-link';
+const linksComponentSelector = 'cx-quote-links';
 const headerOverviewComponentSelector = 'cx-quote-header-overview';
 const commentsComponentSelector = 'cx-quote-comments';
 const itemsComponentSelector = 'cx-quote-items';
-const actionsByRoleComponentSelector = 'cx-quote-actions-by-role';
+const summaryActionsComponentSelector = 'cx-quote-summary-actions';
 const requestButtonComponentSelector = 'cx-quote-request-button';
 const defaultItemCounterComponentSelector = 'cx-item-counter';
-const actionsConfirmDialogComponentSelector = 'cx-quote-actions-confirm-dialog';
+const confirmDialogComponentSelector = 'cx-quote-confirm-dialog';
 const defaultMessagingComponentSelector = 'cx-messaging';
-const headerSellerEditComponentSelector = 'cx-quote-header-seller-edit';
+const summarySellerEditComponentSelector = 'cx-quote-summary-seller-edit';
 
 /**
  * Sets quantity.
@@ -133,7 +133,7 @@ export function checkQuoteLinksDisplayed() {
     'Verifies whether the quote link component is displayed.',
     checkQuoteLinksDisplayed.name
   );
-  cy.get(actionsLinkComponentSelector).should('be.visible');
+  cy.get(linksComponentSelector).should('be.visible');
 }
 
 /**
@@ -145,17 +145,6 @@ export function checkQuoteHeaderOverviewDisplayed() {
     checkQuoteHeaderOverviewDisplayed.name
   );
   cy.get(headerOverviewComponentSelector).should('be.visible');
-}
-
-/**
- * Verifies whether the quote comments component is displayed.
- */
-export function checkQuoteCommentsDisplayed() {
-  log(
-    'Verifies whether the quote comments component is displayed',
-    checkQuoteCommentsDisplayed.name
-  );
-  cy.get(commentsComponentSelector).should('be.visible');
 }
 
 /**
@@ -177,7 +166,7 @@ export function checkQuoteSummaryPriceDisplayed() {
     'Verifies whether the quote header price component is displayed',
     checkQuoteSummaryPriceDisplayed.name
   );
-  cy.get('cx-quote-summary-prices').should('be.visible');
+  cy.get('cx-quote-summary').should('be.visible');
 }
 
 /**
@@ -188,7 +177,7 @@ export function checkQuoteActionButtonsDisplayed() {
     'Verifies whether the quote action buttons component is displayed',
     checkQuoteActionButtonsDisplayed.name
   );
-  cy.get(actionsByRoleComponentSelector).should('be.visible');
+  cy.get(summaryActionsComponentSelector).should('be.visible');
 }
 
 /**
@@ -420,7 +409,7 @@ export function checkQuoteConfirmDialogDisplayed() {
     'Verifies whether the quote confirm dialog is displayed',
     checkQuoteConfirmDialogDisplayed.name
   );
-  cy.get(actionsConfirmDialogComponentSelector).should('be.visible');
+  cy.get(confirmDialogComponentSelector).should('be.visible');
 }
 
 /**
@@ -431,7 +420,7 @@ function clickSubmitQuoteBtn(): void {
     'Submits a quote via clicking "Submit" button on the quote details overview page',
     clickSubmitQuoteBtn.name
   );
-  cy.get(actionsByRoleComponentSelector)
+  cy.get(summaryActionsComponentSelector)
     .within(() => {
       cy.get('button.btn-primary').click();
     })
@@ -611,7 +600,7 @@ export function checkQuoteCartIsEmpty(): void {
     checkQuoteCartIsEmpty.name
   );
   cy.get(itemsComponentSelector).within(() => {
-    cy.get('.cx-item-list-row:nth-child(1)').should('not.exist');
+    cy.get('.cx-item-list-row:nth-child(1)').should('not.exist'); //ToDo MS: setting quantity to 0 wont automaticaly remove the item anymore!
   });
 }
 
@@ -744,7 +733,7 @@ export function clickOnYesBtnWithinRequestPopUp(status: string): void {
     'Clicks on "Yes" button within the quote confirmation popover',
     clickOnYesBtnWithinRequestPopUp.name
   );
-  cy.get(actionsConfirmDialogComponentSelector)
+  cy.get(confirmDialogComponentSelector)
     .within(() => {
       cy.get('button.btn-primary').click();
     })
@@ -875,7 +864,7 @@ export function navigateToQuoteListFromQuoteDetails() {
     'Navigates to the quote list from the quote details overview page',
     navigateToQuoteListFromQuoteDetails.name
   );
-  cy.get(actionsLinkComponentSelector).within(() => {
+  cy.get(linksComponentSelector).within(() => {
     cy.get('section > ul > li')
       .next()
       .within(() => {
@@ -1104,7 +1093,7 @@ export function cancelQuote(status: string) {
  */
 function clickCancelQuoteBtn() {
   log('Clicks on "Cancel Quote" button', clickCancelQuoteBtn.name);
-  cy.get(actionsByRoleComponentSelector)
+  cy.get(summaryActionsComponentSelector)
     .within(() => {
       cy.get('button.btn-secondary').click();
     })
@@ -1142,12 +1131,12 @@ export function goToQuoteOverviewPage() {
  */
 export function enableEditQuoteMode() {
   log('Enables the edit mode for the quote', enableEditQuoteMode.name);
-  cy.get(actionsByRoleComponentSelector)
+  cy.get(summaryActionsComponentSelector)
     .within(() => {
       cy.get('button.btn-secondary').click();
     })
     .then(() => {
-      cy.get(headerSellerEditComponentSelector).should('be.visible');
+      cy.get(summarySellerEditComponentSelector).should('be.visible');
     });
 }
 
@@ -1293,7 +1282,7 @@ function createFormattedExpiryDate(): string {
 export function setDiscount(discount: string) {
   log('Sets the discount (sales reporter perspective', setDiscount.name);
   getEstimatedTotalPriceBeforeDiscount();
-  cy.get(headerSellerEditComponentSelector)
+  cy.get(summarySellerEditComponentSelector)
     .within(() => {
       cy.get(' input[name="discount"]')
         .type(discount)
