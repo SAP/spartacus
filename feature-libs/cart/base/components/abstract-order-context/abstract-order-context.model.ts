@@ -5,9 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
+import { AbstractOrderType } from '@spartacus/cart/base/root';
 
 import { Observable } from 'rxjs';
-import { AbstractOrderType } from '../../root/models/cart.model';
 
 /**
  * Context for transporting information about an abstract order (active cart, saved cart, order, quote).
