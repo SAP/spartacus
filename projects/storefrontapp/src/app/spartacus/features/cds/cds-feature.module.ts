@@ -15,8 +15,8 @@ import {
 const cds1: CdsConfig = {
   cds: {
     site: 'electronics-spa',
-    tenant: 'argotest',
-    baseUrl: 'https://api.stage.context.cloud.sap',
+    tenant: 'E_SPA_TENANT',
+    baseUrl:'E_SPA_BASE_URL',
     endpoints: {
       strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
     },
@@ -25,9 +25,9 @@ const cds1: CdsConfig = {
     },
     profileTag: {
       javascriptUrl:
-        'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
+        'E_SPA_JS_URL',
       configUrl:
-        'https://tag.static.stage.context.cloud.sap/config/mytenant-main-default',
+        'E_SPA_CONFIG_URL',
       allowInsecureCookies: true,
     },
   },
@@ -35,9 +35,23 @@ const cds1: CdsConfig = {
 
 const cds2 = {
   cds: {
-    ...cds1,
     site: 'apparel-uk',
-  },
+    tenant: 'A_SPA_TENANT',
+    baseUrl: 'A_SPA_BASE_URL',
+    endpoints: {
+      strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
+    },
+    merchandising: {
+      defaultCarouselViewportThreshold: 80,
+    },
+    profileTag: {
+      javascriptUrl:
+        'A_SPA_JS_URL',
+      configUrl:
+        'A_SPA_CONFIG_URL',
+      allowInsecureCookies: true,
+    }
+  }
 };
 const cdsArray = [cds1, cds2];
 
