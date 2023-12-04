@@ -14,6 +14,7 @@ import { ProductDetailOutlets } from '../product-outlets.model';
   selector: 'cx-product-summary',
   templateUrl: './product-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class ProductSummaryComponent {
   outlets = ProductDetailOutlets;

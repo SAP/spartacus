@@ -25,6 +25,7 @@ import { SelectFocusUtility } from '../../../layout/a11y/index';
   selector: 'cx-scroll-to-top',
   templateUrl: './scroll-to-top.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class ScrollToTopComponent implements OnInit {
   iconTypes = ICON_TYPE;

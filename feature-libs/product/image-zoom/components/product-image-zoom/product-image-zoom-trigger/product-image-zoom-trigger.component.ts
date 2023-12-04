@@ -29,6 +29,7 @@ import { ProductImageZoomDialogComponent } from '../product-image-zoom-dialog/pr
   selector: 'cx-product-image-zoom-trigger',
   templateUrl: 'product-image-zoom-trigger.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class ProductImageZoomTriggerComponent implements OnDestroy {
   iconType = ICON_TYPE;

@@ -51,6 +51,7 @@ export interface SavedCartFormDialogOptions {
   selector: 'cx-saved-cart-form-dialog',
   templateUrl: './saved-cart-form-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

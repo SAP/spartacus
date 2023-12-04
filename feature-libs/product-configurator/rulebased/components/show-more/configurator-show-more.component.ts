@@ -16,6 +16,7 @@ import {
   selector: 'cx-configurator-show-more',
   templateUrl: './configurator-show-more.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class ConfiguratorShowMoreComponent implements AfterViewInit {
   showMore = false;

@@ -35,6 +35,7 @@ import { filter, map, take, tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-pickup-option-dialog',
   templateUrl: './pickup-option-dialog.component.html',
+  host: { ngSkipHydration: 'true' },
 })
 export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   productCode: string;

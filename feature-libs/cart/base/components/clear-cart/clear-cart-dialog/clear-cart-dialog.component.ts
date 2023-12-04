@@ -18,6 +18,7 @@ import { ICON_TYPE, FocusConfig } from '@spartacus/storefront';
   selector: 'cx-clear-cart-dialog',
   templateUrl: './clear-cart-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class ClearCartDialogComponent implements OnDestroy {
   focusConfig: FocusConfig = {

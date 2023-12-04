@@ -39,6 +39,7 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './customer-selection.component.html',
   host: {
     '(document:click)': 'onDocumentClick($event)',
+    ngSkipHydration: 'true',
   },
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {

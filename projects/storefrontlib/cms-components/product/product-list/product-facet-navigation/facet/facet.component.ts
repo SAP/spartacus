@@ -26,6 +26,7 @@ import { FacetService } from '../services/facet.service';
   selector: 'cx-facet',
   templateUrl: './facet.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class FacetComponent {
   protected _facet: Facet;

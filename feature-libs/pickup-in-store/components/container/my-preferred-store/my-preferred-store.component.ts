@@ -25,6 +25,7 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
   selector: 'cx-my-preferred-store',
   templateUrl: 'my-preferred-store.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class MyPreferredStoreComponent implements OnInit {
   preferredStore$: Observable<PointOfService>;

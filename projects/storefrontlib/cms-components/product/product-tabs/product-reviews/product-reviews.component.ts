@@ -37,6 +37,7 @@ import { CurrentProductService } from '../../current-product.service';
   selector: 'cx-product-reviews',
   templateUrl: './product-reviews.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class ProductReviewsComponent {
   @ViewChild('titleInput', { static: false }) titleInput: ElementRef;

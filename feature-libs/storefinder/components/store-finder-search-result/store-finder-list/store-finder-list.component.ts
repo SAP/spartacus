@@ -15,6 +15,7 @@ import { LocationDisplayMode } from './store-finder-list.model';
 @Component({
   selector: 'cx-store-finder-list',
   templateUrl: './store-finder-list.component.html',
+  host: { ngSkipHydration: 'true' },
 })
 export class StoreFinderListComponent {
   @Input()

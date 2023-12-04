@@ -25,6 +25,7 @@ import { Configurator } from '../../core/model/configurator.model';
   selector: 'cx-configurator-tab-bar',
   templateUrl: './configurator-tab-bar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class ConfiguratorTabBarComponent {
   @HostBinding('class.ghost') ghostStyle = true;

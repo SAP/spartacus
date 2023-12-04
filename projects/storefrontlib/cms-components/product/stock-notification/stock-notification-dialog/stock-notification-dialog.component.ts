@@ -21,6 +21,7 @@ import { LaunchDialogService } from '../../../../layout/index';
   selector: 'cx-stock-notification-dialog',
   templateUrl: './stock-notification-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class StockNotificationDialogComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

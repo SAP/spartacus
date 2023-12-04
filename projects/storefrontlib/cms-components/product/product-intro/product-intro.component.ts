@@ -23,6 +23,7 @@ import { CurrentProductService } from '../current-product.service';
   selector: 'cx-product-intro',
   templateUrl: './product-intro.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class ProductIntroComponent {
   product$: Observable<Product | null> =

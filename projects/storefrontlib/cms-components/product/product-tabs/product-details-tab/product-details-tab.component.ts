@@ -15,6 +15,7 @@ import { CurrentProductService } from '../../current-product.service';
   selector: 'cx-product-details-tab',
   templateUrl: './product-details-tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class ProductDetailsTabComponent implements OnInit {
   product$: Observable<Product | null>;

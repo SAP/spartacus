@@ -26,6 +26,7 @@ import { MerchandisingCarouselModel } from './model/index';
   selector: 'cx-merchandising-carousel',
   templateUrl: './merchandising-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class MerchandisingCarouselComponent {
   protected lastEventModelId: string;

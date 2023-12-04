@@ -32,6 +32,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
   // we cannot use onPush change detection as the form state isn't updated without explicit
   // change detection, see https://github.com/angular/angular/issues/10816
+  host: { ngSkipHydration: 'true' },
 })
 export class FileUploadComponent implements ControlValueAccessor {
   /**

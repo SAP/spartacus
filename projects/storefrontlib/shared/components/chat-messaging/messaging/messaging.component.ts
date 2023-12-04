@@ -28,6 +28,7 @@ import { MessageEvent, MessagingConfigs } from './messaging.model';
 @Component({
   selector: 'cx-messaging',
   templateUrl: './messaging.component.html',
+  host: { ngSkipHydration: 'true' },
 })
 export class MessagingComponent implements OnInit, AfterViewChecked {
   @ViewChild(FileUploadComponent) fileUploadComponent: FileUploadComponent;

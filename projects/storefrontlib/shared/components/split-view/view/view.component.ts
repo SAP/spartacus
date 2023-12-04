@@ -33,6 +33,7 @@ import { SplitViewService } from '../split-view.service';
   selector: 'cx-view',
   templateUrl: './view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class ViewComponent implements OnInit, OnDestroy {
   protected _hidden: boolean | undefined;

@@ -40,6 +40,7 @@ import {
   selector: 'cx-payment-type',
   templateUrl: './checkout-payment-type.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class CheckoutPaymentTypeComponent {
   @ViewChild('poNumber', { static: false })

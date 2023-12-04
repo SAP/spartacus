@@ -30,6 +30,7 @@ import { startWith } from 'rxjs/operators';
   // get updates of other form control state (disabled). We want to have a
   // disabled state in order to ensure that the control cannot be used while
   // the cart is updated.
+  host: { ngSkipHydration: 'true' },
 })
 export class ItemCounterComponent implements OnInit, OnDestroy {
   /**

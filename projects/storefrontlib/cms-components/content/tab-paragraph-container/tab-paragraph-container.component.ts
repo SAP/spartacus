@@ -26,6 +26,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/index';
   selector: 'cx-tab-paragraph-container',
   templateUrl: './tab-paragraph-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   activeTabNum = 0;

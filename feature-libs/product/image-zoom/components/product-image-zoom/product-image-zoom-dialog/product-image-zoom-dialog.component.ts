@@ -21,6 +21,7 @@ import {
   selector: 'cx-product-image-zoom-dialog',
   templateUrl: 'product-image-zoom-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class ProductImageZoomDialogComponent {
   iconType = ICON_TYPE;

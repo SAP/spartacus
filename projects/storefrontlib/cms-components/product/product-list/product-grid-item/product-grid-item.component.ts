@@ -26,6 +26,7 @@ import { ProductListItemContext } from '../model/product-list-item-context.model
       useExisting: ProductListItemContextSource,
     },
   ],
+  host: { ngSkipHydration: 'true' },
 })
 export class ProductGridItemComponent implements OnChanges {
   readonly ProductListOutlets = ProductListOutlets;

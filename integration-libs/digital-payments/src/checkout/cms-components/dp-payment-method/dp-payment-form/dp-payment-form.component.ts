@@ -16,6 +16,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'cx-dp-payment-form',
   templateUrl: './dp-payment-form.component.html',
+  host: { ngSkipHydration: 'true' },
 })
 export class DpPaymentFormComponent implements OnInit {
   @Output()

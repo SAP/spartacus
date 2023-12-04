@@ -27,6 +27,7 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
 @Component({
   selector: 'cx-anonymous-consent-dialog',
   templateUrl: './anonymous-consent-dialog.component.html',
+  host: { ngSkipHydration: 'true' },
 })
 export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   @HostBinding('attr.role') role = 'dialog';

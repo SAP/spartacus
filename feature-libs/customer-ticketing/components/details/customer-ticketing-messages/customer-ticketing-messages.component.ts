@@ -23,6 +23,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'cx-customer-ticketing-messages',
   templateUrl: './customer-ticketing-messages.component.html',
+  host: { ngSkipHydration: 'true' },
 })
 export class CustomerTicketingMessagesComponent implements OnDestroy {
   @ViewChild(MessagingComponent) messagingComponent: MessagingComponent;
