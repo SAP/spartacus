@@ -4,8 +4,10 @@
     -apple-pay-button-type: buy;
     -apple-pay-button-style: black;
     border-radius: var(--cx-buttons-border-radius);
+    padding-inline-end: 20px;
+    padding-inline-start: 20px;
     margin-top: 10px;
-    height: 46px;
+    height: 48px;
   }
 
   @media (min-width: 992px) {
