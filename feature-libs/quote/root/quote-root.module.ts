@@ -29,13 +29,11 @@ export function defaultQuoteComponentsConfig() {
       [QUOTE_FEATURE]: {
         cmsComponents: [
           'AccountMyQuotesComponent',
-          'QuoteActionsLinkComponent',
-          'QuoteActionsByRoleComponent',
+          'QuoteLinksComponent',
           'QuoteCommentsComponent',
           'QuoteHeaderOverviewComponent',
-          'QuoteHeaderPriceComponent',
-          'QuoteHeaderSellerEditComponent',
           'QuoteItemsComponent',
+          'QuoteSummaryComponent',
         ],
       },
     },

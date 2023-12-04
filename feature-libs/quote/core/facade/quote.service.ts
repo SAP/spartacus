@@ -57,8 +57,8 @@ import {
 } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors/quote.connector';
 import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
-import { QuoteStorefrontUtilsService } from '../services/quote-storefront-utils.service';
 import { CartUtilsService } from '../services/cart-utils.service';
+import { QuoteStorefrontUtilsService } from '../services/quote-storefront-utils.service';
 
 @Injectable()
 export class QuoteService implements QuoteFacade {
@@ -206,6 +206,10 @@ export class QuoteService implements QuoteFacade {
         }),
         tap(() => {
           this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+        }),
+        catchError((error) => {
+          this.triggerReloadAndCompleteAction();
+          return this.handleError(error);
         })
       ),
     {

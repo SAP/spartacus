@@ -170,8 +170,8 @@ context('Quote', () => {
       quote.enableEditQuoteMode();
       quote.setExpiryDate();
       quote.checkTotalEstimatedPrice('$26,160.00');
-      quote.setDiscount('100');
-      quote.checkTotalEstimatedPrice('$26,060.00');
+      quote.setDiscount('10%');
+      quote.checkTotalEstimatedPrice('$23,544.00');
       quote.submitQuote(quote.STATUS_SALES_REPORTER_SUBMIT);
       quote.checkQuoteState(quote.STATUS_SUBMITTED);
     });

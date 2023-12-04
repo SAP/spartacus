@@ -4,6 +4,8 @@ import { Action } from '@ngrx/store';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  LoggerService,
+  MockLoggerService,
   normalizeHttpError,
   Translatable,
 } from '@spartacus/core';
@@ -67,6 +69,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         },
         fromEffects.ReplenishmentOrderDetailsEffect,
         provideMockActions(() => actions$),
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
@@ -102,7 +105,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.LoadReplenishmentOrderDetailsFail(
-        normalizeHttpError(mockError)
+        normalizeHttpError(mockError, new MockLoggerService())
       );
 
       actions$ = hot('-a', { a: action });
@@ -146,7 +149,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.CancelReplenishmentOrderFail(
-        normalizeHttpError(mockError)
+        normalizeHttpError(mockError, new MockLoggerService())
       );
 
       actions$ = hot('-a', { a: action });

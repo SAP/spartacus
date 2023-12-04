@@ -55,6 +55,8 @@ describe('QuoteCommentsComponent', () => {
   let quoteFacade: QuoteFacade;
   let eventService: EventService;
   let quoteUIConfig: QuoteUIConfig;
+  let quoteItemsComponentService: QuoteItemsComponentService;
+  let mockQuoteItemsComponentService: QuoteItemsComponentService;
 
   let quote: Quote;
 
@@ -82,6 +84,10 @@ describe('QuoteCommentsComponent', () => {
             provide: QuoteUIConfig,
             useValue: quoteUIConfig,
           },
+          {
+            provide: QuoteItemsComponentService,
+            useValue: mockQuoteItemsComponentService,
+          },
         ],
       }).compileComponents();
     })
@@ -94,6 +100,15 @@ describe('QuoteCommentsComponent', () => {
 
     fixture.detectChanges();
     spyOn(component.commentsComponent, 'resetForm');
+
+    mockQuoteItemsComponentService = jasmine.createSpyObj(
+      'QuoteItemsComponentService',
+      ['setQuoteEntriesExpanded', 'getQuoteEntriesExpanded']
+    );
+    asSpy(
+      mockQuoteItemsComponentService.getQuoteEntriesExpanded
+    ).and.returnValue(of(true));
+    quoteItemsComponentService = TestBed.inject(QuoteItemsComponentService);
   });
 
   function initTestData() {
@@ -435,7 +450,6 @@ describe('QuoteCommentsComponent', () => {
   describe('onItemClicked', () => {
     let aTagProduct1: { textContent: string; scrollIntoView: Function };
     let aTagProduct2: { textContent: string; scrollIntoView: Function };
-    let quoteItemsComponentService: QuoteItemsComponentService;
 
     beforeEach(() => {
       aTagProduct1 = createElementMock('Product 1');
@@ -444,7 +458,6 @@ describe('QuoteCommentsComponent', () => {
       const document = TestBed.inject(DOCUMENT);
       spyOn(document, 'getElementsByTagName').and.returnValue(<any>mockedATags);
       quoteItemsComponentService = TestBed.inject(QuoteItemsComponentService);
-      spyOn(quoteItemsComponentService, 'setQuoteEntriesExpanded');
     });
 
     function createElementMock(textContent: string) {
@@ -501,6 +514,42 @@ describe('QuoteCommentsComponent', () => {
       quote.isEditable = false;
       quote.entries = [{ entryNumber: 1, comments: [{ text: 'text' }] }];
       expect(component.showComments(quote)).toBe(true);
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain 'div' HTML element with 'role' attribute that indicates the role for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'div',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'region'
+      );
+    });
+
+    it("should contain 'div' HTML element with 'aria-label' attribute that indicates the text for this element", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'div',
+          '',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'aria-label',
+        'quote.comments.regionTitle'
+      );
     });
   });
 });

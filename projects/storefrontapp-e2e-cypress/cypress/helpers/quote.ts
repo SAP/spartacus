@@ -36,6 +36,7 @@ const GLOBAL_MSG_QUOTE_REQUEST_NOT_POSSIBLE =
 /**
  * Selectors
  */
+
 const defaultAddToCartComponentSelector = 'cx-add-to-cart';
 const listComponentSelector = 'cx-quote-list';
 const actionsLinkComponentSelector = 'cx-quote-actions-link';
@@ -117,20 +118,20 @@ function checkQuoteHeaderOverviewPageDisplayed() {
   );
   cy.get('.QuoteDetailsPageTemplate').should('be.visible');
 
-  checkQuoteActionsLinkDisplayed();
+  checkQuoteLinksDisplayed();
   checkQuoteHeaderOverviewDisplayed();
   checkQuoteItemsDisplayed();
-  checkQuoteHeaderPriceDisplayed();
-  checkQuoteActionsByRoleDisplayed();
+  checkQuoteSummaryPriceDisplayed();
+  checkQuoteActionButtonsDisplayed();
 }
 
 /**
- * Verifies whether the quote actions link component is displayed.
+ * Verifies whether the quote links component is displayed.
  */
-export function checkQuoteActionsLinkDisplayed() {
+export function checkQuoteLinksDisplayed() {
   log(
-    'Verifies whether the quote actions link component is displayed.',
-    checkQuoteActionsLinkDisplayed.name
+    'Verifies whether the quote link component is displayed.',
+    checkQuoteLinksDisplayed.name
   );
   cy.get(actionsLinkComponentSelector).should('be.visible');
 }
@@ -169,23 +170,23 @@ export function checkQuoteItemsDisplayed() {
 }
 
 /**
- * Verifies whether the quote header price component is displayed.
+ * Verifies whether the quote summary price component is displayed.
  */
-export function checkQuoteHeaderPriceDisplayed() {
+export function checkQuoteSummaryPriceDisplayed() {
   log(
     'Verifies whether the quote header price component is displayed',
-    checkQuoteHeaderPriceDisplayed.name
+    checkQuoteSummaryPriceDisplayed.name
   );
-  cy.get('cx-quote-header-price').should('be.visible');
+  cy.get('cx-quote-summary-prices').should('be.visible');
 }
 
 /**
- * Verifies whether the quote actions by role component is displayed.
+ * Verifies whether the quote action buttons component is displayed.
  */
-export function checkQuoteActionsByRoleDisplayed() {
+export function checkQuoteActionButtonsDisplayed() {
   log(
-    'Verifies whether the quote actions by role component is displayed',
-    checkQuoteActionsByRoleDisplayed.name
+    'Verifies whether the quote action buttons component is displayed',
+    checkQuoteActionButtonsDisplayed.name
   );
   cy.get(actionsByRoleComponentSelector).should('be.visible');
 }
@@ -414,10 +415,10 @@ export function submitQuote(status: string): void {
 /**
  * Verifies whether the quote confirm dialog is displayed.
  */
-export function checkQuoteActionsConfirmDialogDisplayed() {
+export function checkQuoteConfirmDialogDisplayed() {
   log(
     'Verifies whether the quote confirm dialog is displayed',
-    checkQuoteActionsConfirmDialogDisplayed.name
+    checkQuoteConfirmDialogDisplayed.name
   );
   cy.get(actionsConfirmDialogComponentSelector).should('be.visible');
 }
@@ -435,7 +436,7 @@ function clickSubmitQuoteBtn(): void {
       cy.get('button.btn-primary').click();
     })
     .then(() => {
-      checkQuoteActionsConfirmDialogDisplayed();
+      checkQuoteConfirmDialogDisplayed();
     });
 }
 
@@ -1108,7 +1109,7 @@ function clickCancelQuoteBtn() {
       cy.get('button.btn-secondary').click();
     })
     .then(() => {
-      checkQuoteActionsConfirmDialogDisplayed();
+      checkQuoteConfirmDialogDisplayed();
     });
 }
 
