@@ -119,8 +119,8 @@ export class ConfigureCartEntryComponent {
    *
    * @returns - an entry key
    */
-  retrieveEntityKey(abstractOrderData: AbstractOrderKey): string {
-    const orderType = abstractOrderData.type;
+  retrieveEntityKey(abstractOrderKey: AbstractOrderKey): string {
+    const orderType = abstractOrderKey.type;
     const documentIdRequired: boolean =
       orderType === AbstractOrderType.ORDER ||
       orderType === AbstractOrderType.QUOTE ||
@@ -130,7 +130,7 @@ export class ConfigureCartEntryComponent {
       throw new Error('No entryNumber present in entry');
     }
     return documentIdRequired
-      ? this.getConfiguratorOwnerId(abstractOrderData, entryNumber)
+      ? this.getConfiguratorOwnerId(abstractOrderKey, entryNumber)
       : entryNumber.toString();
   }
 
