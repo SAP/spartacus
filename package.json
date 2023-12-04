@@ -152,7 +152,7 @@
     "@angular/language-service": "^15.2.9",
     "@babel/runtime": "^7.18.9",
     "@ngrx/store-devtools": "^15.3.0",
-    "@nguniversal/builders": "^15.2.0",
+    "@nguniversal/builders": "^16.0.0",
     "@nrwl/angular": "15.9.7",
     "@nrwl/devkit": "^15.9.2",
     "@nrwl/eslint-plugin-nx": "^15.9.2",
