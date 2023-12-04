@@ -20,7 +20,6 @@ import { ICON_TYPE } from '../../../../misc/icon/index';
   selector: 'cx-suggested-addresses-dialog',
   templateUrl: './suggested-addresses-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { ngSkipHydration: 'true' },
 })
 export class SuggestedAddressDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;

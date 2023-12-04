@@ -21,7 +21,6 @@ import { FocusConfig, LaunchDialogService } from '../../../../../layout/index';
   selector: 'cx-coupon-dialog',
   templateUrl: './coupon-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { ngSkipHydration: 'true' },
 })
 export class CouponDialogComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();
