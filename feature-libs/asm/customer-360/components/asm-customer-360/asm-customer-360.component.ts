@@ -49,7 +49,6 @@ import { AsmCustomer360Config } from '../config/asm-customer-360-config';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360',
   templateUrl: './asm-customer-360.component.html',
-  host: { ngSkipHydration: 'true' },
 })
 export class AsmCustomer360Component implements OnDestroy, OnInit {
   @HostBinding('attr.role') role = 'dialog';
