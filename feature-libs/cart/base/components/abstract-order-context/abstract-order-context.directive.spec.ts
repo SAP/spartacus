@@ -11,12 +11,12 @@ let emissionCounterId = 0;
 let emissionCounterType = 0;
 
 @Component({
-  selector: 'cx-test-cmp-outer',
+  selector: 'cx-test-cmp',
   template: `
 <span [cxAbstractOrderContext]="{id:id, type:type}"><cx-test-cmp-inner/>        
 </span>`,
 })
-class TestOuterComponent {
+class TestComponent {
   readonly abstractOrderType = AbstractOrderType;
   id = abstractOrderId;
   type = AbstractOrderType.CART;
@@ -44,19 +44,19 @@ class TestInnerComponent {
 }
 
 describe('AbstractOrderContextDirective', () => {
-  let fixture: ComponentFixture<TestOuterComponent>;
-  let testOuterComponent: TestOuterComponent;
+  let fixture: ComponentFixture<TestComponent>;
+  let testOuterComponent: TestComponent;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [TestOuterComponent, TestInnerComponent],
+        declarations: [TestComponent, TestInnerComponent],
         imports: [AbstractOrderContextModule],
         providers: [],
       }).compileComponents();
       emissionCounterId = 0;
       emissionCounterType = 0;
-      fixture = TestBed.createComponent(TestOuterComponent);
+      fixture = TestBed.createComponent(TestComponent);
       testOuterComponent = fixture.componentInstance;
       fixture.detectChanges();
     })
@@ -70,7 +70,7 @@ describe('AbstractOrderContextDirective', () => {
     expect(fixture.nativeElement.innerHTML).toContain(AbstractOrderType.CART);
   });
 
-  it('should should emit changes only if actual value has changed for id', () => {
+  it('should emit changes only if actual value has changed for id', () => {
     expect(emissionCounterId).toBe(1);
     expect(emissionCounterType).toBe(1);
 

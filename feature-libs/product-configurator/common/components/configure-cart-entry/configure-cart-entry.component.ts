@@ -121,7 +121,7 @@ export class ConfigureCartEntryComponent {
    */
   retrieveEntityKey(abstractOrderData: AbstractOrderKey): string {
     const orderType = abstractOrderData.type;
-    const ownerDocumentIdNeeded: boolean =
+    const documentIdRequired: boolean =
       orderType === AbstractOrderType.ORDER ||
       orderType === AbstractOrderType.QUOTE ||
       orderType === AbstractOrderType.SAVED_CART;
@@ -129,7 +129,7 @@ export class ConfigureCartEntryComponent {
     if (entryNumber === undefined) {
       throw new Error('No entryNumber present in entry');
     }
-    return ownerDocumentIdNeeded
+    return documentIdRequired
       ? this.getConfiguratorOwnerId(abstractOrderData, entryNumber)
       : entryNumber.toString();
   }
