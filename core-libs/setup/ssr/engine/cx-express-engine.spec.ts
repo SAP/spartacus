@@ -82,7 +82,7 @@ export class TokenComponent {
 })
 export class TokenServerModule {}
 
-describe('test runner', () => {
+describe('cxExpressEngine', () => {
   beforeAll(() => {
     jest.spyOn(console, 'log').mockImplementation();
   });
