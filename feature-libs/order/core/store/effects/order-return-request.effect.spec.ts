@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { LoggerService, MockLoggerService } from '@spartacus/core';
 import {
   ReturnRequest,
   ReturnRequestEntryInputList,
@@ -48,6 +49,7 @@ describe('Order Return Request effect', () => {
         fromOrderReturnRequestEffect.OrderReturnRequestEffect,
         { provide: OrderHistoryAdapter, useValue: {} },
         provideMockActions(() => actions$),
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
