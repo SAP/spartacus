@@ -2,22 +2,15 @@
   .apple-pay-button {
     -webkit-appearance: -apple-pay-button;
     -apple-pay-button-type: buy;
-
-    margin: 10px 0;
-    padding-inline-end: 20px;
-    padding-inline-start: 20px;
-    height: 48px;
-  }
-
-  .apple-pay-button-black {
     -apple-pay-button-style: black;
+    border-radius: var(--cx-buttons-border-radius);
+    margin-top: 10px;
+    height: 46px;
   }
 
-  .apple-pay-button-white {
-    -apple-pay-button-style: white;
-  }
-
-  .apple-pay-button-white-with-line {
-    -apple-pay-button-style: white-outline;
+  @media (min-width: 992px) {
+    .apple-pay-button {
+      margin-inline: 1.2rem 1.2rem;
+    }
   }
 }
