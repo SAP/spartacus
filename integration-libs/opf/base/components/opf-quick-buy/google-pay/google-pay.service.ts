@@ -19,8 +19,15 @@ import {
 
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
 import { OpfCartHandlerService } from '@spartacus/opf/base/core';
-import { Observable, of } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, forkJoin, of } from 'rxjs';
+import {
+  catchError,
+  finalize,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -188,8 +195,10 @@ export class OpfGooglePayService {
     );
   }
 
-  setDeliveryMode(mode: string): Observable<DeliveryMode | undefined> {
-    return this.verifyShippingOption(mode)
+  setDeliveryMode(
+    mode: string | undefined
+  ): Observable<DeliveryMode | undefined> {
+    return mode && this.verifyShippingOption(mode)
       ? this.opfCartHandlerService.setDeliveryMode(mode)
       : of(undefined);
   }
@@ -234,86 +243,78 @@ export class OpfGooglePayService {
   }
 
   handlePaymentCallbacks(): google.payments.api.PaymentDataCallbacks {
-    let self = this;
     return {
       onPaymentAuthorized: (paymentDataResponse) => {
-        return new Promise((resolve) => {
-          self.opfCartHandlerService.getCurrentCartId().subscribe((cartId) => {
-            self
-              .setDeliveryAddress(paymentDataResponse.shippingAddress)
-              .subscribe(() => {
-                self.opfPaymentFacade
-                  .submitPayment({
-                    additionalData: [],
-                    paymentSessionId: '',
-                    cartId,
-                    callbackArray: [() => {}, () => {}, () => {}],
-                    paymentMethod: PaymentMethod.GOOGLE_PAY,
-                    encryptedToken: Buffer.from(
-                      paymentDataResponse.paymentMethodData.tokenizationData
-                        .token
-                    ).toString('base64'),
-                  })
-                  .subscribe(
-                    () => {
-                      this.deleteAssociatedAddresses();
-                      resolve({ transactionState: 'SUCCESS' });
-                    },
-                    () => {
-                      resolve({ transactionState: 'ERROR' });
-                    },
-                    () => {
-                      resolve({ transactionState: 'SUCCESS' });
-                    }
+        return this.opfCartHandlerService
+          .getCurrentCartId()
+          .pipe(
+            switchMap((cartId) =>
+              this.setDeliveryAddress(paymentDataResponse.shippingAddress).pipe(
+                switchMap(() => {
+                  const encryptedToken = btoa(
+                    paymentDataResponse.paymentMethodData.tokenizationData.token
                   );
-              });
+                  return forkJoin({
+                    submitPayment: this.opfPaymentFacade.submitPayment({
+                      additionalData: [],
+                      paymentSessionId: '',
+                      cartId,
+                      callbackArray: [() => {}, () => {}, () => {}],
+                      paymentMethod: PaymentMethod.GOOGLE_PAY,
+                      encryptedToken,
+                    }),
+                  });
+                })
+              )
+            ),
+            catchError(() => of({ transactionState: 'ERROR' })),
+            finalize(() => this.deleteAssociatedAddresses())
+          )
+          .toPromise()
+          .then((result) => {
+            const isSuccess = result;
+            return { transactionState: isSuccess ? 'SUCCESS' : 'ERROR' };
           });
-        });
       },
 
       onPaymentDataChanged: (intermediatePaymentData) => {
-        let self = this;
-        return new Promise(function (resolve) {
-          let paymentDataRequestUpdate: google.payments.api.PaymentDataRequestUpdate =
-            {};
+        return this.setDeliveryAddress(intermediatePaymentData.shippingAddress)
+          .pipe(
+            switchMap(() => this.getShippingOptionParameters()),
+            switchMap((shippingOptions) => {
+              const selectedMode =
+                this.verifyShippingOption(
+                  intermediatePaymentData.shippingOptionData?.id
+                ) ?? shippingOptions?.defaultSelectedOptionId;
 
-          self
-            .setDeliveryAddress(intermediatePaymentData.shippingAddress)
-            .pipe(switchMap(() => self.getShippingOptionParameters()))
-            .subscribe((shippingOptions) => {
-              self
-                .setDeliveryMode(
-                  self.verifyShippingOption(
-                    intermediatePaymentData.shippingOptionData?.id
-                  ) ||
-                    shippingOptions?.defaultSelectedOptionId ||
-                    ''
-                )
-                .subscribe(() => {
-                  paymentDataRequestUpdate.newShippingOptionParameters =
-                    shippingOptions;
-                  self.opfCartHandlerService
-                    .getCurrentCart()
-                    .subscribe((cart) => {
-                      self.opfCartHandlerService
-                        .getSelectedDeliveryMode()
-                        .subscribe((mode) => {
-                          if (
-                            paymentDataRequestUpdate
-                              ?.newShippingOptionParameters
-                              ?.defaultSelectedOptionId
-                          ) {
-                            paymentDataRequestUpdate.newShippingOptionParameters.defaultSelectedOptionId =
-                              mode?.code;
-                          }
-                          paymentDataRequestUpdate.newTransactionInfo =
-                            self.getNewTransactionInfo(cart);
-                          resolve(paymentDataRequestUpdate);
-                        });
-                    });
-                });
-            });
-        });
+              return this.setDeliveryMode(selectedMode).pipe(
+                switchMap(() =>
+                  forkJoin([
+                    this.opfCartHandlerService.getCurrentCart(),
+                    this.opfCartHandlerService.getSelectedDeliveryMode(),
+                  ])
+                ),
+                switchMap(([cart, mode]) => {
+                  const paymentDataRequestUpdate: google.payments.api.PaymentDataRequestUpdate =
+                    {
+                      newShippingOptionParameters: shippingOptions,
+                      newTransactionInfo: this.getNewTransactionInfo(cart),
+                    };
+
+                  if (
+                    paymentDataRequestUpdate.newShippingOptionParameters
+                      ?.defaultSelectedOptionId
+                  ) {
+                    paymentDataRequestUpdate.newShippingOptionParameters.defaultSelectedOptionId =
+                      mode?.code;
+                  }
+
+                  return of(paymentDataRequestUpdate);
+                })
+              );
+            })
+          )
+          .toPromise();
       },
     };
   }
