@@ -13,14 +13,14 @@ import {
   ItemCounterService,
 } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
-import { ApplePayService } from '../apple-pay.service';
+import { switchMap } from 'rxjs/operators';
+import { ApplePayService } from './apple-pay.service';
 
 @Component({
   selector: 'cx-opf-apple-pay',
-  templateUrl: './apple-pay-button.component.html',
+  templateUrl: './apple-pay.component.html',
 })
-export class ApplePayButtonComponent implements OnInit, OnDestroy {
+export class ApplePayComponent implements OnInit, OnDestroy {
   @Input() activeConfiguration: ActiveConfiguration;
 
   protected applePayService = inject(ApplePayService);
@@ -39,13 +39,8 @@ export class ApplePayButtonComponent implements OnInit, OnDestroy {
     if (!merchantId) {
       return;
     }
-    this.isApplePaySupported$ = this.applePayService
-      .isApplePaySupported$(merchantId)
-      .pipe(
-        tap((value) => {
-          console.log('isApplePaySupported', value);
-        })
-      );
+    this.isApplePaySupported$ =
+      this.applePayService.isApplePaySupported$(merchantId);
   }
 
   quickBuyProduct(): void {
@@ -58,7 +53,7 @@ export class ApplePayButtonComponent implements OnInit, OnDestroy {
           this.applePayService.start(
             product as Product,
             this.itemCounterService.getCounter(),
-            this.activeConfiguration
+            this.activeConfiguration.acquirerCountryCode
           )
         )
       )

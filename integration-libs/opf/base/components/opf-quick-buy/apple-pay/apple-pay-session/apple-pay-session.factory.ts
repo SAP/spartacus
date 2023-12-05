@@ -12,19 +12,18 @@ import { fromPromise } from 'rxjs/internal-compatibility';
 @Injectable()
 export class ApplePaySessionFactory {
   protected winRef = inject(WindowRef);
-  canMake = false;
-
-  applePaySession: typeof ApplePaySession;
+  protected isDeviceSupported = false;
+  protected applePaySession: typeof ApplePaySession;
 
   constructor() {
     try {
       // @ts-ignore
-      this.applePaySession = this.createApplePaySession();
+      this.applePaySession = this.createApplePaySession() as ApplePaySession;
       if (this.applePaySession) {
-        this.canMake = this.applePaySession.canMakePayments();
+        this.isDeviceSupported = this.applePaySession.canMakePayments();
       }
-    } catch (err) {
-      console.log('err', err);
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -37,16 +36,18 @@ export class ApplePaySessionFactory {
   }
 
   get STATUS_SUCCESS(): number {
-    return this.canMake ? this.applePaySession.STATUS_SUCCESS : 1;
+    return this.isDeviceSupported ? this.applePaySession.STATUS_SUCCESS : 1;
   }
 
   get STATUS_FAILURE(): number {
-    return this.canMake ? this.applePaySession.STATUS_FAILURE : 1;
+    return this.isDeviceSupported ? this.applePaySession.STATUS_FAILURE : 1;
   }
 
   supportsVersion(version: number): boolean {
     try {
-      return this.canMake && this.applePaySession.supportsVersion(version);
+      return (
+        this.isDeviceSupported && this.applePaySession.supportsVersion(version)
+      );
     } catch (err) {
       return false;
     }
@@ -54,27 +55,25 @@ export class ApplePaySessionFactory {
 
   canMakePayments(): boolean {
     try {
-      return this.canMake && this.applePaySession.canMakePayments();
+      return this.isDeviceSupported && this.applePaySession.canMakePayments();
     } catch (err) {
       return false;
     }
   }
 
   canMakePaymentsWithActiveCard(merchantId: string): Observable<boolean> {
-    if (this.canMake) {
-      return fromPromise(
-        this.applePaySession.canMakePaymentsWithActiveCard(merchantId)
-      );
-    } else {
-      return of(false);
-    }
+    return this.isDeviceSupported
+      ? fromPromise(
+          this.applePaySession.canMakePaymentsWithActiveCard(merchantId)
+        )
+      : of(false);
   }
 
-  make(
+  startApplePaySession(
     version: number,
     paymentRequest: ApplePayJS.ApplePayPaymentRequest
   ): ApplePaySession | undefined {
-    return this.canMake
+    return this.isDeviceSupported
       ? new this.applePaySession(version, paymentRequest)
       : undefined;
   }

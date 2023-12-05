@@ -5,7 +5,8 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ApplePaySessionFactory } from '../apple-pay-session/apple-pay-session.factory';
 import { ApplePayObservableConfig } from './apple-pay-observable-config.interface';
 
@@ -13,58 +14,44 @@ import { ApplePayObservableConfig } from './apple-pay-observable-config.interfac
 export class ApplePayObservableFactory {
   protected applePaySessionFactory = inject(ApplePaySessionFactory);
 
-  make(
-    config: ApplePayObservableConfig
-  ): Observable<ApplePayJS.ApplePayPaymentAuthorizationResult> {
-    if (this.applePaySessionFactory.supportsVersion(3)) {
-      console.log('Supports version 3');
-      return this.applePayObservableV3(config);
-    }
-    return throwError(new Error('Apple Pay not supported'));
-  }
-
-  protected applePayObservableV3(
+  initApplePayEventsHandler(
     config: ApplePayObservableConfig
   ): Observable<ApplePayJS.ApplePayPaymentAuthorizationResult> {
     return new Observable<ApplePayJS.ApplePayPaymentAuthorizationResult>(
       (observer) => {
         let session: ApplePaySession;
         try {
-          session = this.applePaySessionFactory.make(
+          session = this.applePaySessionFactory.startApplePaySession(
             3,
             config.request
           ) as ApplePaySession;
-          console.log('ApplePaySession created');
         } catch (err) {
-          console.log('ApplePaySession creation error', err);
           observer.error(err);
-          return;
         }
 
         const handleUnspecifiedError = (error: string): void => {
-          console.log('Unspecified error occured', error);
           session.abort();
           observer.error(error);
         };
 
         session.addEventListener('validatemerchant', (event: Event) => {
-          console.log('Validate merchant callback', event);
-          config.validateMerchant(<any>event).subscribe((merchantSession) => {
-            console.log('merchantSession', merchantSession);
-            session.completeMerchantValidation(merchantSession);
-          }, handleUnspecifiedError);
+          config
+            .validateMerchant(<any>event)
+            .pipe(take(1))
+            .subscribe((merchantSession) => {
+              session.completeMerchantValidation(merchantSession);
+            }, handleUnspecifiedError);
         });
 
-        session.addEventListener('cancel', (event: Event) => {
-          console.log('Cancel callback', event);
-          observer.error('canceled payment');
+        session.addEventListener('cancel', () => {
+          observer.error('Canceled payment');
         });
 
         if (config.paymentMethodSelected) {
           session.addEventListener('paymentmethodselected', (event: Event) => {
-            console.log('Payment method selected callback');
             config
               .paymentMethodSelected(<any>event)
+              .pipe(take(1))
               .subscribe((paymentMethodUpdate) => {
                 session.completePaymentMethodSelection(paymentMethodUpdate);
               }, handleUnspecifiedError);
@@ -75,11 +62,10 @@ export class ApplePayObservableFactory {
           session.addEventListener(
             'shippingcontactselected',
             (event: Event) => {
-              console.log('Shipping contact selected callback');
               config
                 .shippingContactSelected(<any>event)
+                .pipe(take(1))
                 .subscribe((shippingContactUpdate) => {
-                  console.log('shippingContactUpdate', shippingContactUpdate);
                   session.completeShippingContactSelection(
                     shippingContactUpdate
                   );
@@ -90,9 +76,9 @@ export class ApplePayObservableFactory {
 
         if (config.shippingMethodSelected) {
           session.addEventListener('shippingmethodselected', (event: Event) => {
-            console.log('Shipping method selected callback');
             config
               .shippingMethodSelected(<any>event)
+              .pipe(take(1))
               .subscribe((shippingMethodUpdate) => {
                 session.completeShippingMethodSelection(shippingMethodUpdate);
               }, handleUnspecifiedError);
@@ -100,23 +86,22 @@ export class ApplePayObservableFactory {
         }
 
         session.addEventListener('paymentauthorized', (event: Event) => {
-          console.log('Payment authorized callback');
-          config.paymentAuthorized(<any>event).subscribe({
-            next: (authResult) => {
-              session.completePayment(authResult);
-              console.log('completePayment', authResult);
-              if (!authResult.errors || !authResult.errors.length) {
-                observer.next(authResult);
-                observer.complete();
-              } else {
-                handleUnspecifiedError(authResult?.errors[0]?.message);
-              }
-            },
-            error: handleUnspecifiedError,
-          });
+          config
+            .paymentAuthorized(<any>event)
+            .pipe(take(1))
+            .subscribe({
+              next: (authResult) => {
+                session.completePayment(authResult);
+                if (!authResult?.errors?.length) {
+                  observer.next(authResult);
+                  observer.complete();
+                } else {
+                  handleUnspecifiedError(authResult?.errors[0]?.message);
+                }
+              },
+              error: handleUnspecifiedError,
+            });
         });
-
-        console.log('Begining ApplePay payment session');
         session.begin();
       }
     );

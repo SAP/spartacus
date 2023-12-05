@@ -1,12 +1,4 @@
 <ng-container *ngIf="paymentGatewayConfig$ | async as paymentGatewayConfig">
-  <!-- TODO: Remove this debug block at the end -->
-  <pre style="border: 3px dashed red">
-    QuickBuyComponent is using the following config: {{
-      paymentGatewayConfig | json
-    }}
-  </pre>
-  <!-- End debug block -->
-
   <cx-opf-apple-pay
     *ngIf="
       isPaymentMethodEnabled(PAYMENT_METHODS.APPLE_PAY, paymentGatewayConfig)
