@@ -216,6 +216,11 @@ describe('QuoteStorefrontUtilsService', () => {
       expect(classUnderTest.getWindowHeight()).toBe(0);
     });
 
+    it('should return zero because nativeWindow is undefined', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValues(true, false);
+      expect(classUnderTest.getWindowHeight()).toBe(0);
+    });
+
     it('should return the height of the window', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       expect(classUnderTest.getWindowHeight()).toBeGreaterThan(0);
