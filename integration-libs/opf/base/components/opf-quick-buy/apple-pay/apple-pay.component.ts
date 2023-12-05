@@ -37,6 +37,7 @@ export class ApplePayComponent implements OnInit, OnDestroy {
         (dw) => dw.merchantId === OpfProviderType.APPLE_PAY
       )?.merchantId ?? 'merchant.com.adyen.upscale.test';
     if (!merchantId) {
+      // unreachable block as merchantId property still in dev on server side
       return;
     }
     this.isApplePaySupported$ =
