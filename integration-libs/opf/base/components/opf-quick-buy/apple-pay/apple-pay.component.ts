@@ -28,7 +28,7 @@ export class ApplePayComponent implements OnInit, OnDestroy {
   protected itemCounterService = inject(ItemCounterService);
   protected cartHandlerService = inject(OpfCartHandlerService);
 
-  sub: Subscription;
+  protected sub: Subscription;
   isApplePaySupported$: Observable<boolean>;
 
   ngOnInit(): void {
