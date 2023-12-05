@@ -83,9 +83,18 @@ const testMappings: ConfirmActionDialogMappingConfig = {
       showOnlyWhenCartIsNotEmpty: false,
     },
   },
+  CANCELLED: {
+    REQUOTE: {
+      i18nKeyPrefix: 'quote.confirmDialog.cancelled.requote',
+      showWarningNote: true,
+      showExpirationDate: false,
+      showSuccessMessage: false,
+      showOnlyWhenCartIsNotEmpty: true,
+    },
+  },
   ALL: {
     EDIT: {
-      i18nKeyPrefix: 'quote.confirmActionDialog.all.edit',
+      i18nKeyPrefix: 'quote.confirmDialog.all.edit',
       showWarningNote: true,
       showExpirationDate: false,
       showSuccessMessage: false,
@@ -343,6 +352,87 @@ describe('QuoteSummaryActionsComponent', () => {
     expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
   });
 
+  it('should not open confirmation dialog when action is EDIT and state is BUYER_DRAFT and cart is empty', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const quoteInBuyerDraftState: Quote = {
+      ...mockQuote,
+      allowedActions: [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+        { type: QuoteActionType.EDIT, isPrimary: false },
+      ],
+      state: QuoteState.BUYER_DRAFT,
+    };
+    mockQuoteDetails$.next(quoteInBuyerDraftState);
+    fixture.detectChanges();
+    component.onClick(
+      QuoteActionType.EDIT,
+      quoteInBuyerDraftState,
+      currentCart
+    );
+    expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
+  });
+
+  it('should not open confirmation dialog when action is EDIT and state is BUYER_DRAFT and cart is not empty but is a quote cart', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const quoteInBuyerDraftState: Quote = {
+      ...mockQuote,
+      allowedActions: [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+        { type: QuoteActionType.EDIT, isPrimary: false },
+      ],
+      state: QuoteState.BUYER_DRAFT,
+    };
+    currentCart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
+    currentCart.quoteCode = '1234';
+    mockQuoteDetails$.next(quoteInBuyerDraftState);
+    fixture.detectChanges();
+    component.onClick(
+      QuoteActionType.EDIT,
+      quoteInBuyerDraftState,
+      currentCart
+    );
+    expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
+  });
+
+  it('should open confirmation dialog when action is EDIT and state is BUYER_DRAFT and cart is not empty', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const quoteInBuyerDraftState: Quote = {
+      ...mockQuote,
+      allowedActions: [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+        { type: QuoteActionType.EDIT, isPrimary: false },
+      ],
+      state: QuoteState.BUYER_DRAFT,
+    };
+    const confirmationContextForEditAction: ConfirmationContext = {
+      quote: quoteInBuyerDraftState,
+      title: 'quote.confirmDialog.all.edit.title',
+      confirmNote: 'quote.confirmDialog.all.edit.confirmNote',
+      warningNote: 'quote.confirmDialog.all.edit.warningNote',
+      a11y: {
+        close: 'quote.confirmDialog.all.edit.a11y.close',
+      },
+    };
+    currentCart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
+    currentCart.quoteCode = undefined;
+    mockQuoteDetails$.next(quoteInBuyerDraftState);
+    fixture.detectChanges();
+    component.onClick(
+      QuoteActionType.EDIT,
+      quoteInBuyerDraftState,
+      currentCart
+    );
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ACTION_CONFIRMATION,
+      component.element,
+      component['viewContainerRef'],
+      { confirmationContext: confirmationContextForEditAction }
+    );
+  });
+
   it('should open confirmation dialog when action is REQUOTE and state is EXPIRED', () => {
     spyOn(launchDialogService, 'openDialog');
     const expiredQuote: Quote = {
@@ -369,6 +459,68 @@ describe('QuoteSummaryActionsComponent', () => {
       component['viewContainerRef'],
       { confirmationContext: confirmationContextForRequoteAction }
     );
+  });
+
+  it('should open confirmation dialog when action is REQUOTE and state is CANCELLED and cart has entries', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const cancelledQuote: Quote = {
+      ...mockQuote,
+      allowedActions: [{ type: QuoteActionType.REQUOTE, isPrimary: true }],
+      state: QuoteState.CANCELLED,
+    };
+    currentCart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
+    currentCart.quoteCode = undefined;
+    const confirmationContextForRequoteAction: ConfirmationContext = {
+      quote: cancelledQuote,
+      title: 'quote.confirmDialog.cancelled.requote.title',
+      confirmNote: 'quote.confirmDialog.cancelled.requote.confirmNote',
+      warningNote: 'quote.confirmDialog.cancelled.requote.warningNote',
+      a11y: {
+        close: 'quote.confirmDialog.cancelled.requote.a11y.close',
+      },
+    };
+    mockQuoteDetails$.next(cancelledQuote);
+    fixture.detectChanges();
+
+    component.onClick(QuoteActionType.REQUOTE, cancelledQuote, currentCart);
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ACTION_CONFIRMATION,
+      component.element,
+      component['viewContainerRef'],
+      { confirmationContext: confirmationContextForRequoteAction }
+    );
+  });
+
+  it('should not open confirmation dialog when action is REQUOTE and state is CANCELLED and cart has no entries', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const cancelledQuote: Quote = {
+      ...mockQuote,
+      allowedActions: [{ type: QuoteActionType.REQUOTE, isPrimary: true }],
+      state: QuoteState.CANCELLED,
+    };
+    currentCart.entries = [];
+    currentCart.quoteCode = undefined;
+    mockQuoteDetails$.next(cancelledQuote);
+    fixture.detectChanges();
+
+    component.onClick(QuoteActionType.REQUOTE, cancelledQuote, currentCart);
+    expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
+  });
+
+  it('should not open confirmation dialog when action is REQUOTE and state is CANCELLED and cart has entries but is a quote-cart', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const cancelledQuote: Quote = {
+      ...mockQuote,
+      allowedActions: [{ type: QuoteActionType.REQUOTE, isPrimary: true }],
+      state: QuoteState.CANCELLED,
+    };
+    currentCart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
+    currentCart.quoteCode = 'ABCD';
+    mockQuoteDetails$.next(cancelledQuote);
+    fixture.detectChanges();
+
+    component.onClick(QuoteActionType.REQUOTE, cancelledQuote, currentCart);
+    expect(launchDialogService.openDialog).toHaveBeenCalledTimes(0);
   });
 
   describe('Threshold check', () => {
@@ -621,7 +773,7 @@ describe('QuoteSummaryActionsComponent', () => {
           QuoteState.BUYER_DRAFT
         )
       ).toEqual({
-        i18nKeyPrefix: 'quote.confirmActionDialog.all.edit',
+        i18nKeyPrefix: 'quote.confirmDialog.all.edit',
         showWarningNote: true,
         showExpirationDate: false,
         showSuccessMessage: false,

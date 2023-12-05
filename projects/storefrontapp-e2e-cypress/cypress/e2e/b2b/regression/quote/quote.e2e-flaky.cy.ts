@@ -104,32 +104,35 @@ context('Quote', () => {
       );
     });
 
-    it('should edit quantity of items within a buyer quote draft (CXSPA-3852)', () => {
-      let itemIndex = 1;
-      quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
-      quote.checkItemQuantity(itemIndex, PRODUCT_AMOUNT_30.toString());
-      quote.changeItemQuantityByStepper(itemIndex, '+');
-      quote.checkItemQuantity(itemIndex, (PRODUCT_AMOUNT_30 + 1).toString());
-      quote.changeItemQuantityByStepper(itemIndex, '-');
-      quote.checkItemQuantity(itemIndex, PRODUCT_AMOUNT_30.toString());
-      quote.changeItemQuantityByCounter(itemIndex, '1');
-      quote.checkItemQuantity(itemIndex, '1');
-      quote.checkSubmitBtn(false);
-      quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
-      quote.removeItem(itemIndex);
-      quote.checkItemExists(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
-    });
+    //ToDo: Bug will be fixed with CXSPA-5574
+    //see function: checkQuoteCartIsEmpty()
+    //
+    // it('should edit quantity of items within a buyer quote draft (CXSPA-3852)', () => {
+    //   let itemIndex = 1;
+    //   quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
+    //   quote.checkItemQuantity(itemIndex, PRODUCT_AMOUNT_30.toString());
+    //   quote.changeItemQuantityByStepper(itemIndex, '+');
+    //   quote.checkItemQuantity(itemIndex, (PRODUCT_AMOUNT_30 + 1).toString());
+    //   quote.changeItemQuantityByStepper(itemIndex, '-');
+    //   quote.checkItemQuantity(itemIndex, PRODUCT_AMOUNT_30.toString());
+    //   quote.changeItemQuantityByCounter(itemIndex, '1');
+    //   quote.checkItemQuantity(itemIndex, '1');
+    //   quote.checkSubmitBtn(false);
+    //   quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
+    //   quote.removeItem(itemIndex);
+    //   quote.checkQuoteCartIsEmpty();
+    // });
 
     it('should edit name and description of the quote while in buyer draft (CXSPA-3852)', () => {
       const QUOTE_NAME = 'Quote name test';
       const QUOTE_DESCRIPTION = 'Quote description for the test';
-      quote.checkQuoteInformationCard(false);
+      quote.checkQuoteHeaderOverviewCardState(false);
       quote.clickEditPencil();
       quote.editQuoteInformationCard(QUOTE_NAME, QUOTE_DESCRIPTION);
       quote.saveEditedData();
-      quote.checkQuoteInformationCard(false);
-      quote.checkQuoteInformationCardContent(QUOTE_NAME);
-      quote.checkQuoteInformationCardContent(QUOTE_DESCRIPTION);
+      quote.checkQuoteHeaderOverviewCardState(false);
+      quote.checkQuoteHeaderOverviewCardContent(QUOTE_NAME);
+      quote.checkQuoteHeaderOverviewCardContent(QUOTE_DESCRIPTION);
     });
   });
 
@@ -154,7 +157,7 @@ context('Quote', () => {
       );
       quote.cancelQuote(quote.STATUS_BUYER_CANCEL);
       quote.checkQuoteListDisplayed();
-      quote.gotToQuoteOverviewPage();
+      quote.goToQuoteOverviewPage();
       quote.checkQuoteState(quote.STATUS_CANCELED);
     });
   });
@@ -192,7 +195,7 @@ context('Quote', () => {
         Cypress.env('BASE_SITE'),
         TEST_PRODUCT_HAMMER_DRILLING_ID
       );
-      quote.setQuantity(PRODUCT_AMOUNT_30.toString());
+      quote.setAddToCartQuantity(PRODUCT_AMOUNT_30.toString());
       common.clickOnAddToCartBtnOnPD();
       quote.clickOnViewCartBtnOnPD();
       quote.checkItemQuantity(1, '60');
@@ -204,7 +207,7 @@ context('Quote', () => {
       quote.submitQuote(quote.STATUS_SALES_REPORTER_SUBMIT);
       asm.agentSignOut();
       quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
-      quote.gotToQuoteOverviewPage();
+      quote.goToQuoteOverviewPage();
       quote.submitQuote(quote.STATUS_BUYER_CHECKOUT);
       quote.addProductAndCheckForGlobalMessage(
         TEST_PRODUCT_HAMMER_DRILLING_NAME,

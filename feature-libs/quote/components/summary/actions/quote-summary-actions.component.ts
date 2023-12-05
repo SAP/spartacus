@@ -325,8 +325,15 @@ export class QuoteSummaryActionsComponent
    * @param cart - cart
    */
   onClick(action: QuoteActionType, quote: Quote, cart: Cart) {
-    const cartIsEmpty = (cart.entries?.length ?? 0) === 0;
-    if (!this.isConfirmationDialogRequired(action, quote.state, cartIsEmpty)) {
+    const cartIsEmptyOrQuoteCart =
+      (cart.entries?.length ?? 0) === 0 || cart.quoteCode !== undefined;
+    if (
+      !this.isConfirmationDialogRequired(
+        action,
+        quote.state,
+        cartIsEmptyOrQuoteCart
+      )
+    ) {
       this.performAction(action, quote);
       return;
     }
@@ -415,7 +422,7 @@ export class QuoteSummaryActionsComponent
   protected isConfirmationDialogRequired(
     action: QuoteActionType,
     state: QuoteState,
-    cartIsEmpty: boolean
+    cartIsEmptyOrQuoteCart: boolean
   ): boolean {
     const mappingConfig = this.quoteUIConfig.quote?.confirmActionDialogMapping;
     const dialogConfig =
@@ -424,7 +431,7 @@ export class QuoteSummaryActionsComponent
       mappingConfig?.[QuoteRoleType.ALL]?.[action];
     return (
       !!dialogConfig &&
-      (!cartIsEmpty || !dialogConfig.showOnlyWhenCartIsNotEmpty)
+      (!cartIsEmptyOrQuoteCart || !dialogConfig.showOnlyWhenCartIsNotEmpty)
     );
   }
 

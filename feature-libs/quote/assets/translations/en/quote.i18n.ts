@@ -106,6 +106,16 @@ export const quote = {
           successMessage: 'Quote rejected',
         },
       },
+      cancelled: {
+        requote: {
+          a11y: {
+            close: 'Close requote modal',
+          },
+          title: 'Recreate Quote Request {{ code }}?',
+          confirmNote: 'Are you sure you want to recreate this quote request?',
+          warningNote: 'Your current cart will be converted to a saved cart.',
+        },
+      },
       all: {
         edit: {
           a11y: {
@@ -113,8 +123,7 @@ export const quote = {
           },
           title: 'Edit Quote {{ code }}?',
           confirmNote: 'Are you sure you want to edit this quote?',
-          warningNote:
-            'Your current cart will be discarded. In case you still need it, please safe it beforehand.',
+          warningNote: 'Your current cart will be converted to a saved cart.',
         },
       },
     },
@@ -129,6 +138,8 @@ export const quote = {
       cart: 'Cart',
       minRequestInitiationNote:
         'Minimum ${{minValue}} subtotal is required to submit a quote ',
+      savedActiveCart:
+        'Your active cart was converted to saved cart {{ code }}',
     },
     header: {
       buyerEdit: {
