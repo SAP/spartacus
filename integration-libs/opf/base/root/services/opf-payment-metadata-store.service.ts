@@ -12,6 +12,7 @@ const initialState = {
   termsAndConditionsChecked: false,
   selectedPaymentOptionId: undefined,
   isPaymentInProgress: false,
+  isQuickBuyPaymentInProgress: false,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -24,14 +25,23 @@ export class OpfPaymentMetadataStoreService {
     return this.opfPaymentMetadataState.asObservable();
   }
 
-  updateOpfMetadata(payload: Partial<OpfPaymentMetadata>): void {
-    this.opfPaymentMetadataState.next({
-      ...this.opfPaymentMetadataState.value,
-      ...payload,
-    });
+  updateOpfMetadata(
+    payload: Partial<OpfPaymentMetadata>,
+    delay: number = 0
+  ): void {
+    setTimeout(() => {
+      this.opfPaymentMetadataState.next({
+        ...this.opfPaymentMetadataState.value,
+        ...payload,
+      });
+    }, delay);
   }
 
   clearOpfMetadata(): void {
-    this.opfPaymentMetadataState.next(initialState);
+    this.updateOpfMetadata({
+      termsAndConditionsChecked: initialState.termsAndConditionsChecked,
+      selectedPaymentOptionId: initialState.selectedPaymentOptionId,
+      isPaymentInProgress: initialState.isPaymentInProgress,
+    });
   }
 }

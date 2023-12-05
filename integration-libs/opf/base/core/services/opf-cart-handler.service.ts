@@ -104,9 +104,6 @@ export class OpfCartHandlerService {
   }
 
   setDeliveryAddress(address: Address) {
-    this.opfGlobalMessageService.disableGlobalMessage([
-      'addressForm.userAddressAddSuccess',
-    ]);
     return this.checkoutDeliveryAddressFacade.createAndSetAddress(address).pipe(
       switchMap(() => this.checkStableCart()),
       switchMap(() =>
@@ -207,9 +204,7 @@ export class OpfCartHandlerService {
 
   deleteUserAddresses(addrIds: string[]) {
     console.log('deleteUserAddresses');
-    this.opfGlobalMessageService.disableGlobalMessage([
-      'addressForm.userAddressDeleteSuccess',
-    ]);
+
     addrIds.forEach((addrId) => {
       console.log('deleteUserAddresses target', addrId);
       this.userAddressService.deleteUserAddress(addrId);
