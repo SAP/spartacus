@@ -1,0 +1,76 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+export const savedCartDetails = {
+    cartName: 'Name',
+    cartDescription: 'Description',
+    cartId: 'ID',
+    dateSaved: 'Date Saved',
+    items: 'Items',
+    quantity: 'Quantity',
+    total: 'Total',
+    editSavedCart: 'Edit Saved Cart',
+    deleteSavedCart: 'Delete Saved Cart',
+    addSelectedItems: 'Add selected items',
+    emptyCartItems: 'Empty Cart Items',
+};
+export const savedCartList = {
+    savedCarts: 'Saved Carts ({{count}})',
+    cartName: 'Name',
+    cartId: 'Id',
+    dateSaved: 'Date Saved',
+    cartDescription: 'Description',
+    quantity: 'Qty',
+    total: 'Total',
+    actions: 'Actions',
+    makeCartActive: 'Make cart active',
+    notFound: 'No Saved Carts Found',
+    swapCartNoActiveCart: 'Existing cart is activated by {{cartName}} successfully.',
+    swapCartWithActiveCart: 'Existing cart is activated by {{cartName}} successfully. Your previous items were saved in a cart {{previousCartName}}.',
+};
+export const savedCartCartPage = {
+    messages: {
+        cartSaved: 'Your cart items have been successfully saved for later in the "{{cartName}}" cart',
+    },
+};
+export const savedCartDialog = {
+    saveForLater: 'Save For Later',
+    itemsSavedForLater: 'All of the items in your cart will be saved for later',
+    savedCartName: 'Saved Cart Name',
+    savedCartDescription: 'Saved Cart Description',
+    optional: 'optional',
+    charactersLeft: 'characters left: {{count}}',
+    cancel: 'Cancel',
+    save: 'Save',
+    restore: 'Restore',
+    followingCartDelete: 'The following saved cart will be deleted',
+    followingCartRestore: 'The following saved cart will be restored as the active cart',
+    delete: 'Delete',
+    deleteCartSuccess: 'Cart Deleted Successfully',
+    editCartSuccess: 'Cart Edited Successfully',
+    editSavedCart: 'Edit Saved Cart',
+    deleteSavedCart: 'Delete Saved Cart',
+    restoreSavedCart: 'Restore Saved Cart',
+    name: 'Name',
+    id: 'ID',
+    description: 'Description',
+    quantity: 'QTY',
+    total: 'Total',
+    keepCopySavedCart: 'Keep a copy of this cart in the saved carts list',
+    defaultCloneCartName: 'Copy of {{name}}',
+    nameOfCloneCart: 'Name of copied cart',
+};
+export const addToSavedCart = {
+    savedCarts: 'Saved carts',
+    saveCartForLater: 'Save cart for later',
+};
+export const savedCart = {
+    savedCartDetails,
+    savedCartList,
+    savedCartCartPage,
+    savedCartDialog,
+    addToSavedCart,
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic2F2ZWQtY2FydC5pMThuLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vLi4vZmVhdHVyZS1saWJzL2NhcnQvc2F2ZWQtY2FydC9hc3NldHMvdHJhbnNsYXRpb25zL2VuL3NhdmVkLWNhcnQuaTE4bi50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7OztHQUlHO0FBRUgsTUFBTSxDQUFDLE1BQU0sZ0JBQWdCLEdBQUc7SUFDOUIsUUFBUSxFQUFFLE1BQU07SUFDaEIsZUFBZSxFQUFFLGFBQWE7SUFDOUIsTUFBTSxFQUFFLElBQUk7SUFDWixTQUFTLEVBQUUsWUFBWTtJQUN2QixLQUFLLEVBQUUsT0FBTztJQUNkLFFBQVEsRUFBRSxVQUFVO0lBQ3BCLEtBQUssRUFBRSxPQUFPO0lBQ2QsYUFBYSxFQUFFLGlCQUFpQjtJQUNoQyxlQUFlLEVBQUUsbUJBQW1CO0lBQ3BDLGdCQUFnQixFQUFFLG9CQUFvQjtJQUN0QyxjQUFjLEVBQUUsa0JBQWtCO0NBQ25DLENBQUM7QUFFRixNQUFNLENBQUMsTUFBTSxhQUFhLEdBQUc7SUFDM0IsVUFBVSxFQUFFLHlCQUF5QjtJQUNyQyxRQUFRLEVBQUUsTUFBTTtJQUNoQixNQUFNLEVBQUUsSUFBSTtJQUNaLFNBQVMsRUFBRSxZQUFZO0lBQ3ZCLGVBQWUsRUFBRSxhQUFhO0lBQzlCLFFBQVEsRUFBRSxLQUFLO0lBQ2YsS0FBSyxFQUFFLE9BQU87SUFDZCxPQUFPLEVBQUUsU0FBUztJQUNsQixjQUFjLEVBQUUsa0JBQWtCO0lBQ2xDLFFBQVEsRUFBRSxzQkFBc0I7SUFDaEMsb0JBQW9CLEVBQ2xCLDBEQUEwRDtJQUM1RCxzQkFBc0IsRUFDcEIseUhBQXlIO0NBQzVILENBQUM7QUFFRixNQUFNLENBQUMsTUFBTSxpQkFBaUIsR0FBRztJQUMvQixRQUFRLEVBQUU7UUFDUixTQUFTLEVBQ1AsbUZBQW1GO0tBQ3RGO0NBQ0YsQ0FBQztBQUVGLE1BQU0sQ0FBQyxNQUFNLGVBQWUsR0FBRztJQUM3QixZQUFZLEVBQUUsZ0JBQWdCO0lBQzlCLGtCQUFrQixFQUFFLHVEQUF1RDtJQUMzRSxhQUFhLEVBQUUsaUJBQWlCO0lBQ2hDLG9CQUFvQixFQUFFLHdCQUF3QjtJQUM5QyxRQUFRLEVBQUUsVUFBVTtJQUNwQixjQUFjLEVBQUUsNEJBQTRCO0lBQzVDLE1BQU0sRUFBRSxRQUFRO0lBQ2hCLElBQUksRUFBRSxNQUFNO0lBQ1osT0FBTyxFQUFFLFNBQVM7SUFDbEIsbUJBQW1CLEVBQUUsMENBQTBDO0lBQy9ELG9CQUFvQixFQUNsQiw4REFBOEQ7SUFDaEUsTUFBTSxFQUFFLFFBQVE7SUFDaEIsaUJBQWlCLEVBQUUsMkJBQTJCO0lBQzlDLGVBQWUsRUFBRSwwQkFBMEI7SUFDM0MsYUFBYSxFQUFFLGlCQUFpQjtJQUNoQyxlQUFlLEVBQUUsbUJBQW1CO0lBQ3BDLGdCQUFnQixFQUFFLG9CQUFvQjtJQUN0QyxJQUFJLEVBQUUsTUFBTTtJQUNaLEVBQUUsRUFBRSxJQUFJO0lBQ1IsV0FBVyxFQUFFLGFBQWE7SUFDMUIsUUFBUSxFQUFFLEtBQUs7SUFDZixLQUFLLEVBQUUsT0FBTztJQUNkLGlCQUFpQixFQUFFLGtEQUFrRDtJQUNyRSxvQkFBb0IsRUFBRSxrQkFBa0I7SUFDeEMsZUFBZSxFQUFFLHFCQUFxQjtDQUN2QyxDQUFDO0FBRUYsTUFBTSxDQUFDLE1BQU0sY0FBYyxHQUFHO0lBQzVCLFVBQVUsRUFBRSxhQUFhO0lBQ3pCLGdCQUFnQixFQUFFLHFCQUFxQjtDQUN4QyxDQUFDO0FBRUYsTUFBTSxDQUFDLE1BQU0sU0FBUyxHQUFHO0lBQ3ZCLGdCQUFnQjtJQUNoQixhQUFhO0lBQ2IsaUJBQWlCO0lBQ2pCLGVBQWU7SUFDZixjQUFjO0NBQ2YsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8qXG4gKiBTUERYLUZpbGVDb3B5cmlnaHRUZXh0OiAyMDIzIFNBUCBTcGFydGFjdXMgdGVhbSA8c3BhcnRhY3VzLXRlYW1Ac2FwLmNvbT5cbiAqXG4gKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQXBhY2hlLTIuMFxuICovXG5cbmV4cG9ydCBjb25zdCBzYXZlZENhcnREZXRhaWxzID0ge1xuICBjYXJ0TmFtZTogJ05hbWUnLFxuICBjYXJ0RGVzY3JpcHRpb246ICdEZXNjcmlwdGlvbicsXG4gIGNhcnRJZDogJ0lEJyxcbiAgZGF0ZVNhdmVkOiAnRGF0ZSBTYXZlZCcsXG4gIGl0ZW1zOiAnSXRlbXMnLFxuICBxdWFudGl0eTogJ1F1YW50aXR5JyxcbiAgdG90YWw6ICdUb3RhbCcsXG4gIGVkaXRTYXZlZENhcnQ6ICdFZGl0IFNhdmVkIENhcnQnLFxuICBkZWxldGVTYXZlZENhcnQ6ICdEZWxldGUgU2F2ZWQgQ2FydCcsXG4gIGFkZFNlbGVjdGVkSXRlbXM6ICdBZGQgc2VsZWN0ZWQgaXRlbXMnLFxuICBlbXB0eUNhcnRJdGVtczogJ0VtcHR5IENhcnQgSXRlbXMnLFxufTtcblxuZXhwb3J0IGNvbnN0IHNhdmVkQ2FydExpc3QgPSB7XG4gIHNhdmVkQ2FydHM6ICdTYXZlZCBDYXJ0cyAoe3tjb3VudH19KScsXG4gIGNhcnROYW1lOiAnTmFtZScsXG4gIGNhcnRJZDogJ0lkJyxcbiAgZGF0ZVNhdmVkOiAnRGF0ZSBTYXZlZCcsXG4gIGNhcnREZXNjcmlwdGlvbjogJ0Rlc2NyaXB0aW9uJyxcbiAgcXVhbnRpdHk6ICdRdHknLFxuICB0b3RhbDogJ1RvdGFsJyxcbiAgYWN0aW9uczogJ0FjdGlvbnMnLFxuICBtYWtlQ2FydEFjdGl2ZTogJ01ha2UgY2FydCBhY3RpdmUnLFxuICBub3RGb3VuZDogJ05vIFNhdmVkIENhcnRzIEZvdW5kJyxcbiAgc3dhcENhcnROb0FjdGl2ZUNhcnQ6XG4gICAgJ0V4aXN0aW5nIGNhcnQgaXMgYWN0aXZhdGVkIGJ5IHt7Y2FydE5hbWV9fSBzdWNjZXNzZnVsbHkuJyxcbiAgc3dhcENhcnRXaXRoQWN0aXZlQ2FydDpcbiAgICAnRXhpc3RpbmcgY2FydCBpcyBhY3RpdmF0ZWQgYnkge3tjYXJ0TmFtZX19IHN1Y2Nlc3NmdWxseS4gWW91ciBwcmV2aW91cyBpdGVtcyB3ZXJlIHNhdmVkIGluIGEgY2FydCB7e3ByZXZpb3VzQ2FydE5hbWV9fS4nLFxufTtcblxuZXhwb3J0IGNvbnN0IHNhdmVkQ2FydENhcnRQYWdlID0ge1xuICBtZXNzYWdlczoge1xuICAgIGNhcnRTYXZlZDpcbiAgICAgICdZb3VyIGNhcnQgaXRlbXMgaGF2ZSBiZWVuIHN1Y2Nlc3NmdWxseSBzYXZlZCBmb3IgbGF0ZXIgaW4gdGhlIFwie3tjYXJ0TmFtZX19XCIgY2FydCcsXG4gIH0sXG59O1xuXG5leHBvcnQgY29uc3Qgc2F2ZWRDYXJ0RGlhbG9nID0ge1xuICBzYXZlRm9yTGF0ZXI6ICdTYXZlIEZvciBMYXRlcicsXG4gIGl0ZW1zU2F2ZWRGb3JMYXRlcjogJ0FsbCBvZiB0aGUgaXRlbXMgaW4geW91ciBjYXJ0IHdpbGwgYmUgc2F2ZWQgZm9yIGxhdGVyJyxcbiAgc2F2ZWRDYXJ0TmFtZTogJ1NhdmVkIENhcnQgTmFtZScsXG4gIHNhdmVkQ2FydERlc2NyaXB0aW9uOiAnU2F2ZWQgQ2FydCBEZXNjcmlwdGlvbicsXG4gIG9wdGlvbmFsOiAnb3B0aW9uYWwnLFxuICBjaGFyYWN0ZXJzTGVmdDogJ2NoYXJhY3RlcnMgbGVmdDoge3tjb3VudH19JyxcbiAgY2FuY2VsOiAnQ2FuY2VsJyxcbiAgc2F2ZTogJ1NhdmUnLFxuICByZXN0b3JlOiAnUmVzdG9yZScsXG4gIGZvbGxvd2luZ0NhcnREZWxldGU6ICdUaGUgZm9sbG93aW5nIHNhdmVkIGNhcnQgd2lsbCBiZSBkZWxldGVkJyxcbiAgZm9sbG93aW5nQ2FydFJlc3RvcmU6XG4gICAgJ1RoZSBmb2xsb3dpbmcgc2F2ZWQgY2FydCB3aWxsIGJlIHJlc3RvcmVkIGFzIHRoZSBhY3RpdmUgY2FydCcsXG4gIGRlbGV0ZTogJ0RlbGV0ZScsXG4gIGRlbGV0ZUNhcnRTdWNjZXNzOiAnQ2FydCBEZWxldGVkIFN1Y2Nlc3NmdWxseScsXG4gIGVkaXRDYXJ0U3VjY2VzczogJ0NhcnQgRWRpdGVkIFN1Y2Nlc3NmdWxseScsXG4gIGVkaXRTYXZlZENhcnQ6ICdFZGl0IFNhdmVkIENhcnQnLFxuICBkZWxldGVTYXZlZENhcnQ6ICdEZWxldGUgU2F2ZWQgQ2FydCcsXG4gIHJlc3RvcmVTYXZlZENhcnQ6ICdSZXN0b3JlIFNhdmVkIENhcnQnLFxuICBuYW1lOiAnTmFtZScsXG4gIGlkOiAnSUQnLFxuICBkZXNjcmlwdGlvbjogJ0Rlc2NyaXB0aW9uJyxcbiAgcXVhbnRpdHk6ICdRVFknLFxuICB0b3RhbDogJ1RvdGFsJyxcbiAga2VlcENvcHlTYXZlZENhcnQ6ICdLZWVwIGEgY29weSBvZiB0aGlzIGNhcnQgaW4gdGhlIHNhdmVkIGNhcnRzIGxpc3QnLFxuICBkZWZhdWx0Q2xvbmVDYXJ0TmFtZTogJ0NvcHkgb2Yge3tuYW1lfX0nLFxuICBuYW1lT2ZDbG9uZUNhcnQ6ICdOYW1lIG9mIGNvcGllZCBjYXJ0Jyxcbn07XG5cbmV4cG9ydCBjb25zdCBhZGRUb1NhdmVkQ2FydCA9IHtcbiAgc2F2ZWRDYXJ0czogJ1NhdmVkIGNhcnRzJyxcbiAgc2F2ZUNhcnRGb3JMYXRlcjogJ1NhdmUgY2FydCBmb3IgbGF0ZXInLFxufTtcblxuZXhwb3J0IGNvbnN0IHNhdmVkQ2FydCA9IHtcbiAgc2F2ZWRDYXJ0RGV0YWlscyxcbiAgc2F2ZWRDYXJ0TGlzdCxcbiAgc2F2ZWRDYXJ0Q2FydFBhZ2UsXG4gIHNhdmVkQ2FydERpYWxvZyxcbiAgYWRkVG9TYXZlZENhcnQsXG59O1xuIl19

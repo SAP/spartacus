@@ -1,0 +1,16 @@
+%cx-order-details-actions {
+  .cx-nav {
+    justify-content: center;
+    padding: 1rem 0 2rem;
+
+    div:empty {
+      display: none;
+    }
+
+    .btn-secondary {
+      @include media-breakpoint-down(md) {
+        margin: 0 0 1rem;
+      }
+    }
+  }
+}

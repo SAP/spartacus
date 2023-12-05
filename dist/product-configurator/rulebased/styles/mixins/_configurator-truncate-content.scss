@@ -1,0 +1,7 @@
+@mixin cx-configurator-truncate-content {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-break: anywhere;
+}

@@ -1,0 +1,24 @@
+@import './wish-list';
+@import './add-to-wishlist';
+
+$wish-list-components-allowlist: cx-wish-list, cx-add-to-wishlist !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $wish-list-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $wish-list-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

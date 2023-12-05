@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "CheckoutSchematics",
+  "title": "Checkout Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "debug": {
+      "description": "Display additional details during the running process.",
+      "type": "boolean",
+      "default": false
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the Checkout feature.",
+      "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "Checkout",
+          "Checkout-B2B",
+          "Checkout-Scheduled-Replenishment"
+        ],
+        "type": "string"
+      },
+      "default": ["Checkout"],
+      "x-prompt": {
+        "message": "Which features would you like to set up from the Checkout library?",
+        "type": "list",
+        "items": [
+          {
+            "value": "Checkout",
+            "label": "Checkout base"
+          },
+          {
+            "value": "Checkout-B2B",
+            "label": "Checkout B2B (b2b feature, requires Base Checkout)"
+          },
+          {
+            "value": "Checkout-Scheduled-Replenishment",
+            "label": "Checkout Scheduled Replenishment (b2b feature, requires Base and B2B Checkout)"
+          }
+        ]
+      }
+    }
+  },
+  "required": []
+}

@@ -1,0 +1,148 @@
+{
+  "name": "@spartacus/asm",
+  "version": "6.7.0",
+  "description": "ASM feature library for Spartacus",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "asm"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/asm",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./_index.scss",
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/spartacus-asm.mjs",
+      "es2020": "./fesm2020/spartacus-asm.mjs",
+      "es2015": "./fesm2015/spartacus-asm.mjs",
+      "node": "./fesm2015/spartacus-asm.mjs",
+      "default": "./fesm2020/spartacus-asm.mjs"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    },
+    "./assets": {
+      "types": "./assets/index.d.ts",
+      "esm2020": "./esm2020/assets/spartacus-asm-assets.mjs",
+      "es2020": "./fesm2020/spartacus-asm-assets.mjs",
+      "es2015": "./fesm2015/spartacus-asm-assets.mjs",
+      "node": "./fesm2015/spartacus-asm-assets.mjs",
+      "default": "./fesm2020/spartacus-asm-assets.mjs"
+    },
+    "./components": {
+      "types": "./components/index.d.ts",
+      "esm2020": "./esm2020/components/spartacus-asm-components.mjs",
+      "es2020": "./fesm2020/spartacus-asm-components.mjs",
+      "es2015": "./fesm2015/spartacus-asm-components.mjs",
+      "node": "./fesm2015/spartacus-asm-components.mjs",
+      "default": "./fesm2020/spartacus-asm-components.mjs"
+    },
+    "./core": {
+      "types": "./core/index.d.ts",
+      "esm2020": "./esm2020/core/spartacus-asm-core.mjs",
+      "es2020": "./fesm2020/spartacus-asm-core.mjs",
+      "es2015": "./fesm2015/spartacus-asm-core.mjs",
+      "node": "./fesm2015/spartacus-asm-core.mjs",
+      "default": "./fesm2020/spartacus-asm-core.mjs"
+    },
+    "./customer-360/assets": {
+      "types": "./customer-360/assets/index.d.ts",
+      "esm2020": "./esm2020/customer-360/assets/spartacus-asm-customer-360-assets.mjs",
+      "es2020": "./fesm2020/spartacus-asm-customer-360-assets.mjs",
+      "es2015": "./fesm2015/spartacus-asm-customer-360-assets.mjs",
+      "node": "./fesm2015/spartacus-asm-customer-360-assets.mjs",
+      "default": "./fesm2020/spartacus-asm-customer-360-assets.mjs"
+    },
+    "./customer-360/components": {
+      "types": "./customer-360/components/index.d.ts",
+      "esm2020": "./esm2020/customer-360/components/spartacus-asm-customer-360-components.mjs",
+      "es2020": "./fesm2020/spartacus-asm-customer-360-components.mjs",
+      "es2015": "./fesm2015/spartacus-asm-customer-360-components.mjs",
+      "node": "./fesm2015/spartacus-asm-customer-360-components.mjs",
+      "default": "./fesm2020/spartacus-asm-customer-360-components.mjs"
+    },
+    "./customer-360/core": {
+      "types": "./customer-360/core/index.d.ts",
+      "esm2020": "./esm2020/customer-360/core/spartacus-asm-customer-360-core.mjs",
+      "es2020": "./fesm2020/spartacus-asm-customer-360-core.mjs",
+      "es2015": "./fesm2015/spartacus-asm-customer-360-core.mjs",
+      "node": "./fesm2015/spartacus-asm-customer-360-core.mjs",
+      "default": "./fesm2020/spartacus-asm-customer-360-core.mjs"
+    },
+    "./customer-360": {
+      "types": "./customer-360/index.d.ts",
+      "esm2020": "./esm2020/customer-360/spartacus-asm-customer-360.mjs",
+      "es2020": "./fesm2020/spartacus-asm-customer-360.mjs",
+      "es2015": "./fesm2015/spartacus-asm-customer-360.mjs",
+      "node": "./fesm2015/spartacus-asm-customer-360.mjs",
+      "default": "./fesm2020/spartacus-asm-customer-360.mjs"
+    },
+    "./customer-360/occ": {
+      "types": "./customer-360/occ/index.d.ts",
+      "esm2020": "./esm2020/customer-360/occ/spartacus-asm-customer-360-occ.mjs",
+      "es2020": "./fesm2020/spartacus-asm-customer-360-occ.mjs",
+      "es2015": "./fesm2015/spartacus-asm-customer-360-occ.mjs",
+      "node": "./fesm2015/spartacus-asm-customer-360-occ.mjs",
+      "default": "./fesm2020/spartacus-asm-customer-360-occ.mjs"
+    },
+    "./customer-360/root": {
+      "types": "./customer-360/root/index.d.ts",
+      "esm2020": "./esm2020/customer-360/root/spartacus-asm-customer-360-root.mjs",
+      "es2020": "./fesm2020/spartacus-asm-customer-360-root.mjs",
+      "es2015": "./fesm2015/spartacus-asm-customer-360-root.mjs",
+      "node": "./fesm2015/spartacus-asm-customer-360-root.mjs",
+      "default": "./fesm2020/spartacus-asm-customer-360-root.mjs"
+    },
+    "./occ": {
+      "types": "./occ/index.d.ts",
+      "esm2020": "./esm2020/occ/spartacus-asm-occ.mjs",
+      "es2020": "./fesm2020/spartacus-asm-occ.mjs",
+      "es2015": "./fesm2015/spartacus-asm-occ.mjs",
+      "node": "./fesm2015/spartacus-asm-occ.mjs",
+      "default": "./fesm2020/spartacus-asm-occ.mjs"
+    },
+    "./root": {
+      "types": "./root/index.d.ts",
+      "esm2020": "./esm2020/root/spartacus-asm-root.mjs",
+      "es2020": "./fesm2020/spartacus-asm-root.mjs",
+      "es2015": "./fesm2015/spartacus-asm-root.mjs",
+      "node": "./fesm2015/spartacus-asm-root.mjs",
+      "default": "./fesm2020/spartacus-asm-root.mjs"
+    }
+  },
+  "dependencies": {
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^15.2.9",
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
+    "@angular/forms": "^15.2.9",
+    "@ng-select/ng-select": "^10.0.3",
+    "@ngrx/effects": "^15.3.0",
+    "@ngrx/store": "^15.3.0",
+    "@spartacus/cart": "6.7.0",
+    "@spartacus/core": "6.7.0",
+    "@spartacus/order": "6.7.0",
+    "@spartacus/schematics": "6.7.0",
+    "@spartacus/storefinder": "6.7.0",
+    "@spartacus/storefront": "6.7.0",
+    "@spartacus/styles": "6.7.0",
+    "@spartacus/user": "6.7.0",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json",
+  "module": "fesm2015/spartacus-asm.mjs",
+  "es2020": "fesm2020/spartacus-asm.mjs",
+  "esm2020": "esm2020/spartacus-asm.mjs",
+  "fesm2020": "fesm2020/spartacus-asm.mjs",
+  "fesm2015": "fesm2015/spartacus-asm.mjs",
+  "typings": "index.d.ts",
+  "sideEffects": false
+}

@@ -1,0 +1,57 @@
+{
+  "name": "@spartacus/segment-refs",
+  "version": "6.7.0",
+  "description": "segment-refs",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "segment"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^15.2.9",
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
+    "@spartacus/core": "6.7.0",
+    "@spartacus/schematics": "6.7.0",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json",
+  "module": "fesm2015/spartacus-segment-refs.mjs",
+  "es2020": "fesm2020/spartacus-segment-refs.mjs",
+  "esm2020": "esm2020/spartacus-segment-refs.mjs",
+  "fesm2020": "fesm2020/spartacus-segment-refs.mjs",
+  "fesm2015": "fesm2015/spartacus-segment-refs.mjs",
+  "typings": "index.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/spartacus-segment-refs.mjs",
+      "es2020": "./fesm2020/spartacus-segment-refs.mjs",
+      "es2015": "./fesm2015/spartacus-segment-refs.mjs",
+      "node": "./fesm2015/spartacus-segment-refs.mjs",
+      "default": "./fesm2020/spartacus-segment-refs.mjs"
+    },
+    "./root": {
+      "types": "./root/index.d.ts",
+      "esm2020": "./esm2020/root/spartacus-segment-refs-root.mjs",
+      "es2020": "./fesm2020/spartacus-segment-refs-root.mjs",
+      "es2015": "./fesm2015/spartacus-segment-refs-root.mjs",
+      "node": "./fesm2015/spartacus-segment-refs-root.mjs",
+      "default": "./fesm2020/spartacus-segment-refs-root.mjs"
+    }
+  },
+  "sideEffects": false
+}

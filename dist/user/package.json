@@ -1,0 +1,152 @@
+{
+  "name": "@spartacus/user",
+  "version": "6.7.0",
+  "description": "User feature library for Spartacus",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "user"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/user",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./_index.scss",
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/spartacus-user.mjs",
+      "es2020": "./fesm2020/spartacus-user.mjs",
+      "es2015": "./fesm2015/spartacus-user.mjs",
+      "node": "./fesm2015/spartacus-user.mjs",
+      "default": "./fesm2020/spartacus-user.mjs"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    },
+    "./account/assets": {
+      "types": "./account/assets/index.d.ts",
+      "esm2020": "./esm2020/account/assets/spartacus-user-account-assets.mjs",
+      "es2020": "./fesm2020/spartacus-user-account-assets.mjs",
+      "es2015": "./fesm2015/spartacus-user-account-assets.mjs",
+      "node": "./fesm2015/spartacus-user-account-assets.mjs",
+      "default": "./fesm2020/spartacus-user-account-assets.mjs"
+    },
+    "./account/components": {
+      "types": "./account/components/index.d.ts",
+      "esm2020": "./esm2020/account/components/spartacus-user-account-components.mjs",
+      "es2020": "./fesm2020/spartacus-user-account-components.mjs",
+      "es2015": "./fesm2015/spartacus-user-account-components.mjs",
+      "node": "./fesm2015/spartacus-user-account-components.mjs",
+      "default": "./fesm2020/spartacus-user-account-components.mjs"
+    },
+    "./account/core": {
+      "types": "./account/core/index.d.ts",
+      "esm2020": "./esm2020/account/core/spartacus-user-account-core.mjs",
+      "es2020": "./fesm2020/spartacus-user-account-core.mjs",
+      "es2015": "./fesm2015/spartacus-user-account-core.mjs",
+      "node": "./fesm2015/spartacus-user-account-core.mjs",
+      "default": "./fesm2020/spartacus-user-account-core.mjs"
+    },
+    "./account": {
+      "types": "./account/index.d.ts",
+      "esm2020": "./esm2020/account/spartacus-user-account.mjs",
+      "es2020": "./fesm2020/spartacus-user-account.mjs",
+      "es2015": "./fesm2015/spartacus-user-account.mjs",
+      "node": "./fesm2015/spartacus-user-account.mjs",
+      "default": "./fesm2020/spartacus-user-account.mjs"
+    },
+    "./account/occ": {
+      "types": "./account/occ/index.d.ts",
+      "esm2020": "./esm2020/account/occ/spartacus-user-account-occ.mjs",
+      "es2020": "./fesm2020/spartacus-user-account-occ.mjs",
+      "es2015": "./fesm2015/spartacus-user-account-occ.mjs",
+      "node": "./fesm2015/spartacus-user-account-occ.mjs",
+      "default": "./fesm2020/spartacus-user-account-occ.mjs"
+    },
+    "./account/root": {
+      "types": "./account/root/index.d.ts",
+      "esm2020": "./esm2020/account/root/spartacus-user-account-root.mjs",
+      "es2020": "./fesm2020/spartacus-user-account-root.mjs",
+      "es2015": "./fesm2015/spartacus-user-account-root.mjs",
+      "node": "./fesm2015/spartacus-user-account-root.mjs",
+      "default": "./fesm2020/spartacus-user-account-root.mjs"
+    },
+    "./profile/assets": {
+      "types": "./profile/assets/index.d.ts",
+      "esm2020": "./esm2020/profile/assets/spartacus-user-profile-assets.mjs",
+      "es2020": "./fesm2020/spartacus-user-profile-assets.mjs",
+      "es2015": "./fesm2015/spartacus-user-profile-assets.mjs",
+      "node": "./fesm2015/spartacus-user-profile-assets.mjs",
+      "default": "./fesm2020/spartacus-user-profile-assets.mjs"
+    },
+    "./profile/components": {
+      "types": "./profile/components/index.d.ts",
+      "esm2020": "./esm2020/profile/components/spartacus-user-profile-components.mjs",
+      "es2020": "./fesm2020/spartacus-user-profile-components.mjs",
+      "es2015": "./fesm2015/spartacus-user-profile-components.mjs",
+      "node": "./fesm2015/spartacus-user-profile-components.mjs",
+      "default": "./fesm2020/spartacus-user-profile-components.mjs"
+    },
+    "./profile/core": {
+      "types": "./profile/core/index.d.ts",
+      "esm2020": "./esm2020/profile/core/spartacus-user-profile-core.mjs",
+      "es2020": "./fesm2020/spartacus-user-profile-core.mjs",
+      "es2015": "./fesm2015/spartacus-user-profile-core.mjs",
+      "node": "./fesm2015/spartacus-user-profile-core.mjs",
+      "default": "./fesm2020/spartacus-user-profile-core.mjs"
+    },
+    "./profile": {
+      "types": "./profile/index.d.ts",
+      "esm2020": "./esm2020/profile/spartacus-user-profile.mjs",
+      "es2020": "./fesm2020/spartacus-user-profile.mjs",
+      "es2015": "./fesm2015/spartacus-user-profile.mjs",
+      "node": "./fesm2015/spartacus-user-profile.mjs",
+      "default": "./fesm2020/spartacus-user-profile.mjs"
+    },
+    "./profile/occ": {
+      "types": "./profile/occ/index.d.ts",
+      "esm2020": "./esm2020/profile/occ/spartacus-user-profile-occ.mjs",
+      "es2020": "./fesm2020/spartacus-user-profile-occ.mjs",
+      "es2015": "./fesm2015/spartacus-user-profile-occ.mjs",
+      "node": "./fesm2015/spartacus-user-profile-occ.mjs",
+      "default": "./fesm2020/spartacus-user-profile-occ.mjs"
+    },
+    "./profile/root": {
+      "types": "./profile/root/index.d.ts",
+      "esm2020": "./esm2020/profile/root/spartacus-user-profile-root.mjs",
+      "es2020": "./fesm2020/spartacus-user-profile-root.mjs",
+      "es2015": "./fesm2015/spartacus-user-profile-root.mjs",
+      "node": "./fesm2015/spartacus-user-profile-root.mjs",
+      "default": "./fesm2020/spartacus-user-profile-root.mjs"
+    }
+  },
+  "dependencies": {
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^15.2.9",
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
+    "@angular/forms": "^15.2.9",
+    "@angular/router": "^15.2.9",
+    "@ng-select/ng-select": "^10.0.3",
+    "@ngrx/store": "^15.3.0",
+    "@spartacus/core": "6.7.0",
+    "@spartacus/schematics": "6.7.0",
+    "@spartacus/storefront": "6.7.0",
+    "@spartacus/styles": "6.7.0",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json",
+  "module": "fesm2015/spartacus-user.mjs",
+  "es2020": "fesm2020/spartacus-user.mjs",
+  "esm2020": "esm2020/spartacus-user.mjs",
+  "fesm2020": "fesm2020/spartacus-user.mjs",
+  "fesm2015": "fesm2015/spartacus-user.mjs",
+  "typings": "index.d.ts",
+  "sideEffects": false
+}

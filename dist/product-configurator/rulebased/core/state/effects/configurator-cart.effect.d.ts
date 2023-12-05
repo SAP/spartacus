@@ -1,0 +1,33 @@
+import { Actions } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { CartActions } from '@spartacus/cart/base/core';
+import { LoggerService } from '@spartacus/core';
+import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
+import { Observable } from 'rxjs';
+import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
+import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
+import { ConfiguratorActions } from '../actions/index';
+import { StateWithConfigurator } from '../configurator-state';
+import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
+import * as i0 from "@angular/core";
+type readConfigurationForCartEntryResultType = ConfiguratorActions.ReadCartEntryConfigurationSuccess | ConfiguratorActions.UpdatePriceSummary | ConfiguratorActions.SearchVariants | ConfiguratorActions.ReadCartEntryConfigurationFail;
+export declare const ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND = "Entry number is required in addToCart response";
+export declare class ConfiguratorCartEffects {
+    protected actions$: Actions;
+    protected configuratorCommonsConnector: RulebasedConfiguratorConnector;
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService;
+    protected configuratorGroupUtilsService: ConfiguratorUtilsService;
+    protected store: Store<StateWithConfigurator>;
+    protected configuratorBasicEffectService: ConfiguratorBasicEffectService;
+    protected logger: LoggerService;
+    addToCart$: Observable<ConfiguratorActions.AddNextOwner | CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail>;
+    updateCartEntry$: Observable<CartActions.CartUpdateEntrySuccess | CartActions.CartUpdateEntryFail>;
+    readConfigurationForCartEntry$: Observable<readConfigurationForCartEntryResultType>;
+    readConfigurationForOrderEntry$: Observable<ConfiguratorActions.ReadOrderEntryConfigurationSuccess | ConfiguratorActions.ReadOrderEntryConfigurationFail>;
+    removeCartBoundConfigurations$: Observable<ConfiguratorActions.RemoveConfiguration>;
+    addOwner$: Observable<ConfiguratorActions.SetNextOwnerCartEntry | ConfiguratorActions.SetInteractionState>;
+    constructor(actions$: Actions, configuratorCommonsConnector: RulebasedConfiguratorConnector, commonConfigUtilsService: CommonConfiguratorUtilsService, configuratorGroupUtilsService: ConfiguratorUtilsService, store: Store<StateWithConfigurator>, configuratorBasicEffectService: ConfiguratorBasicEffectService);
+    static ɵfac: i0.ɵɵFactoryDeclaration<ConfiguratorCartEffects, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<ConfiguratorCartEffects>;
+}
+export {};

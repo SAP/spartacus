@@ -1,0 +1,28 @@
+@import './order-confirmation-items';
+@import './order-confirmation-thank-you-message';
+@import './order-confirmation-totals';
+@import './guest-register-form';
+
+$order-confirmation-allowlist: cx-guest-register-form,
+  cx-order-confirmation-items, cx-order-confirmation-thank-you-message,
+  cx-order-confirmation-totals !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $order-confirmation-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $order-confirmation-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

@@ -1,0 +1,31 @@
+import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
+import { CheckoutCostCenterFacade, CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
+import { CheckoutReviewSubmitComponent, CheckoutStepService } from '@spartacus/checkout/base/components';
+import { CheckoutDeliveryAddressFacade, CheckoutDeliveryModesFacade, CheckoutPaymentFacade, CheckoutStepType } from '@spartacus/checkout/base/root';
+import { CostCenter, TranslationService, UserCostCenterService } from '@spartacus/core';
+import { Card } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import * as i0 from "@angular/core";
+export declare class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitComponent {
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
+    protected checkoutPaymentFacade: CheckoutPaymentFacade;
+    protected activeCartFacade: ActiveCartFacade;
+    protected translationService: TranslationService;
+    protected checkoutStepService: CheckoutStepService;
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
+    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
+    protected checkoutCostCenterFacade: CheckoutCostCenterFacade;
+    protected userCostCenterService: UserCostCenterService;
+    checkoutStepTypePaymentType: CheckoutStepType;
+    constructor(checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade, checkoutPaymentFacade: CheckoutPaymentFacade, activeCartFacade: ActiveCartFacade, translationService: TranslationService, checkoutStepService: CheckoutStepService, checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade, checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade, checkoutCostCenterFacade: CheckoutCostCenterFacade, userCostCenterService: UserCostCenterService);
+    get poNumber$(): Observable<string | undefined>;
+    get paymentType$(): Observable<PaymentType | undefined>;
+    get isAccountPayment$(): Observable<boolean>;
+    get costCenter$(): Observable<CostCenter | undefined>;
+    protected getCheckoutPaymentSteps(): Array<CheckoutStepType | string>;
+    getCostCenterCard(costCenter?: CostCenter): Observable<Card>;
+    getPoNumberCard(poNumber?: string | null): Observable<Card>;
+    getPaymentTypeCard(paymentType: PaymentType): Observable<Card>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<B2BCheckoutReviewSubmitComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<B2BCheckoutReviewSubmitComponent, "cx-review-submit", never, {}, {}, never, never, false, never>;
+}

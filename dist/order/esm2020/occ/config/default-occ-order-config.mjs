@@ -1,0 +1,33 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+export const defaultOccOrderConfig = {
+    backend: {
+        occ: {
+            endpoints: {
+                /* eslint-disable max-len */
+                orderHistory: 'users/${userId}/orders',
+                orderDetail: 'users/${userId}/orders/${orderId}?fields=FULL',
+                consignmentTracking: 'users/${userId}/orders/${orderCode}/consignments/${consignmentCode}/tracking',
+                cancelOrder: 'users/${userId}/orders/${orderId}/cancellation',
+                returnOrder: 'users/${userId}/orderReturns?fields=BASIC,returnEntries(BASIC,refundAmount(formattedValue),orderEntry(basePrice(formattedValue),product(name,code,baseOptions,images(DEFAULT,galleryIndex)))),deliveryCost(formattedValue),totalPrice(formattedValue),subTotal(formattedValue)',
+                orderReturns: 'users/${userId}/orderReturns?fields=BASIC',
+                orderReturnDetail: 'users/${userId}/orderReturns/${returnRequestCode}?fields=BASIC,returnEntries(BASIC,refundAmount(formattedValue),orderEntry(basePrice(formattedValue),product(name,code,baseOptions,images(DEFAULT,galleryIndex)))),deliveryCost(formattedValue),totalPrice(formattedValue),subTotal(formattedValue)',
+                cancelReturn: 'users/${userId}/orderReturns/${returnRequestCode}',
+                /* eslint-enable */
+                /** scheduled replenishment endpoints start */
+                replenishmentOrderDetails: 'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
+                replenishmentOrderDetailsHistory: 'users/${userId}/replenishmentOrders/${replenishmentOrderCode}/orders',
+                cancelReplenishmentOrder: 'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
+                replenishmentOrderHistory: 'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
+                /** scheduled replenishment endpoints end */
+                /** placing an order endpoints start **/
+                placeOrder: 'users/${userId}/orders?fields=FULL',
+                /** placing an order endpoints end **/
+            },
+        },
+    },
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZGVmYXVsdC1vY2Mtb3JkZXItY29uZmlnLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vZmVhdHVyZS1saWJzL29yZGVyL29jYy9jb25maWcvZGVmYXVsdC1vY2Mtb3JkZXItY29uZmlnLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7O0dBSUc7QUFJSCxNQUFNLENBQUMsTUFBTSxxQkFBcUIsR0FBYztJQUM5QyxPQUFPLEVBQUU7UUFDUCxHQUFHLEVBQUU7WUFDSCxTQUFTLEVBQUU7Z0JBQ1QsNEJBQTRCO2dCQUM1QixZQUFZLEVBQUUsd0JBQXdCO2dCQUN0QyxXQUFXLEVBQUUsK0NBQStDO2dCQUM1RCxtQkFBbUIsRUFDakIsOEVBQThFO2dCQUNoRixXQUFXLEVBQUUsZ0RBQWdEO2dCQUM3RCxXQUFXLEVBQ1QsZ1JBQWdSO2dCQUNsUixZQUFZLEVBQUUsMkNBQTJDO2dCQUN6RCxpQkFBaUIsRUFDZixxU0FBcVM7Z0JBQ3ZTLFlBQVksRUFBRSxtREFBbUQ7Z0JBQ2pFLG1CQUFtQjtnQkFFbkIsOENBQThDO2dCQUM5Qyx5QkFBeUIsRUFDdkIsaUlBQWlJO2dCQUNuSSxnQ0FBZ0MsRUFDOUIsc0VBQXNFO2dCQUN4RSx3QkFBd0IsRUFDdEIsaUlBQWlJO2dCQUNuSSx5QkFBeUIsRUFDdkIsZ0dBQWdHO2dCQUNsRyw0Q0FBNEM7Z0JBRTVDLHdDQUF3QztnQkFDeEMsVUFBVSxFQUFFLG9DQUFvQztnQkFDaEQsc0NBQXNDO2FBQ3ZDO1NBQ0Y7S0FDRjtDQUNGLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogU1BEWC1GaWxlQ29weXJpZ2h0VGV4dDogMjAyMyBTQVAgU3BhcnRhY3VzIHRlYW0gPHNwYXJ0YWN1cy10ZWFtQHNhcC5jb20+XG4gKlxuICogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEFwYWNoZS0yLjBcbiAqL1xuXG5pbXBvcnQgeyBPY2NDb25maWcgfSBmcm9tICdAc3BhcnRhY3VzL2NvcmUnO1xuXG5leHBvcnQgY29uc3QgZGVmYXVsdE9jY09yZGVyQ29uZmlnOiBPY2NDb25maWcgPSB7XG4gIGJhY2tlbmQ6IHtcbiAgICBvY2M6IHtcbiAgICAgIGVuZHBvaW50czoge1xuICAgICAgICAvKiBlc2xpbnQtZGlzYWJsZSBtYXgtbGVuICovXG4gICAgICAgIG9yZGVySGlzdG9yeTogJ3VzZXJzLyR7dXNlcklkfS9vcmRlcnMnLFxuICAgICAgICBvcmRlckRldGFpbDogJ3VzZXJzLyR7dXNlcklkfS9vcmRlcnMvJHtvcmRlcklkfT9maWVsZHM9RlVMTCcsXG4gICAgICAgIGNvbnNpZ25tZW50VHJhY2tpbmc6XG4gICAgICAgICAgJ3VzZXJzLyR7dXNlcklkfS9vcmRlcnMvJHtvcmRlckNvZGV9L2NvbnNpZ25tZW50cy8ke2NvbnNpZ25tZW50Q29kZX0vdHJhY2tpbmcnLFxuICAgICAgICBjYW5jZWxPcmRlcjogJ3VzZXJzLyR7dXNlcklkfS9vcmRlcnMvJHtvcmRlcklkfS9jYW5jZWxsYXRpb24nLFxuICAgICAgICByZXR1cm5PcmRlcjpcbiAgICAgICAgICAndXNlcnMvJHt1c2VySWR9L29yZGVyUmV0dXJucz9maWVsZHM9QkFTSUMscmV0dXJuRW50cmllcyhCQVNJQyxyZWZ1bmRBbW91bnQoZm9ybWF0dGVkVmFsdWUpLG9yZGVyRW50cnkoYmFzZVByaWNlKGZvcm1hdHRlZFZhbHVlKSxwcm9kdWN0KG5hbWUsY29kZSxiYXNlT3B0aW9ucyxpbWFnZXMoREVGQVVMVCxnYWxsZXJ5SW5kZXgpKSkpLGRlbGl2ZXJ5Q29zdChmb3JtYXR0ZWRWYWx1ZSksdG90YWxQcmljZShmb3JtYXR0ZWRWYWx1ZSksc3ViVG90YWwoZm9ybWF0dGVkVmFsdWUpJyxcbiAgICAgICAgb3JkZXJSZXR1cm5zOiAndXNlcnMvJHt1c2VySWR9L29yZGVyUmV0dXJucz9maWVsZHM9QkFTSUMnLFxuICAgICAgICBvcmRlclJldHVybkRldGFpbDpcbiAgICAgICAgICAndXNlcnMvJHt1c2VySWR9L29yZGVyUmV0dXJucy8ke3JldHVyblJlcXVlc3RDb2RlfT9maWVsZHM9QkFTSUMscmV0dXJuRW50cmllcyhCQVNJQyxyZWZ1bmRBbW91bnQoZm9ybWF0dGVkVmFsdWUpLG9yZGVyRW50cnkoYmFzZVByaWNlKGZvcm1hdHRlZFZhbHVlKSxwcm9kdWN0KG5hbWUsY29kZSxiYXNlT3B0aW9ucyxpbWFnZXMoREVGQVVMVCxnYWxsZXJ5SW5kZXgpKSkpLGRlbGl2ZXJ5Q29zdChmb3JtYXR0ZWRWYWx1ZSksdG90YWxQcmljZShmb3JtYXR0ZWRWYWx1ZSksc3ViVG90YWwoZm9ybWF0dGVkVmFsdWUpJyxcbiAgICAgICAgY2FuY2VsUmV0dXJuOiAndXNlcnMvJHt1c2VySWR9L29yZGVyUmV0dXJucy8ke3JldHVyblJlcXVlc3RDb2RlfScsXG4gICAgICAgIC8qIGVzbGludC1lbmFibGUgKi9cblxuICAgICAgICAvKiogc2NoZWR1bGVkIHJlcGxlbmlzaG1lbnQgZW5kcG9pbnRzIHN0YXJ0ICovXG4gICAgICAgIHJlcGxlbmlzaG1lbnRPcmRlckRldGFpbHM6XG4gICAgICAgICAgJ3VzZXJzLyR7dXNlcklkfS9yZXBsZW5pc2htZW50T3JkZXJzLyR7cmVwbGVuaXNobWVudE9yZGVyQ29kZX0/ZmllbGRzPUZVTEwsY29zdENlbnRlcihGVUxMKSxwdXJjaGFzZU9yZGVyTnVtYmVyLHBheW1lbnRUeXBlLHVzZXInLFxuICAgICAgICByZXBsZW5pc2htZW50T3JkZXJEZXRhaWxzSGlzdG9yeTpcbiAgICAgICAgICAndXNlcnMvJHt1c2VySWR9L3JlcGxlbmlzaG1lbnRPcmRlcnMvJHtyZXBsZW5pc2htZW50T3JkZXJDb2RlfS9vcmRlcnMnLFxuICAgICAgICBjYW5jZWxSZXBsZW5pc2htZW50T3JkZXI6XG4gICAgICAgICAgJ3VzZXJzLyR7dXNlcklkfS9yZXBsZW5pc2htZW50T3JkZXJzLyR7cmVwbGVuaXNobWVudE9yZGVyQ29kZX0/ZmllbGRzPUZVTEwsY29zdENlbnRlcihGVUxMKSxwdXJjaGFzZU9yZGVyTnVtYmVyLHBheW1lbnRUeXBlLHVzZXInLFxuICAgICAgICByZXBsZW5pc2htZW50T3JkZXJIaXN0b3J5OlxuICAgICAgICAgICd1c2Vycy8ke3VzZXJJZH0vcmVwbGVuaXNobWVudE9yZGVycz9maWVsZHM9RlVMTCxyZXBsZW5pc2htZW50T3JkZXJzKEZVTEwsIHB1cmNoYXNlT3JkZXJOdW1iZXIpJyxcbiAgICAgICAgLyoqIHNjaGVkdWxlZCByZXBsZW5pc2htZW50IGVuZHBvaW50cyBlbmQgKi9cblxuICAgICAgICAvKiogcGxhY2luZyBhbiBvcmRlciBlbmRwb2ludHMgc3RhcnQgKiovXG4gICAgICAgIHBsYWNlT3JkZXI6ICd1c2Vycy8ke3VzZXJJZH0vb3JkZXJzP2ZpZWxkcz1GVUxMJyxcbiAgICAgICAgLyoqIHBsYWNpbmcgYW4gb3JkZXIgZW5kcG9pbnRzIGVuZCAqKi9cbiAgICAgIH0sXG4gICAgfSxcbiAgfSxcbn07XG4iXX0=

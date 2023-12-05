@@ -1,0 +1,20 @@
+%cx-configurator-attribute-radio-button {
+  @include cx-configurator-attribute-type();
+  @include cx-configurator-attribute-level-quantity-price();
+
+  .form-check {
+    &:last-child {
+      margin-block-end: 9px;
+    }
+  }
+
+  @include cx-configurator-attribute-visible-focus();
+
+  .cx-quantity {
+    padding-block-end: 1rem;
+  }
+
+  .cx-configurator-attribute-additional-value {
+    margin-inline-start: 0px;
+  }
+}

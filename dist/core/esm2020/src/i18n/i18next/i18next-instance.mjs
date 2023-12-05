@@ -1,0 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import { InjectionToken } from '@angular/core';
+import i18next from 'i18next';
+/**
+ * The instance of i18next.
+ *
+ * Each SSR request gets its own instance of i18next.
+ *
+ * The reference to the static global instance of `i18next` (`import i18next from 'i18next`)
+ * should not be used anywhere else, because otherwise it would be shared in between all SSR requests
+ * and can cause concurrency issues.
+ */
+export const I18NEXT_INSTANCE = new InjectionToken('I18NEXT_INSTANCE', {
+    providedIn: 'root',
+    factory: () => i18next.createInstance(),
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaTE4bmV4dC1pbnN0YW5jZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL3Byb2plY3RzL2NvcmUvc3JjL2kxOG4vaTE4bmV4dC9pMThuZXh0LWluc3RhbmNlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7O0dBSUc7QUFFSCxPQUFPLEVBQUUsY0FBYyxFQUFFLE1BQU0sZUFBZSxDQUFDO0FBQy9DLE9BQU8sT0FBaUIsTUFBTSxTQUFTLENBQUM7QUFFeEM7Ozs7Ozs7O0dBUUc7QUFDSCxNQUFNLENBQUMsTUFBTSxnQkFBZ0IsR0FBRyxJQUFJLGNBQWMsQ0FBTyxrQkFBa0IsRUFBRTtJQUMzRSxVQUFVLEVBQUUsTUFBTTtJQUNsQixPQUFPLEVBQUUsR0FBRyxFQUFFLENBQUMsT0FBTyxDQUFDLGNBQWMsRUFBRTtDQUN4QyxDQUFDLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogU1BEWC1GaWxlQ29weXJpZ2h0VGV4dDogMjAyMyBTQVAgU3BhcnRhY3VzIHRlYW0gPHNwYXJ0YWN1cy10ZWFtQHNhcC5jb20+XG4gKlxuICogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEFwYWNoZS0yLjBcbiAqL1xuXG5pbXBvcnQgeyBJbmplY3Rpb25Ub2tlbiB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xuaW1wb3J0IGkxOG5leHQsIHsgaTE4biB9IGZyb20gJ2kxOG5leHQnO1xuXG4vKipcbiAqIFRoZSBpbnN0YW5jZSBvZiBpMThuZXh0LlxuICpcbiAqIEVhY2ggU1NSIHJlcXVlc3QgZ2V0cyBpdHMgb3duIGluc3RhbmNlIG9mIGkxOG5leHQuXG4gKlxuICogVGhlIHJlZmVyZW5jZSB0byB0aGUgc3RhdGljIGdsb2JhbCBpbnN0YW5jZSBvZiBgaTE4bmV4dGAgKGBpbXBvcnQgaTE4bmV4dCBmcm9tICdpMThuZXh0YClcbiAqIHNob3VsZCBub3QgYmUgdXNlZCBhbnl3aGVyZSBlbHNlLCBiZWNhdXNlIG90aGVyd2lzZSBpdCB3b3VsZCBiZSBzaGFyZWQgaW4gYmV0d2VlbiBhbGwgU1NSIHJlcXVlc3RzXG4gKiBhbmQgY2FuIGNhdXNlIGNvbmN1cnJlbmN5IGlzc3Vlcy5cbiAqL1xuZXhwb3J0IGNvbnN0IEkxOE5FWFRfSU5TVEFOQ0UgPSBuZXcgSW5qZWN0aW9uVG9rZW48aTE4bj4oJ0kxOE5FWFRfSU5TVEFOQ0UnLCB7XG4gIHByb3ZpZGVkSW46ICdyb290JyxcbiAgZmFjdG9yeTogKCkgPT4gaTE4bmV4dC5jcmVhdGVJbnN0YW5jZSgpLFxufSk7XG4iXX0=

@@ -1,0 +1,13 @@
+import { MemoizedSelector } from '@ngrx/store';
+import { B2BUser, EntitiesModel, SearchConfig, StateUtils } from '@spartacus/core';
+import { Permission } from '../../model/permission.model';
+import { UserGroup } from '../../model/user-group.model';
+import { B2BUserManagement, StateWithOrganization } from '../organization-state';
+export declare const getB2BUserManagementState: MemoizedSelector<StateWithOrganization, B2BUserManagement>;
+export declare const getB2BUsersState: MemoizedSelector<StateWithOrganization, StateUtils.EntityLoaderState<B2BUser>>;
+export declare const getB2BUserState: (orgCustomerId: string) => MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<B2BUser>>;
+export declare const getB2BUserValue: (orgCustomerId: string) => MemoizedSelector<StateWithOrganization, B2BUser>;
+export declare const getUserList: (params: SearchConfig) => MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<EntitiesModel<B2BUser>>>;
+export declare const getB2BUserApprovers: (code: string, params: SearchConfig) => MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<EntitiesModel<B2BUser>>>;
+export declare const getB2BUserPermissions: (code: string, params: SearchConfig) => MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<EntitiesModel<Permission>>>;
+export declare const getB2BUserUserGroups: (code: string, params: SearchConfig) => MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<EntitiesModel<UserGroup>>>;

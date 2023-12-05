@@ -1,0 +1,9 @@
+cx-saved-cart-details-items {
+  @extend %cx-cart-details;
+
+  .cx-value {
+    button[type='button'] {
+      margin-bottom: 0;
+    }
+  }
+}

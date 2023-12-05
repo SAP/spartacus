@@ -1,0 +1,69 @@
+%cx-consignment-tracking {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 0.5rem;
+}
+
+%cx-tracking-events {
+  .cx-consignment-tracking-dialog {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+    @extend .modal-lg;
+
+    .cx-consignment-tracking-container {
+      @extend .modal-content;
+
+      .cx-consignment-tracking-title {
+        @include type('3');
+      }
+
+      .body {
+        @include media-breakpoint-down(sm) {
+          padding: 0;
+        }
+      }
+
+      .cx-shipment-heading {
+        position: relative;
+        padding-top: 1.5rem;
+        padding-inline-end: 0;
+        padding-bottom: 0.4rem;
+        padding-inline-start: 2rem;
+        background-color: var(--cx-color-background);
+      }
+
+      .cx-no-tracking-heading {
+        position: relative;
+        padding: 2rem;
+      }
+
+      .cx-shipment-content {
+        padding: 0.6rem 0 1.2rem 0;
+      }
+
+      .cx-shipment-title {
+        @include type('4');
+      }
+
+      .cx-tracking-events {
+        .cx-tracking-event-body {
+          border-inline-start: 0.7rem solid var(--cx-color-secondary);
+          padding-inline-start: 1rem;
+          margin-bottom: 1rem;
+          div {
+            padding-bottom: 0.6rem;
+          }
+          .cx-tracking-event-title {
+            @include type('5');
+          }
+          .cx-tracking-event-city {
+            @include type('7');
+          }
+          .cx-tracking-event-content {
+            @include type('6');
+          }
+        }
+      }
+    }
+  }
+}

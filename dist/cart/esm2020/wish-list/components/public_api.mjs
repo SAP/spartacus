@@ -1,0 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+export * from './wish-list-components.module';
+export * from './wish-list-item/wish-list-item.component';
+export * from './wish-list/wish-list.component';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljX2FwaS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2ZlYXR1cmUtbGlicy9jYXJ0L3dpc2gtbGlzdC9jb21wb25lbnRzL3B1YmxpY19hcGkudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Ozs7R0FJRztBQUVILGNBQWMsK0JBQStCLENBQUM7QUFDOUMsY0FBYywyQ0FBMkMsQ0FBQztBQUMxRCxjQUFjLGlDQUFpQyxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiLypcbiAqIFNQRFgtRmlsZUNvcHlyaWdodFRleHQ6IDIwMjMgU0FQIFNwYXJ0YWN1cyB0ZWFtIDxzcGFydGFjdXMtdGVhbUBzYXAuY29tPlxuICpcbiAqIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBBcGFjaGUtMi4wXG4gKi9cblxuZXhwb3J0ICogZnJvbSAnLi93aXNoLWxpc3QtY29tcG9uZW50cy5tb2R1bGUnO1xuZXhwb3J0ICogZnJvbSAnLi93aXNoLWxpc3QtaXRlbS93aXNoLWxpc3QtaXRlbS5jb21wb25lbnQnO1xuZXhwb3J0ICogZnJvbSAnLi93aXNoLWxpc3Qvd2lzaC1saXN0LmNvbXBvbmVudCc7XG4iXX0=

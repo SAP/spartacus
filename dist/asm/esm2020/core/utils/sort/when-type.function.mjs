@@ -1,0 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Tests both values with type guard and uses comparator if both match the type.
+ *
+ * If either value fails the type guard, they values are considered equal.
+ */
+export function whenType(typeGuard, comparator) {
+    return (a, b) => {
+        if (typeGuard(a) && typeGuard(b)) {
+            return comparator(a, b);
+        }
+        return 0;
+    };
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoid2hlbi10eXBlLmZ1bmN0aW9uLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vZmVhdHVyZS1saWJzL2FzbS9jb3JlL3V0aWxzL3NvcnQvd2hlbi10eXBlLmZ1bmN0aW9uLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7O0dBSUc7QUFJSDs7OztHQUlHO0FBQ0gsTUFBTSxVQUFVLFFBQVEsQ0FDdEIsU0FBbUMsRUFDbkMsVUFBeUI7SUFFekIsT0FBTyxDQUFDLENBQUksRUFBRSxDQUFJLEVBQUUsRUFBRTtRQUNwQixJQUFJLFNBQVMsQ0FBQyxDQUFDLENBQUMsSUFBSSxTQUFTLENBQUMsQ0FBQyxDQUFDLEVBQUU7WUFDaEMsT0FBTyxVQUFVLENBQUMsQ0FBQyxFQUFFLENBQUMsQ0FBQyxDQUFDO1NBQ3pCO1FBRUQsT0FBTyxDQUFDLENBQUM7SUFDWCxDQUFDLENBQUM7QUFDSixDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiLypcbiAqIFNQRFgtRmlsZUNvcHlyaWdodFRleHQ6IDIwMjMgU0FQIFNwYXJ0YWN1cyB0ZWFtIDxzcGFydGFjdXMtdGVhbUBzYXAuY29tPlxuICpcbiAqIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBBcGFjaGUtMi4wXG4gKi9cblxuaW1wb3J0IHsgQ29tcGFyYXRvciB9IGZyb20gJy4vc29ydC5tb2RlbCc7XG5cbi8qKlxuICogVGVzdHMgYm90aCB2YWx1ZXMgd2l0aCB0eXBlIGd1YXJkIGFuZCB1c2VzIGNvbXBhcmF0b3IgaWYgYm90aCBtYXRjaCB0aGUgdHlwZS5cbiAqXG4gKiBJZiBlaXRoZXIgdmFsdWUgZmFpbHMgdGhlIHR5cGUgZ3VhcmQsIHRoZXkgdmFsdWVzIGFyZSBjb25zaWRlcmVkIGVxdWFsLlxuICovXG5leHBvcnQgZnVuY3Rpb24gd2hlblR5cGU8VCwgUyBleHRlbmRzIFQ+KFxuICB0eXBlR3VhcmQ6ICh2YWx1ZTogVCkgPT4gdmFsdWUgaXMgUyxcbiAgY29tcGFyYXRvcjogQ29tcGFyYXRvcjxTPlxuKTogQ29tcGFyYXRvcjxUPiB7XG4gIHJldHVybiAoYTogVCwgYjogVCkgPT4ge1xuICAgIGlmICh0eXBlR3VhcmQoYSkgJiYgdHlwZUd1YXJkKGIpKSB7XG4gICAgICByZXR1cm4gY29tcGFyYXRvcihhLCBiKTtcbiAgICB9XG5cbiAgICByZXR1cm4gMDtcbiAgfTtcbn1cbiJdfQ==

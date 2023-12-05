@@ -1,0 +1,33 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import { UserEmailService } from './user-email.service';
+import { UserPasswordService } from './user-password.service';
+import { UserProfileService } from './user-profile.service';
+import { UserRegisterService } from './user-register.service';
+import { UserEmailFacade, UserPasswordFacade, UserProfileFacade, UserRegisterFacade, } from '@spartacus/user/profile/root';
+export const facadeProviders = [
+    UserEmailService,
+    UserPasswordService,
+    UserProfileService,
+    UserRegisterService,
+    {
+        provide: UserEmailFacade,
+        useExisting: UserEmailService,
+    },
+    {
+        provide: UserPasswordFacade,
+        useExisting: UserPasswordService,
+    },
+    {
+        provide: UserProfileFacade,
+        useExisting: UserProfileService,
+    },
+    {
+        provide: UserRegisterFacade,
+        useExisting: UserRegisterService,
+    },
+];
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZmFjYWRlLXByb3ZpZGVycy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL2ZlYXR1cmUtbGlicy91c2VyL3Byb2ZpbGUvY29yZS9mYWNhZGUvZmFjYWRlLXByb3ZpZGVycy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7OztHQUlHO0FBRUgsT0FBTyxFQUFFLGdCQUFnQixFQUFFLE1BQU0sc0JBQXNCLENBQUM7QUFDeEQsT0FBTyxFQUFFLG1CQUFtQixFQUFFLE1BQU0seUJBQXlCLENBQUM7QUFDOUQsT0FBTyxFQUFFLGtCQUFrQixFQUFFLE1BQU0sd0JBQXdCLENBQUM7QUFDNUQsT0FBTyxFQUFFLG1CQUFtQixFQUFFLE1BQU0seUJBQXlCLENBQUM7QUFDOUQsT0FBTyxFQUNMLGVBQWUsRUFDZixrQkFBa0IsRUFDbEIsaUJBQWlCLEVBQ2pCLGtCQUFrQixHQUNuQixNQUFNLDhCQUE4QixDQUFDO0FBRXRDLE1BQU0sQ0FBQyxNQUFNLGVBQWUsR0FBZTtJQUN6QyxnQkFBZ0I7SUFDaEIsbUJBQW1CO0lBQ25CLGtCQUFrQjtJQUNsQixtQkFBbUI7SUFDbkI7UUFDRSxPQUFPLEVBQUUsZUFBZTtRQUN4QixXQUFXLEVBQUUsZ0JBQWdCO0tBQzlCO0lBQ0Q7UUFDRSxPQUFPLEVBQUUsa0JBQWtCO1FBQzNCLFdBQVcsRUFBRSxtQkFBbUI7S0FDakM7SUFDRDtRQUNFLE9BQU8sRUFBRSxpQkFBaUI7UUFDMUIsV0FBVyxFQUFFLGtCQUFrQjtLQUNoQztJQUNEO1FBQ0UsT0FBTyxFQUFFLGtCQUFrQjtRQUMzQixXQUFXLEVBQUUsbUJBQW1CO0tBQ2pDO0NBQ0YsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8qXG4gKiBTUERYLUZpbGVDb3B5cmlnaHRUZXh0OiAyMDIzIFNBUCBTcGFydGFjdXMgdGVhbSA8c3BhcnRhY3VzLXRlYW1Ac2FwLmNvbT5cbiAqXG4gKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQXBhY2hlLTIuMFxuICovXG5cbmltcG9ydCB7IFVzZXJFbWFpbFNlcnZpY2UgfSBmcm9tICcuL3VzZXItZW1haWwuc2VydmljZSc7XG5pbXBvcnQgeyBVc2VyUGFzc3dvcmRTZXJ2aWNlIH0gZnJvbSAnLi91c2VyLXBhc3N3b3JkLnNlcnZpY2UnO1xuaW1wb3J0IHsgVXNlclByb2ZpbGVTZXJ2aWNlIH0gZnJvbSAnLi91c2VyLXByb2ZpbGUuc2VydmljZSc7XG5pbXBvcnQgeyBVc2VyUmVnaXN0ZXJTZXJ2aWNlIH0gZnJvbSAnLi91c2VyLXJlZ2lzdGVyLnNlcnZpY2UnO1xuaW1wb3J0IHtcbiAgVXNlckVtYWlsRmFjYWRlLFxuICBVc2VyUGFzc3dvcmRGYWNhZGUsXG4gIFVzZXJQcm9maWxlRmFjYWRlLFxuICBVc2VyUmVnaXN0ZXJGYWNhZGUsXG59IGZyb20gJ0BzcGFydGFjdXMvdXNlci9wcm9maWxlL3Jvb3QnO1xuaW1wb3J0IHsgUHJvdmlkZXIgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcbmV4cG9ydCBjb25zdCBmYWNhZGVQcm92aWRlcnM6IFByb3ZpZGVyW10gPSBbXG4gIFVzZXJFbWFpbFNlcnZpY2UsXG4gIFVzZXJQYXNzd29yZFNlcnZpY2UsXG4gIFVzZXJQcm9maWxlU2VydmljZSxcbiAgVXNlclJlZ2lzdGVyU2VydmljZSxcbiAge1xuICAgIHByb3ZpZGU6IFVzZXJFbWFpbEZhY2FkZSxcbiAgICB1c2VFeGlzdGluZzogVXNlckVtYWlsU2VydmljZSxcbiAgfSxcbiAge1xuICAgIHByb3ZpZGU6IFVzZXJQYXNzd29yZEZhY2FkZSxcbiAgICB1c2VFeGlzdGluZzogVXNlclBhc3N3b3JkU2VydmljZSxcbiAgfSxcbiAge1xuICAgIHByb3ZpZGU6IFVzZXJQcm9maWxlRmFjYWRlLFxuICAgIHVzZUV4aXN0aW5nOiBVc2VyUHJvZmlsZVNlcnZpY2UsXG4gIH0sXG4gIHtcbiAgICBwcm92aWRlOiBVc2VyUmVnaXN0ZXJGYWNhZGUsXG4gICAgdXNlRXhpc3Rpbmc6IFVzZXJSZWdpc3RlclNlcnZpY2UsXG4gIH0sXG5dO1xuIl19

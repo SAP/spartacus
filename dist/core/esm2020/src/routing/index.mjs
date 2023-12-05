@@ -1,0 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+export * from './configurable-routes/index';
+export * from './external-routes/index';
+export * from './facade/routing-params.service';
+export * from './facade/routing.service';
+export * from './models/cms-route';
+export * from './models/page-context.model';
+export * from './protected-routes/index';
+export * from './routing.module';
+export * from './services/index';
+export * from './store/actions/index';
+export * from './store/routing-state';
+export * from './store/selectors/index';
+export * from './url-matcher/index';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi9wcm9qZWN0cy9jb3JlL3NyYy9yb3V0aW5nL2luZGV4LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7O0dBSUc7QUFFSCxjQUFjLDZCQUE2QixDQUFDO0FBQzVDLGNBQWMseUJBQXlCLENBQUM7QUFDeEMsY0FBYyxpQ0FBaUMsQ0FBQztBQUNoRCxjQUFjLDBCQUEwQixDQUFDO0FBQ3pDLGNBQWMsb0JBQW9CLENBQUM7QUFDbkMsY0FBYyw2QkFBNkIsQ0FBQztBQUM1QyxjQUFjLDBCQUEwQixDQUFDO0FBQ3pDLGNBQWMsa0JBQWtCLENBQUM7QUFDakMsY0FBYyxrQkFBa0IsQ0FBQztBQUNqQyxjQUFjLHVCQUF1QixDQUFDO0FBQ3RDLGNBQWMsdUJBQXVCLENBQUM7QUFDdEMsY0FBYyx5QkFBeUIsQ0FBQztBQUN4QyxjQUFjLHFCQUFxQixDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiLypcbiAqIFNQRFgtRmlsZUNvcHlyaWdodFRleHQ6IDIwMjMgU0FQIFNwYXJ0YWN1cyB0ZWFtIDxzcGFydGFjdXMtdGVhbUBzYXAuY29tPlxuICpcbiAqIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBBcGFjaGUtMi4wXG4gKi9cblxuZXhwb3J0ICogZnJvbSAnLi9jb25maWd1cmFibGUtcm91dGVzL2luZGV4JztcbmV4cG9ydCAqIGZyb20gJy4vZXh0ZXJuYWwtcm91dGVzL2luZGV4JztcbmV4cG9ydCAqIGZyb20gJy4vZmFjYWRlL3JvdXRpbmctcGFyYW1zLnNlcnZpY2UnO1xuZXhwb3J0ICogZnJvbSAnLi9mYWNhZGUvcm91dGluZy5zZXJ2aWNlJztcbmV4cG9ydCAqIGZyb20gJy4vbW9kZWxzL2Ntcy1yb3V0ZSc7XG5leHBvcnQgKiBmcm9tICcuL21vZGVscy9wYWdlLWNvbnRleHQubW9kZWwnO1xuZXhwb3J0ICogZnJvbSAnLi9wcm90ZWN0ZWQtcm91dGVzL2luZGV4JztcbmV4cG9ydCAqIGZyb20gJy4vcm91dGluZy5tb2R1bGUnO1xuZXhwb3J0ICogZnJvbSAnLi9zZXJ2aWNlcy9pbmRleCc7XG5leHBvcnQgKiBmcm9tICcuL3N0b3JlL2FjdGlvbnMvaW5kZXgnO1xuZXhwb3J0ICogZnJvbSAnLi9zdG9yZS9yb3V0aW5nLXN0YXRlJztcbmV4cG9ydCAqIGZyb20gJy4vc3RvcmUvc2VsZWN0b3JzL2luZGV4JztcbmV4cG9ydCAqIGZyb20gJy4vdXJsLW1hdGNoZXIvaW5kZXgnO1xuIl19

@@ -1,0 +1,36 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * @deprecated since 6.2, will be removed in a new major version, as contextual logging will be enabled by default.
+ * Default implementation of `ExpressServerLogger` that just delegates log messages to the native `console` object without providing any context.
+ * It's used when contextual logging is disabled.
+ *
+ *
+ */
+//CXSPA-3680 - remove this class in 7.0
+export class LegacyExpressServerLogger {
+    log(message, _context) {
+        /* eslint-disable-next-line no-console */
+        console.log(message);
+    }
+    warn(message, _context) {
+        /* eslint-disable-next-line no-console */
+        console.warn(message);
+    }
+    error(message, _context) {
+        /* eslint-disable-next-line no-console */
+        console.error(message);
+    }
+    info(message, _context) {
+        /* eslint-disable-next-line no-console */
+        console.info(message);
+    }
+    debug(message, _context) {
+        /* eslint-disable-next-line no-console */
+        console.debug(message);
+    }
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibGVnYWN5LWV4cHJlc3Mtc2VydmVyLWxvZ2dlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL2NvcmUtbGlicy9zZXR1cC9zc3IvbG9nZ2VyL2xvZ2dlcnMvbGVnYWN5LWV4cHJlc3Mtc2VydmVyLWxvZ2dlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7OztHQUlHO0FBT0g7Ozs7OztHQU1HO0FBQ0gsdUNBQXVDO0FBQ3ZDLE1BQU0sT0FBTyx5QkFBeUI7SUFDcEMsR0FBRyxDQUFDLE9BQWUsRUFBRSxRQUFxQztRQUN4RCx5Q0FBeUM7UUFDekMsT0FBTyxDQUFDLEdBQUcsQ0FBQyxPQUFPLENBQUMsQ0FBQztJQUN2QixDQUFDO0lBQ0QsSUFBSSxDQUFDLE9BQWUsRUFBRSxRQUFxQztRQUN6RCx5Q0FBeUM7UUFDekMsT0FBTyxDQUFDLElBQUksQ0FBQyxPQUFPLENBQUMsQ0FBQztJQUN4QixDQUFDO0lBQ0QsS0FBSyxDQUFDLE9BQWUsRUFBRSxRQUFxQztRQUMxRCx5Q0FBeUM7UUFDekMsT0FBTyxDQUFDLEtBQUssQ0FBQyxPQUFPLENBQUMsQ0FBQztJQUN6QixDQUFDO0lBQ0QsSUFBSSxDQUFDLE9BQWUsRUFBRSxRQUFxQztRQUN6RCx5Q0FBeUM7UUFDekMsT0FBTyxDQUFDLElBQUksQ0FBQyxPQUFPLENBQUMsQ0FBQztJQUN4QixDQUFDO0lBQ0QsS0FBSyxDQUFDLE9BQWUsRUFBRSxRQUFxQztRQUMxRCx5Q0FBeUM7UUFDekMsT0FBTyxDQUFDLEtBQUssQ0FBQyxPQUFPLENBQUMsQ0FBQztJQUN6QixDQUFDO0NBQ0YiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogU1BEWC1GaWxlQ29weXJpZ2h0VGV4dDogMjAyMyBTQVAgU3BhcnRhY3VzIHRlYW0gPHNwYXJ0YWN1cy10ZWFtQHNhcC5jb20+XG4gKlxuICogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEFwYWNoZS0yLjBcbiAqL1xuXG5pbXBvcnQge1xuICBFeHByZXNzU2VydmVyTG9nZ2VyLFxuICBFeHByZXNzU2VydmVyTG9nZ2VyQ29udGV4dCxcbn0gZnJvbSAnLi9leHByZXNzLXNlcnZlci1sb2dnZXInO1xuXG4vKipcbiAqIEBkZXByZWNhdGVkIHNpbmNlIDYuMiwgd2lsbCBiZSByZW1vdmVkIGluIGEgbmV3IG1ham9yIHZlcnNpb24sIGFzIGNvbnRleHR1YWwgbG9nZ2luZyB3aWxsIGJlIGVuYWJsZWQgYnkgZGVmYXVsdC5cbiAqIERlZmF1bHQgaW1wbGVtZW50YXRpb24gb2YgYEV4cHJlc3NTZXJ2ZXJMb2dnZXJgIHRoYXQganVzdCBkZWxlZ2F0ZXMgbG9nIG1lc3NhZ2VzIHRvIHRoZSBuYXRpdmUgYGNvbnNvbGVgIG9iamVjdCB3aXRob3V0IHByb3ZpZGluZyBhbnkgY29udGV4dC5cbiAqIEl0J3MgdXNlZCB3aGVuIGNvbnRleHR1YWwgbG9nZ2luZyBpcyBkaXNhYmxlZC5cbiAqXG4gKlxuICovXG4vL0NYU1BBLTM2ODAgLSByZW1vdmUgdGhpcyBjbGFzcyBpbiA3LjBcbmV4cG9ydCBjbGFzcyBMZWdhY3lFeHByZXNzU2VydmVyTG9nZ2VyIGltcGxlbWVudHMgRXhwcmVzc1NlcnZlckxvZ2dlciB7XG4gIGxvZyhtZXNzYWdlOiBzdHJpbmcsIF9jb250ZXh0PzogRXhwcmVzc1NlcnZlckxvZ2dlckNvbnRleHQpOiB2b2lkIHtcbiAgICAvKiBlc2xpbnQtZGlzYWJsZS1uZXh0LWxpbmUgbm8tY29uc29sZSAqL1xuICAgIGNvbnNvbGUubG9nKG1lc3NhZ2UpO1xuICB9XG4gIHdhcm4obWVzc2FnZTogc3RyaW5nLCBfY29udGV4dD86IEV4cHJlc3NTZXJ2ZXJMb2dnZXJDb250ZXh0KTogdm9pZCB7XG4gICAgLyogZXNsaW50LWRpc2FibGUtbmV4dC1saW5lIG5vLWNvbnNvbGUgKi9cbiAgICBjb25zb2xlLndhcm4obWVzc2FnZSk7XG4gIH1cbiAgZXJyb3IobWVzc2FnZTogc3RyaW5nLCBfY29udGV4dD86IEV4cHJlc3NTZXJ2ZXJMb2dnZXJDb250ZXh0KTogdm9pZCB7XG4gICAgLyogZXNsaW50LWRpc2FibGUtbmV4dC1saW5lIG5vLWNvbnNvbGUgKi9cbiAgICBjb25zb2xlLmVycm9yKG1lc3NhZ2UpO1xuICB9XG4gIGluZm8obWVzc2FnZTogc3RyaW5nLCBfY29udGV4dD86IEV4cHJlc3NTZXJ2ZXJMb2dnZXJDb250ZXh0KTogdm9pZCB7XG4gICAgLyogZXNsaW50LWRpc2FibGUtbmV4dC1saW5lIG5vLWNvbnNvbGUgKi9cbiAgICBjb25zb2xlLmluZm8obWVzc2FnZSk7XG4gIH1cbiAgZGVidWcobWVzc2FnZTogc3RyaW5nLCBfY29udGV4dD86IEV4cHJlc3NTZXJ2ZXJMb2dnZXJDb250ZXh0KTogdm9pZCB7XG4gICAgLyogZXNsaW50LWRpc2FibGUtbmV4dC1saW5lIG5vLWNvbnNvbGUgKi9cbiAgICBjb25zb2xlLmRlYnVnKG1lc3NhZ2UpO1xuICB9XG59XG4iXX0=

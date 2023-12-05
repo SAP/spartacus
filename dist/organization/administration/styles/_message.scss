@@ -1,0 +1,93 @@
+// As the inset-inline-end logical properties is lacking, we need to add
+// alternative rules.
+html[dir='rtl'] cx-org-list cx-org-message .close {
+  left: 20px;
+  right: auto;
+}
+
+%organizationMessage {
+  cx-org-message {
+    position: absolute;
+    width: 100%;
+
+    // the actual message components have various selectors
+    > * {
+      transition: all 0.4s;
+
+      position: absolute;
+      width: 100%;
+
+      opacity: 0;
+      z-index: 0;
+      pointer-events: none;
+
+      &:first-child:not(.terminated) {
+        z-index: 1;
+        opacity: 1;
+        pointer-events: initial;
+      }
+      &.terminated + * {
+        opacity: 1;
+      }
+
+      .inner {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 20px 40px;
+      }
+    }
+
+    .close {
+      position: absolute;
+      right: 20px;
+      margin-top: -5px;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    cx-icon {
+      align-self: flex-start;
+      margin: 5px;
+    }
+
+    cx-org-notification {
+      display: flex;
+      background-color: #deeecc;
+      &.error {
+        background-color: var(--cx-color-danger);
+      }
+    }
+
+    cx-org-confirmation {
+      flex: 100%;
+      flex-direction: column;
+
+      width: 100%;
+      display: block;
+
+      &.info {
+        background-color: #cbe6fe;
+      }
+
+      .messageTitle {
+        font-weight: bold;
+      }
+
+      .message {
+        display: flex;
+      }
+
+      .actions {
+        flex: 100%;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+        button {
+          margin-inline-start: 20px;
+        }
+      }
+    }
+  }
+}

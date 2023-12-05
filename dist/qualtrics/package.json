@@ -1,0 +1,70 @@
+{
+  "name": "@spartacus/qualtrics",
+  "version": "6.7.0",
+  "description": "Qualtrics library for Spartacus",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "qualtrics",
+    "personalized",
+    "management"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/qualtrics",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./_index.scss",
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/spartacus-qualtrics.mjs",
+      "es2020": "./fesm2020/spartacus-qualtrics.mjs",
+      "es2015": "./fesm2015/spartacus-qualtrics.mjs",
+      "node": "./fesm2015/spartacus-qualtrics.mjs",
+      "default": "./fesm2020/spartacus-qualtrics.mjs"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    },
+    "./components": {
+      "types": "./components/index.d.ts",
+      "esm2020": "./esm2020/components/spartacus-qualtrics-components.mjs",
+      "es2020": "./fesm2020/spartacus-qualtrics-components.mjs",
+      "es2015": "./fesm2015/spartacus-qualtrics-components.mjs",
+      "node": "./fesm2015/spartacus-qualtrics-components.mjs",
+      "default": "./fesm2020/spartacus-qualtrics-components.mjs"
+    },
+    "./root": {
+      "types": "./root/index.d.ts",
+      "esm2020": "./esm2020/root/spartacus-qualtrics-root.mjs",
+      "es2020": "./fesm2020/spartacus-qualtrics-root.mjs",
+      "es2015": "./fesm2015/spartacus-qualtrics-root.mjs",
+      "node": "./fesm2015/spartacus-qualtrics-root.mjs",
+      "default": "./fesm2020/spartacus-qualtrics-root.mjs"
+    }
+  },
+  "dependencies": {
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^15.2.9",
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
+    "@spartacus/core": "6.7.0",
+    "@spartacus/schematics": "6.7.0",
+    "@spartacus/styles": "6.7.0",
+    "bootstrap": "^4.6.2",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json",
+  "module": "fesm2015/spartacus-qualtrics.mjs",
+  "es2020": "fesm2020/spartacus-qualtrics.mjs",
+  "esm2020": "esm2020/spartacus-qualtrics.mjs",
+  "fesm2020": "fesm2020/spartacus-qualtrics.mjs",
+  "fesm2015": "fesm2015/spartacus-qualtrics.mjs",
+  "typings": "index.d.ts",
+  "sideEffects": false
+}

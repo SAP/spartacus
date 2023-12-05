@@ -1,0 +1,16 @@
+%cx-store-finder-schedule {
+  .cx-days {
+    padding: 0 1rem 0 0;
+  }
+
+  .cx-store-hours {
+    margin: 1.5rem 0;
+  }
+
+  .cx-hours {
+    text-align: center;
+    &.closed {
+      color: var(--cx-color-primary);
+    }
+  }
+}

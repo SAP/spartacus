@@ -1,0 +1,522 @@
+@mixin is-current-active-selection {
+  outline: solid 3px var(--cx-color-primary);
+  outline-offset: -3px;
+  background: var(--cx-color-background-focus);
+}
+
+%ghost {
+  &.ghost {
+    .header {
+      h3 {
+        color: transparent;
+        background-color: var(--cx-color-ghost);
+        border-radius: var(--cx-ghost-radius);
+        display: inline-block;
+      }
+    }
+    ng-select.sort {
+      min-width: 200px;
+      background-color: var(--cx-color-ghost);
+      .ng-select-container {
+        visibility: hidden;
+      }
+    }
+
+    cx-table.vertical-stacked,
+    cx-table.vertical {
+      table {
+        tr:hover:not(.is-current) {
+          background: none;
+        }
+
+        td {
+          position: relative;
+
+          .text {
+            @include media-breakpoint-up(md) {
+              min-height: 74px;
+            }
+            display: flex;
+          }
+
+          &:before {
+            content: '';
+            position: absolute;
+            width: calc(100% - 20px);
+            margin-inline-start: 20px;
+            height: 20px;
+            background: var(--cx-color-ghost);
+            border-radius: var(--cx-ghost-radius);
+
+            @include media-breakpoint-up(md) {
+              top: 25px;
+              left: 0;
+            }
+          }
+        }
+
+        td:last-child {
+          &:before {
+            width: calc(100% - 40px);
+            margin-inline-end: 20px;
+          }
+        }
+
+        @include media-breakpoint-down(md) {
+          tr td:before {
+            margin-top: -10px;
+            width: calc(100% - 60px);
+          }
+        }
+      }
+    }
+  }
+}
+
+%organizationTitle {
+  .title {
+    h3 {
+      button {
+        border: none;
+        background-color: inherit;
+        cx-icon {
+          pointer-events: none;
+          color: var(--cx-color, var(--cx-color-info));
+        }
+      }
+    }
+  }
+}
+
+%organizationList {
+  .content-wrapper,
+  form {
+    display: contents;
+  }
+
+  @extend %organizationTitle !optional;
+
+  cx-split-view:not([active-view='1']) .list table {
+    th,
+    td {
+      &.amount,
+      &.dateRange,
+      // cost center
+      &.currency,
+      // users
+      &.uid,
+      &.roles,
+      // permissions
+      &.limit {
+        opacity: 0;
+        width: 0.1%;
+      }
+      // let's make status column smaller
+      &.active {
+        width: 100px;
+      }
+    }
+  }
+
+  // required for our ng-select components
+  width: 100%;
+  position: relative;
+
+  .is-empty {
+    margin: 0;
+    padding: 20px;
+  }
+
+  @include media-breakpoint-up(md) {
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
+  }
+
+  @extend %ghost !optional;
+
+  @extend %viewHeader !optional;
+  @extend %table !optional;
+
+  cx-split-view {
+    @include media-breakpoint-down(sm) {
+      // ensure that the views do not flow over the page
+      width: 100vw;
+    }
+    cx-view {
+      height: auto;
+      &:not([position='0']) {
+        // cx-views should only take the necessary vertical space
+        align-self: flex-start;
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding-top: 40px;
+
+      cx-view {
+        &:not([position='0']) {
+          display: flex;
+        }
+      }
+
+      &:not([active-view='1']) {
+        cx-view[position='0'] {
+          padding-inline-end: var(--cx-split-gutter);
+          border-inline-end: solid 0 var(--cx-color-light);
+          border-inline-end-width: calc(
+            min(calc(var(--cx-active-view) - 1), 1) * 1px
+          );
+        }
+      }
+    }
+  }
+
+  cx-view[position='0'] > cx-table.vertical {
+    table {
+      border-top: solid 1px var(--cx-color-light);
+      border-bottom: solid 1px var(--cx-color-light);
+    }
+  }
+
+  .vertical-stacked {
+    table {
+      table-layout: auto;
+    }
+    tbody {
+      border-top: solid 1px var(--cx-color-light);
+      &:last-child {
+        border-bottom: solid 1px var(--cx-color-light);
+      }
+
+      tr:first-child > * {
+        padding-top: 20px;
+      }
+      tr:last-child > * {
+        padding-bottom: 20px;
+      }
+
+      th,
+      td {
+        cx-table-data-cell {
+          min-height: auto;
+          a {
+            padding-top: 0;
+            padding-bottom: 0;
+          }
+        }
+      }
+      @include media-breakpoint-down(md) {
+        th:not(:first-child),
+        td:not(:first-child) {
+          width: 100%;
+        }
+        td {
+          padding-inline-start: 40px;
+        }
+      }
+    }
+  }
+
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 40px;
+  }
+  section + .footer {
+    padding-top: 0;
+  }
+
+  cx-pagination {
+    @include media-breakpoint-down(md) {
+      margin: 0 var(--cx-spatial-md);
+    }
+
+    a {
+      border-radius: 0;
+
+      &:not(.current) {
+        background-color: var(--cx-color-inverse);
+      }
+
+      &.disabled {
+        color: var(--cx-color-light);
+      }
+    }
+  }
+
+  cx-org-toggle-link-cell {
+    padding-inline-start: calc((var(--cx-depth-level) + 3) * 20px);
+    button.tree-item-toggle {
+      margin-inline-start: -40px;
+      min-width: 40px;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    cx-org-toggle-link-cell {
+      padding-inline-start: calc(3rem + var(--cx-depth-level) * 1.5rem);
+    }
+  }
+}
+
+// generic table styles for both vertical and stacked tables
+%table {
+  cx-table {
+    &.vertical-stacked tbody,
+    &.vertical tr {
+      // highlight the items on hovering
+      &:hover:not(.is-current) {
+        background-color: var(--cx-color-background);
+      }
+      // highlight current items
+      &.is-current {
+        outline: solid 3px var(--cx-color-primary);
+        outline-offset: -3px;
+        background: var(--cx-color-background-focus);
+      }
+
+      &:focus-within {
+        @include visible-focus();
+        outline-offset: -2px;
+      }
+
+      .hide-focus-border {
+        outline: none;
+      }
+    }
+  }
+
+  cx-org-sub-list {
+    &:not(.has-nested-view) {
+      cx-table.vertical,
+      table {
+        th:last-child,
+        td:last-child {
+          background-image: none;
+        }
+      }
+    }
+    cx-table.vertical {
+      table {
+        table-layout: auto;
+        thead {
+          display: none;
+        }
+        tr {
+          td {
+            &.actions {
+              width: 1px;
+              &:last-child {
+                padding-inline-end: 30px;
+                padding-inline-start: 5px;
+              }
+            }
+            a {
+              &.is-current {
+                @include is-current-active-selection;
+              }
+            }
+          }
+          th:last-child,
+          td:last-child {
+            width: 1px;
+
+            &:not(:only-child) {
+              max-width: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  cx-table {
+    width: 100%;
+
+    &.vertical td {
+      height: 74px;
+    }
+
+    &.vertical td cx-table-data-cell {
+      display: inline;
+      align-items: center;
+      height: 74px;
+      padding-inline-start: 20px;
+    }
+    &.vertical tr td:last-child,
+    &.vertical-stacked tbody {
+      background-image: var(--list-bg);
+      background-position: var(--list-bg-pos);
+      background-repeat: no-repeat;
+      background-size: 12px;
+    }
+
+    td:last-child a {
+      // last cell will have an icon, which is why we add additional padding
+      padding-inline-end: 40px;
+    }
+
+    td:last-child span {
+      padding-inline-end: 20px;
+    }
+
+    &.vertical-stacked tbody {
+      display: table;
+    }
+
+    thead {
+      pointer-events: none;
+      th {
+        height: 60px;
+      }
+    }
+
+    th,
+    td {
+      padding: 0;
+    }
+    th {
+      font-size: 14px;
+    }
+
+    td {
+      font-size: 16px;
+      max-width: 1px;
+
+      .text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &.button {
+          color: var(--cx-color-primary);
+        }
+      }
+      ul.text {
+        margin: 0;
+        padding: 0;
+        li {
+          display: inline-block;
+          // ensure we're seeing the space before comma
+          white-space: pre-wrap;
+          &:not(:last-child):after {
+            content: ', ';
+          }
+        }
+      }
+      a {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        min-height: 74px;
+
+        @include media-breakpoint-up(lg) {
+          .text {
+            // reset padding for .text, when it's already added for parent <a>
+            padding-inline-start: 0;
+          }
+        }
+
+        &[tabindex='0'],
+        &[tabindex='0']:hover {
+          text-decoration: underline;
+          color: var(--cx-color-primary);
+        }
+
+        &[tabindex='-1'],
+        &[tabindex='-1']:hover {
+          color: inherit;
+          text-decoration: none;
+        }
+      }
+    }
+
+    td.actions {
+      // table actions are
+      button {
+        flex: auto;
+      }
+    }
+
+    // highlight active values
+    .active span {
+      color: var(--cx-color-alert, var(--cx-color-danger));
+      &.is-active {
+        color: var(--cx-color-success);
+      }
+    }
+  }
+}
+
+%viewHeader {
+  .list {
+    .header {
+      padding: 0 6px 38px 6px;
+      min-height: 130px;
+
+      h3 {
+        text-transform: uppercase;
+        margin: 0 0 23px 0;
+
+        @include media-breakpoint-down(sm) {
+          font-size: 1.1rem;
+        }
+      }
+      @include media-breakpoint-down(md) {
+        padding: 20px;
+      }
+
+      .actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        label {
+          align-items: center;
+          display: inline-flex;
+
+          @include media-breakpoint-down(sm) {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-content: center;
+            padding-bottom: 0;
+          }
+
+          span {
+            margin-inline-end: 0.5rem;
+          }
+          .sort {
+            margin-inline-end: auto;
+            min-width: 170px;
+          }
+        }
+
+        button {
+          // add a bit more space to call-to-action button
+          padding: 0 15px;
+        }
+        a,
+        button {
+          text-transform: uppercase;
+        }
+
+        // UX team proposed to make header actions in mobile view block style,
+        // I think it's taken too much space.
+        // @include media-breakpoint-down(sm) {
+        //   flex-wrap: wrap;
+        //   ng-select,button { flex: 100%; }
+        // }
+
+        // sort
+        ng-select {
+          // margin: 20px 0;
+          .ng-select-container.ng-has-value {
+            // align the height of the select with buttons
+            max-height: 40px;
+          }
+        }
+      }
+    }
+  }
+}

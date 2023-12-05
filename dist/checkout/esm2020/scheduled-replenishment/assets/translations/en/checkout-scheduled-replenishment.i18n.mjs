@@ -1,0 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+export const checkoutScheduledReplenishment = {
+    checkoutScheduledReplenishment: {
+        autoReplenishOrder: 'Auto Replenish Order',
+        orderType_PLACE_ORDER: 'None (one time order only)',
+        orderType_SCHEDULE_REPLENISHMENT_ORDER: 'Replenish Order',
+        every: 'Every',
+        recurrencePeriodType_DAILY: 'Day(s)',
+        recurrencePeriodType_WEEKLY: 'Week(s)',
+        recurrencePeriodType_MONTHLY: 'Month',
+        dayOfMonth: 'On day',
+        startOn: 'Start on',
+        repeatOnDays: 'Repeat on the following days',
+    },
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2hlY2tvdXQtc2NoZWR1bGVkLXJlcGxlbmlzaG1lbnQuaTE4bi5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uL2ZlYXR1cmUtbGlicy9jaGVja291dC9zY2hlZHVsZWQtcmVwbGVuaXNobWVudC9hc3NldHMvdHJhbnNsYXRpb25zL2VuL2NoZWNrb3V0LXNjaGVkdWxlZC1yZXBsZW5pc2htZW50LmkxOG4udHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Ozs7R0FJRztBQUVILE1BQU0sQ0FBQyxNQUFNLDhCQUE4QixHQUFHO0lBQzVDLDhCQUE4QixFQUFFO1FBQzlCLGtCQUFrQixFQUFFLHNCQUFzQjtRQUMxQyxxQkFBcUIsRUFBRSw0QkFBNEI7UUFDbkQsc0NBQXNDLEVBQUUsaUJBQWlCO1FBQ3pELEtBQUssRUFBRSxPQUFPO1FBQ2QsMEJBQTBCLEVBQUUsUUFBUTtRQUNwQywyQkFBMkIsRUFBRSxTQUFTO1FBQ3RDLDRCQUE0QixFQUFFLE9BQU87UUFDckMsVUFBVSxFQUFFLFFBQVE7UUFDcEIsT0FBTyxFQUFFLFVBQVU7UUFDbkIsWUFBWSxFQUFFLDhCQUE4QjtLQUM3QztDQUNGLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogU1BEWC1GaWxlQ29weXJpZ2h0VGV4dDogMjAyMyBTQVAgU3BhcnRhY3VzIHRlYW0gPHNwYXJ0YWN1cy10ZWFtQHNhcC5jb20+XG4gKlxuICogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEFwYWNoZS0yLjBcbiAqL1xuXG5leHBvcnQgY29uc3QgY2hlY2tvdXRTY2hlZHVsZWRSZXBsZW5pc2htZW50ID0ge1xuICBjaGVja291dFNjaGVkdWxlZFJlcGxlbmlzaG1lbnQ6IHtcbiAgICBhdXRvUmVwbGVuaXNoT3JkZXI6ICdBdXRvIFJlcGxlbmlzaCBPcmRlcicsXG4gICAgb3JkZXJUeXBlX1BMQUNFX09SREVSOiAnTm9uZSAob25lIHRpbWUgb3JkZXIgb25seSknLFxuICAgIG9yZGVyVHlwZV9TQ0hFRFVMRV9SRVBMRU5JU0hNRU5UX09SREVSOiAnUmVwbGVuaXNoIE9yZGVyJyxcbiAgICBldmVyeTogJ0V2ZXJ5JyxcbiAgICByZWN1cnJlbmNlUGVyaW9kVHlwZV9EQUlMWTogJ0RheShzKScsXG4gICAgcmVjdXJyZW5jZVBlcmlvZFR5cGVfV0VFS0xZOiAnV2VlayhzKScsXG4gICAgcmVjdXJyZW5jZVBlcmlvZFR5cGVfTU9OVEhMWTogJ01vbnRoJyxcbiAgICBkYXlPZk1vbnRoOiAnT24gZGF5JyxcbiAgICBzdGFydE9uOiAnU3RhcnQgb24nLFxuICAgIHJlcGVhdE9uRGF5czogJ1JlcGVhdCBvbiB0aGUgZm9sbG93aW5nIGRheXMnLFxuICB9LFxufTtcbiJdfQ==

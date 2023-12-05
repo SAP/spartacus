@@ -1,0 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+export var HttpResponseStatus;
+(function (HttpResponseStatus) {
+    HttpResponseStatus[HttpResponseStatus["UNKNOWN"] = -1] = "UNKNOWN";
+    HttpResponseStatus[HttpResponseStatus["BAD_REQUEST"] = 400] = "BAD_REQUEST";
+    HttpResponseStatus[HttpResponseStatus["UNAUTHORIZED"] = 401] = "UNAUTHORIZED";
+    HttpResponseStatus[HttpResponseStatus["FORBIDDEN"] = 403] = "FORBIDDEN";
+    HttpResponseStatus[HttpResponseStatus["NOT_FOUND"] = 404] = "NOT_FOUND";
+    HttpResponseStatus[HttpResponseStatus["CONFLICT"] = 409] = "CONFLICT";
+    HttpResponseStatus[HttpResponseStatus["BAD_GATEWAY"] = 502] = "BAD_GATEWAY";
+    HttpResponseStatus[HttpResponseStatus["GATEWAY_TIMEOUT"] = 504] = "GATEWAY_TIMEOUT";
+    HttpResponseStatus[HttpResponseStatus["INTERNAL_SERVER_ERROR"] = 500] = "INTERNAL_SERVER_ERROR";
+})(HttpResponseStatus || (HttpResponseStatus = {}));
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVzcG9uc2Utc3RhdHVzLm1vZGVsLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vcHJvamVjdHMvY29yZS9zcmMvZ2xvYmFsLW1lc3NhZ2UvbW9kZWxzL3Jlc3BvbnNlLXN0YXR1cy5tb2RlbC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7OztHQUlHO0FBRUgsTUFBTSxDQUFOLElBQVksa0JBVVg7QUFWRCxXQUFZLGtCQUFrQjtJQUM1QixrRUFBWSxDQUFBO0lBQ1osMkVBQWlCLENBQUE7SUFDakIsNkVBQWtCLENBQUE7SUFDbEIsdUVBQWUsQ0FBQTtJQUNmLHVFQUFlLENBQUE7SUFDZixxRUFBYyxDQUFBO0lBQ2QsMkVBQWlCLENBQUE7SUFDakIsbUZBQXFCLENBQUE7SUFDckIsK0ZBQTJCLENBQUE7QUFDN0IsQ0FBQyxFQVZXLGtCQUFrQixLQUFsQixrQkFBa0IsUUFVN0IiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogU1BEWC1GaWxlQ29weXJpZ2h0VGV4dDogMjAyMyBTQVAgU3BhcnRhY3VzIHRlYW0gPHNwYXJ0YWN1cy10ZWFtQHNhcC5jb20+XG4gKlxuICogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEFwYWNoZS0yLjBcbiAqL1xuXG5leHBvcnQgZW51bSBIdHRwUmVzcG9uc2VTdGF0dXMge1xuICBVTktOT1dOID0gLTEsXG4gIEJBRF9SRVFVRVNUID0gNDAwLFxuICBVTkFVVEhPUklaRUQgPSA0MDEsXG4gIEZPUkJJRERFTiA9IDQwMyxcbiAgTk9UX0ZPVU5EID0gNDA0LFxuICBDT05GTElDVCA9IDQwOSxcbiAgQkFEX0dBVEVXQVkgPSA1MDIsXG4gIEdBVEVXQVlfVElNRU9VVCA9IDUwNCxcbiAgSU5URVJOQUxfU0VSVkVSX0VSUk9SID0gNTAwLFxufVxuIl19

@@ -1,0 +1,11 @@
+import { MemoizedSelector } from '@ngrx/store';
+import { CustomerSearchPage } from '@spartacus/asm/root';
+import { StateUtils } from '@spartacus/core';
+import { StateWithAsm } from '../asm-state';
+export declare const getCustomerSearchResultsLoaderState: MemoizedSelector<StateWithAsm, StateUtils.LoaderState<CustomerSearchPage>>;
+export declare const getCustomerSearchResults: MemoizedSelector<StateWithAsm, CustomerSearchPage>;
+export declare const getCustomerSearchResultsLoading: MemoizedSelector<StateWithAsm, boolean>;
+export declare const getCustomerListCustomersSearchResultsLoaderState: MemoizedSelector<StateWithAsm, StateUtils.LoaderState<CustomerSearchPage>>;
+export declare const getCustomerListCustomersSearchResults: MemoizedSelector<StateWithAsm, CustomerSearchPage>;
+export declare const getCustomerListCustomersSearchResultsLoading: MemoizedSelector<StateWithAsm, boolean>;
+export declare const getCustomerListCustomersSearchResultsError: MemoizedSelector<StateWithAsm, boolean>;

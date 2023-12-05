@@ -1,0 +1,11 @@
+%cx-configurator-textfield-input-field-readonly {
+  display: flex;
+  flex-direction: column;
+  margin-inline-start: 17px;
+  padding-block-start: 10px;
+
+  label {
+    @include type('5');
+    padding-block-start: 10px;
+  }
+}

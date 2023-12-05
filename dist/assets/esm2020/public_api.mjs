@@ -1,0 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/*
+ * Public API Surface of assets
+ */
+export * from './translations/translation-chunks-config';
+export * from './translations/translations';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljX2FwaS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3Byb2plY3RzL2Fzc2V0cy9zcmMvcHVibGljX2FwaS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7OztHQUlHO0FBRUg7O0dBRUc7QUFFSCxjQUFjLDBDQUEwQyxDQUFDO0FBQ3pELGNBQWMsNkJBQTZCLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogU1BEWC1GaWxlQ29weXJpZ2h0VGV4dDogMjAyMyBTQVAgU3BhcnRhY3VzIHRlYW0gPHNwYXJ0YWN1cy10ZWFtQHNhcC5jb20+XG4gKlxuICogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEFwYWNoZS0yLjBcbiAqL1xuXG4vKlxuICogUHVibGljIEFQSSBTdXJmYWNlIG9mIGFzc2V0c1xuICovXG5cbmV4cG9ydCAqIGZyb20gJy4vdHJhbnNsYXRpb25zL3RyYW5zbGF0aW9uLWNodW5rcy1jb25maWcnO1xuZXhwb3J0ICogZnJvbSAnLi90cmFuc2xhdGlvbnMvdHJhbnNsYXRpb25zJztcbiJdfQ==

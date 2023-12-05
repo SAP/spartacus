@@ -1,0 +1,222 @@
+{
+  "name": "@spartacus/product",
+  "version": "6.7.0",
+  "description": "Product library for Spartacus",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "product"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/product",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./_index.scss",
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/spartacus-product.mjs",
+      "es2020": "./fesm2020/spartacus-product.mjs",
+      "es2015": "./fesm2015/spartacus-product.mjs",
+      "node": "./fesm2015/spartacus-product.mjs",
+      "default": "./fesm2020/spartacus-product.mjs"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    },
+    "./bulk-pricing/assets": {
+      "types": "./bulk-pricing/assets/index.d.ts",
+      "esm2020": "./esm2020/bulk-pricing/assets/spartacus-product-bulk-pricing-assets.mjs",
+      "es2020": "./fesm2020/spartacus-product-bulk-pricing-assets.mjs",
+      "es2015": "./fesm2015/spartacus-product-bulk-pricing-assets.mjs",
+      "node": "./fesm2015/spartacus-product-bulk-pricing-assets.mjs",
+      "default": "./fesm2020/spartacus-product-bulk-pricing-assets.mjs"
+    },
+    "./bulk-pricing/components": {
+      "types": "./bulk-pricing/components/index.d.ts",
+      "esm2020": "./esm2020/bulk-pricing/components/spartacus-product-bulk-pricing-components.mjs",
+      "es2020": "./fesm2020/spartacus-product-bulk-pricing-components.mjs",
+      "es2015": "./fesm2015/spartacus-product-bulk-pricing-components.mjs",
+      "node": "./fesm2015/spartacus-product-bulk-pricing-components.mjs",
+      "default": "./fesm2020/spartacus-product-bulk-pricing-components.mjs"
+    },
+    "./bulk-pricing/core": {
+      "types": "./bulk-pricing/core/index.d.ts",
+      "esm2020": "./esm2020/bulk-pricing/core/spartacus-product-bulk-pricing-core.mjs",
+      "es2020": "./fesm2020/spartacus-product-bulk-pricing-core.mjs",
+      "es2015": "./fesm2015/spartacus-product-bulk-pricing-core.mjs",
+      "node": "./fesm2015/spartacus-product-bulk-pricing-core.mjs",
+      "default": "./fesm2020/spartacus-product-bulk-pricing-core.mjs"
+    },
+    "./bulk-pricing": {
+      "types": "./bulk-pricing/index.d.ts",
+      "esm2020": "./esm2020/bulk-pricing/spartacus-product-bulk-pricing.mjs",
+      "es2020": "./fesm2020/spartacus-product-bulk-pricing.mjs",
+      "es2015": "./fesm2015/spartacus-product-bulk-pricing.mjs",
+      "node": "./fesm2015/spartacus-product-bulk-pricing.mjs",
+      "default": "./fesm2020/spartacus-product-bulk-pricing.mjs"
+    },
+    "./bulk-pricing/occ": {
+      "types": "./bulk-pricing/occ/index.d.ts",
+      "esm2020": "./esm2020/bulk-pricing/occ/spartacus-product-bulk-pricing-occ.mjs",
+      "es2020": "./fesm2020/spartacus-product-bulk-pricing-occ.mjs",
+      "es2015": "./fesm2015/spartacus-product-bulk-pricing-occ.mjs",
+      "node": "./fesm2015/spartacus-product-bulk-pricing-occ.mjs",
+      "default": "./fesm2020/spartacus-product-bulk-pricing-occ.mjs"
+    },
+    "./bulk-pricing/root": {
+      "types": "./bulk-pricing/root/index.d.ts",
+      "esm2020": "./esm2020/bulk-pricing/root/spartacus-product-bulk-pricing-root.mjs",
+      "es2020": "./fesm2020/spartacus-product-bulk-pricing-root.mjs",
+      "es2015": "./fesm2015/spartacus-product-bulk-pricing-root.mjs",
+      "node": "./fesm2015/spartacus-product-bulk-pricing-root.mjs",
+      "default": "./fesm2020/spartacus-product-bulk-pricing-root.mjs"
+    },
+    "./future-stock/assets": {
+      "types": "./future-stock/assets/index.d.ts",
+      "esm2020": "./esm2020/future-stock/assets/spartacus-product-future-stock-assets.mjs",
+      "es2020": "./fesm2020/spartacus-product-future-stock-assets.mjs",
+      "es2015": "./fesm2015/spartacus-product-future-stock-assets.mjs",
+      "node": "./fesm2015/spartacus-product-future-stock-assets.mjs",
+      "default": "./fesm2020/spartacus-product-future-stock-assets.mjs"
+    },
+    "./future-stock/components": {
+      "types": "./future-stock/components/index.d.ts",
+      "esm2020": "./esm2020/future-stock/components/spartacus-product-future-stock-components.mjs",
+      "es2020": "./fesm2020/spartacus-product-future-stock-components.mjs",
+      "es2015": "./fesm2015/spartacus-product-future-stock-components.mjs",
+      "node": "./fesm2015/spartacus-product-future-stock-components.mjs",
+      "default": "./fesm2020/spartacus-product-future-stock-components.mjs"
+    },
+    "./future-stock/core": {
+      "types": "./future-stock/core/index.d.ts",
+      "esm2020": "./esm2020/future-stock/core/spartacus-product-future-stock-core.mjs",
+      "es2020": "./fesm2020/spartacus-product-future-stock-core.mjs",
+      "es2015": "./fesm2015/spartacus-product-future-stock-core.mjs",
+      "node": "./fesm2015/spartacus-product-future-stock-core.mjs",
+      "default": "./fesm2020/spartacus-product-future-stock-core.mjs"
+    },
+    "./future-stock": {
+      "types": "./future-stock/index.d.ts",
+      "esm2020": "./esm2020/future-stock/spartacus-product-future-stock.mjs",
+      "es2020": "./fesm2020/spartacus-product-future-stock.mjs",
+      "es2015": "./fesm2015/spartacus-product-future-stock.mjs",
+      "node": "./fesm2015/spartacus-product-future-stock.mjs",
+      "default": "./fesm2020/spartacus-product-future-stock.mjs"
+    },
+    "./future-stock/occ": {
+      "types": "./future-stock/occ/index.d.ts",
+      "esm2020": "./esm2020/future-stock/occ/spartacus-product-future-stock-occ.mjs",
+      "es2020": "./fesm2020/spartacus-product-future-stock-occ.mjs",
+      "es2015": "./fesm2015/spartacus-product-future-stock-occ.mjs",
+      "node": "./fesm2015/spartacus-product-future-stock-occ.mjs",
+      "default": "./fesm2020/spartacus-product-future-stock-occ.mjs"
+    },
+    "./future-stock/root": {
+      "types": "./future-stock/root/index.d.ts",
+      "esm2020": "./esm2020/future-stock/root/spartacus-product-future-stock-root.mjs",
+      "es2020": "./fesm2020/spartacus-product-future-stock-root.mjs",
+      "es2015": "./fesm2015/spartacus-product-future-stock-root.mjs",
+      "node": "./fesm2015/spartacus-product-future-stock-root.mjs",
+      "default": "./fesm2020/spartacus-product-future-stock-root.mjs"
+    },
+    "./image-zoom/assets": {
+      "types": "./image-zoom/assets/index.d.ts",
+      "esm2020": "./esm2020/image-zoom/assets/spartacus-product-image-zoom-assets.mjs",
+      "es2020": "./fesm2020/spartacus-product-image-zoom-assets.mjs",
+      "es2015": "./fesm2015/spartacus-product-image-zoom-assets.mjs",
+      "node": "./fesm2015/spartacus-product-image-zoom-assets.mjs",
+      "default": "./fesm2020/spartacus-product-image-zoom-assets.mjs"
+    },
+    "./image-zoom/components": {
+      "types": "./image-zoom/components/index.d.ts",
+      "esm2020": "./esm2020/image-zoom/components/spartacus-product-image-zoom-components.mjs",
+      "es2020": "./fesm2020/spartacus-product-image-zoom-components.mjs",
+      "es2015": "./fesm2015/spartacus-product-image-zoom-components.mjs",
+      "node": "./fesm2015/spartacus-product-image-zoom-components.mjs",
+      "default": "./fesm2020/spartacus-product-image-zoom-components.mjs"
+    },
+    "./image-zoom": {
+      "types": "./image-zoom/index.d.ts",
+      "esm2020": "./esm2020/image-zoom/spartacus-product-image-zoom.mjs",
+      "es2020": "./fesm2020/spartacus-product-image-zoom.mjs",
+      "es2015": "./fesm2015/spartacus-product-image-zoom.mjs",
+      "node": "./fesm2015/spartacus-product-image-zoom.mjs",
+      "default": "./fesm2020/spartacus-product-image-zoom.mjs"
+    },
+    "./image-zoom/root": {
+      "types": "./image-zoom/root/index.d.ts",
+      "esm2020": "./esm2020/image-zoom/root/spartacus-product-image-zoom-root.mjs",
+      "es2020": "./fesm2020/spartacus-product-image-zoom-root.mjs",
+      "es2015": "./fesm2015/spartacus-product-image-zoom-root.mjs",
+      "node": "./fesm2015/spartacus-product-image-zoom-root.mjs",
+      "default": "./fesm2020/spartacus-product-image-zoom-root.mjs"
+    },
+    "./variants/assets": {
+      "types": "./variants/assets/index.d.ts",
+      "esm2020": "./esm2020/variants/assets/spartacus-product-variants-assets.mjs",
+      "es2020": "./fesm2020/spartacus-product-variants-assets.mjs",
+      "es2015": "./fesm2015/spartacus-product-variants-assets.mjs",
+      "node": "./fesm2015/spartacus-product-variants-assets.mjs",
+      "default": "./fesm2020/spartacus-product-variants-assets.mjs"
+    },
+    "./variants/components": {
+      "types": "./variants/components/index.d.ts",
+      "esm2020": "./esm2020/variants/components/spartacus-product-variants-components.mjs",
+      "es2020": "./fesm2020/spartacus-product-variants-components.mjs",
+      "es2015": "./fesm2015/spartacus-product-variants-components.mjs",
+      "node": "./fesm2015/spartacus-product-variants-components.mjs",
+      "default": "./fesm2020/spartacus-product-variants-components.mjs"
+    },
+    "./variants": {
+      "types": "./variants/index.d.ts",
+      "esm2020": "./esm2020/variants/spartacus-product-variants.mjs",
+      "es2020": "./fesm2020/spartacus-product-variants.mjs",
+      "es2015": "./fesm2015/spartacus-product-variants.mjs",
+      "node": "./fesm2015/spartacus-product-variants.mjs",
+      "default": "./fesm2020/spartacus-product-variants.mjs"
+    },
+    "./variants/occ": {
+      "types": "./variants/occ/index.d.ts",
+      "esm2020": "./esm2020/variants/occ/spartacus-product-variants-occ.mjs",
+      "es2020": "./fesm2020/spartacus-product-variants-occ.mjs",
+      "es2015": "./fesm2015/spartacus-product-variants-occ.mjs",
+      "node": "./fesm2015/spartacus-product-variants-occ.mjs",
+      "default": "./fesm2020/spartacus-product-variants-occ.mjs"
+    },
+    "./variants/root": {
+      "types": "./variants/root/index.d.ts",
+      "esm2020": "./esm2020/variants/root/spartacus-product-variants-root.mjs",
+      "es2020": "./fesm2020/spartacus-product-variants-root.mjs",
+      "es2015": "./fesm2015/spartacus-product-variants-root.mjs",
+      "node": "./fesm2015/spartacus-product-variants-root.mjs",
+      "default": "./fesm2020/spartacus-product-variants-root.mjs"
+    }
+  },
+  "dependencies": {
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^15.2.9",
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
+    "@angular/router": "^15.2.9",
+    "@spartacus/core": "6.7.0",
+    "@spartacus/schematics": "6.7.0",
+    "@spartacus/storefront": "6.7.0",
+    "@spartacus/styles": "6.7.0",
+    "bootstrap": "^4.6.2",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json",
+  "module": "fesm2015/spartacus-product.mjs",
+  "es2020": "fesm2020/spartacus-product.mjs",
+  "esm2020": "esm2020/spartacus-product.mjs",
+  "fesm2020": "fesm2020/spartacus-product.mjs",
+  "fesm2015": "fesm2015/spartacus-product.mjs",
+  "typings": "index.d.ts",
+  "sideEffects": false
+}

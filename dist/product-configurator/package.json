@@ -1,0 +1,116 @@
+{
+  "name": "@spartacus/product-configurator",
+  "version": "6.7.0",
+  "description": "Product configurator feature library for Spartacus",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "product configurator"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/product-configurator",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./_index.scss",
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/spartacus-product-configurator.mjs",
+      "es2020": "./fesm2020/spartacus-product-configurator.mjs",
+      "es2015": "./fesm2015/spartacus-product-configurator.mjs",
+      "node": "./fesm2015/spartacus-product-configurator.mjs",
+      "default": "./fesm2020/spartacus-product-configurator.mjs"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    },
+    "./common/assets": {
+      "types": "./common/assets/index.d.ts",
+      "esm2020": "./esm2020/common/assets/spartacus-product-configurator-common-assets.mjs",
+      "es2020": "./fesm2020/spartacus-product-configurator-common-assets.mjs",
+      "es2015": "./fesm2015/spartacus-product-configurator-common-assets.mjs",
+      "node": "./fesm2015/spartacus-product-configurator-common-assets.mjs",
+      "default": "./fesm2020/spartacus-product-configurator-common-assets.mjs"
+    },
+    "./common": {
+      "types": "./common/index.d.ts",
+      "esm2020": "./esm2020/common/spartacus-product-configurator-common.mjs",
+      "es2020": "./fesm2020/spartacus-product-configurator-common.mjs",
+      "es2015": "./fesm2015/spartacus-product-configurator-common.mjs",
+      "node": "./fesm2015/spartacus-product-configurator-common.mjs",
+      "default": "./fesm2020/spartacus-product-configurator-common.mjs"
+    },
+    "./rulebased/cpq": {
+      "types": "./rulebased/cpq/index.d.ts",
+      "esm2020": "./esm2020/rulebased/cpq/spartacus-product-configurator-rulebased-cpq.mjs",
+      "es2020": "./fesm2020/spartacus-product-configurator-rulebased-cpq.mjs",
+      "es2015": "./fesm2015/spartacus-product-configurator-rulebased-cpq.mjs",
+      "node": "./fesm2015/spartacus-product-configurator-rulebased-cpq.mjs",
+      "default": "./fesm2020/spartacus-product-configurator-rulebased-cpq.mjs"
+    },
+    "./rulebased": {
+      "types": "./rulebased/index.d.ts",
+      "esm2020": "./esm2020/rulebased/spartacus-product-configurator-rulebased.mjs",
+      "es2020": "./fesm2020/spartacus-product-configurator-rulebased.mjs",
+      "es2015": "./fesm2015/spartacus-product-configurator-rulebased.mjs",
+      "node": "./fesm2015/spartacus-product-configurator-rulebased.mjs",
+      "default": "./fesm2020/spartacus-product-configurator-rulebased.mjs"
+    },
+    "./rulebased/root": {
+      "types": "./rulebased/root/index.d.ts",
+      "esm2020": "./esm2020/rulebased/root/spartacus-product-configurator-rulebased-root.mjs",
+      "es2020": "./fesm2020/spartacus-product-configurator-rulebased-root.mjs",
+      "es2015": "./fesm2015/spartacus-product-configurator-rulebased-root.mjs",
+      "node": "./fesm2015/spartacus-product-configurator-rulebased-root.mjs",
+      "default": "./fesm2020/spartacus-product-configurator-rulebased-root.mjs"
+    },
+    "./textfield": {
+      "types": "./textfield/index.d.ts",
+      "esm2020": "./esm2020/textfield/spartacus-product-configurator-textfield.mjs",
+      "es2020": "./fesm2020/spartacus-product-configurator-textfield.mjs",
+      "es2015": "./fesm2015/spartacus-product-configurator-textfield.mjs",
+      "node": "./fesm2015/spartacus-product-configurator-textfield.mjs",
+      "default": "./fesm2020/spartacus-product-configurator-textfield.mjs"
+    },
+    "./textfield/root": {
+      "types": "./textfield/root/index.d.ts",
+      "esm2020": "./esm2020/textfield/root/spartacus-product-configurator-textfield-root.mjs",
+      "es2020": "./fesm2020/spartacus-product-configurator-textfield-root.mjs",
+      "es2015": "./fesm2015/spartacus-product-configurator-textfield-root.mjs",
+      "node": "./fesm2015/spartacus-product-configurator-textfield-root.mjs",
+      "default": "./fesm2020/spartacus-product-configurator-textfield-root.mjs"
+    }
+  },
+  "dependencies": {
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^15.2.9",
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
+    "@angular/forms": "^15.2.9",
+    "@angular/router": "^15.2.9",
+    "@ng-select/ng-select": "^10.0.3",
+    "@ngrx/effects": "^15.3.0",
+    "@ngrx/store": "^15.3.0",
+    "@spartacus/cart": "6.7.0",
+    "@spartacus/checkout": "6.7.0",
+    "@spartacus/core": "6.7.0",
+    "@spartacus/order": "6.7.0",
+    "@spartacus/schematics": "6.7.0",
+    "@spartacus/storefront": "6.7.0",
+    "@spartacus/styles": "6.7.0",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json",
+  "module": "fesm2015/spartacus-product-configurator.mjs",
+  "es2020": "fesm2020/spartacus-product-configurator.mjs",
+  "esm2020": "esm2020/spartacus-product-configurator.mjs",
+  "fesm2020": "fesm2020/spartacus-product-configurator.mjs",
+  "fesm2015": "fesm2015/spartacus-product-configurator.mjs",
+  "typings": "index.d.ts",
+  "sideEffects": false
+}

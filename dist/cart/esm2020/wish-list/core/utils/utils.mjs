@@ -1,0 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Compute wishlist cart name for customer.
+ */
+export function getWishlistName(customerId) {
+    return `wishlist${customerId}`;
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidXRpbHMuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi8uLi9mZWF0dXJlLWxpYnMvY2FydC93aXNoLWxpc3QvY29yZS91dGlscy91dGlscy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7OztHQUlHO0FBRUg7O0dBRUc7QUFDSCxNQUFNLFVBQVUsZUFBZSxDQUFDLFVBQWtCO0lBQ2hELE9BQU8sV0FBVyxVQUFVLEVBQUUsQ0FBQztBQUNqQyxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiLypcbiAqIFNQRFgtRmlsZUNvcHlyaWdodFRleHQ6IDIwMjMgU0FQIFNwYXJ0YWN1cyB0ZWFtIDxzcGFydGFjdXMtdGVhbUBzYXAuY29tPlxuICpcbiAqIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBBcGFjaGUtMi4wXG4gKi9cblxuLyoqXG4gKiBDb21wdXRlIHdpc2hsaXN0IGNhcnQgbmFtZSBmb3IgY3VzdG9tZXIuXG4gKi9cbmV4cG9ydCBmdW5jdGlvbiBnZXRXaXNobGlzdE5hbWUoY3VzdG9tZXJJZDogc3RyaW5nKTogc3RyaW5nIHtcbiAgcmV0dXJuIGB3aXNobGlzdCR7Y3VzdG9tZXJJZH1gO1xufVxuIl19

@@ -1,0 +1,96 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { OrderEntriesSource, ProductImportStatus, } from '@spartacus/cart/base/root';
+import { ICON_TYPE, } from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
+import { finalize, map } from 'rxjs/operators';
+import * as i0 from "@angular/core";
+import * as i1 from "@spartacus/storefront";
+import * as i2 from "@angular/common";
+import * as i3 from "./import-entries-form/import-entries-form.component";
+import * as i4 from "./import-entries-summary/import-entries-summary.component";
+import * as i5 from "./import-to-new-saved-cart-form/import-to-new-saved-cart-form.component";
+import * as i6 from "@spartacus/core";
+export class ImportEntriesDialogComponent {
+    constructor(launchDialogService) {
+        this.launchDialogService = launchDialogService;
+        this.iconTypes = ICON_TYPE;
+        this.focusConfig = {
+            trap: true,
+            block: true,
+            autofocus: 'button',
+            focusOnEscape: true,
+        };
+        this.formState = true;
+        this.summary$ = new BehaviorSubject({
+            loading: false,
+            cartName: '',
+            count: 0,
+            total: 0,
+            successesCount: 0,
+            warningMessages: [],
+            errorMessages: [],
+        });
+        this.context$ = this.launchDialogService.data$.pipe(map((data) => data.orderEntriesContext));
+    }
+    isNewCartForm(context) {
+        return context.type === OrderEntriesSource.NEW_SAVED_CART;
+    }
+    close(reason) {
+        this.launchDialogService.closeDialog(reason);
+    }
+    importProducts(context, { products, savedCartInfo, }) {
+        this.formState = false;
+        this.summary$.next({
+            ...this.summary$.value,
+            loading: true,
+            total: products.length,
+            cartName: savedCartInfo?.name,
+        });
+        context
+            .addEntries(products, savedCartInfo)
+            .pipe(finalize(() => {
+            this.summary$.next({
+                ...this.summary$.value,
+                loading: false,
+            });
+        }))
+            .subscribe((action) => {
+            this.populateSummary(action);
+        });
+    }
+    populateSummary(action) {
+        if (action.statusCode === ProductImportStatus.SUCCESS) {
+            this.summary$.next({
+                ...this.summary$.value,
+                count: this.summary$.value.count + 1,
+                successesCount: this.summary$.value.successesCount + 1,
+            });
+        }
+        else if (action.statusCode === ProductImportStatus.LOW_STOCK) {
+            this.summary$.next({
+                ...this.summary$.value,
+                count: this.summary$.value.count + 1,
+                warningMessages: [...this.summary$.value.warningMessages, action],
+            });
+        }
+        else {
+            this.summary$.next({
+                ...this.summary$.value,
+                count: this.summary$.value.count + 1,
+                errorMessages: [...this.summary$.value.errorMessages, action],
+            });
+        }
+    }
+}
+ImportEntriesDialogComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.2.9", ngImport: i0, type: ImportEntriesDialogComponent, deps: [{ token: i1.LaunchDialogService }], target: i0.ɵɵFactoryTarget.Component });
+ImportEntriesDialogComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.2.9", type: ImportEntriesDialogComponent, selector: "cx-import-entries-dialog", ngImport: i0, template: "<div\n  [cxFocus]=\"focusConfig\"\n  (esc)=\"close('Escape clicked')\"\n  class=\"cx-import-entries-dialog\"\n>\n  <div class=\"cx-import-entries-container\">\n    <!-- Modal Header -->\n    <div class=\"modal-header cx-import-entries-header\">\n      <ng-container>\n        <div class=\"cx-import-entries-title modal-title\">\n          {{ 'importEntriesDialog.importProducts' | cxTranslate }}\n        </div>\n      </ng-container>\n\n      <button\n        (click)=\"close('Close Import Products Dialog')\"\n        [attr.aria-label]=\"'importEntriesDialog.close' | cxTranslate\"\n        class=\"cx-import-entries-close close\"\n        type=\"button\"\n        [disabled]=\"(summary$ | async)?.loading\"\n      >\n        <span aria-hidden=\"true\">\n          <cx-icon [type]=\"iconTypes.CLOSE\"></cx-icon>\n        </span>\n      </button>\n    </div>\n\n    <!-- Modal Body -->\n    <ng-container *ngIf=\"context$ | async as context\">\n      <ng-container *ngIf=\"formState; else importSummary\">\n        <cx-import-to-new-saved-cart-form\n          *ngIf=\"isNewCartForm(context); else reducedForm\"\n          [type]=\"context.type\"\n          (submitEvent)=\"importProducts(context, $event)\"\n        ></cx-import-to-new-saved-cart-form>\n        <ng-template #reducedForm>\n          <cx-import-entries-form\n            [type]=\"context.type\"\n            (submitEvent)=\"importProducts(context, $event)\"\n          ></cx-import-entries-form>\n        </ng-template>\n      </ng-container>\n\n      <ng-template #importSummary>\n        <cx-import-entries-summary\n          [summary]=\"summary$ | async\"\n          [type]=\"context.type\"\n          (closeEvent)=\"close('Close Import Products Dialog')\"\n        ></cx-import-entries-summary>\n      </ng-template>\n    </ng-container>\n  </div>\n</div>\n", dependencies: [{ kind: "directive", type: i2.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "component", type: i1.IconComponent, selector: "cx-icon,[cxIcon]", inputs: ["cxIcon", "type"] }, { kind: "directive", type: i1.FocusDirective, selector: "[cxFocus]", inputs: ["cxFocus"] }, { kind: "component", type: i3.ImportEntriesFormComponent, selector: "cx-import-entries-form", inputs: ["type"], outputs: ["submitEvent"] }, { kind: "component", type: i4.ImportEntriesSummaryComponent, selector: "cx-import-entries-summary", inputs: ["type", "summary"], outputs: ["closeEvent"] }, { kind: "component", type: i5.ImportToNewSavedCartFormComponent, selector: "cx-import-to-new-saved-cart-form", outputs: ["submitEvent"] }, { kind: "pipe", type: i2.AsyncPipe, name: "async" }, { kind: "pipe", type: i6.TranslatePipe, name: "cxTranslate" }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.2.9", ngImport: i0, type: ImportEntriesDialogComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'cx-import-entries-dialog', changeDetection: ChangeDetectionStrategy.OnPush, template: "<div\n  [cxFocus]=\"focusConfig\"\n  (esc)=\"close('Escape clicked')\"\n  class=\"cx-import-entries-dialog\"\n>\n  <div class=\"cx-import-entries-container\">\n    <!-- Modal Header -->\n    <div class=\"modal-header cx-import-entries-header\">\n      <ng-container>\n        <div class=\"cx-import-entries-title modal-title\">\n          {{ 'importEntriesDialog.importProducts' | cxTranslate }}\n        </div>\n      </ng-container>\n\n      <button\n        (click)=\"close('Close Import Products Dialog')\"\n        [attr.aria-label]=\"'importEntriesDialog.close' | cxTranslate\"\n        class=\"cx-import-entries-close close\"\n        type=\"button\"\n        [disabled]=\"(summary$ | async)?.loading\"\n      >\n        <span aria-hidden=\"true\">\n          <cx-icon [type]=\"iconTypes.CLOSE\"></cx-icon>\n        </span>\n      </button>\n    </div>\n\n    <!-- Modal Body -->\n    <ng-container *ngIf=\"context$ | async as context\">\n      <ng-container *ngIf=\"formState; else importSummary\">\n        <cx-import-to-new-saved-cart-form\n          *ngIf=\"isNewCartForm(context); else reducedForm\"\n          [type]=\"context.type\"\n          (submitEvent)=\"importProducts(context, $event)\"\n        ></cx-import-to-new-saved-cart-form>\n        <ng-template #reducedForm>\n          <cx-import-entries-form\n            [type]=\"context.type\"\n            (submitEvent)=\"importProducts(context, $event)\"\n          ></cx-import-entries-form>\n        </ng-template>\n      </ng-container>\n\n      <ng-template #importSummary>\n        <cx-import-entries-summary\n          [summary]=\"summary$ | async\"\n          [type]=\"context.type\"\n          (closeEvent)=\"close('Close Import Products Dialog')\"\n        ></cx-import-entries-summary>\n      </ng-template>\n    </ng-container>\n  </div>\n</div>\n" }]
+        }], ctorParameters: function () { return [{ type: i1.LaunchDialogService }]; } });
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW1wb3J0LWVudHJpZXMtZGlhbG9nLmNvbXBvbmVudC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uL2ZlYXR1cmUtbGlicy9jYXJ0L2ltcG9ydC1leHBvcnQvY29tcG9uZW50cy9pbXBvcnQtdG8tY2FydC9pbXBvcnQtZW50cmllcy1kaWFsb2cvaW1wb3J0LWVudHJpZXMtZGlhbG9nLmNvbXBvbmVudC50cyIsIi4uLy4uLy4uLy4uLy4uLy4uLy4uL2ZlYXR1cmUtbGlicy9jYXJ0L2ltcG9ydC1leHBvcnQvY29tcG9uZW50cy9pbXBvcnQtdG8tY2FydC9pbXBvcnQtZW50cmllcy1kaWFsb2cvaW1wb3J0LWVudHJpZXMtZGlhbG9nLmNvbXBvbmVudC5odG1sIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7O0dBSUc7QUFFSCxPQUFPLEVBQUUsdUJBQXVCLEVBQUUsU0FBUyxFQUFFLE1BQU0sZUFBZSxDQUFDO0FBQ25FLE9BQU8sRUFFTCxrQkFBa0IsRUFHbEIsbUJBQW1CLEdBRXBCLE1BQU0sMkJBQTJCLENBQUM7QUFDbkMsT0FBTyxFQUVMLFNBQVMsR0FFVixNQUFNLHVCQUF1QixDQUFDO0FBQy9CLE9BQU8sRUFBRSxlQUFlLEVBQWMsTUFBTSxNQUFNLENBQUM7QUFDbkQsT0FBTyxFQUFFLFFBQVEsRUFBRSxHQUFHLEVBQUUsTUFBTSxnQkFBZ0IsQ0FBQzs7Ozs7Ozs7QUFPL0MsTUFBTSxPQUFPLDRCQUE0QjtJQXlCdkMsWUFBc0IsbUJBQXdDO1FBQXhDLHdCQUFtQixHQUFuQixtQkFBbUIsQ0FBcUI7UUF4QjlELGNBQVMsR0FBRyxTQUFTLENBQUM7UUFDdEIsZ0JBQVcsR0FBZ0I7WUFDekIsSUFBSSxFQUFFLElBQUk7WUFDVixLQUFLLEVBQUUsSUFBSTtZQUNYLFNBQVMsRUFBRSxRQUFRO1lBQ25CLGFBQWEsRUFBRSxJQUFJO1NBQ3BCLENBQUM7UUFFRixjQUFTLEdBQVksSUFBSSxDQUFDO1FBQzFCLGFB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QUMsR0FBRyxJQUFJLENBQUMsUUFBUSxDQUFDLEtBQUssQ0FBQyxhQUFhLEVBQUUsTUFBTSxDQUFDO2FBQzlELENBQUMsQ0FBQztTQUNKO0lBQ0gsQ0FBQzs7eUhBMUZVLDRCQUE0Qjs2R0FBNUIsNEJBQTRCLGdFQzVCekMsc3lEQXFEQTsyRkR6QmEsNEJBQTRCO2tCQUx4QyxTQUFTOytCQUNFLDBCQUEwQixtQkFFbkIsdUJBQXVCLENBQUMsTUFBTSIsInNvdXJjZXNDb250ZW50IjpbIi8qXG4gKiBTUERYLUZpbGVDb3B5cmlnaHRUZXh0OiAyMDIzIFNBUCBTcGFydGFjdXMgdGVhbSA8c3BhcnRhY3VzLXRlYW1Ac2FwLmNvbT5cbiAqXG4gKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQXBhY2hlLTIuMFxuICovXG5cbmltcG9ydCB7IENoYW5nZURldGVjdGlvblN0cmF0ZWd5LCBDb21wb25lbnQgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcbmltcG9ydCB7XG4gIEFkZE9yZGVyRW50cmllc0NvbnRleHQsXG4gIE9yZGVyRW50cmllc1NvdXJjZSxcbiAgUHJvZHVjdERhdGEsXG4gIFByb2R1Y3RJbXBvcnRJbmZvLFxuICBQcm9kdWN0SW1wb3J0U3RhdHVzLFxuICBQcm9kdWN0SW1wb3J0U3VtbWFyeSxcbn0gZnJvbSAnQHNwYXJ0YWN1cy9jYXJ0L2Jhc2Uvcm9vdCc7XG5pbXBvcnQge1xuICBGb2N1c0NvbmZpZyxcbiAgSUNPTl9UWVBFLFxuICBMYXVuY2hEaWFsb2dTZXJ2aWNlLFxufSBmcm9tICdAc3BhcnRhY3VzL3N0b3JlZnJvbnQnO1xuaW1wb3J0IHsgQmVoYXZpb3JTdWJqZWN0LCBPYnNlcnZhYmxlIH0gZnJvbSAncnhqcyc7XG5pbXBvcnQgeyBmaW5hbGl6ZSwgbWFwIH0gZnJvbSAncnhqcy9vcGVyYXRvcnMnO1xuXG5AQ29tcG9uZW50KHtcbiAgc2VsZWN0b3I6ICdjeC1pbXBvcnQtZW50cmllcy1kaWFsb2cnLFxuICB0ZW1wbGF0ZVVybDogJy4vaW1wb3J0LWVudHJpZXMtZGlhbG9nLmNvbXBvbmVudC5odG1sJyxcbiAgY2hhbmdlRGV0ZWN0aW9uOiBDaGFuZ2VEZXRlY3Rpb25TdHJhdGVneS5PblB1c2gsXG59KVxuZXhwb3J0IGNsYXNzIEltcG9ydEVudHJpZXNEaWFsb2dDb21wb25lbnQge1xuICBpY29uVHlwZXMgPSBJQ09OX1RZUEU7XG4gIGZvY3VzQ29uZmlnOiBGb2N1c0NvbmZpZyA9IHtcbiAgICB0cmFwOiB0cnVlLFxuICAgIGJsb2NrOiB0cnVlLFxuICAgIGF1dG9mb2N1czogJ2J1dHRvbicsXG4gICAgZm9jdXNPbkVzY2FwZTogdHJ1ZSxcbiAgfTtcblxuICBmb3JtU3RhdGU6IGJvb2xlYW4gPSB0cnVlO1xuICBzdW1tYXJ5JCA9IG5ldyBCZWhhdmlvclN1YmplY3Q8UHJvZHVjdEltcG9ydFN1bW1hcnk+KHtcbiAgICBsb2FkaW5nOiBmYWxzZSxcbiAgICBjYXJ0TmFtZTogJycsXG4gICAgY291bnQ6IDAsXG4gICAgdG90YWw6IDAsXG4gICAgc3VjY2Vzc2VzQ291bnQ6IDAsXG4gICAgd2FybmluZ01lc3NhZ2VzOiBbXSxcbiAgICBlcnJvck1lc3NhZ2VzOiBbXSxcbiAgfSk7XG5cbiAgY29udGV4dCQ6IE9ic2VydmFibGU8QWRkT3JkZXJFbnRyaWVzQ29udGV4dD4gPVxuICAgIHRoaXMubGF1bmNoRGlhbG9nU2VydmljZS5kYXRhJC5waXBlKFxuICAgICAgbWFwKChkYXRhKSA9PiBkYXRhLm9yZGVyRW50cmllc0NvbnRleHQpXG4gICAgKTtcblxuICBjb25zdHJ1Y3Rvcihwcm90ZWN0ZWQgbGF1bmNoRGlhbG9nU2VydmljZTogTGF1bmNoRGlhbG9nU2VydmljZSkge31cblxuICBpc05ld0NhcnRGb3JtKGNvbnRleHQ6IEFkZE9yZGVyRW50cmllc0NvbnRleHQpIHtcbiAgICByZXR1cm4gY29udGV4dC50eXBlID09PSBPcmRlckVudHJpZXNTb3VyY2UuTkVXX1NBVkVEX0NBUlQ7XG4gIH1cblxuICBjbG9zZShyZWFzb246IHN0cmluZyk6IHZvaWQge1xuICAgIHRoaXMubGF1bmNoRGlhbG9nU2VydmljZS5jbG9zZURpYWxvZyhyZWFzb24pO1xuICB9XG5cbiAgaW1wb3J0UHJvZHVjdHMoXG4gICAgY29udGV4dDogQWRkT3JkZXJFbnRyaWVzQ29udGV4dCxcbiAgICB7XG4gICAgICBwcm9kdWN0cyxcbiAgICAgIHNhdmVkQ2FydEluZm8sXG4gICAgfToge1xuICAgICAgcHJvZHVjdHM6IFByb2R1Y3REYXRhW107XG4gICAgICBzYXZlZENhcnRJbmZvPzoge1xuICAgICAgICBuYW1lOiBzdHJpbmc7XG4gICAgICAgIGRlc2NyaXB0aW9uOiBzdHJpbmc7XG4gICAgICB9O1xuICAgIH1cbiAgKTogdm9pZCB7XG4gICAgdGhpcy5mb3JtU3RhdGUgPSBmYWxzZTtcbiAgICB0aGlzLnN1bW1hcnkkLm5leHQoe1xuICAgICAgLi4udGhpcy5zdW1tYXJ5JC52YWx1ZSxcbiAgICAgIGxvYWRpbmc6IHRydWUsXG4gICAgICB0b3RhbDogcHJvZHVjdHMubGVuZ3RoLFxuICAgICAgY2FydE5hbWU6IHNhdmVkQ2FydEluZm8/Lm5hbWUsXG4gICAgfSk7XG4gICAgY29udGV4dFxuICAgICAgLmFkZEVudHJpZXMocHJvZHVjdHMsIHNhdmVkQ2FydEluZm8pXG4gICAgICAucGlwZShcbiAgICAgICAgZmluYWxpemUoKCkgPT4ge1xuICAgICAgICAgIHRoaXMuc3VtbWFyeSQubmV4dCh7XG4gICAgICAgICAgICAuLi50aGlzLnN1bW1hcnkkLnZhbHVlLFxuICAgICAgICAgICAgbG9hZGluZzogZmFsc2UsXG4gICAgICAgICAgfSk7XG4gICAgICAgIH0pXG4gICAgICApXG4gICAgICAuc3Vic2NyaWJlKChhY3Rpb246IFByb2R1Y3RJbXBvcnRJbmZvKSA9PiB7XG4gICAgICAgIHRoaXMucG9wdWxhdGVTdW1tYXJ5KGFjdGlvbik7XG4gICAgICB9KTtcbiAgfVxuXG4gIHByb3RlY3RlZCBwb3B1bGF0ZVN1bW1hcnkoYWN0aW9uOiBQcm9kdWN0SW1wb3J0SW5mbyk6IHZvaWQge1xuICAgIGlmIChhY3Rpb24uc3RhdHVzQ29kZSA9PT0gUHJvZHVjdEltcG9ydFN0YXR1cy5TVUNDRVNTKSB7XG4gICAgICB0aGlzLnN1bW1hcnkkLm5leHQoe1xuICAgICAgICAuLi50aGlzLnN1bW1hcnkkLnZhbHVlLFxuICAgICAgICBjb3VudDogdGhpcy5zdW1tYXJ5JC52YWx1ZS5jb3VudCArIDEsXG4gICAgICAgIHN1Y2Nlc3Nlc0NvdW50OiB0aGlzLnN1bW1hcnkkLnZhbHVlLnN1Y2Nlc3Nlc0NvdW50ICsgMSxcbiAgICAgIH0pO1xuICAgIH0gZWxzZSBpZiAoYWN0aW9uLnN0YXR1c0NvZGUgPT09IFByb2R1Y3RJbXBvcnRTdGF0dXMuTE9XX1NUT0NLKSB7XG4gICAgICB0aGlzLnN1bW1hcnkkLm5leHQoe1xuICAgICAgICAuLi50aGlzLnN1bW1hcnkkLnZhbHVlLFxuICAgICAgICBjb3VudDogdGhpcy5zdW1tYXJ5JC52YWx1ZS5jb3VudCArIDEsXG4gICAgICAgIHdhcm5pbmdNZXNzYWdlczogWy4uLnRoaXMuc3VtbWFyeSQudmFsdWUud2FybmluZ01lc3NhZ2VzLCBhY3Rpb25dLFxuICAgICAgfSk7XG4gICAgfSBlbHNlIHtcbiAgICAgIHRoaXMuc3VtbWFyeSQubmV4dCh7XG4gICAgICAgIC4uLnRoaXMuc3VtbWFyeSQudmFsdWUsXG4gICAgICAgIGNvdW50OiB0aGlzLnN1bW1hcnkkLnZhbHVlLmNvdW50ICsgMSxcbiAgICAgICAgZXJyb3JNZXNzYWdlczogWy4uLnRoaXMuc3VtbWFyeSQudmFsdWUuZXJyb3JNZXNzYWdlcywgYWN0aW9uXSxcbiAgICAgIH0pO1xuICAgIH1cbiAgfVxufVxuIiwiPGRpdlxuICBbY3hGb2N1c109XCJmb2N1c0NvbmZpZ1wiXG4gIChlc2MpPVwiY2xvc2UoJ0VzY2FwZSBjbGlja2VkJylcIlxuICBjbGFzcz1cImN4LWltcG9ydC1lbnRyaWVzLWRpYWxvZ1wiXG4+XG4gIDxkaXYgY2xhc3M9XCJjeC1pbXBvcnQtZW50cmllcy1jb250YWluZXJcIj5cbiAgICA8IS0tIE1vZGFsIEhlYWRlciAtLT5cbiAgICA8ZGl2IGNsYXNzPVwibW9kYWwtaGVhZGVyIGN4LWltcG9ydC1lbnRyaWVzLWhlYWRlclwiPlxuICAgICAgPG5nLWNvbnRhaW5lcj5cbiAgICAgICAgPGRpdiBjbGFzcz1cImN4LWltcG9ydC1lbnRyaWVzLXRpdGxlIG1vZGFsLXRpdGxlXCI+XG4gICAgICAgICAge3sgJ2ltcG9ydEVudHJpZXNEaWFsb2cuaW1wb3J0UHJvZHVjdHMnIHwgY3hUcmFuc2xhdGUgfX1cbiAgICAgICAgPC9kaXY+XG4gICAgICA8L25nLWNvbnRhaW5lcj5cblxuICAgICAgPGJ1dHRvblxuICAgICAgICAoY2xpY2spPVwiY2xvc2UoJ0Nsb3NlIEltcG9ydCBQcm9kdWN0cyBEaWFsb2cnKVwiXG4gICAgICAgIFthdHRyLmFyaWEtbGFiZWxdPVwiJ2ltcG9ydEVudHJpZXNEaWFsb2cuY2xvc2UnIHwgY3hUcmFuc2xhdGVcIlxuICAgICAgICBjbGFzcz1cImN4LWltcG9ydC1lbnRyaWVzLWNsb3NlIGNsb3NlXCJcbiAgICAgICAgdHlwZT1cImJ1dHRvblwiXG4gICAgICAgIFtkaXNhYmxlZF09XCIoc3VtbWFyeSQgfCBhc3luYyk/LmxvYWRpbmdcIlxuICAgICAgPlxuICAgICAgICA8c3BhbiBhcmlhLWhpZGRlbj1cInRydWVcIj5cbiAgICAgICAgICA8Y3gtaWNvbiBbdHlwZV09XCJpY29uVHlwZXMuQ0xPU0VcIj48L2N4LWljb24+XG4gICAgICAgIDwvc3Bhbj5cbiAgICAgIDwvYnV0dG9uPlxuICAgIDwvZGl2PlxuXG4gICAgPCEtLSBNb2RhbCBCb2R5IC0tPlxuICAgIDxuZy1jb250YWluZXIgKm5nSWY9XCJjb250ZXh0JCB8IGFzeW5jIGFzIGNvbnRleHRcIj5cbiAgICAgIDxuZy1jb250YWluZXIgKm5nSWY9XCJmb3JtU3RhdGU7IGVsc2UgaW1wb3J0U3VtbWFyeVwiPlxuICAgICAgICA8Y3gtaW1wb3J0LXRvLW5ldy1zYXZlZC1jYXJ0LWZvcm1cbiAgICAgICAgICAqbmdJZj1cImlzTmV3Q2FydEZvcm0oY29udGV4dCk7IGVsc2UgcmVkdWNlZEZvcm1cIlxuICAgICAgICAgIFt0eXBlXT1cImNvbnRleHQudHlwZVwiXG4gICAgICAgICAgKHN1Ym1pdEV2ZW50KT1cImltcG9ydFByb2R1Y3RzKGNvbnRleHQsICRldmVudClcIlxuICAgICAgICA+PC9jeC1pbXBvcnQtdG8tbmV3LXNhdmVkLWNhcnQtZm9ybT5cbiAgICAgICAgPG5nLXRlbXBsYXRlICNyZWR1Y2VkRm9ybT5cbiAgICAgICAgICA8Y3gtaW1wb3J0LWVudHJpZXMtZm9ybVxuICAgICAgICAgICAgW3R5cGVdPVwiY29udGV4dC50eXBlXCJcbiAgICAgICAgICAgIChzdWJtaXRFdmVudCk9XCJpbXBvcnRQcm9kdWN0cyhjb250ZXh0LCAkZXZlbnQpXCJcbiAgICAgICAgICA+PC9jeC1pbXBvcnQtZW50cmllcy1mb3JtPlxuICAgICAgICA8L25nLXRlbXBsYXRlPlxuICAgICAgPC9uZy1jb250YWluZXI+XG5cbiAgICAgIDxuZy10ZW1wbGF0ZSAjaW1wb3J0U3VtbWFyeT5cbiAgICAgICAgPGN4LWltcG9ydC1lbnRyaWVzLXN1bW1hcnlcbiAgICAgICAgICBbc3VtbWFyeV09XCJzdW1tYXJ5JCB8IGFzeW5jXCJcbiAgICAgICAgICBbdHlwZV09XCJjb250ZXh0LnR5cGVcIlxuICAgICAgICAgIChjbG9zZUV2ZW50KT1cImNsb3NlKCdDbG9zZSBJbXBvcnQgUHJvZHVjdHMgRGlhbG9nJylcIlxuICAgICAgICA+PC9jeC1pbXBvcnQtZW50cmllcy1zdW1tYXJ5PlxuICAgICAgPC9uZy10ZW1wbGF0ZT5cbiAgICA8L25nLWNvbnRhaW5lcj5cbiAgPC9kaXY+XG48L2Rpdj5cbiJdfQ==

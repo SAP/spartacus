@@ -1,0 +1,23 @@
+import { VisualizationInfo } from '@spartacus/epd-visualization/root';
+export declare enum VisualizationLookupResult {
+    UniqueMatchFound = "UniqueMatchFound",
+    NoMatchFound = "NoMatchFound",
+    MultipleMatchesFound = "MultipleMatchesFound",
+    UnexpectedError = "UnexpectedError"
+}
+export declare enum VisualizationLoadStatus {
+    NotStarted = "NotStarted",
+    Loading = "Loading",
+    Loaded = "Loaded",
+    UnexpectedError = "UnexpectedError"
+}
+/**
+ * Information relating to an attempt to resolve and load a visualization.
+ */
+export interface VisualizationLoadInfo {
+    lookupResult: VisualizationLookupResult;
+    loadStatus: VisualizationLoadStatus;
+    matches?: VisualizationInfo[];
+    visualization?: VisualizationInfo;
+    errorMessage?: string;
+}

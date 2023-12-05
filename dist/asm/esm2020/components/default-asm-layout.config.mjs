@@ -1,0 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
+export const defaultAsmLayoutConfig = {
+    launch: {
+        ASM: {
+            outlet: 'cx-storefront',
+            component: AsmMainUiComponent,
+        },
+    },
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZGVmYXVsdC1hc20tbGF5b3V0LmNvbmZpZy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2ZlYXR1cmUtbGlicy9hc20vY29tcG9uZW50cy9kZWZhdWx0LWFzbS1sYXlvdXQuY29uZmlnLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7O0dBSUc7QUFHSCxPQUFPLEVBQUUsa0JBQWtCLEVBQUUsTUFBTSxxQ0FBcUMsQ0FBQztBQUV6RSxNQUFNLENBQUMsTUFBTSxzQkFBc0IsR0FBaUI7SUFDbEQsTUFBTSxFQUFFO1FBQ04sR0FBRyxFQUFFO1lBQ0gsTUFBTSxFQUFFLGVBQWU7WUFDdkIsU0FBUyxFQUFFLGtCQUFrQjtTQUM5QjtLQUNGO0NBQ0YsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8qXG4gKiBTUERYLUZpbGVDb3B5cmlnaHRUZXh0OiAyMDIzIFNBUCBTcGFydGFjdXMgdGVhbSA8c3BhcnRhY3VzLXRlYW1Ac2FwLmNvbT5cbiAqXG4gKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQXBhY2hlLTIuMFxuICovXG5cbmltcG9ydCB7IExheW91dENvbmZpZyB9IGZyb20gJ0BzcGFydGFjdXMvc3RvcmVmcm9udCc7XG5pbXBvcnQgeyBBc21NYWluVWlDb21wb25lbnQgfSBmcm9tICcuL2FzbS1tYWluLXVpL2FzbS1tYWluLXVpLmNvbXBvbmVudCc7XG5cbmV4cG9ydCBjb25zdCBkZWZhdWx0QXNtTGF5b3V0Q29uZmlnOiBMYXlvdXRDb25maWcgPSB7XG4gIGxhdW5jaDoge1xuICAgIEFTTToge1xuICAgICAgb3V0bGV0OiAnY3gtc3RvcmVmcm9udCcsXG4gICAgICBjb21wb25lbnQ6IEFzbU1haW5VaUNvbXBvbmVudCxcbiAgICB9LFxuICB9LFxufTtcbiJdfQ==

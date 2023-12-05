@@ -1,0 +1,12 @@
+import { MemoizedSelector } from '@ngrx/store';
+import { StateUtils } from '@spartacus/core';
+import { Configurator } from '../../model/configurator.model';
+import { ConfiguratorState, StateWithConfigurator } from '../configurator-state';
+export declare const getConfigurationsState: MemoizedSelector<StateWithConfigurator, ConfiguratorState>;
+export declare const getConfigurationState: MemoizedSelector<StateWithConfigurator, StateUtils.EntityLoaderState<Configurator.Configuration>>;
+export declare const getConfigurationProcessLoaderStateFactory: (code: string) => MemoizedSelector<StateWithConfigurator, StateUtils.ProcessesLoaderState<Configurator.Configuration>>;
+export declare const hasPendingChanges: (code: string) => MemoizedSelector<StateWithConfigurator, boolean>;
+export declare const getConfigurationFactory: (code: string) => MemoizedSelector<StateWithConfigurator, Configurator.Configuration>;
+export declare const getCurrentGroup: (ownerKey: string) => MemoizedSelector<StateWithConfigurator, string | undefined>;
+export declare const isGroupVisited: (ownerKey: string, groupId: string) => MemoizedSelector<StateWithConfigurator, boolean>;
+export declare const areGroupsVisited: (ownerKey: string, groupIds: string[]) => MemoizedSelector<StateWithConfigurator, boolean>;

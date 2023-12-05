@@ -1,0 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import { Component } from '@angular/core';
+import { UnitListComponent } from '@spartacus/organization/administration/components';
+import * as i0 from "@angular/core";
+import * as i1 from "@spartacus/organization/administration/components";
+import * as i2 from "@spartacus/core";
+export class AccountSummaryListComponent extends UnitListComponent {
+}
+AccountSummaryListComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.2.9", ngImport: i0, type: AccountSummaryListComponent, deps: null, target: i0.ɵɵFactoryTarget.Component });
+AccountSummaryListComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.2.9", type: AccountSummaryListComponent, selector: "cx-account-summary-list", usesInheritance: true, ngImport: i0, template: "<cx-org-list [hideAddButton]=\"true\">\n  <ng-container actions>\n    <button class=\"link\" (click)=\"expandAll()\">\n      {{ 'orgUnit.tree.expandAll' | cxTranslate }}\n    </button>\n    <button class=\"link\" (click)=\"collapseAll()\">\n      {{ 'orgUnit.tree.collapseAll' | cxTranslate }}\n    </button>\n  </ng-container>\n</cx-org-list>\n", dependencies: [{ kind: "component", type: i1.ListComponent, selector: "cx-org-list", inputs: ["key", "hideAddButton"] }, { kind: "pipe", type: i2.TranslatePipe, name: "cxTranslate" }] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.2.9", ngImport: i0, type: AccountSummaryListComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'cx-account-summary-list', template: "<cx-org-list [hideAddButton]=\"true\">\n  <ng-container actions>\n    <button class=\"link\" (click)=\"expandAll()\">\n      {{ 'orgUnit.tree.expandAll' | cxTranslate }}\n    </button>\n    <button class=\"link\" (click)=\"collapseAll()\">\n      {{ 'orgUnit.tree.collapseAll' | cxTranslate }}\n    </button>\n  </ng-container>\n</cx-org-list>\n" }]
+        }] });
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYWNjb3VudC1zdW1tYXJ5LWxpc3QuY29tcG9uZW50LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vZmVhdHVyZS1saWJzL29yZ2FuaXphdGlvbi9hY2NvdW50LXN1bW1hcnkvY29tcG9uZW50cy9saXN0L2FjY291bnQtc3VtbWFyeS1saXN0LmNvbXBvbmVudC50cyIsIi4uLy4uLy4uLy4uLy4uLy4uL2ZlYXR1cmUtbGlicy9vcmdhbml6YXRpb24vYWNjb3VudC1zdW1tYXJ5L2NvbXBvbmVudHMvbGlzdC9hY2NvdW50LXN1bW1hcnktbGlzdC5jb21wb25lbnQuaHRtbCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7OztHQUlHO0FBRUgsT0FBTyxFQUFFLFNBQVMsRUFBRSxNQUFNLGVBQWUsQ0FBQztBQUMxQyxPQUFPLEVBQUUsaUJBQWlCLEVBQUUsTUFBTSxtREFBbUQsQ0FBQzs7OztBQUt0RixNQUFNLE9BQU8sMkJBQTRCLFNBQVEsaUJBQWlCOzt3SEFBckQsMkJBQTJCOzRHQUEzQiwyQkFBMkIsc0ZDWnhDLDJWQVVBOzJGREVhLDJCQUEyQjtrQkFKdkMsU0FBUzsrQkFDRSx5QkFBeUIiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogU1BEWC1GaWxlQ29weXJpZ2h0VGV4dDogMjAyMyBTQVAgU3BhcnRhY3VzIHRlYW0gPHNwYXJ0YWN1cy10ZWFtQHNhcC5jb20+XG4gKlxuICogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEFwYWNoZS0yLjBcbiAqL1xuXG5pbXBvcnQgeyBDb21wb25lbnQgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcbmltcG9ydCB7IFVuaXRMaXN0Q29tcG9uZW50IH0gZnJvbSAnQHNwYXJ0YWN1cy9vcmdhbml6YXRpb24vYWRtaW5pc3RyYXRpb24vY29tcG9uZW50cyc7XG5AQ29tcG9uZW50KHtcbiAgc2VsZWN0b3I6ICdjeC1hY2NvdW50LXN1bW1hcnktbGlzdCcsXG4gIHRlbXBsYXRlVXJsOiAnLi9hY2NvdW50LXN1bW1hcnktbGlzdC5jb21wb25lbnQuaHRtbCcsXG59KVxuZXhwb3J0IGNsYXNzIEFjY291bnRTdW1tYXJ5TGlzdENvbXBvbmVudCBleHRlbmRzIFVuaXRMaXN0Q29tcG9uZW50IHt9XG4iLCI8Y3gtb3JnLWxpc3QgW2hpZGVBZGRCdXR0b25dPVwidHJ1ZVwiPlxuICA8bmctY29udGFpbmVyIGFjdGlvbnM+XG4gICAgPGJ1dHRvbiBjbGFzcz1cImxpbmtcIiAoY2xpY2spPVwiZXhwYW5kQWxsKClcIj5cbiAgICAgIHt7ICdvcmdVbml0LnRyZWUuZXhwYW5kQWxsJyB8IGN4VHJhbnNsYXRlIH19XG4gICAgPC9idXR0b24+XG4gICAgPGJ1dHRvbiBjbGFzcz1cImxpbmtcIiAoY2xpY2spPVwiY29sbGFwc2VBbGwoKVwiPlxuICAgICAge3sgJ29yZ1VuaXQudHJlZS5jb2xsYXBzZUFsbCcgfCBjeFRyYW5zbGF0ZSB9fVxuICAgIDwvYnV0dG9uPlxuICA8L25nLWNvbnRhaW5lcj5cbjwvY3gtb3JnLWxpc3Q+XG4iXX0=

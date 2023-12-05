@@ -1,0 +1,10 @@
+import { MemoizedSelector } from '@ngrx/store';
+import { StateUtils } from '@spartacus/core';
+import { ReturnRequest, ReturnRequestList } from '@spartacus/order/root';
+import { StateWithOrder } from '../order-state';
+export declare const getOrderReturnRequestState: MemoizedSelector<StateWithOrder, StateUtils.LoaderState<ReturnRequest>>;
+export declare const getOrderReturnRequest: MemoizedSelector<StateWithOrder, ReturnRequest>;
+export declare const getOrderReturnRequestLoading: MemoizedSelector<StateWithOrder, boolean>;
+export declare const getOrderReturnRequestSuccess: MemoizedSelector<StateWithOrder, boolean>;
+export declare const getOrderReturnRequestListState: MemoizedSelector<StateWithOrder, StateUtils.LoaderState<ReturnRequestList>>;
+export declare const getOrderReturnRequestList: MemoizedSelector<StateWithOrder, ReturnRequestList>;

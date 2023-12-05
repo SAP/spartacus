@@ -1,0 +1,109 @@
+{
+  "name": "@spartacus/tracking",
+  "version": "6.7.0",
+  "description": "Spartacus tracking and personalization library",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "tracking",
+    "tms",
+    "adobe launch",
+    "gtm",
+    "personalization"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/tracking",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^15.2.9",
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
+    "@spartacus/core": "6.7.0",
+    "@spartacus/schematics": "6.7.0",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json",
+  "module": "fesm2015/spartacus-tracking.mjs",
+  "es2020": "fesm2020/spartacus-tracking.mjs",
+  "esm2020": "esm2020/spartacus-tracking.mjs",
+  "fesm2020": "fesm2020/spartacus-tracking.mjs",
+  "fesm2015": "fesm2015/spartacus-tracking.mjs",
+  "typings": "index.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/spartacus-tracking.mjs",
+      "es2020": "./fesm2020/spartacus-tracking.mjs",
+      "es2015": "./fesm2015/spartacus-tracking.mjs",
+      "node": "./fesm2015/spartacus-tracking.mjs",
+      "default": "./fesm2020/spartacus-tracking.mjs"
+    },
+    "./personalization/core": {
+      "types": "./personalization/core/index.d.ts",
+      "esm2020": "./esm2020/personalization/core/spartacus-tracking-personalization-core.mjs",
+      "es2020": "./fesm2020/spartacus-tracking-personalization-core.mjs",
+      "es2015": "./fesm2015/spartacus-tracking-personalization-core.mjs",
+      "node": "./fesm2015/spartacus-tracking-personalization-core.mjs",
+      "default": "./fesm2020/spartacus-tracking-personalization-core.mjs"
+    },
+    "./personalization": {
+      "types": "./personalization/index.d.ts",
+      "esm2020": "./esm2020/personalization/spartacus-tracking-personalization.mjs",
+      "es2020": "./fesm2020/spartacus-tracking-personalization.mjs",
+      "es2015": "./fesm2015/spartacus-tracking-personalization.mjs",
+      "node": "./fesm2015/spartacus-tracking-personalization.mjs",
+      "default": "./fesm2020/spartacus-tracking-personalization.mjs"
+    },
+    "./personalization/root": {
+      "types": "./personalization/root/index.d.ts",
+      "esm2020": "./esm2020/personalization/root/spartacus-tracking-personalization-root.mjs",
+      "es2020": "./fesm2020/spartacus-tracking-personalization-root.mjs",
+      "es2015": "./fesm2015/spartacus-tracking-personalization-root.mjs",
+      "node": "./fesm2015/spartacus-tracking-personalization-root.mjs",
+      "default": "./fesm2020/spartacus-tracking-personalization-root.mjs"
+    },
+    "./tms/aep": {
+      "types": "./tms/aep/index.d.ts",
+      "esm2020": "./esm2020/tms/aep/spartacus-tracking-tms-aep.mjs",
+      "es2020": "./fesm2020/spartacus-tracking-tms-aep.mjs",
+      "es2015": "./fesm2015/spartacus-tracking-tms-aep.mjs",
+      "node": "./fesm2015/spartacus-tracking-tms-aep.mjs",
+      "default": "./fesm2020/spartacus-tracking-tms-aep.mjs"
+    },
+    "./tms/core": {
+      "types": "./tms/core/index.d.ts",
+      "esm2020": "./esm2020/tms/core/spartacus-tracking-tms-core.mjs",
+      "es2020": "./fesm2020/spartacus-tracking-tms-core.mjs",
+      "es2015": "./fesm2015/spartacus-tracking-tms-core.mjs",
+      "node": "./fesm2015/spartacus-tracking-tms-core.mjs",
+      "default": "./fesm2020/spartacus-tracking-tms-core.mjs"
+    },
+    "./tms/gtm": {
+      "types": "./tms/gtm/index.d.ts",
+      "esm2020": "./esm2020/tms/gtm/spartacus-tracking-tms-gtm.mjs",
+      "es2020": "./fesm2020/spartacus-tracking-tms-gtm.mjs",
+      "es2015": "./fesm2015/spartacus-tracking-tms-gtm.mjs",
+      "node": "./fesm2015/spartacus-tracking-tms-gtm.mjs",
+      "default": "./fesm2020/spartacus-tracking-tms-gtm.mjs"
+    },
+    "./tms": {
+      "types": "./tms/index.d.ts",
+      "esm2020": "./esm2020/tms/spartacus-tracking-tms.mjs",
+      "es2020": "./fesm2020/spartacus-tracking-tms.mjs",
+      "es2015": "./fesm2015/spartacus-tracking-tms.mjs",
+      "node": "./fesm2015/spartacus-tracking-tms.mjs",
+      "default": "./fesm2020/spartacus-tracking-tms.mjs"
+    }
+  },
+  "sideEffects": false
+}

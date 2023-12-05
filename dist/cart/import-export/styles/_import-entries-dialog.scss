@@ -1,0 +1,131 @@
+cx-import-entries-dialog {
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .cx-import-entries-dialog {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+
+    .cx-import-entries-container {
+      @extend .modal-content;
+      pointer-events: none;
+
+      button,
+      input,
+      textarea {
+        pointer-events: auto;
+      }
+
+      .cx-import-entries-header {
+        .cx-import-entries-title {
+          font-size: var(--cx-font-size, 1.375rem);
+          font-weight: var(--cx-font-weight-semi);
+          line-height: var(--cx-line-height, 1.2222222222);
+        }
+      }
+
+      cx-import-entries-form,
+      cx-import-to-new-saved-cart-form {
+        @extend .modal-body;
+        background-color: var(--cx-color-inverse);
+        .cx-import-entries-subtitle {
+          font-weight: var(--cx-font-weight-bold);
+          margin-bottom: 0.5rem;
+        }
+        .cx-import-entries-row {
+          margin-bottom: 1.5rem;
+
+          .cx-saved-cart-values-container {
+            display: flex;
+
+            @include media-breakpoint-up(sm) {
+              padding-inline-start: 3rem;
+            }
+
+            .cx-saved-cart-label {
+              min-width: 140px;
+            }
+
+            .cx-saved-cart-value {
+              font-weight: var(--cx-font-weight-bold);
+              word-break: break-word;
+            }
+          }
+
+          .cx-import-entries-label {
+            font-weight: var(--cx-font-weight-bold);
+          }
+
+          .cx-import-entries-label-optional {
+            font-weight: var(--cx-font-weight-normal);
+          }
+
+          .cx-import-entries-input-hint {
+            font-size: 0.75rem;
+            font-style: italic;
+            text-align: end;
+          }
+        }
+      }
+
+      .cx-import-entries-footer {
+        display: flex;
+
+        button {
+          flex: 0 0 calc(50% - 0.5rem);
+
+          &:first-child {
+            margin-inline-end: 0.5rem;
+          }
+
+          &:last-child {
+            margin-inline-start: 0.5rem;
+          }
+
+          &:focus {
+            @include visible-focus();
+          }
+        }
+      }
+
+      cx-import-entries-summary {
+        @extend .modal-body;
+
+        ul {
+          margin: -0.75rem 0 1.5rem;
+          overflow: auto;
+          max-height: 150px;
+          pointer-events: all;
+          li {
+            padding: 0;
+            font-size: 0.8em;
+          }
+        }
+
+        cx-icon {
+          padding-inline-end: 5px;
+
+          &.success {
+            color: var(--cx-color-success);
+          }
+          &.warning {
+            color: var(--cx-color-warning);
+          }
+          &.error {
+            color: var(--cx-color-danger);
+          }
+        }
+
+        .cx-import-entries-summary-footer {
+          display: flex;
+          justify-content: center;
+          button {
+            flex: 0 0 calc(50% - 0.5rem);
+            &:focus {
+              @include visible-focus();
+            }
+          }
+        }
+      }
+    }
+  }
+}

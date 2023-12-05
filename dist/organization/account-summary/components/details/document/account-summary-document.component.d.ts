@@ -1,0 +1,30 @@
+import { OnDestroy, OnInit } from '@angular/core';
+import { LanguageService, SortModel, TranslationService } from '@spartacus/core';
+import { AccountSummaryDocumentType, AccountSummaryFacade, AccountSummaryList, DocumentQueryParams } from '@spartacus/organization/account-summary/root';
+import { FileDownloadService, ICON_TYPE } from '@spartacus/storefront';
+import { BehaviorSubject, Observable } from 'rxjs';
+import * as i0 from "@angular/core";
+export declare class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
+    protected accountSummaryFacade: AccountSummaryFacade;
+    protected translation: TranslationService;
+    protected downloadService: FileDownloadService;
+    protected languageService: LanguageService;
+    ICON_TYPE: typeof ICON_TYPE;
+    documentTypeOptions: AccountSummaryDocumentType[];
+    sortOptions: SortModel[];
+    _queryParams: DocumentQueryParams;
+    queryParams$: BehaviorSubject<DocumentQueryParams>;
+    accountSummary$: Observable<AccountSummaryList>;
+    private subscription;
+    constructor(accountSummaryFacade: AccountSummaryFacade, translation: TranslationService, downloadService: FileDownloadService, languageService: LanguageService);
+    ngOnInit(): void;
+    ngOnDestroy(): void;
+    pageChange(page: number): void;
+    changeSortCode(sortCode: string): void;
+    filterChange(newFilters: DocumentQueryParams): void;
+    downloadAttachment(documentId?: string, attachmentId?: string): void;
+    private updateQueryParams;
+    private addNamesToSortModel;
+    static ɵfac: i0.ɵɵFactoryDeclaration<AccountSummaryDocumentComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<AccountSummaryDocumentComponent, "cx-account-summary-document", never, {}, {}, never, never, false, never>;
+}

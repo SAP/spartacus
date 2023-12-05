@@ -1,0 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import { pickupInStore } from './pickup-in-store.i18n';
+/** English language translations for pickup in store strings. */
+export const en = {
+    pickupInStore,
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi8uLi9mZWF0dXJlLWxpYnMvcGlja3VwLWluLXN0b3JlL2Fzc2V0cy90cmFuc2xhdGlvbnMvZW4vaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Ozs7R0FJRztBQUVILE9BQU8sRUFBRSxhQUFhLEVBQUUsTUFBTSx3QkFBd0IsQ0FBQztBQUV2RCxpRUFBaUU7QUFDakUsTUFBTSxDQUFDLE1BQU0sRUFBRSxHQUFHO0lBQ2hCLGFBQWE7Q0FDZCxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiLypcbiAqIFNQRFgtRmlsZUNvcHlyaWdodFRleHQ6IDIwMjMgU0FQIFNwYXJ0YWN1cyB0ZWFtIDxzcGFydGFjdXMtdGVhbUBzYXAuY29tPlxuICpcbiAqIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBBcGFjaGUtMi4wXG4gKi9cblxuaW1wb3J0IHsgcGlja3VwSW5TdG9yZSB9IGZyb20gJy4vcGlja3VwLWluLXN0b3JlLmkxOG4nO1xuXG4vKiogRW5nbGlzaCBsYW5ndWFnZSB0cmFuc2xhdGlvbnMgZm9yIHBpY2t1cCBpbiBzdG9yZSBzdHJpbmdzLiAqL1xuZXhwb3J0IGNvbnN0IGVuID0ge1xuICBwaWNrdXBJblN0b3JlLFxufTtcbiJdfQ==

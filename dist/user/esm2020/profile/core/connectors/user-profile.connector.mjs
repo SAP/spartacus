@@ -1,0 +1,46 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import { Injectable } from '@angular/core';
+import * as i0 from "@angular/core";
+import * as i1 from "./user-profile.adapter";
+export class UserProfileConnector {
+    constructor(userProfileAdapter) {
+        this.userProfileAdapter = userProfileAdapter;
+    }
+    update(username, user) {
+        return this.userProfileAdapter.update(username, user);
+    }
+    register(user) {
+        return this.userProfileAdapter.register(user);
+    }
+    registerGuest(guid, password) {
+        return this.userProfileAdapter.registerGuest(guid, password);
+    }
+    requestForgotPasswordEmail(userEmailAddress) {
+        return this.userProfileAdapter.requestForgotPasswordEmail(userEmailAddress);
+    }
+    resetPassword(token, newPassword) {
+        return this.userProfileAdapter.resetPassword(token, newPassword);
+    }
+    updateEmail(userId, currentPassword, newUserId) {
+        return this.userProfileAdapter.updateEmail(userId, currentPassword, newUserId);
+    }
+    updatePassword(userId, oldPassword, newPassword) {
+        return this.userProfileAdapter.updatePassword(userId, oldPassword, newPassword);
+    }
+    remove(userId) {
+        return this.userProfileAdapter.close(userId);
+    }
+    getTitles() {
+        return this.userProfileAdapter.loadTitles();
+    }
+}
+UserProfileConnector.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.2.9", ngImport: i0, type: UserProfileConnector, deps: [{ token: i1.UserProfileAdapter }], target: i0.ɵɵFactoryTarget.Injectable });
+UserProfileConnector.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.2.9", ngImport: i0, type: UserProfileConnector });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.2.9", ngImport: i0, type: UserProfileConnector, decorators: [{
+            type: Injectable
+        }], ctorParameters: function () { return [{ type: i1.UserProfileAdapter }]; } });
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidXNlci1wcm9maWxlLmNvbm5lY3Rvci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL2ZlYXR1cmUtbGlicy91c2VyL3Byb2ZpbGUvY29yZS9jb25uZWN0b3JzL3VzZXItcHJvZmlsZS5jb25uZWN0b3IudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Ozs7R0FJRztBQUVILE9BQU8sRUFBRSxVQUFVLEVBQUUsTUFBTSxlQUFlLENBQUM7OztBQU8zQyxNQUFNLE9BQU8sb0JBQW9CO0lBQy9CLFlBQXNCLGtCQUFzQztRQUF0Qyx1QkFBa0IsR0FBbEIsa0JBQWtCLENBQW9CO0lBQUcsQ0FBQztJQUVoRSxNQUFNLENBQUMsUUFBZ0IsRUFBRSxJQUFVO1FBQ2pDLE9BQU8sSUFBSSxDQUFDLGtCQUFrQixDQUFDLE1BQU0sQ0FBQyxRQUFRLEVBQUUsSUFBSSxDQUFDLENBQUM7SUFDeEQsQ0FBQztJQUVELFFBQVEsQ0FBQyxJQUFnQjtRQUN2QixPQUFPLElBQUksQ0FBQyxrQkFBa0IsQ0FBQyxRQUFRLENBQUMsSUFBSSxDQUFDLENBQUM7SUFDaEQsQ0FBQztJQUVELGFBQWEsQ0FBQyxJQUFZLEVBQUUsUUFBZ0I7UUFDMUMsT0FBTyxJQUFJLENBQUMsa0JBQWtCLENBQUMsYUFBYSxDQUFDLElBQUksRUFBRSxRQUFRLENBQUMsQ0FBQztJQUMvRCxDQUFDO0lBRUQsMEJBQTBCLENBQUMsZ0JBQXdCO1FBQ2pELE9BQU8sSUFBSSxDQUFDLGtCQUFrQixDQUFDLDBCQUEwQixDQUFDLGdCQUFnQixDQUFDLENBQUM7SUFDOUUsQ0FBQztJQUVELGFBQWEsQ0FBQyxLQUFhLEVBQUUsV0FBbUI7UUFDOUMsT0FBTyxJQUFJLENBQUMsa0JBQWtCLENBQUMsYUFBYSxDQUFDLEtBQUssRUFBRSxXQUFXLENBQUMsQ0FBQztJQUNuRSxDQUFDO0lBRUQsV0FBVyxDQUNULE1BQWMsRUFDZCxlQUF1QixFQUN2QixTQUFpQjtRQUVqQixPQUFPLElBQUksQ0FBQyxrQkFBa0IsQ0FBQyxXQUFXLENBQ3hDLE1BQU0sRUFDTixlQUFlLEVBQ2YsU0FBUyxDQUNWLENBQUM7SUFDSixDQUFDO0lBRUQsY0FBYyxDQUNaLE1BQWMsRUFDZCxXQUFtQixFQUNuQixXQUFtQjtRQUVuQixPQUFPLElBQUksQ0FBQyxrQkFBa0IsQ0FBQyxjQUFjLENBQzNDLE1BQU0sRUFDTixXQUFXLEVBQ1gsV0FBVyxDQUNaLENBQUM7SUFDSixDQUFDO0lBRUQsTUFBTSxDQUFDLE1BQWM7UUFDbkIsT0FBTyxJQUFJLENBQUMsa0JBQWtCLENBQUMsS0FBSyxDQUFDLE1BQU0sQ0FBQyxDQUFDO0lBQy9DLENBQUM7SUFFRCxTQUFTO1FBQ1AsT0FBTyxJQUFJLENBQUMsa0JBQWtCLENBQUMsVUFBVSxFQUFFLENBQUM7SUFDOUMsQ0FBQzs7aUhBckRVLG9CQUFvQjtxSEFBcEIsb0JBQW9COzJGQUFwQixvQkFBb0I7a0JBRGhDLFVBQVUiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogU1BEWC1GaWxlQ29weXJpZ2h0VGV4dDogMjAyMyBTQVAgU3BhcnRhY3VzIHRlYW0gPHNwYXJ0YWN1cy10ZWFtQHNhcC5jb20+XG4gKlxuICogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEFwYWNoZS0yLjBcbiAqL1xuXG5pbXBvcnQgeyBJbmplY3RhYmxlIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG5pbXBvcnQgeyBVc2VyIH0gZnJvbSAnQHNwYXJ0YWN1cy91c2VyL2FjY291bnQvcm9vdCc7XG5pbXBvcnQgeyBPYnNlcnZhYmxlIH0gZnJvbSAncnhqcyc7XG5pbXBvcnQgeyBUaXRsZSwgVXNlclNpZ25VcCB9IGZyb20gJ0BzcGFydGFjdXMvdXNlci9wcm9maWxlL3Jvb3QnO1xuaW1wb3J0IHsgVXNlclByb2ZpbGVBZGFwdGVyIH0gZnJvbSAnLi91c2VyLXByb2ZpbGUuYWRhcHRlcic7XG5cbkBJbmplY3RhYmxlKClcbmV4cG9ydCBjbGFzcyBVc2VyUHJvZmlsZUNvbm5lY3RvciB7XG4gIGNvbnN0cnVjdG9yKHByb3RlY3RlZCB1c2VyUHJvZmlsZUFkYXB0ZXI6IFVzZXJQcm9maWxlQWRhcHRlcikge31cblxuICB1cGRhdGUodXNlcm5hbWU6IHN0cmluZywgdXNlcjogVXNlcik6IE9ic2VydmFibGU8dW5rbm93bj4ge1xuICAgIHJldHVybiB0aGlzLnVzZXJQcm9maWxlQWRhcHRlci51cGRhdGUodXNlcm5hbWUsIHVzZXIpO1xuICB9XG5cbiAgcmVnaXN0ZXIodXNlcjogVXNlclNpZ25VcCk6IE9ic2VydmFibGU8VXNlcj4ge1xuICAgIHJldHVybiB0aGlzLnVzZXJQcm9maWxlQWRhcHRlci5yZWdpc3Rlcih1c2VyKTtcbiAgfVxuXG4gIHJlZ2lzdGVyR3Vlc3QoZ3VpZDogc3RyaW5nLCBwYXNzd29yZDogc3RyaW5nKTogT2JzZXJ2YWJsZTxVc2VyPiB7XG4gICAgcmV0dXJuIHRoaXMudXNlclByb2ZpbGVBZGFwdGVyLnJlZ2lzdGVyR3Vlc3QoZ3VpZCwgcGFzc3dvcmQpO1xuICB9XG5cbiAgcmVxdWVzdEZvcmdvdFBhc3N3b3JkRW1haWwodXNlckVtYWlsQWRkcmVzczogc3RyaW5nKTogT2JzZXJ2YWJsZTx1bmtub3duPiB7XG4gICAgcmV0dXJuIHRoaXMudXNlclByb2ZpbGVBZGFwdGVyLnJlcXVlc3RGb3Jnb3RQYXNzd29yZEVtYWlsKHVzZXJFbWFpbEFkZHJlc3MpO1xuICB9XG5cbiAgcmVzZXRQYXNzd29yZCh0b2tlbjogc3RyaW5nLCBuZXdQYXNzd29yZDogc3RyaW5nKTogT2JzZXJ2YWJsZTx1bmtub3duPiB7XG4gICAgcmV0dXJuIHRoaXMudXNlclByb2ZpbGVBZGFwdGVyLnJlc2V0UGFzc3dvcmQodG9rZW4sIG5ld1Bhc3N3b3JkKTtcbiAgfVxuXG4gIHVwZGF0ZUVtYWlsKFxuICAgIHVzZXJJZDogc3RyaW5nLFxuICAgIGN1cnJlbnRQYXNzd29yZDogc3RyaW5nLFxuICAgIG5ld1VzZXJJZDogc3RyaW5nXG4gICk6IE9ic2VydmFibGU8dW5rbm93bj4ge1xuICAgIHJldHVybiB0aGlzLnVzZXJQcm9maWxlQWRhcHRlci51cGRhdGVFbWFpbChcbiAgICAgIHVzZXJJZCxcbiAgICAgIGN1cnJlbnRQYXNzd29yZCxcbiAgICAgIG5ld1VzZXJJZFxuICAgICk7XG4gIH1cblxuICB1cGRhdGVQYXNzd29yZChcbiAgICB1c2VySWQ6IHN0cmluZyxcbiAgICBvbGRQYXNzd29yZDogc3RyaW5nLFxuICAgIG5ld1Bhc3N3b3JkOiBzdHJpbmdcbiAgKTogT2JzZXJ2YWJsZTx1bmtub3duPiB7XG4gICAgcmV0dXJuIHRoaXMudXNlclByb2ZpbGVBZGFwdGVyLnVwZGF0ZVBhc3N3b3JkKFxuICAgICAgdXNlcklkLFxuICAgICAgb2xkUGFzc3dvcmQsXG4gICAgICBuZXdQYXNzd29yZFxuICAgICk7XG4gIH1cblxuICByZW1vdmUodXNlcklkOiBzdHJpbmcpOiBPYnNlcnZhYmxlPHVua25vd24+IHtcbiAgICByZXR1cm4gdGhpcy51c2VyUHJvZmlsZUFkYXB0ZXIuY2xvc2UodXNlcklkKTtcbiAgfVxuXG4gIGdldFRpdGxlcygpOiBPYnNlcnZhYmxlPFRpdGxlW10+IHtcbiAgICByZXR1cm4gdGhpcy51c2VyUHJvZmlsZUFkYXB0ZXIubG9hZFRpdGxlcygpO1xuICB9XG59XG4iXX0=

@@ -1,0 +1,31 @@
+import { ActivatedRoute } from '@angular/router';
+import { CheckoutConfig, CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
+import { RoutingConfigService, RoutingService } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import * as i0 from "@angular/core";
+export declare class CheckoutStepService {
+    protected routingService: RoutingService;
+    protected checkoutConfig: CheckoutConfig;
+    protected routingConfigService: RoutingConfigService;
+    allSteps: CheckoutStep[];
+    readonly steps$: BehaviorSubject<CheckoutStep[]>;
+    readonly activeStepIndex$: Observable<number>;
+    constructor(routingService: RoutingService, checkoutConfig: CheckoutConfig, routingConfigService: RoutingConfigService);
+    back(activatedRoute: ActivatedRoute): void;
+    next(activatedRoute: ActivatedRoute): void;
+    goToStepWithIndex(stepIndex: number): void;
+    getBackBntText(activatedRoute: ActivatedRoute): string;
+    resetSteps(): void;
+    disableEnableStep(currentStepType: CheckoutStepType | string, disabled: boolean): void;
+    getCheckoutStep(currentStepType: CheckoutStepType): CheckoutStep | undefined;
+    getCheckoutStepRoute(currentStepType: CheckoutStepType): string | undefined;
+    getFirstCheckoutStepRoute(): string;
+    getNextCheckoutStepUrl(activatedRoute: ActivatedRoute): string | null;
+    getPreviousCheckoutStepUrl(activatedRoute: ActivatedRoute): string | null;
+    getCurrentStepIndex(activatedRoute: ActivatedRoute): number | null;
+    private getStepUrlFromActivatedRoute;
+    private getStepUrlFromStepRoute;
+    private getCheckoutStepIndex;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CheckoutStepService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<CheckoutStepService>;
+}

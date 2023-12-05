@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-storefinder/index#addStorefinderFeatures",
+      "description": "Add and configure Spartacus' storefinder features",
+      "schema": "./add-storefinder/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-storefinder/index#addStorefinderFeatures",
+      "description": "Add and configure Spartacus' storefinder features",
+      "schema": "./add-storefinder/schema.json"
+    }
+  }
+}

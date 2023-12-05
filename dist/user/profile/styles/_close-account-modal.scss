@@ -1,0 +1,51 @@
+%cx-close-account-modal {
+  .cx-close-account-modal {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+
+    .cx-close-account-modal-container {
+      @extend .modal-content;
+
+      .cx-close-account-modal-header {
+        display: flex;
+        justify-content: space-between;
+        .cx-close-account-modal-title {
+          @include type('3');
+        }
+      }
+
+      .cx-close-account-modal-body {
+        @extend .modal-body;
+      }
+
+      .cx-confirmation {
+        margin-bottom: 0px;
+      }
+
+      .cx-close-account-modal-footer {
+        display: flex;
+
+        button {
+          flex: 0 0 calc(50% - 0.5rem);
+          text-transform: lowercase;
+
+          &:first-line {
+            text-transform: capitalize;
+          }
+
+          &:first-child {
+            margin-inline-end: 0.5rem;
+          }
+
+          &:last-child {
+            margin-inline-start: 0.5rem;
+          }
+
+          &:focus {
+            @include visible-focus();
+          }
+        }
+      }
+    }
+  }
+}

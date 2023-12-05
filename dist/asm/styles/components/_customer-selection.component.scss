@@ -1,0 +1,174 @@
+%cx-customer-selection {
+  position: relative;
+
+  form {
+    display: flex;
+    width: 100%;
+
+    @media (max-width: 575px) {
+      flex-direction: column;
+    }
+
+    label {
+      margin: 0 0 15px;
+      min-width: auto;
+
+      @include forVersion(6.1) {
+        cx-form-errors p {
+          color: #db0002;
+        }
+      }
+
+      .input-contaier {
+        display: flex;
+        .icon-wrapper {
+          display: flex;
+          outline: 0;
+          border: 1px solid #89919a;
+          color: #ffffff;
+          background-color: #1672b7;
+          padding: 0 12px;
+          height: 36px;
+          border-top-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+          border-right-width: 0px;
+          cursor: pointer;
+        }
+        input {
+          border: none;
+          border-radius: 4px;
+          background-color: #eff1f2;
+          box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+        }
+      }
+
+      @media (min-width: 575px) {
+        margin-inline-end: 15px;
+        min-width: 20rem;
+        margin-bottom: 0;
+        min-width: 25rem;
+      }
+
+      .searchTermLabel {
+        display: flex;
+        align-items: center;
+        color: #556b82;
+        min-width: auto;
+        margin: 0 15px 0 0;
+      }
+
+      input {
+        width: 100%;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+
+    button[type='submit'] {
+      background-color: #ebf5cb;
+      opacity: 0.4;
+      border: 1px solid #ebf5cb;
+      border-radius: 8px;
+      color: #256f3a;
+      font-weight: 700;
+      transition: opacity 0.3s;
+
+      &.active {
+        opacity: 1;
+      }
+    }
+  }
+
+  .asm-results {
+    border: solid 1px #89919a;
+    position: absolute;
+    line-height: 1.5rem;
+    left: 2rem;
+    z-index: 11;
+    box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
+    background-color: #fff;
+    border-radius: 4px;
+    max-width: 50vw;
+    max-height: 70vh;
+    overflow-y: auto;
+
+    @include forVersion(1, 6) {
+      top: 4rem;
+      width: 100%;
+    }
+
+    @include forVersion(6.1) {
+      top: 3.3rem;
+      width: 33%;
+    }
+
+    @media (max-width: 1200px) {
+      max-width: calc(100% - 4rem);
+    }
+
+    cx-dot-spinner {
+      height: 42px;
+      color: #0a6ed1;
+    }
+
+    button {
+      margin: 0;
+      appearance: none;
+      outline: 0;
+      border: 0;
+      text-decoration: none;
+      cursor: pointer;
+      user-select: none;
+      vertical-align: middle;
+      white-space: nowrap;
+      background-color: transparent;
+      color: #51555a;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      padding: 10px;
+      width: 100%;
+      align-items: flex-start;
+      justify-content: flex-start;
+
+      @media (min-width: 767px) {
+        flex-direction: row;
+      }
+      &.active {
+        color: #32363a;
+        background-color: #d3d6db;
+      }
+
+      &:hover {
+        color: #32363a;
+        background-color: #d3d6db;
+      }
+
+      span {
+        margin-inline-end: 15px;
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-inline-start: 0;
+        word-break: break-all;
+        white-space: normal;
+        text-align: start;
+
+        @media (min-width: 575px) {
+          &:last-of-type {
+            margin: 0;
+          }
+        }
+      }
+
+      @include forVersion(6.1) {
+        .linkStyleLabel {
+          font-family: '72';
+          font-weight: 600;
+          font-size: 13px;
+          color: #0064d9;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+import { OnDestroy, OnInit } from '@angular/core';
+import { DaysOfWeek, ORDER_TYPE, ScheduleReplenishmentForm } from '@spartacus/order/root';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
+import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
+import * as i0 from "@angular/core";
+export declare class CheckoutScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
+    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
+    protected subscription: Subscription;
+    iconTypes: typeof ICON_TYPE;
+    orderTypes: typeof ORDER_TYPE;
+    daysOfWeek: DaysOfWeek[];
+    recurrencePeriodType: string[];
+    selectedOrderType$: Observable<ORDER_TYPE>;
+    isMonthly: Boolean;
+    isWeekly: Boolean;
+    currentDaysOfWeek: DaysOfWeek[];
+    numberOfDays: string[];
+    numberOfWeeks: string[];
+    currentDate: string | undefined;
+    scheduleReplenishmentFormData: ScheduleReplenishmentForm;
+    constructor(checkoutReplenishmentFormService: CheckoutReplenishmentFormService);
+    ngOnInit(): void;
+    changeOrderType(orderType: ORDER_TYPE): void;
+    changeNumberOfDays(nDays: string): void;
+    changeNumberOfWeeks(nWeeks: string): void;
+    changeRecurrencePeriodType(type: string): void;
+    changeDayOfTheMonth(dayOfMonth: string): void;
+    changeReplenishmentStartDate(date: string): void;
+    changeRepeatDays(day: DaysOfWeek, isChecked: boolean): void;
+    hasDaysOfWeekChecked(day: DaysOfWeek): boolean;
+    private initConfig;
+    private createNumberStringArray;
+    ngOnDestroy(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CheckoutScheduleReplenishmentOrderComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CheckoutScheduleReplenishmentOrderComponent, "cx-schedule-replenishment-order", never, {}, {}, never, never, false, never>;
+}

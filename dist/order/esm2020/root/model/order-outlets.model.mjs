@@ -1,0 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Identifiers of outlets for the order consignment.
+ */
+export var OrderOutlets;
+(function (OrderOutlets) {
+    OrderOutlets["ORDER_CONSIGNMENT"] = "cx-order-consignment";
+    OrderOutlets["CONSIGNMENT_DELIVERY_INFO"] = "cx-order-consignment-delivery-info";
+})(OrderOutlets || (OrderOutlets = {}));
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoib3JkZXItb3V0bGV0cy5tb2RlbC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2ZlYXR1cmUtbGlicy9vcmRlci9yb290L21vZGVsL29yZGVyLW91dGxldHMubW9kZWwudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Ozs7R0FJRztBQUVIOztHQUVHO0FBQ0gsTUFBTSxDQUFOLElBQVksWUFHWDtBQUhELFdBQVksWUFBWTtJQUN0QiwwREFBMEMsQ0FBQTtJQUMxQyxnRkFBZ0UsQ0FBQTtBQUNsRSxDQUFDLEVBSFcsWUFBWSxLQUFaLFlBQVksUUFHdkIiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogU1BEWC1GaWxlQ29weXJpZ2h0VGV4dDogMjAyMyBTQVAgU3BhcnRhY3VzIHRlYW0gPHNwYXJ0YWN1cy10ZWFtQHNhcC5jb20+XG4gKlxuICogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEFwYWNoZS0yLjBcbiAqL1xuXG4vKipcbiAqIElkZW50aWZpZXJzIG9mIG91dGxldHMgZm9yIHRoZSBvcmRlciBjb25zaWdubWVudC5cbiAqL1xuZXhwb3J0IGVudW0gT3JkZXJPdXRsZXRzIHtcbiAgT1JERVJfQ09OU0lHTk1FTlQgPSAnY3gtb3JkZXItY29uc2lnbm1lbnQnLFxuICBDT05TSUdOTUVOVF9ERUxJVkVSWV9JTkZPID0gJ2N4LW9yZGVyLWNvbnNpZ25tZW50LWRlbGl2ZXJ5LWluZm8nLFxufVxuIl19

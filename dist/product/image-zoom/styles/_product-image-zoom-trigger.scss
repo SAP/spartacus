@@ -1,0 +1,14 @@
+cx-product-image-zoom-trigger {
+  display: flex;
+  justify-content: flex-end;
+
+  .cx-action-link {
+    padding: 0;
+    height: 24px;
+    margin: 0.5em auto;
+
+    cx-icon {
+      padding: 0 0 0 0.4em;
+    }
+  }
+}

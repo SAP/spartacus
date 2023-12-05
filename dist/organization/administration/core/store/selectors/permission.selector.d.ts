@@ -1,0 +1,12 @@
+import { MemoizedSelector } from '@ngrx/store';
+import { EntitiesModel, SearchConfig, StateUtils, OrderApprovalPermissionType } from '@spartacus/core';
+import { Permission } from '../../model/permission.model';
+import { PermissionManagement, StateWithOrganization } from '../organization-state';
+export declare const getPermissionManagementState: MemoizedSelector<StateWithOrganization, PermissionManagement>;
+export declare const getPermissionsState: MemoizedSelector<StateWithOrganization, StateUtils.EntityLoaderState<Permission>>;
+export declare const getPermissionState: (permissionId: string) => MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<Permission>>;
+export declare const getPermissionTypesState: MemoizedSelector<StateWithOrganization, StateUtils.EntityLoaderState<OrderApprovalPermissionType[]>>;
+export declare const getPermission: (permissionCode: string) => MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<Permission>>;
+export declare const getPermissionValue: (permissionCode: string) => MemoizedSelector<StateWithOrganization, Permission>;
+export declare const getPermissionList: (params: SearchConfig) => MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<EntitiesModel<Permission>>>;
+export declare const getPermissionTypes: () => MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<OrderApprovalPermissionType[]>>;

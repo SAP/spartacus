@@ -1,0 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import { DirectionMode } from '../../../layout/direction/config/direction.model';
+export const defaultIconConfig = {
+    icon: {
+        flipDirection: {
+            CARET_RIGHT: DirectionMode.RTL,
+            CARET_LEFT: DirectionMode.RTL,
+        },
+    },
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZGVmYXVsdC1pY29uLmNvbmZpZy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL3Byb2plY3RzL3N0b3JlZnJvbnRsaWIvY21zLWNvbXBvbmVudHMvbWlzYy9pY29uL2RlZmF1bHQtaWNvbi5jb25maWcudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Ozs7R0FJRztBQUVILE9BQU8sRUFBRSxhQUFhLEVBQUUsTUFBTSxrREFBa0QsQ0FBQztBQUdqRixNQUFNLENBQUMsTUFBTSxpQkFBaUIsR0FBZTtJQUMzQyxJQUFJLEVBQUU7UUFDSixhQUFhLEVBQUU7WUFDYixXQUFXLEVBQUUsYUFBYSxDQUFDLEdBQUc7WUFDOUIsVUFBVSxFQUFFLGFBQWEsQ0FBQyxHQUFHO1NBQzlCO0tBQ0Y7Q0FDRixDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiLypcbiAqIFNQRFgtRmlsZUNvcHlyaWdodFRleHQ6IDIwMjMgU0FQIFNwYXJ0YWN1cyB0ZWFtIDxzcGFydGFjdXMtdGVhbUBzYXAuY29tPlxuICpcbiAqIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBBcGFjaGUtMi4wXG4gKi9cblxuaW1wb3J0IHsgRGlyZWN0aW9uTW9kZSB9IGZyb20gJy4uLy4uLy4uL2xheW91dC9kaXJlY3Rpb24vY29uZmlnL2RpcmVjdGlvbi5tb2RlbCc7XG5pbXBvcnQgeyBJY29uQ29uZmlnIH0gZnJvbSAnLi9pY29uLm1vZGVsJztcblxuZXhwb3J0IGNvbnN0IGRlZmF1bHRJY29uQ29uZmlnOiBJY29uQ29uZmlnID0ge1xuICBpY29uOiB7XG4gICAgZmxpcERpcmVjdGlvbjoge1xuICAgICAgQ0FSRVRfUklHSFQ6IERpcmVjdGlvbk1vZGUuUlRMLFxuICAgICAgQ0FSRVRfTEVGVDogRGlyZWN0aW9uTW9kZS5SVEwsXG4gICAgfSxcbiAgfSxcbn07XG4iXX0=

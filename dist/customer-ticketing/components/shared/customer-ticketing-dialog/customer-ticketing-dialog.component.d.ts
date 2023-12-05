@@ -1,0 +1,33 @@
+import { ElementRef } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { RoutingService } from '@spartacus/core';
+import { CustomerTicketingConfig, CustomerTicketingFacade } from '@spartacus/customer-ticketing/root';
+import { FilesFormValidators, FocusConfig, ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
+import * as i0 from "@angular/core";
+export declare abstract class CustomerTicketingDialogComponent {
+    protected launchDialogService: LaunchDialogService;
+    protected el: ElementRef;
+    protected customerTicketingConfig: CustomerTicketingConfig;
+    protected filesFormValidators: FilesFormValidators;
+    protected customerTicketingFacade: CustomerTicketingFacade;
+    protected routingService: RoutingService;
+    iconTypes: typeof ICON_TYPE;
+    form: FormGroup;
+    inputCharactersLimit: number;
+    inputCharactersForSubject: number;
+    isDataLoading$: BehaviorSubject<boolean>;
+    focusConfig: FocusConfig;
+    get messagesCharacterLeft(): number;
+    get subjectCharacterLeft(): number;
+    get allowedTypes(): string[] | undefined;
+    get getInputCharactersLimit(): number;
+    get getInputCharactersForSubject(): number;
+    get maxSize(): number;
+    handleClick(event: UIEvent): void;
+    constructor(launchDialogService: LaunchDialogService, el: ElementRef, customerTicketingConfig: CustomerTicketingConfig, filesFormValidators: FilesFormValidators, customerTicketingFacade: CustomerTicketingFacade, routingService: RoutingService);
+    protected buildForm(): void;
+    close(reason: string): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CustomerTicketingDialogComponent, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CustomerTicketingDialogComponent, never, never, {}, {}, never, never, false, never>;
+}

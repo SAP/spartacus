@@ -1,0 +1,9 @@
+import { MemoizedSelector } from '@ngrx/store';
+import { StateUtils } from '@spartacus/core';
+import { ReplenishmentOrderList } from '@spartacus/order/root';
+import { StateWithOrder } from '../order-state';
+export declare const getReplenishmentOrdersState: MemoizedSelector<StateWithOrder, StateUtils.LoaderState<ReplenishmentOrderList>>;
+export declare const getReplenishmentOrders: MemoizedSelector<StateWithOrder, ReplenishmentOrderList>;
+export declare const getReplenishmentOrdersLoading: MemoizedSelector<StateWithOrder, boolean>;
+export declare const getReplenishmentOrdersError: MemoizedSelector<StateWithOrder, boolean>;
+export declare const getReplenishmentOrdersSuccess: MemoizedSelector<StateWithOrder, boolean>;

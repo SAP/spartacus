@@ -1,0 +1,33 @@
+import { OnDestroy, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { ActiveCartFacade, Cart, CartVoucherFacade } from '@spartacus/cart/base/root';
+import { CustomerCoupon, CustomerCouponService } from '@spartacus/core';
+import { Observable, Subscription } from 'rxjs';
+import * as i0 from "@angular/core";
+export declare class CartCouponComponent implements OnInit, OnDestroy {
+    protected cartVoucherService: CartVoucherFacade;
+    protected formBuilder: UntypedFormBuilder;
+    protected customerCouponService: CustomerCouponService;
+    protected activeCartService: ActiveCartFacade;
+    MAX_CUSTOMER_COUPON_PAGE: number;
+    couponForm: UntypedFormGroup;
+    cartIsLoading$: Observable<boolean>;
+    cart$: Observable<Cart>;
+    cartId: string;
+    applicableCoupons: CustomerCoupon[];
+    protected ignoreCloseEvent: boolean;
+    protected subscription: Subscription;
+    couponBoxIsActive: boolean;
+    constructor(cartVoucherService: CartVoucherFacade, formBuilder: UntypedFormBuilder, customerCouponService: CustomerCouponService, activeCartService: ActiveCartFacade);
+    ngOnInit(): void;
+    protected onError(error: boolean): void;
+    onSuccess(success: boolean): void;
+    protected getApplicableCustomerCoupons(cart: Cart, coupons: CustomerCoupon[]): void;
+    applyVoucher(): void;
+    applyCustomerCoupon(couponId: string): void;
+    close(event: UIEvent): void;
+    disableClose(): void;
+    ngOnDestroy(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CartCouponComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CartCouponComponent, "cx-cart-coupon", never, {}, {}, never, never, false, never>;
+}

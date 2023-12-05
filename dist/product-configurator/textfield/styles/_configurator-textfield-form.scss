@@ -1,0 +1,9 @@
+%cx-configurator-textfield-form {
+  display: flex;
+  flex-direction: column;
+
+  .cx-attribute {
+    padding: 6px 40px;
+    background-color: var(--cx-color-background);
+  }
+}

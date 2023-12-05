@@ -1,0 +1,9 @@
+%StoreFinderPageTemplate {
+  // the current sample data looks pretty bad with the full width images
+  // on he storefinder site content slot, which is why we neutralize it here.
+  cx-page-slot.SideContent {
+    cx-banner img {
+      width: auto;
+    }
+  }
+}

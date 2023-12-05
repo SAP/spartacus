@@ -1,0 +1,104 @@
+cx-order-detail-permission-results {
+  margin: 45px 0px 15px;
+
+  .cx-approval-header {
+    padding: 15px;
+
+    background-color: var(--cx-color-background);
+
+    .cx-approval-label {
+      font-size: var(--cx-font-size, 1.125rem);
+      font-weight: var(--cx-font-weight-bold);
+      line-height: var(--cx-line-height, 1.2222222222);
+    }
+  }
+
+  .cx-approval-table {
+    padding: 15px;
+
+    th,
+    td {
+      padding-top: 0.75rem;
+      padding-inline-end: 0.938rem;
+      padding-bottom: 0.75rem;
+      padding-inline-start: 0.938rem;
+      vertical-align: top;
+      border-top: 1px solid var(--cx-color-light);
+    }
+
+    .cx-approval-thead-mobile {
+      background-color: var(--cx-color-dark);
+
+      th {
+        text-align: start;
+        color: var(--cx-color-inverse);
+      }
+
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+    }
+
+    &.table-striped {
+      tr:nth-child(odd) {
+        background-color: var(--cx-color-background);
+      }
+    }
+
+    .cx-approval-permissionCode {
+      width: 25%;
+      @include media-breakpoint-down(md) {
+        width: 100%;
+      }
+    }
+
+    .cx-approval-approverName {
+      width: 17%;
+      @include media-breakpoint-down(md) {
+        width: 100%;
+      }
+    }
+
+    .cx-approval-statusDisplay {
+      width: 13%;
+      @include media-breakpoint-down(md) {
+        width: 100%;
+      }
+    }
+
+    .cx-approval-table-label {
+      text-transform: uppercase;
+      color: var(--cx-color-secondary);
+
+      @include media-breakpoint-up(lg) {
+        display: none;
+      }
+
+      @include media-breakpoint-down(md) {
+        font-size: var(--cx-font-size, 0.875rem);
+        font-weight: var(--cx-font-weight-bold);
+        line-height: var(--cx-line-height, 1.2222222222);
+        min-width: 110px;
+        max-width: 110px;
+      }
+    }
+
+    td {
+      @include media-breakpoint-down(md) {
+        width: 100%;
+        display: flex;
+        align-items: baseline;
+        border-width: 0;
+        padding: 0.313rem 1.25rem;
+
+        &:first-child {
+          padding-top: 1.25rem;
+        }
+
+        &:last-child {
+          padding-bottom: 1.25rem;
+        }
+      }
+    }
+  }
+}

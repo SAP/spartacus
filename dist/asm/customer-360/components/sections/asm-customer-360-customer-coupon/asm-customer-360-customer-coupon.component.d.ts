@@ -1,0 +1,35 @@
+import { OnDestroy, OnInit } from '@angular/core';
+import { AsmCustomer360CustomerCouponList, AsmCustomer360Facade } from '@spartacus/asm/customer-360/root';
+import { CustomerCouponService } from '@spartacus/core';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
+import { CustomerCouponEntry } from './asm-customer-360-customer-coupon.model';
+import { ICON_TYPE } from '@spartacus/storefront';
+import * as i0 from "@angular/core";
+export declare class AsmCustomer360CustomerCouponComponent implements OnInit, OnDestroy {
+    protected context: AsmCustomer360SectionContext<AsmCustomer360CustomerCouponList>;
+    protected asmCustomer360Facade: AsmCustomer360Facade;
+    protected customerCouponService: CustomerCouponService;
+    showErrorAlert$: BehaviorSubject<boolean>;
+    showErrorAlertForApplyAction$: BehaviorSubject<boolean>;
+    entries$: Observable<Array<CustomerCouponEntry>>;
+    subscription: Subscription;
+    currentTabIsAssignable: boolean;
+    iconTypes: typeof ICON_TYPE;
+    activeTab: number;
+    constructor(context: AsmCustomer360SectionContext<AsmCustomer360CustomerCouponList>, asmCustomer360Facade: AsmCustomer360Facade, customerCouponService: CustomerCouponService);
+    ngOnInit(): void;
+    fetchCustomerCoupons(): void;
+    changeTab(assignable: boolean): void;
+    searchCustomerCoupon(searchQuery: string): void;
+    private hideAllErrorAlert;
+    private mapParams;
+    closeErrorAlert(): void;
+    closeErrorAlertForApplyAction(): void;
+    claimCouponToCustomer(entry: CustomerCouponEntry): void;
+    disclaimCouponToCustomer(entry: CustomerCouponEntry): void;
+    refreshActionButton(couponCode: string): void;
+    ngOnDestroy(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<AsmCustomer360CustomerCouponComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<AsmCustomer360CustomerCouponComponent, "cx-asm-customer-360-customer-coupon", never, {}, {}, never, never, false, never>;
+}

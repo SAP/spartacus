@@ -1,0 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import { DIALOG_TYPE } from '@spartacus/storefront';
+import { ProductImageZoomDialogComponent } from './product-image-zoom-dialog/product-image-zoom-dialog.component';
+export const defaultProductImageZoomLayoutConfig = {
+    launch: {
+        PRODUCT_IMAGE_ZOOM: {
+            inline: true,
+            component: ProductImageZoomDialogComponent,
+            dialogType: DIALOG_TYPE.DIALOG,
+        },
+    },
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZGVmYXVsdC1wcm9kdWN0LWltYWdlLXpvb20tbGF5b3V0LmNvbmZpZy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL2ZlYXR1cmUtbGlicy9wcm9kdWN0L2ltYWdlLXpvb20vY29tcG9uZW50cy9wcm9kdWN0LWltYWdlLXpvb20vZGVmYXVsdC1wcm9kdWN0LWltYWdlLXpvb20tbGF5b3V0LmNvbmZpZy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7OztHQUlHO0FBRUgsT0FBTyxFQUFFLFdBQVcsRUFBZ0IsTUFBTSx1QkFBdUIsQ0FBQztBQUNsRSxPQUFPLEVBQUUsK0JBQStCLEVBQUUsTUFBTSxpRUFBaUUsQ0FBQztBQUVsSCxNQUFNLENBQUMsTUFBTSxtQ0FBbUMsR0FBaUI7SUFDL0QsTUFBTSxFQUFFO1FBQ04sa0JBQWtCLEVBQUU7WUFDbEIsTUFBTSxFQUFFLElBQUk7WUFDWixTQUFTLEVBQUUsK0JBQStCO1lBQzFDLFVBQVUsRUFBRSxXQUFXLENBQUMsTUFBTTtTQUMvQjtLQUNGO0NBQ0YsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8qXG4gKiBTUERYLUZpbGVDb3B5cmlnaHRUZXh0OiAyMDIzIFNBUCBTcGFydGFjdXMgdGVhbSA8c3BhcnRhY3VzLXRlYW1Ac2FwLmNvbT5cbiAqXG4gKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQXBhY2hlLTIuMFxuICovXG5cbmltcG9ydCB7IERJQUxPR19UWVBFLCBMYXlvdXRDb25maWcgfSBmcm9tICdAc3BhcnRhY3VzL3N0b3JlZnJvbnQnO1xuaW1wb3J0IHsgUHJvZHVjdEltYWdlWm9vbURpYWxvZ0NvbXBvbmVudCB9IGZyb20gJy4vcHJvZHVjdC1pbWFnZS16b29tLWRpYWxvZy9wcm9kdWN0LWltYWdlLXpvb20tZGlhbG9nLmNvbXBvbmVudCc7XG5cbmV4cG9ydCBjb25zdCBkZWZhdWx0UHJvZHVjdEltYWdlWm9vbUxheW91dENvbmZpZzogTGF5b3V0Q29uZmlnID0ge1xuICBsYXVuY2g6IHtcbiAgICBQUk9EVUNUX0lNQUdFX1pPT006IHtcbiAgICAgIGlubGluZTogdHJ1ZSxcbiAgICAgIGNvbXBvbmVudDogUHJvZHVjdEltYWdlWm9vbURpYWxvZ0NvbXBvbmVudCxcbiAgICAgIGRpYWxvZ1R5cGU6IERJQUxPR19UWVBFLkRJQUxPRyxcbiAgICB9LFxuICB9LFxufTtcbiJdfQ==

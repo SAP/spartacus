@@ -1,0 +1,30 @@
+import { Injector, OnDestroy, OnInit, Renderer2, ViewContainerRef } from '@angular/core';
+import { CmsComponent, DynamicAttributeService, EventService } from '@spartacus/core';
+import { Subscription } from 'rxjs';
+import { CmsComponentsService } from '../../services/cms-components.service';
+import { CmsComponentData } from '../model/cms-component-data';
+import { CmsInjectorService } from './services/cms-injector.service';
+import { ComponentHandlerService } from './services/component-handler.service';
+import * as i0 from "@angular/core";
+export declare class InnerComponentsHostDirective implements OnInit, OnDestroy {
+    protected data: CmsComponentData<CmsComponent>;
+    protected vcr: ViewContainerRef;
+    protected cmsComponentsService: CmsComponentsService;
+    protected injector: Injector;
+    protected dynamicAttributeService: DynamicAttributeService;
+    protected renderer: Renderer2;
+    protected componentHandler: ComponentHandlerService;
+    protected cmsInjector: CmsInjectorService;
+    protected eventService: EventService;
+    protected innerComponents$: import("rxjs").Observable<string[]>;
+    protected componentWrappers: any[];
+    protected subscription?: Subscription;
+    constructor(data: CmsComponentData<CmsComponent>, vcr: ViewContainerRef, cmsComponentsService: CmsComponentsService, injector: Injector, dynamicAttributeService: DynamicAttributeService, renderer: Renderer2, componentHandler: ComponentHandlerService, cmsInjector: CmsInjectorService, eventService: EventService);
+    ngOnInit(): void;
+    protected renderComponents(components: string[]): void;
+    protected renderComponent(component: string): void;
+    protected clearComponents(): void;
+    ngOnDestroy(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<InnerComponentsHostDirective, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<InnerComponentsHostDirective, "[cxInnerComponentsHost]", never, {}, {}, never, never, false, never>;
+}

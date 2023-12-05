@@ -1,0 +1,125 @@
+%organizationCard {
+  .card {
+    width: 100%;
+
+    @include media-breakpoint-down(sm) {
+      border: none;
+    }
+
+    @extend %cardHeader !optional;
+    @extend %cardMain !optional;
+    @extend %cardSection !optional;
+  }
+}
+
+%cardHeader {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--cx-color-inverse);
+    border-bottom: solid 1px var(--cx-color-light);
+    padding: 40px 30px 20px;
+
+    @include media-breakpoint-up(md) {
+      height: 130px;
+      align-items: center;
+    }
+
+    .title-bar {
+      display: flex;
+      align-items: center;
+      flex: 100%;
+      justify-content: space-between;
+
+      @extend %organizationTitle !optional;
+    }
+
+    h3 {
+      margin: 0 0 5px 0;
+      font-size: 22px;
+      text-transform: uppercase;
+    }
+    h4 {
+      font-size: 16px;
+    }
+    .actions {
+      display: flex;
+      align-items: baseline;
+      a,
+      button {
+        text-transform: uppercase;
+
+        @include media-breakpoint-up(md) {
+          margin-inline-start: 10px;
+        }
+        @include media-breakpoint-down(sm) {
+          margin-inline-end: 10px;
+        }
+      }
+    }
+
+    .close cx-icon {
+      color: var(--cx-color-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: 40px 30px 25px 30px;
+
+      .title-bar {
+        flex-wrap: wrap;
+      }
+      .actions {
+        flex: 100%;
+      }
+    }
+  }
+}
+
+%cardMain {
+  .main {
+    position: relative;
+    background: var(--cx-color-background);
+  }
+}
+
+%cardSection {
+  section {
+    display: flex;
+    margin: 40px;
+    background-color: var(--cx-color-inverse);
+    border: solid 1px var(--cx-color-light);
+
+    &.link-list {
+      display: flex;
+      flex-direction: column;
+      a {
+        padding: 25px 30px;
+        justify-content: flex-start;
+        min-height: 74px;
+
+        &:not(:last-child) {
+          border-bottom: solid 1px var(--cx-color-light);
+        }
+        background-image: var(--list-bg);
+        background-repeat: no-repeat;
+        background-size: 12px;
+        background-position: var(--list-bg-pos);
+
+        &:hover:not(.is-current) {
+          background-color: var(--cx-color-background);
+        }
+        // highlight current items
+        &.is-current {
+          outline: solid 3px var(--cx-color-primary);
+          outline-offset: -3px;
+          background-color: var(--cx-color-background-focus);
+        }
+      }
+    }
+  }
+}

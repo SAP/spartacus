@@ -1,0 +1,39 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import { ActiveCartFacade, CartValidationFacade, CartVoucherFacade, MultiCartFacade, SelectiveCartFacade, } from '@spartacus/cart/base/root';
+import { ActiveCartService } from './active-cart.service';
+import { CartValidationService } from './cart-validation.service';
+import { CartVoucherService } from './cart-voucher.service';
+import { MultiCartService } from './multi-cart.service';
+import { SelectiveCartService } from './selective-cart.service';
+export const facadeProviders = [
+    ActiveCartService,
+    {
+        provide: ActiveCartFacade,
+        useExisting: ActiveCartService,
+    },
+    CartVoucherService,
+    {
+        provide: CartVoucherFacade,
+        useExisting: CartVoucherService,
+    },
+    MultiCartService,
+    {
+        provide: MultiCartFacade,
+        useExisting: MultiCartService,
+    },
+    SelectiveCartService,
+    {
+        provide: SelectiveCartFacade,
+        useExisting: SelectiveCartService,
+    },
+    CartValidationService,
+    {
+        provide: CartValidationFacade,
+        useExisting: CartValidationService,
+    },
+];
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZmFjYWRlLXByb3ZpZGVycy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL2ZlYXR1cmUtbGlicy9jYXJ0L2Jhc2UvY29yZS9mYWNhZGUvZmFjYWRlLXByb3ZpZGVycy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7OztHQUlHO0FBR0gsT0FBTyxFQUNMLGdCQUFnQixFQUNoQixvQkFBb0IsRUFDcEIsaUJBQWlCLEVBQ2pCLGVBQWUsRUFDZixtQkFBbUIsR0FDcEIsTUFBTSwyQkFBMkIsQ0FBQztBQUNuQyxPQUFPLEVBQUUsaUJBQWlCLEVBQUUsTUFBTSx1QkFBdUIsQ0FBQztBQUMxRCxPQUFPLEVBQUUscUJBQXFCLEVBQUUsTUFBTSwyQkFBMkIsQ0FBQztBQUNsRSxPQUFPLEVBQUUsa0JBQWtCLEVBQUUsTUFBTSx3QkFBd0IsQ0FBQztBQUM1RCxPQUFPLEVBQUUsZ0JBQWdCLEVBQUUsTUFBTSxzQkFBc0IsQ0FBQztBQUN4RCxPQUFPLEVBQUUsb0JBQW9CLEVBQUUsTUFBTSwwQkFBMEIsQ0FBQztBQUVoRSxNQUFNLENBQUMsTUFBTSxlQUFlLEdBQWU7SUFDekMsaUJBQWlCO0lBQ2pCO1FBQ0UsT0FBTyxFQUFFLGdCQUFnQjtRQUN6QixXQUFXLEVBQUUsaUJBQWlCO0tBQy9CO0lBQ0Qsa0JBQWtCO0lBQ2xCO1FBQ0UsT0FBTyxFQUFFLGlCQUFpQjtRQUMxQixXQUFXLEVBQUUsa0JBQWtCO0tBQ2hDO0lBQ0QsZ0JBQWdCO0lBQ2hCO1FBQ0UsT0FBTyxFQUFFLGVBQWU7UUFDeEIsV0FBVyxFQUFFLGdCQUFnQjtLQUM5QjtJQUNELG9CQUFvQjtJQUNwQjtRQUNFLE9BQU8sRUFBRSxtQkFBbUI7UUFDNUIsV0FBVyxFQUFFLG9CQUFvQjtLQUNsQztJQUNELHFCQUFxQjtJQUNyQjtRQUNFLE9BQU8sRUFBRSxvQkFBb0I7UUFDN0IsV0FBVyxFQUFFLHFCQUFxQjtLQUNuQztDQUNGLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogU1BEWC1GaWxlQ29weXJpZ2h0VGV4dDogMjAyMyBTQVAgU3BhcnRhY3VzIHRlYW0gPHNwYXJ0YWN1cy10ZWFtQHNhcC5jb20+XG4gKlxuICogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEFwYWNoZS0yLjBcbiAqL1xuXG5pbXBvcnQgeyBQcm92aWRlciB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xuaW1wb3J0IHtcbiAgQWN0aXZlQ2FydEZhY2FkZSxcbiAgQ2FydFZhbGlkYXRpb25GYWNhZGUsXG4gIENhcnRWb3VjaGVyRmFjYWRlLFxuICBNdWx0aUNhcnRGYWNhZGUsXG4gIFNlbGVjdGl2ZUNhcnRGYWNhZGUsXG59IGZyb20gJ0BzcGFydGFjdXMvY2FydC9iYXNlL3Jvb3QnO1xuaW1wb3J0IHsgQWN0aXZlQ2FydFNlcnZpY2UgfSBmcm9tICcuL2FjdGl2ZS1jYXJ0LnNlcnZpY2UnO1xuaW1wb3J0IHsgQ2FydFZhbGlkYXRpb25TZXJ2aWNlIH0gZnJvbSAnLi9jYXJ0LXZhbGlkYXRpb24uc2VydmljZSc7XG5pbXBvcnQgeyBDYXJ0Vm91Y2hlclNlcnZpY2UgfSBmcm9tICcuL2NhcnQtdm91Y2hlci5zZXJ2aWNlJztcbmltcG9ydCB7IE11bHRpQ2FydFNlcnZpY2UgfSBmcm9tICcuL211bHRpLWNhcnQuc2VydmljZSc7XG5pbXBvcnQgeyBTZWxlY3RpdmVDYXJ0U2VydmljZSB9IGZyb20gJy4vc2VsZWN0aXZlLWNhcnQuc2VydmljZSc7XG5cbmV4cG9ydCBjb25zdCBmYWNhZGVQcm92aWRlcnM6IFByb3ZpZGVyW10gPSBbXG4gIEFjdGl2ZUNhcnRTZXJ2aWNlLFxuICB7XG4gICAgcHJvdmlkZTogQWN0aXZlQ2FydEZhY2FkZSxcbiAgICB1c2VFeGlzdGluZzogQWN0aXZlQ2FydFNlcnZpY2UsXG4gIH0sXG4gIENhcnRWb3VjaGVyU2VydmljZSxcbiAge1xuICAgIHByb3ZpZGU6IENhcnRWb3VjaGVyRmFjYWRlLFxuICAgIHVzZUV4aXN0aW5nOiBDYXJ0Vm91Y2hlclNlcnZpY2UsXG4gIH0sXG4gIE11bHRpQ2FydFNlcnZpY2UsXG4gIHtcbiAgICBwcm92aWRlOiBNdWx0aUNhcnRGYWNhZGUsXG4gICAgdXNlRXhpc3Rpbmc6IE11bHRpQ2FydFNlcnZpY2UsXG4gIH0sXG4gIFNlbGVjdGl2ZUNhcnRTZXJ2aWNlLFxuICB7XG4gICAgcHJvdmlkZTogU2VsZWN0aXZlQ2FydEZhY2FkZSxcbiAgICB1c2VFeGlzdGluZzogU2VsZWN0aXZlQ2FydFNlcnZpY2UsXG4gIH0sXG4gIENhcnRWYWxpZGF0aW9uU2VydmljZSxcbiAge1xuICAgIHByb3ZpZGU6IENhcnRWYWxpZGF0aW9uRmFjYWRlLFxuICAgIHVzZUV4aXN0aW5nOiBDYXJ0VmFsaWRhdGlvblNlcnZpY2UsXG4gIH0sXG5dO1xuIl19

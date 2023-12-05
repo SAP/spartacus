@@ -1,0 +1,30 @@
+import { OnInit } from '@angular/core';
+import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
+import { Address, B2BUser, CostCenter, TranslationService } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
+import { Card } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service';
+import * as i0 from "@angular/core";
+export declare class UnitLevelOrderOverviewComponent implements OnInit {
+    protected translation: TranslationService;
+    protected unitLevelOrderDetailsService: UnitLevelOrderDetailService;
+    constructor(translation: TranslationService, unitLevelOrderDetailsService: UnitLevelOrderDetailService);
+    order$: Observable<Order>;
+    ngOnInit(): void;
+    getOrderCodeCardContent(orderCode: string | undefined): Observable<Card>;
+    getOrderCurrentDateCardContent(isoDate: string | null): Observable<Card>;
+    getOrderStatusCardContent(status: string | undefined): Observable<Card>;
+    getPurchaseOrderNumber(poNumber: string | undefined): Observable<Card>;
+    getMethodOfPaymentCardContent(hasPaymentInfo: PaymentDetails | undefined): Observable<Card>;
+    getCostCenterCardContent(costCenter: CostCenter | undefined): Observable<Card>;
+    getAddressCardContent(deliveryAddress: Address | undefined): Observable<Card>;
+    getDeliveryModeCardContent(deliveryMode: DeliveryMode | undefined): Observable<Card>;
+    getPaymentInfoCardContent(payment: PaymentDetails | undefined): Observable<Card>;
+    getBillingAddressCardContent(billingAddress: Address | undefined): Observable<Card>;
+    getBuyerNameCardContent(customer: B2BUser | undefined): Observable<Card>;
+    getUnitNameCardContent(orgUnit: string | undefined): Observable<Card>;
+    private normalizeFormattedAddress;
+    static ɵfac: i0.ɵɵFactoryDeclaration<UnitLevelOrderOverviewComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<UnitLevelOrderOverviewComponent, "cx-unit-level-order-overview", never, {}, {}, never, never, false, never>;
+}

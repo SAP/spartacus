@@ -1,0 +1,51 @@
+import { Injectable } from '@angular/core';
+import { BUDGETS_NORMALIZER, BUDGET_NORMALIZER, BUDGET_SERIALIZER, } from '@spartacus/organization/administration/core';
+import * as i0 from "@angular/core";
+import * as i1 from "@angular/common/http";
+import * as i2 from "@spartacus/core";
+export class OccBudgetAdapter {
+    constructor(http, occEndpoints, converter) {
+        this.http = http;
+        this.occEndpoints = occEndpoints;
+        this.converter = converter;
+    }
+    load(userId, budgetCode) {
+        return this.http
+            .get(this.getBudgetEndpoint(userId, budgetCode))
+            .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
+    }
+    loadList(userId, params) {
+        return this.http
+            .get(this.getBudgetsEndpoint(userId, params))
+            .pipe(this.converter.pipeable(BUDGETS_NORMALIZER));
+    }
+    create(userId, budget) {
+        const convertedBudget = this.converter.convert(budget, BUDGET_SERIALIZER);
+        return this.http
+            .post(this.getBudgetsEndpoint(userId), convertedBudget)
+            .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
+    }
+    update(userId, budgetCode, budget) {
+        const convertedBudget = this.converter.convert(budget, BUDGET_SERIALIZER);
+        return this.http
+            .patch(this.getBudgetEndpoint(userId, budgetCode), convertedBudget)
+            .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
+    }
+    getBudgetEndpoint(userId, budgetCode) {
+        return this.occEndpoints.buildUrl('budget', {
+            urlParams: { userId, budgetCode },
+        });
+    }
+    getBudgetsEndpoint(userId, params) {
+        return this.occEndpoints.buildUrl('budgets', {
+            urlParams: { userId },
+            queryParams: params,
+        });
+    }
+}
+OccBudgetAdapter.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.2.9", ngImport: i0, type: OccBudgetAdapter, deps: [{ token: i1.HttpClient }, { token: i2.OccEndpointsService }, { token: i2.ConverterService }], target: i0.ɵɵFactoryTarget.Injectable });
+OccBudgetAdapter.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.2.9", ngImport: i0, type: OccBudgetAdapter });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.2.9", ngImport: i0, type: OccBudgetAdapter, decorators: [{
+            type: Injectable
+        }], ctorParameters: function () { return [{ type: i1.HttpClient }, { type: i2.OccEndpointsService }, { type: i2.ConverterService }]; } });
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoib2NjLWJ1ZGdldC5hZGFwdGVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vZmVhdHVyZS1saWJzL29yZ2FuaXphdGlvbi9hZG1pbmlzdHJhdGlvbi9vY2MvYWRhcHRlcnMvb2NjLWJ1ZGdldC5hZGFwdGVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQU9BLE9BQU8sRUFBRSxVQUFVLEVBQUUsTUFBTSxlQUFlLENBQUM7QUFRM0MsT0FBTyxFQUdMLGtCQUFrQixFQUNsQixpQkFBaUIsRUFDakIsaUJBQWlCLEdBQ2xCLE1BQU0sNkNBQTZDLENBQUM7Ozs7QUFJckQsTUFBTSxPQUFPLGdCQUFnQjtJQUMzQixZQUNZLElBQWdCLEVBQ2hCLFlBQWlDLEVBQ2pDLFNBQTJCO1FBRjNCLFNBQUksR0FBSixJQUFJLENBQVk7UUFDaEIsaUJBQVksR0FBWixZQUFZLENBQXFCO1FBQ2pDLGNBQVMsR0FBVCxTQUFTLENBQWtCO0lBQ3BDLENBQUM7SUFFSixJQUFJLENBQUMsTUFBYyxFQUFFLFVBQWtCO1FBQ3JDLE9BQU8sSUFBSSxDQUFDLElBQUk7YUFDYixHQUFHLENBQWEsSUFBSSxDQUFDLGlCQUFpQixDQUFDLE1BQU0sRUFBRSxVQUFVLENBQUMsQ0FBQzthQUMzRCxJQUFJLENBQUMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLENBQUMsaUJBQWlCLENBQUMsQ0FBQyxDQUFDO0lBQ3RELENBQUM7SUFFRCxRQUFRLENBQ04sTUFBYyxFQUNkLE1BQXFCO1FBRXJCLE9BQU8sSUFBSSxDQUFDLElBQUk7YUFDYixHQUFHLENBQWtCLElBQUksQ0FBQyxrQkFBa0IsQ0FBQyxNQUFNLEVBQUUsTUFBTSxDQUFDLENBQUM7YUFDN0QsSUFBSSxDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsUUFBUSxDQUFDLGtCQUFrQixDQUFDLENBQUMsQ0FBQztJQUN2RCxDQUFDO0lBRUQsTUFBTSxDQUFDLE1BQWMsRUFBRSxNQUFjO1FBQ25DLE1BQU0sZUFBZSxHQUFlLElBQUksQ0FBQyxTQUFTLENBQUMsT0FBTyxDQUN4RCxNQUFNLEVBQ04saUJBQWlCLENBQ2xCLENBQUM7UUFDRixPQUFPLElBQUksQ0FBQyxJQUFJO2FBQ2IsSUFBSSxDQUFhLElBQUksQ0FBQyxrQkFBa0IsQ0FBQyxNQUFNLENBQUMsRUFBRSxlQUFlLENBQUM7YUFDbEUsSUFBSSxDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsUUFBUSxDQUFDLGlCQUFpQixDQUFDLENBQUMsQ0FBQztJQUN0RCxDQUFDO0lBRUQsTUFBTSxDQUNKLE1BQWMsRUFDZCxVQUFrQixFQUNsQixNQUFjO1FBRWQsTUFBTSxlQUFlLEdBQWUsSUFBSSxDQUFDLFNBQVMsQ0FBQyxPQUFPLENBQ3hELE1BQU0sRUFDTixpQkFBaUIsQ0FDbEIsQ0FBQztRQUNGLE9BQU8sSUFBSSxDQUFDLElBQUk7YUFDYixLQUFLLENBQ0osSUFBSSxDQUFDLGlCQUFpQixDQUFDLE1BQU0sRUFBRSxVQUFVLENBQUMsRUFDMUMsZUFBZSxDQUNoQjthQUNBLElBQUksQ0FBQyxJQUFJLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQyxpQkFBaUIsQ0FBQyxDQUFDLENBQUM7SUFDdEQsQ0FBQztJQUVTLGlCQUFpQixDQUFDLE1BQWMsRUFBRSxVQUFrQjtRQUM1RCxPQUFPLElBQUksQ0FBQyxZQUFZLENBQUMsUUFBUSxDQUFDLFFBQVEsRUFBRTtZQUMxQyxTQUFTLEVBQUUsRUFBRSxNQUFNLEVBQUUsVUFBVSxFQUFFO1NBQ2xDLENBQUMsQ0FBQztJQUNMLENBQUM7SUFFUyxrQkFBa0IsQ0FBQyxNQUFjLEVBQUUsTUFBcUI7UUFDaEUsT0FBTyxJQUFJLENBQUMsWUFBWSxDQUFDLFFBQVEsQ0FBQyxTQUFTLEVBQUU7WUFDM0MsU0FBUyxFQUFFLEVBQUUsTUFBTSxFQUFFO1lBQ3JCLFdBQVcsRUFBRSxNQUFNO1NBQ3BCLENBQUMsQ0FBQztJQUNMLENBQUM7OzZHQTVEVSxnQkFBZ0I7aUhBQWhCLGdCQUFnQjsyRkFBaEIsZ0JBQWdCO2tCQUQ1QixVQUFVIiwic291cmNlc0NvbnRlbnQiOlsiLypcbiAqIFNQRFgtRmlsZUNvcHlyaWdodFRleHQ6IDIwMjMgU0FQIFNwYXJ0YWN1cyB0ZWFtIDxzcGFydGFjdXMtdGVhbUBzYXAuY29tPlxuICpcbiAqIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBBcGFjaGUtMi4wXG4gKi9cblxuaW1wb3J0IHsgSHR0cENsaWVudCB9IGZyb20gJ0Bhbmd1bGFyL2NvbW1vbi9odHRwJztcbmltcG9ydCB7IEluamVjdGFibGUgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcbmltcG9ydCB7XG4gIENvbnZlcnRlclNlcnZpY2UsXG4gIEVudGl0aWVzTW9kZWwsXG4gIE9jYyxcbiAgT2NjRW5kcG9pbnRzU2VydmljZSxcbiAgU2VhcmNoQ29uZmlnLFxufSBmcm9tICdAc3BhcnRhY3VzL2NvcmUnO1xuaW1wb3J0IHtcbiAgQnVkZ2V0LFxuICBCdWRnZXRBZGFwdGVyLFxuICBCVURHRVRTX05PUk1BTElaRVIsXG4gIEJVREdFVF9OT1JNQUxJWkVSLFxuICBCVURHRVRfU0VSSUFMSVpFUixcbn0gZnJvbSAnQHNwYXJ0YWN1cy9vcmdhbml6YXRpb24vYWRtaW5pc3RyYXRpb24vY29yZSc7XG5pbXBvcnQgeyBPYnNlcnZhYmxlIH0gZnJvbSAncnhqcyc7XG5cbkBJbmplY3RhYmxlKClcbmV4cG9ydCBjbGFzcyBPY2NCdWRnZXRBZGFwdGVyIGltcGxlbWVudHMgQnVkZ2V0QWRhcHRlciB7XG4gIGNvbnN0cnVjdG9yKFxuICAgIHByb3RlY3RlZCBodHRwOiBIdHRwQ2xpZW50LFxuICAgIHByb3RlY3RlZCBvY2NFbmRwb2ludHM6IE9jY0VuZHBvaW50c1NlcnZpY2UsXG4gICAgcHJvdGVjdGVkIGNvbnZlcnRlcjogQ29udmVydGVyU2VydmljZVxuICApIHt9XG5cbiAgbG9hZCh1c2VySWQ6IHN0cmluZywgYnVkZ2V0Q29kZTogc3RyaW5nKTogT2JzZXJ2YWJsZTxCdWRnZXQ+IHtcbiAgICByZXR1cm4gdGhpcy5odHRwXG4gICAgICAuZ2V0PE9jYy5CdWRnZXQ+KHRoaXMuZ2V0QnVkZ2V0RW5kcG9pbnQodXNlcklkLCBidWRnZXRDb2RlKSlcbiAgICAgIC5waXBlKHRoaXMuY29udmVydGVyLnBpcGVhYmxlKEJVREdFVF9OT1JNQUxJWkVSKSk7XG4gIH1cblxuICBsb2FkTGlzdChcbiAgICB1c2VySWQ6IHN0cmluZyxcbiAgICBwYXJhbXM/OiBTZWFyY2hDb25maWdcbiAgKTogT2JzZXJ2YWJsZTxFbnRpdGllc01vZGVsPEJ1ZGdldD4+IHtcbiAgICByZXR1cm4gdGhpcy5odHRwXG4gICAgICAuZ2V0PE9jYy5CdWRnZXRzTGlzdD4odGhpcy5nZXRCdWRnZXRzRW5kcG9pbnQodXNlcklkLCBwYXJhbXMpKVxuICAgICAgLnBpcGUodGhpcy5jb252ZXJ0ZXIucGlwZWFibGUoQlVER0VUU19OT1JNQUxJWkVSKSk7XG4gIH1cblxuICBjcmVhdGUodXNlcklkOiBzdHJpbmcsIGJ1ZGdldDogQnVkZ2V0KTogT2JzZXJ2YWJsZTxCdWRnZXQ+IHtcbiAgICBjb25zdCBjb252ZXJ0ZWRCdWRnZXQ6IE9jYy5CdWRnZXQgPSB0aGlzLmNvbnZlcnRlci5jb252ZXJ0KFxuICAgICAgYnVkZ2V0LFxuICAgICAgQlVER0VUX1NFUklBTElaRVJcbiAgICApO1xuICAgIHJldHVybiB0aGlzLmh0dHBcbiAgICAgIC5wb3N0PE9jYy5CdWRnZXQ+KHRoaXMuZ2V0QnVkZ2V0c0VuZHBvaW50KHVzZXJJZCksIGNvbnZlcnRlZEJ1ZGdldClcbiAgICAgIC5waXBlKHRoaXMuY29udmVydGVyLnBpcGVhYmxlKEJVREdFVF9OT1JNQUxJWkVSKSk7XG4gIH1cblxuICB1cGRhdGUoXG4gICAgdXNlcklkOiBzdHJpbmcsXG4gICAgYnVkZ2V0Q29kZTogc3RyaW5nLFxuICAgIGJ1ZGdldDogQnVkZ2V0XG4gICk6IE9ic2VydmFibGU8QnVkZ2V0PiB7XG4gICAgY29uc3QgY29udmVydGVkQnVkZ2V0OiBPY2MuQnVkZ2V0ID0gdGhpcy5jb252ZXJ0ZXIuY29udmVydChcbiAgICAgIGJ1ZGdldCxcbiAgICAgIEJVREdFVF9TRVJJQUxJWkVSXG4gICAgKTtcbiAgICByZXR1cm4gdGhpcy5odHRwXG4gICAgICAucGF0Y2g8T2NjLkJ1ZGdldD4oXG4gICAgICAgIHRoaXMuZ2V0QnVkZ2V0RW5kcG9pbnQodXNlcklkLCBidWRnZXRDb2RlKSxcbiAgICAgICAgY29udmVydGVkQnVkZ2V0XG4gICAgICApXG4gICAgICAucGlwZSh0aGlzLmNvbnZlcnRlci5waXBlYWJsZShCVURHRVRfTk9STUFMSVpFUikpO1xuICB9XG5cbiAgcHJvdGVjdGVkIGdldEJ1ZGdldEVuZHBvaW50KHVzZXJJZDogc3RyaW5nLCBidWRnZXRDb2RlOiBzdHJpbmcpOiBzdHJpbmcge1xuICAgIHJldHVybiB0aGlzLm9jY0VuZHBvaW50cy5idWlsZFVybCgnYnVkZ2V0Jywge1xuICAgICAgdXJsUGFyYW1zOiB7IHVzZXJJZCwgYnVkZ2V0Q29kZSB9LFxuICAgIH0pO1xuICB9XG5cbiAgcHJvdGVjdGVkIGdldEJ1ZGdldHNFbmRwb2ludCh1c2VySWQ6IHN0cmluZywgcGFyYW1zPzogU2VhcmNoQ29uZmlnKTogc3RyaW5nIHtcbiAgICByZXR1cm4gdGhpcy5vY2NFbmRwb2ludHMuYnVpbGRVcmwoJ2J1ZGdldHMnLCB7XG4gICAgICB1cmxQYXJhbXM6IHsgdXNlcklkIH0sXG4gICAgICBxdWVyeVBhcmFtczogcGFyYW1zLFxuICAgIH0pO1xuICB9XG59XG4iXX0=

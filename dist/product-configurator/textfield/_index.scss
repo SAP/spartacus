@@ -1,0 +1,26 @@
+@import 'styles/index';
+
+$configurator-textfield-components: cx-configurator-textfield-input-field,
+  cx-configurator-textfield-input-field-readonly, cx-configurator-textfield-form,
+  cx-configurator-textfield-add-to-cart-button !default;
+
+$configurator-textfield-pages: TextfieldConfigurationTemplate !default;
+
+@each $selector in $configurator-textfield-components {
+  #{$selector} {
+    @extend %#{$selector} !optional;
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $configurator-textfield-components {
+    @extend %#{$selector}__body !optional;
+  }
+}
+
+@each $selector in $configurator-textfield-pages {
+  cx-page-layout.#{$selector} {
+    @extend %#{$selector} !optional;
+  }
+}

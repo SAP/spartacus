@@ -1,0 +1,35 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Cart } from '@spartacus/cart/base/root';
+import { CxDatePipe, ErrorModel, EventService, GlobalMessageService, TranslationService } from '@spartacus/core';
+import { Card, OutletContextData } from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
+import { RequestedDeliveryDateFacade } from '../../facade/requested-delivery-date.facade';
+import { DateValidationService } from '../shared/date-validation.service';
+import * as i0 from "@angular/core";
+export declare class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
+    protected datePipe: CxDatePipe;
+    protected requestedDelDateFacade: RequestedDeliveryDateFacade;
+    protected dateValidationService: DateValidationService;
+    protected eventService: EventService;
+    protected translation: TranslationService;
+    protected globalMessageService: GlobalMessageService;
+    protected deliveryOutlet?: OutletContextData<any> | undefined;
+    constructor(datePipe: CxDatePipe, requestedDelDateFacade: RequestedDeliveryDateFacade, dateValidationService: DateValidationService, eventService: EventService, translation: TranslationService, globalMessageService: GlobalMessageService, deliveryOutlet?: OutletContextData<any> | undefined);
+    protected cartEntry: Cart;
+    protected subscription: Subscription;
+    protected earliestRetrievalAt: string | undefined;
+    protected requestedRetrievalAt: string | undefined;
+    protected form: FormGroup;
+    protected isDatePickerReadOnly: boolean;
+    ngOnInit(): void;
+    isEarliestRetrievalDatePresent(): boolean;
+    isRequestedDeliveryDatePresent(): boolean;
+    getRequestedDeliveryDateCardContent(isoDate: string | null): Observable<Card>;
+    setRequestedDeliveryDate(): void;
+    getErrors(response: HttpErrorResponse): ErrorModel[];
+    ngOnDestroy(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<DeliveryModeDatePickerComponent, [null, null, null, null, null, null, { optional: true; }]>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<DeliveryModeDatePickerComponent, "cx-request-delivery-date", never, {}, {}, never, never, false, never>;
+}

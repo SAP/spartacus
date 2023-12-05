@@ -1,0 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+export const defaultFormConfig = {
+    form: {
+        passwordVisibilityToggle: true,
+    },
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZGVmYXVsdC1mb3JtLWNvbmZpZy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL3Byb2plY3RzL3N0b3JlZnJvbnRsaWIvc2hhcmVkL2NvbmZpZy9kZWZhdWx0LWZvcm0tY29uZmlnLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7O0dBSUc7QUFJSCxNQUFNLENBQUMsTUFBTSxpQkFBaUIsR0FBZTtJQUMzQyxJQUFJLEVBQUU7UUFDSix3QkFBd0IsRUFBRSxJQUFJO0tBQy9CO0NBQ0YsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8qXG4gKiBTUERYLUZpbGVDb3B5cmlnaHRUZXh0OiAyMDIzIFNBUCBTcGFydGFjdXMgdGVhbSA8c3BhcnRhY3VzLXRlYW1Ac2FwLmNvbT5cbiAqXG4gKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQXBhY2hlLTIuMFxuICovXG5cbmltcG9ydCB7IEZvcm1Db25maWcgfSBmcm9tICcuL2Zvcm0tY29uZmlnJztcblxuZXhwb3J0IGNvbnN0IGRlZmF1bHRGb3JtQ29uZmlnOiBGb3JtQ29uZmlnID0ge1xuICBmb3JtOiB7XG4gICAgcGFzc3dvcmRWaXNpYmlsaXR5VG9nZ2xlOiB0cnVlLFxuICB9LFxufTtcbiJdfQ==

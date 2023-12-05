@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-cart/index#addCartFeatures",
+      "description": "Add and configure Spartacus' Cart library",
+      "schema": "./add-cart/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-cart/index#addCartFeatures",
+      "description": "Add and configure Spartacus' Cart library",
+      "schema": "./add-cart/schema.json"
+    }
+  }
+}

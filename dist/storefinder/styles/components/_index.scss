@@ -1,0 +1,37 @@
+@import './store-finder';
+@import './store-finder-grid';
+@import './store-finder-list-item';
+@import './store-finder-store-description';
+@import './store-finder-stores-count';
+@import './store-finder-search-result';
+@import './store-finder-list';
+@import './store-finder-search';
+@import './store-finder-schedule';
+@import './store-finder-map';
+@import './store-finder-store';
+
+$store-finder-components-allowlist: cx-store-finder-list-item,
+  cx-store-finder-grid, cx-store-finder, cx-store-finder-store-description,
+  cx-store-finder-stores-count, cx-store-finder-search-result,
+  cx-store-finder-list, cx-store-finder-search, cx-store-finder-schedule,
+  cx-store-finder-map, cx-store-finder-store !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $store-finder-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $store-finder-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

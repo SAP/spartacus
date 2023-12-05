@@ -1,0 +1,9 @@
+@import '@spartacus/styles/scss/core';
+
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
+@import './base/index';
+@import './b2b/index';
+@import './scheduled-replenishment/index';

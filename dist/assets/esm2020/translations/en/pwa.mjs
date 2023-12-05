@@ -1,0 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+export const pwa = {
+    pwa: {
+        addToHomeScreenDescription: 'Add SAP storefront to your device homescreen for a faster return visit',
+        noInstallationNeeded: 'No installation needed',
+        fastAccessToApplication: 'Fast access to application',
+        addToHomeScreen: 'Add to home screen',
+        addedToHomeScreen: 'SAP Storefront was added to your home screen',
+    },
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHdhLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vcHJvamVjdHMvYXNzZXRzL3NyYy90cmFuc2xhdGlvbnMvZW4vcHdhLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7O0dBSUc7QUFFSCxNQUFNLENBQUMsTUFBTSxHQUFHLEdBQUc7SUFDakIsR0FBRyxFQUFFO1FBQ0gsMEJBQTBCLEVBQ3hCLHdFQUF3RTtRQUMxRSxvQkFBb0IsRUFBRSx3QkFBd0I7UUFDOUMsdUJBQXVCLEVBQUUsNEJBQTRCO1FBQ3JELGVBQWUsRUFBRSxvQkFBb0I7UUFDckMsaUJBQWlCLEVBQUUsOENBQThDO0tBQ2xFO0NBQ0YsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8qXG4gKiBTUERYLUZpbGVDb3B5cmlnaHRUZXh0OiAyMDIzIFNBUCBTcGFydGFjdXMgdGVhbSA8c3BhcnRhY3VzLXRlYW1Ac2FwLmNvbT5cbiAqXG4gKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQXBhY2hlLTIuMFxuICovXG5cbmV4cG9ydCBjb25zdCBwd2EgPSB7XG4gIHB3YToge1xuICAgIGFkZFRvSG9tZVNjcmVlbkRlc2NyaXB0aW9uOlxuICAgICAgJ0FkZCBTQVAgc3RvcmVmcm9udCB0byB5b3VyIGRldmljZSBob21lc2NyZWVuIGZvciBhIGZhc3RlciByZXR1cm4gdmlzaXQnLFxuICAgIG5vSW5zdGFsbGF0aW9uTmVlZGVkOiAnTm8gaW5zdGFsbGF0aW9uIG5lZWRlZCcsXG4gICAgZmFzdEFjY2Vzc1RvQXBwbGljYXRpb246ICdGYXN0IGFjY2VzcyB0byBhcHBsaWNhdGlvbicsXG4gICAgYWRkVG9Ib21lU2NyZWVuOiAnQWRkIHRvIGhvbWUgc2NyZWVuJyxcbiAgICBhZGRlZFRvSG9tZVNjcmVlbjogJ1NBUCBTdG9yZWZyb250IHdhcyBhZGRlZCB0byB5b3VyIGhvbWUgc2NyZWVuJyxcbiAgfSxcbn07XG4iXX0=

@@ -1,0 +1,56 @@
+import { AfterViewChecked, EventEmitter, OnInit } from '@angular/core';
+import { UntypedFormGroup } from '@angular/forms';
+import { WindowRef } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
+import { FilesFormValidators } from '../../../services/file/files-form-validators';
+import { FileUploadComponent } from '../../form';
+import { MessageEvent, MessagingConfigs } from './messaging.model';
+import * as i0 from "@angular/core";
+export declare class MessagingComponent implements OnInit, AfterViewChecked {
+    protected windowRef: WindowRef;
+    protected filesFormValidators: FilesFormValidators;
+    fileUploadComponent: FileUploadComponent;
+    messageEvents$: Observable<Array<MessageEvent>>;
+    scrollToInput?: boolean;
+    messagingConfigs?: MessagingConfigs;
+    send: EventEmitter<{
+        files: File | undefined;
+        message: string;
+    }>;
+    downloadAttachment: EventEmitter<{
+        messageCode: string | undefined;
+        attachmentId: string | undefined;
+        fileName: string | undefined;
+    }>;
+    iconTypes: typeof ICON_TYPE;
+    form: UntypedFormGroup;
+    MAX_INPUT_CHARACTERS: number;
+    MAX_SIZE: number;
+    MAX_ENTRIES: number;
+    dateFormat: string;
+    updatedScrollHeight: number;
+    scrollOnceOnLoad: boolean;
+    get inputCharacterLeft(): number;
+    get maxSize(): number;
+    get maxEntries(): number;
+    get allowedTypes(): Array<string>;
+    constructor(windowRef: WindowRef, filesFormValidators: FilesFormValidators);
+    ngOnInit(): void;
+    ngAfterViewChecked(): void;
+    onSend(): void;
+    resetForm(): void;
+    triggerDownload(messageCode: string | undefined, attachmentId: string | undefined, fileName: string | undefined): void;
+    protected buildForm(): void;
+    focusNextChild(event: UIEvent): void;
+    focusPreviousChild(event: UIEvent): void;
+    protected observeScroll(): void;
+    protected scrollToBottom(element: Element, previousScrollHeight: number): void;
+    protected heightChanged(previousScrollHeight: number): boolean;
+    protected scrollOnLoad(): void;
+    private getResultElements;
+    private getFocusedIndex;
+    private getFocusedElement;
+    static ɵfac: i0.ɵɵFactoryDeclaration<MessagingComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MessagingComponent, "cx-messaging", never, { "messageEvents$": "messageEvents$"; "scrollToInput": "scrollToInput"; "messagingConfigs": "messagingConfigs"; }, { "send": "send"; "downloadAttachment": "downloadAttachment"; }, never, never, false, never>;
+}

@@ -1,0 +1,10 @@
+import { MemoizedSelector } from '@ngrx/store';
+import { ConsentTemplate } from '../../../model/consent.model';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { StateWithAnonymousConsents } from '../anonymous-consents-state';
+export declare const getAnonymousConsentTemplatesState: MemoizedSelector<StateWithAnonymousConsents, LoaderState<ConsentTemplate[]>>;
+export declare const getAnonymousConsentTemplatesValue: MemoizedSelector<StateWithAnonymousConsents, ConsentTemplate[]>;
+export declare const getAnonymousConsentTemplatesLoading: MemoizedSelector<StateWithAnonymousConsents, boolean>;
+export declare const getAnonymousConsentTemplatesSuccess: MemoizedSelector<StateWithAnonymousConsents, boolean>;
+export declare const getAnonymousConsentTemplatesError: MemoizedSelector<StateWithAnonymousConsents, boolean>;
+export declare const getAnonymousConsentTemplate: (templateCode: string) => MemoizedSelector<StateWithAnonymousConsents, ConsentTemplate | undefined>;

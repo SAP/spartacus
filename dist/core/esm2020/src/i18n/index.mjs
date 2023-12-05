@@ -1,0 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+export * from './config/i18n-config';
+export * from './config/i18n-config-initializer';
+export * from './date.pipe';
+export * from './numeric.pipe';
+export { I18nModule } from './i18n.module';
+export * from './i18next/index';
+export * from './testing/index';
+export * from './translatable';
+export * from './translate.pipe';
+export * from './translation-chunk.service';
+export * from './translation-resources';
+export * from './translation.service';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi9wcm9qZWN0cy9jb3JlL3NyYy9pMThuL2luZGV4LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7O0dBSUc7QUFFSCxjQUFjLHNCQUFzQixDQUFDO0FBQ3JDLGNBQWMsa0NBQWtDLENBQUM7QUFDakQsY0FBYyxhQUFhLENBQUM7QUFDNUIsY0FBYyxnQkFBZ0IsQ0FBQztBQUMvQixPQUFPLEVBQUUsVUFBVSxFQUFFLE1BQU0sZUFBZSxDQUFDO0FBQzNDLGNBQWMsaUJBQWlCLENBQUM7QUFDaEMsY0FBYyxpQkFBaUIsQ0FBQztBQUNoQyxjQUFjLGdCQUFnQixDQUFDO0FBQy9CLGNBQWMsa0JBQWtCLENBQUM7QUFDakMsY0FBYyw2QkFBNkIsQ0FBQztBQUM1QyxjQUFjLHlCQUF5QixDQUFDO0FBQ3hDLGNBQWMsdUJBQXVCLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogU1BEWC1GaWxlQ29weXJpZ2h0VGV4dDogMjAyMyBTQVAgU3BhcnRhY3VzIHRlYW0gPHNwYXJ0YWN1cy10ZWFtQHNhcC5jb20+XG4gKlxuICogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEFwYWNoZS0yLjBcbiAqL1xuXG5leHBvcnQgKiBmcm9tICcuL2NvbmZpZy9pMThuLWNvbmZpZyc7XG5leHBvcnQgKiBmcm9tICcuL2NvbmZpZy9pMThuLWNvbmZpZy1pbml0aWFsaXplcic7XG5leHBvcnQgKiBmcm9tICcuL2RhdGUucGlwZSc7XG5leHBvcnQgKiBmcm9tICcuL251bWVyaWMucGlwZSc7XG5leHBvcnQgeyBJMThuTW9kdWxlIH0gZnJvbSAnLi9pMThuLm1vZHVsZSc7XG5leHBvcnQgKiBmcm9tICcuL2kxOG5leHQvaW5kZXgnO1xuZXhwb3J0ICogZnJvbSAnLi90ZXN0aW5nL2luZGV4JztcbmV4cG9ydCAqIGZyb20gJy4vdHJhbnNsYXRhYmxlJztcbmV4cG9ydCAqIGZyb20gJy4vdHJhbnNsYXRlLnBpcGUnO1xuZXhwb3J0ICogZnJvbSAnLi90cmFuc2xhdGlvbi1jaHVuay5zZXJ2aWNlJztcbmV4cG9ydCAqIGZyb20gJy4vdHJhbnNsYXRpb24tcmVzb3VyY2VzJztcbmV4cG9ydCAqIGZyb20gJy4vdHJhbnNsYXRpb24uc2VydmljZSc7XG4iXX0=

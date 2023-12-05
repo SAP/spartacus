@@ -1,0 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+export * from './config/routing-config';
+export * from './configurable-routes.service';
+export * from './routes-config';
+export * from './routing-config.service';
+export * from './url-translation/index';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi8uLi9wcm9qZWN0cy9jb3JlL3NyYy9yb3V0aW5nL2NvbmZpZ3VyYWJsZS1yb3V0ZXMvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Ozs7R0FJRztBQUVILGNBQWMseUJBQXlCLENBQUM7QUFDeEMsY0FBYywrQkFBK0IsQ0FBQztBQUM5QyxjQUFjLGlCQUFpQixDQUFDO0FBQ2hDLGNBQWMsMEJBQTBCLENBQUM7QUFDekMsY0FBYyx5QkFBeUIsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8qXG4gKiBTUERYLUZpbGVDb3B5cmlnaHRUZXh0OiAyMDIzIFNBUCBTcGFydGFjdXMgdGVhbSA8c3BhcnRhY3VzLXRlYW1Ac2FwLmNvbT5cbiAqXG4gKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQXBhY2hlLTIuMFxuICovXG5cbmV4cG9ydCAqIGZyb20gJy4vY29uZmlnL3JvdXRpbmctY29uZmlnJztcbmV4cG9ydCAqIGZyb20gJy4vY29uZmlndXJhYmxlLXJvdXRlcy5zZXJ2aWNlJztcbmV4cG9ydCAqIGZyb20gJy4vcm91dGVzLWNvbmZpZyc7XG5leHBvcnQgKiBmcm9tICcuL3JvdXRpbmctY29uZmlnLnNlcnZpY2UnO1xuZXhwb3J0ICogZnJvbSAnLi91cmwtdHJhbnNsYXRpb24vaW5kZXgnO1xuIl19

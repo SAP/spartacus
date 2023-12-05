@@ -1,0 +1,277 @@
+{
+  "name": "@spartacus/organization",
+  "version": "6.7.0",
+  "description": "Organization library for Spartacus",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "organization"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/organization",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./_index.scss",
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/spartacus-organization.mjs",
+      "es2020": "./fesm2020/spartacus-organization.mjs",
+      "es2015": "./fesm2015/spartacus-organization.mjs",
+      "node": "./fesm2015/spartacus-organization.mjs",
+      "default": "./fesm2020/spartacus-organization.mjs"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    },
+    "./account-summary/assets": {
+      "types": "./account-summary/assets/index.d.ts",
+      "esm2020": "./esm2020/account-summary/assets/spartacus-organization-account-summary-assets.mjs",
+      "es2020": "./fesm2020/spartacus-organization-account-summary-assets.mjs",
+      "es2015": "./fesm2015/spartacus-organization-account-summary-assets.mjs",
+      "node": "./fesm2015/spartacus-organization-account-summary-assets.mjs",
+      "default": "./fesm2020/spartacus-organization-account-summary-assets.mjs"
+    },
+    "./account-summary/components": {
+      "types": "./account-summary/components/index.d.ts",
+      "esm2020": "./esm2020/account-summary/components/spartacus-organization-account-summary-components.mjs",
+      "es2020": "./fesm2020/spartacus-organization-account-summary-components.mjs",
+      "es2015": "./fesm2015/spartacus-organization-account-summary-components.mjs",
+      "node": "./fesm2015/spartacus-organization-account-summary-components.mjs",
+      "default": "./fesm2020/spartacus-organization-account-summary-components.mjs"
+    },
+    "./account-summary/core": {
+      "types": "./account-summary/core/index.d.ts",
+      "esm2020": "./esm2020/account-summary/core/spartacus-organization-account-summary-core.mjs",
+      "es2020": "./fesm2020/spartacus-organization-account-summary-core.mjs",
+      "es2015": "./fesm2015/spartacus-organization-account-summary-core.mjs",
+      "node": "./fesm2015/spartacus-organization-account-summary-core.mjs",
+      "default": "./fesm2020/spartacus-organization-account-summary-core.mjs"
+    },
+    "./account-summary": {
+      "types": "./account-summary/index.d.ts",
+      "esm2020": "./esm2020/account-summary/spartacus-organization-account-summary.mjs",
+      "es2020": "./fesm2020/spartacus-organization-account-summary.mjs",
+      "es2015": "./fesm2015/spartacus-organization-account-summary.mjs",
+      "node": "./fesm2015/spartacus-organization-account-summary.mjs",
+      "default": "./fesm2020/spartacus-organization-account-summary.mjs"
+    },
+    "./account-summary/occ": {
+      "types": "./account-summary/occ/index.d.ts",
+      "esm2020": "./esm2020/account-summary/occ/spartacus-organization-account-summary-occ.mjs",
+      "es2020": "./fesm2020/spartacus-organization-account-summary-occ.mjs",
+      "es2015": "./fesm2015/spartacus-organization-account-summary-occ.mjs",
+      "node": "./fesm2015/spartacus-organization-account-summary-occ.mjs",
+      "default": "./fesm2020/spartacus-organization-account-summary-occ.mjs"
+    },
+    "./account-summary/root": {
+      "types": "./account-summary/root/index.d.ts",
+      "esm2020": "./esm2020/account-summary/root/spartacus-organization-account-summary-root.mjs",
+      "es2020": "./fesm2020/spartacus-organization-account-summary-root.mjs",
+      "es2015": "./fesm2015/spartacus-organization-account-summary-root.mjs",
+      "node": "./fesm2015/spartacus-organization-account-summary-root.mjs",
+      "default": "./fesm2020/spartacus-organization-account-summary-root.mjs"
+    },
+    "./administration/assets": {
+      "types": "./administration/assets/index.d.ts",
+      "esm2020": "./esm2020/administration/assets/spartacus-organization-administration-assets.mjs",
+      "es2020": "./fesm2020/spartacus-organization-administration-assets.mjs",
+      "es2015": "./fesm2015/spartacus-organization-administration-assets.mjs",
+      "node": "./fesm2015/spartacus-organization-administration-assets.mjs",
+      "default": "./fesm2020/spartacus-organization-administration-assets.mjs"
+    },
+    "./administration/components": {
+      "types": "./administration/components/index.d.ts",
+      "esm2020": "./esm2020/administration/components/spartacus-organization-administration-components.mjs",
+      "es2020": "./fesm2020/spartacus-organization-administration-components.mjs",
+      "es2015": "./fesm2015/spartacus-organization-administration-components.mjs",
+      "node": "./fesm2015/spartacus-organization-administration-components.mjs",
+      "default": "./fesm2020/spartacus-organization-administration-components.mjs"
+    },
+    "./administration/core": {
+      "types": "./administration/core/index.d.ts",
+      "esm2020": "./esm2020/administration/core/spartacus-organization-administration-core.mjs",
+      "es2020": "./fesm2020/spartacus-organization-administration-core.mjs",
+      "es2015": "./fesm2015/spartacus-organization-administration-core.mjs",
+      "node": "./fesm2015/spartacus-organization-administration-core.mjs",
+      "default": "./fesm2020/spartacus-organization-administration-core.mjs"
+    },
+    "./administration": {
+      "types": "./administration/index.d.ts",
+      "esm2020": "./esm2020/administration/spartacus-organization-administration.mjs",
+      "es2020": "./fesm2020/spartacus-organization-administration.mjs",
+      "es2015": "./fesm2015/spartacus-organization-administration.mjs",
+      "node": "./fesm2015/spartacus-organization-administration.mjs",
+      "default": "./fesm2020/spartacus-organization-administration.mjs"
+    },
+    "./administration/occ": {
+      "types": "./administration/occ/index.d.ts",
+      "esm2020": "./esm2020/administration/occ/spartacus-organization-administration-occ.mjs",
+      "es2020": "./fesm2020/spartacus-organization-administration-occ.mjs",
+      "es2015": "./fesm2015/spartacus-organization-administration-occ.mjs",
+      "node": "./fesm2015/spartacus-organization-administration-occ.mjs",
+      "default": "./fesm2020/spartacus-organization-administration-occ.mjs"
+    },
+    "./administration/root": {
+      "types": "./administration/root/index.d.ts",
+      "esm2020": "./esm2020/administration/root/spartacus-organization-administration-root.mjs",
+      "es2020": "./fesm2020/spartacus-organization-administration-root.mjs",
+      "es2015": "./fesm2015/spartacus-organization-administration-root.mjs",
+      "node": "./fesm2015/spartacus-organization-administration-root.mjs",
+      "default": "./fesm2020/spartacus-organization-administration-root.mjs"
+    },
+    "./order-approval/assets": {
+      "types": "./order-approval/assets/index.d.ts",
+      "esm2020": "./esm2020/order-approval/assets/spartacus-organization-order-approval-assets.mjs",
+      "es2020": "./fesm2020/spartacus-organization-order-approval-assets.mjs",
+      "es2015": "./fesm2015/spartacus-organization-order-approval-assets.mjs",
+      "node": "./fesm2015/spartacus-organization-order-approval-assets.mjs",
+      "default": "./fesm2020/spartacus-organization-order-approval-assets.mjs"
+    },
+    "./order-approval": {
+      "types": "./order-approval/index.d.ts",
+      "esm2020": "./esm2020/order-approval/spartacus-organization-order-approval.mjs",
+      "es2020": "./fesm2020/spartacus-organization-order-approval.mjs",
+      "es2015": "./fesm2015/spartacus-organization-order-approval.mjs",
+      "node": "./fesm2015/spartacus-organization-order-approval.mjs",
+      "default": "./fesm2020/spartacus-organization-order-approval.mjs"
+    },
+    "./order-approval/root": {
+      "types": "./order-approval/root/index.d.ts",
+      "esm2020": "./esm2020/order-approval/root/spartacus-organization-order-approval-root.mjs",
+      "es2020": "./fesm2020/spartacus-organization-order-approval-root.mjs",
+      "es2015": "./fesm2015/spartacus-organization-order-approval-root.mjs",
+      "node": "./fesm2015/spartacus-organization-order-approval-root.mjs",
+      "default": "./fesm2020/spartacus-organization-order-approval-root.mjs"
+    },
+    "./unit-order/assets": {
+      "types": "./unit-order/assets/index.d.ts",
+      "esm2020": "./esm2020/unit-order/assets/spartacus-organization-unit-order-assets.mjs",
+      "es2020": "./fesm2020/spartacus-organization-unit-order-assets.mjs",
+      "es2015": "./fesm2015/spartacus-organization-unit-order-assets.mjs",
+      "node": "./fesm2015/spartacus-organization-unit-order-assets.mjs",
+      "default": "./fesm2020/spartacus-organization-unit-order-assets.mjs"
+    },
+    "./unit-order/components": {
+      "types": "./unit-order/components/index.d.ts",
+      "esm2020": "./esm2020/unit-order/components/spartacus-organization-unit-order-components.mjs",
+      "es2020": "./fesm2020/spartacus-organization-unit-order-components.mjs",
+      "es2015": "./fesm2015/spartacus-organization-unit-order-components.mjs",
+      "node": "./fesm2015/spartacus-organization-unit-order-components.mjs",
+      "default": "./fesm2020/spartacus-organization-unit-order-components.mjs"
+    },
+    "./unit-order/core": {
+      "types": "./unit-order/core/index.d.ts",
+      "esm2020": "./esm2020/unit-order/core/spartacus-organization-unit-order-core.mjs",
+      "es2020": "./fesm2020/spartacus-organization-unit-order-core.mjs",
+      "es2015": "./fesm2015/spartacus-organization-unit-order-core.mjs",
+      "node": "./fesm2015/spartacus-organization-unit-order-core.mjs",
+      "default": "./fesm2020/spartacus-organization-unit-order-core.mjs"
+    },
+    "./unit-order": {
+      "types": "./unit-order/index.d.ts",
+      "esm2020": "./esm2020/unit-order/spartacus-organization-unit-order.mjs",
+      "es2020": "./fesm2020/spartacus-organization-unit-order.mjs",
+      "es2015": "./fesm2015/spartacus-organization-unit-order.mjs",
+      "node": "./fesm2015/spartacus-organization-unit-order.mjs",
+      "default": "./fesm2020/spartacus-organization-unit-order.mjs"
+    },
+    "./unit-order/occ": {
+      "types": "./unit-order/occ/index.d.ts",
+      "esm2020": "./esm2020/unit-order/occ/spartacus-organization-unit-order-occ.mjs",
+      "es2020": "./fesm2020/spartacus-organization-unit-order-occ.mjs",
+      "es2015": "./fesm2015/spartacus-organization-unit-order-occ.mjs",
+      "node": "./fesm2015/spartacus-organization-unit-order-occ.mjs",
+      "default": "./fesm2020/spartacus-organization-unit-order-occ.mjs"
+    },
+    "./unit-order/root": {
+      "types": "./unit-order/root/index.d.ts",
+      "esm2020": "./esm2020/unit-order/root/spartacus-organization-unit-order-root.mjs",
+      "es2020": "./fesm2020/spartacus-organization-unit-order-root.mjs",
+      "es2015": "./fesm2015/spartacus-organization-unit-order-root.mjs",
+      "node": "./fesm2015/spartacus-organization-unit-order-root.mjs",
+      "default": "./fesm2020/spartacus-organization-unit-order-root.mjs"
+    },
+    "./user-registration/assets": {
+      "types": "./user-registration/assets/index.d.ts",
+      "esm2020": "./esm2020/user-registration/assets/spartacus-organization-user-registration-assets.mjs",
+      "es2020": "./fesm2020/spartacus-organization-user-registration-assets.mjs",
+      "es2015": "./fesm2015/spartacus-organization-user-registration-assets.mjs",
+      "node": "./fesm2015/spartacus-organization-user-registration-assets.mjs",
+      "default": "./fesm2020/spartacus-organization-user-registration-assets.mjs"
+    },
+    "./user-registration/components": {
+      "types": "./user-registration/components/index.d.ts",
+      "esm2020": "./esm2020/user-registration/components/spartacus-organization-user-registration-components.mjs",
+      "es2020": "./fesm2020/spartacus-organization-user-registration-components.mjs",
+      "es2015": "./fesm2015/spartacus-organization-user-registration-components.mjs",
+      "node": "./fesm2015/spartacus-organization-user-registration-components.mjs",
+      "default": "./fesm2020/spartacus-organization-user-registration-components.mjs"
+    },
+    "./user-registration/core": {
+      "types": "./user-registration/core/index.d.ts",
+      "esm2020": "./esm2020/user-registration/core/spartacus-organization-user-registration-core.mjs",
+      "es2020": "./fesm2020/spartacus-organization-user-registration-core.mjs",
+      "es2015": "./fesm2015/spartacus-organization-user-registration-core.mjs",
+      "node": "./fesm2015/spartacus-organization-user-registration-core.mjs",
+      "default": "./fesm2020/spartacus-organization-user-registration-core.mjs"
+    },
+    "./user-registration": {
+      "types": "./user-registration/index.d.ts",
+      "esm2020": "./esm2020/user-registration/spartacus-organization-user-registration.mjs",
+      "es2020": "./fesm2020/spartacus-organization-user-registration.mjs",
+      "es2015": "./fesm2015/spartacus-organization-user-registration.mjs",
+      "node": "./fesm2015/spartacus-organization-user-registration.mjs",
+      "default": "./fesm2020/spartacus-organization-user-registration.mjs"
+    },
+    "./user-registration/occ": {
+      "types": "./user-registration/occ/index.d.ts",
+      "esm2020": "./esm2020/user-registration/occ/spartacus-organization-user-registration-occ.mjs",
+      "es2020": "./fesm2020/spartacus-organization-user-registration-occ.mjs",
+      "es2015": "./fesm2015/spartacus-organization-user-registration-occ.mjs",
+      "node": "./fesm2015/spartacus-organization-user-registration-occ.mjs",
+      "default": "./fesm2020/spartacus-organization-user-registration-occ.mjs"
+    },
+    "./user-registration/root": {
+      "types": "./user-registration/root/index.d.ts",
+      "esm2020": "./esm2020/user-registration/root/spartacus-organization-user-registration-root.mjs",
+      "es2020": "./fesm2020/spartacus-organization-user-registration-root.mjs",
+      "es2015": "./fesm2015/spartacus-organization-user-registration-root.mjs",
+      "node": "./fesm2015/spartacus-organization-user-registration-root.mjs",
+      "default": "./fesm2020/spartacus-organization-user-registration-root.mjs"
+    }
+  },
+  "dependencies": {
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^15.2.9",
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
+    "@angular/forms": "^15.2.9",
+    "@angular/router": "^15.2.9",
+    "@ng-select/ng-select": "^10.0.3",
+    "@ngrx/effects": "^15.3.0",
+    "@ngrx/store": "^15.3.0",
+    "@spartacus/cart": "6.7.0",
+    "@spartacus/core": "6.7.0",
+    "@spartacus/order": "6.7.0",
+    "@spartacus/schematics": "6.7.0",
+    "@spartacus/storefront": "6.7.0",
+    "@spartacus/styles": "6.7.0",
+    "@spartacus/user": "6.7.0",
+    "bootstrap": "^4.6.2",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json",
+  "module": "fesm2015/spartacus-organization.mjs",
+  "es2020": "fesm2020/spartacus-organization.mjs",
+  "esm2020": "esm2020/spartacus-organization.mjs",
+  "fesm2020": "fesm2020/spartacus-organization.mjs",
+  "fesm2015": "fesm2015/spartacus-organization.mjs",
+  "typings": "index.d.ts",
+  "sideEffects": false
+}

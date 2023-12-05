@@ -1,0 +1,31 @@
+import { OnDestroy, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { EventService, GlobalMessageService } from '@spartacus/core';
+import { Observable, Subscription } from 'rxjs';
+import * as i0 from "@angular/core";
+export declare class CartQuickOrderFormComponent implements OnInit, OnDestroy {
+    protected activeCartService: ActiveCartFacade;
+    protected eventService: EventService;
+    protected formBuilder: UntypedFormBuilder;
+    protected globalMessageService: GlobalMessageService;
+    quickOrderForm: UntypedFormGroup;
+    cartIsLoading$: Observable<boolean>;
+    cart$: Observable<Cart>;
+    min: number;
+    protected subscription: Subscription;
+    protected cartEventsSubscription: Subscription;
+    protected minQuantityValue: number;
+    constructor(activeCartService: ActiveCartFacade, eventService: EventService, formBuilder: UntypedFormBuilder, globalMessageService: GlobalMessageService);
+    ngOnInit(): void;
+    ngOnDestroy(): void;
+    applyQuickOrder(): void;
+    protected buildForm(): void;
+    protected watchQuantityChange(): void;
+    protected watchAddEntrySuccessEvent(): void;
+    protected watchAddEntryFailEvent(): void;
+    protected getValidCount(value: number): number;
+    protected resetForm(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CartQuickOrderFormComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CartQuickOrderFormComponent, "cx-cart-quick-order-form", never, {}, {}, never, never, false, never>;
+}

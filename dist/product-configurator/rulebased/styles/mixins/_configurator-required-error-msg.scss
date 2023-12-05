@@ -1,0 +1,5 @@
+@mixin cx-configurator-required-error-msg {
+  .cx-required-error-msg {
+    @include cx-configurator-error-msg();
+  }
+}

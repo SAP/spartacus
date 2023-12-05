@@ -1,0 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+export var B2BPaymentTypeEnum;
+(function (B2BPaymentTypeEnum) {
+    B2BPaymentTypeEnum["ACCOUNT_PAYMENT"] = "ACCOUNT";
+    B2BPaymentTypeEnum["CARD_PAYMENT"] = "CARD";
+})(B2BPaymentTypeEnum || (B2BPaymentTypeEnum = {}));
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicGF5bWVudC10eXBlLm1vZGVsLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vZmVhdHVyZS1saWJzL2NoZWNrb3V0L2IyYi9yb290L21vZGVsL3BheW1lbnQtdHlwZS5tb2RlbC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7OztHQUlHO0FBRUgsTUFBTSxDQUFOLElBQVksa0JBR1g7QUFIRCxXQUFZLGtCQUFrQjtJQUM1QixpREFBMkIsQ0FBQTtJQUMzQiwyQ0FBcUIsQ0FBQTtBQUN2QixDQUFDLEVBSFcsa0JBQWtCLEtBQWxCLGtCQUFrQixRQUc3QiIsInNvdXJjZXNDb250ZW50IjpbIi8qXG4gKiBTUERYLUZpbGVDb3B5cmlnaHRUZXh0OiAyMDIzIFNBUCBTcGFydGFjdXMgdGVhbSA8c3BhcnRhY3VzLXRlYW1Ac2FwLmNvbT5cbiAqXG4gKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQXBhY2hlLTIuMFxuICovXG5cbmV4cG9ydCBlbnVtIEIyQlBheW1lbnRUeXBlRW51bSB7XG4gIEFDQ09VTlRfUEFZTUVOVCA9ICdBQ0NPVU5UJyxcbiAgQ0FSRF9QQVlNRU5UID0gJ0NBUkQnLFxufVxuIl19

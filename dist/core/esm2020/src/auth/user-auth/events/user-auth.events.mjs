@@ -1,0 +1,31 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import { CxEvent } from '../../../event/cx-event';
+/**
+ * Indicates that the user has logged out
+ *
+ * * The event is fired even for customer emulation
+ * * The event is NOT fired for a ASM support agent authentication
+ */
+export class LogoutEvent extends CxEvent {
+}
+/**
+ * Event's type
+ */
+LogoutEvent.type = 'LogoutEvent';
+/**
+ * Indicates that the user has logged in
+ *
+ * * The event is fired even for customer emulation
+ * * The event is NOT fired for a ASM support agent authentication
+ */
+export class LoginEvent extends CxEvent {
+}
+/**
+ * Event's type
+ */
+LoginEvent.type = 'LoginEvent';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidXNlci1hdXRoLmV2ZW50cy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uL3Byb2plY3RzL2NvcmUvc3JjL2F1dGgvdXNlci1hdXRoL2V2ZW50cy91c2VyLWF1dGguZXZlbnRzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7O0dBSUc7QUFFSCxPQUFPLEVBQUUsT0FBTyxFQUFFLE1BQU0seUJBQXlCLENBQUM7QUFFbEQ7Ozs7O0dBS0c7QUFDSCxNQUFNLE9BQU8sV0FBWSxTQUFRLE9BQU87O0FBQ3RDOztHQUVHO0FBQ2EsZ0JBQUksR0FBRyxhQUFhLENBQUM7QUFHdkM7Ozs7O0dBS0c7QUFDSCxNQUFNLE9BQU8sVUFBVyxTQUFRLE9BQU87O0FBQ3JDOztHQUVHO0FBQ2EsZUFBSSxHQUFHLFlBQVksQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8qXG4gKiBTUERYLUZpbGVDb3B5cmlnaHRUZXh0OiAyMDIzIFNBUCBTcGFydGFjdXMgdGVhbSA8c3BhcnRhY3VzLXRlYW1Ac2FwLmNvbT5cbiAqXG4gKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQXBhY2hlLTIuMFxuICovXG5cbmltcG9ydCB7IEN4RXZlbnQgfSBmcm9tICcuLi8uLi8uLi9ldmVudC9jeC1ldmVudCc7XG5cbi8qKlxuICogSW5kaWNhdGVzIHRoYXQgdGhlIHVzZXIgaGFzIGxvZ2dlZCBvdXRcbiAqXG4gKiAqIFRoZSBldmVudCBpcyBmaXJlZCBldmVuIGZvciBjdXN0b21lciBlbXVsYXRpb25cbiAqICogVGhlIGV2ZW50IGlzIE5PVCBmaXJlZCBmb3IgYSBBU00gc3VwcG9ydCBhZ2VudCBhdXRoZW50aWNhdGlvblxuICovXG5leHBvcnQgY2xhc3MgTG9nb3V0RXZlbnQgZXh0ZW5kcyBDeEV2ZW50IHtcbiAgLyoqXG4gICAqIEV2ZW50J3MgdHlwZVxuICAgKi9cbiAgc3RhdGljIHJlYWRvbmx5IHR5cGUgPSAnTG9nb3V0RXZlbnQnO1xufVxuXG4vKipcbiAqIEluZGljYXRlcyB0aGF0IHRoZSB1c2VyIGhhcyBsb2dnZWQgaW5cbiAqXG4gKiAqIFRoZSBldmVudCBpcyBmaXJlZCBldmVuIGZvciBjdXN0b21lciBlbXVsYXRpb25cbiAqICogVGhlIGV2ZW50IGlzIE5PVCBmaXJlZCBmb3IgYSBBU00gc3VwcG9ydCBhZ2VudCBhdXRoZW50aWNhdGlvblxuICovXG5leHBvcnQgY2xhc3MgTG9naW5FdmVudCBleHRlbmRzIEN4RXZlbnQge1xuICAvKipcbiAgICogRXZlbnQncyB0eXBlXG4gICAqL1xuICBzdGF0aWMgcmVhZG9ubHkgdHlwZSA9ICdMb2dpbkV2ZW50Jztcbn1cbiJdfQ==

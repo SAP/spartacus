@@ -1,0 +1,22 @@
+%cx-store-finder-store {
+  .cx-store-actions {
+    margin-bottom: 1rem;
+
+    @include media-breakpoint-up(lg) {
+      width: 25%;
+    }
+
+    @include media-breakpoint-down(md) {
+      width: 30%;
+    }
+
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+    }
+
+    button {
+      outline: none;
+      min-width: 150px;
+    }
+  }
+}

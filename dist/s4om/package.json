@@ -1,0 +1,70 @@
+{
+  "name": "@spartacus/s4om",
+  "version": "6.7.0",
+  "description": "S/4HANA Order Management (b2b feature)",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "s4om"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^15.2.9",
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
+    "@spartacus/cart": "6.7.0",
+    "@spartacus/core": "6.7.0",
+    "@spartacus/pdf-invoices": "6.7.0",
+    "@spartacus/requested-delivery-date": "6.7.0",
+    "@spartacus/schematics": "6.7.0",
+    "@spartacus/storefront": "6.7.0",
+    "@spartacus/styles": "6.7.0",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json",
+  "module": "fesm2015/spartacus-s4om.mjs",
+  "es2020": "fesm2020/spartacus-s4om.mjs",
+  "esm2020": "esm2020/spartacus-s4om.mjs",
+  "fesm2020": "fesm2020/spartacus-s4om.mjs",
+  "fesm2015": "fesm2015/spartacus-s4om.mjs",
+  "typings": "index.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/spartacus-s4om.mjs",
+      "es2020": "./fesm2020/spartacus-s4om.mjs",
+      "es2015": "./fesm2015/spartacus-s4om.mjs",
+      "node": "./fesm2015/spartacus-s4om.mjs",
+      "default": "./fesm2020/spartacus-s4om.mjs"
+    },
+    "./assets": {
+      "types": "./assets/index.d.ts",
+      "esm2020": "./esm2020/assets/spartacus-s4om-assets.mjs",
+      "es2020": "./fesm2020/spartacus-s4om-assets.mjs",
+      "es2015": "./fesm2015/spartacus-s4om-assets.mjs",
+      "node": "./fesm2015/spartacus-s4om-assets.mjs",
+      "default": "./fesm2020/spartacus-s4om-assets.mjs"
+    },
+    "./root": {
+      "types": "./root/index.d.ts",
+      "esm2020": "./esm2020/root/spartacus-s4om-root.mjs",
+      "es2020": "./fesm2020/spartacus-s4om-root.mjs",
+      "es2015": "./fesm2015/spartacus-s4om-root.mjs",
+      "node": "./fesm2015/spartacus-s4om-root.mjs",
+      "default": "./fesm2020/spartacus-s4om-root.mjs"
+    }
+  },
+  "sideEffects": false
+}

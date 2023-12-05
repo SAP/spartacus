@@ -1,0 +1,31 @@
+import { Store } from '@ngrx/store';
+import { CostCenter, EntitiesModel, SearchConfig, UserIdService } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { Budget } from '../model/budget.model';
+import { OrganizationItemStatus } from '../model/organization-item-status';
+import { StateWithOrganization } from '../store/organization-state';
+import * as i0 from "@angular/core";
+export declare class CostCenterService {
+    protected store: Store<StateWithOrganization>;
+    protected userIdService: UserIdService;
+    constructor(store: Store<StateWithOrganization>, userIdService: UserIdService);
+    load(costCenterCode: string): void;
+    loadList(params: SearchConfig): void;
+    private getCostCenter;
+    private getCostCenterValue;
+    private getCostCenterList;
+    private getBudgetList;
+    get(costCenterCode: string): Observable<Budget>;
+    getList(params: SearchConfig): Observable<EntitiesModel<CostCenter> | undefined>;
+    private getCostCenterState;
+    create(costCenter: CostCenter): void;
+    update(costCenterCode: string, costCenter: CostCenter): void;
+    getLoadingStatus(costCenterCode: string): Observable<OrganizationItemStatus<CostCenter>>;
+    loadBudgets(costCenterCode: string, params: SearchConfig): void;
+    getBudgets(costCenterCode: string, params: SearchConfig): Observable<EntitiesModel<Budget> | undefined>;
+    assignBudget(costCenterCode: string, budgetCode: string): void;
+    unassignBudget(costCenterCode: string, budgetCode: string): void;
+    getErrorState(costCenterCode: string): Observable<boolean>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CostCenterService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<CostCenterService>;
+}

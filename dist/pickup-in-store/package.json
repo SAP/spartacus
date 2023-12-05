@@ -1,0 +1,101 @@
+{
+  "name": "@spartacus/pickup-in-store",
+  "version": "6.7.0",
+  "description": "",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "pickup-in-store"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/pickup-in-store",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./_index.scss",
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/spartacus-pickup-in-store.mjs",
+      "es2020": "./fesm2020/spartacus-pickup-in-store.mjs",
+      "es2015": "./fesm2015/spartacus-pickup-in-store.mjs",
+      "node": "./fesm2015/spartacus-pickup-in-store.mjs",
+      "default": "./fesm2020/spartacus-pickup-in-store.mjs"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    },
+    "./assets": {
+      "types": "./assets/index.d.ts",
+      "esm2020": "./esm2020/assets/spartacus-pickup-in-store-assets.mjs",
+      "es2020": "./fesm2020/spartacus-pickup-in-store-assets.mjs",
+      "es2015": "./fesm2015/spartacus-pickup-in-store-assets.mjs",
+      "node": "./fesm2015/spartacus-pickup-in-store-assets.mjs",
+      "default": "./fesm2020/spartacus-pickup-in-store-assets.mjs"
+    },
+    "./components": {
+      "types": "./components/index.d.ts",
+      "esm2020": "./esm2020/components/spartacus-pickup-in-store-components.mjs",
+      "es2020": "./fesm2020/spartacus-pickup-in-store-components.mjs",
+      "es2015": "./fesm2015/spartacus-pickup-in-store-components.mjs",
+      "node": "./fesm2015/spartacus-pickup-in-store-components.mjs",
+      "default": "./fesm2020/spartacus-pickup-in-store-components.mjs"
+    },
+    "./core": {
+      "types": "./core/index.d.ts",
+      "esm2020": "./esm2020/core/spartacus-pickup-in-store-core.mjs",
+      "es2020": "./fesm2020/spartacus-pickup-in-store-core.mjs",
+      "es2015": "./fesm2015/spartacus-pickup-in-store-core.mjs",
+      "node": "./fesm2015/spartacus-pickup-in-store-core.mjs",
+      "default": "./fesm2020/spartacus-pickup-in-store-core.mjs"
+    },
+    "./occ": {
+      "types": "./occ/index.d.ts",
+      "esm2020": "./esm2020/occ/spartacus-pickup-in-store-occ.mjs",
+      "es2020": "./fesm2020/spartacus-pickup-in-store-occ.mjs",
+      "es2015": "./fesm2015/spartacus-pickup-in-store-occ.mjs",
+      "node": "./fesm2015/spartacus-pickup-in-store-occ.mjs",
+      "default": "./fesm2020/spartacus-pickup-in-store-occ.mjs"
+    },
+    "./root": {
+      "types": "./root/index.d.ts",
+      "esm2020": "./esm2020/root/spartacus-pickup-in-store-root.mjs",
+      "es2020": "./fesm2020/spartacus-pickup-in-store-root.mjs",
+      "es2015": "./fesm2015/spartacus-pickup-in-store-root.mjs",
+      "node": "./fesm2015/spartacus-pickup-in-store-root.mjs",
+      "default": "./fesm2020/spartacus-pickup-in-store-root.mjs"
+    }
+  },
+  "dependencies": {
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^15.2.9",
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
+    "@angular/forms": "^15.2.9",
+    "@angular/router": "^15.2.9",
+    "@ngrx/effects": "^15.3.0",
+    "@ngrx/store": "^15.3.0",
+    "@spartacus/cart": "6.7.0",
+    "@spartacus/core": "6.7.0",
+    "@spartacus/order": "6.7.0",
+    "@spartacus/schematics": "6.7.0",
+    "@spartacus/storefinder": "6.7.0",
+    "@spartacus/storefront": "6.7.0",
+    "@spartacus/styles": "6.7.0",
+    "@spartacus/user": "6.7.0",
+    "bootstrap": "^4.6.2",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json",
+  "module": "fesm2015/spartacus-pickup-in-store.mjs",
+  "es2020": "fesm2020/spartacus-pickup-in-store.mjs",
+  "esm2020": "esm2020/spartacus-pickup-in-store.mjs",
+  "fesm2020": "fesm2020/spartacus-pickup-in-store.mjs",
+  "fesm2015": "fesm2015/spartacus-pickup-in-store.mjs",
+  "typings": "index.d.ts",
+  "sideEffects": false
+}

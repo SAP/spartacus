@@ -1,0 +1,14 @@
+%cx-configurator-attribute-checkbox-list {
+  @include cx-configurator-attribute-type();
+  @include cx-configurator-attribute-level-quantity-price();
+
+  .cx-quantity {
+    padding-block-end: 1rem;
+  }
+
+  .form-check input:disabled + .form-check-label {
+    color: var(--cx-color-text);
+  }
+
+  @include cx-configurator-attribute-visible-focus();
+}

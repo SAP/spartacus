@@ -1,0 +1,35 @@
+import { CartOutlets, DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
+import { Address, CmsOrderDetailOverviewComponent, CostCenter, TranslationService } from '@spartacus/core';
+import { Card, CmsComponentData } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { OrderDetailsService } from '../order-details.service';
+import * as i0 from "@angular/core";
+export declare class OrderOverviewComponent {
+    protected translation: TranslationService;
+    protected orderDetailsService: OrderDetailsService;
+    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>;
+    readonly cartOutlets: typeof CartOutlets;
+    order$: Observable<any>;
+    isOrderLoading$: Observable<boolean>;
+    simple$: Observable<boolean | undefined>;
+    constructor(translation: TranslationService, orderDetailsService: OrderDetailsService, component: CmsComponentData<CmsOrderDetailOverviewComponent>);
+    getReplenishmentCodeCardContent(orderCode: string): Observable<Card>;
+    getReplenishmentActiveCardContent(active: boolean): Observable<Card>;
+    getReplenishmentStartOnCardContent(isoDate: string | null): Observable<Card>;
+    getReplenishmentFrequencyCardContent(frequency: string): Observable<Card>;
+    getReplenishmentNextDateCardContent(isoDate: string | null): Observable<Card>;
+    getOrderCodeCardContent(orderCode: string): Observable<Card>;
+    getOrderCurrentDateCardContent(isoDate: string | null): Observable<Card>;
+    getOrderStatusCardContent(status: string): Observable<Card>;
+    getPurchaseOrderNumber(poNumber: string): Observable<Card>;
+    getMethodOfPaymentCardContent(hasPaymentInfo: PaymentDetails): Observable<Card>;
+    getCostCenterCardContent(costCenter: CostCenter): Observable<Card>;
+    getAddressCardContent(deliveryAddress: Address): Observable<Card>;
+    getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card>;
+    getPaymentInfoCardContent(payment: PaymentDetails): Observable<Card>;
+    isPaymentInfoCardFull(payment: PaymentDetails): boolean;
+    getBillingAddressCardContent(billingAddress: Address): Observable<Card>;
+    private normalizeFormattedAddress;
+    static ɵfac: i0.ɵɵFactoryDeclaration<OrderOverviewComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<OrderOverviewComponent, "cx-order-overview", never, {}, {}, never, never, false, never>;
+}

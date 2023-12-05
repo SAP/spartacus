@@ -1,0 +1,33 @@
+import { OnInit } from '@angular/core';
+import { Address, GlobalMessageService, TranslationService } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { Card } from '../../../shared/components/card';
+import { AddressBookComponentService } from './address-book.component.service';
+import * as i0 from "@angular/core";
+export declare class AddressBookComponent implements OnInit {
+    service: AddressBookComponentService;
+    protected translation: TranslationService;
+    protected globalMessageService: GlobalMessageService;
+    addresses$: Observable<Address[]>;
+    cards$: Observable<Card[]>;
+    addressesStateLoading$: Observable<boolean>;
+    currentAddress: Address;
+    showAddAddressForm: boolean;
+    showEditAddressForm: boolean;
+    editCard: string | null;
+    constructor(service: AddressBookComponentService, translation: TranslationService, globalMessageService: GlobalMessageService);
+    ngOnInit(): void;
+    addAddressButtonHandle(): void;
+    editAddressButtonHandle(address: Address): void;
+    addAddressSubmit(address: Address): void;
+    addAddressCancel(): void;
+    editAddressSubmit(address: Address): void;
+    editAddressCancel(): void;
+    getCardContent(address: Address): Observable<Card>;
+    setAddressAsDefault(address: Address): void;
+    deleteAddress(addressId: string): void;
+    setEdit(addressId: string): void;
+    cancelCard(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<AddressBookComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<AddressBookComponent, "cx-address-book", never, {}, {}, never, never, false, never>;
+}

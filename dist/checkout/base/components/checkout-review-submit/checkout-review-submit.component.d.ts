@@ -1,0 +1,38 @@
+import { ActiveCartFacade, Cart, CartOutlets, DeliveryMode, OrderEntry, PaymentDetails, PromotionLocation } from '@spartacus/cart/base/root';
+import { CheckoutDeliveryAddressFacade, CheckoutDeliveryModesFacade, CheckoutPaymentFacade, CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
+import { Address, TranslationService } from '@spartacus/core';
+import { Card, ICON_TYPE } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { CheckoutStepService } from '../services/checkout-step.service';
+import * as i0 from "@angular/core";
+export declare class CheckoutReviewSubmitComponent {
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
+    protected checkoutPaymentFacade: CheckoutPaymentFacade;
+    protected activeCartFacade: ActiveCartFacade;
+    protected translationService: TranslationService;
+    protected checkoutStepService: CheckoutStepService;
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
+    readonly cartOutlets: typeof CartOutlets;
+    iconTypes: typeof ICON_TYPE;
+    checkoutStepTypeDeliveryAddress: CheckoutStepType;
+    checkoutStepTypePaymentDetails: CheckoutStepType;
+    checkoutStepTypeDeliveryMode: CheckoutStepType;
+    promotionLocation: PromotionLocation;
+    constructor(checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade, checkoutPaymentFacade: CheckoutPaymentFacade, activeCartFacade: ActiveCartFacade, translationService: TranslationService, checkoutStepService: CheckoutStepService, checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade);
+    get cart$(): Observable<Cart>;
+    get entries$(): Observable<OrderEntry[]>;
+    protected getCheckoutDeliverySteps(): Array<CheckoutStepType | string>;
+    protected getCheckoutPaymentSteps(): Array<CheckoutStepType | string>;
+    steps$: Observable<CheckoutStep[]>;
+    deliveryAddress$: Observable<Address | undefined>;
+    deliveryMode$: Observable<DeliveryMode | undefined>;
+    paymentDetails$: Observable<PaymentDetails | undefined>;
+    getDeliveryAddressCard(deliveryAddress: Address, countryName?: string): Observable<Card>;
+    getDeliveryModeCard(deliveryMode: DeliveryMode): Observable<Card>;
+    getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card>;
+    getCheckoutStepUrl(stepType: CheckoutStepType | string): string | undefined;
+    deliverySteps(steps: CheckoutStep[]): CheckoutStep[];
+    paymentSteps(steps: CheckoutStep[]): CheckoutStep[];
+    static ɵfac: i0.ɵɵFactoryDeclaration<CheckoutReviewSubmitComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CheckoutReviewSubmitComponent, "cx-review-submit", never, {}, {}, never, never, false, never>;
+}

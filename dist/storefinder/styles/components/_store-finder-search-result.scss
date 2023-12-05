@@ -1,0 +1,24 @@
+%cx-store-finder-search-result {
+  .cx-pagination {
+    margin: 1rem auto;
+    justify-content: center;
+    display: flex;
+  }
+
+  .cx-spinner {
+    padding: 2rem 0;
+  }
+
+  .cx-no-stores {
+    display: block;
+    padding-top: 4rem;
+    padding-inline-end: 1.5rem;
+    padding-bottom: 1.5rem;
+    padding-inline-start: 1.5rem;
+    margin: 0 auto;
+
+    font-size: var(--cx-font-size, 1.125rem);
+    font-weight: var(--cx-font-weight-bold);
+    color: var(--cx-color-secondary);
+  }
+}

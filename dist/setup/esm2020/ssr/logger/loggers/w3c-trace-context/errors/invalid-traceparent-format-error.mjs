@@ -1,0 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/**
+ * Error thrown when the traceparent header has an invalid format.
+ */
+export class InvalidTraceparentFormatError extends Error {
+    constructor() {
+        super('Traceparent header has invalid format.');
+    }
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW52YWxpZC10cmFjZXBhcmVudC1mb3JtYXQtZXJyb3IuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi8uLi8uLi8uLi9jb3JlLWxpYnMvc2V0dXAvc3NyL2xvZ2dlci9sb2dnZXJzL3czYy10cmFjZS1jb250ZXh0L2Vycm9ycy9pbnZhbGlkLXRyYWNlcGFyZW50LWZvcm1hdC1lcnJvci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7OztHQUlHO0FBRUg7O0dBRUc7QUFDSCxNQUFNLE9BQU8sNkJBQThCLFNBQVEsS0FBSztJQUN0RDtRQUNFLEtBQUssQ0FBQyx3Q0FBd0MsQ0FBQyxDQUFDO0lBQ2xELENBQUM7Q0FDRiIsInNvdXJjZXNDb250ZW50IjpbIi8qXG4gKiBTUERYLUZpbGVDb3B5cmlnaHRUZXh0OiAyMDIzIFNBUCBTcGFydGFjdXMgdGVhbSA8c3BhcnRhY3VzLXRlYW1Ac2FwLmNvbT5cbiAqXG4gKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQXBhY2hlLTIuMFxuICovXG5cbi8qKlxuICogRXJyb3IgdGhyb3duIHdoZW4gdGhlIHRyYWNlcGFyZW50IGhlYWRlciBoYXMgYW4gaW52YWxpZCBmb3JtYXQuXG4gKi9cbmV4cG9ydCBjbGFzcyBJbnZhbGlkVHJhY2VwYXJlbnRGb3JtYXRFcnJvciBleHRlbmRzIEVycm9yIHtcbiAgY29uc3RydWN0b3IoKSB7XG4gICAgc3VwZXIoJ1RyYWNlcGFyZW50IGhlYWRlciBoYXMgaW52YWxpZCBmb3JtYXQuJyk7XG4gIH1cbn1cbiJdfQ==
