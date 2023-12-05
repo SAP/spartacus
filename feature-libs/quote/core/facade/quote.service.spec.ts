@@ -5,6 +5,7 @@ import {
   Cart,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   EventService,
   GlobalMessageService,
@@ -148,6 +149,10 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy().and.stub();
 }
 
+class MockSavedCartFacade implements Partial<SavedCartFacade> {
+  editSavedCart = createSpy();
+}
+
 describe('QuoteService', () => {
   let classUnderTest: QuoteService;
   let quoteConnector: QuoteConnector;
@@ -160,6 +165,7 @@ describe('QuoteService', () => {
   let cartUtilsService: CartUtilsService;
   let globalMessageService: GlobalMessageService;
   let quoteStorefrontUtilsService: QuoteStorefrontUtilsService;
+  let savedCartFacade: SavedCartFacade;
 
   beforeEach(() => {
     let mockedQuoteStorefrontUtilsService = {
@@ -186,6 +192,7 @@ describe('QuoteService', () => {
           provide: QuoteStorefrontUtilsService,
           useValue: mockedQuoteStorefrontUtilsService,
         },
+        { provide: SavedCartFacade, useClass: MockSavedCartFacade },
       ],
     });
 
@@ -200,6 +207,7 @@ describe('QuoteService', () => {
     cartUtilsService = TestBed.inject(CartUtilsService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     quoteStorefrontUtilsService = TestBed.inject(QuoteStorefrontUtilsService);
+    savedCartFacade = TestBed.inject(SavedCartFacade);
 
     isQuoteCartActive = false;
     quoteId = '';
@@ -663,6 +671,31 @@ describe('QuoteService', () => {
         { key: 'quote.httpHandlers.expired' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
+    });
+  });
+
+  describe('saveActiveCart', () => {
+    it('should create saved cart if entries exist and it is not a quote cart', () => {
+      cart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
+      classUnderTest['saveActiveCart']();
+      expect(savedCartFacade.editSavedCart).toHaveBeenCalledWith({
+        cartId: cart.code,
+        saveCartName: '',
+        saveCartDescription: '',
+      });
+    });
+
+    it('should not create saved cart if entries exist and it is a quote cart', () => {
+      cart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
+      cart.quoteCode = 'ABC';
+      classUnderTest['saveActiveCart']();
+      expect(savedCartFacade.editSavedCart).not.toHaveBeenCalled();
+    });
+
+    it('should not create saved cart if no entries exist', () => {
+      cart.entries = [];
+      classUnderTest['saveActiveCart']();
+      expect(savedCartFacade.editSavedCart).not.toHaveBeenCalled();
     });
   });
 });
