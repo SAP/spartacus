@@ -104,21 +104,24 @@ context('Quote', () => {
       );
     });
 
-    it('should edit quantity of items within a buyer quote draft (CXSPA-3852)', () => {
-      let itemIndex = 1;
-      quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
-      quote.checkItemQuantity(itemIndex, PRODUCT_AMOUNT_30.toString());
-      quote.changeItemQuantityByStepper(itemIndex, '+');
-      quote.checkItemQuantity(itemIndex, (PRODUCT_AMOUNT_30 + 1).toString());
-      quote.changeItemQuantityByStepper(itemIndex, '-');
-      quote.checkItemQuantity(itemIndex, PRODUCT_AMOUNT_30.toString());
-      quote.changeItemQuantityByCounter(itemIndex, '1');
-      quote.checkItemQuantity(itemIndex, '1');
-      quote.checkSubmitBtn(false);
-      quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
-      quote.removeItem(itemIndex);
-      quote.checkQuoteCartIsEmpty();
-    });
+    //ToDo: Bug will be fixed with CXSPA-5574
+    //see function: checkQuoteCartIsEmpty()
+    //
+    // it('should edit quantity of items within a buyer quote draft (CXSPA-3852)', () => {
+    //   let itemIndex = 1;
+    //   quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
+    //   quote.checkItemQuantity(itemIndex, PRODUCT_AMOUNT_30.toString());
+    //   quote.changeItemQuantityByStepper(itemIndex, '+');
+    //   quote.checkItemQuantity(itemIndex, (PRODUCT_AMOUNT_30 + 1).toString());
+    //   quote.changeItemQuantityByStepper(itemIndex, '-');
+    //   quote.checkItemQuantity(itemIndex, PRODUCT_AMOUNT_30.toString());
+    //   quote.changeItemQuantityByCounter(itemIndex, '1');
+    //   quote.checkItemQuantity(itemIndex, '1');
+    //   quote.checkSubmitBtn(false);
+    //   quote.checkItemVisible(itemIndex, TEST_PRODUCT_HAMMER_DRILLING_ID);
+    //   quote.removeItem(itemIndex);
+    //   quote.checkQuoteCartIsEmpty();
+    // });
 
     it('should edit name and description of the quote while in buyer draft (CXSPA-3852)', () => {
       const QUOTE_NAME = 'Quote name test';

@@ -600,7 +600,7 @@ export function checkQuoteCartIsEmpty(): void {
     checkQuoteCartIsEmpty.name
   );
   cy.get(itemsComponentSelector).within(() => {
-    cy.get('.cx-item-list-row:nth-child(1)').should('not.exist'); //ToDo MS: setting quantity to 0 wont automaticaly remove the item anymore!
+    cy.get('.cx-item-list-row:nth-child(1)').should('not.exist');
   });
 }
 
