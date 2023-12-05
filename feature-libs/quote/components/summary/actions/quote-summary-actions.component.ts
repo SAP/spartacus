@@ -218,7 +218,10 @@ export class QuoteSummaryActionsComponent
    */
   protected prepareButtonsForDesktop(): void {
     this.isMobile()
-      .pipe(filter((mobile) => !mobile))
+      .pipe(
+        filter((mobile) => !mobile),
+        take(1)
+      )
       .subscribe(() => {
         this.stickyStyles.forEach((style) => {
           this.quoteStorefrontUtilsService.removeStyling(
@@ -251,7 +254,10 @@ export class QuoteSummaryActionsComponent
    */
   protected prepareButtonsForMobile(): void {
     this.isMobile()
-      .pipe(filter((mobile) => mobile))
+      .pipe(
+        filter((mobile) => mobile),
+        take(1)
+      )
       .subscribe(() => {
         this.fixedStyles.forEach((style) => {
           this.quoteStorefrontUtilsService.changeStyling(
