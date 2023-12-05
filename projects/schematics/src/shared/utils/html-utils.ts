@@ -1,5 +1,6 @@
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { DefaultTreeAdapterMap, parse as parseHtml } from 'parse5';
+
 /*
  * Copyright Google LLC All Rights Reserved.
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
