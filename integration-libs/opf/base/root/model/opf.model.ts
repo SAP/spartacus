@@ -22,6 +22,7 @@ export interface OpfPaymentMetadata {
   termsAndConditionsChecked: boolean;
   selectedPaymentOptionId: number | undefined;
   isPaymentInProgress: boolean;
+  isQuickBuyPaymentInProgress: boolean;
 }
 
 export interface KeyValuePair {

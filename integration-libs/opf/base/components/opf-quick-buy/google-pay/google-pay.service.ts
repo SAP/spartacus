@@ -9,6 +9,7 @@ import { Address, Product } from '@spartacus/core';
 import {
   ActiveConfiguration,
   OpfPaymentFacade,
+  OpfPaymentMetadataStoreService,
   OpfResourceLoaderService,
   PaymentMethod,
 } from '@spartacus/opf/base/root';
@@ -38,6 +39,9 @@ export class OpfGooglePayService {
   protected currentProductService = inject(CurrentProductService);
   protected opfCartHandlerService = inject(OpfCartHandlerService);
   protected opfPaymentFacade = inject(OpfPaymentFacade);
+  protected opfPaymentMetadataStoreService = inject(
+    OpfPaymentMetadataStoreService
+  );
 
   protected readonly GOOGLE_PAY_JS_URL =
     'https://pay.google.com/gp/p/js/pay.js';
@@ -83,6 +87,9 @@ export class OpfGooglePayService {
   }
 
   initClient(activeConfiguration: ActiveConfiguration): void {
+    this.opfPaymentMetadataStoreService.updateOpfMetadata({
+      isQuickBuyPaymentInProgress: false,
+    });
     this.setAllowedPaymentMethodsConfig(activeConfiguration);
     this.googlePaymentClient = new google.payments.api.PaymentsClient(
       this.googlePaymentClientOptions
@@ -176,6 +183,9 @@ export class OpfGooglePayService {
   }
 
   initTransaction(): void {
+    this.opfPaymentMetadataStoreService.updateOpfMetadata({
+      isQuickBuyPaymentInProgress: true,
+    });
     this.currentProductService
       .getProduct()
       .pipe(
@@ -240,7 +250,15 @@ export class OpfGooglePayService {
               )
             ),
             catchError(() => of({ transactionState: 'ERROR' })),
-            finalize(() => this.deleteAssociatedAddresses())
+            finalize(() => {
+              this.deleteAssociatedAddresses();
+              this.opfPaymentMetadataStoreService.updateOpfMetadata(
+                {
+                  isQuickBuyPaymentInProgress: false,
+                },
+                2000
+              );
+            })
           )
           .toPromise()
           .then((result) => {

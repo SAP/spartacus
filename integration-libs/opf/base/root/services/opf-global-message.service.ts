@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   GlobalMessageService,
@@ -12,15 +12,18 @@ import {
   StateWithGlobalMessage,
   Translatable,
 } from '@spartacus/core';
-import { timer } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
+import { OpfPaymentMetadata } from '../model';
+import { OpfPaymentMetadataStoreService } from './opf-payment-metadata-store.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OpfGlobalMessageService extends GlobalMessageService {
-  protected isGlobalMessageDisabled = false;
-  protected disabledKeys: string[] = [];
+  protected opfPaymentMetadataStoreService = inject(
+    OpfPaymentMetadataStoreService
+  );
+
   constructor(protected store: Store<StateWithGlobalMessage>) {
     super(store);
   }
@@ -35,30 +38,17 @@ export class OpfGlobalMessageService extends GlobalMessageService {
     type: GlobalMessageType,
     timeout?: number
   ): void {
-    if (
-      this.isGlobalMessageDisabled &&
-      this.disabledKeys?.length &&
-      (text as Translatable)?.key &&
-      this.disabledKeys.includes((text as Translatable).key as string)
-    ) {
-      return;
-    }
-    super.add(text, type, timeout);
-  }
-
-  /**
-   * disable specific keys for a period of time
-   * @param keys: string[]
-   * @param timeout: number
-   */
-  disableGlobalMessage(keys: string[], timeout?: number): void {
-    this.isGlobalMessageDisabled = true;
-    this.disabledKeys = keys;
-    timer(timeout ?? 2000)
-      .pipe(take(1))
+    this.opfPaymentMetadataStoreService
+      .getOpfMetadataState()
+      .pipe(
+        take(1),
+        filter(
+          (opfPaymentMetadata: OpfPaymentMetadata) =>
+            opfPaymentMetadata.isQuickBuyPaymentInProgress === false
+        )
+      )
       .subscribe(() => {
-        this.isGlobalMessageDisabled = false;
-        this.disabledKeys = [];
+        super.add(text, type, timeout);
       });
   }
 }
