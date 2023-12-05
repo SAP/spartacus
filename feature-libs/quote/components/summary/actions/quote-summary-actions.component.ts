@@ -137,11 +137,7 @@ export class QuoteSummaryActionsComponent
     });
   }
 
-  protected isDesktop() {
-    return this.breakpointService.isUp(BREAKPOINT.md);
-  }
-
-  protected isMobile() {
+  protected isMobile(): Observable<boolean> {
     return this.breakpointService.isDown(BREAKPOINT.sm);
   }
 
@@ -221,32 +217,30 @@ export class QuoteSummaryActionsComponent
    * @protected
    */
   protected prepareButtonsForDesktop(): void {
-    this.isDesktop()
-      .pipe(take(1))
-      .subscribe((desktop) => {
-        if (desktop) {
-          this.stickyStyles.forEach((style) => {
-            this.quoteStorefrontUtilsService.removeStyling(
-              this.CX_SECTION_SELECTOR,
-              style[0]
-            );
-          });
+    this.isMobile()
+      .pipe(filter((mobile) => !mobile))
+      .subscribe(() => {
+        this.stickyStyles.forEach((style) => {
+          this.quoteStorefrontUtilsService.removeStyling(
+            this.CX_SECTION_SELECTOR,
+            style[0]
+          );
+        });
 
-          this.fixedStyles.forEach((style) => {
-            this.quoteStorefrontUtilsService.removeStyling(
-              this.CX_SECTION_SELECTOR,
-              style[0]
-            );
-          });
+        this.fixedStyles.forEach((style) => {
+          this.quoteStorefrontUtilsService.removeStyling(
+            this.CX_SECTION_SELECTOR,
+            style[0]
+          );
+        });
 
-          this.desktopStyling.forEach((style) => {
-            this.quoteStorefrontUtilsService.changeStyling(
-              this.CX_SECTION_SELECTOR,
-              style[0],
-              style[1]
-            );
-          });
-        }
+        this.desktopStyling.forEach((style) => {
+          this.quoteStorefrontUtilsService.changeStyling(
+            this.CX_SECTION_SELECTOR,
+            style[0],
+            style[1]
+          );
+        });
       });
   }
 
@@ -257,47 +251,45 @@ export class QuoteSummaryActionsComponent
    */
   protected prepareButtonsForMobile(): void {
     this.isMobile()
-      .pipe(take(1))
-      .subscribe((mobile) => {
-        if (mobile) {
-          this.fixedStyles.forEach((style) => {
-            this.quoteStorefrontUtilsService.changeStyling(
-              this.CX_SECTION_SELECTOR,
-              style[0],
-              style[1]
-            );
-          });
-
-          const options: IntersectionOptions = {
-            rootMargin: '9999px 0px -120px 0px',
-          };
-
-          const slot = this.quoteStorefrontUtilsService.getElement(
-            'cx-page-slot.CenterRightContent'
+      .pipe(filter((mobile) => mobile))
+      .subscribe(() => {
+        this.fixedStyles.forEach((style) => {
+          this.quoteStorefrontUtilsService.changeStyling(
+            this.CX_SECTION_SELECTOR,
+            style[0],
+            style[1]
           );
-          if (slot) {
-            this.intersectionService
-              .isIntersecting(slot, options)
-              .subscribe((isIntersecting) => {
-                if (isIntersecting) {
-                  this.stickyStyles.forEach((style) => {
-                    this.quoteStorefrontUtilsService.changeStyling(
-                      this.CX_SECTION_SELECTOR,
-                      style[0],
-                      style[1]
-                    );
-                  });
-                } else {
-                  this.fixedStyles.forEach((style) => {
-                    this.quoteStorefrontUtilsService.changeStyling(
-                      this.CX_SECTION_SELECTOR,
-                      style[0],
-                      style[1]
-                    );
-                  });
-                }
-              });
-          }
+        });
+
+        const options: IntersectionOptions = {
+          rootMargin: '9999px 0px -120px 0px',
+        };
+
+        const slot = this.quoteStorefrontUtilsService.getElement(
+          'cx-page-slot.CenterRightContent'
+        );
+        if (slot) {
+          this.intersectionService
+            .isIntersecting(slot, options)
+            .subscribe((isIntersecting) => {
+              if (isIntersecting) {
+                this.stickyStyles.forEach((style) => {
+                  this.quoteStorefrontUtilsService.changeStyling(
+                    this.CX_SECTION_SELECTOR,
+                    style[0],
+                    style[1]
+                  );
+                });
+              } else {
+                this.fixedStyles.forEach((style) => {
+                  this.quoteStorefrontUtilsService.changeStyling(
+                    this.CX_SECTION_SELECTOR,
+                    style[0],
+                    style[1]
+                  );
+                });
+              }
+            });
         }
       });
   }

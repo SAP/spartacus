@@ -80,7 +80,7 @@ export class QuoteStorefrontUtilsService {
    * @param querySelector - querySelector
    * @returns - the height of the HTML element
    */
-  public getHeight(querySelector: string): number {
+  getHeight(querySelector: string): number {
     const element = this.getElement(querySelector);
     const isElementInViewport = this.isInViewport(element);
     if (isElementInViewport && element?.offsetHeight) {
@@ -89,7 +89,10 @@ export class QuoteStorefrontUtilsService {
     return 0;
   }
 
-  public getWindowHeight() {
+  /**
+   * Retrieves the height of the window.
+   */
+  getWindowHeight() {
     if (this.windowRef.isBrowser()) {
       return this.windowRef.nativeWindow
         ? this.windowRef.nativeWindow.innerHeight

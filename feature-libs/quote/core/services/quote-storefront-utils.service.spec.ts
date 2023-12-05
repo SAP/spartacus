@@ -27,9 +27,7 @@ describe('QuoteStorefrontUtilsService', () => {
       declarations: [MockQuoteComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     classUnderTest = TestBed.inject(QuoteStorefrontUtilsService);
     fixture = TestBed.createComponent(MockQuoteComponent);
     htmlElem = fixture.nativeElement;
