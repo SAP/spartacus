@@ -76,7 +76,7 @@ export class QuoteService implements QuoteFacade {
   protected cartUtilsService = inject(CartUtilsService);
   protected globalMessageService = inject(GlobalMessageService);
   protected quoteStorefrontUtilsService = inject(QuoteStorefrontUtilsService);
-  protected savedCartService = inject(SavedCartFacade);
+  protected savedCartFacade = inject(SavedCartFacade);
 
   /**
    * Indicator whether an action is currently performing.
@@ -452,7 +452,7 @@ export class QuoteService implements QuoteFacade {
           !activeCart.quoteCode &&
           activeCart.code
         ) {
-          this.savedCartService.editSavedCart({
+          this.savedCartFacade.editSavedCart({
             cartId: activeCart.code,
             saveCartName: '',
             saveCartDescription: '',

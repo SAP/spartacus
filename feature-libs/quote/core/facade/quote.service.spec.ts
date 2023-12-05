@@ -165,7 +165,7 @@ describe('QuoteService', () => {
   let cartUtilsService: CartUtilsService;
   let globalMessageService: GlobalMessageService;
   let quoteStorefrontUtilsService: QuoteStorefrontUtilsService;
-  let savedCartService: SavedCartFacade;
+  let savedCartFacade: SavedCartFacade;
 
   beforeEach(() => {
     let mockedQuoteStorefrontUtilsService = {
@@ -207,7 +207,7 @@ describe('QuoteService', () => {
     cartUtilsService = TestBed.inject(CartUtilsService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     quoteStorefrontUtilsService = TestBed.inject(QuoteStorefrontUtilsService);
-    savedCartService = TestBed.inject(SavedCartFacade);
+    savedCartFacade = TestBed.inject(SavedCartFacade);
 
     isQuoteCartActive = false;
     quoteId = '';
@@ -678,7 +678,7 @@ describe('QuoteService', () => {
     it('should create saved cart if entries exist and it is not a quote cart', () => {
       cart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
       classUnderTest['saveActiveCart']();
-      expect(savedCartService.editSavedCart).toHaveBeenCalledWith({
+      expect(savedCartFacade.editSavedCart).toHaveBeenCalledWith({
         cartId: cart.code,
         saveCartName: '',
         saveCartDescription: '',
@@ -689,13 +689,13 @@ describe('QuoteService', () => {
       cart.entries = [{ product: { code: 'PRODUCT_CODE' } }];
       cart.quoteCode = 'ABC';
       classUnderTest['saveActiveCart']();
-      expect(savedCartService.editSavedCart).not.toHaveBeenCalled();
+      expect(savedCartFacade.editSavedCart).not.toHaveBeenCalled();
     });
 
     it('should not create saved cart if no entries exist', () => {
       cart.entries = [];
       classUnderTest['saveActiveCart']();
-      expect(savedCartService.editSavedCart).not.toHaveBeenCalled();
+      expect(savedCartFacade.editSavedCart).not.toHaveBeenCalled();
     });
   });
 });
