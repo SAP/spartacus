@@ -23,6 +23,7 @@ import {
   UserAddressService,
   UserIdService,
 } from '@spartacus/core';
+import { OpfGlobalMessageService } from '@spartacus/opf/base/root';
 import { Observable, combineLatest, merge, throwError, timer } from 'rxjs';
 import {
   filter,
@@ -47,6 +48,7 @@ export class OpfCartHandlerService {
   protected userIdService = inject(UserIdService);
   protected eventService = inject(EventService);
   protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
+  protected opfGlobalMessageService = inject(OpfGlobalMessageService);
 
   addProductToCart(
     productCode: string,
@@ -102,6 +104,9 @@ export class OpfCartHandlerService {
   }
 
   setDeliveryAddress(address: Address) {
+    this.opfGlobalMessageService.disableGlobalMessage([
+      'addressForm.userAddressAddSuccess',
+    ]);
     return this.checkoutDeliveryAddressFacade.createAndSetAddress(address).pipe(
       switchMap(() => this.checkStableCart()),
       switchMap(() =>
@@ -202,6 +207,9 @@ export class OpfCartHandlerService {
 
   deleteUserAddresses(addrIds: string[]) {
     console.log('deleteUserAddresses');
+    this.opfGlobalMessageService.disableGlobalMessage([
+      'addressForm.userAddressDeleteSuccess',
+    ]);
     addrIds.forEach((addrId) => {
       console.log('deleteUserAddresses target', addrId);
       this.userAddressService.deleteUserAddress(addrId);

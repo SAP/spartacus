@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  GlobalMessageService,
   MODULE_INITIALIZER,
   provideConfigValidator,
   provideDefaultConfig,
@@ -19,6 +20,7 @@ import { defaultOpfConfig } from './config/default-opf-config';
 import { opfConfigValidator } from './config/opf-config-validator';
 import { OpfEventModule } from './events/opf-event.module';
 import { OPF_BASE_FEATURE } from './feature-name';
+import { OpfGlobalMessageService } from './services';
 import { OpfStatePersistenceService } from './services/opf-state-persistence.service';
 
 export function opfStatePersistenceFactory(
@@ -73,6 +75,11 @@ export function defaultOpfBaseCmsComponentsConfig(): CmsConfig {
     provideDefaultConfig(defaultOpfRoutingConfig),
     provideConfigValidator(opfConfigValidator),
     provideDefaultConfigFactory(defaultOpfBaseCmsComponentsConfig),
+    OpfGlobalMessageService,
+    {
+      provide: GlobalMessageService,
+      useExisting: OpfGlobalMessageService,
+    },
   ],
 })
 export class OpfBaseRootModule {}
