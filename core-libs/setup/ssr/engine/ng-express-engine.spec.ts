@@ -1,9 +1,7 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 // eslint-disable-next-line import/no-unassigned-import
@@ -13,7 +11,7 @@ import { Component, Inject, InjectionToken, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServerModule } from '@angular/platform-server';
 import { REQUEST, RESPONSE } from '../public_api';
-import { cxExpressEngine } from './cx-express-engine';
+import { ngExpressEngine } from './ng-express-engine';
 //@ts-ignore
 
 /**
@@ -24,13 +22,23 @@ import { cxExpressEngine } from './cx-express-engine';
  * Inspired by tests for ngExpressEngine.
  *
  * See:
- * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/spec/index.spec.ts
  * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/spec/mock.server.module.ts
  *
  */
 @Component({ selector: 'cx-mock', template: 'some template' })
 export class MockComponent {}
 
+/**
+ * @license
+ * The MIT License
+ * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
+ *
+ * Inspired by tests for ngExpressEngine.
+ *
+ * See:
+ * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/spec/mock.server.module.ts
+ *
+ */
 @NgModule({
   imports: [BrowserModule, ServerModule],
   declarations: [MockComponent],
@@ -38,11 +46,33 @@ export class MockComponent {}
 })
 export class MockServerModule {}
 
+/**
+ * @license
+ * The MIT License
+ * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
+ *
+ * Inspired by tests for ngExpressEngine.
+ *
+ * See:
+ * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/spec/mock.server.module.ts
+ *
+ */
 @Component({ selector: 'cx-request', template: `url:{{ _req.url }}` })
 export class RequestComponent {
   constructor(@Inject(REQUEST) public readonly _req: any) {}
 }
 
+/**
+ * @license
+ * The MIT License
+ * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
+ *
+ * Inspired by tests for ngExpressEngine.
+ *
+ * See:
+ * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/spec/mock.server.module.ts
+ *
+ */
 @NgModule({
   imports: [BrowserModule, ServerModule],
   declarations: [RequestComponent],
@@ -50,6 +80,17 @@ export class RequestComponent {
 })
 export class RequestServerModule {}
 
+/**
+ * @license
+ * The MIT License
+ * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
+ *
+ * Inspired by tests for ngExpressEngine.
+ *
+ * See:
+ * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/spec/mock.server.module.ts
+ *
+ */
 @Component({
   selector: 'cx-response',
   template: `statusCode:{{ _res.statusCode }}`,
@@ -58,6 +99,17 @@ export class ResponseComponent {
   constructor(@Inject(RESPONSE) public readonly _res: any) {}
 }
 
+/**
+ * @license
+ * The MIT License
+ * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
+ *
+ * Inspired by tests for ngExpressEngine.
+ *
+ * See:
+ * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/spec/mock.server.module.ts
+ *
+ */
 @NgModule({
   imports: [BrowserModule, ServerModule],
   declarations: [ResponseComponent],
@@ -65,8 +117,30 @@ export class ResponseComponent {
 })
 export class ResponseServerModule {}
 
+/**
+ * @license
+ * The MIT License
+ * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
+ *
+ * Inspired by tests for ngExpressEngine.
+ *
+ * See:
+ * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/spec/mock.server.module.ts
+ *
+ */
 export const SOME_TOKEN = new InjectionToken<string>('SOME_TOKEN');
 
+/**
+ * @license
+ * The MIT License
+ * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
+ *
+ * Inspired by tests for ngExpressEngine.
+ *
+ * See:
+ * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/spec/mock.server.module.ts
+ *
+ */
 @Component({
   selector: 'cx-token',
   template: `message:{{ _someToken.message }}`,
@@ -75,6 +149,17 @@ export class TokenComponent {
   constructor(@Inject(SOME_TOKEN) public readonly _someToken: any) {}
 }
 
+/**
+ * @license
+ * The MIT License
+ * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
+ *
+ * Inspired by tests for ngExpressEngine.
+ *
+ * See:
+ * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/spec/mock.server.module.ts
+ *
+ */
 @NgModule({
   imports: [BrowserModule, ServerModule],
   declarations: [TokenComponent],
@@ -82,13 +167,24 @@ export class TokenComponent {
 })
 export class TokenServerModule {}
 
-describe('test runner', () => {
+/**
+ * @license
+ * The MIT License
+ * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
+ *
+ * Inspired by tests for ngExpressEngine.
+ *
+ * See:
+ * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/spec/index.spec.ts
+ *
+ */
+describe('ngExpressEngine', () => {
   beforeAll(() => {
     jest.spyOn(console, 'log').mockImplementation();
   });
 
   it('should render a basic template', (done) => {
-    cxExpressEngine({ bootstrap: MockServerModule })(
+    ngExpressEngine({ bootstrap: MockServerModule })(
       null as any as string,
       {
         req: { get: () => 'localhost' } as any,
@@ -105,7 +201,7 @@ describe('test runner', () => {
   });
 
   it('Should throw when no module is passed', () => {
-    cxExpressEngine({ bootstrap: null as any })(
+    ngExpressEngine({ bootstrap: null as any })(
       null as any as string,
       {
         req: {} as any,
@@ -119,7 +215,7 @@ describe('test runner', () => {
   });
 
   it('should be able to inject REQUEST token', (done) => {
-    cxExpressEngine({ bootstrap: RequestServerModule })(
+    ngExpressEngine({ bootstrap: RequestServerModule })(
       null as any as string,
       {
         req: {
@@ -140,7 +236,7 @@ describe('test runner', () => {
 
   it('should be able to inject RESPONSE token', (done) => {
     const someStatusCode = 400;
-    cxExpressEngine({ bootstrap: ResponseServerModule })(
+    ngExpressEngine({ bootstrap: ResponseServerModule })(
       null as any as string,
       {
         req: {
@@ -163,7 +259,7 @@ describe('test runner', () => {
 
   it('should be able to inject some token', (done) => {
     const someValue = { message: 'value' + new Date() };
-    cxExpressEngine({
+    ngExpressEngine({
       bootstrap: TokenServerModule,
       providers: [{ provide: SOME_TOKEN, useValue: someValue }],
     })(

@@ -1,8 +1,3 @@
-import { TestBed } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting,
-} from '@angular/platform-browser-dynamic/testing';
 import { DefaultExpressServerLogger } from '../logger';
 import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
 import { SsrOptimizationOptions } from './ssr-optimization-options';
@@ -14,14 +9,6 @@ class MockLogger extends DefaultExpressServerLogger {
 }
 
 describe('getLoggableSsrOptimizationOptions', () => {
-  beforeAll(() => {
-    TestBed.initTestEnvironment(
-      BrowserDynamicTestingModule,
-      platformBrowserDynamicTesting(),
-      {}
-    );
-  });
-
   const ssrOptions: SsrOptimizationOptions = {
     concurrency: 10,
     timeout: 3000,

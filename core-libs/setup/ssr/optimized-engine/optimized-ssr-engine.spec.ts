@@ -4,7 +4,7 @@ import { fakeAsync, flush, tick } from '@angular/core/testing';
 import { Application, Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { Socket } from 'net';
-import { CxExpressEngineInstance } from '../engine-decorator/cx-express-engine-decorator';
+import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { ExpressServerLogger, ExpressServerLoggerContext } from '../logger';
 import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
@@ -46,7 +46,7 @@ class TestEngineRunner {
 
   renderCount = 0;
   optimizedSsrEngine: OptimizedSsrEngine;
-  engineInstance: CxExpressEngineInstance;
+  engineInstance: NgExpressEngineInstance;
 
   constructor(options: SsrOptimizationOptions, renderTime?: number) {
     // mocked engine instance that will render test output in 100 milliseconds

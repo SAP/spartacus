@@ -5,6 +5,7 @@
  */
 
 import { CommonEngineOptions, CommonEngineRenderOptions } from '@angular/ssr';
+import { NgSetupOptions } from '../engine/ng-express-engine';
 import {
   OptimizedSsrEngine,
   SsrCallbackFn,
@@ -15,45 +16,43 @@ import {
 } from '../optimized-engine/ssr-optimization-options';
 import { getServerRequestProviders } from '../providers/ssr-providers';
 
-export type CxExpressEngineInstance = (
+export type NgExpressEngineInstance = (
   filePath: string,
   options: object,
   callback: SsrCallbackFn
 ) => void;
 
-export type CxExpressEngine = (
+export type NgExpressEngine = (
   setupOptions: Readonly<CommonEngineRenderOptions & CommonEngineOptions>
-) => CxExpressEngineInstance;
+) => NgExpressEngineInstance;
 
 /**
  * The wrapper over the standard ngExpressEngine, that provides tokens for Spartacus
- * @param cxExpressEngine
+ * @param ngExpressEngine
  */
-export class CxExpressEngineDecorator {
+export class NgExpressEngineDecorator {
   /**
    * Returns the higher order ngExpressEngine with provided tokens for Spartacus
    *
-   * @param cxExpressEngine
+   * @param ngExpressEngine
    */
   static get(
-    ngExpressEngine: CxExpressEngine,
+    ngExpressEngine: NgExpressEngine,
     optimizationOptions?: SsrOptimizationOptions | null
-  ): CxExpressEngine {
+  ): NgExpressEngine {
     return decorateExpressEngine(ngExpressEngine, optimizationOptions);
   }
 }
 
 export function decorateExpressEngine(
-  cxExpressEngine: CxExpressEngine,
+  ngExpressEngine: NgExpressEngine,
   optimizationOptions:
     | SsrOptimizationOptions
     | null
     | undefined = defaultSsrOptimizationOptions
-): CxExpressEngine {
-  return function (
-    setupOptions: CommonEngineRenderOptions & CommonEngineOptions
-  ) {
-    const engineInstance = cxExpressEngine({
+): NgExpressEngine {
+  return function (setupOptions: NgSetupOptions) {
+    const engineInstance = ngExpressEngine({
       ...setupOptions,
       providers: [
         // add spartacus related providers

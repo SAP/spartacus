@@ -1,21 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting,
-} from '@angular/platform-browser-dynamic/testing';
 import { ExpressLoggerService } from './express-logger.service';
 import { PrerenderingLoggerService } from './prerendering-logger.service';
 
 describe('PrerenderingLoggerService', () => {
   let loggerService: PrerenderingLoggerService;
-
-  beforeAll(() => {
-    TestBed.initTestEnvironment(
-      BrowserDynamicTestingModule,
-      platformBrowserDynamicTesting(),
-      {}
-    );
-  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
