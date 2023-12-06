@@ -236,10 +236,10 @@ export class OpfGooglePayService {
                     submitPayment: this.opfPaymentFacade.submitPayment({
                       additionalData: [],
                       paymentSessionId: '',
-                      cartId,
                       callbackArray: [() => {}, () => {}, () => {}],
                       paymentMethod: PaymentMethod.GOOGLE_PAY,
                       encryptedToken,
+                      cartId,
                     }),
                   });
                 })

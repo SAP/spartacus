@@ -21,6 +21,7 @@ import { take } from 'rxjs/operators';
 export class OpfGlobalMessageService extends GlobalMessageService {
   protected isGlobalMessageDisabled = false;
   protected disabledKeys: string[] = [];
+  protected defaultTimeout = 2000;
   constructor(protected store: Store<StateWithGlobalMessage>) {
     super(store);
   }
@@ -54,7 +55,7 @@ export class OpfGlobalMessageService extends GlobalMessageService {
   disableGlobalMessage(keys: string[], timeout?: number): void {
     this.isGlobalMessageDisabled = true;
     this.disabledKeys = keys;
-    timer(timeout ?? 2000)
+    timer(timeout ?? this.defaultTimeout)
       .pipe(take(1))
       .subscribe(() => {
         this.isGlobalMessageDisabled = false;

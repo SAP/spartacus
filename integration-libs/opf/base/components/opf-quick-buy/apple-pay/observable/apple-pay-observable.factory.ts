@@ -5,14 +5,15 @@
  */
 
 import { Injectable, inject } from '@angular/core';
+import { ApplePayObservableConfig } from '@spartacus/opf/base/root';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ApplePaySessionFactory } from '../apple-pay-session/apple-pay-session.factory';
-import { ApplePayObservableConfig } from './apple-pay-observable-config.interface';
 
 @Injectable()
 export class ApplePayObservableFactory {
   protected applePaySessionFactory = inject(ApplePaySessionFactory);
+  applePayApiVersion = 3;
 
   initApplePayEventsHandler(
     config: ApplePayObservableConfig
@@ -22,7 +23,7 @@ export class ApplePayObservableFactory {
         let session: ApplePaySession;
         try {
           session = this.applePaySessionFactory.startApplePaySession(
-            3,
+            this.applePayApiVersion,
             config.request
           ) as ApplePaySession;
         } catch (err) {

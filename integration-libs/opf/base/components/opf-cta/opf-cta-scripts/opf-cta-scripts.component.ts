@@ -5,10 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
 
 @Component({

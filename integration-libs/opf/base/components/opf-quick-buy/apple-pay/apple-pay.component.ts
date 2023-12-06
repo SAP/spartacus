@@ -14,6 +14,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { ApplePaySessionFactory } from './apple-pay-session';
 import { ApplePayService } from './apple-pay.service';
 
 @Component({
@@ -27,6 +28,7 @@ export class ApplePayComponent implements OnInit, OnDestroy {
   protected currentProductService = inject(CurrentProductService);
   protected itemCounterService = inject(ItemCounterService);
   protected cartHandlerService = inject(OpfCartHandlerService);
+  protected applePaySession = inject(ApplePaySessionFactory);
 
   protected sub: Subscription;
   isApplePaySupported$: Observable<boolean>;
@@ -41,7 +43,7 @@ export class ApplePayComponent implements OnInit, OnDestroy {
       return;
     }
     this.isApplePaySupported$ =
-      this.applePayService.isApplePaySupported$(merchantId);
+      this.applePaySession.isApplePaySupported$(merchantId);
   }
 
   quickBuyProduct(): void {

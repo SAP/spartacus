@@ -14,16 +14,13 @@ export class ApplePaySessionFactory {
   protected winRef = inject(WindowRef);
   protected isDeviceSupported = false;
   protected applePaySession: typeof ApplePaySession;
+  protected applePayApiVersion = 3;
 
   constructor() {
-    try {
-      // @ts-ignore
-      this.applePaySession = this.createApplePaySession() as ApplePaySession;
-      if (this.applePaySession) {
-        this.isDeviceSupported = this.applePaySession.canMakePayments();
-      }
-    } catch (error) {
-      throw error;
+    // @ts-ignore
+    this.applePaySession = this.createApplePaySession() as ApplePaySession;
+    if (this.applePaySession) {
+      this.isDeviceSupported = this.applePaySession.canMakePayments();
     }
   }
 
@@ -35,15 +32,22 @@ export class ApplePaySessionFactory {
     return window['ApplePaySession'] as ApplePaySession;
   }
 
-  get STATUS_SUCCESS(): number {
+  get statusSuccess(): number {
     return this.isDeviceSupported ? this.applePaySession.STATUS_SUCCESS : 1;
   }
 
-  get STATUS_FAILURE(): number {
+  get statusFailure(): number {
     return this.isDeviceSupported ? this.applePaySession.STATUS_FAILURE : 1;
   }
 
-  supportsVersion(version: number): boolean {
+  isApplePaySupported$(merchantIdentifier: string): Observable<boolean> {
+    return this.isDeviceSupported &&
+      this.supportsVersion(this.applePayApiVersion)
+      ? this.canMakePaymentsWithActiveCard(merchantIdentifier)
+      : of(false);
+  }
+
+  protected supportsVersion(version: number): boolean {
     try {
       return (
         this.isDeviceSupported && this.applePaySession.supportsVersion(version)
@@ -53,7 +57,7 @@ export class ApplePaySessionFactory {
     }
   }
 
-  canMakePayments(): boolean {
+  protected canMakePayments(): boolean {
     try {
       return this.isDeviceSupported && this.applePaySession.canMakePayments();
     } catch (err) {
@@ -61,7 +65,9 @@ export class ApplePaySessionFactory {
     }
   }
 
-  canMakePaymentsWithActiveCard(merchantId: string): Observable<boolean> {
+  protected canMakePaymentsWithActiveCard(
+    merchantId: string
+  ): Observable<boolean> {
     return this.isDeviceSupported
       ? fromPromise(
           this.applePaySession.canMakePaymentsWithActiveCard(merchantId)

@@ -48,13 +48,6 @@ export class ApplePayService {
     },
   };
 
-  isApplePaySupported$(merchantIdentifier: string): Observable<boolean> {
-    return this.applePaySession.canMakePayments() &&
-      this.applePaySession.supportsVersion(3)
-      ? this.applePaySession.canMakePaymentsWithActiveCard(merchantIdentifier)
-      : of(false);
-  }
-
   protected initLocalCart(product: Product, quantity: number): LocalCart {
     return {
       quantity,
@@ -65,7 +58,7 @@ export class ApplePayService {
         amount: '' + (product.price?.value as number) * quantity,
         label:
           quantity > 1
-            ? `${product?.name as string} x ${quantity as number}`
+            ? `${product?.name as string} x ${quantity}`
             : `${product?.name as string}`,
       },
     };
@@ -130,10 +123,9 @@ export class ApplePayService {
     if (!localCart?.product || !localCart?.quantity) {
       return throwError('Error: empty product or quantity');
     }
-    return this.addProductToCart(
-      localCart.product as Product,
-      localCart.quantity as number
-    ).pipe(switchMap(() => this.validateOpfAppleSession(event)));
+    return this.addProductToCart(localCart.product, localCart.quantity).pipe(
+      switchMap(() => this.validateOpfAppleSession(event))
+    );
   }
 
   protected addProductToCart(product: Product, quantity: number) {
@@ -161,7 +153,7 @@ export class ApplePayService {
           cartId,
           validationUrl: event.validationURL,
           initiative: 'web',
-          initiativeContext: (this.winRef?.nativeWindow as any).location
+          initiativeContext: (this.winRef?.nativeWindow as Window).location
             ?.hostname,
         };
         return this.verifyApplePaySession(verificationRequest);
@@ -172,8 +164,8 @@ export class ApplePayService {
   protected convertAppleToOpfAddress(
     addr: ApplePayJS.ApplePayPaymentContact,
     partial?: boolean
-  ) {
-    const opfAddr = {
+  ): Address {
+    return {
       firstName: partial ? 'xxxx' : addr?.givenName,
       lastName: partial ? 'xxxx' : addr?.familyName,
       line1: partial ? 'xxxx' : addr?.addressLines?.[0],
@@ -188,8 +180,7 @@ export class ApplePayService {
         name: addr?.country,
       },
       defaultAddress: false,
-    } as Address;
-    return opfAddr;
+    };
   }
 
   protected handleShippingContactSelected(
@@ -272,19 +263,19 @@ export class ApplePayService {
     event: ApplePayJS.ApplePayPaymentAuthorizedEvent
   ): Observable<ApplePayJS.ApplePayPaymentAuthorizationResult> {
     const result: ApplePayJS.ApplePayPaymentAuthorizationResult = {
-      status: this.applePaySession.STATUS_SUCCESS,
+      status: this.applePaySession.statusSuccess,
     };
 
     return this.placeOrderAfterPayment(event.payment).pipe(
       map((success) => {
         return success
           ? result
-          : { ...result, status: this.applePaySession.STATUS_FAILURE };
+          : { ...result, status: this.applePaySession.statusFailure };
       }),
       catchError((error) => {
         return of({
           ...result,
-          status: this.applePaySession.STATUS_FAILURE,
+          status: this.applePaySession.statusFailure,
           errors: [
             this.updateApplePayFormWithError(error?.message ?? 'Payment error'),
           ],
@@ -335,11 +326,10 @@ export class ApplePayService {
           return this.opfPaymentFacade.submitPayment({
             additionalData: [],
             paymentSessionId: '',
-            cartId,
             callbackArray: [() => {}, () => {}, () => {}],
-
             paymentMethod: PaymentMethod.APPLE_PAY,
             encryptedToken,
+            cartId,
           });
         })
       );
