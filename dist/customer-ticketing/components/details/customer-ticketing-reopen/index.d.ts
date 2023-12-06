@@ -1,3 +1,0 @@
-export * from './customer-ticketing-reopen.component';
-export * from './customer-ticketing-reopen.module';
-export * from './customer-ticketing-reopen-dialog/customer-ticketing-reopen-dialog.component';
