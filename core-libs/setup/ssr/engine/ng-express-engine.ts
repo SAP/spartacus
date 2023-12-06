@@ -66,6 +66,12 @@ export interface RenderOptions extends CommonEngineRenderOptions {
 }
 
 /**
+ * This is an express engine for handling Angular Applications
+ *
+ * Function `ngExpressEngine` was originally present in Angular for a long time and was removed in version Angular 17.
+ * However, it is needed in Spartacus for backward compatibility reasons.
+ * Therefore, we have copied the code from the Angular repository and included it in our Spartacus repository to avoid larger refactors.
+ *
  * @license
  * The MIT License
  * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
