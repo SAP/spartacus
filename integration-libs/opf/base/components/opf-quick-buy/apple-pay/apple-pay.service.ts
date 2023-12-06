@@ -143,18 +143,16 @@ export class ApplePayService {
   }
 
   protected validateOpfAppleSession(
-    event: ApplePayJS.ApplePayValidateMerchantEvent,
-    cartId = ''
+    event: ApplePayJS.ApplePayValidateMerchantEvent
   ) {
     return this.cartHandlerService.getCurrentCartId().pipe(
-      switchMap((activeCartId) => {
-        cartId = activeCartId ?? 'current';
+      switchMap((cartId) => {
         const verificationRequest: ApplePaySessionVerificationRequest = {
-          cartId,
           validationUrl: event.validationURL,
           initiative: 'web',
           initiativeContext: (this.winRef?.nativeWindow as Window).location
             ?.hostname,
+          cartId,
         };
         return this.verifyApplePaySession(verificationRequest);
       })
@@ -163,7 +161,7 @@ export class ApplePayService {
 
   protected convertAppleToOpfAddress(
     addr: ApplePayJS.ApplePayPaymentContact,
-    partial?: boolean
+    partial = false
   ): Address {
     return {
       firstName: partial ? 'xxxx' : addr?.givenName,
@@ -304,7 +302,7 @@ export class ApplePayService {
     }
     const { shippingContact, billingContact } = applePayPayment;
     if (!shippingContact || !billingContact) {
-      throw 'Empty Contact';
+      throw new Error('Empty Contact');
     }
     return this.cartHandlerService
       .setDeliveryAddress(this.convertAppleToOpfAddress(shippingContact))

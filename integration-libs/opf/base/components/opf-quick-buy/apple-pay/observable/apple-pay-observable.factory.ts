@@ -13,7 +13,6 @@ import { ApplePaySessionFactory } from '../apple-pay-session/apple-pay-session.f
 @Injectable()
 export class ApplePayObservableFactory {
   protected applePaySessionFactory = inject(ApplePaySessionFactory);
-  applePayApiVersion = 3;
 
   initApplePayEventsHandler(
     config: ApplePayObservableConfig
@@ -23,7 +22,6 @@ export class ApplePayObservableFactory {
         let session: ApplePaySession;
         try {
           session = this.applePaySessionFactory.startApplePaySession(
-            this.applePayApiVersion,
             config.request
           ) as ApplePaySession;
         } catch (err) {

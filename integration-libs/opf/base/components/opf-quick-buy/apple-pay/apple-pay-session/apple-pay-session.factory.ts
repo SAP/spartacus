@@ -76,11 +76,10 @@ export class ApplePaySessionFactory {
   }
 
   startApplePaySession(
-    version: number,
     paymentRequest: ApplePayJS.ApplePayPaymentRequest
   ): ApplePaySession | undefined {
     return this.isDeviceSupported
-      ? new this.applePaySession(version, paymentRequest)
+      ? new this.applePaySession(this.applePayApiVersion, paymentRequest)
       : undefined;
   }
 }

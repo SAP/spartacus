@@ -77,7 +77,7 @@ export class OpfCartHandlerService {
     return this.checkoutDeliveryAddressFacade.createAndSetAddress(address).pipe(
       switchMap(() => this.checkStableCart()),
       switchMap(() =>
-        this.getDeliveryAddress().pipe(map((address) => address?.id ?? ''))
+        this.getDeliveryAddress().pipe(map((addr) => addr?.id ?? ''))
       )
     );
   }
