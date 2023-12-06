@@ -17,7 +17,7 @@ import {
     provideConfig(<CdcConfig>{
       cdc: [
         {
-          baseSite: 'electronics-spa',
+          baseSite: 'fashion-spa',
           javascriptUrl: 'JS_SDK_URL_PLACEHOLDER',
           sessionExpiration: 3600,
         },

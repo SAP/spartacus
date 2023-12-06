@@ -33,6 +33,7 @@ export class SecurePortalConfigInitializer implements ConfigInitializer {
     return this.configInit.getStable('context').pipe(
       switchMap((config) => {
         const siteUid = config?.context?.[BASE_SITE_CONTEXT_ID]?.[0];
+        console.log(config?.context);
         return this.baseSiteService.get(siteUid).pipe(
           tap((baseSite) => {
             if (!baseSite) {

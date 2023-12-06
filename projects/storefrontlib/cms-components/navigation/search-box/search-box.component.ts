@@ -36,6 +36,8 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   maxProducts: 5,
   maxSuggestions: 5,
   displayProductImages: true,
+  recentSearches: true,
+  maxRecentSearches: 5
 };
 const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
 

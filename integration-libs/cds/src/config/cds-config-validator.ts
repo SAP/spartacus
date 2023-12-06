@@ -10,6 +10,7 @@ export function cdsConfigValidator(config: CdsConfig): string | void {
   if (!config.cds) {
     return 'Please configure the config.cds object before using the CDS library';
   }
+  console.log(config);
   if (config.cds.profileTag !== undefined) {
     if (
       config.cds.profileTag.configUrl === undefined ||

@@ -13,7 +13,7 @@ import { provideConfig } from '@spartacus/core';
   providers: [
     provideConfig(<CdsConfig>{
       cds: {
-        tenant: 'argotest',
+        tenant: 'hyperdev',
         baseUrl: 'https://api.stage.context.cloud.sap',
         endpoints: {
           strategyProducts:
