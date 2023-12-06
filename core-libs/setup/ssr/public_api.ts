@@ -5,7 +5,7 @@
  */
 
 export * from './engine-decorator/index';
-export * from './engine/cx-express-engine';
+export * from './engine/ng-express-engine';
 export * from './logger/index';
 export * from './optimized-engine/index';
 export * from './providers/index';

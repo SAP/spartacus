@@ -1,8 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting,
-} from '@angular/platform-browser-dynamic/testing';
 import { LoggerService } from '@spartacus/core';
 import { REQUEST } from '../../tokens/express.tokens';
 import { EXPRESS_SERVER_LOGGER, ExpressServerLogger } from '../loggers';
@@ -19,14 +15,6 @@ class MockExpressServerLogger implements ExpressServerLogger {
 }
 
 describe('serverLoggerServiceFactory', () => {
-  beforeAll(() => {
-    TestBed.initTestEnvironment(
-      BrowserDynamicTestingModule,
-      platformBrowserDynamicTesting(),
-      {}
-    );
-  });
-
   it('should return ExpressLoggerService if REQUEST is available', () => {
     TestBed.configureTestingModule({
       providers: [

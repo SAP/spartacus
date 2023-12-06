@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 import { StaticProvider } from '@angular/core';
 import {
   CommonEngine,
@@ -7,17 +12,28 @@ import {
 import { Request, Response } from 'express';
 import { REQUEST, RESPONSE } from '../tokens/express.tokens';
 
-export type CxSetupOptions = Readonly<
-  CommonEngineRenderOptions & CommonEngineOptions
->;
-
-/*
+/**
+ * @license
+ * The MIT License
  * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
- * SPDX-License-Identifier: Apache-2.0
+ * See:
+ * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/src/main.ts
  */
+export type NgSetupOptions = Pick<
+  CommonEngineRenderOptions,
+  'providers' | 'publicPath' | 'inlineCriticalCss'
+> &
+  CommonEngineOptions;
 
+/**
+ * @license
+ * The MIT License
+ * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
+ *
+ * See:
+ * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/src/main.ts
+ */
 function getReqResProviders(req: Request, res?: Response): StaticProvider[] {
   const providers: StaticProvider[] = [
     {
@@ -35,14 +51,28 @@ function getReqResProviders(req: Request, res?: Response): StaticProvider[] {
   return providers;
 }
 
-export interface CxRenderOptions extends CommonEngineRenderOptions {
+/**
+ * @license
+ * The MIT License
+ * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
+ *
+ * See:
+ * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/src/main.ts
+ */
+export interface RenderOptions extends CommonEngineRenderOptions {
   req: Request;
   res?: Response;
 }
 
-export function cxExpressEngine(
-  setupOptions: Readonly<CommonEngineRenderOptions & CommonEngineOptions>
-) {
+/**
+ * @license
+ * The MIT License
+ * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
+ *
+ * See:
+ * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/src/main.ts
+ */
+export function ngExpressEngine(setupOptions: NgSetupOptions) {
   const engine = new CommonEngine({
     bootstrap: setupOptions.bootstrap,
     providers: setupOptions.providers,
@@ -55,7 +85,7 @@ export function cxExpressEngine(
     callback: (err?: Error | null, html?: string) => void
   ) {
     try {
-      const renderOptions = { ...options } as CxRenderOptions;
+      const renderOptions = { ...options } as RenderOptions;
       if (!setupOptions.bootstrap && !renderOptions.bootstrap) {
         throw new Error('You must pass in a NgModule to be bootstrapped');
       }

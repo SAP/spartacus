@@ -1,17 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting,
-} from '@angular/platform-browser-dynamic/testing';
 import { SERVER_REQUEST_URL } from '@spartacus/core';
-import { CxRenderOptions, CxSetupOptions } from '../engine/cx-express-engine';
+import { NgSetupOptions, RenderOptions } from '../engine/ng-express-engine';
 import { EXPRESS_SERVER_LOGGER, LegacyExpressServerLogger } from '../logger';
 import {
-  CxExpressEngine,
-  CxExpressEngineDecorator,
-  CxExpressEngineInstance,
+  NgExpressEngine,
+  NgExpressEngineDecorator,
+  NgExpressEngineInstance,
   decorateExpressEngine,
-} from './cx-express-engine-decorator';
+} from './ng-express-engine-decorator';
 
 jest.mock('fs', () => ({
   readFileSync: () => '',
@@ -19,23 +14,15 @@ jest.mock('fs', () => ({
 
 jest.spyOn(console, 'log').mockImplementation(() => {});
 
-describe('CxExpressEngineDecorator', () => {
+describe('NgExpressEngineDecorator', () => {
   describe('get', () => {
-    let originalEngine: CxExpressEngine;
-    let originalEngineInstance: CxExpressEngineInstance;
-    let mockEngineOptions: Readonly<CxSetupOptions>;
+    let originalEngine: NgExpressEngine;
+    let originalEngineInstance: NgExpressEngineInstance;
+    let mockEngineOptions: Readonly<NgSetupOptions>;
 
-    let mockOptions: CxRenderOptions;
+    let mockOptions: RenderOptions;
     const mockPath = 'testPath';
     const mockCallback = () => {};
-
-    beforeAll(() => {
-      TestBed.initTestEnvironment(
-        BrowserDynamicTestingModule,
-        platformBrowserDynamicTesting(),
-        {}
-      );
-    });
 
     beforeEach(() => {
       mockOptions = {
@@ -54,7 +41,7 @@ describe('CxExpressEngineDecorator', () => {
       originalEngine = jest.fn(() => originalEngineInstance);
       originalEngineInstance = jest.fn(() => {});
 
-      const engine = CxExpressEngineDecorator.get(originalEngine, null);
+      const engine = NgExpressEngineDecorator.get(originalEngine, null);
       const engineInstance = engine(mockEngineOptions);
       engineInstance(mockPath, mockOptions, mockCallback);
     });
@@ -93,14 +80,14 @@ describe('CxExpressEngineDecorator', () => {
 });
 
 describe('decorateExpressEngine', () => {
-  let originalEngine: CxExpressEngine;
-  let originalEngineInstance: CxExpressEngineInstance;
-  let mockEngineOptions: Readonly<CxSetupOptions>;
+  let originalEngine: NgExpressEngine;
+  let originalEngineInstance: NgExpressEngineInstance;
+  let mockEngineOptions: Readonly<NgSetupOptions>;
 
-  let mockOptions: CxRenderOptions;
+  let mockOptions: RenderOptions;
   const mockPath = 'testPath';
   const mockCallback = () => {};
-  let engineInstance: CxExpressEngineInstance;
+  let engineInstance: NgExpressEngineInstance;
 
   beforeEach(() => {
     const app = {
