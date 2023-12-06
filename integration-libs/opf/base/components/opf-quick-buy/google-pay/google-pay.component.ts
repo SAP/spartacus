@@ -39,12 +39,10 @@ export class OpfGooglePayComponent implements OnInit {
       this.opfGooglePayService.isReadyToPay().then((response) => {
         this.isReadyToPayState$.next(response.result);
         this.changeDetectionRef.detectChanges();
-        if (response.result) {
-          if (this.googlePayButtonContainer) {
-            this.opfGooglePayService.renderPaymentButton(
-              this.googlePayButtonContainer
-            );
-          }
+        if (response.result && this.googlePayButtonContainer) {
+          this.opfGooglePayService.renderPaymentButton(
+            this.googlePayButtonContainer
+          );
         }
       });
     });

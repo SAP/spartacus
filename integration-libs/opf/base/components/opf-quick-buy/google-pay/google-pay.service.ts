@@ -76,6 +76,12 @@ export class OpfGooglePayService {
     },
   };
 
+  protected initialTransactionInfo: google.payments.api.TransactionInfo = {
+    totalPrice: '0.00',
+    totalPriceStatus: 'ESTIMATED',
+    currencyCode: 'USD',
+  };
+
   loadProviderResources(): Promise<void> {
     return this.opfResourceLoaderService.loadProviderResources([
       { url: this.GOOGLE_PAY_JS_URL },
@@ -331,12 +337,6 @@ export class OpfGooglePayService {
       lastName,
     };
   }
-
-  protected initialTransactionInfo: google.payments.api.TransactionInfo = {
-    totalPrice: '0.00',
-    totalPriceStatus: 'ESTIMATED',
-    currencyCode: 'USD',
-  };
 
   protected setAllowedPaymentMethodsConfig(
     activeConfiguration: ActiveConfiguration
