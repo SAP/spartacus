@@ -67,6 +67,8 @@ export class QuoteSummaryActionsComponent
   protected subscription = new Subscription();
 
   protected readonly CX_SECTION_SELECTOR = 'cx-quote-summary-actions section';
+  protected readonly CX_BTN_SELECTOR =
+    'cx-quote-summary-actions section button';
   /**
    * Height of a CSS box model of section for action buttons
    * See _quote-summary-actions.scss
@@ -144,21 +146,36 @@ export class QuoteSummaryActionsComponent
   /**
    * Retrieves the actual height of the spare viewport.
    *
-   * SPA header and the quote bottom header slot occupy certain height of the viewport, that's why
-   * if SPA header and the quote bottom header slot are in the viewport,
+   * ASM area, SPA header and the quote bottom header slot occupy certain height of the viewport, that's why
+   * if ASM area, SPA header and the quote bottom header slot are in the viewport,
    * they will be subtracted from the actual viewport height.
    *
    * @returns - Height of the spare viewport.
    * @protected
    */
   protected getSpareViewportHeight(): number {
+    const asmAreaHeight =
+      this.quoteStorefrontUtilsService.getHeight('cx-asm-main-ui');
     const spaHeaderHeight =
       this.quoteStorefrontUtilsService.getHeight('header');
     const quoteHeaderHeight =
       this.quoteStorefrontUtilsService.getHeight('.BottomHeaderSlot');
     const windowHeight = this.quoteStorefrontUtilsService.getWindowHeight();
 
-    return windowHeight - spaHeaderHeight - quoteHeaderHeight;
+    let spareViewportHeight = windowHeight;
+    if (asmAreaHeight > 0) {
+      spareViewportHeight -= asmAreaHeight;
+    }
+
+    if (spaHeaderHeight > 0) {
+      spareViewportHeight -= spaHeaderHeight;
+    }
+
+    if (quoteHeaderHeight > 0) {
+      spareViewportHeight -= quoteHeaderHeight;
+    }
+
+    return spareViewportHeight;
   }
 
   /**
@@ -182,33 +199,35 @@ export class QuoteSummaryActionsComponent
    * @protected
    */
   protected adjustBottomProperty(): void {
-    this.isMobile()
-      .pipe(take(1))
-      .subscribe((mobile) => {
-        if (mobile) {
-          const actionButtonsHeight = this.getActionButtonsHeight();
-          const sparViewportHeight = this.getSpareViewportHeight();
-          if (sparViewportHeight < actionButtonsHeight) {
-            const bottom = sparViewportHeight - actionButtonsHeight;
-            this.quoteStorefrontUtilsService.changeStyling(
-              this.CX_SECTION_SELECTOR,
-              this.BOTTOM,
-              bottom + 'px'
-            );
+    if (this.quoteStorefrontUtilsService.getElement(this.CX_BTN_SELECTOR)) {
+      this.isMobile()
+        .pipe(take(1))
+        .subscribe((mobile) => {
+          if (mobile) {
+            const actionButtonsHeight = this.getActionButtonsHeight();
+            const spareViewportHeight = this.getSpareViewportHeight();
+            if (spareViewportHeight < actionButtonsHeight) {
+              const bottom = spareViewportHeight - actionButtonsHeight;
+              this.quoteStorefrontUtilsService.changeStyling(
+                this.CX_SECTION_SELECTOR,
+                this.BOTTOM,
+                bottom + 'px'
+              );
+            } else {
+              this.quoteStorefrontUtilsService.changeStyling(
+                this.CX_SECTION_SELECTOR,
+                this.BOTTOM,
+                '0'
+              );
+            }
           } else {
-            this.quoteStorefrontUtilsService.changeStyling(
+            this.quoteStorefrontUtilsService.removeStyling(
               this.CX_SECTION_SELECTOR,
-              this.BOTTOM,
-              '0'
+              this.BOTTOM
             );
           }
-        } else {
-          this.quoteStorefrontUtilsService.removeStyling(
-            this.CX_SECTION_SELECTOR,
-            this.BOTTOM
-          );
-        }
-      });
+        });
+    }
   }
 
   /**
@@ -301,9 +320,11 @@ export class QuoteSummaryActionsComponent
   }
 
   protected adjustStyling(): void {
-    this.prepareButtonsForMobile();
-    this.adjustBottomProperty();
-    this.prepareButtonsForDesktop();
+    if (this.quoteStorefrontUtilsService.getElement(this.CX_BTN_SELECTOR)) {
+      this.prepareButtonsForMobile();
+      this.adjustBottomProperty();
+      this.prepareButtonsForDesktop();
+    }
   }
 
   /**

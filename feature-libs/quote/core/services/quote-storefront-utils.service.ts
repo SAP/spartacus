@@ -84,7 +84,11 @@ export class QuoteStorefrontUtilsService {
     const element = this.getElement(querySelector);
     const isElementInViewport = this.isInViewport(element);
     if (isElementInViewport && element?.offsetHeight) {
-      return element?.offsetHeight;
+      return element?.offsetHeight ?? element?.offsetHeight;
+    } else {
+      if (element?.offsetHeight && element?.getBoundingClientRect().top < 0) {
+        return element?.offsetHeight + element?.getBoundingClientRect().top;
+      }
     }
     return 0;
   }
