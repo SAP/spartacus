@@ -16,13 +16,13 @@ export interface ApplePayObservableConfig {
   validateMerchant: (
     event: ApplePayJS.ApplePayValidateMerchantEvent
   ) => Observable<any>;
-  shippingContactSelected?: (
+  shippingContactSelected: (
     event: ApplePayJS.ApplePayShippingContactSelectedEvent
   ) => Observable<ApplePayJS.ApplePayShippingContactUpdate>;
-  paymentMethodSelected?: (
+  paymentMethodSelected: (
     event: ApplePayJS.ApplePayPaymentMethodSelectedEvent
   ) => Observable<ApplePayJS.ApplePayPaymentMethodUpdate>;
-  shippingMethodSelected?: (
+  shippingMethodSelected: (
     event: ApplePayJS.ApplePayShippingMethodSelectedEvent
   ) => Observable<ApplePayJS.ApplePayShippingMethodUpdate>;
   paymentAuthorized: (
