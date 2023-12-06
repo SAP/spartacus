@@ -69,12 +69,14 @@ export class QuoteSummaryActionsComponent
   protected readonly CX_SECTION_SELECTOR = 'cx-quote-summary-actions section';
   protected readonly CX_BTN_SELECTOR =
     'cx-quote-summary-actions section button';
+  protected readonly HEADER_SLOT_SELECTOR = '.BottomHeaderSlot';
   /**
    * Height of a CSS box model of section for action buttons
    * See _quote-summary-actions.scss
    */
   protected readonly ACTION_BUTTONS_HEIGHT = 226;
   protected readonly AMOUNT_OF_ACTION_BUTTONS = 2;
+  protected readonly SMOOTH_SLIDING = 10;
   protected readonly WIDTH = 'width';
   protected readonly BOTTOM = 'bottom';
   protected readonly PADDING_INLINE_END = 'padding-inline-end';
@@ -144,41 +146,6 @@ export class QuoteSummaryActionsComponent
   }
 
   /**
-   * Retrieves the actual height of the spare viewport.
-   *
-   * ASM area, SPA header and the quote bottom header slot occupy certain height of the viewport, that's why
-   * if ASM area, SPA header and the quote bottom header slot are in the viewport,
-   * they will be subtracted from the actual viewport height.
-   *
-   * @returns - Height of the spare viewport.
-   * @protected
-   */
-  protected getSpareViewportHeight(): number {
-    const asmAreaHeight =
-      this.quoteStorefrontUtilsService.getHeight('cx-asm-main-ui');
-    const spaHeaderHeight =
-      this.quoteStorefrontUtilsService.getHeight('header');
-    const quoteHeaderHeight =
-      this.quoteStorefrontUtilsService.getHeight('.BottomHeaderSlot');
-    const windowHeight = this.quoteStorefrontUtilsService.getWindowHeight();
-
-    let spareViewportHeight = windowHeight;
-    if (asmAreaHeight > 0) {
-      spareViewportHeight -= asmAreaHeight;
-    }
-
-    if (spaHeaderHeight > 0) {
-      spareViewportHeight -= spaHeaderHeight;
-    }
-
-    if (quoteHeaderHeight > 0) {
-      spareViewportHeight -= quoteHeaderHeight;
-    }
-
-    return spareViewportHeight;
-  }
-
-  /**
    * Retrieves the actual height of the action buttons.
    *
    * @returns - Height of the action buttons.
@@ -194,40 +161,75 @@ export class QuoteSummaryActionsComponent
   }
 
   /**
-   * Adjusts `bottom` property depending on the widget and the location of the action buttons.
+   * Adjusts `bottom` property.
+   *
+   * In case we deal with a desktop device, then the bottom property will be removed.
+   *
+   * In case we deal with a mobile device.
+   * There are 2 cases when the bottom property will be changed accordingly.
+   *
+   * Firstly, the bottom property will be changed to the value that is less than zero,
+   * when the header slot is in viewport and the actual buttons height is greater than the difference value of the subtraction between the window height and the header slot height
+   * or when the bottom value of the header slot is greater than the value of the action buttons top.
+   *
+   * Secondly, the bottom property will be changed to zero,
+   * when none of the above mentioned conditions are met.
    *
    * @protected
    */
   protected adjustBottomProperty(): void {
-    if (this.quoteStorefrontUtilsService.getElement(this.CX_BTN_SELECTOR)) {
-      this.isMobile()
-        .pipe(take(1))
-        .subscribe((mobile) => {
-          if (mobile) {
-            const actionButtonsHeight = this.getActionButtonsHeight();
-            const spareViewportHeight = this.getSpareViewportHeight();
-            if (spareViewportHeight < actionButtonsHeight) {
-              const bottom = spareViewportHeight - actionButtonsHeight;
-              this.quoteStorefrontUtilsService.changeStyling(
-                this.CX_SECTION_SELECTOR,
-                this.BOTTOM,
-                bottom + 'px'
-              );
-            } else {
-              this.quoteStorefrontUtilsService.changeStyling(
-                this.CX_SECTION_SELECTOR,
-                this.BOTTOM,
-                '0'
-              );
-            }
-          } else {
-            this.quoteStorefrontUtilsService.removeStyling(
-              this.CX_SECTION_SELECTOR,
+    this.isMobile()
+      .pipe(take(1))
+      .subscribe((mobile) => {
+        if (
+          mobile &&
+          this.quoteStorefrontUtilsService.getElement(this.CX_BTN_SELECTOR)
+        ) {
+          const headerSlotBottom =
+            this.quoteStorefrontUtilsService.getDomRectValue(
+              this.HEADER_SLOT_SELECTOR,
               this.BOTTOM
             );
+          const headerSlotHeight = this.quoteStorefrontUtilsService.getHeight(
+            this.HEADER_SLOT_SELECTOR
+          );
+          const windowHeight =
+            this.quoteStorefrontUtilsService.getWindowHeight();
+
+          const actionButtonsTop =
+            this.quoteStorefrontUtilsService.getDomRectValue(
+              this.CX_SECTION_SELECTOR,
+              'top'
+            );
+
+          const actionButtonsHeight = this.getActionButtonsHeight();
+
+          if (
+            headerSlotBottom > actionButtonsTop - this.SMOOTH_SLIDING ||
+            actionButtonsHeight > windowHeight - headerSlotHeight
+          ) {
+            const spareViewportHeight = windowHeight - headerSlotBottom;
+            const bottom = spareViewportHeight - actionButtonsHeight;
+
+            this.quoteStorefrontUtilsService.changeStyling(
+              this.CX_SECTION_SELECTOR,
+              this.BOTTOM,
+              bottom + 'px'
+            );
+          } else {
+            this.quoteStorefrontUtilsService.changeStyling(
+              this.CX_SECTION_SELECTOR,
+              this.BOTTOM,
+              '0'
+            );
           }
-        });
-    }
+        } else {
+          this.quoteStorefrontUtilsService.removeStyling(
+            this.CX_SECTION_SELECTOR,
+            this.BOTTOM
+          );
+        }
+      });
   }
 
   /**

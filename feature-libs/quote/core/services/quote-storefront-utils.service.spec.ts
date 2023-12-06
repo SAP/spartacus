@@ -210,6 +210,26 @@ describe('QuoteStorefrontUtilsService', () => {
     });
   });
 
+  describe('getDomRectValue', () => {
+    it('should return undefined because no element is found by a selector query', () => {
+      expect(
+        classUnderTest['getDomRectValue']('unknown-query', 'bottom')
+      ).toBeUndefined();
+    });
+
+    it('should return undefined because element does not contain a searched property', () => {
+      expect(
+        classUnderTest['getDomRectValue']('cx-quote-list', 'property')
+      ).toBeUndefined();
+    });
+
+    it('should return property value', () => {
+      expect(
+        classUnderTest['getDomRectValue']('cx-quote-list', 'top')
+      ).toBeDefined();
+    });
+  });
+
   describe('getWindowHeight', () => {
     it('should return zero if not running in browser', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(false);
