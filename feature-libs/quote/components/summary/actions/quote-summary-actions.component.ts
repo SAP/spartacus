@@ -5,8 +5,10 @@
  */
 
 import {
+  AfterViewInit,
   Component,
   ElementRef,
+  HostListener,
   inject,
   OnDestroy,
   OnInit,
@@ -15,6 +17,7 @@ import {
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { QuoteStorefrontUtilsService } from '@spartacus/quote/core';
 import {
   Quote,
   QuoteAction,
@@ -23,7 +26,14 @@ import {
   QuoteRoleType,
   QuoteState,
 } from '@spartacus/quote/root';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  BREAKPOINT,
+  BreakpointService,
+  IntersectionOptions,
+  IntersectionService,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import {
@@ -36,13 +46,18 @@ import { ConfirmationContext } from '../../confirm-dialog/quote-confirm-dialog.m
   selector: 'cx-quote-summary-actions',
   templateUrl: './quote-summary-actions.component.html',
 })
-export class QuoteSummaryActionsComponent implements OnInit, OnDestroy {
+export class QuoteSummaryActionsComponent
+  implements AfterViewInit, OnInit, OnDestroy
+{
   protected quoteFacade = inject(QuoteFacade);
   protected launchDialogService = inject(LaunchDialogService);
   protected viewContainerRef = inject(ViewContainerRef);
   protected globalMessageService = inject(GlobalMessageService);
   protected quoteUIConfig = inject(QuoteUIConfig);
   protected activeCartFacade = inject(ActiveCartFacade);
+  protected breakpointService = inject(BreakpointService);
+  protected quoteStorefrontUtilsService = inject(QuoteStorefrontUtilsService);
+  protected intersectionService = inject(IntersectionService);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   cartDetails$: Observable<Cart> = this.activeCartFacade.getActive();
@@ -50,6 +65,60 @@ export class QuoteSummaryActionsComponent implements OnInit, OnDestroy {
   @ViewChild('element') element: ElementRef;
   QuoteActionType = QuoteActionType;
   protected subscription = new Subscription();
+
+  protected readonly CX_SECTION_SELECTOR = 'cx-quote-summary-actions section';
+  protected readonly CX_BTN_SELECTOR =
+    'cx-quote-summary-actions section button';
+  protected readonly HEADER_SLOT_SELECTOR = '.BottomHeaderSlot';
+  /**
+   * Height of a CSS box model of section for action buttons
+   * See _quote-summary-actions.scss
+   */
+  protected readonly ACTION_BUTTONS_HEIGHT = 226;
+  protected readonly AMOUNT_OF_ACTION_BUTTONS = 2;
+  protected readonly WIDTH = 'width';
+  protected readonly BOTTOM = 'bottom';
+  protected readonly PADDING_INLINE_END = 'padding-inline-end';
+  protected readonly PADDING_BLOCK_START = 'padding-block-start';
+  protected readonly PADDING_BLOCK_END = 'padding-block-end';
+  protected readonly POSITION = 'position';
+
+  stickyStyles: readonly [property: string, value: string][] = [
+    [this.WIDTH, '100%'],
+    [this.PADDING_INLINE_END, '0'],
+    [this.PADDING_BLOCK_START, '1rem'],
+    [this.PADDING_BLOCK_END, '0'],
+    [this.POSITION, '-webkit-sticky'],
+    [this.POSITION, 'sticky'],
+  ];
+
+  fixedStyles: readonly [property: string, value: string][] = [
+    [this.WIDTH, '95%'],
+    [this.PADDING_INLINE_END, '1.5rem'],
+    [this.PADDING_BLOCK_START, '1.5rem'],
+    [this.PADDING_BLOCK_END, '1.5rem'],
+    [this.POSITION, 'fixed'],
+  ];
+
+  desktopStyling: readonly [property: string, value: string][] = [
+    [this.WIDTH, '100%'],
+    [this.PADDING_BLOCK_START, '1rem'],
+    [this.POSITION, 'static'],
+  ];
+
+  @HostListener('window:resize')
+  handleResize(): void {
+    this.adjustStyling();
+  }
+
+  @HostListener('window:scroll')
+  handleScroll(): void {
+    this.adjustBottomProperty();
+  }
+
+  ngAfterViewInit(): void {
+    this.adjustStyling();
+  }
 
   ngOnInit(): void {
     //submit button present and threshold not reached: Display message
@@ -69,6 +138,183 @@ export class QuoteSummaryActionsComponent implements OnInit, OnDestroy {
         );
       }
     });
+  }
+
+  protected isMobile(): Observable<boolean> {
+    return this.breakpointService.isDown(BREAKPOINT.sm);
+  }
+
+  /**
+   * Retrieves the actual height of the action buttons.
+   *
+   * @returns - Height of the action buttons.
+   * @protected
+   */
+  protected getActionButtonsHeight(): number {
+    const actionButtonsHeight = this.quoteStorefrontUtilsService.getHeight(
+      this.CX_SECTION_SELECTOR
+    );
+
+    return actionButtonsHeight !== 0
+      ? actionButtonsHeight
+      : this.ACTION_BUTTONS_HEIGHT;
+  }
+
+  /**
+   * Adjusts `bottom` property.
+   *
+   * In case we deal with a desktop device, then the bottom property will be removed.
+   *
+   * In case we deal with a mobile device.
+   * There are 2 cases when the bottom property will be changed accordingly.
+   * Firstly, the bottom property will be changed to the value that is less than zero,
+   * when the height of the action buttons is greater than the spare viewport height.
+   * Secondly, the bottom property will be changed to zero,
+   * when the mentioned condition is not met.
+   *
+   * @protected
+   */
+  protected adjustBottomProperty(): void {
+    this.isMobile()
+      .pipe(take(1))
+      .subscribe((mobile) => {
+        if (
+          mobile &&
+          this.quoteStorefrontUtilsService.getElement(this.CX_BTN_SELECTOR)
+        ) {
+          const headerSlotBottom =
+            this.quoteStorefrontUtilsService.getDomRectValue(
+              this.HEADER_SLOT_SELECTOR,
+              this.BOTTOM
+            );
+
+          const windowHeight =
+            this.quoteStorefrontUtilsService.getWindowHeight();
+
+          const actionButtonsHeight = this.getActionButtonsHeight();
+          const spareViewportHeight = headerSlotBottom
+            ? windowHeight - headerSlotBottom
+            : windowHeight;
+
+          if (actionButtonsHeight > spareViewportHeight) {
+            const bottom = spareViewportHeight - actionButtonsHeight;
+
+            this.quoteStorefrontUtilsService.changeStyling(
+              this.CX_SECTION_SELECTOR,
+              this.BOTTOM,
+              bottom + 'px'
+            );
+          } else {
+            this.quoteStorefrontUtilsService.changeStyling(
+              this.CX_SECTION_SELECTOR,
+              this.BOTTOM,
+              '0'
+            );
+          }
+        } else {
+          this.quoteStorefrontUtilsService.removeStyling(
+            this.CX_SECTION_SELECTOR,
+            this.BOTTOM
+          );
+        }
+      });
+  }
+
+  /**
+   * Prepares the styling of the action buttons to be displayed on desktop.
+   *
+   * @protected
+   */
+  protected prepareButtonsForDesktop(): void {
+    this.isMobile()
+      .pipe(
+        filter((mobile) => !mobile),
+        take(1)
+      )
+      .subscribe(() => {
+        this.stickyStyles.forEach((style) => {
+          this.quoteStorefrontUtilsService.removeStyling(
+            this.CX_SECTION_SELECTOR,
+            style[0]
+          );
+        });
+
+        this.fixedStyles.forEach((style) => {
+          this.quoteStorefrontUtilsService.removeStyling(
+            this.CX_SECTION_SELECTOR,
+            style[0]
+          );
+        });
+
+        this.desktopStyling.forEach((style) => {
+          this.quoteStorefrontUtilsService.changeStyling(
+            this.CX_SECTION_SELECTOR,
+            style[0],
+            style[1]
+          );
+        });
+      });
+  }
+
+  /**
+   * Prepares the styling of the action buttons to be displayed on mobile.
+   *
+   * @protected
+   */
+  protected prepareButtonsForMobile(): void {
+    this.isMobile()
+      .pipe(
+        filter((mobile) => mobile),
+        take(1)
+      )
+      .subscribe(() => {
+        this.fixedStyles.forEach((style) => {
+          this.quoteStorefrontUtilsService.changeStyling(
+            this.CX_SECTION_SELECTOR,
+            style[0],
+            style[1]
+          );
+        });
+
+        const options: IntersectionOptions = {
+          rootMargin: '9999px 0px -120px 0px',
+        };
+
+        const slot = this.quoteStorefrontUtilsService.getElement(
+          'cx-page-slot.CenterRightContent'
+        );
+        if (slot) {
+          this.intersectionService
+            .isIntersecting(slot, options)
+            .subscribe((isIntersecting) => {
+              if (isIntersecting) {
+                this.stickyStyles.forEach((style) => {
+                  this.quoteStorefrontUtilsService.changeStyling(
+                    this.CX_SECTION_SELECTOR,
+                    style[0],
+                    style[1]
+                  );
+                });
+              } else {
+                this.fixedStyles.forEach((style) => {
+                  this.quoteStorefrontUtilsService.changeStyling(
+                    this.CX_SECTION_SELECTOR,
+                    style[0],
+                    style[1]
+                  );
+                });
+              }
+            });
+        }
+      });
+  }
+
+  protected adjustStyling(): void {
+    if (this.quoteStorefrontUtilsService.getElement(this.CX_BTN_SELECTOR)) {
+      this.prepareButtonsForMobile();
+      this.adjustBottomProperty();
+      this.prepareButtonsForDesktop();
+    }
   }
 
   /**
@@ -178,7 +424,7 @@ export class QuoteSummaryActionsComponent implements OnInit, OnDestroy {
     if (action.isPrimary) {
       return 'btn-primary';
     }
-    if (allowedActions.length <= 2) {
+    if (allowedActions.length <= this.AMOUNT_OF_ACTION_BUTTONS) {
       return 'btn-secondary';
     }
     return action.type === QuoteActionType.CANCEL

@@ -14,9 +14,13 @@ import {
   QuoteRoleType,
   QuoteState,
 } from '@spartacus/quote/root';
-
 import { ElementRef, ViewContainerRef } from '@angular/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  BreakpointService,
+  IntersectionService,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
@@ -29,11 +33,17 @@ import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-uti
 import { QuoteSummaryActionsComponent } from './quote-summary-actions.component';
 import createSpy = jasmine.createSpy;
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { QuoteStorefrontUtilsService } from '@spartacus/quote/core';
 
 const mockCartId = '1234';
 const mockCode = '3333';
 const threshold = 20;
 const totalPrice: Price = { value: threshold + 1 };
+const slot = document.createElement('cx-page-slot');
+slot.classList.add('CenterRightContent');
+
+const actionBtn = document.createElement('button');
+actionBtn.classList.add('btn');
 
 const mockQuote: Quote = {
   ...createEmptyQuote(),
@@ -152,6 +162,31 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   }
 }
 
+class MockIntersectionService {
+  isIntersecting(): Observable<boolean> {
+    return of(false);
+  }
+}
+
+class MockQuoteStorefrontUtilsService {
+  getElement() {}
+  changeStyling() {}
+  removeStyling() {}
+  getHeight() {}
+  getDomRectValue() {}
+  getWindowHeight() {}
+}
+
+class MockBreakpointService {
+  isDown(): Observable<boolean> {
+    return of(false);
+  }
+
+  isUp(): Observable<boolean> {
+    return of(true);
+  }
+}
+
 describe('QuoteSummaryActionsComponent', () => {
   let fixture: ComponentFixture<QuoteSummaryActionsComponent>;
   let htmlElem: HTMLElement;
@@ -159,6 +194,9 @@ describe('QuoteSummaryActionsComponent', () => {
   let launchDialogService: LaunchDialogService;
   let quoteFacade: QuoteFacade;
   let globalMessageService: GlobalMessageService;
+  let breakpointService: BreakpointService;
+  let quoteStorefrontUtilsService: QuoteStorefrontUtilsService;
+  let intersectionService: IntersectionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -179,6 +217,18 @@ describe('QuoteSummaryActionsComponent', () => {
           },
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
+        {
+          provide: QuoteStorefrontUtilsService,
+          useClass: MockQuoteStorefrontUtilsService,
+        },
+        {
+          provide: IntersectionService,
+          useClass: MockIntersectionService,
+        },
       ],
     }).compileComponents();
   });
@@ -190,8 +240,12 @@ describe('QuoteSummaryActionsComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     quoteFacade = TestBed.inject(QuoteFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    breakpointService = TestBed.inject(BreakpointService);
+    quoteStorefrontUtilsService = TestBed.inject(QuoteStorefrontUtilsService);
+    intersectionService = TestBed.inject(IntersectionService);
     mockQuoteDetails$.next(mockQuote);
     dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
+    spyOn(quoteStorefrontUtilsService, 'changeStyling').and.callThrough();
   });
 
   it('should create component', () => {
@@ -817,6 +871,7 @@ describe('QuoteSummaryActionsComponent', () => {
         { type: QuoteActionType.CANCEL, isPrimary: false },
       ];
     });
+
     it("should return 'btn-primary' style for action marked as primary", () => {
       expect(
         component.getButtonStyle(allowedActions, {
@@ -873,6 +928,165 @@ describe('QuoteSummaryActionsComponent', () => {
       expect(
         component['stateToRoleTypeForDialogConfig'](QuoteState.CANCELLED)
       ).toBe(QuoteRoleType.ALL);
+    });
+  });
+
+  describe('isMobile', () => {
+    it("should return 'false' in mobile mode", () => {
+      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+
+      component['isMobile']()
+        .subscribe((isMobile) => {
+          expect(isMobile).toBe(false);
+        })
+        .unsubscribe();
+    });
+
+    it("should return 'true' in mobile mode", () => {
+      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+
+      component['isMobile']()
+        .subscribe((isMobile) => {
+          expect(isMobile).toBe(true);
+        })
+        .unsubscribe();
+    });
+  });
+
+  describe('handleResize', () => {
+    it('should call handleResize method', () => {
+      spyOn(quoteStorefrontUtilsService, 'getElement').and.returnValue(slot);
+      component.handleResize();
+
+      expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
+        'cx-quote-summary-actions section',
+        'position',
+        'static'
+      );
+    });
+  });
+
+  describe('handleScroll', () => {
+    it('should call handleScroll method', () => {
+      spyOn(quoteStorefrontUtilsService, 'getElement').and.returnValue(slot);
+      spyOn(quoteStorefrontUtilsService, 'getWindowHeight').and.returnValue(
+        500
+      );
+      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+      component.handleScroll();
+
+      expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
+        'cx-quote-summary-actions section',
+        'bottom',
+        '0'
+      );
+    });
+  });
+
+  describe('getActionButtonsHeight', () => {
+    it('should return the default height of action buttons', () => {
+      spyOn(quoteStorefrontUtilsService, 'getHeight').and.returnValue(0);
+      expect(component['getActionButtonsHeight']()).toBe(226);
+    });
+
+    it('should return the actual height of action buttons', () => {
+      spyOn(quoteStorefrontUtilsService, 'getHeight').and.returnValue(300);
+      expect(component['getActionButtonsHeight']()).toBe(300);
+    });
+  });
+
+  describe('Floating action buttons', () => {
+    it('should not make any styling changes on action buttons if there are no action buttons', () => {
+      spyOn(quoteStorefrontUtilsService, 'getElement')
+        .withArgs('cx-quote-summary-actions section button')
+        .and.returnValue(undefined);
+      component.ngAfterViewInit();
+
+      expect(quoteStorefrontUtilsService.changeStyling).not.toHaveBeenCalled();
+    });
+
+    describe('desktop device', () => {
+      it('should make action buttons static', () => {
+        spyOn(quoteStorefrontUtilsService, 'getElement').and.returnValue(slot);
+        component.ngAfterViewInit();
+
+        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
+          'cx-quote-summary-actions section',
+          'position',
+          'static'
+        );
+      });
+    });
+
+    describe('mobile device', () => {
+      beforeEach(() => {
+        spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+        spyOn(quoteStorefrontUtilsService, 'getElement')
+          .withArgs('cx-page-slot.CenterRightContent')
+          .and.returnValue(slot)
+          .withArgs('cx-quote-summary-actions section button')
+          .and.returnValue(actionBtn);
+
+        spyOn(quoteStorefrontUtilsService, 'getHeight')
+          .withArgs('cx-quote-summary-actions section')
+          .and.returnValue(250);
+      });
+
+      it('should adjust bottom property to zero when there is enough spare viewport', () => {
+        spyOn(quoteStorefrontUtilsService, 'getDomRectValue')
+          .withArgs('.BottomHeaderSlot', 'bottom')
+          .and.returnValue(250);
+
+        spyOn(quoteStorefrontUtilsService, 'getWindowHeight').and.returnValue(
+          800
+        );
+
+        component.ngAfterViewInit();
+
+        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
+          'cx-quote-summary-actions section',
+          'bottom',
+          '0'
+        );
+      });
+
+      it('should adjust bottom property accordingly when there is not enough spare viewport', () => {
+        spyOn(quoteStorefrontUtilsService, 'getDomRectValue')
+          .withArgs('.BottomHeaderSlot', 'bottom')
+          .and.returnValue(378);
+
+        spyOn(quoteStorefrontUtilsService, 'getWindowHeight').and.returnValue(
+          500
+        );
+        component.ngAfterViewInit();
+
+        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
+          'cx-quote-summary-actions section',
+          'bottom',
+          '-128px'
+        );
+      });
+
+      it('should make action buttons sticky when intersecting', () => {
+        spyOn(intersectionService, 'isIntersecting').and.returnValue(of(true));
+        component.ngAfterViewInit();
+
+        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
+          'cx-quote-summary-actions section',
+          'position',
+          'sticky'
+        );
+      });
+
+      it('should make action buttons fixed when not intersecting', () => {
+        component.ngAfterViewInit();
+
+        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
+          'cx-quote-summary-actions section',
+          'position',
+          'fixed'
+        );
+      });
     });
   });
 });

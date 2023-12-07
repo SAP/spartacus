@@ -1,8 +1,10 @@
 %cx-quote-summary {
   &:not(:empty) {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 10px;
+    @include media-breakpoint-up(lg) {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 10px;
+    }
 
     .cx-container {
       @include media-breakpoint-up(lg) {
