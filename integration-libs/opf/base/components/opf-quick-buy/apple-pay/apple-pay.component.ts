@@ -6,8 +6,15 @@
 
 import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { OpfCartHandlerService } from '@spartacus/opf/base/core';
-import { ActiveConfiguration, OpfProviderType } from '@spartacus/opf/base/root';
+import {
+  OpfCartHandlerService,
+  OpfPaymentErrorHandlerService,
+} from '@spartacus/opf/base/core';
+import {
+  ActiveConfiguration,
+  OpfPaymentError,
+  OpfProviderType,
+} from '@spartacus/opf/base/root';
 import {
   CurrentProductService,
   ItemCounterService,
@@ -29,6 +36,7 @@ export class ApplePayComponent implements OnInit, OnDestroy {
   protected itemCounterService = inject(ItemCounterService);
   protected cartHandlerService = inject(OpfCartHandlerService);
   protected applePaySession = inject(ApplePaySessionFactory);
+  protected paymentErrorHandlerService = inject(OpfPaymentErrorHandlerService);
 
   protected sub: Subscription;
   isApplePaySupported$: Observable<boolean>;
@@ -36,7 +44,8 @@ export class ApplePayComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const merchantId =
       this.activeConfiguration?.digitalWalletQuickBuy?.find(
-        (dw) => dw.merchantId === OpfProviderType.APPLE_PAY
+        (digitalWallet) =>
+          digitalWallet.merchantId === OpfProviderType.APPLE_PAY
       )?.merchantId ?? 'merchant.com.adyen.upscale.test';
     if (!merchantId) {
       // unreachable block as merchantId property still in dev on server side
@@ -60,7 +69,10 @@ export class ApplePayComponent implements OnInit, OnDestroy {
           )
         )
       )
-      .subscribe(() => {});
+      .subscribe({
+        error: (error: OpfPaymentError | undefined) =>
+          this.paymentErrorHandlerService.handlePaymentError(error),
+      });
   }
 
   ngOnDestroy(): void {
