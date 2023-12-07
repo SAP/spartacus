@@ -25,15 +25,18 @@ import {
   PaymentMethod,
 } from '@spartacus/opf/base/root';
 
+import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
 import { ApplePaySessionFactory } from './apple-pay-session/apple-pay-session.factory';
 import { ApplePayObservableFactory } from './observable/apple-pay-observable.factory';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ApplePayService {
+  protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected applePaySession = inject(ApplePaySessionFactory);
   protected applePayObservable = inject(ApplePayObservableFactory);
   protected winRef = inject(WindowRef);
-  protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected cartHandlerService = inject(OpfCartHandlerService);
 
   protected paymentInProgress = false;
@@ -55,7 +58,7 @@ export class ApplePayService {
       addressIds: [],
       isPdp: true,
       total: {
-        amount: '' + (product.price?.value as number) * quantity,
+        amount: ((product.price?.value as number) * quantity).toString(),
         label:
           quantity > 1
             ? `${product?.name as string} x ${quantity}`
@@ -70,7 +73,7 @@ export class ApplePayService {
     acquirerCountryCode?: string
   ): Observable<ApplePayJS.ApplePayPaymentAuthorizationResult> {
     if (this.paymentInProgress) {
-      return throwError('Error: Apple Pay is already in progress');
+      return throwError('Apple Pay is already in progress');
     }
     this.paymentInProgress = true;
     this.localCart = this.initLocalCart(product, quantity);
@@ -119,16 +122,19 @@ export class ApplePayService {
   protected handleValidation(
     event: ApplePayJS.ApplePayValidateMerchantEvent,
     localCart: LocalCart
-  ): Observable<any> {
+  ): Observable<ApplePaySessionVerificationResponse> {
     if (!localCart?.product || !localCart?.quantity) {
-      return throwError('Error: empty product or quantity');
+      return throwError('Empty product or quantity');
     }
     return this.addProductToCart(localCart.product, localCart.quantity).pipe(
       switchMap(() => this.validateOpfAppleSession(event))
     );
   }
 
-  protected addProductToCart(product: Product, quantity: number) {
+  protected addProductToCart(
+    product: Product,
+    quantity: number
+  ): Observable<boolean> {
     if (product.code) {
       return this.cartHandlerService.deleteCurrentCart().pipe(
         switchMap(() => {
@@ -139,14 +145,14 @@ export class ApplePayService {
         })
       );
     }
-    return throwError('Error: product has no ID');
+    return throwError('Product code unknown');
   }
 
   protected validateOpfAppleSession(
     event: ApplePayJS.ApplePayValidateMerchantEvent
-  ) {
+  ): Observable<ApplePaySessionVerificationResponse> {
     return this.cartHandlerService.getCurrentCartId().pipe(
-      switchMap((cartId) => {
+      switchMap((cartId: string) => {
         const verificationRequest: ApplePaySessionVerificationRequest = {
           validationUrl: event.validationURL,
           initiative: 'web',
@@ -163,10 +169,11 @@ export class ApplePayService {
     addr: ApplePayJS.ApplePayPaymentContact,
     partial = false
   ): Address {
+    const ADDRESS_FIELD_PLACEHOLDER = '[FIELD_NOT_SET]';
     return {
-      firstName: partial ? 'xxxx' : addr?.givenName,
-      lastName: partial ? 'xxxx' : addr?.familyName,
-      line1: partial ? 'xxxx' : addr?.addressLines?.[0],
+      firstName: partial ? ADDRESS_FIELD_PLACEHOLDER : addr?.givenName,
+      lastName: partial ? ADDRESS_FIELD_PLACEHOLDER : addr?.familyName,
+      line1: partial ? ADDRESS_FIELD_PLACEHOLDER : addr?.addressLines?.[0],
       line2: addr?.addressLines?.[1],
       email: addr?.emailAddress,
       town: addr?.locality,
@@ -193,17 +200,19 @@ export class ApplePayService {
       this.updateApplePayForm({ ...this.localCart.total });
 
     return this.cartHandlerService.setDeliveryAddress(partialAddress).pipe(
-      tap((addrId) => {
+      tap((addrId: string) => {
         this.recordDeliveryAddress(addrId);
       }),
       switchMap(() => this.cartHandlerService.getSupportedDeliveryModes()),
       take(1),
-      map((modes) => {
+      map((modes: DeliveryMode[]) => {
         if (!modes.length) {
           return of({
             ...result,
             errors: [
-              this.updateApplePayFormWithError('No shipment methods available'),
+              this.updateApplePayFormWithError(
+                'No shipment methods available for this delivery address'
+              ),
             ],
           });
         }
@@ -221,11 +230,12 @@ export class ApplePayService {
       switchMap(() => {
         return this.cartHandlerService.getCurrentCartTotalPrice();
       }),
-      switchMap((price) => {
-        if (price) {
-          this.localCart.total.amount = '' + price;
-          result.newTotal.amount = '' + price;
+      switchMap((price: number | undefined) => {
+        if (!price) {
+          return throwError('Total Price not available');
         }
+        this.localCart.total.amount = price.toString();
+        result.newTotal.amount = price.toString();
         return of(result);
       })
     );
@@ -250,8 +260,11 @@ export class ApplePayService {
       .pipe(
         switchMap(() => this.cartHandlerService.getCurrentCart()),
         take(1),
-        switchMap((cart) => {
-          result.newTotal.amount = '' + cart.totalPrice?.value;
+        switchMap((cart: Cart) => {
+          if (!cart?.totalPrice?.value) {
+            return throwError('Total Price not available');
+          }
+          result.newTotal.amount = cart.totalPrice.value.toString();
           return of(result);
         })
       );
@@ -302,12 +315,12 @@ export class ApplePayService {
     }
     const { shippingContact, billingContact } = applePayPayment;
     if (!shippingContact || !billingContact) {
-      throw new Error('Empty Contact');
+      throw new Error('Error: empty Contact');
     }
     return this.cartHandlerService
       .setDeliveryAddress(this.convertAppleToOpfAddress(shippingContact))
       .pipe(
-        tap((addrId) => {
+        tap((addrId: string) => {
           this.recordDeliveryAddress(addrId);
         }),
         switchMap(() => {
@@ -316,7 +329,7 @@ export class ApplePayService {
           );
         }),
         switchMap(() => this.cartHandlerService.getCurrentCartId()),
-        switchMap((cartId) => {
+        switchMap((cartId: string) => {
           const encryptedToken = btoa(
             JSON.stringify(applePayPayment.token.paymentData)
           );

@@ -70,8 +70,10 @@ export class ApplePayComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe({
-        error: (error: OpfPaymentError | undefined) =>
-          this.paymentErrorHandlerService.handlePaymentError(error),
+        error: (error: OpfPaymentError | string | undefined) =>
+          this.paymentErrorHandlerService.handlePaymentError(
+            typeof error === 'string' ? { message: error } : error
+          ),
       });
   }
 

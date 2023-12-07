@@ -33,7 +33,7 @@ export class OpfPaymentErrorHandlerService {
     );
   }
 
-  protected handleBadRequestError(errorType: string): string {
+  protected handleBadRequestError(errorType?: string): string {
     let message = defaultError.message;
     switch (errorType) {
       case PaymentErrorType.EXPIRED:
