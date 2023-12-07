@@ -143,8 +143,8 @@ describe('OrderConfirmationShippingComponent', () => {
     }
     function configureTestingModule(): TestBed {
       return TestBed.configureTestingModule({
-        imports: [I18nTestingModule, PromotionsModule],
-        declarations: [OrderConfirmationShippingComponent],
+        imports: [I18nTestingModule, PromotionsModule, OutletModule],
+        declarations: [OrderConfirmationShippingComponent, MockCardComponent],
         providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
       });
     }
