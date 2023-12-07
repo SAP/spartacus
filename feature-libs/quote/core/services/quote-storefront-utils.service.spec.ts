@@ -211,16 +211,16 @@ describe('QuoteStorefrontUtilsService', () => {
   });
 
   describe('getDomRectValue', () => {
-    it('should return undefined because no element is found by a selector query', () => {
-      expect(classUnderTest['getDomRectValue']('unknown-query', 'bottom')).toBe(
-        0
-      );
+    it('should return undefined if no element is found by a selector query', () => {
+      expect(
+        classUnderTest['getDomRectValue']('unknown-query', 'bottom')
+      ).toBeUndefined();
     });
 
-    it('should return undefined because element does not contain a searched property', () => {
+    it('should return undefined if element does not contain a searched property', () => {
       expect(
         classUnderTest['getDomRectValue']('cx-quote-list', 'property')
-      ).toBe(0);
+      ).toBeUndefined();
     });
 
     it('should return property value', () => {
@@ -236,7 +236,7 @@ describe('QuoteStorefrontUtilsService', () => {
       expect(classUnderTest.getWindowHeight()).toBe(0);
     });
 
-    it('should return zero because nativeWindow is undefined', () => {
+    it('should return zero if nativeWindow is undefined', () => {
       spyOn(windowRef, 'isBrowser').and.returnValues(true, false);
       expect(classUnderTest.getWindowHeight()).toBe(0);
     });

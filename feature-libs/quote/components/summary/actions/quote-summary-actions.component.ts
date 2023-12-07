@@ -192,7 +192,9 @@ export class QuoteSummaryActionsComponent
             this.quoteStorefrontUtilsService.getWindowHeight();
 
           const actionButtonsHeight = this.getActionButtonsHeight();
-          const spareViewportHeight = windowHeight - headerSlotBottom;
+          const spareViewportHeight = headerSlotBottom
+            ? windowHeight - headerSlotBottom
+            : windowHeight;
 
           if (actionButtonsHeight > spareViewportHeight) {
             const bottom = spareViewportHeight - actionButtonsHeight;

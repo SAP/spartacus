@@ -94,9 +94,9 @@ export class QuoteStorefrontUtilsService {
    *
    * @param querySelector - query selector
    * @param property - name of the searched property
-   * @returns - if the object has a searched property then the value of the property will be returned, otherwise zero.
+   * @returns - if the object has a searched property then the value of the property will be returned, otherwise undefined.
    */
-  getDomRectValue(querySelector: string, property: string): number {
+  getDomRectValue(querySelector: string, property: string): number | undefined {
     const element = this.getElement(querySelector);
     if (element) {
       const domRectObj = element.getBoundingClientRect().toJSON();
@@ -108,7 +108,7 @@ export class QuoteStorefrontUtilsService {
         }
       }
     }
-    return 0;
+    return undefined;
   }
 
   /**

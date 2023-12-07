@@ -996,7 +996,7 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   describe('Floating action buttons', () => {
-    it('should not make any styling changes on action buttons because there are no action buttons', () => {
+    it('should not make any styling changes on action buttons if there are no action buttons', () => {
       spyOn(quoteStorefrontUtilsService, 'getElement')
         .withArgs('cx-quote-summary-actions section button')
         .and.returnValue(undefined);
