@@ -1028,8 +1028,6 @@ describe('QuoteSummaryActionsComponent', () => {
           .and.returnValue(actionBtn);
 
         spyOn(quoteStorefrontUtilsService, 'getHeight')
-          .withArgs('.BottomHeaderSlot')
-          .and.returnValue(130)
           .withArgs('cx-quote-summary-actions section')
           .and.returnValue(250);
       });
@@ -1037,9 +1035,7 @@ describe('QuoteSummaryActionsComponent', () => {
       it('should adjust bottom property to zero when there is enough spare viewport', () => {
         spyOn(quoteStorefrontUtilsService, 'getDomRectValue')
           .withArgs('.BottomHeaderSlot', 'bottom')
-          .and.returnValue(250)
-          .withArgs('cx-quote-summary-actions section', 'top')
-          .and.returnValue(377);
+          .and.returnValue(250);
 
         spyOn(quoteStorefrontUtilsService, 'getWindowHeight').and.returnValue(
           800
@@ -1057,9 +1053,7 @@ describe('QuoteSummaryActionsComponent', () => {
       it('should adjust bottom property accordingly when there is not enough spare viewport', () => {
         spyOn(quoteStorefrontUtilsService, 'getDomRectValue')
           .withArgs('.BottomHeaderSlot', 'bottom')
-          .and.returnValue(378)
-          .withArgs('cx-quote-summary-actions section', 'top')
-          .and.returnValue(377);
+          .and.returnValue(378);
 
         spyOn(quoteStorefrontUtilsService, 'getWindowHeight').and.returnValue(
           500

@@ -212,15 +212,15 @@ describe('QuoteStorefrontUtilsService', () => {
 
   describe('getDomRectValue', () => {
     it('should return undefined because no element is found by a selector query', () => {
-      expect(
-        classUnderTest['getDomRectValue']('unknown-query', 'bottom')
-      ).toBeUndefined();
+      expect(classUnderTest['getDomRectValue']('unknown-query', 'bottom')).toBe(
+        0
+      );
     });
 
     it('should return undefined because element does not contain a searched property', () => {
       expect(
         classUnderTest['getDomRectValue']('cx-quote-list', 'property')
-      ).toBeUndefined();
+      ).toBe(0);
     });
 
     it('should return property value', () => {

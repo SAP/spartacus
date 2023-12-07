@@ -76,7 +76,6 @@ export class QuoteSummaryActionsComponent
    */
   protected readonly ACTION_BUTTONS_HEIGHT = 226;
   protected readonly AMOUNT_OF_ACTION_BUTTONS = 2;
-  protected readonly SMOOTH_SLIDING = 10;
   protected readonly WIDTH = 'width';
   protected readonly BOTTOM = 'bottom';
   protected readonly PADDING_INLINE_END = 'padding-inline-end';
@@ -152,11 +151,12 @@ export class QuoteSummaryActionsComponent
    * @protected
    */
   protected getActionButtonsHeight(): number {
-    const calculatedActionButtonsHeight =
-      this.quoteStorefrontUtilsService.getHeight(this.CX_SECTION_SELECTOR);
+    const actionButtonsHeight = this.quoteStorefrontUtilsService.getHeight(
+      this.CX_SECTION_SELECTOR
+    );
 
-    return calculatedActionButtonsHeight !== 0
-      ? calculatedActionButtonsHeight
+    return actionButtonsHeight !== 0
+      ? actionButtonsHeight
       : this.ACTION_BUTTONS_HEIGHT;
   }
 
@@ -167,13 +167,10 @@ export class QuoteSummaryActionsComponent
    *
    * In case we deal with a mobile device.
    * There are 2 cases when the bottom property will be changed accordingly.
-   *
    * Firstly, the bottom property will be changed to the value that is less than zero,
-   * when the header slot is in viewport and the actual buttons height is greater than the difference value of the subtraction between the window height and the header slot height
-   * or when the bottom value of the header slot is greater than the value of the action buttons top.
-   *
+   * when the height of the action buttons is greater than the spare viewport height.
    * Secondly, the bottom property will be changed to zero,
-   * when none of the above mentioned conditions are met.
+   * when the mentioned condition is not met.
    *
    * @protected
    */
@@ -190,25 +187,14 @@ export class QuoteSummaryActionsComponent
               this.HEADER_SLOT_SELECTOR,
               this.BOTTOM
             );
-          const headerSlotHeight = this.quoteStorefrontUtilsService.getHeight(
-            this.HEADER_SLOT_SELECTOR
-          );
+
           const windowHeight =
             this.quoteStorefrontUtilsService.getWindowHeight();
 
-          const actionButtonsTop =
-            this.quoteStorefrontUtilsService.getDomRectValue(
-              this.CX_SECTION_SELECTOR,
-              'top'
-            );
-
           const actionButtonsHeight = this.getActionButtonsHeight();
+          const spareViewportHeight = windowHeight - headerSlotBottom;
 
-          if (
-            headerSlotBottom > actionButtonsTop - this.SMOOTH_SLIDING ||
-            actionButtonsHeight > windowHeight - headerSlotHeight
-          ) {
-            const spareViewportHeight = windowHeight - headerSlotBottom;
+          if (actionButtonsHeight > spareViewportHeight) {
             const bottom = spareViewportHeight - actionButtonsHeight;
 
             this.quoteStorefrontUtilsService.changeStyling(
