@@ -10,8 +10,8 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
+import { ActiveConfiguration, OpfProviderType } from '@spartacus/opf/base/root';
 import { Observable } from 'rxjs';
-import { ActiveConfiguration, OpfProviderType } from '../../root/model';
 import { OpfQuickBuyService } from './opf-quick-buy.service';
 
 @Component({
