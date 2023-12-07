@@ -7,6 +7,7 @@
 import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
+  Cart,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
   DeliveryMode,
@@ -20,6 +21,7 @@ import {
 import {
   Address,
   EventService,
+  QueryState,
   UserAddressService,
   UserIdService,
 } from '@spartacus/core';
@@ -54,84 +56,92 @@ export class OpfCartHandlerService {
     productCode: string,
     quantity: number,
     pickupStore?: string | undefined
-  ) {
+  ): Observable<boolean> {
     this.activeCartFacade.addEntry(productCode, quantity, pickupStore);
     return this.checkStableCart();
   }
 
-  checkStableCart() {
+  checkStableCart(): Observable<boolean> {
     return this.activeCartFacade.isStable().pipe(
       filter((isStable) => !!isStable),
       take(1)
     );
   }
 
-  getSupportedDeliveryModes() {
+  getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
     return this.checkoutDeliveryModesFacade.getSupportedDeliveryModes();
   }
 
-  setDeliveryAddress(address: Address) {
+  setDeliveryAddress(address: Address): Observable<string> {
     this.opfGlobalMessageService.disableGlobalMessage([
       'addressForm.userAddressAddSuccess',
     ]);
     return this.checkoutDeliveryAddressFacade.createAndSetAddress(address).pipe(
       switchMap(() => this.checkStableCart()),
       switchMap(() =>
-        this.getDeliveryAddress().pipe(map((addr) => addr?.id ?? ''))
+        this.getDeliveryAddress().pipe(
+          map((addr: Address | undefined) => addr?.id ?? '')
+        )
       )
     );
   }
 
-  setBillingAddress(address: Address) {
+  setBillingAddress(address: Address): Observable<boolean> {
     return this.checkoutBillingAddressFacade
       .setBillingAddress(address)
       .pipe(switchMap(() => this.checkStableCart()));
   }
 
-  getDeliveryAddress() {
+  getDeliveryAddress(): Observable<Address | undefined> {
     return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
-      filter((state) => !state.loading),
+      filter((state: QueryState<Address | undefined>) => !state.loading),
       take(1),
-      map((state) => {
+      map((state: QueryState<Address | undefined>) => {
         return state.data;
       })
     );
   }
 
-  getCurrentCart() {
+  getCurrentCart(): Observable<Cart> {
     return this.activeCartFacade.takeActive();
   }
 
-  getCurrentCartId() {
+  getCurrentCartId(): Observable<string> {
     return this.activeCartFacade.takeActiveCartId();
   }
 
-  getCurrentCartTotalPrice() {
+  getCurrentCartTotalPrice(): Observable<number | undefined> {
     return this.activeCartFacade
       .getActive()
-      .pipe(map((cart) => cart.totalPrice?.value));
+      .pipe(map((cart: Cart) => cart.totalPrice?.value));
   }
 
-  setDeliveryMode(mode: string) {
+  setDeliveryMode(mode: string): Observable<DeliveryMode | undefined> {
     return this.checkoutDeliveryModesFacade.setDeliveryMode(mode).pipe(
       switchMap(() =>
         this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState()
       ),
-      filter((state) => !state.error && !state.loading),
+      filter(
+        (state: QueryState<DeliveryMode | undefined>) =>
+          !state.error && !state.loading
+      ),
       take(1),
-      map((state) => state.data)
+      map((state: QueryState<DeliveryMode | undefined>) => state.data)
     );
   }
 
   getSelectedDeliveryMode(): Observable<DeliveryMode | undefined> {
     return this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
-      filter((state) => !state.error && !state.loading),
+      filter(
+        (state: QueryState<DeliveryMode | undefined>) =>
+          !state.error && !state.loading
+      ),
       take(1),
-      map((state) => state.data)
+      map((state: QueryState<DeliveryMode | undefined>) => state.data)
     );
   }
 
-  deleteUserAddresses(addrIds: string[]) {
+  deleteUserAddresses(addrIds: string[]): void {
     this.opfGlobalMessageService.disableGlobalMessage([
       'addressForm.userAddressDeleteSuccess',
     ]);
@@ -140,11 +150,11 @@ export class OpfCartHandlerService {
     });
   }
 
-  deleteCurrentCart() {
+  deleteCurrentCart(): Observable<boolean> {
     return this.activeCartFacade.getActiveCartId().pipe(
       withLatestFrom(this.userIdService.getUserId()),
       take(1),
-      tap(([cartId, userId]) => {
+      tap(([cartId, userId]: [string, string]) => {
         this.multiCartFacade.deleteCart(cartId, userId);
       }),
       switchMap(() =>
