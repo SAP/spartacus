@@ -5,15 +5,12 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  CartOutlets,
-  DeliveryMode,
-  PaymentDetails,
-} from '@spartacus/cart/base/root';
+import { CartOutlets, DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   CmsOrderDetailOverviewComponent,
   CostCenter,
+  PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
 import { Card, CmsComponentData } from '@spartacus/storefront';
