@@ -5,11 +5,11 @@
  */
 
 import { APP_BASE_HREF } from '@angular/common';
-import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
   defaultSsrOptimizationOptions,
+  ngExpressEngine as engine,
 } from '@spartacus/setup/ssr';
 
 import { Express } from 'express';

@@ -47,6 +47,7 @@
   },
   "@spartacus/setup": {
     "@angular/core": "^17.0.5",
+    "@angular/ssr": "^17.0.5",
     "@spartacus/cart": "6.6.0-1",
     "@spartacus/core": "6.6.0-1",
     "@spartacus/order": "6.6.0-1",
