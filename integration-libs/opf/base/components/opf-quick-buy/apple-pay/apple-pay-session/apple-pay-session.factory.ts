@@ -6,10 +6,11 @@
 
 import { Injectable, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { fromPromise } from 'rxjs/internal-compatibility';
+import { Observable, from, of } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ApplePaySessionFactory {
   protected winRef = inject(WindowRef);
   protected isDeviceSupported = false;
@@ -69,9 +70,7 @@ export class ApplePaySessionFactory {
     merchantId: string
   ): Observable<boolean> {
     return this.isDeviceSupported
-      ? fromPromise(
-          this.applePaySession.canMakePaymentsWithActiveCard(merchantId)
-        )
+      ? from(this.applePaySession.canMakePaymentsWithActiveCard(merchantId))
       : of(false);
   }
 

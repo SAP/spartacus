@@ -34,6 +34,7 @@ import {
         'afterRedirectScripts',
         'getActiveConfigurationsState',
         'getCtaScripts',
+        'getApplePayWebSession',
       ],
     }),
 })

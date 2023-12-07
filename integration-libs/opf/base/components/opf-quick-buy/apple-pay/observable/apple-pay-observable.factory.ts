@@ -5,12 +5,17 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { ApplePayObservableConfig } from '@spartacus/opf/base/root';
+import {
+  ApplePayObservableConfig,
+  PaymentErrorType,
+} from '@spartacus/opf/base/root';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ApplePaySessionFactory } from '../apple-pay-session/apple-pay-session.factory';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ApplePayObservableFactory {
   protected applePaySessionFactory = inject(ApplePaySessionFactory);
 
@@ -29,7 +34,7 @@ export class ApplePayObservableFactory {
           return;
         }
 
-        const handleUnspecifiedError = (error: string): void => {
+        const handleUnspecifiedError = (error: any): void => {
           session.abort();
           observer.error(error);
         };
@@ -44,7 +49,7 @@ export class ApplePayObservableFactory {
         });
 
         session.addEventListener('cancel', () => {
-          observer.error('Canceled payment');
+          observer.error({ type: PaymentErrorType.PAYMENT_CANCELLED });
         });
 
         if (config.paymentMethodSelected) {
@@ -96,7 +101,9 @@ export class ApplePayObservableFactory {
                   observer.next(authResult);
                   observer.complete();
                 } else {
-                  handleUnspecifiedError(authResult?.errors[0]?.message);
+                  handleUnspecifiedError({
+                    message: authResult?.errors[0]?.message,
+                  });
                 }
               },
               error: handleUnspecifiedError,
