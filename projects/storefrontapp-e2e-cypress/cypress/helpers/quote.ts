@@ -122,7 +122,6 @@ function checkQuoteHeaderOverviewPageDisplayed() {
   checkQuoteHeaderOverviewDisplayed();
   checkQuoteItemsDisplayed();
   checkQuoteSummaryPriceDisplayed();
-  checkQuoteActionButtonsDisplayed();
 }
 
 /**
@@ -167,17 +166,6 @@ export function checkQuoteSummaryPriceDisplayed() {
     checkQuoteSummaryPriceDisplayed.name
   );
   cy.get('cx-quote-summary').should('be.visible');
-}
-
-/**
- * Verifies whether the quote action buttons component is displayed.
- */
-export function checkQuoteActionButtonsDisplayed() {
-  log(
-    'Verifies whether the quote action buttons component is displayed',
-    checkQuoteActionButtonsDisplayed.name
-  );
-  cy.get(summaryActionsComponentSelector).should('be.visible');
 }
 
 /**
