@@ -275,10 +275,16 @@ export class MyAccountV2ConsentManagementComponent
   allowAll(templates: ConsentTemplate[] = []): void {
     const consentsToGive: ConsentTemplate[] = [];
     templates.forEach((template) => {
+      const givenDate = template.currentConsent?.consentGivenDate;
+      const withdrawnDate = template.currentConsent?.consentWithdrawnDate;
+      const isConsentGiven =
+        (givenDate && !withdrawnDate) ||
+        (givenDate && withdrawnDate && givenDate > withdrawnDate);
       if (
-        template.currentConsent &&
-        this.userConsentService.isConsentWithdrawn(template.currentConsent) &&
-        this.isRequiredConsent(template)
+        (template.currentConsent &&
+          this.userConsentService.isConsentWithdrawn(template.currentConsent) &&
+          this.isRequiredConsent(template)) ||
+        isConsentGiven
       ) {
         return;
       }
