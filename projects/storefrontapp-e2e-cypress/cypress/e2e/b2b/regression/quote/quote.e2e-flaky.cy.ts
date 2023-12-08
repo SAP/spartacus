@@ -6,7 +6,7 @@
 
 import * as asm from '../../../../helpers/asm';
 import * as common from '../../../../helpers/common';
-import * as quote from '../../../../helpers/quote';
+import * as quote from '../../../../helpers/b2b/b2b-quote';
 import * as cart from '../../../../helpers/cart';
 
 const TEST_PRODUCT_HAMMER_DRILLING_ID = '3887130';

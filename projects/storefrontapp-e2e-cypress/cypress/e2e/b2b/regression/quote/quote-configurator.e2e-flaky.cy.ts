@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as quote from '../../../../helpers/quote';
+import * as quote from '../../../../helpers/b2b/b2b-quote';
 import * as configuration from '../../../../helpers/product-configurator';
 import * as configurationVc from '../../../../helpers/product-configurator-vc';
 import * as configurationOverview from '../../../../helpers/product-configurator-overview';
