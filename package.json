@@ -123,7 +123,7 @@
     "@nguniversal/express-engine": "^15.2.0",
     "@types/google.maps": "^3.54.0",
     "angular-oauth2-oidc": "^15.0.1",
-    "bootstrap": "^4.6.2",
+    "bootstrap": "^5.0.0",
     "comment-json": "^4.2.3",
     "express": "^4.18.2",
     "hamburgers": "^1.2.1",
