@@ -8,6 +8,7 @@ import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { ScriptLoader } from '@spartacus/core';
 
+import { throwError } from 'rxjs';
 import {
   OpfDynamicScriptResource,
   OpfDynamicScriptResourceType,
@@ -66,6 +67,10 @@ export class OpfResourceLoaderService extends ScriptLoader {
     return super.hasScript(src);
   }
 
+  protected handleLoadingResourceError(src?: string) {
+    return throwError(`Error while loading external ${src} resource.`);
+  }
+
   protected isResourceLoadingCompleted(resources: OpfDynamicScriptResource[]) {
     return resources.length === this.loadedResources.length;
   }
@@ -84,8 +89,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
   protected loadScript(
     resource: OpfDynamicScriptResource,
     resources: OpfDynamicScriptResource[],
-    resolve: (value: void | PromiseLike<void>) => void,
-    reject: (value: void | PromiseLike<void>) => void
+    resolve: (value: void | PromiseLike<void>) => void
   ) {
     if (resource.url && !this.hasScript(resource.url)) {
       super.embedScript({
@@ -99,7 +103,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
           this.markResourceAsLoaded(resource, resources, resolve);
         },
         errorCallback: () => {
-          reject();
+          this.handleLoadingResourceError(resource.url);
         },
       });
     } else {
@@ -110,15 +114,14 @@ export class OpfResourceLoaderService extends ScriptLoader {
   protected loadStyles(
     resource: OpfDynamicScriptResource,
     resources: OpfDynamicScriptResource[],
-    resolve: (value: void | PromiseLike<void>) => void,
-    reject: (value: void | PromiseLike<void>) => void
+    resolve: (value: void | PromiseLike<void>) => void
   ) {
     if (resource.url && !this.hasStyles(resource.url)) {
       this.embedStyles({
         src: resource.url,
         callback: () => this.markResourceAsLoaded(resource, resources, resolve),
         errorCallback: () => {
-          reject();
+          this.handleLoadingResourceError(resource.url);
         },
       });
     } else {
@@ -161,7 +164,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
     if (!resources.length) {
       return Promise.resolve();
     }
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.loadedResources = [];
 
       resources.forEach((resource: OpfDynamicScriptResource) => {
@@ -170,10 +173,10 @@ export class OpfResourceLoaderService extends ScriptLoader {
         } else {
           switch (resource.type) {
             case OpfDynamicScriptResourceType.SCRIPT:
-              this.loadScript(resource, resources, resolve, reject);
+              this.loadScript(resource, resources, resolve);
               break;
             case OpfDynamicScriptResourceType.STYLES:
-              this.loadStyles(resource, resources, resolve, reject);
+              this.loadStyles(resource, resources, resolve);
               break;
             default:
               break;

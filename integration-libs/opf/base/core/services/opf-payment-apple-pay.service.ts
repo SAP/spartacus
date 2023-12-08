@@ -16,7 +16,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { concatMap, filter, switchMap, take } from 'rxjs/operators';
 import { OpfPaymentConnector } from '../connectors';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OpfPaymentApplePayService {
   protected opfOtpFacade = inject(OpfOtpFacade);
   protected activeCartFacade = inject(ActiveCartFacade);

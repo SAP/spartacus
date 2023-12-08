@@ -175,7 +175,7 @@ export class OpfCtaScriptsService {
       }, []),
       map((list) => {
         if (!list.length) {
-          throw new Error('empty scripts list');
+          return [];
         }
         return this.removeScriptTags(list);
       })
