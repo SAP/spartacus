@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Product } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { OpfDynamicScript } from './opf.model';
 
 export interface DigitalWalletQuickBuy {
@@ -68,4 +70,59 @@ export interface CtaScriptsResponse {
 export interface CtaScript {
   paymentAccountId: number;
   dynamicScript: OpfDynamicScript;
+}
+
+export interface LocalCart {
+  isPdp?: boolean;
+  cartId?: string;
+  product?: Product;
+  quantity?: number;
+  pickup?: boolean;
+  addressIds: string[];
+  total: {
+    amount: string;
+    label: string;
+  };
+}
+
+export interface ApplePaySessionVerificationRequest {
+  cartId: string;
+  validationUrl: string;
+  initiative: 'web';
+  initiativeContext: string;
+}
+
+export interface ApplePaySessionVerificationResponse {
+  epochTimestamp: number;
+  expiresAt: number;
+  merchantSessionIdentifier: string;
+  nonce: string;
+  merchantIdentifier: string;
+  domainName: string;
+  displayName: string;
+  signature: string;
+}
+
+export interface ApplePayAuthorizationResult {
+  authResult: ApplePayJS.ApplePayPaymentAuthorizationResult;
+  payment: ApplePayJS.ApplePayPayment;
+}
+
+export interface ApplePayObservableConfig {
+  request: ApplePayJS.ApplePayPaymentRequest;
+  validateMerchant: (
+    event: ApplePayJS.ApplePayValidateMerchantEvent
+  ) => Observable<any>;
+  shippingContactSelected: (
+    event: ApplePayJS.ApplePayShippingContactSelectedEvent
+  ) => Observable<ApplePayJS.ApplePayShippingContactUpdate>;
+  paymentMethodSelected: (
+    event: ApplePayJS.ApplePayPaymentMethodSelectedEvent
+  ) => Observable<ApplePayJS.ApplePayPaymentMethodUpdate>;
+  shippingMethodSelected: (
+    event: ApplePayJS.ApplePayShippingMethodSelectedEvent
+  ) => Observable<ApplePayJS.ApplePayShippingMethodUpdate>;
+  paymentAuthorized: (
+    event: ApplePayJS.ApplePayPaymentAuthorizedEvent
+  ) => Observable<ApplePayJS.ApplePayPaymentAuthorizationResult>;
 }

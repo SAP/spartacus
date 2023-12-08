@@ -33,5 +33,9 @@ declare module '@spartacus/core' {
      * Endpoint to get CTA (Call To Action) Scripts used in QuickBuy functionality
      */
     getCtaScripts?: string | OccEndpoint;
+    /**
+     * Endpoint to get ApplePay Web Session for QuickBuy functionality
+     */
+    getApplePayWebSession?: string | OccEndpoint;
   }
 }

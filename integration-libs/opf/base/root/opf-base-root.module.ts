@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  GlobalMessageService,
   MODULE_INITIALIZER,
   provideConfigValidator,
   provideDefaultConfig,
@@ -19,6 +20,7 @@ import { defaultOpfConfig } from './config/default-opf-config';
 import { opfConfigValidator } from './config/opf-config-validator';
 import { OpfEventModule } from './events/opf-event.module';
 import { OPF_BASE_FEATURE } from './feature-name';
+import { OpfGlobalMessageService } from './services';
 import { OpfStatePersistenceService } from './services/opf-state-persistence.service';
 
 export function opfStatePersistenceFactory(
@@ -27,11 +29,11 @@ export function opfStatePersistenceFactory(
   return () => opfStatePersistenceService.initSync();
 }
 
-export function defaultOpfCtaScriptsComponentsConfig(): CmsConfig {
+export function defaultOpfBaseCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [OPF_BASE_FEATURE]: {
-        cmsComponents: ['OpfCtaScriptsComponent'],
+        cmsComponents: ['OpfCtaScriptsComponent', 'OpfQuickBuyComponent'],
       },
     },
   };
@@ -72,7 +74,12 @@ export function defaultOpfCtaScriptsComponentsConfig(): CmsConfig {
     // TODO OPF: uncomment once proper type and routing is set up
     provideDefaultConfig(defaultOpfRoutingConfig),
     provideConfigValidator(opfConfigValidator),
-    provideDefaultConfigFactory(defaultOpfCtaScriptsComponentsConfig),
+    provideDefaultConfigFactory(defaultOpfBaseCmsComponentsConfig),
+    OpfGlobalMessageService,
+    {
+      provide: GlobalMessageService,
+      useExisting: OpfGlobalMessageService,
+    },
   ],
 })
 export class OpfBaseRootModule {}

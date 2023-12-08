@@ -17,7 +17,7 @@ export interface OpfPaymentError extends HttpErrorModel {
   /**
    * The type of error message for further clarity, lower case with underscore eg validation_failure
    */
-  type: string;
+  type?: string;
   /**
    * The description of the error and, in some cases, a solution to the API consumer to resolve the issue.
    */

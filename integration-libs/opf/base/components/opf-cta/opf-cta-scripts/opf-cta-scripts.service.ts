@@ -166,6 +166,9 @@ export class OpfCtaScriptsService {
         return loadedList;
       }, []),
       map((list) => {
+        if (!list.length) {
+          return [];
+        }
         return this.removeScriptTags(list);
       })
     );
