@@ -12,6 +12,7 @@ class MockOpfPaymentAdapter implements OpfPaymentAdapter {
   afterRedirectScripts = createSpy().and.returnValue(of({}));
   getActiveConfigurations = createSpy().and.returnValue(of({}));
   getCtaScripts = createSpy().and.returnValue(of({}));
+  getApplePayWebSession = createSpy().and.returnValue(of({}));
 }
 
 describe('OpfPaymentConnector', () => {
@@ -73,5 +74,21 @@ describe('OpfPaymentConnector', () => {
       expect(adapter.getCtaScripts).toHaveBeenCalled();
       done();
     });
+  });
+  it('getApplePayWebSession should call adapter', (done) => {
+    service
+      .getApplePayWebSession(
+        {
+          cartId: 'mockCart',
+          validationUrl: 'mockUrl',
+          initiative: 'web',
+          initiativeContext: 'mockContext',
+        },
+        '1'
+      )
+      .subscribe(() => {
+        expect(adapter.getApplePayWebSession).toHaveBeenCalled();
+        done();
+      });
   });
 });
