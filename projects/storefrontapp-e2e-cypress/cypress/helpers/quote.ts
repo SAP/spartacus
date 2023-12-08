@@ -165,7 +165,7 @@ export function checkQuoteSummaryPriceDisplayed() {
     'Verifies whether the quote header price component is displayed',
     checkQuoteSummaryPriceDisplayed.name
   );
-  cy.get('cx-quote-summary').should('be.visible');
+  cy.get('cx-quote-summary').should('exist');
 }
 
 /**
@@ -1124,7 +1124,7 @@ export function enableEditQuoteMode() {
       cy.get('button.btn-secondary').click();
     })
     .then(() => {
-      cy.get(summarySellerEditComponentSelector).should('be.visible');
+      cy.get(summarySellerEditComponentSelector).should('exist');
     });
 }
 

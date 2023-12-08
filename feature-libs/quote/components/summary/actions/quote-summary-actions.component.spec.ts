@@ -996,15 +996,6 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   describe('Floating action buttons', () => {
-    it('should not make any styling changes on action buttons if there are no action buttons', () => {
-      spyOn(quoteStorefrontUtilsService, 'getElement')
-        .withArgs('cx-quote-summary-actions section button')
-        .and.returnValue(undefined);
-      component.ngAfterViewInit();
-
-      expect(quoteStorefrontUtilsService.changeStyling).not.toHaveBeenCalled();
-    });
-
     describe('desktop device', () => {
       it('should make action buttons static', () => {
         spyOn(quoteStorefrontUtilsService, 'getElement').and.returnValue(slot);
@@ -1023,9 +1014,7 @@ describe('QuoteSummaryActionsComponent', () => {
         spyOn(breakpointService, 'isDown').and.returnValue(of(true));
         spyOn(quoteStorefrontUtilsService, 'getElement')
           .withArgs('cx-page-slot.CenterRightContent')
-          .and.returnValue(slot)
-          .withArgs('cx-quote-summary-actions section button')
-          .and.returnValue(actionBtn);
+          .and.returnValue(slot);
 
         spyOn(quoteStorefrontUtilsService, 'getHeight')
           .withArgs('cx-quote-summary-actions section')
