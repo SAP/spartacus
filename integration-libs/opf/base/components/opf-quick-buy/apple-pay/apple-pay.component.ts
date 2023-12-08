@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { Product } from '@spartacus/core';
 import {
   OpfCartHandlerService,
@@ -27,6 +34,7 @@ import { ApplePayService } from './apple-pay.service';
 @Component({
   selector: 'cx-opf-apple-pay',
   templateUrl: './apple-pay.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ApplePayComponent implements OnInit, OnDestroy {
   @Input() activeConfiguration: ActiveConfiguration;
