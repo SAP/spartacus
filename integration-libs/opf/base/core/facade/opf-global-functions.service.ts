@@ -39,7 +39,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   protected loaderSpinnerCpntRef: void | Observable<
     ComponentRef<any> | undefined
   >;
-  protected loaderSpinnerDisplayed = false;
 
   registerGlobalFunctions({
     domain,
@@ -88,12 +87,14 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     vcr?: ViewContainerRef
   ): void {
     this.getGlobalFunctionContainer(domain).startLoadIndicator = (): void => {
-      if (!vcr || this.loaderSpinnerDisplayed) {
+      if (!vcr) {
         return;
       }
       this.ngZone.run(() => {
+        if (this.loaderSpinnerCpntRef) {
+          this.stopLoaderSpinner(this.loaderSpinnerCpntRef);
+        }
         this.loaderSpinnerCpntRef = this.startLoaderSpinner(vcr);
-        this.loaderSpinnerDisplayed = true;
       });
     };
   }
@@ -102,7 +103,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     this.getGlobalFunctionContainer(domain).stopLoadIndicator = (): void => {
       this.ngZone.run(() => {
         this.stopLoaderSpinner(this.loaderSpinnerCpntRef);
-        this.loaderSpinnerDisplayed = false;
       });
     };
   }
