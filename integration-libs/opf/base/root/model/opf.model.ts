@@ -58,6 +58,8 @@ export interface GlobalOpfPaymentMethods {
     submitFailure: MerchantCallback;
   }): Promise<boolean>;
   throwPaymentError?(errorOptions?: ErrorDialogOptions): void;
+  startLoadIndicator?(): void;
+  stopLoadIndicator?(): void;
 }
 
 export interface PaymentBrowserInfo {

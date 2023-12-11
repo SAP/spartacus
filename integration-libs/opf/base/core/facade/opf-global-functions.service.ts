@@ -9,6 +9,7 @@ import {
   Injectable,
   NgZone,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import {
@@ -30,12 +31,14 @@ import { finalize, take } from 'rxjs/operators';
 
 @Injectable()
 export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
-  constructor(
-    protected winRef: WindowRef,
-    private ngZone: NgZone,
-    protected opfPaymentFacade: OpfPaymentFacade,
-    protected launchDialogService: LaunchDialogService
-  ) {}
+  protected winRef = inject(WindowRef);
+  protected ngZone = inject(NgZone);
+  protected opfPaymentFacade = inject(OpfPaymentFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+
+  protected loaderSpinnerCpntRef: void | Observable<
+    ComponentRef<any> | undefined
+  >;
 
   registerGlobalFunctions({
     domain,
@@ -48,6 +51,8 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.registerSubmit(domain, paymentSessionId, vcr);
         this.registerSubmitComplete(domain, paymentSessionId, vcr);
         this.registerThrowPaymentError(domain, vcr);
+        this.registerStartLoadIndicator(domain, vcr);
+        this.registerStopLoadIndicator(domain);
         break;
       case GlobalFunctionsDomain.REDIRECT:
         this.registerSubmitCompleteRedirect(domain, paymentSessionId, vcr);
@@ -75,6 +80,31 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       window.Opf.payments[domain] = {};
     }
     return window.Opf.payments[domain];
+  }
+
+  protected registerStartLoadIndicator(
+    domain: GlobalFunctionsDomain,
+    vcr?: ViewContainerRef
+  ): void {
+    this.getGlobalFunctionContainer(domain).startLoadIndicator = (): void => {
+      if (!vcr) {
+        return;
+      }
+      this.ngZone.run(() => {
+        if (this.loaderSpinnerCpntRef) {
+          this.stopLoaderSpinner(this.loaderSpinnerCpntRef);
+        }
+        this.loaderSpinnerCpntRef = this.startLoaderSpinner(vcr);
+      });
+    };
+  }
+
+  protected registerStopLoadIndicator(domain: GlobalFunctionsDomain): void {
+    this.getGlobalFunctionContainer(domain).stopLoadIndicator = (): void => {
+      this.ngZone.run(() => {
+        this.stopLoaderSpinner(this.loaderSpinnerCpntRef);
+      });
+    };
   }
 
   protected startLoaderSpinner(
