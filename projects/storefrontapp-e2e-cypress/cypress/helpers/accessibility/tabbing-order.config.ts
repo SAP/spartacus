@@ -518,6 +518,37 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'I approve to this sample STORE USER INFORMATION consent',
     },
   ],
+  myAccountV2Password: [
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cancel',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Save',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
   addToCart: [
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
