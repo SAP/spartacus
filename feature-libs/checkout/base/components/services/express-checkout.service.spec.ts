@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -7,6 +7,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  PaymentDetails,
   QueryState,
   UserAddressService,
   UserPaymentService,

@@ -5,11 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  ActiveCartFacade,
-  CardType,
-  PaymentDetails,
-} from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutPaymentCardTypesQueryReloadEvent,
   CheckoutPaymentCardTypesQueryResetEvent,
@@ -19,11 +15,13 @@ import {
   CheckoutQueryFacade,
 } from '@spartacus/checkout/base/root';
 import {
+  CardType,
   Command,
   CommandService,
   CommandStrategy,
   EventService,
   OCC_USER_ID_ANONYMOUS,
+  PaymentDetails,
   Query,
   QueryNotifier,
   QueryService,
