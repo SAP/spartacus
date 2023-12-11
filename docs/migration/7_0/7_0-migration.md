@@ -1,0 +1,1 @@
+# Migrating a custom Spartacus app
