@@ -13,6 +13,7 @@ import { CurrentProductService } from '../../current-product.service';
   selector: 'cx-product-attributes',
   templateUrl: './product-attributes.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
 })
 export class ProductAttributesComponent {
   product$: Observable<Product | null> = this.currentProductService.getProduct(
