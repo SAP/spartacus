@@ -3,9 +3,7 @@
   [cxOutlet]="position"
   [cxOutletContext]="{ components$: components$ }"
 >
-  Position: {{position}} ({{components?.length}})
   <ng-container *ngFor="let component of components">
-    {{component.flexType}}
     <ng-template
       *ngIf="component.flexType"
       [cxOutlet]="component.flexType"

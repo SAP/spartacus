@@ -72,21 +72,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
     private outletService: OutletService,
     private deferLoaderService: DeferLoaderService,
     private outletRendererService: OutletRendererService
-  ) {
-    this.outletContext$.subscribe((context: any) => {
-      console.log('======');
-      console.log(context);
-      if (context?.component) {
-        console.log(context.component.flexType);
-      }
-
-      if (context?.components$) {
-        context.components$.subscribe((comps) => {
-          console.log(comps);
-        });
-      }
-    });
-  }
+  ) {}
 
   /**
    * Renders view for outlet or defers it, depending on the input `cxOutletDefer`
