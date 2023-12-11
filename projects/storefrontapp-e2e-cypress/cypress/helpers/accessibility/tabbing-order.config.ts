@@ -540,6 +540,37 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
   ],
+  myAccountV2Password: [
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cancel',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Save',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
   addToCart: [
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
