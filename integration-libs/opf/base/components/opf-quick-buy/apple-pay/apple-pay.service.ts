@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/// <reference types="@types/applepayjs" />
 import { Injectable, inject } from '@angular/core';
 import { Address, Product, WindowRef } from '@spartacus/core';
 import { Observable, of, throwError } from 'rxjs';

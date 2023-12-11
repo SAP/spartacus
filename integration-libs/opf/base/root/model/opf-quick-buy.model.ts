@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/// <reference types="@types/applepayjs" />
 import { Product } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OpfDynamicScript } from './opf.model';

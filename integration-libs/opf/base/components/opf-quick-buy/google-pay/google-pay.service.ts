@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/// <reference types="@types/googlepay" />
 import { ElementRef, Injectable, inject } from '@angular/core';
 import { Address, Product } from '@spartacus/core';
 import {
