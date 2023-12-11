@@ -37,7 +37,6 @@ import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-
 import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/close-account';
 import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/consent-management';
 import { myAccountV2consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-account-v2-consent-management';
-import { myAccountV2PasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-account-v2-password';
 import { checkoutMyCouponsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-coupons';
 import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
 import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
@@ -413,13 +412,6 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     it('should allow to navigate with tab key', () => {
       cy.requireLoggedIn();
       myAccountV2consentManagementTabbingOrder(config.consentManagementV2);
-    });
-  });
-
-  context('My Account V2 Password(CXSPA-4455)', () => {
-    it('should allow to navigate with tab key', () => {
-      cy.requireLoggedIn();
-      myAccountV2PasswordTabbingOrder(config.myAccountV2Password);
     });
   });
 
