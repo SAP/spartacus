@@ -1002,13 +1002,11 @@ describe('QuoteSummaryActionsComponent', () => {
 
   describe('areButtonsRendered', () => {
     it("should return 'false' if allowed actions is empty", () => {
-      expect(component['areButtonsRendered']([])).toBe(false);
+      expect(component.areButtonsRendered([])).toBe(false);
     });
 
     it("should return 'true' if allowed actions is not empty", () => {
-      expect(component['areButtonsRendered'](mockQuote.allowedActions)).toBe(
-        true
-      );
+      expect(component.areButtonsRendered(mockQuote.allowedActions)).toBe(true);
     });
   });
 

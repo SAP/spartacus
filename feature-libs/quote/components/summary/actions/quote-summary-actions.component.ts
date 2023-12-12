@@ -406,7 +406,13 @@ export class QuoteSummaryActionsComponent
     this.quoteFacade.requote(quoteId);
   }
 
-  protected areButtonsRendered(allowedActions: QuoteAction[]): boolean {
+  /**
+   * Verifies whether there are any action buttons.
+   *
+   * @param allowedActions - currently displayed actions
+   * @returns - if there are any action buttons, returns 'true', otherwise 'false'.
+   */
+  areButtonsRendered(allowedActions: QuoteAction[]): boolean {
     return allowedActions.length > 0;
   }
 
