@@ -1,6 +1,6 @@
 <ng-container *ngIf="quoteDetails$ | async as quoteDetails">
   <ng-container *ngIf="cartDetails$ | async as cartDetails">
-    <ng-container *ngIf="quoteDetails.allowedActions?.length > 0">
+    <ng-container *ngIf="areButtonsRendered(quoteDetails.allowedActions)">
       <section>
         <button
           #element

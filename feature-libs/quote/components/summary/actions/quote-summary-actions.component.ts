@@ -406,6 +406,10 @@ export class QuoteSummaryActionsComponent
     this.quoteFacade.requote(quoteId);
   }
 
+  protected areButtonsRendered(allowedActions: QuoteAction[]): boolean {
+    return allowedActions.length > 0;
+  }
+
   /**
    * Returns the style class to be used for the button, so whether its a primary, secondary or tertiary button.
    *

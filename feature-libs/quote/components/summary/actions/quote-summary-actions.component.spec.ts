@@ -170,10 +170,15 @@ class MockIntersectionService {
 
 class MockQuoteStorefrontUtilsService {
   getElement() {}
+
   changeStyling() {}
+
   removeStyling() {}
+
   getHeight() {}
+
   getDomRectValue() {}
+
   getWindowHeight() {}
 }
 
@@ -992,6 +997,18 @@ describe('QuoteSummaryActionsComponent', () => {
     it('should return the actual height of action buttons', () => {
       spyOn(quoteStorefrontUtilsService, 'getHeight').and.returnValue(300);
       expect(component['getActionButtonsHeight']()).toBe(300);
+    });
+  });
+
+  describe('areButtonsRendered', () => {
+    it("should return 'false' if allowed actions is empty", () => {
+      expect(component['areButtonsRendered']([])).toBe(false);
+    });
+
+    it("should return 'true' if allowed actions is not empty", () => {
+      expect(component['areButtonsRendered'](mockQuote.allowedActions)).toBe(
+        true
+      );
     });
   });
 
