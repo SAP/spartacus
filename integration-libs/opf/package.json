@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/opf",
-  "version": "6.6.0",
+  "version": "6.7.0-2",
   "description": "SAP Open Payment Framework integration library for Spartacus",
   "keywords": [
     "spartacus",
