@@ -14,7 +14,7 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import {combineLatest, Observable, of, ReplaySubject} from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import {
   SearchBoxProductSelectedEvent,
@@ -28,6 +28,8 @@ const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
   providedIn: 'root',
 })
 export class SearchBoxComponentService {
+
+  chosenWord = new ReplaySubject<string>();
   constructor(
     public searchService: SearchboxService,
     protected routingService: RoutingService,
@@ -77,14 +79,12 @@ export class SearchBoxComponentService {
       this.getProductResults(config),
       this.getProductSuggestions(config),
       this.getSearchMessage(config),
-      this.getRecentSearches(config)
     ]).pipe(
-      map(([productResults, suggestions, message, recentSearches]) => {
+      map(([productResults, suggestions, message]) => {
         return {
           products: productResults ? productResults.products : undefined,
           suggestions,
           message,
-          recentSearches
         };
       }),
       tap((results) =>
@@ -161,7 +161,8 @@ export class SearchBoxComponentService {
     return (
       (!!results.products && results.products.length > 0) ||
       (!!results.suggestions && results.suggestions.length > 0) ||
-      !!results.message || !!results.recentSearches
+      !!results.message ||
+      !!results.recentSearches
     );
   }
 
@@ -252,16 +253,6 @@ export class SearchBoxComponentService {
   }
 
   /**
-   * Loads recent searches form existing API -> profileTag
-   */
-  protected getRecentSearches(
-    config: SearchBoxConfig
-  ): Observable<string[] | undefined> {
-    console.log((<any>window).Y_TRACKING, config);
-    return of(['aaa', 'bbb']);
-  }
-
-  /**
    * Navigates to the search result page with a given query
    */
   launchSearchPage(query: string): void {
@@ -276,5 +267,9 @@ export class SearchBoxComponentService {
     options?: any
   ): Observable<string> {
     return this.translationService.translate(translationKey, options);
+  }
+
+  changeSelectedWord(selectedWord: string) {
+    this.chosenWord.next(selectedWord);
   }
 }

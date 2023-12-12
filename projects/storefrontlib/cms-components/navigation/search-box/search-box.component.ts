@@ -37,7 +37,7 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   maxSuggestions: 5,
   displayProductImages: true,
   recentSearches: true,
-  maxRecentSearches: 5
+  maxRecentSearches: 5,
 };
 const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
 
@@ -60,6 +60,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   iconTypes = ICON_TYPE;
+
+  searchBoxActive: boolean = false;
 
   /**
    * In some occasions we need to ignore the close event,
@@ -122,6 +124,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           this.chosenWord = '';
         }
       });
+
+    this.searchBoxComponentService.chosenWord.subscribe((chosenWord) => {
+      this.updateChosenWord(chosenWord);
+    });
   }
 
   /**
@@ -138,6 +144,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    */
   open(): void {
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
+    this.searchBoxActive = true;
   }
 
   /**
@@ -172,6 +179,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   protected blurSearchBox(event: UIEvent): void {
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
+    this.searchBoxActive = false;
     if (event && event.target) {
       (<HTMLElement>event.target).blur();
     }

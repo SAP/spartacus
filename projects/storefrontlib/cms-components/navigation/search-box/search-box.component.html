@@ -150,45 +150,12 @@
     }}
     {{ 'searchBox.initialDescription' | cxTranslate }}
   </div>
-
-
-  <div
-    class="message"
-    [innerHTML]="'Recent searches'"
-  ></div>
-
-  <ul
-    class="recent-searches"
-    attr.aria-label="{{ 'searchBox.ariaRecentSearches' | cxTranslate }}"
-    role="listbox"
-  >
-    <li *ngFor="let recentSearches of result.recentSearches">
-      <a
-        role="option"
-        [innerHTML]="recentSearches | cxHighlight: searchInput.value"
-        [routerLink]="
-          {
-            cxRoute: 'search',
-            params: { query: recentSearches }
-          } | cxUrl
-        "
-        (keydown.arrowup)="focusPreviousChild($any($event))"
-        (keydown.arrowdown)="focusNextChild($any($event))"
-        (keydown.enter)="close($any($event), true)"
-        (keydown.escape)="close($any($event), true)"
-        (blur)="close($event)"
-        (mousedown)="preventDefault($event)"
-        (click)="
-          dispatchSuggestionEvent({
-            freeText: searchInput.value,
-            selectedSuggestion: recentSearches,
-            searchSuggestions: result.suggestions ?? []
-          });
-          updateChosenWord(recentSearches)
-        "
-      >
-      </a>
-    </li>
-  </ul>
-
+  <ng-template *ngIf="config.recentSearches"
+    [cxOutlet]="'RECENT_SEARCHES'"
+    [cxOutletContext]="{
+      search: searchInput.value,
+      searchBoxActive: searchBoxActive,
+      maxRecentSearches: config.maxRecentSearches
+    }"
+  ></ng-template>
 </div>
