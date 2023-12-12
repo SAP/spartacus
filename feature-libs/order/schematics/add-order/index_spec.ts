@@ -10,13 +10,13 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  cartBaseFeatureModulePath,
-  LibraryOptions as SpartacusOrderOptions,
-  orderFeatureModulePath,
   ORDER_FEATURE_NAME,
-  SpartacusOptions,
   SPARTACUS_ORDER,
   SPARTACUS_SCHEMATICS,
+  SpartacusOptions,
+  LibraryOptions as SpartacusOrderOptions,
+  cartBaseFeatureModulePath,
+  orderFeatureModulePath,
   userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -46,6 +46,7 @@ describe('Spartacus Order schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
