@@ -5,7 +5,7 @@
  */
 
 import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
-import * as quote from '../../helpers/quote';
+import * as quote from '../../helpers/b2b/b2b-quote';
 import { clickAllowAllFromBanner } from '../../helpers/anonymous-consents';
 import { tabbingOrderConfig } from '../../helpers/accessibility/b2b/tabbing-order.config';
 
