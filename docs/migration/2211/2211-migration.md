@@ -1,1 +1,1 @@
-# Migrating a custom Spartacus app
+# Migrating a custom app to use Spartacus v2211
