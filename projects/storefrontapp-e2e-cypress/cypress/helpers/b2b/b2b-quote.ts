@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as authentication from './auth-forms';
-import * as common from './common';
-import * as productConfigurator from './product-configurator';
-import * as asm from './asm';
-import * as cart from './cart';
+import * as authentication from '../auth-forms';
+import * as common from '../common';
+import * as productConfigurator from '../product-configurator';
+import * as asm from '../asm';
+import * as cart from '../cart';
 
 export const READ_QUOTE = '@READ_QUOTE';
 export const UPDATE_QUOTE_ITEM = '@UPDATE_QUOTE_ITEM';
