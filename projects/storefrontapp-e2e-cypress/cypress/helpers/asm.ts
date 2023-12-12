@@ -152,8 +152,14 @@ export function agentLogin(user, pwd): void {
         cy.get('cx-csagent-login-form').should('exist');
         cy.get('cx-customer-selection').should('not.exist');
         cy.get('cx-csagent-login-form form').within(() => {
-          cy.get('[formcontrolname="userId"]').clear().type(user);
-          cy.get('[formcontrolname="password"]').clear().type(pwd);
+          cy.get('[formcontrolname="userId"]')
+            .clear()
+            .type(user)
+            .should('have.value', user);
+          cy.get('[formcontrolname="password"]')
+            .clear()
+            .type(pwd)
+            .should('have.value', pwd);
           cy.get('button[type="submit"]').click();
         });
       });
