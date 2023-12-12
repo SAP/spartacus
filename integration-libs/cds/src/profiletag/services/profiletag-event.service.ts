@@ -28,7 +28,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CdsConfig, CdsConfiguration } from "../../config/index";
+import { CdsConfig, CdsConfiguration } from '../../config/index';
 import {
   ConsentReferenceEvent,
   DebugEvent,
@@ -146,7 +146,7 @@ export class ProfileTagEventService implements OnDestroy {
   }
 
   private createConfig(siteId: string): void {
-    const config = this.getCdsConfig(siteId)
+    const config = this.getCdsConfig(siteId);
     const newConfig: ProfileTagJsConfig = {
       ...config.cds.profileTag,
       tenant: config.cds.tenant,
@@ -166,7 +166,7 @@ export class ProfileTagEventService implements OnDestroy {
   }
 
   private addScript(siteId: string): void {
-    const config = this.getCdsConfig(siteId)
+    const config = this.getCdsConfig(siteId);
     if (this.isScriptLoaded(config.cds.profileTag.javascriptUrl)) {
       return;
     }
@@ -206,8 +206,8 @@ export class ProfileTagEventService implements OnDestroy {
     );
     return foundConfig?.length
       ? {
-        cds: foundConfig[0],
-      }
+          cds: foundConfig[0],
+        }
       : this.config;
   }
 

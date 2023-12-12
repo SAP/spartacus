@@ -8,10 +8,6 @@ import { NgModule } from '@angular/core';
 import { CdsConfig, CdsModule } from '@spartacus/cds';
 import { provideConfig } from '@spartacus/core';
 
-const cdsConfigs = [
-
-];
-
 @NgModule({
   imports: [CdsModule.forRoot()],
   providers: [
@@ -34,7 +30,6 @@ const cdsConfigs = [
           allowInsecureCookies: true,
         },
       },
-      cdsConfigs,
     }),
   ],
 })

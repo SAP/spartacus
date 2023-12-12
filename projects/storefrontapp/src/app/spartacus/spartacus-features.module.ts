@@ -115,9 +115,9 @@ if (environment.b2b) {
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
 }
-// if (environment.cds) {
+if (environment.cds) {
   featureModules.push(CdsFeatureModule);
-// }
+}
 if (environment.digitalPayments) {
   featureModules.push(DigitalPaymentsFeatureModule);
 }

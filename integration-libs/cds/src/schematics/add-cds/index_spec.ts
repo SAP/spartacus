@@ -59,6 +59,8 @@ describe('Spartacus CDS schematics: ng-add', () => {
     lazy: true,
     tenant: 'my-tenant',
     baseUrl: 'my-base-url.com',
+    tenant2: 'my-t2',
+    baseUrl2: 'my-base-url2.com',
   };
 
   const cdsFeatureOptions: SpartacusCdsOptions = {

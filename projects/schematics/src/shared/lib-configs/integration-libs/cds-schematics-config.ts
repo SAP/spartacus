@@ -17,10 +17,16 @@ import {
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
 
 export interface SpartacusCdsOptions extends LibraryOptions {
+  site?: string;
   tenant?: string;
   baseUrl?: string;
   profileTagLoadUrl?: string;
   profileTagConfigUrl?: string;
+  site2?: string;
+  tenant2?: string;
+  baseUrl2?: string;
+  profileTagLoadUrl2?: string;
+  profileTagConfigUrl2?: string;
 }
 
 export const CDS_FOLDER_NAME = 'cds';
@@ -47,6 +53,37 @@ export const CDS_SCHEMATICS_CONFIG: SchematicConfig = {
 function buildCdsConfig(
   options: SpartacusCdsOptions
 ): AdditionalFeatureConfiguration<SpartacusCdsOptions> {
+  let cdsConfigs = [];
+
+  if (options['tenant2']) {
+    cdsConfigs.push(
+      `      {
+      site: '${options.site2 || 'ADDITIONAL_SITE'}',
+      tenant: '${options.tenant2 || 'TENANT_PLACEHOLDER'}',
+      baseUrl: '${options.baseUrl2 || 'BASE_URL_PLACEHOLDER'}',
+      endpoints: {
+        strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
+      },
+      merchandising: {
+        defaultCarouselViewportThreshold: 80,
+      },
+                  profileTag: {
+              javascriptUrl:
+                '${
+                  options.profileTagLoadUrl2 ||
+                  'PROFILE_TAG_LOAD_URL_PLACEHOLDER'
+                }',
+              configUrl:
+                '${
+                  options.profileTagConfigUrl2 ||
+                  'PROFILE_TAG_CONFIG_URL_PLACEHOLDER'
+                }',
+              allowInsecureCookies: true,
+            },
+    }`
+    );
+  }
+
   const customConfig: AdditionalProviders[] = [
     {
       import: [
@@ -57,6 +94,7 @@ function buildCdsConfig(
       ],
       content: `<${CDS_CONFIG}>{
       cds: {
+        site: '${options.site || 'DEFAULT'}',
         tenant: '${options.tenant || 'TENANT_PLACEHOLDER'}',
         baseUrl: '${options.baseUrl || 'BASE_URL_PLACEHOLDER'}',
         endpoints: {
@@ -66,6 +104,7 @@ function buildCdsConfig(
           defaultCarouselViewportThreshold: 80,
         },
       },
+      ${cdsConfigs.length ? `cdsConfigs: ${cdsConfigs}` : ''}
     }`,
     },
   ];

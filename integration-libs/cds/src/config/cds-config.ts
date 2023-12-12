@@ -21,11 +21,6 @@ export interface CdsConfiguration {
   profileTag?: ProfileTagConfig;
 }
 
-// export interface CdsConfigurations {
-//   cds?: CdsConfiguration;
-//   site?: string;
-// }
-
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
