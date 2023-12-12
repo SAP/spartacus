@@ -88,7 +88,7 @@ function update_projects_versions {
 }
 
 function create_shell_app {
-    ( cd ${INSTALLATION_DIR} && ng new ${1} --style scss --no-routing)
+    ( cd ${INSTALLATION_DIR} && ng new ${1} --style scss --no-routing --standalone=false)
 }
 
 function add_b2b {
