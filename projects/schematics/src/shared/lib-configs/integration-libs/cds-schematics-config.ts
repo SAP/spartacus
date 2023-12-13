@@ -55,7 +55,7 @@ function buildCdsConfig(
 ): AdditionalFeatureConfiguration<SpartacusCdsOptions> {
   let cdsConfigs = [];
 
-  if (options['tenant2']) {
+  if (options.tenant2) {
     cdsConfigs.push(
       `      {
       site: '${options.site2 || 'ADDITIONAL_SITE'}',
