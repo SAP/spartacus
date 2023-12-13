@@ -53,7 +53,7 @@ export const CDS_SCHEMATICS_CONFIG: SchematicConfig = {
 function buildCdsConfig(
   options: SpartacusCdsOptions
 ): AdditionalFeatureConfiguration<SpartacusCdsOptions> {
-  let cdsConfigs = [];
+  const cdsConfigs = [];
 
   if (options.tenant2) {
     cdsConfigs.push(

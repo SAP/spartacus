@@ -17,7 +17,7 @@ export class CdsEndpointsService {
   constructor(private cdsConfig: CdsConfig) {}
 
   getUrl(endpoint: string, urlParams: object = {}, queryParams?): string {
-    const site = queryParams?.site ?? '';
+    const site = queryParams?.site;
     const cdsConfig = this.getCdsConfig(site);
 
     if (cdsConfig?.cds?.endpoints[endpoint]) {
