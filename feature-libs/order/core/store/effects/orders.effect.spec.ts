@@ -5,7 +5,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import {
   LoggerService,
-  MockLoggerService,
   normalizeHttpError,
   SiteContextActions,
 } from '@spartacus/core';
@@ -28,6 +27,14 @@ const mockUserOrders: OrderHistoryList = {
 };
 
 const mockError = 'test-error';
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
 describe('Orders effect', () => {
   let ordersEffect: fromOrdersEffect.OrdersEffect;

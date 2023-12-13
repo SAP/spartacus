@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { LoggerService, MockLoggerService } from '@spartacus/core';
+import { LoggerService } from '@spartacus/core';
 import {
   ReturnRequest,
   ReturnRequestEntryInputList,
@@ -35,6 +35,14 @@ const mockCancelReturnRequest = {
   returnRequestCode: '00000386',
   returnRequestModification: {},
 };
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
 describe('Order Return Request effect', () => {
   let orderReturnRequestEffect: fromOrderReturnRequestEffect.OrderReturnRequestEffect;
