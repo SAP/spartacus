@@ -28,7 +28,7 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
-import { NGUNIVERSAL_EXPRESS_ENGINE } from '../shared/constants';
+import { ANGULAR_SSR } from '../shared/constants';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
   commitChanges,
@@ -49,7 +49,7 @@ import {
 
 const DEPENDENCY_NAMES: string[] = [
   '@angular/platform-server',
-  NGUNIVERSAL_EXPRESS_ENGINE,
+  ANGULAR_SSR,
   'ts-loader',
 ];
 
@@ -57,13 +57,13 @@ export function modifyAppServerModuleFile(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const appServerModulePath = getPathResultsForFile(
       tree,
-      'app.server.module.ts',
+      'app.module.server.ts',
       '/src'
     )[0];
 
     if (!appServerModulePath) {
       throw new SchematicsException(
-        `Project file "app.server.module.ts" not found.`
+        `Project file "app.module.server.ts" not found.`
       );
     }
 
@@ -154,7 +154,7 @@ export function addSSR(options: SpartacusOptions): Rule {
 
     return chain([
       addPackageJsonDependencies(prepareDependencies(), packageJson),
-      externalSchematic(NGUNIVERSAL_EXPRESS_ENGINE, 'ng-add', {
+      externalSchematic(ANGULAR_SSR, 'ng-add', {
         project: options.project,
       }),
       modifyAppServerModuleFile(),

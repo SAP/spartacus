@@ -10,12 +10,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  LibraryOptions as RequestedDeliveryDateOptions,
-  requestedDeliveryDateFeatureModulePath,
   REQUESTED_DELIVERY_DATE_FEATURE_NAME,
-  SpartacusOptions,
+  LibraryOptions as RequestedDeliveryDateOptions,
   SPARTACUS_REQUESTED_DELIVERY_DATE,
   SPARTACUS_SCHEMATICS,
+  SpartacusOptions,
+  requestedDeliveryDateFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -44,6 +44,7 @@ describe('Spartacus Requested Delivery Date schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
