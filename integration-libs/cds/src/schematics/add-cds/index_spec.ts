@@ -170,6 +170,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
             ...cdsFeatureOptions,
             profileTagConfigUrl: 'profile-tag-config-url.com',
             profileTagLoadUrl: 'profile-tag-load-url.com',
+            profileTagConfigUrl2: 'profile-tag-config-url2.com',
           },
           appTree
         );

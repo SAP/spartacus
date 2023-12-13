@@ -53,40 +53,7 @@ export const CDS_SCHEMATICS_CONFIG: SchematicConfig = {
 function buildCdsConfig(
   options: SpartacusCdsOptions
 ): AdditionalFeatureConfiguration<SpartacusCdsOptions> {
-  const cdsConfigs = [];
-
-  if (options.tenant2 || options.site2 || options.baseUrl2) {
-    cdsConfigs.push(
-      `      {
-      site: '${options.site2 || 'ADDITIONAL_SITE'}',
-      tenant: '${options.tenant2 || 'TENANT_PLACEHOLDER'}',
-      baseUrl: '${options.baseUrl2 || 'BASE_URL_PLACEHOLDER'}',
-      endpoints: {
-        strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
-      },
-      merchandising: {
-        defaultCarouselViewportThreshold: 80,
-      },
-      ${
-        options.profileTagLoadUrl2 || options.profileTagConfigUrl2
-          ? `    profileTag: {
-              javascriptUrl:
-                '${
-                  options.profileTagLoadUrl2 ||
-                  'PROFILE_TAG_LOAD_URL_PLACEHOLDER'
-                }',
-              configUrl:
-                '${
-                  options.profileTagConfigUrl2 ||
-                  'PROFILE_TAG_CONFIG_URL_PLACEHOLDER'
-                }',
-              allowInsecureCookies: true,
-            },`
-          : ''
-      }
-    }`
-    );
-  }
+  const cdsConfigs = getCdsConfigs(options);
 
   const customConfig: AdditionalProviders[] = [
     {
@@ -108,7 +75,7 @@ function buildCdsConfig(
           defaultCarouselViewportThreshold: 80,
         },
       },
-      ${cdsConfigs.length ? `cdsConfigs: ${cdsConfigs}` : ''}
+      ${cdsConfigs.length ? `cdsConfigs: [${cdsConfigs}]` : ''}
     }`,
     },
   ];
@@ -146,4 +113,42 @@ function buildCdsConfig(
       lazy: false,
     },
   };
+}
+
+function getCdsConfigs(options: SpartacusCdsOptions) {
+  const cdsConfigs = [];
+
+  if (options.tenant2 || options.site2 || options.baseUrl2) {
+    cdsConfigs.push(
+      `      {
+      site: '${options.site2 || 'ADDITIONAL_SITE'}',
+      tenant: '${options.tenant2 || 'TENANT_PLACEHOLDER'}',
+      baseUrl: '${options.baseUrl2 || 'BASE_URL_PLACEHOLDER'}',
+      endpoints: {
+        strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
+      },
+      merchandising: {
+        defaultCarouselViewportThreshold: 80,
+      },
+      ${
+        options.profileTagLoadUrl2 || options.profileTagConfigUrl2
+          ? `    profileTag: {
+              javascriptUrl:
+                '${
+                  options.profileTagLoadUrl2 ||
+                  'PROFILE_TAG_LOAD_URL_PLACEHOLDER'
+                }',
+              configUrl:
+                '${
+                  options.profileTagConfigUrl2 ||
+                  'PROFILE_TAG_CONFIG_URL_PLACEHOLDER'
+                }',
+              allowInsecureCookies: true,
+            },`
+          : ''
+      }
+    }`
+    );
+  }
+  return cdsConfigs;
 }

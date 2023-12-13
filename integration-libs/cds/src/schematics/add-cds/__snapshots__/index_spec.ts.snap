@@ -22,7 +22,7 @@ import { provideConfig } from "@spartacus/core";
         defaultCarouselViewportThreshold: 80,
       },
     },
-    cdsConfigs: {
+    cdsConfigs: [{
       site: 'ADDITIONAL_SITE',
       tenant: 'my-t2',
       baseUrl: 'my-base-url2.com',
@@ -36,10 +36,10 @@ import { provideConfig } from "@spartacus/core";
         javascriptUrl:
           'PROFILE_TAG_LOAD_URL_PLACEHOLDER',
         configUrl:
-          'PROFILE_TAG_CONFIG_URL_PLACEHOLDER',
+          'profile-tag-config-url2.com',
         allowInsecureCookies: true,
       },
-    }
+    }]
   }),
   provideConfig(<CdsConfig>{
     cds: {
@@ -80,7 +80,7 @@ import { provideConfig } from "@spartacus/core";
         defaultCarouselViewportThreshold: 80,
       },
     },
-    cdsConfigs: {
+    cdsConfigs: [{
       site: 'ADDITIONAL_SITE',
       tenant: 'my-t2',
       baseUrl: 'my-base-url2.com',
@@ -90,14 +90,8 @@ import { provideConfig } from "@spartacus/core";
       merchandising: {
         defaultCarouselViewportThreshold: 80,
       },
-      profileTag: {
-        javascriptUrl:
-          'PROFILE_TAG_LOAD_URL_PLACEHOLDER',
-        configUrl:
-          'PROFILE_TAG_CONFIG_URL_PLACEHOLDER',
-        allowInsecureCookies: true,
-      },
-    }
+
+    }]
   }),
   provideConfig(<CdsConfig>{
     cds: {
