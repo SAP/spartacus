@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { LoggerService, MockLoggerService } from '@spartacus/core';
+import { LoggerService } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
@@ -27,6 +27,14 @@ class MockOccUserAdapter {
   withdrawConsent(_userId: string, _consentCode: string): Observable<{}> {
     return EMPTY;
   }
+}
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
 }
 
 describe('User Consents effect', () => {
