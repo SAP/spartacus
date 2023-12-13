@@ -55,7 +55,7 @@ function buildCdsConfig(
 ): AdditionalFeatureConfiguration<SpartacusCdsOptions> {
   const cdsConfigs = [];
 
-  if (options.tenant2) {
+  if (options.tenant2 || options.site2 || options.baseUrl2) {
     cdsConfigs.push(
       `      {
       site: '${options.site2 || 'ADDITIONAL_SITE'}',
@@ -67,7 +67,9 @@ function buildCdsConfig(
       merchandising: {
         defaultCarouselViewportThreshold: 80,
       },
-                  profileTag: {
+      ${
+        options.profileTagLoadUrl2 || options.profileTagConfigUrl2
+          ? `    profileTag: {
               javascriptUrl:
                 '${
                   options.profileTagLoadUrl2 ||
@@ -79,7 +81,9 @@ function buildCdsConfig(
                   'PROFILE_TAG_CONFIG_URL_PLACEHOLDER'
                 }',
               allowInsecureCookies: true,
-            },
+            },`
+          : ''
+      }
     }`
     );
   }
