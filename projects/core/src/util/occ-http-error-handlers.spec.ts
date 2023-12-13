@@ -1,6 +1,14 @@
-import { HttpErrorModel, MockLoggerService } from '@spartacus/core';
+import { HttpErrorModel } from '@spartacus/core';
 import { normalizeHttpError } from './normalize-http-error';
 import { isJaloError } from './occ-http-error-handlers';
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
 describe('occ-http-error-handlers', () => {
   describe('when the error is jalo error', () => {
