@@ -71,7 +71,7 @@ export class ApplePayService {
   start(
     product: Product,
     quantity: number,
-    acquirerCountryCode?: string
+    countryCode: string
   ): Observable<ApplePayJS.ApplePayPaymentAuthorizationResult> {
     if (this.paymentInProgress) {
       return throwError('Apple Pay is already in progress');
@@ -79,7 +79,6 @@ export class ApplePayService {
     this.paymentInProgress = true;
     this.localCart = this.initLocalCart(product, quantity);
     const initialRequest: ApplePayJS.ApplePayPaymentRequest = {
-      countryCode: acquirerCountryCode ?? 'US',
       currencyCode: product?.price?.currencyIso as string,
       total: {
         amount: this.localCart.total.amount,
@@ -90,6 +89,7 @@ export class ApplePayService {
       supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
       requiredShippingContactFields: ['email', 'name', 'postalAddress'],
       requiredBillingContactFields: ['email', 'name', 'postalAddress'],
+      countryCode,
     };
 
     return this.applePayObservable

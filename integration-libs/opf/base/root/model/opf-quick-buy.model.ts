@@ -15,6 +15,7 @@ export interface DigitalWalletQuickBuy {
   enabled?: boolean;
   merchantId?: string;
   merchantName?: string;
+  countryCode?: string;
   googlePayGateway?: string;
 }
 

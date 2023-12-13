@@ -19,6 +19,7 @@ import {
 } from '@spartacus/opf/base/core';
 import {
   ActiveConfiguration,
+  DigitalWalletQuickBuy,
   OpfPaymentError,
   OpfProviderType,
 } from '@spartacus/opf/base/root';
@@ -48,19 +49,23 @@ export class ApplePayComponent implements OnInit, OnDestroy {
 
   protected sub: Subscription;
   isApplePaySupported$: Observable<boolean>;
+  applePayDigitalWallet?: DigitalWalletQuickBuy;
 
   ngOnInit(): void {
-    const merchantId =
+    this.applePayDigitalWallet =
       this.activeConfiguration?.digitalWalletQuickBuy?.find(
-        (digitalWallet) =>
-          digitalWallet.merchantId === OpfProviderType.APPLE_PAY
-      )?.merchantId ?? 'merchant.com.adyen.upscale.test';
-    if (!merchantId) {
-      // unreachable block as merchantId property still in dev on server side
+        (digitalWallet) => digitalWallet.provider === OpfProviderType.APPLE_PAY
+      );
+    if (
+      !this.applePayDigitalWallet?.merchantId ||
+      !this.applePayDigitalWallet?.countryCode
+    ) {
       return;
     }
-    this.isApplePaySupported$ =
-      this.applePaySession.isApplePaySupported$(merchantId);
+
+    this.isApplePaySupported$ = this.applePaySession.isApplePaySupported$(
+      this.applePayDigitalWallet.merchantId
+    );
   }
 
   quickBuyProduct(): void {
@@ -73,7 +78,7 @@ export class ApplePayComponent implements OnInit, OnDestroy {
           this.applePayService.start(
             product as Product,
             this.itemCounterService.getCounter(),
-            this.activeConfiguration.acquirerCountryCode
+            this.applePayDigitalWallet?.countryCode as string
           )
         )
       )
