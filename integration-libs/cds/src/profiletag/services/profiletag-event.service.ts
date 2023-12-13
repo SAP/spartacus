@@ -7,18 +7,18 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
   Inject,
+  inject,
   Injectable,
   OnDestroy,
   PLATFORM_ID,
-  inject,
 } from '@angular/core';
 import { BaseSiteService, LoggerService, WindowRef } from '@spartacus/core';
 import {
   BehaviorSubject,
-  Observable,
-  Subscription,
   fromEvent,
   merge,
+  Observable,
+  Subscription,
 } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -28,7 +28,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CdsConfig, CdsConfiguration } from '../../config/index';
+import { CdsConfig } from '../../config/index';
 import {
   ConsentReferenceEvent,
   DebugEvent,
@@ -37,6 +37,7 @@ import {
   ProfileTagPushEvent,
   ProfileTagWindowObject,
 } from '../model/profile-tag.model';
+import { CdsConfiguration } from '../../cds-models';
 
 @Injectable({
   providedIn: 'root',

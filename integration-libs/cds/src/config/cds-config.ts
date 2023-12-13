@@ -6,20 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
-import { CdsEndpoints } from '../cds-models/cds-endpoints.model';
-import { MerchandisingConfig } from './merchandising.config';
-import { ProfileTagConfig } from './profile-tag.config';
-
-export interface CdsConfiguration {
-  site?: string;
-
-  tenant?: string;
-  baseUrl?: string;
-  consentTemplateId?: string;
-  endpoints?: CdsEndpoints;
-  merchandising?: MerchandisingConfig;
-  profileTag?: ProfileTagConfig;
-}
+import { CdsConfiguration } from '../cds-models';
 
 @Injectable({
   providedIn: 'root',

@@ -6,8 +6,9 @@
 
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CdsConfig, CdsConfiguration } from '../config/cds-config';
+import { CdsConfig } from '../config/cds-config';
 import { DynamicTemplate } from '../utils/dynamic-template';
+import { CdsConfiguration } from '../cds-models';
 
 @Injectable({
   providedIn: 'root',
@@ -15,13 +16,9 @@ import { DynamicTemplate } from '../utils/dynamic-template';
 export class CdsEndpointsService {
   constructor(private cdsConfig: CdsConfig) {}
 
-  getUrl(
-    endpoint: string,
-    urlParams: object = {},
-    queryParams?: object
-  ): string {
-    // @ts-ignore
-    const cdsConfig = this.getCdsConfig(queryParams?.site ?? '');
+  getUrl(endpoint: string, urlParams: object = {}, queryParams?): string {
+    const site = queryParams?.site ?? '';
+    const cdsConfig = this.getCdsConfig(site);
 
     if (cdsConfig?.cds?.endpoints[endpoint]) {
       endpoint = cdsConfig.cds.endpoints[endpoint];
@@ -63,8 +60,25 @@ export class CdsEndpointsService {
         endpoint += '?' + params;
       }
     }
-    // @ts-ignore
-    return this.getEndpoint(endpoint, queryParams?.site);
+
+    return this.getEndpoint(endpoint, site);
+  }
+
+  private getEndpoint(endpoint: string, site: string): string {
+    const baseEndpoint = this.getSiteBaseEndpoint(site);
+    /*
+     * If the endpoint to get the url for already has the configured base url appended,
+     * do not try and append it again
+     */
+    if (endpoint.startsWith(baseEndpoint)) {
+      return endpoint;
+    }
+
+    if (!endpoint.startsWith('/')) {
+      endpoint = '/' + endpoint;
+    }
+
+    return `${baseEndpoint}${endpoint}`;
   }
 
   private getCdsConfig(site: string) {
@@ -78,23 +92,7 @@ export class CdsEndpointsService {
       : this.cdsConfig;
   }
 
-  private getEndpoint(endpoint: string, site: string): string {
-    /*
-     * If the endpoint to get the url for already has the configured base url appended,
-     * do not try and append it again
-     */
-    if (endpoint.startsWith(this.getBaseEndpoint(site))) {
-      return endpoint;
-    }
-
-    if (!endpoint.startsWith('/')) {
-      endpoint = '/' + endpoint;
-    }
-
-    return `${this.getBaseEndpoint(site)}${endpoint}`;
-  }
-
-  private getBaseEndpoint(site: string): string {
+  private getSiteBaseEndpoint(site: string): string {
     const cdsConfig = this.getCdsConfig(site);
     if (!cdsConfig || !cdsConfig.cds || !cdsConfig.cds.baseUrl) {
       return '';
