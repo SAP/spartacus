@@ -2,12 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import {
-  LoggerService,
-  MockLoggerService,
-  normalizeHttpError,
-  OccConfig,
-} from '@spartacus/core';
+import { LoggerService, normalizeHttpError, OccConfig } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -29,6 +24,14 @@ const MockOccModuleConfig: OccConfig = {
     },
   },
 };
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
 describe('Order By Id effect', () => {
   let effect: OrderByIdEffect;

@@ -172,7 +172,7 @@
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
     "chalk": "^4.1.0",
-    "commander": "^10.0.1",
+    "commander": "^11.0.0",
     "concurrently": "^8.0.1",
     "core-js": "^3.30.1",
     "cross-env": "^7.0.3",
