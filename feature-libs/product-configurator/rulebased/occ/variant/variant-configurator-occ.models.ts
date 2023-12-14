@@ -94,6 +94,7 @@ export namespace OccConfigurator {
   export interface Attribute {
     name: string;
     langDepName?: string;
+    longText?: string;
     type?: UiType;
     domainValues?: Value[];
     required?: boolean;
@@ -117,6 +118,7 @@ export namespace OccConfigurator {
     key: string;
     name?: string;
     langDepName?: string;
+    longText?: string;
     readonly?: boolean;
     selected?: boolean;
     images?: Image[];

@@ -19,6 +19,12 @@
     >{{ getLabel(expMode, attribute.label, attribute.name) }}</span
   ></label
 >
+<cx-configurator-show-more
+  *ngIf="attribute.description"
+  [text]="attribute.description"
+  [textSize]="100"
+  [productName]="attribute.label"
+></cx-configurator-show-more>
 <div
   *ngIf="attribute.hasConflicts"
   class="cx-conflict-msg"

@@ -57,9 +57,14 @@ const occAttributeWithValues: OccConfigurator.Attribute = {
   required: requiredFlag,
   type: OccConfigurator.UiType.RADIO_BUTTON,
   key: groupKey,
+  longText: 'Here is a description at attribute level',
   domainValues: [
     { key: valueKey, images: [occImage] },
-    { key: valueKey2, selected: selectedFlag },
+    {
+      key: valueKey2,
+      selected: selectedFlag,
+      longText: 'Here is a description at value level',
+    },
   ],
 };
 const attributeRBWithValues: Configurator.Attribute = {
@@ -395,6 +400,20 @@ describe('OccConfiguratorVariantNormalizer', () => {
       const result = occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.complete).toBe(true);
       expect(result.consistent).toBe(true);
+    });
+
+    it('should convert a configuration and support description at attribute and value level', () => {
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.groups[0].attributes[0].description).toBeDefined();
+      expect(result.groups[0].attributes[0].description).toBe(
+        configuration.groups[0].attributes[0].longText
+      );
+      expect(
+        result.groups[0].attributes[0].values[1].description
+      ).toBeDefined();
+      expect(result.groups[0].attributes[0].values[1].description).toBe(
+        configuration.groups[0].attributes[0].domainValues[1].longText
+      );
     });
 
     it('should not touch isRequiredCartUpdate and isCartEntryUpdatePending when converting a configuration', () => {

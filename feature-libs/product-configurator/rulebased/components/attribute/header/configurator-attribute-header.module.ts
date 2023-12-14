@@ -12,6 +12,7 @@ import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeCompositionConfig } from '../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
+import { ConfiguratorShowMoreModule } from '../../show-more/configurator-show-more.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-h
     I18nModule,
     IconModule,
     NgSelectModule,
+    ConfiguratorShowMoreModule,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{

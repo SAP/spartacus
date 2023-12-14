@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   FeatureConfigService,
@@ -29,6 +29,16 @@ import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-setti
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
+
+@Component({
+  selector: 'cx-configurator-show-more',
+  template: '',
+})
+class MockConfiguratorShowMoreComponent {
+  @Input() text: string;
+  @Input() textSize = 60;
+  @Input() productName: string;
+}
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
@@ -125,6 +135,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         declarations: [
           ConfiguratorAttributeHeaderComponent,
           MockFeatureLevelDirective,
+          MockConfiguratorShowMoreComponent,
         ],
         providers: [
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
@@ -330,6 +341,27 @@ describe('ConfigAttributeHeaderComponent', () => {
         expect,
         htmlElem,
         '.cx-attribute-img'
+      );
+    });
+
+    it('should render a label without description', () => {
+      component.attribute.description = undefined;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
+      );
+    });
+
+    it('should render a label with description', () => {
+      component.attribute.description =
+        'Here is a description for the attribute.';
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
       );
     });
   });
