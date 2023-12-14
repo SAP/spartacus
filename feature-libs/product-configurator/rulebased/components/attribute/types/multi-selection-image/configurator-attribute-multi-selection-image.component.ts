@@ -6,6 +6,7 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
@@ -25,6 +26,8 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
+
+  iconTypes = ICON_TYPE;
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,

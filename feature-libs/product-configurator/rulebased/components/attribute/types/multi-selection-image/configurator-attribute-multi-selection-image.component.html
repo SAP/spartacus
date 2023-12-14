@@ -50,6 +50,17 @@
         />
         <div *ngIf="!getImage(value)" class="cx-img-dummy"></div>
         {{ getLabel(expMode, value.valueDisplay, value.valueCode) }}
+        <button
+          *ngIf="value.description"
+          [cxPopover]="value.description"
+          [cxPopoverOptions]="{
+                placement: 'auto',
+                class: 'cx-value-description',
+                appendToBody: true,
+              }"
+        >
+          <cx-icon [type]="iconTypes.INFO"> </cx-icon>
+        </button>
         <cx-configurator-price
           [formula]="extractValuePriceFormulaParameters(value)"
         ></cx-configurator-price>

@@ -6,6 +6,7 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -26,6 +27,8 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
+
+  iconTypes = ICON_TYPE;
 
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,

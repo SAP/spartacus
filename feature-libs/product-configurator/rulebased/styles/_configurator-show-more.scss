@@ -9,6 +9,7 @@
       display: inline-block;
       outline-offset: 0px;
       text-decoration: underline;
+      padding-inline-start: 0;
 
       &:hover {
         color: var(--cx-color-primary);
