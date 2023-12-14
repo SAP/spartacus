@@ -4,25 +4,38 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnDestroy,
+  OnInit,
+  HostBinding,
+} from '@angular/core';
 import { CmsLinkComponent } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { CmsComponentData } from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-link',
   templateUrl: './link.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LinkComponent {
+export class LinkComponent implements OnDestroy, OnInit {
   @HostBinding('class') styleClasses: string | undefined;
 
-  data$: Observable<CmsLinkComponent> = this.component.data$.pipe(
-    tap((data) => (this.styleClasses = data?.styleClasses))
-  );
+  data$: Observable<CmsLinkComponent> = this.component.data$;
+
+  protected subscriptions: Subscription = new Subscription();
 
   constructor(protected component: CmsComponentData<CmsLinkComponent>) {}
+
+  ngOnInit(): void {
+    this.subscriptions.add(
+      this.data$.subscribe((data) => {
+        this.styleClasses = data?.styleClasses;
+      })
+    );
+  }
 
   /**
    * Returns `_blank` to force opening the link in a new window whenever the
@@ -30,5 +43,9 @@ export class LinkComponent {
    */
   getTarget(data: CmsLinkComponent): string | null {
     return data.target === 'true' || data.target === true ? '_blank' : null;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions?.unsubscribe();
   }
 }
