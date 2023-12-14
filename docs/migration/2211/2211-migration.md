@@ -22,7 +22,7 @@ Note: the flag `--force` might be needed, e.g. if you get an `npm` installation 
 
 ### Update Angular to 17 and 3rd party deps to be compatible with Angular 17
 
-Follow the [Angular guidelines for upgrading from v16 to v17](https://update.angular.io/?l=3&v=15.0-16.0) and bump the Angular version locally. 
+Follow the [Angular guidelines for upgrading from v16 to v17](https://update.angular.io/?l=3&v=16.0-17.0) and bump the Angular version locally. 
 
 Please also update other 3rd part dependencies from Angular ecosystem to versions compatible with Angular 17, e.g. `@ng-select/ng-select@12`, `@ngrx/store@17`, `ngx-infinite-scroll@17`:
 
