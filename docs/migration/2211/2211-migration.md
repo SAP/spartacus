@@ -98,7 +98,7 @@ Remove file `express.tokens.ts`
 - import { REQUEST } from '../(some-local-path)/express.tokens';
 + import { REQUEST } from "@spartacus/setup/ssr"`
 
-// and/or:
+// and/or RESPONSE token:
 
 - import { RESPONSE } from '../(some-local-path)/express.tokens';
 + import { RESPONSE } from "@spartacus/setup/ssr"`
