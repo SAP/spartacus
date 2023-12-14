@@ -46,6 +46,12 @@
           class="form-check-label form-radio-label"
           >{{ getLabel(expMode, value.valueDisplay, value.valueCode) }}</label
         >
+        <cx-configurator-show-more
+          *ngIf="value.description"
+          [text]="value.description"
+          [textSize]="70"
+          [productName]="value.valueDisplay"
+        ></cx-configurator-show-more>
       </div>
 
       <div class="cx-value-price">

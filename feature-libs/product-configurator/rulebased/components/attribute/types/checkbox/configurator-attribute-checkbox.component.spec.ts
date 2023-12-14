@@ -32,6 +32,16 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
+@Component({
+  selector: 'cx-configurator-show-more',
+  template: '',
+})
+class MockConfiguratorShowMoreComponent {
+  @Input() text: string;
+  @Input() textSize = 60;
+  @Input() productName: string;
+}
+
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
@@ -48,6 +58,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
           ConfiguratorAttributeCheckBoxComponent,
           MockFocusDirective,
           MockConfiguratorPriceComponent,
+          MockConfiguratorShowMoreComponent,
         ],
         imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
         providers: [
@@ -79,6 +90,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     };
     return value;
   }
+
   const value1 = createValue('1', 'val1', false);
   beforeEach(() => {
     const values: Configurator.Value[] = [value1];
@@ -134,6 +146,27 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     valueToSelect.click();
     fixture.detectChanges();
     expect(valueToSelect.checked).toBeFalsy();
+  });
+
+  describe('rendering description at value level', () => {
+    it('should not render description', () => {
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
+      );
+    });
+
+    it('should render description', () => {
+      component.attribute.values[0].description =
+        'Here is a description at value level';
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
+      );
+    });
   });
 
   describe('Accessibility', () => {

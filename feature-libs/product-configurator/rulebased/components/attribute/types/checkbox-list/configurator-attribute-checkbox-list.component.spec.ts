@@ -49,6 +49,16 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
+@Component({
+  selector: 'cx-configurator-show-more',
+  template: '',
+})
+class MockConfiguratorShowMoreComponent {
+  @Input() text: string;
+  @Input() textSize = 60;
+  @Input() productName: string;
+}
+
 const VALUE_1 = 'val1';
 const VALUE_2 = 'val2';
 
@@ -69,6 +79,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
           MockFocusDirective,
           MockConfiguratorAttributeQuantityComponent,
           MockConfiguratorPriceComponent,
+          MockConfiguratorShowMoreComponent,
         ],
         imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
         providers: [
@@ -377,6 +388,25 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-price'
+      );
+    });
+
+    it('should not render description', () => {
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
+      );
+    });
+
+    it('should render description', () => {
+      component.attribute.values[0].description =
+        'Here is a description at value level';
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-more'
       );
     });
   });

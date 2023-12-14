@@ -67,6 +67,12 @@
               )
             }}</label
           >
+          <cx-configurator-show-more
+            *ngIf="attributeValue.description"
+            [text]="attributeValue.description"
+            [textSize]="70"
+            [productName]="attributeValue.valueDisplay"
+          ></cx-configurator-show-more>
         </div>
         <div class="cx-value-price">
           <cx-configurator-price
