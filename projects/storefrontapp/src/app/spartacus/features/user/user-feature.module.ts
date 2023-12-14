@@ -20,6 +20,7 @@ import {
 } from '@spartacus/user/profile/assets';
 import {
   USE_MY_ACCOUNT_V2_EMAIL,
+  USE_MY_ACCOUNT_V2_PASSWORD,
   USE_MY_ACCOUNT_V2_PROFILE,
 } from '@spartacus/user/profile/components';
 import {
@@ -64,6 +65,10 @@ import { environment } from '../../../../environments/environment';
     },
     {
       provide: USE_MY_ACCOUNT_V2_EMAIL,
+      useValue: environment.myAccountV2,
+    },
+    {
+      provide: USE_MY_ACCOUNT_V2_PASSWORD,
       useValue: environment.myAccountV2,
     },
     provideConfig(<I18nConfig>{
