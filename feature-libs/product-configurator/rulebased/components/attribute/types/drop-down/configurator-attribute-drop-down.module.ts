@@ -20,6 +20,7 @@ import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 import { ConfiguratorAttributeNumericInputFieldModule } from '../numeric-input-field/configurator-attribute-numeric-input-field.module';
 import { ConfiguratorAttributeInputFieldModule } from '../input-field/configurator-attribute-input-field.module';
+import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { ConfiguratorAttributeInputFieldModule } from '../input-field/configurat
     ConfiguratorPriceModule,
     ConfiguratorAttributeNumericInputFieldModule,
     ConfiguratorAttributeInputFieldModule,
+    ConfiguratorShowMoreModule,
     FeaturesConfigModule,
   ],
   providers: [

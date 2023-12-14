@@ -65,6 +65,16 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
+@Component({
+  selector: 'cx-configurator-show-more',
+  template: '',
+})
+class MockConfiguratorShowMoreComponent {
+  @Input() text: string;
+  @Input() textSize = 60;
+  @Input() productName: string;
+}
+
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
@@ -142,6 +152,7 @@ describe('ConfigAttributeDropDownComponent', () => {
           MockConfiguratorAttributeQuantityComponent,
           MockConfiguratorPriceComponent,
           MockFeatureLevelDirective,
+          MockConfiguratorShowMoreComponent,
         ],
         imports: [
           ReactiveFormsModule,
@@ -197,6 +208,27 @@ describe('ConfigAttributeDropDownComponent', () => {
       expect,
       htmlElem,
       'select.cx-required-error-msg'
+    );
+  });
+
+  it('should not render description', () => {
+    createComponentWithData('6.2');
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-show-more'
+    );
+  });
+
+  it('should render description', () => {
+    createComponentWithData('6.2');
+    component.attribute.values[0].description =
+      'Here is a description at value level';
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-show-more'
     );
   });
 
