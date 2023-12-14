@@ -23,6 +23,12 @@ import { ConfiguratorCommonsService } from '../../../core/facade/configurator-co
 import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../../testing/configurator-test-data';
+import { TestScheduler } from 'rxjs/testing';
+import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
+import { Configurator } from '../../../core/model/configurator.model';
+import * as ConfigurationTestData from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
@@ -181,6 +187,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
     component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
     component.isNavigationToGroupEnabled = true;
+    component['logError'] = () => {};
     fixture.detectChanges();
 
     configurationGroupsService = TestBed.inject(

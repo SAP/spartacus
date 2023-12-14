@@ -4,10 +4,11 @@ import { By } from '@angular/platform-browser';
 import {
   I18nModule,
   LanguageService,
+  MockDatePipe,
   TranslationService,
 } from '@spartacus/core';
 import { ConsignmentView } from '@spartacus/order/root';
-import { Observable, EMPTY } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { MyAccountV2ConsignmentEntriesComponent } from './my-account-v2-consignment-entries.component';
 const mockOrderCode = '0005000001';
 const mockConsignments: ConsignmentView[] = [
@@ -73,7 +74,11 @@ describe('MyAccountV2ConsignmentEntriesComponent', () => {
           { provide: TranslationService, useClass: MockTranslationService },
           { provide: LanguageService, useClass: MockLanguageService },
         ],
-        declarations: [MyAccountV2ConsignmentEntriesComponent, MockUrlPipe],
+        declarations: [
+          MyAccountV2ConsignmentEntriesComponent,
+          MockUrlPipe,
+          MockDatePipe,
+        ],
       }).compileComponents();
     })
   );
