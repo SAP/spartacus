@@ -77,7 +77,7 @@ Change the import path of `ngExpressEngine` in the following way in your `server
 
 The tokens `REQUEST` and `RESPONSE` got removed from the Public API of Angular and were incorporated to Spartacus
 
-If you were using `REQUEST` and `RESPONSE` tokens in your app, Angular migration schematics already created for you *local* tokens `REQUEST` and `RESPONSE` defined and provided *in your app*. This is not what Spartacus expects, so please remove them from your local app. And instead use the tokens from exported from Spartacus Public API:
+If you were using `REQUEST` and `RESPONSE` tokens in your app, Angular migration schematics already created for you *local* tokens `REQUEST` and `RESPONSE` defined and provided *in your app*. This is not what Spartacus expects, so please remove them from your local app. And instead use the tokens exported from Spartacus Public API:
 
 1. remove the definitions and providers of `REQUEST` and `RESPONSE` tokens from your app:
 
@@ -90,14 +90,16 @@ Remove file `express.tokens.ts`
 - export const RESPONSE = new InjectionToken<Response>('RESPONSE');
 ```
 
-1. for any usages of tokens `REQUEST` and `RESPONSE` in your app, change the import paths to the Spartacus Public API  `"@spartacus/setup/ssr"`, like in the example snippets below:
-2. 
-```diff
-- import { REQUEST } from '../(some-local-path)/express.tokens';
-+ import { REQUEST } from "@spartacus/setup/ssr"`
-```
+2. for any usages of tokens `REQUEST` and `RESPONSE` in your app, change the import paths to the Spartacus Public API  `"@spartacus/setup/ssr"`, like in the example snippets below:
 
 ```diff
+// any of your custom file using REQUEST token
+
+- import { REQUEST } from '../(some-local-path)/express.tokens';
++ import { REQUEST } from "@spartacus/setup/ssr"`
+
+// and/or:
+
 - import { RESPONSE } from '../(some-local-path)/express.tokens';
 + import { RESPONSE } from "@spartacus/setup/ssr"`
 ```
