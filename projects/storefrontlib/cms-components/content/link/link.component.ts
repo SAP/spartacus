@@ -5,15 +5,15 @@
  */
 
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
+  HostBinding,
   OnDestroy,
   OnInit,
-  HostBinding,
 } from '@angular/core';
 import { CmsLinkComponent } from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
   selector: 'cx-link',
