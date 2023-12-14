@@ -3,11 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import {
-  LoggerService,
-  MockLoggerService,
-  normalizeHttpError,
-} from '@spartacus/core';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -21,6 +17,14 @@ const mockUserReplenishmentOrders: ReplenishmentOrderList = {
   pagination: {},
   sorts: [],
 };
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
 describe('Replenishment Orders effect', () => {
   let userReplenishmentOrdersEffect: fromEffect.ReplenishmentOrdersEffect;
