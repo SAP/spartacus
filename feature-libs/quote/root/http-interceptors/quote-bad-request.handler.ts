@@ -4,24 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import {
+  ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorHandler,
-  ErrorModel,
   HttpResponseStatus,
   Priority,
 } from '@spartacus/core';
-import { QuoteCartService } from '@spartacus/quote/root';
-import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuoteBadRequestHandler extends HttpErrorHandler {
-  protected quoteCartService = inject(QuoteCartService);
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
   constructor(protected globalMessageService: GlobalMessageService) {
@@ -45,8 +42,8 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
       this.handleCartValidationIssues();
     }
 
-    if (this.getDomainErrors(response).length > 0) {
-      this.handleDomainErrors(this.quoteCartService);
+    if (this.getCartQuoteAccessErrors(response).length > 0) {
+      this.handleCartQuoteAccessErrors();
     }
   }
 
@@ -62,9 +59,11 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
     );
   }
 
-  protected getDomainErrors(response: HttpErrorResponse): ErrorModel[] {
+  protected getCartQuoteAccessErrors(
+    response: HttpErrorResponse
+  ): ErrorModel[] {
     return (response.error?.errors ?? []).filter(
-      (error: ErrorModel) => error.type === 'DomainError'
+      (error: ErrorModel) => error.type === 'CartQuoteAccessError'
     );
   }
 
@@ -99,20 +98,13 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
     );
   }
 
-  protected handleDomainErrors(quoteCartService: QuoteCartService) {
-    quoteCartService
-      .isQuoteCartActive()
-      .pipe(take(1))
-      .subscribe((isActive) => {
-        if (isActive) {
-          this.globalMessageService.add(
-            {
-              key: 'quote.httpHandlers.quoteCartIssue',
-            },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        }
-      });
+  protected handleCartQuoteAccessErrors() {
+    this.globalMessageService.add(
+      {
+        key: 'quote.httpHandlers.quoteCartIssue',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   }
 
   protected handleIllegalArgumentIssues(message: string) {
