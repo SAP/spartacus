@@ -8,17 +8,25 @@ Since Angular v17, the command for creating a new app (`ng new`) must be run wit
 
 ## Workaround other issues after creating a new app
 
-After creating successfully a new Angular 17+ app, you must make additional manual changes in the app's configuration files to workaround other issues introduced by Angular 17.
+After creating successfully a new Angular 17+ app, you must make additional manual changes in the app's configuration files to workaround other issues introduced by Angular 17. Otherwise you'll face the following Spartacus error when running `ng serve` or `ng build`:
+
+```error
+  Error: The request origin is not set. 
+  (...)
+```
+
+**Note: in the following code snippets please mind to replace `my-app-name` with the real name of your application.
+**
 
 ### Disable SSR and Prerendering for `ng serve`
 
 In `angular.json` of newly created app make the following 2 changes:
-1. in the section `projects › (my app name) › architect › build › configurations` add a new subsection `"noSsr"` _as a sibling_ to other configurations `"production"` and `"development"`:
+1. in the section `projects › my-app-name › architect › build › configurations` add a new subsection `"noSsr"` _as a sibling_ to other configurations `"production"` and `"development"`:
 ```diff
   {
     "projects": {
       ...
-      "(my app name)": {
+      "my-app-name": {
         ...
         "architect": {
           ...
@@ -37,12 +45,13 @@ In `angular.json` of newly created app make the following 2 changes:
 +             }
             },
 ```
-2. In the section `projects › (my app name) › architect › serve › configurations` append a string `,noSsr` (including comma) to the value of the properties `"buildTarget"` - both for 2 sections `"production"` and `"development"`:
+
+1. In the section `projects › my-app-name › architect › serve › configurations` append a string `,noSsr` (including comma) to the value of the properties `"buildTarget"` - both for 2 sections `"production"` and `"development"`:
 ```diff
   {
     "projects": {
       ...
-      "(my app name)": {
+      "my-app-name": {
         ...
         "architect": {
           ...
@@ -50,12 +59,12 @@ In `angular.json` of newly created app make the following 2 changes:
             ...
             "configurations": {
               "production": {
--               "buildTarget": "test-ng17:build:production"
-+               "buildTarget": "test-ng17:build:production,noSsr"
+-               "buildTarget": "my-app-name:build:production"
++               "buildTarget": "my-app-name:build:production,noSsr"
               },
               "development": {
--               "buildTarget": "test-ng17:build:development"
-+               "buildTarget": "test-ng17:build:development,noSsr"
+-               "buildTarget": "my-app-name:build:development"
++               "buildTarget": "my-app-name:build:development,noSsr"
               }
             },
 ```
@@ -64,13 +73,13 @@ In `angular.json` of newly created app make the following 2 changes:
 
 ### Disable Prerendering for `ng build`
 In `angular.json` of newly created app make the following change:
-In the section `projects › (my app name) › architect › build › options` remove the line `prerender: true`:
+In the section `projects › my-app-name › architect › build › options` remove the line `prerender: true`:
 
 ```diff
   {
     "projects": {
       ...
-      "(my app name)": {
+      "my-app-name": {
         ...
         "architect": {
           ...
@@ -91,14 +100,15 @@ In the section `projects › (my app name) › architect › build › options` 
 Run in _2 separate windows_ of terminal:
 ```bash
 # Terminal 1:
-npm run watch  # builds the app in watch mode. It compiles `server.ts` file as well and produces an output compiled file `dist/(my-app-name)/server/server.mjs`
+npm run watch  # builds the app in watch mode. It compiles `server.ts` file as well and produces an output compiled file `dist/my-app-name/server/server.mjs`
 ```
 and
 ```bash
 # Terminal 2:
-node --watch dist/(my-app-name)/server/server.mjs # run the compiled server.mjs in watch mode
+node --watch dist/my-app-name/server/server.mjs # run the compiled server.mjs in watch mode
 ```
-Note: Please mind to replace `(my-app-name)` with the real name of your app.
+
+Note: Please mind to replace `my-app-name` with the real name of your app.
 
 ### Appendix B: How to run Prerendering
 
