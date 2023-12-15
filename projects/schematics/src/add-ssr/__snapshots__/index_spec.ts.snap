@@ -1,5 +1,135 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`add-ssr angular.json should be configured properly 1`] = `
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "newProjectRoot": "",
+  "projects": {
+    "schematics-test": {
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "configurations": {
+            "development": {
+              "extractLicenses": false,
+              "optimization": false,
+              "sourceMap": true,
+            },
+            "noSsr": {
+              "prerender": false,
+              "ssr": false,
+            },
+            "production": {
+              "budgets": [
+                {
+                  "maximumError": "2.5mb",
+                  "maximumWarning": "500kb",
+                  "type": "initial",
+                },
+                {
+                  "maximumError": "4kb",
+                  "maximumWarning": "2kb",
+                  "type": "anyComponentStyle",
+                },
+              ],
+              "outputHashing": "all",
+            },
+          },
+          "defaultConfiguration": "production",
+          "options": {
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+            ],
+            "browser": "src/main.ts",
+            "index": "src/index.html",
+            "inlineStyleLanguage": "scss",
+            "outputPath": "dist/schematics-test",
+            "polyfills": [
+              "zone.js",
+            ],
+            "prerender": false,
+            "scripts": [],
+            "server": "src/main.server.ts",
+            "ssr": {
+              "entry": "server.ts",
+            },
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/",
+              ],
+            },
+            "styles": [
+              "src/styles.scss",
+            ],
+            "tsConfig": "tsconfig.app.json",
+          },
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "schematics-test:build",
+          },
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "development": {
+              "buildTarget": "schematics-test:build:development,noSsr",
+            },
+            "production": {
+              "buildTarget": "schematics-test:build:production,noSsr",
+            },
+          },
+          "defaultConfiguration": "development",
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+            ],
+            "inlineStyleLanguage": "scss",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing",
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/",
+              ],
+            },
+            "styles": [
+              "src/styles.scss",
+            ],
+            "tsConfig": "tsconfig.spec.json",
+          },
+        },
+      },
+      "prefix": "app",
+      "projectType": "application",
+      "root": "",
+      "schematics": {
+        "@schematics/angular:component": {
+          "standalone": false,
+          "style": "scss",
+        },
+        "@schematics/angular:directive": {
+          "standalone": false,
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false,
+        },
+      },
+      "sourceRoot": "src",
+    },
+  },
+  "version": 1,
+}
+`;
+
 exports[`add-ssr app.module.server.ts should be updated 1`] = `
 "import { NgModule } from '@angular/core';
 import { ServerModule } from '@angular/platform-server';

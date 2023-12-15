@@ -86,6 +86,14 @@ describe('add-ssr', () => {
     });
   });
 
+  describe('angular.json', () => {
+    it('should be configured properly', async () => {
+      const angularJson = appTree.readContent('/angular.json');
+      const angularObj = JSON.parse(angularJson);
+      expect(angularObj).toMatchSnapshot();
+    });
+  });
+
   describe('server.ts', () => {
     it('should be configured properly', async () => {
       const serverTs = appTree.readContent('/server.ts');
