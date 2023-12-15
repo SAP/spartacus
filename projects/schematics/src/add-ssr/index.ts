@@ -28,6 +28,7 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
+import { getDefaultProjectNameFromWorkspace, getWorkspace } from '../shared';
 import { ANGULAR_SSR } from '../shared/constants';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
@@ -46,6 +47,16 @@ import {
   getPrefixedSpartacusSchematicsVersion,
   readPackageJson,
 } from '../shared/utils/package-utils';
+
+// Fix typing bug in @schematics/angular/utility/workspace-models since v17:
+declare module '@schematics/angular/utility/workspace-models' {
+  interface ServeBuilderOptions {
+    /**
+     * Since ng17 it's no more "browserTarget" but "buildTarget" property
+     */
+    buildTarget: string;
+  }
+}
 
 const DEPENDENCY_NAMES: string[] = [
   '@angular/platform-server',
@@ -147,6 +158,185 @@ function prepareDependencies(): NodeDependency[] {
   return spartacusDependencies.concat(thirdPartyDependencies);
 }
 
+/**
+ * Fixes the configuration for SSR and Prerendering to be able to work with Spartacus.
+ */
+function disableSsrAndPrerenderingInAngularJson(
+  spartacusOptions: SpartacusOptions
+): Rule {
+  return chain([
+    disablePrerenderingForNgBuild(spartacusOptions),
+    addNoSsrConfigurationToNgBuild(spartacusOptions),
+    useNoSsrConfigurationInNgServe(spartacusOptions),
+  ]);
+}
+
+/**
+ * In angular.json: set "prerender: false" in "options" of the "build" architect section
+ */
+function disablePrerenderingForNgBuild(
+  spartacusOptions: SpartacusOptions
+): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (spartacusOptions.debug) {
+      context.logger.info(
+        `⌛️ Disabling Prerendering by default for "ng build"...`
+      );
+    }
+
+    const { path, workspace: angularJson } = getWorkspace(tree);
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
+
+    const project = angularJson.projects[projectName];
+    const architect = project.architect;
+    const build = architect?.build;
+    const options = build?.options;
+
+    const updatedAngularJson = {
+      ...angularJson,
+      projects: {
+        ...angularJson.projects,
+        [projectName]: {
+          ...project,
+          architect: {
+            ...architect,
+            build: {
+              ...build,
+              options: {
+                ...options,
+                prerender: false,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+
+    if (spartacusOptions.debug) {
+      context.logger.info(
+        `✅ Disabling Prerendering by default for "ng build" complete.`
+      );
+    }
+    return tree;
+  };
+}
+
+/**
+ * In angular.json: add new "configuration" section named "noSsr" to "build" architect section
+ */
+function addNoSsrConfigurationToNgBuild(
+  spartacusOptions: SpartacusOptions
+): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (spartacusOptions.debug) {
+      context.logger.info(`⌛️ Adding "noSsr" configuration to "ng build"...`);
+    }
+
+    const { path, workspace: angularJson } = getWorkspace(tree);
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
+
+    const project = angularJson.projects[projectName];
+    const architect = project.architect;
+    const build = architect?.build;
+    const configurations = build?.configurations;
+
+    const noSsrConfiguration = {
+      ssr: false,
+      prerender: false,
+    };
+
+    const updatedAngularJson = {
+      ...angularJson,
+      projects: {
+        ...angularJson.projects,
+        [projectName]: {
+          ...project,
+          architect: {
+            ...architect,
+            build: {
+              ...build,
+              configurations: {
+                ...configurations,
+                noSsr: noSsrConfiguration,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+
+    if (spartacusOptions.debug) {
+      context.logger.info(
+        `✅ Adding "noSsr" configuration to "ng build" complete.`
+      );
+    }
+    return tree;
+  };
+}
+
+/**
+ * In angular.json: use "noSsr" configuration in "serve" architect section
+ */
+function useNoSsrConfigurationInNgServe(
+  spartacusOptions: SpartacusOptions
+): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (spartacusOptions.debug) {
+      context.logger.info(`⌛️ Using "noSsr" configuration in "ng serve"...`);
+    }
+
+    const { path, workspace: angularJson } = getWorkspace(tree);
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
+
+    const project = angularJson.projects[projectName];
+    const architect = project.architect;
+    const serve = architect?.serve;
+    const configurations = serve?.configurations;
+    const production = configurations?.production;
+    const development = configurations?.development;
+
+    const updatedAngularJson = {
+      ...angularJson,
+      projects: {
+        ...angularJson.projects,
+        [projectName]: {
+          ...project,
+          architect: {
+            ...architect,
+            serve: {
+              ...serve,
+              configurations: {
+                ...configurations,
+                production: {
+                  ...production,
+                  buildTarget: `${production?.buildTarget},noSsr`,
+                },
+                development: {
+                  ...development,
+                  buildTarget: `${development?.buildTarget},noSsr`,
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+
+    if (spartacusOptions.debug) {
+      context.logger.info(
+        `✅ Using "noSsr" configuration in "ng serve" complete.`
+      );
+    }
+    return tree;
+  };
+}
+
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const serverTemplate = provideServerFile(options);
@@ -163,6 +353,9 @@ export function addSSR(options: SpartacusOptions): Rule {
         chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
       ),
+
+      disableSsrAndPrerenderingInAngularJson(options),
+
       installPackageJsonDependencies(),
     ])(tree, context);
   };
