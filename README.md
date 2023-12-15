@@ -49,7 +49,7 @@ See the [Release documentation](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABL
 
 ## Requirements
 
-If you are working with Spartacus 6.x, see the relevant 6.x Angular development environment requirements on the [SAP Help Portal](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/cfcf687ce2544bba9799aa6c8314ecd0/bf31098d779f4bdebb7a2d0591917363.html?locale=en-US).
+If you are working with Spartacus 6.x, see the relevant 6.x Angular development environment requirements on the [SAP Help Portal](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/cfcf687ce2544bba9799aa6c8314ecd0/bf31098d779f4bdebb7a2d0591917363.html?locale=en-US&version=6.0).
 
 If you are working with Spartacus 5.x, see the relevant 5.x Angular development environment requirements on the [SAP Help Portal](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/cfcf687ce2544bba9799aa6c8314ecd0/bf31098d779f4bdebb7a2d0591917363.html?locale=en-US&version=5.0).
 
