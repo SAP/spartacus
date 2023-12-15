@@ -31,9 +31,14 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.firstName.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.firstName.label' | cxTranslate }}
+                <abbr
+                  class="text-decoration-none"
+                  title="{{ 'common.required' | cxTranslate }}"
+                  >*</abbr
+                ></span
+              >
               <input
                 required="true"
                 class="form-control"
@@ -52,9 +57,14 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.lastName.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.lastName.label' | cxTranslate }}
+                <abbr
+                  class="text-decoration-none"
+                  title="{{ 'common.required' | cxTranslate }}"
+                  >*</abbr
+                ></span
+              >
               <input
                 required="true"
                 class="form-control"
@@ -73,9 +83,14 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.emailAddress.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.emailAddress.label' | cxTranslate }}
+                <abbr
+                  class="text-decoration-none"
+                  title="{{ 'common.required' | cxTranslate }}"
+                  >*</abbr
+                ></span
+              >
               <input
                 required="true"
                 class="form-control"
@@ -94,9 +109,14 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.password.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.password.label' | cxTranslate }}
+                <abbr
+                  class="text-decoration-none"
+                  title="{{ 'common.required' | cxTranslate }}"
+                  >*</abbr
+                ></span
+              >
               <input
                 required="true"
                 class="form-control"
@@ -119,9 +139,14 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.confirmPassword.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.confirmPassword.label' | cxTranslate }}
+                <abbr
+                  class="text-decoration-none"
+                  title="{{ 'common.required' | cxTranslate }}"
+                  >*</abbr
+                ></span
+              >
               <input
                 required="true"
                 class="form-control"
@@ -204,6 +229,11 @@
                   >
                     {{ 'register.termsAndConditions' | cxTranslate }}
                   </a>
+                  <abbr
+                    class="text-decoration-none"
+                    title="{{ 'common.required' | cxTranslate }}"
+                    >*</abbr
+                  >
                 </span>
                 <cx-form-errors
                   [control]="registerForm.get('termsandconditions')"

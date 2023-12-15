@@ -8,9 +8,14 @@
           <ng-container *ngIf="cardTypes$ | async as cardTypes">
             <div *ngIf="cardTypes.length !== 0">
               <label>
-                <span class="label-content required">{{
-                  'paymentForm.paymentType' | cxTranslate
-                }}</span>
+                <span class="label-content required"
+                  >{{ 'paymentForm.paymentType' | cxTranslate }}
+                  <abbr
+                    class="text-decoration-none"
+                    title="{{ 'common.required' | cxTranslate }}"
+                    >*</abbr
+                  ></span
+                >
                 <ng-select
                   [inputAttrs]="{ required: 'true' }"
                   [searchable]="true"
@@ -36,9 +41,14 @@
 
         <div class="form-group">
           <label>
-            <span class="label-content">{{
-              'paymentForm.accountHolderName.label' | cxTranslate
-            }}</span>
+            <span class="label-content"
+              >{{ 'paymentForm.accountHolderName.label' | cxTranslate }}
+              <abbr
+                class="text-decoration-none"
+                title="{{ 'common.required' | cxTranslate }}"
+                >*</abbr
+              ></span
+            >
             <input
               required="true"
               class="form-control"
@@ -56,9 +66,14 @@
 
         <div class="form-group">
           <label>
-            <span class="label-content">{{
-              'paymentForm.cardNumber' | cxTranslate
-            }}</span>
+            <span class="label-content"
+              >{{ 'paymentForm.cardNumber' | cxTranslate }}
+              <abbr
+                class="text-decoration-none"
+                title="{{ 'common.required' | cxTranslate }}"
+                >*</abbr
+              ></span
+            >
             <input
               required="true"
               type="text"
@@ -76,6 +91,11 @@
             <fieldset class="cx-payment-form-exp-date">
               <legend class="label-content">
                 {{ 'paymentForm.expirationDate' | cxTranslate }}
+                <abbr
+                  class="text-decoration-none"
+                  title="{{ 'common.required' | cxTranslate }}"
+                  >*</abbr
+                >
               </legend>
               <label class="cx-payment-form-exp-date-wrapper">
                 <ng-select
@@ -126,6 +146,11 @@
             <label>
               <span class="label-content">
                 {{ 'paymentForm.securityCode' | cxTranslate }}
+                <abbr
+                  class="text-decoration-none"
+                  title="{{ 'common.required' | cxTranslate }}"
+                  >*</abbr
+                >
                 <cx-icon
                   [type]="iconTypes.INFO"
                   class="cx-payment-form-tooltip"

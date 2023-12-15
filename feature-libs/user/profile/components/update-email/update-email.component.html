@@ -2,9 +2,14 @@
 
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <label>
-    <span class="label-content">{{
-      'updateEmailForm.newEmailAddress.label' | cxTranslate
-    }}</span>
+    <span class="label-content"
+      >{{ 'updateEmailForm.newEmailAddress.label' | cxTranslate }}
+      <abbr
+        class="text-decoration-none"
+        title="{{ 'common.required' | cxTranslate }}"
+        >*</abbr
+      ></span
+    >
     <input
       required="true"
       type="email"
@@ -19,9 +24,14 @@
   </label>
 
   <label>
-    <span class="label-content">{{
-      'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate
-    }}</span>
+    <span class="label-content"
+      >{{ 'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate }}
+      <abbr
+        class="text-decoration-none"
+        title="{{ 'common.required' | cxTranslate }}"
+        >*</abbr
+      ></span
+    >
     <input
       required="true"
       type="email"
@@ -36,9 +46,14 @@
   </label>
 
   <label>
-    <span class="label-content">{{
-      'updateEmailForm.password.label' | cxTranslate
-    }}</span>
+    <span class="label-content"
+      >{{ 'updateEmailForm.password.label' | cxTranslate }}
+      <abbr
+        class="text-decoration-none"
+        title="{{ 'common.required' | cxTranslate }}"
+        >*</abbr
+      ></span
+    >
     <input
       required="true"
       type="password"

@@ -8,6 +8,11 @@
         <span class="cx-cart-quick-order-form-productID">
           <label class="cx-cart-quick-order-form-label">
             {{ 'quickOrderCartForm.productCodeLabel' | cxTranslate }}
+            <abbr
+              class="text-decoration-none"
+              title="{{ 'common.required' | cxTranslate }}"
+              >*</abbr
+            >
           </label>
           <input
             [attr.aria-label]="

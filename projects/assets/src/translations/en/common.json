@@ -25,7 +25,8 @@
     "clear": "Clear",
     "loaded": "Loaded",
     "results": "Results",
-    "of": "of"
+    "of": "of",
+    "required": "required"
   },
   "pageMetaResolver": {
     "category": {

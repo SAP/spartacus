@@ -3,6 +3,11 @@
     <form (ngSubmit)="applyVoucher()" [formGroup]="couponForm">
       <label class="cx-cart-coupon-title">
         {{ 'voucher.coupon' | cxTranslate }}
+        <abbr
+          class="text-decoration-none"
+          title="{{ 'common.required' | cxTranslate }}"
+          >*</abbr
+        >
       </label>
 
       <div class="cx-cart-coupon-container">

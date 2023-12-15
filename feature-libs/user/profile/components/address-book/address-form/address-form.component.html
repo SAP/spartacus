@@ -3,9 +3,14 @@
     <ng-container *ngIf="countries$ | async as countries">
       <div *ngIf="countries.length !== 0">
         <label>
-          <span class="label-content required">{{
-            'addressForm.country' | cxTranslate
-          }}</span>
+          <span class="label-content required"
+            >{{ 'addressForm.country' | cxTranslate }}
+            <abbr
+              class="text-decoration-none"
+              title="{{ 'common.required' | cxTranslate }}"
+              >*</abbr
+            >
+          </span>
           <ng-select
             [inputAttrs]="{ required: 'true' }"
             class="country-select"
@@ -57,9 +62,14 @@
   </div>
   <div class="form-group">
     <label>
-      <span class="label-content required">{{
-        'addressForm.firstName.label' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'addressForm.firstName.label' | cxTranslate }}
+        <abbr
+          class="text-decoration-none"
+          title="{{ 'common.required' | cxTranslate }}"
+          >*</abbr
+        ></span
+      >
       <input
         required="true"
         class="form-control"
@@ -72,9 +82,14 @@
   </div>
   <div class="form-group">
     <label>
-      <span class="label-content required">{{
-        'addressForm.lastName.label' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'addressForm.lastName.label' | cxTranslate }}
+        <abbr
+          class="text-decoration-none"
+          title="{{ 'common.required' | cxTranslate }}"
+          >*</abbr
+        ></span
+      >
       <input
         required="true"
         type="text"
@@ -87,9 +102,14 @@
   </div>
   <div class="form-group">
     <label>
-      <span class="label-content required">{{
-        'addressForm.address1' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'addressForm.address1' | cxTranslate }}
+        <abbr
+          class="text-decoration-none"
+          title="{{ 'common.required' | cxTranslate }}"
+          >*</abbr
+        ></span
+      >
       <input
         required="true"
         type="text"
@@ -116,9 +136,14 @@
   <div class="row">
     <div class="form-group col-sm-6">
       <label>
-        <span class="label-content required">{{
-          'addressForm.city.label' | cxTranslate
-        }}</span>
+        <span class="label-content required"
+          >{{ 'addressForm.city.label' | cxTranslate }}
+          <abbr
+            class="text-decoration-none"
+            title="{{ 'common.required' | cxTranslate }}"
+            >*</abbr
+          ></span
+        >
         <input
           required="true"
           type="text"
@@ -131,9 +156,14 @@
     </div>
     <div class="form-group col-sm-6">
       <label>
-        <span class="label-content required">{{
-          'addressForm.zipCode.label' | cxTranslate
-        }}</span>
+        <span class="label-content required"
+          >{{ 'addressForm.zipCode.label' | cxTranslate }}
+          <abbr
+            class="text-decoration-none"
+            title="{{ 'common.required' | cxTranslate }}"
+            >*</abbr
+          ></span
+        >
         <input
           required="true"
           type="text"
@@ -150,9 +180,14 @@
       <ng-container *ngIf="regions.length !== 0">
         <div class="form-group col-md-6">
           <label>
-            <span class="label-content required">{{
-              'addressForm.state' | cxTranslate
-            }}</span>
+            <span class="label-content required"
+              >{{ 'addressForm.state' | cxTranslate }}
+              <abbr
+                class="text-decoration-none"
+                title="{{ 'common.required' | cxTranslate }}"
+                >*</abbr
+              ></span
+            >
             <ng-select
               [inputAttrs]="{ required: 'true' }"
               class="region-select"
