@@ -13,13 +13,11 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { EMPTY } from 'rxjs';
-import { LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
 import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog.component';
-import createSpy = jasmine.createSpy;
 import { Component, Directive, Input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import createSpy = jasmine.createSpy;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}

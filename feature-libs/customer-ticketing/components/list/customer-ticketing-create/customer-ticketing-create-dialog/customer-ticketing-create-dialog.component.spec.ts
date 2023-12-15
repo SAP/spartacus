@@ -15,7 +15,6 @@ import {
   TicketDetails,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
-import { LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import {
   FileUploadModule,
@@ -24,11 +23,10 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog.component';
-import createSpy = jasmine.createSpy;
 import { Component, Directive, Input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import createSpy = jasmine.createSpy;
 
 const mockCategories = [
   {
