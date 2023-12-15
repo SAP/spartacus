@@ -1,13 +1,10 @@
 %cx-configurator-attribute-drop-down {
   @include cx-configurator-attribute-type();
-  flex-direction: column;
   @include cx-configurator-form-group();
   @include cx-configurator-attribute-level-quantity-price();
 
   .cx-value-label-pair {
-    @include media-breakpoint-up(md) {
-      width: 90%;
-    }
+    width: 80%;
 
     @include media-breakpoint-down(sm) {
       width: 100%;

@@ -3,26 +3,17 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
     margin-block-start: 0.5rem;
     margin-block-end: 0.5rem;
 
-    .cx-required-error-msg {
-      border-color: var(--cx-color-danger);
-    }
-
-    @include media-breakpoint-up(md) {
-      select {
-        width: 95%;
-      }
-    }
     @include media-breakpoint-down(sm) {
       flex-direction: column;
+    }
 
-      select {
-        width: 100%;
-      }
+    .cx-required-error-msg {
+      border-color: var(--cx-color-danger);
     }
 
     .cx-value-price {
