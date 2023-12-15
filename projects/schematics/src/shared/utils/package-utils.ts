@@ -11,9 +11,9 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addPackageJsonDependency,
   NodeDependency,
   NodeDependencyType,
+  addPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 import semver from 'semver';
 import { version } from '../../../package.json';
@@ -141,7 +141,34 @@ export function getSpartacusCurrentFeatureLevel(): string {
   return version.split('.').slice(0, 2).join('.');
 }
 
+/**
+ * Checks if SSR is used, by checking if the server.ts file is present.
+ */
 export function checkIfSSRIsUsed(tree: Tree): boolean {
+  const serverFileLocation = getServerTsPath(tree);
+  if (!serverFileLocation) {
+    return false;
+  }
+
+  const serverBuffer = tree.read(serverFileLocation);
+  const serverFileBuffer = serverBuffer?.toString(UTF_8);
+  const isServerFilePresent = serverFileBuffer?.length;
+
+  return !!isServerFilePresent;
+}
+
+/**
+ * Checks if SSR is used, by checking if at least one of 2 symptoms is present:
+ * - if the server.ts file is present
+ * - if angular.json file contains a "server" section (architect)
+ *
+ * Note: The second condition can be present only in apps created with Angular CLI
+ * (`ng new`) of version lower than 17.
+ *
+ * @deprecated Don't use it for schematics related to new apps created with Angular CLI 17+,
+ *             but use `checkIfSSRIsUse()` instead.
+ */
+export function checkIfSSRIsUsed_preAngular17(tree: Tree): boolean {
   const projectName = getDefaultProjectNameFromWorkspace(tree);
   const buffer = tree.read('angular.json');
   if (!buffer) {
@@ -150,7 +177,7 @@ export function checkIfSSRIsUsed(tree: Tree): boolean {
   const angularFileBuffer = buffer.toString(UTF_8);
   const angularJson = JSON.parse(angularFileBuffer);
   const isServerConfiguration =
-    !!angularJson.projects[projectName].architect['server'];
+    !!angularJson.projects[projectName].architect['server']; // only in apps created with Angular CLI of version lower than 17
 
   const serverFileLocation = getServerTsPath(tree);
   if (!serverFileLocation) {
