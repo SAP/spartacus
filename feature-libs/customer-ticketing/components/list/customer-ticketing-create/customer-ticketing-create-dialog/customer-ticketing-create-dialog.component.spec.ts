@@ -72,6 +72,7 @@ class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
   getTicketAssociatedObjects = createSpy().and.returnValue(
     of(mockTicketAssociatedObjects)
   );
+  uploadAttachment = createSpy().and.returnValue(EMPTY);
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
