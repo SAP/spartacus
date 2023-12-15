@@ -34,7 +34,7 @@ import {
 } from '../../../shared/utils/lib-utils';
 import { createImportChange } from '../../../shared/utils/module-file-utils';
 import {
-  checkIfSSRIsUsed_preAngular17,
+  checkIfSSRIsUsed,
   getSpartacusSchematicsVersion,
   readPackageJson,
 } from '../../../shared/utils/package-utils';
@@ -43,7 +43,7 @@ export function migrate(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
 
-    return checkIfSSRIsUsed_preAngular17(tree)
+    return checkIfSSRIsUsed(tree)
       ? chain([
           updateImport(),
           addSetupPackageJsonDependencies(packageJson),
