@@ -50,7 +50,7 @@ function prepare_install {
     cmd_clean
 
     printh "Installing installation script prerequisites"
-    
+
     VERDACCIO_PID=`lsof -nP -i4TCP:4873 | grep LISTEN | tr -s ' ' | cut -d ' ' -f 2`
     if [[ -n ${VERDACCIO_PID} ]]; then
         echo "Verdaccio is already running with PID: ${VERDACCIO_PID}. Killing it."
