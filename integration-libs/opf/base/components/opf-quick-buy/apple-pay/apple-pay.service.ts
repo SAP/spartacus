@@ -266,6 +266,7 @@ export class ApplePayService {
             return throwError('Total Price not available');
           }
           result.newTotal.amount = cart.totalPrice.value.toString();
+          this.localCart.total.amount = cart.totalPrice.value.toString();
           return of(result);
         })
       );
