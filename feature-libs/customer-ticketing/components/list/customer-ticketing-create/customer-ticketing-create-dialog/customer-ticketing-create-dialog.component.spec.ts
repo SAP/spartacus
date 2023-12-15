@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
@@ -7,61 +7,60 @@ import {
   I18nTestingModule,
   RoutingService,
   Translatable,
-  TranslationService
-} from "@spartacus/core";
+  TranslationService,
+} from '@spartacus/core';
 import {
   CustomerTicketingFacade,
   STATUS_NAME,
   TicketDetails,
-  TicketStarter
-} from "@spartacus/customer-ticketing/root";
-import { LaunchDialogService } from "@spartacus/storefront";
-import { EMPTY, Observable, of, throwError } from "rxjs";
+  TicketStarter,
+} from '@spartacus/customer-ticketing/root';
+import { LaunchDialogService } from '@spartacus/storefront';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import {
   FileUploadModule,
   FocusConfig,
   FormErrorsModule,
   ICON_TYPE,
-  LaunchDialogService
-} from "@spartacus/storefront";
-import { EMPTY, Observable, of, throwError } from "rxjs";
-import { CustomerTicketingCreateDialogComponent } from "./customer-ticketing-create-dialog.component";
+  LaunchDialogService,
+} from '@spartacus/storefront';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog.component';
 import createSpy = jasmine.createSpy;
-import { Component, Directive, Input } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
+import { Component, Directive, Input } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const mockCategories = [
   {
-    id: "ENQUIRY",
-    name: "Enquiry"
-  }
+    id: 'ENQUIRY',
+    name: 'Enquiry',
+  },
 ];
 
 const mockTicketAssociatedObjects = [
   {
-    code: "00000626",
-    modifiedAt: "2022-06-30T16:16:44+0000",
-    type: "Order"
-  }
+    code: '00000626',
+    modifiedAt: '2022-06-30T16:16:44+0000',
+    type: 'Order',
+  },
 ];
 
 const mockTicketStarter: TicketStarter = {
-  message: "Test",
-  subject: "Test",
+  message: 'Test',
+  subject: 'Test',
   ticketCategory: {
-    id: "ENQUIRY",
-    name: "Enquiry"
+    id: 'ENQUIRY',
+    name: 'Enquiry',
   },
   associatedTo: {
-    code: "00000626",
-    modifiedAt: "2022-06-30T16:16:44+0000",
-    type: "Order"
-  }
+    code: '00000626',
+    modifiedAt: '2022-06-30T16:16:44+0000',
+    type: 'Order',
+  },
 };
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  closeDialog(_reason: string): void {
-  }
+  closeDialog(_reason: string): void {}
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -82,35 +81,33 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
     return of({});
   }
 
-  add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {
-  }
+  add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
 
-  remove(_: GlobalMessageType, __?: number): void {
-  }
+  remove(_: GlobalMessageType, __?: number): void {}
 }
 
 class MockTranslationService {
   translate(): Observable<string> {
-    return of("translated string");
+    return of('translated string');
   }
 }
 
 @Component({
-  selector: "cx-icon",
-  template: ""
+  selector: 'cx-icon',
+  template: '',
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Directive({
-  selector: "[cxFocus]"
+  selector: '[cxFocus]',
 })
 export class MockKeyboadFocusDirective {
-  @Input("cxFocus") config: FocusConfig = {};
+  @Input('cxFocus') config: FocusConfig = {};
 }
 
-describe("CustomerTicketingCreateDialogComponent", () => {
+describe('CustomerTicketingCreateDialogComponent', () => {
   let component: CustomerTicketingCreateDialogComponent;
   let fixture: ComponentFixture<CustomerTicketingCreateDialogComponent>;
   let customerTicketingFacade: CustomerTicketingFacade;
@@ -122,28 +119,28 @@ describe("CustomerTicketingCreateDialogComponent", () => {
         I18nTestingModule,
         ReactiveFormsModule,
         FormErrorsModule,
-        FileUploadModule
+        FileUploadModule,
       ],
       declarations: [
         CustomerTicketingCreateDialogComponent,
         MockCxIconComponent,
-        MockKeyboadFocusDirective
+        MockKeyboadFocusDirective,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
           provide: CustomerTicketingFacade,
-          useClass: MockCustomerTicketingFacade
+          useClass: MockCustomerTicketingFacade,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: TranslationService, useClass: MockTranslationService }
-      ]
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
     }).compileComponents();
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    spyOn(globalMessageService, "add").and.callThrough();
+    spyOn(globalMessageService, 'add').and.callThrough();
   });
 
   beforeEach(() => {
@@ -152,56 +149,56 @@ describe("CustomerTicketingCreateDialogComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it("should build form", () => {
-    expect(component.form.get("message")?.value).toBeDefined();
-    expect(component.form.get("subject")?.value).toBeDefined();
-    expect(component.form.get("ticketCategory")?.value).toBeDefined();
-    expect(component.form.get("associatedTo")?.value).toBeDefined();
-    expect(component.form.get("file")?.value).toBeDefined();
+  it('should build form', () => {
+    expect(component.form.get('message')?.value).toBeDefined();
+    expect(component.form.get('subject')?.value).toBeDefined();
+    expect(component.form.get('ticketCategory')?.value).toBeDefined();
+    expect(component.form.get('associatedTo')?.value).toBeDefined();
+    expect(component.form.get('file')?.value).toBeDefined();
   });
 
-  describe("trigger create ticket request", () => {
-    describe("when the form is valid", () => {
+  describe('trigger create ticket request', () => {
+    describe('when the form is valid', () => {
       beforeEach(() => {
-        component.form.get("message")?.setValue(mockTicketStarter.message);
-        component.form.get("subject")?.setValue(mockTicketStarter.subject);
-        component.form.get("ticketCategory")?.setValue(mockCategories);
+        component.form.get('message')?.setValue(mockTicketStarter.message);
+        component.form.get('subject')?.setValue(mockTicketStarter.subject);
+        component.form.get('ticketCategory')?.setValue(mockCategories);
         component.form
-          .get("associatedTo")
+          .get('associatedTo')
           ?.setValue(mockTicketAssociatedObjects);
       });
 
-      it("should call createTicket if the form is valid", () => {
+      it('should call createTicket if the form is valid', () => {
         component.createTicketRequest();
 
         expect(customerTicketingFacade.createTicket).toHaveBeenCalled();
       });
 
-      it("should upload attachments after creating the ticket", () => {
+      it('should upload attachments after creating the ticket', () => {
         const mockFileList: File[] = [
-          new File(["foo"], "foo.txt", {
-            type: "text/plain"
-          })
+          new File(['foo'], 'foo.txt', {
+            type: 'text/plain',
+          }),
         ];
-        component.form.get("file")?.setValue(mockFileList);
+        component.form.get('file')?.setValue(mockFileList);
         const mockTicketDetails: TicketDetails = {
-          id: "000001",
+          id: '000001',
 
-          status: { id: "mock-status-id", name: STATUS_NAME.OPEN },
+          status: { id: 'mock-status-id', name: STATUS_NAME.OPEN },
           ticketEvents: [
             {
-              code: "code-000001",
-              createdAt: "mock-create-date",
-              author: "mock-author",
-              message: "mock-message",
+              code: 'code-000001',
+              createdAt: 'mock-create-date',
+              author: 'mock-author',
+              message: 'mock-message',
               addedByAgent: true,
-              ticketEventAttachments: [{}]
-            }
-          ]
+              ticketEventAttachments: [{}],
+            },
+          ],
         };
 
         (customerTicketingFacade.createTicket as jasmine.Spy).and.returnValue(
@@ -213,35 +210,35 @@ describe("CustomerTicketingCreateDialogComponent", () => {
         expect(customerTicketingFacade.uploadAttachment).toHaveBeenCalled();
       });
 
-      it("should close if there is an error creating the ticket", () => {
-        spyOn(component, "close").and.callThrough();
+      it('should close if there is an error creating the ticket', () => {
+        spyOn(component, 'close').and.callThrough();
         (customerTicketingFacade.createTicket as jasmine.Spy).and.returnValue(
-          throwError(() => "error")
+          throwError(() => 'error')
         );
 
         component.createTicketRequest();
 
-        expect(component.close).toHaveBeenCalledWith("Something went wrong");
+        expect(component.close).toHaveBeenCalledWith('Something went wrong');
       });
     });
 
-    it("should not call createTicket if the form is invalid", () => {
-      component.form.get("subject")?.setValue("");
+    it('should not call createTicket if the form is invalid', () => {
+      component.form.get('subject')?.setValue('');
       component.createTicketRequest();
       expect(customerTicketingFacade.createTicket).not.toHaveBeenCalled();
     });
 
-    it("should handle HttpErrorModel error correctly when creating a ticket", () => {
-      const expectedErrorMessage = "mock-error-message";
+    it('should handle HttpErrorModel error correctly when creating a ticket', () => {
+      const expectedErrorMessage = 'mock-error-message';
       const error = new HttpErrorModel();
       error.details = [{ message: expectedErrorMessage }];
       customerTicketingFacade.createTicket = createSpy().and.returnValue(
         throwError(error)
       );
-      component.form.get("message")?.setValue(mockTicketStarter.message);
-      component.form.get("subject")?.setValue(mockTicketStarter.subject);
-      component.form.get("ticketCategory")?.setValue(mockCategories);
-      component.form.get("associatedTo")?.setValue(mockTicketAssociatedObjects);
+      component.form.get('message')?.setValue(mockTicketStarter.message);
+      component.form.get('subject')?.setValue(mockTicketStarter.subject);
+      component.form.get('ticketCategory')?.setValue(mockCategories);
+      component.form.get('associatedTo')?.setValue(mockTicketAssociatedObjects);
       component.createTicketRequest();
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -250,19 +247,19 @@ describe("CustomerTicketingCreateDialogComponent", () => {
       );
     });
 
-    it("should handle other error correctly when creating a ticket", () => {
-      const expectedErrorMessage = "error";
+    it('should handle other error correctly when creating a ticket', () => {
+      const expectedErrorMessage = 'error';
       customerTicketingFacade.createTicket = createSpy().and.returnValue(
         throwError(expectedErrorMessage)
       );
-      component.form.get("message")?.setValue(mockTicketStarter.message);
-      component.form.get("subject")?.setValue(mockTicketStarter.subject);
-      component.form.get("ticketCategory")?.setValue(mockCategories);
-      component.form.get("associatedTo")?.setValue(mockTicketAssociatedObjects);
+      component.form.get('message')?.setValue(mockTicketStarter.message);
+      component.form.get('subject')?.setValue(mockTicketStarter.subject);
+      component.form.get('ticketCategory')?.setValue(mockCategories);
+      component.form.get('associatedTo')?.setValue(mockTicketAssociatedObjects);
       component.createTicketRequest();
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
-        { raw: "translated string" },
+        { raw: 'translated string' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });
