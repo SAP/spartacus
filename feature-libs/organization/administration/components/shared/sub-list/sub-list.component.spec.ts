@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Directive,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -18,7 +12,6 @@ import { ListService } from '../list/list.service';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { SubListComponent } from './sub-list.component';
 import createSpy = jasmine.createSpy;
-import { FocusConfig } from '@spartacus/storefront';
 
 const mockList: EntitiesModel<any> = {
   values: [
@@ -73,14 +66,6 @@ class MockItemService {
   launchDetails = createSpy('launchDetails');
 }
 
-@Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[cxFocus]',
-})
-export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
-}
-
 describe('SubListComponent', () => {
   let component: SubListComponent;
   let fixture: ComponentFixture<SubListComponent>;
@@ -96,11 +81,7 @@ describe('SubListComponent', () => {
         RouterTestingModule,
         PaginationTestingModule,
       ],
-      declarations: [
-        SubListComponent,
-        MockTableComponent,
-        MockKeyboadFocusDirective,
-      ],
+      declarations: [SubListComponent, MockTableComponent],
 
       providers: [
         {

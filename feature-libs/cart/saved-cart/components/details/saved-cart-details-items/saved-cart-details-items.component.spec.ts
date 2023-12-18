@@ -11,7 +11,6 @@ import {
   RoutingService,
   Translatable,
 } from '@spartacus/core';
-import { OutletModule } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsItemsComponent } from './saved-cart-details-items.component';
@@ -82,7 +81,7 @@ describe('SavedCartDetailsItemsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [StoreModule.forRoot({}), I18nTestingModule, OutletModule],
+        imports: [StoreModule.forRoot({}), I18nTestingModule],
         declarations: [SavedCartDetailsItemsComponent],
         providers: [
           {

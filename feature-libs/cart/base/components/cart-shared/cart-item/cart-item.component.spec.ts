@@ -11,8 +11,8 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
-  ReactiveFormsModule,
   UntypedFormControl,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -87,21 +87,6 @@ const mockProduct = {
   },
 };
 
-@Component({
-  selector: 'cx-cart-item-validation-warning',
-  template: '',
-})
-class MockCartItemValidationWarningComponent {
-  @Input() code: string;
-}
-
-@Directive({
-  selector: '[cxAtMessage]',
-})
-class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
-}
-
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let componentInjector: Injector;
@@ -131,8 +116,6 @@ describe('CartItemComponent', () => {
           MockUrlPipe,
           MockFeatureLevelDirective,
           MockOutletDirective,
-          MockCartItemValidationWarningComponent,
-          MockAtMessageDirective,
         ],
         providers: [
           {

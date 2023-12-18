@@ -132,7 +132,6 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 })
 class MockQuickOrderFormComponent {
   @Input() isLoading: boolean;
-  @Input() limit: number;
 }
 
 @Component({

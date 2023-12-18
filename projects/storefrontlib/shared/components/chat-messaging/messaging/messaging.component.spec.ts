@@ -7,7 +7,6 @@ import { IconModule } from '../../../../cms-components';
 import { FileUploadModule, FormErrorsModule } from '../../form';
 import { MessagingComponent } from './messaging.component';
 import { MessageEvent } from './messaging.model';
-import { AvatarComponent } from '@spartacus/storefront';
 
 const mockMessageEvent: MessageEvent = {
   rightAlign: false,
@@ -32,7 +31,7 @@ describe('MessagingComponent', () => {
         FormErrorsModule,
         ReactiveFormsModule,
       ],
-      declarations: [MessagingComponent, AvatarComponent],
+      declarations: [MessagingComponent],
     }).compileComponents();
   });
 

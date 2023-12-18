@@ -6,23 +6,14 @@ import {
   STATUS_NAME,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
-import {
-  FileUploadModule,
-  FocusConfig,
-  FormErrorsModule,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
 import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog.component';
-import { Component, Directive, Input } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import createSpy = jasmine.createSpy;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
-
 class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
   createTicketEvent = createSpy().and.returnValue(EMPTY);
   uploadAttachment = createSpy().and.returnValue(EMPTY);
@@ -32,21 +23,6 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-@Directive({
-  selector: '[cxFocus]',
-})
-export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
 describe('CustomerTicketingReopenDialogComponent', () => {
   let component: CustomerTicketingReopenDialogComponent;
   let fixture: ComponentFixture<CustomerTicketingReopenDialogComponent>;
@@ -54,17 +30,8 @@ describe('CustomerTicketingReopenDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        FileUploadModule,
-      ],
-      declarations: [
-        CustomerTicketingReopenDialogComponent,
-        MockKeyboadFocusDirective,
-        MockCxIconComponent,
-      ],
+      imports: [I18nTestingModule],
+      declarations: [CustomerTicketingReopenDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {

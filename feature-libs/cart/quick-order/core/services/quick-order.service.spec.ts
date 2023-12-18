@@ -1,5 +1,5 @@
 import { AbstractType } from '@angular/core';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import {
   ActiveCartFacade,
   CartAddEntrySuccessEvent,
@@ -88,7 +88,6 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   isStable(): Observable<boolean> {
     return of(true);
   }
-
   addEntries(_cartEntries: OrderEntry[]): void {}
 }
 
@@ -329,28 +328,18 @@ describe('QuickOrderService', () => {
   it('should add deleted entry and after 7s delete it', fakeAsync(() => {
     service.loadEntries(mockEntries);
     service.softDeleteEntry(0);
+    let result: Record<string, OrderEntry>;
 
-    let softDeletedEntries: any;
-    let shouldCheck = true;
-
-    service
-      .getSoftDeletedEntries()
-      .pipe(
-        tap((entries) => {
-          if (shouldCheck) {
-            expect(entries).toEqual({ mockCode1: mockEntry1 });
-
-            shouldCheck = false;
-          }
-        })
-      )
-      .subscribe((result) => {
-        softDeletedEntries = result;
-      });
+    const subscription = service.getSoftDeletedEntries().subscribe((val) => {
+      result = val;
+    });
+    expect(result).toEqual({ mockCode1: mockEntry1 });
 
     tick(7000);
 
-    expect(softDeletedEntries).toEqual({});
+    expect(result).toEqual({});
+
+    subscription.unsubscribe();
   }));
 
   it('should not add deleted entry', (done) => {

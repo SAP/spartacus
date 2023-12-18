@@ -195,10 +195,6 @@ class MockCustomerTicketingFacade {
 
   clearTicketList() {}
 }
-@Component({
-  selector: 'cx-customer-ticketing-create',
-})
-class MockCustomerTicketingCreateComponent {}
 
 describe('CustomerTicketingListComponent', () => {
   let component: CustomerTicketingListComponent;
@@ -215,7 +211,6 @@ describe('CustomerTicketingListComponent', () => {
           MockPaginationComponent,
           MockSortingComponent,
           MockUrlPipe,
-          MockCustomerTicketingCreateComponent,
         ],
         providers: [
           {

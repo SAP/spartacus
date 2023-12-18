@@ -1,10 +1,9 @@
-import { Component, DebugElement, Directive, Input } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
 import { Card, CardComponent, CardLinkAction } from './card.component';
-import { FocusDirective } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-icon',
@@ -12,13 +11,6 @@ import { FocusDirective } from '@spartacus/storefront';
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
-}
-
-@Directive({
-  selector: '[cxAtMessage]',
-})
-class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
 }
 
 describe('CardComponent', () => {
@@ -30,12 +22,7 @@ describe('CardComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [
-          CardComponent,
-          MockCxIconComponent,
-          MockAtMessageDirective,
-          FocusDirective,
-        ],
+        declarations: [CardComponent, MockCxIconComponent],
       }).compileComponents();
     })
   );

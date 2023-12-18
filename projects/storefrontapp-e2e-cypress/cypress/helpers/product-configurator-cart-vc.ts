@@ -5,13 +5,17 @@
  */
 
 import { user } from '../sample-data/checkout-flow';
-import * as checkoutForms from './checkout-forms';
-import * as checkout from './checkout-flow';
+import {
+  AddressData,
+  fillPaymentDetails,
+  fillShippingAddress,
+  PaymentDetails,
+} from './checkout-forms';
 import * as configurationCart from './product-configurator-cart';
 
-const shippingAddressData: checkoutForms.AddressData = user;
-const billingAddress: checkoutForms.AddressData = user;
-const paymentDetailsData: checkoutForms.PaymentDetails = user;
+const shippingAddressData: AddressData = user;
+const billingAddress: AddressData = user;
+const paymentDetailsData: PaymentDetails = user;
 
 /**
  * Verifies whether the issues banner is displayed.
@@ -64,46 +68,52 @@ export function verifyNotificationBannerInCart(
 }
 
 /**
- * Checks Terms & Conditions.
- */
-export function checkTermsAndConditions(currency: string = 'USD'): void {
-  cy.log("Check 'Terms & Conditions'");
-  cy.findByText('Terms & Conditions')
-    .should('have.attr', 'target', '_blank')
-    .should(
-      'have.attr',
-      'href',
-      `/${Cypress.env('BASE_SITE')}/en/${currency}/terms-and-conditions`
-    );
-  cy.get('input[formcontrolname="termsAndConditions"]').check();
-}
-
-/**
- * Place the order.
- */
-export function placeOrder(): void {
-  cy.log('Place order');
-  const orderConfirmationPage = checkout.waitForPage(
-    '/order-confirmation',
-    'getOrderConfirmationPage'
-  );
-  cy.get('cx-place-order button.btn-primary').should('be.enabled').click();
-  cy.wait(`@${orderConfirmationPage}`)
-    .its('response.statusCode')
-    .should('eq', 200);
-}
-
-/**
  * Conducts the checkout.
  */
-export function completeCheckout(): void {
-  cy.log('Fulfill shipping address form and submit');
-  checkoutForms.fillShippingAddress(shippingAddressData, true);
-  checkout.verifyDeliveryMethod();
+export function checkout(): void {
+  cy.log('Complete checkout process');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.log('Fulfill shipping address form');
+  fillShippingAddress(shippingAddressData, false);
+
+  cy.log("Navigate to the next step 'Delivery mode' tab");
+  cy.get('button.btn-primary')
+    .contains('Continue')
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', '/checkout/delivery-mode');
+      cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+      cy.get('cx-delivery-mode').should('be.visible');
+    });
+
+  cy.log("Navigate to the next step 'Payment details' tab");
+  cy.get('button.btn-primary')
+    .contains('Continue')
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', '/checkout/payment-details');
+      cy.get('.cx-checkout-title').should('contain', 'Payment');
+      cy.get('cx-payment-method').should('be.visible');
+    });
+
   cy.log('Fulfill payment details form');
-  checkoutForms.fillPaymentDetails(paymentDetailsData, billingAddress);
-  this.checkTermsAndConditions();
-  this.placeOrder();
+  fillPaymentDetails(paymentDetailsData, billingAddress);
+
+  cy.log("Check 'Terms & Conditions'");
+  cy.get('input[formcontrolname="termsAndConditions"]')
+    .check()
+    .then(() => {
+      cy.get('cx-place-order form').should('have.class', 'ng-valid');
+    });
+
+  cy.log('Place order');
+  cy.get('cx-place-order button.btn-primary')
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', '/order-confirmation');
+      cy.get('cx-order-confirmation-thank-you-message').should('be.visible');
+    });
+
   cy.log('Define order number alias');
   configurationCart.defineOrderNumberAlias();
 }

@@ -9,7 +9,7 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { Consignment, Order } from '@spartacus/order/root';
-import { CardModule, OutletModule } from '@spartacus/storefront';
+import { CardModule } from '@spartacus/storefront';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries.component';
 
 const mockProduct = { product: { code: 'test' } };
@@ -93,7 +93,6 @@ describe('OrderConsignedEntriesComponent', () => {
           I18nTestingModule,
           FeaturesConfigModule,
           RouterTestingModule,
-          OutletModule,
         ],
         providers: [
           {

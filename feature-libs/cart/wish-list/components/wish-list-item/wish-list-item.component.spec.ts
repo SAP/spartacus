@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
-  Directive,
   Injector,
   Input,
   Pipe,
@@ -72,13 +71,6 @@ const mockCartEntry: OrderEntry = {
   },
 };
 
-@Directive({
-  selector: '[cxAtMessage]',
-})
-class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
-}
-
 describe('WishListItemComponent', () => {
   let component: WishListItemComponent;
   let fixture: ComponentFixture<WishListItemComponent>;
@@ -94,7 +86,6 @@ describe('WishListItemComponent', () => {
           MockPictureComponent,
           MockAddToCartComponent,
           MockUrlPipe,
-          MockAtMessageDirective,
         ],
       })
         .overrideComponent(WishListItemComponent, {

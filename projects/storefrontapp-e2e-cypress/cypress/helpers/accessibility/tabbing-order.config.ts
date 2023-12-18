@@ -2359,7 +2359,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.BUTTON,
-      value: 'Start Session',
+      value: 'Start Emulation',
     },
   ],
   asmWithSelectedUser: [
@@ -2383,7 +2383,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.BUTTON,
-      value: 'Start Session',
+      value: 'Start Emulation',
     },
   ],
   asmWithCustomerLists: [

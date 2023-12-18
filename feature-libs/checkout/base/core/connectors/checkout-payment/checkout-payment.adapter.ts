@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CardType, PaymentDetails } from '@spartacus/core';
+import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 
 export abstract class CheckoutPaymentAdapter {

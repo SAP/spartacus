@@ -41,6 +41,9 @@ export interface StateWithUser {
   [USER_FEATURE]: UserState;
 }
 
+/**
+ * @deprecated since 3.2, moved to the `@spartacus/user` package.
+ */
 export interface UserState {
   addresses: StateUtils.LoaderState<Address[]>;
   consents: StateUtils.LoaderState<ConsentTemplate[]>;

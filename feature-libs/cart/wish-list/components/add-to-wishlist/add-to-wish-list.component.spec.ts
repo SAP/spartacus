@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
-  Directive,
   Input,
   Pipe,
   PipeTransform,
@@ -92,13 +91,6 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-@Directive({
-  selector: '[cxAtMessage]',
-})
-class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
-}
-
 describe('AddToWishListComponent', () => {
   let component: AddToWishListComponent;
   let fixture: ComponentFixture<AddToWishListComponent>;
@@ -109,12 +101,7 @@ describe('AddToWishListComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [
-          AddToWishListComponent,
-          MockIconComponent,
-          MockUrlPipe,
-          MockAtMessageDirective,
-        ],
+        declarations: [AddToWishListComponent, MockIconComponent, MockUrlPipe],
         providers: [
           { provide: AuthService, useClass: MockAuthService },
           { provide: WishListFacade, useClass: MockWishListService },
