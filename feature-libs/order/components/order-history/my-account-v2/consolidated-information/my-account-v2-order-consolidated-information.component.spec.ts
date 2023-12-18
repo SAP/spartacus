@@ -1,12 +1,14 @@
-import { Component, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { I18nTestingModule, Images, TranslationService } from '@spartacus/core';
-import { EMPTY, Observable } from 'rxjs';
-import { MyAccountV2OrderConsolidatedInformationComponent } from './my-account-v2-order-consolidated-information.component';
 import { MyAccountV2OrderConsignmentsService } from '@spartacus/order/components';
 import { OrderHistoryView } from '@spartacus/order/root';
-import { By } from '@angular/platform-browser';
+import { MediaContainer } from '@spartacus/storefront';
+import { EMPTY, Observable } from 'rxjs';
+import { MyAccountV2OrderConsolidatedInformationComponent } from './my-account-v2-order-consolidated-information.component';
 import createSpy = jasmine.createSpy;
+
 const mock_order1: OrderHistoryView = {
   code: 'order1',
   statusDisplay: 'cancelled',
@@ -35,7 +37,9 @@ const mock_images: Images[] = [
   template: '',
   selector: 'cx-media',
 })
-class MockMediaComponent {}
+class MockMediaComponent {
+  @Input() container: MediaContainer;
+}
 
 @Pipe({
   name: 'cxUrl',

@@ -7,10 +7,11 @@ import {
   TicketDetails,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
-import { MessageEvent } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY } from 'rxjs';
+import { MessageEvent, MessagingConfigs } from '@spartacus/storefront';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
 import createSpy = jasmine.createSpy;
+import { Component, Input } from '@angular/core';
 
 describe('CustomerTicketMessagesComponent', () => {
   let component: CustomerTicketingMessagesComponent;
@@ -40,10 +41,23 @@ describe('CustomerTicketMessagesComponent', () => {
     dispatch<T extends object>(_event: T): void {}
   }
 
+  @Component({
+    selector: 'cx-messaging',
+    template: '',
+  })
+  class MockCxMessagingComponent {
+    @Input() messageEvents$: Observable<Array<MessageEvent>>;
+    @Input() scrollToInput?: boolean = true;
+    @Input() messagingConfigs?: MessagingConfigs;
+  }
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [CustomerTicketingMessagesComponent],
+      declarations: [
+        CustomerTicketingMessagesComponent,
+        MockCxMessagingComponent,
+      ],
       providers: [
         {
           provide: CustomerTicketingFacade,
