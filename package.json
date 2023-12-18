@@ -171,7 +171,7 @@
     "@types/shelljs": "^0.8.12",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
-    "chalk": "^4.1.0",
+    "chalk": "^5.0.0",
     "commander": "^11.0.0",
     "concurrently": "^8.0.1",
     "core-js": "^3.30.1",
