@@ -6,6 +6,7 @@ import {
   Cart,
   CartItemComponentOptions,
   OrderEntry,
+  PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import {
@@ -23,6 +24,7 @@ class MockCartItemListComponent {
   @Input() readonly = false;
   @Input() items: OrderEntry[];
   @Input() cartIsLoading: Observable<boolean>;
+  @Input() promotionLocation: PromotionLocation;
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,

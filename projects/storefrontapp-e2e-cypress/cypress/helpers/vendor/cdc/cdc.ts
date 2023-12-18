@@ -110,24 +110,11 @@ export function fillAndSubmitRegistrationForm(cdcUser) {
   });
 }
 
-export function finalizeRegistration() {
-  cy.get('[class="gigya-screen-dialog-main"]').within(() => {
-    cy.get(
-      '[data-gigya-name="preferences.terms.test.terms.of.use.isConsentGranted"]'
-    ).check();
-    cy.get(
-      '[data-gigya-name="preferences.consent.survey.isConsentGranted"]'
-    ).check();
-    cy.get('[class="gigya-input-submit"]').click();
-  });
-}
-
 export function registerUserWithoutScreenSet(cdcUser) {
   cy.findByText(/Sign in \/ Register/i).click();
   cy.get('cx-login-register').findByText('Register').click();
   fillRegistrationForm(cdcUser, false);
   cy.get('button[type="submit"]').click();
-  finalizeRegistration();
 }
 
 export function fillAndSubmitNativeRegistrationForm(cdcUser) {
