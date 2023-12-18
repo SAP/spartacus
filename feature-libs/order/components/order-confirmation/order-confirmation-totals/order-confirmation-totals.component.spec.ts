@@ -11,7 +11,6 @@ class MockOrderFacade implements Partial<OrderFacade> {
       code: 'test-code-412',
     })
   );
-  clearPlacedOrder() {}
 }
 
 describe('OrderConfirmationTotalsComponent', () => {

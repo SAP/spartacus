@@ -1,4 +1,4 @@
-import { Component, DebugElement, Directive, Input } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GlobalMessageType, I18nTestingModule } from '@spartacus/core';
@@ -25,13 +25,6 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-@Directive({
-  selector: '[cxAtMessage]',
-})
-class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
-}
-
 describe('MessageComponent', () => {
   let component: MessageComponent;
   let fixture: ComponentFixture<MessageComponent>;
@@ -41,11 +34,7 @@ describe('MessageComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [
-          MessageComponent,
-          MockCxIconComponent,
-          MockAtMessageDirective,
-        ],
+        declarations: [MessageComponent, MockCxIconComponent],
       }).compileComponents();
     })
   );

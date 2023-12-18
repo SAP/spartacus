@@ -1,7 +1,6 @@
 import {
   Component,
   DebugElement,
-  Directive,
   EventEmitter,
   Input,
   Output,
@@ -89,13 +88,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   template: '',
 })
 class MockSpinnerComponent {}
-
-@Directive({
-  selector: '[cxAtMessage]',
-})
-class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
-}
 
 const p553637$: Observable<Product> = of({
   code: '553637',
@@ -230,7 +222,6 @@ describe('MyInterestsComponent', () => {
           MockPaginationComponent,
           MockSortingComponent,
           MockFeatureLevelDirective,
-          MockAtMessageDirective,
         ],
       }).compileComponents();
     })

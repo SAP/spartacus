@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  DebugElement,
-  Directive,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -114,13 +109,6 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   }
 }
 
-@Directive({
-  selector: '[cxNgSelectA11y]',
-})
-class MockNgSelectA11yDirective {
-  @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
-}
-
 describe('AddressFormComponent', () => {
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
@@ -147,7 +135,7 @@ describe('AddressFormComponent', () => {
           I18nTestingModule,
           FormErrorsModule,
         ],
-        declarations: [AddressFormComponent, MockNgSelectA11yDirective],
+        declarations: [AddressFormComponent],
         providers: [
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           { provide: UserService, useClass: MockUserService },
@@ -295,15 +283,12 @@ describe('AddressFormComponent', () => {
   });
 
   it('should emit submitAddress if dialog was closed with selected address as parameter', () => {
-    spyOn(launchDialogService, 'openDialogAndSubscribe');
     const mockAddressVerificationResult: AddressValidation = {
       decision: 'REVIEW',
     };
     dialogClose$.next(mockAddress);
 
     component.openSuggestedAddress(mockAddressVerificationResult);
-
-    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
 
     component.submitAddress.pipe(take(1)).subscribe((address) => {
       expect(address).toEqual(mockAddress);

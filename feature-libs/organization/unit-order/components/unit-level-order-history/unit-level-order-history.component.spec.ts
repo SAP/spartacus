@@ -21,9 +21,6 @@ import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OrderHistoryQueryParams } from '../../core/model/unit-order.model';
 import { UnitOrderFacade } from '../../root/facade';
 import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
-import { UnitLevelOrderHistoryFilterComponent } from './filter/unit-level-order-history-filter.component';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { ReactiveFormsModule } from '@angular/forms';
 
 const mockOrderList: OrderHistoryList | undefined = {
   orders: [
@@ -137,22 +134,6 @@ class MockTranslationService {
   }
 }
 
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
-@Component({
-  selector: 'cx-total',
-  template: '',
-})
-class MockTotalComponent {
-  @Input() pagination: any;
-}
-
 describe('UnitLevelOrderHistoryComponent', () => {
   let component: UnitLevelOrderHistoryComponent;
   let fixture: ComponentFixture<UnitLevelOrderHistoryComponent>;
@@ -162,15 +143,12 @@ describe('UnitLevelOrderHistoryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule, ReactiveFormsModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         UnitLevelOrderHistoryComponent,
         MockUrlPipe,
         MockPaginationComponent,
         MockSortingComponent,
-        UnitLevelOrderHistoryFilterComponent,
-        MockCxIconComponent,
-        MockTotalComponent,
       ],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },

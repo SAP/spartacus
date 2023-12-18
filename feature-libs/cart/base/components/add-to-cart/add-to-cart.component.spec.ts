@@ -19,7 +19,6 @@ import {
 import {
   CmsComponentData,
   CurrentProductService,
-  OutletModule,
   ProductListItemContext,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -133,7 +132,6 @@ describe('AddToCartComponent', () => {
         SpinnerModule,
         I18nTestingModule,
         ReactiveFormsModule,
-        OutletModule,
       ],
       declarations: [AddToCartComponent, MockItemCounterComponent],
       providers: [

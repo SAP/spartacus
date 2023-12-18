@@ -29,7 +29,6 @@ import {
 } from '@spartacus/core';
 import {
   ICON_TYPE,
-  KeyboardFocusTestingModule,
   LaunchDialogService,
   PromotionsModule,
   SpinnerModule,
@@ -145,7 +144,6 @@ describe('AddedToCartDialogComponent', () => {
         I18nTestingModule,
         PromotionsModule,
         FeaturesConfigModule,
-        KeyboardFocusTestingModule,
       ],
       declarations: [
         AddedToCartDialogComponent,

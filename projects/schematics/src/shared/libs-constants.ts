@@ -276,7 +276,6 @@ export const USER_ACCOUNT_FEATURE_NAME = 'User-Account';
 export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
 
 export const CDC_FEATURE_NAME = 'CDC';
-export const CDC_B2B_FEATURE_NAME = 'CDC-B2B';
 
 export const CDS_FEATURE_NAME = 'CDS';
 

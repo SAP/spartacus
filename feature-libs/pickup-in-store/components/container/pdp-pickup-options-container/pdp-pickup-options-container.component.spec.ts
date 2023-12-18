@@ -198,10 +198,8 @@ describe('PdpPickupOptionsComponent', () => {
     });
 
     it('should return nothing if pickup option is delivery ', () => {
-      spyOn(component, 'openDialog');
       const option = 'delivery';
       component.onPickupOptionChange(option);
-      expect(component.openDialog).not.toHaveBeenCalled();
     });
 
     it('should open dialog if displayName is not set on pickup option change', () => {

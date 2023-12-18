@@ -5,12 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { DeliveryMode } from '@spartacus/cart/base/root';
+import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   Address,
   B2BUser,
   CostCenter,
-  PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';

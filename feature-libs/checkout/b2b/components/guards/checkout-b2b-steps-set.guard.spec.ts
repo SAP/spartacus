@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   DeliveryMode,
+  PaymentDetails,
   PaymentType,
 } from '@spartacus/cart/base/root';
 import {
@@ -21,7 +22,6 @@ import {
   Address,
   CostCenter,
   LoggerService,
-  PaymentDetails,
   QueryState,
   RouteConfig,
   RoutingConfigService,

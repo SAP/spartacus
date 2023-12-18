@@ -1,4 +1,4 @@
-import { Component, DebugElement, Directive, Input } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -13,7 +13,6 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../cms-components/misc/icon';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentMethodsComponent } from './payment-methods.component';
-import { FocusDirective } from '@spartacus/storefront';
 
 class MockGlobalMessageService {
   add = jasmine.createSpy();
@@ -24,13 +23,6 @@ class MockGlobalMessageService {
   selector: 'cx-spinner',
 })
 class MockCxSpinnerComponent {}
-
-@Directive({
-  selector: '[cxAtMessage]',
-})
-class MockAtMessageDirective {
-  @Input() cxAtMessage: string | string[] | undefined;
-}
 
 const mockPayment: PaymentDetails = {
   defaultPayment: true,
@@ -79,8 +71,6 @@ describe('PaymentMethodsComponent', () => {
           MockCxSpinnerComponent,
           CardComponent,
           MockCxIconComponent,
-          MockAtMessageDirective,
-          FocusDirective,
         ],
         providers: [
           { provide: UserPaymentService, useClass: MockUserPaymentService },
