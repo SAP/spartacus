@@ -25,7 +25,7 @@ import {
   organizationAdministrationWrapperModulePath,
   organizationUserRegistrationWrapperModulePath,
   userAccountWrapperModulePath,
-  userProfileWrapperModulePath
+  userProfileWrapperModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
