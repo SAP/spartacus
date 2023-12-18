@@ -25,23 +25,19 @@
   }
 
   .cx-product-name {
-    @include type('5');
-    text-align: start;
-    display: block;
-    margin: 0 0 3px 0;
-    color: var(--cx-color-text);
-    text-decoration: none;
-
-    h2 {
+    a {
+      margin: 0 0 3px 0;
+      color: var(--cx-color-text);
+      text-decoration: none;
       @include type('5');
-
       @include media-breakpoint-down(sm) {
+        text-align: center;
         min-height: 48px;
       }
-    }
 
-    &:hover {
-      color: var(--cx-color-primary);
+      &:hover {
+        color: var(--cx-color-primary);
+      }
     }
   }
 
