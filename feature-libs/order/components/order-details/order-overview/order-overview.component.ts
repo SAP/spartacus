@@ -5,21 +5,19 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  CartOutlets,
-  DeliveryMode,
-  PaymentDetails,
-} from '@spartacus/cart/base/root';
+import { CartOutlets, DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   CmsOrderDetailOverviewComponent,
   CostCenter,
+  PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
 import { Card, CmsComponentData } from '@spartacus/storefront';
 import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
+import { paymentMethodCard } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-order-overview',
@@ -221,13 +219,8 @@ export class OrderOverviewComponent {
       }),
     ]).pipe(
       filter(() => Boolean(payment)),
-      map(
-        ([textTitle, textExpires]) =>
-          ({
-            title: textTitle,
-            textBold: payment.accountHolderName,
-            text: [payment.cardNumber, textExpires],
-          } as Card)
+      map(([textTitle, textExpires]) =>
+        paymentMethodCard(textTitle, textExpires, payment)
       )
     );
   }
