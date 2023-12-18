@@ -321,7 +321,7 @@ const MockConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig = {
   },
 };
 
-describe('OccConfiguratorVariantNormalizer', () => {
+fdescribe('OccConfiguratorVariantNormalizer', () => {
   let occConfiguratorVariantNormalizer: OccConfiguratorVariantNormalizer;
   let occConfig: OccConfig;
   let configUISettingsConfig: ConfiguratorUISettingsConfig;
@@ -403,6 +403,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should convert a configuration and support description at attribute and value level', () => {
+      (configUISettingsConfig.productConfigurator ??= {}).addDescriptions =
+        true;
       const result = occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.groups[0].attributes[0].description).toBeDefined();
       expect(result.groups[0].attributes[0].description).toBe(
@@ -1227,6 +1229,44 @@ describe('OccConfiguratorVariantNormalizer', () => {
           sourceAttribute
         )
       ).toBe(true);
+    });
+  });
+
+  describe('geDescription', () => {
+    it("should return undefined because the 'addDescriptions' mode is not activated", () => {
+      (configUISettingsConfig.productConfigurator ??= {}).addDescriptions =
+        false;
+
+      expect(
+        occConfiguratorVariantNormalizer['geDescription']()
+      ).toBeUndefined();
+    });
+
+    it("should return undefined despite 'longText' is defined BUT the 'addDescriptions' mode is not activated", () => {
+      (configUISettingsConfig.productConfigurator ??= {}).addDescriptions =
+        false;
+
+      expect(
+        occConfiguratorVariantNormalizer['geDescription']('longText')
+      ).toBeUndefined();
+    });
+
+    it("should return undefined despite the 'addDescriptions' mode is not activated BUT 'longText' is undefined", () => {
+      (configUISettingsConfig.productConfigurator ??= {}).addDescriptions =
+        true;
+
+      expect(
+        occConfiguratorVariantNormalizer['geDescription']()
+      ).toBeUndefined();
+    });
+
+    it('should return long text', () => {
+      (configUISettingsConfig.productConfigurator ??= {}).addDescriptions =
+        true;
+
+      expect(
+        occConfiguratorVariantNormalizer['geDescription']('longText')
+      ).toBe('longText');
     });
   });
 
