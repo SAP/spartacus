@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { B2BUser, B2BUserRight, B2BUserRole } from '@spartacus/core';
-import { OutletContextData } from '@spartacus/storefront';
+import { OutletContextData, PopoverDirective } from '@spartacus/storefront';
 import { UserDetailsCellComponent } from '..';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 
@@ -33,7 +33,7 @@ describe('RolesCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UserDetailsCellComponent],
+      declarations: [UserDetailsCellComponent, PopoverDirective],
       providers: [
         {
           provide: OutletContextData,

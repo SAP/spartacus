@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -20,12 +20,19 @@ import { BehaviorSubject, of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
 import createSpy = jasmine.createSpy;
+
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
 })
 class MockCxSpinnerComponent {}
 
+@Directive({
+  selector: '[cxNgSelectA11y]',
+})
+class MockNgSelectA11yDirective {
+  @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
+}
 const isBusySubject = new BehaviorSubject(false);
 
 class MockUpdateProfileService
@@ -63,7 +70,11 @@ describe('UpdateProfileComponent', () => {
           NgSelectModule,
           FeaturesConfigModule,
         ],
-        declarations: [UpdateProfileComponent, MockCxSpinnerComponent],
+        declarations: [
+          UpdateProfileComponent,
+          MockCxSpinnerComponent,
+          MockNgSelectA11yDirective,
+        ],
         providers: [
           {
             provide: UpdateProfileComponentService,

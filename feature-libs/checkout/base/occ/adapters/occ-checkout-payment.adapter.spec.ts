@@ -4,12 +4,13 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { CardType, Cart, PaymentDetails } from '@spartacus/cart/base/root';
+import { Cart } from '@spartacus/cart/base/root';
 import {
   PAYMENT_CARD_TYPE_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/checkout/base/core';
 import {
+  CardType,
   ConverterService,
   HttpErrorModel,
   normalizeHttpError,
@@ -17,6 +18,7 @@ import {
   OccConfig,
   OccEndpoints,
   PAYMENT_DETAILS_NORMALIZER,
+  PaymentDetails,
 } from '@spartacus/core';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';

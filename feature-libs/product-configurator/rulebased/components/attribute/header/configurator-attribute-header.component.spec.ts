@@ -33,21 +33,27 @@ export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
     return false;
   }
+
   getStyleClasses(_iconType: ICON_TYPE): string {
     return 'fas fa-exclamation-circle';
   }
+
   addLinkResource() {}
+
   getHtml(_iconType: ICON_TYPE) {}
+
   getFlipDirection(): void {}
 }
 
 let isCartEntryOrGroupVisited = true;
+
 class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
     return of(isCartEntryOrGroupVisited);
   }
 
   focusValue(): void {}
+
   scrollToConfigurationElement(): void {}
 }
 
@@ -181,6 +187,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
     component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
     component.isNavigationToGroupEnabled = true;
+    component['logError'] = () => {};
     fixture.detectChanges();
 
     configurationGroupsService = TestBed.inject(
