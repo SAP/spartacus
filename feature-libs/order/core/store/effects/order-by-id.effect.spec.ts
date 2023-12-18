@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { LoggerService, normalizeHttpError, OccConfig } from '@spartacus/core';
+import { normalizeHttpError, OccConfig } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -24,15 +24,6 @@ const MockOccModuleConfig: OccConfig = {
     },
   },
 };
-
-class MockLoggerService {
-  log(): void {}
-  warn(): void {}
-  error(): void {}
-  info(): void {}
-  debug(): void {}
-}
-
 describe('Order By Id effect', () => {
   let effect: OrderByIdEffect;
   let orderHistoryConnector: OrderHistoryConnector;
@@ -46,7 +37,6 @@ describe('Order By Id effect', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: OrderHistoryAdapter, useValue: {} },
         provideMockActions(() => actions$),
-        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
     actions$ = TestBed.inject(Actions);
@@ -73,7 +63,7 @@ describe('Order By Id effect', () => {
 
       const completion = new OrderActions.LoadOrderByIdFail({
         code: mockOrderParams.code,
-        error: normalizeHttpError('Error', new MockLoggerService()),
+        error: normalizeHttpError('Error'),
       });
 
       actions$ = hot('-a', { a: action });

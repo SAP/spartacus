@@ -4,7 +4,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   GlobalMessageService,
-  LoggerService,
   SiteContextActions,
   UserIdService,
 } from '@spartacus/core';
@@ -35,14 +34,6 @@ class MockGlobalMessageService {
   add(): void {}
 }
 
-class MockLoggerService {
-  log(): void {}
-  warn(): void {}
-  error(): void {}
-  info(): void {}
-  debug(): void {}
-}
-
 class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return of('testUserId');
@@ -67,7 +58,6 @@ describe('Order Details effect', () => {
         { provide: OrderHistoryAdapter, useValue: {} },
         { provide: UserIdService, useClass: MockUserIdService },
         provideMockActions(() => actions$),
-        { provide: LoggerService, useClass: MockLoggerService },
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,

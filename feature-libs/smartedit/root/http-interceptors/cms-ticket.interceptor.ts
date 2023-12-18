@@ -60,11 +60,12 @@ export class CmsTicketInterceptor implements HttpInterceptor {
       take(1),
       switchMap((pageContext: PageContext) => {
         request = request.clone(
-          !!pageContext.id
+          !!pageContext.id && !!pageContext.type
             ? {
                 setParams: {
                   cmsTicketId,
-                  categoryCode: pageContext.id,
+                  pageType: pageContext.type,
+                  code: pageContext.id,
                 },
               }
             : {

@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { PaymentDetails } from '@spartacus/cart/base/root';
 import {
   createFrom,
   CurrencySetEvent,
@@ -9,7 +10,6 @@ import {
   LanguageSetEvent,
   LoadUserPaymentMethodsEvent,
   OCC_USER_ID_ANONYMOUS,
-  PaymentDetails,
 } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { CheckoutPaymentEventListener } from './checkout-payment-event.listener';

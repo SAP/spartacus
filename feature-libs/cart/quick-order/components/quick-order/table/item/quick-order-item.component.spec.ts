@@ -49,7 +49,6 @@ class MockItemCounterComponent {
 })
 class MockMediaComponent {
   @Input() container;
-  @Input() alt: string;
 }
 
 describe('QuickOrderItemComponent', () => {

@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -10,11 +11,9 @@ import {
 import {
   Address,
   AddressValidation,
-  CardType,
   Country,
   GlobalMessageService,
   I18nTestingModule,
-  PaymentDetails,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';

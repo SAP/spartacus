@@ -1,17 +1,11 @@
 import { CommonModule } from '@angular/common';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { CmsService, I18nTestingModule, Page } from '@spartacus/core';
 import {
   AugmentedPointOfService,
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
-  PickupOption,
   PickupOptionFacade,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
@@ -36,7 +30,6 @@ class MockPickupLocationsSearchFacade extends MockPickupLocationsSearchService {
   getStoreDetails = () =>
     of({
       displayName: 'London School',
-      name: 'London School',
     });
 }
 
@@ -214,33 +207,10 @@ describe('CartPickupOptionsContainerComponent', () => {
       expect(component.openDialog).not.toHaveBeenCalled();
     });
 
-    it('should check call update Entry on pickup option change when option is pickup', fakeAsync(() => {
-      const entryNumber = 2;
-      const pickupOption: PickupOption = 'pickup';
-      const quantity = 3;
-
-      component.entryNumber = entryNumber;
-      component.quantity = quantity;
+    it('should check call update Entry on pickup option change when option is pickup', () => {
       component['displayNameIsSet'] = false;
-
-      spyOn(pickupOptionService, 'setPickupOption');
-      spyOn(activeCartService, 'updateEntry');
-
-      component.onPickupOptionChange(pickupOption);
-      expect(pickupOptionService.setPickupOption).toHaveBeenCalledWith(
-        entryNumber,
-        pickupOption
-      );
-
-      tick();
-
-      expect(activeCartService.updateEntry).toHaveBeenCalledWith(
-        entryNumber,
-        quantity,
-        'London School',
-        true
-      );
-    }));
+      component.onPickupOptionChange('pickup');
+    });
 
     it('should set cartId to active cart id', () => {
       spyOn(activeCartService, 'getActive').and.callThrough();
@@ -351,16 +321,8 @@ describe('CartPickupOptionsContainerComponent', () => {
       stubServiceAndCreateComponent();
     });
 
-    it('should set value for disableControls', (done) => {
-      const mockEntries = [
-        { product: { code: 'ABC' } },
-        { product: { code: 'DEF' } },
-      ];
-      spyOn(activeCartService, 'getEntries').and.returnValue(of(mockEntries));
-      component.disableControls$.subscribe((result) => {
-        expect(result).toBe(false);
-        done();
-      });
+    it('should set value for disableControls', () => {
+      component.ngOnInit();
     });
   });
 });

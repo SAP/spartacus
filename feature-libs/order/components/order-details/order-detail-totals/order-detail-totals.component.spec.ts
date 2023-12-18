@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Order } from '@spartacus/order/root';
-import { OutletModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailTotalsComponent } from './order-detail-totals.component';
@@ -62,7 +61,6 @@ describe('OrderDetailTotalsComponent', () => {
       };
 
       TestBed.configureTestingModule({
-        imports: [OutletModule],
         providers: [
           { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         ],

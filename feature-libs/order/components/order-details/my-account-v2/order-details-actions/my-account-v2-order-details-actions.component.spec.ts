@@ -1,14 +1,13 @@
 import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   EventService,
   I18nModule,
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, EMPTY, of } from 'rxjs';
 import { OrderDetailsService } from '../../order-details.service';
 import { MyAccountV2OrderDetailsActionsComponent } from './my-account-v2-order-details-actions.component';
 
@@ -54,7 +53,7 @@ describe('MyAccountV2OrderDetailsActionsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nModule, RouterTestingModule],
+        imports: [I18nModule],
         providers: [
           { provide: TranslationService, useClass: MockTranslationService },
           { provide: OrderDetailsService, useClass: MockOrderDetailsService },

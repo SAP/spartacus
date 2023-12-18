@@ -5,12 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  CardType,
-  facadeFactory,
-  PaymentDetails,
-  QueryState,
-} from '@spartacus/core';
+import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
+import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 

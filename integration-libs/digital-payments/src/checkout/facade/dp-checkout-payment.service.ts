@@ -5,11 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
+import { PaymentDetails } from '@spartacus/cart/base/root';
 import {
   Command,
   CommandService,
   CommandStrategy,
-  PaymentDetails,
   Query,
   QueryService,
   UserIdService,

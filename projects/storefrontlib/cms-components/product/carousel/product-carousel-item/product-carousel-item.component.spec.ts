@@ -1,5 +1,4 @@
 import {
-  Component,
   Directive,
   Injector,
   Input,
@@ -40,16 +39,6 @@ class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
 }
 
-@Component({
-  selector: 'cx-media',
-  template: '<img>',
-})
-class MockMediaComponent {
-  @Input() container: any;
-  @Input() format: string;
-  @Input() alt: string;
-}
-
 describe('ProductCarouselItemComponent in product-carousel', () => {
   let component: ProductCarouselItemComponent;
   let componentInjector: Injector;
@@ -80,7 +69,6 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
           ProductCarouselItemComponent,
           MockUrlPipe,
           MockOutletDirective,
-          MockMediaComponent,
         ],
         providers: [
           {

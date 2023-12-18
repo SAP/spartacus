@@ -11,6 +11,7 @@ import {
   CartOutlets,
   DeliveryMode,
   OrderEntry,
+  PaymentDetails,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
 import {
@@ -20,7 +21,7 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, PaymentDetails, TranslationService } from '@spartacus/core';
+import { Address, TranslationService } from '@spartacus/core';
 import { deliveryAddressCard, deliveryModeCard } from '@spartacus/order/root';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';

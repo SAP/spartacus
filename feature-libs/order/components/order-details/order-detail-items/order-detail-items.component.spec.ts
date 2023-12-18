@@ -11,7 +11,6 @@ import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
 import {
   CardModule,
   CmsComponentData,
-  OutletModule,
   PromotionsModule,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -168,7 +167,6 @@ describe('OrderDetailItemsComponent', () => {
           PromotionsModule,
           FeaturesConfigModule,
           RouterTestingModule,
-          OutletModule,
         ],
         providers: [
           { provide: OrderDetailsService, useValue: mockOrderDetailsService },

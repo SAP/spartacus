@@ -11,8 +11,6 @@ import { ItemService } from '../../shared/item.service';
 import { MessageService } from '../../shared/message/services/message.service';
 import { UserGroupDetailsComponent } from './user-group-details.component';
 import createSpy = jasmine.createSpy;
-import { Directive, Input } from '@angular/core';
-import { FocusConfig } from '@spartacus/storefront';
 
 const mockCode = 'u1';
 
@@ -27,14 +25,6 @@ class MockMessageService {
   }
   clear() {}
   close() {}
-}
-
-@Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[cxFocus]',
-})
-export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
 }
 
 describe('UserGroupDetailsComponent', () => {
@@ -52,7 +42,7 @@ describe('UserGroupDetailsComponent', () => {
         CardTestingModule,
         DeleteItemModule,
       ],
-      declarations: [UserGroupDetailsComponent, MockKeyboadFocusDirective],
+      declarations: [UserGroupDetailsComponent],
       providers: [
         {
           provide: ItemService,

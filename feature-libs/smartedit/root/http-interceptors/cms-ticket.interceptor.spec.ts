@@ -146,7 +146,7 @@ describe('CmsTicketInterceptor', () => {
     }
   ));
 
-  it('should add parameters for productList requests: cmsTicketId, categoryCode', inject(
+  it('should add parameters for productList requests: cmsTicketId, pageType, code', inject(
     [HttpClient],
     (http: HttpClient) => {
       spyOn(featureConfig, 'isLevel').and.returnValue(true);
@@ -164,7 +164,10 @@ describe('CmsTicketInterceptor', () => {
       expect(mockReq.request.params.get('cmsTicketId')).toEqual(
         'mockCmsTicketId'
       );
-      expect(mockReq.request.params.get('categoryCode')).toEqual('mockCode');
+      expect(mockReq.request.params.get('pageType')).toEqual(
+        PageType.CATEGORY_PAGE
+      );
+      expect(mockReq.request.params.get('code')).toEqual('mockCode');
       mockReq.flush('somedata');
     }
   ));
@@ -194,7 +197,8 @@ describe('CmsTicketInterceptor', () => {
       expect(mockReq.request.params.get('cmsTicketId')).toEqual(
         'mockCmsTicketId'
       );
-      expect(mockReq.request.params.get('categoryCode')).toBeFalsy();
+      expect(mockReq.request.params.get('pageType')).toBeFalsy();
+      expect(mockReq.request.params.get('code')).toBeFalsy();
       mockReq.flush('somedata');
     }
   ));
