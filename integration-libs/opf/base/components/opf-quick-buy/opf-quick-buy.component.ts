@@ -21,14 +21,16 @@ import { OpfQuickBuyService } from './opf-quick-buy.service';
 })
 export class OpfQuickBuyComponent implements OnInit {
   protected opfQuickBuyService = inject(OpfQuickBuyService);
-
   protected paymentGatewayConfig$: Observable<ActiveConfiguration>;
+  protected isUserGuestOrLoggedIn$: Observable<boolean>;
 
   PAYMENT_METHODS = OpfProviderType;
 
   ngOnInit(): void {
     this.paymentGatewayConfig$ =
       this.opfQuickBuyService.getPaymentGatewayConfiguration();
+    this.isUserGuestOrLoggedIn$ =
+      this.opfQuickBuyService.isUserGuestOrLoggedIn();
   }
 
   isPaymentMethodEnabled(
