@@ -5,20 +5,25 @@
  */
 
 import { Injectable, inject } from '@angular/core';
+import { CheckoutConfig } from '@spartacus/checkout/base/root';
+import { AuthService, BaseSiteService } from '@spartacus/core';
 import {
   ActiveConfiguration,
   OpfPaymentFacade,
   OpfPaymentProviderType,
   OpfProviderType,
 } from '@spartacus/opf/base/root';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OpfQuickBuyService {
   protected opfPaymentFacade = inject(OpfPaymentFacade);
+  protected checkoutConfig = inject(CheckoutConfig);
+  protected baseSiteService = inject(BaseSiteService);
+  protected authService = inject(AuthService);
 
   getPaymentGatewayConfiguration(): Observable<ActiveConfiguration> {
     return this.opfPaymentFacade
@@ -48,5 +53,18 @@ export class OpfQuickBuyService {
     }
 
     return isEnabled;
+  }
+
+  isUserGuestOrLoggedIn(): Observable<boolean> {
+    return this.baseSiteService.get().pipe(
+      take(1),
+      map((baseSite) => baseSite?.baseStore?.paymentProvider),
+      switchMap((paymentProviderName) => {
+        return paymentProviderName &&
+          this.checkoutConfig.checkout?.flows?.[paymentProviderName]?.guest
+          ? of(true)
+          : this.authService.isUserLoggedIn();
+      })
+    );
   }
 }
