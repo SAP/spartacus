@@ -385,8 +385,14 @@ function build_ssr {
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app build (No port defined)"
     else
+        local buildCommands
         printh "Building ssr app"
-        ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && npm run build && npm run build:ssr )
+        if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
+            buildCommands="npm run build"
+        else 
+            buildCommands="npm run build && npm run build:ssr"
+        fi
+       ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && eval $buildCommands )
     fi
 }
 
@@ -394,8 +400,14 @@ function build_ssr_pwa {
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with PWA app build (No port defined)"
     else
+        local buildCommands
         printh "Building ssr app with PWA"
-        ( cd ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME} && npm run build && npm run build:ssr )
+        if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
+            buildCommands="npm run build"
+        else 
+            buildCommands="npm run build && npm run build:ssr"
+        fi
+       ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && eval $buildCommands )
     fi
 }
 
@@ -410,12 +422,18 @@ function start_csr_unix {
 }
 
 function start_ssr_unix {
-     if [ -z "${SSR_PORT}" ]; then
+    if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app start (no port defined)"
     else
+        local serverFileName
         build_ssr
         printh "Starting ssr app"
-        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/main.js )
+        if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
+            serverFileName=server.mjs
+        else
+            serverFileName=main.js
+        fi
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
     fi
 }
 
@@ -425,7 +443,13 @@ function start_ssr_pwa_unix {
     else
         build_ssr_pwa
         printh "Starting ssr app (with pwa support)"
-        ( cd ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME} && export PORT=${SSR_PWA_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_PWA_APP_NAME}-${SSR_PWA_PORT}" dist/${SSR_PWA_APP_NAME}/server/main.js )
+        local serverFileName
+        if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
+            serverFileName=server.mjs
+        else
+            serverFileName=main.js
+        fi
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
     fi
 }
 
