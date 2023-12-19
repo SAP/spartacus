@@ -58,10 +58,17 @@
         </option>
       </select>
       <cx-configurator-show-more
-        *ngIf="getSelectedValue()?.description"
-        [text]="getSelectedValue()?.description"
-        [textSize]="70"
-        [productName]="getSelectedValue()?.valueDisplay"
+        *ngIf="getSelectedValueDescription()"
+        [text]="getSelectedValueDescription()"
+        [textSize]="getValueDescriptionLength()"
+        [productName]="
+          getLabel(
+            expMode,
+            getSelectedValue()?.valueDisplay,
+            getSelectedValue()?.valueCode,
+            getSelectedValue()
+          )
+        "
       ></cx-configurator-show-more>
     </div>
   </ng-container>

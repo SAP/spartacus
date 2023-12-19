@@ -321,7 +321,7 @@ const MockConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig = {
   },
 };
 
-fdescribe('OccConfiguratorVariantNormalizer', () => {
+describe('OccConfiguratorVariantNormalizer', () => {
   let occConfiguratorVariantNormalizer: OccConfiguratorVariantNormalizer;
   let occConfig: OccConfig;
   let configUISettingsConfig: ConfiguratorUISettingsConfig;
@@ -403,8 +403,8 @@ fdescribe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should convert a configuration and support description at attribute and value level', () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addDescriptions =
-        true;
+      (configUISettingsConfig.productConfigurator.descriptions ??=
+        {}).addDescriptions = true;
       const result = occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.groups[0].attributes[0].description).toBeDefined();
       expect(result.groups[0].attributes[0].description).toBe(
@@ -1234,8 +1234,8 @@ fdescribe('OccConfiguratorVariantNormalizer', () => {
 
   describe('geDescription', () => {
     it("should return undefined because the 'addDescriptions' mode is not activated", () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addDescriptions =
-        false;
+      (configUISettingsConfig.productConfigurator.descriptions ??=
+        {}).addDescriptions = false;
 
       expect(
         occConfiguratorVariantNormalizer['geDescription']()
@@ -1243,8 +1243,8 @@ fdescribe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it("should return undefined despite 'longText' is defined BUT the 'addDescriptions' mode is not activated", () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addDescriptions =
-        false;
+      (configUISettingsConfig.productConfigurator.descriptions ??=
+        {}).addDescriptions = false;
 
       expect(
         occConfiguratorVariantNormalizer['geDescription']('longText')
@@ -1252,8 +1252,8 @@ fdescribe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it("should return undefined despite the 'addDescriptions' mode is not activated BUT 'longText' is undefined", () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addDescriptions =
-        true;
+      (configUISettingsConfig.productConfigurator.descriptions ??=
+        {}).addDescriptions = true;
 
       expect(
         occConfiguratorVariantNormalizer['geDescription']()
@@ -1261,8 +1261,8 @@ fdescribe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should return long text', () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addDescriptions =
-        true;
+      (configUISettingsConfig.productConfigurator.descriptions ??=
+        {}).addDescriptions = true;
 
       expect(
         occConfiguratorVariantNormalizer['geDescription']('longText')

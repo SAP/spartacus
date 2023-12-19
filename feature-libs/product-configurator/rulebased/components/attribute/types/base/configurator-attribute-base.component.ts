@@ -4,13 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { inject } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
  */
 
 export class ConfiguratorAttributeBaseComponent {
+  protected configuratorUISettingsConfig = inject(ConfiguratorUISettingsConfig);
+
   private static SEPERATOR = '--';
   private static PREFIX = 'cx-configurator';
   private static PREFIX_LABEL = 'label';
@@ -245,5 +249,17 @@ export class ConfiguratorAttributeBaseComponent {
       return selectedValue.valueCode === Configurator.RetractValueCode;
     }
     return true;
+  }
+
+  /**
+   * Retrieves the length of the value description.
+   *
+   * @returns - the length of the value description
+   */
+  getValueDescriptionLength(): number {
+    return (
+      this.configuratorUISettingsConfig.productConfigurator?.descriptions
+        ?.valueDescriptionLength ?? 70
+    );
   }
 }

@@ -96,7 +96,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   let configurationGroupsService: ConfiguratorGroupsService;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
-  let uiConfig: ConfiguratorUISettingsConfig;
+  let configuratorUISettingsConfig: ConfiguratorUISettingsConfig;
 
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
@@ -125,6 +125,11 @@ describe('ConfigAttributeHeaderComponent', () => {
   const TestConfiguratorUISettings: ConfiguratorUISettingsConfig = {
     productConfigurator: {
       enableNavigationToConflict: false,
+      descriptions: {
+        addDescriptions: true,
+        attributeDescriptionLength: 100,
+        valueDescriptionLength: 70,
+      },
     },
   };
 
@@ -205,7 +210,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
-    uiConfig = TestBed.inject(
+    configuratorUISettingsConfig = TestBed.inject(
       ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
     );
   });
@@ -698,7 +703,8 @@ describe('ConfigAttributeHeaderComponent', () => {
   describe('Get conflict message key', () => {
     it("should return 'configurator.conflict.conflictDetected' conflict message key", () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
-      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = false;
+      (configuratorUISettingsConfig.productConfigurator ??=
+        {}).enableNavigationToConflict = false;
       fixture.detectChanges();
       expect(component.getConflictMessageKey()).toEqual(
         'configurator.conflict.conflictDetected'
@@ -707,7 +713,8 @@ describe('ConfigAttributeHeaderComponent', () => {
 
     it("should return 'configurator.conflict.viewConflictDetails' conflict message key", () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
-      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = true;
+      (configuratorUISettingsConfig.productConfigurator ??=
+        {}).enableNavigationToConflict = true;
       fixture.detectChanges();
       expect(component.getConflictMessageKey()).toEqual(
         'configurator.conflict.viewConflictDetails'
@@ -1083,31 +1090,59 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('isNavigationToConflictEnabled', () => {
     it('should return false if productConfigurator setting is not provided', () => {
-      uiConfig.productConfigurator = undefined;
+      configuratorUISettingsConfig.productConfigurator = undefined;
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
 
     it('should return false if enableNavigationToConflict setting is not provided', () => {
-      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict =
-        undefined;
+      (configuratorUISettingsConfig.productConfigurator ??=
+        {}).enableNavigationToConflict = undefined;
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
 
     it('should return true if enableNavigationToConflict setting is true', () => {
-      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = true;
+      (configuratorUISettingsConfig.productConfigurator ??=
+        {}).enableNavigationToConflict = true;
       expect(component.isNavigationToConflictEnabled()).toBe(true);
     });
 
     it('should return false if enableNavigationToConflict setting is false', () => {
-      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = false;
+      (configuratorUISettingsConfig.productConfigurator ??=
+        {}).enableNavigationToConflict = false;
       expect(component.isNavigationToConflictEnabled()).toBe(false);
     });
 
     it('should return false if enableNavigationToConflict setting is true and isNavigationToGroupEnabled is false', () => {
-      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = true;
+      (configuratorUISettingsConfig.productConfigurator ??=
+        {}).enableNavigationToConflict = true;
       component.isNavigationToGroupEnabled = false;
       fixture.detectChanges();
       expect(component.isNavigationToConflictEnabled()).toBe(false);
+    });
+  });
+
+  describe('getAttributeDescriptionLength', () => {
+    it('should return default value if productConfigurator setting is not provided', () => {
+      configuratorUISettingsConfig.productConfigurator = undefined;
+      expect(component.getAttributeDescriptionLength()).toEqual(100);
+    });
+
+    it('should return default value if descriptions setting is not provided', () => {
+      (configuratorUISettingsConfig.productConfigurator ??= {}).descriptions ??=
+        {};
+      expect(component.getAttributeDescriptionLength()).toEqual(100);
+    });
+
+    it('should return default value if attributeDescriptionLength setting is not provided', () => {
+      (configuratorUISettingsConfig.productConfigurator.descriptions ??=
+        {}).attributeDescriptionLength = undefined;
+      expect(component.getAttributeDescriptionLength()).toEqual(100);
+    });
+
+    it('should return set value if attributeDescriptionLength setting is 110', () => {
+      (configuratorUISettingsConfig.productConfigurator.descriptions ??=
+        {}).attributeDescriptionLength = 110;
+      expect(component.getAttributeDescriptionLength()).toEqual(110);
     });
   });
 

@@ -105,7 +105,8 @@ export class OccConfiguratorVariantNormalizer
   }
 
   protected geDescription(longText?: string): string | undefined {
-    return this.uiSettingsConfig?.productConfigurator?.addDescriptions
+    return this.uiSettingsConfig?.productConfigurator?.descriptions
+      ?.addDescriptions
       ? longText
       : undefined;
   }

@@ -70,8 +70,14 @@
           <cx-configurator-show-more
             *ngIf="attributeValue.description"
             [text]="attributeValue.description"
-            [textSize]="70"
-            [productName]="attributeValue.valueDisplay"
+            [textSize]="getValueDescriptionLength()"
+            [productName]="
+              getLabel(
+                expMode,
+                attributeValue.valueDisplay,
+                attributeValue.valueCode
+              )
+            "
           ></cx-configurator-show-more>
         </div>
         <div class="cx-value-price">

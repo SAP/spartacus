@@ -1,6 +1,9 @@
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorUISettingsConfig } from '@spartacus/product-configurator/rulebased';
 
 const attributeCode = 1;
 const currentAttribute: Configurator.Attribute = {
@@ -10,12 +13,31 @@ const currentAttribute: Configurator.Attribute = {
 };
 
 const attributeIncomplete: Configurator.Attribute = { name: 'name' };
+let configuratorUISettingsConfig: ConfiguratorUISettingsConfig = {
+  productConfigurator: {
+    descriptions: {
+      valueDescriptionLength: 80,
+    },
+  },
+};
 
 describe('ConfiguratorAttributeBaseComponent', () => {
   let classUnderTest: ConfiguratorAttributeBaseComponent;
 
   beforeEach(() => {
-    classUnderTest = new ConfiguratorAttributeBaseComponent();
+    TestBed.configureTestingModule({
+      providers: [
+        ConfiguratorAttributeBaseComponent,
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: configuratorUISettingsConfig,
+        },
+      ],
+    });
+
+    classUnderTest = TestBed.inject(
+      ConfiguratorAttributeBaseComponent as Type<ConfiguratorAttributeBaseComponent>
+    );
   });
 
   it('should generate value key', () => {
@@ -400,6 +422,31 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         ConfiguratorTestUtils.createValue('789', 20),
       ];
       expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(false);
+    });
+  });
+
+  describe('getValueDescriptionLength', () => {
+    it('should return default value if productConfigurator setting is not provided', () => {
+      configuratorUISettingsConfig.productConfigurator = undefined;
+      expect(classUnderTest.getValueDescriptionLength()).toEqual(70);
+    });
+
+    it('should return default value if descriptions setting is not provided', () => {
+      (configuratorUISettingsConfig.productConfigurator ??= {}).descriptions ??=
+        {};
+      expect(classUnderTest.getValueDescriptionLength()).toEqual(70);
+    });
+
+    it('should return default value if valueDescriptionLength setting is not provided', () => {
+      (configuratorUISettingsConfig.productConfigurator.descriptions ??=
+        {}).valueDescriptionLength = undefined;
+      expect(classUnderTest.getValueDescriptionLength()).toEqual(70);
+    });
+
+    it('should return set value if valueDescriptionLength setting is 80', () => {
+      (configuratorUISettingsConfig.productConfigurator.descriptions ??=
+        {}).valueDescriptionLength = 80;
+      expect(classUnderTest.getValueDescriptionLength()).toEqual(80);
     });
   });
 });

@@ -79,4 +79,13 @@ export class ConfiguratorAttributeDropDownComponent
   getSelectedValue(): Configurator.Value | undefined {
     return this.attribute.values?.find((value) => value?.selected);
   }
+
+  /**
+   * Retrieves a selected value description.
+   *
+   * @returns - if a selected value description is defined then it will be returned, otherwise an empty string
+   */
+  getSelectedValueDescription(): string {
+    return this.getSelectedValue()?.description ?? '';
+  }
 }

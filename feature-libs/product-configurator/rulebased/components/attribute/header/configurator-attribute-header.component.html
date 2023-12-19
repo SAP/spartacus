@@ -22,8 +22,8 @@
 <cx-configurator-show-more
   *ngIf="attribute.description"
   [text]="attribute.description"
-  [textSize]="100"
-  [productName]="attribute.label"
+  [textSize]="getAttributeDescriptionLength()"
+  [productName]="getLabel(expMode, attribute.label, attribute.name)"
 ></cx-configurator-show-more>
 <div
   *ngIf="attribute.hasConflicts"
