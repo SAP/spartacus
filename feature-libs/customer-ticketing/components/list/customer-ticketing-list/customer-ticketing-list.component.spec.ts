@@ -155,6 +155,7 @@ class MockPaginationComponent {
   @Input() pagination: any;
   @Output() viewPageEvent = new EventEmitter<string>();
 }
+
 @Component({
   template: '',
   selector: 'cx-sorting',
@@ -195,8 +196,10 @@ class MockCustomerTicketingFacade {
 
   clearTicketList() {}
 }
+
 @Component({
   selector: 'cx-customer-ticketing-create',
+  template: ''
 })
 class MockCustomerTicketingCreateComponent {}
 
@@ -204,7 +207,6 @@ describe('CustomerTicketingListComponent', () => {
   let component: CustomerTicketingListComponent;
   let fixture: ComponentFixture<CustomerTicketingListComponent>;
   let routingService: RoutingService;
-  let customerTicketingFacade: CustomerTicketingFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -243,6 +245,7 @@ describe('CustomerTicketingListComponent', () => {
 
       fixture = TestBed.createComponent(CustomerTicketingListComponent);
       component = fixture.componentInstance;
+      component.tickets$ = of(mockTicketList);
       routingService = TestBed.inject(RoutingService);
       fixture.detectChanges();
     })
