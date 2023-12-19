@@ -1,6 +1,4 @@
-import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
@@ -17,6 +15,7 @@ import {
   TicketDetails,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import {
   FileUploadModule,
   FocusConfig,
@@ -24,8 +23,9 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog.component';
+import { Component, Directive, Input } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import createSpy = jasmine.createSpy;
 
 const mockCategories = [
@@ -79,7 +79,9 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   get(): Observable<GlobalMessageEntities> {
     return of({});
   }
+
   add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
+
   remove(_: GlobalMessageType, __?: number): void {}
 }
 

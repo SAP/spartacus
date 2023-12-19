@@ -1,4 +1,3 @@
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventService, I18nTestingModule } from '@spartacus/core';
 import {
@@ -12,6 +11,7 @@ import { MessageEvent, MessagingConfigs } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
 import createSpy = jasmine.createSpy;
+import { Component, Input } from '@angular/core';
 
 describe('CustomerTicketMessagesComponent', () => {
   let component: CustomerTicketingMessagesComponent;

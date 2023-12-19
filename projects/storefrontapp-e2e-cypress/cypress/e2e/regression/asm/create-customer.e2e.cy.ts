@@ -39,11 +39,7 @@ context('Assisted Service Module', () => {
 
       cy.log('--> fill form');
 
-<<<<<<< HEAD
       user.email = generateMail(randomString(), true);
-=======
-      const user = getSampleUser();
->>>>>>> develop-6.7.x
       asm.fillCreateCustomerForm(user);
 
       cy.log('--> submit form');
@@ -53,7 +49,6 @@ context('Assisted Service Module', () => {
         .should('eq', 201);
 
       cy.get('cx-customer-emulation').should('be.visible');
-<<<<<<< HEAD
 
       const backOfficeUrl =
         Cypress.env('BACK_OFFICE_URL') + Cypress.env('BACK_OFFICE_PREFIX');
@@ -134,8 +129,6 @@ context('Assisted Service Module', () => {
       cy.log('--> Log in to Spartacus');
       checkout.signInUser(user);
       cy.get('cx-login .cx-login-greet').should('be.visible');
-=======
->>>>>>> develop-6.7.x
     });
   });
 
@@ -163,12 +156,8 @@ context('Assisted Service Module', () => {
       asm.asmCloseCreateCustomerDialog();
     });
 
-<<<<<<< HEAD
     // TODO(#CXSPA-5165): enable this case
     it.skip('should be not able to create a new customer with duplicated user data by agent (CXSPA-1594)', () => {
-=======
-    it('should be not able to create a new customer with duplicated user data by agent (CXSPA-1594)', () => {
->>>>>>> develop-6.7.x
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
@@ -178,10 +167,6 @@ context('Assisted Service Module', () => {
       cy.log('--> Open create customer dialog on customer list dialog');
       asm.asmOpenCreateCustomerDialogOnCustomerListDialog();
 
-<<<<<<< HEAD
-=======
-      const user = getSampleUser();
->>>>>>> develop-6.7.x
       user.email = myCompanyAdminUser.registrationData?.email;
       cy.log('--> fill form');
       asm.fillCreateCustomerForm(user);

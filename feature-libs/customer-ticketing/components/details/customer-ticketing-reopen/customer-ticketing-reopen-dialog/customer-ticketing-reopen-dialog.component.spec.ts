@@ -1,6 +1,4 @@
-import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   CustomerTicketingFacade,
@@ -17,6 +15,8 @@ import {
 } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
 import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog.component';
+import { Component, Directive, Input } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import createSpy = jasmine.createSpy;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

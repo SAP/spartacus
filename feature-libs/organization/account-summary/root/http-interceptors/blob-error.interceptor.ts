@@ -11,9 +11,9 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
+import { inject, Injectable } from '@angular/core';
 import { FileReaderService } from '@spartacus/storefront';
+import { WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 

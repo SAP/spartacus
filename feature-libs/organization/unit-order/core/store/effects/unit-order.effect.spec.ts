@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
@@ -11,6 +10,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { UnitOrderAdapter, UnitOrderConnector } from '../../connectors/index';
 import { UnitOrderActions } from '../actions/index';
 import { UnitOrderEffect } from './unit-order.effect';
+import { HttpErrorResponse } from '@angular/common/http';
 
 const mockOrderDetails: Order = {};
 
