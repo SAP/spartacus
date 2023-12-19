@@ -199,7 +199,6 @@ class MockCustomerTicketingFacade {
 
 @Component({
   selector: 'cx-customer-ticketing-create',
-  template: ''
 })
 class MockCustomerTicketingCreateComponent {}
 
@@ -207,6 +206,7 @@ describe('CustomerTicketingListComponent', () => {
   let component: CustomerTicketingListComponent;
   let fixture: ComponentFixture<CustomerTicketingListComponent>;
   let routingService: RoutingService;
+  let customerTicketingFacade: CustomerTicketingFacade;
 
   beforeEach(
     waitForAsync(() => {
