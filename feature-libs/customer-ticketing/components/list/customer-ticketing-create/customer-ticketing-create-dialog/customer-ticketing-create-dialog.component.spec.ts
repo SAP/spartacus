@@ -1,5 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  GlobalMessageEntities,
+  GlobalMessageService,
+  GlobalMessageType,
+  HttpErrorModel,
+  I18nTestingModule,
+  RoutingService,
+  Translatable,
+  TranslationService,
+} from '@spartacus/core';
 import {
   CustomerTicketingFacade,
   STATUS_NAME,
