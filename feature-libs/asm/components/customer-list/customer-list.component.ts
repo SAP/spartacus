@@ -22,19 +22,19 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import {
+  FeatureConfigService,
+  OccConfig,
   SortModel,
   TranslationService,
   User,
-  OccConfig,
-  FeatureConfigService,
 } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
   FocusConfig,
   ICON_TYPE,
-  LAUNCH_CALLER,
   LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
@@ -210,7 +210,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   fetchCustomers(): void {
-    // TODO: (CXSPA-2722 for remove ) Remove FeatureConfigService for 7.0
+    // TODO: (CXSPA-2722, CXSPA-3090) for remove ) Remove FeatureConfigService for 7.0
     this.enableAsmB2bCustomerList =
       (this.featureConfig?.isLevel('6.1') ?? false) &&
       this.selectedUserGroupId === 'b2bCustomerList';
