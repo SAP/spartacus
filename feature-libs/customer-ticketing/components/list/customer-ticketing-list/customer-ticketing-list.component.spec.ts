@@ -245,7 +245,6 @@ describe('CustomerTicketingListComponent', () => {
 
       fixture = TestBed.createComponent(CustomerTicketingListComponent);
       component = fixture.componentInstance;
-      component.tickets$ = of(mockTicketList);
       routingService = TestBed.inject(RoutingService);
       fixture.detectChanges();
     })
