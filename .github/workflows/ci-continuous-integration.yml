@@ -3,7 +3,6 @@ on:
     types: [opened, synchronize]
     branches:
       - develop
-      - develop-*
       - release/**
       - epic/**
   workflow_dispatch:
