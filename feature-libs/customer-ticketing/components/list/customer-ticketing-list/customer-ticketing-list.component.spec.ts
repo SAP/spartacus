@@ -155,6 +155,7 @@ class MockPaginationComponent {
   @Input() pagination: any;
   @Output() viewPageEvent = new EventEmitter<string>();
 }
+
 @Component({
   template: '',
   selector: 'cx-sorting',
@@ -195,6 +196,7 @@ class MockCustomerTicketingFacade {
 
   clearTicketList() {}
 }
+
 @Component({
   selector: 'cx-customer-ticketing-create',
 })
