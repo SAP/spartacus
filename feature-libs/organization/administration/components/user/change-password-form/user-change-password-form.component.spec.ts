@@ -7,7 +7,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
-import { FormErrorsComponent } from '@spartacus/storefront';
+import { FocusConfig, FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
@@ -15,6 +15,7 @@ import { UserItemService } from '../services/user-item.service';
 import { UserChangePasswordFormComponent } from './user-change-password-form.component';
 import { UserChangePasswordFormService } from './user-change-password-form.service';
 import { MessageService } from '@spartacus/organization/administration/components';
+import { Directive, Input } from '@angular/core';
 
 const mockForm = new UntypedFormGroup({
   password: new UntypedFormControl(),
@@ -26,6 +27,14 @@ class MockUserItemService {
 }
 class MockUserChangePasswordFormService {
   getForm() {}
+}
+
+@Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
+  selector: '[cxFocus]',
+})
+export class MockKeyboadFocusDirective {
+  @Input('cxFocus') config: FocusConfig = {};
 }
 
 describe('UserChangePasswordFormComponent', () => {
@@ -42,7 +51,11 @@ describe('UserChangePasswordFormComponent', () => {
         NgSelectModule,
         CardTestingModule,
       ],
-      declarations: [UserChangePasswordFormComponent, FormErrorsComponent],
+      declarations: [
+        UserChangePasswordFormComponent,
+        FormErrorsComponent,
+        MockKeyboadFocusDirective,
+      ],
       providers: [
         {
           provide: UserItemService,

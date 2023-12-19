@@ -12,7 +12,11 @@ import {
   Title,
 } from '@spartacus/core';
 import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  NgSelectA11yDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserRegistrationFormComponent } from './user-registration-form.component';
 import { UserRegistrationFormService } from './user-registration-form.service';
@@ -128,7 +132,12 @@ describe('UserRegistrationFormComponent', () => {
           RouterTestingModule,
           FeaturesConfigModule,
         ],
-        declarations: [UserRegistrationFormComponent, MockUrlPipe],
+        declarations: [
+          UserRegistrationFormComponent,
+          MockUrlPipe,
+          NgSelectA11yDirective,
+          SpinnerComponent,
+        ],
         providers: [
           {
             provide: UserRegistrationFormService,

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Address, I18nTestingModule } from '@spartacus/core';
-import { LaunchDialogService } from '../../../../../layout';
+import { FocusDirective, LaunchDialogService } from '../../../../../layout';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../misc/index';
@@ -41,7 +41,11 @@ describe('SuggestedAddressDialogComponent', () => {
         providers: [
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         ],
-        declarations: [SuggestedAddressDialogComponent, MockCxIconComponent],
+        declarations: [
+          SuggestedAddressDialogComponent,
+          MockCxIconComponent,
+          FocusDirective,
+        ],
       }).compileComponents();
     })
   );

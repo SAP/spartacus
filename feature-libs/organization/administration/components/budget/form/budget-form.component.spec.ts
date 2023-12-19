@@ -12,7 +12,7 @@ import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { FormErrorsComponent } from '@spartacus/storefront';
+import { FocusDirective, FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
@@ -58,6 +58,7 @@ class MockDatePickerComponent {
   @Input() control: UntypedFormControl;
   @Input() min: UntypedFormControl;
   @Input() max: UntypedFormControl;
+  @Input() required?: boolean;
 }
 
 describe('BudgetFormComponent', () => {
@@ -79,6 +80,7 @@ describe('BudgetFormComponent', () => {
         BudgetFormComponent,
         FormErrorsComponent,
         MockDatePickerComponent,
+        FocusDirective,
       ],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
@@ -139,70 +141,70 @@ describe('BudgetFormComponent', () => {
   describe('autoSelect uid', () => {
     beforeEach(() => {
       component.form = mockForm;
-      component.form.get('orgUnit.uid').setValue(null);
+      component.form.get('orgUnit.uid')?.setValue(null);
     });
 
     it('should auto-select unit if only one is available', () => {
       activeUnitList$.next([{ id: 'test' }]);
       fixture.detectChanges();
-      expect(component.form.get('orgUnit.uid').value).toEqual('test');
+      expect(component.form?.get('orgUnit.uid')?.value).toEqual('test');
     });
 
     it('should not auto-select unit if more than one is available', () => {
       activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
       fixture.detectChanges();
-      expect(component.form.get('orgUnit.uid').value).toBeNull();
+      expect(component.form?.get('orgUnit.uid')?.value).toBeNull();
     });
 
     it('should not auto-select unit if there is no unit', () => {
       activeUnitList$.next(undefined);
       fixture.detectChanges();
-      expect(component.form.get('orgUnit.uid').value).toBeNull();
+      expect(component.form?.get('orgUnit.uid')?.value).toBeNull();
     });
   });
 
   describe('autoSelect currency', () => {
     beforeEach(() => {
       component.form = mockForm;
-      component.form.get('currency.isocode').setValue(null);
+      component.form.get('currency.isocode')?.setValue(null);
     });
 
     it('should auto-select currency if only one is available', () => {
       currencies$.next([{ isocode: 'test' }]);
       fixture.detectChanges();
-      expect(component.form.get('currency.isocode').value).toEqual('test');
+      expect(component.form?.get('currency.isocode')?.value).toEqual('test');
     });
 
     it('should not auto-select currency if more than one is available', () => {
       currencies$.next([{ isocode: 'test' }, { isocode: 'test' }]);
       fixture.detectChanges();
-      expect(component.form.get('currency.isocode').value).toBeNull();
+      expect(component.form?.get('currency.isocode')?.value).toBeNull();
     });
   });
 
   describe('createCodeWithName', () => {
     it('should set code field value if empty based on provided name value', () => {
       component.form = mockForm;
-      component.form.get('name').patchValue('Unit Test Value');
-      component.form.get('code').patchValue(undefined);
+      component.form.get('name')?.patchValue('Unit Test Value');
+      component.form.get('code')?.patchValue(undefined);
       component.createCodeWithName(
         component.form.get('name'),
         component.form.get('code')
       );
 
-      expect(component.form.get('code').value).toEqual('unit-test-value');
+      expect(component.form.get('code')?.value).toEqual('unit-test-value');
     });
 
     it('should prevent setting code if value is provided for this field', () => {
       component.form = mockForm;
-      component.form.get('name').patchValue('Unit Test Value');
-      component.form.get('code').patchValue('test code');
+      component.form.get('name')?.patchValue('Unit Test Value');
+      component.form.get('code')?.patchValue('test code');
       component.createCodeWithName(
         component.form.get('name'),
         component.form.get('code')
       );
 
-      expect(component.form.get('code').value).toEqual('test code');
+      expect(component.form.get('code')?.value).toEqual('test code');
     });
   });
 });
