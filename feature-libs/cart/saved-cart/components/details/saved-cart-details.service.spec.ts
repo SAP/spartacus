@@ -46,7 +46,7 @@ describe('SavedCartDetailsService', () => {
     service = TestBed.inject(SavedCartDetailsService);
   });
 
-  it('should be created', () => {
+  it('should be created t', () => {
     expect(service).toBeTruthy();
   });
 
