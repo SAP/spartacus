@@ -55,7 +55,14 @@ exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup 
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -63,11 +70,11 @@ exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup 
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/schematics-test",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -105,12 +112,9 @@ exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup 
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -119,10 +123,10 @@ exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup 
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "schematics-test:build:production"
+              "buildTarget": "schematics-test:build:production"
             },
             "development": {
-              "browserTarget": "schematics-test:build:development"
+              "buildTarget": "schematics-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -130,7 +134,7 @@ exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup 
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "schematics-test:build"
+            "buildTarget": "schematics-test:build"
           }
         },
         "test": {

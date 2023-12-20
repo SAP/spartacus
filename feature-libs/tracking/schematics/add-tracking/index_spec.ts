@@ -10,15 +10,15 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  LibraryOptions as SpartacusTrackingOptions,
-  SpartacusOptions,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_TRACKING,
-  trackingPersonalizationFeatureModulePath,
-  trackingTagManagementFeatureModulePath,
+  SpartacusOptions,
+  LibraryOptions as SpartacusTrackingOptions,
   TRACKING_PERSONALIZATION_FEATURE_NAME,
   TRACKING_TMS_AEP_FEATURE_NAME,
   TRACKING_TMS_GTM_FEATURE_NAME,
+  trackingPersonalizationFeatureModulePath,
+  trackingTagManagementFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -46,6 +46,7 @@ describe('Spartacus Tracking schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

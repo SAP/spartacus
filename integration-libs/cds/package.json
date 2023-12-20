@@ -23,11 +23,11 @@
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^16.2.7",
-    "@angular/common": "^16.2.10",
-    "@angular/core": "^16.2.10",
-    "@angular/router": "^16.2.10",
-    "@ngrx/store": "^16.0.1",
+    "@angular-devkit/schematics": "^17.0.5",
+    "@angular/common": "^17.0.5",
+    "@angular/core": "^17.0.5",
+    "@angular/router": "^17.0.5",
+    "@ngrx/store": "^17.0.1",
     "@spartacus/cart": "2211.19.0",
     "@spartacus/core": "2211.19.0",
     "@spartacus/order": "2211.19.0",
