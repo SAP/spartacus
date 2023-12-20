@@ -18,7 +18,7 @@ import {
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { WindowRef } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
@@ -64,10 +64,17 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   private openNodes: HTMLElement[] = [];
   private subscriptions = new Subscription();
   private resize = new EventEmitter();
+  private arrowControls: Subject<KeyboardEvent> = new Subject();
 
   @HostListener('window:resize')
   onResize() {
     this.resize.next(undefined);
+  }
+
+  @HostListener('document:keyDown.arrowUp', ['$event'])
+  @HostListener('document:keyDown.arrowDown', ['$event'])
+  onArrow(e: KeyboardEvent) {
+    this.arrowControls.next(e);
   }
 
   constructor(
@@ -171,6 +178,29 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
 
     event.stopImmediatePropagation();
     event.stopPropagation();
+  }
+
+  onSpace(event: UIEvent) {
+    this.toggleOpen(event);
+    this.focusOnNode(event);
+    this.subscriptions.add(
+      this.arrowControls.subscribe((e) => {
+        e.preventDefault();
+        const parentElement = (<HTMLElement>e.target).parentElement
+          ?.parentElement;
+        const nextLink = parentElement?.nextElementSibling?.querySelector('a');
+        const previousLink =
+          parentElement?.previousElementSibling?.querySelector('a');
+        e.code === 'ArrowDown' ? nextLink?.focus() : previousLink?.focus();
+      })
+    );
+  }
+
+  focusOnNode(event: UIEvent) {
+    const firstFocusableElement =
+      (<HTMLElement>event.target).nextElementSibling?.querySelector('button') ||
+      (<HTMLElement>event.target).nextElementSibling?.querySelector('a');
+    firstFocusableElement?.focus();
   }
 
   back(): void {

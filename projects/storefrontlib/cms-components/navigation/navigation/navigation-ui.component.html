@@ -30,6 +30,7 @@
       [style]="node.styleAttributes"
       [class]="node.styleClasses"
       (click)="closeIfClickedTheSameLink(node)"
+      [tabindex]="depth > 0 && !node.children ? -1 : 0"
     >
       {{ node.title }}
     </cx-generic-link>
@@ -45,14 +46,14 @@
           {{ node.title }}
         </cx-generic-link>
         <button
-          [attr.tabindex]="depth < 1 ? 0 : -1"
           [attr.aria-haspopup]="true"
           [attr.aria-expanded]="false"
           [attr.aria-label]="node.title"
           (click)="toggleOpen($any($event))"
           (mouseenter)="onMouseEnter($event)"
-          (keydown.space)="toggleOpen($any($event))"
+          (keydown.space)="onSpace($any($event))"
           (keydown.esc)="back()"
+          (keydown.arrowDown)="focusOnNode($any($event))"
         >
           <ng-container *ngIf="!node.url">
             {{ node.title }}
