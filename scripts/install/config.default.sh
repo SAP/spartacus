@@ -44,7 +44,7 @@ SPARTACUS_PROJECTS=(
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='epic/upgrade-to-angular-17_v2' #TODO: CXSPA-5665 change to develop-next-major after merging Angualr v17
+BRANCH='develop-next-major' #TODO: CXSPA-5665 change to develop-next-major after merging Angualr v17
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
