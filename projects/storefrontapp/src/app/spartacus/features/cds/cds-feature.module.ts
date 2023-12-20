@@ -9,23 +9,21 @@ import { CdsConfig, CdsModule } from '@spartacus/cds';
 import { provideConfig } from '@spartacus/core';
 
 const additionalCdsConfig = {
-  cds: {
-    site: 'A_CDS_SITE',
-    tenant: 'A_CDS_TENANT',
-    baseUrl: 'A_CDS_BASE_URL',
-    endpoints: {
-      strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
-    },
-    merchandising: {
-      defaultCarouselViewportThreshold: 80,
-    },
-    profileTag: {
-      javascriptUrl: 'A_CDS_PROFILE_TAG_LOAD_URL',
-      configUrl: 'A_CDS_PROFILE_TAG_CONFIG_URL',
-      allowInsecureCookies: true,
-    },
+  site: 'A_CDS_SITE',
+  tenant: 'A_CDS_TENANT',
+  baseUrl: 'A_CDS_BASE_URL',
+  endpoints: {
+    strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
   },
-}
+  merchandising: {
+    defaultCarouselViewportThreshold: 80,
+  },
+  profileTag: {
+    javascriptUrl: 'A_CDS_PROFILE_TAG_LOAD_URL',
+    configUrl: 'A_CDS_PROFILE_TAG_CONFIG_URL',
+    allowInsecureCookies: true,
+  },
+};
 
 @NgModule({
   imports: [CdsModule.forRoot()],
@@ -50,7 +48,7 @@ const additionalCdsConfig = {
           allowInsecureCookies: true,
         },
       },
-      cdsConfigs: [additionalCdsConfig]
+      cdsConfigs: [additionalCdsConfig],
     }),
   ],
 })
