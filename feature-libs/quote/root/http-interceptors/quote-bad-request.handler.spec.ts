@@ -6,8 +6,6 @@ import {
   HttpResponseStatus,
   Priority,
 } from '@spartacus/core';
-import { QuoteCartService } from '@spartacus/quote/root';
-import { of } from 'rxjs';
 import { QuoteBadRequestHandler } from './quote-bad-request.handler';
 
 const mockRequest = {} as HttpRequest<any>;
@@ -34,11 +32,11 @@ const mockCartValidationResponse = {
   },
 } as HttpErrorResponse;
 
-const mockDomainErrorResponse = {
+const mockQuoteAccessErrorResponse = {
   error: {
     errors: [
       {
-        type: 'DomainError',
+        type: 'CartQuoteAccessError',
       },
     ],
   },
@@ -86,13 +84,6 @@ class MockGlobalMessageService {
   add() {}
   remove() {}
 }
-let isQuoteCartActive: any;
-
-class MockQuoteCartService {
-  isQuoteCartActive() {
-    return of(isQuoteCartActive);
-  }
-}
 
 describe('QuoteBadRequestHandler', () => {
   let classUnderTest: QuoteBadRequestHandler;
@@ -106,12 +97,10 @@ describe('QuoteBadRequestHandler', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        { provide: QuoteCartService, useClass: MockQuoteCartService },
       ],
     });
     classUnderTest = TestBed.inject(QuoteBadRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    isQuoteCartActive = false;
   });
 
   it('should be created', () => {
@@ -148,17 +137,9 @@ describe('QuoteBadRequestHandler', () => {
     );
   });
 
-  it('should do nothing on domain error issues in case cart is not linked to quote', () => {
+  it('should handle quote cart access error issues', () => {
     spyOn(globalMessageService, 'add');
-    classUnderTest.handleError(mockRequest, mockDomainErrorResponse);
-
-    expect(globalMessageService.add).not.toHaveBeenCalled();
-  });
-
-  it('should handle domain error issues in case cart is linked to quote', () => {
-    isQuoteCartActive = true;
-    spyOn(globalMessageService, 'add');
-    classUnderTest.handleError(mockRequest, mockDomainErrorResponse);
+    classUnderTest.handleError(mockRequest, mockQuoteAccessErrorResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {

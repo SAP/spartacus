@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
+  HttpErrorHandler,
   provideDefaultConfig,
   provideDefaultConfigFactory,
   RoutingConfig,
@@ -22,6 +23,8 @@ import {
   QUOTE_FEATURE,
   QUOTE_REQUEST_FEATURE,
 } from './feature-name';
+import { QuoteBadRequestHandler } from './http-interceptors/quote-bad-request.handler';
+import { QuoteNotFoundHandler } from './http-interceptors/quote-not-found.handler';
 
 export function defaultQuoteComponentsConfig() {
   return {
@@ -110,6 +113,16 @@ export const defaultQuoteConfigLayoutConfig: LayoutConfig = {
     ]),
   ],
   providers: [
+    {
+      provide: HttpErrorHandler,
+      useExisting: QuoteBadRequestHandler,
+      multi: true,
+    },
+    {
+      provide: HttpErrorHandler,
+      useExisting: QuoteNotFoundHandler,
+      multi: true,
+    },
     provideDefaultConfigFactory(defaultQuoteComponentsConfig),
     provideDefaultConfigFactory(defaultQuoteAwareComponentsConfig),
     provideDefaultConfigFactory(defaultQuoteRequestComponentsConfig),

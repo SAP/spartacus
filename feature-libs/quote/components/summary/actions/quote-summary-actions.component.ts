@@ -67,8 +67,6 @@ export class QuoteSummaryActionsComponent
   protected subscription = new Subscription();
 
   protected readonly CX_SECTION_SELECTOR = 'cx-quote-summary-actions section';
-  protected readonly CX_BTN_SELECTOR =
-    'cx-quote-summary-actions section button';
   protected readonly HEADER_SLOT_SELECTOR = '.BottomHeaderSlot';
   /**
    * Height of a CSS box model of section for action buttons
@@ -178,10 +176,7 @@ export class QuoteSummaryActionsComponent
     this.isMobile()
       .pipe(take(1))
       .subscribe((mobile) => {
-        if (
-          mobile &&
-          this.quoteStorefrontUtilsService.getElement(this.CX_BTN_SELECTOR)
-        ) {
+        if (mobile) {
           const headerSlotBottom =
             this.quoteStorefrontUtilsService.getDomRectValue(
               this.HEADER_SLOT_SELECTOR,
@@ -310,11 +305,9 @@ export class QuoteSummaryActionsComponent
   }
 
   protected adjustStyling(): void {
-    if (this.quoteStorefrontUtilsService.getElement(this.CX_BTN_SELECTOR)) {
-      this.prepareButtonsForMobile();
-      this.adjustBottomProperty();
-      this.prepareButtonsForDesktop();
-    }
+    this.prepareButtonsForMobile();
+    this.adjustBottomProperty();
+    this.prepareButtonsForDesktop();
   }
 
   /**
@@ -411,6 +404,16 @@ export class QuoteSummaryActionsComponent
 
   protected requote(quoteId: string) {
     this.quoteFacade.requote(quoteId);
+  }
+
+  /**
+   * Verifies whether there are any action buttons.
+   *
+   * @param allowedActions - currently displayed actions
+   * @returns - if there are any action buttons, returns 'true', otherwise 'false'.
+   */
+  areButtonsRendered(allowedActions: QuoteAction[]): boolean {
+    return allowedActions.length > 0;
   }
 
   /**

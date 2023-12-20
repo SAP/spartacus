@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './feature-name';
-export * from './quote-root.module';
-export * from './model/index';
 export * from './facade/index';
+export * from './feature-name';
 export * from './guards/index';
+export * from './http-interceptors/index';
+export * from './model/index';
+export * from './quote-root.module';
 
 /** AUGMENTABLE_TYPES_START */
 export { QuoteConfig } from './config/quote.config';
