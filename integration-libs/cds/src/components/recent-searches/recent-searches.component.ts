@@ -11,7 +11,7 @@ import {
   SearchBoxComponentService,
 } from '@spartacus/storefront';
 import { RecentSearchesService } from './recent-searches.service';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 export interface SearchBoxOutlet {
   search: string;
@@ -27,21 +27,25 @@ const MAX_RECENT_SEARCHES = 5;
 export class RecentSearchesComponent implements OnInit {
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxService = inject(SearchBoxComponentService);
-  result$ = this.recentSearchesService.recentSearches$.pipe(
-    map((recentSearches) => {
-      return recentSearches.slice(0, MAX_RECENT_SEARCHES);
-    })
+  result$ = this.outletContext?.context$.pipe(
+    switchMap((context: SearchBoxOutlet) =>
+      this.recentSearchesService.recentSearches$.pipe(
+        map((recentSearches) => {
+          return recentSearches.slice(
+            0,
+            context.maxRecentSearches || MAX_RECENT_SEARCHES
+          );
+        })
+      )
+    )
   );
+
   outletContext$ = this.outletContext.context$;
   constructor(
     @Optional() protected outletContext?: OutletContextData<SearchBoxOutlet>
   ) {}
   ngOnInit() {
-    this.recentSearchesService.checkAvailability().subscribe((result) => {
-      if (result) {
-        this.recentSearchesService.recentSearchesListener();
-      }
-    });
+    this.recentSearchesService.addRecentSearchesListener();
   }
 
   preventDefault(ev: UIEvent): void {

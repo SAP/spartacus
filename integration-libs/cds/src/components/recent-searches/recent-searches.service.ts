@@ -6,7 +6,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {interval, of, ReplaySubject} from 'rxjs';
+import { interval, of, ReplaySubject } from 'rxjs';
 import { concatMap, endWith, takeWhile } from 'rxjs/operators';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class RecentSearchesService {
   private recentSearchesSource = new ReplaySubject<string[]>();
   recentSearches$ = this.recentSearchesSource.asObservable();
 
-  checkAvailability() {
+  private checkAvailability() {
     return interval(20).pipe(
       concatMap((_) => of((<any>window).Y_TRACKING)),
       takeWhile((result: any) => {
@@ -24,9 +24,15 @@ export class RecentSearchesService {
     );
   }
 
-  recentSearchesListener() {
-    (<any>window).Y_TRACKING.recentSearches?.addListener((recentSearches) => {
-      this.recentSearchesSource.next(recentSearches);
+  addRecentSearchesListener() {
+    this.checkAvailability().subscribe((result) => {
+      if (result) {
+        (<any>window).Y_TRACKING.recentSearches?.addListener(
+          (recentSearches: string[]) => {
+            this.recentSearchesSource.next(recentSearches);
+          }
+        );
+      }
     });
   }
 }
