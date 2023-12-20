@@ -19,6 +19,7 @@ export const PERFORM_QUOTE_ACTION = '@PERFORM_QUOTE_ACTION';
 export const STATUS_SUBMITTED = 'Submitted';
 export const STATUS_REQUESTED = 'Requested';
 export const STATUS_CANCELED = 'Cancelled';
+export const STATUS_DRAFT = 'Draft';
 export const STATUS_VENDOR_QUOTE = 'Vendor Quote';
 export const STATUS_BUYER_SUBMIT = 'status_buyer_submit';
 export const STATUS_BUYER_CANCEL = 'status_buyer_cancel';
@@ -26,12 +27,15 @@ export const STATUS_BUYER_CHECKOUT = 'status_buyer_checkout';
 export const STATUS_SALES_REPORTER_SUBMIT = 'status_sales_reporter_submit';
 const SHOP_NAME = Cypress.env('BASE_SITE'); //Powertools-spa
 const QUOTE_LIST_PATH = `${SHOP_NAME}/en/USD/my-account/quotes`;
-const STATUS_DRAFT = 'Draft';
 const CARD_TITLE_QUOTE_INFORMATION = 'Quote Information';
 const SUBMIT_BTN = 'Submit Quote';
 const EXPIRY_DATE: Date = createValidExpiryDate();
+const SAVE_CART_POPUP_MSG =
+  'Your current cart will be converted to a saved cart.';
 const GLOBAL_MSG_QUOTE_REQUEST_NOT_POSSIBLE =
   'Quote request not possible because we found problems with your entries. Please review your cart.';
+const GLOBAL_MSG_SAVED_CART_CREATED =
+  'Your active cart was converted to saved cart';
 
 /**
  * Selectors
@@ -39,6 +43,7 @@ const GLOBAL_MSG_QUOTE_REQUEST_NOT_POSSIBLE =
 
 const defaultAddToCartComponentSelector = 'cx-add-to-cart';
 const listComponentSelector = 'cx-quote-list';
+const defaultSavedCartListComponentSelector = 'cx-saved-cart-list';
 const linksComponentSelector = 'cx-quote-links';
 const headerOverviewComponentSelector = 'cx-quote-header-overview';
 const commentsComponentSelector = 'cx-quote-comments';
@@ -263,12 +268,17 @@ export function prepareQuote(
 export function prepareSellerQuote(
   salesrep_email: string,
   salesrep_password: string,
-  buyer: object
+  buyerUser: string,
+  buyerEmail: string
 ) {
   log(
     'Requests a quote as buyer, starts asm mode and and verifies if it is in draft state',
     prepareQuote.name
   );
+  const buyer = {
+    fullName: buyerUser,
+    email: buyerEmail,
+  };
   submitQuote(STATUS_BUYER_SUBMIT);
   checkQuoteState(STATUS_SUBMITTED);
   logout();
@@ -715,8 +725,10 @@ export function clickEditPencil(): void {
 
 /**
  * Clicks on 'Yes' button within the quote confirmation popover.
+ *
+ * @param quoteStatus Expected quote status
  */
-export function clickOnYesBtnWithinRequestPopUp(status: string): void {
+export function clickOnYesBtnWithinRequestPopUp(quoteStatus: string): void {
   log(
     'Clicks on "Yes" button within the quote confirmation popover',
     clickOnYesBtnWithinRequestPopUp.name
@@ -726,45 +738,52 @@ export function clickOnYesBtnWithinRequestPopUp(status: string): void {
       cy.get('button.btn-primary').click();
     })
     .then(() => {
-      switch (status) {
-        case STATUS_BUYER_SUBMIT: {
-          checkQuoteListDisplayed();
-          checkQuoteListContainsQuoteId();
-          checkQuoteStatusInQuoteList(STATUS_SUBMITTED);
-          break;
-        }
-        case STATUS_BUYER_CANCEL: {
-          cy.wait(PERFORM_QUOTE_ACTION)
-            .its('response.statusCode')
-            .should('eq', 200);
-          cy.url().should('include', 'quotes');
-          break;
-        }
-        case STATUS_SALES_REPORTER_SUBMIT: {
-          checkQuoteListDisplayed();
-          checkQuoteListContainsQuoteId();
-          checkQuoteStatusInQuoteList(STATUS_SUBMITTED);
-          break;
-        }
-        case STATUS_BUYER_CHECKOUT: {
-          cy.url()
-            .should('include', '/checkout/')
-            .then(() => {
-              cy.get(
-                'cx-page-layout[class=MultiStepCheckoutSummaryPageTemplate]'
-              )
-                .should('be.visible')
-                .then(() => {
-                  goToQuoteListPage();
-                })
-                .then(() => {
-                  checkQuoteStatusInQuoteList(STATUS_VENDOR_QUOTE);
-                });
-            });
-          break;
-        }
-      }
+      checkQuoteStatus(quoteStatus);
     });
+}
+
+/**
+ * Verifies the quote status.
+ *
+ * @param quoteStatus Expected quote status
+ */
+export function checkQuoteStatus(quoteStatus: string): void {
+  switch (quoteStatus) {
+    case STATUS_BUYER_SUBMIT: {
+      checkQuoteListDisplayed();
+      checkQuoteListContainsQuoteId();
+      checkQuoteStatusInQuoteList(STATUS_SUBMITTED);
+      break;
+    }
+    case STATUS_BUYER_CANCEL: {
+      cy.wait(PERFORM_QUOTE_ACTION)
+        .its('response.statusCode')
+        .should('eq', 200);
+      cy.url().should('include', 'quotes');
+      break;
+    }
+    case STATUS_SALES_REPORTER_SUBMIT: {
+      checkQuoteListDisplayed();
+      checkQuoteListContainsQuoteId();
+      checkQuoteStatusInQuoteList(STATUS_SUBMITTED);
+      break;
+    }
+    case STATUS_BUYER_CHECKOUT: {
+      cy.url()
+        .should('include', '/checkout/')
+        .then(() => {
+          cy.get('cx-page-layout[class=MultiStepCheckoutSummaryPageTemplate]')
+            .should('be.visible')
+            .then(() => {
+              goToQuoteListPage();
+            })
+            .then(() => {
+              checkQuoteStatusInQuoteList(STATUS_VENDOR_QUOTE);
+            });
+        });
+      break;
+    }
+  }
 }
 
 /**
@@ -790,6 +809,8 @@ export function checkGlobalMessageDisplayed(
 
 /**
  * Verifies if "Submit" button is on the quote details overview page.
+ *
+ * @param isEnabled States if the submit button should be enabled.
  */
 export function checkSubmitBtn(isEnabled: boolean): void {
   log(
@@ -1069,21 +1090,30 @@ export function checkLinkedItemInViewport(index: number) {
 
 /**
  * Cancels the quote.
+ *
+ * @param status Expected quote status
+ * @param editMode States if the edit mode for the quote is active
  */
-export function cancelQuote(status: string) {
+export function cancelQuote(status: string, editMode: boolean) {
   log('Cancels the quote', cancelQuote.name);
-  clickCancelQuoteBtn();
+  clickCancelQuoteBtn(editMode);
   clickOnYesBtnWithinRequestPopUp(status);
 }
 
 /**
  * Clicks on "Cancel Quote" button.
+ *
+ * @param editModeis States if the edit mode for the quote is active
  */
-function clickCancelQuoteBtn() {
+function clickCancelQuoteBtn(editMode: boolean) {
   log('Clicks on "Cancel Quote" button', clickCancelQuoteBtn.name);
   cy.get(summaryActionsComponentSelector)
     .within(() => {
-      cy.get('button.btn-secondary').click();
+      if (editMode) {
+        cy.get('button.btn-secondary').click();
+      } else {
+        cy.get('button.btn-tertiary').click();
+      }
     })
     .then(() => {
       checkQuoteConfirmDialogDisplayed();
@@ -1116,16 +1146,32 @@ export function goToQuoteOverviewPage() {
 
 /**
  * Enables the edit mode for the quote.
+ *
+ * @param saveCartPopup states if the save active cart popup is shown
+ * @param quoteStatus expected status of the quote
  */
-export function enableEditQuoteMode() {
+export function enableEditQuoteMode(
+  saveCartPopup?: boolean,
+  quoteStatus?: string
+) {
   log('Enables the edit mode for the quote', enableEditQuoteMode.name);
-  cy.get(summaryActionsComponentSelector)
-    .within(() => {
-      cy.get('button.btn-secondary').click();
-    })
-    .then(() => {
-      cy.get(summarySellerEditComponentSelector).should('exist');
-    });
+  if (saveCartPopup) {
+    cy.get(summaryActionsComponentSelector)
+      .within(() => {
+        cy.get('button.btn-secondary').click();
+      })
+      .then(() => {
+        isSaveActiveCartPopupShown(quoteStatus);
+      });
+  } else {
+    cy.get(summaryActionsComponentSelector)
+      .within(() => {
+        cy.get('button.btn-secondary').click();
+      })
+      .then(() => {
+        cy.get(summarySellerEditComponentSelector).should('exist');
+      });
+  }
 }
 
 /**
@@ -1422,6 +1468,184 @@ export function clearActiveCart() {
 }
 
 /**
+ * Creates, submits and approves a quote so its ready to be checked out.
+ *
+ * @param buyerEmail Email of the buyer
+ * @param buyerPassword Password of the buyer
+ * @param buyerUser Username of the buyer
+ * @param salesrepEmail Email of the salesrep
+ * @param salesrepPassword Password of the salesrep
+ */
+export function prepareQuoteForCheckout(
+  buyerEmail: string,
+  buyerPassword: string,
+  buyerUser: string,
+  salesrepEmail: string,
+  salesrepPassword: string
+) {
+  prepareSellerQuote(salesrepEmail, salesrepPassword, buyerUser, buyerEmail);
+  checkQuoteState(STATUS_REQUESTED);
+  submitQuote(STATUS_SALES_REPORTER_SUBMIT);
+  asm.agentSignOut();
+  login(buyerEmail, buyerPassword, buyerUser);
+  goToQuoteOverviewPage();
+}
+
+/**
+ * Prepares a cart which contains one item. This cart is converted to a saved cart within several tests.
+ *
+ * @param testProduct Product which is added to the cart
+ */
+export function prepareSavedCartTemplate(testProduct: string) {
+  goToQuoteOverviewPage();
+  createNewCart();
+  addProductToCart(testProduct, '1');
+  goToQuoteOverviewPage();
+}
+
+/**
+ * Verifies if a given number of saved carts exists.
+ *
+ * @param numberOfCarts Number of expected saved carts
+ */
+export function checkNumberOfSavedCarts(numberOfCarts: number) {
+  log(
+    'Verifies if a given number of saved carts exists',
+    checkNumberOfSavedCarts.name
+  );
+  const location = `${SHOP_NAME}/en/USD/my-account/saved-carts`;
+  cy.visit(location)
+    .then(() => {
+      cy.location('pathname').should('contain', location);
+      isSavedCartListDisplayed();
+    })
+    .then(() => {
+      if (numberOfCarts === 0) {
+        cy.get(defaultSavedCartListComponentSelector).within(() => {
+          cy.get('.cx-saved-cart-list-no-saved-carts');
+        });
+      } else {
+        cy.get(defaultSavedCartListComponentSelector).within(() => {
+          cy.get('table').find('tr').should('have.length', numberOfCarts);
+        });
+      }
+    });
+}
+
+/**
+ * Verifies whether the saved cart list is displayed.
+ */
+export function isSavedCartListDisplayed() {
+  log(
+    'Verifies whether the saved cart list page is displayed',
+    isSavedCartListDisplayed.name
+  );
+  cy.get(defaultSavedCartListComponentSelector).should('be.visible');
+}
+
+/**
+ * Request a new quote which is based on a canceled quote.
+ *
+ * @param quoteStatus Expected status of the quote
+ */
+export function requestNewQuote(quoteStatus: string) {
+  cy.get(summaryActionsComponentSelector)
+    .within(() => {
+      cy.get('button.btn-primary').click();
+    })
+    .then(() => {
+      isSaveActiveCartPopupShown(quoteStatus);
+    });
+}
+
+/**
+ * Click on create new cart link within a quote.
+ */
+export function createNewCart() {
+  log('Click on create new cart link within a quote', createNewCart.name);
+  cy.get('.cx-action-link')
+    .contains('New Cart')
+    .click()
+    .then(() => {
+      cy.get('.CartPageTemplate');
+    });
+}
+/**
+ * Verifies if the save active cart popup is shown.
+ *
+ * @param quoteStatus Expected status of the quote
+ */
+export function isSaveActiveCartPopupShown(quoteStatus: string) {
+  log(
+    'Verifies if the save active cart popup is shown',
+    isSaveActiveCartPopupShown.name
+  );
+  cy.get(confirmDialogComponentSelector)
+    .within(() => {
+      cy.get('.cx-notes-container').contains(SAVE_CART_POPUP_MSG);
+      cy.get('button.btn-primary').click();
+    })
+    .then(() => {
+      cy.get(summarySellerEditComponentSelector).should('exist');
+      checkQuoteState(quoteStatus);
+      checkGlobalMessageDisplayed(true, GLOBAL_MSG_SAVED_CART_CREATED);
+      cy.wait(1000);
+    });
+}
+
+/**
+ * Clears all existing saved carts.
+ */
+export function clearSavedCarts() {
+  log('Clears all existing saved carts', clearSavedCarts.name);
+  const location = `${SHOP_NAME}/en/USD/my-account/saved-carts`;
+  cy.visit(location)
+    .then(() => {
+      cy.location('pathname').should('contain', location);
+      isSavedCartListDisplayed();
+    })
+    .then(() => {
+      let savedCartsExist: boolean = true;
+      cy.get('.cx-saved-cart-list-header')
+        .then(($header) => {
+          if ($header.text().includes('Saved Carts (0)')) {
+            savedCartsExist = false;
+            checkNumberOfSavedCarts(0);
+          }
+        })
+        .then(() => {
+          if (savedCartsExist) {
+            cy.get(defaultSavedCartListComponentSelector)
+              .within(() => {
+                cy.get('.cx-saved-cart-list-make-cart-active')
+                  .first()
+                  .within(() => {
+                    cy.get('button.btn-tertiary').click();
+                  });
+              })
+              .then(() => {
+                cy.get('.cx-saved-cart-form-dialog')
+                  .within(() => {
+                    cy.get('button.btn-primary').click();
+                  })
+                  .then(() => {
+                    const location = `${SHOP_NAME}/en/USD/cart`;
+                    cy.visit(location)
+                      .then(() => {
+                        cy.location('pathname').should('contain', location);
+                      })
+                      .then(() => {
+                        cart.clearActiveCart();
+                        clearSavedCarts();
+                      });
+                  });
+              });
+          }
+        });
+    });
+}
+
+/**
  * Registers read quote route.
  */
 export function registerReadQuoteRoute() {
@@ -1484,7 +1708,7 @@ export function registerUpdateCartItemRoute() {
 }
 
 /**
- * RRegisters delete quote item route.
+ * Registers delete quote item route.
  */
 export function registerDeleteQuoteItemRoute() {
   log('Registers delete quote item route.', registerDeleteQuoteItemRoute.name);
