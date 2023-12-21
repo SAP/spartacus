@@ -13,11 +13,9 @@
       margin: 0 0 15px;
       min-width: auto;
 
-      @include forVersion(6.1) {
         cx-form-errors p {
           color: #db0002;
         }
-      }
 
       .input-contaier {
         display: flex;
@@ -98,10 +96,8 @@
       width: 100%;
     }
 
-    @include forVersion(6.1) {
       top: 3.3rem;
       width: 33%;
-    }
 
     @media (max-width: 1200px) {
       max-width: calc(100% - 4rem);
@@ -161,14 +157,12 @@
         }
       }
 
-      @include forVersion(6.1) {
         .linkStyleLabel {
           font-family: '72';
           font-weight: 600;
           font-size: 13px;
           color: #0064d9;
         }
-      }
     }
   }
 }
