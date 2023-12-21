@@ -165,13 +165,13 @@ describe('Cart effect', () => {
         extraData: { active: true },
       });
       loadMock.and.returnValue(
-        throwError({
+        throwError(() => ({
           error: {
             errors: [
               { reason: 'notFound', subjectType: 'cart', subject: '123456' },
             ],
           },
-        })
+        }))
       );
       const removeCartCompletion = new CartActions.RemoveCart({ cartId });
       actions$ = hot('-a', { a: action });
@@ -199,7 +199,7 @@ describe('Cart effect', () => {
         },
       });
       const action = new CartActions.LoadCart(payload);
-      loadMock.and.returnValue(throwError(httpError));
+      loadMock.and.returnValue(throwError(() => httpError));
       const removeCartCompletion = new CartActions.LoadCartFail({
         ...payload,
         error: normalizeHttpError(httpError),

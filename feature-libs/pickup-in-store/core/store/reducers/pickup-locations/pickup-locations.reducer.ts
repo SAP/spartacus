@@ -19,7 +19,7 @@ export const intendedPickupLocationsReducer = createReducer(
   })),
   on(PickupLocationActions.RemoveLocation, (state, { payload }) => ({
     ...state,
-    [payload]: { pickupOption: 'delivery' },
+    [payload]: { pickupOption: 'delivery' as const },
   })),
   on(PickupLocationActions.SetPickupOption, (state, { payload }) => ({
     ...state,

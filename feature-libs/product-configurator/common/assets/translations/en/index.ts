@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { configurator } from './configurator-common';
+import configurator from './configurator.json';
 
 export const en = {
   configurator,

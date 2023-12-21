@@ -68,7 +68,9 @@ describe('StockEffect', () => {
       statusText: 'Not Found',
       error: 'Error',
     });
-    spyOn(stockConnector, 'loadStockLevels').and.returnValue(throwError(error));
+    spyOn(stockConnector, 'loadStockLevels').and.returnValue(
+      throwError(() => error)
+    );
     const action = new StockLevel({ productCode: 'P0001', location: '' });
     const actionFail = new StockLevelFail(normalizeHttpError(error));
 

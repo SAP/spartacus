@@ -88,7 +88,7 @@ describe(`OccPickupLocationAdapter`, () => {
       expect(mockReq.request.responseType).toEqual('json');
     });
     it('should call normalized http error for getStoreDetails', fakeAsync(() => {
-      spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
+      spyOn(httpClient, 'get').and.returnValue(throwError(() => mockJaloError));
       let result: HttpErrorModel | undefined;
       const subscription = occAdapter
         .getStoreDetails(storeName)

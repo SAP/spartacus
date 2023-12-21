@@ -26,7 +26,6 @@ import { PickupOptionDialogComponent } from './pickup-option-dialog.component';
     StoreListModule,
     StoreSearchModule,
   ],
-  entryComponents: [PickupOptionDialogComponent],
   declarations: [PickupOptionDialogComponent],
   exports: [PickupOptionDialogComponent],
 })

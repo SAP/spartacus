@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { quickOrder } from './quick-order.i18n';
+import quickOrder from './quickOrder.json';
 
 export const en = {
   quickOrder,
