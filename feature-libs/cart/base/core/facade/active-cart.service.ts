@@ -69,21 +69,10 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   // Instead of loading cart will run loadOrMerge method
   protected shouldLoadCartOnCodeFlow = true;
 
-  // TODO(CXSPA-3068): make WindowRef a required dependency
-  constructor(
-    multiCartFacade: MultiCartFacade,
-    userIdService: UserIdService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    winRef: WindowRef
-  );
-  /**
-   * @deprecated since 6.1
-   */
-  constructor(multiCartFacade: MultiCartFacade, userIdService: UserIdService);
   constructor(
     protected multiCartFacade: MultiCartFacade,
     protected userIdService: UserIdService,
-    @Optional() protected winRef?: WindowRef
+    protected winRef: WindowRef
   ) {
     this.initActiveCart();
     this.detectUserChange();
