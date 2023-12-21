@@ -89,7 +89,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService: LaunchDialogService,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -160,39 +160,39 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    * call startSessionWithParameters
    */
   protected subscribeForDeeplink(): void {
-      if (this.asmComponentService.isEmulateInURL()) {
-        //Always route to home page to avoid 404
-        this.routingService.go('/');
-      }
-      const parameters = this.asmComponentService.getDeepLinkUrlParams() ?? {
-        customerId: this.asmComponentService.getSearchParameter('customerId'),
-        orderId: this.asmComponentService.getSearchParameter('orderId'),
-        ticketId: this.asmComponentService.getSearchParameter('ticketId'),
-        cartId: this.asmComponentService.getSearchParameter('cartId'),
-        cartType: this.asmComponentService.getSearchParameter('cartType'),
-        emulated: false,
-      };
-      this.deeplinkCartAlertKey = CART_TYPE_KEY[parameters.cartType || ''];
-      this.subscription.add(
-        combineLatest([
-          this.customerSupportAgentLoggedIn$,
-          this.authService.isUserLoggedIn(),
-          this.asmComponentService.isEmulatedByDeepLink(),
-        ]).subscribe(([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
-          if (agentLoggedIn && parameters.customerId) {
-            if (!isEmulatedByDeepLink && userLoggedin) {
-              this.confirmSwitchCustomer(parameters.customerId);
-            } else {
-              setTimeout(() =>
-                this.startSessionWithParameters({
-                  ...parameters,
-                  emulated: isEmulatedByDeepLink,
-                })
-              );
-            }
+    if (this.asmComponentService.isEmulateInURL()) {
+      //Always route to home page to avoid 404
+      this.routingService.go('/');
+    }
+    const parameters = this.asmComponentService.getDeepLinkUrlParams() ?? {
+      customerId: this.asmComponentService.getSearchParameter('customerId'),
+      orderId: this.asmComponentService.getSearchParameter('orderId'),
+      ticketId: this.asmComponentService.getSearchParameter('ticketId'),
+      cartId: this.asmComponentService.getSearchParameter('cartId'),
+      cartType: this.asmComponentService.getSearchParameter('cartType'),
+      emulated: false,
+    };
+    this.deeplinkCartAlertKey = CART_TYPE_KEY[parameters.cartType || ''];
+    this.subscription.add(
+      combineLatest([
+        this.customerSupportAgentLoggedIn$,
+        this.authService.isUserLoggedIn(),
+        this.asmComponentService.isEmulatedByDeepLink(),
+      ]).subscribe(([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
+        if (agentLoggedIn && parameters.customerId) {
+          if (!isEmulatedByDeepLink && userLoggedin) {
+            this.confirmSwitchCustomer(parameters.customerId);
+          } else {
+            setTimeout(() =>
+              this.startSessionWithParameters({
+                ...parameters,
+                emulated: isEmulatedByDeepLink,
+              })
+            );
           }
-        })
-      );
+        }
+      })
+    );
   }
 
   protected confirmSwitchCustomer(switchCustomerId: string): void {
@@ -277,10 +277,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.showCustomerEmulationInfoAlert = true;
       this.showCreateCustomerSuccessfullyAlert = false;
       if (parameters) {
-          this.asmComponentService.handleDeepLinkNavigation({
-            customerId,
-            ...parameters,
-          });
+        this.asmComponentService.handleDeepLinkNavigation({
+          customerId,
+          ...parameters,
+        });
       }
     } else {
       this.globalMessageService.add(
