@@ -4,7 +4,7 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
     "strict": false,
-    "module": "es2020",
+    "module": "es2022",
     "types": ["jasmine", "node"]
   },
   "files": ["test.ts"],

@@ -1,5 +1,5 @@
-import { NgSetupOptions, RenderOptions } from '@nguniversal/express-engine';
 import { SERVER_REQUEST_URL } from '@spartacus/core';
+import { NgSetupOptions, RenderOptions } from '../engine/ng-express-engine';
 import { EXPRESS_SERVER_LOGGER, LegacyExpressServerLogger } from '../logger';
 import {
   NgExpressEngine,

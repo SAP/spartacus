@@ -6,8 +6,12 @@
 
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthConfigService, AuthToken } from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
+import {
+  AuthConfigService,
+  AuthToken,
+  normalizeHttpError,
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -46,6 +50,10 @@ export class CdcUserAuthenticationTokenService {
 
     return this.http
       .post<Partial<AuthToken> & { expires_in?: number }>(url, params)
-      .pipe(catchError((error: any) => throwError(error)));
+      .pipe(
+        catchError((error: any) => {
+          throw normalizeHttpError(error);
+        })
+      );
   }
 }

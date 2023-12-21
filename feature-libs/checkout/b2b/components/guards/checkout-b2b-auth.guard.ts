@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutAuthGuard,
@@ -27,10 +27,7 @@ import { filter, map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutB2BAuthGuard
-  extends CheckoutAuthGuard
-  implements CanActivate
-{
+export class CheckoutB2BAuthGuard extends CheckoutAuthGuard {
   constructor(
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,

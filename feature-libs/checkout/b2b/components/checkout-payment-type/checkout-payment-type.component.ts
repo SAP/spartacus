@@ -20,14 +20,14 @@ import {
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
+  getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
-  OccHttpErrorType,
-  getLastValueSync,
   isNotUndefined,
+  OccHttpErrorType,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -136,7 +136,7 @@ export class CheckoutPaymentTypeComponent {
       distinctUntilChanged()
     );
 
-  // TODO(CXSPA-3334): make globalMessageService a required dependency
+  // TODO(CXSPA-3334, CXSPA-5654): make globalMessageService a required dependency
   constructor(
     checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     checkoutStepService: CheckoutStepService,

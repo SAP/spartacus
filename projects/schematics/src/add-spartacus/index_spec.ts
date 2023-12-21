@@ -41,6 +41,7 @@ describe('add-spartacus', () => {
     routing: false,
     style: Style.Scss,
     skipTests: false,
+    standalone: false,
   };
 
   const defaultOptions: SpartacusOptions = {

@@ -10,12 +10,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  LibraryOptions as SpartacusQualtricsOptions,
-  qualtricsFeatureModulePath,
   QUALTRICS_FEATURE_NAME,
-  SpartacusOptions,
   SPARTACUS_QUALTRICS,
   SPARTACUS_SCHEMATICS,
+  SpartacusOptions,
+  LibraryOptions as SpartacusQualtricsOptions,
+  qualtricsFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -44,6 +44,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

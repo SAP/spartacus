@@ -22,7 +22,7 @@ import {
   AccountSummaryList,
   DocumentQueryParams,
 } from '@spartacus/organization/account-summary/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -44,9 +44,9 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
         this.buildAccountSummaryUrl(userId, orgUnitId)
       )
       .pipe(
-        catchError((error: HttpErrorResponse) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error: HttpErrorResponse) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         this.converter.pipeable(ACCOUNT_SUMMARY_NORMALIZER)
       );
   }
@@ -61,9 +61,9 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
         this.buildDocumentListUrl(userId, orgUnitId, params)
       )
       .pipe(
-        catchError((error: HttpErrorResponse) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error: HttpErrorResponse) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         this.converter.pipeable(ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER)
       );
   }
@@ -89,9 +89,9 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
         options
       )
       .pipe(
-        catchError((error: HttpErrorResponse) =>
-          throwError(normalizeHttpError(error, this.logger))
-        )
+        catchError((error: HttpErrorResponse) => {
+          throw normalizeHttpError(error, this.logger);
+        })
       );
   }
 

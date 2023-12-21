@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { productVariants } from './variants.i18n';
+import productVariants from './productVariants.json';
 
 export const en = {
   productVariants,

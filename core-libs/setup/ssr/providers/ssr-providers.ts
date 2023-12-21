@@ -5,7 +5,6 @@
  */
 
 import { StaticProvider } from '@angular/core';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
 import {
   LoggerService,
   SERVER_REQUEST_ORIGIN,
@@ -14,6 +13,7 @@ import {
 import { getRequestOrigin } from '../express-utils/express-request-origin';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import { serverLoggerServiceFactory } from '../logger';
+import { REQUEST } from '../tokens/express.tokens';
 import { ServerOptions } from './model';
 import { serverRequestOriginFactory } from './server-request-origin';
 import { serverRequestUrlFactory } from './server-request-url';

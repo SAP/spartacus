@@ -4,10 +4,10 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
-import { OrderApprovalConnector } from '../../connectors/order-approval.connector';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
+import { OrderApprovalConnector } from '../../connectors/order-approval.connector';
 import {
   OrderApproval,
   OrderApprovalDecision,
@@ -115,7 +115,7 @@ describe('OrderApproval Effects', () => {
 
     it('should return LoadOrderApprovalFail action if orderApproval not updated', () => {
       orderApprovalConnector.get = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrderApprovalActions.LoadOrderApproval({
         userId,
@@ -163,7 +163,7 @@ describe('OrderApproval Effects', () => {
 
     it('should return LoadOrderApprovalsFail action if orderApprovals not loaded', () => {
       orderApprovalConnector.getList = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrderApprovalActions.LoadOrderApprovals({
         userId,
@@ -213,7 +213,7 @@ describe('OrderApproval Effects', () => {
     it('should return MakeDecisionFail action if decision not created', () => {
       orderApprovalConnector.makeDecision = createSpy(
         'makeDecision'
-      ).and.returnValue(throwError(httpErrorResponse));
+      ).and.returnValue(throwError(() => httpErrorResponse));
       const action = new OrderApprovalActions.MakeDecision({
         userId,
         orderApprovalCode,
