@@ -24,15 +24,41 @@
     display: block;
   }
 
-  .cx-product-name {
-    a {
+  // TODO: (CXSPA-5709) Remove feature flag next major
+  @include forVersion(6.8) {
+    .cx-product-name {
+      a {
+        margin: 0 0 3px 0;
+        color: var(--cx-color-text);
+        text-decoration: none;
+        @include type('5');
+        @include media-breakpoint-down(sm) {
+          text-align: center;
+          min-height: 48px;
+        }
+
+        &:hover {
+          color: var(--cx-color-primary);
+        }
+      }
+    }
+  }
+
+  @include forVersion(1, 6.7) {
+    .cx-product-name {
+      @include type('5');
+      text-align: start;
+      display: block;
       margin: 0 0 3px 0;
       color: var(--cx-color-text);
       text-decoration: none;
-      @include type('5');
-      @include media-breakpoint-down(sm) {
-        text-align: center;
-        min-height: 48px;
+
+      h2 {
+        @include type('5');
+
+        @include media-breakpoint-down(sm) {
+          min-height: 48px;
+        }
       }
 
       &:hover {
