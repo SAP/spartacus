@@ -10,7 +10,6 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
 } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
@@ -22,7 +21,6 @@ import {
 } from '@spartacus/asm/root';
 import {
   AuthService,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -84,31 +82,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
   constructor(
-    authService: AuthService,
-    csAgentAuthService: CsAgentAuthService,
-    asmComponentService: AsmComponentService,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService,
-    asmService: AsmService,
-    userAccountFacade: UserAccountFacade,
-    launchDialogService: LaunchDialogService
-  );
-  /**
-   * @deprecated since 7.0
-   */
-  constructor(
-    authService: AuthService,
-    csAgentAuthService: CsAgentAuthService,
-    asmComponentService: AsmComponentService,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService,
-    asmService: AsmService,
-    userAccountFacade: UserAccountFacade,
-    launchDialogService: LaunchDialogService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfig: FeatureConfigService
-  );
-  constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
     protected asmComponentService: AsmComponentService,
@@ -117,7 +90,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
     protected launchDialogService: LaunchDialogService,
-    @Optional() protected featureConfig?: FeatureConfigService
   ) {}
 
   ngOnInit(): void {
@@ -188,12 +160,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    * call startSessionWithParameters
    */
   protected subscribeForDeeplink(): void {
-    if (this.featureConfig?.isLevel('6.2')) {
       if (this.asmComponentService.isEmulateInURL()) {
         //Always route to home page to avoid 404
         this.routingService.go('/');
       }
-      // TODO(CXSPA-3090): Use asmDeepLinkService only in 7.0.
       const parameters = this.asmComponentService.getDeepLinkUrlParams() ?? {
         customerId: this.asmComponentService.getSearchParameter('customerId'),
         orderId: this.asmComponentService.getSearchParameter('orderId'),
@@ -223,7 +193,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           }
         })
       );
-    }
   }
 
   protected confirmSwitchCustomer(switchCustomerId: string): void {
@@ -308,16 +277,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.showCustomerEmulationInfoAlert = true;
       this.showCreateCustomerSuccessfullyAlert = false;
       if (parameters) {
-        // TODO(CXSPA-3090): Remove feature flag in 7.0
-        if (this.featureConfig?.isLevel('6.3')) {
           this.asmComponentService.handleDeepLinkNavigation({
             customerId,
             ...parameters,
           });
-        } else {
-          // TODOi(CXSPA-3090): Remove this implementation in 7.0
-          this.handleDeepLinkParamsAfterStartSession(parameters);
-        }
       }
     } else {
       this.globalMessageService.add(

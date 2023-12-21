@@ -13,30 +13,13 @@
         <div id="asm-customer-list-desc" class="cx-visually-hidden">
           {{ 'asm.customerList.description' | cxTranslate }}
         </div>
-        <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
-        <ng-container *cxFeatureLevel="'!6.1'">
-          <ng-template *ngTemplateOutlet="closeButton"></ng-template>
-        </ng-container>
-        <ng-container *cxFeatureLevel="'6.1'">
           <ng-template *ngTemplateOutlet="createCustomerButton"></ng-template>
-        </ng-container>
       </div>
       <div
         class="cx-dialog-sub-header modal-header"
         [class.tablet-mobile]="(breakpoint$ | async) !== BREAKPOINT.md"
         *ngIf="customerListsPage$ | async as customerListsPage"
       >
-        <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
-        <ng-container *cxFeatureLevel="'!6.1'">
-          <ng-template
-            *ngTemplateOutlet="
-              groupSelector;
-              context: { customerListsPage: customerListsPage }
-            "
-          ></ng-template>
-        </ng-container>
-        <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
-        <ng-container *cxFeatureLevel="'6.1'">
           <div
             class="cx-header-select"
             [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
@@ -57,21 +40,13 @@
             >
             </ng-template>
           </div>
-        </ng-container>
 
         <div
           class="cx-header-actions"
           [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
         >
           <ng-template *ngTemplateOutlet="sort"></ng-template>
-          <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
-          <ng-container *cxFeatureLevel="'!6.1'">
-            <ng-template *ngTemplateOutlet="pagination"></ng-template>
-          </ng-container>
-          <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
-          <ng-container *cxFeatureLevel="'6.1'">
             <ng-template *ngTemplateOutlet="search"></ng-template>
-          </ng-container>
         </div>
       </div>
       <!-- Modal Body -->
@@ -102,21 +77,6 @@
                 </caption>
                 <thead *ngIf="(breakpoint$ | async) === BREAKPOINT.md">
                   <tr role="row">
-                    <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
-                    <ng-container *cxFeatureLevel="'!6.1'">
-                      <th
-                        role="columnheader"
-                        class="cx-avatar-cell"
-                        *ngIf="customerListConfig?.showAvatar"
-                      >
-                        <span class="cx-visually-hidden">
-                          {{
-                            'asm.customerList.tableHeader.customer'
-                              | cxTranslate
-                          }}
-                        </span>
-                      </th>
-                    </ng-container>
                     <th
                       role="columnheader"
                       *ngFor="let column of customerListConfig?.columns"
@@ -127,12 +87,6 @@
                           column.headerLocalizationKey !== 'hideHeaders'
                         "
                       >
-                        <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
-                        <ng-container *cxFeatureLevel="'!6.1'">
-                          {{ column.headerLocalizationKey | cxTranslate }}
-                        </ng-container>
-                        <ng-container *cxFeatureLevel="'6.1'">
-                          <!-- TODO:(CXSPA-3090) for next major release replace the translation lable -->
                           <ng-container
                             *ngIf="
                               column.headerLocalizationKey ===
@@ -144,7 +98,6 @@
                                 | cxTranslate
                             }}
                           </ng-container>
-                          <!-- TODO:(CXSPA-3090) for next major release replace the translation lable -->
                           <ng-container
                             *ngIf="
                               column.headerLocalizationKey ===
@@ -166,7 +119,6 @@
                           >
                             {{ column.headerLocalizationKey | cxTranslate }}
                           </ng-container>
-                        </ng-container>
                       </span>
                     </th>
                   </tr>
@@ -176,18 +128,6 @@
                     role="row"
                     *ngFor="let customerEntry of customerSearchPage?.entries"
                   >
-                    <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
-                    <ng-container *cxFeatureLevel="'!6.1'">
-                      <td
-                        role="cell"
-                        *ngIf="customerListConfig?.showAvatar"
-                        class="cx-avatar-cell"
-                      >
-                        <div class="cx-avatar">
-                          {{ getBadgeText(customerEntry) }}
-                        </div>
-                      </td>
-                    </ng-container>
                     <!-- multi columns if desktop -->
                     <ng-container
                       *ngIf="(breakpoint$ | async) === BREAKPOINT.md"
@@ -289,8 +229,6 @@
           </div>
         </div>
       </div>
-      <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
-      <ng-container *cxFeatureLevel="'6.1'">
         <!-- Modal Foot -->
         <div
           class="cx-dialog-sub-header modal-header cx-dialog-foot"
@@ -321,7 +259,6 @@
           </button>
         </div>
       </ng-container>
-    </ng-container>
   </div>
 </div>
 
@@ -348,8 +285,6 @@
       ></ng-container>
     </ng-container>
 
-    <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
-    <ng-container *cxFeatureLevel="'6.1'">
       <div
         class="cx-avatar"
         *ngIf="
@@ -368,7 +303,6 @@
           {{ getBadgeText(customerEntry) }}
         </div>
       </div>
-    </ng-container>
 
     <button
       *ngIf="column.actionType"

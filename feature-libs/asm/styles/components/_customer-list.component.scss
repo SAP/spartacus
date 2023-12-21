@@ -4,13 +4,7 @@ $sapFioriContent_LabelColor: #6a6d70;
 
 %cx-customer-list {
   .cx-modal-content {
-    @include forVersion(1, 6) {
-      min-height: 426px;
-    }
-
-    @include forVersion(6.1) {
       min-height: 352px;
-    }
   }
 
   .cx-dialog-header {
@@ -23,12 +17,6 @@ $sapFioriContent_LabelColor: #6a6d70;
     .title {
       font-size: 1.25rem;
       font-weight: 900;
-    }
-    @include forVersion(1, 6) {
-      .close {
-        font-size: 1rem;
-        color: $sapFioriTextColor;
-      }
     }
   }
 
@@ -67,12 +55,10 @@ $sapFioriContent_LabelColor: #6a6d70;
             background-color: #ffffff;
           }
         }
-        @include forVersion(6.1) {
           .form-control::-webkit-input-placeholder {
             color: #74777a;
             font-style: italic;
           }
-        }
 
         cx-icon {
           position: absolute;
@@ -155,9 +141,7 @@ $sapFioriContent_LabelColor: #6a6d70;
 
   .cx-dialog-body {
     padding-top: 0;
-    @include forVersion(6.1) {
       padding-bottom: 0;
-    }
     max-height: calc(100vh - 260px);
     @include media-breakpoint-down(xs) {
       max-height: calc(100vh - 470px);
@@ -203,33 +187,10 @@ $sapFioriContent_LabelColor: #6a6d70;
     width: fit-content;
   }
 
-  @include forVersion(6.1) {
     .cx-avatar-cell {
       width: 65px;
       vertical-align: top;
     }
-  }
-
-  @include forVersion(1, 6) {
-    .cx-avatar-cell {
-      width: 65px;
-      vertical-align: top;
-      .cx-avatar {
-        width: 44px;
-        height: 44px;
-        line-height: 44px;
-        border-radius: 50%;
-        color: #fff;
-        text-align: center;
-        background: #9259cd;
-        text-transform: uppercase;
-        margin-top: 2px;
-        margin-inline-end: 10px;
-        margin-bottom: 2px;
-        margin-inline-start: 0;
-      }
-    }
-  }
 
   .cx-cell-container {
     display: flex;
@@ -256,11 +217,9 @@ $sapFioriContent_LabelColor: #6a6d70;
         border-radius: 50%;
       }
     }
-    @include forVersion(6.1) {
       .cx-cart {
         padding-inline-end: 18px;
       }
-    }
   }
 
   .cx-action-color {
@@ -306,7 +265,6 @@ $sapFioriContent_LabelColor: #6a6d70;
     }
   }
 
-  @include forVersion(6.1) {
     cx-pagination {
       float: right;
       a {
@@ -361,9 +319,7 @@ $sapFioriContent_LabelColor: #6a6d70;
         }
       }
     }
-  }
 
-  @include forVersion(6.1) {
     .cx-asm-create-customer-btn {
       background-color: #eaecee;
       border-color: #eaecee;
@@ -422,5 +378,4 @@ $sapFioriContent_LabelColor: #6a6d70;
     .ng-dropdown-panel {
       width: auto;
     }
-  }
 }

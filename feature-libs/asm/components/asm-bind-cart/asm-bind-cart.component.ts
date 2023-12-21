@@ -10,7 +10,6 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
 } from '@angular/core';
 import { FormControl, ValidatorFn, Validators } from '@angular/forms';
@@ -22,7 +21,6 @@ import {
 } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -95,38 +93,14 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    globalMessageService: GlobalMessageService,
-    activeCartFacade: ActiveCartFacade,
-    multiCartFacade: MultiCartFacade,
-    asmBindCartFacade: AsmBindCartFacade,
-    launchDialogService: LaunchDialogService,
-    savedCartFacade: SavedCartFacade,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    asmComponentService: AsmComponentService,
-    routing: RoutingService,
-    featureConfig: FeatureConfigService
-  );
-  /**
-   * @deprecated since 7.0
-   */
-  constructor(
-    globalMessageService: GlobalMessageService,
-    activeCartFacade: ActiveCartFacade,
-    multiCartFacade: MultiCartFacade,
-    asmBindCartFacade: AsmBindCartFacade,
-    launchDialogService: LaunchDialogService,
-    savedCartFacade: SavedCartFacade
-  );
-  constructor(
     protected globalMessageService: GlobalMessageService,
     protected activeCartFacade: ActiveCartFacade,
     protected multiCartFacade: MultiCartFacade,
     protected asmBindCartFacade: AsmBindCartFacade,
     protected launchDialogService: LaunchDialogService,
     protected savedCartFacade: SavedCartFacade,
-    @Optional() protected asmComponentService?: AsmComponentService,
-    @Optional() protected routing?: RoutingService,
-    @Optional() protected featureConfig?: FeatureConfigService
+    protected asmComponentService?: AsmComponentService,
+    protected routing?: RoutingService,
   ) {}
 
   ngOnInit(): void {
@@ -223,12 +197,10 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   }
 
   protected resetDeeplinkCart(): void {
-    if (this.featureConfig?.isLevel('6.2')) {
       this.deepLinkCartId = '';
       this.displayBindCartBtn$.next(true);
       this.displaySaveCartBtn$.next(false);
       this.asmComponentService?.setShowDeeplinkCartInfoAlert(false);
-    }
   }
 
   ngOnDestroy(): void {
@@ -300,9 +272,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     );
   }
 
-  // TODO(CXSPA-3090): Remove optional service flags in 7.0
   protected subscribeForDeeplinkCart(): void {
-    if (this.featureConfig?.isLevel('6.2')) {
       this.subscription.add(
         this.asmComponentService
           ?.isEmulatedByDeepLink()
@@ -314,8 +284,6 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
             )
           )
           .subscribe(() => {
-            // TODO(CXSPA-3090): Remove feature flag in 7.0.
-            if (this.featureConfig?.isLevel('6.3')) {
               const cartType =
                 this.asmComponentService?.getSearchParameter('cartType');
               if (cartType === 'inactive' || cartType === 'active') {
@@ -330,49 +298,8 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
                 this.asmComponentService?.handleDeepLinkNavigation();
               }
               return;
-            }
-
-            // TODO(CXSPA-3090): Remove this implementation in 7.0
-            if (this.isDeepLinkInactiveCart()) {
-              this.displayBindCartBtn$.next(false);
-              this.displaySaveCartBtn$.next(true);
-              this.onDeeplinkCart();
-            } else if (this.isDeepLinkActiveCart()) {
-              this.onDeeplinkCart();
-              this.goToActiveCartDetail();
-              this.displayBindCartBtn$.next(false);
-              this.displaySaveCartBtn$.next(false);
-            }
           })
       );
-    }
-  }
-
-  /**
-   * @deprecated in 6.3: Will be removed in CXSPA-3090.
-   */
-  protected onDeeplinkCart(): void {
-    this.deepLinkCartId = this.asmComponentService?.getSearchParameter(
-      'cartId'
-    ) as string;
-    this.cartId.setValue(this.deepLinkCartId);
-    this.asmComponentService?.setShowDeeplinkCartInfoAlert(true);
-  }
-
-  /**
-   * @deprecated in 6.3: Will be removed in CXSPA-3090.
-   */
-  protected isDeepLinkInactiveCart(): boolean {
-    const cartType = this.asmComponentService?.getSearchParameter('cartType');
-    return cartType === 'inactive';
-  }
-
-  /**
-   * @deprecated in 6.3: Will be removed in CXSPA-3090.
-   */
-  protected isDeepLinkActiveCart(): boolean {
-    const cartType = this.asmComponentService?.getSearchParameter('cartType');
-    return cartType === 'active';
   }
 
   protected openASMSaveCartDialog(inactiveCart: Cart): void {
@@ -419,12 +346,5 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
       cxRoute: 'savedCartsDetails',
       params: { savedCartId: cartId },
     });
-  }
-
-  /**
-   * @deprecated in 6.3: Will be removed in CXSPA-3090.
-   */
-  protected goToActiveCartDetail(): void {
-    this.routing?.go({ cxRoute: 'cart' });
   }
 }
