@@ -338,5 +338,29 @@ describe('QuoteConfirmDialogComponent', () => {
         a11yModalText
       );
     });
+
+    it("should contain 'role' and 'aria-modal' attributes that indicate that the appeared pop-up is a modal dialog", () => {
+      const element =
+        CommonQuoteTestUtilsService.getElementByClassNameOrTreeOrder(
+          htmlElem,
+          'div',
+          'cx-modal-container',
+          0
+        );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'role',
+        'dialog'
+      );
+
+      CommonQuoteTestUtilsService.expectElementContainsA11y(
+        expect,
+        element,
+        'aria-modal',
+        'true'
+      );
+    });
   });
 });
