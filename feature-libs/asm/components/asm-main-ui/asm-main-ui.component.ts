@@ -290,35 +290,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected handleDeepLinkParamsAfterStartSession(
-    parameters: AsmDeepLinkParameters
-  ) {
-    if (
-      (parameters.cartType === 'active' ||
-        parameters.cartType === 'inactive') &&
-      parameters.cartId
-    ) {
-      return;
-    }
-
-    if (parameters.cartType === 'saved' && parameters.cartId) {
-      // Navigate to saved cart
-      this.routingService.go('my-account/saved-cart/' + parameters.cartId);
-    } else if (parameters.orderId) {
-      // Navigate to order details
-      this.routingService.go({
-        cxRoute: 'orderDetails',
-        params: { code: parameters.orderId },
-      });
-    } else if (parameters.ticketId) {
-      // Navigate to support ticket details
-      this.routingService.go({
-        cxRoute: 'supportTicketDetails',
-        params: { ticketCode: parameters.ticketId },
-      });
-    }
-  }
-
   hideUi(): void {
     this.disabled = true;
     this.asmComponentService.unload();

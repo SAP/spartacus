@@ -218,11 +218,6 @@ export class CustomerListComponent implements OnInit, OnDestroy {
           ? 'asm.customerList.tableHeader.account'
           : 'hideHeaders';
       }
-      if (
-        column.headerLocalizationKey === 'asm.customerList.tableHeader.cart'
-      ) {
-        column.headerLocalizationKey = column.headerLocalizationKey;
-      }
     }
   }
 
