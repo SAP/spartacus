@@ -42,9 +42,7 @@ export class AsmComponentService {
    * Returns a deep link parameter value if it is in the url.
    */
   getSearchParameter(key: string): string | undefined | null {
-    return (
-      this.asmDeepLinkService?.getSearchParameter(key)
-    );
+    return this.asmDeepLinkService?.getSearchParameter(key);
   }
 
   isEmulatedByDeepLink(): BehaviorSubject<boolean> {
@@ -92,10 +90,7 @@ export class AsmComponentService {
    * check whether try to emulate customer from deeplink
    */
   isEmulateInURL(): boolean {
-    return (
-      this.asmDeepLinkService?.isEmulateInURL()  ||
-      false
-    );
+    return this.asmDeepLinkService?.isEmulateInURL() || false;
   }
 
   /**

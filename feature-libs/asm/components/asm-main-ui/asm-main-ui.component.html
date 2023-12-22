@@ -60,27 +60,27 @@
   >
     <ng-container *ngIf="customer$ | async; else showCustomerSelection">
       <cx-customer-emulation *ngIf="notCollapsed"></cx-customer-emulation>
-        <cx-message
-          *ngIf="notCollapsed && showCreateCustomerSuccessfullyAlert"
-          [text]="'asm.createCustomerSuccessfullyAlert' | cxTranslate"
-          [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
-          (closeMessage)="closeDialogConfirmationAlert()"
-        >
-        </cx-message>
-        <cx-message
-          *ngIf="showDeeplinkCartInfoAlert$ | async"
-          [text]="deeplinkCartAlertKey | cxTranslate"
-          [type]="globalMessageType.MSG_TYPE_INFO"
-          (closeMessage)="closeDeeplinkCartInfoAlert()"
-        >
-        </cx-message>
-        <cx-message
-          *ngIf="notCollapsed && showCustomerEmulationInfoAlert"
-          [text]="'asm.startCustomerEmulationAlertInfo' | cxTranslate"
-          [type]="globalMessageType.MSG_TYPE_INFO"
-          (closeMessage)="closeCustomerEmulationInfoAlert()"
-        >
-        </cx-message>
+      <cx-message
+        *ngIf="notCollapsed && showCreateCustomerSuccessfullyAlert"
+        [text]="'asm.createCustomerSuccessfullyAlert' | cxTranslate"
+        [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
+        (closeMessage)="closeDialogConfirmationAlert()"
+      >
+      </cx-message>
+      <cx-message
+        *ngIf="showDeeplinkCartInfoAlert$ | async"
+        [text]="deeplinkCartAlertKey | cxTranslate"
+        [type]="globalMessageType.MSG_TYPE_INFO"
+        (closeMessage)="closeDeeplinkCartInfoAlert()"
+      >
+      </cx-message>
+      <cx-message
+        *ngIf="notCollapsed && showCustomerEmulationInfoAlert"
+        [text]="'asm.startCustomerEmulationAlertInfo' | cxTranslate"
+        [type]="globalMessageType.MSG_TYPE_INFO"
+        (closeMessage)="closeCustomerEmulationInfoAlert()"
+      >
+      </cx-message>
     </ng-container>
     <ng-template #showCustomerSelection>
       <cx-customer-selection
