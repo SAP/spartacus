@@ -85,8 +85,9 @@ export class MultiCartService implements MultiCartFacade {
    * Simple random temp cart id generator
    */
   protected generateTempCartId(): string {
-    const pseudoUuid = Math.random().toString(36).substring(2, 11);
-    return `temp-${pseudoUuid}`;
+    const array = new Uint32Array(1);
+    window.crypto.getRandomValues(array);
+    return `temp-${array[0].toString(36)}`;
   }
 
   /**
