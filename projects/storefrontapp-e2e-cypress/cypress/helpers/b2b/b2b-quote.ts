@@ -262,8 +262,9 @@ export function prepareQuote(
  * 'Requests a quote as buyer, starts asm mode and and verifies if it is in draft state.
  *
  * @param salesrep_email Email of the sales reporter
- * @param salesrep_password password of the sales reporter
- * @param buyer Buyer object, containing full name and email of the buyer
+ * @param salesrep_password Password of the sales reporter
+ * @param buyerUser Name  of the buyer
+ * @param buyerEmail Email of the buyer
  */
 export function prepareSellerQuote(
   salesrep_email: string,
@@ -1455,7 +1456,7 @@ export function addProductAndCheckForGlobalMessage(
       cy.get('button.btn-primary').click();
     })
     .then(() => {
-      this.checkGlobalMessageDisplayed(true, globalMessage);
+      checkGlobalMessageDisplayed(true, globalMessage);
     });
 }
 

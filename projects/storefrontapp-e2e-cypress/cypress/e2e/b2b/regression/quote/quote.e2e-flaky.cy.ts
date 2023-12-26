@@ -221,17 +221,16 @@ context('Quote', () => {
         PRODUCT_AMOUNT_30,
         true
       );
+      quote.clearSavedCarts();
     });
 
     it('should become a saved cart after editing the submitted quote', () => {
-      quote.clearSavedCarts();
       quote.prepareSavedCartTemplate(TEST_PRODUCT_HAMMER_DRILLING_ID);
       quote.enableEditQuoteMode(true, quote.STATUS_DRAFT);
       quote.checkNumberOfSavedCarts(1);
     });
 
     it('should become a saved cart after canceling the quote and requesting a new quote', () => {
-      quote.clearSavedCarts();
       quote.prepareSavedCartTemplate(TEST_PRODUCT_HAMMER_DRILLING_ID);
       quote.cancelQuote(quote.STATUS_BUYER_CANCEL, false);
       quote.goToQuoteOverviewPage();
@@ -240,7 +239,6 @@ context('Quote', () => {
     });
 
     it('should become a saved cart after accepting and checking out the quote', () => {
-      quote.clearSavedCarts();
       quote.prepareQuoteForCheckout(
         BUYER_EMAIL,
         BUYER_PASSWORD,
