@@ -33,8 +33,8 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutConfigService } from '../services';
+import { CheckoutStepService } from '../services/checkout-step.service';
 
 export interface CardWithAddress {
   card: Card;
@@ -73,7 +73,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
   }
 
-  // TODO(CXSPA-): make checkoutConfigService a required dependency
+  // TODO(CXSPA-5657): make checkoutConfigService a required dependency
   constructor(
     userAddressService: UserAddressService,
     checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -132,9 +132,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       region = address.region.isocode + ', ';
     }
 
-    /**
-     * TODO: (#CXSPA-53) Remove feature config check in 6.0
-     */
     const numbers = getAddressNumbers(address, textPhone, textMobile);
 
     return {

@@ -130,7 +130,9 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
 
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
+        spyOn(httpClient, 'get').and.returnValue(
+          throwError(() => mockJaloError)
+        );
 
         let result: HttpErrorModel | undefined;
         const subscription = service
@@ -154,7 +156,7 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
             if (calledTimes === 3) {
               return of(paymentTypesList);
             }
-            return throwError(mockJaloError);
+            return throwError(() => mockJaloError);
           })
         );
 
@@ -233,7 +235,9 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
 
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
+        spyOn(httpClient, 'put').and.returnValue(
+          throwError(() => mockJaloError)
+        );
 
         let result: HttpErrorModel | undefined;
         const subscription = service
@@ -257,7 +261,7 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
             if (calledTimes === 3) {
               return of(cartData);
             }
-            return throwError(mockJaloError);
+            return throwError(() => mockJaloError);
           })
         );
 

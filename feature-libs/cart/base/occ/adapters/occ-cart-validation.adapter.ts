@@ -17,7 +17,7 @@ import {
   OccEndpointsService,
   normalizeHttpError,
 } from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -36,7 +36,9 @@ export class OccCartValidationAdapter implements CartValidationAdapter {
     });
 
     return this.http.post<any>(url, null).pipe(
-      catchError((error) => throwError(normalizeHttpError(error, this.logger))),
+      catchError((error) => {
+        throw normalizeHttpError(error, this.logger);
+      }),
       this.converter.pipeable(CART_VALIDATION_NORMALIZER)
     );
   }

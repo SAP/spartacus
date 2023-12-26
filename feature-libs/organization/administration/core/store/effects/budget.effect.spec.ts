@@ -106,7 +106,7 @@ describe('Budget Effects', () => {
 
     it('should return LoadBudgetFail action if budget not updated', () => {
       budgetConnector.get = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new BudgetActions.LoadBudget({ userId, budgetCode });
       const completion = new BudgetActions.LoadBudgetFail({
@@ -140,7 +140,7 @@ describe('Budget Effects', () => {
 
     it('should return LoadBudgetsFail action if budgets not loaded', () => {
       budgetConnector.getList = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new BudgetActions.LoadBudgets({ userId, params });
       const completion = new BudgetActions.LoadBudgetsFail({ error, params });
@@ -166,7 +166,7 @@ describe('Budget Effects', () => {
 
     it('should return CreateBudgetFail action if budget not created', () => {
       budgetConnector.create = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new BudgetActions.CreateBudget({ userId, budget });
       const completion1 = new BudgetActions.CreateBudgetFail({
@@ -204,7 +204,7 @@ describe('Budget Effects', () => {
 
     it('should return UpdateBudgetFail action if budget not created', () => {
       budgetConnector.update = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new BudgetActions.UpdateBudget({
         userId,

@@ -46,7 +46,8 @@ export class FeatureModulesService {
       if (!this.features.has(featureName)) {
         if (!this.isConfigured(featureName)) {
           return throwError(
-            new Error('No module defined for Feature Module ' + featureName)
+            () =>
+              new Error('No module defined for Feature Module ' + featureName)
           );
         }
 

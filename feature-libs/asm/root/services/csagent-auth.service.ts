@@ -17,11 +17,11 @@ import {
   UserIdService,
 } from '@spartacus/core';
 
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
-import { UserAccountFacade } from '@spartacus/user/account/root';
 
 /**
  * Auth service for CS agent. Useful to login/logout agent, start emulation
@@ -37,10 +37,12 @@ export class CsAgentAuthService {
     userIdService: UserIdService,
     oAuthLibWrapperService: OAuthLibWrapperService,
     store: Store,
-    // Consider delete it in 7.0
+    // TODO: (CXSPA-5658) Consider delete it in 7.0
     _userProfileFacade: UserProfileFacade,
     userAccountFacade: UserAccountFacade
   );
+
+  // TODO: (CXSPA-5658) Remove this constructor before major release
   /**
    * @deprecated since 7.0
    */
