@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as asm from '../../../../helpers/asm';
 import * as common from '../../../../helpers/common';
 import * as quote from '../../../../helpers/b2b/b2b-quote';
 import * as cart from '../../../../helpers/cart';
@@ -18,10 +17,6 @@ const SALESREP_EMAIL = 'darrin.hesser@acme.com';
 const SALESREP_PASSWORD = '12341234';
 const MSG_TYPE_WARNING = '[GlobalMessage] Warning';
 const PRODUCT_AMOUNT_30: number = 30;
-const buyer = {
-  fullName: BUYER_USER,
-  email: BUYER_EMAIL,
-};
 
 context('Quote', () => {
   // before all tests - ensure that cart is empty
@@ -152,7 +147,7 @@ context('Quote', () => {
         PRODUCT_AMOUNT_30,
         true
       );
-      quote.cancelQuote(quote.STATUS_BUYER_CANCEL);
+      quote.cancelQuote(quote.STATUS_BUYER_CANCEL, true);
       quote.checkQuoteListDisplayed();
       quote.goToQuoteOverviewPage();
       quote.checkQuoteState(quote.STATUS_CANCELED);
@@ -166,7 +161,12 @@ context('Quote', () => {
         PRODUCT_AMOUNT_30,
         true
       );
-      quote.prepareSellerQuote(SALESREP_EMAIL, SALESREP_PASSWORD, buyer);
+      quote.prepareSellerQuote(
+        SALESREP_EMAIL,
+        SALESREP_PASSWORD,
+        BUYER_USER,
+        BUYER_EMAIL
+      );
       quote.enableEditQuoteMode();
       quote.setExpiryDate();
       quote.checkTotalEstimatedPrice('$26,160.00');
@@ -199,17 +199,56 @@ context('Quote', () => {
     });
 
     it('should submit a quote and not be able to add any further items to the quote in checkout', () => {
-      quote.prepareSellerQuote(SALESREP_EMAIL, SALESREP_PASSWORD, buyer);
-      quote.checkQuoteState(quote.STATUS_REQUESTED);
-      quote.submitQuote(quote.STATUS_SALES_REPORTER_SUBMIT);
-      asm.agentSignOut();
-      quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
-      quote.goToQuoteOverviewPage();
+      quote.prepareQuoteForCheckout(
+        BUYER_EMAIL,
+        BUYER_PASSWORD,
+        BUYER_USER,
+        SALESREP_EMAIL,
+        SALESREP_PASSWORD
+      );
       quote.submitQuote(quote.STATUS_BUYER_CHECKOUT);
       quote.addProductAndCheckForGlobalMessage(
         TEST_PRODUCT_HAMMER_DRILLING_NAME,
         'Not possible to do changes to cart entries. Proceed to checkout'
       );
+    });
+  });
+
+  describe('Save active cart - create a new cart after submitting a quote (CXSPA-4141)', () => {
+    beforeEach(() => {
+      quote.prepareQuote(
+        TEST_PRODUCT_HAMMER_DRILLING_ID,
+        PRODUCT_AMOUNT_30,
+        true
+      );
+      quote.clearSavedCarts();
+    });
+
+    it('should become a saved cart after editing the submitted quote', () => {
+      quote.prepareSavedCartTemplate(TEST_PRODUCT_HAMMER_DRILLING_ID);
+      quote.enableEditQuoteMode(true, quote.STATUS_DRAFT);
+      quote.checkNumberOfSavedCarts(1);
+    });
+
+    it('should become a saved cart after canceling the quote and requesting a new quote', () => {
+      quote.prepareSavedCartTemplate(TEST_PRODUCT_HAMMER_DRILLING_ID);
+      quote.cancelQuote(quote.STATUS_BUYER_CANCEL, false);
+      quote.goToQuoteOverviewPage();
+      quote.requestNewQuote(quote.STATUS_DRAFT);
+      quote.checkNumberOfSavedCarts(1);
+    });
+
+    it('should become a saved cart after accepting and checking out the quote', () => {
+      quote.prepareQuoteForCheckout(
+        BUYER_EMAIL,
+        BUYER_PASSWORD,
+        BUYER_USER,
+        SALESREP_EMAIL,
+        SALESREP_PASSWORD
+      );
+      quote.prepareSavedCartTemplate(TEST_PRODUCT_HAMMER_DRILLING_ID);
+      quote.submitQuote(quote.STATUS_BUYER_CHECKOUT);
+      quote.checkNumberOfSavedCarts(1);
     });
   });
 });
