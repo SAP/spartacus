@@ -1,12 +1,11 @@
 on:
   pull_request:
-    types: [ready_for_review]
+    # TODO: RUNNING E2Es ON EPIC. REMOVE THIS BEFORE MERGE TO DEVELOP. 
     branches:
       - develop
       - develop-*
       - release/**
       - epic/**  
-      # TODO: RUNNING E2Es ON EPIC. REMOVE THIS BEFORE MERGE TO DEVELOP. 
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
   
