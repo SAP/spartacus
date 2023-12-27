@@ -1,6 +1,6 @@
 on:
   pull_request:
-    # TODO: RUNNING E2Es ON EPIC. REMOVE THIS BEFORE MERGE TO DEVELOP. 
+    # TODO: RUNNING E2Es ON EPIC. REMOVE CHANGES BEFORE MERGE TO DEVELOP. 
     branches:
       - develop
       - develop-*
