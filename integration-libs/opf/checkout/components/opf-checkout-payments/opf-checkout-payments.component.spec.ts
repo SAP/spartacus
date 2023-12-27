@@ -64,6 +64,7 @@ const mockOpfPaymentMetadata: OpfPaymentMetadata = {
   isPaymentInProgress: true,
   selectedPaymentOptionId: 111,
   termsAndConditionsChecked: true,
+  defaultSelectedPaymentOptionId: 1,
 };
 
 describe('OpfCheckoutPaymentsComponent', () => {
@@ -150,17 +151,20 @@ describe('OpfCheckoutPaymentsComponent', () => {
     );
   });
 
-  it('should not preselect payment option', () => {
+  it('should preselect the default payment option', () => {
+    const defaultSelectedPaymentOptionId = 1;
+
     opfServiceMock.getOpfMetadataState.and.returnValue(
       of({
-        termsAndConditionsChecked: false,
-        selectedPaymentOptionId: 0,
         isPaymentInProgress: false,
+        selectedPaymentOptionId: undefined,
+        termsAndConditionsChecked: true,
+        defaultSelectedPaymentOptionId,
       })
     );
 
     fixture.detectChanges();
 
-    expect(component.selectedPaymentId).toBeUndefined();
+    expect(component.selectedPaymentId).toBe(defaultSelectedPaymentOptionId);
   });
 });
