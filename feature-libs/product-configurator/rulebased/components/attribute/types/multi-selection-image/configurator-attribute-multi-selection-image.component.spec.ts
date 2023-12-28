@@ -266,5 +266,17 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
         'true'
       );
     });
+
+    it("should contain button elements with 'aria-label' attribute that point out that there is a description for the current value", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        '',
+        1,
+        'aria-label',
+        'configurator.a11y.description'
+      );
+    });
   });
 });

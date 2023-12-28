@@ -26,6 +26,7 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
+  @Input() tabIndex = -1;
 
   constructor(protected cdRef: ChangeDetectorRef) {}
 

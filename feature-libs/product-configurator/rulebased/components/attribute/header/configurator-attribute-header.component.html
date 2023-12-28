@@ -24,6 +24,7 @@
   [text]="attribute.description"
   [textSize]="getAttributeDescriptionLength()"
   [productName]="getLabel(expMode, attribute.label, attribute.name)"
+  [tabIndex]="0"
 ></cx-configurator-show-more>
 <div
   *ngIf="attribute.hasConflicts"

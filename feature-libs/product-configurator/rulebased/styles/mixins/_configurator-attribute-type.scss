@@ -1,6 +1,7 @@
 @mixin cx-configurator-attribute-type {
   display: flex;
   flex-direction: row;
+  align-items: baseline;
   padding-inline-start: 0px;
   padding-inline-end: 0px;
 
