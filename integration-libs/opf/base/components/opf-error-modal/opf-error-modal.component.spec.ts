@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ErrorDialogOptions } from '@spartacus/opf/base/root';
-import { LaunchDialogService } from '@spartacus/storefront';
+import {
+  KeyboardFocusTestingModule,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OpfErrorModalComponent } from './opf-error-modal.component';
 import { OpfErrorModalService } from './opf-error-modal.service';
@@ -38,7 +41,7 @@ describe('OpfErrorModalComponent', () => {
   let opfErrorModalService: OpfErrorModalService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, KeyboardFocusTestingModule],
       declarations: [OpfErrorModalComponent],
       providers: [
         { provide: OpfErrorModalService, useClass: MockOpfErrorModalService },
