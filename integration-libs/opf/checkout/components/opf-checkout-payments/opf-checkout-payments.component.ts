@@ -43,6 +43,12 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
         } else if (!state.loading && !Boolean(state.data?.length)) {
           this.displayError('noActiveConfigurations');
         }
+
+        if (state.data && !state.error && !state.loading) {
+          this.opfService.updateOpfMetadataState({
+            defaultSelectedPaymentOptionId: state?.data[0]?.id,
+          });
+        }
       })
     );
 
@@ -62,13 +68,20 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
    * previously selected payment option ID by customer.
    */
   protected preselectPaymentOption(): void {
+    let isPreselected = false;
     this.subscription.add(
       this.opfService
         .getOpfMetadataState()
         .subscribe((state: OpfPaymentMetadata) => {
-          this.selectedPaymentId = state.termsAndConditionsChecked
-            ? state?.selectedPaymentOptionId
-            : undefined;
+          if (state.termsAndConditionsChecked && !isPreselected) {
+            isPreselected = true;
+            this.selectedPaymentId = !state.selectedPaymentOptionId
+              ? state.defaultSelectedPaymentOptionId
+              : state.selectedPaymentOptionId;
+            this.opfService.updateOpfMetadataState({
+              selectedPaymentOptionId: this.selectedPaymentId,
+            });
+          }
         })
     );
   }

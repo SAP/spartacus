@@ -21,6 +21,7 @@ export enum OpfPaymentMethodType {
 export interface OpfPaymentMetadata {
   termsAndConditionsChecked: boolean;
   selectedPaymentOptionId: number | undefined;
+  defaultSelectedPaymentOptionId?: number | undefined;
   isPaymentInProgress: boolean;
 }
 
