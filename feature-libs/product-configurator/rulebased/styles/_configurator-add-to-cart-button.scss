@@ -18,7 +18,7 @@
     }
   }
 
-  @include forVersion(6.1) {
+
     .cx-add-to-cart-btn-container {
       .cx-quantity-add-to-cart-container {
         @include media-breakpoint-down(sm) {
@@ -61,4 +61,4 @@
       }
     }
   }
-}
+
