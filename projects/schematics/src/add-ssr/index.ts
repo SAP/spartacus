@@ -7,36 +7,47 @@
 
 import { strings } from '@angular-devkit/core';
 import {
-  apply,
-  branchAndMerge,
-  chain,
-  externalSchematic,
   MergeStrategy,
-  mergeWith,
-  move,
   Rule,
   SchematicContext,
   SchematicsException,
   Source,
-  template,
   Tree,
+  apply,
+  branchAndMerge,
+  chain,
+  externalSchematic,
+  mergeWith,
+  move,
+  template,
   url,
 } from '@angular-devkit/schematics';
-import { insertImport } from '@schematics/angular/utility/ast-utils';
+import {
+  getDecoratorMetadata,
+  getMetadataField,
+  insertImport,
+} from '@schematics/angular/utility/ast-utils';
+import { RemoveChange } from '@schematics/angular/utility/change';
 import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import ts from 'typescript';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
 import { getDefaultProjectNameFromWorkspace, getWorkspace } from '../shared';
-import { ANGULAR_SSR } from '../shared/constants';
+import {
+  ANGULAR_CORE,
+  ANGULAR_PLATFORM_BROWSER,
+  ANGULAR_SSR,
+} from '../shared/constants';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
   commitChanges,
   getIndexHtmlPath,
   getPathResultsForFile,
   getTsSourceFile,
+  removeImport,
 } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -338,6 +349,101 @@ function useNoSsrConfigurationInNgServe(
   };
 }
 
+/**
+ * Removes the "provideClientHydration" from "app.module.ts" file.
+ *
+ * This rule should be skipped (and removed) when Spartacus starts supporting client hydration.
+ */
+function removeClientHydration(spartacusOptions: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    if (spartacusOptions.debug) {
+      context.logger.info(
+        `⌛️ Removing "provideClientHydration" from "app.module.ts"...`
+      );
+    }
+    const appModulePath = getPathResultsForFile(
+      tree,
+      'app.module.ts',
+      '/src'
+    )[0];
+
+    if (!appModulePath) {
+      throw new SchematicsException(`Project file "app.module.ts" not found.`);
+    }
+
+    const sourceFile = getTsSourceFile(tree, appModulePath);
+
+    // Remove import
+    const importChange = removeImport(sourceFile, {
+      className: `provideClientHydration`,
+      importPath: ANGULAR_PLATFORM_BROWSER,
+    });
+
+    // Remove provider
+    const providerChanges = removeFromModuleProviders(
+      sourceFile,
+      `provideClientHydration()`
+    );
+
+    const changes = [importChange, ...providerChanges];
+    commitChanges(tree, appModulePath, changes);
+
+    if (spartacusOptions.debug) {
+      context.logger.info(
+        `✅ Removing "provideClientHydration" from "app.module.ts" complete.`
+      );
+    }
+    return tree;
+  };
+}
+
+/**
+ * Removes provider from  module providers.
+ *
+ * removeClientHydration() function is the only place where this function is used and it's used temporarily.
+ * If needed, move this function to module-file-utils.ts
+ */
+function removeFromModuleProviders(
+  source: ts.SourceFile,
+  providerName: string
+): RemoveChange[] {
+  const nodes = getDecoratorMetadata(source, 'NgModule', ANGULAR_CORE);
+  const node = nodes[0];
+  if (!node || !ts.isObjectLiteralExpression(node)) {
+    return [];
+  }
+
+  // Find the matching metadata field.
+  const matchingProperties = getMetadataField(node, `providers`);
+  const assignment = matchingProperties[0];
+
+  // return empty array if assignment is not an array
+  if (
+    !ts.isPropertyAssignment(assignment) ||
+    !ts.isArrayLiteralExpression(assignment.initializer)
+  ) {
+    return [];
+  }
+
+  //find provider to remove
+  const providersExpression = assignment.initializer;
+  const providerToRemove = providersExpression
+    .getChildren()
+    .filter((e) => e.getText().includes(providerName));
+
+  if (!providerToRemove) {
+    return [];
+  }
+
+  return [
+    new RemoveChange(
+      source.fileName,
+      providerToRemove[0].pos,
+      `${providerToRemove[0].getFullText()}`
+    ),
+  ];
+}
+
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const serverTemplate = provideServerFile(options);
@@ -349,6 +455,7 @@ export function addSSR(options: SpartacusOptions): Rule {
         project: options.project,
       }),
       modifyAppServerModuleFile(),
+      removeClientHydration(options),
       modifyIndexHtmlFile(options),
       branchAndMerge(
         chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
