@@ -121,6 +121,7 @@ function verifyCarouselItemRendered(
 
     cy.get('a').within(() => {
       cy.root().should('have.attr', 'href');
+      cy.wait(5000);
       cy.get('h4').should('not.be.empty');
       cy.get('.price').should('not.be.empty');
     });
