@@ -11,11 +11,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  FeatureConfigService,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -72,7 +68,6 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configExpertModeService: ConfiguratorExpertModeService,
     protected launchDialogService: LaunchDialogService,
-    protected featureConfigservice: FeatureConfigService,
     protected globalMessageService: GlobalMessageService
   ) {}
 
