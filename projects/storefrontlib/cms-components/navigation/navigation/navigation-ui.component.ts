@@ -64,7 +64,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   private openNodes: HTMLElement[] = [];
   private subscriptions = new Subscription();
   private resize = new EventEmitter();
-  private arrowControls: Subject<KeyboardEvent> = new Subject();
+  protected arrowControls: Subject<KeyboardEvent> = new Subject();
 
   @HostListener('window:resize')
   onResize() {
