@@ -31,6 +31,7 @@ SPARTACUS_PROJECTS=(
         "dist/storefinder:feature-libs/storefinder"
         "dist/tracking:feature-libs/tracking"
         "dist/qualtrics:feature-libs/qualtrics"
+        "dist/quote:feature-libs/quote"
         "dist/smartedit:feature-libs/smartedit"
         "dist/customer-ticketing:feature-libs/customer-ticketing"
         "dist/cds:integration-libs/cds"
