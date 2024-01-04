@@ -187,10 +187,6 @@ describe('OpfQuickBuyService', () => {
         of({ baseStore: { paymentProvider: 'providerWithGuestSupport' } })
       );
 
-      checkoutConfigMock.checkout.and.returnValue({
-        flows: {},
-      });
-
       authServiceMock.isUserLoggedIn.and.returnValue(of(false));
       checkoutConfigMock.checkout.flows = {
         providerWithGuestSupport: { guest: true },
