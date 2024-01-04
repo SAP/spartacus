@@ -216,6 +216,22 @@
     "@spartacus/styles": "2211.19.0",
     "rxjs": "^7.8.0"
   },
+  "@spartacus/quote": {
+    "@angular-devkit/schematics": "^17.0.5",
+    "@angular/common": "^17.0.5",
+    "@angular/core": "^17.0.5",
+    "@angular/forms": "^17.0.5",
+    "@angular/router": "^17.0.5",
+    "@ng-select/ng-select": "^12.0.4",
+    "@ngrx/effects": "^17.0.1",
+    "@ngrx/store": "^17.0.1",
+    "@spartacus/cart": "2211.19.0",
+    "@spartacus/core": "2211.19.0",
+    "@spartacus/schematics": "2211.19.0",
+    "@spartacus/storefront": "2211.19.0",
+    "@spartacus/styles": "2211.19.0",
+    "rxjs": "^7.8.0"
+  },
   "@spartacus/qualtrics": {
     "@angular-devkit/schematics": "^17.0.5",
     "@angular/common": "^17.0.5",
