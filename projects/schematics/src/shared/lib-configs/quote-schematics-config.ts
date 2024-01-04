@@ -9,10 +9,10 @@ import {
   CART_BASE_FEATURE_NAME,
   QUOTE_FEATURE_NAME,
   SPARTACUS_QUOTE,
-  SPARTACUS_QUOTE_AWARE,
   SPARTACUS_QUOTE_ASSETS,
-  SPARTACUS_QUOTE_ROOT,
+  SPARTACUS_QUOTE_AWARE,
   SPARTACUS_QUOTE_REQUEST,
+  SPARTACUS_QUOTE_ROOT,
 } from '../libs-constants';
 import { SchematicConfig } from '../utils';
 
@@ -34,6 +34,7 @@ export const QUOTE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: QUOTE_FEATURE_NAME,
     mainScope: SPARTACUS_QUOTE,
+    b2b: true,
   },
   folderName: QUOTE_FOLDER_NAME,
   moduleName: QUOTE_MODULE_NAME,

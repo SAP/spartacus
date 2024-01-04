@@ -11,6 +11,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   QUOTE_FEATURE_NAME,
+  SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_QUOTE,
   SPARTACUS_SCHEMATICS,
   SpartacusOptions,
@@ -158,6 +159,15 @@ describe('Spartacus Quote schematics: ng-add', () => {
         it('should update angular.json', async () => {
           const content = appTree.readContent('/angular.json');
           expect(content).toMatchSnapshot();
+        });
+      });
+
+      describe('b2b features', () => {
+        it('should be added for quote library', () => {
+          const configurationModule = appTree.readContent(
+            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+          );
+          expect(configurationModule).toMatchSnapshot();
         });
       });
     });
