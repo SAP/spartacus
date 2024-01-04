@@ -10,12 +10,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  quoteFeatureModulePath,
   QUOTE_FEATURE_NAME,
-  LibraryOptions as SpartacusQuoteOptions,
-  SpartacusOptions,
   SPARTACUS_QUOTE,
   SPARTACUS_SCHEMATICS,
+  SpartacusOptions,
+  LibraryOptions as SpartacusQuoteOptions,
+  quoteFeatureModulePath,
   userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -45,6 +45,7 @@ describe('Spartacus Quote schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
