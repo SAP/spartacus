@@ -131,29 +131,8 @@ export class ConfiguratorAttributeHeaderComponent
     return true;
   }
 
-  protected isAttributeWithDomain(
-    uiType: Configurator.UiType | undefined
-  ): boolean {
-    switch (uiType) {
-      case Configurator.UiType.NOT_IMPLEMENTED:
-      case Configurator.UiType.STRING:
-      case Configurator.UiType.NUMERIC:
-      case Configurator.UiType.CHECKBOX: {
-        return false;
-      }
-    }
-    return true;
-  }
-
   protected needsRequiredAttributeErrorMsg(): boolean {
     return this.isRequiredAttributeWithoutErrorMsg();
-  }
-
-  protected isRequiredAttributeWithDomain(): boolean {
-    return (
-      this.isRequiredErrorMsg(this.attribute) &&
-      this.isAttributeWithDomain(this.attribute.uiType)
-    );
   }
 
   protected isRequiredAttributeWithoutErrorMsg(): boolean {

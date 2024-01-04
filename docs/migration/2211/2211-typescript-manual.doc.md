@@ -8,15 +8,27 @@ The provisioning of the CPQ normalizers and serializers has been moved from `Cpq
 
 ### ConfiguratorAddToCartButtonComponent
 
-Constructor has been extended with a new dependency to `GlobalMessageService`.
+Constructor has been extended with a new dependency to `ConfiguratorQuantityService`.
 
 ### ConfiguratorFormComponent
 
-Constructor has been extended with a new dependency to `ConfiguratorQuantityService`.
+Constructor has been extended with a new dependency to `GlobalMessageService`.
 
 ### ConfiguratorAttributeProductCardComponent
 
-Method  `get attributeName()` has been removed. Instead directly use `productCardOptions.attributeName`, which has been turned to a mandatory instead of an optional attribute.
+Method  `get attributeName` has been removed. Instead directly use `productCardOptions.attributeName`, which has been turned to a mandatory instead of an optional attribute.
+
+### ConfiguratorAttributeFooterComponent
+
+This component now shows error messages also for drop-down attribute types.
+Method `needsUserInputMessage` has been removed since it is no longer used. Instead use new method `needsUserInputMsg`.
+
+### ConfiguratorAttributeHeaderComponent
+
+This component no longer shows error messages for drop-down attribute types. As a consequence, method `isRequiredAttributeWithDomain` has been removed since it was not used since 6.2. Instead use new method `isRequiredAttributeWithoutErrorMsg`.
+
+Method `isAttributeWithDomain` has been removed since it was not used since 6.2. A replacement is not available and not
+needed, since its caller was deleted method `isRequiredAttributeWithDomain`.
 
 ### ConfiguratorAttributeSingleSelectionBaseComponent
 

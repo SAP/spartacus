@@ -83,20 +83,4 @@ export class ConfiguratorAttributeFooterComponent
       this.isUserInputEmpty(this.attribute.userInput)
     );
   }
-
-  /**
-   * @deprecated since 6.2
-   *
-   * `needsUserInputMsg` method will be called instead.
-   */
-  protected needsUserInputMessage(): boolean {
-    const uiType = this.attribute.uiType;
-    const needsMessage =
-      this.attribute.required &&
-      this.attribute.incomplete &&
-      (uiType === Configurator.UiType.STRING ||
-        uiType === Configurator.UiType.NUMERIC) &&
-      this.isUserInputEmpty(this.attribute.userInput);
-    return needsMessage ?? false;
-  }
 }

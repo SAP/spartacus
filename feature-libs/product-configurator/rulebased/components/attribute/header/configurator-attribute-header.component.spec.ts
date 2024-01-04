@@ -1115,38 +1115,6 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
-  describe('isAttributeWithDomain', () => {
-    it('should return `false` because attribute UI type is `Configurator.UiType.NOT_IMPLEMENTED`', () => {
-      component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
-      fixture.detectChanges();
-      expect(
-        component['isAttributeWithDomain'](component.attribute.uiType)
-      ).toBe(false);
-    });
-
-    it('should return `false` because attribute UI type is `Configurator.UiType.STRING`', () => {
-      component.attribute.uiType = Configurator.UiType.STRING;
-      fixture.detectChanges();
-      expect(
-        component['isAttributeWithDomain'](component.attribute.uiType)
-      ).toBe(false);
-    });
-
-    it('should return `false` because attribute UI type is `Configurator.UiType.NUMERIC`', () => {
-      component.attribute.uiType = Configurator.UiType.NUMERIC;
-      fixture.detectChanges();
-      expect(
-        component['isAttributeWithDomain'](component.attribute.uiType)
-      ).toBe(false);
-    });
-
-    it('should return `true` because attribute UI type is `RADIOBUTTON`', () => {
-      expect(
-        component['isAttributeWithDomain'](component.attribute.uiType)
-      ).toBe(true);
-    });
-  });
-
   describe('isRequiredAttributeWithoutErrorMsg', () => {
     it('should return `false` because because required attribute is `undefined`', () => {
       component.attribute.required = undefined;
@@ -1172,34 +1140,6 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       fixture.detectChanges();
       expect(component['isRequiredAttributeWithoutErrorMsg']()).toBe(true);
-    });
-  });
-
-  describe('isRequiredAttributeWithDomain', () => {
-    it('should return `false` because because required attribute is `undefined`', () => {
-      component.attribute.required = undefined;
-      fixture.detectChanges();
-      expect(component['isRequiredAttributeWithDomain']()).toBe(false);
-    });
-
-    it('should return `false` because definition of attribute incompleteness is `undefined`', () => {
-      component.attribute.incomplete = undefined;
-      fixture.detectChanges();
-      expect(component['isRequiredAttributeWithDomain']()).toBe(false);
-    });
-
-    it('should return `false` because attribute attribute UI type is `Configurator.UiType.NUMERIC`', () => {
-      component.attribute.required = true;
-      component.attribute.uiType = Configurator.UiType.NUMERIC;
-      fixture.detectChanges();
-      expect(component['isRequiredAttributeWithDomain']()).toBe(false);
-    });
-
-    it('should return `true` because attribute attribute UI type is `Configurator.UiType.DROPDOWN_PRODUCT`', () => {
-      component.attribute.required = true;
-      component.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
-      fixture.detectChanges();
-      expect(component['isRequiredAttributeWithDomain']()).toBe(true);
     });
   });
 
