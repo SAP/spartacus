@@ -108,6 +108,13 @@ describe('add-ssr', () => {
     });
   });
 
+  describe('app.module.ts', () => {
+    it('should be updated', () => {
+      const content = appTree.readContent('./src/app/app.module.ts');
+      expect(content).toMatchSnapshot();
+    });
+  });
+
   describe('index.html', () => {
     it('should contain occ-backend-base-url attribute in meta tags', async () => {
       const indexHtmlPath = getPathResultsForFile(

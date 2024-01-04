@@ -3,7 +3,7 @@
 exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 1`] = `
 "import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { BrowserModule,  } from '@angular/platform-browser';
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { AppRoutingModule } from "@spartacus/storefront";
@@ -23,7 +23,6 @@ import { SpartacusModule } from './spartacus/spartacus.module';
     SpartacusModule
   ],
   providers: [
-    provideClientHydration()
   ],
   bootstrap: [AppComponent]
 })
