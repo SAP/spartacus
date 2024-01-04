@@ -53,13 +53,17 @@ describe('OpfGooglePayComponent', () => {
     component.activeConfiguration = {};
   });
 
+  async function detectChanges() {
+    fixture.detectChanges();
+    await fixture.whenStable();
+  }
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should initialize Google Pay client on init', async () => {
-    fixture.detectChanges();
-    await fixture.whenStable();
+    await detectChanges();
 
     expect(mockOpfGooglePayService.loadProviderResources).toHaveBeenCalled();
     expect(mockOpfGooglePayService.initClient).toHaveBeenCalledWith(
@@ -68,8 +72,7 @@ describe('OpfGooglePayComponent', () => {
   });
 
   it('should update ready to pay state when Google Pay is ready', async () => {
-    fixture.detectChanges();
-    await fixture.whenStable();
+    await detectChanges();
 
     expect(component.isReadyToPayState$.getValue()).toBe(true);
   });
@@ -78,8 +81,8 @@ describe('OpfGooglePayComponent', () => {
     component.googlePayButtonContainer = new ElementRef(
       document.createElement('div')
     );
-    fixture.detectChanges();
-    await fixture.whenStable();
+
+    await detectChanges();
 
     expect(mockOpfGooglePayService.renderPaymentButton).toHaveBeenCalledWith(
       component.googlePayButtonContainer

@@ -193,7 +193,7 @@ describe('OpfGooglePayService', () => {
       const activeConfiguration = {};
       service.initClient(activeConfiguration);
 
-      const client = (service as any).googlePaymentClient;
+      const client = service['googlePaymentClient'];
 
       expect(client).toBeDefined();
     });
@@ -209,8 +209,8 @@ describe('OpfGooglePayService', () => {
 
       service.updateTransactionInfo(transactionInfo);
 
-      const updatedTransactionInfo = (service as any).googlePaymentRequest
-        .transactionInfo;
+      const updatedTransactionInfo =
+        service['googlePaymentRequest'].transactionInfo;
 
       expect(updatedTransactionInfo).toEqual(transactionInfo);
     });
@@ -357,21 +357,19 @@ describe('OpfGooglePayService', () => {
     it('should add a new address ID if not already present', () => {
       const addressId = 'newAddressId';
 
-      (service as any).associateAddressId(addressId);
+      service['associateAddressId'](addressId);
 
-      expect((service as any).associatedShippingAddressIds).toContain(
-        addressId
-      );
+      expect(service['associatedShippingAddressIds']).toContain(addressId);
     });
 
     it('should not add an address ID if it is already present', () => {
       const addressId = 'existingAddressId';
 
-      (service as any).associateAddressId(addressId);
-      (service as any).associateAddressId(addressId);
+      service['associateAddressId'](addressId);
+      service['associateAddressId'](addressId);
 
       expect(
-        (service as any).associatedShippingAddressIds.filter(
+        service['associatedShippingAddressIds'].filter(
           (id: any) => id === addressId
         ).length
       ).toBe(1);
@@ -381,20 +379,20 @@ describe('OpfGooglePayService', () => {
   describe('isAddressIdAssociated', () => {
     it('should return true if address ID is already associated', () => {
       const addressId = 'existingAddressId';
-      (service as any).associatedShippingAddressIds.push(addressId);
+      service['associatedShippingAddressIds'].push(addressId);
 
-      const result = (service as any).isAddressIdAssociated(addressId);
+      const result = service['isAddressIdAssociated'](addressId);
 
       expect(result).toBeTruthy();
     });
 
     it('should return false if address ID is not associated', () => {
       const addressId = 'newAddressId';
-      (service as any).associatedShippingAddressIds = (
+      service['associatedShippingAddressIds'] = (
         service as any
       ).associatedShippingAddressIds.filter((id: any) => id !== addressId);
 
-      const result = (service as any).isAddressIdAssociated(addressId);
+      const result = service['isAddressIdAssociated'](addressId);
 
       expect(result).toBeFalsy();
     });
@@ -402,33 +400,33 @@ describe('OpfGooglePayService', () => {
 
   describe('resetAssociatedAddresses', () => {
     it('should clear all associated address IDs', () => {
-      (service as any).associatedShippingAddressIds = ['address1', 'address2'];
+      service['associatedShippingAddressIds'] = ['address1', 'address2'];
 
-      (service as any).resetAssociatedAddresses();
+      service['resetAssociatedAddresses']();
 
-      expect((service as any).associatedShippingAddressIds).toEqual([]);
-      expect((service as any).associatedShippingAddressIds.length).toBe(0);
+      expect(service['associatedShippingAddressIds']).toEqual([]);
+      expect(service['associatedShippingAddressIds'].length).toBe(0);
     });
   });
 
   describe('deleteAssociatedAddresses', () => {
     it('should call deleteUserAddresses and reset associated addresses', () => {
-      (service as any).associatedShippingAddressIds = ['address1', 'address2'];
+      service['associatedShippingAddressIds'] = ['address1', 'address2'];
 
-      (service as any).deleteAssociatedAddresses();
+      service['deleteAssociatedAddresses']();
 
       expect(mockCartHandlerService.deleteUserAddresses).toHaveBeenCalledWith([
         'address1',
         'address2',
       ]);
 
-      expect((service as any).associatedShippingAddressIds).toEqual([]);
+      expect(service['associatedShippingAddressIds']).toEqual([]);
     });
 
     it('should not call deleteUserAddresses if there are no associated addresses', () => {
       (service as any).associatedShippingAddressIds = null;
 
-      (service as any).deleteAssociatedAddresses();
+      service['deleteAssociatedAddresses']();
 
       expect(mockCartHandlerService.deleteUserAddresses).not.toHaveBeenCalled();
     });
@@ -437,21 +435,21 @@ describe('OpfGooglePayService', () => {
   describe('getFirstAndLastName', () => {
     it('should correctly split first and last names', () => {
       const name = 'John Doe';
-      const result = (service as any).getFirstAndLastName(name);
+      const result = service['getFirstAndLastName'](name);
       expect(result.firstName).toBe('John');
       expect(result.lastName).toBe(' Doe');
     });
 
     it('should handle a single name', () => {
       const name = 'John';
-      const result = (service as any).getFirstAndLastName(name);
+      const result = service['getFirstAndLastName'](name);
       expect(result.firstName).toBe('John');
       expect(result.lastName).toBe('John');
     });
 
     it('should correctly handle multiple names', () => {
       const name = 'John Michael Doe';
-      const result = (service as any).getFirstAndLastName(name);
+      const result = service['getFirstAndLastName'](name);
       expect(result.firstName).toBe('John');
       expect(result.lastName).toBe(' Michael Doe');
     });
@@ -463,7 +461,7 @@ describe('OpfGooglePayService', () => {
         'loadPaymentData',
         'isReadyToPay',
       ]);
-      (service as any).googlePaymentClient = mockGooglePaymentClient;
+      service['googlePaymentClient'] = mockGooglePaymentClient;
     });
 
     it('should initiate a transaction process', (done) => {
@@ -471,9 +469,9 @@ describe('OpfGooglePayService', () => {
       const counter = 1;
       mockCurrentProductService.getProduct.and.returnValue(of(mockProduct));
       mockItemCounterService.getCounter.and.returnValue(counter);
-      mockCartHandlerService.deleteCurrentCart.and.returnValue(of(null));
-      mockCartHandlerService.addProductToCart.and.returnValue(of(null));
-      mockCartHandlerService.getCurrentCart.and.returnValue(of(null));
+      mockCartHandlerService.deleteCurrentCart.and.returnValue(of(true));
+      mockCartHandlerService.addProductToCart.and.returnValue(of(true));
+      mockCartHandlerService.getCurrentCart.and.returnValue(of({}));
 
       service.initTransaction();
 
@@ -485,7 +483,7 @@ describe('OpfGooglePayService', () => {
           counter
         );
         expect(
-          (service as any).googlePaymentClient.loadPaymentData
+          service['googlePaymentClient'].loadPaymentData
         ).toHaveBeenCalled();
         done();
       }, 0);
@@ -499,7 +497,7 @@ describe('OpfGooglePayService', () => {
       mockGooglePaymentClient = jasmine.createSpyObj('PaymentsClient', [
         'createButton',
       ]);
-      (service as any).googlePaymentClient = mockGooglePaymentClient;
+      service['googlePaymentClient'] = mockGooglePaymentClient;
 
       mockGooglePaymentClient.createButton.and.callFake((config: any) => {
         const button = document.createElement('button');
@@ -578,11 +576,9 @@ describe('OpfGooglePayService', () => {
             expect(result).toBeDefined();
             expect(mockPaymentFacade.submitPayment).toHaveBeenCalled();
             expect(submitPaymentArgs.callbackArray.length).toBe(3);
-            submitPaymentArgs.callbackArray.forEach(
-              (callback: () => Promise<void>) => {
-                expect(typeof callback).toBe('function');
-              }
-            );
+            submitPaymentArgs.callbackArray.forEach((callback) => {
+              expect(typeof callback).toBe('function');
+            });
             expect(submitPaymentArgs.cartId).toBe(mockCartId);
             expect(submitPaymentArgs.cartId).toBe(mockCartId);
             expect(submitPaymentArgs.encryptedToken).toBe(encodedMockToken);
