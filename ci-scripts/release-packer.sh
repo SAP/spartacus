@@ -35,6 +35,7 @@ function pack {
     elif [[ $PACKAGE == 'storefront' ]]; then
         cp -r dist/storefrontlib/* ../.
     else
+        rm dist/$PACKAGE/.npmignore
         cp -r dist/$PACKAGE/* ../.
     fi
 }
