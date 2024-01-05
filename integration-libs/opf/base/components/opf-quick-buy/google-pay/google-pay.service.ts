@@ -65,6 +65,8 @@ export class OpfGooglePayService {
       'PAYMENT_AUTHORIZATION',
     ],
 
+    emailRequired: true,
+
     // @ts-ignore
     merchantInfo: {
       // merchantId: 'spartacusStorefront',
@@ -85,6 +87,11 @@ export class OpfGooglePayService {
   };
 
   loadProviderResources(): Promise<void> {
+    this.opfCartHandlerService
+      .isAnonymousUser()
+      .subscribe((isAnonymousUser) => {
+        console.log('isAnonymousUser', isAnonymousUser);
+      });
     return this.opfResourceLoaderService.loadProviderResources([
       { url: this.GOOGLE_PAY_JS_URL },
     ]);
