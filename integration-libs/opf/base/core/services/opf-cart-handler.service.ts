@@ -21,13 +21,14 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  AuthService,
   EventService,
   QueryState,
   UserAddressService,
   UserIdService,
 } from '@spartacus/core';
 import { OpfGlobalMessageService } from '@spartacus/opf/base/root';
-import { Observable, merge } from 'rxjs';
+import { Observable, merge, of, throwError } from 'rxjs';
 import {
   filter,
   map,
@@ -52,6 +53,7 @@ export class OpfCartHandlerService {
   protected eventService = inject(EventService);
   protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
   protected opfGlobalMessageService = inject(OpfGlobalMessageService);
+  protected authFacade = inject(AuthService);
 
   addProductToCart(
     productCode: string,
@@ -59,6 +61,9 @@ export class OpfCartHandlerService {
     pickupStore?: string | undefined
   ): Observable<boolean> {
     this.activeCartFacade.addEntry(productCode, quantity, pickupStore);
+
+    this.addGuestTempEmail();
+
     return this.checkStableCart();
   }
 
@@ -77,19 +82,21 @@ export class OpfCartHandlerService {
     this.opfGlobalMessageService.disableGlobalMessage([
       'addressForm.userAddressAddSuccess',
     ]);
-    return this.checkoutDeliveryAddressFacade.createAndSetAddress(address).pipe(
-      switchMap(() => this.checkStableCart()),
-      switchMap(() =>
-        this.getDeliveryAddress().pipe(
-          map((addr: Address | undefined) => addr?.id ?? '')
+    return this.checkoutDeliveryAddressFacade
+      .createAndSetAddress({ ...address, visibleInAddressBook: false })
+      .pipe(
+        switchMap(() => this.checkStableCart()),
+        switchMap(() =>
+          this.getDeliveryAddress().pipe(
+            map((addr: Address | undefined) => addr?.id ?? '')
+          )
         )
-      )
-    );
+      );
   }
 
   setBillingAddress(address: Address): Observable<boolean> {
     return this.checkoutBillingAddressFacade
-      .setBillingAddress(address)
+      .setBillingAddress({ ...address, visibleInAddressBook: false })
       .pipe(switchMap(() => this.checkStableCart()));
   }
 
@@ -143,12 +150,13 @@ export class OpfCartHandlerService {
   }
 
   deleteUserAddresses(addrIds: string[]): void {
-    this.opfGlobalMessageService.disableGlobalMessage([
-      'addressForm.userAddressDeleteSuccess',
-    ]);
-    addrIds.forEach((addrId) => {
-      this.userAddressService.deleteUserAddress(addrId);
-    });
+    console.log('deleteUserAddresses',addrIds);
+    // this.opfGlobalMessageService.disableGlobalMessage([
+    //   'addressForm.userAddressDeleteSuccess',
+    // ]);
+    // addrIds.forEach((addrId) => {
+    //   this.userAddressService.deleteUserAddress(addrId);
+    // });
   }
 
   deleteCurrentCart(): Observable<boolean> {
@@ -164,6 +172,52 @@ export class OpfCartHandlerService {
           this.eventService.get(DeleteCartFailEvent).pipe(map(() => false))
         ).pipe(take(1))
       )
+    );
+  }
+
+  addGuestTempEmail(): void {
+    this.isAnonymousUser()
+      .pipe(
+        switchMap((isAnnonymous) => {
+          if (!isAnnonymous) {
+            return throwError('skip');
+          }
+          return this.getCurrentCartId();
+        }),
+        withLatestFrom(this.userIdService.getUserId()),
+        take(1)
+      )
+      .subscribe({
+        next: ([cartId, userId]) => {
+          const email = `temp_${cartId}@test123.com`;
+          this.multiCartFacade.assignEmail(cartId, userId, email);
+        },
+        error: () => {
+          console.log('expected as not anonymous');
+        },
+      });
+    // this.getCurrentCartId()
+    //   .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+    //   .subscribe(([cartId, userId]) => {
+    //     const email = `temp_${cartId}@test123.com`;
+    //     this.multiCartFacade.assignEmail(cartId, userId, email);
+    //   });
+  }
+
+  isAnonymousUser() {
+    return this.activeCartFacade.isGuestCart().pipe(
+      take(1),
+      tap((isGuest) => {
+        console.log('isGuest', isGuest);
+      }),
+      switchMap((isGuest) => {
+        return isGuest
+          ? of(false)
+          : this.authFacade
+              .isUserLoggedIn()
+              .pipe(map((isLoggedIn) => !isLoggedIn));
+      }),
+      take(1)
     );
   }
 }
