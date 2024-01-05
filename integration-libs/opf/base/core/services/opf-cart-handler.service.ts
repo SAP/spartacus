@@ -30,6 +30,7 @@ import {
 import { OpfGlobalMessageService } from '@spartacus/opf/base/root';
 import { Observable, merge, of, throwError } from 'rxjs';
 import {
+  catchError,
   filter,
   map,
   switchMap,
@@ -150,7 +151,7 @@ export class OpfCartHandlerService {
   }
 
   deleteUserAddresses(addrIds: string[]): void {
-    console.log('deleteUserAddresses',addrIds);
+    console.log('deleteUserAddresses', addrIds);
     // this.opfGlobalMessageService.disableGlobalMessage([
     //   'addressForm.userAddressDeleteSuccess',
     // ]);
@@ -171,7 +172,11 @@ export class OpfCartHandlerService {
           this.eventService.get(DeleteCartSuccessEvent).pipe(map(() => true)),
           this.eventService.get(DeleteCartFailEvent).pipe(map(() => false))
         ).pipe(take(1))
-      )
+      ),
+      catchError((error) => {
+        console.log('error in deleteCurrentCart', error);
+        return throwError(error);
+      })
     );
   }
 
