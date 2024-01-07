@@ -6,42 +6,6 @@ Since Angular v17, the command for creating a new app (`ng new`) must be run wit
 
 **Why**: Since Angular 17, new applications are created by default using a new so-called "standalone" mode, which has a bit *different structure of files* in the app folder than before. However Spartacus schematics installer still expects the *old files structure* in a created Angular app. That's why the flag  `ng new --standalone=false` is required before running Spartacus installation schematics.
 
-## If you are using SSR, you must remove `provideClientHydration` from `AppModule`.
-
-The `provideClientHydration` feature has to be removed from the freshly created application with SSR enabled. Otherwise, the app might not work properly.
-
-```ts
-import { HttpClientModule } from "@angular/common/http";
-import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import { EffectsModule } from "@ngrx/effects";
-import { StoreModule } from "@ngrx/store";
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { SpartacusModule } from './spartacus/spartacus.module';
-
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    StoreModule.forRoot({}),
-    EffectsModule.forRoot([]),
-    SpartacusModule
-  ],
-  providers: [
-    provideClientHydration() // <-------- we have to remove this line
-  ],
-  bootstrap: [AppComponent]
-})
-export class AppModule {}
-```
-
-**Why**: `provideClientHydration` is the new Angular feature that improves application performance by avoiding extra work to re-create DOM nodes. Since Angular v17 it is enabled by default in fresh applications with SSR. However, Spartacus does not support fully this feature and some unexpected issues might occur.
-
 ### Appendix A: How to run SSR dev server
 
 Run in _2 separate windows_ of terminal:
