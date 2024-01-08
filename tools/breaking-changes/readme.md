@@ -34,7 +34,7 @@ Run `npm run extract-all` in the breaking change tool home folder (tools/breakin
 Run `npm run parse-all`.  This will parse the files in ./src/*/temp and produce a `./src/*/public-api.json` file containing all the public api.
 
 - Compare old and new public API
-Run `npm run compare`.  This compares both ./src/*/public-api.json files to create a list of breaking changes in `./data/*_0/breaking-changes.json`.  This step also requires this input file: `docs/migration/*_0/renamed-api.json`.  It contains manually created mappings about API element that were renamed.
+Run `npm run compare`.  This compares both ./src/*/public-api.json files to create a list of breaking changes in `./data/*_0/breaking-changes.json`.  This step also requires this input file: `docs/migration/*_0/renamed-api-mappings.json`.  It contains manually created mappings about API element that were renamed.
 
 
 
