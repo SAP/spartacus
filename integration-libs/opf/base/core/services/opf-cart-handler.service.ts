@@ -235,6 +235,7 @@ export class OpfCartHandlerService {
   updateGuestEmail(email: string): Observable<boolean> {
     return this.isTempEmail().pipe(
       switchMap((isTemp) => {
+        console.log('isTemp', isTemp);
         if (isTemp) {
           return this.getCurrentCartId().pipe(
             withLatestFrom(this.userIdService.getUserId()),
@@ -244,8 +245,9 @@ export class OpfCartHandlerService {
               return this.checkStableCart();
             })
           );
+        } else {
+          return of(false);
         }
-        return of(false);
       })
       // withLatestFrom(this.userIdService.getUserId()),
       // take(1),
