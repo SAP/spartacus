@@ -57,10 +57,9 @@ describe('Spartacus CDS schematics: ng-add', () => {
     project: 'schematics-test',
     features: [],
     lazy: true,
+    site: 'my-site',
     tenant: 'my-tenant',
     baseUrl: 'my-base-url.com',
-    tenant2: 'my-t2',
-    baseUrl2: 'my-base-url2.com',
   };
 
   const cdsFeatureOptions: SpartacusCdsOptions = {
@@ -170,7 +169,6 @@ describe('Spartacus CDS schematics: ng-add', () => {
             ...cdsFeatureOptions,
             profileTagConfigUrl: 'profile-tag-config-url.com',
             profileTagLoadUrl: 'profile-tag-load-url.com',
-            profileTagConfigUrl2: 'profile-tag-config-url2.com',
           },
           appTree
         );

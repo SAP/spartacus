@@ -12,7 +12,7 @@ import { provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<CdsConfig>{
     cds: {
-      site: 'DEFAULT',
+      site: 'my-site',
       tenant: 'my-tenant',
       baseUrl: 'my-base-url.com',
       endpoints: {
@@ -22,24 +22,6 @@ import { provideConfig } from "@spartacus/core";
         defaultCarouselViewportThreshold: 80,
       },
     },
-    cdsConfigs: [{
-      site: 'ADDITIONAL_SITE',
-      tenant: 'my-t2',
-      baseUrl: 'my-base-url2.com',
-      endpoints: {
-        strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
-      },
-      merchandising: {
-        defaultCarouselViewportThreshold: 80,
-      },
-      profileTag: {
-        javascriptUrl:
-          'PROFILE_TAG_LOAD_URL_PLACEHOLDER',
-        configUrl:
-          'profile-tag-config-url2.com',
-        allowInsecureCookies: true,
-      },
-    }]
   }),
   provideConfig(<CdsConfig>{
     cds: {
@@ -70,7 +52,7 @@ import { provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<CdsConfig>{
     cds: {
-      site: 'DEFAULT',
+      site: 'my-site',
       tenant: 'my-tenant',
       baseUrl: 'my-base-url.com',
       endpoints: {
@@ -80,18 +62,6 @@ import { provideConfig } from "@spartacus/core";
         defaultCarouselViewportThreshold: 80,
       },
     },
-    cdsConfigs: [{
-      site: 'ADDITIONAL_SITE',
-      tenant: 'my-t2',
-      baseUrl: 'my-base-url2.com',
-      endpoints: {
-        strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
-      },
-      merchandising: {
-        defaultCarouselViewportThreshold: 80,
-      },
-
-    }]
   }),
   provideConfig(<CdsConfig>{
     cds: {
