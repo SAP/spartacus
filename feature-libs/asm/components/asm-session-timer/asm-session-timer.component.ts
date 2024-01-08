@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, NgZone } from '@angular/core';
 import { AsmConfig } from '@spartacus/asm/root';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -26,23 +26,29 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     protected asmComponentService: AsmComponentService,
     protected routingService: RoutingService,
     protected changeDetectorRef: ChangeDetectorRef,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected zone: NgZone
   ) {}
 
   ngOnInit(): void {
     this.timeLeft = this.getTimerStartDelayInSeconds();
-    this.interval = setInterval(() => {
-      if (this.timeLeft > 0) {
-        this.timeLeft--;
-      } else {
-        clearInterval(this.interval);
-        this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
-      }
-      this.changeDetectorRef.markForCheck();
-    }, 1000);
 
-    this.resetOnNavigate();
-    this.resetOnCustomerSessionChange();
+    this.zone.runOutsideAngular(() => {
+      this.interval = setInterval(() => {
+        if (this.timeLeft > 0) {
+          this.timeLeft--;
+        } else {
+          this.zone.run(() => {
+						clearInterval(this.interval);
+						this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
+					});
+        }
+        this.zone.run(() => this.changeDetectorRef.markForCheck());
+      }, 1000);
+
+      this.resetOnNavigate();
+      this.resetOnCustomerSessionChange();
+    });
   }
 
   protected resetOnNavigate(): void {
