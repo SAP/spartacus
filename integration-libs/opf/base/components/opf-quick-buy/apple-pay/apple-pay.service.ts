@@ -320,6 +320,11 @@ export class ApplePayService {
     if (!shippingContact || !billingContact) {
       throw new Error('Error: empty Contact');
     }
+
+    if (shippingContact.emailAddress) {
+      this.cartHandlerService.updateGuestEmail(shippingContact.emailAddress);
+    }
+
     return this.cartHandlerService
       .setDeliveryAddress(this.convertAppleToOpfAddress(shippingContact))
       .pipe(
