@@ -58,7 +58,7 @@ export class OpfCartHandlerService {
   protected opfGlobalMessageService = inject(OpfGlobalMessageService);
   protected authFacade = inject(AuthService);
 
-  EMAIL_PLACEHOLDER = 'EMAIL_PLACEHOLDER';
+  EMAIL_PLACEHOLDER = 'email_placeholder';
 
   addProductToCart(
     productCode: string,
