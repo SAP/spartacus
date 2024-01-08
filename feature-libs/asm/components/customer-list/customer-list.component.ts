@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +10,6 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
@@ -22,11 +22,10 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import {
-  FeatureConfigService,
-  OccConfig,
   SortModel,
   TranslationService,
   User,
+  OccConfig,
 } from '@spartacus/core';
 import {
   BREAKPOINT,
@@ -101,37 +100,12 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
   constructor(
-    launchDialogService: LaunchDialogService,
-    breakpointService: BreakpointService,
-    asmConfig: AsmConfig,
-    translation: TranslationService,
-    asmCustomerListFacade: AsmCustomerListFacade,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfig?: FeatureConfigService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    occConfig?: OccConfig
-  );
-
-  /**
-   * @deprecated since 7.0
-   */
-  constructor(
-    launchDialogService: LaunchDialogService,
-    breakpointService: BreakpointService,
-    asmConfig: AsmConfig,
-    translation: TranslationService,
-    asmCustomerListFacade: AsmCustomerListFacade
-  );
-
-  constructor(
     protected launchDialogService: LaunchDialogService,
     protected breakpointService: BreakpointService,
     protected asmConfig: AsmConfig,
     protected translation: TranslationService,
     protected asmCustomerListFacade: AsmCustomerListFacade,
-    // TODO:(CXSPA-3090) for next major release remove feature level
-    @Optional() protected featureConfig?: FeatureConfigService,
-    @Optional() protected occConfig?: OccConfig
+    protected occConfig?: OccConfig
   ) {
     this.breakpoint$ = this.getBreakpoint();
   }
@@ -210,9 +184,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   fetchCustomers(): void {
-    // TODO: (CXSPA-2722, CXSPA-3090) for remove ) Remove FeatureConfigService for 7.0
     this.enableAsmB2bCustomerList =
-      (this.featureConfig?.isLevel('6.1') ?? false) &&
       this.selectedUserGroupId === 'b2bCustomerList';
     if (this.selectedUserGroupId) {
       const options: CustomerSearchOptions = {
@@ -245,13 +217,6 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       ) {
         column.headerLocalizationKey = this.enableAsmB2bCustomerList
           ? 'asm.customerList.tableHeader.account'
-          : 'hideHeaders';
-      }
-      if (
-        column.headerLocalizationKey === 'asm.customerList.tableHeader.cart'
-      ) {
-        column.headerLocalizationKey = this.featureConfig?.isLevel('6.1')
-          ? column.headerLocalizationKey
           : 'hideHeaders';
       }
     }
