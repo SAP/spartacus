@@ -1,19 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Inject, Injectable } from '@angular/core';
-import type { i18n, InitOptions } from 'i18next';
+import type { InitOptions, i18n } from 'i18next';
 import i18nextHttpBackend, { BackendOptions } from 'i18next-http-backend';
 import { WindowRef } from '../../../window/window-ref';
 import { I18nConfig } from '../../config/i18n-config';
 import { I18NEXT_INSTANCE } from '../i18next-instance';
 import { I18nextBackendInitializer } from './i18next-backend.initializer';
 import {
-  I18nextHttpBackendClient,
   I18NEXT_HTTP_BACKEND_CLIENT,
+  I18nextHttpBackendClient,
 } from './i18next-http-backend-client';
 
 /**

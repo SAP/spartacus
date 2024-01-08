@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,7 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';

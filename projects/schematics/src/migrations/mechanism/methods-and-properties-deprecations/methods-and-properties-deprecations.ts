@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,12 +8,12 @@ import { SchematicContext, Tree } from '@angular-devkit/schematics';
 import { isImported } from '@schematics/angular/utility/ast-utils';
 import { TODO_SPARTACUS } from '../../../shared/constants';
 import {
+  InsertDirection,
+  MethodPropertyDeprecation,
   commitChanges,
   getAllTsSourceFiles,
   getTsSourceFile,
   insertCommentAboveIdentifier,
-  InsertDirection,
-  MethodPropertyDeprecation,
 } from '../../../shared/utils/file-utils';
 import { getSourceRoot } from '../../../shared/utils/workspace-utils';
 

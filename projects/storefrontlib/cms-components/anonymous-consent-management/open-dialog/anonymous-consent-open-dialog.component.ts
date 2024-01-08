@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,9 +10,9 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
-import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
 import { take } from 'rxjs/operators';
+import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
+import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
 
 @Component({
   selector: 'cx-anonymous-consent-open-dialog',

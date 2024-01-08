@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,7 @@ import { JsonObject, logging } from '@angular-devkit/core';
 import { promises as fs } from 'fs';
 import * as globModule from 'glob';
 import * as path from 'path';
-import { from, Observable, of } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { promisify } from 'util';
 const glob = promisify(globModule);
@@ -99,7 +99,9 @@ async function propagateAugmentableTypes(
   for (const packageJsonFile of files) {
     try {
       // get typings file from package.json
-      const packageData = JSON.parse(await fs.readFile(packageJsonFile, 'utf8'));
+      const packageData = JSON.parse(
+        await fs.readFile(packageJsonFile, 'utf8')
+      );
       const typingsFile = packageData.typings;
 
       if (!typingsFile) {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,12 +7,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { GeoPoint, SearchConfig } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
 import {
+  StoreFinderConfig,
   StoreFinderSearchQuery,
   StoreFinderService,
-  StoreFinderConfig,
 } from '@spartacus/storefinder/core';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-store-finder-search-result',

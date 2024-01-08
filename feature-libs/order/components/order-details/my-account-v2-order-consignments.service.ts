@@ -1,15 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Order, Consignment, ReplenishmentOrder } from '@spartacus/order/root';
+import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
 import {
-  completedValues,
   cancelledValues,
+  completedValues,
 } from './order-detail-items/order-consigned-entries/order-consigned-entries.model';
 
 @Injectable({

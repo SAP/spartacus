@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { InjectionToken } from '@angular/core';
-import { Converter, B2BUser, EntitiesModel } from '@spartacus/core';
+import { B2BUser, Converter, EntitiesModel } from '@spartacus/core';
 
 export const B2B_USER_NORMALIZER = new InjectionToken<Converter<any, B2BUser>>(
   'B2BUserNormalizer'

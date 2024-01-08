@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,7 @@ import {
   provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
-import { USE_MY_ACCOUNT_V2_ORDER, OrderOutlets } from '@spartacus/order/root';
+import { OrderOutlets, USE_MY_ACCOUNT_V2_ORDER } from '@spartacus/order/root';
 import {
   CardModule,
   IconModule,
@@ -33,8 +33,8 @@ import {
 } from '@spartacus/storefront';
 import {
   MyAccountV2ConsignmentTrackingComponent,
-  MyAccountV2OrderDetailsActionsComponent,
   MyAccountV2DownloadInvoicesModule,
+  MyAccountV2OrderDetailsActionsComponent,
 } from './my-account-v2';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { OrderDetailBillingComponent } from './order-detail-billing/order-detail-billing.component';

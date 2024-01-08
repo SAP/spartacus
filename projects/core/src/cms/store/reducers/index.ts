@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,8 +9,8 @@ import {
   Action,
   ActionReducer,
   ActionReducerMap,
-  combineReducers,
   MetaReducer,
+  combineReducers,
 } from '@ngrx/store';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { PageType } from '../../../model/cms.model';
@@ -19,9 +19,9 @@ import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-l
 import { entityReducer } from '../../../state/utils/entity/entity.reducer';
 import { NodeItem } from '../../model/node-item.model';
 import {
+  COMPONENT_ENTITY,
   CmsState,
   ComponentsContext,
-  COMPONENT_ENTITY,
   NAVIGATION_DETAIL_ENTITY,
   StateWithCms,
 } from '../cms-state';

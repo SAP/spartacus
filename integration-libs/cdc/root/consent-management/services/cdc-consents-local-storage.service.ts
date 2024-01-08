@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { of, Subscription } from 'rxjs';
-import { StatePersistenceService } from '@spartacus/core';
 import { Injectable, OnDestroy } from '@angular/core';
+import { StatePersistenceService } from '@spartacus/core';
+import { of, Subscription } from 'rxjs';
 import {
   CdcLocalStorageTemplate,
   CdcSiteConsentTemplate,

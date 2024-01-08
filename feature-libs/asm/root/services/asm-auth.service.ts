@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,7 @@ import {
   StateWithClientAuth,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, from, Observable, of } from 'rxjs';
+import { Observable, combineLatest, from, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 

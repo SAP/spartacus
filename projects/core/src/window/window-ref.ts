@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
-import { fromEvent, Observable, of } from 'rxjs';
+import { Observable, fromEvent, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '../util/ssr.tokens';
 

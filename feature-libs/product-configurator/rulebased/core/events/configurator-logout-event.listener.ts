@@ -1,14 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
 import { EventService, LogoutEvent } from '@spartacus/core';
-import { merge, Subscription } from 'rxjs';
-import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
+import { Subscription, merge } from 'rxjs';
 import { ConfiguratorCommonsService } from '../facade/configurator-commons.service';
+import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
 
 @Injectable({
   providedIn: 'root',

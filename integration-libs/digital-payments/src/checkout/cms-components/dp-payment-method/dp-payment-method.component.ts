@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,8 +8,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/base/root';
 import {
-  CheckoutPaymentMethodComponent as CorePaymentMethodComponent,
   CheckoutStepService,
+  CheckoutPaymentMethodComponent as CorePaymentMethodComponent,
 } from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressService,

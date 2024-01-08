@@ -1,17 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable, Injector, Optional } from '@angular/core';
 import {
+  CURRENCY_CONTEXT_ID,
   CmsSiteContextSelectorComponent,
   ContextServiceMap,
-  CURRENCY_CONTEXT_ID,
-  isNotUndefined,
   LANGUAGE_CONTEXT_ID,
   SiteContext,
+  isNotUndefined,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';

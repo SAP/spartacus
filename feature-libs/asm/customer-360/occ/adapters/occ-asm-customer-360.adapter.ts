@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,8 +7,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  AsmCustomer360Adapter,
   ASM_CUSTOMER_360_NORMALIZER,
+  AsmCustomer360Adapter,
 } from '@spartacus/asm/customer-360/core';
 import {
   AsmCustomer360Request,
@@ -18,9 +18,9 @@ import {
   BaseSiteService,
   ConverterService,
   InterceptorUtil,
-  normalizeHttpError,
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';

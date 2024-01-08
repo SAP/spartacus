@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,18 +17,18 @@ import {
   provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
+import { USE_MY_ACCOUNT_V2_ORDER } from '@spartacus/order/root';
 import {
   ListNavigationModule,
   MediaModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { OrderHistoryComponent } from './order-history.component';
-import { USE_MY_ACCOUNT_V2_ORDER } from '@spartacus/order/root';
 import {
-  MyAccountV2OrderHistoryComponent,
-  MyAccountV2OrderConsolidatedInformationComponent,
   MyAccountV2ConsignmentEntriesComponent,
+  MyAccountV2OrderConsolidatedInformationComponent,
+  MyAccountV2OrderHistoryComponent,
 } from './my-account-v2';
+import { OrderHistoryComponent } from './order-history.component';
 
 const myAccountV2CmsMapping: CmsConfig = {
   cmsComponents: {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,9 +7,9 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, ViewChild } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
-import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { LocationDisplayMode } from './store-finder-list.model';
 
 @Component({

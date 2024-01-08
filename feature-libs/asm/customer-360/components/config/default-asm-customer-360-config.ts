@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsmCustomer360Type } from '@spartacus/asm/customer-360/root';
 import { AsmCustomer360ActiveCartComponent } from '../sections/asm-customer-360-active-cart/asm-customer-360-active-cart.component';
 import { AsmCustomer360ActivityComponent } from '../sections/asm-customer-360-activity/asm-customer-360-activity.component';
 import { AsmCustomer360CouponComponent } from '../sections/asm-customer-360-coupon/asm-customer-360-coupon.component';
@@ -16,7 +17,6 @@ import { AsmCustomer360PromotionComponent } from '../sections/asm-customer-360-p
 import { AsmCustomer360SavedCartComponent } from '../sections/asm-customer-360-saved-cart/asm-customer-360-saved-cart.component';
 import { AsmCustomer360SupportTicketsComponent } from '../sections/asm-customer-360-support-tickets/asm-customer-360-support-tickets.component';
 import { AsmCustomer360Config } from './asm-customer-360-config';
-import { AsmCustomer360Type } from '@spartacus/asm/customer-360/root';
 
 export const defaultAsmCustomer360Config: AsmCustomer360Config = {
   asmCustomer360: {

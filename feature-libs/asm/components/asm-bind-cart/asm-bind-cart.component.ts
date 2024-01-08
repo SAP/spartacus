@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,15 +29,15 @@ import {
   OCC_CART_ID_CURRENT,
   RoutingService,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
   BehaviorSubject,
-  combineLatest,
-  defer,
   EMPTY,
-  iif,
   Observable,
   Subscription,
+  combineLatest,
+  defer,
+  iif,
 } from 'rxjs';
 import {
   concatMap,

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,7 @@ import {
 import { TranslationService } from '@spartacus/core';
 import { billingAddressCard, paymentMethodCard } from '@spartacus/order/root';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 

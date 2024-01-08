@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,10 +8,10 @@ import { Injectable } from '@angular/core';
 import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
-  getLastValueSync,
   UnifiedInjector,
+  getLastValueSync,
 } from '@spartacus/core';
-import { concat, from, isObservable, Observable, of } from 'rxjs';
+import { Observable, concat, from, isObservable, of } from 'rxjs';
 import { endWith, first, skipWhile } from 'rxjs/operators';
 import { CmsComponentsService } from './cms-components.service';
 

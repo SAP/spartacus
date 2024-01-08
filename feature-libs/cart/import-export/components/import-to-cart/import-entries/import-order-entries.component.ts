@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,13 +11,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  OrderEntriesContext,
   ORDER_ENTRIES_CONTEXT,
+  OrderEntriesContext,
 } from '@spartacus/cart/base/root';
 import {
   ContextService,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 

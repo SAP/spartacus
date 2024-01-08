@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import * as cart from '../../../helpers/cart';
+import * as common from '../../../helpers/common';
 import * as configuration from '../../../helpers/product-configurator';
 import * as textfieldConfiguration from '../../../helpers/textfield-configuration';
-import * as common from '../../../helpers/common';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = '1934793';

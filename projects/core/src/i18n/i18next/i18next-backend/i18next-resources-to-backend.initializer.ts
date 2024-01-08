@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Inject, Injectable } from '@angular/core';
-import { i18n, InitOptions } from 'i18next';
+import { InitOptions, i18n } from 'i18next';
 import I18nextResourcesToBackend from 'i18next-resources-to-backend';
 import { I18nConfig } from '../../config/i18n-config';
 import { I18NEXT_INSTANCE } from '../i18next-instance';

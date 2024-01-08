@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
 import { OrderEntry, ProductData } from '@spartacus/cart/base/root';
-import { facadeFactory, Product } from '@spartacus/core';
+import { Product, facadeFactory } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { CART_QUICK_ORDER_CORE_FEATURE } from '../feature-name';
 import { QuickOrderAddEntryEvent } from '../models/quick-order.model';

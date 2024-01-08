@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,9 +13,9 @@ import * as rddHelper from '../../../helpers/vendor/requested-delivery-date/requ
 import * as s4Helper from '../../../helpers/vendor/s4om/s4om';
 import {
   ORDER_REQUEST_ENDPOINT,
-  order_type,
   POWERTOOLS_BASESITE,
   USER_REQUEST_ENDPOINT,
+  order_type,
 } from '../../../sample-data/b2b-checkout';
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 

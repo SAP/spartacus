@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,6 @@ import {
 import {
   GlobalMessageService,
   GlobalMessageType,
-  isNotNullable,
   NotificationPreference,
   NotificationType,
   OCC_USER_ID_ANONYMOUS,
@@ -25,12 +24,12 @@ import {
   UserIdService,
   UserInterestsService,
   UserNotificationPreferenceService,
+  isNotNullable,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, first, map, tap } from 'rxjs/operators';
+import { Observable, Subscription, combineLatest } from 'rxjs';
+import { filter, first, map, take, tap } from 'rxjs/operators';
+import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
 import { CurrentProductService } from '../current-product.service';
-import { LaunchDialogService, LAUNCH_CALLER } from '../../../layout/index';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-stock-notification',

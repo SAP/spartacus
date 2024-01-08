@@ -1,19 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
-  createSelector,
   MemoizedSelector,
   createFeatureSelector,
+  createSelector,
 } from '@ngrx/store';
 import { EntitiesModel, SearchConfig, StateUtils } from '@spartacus/core';
 import { OrderApproval } from '../../model/order-approval.model';
 import {
-  OrderApprovalManagement,
   ORDER_APPROVAL_FEATURE,
+  OrderApprovalManagement,
   OrderApprovalState,
 } from '../order-approval-state';
 

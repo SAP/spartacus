@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,11 +17,11 @@ import {
   UserIdService,
 } from '@spartacus/core';
 
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
-import { UserAccountFacade } from '@spartacus/user/account/root';
 
 /**
  * Auth service for CS agent. Useful to login/logout agent, start emulation

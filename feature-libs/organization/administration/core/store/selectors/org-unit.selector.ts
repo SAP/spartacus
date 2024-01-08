@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,12 +16,12 @@ import {
 } from '@spartacus/core';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import {
-  OrganizationState,
-  OrgUnits,
   ORG_UNIT_APPROVAL_PROCESSES,
   ORG_UNIT_FEATURE,
   ORG_UNIT_NODES,
   ORG_UNIT_TREE,
+  OrganizationState,
+  OrgUnits,
   StateWithOrganization,
 } from '../organization-state';
 import { getB2BUsersState } from './b2b-user.selector';

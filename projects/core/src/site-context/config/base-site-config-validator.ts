@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { SiteContextConfig } from './site-context-config';
-import { getContextParameterDefault } from './context-config-utils';
 import { BASE_SITE_CONTEXT_ID } from '../providers/context-ids';
+import { getContextParameterDefault } from './context-config-utils';
+import { SiteContextConfig } from './site-context-config';
 
 export function baseSiteConfigValidator(config: SiteContextConfig) {
   if (getContextParameterDefault(config, BASE_SITE_CONTEXT_ID) === undefined) {

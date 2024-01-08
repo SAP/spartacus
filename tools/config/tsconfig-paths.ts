@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,12 +27,12 @@ import glob from 'glob';
 import path from 'path';
 import { SPARTACUS_SCHEMATICS, SPARTACUS_SCOPE } from './const';
 import {
-  error,
   Library,
-  logUpdatedFile,
   ProgramOptions,
-  reportProgress,
   Repository,
+  error,
+  logUpdatedFile,
+  reportProgress,
   success,
 } from './index';
 

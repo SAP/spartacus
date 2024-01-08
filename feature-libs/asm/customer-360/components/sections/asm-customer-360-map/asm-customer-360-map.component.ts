@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,7 @@ import {
   StoreFinderSearchPage,
   StoreFinderService,
 } from '@spartacus/storefinder/core';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest, of } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';

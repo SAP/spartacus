@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
-  ConfigInitializer,
   CONFIG_INITIALIZER,
+  ConfigInitializer,
 } from '../config/config-initializer/config-initializer';
 import { provideDefaultConfigFactory } from '../config/config-providers';
 import { provideConfigValidator } from '../config/config-validator/config-validator';

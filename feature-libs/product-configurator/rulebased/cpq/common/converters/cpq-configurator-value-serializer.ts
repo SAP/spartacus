@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,8 +7,8 @@
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
-import { Cpq } from '../cpq.models';
 import { CpqConfiguratorUtils } from '../../rest/cpq-configurator-utils';
+import { Cpq } from '../cpq.models';
 
 @Injectable()
 export class CpqConfiguratorValueSerializer

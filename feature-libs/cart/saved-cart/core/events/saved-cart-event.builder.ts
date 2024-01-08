@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,9 +24,9 @@ import {
 } from '@spartacus/cart/saved-cart/root';
 import {
   ActionToEventMapping,
-  createFrom,
   EventService,
   StateEventService,
+  createFrom,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';

@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Request } from 'express';
-import { RenderingStrategy } from './ssr-optimization-options';
 import { RenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
+import { RenderingStrategy } from './ssr-optimization-options';
 
 const hasExcludedParams = (
   request: Request,

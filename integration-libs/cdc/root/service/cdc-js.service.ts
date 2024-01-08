@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,11 +27,11 @@ import {
 import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import { UserProfileFacade, UserSignUp } from '@spartacus/user/profile/root';
 import {
-  combineLatest,
   Observable,
-  of,
   ReplaySubject,
   Subscription,
+  combineLatest,
+  of,
   throwError,
 } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';

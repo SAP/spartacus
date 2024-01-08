@@ -1,19 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   customerTicketingTranslationChunksConfig,
   customerTicketingTranslations,
 } from '@spartacus/customer-ticketing/assets';
 import {
-  CustomerTicketingRootModule,
   CUSTOMER_TICKETING_FEATURE,
+  CustomerTicketingRootModule,
 } from '@spartacus/customer-ticketing/root';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [CustomerTicketingRootModule],

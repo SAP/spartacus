@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,8 +7,8 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
-import { select, Store } from '@ngrx/store';
-import { defer, merge, Observable, of, SchedulerLike, using } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { Observable, SchedulerLike, defer, merge, of, using } from 'rxjs';
 import {
   debounceTime,
   delay,

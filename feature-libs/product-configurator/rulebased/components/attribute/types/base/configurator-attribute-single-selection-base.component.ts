@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,16 +8,16 @@ import { Directive, Optional } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { map, take } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix

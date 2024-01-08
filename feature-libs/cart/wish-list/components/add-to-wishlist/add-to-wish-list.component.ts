@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
-import { AuthService, isNotNullable, Product } from '@spartacus/core';
+import { AuthService, Product, isNotNullable } from '@spartacus/core';
 import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';

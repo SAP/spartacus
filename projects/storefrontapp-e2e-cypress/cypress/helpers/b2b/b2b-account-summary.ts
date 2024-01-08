@@ -1,10 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { FULL_BASE_URL_EN_USD } from '../site-context-selector';
 import {
   myCompanyAdminUser,
   standardUser,
@@ -13,6 +12,7 @@ import {
   AccountData,
   RegistrationData,
 } from '../../support/require-logged-in.commands';
+import { FULL_BASE_URL_EN_USD } from '../site-context-selector';
 
 export function loginAsAdmin() {
   const linda = 'linda.wolf@pronto-hw.com';

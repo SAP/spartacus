@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,12 +7,12 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { debounceTime, map, mergeMap } from 'rxjs/operators';
+import { MerchandisingStrategyConnector } from '../connectors';
 import {
-  MerchandisingUserContext,
   MerchandisingSiteContext,
+  MerchandisingUserContext,
   StrategyResponse,
 } from '../model';
-import { MerchandisingStrategyConnector } from '../connectors';
 import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
 

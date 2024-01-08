@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { SchematicsException } from '@angular-devkit/schematics';
 import {
-  ASM_SCHEMATICS_CONFIG,
   ASM_CUSTOMER_360_SCHEMATICS_CONFIG,
+  ASM_SCHEMATICS_CONFIG,
 } from './lib-configs/asm-schematics-config';
 import {
   CART_BASE_SCHEMATICS_CONFIG,

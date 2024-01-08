@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,7 +32,7 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 export interface CardWithAddress {

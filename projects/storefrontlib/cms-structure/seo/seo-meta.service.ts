@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,10 +7,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 import {
-  isNotNullable,
   PageMeta,
   PageMetaService,
   PageRobotsMeta,
+  isNotNullable,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';

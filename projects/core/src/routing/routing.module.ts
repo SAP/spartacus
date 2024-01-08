@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,8 +13,8 @@ import {
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import {
-  ConfigInitializer,
   CONFIG_INITIALIZER,
+  ConfigInitializer,
 } from '../config/config-initializer/config-initializer';
 import { RoutingConfig } from './configurable-routes';
 import { ConfigurableRoutesService } from './configurable-routes/configurable-routes.service';

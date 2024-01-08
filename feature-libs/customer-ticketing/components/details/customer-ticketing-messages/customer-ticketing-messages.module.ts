@@ -1,11 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   AuthGuard,
   CmsConfig,
@@ -13,9 +14,8 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatMessagingModule } from '@spartacus/storefront';
+import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
 
 @NgModule({
   imports: [

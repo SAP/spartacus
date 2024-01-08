@@ -1,14 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-overview-attribute',

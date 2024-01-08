@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,14 +12,14 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  WindowRef,
   CmsScrollToTopComponent,
   ScrollBehavior,
+  WindowRef,
 } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { ICON_TYPE } from '../../misc/icon/icon.model';
 import { SelectFocusUtility } from '../../../layout/a11y/index';
+import { ICON_TYPE } from '../../misc/icon/icon.model';
 
 @Component({
   selector: 'cx-scroll-to-top',

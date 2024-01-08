@@ -1,19 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
-  ASM_FEATURE_NAME,
   ASM_CUSTOMER_360_FEATURE_NAME,
+  ASM_FEATURE_NAME,
   ORDER_FEATURE_NAME,
   SPARTACUS_ASM,
   SPARTACUS_ASM_ASSETS,
-  SPARTACUS_ASM_ROOT,
   SPARTACUS_ASM_CUSTOMER_360,
   SPARTACUS_ASM_CUSTOMER_360_ASSETS,
   SPARTACUS_ASM_CUSTOMER_360_ROOT,
+  SPARTACUS_ASM_ROOT,
   STOREFINDER_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';

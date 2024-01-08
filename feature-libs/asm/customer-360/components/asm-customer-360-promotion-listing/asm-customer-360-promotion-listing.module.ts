@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,9 +9,9 @@ import { NgModule } from '@angular/core';
 import { ArgsModule } from '@spartacus/asm/core';
 import { I18nModule } from '@spartacus/core';
 import {
-  StarRatingModule,
   IconModule,
   MessageComponentModule,
+  StarRatingModule,
 } from '@spartacus/storefront';
 import { AsmCustomer360PromotionListingComponent } from './asm-customer-360-promotion-listing.component';
 

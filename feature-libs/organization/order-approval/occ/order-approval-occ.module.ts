@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,19 +7,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { OrderApprovalAdapter } from '../core/connectors/order-approval.adapter';
 import {
   ORDER_APPROVALS_NORMALIZER,
   ORDER_APPROVAL_DECISION_NORMALIZER,
   ORDER_APPROVAL_NORMALIZER,
 } from '../core/connectors/converters';
+import { OrderApprovalAdapter } from '../core/connectors/order-approval.adapter';
 
 import { OccOrderApprovalAdapter } from './adapters/occ-order-approval.adapter';
 
+import { defaultOccOrderApprovalConfig } from './config/default-occ-organization-config';
 import { OccOrderApprovalDecisionNormalizer } from './converters/occ-order-approval-decision-normalizer';
 import { OccOrderApprovalListNormalizer } from './converters/occ-order-approval-list-normalizer';
 import { OccOrderApprovalNormalizer } from './converters/occ-order-approval-normalizer';
-import { defaultOccOrderApprovalConfig } from './config/default-occ-organization-config';
 
 @NgModule({
   imports: [CommonModule],

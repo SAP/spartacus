@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,12 +7,12 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { NotificationPreference } from '../../../model/notification-preference.model';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import {
+  loaderLoadingSelector,
+  loaderValueSelector,
+} from '../../../state/utils/loader/loader.selectors';
 import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
-import {
-  loaderValueSelector,
-  loaderLoadingSelector,
-} from '../../../state/utils/loader/loader.selectors';
 
 export const getPreferencesLoaderState: MemoizedSelector<
   StateWithUser,

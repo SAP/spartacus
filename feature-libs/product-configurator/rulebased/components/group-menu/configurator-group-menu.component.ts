@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,9 +27,9 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Component({
   selector: 'cx-configurator-group-menu',

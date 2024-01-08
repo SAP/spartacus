@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,7 @@ import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
 import { Configurator } from '../../model/configurator.model';
-import { ConfiguratorState, CONFIGURATOR_DATA } from '../configurator-state';
+import { CONFIGURATOR_DATA, ConfiguratorState } from '../configurator-state';
 import { configuratorReducer } from './configurator.reducer';
 
 export function getConfiguratorReducers(): ActionReducerMap<ConfiguratorState> {

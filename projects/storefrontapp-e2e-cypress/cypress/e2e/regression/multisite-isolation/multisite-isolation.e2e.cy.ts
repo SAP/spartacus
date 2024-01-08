@@ -1,14 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import { user } from '../../../sample-data/checkout-flow';
 import { register } from '../../../helpers/auth-forms';
-import * as login from '../../../helpers/login';
 import * as alerts from '../../../helpers/global-message';
+import * as login from '../../../helpers/login';
+import { user } from '../../../sample-data/checkout-flow';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 import {
   ELECTRONICS_BASESITE,

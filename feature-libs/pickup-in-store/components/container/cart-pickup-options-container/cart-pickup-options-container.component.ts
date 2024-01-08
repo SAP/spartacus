@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,21 +20,21 @@ import {
 } from '@spartacus/cart/base/root';
 import { CmsService, Page } from '@spartacus/core';
 import {
-  cartWithIdAndUserId,
-  getProperty,
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
   PickupOption,
   PickupOptionFacade,
   PreferredStoreFacade,
   RequiredDeepPath,
+  cartWithIdAndUserId,
+  getProperty,
 } from '@spartacus/pickup-in-store/root';
 import {
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
   OutletContextData,
 } from '@spartacus/storefront';
-import { EMPTY, iif, Observable, of, Subscription } from 'rxjs';
+import { EMPTY, Observable, Subscription, iif, of } from 'rxjs';
 import {
   concatMap,
   filter,

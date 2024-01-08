@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
+import { UntypedFormControl } from '@angular/forms';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -25,11 +26,11 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import {
+  ICON_TYPE,
   IntersectionOptions,
   IntersectionService,
-  ICON_TYPE,
 } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import {
   delay,
   distinctUntilChanged,
@@ -42,9 +43,8 @@ import { ConfiguratorCartService } from '../../core/facade/configurator-cart.ser
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
-import { UntypedFormControl } from '@angular/forms';
 import { ConfiguratorQuantityService } from '../../core/services/configurator-quantity.service';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
 

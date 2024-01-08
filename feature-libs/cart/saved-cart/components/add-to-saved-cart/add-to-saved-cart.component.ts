@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,8 +15,8 @@ import {
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { AuthService, RoutingService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 
 @Component({

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,16 +11,16 @@ import {
   userAccountTranslations,
 } from '@spartacus/user/account/assets';
 import {
-  UserAccountRootModule,
   USER_ACCOUNT_FEATURE,
+  UserAccountRootModule,
 } from '@spartacus/user/account/root';
 import {
   userProfileTranslationChunksConfig,
   userProfileTranslations,
 } from '@spartacus/user/profile/assets';
 import {
-  UserProfileRootModule,
   USER_PROFILE_FEATURE,
+  UserProfileRootModule,
 } from '@spartacus/user/profile/root';
 
 @NgModule({

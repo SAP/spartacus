@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Currency, B2BUnit, CostCenter } from '@spartacus/core';
+import { B2BUnit, CostCenter, Currency } from '@spartacus/core';
 
 export interface Budget {
   active?: boolean;

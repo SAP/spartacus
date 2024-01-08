@@ -1,23 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable, Optional, inject } from '@angular/core';
 import {
-  ASM_ENABLED_LOCAL_STORAGE_KEY,
-  CsAgentAuthService,
-  AsmDeepLinkParameters,
-  AsmDeepLinkService,
-  AsmEnablerService,
-} from '@spartacus/asm/root';
-import { AuthService, RoutingService, WindowRef } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import {
   AsmDialogActionEvent,
   AsmDialogActionType,
 } from '@spartacus/asm/customer-360/root';
+import {
+  ASM_ENABLED_LOCAL_STORAGE_KEY,
+  AsmDeepLinkParameters,
+  AsmDeepLinkService,
+  AsmEnablerService,
+  CsAgentAuthService,
+} from '@spartacus/asm/root';
+import { AuthService, RoutingService, WindowRef } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

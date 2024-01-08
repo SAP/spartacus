@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,8 +17,8 @@ import {
   analyzeApplication,
   analyzeCrossFeatureDependencies,
   finalizeInstallation,
-  LibraryOptions as SpartacusPDFInvoicesOptions,
   readPackageJson,
+  LibraryOptions as SpartacusPDFInvoicesOptions,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';

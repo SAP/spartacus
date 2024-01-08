@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,16 +9,16 @@ import {
   Action,
   ActionReducer,
   ActionReducerMap,
-  combineReducers,
   MetaReducer,
+  combineReducers,
 } from '@ngrx/store';
 import { AuthActions, ListModel, StateUtils } from '@spartacus/core';
 import { OrderApproval } from '../../model/order-approval.model';
 import {
-  OrderApprovalState,
   ORDER_APPROVAL_ENTITIES,
   ORDER_APPROVAL_FEATURE,
   ORDER_APPROVAL_LIST,
+  OrderApprovalState,
 } from '../order-approval-state';
 import {
   orderApprovalsEntitiesReducer,

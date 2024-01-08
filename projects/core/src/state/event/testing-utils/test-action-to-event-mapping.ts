@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Type } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { EventService } from '../../../event/event.service';
 import { take } from 'rxjs/operators';
+import { EventService } from '../../../event/event.service';
 
 export function testActionToEventMapping<A, E>({
   action,

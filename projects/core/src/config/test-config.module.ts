@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,8 +11,8 @@ import {
   NgModule,
   PLATFORM_ID,
 } from '@angular/core';
-import { getCookie } from './utils/get-cookie';
 import { provideConfigFactory } from './config-providers';
+import { getCookie } from './utils/get-cookie';
 
 export const TEST_CONFIG_COOKIE_NAME = new InjectionToken<string>(
   'TEST_CONFIG_COOKIE_NAME'

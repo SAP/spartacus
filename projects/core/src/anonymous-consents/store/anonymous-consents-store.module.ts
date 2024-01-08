@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,10 +9,10 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StateModule } from '../../state/state.module';
+import { AnonymousConsentsStatePersistenceService } from '../services/anonymous-consents-state-persistence.service';
 import { ANONYMOUS_CONSENTS_STORE_FEATURE } from './anonymous-consents-state';
 import { effects } from './effects/index';
 import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
-import { AnonymousConsentsStatePersistenceService } from '../services/anonymous-consents-state-persistence.service';
 
 export function anonymousConsentsStatePersistenceFactory(
   anonymousConsentsStatePersistenceService: AnonymousConsentsStatePersistenceService

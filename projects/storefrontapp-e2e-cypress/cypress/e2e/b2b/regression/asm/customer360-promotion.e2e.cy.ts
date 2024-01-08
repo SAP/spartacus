@@ -1,14 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
-import * as checkout from '../../../../helpers/checkout-flow';
-import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
-import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
 import * as asm from '../../../../helpers/asm';
+import * as checkout from '../../../../helpers/checkout-flow';
+import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
+import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import {
   interceptDelete,
   interceptPost,

@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Inject, Injectable, Optional } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CurrentProductService } from '../../../../../cms-components/product/current-product.service';
 import { JsonLdBuilder, SchemaBuilder } from '../schema.interface';

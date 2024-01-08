@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,9 +9,9 @@ import { ActionReducerMap } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import {
-  UnitOrderState,
   UNIT_ORDERS,
   UNIT_ORDER_DETAILS,
+  UnitOrderState,
 } from '../unit-order-state';
 
 import * as fromUnitOrdersReducer from './unit-order.reducer';

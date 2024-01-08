@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,7 +26,7 @@ import {
   VisualizationApiConfig,
   VisualizationInfo,
 } from '@spartacus/epd-visualization/root';
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import {
   catchError,
   filter,
@@ -35,16 +35,16 @@ import {
   shareReplay,
 } from 'rxjs/operators';
 import type Core from 'sap/ui/core/Core';
-import type { CSSColor } from 'sap/ui/core/library';
 import type UIArea from 'sap/ui/core/UIArea';
+import type { CSSColor } from 'sap/ui/core/library';
 import type AnimationPlayer from 'sap/ui/vk/AnimationPlayer';
 import type ContentConnector from 'sap/ui/vk/ContentConnector';
 import type ContentResource from 'sap/ui/vk/ContentResource';
 import type DrawerToolbar from 'sap/ui/vk/DrawerToolbar';
 import NodeHierarchy from 'sap/ui/vk/NodeHierarchy';
 import type Scene from 'sap/ui/vk/Scene';
-import type Viewport from 'sap/ui/vk/Viewport';
 import type ViewStateManager from 'sap/ui/vk/ViewStateManager';
+import type Viewport from 'sap/ui/vk/Viewport';
 import { NavigationMode } from './models/navigation-mode';
 import { NodeContentType } from './models/node-content-type';
 import { LoadedSceneInfo, SceneLoadInfo } from './models/scene-load-info';

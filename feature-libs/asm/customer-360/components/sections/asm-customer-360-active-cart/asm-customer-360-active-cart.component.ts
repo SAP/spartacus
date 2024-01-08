@@ -1,19 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product, ProductScope, ProductService } from '@spartacus/core';
-import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, filter, map, take } from 'rxjs/operators';
-import { ProductItem } from '../../asm-customer-360-product-listing/product-item.model';
-import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import {
   AsmCustomer360ActiveCart,
   CustomerCart,
 } from '@spartacus/asm/customer-360/root';
+import { Product, ProductScope, ProductService } from '@spartacus/core';
+import { Observable, forkJoin, of } from 'rxjs';
+import { concatMap, filter, map, take } from 'rxjs/operators';
+import { ProductItem } from '../../asm-customer-360-product-listing/product-item.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

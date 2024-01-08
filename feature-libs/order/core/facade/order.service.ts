@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Order, OrderFacade, OrderPlacedEvent } from '@spartacus/order/root';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { OrderConnector } from '../connectors/order.connector';
 

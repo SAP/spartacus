@@ -1,17 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable, of } from 'rxjs';
 import { ListService } from '../../../../shared/list/list.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserListService } from '../services/unit-user-list.service';
-import { B2BUserService } from '@spartacus/organization/administration/core';
 
 @Component({
   selector: 'cx-org-unit-user-list',

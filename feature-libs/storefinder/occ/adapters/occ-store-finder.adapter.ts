@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,16 +11,16 @@ import {
   GeoPoint,
   Occ,
   OccEndpointsService,
-  PointOfService,
   POINT_OF_SERVICE_NORMALIZER,
+  PointOfService,
   SearchConfig,
 } from '@spartacus/core';
 import {
+  STORE_COUNT_NORMALIZER,
+  STORE_FINDER_SEARCH_PAGE_NORMALIZER,
   StoreCount,
   StoreFinderAdapter,
   StoreFinderSearchPage,
-  STORE_COUNT_NORMALIZER,
-  STORE_FINDER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/storefinder/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

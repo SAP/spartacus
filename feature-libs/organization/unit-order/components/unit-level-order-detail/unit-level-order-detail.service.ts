@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
+import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -15,7 +16,6 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
 
 @Injectable({
   providedIn: 'root',

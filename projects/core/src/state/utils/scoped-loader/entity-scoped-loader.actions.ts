@@ -1,20 +1,20 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Action } from '@ngrx/store';
 import {
-  entityFailMeta,
-  EntityLoaderMeta,
-  entityLoadMeta,
-  entityResetMeta,
-  entitySuccessMeta,
   ENTITY_FAIL_ACTION,
   ENTITY_LOAD_ACTION,
   ENTITY_RESET_ACTION,
   ENTITY_SUCCESS_ACTION,
+  EntityLoaderMeta,
+  entityFailMeta,
+  entityLoadMeta,
+  entityResetMeta,
+  entitySuccessMeta,
 } from '../entity-loader/entity-loader.action';
 
 export namespace EntityScopedLoaderActions {

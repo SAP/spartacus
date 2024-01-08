@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,8 +9,8 @@ import {
   Action,
   ActionReducer,
   ActionReducerMap,
-  combineReducers,
   MetaReducer,
+  combineReducers,
 } from '@ngrx/store';
 import {
   Address,
@@ -44,13 +44,13 @@ import {
   COST_CENTER_ENTITIES,
   COST_CENTER_FEATURE,
   COST_CENTER_LIST,
-  OrganizationState,
   ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
   ORG_UNIT_ASSIGNED_USERS,
   ORG_UNIT_ENTITIES,
   ORG_UNIT_FEATURE,
   ORG_UNIT_NODE_LIST,
   ORG_UNIT_TREE_ENTITY,
+  OrganizationState,
   PERMISSION_ENTITIES,
   PERMISSION_FEATURE,
   PERMISSION_LIST,
@@ -85,8 +85,8 @@ import {
   permissionsListReducer,
 } from './permission.reducer';
 import {
-  userGroupAvailableOrderApprovalPermissionsListReducer,
   userGroupAvailablOrgCustomersListReducer,
+  userGroupAvailableOrderApprovalPermissionsListReducer,
   userGroupEntitiesReducer,
   userGroupsListReducer,
 } from './user-group.reducer';

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,7 @@ import {
   SemanticPathService,
   TranslationService,
 } from '@spartacus/core';
-import { combineLatest, defer, Observable, of } from 'rxjs';
+import { Observable, combineLatest, defer, of } from 'rxjs';
 import {
   distinctUntilChanged,
   map,

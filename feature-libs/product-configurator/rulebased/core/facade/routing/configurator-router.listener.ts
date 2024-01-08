@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,8 +7,8 @@
 import { Injectable, OnDestroy, Optional } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { ConfiguratorCartService } from '../configurator-cart.service';
 import { ConfiguratorQuantityService } from '../../services/configurator-quantity.service';
+import { ConfiguratorCartService } from '../configurator-cart.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorRouterListener implements OnDestroy {

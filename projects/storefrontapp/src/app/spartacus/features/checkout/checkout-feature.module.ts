@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,8 +15,8 @@ import {
   checkoutTranslations,
 } from '@spartacus/checkout/base/assets';
 import {
-  CheckoutRootModule,
   CHECKOUT_FEATURE,
+  CheckoutRootModule,
 } from '@spartacus/checkout/base/root';
 import {
   checkoutScheduledReplenishmentTranslationChunksConfig,

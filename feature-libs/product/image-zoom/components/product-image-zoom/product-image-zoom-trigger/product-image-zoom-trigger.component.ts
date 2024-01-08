@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,20 +8,20 @@ import {
   ChangeDetectionStrategy,
   Component,
   ComponentRef,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   Output,
-  ViewContainerRef,
   ViewChild,
-  ElementRef,
+  ViewContainerRef,
 } from '@angular/core';
 import {
   ICON_TYPE,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
-import { combineLatest, Subscription } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { ProductImageZoomDialogComponent } from '../product-image-zoom-dialog/product-image-zoom-dialog.component';
 

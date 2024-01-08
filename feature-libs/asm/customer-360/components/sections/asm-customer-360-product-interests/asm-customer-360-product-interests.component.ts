@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AsmCustomer360ProductInterestList } from '@spartacus/asm/customer-360/root';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
-import { forkJoin, Observable, of } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import { concatMap, filter, take } from 'rxjs/operators';
 
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';

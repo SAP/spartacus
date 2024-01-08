@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, OperatorFunction } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

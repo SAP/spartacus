@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,9 +11,9 @@ import {
   CommandStrategy,
   UserIdService,
 } from '@spartacus/core';
+import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 
 @Injectable()

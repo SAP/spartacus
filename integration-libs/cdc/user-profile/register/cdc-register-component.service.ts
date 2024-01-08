@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,10 +13,10 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import {
+  CDC_USER_PREFERENCE_SERIALIZER,
   CdcConsentManagementComponentService,
   CdcJsService,
   CdcLoadUserTokenFailEvent,
-  CDC_USER_PREFERENCE_SERIALIZER,
 } from '@spartacus/cdc/root';
 import {
   AnonymousConsentsService,

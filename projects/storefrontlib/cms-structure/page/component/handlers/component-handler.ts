@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,8 +11,8 @@ import {
   NgModuleRef,
   ViewContainerRef,
 } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Applicable, CmsComponentMapping, Priority } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 /**
  * ComponentHandler implementations can be used for instantiating and launching

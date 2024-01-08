@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,8 +11,9 @@ import { RulebasedConfiguratorConnector } from '../../core/connectors/rulebased-
 import { OccConfiguratorVariantAddToCartSerializer } from './converters/occ-configurator-variant-add-to-cart-serializer';
 import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';
 import { OccConfiguratorVariantOverviewNormalizer } from './converters/occ-configurator-variant-overview-normalizer';
-import { OccConfiguratorVariantPriceSummaryNormalizer } from './converters/occ-configurator-variant-price-summary-normalizer';
+import { OccConfiguratorVariantOverviewSerializer } from './converters/occ-configurator-variant-overview-serializer';
 import { OccConfiguratorVariantPriceNormalizer } from './converters/occ-configurator-variant-price-normalizer';
+import { OccConfiguratorVariantPriceSummaryNormalizer } from './converters/occ-configurator-variant-price-summary-normalizer';
 import { OccConfiguratorVariantSerializer } from './converters/occ-configurator-variant-serializer';
 import { OccConfiguratorVariantUpdateCartEntrySerializer } from './converters/occ-configurator-variant-update-cart-entry-serializer';
 import { defaultOccVariantConfiguratorConfigFactory } from './default-occ-configurator-variant-config';
@@ -27,7 +28,6 @@ import {
   VARIANT_CONFIGURATOR_SERIALIZER,
   VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './variant-configurator-occ.converters';
-import { OccConfiguratorVariantOverviewSerializer } from './converters/occ-configurator-variant-overview-serializer';
 
 @NgModule({
   imports: [

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,7 @@ import { login, register } from './auth-forms';
 import { clickHamburger, waitForPage } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
 import { checkBanner } from './homepage';
-import { createProductQuery, QUERY_ALIAS } from './product-search';
+import { QUERY_ALIAS, createProductQuery } from './product-search';
 import { generateMail, randomString } from './user';
 
 interface TestProduct {

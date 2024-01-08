@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ASM_FEATURE } from '@spartacus/asm/root';
 import { provideDefaultConfig } from '@spartacus/core';
@@ -12,7 +13,6 @@ import {
   ASM_CUSTOMER_360_CORE_FEATURE,
   ASM_CUSTOMER_360_FEATURE,
 } from './feature-name';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SiteContextInterceptor } from './interceptors/site-context.interceptor';
 
 @NgModule({

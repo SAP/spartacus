@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
 import { randomString } from '../../../user';
-import { INPUT_TYPE, MyCompanyConfig, MY_COMPANY_FEATURE } from '../models';
+import { INPUT_TYPE, MY_COMPANY_FEATURE, MyCompanyConfig } from '../models';
 
 export const costCenterConfig: MyCompanyConfig = {
   name: 'Cost Center',

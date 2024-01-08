@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,10 +18,10 @@ import {
   B2BUserAdapter,
   B2B_USERS_NORMALIZER,
   B2B_USER_NORMALIZER,
-  PERMISSIONS_NORMALIZER,
-  UserGroup,
-  USER_GROUPS_NORMALIZER,
   B2B_USER_SERIALIZER,
+  PERMISSIONS_NORMALIZER,
+  USER_GROUPS_NORMALIZER,
+  UserGroup,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 

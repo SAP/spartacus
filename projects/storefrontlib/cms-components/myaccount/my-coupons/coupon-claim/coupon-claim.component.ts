@@ -1,15 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  RoutingService,
   CustomerCouponService,
   GlobalMessageService,
   GlobalMessageType,
+  RoutingService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 

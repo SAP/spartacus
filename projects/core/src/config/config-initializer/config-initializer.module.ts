@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,9 +13,9 @@ import {
 } from '@angular/core';
 import { Config } from '../config-tokens';
 import {
-  ConfigInitializer,
   CONFIG_INITIALIZER,
   CONFIG_INITIALIZER_FORROOT_GUARD,
+  ConfigInitializer,
 } from './config-initializer';
 import { ConfigInitializerService } from './config-initializer.service';
 

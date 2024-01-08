@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,17 +10,17 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
 import {
-  LaunchDialogService,
-  ICON_TYPE,
   FocusConfig,
+  ICON_TYPE,
   KeyboardFocusService,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
-import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { take } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service';
 
 @Component({

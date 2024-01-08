@@ -1,15 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { UserIdService } from '../../../auth';
 import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
 import { CmsStructureModel } from '../../../cms/model/page.model';
+import { FeatureConfigService } from '../../../features-config';
 import { PageType, USER_CMS_ENDPOINTS } from '../../../model/cms.model';
 import {
   HOME_PAGE_CONTEXT,
@@ -18,9 +21,6 @@ import {
 } from '../../../routing/models/page-context.model';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { UserIdService } from '../../../auth';
-import { switchMap } from 'rxjs/operators';
-import { FeatureConfigService } from '../../../features-config';
 
 export interface OccCmsPageRequest {
   pageLabelOrId?: string;

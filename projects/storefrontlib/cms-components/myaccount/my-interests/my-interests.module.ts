@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,9 +14,9 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { AtMessageModule } from '../../../shared/components/assistive-technology-message/assistive-technology-message.module';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
+import { AtMessageModule } from '../../../shared/components/assistive-technology-message/assistive-technology-message.module';
 import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';

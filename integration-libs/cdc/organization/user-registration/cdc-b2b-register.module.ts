@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,12 +10,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
+import { UserRegistrationFormService } from '@spartacus/organization/user-registration/components';
 import {
   FormErrorsModule,
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { UserRegistrationFormService } from '@spartacus/organization/user-registration/components';
 import { CDCB2BRegisterComponentService } from './cdc-b2b-register-component.service';
 
 @NgModule({

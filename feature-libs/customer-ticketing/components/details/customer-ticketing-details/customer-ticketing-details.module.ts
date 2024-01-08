@@ -1,19 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardModule, SpinnerModule } from '@spartacus/storefront';
+import { NgModule } from '@angular/core';
 import {
   AuthGuard,
   CmsConfig,
   I18nModule,
-  provideDefaultConfig,
   UrlModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
+import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { CustomerTicketingDetailsComponent } from './customer-ticketing-details.component';
 
 @NgModule({

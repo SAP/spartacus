@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as savedCart from '../../../helpers/saved-cart';
 import * as cart from '../../../helpers/cart';
+import * as savedCart from '../../../helpers/saved-cart';
 import { viewportContext } from '../../../helpers/viewport-context';
 import * as sampleData from '../../../sample-data/saved-cart';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';

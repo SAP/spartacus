@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,9 +8,9 @@ import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { RoutingService, TranslationService } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
+import { Observable, combineLatest } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-unit-level-order-history',

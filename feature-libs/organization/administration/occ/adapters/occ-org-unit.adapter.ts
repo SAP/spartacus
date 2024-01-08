@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,13 +21,13 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import {
-  B2BUnitNode,
+  B2B_USERS_NORMALIZER,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NORMALIZER,
   B2BUNIT_SERIALIZER,
-  B2B_USERS_NORMALIZER,
+  B2BUnitNode,
   OrgUnitAdapter,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';

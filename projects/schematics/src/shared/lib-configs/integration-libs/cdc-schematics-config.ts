@@ -1,22 +1,22 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
+  CDC_B2B_FEATURE_NAME,
   CDC_FEATURE_NAME,
-  SPARTACUS_CDC,
-  SPARTACUS_CDC_USER_ACCOUNT,
-  SPARTACUS_CDC_USER_PROFILE,
-  SPARTACUS_CDC_ROOT,
-  USER_PROFILE_FEATURE_NAME,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
   ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
-  SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION,
+  SPARTACUS_CDC,
   SPARTACUS_CDC_ASSETS,
+  SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION,
   SPARTACUS_CDC_ORGANIZATION_REGISTRATION,
-  CDC_B2B_FEATURE_NAME,
+  SPARTACUS_CDC_ROOT,
+  SPARTACUS_CDC_USER_ACCOUNT,
+  SPARTACUS_CDC_USER_PROFILE,
+  USER_PROFILE_FEATURE_NAME,
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';

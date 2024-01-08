@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as wishList from '../../../helpers/wish-list';
-import * as login from '../../../helpers/login';
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import { visitHomePage } from '../../../helpers/checkout-flow';
+import * as login from '../../../helpers/login';
+import * as wishList from '../../../helpers/wish-list';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 describe('Wish list', () => {
   before(() => {

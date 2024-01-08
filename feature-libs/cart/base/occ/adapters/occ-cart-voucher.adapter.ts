@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,8 +11,8 @@ import { CART_VOUCHER_NORMALIZER } from '@spartacus/cart/base/root';
 import {
   ConverterService,
   InterceptorUtil,
-  OccEndpointsService,
   OCC_USER_ID_ANONYMOUS,
+  OccEndpointsService,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
