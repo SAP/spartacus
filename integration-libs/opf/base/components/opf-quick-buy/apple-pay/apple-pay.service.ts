@@ -321,11 +321,7 @@ export class ApplePayService {
       throw new Error('Error: empty Contact');
     }
 
-    if (shippingContact.emailAddress) {
-      this.cartHandlerService.updateGuestEmail(shippingContact.emailAddress);
-    }
-
-    return this.cartHandlerService
+    const completePaymentAndOrder$ = this.cartHandlerService
       .setDeliveryAddress(this.convertAppleToOpfAddress(shippingContact))
       .pipe(
         tap((addrId: string) => {
@@ -352,6 +348,13 @@ export class ApplePayService {
           });
         })
       );
+
+    if (shippingContact.emailAddress) {
+      return this.cartHandlerService
+        .updateGuestEmail(shippingContact.emailAddress)
+        .pipe(switchMap(() => completePaymentAndOrder$));
+    }
+    return completePaymentAndOrder$;
   }
 
   protected updateApplePayForm(total: { amount: string; label: string }) {

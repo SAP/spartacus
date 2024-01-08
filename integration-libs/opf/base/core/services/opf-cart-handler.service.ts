@@ -30,7 +30,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { OpfGlobalMessageService } from '@spartacus/opf/base/root';
-import { EMPTY, Observable, merge, of, throwError } from 'rxjs';
+import { Observable, merge, of, throwError } from 'rxjs';
 import {
   catchError,
   filter,
@@ -67,9 +67,11 @@ export class OpfCartHandlerService {
   ): Observable<boolean> {
     this.activeCartFacade.addEntry(productCode, quantity, pickupStore);
 
-    this.addGuestTempEmail();
+    this.addGuestTempEmailIfAnonymousUser();
 
-    return this.checkStableCart();
+    return this.checkStableCart().pipe(
+      switchMap(() => this.addGuestTempEmailIfAnonymousUser())
+    );
   }
 
   checkStableCart(): Observable<boolean> {
@@ -184,33 +186,44 @@ export class OpfCartHandlerService {
     );
   }
 
-  addGuestTempEmail(email?: string): void {
-    this.isAnonymousUser()
-      .pipe(
-        switchMap((isAnnonymous) => {
-          if (!isAnnonymous) {
-            return EMPTY;
-          }
-          return this.getCurrentCartId();
-        }),
-        withLatestFrom(this.userIdService.getUserId()),
-        take(1)
-      )
-      .subscribe({
-        next: ([cartId, userId]) => {
-          this.multiCartFacade.assignEmail(
-            cartId,
-            userId,
-            email ?? `${this.EMAIL_PLACEHOLDER}_${cartId}@test123.com`
-          );
-        },
-        error: () => {
-          console.log('expected as not anonymous');
-        },
-        complete: () => {
-          console.log('complete, expected as not anonymous');
-        },
-      });
+  addGuestTempEmailIfAnonymousUser(email?: string): Observable<boolean> {
+    return this.isAnonymousUser().pipe(
+      switchMap((isAnnonymous) => {
+        if (!isAnnonymous) {
+          return of(false);
+        }
+        return this.getCurrentCartId().pipe(
+          withLatestFrom(this.userIdService.getUserId()),
+          take(1),
+          switchMap(([cartId, userId]) => {
+            this.multiCartFacade.assignEmail(
+              cartId,
+              userId,
+              email ?? `${this.EMAIL_PLACEHOLDER}_${cartId}@${cartId}.com`
+            );
+            return this.checkStableCart();
+          })
+        );
+      })
+      // withLatestFrom(this.userIdService.getUserId()),
+      // take(1),
+      // switchMap(([cartId, userId]) => {
+      //   this.multiCartFacade.assignEmail(
+      //     cartId,
+      //     userId,
+      //     email ?? `${this.EMAIL_PLACEHOLDER}_${cartId}@${cartId}.com`
+      //   );
+      //   return this.checkStableCart();
+      // })
+    );
+    // .subscribe({
+    //   error: () => {
+    //     console.log('addGuestTempEmail expected as not anonymous');
+    //   },
+    //   complete: () => {
+    //     console.log('complete, expected as not anonymous');
+    //   },
+    // });
     // this.getCurrentCartId()
     //   .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
     //   .subscribe(([cartId, userId]) => {
@@ -219,26 +232,36 @@ export class OpfCartHandlerService {
     //   });
   }
 
-  updateGuestEmail(email: string): void {
-    this.isTempEmail()
-      .pipe(
-        switchMap((isTemp) => {
-          if (isTemp) {
-            return this.getCurrentCartId();
-          }
-          return EMPTY;
-        }),
-        withLatestFrom(this.userIdService.getUserId()),
-        take(1)
-      )
-      .subscribe({
-        next: ([cartId, userId]) => {
-          this.multiCartFacade.assignEmail(cartId, userId, email);
-        },
-        error: (error) => {
-          console.log('error', error);
-        },
-      });
+  updateGuestEmail(email: string): Observable<boolean> {
+    return this.isTempEmail().pipe(
+      switchMap((isTemp) => {
+        if (isTemp) {
+          return this.getCurrentCartId().pipe(
+            withLatestFrom(this.userIdService.getUserId()),
+            take(1),
+            switchMap(([cartId, userId]) => {
+              this.multiCartFacade.assignEmail(cartId, userId, email);
+              return this.checkStableCart();
+            })
+          );
+        }
+        return of(false);
+      })
+      // withLatestFrom(this.userIdService.getUserId()),
+      // take(1),
+      // switchMap(([cartId, userId]) => {
+      //   this.multiCartFacade.assignEmail(cartId, userId, email);
+      //   return this.checkStableCart()
+      // })
+    );
+    // .subscribe({
+    //   error: (error) => {
+    //     console.log('error', error);
+    //   },
+    //   complete: () => {
+    //     console.log('addGuestTempEmail complete, expected as not a tempEmail');
+    //   },
+    // });
   }
 
   isAnonymousUser() {
