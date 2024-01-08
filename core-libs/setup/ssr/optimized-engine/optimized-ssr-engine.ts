@@ -453,11 +453,11 @@ export class OptimizedSsrEngine {
     options = {
       ...options,
       providers: [
-        ...options?.providers,
         {
           provide: EXPRESS_SERVER_LOGGER,
           useValue: this.logger,
         },
+        ...options?.providers,
       ],
     };
 

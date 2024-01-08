@@ -108,6 +108,7 @@ describe('decorateExpressEngine', () => {
           locals: {},
         },
       },
+      providers: [],
     } as any;
 
     mockEngineOptions = {

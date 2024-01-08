@@ -100,6 +100,7 @@ class TestEngineRunner {
           locals: {},
         },
       },
+      providers: [],
     };
 
     this.engineInstance(url, optionsMock, (_, html): void => {
