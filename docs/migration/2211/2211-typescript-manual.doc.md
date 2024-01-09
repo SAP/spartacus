@@ -76,3 +76,8 @@ Constructor has been extended with a new dependency to `ConfiguratorCoreConfig`.
 ### ConfiguratorRouterListener
 
 Constructor has been extended with a new dependency to `ConfiguratorQuantityService`.
+# Changes in feature lib cart
+
+## ActiveCartService
+
+- `WindowRef` is now a required constructor dependency.
