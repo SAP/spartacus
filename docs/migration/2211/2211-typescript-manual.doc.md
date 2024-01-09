@@ -1,3 +1,9 @@
+# Changes in feature lib checkout
+
+## CheckoutPaymentTypeComponent
+
+- `GlobalMessageService` is now a required constructor dependency.
+
 # Changes in feature lib product-configurator 
 
 ## Changes related to the CPQ configurator
@@ -76,6 +82,7 @@ Constructor has been extended with a new dependency to `ConfiguratorCoreConfig`.
 ### ConfiguratorRouterListener
 
 Constructor has been extended with a new dependency to `ConfiguratorQuantityService`.
+
 # Changes in feature lib asm
 
 ## CsAgentAuthService
