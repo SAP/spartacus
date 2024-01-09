@@ -11,7 +11,8 @@
     ":automergeMinor"
   ],
   "baseBranches": [
-    "develop-6.8.x"
+    "develop-6.8.x", 
+    "develop-next-major"
   ],
   "branchPrefix": "renovate/",
   "username": "ospo-renovate[bot]",
