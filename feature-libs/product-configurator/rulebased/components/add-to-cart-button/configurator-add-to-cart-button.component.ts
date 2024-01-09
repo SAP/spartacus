@@ -10,8 +10,8 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
+import { UntypedFormControl } from '@angular/forms';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -26,11 +26,11 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import {
+  ICON_TYPE,
   IntersectionOptions,
   IntersectionService,
-  ICON_TYPE,
 } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import {
   delay,
   distinctUntilChanged,
@@ -43,9 +43,8 @@ import { ConfiguratorCartService } from '../../core/facade/configurator-cart.ser
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
-import { UntypedFormControl } from '@angular/forms';
 import { ConfiguratorQuantityService } from '../../core/services/configurator-quantity.service';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
 
@@ -84,38 +83,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     )
   );
 
-  // TODO (CXSPA-3392): make configuratorQuantityService a required dependency
-  constructor(
-    routingService: RoutingService,
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configuratorCartService: ConfiguratorCartService,
-    configuratorGroupsService: ConfiguratorGroupsService,
-    configRouterExtractorService: ConfiguratorRouterExtractorService,
-    globalMessageService: GlobalMessageService,
-    orderHistoryFacade: OrderHistoryFacade,
-    commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
-    configUtils: ConfiguratorStorefrontUtilsService,
-    intersectionService: IntersectionService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configuratorQuantityService: ConfiguratorQuantityService
-  );
-
-  /**
-   * @deprecated since 6.1
-   */
-  constructor(
-    routingService: RoutingService,
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configuratorCartService: ConfiguratorCartService,
-    configuratorGroupsService: ConfiguratorGroupsService,
-    configRouterExtractorService: ConfiguratorRouterExtractorService,
-    globalMessageService: GlobalMessageService,
-    orderHistoryFacade: OrderHistoryFacade,
-    commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
-    configUtils: ConfiguratorStorefrontUtilsService,
-    intersectionService: IntersectionService
-  );
-
   constructor(
     protected routingService: RoutingService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -127,27 +94,24 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected intersectionService: IntersectionService,
-    @Optional()
-    protected configuratorQuantityService?: ConfiguratorQuantityService
+    protected configuratorQuantityService: ConfiguratorQuantityService
   ) {}
 
   ngOnInit(): void {
     this.makeAddToCartButtonSticky();
 
-    if (this.configuratorQuantityService) {
-      this.configuratorQuantityService
-        .getQuantity()
-        .pipe(take(1))
-        .subscribe((quantity) => {
-          this.quantityControl.setValue(quantity);
-        });
-    }
+    this.configuratorQuantityService
+      .getQuantity()
+      .pipe(take(1))
+      .subscribe((quantity) => {
+        this.quantityControl.setValue(quantity);
+      });
 
     this.subscription.add(
       this.quantityControl.valueChanges
         .pipe(distinctUntilChanged())
         .subscribe(() =>
-          this.configuratorQuantityService?.setQuantity(
+          this.configuratorQuantityService.setQuantity(
             this.quantityControl.value
           )
         )
