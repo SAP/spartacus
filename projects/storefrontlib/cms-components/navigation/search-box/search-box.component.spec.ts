@@ -11,7 +11,7 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';

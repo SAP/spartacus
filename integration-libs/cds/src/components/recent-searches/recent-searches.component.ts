@@ -12,6 +12,7 @@ import {
 } from '@spartacus/storefront';
 import { RecentSearchesService } from './recent-searches.service';
 import { map, switchMap } from 'rxjs/operators';
+import {Observable} from "rxjs";
 
 export interface SearchBoxOutlet {
   search: string;
@@ -26,26 +27,25 @@ const MAX_RECENT_SEARCHES = 5;
 })
 export class RecentSearchesComponent implements OnInit {
   protected recentSearchesService = inject(RecentSearchesService);
-  protected searchBoxService = inject(SearchBoxComponentService);
+  protected searchBoxComponentService = inject(SearchBoxComponentService);
   result$ = this.outletContext?.context$.pipe(
-    switchMap((context: SearchBoxOutlet) =>
-      this.recentSearchesService.recentSearches$.pipe(
+    switchMap((context: SearchBoxOutlet) => {
+      return this.recentSearchesService.recentSearches$.pipe(
         map((recentSearches) => {
-          return recentSearches.slice(
-            0,
-            context.maxRecentSearches || MAX_RECENT_SEARCHES
-          );
+          return recentSearches
+            .filter((phrase) => phrase.includes(context.search))
+            .slice(0, context.maxRecentSearches || MAX_RECENT_SEARCHES);
         })
-      )
-    )
+      );
+    })
   );
 
-  outletContext$ = this.outletContext.context$;
+  outletContext$: Observable<SearchBoxOutlet>;
   constructor(
-    @Optional() protected outletContext?: OutletContextData<SearchBoxOutlet>
+    @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
   ) {}
   ngOnInit() {
-    this.recentSearchesService.addRecentSearchesListener();
+    this.outletContext$ = this.outletContext.context$;
   }
 
   preventDefault(ev: UIEvent): void {
@@ -53,6 +53,6 @@ export class RecentSearchesComponent implements OnInit {
   }
 
   updateChosenWord(chosenWord: string) {
-    this.searchBoxService.changeSelectedWord(chosenWord);
+    this.searchBoxComponentService.changeSelectedWord(chosenWord);
   }
 }

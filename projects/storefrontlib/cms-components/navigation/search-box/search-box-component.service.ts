@@ -28,7 +28,6 @@ const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
   providedIn: 'root',
 })
 export class SearchBoxComponentService {
-
   chosenWord = new ReplaySubject<string>();
   constructor(
     public searchService: SearchboxService,
