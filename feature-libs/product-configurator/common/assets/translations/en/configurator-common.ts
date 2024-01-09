@@ -272,7 +272,7 @@ export const configurator = {
       closeConflictSolverModal: 'Close conflict solver modal',
       closeRestartDialog:
         'Close the "Unfinished Configuration" dialog and navigate back to the product details page',
-      description: 'Click on the i-icon to see a description for this value',
+      description: 'Click to see a description for this value',
     },
     variantCarousel: {
       title: 'Pre-configured Versions',
