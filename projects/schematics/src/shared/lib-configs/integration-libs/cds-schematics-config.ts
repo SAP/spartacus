@@ -84,14 +84,14 @@ function buildCdsConfig(
             profileTag: {
               javascriptUrl:
                 '${
-      options.profileTagLoadUrl ||
-      'PROFILE_TAG_LOAD_URL_PLACEHOLDER'
-    }',
+                  options.profileTagLoadUrl ||
+                  'PROFILE_TAG_LOAD_URL_PLACEHOLDER'
+                }',
               configUrl:
                 '${
-      options.profileTagConfigUrl ||
-      'PROFILE_TAG_CONFIG_URL_PLACEHOLDER'
-    }',
+                  options.profileTagConfigUrl ||
+                  'PROFILE_TAG_CONFIG_URL_PLACEHOLDER'
+                }',
               allowInsecureCookies: true,
             },
           },
