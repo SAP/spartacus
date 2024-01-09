@@ -457,6 +457,7 @@ export class OptimizedSsrEngine {
           provide: EXPRESS_SERVER_LOGGER,
           useValue: this.logger,
         },
+        ...(options?.providers ?? []),
       ],
     };
 
