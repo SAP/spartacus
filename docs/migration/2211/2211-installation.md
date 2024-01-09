@@ -1,11 +1,5 @@
 # Creating a new app using Spartacus v2211
 
-## You must run `ng new` with a new flag `--standalone=false`
-
-Since Angular v17, the command for creating a new app (`ng new`) must be run with the flag `--standalone=false`. Otherwise Spartacus installer won't work (`ng add @spartacus/schematics`).
-
-**Why**: Since Angular 17, new applications are created by default using a new so-called "standalone" mode, which has a bit *different structure of files* in the app folder than before. However Spartacus schematics installer still expects the *old files structure* in a created Angular app. That's why the flag  `ng new --standalone=false` is required before running Spartacus installation schematics.
-
 ### Appendix A: How to run SSR dev server
 
 Run in _2 separate windows_ of terminal:

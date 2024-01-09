@@ -109,6 +109,34 @@ describe('add-spartacus', () => {
     );
   });
 
+  describe('Verify if target app is standalone', () => {
+    it('should throw an error if app.module.ts not found', async () => {
+      let standaloneAppTree: UnitTestTree;
+
+      standaloneAppTree = await schematicRunner.runExternalSchematic(
+        '@schematics/angular',
+        'workspace',
+        workspaceOptions
+      );
+      standaloneAppTree = await schematicRunner.runExternalSchematic(
+        '@schematics/angular',
+        'application',
+        { ...appOptions, standalone: true },
+        standaloneAppTree
+      );
+
+      await expect(
+        schematicRunner.runSchematic(
+          'add-spartacus',
+          defaultOptions,
+          standaloneAppTree
+        )
+      ).rejects.toMatchInlineSnapshot(
+        `[Error: File "app.module.ts" not found. Application uses unsupported standalone components. Please remove the application and generate a new one with by running "ng new" with "--standalone=false" flag]`
+      );
+    });
+  });
+
   describe('Setup configuration', () => {
     it('should set baseUrl', async () => {
       const tree = await schematicRunner.runSchematic(

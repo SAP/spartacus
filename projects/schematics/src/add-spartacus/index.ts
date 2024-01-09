@@ -286,6 +286,42 @@ function increaseBudgets(options: SpartacusOptions): Rule {
   };
 }
 
+/**
+ * Checks if the app has an app configuration file and uses standalone components by default.
+ *
+ * @param options - The Spartacus options.
+ * @returns A Rule function that checks if the app has an app configuration file.
+ */
+function hasAppConfigFile(options: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (options.debug) {
+      context.logger.info(`⌛️ Checking if app uses standalone components...`);
+    }
+
+    // get tsconfig file paths
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+    const basePath = process.cwd();
+
+    // get project structure based on current path and path of the first found tsconfig file
+    const { appSourceFiles } = createProgram(tree, basePath, buildPaths[0]);
+
+    // check if app module exists
+    const appModule = appSourceFiles.find((sourceFile) =>
+      sourceFile.getFilePath().includes(`app.module.ts`)
+    );
+
+    if (!appModule) {
+      throw new SchematicsException(
+        'File "app.module.ts" not found. Application uses unsupported standalone components. Please remove the application and generate a new one with by running "ng new" with "--standalone=false" flag'
+      );
+    }
+    if (options.debug) {
+      context.logger.info(`✅ App does not use standalone components.`);
+    }
+    return tree;
+  };
+}
+
 export function createStylePreprocessorOptions(
   options?: SpartacusOptions
 ): Rule {
@@ -450,6 +486,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     ];
     const packageJsonFile = readPackageJson(tree);
     return chain([
+      hasAppConfigFile(options),
+
       analyzeApplication(options, features),
 
       setupStoreModules(options),
