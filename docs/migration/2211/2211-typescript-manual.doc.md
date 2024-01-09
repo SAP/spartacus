@@ -76,6 +76,12 @@ Constructor has been extended with a new dependency to `ConfiguratorCoreConfig`.
 ### ConfiguratorRouterListener
 
 Constructor has been extended with a new dependency to `ConfiguratorQuantityService`.
+# Changes in feature lib asm
+
+## CsAgentAuthService
+
+- `UserProfileFacade` has been removed a required constructor dependency.
+
 # Changes in feature lib cart
 
 ## ActiveCartService
