@@ -425,6 +425,12 @@ export function restoreCart(
             }
           });
 
+        const getAllSavedCartAlias = interceptGetAllSavedCartEndpoint();
+
+        cy.wait(`@${getAllSavedCartAlias}`)
+          .its('response.statusCode')
+          .should('eq', 200);
+
         verifyMiniCartQuantity(1);
 
         if (cloneSavedCart.isCloneCartActive) {
