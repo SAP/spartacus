@@ -292,7 +292,7 @@ function increaseBudgets(options: SpartacusOptions): Rule {
  * @param options - The Spartacus options.
  * @returns A Rule function that checks if the app has an app configuration file.
  */
-function hasAppConfigFile(options: SpartacusOptions): Rule {
+function verifyAppModuleExists(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (options.debug) {
       context.logger.info(`⌛️ Checking if app uses standalone components...`);
@@ -312,7 +312,14 @@ function hasAppConfigFile(options: SpartacusOptions): Rule {
 
     if (!appModule) {
       throw new SchematicsException(
-        'File "app.module.ts" not found. Application uses unsupported standalone components. Please remove the application and generate a new one with by running "ng new" with "--standalone=false" flag'
+        `
+        File "app.module.ts" not found. Please re-create your application:
+        1. remove your application code
+        2. make sure to pass the flag "--standalone=false" to the command "ng new". For more, see https://angular.io/cli/new#options
+        3. try again installing Spartacus with a command "ng add @spartacus/schematics" ...
+        
+        Note: Since version 17, Angular's command "ng new" by default creates an app without a file "app.module.ts" (in a so-called "standalone" mode). But Spartacus installer requires this file to be present.
+        `
       );
     }
     if (options.debug) {
@@ -486,7 +493,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     ];
     const packageJsonFile = readPackageJson(tree);
     return chain([
-      hasAppConfigFile(options),
+      verifyAppModuleExists(options),
 
       analyzeApplication(options, features),
 
