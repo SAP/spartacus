@@ -67,10 +67,15 @@ describe('My Account V2 - Update Password', () => {
           cy.get('[formcontrolname="newPasswordConfirm"]').type(
             updatePassword.newPassword
           );
-          cy.get('cx-my-account-v2-password button.myaccount-password-button-cancel').click();
+          cy.get(
+            'cx-my-account-v2-password button.myaccount-password-button-cancel'
+          ).click();
           cy.get('[formcontrolname="oldPassword"]').should('have.value', '');
           cy.get('[formcontrolname="newPassword"]').should('have.value', '');
-          cy.get('[formcontrolname="newPasswordConfirm"]').should('have.value', '');
+          cy.get('[formcontrolname="newPasswordConfirm"]').should(
+            'have.value',
+            ''
+          );
         });
 
         it('should display server error if old password is wrong', () => {

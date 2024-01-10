@@ -45,6 +45,6 @@ export class MyAccountV2ProfileComponent implements OnInit {
 
   onEdit(): void {
     this.isEditing = true;
-    this.originalEditValue =  this.form.value;
+    this.originalEditValue = this.form.value;
   }
 }

@@ -29,10 +29,11 @@ import {
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
-import { MyAccountV2PasswordComponent, MyAccountV2PasswordComponentService } from '../my-account-v2';
+import {
+  MyAccountV2PasswordComponent,
+  MyAccountV2PasswordComponentService,
+} from '../my-account-v2';
 import { USE_MY_ACCOUNT_V2_PASSWORD } from './token/context';
-
-
 
 const myAccountV2PasswordMapping: CmsConfig = {
   cmsComponents: {
@@ -93,7 +94,7 @@ const myAccountV2PasswordMapping: CmsConfig = {
     }),
     provideDefaultConfigFactory(() =>
       inject(USE_MY_ACCOUNT_V2_PASSWORD) ? myAccountV2PasswordMapping : {}
-  ),
+    ),
   ],
   declarations: [UpdatePasswordComponent, MyAccountV2PasswordComponent],
   exports: [UpdatePasswordComponent, MyAccountV2PasswordComponent],

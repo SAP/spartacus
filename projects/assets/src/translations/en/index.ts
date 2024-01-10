@@ -17,7 +17,6 @@ import { video } from './video';
 import { myAccountV2NotifiationPerference } from './my-account-v2-notification-perference.i18n';
 import { myAccountV2Consent } from './my-account-v2-consent.i18n';
 
-
 export const en = {
   address,
   common,
