@@ -18,7 +18,7 @@ class MockIconComponent {
 
 @Component({
   selector: 'cx-generic-link',
-  template: '{{title}}',
+  template: '<a href={{url}}>{{title}}</a>',
 })
 class MockGenericLinkComponent {
   @Input() url: string | any[];
@@ -304,6 +304,68 @@ describe('Navigation UI Component', () => {
 
       expect(navigationComponent.reinitializeMenu).toHaveBeenCalledWith();
       expect(hamburgerMenuService.toggle).toHaveBeenCalledWith();
+    });
+  });
+  describe('Keyboard navigation', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    it('should toggle open when space key is pressed', () => {
+      const spy = spyOn(navigationComponent, 'toggleOpen');
+      const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
+      const dropDownButton = element.query(
+        By.css('button[aria-label="Sub child 1"]')
+      ).nativeElement;
+      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
+
+      navigationComponent.onSpace(spaceEvent);
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should move focus to the opened node', () => {
+      const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
+      const spy = spyOn(firstChild.nativeElement, 'focus');
+      const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
+      const dropDownButton = element.query(
+        By.css('button[aria-label="Sub child 1"]')
+      ).nativeElement;
+      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
+
+      navigationComponent.focusOnNode(spaceEvent);
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should move focus inside node on up/down arrow press', () => {
+      navigationComponent.toggleOpen = () => {};
+      const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
+      const secondChild = element.query(By.css('[href="/sub-sub-child-1b"]'));
+      const arrowDownEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowDown',
+      });
+      const arrowUpEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowUp',
+      });
+      const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
+      const dropDownButton = element.query(
+        By.css('button[aria-label="Sub child 1"]')
+      ).nativeElement;
+      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
+      Object.defineProperty(arrowDownEvent, 'target', {
+        value: firstChild.nativeElement,
+      });
+      Object.defineProperty(arrowUpEvent, 'target', {
+        value: secondChild.nativeElement,
+      });
+
+      navigationComponent.onSpace(spaceEvent);
+
+      navigationComponent['arrowControls'].next(arrowDownEvent);
+      expect(document.activeElement).toEqual(secondChild.nativeElement);
+      navigationComponent['arrowControls'].next(arrowUpEvent);
+      expect(document.activeElement).toEqual(firstChild.nativeElement);
     });
   });
 });
