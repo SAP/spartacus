@@ -124,12 +124,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       typeof navNode.url === 'string' &&
       this.winRef.nativeWindow?.location.href.includes(navNode.url)
     ) {
-      this.elemRef.nativeElement
-        .querySelectorAll('li.is-open:not(.back), li.is-opened')
-        .forEach((el: any) => {
-          this.renderer.removeClass(el, 'is-open');
-          this.renderer.removeClass(el, 'is-opened');
-        });
       this.reinitializeMenu();
       this.hamburgerMenuService.toggle();
     }
@@ -140,8 +134,13 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    */
   reinitializeMenu(): void {
     if (this.openNodes?.length > 0) {
+      this.elemRef.nativeElement
+        .querySelectorAll('li.is-open:not(.back), li.is-opened')
+        .forEach((el: any) => {
+          this.renderer.removeClass(el, 'is-open');
+          this.renderer.removeClass(el, 'is-opened');
+        });
       this.clear();
-      this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
     }
   }
 
@@ -181,6 +180,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   onSpace(event: UIEvent) {
+    if (this.openNodes.length) {
+      event.preventDefault();
+    }
     this.toggleOpen(event);
     this.focusOnNode(event);
     this.subscriptions.add(
@@ -216,7 +218,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
 
   clear(): void {
     this.openNodes = [];
-    this.updateClasses();
   }
 
   onMouseEnter(event: MouseEvent) {

@@ -31,6 +31,7 @@
       [class]="node.styleClasses"
       (click)="closeIfClickedTheSameLink(node)"
       [tabindex]="depth > 0 && !node.children ? -1 : 0"
+      (focus)="depth || reinitializeMenu()"
     >
       {{ node.title }}
     </cx-generic-link>
@@ -54,6 +55,7 @@
           (keydown.space)="onSpace($any($event))"
           (keydown.esc)="back()"
           (keydown.arrowDown)="focusOnNode($any($event))"
+          (focus)="depth || reinitializeMenu()"
         >
           <ng-container *ngIf="!node.url">
             {{ node.title }}
