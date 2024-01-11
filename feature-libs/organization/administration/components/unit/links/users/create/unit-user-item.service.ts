@@ -8,10 +8,10 @@ import { Injectable } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { B2BUser } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, first, map } from 'rxjs/operators';
 import { UserItemService } from '../../../../user/services/user-item.service';
-import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 
 @Injectable({
   providedIn: 'root',
