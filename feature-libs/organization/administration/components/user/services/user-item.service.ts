@@ -46,7 +46,7 @@ export class UserItemService extends ItemService<B2BUser> {
     value: B2BUser
   ): Observable<OrganizationItemStatus<B2BUser>> {
     this.userService.create(value);
-    return this.userService.getLoadingStatus(value.uid ?? 'new');
+    return this.userService.getLoadingStatus('new');
   }
 
   protected getDetailsRoute(): string {
