@@ -467,21 +467,21 @@ export class CreateAddress extends StateUtils.EntityLoadAction {
   constructor(
     public payload: { userId: string; orgUnitId: string; address: Address }
   ) {
-    super(ADDRESS_ENTITIES, payload.address.id ?? null);
+    super(ADDRESS_ENTITIES, payload.address.id ?? 'new');
   }
 }
 
 export class CreateAddressFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_ADDRESS_FAIL;
   constructor(public payload: { addressId: string; error: any }) {
-    super(ADDRESS_ENTITIES, payload.addressId, payload.error);
+    super(ADDRESS_ENTITIES, payload.addressId ?? 'new', payload.error);
   }
 }
 
 export class CreateAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_ADDRESS_SUCCESS;
   constructor(public payload: Address) {
-    super(ADDRESS_ENTITIES, payload.id ?? null, payload);
+    super(ADDRESS_ENTITIES, payload.id ?? 'new', payload);
   }
 }
 
