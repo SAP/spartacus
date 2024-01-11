@@ -4,8 +4,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-/// <reference types="@types/applepayjs" />
 
+/// <reference types="@types/applepayjs" />
 import { Injectable, inject } from '@angular/core';
 import {
   ApplePayObservableConfig,
