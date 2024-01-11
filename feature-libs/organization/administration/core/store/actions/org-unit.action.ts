@@ -474,14 +474,14 @@ export class CreateAddress extends StateUtils.EntityLoadAction {
 export class CreateAddressFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_ADDRESS_FAIL;
   constructor(public payload: { addressId: string; error: any }) {
-    super(ADDRESS_ENTITIES, payload.addressId ?? 'new', payload.error);
+    super(ADDRESS_ENTITIES, payload.addressId, payload.error);
   }
 }
 
 export class CreateAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_ADDRESS_SUCCESS;
   constructor(public payload: Address) {
-    super(ADDRESS_ENTITIES, payload.id ?? 'new', payload);
+    super(ADDRESS_ENTITIES, payload.id ?? null, payload);
   }
 }
 

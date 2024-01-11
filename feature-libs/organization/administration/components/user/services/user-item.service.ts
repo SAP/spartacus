@@ -46,7 +46,7 @@ export class UserItemService extends ItemService<B2BUser> {
     value: B2BUser
   ): Observable<OrganizationItemStatus<B2BUser>> {
     this.userService.create(value);
-    return this.userService.getLoadingStatus(value.uid ?? '');
+    return this.userService.getLoadingStatus(value.uid ?? 'new');
   }
 
   protected getDetailsRoute(): string {
@@ -55,7 +55,7 @@ export class UserItemService extends ItemService<B2BUser> {
 
   // @override to avoid errors while creation
   launchDetails(item: B2BUser): void {
-    if (item.customerId !== null) {
+    if (item.customerId !== 'new') {
       super.launchDetails(item);
     }
   }
