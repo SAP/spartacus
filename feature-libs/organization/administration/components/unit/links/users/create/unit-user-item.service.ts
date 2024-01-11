@@ -46,10 +46,10 @@ export class UnitUserItemService extends UserItemService {
 
   // @override to default method
   launchDetails(item: B2BUser): void {
-    this.unitRouteParam$.pipe(first()).subscribe((unitCode) => {
+    this.unitRouteParam$.pipe(first()).subscribe((uid) => {
       this.routingService.go({
         cxRoute: this.getDetailsRoute(),
-        params: { ...item, uid: unitCode },
+        params: { ...item, uid },
       });
     });
   }
