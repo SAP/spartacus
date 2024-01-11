@@ -19,7 +19,12 @@ import {
 import { NavigationEnd, Router } from '@angular/router';
 import { WindowRef } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  take,
+} from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
@@ -179,12 +184,25 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
-  onSpace(event: UIEvent) {
-    if (this.openNodes.length) {
-      event.preventDefault();
-    }
-    this.toggleOpen(event);
+  onSpace(event: UIEvent): void {
+    this.hamburgerMenuService.isExpanded
+      .pipe(take(1))
+      .subscribe((isExpanded) => {
+        if (isExpanded) {
+          this.toggleOpen(event);
+          return;
+        }
+        if (!this.openNodes.length) {
+          this.toggleOpen(event);
+          return;
+        }
+        event.preventDefault();
+      });
     this.focusOnNode(event);
+    this.setupArrowControls();
+  }
+
+  setupArrowControls(): void {
     this.subscriptions.add(
       this.arrowControls.subscribe((e) => {
         e.preventDefault();
@@ -198,7 +216,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     );
   }
 
-  focusOnNode(event: UIEvent) {
+  focusOnNode(event: UIEvent): void {
     const firstFocusableElement =
       (<HTMLElement>event.target).nextElementSibling?.querySelector('button') ||
       (<HTMLElement>event.target).nextElementSibling?.querySelector('a');
