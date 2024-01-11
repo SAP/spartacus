@@ -130,7 +130,7 @@ export class CreateB2BUserFail extends StateUtils.EntityFailAction {
 export class CreateB2BUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_B2B_USER_SUCCESS;
   constructor(public payload: B2BUser) {
-    super(B2B_USER_ENTITIES, payload.customerId, payload);
+    super(B2B_USER_ENTITIES, payload.customerId ?? null, payload);
   }
 }
 
