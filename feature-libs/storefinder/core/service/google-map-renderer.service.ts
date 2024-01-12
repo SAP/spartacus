@@ -16,8 +16,8 @@ import { StoreFinderService } from '../facade/store-finder.service';
   providedIn: 'root',
 })
 export class GoogleMapRendererService {
-  protected googleMap: google.maps.Map = null;
-  protected markers: google.maps.Marker[];
+  private googleMap: google.maps.Map = null;
+  private markers: google.maps.Marker[];
 
   protected logger = inject(LoggerService);
 
