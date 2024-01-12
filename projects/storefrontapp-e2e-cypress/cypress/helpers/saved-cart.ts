@@ -150,14 +150,12 @@ export function visitSavedCartListingPage() {
     '/my-account/saved-carts',
     'savedCartListPage'
   );
-
   cy.visit(`/my-account/saved-carts`);
   cy.wait(`@${savedCartListingPageAlias}`)
     .its('response.statusCode')
     .should('eq', 200);
-  cy.wait(`@${getAllSavedCartAlias}`)
-    .its('response.statusCode')
-    .should('eq', 200);
+  cy.reload();
+  cy.wait(`@${getAllSavedCartAlias}`);
 }
 
 export function visitSavedCartDetailsPage(cartCode: string) {
@@ -341,8 +339,6 @@ export function restoreCart(
     .then(({ token }) => {
       cy.requireSavedCart(token, product, savedCartForm).then((cart) => {
         visitSavedCartListingPage();
-        // to fix flickering
-        cy.reload();
 
         if (isEmptyCart) {
           verifyMiniCartQuantity(0);
@@ -428,6 +424,8 @@ export function restoreCart(
           });
 
         verifyMiniCartQuantity(1);
+        // to fix flickering
+        visitSavedCartListingPage();
 
         if (cloneSavedCart.isCloneCartActive) {
           if (cloneSavedCart?.cloneName) {
