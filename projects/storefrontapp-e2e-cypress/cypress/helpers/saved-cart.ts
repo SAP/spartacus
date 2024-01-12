@@ -341,6 +341,8 @@ export function restoreCart(
     .then(({ token }) => {
       cy.requireSavedCart(token, product, savedCartForm).then((cart) => {
         visitSavedCartListingPage();
+        // to fix flickering
+        cy.reload();
 
         if (isEmptyCart) {
           verifyMiniCartQuantity(0);
