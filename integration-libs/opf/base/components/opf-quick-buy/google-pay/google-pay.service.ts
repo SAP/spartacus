@@ -46,14 +46,14 @@ export class OpfGooglePayService {
 
   protected associatedShippingAddressIds: string[] = [];
 
-  protected googlePaymentClient: google.payments.api.PaymentsClient;
+  private googlePaymentClient: google.payments.api.PaymentsClient;
 
-  protected googlePaymentClientOptions: google.payments.api.PaymentOptions = {
+  private googlePaymentClientOptions: google.payments.api.PaymentOptions = {
     environment: 'TEST',
     paymentDataCallbacks: this.handlePaymentCallbacks(),
   };
 
-  protected googlePaymentRequest: google.payments.api.PaymentDataRequest = {
+  private googlePaymentRequest: google.payments.api.PaymentDataRequest = {
     /**
      * TODO: Move this part into configuration layer.
      */
@@ -78,7 +78,7 @@ export class OpfGooglePayService {
     },
   };
 
-  protected initialTransactionInfo: google.payments.api.TransactionInfo = {
+  private initialTransactionInfo: google.payments.api.TransactionInfo = {
     totalPrice: '0.00',
     totalPriceStatus: 'ESTIMATED',
     currencyCode: 'USD',
