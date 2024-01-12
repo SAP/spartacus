@@ -9,7 +9,6 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -18,7 +17,6 @@ import {
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
 import {
-  CheckoutConfigService,
   CheckoutDeliveryAddressComponent,
   CheckoutStepService,
 } from '@spartacus/checkout/base/components';
@@ -51,7 +49,6 @@ export class B2BCheckoutDeliveryAddressComponent
   extends CheckoutDeliveryAddressComponent
   implements OnInit, OnDestroy
 {
-  protected checkoutConfigService = inject(CheckoutConfigService);
   protected subscriptions = new Subscription();
 
   protected isAccountPayment$: Observable<boolean> =
