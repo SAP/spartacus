@@ -32,7 +32,7 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { Observable, Subscription, combineLatest, of } from 'rxjs';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 export interface CardWithAddress {
