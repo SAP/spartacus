@@ -107,25 +107,15 @@ export interface ApplePaySessionVerificationResponse {
 }
 
 export interface ApplePayAuthorizationResult {
-  authResult: ApplePayJS.ApplePayPaymentAuthorizationResult;
-  payment: ApplePayJS.ApplePayPayment;
+  authResult: any;
+  payment: any;
 }
 
 export interface ApplePayObservableConfig {
-  request: ApplePayJS.ApplePayPaymentRequest;
-  validateMerchant: (
-    event: ApplePayJS.ApplePayValidateMerchantEvent
-  ) => Observable<any>;
-  shippingContactSelected: (
-    event: ApplePayJS.ApplePayShippingContactSelectedEvent
-  ) => Observable<ApplePayJS.ApplePayShippingContactUpdate>;
-  paymentMethodSelected: (
-    event: ApplePayJS.ApplePayPaymentMethodSelectedEvent
-  ) => Observable<ApplePayJS.ApplePayPaymentMethodUpdate>;
-  shippingMethodSelected: (
-    event: ApplePayJS.ApplePayShippingMethodSelectedEvent
-  ) => Observable<ApplePayJS.ApplePayShippingMethodUpdate>;
-  paymentAuthorized: (
-    event: ApplePayJS.ApplePayPaymentAuthorizedEvent
-  ) => Observable<ApplePayJS.ApplePayPaymentAuthorizationResult>;
+  request: any;
+  validateMerchant: (event: any) => Observable<any>;
+  shippingContactSelected: (event: any) => Observable<any>;
+  paymentMethodSelected: (event: any) => Observable<any>;
+  shippingMethodSelected: (event: any) => Observable<any>;
+  paymentAuthorized: (event: any) => Observable<any>;
 }

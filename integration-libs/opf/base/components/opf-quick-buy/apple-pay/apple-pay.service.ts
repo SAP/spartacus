@@ -69,11 +69,7 @@ export class ApplePayService {
     };
   }
 
-  start(
-    product: Product,
-    quantity: number,
-    countryCode: string
-  ): Observable<ApplePayJS.ApplePayPaymentAuthorizationResult> {
+  start(product: Product, quantity: number, countryCode: string): any {
     if (this.paymentInProgress) {
       return throwError('Apple Pay is already in progress');
     }
@@ -121,7 +117,7 @@ export class ApplePayService {
       );
   }
 
-  protected handleValidation(
+  private handleValidation(
     event: ApplePayJS.ApplePayValidateMerchantEvent,
     localCart: LocalCart
   ): Observable<ApplePaySessionVerificationResponse> {
@@ -150,7 +146,7 @@ export class ApplePayService {
     return throwError('Product code unknown');
   }
 
-  protected validateOpfAppleSession(
+  private validateOpfAppleSession(
     event: ApplePayJS.ApplePayValidateMerchantEvent
   ): Observable<ApplePaySessionVerificationResponse> {
     return this.cartHandlerService.getCurrentCartId().pipe(
@@ -167,7 +163,7 @@ export class ApplePayService {
     );
   }
 
-  protected convertAppleToOpfAddress(
+  private convertAppleToOpfAddress(
     addr: ApplePayJS.ApplePayPaymentContact,
     partial = false
   ): Address {
@@ -190,7 +186,7 @@ export class ApplePayService {
     };
   }
 
-  protected handleShippingContactSelected(
+  private handleShippingContactSelected(
     _event: ApplePayJS.ApplePayShippingContactSelectedEvent
   ): Observable<any> {
     const partialAddress: Address = this.convertAppleToOpfAddress(
@@ -243,7 +239,7 @@ export class ApplePayService {
     );
   }
 
-  protected handlePaymentMethodSelected(
+  private handlePaymentMethodSelected(
     _event: ApplePayJS.ApplePayPaymentMethodSelectedEvent
   ): Observable<any> {
     const result: ApplePayJS.ApplePayPaymentMethodUpdate =
@@ -251,7 +247,7 @@ export class ApplePayService {
     return of(result);
   }
 
-  protected handleShippingMethodSelected(
+  private handleShippingMethodSelected(
     _event: ApplePayJS.ApplePayShippingMethodSelectedEvent
   ): Observable<any> {
     const result: ApplePayJS.ApplePayShippingContactUpdate =
@@ -273,7 +269,7 @@ export class ApplePayService {
       );
   }
 
-  protected handlePaymentAuthorized(
+  private handlePaymentAuthorized(
     event: ApplePayJS.ApplePayPaymentAuthorizedEvent
   ): Observable<ApplePayJS.ApplePayPaymentAuthorizationResult> {
     const result: ApplePayJS.ApplePayPaymentAuthorizationResult = {
@@ -298,7 +294,7 @@ export class ApplePayService {
     );
   }
 
-  verifyApplePaySession(
+  private verifyApplePaySession(
     request: ApplePaySessionVerificationRequest
   ): Observable<ApplePaySessionVerificationResponse> {
     return this.opfPaymentFacade.getApplePayWebSession(request);
@@ -310,7 +306,7 @@ export class ApplePayService {
     }
   }
 
-  protected placeOrderAfterPayment(
+  private placeOrderAfterPayment(
     applePayPayment: ApplePayJS.ApplePayPayment
   ): Observable<boolean> {
     if (!applePayPayment) {
