@@ -51,6 +51,7 @@ describe('QuoteCartEventListener', () => {
 
   function createListenerAndExpectPropagation() {
     classUnderTest = TestBed.inject(QuoteCartEventListener);
+    classUnderTest.ngOnInit();
     expect(eventService.dispatch).toHaveBeenCalledWith(
       {},
       QuoteDetailsReloadQueryEvent

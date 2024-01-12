@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { QuoteListComponentService } from './quote-list-component.service';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -26,7 +31,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CxDatePipe],
 })
-export class QuoteListComponent {
+export class QuoteListComponent implements OnInit {
   protected quoteListComponentService = inject(QuoteListComponentService);
   protected translationService = inject(TranslationService);
   protected cxDatePipe = inject(CxDatePipe);
@@ -38,7 +43,7 @@ export class QuoteListComponent {
   dateFormat: string = 'MMMM d, YYYY h:mm aa';
   iconTypes = ICON_TYPE;
 
-  constructor() {
+  ngOnInit(): void {
     this.changePage(0);
     this.changeSorting(this.quoteListComponentService.defaultSortOption);
   }
