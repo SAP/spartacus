@@ -9,7 +9,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Optional,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -67,8 +66,7 @@ export class CheckoutPaymentTypeComponent {
       tap(() => (this.paymentTypesError = false)),
       catchError((error: HttpErrorModel) => {
         if (
-          error.details?.[0]?.type === OccHttpErrorType.CLASS_MISMATCH_ERROR &&
-          this.globalMessageService
+          error.details?.[0]?.type === OccHttpErrorType.CLASS_MISMATCH_ERROR
         ) {
           this.globalMessageService.add(
             { key: 'httpHandlers.forbidden' },
@@ -137,30 +135,11 @@ export class CheckoutPaymentTypeComponent {
       distinctUntilChanged()
     );
 
-  // TODO(CXSPA-3334, CXSPA-5654): make globalMessageService a required dependency
-  constructor(
-    checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    checkoutStepService: CheckoutStepService,
-    activatedRoute: ActivatedRoute,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    globalMessageService?: GlobalMessageService
-  );
-
-  /**
-   * @deprecated since 6.3
-   */
-  constructor(
-    checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    checkoutStepService: CheckoutStepService,
-    activatedRoute: ActivatedRoute,
-    globalMessageService: GlobalMessageService
-  );
-
   constructor(
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
     protected activatedRoute: ActivatedRoute,
-    @Optional() protected globalMessageService?: GlobalMessageService
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   changeType(code: string): void {

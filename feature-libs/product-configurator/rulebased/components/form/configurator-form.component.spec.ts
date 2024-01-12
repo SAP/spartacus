@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
@@ -10,7 +10,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
@@ -19,19 +18,19 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
-import { productConfiguration } from '../../testing/configurator-test-data';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-group',
@@ -93,7 +92,6 @@ let configurationCreateObservable: Observable<Configurator.Configuration> =
   EMPTY;
 let currentGroupObservable: Observable<string> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
-let testVersion: string;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -170,12 +168,6 @@ class MockLaunchDialogService {
 
 class MockGlobalMessageService {
   add(): void {}
-}
-
-class MockFeatureConfigService {
-  isLevel(version: string): boolean {
-    return version === testVersion;
-  }
 }
 
 function checkConfigurationObs(
@@ -281,7 +273,6 @@ describe('ConfigurationFormComponent', () => {
             useClass: MockRoutingService,
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
@@ -346,7 +337,6 @@ describe('ConfigurationFormComponent', () => {
       GlobalMessageService as Type<GlobalMessageService>
     );
     spyOn(globalMessageService, 'add').and.callThrough();
-    testVersion = '6.1';
 
     isConfigurationLoadingObservable = of(false);
 
@@ -617,27 +607,6 @@ describe('ConfigurationFormComponent', () => {
       createComponentWithoutData();
       component['displayConflictResolvedMessage']();
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
-    });
-
-    it('should handle non availability of global message service', () => {
-      createComponentWithoutData();
-      component['globalMessageService'] = undefined;
-      component['displayConflictResolvedMessage']();
-      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
-    });
-
-    it('should not call global message service if target version is not matched', () => {
-      createComponentWithoutData();
-      testVersion = '6.2';
-      component['displayConflictResolvedMessage']();
-      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
-    });
-
-    it('should handle non availability of feature config service', () => {
-      createComponentWithoutData();
-      component['featureConfigservice'] = undefined;
-      component['displayConflictResolvedMessage']();
-      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
   });
 });

@@ -537,14 +537,6 @@ describe('ConfigAddToCartButtonComponent', () => {
       initialize();
       expect(component.quantityControl.value).toBe(QUANTITY);
     });
-
-    it('should not set quantity in case quantity service not available', () => {
-      initialize();
-      component.quantityControl.setValue(QUANTITY_CHANGED);
-      component['configuratorQuantityService'] = undefined;
-      component.ngOnInit();
-      expect(component.quantityControl.value).toBe(QUANTITY_CHANGED);
-    });
   });
 
   describe('quantityChange', () => {
@@ -554,13 +546,6 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(
         QUANTITY_CHANGED
       );
-    });
-
-    it('should cope with qty service not being available', () => {
-      initialize();
-      component['configuratorQuantityService'] = undefined;
-      component.quantityControl.setValue(QUANTITY_CHANGED);
-      expect(configuratorQuantityService.setQuantity).toHaveBeenCalledTimes(0);
     });
   });
 

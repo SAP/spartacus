@@ -10,7 +10,6 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  Optional,
   inject,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
@@ -87,38 +86,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     )
   );
 
-  // TODO (CXSPA-3392): make configuratorQuantityService a required dependency
-  constructor(
-    routingService: RoutingService,
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configuratorCartService: ConfiguratorCartService,
-    configuratorGroupsService: ConfiguratorGroupsService,
-    configRouterExtractorService: ConfiguratorRouterExtractorService,
-    globalMessageService: GlobalMessageService,
-    orderHistoryFacade: OrderHistoryFacade,
-    commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
-    configUtils: ConfiguratorStorefrontUtilsService,
-    intersectionService: IntersectionService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configuratorQuantityService: ConfiguratorQuantityService
-  );
-
-  /**
-   * @deprecated since 6.1
-   */
-  constructor(
-    routingService: RoutingService,
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configuratorCartService: ConfiguratorCartService,
-    configuratorGroupsService: ConfiguratorGroupsService,
-    configRouterExtractorService: ConfiguratorRouterExtractorService,
-    globalMessageService: GlobalMessageService,
-    orderHistoryFacade: OrderHistoryFacade,
-    commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
-    configUtils: ConfiguratorStorefrontUtilsService,
-    intersectionService: IntersectionService
-  );
-
   constructor(
     protected routingService: RoutingService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -130,27 +97,24 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected intersectionService: IntersectionService,
-    @Optional()
-    protected configuratorQuantityService?: ConfiguratorQuantityService
+    protected configuratorQuantityService: ConfiguratorQuantityService
   ) {}
 
   ngOnInit(): void {
     this.makeAddToCartButtonSticky();
 
-    if (this.configuratorQuantityService) {
-      this.configuratorQuantityService
-        .getQuantity()
-        .pipe(take(1))
-        .subscribe((quantity) => {
-          this.quantityControl.setValue(quantity);
-        });
-    }
+    this.configuratorQuantityService
+      .getQuantity()
+      .pipe(take(1))
+      .subscribe((quantity) => {
+        this.quantityControl.setValue(quantity);
+      });
 
     this.subscription.add(
       this.quantityControl.valueChanges
         .pipe(distinctUntilChanged())
         .subscribe(() =>
-          this.configuratorQuantityService?.setQuantity(
+          this.configuratorQuantityService.setQuantity(
             this.quantityControl.value
           )
         )
