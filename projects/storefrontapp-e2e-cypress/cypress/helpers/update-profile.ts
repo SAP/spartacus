@@ -16,13 +16,6 @@ export const newLastName = 'Z';
 export const UPDATE_PROFILE_URL = '/my-account/update-profile';
 
 export function updateProfile(user?: SampleUser) {
-  if (user) {
-    cy.get('[formcontrolname="firstName"]').should(
-      'have.value',
-      user.firstName
-    );
-    cy.get('[formcontrolname="lastName"]').should('have.value', user.lastName);
-  }
   cy.get('.myaccount-enhancedUI-editButton')
     .should('exist')
     .then(($element) => {
@@ -30,7 +23,13 @@ export function updateProfile(user?: SampleUser) {
         cy.get('.myaccount-enhancedUI-editButton').click();
       }
     });
-
+  if (user) {
+    cy.get('[formcontrolname="firstName"]').should(
+      'have.value',
+      user.firstName
+    );
+    cy.get('[formcontrolname="lastName"]').should('have.value', user.lastName);
+  }
   cy.get('cx-update-profile, cx-my-new-account-v2-profile').within(() => {
     cy.get('[formcontrolname="titleCode"]').ngSelect(newTitle);
     cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
@@ -68,6 +67,13 @@ export function validateUpdateProfileForm(
 
 export function verifyUpdatedProfile() {
   // check where the user's details updated in the previous test
+  cy.get('.myaccount-enhancedUI-editButton')
+    .should('exist')
+    .then(($element) => {
+      if ($element.length > 0) {
+        cy.get('.myaccount-enhancedUI-editButton').click();
+      }
+    });
   cy.get('cx-update-profile, cx-my-new-account-v2-profile').within(() => {
     cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
       'have.text',
