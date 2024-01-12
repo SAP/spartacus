@@ -9,6 +9,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -17,6 +18,7 @@ import {
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
 import {
+  CheckoutConfigService,
   CheckoutDeliveryAddressComponent,
   CheckoutStepService,
 } from '@spartacus/checkout/base/components';
@@ -32,7 +34,7 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 export interface CardWithAddress {
@@ -49,6 +51,7 @@ export class B2BCheckoutDeliveryAddressComponent
   extends CheckoutDeliveryAddressComponent
   implements OnInit, OnDestroy
 {
+  protected checkoutConfigService = inject(CheckoutConfigService);
   protected subscriptions = new Subscription();
 
   protected isAccountPayment$: Observable<boolean> =
