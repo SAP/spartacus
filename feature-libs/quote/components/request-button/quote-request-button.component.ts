@@ -7,10 +7,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   inject,
   OnDestroy,
-  ViewChild,
 } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';
@@ -25,8 +23,6 @@ import { tap } from 'rxjs/operators';
 export class QuoteRequestButtonComponent implements OnDestroy {
   protected quoteFacade = inject(QuoteFacade);
   protected routingService = inject(RoutingService);
-
-  @ViewChild('element') element: ElementRef;
 
   protected subscription = new Subscription();
 
