@@ -154,7 +154,6 @@ export function visitSavedCartListingPage() {
   cy.wait(`@${savedCartListingPageAlias}`)
     .its('response.statusCode')
     .should('eq', 200);
-  cy.reload();
   cy.wait(`@${getAllSavedCartAlias}`);
 }
 
