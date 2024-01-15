@@ -232,30 +232,32 @@ export class OpfCartHandlerService {
     //   });
   }
 
-  updateGuestEmail(email: string): Observable<boolean> {
-    return this.isTempEmail().pipe(
-      switchMap((isTemp) => {
-        console.log('isTemp', isTemp);
-        if (isTemp) {
-          return this.getCurrentCartId().pipe(
-            withLatestFrom(this.userIdService.getUserId()),
-            take(1),
-            switchMap(([cartId, userId]) => {
-              this.multiCartFacade.assignEmail(cartId, userId, email);
-              return this.checkStableCart();
-            })
-          );
-        } else {
-          return of(false);
-        }
-      })
-      // withLatestFrom(this.userIdService.getUserId()),
-      // take(1),
-      // switchMap(([cartId, userId]) => {
-      //   this.multiCartFacade.assignEmail(cartId, userId, email);
-      //   return this.checkStableCart()
-      // })
-    );
+  updateGuestEmail(email?: string): Observable<boolean> {
+    return !email
+      ? of(false)
+      : this.isTempEmail().pipe(
+          switchMap((isTemp) => {
+            console.log('isTemp', isTemp);
+            if (isTemp) {
+              return this.getCurrentCartId().pipe(
+                withLatestFrom(this.userIdService.getUserId()),
+                take(1),
+                switchMap(([cartId, userId]) => {
+                  this.multiCartFacade.assignEmail(cartId, userId, email);
+                  return this.checkStableCart();
+                })
+              );
+            } else {
+              return of(false);
+            }
+          })
+          // withLatestFrom(this.userIdService.getUserId()),
+          // take(1),
+          // switchMap(([cartId, userId]) => {
+          //   this.multiCartFacade.assignEmail(cartId, userId, email);
+          //   return this.checkStableCart()
+          // })
+        );
     // .subscribe({
     //   error: (error) => {
     //     console.log('error', error);

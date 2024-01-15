@@ -349,7 +349,7 @@ export class ApplePayService {
         })
       );
 
-    if (shippingContact.emailAddress) {
+    if (shippingContact?.emailAddress) {
       return this.cartHandlerService
         .updateGuestEmail(shippingContact.emailAddress)
         .pipe(switchMap(() => completePaymentAndOrder$));
