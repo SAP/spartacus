@@ -16,13 +16,9 @@ export const newLastName = 'Z';
 export const UPDATE_PROFILE_URL = '/my-account/update-profile';
 
 export function updateProfile(user?: SampleUser) {
-  cy.get('.myaccount-enhancedUI-editButton')
-    .should('exist')
-    .then(($element) => {
-      if ($element.length > 0) {
-        cy.get('.myaccount-enhancedUI-editButton').click();
-      }
-    });
+  if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+    cy.get('.myaccount-enhancedUI-editButton').click();
+  }
   if (user) {
     cy.get('[formcontrolname="firstName"]').should(
       'have.value',
@@ -67,13 +63,9 @@ export function validateUpdateProfileForm(
 
 export function verifyUpdatedProfile() {
   // check where the user's details updated in the previous test
-  cy.get('.myaccount-enhancedUI-editButton')
-    .should('exist')
-    .then(($element) => {
-      if ($element.length > 0) {
-        cy.get('.myaccount-enhancedUI-editButton').click();
-      }
-    });
+  if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+    cy.get('.myaccount-enhancedUI-editButton').click();
+  }
   cy.get('cx-update-profile, cx-my-new-account-v2-profile').within(() => {
     cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
       'have.text',
@@ -86,13 +78,9 @@ export function verifyUpdatedProfile() {
 
 export function testUpdateProfileDetails() {
   it('should be able to update profile details', () => {
-    cy.get('.myaccount-enhancedUI-editButton')
-      .should('exist')
-      .then(($element) => {
-        if ($element.length > 0) {
-          cy.get('.myaccount-enhancedUI-editButton').click();
-        }
-      });
+    if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+      cy.get('.myaccount-enhancedUI-editButton').click();
+    }
     cy.get('cx-update-profile, cx-my-new-account-v2-profile').within(() => {
       cy.get('[formcontrolname="titleCode"]').ngSelect(newTitle);
       cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
@@ -116,13 +104,9 @@ export function testUpdateProfileDetails() {
 
 export function testSeeNewProfileInfo() {
   it('should be able to see the new profile info', () => {
-    cy.get('.myaccount-enhancedUI-editButton')
-      .should('exist')
-      .then(($element) => {
-        if ($element.length > 0) {
-          cy.get('.myaccount-enhancedUI-editButton').click();
-        }
-      });
+    if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+      cy.get('.myaccount-enhancedUI-editButton').click();
+    }
     // check where the user's details updated in the previous test
     cy.get('cx-update-profile, cx-my-new-account-v2-profile').within(() => {
       cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
