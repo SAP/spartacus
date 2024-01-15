@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { LanguageService, TimeUtils } from '@spartacus/core';
 import { Quote, QuoteState } from '@spartacus/quote/root';
 import { Observable, of } from 'rxjs';
@@ -191,8 +191,8 @@ describe('QuoteSummarySellerEditComponentService', () => {
   });
 
   describe('getNumberFormatValidator', () => {
-    const form: UntypedFormGroup = new UntypedFormGroup({
-      discount: new UntypedFormControl(''),
+    const form: FormGroup = new FormGroup({
+      discount: new FormControl<String>(''),
     });
 
     it('should return a validator that allows proper input', () => {

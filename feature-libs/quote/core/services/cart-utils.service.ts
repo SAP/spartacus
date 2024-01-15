@@ -45,11 +45,11 @@ export class CartUtilsService {
   }
 
   /**
-   * Handels a cart depending whether the quote is editable or not and navigates according to the 'quotes' route.
+   * Handles a cart depending whether the quote is editable or not and navigates according to the 'quotes' route.
    *
    * @param isEditable - Is a quote editable?
    */
-  handelCartAndGoToQuoteList(isEditable: boolean): void {
+  handleCartAndGoToQuoteList(isEditable: boolean): void {
     if (isEditable) {
       this.createNewCart()
         .pipe(take(1))

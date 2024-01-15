@@ -5,7 +5,7 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 export interface SaveEvent {
@@ -25,7 +25,7 @@ export interface EditCard {
 })
 export class QuoteHeaderBuyerEditComponent implements OnInit {
   iconTypes = ICON_TYPE;
-  editForm: UntypedFormGroup = new UntypedFormGroup({});
+  editForm: FormGroup = new FormGroup({});
 
   @Output()
   saveCard: EventEmitter<SaveEvent> = new EventEmitter();
@@ -70,13 +70,16 @@ export class QuoteHeaderBuyerEditComponent implements OnInit {
     );
   }
 
-  protected defineUntypedFormControl(formControlName: string, value: string) {
-    this.editForm.addControl(formControlName, new UntypedFormControl(''));
+  protected defineFormControl(formControlName: string, value: string) {
+    this.editForm.addControl(
+      formControlName,
+      new FormControl<String | null>(null)
+    );
     this.editForm.get(formControlName)?.setValue(value);
   }
 
   ngOnInit() {
-    this.defineUntypedFormControl('name', this.content.name);
-    this.defineUntypedFormControl('description', this.content.description);
+    this.defineFormControl('name', this.content.name);
+    this.defineFormControl('description', this.content.description);
   }
 }

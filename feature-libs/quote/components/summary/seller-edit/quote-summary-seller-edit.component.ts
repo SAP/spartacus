@@ -12,7 +12,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import {
   Quote,
   QuoteDiscount,
@@ -62,9 +62,9 @@ export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
 
   @ViewChild('element') element: ElementRef;
 
-  form: UntypedFormGroup = new UntypedFormGroup({
-    discount: new UntypedFormControl(),
-    validityDate: new UntypedFormControl(),
+  form: FormGroup = new FormGroup({
+    discount: new FormControl<string | null>(null),
+    validityDate: new FormControl<string | null>(null),
   });
 
   iconType = ICON_TYPE;

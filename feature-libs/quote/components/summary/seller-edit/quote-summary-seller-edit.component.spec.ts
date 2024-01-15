@@ -21,8 +21,8 @@ import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { Component, Input } from '@angular/core';
 import {
   AbstractControl,
+  FormControl,
   ReactiveFormsModule,
-  UntypedFormControl,
 } from '@angular/forms';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
@@ -113,9 +113,9 @@ class MockQuoteHeaderSellerEditComponentService {
   template: '',
 })
 class MockDatePickerComponent {
-  @Input() control: UntypedFormControl;
-  @Input() min: UntypedFormControl;
-  @Input() max: UntypedFormControl;
+  @Input() control: FormControl;
+  @Input() min: FormControl;
+  @Input() max: FormControl;
   @Input() required: boolean;
 }
 

@@ -141,7 +141,7 @@ class MockMultiCartFacade implements Partial<MultiCartFacade> {
 }
 
 class MockCartUtilsService implements Partial<CartUtilsService> {
-  handelCartAndGoToQuoteList = createSpy();
+  handleCartAndGoToQuoteList = createSpy();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -466,7 +466,7 @@ describe('QuoteService', () => {
           .performQuoteAction(quote, QuoteActionType.SUBMIT)
           .subscribe(() => {
             expect(
-              cartUtilsService.handelCartAndGoToQuoteList
+              cartUtilsService.handleCartAndGoToQuoteList
             ).toHaveBeenCalled();
             expect(eventService.dispatch).not.toHaveBeenCalledWith(
               {},
@@ -490,7 +490,7 @@ describe('QuoteService', () => {
           .performQuoteAction(quote, QuoteActionType.CANCEL)
           .subscribe(() => {
             expect(
-              cartUtilsService.handelCartAndGoToQuoteList
+              cartUtilsService.handleCartAndGoToQuoteList
             ).toHaveBeenCalled();
             done();
           });

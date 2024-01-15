@@ -67,16 +67,16 @@ describe('CartUtilsService', () => {
     });
   });
 
-  describe('handelCartAndGoToQuoteList', () => {
+  describe('handleCartAndGoToQuoteList', () => {
     it('should create a new cart and redirect to the quote list page', () => {
-      classUnderTest.handelCartAndGoToQuoteList(true);
+      classUnderTest.handleCartAndGoToQuoteList(true);
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(multiCartFacade.createCart).toHaveBeenCalled();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'quotes' });
     });
 
     it('should redirect to the quote list page', () => {
-      classUnderTest.handelCartAndGoToQuoteList(false);
+      classUnderTest.handleCartAndGoToQuoteList(false);
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'quotes' });
     });
   });
