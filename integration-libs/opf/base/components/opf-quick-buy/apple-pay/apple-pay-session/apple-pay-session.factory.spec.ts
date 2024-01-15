@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { ApplePaySessionFactory } from './apple-pay-session.factory';
-import { Injectable } from '@angular/core';
 
 class MockApplePaySession extends EventTarget implements ApplePaySession {
   static readonly STATUS_SUCCESS: number = 2;
@@ -141,13 +141,13 @@ describe('ApplePaySessionFactory', () => {
   });
 
   it('should create ApplePaySession if available', () => {
-    const applePaySession = applePaySessionFactory.createApplePaySession();
+    const applePaySession = applePaySessionFactory['createApplePaySession']();
     expect(applePaySession).toBeDefined();
   });
 
   it('should not create ApplePaySession if not available', () => {
     windowRef.nativeWindow['ApplePaySession'] = null;
-    const applePaySession = applePaySessionFactory.createApplePaySession();
+    const applePaySession = applePaySessionFactory['createApplePaySession']();
     expect(applePaySession).not.toBeDefined();
   });
 

@@ -91,7 +91,7 @@ describe('OpfGooglePayService', () => {
       const activeConfiguration = {};
       service.initClient(activeConfiguration);
 
-      const client = service.getClient();
+      const client = service['getClient']();
 
       expect(client).toBeDefined();
     });
@@ -110,7 +110,7 @@ describe('OpfGooglePayService', () => {
         of(mockDeliveryModes)
       );
 
-      service.getShippingOptionParameters().subscribe((shippingOptions) => {
+      service['getShippingOptionParameters']().subscribe((shippingOptions) => {
         expect(shippingOptions).toBeDefined();
         expect(shippingOptions?.shippingOptions.length).toBe(
           mockDeliveryModes.length
@@ -133,7 +133,7 @@ describe('OpfGooglePayService', () => {
     it('should handle cases with no delivery modes available', (done) => {
       mockCartHandlerService.getSupportedDeliveryModes.and.returnValue(of([]));
 
-      service.getShippingOptionParameters().subscribe((shippingOptions) => {
+      service['getShippingOptionParameters']().subscribe((shippingOptions) => {
         expect(shippingOptions).toBeDefined();
         expect(shippingOptions?.shippingOptions).toEqual([]);
         expect(shippingOptions?.defaultSelectedOptionId).toBeUndefined();
@@ -207,7 +207,7 @@ describe('OpfGooglePayService', () => {
         totalPriceStatus: 'FINAL',
       } as google.payments.api.TransactionInfo;
 
-      service.updateTransactionInfo(transactionInfo);
+      service['updateTransactionInfo'](transactionInfo);
 
       const updatedTransactionInfo =
         service['googlePaymentRequest'].transactionInfo;
@@ -220,13 +220,13 @@ describe('OpfGooglePayService', () => {
     it('should successfully set delivery address and return an address ID', async () => {
       const mockAddress = { countryCode: 'US' } as google.payments.api.Address;
       const mockAddressId = 'mockAddressId';
-      mockCartHandlerService.setDeliveryAddress.and.returnValue(
+      mockCartHandlerService['setDeliveryAddress'].and.returnValue(
         of(mockAddressId)
       );
 
-      const addressId = await service
-        .setDeliveryAddress(mockAddress)
-        .toPromise();
+      const addressId = await service['setDeliveryAddress'](
+        mockAddress
+      ).toPromise();
 
       expect(addressId).toEqual(mockAddressId);
     });
@@ -241,21 +241,19 @@ describe('OpfGooglePayService', () => {
         of('addressId')
       );
 
-      service
-        .setDeliveryAddress(mockAddress as google.payments.api.Address)
-        .subscribe((addressId) => {
-          expect(addressId).toEqual('addressId');
-          expect(
-            mockCartHandlerService.setDeliveryAddress
-          ).toHaveBeenCalledWith(
-            jasmine.objectContaining({
-              firstName: 'John',
-              lastName: ' Doe',
-              country: { isocode: mockAddress.countryCode },
-            })
-          );
-          done();
-        });
+      service['setDeliveryAddress'](
+        mockAddress as google.payments.api.Address
+      ).subscribe((addressId) => {
+        expect(addressId).toEqual('addressId');
+        expect(mockCartHandlerService.setDeliveryAddress).toHaveBeenCalledWith(
+          jasmine.objectContaining({
+            firstName: 'John',
+            lastName: ' Doe',
+            country: { isocode: mockAddress.countryCode },
+          })
+        );
+        done();
+      });
     });
   });
 
@@ -265,7 +263,7 @@ describe('OpfGooglePayService', () => {
         totalPriceWithTax: { value: 100.0, currencyIso: 'USD' },
       } as Cart;
 
-      const transactionInfo = service.getNewTransactionInfo(mockCart);
+      const transactionInfo = service['getNewTransactionInfo'](mockCart);
 
       expect(transactionInfo).toBeDefined();
       expect(transactionInfo?.totalPrice).toBe('100');
@@ -276,7 +274,7 @@ describe('OpfGooglePayService', () => {
     it('should handle cart with missing price information', () => {
       const mockCart = {} as Cart;
 
-      const transactionInfo = service.getNewTransactionInfo(mockCart);
+      const transactionInfo = service['getNewTransactionInfo'](mockCart);
 
       expect(transactionInfo).toBeUndefined();
     });
@@ -286,7 +284,7 @@ describe('OpfGooglePayService', () => {
         totalPriceWithTax: { value: 0, currencyIso: 'USD' },
       } as Cart;
 
-      const transactionInfo = service.getNewTransactionInfo(mockCart);
+      const transactionInfo = service['getNewTransactionInfo'](mockCart);
 
       expect(transactionInfo).toBeUndefined();
     });
@@ -540,7 +538,7 @@ describe('OpfGooglePayService', () => {
     });
 
     it('should return valid payment data callbacks', () => {
-      const callbacks = service.handlePaymentCallbacks();
+      const callbacks = service['handlePaymentCallbacks']();
 
       expect(callbacks).toBeDefined();
       expect(callbacks.onPaymentAuthorized).toBeDefined();
@@ -549,7 +547,7 @@ describe('OpfGooglePayService', () => {
 
     describe('onPaymentAuthorized', () => {
       it('should handle payment authorization', (done) => {
-        const callbacks = service.handlePaymentCallbacks();
+        const callbacks = service['handlePaymentCallbacks']();
         const mockCartId = 'cartId';
         const mockToken = 'mockToken';
         const paymentDataResponse = {
@@ -595,7 +593,7 @@ describe('OpfGooglePayService', () => {
 
     describe('onPaymentDataChanged', () => {
       it('should handle payment data changes', (done) => {
-        const callbacks = service.handlePaymentCallbacks();
+        const callbacks = service['handlePaymentCallbacks']();
         const intermediatePaymentData =
           {} as google.payments.api.IntermediatePaymentData;
 
