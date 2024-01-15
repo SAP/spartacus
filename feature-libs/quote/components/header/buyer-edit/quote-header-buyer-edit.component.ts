@@ -73,7 +73,7 @@ export class QuoteHeaderBuyerEditComponent implements OnInit {
   protected defineFormControl(formControlName: string, value: string) {
     this.editForm.addControl(
       formControlName,
-      new FormControl<String | null>(null)
+      new FormControl<string | null>(null)
     );
     this.editForm.get(formControlName)?.setValue(value);
   }
