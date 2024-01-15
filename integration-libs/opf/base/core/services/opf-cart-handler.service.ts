@@ -67,8 +67,6 @@ export class OpfCartHandlerService {
   ): Observable<boolean> {
     this.activeCartFacade.addEntry(productCode, quantity, pickupStore);
 
-    this.addGuestTempEmailIfAnonymousUser();
-
     return this.checkStableCart().pipe(
       switchMap(() => this.addGuestTempEmailIfAnonymousUser())
     );
@@ -157,13 +155,12 @@ export class OpfCartHandlerService {
   }
 
   deleteUserAddresses(addrIds: string[]): void {
-    console.log('deleteUserAddresses', addrIds);
-    // this.opfGlobalMessageService.disableGlobalMessage([
-    //   'addressForm.userAddressDeleteSuccess',
-    // ]);
-    // addrIds.forEach((addrId) => {
-    //   this.userAddressService.deleteUserAddress(addrId);
-    // });
+    this.opfGlobalMessageService.disableGlobalMessage([
+      'addressForm.userAddressDeleteSuccess',
+    ]);
+    addrIds.forEach((addrId) => {
+      this.userAddressService.deleteUserAddress(addrId);
+    });
   }
 
   deleteCurrentCart(): Observable<boolean> {
