@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Optional, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
@@ -31,42 +31,18 @@ export class AsmComponentService {
   protected routingService = inject(RoutingService);
 
   constructor(
-    authService: AuthService,
-    csAgentAuthService: CsAgentAuthService,
-    winRef: WindowRef,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    asmEnablerService: AsmEnablerService,
-    asmDeepLinkService: AsmDeepLinkService
-  );
-  /**
-   * @deprecated since 7.0 (CXSPA-3090)
-   */
-  constructor(
-    authService: AuthService,
-    csAgentAuthService: CsAgentAuthService,
-    winRef: WindowRef
-  );
-  constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
     protected winRef: WindowRef,
-    // TODO(CXSPA-3090): Remove optional flag in 7.0 where service is used
-    @Optional() protected asmEnablerService?: AsmEnablerService,
-    @Optional() protected asmDeepLinkService?: AsmDeepLinkService
-  ) {
-    // TODO(CXSPA-3090): We can remove this in 7.0 and use asmDeepLinkService instead.
-    this.searchparam = new URLSearchParams(this.winRef?.location?.search);
-  }
+    protected asmEnablerService?: AsmEnablerService,
+    protected asmDeepLinkService?: AsmDeepLinkService
+  ) {}
 
   /**
    * Returns a deep link parameter value if it is in the url.
    */
   getSearchParameter(key: string): string | undefined | null {
-    // TODO(CXSPA-3090): Use asmDeepLinkService only in 7.0
-    return (
-      this.asmDeepLinkService?.getSearchParameter(key) ??
-      this.searchparam.get(key)
-    );
+    return this.asmDeepLinkService?.getSearchParameter(key);
   }
 
   isEmulatedByDeepLink(): BehaviorSubject<boolean> {
@@ -114,12 +90,7 @@ export class AsmComponentService {
    * check whether try to emulate customer from deeplink
    */
   isEmulateInURL(): boolean {
-    // TODO(CXSPA-3090): Use asmDeepLinkService only in 7.0
-    return (
-      (this.asmDeepLinkService?.isEmulateInURL() ??
-        this.asmEnablerService?.isEmulateInURL()) ||
-      false
-    );
+    return this.asmDeepLinkService?.isEmulateInURL() || false;
   }
 
   /**

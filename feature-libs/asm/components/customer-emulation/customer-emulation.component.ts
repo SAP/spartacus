@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,6 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
 } from '@angular/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
@@ -37,25 +36,10 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    asmComponentService: AsmComponentService,
-    userAccountFacade: UserAccountFacade,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    launchDialogService: LaunchDialogService,
-    featureModules: FeatureModulesService
-  );
-  /**
-   * @deprecated since 7.0
-   */
-  constructor(
-    asmComponentService: AsmComponentService,
-    userAccountFacade: UserAccountFacade
-  );
-  constructor(
     protected asmComponentService: AsmComponentService,
     protected userAccountFacade: UserAccountFacade,
-    // TODO(CXSPA-3090): Remove optional flag in 7.0
-    @Optional() protected launchDialogService?: LaunchDialogService,
-    @Optional() protected featureModules?: FeatureModulesService
+    protected launchDialogService?: LaunchDialogService,
+    protected featureModules?: FeatureModulesService
   ) {}
 
   ngOnInit() {

@@ -74,6 +74,7 @@ describe('scaffold app structure', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   beforeEach(async () => {

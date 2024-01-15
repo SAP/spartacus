@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,9 +10,8 @@ import {
   inject,
   isDevMode,
   OnInit,
-  Optional,
 } from '@angular/core';
-import { FeatureConfigService, LoggerService } from '@spartacus/core';
+import { LoggerService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -47,34 +46,11 @@ export class ConfiguratorAttributeHeaderComponent
   protected logger = inject(LoggerService);
 
   constructor(
-    configUtils: ConfiguratorStorefrontUtilsService,
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configuratorGroupsService: ConfiguratorGroupsService,
-    configuratorUiSettings: ConfiguratorUISettingsConfig,
-    attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfigService?: FeatureConfigService
-  );
-
-  /**
-   * @deprecated since 6.2
-   */
-  constructor(
-    configUtils: ConfiguratorStorefrontUtilsService,
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configuratorGroupsService: ConfiguratorGroupsService,
-    configuratorUiSettings: ConfiguratorUISettingsConfig,
-    attributeComponentContext: ConfiguratorAttributeCompositionContext
-  );
-
-  constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configuratorUiSettings: ConfiguratorUISettingsConfig,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    // TODO (CXSPA-3392): for next major release remove featureConfigService
-    @Optional() protected featureConfigService?: FeatureConfigService
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
@@ -154,35 +130,8 @@ export class ConfiguratorAttributeHeaderComponent
     return true;
   }
 
-  protected isAttributeWithDomain(
-    uiType: Configurator.UiType | undefined
-  ): boolean {
-    switch (uiType) {
-      case Configurator.UiType.NOT_IMPLEMENTED:
-      case Configurator.UiType.STRING:
-      case Configurator.UiType.NUMERIC:
-      case Configurator.UiType.CHECKBOX: {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  // TODO (CXSPA-3392): for next major release remove featureConfigService
   protected needsRequiredAttributeErrorMsg(): boolean {
-    if (this.featureConfigService?.isLevel('6.2')) {
-      // TODO: for next major release this condition should be proved
-      return this.isRequiredAttributeWithoutErrorMsg();
-    } else {
-      return this.isRequiredAttributeWithDomain();
-    }
-  }
-
-  protected isRequiredAttributeWithDomain(): boolean {
-    return (
-      this.isRequiredErrorMsg(this.attribute) &&
-      this.isAttributeWithDomain(this.attribute.uiType)
-    );
+    return this.isRequiredAttributeWithoutErrorMsg();
   }
 
   protected isRequiredAttributeWithoutErrorMsg(): boolean {

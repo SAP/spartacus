@@ -1,27 +1,25 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   AuthActions,
   AuthService,
   AuthToken,
-  FeatureConfigService,
   OAuthLibWrapperService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   UserIdService,
 } from '@spartacus/core';
 
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
-import { UserAccountFacade } from '@spartacus/user/account/root';
 
 /**
  * Auth service for CS agent. Useful to login/logout agent, start emulation
@@ -32,38 +30,12 @@ import { UserAccountFacade } from '@spartacus/user/account/root';
 })
 export class CsAgentAuthService {
   constructor(
-    authService: AuthService,
-    authStorageService: AsmAuthStorageService,
-    userIdService: UserIdService,
-    oAuthLibWrapperService: OAuthLibWrapperService,
-    store: Store,
-    // Consider delete it in 7.0
-    _userProfileFacade: UserProfileFacade,
-    userAccountFacade: UserAccountFacade
-  );
-  /**
-   * @deprecated since 7.0
-   */
-  constructor(
-    authService: AuthService,
-    authStorageService: AsmAuthStorageService,
-    userIdService: UserIdService,
-    oAuthLibWrapperService: OAuthLibWrapperService,
-    store: Store,
-    userProfileFacade: UserProfileFacade,
-    userAccountFacade: UserAccountFacade,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfig: FeatureConfigService
-  );
-  constructor(
     protected authService: AuthService,
     protected authStorageService: AsmAuthStorageService,
     protected userIdService: UserIdService,
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected store: Store,
-    protected userProfileFacade: UserProfileFacade,
-    protected userAccountFacade: UserAccountFacade,
-    @Optional() protected featureConfig?: FeatureConfigService
+    protected userAccountFacade: UserAccountFacade
   ) {}
 
   /**
@@ -78,12 +50,10 @@ export class CsAgentAuthService {
     let userToken: AuthToken | undefined;
     // Start emulation for currently logged in user
     let customerId: string | undefined;
-    if (this.featureConfig?.isLevel('6.4')) {
-      this.userAccountFacade
-        .get()
-        .subscribe((user) => (customerId = user?.customerId))
-        .unsubscribe();
-    }
+    this.userAccountFacade
+      .get()
+      .subscribe((user) => (customerId = user?.customerId))
+      .unsubscribe();
 
     this.authStorageService
       .getToken()

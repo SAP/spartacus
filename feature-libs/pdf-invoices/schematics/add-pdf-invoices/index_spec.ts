@@ -11,11 +11,11 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   LibraryOptions as PDFInvoicesOptions,
-  pdfInvoicesFeatureModulePath,
   PDF_INVOICES_FEATURE_NAME,
-  SpartacusOptions,
   SPARTACUS_PDF_INVOICES,
   SPARTACUS_SCHEMATICS,
+  SpartacusOptions,
+  pdfInvoicesFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -44,6 +44,7 @@ describe('Spartacus PDF Invoices schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

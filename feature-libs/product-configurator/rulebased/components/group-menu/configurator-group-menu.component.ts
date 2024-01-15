@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,9 +27,9 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Component({
   selector: 'cx-configurator-group-menu',
@@ -267,21 +267,7 @@ export class ConfiguratorGroupMenuComponent {
    * @param {Configurator.GroupType} groupType - Group type
    * @return {boolean} - 'True' if the current group is conflict one, otherwise 'false'.
    */
-  isConflictGroupType(groupType: Configurator.GroupType): boolean {
-    return this.configuratorGroupsService.isConflictGroupType(groupType);
-  }
-
-  //TODO(CXSPA-3392) get rid of this method in next major. Change signature of
-  //isConflictGroupType to allow undefined, and use this method instead
-  /**
-   * Verifies whether the current group is conflict one but allows for undefined input
-   *
-   * @param {Configurator.GroupType} groupType - Group type
-   * @return {boolean} - 'True' if the current group is conflict one, otherwise 'false'.
-   */
-  isConflictGroupTypeAllowingUndefined(
-    groupType: Configurator.GroupType | undefined
-  ): boolean {
+  isConflictGroupType(groupType: Configurator.GroupType | undefined): boolean {
     return groupType
       ? this.configuratorGroupsService.isConflictGroupType(groupType)
       : false;

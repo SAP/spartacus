@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -285,6 +285,48 @@ function increaseBudgets(options: SpartacusOptions): Rule {
   };
 }
 
+/**
+ * Checks if the app has an app configuration file and uses standalone components by default.
+ *
+ * @param options - The Spartacus options.
+ * @returns A Rule function that checks if the app has an app configuration file.
+ */
+function verifyAppModuleExists(options: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (options.debug) {
+      context.logger.info(`⌛️ Checking if the file "app.module.ts" exists...`);
+    }
+
+    // get tsconfig file paths
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+    const basePath = process.cwd();
+
+    // get project structure based on current path and path of the first found tsconfig file
+    const { appSourceFiles } = createProgram(tree, basePath, buildPaths[0]);
+
+    // check if app module exists
+    const appModule = appSourceFiles.find((sourceFile) =>
+      sourceFile.getFilePath().includes(`app.module.ts`)
+    );
+
+    if (!appModule) {
+      throw new SchematicsException(
+        `File "app.module.ts" not found. Please re-create your application:
+1. remove your application code
+2. make sure to pass the flag "--standalone=false" to the command "ng new". For more, see https://angular.io/cli/new#options
+3. try again installing Spartacus with a command "ng add @spartacus/schematics" ...
+        
+Note: Since version 17, Angular's command "ng new" by default creates an app without a file "app.module.ts" (in a so-called "standalone" mode). But Spartacus installer requires this file to be present.
+`
+      );
+    }
+    if (options.debug) {
+      context.logger.info(`✅ App does not use standalone components.`);
+    }
+    return tree;
+  };
+}
+
 export function createStylePreprocessorOptions(
   options?: SpartacusOptions
 ): Rule {
@@ -449,6 +491,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     ];
     const packageJsonFile = readPackageJson(tree);
     return chain([
+      verifyAppModuleExists(options),
+
       analyzeApplication(options, features),
 
       setupStoreModules(options),

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -811,7 +811,7 @@ function removeNotUsedDependenciesFromPackageJson(
   options: ProgramOptions
 ): void {
   // Keep these dependencies in schematics as these are used as external schematics
-  const externalSchematics = ['@angular/pwa', '@nguniversal/express-engine'];
+  const externalSchematics = ['@angular/pwa', '@angular/ssr'];
 
   if (options.fix) {
     reportProgress('Removing unused dependencies');

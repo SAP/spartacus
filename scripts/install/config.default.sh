@@ -38,12 +38,13 @@ SPARTACUS_PROJECTS=(
         "dist/epd-visualization:integration-libs/epd-visualization"
         "dist/product-configurator:feature-libs/product-configurator"
         "dist/pickup-in-store:feature-libs/pickup-in-store"
+        "dist/pdf-invoices:feature-libs/pdf-invoices"
         "projects/storefrontstyles:projects/storefrontstyles"
         "projects/schematics:projects/schematics"
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='develop'
+BRANCH='develop-next-major'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
@@ -53,7 +54,7 @@ CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
-ANGULAR_CLI_VERSION='^15.2.0'
+ANGULAR_CLI_VERSION='^17.0.5'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"
