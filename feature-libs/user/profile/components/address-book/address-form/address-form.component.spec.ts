@@ -17,14 +17,13 @@ import {
   Region,
   Title,
   UserAddressService,
-  UserService,
 } from '@spartacus/core';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { LaunchDialogService } from '../../../../layout';
-import { FormErrorsModule } from '../../../../shared/index';
 import { AddressFormComponent } from './address-form.component';
 import createSpy = jasmine.createSpy;
+import { FormErrorsModule, LaunchDialogService } from '@spartacus/storefront';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 
 const mockTitles: Title[] = [
   {
@@ -77,7 +76,7 @@ const mockAddress: Address = {
   defaultAddress: false,
 };
 
-class MockUserService {
+class MockUserProfileFacade implements Partial<UserProfileFacade> {
   getTitles(): Observable<Title[]> {
     return EMPTY;
   }
@@ -127,9 +126,10 @@ describe('AddressFormComponent', () => {
   let controls: UntypedFormGroup['controls'];
 
   let userAddressService: UserAddressService;
-  let userService: UserService;
+  // let userService: UserService;
   let mockGlobalMessageService: any;
   let launchDialogService: LaunchDialogService;
+  let userProfileFacade: UserProfileFacade;
 
   const defaultAddressCheckbox = (): DebugElement =>
     fixture.debugElement.query(By.css('[formcontrolname=defaultAddress]'));
@@ -150,9 +150,9 @@ describe('AddressFormComponent', () => {
         declarations: [AddressFormComponent, MockNgSelectA11yDirective],
         providers: [
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          { provide: UserService, useClass: MockUserService },
           { provide: UserAddressService, useClass: MockUserAddressService },
           { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+          { provide: UserProfileFacade, useClass: MockUserProfileFacade },
         ],
       })
         .overrideComponent(AddressFormComponent, {
@@ -160,7 +160,7 @@ describe('AddressFormComponent', () => {
         })
         .compileComponents();
 
-      userService = TestBed.inject(UserService);
+      userProfileFacade = TestBed.inject(UserProfileFacade);
       userAddressService = TestBed.inject(UserAddressService);
       launchDialogService = TestBed.inject(LaunchDialogService);
     })
@@ -202,7 +202,7 @@ describe('AddressFormComponent', () => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(
       of(mockCountries)
     );
-    spyOn(userService, 'getTitles').and.returnValue(of(mockTitles));
+    spyOn(userProfileFacade, 'getTitles').and.returnValue(of(mockTitles));
     spyOn(userAddressService, 'getRegions').and.returnValue(of(mockRegions));
 
     component.ngOnInit();
@@ -233,7 +233,7 @@ describe('AddressFormComponent', () => {
 
   it('should add address with address verification result "accept"', () => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-    spyOn(userService, 'getTitles').and.returnValue(of([]));
+    spyOn(userProfileFacade, 'getTitles').and.returnValue(of([]));
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
 
     const mockAddressVerificationResult: AddressValidation = {
@@ -252,7 +252,7 @@ describe('AddressFormComponent', () => {
 
   it('should display error message on address verification result "reject"', () => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-    spyOn(userService, 'getTitles').and.returnValue(of([]));
+    spyOn(userProfileFacade, 'getTitles').and.returnValue(of([]));
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
 
     const mockAddressVerificationResult: AddressValidation = {
@@ -274,7 +274,7 @@ describe('AddressFormComponent', () => {
 
   it('should open suggested address dialog with address verification result "review"', () => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-    spyOn(userService, 'getTitles').and.returnValue(of([]));
+    spyOn(userProfileFacade, 'getTitles').and.returnValue(of([]));
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
 
     const mockAddressVerificationResult: AddressValidation = {
@@ -382,7 +382,7 @@ describe('AddressFormComponent', () => {
 
     it('should call "verifyAddress" function when being clicked and when form is valid', () => {
       spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-      spyOn(userService, 'getTitles').and.returnValue(of([]));
+      spyOn(userProfileFacade, 'getTitles').and.returnValue(of([]));
       spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
       spyOn(component, 'verifyAddress');
 
