@@ -7,7 +7,7 @@
 import { inject, Injectable } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
 import {
-  Comment,
+  QuoteComment,
   Quote,
   QuoteActionType,
   QuoteDiscount,
@@ -101,7 +101,7 @@ export class QuoteConnector {
   addComment(
     userId: string,
     quoteCode: string,
-    quoteComment: Comment
+    quoteComment: QuoteComment
   ): Observable<unknown> {
     return this.quoteAdapter.addComment(userId, quoteCode, quoteComment);
   }
@@ -135,7 +135,7 @@ export class QuoteConnector {
     userId: string,
     quoteCode: string,
     entryNumber: string,
-    comment: Comment
+    comment: QuoteComment
   ): Observable<unknown> {
     return this.quoteAdapter.addQuoteEntryComment(
       userId,

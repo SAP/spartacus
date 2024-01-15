@@ -23,7 +23,7 @@ import {
   QuoteAdapter,
 } from '@spartacus/quote/core';
 import {
-  Comment,
+  QuoteComment,
   OccQuote,
   Quote,
   QuoteActionType,
@@ -159,7 +159,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
   addComment(
     userId: string,
     quoteCode: string,
-    quoteComment: Comment
+    quoteComment: QuoteComment
   ): Observable<unknown> {
     quoteComment = this.converterService.convert(
       quoteComment,
@@ -208,7 +208,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
     userId: string,
     quoteCode: string,
     entryNumber: string,
-    comment: Comment
+    comment: QuoteComment
   ): Observable<unknown> {
     comment = this.converterService.convert(comment, QUOTE_COMMENT_SERIALIZER);
 

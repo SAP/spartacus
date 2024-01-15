@@ -15,7 +15,7 @@ import {
   QUOTE_STARTER_SERIALIZER,
 } from '@spartacus/quote/core';
 import {
-  Comment,
+  QuoteComment,
   Quote,
   QuoteActionType,
   QuoteDiscount,
@@ -55,14 +55,14 @@ const mockQuoteMetadata: QuoteMetadata = {
   name: 'Test1',
 };
 const mockQuoteAction = QuoteActionType.SUBMIT;
-const mockQuoteComment: Comment = {
+const mockQuoteComment: QuoteComment = {
   text: 'test',
 };
 const mockQuoteDiscount: QuoteDiscount = {
   discountRate: 12,
   discountType: QuoteDiscountType.ABSOLUTE,
 };
-const mockQuoteEntryComment: Comment = {
+const mockQuoteEntryComment: QuoteComment = {
   text: 'test',
 };
 const productEntryNumber = '1';

@@ -5,17 +5,16 @@
  */
 
 import '@spartacus/storefront';
-import { Comment } from './quote.model';
+import { QuoteComment } from './quote.model';
 
 declare module '@spartacus/cart/base/root' {
   interface OrderEntry {
-    comments?: Comment[];
+    comments?: QuoteComment[];
   }
 }
 
 declare module '@spartacus/storefront' {
   const enum LAUNCH_CALLER {
-    REQUEST_QUOTE = 'REQUEST_QUOTE',
-    ACTION_CONFIRMATION = 'ACTION_CONFIRMATION',
+    QUOTE_ACTION_CONFIRMATION = 'QUOTE_ACTION_CONFIRMATION',
   }
 }

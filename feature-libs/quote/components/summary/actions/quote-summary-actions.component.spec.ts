@@ -291,7 +291,7 @@ describe('QuoteSummaryActionsComponent', () => {
       currentCart
     );
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
-      LAUNCH_CALLER.ACTION_CONFIRMATION,
+      LAUNCH_CALLER.QUOTE_ACTION_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
       { confirmationContext: confirmationContextForSubmitAction }
@@ -327,7 +327,7 @@ describe('QuoteSummaryActionsComponent', () => {
       currentCart
     );
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
-      LAUNCH_CALLER.ACTION_CONFIRMATION,
+      LAUNCH_CALLER.QUOTE_ACTION_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
       { confirmationContext: confirmationContextForEditAction }
@@ -429,7 +429,7 @@ describe('QuoteSummaryActionsComponent', () => {
       currentCart
     );
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
-      LAUNCH_CALLER.ACTION_CONFIRMATION,
+      LAUNCH_CALLER.QUOTE_ACTION_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
       { confirmationContext: confirmationContextForEditAction }
@@ -457,7 +457,7 @@ describe('QuoteSummaryActionsComponent', () => {
 
     component.onClick(QuoteActionType.REQUOTE, expiredQuote, currentCart);
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
-      LAUNCH_CALLER.ACTION_CONFIRMATION,
+      LAUNCH_CALLER.QUOTE_ACTION_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
       { confirmationContext: confirmationContextForRequoteAction }
@@ -487,7 +487,7 @@ describe('QuoteSummaryActionsComponent', () => {
 
     component.onClick(QuoteActionType.REQUOTE, cancelledQuote, currentCart);
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
-      LAUNCH_CALLER.ACTION_CONFIRMATION,
+      LAUNCH_CALLER.QUOTE_ACTION_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
       { confirmationContext: confirmationContextForRequoteAction }

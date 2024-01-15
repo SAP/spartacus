@@ -24,7 +24,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
-  Comment,
+  QuoteComment,
   Quote,
   QuoteActionType,
   QuoteCartService,
@@ -157,11 +157,11 @@ export class QuoteService implements QuoteFacade {
 
   protected addQuoteCommentCommand: Command<{
     quoteCode: string;
-    quoteComment: Comment;
+    quoteComment: QuoteComment;
     entryNumber?: string;
   }> = this.commandService.create<{
     quoteCode: string;
-    quoteComment: Comment;
+    quoteComment: QuoteComment;
     entryNumber: string;
   }>(
     (payload) =>
@@ -489,7 +489,7 @@ export class QuoteService implements QuoteFacade {
 
   addQuoteComment(
     quoteCode: string,
-    quoteComment: Comment,
+    quoteComment: QuoteComment,
     entryNumber?: string
   ): Observable<unknown> {
     return this.addQuoteCommentCommand.execute({

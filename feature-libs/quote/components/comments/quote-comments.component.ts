@@ -8,7 +8,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, TranslationService } from '@spartacus/core';
-import { Comment, Quote, QuoteFacade } from '@spartacus/quote/root';
+import { QuoteComment, Quote, QuoteFacade } from '@spartacus/quote/root';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
 import {
   ICON_TYPE,
@@ -192,7 +192,7 @@ export class QuoteCommentsComponent {
   }
 
   protected mapCommentToMessageEvent(
-    comment: Comment,
+    comment: QuoteComment,
     entry?: OrderEntry
   ): MessageEvent {
     const messages: MessageEvent = {

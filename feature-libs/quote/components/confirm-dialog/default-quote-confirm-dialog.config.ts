@@ -9,7 +9,7 @@ import { QuoteConfirmDialogComponent } from './quote-confirm-dialog.component';
 
 export const defaultQuoteActionDialogConfig: LayoutConfig = {
   launch: {
-    ACTION_CONFIRMATION: {
+    QUOTE_ACTION_CONFIRMATION: {
       inline: true,
       component: QuoteConfirmDialogComponent,
       dialogType: DIALOG_TYPE.DIALOG,

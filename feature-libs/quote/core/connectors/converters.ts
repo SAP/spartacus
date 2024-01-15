@@ -7,7 +7,7 @@
 import { InjectionToken } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import {
-  Comment,
+  QuoteComment,
   OccQuote,
   Quote,
   QuoteActionType,
@@ -38,7 +38,7 @@ export const QUOTE_ACTION_SERIALIZER = new InjectionToken<
 >('QuoteActionSerializer');
 
 export const QUOTE_COMMENT_SERIALIZER = new InjectionToken<
-  Converter<any, Comment>
+  Converter<any, QuoteComment>
 >('QuoteCommentSerializer');
 
 export const QUOTE_DISCOUNT_SERIALIZER = new InjectionToken<
