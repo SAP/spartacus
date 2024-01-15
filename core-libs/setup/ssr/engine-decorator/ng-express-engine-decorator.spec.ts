@@ -1,6 +1,5 @@
 import { SERVER_REQUEST_URL } from '@spartacus/core';
 import { NgSetupOptions, RenderOptions } from '../engine/ng-express-engine';
-import { EXPRESS_SERVER_LOGGER, LegacyExpressServerLogger } from '../logger';
 import {
   NgExpressEngine,
   NgExpressEngineDecorator,
@@ -185,22 +184,6 @@ describe('decorateExpressEngine', () => {
       engineInstance(mockPath, mockOptions, mockCallback);
     });
 
-    it(`should pass parameters to the original engine instance`, () => {
-      expect(originalEngineInstance).toHaveBeenCalledWith(
-        mockPath,
-        {
-          ...mockOptions,
-          providers: [
-            {
-              provide: EXPRESS_SERVER_LOGGER,
-              useValue: new LegacyExpressServerLogger(),
-            },
-          ],
-        },
-        expect.any(Function)
-      );
-    });
-
     it(`should apply optimization wrapper`, () => {
       // we check that callback is not the original one
       expect(originalEngineInstance).not.toHaveBeenCalledWith(
@@ -259,22 +242,6 @@ describe('decorateExpressEngine', () => {
       );
       engineInstance = engine(mockEngineOptions);
       engineInstance(mockPath, mockOptions, mockCallback);
-    });
-
-    it(`should pass parameters to the original engine instance`, () => {
-      expect(originalEngineInstance).toHaveBeenCalledWith(
-        mockPath,
-        {
-          ...mockOptions,
-          providers: [
-            {
-              provide: EXPRESS_SERVER_LOGGER,
-              useValue: new LegacyExpressServerLogger(),
-            },
-          ],
-        },
-        expect.any(Function)
-      );
     });
 
     it(`should apply optimization wrapper`, () => {

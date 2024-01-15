@@ -39,9 +39,8 @@ export interface ExpressServerLogger {
  * Injection token for ExpressServerLogger used for log message in server side rendering.
  * EXPRESS_SERVER_LOGGER is used to provide proper logger to LoggerService instance.
  *
- * Spartacus is providing two types of server loggers:
+ * Spartacus is providing one type of server logger:
  * - DefaultExpressServerLogger - default implementation used for logging contextual messages in SSR.
- * - LegacyExpressServerLogger - used for logging if contextual logging is disabled
  *
  */
 export const EXPRESS_SERVER_LOGGER = new InjectionToken<ExpressServerLogger>(

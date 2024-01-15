@@ -14,7 +14,6 @@ import {
   EXPRESS_SERVER_LOGGER,
   ExpressServerLogger,
   ExpressServerLoggerContext,
-  LegacyExpressServerLogger,
 } from '../logger';
 import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
 import { RenderingCache } from './rendering-cache';
@@ -78,7 +77,7 @@ export class OptimizedSsrEngine {
           ...ssrOptions,
         }
       : undefined;
-    this.logger = this.initLogger(this.ssrOptions);
+    this.logger = new DefaultExpressServerLogger();
     this.logOptions();
   }
 
@@ -327,8 +326,7 @@ export class OptimizedSsrEngine {
   protected log(
     message: string,
     debug = true,
-    //CXSPA-3680 - in a new major, let's make this argument required
-    context?: ExpressServerLoggerContext
+    context: ExpressServerLoggerContext
   ): void {
     if (debug || this.ssrOptions?.debug) {
       this.logger.log(message, context || {});
@@ -479,13 +477,5 @@ export class OptimizedSsrEngine {
 
       renderCallback(err, html);
     });
-  }
-
-  //CXSPA-3680 - remove this method in 7.0
-  private initLogger(ssrOptions: SsrOptimizationOptions | undefined) {
-    if (ssrOptions?.logger === true) {
-      return new DefaultExpressServerLogger();
-    }
-    return ssrOptions?.logger || new LegacyExpressServerLogger();
   }
 }
