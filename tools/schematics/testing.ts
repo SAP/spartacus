@@ -132,6 +132,7 @@ function publishLibs(): void {
       { stdio: 'inherit' }
     );
   });
+  execSync('say "Libraries published"');
 }
 
 function buildLibs(): void {
