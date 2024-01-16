@@ -19,11 +19,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { QuoteState, Quote } from '@spartacus/quote/root';
-import {
-  ICON_TYPE,
-  BREAKPOINT,
-  BreakpointService,
-} from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-quote-list',
@@ -35,7 +31,6 @@ export class QuoteListComponent implements OnInit {
   protected quoteListComponentService = inject(QuoteListComponentService);
   protected translationService = inject(TranslationService);
   protected cxDatePipe = inject(CxDatePipe);
-  protected breakpointService = inject(BreakpointService);
 
   sorts = this.quoteListComponentService.sortOptions;
   sortLabels$ = this.quoteListComponentService.sortLabels$;
@@ -119,10 +114,6 @@ export class QuoteListComponent implements OnInit {
         );
       })
     );
-  }
-
-  protected isMobile(): Observable<boolean> {
-    return this.breakpointService.isDown(BREAKPOINT.sm);
   }
 
   protected isPaginationEnabled(pagination: PaginationModel): boolean {

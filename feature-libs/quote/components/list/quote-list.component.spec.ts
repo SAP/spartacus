@@ -136,7 +136,6 @@ describe('QuoteListComponent', () => {
   let component: QuoteListComponent;
   let quoteListComponentService: QuoteListComponentService;
   let cxDatePipe: CxDatePipe;
-  let breakpointService: BreakpointService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -169,7 +168,6 @@ describe('QuoteListComponent', () => {
     component = fixture.componentInstance;
     quoteListComponentService = TestBed.inject(QuoteListComponentService);
     cxDatePipe = TestBed.inject(CxDatePipe);
-    breakpointService = TestBed.inject(BreakpointService);
   });
 
   it('should call service if sort changed', () => {
@@ -237,7 +235,7 @@ describe('QuoteListComponent', () => {
       expect,
       htmlElem,
       'cx-pagination',
-      1
+      2
     );
   });
   describe('getQuoteStateClass', () => {
@@ -665,36 +663,6 @@ describe('QuoteListComponent', () => {
             ' quote.list.clickableRow'
         );
       });
-    });
-  });
-
-  describe('isMobile', () => {
-    it('should not render pagination in desktop mode', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
-      fixture.detectChanges();
-
-      component['isMobile']().subscribe((isMobile) => {
-        expect(isMobile).toBe(false);
-      });
-      CommonQuoteTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        'cx-pagination'
-      );
-    });
-
-    it('should render pagination in mobile mode', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
-      fixture.detectChanges();
-
-      component['isMobile']().subscribe((isMobile) => {
-        expect(isMobile).toBe(true);
-      });
-      CommonQuoteTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        'cx-pagination'
-      );
     });
   });
 

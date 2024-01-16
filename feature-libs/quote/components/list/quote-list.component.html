@@ -27,12 +27,8 @@
               ariaControls="quote-list"
             ></cx-sorting>
           </label>
-
           <ng-container
-            *ngIf="
-              (isMobile() | async) &&
-              isPaginationEnabled(quotesState.data.pagination)
-            "
+            *ngIf="isPaginationEnabled(quotesState.data.pagination)"
           >
             <cx-pagination
               [pagination]="quotesState.data.pagination"
