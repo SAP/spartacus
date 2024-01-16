@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DIALOG_TYPE, LayoutConfig } from '../../../../../layout';
+import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog.component';
 
 export const defaultSuggestedAddressesDialogLayoutConfig: LayoutConfig = {

@@ -10,12 +10,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule } from '@spartacus/core';
-import { NgSelectA11yModule } from '../../../../shared/components/ng-select-a11y';
-import { FormErrorsModule } from '../../../../shared/index';
-import { KeyboardFocusModule } from '../../../../layout/a11y/keyboard-focus/index';
-import { IconModule } from '../../../misc/icon/index';
 import { AddressFormComponent } from './address-form.component';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+import {
+  FormErrorsModule,
+  IconModule,
+  KeyboardFocusModule,
+  NgSelectA11yModule,
+} from '@spartacus/storefront';
 
 @NgModule({
   imports: [
