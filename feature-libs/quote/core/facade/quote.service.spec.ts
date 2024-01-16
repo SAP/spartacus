@@ -18,7 +18,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
-  Comment,
+  QuoteComment,
   Quote,
   QuoteActionType,
   QuoteCartService,
@@ -77,7 +77,7 @@ const quoteMetaData: QuoteMetadata = {
   name: 'test',
   description: 'test desc',
 };
-const quoteComment: Comment = {
+const quoteComment: QuoteComment = {
   text: 'test comment',
 };
 const mockQuotesStateParams: QuotesStateParams = {

@@ -363,7 +363,7 @@ export class QuoteSummaryActionsComponent
   protected launchConfirmationDialog(context: ConfirmationContext) {
     this.launchDialogService
       .openDialog(
-        LAUNCH_CALLER.ACTION_CONFIRMATION,
+        LAUNCH_CALLER.QUOTE_ACTION_CONFIRMATION,
         this.element,
         this.viewContainerRef,
         { confirmationContext: context }

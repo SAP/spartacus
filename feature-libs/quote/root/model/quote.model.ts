@@ -12,7 +12,7 @@ export interface OccQuote {
   allowedActions?: QuoteActionType[];
   cartId?: string;
   code: string;
-  comments?: Comment[];
+  comments?: QuoteComment[];
   creationTime?: Date;
   description: string;
   entries?: OrderEntry[];
@@ -44,7 +44,7 @@ export interface QuoteAction {
   isPrimary: boolean;
 }
 
-export interface Comment {
+export interface QuoteComment {
   author?: Principal;
   creationDate?: Date;
   fromCustomer?: boolean;

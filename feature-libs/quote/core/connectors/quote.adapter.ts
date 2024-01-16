@@ -6,7 +6,7 @@
 
 import { PaginationModel } from '@spartacus/core';
 import {
-  Comment,
+  QuoteComment,
   Quote,
   QuoteActionType,
   QuoteDiscount,
@@ -89,7 +89,7 @@ export abstract class QuoteAdapter {
   abstract addComment(
     userId: string,
     quoteCode: string,
-    quoteComment: Comment
+    quoteComment: QuoteComment
   ): Observable<unknown>;
 
   /**
@@ -119,6 +119,6 @@ export abstract class QuoteAdapter {
     userId: string,
     quoteCode: string,
     entryNumber: string,
-    comment: Comment
+    comment: QuoteComment
   ): Observable<unknown>;
 }

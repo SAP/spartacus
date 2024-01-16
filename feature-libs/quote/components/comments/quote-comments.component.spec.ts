@@ -10,7 +10,7 @@ import {
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
-import { Comment, Quote, QuoteFacade } from '@spartacus/quote/root';
+import { QuoteComment, Quote, QuoteFacade } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
   MessagingComponent,
@@ -345,7 +345,10 @@ describe('QuoteCommentsComponent', () => {
       author: { uid: 'cust_1', name: 'John Doe' },
     };
 
-    function mapCommentToMessageEvent(comment: Comment, entry?: OrderEntry) {
+    function mapCommentToMessageEvent(
+      comment: QuoteComment,
+      entry?: OrderEntry
+    ) {
       return component['mapCommentToMessageEvent'](comment, entry);
     }
 

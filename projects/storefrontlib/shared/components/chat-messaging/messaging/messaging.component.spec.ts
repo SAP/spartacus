@@ -137,13 +137,13 @@ describe('MessagingComponent', () => {
       });
     });
 
-    it('should not render an item DDLB when there are no items provided', () => {
+    it('should not render an item selection control (drop down list box) when there are no items provided', () => {
       expect(
         fixture.debugElement.query(By.css('.cx-message-item-selection'))
       ).toBeNull();
     });
 
-    it('should render an item DDLB when there are items provided', () => {
+    it('should render an item selection control (drop down list box) when there are items provided', () => {
       messagingConfig.itemList$ = of(mockItemList);
       fixture.detectChanges();
       expect(

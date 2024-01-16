@@ -9,7 +9,7 @@ import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { QUOTE_FEATURE } from '../feature-name';
 import {
-  Comment,
+  QuoteComment,
   Quote,
   QuoteActionType,
   QuoteDiscount,
@@ -74,7 +74,7 @@ export abstract class QuoteFacade {
    */
   abstract addQuoteComment(
     quoteCode: string,
-    quoteComment: Comment,
+    quoteComment: QuoteComment,
     entryNumber?: string
   ): Observable<unknown>;
 

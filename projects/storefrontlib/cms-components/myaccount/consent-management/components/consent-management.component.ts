@@ -1,4 +1,5 @@
 /*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -276,14 +277,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   allowAll(templates: ConsentTemplate[] = []): void {
     const consentsToGive: ConsentTemplate[] = [];
     templates.forEach((template) => {
-      const givenDate = template.currentConsent?.consentGivenDate;
-      const withdrawnDate = template.currentConsent?.consentWithdrawnDate;
-      const isConsentGiven =
-        (givenDate && !withdrawnDate) ||
-        (givenDate && withdrawnDate && givenDate > withdrawnDate);
-      if (isConsentGiven) {
-        return;
-      }
       if (
         template.currentConsent &&
         this.userConsentService.isConsentWithdrawn(template.currentConsent)
