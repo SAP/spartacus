@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { ConfiguratorStateUtils } from '../configurator-state-utils';
@@ -263,9 +263,9 @@ function handleSearchVariantsSuccess(
   };
 }
 
-function handleReadEntryConfigurationSuccess(
+function handleReadOrderEntryConfigurationSuccess(
   state: Configurator.Configuration,
-  action: StateUtils.EntitySuccessAction
+  action: ConfiguratorActions.ReadOrderEntryConfigurationSuccess
 ): Configurator.Configuration | undefined {
   const configuration = { ...action.payload };
 
@@ -276,13 +276,6 @@ function handleReadEntryConfigurationSuccess(
   };
 
   return result;
-}
-
-function handleReadOrderEntryConfigurationSuccess(
-  state: Configurator.Configuration,
-  action: ConfiguratorActions.ReadOrderEntryConfigurationSuccess
-): Configurator.Configuration | undefined {
-  return handleReadEntryConfigurationSuccess(state, action);
 }
 
 function handleSetNextOwnerCartEntry(

@@ -16,6 +16,12 @@ import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { QuoteCartService } from './quote-cart.service';
 
+/**
+ * Ensures that the navigation will be re-directed to the quote
+ * details page of the quote that is attached to the current cart in case:
+ * (1) The current cart is linked to an editable quote
+ * (2) The quote status doesn't allow the navigation to checkout
+ */
 @Injectable({
   providedIn: 'root',
 })

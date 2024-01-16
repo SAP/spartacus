@@ -6,7 +6,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
+import { I18nConfig, provideConfig } from '@spartacus/core';
 import {
   quoteTranslationChunksConfig,
   quoteTranslations,
@@ -27,6 +27,8 @@ import {
           module: () => import('@spartacus/quote').then((m) => m.QuoteModule),
         },
       },
+    }),
+    provideConfig(<I18nConfig>{
       i18n: {
         resources: quoteTranslations,
         chunks: quoteTranslationChunksConfig,

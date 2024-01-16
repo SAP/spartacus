@@ -11,6 +11,4 @@ export const quoteTranslations: TranslationResources = {
   en,
 };
 
-export const quoteTranslationChunksConfig: TranslationChunksConfig = {
-  quote: ['quotes'],
-};
+export const quoteTranslationChunksConfig: TranslationChunksConfig = {};
