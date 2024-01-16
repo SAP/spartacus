@@ -4,7 +4,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
+import { OccConfig, SearchConfig, normalizeHttpError } from '@spartacus/core';
 import {
   OrganizationActions,
   UserGroup,
@@ -28,7 +28,7 @@ const httpErrorResponse = new HttpErrorResponse({
   statusText: 'Unknown error',
   url: '/xxx',
 });
-const error = normalizeHttpError(httpErrorResponse);
+
 const userGroupId = 'testUid';
 const userId = 'testUser';
 const userGroup: UserGroup = {
@@ -78,6 +78,16 @@ class MockUserGroupConnector implements Partial<UserGroupConnector> {
   unassignAllMembers = createSpy().and.returnValue(of(null));
 }
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+
 describe('UserGroup Effects', () => {
   let actions$: Observable<UserGroupActions.UserGroupAction>;
   let userGroupConnector: UserGroupConnector;
@@ -116,6 +126,7 @@ describe('UserGroup Effects', () => {
           useClass: MockUserGroupConnector,
         },
         { provide: OccConfig, useValue: mockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.UserGroupEffects,
         provideMockActions(() => actions$),
       ],
