@@ -49,7 +49,6 @@ export class QuoteCartGuard implements CanActivate {
               quoteId
             )
           );
-          console.log('CHHI path: ' + path);
           return this.router.parseUrl(path);
         }
         return true;
