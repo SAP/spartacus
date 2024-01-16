@@ -29,8 +29,6 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigureCartEntryComponent {
-  protected static readonly ERROR_MESSAGE_ENTRY_INCONSISTENT =
-    "We don't expect order and quote code defined at the same time";
   @Input() cartEntry: OrderEntry;
   @Input() readOnly: boolean;
   @Input() msgBanner: boolean;

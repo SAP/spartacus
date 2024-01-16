@@ -7,5 +7,5 @@
 import { quote } from './quote.i18n';
 
 export const en = {
-  quote: quote,
+  quote,
 };

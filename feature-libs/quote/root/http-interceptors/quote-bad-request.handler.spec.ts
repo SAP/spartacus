@@ -11,6 +11,7 @@ import { QuoteBadRequestHandler } from './quote-bad-request.handler';
 const mockRequest = {} as HttpRequest<any>;
 
 const mockQuoteUnderThresholdResponse = {
+  status: HttpResponseStatus.BAD_REQUEST,
   error: {
     errors: [
       {
@@ -22,7 +23,12 @@ const mockQuoteUnderThresholdResponse = {
   },
 } as HttpErrorResponse;
 
+const mockNotFoundResponse = {
+  status: HttpResponseStatus.NOT_FOUND,
+} as HttpErrorResponse;
+
 const mockCartValidationResponse = {
+  status: HttpResponseStatus.BAD_REQUEST,
   error: {
     errors: [
       {
@@ -33,6 +39,7 @@ const mockCartValidationResponse = {
 } as HttpErrorResponse;
 
 const mockQuoteAccessErrorResponse = {
+  status: HttpResponseStatus.BAD_REQUEST,
   error: {
     errors: [
       {
@@ -43,6 +50,7 @@ const mockQuoteAccessErrorResponse = {
 } as HttpErrorResponse;
 
 const mockQuoteDiscountResponse = {
+  status: HttpResponseStatus.BAD_REQUEST,
   error: {
     errors: [
       {
@@ -190,5 +198,29 @@ describe('QuoteBadRequestHandler', () => {
 
   it('should carry normal priority', () => {
     expect(classUnderTest.getPriority()).toBe(Priority.NORMAL);
+  });
+
+  describe('hasMatch', () => {
+    it('should detect threshold issues', () => {
+      expect(classUnderTest.hasMatch(mockQuoteUnderThresholdResponse)).toBe(
+        true
+      );
+    });
+
+    it('should detect cart validation issues', () => {
+      expect(classUnderTest.hasMatch(mockCartValidationResponse)).toBe(true);
+    });
+
+    it('should detect quote cart access issues', () => {
+      expect(classUnderTest.hasMatch(mockQuoteAccessErrorResponse)).toBe(true);
+    });
+
+    it('should detect quote cart illegal argument issues', () => {
+      expect(classUnderTest.hasMatch(mockQuoteDiscountResponse)).toBe(true);
+    });
+
+    it('should know that it is not responsible for 404', () => {
+      expect(classUnderTest.hasMatch(mockNotFoundResponse)).toBe(false);
+    });
   });
 });

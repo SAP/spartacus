@@ -5,19 +5,31 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { CanActivate, UrlTree } from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 
-import { Observable, combineLatest } from 'rxjs';
-import { QuoteCartService } from './quote-cart.service';
+import {
+  RouterState,
+  RoutingService,
+  SemanticPathService,
+} from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RouterState, RoutingService } from '@spartacus/core';
+import { QuoteCartService } from './quote-cart.service';
 
+/**
+ * Ensures that the navigation will be re-directed to the quote
+ * details page of the quote that is attached to the current cart in case:
+ * (1) The current cart is linked to an editable quote
+ * (2) The quote status doesn't allow the navigation to checkout
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class QuoteCartGuard implements CanActivate {
   protected routingService = inject(RoutingService);
   protected quoteCartService = inject(QuoteCartService);
+  protected router = inject(Router);
+  protected semanticPathService = inject(SemanticPathService);
 
   canActivate(): Observable<boolean | UrlTree> {
     return combineLatest([
@@ -31,17 +43,30 @@ export class QuoteCartGuard implements CanActivate {
           routerState,
           isCheckoutAllowed
         );
-
         if (isQuoteCartActive && !isAllowedCheckoutNavigation) {
-          this.routingService.go({
-            cxRoute: 'quoteDetails',
-            params: { quoteId: quoteId },
-          });
-          return false;
+          const pathForRoute = this.validateThatPresent(
+            'Route `quoteDetails` must be present',
+            this.semanticPathService.get('quoteDetails')
+          );
+          const path = pathForRoute.replace(
+            ':quoteId',
+            this.validateThatPresent(
+              'QuoteId must be present in case cart is a quote cart',
+              quoteId
+            )
+          );
+          return this.router.parseUrl(path);
         }
         return true;
       })
     );
+  }
+
+  protected validateThatPresent(errorMessage: string, input?: string): string {
+    if (!input) {
+      throw new Error(errorMessage);
+    }
+    return input;
   }
 
   /**

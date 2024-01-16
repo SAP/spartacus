@@ -130,6 +130,12 @@
       align-items: center;
       padding: 1rem 0;
       margin: 0;
+
+      @media (min-width: 768px) {
+        cx-pagination {
+          display: none;
+        }
+      }
     }
 
     &.bottom {
@@ -145,7 +151,7 @@
     }
   }
 
-  .cx-pagination {
+  cx-pagination {
     @include media-breakpoint-down(sm) {
       margin: 0 auto;
     }

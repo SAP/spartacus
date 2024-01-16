@@ -25,26 +25,59 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
     super(globalMessageService);
   }
 
-  handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
-    this.getQuoteThresholdErrors(response).forEach(
-      ({ message }: ErrorModel) => {
-        this.handleQuoteThresholdErrors(message as string);
-      }
+  hasMatch(errorResponse: HttpErrorResponse): boolean {
+    return (
+      super.hasMatch(errorResponse) && this.isRelatedToQuotes(errorResponse)
     );
+  }
 
-    this.getIllegalArgumentErrors(response).forEach(
+  handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
+    if (this.isNotEmpty(this.getQuoteThresholdErrors(response))) {
+      this.handleQuoteThresholdErrors();
+    }
+
+    this.getIllegalArgumentErrorsRelatedToQuote(response).forEach(
       ({ message }: ErrorModel) => {
         this.handleIllegalArgumentIssues(message as string);
       }
     );
 
-    if (this.getCartValidationErrors(response).length > 0) {
+    if (this.isNotEmpty(this.getCartValidationErrors(response))) {
       this.handleCartValidationIssues();
     }
 
-    if (this.getCartQuoteAccessErrors(response).length > 0) {
+    if (this.isNotEmpty(this.getCartQuoteAccessErrors(response))) {
       this.handleCartQuoteAccessErrors();
     }
+  }
+
+  getPriority(): Priority {
+    return Priority.NORMAL;
+  }
+
+  protected isNotEmpty(errors: ErrorModel[]) {
+    return errors.length > 0;
+  }
+
+  protected isRelatedToQuotes(response: HttpErrorResponse): boolean {
+    const isThresHoldError = this.isNotEmpty(
+      this.getQuoteThresholdErrors(response)
+    );
+    const isCartValidationError = this.isNotEmpty(
+      this.getCartValidationErrors(response)
+    );
+    const isQuoteAccessError = this.isNotEmpty(
+      this.getCartQuoteAccessErrors(response)
+    );
+    const isQuoteIllegalArgumentError = this.isNotEmpty(
+      this.getIllegalArgumentErrorsRelatedToQuote(response)
+    );
+    return (
+      isThresHoldError ||
+      isCartValidationError ||
+      isQuoteAccessError ||
+      isQuoteIllegalArgumentError
+    );
   }
 
   protected getQuoteThresholdErrors(response: HttpErrorResponse): ErrorModel[] {
@@ -67,26 +100,45 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
     );
   }
 
-  protected getIllegalArgumentErrors(
+  protected getIllegalArgumentErrorsRelatedToQuote(
     response: HttpErrorResponse
   ): ErrorModel[] {
-    return (response.error?.errors ?? []).filter(
-      (error: ErrorModel) => error.type === 'IllegalArgumentError'
+    return (response.error?.errors ?? [])
+      .filter((error: ErrorModel) => error.type === 'IllegalArgumentError')
+      .filter((error: ErrorModel) =>
+        this.isIllegalArgumentErrorRelatedToQuote(error.message)
+      );
+  }
+
+  protected isIllegalArgumentErrorRelatedToQuote(message?: string) {
+    return (
+      message &&
+      (this.isIllegalArgumentErrorRelatedToQuoteDiscount(message) ||
+        this.isIllegalArgumentErrorRelatedToQuoteExpiration(message))
     );
   }
 
-  protected handleQuoteThresholdErrors(message: string) {
-    const unmetThresholdMask = /does not meet the threshold\./;
-    const result = message.match(unmetThresholdMask);
+  protected isIllegalArgumentErrorRelatedToQuoteDiscount(
+    message: string
+  ): boolean {
+    const discountMask = /Discount type is absolute/;
+    return message.match(discountMask) !== null;
+  }
 
-    if (result) {
-      this.globalMessageService.add(
-        {
-          key: 'quote.httpHandlers.threshold.underThresholdError',
-        },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    }
+  protected isIllegalArgumentErrorRelatedToQuoteExpiration(
+    message: string
+  ): boolean {
+    const expirationMask = /Invalid quote expiration time/;
+    return message.match(expirationMask) !== null;
+  }
+
+  protected handleQuoteThresholdErrors() {
+    this.globalMessageService.add(
+      {
+        key: 'quote.httpHandlers.threshold.underThresholdError',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   }
 
   protected handleCartValidationIssues() {
@@ -108,12 +160,7 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
   }
 
   protected handleIllegalArgumentIssues(message: string) {
-    const discountMask = /Discount type is absolute/;
-    const discountRelated = message.match(discountMask);
-    const expirationMask = /Invalid quote expiration time/;
-    const expirationRelated = message.match(expirationMask);
-
-    if (discountRelated) {
+    if (this.isIllegalArgumentErrorRelatedToQuoteDiscount(message)) {
       this.globalMessageService.add(
         {
           key: 'quote.httpHandlers.absoluteDiscountIssue',
@@ -122,7 +169,7 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
       );
     }
 
-    if (expirationRelated) {
+    if (this.isIllegalArgumentErrorRelatedToQuoteExpiration(message)) {
       this.globalMessageService.add(
         {
           key: 'quote.httpHandlers.expirationDateIssue',
@@ -130,9 +177,5 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }
-  }
-
-  getPriority(): Priority {
-    return Priority.NORMAL;
   }
 }
