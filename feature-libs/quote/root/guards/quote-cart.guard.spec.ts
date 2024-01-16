@@ -1,21 +1,25 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { QuoteCartGuard } from './quote-cart.guard';
 import {
   ActivatedRouterStateSnapshot,
   RouterState,
   RoutingService,
+  SemanticPathService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { QuoteCartService } from './quote-cart.service';
 import { QUOTE_CODE } from '../../core/testing/quote-test-utils';
+import { QuoteCartGuard } from './quote-cart.guard';
+import { QuoteCartService } from './quote-cart.service';
 import createSpy = jasmine.createSpy;
+
+const QUOTE_ROUTE_STATIC_PART = 'quoteDetails';
 
 let isQuoteCartActive: any;
 let quoteId: any;
 let checkoutAllowed: boolean;
 let routerState: any;
+let quoteRoute: any;
 
 const checkoutState: ActivatedRouterStateSnapshot = {
   semanticRoute: 'checkout',
@@ -72,9 +76,14 @@ class MockQuoteCartService {
   }
 }
 
+class MockSemanticPathService {
+  get() {
+    return quoteRoute;
+  }
+}
+
 describe('QuoteCartGuard', () => {
   let classUnderTest: QuoteCartGuard;
-  let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -82,6 +91,7 @@ describe('QuoteCartGuard', () => {
         QuoteCartGuard,
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: QuoteCartService, useClass: MockQuoteCartService },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
       imports: [RouterTestingModule],
     });
@@ -90,8 +100,8 @@ describe('QuoteCartGuard', () => {
     checkoutAllowed = false;
     quoteId = '';
     routerState = routerStateCheckout;
+    quoteRoute = QUOTE_ROUTE_STATIC_PART + '/:quoteId';
     classUnderTest = TestBed.inject(QuoteCartGuard);
-    routingService = TestBed.inject(RoutingService);
   });
 
   it('should create guard', () => {
@@ -106,22 +116,12 @@ describe('QuoteCartGuard', () => {
       });
     });
 
-    it('should return false if quote cart is present', (done) => {
-      isQuoteCartActive = true;
-      classUnderTest.canActivate().subscribe((canActive) => {
-        expect(canActive).toBe(false);
-        done();
-      });
-    });
-
-    it('should navigate to quote details if quote cart is present', (done) => {
+    it('should redirect if quote cart is present', (done) => {
       isQuoteCartActive = true;
       quoteId = QUOTE_CODE;
-      classUnderTest.canActivate().subscribe(() => {
-        expect(routingService.go).toHaveBeenCalledWith({
-          cxRoute: 'quoteDetails',
-          params: { quoteId: QUOTE_CODE },
-        });
+      classUnderTest.canActivate().subscribe((canActive) => {
+        expect(canActive.toString()).toContain(QUOTE_ROUTE_STATIC_PART);
+        expect(canActive.toString()).toContain(QUOTE_CODE);
         done();
       });
     });
@@ -153,9 +153,18 @@ describe('QuoteCartGuard', () => {
       routerState = routerStateCart;
       quoteId = QUOTE_CODE;
       classUnderTest.canActivate().subscribe((result) => {
-        expect(result).toBe(false);
+        expect(result.toString()).toContain(QUOTE_ROUTE_STATIC_PART);
+        expect(result.toString()).toContain(QUOTE_CODE);
         done();
       });
+    });
+  });
+
+  describe('validateIfPresent', () => {
+    it('should throw error if in case input is undefined', () => {
+      expect(() =>
+        classUnderTest['validateThatPresent']('', undefined)
+      ).toThrow();
     });
   });
 });
