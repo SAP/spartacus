@@ -5,7 +5,8 @@
  */
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { Observable, forkJoin } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import {
@@ -26,6 +27,8 @@ const headers = new HttpHeaders({
 
 @Injectable()
 export class OccUserInterestsAdapter implements UserInterestsAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -68,7 +71,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
       .pipe(
         this.converter.pipeable(PRODUCT_INTERESTS_NORMALIZER),
         catchError((error: any) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         })
       );
   }
@@ -123,7 +126,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
       )
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         })
       );
   }

@@ -5,7 +5,8 @@
  */
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ConsentTemplate } from '../../../model/consent.model';
@@ -18,6 +19,8 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccUserConsentAdapter implements UserConsentAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -31,7 +34,7 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
     const headers = new HttpHeaders({ 'Cache-Control': 'no-cache' });
     return this.http.get<Occ.ConsentTemplateList>(url, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       }),
       map((consentList) => consentList.consentTemplates ?? []),
       this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
@@ -57,7 +60,7 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
       .post<Occ.ConsentTemplate>(url, httpParams, { headers })
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(CONSENT_TEMPLATE_NORMALIZER)
       );
