@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import {
+  ErrorModel,
   GlobalMessageService,
   HttpErrorHandler,
-  ErrorModel,
   HttpResponseStatus,
   Priority,
   RoutingService,
@@ -26,10 +26,19 @@ export class QuoteNotFoundHandler extends HttpErrorHandler {
     super(globalMessageService);
   }
 
-  handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
-    if (this.getQuoteNotFoundErrors(response).length > 0) {
-      this.navigateToQuoteList();
-    }
+  hasMatch(errorResponse: HttpErrorResponse): boolean {
+    return (
+      super.hasMatch(errorResponse) &&
+      this.getQuoteNotFoundErrors(errorResponse).length > 0
+    );
+  }
+
+  handleError(_request: HttpRequest<any>): void {
+    this.navigateToQuoteList();
+  }
+
+  getPriority(): Priority {
+    return Priority.NORMAL;
   }
 
   /**
@@ -48,9 +57,5 @@ export class QuoteNotFoundHandler extends HttpErrorHandler {
 
   protected navigateToQuoteList(): void {
     this.routingService.go({ cxRoute: 'quotes' });
-  }
-
-  getPriority(): Priority {
-    return Priority.NORMAL;
   }
 }

@@ -11,6 +11,7 @@ import { QuoteNotFoundHandler } from './quote-not-found.handler';
 const mockRequest = {} as HttpRequest<any>;
 
 const mockQuoteNotFoundResponse = {
+  status: HttpResponseStatus.NOT_FOUND,
   error: {
     errors: [
       {
@@ -21,7 +22,12 @@ const mockQuoteNotFoundResponse = {
   },
 } as HttpErrorResponse;
 
+const mockQuoteNotFoundResponseWoMessages = {
+  status: HttpResponseStatus.NOT_FOUND,
+} as HttpErrorResponse;
+
 const mockNotFoundResponse = {
+  status: HttpResponseStatus.NOT_FOUND,
   error: {
     errors: [
       {
@@ -32,7 +38,8 @@ const mockNotFoundResponse = {
   },
 } as HttpErrorResponse;
 
-const mockEmptyResponse = {
+const mockBadRequestResponse = {
+  status: HttpResponseStatus.BAD_REQUEST,
   error: null,
 } as HttpErrorResponse;
 
@@ -73,19 +80,29 @@ describe('QuoteBadRequestHandler', () => {
   });
 
   describe('handleError', () => {
-    it('should handle quote not found error', () => {
-      classUnderTest.handleError(mockRequest, mockQuoteNotFoundResponse);
+    it('should trigger navigation', () => {
+      classUnderTest.handleError(mockRequest);
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'quotes' });
     });
+  });
 
-    it('should do nothing in case error is not related to quote', () => {
-      classUnderTest.handleError(mockRequest, mockNotFoundResponse);
-      expect(routingService.go).toHaveBeenCalledTimes(0);
+  describe('hasMatch', () => {
+    it('should detect quote issues', () => {
+      expect(classUnderTest.hasMatch(mockQuoteNotFoundResponse)).toBe(true);
     });
 
-    it('should handle empty response', () => {
-      classUnderTest.handleError(mockRequest, mockEmptyResponse);
-      expect(routingService.go).toHaveBeenCalledTimes(0);
+    it('should know that it is not responsible for 400', () => {
+      expect(classUnderTest.hasMatch(mockBadRequestResponse)).toBe(false);
+    });
+
+    it('should know that it is not responsible for non-quote 404 issues', () => {
+      expect(classUnderTest.hasMatch(mockNotFoundResponse)).toBe(false);
+    });
+
+    it('should know that it is not responsible in case no messages are present', () => {
+      expect(classUnderTest.hasMatch(mockQuoteNotFoundResponseWoMessages)).toBe(
+        false
+      );
     });
   });
 
