@@ -77,7 +77,7 @@ export class OptimizedSsrEngine {
           ...ssrOptions,
         }
       : undefined;
-    this.logger = new DefaultExpressServerLogger();
+    this.logger = ssrOptions?.logger || new DefaultExpressServerLogger();
     this.logOptions();
   }
 
@@ -90,18 +90,9 @@ export class OptimizedSsrEngine {
       this.ssrOptions
     );
 
-    // This check has been introduced to avoid breaking changes. Remove it in Spartacus version 7.0
-    if (this.ssrOptions.logger) {
-      this.log(`[spartacus] SSR optimization engine initialized`, true, {
-        options: loggableSsrOptions,
-      });
-    } else {
-      const stringifiedOptions = JSON.stringify(loggableSsrOptions, null, 2);
-      this.log(
-        `[spartacus] SSR optimization engine initialized with the following options: ${stringifiedOptions}`,
-        true
-      );
-    }
+    this.log(`[spartacus] SSR optimization engine initialized`, true, {
+      options: loggableSsrOptions,
+    });
   }
 
   /**
