@@ -139,7 +139,7 @@ describe('MessagingComponent', () => {
       ).toBeNull();
     });
 
-    it('should not render an item link when feature level < 7.0', () => {
+    it('should not render an item link when feature level < 7.1', () => {
       testVersion = '7.0';
       fixture = TestBed.createComponent(MessagingComponent);
       expect(
