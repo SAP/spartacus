@@ -184,6 +184,14 @@ describe('decorateExpressEngine', () => {
       engineInstance(mockPath, mockOptions, mockCallback);
     });
 
+    it(`should pass parameters to the original engine instance`, () => {
+      expect(originalEngineInstance).toHaveBeenCalledWith(
+        mockPath,
+        mockOptions,
+        expect.any(Function)
+      );
+    });
+
     it(`should apply optimization wrapper`, () => {
       // we check that callback is not the original one
       expect(originalEngineInstance).not.toHaveBeenCalledWith(
@@ -242,6 +250,14 @@ describe('decorateExpressEngine', () => {
       );
       engineInstance = engine(mockEngineOptions);
       engineInstance(mockPath, mockOptions, mockCallback);
+    });
+
+    it(`should pass parameters to the original engine instance`, () => {
+      expect(originalEngineInstance).toHaveBeenCalledWith(
+        mockPath,
+        mockOptions,
+        expect.any(Function)
+      );
     });
 
     it(`should apply optimization wrapper`, () => {
