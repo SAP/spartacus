@@ -5,7 +5,8 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Address, AddressValidation } from '../../../model/address.model';
@@ -29,6 +30,8 @@ const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 
 @Injectable()
 export class OccUserAddressAdapter implements UserAddressAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -45,7 +48,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
 
     return this.http.get<Occ.AddressList>(url, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       }),
       map((addressList) => addressList.addresses ?? []),
       this.converter.pipeableMany(ADDRESS_NORMALIZER)
@@ -63,7 +66,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
 
     return this.http.post(url, address, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       })
     );
   }
@@ -79,7 +82,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
 
     return this.http.patch(url, address, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       })
     );
   }
@@ -98,7 +101,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
 
     return this.http.post<AddressValidation>(url, address, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       }),
       this.converter.pipeable(ADDRESS_VALIDATION_NORMALIZER)
     );
@@ -114,7 +117,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
 
     return this.http.delete(url, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       })
     );
   }

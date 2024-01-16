@@ -5,7 +5,8 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { PAYMENT_DETAILS_NORMALIZER } from '../../../checkout/connectors/payment/converters';
@@ -20,6 +21,8 @@ const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 
 @Injectable()
 export class OccUserPaymentAdapter implements UserPaymentAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -37,7 +40,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
 
     return this.http.get<Occ.PaymentDetailsList>(url, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       }),
       map((methodList) => methodList.payments ?? []),
       this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
@@ -54,7 +57,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
 
     return this.http.delete(url, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       })
     );
   }
@@ -77,7 +80,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
       )
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         })
       );
   }

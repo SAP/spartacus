@@ -5,7 +5,7 @@
  */
 
 import { Request } from 'express';
-import { ExpressLoggerService, ExpressServerLogger } from '../logger';
+import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
 import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
 import { defaultRenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
 
@@ -146,5 +146,5 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   renderingStrategyResolver: defaultRenderingStrategyResolver(
     defaultRenderingStrategyResolverOptions
   ),
-  logger: new ExpressLoggerService(),
+  logger: new DefaultExpressServerLogger(),
 };
