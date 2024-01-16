@@ -4,7 +4,12 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { OccConfig, SearchConfig, normalizeHttpError } from '@spartacus/core';
+import {
+  LoggerService,
+  OccConfig,
+  SearchConfig,
+  normalizeHttpError,
+} from '@spartacus/core';
 import {
   OrganizationActions,
   UserGroup,

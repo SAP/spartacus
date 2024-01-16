@@ -97,7 +97,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
           )
           .pipe(
             catchError((error: any) => {
-              throw normalizeHttpError(error);
+              throw normalizeHttpError(error, this.logger);
             })
           )
       );

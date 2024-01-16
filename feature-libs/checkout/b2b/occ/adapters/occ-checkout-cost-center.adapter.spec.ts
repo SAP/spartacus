@@ -8,6 +8,7 @@ import { Cart } from '@spartacus/cart/base/root';
 import {
   ConverterService,
   HttpErrorModel,
+  LoggerService,
   OccConfig,
   OccEndpoints,
   normalizeHttpError,
