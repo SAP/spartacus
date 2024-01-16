@@ -11,8 +11,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { QuoteListComponentService } from './quote-list-component.service';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {
   CxDatePipe,
   PaginationModel,
@@ -86,44 +86,39 @@ export class QuoteListComponent implements OnInit {
    * Retrieves an accessibility text for a row in the quote list.
    *
    * @param quote - quote
-   * @returns an accessibility text for a row in the quote list
+   * @returns Observable emitting an accessibility text for a row in the quote list
    */
-  getRowTitle(quote: Quote): string {
-    let translatedText = '';
-    translatedText += quote.name;
-    translatedText += ' ';
-    this.translationService
-      .translate('quote.header.overview.id')
-      .pipe(take(1))
-      .subscribe((text) => (translatedText += text));
-    translatedText += ': ';
-    translatedText += quote.code;
-    translatedText += ' ';
-    this.translationService
-      .translate('quote.header.overview.status')
-      .pipe(take(1))
-      .subscribe((text) => (translatedText += text));
-    translatedText += ': ';
-    this.translationService
-      .translate('quote.states.' + quote.state)
-      .pipe(take(1))
-      .subscribe((text) => (translatedText += text));
-    translatedText += ' ';
-    this.translationService
-      .translate('quote.list.updated')
-      .pipe(take(1))
-      .subscribe((text) => (translatedText += text));
-    translatedText += ': ';
-    translatedText += this.cxDatePipe.transform(
-      quote?.updatedTime,
-      this.dateFormat
+  getRowTitle(quote: Quote): Observable<string> {
+    return combineLatest([
+      this.translationService.translate('quote.list.name'),
+      this.translationService.translate('quote.header.overview.id'),
+      this.translationService.translate('quote.header.overview.status'),
+      this.translationService.translate('quote.states.' + quote.state),
+      this.translationService.translate('quote.list.updated'),
+      this.translationService.translate('quote.list.clickableRow'),
+    ]).pipe(
+      map(([name, id, status, state, updated, clickableRow]) => {
+        return (
+          name +
+          ': ' +
+          quote.name +
+          ' ' +
+          id +
+          ': ' +
+          quote.code +
+          ' ' +
+          status +
+          ': ' +
+          state +
+          ' ' +
+          updated +
+          ': ' +
+          this.cxDatePipe.transform(quote?.updatedTime, this.dateFormat) +
+          ' ' +
+          clickableRow
+        );
+      })
     );
-    translatedText += ' ';
-    this.translationService
-      .translate('quote.list.clickableRow')
-      .pipe(take(1))
-      .subscribe((text) => (translatedText += text));
-    return translatedText;
   }
 
   protected isMobile(): Observable<boolean> {

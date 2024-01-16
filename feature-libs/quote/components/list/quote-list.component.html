@@ -75,7 +75,7 @@
                 } | cxUrl
               "
               (keydown.enter)="row.click()"
-              [attr.title]="getRowTitle(quote)"
+              [attr.title]="getRowTitle(quote) | async"
             >
               <td role="cell" class="cx-name">
                 <div class="cx-mobile-header">

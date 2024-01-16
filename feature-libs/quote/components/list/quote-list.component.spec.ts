@@ -658,11 +658,13 @@ describe('QuoteListComponent', () => {
         mockQuote.updatedTime,
         'MMMM d, YYYY h:mm aa'
       );
-      expect(component.getRowTitle(mockQuote)).toEqual(
-        'Quote quote.header.overview.id: 333333 quote.header.overview.status: quote.states.BUYER_DRAFT quote.list.updated: ' +
-          expectedUpdatedTime +
-          ' quote.list.clickableRow'
-      );
+      component.getRowTitle(mockQuote).subscribe((result) => {
+        expect(result).toEqual(
+          'quote.list.name: Quote quote.header.overview.id: 333333 quote.header.overview.status: quote.states.BUYER_DRAFT quote.list.updated: ' +
+            expectedUpdatedTime +
+            ' quote.list.clickableRow'
+        );
+      });
     });
   });
 
