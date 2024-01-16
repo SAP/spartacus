@@ -124,7 +124,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
 
   resetForm(): void {
     this.form.reset({ item: this.messagingConfigs?.defaultItemId });
-    this.fileUploadComponent?.removeFile(); // can be undefined if you press add to cart button very fast
+    this.fileUploadComponent?.removeFile(); // can be undefined if you press add message button very fast
   }
 
   triggerDownload(
