@@ -23,7 +23,11 @@ import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { FilesFormValidators } from '../../../services/file/files-form-validators';
 import { FileUploadComponent } from '../../form';
-import { Item, MessageEvent, MessagingConfigs } from './messaging.model';
+import {
+  MessageEventBoundItem,
+  MessageEvent,
+  MessagingConfigs,
+} from './messaging.model';
 
 @Component({
   selector: 'cx-messaging',
@@ -43,7 +47,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   }>();
 
   @Output() itemClicked = new EventEmitter<{
-    item: Item;
+    item: MessageEventBoundItem;
   }>();
 
   @Output() downloadAttachment = new EventEmitter<{
@@ -215,7 +219,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
       : message.text;
   }
 
-  onItemClicked(item: Item): void {
+  onItemClicked(item: MessageEventBoundItem): void {
     this.itemClicked.emit({
       item: item,
     });

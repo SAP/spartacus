@@ -12,7 +12,7 @@ import { QuoteComment, Quote, QuoteFacade } from '@spartacus/quote/root';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
 import {
   ICON_TYPE,
-  Item,
+  MessageEventBoundItem,
   MessageEvent,
   MessagingComponent,
   MessagingConfigs,
@@ -84,7 +84,7 @@ export class QuoteCommentsComponent {
    *
    * @param event - click event containing the target item
    */
-  onItemClicked(event: { item: Item }) {
+  onItemClicked(event: { item: MessageEventBoundItem }) {
     this.quoteItemsComponentService.setQuoteEntriesExpanded(true);
     this.quoteItemsComponentService
       .getQuoteEntriesExpanded()
@@ -135,7 +135,7 @@ export class QuoteCommentsComponent {
     };
   }
 
-  protected prepareItemList(): Observable<Item[]> {
+  protected prepareItemList(): Observable<MessageEventBoundItem[]> {
     let allProducts: string = 'quote.comments.allProducts';
     this.translationService
       .translate(allProducts)
@@ -144,7 +144,9 @@ export class QuoteCommentsComponent {
 
     return this.quoteDetails$.pipe(
       map((quote) => {
-        const itemList: Item[] = [{ id: ALL_PRODUCTS_ID, name: allProducts }];
+        const itemList: MessageEventBoundItem[] = [
+          { id: ALL_PRODUCTS_ID, name: allProducts },
+        ];
         quote.entries?.forEach((entry: OrderEntry) => {
           itemList.push(this.convertToItem(entry));
         });
@@ -153,7 +155,7 @@ export class QuoteCommentsComponent {
     );
   }
 
-  protected convertToItem(entry: OrderEntry): Item {
+  protected convertToItem(entry: OrderEntry): MessageEventBoundItem {
     if (entry.entryNumber === undefined) {
       throw Error(
         'entryNumber may not be undefined, entry: ' + JSON.stringify(entry)

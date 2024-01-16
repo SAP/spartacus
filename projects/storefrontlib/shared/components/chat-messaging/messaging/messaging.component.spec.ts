@@ -6,7 +6,11 @@ import { of } from 'rxjs';
 import { IconModule } from '../../../../cms-components';
 import { FileUploadModule, FormErrorsModule } from '../../form';
 import { MessagingComponent } from './messaging.component';
-import { Item, MessageEvent, MessagingConfigs } from './messaging.model';
+import {
+  MessageEventBoundItem,
+  MessageEvent,
+  MessagingConfigs,
+} from './messaging.model';
 import { AvatarComponent } from '@spartacus/storefront';
 
 const mockMessageEvent: MessageEvent = {
@@ -26,7 +30,7 @@ const mockMessageEvents: Array<MessageEvent> = [
   mockMessageEventWithItem,
 ];
 
-const mockItemList: Item[] = [
+const mockItemList: MessageEventBoundItem[] = [
   { id: '', name: 'NO SELECTION' },
   { id: 'p1', name: 'Product 1' },
   { id: 'p2', name: 'Product 2' },
