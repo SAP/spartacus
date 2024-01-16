@@ -11,11 +11,10 @@ import {
   GlobalMessageType,
   TranslationService,
 } from '@spartacus/core';
-import { getAddressNumbers } from '../../../utils/address-number-utils';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Card } from '../../../shared/components/card';
 import { AddressBookComponentService } from './address-book.component.service';
+import { Card, getAddressNumbers } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-address-book',
