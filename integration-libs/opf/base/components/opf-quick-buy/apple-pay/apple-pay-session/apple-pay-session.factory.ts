@@ -16,7 +16,7 @@ import { Observable, from, of } from 'rxjs';
 export class ApplePaySessionFactory {
   protected winRef = inject(WindowRef);
   protected isDeviceSupported = false;
-  protected applePaySession: typeof ApplePaySession;
+  private applePaySession: typeof ApplePaySession;
   protected applePayApiVersion = 3;
 
   constructor() {
@@ -27,7 +27,7 @@ export class ApplePaySessionFactory {
     }
   }
 
-  createApplePaySession(): ApplePaySession | undefined {
+  private createApplePaySession(): ApplePaySession | undefined {
     const window = this.winRef.nativeWindow as any;
     if (!window['ApplePaySession']) {
       return undefined;
@@ -76,9 +76,7 @@ export class ApplePaySessionFactory {
       : of(false);
   }
 
-  startApplePaySession(
-    paymentRequest: ApplePayJS.ApplePayPaymentRequest
-  ): ApplePaySession | undefined {
+  startApplePaySession(paymentRequest: any): any {
     return this.isDeviceSupported
       ? new this.applePaySession(this.applePayApiVersion, paymentRequest)
       : undefined;

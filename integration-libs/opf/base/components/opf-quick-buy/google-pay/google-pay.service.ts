@@ -46,14 +46,14 @@ export class OpfGooglePayService {
 
   protected associatedShippingAddressIds: string[] = [];
 
-  protected googlePaymentClient: google.payments.api.PaymentsClient;
+  private googlePaymentClient: google.payments.api.PaymentsClient;
 
-  protected googlePaymentClientOptions: google.payments.api.PaymentOptions = {
+  private googlePaymentClientOptions: google.payments.api.PaymentOptions = {
     environment: 'TEST',
     paymentDataCallbacks: this.handlePaymentCallbacks(),
   };
 
-  protected googlePaymentRequest: google.payments.api.PaymentDataRequest = {
+  private googlePaymentRequest: google.payments.api.PaymentDataRequest = {
     /**
      * TODO: Move this part into configuration layer.
      */
@@ -78,7 +78,7 @@ export class OpfGooglePayService {
     },
   };
 
-  protected initialTransactionInfo: google.payments.api.TransactionInfo = {
+  private initialTransactionInfo: google.payments.api.TransactionInfo = {
     totalPrice: '0.00',
     totalPriceStatus: 'ESTIMATED',
     currencyCode: 'USD',
@@ -97,19 +97,23 @@ export class OpfGooglePayService {
     );
   }
 
-  getClient(): google.payments.api.PaymentsClient {
+  private getClient(): google.payments.api.PaymentsClient {
     return this.googlePaymentClient;
   }
 
-  isReadyToPay(): Promise<google.payments.api.IsReadyToPayResponse> {
-    return this.googlePaymentClient.isReadyToPay(this.googlePaymentRequest);
+  isReadyToPay() {
+    return this.googlePaymentClient.isReadyToPay(
+      this.googlePaymentRequest
+    ) as any;
   }
 
-  updateTransactionInfo(transactionInfo: google.payments.api.TransactionInfo) {
+  private updateTransactionInfo(
+    transactionInfo: google.payments.api.TransactionInfo
+  ) {
     this.googlePaymentRequest.transactionInfo = transactionInfo;
   }
 
-  getShippingOptionParameters(): Observable<
+  private getShippingOptionParameters(): Observable<
     google.payments.api.ShippingOptionParameters | undefined
   > {
     return this.opfCartHandlerService.getSupportedDeliveryModes().pipe(
@@ -127,7 +131,7 @@ export class OpfGooglePayService {
     );
   }
 
-  getNewTransactionInfo(
+  private getNewTransactionInfo(
     cart: Cart
   ): google.payments.api.TransactionInfo | undefined {
     let transactionInfo: google.payments.api.TransactionInfo | undefined;
@@ -143,7 +147,7 @@ export class OpfGooglePayService {
     return transactionInfo;
   }
 
-  setDeliveryAddress(
+  private setDeliveryAddress(
     address: google.payments.api.Address | undefined
   ): Observable<string> {
     const ADDRESS_FIELD_PLACEHOLDER = '[FIELD_NOT_SET]';
@@ -222,7 +226,7 @@ export class OpfGooglePayService {
     );
   }
 
-  handlePaymentCallbacks(): google.payments.api.PaymentDataCallbacks {
+  private handlePaymentCallbacks(): google.payments.api.PaymentDataCallbacks {
     return {
       onPaymentAuthorized: (paymentDataResponse) => {
         return this.opfCartHandlerService
