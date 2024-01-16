@@ -119,7 +119,9 @@
         .cx-message-input {
           display: flex;
           gap: 1rem;
-          padding-block-start: 0.5rem;
+          @include forVersion(7.1) {
+            padding-block-start: 0.5rem;
+          }
         }
       }
 

@@ -42,12 +42,14 @@
                       }
               "
             >
-              <a
-                *ngIf="message.item"
-                class="cx-message-item-link"
-                (click)="onItemClicked(message.item)"
-                >{{ message.item.name }}:</a
-              >
+              <ng-container *cxFeatureLevel="'7.1'">
+                <a
+                  *ngIf="message.item"
+                  class="cx-message-item-link"
+                  (click)="onItemClicked(message.item)"
+                  >{{ message.item.name }}:</a
+                >
+              </ng-container>
               {{ message.text }}
             </div>
             <a
@@ -81,18 +83,21 @@
       <label class="cx-footer-label" id="cx-messaging-footer-label">
         <span>
           {{ 'chatMessaging.addNewMessage' | cxTranslate }}
-          <select
-            [attr.aria-label]="
-              'chatMessaging.a11y.productListBoxLabel' | cxTranslate
-            "
-            *ngIf="messagingConfigs?.itemList$ | async as itemList"
-            class="cx-message-item-selection"
-            formControlName="item"
-          >
-            <option *ngFor="let item of itemList" value="{{ item.id }}">
-              {{ item.name }}
-            </option>
-          </select>
+
+          <ng-container *cxFeatureLevel="'7.1'">
+            <select
+              [attr.aria-label]="
+                'chatMessaging.a11y.productListBoxLabel' | cxTranslate
+              "
+              *ngIf="messagingConfigs?.itemList$ | async as itemList"
+              class="cx-message-item-selection"
+              formControlName="item"
+            >
+              <option *ngFor="let item of itemList" value="{{ item.id }}">
+                {{ item.name }}
+              </option>
+            </select>
+          </ng-container>
         </span>
         <div class="cx-message-input">
           <input

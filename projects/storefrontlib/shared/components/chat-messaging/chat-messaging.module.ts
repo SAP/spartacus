@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule, FeaturesConfigModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { AvatarComponent } from './avatar';
 import { MessagingComponent } from './messaging';
@@ -22,6 +22,7 @@ import { FileUploadModule, FormErrorsModule } from '../form';
     ReactiveFormsModule,
     FileUploadModule,
     FormErrorsModule,
+    FeaturesConfigModule,
   ],
   declarations: [AvatarComponent, MessagingComponent],
   exports: [AvatarComponent, MessagingComponent],
