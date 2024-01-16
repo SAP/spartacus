@@ -77,7 +77,7 @@ export class OptimizedSsrEngine {
           ...ssrOptions,
         }
       : undefined;
-    this.logger = ssrOptions?.logger || new DefaultExpressServerLogger();
+    this.logger = new DefaultExpressServerLogger();
     this.logOptions();
   }
 
