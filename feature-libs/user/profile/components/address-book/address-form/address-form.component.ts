@@ -31,12 +31,15 @@ import {
   Title,
   TranslationService,
   UserAddressService,
-  UserService,
 } from '@spartacus/core';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  sortTitles,
+} from '@spartacus/storefront';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { LAUNCH_CALLER, LaunchDialogService } from '../../../../layout';
-import { sortTitles } from '../../../../shared/utils/forms/title-utils';
 
 @Component({
   selector: 'cx-address-form',
@@ -99,11 +102,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   constructor(
     protected fb: UntypedFormBuilder,
-    protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
     protected translation: TranslationService,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected userProfileFacade: UserProfileFacade
   ) {}
 
   ngOnInit() {
@@ -147,7 +150,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   getTitles(): Observable<Title[]> {
     return combineLatest([
       this.translation.translate('addressForm.defaultTitle'),
-      this.userService.getTitles(),
+      this.userProfileFacade.getTitles(),
     ]).pipe(
       map(([noneTitleText, titles]) => {
         const noneTitle = { code: '', name: noneTitleText };

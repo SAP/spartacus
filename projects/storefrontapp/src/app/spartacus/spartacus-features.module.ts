@@ -16,7 +16,6 @@ import {
   UserOccModule,
 } from '@spartacus/core';
 import {
-  AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
   BannerCarouselModule,
@@ -166,7 +165,6 @@ if (environment.requestedDeliveryDate) {
     UserModule,
     UserOccModule,
     // User UI
-    AddressBookModule,
     PaymentMethodsModule,
     NotificationPreferenceModule,
     MyInterestsModule,
