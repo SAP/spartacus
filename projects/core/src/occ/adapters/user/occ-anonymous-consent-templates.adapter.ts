@@ -6,11 +6,11 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { LoggerService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AnonymousConsentTemplatesAdapter } from '../../../anonymous-consents/connectors/anonymous-consent-templates.adapter';
 import { ANONYMOUS_CONSENT_NORMALIZER } from '../../../anonymous-consents/connectors/converters';
+import { LoggerService } from '../../../logger';
 import {
   ANONYMOUS_CONSENTS_HEADER,
   AnonymousConsent,

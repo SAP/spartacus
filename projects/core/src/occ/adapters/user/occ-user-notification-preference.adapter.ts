@@ -6,9 +6,9 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { LoggerService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { LoggerService } from '../../../logger';
 import {
   NotificationPreference,
   NotificationPreferenceList,

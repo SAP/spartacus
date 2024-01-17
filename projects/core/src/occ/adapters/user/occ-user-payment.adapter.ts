@@ -6,10 +6,10 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { LoggerService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { PAYMENT_DETAILS_NORMALIZER } from '../../../checkout/connectors/payment/converters';
+import { LoggerService } from '../../../logger';
 import { PaymentDetails } from '../../../model/payment.model';
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
 import { ConverterService } from '../../../util/converter.service';

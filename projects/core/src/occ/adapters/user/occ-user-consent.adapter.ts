@@ -6,9 +6,9 @@
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { LoggerService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { LoggerService } from '../../../logger';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { CONSENT_TEMPLATE_NORMALIZER } from '../../../user/connectors/consent/converters';
 import { UserConsentAdapter } from '../../../user/connectors/consent/user-consent.adapter';
