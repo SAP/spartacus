@@ -5,7 +5,11 @@ import { Application, Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { Socket } from 'net';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
-import { ExpressServerLogger, ExpressServerLoggerContext } from '../logger';
+import {
+  DefaultExpressServerLogger,
+  ExpressServerLogger,
+  ExpressServerLoggerContext,
+} from '../logger';
 import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
   RenderingStrategy,
@@ -1191,7 +1195,7 @@ describe('OptimizedSsrEngine', () => {
 
     it('should use ExpressServerLogger if logger is true', () => {
       new TestEngineRunner({
-        logger: true,
+        logger: new DefaultExpressServerLogger(),
       });
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
         [

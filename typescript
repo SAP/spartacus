@@ -1,0 +1,24 @@
+Script started on Wed Jan 17 07:59:42 2024
+[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jmateuszkolasa@CLFMACC02FK51ZMD6R spartacus % [K[?2004hccd scripts[1m/[0m[0m [?2004l
+[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jmateuszkolasa@CLFMACC02FK51ZMD6R scripts % [K[?2004hlls[?2004l
+i18n	install
+[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jmateuszkolasa@CLFMACC02FK51ZMD6R scripts % [K[?2004hc ccd ../[?2004l
+[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jmateuszkolasa@CLFMACC02FK51ZMD6R spartacus % [K[?2004hccd s ci-scripts[1m/[0m[0m [?2004l
+[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jmateuszkolasa@CLFMACC02FK51ZMD6R ci-scripts % [K[?2004hlls[?2004l
+e2e-cypress.sh				release-packer.sh
+lhci.sh					unit-tests.sh
+prepend-license.sh			update-ccv2.sh
+publish-sample-data.sh			validate-e2e-execution.sh
+release-packages-list-generator.sh	validate-lint.sh
+[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jmateuszkolasa@CLFMACC02FK51ZMD6R ci-scripts % [K[?2004h../unit-tests.sh[1m [0m[0m [?2004l
+-----
+Running JASMINE unit tests and code coverage for ALL libraries
+
+ [31m>[39m [0m[7m[1m[31m NX [39m[22m[27m[0m  [31mCould not find any runner configurations in nx.json[39m
+
+   Pass --verbose to see the stacktrace.
+
+[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jmateuszkolasa@CLFMACC02FK51ZMD6R ci-scripts % [K[?2004h[7mnx run setup:test-jest --coverage --runInBand[27m[45D[27mn[27mx[27m [27mr[27mu[27mn[27m [27ms[27me[27mt[27mu[27mp[27m:[27mt[27me[27ms[27mt[27m-[27mj[27me[27ms[27mt[27m [27m-[27m-[27mc[27mo[27mv[27me[27mr[27ma[27mg[27me[27m [27m-[27m-[27mr[27mu[27mn[27mI[27mn[27mB[27ma[27mn[27md[?2004l
+zsh: command not found: nx
+[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jmateuszkolasa@CLFMACC02FK51ZMD6R ci-scripts % [K[?2004hccd ../[?2004l
+[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[Jmateuszkolasa@CLFMACC02FK51ZMD6R spartacus % [K[?2004h
