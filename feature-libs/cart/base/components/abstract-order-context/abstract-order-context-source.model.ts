@@ -8,7 +8,7 @@
 import { Injectable } from '@angular/core';
 
 import { AbstractOrderType } from '@spartacus/cart/base/root';
-import { BehaviorSubject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { AbstractOrderContext } from './abstract-order-context.model';
 
 /**
@@ -19,8 +19,6 @@ import { AbstractOrderContext } from './abstract-order-context.model';
  */
 @Injectable()
 export class AbstractOrderContextSource implements AbstractOrderContext {
-  readonly type$ = new BehaviorSubject<AbstractOrderType>(
-    AbstractOrderType.CART
-  );
-  readonly id$ = new BehaviorSubject<string | undefined>(undefined);
+  readonly type$ = new ReplaySubject<AbstractOrderType>(1);
+  readonly id$ = new ReplaySubject<string | undefined>(1);
 }
