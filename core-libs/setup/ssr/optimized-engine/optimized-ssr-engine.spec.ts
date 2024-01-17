@@ -5,11 +5,7 @@ import { Application, Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { Socket } from 'net';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
-import {
-  DefaultExpressServerLogger,
-  ExpressServerLogger,
-  ExpressServerLoggerContext,
-} from '../logger';
+import { ExpressServerLogger, ExpressServerLoggerContext } from '../logger';
 import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
   RenderingStrategy,
@@ -142,6 +138,19 @@ describe('OptimizedSsrEngine', () => {
     });
   });
   describe('logOptions', () => {
+    let dateSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      const mockDate = new Date('2023-01-01');
+      dateSpy = jest
+        .spyOn(global, 'Date')
+        .mockImplementationOnce(() => mockDate);
+    });
+
+    afterEach(() => {
+      dateSpy.mockReset();
+    });
+
     it('should log the provided options', () => {
       new TestEngineRunner({
         timeout: 50,
@@ -153,7 +162,7 @@ describe('OptimizedSsrEngine', () => {
           "{
           "message": "[spartacus] SSR optimization engine initialized",
           "context": {
-            "timestamp": "2024-01-17T08:44:41.289Z",
+            "timestamp": "2023-01-01T00:00:00.000Z",
             "options": {
               "concurrency": 10,
               "timeout": 50,
@@ -1190,7 +1199,7 @@ describe('OptimizedSsrEngine', () => {
     let dateSpy: jest.SpyInstance;
 
     beforeEach(() => {
-      const mockDate = new Date('2023-05-26');
+      const mockDate = new Date('2023-01-01');
       dateSpy = jest
         .spyOn(global, 'Date')
         .mockImplementationOnce(() => mockDate);
@@ -1200,16 +1209,14 @@ describe('OptimizedSsrEngine', () => {
       dateSpy.mockReset();
     });
 
-    it('should use ExpressServerLogger if logger is true', () => {
-      new TestEngineRunner({
-        logger: new DefaultExpressServerLogger(),
-      });
+    it('should use the default server logger, if custom logger is not specified', () => {
+      new TestEngineRunner({});
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
         [
           "{
           "message": "[spartacus] SSR optimization engine initialized",
           "context": {
-            "timestamp": "2023-05-26T00:00:00.000Z",
+            "timestamp": "2023-01-01T00:00:00.000Z",
             "options": {
               "concurrency": 10,
               "timeout": 3000,
@@ -1251,23 +1258,6 @@ describe('OptimizedSsrEngine', () => {
               },
             ]
                   `);
-    });
-
-    it('should use the legacy server logger, if logger option not specified', () => {
-      new TestEngineRunner({});
-      expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-        [
-          "[spartacus] SSR optimization engine initialized with the following options: {
-          "concurrency": 10,
-          "timeout": 3000,
-          "forcedSsrTimeout": 60000,
-          "maxRenderTime": 300000,
-          "reuseCurrentRendering": true,
-          "debug": false,
-          "renderingStrategyResolver": "(request) => {\\n    return shouldFallbackToCsr(request, options)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}"
-        }",
-        ]
-      `);
     });
   });
 });

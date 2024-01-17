@@ -1,5 +1,6 @@
 import { SERVER_REQUEST_URL } from '@spartacus/core';
 import { NgSetupOptions, RenderOptions } from '../engine/ng-express-engine';
+import { DefaultExpressServerLogger, EXPRESS_SERVER_LOGGER } from '../logger';
 import {
   NgExpressEngine,
   NgExpressEngineDecorator,
@@ -187,7 +188,15 @@ describe('decorateExpressEngine', () => {
     it(`should pass parameters to the original engine instance`, () => {
       expect(originalEngineInstance).toHaveBeenCalledWith(
         mockPath,
-        mockOptions,
+        {
+          ...mockOptions,
+          providers: [
+            {
+              provide: EXPRESS_SERVER_LOGGER,
+              useValue: new DefaultExpressServerLogger(),
+            },
+          ],
+        },
         expect.any(Function)
       );
     });
@@ -255,7 +264,15 @@ describe('decorateExpressEngine', () => {
     it(`should pass parameters to the original engine instance`, () => {
       expect(originalEngineInstance).toHaveBeenCalledWith(
         mockPath,
-        mockOptions,
+        {
+          ...mockOptions,
+          providers: [
+            {
+              provide: EXPRESS_SERVER_LOGGER,
+              useValue: new DefaultExpressServerLogger(),
+            },
+          ],
+        },
         expect.any(Function)
       );
     });
