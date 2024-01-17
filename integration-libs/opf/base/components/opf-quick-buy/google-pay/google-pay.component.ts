@@ -15,7 +15,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { ActiveConfiguration } from '@spartacus/opf/base/root';
+import { ActiveConfiguration, CmsPageLocation } from '@spartacus/opf/base/root';
 import { BehaviorSubject } from 'rxjs';
 import { OpfGooglePayService } from './google-pay.service';
 
@@ -29,6 +29,7 @@ export class OpfGooglePayComponent implements OnInit {
   protected changeDetectionRef = inject(ChangeDetectorRef);
 
   @Input() activeConfiguration: ActiveConfiguration;
+  @Input() currentPage: CmsPageLocation;
 
   @ViewChild('googlePayButtonContainer') googlePayButtonContainer: ElementRef;
 

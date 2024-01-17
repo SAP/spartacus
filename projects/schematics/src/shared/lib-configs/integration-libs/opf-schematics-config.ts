@@ -24,6 +24,7 @@ import { CHECKOUT_BASE_MODULE } from '../checkout-schematics-config';
 export interface SpartacusOpfOptions extends LibraryOptions {
   baseUrl?: string;
   commerceCloudPublicKey?: string;
+  quickBuyPageIds?: string[];
 }
 
 export const OPF_FOLDER_NAME = 'opf';
@@ -131,6 +132,7 @@ function buildOpfCheckoutConfig(
               options.commerceCloudPublicKey ||
               'PLACEHOLDER_COMMERCE_CLOUD_PUBLIC_KEY'
             }",
+            quickBuyPageIds:${options.quickBuyPageIds} 
           },
         }`,
     },
@@ -155,6 +157,7 @@ function buildOpfBaseConfig(
               options.commerceCloudPublicKey ||
               'PLACEHOLDER_COMMERCE_CLOUD_PUBLIC_KEY'
             }",
+            quickBuyPageIds:${options.quickBuyPageIds ?? []} 
           },
         }`,
     },

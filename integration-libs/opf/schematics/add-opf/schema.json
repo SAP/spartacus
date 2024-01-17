@@ -38,6 +38,10 @@
     "commerceCloudPublicKey": {
       "type": "string",
       "description": "Commerce Clould public key required for authentication between OPF Cloud Commerce Adapter and Spartacus"
+    },
+    "quickBuyPageIds": {
+      "type": "array",
+      "description": "PagesId list where QuickBuy is activated"
     }
   },
   "required": []

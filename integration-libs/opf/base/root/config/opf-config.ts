@@ -16,6 +16,7 @@ export abstract class OpfConfig {
   opf?: {
     baseUrl?: string;
     commerceCloudPublicKey?: string;
+    quickBuyPageIds?: string[];
   };
 }
 

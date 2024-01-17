@@ -11,7 +11,11 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { ActiveConfiguration, OpfProviderType } from '@spartacus/opf/base/root';
+import {
+  ActiveConfiguration,
+  CmsPageLocation,
+  OpfProviderType,
+} from '@spartacus/opf/base/root';
 import { Observable } from 'rxjs';
 import { OpfQuickBuyService } from './opf-quick-buy.service';
 
@@ -24,6 +28,7 @@ export class OpfQuickBuyComponent implements OnInit {
   protected opfQuickBuyService = inject(OpfQuickBuyService);
   protected paymentGatewayConfig$: Observable<ActiveConfiguration>;
   protected isUserGuestOrLoggedIn$: Observable<boolean>;
+  protected currentPage$: Observable<CmsPageLocation | undefined>;
 
   PAYMENT_METHODS = OpfProviderType;
 
@@ -32,6 +37,7 @@ export class OpfQuickBuyComponent implements OnInit {
       this.opfQuickBuyService.getPaymentGatewayConfiguration();
     this.isUserGuestOrLoggedIn$ =
       this.opfQuickBuyService.isUserGuestOrLoggedIn();
+    this.currentPage$ = this.opfQuickBuyService.getCurrentPageIfEnabled();
   }
 
   isPaymentMethodEnabled(

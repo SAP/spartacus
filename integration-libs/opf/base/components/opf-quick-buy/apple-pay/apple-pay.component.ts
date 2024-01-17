@@ -20,6 +20,7 @@ import {
 } from '@spartacus/opf/base/core';
 import {
   ActiveConfiguration,
+  CmsPageLocation,
   DigitalWalletQuickBuy,
   OpfPaymentError,
   OpfProviderType,
@@ -40,6 +41,7 @@ import { ApplePayService } from './apple-pay.service';
 })
 export class ApplePayComponent implements OnInit, OnDestroy {
   @Input() activeConfiguration: ActiveConfiguration;
+  @Input() currentPage: CmsPageLocation;
 
   protected applePayService = inject(ApplePayService);
   protected currentProductService = inject(CurrentProductService);
