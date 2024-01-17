@@ -81,21 +81,20 @@
       <label class="cx-footer-label" id="cx-messaging-footer-label">
         <span>
           {{ 'chatMessaging.addNewMessage' | cxTranslate }}
-
-          <ng-container *ngIf="isQuoteActive">
-            <select
-              [attr.aria-label]="
-                'chatMessaging.a11y.productListBoxLabel' | cxTranslate
-              "
-              *ngIf="messagingConfigs?.itemList$ | async as itemList"
-              class="cx-message-item-selection"
-              formControlName="item"
-            >
-              <option *ngFor="let item of itemList" value="{{ item.id }}">
-                {{ item.name }}
-              </option>
-            </select>
-          </ng-container>
+          <select
+            [attr.aria-label]="
+              'chatMessaging.a11y.productListBoxLabel' | cxTranslate
+            "
+            *ngIf="
+              isQuoteActive && messagingConfigs?.itemList$ | async as itemList
+            "
+            class="cx-message-item-selection"
+            formControlName="item"
+          >
+            <option *ngFor="let item of itemList" value="{{ item.id }}">
+              {{ item.name }}
+            </option>
+          </select>
         </span>
         <div class="cx-message-input">
           <input
