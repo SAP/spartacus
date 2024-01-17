@@ -44,29 +44,16 @@ export class QuoteCartGuard implements CanActivate {
           isCheckoutAllowed
         );
         if (isQuoteCartActive && !isAllowedCheckoutNavigation) {
-          const pathForRoute = this.validateThatPresent(
-            'Route `quoteDetails` must be present',
-            this.semanticPathService.get('quoteDetails')
+          return this.router.createUrlTree(
+            this.semanticPathService.transform({
+              cxRoute: 'quoteDetails',
+              params: { quoteId },
+            })
           );
-          const path = pathForRoute.replace(
-            ':quoteId',
-            this.validateThatPresent(
-              'QuoteId must be present in case cart is a quote cart',
-              quoteId
-            )
-          );
-          return this.router.parseUrl(path);
         }
         return true;
       })
     );
-  }
-
-  protected validateThatPresent(errorMessage: string, input?: string): string {
-    if (!input) {
-      throw new Error(errorMessage);
-    }
-    return input;
   }
 
   /**

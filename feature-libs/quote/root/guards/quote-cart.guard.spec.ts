@@ -13,13 +13,12 @@ import { QuoteCartGuard } from './quote-cart.guard';
 import { QuoteCartService } from './quote-cart.service';
 import createSpy = jasmine.createSpy;
 
-const QUOTE_ROUTE_STATIC_PART = 'quoteDetails';
+const URL_PARTS = ['/', 'my-account', 'quote', QUOTE_CODE];
 
 let isQuoteCartActive: any;
 let quoteId: any;
 let checkoutAllowed: boolean;
 let routerState: any;
-let quoteRoute: any;
 
 const checkoutState: ActivatedRouterStateSnapshot = {
   semanticRoute: 'checkout',
@@ -77,8 +76,8 @@ class MockQuoteCartService {
 }
 
 class MockSemanticPathService {
-  get() {
-    return quoteRoute;
+  transform() {
+    return URL_PARTS;
   }
 }
 
@@ -100,7 +99,6 @@ describe('QuoteCartGuard', () => {
     checkoutAllowed = false;
     quoteId = '';
     routerState = routerStateCheckout;
-    quoteRoute = QUOTE_ROUTE_STATIC_PART + '/:quoteId';
     classUnderTest = TestBed.inject(QuoteCartGuard);
   });
 
@@ -120,7 +118,6 @@ describe('QuoteCartGuard', () => {
       isQuoteCartActive = true;
       quoteId = QUOTE_CODE;
       classUnderTest.canActivate().subscribe((canActive) => {
-        expect(canActive.toString()).toContain(QUOTE_ROUTE_STATIC_PART);
         expect(canActive.toString()).toContain(QUOTE_CODE);
         done();
       });
@@ -153,18 +150,9 @@ describe('QuoteCartGuard', () => {
       routerState = routerStateCart;
       quoteId = QUOTE_CODE;
       classUnderTest.canActivate().subscribe((result) => {
-        expect(result.toString()).toContain(QUOTE_ROUTE_STATIC_PART);
         expect(result.toString()).toContain(QUOTE_CODE);
         done();
       });
-    });
-  });
-
-  describe('validateIfPresent', () => {
-    it('should throw error if in case input is undefined', () => {
-      expect(() =>
-        classUnderTest['validateThatPresent']('', undefined)
-      ).toThrow();
     });
   });
 });
