@@ -12,6 +12,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   UntypedFormControl,
@@ -28,12 +29,14 @@ import {
   MessageEvent,
   MessagingConfigs,
 } from './messaging.model';
+import { FEATURE_FLAG_QUOTES } from '../../../../feature-flags';
 
 @Component({
   selector: 'cx-messaging',
   templateUrl: './messaging.component.html',
 })
 export class MessagingComponent implements OnInit, AfterViewChecked {
+  isQuoteActive: boolean = inject(FEATURE_FLAG_QUOTES);
   @ViewChild(FileUploadComponent) fileUploadComponent: FileUploadComponent;
 
   @Input() messageEvents$: Observable<Array<MessageEvent>>;

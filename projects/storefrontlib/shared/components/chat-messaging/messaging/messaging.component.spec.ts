@@ -1,28 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  FeatureConfigService,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { AvatarComponent, FEATURE_FLAG_QUOTES } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { IconModule } from '../../../../cms-components';
 import { FileUploadModule, FormErrorsModule } from '../../form';
 import { MessagingComponent } from './messaging.component';
 import {
-  MessageEventBoundItem,
   MessageEvent,
+  MessageEventBoundItem,
   MessagingConfigs,
 } from './messaging.model';
-import { AvatarComponent } from '@spartacus/storefront';
-
-let testVersion: string;
-class MockFeatureConfigService {
-  isLevel(version: string): boolean {
-    return version === testVersion;
-  }
-}
 
 const mockMessageEvent: MessageEvent = {
   rightAlign: false,
@@ -63,15 +52,12 @@ describe('MessagingComponent', () => {
         ReactiveFormsModule,
         FeaturesConfigModule,
       ],
-      providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-      ],
+      providers: [{ provide: FEATURE_FLAG_QUOTES, useValue: true }],
       declarations: [MessagingComponent, AvatarComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    testVersion = '7.1';
     fixture = TestBed.createComponent(MessagingComponent);
     component = fixture.componentInstance;
     component.messageEvents$ = of(mockMessageEvents);
@@ -140,8 +126,8 @@ describe('MessagingComponent', () => {
     });
 
     it('should not render an item link when feature level < 7.1', () => {
-      testVersion = '7.0';
-      fixture = TestBed.createComponent(MessagingComponent);
+      component.isQuoteActive = false;
+      fixture.detectChanges();
       expect(
         fixture.debugElement.query(
           By.css('.cx-message-card:nth-child(2) .cx-message-item-link')
@@ -174,9 +160,9 @@ describe('MessagingComponent', () => {
     });
 
     it('should not render an item selection control (drop down list box) when feature level < 7.1', () => {
-      testVersion = '7.0';
+      component.isQuoteActive = false;
       messagingConfig.itemList$ = of(mockItemList);
-      fixture = TestBed.createComponent(MessagingComponent);
+      fixture.detectChanges();
       expect(
         fixture.debugElement.query(By.css('.cx-message-item-selection'))
       ).toBeNull();

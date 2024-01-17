@@ -42,14 +42,12 @@
                       }
               "
             >
-              <ng-container *cxFeatureLevel="'7.1'">
-                <a
-                  *ngIf="message.item"
-                  class="cx-message-item-link"
-                  (click)="onItemClicked(message.item)"
-                  >{{ message.item.name }}:</a
-                >
-              </ng-container>
+              <a
+                *ngIf="message.item && isQuoteActive"
+                class="cx-message-item-link"
+                (click)="onItemClicked(message.item)"
+                >{{ message.item.name }}:</a
+              >
               {{ message.text }}
             </div>
             <a
@@ -84,7 +82,7 @@
         <span>
           {{ 'chatMessaging.addNewMessage' | cxTranslate }}
 
-          <ng-container *cxFeatureLevel="'7.1'">
+          <ng-container *ngIf="isQuoteActive">
             <select
               [attr.aria-label]="
                 'chatMessaging.a11y.productListBoxLabel' | cxTranslate
