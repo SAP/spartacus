@@ -125,7 +125,7 @@ describe('MessagingComponent', () => {
       ).toBeNull();
     });
 
-    it('should not render an item link when feature level < 7.1', () => {
+    it('should not render an item link when quote feature is not active', () => {
       component.isQuoteActive = false;
       fixture.detectChanges();
       expect(
@@ -159,7 +159,7 @@ describe('MessagingComponent', () => {
       ).toBeNull();
     });
 
-    it('should not render an item selection control (drop down list box) when feature level < 7.1', () => {
+    it('should not render an item selection control (drop down list box) when quote feature is not active', () => {
       component.isQuoteActive = false;
       messagingConfig.itemList$ = of(mockItemList);
       fixture.detectChanges();
