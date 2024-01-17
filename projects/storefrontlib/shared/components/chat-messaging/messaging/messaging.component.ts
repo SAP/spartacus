@@ -36,7 +36,9 @@ import { FEATURE_FLAG_QUOTES } from '../../../../feature-flags';
   templateUrl: './messaging.component.html',
 })
 export class MessagingComponent implements OnInit, AfterViewChecked {
-  isQuoteActive: boolean = inject(FEATURE_FLAG_QUOTES);
+  isQuoteActive: boolean | null = inject(FEATURE_FLAG_QUOTES, {
+    optional: true,
+  });
   @ViewChild(FileUploadComponent) fileUploadComponent: FileUploadComponent;
 
   @Input() messageEvents$: Observable<Array<MessageEvent>>;

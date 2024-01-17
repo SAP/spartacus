@@ -16,7 +16,6 @@ import { PageSlotModule } from './cms-structure/page/slot/page-slot.module';
 import { PwaModule } from './cms-structure/pwa/pwa.module';
 import { RoutingModule } from './cms-structure/routing/routing.module';
 import { SeoModule } from './cms-structure/seo/seo.module';
-import { FEATURE_FLAG_QUOTES } from './feature-flags';
 import { KeyboardFocusModule } from './layout/a11y/keyboard-focus/keyboard-focus.module';
 import { SkipLinkModule } from './layout/a11y/skip-link/skip-link.module';
 import { LayoutModule } from './layout/layout.module';
@@ -43,7 +42,6 @@ import { MediaModule } from './shared/components/media/media.module';
     OutletModule.forRoot(),
     StorefrontComponentModule,
   ],
-  providers: [{ provide: FEATURE_FLAG_QUOTES, useValue: true }],
   exports: [LayoutModule, StorefrontComponentModule],
 })
 export class BaseStorefrontModule {}
