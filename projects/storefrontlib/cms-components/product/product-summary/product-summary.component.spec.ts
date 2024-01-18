@@ -16,6 +16,7 @@ class MockCurrentProductService {
 describe('ProductSummaryComponent in product', () => {
   let productSummaryComponent: ProductSummaryComponent;
   let fixture: ComponentFixture<ProductSummaryComponent>;
+  let currentProductService: CurrentProductService;
 
   beforeEach(
     waitForAsync(() => {
@@ -35,9 +36,31 @@ describe('ProductSummaryComponent in product', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductSummaryComponent);
     productSummaryComponent = fixture.componentInstance;
+    currentProductService = TestBed.inject(CurrentProductService);
   });
 
   it('should be created', () => {
     expect(productSummaryComponent).toBeTruthy();
+  });
+
+  it('should get product details without promotions', () => {
+    spyOn(currentProductService, 'getProduct').and.stub();
+    productSummaryComponent.showPromotions = false;
+    productSummaryComponent['getProduct']();
+    expect(currentProductService.getProduct).toHaveBeenCalledWith([
+      'details',
+      'price',
+    ]);
+  });
+
+  it('should get product details with promotions', () => {
+    spyOn(currentProductService, 'getProduct').and.stub();
+    productSummaryComponent.showPromotions = true;
+    productSummaryComponent['getProduct']();
+    expect(currentProductService.getProduct).toHaveBeenCalledWith([
+      'details',
+      'price',
+      'promotions',
+    ]);
   });
 });
