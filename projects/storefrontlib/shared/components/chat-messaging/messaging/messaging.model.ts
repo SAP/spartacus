@@ -36,6 +36,9 @@ export interface MessagingConfigs {
    * drop down list box to select an item.
    */
   itemList$?: Observable<Array<MessageEventBoundItem>>;
+  /**
+   * The id of the {@link MessageEventBoundItem} that should be pre-selected on the UI when adding a new message.
+   */
   defaultItemId?: string;
   sendBtnIsNotPrimary?: boolean;
 }
