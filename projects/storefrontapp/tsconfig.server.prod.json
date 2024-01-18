@@ -306,7 +306,7 @@
       "@spartacus/qualtrics/root": ["../../dist/qualtrics/root"],
       "@spartacus/quote/assets": ["../../dist/quote/assets"],
       "@spartacus/quote/components/cart-guard": [
-        "../../dist/quote/components/aware"
+        "../../dist/quote/components/cart-guard"
       ],
       "@spartacus/quote/components": ["../../dist/quote/components"],
       "@spartacus/quote/components/request-button": [
