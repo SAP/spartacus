@@ -18,10 +18,9 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
-  QuoteComment,
   Quote,
   QuoteActionType,
-  QuoteCartService,
+  QuoteComment,
   QuoteDiscount,
   QuoteDiscountType,
   QuoteList,
@@ -33,8 +32,9 @@ import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors';
 import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
-import { QuoteStorefrontUtilsService } from '../services/quote-storefront-utils.service';
 import { CartUtilsService } from '../services/cart-utils.service';
+import { QuoteCartService } from '../services/quote-cart.service';
+import { QuoteStorefrontUtilsService } from '../services/quote-storefront-utils.service';
 import { createEmptyQuote, QUOTE_CODE } from '../testing/quote-test-utils';
 import { QuoteService } from './quote.service';
 import createSpy = jasmine.createSpy;

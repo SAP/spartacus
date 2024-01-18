@@ -4,5 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './quote-cart.service';
+export * from './quote-cart-guard.component';
+export * from './quote-cart-guard.component.module';
 export * from './quote-cart.guard';

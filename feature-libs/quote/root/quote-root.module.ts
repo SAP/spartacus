@@ -19,7 +19,7 @@ import {
   PageLayoutComponent,
 } from '@spartacus/storefront';
 import {
-  QUOTE_AWARE_FEATURE,
+  QUOTE_CART_GUARD_FEATURE,
   QUOTE_FEATURE,
   QUOTE_REQUEST_FEATURE,
 } from './feature-name';
@@ -46,7 +46,7 @@ export function defaultQuoteComponentsConfig() {
 export function defaultQuoteAwareComponentsConfig() {
   return {
     featureModules: {
-      [QUOTE_AWARE_FEATURE]: {
+      [QUOTE_CART_GUARD_FEATURE]: {
         cmsComponents: ['QuoteAwareComponent'],
       },
     },

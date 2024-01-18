@@ -12,9 +12,9 @@ import {
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
+import { QuoteCartService } from '@spartacus/quote/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { QuoteCartService } from './quote-cart.service';
 
 /**
  * Ensures that the navigation will be re-directed to the quote

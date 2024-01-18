@@ -8,9 +8,9 @@ import {
   SemanticPathService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import { QuoteCartService } from '../../core/services/quote-cart.service';
 import { QUOTE_CODE } from '../../core/testing/quote-test-utils';
 import { QuoteCartGuard } from './quote-cart.guard';
-import { QuoteCartService } from './quote-cart.service';
 import createSpy = jasmine.createSpy;
 
 const URL_PARTS = ['/', 'my-account', 'quote', QUOTE_CODE];

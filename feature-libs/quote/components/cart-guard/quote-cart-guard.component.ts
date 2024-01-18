@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { QuoteCartGuard } from '@spartacus/quote/root';
+import { QuoteCartGuard } from './quote-cart.guard';
 
 /**
  * This component is used as a marker. In case it is present in the CMS composition of a page,
@@ -14,6 +14,6 @@ import { QuoteCartGuard } from '@spartacus/quote/root';
  * details page of the quote that is attached to the current cart.
  */
 @Component({
-  templateUrl: './quote-aware.component.html',
+  templateUrl: './quote-cart-guard.component.html',
 })
-export class QuoteAwareComponent {}
+export class QuoteCartGuardComponent {}

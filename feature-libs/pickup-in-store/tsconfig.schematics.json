@@ -423,7 +423,7 @@
         "../../feature-libs/qualtrics/root/public_api"
       ],
       "@spartacus/quote/assets": ["../../feature-libs/quote/assets/public_api"],
-      "@spartacus/quote/components/aware": [
+      "@spartacus/quote/components/cart-guard": [
         "../../feature-libs/quote/components/aware/public_api"
       ],
       "@spartacus/quote/components": [

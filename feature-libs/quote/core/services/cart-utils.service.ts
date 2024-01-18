@@ -7,9 +7,9 @@
 import { inject, Injectable } from '@angular/core';
 import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import { RoutingService, UserIdService } from '@spartacus/core';
-import { QuoteCartService } from '@spartacus/quote/root';
 import { Observable } from 'rxjs';
-import { take, switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
+import { QuoteCartService } from './quote-cart.service';
 
 @Injectable({
   providedIn: 'root',
