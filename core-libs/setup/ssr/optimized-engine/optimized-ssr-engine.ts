@@ -76,7 +76,6 @@ export class OptimizedSsrEngine {
       ...ssrOptions,
     };
 
-    console.log(this.ssrOptions);
     this.logger = this.ssrOptions?.logger as ExpressLoggerService; // we are sure the logger is defined in this place
     this.logOptions();
   }
