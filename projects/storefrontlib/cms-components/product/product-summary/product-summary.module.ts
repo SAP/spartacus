@@ -26,7 +26,7 @@ import { PromotionsModule } from '../../misc/promotions/promotions.module';
         },
       },
       features: {
-        showPromotionsInPDP: true,
+        showPromotionsInPDP: false,
       },
     }),
   ],
