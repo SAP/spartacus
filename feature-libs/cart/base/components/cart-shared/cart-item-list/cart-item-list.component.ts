@@ -61,7 +61,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   @Input() cartId: string;
 
   protected _items: OrderEntry[] = [];
-  protected _forceRerender: boolean = false;
   form: UntypedFormGroup = new UntypedFormGroup({});
 
   @Input('items')
@@ -107,10 +106,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   protected getInputsFromContext(): Subscription | undefined {
     return this.outlet?.context$.subscribe((context) => {
+      let contextRequiresRerender = false;
       if (context.readonly !== undefined) {
-        this._forceRerender = this.readonly !== context.readonly;
+        contextRequiresRerender = this.readonly !== context.readonly;
         this.readonly = context.readonly;
-        this.cd.markForCheck();
       }
       if (context.hasHeader !== undefined) {
         this.hasHeader = context.hasHeader;
@@ -129,6 +128,11 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       }
       if (context.cartIsLoading !== undefined) {
         this.setLoading = context.cartIsLoading;
+      }
+      if (contextRequiresRerender) {
+        this.cd.markForCheck();
+        this.rerenderChangedItems(this._items, true);
+        this.createForm();
       }
     });
   }
@@ -167,7 +171,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
    * OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
    * So we update each array element to the new object only when it's any different to the previous one.
    */
-  protected rerenderChangedItems(items: OrderEntry[]) {
+  protected rerenderChangedItems(items: OrderEntry[], forceRerender?: boolean) {
     let offset = 0;
     for (
       let i = 0;
@@ -176,7 +180,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     ) {
       const index = i - offset;
       if (
-        this._forceRerender ||
+        forceRerender ||
         JSON.stringify(this._items?.[index]) !== JSON.stringify(items[index])
       ) {
         if (this._items[index]) {
@@ -190,7 +194,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         }
       }
     }
-    this._forceRerender = false;
   }
 
   /**

@@ -445,7 +445,6 @@ describe('CartItemListComponent', () => {
       expect(control1).not.toBe(
         component.form.get(mockItem1.entryNumber.toString())
       );
-      expect(component['_forceRerender']).toBe(false); // flag reset
     });
   });
 });
