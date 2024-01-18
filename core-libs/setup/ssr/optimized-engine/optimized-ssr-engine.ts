@@ -11,6 +11,7 @@ import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-d
 import { getRequestUrl } from '../express-utils/express-request-url';
 import {
   EXPRESS_SERVER_LOGGER,
+  ExpressLoggerService,
   ExpressServerLogger,
   ExpressServerLoggerContext,
 } from '../logger';
@@ -69,16 +70,14 @@ export class OptimizedSsrEngine {
     protected expressEngine: NgExpressEngineInstance,
     protected ssrOptions?: SsrOptimizationOptions
   ) {
-    this.ssrOptions = ssrOptions
-      ? {
-          ...defaultSsrOptimizationOptions,
-          // overrides the default options
-          ...ssrOptions,
-        }
-      : undefined;
-    this.logger =
-      ssrOptions?.logger ??
-      (defaultSsrOptimizationOptions.logger as ExpressServerLogger); // we are sure the logger is defined in this place
+    this.ssrOptions = {
+      ...defaultSsrOptimizationOptions,
+      // overrides the default options
+      ...ssrOptions,
+    };
+
+    console.log(this.ssrOptions);
+    this.logger = this.ssrOptions?.logger as ExpressLoggerService; // we are sure the logger is defined in this place
     this.logOptions();
   }
 
