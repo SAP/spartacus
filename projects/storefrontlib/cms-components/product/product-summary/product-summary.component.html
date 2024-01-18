@@ -1,4 +1,8 @@
 <ng-container *ngIf="product$ | async as product">
+  <ng-container *ngIf="showPromotions && product.potentialPromotions">
+    <cx-promotions [promotions]="product.potentialPromotions"></cx-promotions>
+  </ng-container>
+
   <ng-template
     [cxOutlet]="outlets.PRICE"
     [cxOutletContext]="{ product: product }"

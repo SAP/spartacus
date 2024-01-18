@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product, ProductScope } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FeatureConfigService, Product, ProductScope } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductDetailOutlets } from '../product-outlets.model';
@@ -16,12 +16,27 @@ import { ProductDetailOutlets } from '../product-outlets.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductSummaryComponent {
-  outlets = ProductDetailOutlets;
+  protected featureConfig = inject(FeatureConfigService);
 
-  product$: Observable<Product | null> = this.currentProductService.getProduct([
-    ProductScope.DETAILS,
-    ProductScope.PRICE,
-  ]);
+  outlets = ProductDetailOutlets;
+  showPromotions = this.featureConfig.isEnabled('showPromotionsInPDP');
+
+  product$: Observable<Product | null> = this.getProduct();
+
+  protected getProduct(): Observable<Product | null> {
+    if (this.showPromotions) {
+      return this.currentProductService.getProduct([
+        ProductScope.DETAILS,
+        ProductScope.PRICE,
+        ProductScope.PROMOTIONS,
+      ]);
+    } else {
+      return this.currentProductService.getProduct([
+        ProductScope.DETAILS,
+        ProductScope.PRICE,
+      ]);
+    }
+  }
 
   constructor(protected currentProductService: CurrentProductService) {}
 }
