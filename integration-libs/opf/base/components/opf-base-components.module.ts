@@ -6,12 +6,18 @@
  */
 
 import { NgModule } from '@angular/core';
+import { OpfAddToCartModule } from './opf-add-to-cart/opf-add-to-cart.module';
 import { OpfCtaScriptsModule } from './opf-cta/opf-cta-scripts/opf-cta-scripts.module';
 import { OpfErrorModalModule } from './opf-error-modal/opf-error-modal.module';
 import { OpfQuickBuyModule } from './opf-quick-buy/opf-quick-buy.module';
 
 @NgModule({
-  imports: [OpfErrorModalModule, OpfCtaScriptsModule, OpfQuickBuyModule],
+  imports: [
+    OpfErrorModalModule,
+    OpfCtaScriptsModule,
+    OpfQuickBuyModule,
+    OpfAddToCartModule,
+  ],
   providers: [],
 })
 export class OpfBaseComponentsModule {}

@@ -34,7 +34,11 @@ export function defaultOpfBaseCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [OPF_BASE_FEATURE]: {
-        cmsComponents: ['OpfCtaScriptsComponent', 'OpfQuickBuyComponent'],
+        cmsComponents: [
+          'OpfCtaScriptsComponent',
+          'OpfQuickBuyComponent',
+          'OpfAddToCartComponent',
+        ],
       },
     },
   };
