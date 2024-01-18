@@ -8,16 +8,16 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, TranslationService } from '@spartacus/core';
-import { QuoteComment, Quote, QuoteFacade } from '@spartacus/quote/root';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
+import { Quote, QuoteComment, QuoteFacade } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
-  MessageEventBoundItem,
   MessageEvent,
+  MessageEventBoundItem,
   MessagingComponent,
   MessagingConfigs,
 } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { delay, finalize, map, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../config/quote-ui.config';
 import { QuoteItemsComponentService } from '../items/quote-items.component.service';
@@ -136,16 +136,13 @@ export class QuoteCommentsComponent {
   }
 
   protected prepareItemList(): Observable<MessageEventBoundItem[]> {
-    let allProducts: string = 'quote.comments.allProducts';
-    this.translationService
-      .translate(allProducts)
-      .pipe(take(1))
-      .subscribe((text) => (allProducts = text));
-
-    return this.quoteDetails$.pipe(
-      map((quote) => {
+    return combineLatest([
+      this.quoteDetails$.pipe(),
+      this.translationService.translate('quote.comments.allProducts'),
+    ]).pipe(
+      map(([quote, allProductsLabel]) => {
         const itemList: MessageEventBoundItem[] = [
-          { id: ALL_PRODUCTS_ID, name: allProducts },
+          { id: ALL_PRODUCTS_ID, name: allProductsLabel },
         ];
         quote.entries?.forEach((entry: OrderEntry) => {
           itemList.push(this.convertToItem(entry));
