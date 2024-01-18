@@ -9,6 +9,10 @@
     font-family: $font-family-sans-serif;
   }
 
+  .form-check .form-check-label {
+    display: block;
+  }
+
   .description {
     font-weight: var(--cx-font-weight-normal);
     font-size: $font-size-base;
