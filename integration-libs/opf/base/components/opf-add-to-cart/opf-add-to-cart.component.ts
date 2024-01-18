@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 
 @Component({
-  selector: 'cx-add-to-cart',
+  selector: 'cx-opf-add-to-cart',
   templateUrl: './opf-add-to-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
