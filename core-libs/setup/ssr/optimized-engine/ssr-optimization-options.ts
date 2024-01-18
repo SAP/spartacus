@@ -125,7 +125,7 @@ export interface SsrOptimizationOptions {
    * The `logger` property is optional and accepts:
    * - `ExpressServerLogger`: Interprets the given `ExpressServerLogger` as a custom logger
    *
-   * By default, the logger is disabled, meaning that logs in SSR are not enhanced.
+   * By default, the DefaultExpressServerLogger is used.
    */
   logger?: ExpressServerLogger;
 }
