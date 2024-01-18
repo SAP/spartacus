@@ -70,11 +70,13 @@ export class OptimizedSsrEngine {
     protected expressEngine: NgExpressEngineInstance,
     protected ssrOptions?: SsrOptimizationOptions
   ) {
-    this.ssrOptions = {
-      ...defaultSsrOptimizationOptions,
-      // overrides the default options
-      ...ssrOptions,
-    };
+    this.ssrOptions = ssrOptions
+      ? {
+          ...defaultSsrOptimizationOptions,
+          // overrides the default options
+          ...ssrOptions,
+        }
+      : undefined;
 
     this.logger = this.ssrOptions?.logger as ExpressLoggerService; // we are sure the logger is defined in this place
     this.logOptions();
