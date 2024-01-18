@@ -65,7 +65,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   @Input('items')
   set items(items: OrderEntry[]) {
-    this.resolveItems(items);
+    this.setItemsInternal(items);
+  }
+  protected setItemsInternal(items: OrderEntry[], forceRerender?: boolean) {
+    this.resolveItems(items, forceRerender);
     this.createForm();
   }
   get items(): OrderEntry[] {
@@ -120,19 +123,15 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       if (context.cartId !== undefined) {
         this.cartId = context.cartId;
       }
-      if (context.items !== undefined) {
-        this.items = context.items;
-      }
       if (context.promotionLocation !== undefined) {
         this.promotionLocation = context.promotionLocation;
       }
       if (context.cartIsLoading !== undefined) {
         this.setLoading = context.cartIsLoading;
       }
-      if (contextRequiresRerender) {
-        this.cd.markForCheck();
-        this.rerenderChangedItems(this._items, true);
-        this.createForm();
+      if (context.items !== undefined) {
+        if (contextRequiresRerender) this.cd.markForCheck();
+        this.setItemsInternal(context.items, contextRequiresRerender);
       }
     });
   }
@@ -140,7 +139,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   /**
    * Resolves items passed to component input and updates 'items' field
    */
-  protected resolveItems(items: OrderEntry[]): void {
+  protected resolveItems(items: OrderEntry[], forceRerender?: boolean): void {
     if (!items) {
       this._items = [];
       return;
@@ -151,7 +150,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     if (items.every((item) => item.hasOwnProperty('orderEntry'))) {
       this.normalizeConsignmentEntries(items);
     } else {
-      this.rerenderChangedItems(items);
+      this.rerenderChangedItems(items, forceRerender);
     }
   }
 
