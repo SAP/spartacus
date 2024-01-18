@@ -1,7 +1,5 @@
-// @import '@spartacus/';
-
 cx-opf-add-to-cart {
-  @extend %cx-cart-details !optional;
+  @extend %cx-add-to-cart !optional;
 }
 // .quantity {
 //   margin: 0 0 20px;
