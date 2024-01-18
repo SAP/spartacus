@@ -33,8 +33,10 @@ function pack {
     elif [[ $PACKAGE == 'schematics' ]]; then
         cp -r projects/schematics/* ../.
     elif [[ $PACKAGE == 'storefront' ]]; then
+        rm dist/$PACKAGE/.npmignore
         cp -r dist/storefrontlib/* ../.
     else
+        rm dist/$PACKAGE/.npmignore
         cp -r dist/$PACKAGE/* ../.
     fi
 }
