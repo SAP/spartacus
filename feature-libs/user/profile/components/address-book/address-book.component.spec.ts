@@ -15,10 +15,9 @@ import {
   User,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CardModule } from '../../../shared/components/card';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
+import { CardModule, SpinnerModule } from '@spartacus/storefront';
 
 class MockGlobalMessageService {
   add = jasmine.createSpy();
@@ -57,7 +56,7 @@ class MockComponentService {
     return of([mockAddress, mockAddress, mockAddress]);
   }
   getUserId(): Observable<string> {
-    return of(mockUser.uid);
+    return of(mockUser.uid || '');
   }
 }
 
@@ -202,7 +201,7 @@ describe('AddressBookComponent', () => {
         mockAddress.line1 &&
         mockAddress.line2 &&
         mockAddress.town &&
-        mockAddress.country.isocode &&
+        mockAddress.country?.isocode &&
         mockAddress.postalCode
     );
   });
@@ -214,6 +213,30 @@ describe('AddressBookComponent', () => {
     expect(element.nativeElement.textContent).toContain(
       ' ✓ addressCard.default '
     );
+  });
+
+  it('should cancel card', () => {
+    component.cancelCard();
+    expect(component.editCard).toEqual(null);
+  });
+
+  it('should cancel edit', () => {
+    component.editAddressCancel();
+    expect(component.showEditAddressForm).toBeFalsy();
+  });
+
+  it('should cancel add', () => {
+    component.addAddressCancel();
+    expect(component.showAddAddressForm).toBeFalsy();
+  });
+
+  it('should handle edit on card', () => {
+    spyOn(component, 'deleteAddress');
+
+    component.setEdit(mockAddress.id || '1');
+    expect(component.editCard).toEqual(mockAddress.id);
+    component.setEdit(mockAddress.id || '1');
+    expect(component.deleteAddress).toHaveBeenCalledWith(mockAddress.id);
   });
 
   describe('setAddressAsDefault', () => {

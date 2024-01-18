@@ -11,14 +11,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { QuoteListComponentService } from './quote-list-component.service';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import {
   CxDatePipe,
   PaginationModel,
   TranslationService,
 } from '@spartacus/core';
-import { QuoteState, Quote } from '@spartacus/quote/root';
+import { QuoteState } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
@@ -75,45 +73,6 @@ export class QuoteListComponent implements OnInit {
     //note: in case not found: indexSeparator is -1, lastPart will be stateAsString
     const lastPart = stateAsString.substring(indexSeparator + 1);
     return 'quote-' + lastPart.toLowerCase();
-  }
-
-  /**
-   * Retrieves an accessibility text for a row in the quote list.
-   *
-   * @param quote - quote
-   * @returns Observable emitting an accessibility text for a row in the quote list
-   */
-  getRowTitle(quote: Quote): Observable<string> {
-    return combineLatest([
-      this.translationService.translate('quote.list.name'),
-      this.translationService.translate('quote.header.overview.id'),
-      this.translationService.translate('quote.header.overview.status'),
-      this.translationService.translate('quote.states.' + quote.state),
-      this.translationService.translate('quote.list.updated'),
-      this.translationService.translate('quote.list.clickableRow'),
-    ]).pipe(
-      map(([name, id, status, state, updated, clickableRow]) => {
-        return (
-          name +
-          ': ' +
-          quote.name +
-          ' ' +
-          id +
-          ': ' +
-          quote.code +
-          ' ' +
-          status +
-          ': ' +
-          state +
-          ' ' +
-          updated +
-          ': ' +
-          this.cxDatePipe.transform(quote?.updatedTime, this.dateFormat) +
-          ' ' +
-          clickableRow
-        );
-      })
-    );
   }
 
   protected isPaginationEnabled(pagination: PaginationModel): boolean {

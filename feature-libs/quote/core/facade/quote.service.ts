@@ -24,10 +24,9 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
-  QuoteComment,
   Quote,
   QuoteActionType,
-  QuoteCartService,
+  QuoteComment,
   QuoteDiscount,
   QuoteFacade,
   QuoteList,
@@ -59,6 +58,7 @@ import {
 import { QuoteConnector } from '../connectors/quote.connector';
 import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
 import { CartUtilsService } from '../services/cart-utils.service';
+import { QuoteCartService } from '../services/quote-cart.service';
 import { QuoteStorefrontUtilsService } from '../services/quote-storefront-utils.service';
 
 @Injectable()

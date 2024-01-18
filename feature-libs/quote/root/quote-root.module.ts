@@ -19,7 +19,7 @@ import {
   PageLayoutComponent,
 } from '@spartacus/storefront';
 import {
-  QUOTE_AWARE_FEATURE,
+  QUOTE_CART_GUARD_FEATURE,
   QUOTE_FEATURE,
   QUOTE_REQUEST_FEATURE,
 } from './feature-name';
@@ -46,7 +46,7 @@ export function defaultQuoteComponentsConfig() {
 export function defaultQuoteAwareComponentsConfig() {
   return {
     featureModules: {
-      [QUOTE_AWARE_FEATURE]: {
+      [QUOTE_CART_GUARD_FEATURE]: {
         cmsComponents: ['QuoteAwareComponent'],
       },
     },
@@ -73,10 +73,6 @@ export const defaultQuoteRoutingConfig: RoutingConfig = {
         paths: ['my-account/quote/:quoteId'],
         paramsMapping: { quoteId: 'quoteId' },
       },
-      quoteEdit: {
-        paths: ['my-account/quotes/:quoteId/edit'],
-        paramsMapping: { quoteId: 'quoteId' },
-      },
     },
   },
 };
@@ -89,18 +85,15 @@ export const defaultQuoteConfigLayoutConfig: LayoutConfig = {
   },
 };
 
+/**
+ * The ng route corresponding to the cxRoute 'quotes' is not defined here
+ * as it is provided via CMS.
+ * For the 'quoteDetails' route we need to provide an additional
+ * corresponding ng route because of its parameter
+ */
 @NgModule({
   imports: [
     RouterModule.forChild([
-      {
-        // @ts-ignore
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: {
-          cxRoute: 'quotes',
-        },
-      },
       {
         // @ts-ignore
         path: null,

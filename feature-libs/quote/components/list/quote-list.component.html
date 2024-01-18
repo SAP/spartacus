@@ -71,7 +71,15 @@
                 } | cxUrl
               "
               (keydown.enter)="row.click()"
-              [attr.title]="getRowTitle(quote) | async"
+              attr.title="{{ 'quote.list.name' | cxTranslate }}: {{
+                quote.name
+              }} {{ 'quote.header.overview.id' | cxTranslate }}: {{
+                quote.code
+              }} {{ 'quote.header.overview.status' | cxTranslate }}: {{
+                'quote.states.' + quote.state | cxTranslate
+              }} {{ 'quote.list.updated' | cxTranslate }}: {{
+                quote?.updatedTime | cxDate: dateFormat
+              }} {{ 'quote.list.clickableRow' | cxTranslate }}"
             >
               <td role="cell" class="cx-name">
                 <div class="cx-mobile-header">

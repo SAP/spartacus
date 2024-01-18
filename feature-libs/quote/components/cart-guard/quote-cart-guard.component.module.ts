@@ -12,8 +12,8 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { QuoteAwareComponent } from './quote-aware.component';
-import { QuoteCartGuard } from '@spartacus/quote/root';
+import { QuoteCartGuardComponent } from './quote-cart-guard.component';
+import { QuoteCartGuard } from './quote-cart.guard';
 
 @NgModule({
   imports: [CommonModule, I18nModule],
@@ -21,13 +21,13 @@ import { QuoteCartGuard } from '@spartacus/quote/root';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         QuoteAwareComponent: {
-          component: QuoteAwareComponent,
+          component: QuoteCartGuardComponent,
           guards: [AuthGuard, QuoteCartGuard],
         },
       },
     }),
   ],
-  declarations: [QuoteAwareComponent],
-  exports: [QuoteAwareComponent],
+  declarations: [QuoteCartGuardComponent],
+  exports: [QuoteCartGuardComponent],
 })
-export class QuoteAwareComponentModule {}
+export class QuoteCartGuardComponentModule {}

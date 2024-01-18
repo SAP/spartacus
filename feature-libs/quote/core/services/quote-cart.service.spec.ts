@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
-import { QuoteCartService } from './quote-cart.service';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
+import { QuoteCartService } from './quote-cart.service';
+import createSpy = jasmine.createSpy;
 
 const cartId = '8762';
 const quoteAttachedToCart = '6524';

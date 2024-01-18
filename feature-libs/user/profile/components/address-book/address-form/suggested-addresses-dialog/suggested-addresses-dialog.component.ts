@@ -12,9 +12,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { Address } from '@spartacus/core';
+import {
+  FocusConfig,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
-import { FocusConfig, LaunchDialogService } from '../../../../../layout';
-import { ICON_TYPE } from '../../../../misc/icon/index';
 
 @Component({
   selector: 'cx-suggested-addresses-dialog',

@@ -456,8 +456,8 @@
       "@spartacus/quote/assets": [
         "feature-libs/quote/assets/public_api"
       ],
-      "@spartacus/quote/components/aware": [
-        "feature-libs/quote/components/aware/public_api"
+      "@spartacus/quote/components/cart-guard": [
+        "feature-libs/quote/components/cart-guard/public_api"
       ],
       "@spartacus/quote/components": [
         "feature-libs/quote/components/public_api"
