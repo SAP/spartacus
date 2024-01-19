@@ -1,11 +1,9 @@
 on:
   pull_request:
-    # TODO: RUNNING E2Es ON EPIC. REMOVE THIS BEFORE MERGE TO DEVELOP. 
     branches:
       - develop
       - develop-*
       - release/**
-      - epic/**  
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
   
