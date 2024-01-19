@@ -27,8 +27,6 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import {
-  BREAKPOINT,
-  BreakpointService,
   IntersectionOptions,
   IntersectionService,
   LAUNCH_CALLER,
@@ -55,7 +53,6 @@ export class QuoteSummaryActionsComponent
   protected globalMessageService = inject(GlobalMessageService);
   protected quoteUIConfig = inject(QuoteUIConfig);
   protected activeCartFacade = inject(ActiveCartFacade);
-  protected breakpointService = inject(BreakpointService);
   protected quoteStorefrontUtilsService = inject(QuoteStorefrontUtilsService);
   protected intersectionService = inject(IntersectionService);
 
@@ -65,6 +62,7 @@ export class QuoteSummaryActionsComponent
   @ViewChild('element') element: ElementRef;
   QuoteActionType = QuoteActionType;
   protected subscription = new Subscription();
+  isFixedPosition: boolean = true;
 
   protected readonly CX_SECTION_SELECTOR = 'cx-quote-summary-actions section';
   protected readonly HEADER_SLOT_SELECTOR = '.BottomHeaderSlot';
@@ -74,35 +72,7 @@ export class QuoteSummaryActionsComponent
    */
   protected readonly ACTION_BUTTONS_HEIGHT = 226;
   protected readonly AMOUNT_OF_ACTION_BUTTONS = 2;
-  protected readonly WIDTH = 'width';
   protected readonly BOTTOM = 'bottom';
-  protected readonly PADDING_INLINE_END = 'padding-inline-end';
-  protected readonly PADDING_BLOCK_START = 'padding-block-start';
-  protected readonly PADDING_BLOCK_END = 'padding-block-end';
-  protected readonly POSITION = 'position';
-
-  stickyStyles: readonly [property: string, value: string][] = [
-    [this.WIDTH, '100%'],
-    [this.PADDING_INLINE_END, '0'],
-    [this.PADDING_BLOCK_START, '1rem'],
-    [this.PADDING_BLOCK_END, '0'],
-    [this.POSITION, '-webkit-sticky'],
-    [this.POSITION, 'sticky'],
-  ];
-
-  fixedStyles: readonly [property: string, value: string][] = [
-    [this.WIDTH, '95%'],
-    [this.PADDING_INLINE_END, '1.5rem'],
-    [this.PADDING_BLOCK_START, '1.5rem'],
-    [this.PADDING_BLOCK_END, '1.5rem'],
-    [this.POSITION, 'fixed'],
-  ];
-
-  desktopStyling: readonly [property: string, value: string][] = [
-    [this.WIDTH, '100%'],
-    [this.PADDING_BLOCK_START, '1rem'],
-    [this.POSITION, 'static'],
-  ];
 
   @HostListener('window:resize')
   handleResize(): void {
@@ -138,10 +108,6 @@ export class QuoteSummaryActionsComponent
     });
   }
 
-  protected isMobile(): Observable<boolean> {
-    return this.breakpointService.isDown(BREAKPOINT.sm);
-  }
-
   /**
    * Retrieves the actual height of the action buttons.
    *
@@ -173,141 +139,65 @@ export class QuoteSummaryActionsComponent
    * @protected
    */
   protected adjustBottomProperty(): void {
-    this.isMobile()
-      .pipe(take(1))
-      .subscribe((mobile) => {
-        if (mobile) {
-          const headerSlotBottom =
-            this.quoteStorefrontUtilsService.getDomRectValue(
-              this.HEADER_SLOT_SELECTOR,
-              this.BOTTOM
-            );
+    const headerSlotBottom = this.quoteStorefrontUtilsService.getDomRectValue(
+      this.HEADER_SLOT_SELECTOR,
+      this.BOTTOM
+    );
 
-          const windowHeight =
-            this.quoteStorefrontUtilsService.getWindowHeight();
+    const windowHeight = this.quoteStorefrontUtilsService.getWindowHeight();
 
-          const actionButtonsHeight = this.getActionButtonsHeight();
-          const spareViewportHeight = headerSlotBottom
-            ? windowHeight - headerSlotBottom
-            : windowHeight;
+    const actionButtonsHeight = this.getActionButtonsHeight();
+    const spareViewportHeight = headerSlotBottom
+      ? windowHeight - headerSlotBottom
+      : windowHeight;
 
-          if (actionButtonsHeight > spareViewportHeight) {
-            const bottom = spareViewportHeight - actionButtonsHeight;
+    if (actionButtonsHeight > spareViewportHeight) {
+      const bottom = spareViewportHeight - actionButtonsHeight;
 
-            this.quoteStorefrontUtilsService.changeStyling(
-              this.CX_SECTION_SELECTOR,
-              this.BOTTOM,
-              bottom + 'px'
-            );
+      this.quoteStorefrontUtilsService.changeStyling(
+        this.CX_SECTION_SELECTOR,
+        this.BOTTOM,
+        bottom + 'px'
+      );
+    } else {
+      this.quoteStorefrontUtilsService.changeStyling(
+        this.CX_SECTION_SELECTOR,
+        this.BOTTOM,
+        '0'
+      );
+    }
+  }
+
+  /**
+   * Defines the class name for the section that controls the styling to be displayed on mobile.
+   *
+   * @protected
+   */
+  protected defineClassForSection(): void {
+    const options: IntersectionOptions = {
+      rootMargin: '9999px 0px -120px 0px',
+    };
+
+    const slot = this.quoteStorefrontUtilsService.getElement(
+      'cx-page-slot.CenterRightContent'
+    );
+
+    if (slot) {
+      this.intersectionService
+        .isIntersecting(slot, options)
+        .subscribe((isIntersecting) => {
+          if (isIntersecting) {
+            this.isFixedPosition = false;
           } else {
-            this.quoteStorefrontUtilsService.changeStyling(
-              this.CX_SECTION_SELECTOR,
-              this.BOTTOM,
-              '0'
-            );
+            this.isFixedPosition = true;
           }
-        } else {
-          this.quoteStorefrontUtilsService.removeStyling(
-            this.CX_SECTION_SELECTOR,
-            this.BOTTOM
-          );
-        }
-      });
-  }
-
-  /**
-   * Prepares the styling of the action buttons to be displayed on desktop.
-   *
-   * @protected
-   */
-  protected prepareButtonsForDesktop(): void {
-    this.isMobile()
-      .pipe(
-        filter((mobile) => !mobile),
-        take(1)
-      )
-      .subscribe(() => {
-        this.stickyStyles.forEach((style) => {
-          this.quoteStorefrontUtilsService.removeStyling(
-            this.CX_SECTION_SELECTOR,
-            style[0]
-          );
         });
-
-        this.fixedStyles.forEach((style) => {
-          this.quoteStorefrontUtilsService.removeStyling(
-            this.CX_SECTION_SELECTOR,
-            style[0]
-          );
-        });
-
-        this.desktopStyling.forEach((style) => {
-          this.quoteStorefrontUtilsService.changeStyling(
-            this.CX_SECTION_SELECTOR,
-            style[0],
-            style[1]
-          );
-        });
-      });
-  }
-
-  /**
-   * Prepares the styling of the action buttons to be displayed on mobile.
-   *
-   * @protected
-   */
-  protected prepareButtonsForMobile(): void {
-    this.isMobile()
-      .pipe(
-        filter((mobile) => mobile),
-        take(1)
-      )
-      .subscribe(() => {
-        this.fixedStyles.forEach((style) => {
-          this.quoteStorefrontUtilsService.changeStyling(
-            this.CX_SECTION_SELECTOR,
-            style[0],
-            style[1]
-          );
-        });
-
-        const options: IntersectionOptions = {
-          rootMargin: '9999px 0px -120px 0px',
-        };
-
-        const slot = this.quoteStorefrontUtilsService.getElement(
-          'cx-page-slot.CenterRightContent'
-        );
-        if (slot) {
-          this.intersectionService
-            .isIntersecting(slot, options)
-            .subscribe((isIntersecting) => {
-              if (isIntersecting) {
-                this.stickyStyles.forEach((style) => {
-                  this.quoteStorefrontUtilsService.changeStyling(
-                    this.CX_SECTION_SELECTOR,
-                    style[0],
-                    style[1]
-                  );
-                });
-              } else {
-                this.fixedStyles.forEach((style) => {
-                  this.quoteStorefrontUtilsService.changeStyling(
-                    this.CX_SECTION_SELECTOR,
-                    style[0],
-                    style[1]
-                  );
-                });
-              }
-            });
-        }
-      });
+    }
   }
 
   protected adjustStyling(): void {
-    this.prepareButtonsForMobile();
+    this.defineClassForSection();
     this.adjustBottomProperty();
-    this.prepareButtonsForDesktop();
   }
 
   /**

@@ -16,7 +16,6 @@ import {
 } from '@spartacus/quote/root';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import {
-  BreakpointService,
   IntersectionService,
   LAUNCH_CALLER,
   LaunchDialogService,
@@ -182,16 +181,6 @@ class MockQuoteStorefrontUtilsService {
   getWindowHeight() {}
 }
 
-class MockBreakpointService {
-  isDown(): Observable<boolean> {
-    return of(false);
-  }
-
-  isUp(): Observable<boolean> {
-    return of(true);
-  }
-}
-
 describe('QuoteSummaryActionsComponent', () => {
   let fixture: ComponentFixture<QuoteSummaryActionsComponent>;
   let htmlElem: HTMLElement;
@@ -199,7 +188,6 @@ describe('QuoteSummaryActionsComponent', () => {
   let launchDialogService: LaunchDialogService;
   let quoteFacade: QuoteFacade;
   let globalMessageService: GlobalMessageService;
-  let breakpointService: BreakpointService;
   let quoteStorefrontUtilsService: QuoteStorefrontUtilsService;
   let intersectionService: IntersectionService;
 
@@ -223,10 +211,6 @@ describe('QuoteSummaryActionsComponent', () => {
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
-        },
-        {
           provide: QuoteStorefrontUtilsService,
           useClass: MockQuoteStorefrontUtilsService,
         },
@@ -245,7 +229,6 @@ describe('QuoteSummaryActionsComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     quoteFacade = TestBed.inject(QuoteFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    breakpointService = TestBed.inject(BreakpointService);
     quoteStorefrontUtilsService = TestBed.inject(QuoteStorefrontUtilsService);
     intersectionService = TestBed.inject(IntersectionService);
     mockQuoteDetails$.next(mockQuote);
@@ -936,48 +919,12 @@ describe('QuoteSummaryActionsComponent', () => {
     });
   });
 
-  describe('isMobile', () => {
-    it("should return 'false' in mobile mode", () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
-
-      component['isMobile']()
-        .subscribe((isMobile) => {
-          expect(isMobile).toBe(false);
-        })
-        .unsubscribe();
-    });
-
-    it("should return 'true' in mobile mode", () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
-
-      component['isMobile']()
-        .subscribe((isMobile) => {
-          expect(isMobile).toBe(true);
-        })
-        .unsubscribe();
-    });
-  });
-
-  describe('handleResize', () => {
-    it('should call handleResize method', () => {
-      spyOn(quoteStorefrontUtilsService, 'getElement').and.returnValue(slot);
-      component.handleResize();
-
-      expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
-        'cx-quote-summary-actions section',
-        'position',
-        'static'
-      );
-    });
-  });
-
   describe('handleScroll', () => {
     it('should call handleScroll method', () => {
       spyOn(quoteStorefrontUtilsService, 'getElement').and.returnValue(slot);
       spyOn(quoteStorefrontUtilsService, 'getWindowHeight').and.returnValue(
         500
       );
-      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
       component.handleScroll();
 
       expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
@@ -1011,22 +958,8 @@ describe('QuoteSummaryActionsComponent', () => {
   });
 
   describe('Floating action buttons', () => {
-    describe('desktop device', () => {
-      it('should make action buttons static', () => {
-        spyOn(quoteStorefrontUtilsService, 'getElement').and.returnValue(slot);
-        component.ngAfterViewInit();
-
-        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
-          'cx-quote-summary-actions section',
-          'position',
-          'static'
-        );
-      });
-    });
-
     describe('mobile device', () => {
       beforeEach(() => {
-        spyOn(breakpointService, 'isDown').and.returnValue(of(true));
         spyOn(quoteStorefrontUtilsService, 'getElement')
           .withArgs('cx-page-slot.CenterRightContent')
           .and.returnValue(slot);
@@ -1075,21 +1008,13 @@ describe('QuoteSummaryActionsComponent', () => {
         spyOn(intersectionService, 'isIntersecting').and.returnValue(of(true));
         component.ngAfterViewInit();
 
-        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
-          'cx-quote-summary-actions section',
-          'position',
-          'sticky'
-        );
+        expect(component.isFixedPosition).toBe(false);
       });
 
       it('should make action buttons fixed when not intersecting', () => {
         component.ngAfterViewInit();
 
-        expect(quoteStorefrontUtilsService.changeStyling).toHaveBeenCalledWith(
-          'cx-quote-summary-actions section',
-          'position',
-          'fixed'
-        );
+        expect(component.isFixedPosition).toBe(true);
       });
     });
   });
