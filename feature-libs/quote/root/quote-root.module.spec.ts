@@ -8,7 +8,7 @@ describe('QuoteRootModule', () => {
   it('should define quoteAware feature linked to the respective component', () => {
     const featureConfigQuoteAware = defaultQuoteAwareComponentsConfig();
     expect(
-      featureConfigQuoteAware.featureModules.quote_aware.cmsComponents
+      featureConfigQuoteAware.featureModules.quote_cart_guard.cmsComponents
     ).toEqual(['QuoteAwareComponent']);
   });
 
