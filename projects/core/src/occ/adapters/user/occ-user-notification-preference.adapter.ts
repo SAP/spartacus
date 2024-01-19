@@ -5,9 +5,10 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { LoggerService } from '../../../logger';
 import {
   NotificationPreference,
   NotificationPreferenceList,
@@ -29,6 +30,8 @@ const headers = new HttpHeaders({
 export class OccUserNotificationPreferenceAdapter
   implements UserNotificationPreferenceAdapter
 {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected converter: ConverterService,
@@ -49,7 +52,7 @@ export class OccUserNotificationPreferenceAdapter
         map((list) => list.preferences ?? []),
         this.converter.pipeableMany(NOTIFICATION_PREFERENCE_NORMALIZER),
         catchError((error: any) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         })
       );
   }
@@ -72,7 +75,7 @@ export class OccUserNotificationPreferenceAdapter
       )
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         })
       );
   }

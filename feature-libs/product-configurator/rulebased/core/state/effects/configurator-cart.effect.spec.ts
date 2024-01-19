@@ -7,7 +7,7 @@ import * as ngrxStore from '@ngrx/store';
 import { StoreModule } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
 import { CartModification } from '@spartacus/cart/base/root';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -135,6 +135,14 @@ let configurationState: any;
 
 let readFromCartEntryObs: Observable<Configurator.Configuration>;
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('ConfiguratorCartEffect', () => {
   let addToCartMock: jasmine.Spy;
   let updateCartEntryMock: jasmine.Spy;
@@ -178,6 +186,7 @@ describe('ConfiguratorCartEffect', () => {
           provide: ConfiguratorUtilsService,
           useClass: ConfiguratorUtilsService,
         },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
@@ -445,7 +454,7 @@ describe('ConfiguratorCartEffect', () => {
       const completion = new ConfiguratorActions.ReadCartEntryConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse),
+          error: normalizeHttpError(errorResponse, new MockLoggerService()),
         }
       );
       actions$ = cold('-a', { a: action });
@@ -497,7 +506,7 @@ describe('ConfiguratorCartEffect', () => {
       const completion =
         new ConfiguratorActions.ReadOrderEntryConfigurationFail({
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse),
+          error: normalizeHttpError(errorResponse, new MockLoggerService()),
         });
       actions$ = cold('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -588,7 +597,7 @@ describe('ConfiguratorCartEffect', () => {
         cartId,
         productCode,
         quantity,
-        error: normalizeHttpError(errorResponse),
+        error: normalizeHttpError(errorResponse, new MockLoggerService()),
       });
 
       actions$ = cold('-a', { a: action });
@@ -629,7 +638,7 @@ describe('ConfiguratorCartEffect', () => {
         userId,
         cartId,
         entryNumber: entryNumber.toString(),
-        error: normalizeHttpError(errorResponse),
+        error: normalizeHttpError(errorResponse, new MockLoggerService()),
       });
 
       actions$ = cold('-a', { a: action });

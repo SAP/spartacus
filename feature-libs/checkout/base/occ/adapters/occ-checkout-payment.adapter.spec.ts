@@ -3,7 +3,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
 import {
   PAYMENT_CARD_TYPE_NORMALIZER,
@@ -13,12 +13,13 @@ import {
   CardType,
   ConverterService,
   HttpErrorModel,
-  normalizeHttpError,
+  LoggerService,
   Occ,
   OccConfig,
   OccEndpoints,
   PAYMENT_DETAILS_NORMALIZER,
   PaymentDetails,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -194,7 +195,19 @@ const mockJaloError = new HttpErrorResponse({
     ],
   },
 });
-const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const mockNormalizedJaloError = normalizeHttpError(
+  mockJaloError,
+  new MockLoggerService()
+);
 
 describe('OccCheckoutPaymentAdapter', () => {
   let service: OccCheckoutPaymentAdapter;
@@ -208,6 +221,7 @@ describe('OccCheckoutPaymentAdapter', () => {
       providers: [
         OccCheckoutPaymentAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
     service = TestBed.inject(OccCheckoutPaymentAdapter);
