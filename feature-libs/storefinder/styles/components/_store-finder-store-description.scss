@@ -56,7 +56,11 @@
   .cx-feature-item {
     text-align: start;
   }
-  .cx-storeMap {
-    height: 70vh;
+
+  // TODO: Remove feature flag next major
+  @include forVersion(1, 6.7) {
+    .cx-storeMap {
+      height: 70vh;
+    }
   }
 }

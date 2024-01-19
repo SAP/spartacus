@@ -1,7 +1,7 @@
 <ng-container *ngIf="location">
   <div class="container">
     <div class="row">
-      <article class="cx-store col-md-4">
+      <article class="cx-store col-lg-4">
         <h2 aria-hidden="true">{{ location.displayName || location.name }}</h2>
 
         <p *ngIf="location.address" class="cx-store-description-address">
@@ -60,7 +60,7 @@
           </article>
         </div>
       </article>
-      <article class="cx-storeMap col-lg-8" *ngIf="!disableMap">
+      <article class="col-lg-8" *ngIf="!disableMap">
         <cx-store-finder-map [locations]="[location]"></cx-store-finder-map>
       </article>
     </div>
