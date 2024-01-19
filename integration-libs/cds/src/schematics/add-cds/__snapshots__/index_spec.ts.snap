@@ -12,6 +12,7 @@ import { provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<CdsConfig>{
     cds: {
+      site: 'my-site',
       tenant: 'my-tenant',
       baseUrl: 'my-base-url.com',
       endpoints: {
@@ -51,6 +52,7 @@ import { provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<CdsConfig>{
     cds: {
+      site: 'my-site',
       tenant: 'my-tenant',
       baseUrl: 'my-base-url.com',
       endpoints: {

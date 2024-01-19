@@ -17,6 +17,7 @@ import {
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
 
 export interface SpartacusCdsOptions extends LibraryOptions {
+  site?: string;
   tenant?: string;
   baseUrl?: string;
   profileTagLoadUrl?: string;
@@ -57,6 +58,7 @@ function buildCdsConfig(
       ],
       content: `<${CDS_CONFIG}>{
       cds: {
+        site: '${options.site || 'DEFAULT'}',
         tenant: '${options.tenant || 'TENANT_PLACEHOLDER'}',
         baseUrl: '${options.baseUrl || 'BASE_URL_PLACEHOLDER'}',
         endpoints: {

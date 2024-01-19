@@ -8,6 +8,7 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CdsConfig } from '../config/cds-config';
 import { DynamicTemplate } from '../utils/dynamic-template';
+import { CdsConfiguration } from '../cds-models';
 
 @Injectable({
   providedIn: 'root',
@@ -15,17 +16,16 @@ import { DynamicTemplate } from '../utils/dynamic-template';
 export class CdsEndpointsService {
   constructor(private cdsConfig: CdsConfig) {}
 
-  getUrl(
-    endpoint: string,
-    urlParams: object = {},
-    queryParams?: object
-  ): string {
-    if (this.cdsConfig?.cds?.endpoints[endpoint]) {
-      endpoint = this.cdsConfig.cds.endpoints[endpoint];
+  getUrl(endpoint: string, urlParams: object = {}, queryParams?): string {
+    const site = queryParams?.site;
+    const cdsConfig = this.getCdsConfig(site);
+
+    if (cdsConfig?.cds?.endpoints[endpoint]) {
+      endpoint = cdsConfig.cds.endpoints[endpoint];
     }
 
     if (!urlParams['tenant']) {
-      urlParams['tenant'] = this.cdsConfig.cds.tenant;
+      urlParams['tenant'] = cdsConfig.cds.tenant;
     }
 
     Object.keys(urlParams).forEach((key) => {
@@ -61,15 +61,16 @@ export class CdsEndpointsService {
       }
     }
 
-    return this.getEndpoint(endpoint);
+    return this.getEndpoint(endpoint, site);
   }
 
-  private getEndpoint(endpoint: string): string {
+  private getEndpoint(endpoint: string, site: string): string {
+    const baseEndpoint = this.getSiteBaseEndpoint(site);
     /*
      * If the endpoint to get the url for already has the configured base url appended,
      * do not try and append it again
      */
-    if (endpoint.startsWith(this.getBaseEndpoint())) {
+    if (endpoint.startsWith(baseEndpoint)) {
       return endpoint;
     }
 
@@ -77,14 +78,26 @@ export class CdsEndpointsService {
       endpoint = '/' + endpoint;
     }
 
-    return `${this.getBaseEndpoint()}${endpoint}`;
+    return `${baseEndpoint}${endpoint}`;
   }
 
-  private getBaseEndpoint(): string {
-    if (!this.cdsConfig || !this.cdsConfig.cds || !this.cdsConfig.cds.baseUrl) {
+  private getCdsConfig(site: string) {
+    const foundConfig = this.cdsConfig.cdsConfigs?.filter(
+      (config: CdsConfiguration) => config.site === site
+    );
+    return foundConfig?.length
+      ? {
+          cds: foundConfig[0],
+        }
+      : this.cdsConfig;
+  }
+
+  private getSiteBaseEndpoint(site: string): string {
+    const cdsConfig = this.getCdsConfig(site);
+    if (!cdsConfig || !cdsConfig.cds || !cdsConfig.cds.baseUrl) {
       return '';
     }
 
-    return this.cdsConfig.cds.baseUrl;
+    return cdsConfig.cds.baseUrl;
   }
 }

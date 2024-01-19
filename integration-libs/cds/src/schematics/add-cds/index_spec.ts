@@ -57,6 +57,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
     project: 'schematics-test',
     features: [],
     lazy: true,
+    site: 'my-site',
     tenant: 'my-tenant',
     baseUrl: 'my-base-url.com',
   };
