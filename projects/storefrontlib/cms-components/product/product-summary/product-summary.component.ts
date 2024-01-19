@@ -24,18 +24,11 @@ export class ProductSummaryComponent {
   product$: Observable<Product | null> = this.getProduct();
 
   protected getProduct(): Observable<Product | null> {
+    const productScopes = [ProductScope.DETAILS, ProductScope.PRICE];
     if (this.showPromotions) {
-      return this.currentProductService.getProduct([
-        ProductScope.DETAILS,
-        ProductScope.PRICE,
-        ProductScope.PROMOTIONS,
-      ]);
-    } else {
-      return this.currentProductService.getProduct([
-        ProductScope.DETAILS,
-        ProductScope.PRICE,
-      ]);
+      productScopes.push(ProductScope.PROMOTIONS);
     }
+    return this.currentProductService.getProduct(productScopes);
   }
 
   constructor(protected currentProductService: CurrentProductService) {}
