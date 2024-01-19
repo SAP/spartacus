@@ -386,13 +386,13 @@ export class OrgUnitEffects {
           .pipe(
             switchMap((data) => [
               new OrgUnitActions.CreateAddressSuccess(data),
-              new OrgUnitActions.CreateAddressSuccess({ id: undefined }),
+              new OrgUnitActions.CreateAddressSuccess({ id: 'new' }),
               new OrganizationActions.OrganizationClearData(),
             ]),
             catchError((error: HttpErrorResponse) =>
               from([
                 new OrgUnitActions.CreateAddressFail({
-                  addressId: payload.address.id ?? '',
+                  addressId: payload.address.id ?? 'new',
                   error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),

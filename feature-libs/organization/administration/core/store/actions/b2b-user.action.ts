@@ -116,7 +116,7 @@ export class LoadB2BUserSuccess extends StateUtils.EntitySuccessAction {
 export class CreateB2BUser extends StateUtils.EntityLoadAction {
   readonly type = CREATE_B2B_USER;
   constructor(public payload: { userId: string; orgCustomer: B2BUser }) {
-    super(B2B_USER_ENTITIES, payload.orgCustomer.customerId ?? null);
+    super(B2B_USER_ENTITIES, payload.orgCustomer.customerId ?? 'new');
   }
 }
 

@@ -467,7 +467,7 @@ export class CreateAddress extends StateUtils.EntityLoadAction {
   constructor(
     public payload: { userId: string; orgUnitId: string; address: Address }
   ) {
-    super(ADDRESS_ENTITIES, payload.address.id ?? null);
+    super(ADDRESS_ENTITIES, payload.address.id ?? 'new');
   }
 }
 

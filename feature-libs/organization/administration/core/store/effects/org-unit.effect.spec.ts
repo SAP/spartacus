@@ -264,7 +264,7 @@ describe('OrgUnit Effects', () => {
       });
       const completion1 = new OrgUnitActions.CreateAddressSuccess(address);
       const completion2 = new OrgUnitActions.CreateAddressSuccess({
-        id: undefined,
+        id: 'new',
       });
       const completion3 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });

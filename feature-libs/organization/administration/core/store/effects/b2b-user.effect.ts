@@ -92,7 +92,7 @@ export class B2BUserEffects {
                 const successActions = [
                   new B2BUserActions.CreateB2BUserSuccess(data),
                   new B2BUserActions.CreateB2BUserSuccess({
-                    customerId: undefined,
+                    customerId: 'new',
                   }),
                   new OrganizationActions.OrganizationClearData(),
                 ] as any[];
@@ -115,7 +115,7 @@ export class B2BUserEffects {
           catchError((error: HttpErrorResponse) =>
             from([
               new B2BUserActions.CreateB2BUserFail({
-                orgCustomerId: orgCustomer.customerId ?? '',
+                orgCustomerId: orgCustomer.customerId ?? 'new',
                 error: normalizeHttpError(error, this.logger),
               }),
               new OrganizationActions.OrganizationClearData(),

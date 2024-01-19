@@ -78,14 +78,13 @@ describe('ChildUnitItemService', () => {
   it('should launch orgUnitChildren with unitUid uid', () => {
     const routingService = TestBed.inject(RoutingService);
     spyOn(routingService, 'go').and.callThrough();
+    (service as any).unitRouteParam$ = of('unitUid')
     service.launchDetails({
-      uid: 'uid',
-      name: 'foo bar',
-      orgUnit: { uid: 'unitUid' },
+      customerId: 'new',
     });
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orgUnitUserList',
-      params: { uid: 'unitUid' },
+      params: { customerId: 'new', uid: 'unitUid' },
     });
   });
 });
