@@ -19,7 +19,6 @@ export * from './router/index';
 export * from './shared/index';
 export * from './utils/index';
 export * from './base-storefront.module';
-export * from './feature-flags';
 
 /** AUGMENTABLE_TYPES_START */
 export { BREAKPOINT } from './layout/config/layout-config';

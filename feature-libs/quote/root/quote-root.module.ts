@@ -15,7 +15,6 @@ import {
 } from '@spartacus/core';
 import {
   CmsPageGuard,
-  FEATURE_FLAG_QUOTES,
   LayoutConfig,
   PageLayoutComponent,
 } from '@spartacus/storefront';
@@ -129,7 +128,6 @@ export const defaultQuoteConfigLayoutConfig: LayoutConfig = {
     provideDefaultConfigFactory(defaultQuoteRequestComponentsConfig),
     provideDefaultConfig(defaultQuoteRoutingConfig),
     provideDefaultConfig(defaultQuoteConfigLayoutConfig),
-    { provide: FEATURE_FLAG_QUOTES, useValue: true },
   ],
 })
 export class QuoteRootModule {}

@@ -16,6 +16,7 @@ export * from './src/config/index';
 export * from './src/cost-center/index';
 export * from './src/error-handling/index';
 export * from './src/event/index';
+export * from './src/feature-toggles/index';
 export * from './src/features-config/index';
 export * from './src/global-message/index';
 export * from './src/http/index';
@@ -31,6 +32,7 @@ export * from './src/site-context/index';
 export * from './src/state/index';
 export * from './src/user/index';
 export * from './src/util/index';
+export * from './src/window/index';
 export * from './src/window/index';
 
 /** AUGMENTABLE_TYPES_START */

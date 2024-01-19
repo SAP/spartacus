@@ -19,7 +19,10 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { WindowRef } from '@spartacus/core';
+import {
+  FEATURE_FLAG_COMMENTS_PRODUCT_SUPPORT,
+  WindowRef,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { FilesFormValidators } from '../../../services/file/files-form-validators';
@@ -29,16 +32,18 @@ import {
   MessageEvent,
   MessagingConfigs,
 } from './messaging.model';
-import { FEATURE_FLAG_QUOTES } from '../../../../feature-flags';
 
 @Component({
   selector: 'cx-messaging',
   templateUrl: './messaging.component.html',
 })
 export class MessagingComponent implements OnInit, AfterViewChecked {
-  isQuoteActive: boolean | null = inject(FEATURE_FLAG_QUOTES, {
-    optional: true,
-  });
+  isQuoteActive: boolean | null = inject(
+    FEATURE_FLAG_COMMENTS_PRODUCT_SUPPORT,
+    {
+      optional: true,
+    }
+  );
   @ViewChild(FileUploadComponent) fileUploadComponent: FileUploadComponent;
 
   @Input() messageEvents$: Observable<Array<MessageEvent>>;

@@ -1,8 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
-import { AvatarComponent, FEATURE_FLAG_QUOTES } from '@spartacus/storefront';
+import {
+  FEATURE_FLAG_COMMENTS_PRODUCT_SUPPORT,
+  I18nTestingModule,
+} from '@spartacus/core';
+import { AvatarComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { IconModule } from '../../../../cms-components';
 import { FileUploadModule, FormErrorsModule } from '../../form';
@@ -51,7 +54,9 @@ describe('MessagingComponent', () => {
         FormErrorsModule,
         ReactiveFormsModule,
       ],
-      providers: [{ provide: FEATURE_FLAG_QUOTES, useValue: true }],
+      providers: [
+        { provide: FEATURE_FLAG_COMMENTS_PRODUCT_SUPPORT, useValue: true },
+      ],
       declarations: [MessagingComponent, AvatarComponent],
     }).compileComponents();
   });
