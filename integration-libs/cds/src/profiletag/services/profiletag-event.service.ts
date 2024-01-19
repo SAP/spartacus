@@ -175,7 +175,7 @@ export class ProfileTagEventService implements OnDestroy {
   private addScript(): void {
     const javascriptUrl = this.config.cds?.profileTag?.javascriptUrl;
     if (javascriptUrl) {
-      if (javascriptUrl && this.isScriptLoaded(javascriptUrl)) {
+      if (this.isScriptLoaded(javascriptUrl)) {
         return;
       }
       const profileTagScript = this.winRef.document.createElement('script');
