@@ -5,9 +5,10 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import {
   CostCenter,
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
   SearchConfig,
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
   Budget,
@@ -29,7 +30,7 @@ const httpErrorResponse = new HttpErrorResponse({
   statusText: 'Unknown error',
   url: '/xxx',
 });
-const error = normalizeHttpError(httpErrorResponse);
+
 const costCenterCode = 'testCode';
 const userId = 'testUser';
 const costCenter: CostCenter = {
@@ -69,6 +70,16 @@ class MockCostCenterConnector implements Partial<CostCenterConnector> {
   unassignBudget = createSpy().and.returnValue(of(null));
 }
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+
 describe('CostCenter Effects', () => {
   let actions$: Observable<CostCenterActions.CostCenterAction>;
   let costCenterConnector: CostCenterConnector;
@@ -102,6 +113,7 @@ describe('CostCenter Effects', () => {
       providers: [
         { provide: CostCenterConnector, useClass: MockCostCenterConnector },
         { provide: OccConfig, useValue: mockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.CostCenterEffects,
         provideMockActions(() => actions$),
       ],
