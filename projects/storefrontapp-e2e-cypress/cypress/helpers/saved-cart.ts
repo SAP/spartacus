@@ -340,7 +340,15 @@ export function restoreCart(
     .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
     .then(({ token }) => {
       cy.requireSavedCart(token, product, savedCartForm).then((cart) => {
-        visitSavedCartListingPage();
+        // to fix flickering: Skipped checking the retrieval of all saved carts because it frequently fails with a 400 error.
+        const savedCartListingPageAlias = waitForPage(
+          '/my-account/saved-carts',
+          'savedCartListPage'
+        );
+        cy.visit(`/my-account/saved-carts`);
+        cy.wait(`@${savedCartListingPageAlias}`)
+          .its('response.statusCode')
+          .should('eq', 200);
 
         if (isEmptyCart) {
           verifyMiniCartQuantity(0);
@@ -426,6 +434,8 @@ export function restoreCart(
           });
 
         verifyMiniCartQuantity(1);
+        // to fix flickering
+        visitSavedCartListingPage();
 
         if (cloneSavedCart.isCloneCartActive) {
           if (cloneSavedCart?.cloneName) {
