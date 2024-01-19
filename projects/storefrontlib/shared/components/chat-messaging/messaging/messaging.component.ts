@@ -34,7 +34,8 @@ import {
   templateUrl: './messaging.component.html',
 })
 export class MessagingComponent implements OnInit, AfterViewChecked {
-  @ViewChild(FileUploadComponent) fileUploadComponent: FileUploadComponent;
+  // can be undefined if you press add message button very fast on slow network
+  @ViewChild(FileUploadComponent) fileUploadComponent?: FileUploadComponent;
 
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
   @Input() scrollToInput?: boolean = true;
@@ -128,7 +129,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
 
   resetForm(): void {
     this.form.reset({ item: this.messagingConfigs?.defaultItemId });
-    this.fileUploadComponent.removeFile();
+    this.fileUploadComponent?.removeFile();
   }
 
   triggerDownload(

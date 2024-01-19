@@ -210,8 +210,15 @@ describe('MessagingComponent', () => {
     });
     it('should remove all files uploaded', () => {
       component.resetForm();
-      expect(component.fileUploadComponent.removeFile).toHaveBeenCalled();
+      expect(component.fileUploadComponent?.removeFile).toHaveBeenCalled();
     });
+    it('should not fail if there is no file upload component', () => {
+      component.fileUploadComponent = undefined;
+      spyOn(component.form, 'reset');
+      component.resetForm();
+      expect(component.form.reset).toHaveBeenCalled();
+    });
+
     it('should reset item DDLB to the default entry', () => {
       const defaultItemId = 'default';
       messagingConfig.defaultItemId = defaultItemId;
