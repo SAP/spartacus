@@ -37,13 +37,6 @@ const myAccountV2ProfileMapping: CmsConfig = {
     UpdateProfileComponent: {
       component: MyAccountV2ProfileComponent,
       guards: [AuthGuard],
-      providers: [
-        {
-          provide: MyAccountV2ProfileComponentService,
-          useClass: MyAccountV2ProfileComponentService,
-          deps: [UserProfileFacade, GlobalMessageService],
-        },
-      ],
     },
   },
 };
@@ -64,6 +57,7 @@ const myAccountV2ProfileMapping: CmsConfig = {
   declarations: [UpdateProfileComponent, MyAccountV2ProfileComponent],
   exports: [UpdateProfileComponent, MyAccountV2ProfileComponent],
   providers: [
+    MyAccountV2ProfileComponentService,
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         UpdateProfileComponent: {
