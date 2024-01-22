@@ -35,6 +35,8 @@ export class OpfGooglePayComponent implements OnInit {
   isReadyToPayState$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   ngOnInit(): void {
+    console.log('inited');
+
     this.opfGooglePayService.loadProviderResources().then(() => {
       this.opfGooglePayService.initClient(this.activeConfiguration);
       this.opfGooglePayService.isReadyToPay().then((response: any) => {
