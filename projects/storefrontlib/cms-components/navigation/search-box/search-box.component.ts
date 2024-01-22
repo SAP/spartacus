@@ -4,29 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-} from '@angular/core';
-import {
-  CmsSearchBoxComponent,
-  PageType,
-  RoutingService,
-  WindowRef,
-} from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { CmsSearchBoxComponent, PageType, RoutingService, WindowRef } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { ICON_TYPE } from '../../misc';
+import { CmsComponentData } from '../../../cms-structure';
 import { SearchBoxComponentService } from './search-box-component.service';
-import {
-  SearchBoxProductSelectedEvent,
-  SearchBoxSuggestionSelectedEvent,
-} from './search-box.events';
+import { SearchBoxProductSelectedEvent, SearchBoxSuggestionSelectedEvent } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
@@ -36,6 +21,8 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   maxProducts: 5,
   maxSuggestions: 5,
   displayProductImages: true,
+  recentSearches: true,
+  maxRecentSearches: 5,
 };
 const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
 
@@ -58,6 +45,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   iconTypes = ICON_TYPE;
+
+  searchBoxActive: boolean = false;
 
   /**
    * In some occasions we need to ignore the close event,
@@ -120,6 +109,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           this.chosenWord = '';
         }
       });
+
+    this.searchBoxComponentService.chosenWord.subscribe((chosenWord) => {
+      this.updateChosenWord(chosenWord);
+    });
   }
 
   /**
@@ -136,6 +129,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    */
   open(): void {
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
+    this.searchBoxActive = true;
   }
 
   /**
@@ -170,6 +164,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   protected blurSearchBox(event: UIEvent): void {
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
+    this.searchBoxActive = false;
     if (event && event.target) {
       (<HTMLElement>event.target).blur();
     }

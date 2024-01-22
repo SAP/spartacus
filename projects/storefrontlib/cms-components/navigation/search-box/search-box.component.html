@@ -150,4 +150,13 @@
     }}
     {{ 'searchBox.initialDescription' | cxTranslate }}
   </div>
+  <ng-template
+    *ngIf="config.recentSearches"
+    [cxOutlet]="'RECENT_SEARCHES'"
+    [cxOutletContext]="{
+      search: searchInput.value,
+      searchBoxActive: searchBoxActive,
+      maxRecentSearches: config.maxRecentSearches
+    }"
+  ></ng-template>
 </div>

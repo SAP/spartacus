@@ -6,11 +6,19 @@
 
 import { NgModule } from '@angular/core';
 import { CdsConfig, CdsModule } from '@spartacus/cds';
-import { provideConfig } from '@spartacus/core';
+import { I18nConfig, provideConfig } from '@spartacus/core';
+import { cdsTranslationChunksConfig, cdsTranslations } from '@spartacus/cds/assets';
 
 @NgModule({
   imports: [CdsModule.forRoot()],
   providers: [
+    provideConfig(<I18nConfig>{
+      i18n: {
+        resources: cdsTranslations,
+        chunks: cdsTranslationChunksConfig,
+        fallbackLang: 'en',
+      },
+    }),
     provideConfig(<CdsConfig>{
       cds: {
         tenant: 'argotest',
