@@ -41,7 +41,7 @@
     "@cypress/webpack-preprocessor": "^5.9.1",
     "@testing-library/cypress": "10.0.1",
     "babel-loader": "^9.0.0",
-    "cypress": "13.6.2",
+    "cypress": "13.2.0",
     "cypress-file-upload": "^5.0.8",
     "ts-loader": "^9.4.2",
     "typescript": "^4.2.4",
