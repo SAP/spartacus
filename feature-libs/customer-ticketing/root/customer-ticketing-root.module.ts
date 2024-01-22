@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -16,11 +15,11 @@ import {
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultCustomerTicketingConfig } from './config';
 import { defaultCustomerTicketingRoutingConfig } from './config/default-customer-ticketing-routing-config';
+import { CustomerTicketingEventModule } from './events/customer-ticketing-event.module';
 import {
   CUSTOMER_TICKETING_CORE_FEATURE,
   CUSTOMER_TICKETING_FEATURE,
 } from './feature-name';
-import { CustomerTicketingEventModule } from './events/customer-ticketing-event.module';
 
 export function defaultCustomerTicketingComponentsConfig(): CmsConfig {
   const config: CmsConfig = {

@@ -1,24 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { AuthGuard, CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import {
+  OrderDetailItemsComponent,
+  OrderDetailTotalsComponent,
+  OrderDetailsService,
+} from '@spartacus/order/components';
 import { UnitLevelOrdersViewerGuard } from '@spartacus/organization/unit-order/core';
+import { UnitLevelOrderDetailService } from './unit-level-order-detail.service';
 import {
   UnitLevelOrderOverviewComponent,
   UnitLevelOrderOverviewModule,
 } from './unit-level-order-overview';
-import {
-  OrderDetailItemsComponent,
-  OrderDetailsService,
-  OrderDetailTotalsComponent,
-} from '@spartacus/order/components';
-import { UnitLevelOrderDetailService } from './unit-level-order-detail.service';
 
 @NgModule({
   imports: [CommonModule, UnitLevelOrderOverviewModule],

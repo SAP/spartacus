@@ -1,16 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DpLocalStorageService } from './../../../facade/dp-local-storage.service';
-import { DP_CARD_REGISTRATION_STATUS } from '../../../../utils/dp-constants';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { DP_CARD_REGISTRATION_STATUS } from '../../../../utils/dp-constants';
 import { DpCheckoutPaymentService } from '../../../facade';
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { DpLocalStorageService } from './../../../facade/dp-local-storage.service';
 
 @Component({
   selector: 'cx-dp-payment-callback',

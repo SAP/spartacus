@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -13,8 +12,8 @@ import {
 import { CmsConfig, provideConfig } from '@spartacus/core';
 import { NavigationEvent } from '@spartacus/storefront';
 import {
-  PersonalizationRootModule,
   PERSONALIZATION_FEATURE,
+  PersonalizationRootModule,
 } from '@spartacus/tracking/personalization/root';
 import { AepModule } from '@spartacus/tracking/tms/aep';
 import { BaseTmsModule, TmsConfig } from '@spartacus/tracking/tms/core';

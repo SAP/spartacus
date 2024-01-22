@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -15,11 +14,11 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import {
-  Budget,
-  BudgetAdapter,
   BUDGETS_NORMALIZER,
   BUDGET_NORMALIZER,
   BUDGET_SERIALIZER,
+  Budget,
+  BudgetAdapter,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 

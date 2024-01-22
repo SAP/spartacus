@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -9,10 +8,10 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { ConsignmentTracking } from './consignment-tracking.model';
 import {
   Consignment,
-  OrderHistory,
-  ReturnRequest,
-  OrderHistoryList,
   Order,
+  OrderHistory,
+  OrderHistoryList,
+  ReturnRequest,
 } from './order.model';
 
 // for my-account-v2: contains tracking information along with consignment details

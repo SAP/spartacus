@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,8 +10,8 @@ import {
   asmCustomer360Translations,
 } from '@spartacus/asm/customer-360/assets';
 import {
-  AsmCustomer360RootModule,
   ASM_CUSTOMER_360_FEATURE,
+  AsmCustomer360RootModule,
 } from '@spartacus/asm/customer-360/root';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 

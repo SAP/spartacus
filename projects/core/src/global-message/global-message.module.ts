@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,11 +10,11 @@ import {
   errorHandlers,
   httpErrorInterceptors,
 } from './http-interceptors/index';
-import { GlobalMessageStoreModule } from './store/global-message-store.module';
 import { GlobalMessageEffect } from './store/effects/global-message.effect';
+import { GlobalMessageStoreModule } from './store/global-message-store.module';
 
-import { defaultGlobalMessageConfig } from './config/default-global-message-config';
 import { provideDefaultConfig } from '../config/config-providers';
+import { defaultGlobalMessageConfig } from './config/default-global-message-config';
 
 @NgModule({
   imports: [

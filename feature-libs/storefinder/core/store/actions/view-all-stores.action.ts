@@ -1,13 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { STORE_FINDER_DATA } from '../store-finder-state';
-import { StateUtils } from '@spartacus/core';
 import { Action } from '@ngrx/store';
+import { StateUtils } from '@spartacus/core';
+import { STORE_FINDER_DATA } from '../store-finder-state';
 
 export const VIEW_ALL_STORES = '[StoreFinder] View All Stores';
 export const VIEW_ALL_STORES_FAIL = '[StoreFinder] View All Stores Fail';

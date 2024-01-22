@@ -1,11 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { viewportContext } from '../../../helpers/viewport-context';
 import {
   configureApparelProduct,
   fillPaymentFormAndBillingAdress,
@@ -13,6 +11,7 @@ import {
   login,
   register,
 } from '../../../helpers/pickup-in-store-utils';
+import { viewportContext } from '../../../helpers/viewport-context';
 
 /*
 

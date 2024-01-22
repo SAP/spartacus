@@ -1,17 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { ApplePayComponent } from './apple-pay.component';
-import {
-  CurrentProductService,
-  ItemCounterService,
-} from '@spartacus/storefront';
-import { ApplePayService } from './apple-pay.service';
-import { ApplePaySessionFactory } from './apple-pay-session';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Product } from '@spartacus/core';
 import {
   OpfCartHandlerService,
   OpfPaymentErrorHandlerService,
@@ -22,8 +16,14 @@ import {
   OpfPaymentError,
   OpfProviderType,
 } from '@spartacus/opf/base/root';
+import {
+  CurrentProductService,
+  ItemCounterService,
+} from '@spartacus/storefront';
 import { of, throwError } from 'rxjs';
-import { Product } from '@spartacus/core';
+import { ApplePaySessionFactory } from './apple-pay-session';
+import { ApplePayComponent } from './apple-pay.component';
+import { ApplePayService } from './apple-pay.service';
 
 const mockProduct: Product = {
   name: 'mockProduct',

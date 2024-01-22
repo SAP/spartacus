@@ -1,13 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as updateProfile from '../../../helpers/update-profile';
 import { checkBanner } from '../../../helpers/homepage';
 import * as login from '../../../helpers/login';
+import * as updateProfile from '../../../helpers/update-profile';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('My Account - Update Profile', () => {

@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -20,7 +19,7 @@ import {
   OrderView,
   ReturnRequestList,
 } from '@spartacus/order/root';
-import { Observable, of, using, combineLatest } from 'rxjs';
+import { combineLatest, Observable, of, using } from 'rxjs';
 import { auditTime, filter, map, switchMap, tap } from 'rxjs/operators';
 import { OrderActions } from '../store';
 import {

@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -9,8 +8,8 @@ import { MemoizedSelector, createSelector } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
 import { ConsignmentTracking } from '@spartacus/order/root';
 import {
-  StateWithOrder,
   OrderState,
+  StateWithOrder,
   getConsignmentTrackingByIdEntityKey,
 } from '../order-state';
 import { getOrderState } from './feature.selector';

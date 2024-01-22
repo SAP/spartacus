@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,12 +18,12 @@ import {
 } from '@spartacus/core';
 import { OPF_CC_OTP_KEY } from '@spartacus/opf/base/root';
 import {
-  OpfEndpointsService,
   OPF_PAYMENT_CONFIG_SERIALIZER,
+  OpfEndpointsService,
 } from '@spartacus/opf/checkout/core';
 import {
-  OpfConfig,
   OPF_CC_PUBLIC_KEY,
+  OpfConfig,
   PaymentInitiationConfig,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';

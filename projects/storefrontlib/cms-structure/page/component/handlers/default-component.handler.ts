@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,9 +13,9 @@ import {
   NgModuleRef,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentHandler } from './component-handler';
-import { Observable } from 'rxjs';
 import { CmsComponentMapping, Priority } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { ComponentHandler } from './component-handler';
 
 /**
  * Default component handler used for dynamically launching cms components implemented

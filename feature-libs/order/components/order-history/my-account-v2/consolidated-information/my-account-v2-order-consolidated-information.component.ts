@@ -1,24 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
   Input,
   inject,
 } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Images } from '@spartacus/core';
-import { MyAccountV2OrderConsignmentsService } from '../../../order-details';
 import {
   ConsignmentView,
-  OrderView,
   OrderHistoryView,
+  OrderView,
 } from '@spartacus/order/root';
+import { MyAccountV2OrderConsignmentsService } from '../../../order-details';
 import { OrderCriticalStatus } from '../my-account-v2-order-history.model';
 
 @Component({

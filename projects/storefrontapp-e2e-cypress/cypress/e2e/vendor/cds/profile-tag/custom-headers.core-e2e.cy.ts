@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -9,15 +8,14 @@ import * as anonymousConsents from '../../../../helpers/anonymous-consents';
 import * as checkoutFlow from '../../../../helpers/checkout-flow';
 import { navigation } from '../../../../helpers/navigation';
 import {
+  QUERY_ALIAS,
+  createProductQuery,
+} from '../../../../helpers/product-search';
+import {
   cdsHelper,
   strategyRequestAlias,
 } from '../../../../helpers/vendor/cds/cds';
-import {
-  createProductQuery,
-  QUERY_ALIAS,
-} from '../../../../helpers/product-search';
 import { profileTagHelper } from '../../../../helpers/vendor/cds/profile-tag';
-import _ from 'cypress/types/lodash';
 
 describe('Custom header additions to occ calls', () => {
   describe('verifying X-Consent-Reference header addition to occ calls', () => {

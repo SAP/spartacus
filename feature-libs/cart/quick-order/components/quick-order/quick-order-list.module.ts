@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -24,8 +23,8 @@ import {
   MessageComponentModule,
   ProgressButtonModule,
 } from '@spartacus/storefront';
-import { QuickOrderComponent } from './quick-order.component';
 import { QuickOrderFormComponent } from './form/quick-order-form.component';
+import { QuickOrderComponent } from './quick-order.component';
 import { QuickOrderItemComponent } from './table/item/quick-order-item.component';
 import { QuickOrderTableComponent } from './table/quick-order-table.component';
 

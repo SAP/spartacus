@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -13,10 +12,10 @@ import {
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, throwError } from 'rxjs';
-import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
-import { CDC_USER_PREFERENCE_SERIALIZER } from '../converters/converter';
 import { tap } from 'rxjs/operators';
 import { CdcJsService } from '../../service';
+import { CDC_USER_PREFERENCE_SERIALIZER } from '../converters/converter';
+import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class CdcUserConsentService {

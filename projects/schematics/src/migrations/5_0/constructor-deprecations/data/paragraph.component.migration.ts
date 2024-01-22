@@ -1,17 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import {
   ANGULAR_ROUTER,
   CMS_COMPONENT_DATA_CLASS,
   PARAGRAPH_COMPONENT,
   ROUTER,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PARAGRAPH_COMPONENT_MIGRATION: ConstructorDeprecation = {

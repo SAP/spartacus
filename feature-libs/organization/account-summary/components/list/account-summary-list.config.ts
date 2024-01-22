@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -15,11 +14,11 @@ import {
 } from '@spartacus/organization/administration/components';
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
+import { BREAKPOINT, TableConfig, TableLayout } from '@spartacus/storefront';
 import { AccountSummaryDocumentComponent } from '../details/document/account-summary-document.component';
-import { AccountSummaryListComponent } from './account-summary-list.component';
 import { AccountSummaryItemService } from '../services/account-summary-item.service';
 import { AccountSummaryUnitListService } from '../services/account-summary-unit-list.service';
-import { BREAKPOINT, TableConfig, TableLayout } from '@spartacus/storefront';
+import { AccountSummaryListComponent } from './account-summary-list.component';
 
 export const ACCOUNT_SUMMARY_DETAILS_TRANSLATION_KEY =
   'orgAccountSummaryList.breadcrumbs.details';

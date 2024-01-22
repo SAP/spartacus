@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -10,12 +9,12 @@ import { Injectable } from '@angular/core';
 import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
 import { ReplenishmentOrderHistoryAdapter } from '@spartacus/order/core';
 import {
-  OrderHistoryList,
   ORDER_HISTORY_NORMALIZER,
-  ReplenishmentOrder,
-  ReplenishmentOrderList,
+  OrderHistoryList,
   REPLENISHMENT_ORDER_HISTORY_NORMALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 

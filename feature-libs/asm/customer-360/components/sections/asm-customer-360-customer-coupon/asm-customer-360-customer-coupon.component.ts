@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -18,11 +17,11 @@ import {
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { CustomerCouponService } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { CustomerCouponEntry } from './asm-customer-360-customer-coupon.model';
-import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

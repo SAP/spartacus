@@ -1,15 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as configuration from '../../../helpers/product-configurator';
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
+import * as common from '../../../helpers/common';
+import * as configuration from '../../../helpers/product-configurator';
 import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
-import * as common from '../../../helpers/common';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';

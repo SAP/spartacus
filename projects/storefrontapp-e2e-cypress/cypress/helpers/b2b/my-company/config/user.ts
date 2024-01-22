@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -10,8 +9,8 @@ import { randomString } from '../../../user';
 import {
   ENTITY_UID_COOKIE_KEY,
   INPUT_TYPE,
-  MyCompanyConfig,
   MY_COMPANY_FEATURE,
+  MyCompanyConfig,
 } from '../models';
 
 export const userConfig: MyCompanyConfig = {

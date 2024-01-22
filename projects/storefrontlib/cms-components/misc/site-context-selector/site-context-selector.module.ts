@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,8 +10,8 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ContextServiceMap,
-  provideDefaultConfig,
   SiteContextModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { IconModule } from '../icon/index';

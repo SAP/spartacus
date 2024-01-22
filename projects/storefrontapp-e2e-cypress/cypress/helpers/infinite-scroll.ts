@@ -1,6 +1,5 @@
 /*
  * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -9,8 +8,7 @@
 import { waitForPage } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
 import { waitForCategoryPage } from './navigation';
-import { clickFacet } from './product-search';
-import { searchUrlPrefix } from './product-search';
+import { clickFacet, searchUrlPrefix } from './product-search';
 
 const scrollDuration = 5000;
 const defaultNumberOfProducts = 12;

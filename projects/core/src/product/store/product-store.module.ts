@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -9,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { provideDefaultConfigFactory } from '../../config/config-providers';
 import {
   StateConfig,
   StateTransferType,
@@ -16,7 +16,6 @@ import {
 import { effects } from './effects/index';
 import { PRODUCT_FEATURE } from './product-state';
 import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
-import { provideDefaultConfigFactory } from '../../config/config-providers';
 
 export function productStoreConfigFactory(): StateConfig {
   // if we want to reuse PRODUCT_FEATURE const in config, we have to use factory instead of plain object

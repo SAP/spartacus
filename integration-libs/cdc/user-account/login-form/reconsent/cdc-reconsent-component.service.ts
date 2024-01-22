@@ -1,15 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { Subscription } from 'rxjs';
-import { LaunchDialogService } from '@spartacus/storefront';
 import { CdcJsService, CdcUserConsentService } from '@spartacus/cdc/root';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { LaunchDialogService } from '@spartacus/storefront';
+import { Subscription } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CdcReconsentComponentService implements OnDestroy {

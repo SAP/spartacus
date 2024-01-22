@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -30,10 +29,10 @@ import {
 import { FileDownloadService, ICON_TYPE } from '@spartacus/storefront';
 import {
   BehaviorSubject,
-  combineLatest,
   EMPTY,
   Observable,
   Subscription,
+  combineLatest,
 } from 'rxjs';
 import { catchError, skip, switchMap, take, tap } from 'rxjs/operators';
 

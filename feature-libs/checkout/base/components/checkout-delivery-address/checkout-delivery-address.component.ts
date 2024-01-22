@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -19,14 +18,14 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
   TranslationService,
   UserAddressService,
+  getLastValueSync,
 } from '@spartacus/core';
 import { Card, getAddressNumbers } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -34,8 +33,8 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutConfigService } from '../services';
+import { CheckoutStepService } from '../services/checkout-step.service';
 
 export interface CardWithAddress {
   card: Card;

@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -12,8 +11,8 @@ import {
   HostListener,
   OnDestroy,
 } from '@angular/core';
+import { FocusConfig, ICON_TYPE } from '@spartacus/storefront';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
-import { ICON_TYPE, FocusConfig } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-clear-cart-dialog',

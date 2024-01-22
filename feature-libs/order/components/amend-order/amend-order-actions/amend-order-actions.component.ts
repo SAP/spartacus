@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,8 +10,8 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-amend-order-actions',

@@ -1,22 +1,21 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import * as cartValidation from '../../../helpers/cart-validation';
-import { viewportContext } from '../../../helpers/viewport-context';
-import {
-  outOfStockResponse,
-  PRODUCT_1,
-  PRODUCT_2,
-} from '../../../sample-data/cart-validation';
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import {
   addMultipleProductsToCart,
   removeItemAndCheckCartEntriesNumber,
 } from '../../../helpers/cart-validation';
+import { viewportContext } from '../../../helpers/viewport-context';
+import {
+  PRODUCT_1,
+  PRODUCT_2,
+  outOfStockResponse,
+} from '../../../sample-data/cart-validation';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 context('Cart validation', () => {
   viewportContext(['mobile'], () => {

@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -17,10 +16,10 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { ListNavigationModule } from '@spartacus/storefront';
 import { UnitLevelOrdersViewerGuard } from '@spartacus/organization/unit-order/core';
-import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
+import { ListNavigationModule } from '@spartacus/storefront';
 import { UnitLevelOrderHistoryFilterModule } from './filter/unit-level-order-history-filter.module';
+import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
 
 @NgModule({
   imports: [

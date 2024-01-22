@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,17 +13,17 @@ import {
   OccEndpointsService,
   SearchConfig,
 } from '@spartacus/core';
-import {
-  OrderApproval,
-  OrderApprovalDecision,
-} from '../../core/model/order-approval.model';
-import { OrderApprovalAdapter } from '../../core/connectors/order-approval.adapter';
+import { Observable } from 'rxjs';
 import {
   ORDER_APPROVALS_NORMALIZER,
   ORDER_APPROVAL_DECISION_NORMALIZER,
   ORDER_APPROVAL_NORMALIZER,
 } from '../../core/connectors/converters';
-import { Observable } from 'rxjs';
+import { OrderApprovalAdapter } from '../../core/connectors/order-approval.adapter';
+import {
+  OrderApproval,
+  OrderApprovalDecision,
+} from '../../core/model/order-approval.model';
 
 @Injectable()
 export class OccOrderApprovalAdapter implements OrderApprovalAdapter {

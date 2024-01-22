@@ -1,13 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { formats } from '../../../sample-data/viewports';
-import { TabElement } from '../tabbing-order.model';
 import { verifyTabbingOrder } from '../tabbing-order';
+import { TabElement } from '../tabbing-order.model';
 
 const containerSelector = 'cx-navigation-ui.accNavComponent';
 

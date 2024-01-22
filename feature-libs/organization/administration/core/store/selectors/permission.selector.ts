@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -8,16 +7,16 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
   EntitiesModel,
+  OrderApprovalPermissionType,
   SearchConfig,
   StateUtils,
-  OrderApprovalPermissionType,
 } from '@spartacus/core';
 import { Permission } from '../../model/permission.model';
 import {
   OrganizationState,
-  PermissionManagement,
   PERMISSION_FEATURE,
   PERMISSION_TYPES,
+  PermissionManagement,
   StateWithOrganization,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';

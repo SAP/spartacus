@@ -1,12 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { STORE_FINDER_DATA } from '../store-finder-state';
 import { GeoPoint, SearchConfig, StateUtils } from '@spartacus/core';
+import { STORE_FINDER_DATA } from '../store-finder-state';
 
 export const FIND_STORES_ON_HOLD = '[StoreFinder] On Hold';
 export const FIND_STORES = '[StoreFinder] Find Stores';

@@ -1,17 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { B2BUser, B2BUserRole, B2BUserRight } from '@spartacus/core';
+import { B2BUser, B2BUserRight, B2BUserRole } from '@spartacus/core';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 import { Observable, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';
 import { UserItemService } from '../services/user-item.service';
-import { B2BUserService } from '@spartacus/organization/administration/core';
 
 @Component({
   selector: 'cx-org-user-details',

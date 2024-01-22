@@ -1,14 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { TestBed } from '@angular/core/testing';
-import { ApplePayObservableFactory } from './apple-pay-observable.factory';
-import { ApplePaySessionFactory } from '../apple-pay-session/apple-pay-session.factory';
-import { Observable, of, throwError } from 'rxjs';
 import { ApplePayObservableConfig } from '@spartacus/opf/base/root';
+import { Observable, of, throwError } from 'rxjs';
+import { ApplePaySessionFactory } from '../apple-pay-session/apple-pay-session.factory';
+import { ApplePayObservableFactory } from './apple-pay-observable.factory';
 
 class MockEventTarget implements EventTarget {
   _stubEventListeners: Array<{ type: string; listener: Function }> = [];

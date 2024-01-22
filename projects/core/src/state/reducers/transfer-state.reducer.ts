@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -7,9 +6,9 @@
 
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import {
-  makeStateKey,
   StateKey,
   TransferState,
+  makeStateKey,
 } from '@angular/platform-browser';
 import { INIT } from '@ngrx/store';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';

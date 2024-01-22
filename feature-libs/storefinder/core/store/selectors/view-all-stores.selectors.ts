@@ -1,18 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { StateUtils } from '@spartacus/core';
 import {
   StateWithStoreFinder,
   StoresState,
   ViewAllStoresState,
 } from '../store-finder-state';
 import { getStoreFinderState } from './feature.selector';
-import { StateUtils } from '@spartacus/core';
 
 export const getViewAllStoresState: MemoizedSelector<
   StateWithStoreFinder,

@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -12,9 +11,9 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addPackageJsonDependency,
   NodeDependency,
   NodeDependencyType,
+  addPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 import semver from 'semver';
 import { version } from '../../../package.json';

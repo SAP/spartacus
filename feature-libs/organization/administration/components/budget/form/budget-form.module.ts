@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -12,8 +11,8 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { DatePickerModule, FormErrorsModule } from '@spartacus/storefront';
-import { ItemActiveModule } from '../../shared/item-active.module';
 import { FormModule } from '../../shared/form/form.module';
+import { ItemActiveModule } from '../../shared/item-active.module';
 import { BudgetFormComponent } from './budget-form.component';
 
 @NgModule({

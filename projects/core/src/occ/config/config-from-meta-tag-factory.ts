@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -7,8 +6,8 @@
 
 import { Provider } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
-import { OccConfig } from './occ-config';
 import { provideConfigFactory } from '../../config/config-providers';
+import { OccConfig } from './occ-config';
 
 export const OCC_BASE_URL_META_TAG_NAME = 'occ-backend-base-url';
 export const OCC_BASE_URL_META_TAG_PLACEHOLDER = 'OCC_BACKEND_BASE_URL_VALUE';

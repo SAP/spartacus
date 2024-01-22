@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -18,6 +17,6 @@ export * from './navigation/navigation.module';
 export * from './navigation/navigation.service';
 export * from './page-header/page-title.component';
 export * from './page-header/page-title.module';
-export * from './search-box/index';
 export * from './scroll-to-top/scroll-to-top.component';
 export * from './scroll-to-top/scroll-to-top.module';
+export * from './search-box/index';

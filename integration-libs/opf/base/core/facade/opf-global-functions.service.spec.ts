@@ -1,12 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { TestBed } from '@angular/core/testing';
-import { OpfGlobalFunctionsService } from './opf-global-functions.service';
-import { WindowRef } from '@spartacus/core';
 import {
   Component,
   ComponentRef,
@@ -14,7 +11,10 @@ import {
   InjectionToken,
   ViewContainerRef,
 } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { WindowRef } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 
 import {
   GlobalFunctionsDomain,

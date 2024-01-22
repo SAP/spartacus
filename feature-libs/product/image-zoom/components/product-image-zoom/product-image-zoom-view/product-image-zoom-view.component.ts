@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -17,7 +16,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { ImageGroup, isNotNullable, Product } from '@spartacus/core';
+import { ImageGroup, Product, isNotNullable } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import {
   BREAKPOINT,
@@ -27,12 +26,12 @@ import {
 } from '@spartacus/storefront';
 import {
   BehaviorSubject,
+  Observable,
+  Subscription,
   combineLatest,
   fromEvent,
   merge,
-  Observable,
   of,
-  Subscription,
 } from 'rxjs';
 import {
   distinctUntilChanged,

@@ -1,12 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { UserActions } from '../actions/index';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
+import { UserActions } from '../actions/index';
 
 export const initialState: ProductInterestSearchResult = {
   results: [],

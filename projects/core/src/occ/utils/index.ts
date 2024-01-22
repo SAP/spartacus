@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -13,9 +12,9 @@ export { OCC_USER_IDS };
 
 export * from './interceptor-util';
 export * from './occ-constants';
-export * from './occ-url-util';
-export * from './occ-http-token';
 export * from './occ-fields';
+export * from './occ-http-token';
+export * from './occ-url-util';
 
 export const OCC_USER_ID_CONSTANTS = new InjectionToken<{
   [identifier: string]: string;

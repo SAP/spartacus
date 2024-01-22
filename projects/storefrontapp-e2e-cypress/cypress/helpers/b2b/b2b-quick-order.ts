@@ -1,14 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { SampleProduct } from '../../sample-data/checkout-flow';
-import * as sampleData from '../../sample-data/b2b-checkout';
-import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/tabbing-order.config';
+import * as sampleData from '../../sample-data/b2b-checkout';
+import { SampleProduct } from '../../sample-data/checkout-flow';
+import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
 import { waitForPage } from '../checkout-flow';
 
 export const ADD_TO_CART_ENDPOINT_ALIAS = 'addEntry';

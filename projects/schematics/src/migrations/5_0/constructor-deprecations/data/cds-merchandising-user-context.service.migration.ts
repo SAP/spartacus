@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -7,12 +6,12 @@
 
 import {
   CDS_MERCHANDISING_USER_CONTEXT_SERVICE,
-  ROUTING_SERVICE,
-  PRODUCT_SEARCH_SERVICE,
   CONVERTER_SERVICE,
+  FACET_SERVICE,
+  PRODUCT_SEARCH_SERVICE,
   PROFILE_TAG_EVENT_SERVICE,
   PROFILE_TAG_LIFECYCLE_SERVICE,
-  FACET_SERVICE,
+  ROUTING_SERVICE,
 } from '../../../../shared/constants';
 import {
   SPARTACUS_CDS,

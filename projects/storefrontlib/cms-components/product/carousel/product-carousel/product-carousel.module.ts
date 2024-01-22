@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -19,8 +18,8 @@ import {
   CarouselModule,
   MediaModule,
 } from '../../../../shared/components/index';
-import { ProductCarouselComponent } from './product-carousel.component';
 import { ProductCarouselItemComponent } from '../product-carousel-item/product-carousel-item.component';
+import { ProductCarouselComponent } from './product-carousel.component';
 
 @NgModule({
   imports: [

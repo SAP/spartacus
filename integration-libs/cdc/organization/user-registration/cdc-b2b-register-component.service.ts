@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -22,8 +21,8 @@ import {
 } from '@spartacus/core';
 import { UserRegistrationFormService } from '@spartacus/organization/user-registration/components';
 import {
-  UserRegistrationFacade,
   OrganizationUserRegistrationForm,
+  UserRegistrationFacade,
 } from '@spartacus/organization/user-registration/root';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { Observable, throwError } from 'rxjs';

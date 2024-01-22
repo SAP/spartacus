@@ -1,15 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { SiteContextConfig } from './site-context-config';
 import {
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
 } from '../providers/context-ids';
+import { SiteContextConfig } from './site-context-config';
 
 export function defaultSiteContextConfigFactory(): SiteContextConfig {
   return {

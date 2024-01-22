@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -7,8 +6,8 @@
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
-  migrateMissingPackage,
   MissingPackageMigration,
+  migrateMissingPackage,
 } from '../../mechanism/missing-packages/missing-packages';
 
 const MISSING_PACKAGE_DATA: MissingPackageMigration[] = [];

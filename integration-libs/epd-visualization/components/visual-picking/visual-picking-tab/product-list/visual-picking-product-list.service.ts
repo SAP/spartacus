@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -17,7 +16,7 @@ import {
   VisualPickingConfig,
 } from '@spartacus/epd-visualization/root';
 import { CurrentProductService } from '@spartacus/storefront';
-import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,

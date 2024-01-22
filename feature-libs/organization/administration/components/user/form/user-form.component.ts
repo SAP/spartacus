@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -16,7 +15,7 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
-import { B2BUser, B2BUserRole, B2BUserRight, Title } from '@spartacus/core';
+import { B2BUser, B2BUserRight, B2BUserRole, Title } from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUserService,

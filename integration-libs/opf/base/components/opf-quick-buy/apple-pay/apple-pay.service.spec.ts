@@ -1,22 +1,22 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { TestBed } from '@angular/core/testing';
-import { ApplePayService } from './apple-pay.service';
+import { DeliveryMode } from '@spartacus/cart/base/root';
+import { Product, WindowRef } from '@spartacus/core';
+import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ApplePayObservableConfig,
   OpfPaymentFacade,
 } from '@spartacus/opf/base/root';
-import { Product, WindowRef } from '@spartacus/core';
-import { OpfCartHandlerService } from '@spartacus/opf/base/core';
-import { ApplePayObservableFactory } from './observable/apple-pay-observable.factory';
-import { ApplePaySessionFactory } from './apple-pay-session/apple-pay-session.factory';
 import { Subject, of, throwError } from 'rxjs';
-import { DeliveryMode } from '@spartacus/cart/base/root';
 import { map } from 'rxjs/operators';
+import { ApplePaySessionFactory } from './apple-pay-session/apple-pay-session.factory';
+import { ApplePayService } from './apple-pay.service';
+import { ApplePayObservableFactory } from './observable/apple-pay-observable.factory';
 
 interface ApplePaySessionVerificationResponse {
   epochTimestamp: number;

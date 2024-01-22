@@ -1,14 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { of, Subscription } from 'rxjs';
-import { DpPaymentRequest } from './../models/dp-checkout.model';
-import { StatePersistenceService } from '@spartacus/core';
 import { Injectable, OnDestroy } from '@angular/core';
+import { StatePersistenceService } from '@spartacus/core';
+import { Subscription, of } from 'rxjs';
+import { DpPaymentRequest } from './../models/dp-checkout.model';
 
 const KEY = 'digital-payment.checkout.request';
 

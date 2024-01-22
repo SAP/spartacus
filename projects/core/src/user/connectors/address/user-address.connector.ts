@@ -1,14 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { UserAddressAdapter } from './user-address.adapter';
 import { Observable } from 'rxjs';
 import { Address, AddressValidation } from '../../../model/address.model';
+import { UserAddressAdapter } from './user-address.adapter';
 
 @Injectable({
   providedIn: 'root',

@@ -1,17 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { SpinnerModule } from '@spartacus/storefront';
-import { DpPaymentFormComponent } from './dp-payment-form.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule } from '@spartacus/core';
+import { SpinnerModule } from '@spartacus/storefront';
+import { DpPaymentFormComponent } from './dp-payment-form.component';
 
 @NgModule({
   imports: [

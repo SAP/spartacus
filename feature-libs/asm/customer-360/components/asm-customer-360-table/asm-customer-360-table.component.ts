@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -18,6 +17,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  SortOrder,
   byBoolean,
   byComparison,
   byNullish,
@@ -27,18 +27,17 @@ import {
   isString,
   itemsWith,
   property,
-  SortOrder,
   whenType,
 } from '@spartacus/asm/core';
+import { KeyBoardEventCode } from '@spartacus/asm/customer-360/root';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
+import { AsmCustomer360Config } from '../config/asm-customer-360-config';
 import {
   CustomerTableColumn,
   CustomerTableTextAlign,
   TableEntry,
 } from './asm-customer-360-table.model';
-import { AsmCustomer360Config } from '../config/asm-customer-360-config';
-import { KeyBoardEventCode } from '@spartacus/asm/customer-360/root';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

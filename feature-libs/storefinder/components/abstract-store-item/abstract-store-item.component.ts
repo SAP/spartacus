@@ -1,11 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Input, Directive } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 
 /* eslint-disable @angular-eslint/directive-class-suffix */

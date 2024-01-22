@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -17,8 +16,8 @@ import {
   CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
 } from '../common/converters/cpq-configurator.converters';
-import { CpqConfiguratorEndpointService } from './cpq-configurator-endpoint.service';
 import { Cpq } from '../common/cpq.models';
+import { CpqConfiguratorEndpointService } from './cpq-configurator-endpoint.service';
 
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorRestService {

@@ -1,17 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Product } from '@spartacus/core';
 import {
   CurrentProductService,
   ProductImagesComponent,
 } from '@spartacus/storefront';
-import { Product } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-product-images',

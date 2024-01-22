@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -15,8 +14,8 @@ import {
 import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';
 import {
-  B2BUserManagement,
   B2B_USER_FEATURE,
+  B2BUserManagement,
   OrganizationState,
   StateWithOrganization,
   USER_GROUP_FEATURE,

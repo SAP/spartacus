@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -8,12 +7,12 @@
 import { Injectable } from '@angular/core';
 import {
   PageType,
+  ProductSearchPage,
   ProductSearchService,
   RoutingService,
-  ProductSearchPage,
 } from '@spartacus/core';
-import { FacetService, FacetList } from '@spartacus/storefront';
-import { combineLatest, Observable, of } from 'rxjs';
+import { FacetList, FacetService } from '@spartacus/storefront';
+import { Observable, combineLatest, of } from 'rxjs';
 import {
   distinctUntilChanged,
   map,

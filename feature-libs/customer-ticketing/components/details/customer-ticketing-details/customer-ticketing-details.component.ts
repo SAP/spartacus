@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -20,7 +19,7 @@ import {
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 
 @Component({

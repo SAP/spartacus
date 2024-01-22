@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -13,8 +12,8 @@ import {
   Occ,
 } from '@spartacus/core';
 import {
-  UserGroup,
   USER_GROUP_NORMALIZER,
+  UserGroup,
 } from '@spartacus/organization/administration/core';
 
 @Injectable({

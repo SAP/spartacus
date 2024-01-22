@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,8 +10,8 @@ import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { CardModule } from '../../../../shared/card/card.module';
-import { UnitAddressDetailsComponent } from './unit-address-details.component';
 import { DeleteItemModule } from '../../../../shared/detail/delete-item-action/delete-item.module';
+import { UnitAddressDetailsComponent } from './unit-address-details.component';
 
 @NgModule({
   imports: [

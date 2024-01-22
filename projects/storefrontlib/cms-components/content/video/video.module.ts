@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -9,9 +8,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
 import { MediaModule } from '../../../shared/components/media/media.module';
+import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { VideoComponent } from './video.component';
 
 @NgModule({

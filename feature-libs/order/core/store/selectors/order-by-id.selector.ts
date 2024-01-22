@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -8,7 +7,7 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { StateWithOrder, OrderState } from '../order-state';
+import { OrderState, StateWithOrder } from '../order-state';
 import { getOrderState } from './feature.selector';
 
 export const getOrderByIdEntities: MemoizedSelector<

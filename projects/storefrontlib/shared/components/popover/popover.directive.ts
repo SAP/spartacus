@@ -1,24 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
-  Directive,
-  ElementRef,
-  Input,
-  TemplateRef,
-  ViewContainerRef,
+  ChangeDetectorRef,
   ComponentFactoryResolver,
   ComponentRef,
-  Renderer2,
-  ChangeDetectorRef,
-  Output,
+  Directive,
+  ElementRef,
   EventEmitter,
   HostListener,
+  Input,
   OnInit,
+  Output,
+  Renderer2,
+  TemplateRef,
+  ViewContainerRef,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { Subject } from 'rxjs';

@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -17,14 +16,14 @@ import {
 } from '@angular/core';
 import { getAsmDialogActionEvent } from '@spartacus/asm/customer-360/core';
 import {
+  AsmCustomer360Data,
+  AsmCustomer360Facade,
+  AsmCustomer360Overview,
+  AsmCustomer360TabConfig,
+  AsmCustomer360Type,
+  AsmCustomerOverview,
   AsmDialogActionEvent,
   AsmDialogActionType,
-  AsmCustomer360Data,
-  AsmCustomer360TabConfig,
-  AsmCustomer360Facade,
-  AsmCustomer360Type,
-  AsmCustomer360Overview,
-  AsmCustomerOverview,
   KeyBoardEventCode,
 } from '@spartacus/asm/customer-360/root';
 import { CsAgentAuthService } from '@spartacus/asm/root';

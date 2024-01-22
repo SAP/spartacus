@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -19,10 +18,10 @@ import {
   OrderFacade,
   ReplenishmentOrder,
   ReplenishmentOrderScheduledEvent,
-  ScheduledReplenishmentOrderFacade,
   ScheduleReplenishmentForm,
+  ScheduledReplenishmentOrderFacade,
 } from '@spartacus/order/root';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { ScheduledReplenishmentOrderConnector } from '../connectors/scheduled-replenishment-order.connector';
 

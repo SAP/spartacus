@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -13,13 +12,13 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENTS_HEADER,
   ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
 } from '../../model/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { AnonymousConsentsConfig } from '../config/anonymous-consents-config';

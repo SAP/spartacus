@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -9,7 +8,7 @@ import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
 import { AuthActions, StateUtils } from '@spartacus/core';
-import { MultiCartState, MULTI_CART_DATA } from '../multi-cart-state';
+import { MULTI_CART_DATA, MultiCartState } from '../multi-cart-state';
 import {
   cartEntitiesReducer,
   cartTypeIndexReducer,

@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -12,7 +11,7 @@ import { listTest } from './features/list';
 import { nestedListTest } from './features/nested-list';
 import { updateTest } from './features/update';
 import { userPasswordTest } from './features/user-password';
-import { MyCompanyConfig, MY_COMPANY_FEATURE } from './models';
+import { MY_COMPANY_FEATURE, MyCompanyConfig } from './models';
 
 const testMapping = {
   [MY_COMPANY_FEATURE.LIST]: listTest,

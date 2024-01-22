@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -33,22 +32,22 @@ import {
   LinkModule,
   LoginRouteModule,
   LogoutModule,
+  MyAccountV2Module,
   MyCouponsModule,
   MyInterestsModule,
-  MyAccountV2Module,
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
+  PDFModule,
   PageTitleModule,
   PaymentMethodsModule,
-  PDFModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
   ProductFacetNavigationModule,
   ProductImagesModule,
   ProductIntroModule,
-  ProductListingPageModule,
   ProductListModule,
+  ProductListingPageModule,
   ProductPageEventModule,
   ProductReferencesModule,
   ProductSummaryModule,
@@ -61,8 +60,8 @@ import {
   VideoModule,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
-import { AsmFeatureModule } from './features/asm/asm-feature.module';
 import { AsmCustomer360FeatureModule } from './features/asm/asm-customer-360-feature.module';
+import { AsmFeatureModule } from './features/asm/asm-feature.module';
 import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module';
 import { ImportExportFeatureModule } from './features/cart/cart-import-export-feature.module';
 import { QuickOrderFeatureModule } from './features/cart/cart-quick-order-feature.module';

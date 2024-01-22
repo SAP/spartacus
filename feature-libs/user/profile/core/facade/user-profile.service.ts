@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -22,10 +21,10 @@ import {
   UserAccountChangedEvent,
   UserAccountFacade,
 } from '@spartacus/user/account/root';
-import { Observable } from 'rxjs';
 import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
-import { UserProfileConnector } from '../connectors/user-profile.connector';
+import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { UserProfileConnector } from '../connectors/user-profile.connector';
 
 @Injectable()
 export class UserProfileService implements UserProfileFacade {

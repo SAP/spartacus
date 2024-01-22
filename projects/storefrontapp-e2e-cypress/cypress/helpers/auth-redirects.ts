@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -8,8 +7,8 @@
 import { standardUser } from '../sample-data/shared-users';
 import { AccountData } from '../support/require-logged-in.commands';
 import { config } from '../support/utils/login';
-import { generateMail, randomString } from './user';
 import * as authForms from './auth-forms';
+import { generateMail, randomString } from './user';
 
 const AUTH_STORAGE_KEY = 'spartacus⚿⚿auth';
 
