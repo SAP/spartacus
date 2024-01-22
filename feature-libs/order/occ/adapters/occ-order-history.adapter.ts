@@ -5,10 +5,11 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   InterceptorUtil,
+  LoggerService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   Occ,
@@ -40,6 +41,8 @@ const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 
 @Injectable()
 export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -115,7 +118,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
 
     return this.http.post(url, cancelRequestInput, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       })
     );
   }
@@ -138,7 +141,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
 
     return this.http.post(url, returnRequestInput, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       }),
       this.converter.pipeable(ORDER_RETURN_REQUEST_NORMALIZER)
     );
@@ -198,7 +201,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
 
     return this.http.patch(url, returnRequestModification, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error);
+        throw normalizeHttpError(error, this.logger);
       })
     );
   }
