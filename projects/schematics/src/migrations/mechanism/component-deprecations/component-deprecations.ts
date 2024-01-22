@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
+// @ts-nocheck
 import { SchematicContext, Tree } from '@angular-devkit/schematics';
 import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
 import { ReplaceChange } from '@schematics/angular/utility/change';

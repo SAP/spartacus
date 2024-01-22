@@ -13,7 +13,9 @@
   "scripts": {
     "build": "npm run clean && npm --prefix ../../ run generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
     "clean": "../../node_modules/.bin/rimraf --glob \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
-    "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+    "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js",
+
+    "watch": "tsc -p tsconfig.schematics.json --watch"
   },
   "dependencies": {
     "@angular/pwa": "^17.0.5",

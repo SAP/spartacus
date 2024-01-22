@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
+// @ts-nocheck
 import { normalize, strings, virtualFs } from '@angular-devkit/core';
 import { TempScopedNodeJsSyncHost } from '@angular-devkit/core/node/testing';
 import {

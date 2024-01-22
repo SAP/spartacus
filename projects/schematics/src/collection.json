@@ -31,6 +31,12 @@
       "description": "Generate a feature wrapper module",
       "factory": "./wrapper-module/index#generateWrapperModule",
       "aliases": ["wrapper"]
+    },
+    "test-ssr": {
+      "description": "test ssr",
+      "factory": "./migrations/2211_0/ssr#migrate",
+      "schema": "./add-spartacus/schema.json",
+      "aliases": ["r-ssr"]
     }
   }
 }

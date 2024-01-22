@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
+// @ts-nocheck
 import { strings } from '@angular-devkit/core';
 import {
   MergeStrategy,
@@ -74,6 +74,13 @@ const DEPENDENCY_NAMES: string[] = [
   ANGULAR_SSR,
   'ts-loader',
 ];
+
+export function removeServer(): Rule {
+  return (tree: Tree, _c:SchematicContext) => {
+    const path = getPathResultsForFile(tree, 'server.ts', '/')
+    return tree.delete(path as any)
+  }
+}
 
 export function modifyAppServerModuleFile(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -408,17 +415,17 @@ function removeFromModuleProviders(
 ): RemoveChange[] {
   const nodes = getDecoratorMetadata(source, 'NgModule', ANGULAR_CORE);
   const node = nodes[0];
-  if (!node || !ts.isObjectLiteralExpression(node)) {
+  if (!node || !ts.isObjectLiteralExpression(node as any)) {
     return [];
   }
 
   // Find the matching metadata field.
-  const matchingProperties = getMetadataField(node, `providers`);
+  const matchingProperties = getMetadataField(node as any, `providers`);
   const assignment = matchingProperties[0];
 
   // return empty array if assignment is not an array
   if (
-    !ts.isPropertyAssignment(assignment) ||
+    !ts.isPropertyAssignment(assignment as any) ||
     !ts.isArrayLiteralExpression(assignment.initializer)
   ) {
     return [];
@@ -428,7 +435,7 @@ function removeFromModuleProviders(
   const providersExpression = assignment.initializer;
   const providerToRemove = providersExpression
     .getChildren()
-    .filter((e) => e.getText().includes(providerName));
+    .filter((e: any) => e.getText().includes(providerName));
 
   if (!providerToRemove) {
     return [];

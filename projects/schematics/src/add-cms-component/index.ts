@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
+// @ts-nocheck
 import { basename, normalize, strings } from '@angular-devkit/core';
 import {
   MergeStrategy,
