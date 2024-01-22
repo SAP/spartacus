@@ -167,7 +167,7 @@ export function removeCustomerCoupon(
   });
 }
 
-export function agentLogin(user, pwd): string {
+export function agentLogin(user, pwd): void {
   cy.get('cx-storefront cx-csagent-login-form').then(($element) => {
     if ($element.length > 0) {
       const authRequest = listenForAuthenticationRequest();
