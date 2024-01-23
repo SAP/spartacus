@@ -78,7 +78,8 @@
   @include forVersion(6.8) {
     .cx-storeMap {
       flex: 2;
-      padding-inline: 1rem;
+      padding-inline-start: 1rem;
+      padding-inline-end: 1rem;
     }
   }
 
