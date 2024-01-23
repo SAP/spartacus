@@ -24,7 +24,7 @@
       justify-content: center;
       flex: 1;
       color: var(--cx-color-text);
-      padding: 0 0 1.375rem 0;
+      padding: 0 0 1.063rem 0;
       border-bottom: 2px solid var(--cx-color-text);
 
       ::after {
@@ -40,7 +40,7 @@
       }
 
       &.disabled {
-        border-color: var(--cx-color-light);
+        border-color: var(--cx-color-medium);
       }
 
       &:first-child ::before {

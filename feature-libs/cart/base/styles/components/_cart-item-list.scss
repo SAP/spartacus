@@ -3,12 +3,16 @@
 
   .cx-item-list-header {
     border-bottom: none;
+
+    .cx-item-list-qty {
+      text-transform: uppercase;
+    }
   }
 
   .cx-item-list-items {
     tr {
       &:last-child {
-        border-bottom: 1px solid var(--cx-color-light);
+        border-bottom: 1px solid var(--cx-color-medium);
       }
     }
   }

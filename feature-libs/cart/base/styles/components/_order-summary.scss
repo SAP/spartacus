@@ -7,8 +7,8 @@
   margin: 0;
 
   .cx-summary-heading {
-    text-transform: uppercase;
-    @include type('4');
+    text-transform: capitalize;
+    @include type('3');
     font-weight: var(--cx-font-weight-semi);
   }
 
