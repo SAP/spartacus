@@ -6,9 +6,15 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RecentSearchesComponent, SearchBoxOutlet } from './recent-searches.component';
+import {
+  RecentSearchesComponent,
+  SearchBoxOutlet,
+} from './recent-searches.component';
 import { RecentSearchesService } from './recent-searches.service';
-import { OutletContextData, SearchBoxComponentService } from '@spartacus/storefront';
+import {
+  OutletContextData,
+  SearchBoxComponentService,
+} from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
 import { I18nTestingModule } from '@spartacus/core';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
@@ -63,7 +69,7 @@ describe('RecentSearchesComponent', () => {
         },
         { provide: OutletContextData, useValue: { context$ } },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   });
 

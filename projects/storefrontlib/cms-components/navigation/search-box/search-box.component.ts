@@ -4,14 +4,29 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
-import { CmsSearchBoxComponent, PageType, RoutingService, WindowRef } from '@spartacus/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+} from '@angular/core';
+import {
+  CmsSearchBoxComponent,
+  PageType,
+  RoutingService,
+  WindowRef,
+} from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc';
 import { CmsComponentData } from '../../../cms-structure';
 import { SearchBoxComponentService } from './search-box-component.service';
-import { SearchBoxProductSelectedEvent, SearchBoxSuggestionSelectedEvent } from './search-box.events';
+import {
+  SearchBoxProductSelectedEvent,
+  SearchBoxSuggestionSelectedEvent,
+} from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {

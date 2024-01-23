@@ -8,7 +8,11 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { provideConfigValidator, provideDefaultConfig } from '@spartacus/core';
 import { CdsConfig, cdsConfigValidator, DEFAULT_CDS_CONFIG } from './config';
 import { MerchandisingModule } from './merchandising';
-import { ProfileTagModule, ProfileTagPushEventsService, TrackingModule } from './profiletag';
+import {
+  ProfileTagModule,
+  ProfileTagPushEventsService,
+  TrackingModule,
+} from './profiletag';
 import { RecentSearchesModule } from './components/recent-searches/recent-searches.module';
 
 @NgModule({
