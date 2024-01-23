@@ -21,7 +21,7 @@
     "@schematics/angular": "^17.0.5",
     "jsonc-parser": "^3.2.0",
     "parse5": "^7.1.2",
-    "typescript": "5.2.2"
+    "typescript": "^5.2.2"
   },
   "storefrontapp-e2e-cypress": {},
   "@spartacus/storefront": {
@@ -41,7 +41,7 @@
   },
   "@spartacus/styles": {
     "@fontsource/open-sans": "^4.5.14",
-    "@fortawesome/fontawesome-free": "6.4.2",
+    "@fortawesome/fontawesome-free": "6.5.1",
     "@ng-select/ng-select": "^12.0.4",
     "bootstrap": "^4.6.2"
   },
@@ -380,7 +380,7 @@
     "@angular/service-worker": "^17.0.5",
     "@angular/ssr": "^17.0.5",
     "@fontsource/open-sans": "^4.5.14",
-    "@fortawesome/fontawesome-free": "6.4.2",
+    "@fortawesome/fontawesome-free": "6.5.1",
     "@ng-select/ng-select": "^12.0.4",
     "@ngrx/effects": "^17.0.1",
     "@ngrx/router-store": "^17.0.1",
