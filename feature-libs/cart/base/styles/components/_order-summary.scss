@@ -15,7 +15,7 @@
   @include forVersion(6.3) {
     .cx-summary-heading {
       border-bottom: 1px solid var(--cx-color-medium);
-      padding-bottom: 2.188rem;
+      padding-bottom: 1.625rem;
 
       @include media-breakpoint-down(md) {
         margin-bottom: 0.438rem;
