@@ -5,7 +5,7 @@
   outline-offset: 4px;
   transition: none;
 
-  // TODO: Remove feature flag next major
+  // TODO: (CXSPA-5912) Remove feature flag next major
   @include forVersion(6.8) {
     @include media-breakpoint-down(md) {
       outline-offset: -2px;
