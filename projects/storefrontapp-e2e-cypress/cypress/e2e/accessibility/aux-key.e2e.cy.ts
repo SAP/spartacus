@@ -12,7 +12,7 @@ context('Auxiliary Keys', () => {
       loadPageWithComponenents('/');
     });
 
-    it('should open menu with space key', () => {
+    it('should open and close menu with space key', () => {
       cy.get('cx-category-navigation').within(() => {
         cy.get('cx-navigation-ui')
           .find('li:not(.back)')
@@ -37,6 +37,20 @@ context('Auxiliary Keys', () => {
               .should('have.length', 7)
               .first()
               .should('be.visible');
+            cy.focused().trigger('keydown', {
+              key: ' ',
+              code: 'Space',
+              force: true,
+            });
+            cy.focused().trigger('keydown', {
+              key: ' ',
+              code: 'Space',
+              force: true,
+            });
+            cy.get('div.wrapper')
+              .should('have.length', 7)
+              .first()
+              .should('not.be.visible');
           });
       });
     });
@@ -48,7 +62,7 @@ context('Auxiliary Keys', () => {
       loadPageWithComponenents('/');
     });
 
-    it('should open menu with space key', () => {
+    it('should open and close menu with space key', () => {
       cy.get('cx-page-layout[section="header"]').within(() => {
         cy.get('cx-navigation-ui.accNavComponent')
           .should('contain.text', 'My Account')
@@ -68,6 +82,14 @@ context('Auxiliary Keys', () => {
             cy.get('cx-generic-link')
               .contains('Order History')
               .should('be.visible');
+            cy.focused().trigger('keydown', {
+              key: ' ',
+              code: 'Space',
+              force: true,
+            });
+            cy.get('cx-generic-link')
+              .contains('Order History')
+              .should('not.be.visible');
           });
       });
     });

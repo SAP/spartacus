@@ -184,6 +184,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
+  /**
+   * Opens dropdown and starts keyboard navigation
+   */
   onSpace(event: UIEvent): void {
     this.hamburgerMenuService.isExpanded
       .pipe(take(1))
@@ -202,6 +205,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     this.setupArrowControls();
   }
 
+  /**
+   * Subscribes to arrow keys and enables navigation between dropdown items
+   */
   setupArrowControls(): void {
     this.subscriptions.add(
       this.arrowControls.subscribe((e) => {
@@ -216,6 +222,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Focuses on the first focusable element in the dropdown
+   */
   focusOnNode(event: UIEvent): void {
     const firstFocusableElement =
       (<HTMLElement>event.target).nextElementSibling?.querySelector('button') ||
