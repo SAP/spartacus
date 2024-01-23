@@ -7,6 +7,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
+  AuthService,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -28,6 +29,7 @@ import {
   QuotesStateParams,
 } from '@spartacus/quote/root';
 import { ViewConfig } from '@spartacus/storefront';
+import { cold } from 'jasmine-marbles';
 import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors';
@@ -99,6 +101,13 @@ class MockUserIdService implements Partial<UserIdService> {
 class MockEventService implements Partial<EventService> {
   get = createSpy().and.returnValue(of());
   dispatch = createSpy();
+}
+
+let isLoggedIn: boolean;
+class MockAuthService implements Partial<AuthService> {
+  isUserLoggedIn() {
+    return of(isLoggedIn);
+  }
 }
 
 let isQuoteCartActive: any;
@@ -176,6 +185,7 @@ describe('QuoteService', () => {
       providers: [
         QuoteService,
         { provide: UserIdService, useClass: MockUserIdService },
+        { provide: AuthService, useClass: MockAuthService },
         { provide: EventService, useClass: MockEventService },
         { provide: ViewConfig, useClass: MockViewConfig },
         {
@@ -210,6 +220,7 @@ describe('QuoteService', () => {
     savedCartFacade = TestBed.inject(SavedCartFacade);
 
     isQuoteCartActive = false;
+    isLoggedIn = true;
     quoteId = '';
   });
 
@@ -317,6 +328,12 @@ describe('QuoteService', () => {
           );
           expect(details).toEqual(quote);
         });
+    });
+
+    it('should not invoke connector if user is not logged in', () => {
+      isLoggedIn = false;
+      expect(classUnderTest.getQuoteDetails()).toBeObservable(cold(''));
+      expect(quoteConnector.getQuote).toHaveBeenCalledTimes(0);
     });
 
     it('should wait until active cart has been loaded', (done) => {
