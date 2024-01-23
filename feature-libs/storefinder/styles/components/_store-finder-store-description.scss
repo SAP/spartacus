@@ -1,10 +1,30 @@
 %cx-store-finder-store-description {
-  .container {
-    margin-bottom: 1rem;
+  // TODO: (CXSPA-5916) Remove feature flags next major
+  @include forVersion(6.8) {
+    .cx-container {
+      text-align: start;
+      display: flex;
+      margin-bottom: 1rem;
+
+      @include media-breakpoint-down(md) {
+        flex-direction: column;
+      }
+    }
+
+    .cx-store {
+      padding-inline: 1rem;
+      flex: 1;
+    }
   }
 
-  .cx-store {
-    text-align: start;
+  @include forVersion(1, 6.7) {
+    .container {
+      margin-bottom: 1rem;
+    }
+
+    .cx-store {
+      text-align: start;
+    }
   }
 
   .cx-store-description-address {
@@ -49,15 +69,18 @@
     text-align: start;
   }
 
-  .cx-feature-value {
+  .cx-feature-item {
     color: var(--cx-color-primary);
   }
 
-  .cx-feature-item {
-    text-align: start;
+  // TODO: (CXSPA-5916) Remove feature flags next major
+  @include forVersion(6.8) {
+    .cx-storeMap {
+      flex: 2;
+      padding-inline: 1rem;
+    }
   }
 
-  // TODO: Remove feature flag next major
   @include forVersion(1, 6.7) {
     .cx-storeMap {
       height: 70vh;
