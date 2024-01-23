@@ -1591,7 +1591,6 @@ export function isSaveActiveCartPopupShown(quoteStatus: string) {
       cy.get(summarySellerEditComponentSelector).should('exist');
       checkQuoteState(quoteStatus);
       checkGlobalMessageDisplayed(true, GLOBAL_MSG_SAVED_CART_CREATED);
-      cy.wait(1000);
     });
 }
 
