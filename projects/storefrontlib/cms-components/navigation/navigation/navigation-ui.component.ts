@@ -17,7 +17,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { WindowRef } from '@spartacus/core';
+import { FeatureConfigService, WindowRef } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -87,7 +87,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private elemRef: ElementRef,
     protected hamburgerMenuService: HamburgerMenuService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected featureConfigService: FeatureConfigService
   ) {
     this.subscriptions.add(
       this.router.events
@@ -129,7 +130,18 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       typeof navNode.url === 'string' &&
       this.winRef.nativeWindow?.location.href.includes(navNode.url)
     ) {
-      this.reinitializeMenu();
+      // TODO: (CXSPA-5919) Remove feature flag next major release
+      if (this.featureConfigService.isLevel('6.8')) {
+        this.reinitializeMenu();
+      } else {
+        this.elemRef.nativeElement
+          .querySelectorAll('li.is-open:not(.back), li.is-opened')
+          .forEach((el: any) => {
+            this.renderer.removeClass(el, 'is-open');
+            this.renderer.removeClass(el, 'is-opened');
+          });
+      }
+
       this.hamburgerMenuService.toggle();
     }
   }
@@ -139,13 +151,19 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    */
   reinitializeMenu(): void {
     if (this.openNodes?.length > 0) {
-      this.elemRef.nativeElement
-        .querySelectorAll('li.is-open:not(.back), li.is-opened')
-        .forEach((el: any) => {
-          this.renderer.removeClass(el, 'is-open');
-          this.renderer.removeClass(el, 'is-opened');
-        });
+      // TODO: (CXSPA-5919) Remove feature flag next major release
+      if (this.featureConfigService.isLevel('6.8')) {
+        this.elemRef.nativeElement
+          .querySelectorAll('li.is-open:not(.back), li.is-opened')
+          .forEach((el: any) => {
+            this.renderer.removeClass(el, 'is-open');
+            this.renderer.removeClass(el, 'is-opened');
+          });
+      }
       this.clear();
+      if (!this.featureConfigService.isLevel('6.8')) {
+        this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
+      }
     }
   }
 
