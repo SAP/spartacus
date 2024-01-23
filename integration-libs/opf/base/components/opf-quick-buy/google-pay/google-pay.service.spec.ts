@@ -11,6 +11,7 @@ import { PriceType } from '@spartacus/core';
 import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
   OpfPaymentFacade,
+  OpfQuickBuyLocation,
   OpfResourceLoaderService,
   PaymentMethod,
 } from '@spartacus/opf/base/root';
@@ -19,6 +20,7 @@ import {
   ItemCounterService,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { OpfQuickBuyService } from '../opf-quick-buy.service';
 import { OpfGooglePayService } from './google-pay.service';
 
 describe('OpfGooglePayService', () => {
@@ -28,6 +30,7 @@ describe('OpfGooglePayService', () => {
   let mockCurrentProductService: jasmine.SpyObj<CurrentProductService>;
   let mockCartHandlerService: jasmine.SpyObj<OpfCartHandlerService>;
   let mockPaymentFacade: jasmine.SpyObj<OpfPaymentFacade>;
+  let mockQuickBuyService: jasmine.SpyObj<OpfQuickBuyService>;
 
   beforeEach(() => {
     mockResourceLoaderService = jasmine.createSpyObj(
@@ -53,6 +56,9 @@ describe('OpfGooglePayService', () => {
     ]);
     mockPaymentFacade = jasmine.createSpyObj('OpfPaymentFacade', [
       'submitPayment',
+    ]);
+    mockQuickBuyService = jasmine.createSpyObj('OpfQuickBuyService', [
+      'getQuickBuyLocationContext',
     ]);
 
     const googlePayApiMock = {
@@ -80,6 +86,7 @@ describe('OpfGooglePayService', () => {
         { provide: CurrentProductService, useValue: mockCurrentProductService },
         { provide: OpfCartHandlerService, useValue: mockCartHandlerService },
         { provide: OpfPaymentFacade, useValue: mockPaymentFacade },
+        { provide: OpfQuickBuyService, useValue: mockQuickBuyService },
       ],
     });
 
@@ -462,7 +469,13 @@ describe('OpfGooglePayService', () => {
       service['googlePaymentClient'] = mockGooglePaymentClient;
     });
 
-    it('should initiate a transaction process', (done) => {
+    it('should initiate a transaction process for single product', (done) => {
+      spyOn(service, 'handleActiveCartTransaction').and.callThrough();
+      spyOn(service, 'handleSingleProductTransaction').and.callThrough();
+
+      mockQuickBuyService.getQuickBuyLocationContext.and.returnValue(
+        of(OpfQuickBuyLocation.PRODUCT)
+      );
       const mockProduct = { code: 'productCode', price: { value: 100 } };
       const counter = 1;
       mockCurrentProductService.getProduct.and.returnValue(of(mockProduct));
@@ -474,6 +487,8 @@ describe('OpfGooglePayService', () => {
       service.initTransaction();
 
       setTimeout(() => {
+        expect(service.handleActiveCartTransaction).not.toHaveBeenCalled();
+        expect(service.handleSingleProductTransaction).toHaveBeenCalled();
         expect(mockCurrentProductService.getProduct).toHaveBeenCalled();
         expect(mockCartHandlerService.deleteCurrentCart).toHaveBeenCalled();
         expect(mockCartHandlerService.addProductToCart).toHaveBeenCalledWith(
@@ -485,6 +500,23 @@ describe('OpfGooglePayService', () => {
         ).toHaveBeenCalled();
         done();
       }, 0);
+    });
+
+    it('should initiate a transaction process for active cart', () => {
+      spyOn(service, 'handleActiveCartTransaction').and.callThrough();
+      spyOn(service, 'handleSingleProductTransaction').and.callThrough();
+
+      mockQuickBuyService.getQuickBuyLocationContext.and.returnValue(
+        of(OpfQuickBuyLocation.CART)
+      );
+      mockCartHandlerService.getCurrentCart.and.returnValue(of({}));
+
+      service.initTransaction();
+
+      expect(mockCartHandlerService.getCurrentCart).toHaveBeenCalled();
+      expect(service.handleActiveCartTransaction).toHaveBeenCalled();
+      expect(service.handleSingleProductTransaction).not.toHaveBeenCalled();
+      expect(service['googlePaymentClient'].loadPaymentData).toHaveBeenCalled();
     });
   });
 

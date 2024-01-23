@@ -7,10 +7,13 @@
 
 /// <reference types="@types/googlepay" />
 import { ElementRef, Injectable, inject } from '@angular/core';
+import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
 import { Address, Product } from '@spartacus/core';
+import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ActiveConfiguration,
   OpfPaymentFacade,
+  OpfQuickBuyLocation,
   OpfResourceLoaderService,
   PaymentMethod,
 } from '@spartacus/opf/base/root';
@@ -18,10 +21,6 @@ import {
   CurrentProductService,
   ItemCounterService,
 } from '@spartacus/storefront';
-
-import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
-import { OpfCartHandlerService } from '@spartacus/opf/base/core';
-import { OpfQuickBuyLocation } from 'integration-libs/opf/base/root/model';
 import { Observable, forkJoin, of } from 'rxjs';
 import {
   catchError,

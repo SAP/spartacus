@@ -5,10 +5,24 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { RouterState, RoutingService } from '@spartacus/core';
+import { BehaviorSubject, of } from 'rxjs';
 import { OpfProviderType } from '../../root/model';
 import { OpfQuickBuyComponent } from './opf-quick-buy.component';
 import { OpfQuickBuyService } from './opf-quick-buy.service';
+import createSpy = jasmine.createSpy;
+
+const routerStateSubject = new BehaviorSubject<RouterState>({
+  state: {
+    semanticRoute: 'cart',
+  },
+} as unknown as RouterState);
+
+class MockRoutingService implements Partial<RoutingService> {
+  getRouterState = createSpy().and.returnValue(
+    routerStateSubject.asObservable()
+  );
+}
 
 describe('OpfQuickBuyComponent', () => {
   let component: OpfQuickBuyComponent;
@@ -26,6 +40,7 @@ describe('OpfQuickBuyComponent', () => {
       declarations: [OpfQuickBuyComponent],
       providers: [
         { provide: OpfQuickBuyService, useValue: opfQuickBuyServiceMock },
+        { provide: RoutingService, useValie: MockRoutingService },
       ],
     }).compileComponents();
   });

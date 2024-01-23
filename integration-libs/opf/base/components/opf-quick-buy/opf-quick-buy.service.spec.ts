@@ -6,10 +6,14 @@
 
 import { TestBed } from '@angular/core/testing';
 import { CheckoutConfig } from '@spartacus/checkout/base/root';
-import { AuthService, BaseSiteService } from '@spartacus/core';
-import { of, throwError } from 'rxjs';
+import { AuthService, BaseSiteService, RoutingService } from '@spartacus/core';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { OpfPaymentFacade } from '../../root/facade';
-import { OpfPaymentProviderType, OpfProviderType } from '../../root/model';
+import {
+  OpfPaymentProviderType,
+  OpfProviderType,
+  OpfQuickBuyLocation,
+} from '../../root/model';
 import { OpfQuickBuyService } from './opf-quick-buy.service';
 
 describe('OpfQuickBuyService', () => {
@@ -18,6 +22,7 @@ describe('OpfQuickBuyService', () => {
   let baseSiteServiceMock: any;
   let authServiceMock: any;
   let checkoutConfigMock: any;
+  let routingServiceMock: any;
 
   beforeEach(() => {
     opfPaymentFacadeMock = jasmine.createSpyObj('OpfPaymentFacade', [
@@ -26,6 +31,9 @@ describe('OpfQuickBuyService', () => {
     baseSiteServiceMock = jasmine.createSpyObj('BaseSiteService', ['get']);
     authServiceMock = jasmine.createSpyObj('AuthService', ['isUserLoggedIn']);
     checkoutConfigMock = jasmine.createSpyObj('CheckoutConfig', ['checkout']);
+    routingServiceMock = jasmine.createSpyObj('RoutingService', [
+      'getRouterState',
+    ]);
 
     TestBed.configureTestingModule({
       providers: [
@@ -34,6 +42,7 @@ describe('OpfQuickBuyService', () => {
         { provide: BaseSiteService, useValue: baseSiteServiceMock },
         { provide: AuthService, useValue: authServiceMock },
         { provide: CheckoutConfig, useValue: checkoutConfigMock },
+        { provide: RoutingService, useValue: routingServiceMock },
       ],
     });
 
@@ -219,6 +228,18 @@ describe('OpfQuickBuyService', () => {
         () => fail('Expected an error, not a successful response'),
         (err) => expect(err).toBe(error)
       );
+    });
+  });
+
+  describe('getQuickBuyLocationContext', () => {
+    it('should return OpfQuickBuyLocation', () => {
+      routingServiceMock.getRouterState.and.returnValue(
+        new BehaviorSubject({ state: { semanticRoute: 'cart' } })
+      );
+
+      service.getQuickBuyLocationContext().subscribe((context) => {
+        expect(context).toBe(OpfQuickBuyLocation.CART);
+      });
     });
   });
 });
