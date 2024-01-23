@@ -17,7 +17,7 @@ export class RecentSearchesService {
     this.addRecentSearchesListener();
     return this.recentSearchesSource.asObservable();
   }
-  private checkAvailability() {
+  checkAvailability() {
     return interval(150).pipe(
       concatMap((_) => of((<any>window).Y_TRACKING)),
       take(5),
@@ -32,7 +32,7 @@ export class RecentSearchesService {
     if (!this.apiAvailability) {
       this.checkAvailability().subscribe((result) => {
         if (result) {
-          (<any>window).Y_TRACKING.recentSearches?.addListener(
+          (<any>window).Y_TRACKING?.recentSearches?.addListener(
             (recentSearches: string[]) => {
               this.recentSearchesSource.next(recentSearches);
             }
@@ -42,4 +42,6 @@ export class RecentSearchesService {
       });
     }
   }
+
+
 }

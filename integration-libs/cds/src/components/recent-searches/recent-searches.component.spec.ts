@@ -11,7 +11,8 @@ import { RecentSearchesService } from './recent-searches.service';
 import { OutletContextData, SearchBoxComponentService } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
 import { I18nTestingModule } from '@spartacus/core';
-import { Pipe, PipeTransform } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 @Pipe({
   name: 'cxHighlight',
@@ -49,7 +50,7 @@ describe('RecentSearchesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, RouterTestingModule],
       declarations: [RecentSearchesComponent, MockHighlightPipe, MockUrlPipe],
       providers: [
         {
@@ -62,6 +63,7 @@ describe('RecentSearchesComponent', () => {
         },
         { provide: OutletContextData, useValue: { context$ } },
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   });
 
