@@ -34,7 +34,7 @@ import {
   QuotesStateParams,
   QuoteStarter,
 } from '@spartacus/quote/root';
-import { NavigationEvent, ViewConfig } from '@spartacus/storefront';
+import { ViewConfig } from '@spartacus/storefront';
 import {
   BehaviorSubject,
   combineLatest,
@@ -428,7 +428,7 @@ export class QuoteService implements QuoteFacade {
         reloadOn: [
           uniteLatest([currentPage$, sort$]), // combine all streams that should trigger a reload to decrease initial http calls
         ],
-        resetOn: [LoginEvent, NavigationEvent],
+        resetOn: [LoginEvent],
       }
     );
 
