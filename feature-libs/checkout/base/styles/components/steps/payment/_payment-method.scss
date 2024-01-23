@@ -1,6 +1,6 @@
 %cx-payment-method {
   @include checkout-media-style();
-  
+
   border: 1px solid var(--cx-color-medium);
   border-radius: 10px;
   margin-top: 32px;
@@ -12,7 +12,7 @@
   @include media-breakpoint-down(md) {
     background-color: var(--cx-color-transparent);
   }
-  
+
   .cx-payment {
     &.container {
       padding: 0;
@@ -87,7 +87,7 @@
       width: 50%;
     }
   }
-  
+
   .cx-checkout-btns-bottom {
     padding-bottom: 0;
 
