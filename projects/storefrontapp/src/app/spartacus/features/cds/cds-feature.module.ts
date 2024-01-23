@@ -5,9 +5,13 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CdsConfig, CdsModule } from '@spartacus/cds';
+import {
+  CdsConfig,
+  CdsModule,
+  cdsTranslationChunksConfig,
+  cdsTranslations,
+} from '@spartacus/cds';
 import { I18nConfig, provideConfig } from '@spartacus/core';
-import { cdsTranslationChunksConfig, cdsTranslations } from '@spartacus/cds/assets';
 
 @NgModule({
   imports: [CdsModule.forRoot()],
