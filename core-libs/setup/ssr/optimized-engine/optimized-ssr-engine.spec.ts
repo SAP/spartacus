@@ -164,6 +164,7 @@ describe('OptimizedSsrEngine', () => {
           "context": {
             "timestamp": "2023-01-01T00:00:00.000Z",
             "options": {
+              "cacheSize": 3000,
               "concurrency": 10,
               "timeout": 50,
               "forcedSsrTimeout": 60000,
@@ -1218,6 +1219,7 @@ describe('OptimizedSsrEngine', () => {
           "context": {
             "timestamp": "2023-01-01T00:00:00.000Z",
             "options": {
+              "cacheSize": 3000,
               "concurrency": 10,
               "timeout": 3000,
               "forcedSsrTimeout": 60000,
@@ -1242,6 +1244,7 @@ describe('OptimizedSsrEngine', () => {
               "[spartacus] SSR optimization engine initialized",
               {
                 "options": {
+                  "cacheSize": 3000,
                   "concurrency": 10,
                   "debug": false,
                   "forcedSsrTimeout": 60000,

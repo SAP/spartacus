@@ -137,6 +137,7 @@ export enum RenderingStrategy {
 }
 
 export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
+  cacheSize: 3000, // 1.5GiB / 525KB (50% of minimal pod size 3GiB / 150% of OOTB page ~350KB)
   concurrency: 10,
   timeout: 3_000,
   forcedSsrTimeout: 60_000,
