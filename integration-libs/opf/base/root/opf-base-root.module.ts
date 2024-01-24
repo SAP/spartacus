@@ -6,6 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CartOutlets } from '@spartacus/cart/base/root';
 import {
   CmsConfig,
   GlobalMessageService,
@@ -14,6 +15,8 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { OutletPosition, provideOutlet } from '@spartacus/storefront';
+import { OpfQuickBuyComponent } from '../components/opf-quick-buy';
 import { OpfPaymentVerificationComponent } from './components/opf-payment-verification';
 import { defaultOpfRoutingConfig } from './config';
 import { defaultOpfConfig } from './config/default-opf-config';
@@ -80,6 +83,11 @@ export function defaultOpfBaseCmsComponentsConfig(): CmsConfig {
       provide: GlobalMessageService,
       useExisting: OpfGlobalMessageService,
     },
+    provideOutlet({
+      id: CartOutlets.ADD_TO_CART_PICKUP_OPTION,
+      position: OutletPosition.AFTER,
+      component: OpfQuickBuyComponent,
+    }),
   ],
 })
 export class OpfBaseRootModule {}

@@ -1,8 +1,6 @@
 %cx-opf-google-pay {
   .cx-opf-google-pay-button {
     margin: 10px 0;
-    padding-inline-end: 20px;
-    padding-inline-start: 20px;
     height: 48px;
     @include media-breakpoint-down(md) {
       padding: 0;
@@ -10,6 +8,7 @@
     .gpay-button,
     .gpay-card-info-container {
       border-radius: var(--cx-buttons-border-radius);
+      min-width: auto;
     }
   }
 }

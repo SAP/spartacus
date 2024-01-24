@@ -73,6 +73,7 @@ if (environment.b2b) {
         baseUrl:
           'https://opf-iss-d0.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
         commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
+        quickBuyPageIds: ['productDetails', 'cartPage'],
       },
     }),
     ...extensionProviders,
