@@ -16,6 +16,8 @@ export class MockFeatureLevelDirective {
   ) {}
 
   @Input() set cxFeatureLevel(_feature: string | number) {
-    this.viewContainer.createEmbeddedView(this.templateRef);
+    if (!_feature.toString().includes('!')) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+    }
   }
 }
