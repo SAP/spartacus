@@ -27,13 +27,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'generalErrors',
     'chatMessaging',
   ],
-  address: [
-    'addressForm',
-    'addressBook',
-    'addressCard',
-    'addressSuggestion',
-    'addressMessages',
-  ],
   payment: [
     'paymentForm',
     'paymentMethods',

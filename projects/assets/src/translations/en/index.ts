@@ -6,7 +6,6 @@
 
 import { myAccountV2NotifiationPerference } from './my-account-v2-notification-perference.i18n';
 import { myAccountV2Consent } from './my-account-v2-consent.i18n';
-import address from './address.json';
 import common from './common.json';
 import deliveryMode from './deliveryMode.json';
 import myAccount from './myAccount.json';
@@ -18,7 +17,6 @@ import user from './user.json';
 import video from './video.json';
 
 export const en = {
-  address,
   common,
   myAccount,
   payment,
