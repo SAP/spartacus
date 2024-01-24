@@ -67,10 +67,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   set items(items: OrderEntry[]) {
     this.setItemsInternal(items);
   }
-  protected setItemsInternal(items: OrderEntry[], forceRerender?: boolean) {
-    this.resolveItems(items, forceRerender);
-    this.createForm();
-  }
   get items(): OrderEntry[] {
     return this._items;
   }
@@ -105,6 +101,11 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         ?.getUserId()
         .subscribe((userId) => (this.userId = userId))
     );
+  }
+
+  protected setItemsInternal(items: OrderEntry[], forceRerender?: boolean) {
+    this.resolveItems(items, forceRerender);
+    this.createForm();
   }
 
   protected getInputsFromContext(): Subscription | undefined {
