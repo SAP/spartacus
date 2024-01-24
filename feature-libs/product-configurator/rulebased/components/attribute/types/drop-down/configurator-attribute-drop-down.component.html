@@ -14,49 +14,28 @@
             }
     }}
   </label>
-  <ng-container *cxFeatureLevel="'!6.2'">
-    <select
-      id="{{ createAttributeIdForConfigurator(attribute) }}"
-      class="form-control"
-      [formControl]="attributeDropDownForm"
-      [cxFocus]="{ key: attribute.name }"
-      (change)="onSelect(attributeDropDownForm.value)"
-      [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
+
+  <select
+    id="{{ createAttributeIdForConfigurator(attribute) }}"
+    class="form-control"
+    [ngClass]="{
+      'cx-required-error-msg ': (showRequiredErrorMessage$ | async)
+    }"
+    [formControl]="attributeDropDownForm"
+    [cxFocus]="{ key: attribute.name }"
+    (change)="onSelect(attributeDropDownForm.value)"
+    [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
+  >
+    <option
+      *ngFor="let item of attribute.values"
+      [selected]="item.selected"
+      [label]="getLabel(expMode, item.valueDisplay, item.valueCode, item)"
+      [attr.aria-label]="getAriaLabel(item, attribute)"
+      [value]="item.valueCode"
     >
-      <option
-        *ngFor="let item of attribute.values"
-        [selected]="item.selected"
-        [label]="getLabel(expMode, item.valueDisplay, item.valueCode, item)"
-        [attr.aria-label]="getAriaLabel(item, attribute)"
-        [value]="item.valueCode"
-      >
-        {{ getLabel(expMode, item.valueDisplay, item.valueCode, item) }}
-      </option>
-    </select>
-  </ng-container>
-  <ng-container *cxFeatureLevel="'6.2'">
-    <select
-      id="{{ createAttributeIdForConfigurator(attribute) }}"
-      class="form-control"
-      [ngClass]="{
-        'cx-required-error-msg ': (showRequiredErrorMessage$ | async)
-      }"
-      [formControl]="attributeDropDownForm"
-      [cxFocus]="{ key: attribute.name }"
-      (change)="onSelect(attributeDropDownForm.value)"
-      [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
-    >
-      <option
-        *ngFor="let item of attribute.values"
-        [selected]="item.selected"
-        [label]="getLabel(expMode, item.valueDisplay, item.valueCode, item)"
-        [attr.aria-label]="getAriaLabel(item, attribute)"
-        [value]="item.valueCode"
-      >
-        {{ getLabel(expMode, item.valueDisplay, item.valueCode, item) }}
-      </option>
-    </select>
-  </ng-container>
+      {{ getLabel(expMode, item.valueDisplay, item.valueCode, item) }}
+    </option>
+  </select>
 
   <div
     *ngIf="!withQuantity && getSelectedValue()?.valuePrice"

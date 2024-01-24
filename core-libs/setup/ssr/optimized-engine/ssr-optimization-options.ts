@@ -5,7 +5,7 @@
  */
 
 import { Request } from 'express';
-import { ExpressServerLogger } from '../logger';
+import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
 import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
 import { defaultRenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
 
@@ -122,13 +122,12 @@ export interface SsrOptimizationOptions {
    * It enhances the logs in SSR by adding context, including the request's details,
    * and structuring them as JSON.
    *
-   * The `logger` property is optional and accepts two values:
-   * - `true`:         Enables the default logger and enhances the logs.
+   * The `logger` property is optional and accepts:
    * - `ExpressServerLogger`: Interprets the given `ExpressServerLogger` as a custom logger
    *
-   * By default, the logger is disabled, meaning that logs in SSR are not enhanced.
+   * By default, the DefaultExpressServerLogger is used.
    */
-  logger?: true | ExpressServerLogger; //CXSPA-3680 - allow only providing ExpressServerLogger implementations
+  logger?: ExpressServerLogger;
 }
 
 export enum RenderingStrategy {
@@ -147,6 +146,5 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   renderingStrategyResolver: defaultRenderingStrategyResolver(
     defaultRenderingStrategyResolverOptions
   ),
-  //CXSPA-3680 - set ExpressServerLogger as default
-  //logger: new ExpressServerLogger(),
+  logger: new DefaultExpressServerLogger(),
 };

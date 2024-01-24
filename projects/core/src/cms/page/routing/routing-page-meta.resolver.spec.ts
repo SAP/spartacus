@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { BehaviorSubject, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, firstValueFrom, of } from 'rxjs';
 import { ActivatedRoutesService } from '../../../routing/services/activated-routes.service';
 import { DefaultRoutePageMetaResolver } from './default-route-page-meta.resolver';
 import { ActivatedRouteSnapshotWithPageMeta } from './route-page-meta.model';
@@ -61,7 +60,7 @@ describe('RoutingPageMetaResolver', () => {
         { url: [{ path: 'child' }] },
       ] as ActivatedRouteSnapshot[]);
 
-      const result = await resolver['routes$'].pipe(take(1)).toPromise();
+      const result = await firstValueFrom(resolver['routes$']);
       expect(result).toEqual([
         { url: [{ path: 'parent' }] },
         { url: [{ path: 'child' }] },
@@ -77,9 +76,7 @@ describe('RoutingPageMetaResolver', () => {
         { url: [{ path: 'child' }] },
       ] as ActivatedRouteSnapshotWithPageMeta[]);
 
-      const result = await resolver['routesWithExtras$']
-        .pipe(take(1))
-        .toPromise();
+      const result = await firstValueFrom(resolver['routesWithExtras$']);
       expect(result).toEqual([
         jasmine.objectContaining({ route: { url: [{ path: 'parent' }] } }),
         jasmine.objectContaining({ route: { url: [{ path: 'child' }] } }),
@@ -94,9 +91,7 @@ describe('RoutingPageMetaResolver', () => {
         { url: [{ path: 'child' }] },
       ] as ActivatedRouteSnapshotWithPageMeta[]);
 
-      const result = await resolver['routesWithExtras$']
-        .pipe(take(1))
-        .toPromise();
+      const result = await firstValueFrom(resolver['routesWithExtras$']);
       expect(result).toEqual([
         jasmine.objectContaining({ url: '/grandparent' }),
         jasmine.objectContaining({ url: '/grandparent/test/parent' }),
@@ -125,9 +120,7 @@ describe('RoutingPageMetaResolver', () => {
       const resolverInstanceB = TestBed.inject(ResolverB);
       const resolverInstanceC = TestBed.inject(ResolverC);
 
-      const result = await resolver['routesWithExtras$']
-        .pipe(take(1))
-        .toPromise();
+      const result = await firstValueFrom(resolver['routesWithExtras$']);
 
       expect(result).toEqual([
         jasmine.objectContaining({ resolver: resolverInstanceA }),
@@ -155,9 +148,7 @@ describe('RoutingPageMetaResolver', () => {
       const resolverInstanceA = TestBed.inject(ResolverA);
       const resolverInstanceC = TestBed.inject(ResolverC);
 
-      const result = await resolver['routesWithExtras$']
-        .pipe(take(1))
-        .toPromise();
+      const result = await firstValueFrom(resolver['routesWithExtras$']);
 
       expect(result).toEqual([
         jasmine.objectContaining({ resolver: resolverInstanceA }),
@@ -181,9 +172,7 @@ describe('RoutingPageMetaResolver', () => {
         DefaultRoutePageMetaResolver
       );
 
-      const result = await resolver['routesWithExtras$']
-        .pipe(take(1))
-        .toPromise();
+      const result = await firstValueFrom(resolver['routesWithExtras$']);
 
       expect(result).toEqual([
         jasmine.objectContaining({ resolver: defaultResolverInstance }),
@@ -211,10 +200,7 @@ describe('RoutingPageMetaResolver', () => {
         { url: [] }, // root route
       ] as ActivatedRouteSnapshotWithPageMeta[]);
 
-      const result = await resolver
-        .resolveBreadcrumbs()
-        .pipe(take(1))
-        .toPromise();
+      const result = await firstValueFrom(resolver.resolveBreadcrumbs());
       expect(result).toEqual([]);
       expect(defaultResolver.resolveBreadcrumbs).not.toHaveBeenCalled();
     });
@@ -230,9 +216,7 @@ describe('RoutingPageMetaResolver', () => {
         },
       ] as ActivatedRouteSnapshotWithPageMeta[]);
 
-      expect(
-        await resolver.resolveBreadcrumbs().pipe(take(1)).toPromise()
-      ).toEqual([]);
+      expect(await firstValueFrom(resolver.resolveBreadcrumbs())).toEqual([]);
       expect(defaultResolver.resolveBreadcrumbs).not.toHaveBeenCalled();
     });
 
@@ -250,9 +234,7 @@ describe('RoutingPageMetaResolver', () => {
         },
       ] as ActivatedRouteSnapshotWithPageMeta[]);
 
-      expect(
-        await resolver.resolveBreadcrumbs().pipe(take(1)).toPromise()
-      ).toEqual([]);
+      expect(await firstValueFrom(resolver.resolveBreadcrumbs())).toEqual([]);
       expect(defaultResolver.resolveBreadcrumbs).not.toHaveBeenCalled();
     });
 
@@ -281,9 +263,7 @@ describe('RoutingPageMetaResolver', () => {
 
       mockActivatedRoutes$.next(testRoutes);
 
-      expect(
-        await resolver.resolveBreadcrumbs().pipe(take(1)).toPromise()
-      ).toEqual([
+      expect(await firstValueFrom(resolver.resolveBreadcrumbs())).toEqual([
         { link: '/grandparent', label: 'grandparent.breadcrumb' },
         { link: '/grandparent/parent', label: 'parent.breadcrumb' },
       ]);
@@ -327,9 +307,7 @@ describe('RoutingPageMetaResolver', () => {
 
       mockActivatedRoutes$.next(testRoutes);
 
-      expect(
-        await resolver.resolveBreadcrumbs().pipe(take(1)).toPromise()
-      ).toEqual([
+      expect(await firstValueFrom(resolver.resolveBreadcrumbs())).toEqual([
         { link: '/grandparent', label: 'grandparent.breadcrumb' },
         { link: '/grandparent/parent', label: 'parent.breadcrumb' },
       ]);
@@ -362,10 +340,9 @@ describe('RoutingPageMetaResolver', () => {
         mockActivatedRoutes$.next(testRoutes);
 
         expect(
-          await resolver
-            .resolveBreadcrumbs({ includeCurrentRoute: true })
-            .pipe(take(1))
-            .toPromise()
+          await firstValueFrom(
+            resolver.resolveBreadcrumbs({ includeCurrentRoute: true })
+          )
         ).toEqual([
           { link: '/grandparent', label: 'grandparent.breadcrumb' },
           { link: '/grandparent/parent', label: 'parent.breadcrumb' },

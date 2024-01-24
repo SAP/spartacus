@@ -13,6 +13,7 @@ import { UpdateEmailModule } from './update-email/update-email.module';
 import { UpdatePasswordModule } from './update-password/update-password.module';
 import { UpdateProfileModule } from './update-profile/update-profile.module';
 import { NewCombinedProfileModule } from './my-account-v2/combined-profile-email';
+import { AddressBookModule } from './address-book';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { NewCombinedProfileModule } from './my-account-v2/combined-profile-email
     ResetPasswordModule,
     CloseAccountModule,
     NewCombinedProfileModule,
+    AddressBookModule,
   ],
 })
 export class UserProfileComponentsModule {}

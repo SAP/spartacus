@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { UntypedFormControl } from '@angular/forms';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   I18nTestingModule,
@@ -15,6 +17,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE, IntersectionService } from '@spartacus/storefront';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -22,13 +25,10 @@ import { ConfiguratorCartService } from '../../core/facade/configurator-cart.ser
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorQuantityService } from '../../core/services/configurator-quantity.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../service';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { UntypedFormControl } from '@angular/forms';
-import { ConfiguratorQuantityService } from '../../core/services/configurator-quantity.service';
 
 const CART_ENTRY_KEY = '001+1';
 const ORDER_ENTRY_KEY = '001+1';
@@ -499,14 +499,6 @@ describe('ConfigAddToCartButtonComponent', () => {
       initialize();
       expect(component.quantityControl.value).toBe(QUANTITY);
     });
-
-    it('should not set quantity in case quantity service not available', () => {
-      initialize();
-      component.quantityControl.setValue(QUANTITY_CHANGED);
-      component['configuratorQuantityService'] = undefined;
-      component.ngOnInit();
-      expect(component.quantityControl.value).toBe(QUANTITY_CHANGED);
-    });
   });
 
   describe('quantityChange', () => {
@@ -516,13 +508,6 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(
         QUANTITY_CHANGED
       );
-    });
-
-    it('should cope with qty service not being available', () => {
-      initialize();
-      component['configuratorQuantityService'] = undefined;
-      component.quantityControl.setValue(QUANTITY_CHANGED);
-      expect(configuratorQuantityService.setQuantity).toHaveBeenCalledTimes(0);
     });
   });
 

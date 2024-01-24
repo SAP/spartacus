@@ -80,7 +80,7 @@ describe('Consignment Tracking effect', () => {
 
     it('should handle failures for load consignment tracking', () => {
       spyOn(orderHistoryConnector, 'getConsignmentTracking').and.returnValue(
-        throwError('Error')
+        throwError(() => 'Error')
       );
 
       const action = new OrderActions.LoadConsignmentTracking(

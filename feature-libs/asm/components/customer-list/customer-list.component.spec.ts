@@ -641,10 +641,10 @@ describe('CustomerListComponent', () => {
     );
 
     fixture.detectChanges();
-
+    // after removing feature flag, pagination part in Modal Foot also use the same css
     expect(
       fixture.debugElement.queryAll(By.css('.cx-header-actions.mobile')).length
-    ).toEqual(1);
+    ).toEqual(2);
   });
 
   it('should add mobile class', () => {

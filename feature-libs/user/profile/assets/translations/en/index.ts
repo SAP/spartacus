@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { userProfile } from './user-profile';
 import { myAccountV2UserProfile } from './my-account-v2-user-profile.18n';
 import { myAccountV2Email } from './my-account-v2-email.18n';
 import { myAccountV2Password } from './my-account-v2-password.i18n';
+import userProfile from './userProfile.json';
 
 export const en = {
   userProfile,

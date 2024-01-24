@@ -14,3 +14,4 @@ export * from './update-profile/index';
 export * from './user-profile-components.module';
 export * from './my-account-v2/index';
 export * from './my-account-v2/combined-profile-email/index';
+export * from './address-book/index';

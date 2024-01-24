@@ -113,9 +113,7 @@ export function runMigration(
   migrationScript: string,
   options = {}
 ): Promise<UnitTestTree> {
-  return schematicRunner
-    .runSchematicAsync(migrationScript, options, appTree)
-    .toPromise();
+  return schematicRunner.runSchematic(migrationScript, options, appTree);
 }
 
 export function getConstructor(nodes: ts.Node[]): ts.Node {

@@ -8,32 +8,28 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  FeatureConfigService,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 
+import { StoreModule } from '@ngrx/store';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
+import { getConfiguratorReducers } from '../../../../core/state/reducers';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import {
   ConfiguratorAttributeProductCardComponent,
   ConfiguratorAttributeProductCardComponentOptions,
 } from '../../product-card/configurator-attribute-product-card.component';
-import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
-import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
-import { StoreModule } from '@ngrx/store';
-import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { Observable, of } from 'rxjs';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 
 const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
 @Component({
@@ -71,13 +67,6 @@ let showRequiredErrorMessage: boolean;
 class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
     return of(showRequiredErrorMessage);
-  }
-}
-
-let testVersion: string;
-class MockFeatureConfigService {
-  isLevel(version: string): boolean {
-    return version === testVersion;
   }
 }
 
@@ -122,10 +111,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   };
 
   function createComponentWithData(
-    releaseVersion: string,
     isCartEntryOrGroupVisited: boolean = true
   ): ConfiguratorAttributeSingleSelectionBundleDropdownComponent {
-    testVersion = releaseVersion;
     showRequiredErrorMessage = isCartEntryOrGroupVisited;
 
     fixture = TestBed.createComponent(
@@ -233,7 +220,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: MockConfigUtilsService,
           },
-          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         ],
       })
         .overrideComponent(
@@ -263,7 +249,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   });
 
   it('should create', () => {
-    createComponentWithData('6.2');
+    createComponentWithData();
     expect(component).toBeTruthy();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -273,7 +259,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   });
 
   it('should render an empty component in case showRequiredErrorMessage$ is `false`', () => {
-    createComponentWithData('6.1', false).ngOnInit();
+    createComponentWithData(false).ngOnInit();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
@@ -282,12 +268,12 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   });
 
   it('should set selectedSingleValue on init', () => {
-    createComponentWithData('6.2').ngOnInit();
+    createComponentWithData().ngOnInit();
     expect(component.attributeDropDownForm.value).toEqual(selectedSingleValue);
   });
 
   it('should show product card when product selected', () => {
-    createComponentWithData('6.2');
+    createComponentWithData();
     component.selectionValue = values[1];
     fixture.detectChanges();
 
@@ -300,7 +286,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
   describe('quantity at attribute level', () => {
     beforeEach(() => {
-      createComponentWithData('6.2').ngOnInit();
+      createComponentWithData().ngOnInit();
     });
 
     it('should display attribute quantity when dataType is with attribute quantity', () => {
@@ -388,7 +374,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
   describe('isNotRetractValue', () => {
     beforeEach(() => {
-      createComponentWithData('6.2').ngOnInit();
+      createComponentWithData().ngOnInit();
     });
 
     it('should return `true` in case value is `###RETRACT_VALUE_CODE###`', () => {
@@ -410,7 +396,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
   describe('isRetractValue', () => {
     beforeEach(() => {
-      createComponentWithData('6.2').ngOnInit();
+      createComponentWithData().ngOnInit();
     });
 
     it('should return `true` in case valueCode is `###RETRACT_VALUE_CODE###`', () => {
@@ -426,7 +412,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
   describe('selectedValue', () => {
     beforeEach(() => {
-      createComponentWithData('6.2').ngOnInit();
+      createComponentWithData().ngOnInit();
     });
 
     it('should throw error in case no selection has been made', () => {

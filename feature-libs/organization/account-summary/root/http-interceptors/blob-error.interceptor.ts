@@ -11,10 +11,10 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { FileReaderService } from '@spartacus/storefront';
+import { Injectable, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
+import { FileReaderService } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
 @Injectable({
@@ -41,17 +41,15 @@ export class BlobErrorInterceptor implements HttpInterceptor {
             .pipe(
               switchMap((errorString: any) => {
                 const error = JSON.parse(errorString);
-                return throwError(
-                  new HttpErrorResponse({
-                    ...errResponse,
-                    error,
-                    url: errResponse.url ?? undefined,
-                  })
-                );
+                throw new HttpErrorResponse({
+                  ...errResponse,
+                  error,
+                  url: errResponse.url ?? undefined,
+                });
               })
             );
         } else {
-          return throwError(errResponse);
+          throw errResponse;
         }
       })
     );
