@@ -33,6 +33,8 @@ export interface SsrOptimizationOptions {
    * Can also be use when `cache` option is set to false. It will then limit the
    * number of renders that timeouts and are kept in temporary cache, waiting
    * to be served with next request.
+   *
+   * Default value is set to 3000.
    */
   cacheSize?: number;
 
@@ -137,17 +139,6 @@ export enum RenderingStrategy {
 }
 
 export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
-  /**
-   * Specifies the maximum number of entries to be retained in the cache,
-   * helping to manage memory usage effectively. The calculation is based on the formula:
-   *
-   * Max Entries = 1.5 GiB / 525 KB
-   *
-   * Where:
-   * - 1.5 GiB: Calculated cache size, derived from half of the minimal pod size.
-   * - 525 KB: Assumption that customer pages may have a size of up to 150% of the Out-of-the-Box (OOTB) page size.
-   * Therefore, considering the OOTB page size as ~350 KB, the assumed customer page size is 525 KB.
-   */
   cacheSize: 3000,
   concurrency: 10,
   timeout: 3_000,
