@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -22,9 +22,11 @@ import { CustomFormValidators } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { USE_MY_ACCOUNT_V2_PASSWORD } from '../public_api';
 
 @Injectable()
 export class UpdatePasswordComponentService {
+  enableMyAccountV2 = inject(USE_MY_ACCOUNT_V2_PASSWORD);
   constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
@@ -77,8 +79,14 @@ export class UpdatePasswordComponentService {
   }
 
   protected onSuccess(): void {
+    let successMessage;
+    if (this.enableMyAccountV2) {
+      successMessage = { key: 'myAccountV2PasswordForm.passwordUpdateSuccess' };
+    } else {
+      successMessage = { key: 'updatePasswordForm.passwordUpdateSuccess' };
+    }
     this.globalMessageService.add(
-      { key: 'updatePasswordForm.passwordUpdateSuccess' },
+      successMessage,
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
     this.busy$.next(false);

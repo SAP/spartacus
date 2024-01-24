@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthRedirectService,
@@ -13,11 +14,15 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import { UpdatePasswordComponentService } from '@spartacus/user/profile/components';
+import {
+  USE_MY_ACCOUNT_V2_PASSWORD,
+  UpdatePasswordComponentService,
+} from '@spartacus/user/profile/components';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 
 @Injectable()
 export class CDCUpdatePasswordComponentService extends UpdatePasswordComponentService {
+  enableMyAccountV2 = inject(USE_MY_ACCOUNT_V2_PASSWORD);
   constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
@@ -33,6 +38,12 @@ export class CDCUpdatePasswordComponentService extends UpdatePasswordComponentSe
       authRedirectService,
       authService
     );
+    if (this.enableMyAccountV2) {
+      this.form.addControl(
+        'newPassword',
+        new UntypedFormControl('', Validators.required)
+      );
+    }
   }
 
   /**
@@ -58,7 +69,12 @@ export class CDCUpdatePasswordComponentService extends UpdatePasswordComponentSe
   }
 
   protected onError(_error: any): void {
-    const errorMessage = _error?.errorDetails || ' ';
+    let errorMessage;
+    if (this.enableMyAccountV2) {
+      errorMessage = { key: 'myAccountV2PasswordForm.accessDeniedError' };
+    } else {
+      errorMessage = _error?.errorDetails || ' ';
+    }
     this.globalMessageService.add(
       errorMessage,
       GlobalMessageType.MSG_TYPE_ERROR

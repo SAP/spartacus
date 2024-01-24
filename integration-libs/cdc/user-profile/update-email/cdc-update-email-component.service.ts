@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { UntypedFormControl } from '@angular/forms';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthRedirectService,
@@ -13,11 +14,17 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import { UpdateEmailComponentService } from '@spartacus/user/profile/components';
+import {
+  USE_MY_ACCOUNT_V2_EMAIL,
+  UpdateEmailComponentService,
+} from '@spartacus/user/profile/components';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class CDCUpdateEmailComponentService extends UpdateEmailComponentService {
+  updateSucceed$ = new Subject();
+  enableMyAccountV2 = inject(USE_MY_ACCOUNT_V2_EMAIL);
   constructor(
     protected userEmail: UserEmailFacade,
     protected routingService: RoutingService,
@@ -33,6 +40,9 @@ export class CDCUpdateEmailComponentService extends UpdateEmailComponentService 
       authService,
       authRedirectService
     );
+    if (this.enableMyAccountV2) {
+      this.form.addControl('oldEmail', new UntypedFormControl(''));
+    }
   }
 
   save(): void {
@@ -61,5 +71,8 @@ export class CDCUpdateEmailComponentService extends UpdateEmailComponentService 
       GlobalMessageType.MSG_TYPE_ERROR
     );
     this.busy$.next(false);
+    if (this.enableMyAccountV2) {
+      this.updateSucceed$.next(false);
+    }
   }
 }
