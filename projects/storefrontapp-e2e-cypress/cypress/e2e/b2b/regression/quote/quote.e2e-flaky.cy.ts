@@ -5,9 +5,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as common from '../../../../helpers/common';
 import * as quote from '../../../../helpers/b2b/b2b-quote';
 import * as cart from '../../../../helpers/cart';
+import * as common from '../../../../helpers/common';
 
 const TEST_PRODUCT_HAMMER_DRILLING_ID = '3887130';
 const TEST_PRODUCT_HAMMER_DRILLING_NAME = 'DH40MR';
@@ -228,6 +228,7 @@ context('Quote', () => {
     it('should become a saved cart after editing the submitted quote', () => {
       quote.prepareSavedCartTemplate(TEST_PRODUCT_HAMMER_DRILLING_ID);
       quote.enableEditQuoteMode(true, quote.STATUS_DRAFT);
+      cy.wait(1000); // wait for the saved cart to be created in the back-end
       quote.checkNumberOfSavedCarts(1);
     });
 
@@ -236,6 +237,7 @@ context('Quote', () => {
       quote.cancelQuote(quote.STATUS_BUYER_CANCEL, false);
       quote.goToQuoteOverviewPage();
       quote.requestNewQuote(quote.STATUS_DRAFT);
+      cy.wait(1000); // wait for the saved cart to be created in the back-end
       quote.checkNumberOfSavedCarts(1);
     });
 
