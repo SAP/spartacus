@@ -31,7 +31,12 @@ const cds1: CdsConfig = {
 
 const cds2 = {
   cds: {
-    baseSite: ['A_CDS_SITE'],
+    baseSite: [
+      'apparel-de',
+      'apparel-uk',
+      'apparel-uk-spa',
+      'apparel-uk-standalone',
+    ],
     tenant: 'A_CDS_TENANT',
     baseUrl: 'A_CDS_BASE_URL',
     endpoints: {
