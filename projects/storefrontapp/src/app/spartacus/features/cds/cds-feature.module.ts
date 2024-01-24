@@ -54,12 +54,12 @@ const cdsConfig = (windowRef: WindowRef): CdsConfig => {
   if (!windowRef.isBrowser()) {
     return cds1;
   }
-  const cds = cdsConfigArray.find((_cds: CdsConfig) => {
-    return _cds.cds?.baseSite?.find((baseSite) =>
+  const cds = cdsConfigArray.find((cdsConfig: CdsConfig) => {
+    return cdsConfig.cds?.baseSite?.find((baseSite) =>
       windowRef.location.href?.includes(baseSite)
     );
   });
-  return <CdsConfig>cds ?? cds1;
+  return cds ?? cds1;
 };
 
 @NgModule({
