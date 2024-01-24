@@ -18,9 +18,6 @@ import { OpfAddToCartComponent } from './opf-add-to-cart.component';
       cmsComponents: {
         OpfAddToCartComponent: {
           component: OpfAddToCartComponent,
-          data: {
-            inventoryDisplay: false,
-          },
         },
       },
     }),
