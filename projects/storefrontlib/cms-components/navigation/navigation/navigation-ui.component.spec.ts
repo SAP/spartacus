@@ -36,6 +36,7 @@ class MockHamburgerMenuService {
   toggle(_forceCollapse?: boolean): void {}
 }
 
+// TODO: (CXSPA-5919) Remove mock next major release
 class MockFeatureConfigService {
   isLevel() {
     return true;
@@ -109,6 +110,7 @@ describe('Navigation UI Component', () => {
         NavigationUIComponent,
         MockIconComponent,
         MockGenericLinkComponent,
+        // TODO: (CXSPA-5919) Remove feature directive next major
         MockFeatureLevelDirective,
       ],
       providers: [
