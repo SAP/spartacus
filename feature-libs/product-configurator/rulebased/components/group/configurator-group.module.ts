@@ -21,6 +21,8 @@ import { ConfiguratorAttributeNumericInputFieldModule } from '../attribute/types
 import { ConfiguratorAttributeNotSupportedModule } from '../attribute/types/not-supported/configurator-attribute-not-supported.module';
 import { ConfiguratorAttributeRadioButtonModule } from '../attribute/types/radio-button/configurator-attribute-radio-button.module';
 import { ConfiguratorAttributeReadOnlyModule } from '../attribute/types/read-only/configurator-attribute-read-only.module';
+import { ConfiguratorAttributeReadOnlySingleSelectionImageModule } from '../attribute/types/read-only-single-selection-image/configurator-attribute-read-only-single-selection-image.module';
+import { ConfiguratorAttributeReadOnlyMultiSelectionImageModule } from '../attribute/types/read-only-multi-selection-image/configurator-attribute-read-only-multi-selection-image.module';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownModule } from '../attribute/types/single-selection-bundle-dropdown/configurator-attribute-single-selection-bundle-dropdown.module';
 import { ConfiguratorAttributeSingleSelectionBundleModule } from '../attribute/types/single-selection-bundle/configurator-attribute-single-selection-bundle.module';
 import { ConfiguratorAttributeSingleSelectionImageModule } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.module';
@@ -47,10 +49,12 @@ import { ConfiguratorGroupComponent } from './configurator-group.component';
     ConfiguratorAttributeReadOnlyModule,
     ConfiguratorAttributeSingleSelectionImageModule,
     ConfiguratorAttributeSingleSelectionBundleDropdownModule,
+    ConfiguratorAttributeReadOnlySingleSelectionImageModule,
     ConfiguratorAttributeCheckboxModule,
     ConfiguratorAttributeCheckboxListModule,
     ConfiguratorAttributeDropDownModule,
     ConfiguratorAttributeMultiSelectionImageModule,
+    ConfiguratorAttributeReadOnlyMultiSelectionImageModule,
     ConfiguratorConflictDescriptionModule,
     ConfiguratorConflictSuggestionModule,
     ConfiguratorAttributeCompositionModule,
