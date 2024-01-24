@@ -40,6 +40,19 @@ const myAccountV2PasswordMapping: CmsConfig = {
     UpdatePasswordComponent: {
       component: MyAccountV2PasswordComponent,
       guards: [AuthGuard],
+      providers: [
+        {
+          provide: MyAccountV2PasswordComponentService,
+          useClass: MyAccountV2PasswordComponentService,
+          deps: [
+            UserPasswordFacade,
+            RoutingService,
+            GlobalMessageService,
+            AuthRedirectService,
+            AuthService,
+          ],
+        },
+      ],
     },
   },
 };
@@ -58,7 +71,6 @@ const myAccountV2PasswordMapping: CmsConfig = {
     MessageComponentModule,
   ],
   providers: [
-    MyAccountV2PasswordComponentService,
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         UpdatePasswordComponent: {

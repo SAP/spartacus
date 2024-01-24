@@ -40,6 +40,19 @@ const myAccountV2EmailMapping: CmsConfig = {
     UpdateEmailComponent: {
       component: MyAccountV2EmailComponent,
       guards: [AuthGuard],
+      providers: [
+        {
+          provide: MyAccountV2EmailComponentService,
+          useClass: MyAccountV2EmailComponentService,
+          deps: [
+            UserEmailFacade,
+            RoutingService,
+            GlobalMessageService,
+            AuthService,
+            AuthRedirectService,
+          ],
+        },
+      ],
     },
   },
 };
@@ -60,7 +73,6 @@ const myAccountV2EmailMapping: CmsConfig = {
   declarations: [UpdateEmailComponent, MyAccountV2EmailComponent],
   exports: [UpdateEmailComponent, MyAccountV2EmailComponent],
   providers: [
-    MyAccountV2EmailComponentService,
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         UpdateEmailComponent: {

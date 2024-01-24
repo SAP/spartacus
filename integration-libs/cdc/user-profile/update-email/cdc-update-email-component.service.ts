@@ -64,6 +64,39 @@ export class CDCUpdateEmailComponentService extends UpdateEmailComponentService 
       });
   }
 
+  /**
+   * Handles successful updating of the user email.
+   */
+  protected onSuccess(newUid: string): void {
+    this.globalMessageService.add(
+      {
+        key: 'updateEmailForm.emailUpdateSuccess',
+        params: { newUid },
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    this.busy$.next(false);
+    this.form.reset();
+    if (this.enableMyAccountV2) {
+      this.updateSucceed$.next(true);
+    }
+    // sets the redirect url after login
+    this.authRedirectService.setRedirectUrl(
+      this.routingService.getUrl({ cxRoute: 'home' })
+    );
+    // TODO(#9638): Use logout route when it will support passing redirect url
+    this.authService.coreLogout().then(() => {
+      this.routingService.go(
+        { cxRoute: 'login' },
+        {
+          state: {
+            newUid,
+          },
+        }
+      );
+    });
+  }
+
   protected onError(_error: Error): void {
     this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
     this.globalMessageService.add(

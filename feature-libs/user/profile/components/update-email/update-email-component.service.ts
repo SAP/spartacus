@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -19,14 +19,11 @@ import {
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { USE_MY_ACCOUNT_V2_EMAIL } from '../public_api';
 
 @Injectable()
 export class UpdateEmailComponentService {
-  updateSucceed$ = new Subject();
-  enableMyAccountV2 = inject(USE_MY_ACCOUNT_V2_EMAIL);
   constructor(
     protected userEmail: UserEmailFacade,
     protected routingService: RoutingService,
@@ -85,9 +82,6 @@ export class UpdateEmailComponentService {
     );
     this.busy$.next(false);
     this.form.reset();
-    if (this.enableMyAccountV2) {
-      this.updateSucceed$.next(true);
-    }
     // sets the redirect url after login
     this.authRedirectService.setRedirectUrl(
       this.routingService.getUrl({ cxRoute: 'home' })

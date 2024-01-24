@@ -68,6 +68,30 @@ export class CDCUpdatePasswordComponentService extends UpdatePasswordComponentSe
       });
   }
 
+  protected onSuccess(): void {
+    let successMessage;
+    if (this.enableMyAccountV2) {
+      successMessage = { key: 'myAccountV2PasswordForm.passwordUpdateSuccess' };
+    } else {
+      successMessage = { key: 'updatePasswordForm.passwordUpdateSuccess' };
+    }
+    this.globalMessageService.add(
+      successMessage,
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    this.busy$.next(false);
+    this.form.reset();
+
+    // sets the redirect url after login
+    this.authRedirectService?.setRedirectUrl(
+      this.routingService.getUrl({ cxRoute: 'home' })
+    );
+    // TODO(#9638): Use logout route when it will support passing redirect url
+    this.authService?.coreLogout().then(() => {
+      this.routingService.go({ cxRoute: 'login' });
+    });
+  }
+
   protected onError(_error: any): void {
     let errorMessage;
     if (this.enableMyAccountV2) {
