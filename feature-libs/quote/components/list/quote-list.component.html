@@ -71,7 +71,7 @@
                 } | cxUrl
               "
               (keydown.enter)="row.click()"
-              attr.title="{{ 'quote.list.name' | cxTranslate }}: {{
+              attr.aria-label="{{ 'quote.list.name' | cxTranslate }}: {{
                 quote.name
               }} {{ 'quote.header.overview.id' | cxTranslate }}: {{
                 quote.code
@@ -80,6 +80,7 @@
               }} {{ 'quote.list.updated' | cxTranslate }}: {{
                 quote?.updatedTime | cxDate: dateFormat
               }} {{ 'quote.list.clickableRow' | cxTranslate }}"
+              attr.title="{{ quote.name }}"
             >
               <td role="cell" class="cx-name">
                 <div class="cx-mobile-header">
