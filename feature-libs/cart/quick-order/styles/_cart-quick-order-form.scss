@@ -7,12 +7,9 @@
   @include media-breakpoint-down(md) {
     max-width: 50%;
     padding-bottom: 2rem;
-    padding-inline-end: 3rem;
+    padding-inline-end: 0;
     padding-inline-start: 0;
-
-    @include forVersion(6.1) {
-      min-width: 100%;
-    }
+    min-width: 100%;
   }
 
   @include media-breakpoint-down(sm) {
