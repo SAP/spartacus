@@ -22,9 +22,6 @@
         flex-grow: 1;
 
         @include media-breakpoint-up(lg) {
-          border-inline-end: 1px solid var(--cx-color-text);
-          margin-inline-end: 10rem;
-
           cx-card {
             padding: 10px 0;
             display: block;
