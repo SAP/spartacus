@@ -8,6 +8,7 @@ import { inject, Injectable } from '@angular/core';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
+  AuthService,
   Command,
   CommandService,
   CommandStrategy,
@@ -64,6 +65,7 @@ import { QuoteStorefrontUtilsService } from '../services/quote-storefront-utils.
 @Injectable()
 export class QuoteService implements QuoteFacade {
   protected userIdService = inject(UserIdService);
+  protected authService = inject(AuthService);
   protected quoteConnector = inject(QuoteConnector);
   protected eventService = inject(EventService);
   protected queryService = inject(QueryService);
@@ -386,14 +388,24 @@ export class QuoteService implements QuoteFacade {
         this.activeCartFacade.getActive().pipe(
           take(1),
           switchMap(() =>
-            this.routingService.getRouterState().pipe(
+            combineLatest([
+              this.routingService.getRouterState(),
+              this.authService.isUserLoggedIn(),
+            ]).pipe(
               //we don't need to cover the intermediate router states where a future route is already known.
-              //only changes to the URL are relevant. Otherwise we get unneeded hits when e.g. navigating back from quotes
-              filter((routingData) => routingData.nextState === undefined),
+              //only changes to the URL are relevant. Otherwise we get unneeded hits when e.g. navigating back from quotes.
+              //In addition we check is the user is logged in as otherwise we would get (failing) calls after logout
+              filter(
+                ([routerState, isLoggedIn]) =>
+                  routerState.nextState === undefined && isLoggedIn
+              ),
               withLatestFrom(this.userIdService.takeUserId()),
-              switchMap(([{ state }, userId]) =>
-                this.quoteConnector.getQuote(userId, state.params.quoteId)
-              )
+              switchMap(([[routerState, _isLoggedIn], userId]) => {
+                return this.quoteConnector.getQuote(
+                  userId,
+                  routerState.state.params.quoteId
+                );
+              })
             )
           )
         ),
