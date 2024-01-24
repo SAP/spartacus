@@ -20,10 +20,20 @@ function clear_root {
     cp sub-folder/.npmignore .
 }
 
+function append_npmignore {   
+    echo "------ path-----"
+    echo "$1"
+    echo "------ content-----"
+    echo "$2"
+    $(cd $1 && echo -e "$2" >> .npmignore);
+}
+
 # Package is built and set at the root level
 function pack {
     PACKAGE=$1
     cd sub-folder
+
+    local CONTENT="$(cat .npmignore)"
 
     if [[ -z "$PACKAGE" ]]; then
         echo "Package cannot be empty"
@@ -33,8 +43,10 @@ function pack {
     elif [[ $PACKAGE == 'schematics' ]]; then
         cp -r projects/schematics/* ../.
     elif [[ $PACKAGE == 'storefront' ]]; then
+        append_npmignore "dist/storefrontlib" "$CONTENT"
         cp -r dist/storefrontlib/* ../.
     else
+        append_npmignore "dist/$PACKAGE/" "$CONTENT"
         cp -r dist/$PACKAGE/* ../.
     fi
 }
