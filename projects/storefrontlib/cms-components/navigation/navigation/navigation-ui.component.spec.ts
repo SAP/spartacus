@@ -2,7 +2,12 @@ import { Component, DebugElement, ElementRef, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, WindowRef } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  I18nTestingModule,
+  WindowRef,
+} from '@spartacus/core';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
@@ -29,6 +34,12 @@ class MockGenericLinkComponent {
 class MockHamburgerMenuService {
   isExpanded = of(true);
   toggle(_forceCollapse?: boolean): void {}
+}
+
+class MockFeatureConfigService {
+  isLevel() {
+    return true;
+  }
 }
 
 const mockWinRef: WindowRef = {
@@ -98,6 +109,7 @@ describe('Navigation UI Component', () => {
         NavigationUIComponent,
         MockIconComponent,
         MockGenericLinkComponent,
+        MockFeatureLevelDirective,
       ],
       providers: [
         {
@@ -107,6 +119,10 @@ describe('Navigation UI Component', () => {
         {
           provide: WindowRef,
           useValue: mockWinRef,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();
