@@ -19,13 +19,9 @@ function clear_root {
     cp -r sub-folder/.pipeline .
     cp sub-folder/.npmignore .
 }
-
-function append_npmignore {   
-    echo "------ path-----"
-    echo "$1"
-    echo "------ content-----"
-    echo "$2"
-    $(cd $1 && echo -e "$2" >> .npmignore);
+# Append root's .nmpignore into module's .nmpignore file so it contains all paths.
+function append_npmignore {
+    $(cd $1 && echo "\n$2" >> .npmignore);
 }
 
 # Package is built and set at the root level
