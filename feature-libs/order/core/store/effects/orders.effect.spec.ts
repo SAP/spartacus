@@ -3,7 +3,11 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { normalizeHttpError, SiteContextActions } from '@spartacus/core';
+import {
+  LoggerService,
+  normalizeHttpError,
+  SiteContextActions,
+} from '@spartacus/core';
 import { OrderHistoryList } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -24,6 +28,14 @@ const mockUserOrders: OrderHistoryList = {
 
 const mockError = 'test-error';
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('Orders effect', () => {
   let ordersEffect: fromOrdersEffect.OrdersEffect;
   let orderHistoryConnector: OrderHistoryConnector;
@@ -39,6 +51,7 @@ describe('Orders effect', () => {
         fromOrdersEffect.OrdersEffect,
         { provide: OrderHistoryAdapter, useValue: {} },
         { provide: ReplenishmentOrderHistoryAdapter, useValue: {} },
+        { provide: LoggerService, useClass: MockLoggerService },
         provideMockActions(() => actions$),
       ],
     });
@@ -84,7 +97,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new OrderActions.LoadUserOrdersFail(
-          normalizeHttpError(mockError)
+          normalizeHttpError(mockError, new MockLoggerService())
         );
         actions$ = hot('-a', { a: action });
 
@@ -130,7 +143,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new OrderActions.LoadUserOrdersFail(
-          normalizeHttpError(mockError)
+          normalizeHttpError(mockError, new MockLoggerService())
         );
         actions$ = hot('-a', { a: action });
 

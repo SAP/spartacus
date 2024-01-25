@@ -4,6 +4,7 @@ import { Action } from '@ngrx/store';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  LoggerService,
   normalizeHttpError,
   Translatable,
 } from '@spartacus/core';
@@ -49,6 +50,14 @@ class MockGlobalMessageService {
   ): void {}
 }
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('ReplenishmentOrderDetailsEffect', () => {
   let connector: ReplenishmentOrderHistoryConnector;
   let effects: fromEffects.ReplenishmentOrderDetailsEffect;
@@ -67,6 +76,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         },
         fromEffects.ReplenishmentOrderDetailsEffect,
         provideMockActions(() => actions$),
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
@@ -102,7 +112,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.LoadReplenishmentOrderDetailsFail(
-        normalizeHttpError(mockError)
+        normalizeHttpError(mockError, new MockLoggerService())
       );
 
       actions$ = hot('-a', { a: action });
@@ -146,7 +156,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.CancelReplenishmentOrderFail(
-        normalizeHttpError(mockError)
+        normalizeHttpError(mockError, new MockLoggerService())
       );
 
       actions$ = hot('-a', { a: action });
