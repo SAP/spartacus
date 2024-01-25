@@ -602,6 +602,35 @@ describe('QuoteService', () => {
           done
         );
       });
+      it('trigger navigation to quotes list', (done) => {
+        classUnderTest
+          .performQuoteAction(quote, QuoteActionType.REJECT)
+          .subscribe(() => {
+            expect(routingService.go).toHaveBeenCalledWith({
+              cxRoute: 'quotes',
+            });
+            done();
+          });
+      });
+    });
+
+    describe('on approve', () => {
+      it('should set loading state to false when action is completed', (done) => {
+        checkNoActionPerforming(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.APPROVE),
+          done
+        );
+      });
+      it('trigger navigation to quotes list', (done) => {
+        classUnderTest
+          .performQuoteAction(quote, QuoteActionType.APPROVE)
+          .subscribe(() => {
+            expect(routingService.go).toHaveBeenCalledWith({
+              cxRoute: 'quotes',
+            });
+            done();
+          });
+      });
     });
   });
 

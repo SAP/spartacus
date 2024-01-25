@@ -253,6 +253,12 @@ export class QuoteService implements QuoteFacade {
             this.isActionPerforming$.next(false);
           }
           if (
+            payload.quoteAction === QuoteActionType.REJECT ||
+            payload.quoteAction === QuoteActionType.APPROVE
+          ) {
+            this.routingService.go({ cxRoute: 'quotes' });
+          }
+          if (
             payload.quoteAction === QuoteActionType.EDIT ||
             payload.quoteAction === QuoteActionType.CHECKOUT
           ) {
