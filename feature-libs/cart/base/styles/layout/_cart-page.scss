@@ -47,26 +47,16 @@
         }
       }
 
-      @include forVersion(6.1) {
-        cx-cart-coupon {
-          order: 2;
-        }
+      cx-cart-quick-order-form {
+        order: 3;
+      }
 
-        cx-cart-quick-order-form {
-          order: 3;
-        }
+      cx-cart-totals {
+        order: 4;
+      }
 
-        cx-cart-totals {
-          order: 4;
-        }
-
-        cx-cart-proceed-to-checkout {
-          order: 5;
-        }
-
-        cx-quote-request-button {
-          order: 6;
-        }
+      cx-cart-proceed-to-checkout {
+        order: 5;
       }
     }
 

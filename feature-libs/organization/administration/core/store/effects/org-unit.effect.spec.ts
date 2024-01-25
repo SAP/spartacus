@@ -10,13 +10,14 @@ import {
   B2BUser,
   EntitiesModel,
   ListModel,
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
   SearchConfig,
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
-  OrganizationActions,
   OrgUnitConnector,
+  OrganizationActions,
 } from '@spartacus/organization/administration/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
@@ -34,7 +35,7 @@ const httpErrorResponse = new HttpErrorResponse({
   statusText: 'Unknown error',
   url: '/xxx',
 });
-const error = normalizeHttpError(httpErrorResponse);
+
 const userId = 'testUser';
 
 const orgUnitId = 'testOrgUnitId';
@@ -80,6 +81,16 @@ class MockOrgUnitConnector {
   getTree = createSpy().and.returnValue(of(unitNode));
 }
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+
 describe('OrgUnit Effects', () => {
   let actions$: Observable<OrgUnitActions.OrgUnitAction>;
   let orgUnitConnector: OrgUnitConnector;
@@ -113,6 +124,7 @@ describe('OrgUnit Effects', () => {
       providers: [
         { provide: OrgUnitConnector, useClass: MockOrgUnitConnector },
         { provide: OccConfig, useValue: mockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.OrgUnitEffects,
         provideMockActions(() => actions$),
       ],

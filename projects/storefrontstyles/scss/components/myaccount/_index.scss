@@ -1,9 +1,6 @@
 @use 'sass:list';
 
 @import './anonymous-consent/index';
-@import './address-book';
-@import './address-form';
-@import './suggested-addresses-dialog';
 @import './payment-methods';
 @import './consent-management';
 @import './consent-management-form';
@@ -12,8 +9,7 @@
 @import './my-coupons-dialog';
 @import './my-interests';
 
-$myaccount-components-allowlist: cx-address-book, cx-address-form,
-  cx-suggested-addresses-dialog, cx-anonymous-consent-management-banner,
+$myaccount-components-allowlist: cx-anonymous-consent-management-banner,
   cx-anonymous-consent-dialog, cx-anonymous-consent-open-dialog,
   cx-consent-management-form, cx-consent-management, cx-my-interests,
   cx-my-coupons, cx-coupon-card, cx-coupon-dialog, cx-payment-methods !default;

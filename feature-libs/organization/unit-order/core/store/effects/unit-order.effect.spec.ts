@@ -27,6 +27,14 @@ const mockUserOrders: OrderHistoryList = {
 
 const mockError = new HttpErrorResponse({ error: 'test-error' });
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('Orders effect', () => {
   let ordersEffect: UnitOrderEffect;
   let orderHistoryConnector: UnitOrderConnector;
@@ -81,7 +89,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new UnitOrderActions.LoadUnitOrdersFail(
-          normalizeHttpError(mockError)
+          normalizeHttpError(mockError, new MockLoggerService())
         );
         actions$ = hot('-a', { a: action });
 
@@ -127,7 +135,10 @@ describe('Orders effect', () => {
       });
 
       it('should handle failures for load order details', () => {
-        const mockNormalizedError = normalizeHttpError(mockError);
+        const mockNormalizedError = normalizeHttpError(
+          mockError,
+          new MockLoggerService()
+        );
         spyOn(orderHistoryConnector, 'getUnitOrderDetail').and.returnValue(
           throwError(() => mockError)
         );

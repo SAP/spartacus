@@ -6,9 +6,10 @@ import {
 import { TestBed } from '@angular/core/testing';
 import {
   HttpErrorModel,
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
   OccEndpoints,
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
   InvoiceQueryParams,
@@ -88,6 +89,14 @@ const mockDownloadPDFBadRequestResponse = new HttpErrorResponse({
   },
 });
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('OccPDFInvoicesAdapter', () => {
   let occPDFInvoicesAdapter: OccPDFInvoicesAdapter;
   let httpClient: HttpClient;
@@ -99,6 +108,7 @@ describe('OccPDFInvoicesAdapter', () => {
       providers: [
         OccPDFInvoicesAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
     occPDFInvoicesAdapter = TestBed.inject(OccPDFInvoicesAdapter);
@@ -160,7 +170,10 @@ describe('OccPDFInvoicesAdapter', () => {
         });
 
       expect(result).toEqual(
-        normalizeHttpError(mockNoOrderIdBadRequestResponse)
+        normalizeHttpError(
+          mockNoOrderIdBadRequestResponse,
+          new MockLoggerService()
+        )
       );
 
       subscription.unsubscribe();
@@ -242,7 +255,10 @@ describe('OccPDFInvoicesAdapter', () => {
         });
 
       expect(result).toEqual(
-        normalizeHttpError(mockDownloadPDFBadRequestResponse)
+        normalizeHttpError(
+          mockDownloadPDFBadRequestResponse,
+          new MockLoggerService()
+        )
       );
 
       subscription.unsubscribe();

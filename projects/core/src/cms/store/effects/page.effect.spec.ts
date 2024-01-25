@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, StoreModule } from '@ngrx/store';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
@@ -85,6 +85,14 @@ class RoutingServiceMock {
   }
 }
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('Page Effects', () => {
   let actions$: Observable<Action>;
   let cmsPageConnector: CmsPageConnector;
@@ -101,6 +109,7 @@ describe('Page Effects', () => {
       providers: [
         { provide: RoutingService, useClass: RoutingServiceMock },
         { provide: CmsPageConnector, useClass: MockCmsPageConnector },
+        { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.PageEffects,
         provideMockActions(() => actions$),
       ],
@@ -144,7 +153,7 @@ describe('Page Effects', () => {
 
         const completion = new CmsActions.LoadCmsPageDataFail(
           pageContext,
-          normalizeHttpError(error)
+          normalizeHttpError(error, new MockLoggerService())
         );
 
         actions$ = hot('-a', { a: action });

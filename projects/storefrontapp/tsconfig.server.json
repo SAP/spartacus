@@ -6,6 +6,7 @@
     "types": ["node"],
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "@spartacus/setup": ["../../core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["../../core-libs/setup/ssr/public_api"],
