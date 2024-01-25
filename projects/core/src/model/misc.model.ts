@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Address } from './address.model';
 import { B2BUnit } from '.';
+import { Address } from './address.model';
 
 export interface Currency {
   active?: boolean;
@@ -110,6 +110,7 @@ export interface BaseStore {
   defaultCurrency?: Currency;
   languages?: Language[];
   defaultLanguage?: Language;
+  paymentProvider?: string;
 }
 
 export interface BaseSite {

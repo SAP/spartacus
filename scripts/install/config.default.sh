@@ -36,8 +36,10 @@ SPARTACUS_PROJECTS=(
         "dist/cds:integration-libs/cds"
         "dist/cdc:integration-libs/cdc"
         "dist/epd-visualization:integration-libs/epd-visualization"
+        "dist/opf:integration-libs/opf"
         "dist/product-configurator:feature-libs/product-configurator"
         "dist/pickup-in-store:feature-libs/pickup-in-store"
+        "dist/pdf-invoices:feature-libs/pdf-invoices"
         "projects/storefrontstyles:projects/storefrontstyles"
         "projects/schematics:projects/schematics"
         )
@@ -71,6 +73,11 @@ ADD_CDC=false
 # config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
 ADD_EPD_VISUALIZATION=false
 ADD_S4OM=false
+ADD_OPF=false
+
+# The base URL and public key values are required for connection to Cloud Commerce Adapter (OPF)
+OPF_BASE_URL=
+OPF_CLIENT_PUBLIC_KEY=
 
 # The base URL (origin) of the SAP EPD Visualization Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=

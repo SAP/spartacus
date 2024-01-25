@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ export interface Environment {
   digitalPayments: boolean;
   epdVisualization: boolean;
   s4om: boolean;
+  opf: boolean;
   segmentRefs: boolean;
   requestedDeliveryDate: boolean;
   pdfInvoices: boolean;

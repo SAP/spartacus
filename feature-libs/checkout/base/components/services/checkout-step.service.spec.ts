@@ -11,6 +11,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import { CheckoutFlowOrchestratorService } from './checkout-flow-orchestrator.service';
 import { CheckoutStepService } from './checkout-step.service';
 import createSpy = jasmine.createSpy;
 
@@ -65,30 +66,35 @@ class MockRoutingService implements Partial<RoutingService> {
   );
 }
 
+class MockCheckoutFlowOrchestratorService
+  implements Partial<CheckoutFlowOrchestratorService>
+{
+  getCheckoutFlow() {
+    return checkoutConfig.checkout;
+  }
+}
+
 describe('CheckoutStepService', () => {
   let service: CheckoutStepService;
   let routingService: RoutingService;
-  let routingConfigService: RoutingConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CheckoutStepService,
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: CheckoutConfig, useValue: checkoutConfig },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
+        {
+          provide: CheckoutFlowOrchestratorService,
+          useClass: MockCheckoutFlowOrchestratorService,
+        },
       ],
     });
+    TestBed.inject(CheckoutConfig);
 
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
-    routingConfigService = TestBed.inject(
-      RoutingConfigService as Type<RoutingConfigService>
-    );
-
-    service = new CheckoutStepService(
-      routingService,
-      checkoutConfig,
-      routingConfigService
-    );
+    service = TestBed.inject(CheckoutStepService as Type<CheckoutStepService>);
   });
 
   it('should be created', () => {

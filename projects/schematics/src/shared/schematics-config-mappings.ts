@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { SchematicsException } from '@angular-devkit/schematics';
 import {
-  ASM_SCHEMATICS_CONFIG,
   ASM_CUSTOMER_360_SCHEMATICS_CONFIG,
+  ASM_SCHEMATICS_CONFIG,
 } from './lib-configs/asm-schematics-config';
 import {
   CART_BASE_SCHEMATICS_CONFIG,
@@ -29,6 +29,10 @@ import {
 import { CDS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cds-schematics-config';
 import { DIGITAL_PAYMENTS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/digital-payments-schematics-config';
 import { EPD_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/epd-schematics-config';
+import {
+  OPF_BASE_SCHEMATICS_CONFIG,
+  OPF_CHECKOUT_SCHEMATICS_CONFIG,
+} from './lib-configs/integration-libs/opf-schematics-config';
 import { S4OM_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/s4om-schematics-config';
 import { SEGMENT_REFS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/segment-refs-schematics-config';
 import { ORDER_SCHEMATICS_CONFIG } from './lib-configs/order-schematics-config';
@@ -135,6 +139,9 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   EPD_SCHEMATICS_CONFIG,
 
   S4OM_SCHEMATICS_CONFIG,
+
+  OPF_BASE_SCHEMATICS_CONFIG,
+  OPF_CHECKOUT_SCHEMATICS_CONFIG,
 
   SEGMENT_REFS_SCHEMATICS_CONFIG,
 ];

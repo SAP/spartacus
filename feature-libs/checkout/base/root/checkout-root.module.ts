@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,6 +32,8 @@ export const CHECKOUT_BASE_CMS_COMPONENTS: string[] = [
   'CheckoutReviewOverview',
   'CheckoutDeliveryAddress',
   'GuestCheckoutLoginComponent',
+  // TODO: Move below component to the OpfCheckoutRootModule
+  'OpfCheckoutPaymentAndReview',
 ];
 
 export function defaultCheckoutComponentsConfig() {

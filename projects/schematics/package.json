@@ -67,7 +67,8 @@
       "@spartacus/digital-payments",
       "@spartacus/epd-visualization",
       "@spartacus/s4om",
-      "@spartacus/customer-ticketing"
+      "@spartacus/customer-ticketing",
+      "@spartacus/opf"
     ]
   },
   "schematics": "./src/collection.json"

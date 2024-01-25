@@ -9,6 +9,7 @@ import {
   SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
+  SPARTACUS_OPF,
   SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
   SPARTACUS_PDF_INVOICES,
@@ -25,9 +26,9 @@ import {
   SPARTACUS_USER,
 } from '../libs-constants';
 import {
+  Graph,
   crossFeatureInstallationOrder,
   crossLibraryInstallationOrder,
-  Graph,
   kahnsAlgorithm,
 } from './graph-utils';
 
@@ -139,6 +140,7 @@ describe('Graph utils', () => {
         SPARTACUS_ASM,
         SPARTACUS_SEGMENT_REFS,
         SPARTACUS_S4OM,
+        SPARTACUS_OPF,
         SPARTACUS_EPD_VISUALIZATION,
         SPARTACUS_DIGITAL_PAYMENTS,
         SPARTACUS_CDS,
@@ -171,6 +173,8 @@ describe('Graph utils', () => {
           "Personalization",
           "TMS-AEPL",
           "TMS-GTM",
+          "OPF-Base",
+          "OPF-Checkout",
           "PDF-Invoices",
           "Requested-Delivery-Date",
           "Organization-User-Registration",
