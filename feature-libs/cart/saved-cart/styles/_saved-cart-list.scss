@@ -128,6 +128,7 @@ cx-saved-cart-list {
 
     .cx-saved-cart-list-label {
       color: var(--cx-color-secondary);
+      text-align: start;
 
       @include media-breakpoint-down(md) {
         font-size: var(--cx-font-size, 0.875rem);
