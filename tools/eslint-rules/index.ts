@@ -1,3 +1,7 @@
+import {
+  RULE_NAME as myCustomRuleName,
+  rule as myCustomRule,
+} from './rules/my-custom-rule';
 /*
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
@@ -33,5 +37,8 @@ module.exports = {
    *  [myCustomRuleName]: myCustomRule
    * }
    */
-  rules: { [useDefaultProvideConfigName]: useDefaultProvideConfig },
+  rules: {
+    [useDefaultProvideConfigName]: useDefaultProvideConfig,
+    [myCustomRuleName]: myCustomRule,
+  },
 };
