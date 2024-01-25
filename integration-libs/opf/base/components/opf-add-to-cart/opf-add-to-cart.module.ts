@@ -5,9 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-
 import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { OpfQuickBuyModule } from '../opf-quick-buy';
 import { OpfAddToCartComponent } from './opf-add-to-cart.component';
 
