@@ -57,6 +57,18 @@ export class ConfiguratorAttributeBaseComponent {
       : Configurator.UiType.NOT_IMPLEMENTED;
   }
 
+  isReadOnly(attribute: Configurator.Attribute): boolean {
+    if (attribute.uiType) {
+      return (
+        attribute.uiType === Configurator.UiType.READ_ONLY ||
+        attribute.uiType ===
+          Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE ||
+        attribute.uiType === Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE
+      );
+    }
+    return false;
+  }
+
   /**
    * Creates unique key for config attribute on the UI
    * @param prefix for key depending on usage (e.g. uiType, label)

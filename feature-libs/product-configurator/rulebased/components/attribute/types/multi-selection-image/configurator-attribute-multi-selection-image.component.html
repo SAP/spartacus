@@ -14,7 +14,7 @@
       [value]="value.valueCode"
       [formControl]="attributeCheckBoxForms[i]"
       name="{{ createAttributeIdForConfigurator(attribute) }}"
-      (click)="onSelect(i)"
+      (click)="!isReadOnly(attribute) && onSelect(i)"
       [attr.aria-label]="
         value.valuePrice && value.valuePrice?.value !== 0
           ? ('configurator.a11y.valueOfAttributeFullWithPrice'
