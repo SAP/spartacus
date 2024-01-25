@@ -53,6 +53,7 @@ export abstract class BaseFocusDirective implements OnInit, OnChanges {
   }
 
   // empty, but sub classes might have an implementation
+  /* eslint @angular-eslint/no-empty-lifecycle-method: 1 */
   ngOnChanges(_changes: SimpleChanges): void {
     // Intentional empty method
   }

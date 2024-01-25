@@ -4,7 +4,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -47,6 +47,14 @@ const variants: Configurator.Variant[] = [
 
 let configuratorCoreConfig: ConfiguratorCoreConfig;
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('ConfiguratorVariantEffect', () => {
   let searchVariantsMock: jasmine.Spy;
 
@@ -87,6 +95,7 @@ describe('ConfiguratorVariantEffect', () => {
           provide: ConfiguratorCoreConfig,
           useValue: configuratorCoreConfig,
         },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
@@ -156,13 +165,13 @@ describe('ConfiguratorVariantEffect', () => {
   });
 
   it('should emit a fail action in case something goes wrong', () => {
-    searchVariantsMock.and.returnValue(throwError(errorResponse));
+    searchVariantsMock.and.returnValue(throwError(() => errorResponse));
 
     const action = new ConfiguratorActions.SearchVariants(productConfiguration);
 
     const completionFailure = new ConfiguratorActions.SearchVariantsFail({
       ownerKey: productConfiguration.owner.key,
-      error: normalizeHttpError(errorResponse),
+      error: normalizeHttpError(errorResponse, new MockLoggerService()),
     });
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });

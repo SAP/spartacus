@@ -5,7 +5,7 @@ import {
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
 import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
-import { of } from 'rxjs';
+import { config, of } from 'rxjs';
 import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 import { ReorderOrderService } from './reorder-order.service';
 
@@ -40,6 +40,22 @@ describe(`ReorderOrderService`, () => {
   let userIdService: UserIdService;
   let activeCartFacade: ActiveCartFacade;
   let multiCartFacade: MultiCartFacade;
+
+  // TODO: CXSPA-4870 verify if can be avoided
+  let originalOnUnhandledError: ((err: any) => void) | null;
+
+  beforeAll(() => {
+    // configure rxjs to not crash node instance with thrown errors
+    // TODO: CXSPA-4870 verify if can be avoided
+    originalOnUnhandledError = config.onUnhandledError;
+    config.onUnhandledError = () => {};
+  });
+
+  afterAll(() => {
+    // reset rxjs configuration
+    // TODO: CXSPA-4870 verify if can be avoided
+    config.onUnhandledError = originalOnUnhandledError;
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({

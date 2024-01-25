@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { accountSummary } from './account-summary.i18n';
+import accountSummary from './accountSummary.json';
 
 export const en = {
   accountSummary,

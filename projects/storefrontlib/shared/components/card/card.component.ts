@@ -115,6 +115,7 @@ export class CardComponent implements OnInit {
     // Intentional empty constructor
   }
 
+  /* eslint @angular-eslint/no-empty-lifecycle-method: 1 */
   ngOnInit() {
     // Intentional empty method
   }

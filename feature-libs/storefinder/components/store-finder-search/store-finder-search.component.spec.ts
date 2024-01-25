@@ -1,16 +1,15 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
-import { StoreFinderSearchComponent } from './store-finder-search.component';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { StoreFinderSearchComponent } from './store-finder-search.component';
 
 const query = {
   queryParams: {
@@ -73,13 +72,6 @@ describe('StoreFinderSearchComponent', () => {
             useValue: { go: jasmine.createSpy() },
           },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.2' },
-            },
-          },
         ],
       }).compileComponents();
     })

@@ -4,5 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'jest-preset-angular/setup-jest';
 import 'zone.js';
+import 'zone.js/testing';
+import { getTestBed } from '@angular/core/testing';
+import {
+  platformServerTesting,
+  ServerTestingModule,
+} from '@angular/platform-server/testing';
+
+getTestBed().initTestEnvironment(
+  ServerTestingModule,
+  platformServerTesting(),
+  {}
+);
