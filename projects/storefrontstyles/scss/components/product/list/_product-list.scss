@@ -37,6 +37,7 @@
       padding: 25px 0 0px 0;
     }
 
+    // TODO: (CXSPA-5926) Remove feaure flag next major release
     @include forVersion(6.8) {
       & ng-select {
         @include media-breakpoint-up(lg) {
