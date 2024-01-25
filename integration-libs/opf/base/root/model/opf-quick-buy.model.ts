@@ -118,3 +118,8 @@ export interface ApplePayObservableConfig {
   shippingMethodSelected: (event: any) => Observable<any>;
   paymentAuthorized: (event: any) => Observable<any>;
 }
+
+export enum OpfQuickBuyLocation {
+  CART = 'CART',
+  PRODUCT = 'PRODUCT',
+}

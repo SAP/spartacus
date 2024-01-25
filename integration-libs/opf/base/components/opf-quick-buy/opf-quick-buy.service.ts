@@ -6,7 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { CheckoutConfig } from '@spartacus/checkout/base/root';
-import { AuthService, BaseSiteService } from '@spartacus/core';
+import { AuthService, BaseSiteService, RoutingService } from '@spartacus/core';
 import {
   ActiveConfiguration,
   OpfPaymentFacade,
@@ -15,6 +15,7 @@ import {
 } from '@spartacus/opf/base/root';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
+import { OpfQuickBuyLocation } from '../../root/model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ export class OpfQuickBuyService {
   protected checkoutConfig = inject(CheckoutConfig);
   protected baseSiteService = inject(BaseSiteService);
   protected authService = inject(AuthService);
+  protected routingService = inject(RoutingService);
 
   getPaymentGatewayConfiguration(): Observable<ActiveConfiguration> {
     return this.opfPaymentFacade
@@ -65,6 +67,16 @@ export class OpfQuickBuyService {
           ? of(true)
           : this.authService.isUserLoggedIn();
       })
+    );
+  }
+
+  getQuickBuyLocationContext(): Observable<OpfQuickBuyLocation> {
+    return this.routingService.getRouterState().pipe(
+      take(1),
+      map(
+        (routerState) =>
+          routerState?.state?.semanticRoute?.toLocaleUpperCase() as OpfQuickBuyLocation
+      )
     );
   }
 }

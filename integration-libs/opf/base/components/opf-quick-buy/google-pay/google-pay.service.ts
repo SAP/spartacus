@@ -6,10 +6,13 @@
 
 /// <reference types="@types/googlepay" />
 import { ElementRef, Injectable, inject } from '@angular/core';
+import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
 import { Address, Product } from '@spartacus/core';
+import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ActiveConfiguration,
   OpfPaymentFacade,
+  OpfQuickBuyLocation,
   OpfResourceLoaderService,
   PaymentMethod,
 } from '@spartacus/opf/base/root';
@@ -17,9 +20,6 @@ import {
   CurrentProductService,
   ItemCounterService,
 } from '@spartacus/storefront';
-
-import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
-import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import { Observable, forkJoin, of } from 'rxjs';
 import {
   catchError,
@@ -29,6 +29,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import { OpfQuickBuyService } from '../opf-quick-buy.service';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +40,7 @@ export class OpfGooglePayService {
   protected currentProductService = inject(CurrentProductService);
   protected opfCartHandlerService = inject(OpfCartHandlerService);
   protected opfPaymentFacade = inject(OpfPaymentFacade);
+  protected opfQuickBuyService = inject(OpfQuickBuyService);
 
   protected readonly GOOGLE_PAY_JS_URL =
     'https://pay.google.com/gp/p/js/pay.js';
@@ -186,29 +188,56 @@ export class OpfGooglePayService {
       : of(undefined);
   }
 
+  handleSingleProductTransaction(): Observable<Product | boolean | null> {
+    return this.currentProductService.getProduct().pipe(
+      take(1),
+      switchMap((product: Product | null) => {
+        return this.opfCartHandlerService.deleteCurrentCart().pipe(
+          switchMap(() => {
+            return this.opfCartHandlerService.addProductToCart(
+              product?.code || '',
+              this.itemCounterService.getCounter()
+            );
+          }),
+          tap(() => {
+            this.updateTransactionInfo({
+              totalPrice: this.estimateTotalPrice(product?.price?.value),
+              currencyCode:
+                product?.price?.currencyIso ||
+                this.initialTransactionInfo.currencyCode,
+              totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
+            });
+          })
+        );
+      })
+    );
+  }
+
+  handleActiveCartTransaction(): Observable<Cart> {
+    return this.opfCartHandlerService.getCurrentCart().pipe(
+      take(1),
+      tap((cart: Cart) => {
+        this.updateTransactionInfo({
+          totalPrice: `${cart.totalPrice?.value}`,
+          currencyCode:
+            cart.totalPrice?.currencyIso ||
+            this.initialTransactionInfo.currencyCode,
+          totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
+        });
+      })
+    );
+  }
+
   initTransaction(): void {
-    this.currentProductService
-      .getProduct()
+    this.opfQuickBuyService
+      .getQuickBuyLocationContext()
       .pipe(
-        take(1),
-        switchMap((product: Product | null) => {
-          return this.opfCartHandlerService.deleteCurrentCart().pipe(
-            switchMap(() => {
-              return this.opfCartHandlerService.addProductToCart(
-                product?.code || '',
-                this.itemCounterService.getCounter()
-              );
-            }),
-            tap(() => {
-              this.updateTransactionInfo({
-                totalPrice: this.estimateTotalPrice(product?.price?.value),
-                currencyCode:
-                  product?.price?.currencyIso ||
-                  this.initialTransactionInfo.currencyCode,
-                totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
-              });
-            })
-          );
+        switchMap((context: OpfQuickBuyLocation) => {
+          if (context === OpfQuickBuyLocation.PRODUCT) {
+            return this.handleSingleProductTransaction();
+          }
+
+          return this.handleActiveCartTransaction();
         })
       )
       .subscribe(() => {
