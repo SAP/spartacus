@@ -4,5 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './configurator-attribute-read-only-single-selection-image.component';
 export * from './configurator-attribute-read-only-single-selection-image.module';
