@@ -1,23 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 import {
+  Event,
   NavigationCancel,
   NavigationEnd,
   NavigationError,
   NavigationStart,
   Router,
-  RouterEvent,
 } from '@angular/router';
-import { Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Subject, firstValueFrom } from 'rxjs';
 import { ActivatedRoutesService } from './activated-routes.service';
 
 describe('ActivatedRoutesService', () => {
   let service: ActivatedRoutesService;
   let router: Router;
-  let mockRouterEvents$: Subject<RouterEvent>;
+  let mockRouterEvents$: Subject<Event>;
 
   beforeEach(() => {
-    mockRouterEvents$ = new Subject<RouterEvent>();
+    mockRouterEvents$ = new Subject<Event>();
 
     class MockRouter implements Partial<Router> {
       events = mockRouterEvents$;
@@ -40,7 +39,7 @@ describe('ActivatedRoutesService', () => {
 
   describe(`routes$`, () => {
     it('should emit on subscription', async () => {
-      expect(await service.routes$.pipe(take(1)).toPromise()).toEqual([
+      expect(await firstValueFrom(service.routes$)).toEqual([
         router.routerState.snapshot.root,
       ]);
     });
@@ -80,7 +79,7 @@ describe('ActivatedRoutesService', () => {
       };
       (router as any).routerState = mockRouterState; // as any => mitigate readonly
 
-      expect(await service.routes$.pipe(take(1)).toPromise()).toEqual([
+      expect(await firstValueFrom(service.routes$)).toEqual([
         mockRouterState.snapshot.root,
         mockRouterState.snapshot.root.firstChild,
         mockRouterState.snapshot.root.firstChild.firstChild,

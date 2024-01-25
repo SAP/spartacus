@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { dpPaymentForm } from './dp-payment-form';
+import dpPaymentForm from './dpPaymentForm.json';
 
 export const en = {
   dpPaymentForm,

@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { userProfile } from './user-profile';
+import userProfile from './userProfile.json';
+import address from './address.json';
 
 export const en = {
   userProfile,
+  address,
 };

@@ -13,4 +13,11 @@ export const userProfileTranslations: TranslationResources = {
 
 export const userProfileTranslationChunksConfig: TranslationChunksConfig = {
   userProfile: ['updateEmailForm', 'register', 'forgottenPassword'],
+  address: [
+    'addressForm',
+    'addressBook',
+    'addressCard',
+    'addressSuggestion',
+    'addressMessages',
+  ],
 };

@@ -4,21 +4,30 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Cart, PaymentType } from '@spartacus/cart/base/root';
 import { CHECKOUT_PAYMENT_TYPE_NORMALIZER } from '@spartacus/checkout/b2b/core';
 import {
   ConverterService,
   HttpErrorModel,
-  normalizeHttpError,
+  LoggerService,
+  OCC_HTTP_TOKEN,
   Occ,
   OccConfig,
   OccEndpoints,
-  OCC_HTTP_TOKEN,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccCheckoutPaymentTypeAdapter } from './occ-checkout-payment-type.adapter';
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -53,7 +62,10 @@ const mockJaloError = new HttpErrorResponse({
     ],
   },
 });
-const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
+const mockNormalizedJaloError = normalizeHttpError(
+  mockJaloError,
+  new MockLoggerService()
+);
 
 describe(`OccCheckoutPaymentTypeAdapter`, () => {
   let service: OccCheckoutPaymentTypeAdapter;
@@ -67,6 +79,7 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
       providers: [
         OccCheckoutPaymentTypeAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
     service = TestBed.inject(
@@ -130,7 +143,9 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
 
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
+        spyOn(httpClient, 'get').and.returnValue(
+          throwError(() => mockJaloError)
+        );
 
         let result: HttpErrorModel | undefined;
         const subscription = service
@@ -154,7 +169,7 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
             if (calledTimes === 3) {
               return of(paymentTypesList);
             }
-            return throwError(mockJaloError);
+            return throwError(() => mockJaloError);
           })
         );
 
@@ -233,7 +248,9 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
 
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
+        spyOn(httpClient, 'put').and.returnValue(
+          throwError(() => mockJaloError)
+        );
 
         let result: HttpErrorModel | undefined;
         const subscription = service
@@ -257,7 +274,7 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
             if (calledTimes === 3) {
               return of(cartData);
             }
-            return throwError(mockJaloError);
+            return throwError(() => mockJaloError);
           })
         );
 

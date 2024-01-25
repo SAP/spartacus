@@ -6,7 +6,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Country,
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   Region,
@@ -143,13 +142,6 @@ describe('UserRegistrationFormComponent', () => {
           {
             provide: UserRegistrationFormService,
             useClass: MockUserRegistrationFormService,
-          },
-          // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.2' },
-            },
           },
         ],
       });
