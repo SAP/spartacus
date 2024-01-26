@@ -43,7 +43,7 @@
               "
             >
               <a
-                *ngIf="message.item && isQuoteActive"
+                *ngIf="message.item"
                 class="cx-message-item-link"
                 (click)="onItemClicked(message.item)"
                 >{{ message.item.name }}:</a
@@ -85,9 +85,7 @@
             [attr.aria-label]="
               'chatMessaging.a11y.itemListBoxLabel' | cxTranslate
             "
-            *ngIf="
-              isQuoteActive && messagingConfigs?.itemList$ | async as itemList
-            "
+            *ngIf="messagingConfigs?.itemList$ | async as itemList"
             class="cx-message-item-selection"
             formControlName="item"
           >

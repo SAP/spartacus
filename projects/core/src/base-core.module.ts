@@ -20,7 +20,6 @@ import { MetaTagConfigModule } from './occ/config/meta-tag-config.module';
 import { ProcessModule } from './process/process.module';
 import { SiteContextModule } from './site-context/site-context.module';
 import { StateModule } from './state/state.module';
-import { FeatureTogglesModule } from './feature-toggles/feature-toggles.module';
 
 @NgModule({
   imports: [
@@ -32,7 +31,6 @@ import { FeatureTogglesModule } from './feature-toggles/feature-toggles.module';
     CmsModule.forRoot(),
     GlobalMessageModule.forRoot(),
     ProcessModule.forRoot(),
-    FeatureTogglesModule.forRoot(),
     FeaturesConfigModule.forRoot(),
     SiteContextModule.forRoot(), // should be imported after RouterModule.forRoot, because it overwrites UrlSerializer
     MetaTagConfigModule.forRoot(),

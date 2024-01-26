@@ -12,17 +12,13 @@ import {
   OnInit,
   Output,
   ViewChild,
-  inject,
 } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  FEATURE_FLAG_COMMENTS_PRODUCT_SUPPORT,
-  WindowRef,
-} from '@spartacus/core';
+import { WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { FilesFormValidators } from '../../../services/file/files-form-validators';
@@ -38,13 +34,6 @@ import {
   templateUrl: './messaging.component.html',
 })
 export class MessagingComponent implements OnInit, AfterViewChecked {
-  isQuoteActive: boolean | null = inject(
-    FEATURE_FLAG_COMMENTS_PRODUCT_SUPPORT,
-    {
-      optional: true,
-    }
-  );
-
   // can be undefined if you press add message button very fast on slow network
   @ViewChild(FileUploadComponent) fileUploadComponent?: FileUploadComponent;
 

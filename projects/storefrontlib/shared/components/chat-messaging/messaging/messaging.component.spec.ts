@@ -1,10 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  FEATURE_FLAG_COMMENTS_PRODUCT_SUPPORT,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { AvatarComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { IconModule } from '../../../../cms-components';
@@ -54,9 +51,7 @@ describe('MessagingComponent', () => {
         FormErrorsModule,
         ReactiveFormsModule,
       ],
-      providers: [
-        { provide: FEATURE_FLAG_COMMENTS_PRODUCT_SUPPORT, useValue: true },
-      ],
+
       declarations: [MessagingComponent, AvatarComponent],
     }).compileComponents();
   });
@@ -129,16 +124,6 @@ describe('MessagingComponent', () => {
       ).toBeNull();
     });
 
-    it('should not render an item link when quote feature is not active', () => {
-      component.isQuoteActive = false;
-      fixture.detectChanges();
-      expect(
-        fixture.debugElement.query(
-          By.css('.cx-message-card:nth-child(2) .cx-message-item-link')
-        )
-      ).toBeNull();
-    });
-
     it('should render an item link when there is an item attached to the message', () => {
       expect(
         fixture.debugElement.query(
@@ -158,15 +143,6 @@ describe('MessagingComponent', () => {
     });
 
     it('should not render an item selection control (drop down list box) when there are no items provided', () => {
-      expect(
-        fixture.debugElement.query(By.css('.cx-message-item-selection'))
-      ).toBeNull();
-    });
-
-    it('should not render an item selection control (drop down list box) when quote feature is not active', () => {
-      component.isQuoteActive = false;
-      messagingConfig.itemList$ = of(mockItemList);
-      fixture.detectChanges();
       expect(
         fixture.debugElement.query(By.css('.cx-message-item-selection'))
       ).toBeNull();
