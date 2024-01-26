@@ -24,8 +24,8 @@ import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { FilesFormValidators } from '../../../services/file/files-form-validators';
 import { FileUploadComponent } from '../../form';
 import {
-  MessageEventBoundItem,
   MessageEvent,
+  MessageEventBoundItem,
   MessagingConfigs,
 } from './messaging.model';
 

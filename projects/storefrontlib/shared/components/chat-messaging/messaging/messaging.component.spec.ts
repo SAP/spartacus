@@ -2,16 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+import { AvatarComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { IconModule } from '../../../../cms-components';
 import { FileUploadModule, FormErrorsModule } from '../../form';
 import { MessagingComponent } from './messaging.component';
 import {
-  MessageEventBoundItem,
   MessageEvent,
+  MessageEventBoundItem,
   MessagingConfigs,
 } from './messaging.model';
-import { AvatarComponent } from '@spartacus/storefront';
 
 const mockMessageEvent: MessageEvent = {
   rightAlign: false,
@@ -51,6 +51,7 @@ describe('MessagingComponent', () => {
         FormErrorsModule,
         ReactiveFormsModule,
       ],
+
       declarations: [MessagingComponent, AvatarComponent],
     }).compileComponents();
   });

@@ -1,10 +1,17 @@
-import { Component, DebugElement, Directive, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  Component,
+  DebugElement,
+  Directive,
+  Input,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+import { FocusDirective } from '@spartacus/storefront';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
 import { Card, CardComponent, CardLinkAction } from './card.component';
-import { FocusDirective } from '@spartacus/storefront';
 
 @Directive({
   selector: '[cxAtMessage]',
@@ -34,6 +41,28 @@ class MockCxTruncateTextPopoverComponent {
 function getTruncatedPopover(elem: DebugElement) {
   return elem.queryAll(By.css('cx-truncate-text-popover'));
 }
+let isActiveStoreFrontLibCardParagraphTruncated: boolean;
+@Directive({
+  selector: '[cxFeature]',
+})
+class MockFeatureDirective {
+  constructor(
+    protected templateRef: TemplateRef<any>,
+    protected viewContainer: ViewContainerRef
+  ) {}
+
+  @Input() set cxFeature(feature: string) {
+    const featureDesiredAndPresent =
+      isActiveStoreFrontLibCardParagraphTruncated && !feature.startsWith('!');
+    const featureNotDesiredAndNotPresent =
+      !isActiveStoreFrontLibCardParagraphTruncated && feature.startsWith('!');
+    if (featureDesiredAndPresent || featureNotDesiredAndNotPresent) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+    } else {
+      this.viewContainer.clear();
+    }
+  }
+}
 
 describe('CardComponent', () => {
   let component: CardComponent;
@@ -50,6 +79,7 @@ describe('CardComponent', () => {
           MockAtMessageDirective,
           FocusDirective,
           MockCxTruncateTextPopoverComponent,
+          MockFeatureDirective,
         ],
       }).compileComponents();
     })
@@ -66,6 +96,7 @@ describe('CardComponent', () => {
     spyOn(component.setDefaultCard, 'emit').and.callThrough();
     spyOn(component.sendCard, 'emit').and.callThrough();
     spyOn(component.editCard, 'emit').and.callThrough();
+    isActiveStoreFrontLibCardParagraphTruncated = false;
   });
 
   it('should create', () => {
@@ -189,46 +220,16 @@ describe('CardComponent', () => {
   });
 
   it('should render passed paragraph', () => {
-    function getParagraph(elem: DebugElement) {
-      return elem.queryAll(By.css('.cx-card-paragraph'));
-    }
+    checkParagraph(component, fixture, el);
+  });
 
-    function getParagraphText(elem: DebugElement) {
-      return elem.queryAll(By.css('.cx-card-paragraph-text'));
-    }
-
-    const mockCard: Card = {
-      paragraphs: [
-        { title: 'paragraph1', text: ['text1', 'text2'] },
-        { title: 'paragraph2', text: ['text3', 'text4'] },
-      ],
-    };
-    component.content = mockCard;
-    fixture.detectChanges();
-    const paragraphNodes = getParagraph(el);
-    const text1Nodes = getParagraphText(paragraphNodes[0]);
-    const text2Nodes = getParagraphText(paragraphNodes[1]);
-    expect(paragraphNodes[0].nativeElement.firstChild.textContent).toContain(
-      mockCard.paragraphs[0].title
-    );
-    expect(paragraphNodes[1].nativeElement.firstChild.textContent).toContain(
-      mockCard.paragraphs[1].title
-    );
-    expect(text1Nodes[0].nativeElement.textContent).toContain(
-      mockCard.paragraphs[0].text[0]
-    );
-    expect(text1Nodes[1].nativeElement.textContent).toContain(
-      mockCard.paragraphs[0].text[1]
-    );
-    expect(text2Nodes[0].nativeElement.textContent).toContain(
-      mockCard.paragraphs[1].text[0]
-    );
-    expect(text2Nodes[1].nativeElement.textContent).toContain(
-      mockCard.paragraphs[1].text[1]
-    );
+  it('should render passed paragraph in case isActiveStoreFrontLibCardParagraphTruncated is active', () => {
+    isActiveStoreFrontLibCardParagraphTruncated = true;
+    checkParagraph(component, fixture, el);
   });
 
   it('should render passed paragraph with text for truncated text popover for a long text', () => {
+    isActiveStoreFrontLibCardParagraphTruncated = true;
     const mockCard: Card = {
       paragraphs: [
         { title: 'paragraph1', text: ['text1'] },
@@ -238,9 +239,11 @@ describe('CardComponent', () => {
     component.content = mockCard;
     component.charactersLimit = 4;
     component.truncateParagraphText = true;
-    fixture.detectChanges();
-    const truncatedPopovers = getTruncatedPopover(el);
 
+    fixture.detectChanges();
+
+    const truncatedPopovers = getTruncatedPopover(el);
+    expect(truncatedPopovers.length).toBe(2);
     truncatedPopovers.forEach((truncatedPopover, index) => {
       const popover = truncatedPopover.nativeNode;
       const attributeNames = popover.getAttributeNames();
@@ -401,3 +404,47 @@ describe('CardComponent', () => {
     expect(editActionButton.href).toContain(link.link);
   });
 });
+
+function checkParagraph(
+  component: CardComponent,
+  fixture: ComponentFixture<CardComponent>,
+  el: DebugElement
+) {
+  function getParagraph(elem: DebugElement) {
+    return elem.queryAll(By.css('.cx-card-paragraph'));
+  }
+
+  function getParagraphText(elem: DebugElement) {
+    return elem.queryAll(By.css('.cx-card-paragraph-text'));
+  }
+
+  const mockCard: Card = {
+    paragraphs: [
+      { title: 'paragraph1', text: ['text1', 'text2'] },
+      { title: 'paragraph2', text: ['text3', 'text4'] },
+    ],
+  };
+  component.content = mockCard;
+  fixture.detectChanges();
+  const paragraphNodes = getParagraph(el);
+  const text1Nodes = getParagraphText(paragraphNodes[0]);
+  const text2Nodes = getParagraphText(paragraphNodes[1]);
+  expect(paragraphNodes[0].nativeElement.firstChild.textContent).toContain(
+    mockCard.paragraphs[0].title
+  );
+  expect(paragraphNodes[1].nativeElement.firstChild.textContent).toContain(
+    mockCard.paragraphs[1].title
+  );
+  expect(text1Nodes[0].nativeElement.textContent).toContain(
+    mockCard.paragraphs[0].text[0]
+  );
+  expect(text1Nodes[1].nativeElement.textContent).toContain(
+    mockCard.paragraphs[0].text[1]
+  );
+  expect(text2Nodes[0].nativeElement.textContent).toContain(
+    mockCard.paragraphs[1].text[0]
+  );
+  expect(text2Nodes[1].nativeElement.textContent).toContain(
+    mockCard.paragraphs[1].text[1]
+  );
+}
