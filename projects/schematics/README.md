@@ -200,3 +200,14 @@ It's also important to note that after we release a Spartacus _next.x_, or an _r
 E.g. if Spartacus _2.0.0-next.1_ has been released, then the _new_ migration scripts (added after it _2.0.0-next.1_) should specify the next version (e.g. _2.0.0-next.2_).
 This is required for clients that upgrade frequently and it will make angular to run only the new migration scripts for them, avoiding the same scripts to run twice.
 However, there are exceptions from this rule - as we have data-driven generic mechanisms for e.g. constructor deprecation, we have to bump the version in `migrations.json` for those scripts.
+
+Update the migration script `version` only for new major releases, such as 6.0.0. This means that if you are performing a release like 6.3.2, the version should remain unchanged.
+Example for 6.3.2 release:
+```   
+ "09-migration-v6-angular-json-styling": {
+      "version": "6.0.0",
+      "factory": "./6_0/angular-json-styles/angular-json-styles#migrate",
+      "description": "Update the angular.json with the style preprocessor options"
+    }
+```
+version remains unchanged

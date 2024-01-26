@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { QuoteCoreConfig } from '@spartacus/quote/core';
+import { QuoteCartService, QuoteCoreConfig } from '@spartacus/quote/core';
 import {
   OccQuote,
   Quote,
   QuoteActionType,
-  QuoteCartService,
   QuoteState,
 } from '@spartacus/quote/root';
 import { of } from 'rxjs';

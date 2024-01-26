@@ -3,17 +3,18 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import {
   ConverterService,
   HttpErrorModel,
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
   OccEndpoints,
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
-  ReplenishmentOrder,
   REPLENISHMENT_ORDER_NORMALIZER,
+  ReplenishmentOrder,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
 import { defer, of, throwError } from 'rxjs';
@@ -61,7 +62,19 @@ const mockJaloError = new HttpErrorResponse({
     ],
   },
 });
-const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const mockNormalizedJaloError = normalizeHttpError(
+  mockJaloError,
+  new MockLoggerService()
+);
 
 describe(`OccScheduledReplenishmentOrderAdapter`, () => {
   let occAdapter: OccScheduledReplenishmentOrderAdapter;
@@ -76,6 +89,7 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
         providers: [
           OccScheduledReplenishmentOrderAdapter,
           { provide: OccConfig, useValue: MockOccModuleConfig },
+          { provide: LoggerService, useClass: MockLoggerService },
         ],
       });
     })

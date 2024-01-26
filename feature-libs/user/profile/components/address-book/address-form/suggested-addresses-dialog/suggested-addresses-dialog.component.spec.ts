@@ -2,12 +2,17 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Address, I18nTestingModule } from '@spartacus/core';
-import { FocusDirective, LaunchDialogService } from '../../../../../layout';
+
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../misc/index';
+
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog.component';
 import createSpy = jasmine.createSpy;
+import {
+  FocusDirective,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 
 const mockData = {
   enteredAddress: {},

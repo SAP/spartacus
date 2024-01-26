@@ -61,13 +61,11 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   @Input() cartId: string;
 
   protected _items: OrderEntry[] = [];
-  protected _forceRerender: boolean = false;
   form: UntypedFormGroup = new UntypedFormGroup({});
 
   @Input('items')
   set items(items: OrderEntry[]) {
-    this.resolveItems(items);
-    this.createForm();
+    this.setItemsInternal(items);
   }
   get items(): OrderEntry[] {
     return this._items;
@@ -105,12 +103,17 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     );
   }
 
+  protected setItemsInternal(items: OrderEntry[], forceRerender?: boolean) {
+    this.resolveItems(items, forceRerender);
+    this.createForm();
+  }
+
   protected getInputsFromContext(): Subscription | undefined {
     return this.outlet?.context$.subscribe((context) => {
+      let contextRequiresRerender = false;
       if (context.readonly !== undefined) {
-        this._forceRerender = this.readonly !== context.readonly;
+        contextRequiresRerender = this.readonly !== context.readonly;
         this.readonly = context.readonly;
-        this.cd.markForCheck();
       }
       if (context.hasHeader !== undefined) {
         this.hasHeader = context.hasHeader;
@@ -121,14 +124,15 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       if (context.cartId !== undefined) {
         this.cartId = context.cartId;
       }
-      if (context.items !== undefined) {
-        this.items = context.items;
-      }
       if (context.promotionLocation !== undefined) {
         this.promotionLocation = context.promotionLocation;
       }
       if (context.cartIsLoading !== undefined) {
         this.setLoading = context.cartIsLoading;
+      }
+      if (context.items !== undefined) {
+        if (contextRequiresRerender) this.cd.markForCheck();
+        this.setItemsInternal(context.items, contextRequiresRerender);
       }
     });
   }
@@ -136,7 +140,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   /**
    * Resolves items passed to component input and updates 'items' field
    */
-  protected resolveItems(items: OrderEntry[]): void {
+  protected resolveItems(items: OrderEntry[], forceRerender?: boolean): void {
     if (!items) {
       this._items = [];
       return;
@@ -147,7 +151,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     if (items.every((item) => item.hasOwnProperty('orderEntry'))) {
       this.normalizeConsignmentEntries(items);
     } else {
-      this.rerenderChangedItems(items);
+      this.rerenderChangedItems(items, forceRerender);
     }
   }
 
@@ -167,7 +171,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
    * OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
    * So we update each array element to the new object only when it's any different to the previous one.
    */
-  protected rerenderChangedItems(items: OrderEntry[]) {
+  protected rerenderChangedItems(items: OrderEntry[], forceRerender?: boolean) {
     let offset = 0;
     for (
       let i = 0;
@@ -176,7 +180,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     ) {
       const index = i - offset;
       if (
-        this._forceRerender ||
+        forceRerender ||
         JSON.stringify(this._items?.[index]) !== JSON.stringify(items[index])
       ) {
         if (this._items[index]) {
@@ -190,7 +194,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         }
       }
     }
-    this._forceRerender = false;
   }
 
   /**

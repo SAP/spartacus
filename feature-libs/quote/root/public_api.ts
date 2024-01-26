@@ -6,7 +6,6 @@
 
 export * from './facade/index';
 export * from './feature-name';
-export * from './guards/index';
 export * from './http-interceptors/index';
 export * from './model/index';
 export * from './quote-root.module';

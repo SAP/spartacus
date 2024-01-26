@@ -41,19 +41,6 @@ export class QuoteStorefrontUtilsService {
     }
   }
 
-  /**
-   * Removes styling for element.
-   *
-   * @param querySelector - query selector
-   * @param property - CSS property
-   */
-  removeStyling(querySelector: string, property: string): void {
-    const element = this.getElement(querySelector);
-    if (element) {
-      element.style.removeProperty(property);
-    }
-  }
-
   protected isInViewport(element: HTMLElement | undefined): boolean {
     if (element) {
       const bounding = element.getBoundingClientRect();

@@ -5,11 +5,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import * as asm from '../asm';
 import * as authentication from '../auth-forms';
+import * as cart from '../cart';
 import * as common from '../common';
 import * as productConfigurator from '../product-configurator';
-import * as asm from '../asm';
-import * as cart from '../cart';
 
 export const READ_QUOTE = '@READ_QUOTE';
 export const UPDATE_QUOTE_ITEM = '@UPDATE_QUOTE_ITEM';
@@ -34,7 +34,7 @@ const EXPIRY_DATE: Date = createValidExpiryDate();
 const SAVE_CART_POPUP_MSG =
   'Your current cart will be converted to a saved cart.';
 const GLOBAL_MSG_QUOTE_REQUEST_NOT_POSSIBLE =
-  'Quote request not possible because we found problems with your entries. Please review your cart.';
+  'There are problems with your entries. Please review your cart.';
 const GLOBAL_MSG_SAVED_CART_CREATED =
   'Your active cart was converted to saved cart';
 
@@ -1591,7 +1591,6 @@ export function isSaveActiveCartPopupShown(quoteStatus: string) {
       cy.get(summarySellerEditComponentSelector).should('exist');
       checkQuoteState(quoteStatus);
       checkGlobalMessageDisplayed(true, GLOBAL_MSG_SAVED_CART_CREATED);
-      cy.wait(1000);
     });
 }
 

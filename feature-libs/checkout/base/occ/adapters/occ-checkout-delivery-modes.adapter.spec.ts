@@ -3,17 +3,18 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
 import { DELIVERY_MODE_NORMALIZER } from '@spartacus/checkout/base/core';
 import { CheckoutState } from '@spartacus/checkout/base/root';
 import {
   ConverterService,
   HttpErrorModel,
-  normalizeHttpError,
+  LoggerService,
   Occ,
   OccConfig,
   OccEndpoints,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -60,7 +61,19 @@ const mockJaloError = new HttpErrorResponse({
     ],
   },
 });
-const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const mockNormalizedJaloError = normalizeHttpError(
+  mockJaloError,
+  new MockLoggerService()
+);
 
 describe(`OccCheckoutDeliveryModesAdapter`, () => {
   let service: OccCheckoutDeliveryModesAdapter;
@@ -74,6 +87,7 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
       providers: [
         OccCheckoutDeliveryModesAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
     service = TestBed.inject(OccCheckoutDeliveryModesAdapter);

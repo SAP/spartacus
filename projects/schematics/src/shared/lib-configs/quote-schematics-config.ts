@@ -10,7 +10,7 @@ import {
   QUOTE_FEATURE_NAME,
   SPARTACUS_QUOTE,
   SPARTACUS_QUOTE_ASSETS,
-  SPARTACUS_QUOTE_AWARE,
+  SPARTACUS_QUOTE_CART_GUARD,
   SPARTACUS_QUOTE_REQUEST,
   SPARTACUS_QUOTE_ROOT,
 } from '../libs-constants';
@@ -20,10 +20,11 @@ export const QUOTE_FOLDER_NAME = 'quote';
 export const QUOTE_MODULE_NAME = 'Quote';
 
 export const QUOTE_FEATURE_NAME_CONSTANT = 'QUOTE_FEATURE';
-export const QUOTE_FEATURE_AWARE_NAME_CONSTANT = 'QUOTE_AWARE_FEATURE';
+export const QUOTE_FEATURE_CART_GUARD_NAME_CONSTANT =
+  'QUOTE_CART_GUARD_FEATURE';
 export const QUOTE_FEATURE_REQUEST_NAME_CONSTANT = 'QUOTE_REQUEST_FEATURE';
 export const QUOTE_MODULE = 'QuoteModule';
-export const QUOTE_AWARE_MODULE = 'QuoteAwareComponentModule';
+export const QUOTE_CART_GUARD_MODULE = 'QuoteCartGuardComponentModule';
 export const QUOTE_REQUEST_MODULE = 'QuoteRequestButtonModule';
 export const QUOTE_ROOT_MODULE = 'QuoteRootModule';
 export const QUOTE_TRANSLATIONS = 'quoteTranslations';
@@ -44,8 +45,8 @@ export const QUOTE_SCHEMATICS_CONFIG: SchematicConfig = {
       importPath: SPARTACUS_QUOTE,
     },
     {
-      name: QUOTE_AWARE_MODULE,
-      importPath: SPARTACUS_QUOTE_AWARE,
+      name: QUOTE_CART_GUARD_MODULE,
+      importPath: SPARTACUS_QUOTE_CART_GUARD,
     },
     {
       name: QUOTE_REQUEST_MODULE,
@@ -60,7 +61,7 @@ export const QUOTE_SCHEMATICS_CONFIG: SchematicConfig = {
     moduleSpecifier: SPARTACUS_QUOTE_ROOT,
     namedImports: [
       QUOTE_FEATURE_NAME_CONSTANT,
-      QUOTE_FEATURE_AWARE_NAME_CONSTANT,
+      QUOTE_FEATURE_CART_GUARD_NAME_CONSTANT,
       QUOTE_FEATURE_REQUEST_NAME_CONSTANT,
     ],
   },

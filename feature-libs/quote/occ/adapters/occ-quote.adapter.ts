@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
   ConverterService,
+  LoggerService,
   normalizeHttpError,
   OccEndpointsService,
   PaginationModel,
@@ -23,10 +24,10 @@ import {
   QuoteAdapter,
 } from '@spartacus/quote/core';
 import {
-  QuoteComment,
   OccQuote,
   Quote,
   QuoteActionType,
+  QuoteComment,
   QuoteDiscount,
   QuoteList,
   QuoteMetadata,
@@ -40,6 +41,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
   protected httpClient = inject(HttpClient);
   protected occEndpointsService = inject(OccEndpointsService);
   protected converterService = inject(ConverterService);
+  protected loggerService = inject(LoggerService);
 
   getQuotes(
     userId: string,
@@ -234,7 +236,9 @@ export class OccQuoteAdapter implements QuoteAdapter {
     quoteObservable: Observable<T>
   ): Observable<T> {
     return quoteObservable.pipe(
-      catchError((error) => throwError(normalizeHttpError(error)))
+      catchError((error) =>
+        throwError(normalizeHttpError(error, this.loggerService))
+      )
     );
   }
 }

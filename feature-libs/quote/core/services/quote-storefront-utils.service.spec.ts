@@ -90,30 +90,6 @@ describe('QuoteStorefrontUtilsService', () => {
     });
   });
 
-  describe('removeStyling', () => {
-    it('should not remove styling of HTML element if element does not exist', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
-      const element = document.createElement('notExistingElement');
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(undefined);
-
-      classUnderTest.removeStyling('notExistingElement', 'position');
-      expect(element.style.position).not.toEqual('sticky');
-    });
-
-    it('should remove styling of HTML element', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
-      const theElement = document.createElement('elementMock');
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(theElement);
-      theElement.style.position = 'sticky';
-      classUnderTest.removeStyling('elementMock', 'position');
-      expect(theElement.style.position).toBe('');
-    });
-  });
-
   describe('isInViewport', () => {
     let list: any;
     let labels: HTMLElement[];

@@ -14,7 +14,6 @@ import {
   PaginationModel,
   QueryState,
   SortModel,
-  CxDatePipe,
 } from '@spartacus/core';
 import {
   Quote,
@@ -135,7 +134,6 @@ describe('QuoteListComponent', () => {
   let htmlElem: HTMLElement;
   let component: QuoteListComponent;
   let quoteListComponentService: QuoteListComponentService;
-  let cxDatePipe: CxDatePipe;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -148,7 +146,6 @@ describe('QuoteListComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
-        CxDatePipe,
         {
           provide: QuoteListComponentService,
           useClass: MockCommerceQuotesListComponentService,
@@ -167,7 +164,6 @@ describe('QuoteListComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     quoteListComponentService = TestBed.inject(QuoteListComponentService);
-    cxDatePipe = TestBed.inject(CxDatePipe);
   });
 
   it('should call service if sort changed', () => {
@@ -647,22 +643,6 @@ describe('QuoteListComponent', () => {
         htmlElem,
         '.cx-ghost-pagination'
       );
-    });
-  });
-
-  describe('getRowTitle', () => {
-    it('should create row title for a quote', () => {
-      const expectedUpdatedTime = cxDatePipe.transform(
-        mockQuote.updatedTime,
-        'MMMM d, YYYY h:mm aa'
-      );
-      component.getRowTitle(mockQuote).subscribe((result) => {
-        expect(result).toEqual(
-          'quote.list.name: Quote quote.header.overview.id: 333333 quote.header.overview.status: quote.states.BUYER_DRAFT quote.list.updated: ' +
-            expectedUpdatedTime +
-            ' quote.list.clickableRow'
-        );
-      });
     });
   });
 

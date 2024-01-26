@@ -9,6 +9,7 @@ import { CmsModule } from './cms/cms.module';
 import { ConfigInitializerModule } from './config/config-initializer/config-initializer.module';
 import { ConfigValidatorModule } from './config/config-validator/config-validator.module';
 import { ConfigModule } from './config/config.module';
+import { ErrorHandlingModule } from './error-handling';
 import { FeaturesConfigModule } from './features-config/features-config.module';
 import { GlobalMessageModule } from './global-message/global-message.module';
 import { HttpModule } from './http/http.module';
@@ -38,9 +39,7 @@ import { FeatureTogglesModule } from './feature-toggles/feature-toggles.module';
     BaseOccModule.forRoot(),
     LazyLoadingModule.forRoot(),
     HttpModule.forRoot(),
-
-    /* This module should be imported by default starting from version 7.0 (CXSPA-3680)*/
-    //ErrorHandlingModule.forRoot(),
+    ErrorHandlingModule.forRoot(),
   ],
 })
 export class BaseCoreModule {

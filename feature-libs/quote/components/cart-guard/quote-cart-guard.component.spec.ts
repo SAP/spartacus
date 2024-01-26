@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { QuoteAwareComponent } from './quote-aware.component';
+import { QuoteCartGuardComponent } from './quote-cart-guard.component';
 
 describe('QuoteAwareComponent', () => {
-  let fixture: ComponentFixture<QuoteAwareComponent>;
-  let component: QuoteAwareComponent;
+  let fixture: ComponentFixture<QuoteCartGuardComponent>;
+  let component: QuoteCartGuardComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [QuoteAwareComponent],
+      declarations: [QuoteCartGuardComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteAwareComponent);
+    fixture = TestBed.createComponent(QuoteCartGuardComponent);
     component = fixture.componentInstance;
   });
 

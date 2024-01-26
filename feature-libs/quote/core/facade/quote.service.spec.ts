@@ -7,6 +7,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
+  AuthService,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -18,10 +19,9 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
-  QuoteComment,
   Quote,
   QuoteActionType,
-  QuoteCartService,
+  QuoteComment,
   QuoteDiscount,
   QuoteDiscountType,
   QuoteList,
@@ -29,12 +29,14 @@ import {
   QuotesStateParams,
 } from '@spartacus/quote/root';
 import { ViewConfig } from '@spartacus/storefront';
+import { cold } from 'jasmine-marbles';
 import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors';
 import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
-import { QuoteStorefrontUtilsService } from '../services/quote-storefront-utils.service';
 import { CartUtilsService } from '../services/cart-utils.service';
+import { QuoteCartService } from '../services/quote-cart.service';
+import { QuoteStorefrontUtilsService } from '../services/quote-storefront-utils.service';
 import { createEmptyQuote, QUOTE_CODE } from '../testing/quote-test-utils';
 import { QuoteService } from './quote.service';
 import createSpy = jasmine.createSpy;
@@ -99,6 +101,13 @@ class MockUserIdService implements Partial<UserIdService> {
 class MockEventService implements Partial<EventService> {
   get = createSpy().and.returnValue(of());
   dispatch = createSpy();
+}
+
+let isLoggedIn: boolean;
+class MockAuthService implements Partial<AuthService> {
+  isUserLoggedIn() {
+    return of(isLoggedIn);
+  }
 }
 
 let isQuoteCartActive: any;
@@ -176,6 +185,7 @@ describe('QuoteService', () => {
       providers: [
         QuoteService,
         { provide: UserIdService, useClass: MockUserIdService },
+        { provide: AuthService, useClass: MockAuthService },
         { provide: EventService, useClass: MockEventService },
         { provide: ViewConfig, useClass: MockViewConfig },
         {
@@ -210,6 +220,7 @@ describe('QuoteService', () => {
     savedCartFacade = TestBed.inject(SavedCartFacade);
 
     isQuoteCartActive = false;
+    isLoggedIn = true;
     quoteId = '';
   });
 
@@ -317,6 +328,12 @@ describe('QuoteService', () => {
           );
           expect(details).toEqual(quote);
         });
+    });
+
+    it('should not invoke connector if user is not logged in', () => {
+      isLoggedIn = false;
+      expect(classUnderTest.getQuoteDetails()).toBeObservable(cold(''));
+      expect(quoteConnector.getQuote).toHaveBeenCalledTimes(0);
     });
 
     it('should wait until active cart has been loaded', (done) => {
@@ -584,6 +601,35 @@ describe('QuoteService', () => {
           classUnderTest.performQuoteAction(quote, QuoteActionType.REJECT),
           done
         );
+      });
+      it('trigger navigation to quotes list', (done) => {
+        classUnderTest
+          .performQuoteAction(quote, QuoteActionType.REJECT)
+          .subscribe(() => {
+            expect(routingService.go).toHaveBeenCalledWith({
+              cxRoute: 'quotes',
+            });
+            done();
+          });
+      });
+    });
+
+    describe('on approve', () => {
+      it('should set loading state to false when action is completed', (done) => {
+        checkNoActionPerforming(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.APPROVE),
+          done
+        );
+      });
+      it('trigger navigation to quotes list', (done) => {
+        classUnderTest
+          .performQuoteAction(quote, QuoteActionType.APPROVE)
+          .subscribe(() => {
+            expect(routingService.go).toHaveBeenCalledWith({
+              cxRoute: 'quotes',
+            });
+            done();
+          });
       });
     });
   });

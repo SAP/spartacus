@@ -6,6 +6,7 @@
     "types": ["node"],
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "@spartacus/setup": ["../../core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["../../core-libs/setup/ssr/public_api"],
@@ -409,8 +410,8 @@
         "../../feature-libs/qualtrics/root/public_api"
       ],
       "@spartacus/quote/assets": ["../../feature-libs/quote/assets/public_api"],
-      "@spartacus/quote/components/aware": [
-        "../../feature-libs/quote/components/aware/public_api"
+      "@spartacus/quote/components/cart-guard": [
+        "../../feature-libs/quote/components/cart-guard/public_api"
       ],
       "@spartacus/quote/components": [
         "../../feature-libs/quote/components/public_api"

@@ -28,8 +28,8 @@ import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { FilesFormValidators } from '../../../services/file/files-form-validators';
 import { FileUploadComponent } from '../../form';
 import {
-  MessageEventBoundItem,
   MessageEvent,
+  MessageEventBoundItem,
   MessagingConfigs,
 } from './messaging.model';
 
@@ -44,7 +44,9 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
       optional: true,
     }
   );
-  @ViewChild(FileUploadComponent) fileUploadComponent: FileUploadComponent;
+
+  // can be undefined if you press add message button very fast on slow network
+  @ViewChild(FileUploadComponent) fileUploadComponent?: FileUploadComponent;
 
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
   @Input() scrollToInput?: boolean = true;
@@ -138,7 +140,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
 
   resetForm(): void {
     this.form.reset({ item: this.messagingConfigs?.defaultItemId });
-    this.fileUploadComponent.removeFile();
+    this.fileUploadComponent?.removeFile();
   }
 
   triggerDownload(
