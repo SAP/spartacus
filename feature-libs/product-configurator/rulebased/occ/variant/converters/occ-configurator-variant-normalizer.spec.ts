@@ -1328,18 +1328,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
         'configurator.attribute.noOptionSelectedMsg'
       );
     });
-
-    it("should return 'No option selected' for multi selection images list", () => {
-      const value: Configurator.Value = createValue('valueCode', true);
-
-      occConfiguratorVariantNormalizer['setRetractValueDisplay'](
-        Configurator.UiType.MULTI_SELECTION_IMAGE,
-        value
-      );
-      expect(value.valueDisplay).toEqual(
-        'configurator.attribute.noOptionSelectedMsg'
-      );
-    });
   });
 
   describe('addRetractValue', () => {
@@ -1436,26 +1424,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
         false;
       sourceAttribute.type =
         OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
-      sourceAttribute.conflicts = ['conflict1'];
-      sourceAttribute.retractBlocked = false;
-
-      expect(values.length).toEqual(0);
-      occConfiguratorVariantNormalizer['addRetractValue'](
-        sourceAttribute,
-        values
-      );
-      expect(values.length).toEqual(1);
-      expect(values[0].valueCode).toEqual(Configurator.RetractValueCode);
-      expect(values[0].valueDisplay).toEqual(
-        'configurator.attribute.noOptionSelectedMsg'
-      );
-    });
-
-    it('should add a retract value to the list of values for a read-only-multi-selection-image that is involved in a conflict', () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
-        false;
-      sourceAttribute.type =
-        OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
       sourceAttribute.conflicts = ['conflict1'];
       sourceAttribute.retractBlocked = false;
 

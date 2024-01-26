@@ -193,8 +193,7 @@ export class OccConfiguratorVariantNormalizer
     if (
       attributeType === Configurator.UiType.DROPDOWN ||
       attributeType === Configurator.UiType.RADIOBUTTON ||
-      attributeType === Configurator.UiType.SINGLE_SELECTION_IMAGE ||
-      attributeType === Configurator.UiType.MULTI_SELECTION_IMAGE
+      attributeType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
       if (attributeType === Configurator.UiType.DROPDOWN && value.selected) {
         this.translation
@@ -254,8 +253,7 @@ export class OccConfiguratorVariantNormalizer
         if (
           attributeType === Configurator.UiType.RADIOBUTTON ||
           attributeType === Configurator.UiType.DROPDOWN ||
-          attributeType === Configurator.UiType.SINGLE_SELECTION_IMAGE ||
-          attributeType === Configurator.UiType.MULTI_SELECTION_IMAGE
+          attributeType === Configurator.UiType.SINGLE_SELECTION_IMAGE
         ) {
           const value: Configurator.Value = {
             valueCode: Configurator.RetractValueCode,

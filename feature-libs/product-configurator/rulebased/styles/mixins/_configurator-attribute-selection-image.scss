@@ -19,9 +19,11 @@
       input[type='radio'].form-input {
         opacity: 0;
         position: absolute;
+
         &:focus:not(:focus-visible) + .cx-label-container {
           outline: none; //remove visible focus when clicking by a mouse
         }
+
         &:focus + .cx-label-container {
           @include visible-focus();
         }
@@ -56,10 +58,16 @@
             padding-block-end: 3px;
             margin-inline-start: auto;
             margin-inline-end: auto;
+
+            &:hover {
+              border: var(--cx-color-secondary) 3px solid;
+            }
           }
 
           .cx-img-dummy {
             block-size: 75%;
+            max-width: 100px;
+            min-height: 100px;
           }
         }
 
