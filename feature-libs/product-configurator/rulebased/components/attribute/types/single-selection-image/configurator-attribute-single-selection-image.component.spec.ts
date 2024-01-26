@@ -165,30 +165,46 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     });
   });
 
-  it('should select another single selection image value', () => {
-    spyOn(
-      component['configuratorCommonsService'],
-      'updateConfiguration'
-    ).and.callThrough();
-    const singleSelectionImageId =
-      '#cx-configurator--single_selection_image--' +
-      component.attribute.name +
-      '--' +
-      value2.valueCode +
-      '-input';
-    const valueToSelect = fixture.debugElement.query(
-      By.css(singleSelectionImageId)
-    ).nativeElement;
-    expect(valueToSelect.checked).toBe(false);
-    component.onClick(value2.valueCode);
-    fixture.detectChanges();
-    expect(
-      component['configuratorCommonsService'].updateConfiguration
-    ).toHaveBeenCalledWith(
-      ownerKey,
-      { ...component.attribute, selectedSingleValue: value2.valueCode },
-      Configurator.UpdateType.ATTRIBUTE
-    );
+  describe('select single image', () => {
+    it('should select another single selection image value', () => {
+      spyOn(
+        component['configuratorCommonsService'],
+        'updateConfiguration'
+      ).and.callThrough();
+      component.onClick(value2.valueCode);
+      expect(
+        component['configuratorCommonsService'].updateConfiguration
+      ).toHaveBeenCalledWith(
+        ownerKey,
+        { ...component.attribute, selectedSingleValue: value2.valueCode },
+        Configurator.UpdateType.ATTRIBUTE
+      );
+    });
+
+    it('should not call click event', () => {
+      spyOn(
+        component['configuratorCommonsService'],
+        'updateConfiguration'
+      ).and.callThrough();
+      component.attribute.uiType =
+        Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+      fixture.detectChanges();
+      const singleSelectionImageId =
+        '#cx-configurator--' +
+        Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE +
+        '--' +
+        component.attribute.name +
+        '--' +
+        value2.valueCode +
+        '-input';
+      const valueToSelect = fixture.debugElement.query(
+        By.css(singleSelectionImageId)
+      ).nativeElement;
+      valueToSelect.click();
+      expect(
+        component['configuratorCommonsService'].updateConfiguration
+      ).not.toHaveBeenCalled();
+    });
   });
 
   describe('Accessibility', () => {

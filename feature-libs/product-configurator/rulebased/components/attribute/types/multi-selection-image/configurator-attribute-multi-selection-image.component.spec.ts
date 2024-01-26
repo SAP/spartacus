@@ -171,6 +171,44 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     expect(component.attributeCheckBoxForms[0].value).toEqual(false);
   });
 
+  describe('select multi images', () => {
+    it('should select multi selection image value', () => {
+      spyOn(
+        component['configuratorCommonsService'],
+        'updateConfiguration'
+      ).and.callThrough();
+      component.onSelect(0);
+      expect(
+        component['configuratorCommonsService'].updateConfiguration
+      ).toHaveBeenCalled();
+    });
+
+    it('should not call select event in case uiType READ_ONLY_MULTI_SELECTION_IMAGE', () => {
+      spyOn(
+        component['configuratorCommonsService'],
+        'updateConfiguration'
+      ).and.callThrough();
+      component.attribute.uiType =
+        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      fixture.detectChanges();
+      const singleSelectionImageId =
+        '#cx-configurator--' +
+        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE +
+        '--' +
+        component.attribute.name +
+        '--' +
+        value1.valueCode +
+        '-input';
+      const valueToSelect = fixture.debugElement.query(
+        By.css(singleSelectionImageId)
+      ).nativeElement;
+      valueToSelect.click();
+      expect(
+        component['configuratorCommonsService'].updateConfiguration
+      ).not.toHaveBeenCalled();
+    });
+  });
+
   describe('Accessibility', () => {
     it("should contain input elements with class name 'form-input' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(

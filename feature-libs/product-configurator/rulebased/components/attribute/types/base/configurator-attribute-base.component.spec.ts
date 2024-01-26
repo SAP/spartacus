@@ -402,4 +402,32 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(false);
     });
   });
+
+  describe('isReadOnly', () => {
+    it('should return false in case uiType is undefined', () => {
+      currentAttribute.uiType = undefined;
+      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(false);
+    });
+
+    it('should return false in case uiType is RADIOBUTTON', () => {
+      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(false);
+    });
+
+    it('should return true in case uiType is READ_ONLY', () => {
+      currentAttribute.uiType = Configurator.UiType.READ_ONLY;
+      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(true);
+    });
+
+    it('should return true in case uiType is READ_ONLY_SINGLE_SELECTION_IMAGE', () => {
+      currentAttribute.uiType =
+        Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(true);
+    });
+
+    it('should return true in case uiType is READ_ONLY_MULTI_SELECTION_IMAGE', () => {
+      currentAttribute.uiType =
+        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(true);
+    });
+  });
 });
