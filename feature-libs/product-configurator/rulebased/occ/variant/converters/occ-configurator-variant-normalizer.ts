@@ -192,7 +192,9 @@ export class OccConfiguratorVariantNormalizer
   ) {
     if (
       attributeType === Configurator.UiType.DROPDOWN ||
-      attributeType === Configurator.UiType.RADIOBUTTON
+      attributeType === Configurator.UiType.RADIOBUTTON ||
+      attributeType === Configurator.UiType.SINGLE_SELECTION_IMAGE ||
+      attributeType === Configurator.UiType.MULTI_SELECTION_IMAGE
     ) {
       if (attributeType === Configurator.UiType.DROPDOWN && value.selected) {
         this.translation
@@ -219,7 +221,13 @@ export class OccConfiguratorVariantNormalizer
   protected isSourceAttributeTypeReadOnly(
     sourceAttribute: OccConfigurator.Attribute
   ): boolean {
-    return sourceAttribute.type === OccConfigurator.UiType.READ_ONLY;
+    return (
+      sourceAttribute.type === OccConfigurator.UiType.READ_ONLY ||
+      sourceAttribute.type ===
+        OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE ||
+      sourceAttribute.type ===
+        OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE
+    );
   }
 
   protected isRetractBlocked(
@@ -245,7 +253,9 @@ export class OccConfiguratorVariantNormalizer
         const attributeType = this.convertAttributeType(sourceAttribute);
         if (
           attributeType === Configurator.UiType.RADIOBUTTON ||
-          attributeType === Configurator.UiType.DROPDOWN
+          attributeType === Configurator.UiType.DROPDOWN ||
+          attributeType === Configurator.UiType.SINGLE_SELECTION_IMAGE ||
+          attributeType === Configurator.UiType.MULTI_SELECTION_IMAGE
         ) {
           const value: Configurator.Value = {
             valueCode: Configurator.RetractValueCode,
