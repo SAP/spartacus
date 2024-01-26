@@ -4,7 +4,7 @@
   width: 100%;
 
   thead {
-    border-bottom: 1px solid var(--cx-color-light);
+    border-bottom: 1px solid var(--cx-color-medium);
 
     th {
       border-bottom: 0 none;
@@ -18,7 +18,7 @@
 
   tr {
     width: 100%;
-    border-bottom: 1px solid var(--cx-color-light);
+    border-bottom: 1px solid var(--cx-color-medium);
 
     @include media-breakpoint-down(sm) {
       &:first-child {
