@@ -306,14 +306,10 @@ export class OccConfiguratorVariantNormalizer
     images.push(image);
   }
 
-  convertAttributeType(
-    sourceAttribute: OccConfigurator.Attribute
+  protected getSingleSelectionUiType(
+    coreSourceType: string,
+    uiType: Configurator.UiType
   ): Configurator.UiType {
-    let uiType: Configurator.UiType;
-
-    const sourceType: string = sourceAttribute.type?.toString() ?? '';
-    const coreSourceType = this.determineCoreUiType(sourceType);
-
     switch (coreSourceType) {
       case OccConfigurator.UiType.RADIO_BUTTON: {
         uiType = Configurator.UiType.RADIOBUTTON;
@@ -331,14 +327,41 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
         break;
       }
-      case OccConfigurator.UiType.STRING: {
-        uiType = Configurator.UiType.STRING;
+      case OccConfigurator.UiType.CHECK_BOX: {
+        uiType = Configurator.UiType.CHECKBOX;
         break;
       }
-      case OccConfigurator.UiType.NUMERIC: {
-        uiType = Configurator.UiType.NUMERIC;
+      case OccConfigurator.UiType.SINGLE_SELECTION_IMAGE: {
+        uiType = Configurator.UiType.SINGLE_SELECTION_IMAGE;
         break;
       }
+    }
+    return uiType;
+  }
+
+  protected getMultiSelectionUiType(
+    coreSourceType: string,
+    uiType: Configurator.UiType
+  ): Configurator.UiType {
+    switch (coreSourceType) {
+      case OccConfigurator.UiType.CHECK_BOX_LIST: {
+        uiType = Configurator.UiType.CHECKBOXLIST;
+        break;
+      }
+      case OccConfigurator.UiType.MULTI_SELECTION_IMAGE: {
+        uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
+        break;
+      }
+    }
+    return uiType;
+  }
+
+  protected getReadOnlyUiType(
+    sourceAttribute: OccConfigurator.Attribute,
+    coreSourceType: string,
+    uiType: Configurator.UiType
+  ): Configurator.UiType {
+    switch (coreSourceType) {
       case OccConfigurator.UiType.READ_ONLY: {
         uiType =
           !sourceAttribute.retractBlocked &&
@@ -363,26 +386,39 @@ export class OccConfiguratorVariantNormalizer
             : Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
         break;
       }
-      case OccConfigurator.UiType.CHECK_BOX_LIST: {
-        uiType = Configurator.UiType.CHECKBOXLIST;
+    }
+    return uiType;
+  }
+
+  protected getInputUiType(
+    coreSourceType: string,
+    uiType: Configurator.UiType
+  ): Configurator.UiType {
+    switch (coreSourceType) {
+      case OccConfigurator.UiType.STRING: {
+        uiType = Configurator.UiType.STRING;
         break;
       }
-      case OccConfigurator.UiType.CHECK_BOX: {
-        uiType = Configurator.UiType.CHECKBOX;
+      case OccConfigurator.UiType.NUMERIC: {
+        uiType = Configurator.UiType.NUMERIC;
         break;
-      }
-      case OccConfigurator.UiType.MULTI_SELECTION_IMAGE: {
-        uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
-        break;
-      }
-      case OccConfigurator.UiType.SINGLE_SELECTION_IMAGE: {
-        uiType = Configurator.UiType.SINGLE_SELECTION_IMAGE;
-        break;
-      }
-      default: {
-        uiType = Configurator.UiType.NOT_IMPLEMENTED;
       }
     }
+    return uiType;
+  }
+
+  convertAttributeType(
+    sourceAttribute: OccConfigurator.Attribute
+  ): Configurator.UiType {
+    let uiType = Configurator.UiType.NOT_IMPLEMENTED;
+    const sourceType: string = sourceAttribute.type?.toString() ?? '';
+    const coreSourceType = this.determineCoreUiType(sourceType);
+
+    uiType = this.getSingleSelectionUiType(coreSourceType, uiType);
+    uiType = this.getMultiSelectionUiType(coreSourceType, uiType);
+    uiType = this.getInputUiType(coreSourceType, uiType);
+    uiType = this.getReadOnlyUiType(sourceAttribute, coreSourceType, uiType);
+
     return uiType;
   }
 
