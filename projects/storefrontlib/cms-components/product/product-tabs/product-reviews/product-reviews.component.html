@@ -58,16 +58,15 @@
   </ng-container>
 
   <ng-template #writeReview>
+    <p class="form-legend">
+      {{ 'formLegend.required' | cxTranslate }}
+    </p>
     <form (ngSubmit)="submitReview(product)" [formGroup]="reviewForm">
       <div class="form-group">
         <label>
           <span class="label-content"
             >{{ 'productReview.reviewTitle' | cxTranslate }}
-            <abbr
-              class="text-decoration-none"
-              title="{{ 'common.required' | cxTranslate }}"
-              >*</abbr
-            >
+            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
           </span>
           <input
             required="true"
@@ -83,11 +82,7 @@
         <label>
           <span class="label-content"
             >{{ 'productReview.writeYourComments' | cxTranslate }}
-            <abbr
-              class="text-decoration-none"
-              title="{{ 'common.required' | cxTranslate }}"
-              >*</abbr
-            >
+            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
           </span>
           <textarea
             required="true"
@@ -104,11 +99,7 @@
         <label>
           <span class="label-content"
             >{{ 'productReview.rating' | cxTranslate }}
-            <abbr
-              class="text-decoration-none"
-              title="{{ 'common.required' | cxTranslate }}"
-              >*</abbr
-            >
+            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
           </span>
           <input
             required="true"
@@ -156,3 +147,11 @@
     </form>
   </ng-template>
 </div>
+
+<ng-template #requiredAsterisk>
+  <abbr
+    class="text-decoration-none"
+    title="{{ 'common.required' | cxTranslate }}"
+    >*</abbr
+  >
+</ng-template>

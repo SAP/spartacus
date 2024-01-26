@@ -1,14 +1,13 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
 
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <p class="form-legend">
+    {{ 'formLegend.required' | cxTranslate }}
+  </p>
   <label>
     <span class="label-content">
       {{ 'loginForm.emailAddress.label' | cxTranslate }}
-      <abbr
-        class="text-decoration-none"
-        title="{{ 'common.required' | cxTranslate }}"
-        >*</abbr
-      >
+      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
     </span>
     <input
       required="true"
@@ -23,11 +22,7 @@
   <label>
     <span class="label-content">
       {{ 'loginForm.password.label' | cxTranslate }}
-      <abbr
-        class="text-decoration-none"
-        title="{{ 'common.required' | cxTranslate }}"
-        >*</abbr
-      >
+      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
     </span>
     <input
       required="true"
@@ -53,3 +48,11 @@
     {{ 'loginForm.signIn' | cxTranslate }}
   </button>
 </form>
+
+<ng-template #requiredAsterisk>
+  <abbr
+    class="text-decoration-none"
+    title="{{ 'common.required' | cxTranslate }}"
+    >*</abbr
+  >
+</ng-template>

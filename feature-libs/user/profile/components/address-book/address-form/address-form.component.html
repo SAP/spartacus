@@ -1,3 +1,6 @@
+<p class="form-legend">
+  {{ 'formLegend.required' | cxTranslate }}
+</p>
 <form (ngSubmit)="verifyAddress()" [formGroup]="addressForm">
   <div class="form-group" formGroupName="country">
     <ng-container *ngIf="countries$ | async as countries">
@@ -5,11 +8,7 @@
         <label>
           <span class="label-content required"
             >{{ 'addressForm.country' | cxTranslate }}
-            <abbr
-              class="text-decoration-none"
-              title="{{ 'common.required' | cxTranslate }}"
-              >*</abbr
-            >
+            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
           </span>
           <ng-select
             [inputAttrs]="{ required: 'true' }"
@@ -64,12 +63,8 @@
     <label>
       <span class="label-content required"
         >{{ 'addressForm.firstName.label' | cxTranslate }}
-        <abbr
-          class="text-decoration-none"
-          title="{{ 'common.required' | cxTranslate }}"
-          >*</abbr
-        ></span
-      >
+        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+      ></span>
       <input
         required="true"
         class="form-control"
@@ -84,12 +79,8 @@
     <label>
       <span class="label-content required"
         >{{ 'addressForm.lastName.label' | cxTranslate }}
-        <abbr
-          class="text-decoration-none"
-          title="{{ 'common.required' | cxTranslate }}"
-          >*</abbr
-        ></span
-      >
+        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+      ></span>
       <input
         required="true"
         type="text"
@@ -104,12 +95,8 @@
     <label>
       <span class="label-content required"
         >{{ 'addressForm.address1' | cxTranslate }}
-        <abbr
-          class="text-decoration-none"
-          title="{{ 'common.required' | cxTranslate }}"
-          >*</abbr
-        ></span
-      >
+        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+      ></span>
       <input
         required="true"
         type="text"
@@ -138,12 +125,8 @@
       <label>
         <span class="label-content required"
           >{{ 'addressForm.city.label' | cxTranslate }}
-          <abbr
-            class="text-decoration-none"
-            title="{{ 'common.required' | cxTranslate }}"
-            >*</abbr
-          ></span
-        >
+          <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+        ></span>
         <input
           required="true"
           type="text"
@@ -158,12 +141,8 @@
       <label>
         <span class="label-content required"
           >{{ 'addressForm.zipCode.label' | cxTranslate }}
-          <abbr
-            class="text-decoration-none"
-            title="{{ 'common.required' | cxTranslate }}"
-            >*</abbr
-          ></span
-        >
+          <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+        ></span>
         <input
           required="true"
           type="text"
@@ -182,12 +161,8 @@
           <label>
             <span class="label-content required"
               >{{ 'addressForm.state' | cxTranslate }}
-              <abbr
-                class="text-decoration-none"
-                title="{{ 'common.required' | cxTranslate }}"
-                >*</abbr
-              ></span
-            >
+              <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+            ></span>
             <ng-select
               [inputAttrs]="{ required: 'true' }"
               class="region-select"
@@ -277,3 +252,11 @@
     </div>
   </div>
 </form>
+
+<ng-template #requiredAsterisk>
+  <abbr
+    class="text-decoration-none"
+    title="{{ 'common.required' | cxTranslate }}"
+    >*</abbr
+  >
+</ng-template>

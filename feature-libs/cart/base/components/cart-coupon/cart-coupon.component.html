@@ -1,5 +1,8 @@
 <ng-container *ngIf="cart$ | async as cart">
   <div class="form-group">
+    <p class="form-legend">
+      {{ 'formLegend.required' | cxTranslate }}
+    </p>
     <form (ngSubmit)="applyVoucher()" [formGroup]="couponForm">
       <label class="cx-cart-coupon-title">
         {{ 'voucher.coupon' | cxTranslate }}

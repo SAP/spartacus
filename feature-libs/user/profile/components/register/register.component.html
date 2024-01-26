@@ -6,6 +6,9 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="cx-section">
+        <p class="form-legend">
+          {{ 'formLegend.required' | cxTranslate }}
+        </p>
         <form (ngSubmit)="submitForm()" [formGroup]="registerForm">
           <div class="form-group">
             <label>
@@ -33,12 +36,8 @@
             <label>
               <span class="label-content"
                 >{{ 'register.firstName.label' | cxTranslate }}
-                <abbr
-                  class="text-decoration-none"
-                  title="{{ 'common.required' | cxTranslate }}"
-                  >*</abbr
-                ></span
-              >
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -59,12 +58,8 @@
             <label>
               <span class="label-content"
                 >{{ 'register.lastName.label' | cxTranslate }}
-                <abbr
-                  class="text-decoration-none"
-                  title="{{ 'common.required' | cxTranslate }}"
-                  >*</abbr
-                ></span
-              >
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -85,12 +80,8 @@
             <label>
               <span class="label-content"
                 >{{ 'register.emailAddress.label' | cxTranslate }}
-                <abbr
-                  class="text-decoration-none"
-                  title="{{ 'common.required' | cxTranslate }}"
-                  >*</abbr
-                ></span
-              >
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -111,12 +102,8 @@
             <label>
               <span class="label-content"
                 >{{ 'register.password.label' | cxTranslate }}
-                <abbr
-                  class="text-decoration-none"
-                  title="{{ 'common.required' | cxTranslate }}"
-                  >*</abbr
-                ></span
-              >
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -141,12 +128,8 @@
             <label>
               <span class="label-content"
                 >{{ 'register.confirmPassword.label' | cxTranslate }}
-                <abbr
-                  class="text-decoration-none"
-                  title="{{ 'common.required' | cxTranslate }}"
-                  >*</abbr
-                ></span
-              >
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -229,11 +212,9 @@
                   >
                     {{ 'register.termsAndConditions' | cxTranslate }}
                   </a>
-                  <abbr
-                    class="text-decoration-none"
-                    title="{{ 'common.required' | cxTranslate }}"
-                    >*</abbr
-                  >
+                  <ng-template
+                    [ngTemplateOutlet]="requiredAsterisk"
+                  ></ng-template>
                 </span>
                 <cx-form-errors
                   [control]="registerForm.get('termsandconditions')"
@@ -254,6 +235,14 @@
     </div>
   </div>
 </section>
+
+<ng-template #requiredAsterisk>
+  <abbr
+    class="text-decoration-none"
+    title="{{ 'common.required' | cxTranslate }}"
+    >*</abbr
+  >
+</ng-template>
 
 <ng-template #loading>
   <div class="cx-spinner"><cx-spinner></cx-spinner></div>
