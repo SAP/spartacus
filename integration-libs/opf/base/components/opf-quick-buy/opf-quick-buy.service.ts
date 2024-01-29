@@ -12,10 +12,10 @@ import {
   OpfPaymentFacade,
   OpfPaymentProviderType,
   OpfProviderType,
+  OpfQuickBuyLocation,
 } from '@spartacus/opf/base/root';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
-import { OpfQuickBuyLocation } from '../../root/model';
 
 @Injectable({
   providedIn: 'root',
