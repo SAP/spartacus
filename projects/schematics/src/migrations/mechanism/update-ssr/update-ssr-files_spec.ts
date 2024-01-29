@@ -10,6 +10,7 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as SpartacusOptions } from '../../../add-spartacus/schema';
+import { SERVER_BAK_FILENAME, SERVER_FILENAME } from "@spartacus/schematics";
 
 const updateSsrCollectionPath = path.join(
   __dirname,
@@ -77,4 +78,20 @@ describe('Update SSR', () => {
       tree
     );
   });
+
+  describe('updateServerFile', () => {
+    it('should rename server.bak to server.ts', async () => {
+      const serverBakPath = `./${SERVER_BAK_FILENAME}`;
+      tree.create(serverBakPath, 'testing');
+      expect(tree.exists(serverBakPath)).toBeTruthy();
+      tree = await updateSsrSchematicRunner.runSchematic(
+        'update-ssr',
+        { name: 'schematics-test' },
+        tree
+      );
+
+      expect(tree.exists(serverBakPath)).toBeFalsy();
+      expect(tree.exists(SERVER_FILENAME)).toBeTruthy();
+    });
+  })
 });
