@@ -19,13 +19,12 @@ export class ProductSummaryComponent {
   protected featureConfig = inject(FeatureConfigService);
 
   outlets = ProductDetailOutlets;
-  showPromotions = this.featureConfig.isEnabled('showPromotionsInPDP');
 
   product$: Observable<Product | null> = this.getProduct();
 
   protected getProduct(): Observable<Product | null> {
     const productScopes = [ProductScope.DETAILS, ProductScope.PRICE];
-    if (this.showPromotions) {
+    if (this.featureConfig.isEnabled('showPromotionsInPDP')) {
       productScopes.push(ProductScope.PROMOTIONS);
     }
     return this.currentProductService.getProduct(productScopes);
