@@ -42,6 +42,7 @@
     "config:update": "ts-node ./tools/config/index.ts --fix",
     "config:check": "ts-node ./tools/config/index.ts",
     "generate:deps": "ts-node ./tools/schematics/dependency-collector.ts",
+    "generate:deps:compare": "ts-node ./tools/schematics/dependency-collector.ts --compare",
     "e2e:open": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:open",
     "e2e:open:ci": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:open:ci",
     "e2e:open:ci:b2b": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:open:ci:b2b",

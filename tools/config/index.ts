@@ -287,7 +287,7 @@ if (options.generateDeps) {
   execSync(`npm run generate:deps`);
 } else {
   // collect and generate dependencies.json file.
-  execSync(`npm run generate:deps --compare=true`);
+  execSync(`npm run generate:deps:compare`);
 }
 
 /**
