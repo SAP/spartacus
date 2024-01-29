@@ -5,6 +5,7 @@
       "complete": "Complete",
       "configId": "Configuration ID",
       "toconfig": "Configure",
+      "toconfigView": "View Config",
       "editConfiguration": "Edit Configuration",
       "displayConfiguration": "Display Configuration",
       "resolveIssues": "Resolve Issues",
