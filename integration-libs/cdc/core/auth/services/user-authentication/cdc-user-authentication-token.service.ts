@@ -5,10 +5,11 @@
  */
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   AuthConfigService,
   AuthToken,
+  LoggerService,
   normalizeHttpError,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -16,6 +17,8 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class CdcUserAuthenticationTokenService {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected authConfigService: AuthConfigService
@@ -52,7 +55,7 @@ export class CdcUserAuthenticationTokenService {
       .post<Partial<AuthToken> & { expires_in?: number }>(url, params)
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error);
+          throw normalizeHttpError(error, this.logger);
         })
       );
   }

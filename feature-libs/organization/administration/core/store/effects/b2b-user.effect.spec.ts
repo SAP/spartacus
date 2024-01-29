@@ -6,11 +6,12 @@ import { StoreModule } from '@ngrx/store';
 import {
   AuthActions,
   B2BUser,
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
   RoutingService,
   SearchConfig,
   UserIdService,
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
   OrganizationActions,
@@ -37,7 +38,7 @@ const httpErrorResponse = new HttpErrorResponse({
   statusText: 'Unknown error',
   url: '/xxx',
 });
-const error = normalizeHttpError(httpErrorResponse);
+
 const userId = 'testUser';
 const orgCustomerId = 'orgCustomerId';
 
@@ -83,6 +84,14 @@ const mockCurrentUser = {
   customerId: orgCustomerId,
   displayUid: 'newemail@test.test',
 };
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
 class MockRoutingService {
   go = createSpy('go').and.stub();
@@ -133,6 +142,8 @@ class MockUserIdService implements Partial<UserIdService> {
   getUserId = createSpy().and.returnValue(of('current'));
 }
 
+const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+
 describe('B2B User Effects', () => {
   let actions$: Observable<B2BUserActions.B2BUserAction>;
   let b2bUserConnector: B2BUserConnector;
@@ -172,6 +183,7 @@ describe('B2B User Effects', () => {
         provideMockActions(() => actions$),
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: UserIdService, useClass: MockUserIdService },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
