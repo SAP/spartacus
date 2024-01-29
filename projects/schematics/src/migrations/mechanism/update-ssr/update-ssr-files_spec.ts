@@ -10,6 +10,7 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as SpartacusOptions } from '../../../add-spartacus/schema';
+import { NEW_ZONE_IMPORT, OLD_ZONE_IMPORT } from '../../../shared/constants';
 
 const updateSsrCollectionPath = path.join(
   __dirname,
@@ -76,5 +77,35 @@ describe('Update SSR', () => {
       { ...defaultOptions, name: 'schematics-test' },
       tree
     );
+  });
+
+  describe('updateServerFile', () => {
+    it('should change nguniversal import in server.ts', async () => {
+      tree = await updateSsrSchematicRunner.runSchematic(
+        'update-ssr',
+        { name: 'schematics-test' },
+        tree
+      );
+
+      const updatedContent = tree.read('./server.ts')!.toString();
+      expect(updatedContent).toContain('@spartacus/setup/ssr');
+    });
+
+    it('should change zone.js import in server.ts', async () => {
+      let serverContent = tree.read('./server.ts')!.toString();
+
+      if (!serverContent.includes('zone.js')) {
+        serverContent = serverContent + `import "${OLD_ZONE_IMPORT}"`;
+        tree.overwrite('./server.ts', serverContent);
+      }
+      tree = await updateSsrSchematicRunner.runSchematic(
+        'update-ssr',
+        { name: 'schematics-test' },
+        tree
+      );
+
+      const updatedServerContent = tree.read('./server.ts')!.toString();
+      expect(updatedServerContent).toContain(NEW_ZONE_IMPORT);
+    });
   });
 });
