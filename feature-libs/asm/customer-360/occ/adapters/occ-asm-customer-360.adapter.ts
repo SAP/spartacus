@@ -5,10 +5,10 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
-  AsmCustomer360Adapter,
   ASM_CUSTOMER_360_NORMALIZER,
+  AsmCustomer360Adapter,
 } from '@spartacus/asm/customer-360/core';
 import {
   AsmCustomer360Request,
@@ -18,15 +18,18 @@ import {
   BaseSiteService,
   ConverterService,
   InterceptorUtil,
-  normalizeHttpError,
+  LoggerService,
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccAsmCustomer360Adapter implements AsmCustomer360Adapter {
+  protected logger = inject(LoggerService);
+
   private activeBaseSite: string;
 
   constructor(
@@ -78,7 +81,9 @@ export class OccAsmCustomer360Adapter implements AsmCustomer360Adapter {
     return this.http
       .post<AsmCustomer360Response>(url, requestBody, { headers })
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         this.converterService.pipeable(ASM_CUSTOMER_360_NORMALIZER)
       );
   }
