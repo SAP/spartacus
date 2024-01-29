@@ -28,13 +28,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'chatMessaging',
     'formLegend',
   ],
-  address: [
-    'addressForm',
-    'addressBook',
-    'addressCard',
-    'addressSuggestion',
-    'addressMessages',
-  ],
   payment: [
     'paymentForm',
     'paymentMethods',

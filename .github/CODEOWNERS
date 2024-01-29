@@ -54,6 +54,7 @@
 #  User domain
 # ================================================
 /feature-libs/user/          @SAP/spartacus-codeowners @SAP/spartacus-holidays
+/projects/storefrontlib/cms-components/myaccount/         @SAP/spartacus-codeowners @SAP/spartacus-holidays
 
 # ================================================
 #  Product Configurator and CPQ integration
