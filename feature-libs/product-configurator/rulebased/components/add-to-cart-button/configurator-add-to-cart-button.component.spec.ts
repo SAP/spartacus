@@ -697,7 +697,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       initialize();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'checkoutReviewOrder',
+        cxRoute: 'cart',
       });
     });
 
