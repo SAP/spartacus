@@ -11,7 +11,10 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { Path } from '@angular-devkit/core';
-import { SERVER_BAK_FILENAME, SERVER_FILENAME } from '@spartacus/schematics';
+import {
+  SERVER_BAK_FILENAME,
+  SERVER_FILENAME,
+} from '../../../shared/constants';
 
 export function updateServerFiles(): Rule {
   return chain([removeServer]);
