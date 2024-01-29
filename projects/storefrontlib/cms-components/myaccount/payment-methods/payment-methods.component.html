@@ -1,5 +1,6 @@
 <ng-container *ngIf="paymentMethods$ | async as paymentMethods">
-  <p class="form-legend">
+  <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
+  <p *cxFeatureLevel="'6.8'" class="form-legend">
     {{ 'formLegend.required' | cxTranslate }}
   </p>
   <div class="cx-payment container">

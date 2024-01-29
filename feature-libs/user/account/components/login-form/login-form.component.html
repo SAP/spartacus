@@ -1,7 +1,8 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
 
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
-  <p class="form-legend">
+  <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
+  <p *cxFeatureLevel="'6.8'" class="form-legend">
     {{ 'formLegend.required' | cxTranslate }}
   </p>
   <label>
@@ -51,6 +52,7 @@
 
 <ng-template #requiredAsterisk>
   <abbr
+    *cxFeatureLevel="'6.8'"
     class="text-decoration-none"
     title="{{ 'common.required' | cxTranslate }}"
     >*</abbr

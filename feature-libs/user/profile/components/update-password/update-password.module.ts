@@ -13,11 +13,12 @@ import {
   AuthRedirectService,
   AuthService,
   CmsConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nModule,
-  provideDefaultConfig,
   RoutingService,
   UrlModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -39,6 +40,7 @@ import { UpdatePasswordComponent } from './update-password.component';
     UrlModule,
     RouterModule,
     PasswordVisibilityToggleModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

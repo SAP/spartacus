@@ -12,15 +12,16 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nModule,
-  provideDefaultConfig,
   UrlModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  SpinnerModule,
   NgSelectA11yModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { UpdateProfileComponentService } from './update-profile-component.service';
@@ -38,6 +39,7 @@ import { UpdateProfileComponent } from './update-profile.component';
     UrlModule,
     NgSelectModule,
     NgSelectA11yModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
