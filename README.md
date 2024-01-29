@@ -49,16 +49,9 @@ See the [Release documentation](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABL
 
 ## Requirements
 
-If you are working with (currently unreleased) Spartacus 6.x, your Angular development environment should include the following:
-- [Angular CLI](https://angular.io/): Version **15.2.0** or newer, < 16.
-- [Node.js](https://nodejs.org/en/): Version **14.20** or newer (but **less than** version 15), or **16.13**, or newer (but **less than** version 17), or **18.10**, or newer.
-- [Yarn](https://classic.yarnpkg.com/lang/en/): Version **1.15** or newer (**OR** from Spartacus 5.2 [npm](https://www.npmjs.com/): Version **6.14** or newer.)
+If you are working with Spartacus 6.x, see the relevant 6.x Angular development environment requirements on the [SAP Help Portal](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/cfcf687ce2544bba9799aa6c8314ecd0/bf31098d779f4bdebb7a2d0591917363.html?locale=en-US&version=6.0).
 
-If you are working with Spartacus 5.x, your Angular development environment should include the following:
-
-- [Angular CLI](https://angular.io/): Version **14.2.3** or newer, < 15.
-- [Node.js](https://nodejs.org/en/): Version **14.15** or newer (but **less than** version 15), or **16.10** or newer.
-- [Yarn](https://classic.yarnpkg.com/lang/en/): Version **1.15** or newer (**OR** from Spartacus 5.2 [npm](https://www.npmjs.com/): Version **6.14** or newer.)
+If you are working with Spartacus 5.x, see the relevant 5.x Angular development environment requirements on the [SAP Help Portal](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/cfcf687ce2544bba9799aa6c8314ecd0/bf31098d779f4bdebb7a2d0591917363.html?locale=en-US&version=5.0).
 
 For the back end, SAP Commerce Cloud version 2105 or higher is required.
 

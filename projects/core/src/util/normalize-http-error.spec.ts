@@ -10,7 +10,7 @@ describe('normalizeHttpError', () => {
   describe(`when the provided argument is not HttpError`, () => {
     it('should return undefined', () => {
       const error = 'xxx';
-      const result = normalizeHttpError(error);
+      const result = normalizeHttpError(error, logger);
       expect(result).toEqual(undefined);
     });
 
@@ -18,7 +18,7 @@ describe('normalizeHttpError', () => {
       spyOnProperty(isDevModeFunc, 'isDevMode').and.returnValue(() => true);
       spyOn(console, 'error');
       const error = 'xxx';
-      normalizeHttpError(error);
+      normalizeHttpError(error, logger);
       expect(console.error).toHaveBeenCalledWith(
         'Error passed to normalizeHttpError is not HttpErrorResponse instance',
         error
@@ -47,7 +47,7 @@ describe('normalizeHttpError', () => {
         url: '/xxx',
       });
 
-      const result = normalizeHttpError(mockError);
+      const result = normalizeHttpError(mockError, logger);
       expect(result).toEqual(
         jasmine.objectContaining({
           message: mockError.message,
@@ -67,7 +67,7 @@ describe('normalizeHttpError', () => {
         statusText: 'Unknown error',
         url: '/xxx',
       });
-      const result = normalizeHttpError(mockError);
+      const result = normalizeHttpError(mockError, logger);
       expect(result).toEqual(
         jasmine.objectContaining({
           message: mockError.message,
@@ -92,7 +92,7 @@ describe('normalizeHttpError', () => {
         statusText: 'Unknown error',
         url: '/xxx',
       });
-      const result = normalizeHttpError(mockError);
+      const result = normalizeHttpError(mockError, logger);
       expect(result).toEqual(
         jasmine.objectContaining({
           message: mockError.message,
@@ -116,7 +116,7 @@ describe('normalizeHttpError', () => {
       const normalizedError = new HttpErrorModel();
       normalizedError.status = 400;
 
-      const result = normalizeHttpError(normalizedError);
+      const result = normalizeHttpError(normalizedError, logger);
       expect(result).toEqual(normalizedError);
     });
   });
