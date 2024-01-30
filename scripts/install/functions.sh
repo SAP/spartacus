@@ -152,7 +152,7 @@ function add_pdf_invoices {
 function add_feature_libs {
   ng add @spartacus/tracking@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/tracking --skip-confirmation --no-interactive --features "TMS-GTM" --features "TMS-AEPL"
-  
+
   ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/customer-ticketing@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/pickup-in-store@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
@@ -165,9 +165,9 @@ function add_spartacus_csr {
         create_npmrc ${CSR_APP_NAME}
     fi
     if [ "$BASE_SITE" = "" ] ; then
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --no-interactive
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --currency ${CURRENCY} --url-parameters ${URL_PARAMETERS} --no-interactive
     else
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --url-parameters ${URL_PARAMETERS} --no-interactive
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --currency ${CURRENCY} --url-parameters ${URL_PARAMETERS} --no-interactive
     fi
     add_feature_libs
     add_b2b
@@ -190,9 +190,9 @@ function add_spartacus_ssr {
     fi
 
     if [ "$BASE_SITE" = "" ] ; then
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --currency ${CURRENCY} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
     else
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --currency ${CURRENCY} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
     fi
     add_feature_libs
     add_b2b
@@ -214,9 +214,9 @@ function add_spartacus_ssr_pwa {
         create_npmrc ${SSR_PWA_APP_NAME}
     fi
     if [ "$BASE_SITE" = "" ] ; then
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --currency ${CURRENCY} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
     else
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --currency ${CURRENCY} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
     fi
     add_feature_libs
     add_b2b
@@ -743,7 +743,7 @@ function parseInstallArgs {
                 ;;
             opf)
                 ADD_OPF=true
-                echo "➖ Added OPF"   
+                echo "➖ Added OPF"
                 shift
                 ;;
             -*|--*)
