@@ -24,7 +24,7 @@ ruleTester.run(RULE_NAME, rule, {
         ]
       `,
       messageId: 'useDefaultProvideConfig',
-    }),
+    }) as TSESLint.InvalidTestCase<'useDefaultProvideConfig', never[]>, // type cast used as convertAnnotatedSourceToFailureCase simplifies testing, but TSESLint v6 requires never[] instead of readonly unknown[]
     convertAnnotatedSourceToFailureCase({
       description:
         'should fail when provideConfig is found with inline provided config and underline the entire call expression',
@@ -39,6 +39,6 @@ ruleTester.run(RULE_NAME, rule, {
         ]
       `,
       messageId: 'useDefaultProvideConfig',
-    }),
+    }) as TSESLint.InvalidTestCase<'useDefaultProvideConfig', never[]>, // type cast used as convertAnnotatedSourceToFailureCase simplifies testing, but TSESLint v6 requires never[] instead of readonly unknown[]
   ],
 });
