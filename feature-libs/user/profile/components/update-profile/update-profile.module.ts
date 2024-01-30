@@ -24,13 +24,11 @@ import {
   NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
 import { USE_MY_ACCOUNT_V2_PROFILE } from './token/context';
-import {
-  MyAccountV2ProfileComponent,
-  MyAccountV2ProfileComponentService,
-} from '../my-account-v2';
+import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
+import { UpdateProfileComponentService } from './update-profile-component.service';
+
 
 const myAccountV2ProfileMapping: CmsConfig = {
   cmsComponents: {
@@ -39,8 +37,8 @@ const myAccountV2ProfileMapping: CmsConfig = {
       guards: [AuthGuard],
       providers: [
         {
-          provide: MyAccountV2ProfileComponentService,
-          useClass: MyAccountV2ProfileComponentService,
+          provide: UpdateProfileComponentService,
+          useClass: UpdateProfileComponentService,
           deps: [UserProfileFacade, GlobalMessageService],
         },
       ],
