@@ -14,6 +14,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
@@ -88,7 +89,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     private elemRef: ElementRef,
     protected hamburgerMenuService: HamburgerMenuService,
     protected winRef: WindowRef,
-    protected featureConfigService: FeatureConfigService
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {
     this.subscriptions.add(
       this.router.events
@@ -131,7 +132,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       this.winRef.nativeWindow?.location.href.includes(navNode.url)
     ) {
       // TODO: (CXSPA-5919) Remove feature flag next major release
-      if (this.featureConfigService.isLevel('6.8')) {
+      if (this.featureConfigService?.isLevel('6.8')) {
         this.reinitializeMenu();
       } else {
         this.elemRef.nativeElement
@@ -140,8 +141,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
             this.renderer.removeClass(el, 'is-open');
             this.renderer.removeClass(el, 'is-opened');
           });
+        this.reinitializeMenu();
       }
-
       this.hamburgerMenuService.toggle();
     }
   }
@@ -152,7 +153,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   reinitializeMenu(): void {
     if (this.openNodes?.length > 0) {
       // TODO: (CXSPA-5919) Remove feature flag next major release
-      if (this.featureConfigService.isLevel('6.8')) {
+      if (this.featureConfigService?.isLevel('6.8')) {
         this.elemRef.nativeElement
           .querySelectorAll('li.is-open:not(.back), li.is-opened')
           .forEach((el: any) => {
@@ -161,7 +162,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
           });
       }
       this.clear();
-      if (!this.featureConfigService.isLevel('6.8')) {
+      if (!this.featureConfigService?.isLevel('6.8')) {
         this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
       }
     }
@@ -263,6 +264,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
 
   clear(): void {
     this.openNodes = [];
+    if (!this.featureConfigService?.isLevel('6.8')) {
+      this.updateClasses();
+    }
   }
 
   onMouseEnter(event: MouseEvent) {

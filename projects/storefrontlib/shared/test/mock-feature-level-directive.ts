@@ -16,6 +16,7 @@ export class MockFeatureLevelDirective {
   ) {}
 
   @Input() set cxFeatureLevel(_feature: string | number) {
+    // ensure the deprecated DOM changes are not rendered during tests
     if (!_feature.toString().includes('!')) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     }
