@@ -188,6 +188,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       ).and.callThrough();
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+      value2.selected = true;
       fixture.detectChanges();
       const singleSelectionImageId =
         '#cx-configurator--' +

@@ -190,6 +190,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       ).and.callThrough();
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      value1.selected = true;
       fixture.detectChanges();
       const singleSelectionImageId =
         '#cx-configurator--' +
