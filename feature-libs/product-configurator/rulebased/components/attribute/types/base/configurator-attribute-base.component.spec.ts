@@ -430,4 +430,40 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(true);
     });
   });
+
+  describe('isValueDisplayed', () => {
+    it('should return false in case uiType is READ_ONLY_MULTI_SELECTION_IMAGE and value is not selected', () => {
+      currentAttribute.uiType =
+        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      const value: Configurator.Value = { valueCode: 'val', selected: false };
+      expect(classUnderTest['isValueDisplayed'](currentAttribute, value)).toBe(
+        false
+      );
+    });
+
+    it('should return true in case uiType is READ_ONLY_MULTI_SELECTION_IMAGE and value is selected', () => {
+      currentAttribute.uiType =
+        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      const value: Configurator.Value = { valueCode: 'val', selected: true };
+      expect(classUnderTest['isValueDisplayed'](currentAttribute, value)).toBe(
+        true
+      );
+    });
+
+    it('should return true in case uiType is RADIOBUTTON and value is not selected', () => {
+      currentAttribute.uiType = Configurator.UiType.RADIOBUTTON;
+      const value: Configurator.Value = { valueCode: 'val', selected: false };
+      expect(classUnderTest['isValueDisplayed'](currentAttribute, value)).toBe(
+        true
+      );
+    });
+
+    it('should return true in case uiType is RADIOBUTTON and value is selected', () => {
+      currentAttribute.uiType = Configurator.UiType.RADIOBUTTON;
+      const value: Configurator.Value = { valueCode: 'val', selected: true };
+      expect(classUnderTest['isValueDisplayed'](currentAttribute, value)).toBe(
+        true
+      );
+    });
+  });
 });

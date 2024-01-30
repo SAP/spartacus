@@ -258,4 +258,14 @@ export class ConfiguratorAttributeBaseComponent {
     }
     return false;
   }
+
+  protected isValueDisplayed(
+    attribute: Configurator.Attribute,
+    value: Configurator.Value
+  ): boolean {
+    return (
+      (this.isReadOnly(attribute) && value.selected) ||
+      !this.isReadOnly(attribute)
+    );
+  }
 }
