@@ -5,6 +5,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './email/index';
 export * from './new-password/index';
 export * from './index';

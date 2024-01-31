@@ -18,7 +18,7 @@ import {
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Subject, of } from 'rxjs';
-import { MyAccountV2EmailComponentService } from './my-account-v2-email-component.service';
+import { UpdateEmailComponentService } from './my-account-v2-email-component.service';
 import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
 import createSpy = jasmine.createSpy;
 import { UserProfileFacade } from '../../../root/facade';
@@ -31,7 +31,7 @@ class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
 class MockMyAccountV2EmailService
-  implements Partial<MyAccountV2EmailComponentService>
+  implements Partial<UpdateEmailComponentService>
 {
   updateSucceed$ = new Subject();
   form: UntypedFormGroup = new UntypedFormGroup({
@@ -59,7 +59,7 @@ describe('MyAccountV2EmailComponent', () => {
   let fixture: ComponentFixture<MyAccountV2EmailComponent>;
   let el: DebugElement;
 
-  let service: MyAccountV2EmailComponentService;
+  let service: UpdateEmailComponentService;
 
   beforeEach(
     waitForAsync(() => {
@@ -75,7 +75,7 @@ describe('MyAccountV2EmailComponent', () => {
         declarations: [MyAccountV2EmailComponent, MockCxSpinnerComponent],
         providers: [
           {
-            provide: MyAccountV2EmailComponentService,
+            provide: UpdateEmailComponentService,
             useClass: MockMyAccountV2EmailService,
           },
           {
@@ -96,7 +96,7 @@ describe('MyAccountV2EmailComponent', () => {
     component = fixture.componentInstance;
     component.onEdit();
     el = fixture.debugElement;
-    service = TestBed.inject(MyAccountV2EmailComponentService);
+    service = TestBed.inject(UpdateEmailComponentService);
     TestBed.inject(UserProfileFacade);
     fixture.detectChanges();
   });
