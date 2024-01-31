@@ -46,6 +46,9 @@
           cursor: pointer;
           text-align: center;
           line-break: anywhere;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
 
           .cx-img,
           .cx-img-dummy {
