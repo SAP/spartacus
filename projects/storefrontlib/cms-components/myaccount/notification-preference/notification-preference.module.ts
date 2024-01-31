@@ -55,9 +55,7 @@ const myAccountV2CmsMapping: CmsConfig = {
       },
     }),
     provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE)
-        ? myAccountV2CmsMapping
-        : {}
+      true ? myAccountV2CmsMapping: {}
     ),
   ],
   exports: [NotificationPreferenceComponent],

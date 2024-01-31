@@ -93,7 +93,7 @@ const myAccountV2EmailMapping: CmsConfig = {
       },
     }),
     provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_EMAIL) ? myAccountV2EmailMapping : {}
+      true ? myAccountV2EmailMapping : {}
     ),
   ],
 })
