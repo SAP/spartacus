@@ -64,14 +64,13 @@
             }
           }
         }
-        @include forVersion(5.1) {
-          // accessibility: to avoid accessing by keyboard tab and VO when item is not visible(opacity: 0) on the screen
-          .item {
-            visibility: hidden;
-          }
-          .item.active {
-            visibility: visible;
-          }
+
+        // accessibility: to avoid accessing by keyboard tab and VO when item is not visible(opacity: 0) on the screen
+        .item {
+          visibility: hidden;
+        }
+        .item.active {
+          visibility: visible;
         }
       }
     }
