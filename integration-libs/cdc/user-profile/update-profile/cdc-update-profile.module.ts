@@ -20,11 +20,8 @@ import {
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import {
-  UpdateProfileComponentService,
-} from '@spartacus/user/profile/components';
+import { UpdateProfileComponentService } from '@spartacus/user/profile/components';
 import { CDCUpdateProfileComponentService } from './cdc-update-profile-component.service';
-
 
 @NgModule({
   imports: [

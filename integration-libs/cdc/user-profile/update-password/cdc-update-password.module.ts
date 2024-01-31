@@ -20,12 +20,8 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import {
-  UpdatePasswordComponentService,
-} from '@spartacus/user/profile/components';
+import { UpdatePasswordComponentService } from '@spartacus/user/profile/components';
 import { CDCUpdatePasswordComponentService } from './cdc-update-password-component.service';
-
-
 
 @NgModule({
   imports: [

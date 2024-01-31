@@ -29,7 +29,6 @@ import { USE_MY_ACCOUNT_V2_PROFILE } from './token/context';
 import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 
-
 const myAccountV2ProfileMapping: CmsConfig = {
   cmsComponents: {
     UpdateProfileComponent: {
