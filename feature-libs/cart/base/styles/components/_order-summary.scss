@@ -8,7 +8,10 @@
 
   .cx-summary-heading {
     text-transform: capitalize;
-    @include type('3');
+    // TODO: (CXSPA-5987) Remove feature flag next major
+    @include forVersion(1, 6.7) {
+      @include type('3');
+    }
     font-weight: var(--cx-font-weight-semi);
     border-bottom: 1px solid var(--cx-color-medium);
     padding-bottom: 1.625rem;
