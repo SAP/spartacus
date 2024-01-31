@@ -50,6 +50,10 @@
             "bundleName": "storefinder"
           },
           {
+            "input": "projects/storefrontapp/src/styles/lib-pdf-invoices.scss",
+            "bundleName": "pdf-invoices"
+          },
+          {
             "input": "projects/storefrontapp/src/styles/lib-product.scss",
             "bundleName": "product"
           },

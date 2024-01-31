@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -55,6 +55,8 @@ export const organizationUnitOrderFeatureModulePath =
   'src/app/spartacus/features/organization/organization-unit-order-feature.module.ts';
 export const organizationAccountSummaryFeatureModulePath =
   'src/app/spartacus/features/organization/organization-account-summary-feature.module.ts';
+export const pdfInvoicesFeatureModulePath =
+  'src/app/spartacus/features/pdf-invoices/pdf-invoices-feature.module.ts';
 export const productBulkPricingFeatureModulePath =
   'src/app/spartacus/features/product/product-bulk-pricing-feature.module.ts';
 export const productImageZoomFeatureModulePath =

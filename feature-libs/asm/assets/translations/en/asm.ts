@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ export const asm = {
     logout: 'Sign Out',
     hideUi: 'Close ASM',
     customers: 'Customers',
+    asmCustomer360Button: '360 Customer View',
     createCustomerSuccessfullyAlert:
       'The customer account has been created and the customer session has started.',
     saveInactiveCartAlertInfo:

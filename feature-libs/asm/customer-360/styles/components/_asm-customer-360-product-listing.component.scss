@@ -1,0 +1,118 @@
+%cx-asm-customer-360-product-listing {
+  .product-listing {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 48px;
+    &-header {
+      @include type('4', 'semi');
+      align-items: center;
+      display: flex;
+      flex-flow: row wrap;
+      margin-bottom: 36px;
+    }
+    &-items {
+      display: grid;
+      gap: 12px;
+      &.column-1 {
+        grid-template-columns: repeat(1, 100%);
+      }
+      &.column-2 {
+        grid-template-columns: repeat(2, 50%);
+      }
+      &.column-3 {
+        grid-template-columns: repeat(3, 33%);
+      }
+    }
+  }
+
+  .empty-result-description {
+    padding: 16px 32px;
+    color: $asmMainSecondaryTextColor;
+    font-size: var(--cx-font-size, 0.875rem);
+    font-weight: var(--cx-font-weight-normal);
+  }
+
+  .title-link {
+    color: $asmLinkColor;
+
+    &.inactive {
+      cursor: auto;
+      color: black;
+      pointer-events: none;
+    }
+  }
+
+  .show-hide-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .show-hide-button {
+    @include type('4', 'semi');
+    color: $asmLinkColor;
+    margin: 32px auto 0;
+    text-decoration: none;
+  }
+
+  cx-asm-customer-360-product-item {
+    display: flex;
+    border: 1px solid $asmBorderColor;
+    border-radius: 10px;
+    padding: 16px;
+    .cx-asm-customer-360-product-item-media {
+      margin-inline-end: 16px;
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  .cx-asm-customer-360-product-item {
+    &-content {
+      flex: 1;
+      min-width: 0;
+      button {
+        text-align: start;
+      }
+    }
+
+    &-out-of-stock {
+      font-weight: var(--cx-font-weight-normal);
+      color: var(--cx-color-secondary);
+    }
+
+    &-name {
+      @include type('7', 'bold');
+      color: $asmMainTextColor;
+      text-decoration: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: inline-block;
+      width: 100%;
+      &:hover {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+
+  .cart {
+    &-divider {
+      border: 0;
+      border-color: #afafaf;
+      border-style: solid;
+      border-right-width: 1px;
+      height: 20px;
+    }
+
+    &-total-no-items,
+    &-total-price {
+      @include type('6', 'normal');
+      color: var(--cx-color-secondary);
+      padding: 0 16px;
+    }
+
+    &-total-no-items {
+      margin-inline-start: auto;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,4 +21,6 @@ interface Env {
   CX_S4OM: boolean;
   CX_SEGMENT_REFS: boolean;
   CX_REQUESTED_DELIVERY_DATE: boolean;
+  CX_PDF_INVOICES: boolean;
+  CX_MY_ACCOUNT_V2: boolean;
 }

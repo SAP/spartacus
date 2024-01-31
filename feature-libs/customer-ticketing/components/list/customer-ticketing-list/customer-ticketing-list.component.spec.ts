@@ -144,6 +144,10 @@ class MockcustomerTicketingFacade {
 
   clearTicketList() {}
 }
+@Component({
+  selector: 'cx-customer-ticketing-create',
+})
+class MockCustomerTicketingCreateComponent {}
 
 const mockTicketList$ = new BehaviorSubject<TicketList>(mockTicketList);
 
@@ -161,6 +165,7 @@ describe('CustomerTicketingListComponent', () => {
           MockPaginationComponent,
           MockSortingComponent,
           MockUrlPipe,
+          MockCustomerTicketingCreateComponent,
         ],
         providers: [
           {

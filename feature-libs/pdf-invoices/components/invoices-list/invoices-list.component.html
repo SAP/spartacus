@@ -1,0 +1,191 @@
+<ng-container *ngIf="invoicesList$ | async as invoicesList">
+  <ng-container
+    *ngIf="
+      invoicesList.pagination &&
+      invoicesList.pagination.totalCount &&
+      invoicesList.pagination.totalCount > 0
+    "
+  >
+    <div>
+      <!-- HEADER -->
+      <div class="cx-invoices-list-header">
+        <h2>
+          {{ 'pdfInvoices.invoicesTable.header' | cxTranslate }}
+        </h2>
+      </div>
+
+      <!-- BODY -->
+      <div class="cx-invoices-list-body">
+        <div class="cx-invoices-list-sort top">
+          <label class="cx-invoices-list-form-group form-group">
+            <span>
+              {{ 'pdfInvoices.sortBy' | cxTranslate }}
+            </span>
+            <cx-sorting
+              [sortOptions]="sortOptions"
+              (sortListEvent)="sortChange($event)"
+              [selectedOption]="sort"
+              placeholder="{{ 'pdfInvoices.sortBy' | cxTranslate }}"
+              [ariaLabel]="'pdfInvoices.sortInvoices' | cxTranslate"
+              ariaControls="cx-invoices-list-table"
+            ></cx-sorting>
+          </label>
+          <div
+            class="cx-invoices-list-pagination"
+            *ngIf="
+              invoicesList.pagination &&
+              invoicesList.pagination.totalPages &&
+              invoicesList.pagination.totalPages > 1
+            "
+          >
+            <cx-pagination
+              [pagination]="pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
+          </div>
+        </div>
+
+        <!-- TABLE -->
+        <table
+          id="cx-invoices-list-table"
+          class="table cx-invoices-list-table"
+          attr.aria-label="{{
+            'pdfInvoices.invoicesTable.label' | cxTranslate
+          }}"
+        >
+          <thead class="cx-invoices-list-thead-mobile">
+            <th scope="col">
+              {{ 'pdfInvoices.invoicesTable.invoiceId' | cxTranslate }}
+            </th>
+            <th scope="col">
+              {{ 'pdfInvoices.invoicesTable.createdAt' | cxTranslate }}
+            </th>
+            <th scope="col">
+              {{ 'pdfInvoices.invoicesTable.netAmount' | cxTranslate }}
+            </th>
+            <th scope="col">
+              {{ 'pdfInvoices.invoicesTable.totalAmount' | cxTranslate }}
+            </th>
+            <th scope="col">
+              <cx-icon
+                [type]="ICON_TYPE.DOWNLOAD"
+                class="cx-invoices-list-attachment-icon"
+                title="{{
+                  'pdfInvoices.invoicesTable.attachment' | cxTranslate
+                }}"
+              ></cx-icon>
+            </th>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let invoice of invoicesList.invoices"
+              class="cx-invoices-list-row"
+            >
+              <td class="cx-invoices-list-code">
+                <div class="cx-invoices-list-label">
+                  {{ 'pdfInvoices.invoicesTable.invoiceId' | cxTranslate }}
+                </div>
+                <div class="cx-invoices-list-value">
+                  {{ invoice.invoiceId }}
+                </div>
+              </td>
+              <td class="cx-invoices-list-date">
+                <div class="cx-invoices-list-label">
+                  {{ 'pdfInvoices.invoicesTable.createdAt' | cxTranslate }}
+                </div>
+                <div class="cx-invoices-list-value">
+                  {{ invoice.createdAt | cxDate: 'longDate' }}
+                </div>
+              </td>
+              <td class="cx-invoices-list-monetary">
+                <div class="cx-invoices-list-label">
+                  {{ 'pdfInvoices.invoicesTable.netAmount' | cxTranslate }}
+                </div>
+                <div class="cx-invoices-list-value">
+                  {{
+                    invoice.netAmount?.formattedValue
+                      ? invoice.netAmount?.formattedValue
+                      : invoice.netAmount?.currencyIso +
+                        '&nbsp;' +
+                        invoice.netAmount?.value
+                  }}
+                </div>
+              </td>
+              <td class="cx-invoices-list-monetary">
+                <div class="cx-invoices-list-label">
+                  {{ 'pdfInvoices.invoicesTable.totalAmount' | cxTranslate }}
+                </div>
+                <div class="cx-invoices-list-value">
+                  {{
+                    invoice.totalAmount?.formattedValue
+                      ? invoice.totalAmount?.formattedValue
+                      : invoice.totalAmount?.currencyIso +
+                        '&nbsp;' +
+                        invoice.totalAmount?.value
+                  }}
+                </div>
+              </td>
+              <td class="cx-invoices-list-attachment">
+                <div class="cx-invoices-list-label">
+                  {{ 'pdfInvoices.invoicesTable.attachment' | cxTranslate }}
+                </div>
+                <div class="cx-invoices-list-value">
+                  <button
+                    *ngIf="invoice.invoiceId"
+                    class="cx-invoices-list-attachment-btn"
+                    (click)="
+                      downloadPDFInvoice(
+                        invoice.invoiceId,
+                        invoice.externalSystemId
+                      )
+                    "
+                    attr.aria-label="{{
+                      'pdfInvoices.invoicesTable.attachmentDescription'
+                        | cxTranslate
+                          : {
+                              id: invoice.invoiceId
+                            }
+                    }}"
+                  >
+                    <cx-icon
+                      [type]="ICON_TYPE.FILE"
+                      class="cx-invoices-list-attachment-icon"
+                      title="{{
+                        'pdfInvoices.invoicesTable.download' | cxTranslate
+                      }}"
+                    >
+                    </cx-icon>
+                    <span
+                      class="cx-invoices-list-attachment-text"
+                      [innerText]="
+                        'pdfInvoices.invoicesTable.download' | cxTranslate
+                      "
+                    >
+                    </span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Select Form and Pagination Bottom -->
+        <div class="cx-invoices-list-sort bottom">
+          <div
+            class="cx-invoices-list-pagination"
+            *ngIf="
+              invoicesList.pagination &&
+              invoicesList.pagination.totalPages &&
+              invoicesList.pagination.totalPages > 1
+            "
+          >
+            <cx-pagination
+              [pagination]="pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

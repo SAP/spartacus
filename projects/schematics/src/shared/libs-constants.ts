@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,10 @@ export const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE];
 export const SPARTACUS_ASM = `@spartacus/asm`;
 export const SPARTACUS_ASM_ROOT = `@spartacus/asm/root`;
 export const SPARTACUS_ASM_ASSETS = `@spartacus/asm/assets`;
+
+export const SPARTACUS_ASM_CUSTOMER_360 = `@spartacus/asm/customer-360`;
+export const SPARTACUS_ASM_CUSTOMER_360_ROOT = `@spartacus/asm/customer-360/root`;
+export const SPARTACUS_ASM_CUSTOMER_360_ASSETS = `@spartacus/asm/customer-360/assets`;
 
 export const SPARTACUS_PICKUP_IN_STORE = '@spartacus/pickup-in-store';
 export const SPARTACUS_PICKUP_IN_STORE_ASSETS = `@spartacus/pickup-in-store/assets`;
@@ -131,6 +135,10 @@ export const SPARTACUS_FUTURE_STOCK = `@spartacus/product/future-stock`;
 export const SPARTACUS_FUTURE_STOCK_ROOT = `@spartacus/product/future-stock/root`;
 export const SPARTACUS_FUTURE_STOCK_ASSETS = `@spartacus/product/future-stock/assets`;
 
+export const SPARTACUS_PDF_INVOICES = `@spartacus/pdf-invoices`;
+export const SPARTACUS_PDF_INVOICES_ROOT = `@spartacus/pdf-invoices/root`;
+export const SPARTACUS_PDF_INVOICES_ASSETS = `@spartacus/pdf-invoices/assets`;
+
 export const SPARTACUS_PRODUCT_CONFIGURATOR = `@spartacus/product-configurator`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `@spartacus/product-configurator/common`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_ASSETS = `@spartacus/product-configurator/common/assets`;
@@ -215,6 +223,7 @@ export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 
 /***** Feature name start *****/
 export const ASM_FEATURE_NAME = 'ASM';
+export const ASM_CUSTOMER_360_FEATURE_NAME = 'ASM-Customer-360';
 
 export const CART_BASE_FEATURE_NAME = 'Cart';
 export const CART_IMPORT_EXPORT_FEATURE_NAME = 'Import-Export';
@@ -261,10 +270,13 @@ export const TRACKING_PERSONALIZATION_FEATURE_NAME = 'Personalization';
 export const TRACKING_TMS_GTM_FEATURE_NAME = 'TMS-GTM';
 export const TRACKING_TMS_AEP_FEATURE_NAME = 'TMS-AEPL';
 
+export const PDF_INVOICES_FEATURE_NAME = 'PDF-Invoices';
+
 export const USER_ACCOUNT_FEATURE_NAME = 'User-Account';
 export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
 
 export const CDC_FEATURE_NAME = 'CDC';
+export const CDC_B2B_FEATURE_NAME = 'CDC-B2B';
 
 export const CDS_FEATURE_NAME = 'CDS';
 

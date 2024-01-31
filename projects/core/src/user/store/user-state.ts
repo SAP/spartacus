@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,6 +33,7 @@ export const SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID = 'subscribeCustomerCoupon';
 export const UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID =
   'unsubscribeCustomerCoupon';
 export const CLAIM_CUSTOMER_COUPON_PROCESS_ID = 'claimCustomerCoupon';
+export const DISCLAIM_CUSTOMER_COUPON_PROCESS_ID = 'disclaimCustomerCoupon';
 export const NOTIFICATION_PREFERENCES = '[User] Notification Preferences';
 export const PRODUCT_INTERESTS = '[User] Product Interests';
 

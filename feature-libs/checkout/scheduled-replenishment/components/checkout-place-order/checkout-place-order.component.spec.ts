@@ -2,7 +2,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import {
   DaysOfWeek,
   OrderFacade,
@@ -11,7 +15,11 @@ import {
   ScheduledReplenishmentOrderFacade,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import {
+  AtMessageModule,
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-place-order.component';
@@ -85,7 +93,12 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule,
+          I18nTestingModule,
+          AtMessageModule,
+        ],
         declarations: [
           MockUrlPipe,
           CheckoutScheduledReplenishmentPlaceOrderComponent,
@@ -101,6 +114,10 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
           {
             provide: ScheduledReplenishmentOrderFacade,
             useClass: MockScheduledReplenishmentOrderFacade,
+          },
+          {
+            provide: GlobalMessageService,
+            useValue: {},
           },
         ],
       }).compileComponents();

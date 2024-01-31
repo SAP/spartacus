@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PaymentDetails } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import {
-  billingAddressCard,
   Order,
+  billingAddressCard,
   paymentMethodCard,
 } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
@@ -53,6 +53,12 @@ export class OrderDetailBillingComponent {
       map(([billingAddress, billTo]) =>
         billingAddressCard(billingAddress, billTo, paymentDetails)
       )
+    );
+  }
+
+  isPaymentInfoCardFull(payment: PaymentDetails): boolean {
+    return (
+      !!payment?.cardNumber && !!payment?.expiryMonth && !!payment?.expiryYear
     );
   }
 }

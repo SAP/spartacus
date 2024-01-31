@@ -1,11 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 /* webpackIgnore: true */
-import { randomUUID } from 'crypto';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
@@ -19,6 +18,7 @@ import {
 } from '../logger';
 import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
 import { RenderingCache } from './rendering-cache';
+import { preprocessRequestForLogger } from './request-context';
 import {
   RenderingStrategy,
   SsrOptimizationOptions,
@@ -254,11 +254,7 @@ export class OptimizedSsrEngine {
     options: any,
     callback: SsrCallbackFn
   ): void {
-    const requestContext = {
-      uuid: randomUUID(),
-      timeReceived: new Date().toISOString(),
-    };
-    options.req.res.locals = { cx: { request: requestContext } };
+    preprocessRequestForLogger(options.req, this.logger);
 
     const request: Request = options.req;
     const response: Response = options.req.res;
@@ -461,6 +457,7 @@ export class OptimizedSsrEngine {
           provide: EXPRESS_SERVER_LOGGER,
           useValue: this.logger,
         },
+        ...(options?.providers ?? []),
       ],
     };
 

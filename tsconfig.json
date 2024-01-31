@@ -25,6 +25,24 @@
       "@spartacus/asm/assets": ["feature-libs/asm/assets/public_api"],
       "@spartacus/asm/components": ["feature-libs/asm/components/public_api"],
       "@spartacus/asm/core": ["feature-libs/asm/core/public_api"],
+      "@spartacus/asm/customer-360/assets": [
+        "feature-libs/asm/customer-360/assets/public_api"
+      ],
+      "@spartacus/asm/customer-360/components": [
+        "feature-libs/asm/customer-360/components/public_api"
+      ],
+      "@spartacus/asm/customer-360/core": [
+        "feature-libs/asm/customer-360/core/public_api"
+      ],
+      "@spartacus/asm/customer-360": [
+        "feature-libs/asm/customer-360/public_api"
+      ],
+      "@spartacus/asm/customer-360/occ": [
+        "feature-libs/asm/customer-360/occ/public_api"
+      ],
+      "@spartacus/asm/customer-360/root": [
+        "feature-libs/asm/customer-360/root/public_api"
+      ],
       "@spartacus/asm": ["feature-libs/asm/public_api"],
       "@spartacus/asm/occ": ["feature-libs/asm/occ/public_api"],
       "@spartacus/asm/root": ["feature-libs/asm/root/public_api"],
@@ -259,6 +277,24 @@
       ],
       "@spartacus/organization/user-registration/root": [
         "feature-libs/organization/user-registration/root/public_api"
+      ],
+      "@spartacus/pdf-invoices/assets": [
+        "feature-libs/pdf-invoices/assets/public_api"
+      ],
+      "@spartacus/pdf-invoices/components": [
+        "feature-libs/pdf-invoices/components/public_api"
+      ],
+      "@spartacus/pdf-invoices/core": [
+        "feature-libs/pdf-invoices/core/public_api"
+      ],
+      "@spartacus/pdf-invoices": [
+        "feature-libs/pdf-invoices/public_api"
+      ],
+      "@spartacus/pdf-invoices/occ": [
+        "feature-libs/pdf-invoices/occ/public_api"
+      ],
+      "@spartacus/pdf-invoices/root": [
+        "feature-libs/pdf-invoices/root/public_api"
       ],
       "@spartacus/pickup-in-store/assets": [
         "feature-libs/pickup-in-store/assets/public_api"

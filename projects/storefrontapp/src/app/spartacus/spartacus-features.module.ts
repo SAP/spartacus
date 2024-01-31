@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,6 +34,7 @@ import {
   LogoutModule,
   MyCouponsModule,
   MyInterestsModule,
+  MyAccountV2Module,
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
@@ -60,6 +61,7 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AsmFeatureModule } from './features/asm/asm-feature.module';
+import { AsmCustomer360FeatureModule } from './features/asm/asm-customer-360-feature.module';
 import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module';
 import { ImportExportFeatureModule } from './features/cart/cart-import-export-feature.module';
 import { QuickOrderFeatureModule } from './features/cart/cart-quick-order-feature.module';
@@ -76,6 +78,7 @@ import { AccountSummaryFeatureModule } from './features/organization/organizatio
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
 import { OrderApprovalFeatureModule } from './features/organization/organization-order-approval-feature.module';
 import { UnitOrderFeatureModule } from './features/organization/organization-unit-order-feature.module';
+import { PDFInvoicesFeatureModule } from './features/pdf-invoices/pdf-invoices-feature.module';
 import { PickupInStoreFeatureModule } from './features/pickup-in-store/pickup-in-store-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator/product-configurator-textfield-feature.module';
@@ -121,6 +124,9 @@ if (environment.digitalPayments) {
 if (environment.epdVisualization) {
   featureModules.push(EpdVisualizationFeatureModule);
 }
+if (environment.pdfInvoices) {
+  featureModules.push(PDFInvoicesFeatureModule);
+}
 if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);
 }
@@ -163,6 +169,7 @@ if (environment.requestedDeliveryDate) {
     PaymentMethodsModule,
     NotificationPreferenceModule,
     MyInterestsModule,
+    MyAccountV2Module,
     StockNotificationModule,
     ConsentManagementModule,
     MyCouponsModule,
@@ -219,6 +226,7 @@ if (environment.requestedDeliveryDate) {
     TrackingFeatureModule,
 
     AsmFeatureModule,
+    AsmCustomer360FeatureModule,
 
     StorefinderFeatureModule,
 

@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Optional } from '@angular/core';
+import { Injectable, Optional, inject } from '@angular/core';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
@@ -12,8 +12,12 @@ import {
   AsmDeepLinkService,
   AsmEnablerService,
 } from '@spartacus/asm/root';
-import { AuthService, WindowRef } from '@spartacus/core';
+import { AuthService, RoutingService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  AsmDialogActionEvent,
+  AsmDialogActionType,
+} from '@spartacus/asm/customer-360/root';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +27,8 @@ export class AsmComponentService {
   isEmulatedByDeepLink$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   protected showDeeplinkCartInfoAlert$: BehaviorSubject<boolean> =
     new BehaviorSubject(false);
+
+  protected routingService = inject(RoutingService);
 
   constructor(
     authService: AuthService,
@@ -129,5 +135,14 @@ export class AsmComponentService {
    */
   handleDeepLinkNavigation(parameters = this.getDeepLinkUrlParams()): void {
     this.asmDeepLinkService?.handleNavigation(parameters);
+  }
+
+  handleAsmDialogAction(event: AsmDialogActionEvent | string): void {
+    if (
+      typeof event === 'object' &&
+      event.actionType === AsmDialogActionType.NAVIGATE
+    ) {
+      this.routingService.go(event.route);
+    }
   }
 }

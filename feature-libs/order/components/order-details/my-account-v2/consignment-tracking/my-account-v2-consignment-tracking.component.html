@@ -1,0 +1,31 @@
+<div *ngIf="consignment" class="cx-list-status">
+  <span>
+    <span *ngIf="consignment.status">
+      {{ 'orderDetails.deliveryStatus_' + consignment.status | cxTranslate }}
+    </span>
+    <span
+      *ngIf="consignmentStatus.includes(consignment.status ?? '')"
+      class="cx-item-list-tracking-id"
+    >
+      <span *ngIf="consignment.trackingID; else showNoTrackingMessage">
+        {{
+          'orderDetails.consignmentTracking.dialog.trackingId' | cxTranslate
+        }}:
+        <a
+          class="cx-tracking-id-link"
+          (click)="openTrackingDialog(consignment)"
+        >
+          {{ consignment.trackingID }}
+        </a>
+      </span>
+    </span>
+  </span>
+  <span *ngIf="consignment?.statusDate" class="cx-consignment-status-date">
+    {{ consignment.statusDate | cxDate }}
+  </span>
+  <ng-template #showNoTrackingMessage>
+    <a class="cx-tracking-id-link" (click)="openTrackingDialog(consignment)">
+      {{ 'orderDetails.consignmentTracking.action' | cxTranslate }}
+    </a>
+  </ng-template>
+</div>

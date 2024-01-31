@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,6 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import {
   CommonConfigurator,
@@ -28,6 +27,7 @@ import {
 import {
   IntersectionOptions,
   IntersectionService,
+  ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import {

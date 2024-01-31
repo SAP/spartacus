@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
@@ -47,7 +48,12 @@ describe('DeliveryModeDatePickerComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DeliveryModeDatePickerComponent],
-      imports: [I18nTestingModule, DatePickerModule, CardModule],
+      imports: [
+        I18nTestingModule,
+        DatePickerModule,
+        CardModule,
+        ReactiveFormsModule,
+      ],
       providers: [
         CxDatePipe,
         EventService,
@@ -227,6 +233,77 @@ describe('DeliveryModeDatePickerComponent', () => {
         );
         done();
       });
+  });
+
+  it('should NOT call setRequestedDeliveryDate when a date less than earliestRetrievalAt is provided', () => {
+    spyOn(component, 'setRequestedDeliveryDate');
+
+    component['requestedDelDateFacade'].setRequestedDeliveryDate = jasmine
+      .createSpy('setRequestedDeliveryDate')
+      .and.returnValue(of({}));
+
+    const requestedRetrievalAt = '2023-05-03';
+    const earliestRetrievalAt = '2023-09-15';
+    const data = TestBed.inject(OutletContextData);
+    data.context$ = of({
+      item: {
+        requestedRetrievalAt,
+        earliestRetrievalAt,
+        code: '123',
+        user: {
+          uid: 'current',
+        },
+      },
+      readonly: false,
+    });
+
+    component.ngOnInit();
+    fixture.detectChanges();
+    const newRequestedRetrievalAt = '2023-01-01';
+    component['form'].patchValue({
+      requestDeliveryDate: newRequestedRetrievalAt,
+    });
+
+    //Manually trigger change event for date picker.
+    const event = new Event('update');
+    const datePickerEl: HTMLInputElement = fixture.debugElement.query(
+      By.css('cx-date-picker')
+    )?.nativeElement;
+    datePickerEl.dispatchEvent(event);
+
+    expect(component['setRequestedDeliveryDate']).toHaveBeenCalled();
+    expect(
+      component['requestedDelDateFacade'].setRequestedDeliveryDate
+    ).not.toHaveBeenCalled();
+  });
+
+  it('should NOT show the date picker when the component outlet value is read only', () => {
+    spyOn(component, 'setRequestedDeliveryDate');
+    const requestedRetrievalAt = '2023-05-03';
+    const earliestRetrievalAt = '2023-09-15';
+    const data = TestBed.inject(OutletContextData);
+    data.context$ = of({
+      item: {
+        requestedRetrievalAt,
+        earliestRetrievalAt,
+        code: '123',
+        user: {
+          uid: 'current',
+        },
+      },
+      readonly: true,
+    });
+
+    component.ngOnInit();
+    fixture.detectChanges();
+    const datePickerEl: HTMLInputElement = fixture.debugElement.query(
+      By.css('cx-date-picker')
+    )?.nativeElement;
+    expect(datePickerEl).toBeUndefined();
+    const datePickerReadOnlyEl: HTMLInputElement = fixture.debugElement.query(
+      By.css('cx-card')
+    )?.nativeElement;
+    expect(datePickerReadOnlyEl.innerHTML).not.toBeNull();
   });
 
   it('should show error message when backend OCC API returns UnknownResourceError', (done) => {

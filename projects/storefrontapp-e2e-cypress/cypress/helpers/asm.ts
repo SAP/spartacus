@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -152,8 +152,14 @@ export function agentLogin(user, pwd): void {
         cy.get('cx-csagent-login-form').should('exist');
         cy.get('cx-customer-selection').should('not.exist');
         cy.get('cx-csagent-login-form form').within(() => {
-          cy.get('[formcontrolname="userId"]').clear().type(user);
-          cy.get('[formcontrolname="password"]').clear().type(pwd);
+          cy.get('[formcontrolname="userId"]')
+            .clear()
+            .type(user)
+            .should('have.value', user);
+          cy.get('[formcontrolname="password"]')
+            .clear()
+            .type(pwd)
+            .should('have.value', pwd);
           cy.get('button[type="submit"]').click();
         });
       });
@@ -558,7 +564,7 @@ export function testCustomerEmulation() {
 
     cy.log('--> Stop customer emulation');
     cy.get('cx-customer-emulation')
-      .findByText(/End Emulation/i)
+      .findByText(/End Session/i)
       .click();
     cy.get('cx-csagent-login-form').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
@@ -581,7 +587,7 @@ export function testCustomerEmulation() {
       '--> Stop customer emulation using the end emulation button in the ASM UI'
     );
     cy.get('cx-customer-emulation')
-      .findByText(/End Emulation/i)
+      .findByText(/End Session/i)
       .click();
     cy.get('cx-customer-emulation').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');

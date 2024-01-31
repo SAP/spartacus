@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -866,6 +866,7 @@ export const LOGIN_MODULE = 'LoginModule';
 export const LOGIN_FORM_MODULE = 'LoginFormModule';
 export const LOGIN_REGISTER_COMPONENT = 'LoginRegisterComponent';
 export const LOGIN_REGISTER_MODULE = 'LoginRegisterModule';
+
 export const UPDATE_EMAIL_MODULE = 'UpdateEmailModule';
 export const UPDATE_PASSWORD_MODULE = 'UpdatePasswordModule';
 export const UPDATE_PROFILE_MODULE = 'UpdateProfileModule';

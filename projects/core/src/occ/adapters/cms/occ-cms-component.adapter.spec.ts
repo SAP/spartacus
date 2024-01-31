@@ -12,6 +12,9 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { FeatureConfigService, UserIdService } from '@spartacus/core';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -29,6 +32,8 @@ class CmsStructureConfigServiceMock {}
 
 const endpoint = '/cms';
 
+const userEndpoint = '/users/${userId}/cms';
+
 class OccEndpointsServiceMock {
   buildUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
     return '';
@@ -42,11 +47,11 @@ const context: PageContext = {
 
 const ids = ['comp_uid1', 'comp_uid2'];
 
-const spyOnLoadEndpoint =
-  endpoint + `/components/comp1?productCode=${context.id}`;
+const spyOnLoadEndpoint = (_endpoint = endpoint) =>
+  _endpoint + `/components/comp1?productCode=${context.id}`;
 
-const spyOnGetEndpoint =
-  endpoint +
+const spyOnGetEndpoint = (_endpoint = endpoint) =>
+  _endpoint +
   `/components?componentIds=${ids.toString()}&productCode=${context.id}`;
 
 describe('OccCmsComponentAdapter', () => {
@@ -54,12 +59,15 @@ describe('OccCmsComponentAdapter', () => {
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let endpointsService: OccEndpointsService;
+  let userIdService: UserIdService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         OccCmsComponentAdapter,
+        UserIdService,
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
         {
           provide: CmsStructureConfigService,
@@ -71,6 +79,8 @@ describe('OccCmsComponentAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     endpointsService = TestBed.inject(OccEndpointsService);
+    userIdService = TestBed.inject(UserIdService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -80,67 +90,168 @@ describe('OccCmsComponentAdapter', () => {
     httpMock.verify();
   });
 
-  describe('load', () => {
-    it('should get cms component data', () => {
-      spyOnEndpoint(spyOnLoadEndpoint);
-
-      service.load('comp1', context).subscribe((result) => {
-        expect(result).toEqual(component);
-      });
-
-      const testRequest = mockHttpRequest('GET', spyOnLoadEndpoint);
-
-      expect(endpointsService.buildUrl).toHaveBeenCalledWith('component', {
-        urlParams: { id: 'comp1' },
-        queryParams: { productCode: '123' },
-      });
-
-      assertTestRequest(testRequest, component);
+  describe('user endpoints', () => {
+    beforeEach(() => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
     });
 
-    it('should use normalizer', () => {
-      spyOnEndpoint(spyOnLoadEndpoint);
+    describe('load', () => {
+      it('should get cms component data', (done) => {
+        spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
+        spyOnEndpoint(spyOnLoadEndpoint(userEndpoint));
 
-      service.load('comp1', context).subscribe();
+        service.load('comp1', context).subscribe((result) => {
+          expect(result).toEqual(component);
+        });
 
-      assertNormalizer(spyOnLoadEndpoint);
+        const testRequest = mockHttpRequest(
+          'GET',
+          spyOnLoadEndpoint(userEndpoint)
+        );
 
-      expect(converter.pipeable).toHaveBeenCalledWith(CMS_COMPONENT_NORMALIZER);
+        expect(endpointsService.buildUrl).toHaveBeenCalledWith('component', {
+          urlParams: { id: 'comp1', userId: 'anonymous' },
+          queryParams: { productCode: '123' },
+        });
+
+        assertTestRequest(testRequest, component);
+        done();
+      });
+
+      it('should use normalizer', (done) => {
+        spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
+        spyOnEndpoint(spyOnLoadEndpoint(userEndpoint));
+
+        service.load('comp1', context).subscribe();
+
+        assertNormalizer(spyOnLoadEndpoint(userEndpoint));
+
+        expect(converter.pipeable).toHaveBeenCalledWith(
+          CMS_COMPONENT_NORMALIZER
+        );
+        done();
+      });
+    });
+
+    describe('load list of cms component data using GET request', () => {
+      it('should get a list of cms component data using GET request without pagination parameters', (done) => {
+        spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
+        spyOnEndpoint(spyOnGetEndpoint(userEndpoint));
+
+        assertGetSubscription(service).subscribe();
+        const testRequest = mockHttpRequest(
+          'GET',
+          spyOnGetEndpoint(userEndpoint)
+        );
+
+        assertGetRequestGetUrl('DEFAULT', '2', true);
+
+        assertTestRequest(testRequest, componentList);
+        done();
+      });
+
+      it('should get a list of cms component data using GET request with pagination parameters', (done) => {
+        spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
+        spyOnEndpoint(spyOnGetEndpoint(userEndpoint));
+
+        assertGetSubscription(service, 'FULL', 0, 5).subscribe();
+        const testRequest = mockHttpRequest(
+          'GET',
+          spyOnGetEndpoint(userEndpoint)
+        );
+
+        assertGetRequestGetUrl('FULL', '5', true);
+
+        assertTestRequest(testRequest, componentList);
+        done();
+      });
+
+      it('should use normalizer', (done) => {
+        spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
+        spyOnEndpoint(spyOnGetEndpoint(userEndpoint));
+
+        assertGetSubscription(service).subscribe();
+        assertNormalizer(spyOnGetEndpoint(userEndpoint));
+        assertConverterPipeableMany();
+        done();
+      });
     });
   });
 
-  describe('load list of cms component data using GET request', () => {
-    it('should get a list of cms component data using GET request without pagination parameters', () => {
-      spyOnEndpoint(spyOnGetEndpoint);
-
-      assertGetSubscription(service);
-
-      const testRequest = mockHttpRequest('GET', spyOnGetEndpoint);
-
-      assertGetRequestGetUrl('DEFAULT', '2');
-
-      assertTestRequest(testRequest, componentList);
+  describe('default endpoints', () => {
+    beforeEach(() => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
     });
 
-    it('should get a list of cms component data using GET request with pagination parameters', () => {
-      spyOnEndpoint(spyOnGetEndpoint);
+    describe('load', () => {
+      it('should get cms component data', (done) => {
+        spyOnEndpoint(spyOnLoadEndpoint());
 
-      assertGetSubscription(service, 'FULL', 0, 5);
+        service.load('comp1', context).subscribe((result) => {
+          expect(result).toEqual(component);
+        });
 
-      const testRequest = mockHttpRequest('GET', spyOnGetEndpoint);
+        const testRequest = mockHttpRequest('GET', spyOnLoadEndpoint());
 
-      assertGetRequestGetUrl('FULL', '5');
+        expect(endpointsService.buildUrl).toHaveBeenCalledWith('component', {
+          urlParams: { id: 'comp1' },
+          queryParams: { productCode: '123' },
+        });
 
-      assertTestRequest(testRequest, componentList);
+        assertTestRequest(testRequest, component);
+        done();
+      });
+
+      it('should use normalizer', (done) => {
+        spyOnEndpoint(spyOnLoadEndpoint());
+
+        service.load('comp1', context).subscribe();
+
+        assertNormalizer(spyOnLoadEndpoint());
+
+        expect(converter.pipeable).toHaveBeenCalledWith(
+          CMS_COMPONENT_NORMALIZER
+        );
+        done();
+      });
     });
 
-    it('should use normalizer', () => {
-      spyOnEndpoint(spyOnGetEndpoint);
+    describe('load list of cms component data using GET request', () => {
+      it('should get a list of cms component data using GET request without pagination parameters', (done) => {
+        spyOnEndpoint(spyOnGetEndpoint());
 
-      assertGetSubscription(service);
+        assertGetSubscription(service).subscribe();
 
-      assertNormalizer(spyOnGetEndpoint);
-      assertConverterPipeableMany();
+        const testRequest = mockHttpRequest('GET', spyOnGetEndpoint());
+
+        assertGetRequestGetUrl('DEFAULT', '2');
+
+        assertTestRequest(testRequest, componentList);
+        done();
+      });
+
+      it('should get a list of cms component data using GET request with pagination parameters', (done) => {
+        spyOnEndpoint(spyOnGetEndpoint());
+
+        assertGetSubscription(service, 'FULL', 0, 5).subscribe();
+
+        const testRequest = mockHttpRequest('GET', spyOnGetEndpoint());
+
+        assertGetRequestGetUrl('FULL', '5');
+
+        assertTestRequest(testRequest, componentList);
+        done();
+      });
+
+      it('should use normalizer', (done) => {
+        spyOnEndpoint(spyOnGetEndpoint());
+
+        assertGetSubscription(service).subscribe();
+
+        assertNormalizer(spyOnGetEndpoint());
+        assertConverterPipeableMany();
+        done();
+      });
     });
   });
 
@@ -166,16 +277,30 @@ describe('OccCmsComponentAdapter', () => {
     testRequest.flush(componentObj);
   }
 
-  function assertGetRequestGetUrl(fields: string, pageSize: string) {
-    expect(endpointsService.buildUrl).toHaveBeenCalledWith('components', {
-      queryParams: {
-        fields,
-        componentIds: ids.toString(),
-        productCode: '123',
-        currentPage: '0',
-        pageSize,
-      },
-    });
+  function assertGetRequestGetUrl(
+    fields: string,
+    pageSize: string,
+    isUserId = false
+  ) {
+    const queryParams = {
+      fields,
+      componentIds: ids.toString(),
+      productCode: '123',
+      currentPage: '0',
+      pageSize,
+    };
+
+    expect(endpointsService.buildUrl).toHaveBeenCalledWith(
+      'components',
+      isUserId
+        ? {
+            queryParams,
+            urlParams: { userId: 'anonymous' },
+          }
+        : {
+            queryParams,
+          }
+    );
   }
 
   function assertConverterPipeableMany() {
@@ -193,11 +318,13 @@ describe('OccCmsComponentAdapter', () => {
     fields?: string,
     currentPage?: number,
     pageSize?: number
-  ) {
-    adapter
+  ): Observable<CmsComponent[]> {
+    return adapter
       .findComponentsByIds(ids, context, fields, currentPage, pageSize)
-      .subscribe((result) => {
-        expect(result).toEqual(componentList.component);
-      });
+      .pipe(
+        tap((result) => {
+          expect(result).toEqual(componentList.component);
+        })
+      );
   }
 });

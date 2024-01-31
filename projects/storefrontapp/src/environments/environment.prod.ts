@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,4 +19,6 @@ export const environment: Environment = {
   s4om: buildProcess.env.CX_S4OM,
   segmentRefs: buildProcess.env.CX_SEGMENT_REFS,
   requestedDeliveryDate: buildProcess.env.CX_REQUESTED_DELIVERY_DATE,
+  pdfInvoices: buildProcess.env.CX_PDF_INVOICES,
+  myAccountV2: buildProcess.env.CX_MY_ACCOUNT_V2 ?? false,
 };

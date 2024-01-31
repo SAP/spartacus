@@ -18,6 +18,14 @@
       "@spartacus/asm/assets": ["dist/asm/assets"],
       "@spartacus/asm/components": ["dist/asm/components"],
       "@spartacus/asm/core": ["dist/asm/core"],
+      "@spartacus/asm/customer-360/assets": ["dist/asm/customer-360/assets"],
+      "@spartacus/asm/customer-360/components": [
+        "dist/asm/customer-360/components"
+      ],
+      "@spartacus/asm/customer-360/core": ["dist/asm/customer-360/core"],
+      "@spartacus/asm/customer-360": ["dist/asm/customer-360"],
+      "@spartacus/asm/customer-360/occ": ["dist/asm/customer-360/occ"],
+      "@spartacus/asm/customer-360/root": ["dist/asm/customer-360/root"],
       "@spartacus/asm": ["dist/asm"],
       "@spartacus/asm/occ": ["dist/asm/occ"],
       "@spartacus/asm/root": ["dist/asm/root"],
@@ -168,7 +176,19 @@
       "@spartacus/order/core": ["dist/order/core"],
       "@spartacus/order": ["dist/order"],
       "@spartacus/order/occ": ["dist/order/occ"],
-      "@spartacus/order/root": ["dist/order/root"]
+      "@spartacus/order/root": ["dist/order/root"],
+      "@spartacus/storefinder/assets": ["dist/storefinder/assets"],
+      "@spartacus/storefinder/components": ["dist/storefinder/components"],
+      "@spartacus/storefinder/core": ["dist/storefinder/core"],
+      "@spartacus/storefinder": ["dist/storefinder"],
+      "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
+      "@spartacus/storefinder/root": ["dist/storefinder/root"],
+      "@spartacus/pdf-invoices/assets": ["dist/pdf-invoices/assets"],
+      "@spartacus/pdf-invoices/components": ["dist/pdf-invoices/components"],
+      "@spartacus/pdf-invoices/core": ["dist/pdf-invoices/core"],
+      "@spartacus/pdf-invoices": ["dist/pdf-invoices"],
+      "@spartacus/pdf-invoices/occ": ["dist/pdf-invoices/occ"],
+      "@spartacus/pdf-invoices/root": ["dist/pdf-invoices/root"]
     }
   },
   "angularCompilerOptions": {
