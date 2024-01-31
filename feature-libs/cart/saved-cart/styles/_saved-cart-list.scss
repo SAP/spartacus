@@ -149,25 +149,12 @@ cx-saved-cart-list {
   .cx-saved-cart-list-no-saved-carts {
     font-size: var(--cx-font-size, 1rem);
     font-weight: $font-weight-normal;
-
-    @include forVersion(4.1) {
-      min-height: 415px;
-    }
-    @include forVersion(4.2) {
-      min-height: auto;
-    }
+    min-height: auto;
 
     @include media-breakpoint-down(md) {
       padding-inline-start: 1.25rem;
       padding-inline-end: 1.25rem;
-
-      @include forVersion(4.1) {
-        min-height: 474px;
-      }
-
-      @include forVersion(4.2) {
-        min-height: auto;
-      }
+      min-height: auto;
     }
   }
 }
