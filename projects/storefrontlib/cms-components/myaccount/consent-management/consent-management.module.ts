@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule, inject } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   AuthGuard,
@@ -19,7 +19,6 @@ import { IconModule } from '../../misc/icon/icon.module';
 import { ConsentManagementFormComponent } from './components/consent-form/consent-management-form.component';
 import { ConsentManagementComponent } from './components/consent-management.component';
 import { ConsentManagementComponentService } from './consent-management-component.service';
-import { USE_MY_ACCOUNT_V2_CONSENT } from '../my-account-v2/token';
 import { MyAccountV2ConsentManagementComponent } from '../my-account-v2/my-account-v2-consent-management';
 
 const myAccountV2CmsMapping: CmsConfig = {

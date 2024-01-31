@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule, inject } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -25,7 +25,6 @@ import {
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { UpdateProfileComponent } from './update-profile.component';
-import { USE_MY_ACCOUNT_V2_PROFILE } from './token/context';
 import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 
