@@ -18,10 +18,10 @@ import {
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Subject, of } from 'rxjs';
-import { UpdateEmailComponentService } from './my-account-v2-email-component.service';
 import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
 import createSpy = jasmine.createSpy;
-import { UserProfileFacade } from '../../../root/facade';
+import { UpdateEmailComponentService } from './update-email-component.service';
+import { UserProfileFacade } from '../../root/facade';
 
 @Component({
   selector: 'cx-spinner',
