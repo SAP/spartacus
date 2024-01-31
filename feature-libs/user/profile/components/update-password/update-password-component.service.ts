@@ -42,10 +42,7 @@ export class UpdatePasswordComponentService {
   form: UntypedFormGroup = new UntypedFormGroup(
     {
       oldPassword: new UntypedFormControl('', Validators.required),
-      newPassword: new UntypedFormControl('', [
-        Validators.required,
-        CustomFormValidators.passwordValidator,
-      ]),
+      newPassword: new UntypedFormControl('', Validators.required),
       newPasswordConfirm: new UntypedFormControl('', Validators.required),
     },
     {
@@ -78,7 +75,7 @@ export class UpdatePasswordComponentService {
 
   protected onSuccess(): void {
     this.globalMessageService.add(
-      { key: 'updatePasswordForm.passwordUpdateSuccess' },
+      { key: 'myAccountV2PasswordForm.passwordUpdateSuccess' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
     this.busy$.next(false);
@@ -100,7 +97,7 @@ export class UpdatePasswordComponentService {
       _error.details?.[0].type === 'AccessDeniedError'
     ) {
       this.globalMessageService.add(
-        { key: 'updatePasswordForm.accessDeniedError' },
+        { key: 'myAccountV2PasswordForm.accessDeniedError' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }

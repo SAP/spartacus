@@ -18,9 +18,9 @@ import {
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject } from 'rxjs';
-import { MyAccountV2PasswordComponentService } from './my-account-v2-password-component.service';
 import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 import createSpy = jasmine.createSpy;
+import { UpdatePasswordComponentService } from './update-password-component.service';
 
 @Component({
   selector: 'cx-spinner',
@@ -30,7 +30,7 @@ class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
 class MockUpdatePasswordService
-  implements Partial<MyAccountV2PasswordComponentService>
+  implements Partial<UpdatePasswordComponentService>
 {
   form: UntypedFormGroup = new UntypedFormGroup({
     oldPassword: new UntypedFormControl(),
@@ -47,7 +47,7 @@ describe('MyAccountV2PasswordComponent', () => {
   let fixture: ComponentFixture<MyAccountV2PasswordComponent>;
   let el: DebugElement;
 
-  let service: MyAccountV2PasswordComponentService;
+  let service: UpdatePasswordComponentService;
 
   beforeEach(
     waitForAsync(() => {
@@ -63,7 +63,7 @@ describe('MyAccountV2PasswordComponent', () => {
         declarations: [MyAccountV2PasswordComponent, MockCxSpinnerComponent],
         providers: [
           {
-            provide: MyAccountV2PasswordComponentService,
+            provide: UpdatePasswordComponentService,
             useClass: MockUpdatePasswordService,
           },
         ],
@@ -79,7 +79,7 @@ describe('MyAccountV2PasswordComponent', () => {
     fixture = TestBed.createComponent(MyAccountV2PasswordComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    service = TestBed.inject(MyAccountV2PasswordComponentService);
+    service = TestBed.inject(UpdatePasswordComponentService);
     fixture.detectChanges();
   });
 
