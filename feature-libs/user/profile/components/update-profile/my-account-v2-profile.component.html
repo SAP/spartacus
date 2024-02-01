@@ -3,14 +3,14 @@
 <div>
   <div>
     <div class="row">
-      <div class="col-sm-6">
-        <label class="myaccount-enhancedUI-headertext"
+      <div class="col-sm-10">
+        <label class="headertext"
           >{{ 'myAccountV2UserProfile.myInformation' | cxTranslate }}
         </label>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-2">
         <button
-          class="myaccount-enhancedUI-editButton"
+          class="editButton"
           *ngIf="!isEditing"
           (click)="onEdit()"
         >
@@ -22,36 +22,36 @@
   <div *ngIf="!isEditing">
     <div class="row">
       <div class="col-sm-2">
-        <label class="myaccount-enhancedUI-text-head">
+        <label class="text-head">
           {{ 'myAccountV2UserProfile.title' | cxTranslate }}
         </label>
       </div>
       <div class="col-sm-6">
-        <label class="myaccount-enhancedUI-value">
+        <label class="value">
           {{ (user$ | async)?.title }}
         </label>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-2">
-        <label class="myaccount-enhancedUI-text-head">
+        <label class="text-head">
           {{ 'myAccountV2UserProfile.name' | cxTranslate }}
         </label>
       </div>
       <div class="col-sm-6">
-        <label class="myaccount-enhancedUI-value">
+        <label class="value">
           {{ (user$ | async)?.firstName }} {{ (user$ | async)?.lastName }}
         </label>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-2">
-        <label class="myaccount-enhancedUI-text-head">
+        <label class="text-head">
           {{ 'myAccountV2UserProfile.customerId' | cxTranslate }}
         </label>
       </div>
       <div class="col-sm-6">
-        <label class="myaccount-enhancedUI-value">
+        <label class="value">
           {{ (user$ | async)?.customerId }}
         </label>
       </div>
@@ -60,7 +60,7 @@
   <div *ngIf="isEditing" class="myaccount-editing-area">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <label>
-        <span class="label-content, myaccount-enhancedUI-text-head">{{
+        <span class="label-content, text-head">{{
           'myAccountV2UserProfile.title' | cxTranslate
         }}</span>
         <ng-select
@@ -80,7 +80,7 @@
         </ng-select>
       </label>
       <label>
-        <span class="label-content, myaccount-enhancedUI-text-head">{{
+        <span class="label-content, text-head">{{
           'myAccountV2UserProfile.firstName' | cxTranslate
         }}</span>
         <input
@@ -94,7 +94,7 @@
       </label>
 
       <label>
-        <span class="label-content, myaccount-enhancedUI-text-head">{{
+        <span class="label-content, text-head">{{
           'myAccountV2UserProfile.lastName' | cxTranslate
         }}</span>
         <input
@@ -108,7 +108,7 @@
       </label>
 
       <label>
-        <span class="label-content, myaccount-enhancedUI-text-head">{{
+        <span class="label-content, text-head">{{
           'myAccountV2UserProfile.customerId' | cxTranslate
         }}</span>
         <input
@@ -127,14 +127,14 @@
         <button
           class="
             btn
-            myaccount-enhancedUI-button-cancel myaccount-enhancedUI-button
+            button-cancel button
           "
           (click)="cancelEdit()"
         >
           {{ 'common.cancel' | cxTranslate }}
         </button>
         <button
-          class="btn btn-primary myaccount-enhancedUI-button"
+          class="btn btn-primary button"
           (click)="onSubmit()"
           [disabled]="form.disabled"
         >
