@@ -10,13 +10,13 @@ import {
 } from '../../../../helpers/accessibility/tabbing-order.model';
 
 export const tabbingOrderConfig: TabbingOrderConfig = {
-  myAccountEmailV2Display: [
+  myAccountV2EmailDisplay: [
     {
       value: 'Edit',
       type: TabbingOrderTypes.BUTTON,
     },
   ],
-  myAccountEmailV2Edit: [
+  myAccountV2EmailEdit: [
     {
       type: TabbingOrderTypes.BUTTON,
     },
@@ -44,13 +44,13 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
     },
   ],
-  myAccountProfileV2Display: [
+  myAccountV2ProfileDisplay: [
     {
       value: 'Edit',
       type: TabbingOrderTypes.BUTTON,
     },
   ],
-  myAccountProfileV2Edit: [
+  myAccountV2ProfileEdit: [
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
     },
