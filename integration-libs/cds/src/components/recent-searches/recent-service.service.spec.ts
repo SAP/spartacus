@@ -37,6 +37,7 @@ describe('RecentSearchesService', () => {
         addListener: (callback: (recentSearches: string[]) => void) => {
           callback(mockRecentSearches);
         },
+        getPhrases: () => mockRecentSearches,
       },
     };
     recentSearchesService['addRecentSearchesListener']();
@@ -76,6 +77,7 @@ describe('RecentSearchesService', () => {
         addListener: (callback: (recentSearches: string[]) => void) => {
           callback(mockRecentSearches);
         },
+        getPhrases: () => mockRecentSearches,
       },
     };
     recentSearchesService['addRecentSearchesListener']();
