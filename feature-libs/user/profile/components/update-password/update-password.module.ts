@@ -30,7 +30,7 @@ import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
 
-import { USE_MY_ACCOUNT_V2_PASSWORD } from './token/context';
+import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 
 const myAccountV2PasswordMapping: CmsConfig = {

@@ -19,7 +19,7 @@ import { IconModule } from '../../misc/icon/icon.module';
 import { ConsentManagementFormComponent } from './components/consent-form/consent-management-form.component';
 import { ConsentManagementComponent } from './components/consent-management.component';
 import { ConsentManagementComponentService } from './consent-management-component.service';
-import { USE_MY_ACCOUNT_V2_CONSENT } from '../my-account-v2/token';
+import { USE_MY_ACCOUNT_V2_CONSENT } from '../my-account-v2/use-my-account-v2-consent-notification-perference';
 import { MyAccountV2ConsentManagementComponent } from '../my-account-v2/my-account-v2-consent-management';
 
 const myAccountV2CmsMapping: CmsConfig = {

@@ -18,7 +18,7 @@ import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { NotificationPreferenceComponent } from './notification-preference.component';
-import { USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE } from '../my-account-v2/token';
+import { USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE } from '../my-account-v2/use-my-account-v2-consent-notification-perference';
 import { MyAccountV2NotificationPreferenceComponent } from '../my-account-v2';
 
 const myAccountV2CmsMapping: CmsConfig = {
