@@ -9,6 +9,7 @@ import {
   OutletContextData,
   SearchBoxComponentService,
 } from '@spartacus/storefront';
+import { WindowRef } from '@spartacus/core';
 import { RecentSearchesService } from './recent-searches.service';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -32,7 +33,7 @@ export class RecentSearchesComponent implements OnInit {
       return this.recentSearchesService.recentSearches$.pipe(
         map((recentSearches) => {
           return recentSearches
-            .filter((phrase) => phrase.includes(context.search))
+            .filter((phrase) => phrase.includes(context.search.toLowerCase()))
             .slice(0, context.maxRecentSearches || MAX_RECENT_SEARCHES);
         })
       );
@@ -41,17 +42,24 @@ export class RecentSearchesComponent implements OnInit {
 
   outletContext$: Observable<SearchBoxOutlet>;
   constructor(
-    @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
+    @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>,
+    protected winRef: WindowRef
   ) {}
   ngOnInit() {
     this.outletContext$ = this.outletContext.context$;
   }
-
   preventDefault(ev: UIEvent): void {
     ev.preventDefault();
   }
 
   updateChosenWord(chosenWord: string) {
     this.searchBoxComponentService.changeSelectedWord(chosenWord);
+  }
+
+  shareEvent(event: KeyboardEvent) {
+    if (!event) {
+      throw new Error('Missing Event');
+    }
+    this.searchBoxComponentService.shareEvent(event);
   }
 }

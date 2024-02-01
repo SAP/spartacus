@@ -69,7 +69,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    */
   private ignoreCloseEvent = false;
   chosenWord = '';
-  public subscription: Subscription;
+  protected subscriptions = new Subscription();
 
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
@@ -111,7 +111,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
-    this.subscription = this.routingService
+    const routeStateSubscribtion = this.routingService
       .getRouterState()
       .pipe(filter((data) => !data.nextState))
       .subscribe((data) => {
@@ -124,10 +124,21 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           this.chosenWord = '';
         }
       });
+    this.subscriptions.add(routeStateSubscribtion);
 
-    this.searchBoxComponentService.chosenWord.subscribe((chosenWord) => {
-      this.updateChosenWord(chosenWord);
-    });
+    const chosenWordSubsribtion =
+      this.searchBoxComponentService.chosenWord.subscribe((chosenWord) => {
+        this.updateChosenWord(chosenWord);
+      });
+    this.subscriptions.add(chosenWordSubsribtion);
+
+    const UIEventSubscription =
+      this.searchBoxComponentService.sharedEvent.subscribe(
+        (event: KeyboardEvent) => {
+          this.propagateEvent(event);
+        }
+      );
+    this.subscriptions.add(UIEventSubscription);
   }
 
   /**
@@ -209,7 +220,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   private getResultElements(): HTMLElement[] {
     return Array.from(
       this.winRef.document.querySelectorAll(
-        '.products > li a, .suggestions > li a'
+        '.products > li a, .suggestions > li a, .recent-searches > li a'
       )
     );
   }
@@ -225,6 +236,27 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   private getFocusedIndex(): number {
     return this.getResultElements().indexOf(this.getFocusedElement());
+  }
+
+  private propagateEvent(event: KeyboardEvent) {
+    if (event.code) {
+      switch (event.code) {
+        case 'Escape':
+        case 'Enter':
+          this.close(event, true);
+          return;
+        case 'ArrowUp':
+          this.focusPreviousChild(event);
+          return;
+        case 'ArrowDown':
+          this.focusNextChild(event);
+          return;
+        default:
+          return;
+      }
+    } else if (event.type === 'blur') {
+      this.close(event);
+    }
   }
 
   // Focus on previous item in results list
@@ -303,6 +335,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.subscriptions?.unsubscribe();
   }
 }

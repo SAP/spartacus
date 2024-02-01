@@ -113,6 +113,7 @@ describe('SearchBoxComponent', () => {
     implements Partial<SearchBoxComponentService>
   {
     chosenWord = new ReplaySubject<string>();
+    sharedEvent = new ReplaySubject<KeyboardEvent>();
     launchSearchPage = jasmine.createSpy('launchSearchPage');
     getResults = jasmine.createSpy('search').and.callFake(() =>
       of(<SearchResults>{

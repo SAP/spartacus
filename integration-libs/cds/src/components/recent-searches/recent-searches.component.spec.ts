@@ -52,6 +52,7 @@ describe('RecentSearchesComponent', () => {
 
   const searchBoxComponentServiceMock = {
     changeSelectedWord: jasmine.createSpy('changeSelectedWord'),
+    shareEvent: jasmine.createSpy('shareEvent'),
   };
 
   beforeEach(async () => {
@@ -121,5 +122,27 @@ describe('RecentSearchesComponent', () => {
     component.preventDefault(ev);
 
     expect(ev.preventDefault).toHaveBeenCalled();
+  });
+
+  it(`should call the 'shareEvent' method of 'searchBoxComponentService' with the provided 'KeyboardEvent' parameter`, () => {
+    const ev = new KeyboardEvent('keydown');
+    component.shareEvent(ev);
+    expect(searchBoxComponentServiceMock.shareEvent).toHaveBeenCalledWith(ev);
+  });
+
+  it('should not throw any errors or exceptions', () => {
+    const ev = new KeyboardEvent('keydown');
+
+    expect(() => {
+      component.shareEvent(ev);
+    }).not.toThrow();
+  });
+
+  it(`should throw an error if the 'KeyboardEvent' parameter is null or undefined`, () => {
+    const ev = null;
+
+    expect(() => {
+      component.shareEvent(ev);
+    }).toThrowError();
   });
 });

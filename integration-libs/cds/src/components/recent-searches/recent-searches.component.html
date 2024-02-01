@@ -26,7 +26,12 @@
             params: { query: recentSearch }
           } | cxUrl
         "
-        (mousedown)="preventDefault($event)"
+        (mousedown)="$event.preventDefault()"
+        (keydown.arrowup)="shareEvent($any($event))"
+        (keydown.arrowdown)="shareEvent($any($event))"
+        (keydown.enter)="shareEvent($any($event))"
+        (keydown.escape)="shareEvent($any($event))"
+        (blur)="shareEvent($any($event))"
         (click)="updateChosenWord(recentSearch)"
       >
       </a>

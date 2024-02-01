@@ -29,6 +29,8 @@ const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
 })
 export class SearchBoxComponentService {
   chosenWord = new ReplaySubject<string>();
+  sharedEvent = new ReplaySubject<KeyboardEvent>();
+
   constructor(
     public searchService: SearchboxService,
     protected routingService: RoutingService,
@@ -270,5 +272,9 @@ export class SearchBoxComponentService {
 
   changeSelectedWord(selectedWord: string) {
     this.chosenWord.next(selectedWord);
+  }
+
+  shareEvent($event: KeyboardEvent) {
+    this.sharedEvent.next($event);
   }
 }
