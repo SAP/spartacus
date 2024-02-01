@@ -27,7 +27,6 @@ import {
   UserProfileRootModule,
   USER_PROFILE_FEATURE,
 } from '@spartacus/user/profile/root';
-import { environment } from '../../../../environments/environment';
 
 @NgModule({
   imports: [UserAccountRootModule, UserProfileRootModule],
@@ -61,15 +60,15 @@ import { environment } from '../../../../environments/environment';
     }),
     {
       provide: USE_MY_ACCOUNT_V2_PROFILE,
-      useValue: environment.myAccountV2,
+      useValue: true,
     },
     {
       provide: USE_MY_ACCOUNT_V2_EMAIL,
-      useValue: environment.myAccountV2,
+      useValue: true,
     },
     {
       provide: USE_MY_ACCOUNT_V2_PASSWORD,
-      useValue: environment.myAccountV2,
+      useValue: true,
     },
     provideConfig(<I18nConfig>{
       i18n: {
