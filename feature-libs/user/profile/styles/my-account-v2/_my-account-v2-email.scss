@@ -1,12 +1,12 @@
 %cx-my-account-v2-email {
-  .email-enhancedUI-headertext {
+  .headertext {
     font-size: $h3-font-size;
     font-weight: var(--cx-font-weight-semi);
     color: $text;
     padding-bottom: 1.5rem;
   }
 
-  .email-enhancedUI-editButton {
+  .editButton {
     float: right;
     font-size: $font-size-base;
     color: $primary;
@@ -14,13 +14,13 @@
     background-color: transparent;
   }
 
-  .email-enhancedUI-text-head {
+  .text-head {
     font-weight: var(--cx-font-weight-semi);
     min-width: 7.5rem;
     color: $background-dark;
   }
 
-  .email-enhancedUI-value {
+  .value {
     font-weight: var(--cx-font-weight-normal);
     color: $dark;
     text-overflow: ellipsis;
@@ -28,13 +28,13 @@
     white-space: nowrap;
   }
 
-  .email-enhancedUI-button {
+  .button {
     font-weight: var(--cx-font-weight-normal);
     padding: 0.8rem, 1.5rem, 0.8rem, 1.5rem;
     font-size: $font-size-base;
   }
 
-  .email-enhancedUI-button-cancel {
+  .button-cancel {
     color: $primary;
   }
 
