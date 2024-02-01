@@ -44,7 +44,7 @@ SPARTACUS_PROJECTS=(
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='develop-next-major'
+BRANCH='holidays-deploy-myaccount-v2'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
