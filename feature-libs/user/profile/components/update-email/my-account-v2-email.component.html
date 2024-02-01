@@ -12,11 +12,7 @@
         </label>
       </div>
       <div class="col-sm-6">
-        <button
-          class="editButton"
-          *ngIf="!isEditing"
-          (click)="onEdit()"
-        >
+        <button class="editButton" *ngIf="!isEditing" (click)="onEdit()">
           {{ 'common.edit' | cxTranslate }}
         </button>
       </div>
@@ -115,10 +111,7 @@
 
       <div class="btn-group-row">
         <div class="btn-group">
-          <button
-            class="btn button-cancel button"
-            (click)="cancelEdit()"
-          >
+          <button class="btn button-cancel button" (click)="cancelEdit()">
             {{ 'common.cancel' | cxTranslate }}
           </button>
           <button
