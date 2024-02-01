@@ -390,7 +390,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   notificationPreference: [
     { value: 'Email', type: TabbingOrderTypes.CHECKBOX_WITH_LABEL },
   ],
-  notificationPreferenceV2: [
+  myAccountV2NotificationPreference: [
     { value: 'Email', type: TabbingOrderTypes.CHECKBOX_WITH_LABEL },
   ],
   updateEmail: [
@@ -521,7 +521,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'I approve to this sample STORE USER INFORMATION consent',
     },
   ],
-  consentManagementV2: [
+  myAccountV2ConsentManagement: [
     {
       type: TabbingOrderTypes.LINK,
       value: 'Disable all',

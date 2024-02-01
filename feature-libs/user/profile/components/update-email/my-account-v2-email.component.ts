@@ -5,7 +5,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { GlobalMessageType, User } from '@spartacus/core';
@@ -20,6 +25,8 @@ import { UpdateEmailComponentService } from './update-email-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyAccountV2EmailComponent implements OnInit {
+  protected emailComponentService = inject(UpdateEmailComponentService);
+  protected userProfile = inject(UserProfileFacade);
   form: UntypedFormGroup = this.emailComponentService.form;
   isUpdating$: Observable<boolean> = this.emailComponentService.isUpdating$;
   isEditing: boolean;
@@ -30,10 +37,6 @@ export class MyAccountV2EmailComponent implements OnInit {
     .pipe(filter((user): user is User => Boolean(user)));
   globalMessageType = GlobalMessageType;
 
-  constructor(
-    protected emailComponentService: UpdateEmailComponentService,
-    protected userProfile: UserProfileFacade
-  ) {}
   ngOnInit(): void {
     this.isEditing = false;
   }

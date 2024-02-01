@@ -5,7 +5,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { Title } from '@spartacus/user/profile/root';
 import { User } from '@spartacus/user/account/root';
@@ -18,7 +23,7 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyAccountV2ProfileComponent implements OnInit {
-  constructor(protected service: UpdateProfileComponentService) {}
+  protected service = inject(UpdateProfileComponentService);
   ngOnInit(): void {
     this.isEditing = false;
   }

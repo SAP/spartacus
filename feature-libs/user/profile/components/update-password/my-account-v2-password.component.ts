@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { GlobalMessageType } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -17,13 +17,12 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyAccountV2PasswordComponent {
+  protected service = inject(UpdatePasswordComponentService);
   showingAlert: boolean = true;
   globalMessageType = GlobalMessageType;
   oldPassword: string;
   newPassword: string;
   newPasswordConfirm: string;
-
-  constructor(protected service: UpdatePasswordComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;

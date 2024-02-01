@@ -374,7 +374,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('My acoount V2 notification preference', () => {
     it('should allow to navigate with tab key', () => {
       myAccountV2notificationPreferenceTabbingOrder(
-        config.notificationPreferenceV2
+        config.myAccountV2NotificationPreference
       );
     });
   });
@@ -412,7 +412,9 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('My Account V2 Consent Management(CXSPA-4491)', () => {
     it('should allow to navigate with tab key', () => {
       cy.requireLoggedIn();
-      myAccountV2consentManagementTabbingOrder(config.consentManagementV2);
+      myAccountV2consentManagementTabbingOrder(
+        config.myAccountV2ConsentManagement
+      );
     });
   });
 

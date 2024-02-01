@@ -5,7 +5,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   NotificationPreference,
   UserNotificationPreferenceService,
@@ -19,14 +24,13 @@ import { map, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyAccountV2NotificationPreferenceComponent implements OnInit {
+  protected notificationPreferenceService = inject(
+    UserNotificationPreferenceService
+  );
   preferences$: Observable<NotificationPreference[]>;
   isLoading$: Observable<boolean>;
 
   protected preferences: NotificationPreference[] = [];
-
-  constructor(
-    private notificationPreferenceService: UserNotificationPreferenceService
-  ) {}
 
   ngOnInit() {
     this.notificationPreferenceService.resetNotificationPreferences();
