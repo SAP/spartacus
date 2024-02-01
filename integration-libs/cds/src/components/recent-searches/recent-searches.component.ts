@@ -5,10 +5,7 @@
  */
 
 import { Component, inject, OnInit, Optional } from '@angular/core';
-import {
-  OutletContextData,
-  SearchBoxComponentService,
-} from '@spartacus/storefront';
+import { OutletContextData, SearchBoxComponentService } from '@spartacus/storefront';
 import { WindowRef } from '@spartacus/core';
 import { RecentSearchesService } from './recent-searches.service';
 import { map, switchMap } from 'rxjs/operators';
@@ -33,8 +30,11 @@ export class RecentSearchesComponent implements OnInit {
       return this.recentSearchesService.recentSearches$.pipe(
         map((recentSearches) => {
           return recentSearches
-            .filter((phrase) => phrase.includes(context.search.toLowerCase()))
-            .slice(0, context.maxRecentSearches || MAX_RECENT_SEARCHES);
+            .filter(
+              (phrase) =>
+                phrase.toLowerCase().indexOf(context.search.toLowerCase()) >= 0
+            )
+            .slice(0, context.maxRecentSearches ?? MAX_RECENT_SEARCHES);
         })
       );
     })

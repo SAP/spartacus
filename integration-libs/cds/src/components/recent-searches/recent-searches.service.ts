@@ -19,7 +19,7 @@ export class RecentSearchesService {
   checkAvailability() {
     return interval(150).pipe(
       concatMap((_) => of((<any>window).Y_TRACKING)),
-      take(10),
+      take(5),
       takeWhile((result: any) => {
         return !result.recentSearches;
       }),
@@ -31,14 +31,13 @@ export class RecentSearchesService {
     if (!this.apiAvailability) {
       this.checkAvailability().subscribe((result) => {
         if (result) {
-          (<any>window).Y_TRACKING?.recentSearches?.addListener(
-            (recentSearches: string[]) => {
-              this.recentSearchesSource.next(
-                recentSearches.map((phrase) => phrase.toLowerCase())
-              );
-            }
-          );
-          this.apiAvailability = true;
+          const recentPhrases = (<any>(
+            window
+          )).Y_TRACKING?.recentSearches?.getPhrases();
+          if (recentPhrases) {
+            this.recentSearchesSource.next(recentPhrases);
+            this.apiAvailability = true;
+          }
         }
       });
     }
