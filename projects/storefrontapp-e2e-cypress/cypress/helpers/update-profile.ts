@@ -26,7 +26,7 @@ export function updateProfile(user?: SampleUser) {
     );
     cy.get('[formcontrolname="lastName"]').should('have.value', user.lastName);
   }
-  cy.get('cx-update-profile, cx-my-new-account-v2-profile').within(() => {
+  cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
     cy.get('[formcontrolname="titleCode"]').ngSelect(newTitle);
     cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
     cy.get('[formcontrolname="lastName"]').clear().type(newLastName);
@@ -51,7 +51,7 @@ export function validateUpdateProfileForm(
   firstName: string,
   lastName: string
 ) {
-  cy.get('cx-update-profile, cx-my-new-account-v2-profile').within(() => {
+  cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
     cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
       'have.text',
       title
@@ -66,7 +66,7 @@ export function verifyUpdatedProfile() {
   if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
     cy.get('.myaccount-enhancedUI-editButton').click();
   }
-  cy.get('cx-update-profile, cx-my-new-account-v2-profile').within(() => {
+  cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
     cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
       'have.text',
       newTitle
@@ -81,7 +81,7 @@ export function testUpdateProfileDetails() {
     if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
       cy.get('.myaccount-enhancedUI-editButton').click();
     }
-    cy.get('cx-update-profile, cx-my-new-account-v2-profile').within(() => {
+    cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
       cy.get('[formcontrolname="titleCode"]').ngSelect(newTitle);
       cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
       cy.get('[formcontrolname="lastName"]').clear().type(newLastName);
@@ -108,7 +108,7 @@ export function testSeeNewProfileInfo() {
       cy.get('.myaccount-enhancedUI-editButton').click();
     }
     // check where the user's details updated in the previous test
-    cy.get('cx-update-profile, cx-my-new-account-v2-profile').within(() => {
+    cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
       cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
         'have.text',
         newTitle

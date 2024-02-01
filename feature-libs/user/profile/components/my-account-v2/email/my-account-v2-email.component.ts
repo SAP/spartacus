@@ -15,14 +15,14 @@ import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-my-new-account-v2-email',
+  selector: 'cx-my-account-v2-email',
   templateUrl: './my-account-v2-email.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {},
 })
 export class MyAccountV2EmailComponent implements OnInit {
-  form: UntypedFormGroup = this.emailComponentservice.form;
-  isUpdating$: Observable<boolean> = this.emailComponentservice.isUpdating$;
+  form: UntypedFormGroup = this.emailComponentService.form;
+  isUpdating$: Observable<boolean> = this.emailComponentService.isUpdating$;
   isEditing: boolean;
   showingAlert: boolean;
 
@@ -32,15 +32,15 @@ export class MyAccountV2EmailComponent implements OnInit {
   globalMessageType = GlobalMessageType;
 
   constructor(
-    protected emailComponentservice: MyAccountV2EmailComponentService,
+    protected emailComponentService: MyAccountV2EmailComponentService,
     protected userProfile: UserProfileFacade
   ) {}
   ngOnInit(): void {
     this.isEditing = false;
   }
   onSubmit(): void {
-    this.emailComponentservice.save();
-    this.emailComponentservice.updateSucceed$.subscribe((res) => {
+    this.emailComponentService.save();
+    this.emailComponentService.updateSucceed$.subscribe((res) => {
       this.isEditing = !res;
     });
   }
