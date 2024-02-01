@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,73 +5,70 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import { I18nTestingModule } from '@spartacus/core';
+import {
+  FormErrorsModule,
+  PasswordVisibilityToggleModule,
+} from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, Subject, of } from 'rxjs';
-import { MyAccountV2ProfileComponentService } from './my-account-v2-profile-component.service';
-import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
+import { BehaviorSubject } from 'rxjs';
+import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 import createSpy = jasmine.createSpy;
+import { UpdatePasswordComponentService } from './update-password-component.service';
+
 @Component({
   selector: 'cx-spinner',
-  template: ` <div>spinner</div> `,
+  template: '',
 })
 class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
-
-class MockProfileService
-  implements Partial<MyAccountV2ProfileComponentService>
+class MockUpdatePasswordService
+  implements Partial<UpdatePasswordComponentService>
 {
-  user$ = of({});
-  titles$ = of([]);
-  updateSucceed$ = new Subject<boolean>();
   form: UntypedFormGroup = new UntypedFormGroup({
-    customerId: new UntypedFormControl(),
-    titleCode: new UntypedFormControl(),
-    firstName: new UntypedFormControl(),
-    lastName: new UntypedFormControl(),
+    oldPassword: new UntypedFormControl(),
+    newPassword: new UntypedFormControl(),
+    newPasswordConfirm: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  updateProfile = createSpy().and.stub();
+  updatePassword = createSpy().and.stub();
+  resetForm = createSpy().and.stub();
 }
 
-describe('MyAccountV2ProfileComponent', () => {
-  let component: MyAccountV2ProfileComponent;
-  let fixture: ComponentFixture<MyAccountV2ProfileComponent>;
+describe('MyAccountV2PasswordComponent', () => {
+  let component: MyAccountV2PasswordComponent;
+  let fixture: ComponentFixture<MyAccountV2PasswordComponent>;
   let el: DebugElement;
 
-  let service: MyAccountV2ProfileComponentService;
+  let service: UpdatePasswordComponentService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
-          CommonModule,
           ReactiveFormsModule,
           I18nTestingModule,
           FormErrorsModule,
           RouterTestingModule,
           UrlTestingModule,
-          NgSelectModule,
-          FeaturesConfigModule,
+          PasswordVisibilityToggleModule,
         ],
-        declarations: [MyAccountV2ProfileComponent, MockCxSpinnerComponent],
+        declarations: [MyAccountV2PasswordComponent, MockCxSpinnerComponent],
         providers: [
           {
-            provide: MyAccountV2ProfileComponentService,
-            useClass: MockProfileService,
+            provide: UpdatePasswordComponentService,
+            useClass: MockUpdatePasswordService,
           },
         ],
       })
-        .overrideComponent(MyAccountV2ProfileComponent, {
+        .overrideComponent(MyAccountV2PasswordComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
         })
         .compileComponents();
@@ -80,12 +76,10 @@ describe('MyAccountV2ProfileComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MyAccountV2ProfileComponent);
+    fixture = TestBed.createComponent(MyAccountV2PasswordComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    component.onEdit();
-    service = TestBed.inject(MyAccountV2ProfileComponentService);
-
+    service = TestBed.inject(UpdatePasswordComponentService);
     fixture.detectChanges();
   });
 
@@ -96,10 +90,9 @@ describe('MyAccountV2ProfileComponent', () => {
   describe('busy', () => {
     it('should disable the submit button when form is disabled', () => {
       component.form.disable();
-      component.onEdit();
       fixture.detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
-        By.css('.btn-primary')
+        By.css('button.btn-primary')
       ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });
@@ -111,12 +104,11 @@ describe('MyAccountV2ProfileComponent', () => {
     });
   });
 
-  describe('idle - editing', () => {
+  describe('idle', () => {
     it('should enable the submit button', () => {
       component.form.enable();
-      component.onEdit();
       fixture.detectChanges();
-      const submitBtn = el.query(By.css('.btn-primary'));
+      const submitBtn = el.query(By.css('button.btn-primary'));
       expect(submitBtn.nativeElement.disabled).toBeFalsy();
     });
 
@@ -127,18 +119,8 @@ describe('MyAccountV2ProfileComponent', () => {
     });
   });
 
-  describe('idle - display', () => {
-    it('should hide the submit button', () => {
-      component.ngOnInit();
-      fixture.detectChanges();
-      expect(el.query(By.css('form'))).toBeNull();
-    });
-  });
-
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      component.onEdit();
-      fixture.detectChanges();
       const request = spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
@@ -147,15 +129,23 @@ describe('MyAccountV2ProfileComponent', () => {
 
     it('should call the service method on submit', () => {
       component.onSubmit();
-      expect(service.updateProfile).toHaveBeenCalled();
+      expect(service.updatePassword).toHaveBeenCalled();
     });
 
-    it('when cancel is called. submit button is not visible', () => {
-      component.form.enable();
+    it('should clean input box', () => {
       fixture.detectChanges();
-      component.cancelEdit();
-      const submitBtn = el.query(By.css('button.btn-primary'));
-      expect(submitBtn).toBeNull();
+      const buttons = fixture.debugElement.queryAll(
+        By.css('.myaccount-password-button-cancel')
+      );
+      buttons[0].triggerEventHandler('click', null);
+      expect(el.queryAll(By.css('form-control')).length).toEqual(0);
+    });
+
+    it('should hide cx message strip when close clicked', () => {
+      component.closeDialogConfirmationAlert();
+      fixture.detectChanges();
+      const cxMsg = el.query(By.css('cx-message'));
+      expect(cxMsg).toBeNull();
     });
   });
 });

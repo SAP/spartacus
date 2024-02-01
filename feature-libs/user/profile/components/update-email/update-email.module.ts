@@ -29,11 +29,9 @@ import {
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { UpdateEmailComponentService } from './update-email-component.service';
 import { UpdateEmailComponent } from './update-email.component';
-import {
-  MyAccountV2EmailComponent,
-  MyAccountV2EmailComponentService,
-} from '../my-account-v2';
+
 import { USE_MY_ACCOUNT_V2_EMAIL } from './token/context';
+import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
 
 const myAccountV2EmailMapping: CmsConfig = {
   cmsComponents: {
@@ -42,8 +40,8 @@ const myAccountV2EmailMapping: CmsConfig = {
       guards: [AuthGuard],
       providers: [
         {
-          provide: MyAccountV2EmailComponentService,
-          useClass: MyAccountV2EmailComponentService,
+          provide: UpdateEmailComponentService,
+          useClass: UpdateEmailComponentService,
           deps: [
             UserEmailFacade,
             RoutingService,

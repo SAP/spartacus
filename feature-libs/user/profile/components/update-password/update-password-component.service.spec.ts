@@ -11,8 +11,8 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
-import { UpdatePasswordComponentService } from './update-password-component.service';
 import createSpy = jasmine.createSpy;
+import { UpdatePasswordComponentService } from './update-password-component.service';
 
 class MockUserPasswordFacade implements Partial<UserPasswordFacade> {
   update = createSpy().and.returnValue(of({}));
@@ -131,7 +131,7 @@ describe('UpdatePasswordComponentService', () => {
         service.updatePassword();
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
-            key: 'updatePasswordForm.passwordUpdateSuccess',
+            key: 'myAccountV2PasswordForm.passwordUpdateSuccess',
           },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );

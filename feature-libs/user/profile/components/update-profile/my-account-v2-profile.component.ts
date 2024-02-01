@@ -10,7 +10,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import { Title } from '@spartacus/user/profile/root';
 import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
-import { MyAccountV2ProfileComponentService } from './my-account-v2-profile-component.service';
+import { UpdateProfileComponentService } from './update-profile-component.service';
 
 @Component({
   selector: 'cx-my-new-account-v2-profile',
@@ -19,7 +19,7 @@ import { MyAccountV2ProfileComponentService } from './my-account-v2-profile-comp
   host: {},
 })
 export class MyAccountV2ProfileComponent implements OnInit {
-  constructor(protected service: MyAccountV2ProfileComponentService) {}
+  constructor(protected service: UpdateProfileComponentService) {}
   ngOnInit(): void {
     this.isEditing = false;
   }
