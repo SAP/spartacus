@@ -324,7 +324,7 @@ function install_from_sources {
     update_projects_versions
 
     printh "Building libraries."
-    ( cd ${CLONE_DIR} && npm run build:libs)
+    ( cd ${CLONE_DIR} && export CX_MY_ACCOUNT_V2=true && npm run build:libs)
 
     verdaccio --config ./config.yaml &
 
@@ -417,7 +417,7 @@ function start_csr_unix {
     else
         build_csr
         printh "Starting csr app"
-        pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/ --single -p ${CSR_PORT}
+        pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" --env CX_MY_ACCOUNT_V2=true serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/ --single -p ${CSR_PORT}
     fi
 }
 
@@ -433,7 +433,7 @@ function start_ssr_unix {
         else
             serverFileName=main.js
         fi
-        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && export CX_MY_ACCOUNT_V2=true && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
     fi
 }
 
@@ -449,7 +449,7 @@ function start_ssr_pwa_unix {
         else
             serverFileName=main.js
         fi
-        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && export CX_MY_ACCOUNT_V2=true && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
     fi
 }
 
