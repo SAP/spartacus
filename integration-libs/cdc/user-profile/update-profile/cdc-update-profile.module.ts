@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule, inject } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -13,7 +13,6 @@ import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
-  provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
 import {
@@ -21,25 +20,8 @@ import {
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import {
-  MyAccountV2ProfileComponentService,
-  USE_MY_ACCOUNT_V2_PROFILE,
-  UpdateProfileComponentService,
-} from '@spartacus/user/profile/components';
+import { UpdateProfileComponentService } from '@spartacus/user/profile/components';
 import { CDCUpdateProfileComponentService } from './cdc-update-profile-component.service';
-
-const myAccountV2ProfileWithCDCMapping: CmsConfig = {
-  cmsComponents: {
-    UpdateProfileComponent: {
-      providers: [
-        {
-          provide: MyAccountV2ProfileComponentService,
-          useClass: CDCUpdateProfileComponentService,
-        },
-      ],
-    },
-  },
-};
 
 @NgModule({
   imports: [
@@ -67,9 +49,6 @@ const myAccountV2ProfileWithCDCMapping: CmsConfig = {
         },
       },
     }),
-    provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_PROFILE) ? myAccountV2ProfileWithCDCMapping : {}
-    ),
   ],
 })
 export class CDCUpdateProfileModule {}

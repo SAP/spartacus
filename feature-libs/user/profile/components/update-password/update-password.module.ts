@@ -29,11 +29,9 @@ import {
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
-import {
-  MyAccountV2PasswordComponent,
-  MyAccountV2PasswordComponentService,
-} from '../my-account-v2';
+
 import { USE_MY_ACCOUNT_V2_PASSWORD } from './token/context';
+import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 
 const myAccountV2PasswordMapping: CmsConfig = {
   cmsComponents: {
@@ -42,8 +40,8 @@ const myAccountV2PasswordMapping: CmsConfig = {
       guards: [AuthGuard],
       providers: [
         {
-          provide: MyAccountV2PasswordComponentService,
-          useClass: MyAccountV2PasswordComponentService,
+          provide: UpdatePasswordComponentService,
+          useClass: UpdatePasswordComponentService,
           deps: [
             UserPasswordFacade,
             RoutingService,

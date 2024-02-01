@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { GlobalMessageType } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { MyAccountV2PasswordComponentService } from './my-account-v2-password-component.service';
+import { UpdatePasswordComponentService } from './update-password-component.service';
 
 @Component({
   selector: 'cx-my-account-v2-password',
@@ -23,7 +23,7 @@ export class MyAccountV2PasswordComponent {
   newPassword: string;
   newPasswordConfirm: string;
 
-  constructor(protected service: MyAccountV2PasswordComponentService) {}
+  constructor(protected service: UpdatePasswordComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;

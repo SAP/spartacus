@@ -8,11 +8,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { MyAccountV2EmailComponentService } from './my-account-v2-email-component.service';
 import { GlobalMessageType, User } from '@spartacus/core';
 
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { filter } from 'rxjs/operators';
+import { UpdateEmailComponentService } from './update-email-component.service';
 
 @Component({
   selector: 'cx-my-account-v2-email',
@@ -32,7 +32,7 @@ export class MyAccountV2EmailComponent implements OnInit {
   globalMessageType = GlobalMessageType;
 
   constructor(
-    protected emailComponentService: MyAccountV2EmailComponentService,
+    protected emailComponentService: UpdateEmailComponentService,
     protected userProfile: UserProfileFacade
   ) {}
   ngOnInit(): void {
