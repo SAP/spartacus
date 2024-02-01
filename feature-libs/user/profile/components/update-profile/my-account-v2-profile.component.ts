@@ -16,7 +16,6 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
   selector: 'cx-my-account-v2-profile',
   templateUrl: './my-account-v2-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {},
 })
 export class MyAccountV2ProfileComponent implements OnInit {
   constructor(protected service: UpdateProfileComponentService) {}

@@ -18,7 +18,6 @@ import { UpdateEmailComponentService } from './update-email-component.service';
   selector: 'cx-my-account-v2-email',
   templateUrl: './my-account-v2-email.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {},
 })
 export class MyAccountV2EmailComponent implements OnInit {
   form: UntypedFormGroup = this.emailComponentService.form;
