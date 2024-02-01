@@ -5,7 +5,9 @@
  */
 
 import userProfile from './userProfile.json';
+import address from './address.json';
 
 export const en = {
   userProfile,
+  address,
 };

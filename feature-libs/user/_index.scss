@@ -5,8 +5,9 @@
 @import './profile/styles/index';
 
 $skipComponentStyles: () !default;
-$selectors: cx-login, cx-login-form, cx-register, cx-reset-password,
-  cx-close-account, cx-close-account-modal !default;
+$selectors: cx-address-book, cx-address-form, cx-suggested-addresses-dialog,
+  cx-login, cx-login-form, cx-register, cx-reset-password, cx-close-account,
+  cx-close-account-modal !default;
 
 @each $selector in $selectors {
   #{$selector} {

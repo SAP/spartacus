@@ -90,12 +90,6 @@
     max-width: 50vw;
     max-height: 70vh;
     overflow-y: auto;
-
-    @include forVersion(1, 6) {
-      top: 4rem;
-      width: 100%;
-    }
-
     top: 3.3rem;
     width: 33%;
 
