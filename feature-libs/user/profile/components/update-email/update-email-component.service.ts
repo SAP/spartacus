@@ -36,7 +36,6 @@ export class UpdateEmailComponentService {
   protected busy$ = new BehaviorSubject(false);
 
   updateSucceed$ = new Subject();
-  // ToolHeaderUtilitySeparator.
 
   isUpdating$ = this.busy$.pipe(
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
