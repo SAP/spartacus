@@ -5,7 +5,10 @@
  */
 
 import { Component, inject, OnInit, Optional } from '@angular/core';
-import { OutletContextData, SearchBoxComponentService } from '@spartacus/storefront';
+import {
+  OutletContextData,
+  SearchBoxComponentService,
+} from '@spartacus/storefront';
 import { WindowRef } from '@spartacus/core';
 import { RecentSearchesService } from './recent-searches.service';
 import { map, switchMap } from 'rxjs/operators';

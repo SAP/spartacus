@@ -36,6 +36,13 @@ export class RecentSearchesService {
           )).Y_TRACKING?.recentSearches?.getPhrases();
           if (recentPhrases) {
             this.recentSearchesSource.next(recentPhrases);
+
+            (<any>window).Y_TRACKING.recentSearches?.addListener(
+              (recentSearches: string[]) => {
+                this.recentSearchesSource.next(recentSearches);
+              }
+            );
+
             this.apiAvailability = true;
           }
         }
