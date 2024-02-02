@@ -157,7 +157,7 @@ export function checkIfSSRIsUsed(
     : !!angularJson.projects[projectName].architect['server'];
 
   const serverFileLocation = getServerTsPath(tree);
-  if (!serverFileLocation && !isNewAngularJson) {
+  if (!serverFileLocation) {
     return false;
   }
 
