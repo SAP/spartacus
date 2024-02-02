@@ -9,17 +9,20 @@ import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { RecentSearchesService } from './recent-searches.service';
 import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
 
 describe('RecentSearchesService', () => {
   let recentSearchesService: RecentSearchesService;
+  let windowRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [RecentSearchesService],
+      providers: [RecentSearchesService, WindowRef],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 
     recentSearchesService = TestBed.inject(RecentSearchesService);
+    windowRef = TestBed.inject(WindowRef);
   });
 
   it('should be created', () => {
@@ -32,7 +35,7 @@ describe('RecentSearchesService', () => {
     spyOn(recentSearchesService['recentSearchesSource'], 'next');
     spyOn(recentSearchesService, 'checkAvailability').and.returnValue(of(true));
 
-    (<any>window).Y_TRACKING = {
+    (<any>windowRef.nativeWindow).Y_TRACKING = {
       recentSearches: {
         addListener: (callback: (recentSearches: string[]) => void) => {
           callback(mockRecentSearches);
@@ -72,7 +75,7 @@ describe('RecentSearchesService', () => {
     );
 
     // Simulate the recent searches callback after some time
-    (<any>window).Y_TRACKING = {
+    (<any>windowRef.nativeWindow).Y_TRACKING = {
       recentSearches: {
         addListener: (callback: (recentSearches: string[]) => void) => {
           callback(mockRecentSearches);

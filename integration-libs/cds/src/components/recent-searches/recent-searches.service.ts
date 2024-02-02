@@ -7,18 +7,22 @@
 import { Injectable } from '@angular/core';
 import { interval, Observable, of, ReplaySubject } from 'rxjs';
 import { concatMap, endWith, take, takeWhile } from 'rxjs/operators';
+import { WindowRef } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class RecentSearchesService {
   private readonly recentSearchesSource = new ReplaySubject<string[]>();
   private apiAvailability = false;
+
+  constructor(protected winRef: WindowRef) {}
+
   public get recentSearches$(): Observable<string[]> {
     this.addRecentSearchesListener();
     return this.recentSearchesSource.asObservable();
   }
   checkAvailability() {
     return interval(150).pipe(
-      concatMap((_) => of((<any>window).Y_TRACKING)),
+      concatMap((_) => of((<any>this.winRef.nativeWindow).Y_TRACKING)),
       take(5),
       takeWhile((result: any) => !result.recentSearches),
       endWith(true)
@@ -30,7 +34,7 @@ export class RecentSearchesService {
       this.checkAvailability().subscribe((result) => {
         if (result) {
           const recentPhrases = (<any>(
-            window
+            this.winRef.nativeWindow
           )).Y_TRACKING?.recentSearches?.getPhrases();
           if (recentPhrases) {
             this.recentSearchesSource.next(recentPhrases);
