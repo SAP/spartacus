@@ -33,6 +33,8 @@ export interface SsrOptimizationOptions {
    * Can also be use when `cache` option is set to false. It will then limit the
    * number of renders that timeouts and are kept in temporary cache, waiting
    * to be served with next request.
+   *
+   * Default value is set to 3000.
    */
   cacheSize?: number;
 
@@ -137,6 +139,7 @@ export enum RenderingStrategy {
 }
 
 export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
+  cacheSize: 3000,
   concurrency: 10,
   timeout: 3_000,
   forcedSsrTimeout: 60_000,
