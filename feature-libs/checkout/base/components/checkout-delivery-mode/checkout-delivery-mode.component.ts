@@ -19,6 +19,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  take,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -99,6 +100,33 @@ export class CheckoutDeliveryModeComponent {
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected activeCartFacade: ActiveCartFacade
   ) {}
+
+  onKeydown(code: string | undefined, event: Event): void {
+    if (
+      !(
+        (<KeyboardEvent>event).key === 'Enter' ||
+        (<KeyboardEvent>event).key === ' '
+      )
+    )
+      return;
+
+    event.preventDefault();
+    const lastFocusedId = (<HTMLElement>event.target)?.id;
+    this.changeMode(code);
+
+    this.isUpdating$
+      .pipe(
+        filter((isUpdating) => !isUpdating),
+        take(1)
+      )
+      .subscribe(() => {
+        setTimeout(() => {
+          document.querySelector('main')?.classList.remove('mouse-focus');
+          this.mode.setValue({ deliveryModeId: code });
+          document.getElementById(lastFocusedId)?.focus();
+        }, 0);
+      });
+  }
 
   changeMode(code: string | undefined): void {
     if (!code) {
