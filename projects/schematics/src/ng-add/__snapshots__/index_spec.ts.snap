@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 1`] = `
-"import { HttpClientModule } from "@angular/common/http";
+"import { provideHttpClient, withFetch } from "@angular/common/http";
 import { NgModule } from '@angular/core';
 import { BrowserModule,  } from '@angular/platform-browser';
 import { EffectsModule } from "@ngrx/effects";
@@ -16,14 +16,12 @@ import { SpartacusModule } from './spartacus/spartacus.module';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
     StoreModule.forRoot({}),
+    AppRoutingModule,
     EffectsModule.forRoot([]),
     SpartacusModule
   ],
-  providers: [
-  ],
+  providers: [provideHttpClient(withFetch()),],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

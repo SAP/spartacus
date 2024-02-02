@@ -28,7 +28,10 @@ import {
   finalizeInstallation,
   installPackageJsonDependencies,
 } from '../shared/utils/lib-utils';
-import { addModuleImport } from '../shared/utils/new-module-utils';
+import {
+  addModuleImport,
+  addModuleProvider,
+} from '../shared/utils/new-module-utils';
 import {
   getPrefixedSpartacusSchematicsVersion,
   getSpartacusCurrentFeatureLevel,
@@ -452,13 +455,12 @@ function updateAppModule(options: SpartacusOptions): Rule {
 
       for (const sourceFile of appSourceFiles) {
         if (sourceFile.getFilePath().includes(`app.module.ts`)) {
-          addModuleImport(sourceFile, {
-            order: 1,
+          addModuleProvider(sourceFile, {
             import: {
               moduleSpecifier: ANGULAR_HTTP,
-              namedImports: ['HttpClientModule'],
+              namedImports: ['provideHttpClient', 'withFetch'],
             },
-            content: 'HttpClientModule',
+            content: 'provideHttpClient(withFetch())',
           });
           addModuleImport(sourceFile, {
             order: 2,
