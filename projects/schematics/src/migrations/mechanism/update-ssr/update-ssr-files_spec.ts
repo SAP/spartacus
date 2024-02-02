@@ -10,7 +10,7 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as SpartacusOptions } from '../../../add-spartacus/schema';
-import { SERVER_BAK_FILENAME, SERVER_FILENAME } from "@spartacus/schematics";
+import { SERVER_BAK_FILENAME, SERVER_FILENAME } from "../../../shared";
 
 const updateSsrCollectionPath = path.join(
   __dirname,
