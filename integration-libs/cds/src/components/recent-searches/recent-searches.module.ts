@@ -11,19 +11,18 @@ import {
   OutletPosition,
   provideOutlet,
   SearchBoxModule,
+  SearchBoxOutlets,
 } from '@spartacus/storefront';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { RecentSearchesComponent } from './recent-searches.component';
-import { RecentSearchesService } from './recent-searches.service';
 
 @NgModule({
   exports: [RecentSearchesComponent],
   declarations: [RecentSearchesComponent],
   imports: [CommonModule, I18nModule, SearchBoxModule, UrlModule, RouterModule],
   providers: [
-    RecentSearchesService,
     provideOutlet({
-      id: 'RECENT_SEARCHES',
+      id: SearchBoxOutlets.RECENT_SEARCHES,
       component: RecentSearchesComponent,
       position: OutletPosition.AFTER,
     }),

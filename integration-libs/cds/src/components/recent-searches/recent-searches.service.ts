@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { interval, Observable, of, ReplaySubject } from 'rxjs';
 import { concatMap, endWith, take, takeWhile } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class RecentSearchesService {
   private readonly recentSearchesSource = new ReplaySubject<string[]>();
   private apiAvailability = false;
@@ -20,9 +20,7 @@ export class RecentSearchesService {
     return interval(150).pipe(
       concatMap((_) => of((<any>window).Y_TRACKING)),
       take(5),
-      takeWhile((result: any) => {
-        return !result.recentSearches;
-      }),
+      takeWhile((result: any) => !result.recentSearches),
       endWith(true)
     );
   }

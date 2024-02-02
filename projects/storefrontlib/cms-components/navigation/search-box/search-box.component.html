@@ -152,7 +152,7 @@
   </div>
   <ng-template
     *ngIf="config.recentSearches"
-    [cxOutlet]="'RECENT_SEARCHES'"
+    [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES"
     [cxOutletContext]="{
       search: searchInput.value,
       searchBoxActive: searchBoxActive,
