@@ -417,7 +417,7 @@ function start_csr_unix {
     else
         build_csr
         printh "Starting csr app"
-        pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/ --single -p ${CSR_PORT}
+        pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT}
     fi
 }
 
