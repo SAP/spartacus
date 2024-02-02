@@ -141,7 +141,10 @@ export function getSpartacusCurrentFeatureLevel(): string {
   return version.split('.').slice(0, 2).join('.');
 }
 
-export function checkIfSSRIsUsed(tree: Tree): boolean {
+export function checkIfSSRIsUsed(
+  tree: Tree,
+  isNewAngularJson?: boolean
+): boolean {
   const projectName = getDefaultProjectNameFromWorkspace(tree);
   const buffer = tree.read('angular.json');
   if (!buffer) {
@@ -149,11 +152,12 @@ export function checkIfSSRIsUsed(tree: Tree): boolean {
   }
   const angularFileBuffer = buffer.toString(UTF_8);
   const angularJson = JSON.parse(angularFileBuffer);
-  const isServerConfiguration =
-    !!angularJson.projects[projectName].architect['server'];
+  const isServerConfiguration = isNewAngularJson
+    ? !!angularJson.projects[projectName].architect.build.options.server
+    : !!angularJson.projects[projectName].architect['server'];
 
   const serverFileLocation = getServerTsPath(tree);
-  if (!serverFileLocation) {
+  if (!serverFileLocation && !isNewAngularJson) {
     return false;
   }
 
@@ -161,7 +165,10 @@ export function checkIfSSRIsUsed(tree: Tree): boolean {
   const serverFileBuffer = serverBuffer?.toString(UTF_8);
   const isServerSideAvailable = serverFileBuffer && !!serverFileBuffer.length;
 
-  return !!(isServerConfiguration && isServerSideAvailable);
+  return (
+    !!(isServerConfiguration && isServerSideAvailable) ||
+    !!(isNewAngularJson && isServerConfiguration)
+  );
 }
 
 export function prepareSpartacusDependencies(): NodeDependency[] {
