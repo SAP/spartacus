@@ -442,7 +442,7 @@ function removeFromModuleProviders(
   // get specific provider with given kind and name;
   const providerSpecifier = providerNodes
     .getChildren()
-    .find((node) => findNode(node, kind, providerName));
+    .find((childNode) => findNode(childNode, kind, providerName));
 
   if (!providerSpecifier) {
     return [];
