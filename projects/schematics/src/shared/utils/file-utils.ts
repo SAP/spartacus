@@ -66,6 +66,7 @@ export interface ComponentProperty {
   /** comment describing the change to the property */
   comment: string;
 }
+
 export interface ComponentData {
   /** a component's selector, e.g. cx-start-rating */
   selector: string;
