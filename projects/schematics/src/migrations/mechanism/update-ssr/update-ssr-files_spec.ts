@@ -15,7 +15,7 @@ const updateSsrCollectionPath = path.join(
   __dirname,
   './update-ssr.collection.json'
 );
-const collectionPath = path.join(__dirname, '../../collection.json');
+const collectionPath = path.join(__dirname, '../../../collection.json');
 
 describe('Update SSR', () => {
   const schematicRunner = new SchematicTestRunner(
