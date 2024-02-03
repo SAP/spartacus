@@ -4,15 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CdcJsService } from '@spartacus/cdc/root';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import {
-  USE_MY_ACCOUNT_V2_PROFILE,
-  UpdateProfileComponentService,
-} from '@spartacus/user/profile/components';
+import { UpdateProfileComponentService } from '@spartacus/user/profile/components';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { Subject } from 'rxjs';
 
 @Injectable()
 export class CDCUpdateProfileComponentService extends UpdateProfileComponentService {
@@ -23,9 +19,6 @@ export class CDCUpdateProfileComponentService extends UpdateProfileComponentServ
   ) {
     super(userProfile, globalMessageService);
   }
-
-  updateSucceed$ = new Subject<boolean>();
-  enableMyAccountV2 = inject(USE_MY_ACCOUNT_V2_PROFILE);
 
   /**
    * Updates the user's details and handles the UI.
@@ -52,15 +45,5 @@ export class CDCUpdateProfileComponentService extends UpdateProfileComponentServ
       GlobalMessageType.MSG_TYPE_ERROR
     );
     this.busy$.next(false);
-    if (this.enableMyAccountV2) {
-      this.updateSucceed$.next(false);
-    }
-  }
-
-  protected onSuccess(): void {
-    super.onSuccess();
-    if (this.enableMyAccountV2) {
-      this.updateSucceed$.next(true);
-    }
   }
 }
