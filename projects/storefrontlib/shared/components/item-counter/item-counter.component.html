@@ -7,8 +7,21 @@
 >
   -
 </button>
+<!-- TODO: (CXSPA-6034) Remove feature flag next major release -->
 <input
+  *cxFeatureLevel="'!6.8'"
   #qty
+  type="number"
+  [min]="min"
+  [max]="max"
+  [step]="step"
+  [readonly]="readonly"
+  [tabindex]="readonly ? -1 : 0"
+  [formControl]="control"
+  attr.aria-label="{{ 'itemCounter.quantity' | cxTranslate }}"
+/>
+<input
+  *cxFeatureLevel="'6.8'"
   type="number"
   [min]="min"
   [max]="max"

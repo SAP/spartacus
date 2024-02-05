@@ -12,9 +12,11 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { FeatureConfigService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
@@ -78,8 +80,15 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
    */
   private sub: Subscription;
 
+  constructor(
+    @Optional() protected featureConfigService: FeatureConfigService
+  ) {}
+
+  // TODO: (CXSPA-6034) Remove HostListener and @ViewChild('qty') next major release
   @HostListener('click') handleClick() {
-    this.input.nativeElement.focus();
+    if (this.featureConfigService.isLevel('6.8')) {
+      this.input.nativeElement.focus();
+    }
   }
 
   ngOnInit() {
