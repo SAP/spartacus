@@ -7,7 +7,7 @@
 
 import { Component } from '@angular/core';
 import { ANONYMOUS_CONSENT_STATUS } from '@spartacus/core';
-import { ConsentManagementFormComponent } from 'projects/storefrontlib/cms-components/myaccount/consent-management/components/consent-form/consent-management-form.component';
+import { ConsentManagementFormComponent } from '../../../../consent-management/components/consent-form/consent-management-form.component';
 
 @Component({
   selector: 'cx-my-account-v2-consent-management-form',
