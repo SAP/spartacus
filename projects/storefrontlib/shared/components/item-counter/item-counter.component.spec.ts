@@ -1,13 +1,14 @@
 import { DebugElement } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { MockFeatureLevelDirective } from '../../test/mock-feature-level-directive';
 import { ItemCounterComponent } from './item-counter.component';
 
 const form = new UntypedFormGroup({
@@ -22,7 +23,7 @@ describe('ItemCounterComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-        declarations: [ItemCounterComponent],
+        declarations: [ItemCounterComponent, MockFeatureLevelDirective],
       }).compileComponents();
     })
   );
