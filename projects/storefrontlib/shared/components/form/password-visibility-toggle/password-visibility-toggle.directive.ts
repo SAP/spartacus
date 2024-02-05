@@ -21,6 +21,7 @@ import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.
  */
 @Directive({
   selector: '[cxPasswordVisibilitySwitch][type="password"]',
+  // TODO: This directive on inputs causes issues with hydration.
 })
 export class PasswordVisibilityToggleDirective implements AfterViewInit {
   protected inputWrapper: HTMLElement | null;
