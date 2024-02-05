@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ANONYMOUS_CONSENT_STATUS } from '@spartacus/core';
 import { ConsentManagementFormComponent } from '../../../../consent-management/components/consent-form/consent-management-form.component';
 
@@ -13,8 +13,9 @@ import { ConsentManagementFormComponent } from '../../../../consent-management/c
   selector: 'cx-my-account-v2-consent-management-form',
   templateUrl: './my-account-v2-consent-management-form.component.html',
 })
-export class MyAccountV2ConsentManagementFormComponent extends ConsentManagementFormComponent {
+export class MyAccountV2ConsentManagementFormComponent extends ConsentManagementFormComponent implements OnInit {
   consentApprovedTime: string;
+
   ngOnInit(): void {
     if (this.consent) {
       this.consentGiven = Boolean(
