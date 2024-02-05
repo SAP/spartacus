@@ -162,4 +162,14 @@ cx-saved-cart-list {
       min-height: auto;
     }
   }
+
+  // TODO: (CXSPA-5955) Remove feature flag next major
+  @include forVersion(6.8) {
+    @include media-breakpoint-down(md) {
+      .cx-saved-cart-make-active {
+        min-height: unset;
+        padding: 0;
+      }
+    }
+  }
 }
