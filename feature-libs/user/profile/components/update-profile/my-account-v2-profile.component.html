@@ -2,55 +2,39 @@
 </cx-spinner>
 <div>
   <div>
-    <div class="row">
-      <div class="col-sm-10">
-        <label class="headertext"
-          >{{ 'myAccountV2UserProfile.myInformation' | cxTranslate }}
-        </label>
-      </div>
-      <div class="col-sm-2">
-        <button class="editButton" *ngIf="!isEditing" (click)="onEdit()">
-          {{ 'common.edit' | cxTranslate }}
-        </button>
-      </div>
+    <div class="flex-line">
+      <label class="headertext"
+        >{{ 'myAccountV2UserProfile.myInformation' | cxTranslate }}
+      </label>
+      <button class="editButton" *ngIf="!isEditing" (click)="onEdit()">
+        {{ 'common.edit' | cxTranslate }}
+      </button>
     </div>
   </div>
   <div *ngIf="!isEditing">
-    <div class="row">
-      <div class="col-sm-2">
-        <label class="text-head">
-          {{ 'myAccountV2UserProfile.title' | cxTranslate }}
-        </label>
-      </div>
-      <div class="col-sm-6">
-        <label class="value">
-          {{ (user$ | async)?.title }}
-        </label>
-      </div>
+    <div class="flex-line">
+      <label class="text-head">
+        {{ 'myAccountV2UserProfile.title' | cxTranslate }}
+      </label>
+      <label class="value">
+        {{ (user$ | async)?.title }}
+      </label>
     </div>
-    <div class="row">
-      <div class="col-sm-2">
-        <label class="text-head">
-          {{ 'myAccountV2UserProfile.name' | cxTranslate }}
-        </label>
-      </div>
-      <div class="col-sm-6">
-        <label class="value">
-          {{ (user$ | async)?.firstName }} {{ (user$ | async)?.lastName }}
-        </label>
-      </div>
+    <div class="flex-line">
+      <label class="text-head">
+        {{ 'myAccountV2UserProfile.name' | cxTranslate }}
+      </label>
+      <label class="value">
+        {{ (user$ | async)?.firstName }} {{ (user$ | async)?.lastName }}
+      </label>
     </div>
-    <div class="row">
-      <div class="col-sm-2">
-        <label class="text-head">
-          {{ 'myAccountV2UserProfile.customerId' | cxTranslate }}
-        </label>
-      </div>
-      <div class="col-sm-6">
-        <label class="value">
-          {{ (user$ | async)?.customerId }}
-        </label>
-      </div>
+    <div class="flex-line">
+      <label class="text-head">
+        {{ 'myAccountV2UserProfile.customerId' | cxTranslate }}
+      </label>
+      <label class="value">
+        {{ (user$ | async)?.customerId }}
+      </label>
     </div>
   </div>
   <div *ngIf="isEditing" class="myaccount-editing-area">

@@ -1,9 +1,16 @@
 %cx-my-account-v2-email {
+  .flex-line {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+  }
+
   .headertext {
     font-size: $h3-font-size;
     font-weight: var(--cx-font-weight-semi);
     color: $text;
     padding-bottom: 1.5rem;
+    width: 95%;
   }
 
   .editButton {
@@ -17,6 +24,7 @@
     font-weight: var(--cx-font-weight-semi);
     min-width: 7.5rem;
     color: $background-dark;
+    width: 15%;
   }
 
   .value {
