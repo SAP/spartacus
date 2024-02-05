@@ -33,14 +33,14 @@
         "
         [attr.aria-label]="
           value.valuePrice && value.valuePrice?.value !== 0
-            ? ('configurator.a11y.valueOfAttributeFullWithPrice'
+            ? (getAriaLabelForValueWithPrice(attribute)
               | cxTranslate
                 : {
                     value: value.valueDisplay,
                     attribute: attribute.label,
                     price: value.valuePrice.formattedValue
                   })
-            : ('configurator.a11y.valueOfAttributeFull'
+            : (getAriaLabelForValue(attribute)
               | cxTranslate
                 : { value: value.valueDisplay, attribute: attribute.label })
         "

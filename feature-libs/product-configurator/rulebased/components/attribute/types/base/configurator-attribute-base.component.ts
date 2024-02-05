@@ -172,6 +172,18 @@ export class ConfiguratorAttributeBaseComponent {
     return images ? images[0] : undefined;
   }
 
+  getAriaLabelForValueWithPrice(attribute: Configurator.Attribute): string {
+    return this.isReadOnly(attribute)
+      ? 'configurator.a11y.readOnlyValueOfAttributeFullWithPrice'
+      : 'configurator.a11y.valueOfAttributeFullWithPrice';
+  }
+
+  getAriaLabelForValue(attribute: Configurator.Attribute): string {
+    return this.isReadOnly(attribute)
+      ? 'configurator.a11y.readOnlyValueOfAttributeFull'
+      : 'configurator.a11y.valueOfAttributeFull';
+  }
+
   protected getValuePrice(value: Configurator.Value | undefined): string {
     if (value?.valuePrice?.value && !value.selected) {
       if (value.valuePrice.value < 0) {
