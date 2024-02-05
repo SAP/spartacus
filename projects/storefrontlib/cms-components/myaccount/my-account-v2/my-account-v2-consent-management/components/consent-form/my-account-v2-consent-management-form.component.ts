@@ -5,36 +5,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  AnonymousConsent,
-  ANONYMOUS_CONSENT_STATUS,
-  ConsentTemplate,
-} from '@spartacus/core';
+import { Component } from '@angular/core';
+import { ANONYMOUS_CONSENT_STATUS } from '@spartacus/core';
+import { ConsentManagementFormComponent } from 'projects/storefrontlib/cms-components/myaccount/consent-management/components/consent-form/consent-management-form.component';
 
 @Component({
   selector: 'cx-my-account-v2-consent-management-form',
   templateUrl: './my-account-v2-consent-management-form.component.html',
 })
-export class MyAccountV2ConsentManagementFormComponent implements OnInit {
-  consentGiven = false;
+export class MyAccountV2ConsentManagementFormComponent extends ConsentManagementFormComponent {
   consentApprovedTime: string;
-
-  @Input()
-  consentTemplate: ConsentTemplate;
-
-  @Input()
-  requiredConsents: string[] = [];
-
-  @Input()
-  consent: AnonymousConsent | null;
-
-  @Output()
-  consentChanged = new EventEmitter<{
-    given: boolean;
-    template: ConsentTemplate;
-  }>();
-
   ngOnInit(): void {
     if (this.consent) {
       this.consentGiven = Boolean(
@@ -55,18 +35,5 @@ export class MyAccountV2ConsentManagementFormComponent implements OnInit {
         }
       }
     }
-  }
-
-  onConsentChange(): void {
-    this.consentGiven = !this.consentGiven;
-
-    this.consentChanged.emit({
-      given: this.consentGiven,
-      template: this.consentTemplate,
-    });
-  }
-
-  isRequired(templateId: string | undefined): boolean {
-    return templateId ? this.requiredConsents.includes(templateId) : false;
   }
 }
