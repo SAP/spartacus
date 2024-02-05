@@ -19,11 +19,17 @@ function clear_root {
     cp -r sub-folder/.pipeline .
     cp sub-folder/.npmignore .
 }
+# Append root's .nmpignore into module's .nmpignore file so it contains all paths.
+function append_npmignore {
+    $(cd $1 && echo "\n$2" >> .npmignore);
+}
 
 # Package is built and set at the root level
 function pack {
     PACKAGE=$1
     cd sub-folder
+
+    local CONTENT="$(cat .npmignore)"
 
     if [[ -z "$PACKAGE" ]]; then
         echo "Package cannot be empty"
@@ -33,10 +39,10 @@ function pack {
     elif [[ $PACKAGE == 'schematics' ]]; then
         cp -r projects/schematics/* ../.
     elif [[ $PACKAGE == 'storefront' ]]; then
-        rm dist/storefrontlib/.npmignore
+        append_npmignore "dist/storefrontlib" "$CONTENT"
         cp -r dist/storefrontlib/* ../.
     else
-        rm dist/$PACKAGE/.npmignore
+        append_npmignore "dist/$PACKAGE/" "$CONTENT"
         cp -r dist/$PACKAGE/* ../.
     fi
 }
