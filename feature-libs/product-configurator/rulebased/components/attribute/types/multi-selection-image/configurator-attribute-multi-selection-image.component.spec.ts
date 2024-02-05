@@ -172,7 +172,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
   });
 
   describe('select multi images', () => {
-    it('should select multi selection image value', () => {
+    it('should call service for update', () => {
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
@@ -183,7 +183,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       ).toHaveBeenCalled();
     });
 
-    it('should not call select event in case uiType READ_ONLY_MULTI_SELECTION_IMAGE', () => {
+    it('should not call service in case uiType READ_ONLY_MULTI_SELECTION_IMAGE', () => {
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'

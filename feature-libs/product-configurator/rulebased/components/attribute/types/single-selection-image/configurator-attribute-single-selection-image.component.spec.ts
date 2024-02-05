@@ -166,7 +166,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   });
 
   describe('select single image', () => {
-    it('should select another single selection image value', () => {
+    it('should call service for update', () => {
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
@@ -181,7 +181,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       );
     });
 
-    it('should not call click event', () => {
+    it('should not call service for update and in case attribute is read-only', () => {
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
