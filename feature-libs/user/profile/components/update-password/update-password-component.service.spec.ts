@@ -131,7 +131,6 @@ describe('UpdatePasswordComponentService', () => {
         service.updatePassword();
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
-          
             key: 'updatePasswordForm.passwordUpdateSuccess',
           },
           GlobalMessageType.MSG_TYPE_CONFIRMATION

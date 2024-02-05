@@ -78,7 +78,11 @@ export class UpdatePasswordComponentService {
 
   protected onSuccess(): void {
     this.globalMessageService.add(
-      { key: this.usingV2 ? 'myAccountV2PasswordForm.passwordUpdateSuccess' : 'updatePasswordForm.passwordUpdateSuccess' },
+      {
+        key: this.usingV2
+          ? 'myAccountV2PasswordForm.passwordUpdateSuccess'
+          : 'updatePasswordForm.passwordUpdateSuccess',
+      },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
     this.busy$.next(false);
@@ -95,13 +99,16 @@ export class UpdatePasswordComponentService {
   }
 
   protected onError(_error: HttpErrorModel | Error): void {
-    
     if (
       _error instanceof HttpErrorModel &&
       _error.details?.[0].type === 'AccessDeniedError'
     ) {
       this.globalMessageService.add(
-        { key:  this.usingV2 ? 'myAccountV2PasswordForm.accessDeniedError' : 'updatePasswordForm.accessDeniedError' },
+        {
+          key: this.usingV2
+            ? 'myAccountV2PasswordForm.accessDeniedError'
+            : 'updatePasswordForm.accessDeniedError',
+        },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }

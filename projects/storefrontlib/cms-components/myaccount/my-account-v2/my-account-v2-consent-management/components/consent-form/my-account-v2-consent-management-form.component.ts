@@ -13,7 +13,10 @@ import { ConsentManagementFormComponent } from '../../../../consent-management/c
   selector: 'cx-my-account-v2-consent-management-form',
   templateUrl: './my-account-v2-consent-management-form.component.html',
 })
-export class MyAccountV2ConsentManagementFormComponent extends ConsentManagementFormComponent implements OnInit {
+export class MyAccountV2ConsentManagementFormComponent
+  extends ConsentManagementFormComponent
+  implements OnInit
+{
   consentApprovedTime: string;
 
   ngOnInit(): void {
