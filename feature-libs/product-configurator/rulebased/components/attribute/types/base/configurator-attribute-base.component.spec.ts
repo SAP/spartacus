@@ -127,6 +127,34 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
   });
 
+  describe('getAriaLabelForValueWithPrice', () => {
+    it('should return translation key for read-only', () => {
+      expect(classUnderTest.getAriaLabelForValueWithPrice(true)).toEqual(
+        'configurator.a11y.readOnlyValueOfAttributeFullWithPrice'
+      );
+    });
+
+    it('should return translation key for another attribute types as read-only', () => {
+      expect(classUnderTest.getAriaLabelForValueWithPrice(false)).toEqual(
+        'configurator.a11y.valueOfAttributeFullWithPrice'
+      );
+    });
+  });
+
+  describe('getAriaLabelForValue', () => {
+    it('should return translation key for read-only', () => {
+      expect(classUnderTest.getAriaLabelForValue(true)).toEqual(
+        'configurator.a11y.readOnlyValueOfAttributeFull'
+      );
+    });
+
+    it('should return translation key for another attribute types as read-only', () => {
+      expect(classUnderTest.getAriaLabelForValue(false)).toEqual(
+        'configurator.a11y.valueOfAttributeFull'
+      );
+    });
+  });
+
   it('should generate focus id for attribute value', () => {
     expect(classUnderTest.createFocusId('attrCode', 'valueCode')).toBe(
       'attrCode--valueCode--focus'

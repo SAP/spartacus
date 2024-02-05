@@ -172,14 +172,26 @@ export class ConfiguratorAttributeBaseComponent {
     return images ? images[0] : undefined;
   }
 
-  getAriaLabelForValueWithPrice(attribute: Configurator.Attribute): string {
-    return this.isReadOnly(attribute)
+  /**
+   * Retrieves a translation key for a value with a price.
+   *
+   * @param isReadOnly - is attribute a read-only?
+   * @returns - translation key for a value with price
+   */
+  getAriaLabelForValueWithPrice(isReadOnly: boolean): string {
+    return isReadOnly
       ? 'configurator.a11y.readOnlyValueOfAttributeFullWithPrice'
       : 'configurator.a11y.valueOfAttributeFullWithPrice';
   }
 
-  getAriaLabelForValue(attribute: Configurator.Attribute): string {
-    return this.isReadOnly(attribute)
+  /**
+   * Retrieves a translation key for a value.
+   *
+   * @param isReadOnly - is attribute a read-only?
+   * @returns - translation key for a value with price
+   */
+  getAriaLabelForValue(isReadOnly: boolean): string {
+    return isReadOnly
       ? 'configurator.a11y.readOnlyValueOfAttributeFull'
       : 'configurator.a11y.valueOfAttributeFull';
   }
