@@ -8,3 +8,4 @@ export * from './update-profile-component.service';
 export * from './update-profile.component';
 export * from './update-profile.module';
 export * from './use-my-account-v2-profile';
+export * from './my-account-v2-profile.component';
