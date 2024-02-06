@@ -26,8 +26,8 @@ import {
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { UpdateProfileComponent } from './update-profile.component';
 import { USE_MY_ACCOUNT_V2_PROFILE } from './use-my-account-v2-profile';
-import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import { UpdateProfileComponentService } from './update-profile-component.service';
+import { MyAccountV2ProfileComponent } from '../my-account-v2/profile/my-account-v2-profile.component';
 
 const myAccountV2ProfileMapping: CmsConfig = {
   cmsComponents: {

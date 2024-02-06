@@ -17,7 +17,7 @@ import { GlobalMessageType, User } from '@spartacus/core';
 
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { filter } from 'rxjs/operators';
-import { UpdateEmailComponentService } from './update-email-component.service';
+import { UpdateEmailComponentService } from '../../update-email';
 
 @Component({
   selector: 'cx-my-account-v2-email',
