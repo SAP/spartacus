@@ -1303,5 +1303,9 @@ export function getLineFromTSFile(
 export function getServerTsPath(host: Tree): string | undefined {
   const projectName = getDefaultProjectNameFromWorkspace(host);
   const angularJson = getAngularJsonFile(host);
-  return angularJson.projects[projectName].architect?.server?.options?.main;
+
+  return (
+    angularJson.projects[projectName].architect?.server?.options?.main ||
+    (angularJson.projects[projectName].architect as any)?.build.options.server
+  );
 }

@@ -10,7 +10,12 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as SpartacusOptions } from '../../../add-spartacus/schema';
-import { SERVER_BAK_FILENAME, SERVER_FILENAME } from '../../../shared';
+import {
+  EXPRESS_TOKENS,
+  SERVER_BAK_FILENAME,
+  SERVER_FILENAME,
+  SSR_SETUP_IMPORT,
+} from '../../../shared';
 
 const updateSsrCollectionPath = path.join(
   __dirname,
@@ -85,6 +90,15 @@ describe('Update SSR', () => {
       const serverBakFileContent = 'testing';
       tree.create(serverBakPath, serverBakFileContent);
       expect(tree.exists(serverBakPath)).toBeTruthy();
+    });
+  });
+
+  describe('updateTokensSchematic', () => {
+    it('should remove express.tokens.ts file', async () => {
+      const tokensPath = `./${EXPRESS_TOKENS}.ts`;
+      tree.create(tokensPath, 'request response');
+      expect(tree.exists(tokensPath)).toBeTruthy();
+
       tree = await updateSsrSchematicRunner.runSchematic(
         'update-ssr',
         { name: 'schematics-test' },
@@ -96,6 +110,26 @@ describe('Update SSR', () => {
       expect(restoredServerFileContent).toEqual(serverBakFileContent);
       expect(tree.exists(serverBakPath)).toBeFalsy();
       expect(tree.exists(SERVER_FILENAME)).toBeTruthy();
+      expect(tree.exists(tokensPath)).toBeFalsy();
+    });
+
+    it('should update token import paths in .ts files', async () => {
+      const filePath = './src/test-tokens.ts';
+
+      tree.create(
+        filePath,
+        `import { REQUEST, RESPONSE } from './${EXPRESS_TOKENS}';`
+      );
+      tree = await updateSsrSchematicRunner.runSchematic(
+        'update-ssr',
+        { name: 'schematics-test' },
+        tree
+      );
+
+      const updatedContent = tree.read(filePath)!.toString();
+      expect(updatedContent).toContain(
+        `import { REQUEST, RESPONSE } from '${SSR_SETUP_IMPORT}';`
+      );
     });
   });
 });
