@@ -4,12 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject, OnInit, Optional } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+  Optional,
+} from '@angular/core';
 import {
   OutletContextData,
   SearchBoxComponentService,
 } from '@spartacus/storefront';
-import { WindowRef } from '@spartacus/core';
 import { RecentSearchesService } from './recent-searches.service';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -24,6 +29,7 @@ const MAX_RECENT_SEARCHES = 5;
 @Component({
   selector: 'cx-recent-searches',
   templateUrl: './recent-searches.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecentSearchesComponent implements OnInit {
   protected recentSearchesService = inject(RecentSearchesService);
@@ -44,13 +50,15 @@ export class RecentSearchesComponent implements OnInit {
   );
 
   outletContext$: Observable<SearchBoxOutlet>;
+
   constructor(
-    @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>,
-    protected winRef: WindowRef
+    @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
   ) {}
+
   ngOnInit() {
     this.outletContext$ = this.outletContext.context$;
   }
+
   preventDefault(ev: UIEvent): void {
     ev.preventDefault();
   }

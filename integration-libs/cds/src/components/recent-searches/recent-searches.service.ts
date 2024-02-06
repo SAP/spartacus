@@ -18,11 +18,12 @@ export class RecentSearchesService {
 
   public get recentSearches$(): Observable<string[]> {
     this.addRecentSearchesListener();
-    return this.recentSearchesSource.asObservable();
+    return this.recentSearchesSource;
   }
+
   checkAvailability() {
     return interval(150).pipe(
-      concatMap((_) => of((<any>this.winRef.nativeWindow).Y_TRACKING)),
+      concatMap((_) => of((<any>this.winRef.nativeWindow)?.Y_TRACKING)),
       take(5),
       takeWhile((result: any) => !result.recentSearches),
       endWith(true)
@@ -35,11 +36,13 @@ export class RecentSearchesService {
         if (result) {
           const recentPhrases = (<any>(
             this.winRef.nativeWindow
-          )).Y_TRACKING?.recentSearches?.getPhrases();
+          ))?.Y_TRACKING?.recentSearches?.getPhrases();
+
           if (recentPhrases) {
             this.recentSearchesSource.next(recentPhrases);
-
-            (<any>window).Y_TRACKING.recentSearches?.addListener(
+            (<any>(
+              this.winRef.nativeWindow
+            ))?.Y_TRACKING.recentSearches?.addListener(
               (recentSearches: string[]) => {
                 this.recentSearchesSource.next(recentSearches);
               }

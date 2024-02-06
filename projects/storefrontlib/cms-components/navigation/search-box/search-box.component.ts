@@ -113,7 +113,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
-    const routeStateSubscribtion = this.routingService
+    const routeStateSubscription = this.routingService
       .getRouterState()
       .pipe(filter((data) => !data.nextState))
       .subscribe((data) => {
@@ -126,13 +126,15 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           this.chosenWord = '';
         }
       });
-    this.subscriptions.add(routeStateSubscribtion);
 
-    const chosenWordSubsribtion =
+    this.subscriptions.add(routeStateSubscription);
+
+    const chosenWordSubscription =
       this.searchBoxComponentService.chosenWord.subscribe((chosenWord) => {
         this.updateChosenWord(chosenWord);
       });
-    this.subscriptions.add(chosenWordSubsribtion);
+
+    this.subscriptions.add(chosenWordSubscription);
 
     const UIEventSubscription =
       this.searchBoxComponentService.sharedEvent.subscribe(
@@ -140,6 +142,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           this.propagateEvent(event);
         }
       );
+
     this.subscriptions.add(UIEventSubscription);
   }
 
