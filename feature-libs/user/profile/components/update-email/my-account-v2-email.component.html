@@ -37,12 +37,9 @@
           'myAccountV2Email.emailAddress' | cxTranslate
         }}</span>
         <input
-          required="true"
           type="text"
           class="form-control"
-          name="oldEmail"
-          formControlName="oldEmail"
-          [ngModel]="(user$ | async)?.uid"
+          [value]="(user$ | async)?.uid"
           readonly
         />
       </label>

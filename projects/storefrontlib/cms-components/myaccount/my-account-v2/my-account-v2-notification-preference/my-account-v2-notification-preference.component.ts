@@ -6,7 +6,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NotificationPreferenceComponent } from '../notification-preference/notification-preference.component';
+import { NotificationPreferenceComponent } from '../../notification-preference/notification-preference.component';
 
 @Component({
   selector: 'cx-my-account-v2-notification-preference',

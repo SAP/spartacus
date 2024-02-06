@@ -43,7 +43,6 @@ export class UpdateEmailComponentService {
 
   form: UntypedFormGroup = new UntypedFormGroup(
     {
-      oldEmail: new UntypedFormControl(''),
       email: new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.emailValidator,

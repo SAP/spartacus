@@ -9,9 +9,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthGuard, I18nModule } from '@spartacus/core';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
-import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
+import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
+import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
+import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { MyAccountV2NotificationPreferenceComponent } from './my-account-v2-notification-preference.component';
 
 @NgModule({
