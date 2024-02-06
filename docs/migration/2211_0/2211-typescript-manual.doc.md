@@ -94,3 +94,9 @@ Constructor has been extended with a new dependency to `ConfiguratorQuantityServ
 ## ActiveCartService
 
 - `WindowRef` is now a required constructor dependency.
+
+# Changes in the core library
+
+## ClientAuthStoreModule
+
+- Redundant `HttpClientModule` has been removed from the `imports` property inside `NgModule` metadata. The configuration for the dependency injector of `HttpClient` should be done in one place, in the main module (usually `app.module.ts`) of the consuming application.
