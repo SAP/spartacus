@@ -20,7 +20,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { BehaviorSubject } from 'rxjs';
 import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 import createSpy = jasmine.createSpy;
-import { UpdatePasswordComponentService } from './update-password-component.service';
+import { UpdatePasswordComponentService } from '../../update-password';
 
 @Component({
   selector: 'cx-spinner',

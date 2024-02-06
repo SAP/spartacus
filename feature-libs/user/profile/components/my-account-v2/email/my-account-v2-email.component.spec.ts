@@ -20,8 +20,8 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
 import createSpy = jasmine.createSpy;
-import { UpdateEmailComponentService } from './update-email-component.service';
-import { UserProfileFacade } from '../../root/facade';
+import { UpdateEmailComponentService } from '../../update-email';
+import { UserProfileFacade } from '../../../root/facade';
 
 @Component({
   selector: 'cx-spinner',
