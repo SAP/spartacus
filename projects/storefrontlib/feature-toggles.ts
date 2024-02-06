@@ -26,6 +26,5 @@ export interface FeatureToggles {
      *    lazy loaded modules, it will have to use ConfigurationService.unifiedConfig$
      */
     disableConfigUpdates?: boolean;
-    showPromotionsInPDP?: boolean;
   };
 }
