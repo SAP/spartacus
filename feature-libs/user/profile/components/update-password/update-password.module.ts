@@ -31,7 +31,7 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
 import { UpdatePasswordComponent } from './update-password.component';
 
 import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
-import { MyAccountV2PasswordComponent } from '../my-account-v2/password/my-account-v2-password.component';
+import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 
 const myAccountV2PasswordMapping: CmsConfig = {
   cmsComponents: {

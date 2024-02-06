@@ -15,7 +15,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import { Title } from '@spartacus/user/profile/root';
 import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
-import { UpdateProfileComponentService } from '../../update-profile';
+import { UpdateProfileComponentService } from './update-profile-component.service';
 
 @Component({
   selector: 'cx-my-account-v2-profile',

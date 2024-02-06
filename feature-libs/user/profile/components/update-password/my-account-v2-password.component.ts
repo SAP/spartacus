@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { GlobalMessageType } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { UpdatePasswordComponentService } from '../../update-password';
+import { UpdatePasswordComponentService } from './update-password-component.service';
 
 @Component({
   selector: 'cx-my-account-v2-password',
