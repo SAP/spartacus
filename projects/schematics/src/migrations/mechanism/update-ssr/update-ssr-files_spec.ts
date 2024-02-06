@@ -90,6 +90,17 @@ describe('Update SSR', () => {
       const serverBakFileContent = 'testing';
       tree.create(serverBakPath, serverBakFileContent);
       expect(tree.exists(serverBakPath)).toBeTruthy();
+      tree = await updateSsrSchematicRunner.runSchematic(
+        'update-ssr',
+        { name: 'schematics-test' },
+        tree
+      );
+
+      const restoredServerFileContent = tree.read(SERVER_FILENAME)?.toString();
+
+      expect(restoredServerFileContent).toEqual(serverBakFileContent);
+      expect(tree.exists(serverBakPath)).toBeFalsy();
+      expect(tree.exists(SERVER_FILENAME)).toBeTruthy();
     });
   });
 
@@ -105,11 +116,6 @@ describe('Update SSR', () => {
         tree
       );
 
-      const restoredServerFileContent = tree.read(SERVER_FILENAME)?.toString();
-
-      expect(restoredServerFileContent).toEqual(serverBakFileContent);
-      expect(tree.exists(serverBakPath)).toBeFalsy();
-      expect(tree.exists(SERVER_FILENAME)).toBeTruthy();
       expect(tree.exists(tokensPath)).toBeFalsy();
     });
 
