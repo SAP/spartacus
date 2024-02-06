@@ -10,13 +10,40 @@ import {
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
-
 import { Path } from '@angular-devkit/core';
 import * as ts from 'typescript';
-import { EXPRESS_TOKENS, SSR_SETUP_IMPORT } from '../../../shared/constants';
+import {
+  EXPRESS_TOKENS,
+  SERVER_BAK_FILENAME,
+  SERVER_FILENAME,
+  SSR_SETUP_IMPORT,
+} from '../../../shared/constants';
 
 export function updateServerFiles(): Rule {
-  return chain([removeExpressTokensFile, updateTokenImportPaths]);
+  return chain([removeServer, removeExpressTokensFile, updateTokenImportPaths]);
+}
+
+function removeServer(): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
+    let serverPath: Path | undefined;
+    let serverBakPath: Path | undefined;
+
+    tree.visit((filePath: Path) => {
+      const fileName = filePath.replace(/^.*[\\/]/, '');
+      if (fileName === SERVER_FILENAME) {
+        serverPath = filePath;
+      }
+
+      if (fileName === SERVER_BAK_FILENAME) {
+        serverBakPath = filePath;
+      }
+    });
+
+    if (serverPath && serverBakPath) {
+      tree.delete(serverPath);
+      tree.rename(serverBakPath, serverPath);
+    }
+  };
 }
 
 function removeExpressTokensFile(): Rule {

@@ -10,7 +10,12 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as SpartacusOptions } from '../../../add-spartacus/schema';
-import { EXPRESS_TOKENS, SSR_SETUP_IMPORT } from '../../../shared/constants';
+import {
+  EXPRESS_TOKENS,
+  SERVER_BAK_FILENAME,
+  SERVER_FILENAME,
+  SSR_SETUP_IMPORT,
+} from '../../../shared';
 
 const updateSsrCollectionPath = path.join(
   __dirname,
@@ -77,6 +82,26 @@ describe('Update SSR', () => {
       { ...defaultOptions, name: 'schematics-test' },
       tree
     );
+  });
+
+  describe('updateServerFile', () => {
+    it('should restore server.ts based on the server.ts.bak and remove server.ts.bak file', async () => {
+      const serverBakPath = `./${SERVER_BAK_FILENAME}`;
+      const serverBakFileContent = 'testing';
+      tree.create(serverBakPath, serverBakFileContent);
+      expect(tree.exists(serverBakPath)).toBeTruthy();
+      tree = await updateSsrSchematicRunner.runSchematic(
+        'update-ssr',
+        { name: 'schematics-test' },
+        tree
+      );
+
+      const restoredServerFileContent = tree.read(SERVER_FILENAME)?.toString();
+
+      expect(restoredServerFileContent).toEqual(serverBakFileContent);
+      expect(tree.exists(serverBakPath)).toBeFalsy();
+      expect(tree.exists(SERVER_FILENAME)).toBeTruthy();
+    });
   });
 
   describe('updateTokensSchematic', () => {
