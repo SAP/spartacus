@@ -56,7 +56,7 @@ function removeServer(): Rule {
 
 function modifyServerImports(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    let serverFileBuffer = tree.read(SERVER_FILENAME);
+    const serverFileBuffer = tree.read(SERVER_FILENAME);
     if (!serverFileBuffer) {
       return tree;
     }
