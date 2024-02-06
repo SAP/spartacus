@@ -23,7 +23,6 @@ import createSpy = jasmine.createSpy;
 import { UpdateEmailComponentService } from './update-email-component.service';
 import { UserProfileFacade } from '../../root/facade';
 
-
 @Component({
   selector: 'cx-spinner',
   template: '',
