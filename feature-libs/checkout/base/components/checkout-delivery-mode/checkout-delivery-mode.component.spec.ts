@@ -1,5 +1,11 @@
 import { Component, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -251,6 +257,30 @@ describe('CheckoutDeliveryModeComponent', () => {
     const invalid = component.deliveryModeInvalid;
     expect(invalid).toBe(false);
   });
+
+  it('should refocus on the keyboard selected option after they are updated', fakeAsync(() => {
+    const lastFocusedId = 'standard-gross';
+    const mockEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+    const mockElement = {
+      focus: jasmine.createSpy('focus'),
+      classList: { remove: jasmine.createSpy('remove') },
+    } as any;
+    component.isUpdating$ = of(false);
+    spyOn(document, 'querySelector').and.returnValue(mockElement);
+    spyOn(document, 'getElementById').and.returnValue(mockElement);
+    spyOn(component.mode, 'setValue');
+    spyOn(component, 'changeMode');
+
+    component.onKeydown(lastFocusedId, mockEvent);
+    tick();
+
+    expect(component.changeMode).toHaveBeenCalledWith(lastFocusedId);
+    expect(mockElement.classList.remove).toHaveBeenCalledWith('mouse-focus');
+    expect(mockElement.focus).toHaveBeenCalled();
+    expect(component.mode.setValue).toHaveBeenCalledWith({
+      deliveryModeId: lastFocusedId,
+    });
+  }));
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>

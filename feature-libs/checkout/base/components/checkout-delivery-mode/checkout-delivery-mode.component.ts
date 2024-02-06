@@ -101,6 +101,10 @@ export class CheckoutDeliveryModeComponent {
     protected activeCartFacade: ActiveCartFacade
   ) {}
 
+  /**
+   * We capture the kayboard activated option,
+   * then restore the focus to it after the data is updated.
+   */
   onKeydown(code: string | undefined, event: Event): void {
     if (
       !(
