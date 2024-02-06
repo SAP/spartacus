@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: flex-end;
 
+  // TODO Tiger - handle CSS breaking changes
   .cx-quantity-price {
     font-size: var(--cx-font-small, 0.9rem);
     line-break: anywhere;
