@@ -1,12 +1,11 @@
 import { Injectable, InjectionToken, inject } from '@angular/core';
-import { deepMerge } from '../../config';
 
 /**
  * Global Flags, can be used to inject Flags configuration to any part of the app
  */
 @Injectable({
   providedIn: 'root',
-  useFactory: () => deepMerge({}, inject(DefaultFlags), inject(RootFlags)),
+  useFactory: () => Object.assign({}, inject(DefaultFlags), inject(RootFlags)),
 })
 export abstract class Flags {}
 
@@ -16,7 +15,7 @@ export abstract class Flags {}
 export const DefaultFlags = new InjectionToken('DefaultFlags', {
   providedIn: 'root',
   factory: () =>
-    deepMerge({}, ...(inject(DefaultFlagsChunk, { optional: true }) ?? [])),
+    Object.assign({}, ...(inject(DefaultFlagsChunk, { optional: true }) ?? [])),
 });
 
 /**
@@ -25,7 +24,7 @@ export const DefaultFlags = new InjectionToken('DefaultFlags', {
 export const RootFlags = new InjectionToken('RootFlags', {
   providedIn: 'root',
   factory: () =>
-    deepMerge({}, ...(inject(FlagsChunk, { optional: true }) ?? [])),
+    Object.assign({}, ...(inject(FlagsChunk, { optional: true }) ?? [])),
 });
 
 /**
