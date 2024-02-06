@@ -458,9 +458,13 @@ function updateAppModule(options: SpartacusOptions): Rule {
           addModuleProvider(sourceFile, {
             import: {
               moduleSpecifier: ANGULAR_HTTP,
-              namedImports: ['provideHttpClient', 'withFetch'],
+              namedImports: [
+                'provideHttpClient',
+                'withFetch',
+                'withInterceptorsFromDi',
+              ],
             },
-            content: 'provideHttpClient(withFetch())',
+            content: 'provideHttpClient(withFetch(), withInterceptorsFromDi())',
           });
           addModuleImport(sourceFile, {
             order: 2,

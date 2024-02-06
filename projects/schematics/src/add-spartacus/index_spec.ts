@@ -129,7 +129,7 @@ describe('add-spartacus', () => {
     );
 
     const appModuleImports = [
-      `import { provideHttpClient, withFetch } from "@angular/common/http";`,
+      `import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";`,
       `import { AppRoutingModule } from "@spartacus/storefront";`,
       `import { StoreModule } from "@ngrx/store";`,
       `import { EffectsModule } from "@ngrx/effects";`,
@@ -139,7 +139,9 @@ describe('add-spartacus', () => {
     appModuleImports.forEach((appImport) =>
       expect(appModule.includes(appImport)).toBe(true)
     );
-    expect(appModule).toContain('provideHttpClient(withFetch())');
+    expect(appModule).toContain(
+      'provideHttpClient(withFetch(), withInterceptorsFromDi())'
+    );
   });
 
   describe('Setup configuration', () => {
