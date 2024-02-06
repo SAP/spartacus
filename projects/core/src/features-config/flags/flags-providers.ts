@@ -7,7 +7,7 @@
 import { FactoryProvider, ValueProvider } from '@angular/core';
 import { DefaultFlagsChunk, Flags, FlagsChunk } from './flags-tokens';
 
-export type FlagsFactory = (...props: any[]) => Config;
+export type FlagsFactory = (...props: any[]) => Flags;
 
 /**
  * Helper function to provide flags chunk using FlagsChunk token
