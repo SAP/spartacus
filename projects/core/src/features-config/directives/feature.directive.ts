@@ -8,7 +8,7 @@ import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { FeatureConfigService } from '../services/feature-config.service';
 
 @Directive({
-  selector: '[cxFeature]',
+  selector: '[cxFeature][cxFlag]',
 })
 export class FeatureDirective {
   constructor(
