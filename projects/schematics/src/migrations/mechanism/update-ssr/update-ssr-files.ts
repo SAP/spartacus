@@ -31,7 +31,7 @@ function removeExpressTokensFile(): Rule {
 
 function getExpressImportPaths(source: ts.SourceFile): string[] {
   const importPaths: string[] = [];
-  source.statements.map((node) => {
+  source.statements.forEach((node) => {
     if (
       ts.isImportDeclaration(node) &&
       ts.isStringLiteral(node.moduleSpecifier)
@@ -41,7 +41,6 @@ function getExpressImportPaths(source: ts.SourceFile): string[] {
         importPaths.push(importPath);
       }
     }
-    return node;
   });
 
   return importPaths;
@@ -51,24 +50,24 @@ function updateTokenImportPaths(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     tree.visit((filePath) => {
       if (filePath.endsWith('.ts')) {
-        const fileContent = tree.read(filePath);
-        if (fileContent) {
+        const fileContentBuffer = tree.read(filePath);
+        if (fileContentBuffer) {
+          const fileContent = fileContentBuffer.toString('utf-8');
+
           const source = ts.createSourceFile(
             filePath,
-            fileContent.toString(),
+            fileContent,
             ts.ScriptTarget.Latest,
             true
           );
           const importPaths = getExpressImportPaths(source);
-          let updatedFileContent = fileContent.toString('utf-8');
 
           if (importPaths.length) {
-            importPaths.forEach((path: string) => {
-              updatedFileContent = updatedFileContent.replace(
-                path,
-                SSR_SETUP_IMPORT
-              );
-            });
+            const importPathsRegex = new RegExp(importPaths.join('|'), 'g');
+            const updatedFileContent = fileContent.replace(
+              importPathsRegex,
+              SSR_SETUP_IMPORT
+            );
 
             tree.overwrite(filePath, updatedFileContent);
           }
