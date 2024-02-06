@@ -12,8 +12,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { FeatureConfigService } from '@spartacus/core';
@@ -79,14 +79,13 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
    * Subscription responsible for auto-correcting control's value when it's invalid.
    */
   private sub: Subscription;
-
-  constructor(
-    @Optional() protected featureConfigService: FeatureConfigService
-  ) {}
+  protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   // TODO: (CXSPA-6034) Remove HostListener and @ViewChild('qty') next major release
   @HostListener('click') handleClick() {
-    if (this.featureConfigService.isLevel('6.8')) {
+    if (this.featureConfigService?.isLevel('!6.8')) {
       this.input.nativeElement.focus();
     }
   }
