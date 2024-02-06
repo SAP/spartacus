@@ -24,17 +24,20 @@ export function updateServerFiles(): Rule {
 
 function modifyServerImports(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    let updateContent = tree.read(SERVER_FILENAME)?.toString('utf-8') ?? '';
-    if (
+    let serverFileBuffer = tree.read(SERVER_FILENAME);
+    if (!serverFileBuffer) {
+      return tree;
+    }
+    let updateContent = serverFileBuffer.toString('utf-8');
+    const hasOldImport =
       updateContent.includes(OLD_ZONE_IMPORT) ||
-      updateContent.includes(NGUNIVERSAL_IMPORT)
-    ) {
-      updateContent = updateContent.includes(OLD_ZONE_IMPORT)
-        ? updateContent.replace(OLD_ZONE_IMPORT, NEW_ZONE_IMPORT)
-        : updateContent;
-      updateContent = updateContent.includes(NGUNIVERSAL_IMPORT)
-        ? updateContent.replace(NGUNIVERSAL_IMPORT, SSR_SETUP_IMPORT)
-        : updateContent;
+      updateContent.includes(NGUNIVERSAL_IMPORT);
+    if (hasOldImport) {
+      updateContent = updateContent.replace(OLD_ZONE_IMPORT, NEW_ZONE_IMPORT);
+      updateContent = updateContent.replace(
+        NGUNIVERSAL_IMPORT,
+        SSR_SETUP_IMPORT
+      );
       tree.overwrite(SERVER_FILENAME, updateContent);
     }
     return tree;

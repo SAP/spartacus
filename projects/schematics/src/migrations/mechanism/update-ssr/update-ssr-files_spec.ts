@@ -10,7 +10,7 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as SpartacusOptions } from '../../../add-spartacus/schema';
-import { NEW_ZONE_IMPORT, OLD_ZONE_IMPORT } from '../../../shared/constants';
+import { NEW_ZONE_IMPORT, NGUNIVERSAL_IMPORT, OLD_ZONE_IMPORT, SSR_SETUP_IMPORT } from "../../../shared/constants";
 
 const updateSsrCollectionPath = path.join(
   __dirname,
@@ -88,7 +88,8 @@ describe('Update SSR', () => {
       );
 
       const updatedContent = tree.read('./server.ts')!.toString();
-      expect(updatedContent).toContain('@spartacus/setup/ssr');
+      expect(updatedContent).toContain(SSR_SETUP_IMPORT);
+      expect(updatedContent).not.toContain(NGUNIVERSAL_IMPORT)
     });
 
     it('should change zone.js import in server.ts', async () => {
@@ -106,6 +107,7 @@ describe('Update SSR', () => {
 
       const updatedServerContent = tree.read('./server.ts')!.toString();
       expect(updatedServerContent).toContain(NEW_ZONE_IMPORT);
+      expect(updatedServerContent).not.toContain(OLD_ZONE_IMPORT)
     });
   });
 });
