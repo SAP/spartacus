@@ -12,10 +12,13 @@ import {
 import { Schema as SpartacusOptions } from '../../../add-spartacus/schema';
 import {
   EXPRESS_TOKENS,
+  NEW_ZONE_IMPORT,
+  NGUNIVERSAL_IMPORT,
+  OLD_ZONE_IMPORT,
   SERVER_BAK_FILENAME,
   SERVER_FILENAME,
   SSR_SETUP_IMPORT,
-} from '../../../shared';
+} from '../../../shared/constants';
 
 const updateSsrCollectionPath = path.join(
   __dirname,
@@ -85,6 +88,36 @@ describe('Update SSR', () => {
   });
 
   describe('updateServerFile', () => {
+    it('should change nguniversal import in server.ts', async () => {
+      tree = await updateSsrSchematicRunner.runSchematic(
+        'update-ssr',
+        { name: 'schematics-test' },
+        tree
+      );
+
+      const updatedContent = tree.read('./server.ts')!.toString();
+      expect(updatedContent).toContain(SSR_SETUP_IMPORT);
+      expect(updatedContent).not.toContain(NGUNIVERSAL_IMPORT);
+    });
+
+    it('should change zone.js import in server.ts', async () => {
+      let serverContent = tree.read('./server.ts')!.toString();
+
+      if (!serverContent.includes('zone.js')) {
+        serverContent = serverContent + `import "${OLD_ZONE_IMPORT}"`;
+        tree.overwrite('./server.ts', serverContent);
+      }
+      tree = await updateSsrSchematicRunner.runSchematic(
+        'update-ssr',
+        { name: 'schematics-test' },
+        tree
+      );
+
+      const updatedServerContent = tree.read('./server.ts')!.toString();
+      expect(updatedServerContent).toContain(NEW_ZONE_IMPORT);
+      expect(updatedServerContent).not.toContain(OLD_ZONE_IMPORT);
+    });
+
     it('should restore server.ts based on the server.ts.bak and remove server.ts.bak file', async () => {
       const serverBakPath = `./${SERVER_BAK_FILENAME}`;
       const serverBakFileContent = 'testing';

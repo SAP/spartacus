@@ -1147,5 +1147,8 @@ export const CDC_JS_SERVICE = 'CdcJsService';
 
 export const SERVER_FILENAME = 'server.ts';
 export const SERVER_BAK_FILENAME = 'server.ts.bak';
+export const OLD_ZONE_IMPORT = 'zone.js/dist/zone-node';
+export const NEW_ZONE_IMPORT = 'zone.js/node';
+export const NGUNIVERSAL_IMPORT = '@nguniversal/express-engine';
 export const SSR_SETUP_IMPORT = '@spartacus/setup/ssr';
 export const EXPRESS_TOKENS = 'express.tokens';

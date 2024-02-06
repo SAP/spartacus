@@ -10,17 +10,25 @@ import {
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
-import { Path } from '@angular-devkit/core';
 import * as ts from 'typescript';
 import {
   EXPRESS_TOKENS,
+  NEW_ZONE_IMPORT,
+  NGUNIVERSAL_IMPORT,
+  OLD_ZONE_IMPORT,
   SERVER_BAK_FILENAME,
   SERVER_FILENAME,
   SSR_SETUP_IMPORT,
 } from '../../../shared/constants';
+import { Path } from '@angular-devkit/core';
 
 export function updateServerFiles(): Rule {
-  return chain([removeServer, removeExpressTokensFile, updateTokenImportPaths]);
+  return chain([
+    removeServer,
+    modifyServerImports,
+    removeExpressTokensFile,
+    updateTokenImportPaths,
+  ]);
 }
 
 function removeServer(): Rule {
@@ -43,6 +51,28 @@ function removeServer(): Rule {
       tree.delete(serverPath);
       tree.rename(serverBakPath, serverPath);
     }
+  };
+}
+
+function modifyServerImports(): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
+    let serverFileBuffer = tree.read(SERVER_FILENAME);
+    if (!serverFileBuffer) {
+      return tree;
+    }
+    let updateContent = serverFileBuffer.toString('utf-8');
+    const hasOldImport =
+      updateContent.includes(OLD_ZONE_IMPORT) ||
+      updateContent.includes(NGUNIVERSAL_IMPORT);
+    if (hasOldImport) {
+      updateContent = updateContent.replace(OLD_ZONE_IMPORT, NEW_ZONE_IMPORT);
+      updateContent = updateContent.replace(
+        NGUNIVERSAL_IMPORT,
+        SSR_SETUP_IMPORT
+      );
+      tree.overwrite(SERVER_FILENAME, updateContent);
+    }
+    return tree;
   };
 }
 
