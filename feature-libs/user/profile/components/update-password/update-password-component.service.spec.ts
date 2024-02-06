@@ -11,8 +11,8 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
 import { UpdatePasswordComponentService } from './update-password-component.service';
+import createSpy = jasmine.createSpy;
 
 class MockUserPasswordFacade implements Partial<UserPasswordFacade> {
   update = createSpy().and.returnValue(of({}));
