@@ -22,8 +22,8 @@ export function updateServerFiles(): Rule {
 
 function removeServer(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    let serverPath;
-    let serverBakPath;
+    let serverPath: Path | undefined;
+    let serverBakPath: Path | undefined;
 
     tree.visit((filePath: Path) => {
       const fileName = filePath.replace(/^.*[\\/]/, '');
