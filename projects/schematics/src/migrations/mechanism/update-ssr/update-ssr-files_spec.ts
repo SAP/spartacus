@@ -11,9 +11,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as SpartacusOptions } from '../../../add-spartacus/schema';
 import {
+  EXPRESS_TOKENS,
   NEW_ZONE_IMPORT,
   NGUNIVERSAL_IMPORT,
   OLD_ZONE_IMPORT,
+  SERVER_BAK_FILENAME,
+  SERVER_FILENAME,
   SSR_SETUP_IMPORT,
 } from '../../../shared/constants';
 
