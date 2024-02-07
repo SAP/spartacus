@@ -153,6 +153,7 @@ export function checkIfSSRIsUsed(tree: Tree): boolean {
     !!angularJson.projects[projectName].architect['server'];
 
   const serverFileLocation = getServerTsPath(tree);
+
   if (!serverFileLocation) {
     return false;
   }
