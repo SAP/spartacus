@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { interval, Observable, of, ReplaySubject } from 'rxjs';
-import { concatMap, endWith, take, takeWhile } from 'rxjs/operators';
+import { interval, last, Observable, of, ReplaySubject } from 'rxjs';
+import { concatMap, map, take, takeWhile } from 'rxjs/operators';
 import { WindowRef } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
@@ -23,10 +23,11 @@ export class RecentSearchesService {
 
   checkAvailability() {
     return interval(150).pipe(
-      concatMap((_) => of((<any>this.winRef.nativeWindow)?.Y_TRACKING)),
+      concatMap((_) => of((this.winRef.nativeWindow as any)?.Y_TRACKING)),
+      map((result) => !!result?.recentSearches),
       take(5),
-      takeWhile((result: any) => !result.recentSearches),
-      endWith(true)
+      takeWhile((val) => !val, true),
+      last()
     );
   }
 
@@ -34,15 +35,14 @@ export class RecentSearchesService {
     if (!this.apiAvailability) {
       this.checkAvailability().subscribe((result) => {
         if (result) {
-          const recentPhrases = (<any>(
-            this.winRef.nativeWindow
-          ))?.Y_TRACKING?.recentSearches?.getPhrases();
-
+          const recentPhrases = (
+            this.winRef.nativeWindow as any
+          )?.Y_TRACKING?.recentSearches?.getPhrases();
           if (recentPhrases) {
             this.recentSearchesSource.next(recentPhrases);
-            (<any>(
-              this.winRef.nativeWindow
-            ))?.Y_TRACKING.recentSearches?.addListener(
+            (
+              this.winRef.nativeWindow as any
+            )?.Y_TRACKING?.recentSearches?.addListener(
               (recentSearches: string[]) => {
                 this.recentSearchesSource.next(recentSearches);
               }
