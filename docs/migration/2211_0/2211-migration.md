@@ -48,3 +48,11 @@ npm i rxjs@^7.8.0 i18next@^23.7.6 i18next-http-backend@^2.4.2 i18next-resources-
 git add .
 git commit -m "update rxjs 7 and i18next libraries"
 ```
+
+### Run Spartacus update
+
+After successfully updating the application to Angular 17, execute this command to initiate the Spartacus update process.
+
+```bash
+ng update @spartacus/schematics@2211.19
+```
