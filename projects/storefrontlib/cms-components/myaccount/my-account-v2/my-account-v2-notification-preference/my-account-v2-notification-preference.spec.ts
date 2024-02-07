@@ -95,7 +95,7 @@ describe('MyAccountV2NotificationPreferenceComponent', () => {
   it('should show channels', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.header'))).toBeTruthy();
-    expect(el.query(By.css('.pref-note'))).toBeTruthy();
+    expect(el.query(By.css('.pref-info'))).toBeTruthy();
     expect(
       el.queryAll(By.css('.form-check-input')).length ===
         notificationPreference.length
