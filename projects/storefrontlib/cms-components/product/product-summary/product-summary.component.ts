@@ -16,7 +16,7 @@ import { ProductDetailOutlets } from '../product-outlets.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductSummaryComponent {
-  protected featureConfig = inject(FeatureConfigService);
+  private featureConfig = inject(FeatureConfigService);
 
   outlets = ProductDetailOutlets;
 
