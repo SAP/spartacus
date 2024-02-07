@@ -95,15 +95,15 @@ describe('Update SSR', () => {
         tree
       );
 
-      const updatedContent = tree.read('./server.ts')!.toString();
+      const updatedContent = tree.read('./server.ts')?.toString();
       expect(updatedContent).toContain(SSR_SETUP_IMPORT);
       expect(updatedContent).not.toContain(NGUNIVERSAL_IMPORT);
     });
 
     it('should change zone.js import in server.ts', async () => {
-      let serverContent = tree.read('./server.ts')!.toString();
+      let serverContent = tree.read('./server.ts')?.toString();
 
-      if (!serverContent.includes('zone.js')) {
+      if (!serverContent?.includes('zone.js')) {
         serverContent = serverContent + `import "${OLD_ZONE_IMPORT}"`;
         tree.overwrite('./server.ts', serverContent);
       }
@@ -113,7 +113,7 @@ describe('Update SSR', () => {
         tree
       );
 
-      const updatedServerContent = tree.read('./server.ts')!.toString();
+      const updatedServerContent = tree.read('./server.ts')?.toString();
       expect(updatedServerContent).toContain(NEW_ZONE_IMPORT);
       expect(updatedServerContent).not.toContain(OLD_ZONE_IMPORT);
     });
@@ -165,7 +165,7 @@ describe('Update SSR', () => {
         tree
       );
 
-      const updatedContent = tree.read(filePath)!.toString();
+      const updatedContent = tree.read(filePath)?.toString();
       expect(updatedContent).toContain(
         `import { REQUEST, RESPONSE } from '${SSR_SETUP_IMPORT}';`
       );
