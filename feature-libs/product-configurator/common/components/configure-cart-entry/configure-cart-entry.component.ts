@@ -20,7 +20,10 @@ import {
 import { AbstractOrderContext } from '@spartacus/cart/base/components';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import {
+  CommonConfigurator,
+  ViewOnlyPostfix,
+} from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
 @Component({
@@ -166,7 +169,12 @@ export class ConfigureCartEntryComponent {
    *  @returns - 'true' if the configuration is read only, otherwise 'false'
    */
   getDisplayOnly(): boolean {
-    return this.readOnly;
+    const configuratorType = this.cartEntry.product?.configuratorType;
+    return (
+      this.readOnly ||
+      configuratorType === undefined ||
+      configuratorType.indexOf(ViewOnlyPostfix) > 0
+    );
   }
 
   /**
@@ -185,7 +193,7 @@ export class ConfigureCartEntryComponent {
    */
   getResolveIssuesA11yDescription(): string | undefined {
     const errorMsgId = 'cx-error-msg-' + this.cartEntry.entryNumber;
-    return !this.readOnly && this.msgBanner ? errorMsgId : undefined;
+    return !this.getDisplayOnly() && this.msgBanner ? errorMsgId : undefined;
   }
 
   /**

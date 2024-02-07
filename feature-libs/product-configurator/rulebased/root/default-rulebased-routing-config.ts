@@ -12,6 +12,11 @@ export const defaultRulebasedRoutingConfig: RoutingConfig = {
       configureCPQCONFIGURATOR: {
         paths: ['configure/vc/:ownerType/entityKey/:entityKey'],
       },
+      configureCPQCONFIGURATOR_VIEW_ONLY: {
+        paths: [
+          'configure-overview/vc/:ownerType/entityKey/:entityKey/displayOnly/true',
+        ],
+      },
       configureOverviewCPQCONFIGURATOR: {
         paths: [
           'configure-overview/vc/:ownerType/entityKey/:entityKey/displayOnly/:displayOnly',

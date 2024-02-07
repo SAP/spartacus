@@ -12,7 +12,10 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import {
+  CommonConfigurator,
+  ViewOnlyPostfix,
+} from '../../core/model/common-configurator.model';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
 
 @Component({
@@ -36,6 +39,12 @@ export class ConfigureProductComponent {
 
   ownerTypeProduct: CommonConfigurator.OwnerType =
     CommonConfigurator.OwnerType.PRODUCT;
+
+  getConfigureText(configuratorType?: string): string {
+    return configuratorType && configuratorType.indexOf(ViewOnlyPostfix) > 0
+      ? 'configurator.header.toconfigView'
+      : 'configurator.header.toconfig';
+  }
 
   constructor(
     @Optional() protected productListItemContext: ProductListItemContext, // when on PLP
