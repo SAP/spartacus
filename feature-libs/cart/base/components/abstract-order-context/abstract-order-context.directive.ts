@@ -32,17 +32,7 @@ export class AbstractOrderContextDirective implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const contextChanges = changes.cxAbstractOrderContext;
     if (contextChanges) {
-      const { previousValue, currentValue } = contextChanges;
-      if (!previousValue || previousValue.id !== currentValue.id) {
-        this.abstractOrderContextSource.id$.next(
-          this.cxAbstractOrderContext.id
-        );
-      }
-      if (!previousValue || previousValue.type !== currentValue.type) {
-        this.abstractOrderContextSource.type$.next(
-          this.cxAbstractOrderContext.type
-        );
-      }
+      this.abstractOrderContextSource.key$.next(this.cxAbstractOrderContext);
     }
   }
 }

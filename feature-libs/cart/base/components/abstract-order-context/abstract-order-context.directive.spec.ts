@@ -35,11 +35,8 @@ class TestComponent {
 })
 class TestInnerComponent {
   abstractOrderContext = inject(AbstractOrderContext, { optional: true });
-  myId$ = this.abstractOrderContext?.id$.pipe(
+  myId$ = this.abstractOrderContext?.key$.pipe(
     tap(() => (emissionCounterId = emissionCounterId + 1))
-  );
-  myType$ = this.abstractOrderContext?.type$.pipe(
-    tap(() => (emissionCounterType = emissionCounterType + 1))
   );
 }
 
