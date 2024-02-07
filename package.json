@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
   "engines": {
-    "node": "^16.13.0 || ^18.10.0 || ^20.10.0"
+    "node": "^18.13.0 || ^20.10.0"
   },
   "scripts": {
     "build:analyze": "npm run build --stats-json && npx --yes webpack-bundle-analyzer dist/storefrontapp/stats.json",
