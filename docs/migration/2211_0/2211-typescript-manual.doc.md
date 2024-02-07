@@ -99,4 +99,4 @@ Constructor has been extended with a new dependency to `ConfiguratorQuantityServ
 
 ## ClientAuthStoreModule
 
-- Redundant `HttpClientModule` has been removed from the `imports` property inside `NgModule` metadata. The configuration for the dependency injector of `HttpClient` should be done in one place, in the main module (usually `app.module.ts`) of the consuming application.
+- `HttpClientModule` has been removed from the `imports` property inside `NgModule` metadata. This should not be a problem, as long as you import `HttpClientModule` in your `app.module.ts`.
