@@ -4,10 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { noop, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { checkIfSSRIsUsed } from '../../../shared/utils/package-utils';
+import { updateServerFiles } from '../update-ssr/update-ssr-files';
 
 export function migrate(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    return tree;
+    return checkIfSSRIsUsed(tree) ? updateServerFiles() : noop();
   };
 }
