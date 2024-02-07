@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { quote } from './quote.i18n';
+import quote from './quote.json';
 
 export const en = {
   quote,
