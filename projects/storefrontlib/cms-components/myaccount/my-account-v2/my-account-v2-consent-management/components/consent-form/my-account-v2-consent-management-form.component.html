@@ -4,6 +4,7 @@
       type="checkbox"
       class="custom-control-input"
       [id]="consentTemplate.id"
+      [name]="consentTemplate.id"
       [checked]="consentGiven"
       (change)="onConsentChange()"
       [disabled]="isRequired(consentTemplate?.id)"
