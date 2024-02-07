@@ -16,29 +16,18 @@
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    right: -($font-size-base * 0.9375);
-    left: -($font-size-base * 0.9375);
+    right: -1rem;
+    left: -1rem;
   }
 
   .header {
-    width: $font-size-base * 14.375;
-    height: $font-size-base * 1.875;
-    font-weight: var(--cx-font-weight-semi);
-    font-size: $h3-font-size;
-    font-family: $font-family-sans-serif;
-    line-height: $font-size-base * 1.8725;
-    margin-bottom: $font-size-base * 1.875;
+    @include type('3');
+    margin-bottom: 1.75rem;
   }
 
   .pref-info {
-    width: $font-size-base * 19.875;
-    height: $font-size-base * 1.375;
-    font-weight: var(--cx-font-weight-normal);
-    font-size: $h5-font-size;
-    font-family: $font-family-sans-serif;
-    line-height: $font-size-base * 1.362;
-    text-align: center;
-    margin-bottom: $font-size-base * 0.625;
+    @include type();
+    margin-bottom: 0.7rem;
   }
 
   .notification-channels {
@@ -46,37 +35,18 @@
     align-items: center;
   }
 
-  .pref-channels {
-    width: $font-size-base * 17.063;
-    height: $font-size-base * 1.5;
-    top: $font-size-base * 29.3125;
-    left: $font-size-base * 46.5;
-    gap: $font-size-base * 0.5;
-    margin-bottom: $font-size-base * 1.25;
-  }
-
   .check-box {
-    width: $font-size-base * 1.5;
-    height: $font-size-base * 1.5;
-    margin-top: $font-size-base * 0.125;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.125rem;
   }
 
   .check-label {
-    width: $font-size-base * 15.063;
-    height: $font-size-base * 1.375;
-    font-weight: var(--cx-font-weight-normal);
-    font-size: $h5-font-size;
-    font-family: $font-family-sans-serif;
-    line-height: $font-size-base * 1.362;
-    margin-top: $font-size-base * 0.625;
+    @include type('5');
+    margin-top: 0.625rem;
   }
 
   .note {
-    width: $font-size-base * 27;
-    height: $font-size-base * 2.75;
-    font-weight: var(--cx-font-weight-normal);
-    font-size: $h5-font-size;
-    font-family: $font-family-sans-serif;
-    line-height: $font-size-base * 1.362;
+    @include type('5');
   }
 }

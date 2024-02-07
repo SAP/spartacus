@@ -6,43 +6,38 @@
   }
 
   .headertext {
-    font-size: $h3-font-size;
-    font-weight: var(--cx-font-weight-semi);
-    color: $text;
+    @include type('3');
     padding-bottom: 1.5rem;
     width: 95%;
   }
 
   .editButton {
-    font-size: $font-size-base;
-    color: $primary;
+    @include type();
+    color: var(--cx-color-primary);
     border: none;
-    background-color: transparent;
+    background-color: var(--cx-color-transparent);
   }
 
   .text-head {
-    font-weight: var(--cx-font-weight-semi);
+    @include type('6');
     min-width: 7.5rem;
-    color: $background-dark;
     width: 15%;
   }
 
   .value {
-    font-weight: var(--cx-font-weight-normal);
-    color: $dark;
+    @include type('7');
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
   }
 
   .button {
-    font-weight: var(--cx-font-weight-normal);
+    @include type();
     padding: 0.8rem, 1.5rem, 0.8rem, 1.5rem;
-    font-size: $font-size-base;
   }
 
   .button-cancel {
-    color: $primary;
+    color: var(--cx-color-primary);
   }
 
   .myaccount-editing-area {
@@ -64,7 +59,7 @@
   }
 
   .ng-select .ng-select-container {
-    background-color: $background;
+    background-color: var(--cx-color-background);
   }
 
   form {
