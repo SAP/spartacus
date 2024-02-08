@@ -408,16 +408,15 @@ describe('CartItemListComponent', () => {
       TestBed.compileComponents();
       stubSeviceAndCreateComponent();
 
-      spyOn(<any>component, 'setItemsInternal').and.callThrough();
+      spyOn(<any>component, '_setItems').and.callThrough();
       const setLoading = spyOnProperty(component, 'setLoading', 'set');
       component.ngOnInit();
 
       expect(component.cartId).toEqual(mockContext.cartId);
       expect(component.hasHeader).toEqual(mockContext.hasHeader);
-      expect(component['setItemsInternal']).toHaveBeenCalledWith(
-        mockContext.items,
-        false
-      );
+      expect(component['_setItems']).toHaveBeenCalledWith(mockContext.items, {
+        forceRerender: false,
+      });
       expect(component.options).toEqual(mockContext.options);
       expect(component.promotionLocation).toEqual(
         mockContext.promotionLocation

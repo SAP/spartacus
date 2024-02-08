@@ -65,7 +65,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   @Input('items')
   set items(items: OrderEntry[]) {
-    this.setItemsInternal(items);
+    this._setItems(items);
   }
   get items(): OrderEntry[] {
     return this._items;
@@ -103,8 +103,11 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected setItemsInternal(items: OrderEntry[], forceRerender?: boolean) {
-    this.resolveItems(items, forceRerender);
+  protected _setItems(
+    items: OrderEntry[],
+    options?: { forceRerender?: boolean }
+  ) {
+    this.resolveItems(items, options);
     this.createForm();
   }
 
@@ -132,7 +135,9 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       }
       if (context.items !== undefined) {
         if (contextRequiresRerender) this.cd.markForCheck();
-        this.setItemsInternal(context.items, contextRequiresRerender);
+        this._setItems(context.items, {
+          forceRerender: contextRequiresRerender,
+        });
       }
     });
   }
@@ -140,7 +145,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   /**
    * Resolves items passed to component input and updates 'items' field
    */
-  protected resolveItems(items: OrderEntry[], forceRerender?: boolean): void {
+  protected resolveItems(
+    items: OrderEntry[],
+    options?: { forceRerender?: boolean }
+  ): void {
     if (!items) {
       this._items = [];
       return;
@@ -151,7 +159,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     if (items.every((item) => item.hasOwnProperty('orderEntry'))) {
       this.normalizeConsignmentEntries(items);
     } else {
-      this.rerenderChangedItems(items, forceRerender);
+      this.rerenderChangedItems(items, options);
     }
   }
 
@@ -171,7 +179,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
    * OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
    * So we update each array element to the new object only when it's any different to the previous one.
    */
-  protected rerenderChangedItems(items: OrderEntry[], forceRerender?: boolean) {
+  protected rerenderChangedItems(
+    items: OrderEntry[],
+    options?: { forceRerender?: boolean }
+  ) {
     let offset = 0;
     for (
       let i = 0;
@@ -180,7 +191,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     ) {
       const index = i - offset;
       if (
-        forceRerender ||
+        options?.forceRerender ||
         JSON.stringify(this._items?.[index]) !== JSON.stringify(items[index])
       ) {
         if (this._items[index]) {
