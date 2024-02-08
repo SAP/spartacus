@@ -33,11 +33,13 @@
 
       cx-cart-totals,
       cx-cart-coupon,
-      //TODO TIGER cover breaking changes
       cx-cart-proceed-to-checkout,
-      
       cx-quote-request-button {
-        max-width: 50%;
+        min-width: 100%;
+      }
+
+      cx-cart-coupon {
+        order: 2;
       }
 
       cx-cart-quick-order-form {
@@ -50,6 +52,10 @@
 
       cx-cart-proceed-to-checkout {
         order: 5;
+      }
+
+      cx-quote-request-button {
+        order: 6;
       }
     }
 
