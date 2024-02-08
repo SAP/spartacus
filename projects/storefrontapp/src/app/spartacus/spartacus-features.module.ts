@@ -94,6 +94,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { CdpFeatureModule } from './features/cdp/cdp-feature.module';
 
 const featureModules = [];
 
@@ -113,6 +114,9 @@ if (environment.b2b) {
 
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
+}
+if (environment.cdp) {
+  featureModules.push(CdpFeatureModule);
 }
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
