@@ -2,7 +2,7 @@
 
 # 2211.0 Typescript Breaking Changes
 
-This document contains a list of breaking changes or potentially breaking changes for Spartacus 2211.0.
+This document contains a list of breaking changes or potentially breaking changes for Spartacus 2211.19.
 
 
 
