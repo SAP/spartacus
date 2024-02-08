@@ -33,7 +33,10 @@
 
   .button {
     @include type();
-    padding: 0.8rem, 1.5rem, 0.8rem, 1.5rem;
+    padding-top: 0.8rem;
+    padding-inline-end: 1.5rem;
+    padding-bottom: 0.8rem;
+    padding-inline-start: 1.5rem;
   }
 
   .button-cancel {
@@ -64,7 +67,7 @@
 
   form {
     label {
-      padding-bottom: 0.75rem !important;
+      padding-bottom: 0.75rem;
     }
   }
   label {

@@ -20,11 +20,17 @@
   }
 
   .consent-details {
-    margin: 0 0 0 2.815rem;
+    margin-top: 0;
+    margin-inline-end: 0;
+    margin-bottom: 0;
+    margin-inline-start: 2.815rem;
   }
 
   .custom-switch {
-    margin: 0 0 0 -2.25rem;
+    margin-top: 0;
+    margin-inline-end: 0;
+    margin-bottom: 0;
+    margin-inline-start :-2.25rem;
 
     .custom-control-label {
       &::before {
