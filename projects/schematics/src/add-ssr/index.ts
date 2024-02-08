@@ -22,6 +22,7 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import {
+  findNode,
   getDecoratorMetadata,
   getMetadataField,
   insertImport,
@@ -381,6 +382,7 @@ function removeClientHydration(spartacusOptions: SpartacusOptions): Rule {
     // Remove provider
     const providerChanges = removeFromModuleProviders(
       sourceFile,
+      ts.SyntaxKind.CallExpression,
       `provideClientHydration()`
     );
 
@@ -404,10 +406,12 @@ function removeClientHydration(spartacusOptions: SpartacusOptions): Rule {
  */
 function removeFromModuleProviders(
   source: ts.SourceFile,
+  kind: ts.SyntaxKind,
   providerName: string
 ): RemoveChange[] {
   const nodes = getDecoratorMetadata(source, 'NgModule', ANGULAR_CORE);
   const node = nodes[0];
+
   if (!node || !ts.isObjectLiteralExpression(node)) {
     return [];
   }
@@ -424,21 +428,31 @@ function removeFromModuleProviders(
     return [];
   }
 
-  //find provider to remove
+  //find providers
   const providersExpression = assignment.initializer;
-  const providerToRemove = providersExpression
+  const providerNodes = providersExpression
     .getChildren()
-    .filter((e) => e.getText().includes(providerName));
+    .filter((e) => e.getText().includes(providerName))[0];
 
-  if (!providerToRemove) {
+  // return empty array if there is no `provideClientHydration` among providers
+  if (!providerNodes) {
+    return [];
+  }
+
+  // get specific provider with given kind and name;
+  const providerSpecifier = providerNodes
+    .getChildren()
+    .find((childNode) => findNode(childNode, kind, providerName));
+
+  if (!providerSpecifier) {
     return [];
   }
 
   return [
     new RemoveChange(
       source.fileName,
-      providerToRemove[0].pos,
-      `${providerToRemove[0].getFullText()}`
+      providerSpecifier.pos,
+      `${providerSpecifier.getFullText()}`
     ),
   ];
 }
