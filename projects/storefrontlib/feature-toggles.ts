@@ -31,5 +31,6 @@ export interface FeatureToggles {
      * Indicates that the for the card components, the card paragraph is truncated (like the label)
      */
     storeFrontLibCardParagraphTruncated?: boolean;
+    showPromotionsInPDP?: boolean;
   };
 }
