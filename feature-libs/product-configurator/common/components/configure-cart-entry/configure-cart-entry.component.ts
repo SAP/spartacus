@@ -18,8 +18,7 @@ import {
 } from '@spartacus/cart/base/root';
 
 import { AbstractOrderContext } from '@spartacus/cart/base/components';
-import { Observable, combineLatest, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
@@ -39,10 +38,7 @@ export class ConfigureCartEntryComponent {
   // we default to active cart as owner in case no context is provided
   // in this case no id of abstract order is needed
   abstractOrderData$: Observable<AbstractOrderKey> = this.abstractOrderContext
-    ? combineLatest([
-        this.abstractOrderContext.id$,
-        this.abstractOrderContext.type$,
-      ]).pipe(map(([id, type]) => ({ id, type })))
+    ? this.abstractOrderContext.key$
     : of({ type: AbstractOrderType.CART });
 
   /**
@@ -118,34 +114,16 @@ export class ConfigureCartEntryComponent {
    * @returns - an entry key
    */
   retrieveEntityKey(abstractOrderKey: AbstractOrderKey): string {
-    const orderType = abstractOrderKey.type;
-    const documentIdRequired: boolean =
-      orderType === AbstractOrderType.ORDER ||
-      orderType === AbstractOrderType.QUOTE ||
-      orderType === AbstractOrderType.SAVED_CART;
     const entryNumber = this.cartEntry.entryNumber;
     if (entryNumber === undefined) {
       throw new Error('No entryNumber present in entry');
     }
-    return documentIdRequired
-      ? this.getConfiguratorOwnerId(abstractOrderKey, entryNumber)
+    return abstractOrderKey.type !== AbstractOrderType.CART
+      ? this.commonConfigUtilsService.getComposedOwnerId(
+          abstractOrderKey.id,
+          entryNumber
+        )
       : entryNumber.toString();
-  }
-
-  protected getConfiguratorOwnerId(
-    abstractOrderData: AbstractOrderKey,
-    entryNumber: number
-  ): string {
-    const abstractOrderId = abstractOrderData.id;
-    if (abstractOrderId === undefined) {
-      throw new Error(
-        'Abstract order entry owner id must be provided in context'
-      );
-    }
-    return this.commonConfigUtilsService.getComposedOwnerId(
-      abstractOrderId,
-      entryNumber
-    );
   }
 
   /**

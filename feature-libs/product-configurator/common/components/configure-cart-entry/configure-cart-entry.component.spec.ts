@@ -19,8 +19,7 @@ const savedCartCode = '0108336';
 const quoteCode = '01008764';
 
 class MockAbstractOrderContext {
-  id$ = of(quoteCode);
-  type$ = of(AbstractOrderType.QUOTE);
+  key$ = of({ id: quoteCode, type: AbstractOrderType.QUOTE });
 }
 
 @Pipe({
@@ -115,6 +114,7 @@ describe('ConfigureCartEntryComponent', () => {
         expect(
           component.retrieveOwnerTypeFromAbstractOrderType({
             type: AbstractOrderType.ORDER,
+            id: orderCode,
           })
         ).toBe(CommonConfigurator.OwnerType.ORDER_ENTRY);
       });
@@ -124,6 +124,7 @@ describe('ConfigureCartEntryComponent', () => {
         expect(
           component.retrieveOwnerTypeFromAbstractOrderType({
             type: AbstractOrderType.QUOTE,
+            id: quoteCode,
           })
         ).toBe(CommonConfigurator.OwnerType.QUOTE_ENTRY);
       });
@@ -141,6 +142,7 @@ describe('ConfigureCartEntryComponent', () => {
         expect(
           component.retrieveOwnerTypeFromAbstractOrderType({
             type: AbstractOrderType.SAVED_CART,
+            id: savedCartCode,
           })
         ).toBe(CommonConfigurator.OwnerType.SAVED_CART_ENTRY);
       });
@@ -176,16 +178,6 @@ describe('ConfigureCartEntryComponent', () => {
             id: savedCartCode,
           })
         ).toBe(savedCartCode + '+0');
-      });
-
-      it('should throw error in case abstract order id is not present for a type that is not active cart', () => {
-        component.cartEntry = { entryNumber: 0 };
-
-        expect(() =>
-          component.retrieveEntityKey({
-            type: AbstractOrderType.SAVED_CART,
-          })
-        ).toThrowError();
       });
 
       it('should find correct entity key for active cart entry', () => {

@@ -120,17 +120,18 @@ export interface CartItemComponentOptions {
 /**
  * A key that identifies an 'abstract order', that in OO terms can be understood
  * as a common super class of cart, saved cart, order and quote.
+ *
+ * The attribute `id` is absent for the Cart type, because there exists only one active cart
+ * which can be identified as the `current` one.
+ * For the other types (SavedCart, Order and Quote) the attribute `id` is mandatory
+ * in order to identify the abstract order.
  */
-export interface AbstractOrderKey {
-  type: AbstractOrderType;
-  /**
-   * Identifier of an abstract order. The attribute is optional because for the active cart the id
-   * does not need to be present.
-   * For the other types (SavedCart, Order and Quote) the id is mandatory in order to identify
-   * the document.
-   */
-  id?: string;
-}
+export type AbstractOrderKey =
+  | { type: AbstractOrderType.CART }
+  | { type: AbstractOrderType.ORDER; id: string }
+  | { type: AbstractOrderType.QUOTE; id: string }
+  | { type: AbstractOrderType.SAVED_CART; id: string };
+
 /**
  * The possible types of 'abstract orders'.
  */

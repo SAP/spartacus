@@ -13,9 +13,19 @@ import {
   inject,
 } from '@angular/core';
 
-import { AbstractOrderKey } from '@spartacus/cart/base/root';
+import { AbstractOrderKey, AbstractOrderType } from '@spartacus/cart/base/root';
 import { AbstractOrderContextSource } from './abstract-order-context-source.model';
 import { AbstractOrderContext } from './abstract-order-context.model';
+
+/**
+ * Consumers cannot always guarentee at design time that id is present
+ * -> we provide this 'relaxed' version of {@link AbstractOrderKey} and
+ * check at runtime if id is present for the document types that require it.
+ */
+export interface AbstractOrderKeyInput {
+  type: AbstractOrderType;
+  id?: string;
+}
 
 @Directive({
   selector: '[cxAbstractOrderContext]',
@@ -25,24 +35,26 @@ import { AbstractOrderContext } from './abstract-order-context.model';
   ],
 })
 export class AbstractOrderContextDirective implements OnChanges {
-  @Input() cxAbstractOrderContext: AbstractOrderKey;
+  @Input() cxAbstractOrderContext: AbstractOrderKeyInput;
 
   protected abstractOrderContextSource = inject(AbstractOrderContextSource);
 
   ngOnChanges(changes: SimpleChanges): void {
     const contextChanges = changes.cxAbstractOrderContext;
     if (contextChanges) {
-      const { previousValue, currentValue } = contextChanges;
-      if (!previousValue || previousValue.id !== currentValue.id) {
-        this.abstractOrderContextSource.id$.next(
-          this.cxAbstractOrderContext.id
-        );
+      let abstractOrderKey: AbstractOrderKey;
+      const type = contextChanges.currentValue.type;
+      if (type === AbstractOrderType.CART) {
+        abstractOrderKey = { type };
+      } else {
+        const id = contextChanges.currentValue.id;
+        if (id) {
+          abstractOrderKey = { type, id };
+        } else {
+          throw new Error('id required for order, quote or saved cart');
+        }
       }
-      if (!previousValue || previousValue.type !== currentValue.type) {
-        this.abstractOrderContextSource.type$.next(
-          this.cxAbstractOrderContext.type
-        );
-      }
+      this.abstractOrderContextSource.key$.next(abstractOrderKey);
     }
   }
 }
