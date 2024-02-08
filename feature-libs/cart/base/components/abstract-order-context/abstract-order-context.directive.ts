@@ -24,7 +24,7 @@ import { AbstractOrderContext } from './abstract-order-context.model';
  */
 export interface AbstractOrderKeyInput {
   type: AbstractOrderType;
-  id?: String;
+  id?: string;
 }
 
 @Directive({
