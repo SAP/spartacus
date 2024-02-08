@@ -94,3 +94,15 @@ Constructor has been extended with a new dependency to `ConfiguratorQuantityServ
 ## ActiveCartService
 
 - `WindowRef` is now a required constructor dependency.
+
+# Changes in the core library
+
+## AuthHttpHeaderService
+
+- The variable name `refreshTokenTrigger$` has undergone a modification in its type, transitioning from being exclusively of type AuthToken to now encompassing the union type AuthToken | undefined.
+
+# Changes in feature lib organization
+
+## MessageService
+
+- The variable name `data$` has undergone a modification in its type, transitioning from being exclusively of type T to now encompassing the union type T | undefined.
