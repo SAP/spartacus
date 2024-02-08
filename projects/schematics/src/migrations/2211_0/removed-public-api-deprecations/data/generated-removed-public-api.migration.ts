@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import { DeprecatedNode } from '../../../../shared/utils/file-utils';
 //
 // Generated file, don't update manually.

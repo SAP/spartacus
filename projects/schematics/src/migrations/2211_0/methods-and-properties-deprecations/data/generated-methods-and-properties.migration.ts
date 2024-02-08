@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
 //
 // Generated file, don't update manually.
 //
@@ -198,7 +197,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'needsUserInputMessage',
       comment:
-        "// TODO:Spartacus - Method 'needsUserInputMessage' was removed from Class 'ConfiguratorAttributeFooterComponent'. ",
+        "// TODO:Spartacus - Method 'needsUserInputMessage' was removed from Class 'ConfiguratorAttributeFooterComponent'. Use method needsUserInputMsg instead.",
     },
     {
       class: 'ConfiguratorAttributeHeaderComponent',
@@ -212,14 +211,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'isAttributeWithDomain',
       comment:
-        "// TODO:Spartacus - Method 'isAttributeWithDomain' was removed from Class 'ConfiguratorAttributeHeaderComponent'. ",
+        "// TODO:Spartacus - Method 'isAttributeWithDomain' was removed from Class 'ConfiguratorAttributeHeaderComponent'. A replacement is not available and not needed, since its caller was deleted method `isRequiredAttributeWithDomain`.",
     },
     {
       class: 'ConfiguratorAttributeHeaderComponent',
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'isRequiredAttributeWithDomain',
       comment:
-        "// TODO:Spartacus - Method 'isRequiredAttributeWithDomain' was removed from Class 'ConfiguratorAttributeHeaderComponent'. ",
+        "// TODO:Spartacus - Method 'isRequiredAttributeWithDomain' was removed from Class 'ConfiguratorAttributeHeaderComponent'. Use method isRequiredAttributeWithoutErrorMsg instead.",
     },
     {
       class: 'ConfiguratorAttributeInputFieldComponent',
@@ -296,7 +295,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'isConflictGroupTypeAllowingUndefined',
       comment:
-        "// TODO:Spartacus - Method 'isConflictGroupTypeAllowingUndefined' was removed from Class 'ConfiguratorGroupMenuComponent'. ",
+        "// TODO:Spartacus - Method 'isConflictGroupTypeAllowingUndefined' was removed from Class 'ConfiguratorGroupMenuComponent'. Use method isConflictGroupType instead.",
     },
     {
       class: 'ConfiguratorOverviewFilterButtonComponent',
@@ -338,6 +337,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/storefront',
       deprecatedNode: 'userService',
       comment:
-        "// TODO:Spartacus - Property 'userService' was removed from Class 'AddressFormComponent'. ",
+        "// TODO:Spartacus - Property 'userService' was removed from Class 'AddressFormComponent'. Use UserProfileFacade instead.",
     },
   ];

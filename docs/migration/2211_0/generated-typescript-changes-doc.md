@@ -1013,7 +1013,7 @@ constructor(
 
 ### Method needsUserInputMessage is removed.
 
-
+Use method needsUserInputMsg instead.
 
 
 
@@ -1061,11 +1061,11 @@ constructor(
 
 ### Method isAttributeWithDomain is removed.
 
-
+A replacement is not available and not needed, since its caller was deleted method `isRequiredAttributeWithDomain`.
 
 ### Method isRequiredAttributeWithDomain is removed.
 
-
+Use method isRequiredAttributeWithoutErrorMsg instead.
 
 
 
@@ -1522,7 +1522,7 @@ isConflictGroupType(
 
 ### Method isConflictGroupTypeAllowingUndefined is removed.
 
-
+Use method isConflictGroupType instead.
 
 
 
@@ -1782,7 +1782,7 @@ constructor(
 
 ### Property userService is removed.
 
-
+Use UserProfileFacade instead.
 
 
 
