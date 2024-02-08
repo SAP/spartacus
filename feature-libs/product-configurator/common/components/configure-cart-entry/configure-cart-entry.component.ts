@@ -13,7 +13,6 @@ import {
 import { Params } from '@angular/router';
 import {
   AbstractOrderKey,
-  AbstractOrderKeyIdMandatory,
   AbstractOrderType,
   OrderEntry,
 } from '@spartacus/cart/base/root';
@@ -120,20 +119,11 @@ export class ConfigureCartEntryComponent {
       throw new Error('No entryNumber present in entry');
     }
     return abstractOrderKey.type !== AbstractOrderType.CART
-      ? this.getConfiguratorOwnerId(abstractOrderKey, entryNumber)
+      ? this.commonConfigUtilsService.getComposedOwnerId(
+          abstractOrderKey.id,
+          entryNumber
+        )
       : entryNumber.toString();
-  }
-
-  protected getConfiguratorOwnerId(
-    abstractOrderData: AbstractOrderKeyIdMandatory,
-    entryNumber: number
-  ): string {
-    const abstractOrderId = abstractOrderData.id;
-
-    return this.commonConfigUtilsService.getComposedOwnerId(
-      abstractOrderId,
-      entryNumber
-    );
   }
 
   /**

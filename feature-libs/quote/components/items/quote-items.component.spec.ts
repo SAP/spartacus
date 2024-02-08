@@ -80,6 +80,7 @@ describe('QuoteItemsComponent', () => {
         entries: quote.entries,
         readOnly: true,
         abstractOrderType: AbstractOrderType.QUOTE,
+        abstractOrderId: quote.code,
       })
     );
   }

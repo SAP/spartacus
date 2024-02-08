@@ -128,12 +128,6 @@ export interface CartItemComponentOptions {
  */
 export type AbstractOrderKey =
   | { type: AbstractOrderType.CART }
-  | AbstractOrderKeyIdMandatory;
-
-/**
- * A key that identifies an order, quote or saved cart
- */
-export type AbstractOrderKeyIdMandatory =
   | { type: AbstractOrderType.ORDER; id: string }
   | { type: AbstractOrderType.QUOTE; id: string }
   | { type: AbstractOrderType.SAVED_CART; id: string };

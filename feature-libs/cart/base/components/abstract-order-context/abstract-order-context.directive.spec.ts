@@ -2,41 +2,40 @@ import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { tap } from 'rxjs/operators';
 import { AbstractOrderType } from '../../root/models/cart.model';
+import { AbstractOrderKeyInput } from './abstract-order-context.directive';
 import { AbstractOrderContext } from './abstract-order-context.model';
 import { AbstractOrderContextModule } from './abstract-order-context.module';
 
 const abstractOrderId = '129374';
 
-let emissionCounterId = 0;
-let emissionCounterType = 0;
+let emissionCounterKey = 0;
 
 @Component({
   selector: 'cx-test-cmp',
   template: `
-<span [cxAbstractOrderContext]="{id:id, type:type}"><cx-test-cmp-inner/>        
+<span [cxAbstractOrderContext]="abstractOrderKey"><cx-test-cmp-inner/>        
 </span>`,
 })
 class TestComponent {
-  readonly abstractOrderType = AbstractOrderType;
-  id = abstractOrderId;
-  type = AbstractOrderType.CART;
+  abstractOrderKey: AbstractOrderKeyInput = {
+    id: abstractOrderId,
+    type: AbstractOrderType.ORDER,
+  };
 }
 
 @Component({
   selector: 'cx-test-cmp-inner',
   template: `
-    <ng-container *ngIf="myId$ | async as id">
-      {{ id }}
-    </ng-container>
-    <ng-container *ngIf="myType$ | async as type">
-      {{ type }}
+    <ng-container *ngIf="myKey$ | async as key">
+      {{ key.id }}
+      {{ key.type }}
     </ng-container>
   `,
 })
 class TestInnerComponent {
   abstractOrderContext = inject(AbstractOrderContext, { optional: true });
-  myId$ = this.abstractOrderContext?.key$.pipe(
-    tap(() => (emissionCounterId = emissionCounterId + 1))
+  myKey$ = this.abstractOrderContext?.key$.pipe(
+    tap(() => (emissionCounterKey = emissionCounterKey + 1))
   );
 }
 
@@ -51,8 +50,7 @@ describe('AbstractOrderContextDirective', () => {
         imports: [AbstractOrderContextModule],
         providers: [],
       }).compileComponents();
-      emissionCounterId = 0;
-      emissionCounterType = 0;
+      emissionCounterKey = 0;
       fixture = TestBed.createComponent(TestComponent);
       testOuterComponent = fixture.componentInstance;
       fixture.detectChanges();
@@ -64,26 +62,32 @@ describe('AbstractOrderContextDirective', () => {
   });
 
   it('should propagate abstract order type to inner component', () => {
+    expect(fixture.nativeElement.innerHTML).toContain(AbstractOrderType.ORDER);
+  });
+
+  it('should propagate abstract order type to inner component for active cart type, when no id is needed', () => {
+    testOuterComponent.abstractOrderKey = {
+      type: AbstractOrderType.CART,
+    };
+    fixture.detectChanges();
     expect(fixture.nativeElement.innerHTML).toContain(AbstractOrderType.CART);
   });
 
-  it('should emit changes only if actual value has changed for id', () => {
-    expect(emissionCounterId).toBe(1);
-    expect(emissionCounterType).toBe(1);
-
-    testOuterComponent.type = AbstractOrderType.SAVED_CART;
-    fixture.detectChanges();
-    expect(emissionCounterId).toBe(1);
-    expect(emissionCounterType).toBe(2);
+  it('should throw error if no id is specified but the abstract order type requires it', () => {
+    testOuterComponent.abstractOrderKey = {
+      type: AbstractOrderType.SAVED_CART,
+    };
+    expect(() => fixture.detectChanges()).toThrow();
   });
 
-  it('should should emit changes only if actual value has changed for type', () => {
-    expect(emissionCounterId).toBe(1);
-    expect(emissionCounterType).toBe(1);
+  it('should should emit changes context value has changed', () => {
+    expect(emissionCounterKey).toBe(1);
 
-    testOuterComponent.id = 'newId';
+    testOuterComponent.abstractOrderKey = {
+      id: 'newId',
+      type: AbstractOrderType.ORDER,
+    };
     fixture.detectChanges();
-    expect(emissionCounterId).toBe(2);
-    expect(emissionCounterType).toBe(1);
+    expect(emissionCounterKey).toBe(2);
   });
 });
