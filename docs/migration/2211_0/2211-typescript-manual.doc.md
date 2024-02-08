@@ -94,3 +94,9 @@ Constructor has been extended with a new dependency to `ConfiguratorQuantityServ
 ## ActiveCartService
 
 - `WindowRef` is now a required constructor dependency.
+
+# Changes in the core library
+
+## Changes related to the SSR Optimization Engin configurator
+
+- `defaultSsrOptimizationOptions` represents the default configuration for the SSR Optimization Engine. This configuration includes various parameters, among which is the `cacheSize` property. The `cacheSize` property has been set to 3000 by default. This parameter determines the maximum number of entries allowed in the cache, serving to regulate memory usage effectively.
