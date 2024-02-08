@@ -48,6 +48,13 @@
         left: -2rem;
       }
     }
+
+    .custom-control-input {
+      height: 2rem;
+      width: 3.75rem;
+      left: 2.25rem;
+    }
+
     .custom-control-input:checked ~ .custom-control-label {
       &::after {
         transform: translateX(1.75rem);
