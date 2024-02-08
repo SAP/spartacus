@@ -138,6 +138,7 @@ export class OpfCheckoutPaymentWrapperService {
         isError: false,
         renderType: OpfPaymentMethodType.DESTINATION,
         data: config?.destination.url,
+        destination: config?.destination,
       });
     }
 

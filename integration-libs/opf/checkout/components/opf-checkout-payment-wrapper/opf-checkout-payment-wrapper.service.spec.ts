@@ -282,7 +282,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
 
   it('should render payment gateway with destination URL', () => {
     const mockPaymentSessionData: PaymentSessionData = {
-      destination: { url: mockUrl },
+      destination: { url: mockUrl, form: [] },
     };
 
     service['renderPaymentGateway'](mockPaymentSessionData);
@@ -292,6 +292,37 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       isError: false,
       renderType: OpfPaymentMethodType.DESTINATION,
       data: mockUrl,
+      destination: { url: mockUrl, form: [] },
+    });
+  });
+
+  it('should render payment gateway with a hidden form and submit button', () => {
+    const mockFormData = [
+      {
+        name: 'test_key',
+        value: 'test_value',
+      },
+      {
+        name: 'test_key_2',
+        value: 'test_value_2',
+      },
+    ];
+
+    const mockPaymentSessionData: PaymentSessionData = {
+      destination: {
+        url: mockUrl,
+        form: mockFormData,
+      },
+    };
+
+    service['renderPaymentGateway'](mockPaymentSessionData);
+
+    expect(service['renderPaymentMethodEvent$'].value).toEqual({
+      isLoading: false,
+      isError: false,
+      renderType: OpfPaymentMethodType.DESTINATION,
+      data: mockUrl,
+      destination: { url: mockUrl, form: mockFormData },
     });
   });
 
