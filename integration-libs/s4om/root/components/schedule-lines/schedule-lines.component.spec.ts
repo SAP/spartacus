@@ -5,9 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { LanguageService } from '@spartacus/core';
 import { ScheduleLine } from '@spartacus/s4om/root';
-import { FeaturesConfigModule } from 'projects/core/src/features-config';
 import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
-import { Observable, of, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ScheduleLinesComponent } from './schedule-lines.component';
 
@@ -44,12 +43,7 @@ describe('ScheduleLinesCartEntryComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FeaturesConfigModule,
-        ],
+        imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
         declarations: [
           ScheduleLinesComponent,
           MockConfigureScheduleLineComponent,

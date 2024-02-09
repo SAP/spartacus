@@ -1,38 +1,20 @@
 <div class="cx-order-items" *ngIf="order$ | async as order">
   <div class="cx-review-summary" *ngIf="order.paymentInfo as paymentDetails">
-    <ng-container *cxFeatureLevel="'!6.6'">
-      <div class="cx-review-summary-card cx-review-summary-payment-card">
-        <cx-card
-          [content]="getPaymentMethodCard(paymentDetails) | async"
-        ></cx-card>
-      </div>
-    </ng-container>
-    <ng-container *cxFeatureLevel="'6.6'">
-      <div
-        class="cx-review-summary-card cx-review-summary-payment-card"
-        *ngIf="isPaymentInfoCardFull(paymentDetails)"
-      >
-        <cx-card
-          [content]="getPaymentMethodCard(paymentDetails) | async"
-        ></cx-card>
-      </div>
-    </ng-container>
-    <ng-container *cxFeatureLevel="'!6.6'">
-      <div class="cx-review-summary-card cx-review-summary-payment-card">
-        <cx-card
-          [content]="getBillingAddressCard(paymentDetails) | async"
-        ></cx-card>
-      </div>
-    </ng-container>
-    <ng-container *cxFeatureLevel="'6.6'">
-      <div
-        class="cx-review-summary-card cx-review-summary-payment-card"
-        *ngIf="paymentDetails?.billingAddress"
-      >
-        <cx-card
-          [content]="getBillingAddressCard(paymentDetails) | async"
-        ></cx-card>
-      </div>
-    </ng-container>
+    <div
+      class="cx-review-summary-card cx-review-summary-payment-card"
+      *ngIf="isPaymentInfoCardFull(paymentDetails)"
+    >
+      <cx-card
+        [content]="getPaymentMethodCard(paymentDetails) | async"
+      ></cx-card>
+    </div>
+    <div
+      class="cx-review-summary-card cx-review-summary-payment-card"
+      *ngIf="paymentDetails?.billingAddress"
+    >
+      <cx-card
+        [content]="getBillingAddressCard(paymentDetails) | async"
+      ></cx-card>
+    </div>
   </div>
 </div>

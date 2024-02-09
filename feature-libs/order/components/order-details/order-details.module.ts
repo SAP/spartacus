@@ -12,14 +12,13 @@ import {
   AuthGuard,
   CmsConfig,
   FeaturesConfig,
-  FeaturesConfigModule,
   I18nModule,
   MODULE_INITIALIZER,
   provideDefaultConfig,
   provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
-import { USE_MY_ACCOUNT_V2_ORDER, OrderOutlets } from '@spartacus/order/root';
+import { OrderOutlets, USE_MY_ACCOUNT_V2_ORDER } from '@spartacus/order/root';
 import {
   CardModule,
   IconModule,
@@ -33,8 +32,8 @@ import {
 } from '@spartacus/storefront';
 import {
   MyAccountV2ConsignmentTrackingComponent,
-  MyAccountV2OrderDetailsActionsComponent,
   MyAccountV2DownloadInvoicesModule,
+  MyAccountV2OrderDetailsActionsComponent,
 } from './my-account-v2';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { OrderDetailBillingComponent } from './order-detail-billing/order-detail-billing.component';
@@ -97,7 +96,7 @@ const moduleComponents = [
     CardModule,
     CommonModule,
     I18nModule,
-    FeaturesConfigModule,
+
     PromotionsModule,
     UrlModule,
     SpinnerModule,

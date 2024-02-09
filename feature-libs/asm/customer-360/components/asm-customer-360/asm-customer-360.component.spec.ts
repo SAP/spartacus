@@ -1,17 +1,19 @@
 import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { ArgsPipe } from '@spartacus/asm/core';
 import {
-  AsmDialogActionType,
   AsmCustomer360Facade,
   AsmCustomer360Overview,
   AsmCustomer360Response,
   AsmCustomer360TabComponent,
   AsmCustomer360Type,
+  AsmDialogActionType,
 } from '@spartacus/asm/customer-360/root';
-import { AsmCustomer360Config } from '../config/asm-customer-360-config';
+import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
   CxDatePipe,
+  FeaturesConfig,
   I18nTestingModule,
   LanguageService,
   User,
@@ -23,15 +25,13 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { AsmCustomer360Component } from './asm-customer-360.component';
-import { CsAgentAuthService } from '@spartacus/asm/root';
-import { ArgsPipe } from '@spartacus/asm/core';
-import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
+import { AsmCustomer360Config } from '../config/asm-customer-360-config';
 import {
   AsmCustomer360ActiveCartComponent,
   AsmCustomer360ProductReviewsComponent,
   AsmCustomer360ProfileComponent,
 } from '../sections';
+import { AsmCustomer360Component } from './asm-customer-360.component';
 
 describe('AsmCustomer360Component', () => {
   const mockAsmConfig: AsmCustomer360Config = {
@@ -173,7 +173,7 @@ describe('AsmCustomer360Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, FeaturesConfigModule],
+      imports: [I18nTestingModule],
       declarations: [
         AsmCustomer360Component,
         MockAsmCustomer360SectionComponent,
