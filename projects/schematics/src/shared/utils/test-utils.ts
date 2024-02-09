@@ -90,7 +90,7 @@ export const userProfileWrapperModulePath =
 
 export const cdcFeatureModulePath =
   'src/app/spartacus/features/cdc/cdc-feature.module.ts';
-  export const cdpFeatureModulePath =
+export const cdpFeatureModulePath =
   'src/app/spartacus/features/cdp/cdp-feature.module.ts';
 export const cdsFeatureModulePath =
   'src/app/spartacus/features/cds/cds-feature.module.ts';

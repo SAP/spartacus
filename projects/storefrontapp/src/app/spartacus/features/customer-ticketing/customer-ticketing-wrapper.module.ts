@@ -1,8 +1,8 @@
 import { NgModule, Type } from '@angular/core';
 
 import { environment } from '../../../../environments/environment';
-import { CdpCustomerTicketingModule } from 'integration-libs/cdp/customer-ticketing';
 import { CustomerTicketingModule } from '@spartacus/customer-ticketing';
+import { CdpCustomerTicketingModule } from '@spartacus/cdp/customer-ticketing';
 
 const extensions: Type<any>[] = [];
 

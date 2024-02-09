@@ -187,6 +187,8 @@ export const SPARTACUS_USER_PROFILE_ROOT = `@spartacus/user/profile/root`;
 export const SPARTACUS_CDS = `@spartacus/cds`;
 
 export const SPARTACUS_CDP = `@spartacus/cdp`;
+export const SPARTACUS_CDP_CUSTOMER_TICKETING =
+  '@spartacus/cdp/customer-ticketing';
 
 export const SPARTACUS_CDC = `@spartacus/cdc`;
 export const SPARTACUS_CDC_ROOT = `@spartacus/cdc/root`;

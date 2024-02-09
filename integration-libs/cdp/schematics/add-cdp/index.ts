@@ -17,7 +17,7 @@ import {
   analyzeCrossFeatureDependencies,
   finalizeInstallation,
   readPackageJson,
-  SpartacusCdpOptions,
+  LibraryOptions as SpartacusCdpOptions,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';

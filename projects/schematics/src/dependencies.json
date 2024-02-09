@@ -303,8 +303,10 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/cdp": {
+    "@angular-devkit/schematics": "^17.0.5",
     "@angular/core": "^17.0.5",
     "@spartacus/customer-ticketing": "2211.19.0-3",
+    "@spartacus/schematics": "2211.19.0-3",
     "rxjs": "^7.8.0"
   },
   "@spartacus/cds": {
