@@ -9,11 +9,7 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  FeaturesConfig,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import {
@@ -71,7 +67,7 @@ describe('FacetListComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule, FeaturesConfigModule],
+        imports: [I18nTestingModule, RouterTestingModule],
         declarations: [
           FacetListComponent,
           MockIconComponent,
