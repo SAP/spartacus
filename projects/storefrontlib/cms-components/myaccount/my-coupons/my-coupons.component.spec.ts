@@ -168,7 +168,7 @@ describe('MyCouponsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule, SpinnerModule, ,],
+        imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
         declarations: [
           MyCouponsComponent,
           MockedCouponCardComponent,

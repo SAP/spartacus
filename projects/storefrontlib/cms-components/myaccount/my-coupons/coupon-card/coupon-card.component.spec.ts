@@ -12,7 +12,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   CustomerCoupon,
   FeaturesConfig,
-
   I18nTestingModule,
 } from '@spartacus/core';
 import { BehaviorSubject, EMPTY, combineLatest } from 'rxjs';
@@ -93,11 +92,7 @@ describe('CouponCardComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [CouponCardComponent, MyCouponsComponent, MockUrlPipe],
-        imports: [
-          I18nTestingModule,
-          RouterTestingModule,
-          .forRoot(),
-        ],
+        imports: [I18nTestingModule, RouterTestingModule],
         providers: [
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           {

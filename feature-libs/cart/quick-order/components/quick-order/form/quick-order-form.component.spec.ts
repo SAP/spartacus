@@ -82,7 +82,7 @@ describe('QuickOrderFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule, ,],
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [QuickOrderFormComponent, MockCxIconComponent],
       providers: [
         ChangeDetectorRef,

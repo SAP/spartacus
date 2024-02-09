@@ -117,7 +117,7 @@ describe('CustomerSelectionComponent', () => {
       customerSearchResultsLoading = new BehaviorSubject<boolean>(false);
 
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule, ,],
+        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
         declarations: [CustomerSelectionComponent, DotSpinnerComponent],
         providers: [
           { provide: AsmService, useClass: MockAsmService },

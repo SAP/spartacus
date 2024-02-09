@@ -37,7 +37,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
   imports: [
     AtMessageModule,
     CommonModule,
-
     I18nModule,
     IconModule,
     InfiniteScrollModule,
