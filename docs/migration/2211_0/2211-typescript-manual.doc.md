@@ -116,3 +116,13 @@ Constructor has been extended with a new dependency to `ConfiguratorQuantityServ
 ## ClientAuthStoreModule
 
 - `HttpClientModule` has been removed from the `imports` property inside `NgModule` metadata. This should not be a problem, as long as you import `HttpClientModule` in your `app.module.ts`. Alternatively to _importing_ `HttpClientModule` in your `app.module.ts` you can _provide_  in `app.module.ts` the `provideHttpClient(withInterceptorsFromDi())` (optionally with `withFetch()`). For more, see https://angular.io/api/common/http/provideHttpClient
+
+## AuthHttpHeaderService
+
+- The variable name `refreshTokenTrigger$` has undergone a modification in its type, transitioning from being exclusively of type AuthToken to now encompassing the union type AuthToken | undefined.
+
+# Changes in feature lib organization
+
+## MessageService
+
+- The variable name `data$` has undergone a modification in its type, transitioning from being exclusively of type T to now encompassing the union type T | undefined.
