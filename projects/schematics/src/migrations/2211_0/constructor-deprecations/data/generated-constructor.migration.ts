@@ -329,6 +329,68 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] = [
     ],
   },
   {
+    class: 'CustomerSelectionComponent',
+    importPath: '@spartacus/asm/components',
+    deprecatedParams: [
+      {
+        className: 'UntypedFormBuilder',
+        importPath: '@angular/forms',
+      },
+      {
+        className: 'AsmService',
+        importPath: '@spartacus/asm/core',
+      },
+      {
+        className: 'AsmConfig',
+        importPath: '@spartacus/asm/root',
+      },
+      {
+        className: 'DirectionService',
+        importPath: '@spartacus/storefront',
+      },
+    ],
+    removeParams: [
+      {
+        className: 'UntypedFormBuilder',
+        importPath: '@angular/forms',
+      },
+      {
+        className: 'AsmService',
+        importPath: '@spartacus/asm/core',
+      },
+      {
+        className: 'AsmConfig',
+        importPath: '@spartacus/asm/root',
+      },
+      {
+        className: 'DirectionService',
+        importPath: '@spartacus/storefront',
+      },
+    ],
+    addParams: [
+      {
+        className: 'UntypedFormBuilder',
+        importPath: '@angular/forms',
+      },
+      {
+        className: 'AsmService',
+        importPath: '@spartacus/asm/core',
+      },
+      {
+        className: 'AsmConfig',
+        importPath: '@spartacus/asm/root',
+      },
+      {
+        className: 'DirectionService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
+      },
+    ],
+  },
+  {
     class: 'CsAgentAuthService',
     importPath: '@spartacus/asm/root',
     deprecatedParams: [
