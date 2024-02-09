@@ -4,12 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ActivatedRouterStateSnapshot,
   CurrencyService,
-  FeatureConfigService,
   LanguageService,
   ProductSearchPage,
   ProductSearchService,
