@@ -118,7 +118,7 @@ describe('CheckoutDeliveryModeComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, OutletModule, ,],
+        imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
         declarations: [CheckoutDeliveryModeComponent, MockSpinnerComponent],
         providers: [
           {
