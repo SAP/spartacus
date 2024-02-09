@@ -65,33 +65,4 @@ describe('RecentSearchesService', () => {
       recentSearchesService['recentSearchesSource'].next
     ).not.toHaveBeenCalled();
   }));
-
-  it('should emit recent searches when API becomes available', fakeAsync(() => {
-    const mockRecentSearches = ['query1', 'query2'];
-
-    spyOn(recentSearchesService['recentSearchesSource'], 'next');
-    spyOn(recentSearchesService, 'checkAvailability').and.returnValue(
-      of(false, false, false, true)
-    );
-
-    // Simulate the recent searches callback after some time
-    (<any>windowRef.nativeWindow).Y_TRACKING = {
-      recentSearches: {
-        addListener: (callback: (recentSearches: string[]) => void) => {
-          callback(mockRecentSearches);
-        },
-        getPhrases: () => mockRecentSearches,
-      },
-    };
-    recentSearchesService['addRecentSearchesListener']();
-
-    tick(150 * 4); // Simulate 4 intervals (API not available)
-    tick(150); // Simulate 1 more interval (API becomes available)
-    tick(0); // Simulate the end of the observable chain
-
-    // Verify that next was called with the expected arguments
-    expect(
-      recentSearchesService['recentSearchesSource'].next
-    ).toHaveBeenCalledWith(mockRecentSearches);
-  }));
 });

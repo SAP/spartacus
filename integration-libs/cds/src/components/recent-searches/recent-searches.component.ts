@@ -35,20 +35,19 @@ export class RecentSearchesComponent implements OnInit {
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxComponentService = inject(SearchBoxComponentService);
   result$ = this.outletContext?.context$.pipe(
-    switchMap((context: SearchBoxOutlet) => {
-      return this.recentSearchesService.recentSearches$.pipe(
-        map((recentSearches) => {
-          return recentSearches
+    switchMap((context: SearchBoxOutlet) =>
+      this.recentSearchesService.recentSearches$.pipe(
+        map((recentSearches: string[]) =>
+          recentSearches
             .filter(
               (phrase) =>
                 phrase.toLowerCase().indexOf(context.search.toLowerCase()) >= 0
             )
-            .slice(0, context.maxRecentSearches ?? MAX_RECENT_SEARCHES);
-        })
-      );
-    })
+            .slice(0, context.maxRecentSearches ?? MAX_RECENT_SEARCHES)
+        )
+      )
+    )
   );
-
   outletContext$: Observable<SearchBoxOutlet>;
 
   constructor(

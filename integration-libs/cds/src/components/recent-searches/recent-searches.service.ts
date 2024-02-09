@@ -5,35 +5,32 @@
  */
 
 import { Injectable } from '@angular/core';
-import { interval, last, Observable, of, ReplaySubject } from 'rxjs';
+import { interval, last, of, ReplaySubject } from 'rxjs';
 import { concatMap, map, take, takeWhile } from 'rxjs/operators';
 import { WindowRef } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class RecentSearchesService {
   private readonly recentSearchesSource = new ReplaySubject<string[]>();
-  private apiAvailability = false;
-
-  constructor(protected winRef: WindowRef) {}
-
-  public get recentSearches$(): Observable<string[]> {
+  public recentSearches$ = this.recentSearchesSource.asObservable();
+  constructor(protected winRef: WindowRef) {
     this.addRecentSearchesListener();
-    return this.recentSearchesSource;
   }
 
   checkAvailability() {
-    return interval(150).pipe(
+    return interval(250).pipe(
       concatMap((_) => of((this.winRef.nativeWindow as any)?.Y_TRACKING)),
       map((result) => !!result?.recentSearches),
-      take(5),
+      take(100),
       takeWhile((val) => !val, true),
       last()
     );
   }
 
   private addRecentSearchesListener() {
-    if (!this.apiAvailability) {
-      this.checkAvailability().subscribe((result) => {
+    this.checkAvailability()
+      .pipe(take(1))
+      .subscribe((result) => {
         if (result) {
           const recentPhrases = (
             this.winRef.nativeWindow as any
@@ -47,11 +44,8 @@ export class RecentSearchesService {
                 this.recentSearchesSource.next(recentSearches);
               }
             );
-
-            this.apiAvailability = true;
           }
         }
       });
-    }
   }
 }
