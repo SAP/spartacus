@@ -113,9 +113,9 @@ Constructor has been extended with a new dependency to `ConfiguratorQuantityServ
 
 # Changes in the core library
 
-## Changes related to the SSR Optimization Engine configurator
+## Changes related to the Optimized SSR Engine
 
-- `defaultSsrOptimizationOptions` represents the default configuration for the SSR Optimization Engine. This configuration includes various parameters, among which is the `cacheSize` property. The `cacheSize` property has been set to 3000 by default. This parameter determines the maximum number of entries allowed in the cache, serving to regulate memory usage effectively.
+- `defaultSsrOptimizationOptions` represents the default configuration for the Optimized SSR Engine. This configuration includes various parameters, among which is the `cacheSize` property. The `cacheSize` property has been set to 3000 by default. This parameter determines the maximum number of entries allowed in the cache, serving to regulate memory usage effectively.
 
 ## ClientAuthStoreModule
 
