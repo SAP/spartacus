@@ -22,8 +22,9 @@ describe('UserFormService', () => {
 
   it('should apply the model', () => {
     const email = 'test@test.com';
-    const form = service.getForm({ email });
-    expect(form.get('email')).not.toBeNull();
-    expect(form.get('email').value).toEqual(email);
+    const form = service.getForm({ email: email });
+
+    expect(form?.get('email')).not.toBeNull();
+    expect(form?.get('email')?.value).toEqual(email);
   });
 });

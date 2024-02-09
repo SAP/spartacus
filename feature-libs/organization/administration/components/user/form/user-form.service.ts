@@ -63,13 +63,15 @@ export class UserFormService extends FormService<B2BUser> {
     super.patchData(item);
     if (item) {
       const roles = this.form?.get('roles') as UntypedFormArray;
+      const emailFormControl = this.form?.get('email');
       item.roles?.forEach((role) => {
         if (!(roles.value as string[]).includes(role)) {
           roles.push(new UntypedFormControl(role));
         }
       });
-
-      this.form?.get('email')?.setValue(item?.displayUid);
+      if (item.displayUid && emailFormControl) {
+        emailFormControl.setValue(item.displayUid);
+      }
     }
   }
 }
