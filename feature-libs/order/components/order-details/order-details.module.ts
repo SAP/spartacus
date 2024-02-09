@@ -11,7 +11,6 @@ import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
   AuthGuard,
   CmsConfig,
-  FeaturesConfig,
   I18nModule,
   MODULE_INITIALIZER,
   provideDefaultConfig,
@@ -108,7 +107,7 @@ const moduleComponents = [
     MyAccountV2DownloadInvoicesModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig | FeaturesConfig>{
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountOrderDetailsActionsComponent: {
           component: OrderDetailActionsComponent,
@@ -148,9 +147,6 @@ const moduleComponents = [
           component: OrderDetailReorderComponent,
           guards: [AuthGuard],
         },
-      },
-      features: {
-        consignmentTracking: '1.2',
       },
     }),
     provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
