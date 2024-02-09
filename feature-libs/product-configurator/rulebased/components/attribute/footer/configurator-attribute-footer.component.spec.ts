@@ -82,7 +82,7 @@ describe('ConfigAttributeFooterComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [, I18nTestingModule, IconModule],
+        imports: [I18nTestingModule, IconModule],
         declarations: [
           ConfiguratorAttributeFooterComponent,
           MockFeatureLevelDirective,
