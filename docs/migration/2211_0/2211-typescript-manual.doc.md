@@ -89,6 +89,22 @@ Constructor has been extended with a new dependency to `ConfiguratorQuantityServ
 
 - `UserProfileFacade` has been removed a required constructor dependency.
 
+## AsmBindCartComponent
+
+- `AsmComponentService` and `RoutingService` are now required constructor dependencies.
+
+## CustomerEmulationComponent
+
+- `LaunchDialogService` and `FeatureModulesService` are now required constructor dependencies.
+
+## CustomerListComponent
+
+- `OccConfig` is now a required constructor dependency.
+
+## AsmComponentService
+
+- `AsmEnablerService` and `AsmDeepLinkService` are now required constructor dependencies.
+
 # Changes in feature lib cart
 
 ## ActiveCartService
