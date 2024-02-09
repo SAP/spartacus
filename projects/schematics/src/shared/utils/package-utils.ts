@@ -114,9 +114,9 @@ export function mapPackageToNodeDependencies(
     : NodeDependencyType.Default;
   return {
     type,
+    overwrite,
     name: packageName,
     version: pkgVersion,
-    overwrite,
   };
 }
 
