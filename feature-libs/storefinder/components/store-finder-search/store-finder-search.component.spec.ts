@@ -3,11 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  FeaturesConfigModule,
-  I18nTestingModule,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 
@@ -55,12 +51,7 @@ describe('StoreFinderSearchComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FeaturesConfigModule,
-        ],
+        imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
         declarations: [
           StoreFinderSearchComponent,
           MockUrlPipe,

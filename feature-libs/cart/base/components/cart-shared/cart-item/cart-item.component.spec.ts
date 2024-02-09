@@ -17,7 +17,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
@@ -120,7 +120,6 @@ describe('CartItemComponent', () => {
           RouterTestingModule,
           ReactiveFormsModule,
           I18nTestingModule,
-          FeaturesConfigModule,
           OutletModule,
         ],
         declarations: [
