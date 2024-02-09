@@ -161,7 +161,7 @@ describe('QuickOrderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, MessageComponentModule, ,],
+      imports: [I18nTestingModule, MessageComponentModule],
       declarations: [
         QuickOrderComponent,
         MockQuickOrderFormComponent,
