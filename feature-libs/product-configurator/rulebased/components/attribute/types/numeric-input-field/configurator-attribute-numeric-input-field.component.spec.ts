@@ -14,7 +14,6 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   FeaturesConfig,
-  FeaturesConfigModule,
   I18nTestingModule,
   LanguageService,
 } from '@spartacus/core';
@@ -141,7 +140,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           MockFocusDirective,
           MockCxIconComponent,
         ],
-        imports: [ReactiveFormsModule, I18nTestingModule, FeaturesConfigModule],
+        imports: [ReactiveFormsModule, I18nTestingModule],
         providers: [
           { provide: LanguageService, useValue: mockLanguageService },
           {
