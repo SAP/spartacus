@@ -135,3 +135,8 @@ Constructor has been extended with a new dependency to `ConfiguratorQuantityServ
 
 - The variable name `data$` has undergone a modification in its type, transitioning from being exclusively of type T to now encompassing the union type T | undefined.
 
+# Changes in the storefront library
+
+## AddressBookModule
+
+- `AddressBookModule` previously housed within the storefront library has been relocated to the `UserProfileModule` within the user library. This transition integrates components, styles, and assets pertinent to the `AddressBookModule`. Such a relocation facilitates improved accessibility to essential services within the user library's domain and offers the potential to address constraints imposed by separate library boundaries.
