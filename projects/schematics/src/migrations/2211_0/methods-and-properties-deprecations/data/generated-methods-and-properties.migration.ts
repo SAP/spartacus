@@ -68,6 +68,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - Property 'featureConfig' was removed from Class 'CustomerListComponent'. ",
     },
     {
+      class: 'CustomerSelectionComponent',
+      importPath: '@spartacus/asm/components',
+      deprecatedNode: 'launchDialogService',
+      comment:
+        "// TODO:Spartacus - The type of property 'launchDialogService: LaunchDialogService | undefined' changed to: 'launchDialogService: LaunchDialogService' ",
+    },
+    {
       class: 'CsAgentAuthService',
       importPath: '@spartacus/asm/root',
       deprecatedNode: 'featureConfig',
@@ -87,13 +94,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'winRef',
       comment:
         "// TODO:Spartacus - The type of property 'winRef: WindowRef | undefined' changed to: 'winRef: WindowRef' ",
-    },
-    {
-      class: 'CdsConfig',
-      importPath: '@spartacus/cds',
-      deprecatedNode: 'cds',
-      comment:
-        "// TODO:Spartacus - The type of property 'cds: { tenant?: string; baseUrl?: string; consentTemplateId?: string; endpoints?: CdsEndpoints; merchandising?: MerchandisingConfig; profileTag?: ProfileTagConfig; }' changed to: 'cds: { baseSite?: string[]; tenant?: string; baseUrl?: string; consentTemplateId?: string; endpoints?: CdsEndpoints; merchandising?: MerchandisingConfig; profileTag?: ProfileTagConfig; }' ",
     },
     {
       class: 'ProfileTagEventService',
@@ -171,6 +171,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'get',
       comment:
         "// TODO:Spartacus - The 'get' method's signature changed to: 'get(): Observable<T | undefined>'",
+    },
+    {
+      class: 'UserFormService',
+      importPath: '@spartacus/organization/administration/components',
+      deprecatedNode: 'featureConfigService',
+      comment:
+        "// TODO:Spartacus - Property 'featureConfigService' was removed from Class 'UserFormService'. ",
     },
     {
       class: 'ConfiguratorAddToCartButtonComponent',
@@ -334,10 +341,24 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - The 'log' method's signature changed to: 'log(  message: string,  debug: boolean | undefined,  context: ExpressServerLoggerContext): void'",
     },
     {
+      class: 'CmsTicketInterceptor',
+      importPath: '@spartacus/smartedit/root',
+      deprecatedNode: 'featureConfig',
+      comment:
+        "// TODO:Spartacus - Property 'featureConfig' was removed from Class 'CmsTicketInterceptor'. ",
+    },
+    {
       class: 'AddressFormComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'userService',
       comment:
         "// TODO:Spartacus - Property 'userService' was removed from Class 'AddressFormComponent'. Use UserProfileFacade instead.",
+    },
+    {
+      class: 'ProductListComponentService',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'featureConfigService',
+      comment:
+        "// TODO:Spartacus - Property 'featureConfigService' was removed from Class 'ProductListComponentService'. ",
     },
   ];
