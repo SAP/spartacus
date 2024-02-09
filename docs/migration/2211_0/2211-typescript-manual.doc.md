@@ -105,6 +105,10 @@ Constructor has been extended with a new dependency to `ConfiguratorQuantityServ
 
 - `AsmEnablerService` and `AsmDeepLinkService` are now required constructor dependencies.
 
+## CustomerSelectionComponent
+
+- `launchDialogService` is now a required constructor dependency.
+
 # Changes in feature lib cart
 
 ## ActiveCartService
