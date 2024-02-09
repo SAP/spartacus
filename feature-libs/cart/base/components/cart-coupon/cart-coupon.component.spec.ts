@@ -72,7 +72,7 @@ describe('CartCouponComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, , FormErrorsModule],
+        imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
         declarations: [CartCouponComponent, MockAppliedCouponsComponent],
         providers: [
           { provide: ActiveCartFacade, useValue: mockActiveCartService },

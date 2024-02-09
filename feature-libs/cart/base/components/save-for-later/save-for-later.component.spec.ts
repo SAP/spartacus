@@ -50,7 +50,7 @@ describe('SaveForLaterComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [SaveForLaterComponent, MockCartItemListComponent],
-        imports: [, I18nTestingModule],
+        imports: [I18nTestingModule],
         providers: [
           { provide: CmsService, useValue: mockCmsService },
           { provide: ActiveCartFacade, useValue: mockActiveCartService },
