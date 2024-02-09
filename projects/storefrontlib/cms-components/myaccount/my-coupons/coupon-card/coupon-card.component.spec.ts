@@ -96,7 +96,6 @@ describe('CouponCardComponent', () => {
         imports: [
           I18nTestingModule,
           RouterTestingModule,
-          .forRoot(),
         ],
         providers: [
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
