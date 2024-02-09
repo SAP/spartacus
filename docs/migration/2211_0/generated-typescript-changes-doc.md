@@ -248,6 +248,61 @@ constructor(
 
 
 
+# Class CustomerSelectionComponent
+## @spartacus/asm/components
+
+
+### Constructor changed.
+
+
+Previous version:
+
+```
+
+constructor(
+  fb: UntypedFormBuilder,
+  asmService: AsmService,
+  config: AsmConfig,
+  directionService: DirectionService
+)
+
+```
+
+
+Current version:
+
+```
+
+constructor(
+  fb: UntypedFormBuilder,
+  asmService: AsmService,
+  config: AsmConfig,
+  directionService: DirectionService,
+  launchDialogService: LaunchDialogService
+)
+
+```
+
+
+### Property launchDialogService changed.
+
+
+Previous version:
+
+```
+launchDialogService: LaunchDialogService | undefined
+```
+
+
+Current version:
+
+```
+launchDialogService: LaunchDialogService
+```
+
+
+
+
 # Function property
 ## @spartacus/asm/core
 
@@ -431,44 +486,6 @@ moved to @spartacus/core
 ## @spartacus/cart/base/root
 
 moved to @spartacus/core
-
-
-
-
-# Class CdsConfig
-## @spartacus/cds
-
-
-### Property cds changed.
-
-
-Previous version:
-
-```
-cds: {
-        tenant?: string;
-        baseUrl?: string;
-        consentTemplateId?: string;
-        endpoints?: CdsEndpoints;
-        merchandising?: MerchandisingConfig;
-        profileTag?: ProfileTagConfig;
-    }
-```
-
-
-Current version:
-
-```
-cds: {
-        baseSite?: string[];
-        tenant?: string;
-        baseUrl?: string;
-        consentTemplateId?: string;
-        endpoints?: CdsEndpoints;
-        merchandising?: MerchandisingConfig;
-        profileTag?: ProfileTagConfig;
-    }
-```
 
 
 
@@ -849,6 +866,16 @@ Current version:
 get(): Observable<T | undefined>
 
 ```
+
+
+
+
+# Class UserFormService
+## @spartacus/organization/administration/components
+
+
+### Property featureConfigService is removed.
+
 
 
 
@@ -1715,6 +1742,16 @@ logger: ExpressServerLogger
 
 
 
+# Class CmsTicketInterceptor
+## @spartacus/smartedit/root
+
+
+### Property featureConfig is removed.
+
+
+
+
+
 # Class AddressBookComponent
 ## @spartacus/storefront
 
@@ -1790,6 +1827,16 @@ Use UserProfileFacade instead.
 ## @spartacus/storefront
 
 moved to @spartacus/user/profile/components
+
+
+
+
+# Class ProductListComponentService
+## @spartacus/storefront
+
+
+### Property featureConfigService is removed.
+
 
 
 
