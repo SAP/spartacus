@@ -13,10 +13,9 @@ import {
 } from '@spartacus/checkout/base/components';
 import {
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
-  provideDefaultConfig,
   UrlModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   CardModule,
@@ -36,7 +35,6 @@ import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.compo
     PromotionsModule,
     IconModule,
     OutletModule,
-    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
