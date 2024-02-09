@@ -1,70 +1,20 @@
 %cx-my-account-v2-consent-management-form {
-  .cx-be-bold {
-    @include type('6');
-  }
-
   .name {
     @include type('6');
-  }
-
-  .form-check .form-check-label {
     display: block;
+    margin-bottom: 0.2rem;
   }
 
   .description {
-    @include type('');
+    @include type();
+    display: block;
   }
 
   .consent-container {
-    display: flex;
+    display: block;
   }
 
-  .consent-details {
-    margin-top: 0;
-    margin-inline-end: 0;
-    margin-bottom: 0;
-    margin-inline-start: 2.815rem;
-  }
-
-  .custom-switch {
-    margin-top: 0;
-    margin-inline-end: 0;
-    margin-bottom: 0;
-    margin-inline-start: -2.25rem;
-
-    .custom-control-label {
-      &::before {
-        height: 2rem;
-        width: 3.75rem;
-        border-radius: 2.5rem;
-        border: 2px solid var(--cx-color-light);
-      }
-
-      &::after {
-        width: 1.5rem;
-        height: 1.5rem;
-        border-radius: 2.5rem;
-        top: calc(0.5rem + 1px);
-        left: -2rem;
-      }
-    }
-
-    .custom-control-input {
-      height: 2rem;
-      width: 3.75rem;
-      left: 2.25rem;
-    }
-
-    .custom-control-input:checked ~ .custom-control-label {
-      &::after {
-        transform: translateX(1.75rem);
-      }
-    }
-    .custom-control-input:disabled {
-      &:checked ~ .custom-control-label::before {
-        background-color: var(--cx-color-medium);
-        border-color: var(--cx-color-medium);
-      }
-    }
+  .checkbox-input {
+    top: -0.2rem;
   }
 }
