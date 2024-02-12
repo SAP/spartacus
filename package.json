@@ -85,6 +85,7 @@
     "start:prod": "env-cmd --no-override -e dev,b2c,$SPA_ENV nx serve storefrontapp --configuration=production",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server --silent --proxy http://localhost:4200? -p 4200",
     "test": "nx test",
+    "test:all-schematics": "npm --prefix ./projects/schematics test -- -u; for dir in feature-libs/* integration-libs/*; do (cd $dir && npm run test:schematics -- -u); done",
     "test:libs": "concurrently \"nx test core --code-coverage\" \"nx test storefrontlib --code-coverage\" \"nx test cart --code-coverage\" \"nx test organization --code-coverage\" \"nx test storefinder --code-coverage\" \"nx test smartedit --code-coverage\" \"nx test asm --code-coverage\" \"nx test qualtrics --code-coverage\" \"nx test product --code-coverage\" \"nx test product-configurator --code-coverage\" \"nx test customer-ticketing --code-coverage\" \"nx test cdc --code-coverage\" \"nx test setup --code-coverage\" \"nx test checkout --code-coverage\" \"nx test order --code-coverage\" \"nx test digital-payments --code-coverage\" \"nx test epd-visualization --code-coverage\" \"nx test pickup-in-store --code-coverage\" \"nx test s4om --code-coverage\" \"nx test requested-delivery-date --code-coverage\" \"nx test pdf-invoices --code-coverage\"",
     "test:storefront:lib": "nx test storefrontlib --source-map --code-coverage",
     "dev:ssr": "env-cmd --no-override -e dev,b2c,$SPA_ENV cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:serve-ssr",
