@@ -89,8 +89,54 @@ Constructor has been extended with a new dependency to `ConfiguratorQuantityServ
 
 - `UserProfileFacade` has been removed a required constructor dependency.
 
+## AsmBindCartComponent
+
+- `AsmComponentService` and `RoutingService` are now required constructor dependencies.
+
+## CustomerEmulationComponent
+
+- `LaunchDialogService` and `FeatureModulesService` are now required constructor dependencies.
+
+## CustomerListComponent
+
+- `OccConfig` is now a required constructor dependency.
+
+## AsmComponentService
+
+- `AsmEnablerService` and `AsmDeepLinkService` are now required constructor dependencies.
+
+## CustomerSelectionComponent
+
+- `launchDialogService` is now a required constructor dependency.
+
 # Changes in feature lib cart
 
 ## ActiveCartService
 
 - `WindowRef` is now a required constructor dependency.
+
+# Changes in the core library
+
+## Changes related to the Optimized SSR Engine
+
+- `defaultSsrOptimizationOptions` represents the default configuration for the Optimized SSR Engine. This configuration includes various parameters, among which is the `cacheSize` property. The `cacheSize` property has been set to 3000 by default. This parameter determines the maximum number of entries allowed in the cache, serving to regulate memory usage effectively.
+
+## ClientAuthStoreModule
+
+- `HttpClientModule` has been removed from the `imports` property inside `NgModule` metadata. This should not be a problem, as long as you import `HttpClientModule` in your `app.module.ts`. Alternatively to _importing_ `HttpClientModule` in your `app.module.ts` you can _provide_  in `app.module.ts` the `provideHttpClient(withInterceptorsFromDi())` (optionally with `withFetch()`). For more, see https://angular.io/api/common/http/provideHttpClient
+
+## AuthHttpHeaderService
+
+- The variable name `refreshTokenTrigger$` has undergone a modification in its type, transitioning from being exclusively of type AuthToken to now encompassing the union type AuthToken | undefined.
+
+# Changes in feature lib organization
+
+## MessageService
+
+- The variable name `data$` has undergone a modification in its type, transitioning from being exclusively of type T to now encompassing the union type T | undefined.
+
+# Changes in the storefront library
+
+## AddressBookModule
+
+- `AddressBookModule` previously housed within the storefront library has been relocated to the `UserProfileModule` within the user library. This transition integrates components, styles, and assets pertinent to the `AddressBookModule`. Such a relocation facilitates improved accessibility to essential services within the user library's domain and offers the potential to address constraints imposed by separate library boundaries.

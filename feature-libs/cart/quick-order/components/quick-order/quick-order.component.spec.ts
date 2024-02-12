@@ -8,7 +8,6 @@ import {
 } from '@spartacus/cart/quick-order/root';
 import {
   FeaturesConfig,
-  FeaturesConfigModule,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -19,7 +18,7 @@ import {
   CmsComponentData,
   MessageComponentModule,
 } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsQuickOrderComponent } from '../../core/models/cms.model';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
@@ -162,11 +161,7 @@ describe('QuickOrderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        MessageComponentModule,
-        FeaturesConfigModule,
-      ],
+      imports: [I18nTestingModule, MessageComponentModule],
       declarations: [
         QuickOrderComponent,
         MockQuickOrderFormComponent,
