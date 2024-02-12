@@ -8,7 +8,6 @@ import * as checkout from '../../helpers/checkout-flow';
 
 describe('Focus managment for a11y', () => {
   context('Checkout - Delivery modes', () => {
-    before(() => {});
     it('preserves focus when selecting a delivery mode with a keyboard', () => {
       cy.requireLoggedIn().then(() => {
         checkout.goToProductDetailsPage();
