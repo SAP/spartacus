@@ -57,6 +57,8 @@ import {
   StockNotificationModule,
   TabParagraphContainerModule,
   VideoModule,
+  USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
+  USE_MY_ACCOUNT_V2_CONSENT,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AsmFeatureModule } from './features/asm/asm-feature.module';
@@ -240,6 +242,17 @@ if (environment.requestedDeliveryDate) {
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
     ...featureModules,
+  ],
+  providers: [
+    // Adding the provider here because consents feature is not code-splitted to separate library and not lazy-loaded
+    {
+      provide: USE_MY_ACCOUNT_V2_CONSENT,
+      useValue: environment.myAccountV2,
+    },
+    {
+      provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
+      useValue: environment.myAccountV2,
+    },
   ],
 })
 export class SpartacusFeaturesModule {}
