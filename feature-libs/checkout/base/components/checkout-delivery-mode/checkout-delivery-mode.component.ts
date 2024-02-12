@@ -111,8 +111,9 @@ export class CheckoutDeliveryModeComponent {
         (<KeyboardEvent>event).key === 'Enter' ||
         (<KeyboardEvent>event).key === ' '
       )
-    )
+    ) {
       return;
+    }
 
     event.preventDefault();
     const lastFocusedId = (<HTMLElement>event.target)?.id;
