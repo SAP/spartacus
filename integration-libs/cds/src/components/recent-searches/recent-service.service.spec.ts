@@ -33,7 +33,9 @@ describe('RecentSearchesService', () => {
     const mockRecentSearches = ['query1', 'query2'];
 
     spyOn(recentSearchesService['recentSearchesSource'], 'next');
-    spyOn(recentSearchesService, 'checkAvailability').and.returnValue(of(true));
+    spyOn<any>(recentSearchesService, 'checkAvailability').and.returnValue(
+      of(true)
+    );
 
     (<any>windowRef.nativeWindow).Y_TRACKING = {
       recentSearches: {
@@ -54,7 +56,7 @@ describe('RecentSearchesService', () => {
 
   it('should not emit recent searches when not available', fakeAsync(() => {
     spyOn(recentSearchesService['recentSearchesSource'], 'next');
-    spyOn(recentSearchesService, 'checkAvailability').and.returnValue(
+    spyOn<any>(recentSearchesService, 'checkAvailability').and.returnValue(
       of(false)
     );
     recentSearchesService['addRecentSearchesListener']();

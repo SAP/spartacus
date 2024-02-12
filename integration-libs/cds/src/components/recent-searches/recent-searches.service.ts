@@ -14,10 +14,12 @@ export class RecentSearchesService {
   private readonly recentSearchesSource = new ReplaySubject<string[]>();
   public recentSearches$ = this.recentSearchesSource.asObservable();
   constructor(protected winRef: WindowRef) {
-    this.addRecentSearchesListener();
+    if (this.winRef.isBrowser()) {
+      this.addRecentSearchesListener();
+    }
   }
 
-  checkAvailability() {
+  private checkAvailability() {
     return interval(250).pipe(
       concatMap((_) => of((this.winRef.nativeWindow as any)?.Y_TRACKING)),
       map((result) => !!result?.recentSearches),
