@@ -10,7 +10,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
   TranslationService,
@@ -155,7 +154,7 @@ describe('OrderHistoryComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule, FeaturesConfigModule],
+        imports: [RouterTestingModule, I18nTestingModule],
         declarations: [
           OrderHistoryComponent,
           MockUrlPipe,
