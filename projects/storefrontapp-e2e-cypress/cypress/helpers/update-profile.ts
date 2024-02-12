@@ -16,6 +16,9 @@ export const newLastName = 'Z';
 export const UPDATE_PROFILE_URL = '/my-account/update-profile';
 
 export function updateProfile(user?: SampleUser) {
+  if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+    cy.get('.myaccount-enhancedUI-editButton').click();
+  }
   if (user) {
     cy.get('[formcontrolname="firstName"]').should(
       'have.value',
@@ -23,12 +26,11 @@ export function updateProfile(user?: SampleUser) {
     );
     cy.get('[formcontrolname="lastName"]').should('have.value', user.lastName);
   }
-
-  cy.get('cx-update-profile').within(() => {
+  cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
     cy.get('[formcontrolname="titleCode"]').ngSelect(newTitle);
     cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
     cy.get('[formcontrolname="lastName"]').clear().type(newLastName);
-    cy.get('button').click();
+    cy.get('button.btn-primary').click();
   });
 
   // check for the global message and home screen
@@ -49,7 +51,7 @@ export function validateUpdateProfileForm(
   firstName: string,
   lastName: string
 ) {
-  cy.get('cx-update-profile').within(() => {
+  cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
     cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
       'have.text',
       title
@@ -61,7 +63,10 @@ export function validateUpdateProfileForm(
 
 export function verifyUpdatedProfile() {
   // check where the user's details updated in the previous test
-  cy.get('cx-update-profile').within(() => {
+  if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+    cy.get('.myaccount-enhancedUI-editButton').click();
+  }
+  cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
     cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
       'have.text',
       newTitle
@@ -73,11 +78,14 @@ export function verifyUpdatedProfile() {
 
 export function testUpdateProfileDetails() {
   it('should be able to update profile details', () => {
-    cy.get('cx-update-profile').within(() => {
+    if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+      cy.get('.myaccount-enhancedUI-editButton').click();
+    }
+    cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
       cy.get('[formcontrolname="titleCode"]').ngSelect(newTitle);
       cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
       cy.get('[formcontrolname="lastName"]').clear().type(newLastName);
-      cy.get('button').click();
+      cy.get('button.btn-primary').click();
     });
 
     // check for the global message and home screen
@@ -96,8 +104,11 @@ export function testUpdateProfileDetails() {
 
 export function testSeeNewProfileInfo() {
   it('should be able to see the new profile info', () => {
+    if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+      cy.get('.myaccount-enhancedUI-editButton').click();
+    }
     // check where the user's details updated in the previous test
-    cy.get('cx-update-profile').within(() => {
+    cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
       cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
         'have.text',
         newTitle
