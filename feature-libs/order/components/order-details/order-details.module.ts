@@ -12,6 +12,7 @@ import {
   AuthGuard,
   CmsConfig,
   FeaturesConfig,
+  FeaturesConfigModule,
   I18nModule,
   MODULE_INITIALIZER,
   provideDefaultConfig,
@@ -96,7 +97,7 @@ const moduleComponents = [
     CardModule,
     CommonModule,
     I18nModule,
-
+    FeaturesConfigModule,
     PromotionsModule,
     UrlModule,
     SpinnerModule,
