@@ -37,7 +37,7 @@ export class ConfigureCartEntryComponent {
 
   // we default to active cart as owner in case no context is provided
   // in this case no id of abstract order is needed
-  abstractOrderData$: Observable<AbstractOrderKey> = this.abstractOrderContext
+  abstractOrderKey$: Observable<AbstractOrderKey> = this.abstractOrderContext
     ? this.abstractOrderContext.key$
     : of({ type: AbstractOrderType.CART });
 
@@ -68,9 +68,9 @@ export class ConfigureCartEntryComponent {
    * @returns - an owner type
    */
   retrieveOwnerTypeFromAbstractOrderType(
-    abstractOrderData: AbstractOrderKey
+    abstractOrderKey: AbstractOrderKey
   ): CommonConfigurator.OwnerType {
-    switch (abstractOrderData.type) {
+    switch (abstractOrderKey.type) {
       case AbstractOrderType.ORDER: {
         return CommonConfigurator.OwnerType.ORDER_ENTRY;
       }

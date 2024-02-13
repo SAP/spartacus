@@ -61,10 +61,10 @@ describe('ConfigureCartEntryComponent', () => {
     });
 
     describe('initialization', () => {
-      it('should default abstractOrderData to active cart in case context not provided', () => {
+      it('should default abstractOrderKey to active cart in case context not provided', () => {
         fixture = TestBed.createComponent(ConfigureCartEntryComponent);
         component = fixture.componentInstance;
-        expect(component.abstractOrderData$).toBeObservable(
+        expect(component.abstractOrderKey$).toBeObservable(
           cold('(a|)', { a: { type: AbstractOrderType.CART } })
         );
       });
@@ -86,8 +86,8 @@ describe('ConfigureCartEntryComponent', () => {
     });
 
     describe('initialization', () => {
-      it('should provide abstractOrderData from context', () => {
-        expect(component.abstractOrderData$).toBeObservable(
+      it('should provide abstractOrderKey from context', () => {
+        expect(component.abstractOrderKey$).toBeObservable(
           cold('(a|)', { a: { id: quoteCode, type: AbstractOrderType.QUOTE } })
         );
       });
