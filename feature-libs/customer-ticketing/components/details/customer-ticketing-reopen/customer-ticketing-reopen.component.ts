@@ -10,14 +10,13 @@ import {
   OnDestroy,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
-import {
-  CustomerTicketingFacade,
-  STATUS,
-} from '@spartacus/customer-ticketing/root';
+import { CustomerTicketingFacade } from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { CustomerTicketingReopenComponentService } from './customer-ticketing-reopen-component.service';
 
 @Component({
   selector: 'cx-customer-ticketing-reopen',
@@ -25,23 +24,14 @@ import { map, take } from 'rxjs/operators';
 })
 export class CustomerTicketingReopenComponent implements OnDestroy {
   protected subscription = new Subscription();
+  protected CustomerTicketingReopenComponentService = inject(
+    CustomerTicketingReopenComponentService
+  );
 
   @ViewChild('element') element: ElementRef;
 
   enableReopenButton$: Observable<boolean | undefined> =
-    this.customerTicketingFacade
-      .getTicket()
-      .pipe(
-        map(
-          (ticket) =>
-            ticket?.status?.id === STATUS.CLOSED &&
-            ticket.availableStatusTransitions?.some(
-              (status) =>
-                status.id.toUpperCase() === STATUS.INPROCESS ||
-                status.id.toUpperCase() === STATUS.OPEN
-            )
-        )
-      );
+    this.CustomerTicketingReopenComponentService.enableReopenButton();
 
   constructor(
     protected customerTicketingFacade: CustomerTicketingFacade,

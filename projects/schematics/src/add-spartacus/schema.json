@@ -23,6 +23,7 @@
           "Quick-Order",
           "CDC",
           "CDC-B2B",
+          "CDP",
           "CDS",
           "Cart",
           "WishList",
@@ -110,6 +111,10 @@
           {
             "value": "CDC-B2B",
             "label": "Customer Data Cloud Integration - B2B"
+          },
+          {
+            "value": "CDP",
+            "label": "Customer Data Platform Integration"
           },
           {
             "value": "CDS",
