@@ -42,6 +42,7 @@ import {
   PermissionActions,
   UserGroupActions,
 } from '../actions/index';
+import { GlobalMessageActions, GlobalMessageType } from '@spartacus/core';
 
 @Injectable()
 export class B2BUserEffects {
@@ -95,6 +96,10 @@ export class B2BUserEffects {
                     customerId: undefined,
                   }),
                   new OrganizationActions.OrganizationClearData(),
+                  new GlobalMessageActions.AddMessage({
+                    text: { raw: data.uid + ' created successfully.' },
+                    type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+                  }),
                 ] as any[];
                 if (isAssignedToApprovers) {
                   successActions.splice(
@@ -108,6 +113,8 @@ export class B2BUserEffects {
                     })
                   );
                 }
+                this.traverseNavigation();
+
                 return successActions;
               })
             );
@@ -125,6 +132,13 @@ export class B2BUserEffects {
       )
     )
   );
+
+  protected traverseNavigation() {
+    const url = this.routingService.getUrl([]).split('/');
+    url.pop();
+    const traverseUrl = url.join('/');
+    this.routingService.goByUrl(traverseUrl);
+  }
 
   updateB2BUser$: Observable<
     | B2BUserActions.UpdateB2BUserSuccess

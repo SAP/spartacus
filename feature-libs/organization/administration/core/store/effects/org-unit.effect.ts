@@ -15,6 +15,9 @@ import {
   LoggerService,
   StateUtils,
   normalizeHttpError,
+  GlobalMessageActions,
+  GlobalMessageType,
+  RoutingService,
 } from '@spartacus/core';
 import { Observable, from, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
@@ -29,6 +32,7 @@ import {
 @Injectable()
 export class OrgUnitEffects {
   protected logger = inject(LoggerService);
+  protected routingService = inject(RoutingService);
 
   loadOrgUnit$: Observable<
     | OrgUnitActions.LoadOrgUnitSuccess
@@ -376,6 +380,7 @@ export class OrgUnitEffects {
     | OrgUnitActions.CreateAddressSuccess
     | OrgUnitActions.CreateAddressFail
     | OrganizationActions.OrganizationClearData
+    | GlobalMessageActions.AddMessage
   > = createEffect(() =>
     this.actions$.pipe(
       ofType(OrgUnitActions.CREATE_ADDRESS),
@@ -384,11 +389,22 @@ export class OrgUnitEffects {
         this.orgUnitConnector
           .createAddress(payload.userId, payload.orgUnitId, payload.address)
           .pipe(
-            switchMap((data) => [
-              new OrgUnitActions.CreateAddressSuccess(data),
-              new OrgUnitActions.CreateAddressSuccess({ id: undefined }),
-              new OrganizationActions.OrganizationClearData(),
-            ]),
+            switchMap((data) => {
+              const successActions = [
+                new OrgUnitActions.CreateAddressSuccess(data),
+                new OrgUnitActions.CreateAddressSuccess({ id: undefined }),
+                new OrganizationActions.OrganizationClearData(),
+                new GlobalMessageActions.AddMessage({
+                  text: {
+                    raw: 'Address created successfully.',
+                  },
+                  type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+                }),
+              ];
+
+              this.traverseNavigation();
+              return successActions;
+            }),
             catchError((error: HttpErrorResponse) =>
               from([
                 new OrgUnitActions.CreateAddressFail({
@@ -402,6 +418,13 @@ export class OrgUnitEffects {
       )
     )
   );
+
+  protected traverseNavigation() {
+    const url = this.routingService.getUrl([]).split('/');
+    url.pop();
+    const traverseUrl = url.join('/');
+    this.routingService.goByUrl(traverseUrl);
+  }
 
   updateAddress$: Observable<
     | OrgUnitActions.UpdateAddressSuccess
