@@ -114,9 +114,7 @@ if (environment.b2b) {
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
 }
-// if (environment.cdp) {
-//   featureModules.push(CdpFeatureModule);
-// }
+
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
