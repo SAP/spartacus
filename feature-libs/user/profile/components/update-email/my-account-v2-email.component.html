@@ -1,0 +1,115 @@
+<cx-spinner
+  class="overlay"
+  *ngIf="(isUpdating$ | async) || !(user$ | async); $"
+>
+</cx-spinner>
+<div>
+  <div class="flex-line">
+    <label class="headertext"
+      >{{ 'myAccountV2Email.myEmailAddress' | cxTranslate }}
+    </label>
+    <button class="editButton" *ngIf="!isEditing" (click)="onEdit()">
+      {{ 'common.edit' | cxTranslate }}
+    </button>
+  </div>
+  <div>
+    <div *ngIf="!isEditing">
+      <div class="flex-line">
+        <label class="text-head">
+          {{ 'myAccountV2Email.email' | cxTranslate }}
+        </label>
+        <label class="value">
+          {{ (user$ | async)?.uid }}
+        </label>
+      </div>
+    </div>
+  </div>
+  <cx-message
+    *ngIf="isEditing && showingAlert"
+    [text]="'myAccountV2Email.reloginIndicator' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_INFO"
+    (closeMessage)="closeDialogConfirmationAlert()"
+  ></cx-message>
+  <div *ngIf="isEditing" class="email-editing-area">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+      <label>
+        <span class="text-head">{{
+          'myAccountV2Email.emailAddress' | cxTranslate
+        }}</span>
+        <input
+          type="text"
+          class="form-control"
+          [value]="(user$ | async)?.uid"
+          readonly
+        />
+      </label>
+
+      <label>
+        <span class="text-head">{{
+          'myAccountV2Email.newEmailAddress' | cxTranslate
+        }}</span>
+        <input
+          required="true"
+          type="email"
+          name="email"
+          formControlName="email"
+          placeholder="{{ 'myAccountV2Email.emailPlaceHolder' | cxTranslate }}"
+          class="form-control"
+        />
+        <cx-form-errors [control]="form.get('email')"></cx-form-errors>
+      </label>
+
+      <label>
+        <span class="text-head">{{
+          'myAccountV2Email.confirmNewEmailAddress' | cxTranslate
+        }}</span>
+        <input
+          required="true"
+          type="email"
+          name="confirmEmail"
+          formControlName="confirmEmail"
+          placeholder="{{ 'myAccountV2Email.emailPlaceHolder' | cxTranslate }}"
+          class="form-control"
+        />
+        <cx-form-errors [control]="form.get('confirmEmail')"></cx-form-errors>
+      </label>
+
+      <label>
+        <span class="label-content, text-head">{{
+          'myAccountV2Email.password' | cxTranslate
+        }}</span>
+        <input
+          required="true"
+          type="password"
+          name="password"
+          formControlName="password"
+          placeholder="{{
+            'myAccountV2Email.passwordPlaceHolder' | cxTranslate
+          }}"
+          class="form-control"
+          autocomplete="new-password"
+          [attr.aria-label]="
+            'myAccountV2Email.passwordPlaceHolder' | cxTranslate
+          "
+          cxPasswordVisibilitySwitch
+        />
+        <cx-form-errors [control]="form.get('password')"></cx-form-errors>
+      </label>
+
+      <div class="btn-group-row">
+        <div class="btn-group">
+          <button class="btn button-cancel button" (click)="cancelEdit()">
+            {{ 'common.cancel' | cxTranslate }}
+          </button>
+          <button
+            class="btn btn-primary button"
+            (click)="onSubmit()"
+            [disabled]="form.disabled"
+          >
+            {{ 'common.save' | cxTranslate }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

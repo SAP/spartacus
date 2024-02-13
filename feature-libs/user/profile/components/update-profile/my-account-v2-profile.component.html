@@ -1,0 +1,120 @@
+<cx-spinner class="overlay" *ngIf="(isUpdating$ | async) || !(user$ | async)">
+</cx-spinner>
+<div>
+  <div>
+    <div class="flex-line">
+      <label class="headertext"
+        >{{ 'myAccountV2UserProfile.myInformation' | cxTranslate }}
+      </label>
+      <button class="editButton" *ngIf="!isEditing" (click)="onEdit()">
+        {{ 'common.edit' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+  <div *ngIf="!isEditing">
+    <div class="flex-line">
+      <label class="text-head">
+        {{ 'myAccountV2UserProfile.title' | cxTranslate }}
+      </label>
+      <label class="value">
+        {{ (user$ | async)?.title }}
+      </label>
+    </div>
+    <div class="flex-line">
+      <label class="text-head">
+        {{ 'myAccountV2UserProfile.name' | cxTranslate }}
+      </label>
+      <label class="value">
+        {{ (user$ | async)?.firstName }} {{ (user$ | async)?.lastName }}
+      </label>
+    </div>
+    <div class="flex-line">
+      <label class="text-head">
+        {{ 'myAccountV2UserProfile.customerId' | cxTranslate }}
+      </label>
+      <label class="value">
+        {{ (user$ | async)?.customerId }}
+      </label>
+    </div>
+  </div>
+  <div *ngIf="isEditing" class="myaccount-editing-area">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+      <label>
+        <span class="label-content, text-head">{{
+          'myAccountV2UserProfile.title' | cxTranslate
+        }}</span>
+        <ng-select
+          [clearable]="false"
+          [searchable]="false"
+          formControlName="titleCode"
+          id="title-select"
+          [cxNgSelectA11y]="{
+            ariaLabel: 'myAccountV2UserProfile.title' | cxTranslate
+          }"
+        >
+          <ng-option
+            *ngFor="let title of titles$ | async"
+            [value]="title.code"
+            >{{ title.name }}</ng-option
+          >
+        </ng-select>
+      </label>
+      <label>
+        <span class="label-content, text-head">{{
+          'myAccountV2UserProfile.firstName' | cxTranslate
+        }}</span>
+        <input
+          required="true"
+          type="text"
+          class="form-control"
+          name="firstName"
+          formControlName="firstName"
+        />
+        <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
+      </label>
+
+      <label>
+        <span class="label-content, text-head">{{
+          'myAccountV2UserProfile.lastName' | cxTranslate
+        }}</span>
+        <input
+          required="true"
+          type="text"
+          class="form-control"
+          name="lastName"
+          formControlName="lastName"
+        />
+        <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
+      </label>
+
+      <label>
+        <span class="label-content, text-head">{{
+          'myAccountV2UserProfile.customerId' | cxTranslate
+        }}</span>
+        <input
+          required="true"
+          type="text"
+          class="form-control"
+          name="customerId"
+          formControlName="customerId"
+          readonly
+        />
+        <cx-form-errors [control]="form.get('customerId')"></cx-form-errors>
+      </label>
+    </form>
+    <div class="btn-group-row">
+      <div class="btn-group">
+        <button class="btn button-cancel button" (click)="cancelEdit()">
+          {{ 'common.cancel' | cxTranslate }}
+        </button>
+        <button
+          class="btn btn-primary button"
+          (click)="onSubmit()"
+          [disabled]="form.disabled"
+        >
+          {{ 'common.save' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -22,6 +22,7 @@ import { CustomFormValidators } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 
 @Injectable()
 export class UpdatePasswordComponentService {
@@ -35,6 +36,8 @@ export class UpdatePasswordComponentService {
 
   protected busy$ = new BehaviorSubject(false);
 
+  private usingV2 = inject(USE_MY_ACCOUNT_V2_PASSWORD);
+
   isUpdating$ = this.busy$.pipe(
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
@@ -42,10 +45,7 @@ export class UpdatePasswordComponentService {
   form: UntypedFormGroup = new UntypedFormGroup(
     {
       oldPassword: new UntypedFormControl('', Validators.required),
-      newPassword: new UntypedFormControl('', [
-        Validators.required,
-        CustomFormValidators.passwordValidator,
-      ]),
+      newPassword: new UntypedFormControl('', Validators.required),
       newPasswordConfirm: new UntypedFormControl('', Validators.required),
     },
     {
@@ -78,7 +78,11 @@ export class UpdatePasswordComponentService {
 
   protected onSuccess(): void {
     this.globalMessageService.add(
-      { key: 'updatePasswordForm.passwordUpdateSuccess' },
+      {
+        key: this.usingV2
+          ? 'myAccountV2PasswordForm.passwordUpdateSuccess'
+          : 'updatePasswordForm.passwordUpdateSuccess',
+      },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
     this.busy$.next(false);
@@ -100,7 +104,11 @@ export class UpdatePasswordComponentService {
       _error.details?.[0].type === 'AccessDeniedError'
     ) {
       this.globalMessageService.add(
-        { key: 'updatePasswordForm.accessDeniedError' },
+        {
+          key: this.usingV2
+            ? 'myAccountV2PasswordForm.accessDeniedError'
+            : 'updatePasswordForm.accessDeniedError',
+        },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }
