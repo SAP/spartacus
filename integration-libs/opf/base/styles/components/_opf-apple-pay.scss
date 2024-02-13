@@ -6,11 +6,6 @@
     border-radius: var(--cx-buttons-border-radius);
     margin-top: 10px;
     height: 48px;
-  }
-
-  @media (min-width: 992px) {
-    .apple-pay-button {
-      margin-inline: 1.2rem 1.2rem;
-    }
+    cursor: pointer;
   }
 }

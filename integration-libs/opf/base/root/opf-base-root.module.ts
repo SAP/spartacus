@@ -37,6 +37,7 @@ export function defaultOpfBaseCmsComponentsConfig(): CmsConfig {
           'OpfCtaScriptsComponent',
           'OpfQuickBuyComponent',
           'OpfAddToCartComponent',
+          'OpfCartProceedToCheckoutComponent',
         ],
       },
     },
