@@ -9,4 +9,8 @@ is used for adding configurable products to the cart.
 
 New styling for `.cx-required-error-msg ` has been added.
 
+# Changes in feature lib pickup-in-store
 
+## _index.scss
+Removed `$useLatestStyles: true;`.
+This led to the disregard of the configured feature level for the pickup-in-store library.
