@@ -134,7 +134,9 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         this.setLoading = context.cartIsLoading;
       }
       if (context.items !== undefined) {
-        if (contextRequiresRerender) this.cd.markForCheck();
+        if (contextRequiresRerender) {
+          this.cd.markForCheck();
+        }
         this._setItems(context.items, {
           forceRerender: contextRequiresRerender,
         });
