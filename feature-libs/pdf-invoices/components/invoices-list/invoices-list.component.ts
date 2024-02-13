@@ -51,8 +51,8 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   sort = 'byInvoiceIdAsc';
 
   protected sortMapping: { [key: string]: string } = {
-    byCreatedAtAsc: 'invoiceDate:asc', //TODO: (CXINT-2438) update the sort code after the API is changed
-    byCreatedAtDesc: 'invoiceDate:desc', //TODO: (CXINT-2438) update the sort code after the API is changed
+    byCreatedAtAsc: 'createdAt:asc',
+    byCreatedAtDesc: 'createdAt:desc',
     byInvoiceIdAsc: 'invoiceId:asc',
     byInvoiceIdDesc: 'invoiceId:desc',
     byNetAmountAsc: 'netAmount:asc',
