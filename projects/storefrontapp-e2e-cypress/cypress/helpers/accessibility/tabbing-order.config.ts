@@ -390,6 +390,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   notificationPreference: [
     { value: 'Email', type: TabbingOrderTypes.CHECKBOX_WITH_LABEL },
   ],
+  myAccountV2NotificationPreference: [
+    { value: 'Email', type: TabbingOrderTypes.CHECKBOX_WITH_LABEL },
+  ],
   updateEmail: [
     { value: 'email', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'confirmEmail', type: TabbingOrderTypes.FORM_FIELD },
@@ -516,6 +519,56 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
       value: 'I approve to this sample STORE USER INFORMATION consent',
+    },
+  ],
+  myAccountV2ConsentManagement: [
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Disable all',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Enable all',
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+  ],
+  myAccountV2Password: [
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cancel',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Save',
+      type: TabbingOrderTypes.BUTTON,
     },
   ],
   addToCart: [
