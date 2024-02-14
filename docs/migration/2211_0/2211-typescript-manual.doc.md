@@ -160,7 +160,7 @@ Constructor has been extended with a new dependency to `ConfiguratorQuantityServ
 
 - The variable name `refreshTokenTrigger$` has undergone a modification in its type, transitioning from being exclusively of type AuthToken to now encompassing the union type AuthToken | undefined.
 
-## BaseCodeModule
+## BaseCoreModule
 
 - `ErrorHandlingModule` has been added to the `imports` property inside `NgModule` metadata. It provides CxErrorHandler which extends the default Angular `ErrorHandler`. As a result, all errors that occur during server-side rendering are passed to the `LoggerService`, and these errors are logged with an appropriate context. For more information about the `LoggerService`, see [Using the LoggerService](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/eaef8c61b6d9477daf75bff9ac1b7eb4/a54ac5aff3f6434aa1ed08a68e25084b.html?locale=en-US#using-the-loggerservice).
 
