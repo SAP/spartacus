@@ -43,11 +43,11 @@ export function defaultQuoteComponentsConfig() {
   };
 }
 
-export function defaultQuoteAwareComponentsConfig() {
+export function defaultQuoteCartGuardComponentConfig() {
   return {
     featureModules: {
       [QUOTE_CART_GUARD_FEATURE]: {
-        cmsComponents: ['QuoteAwareComponent'],
+        cmsComponents: ['QuoteCartGuardComponent'],
       },
     },
   };
@@ -117,7 +117,7 @@ export const defaultQuoteConfigLayoutConfig: LayoutConfig = {
       multi: true,
     },
     provideDefaultConfigFactory(defaultQuoteComponentsConfig),
-    provideDefaultConfigFactory(defaultQuoteAwareComponentsConfig),
+    provideDefaultConfigFactory(defaultQuoteCartGuardComponentConfig),
     provideDefaultConfigFactory(defaultQuoteRequestComponentsConfig),
     provideDefaultConfig(defaultQuoteRoutingConfig),
     provideDefaultConfig(defaultQuoteConfigLayoutConfig),

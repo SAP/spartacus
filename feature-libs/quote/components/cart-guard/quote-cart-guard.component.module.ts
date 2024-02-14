@@ -20,7 +20,7 @@ import { QuoteCartGuard } from './quote-cart.guard';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        QuoteAwareComponent: {
+        QuoteCartGuardComponent: {
           component: QuoteCartGuardComponent,
           guards: [AuthGuard, QuoteCartGuard],
         },

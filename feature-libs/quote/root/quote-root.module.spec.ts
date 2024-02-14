@@ -1,15 +1,15 @@
 import {
-  defaultQuoteAwareComponentsConfig,
+  defaultQuoteCartGuardComponentConfig,
   defaultQuoteComponentsConfig,
   defaultQuoteRequestComponentsConfig,
 } from './quote-root.module';
 
 describe('QuoteRootModule', () => {
-  it('should define quoteAware feature linked to the respective component', () => {
-    const featureConfigQuoteAware = defaultQuoteAwareComponentsConfig();
+  it('should define quoteCartGuard feature linked to the respective component', () => {
+    const featureConfigQuoteCartGuard = defaultQuoteCartGuardComponentConfig();
     expect(
-      featureConfigQuoteAware.featureModules.quote_cart_guard.cmsComponents
-    ).toEqual(['QuoteAwareComponent']);
+      featureConfigQuoteCartGuard.featureModules.quote_cart_guard.cmsComponents
+    ).toEqual(['QuoteCartGuardComponent']);
   });
 
   it('should define quoteRequestComponent feature linked to the quote request component that is loaded with the cart page', () => {

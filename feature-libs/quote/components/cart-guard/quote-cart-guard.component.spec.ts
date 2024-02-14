@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuoteCartGuardComponent } from './quote-cart-guard.component';
 
-describe('QuoteAwareComponent', () => {
+describe('QuoteCartGuardComponent', () => {
   let fixture: ComponentFixture<QuoteCartGuardComponent>;
   let component: QuoteCartGuardComponent;
 
