@@ -162,7 +162,7 @@ Constructor has been extended with a new dependency to `ConfiguratorQuantityServ
 
 ## BaseCoreModule
 
-- `ErrorHandlingModule` has been added to the `imports` property inside `NgModule` metadata. It provides CxErrorHandler which extends the default Angular `ErrorHandler`. As a result, all errors that occur during server-side rendering are passed to the `LoggerService`, and these errors are logged with an appropriate context. For more information about the `LoggerService`, see [Using the LoggerService](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/eaef8c61b6d9477daf75bff9ac1b7eb4/a54ac5aff3f6434aa1ed08a68e25084b.html?locale=en-US#using-the-loggerservice).
+- `ErrorHandlingModule` has been added to the `imports` property inside `NgModule` metadata. It provides `CxErrorHandler` which extends the default Angular `ErrorHandler`. As a result, all errors that occur during server-side rendering are passed to the `LoggerService`, and these errors are logged with an appropriate context. For more information about the `LoggerService`, see [Using the LoggerService](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/eaef8c61b6d9477daf75bff9ac1b7eb4/a54ac5aff3f6434aa1ed08a68e25084b.html?locale=en-US#using-the-loggerservice).
 
 # Changes in feature lib organization
 
