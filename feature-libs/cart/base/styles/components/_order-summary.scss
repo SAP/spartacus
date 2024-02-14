@@ -10,7 +10,7 @@
     text-transform: capitalize;
     @include type('3');
     font-weight: var(--cx-font-weight-semi);
-    border-bottom: 1px solid var(--cx-color-medium);
+    border-bottom: 1px solid var(--cx-color-secondary);
     padding-bottom: 1.625rem;
 
     @include media-breakpoint-down(md) {
