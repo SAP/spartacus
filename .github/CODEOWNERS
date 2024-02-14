@@ -57,14 +57,9 @@
 /projects/storefrontlib/cms-components/myaccount/         @SAP/spartacus-codeowners @SAP/spartacus-holidays
 
 # ================================================
-#  Product Configurator (VC and CPQ) integration
+#  Product Configurator and CPQ integration
 # ================================================
 /feature-libs/product-configurator/          @SAP/spartacus-codeowners @SAP/spartacus-CPQ
-
-# ================================================
-#  Quotes
-# ================================================
-/feature-libs/quote/          @SAP/spartacus-codeowners @SAP/spartacus-CPQ
 
 # ================================================
 #  Intelligent services (ISS)
