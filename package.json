@@ -173,7 +173,7 @@
     "@typescript-eslint/utils": "^6.13.1",
     "browser-sync": "^3.0.2",
     "chalk": "^4.1.0",
-    "commander": "^11.0.0",
+    "commander": "^12.0.0",
     "concurrently": "^8.0.1",
     "core-js": "^3.30.1",
     "cross-env": "^7.0.3",
