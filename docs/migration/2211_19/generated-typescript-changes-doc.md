@@ -1,8 +1,8 @@
 <!-- Generated file.  Don't update directly -->
 
-# 2211_19.0 Typescript Breaking Changes
+# 2211.0 Typescript Breaking Changes
 
-This document contains a list of breaking changes or potentially breaking changes for Spartacus 2211_19.0.
+This document contains a list of breaking changes or potentially breaking changes for Spartacus 2211.19.
 
 
 
@@ -486,44 +486,6 @@ moved to @spartacus/core
 ## @spartacus/cart/base/root
 
 moved to @spartacus/core
-
-
-
-
-# Class CdsConfig
-## @spartacus/cds
-
-
-### Property cds changed.
-
-
-Previous version:
-
-```
-cds: {
-        tenant?: string;
-        baseUrl?: string;
-        consentTemplateId?: string;
-        endpoints?: CdsEndpoints;
-        merchandising?: MerchandisingConfig;
-        profileTag?: ProfileTagConfig;
-    }
-```
-
-
-Current version:
-
-```
-cds: {
-        baseSite?: string[];
-        tenant?: string;
-        baseUrl?: string;
-        consentTemplateId?: string;
-        endpoints?: CdsEndpoints;
-        merchandising?: MerchandisingConfig;
-        profileTag?: ProfileTagConfig;
-    }
-```
 
 
 
