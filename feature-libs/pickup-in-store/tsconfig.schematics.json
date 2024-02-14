@@ -532,6 +532,10 @@
       "@spartacus/cdc/user-profile": [
         "../../integration-libs/cdc/user-profile/public_api"
       ],
+      "@spartacus/cdp/customer-ticketing": [
+        "../../integration-libs/cdp/customer-ticketing/public_api"
+      ],
+      "@spartacus/cdp": ["../../integration-libs/cdp/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
       "@spartacus/digital-payments/assets": [
         "../../integration-libs/digital-payments/assets/public_api"

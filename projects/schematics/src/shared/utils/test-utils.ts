@@ -25,6 +25,8 @@ export const cartWrapperModulePath =
   'src/app/spartacus/features/cart/cart-base-wrapper.module.ts';
 export const customerTicketingFeatureModulePath =
   'src/app/spartacus/features/customer-ticketing/customer-ticketing-feature.module.ts';
+export const customerTicketingWrapperModulePath =
+  'src/app/spartacus/features/customer-ticketing/customer-ticketing-wrapper.module.ts';
 export const importExportFeatureModulePath =
   'src/app/spartacus/features/cart/cart-import-export-feature.module.ts';
 export const quickOrderFeatureModulePath =
@@ -90,6 +92,8 @@ export const userProfileWrapperModulePath =
 
 export const cdcFeatureModulePath =
   'src/app/spartacus/features/cdc/cdc-feature.module.ts';
+export const cdpFeatureModulePath =
+  'src/app/spartacus/features/cdp/cdp-feature.module.ts';
 export const cdsFeatureModulePath =
   'src/app/spartacus/features/cds/cds-feature.module.ts';
 export const digitalPaymentsFeatureModulePath =
