@@ -39,19 +39,11 @@ Package "@nguniversal/express-engine" has an incompatible peer dependency to "@a
 Package "@nguniversal/express-engine" has an incompatible peer dependency to "@angular/platform-server" (requires "^15.0.0" (extended), would install "17.0.5").
 ```
 
-If `@angular-devkit/schematics` is not listed under the `devDependencies` in the `package.json` file, please execute the following command:
+If `@angular-devkit/schematics` is not listed under the `devDependencies` in the `package.json` file, please execute the following commands:
 ```bash
-npm i @angular-devkit/schematics@17 --save-dev
-```
-
-### Update rxjs and i18next libraries
-
-Because Spartacus v2211 uses rxjs v7 and i18next v23.7.6, update these libraries in your project:
-
-```bash
-npm i rxjs@^7.8.0 i18next@^23.7.6 i18next-http-backend@^2.4.2 i18next-resources-to-backend@^1.2.0
+npm i @angular-devkit/schematics@17 --save-dev --force
 git add .
-git commit -m "update rxjs 7 and i18next libraries"
+git commit -m "add @angular-devkit/schematics@17 to dev dependencies"
 ```
 
 ### Run Spartacus update
