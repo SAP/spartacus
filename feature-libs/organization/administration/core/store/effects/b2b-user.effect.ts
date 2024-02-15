@@ -19,6 +19,8 @@ import {
   User,
   UserIdService,
   normalizeHttpError,
+  GlobalMessageActions,
+  GlobalMessageType,
 } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, from, of } from 'rxjs';
@@ -42,7 +44,6 @@ import {
   PermissionActions,
   UserGroupActions,
 } from '../actions/index';
-import { GlobalMessageActions, GlobalMessageType } from '@spartacus/core';
 
 @Injectable()
 export class B2BUserEffects {

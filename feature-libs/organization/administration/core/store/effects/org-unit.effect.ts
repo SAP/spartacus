@@ -381,7 +381,6 @@ export class OrgUnitEffects {
     | OrgUnitActions.CreateAddressSuccess
     | OrgUnitActions.CreateAddressFail
     | OrganizationActions.OrganizationClearData
-    | GlobalMessageActions.AddMessage
   > = createEffect(() =>
     this.actions$.pipe(
       ofType(OrgUnitActions.CREATE_ADDRESS),
@@ -401,7 +400,7 @@ export class OrgUnitEffects {
                   },
                   type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
                 }),
-              ];
+              ] as any[];
 
               // TODO: Remove optional flag in next major.
               this.routingService?.traverseNavigation();
