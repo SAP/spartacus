@@ -32,7 +32,8 @@ import {
 @Injectable()
 export class OrgUnitEffects {
   protected logger = inject(LoggerService);
-  protected routingService = inject(RoutingService);
+  // TODO: Remove optional flag from this service in next major.
+  protected routingService = inject(RoutingService, { optional: true });
 
   loadOrgUnit$: Observable<
     | OrgUnitActions.LoadOrgUnitSuccess
@@ -396,13 +397,15 @@ export class OrgUnitEffects {
                 new OrganizationActions.OrganizationClearData(),
                 new GlobalMessageActions.AddMessage({
                   text: {
-                    raw: 'Address created successfully.',
+                    key: 'orgUnitAddress.create.success',
                   },
                   type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
                 }),
               ];
 
-              this.routingService.traverseNavigation();
+              // TODO: Remove optional flag in next major.
+              this.routingService?.traverseNavigation();
+
               return successActions;
             }),
             catchError((error: HttpErrorResponse) =>

@@ -97,7 +97,7 @@ export class B2BUserEffects {
                   }),
                   new OrganizationActions.OrganizationClearData(),
                   new GlobalMessageActions.AddMessage({
-                    text: { raw: data.uid + ' created successfully.' },
+                    text: { key: 'orgUnitUsers.create.success' },
                     type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
                   }),
                 ] as any[];
@@ -113,6 +113,8 @@ export class B2BUserEffects {
                     })
                   );
                 }
+
+                // TODO: ADD FEATURE FLAG TO METHOD BEFORE MERGE
                 this.routingService.traverseNavigation();
 
                 return successActions;
