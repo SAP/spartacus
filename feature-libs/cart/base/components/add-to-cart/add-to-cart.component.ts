@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { animate, style, transition, trigger } from '@angular/animations';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -24,8 +25,8 @@ import {
 import {
   CmsAddToCartComponent,
   EventService,
-  isNotNullable,
   Product,
+  isNotNullable,
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -40,6 +41,27 @@ import { filter, map, take } from 'rxjs/operators';
   selector: 'cx-add-to-cart',
   templateUrl: './add-to-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+
+  animations: [
+    trigger('glowAnimation', [
+      transition('* => *', [
+        animate(
+          '1s ease-out',
+          style({
+            transform: 'scale(1.3)',
+            textShadow: '0 0 10px red',
+          })
+        ),
+        animate(
+          '.5s ease-out',
+          style({
+            transform: 'scale(1)',
+            textShadow: 'none',
+          })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() productCode: string;
@@ -56,6 +78,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   hasStock: boolean = false;
   inventoryThreshold: boolean = false;
+
+  stockLevel: number = 0; // SPIKE
 
   showInventory$: Observable<boolean | undefined> | undefined =
     this.component?.data$.pipe(map((data) => data.inventoryDisplay));
@@ -101,6 +125,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       )
         .pipe(filter(isNotNullable))
         .subscribe((product) => {
+          console.log('SPIKE add-to-cart component receives data:', {
+            product,
+          });
           this.productCode = product.code ?? '';
           this.setStockInfo(product);
           this.cd.markForCheck();
@@ -114,6 +141,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     this.addToCartForm.controls['quantity'].setValue(1);
 
     this.hasStock = Boolean(product.stock?.stockLevelStatus !== 'outOfStock');
+
+    this.stockLevel = product.stock?.stockLevel ?? 0; // SPIKE
 
     this.inventoryThreshold = product.stock?.isValueRounded ?? false;
 

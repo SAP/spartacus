@@ -1,4 +1,11 @@
 <form *ngIf="productCode" [formGroup]="addToCartForm" (submit)="addToCart()">
+  <b
+    >SPIKE STOCK LEVEL:
+    <span style="display: inline-block" [@glowAnimation]="stockLevel">{{
+      stockLevel
+    }}</span></b
+  >
+
   <div class="quantity" *ngIf="showQuantity">
     <label>{{ 'addToCart.quantity' | cxTranslate }}</label>
     <div class="cx-counter-stock">
