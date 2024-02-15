@@ -5,9 +5,9 @@
 // ```
 
 // WHAT IT DOES:
-// - proxies all requests to the OCC dev server, generating random `stockLevel`
-//     if the request includes `fields=stock`. Random stock level is between 1-100.
-// - also runs a fake server that returns random stock levels between 100_001-100_100.
+// [localhost:9002] -proxies all requests to the OCC dev server, generating random `stockLevel`
+//                    if the request includes `fields=stock`. Random stock level is between 1-100.
+// [localhost:9003] - also runs a fake server that returns random stock levels between 100_001-100_100.
 
 const httpProxy = require('http-proxy');
 const http = require('http');
