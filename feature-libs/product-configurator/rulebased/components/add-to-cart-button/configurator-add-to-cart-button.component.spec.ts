@@ -32,6 +32,7 @@ import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart
 
 const CART_ENTRY_KEY = '001+1';
 const ORDER_ENTRY_KEY = '001+1';
+const PRODUCT_ENTRY_KEY = '001+1';
 const QUANTITY = 99;
 const QUANTITY_CHANGED = 7;
 
@@ -226,6 +227,19 @@ function setRouterTestDataReadOnlyOrder() {
   mockRouterData.isOwnerCartEntry = false;
   mockRouterData.owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
   mockRouterData.owner.id = ORDER_ENTRY_KEY;
+  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+  mockRouterData.displayOnly = true;
+}
+
+function setRouterTestDataReadOnlyProduct() {
+  mockRouterState.state.params = {
+    entityKey: ORDER_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.PRODUCT,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.isOwnerCartEntry = false;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.PRODUCT;
+  mockRouterData.owner.id = PRODUCT_ENTRY_KEY;
   mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
   mockRouterData.displayOnly = true;
 }
@@ -653,13 +667,13 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
   });
 
-  describe('displayOnlyButton', () => {
+  describe('leaveConfigurationOverview', () => {
     it('should navigate to review order', () => {
       setRouterTestDataReadOnlyCart();
       initialize();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'checkoutReviewOrder',
+        cxRoute: 'cart',
       });
     });
 
@@ -670,6 +684,18 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'orderDetails',
         params: mockOrder,
+      });
+    });
+
+    it('should navigate to product details', () => {
+      setRouterTestDataReadOnlyProduct();
+      initialize();
+      component.leaveConfigurationOverview();
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'product',
+        params: {
+          code: PRODUCT_ENTRY_KEY,
+        },
       });
     });
   });

@@ -7,7 +7,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Params } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import {
+  CommonConfigurator,
+  ReadOnlyPostfix,
+} from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
 @Component({
@@ -76,10 +79,15 @@ export class ConfigureCartEntryComponent {
   /**
    * Retrieves the state of the configuration.
    *
-   *  @returns - 'true' if the configuration is read only, otherwise 'false'
+   *  @returns - 'true' if the configuration is read only and configurator type contains readOnly postfix, otherwise 'false'
    */
   getDisplayOnly(): boolean {
-    return this.readOnly;
+    const configuratorType = this.cartEntry.product?.configuratorType;
+    return (
+      this.readOnly ||
+      !configuratorType ||
+      configuratorType.endsWith(ReadOnlyPostfix)
+    );
   }
 
   /**
@@ -98,7 +106,7 @@ export class ConfigureCartEntryComponent {
    */
   getResolveIssuesA11yDescription(): string | undefined {
     const errorMsgId = 'cx-error-msg-' + this.cartEntry.entryNumber;
-    return !this.readOnly && this.msgBanner ? errorMsgId : undefined;
+    return !this.getDisplayOnly() && this.msgBanner ? errorMsgId : undefined;
   }
 
   /**

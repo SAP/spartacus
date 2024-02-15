@@ -25,14 +25,14 @@
 </ng-container>
 
 <ng-template #configureText>
-  <ng-container *ngIf="readOnly">
+  <ng-container *ngIf="getDisplayOnly()">
     {{ 'configurator.header.displayConfiguration' | cxTranslate }}</ng-container
   >
-  <ng-container *ngIf="!readOnly && !msgBanner">
+  <ng-container *ngIf="!getDisplayOnly() && !msgBanner">
     {{ 'configurator.header.editConfiguration' | cxTranslate }}
   </ng-container>
 
-  <ng-container *ngIf="!readOnly && msgBanner">
+  <ng-container *ngIf="!getDisplayOnly() && msgBanner">
     {{ 'configurator.header.resolveIssues' | cxTranslate }}
   </ng-container>
 </ng-template>

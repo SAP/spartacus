@@ -12,7 +12,10 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import {
+  CommonConfigurator,
+  ReadOnlyPostfix,
+} from '../../core/model/common-configurator.model';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
 
 @Component({
@@ -36,6 +39,20 @@ export class ConfigureProductComponent {
 
   ownerTypeProduct: CommonConfigurator.OwnerType =
     CommonConfigurator.OwnerType.PRODUCT;
+
+  /**
+   * Retrieves a translation key depending on the condition.
+   *
+   * @param configuratorType - configurator type
+   * @returns - If the configurator type contains a postfix readOnly then 'configurator.header.toconfigView' translation key will be returned,
+   * otherwise 'configurator.header.toconfig' will be returned.
+   */
+  getTranslationKey(configuratorType?: string): string {
+    return !!configuratorType &&
+      configuratorType.trim().endsWith(ReadOnlyPostfix)
+      ? 'configurator.header.toconfigView'
+      : 'configurator.header.toconfig';
+  }
 
   constructor(
     @Optional() protected productListItemContext: ProductListItemContext, // when on PLP

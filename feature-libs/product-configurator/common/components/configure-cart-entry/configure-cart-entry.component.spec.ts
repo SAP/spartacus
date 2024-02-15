@@ -6,7 +6,9 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
+  ConfiguratorType,
   OrderEntryStatus,
+  ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
@@ -95,9 +97,39 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   describe('getDisplayOnly', () => {
-    it('should derive result from component if available', () => {
+    it('should return true in case readOnly is true', () => {
       component.readOnly = true;
       expect(component.getDisplayOnly()).toBe(true);
+    });
+
+    it('should return true in case readOnly is false and product is undefined', () => {
+      component.readOnly = false;
+      component.cartEntry.product = {};
+      expect(component.getDisplayOnly()).toBe(true);
+    });
+
+    it('should return true in case readOnly is false and configurator type is undefined', () => {
+      component.readOnly = false;
+      component.cartEntry.product = {
+        configuratorType: undefined,
+      };
+      expect(component.getDisplayOnly()).toBe(true);
+    });
+
+    it('should return true in case readOnly is false and configurator type contains readOnly postfix', () => {
+      component.readOnly = false;
+      component.cartEntry.product = {
+        configuratorType: ConfiguratorType.VARIANT + ReadOnlyPostfix,
+      };
+      expect(component.getDisplayOnly()).toBe(true);
+    });
+
+    it('should return false in case readOnly is false and configurator type is CPQCONFIGURATOR', () => {
+      component.readOnly = false;
+      component.cartEntry.product = {
+        configuratorType: ConfiguratorType.VARIANT,
+      };
+      expect(component.getDisplayOnly()).toBe(false);
     });
   });
 

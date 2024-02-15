@@ -11,7 +11,10 @@ import {
 import { Observable, of } from 'rxjs';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
-import { ConfiguratorType } from './../../core/model/common-configurator.model';
+import {
+  ConfiguratorType,
+  ReadOnlyPostfix,
+} from './../../core/model/common-configurator.model';
 import { ConfigureProductComponent } from './configure-product.component';
 
 const productCode = 'CONF_LAPTOP';
@@ -191,6 +194,54 @@ describe('ConfigureProductComponent', () => {
     component.product$.subscribe((product) => {
       expect(product).toBe(mockProduct);
       done();
+    });
+  });
+
+  describe('getTranslationKey', () => {
+    beforeEach(() => {
+      setupWithCurrentProductService(true);
+    });
+
+    it('should return configurator.header.toconfig in case configurator type is undefined', () => {
+      expect(component.getTranslationKey(undefined)).toEqual(
+        'configurator.header.toconfig'
+      );
+    });
+
+    it('should return configurator.header.toconfig in case configurator type is null', () => {
+      expect(component.getTranslationKey(null)).toEqual(
+        'configurator.header.toconfig'
+      );
+    });
+
+    it('should return configurator.header.toconfig in case configurator type is empty string', () => {
+      expect(component.getTranslationKey('')).toEqual(
+        'configurator.header.toconfig'
+      );
+    });
+
+    it('should return configurator.header.toconfig in case configurator type is string with whitespace', () => {
+      expect(component.getTranslationKey('   ')).toEqual(
+        'configurator.header.toconfig'
+      );
+    });
+
+    it('should return configurator.header.toconfig in case configurator type is CPQCONFIGURATOR', () => {
+      expect(component.getTranslationKey(ConfiguratorType.VARIANT)).toEqual(
+        'configurator.header.toconfig'
+      );
+    });
+
+    it('should return configurator.header.toconfig in case configurator type has suffix readOnly', () => {
+      expect(
+        component.getTranslationKey(ReadOnlyPostfix + ConfiguratorType.VARIANT)
+      ).toEqual('configurator.header.toconfig');
+    });
+
+    it('should return configurator.header.toconfigView in case configurator type has postfix readOnly', () => {
+      expect(
+        component.getTranslationKey(ConfiguratorType.VARIANT + ReadOnlyPostfix)
+      ).toEqual('configurator.header.toconfigView');
     });
   });
 
