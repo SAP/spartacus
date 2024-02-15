@@ -11,8 +11,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './opf-cart-proceed-to-checkout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpfCartProceedToCheckoutComponent {
-  constructor() {
-    console.log('inside OpfCartProceedToCheckoutComponent');
-  }
-}
+export class OpfCartProceedToCheckoutComponent {}
