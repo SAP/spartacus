@@ -8,10 +8,11 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { OpfPaymentMetadata } from '../model/opf.model';
 
-const initialState = {
+const initialState: OpfPaymentMetadata = {
   termsAndConditionsChecked: false,
   selectedPaymentOptionId: undefined,
   isPaymentInProgress: false,
+  paymentSessionId: undefined,
 };
 
 @Injectable({ providedIn: 'root' })

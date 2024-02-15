@@ -25,6 +25,7 @@ import {
   OpfCheckoutFacade,
   OpfPaymentMethodType,
   OpfRenderPaymentMethodEvent,
+  PaymentPattern,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
 import {
@@ -115,6 +116,7 @@ export class OpfCheckoutPaymentWrapperService {
       switchMap((params) => this.opfCheckoutService.initiatePayment(params)),
       tap((paymentOptionConfig: PaymentSessionData | Error) => {
         if (!(paymentOptionConfig instanceof Error)) {
+          this.storePaymentSessionId(paymentOptionConfig);
           this.renderPaymentGateway(paymentOptionConfig);
         }
       }),
@@ -123,6 +125,15 @@ export class OpfCheckoutPaymentWrapperService {
       ),
       take(1)
     );
+  }
+
+  protected storePaymentSessionId(paymentOptionConfig: PaymentSessionData) {
+    const paymentSessionId =
+      paymentOptionConfig.pattern == PaymentPattern.FULL_PAGE &&
+      paymentOptionConfig.paymentSessionId
+        ? paymentOptionConfig.paymentSessionId
+        : undefined;
+    this.opfService.updateOpfMetadataState({ paymentSessionId });
   }
 
   reloadPaymentMode(): void {
