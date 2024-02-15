@@ -374,6 +374,10 @@
       "@spartacus/cdc/root": ["../../dist/cdc/root"],
       "@spartacus/cdc/user-account": ["../../dist/cdc/user-account"],
       "@spartacus/cdc/user-profile": ["../../dist/cdc/user-profile"],
+      "@spartacus/cdp/customer-ticketing": [
+        "../../dist/cdp/customer-ticketing"
+      ],
+      "@spartacus/cdp": ["../../dist/cdp"],
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/digital-payments/assets": [
         "../../dist/digital-payments/assets"

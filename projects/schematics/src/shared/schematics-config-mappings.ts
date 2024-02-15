@@ -66,6 +66,7 @@ import {
   USER_PROFILE_SCHEMATICS_CONFIG,
 } from './lib-configs/user-schematics-config';
 import { Module, SchematicConfig } from './utils/lib-utils';
+import { CDP_SCHEMATICS_CONFIG } from './lib-configs';
 
 /**
  * A list of all schematics feature configurations.
@@ -127,6 +128,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   // integration libraries start
   CDC_SCHEMATICS_CONFIG,
   CDC_B2B_SCHEMATICS_CONFIG,
+
+  CDP_SCHEMATICS_CONFIG,
 
   CDS_SCHEMATICS_CONFIG,
 
