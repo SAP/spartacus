@@ -42,6 +42,7 @@ import { filter, map, take } from 'rxjs/operators';
   templateUrl: './add-to-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 
+  // SPIKE - for visual demo purposes only
   animations: [
     trigger('glowAnimation', [
       transition('* => *', [
