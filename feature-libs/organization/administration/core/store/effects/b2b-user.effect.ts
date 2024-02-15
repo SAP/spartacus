@@ -113,7 +113,7 @@ export class B2BUserEffects {
                     })
                   );
                 }
-                this.traverseNavigation();
+                this.routingService.traverseNavigation();
 
                 return successActions;
               })
@@ -132,13 +132,6 @@ export class B2BUserEffects {
       )
     )
   );
-
-  protected traverseNavigation() {
-    const url = this.routingService.getUrl([]).split('/');
-    url.pop();
-    const traverseUrl = url.join('/');
-    this.routingService.goByUrl(traverseUrl);
-  }
 
   updateB2BUser$: Observable<
     | B2BUserActions.UpdateB2BUserSuccess

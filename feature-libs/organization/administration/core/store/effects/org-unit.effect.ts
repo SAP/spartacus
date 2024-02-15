@@ -402,7 +402,7 @@ export class OrgUnitEffects {
                 }),
               ];
 
-              this.traverseNavigation();
+              this.routingService.traverseNavigation();
               return successActions;
             }),
             catchError((error: HttpErrorResponse) =>
@@ -418,13 +418,6 @@ export class OrgUnitEffects {
       )
     )
   );
-
-  protected traverseNavigation() {
-    const url = this.routingService.getUrl([]).split('/');
-    url.pop();
-    const traverseUrl = url.join('/');
-    this.routingService.goByUrl(traverseUrl);
-  }
 
   updateAddress$: Observable<
     | OrgUnitActions.UpdateAddressSuccess
