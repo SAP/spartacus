@@ -93,6 +93,16 @@ export function placeOrder(): void {
     .should('eq', 200);
 }
 
+export function continuePayment(): void {
+  cy.log('Continue Payment');
+  cy.get('cx-payment-form').within(() => {
+    cy.get('button.btn.btn-block.btn-primary')
+      .should('be.enabled')
+      .contains('Continue')
+      .click();
+    }
+}
+
 /**
  * Conducts the checkout.
  */
@@ -101,7 +111,8 @@ export function completeCheckout(): void {
   checkoutForms.fillShippingAddress(shippingAddressData, true);
   checkout.verifyDeliveryMethod();
   cy.log('Fulfill payment details form');
-  checkoutForms.fillPaymentDetails(paymentDetailsData, billingAddress);
+  checkoutForms.fillPaymentDetails(paymentDetailsData, billingAddress, false);
+  this.continuePayment();
   this.checkTermsAndConditions();
   this.placeOrder();
   cy.log('Define order number alias');
