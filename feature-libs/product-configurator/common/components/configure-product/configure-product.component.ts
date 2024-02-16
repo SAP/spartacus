@@ -45,13 +45,28 @@ export class ConfigureProductComponent {
    *
    * @param configuratorType - configurator type
    * @returns - If the configurator type contains a postfix readOnly then 'configurator.header.toconfigView' translation key will be returned,
-   * otherwise 'configurator.header.toconfig' will be returned.
+   * otherwise 'configurator.header.toconfig'.
    */
   getTranslationKey(configuratorType?: string): string {
-    return !!configuratorType &&
-      configuratorType.trim().endsWith(ReadOnlyPostfix)
+    return this.isConfiguratorTypeReadOnly(configuratorType)
       ? 'configurator.header.toconfigView'
       : 'configurator.header.toconfig';
+  }
+
+  /**
+   * Verifies whether restart dialog should be displayed or not.
+   *
+   * @param configuratorType
+   * @returns - If the configurator type contains a postfix readOnly then false will be returned, otherwise true.
+   */
+  isDisplayRestartDialog(configuratorType?: string): string {
+    return this.isConfiguratorTypeReadOnly(configuratorType) ? 'false' : 'true';
+  }
+
+  protected isConfiguratorTypeReadOnly(configuratorType?: string): boolean {
+    return (
+      !!configuratorType && configuratorType.trim().endsWith(ReadOnlyPostfix)
+    );
   }
 
   constructor(

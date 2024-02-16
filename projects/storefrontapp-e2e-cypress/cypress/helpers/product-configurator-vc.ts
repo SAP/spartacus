@@ -123,16 +123,29 @@ export function checkGlobalMessageContains(text: string): void {
 }
 
 /**
- * Clicks on 'Add to Cart' button in catalog list.
+ * Clicks on 'Configure' button in catalog list.
+ *
+ * @param productName - product name
  */
 export function clickOnConfigureBtnInCatalog(productName: string): void {
-  cy.get(
-    `cx-configure-product a[href*='/configure/vc/product/entityKey/${productName}'`
-  )
+  cy.get(`cx-configure-product a[href*='/vc/product/entityKey/${productName}'`)
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/product/entityKey/');
-      this.checkConfigPageDisplayed();
+      checkConfigPageDisplayed();
+    });
+}
+
+/**
+ * Clicks on 'Show details' button in the catalog list or the product details page.
+ *
+ * @param productName - product name
+ */
+export function clickOnShowDetailsBtn(productName: string): void {
+  cy.get(`cx-configure-product a[href*='/vc/product/entityKey/${productName}'`)
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', '/product/entityKey/');
     });
 }
 
