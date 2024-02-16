@@ -57,9 +57,11 @@ export class OpfPaymentVerificationService {
   };
 
   protected getParamsMap(params: Params): Array<KeyValuePair> {
-    return Object.entries(params).map((pair) => {
-      return { key: pair[0], value: pair[1] as string };
-    });
+    return params
+      ? Object.entries(params).map((pair) => {
+          return { key: pair[0], value: pair[1] as string };
+        })
+      : [];
   }
 
   protected findInParamsMap(

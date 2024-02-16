@@ -18,6 +18,7 @@ import { OpfCheckoutFacade } from '../../root/facade';
 import {
   OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE,
   OpfPaymentMethodType,
+  PaymentPattern,
   PaymentSessionData,
 } from '../../root/model';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
@@ -147,6 +148,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       Promise.resolve()
     );
     spyOn(service, 'renderPaymentGateway').and.callThrough();
+    spyOn<any>(service, 'storePaymentSessionId');
 
     service.initiatePayment(mockPaymentOptionId).subscribe(() => {
       expect(opfCheckoutFacadeMock.initiatePayment).toHaveBeenCalledWith({
@@ -193,6 +195,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
           ],
         },
       });
+
+      expect((service as any).storePaymentSessionId).toHaveBeenCalled();
 
       done();
     });
@@ -293,6 +297,24 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       renderType: OpfPaymentMethodType.DESTINATION,
       data: mockUrl,
       destination: { url: mockUrl, form: [] },
+    });
+  });
+
+  it('should handle paymentSessionId', () => {
+    const mockPaymentSessionId = 'mockPaymentSessionId';
+    const mockPaymentSessionData: PaymentSessionData = {
+      pattern: PaymentPattern.FULL_PAGE,
+      paymentSessionId: mockPaymentSessionId,
+    };
+    (service as any).storePaymentSessionId(mockPaymentSessionData);
+    expect(opfServiceMock.updateOpfMetadataState).toHaveBeenCalledWith({
+      paymentSessionId: mockPaymentSessionId,
+    });
+
+    mockPaymentSessionData.pattern = PaymentPattern.HOSTED_FIELDS;
+    (service as any).storePaymentSessionId(mockPaymentSessionData);
+    expect(opfServiceMock.updateOpfMetadataState).toHaveBeenCalledWith({
+      paymentSessionId: undefined,
     });
   });
 
