@@ -24,18 +24,21 @@ export class ConfiguratorTextfieldFormComponent {
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
         switch (routerData.owner.type) {
-          case CommonConfigurator.OwnerType.PRODUCT:
-            return this.configuratorTextfieldService.createConfiguration(
-              routerData.owner
-            );
-          case CommonConfigurator.OwnerType.CART_ENTRY:
+          case CommonConfigurator.OwnerType.CART_ENTRY: {
             return this.configuratorTextfieldService.readConfigurationForCartEntry(
               routerData.owner
             );
-          case CommonConfigurator.OwnerType.ORDER_ENTRY:
+          }
+          case CommonConfigurator.OwnerType.ORDER_ENTRY: {
             return this.configuratorTextfieldService.readConfigurationForOrderEntry(
               routerData.owner
             );
+          }
+          default: {
+            return this.configuratorTextfieldService.createConfiguration(
+              routerData.owner
+            );
+          }
         }
       })
     );

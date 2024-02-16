@@ -39,6 +39,8 @@ export const checkoutFeatureModulePath =
   'src/app/spartacus/features/checkout/checkout-feature.module.ts';
 export const checkoutWrapperModulePath =
   'src/app/spartacus/features/checkout/checkout-wrapper.module.ts';
+export const quoteFeatureModulePath =
+  'src/app/spartacus/features/quote/quote-feature.module.ts';
 export const orderFeatureModulePath =
   'src/app/spartacus/features/order/order-feature.module.ts';
 export const organizationAdministrationFeatureModulePath =

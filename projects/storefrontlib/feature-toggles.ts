@@ -26,6 +26,11 @@ export interface FeatureToggles {
      *    lazy loaded modules, it will have to use ConfigurationService.unifiedConfig$
      */
     disableConfigUpdates?: boolean;
+
+    /**
+     * Indicates that the for the card components, the card paragraph is truncated (like the label)
+     */
+    storeFrontLibCardParagraphTruncated?: boolean;
     showPromotionsInPDP?: boolean;
   };
 }

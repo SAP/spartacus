@@ -58,7 +58,8 @@
           "TMS-AEPL",
           "Pickup-In-Store",
           "User-Account",
-          "User-Profile"
+          "User-Profile",
+          "Quote"
         ],
         "type": "string"
       },
@@ -247,6 +248,10 @@
           {
             "value": "User-Profile",
             "label": "User - Profile"
+          },
+          {
+            "value": "Quote",
+            "label": "Quote"
           },
           {
             "value": "Customer-Ticketing",

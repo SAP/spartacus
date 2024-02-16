@@ -17,6 +17,7 @@ import {
   SPARTACUS_PRODUCT,
   SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_QUALTRICS,
+  SPARTACUS_QUOTE,
   SPARTACUS_REQUESTED_DELIVERY_DATE,
   SPARTACUS_S4OM,
   SPARTACUS_SEGMENT_REFS,
@@ -26,9 +27,9 @@ import {
   SPARTACUS_USER,
 } from '../libs-constants';
 import {
+  Graph,
   crossFeatureInstallationOrder,
   crossLibraryInstallationOrder,
-  Graph,
   kahnsAlgorithm,
 } from './graph-utils';
 
@@ -147,6 +148,7 @@ describe('Graph utils', () => {
         SPARTACUS_CDP,
         SPARTACUS_CDC,
         SPARTACUS_SMARTEDIT,
+        SPARTACUS_QUOTE,
         SPARTACUS_QUALTRICS,
         SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
@@ -202,6 +204,7 @@ describe('Graph utils', () => {
           "Image-Zoom",
           "Bulk-Pricing",
           "Pickup-In-Store",
+          "Quote",
         ]
       `);
     });
