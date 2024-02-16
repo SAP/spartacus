@@ -269,6 +269,18 @@
       "@spartacus/qualtrics/components": ["dist/qualtrics/components"],
       "@spartacus/qualtrics": ["dist/qualtrics"],
       "@spartacus/qualtrics/root": ["dist/qualtrics/root"],
+      "@spartacus/quote/assets": ["dist/quote/assets"],
+      "@spartacus/quote/components/cart-guard": [
+        "dist/quote/components/cart-guard"
+      ],
+      "@spartacus/quote/components": ["dist/quote/components"],
+      "@spartacus/quote/components/request-button": [
+        "dist/quote/components/request-button"
+      ],
+      "@spartacus/quote/core": ["dist/quote/core"],
+      "@spartacus/quote": ["dist/quote"],
+      "@spartacus/quote/occ": ["dist/quote/occ"],
+      "@spartacus/quote/root": ["dist/quote/root"],
       "@spartacus/requested-delivery-date/assets": [
         "dist/requested-delivery-date/assets"
       ],

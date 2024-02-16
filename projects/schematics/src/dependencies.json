@@ -226,6 +226,20 @@
     "bootstrap": "^4.6.2",
     "rxjs": "^7.8.0"
   },
+  "@spartacus/quote": {
+    "@angular-devkit/schematics": "^17.0.5",
+    "@angular/common": "^17.0.5",
+    "@angular/core": "^17.0.5",
+    "@angular/forms": "^17.0.5",
+    "@angular/router": "^17.0.5",
+    "@spartacus/cart": "2211.19.0-3",
+    "@spartacus/core": "2211.19.0-3",
+    "@spartacus/schematics": "2211.19.0-3",
+    "@spartacus/storefront": "2211.19.0-3",
+    "@spartacus/styles": "2211.19.0-3",
+    "bootstrap": "^4.6.2",
+    "rxjs": "^7.8.0"
+  },
   "@spartacus/requested-delivery-date": {
     "@angular-devkit/schematics": "^17.0.5",
     "@angular/common": "^17.0.5",
