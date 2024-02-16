@@ -1,0 +1,33 @@
+<ng-container
+  *ngIf="quoteDetails$ | async as quoteDetails; else ghostOrderSummary"
+>
+  <div
+    class="cx-container"
+    role="region"
+    tabindex="-1"
+    [attr.aria-label]="'quote.summary.regionTitle' | cxTranslate"
+  >
+    <cx-quote-summary-prices></cx-quote-summary-prices>
+    <cx-quote-summary-seller-edit></cx-quote-summary-seller-edit>
+    <cx-quote-summary-actions></cx-quote-summary-actions>
+  </div>
+</ng-container>
+
+<ng-template #ghostOrderSummary>
+  <div class="cx-ghost-summary-heading">
+    <div class="cx-ghost-title ghost"></div>
+  </div>
+  <div class="cx-ghost-summary-partials">
+    <ng-container *ngFor="let number of [0, 1, 2, 3]">
+      <div class="cx-ghost-row">
+        <div class="cx-ghost-summary-label ghost"></div>
+        <div class="cx-ghost-summary-amount ghost"></div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="cx-ghost-actions">
+    <ng-container *ngFor="let number of [0, 1, 2]">
+      <div class="cx-ghost-button ghost"></div>
+    </ng-container>
+  </div>
+</ng-template>

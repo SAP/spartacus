@@ -55,6 +55,7 @@ describe('ConfiguratorTextfieldEffect', () => {
   let createMock: jasmine.Spy;
   let readFromCartEntryMock: jasmine.Spy;
   let readFromOrderEntryMock: jasmine.Spy;
+
   let addToCartMock: jasmine.Spy;
   let updateCartEntryMock: jasmine.Spy;
 
@@ -70,6 +71,7 @@ describe('ConfiguratorTextfieldEffect', () => {
     readFromOrderEntryMock = jasmine
       .createSpy()
       .and.returnValue(of(productConfiguration));
+
     addToCartMock = jasmine.createSpy().and.returnValue(of(cartModification));
     updateCartEntryMock = jasmine
       .createSpy()
@@ -79,6 +81,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       addToCart = addToCartMock;
       readConfigurationForCartEntry = readFromCartEntryMock;
       readConfigurationForOrderEntry = readFromOrderEntryMock;
+
       updateConfigurationForCartEntry = updateCartEntryMock;
     }
 
