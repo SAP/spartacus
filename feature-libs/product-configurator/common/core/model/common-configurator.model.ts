@@ -41,6 +41,7 @@ export namespace CommonConfigurator {
     orderEntryNumber?: string;
     owner: CommonConfigurator.Owner;
   }
+
   /**
    * Possible types of owners: Product, cart or order entry
    */
@@ -48,6 +49,8 @@ export namespace CommonConfigurator {
     PRODUCT = 'product',
     CART_ENTRY = 'cartEntry',
     ORDER_ENTRY = 'orderEntry',
+    QUOTE_ENTRY = 'quoteEntry',
+    SAVED_CART_ENTRY = 'savedCartEntry',
   }
 }
 

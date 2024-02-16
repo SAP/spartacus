@@ -12,11 +12,7 @@ const cartItemQuantityStepperSelector = '.cx-value cx-item-counter';
  * @param {number} cartItemIndex - Index of cart item
  */
 export function clickOnEditConfigurationLink(cartItemIndex: number): void {
-  cy.get('cx-cart-item-list .cx-item-list-row')
-    .eq(cartItemIndex)
-    .find('cx-configure-cart-entry')
-    .as('aElement');
-
+  locateCartConfiguratorElement(cartItemIndex);
   cy.get('@aElement')
     .find('a:contains("Edit")')
     .click({
@@ -46,6 +42,13 @@ export function clickOnDisplayConfigurationLink(cartItemIndex: number): void {
     .then(() => {
       cy.location('pathname').should('contain', '/cartEntry/entityKey/');
     });
+}
+
+function locateCartConfiguratorElement(cartItemIndex: number): void {
+  cy.get('cx-cart-item-list .cx-item-list-row')
+    .eq(cartItemIndex)
+    .find('cx-configure-cart-entry')
+    .as('aElement');
 }
 
 /**

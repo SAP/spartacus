@@ -1107,6 +1107,16 @@ export namespace Occ {
     totalUnitCount?: number;
 
     user?: Principal;
+
+    sapQuote?: SapQuote;
+  }
+
+  /**
+   *
+   * An interface representing the quote the cart is liked to.
+   */
+  export interface SapQuote {
+    code: string;
   }
 
   /**

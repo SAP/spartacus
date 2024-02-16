@@ -39,8 +39,8 @@ export function clickContinueToCartBtnOnOP(): void {
 /**
  * Clicks on 'Close' on the product overview page and navigates to the cart or the product details page.
  *
- * @param backToCart - is back to the cart page
- * @param backToPDP - is back to the product detail page
+ * @param backToCart - is flag 'backToCart' enabled
+ * @param backToPDP - is flag 'backToPDP' enabled
  */
 export function clickCloseBtnOnOP(
   backToCart: boolean,
@@ -55,6 +55,17 @@ export function clickCloseBtnOnOP(
       if (backToPDP) {
         cy.get('cx-cart-details').should('be.visible');
       }
+    });
+}
+
+/**
+ * Clicks on 'Close' on the product overview page and expects the quote details page to appear
+ */
+export function clickContinueToCartBtnOnOPAndExpectQuote(): void {
+  cy.get(continueToCartButtonSelector)
+    .click()
+    .then(() => {
+      cy.get('cx-quote-header-overview').should('be.visible');
     });
 }
 
