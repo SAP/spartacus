@@ -144,7 +144,7 @@ export class ConfigureCartEntryComponent {
   /**
    * Retrieves the state of the configuration.
    *
-   *  @returns - 'true' if the configuration is read only and configurator type contains readOnly postfix, otherwise 'false'
+   *  @returns - 'true' if the configuration is read only and configurator type contains a read-only postfix, otherwise 'false'
    */
   getDisplayOnly(): boolean {
     const configuratorType = this.cartEntry.product?.configuratorType;

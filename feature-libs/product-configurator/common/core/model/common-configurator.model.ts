@@ -67,7 +67,7 @@ export const enum ConfiguratorType {
  * Configurator types including this postfix are
  * treated as view-only
  */
-export const ReadOnlyPostfix = 'readOnly';
+export const ReadOnlyPostfix = '_READ_ONLY';
 
 /**
  * Statuses that can occur in the generic configuration
