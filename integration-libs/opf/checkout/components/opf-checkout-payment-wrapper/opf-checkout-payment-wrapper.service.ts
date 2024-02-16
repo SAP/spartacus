@@ -129,7 +129,7 @@ export class OpfCheckoutPaymentWrapperService {
 
   protected storePaymentSessionId(paymentOptionConfig: PaymentSessionData) {
     const paymentSessionId =
-      paymentOptionConfig.pattern == PaymentPattern.FULL_PAGE &&
+      paymentOptionConfig.pattern === PaymentPattern.FULL_PAGE &&
       paymentOptionConfig.paymentSessionId
         ? paymentOptionConfig.paymentSessionId
         : undefined;
