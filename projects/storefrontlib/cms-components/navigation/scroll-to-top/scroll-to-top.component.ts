@@ -7,9 +7,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   HostBinding,
   HostListener,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import {
   WindowRef,
@@ -39,9 +41,19 @@ export class ScrollToTopComponent implements OnInit {
   @HostListener('window:scroll', ['$event'])
   onScroll(): void {
     if (this.window) {
-      this.display = this.window.scrollY > this.displayThreshold;
+      this.display =
+        this.window.scrollY > this.displayThreshold ||
+        this.button.nativeElement === document.activeElement;
+
+      console.log(
+        'button focused',
+        this.button.nativeElement === document.activeElement
+      );
     }
   }
+
+  @ViewChild('button')
+  button: ElementRef;
 
   constructor(
     protected winRef: WindowRef,
@@ -65,13 +77,48 @@ export class ScrollToTopComponent implements OnInit {
    */
   scrollToTop(): void {
     // Focus first focusable element within the html body
-    this.selectFocusUtility
-      .findFirstFocusable(this.winRef.document.body, { autofocus: '' })
-      ?.focus();
+    // this.selectFocusUtility
+    //   .findFirstFocusable(this.winRef.document.body, { autofocus: '' })
+    //   ?.focus();
+
+    // this.button.nativeElement?.focus();
 
     this.window?.scrollTo({
       top: 0,
       behavior: this.scrollBehavior,
     });
   }
+
+  focus() {
+    console.log('focus');
+    const x = this.selectFocusUtility.findFirstFocusable(
+      this.winRef.document.body,
+      { autofocus: '' }
+    );
+
+    // x?.focus();
+    console.log('focus on ', x);
+  }
+
+  focusOut() {
+    console.log('focus out');
+
+    const x = this.selectFocusUtility.findFirstFocusable(
+      this.winRef.document.body,
+      { autofocus: '' }
+    );
+    // debugger;
+
+    x?.focus();
+
+    console.log('new element', x);
+    console.log('active element', document.activeElement);
+  }
+
+  // focusNext() {
+  //   console.log('focus next');
+  //   this.selectFocusUtility
+  //     .findFirstFocusable(this.winRef.document.body, { autofocus: '' })
+  //     ?.focus();
+  // }
 }
