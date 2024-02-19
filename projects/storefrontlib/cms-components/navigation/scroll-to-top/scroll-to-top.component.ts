@@ -14,14 +14,14 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  WindowRef,
   CmsScrollToTopComponent,
   ScrollBehavior,
+  WindowRef,
 } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { ICON_TYPE } from '../../misc/icon/icon.model';
 import { SelectFocusUtility } from '../../../layout/a11y/index';
+import { ICON_TYPE } from '../../misc/icon/icon.model';
 
 @Component({
   selector: 'cx-scroll-to-top',
@@ -101,18 +101,43 @@ export class ScrollToTopComponent implements OnInit {
   }
 
   focusOut() {
-    console.log('focus out');
+    // console.log('focus out');
+    // const x = this.selectFocusUtility.findFirstFocusable(
+    //   this.winRef.document.body,
+    //   { autofocus: '' }
+    // );
+    // // debugger;
+    // x?.focus();
+    // console.log(
+    //   this.selectFocusUtility.findFocusable(this.winRef.document.body)
+    // );
+    // console.log('new element', x);
+    // console.log('active element', document.activeElement);
+  }
 
-    const x = this.selectFocusUtility.findFirstFocusable(
-      this.winRef.document.body,
-      { autofocus: '' }
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    const focusableElements = this.selectFocusUtility.findFocusable(
+      this.winRef.document.body
     );
-    // debugger;
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
 
-    x?.focus();
-
-    console.log('new element', x);
-    console.log('active element', document.activeElement);
+    if (
+      !event.shiftKey &&
+      document.activeElement === lastElement &&
+      event.key === 'Tab'
+    ) {
+      event.preventDefault();
+      firstElement?.focus();
+    } else if (
+      event.shiftKey &&
+      document.activeElement === firstElement &&
+      event.key === 'Tab'
+    ) {
+      event.preventDefault();
+      lastElement?.focus();
+    }
   }
 
   // focusNext() {
