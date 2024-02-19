@@ -105,19 +105,13 @@ export class CheckoutDeliveryModeComponent {
    * We capture the kayboard activated option,
    * then restore the focus to it after the data is updated.
    */
-  onKeydown(code: string | undefined, event: Event): void {
-    if (
-      !(
-        (<KeyboardEvent>event).key === 'Enter' ||
-        (<KeyboardEvent>event).key === ' '
-      )
-    ) {
-      return;
-    }
-
-    event.preventDefault();
+  updateMethod(code: string | undefined, event: Event): void {
     const lastFocusedId = (<HTMLElement>event.target)?.id;
     this.changeMode(code);
+    if ((<MouseEvent>event)?.screenX !== 0) {
+      this.mode.setValue({ deliveryModeId: code });
+      return;
+    }
 
     this.isUpdating$
       .pipe(
