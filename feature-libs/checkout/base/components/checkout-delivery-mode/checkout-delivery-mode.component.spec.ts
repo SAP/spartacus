@@ -254,7 +254,7 @@ describe('CheckoutDeliveryModeComponent', () => {
 
   it('should refocus on the keyboard selected option after they are updated', fakeAsync(() => {
     const lastFocusedId = 'standard-gross';
-    const mockEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+    const mockEvent = new MouseEvent('click');
     const mockElement = {
       focus: jasmine.createSpy('focus'),
       classList: { remove: jasmine.createSpy('remove') },
@@ -265,7 +265,7 @@ describe('CheckoutDeliveryModeComponent', () => {
     spyOn(component.mode, 'setValue');
     spyOn(component, 'changeMode');
 
-    component.onKeydown(lastFocusedId, mockEvent);
+    component.updateMethod(lastFocusedId, mockEvent);
     tick();
 
     expect(component.changeMode).toHaveBeenCalledWith(lastFocusedId);
