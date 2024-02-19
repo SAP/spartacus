@@ -36,6 +36,13 @@
       border-width: 1px 0 0 0;
       padding: 25px 0 0px 0;
     }
+
+    .col-auto {
+      @include media-breakpoint-only(xs) {
+        padding: 0;
+      }
+    }
+
   }
 
   .cx-pagination {
