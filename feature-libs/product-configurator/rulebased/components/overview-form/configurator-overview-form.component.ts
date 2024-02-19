@@ -4,15 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import {
-  distinctUntilKeyChanged,
-  filter,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { distinctUntilKeyChanged, filter, switchMap } from 'rxjs/operators';
 
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -24,8 +19,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorOverviewFormComponent {
-  @HostBinding('class.ghost') ghostStyle = true;
-
   attributeOverviewType = Configurator.AttributeOverviewType;
 
   configuration$: Observable<Configurator.Configuration> =
@@ -41,10 +34,7 @@ export class ConfiguratorOverviewFormComponent {
           configuration
         )
       ),
-      filter((configuration) => configuration.overview != null),
-      tap(() => {
-        this.ghostStyle = false;
-      })
+      filter((configuration) => configuration.overview != null)
     );
 
   constructor(
