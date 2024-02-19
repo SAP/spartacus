@@ -12,7 +12,6 @@ import {
   DeleteCartSuccessEvent,
   DeliveryMode,
   MultiCartFacade,
-  ProductData,
 } from '@spartacus/cart/base/root';
 import {
   CheckoutBillingAddressFacade,
@@ -41,7 +40,7 @@ import { OpfCartHandlerInterface } from './opf-cart-handler-interface';
 @Injectable({
   providedIn: 'root',
 })
-export class OpfCartHandlerService implements OpfCartHandlerInterface {
+export class OpfMultiCartHandlerService implements OpfCartHandlerInterface {
   protected activeCartFacade = inject(ActiveCartFacade);
   protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
   protected checkoutDeliveryAddressFacade = inject(
@@ -53,39 +52,47 @@ export class OpfCartHandlerService implements OpfCartHandlerInterface {
   protected eventService = inject(EventService);
   protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
   protected opfGlobalMessageService = inject(OpfGlobalMessageService);
+  protected currentCartId: string;
 
-  protected createCart(productData: ProductData): Observable<string> {
-    console.log('createCart');
-    let _userId = '';
-    return this.userIdService.takeUserId().pipe(
-      switchMap((userId: string) => {
-        console.log('userId', userId);
-        _userId = userId;
-        return this.multiCartFacade
-          .createCart({
-            userId,
-            extraData: { active: false },
-          })
-          .pipe(
-            map((cart: Cart) => {
-              console.log('cart created', cart);
-              return _userId === 'current'
-                ? (cart.code as string)
-                : (cart.guid as string);
-            }),
-            tap((cartId: string) => {
-              console.log('addEntry on ', cartId);
-              return this.multiCartFacade.addEntry(
-                userId,
-                cartId,
-                productData.productCode,
-                productData.quantity
-              );
-            })
-          );
-      })
-    );
-  }
+  // addProductToCart(
+  //   productCode: string,
+  //   quantity: number,
+  //   pickupStore?: string | undefined
+  // ): Observable<string> {
+  //   console.log('createCart');
+  //   let _userId = '';
+  //   return this.userIdService.takeUserId().pipe(
+  //     switchMap((userId: string) => {
+  //       console.log('userId', userId);
+  //       _userId = userId;
+  //       return this.multiCartFacade
+  //         .createCart({
+  //           userId,
+  //           extraData: { active: false },
+  //         })
+  //         .pipe(
+  //           map((cart: Cart) => {
+  //             console.log('cart created', cart);
+  //             return _userId === 'current'
+  //               ? (cart.code as string)
+  //               : (cart.guid as string);
+  //           }),
+  //           tap((cartId: string) => {
+  //             console.log('addEntry on ', cartId);
+  //             this.currentCartId = cartId;
+  //             this.multiCartFacade.addEntry(
+  //               userId,
+  //               cartId,
+  //               productCode,
+  //               quantity,
+  //               pickupStore
+  //             );
+  //           }),
+  //           map(() => this.checkStableCart())
+  //         );
+  //     })
+  //   );
+  // }
 
   addProductToCart(
     productCode: string,
@@ -97,7 +104,7 @@ export class OpfCartHandlerService implements OpfCartHandlerInterface {
   }
 
   checkStableCart(): Observable<boolean> {
-    return this.activeCartFacade.isStable().pipe(
+    return this.multiCartFacade.isStable(this.currentCartId).pipe(
       filter((isStable) => !!isStable),
       take(1)
     );
@@ -123,7 +130,7 @@ export class OpfCartHandlerService implements OpfCartHandlerInterface {
 
   setBillingAddress(address: Address): Observable<boolean> {
     return this.checkoutBillingAddressFacade
-      .setBillingAddress(address)
+      .setBillingAddress(address, this.currentCartId)
       .pipe(switchMap(() => this.checkStableCart()));
   }
 

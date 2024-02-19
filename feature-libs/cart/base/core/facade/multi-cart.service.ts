@@ -20,6 +20,7 @@ import {
   filter,
   map,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
@@ -394,7 +395,10 @@ export class MultiCartService implements MultiCartFacade {
   getCartIdByType(cartType: CartType): Observable<string> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartIdByTypeFactory(cartType)),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      tap((cartId) =>
+        console.log('getCartIdByType cartId', cartId, 'cartType', cartType)
+      )
     );
   }
 }

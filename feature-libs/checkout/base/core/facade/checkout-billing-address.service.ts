@@ -17,32 +17,40 @@ import {
   OCC_USER_ID_ANONYMOUS,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { CheckoutBillingAddressConnector } from '../connectors/checkout-billing-address/checkout-billing-address.connector';
 
+interface AddressAndCart {
+  address: Address;
+  multiCartId?: string;
+}
 @Injectable()
 export class CheckoutBillingAddressService
   implements CheckoutBillingAddressFacade
 {
-  protected setBillingAddressCommand = this.commandService.create<Address>(
-    (address) =>
-      this.checkoutPreconditions().pipe(
-        switchMap(([userId, cartId]) => {
-          if (!address || !Object.keys(address)?.length) {
-            throw new Error('Checkout conditions not met');
-          }
-          return this.checkoutBillingAddressConnector.setBillingAddress(
-            userId,
-            cartId,
-            address
-          );
-        })
-      ),
-    {
-      strategy: CommandStrategy.CancelPrevious,
-    }
-  );
+  protected setBillingAddressCommand =
+    this.commandService.create<AddressAndCart>(
+      (addressAndCart) =>
+        this.checkoutPreconditions(addressAndCart.multiCartId).pipe(
+          switchMap(([userId, cartId]) => {
+            if (
+              !addressAndCart.address ||
+              !Object.keys(addressAndCart.address)?.length
+            ) {
+              throw new Error('Checkout conditions not met');
+            }
+            return this.checkoutBillingAddressConnector.setBillingAddress(
+              userId,
+              cartId,
+              addressAndCart.address
+            );
+          })
+        ),
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,
@@ -55,27 +63,42 @@ export class CheckoutBillingAddressService
   /**
    * Performs the necessary checkout preconditions.
    */
-  protected checkoutPreconditions(): Observable<[string, string]> {
-    return combineLatest([
-      this.userIdService.takeUserId(),
-      this.activeCartFacade.takeActiveCartId(),
-      this.activeCartFacade.isGuestCart(),
-    ]).pipe(
-      take(1),
-      map(([userId, cartId, isGuestCart]) => {
-        if (
-          !userId ||
-          !cartId ||
-          (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
-        ) {
-          throw new Error('Checkout conditions not met');
-        }
-        return [userId, cartId];
-      })
-    );
+  protected checkoutPreconditions(
+    multiCartId?: string
+  ): Observable<[string, string]> {
+    return multiCartId
+      ? combineLatest([this.userIdService.takeUserId()]).pipe(
+          take(1),
+          map(([userId]) => {
+            if (userId === OCC_USER_ID_ANONYMOUS) {
+              throw new Error('Checkout conditions not met');
+            }
+            return [userId, multiCartId];
+          })
+        )
+      : combineLatest([
+          this.userIdService.takeUserId(),
+          this.activeCartFacade.takeActiveCartId(),
+          this.activeCartFacade.isGuestCart(),
+        ]).pipe(
+          take(1),
+          map(([userId, cartId, isGuestCart]) => {
+            if (
+              !userId ||
+              !cartId ||
+              (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
+            ) {
+              throw new Error('Checkout conditions not met');
+            }
+            return [userId, cartId];
+          })
+        );
   }
 
-  setBillingAddress(address: Address): Observable<unknown> {
-    return this.setBillingAddressCommand.execute(address);
+  setBillingAddress(
+    address: Address,
+    multiCartId?: string
+  ): Observable<unknown> {
+    return this.setBillingAddressCommand.execute({ address, multiCartId });
   }
 }

@@ -6,6 +6,7 @@
 
 export * from './opf-cart-handler.service';
 export * from './opf-endpoints.service';
+export * from './opf-multi-cart-handler.service';
 export * from './opf-payment-apple-pay.service';
 export * from './opf-payment-error-handler.service';
 export * from './opf-payment-hosted-fields.service';

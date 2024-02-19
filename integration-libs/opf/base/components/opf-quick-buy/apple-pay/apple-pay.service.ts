@@ -17,7 +17,7 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import { OpfCartHandlerService } from '@spartacus/opf/base/core';
+import { OpfMultiCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ApplePaySessionVerificationRequest,
   ApplePaySessionVerificationResponse,
@@ -38,7 +38,7 @@ export class ApplePayService {
   protected applePaySession = inject(ApplePaySessionFactory);
   protected applePayObservable = inject(ApplePayObservableFactory);
   protected winRef = inject(WindowRef);
-  protected cartHandlerService = inject(OpfCartHandlerService);
+  protected cartHandlerService = inject(OpfMultiCartHandlerService);
 
   protected paymentInProgress = false;
   protected localCart: LocalCart = {
