@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus CDP schematics: ng-add With CDP feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { CdpCustomerTicketingModule } from "@spartacus/cdp/customer-ticketing";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CdpCustomerTicketingModule
+  ]
+})
+export class CdpFeatureModule { }
+"
+`;
+
+exports[`Spartacus CDP schematics: ng-add With CDP feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CdpCustomerTicketingModule } from "@spartacus/cdp/customer-ticketing";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CdpCustomerTicketingModule
+  ]
+})
+export class CdpFeatureModule { }
+"
+`;
+
+exports[`Spartacus CDP schematics: ng-add With CDP feature general setup should install the appropriate dependencies 1`] = `""`;
