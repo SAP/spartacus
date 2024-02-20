@@ -88,7 +88,7 @@ if (!environment.production) {
       // For the development environment and CI, feature level is always the highest.
       features: {
         level: '*',
-        cartItemListV2: true,
+        cartItemActionsRoundedButtons: true,
         darkMode: true,
       },
     }),

@@ -92,7 +92,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef,
     @Optional() protected outlet?: OutletContextData<ItemListContext>
   ) {
-    useFeatureStyles('cartItemListV2');
+    useFeatureStyles('cartItemActionsRoundedButtons');
   }
 
   ngOnInit(): void {

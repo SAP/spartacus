@@ -42,14 +42,14 @@
         margin-inline-start: auto;
       }
 
-      @include forFeature('cartItemListV2') {
+      @include forFeature('cartItemActionsRoundedButtons') {
         background-color: /* pastel red */ #ff6666;
         color: white;
       }
     }
 
     .cx-sfl-btn {
-      @include forFeature('cartItemListV2') {
+      @include forFeature('cartItemActionsRoundedButtons') {
         background-color: /* light pastel blue */ #99ccff !important;
         color: white;
       }
