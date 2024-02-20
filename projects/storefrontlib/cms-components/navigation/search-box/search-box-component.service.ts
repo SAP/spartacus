@@ -14,7 +14,7 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, Observable, of, ReplaySubject } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import {
   SearchBoxProductSelectedEvent,
@@ -28,6 +28,9 @@ const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
   providedIn: 'root',
 })
 export class SearchBoxComponentService {
+  chosenWord = new ReplaySubject<string>();
+  sharedEvent = new ReplaySubject<KeyboardEvent>();
+
   constructor(
     public searchService: SearchboxService,
     protected routingService: RoutingService,
@@ -159,7 +162,8 @@ export class SearchBoxComponentService {
     return (
       (!!results.products && results.products.length > 0) ||
       (!!results.suggestions && results.suggestions.length > 0) ||
-      !!results.message
+      !!results.message ||
+      !!results.recentSearches
     );
   }
 
@@ -264,5 +268,13 @@ export class SearchBoxComponentService {
     options?: any
   ): Observable<string> {
     return this.translationService.translate(translationKey, options);
+  }
+
+  changeSelectedWord(selectedWord: string) {
+    this.chosenWord.next(selectedWord);
+  }
+
+  shareEvent($event: KeyboardEvent) {
+    this.sharedEvent.next($event);
   }
 }

@@ -47,6 +47,7 @@ export class ConfiguratorTextfieldConnector {
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.adapter.readConfigurationForOrderEntry(parameters);
   }
+
   /**
    * Updates a configuration that is attached to a cart entry
    * @param parameters Attributes needed to update a cart entries' configuration

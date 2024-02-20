@@ -3,13 +3,14 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import {
   BaseOccUrlProperties,
   DynamicAttributes,
   HttpErrorModel,
-  normalizeHttpError,
+  LoggerService,
   OccEndpointsService,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -37,7 +38,19 @@ const mockJaloError = new HttpErrorResponse({
     ],
   },
 });
-const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const mockNormalizedJaloError = normalizeHttpError(
+  mockJaloError,
+  new MockLoggerService()
+);
 
 describe(`OccPickupLocationAdapter`, () => {
   let occAdapter: OccPickupLocationAdapter;
@@ -52,6 +65,7 @@ describe(`OccPickupLocationAdapter`, () => {
         providers: [
           OccPickupLocationAdapter,
           { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+          { provide: LoggerService, useClass: MockLoggerService },
         ],
       });
     })
@@ -88,7 +102,7 @@ describe(`OccPickupLocationAdapter`, () => {
       expect(mockReq.request.responseType).toEqual('json');
     });
     it('should call normalized http error for getStoreDetails', fakeAsync(() => {
-      spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
+      spyOn(httpClient, 'get').and.returnValue(throwError(() => mockJaloError));
       let result: HttpErrorModel | undefined;
       const subscription = occAdapter
         .getStoreDetails(storeName)

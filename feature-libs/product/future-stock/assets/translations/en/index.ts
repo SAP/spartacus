@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { futureStock } from './future-stock.i18n';
+import futureStock from './futureStock.json';
 
 export const en = {
   futureStock,

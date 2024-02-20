@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/storefront",
-  "version": "6.8.0",
+  "version": "2211.19.0-3",
   "keywords": [
     "spartacus",
     "storefront",
@@ -13,19 +13,19 @@
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular/common": "^15.2.9",
-    "@angular/core": "^15.2.9",
-    "@angular/forms": "^15.2.9",
-    "@angular/platform-browser": "^15.2.9",
-    "@angular/router": "^15.2.9",
-    "@angular/service-worker": "^15.2.9",
-    "@ng-select/ng-select": "^10.0.3",
-    "@ngrx/effects": "^15.3.0",
-    "@ngrx/router-store": "^15.3.0",
-    "@ngrx/store": "^15.3.0",
-    "@spartacus/core": "6.8.0",
-    "ngx-infinite-scroll": "^15.0.0",
-    "rxjs": "^6.6.0"
+    "@angular/common": "^17.0.5",
+    "@angular/core": "^17.0.5",
+    "@angular/forms": "^17.0.5",
+    "@angular/platform-browser": "^17.0.5",
+    "@angular/router": "^17.0.5",
+    "@angular/service-worker": "^17.0.5",
+    "@ng-select/ng-select": "^12.0.4",
+    "@ngrx/effects": "^17.0.1",
+    "@ngrx/router-store": "^17.0.1",
+    "@ngrx/store": "^17.0.1",
+    "@spartacus/core": "2211.19.0-3",
+    "ngx-infinite-scroll": "^17.0.0",
+    "rxjs": "^7.8.0"
   },
   "publishConfig": {
     "access": "public"

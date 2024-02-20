@@ -10,17 +10,17 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  cartBaseFeatureModulePath,
-  checkoutWrapperModulePath,
   CHECKOUT_BASE_FEATURE_NAME,
-  digitalPaymentsFeatureModulePath,
   DIGITAL_PAYMENTS_FEATURE_NAME,
-  LibraryOptions as SpartacusDigitalPaymentsOptions,
-  orderFeatureModulePath,
-  SpartacusOptions,
   SPARTACUS_CHECKOUT,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_SCHEMATICS,
+  LibraryOptions as SpartacusDigitalPaymentsOptions,
+  SpartacusOptions,
+  cartBaseFeatureModulePath,
+  checkoutWrapperModulePath,
+  digitalPaymentsFeatureModulePath,
+  orderFeatureModulePath,
   userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -49,6 +49,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

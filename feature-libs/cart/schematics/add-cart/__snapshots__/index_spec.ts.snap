@@ -91,7 +91,14 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -99,11 +106,11 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/schematics-test",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -141,12 +148,9 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -155,10 +159,10 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "schematics-test:build:production"
+              "buildTarget": "schematics-test:build:production"
             },
             "development": {
-              "browserTarget": "schematics-test:build:development"
+              "buildTarget": "schematics-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -166,7 +170,7 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "schematics-test:build"
+            "buildTarget": "schematics-test:build"
           }
         },
         "test": {
@@ -271,7 +275,14 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -279,11 +290,11 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/schematics-test",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -321,12 +332,9 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -335,10 +343,10 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "schematics-test:build:production"
+              "buildTarget": "schematics-test:build:production"
             },
             "development": {
-              "browserTarget": "schematics-test:build:development"
+              "buildTarget": "schematics-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -346,7 +354,7 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "schematics-test:build"
+            "buildTarget": "schematics-test:build"
           }
         },
         "test": {
@@ -451,7 +459,14 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -459,11 +474,11 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/schematics-test",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -501,12 +516,9 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -515,10 +527,10 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "schematics-test:build:production"
+              "buildTarget": "schematics-test:build:production"
             },
             "development": {
-              "browserTarget": "schematics-test:build:development"
+              "buildTarget": "schematics-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -526,7 +538,7 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "schematics-test:build"
+            "buildTarget": "schematics-test:build"
           }
         },
         "test": {
@@ -631,7 +643,14 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -639,11 +658,11 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/schematics-test",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -681,12 +700,9 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -695,10 +711,10 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "schematics-test:build:production"
+              "buildTarget": "schematics-test:build:production"
             },
             "development": {
-              "browserTarget": "schematics-test:build:development"
+              "buildTarget": "schematics-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -706,7 +722,7 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "schematics-test:build"
+            "buildTarget": "schematics-test:build"
           }
         },
         "test": {
@@ -821,7 +837,14 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -829,11 +852,11 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/schematics-test",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -871,12 +894,9 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -885,10 +905,10 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "schematics-test:build:production"
+              "buildTarget": "schematics-test:build:production"
             },
             "development": {
-              "browserTarget": "schematics-test:build:development"
+              "buildTarget": "schematics-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -896,7 +916,7 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "schematics-test:build"
+            "buildTarget": "schematics-test:build"
           }
         },
         "test": {

@@ -21,7 +21,7 @@ import {
 } from '../shared/libs-constants';
 import { findDynamicImport } from '../shared/utils/import-utils';
 import { LibraryOptions } from '../shared/utils/lib-utils';
-import { addModuleImport, Import } from '../shared/utils/new-module-utils';
+import { Import, addModuleImport } from '../shared/utils/new-module-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
@@ -59,6 +59,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const defaultOptions: SpartacusOptions = {

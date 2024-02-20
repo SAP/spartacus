@@ -114,7 +114,10 @@ describe('UpdateProfileComponentService', () => {
       spyOn(globalMessageService, 'add');
       service.form.patchValue(mockUser);
       cdcJsService.updateProfileWithoutScreenSet = createSpy().and.returnValue(
-        throwError({ status: 'ERROR', errorMessage: 'Error has occurred' })
+        throwError(() => ({
+          status: 'ERROR',
+          errorMessage: 'Error has occurred',
+        }))
       );
 
       service.updateProfile();

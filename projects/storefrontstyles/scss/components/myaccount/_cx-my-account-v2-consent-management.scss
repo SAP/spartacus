@@ -1,0 +1,28 @@
+%cx-my-account-v2-consent-management {
+  .cx-consent-toggles {
+    display: flex;
+    justify-content: center;
+  }
+
+  .header {
+    @include type('3');
+    margin-bottom: 1rem;
+  }
+
+  .message {
+    @include type();
+    margin-bottom: 1rem;
+  }
+
+  .consent-form-container {
+    max-width: 56rem;
+  }
+
+  .cx-consent-action-links {
+    text-align: end;
+    margin: 0 0 1rem;
+    .cx-action-link {
+      @include type('6');
+    }
+  }
+}
