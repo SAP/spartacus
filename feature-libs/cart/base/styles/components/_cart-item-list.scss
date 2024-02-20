@@ -41,6 +41,18 @@
       @include media-breakpoint-down(xs) {
         margin-inline-start: auto;
       }
+
+      @include forFeature('cartItemListV2') {
+        background-color: /* pastel red */ #ff6666;
+        color: white;
+      }
+    }
+
+    .cx-sfl-btn {
+      @include forFeature('cartItemListV2') {
+        background-color: /* light pastel blue */ #99ccff !important;
+        color: white;
+      }
     }
   }
 

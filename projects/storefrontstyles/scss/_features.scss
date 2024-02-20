@@ -1,1 +1,8 @@
 $featureMessagingItems: true;
+
+@mixin forFeature($feature) {
+  $featureClass: 'cxFeat_' + $feature;
+  @at-root .#{$featureClass} & {
+    @content;
+  }
+}
