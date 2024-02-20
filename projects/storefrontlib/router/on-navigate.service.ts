@@ -72,7 +72,16 @@ export class OnNavigateService {
           const position = currentRoute.position;
           if (position) {
             // allow the pages to be repainted before scrolling to proper position
-            setTimeout(() => this.viewportScroller.scrollToPosition(position));
+            setTimeout(() => {
+              if (
+                currentRoute.anchor &&
+                (this.router as any).options?.anchorScrolling === 'enabled'
+              ) {
+                this.viewportScroller.scrollToAnchor(currentRoute.anchor);
+              } else {
+                this.viewportScroller.scrollToPosition(position);
+              }
+            });
           } else {
             if (
               this.config.enableResetViewOnNavigate?.ignoreQueryString &&
@@ -85,10 +94,16 @@ export class OnNavigateService {
               return;
             }
 
-            setTimeout(
-              () => this.viewportScroller.scrollToPosition([0, 0]),
-              100
-            );
+            setTimeout(() => {
+              if (
+                currentRoute.anchor &&
+                (this.router as any).options?.anchorScrolling === 'enabled'
+              ) {
+                this.viewportScroller.scrollToAnchor(currentRoute.anchor);
+              } else {
+                this.viewportScroller.scrollToPosition([0, 0]);
+              }
+            }, 100);
           }
 
           this.hostComponent?.location?.nativeElement.focus();
