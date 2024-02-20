@@ -26,22 +26,8 @@ export class FeatureStylesService {
   protected targetElement: HTMLElement | undefined;
   protected usagesCounter = new Map<string, number>();
 
-  // SPIKE TODO REMOVE:
-  // config = inject(FeaturesConfig);
-  // document = inject(DOCUMENT);
-
   init(_rootComponent: ComponentRef<any>): void {
     this.targetElement = _rootComponent.location.nativeElement;
-
-    // SPIKE TODO REMOVE
-    // this.targetElement = this.document.body;
-    // Object.entries(this.config?.features ?? {}).forEach(
-    //   ([feature, enabled]) => {
-    //     if (enabled) {
-    //       this.registerUsage(feature);
-    //     }
-    //   }
-    // );
   }
 
   registerUsage(feature: string): void {
