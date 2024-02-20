@@ -3,6 +3,7 @@
     *ngIf="routerLink"
     [url]="routerLink"
     [target]="getTarget(data)"
+    [ariaLabel]="data.headline"
   >
     <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
     <cx-media [container]="getImage(data)"></cx-media>

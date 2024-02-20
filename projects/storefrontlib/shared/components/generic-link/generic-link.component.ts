@@ -53,6 +53,7 @@ export class GenericLinkComponent implements OnChanges {
   @Input() class: string;
   @Input() style: string | undefined;
   @Input() title: string;
+  @Input() ariaLabel?: string;
 
   isExternalUrl(): boolean {
     return this.service.isExternalUrl(this.url);
