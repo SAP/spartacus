@@ -91,7 +91,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
     resources: OpfDynamicScriptResource[],
     resolve: (value: void | PromiseLike<void>) => void
   ) {
-    let attributes: any = {
+    const attributes: any = {
       type: 'text/javascript',
       [this.OPF_RESOURCE_ATTRIBUTE_KEY]: true,
     };
@@ -105,7 +105,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
     if (resource.url && !this.hasScript(resource.url)) {
       super.embedScript({
         src: resource.url,
-        attributes,
+        attributes: attributes,
         callback: () => {
           this.markResourceAsLoaded(resource, resources, resolve);
         },
