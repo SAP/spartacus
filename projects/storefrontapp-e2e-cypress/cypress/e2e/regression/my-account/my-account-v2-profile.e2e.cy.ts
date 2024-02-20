@@ -44,23 +44,23 @@ describe('My Account - Update Profile', () => {
       });
 
       it('should be able to change to edit mode and back (CXSPA-4442)', () => {
-        cy.get('.myaccount-enhancedUI-value').should('exist');
+        cy.get('.value').should('exist');
 
         cy.log('--> click edit button');
-        cy.get('.myaccount-enhancedUI-editButton').click();
+        cy.get('.editButton').click();
 
         cy.log('--> should show email message bar');
-        cy.get('.myaccount-enhancedUI-value').should('not.exist');
-        cy.get('.myaccount-enhancedUI-button-cancel').should('exist');
+        cy.get('.value').should('not.exist');
+        cy.get('.button-cancel').should('exist');
 
         cy.log('--> click cancel button');
-        cy.get('.myaccount-enhancedUI-button-cancel').click();
+        cy.get('.button-cancel').click();
 
         cy.log('--> should show email content');
-        cy.get('.myaccount-enhancedUI-value').should('exist');
+        cy.get('.value').should('exist');
 
         cy.log('--> click edit button');
-        cy.get('.myaccount-enhancedUI-editButton').click();
+        cy.get('.editButton').click();
       });
 
       afterEach(() => {

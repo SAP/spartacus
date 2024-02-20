@@ -126,6 +126,24 @@ export function updateEmail(): String {
   return newUid;
 }
 
+export function updateEmailV2(): String {
+  const password = 'Password123.';
+  const newUid = generateMail(randomString(), true);
+
+  navigateToUpdateEmailPage();
+
+  if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
+    cy.get('.editButton').click();
+  }
+
+  cy.get('[formcontrolname="email"]').type(newUid);
+  cy.get('[formcontrolname="confirmEmail"]').type(newUid);
+  cy.get('[formcontrolname="password"]').type(password);
+  cy.get('button').contains('Save').click();
+  login(newUid, password);
+  return newUid;
+}
+
 export function verifyEmailChannel(email: String) {
   navigateToNotificationPreferencePage();
   cy.get('cx-notification-preference').within(() => {
