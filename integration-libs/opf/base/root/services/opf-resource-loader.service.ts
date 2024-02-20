@@ -97,7 +97,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
     };
 
     if (resource.attributes) {
-      resource.attributes.map((attribute) => {
+      resource.attributes.forEach((attribute) => {
         attributes[attribute.key] = attribute.value;
       });
     }
