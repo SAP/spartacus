@@ -1,8 +1,27 @@
 $featureMessagingItems: true;
 
-@mixin forFeature($feature) {
-  $featureClass: 'cxFeat_' + $feature;
-  @at-root .#{$featureClass} & {
-    @content;
+@function getFeatureCssClass($feature) {
+  @return 'cxFeat_' + $feature;
+}
+
+@mixin forFeature($feature, $classTarget: 'ancestorSelector') {
+  // Validate params
+  @if (type-of($feature) != 'string') {
+    @error "forFeature: $feature param must be a string, but #{type-of($feature)} was provided.";
+  }
+  @if (not index(('ancestorSelector', 'currentSelector'), $classTarget)) {
+    @error "forFeature: $classTarget must be either 'ancestorSelector' or 'currentSelector', but #{$classTarget} was provided.";
+  }
+
+  $featureClass: getFeatureCssClass($feature);
+  @if ($classTarget == 'ancestorSelector') {
+    @at-root .#{$featureClass} & {
+      @content;
+    }
+  }
+  @if ($classTarget == 'currentSelector') {
+    @at-root &.#{$featureClass} {
+      @content;
+    }
   }
 }

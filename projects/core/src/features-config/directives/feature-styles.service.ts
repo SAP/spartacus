@@ -28,29 +28,58 @@ export class FeatureStylesService {
 
   init(_rootComponent: ComponentRef<any>): void {
     this.targetElement = _rootComponent.location.nativeElement;
+
+    // Handle edge-case:
+    // Add classes for all features that were used (called `registerUsage()`) before before `init()` was invoked.
+    // (e.g. it's the case when `registerUsage` was called in the constructor of the root component,
+    //       which happens before the hook APP_BOOTSTRAP_LISTENER is invoked by Angular, therefore before `init` is invoked.)
+    for (const [feature, count] of this.usagesCounter.entries()) {
+      if (count > 0) {
+        this.addClass(feature);
+      }
+    }
   }
 
   registerUsage(feature: string): void {
     const currentCounter = this.usagesCounter.get(feature) ?? 0;
-    const cssClass = this.getCssClass(feature);
-    if (cssClass && currentCounter === 0) {
-      this.renderer.addClass(this.targetElement, cssClass);
+    if (this.isEnabled(feature) && currentCounter === 0) {
+      this.addClass(feature);
     }
     this.usagesCounter.set(feature, currentCounter + 1);
   }
 
   unregisterUsage(feature: string): void {
     const currentCounter = this.usagesCounter.get(feature) ?? 0;
-    const cssClass = this.getCssClass(feature);
-    if (cssClass && currentCounter === 1) {
-      this.renderer.removeClass(this.targetElement, cssClass);
-    }
     if (currentCounter === 0 && isDevMode()) {
       this.logger.warn(
         `Feature flag CSS: "${feature}" is already not used, so it cannot be unregistered.`
       );
     }
+
+    if (this.isEnabled(feature) && currentCounter === 1) {
+      this.removeClass(feature);
+    }
     this.usagesCounter.set(feature, Math.max(currentCounter - 1, 0));
+  }
+
+  protected isEnabled(feature: string): boolean {
+    return this.featureConfig.isEnabled(feature);
+  }
+
+  protected addClass(feature: string) {
+    const cssClass = this.getCssClass(feature);
+    if (!this.targetElement || !cssClass) {
+      return;
+    }
+    this.renderer.addClass(this.targetElement, cssClass);
+  }
+
+  protected removeClass(feature: string) {
+    const cssClass = this.getCssClass(feature);
+    if (!this.targetElement || !cssClass) {
+      return;
+    }
+    this.renderer.removeClass(this.targetElement, cssClass);
   }
 
   protected getCssClass(feature: string): string | undefined {

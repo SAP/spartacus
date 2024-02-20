@@ -89,6 +89,7 @@ if (!environment.production) {
       features: {
         level: '*',
         cartItemListV2: true,
+        darkMode: true,
       },
     }),
     provideConfig(<StoreFinderConfig>{
