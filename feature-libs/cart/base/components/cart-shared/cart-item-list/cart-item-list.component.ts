@@ -17,14 +17,14 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
+  CartOutlets,
   ConsignmentEntry,
   MultiCartFacade,
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
-  CartOutlets,
 } from '@spartacus/cart/base/root';
-import { UserIdService } from '@spartacus/core';
+import { UserIdService, useFeatureStyles } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
@@ -91,7 +91,9 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected multiCartService: MultiCartFacade,
     protected cd: ChangeDetectorRef,
     @Optional() protected outlet?: OutletContextData<ItemListContext>
-  ) {}
+  ) {
+    useFeatureStyles('cartItemListV2');
+  }
 
   ngOnInit(): void {
     this.subscription.add(this.getInputsFromContext());

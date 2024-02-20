@@ -14,17 +14,12 @@ import {
 import { provideDefaultConfig } from '../config/config-providers';
 import { FeaturesConfig } from './config/features-config';
 import { FeatureLevelDirective } from './directives/feature-level.directive';
-import { FeatureStylesDirective } from './directives/feature-styles.directive';
 import { FeatureStylesService } from './directives/feature-styles.service';
 import { FeatureDirective } from './directives/feature.directive';
 
 @NgModule({
-  declarations: [
-    FeatureLevelDirective,
-    FeatureDirective,
-    FeatureStylesDirective,
-  ],
-  exports: [FeatureLevelDirective, FeatureDirective, FeatureStylesDirective],
+  declarations: [FeatureLevelDirective, FeatureDirective],
+  exports: [FeatureLevelDirective, FeatureDirective],
 })
 export class FeaturesConfigModule {
   static forRoot(
