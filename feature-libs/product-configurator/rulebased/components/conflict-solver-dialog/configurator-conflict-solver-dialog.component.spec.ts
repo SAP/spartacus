@@ -300,5 +300,17 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         'configurator.header.conflictWarning'
       );
     });
+
+    it("should contain 'role' and 'aria-modal' attributes that indicate that the appeared pop-up is a modal dialog", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-modal-container',
+        0,
+        'aria-modal',
+        'true'
+      );
+    });
   });
 });

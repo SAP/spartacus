@@ -81,7 +81,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
         );
       }
     }
-    return throwError(errorResponse); //propagate error
+    return throwError(() => errorResponse); //propagate error
   }
 
   protected extractCpqSessionId(response: HttpEvent<any>) {

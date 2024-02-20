@@ -86,8 +86,10 @@ describe('RoutingService', () => {
       const commands = ['testString', { cxRoute: 'testRoute' }];
       const resultPath = ['testString', 'testPath'];
       spyOn(urlService, 'transform').and.returnValue(resultPath);
+      spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
       service.go(commands);
       expect(urlService.transform).toHaveBeenCalledWith(commands);
+      expect(router.navigate).toHaveBeenCalledWith(resultPath, undefined);
     });
   });
 

@@ -11,6 +11,7 @@ export interface Environment {
   b2b: boolean;
   cds: boolean;
   cdc: boolean;
+  cdp: boolean;
   cpq: boolean;
   digitalPayments: boolean;
   epdVisualization: boolean;

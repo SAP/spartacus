@@ -24,7 +24,7 @@ class MockOrderFacade implements Partial<OrderFacade> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy().and.returnValue(of(true).toPromise());
+  go = createSpy().and.returnValue(Promise.resolve(true));
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

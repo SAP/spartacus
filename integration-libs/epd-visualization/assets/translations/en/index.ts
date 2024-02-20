@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { epdVisualization } from './epdVisualization.i18n';
+import epdVisualization from './epdVisualization.json';
 
 export const en = {
   epdVisualization,

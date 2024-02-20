@@ -10,19 +10,19 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  cartBaseFeatureModulePath,
   CART_BASE_FEATURE_NAME,
   CART_IMPORT_EXPORT_FEATURE_NAME,
   CART_QUICK_ORDER_FEATURE_NAME,
   CART_SAVED_CART_FEATURE_NAME,
   CART_WISHLIST_FEATURE_NAME,
-  importExportFeatureModulePath,
-  LibraryOptions as SpartacusCartOptions,
-  quickOrderFeatureModulePath,
-  savedCartFeatureModulePath,
-  SpartacusOptions,
   SPARTACUS_CART,
   SPARTACUS_SCHEMATICS,
+  LibraryOptions as SpartacusCartOptions,
+  SpartacusOptions,
+  cartBaseFeatureModulePath,
+  importExportFeatureModulePath,
+  quickOrderFeatureModulePath,
+  savedCartFeatureModulePath,
   userFeatureModulePath,
   wishListFeatureModulePath,
 } from '@spartacus/schematics';
@@ -53,6 +53,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

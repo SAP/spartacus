@@ -1,0 +1,38 @@
+<ng-container *ngIf="quoteDetails$ | async as quoteDetails; else ghostComment">
+  <div
+    role="region"
+    tabindex="-1"
+    [attr.aria-label]="'quote.comments.regionTitle' | cxTranslate"
+  >
+    <ng-container *ngIf="showComments(quoteDetails)">
+      <div
+        class="cx-toggle"
+        #commentToggle
+        (keydown.enter)="commentToggle.click()"
+        (click)="expandComments = !expandComments"
+        tabindex="0"
+      >
+        <cx-icon
+          aria-hidden="false"
+          [type]="expandComments ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
+        >
+        </cx-icon>
+        <span class="cx-text">{{ 'quote.comments.title' | cxTranslate }}</span>
+      </div>
+      <cx-messaging
+        *ngIf="expandComments"
+        [messageEvents$]="messageEvents$"
+        [messagingConfigs]="messagingConfigs"
+        (send)="onSend($event, quoteDetails.code)"
+        (itemClicked)="onItemClicked($event)"
+      ></cx-messaging>
+    </ng-container>
+  </div>
+</ng-container>
+
+<ng-template #ghostComment>
+  <div class="cx-ghost-comment">
+    <div class="cx-ghost-input-title ghost"></div>
+    <div class="cx-ghost-input ghost"></div>
+  </div>
+</ng-template>

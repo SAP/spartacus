@@ -1,13 +1,12 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, PaymentDetails } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';

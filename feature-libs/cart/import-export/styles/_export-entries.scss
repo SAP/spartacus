@@ -2,11 +2,8 @@ cx-export-order-entries {
   width: 100%;
   max-width: var(--cx-page-width-max);
   margin: 1.25rem auto;
-
-  @include forVersion(6.1) {
-    display: flex;
-    align-items: center;
-  }
+  display: flex;
+  align-items: center;
 }
 
 cx-export-order-entries.container {

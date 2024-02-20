@@ -34,6 +34,10 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator/configuration',
           readCpqConfigurationForOrderEntryFull:
             'users/${userId}/orders/${orderId}/entries/${orderEntryNumber}/cpqconfigurator/configuration',
+          readCpqConfigurationForQuoteEntryFull:
+            'users/${userId}/quotes/${quoteId}/entries/${quoteEntryNumber}/cpqconfigurator/configuration',
+          readCpqConfigurationForSavedCartEntryFull:
+            'users/${userId}/savedCarts/${savedCartId}/entries/${entryNumber}/cpqconfigurator/configuration',
         },
       },
     },

@@ -11,4 +11,5 @@ export * from './rulebased-configurator.module';
 
 /** AUGMENTABLE_TYPES_START */
 export { Configurator } from './core/model/configurator.model';
+export { ChatGPT4 } from './core/model/chat-gpt-4.model';
 /** AUGMENTABLE_TYPES_END */

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { checkoutB2B } from './checkout-b2b.i18n';
+import checkoutB2B from './checkoutB2B.json';
 
 export const en = {
   checkoutB2B,

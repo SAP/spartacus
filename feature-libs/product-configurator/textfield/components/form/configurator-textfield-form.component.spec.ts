@@ -64,6 +64,12 @@ class MockConfiguratorTextfieldService {
       p: productConfig,
     });
   }
+
+  readConfigurationForQuoteEntry(): Observable<ConfiguratorTextfield.Configuration> {
+    return cold('-p', {
+      p: productConfig,
+    });
+  }
 }
 
 describe('TextfieldFormComponent', () => {

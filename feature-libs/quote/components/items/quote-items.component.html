@@ -1,0 +1,63 @@
+<ng-container *ngIf="quoteItemsData$ | async as quoteItemsData; else ghostCart">
+  <ng-container *ngIf="{ showCart: showCart$ | async } as state">
+    <div
+      role="region"
+      tabindex="-1"
+      [attr.aria-label]="'quote.items.regionTitle' | cxTranslate"
+    >
+      <div
+        class="cx-toggle"
+        #cartToggle
+        (keydown.enter)="cartToggle.click()"
+        (click)="onToggleShowOrHideCart(!!state.showCart)"
+        tabindex="0"
+      >
+        <cx-icon
+          aria-hidden="false"
+          [type]="state.showCart ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
+        >
+        </cx-icon>
+        <span class="cx-text">{{ 'quote.commons.cart' | cxTranslate }}</span>
+      </div>
+      <ng-container *ngIf="state.showCart">
+        <ng-template
+          [cxAbstractOrderContext]="{
+            id: quoteItemsData.abstractOrderId,
+            type: quoteItemsData.abstractOrderType
+          }"
+          [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+          [cxOutletContext]="{
+            items: quoteItemsData.entries ?? [],
+            readonly: quoteItemsData.readOnly
+          }"
+        >
+        </ng-template>
+      </ng-container>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #ghostCart>
+  <div class="cx-ghost-table-header">
+    <div class="cx-ghost-title ghost"></div>
+  </div>
+  <div class="cx-ghost-table">
+    <ng-container *ngFor="let number of [0, 1, 2, 3, 4]">
+      <div class="cx-ghost-row">
+        <div class="cx-ghost-image-container">
+          <div class="cx-ghost-image ghost"></div>
+        </div>
+        <div class="cx-ghost-container">
+          <div class="cx-ghost-info-container">
+            <ng-container *ngFor="let number of [0, 1, 2, 3]">
+              <div class="cx-ghost-info ghost"></div>
+            </ng-container>
+          </div>
+          <div class="cx-ghost-qty ghost"></div>
+          <div class="cx-ghost-total ghost"></div>
+          <div class="cx-ghost-action ghost"></div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>

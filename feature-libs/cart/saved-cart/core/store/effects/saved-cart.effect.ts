@@ -102,21 +102,25 @@ export class SavedCartEffects {
       switchMap(([{ userId, cartId }, activeCart]) => {
         const actions: any[] = [];
 
-        if ((activeCart?.entries ?? []).length > 0) {
-          if (activeCart.code) {
-            /**
-             * Instead of calling the SaveCartAction, we are calling the edit saved cart
-             * because we do not want to clear the state when we swap carts between active and saved cart
-             */
-            actions.push(
-              new SavedCartActions.EditSavedCart({
-                userId,
-                cartId: activeCart.code,
-                saveCartName: '',
-                saveCartDescription: '',
-              })
-            );
-          }
+        //We must not swap carts in case the active cart is linked to a quote.
+        //In that case the quote cart is available from the linked quote
+        if (
+          (activeCart?.entries ?? []).length > 0 &&
+          !activeCart.quoteCode &&
+          activeCart.code
+        ) {
+          /**
+           * Instead of calling the SaveCartAction, we are calling the edit saved cart
+           * because we do not want to clear the state when we swap carts between active and saved cart
+           */
+          actions.push(
+            new SavedCartActions.EditSavedCart({
+              userId,
+              cartId: activeCart.code,
+              saveCartName: '',
+              saveCartDescription: '',
+            })
+          );
         }
 
         return this.savedCartConnector.restoreSavedCart(userId, cartId).pipe(
@@ -124,7 +128,8 @@ export class SavedCartEffects {
             this.globalMessageService.add(
               {
                 key:
-                  (activeCart?.entries ?? []).length > 0
+                  (activeCart?.entries ?? []).length > 0 &&
+                  !activeCart.quoteCode
                     ? 'savedCartList.swapCartWithActiveCart'
                     : 'savedCartList.swapCartNoActiveCart',
                 params: {

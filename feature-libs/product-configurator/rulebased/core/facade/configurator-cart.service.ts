@@ -8,11 +8,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
-import {
-  OCC_USER_ID_CURRENT,
-  StateUtils,
-  UserIdService,
-} from '@spartacus/core';
+import { StateUtils, UserIdService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -103,7 +99,8 @@ export class ConfiguratorCartService {
   }
 
   /**
-   * Reads a configuration that is attached to an order entry, dispatching the respective action.
+   * Reads a read-only configuration that is attached to a document entry, dispatching the respective action.
+   * The document can be an order, a quote or a saved cart
    *
    * @param owner Configuration owner
    * @returns Observable of product configurations
@@ -122,18 +119,23 @@ export class ConfiguratorCartService {
           const ownerIdParts = this.commonConfigUtilsService.decomposeOwnerId(
             owner.id
           );
-          const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
-            {
-              userId: OCC_USER_ID_CURRENT,
-              orderId: ownerIdParts.documentId,
-              orderEntryNumber: ownerIdParts.entryNumber,
-              owner: owner,
-            };
-          this.store.dispatch(
-            new ConfiguratorActions.ReadOrderEntryConfiguration(
-              readFromOrderEntryParameters
-            )
-          );
+          this.userIdService
+            .getUserId()
+            .pipe(take(1))
+            .subscribe((userId) => {
+              const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+                {
+                  userId: userId,
+                  orderId: ownerIdParts.documentId,
+                  orderEntryNumber: ownerIdParts.entryNumber,
+                  owner: owner,
+                };
+              this.store.dispatch(
+                new ConfiguratorActions.ReadOrderEntryConfiguration(
+                  readFromOrderEntryParameters
+                )
+              );
+            });
         }
       }),
       filter(

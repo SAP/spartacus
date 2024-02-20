@@ -76,7 +76,7 @@ describe('Replenishment Orders effect', () => {
 
     it('should handle failures for load user Replenishment Orders', () => {
       spyOn(replenishmentOrderHistoryConnector, 'loadHistory').and.returnValue(
-        throwError('Error')
+        throwError(() => 'Error')
       );
 
       const action = new OrderActions.LoadUserReplenishmentOrders({

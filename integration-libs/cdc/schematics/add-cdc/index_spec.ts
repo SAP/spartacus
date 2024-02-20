@@ -9,23 +9,23 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  cdcFeatureModulePath,
   CDC_B2B_FEATURE_NAME,
   CDC_FEATURE_NAME,
-  LibraryOptions as SpartacusCdcOptions,
-  organizationAdministrationWrapperModulePath,
-  organizationUserRegistrationWrapperModulePath,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
   ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
-  SpartacusOptions,
   SPARTACUS_ASM,
   SPARTACUS_CDC,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_USER,
-  userAccountWrapperModulePath,
-  userProfileWrapperModulePath,
+  LibraryOptions as SpartacusCdcOptions,
+  SpartacusOptions,
   USER_ACCOUNT_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
+  cdcFeatureModulePath,
+  organizationAdministrationWrapperModulePath,
+  organizationUserRegistrationWrapperModulePath,
+  userAccountWrapperModulePath,
+  userProfileWrapperModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -48,6 +48,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',

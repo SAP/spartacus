@@ -16,8 +16,8 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {
-  ConfiguratorState,
   CONFIGURATOR_FEATURE,
+  ConfiguratorState,
   StateWithConfigurator,
 } from '../state/configurator-state';
 import { getConfiguratorReducers } from '../state/reducers/index';
@@ -86,6 +86,7 @@ const configurationStateWoLoading: ConfiguratorState = {
 
 let configCartObservable: Observable<Configurator.Configuration>;
 let configOrderObservable: Observable<Configurator.Configuration>;
+let configQuoteObservable: Observable<Configurator.Configuration>;
 let isStableObservable: Observable<boolean>;
 let cartObs: Observable<Cart>;
 
@@ -120,6 +121,9 @@ class MockConfiguratorCartService {
   readConfigurationForOrderEntry() {
     return configOrderObservable;
   }
+  readConfigurationForQuoteEntry() {
+    return configQuoteObservable;
+  }
 }
 
 function callGetOrCreate(
@@ -151,6 +155,7 @@ describe('ConfiguratorCommonsService', () => {
   let configuratorCartService: ConfiguratorCartService;
   let configurationWithOverview: Configurator.Configuration;
   configOrderObservable = of(productConfiguration);
+  configQuoteObservable = of(productConfiguration);
   configCartObservable = of(productConfiguration);
   isStableObservable = of(true);
   const cart: Cart = {};
@@ -195,14 +200,17 @@ describe('ConfiguratorCommonsService', () => {
     configuratorUtilsService = TestBed.inject(
       ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
     );
+
     OWNER_PRODUCT = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     );
+
     OWNER_CART_ENTRY = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.CART_ENTRY,
       '3'
     );
+
     OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.ORDER_ENTRY,
       configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER)

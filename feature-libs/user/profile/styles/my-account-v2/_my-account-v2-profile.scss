@@ -1,0 +1,76 @@
+%cx-my-account-v2-profile {
+  .flex-line {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+  }
+
+  .headertext {
+    @include type('3');
+    padding-bottom: 1.5rem;
+    width: 95%;
+  }
+
+  .editButton {
+    @include type();
+    color: var(--cx-color-primary);
+    border: none;
+    background-color: var(--cx-color-transparent);
+  }
+
+  .text-head {
+    @include type('6');
+    min-width: 7.5rem;
+    width: 15%;
+  }
+
+  .value {
+    @include type('7');
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .button {
+    @include type();
+    padding-top: 0.8rem;
+    padding-inline-end: 1.5rem;
+    padding-bottom: 0.8rem;
+    padding-inline-start: 1.5rem;
+  }
+
+  .button-cancel {
+    color: var(--cx-color-primary);
+  }
+
+  .myaccount-editing-area {
+    width: 100%;
+    max-width: 35rem;
+  }
+
+  .btn-group-row {
+    padding-top: 0.75rem;
+    display: flex;
+    flex: 100%;
+    justify-content: end;
+  }
+
+  .btn-group {
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
+  }
+
+  .ng-select .ng-select-container {
+    background-color: var(--cx-color-background);
+  }
+
+  form {
+    label {
+      padding-bottom: 0.75rem;
+    }
+  }
+  label {
+    padding-bottom: 0.3rem;
+  }
+}

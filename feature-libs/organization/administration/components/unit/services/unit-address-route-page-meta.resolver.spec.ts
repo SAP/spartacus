@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Address, I18nTestingModule } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { CurrentUnitAddressService } from '../links/addresses/services/current-unit-address.service';
 import { UnitAddressRoutePageMetaResolver } from './unit-address-route-page-meta.resolver';
 
@@ -28,13 +27,12 @@ describe('UnitAddressRoutePageMetaResolver', () => {
 
   it('should emit breadcrumb with translated i18n key, using current item as params', async () => {
     expect(
-      await resolver
-        .resolveBreadcrumbs({
+      await firstValueFrom(
+        resolver.resolveBreadcrumbs({
           url: 'testPath',
           pageMetaConfig: { breadcrumb: { i18n: 'testTranslation' } },
         })
-        .pipe(take(1))
-        .toPromise()
+      )
     ).toEqual([
       {
         label: 'testTranslation formattedAddress:testAddress',

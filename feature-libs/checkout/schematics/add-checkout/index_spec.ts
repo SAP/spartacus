@@ -10,18 +10,18 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  cartBaseFeatureModulePath,
-  checkoutFeatureModulePath,
-  checkoutWrapperModulePath,
   CHECKOUT_B2B_FEATURE_NAME,
   CHECKOUT_BASE_FEATURE_NAME,
   CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
-  LibraryOptions as SpartacusCheckoutOptions,
-  orderFeatureModulePath,
-  SpartacusOptions,
   SPARTACUS_CHECKOUT,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_SCHEMATICS,
+  LibraryOptions as SpartacusCheckoutOptions,
+  SpartacusOptions,
+  cartBaseFeatureModulePath,
+  checkoutFeatureModulePath,
+  checkoutWrapperModulePath,
+  orderFeatureModulePath,
   userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -51,6 +51,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

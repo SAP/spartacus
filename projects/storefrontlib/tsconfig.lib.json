@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "target": "es2015",
-    "module": "es2020",
+    "module": "es2022",
     "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
@@ -12,7 +12,7 @@
     "importHelpers": true,
     "strict": true,
     "types": [],
-    "lib": ["es2020", "dom"],
+    "lib": ["es2022", "dom"],
     "paths": {
       "@spartacus/core": ["dist/core"]
     }

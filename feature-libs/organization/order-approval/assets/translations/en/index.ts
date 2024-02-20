@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { orderApproval } from './order-approval.i18n';
+import orderApproval from './orderApproval.json';
 
 export const en = {
   orderApproval,

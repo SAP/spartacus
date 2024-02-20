@@ -10,14 +10,13 @@ import {
   OnDestroy,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
-import {
-  CustomerTicketingFacade,
-  STATUS,
-} from '@spartacus/customer-ticketing/root';
+import { CustomerTicketingFacade } from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { CustomerTicketingCloseComponentService } from './customer-ticketing-close-component.service';
 
 @Component({
   selector: 'cx-customer-ticketing-close',
@@ -25,22 +24,14 @@ import { map, take } from 'rxjs/operators';
 })
 export class CustomerTicketingCloseComponent implements OnDestroy {
   protected subscription = new Subscription();
+  protected customerTicketingCloseComponentService = inject(
+    CustomerTicketingCloseComponentService
+  );
 
   @ViewChild('element') element: ElementRef;
 
   enableCloseButton$: Observable<boolean | undefined> =
-    this.customerTicketingFacade
-      .getTicket()
-      .pipe(
-        map(
-          (ticket) =>
-            (ticket?.status?.id === STATUS.OPEN ||
-              ticket?.status?.id === STATUS.INPROCESS) &&
-            ticket.availableStatusTransitions?.some(
-              (status) => status.id.toUpperCase() === STATUS.CLOSED
-            )
-        )
-      );
+    this.customerTicketingCloseComponentService.enableCloseButton();
 
   constructor(
     protected customerTicketingFacade: CustomerTicketingFacade,

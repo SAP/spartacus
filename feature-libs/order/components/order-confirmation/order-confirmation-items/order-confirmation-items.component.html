@@ -8,6 +8,10 @@
   ></cx-promotions>
 
   <ng-template
+    [cxAbstractOrderContext]="{
+      id: order.code,
+      type: abstractOrderType.ORDER
+    }"
     [cxOutlet]="cartOutlets.CART_ITEM_LIST"
     [cxOutletContext]="{
       items: order.entries,

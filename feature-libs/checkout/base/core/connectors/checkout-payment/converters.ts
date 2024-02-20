@@ -5,8 +5,7 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
-import { Converter } from '@spartacus/core';
+import { CardType, Converter, PaymentDetails } from '@spartacus/core';
 
 export const PAYMENT_DETAILS_SERIALIZER = new InjectionToken<
   Converter<PaymentDetails, any>

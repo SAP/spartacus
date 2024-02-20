@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { organization } from './organization';
+import organization from './organization.json';
 
 export const en = {
   organization,

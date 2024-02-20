@@ -25,7 +25,7 @@ const cartNotFoundError = {
 };
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy().and.returnValue(EMPTY.toPromise());
+  go = createSpy().and.returnValue(Promise.resolve(undefined));
 
   getRouterState = createSpy().and.returnValue(EMPTY);
 }
@@ -128,7 +128,7 @@ describe('CheckoutCartInterceptor', () => {
   function createRequest(): TestRequest {
     http
       .get('/test')
-      .pipe(catchError((error: any) => throwError(error)))
+      .pipe(catchError((error: any) => throwError(() => error)))
       .subscribe({
         next: () => {},
         error: () => {},

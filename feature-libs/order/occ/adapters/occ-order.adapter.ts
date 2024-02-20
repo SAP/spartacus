@@ -20,7 +20,7 @@ import {
 } from '@spartacus/core';
 import { OrderAdapter } from '@spartacus/order/core';
 import { ORDER_NORMALIZER, Order } from '@spartacus/order/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -53,9 +53,9 @@ export class OccOrderAdapter implements OrderAdapter {
         { headers }
       )
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isJaloError,
         }),

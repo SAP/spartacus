@@ -4,15 +4,12 @@ exports[`Workspace utils getProject should return project 1`] = `
 {
   "architect": {
     "build": {
-      "builder": "@angular-devkit/build-angular:browser",
+      "builder": "@angular-devkit/build-angular:application",
       "configurations": {
         "development": {
-          "buildOptimizer": false,
           "extractLicenses": false,
-          "namedChunks": true,
           "optimization": false,
           "sourceMap": true,
-          "vendorChunk": true,
         },
         "production": {
           "budgets": [
@@ -36,9 +33,9 @@ exports[`Workspace utils getProject should return project 1`] = `
           "src/favicon.ico",
           "src/assets",
         ],
+        "browser": "src/main.ts",
         "index": "src/index.html",
         "inlineStyleLanguage": "scss",
-        "main": "src/main.ts",
         "outputPath": "dist/schematics-test",
         "polyfills": [
           "zone.js",
@@ -58,17 +55,17 @@ exports[`Workspace utils getProject should return project 1`] = `
     "extract-i18n": {
       "builder": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "schematics-test:build",
+        "buildTarget": "schematics-test:build",
       },
     },
     "serve": {
       "builder": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "development": {
-          "browserTarget": "schematics-test:build:development",
+          "buildTarget": "schematics-test:build:development",
         },
         "production": {
-          "browserTarget": "schematics-test:build:production",
+          "buildTarget": "schematics-test:build:production",
         },
       },
       "defaultConfiguration": "development",
@@ -103,7 +100,14 @@ exports[`Workspace utils getProject should return project 1`] = `
   "root": "",
   "schematics": {
     "@schematics/angular:component": {
+      "standalone": false,
       "style": "scss",
+    },
+    "@schematics/angular:directive": {
+      "standalone": false,
+    },
+    "@schematics/angular:pipe": {
+      "standalone": false,
     },
   },
   "sourceRoot": "src",
@@ -113,15 +117,12 @@ exports[`Workspace utils getProject should return project 1`] = `
 exports[`Workspace utils getProjectTargets should return project targets 1`] = `
 {
   "build": {
-    "builder": "@angular-devkit/build-angular:browser",
+    "builder": "@angular-devkit/build-angular:application",
     "configurations": {
       "development": {
-        "buildOptimizer": false,
         "extractLicenses": false,
-        "namedChunks": true,
         "optimization": false,
         "sourceMap": true,
-        "vendorChunk": true,
       },
       "production": {
         "budgets": [
@@ -145,9 +146,9 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
         "src/favicon.ico",
         "src/assets",
       ],
+      "browser": "src/main.ts",
       "index": "src/index.html",
       "inlineStyleLanguage": "scss",
-      "main": "src/main.ts",
       "outputPath": "dist/schematics-test",
       "polyfills": [
         "zone.js",
@@ -167,17 +168,17 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
   "extract-i18n": {
     "builder": "@angular-devkit/build-angular:extract-i18n",
     "options": {
-      "browserTarget": "schematics-test:build",
+      "buildTarget": "schematics-test:build",
     },
   },
   "serve": {
     "builder": "@angular-devkit/build-angular:dev-server",
     "configurations": {
       "development": {
-        "browserTarget": "schematics-test:build:development",
+        "buildTarget": "schematics-test:build:development",
       },
       "production": {
-        "browserTarget": "schematics-test:build:production",
+        "buildTarget": "schematics-test:build:production",
       },
     },
     "defaultConfiguration": "development",

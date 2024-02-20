@@ -22,6 +22,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CustomerTicketingCloseComponentService } from './customer-ticketing-close-component.service';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     SpinnerModule,
   ],
   providers: [
+    CustomerTicketingCloseComponentService,
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         SupportTicketCloseComponent: {

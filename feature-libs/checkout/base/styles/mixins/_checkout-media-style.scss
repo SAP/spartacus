@@ -1,32 +1,19 @@
 @mixin checkout-media-style() {
   @include media-breakpoint-down(md) {
     display: block;
-    background-color: var(--cx-color-background);
-
-    @include forVersion(6.3) {
-      background-color: var(--cx-color-transparent);
-    }
+    background-color: var(--cx-color-transparent);
   }
 
   .col-md-12 {
     @include media-breakpoint-down(md) {
-      padding: 0 4.375rem;
+      padding: 0 0.813rem;
     }
 
     @include media-breakpoint-down(sm) {
-      padding: 0 2.25rem;
-    }
-
-    @include forVersion(6.3) {
-      @include media-breakpoint-down(md) {
-        padding: 0 0.813rem;
-      }
-
-      @include media-breakpoint-down(sm) {
-        padding: 0 0.875rem;
-      }
+      padding: 0 0.875rem;
     }
   }
+
   .container {
     @include media-breakpoint-down(md) {
       width: 100%;
@@ -52,38 +39,27 @@
   }
 
   .cx-checkout-title {
-    margin-top: 1.5rem;
     margin-inline-end: auto;
-    margin-bottom: 1rem;
     margin-inline-start: auto;
-    padding-top: 1.25rem;
-    padding-bottom: 1.25rem;
-    padding-inline-start: 2.5rem;
     padding-inline-end: 0;
     @include type('4');
-    background-color: var(--cx-color-background);
-
-    @include forVersion(6.3) {
-      background-color: var(--cx-color-transparent);
-      margin-top: 0;
-      padding-top: 0;
-      padding-bottom: 0.438rem;
-      margin-bottom: 0.5rem;
-      padding-inline-start: 0;
-    }
+    background-color: var(--cx-color-transparent);
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0.438rem;
+    margin-bottom: 0.5rem;
+    padding-inline-start: 0;
   }
 
   .cx-checkout-body {
     display: flex;
     align-items: stretch;
+    margin: 0;
+
     &.row {
       @include media-breakpoint-down(md) {
         padding: 0;
       }
-    }
-
-    @include forVersion(6.3) {
-      margin: 0;
     }
   }
 
@@ -91,18 +67,7 @@
     margin-bottom: 1.25rem;
 
     @include media-breakpoint-down(md) {
-      padding-inline-start: 3.5rem;
-
-      @include forVersion(6.3) {
-        padding-inline-start: 0;
-      }
-    }
-    @include media-breakpoint-down(sm) {
-      padding-inline-start: 1.5rem;
-
-      @include forVersion(6.3) {
-        padding-inline-start: 0;
-      }
+      padding-inline-start: 0;
     }
   }
 

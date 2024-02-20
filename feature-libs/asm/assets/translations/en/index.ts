@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { asm } from './asm';
+import asm from './asm.json';
 
 export const en = {
   asm,

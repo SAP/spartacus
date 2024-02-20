@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { cdc } from './cdc.i18n';
+import cdc from './cdc.json';
 
 export const en = {
   cdc,

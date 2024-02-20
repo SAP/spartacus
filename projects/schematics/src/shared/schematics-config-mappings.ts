@@ -9,6 +9,7 @@ import {
   ASM_SCHEMATICS_CONFIG,
   ASM_CUSTOMER_360_SCHEMATICS_CONFIG,
 } from './lib-configs/asm-schematics-config';
+import { QUOTE_SCHEMATICS_CONFIG } from './lib-configs';
 import {
   CART_BASE_SCHEMATICS_CONFIG,
   CART_IMPORT_EXPORT_SCHEMATICS_CONFIG,
@@ -66,6 +67,7 @@ import {
   USER_PROFILE_SCHEMATICS_CONFIG,
 } from './lib-configs/user-schematics-config';
 import { Module, SchematicConfig } from './utils/lib-utils';
+import { CDP_SCHEMATICS_CONFIG } from './lib-configs';
 
 /**
  * A list of all schematics feature configurations.
@@ -86,6 +88,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   CHECKOUT_BASE_SCHEMATICS_CONFIG,
   CHECKOUT_B2B_SCHEMATICS_CONFIG,
   CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG,
+
+  QUOTE_SCHEMATICS_CONFIG,
 
   ORDER_SCHEMATICS_CONFIG,
 
@@ -127,6 +131,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   // integration libraries start
   CDC_SCHEMATICS_CONFIG,
   CDC_B2B_SCHEMATICS_CONFIG,
+
+  CDP_SCHEMATICS_CONFIG,
 
   CDS_SCHEMATICS_CONFIG,
 

@@ -40,53 +40,28 @@
     <span class="result-id">{{ result.uid }}</span>
   </button>
 
-  <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
-  <ng-container *cxFeatureLevel="'!6.1'">
-    <button
-      #searchResultItem
-      (click)="closeResults($event)"
-      (keydown.enter)="closeResults($event)"
-      (keydown.escape)="closeResults($event)"
-      (keydown.arrowright)="focusInputText($event)"
-      (keydown.arrowleft)="focusInputText($event)"
-      (keydown.home)="focusInputText($event)"
-      (keydown.end)="focusInputText($event)"
-      [class.active]="activeFocusedButtonIndex === 0"
-      [attr.aria-selected]="activeFocusedButtonIndex === 0"
-      *ngIf="
-        !(searchResultsLoading$ | async) &&
-        searchTerm.value.length >= 3 &&
-        !!results.entries &&
-        results.entries.length <= 0
-      "
-    >
-      {{ 'asm.customerSearch.noMatch' | cxTranslate }}
-    </button>
-  </ng-container>
-  <ng-container *cxFeatureLevel="'6.1'">
-    <button
-      #searchResultItem
-      (click)="createCustomer()"
-      (keydown.escape)="closeResults($event)"
-      (keydown.arrowright)="focusInputText($event)"
-      (keydown.arrowleft)="focusInputText($event)"
-      (keydown.home)="focusInputText($event)"
-      (keydown.end)="focusInputText($event)"
-      [class.active]="activeFocusedButtonIndex === 0"
-      [attr.aria-selected]="activeFocusedButtonIndex === 0"
-      *ngIf="
-        !(searchResultsLoading$ | async) &&
-        searchTerm.value.length >= 3 &&
-        !!results.entries &&
-        results.entries.length <= 0
-      "
-    >
-      <span>{{ 'asm.customerSearch.noMatchResult' | cxTranslate }}</span>
-      <span #createCustomerLink class="linkStyleLabel">{{
-        'asm.customerSearch.createCustomer' | cxTranslate
-      }}</span>
-    </button>
-  </ng-container>
+  <button
+    #searchResultItem
+    (click)="createCustomer()"
+    (keydown.escape)="closeResults($event)"
+    (keydown.arrowright)="focusInputText($event)"
+    (keydown.arrowleft)="focusInputText($event)"
+    (keydown.home)="focusInputText($event)"
+    (keydown.end)="focusInputText($event)"
+    [class.active]="activeFocusedButtonIndex === 0"
+    [attr.aria-selected]="activeFocusedButtonIndex === 0"
+    *ngIf="
+      !(searchResultsLoading$ | async) &&
+      searchTerm.value.length >= 3 &&
+      !!results.entries &&
+      results.entries.length <= 0
+    "
+  >
+    <span>{{ 'asm.customerSearch.noMatchResult' | cxTranslate }}</span>
+    <span #createCustomerLink class="linkStyleLabel">{{
+      'asm.customerSearch.createCustomer' | cxTranslate
+    }}</span>
+  </button>
 </div>
 
 <div class="asm-results" *ngIf="searchResultsLoading$ | async">

@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
@@ -15,11 +15,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   FeaturesConfig,
   FeaturesConfigModule,
-  FeatureConfigService,
   I18nTestingModule,
   LanguageService,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -33,7 +33,6 @@ import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 
 @Directive({
   selector: '[cxFocus]',
@@ -51,7 +50,6 @@ class MockCxIconComponent {
 }
 
 let DEBOUNCE_TIME: number;
-let testVersion: string;
 
 const userInput = '345.00';
 const NUMBER_DECIMAL_PLACES = 2;
@@ -112,11 +110,6 @@ class MockConfigUtilsService {
     return of(isCartEntryOrGroupVisited);
   }
 }
-class MockFeatureConfigService {
-  isLevel(version: string): boolean {
-    return version === testVersion;
-  }
-}
 
 describe('ConfigAttributeNumericInputFieldComponent', () => {
   let component: ConfiguratorAttributeNumericInputFieldComponent;
@@ -167,7 +160,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: MockConfigUtilsService,
           },
-          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+
           {
             provide: FeaturesConfig,
             useValue: {
@@ -205,8 +198,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     DEBOUNCE_TIME =
       defaultConfiguratorUISettingsConfig.productConfigurator
         ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
-
-    testVersion = '6.2';
 
     spyOn(
       component['configuratorCommonsService'],
@@ -353,16 +344,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   describe('Interval validation', () => {
     it('should display an issue if input does not match interval', () => {
       checkForIntervalValidity(VALUE_OUTSIDE_ALL_INTERVALS, 1);
-    });
-
-    it('should display no issue if input does not match interval but we did not opt for the 6.2 release', () => {
-      testVersion = '6.1';
-      checkForIntervalValidity(VALUE_OUTSIDE_ALL_INTERVALS, 0);
-    });
-
-    it('should display no issue if input does not match interval but feature config service is not available', () => {
-      component['featureConfigService'] = undefined;
-      checkForIntervalValidity(VALUE_OUTSIDE_ALL_INTERVALS, 0);
     });
 
     it('should display no issue if input in part of interval', () => {

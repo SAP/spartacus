@@ -8,11 +8,12 @@
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@angular-eslint/ng-cli-compat",
-        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "./tools/eslint-plugins/legacy-ng-cli-compat",
+        "./tools/eslint-plugins/legacy-ng-cli-compat--formatting-add-on"
       ],
-      "plugins": ["deprecation", "@typescript-eslint", "@nrwl/nx"],
+      "plugins": ["deprecation", "@typescript-eslint", "@nx"],
       "rules": {
         "@angular-eslint/no-host-metadata-property": "off",
         "@typescript-eslint/no-empty-interface": "off",
@@ -69,7 +70,7 @@
         "max-len": "off",
         "linebreak-style": ["error", "unix"],
         "no-underscore-dangle": "off",
-        "@nrwl/nx/enforce-module-boundaries": [
+        "@nx/enforce-module-boundaries": [
           "error",
           {
             "allow": [],
@@ -108,7 +109,7 @@
     {
       "files": ["*.module.ts"],
       "rules": {
-        "@nrwl/nx/workspace/use-default-provide-config": "error"
+        "@nx/workspace/use-default-provide-config": "error"
       }
     }
   ]

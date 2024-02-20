@@ -3,17 +3,18 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import {
   ConverterService,
   HttpErrorModel,
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
   OccEndpoints,
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
-  ReplenishmentOrder,
   REPLENISHMENT_ORDER_NORMALIZER,
+  ReplenishmentOrder,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
 import { defer, of, throwError } from 'rxjs';
@@ -61,7 +62,19 @@ const mockJaloError = new HttpErrorResponse({
     ],
   },
 });
-const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const mockNormalizedJaloError = normalizeHttpError(
+  mockJaloError,
+  new MockLoggerService()
+);
 
 describe(`OccScheduledReplenishmentOrderAdapter`, () => {
   let occAdapter: OccScheduledReplenishmentOrderAdapter;
@@ -76,6 +89,7 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
         providers: [
           OccScheduledReplenishmentOrderAdapter,
           { provide: OccConfig, useValue: MockOccModuleConfig },
+          { provide: LoggerService, useClass: MockLoggerService },
         ],
       });
     })
@@ -127,7 +141,9 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
 
   describe(`back-off`, () => {
     it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-      spyOn(httpClient, 'post').and.returnValue(throwError(mockJaloError));
+      spyOn(httpClient, 'post').and.returnValue(
+        throwError(() => mockJaloError)
+      );
 
       let result: HttpErrorModel | undefined;
       const subscription = occAdapter
@@ -156,7 +172,7 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
           if (calledTimes === 3) {
             return of(mockReplenishmentOrder);
           }
-          return throwError(mockJaloError);
+          return throwError(() => mockJaloError);
         })
       );
 

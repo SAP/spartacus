@@ -2,11 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  FeaturesConfig,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { PopoverModule, SplitViewService } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { ViewComponent } from 'projects/storefrontlib/shared/components/split-view/view/view.component';
@@ -47,13 +43,6 @@ describe('CardComponent', () => {
           useClass: MockItemService,
         },
         SplitViewService,
-        // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '5.2' },
-          },
-        },
       ],
     }).compileComponents();
   });

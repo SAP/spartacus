@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild, inject } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import {
   MessageEvent,
@@ -14,18 +14,21 @@ import {
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
-  STATUS,
   TicketDetails,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
 @Component({
   selector: 'cx-customer-ticketing-messages',
   templateUrl: './customer-ticketing-messages.component.html',
 })
 export class CustomerTicketingMessagesComponent implements OnDestroy {
   @ViewChild(MessagingComponent) messagingComponent: MessagingComponent;
+  protected customerTicketingMessagesComponentService = inject(
+    CustomerTicketingMessagesComponentService
+  );
 
   ticketDetails$: Observable<TicketDetails | undefined> =
     this.customerTicketingFacade.getTicket();
@@ -105,7 +108,11 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
         this.customerTicketingConfig.customerTicketing?.inputCharactersLimit,
       enableFileUploadOption: true,
       displayAddMessageSection: this.ticketDetails$.pipe(
-        map((ticket) => ticket?.status?.id !== STATUS.CLOSED)
+        map((ticket) =>
+          this.customerTicketingMessagesComponentService.displayAddMessageSection(
+            ticket
+          )
+        )
       ),
     };
   }

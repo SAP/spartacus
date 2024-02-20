@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { checkoutScheduledReplenishment } from './checkout-scheduled-replenishment.i18n';
+import checkoutScheduledReplenishment from './checkoutScheduledReplenishment.json';
 
 export const en = {
   checkoutScheduledReplenishment,

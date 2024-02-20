@@ -6,6 +6,7 @@ import {
   Observable,
   PartialObserver,
   Subject,
+  config,
   of,
   throwError,
 } from 'rxjs';
@@ -33,6 +34,22 @@ describe('CommandService', () => {
 
   let request1: Subject<string>;
   let request2: Subject<string>;
+
+  // TODO: CXSPA-4870 verify if can be avoided
+  let originalOnUnhandledError: ((err: any) => void) | null;
+
+  beforeAll(() => {
+    // configure rxjs to not crash node instance with thrown errors
+    // TODO: CXSPA-4870 verify if can be avoided
+    originalOnUnhandledError = config.onUnhandledError;
+    config.onUnhandledError = () => {};
+  });
+
+  afterAll(() => {
+    // reset rxjs configuration
+    // TODO: CXSPA-4870 verify if can be avoided
+    config.onUnhandledError = originalOnUnhandledError;
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -273,9 +290,11 @@ describe('CommandService', () => {
 
       it('should cancel in-progress requests', () => {
         const observer1 = createObserverSpy('observer1');
-        cancelPrevCommand.execute(request1).subscribe(observer1);
+        const sub1 = cancelPrevCommand.execute(request1);
+        // cancelPrevCommand.execute(request1).subscribe(observer1);
 
         cancelPrevCommand.execute(request2).subscribe();
+        sub1.subscribe(observer1);
         request1.next('next');
 
         expect(observer1.next).not.toHaveBeenCalled();

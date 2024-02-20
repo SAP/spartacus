@@ -9,12 +9,10 @@
     }
   }
 
-  @include forVersion(6.6) {
-    @media (max-width: 1090px) {
-      flex-direction: column;
-      > * {
-        margin-bottom: 12px;
-      }
+  @media (max-width: 1090px) {
+    flex-direction: column;
+    > * {
+      margin-bottom: 12px;
     }
   }
 
@@ -29,10 +27,8 @@
     @media (max-width: 940px) {
       width: 100%;
     }
-    @include forVersion(6.6) {
-      @media (max-width: 1090px) {
-        width: 100%;
-      }
+    @media (max-width: 1090px) {
+      width: 100%;
     }
 
     &.cx-360-button {
@@ -40,10 +36,8 @@
       border: 1px solid #0070f2;
       color: #ffffff;
       margin: 0 8px 0 0;
-      @include forVersion(6.6) {
-        @media (max-width: 1090px) {
-          margin: 0 8px 10px 0;
-        }
+      @media (max-width: 1090px) {
+        margin: 0 8px 10px 0;
       }
     }
   }

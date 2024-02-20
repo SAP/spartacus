@@ -3,14 +3,15 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { CheckoutState } from '@spartacus/checkout/base/root';
 import {
   ConverterService,
   HttpErrorModel,
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
   OccEndpoints,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -55,7 +56,19 @@ const mockJaloError = new HttpErrorResponse({
     ],
   },
 });
-const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const mockNormalizedJaloError = normalizeHttpError(
+  mockJaloError,
+  new MockLoggerService()
+);
 
 describe('OccCheckoutAdapter', () => {
   let service: OccCheckoutAdapter;
@@ -69,6 +82,7 @@ describe('OccCheckoutAdapter', () => {
       providers: [
         OccCheckoutAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
     service = TestBed.inject(OccCheckoutAdapter);
@@ -108,7 +122,9 @@ describe('OccCheckoutAdapter', () => {
 
     describe(`back-off`, () => {
       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
+        spyOn(httpClient, 'get').and.returnValue(
+          throwError(() => mockJaloError)
+        );
 
         let result: HttpErrorModel | undefined;
         const subscription = service
@@ -132,7 +148,7 @@ describe('OccCheckoutAdapter', () => {
             if (calledTimes === 3) {
               return of(checkoutData);
             }
-            return throwError(mockJaloError);
+            return throwError(() => mockJaloError);
           })
         );
 

@@ -60,34 +60,27 @@
   >
     <ng-container *ngIf="customer$ | async; else showCustomerSelection">
       <cx-customer-emulation *ngIf="notCollapsed"></cx-customer-emulation>
-      <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
-      <ng-container *cxFeatureLevel="'6.1'">
-        <cx-message
-          *ngIf="notCollapsed && showCreateCustomerSuccessfullyAlert"
-          [text]="'asm.createCustomerSuccessfullyAlert' | cxTranslate"
-          [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
-          (closeMessage)="closeDialogConfirmationAlert()"
-        >
-        </cx-message>
-      </ng-container>
-      <ng-container *cxFeatureLevel="'6.2'">
-        <cx-message
-          *ngIf="showDeeplinkCartInfoAlert$ | async"
-          [text]="deeplinkCartAlertKey | cxTranslate"
-          [type]="globalMessageType.MSG_TYPE_INFO"
-          (closeMessage)="closeDeeplinkCartInfoAlert()"
-        >
-        </cx-message>
-      </ng-container>
-      <ng-container *cxFeatureLevel="'6.3'">
-        <cx-message
-          *ngIf="notCollapsed && showCustomerEmulationInfoAlert"
-          [text]="'asm.startCustomerEmulationAlertInfo' | cxTranslate"
-          [type]="globalMessageType.MSG_TYPE_INFO"
-          (closeMessage)="closeCustomerEmulationInfoAlert()"
-        >
-        </cx-message>
-      </ng-container>
+      <cx-message
+        *ngIf="notCollapsed && showCreateCustomerSuccessfullyAlert"
+        [text]="'asm.createCustomerSuccessfullyAlert' | cxTranslate"
+        [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
+        (closeMessage)="closeDialogConfirmationAlert()"
+      >
+      </cx-message>
+      <cx-message
+        *ngIf="showDeeplinkCartInfoAlert$ | async"
+        [text]="deeplinkCartAlertKey | cxTranslate"
+        [type]="globalMessageType.MSG_TYPE_INFO"
+        (closeMessage)="closeDeeplinkCartInfoAlert()"
+      >
+      </cx-message>
+      <cx-message
+        *ngIf="notCollapsed && showCustomerEmulationInfoAlert"
+        [text]="'asm.startCustomerEmulationAlertInfo' | cxTranslate"
+        [type]="globalMessageType.MSG_TYPE_INFO"
+        (closeMessage)="closeCustomerEmulationInfoAlert()"
+      >
+      </cx-message>
     </ng-container>
     <ng-template #showCustomerSelection>
       <cx-customer-selection

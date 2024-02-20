@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PaymentDetails } from '@spartacus/cart/base/root';
-import { Address, CxEvent } from '@spartacus/core';
+import { Address, CxEvent, PaymentDetails } from '@spartacus/core';
 
 /**
  * Emit this event to force checkout details reload

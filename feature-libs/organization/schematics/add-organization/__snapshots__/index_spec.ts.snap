@@ -51,7 +51,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '6.8'
+      level: '2211.19'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -106,7 +106,14 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -114,11 +121,11 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/schematics-test",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -156,12 +163,9 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -170,10 +174,10 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "schematics-test:build:production"
+              "buildTarget": "schematics-test:build:production"
             },
             "development": {
-              "browserTarget": "schematics-test:build:development"
+              "buildTarget": "schematics-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -181,7 +185,7 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "schematics-test:build"
+            "buildTarget": "schematics-test:build"
           }
         },
         "test": {
@@ -266,7 +270,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '6.8'
+      level: '2211.19'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -321,7 +325,14 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -329,11 +340,11 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/schematics-test",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -371,12 +382,9 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -385,10 +393,10 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "schematics-test:build:production"
+              "buildTarget": "schematics-test:build:production"
             },
             "development": {
-              "browserTarget": "schematics-test:build:development"
+              "buildTarget": "schematics-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -396,7 +404,7 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "schematics-test:build"
+            "buildTarget": "schematics-test:build"
           }
         },
         "test": {
@@ -481,7 +489,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '6.8'
+      level: '2211.19'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -536,7 +544,14 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -544,11 +559,11 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/schematics-test",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -586,12 +601,9 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -600,10 +612,10 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "schematics-test:build:production"
+              "buildTarget": "schematics-test:build:production"
             },
             "development": {
-              "browserTarget": "schematics-test:build:development"
+              "buildTarget": "schematics-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -611,7 +623,7 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "schematics-test:build"
+            "buildTarget": "schematics-test:build"
           }
         },
         "test": {
@@ -696,7 +708,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '6.8'
+      level: '2211.19'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -751,7 +763,14 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -759,11 +778,11 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/schematics-test",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -801,12 +820,9 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -815,10 +831,10 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "schematics-test:build:production"
+              "buildTarget": "schematics-test:build:production"
             },
             "development": {
-              "browserTarget": "schematics-test:build:development"
+              "buildTarget": "schematics-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -826,7 +842,7 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "schematics-test:build"
+            "buildTarget": "schematics-test:build"
           }
         },
         "test": {
@@ -911,7 +927,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '6.8'
+      level: '2211.19'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -966,7 +982,14 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -974,11 +997,11 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/schematics-test",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -1016,12 +1039,9 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -1030,10 +1050,10 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "schematics-test:build:production"
+              "buildTarget": "schematics-test:build:production"
             },
             "development": {
-              "browserTarget": "schematics-test:build:development"
+              "buildTarget": "schematics-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -1041,7 +1061,7 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "schematics-test:build"
+            "buildTarget": "schematics-test:build"
           }
         },
         "test": {

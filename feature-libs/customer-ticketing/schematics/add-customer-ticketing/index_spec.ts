@@ -10,12 +10,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  customerTicketingFeatureModulePath,
   CUSTOMER_TICKETING_FEATURE_NAME,
-  LibraryOptions as SpartacusCustomerTicketingOptions,
-  SpartacusOptions,
   SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_SCHEMATICS,
+  LibraryOptions as SpartacusCustomerTicketingOptions,
+  SpartacusOptions,
+  customerTicketingFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -44,6 +44,7 @@ describe('Spartacus Customer Ticketing schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

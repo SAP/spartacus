@@ -23,14 +23,19 @@ import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { FilesFormValidators } from '../../../services/file/files-form-validators';
 import { FileUploadComponent } from '../../form';
-import { MessageEvent, MessagingConfigs } from './messaging.model';
+import {
+  MessageEvent,
+  MessageEventBoundItem,
+  MessagingConfigs,
+} from './messaging.model';
 
 @Component({
   selector: 'cx-messaging',
   templateUrl: './messaging.component.html',
 })
 export class MessagingComponent implements OnInit, AfterViewChecked {
-  @ViewChild(FileUploadComponent) fileUploadComponent: FileUploadComponent;
+  // can be undefined if you press add message button very fast on slow network
+  @ViewChild(FileUploadComponent) fileUploadComponent?: FileUploadComponent;
 
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
   @Input() scrollToInput?: boolean = true;
@@ -39,6 +44,11 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   @Output() send = new EventEmitter<{
     files: File | undefined;
     message: string;
+    itemId?: string;
+  }>();
+
+  @Output() itemClicked = new EventEmitter<{
+    item: MessageEventBoundItem;
   }>();
 
   @Output() downloadAttachment = new EventEmitter<{
@@ -101,16 +111,25 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
 
   onSend(): void {
     if (this.form.valid) {
-      this.send.emit({
+      const event: {
+        files: File | undefined;
+        message: string;
+        itemId?: string;
+      } = {
         files: this.form.get('file')?.value,
         message: this.form.get('message')?.value,
-      });
+      };
+      const itemId = this.form.get('item')?.value;
+      if (itemId) {
+        event.itemId = itemId;
+      }
+      this.send.emit(event);
     }
   }
 
   resetForm(): void {
-    this.form.reset();
-    this.fileUploadComponent.removeFile();
+    this.form.reset({ item: this.messagingConfigs?.defaultItemId });
+    this.fileUploadComponent?.removeFile();
   }
 
   triggerDownload(
@@ -143,6 +162,10 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
         this.filesFormValidators.maxEntries(this.maxEntries),
         this.filesFormValidators.allowedTypes(this.allowedTypes),
       ])
+    );
+    form.setControl(
+      'item',
+      new UntypedFormControl(this.messagingConfigs?.defaultItemId)
     );
     this.form = form;
   }
@@ -183,6 +206,24 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
         results[focusedIndex - 1].focus();
       }
     }
+  }
+
+  /**
+   * A message can be linked to an item. In this case the item name will be prefixed to the message text.
+   *
+   * @param {MessageEvent} message message
+   * @returns {string | undefined} message text prefixed with item name, in case its given.
+   */
+  getMessageText(message: MessageEvent): string | undefined {
+    return message.item
+      ? message.item.name + ': ' + message.text
+      : message.text;
+  }
+
+  onItemClicked(item: MessageEventBoundItem): void {
+    this.itemClicked.emit({
+      item: item,
+    });
   }
 
   protected observeScroll(): void {

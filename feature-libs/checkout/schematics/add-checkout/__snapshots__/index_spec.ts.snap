@@ -63,7 +63,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '6.8'
+      level: '2211.19'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -143,7 +143,14 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -151,11 +158,11 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/schematics-test",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -193,12 +200,9 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -207,10 +211,10 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "schematics-test:build:production"
+              "buildTarget": "schematics-test:build:production"
             },
             "development": {
-              "browserTarget": "schematics-test:build:development"
+              "buildTarget": "schematics-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -218,7 +222,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "schematics-test:build"
+            "buildTarget": "schematics-test:build"
           }
         },
         "test": {
@@ -323,7 +327,14 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -331,11 +342,11 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/schematics-test",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -373,12 +384,9 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -387,10 +395,10 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "schematics-test:build:production"
+              "buildTarget": "schematics-test:build:production"
             },
             "development": {
-              "browserTarget": "schematics-test:build:development"
+              "buildTarget": "schematics-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -398,7 +406,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "schematics-test:build"
+            "buildTarget": "schematics-test:build"
           }
         },
         "test": {
@@ -506,7 +514,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '6.8'
+      level: '2211.19'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -597,7 +605,14 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -605,11 +620,11 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/schematics-test",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -647,12 +662,9 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -661,10 +673,10 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "schematics-test:build:production"
+              "buildTarget": "schematics-test:build:production"
             },
             "development": {
-              "browserTarget": "schematics-test:build:development"
+              "buildTarget": "schematics-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -672,7 +684,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "schematics-test:build"
+            "buildTarget": "schematics-test:build"
           }
         },
         "test": {

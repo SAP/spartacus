@@ -10,19 +10,19 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  PRODUCT_BULK_PRICING_FEATURE_NAME,
+  PRODUCT_FUTURE_STOCK_FEATURE_NAME,
+  PRODUCT_IMAGE_ZOOM_FEATURE_NAME,
+  PRODUCT_VARIANTS_FEATURE_NAME,
+  SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_PRODUCT,
+  SPARTACUS_SCHEMATICS,
+  SpartacusOptions,
   LibraryOptions as SpartacusProductOptions,
   productBulkPricingFeatureModulePath,
   productFutureStockFeatureModulePath,
   productImageZoomFeatureModulePath,
   productVariantsFeatureModulePath,
-  PRODUCT_BULK_PRICING_FEATURE_NAME,
-  PRODUCT_FUTURE_STOCK_FEATURE_NAME,
-  PRODUCT_IMAGE_ZOOM_FEATURE_NAME,
-  PRODUCT_VARIANTS_FEATURE_NAME,
-  SpartacusOptions,
-  SPARTACUS_CONFIGURATION_MODULE,
-  SPARTACUS_PRODUCT,
-  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -51,6 +51,7 @@ describe('Spartacus Product schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -298,9 +299,11 @@ describe('Spartacus Product schematics: ng-add', () => {
   describe('FutureStock feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', futureStockOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          futureStockOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
@@ -332,13 +335,11 @@ describe('Spartacus Product schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...futureStockOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...futureStockOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {

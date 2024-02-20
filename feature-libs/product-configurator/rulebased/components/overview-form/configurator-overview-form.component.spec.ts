@@ -8,8 +8,8 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { cold } from 'jasmine-marbles';
-import { NEVER, Observable, of } from 'rxjs';
+import { getTestScheduler } from 'jasmine-marbles';
+import { NEVER, Observable, delay, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -109,21 +109,24 @@ function checkConfigurationOverviewObs(
   overviewMarbels: string,
   expectedMarbels: string
 ) {
-  routerStateObservable = cold(routerMarbels, {
-    a: mockRouterState,
+  const scheduler = getTestScheduler();
+  scheduler.run((helpers) => {
+    routerStateObservable = helpers.cold(routerMarbels, {
+      a: mockRouterState,
+    });
+    configurationObservable = helpers.cold(configurationMarbels, {
+      x: configCreate,
+      y: configCreate2,
+    });
+    overviewObservable = helpers.cold(overviewMarbels, {
+      u: configCreate,
+      v: configCreate2,
+    });
+    initialize();
+    helpers
+      .expectObservable(component.configuration$)
+      .toBe(expectedMarbels, { u: configCreate, v: configCreate2 });
   });
-  configurationObservable = cold(configurationMarbels, {
-    x: configCreate,
-    y: configCreate2,
-  });
-  overviewObservable = cold(overviewMarbels, {
-    u: configCreate,
-    v: configCreate2,
-  });
-  initialize();
-  expect(component.configuration$).toBeObservable(
-    cold(expectedMarbels, { u: configCreate, v: configCreate2 })
-  );
 }
 
 @Component({
@@ -182,30 +185,36 @@ describe('ConfigurationOverviewFormComponent', () => {
     expect(htmlElem.querySelectorAll('.cx-ghost-group').length).toBe(3);
   });
 
-  it('should display configuration overview', () => {
+  it('should display configuration overview', (done) => {
     defaultConfigObservable = of(configCreate2);
     initialize();
+    component.configuration$.pipe(delay(0)).subscribe(() => {
+      fixture.detectChanges();
+      expect(htmlElem.querySelectorAll('.cx-group').length).toBe(10);
 
-    expect(htmlElem.querySelectorAll('.cx-group').length).toBe(10);
-
-    expect(htmlElem.querySelectorAll('.cx-attribute-value-pair').length).toBe(
-      11
-    );
+      expect(htmlElem.querySelectorAll('.cx-attribute-value-pair').length).toBe(
+        11
+      );
+      done();
+    });
   });
 
-  it('should display no result text in case of empty configuration', () => {
+  it('should display no result text in case of empty configuration', (done) => {
     defaultConfigObservable = of(configInitial);
     initialize();
+    component.configuration$.pipe(delay(0)).subscribe(() => {
+      fixture.detectChanges();
+      expect(htmlElem.querySelectorAll('.cx-group').length).toBe(0);
 
-    expect(htmlElem.querySelectorAll('.cx-group').length).toBe(0);
+      expect(htmlElem.querySelectorAll('.cx-attribute-value-pair').length).toBe(
+        0
+      );
 
-    expect(htmlElem.querySelectorAll('.cx-attribute-value-pair').length).toBe(
-      0
-    );
-
-    expect(
-      htmlElem.querySelectorAll('.cx-no-attribute-value-pairs').length
-    ).toBe(1);
+      expect(
+        htmlElem.querySelectorAll('.cx-no-attribute-value-pairs').length
+      ).toBe(1);
+      done();
+    });
   });
 
   it('should only get the minimum needed 2 emissions of overview if overview emits slowly', () => {
@@ -442,43 +451,55 @@ describe('ConfigurationOverviewFormComponent', () => {
       initialize();
     });
 
-    it("should contain action span element with class name 'cx-visually-hidden' that hides element on the UI", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'span',
-        'cx-visually-hidden',
-        0,
-        undefined,
-        undefined,
-        'configurator.a11y.listOfAttributesAndValues'
-      );
+    it("should contain action span element with class name 'cx-visually-hidden' that hides element on the UI", (done) => {
+      component.configuration$.pipe(delay(0)).subscribe(() => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'span',
+          'cx-visually-hidden',
+          0,
+          undefined,
+          undefined,
+          'configurator.a11y.listOfAttributesAndValues'
+        );
+        done();
+      });
     });
 
-    it("should contain action span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'span',
-        'cx-visually-hidden',
-        1,
-        undefined,
-        undefined,
-        'configurator.a11y.group group:Group 1'
-      );
+    it("should contain action span element with class name 'cx-visually-hidden' that hides span element content on the UI", (done) => {
+      component.configuration$.pipe(delay(0)).subscribe(() => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'span',
+          'cx-visually-hidden',
+          1,
+          undefined,
+          undefined,
+          'configurator.a11y.group group:Group 1'
+        );
+        done();
+      });
     });
 
-    it("should contain action h2 element with 'aria-hidden' attribute that removes h2 element from the accessibility tree", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'h2',
-        undefined,
-        0,
-        'aria-hidden',
-        'true',
-        'Group 1'
-      );
+    it("should contain action h2 element with 'aria-hidden' attribute that removes h2 element from the accessibility tree", (done) => {
+      component.configuration$.pipe(delay(0)).subscribe(() => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'h2',
+          undefined,
+          0,
+          'aria-hidden',
+          'true',
+          'Group 1'
+        );
+        done();
+      });
     });
   });
 

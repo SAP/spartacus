@@ -126,7 +126,6 @@ function configureSpartacusModules(
       [
         'UserModule,',
         'UserOccModule,',
-        'AddressBookModule,',
         'PaymentMethodsModule,',
         'NotificationPreferenceModule,',
         'MyInterestsModule,',
@@ -144,7 +143,6 @@ function configureSpartacusModules(
             {
               moduleSpecifier: SPARTACUS_STOREFRONTLIB,
               namedImports: [
-                'AddressBookModule',
                 'PaymentMethodsModule',
                 'NotificationPreferenceModule',
                 'MyInterestsModule',

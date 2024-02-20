@@ -10,13 +10,13 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  LibraryOptions as SpartacusUserOptions,
-  SpartacusOptions,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_USER,
-  userFeatureModulePath,
+  SpartacusOptions,
+  LibraryOptions as SpartacusUserOptions,
   USER_ACCOUNT_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -45,6 +45,7 @@ describe('Spartacus User schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

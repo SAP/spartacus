@@ -5,8 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PaymentDetails } from '@spartacus/cart/base/root';
-import { TranslationService } from '@spartacus/core';
+import { PaymentDetails, TranslationService } from '@spartacus/core';
 import {
   Order,
   billingAddressCard,

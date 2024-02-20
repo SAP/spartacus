@@ -68,6 +68,9 @@ export class CardComponent implements OnInit {
   truncateText = false;
 
   @Input()
+  truncateParagraphText = false;
+
+  @Input()
   charactersLimit = 100;
 
   @Input()
@@ -111,10 +114,15 @@ export class CardComponent implements OnInit {
     return (action as CardLinkAction).link !== undefined;
   }
 
+  trackByIndex(index: number): number {
+    return index;
+  }
+
   constructor() {
     // Intentional empty constructor
   }
 
+  /* eslint @angular-eslint/no-empty-lifecycle-method: 1 */
   ngOnInit() {
     // Intentional empty method
   }

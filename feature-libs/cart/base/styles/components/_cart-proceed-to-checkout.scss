@@ -2,16 +2,12 @@
   padding-inline-end: 0;
   padding-inline-start: 3rem;
   padding-top: 0;
-  padding-bottom: 2rem;
+  padding-bottom: 1.5rem;
 
   @include media-breakpoint-down(md) {
     align-self: flex-end;
     padding-bottom: 2rem;
-    padding-inline-start: 3rem;
-
-    @include forVersion(6.1) {
-      padding-inline-start: 0;
-    }
+    padding-inline-start: 0;
   }
 
   @include media-breakpoint-down(sm) {

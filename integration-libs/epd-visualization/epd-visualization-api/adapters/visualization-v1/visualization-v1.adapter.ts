@@ -22,7 +22,7 @@ import {
   UsageId,
   VisualizationApiConfig,
 } from '@spartacus/epd-visualization/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 /**
@@ -79,7 +79,9 @@ export class VisualizationV1Adapter implements VisualizationAdapter {
     folderUsageId: UsageId
   ): Observable<LookupVisualizationsResponse> {
     return this.http.get(this.getUrl(visualizationUsageId, folderUsageId)).pipe(
-      catchError((error) => throwError(normalizeHttpError(error, this.logger))),
+      catchError((error) => {
+        throw normalizeHttpError(error, this.logger);
+      }),
       this.converter.pipeable(LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER)
     );
   }

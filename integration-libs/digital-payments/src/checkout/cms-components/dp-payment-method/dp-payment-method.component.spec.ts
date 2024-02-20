@@ -5,7 +5,7 @@ import {
   RouterModule,
 } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressService,
@@ -17,6 +17,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  PaymentDetails,
   QueryState,
   TranslationService,
   UserPaymentService,

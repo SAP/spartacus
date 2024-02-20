@@ -6,6 +6,7 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+import { firstValueFrom } from 'rxjs';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { UTF_8 } from '../constants';
 import {
@@ -54,6 +55,7 @@ describe('Feature utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -93,12 +95,12 @@ describe('Feature utils', () => {
 
   describe('addFeatures', () => {
     it('should generate feature modules for the given array of features', async () => {
-      appTree = await schematicRunner
-        .callRule(
+      appTree = await firstValueFrom(
+        schematicRunner.callRule(
           addFeatures(BASE_OPTIONS, [USER_ACCOUNT_FEATURE_NAME]),
           appTree
         )
-        .toPromise();
+      );
 
       expect(
         appTree.read(userFeatureModulePath)?.toString(UTF_8)

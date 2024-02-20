@@ -174,7 +174,7 @@ describe('OrderHistoryService', () => {
 
   it('should NOT load order list data when user is anonymous', () => {
     spyOn(userIdService, 'takeUserId').and.callFake(() => {
-      return throwError('Error');
+      return throwError(() => 'Error');
     });
 
     userOrderService.loadOrderList(10, 1, 'byDate');

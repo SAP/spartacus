@@ -48,7 +48,7 @@ export class AuthHttpHeaderService implements OnDestroy {
   /**
    * Starts the refresh of the access token
    */
-  protected refreshTokenTrigger$ = new Subject<AuthToken>();
+  protected refreshTokenTrigger$ = new Subject<AuthToken | undefined>();
 
   /**
    * Internal token streams which reads the latest from the storage.
@@ -276,7 +276,7 @@ export class AuthHttpHeaderService implements OnDestroy {
             token?.access_token === requestToken?.access_token &&
             !refreshTriggered
           ) {
-            this.refreshTokenTrigger$.next(token as AuthToken); // TODO: CXSPA-3088 Type incongruity
+            this.refreshTokenTrigger$.next(token as AuthToken);
           }
           refreshTriggered = true;
         }),

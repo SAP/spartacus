@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, StoreModule } from '@ngrx/store';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
@@ -14,8 +16,6 @@ import { CmsStructureModel, Page } from '../../model/page.model';
 import { CmsActions } from '../actions/index';
 import { CMS_FEATURE } from '../cms-state';
 import * as fromEffects from './page.effect';
-import { HttpErrorResponse } from '@angular/common/http';
-import { normalizeHttpError } from '@spartacus/core';
 
 function mockDateNow(): number {
   return 1000000000000;
@@ -85,6 +85,14 @@ class RoutingServiceMock {
   }
 }
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('Page Effects', () => {
   let actions$: Observable<Action>;
   let cmsPageConnector: CmsPageConnector;
@@ -101,6 +109,7 @@ describe('Page Effects', () => {
       providers: [
         { provide: RoutingService, useClass: RoutingServiceMock },
         { provide: CmsPageConnector, useClass: MockCmsPageConnector },
+        { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.PageEffects,
         provideMockActions(() => actions$),
       ],
@@ -137,12 +146,14 @@ describe('Page Effects', () => {
 
       it('should dispatch LoadPageDataFail action', () => {
         const error = new HttpErrorResponse({ error: 'error' });
-        spyOn<any>(cmsPageConnector, 'get').and.returnValue(throwError(error));
+        spyOn<any>(cmsPageConnector, 'get').and.returnValue(
+          throwError(() => error)
+        );
         const action = new CmsActions.LoadCmsPageData(pageContext);
 
         const completion = new CmsActions.LoadCmsPageDataFail(
           pageContext,
-          normalizeHttpError(error)
+          normalizeHttpError(error, new MockLoggerService())
         );
 
         actions$ = hot('-a', { a: action });

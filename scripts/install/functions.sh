@@ -7,6 +7,8 @@ TIME_MEASUREMENT_CURR_TITLE="Start"
 TIME_MEASUREMENT_TITLES=()
 TIME_MEASUREMENT_TIMES=($(date +%s))
 
+VERDACCIO_STORAGE_DIR='./storage'
+
 # Prints header and adds time measurement
 function printh {
     local input="$1"
@@ -39,7 +41,7 @@ function cmd_clean {
     printh "Cleaning old spartacus installation workspace"
 
     delete_dir ${BASE_DIR}
-    delete_dir storage
+    delete_dir ${VERDACCIO_STORAGE_DIR}
 
     npm cache clean --force
 }
@@ -88,7 +90,18 @@ function update_projects_versions {
 }
 
 function create_shell_app {
-    ( cd ${INSTALLATION_DIR} && ng new ${1} --style scss --no-routing)
+    local EXTRA_ANGULAR_CLI_FLAGS=""
+    if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
+        EXTRA_ANGULAR_CLI_FLAGS="--standalone=false --ssr=false" # SSR can be added later by running other schematics (e.g. Spartacus installation schematics with its flag --ssr).
+        echo "Angular CLI version >= 17.0.0, so applying extra flags to the command 'ng new': ${EXTRA_ANGULAR_CLI_FLAGS}"
+    fi
+
+    ( cd ${INSTALLATION_DIR} && \
+        ng new ${1} \
+            --style scss \
+            --no-routing \
+            ${EXTRA_ANGULAR_CLI_FLAGS}
+    )
 }
 
 function add_b2b {
@@ -372,8 +385,14 @@ function build_ssr {
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app build (No port defined)"
     else
+        local buildCommands
         printh "Building ssr app"
-        ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && npm run build && npm run build:ssr )
+        if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
+            buildCommands="npm run build"
+        else 
+            buildCommands="npm run build && npm run build:ssr"
+        fi
+       ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && eval $buildCommands )
     fi
 }
 
@@ -381,8 +400,14 @@ function build_ssr_pwa {
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with PWA app build (No port defined)"
     else
+        local buildCommands
         printh "Building ssr app with PWA"
-        ( cd ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME} && npm run build && npm run build:ssr )
+        if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
+            buildCommands="npm run build"
+        else 
+            buildCommands="npm run build && npm run build:ssr"
+        fi
+       ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && eval $buildCommands )
     fi
 }
 
@@ -392,17 +417,23 @@ function start_csr_unix {
     else
         build_csr
         printh "Starting csr app"
-        pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/ --single -p ${CSR_PORT}
+        pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT}
     fi
 }
 
 function start_ssr_unix {
-     if [ -z "${SSR_PORT}" ]; then
+    if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app start (no port defined)"
     else
+        local serverFileName
         build_ssr
         printh "Starting ssr app"
-        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/main.js )
+        if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
+            serverFileName=server.mjs
+        else
+            serverFileName=main.js
+        fi
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
     fi
 }
 
@@ -412,7 +443,13 @@ function start_ssr_pwa_unix {
     else
         build_ssr_pwa
         printh "Starting ssr app (with pwa support)"
-        ( cd ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME} && export PORT=${SSR_PWA_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_PWA_APP_NAME}-${SSR_PWA_PORT}" dist/${SSR_PWA_APP_NAME}/server/main.js )
+        local serverFileName
+        if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
+            serverFileName=server.mjs
+        else
+            serverFileName=main.js
+        fi
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
     fi
 }
 
@@ -885,4 +922,64 @@ function remove_npm_token {
         echo 'removing NPM_TOKEN value from config.default.sh'
         sed -i'' -e 's/NPM_TOKEN=.*/NPM_TOKEN=/g' config.default.sh
     fi
+}
+
+
+# Compares 2 given semver strings
+# Returns -1, when $1 < $2
+#          1, when $1 > $2
+#          0, when $1 = $2
+#
+# It takes into account hierarchical nature of semver, having 3 parts: major.minor.patch
+#
+# Note: It ignores delimiters like ~ or ^, if given as part of the version string.
+function compareSemver() {
+    # Remove delimiters like ~ or ^
+    local version1=$(echo "$1" | tr -d '^~')
+    local version2=$(echo "$2" | tr -d '^~')
+    
+    # Split the version numbers into major, minor, and patch
+    version1=(${version1//./ })
+    version2=(${version2//./ })
+
+    # If a part is missing, consider it as 0
+    for i in {0..2}; do
+        if [[ -z ${version1[i]} ]]; then
+            version1[i]=0
+        fi
+        if [[ -z ${version2[i]} ]]; then
+            version2[i]=0
+        fi
+    done
+
+    # Compare major versions
+    if (( version1[0] > version2[0] )); then
+        echo 1
+        return
+    elif (( version1[0] < version2[0] )); then
+        echo -1
+        return
+    fi
+
+    # If major versions are equal, compare minor versions
+    if (( version1[1] > version2[1] )); then
+        echo 1
+        return
+    elif (( version1[1] < version2[1] )); then
+        echo -1
+        return
+    fi
+
+    # If minor versions are equal, compare patch versions
+    if (( version1[2] > version2[2] )); then
+        echo 1
+        return
+    elif (( version1[2] < version2[2] )); then
+        echo -1
+        return
+    fi
+
+    # If all parts are equal, the versions are equal
+    echo 0
+    return
 }

@@ -1,4 +1,5 @@
 /*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -19,7 +20,7 @@ import {
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
@@ -33,6 +34,8 @@ export class UpdateEmailComponentService {
   ) {}
 
   protected busy$ = new BehaviorSubject(false);
+
+  updateSucceed$ = new Subject();
 
   isUpdating$ = this.busy$.pipe(
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
@@ -82,6 +85,8 @@ export class UpdateEmailComponentService {
     );
     this.busy$.next(false);
     this.form.reset();
+    this.updateSucceed$.next(true);
+
     // sets the redirect url after login
     this.authRedirectService.setRedirectUrl(
       this.routingService.getUrl({ cxRoute: 'home' })
@@ -101,5 +106,6 @@ export class UpdateEmailComponentService {
 
   protected onError(_error: Error): void {
     this.busy$.next(false);
+    this.updateSucceed$.next(false);
   }
 }

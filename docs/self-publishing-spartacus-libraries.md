@@ -112,39 +112,39 @@ This procedure can be used to create a fresh application.
 
 ## Upgrading an Existing Spartacus App
 
-Before upgrading your Spartacus app to version 6.0, you first need to make sure your Angular libraries are up to date. Spartacus 6.0 requires Angular 15.
+Before upgrading your Spartacus app to newer version, you first need to make sure your Angular libraries are up to date in relation to Spartacus version. For example, Spartacus 6.0 requires Angular 15.
 
 ### Upgrading Your Angular Libraries
 
-When upgrading your Angular libraries to version 15, you might have to append the `--force` flag if you encounter a mismatch between peer dependencies during the migration. The following is an example command that upgrades Angular to version 15.
+When upgrading your Angular libraries (e.g. to version 15), you might have to append the `--force` flag if you encounter a mismatch between peer dependencies during the migration. The following is an example command that upgrades Angular to version 15.
 
 ```bash
 ng update @angular/cli@15 --force
 ```
 
-Afterwards, you need to upgrade third party dependencies to the version that is compatible with Angular 15, such as `ngx-infinite-scroll`, `@ng-select/ng-select` or `@ngrx/store`.
+Afterwards, you need to upgrade third party dependencies to the version that is compatible with specific Angular version, such as `ngx-infinite-scroll`, `@ng-select/ng-select` or `@ngrx/store`.
 
-For more information, see the official [Angular Update Guide](https://update.angular.io/).
+For more information, see the official [Angular Update Guide](https://update.angular.io/) and documentation of those specific libraries, to learn which of their versions are compatible with which Angular major versions.
 
-### Upgrading Your Spartacus App to 6.0
+### Upgrading Your Spartacus App
 
-Spartacus 6.0 includes many new features and fixes. Since this update is a major release, some of the updates may also be breaking changes for your application. In this case, additional work on your side may be required to fix issues that result from upgrading from 5.2 to 6.0.
+New Spartacus major includes many new features and fixes. Since this update is a major release, some of the updates may also be breaking changes for your application. In this case, additional work on your side may be required to fix issues that result from upgrading from current minor version to the next major version.
 
-**Note:** You must start with a version 5.2 composable storefront app to be able to update to version 6.0.
+**Note:** You must start with a version a latest minor version of composable storefront app to be able to update to it's relevant next major. For example, you must start from v5.2 to upgrade to v6.0.
 
 **Note:** In the following procedure, Verdaccio is used as an example of registry software, but you can use any proxy registry software that is similar to npm. These steps assume that your proxy registry is already running in a terminal window. For more information about using Verdaccio or another registry software, see the [Prerequisites](#prerequisites) section, above.
 
-1. To update your Spartacus app to version 6.0, run the following command in the workspace of your Angular application:
+1. To update your Spartacus app to a new major version, for instance 6.0, run the following command in the workspace of your Angular application:
 
     ```bash
     ng update @spartacus/schematics@6.0.0
     ```
 
-1. Follow the onscreen instructions that appear after running the command.
-1. When the update has finished running, you can exit the proxy registry.
+2. Follow the onscreen instructions that appear after running the command.
+3. When the update has finished running, you can exit the proxy registry.
 
     If you are using Verdaccio, you can end the script by selecting `Exit`. Do not force-close the script; doing so will prevent cleanup from running, and as a result, the script may not run correctly in the future.
-1. Inspect your code for comments that begin with `// TODO:Spartacus`. For detailed information about each added comment, see the following:
+4. Inspect your code for comments that begin with `// TODO:Spartacus`. For detailed information about each added comment, see the following:
 
    - [Typescript Breaking Changes in Composable Storefront 6.0](https://help.sap.com/doc/typescript-breaking-changes-in-composable-storefront-60/6.0/en-US/typescript-changes-version-6.html)
    - [Technical Changes in Composable Storefront 6.0](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/10a8bc7f635b4e3db6f6bb7880e58a7d/93ffb557d3c14922bda14dfc8b4250b4.html?locale=en-US&version=6.0#loio93ffb557d3c14922bda14dfc8b4250b4)
@@ -154,7 +154,7 @@ Spartacus 6.0 includes many new features and fixes. Since this update is a major
 
     **Note:** The process might also downgrade some dependencies (namely RxJS), because Spartacus does not yet support the newer version.
 
-1. Start the application.
+5. Start the application.
 
     You should now be running with the latest libraries installed. You can open `node_modules` and check the `@spartacus` libraries that were installed.
 

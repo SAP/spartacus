@@ -13,12 +13,9 @@ import {
   CheckoutAuthGuard,
 } from '@spartacus/checkout/base/components';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import {
-  AddressFormModule,
-  CardModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
+import { AddressFormModule } from '@spartacus/user/profile/components';
 
 @NgModule({
   imports: [

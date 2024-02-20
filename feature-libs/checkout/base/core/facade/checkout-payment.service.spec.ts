@@ -1,9 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import {
-  ActiveCartFacade,
-  CardType,
-  PaymentDetails,
-} from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
@@ -11,8 +7,10 @@ import {
   CheckoutState,
 } from '@spartacus/checkout/base/root';
 import {
+  CardType,
   EventService,
   OCC_USER_ID_CURRENT,
+  PaymentDetails,
   QueryState,
   UserIdService,
 } from '@spartacus/core';

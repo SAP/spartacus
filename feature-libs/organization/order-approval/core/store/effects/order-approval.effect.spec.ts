@@ -3,11 +3,16 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
-import { OrderApprovalConnector } from '../../connectors/order-approval.connector';
+import {
+  LoggerService,
+  OccConfig,
+  SearchConfig,
+  normalizeHttpError,
+} from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
+import { OrderApprovalConnector } from '../../connectors/order-approval.connector';
 import {
   OrderApproval,
   OrderApprovalDecision,
@@ -25,7 +30,7 @@ const httpErrorResponse = new HttpErrorResponse({
   statusText: 'Unknown error',
   url: '/xxx',
 });
-const error = normalizeHttpError(httpErrorResponse);
+
 const orderApprovalCode = 'testCode';
 const userId = 'testUser';
 const orderApproval: OrderApproval = {
@@ -47,6 +52,16 @@ class MockOrderApprovalConnector {
   );
   makeDecision = createSpy().and.returnValue(of(orderApprovalDecision));
 }
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('OrderApproval Effects', () => {
   let actions$: Observable<OrderApprovalActions.OrderApprovalAction>;
@@ -84,6 +99,7 @@ describe('OrderApproval Effects', () => {
           useClass: MockOrderApprovalConnector,
         },
         { provide: OccConfig, useValue: mockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.OrderApprovalEffects,
         provideMockActions(() => actions$),
       ],
@@ -115,7 +131,7 @@ describe('OrderApproval Effects', () => {
 
     it('should return LoadOrderApprovalFail action if orderApproval not updated', () => {
       orderApprovalConnector.get = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrderApprovalActions.LoadOrderApproval({
         userId,
@@ -163,7 +179,7 @@ describe('OrderApproval Effects', () => {
 
     it('should return LoadOrderApprovalsFail action if orderApprovals not loaded', () => {
       orderApprovalConnector.getList = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrderApprovalActions.LoadOrderApprovals({
         userId,
@@ -213,7 +229,7 @@ describe('OrderApproval Effects', () => {
     it('should return MakeDecisionFail action if decision not created', () => {
       orderApprovalConnector.makeDecision = createSpy(
         'makeDecision'
-      ).and.returnValue(throwError(httpErrorResponse));
+      ).and.returnValue(throwError(() => httpErrorResponse));
       const action = new OrderApprovalActions.MakeDecision({
         userId,
         orderApprovalCode,

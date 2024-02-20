@@ -6,19 +6,14 @@
 
 import { AbstractType, Injectable, Injector } from '@angular/core';
 import {
-  ConnectableObservable,
   EMPTY,
-  isObservable,
   Observable,
+  ReplaySubject,
+  connectable,
+  isObservable,
   throwError,
 } from 'rxjs';
-import {
-  delay,
-  map,
-  publishReplay,
-  shareReplay,
-  switchMap,
-} from 'rxjs/operators';
+import { delay, map, shareReplay, switchMap } from 'rxjs/operators';
 import { FeatureModulesService } from '../feature-modules.service';
 import { FacadeDescriptor } from './facade-descriptor';
 
@@ -47,7 +42,7 @@ export class FacadeFactoryService {
   ): Observable<T> {
     if (!this.featureModules.isConfigured(feature)) {
       return throwError(
-        new Error(`Feature ${feature} is not configured properly`)
+        () => new Error(`Feature ${feature} is not configured properly`)
       );
     }
 
@@ -77,11 +72,14 @@ export class FacadeFactoryService {
     method: string,
     args: unknown[]
   ): Observable<unknown> {
-    const callResult$ = resolver$.pipe(
-      map((service) => service[method](...args)),
-      publishReplay()
+    const callResult$ = connectable(
+      resolver$.pipe(map((service) => service[method](...args))),
+      {
+        connector: () => new ReplaySubject(),
+        resetOnDisconnect: false,
+      }
     );
-    (callResult$ as ConnectableObservable<any>).connect();
+    callResult$.connect();
 
     return callResult$.pipe(
       switchMap((result) => {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { userRegistration } from './user-registration.i18n';
+import userRegistration from './userRegistration.json';
 
 export const en = {
   userRegistration,

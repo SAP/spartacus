@@ -60,9 +60,8 @@ Just copy paste the following and and make sure to rename `TODO:` to you lib's n
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
-      require('karma-parallel'),
       require('karma-jasmine'),
       require('karma-coverage'),
       require('karma-chrome-launcher'),
@@ -70,12 +69,8 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-junit-reporter'),
     ],
-    parallelOptions: {
-      executors: 2,
-      shardStrategy: 'round-robin',
-    },
     client: {
-      clearContext: false, // leave Jasmine Spec Runner output visible in browser
+      clearContext: true, // close Jasmine Spec Runner output in browser to avoid 'Some of your tests did a full page reload!' error when '--no-watch' is active
     },
     reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     junitReporter: {
@@ -220,7 +215,7 @@ Use the following template:
   "peerDependencies": {
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
-    "rxjs": "^6.6.0",
+    "rxjs": "^7.8.0",
     "@spartacus/core": "3.0.0-next.0",
     "@spartacus/storefront": "3.0.0-next.0"
   }
@@ -267,8 +262,8 @@ Use the following template:
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "forceConsistentCasingInFileNames": true,
-    "target": "es2020",
-    "module": "es2020",
+    "target": "es2022",
+    "module": "es2022",
     "moduleResolution": "node",
     "declaration": true,
     "declarationMap": true,
@@ -297,15 +292,15 @@ Use the following template:
 }
 ```
 
-- `tsconfig.spec.json` - add `"target": "es2020", "module": "es2020"` in `"compilerOptions"`:
+- `tsconfig.spec.json` - add `"target": "es2022", "module": "es2022"` in `"compilerOptions"`:
 
 ```json
 {
   /* ... */
   "compilerOptions": {
     /* ... */
-    "target": "es2020",
-    "module": "es2020"
+    "target": "es2022",
+    "module": "es2022"
   }
 }
 ```

@@ -6,11 +6,12 @@
 
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { MediaSourcesPipe } from './media-sources.pipe';
 import { MediaComponent } from './media.component';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [MediaComponent],
+  declarations: [MediaComponent, MediaSourcesPipe],
   exports: [MediaComponent],
 })
 export class MediaModule {

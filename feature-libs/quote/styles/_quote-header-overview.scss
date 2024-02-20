@@ -1,0 +1,140 @@
+@import '@spartacus/styles/scss/components/misc/card/_card';
+
+%cx-quote-header-overview {
+  &:not(:empty) {
+    .cx-container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 15px 0;
+      gap: 1rem;
+
+      @include media-breakpoint-down(md) {
+        max-width: 100%;
+      }
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+      }
+
+      .cx-summary-card {
+        position: relative;
+        flex: 1;
+        padding-inline-start: 15px;
+        padding-inline-end: 15px;
+        border: 1px solid var(--cx-color-medium);
+        border-radius: var(--cx-border-radius, 1rem);
+
+        @include media-breakpoint-down(md) {
+          flex: 1;
+        }
+
+        @include media-breakpoint-down(sm) {
+          flex: 1;
+          background-color: var(--cx-color-inverse);
+          border-width: 1px;
+          border-style: solid;
+          border-color: var(--cx-color-light);
+          margin: 0.625rem 0;
+        }
+
+        .cx-edit-btn {
+          position: absolute;
+          top: 18px;
+          right: 10px;
+          min-height: 5px;
+          min-width: 5px;
+          padding: 2px;
+        }
+
+        .cx-card-title {
+          font-weight: var(--cx-font-weight-bold);
+        }
+
+        .cx-card-paragraph-text {
+          font-weight: var(--cx-font-weight-bold);
+        }
+
+        .cx-card-description {
+          max-width: 100%;
+          word-break: break-word;
+        }
+
+        .cx-card-paragraph {
+          padding-inline-start: 0;
+        }
+
+        @extend %cx-card !optional;
+      }
+    }
+
+    .cx-ghost-heading {
+      padding-block-start: 4rem;
+
+      .cx-ghost-column {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        width: 40%;
+        gap: 1rem;
+        padding-block-end: 1rem;
+
+        .cx-ghost-header,
+        .cx-ghost-status {
+          @include cx-ghost-bar();
+        }
+
+        .cx-ghost-header {
+          width: 50%;
+        }
+
+        .cx-ghost-status {
+          width: 80%;
+        }
+      }
+    }
+
+    .cx-ghost-cards {
+      .cx-ghost-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-block-end: 1rem;
+
+        @include media-breakpoint-up(md) {
+          padding-block-end: 4rem;
+        }
+
+        @include media-breakpoint-down(sm) {
+          flex-direction: column;
+        }
+
+        .cx-ghost-card {
+          min-width: 180px;
+          min-height: 150px;
+          background-color: var(--cx-color-ghost);
+
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
+
+          @include media-breakpoint-up(md) {
+            width: 30%;
+          }
+        }
+      }
+    }
+  }
+}
+
+html[dir='rtl'] cx-quote-header-overview {
+  .cx-container {
+    .cx-summary-card {
+      .cx-edit-btn {
+        margin-inline-end: 1rem;
+        margin-inline-start: 0;
+      }
+    }
+  }
+}

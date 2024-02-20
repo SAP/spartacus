@@ -6,7 +6,7 @@ import {
   CommonConfigurator,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, NEVER, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -107,13 +107,6 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
 
     it('should create component', () => {
       expect(component).toBeDefined();
-    });
-
-    it('should support obsolete observable that we keep until next major for compatibility reasons', (done) => {
-      component.config$.subscribe((config) => {
-        expect(config.configId).toBe(configId);
-        done();
-      });
     });
 
     it('should open filter modal on request', () => {

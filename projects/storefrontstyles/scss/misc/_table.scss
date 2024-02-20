@@ -19,13 +19,13 @@
   }
 
   tr {
-    border-top: 1px solid var(--cx-color-light);
+    border-top: 1px solid var(--cx-color-medium);
     padding: 1.25rem 0;
   }
 
   th {
     vertical-align: bottom;
-    text-transform: uppercase;
+    text-transform: capitalize;
     text-align: center;
     color: var(--cx-color-secondary);
     font-weight: var(--cx-font-weight-bold);

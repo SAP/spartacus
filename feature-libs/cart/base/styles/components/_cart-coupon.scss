@@ -6,10 +6,7 @@
 
   @include media-breakpoint-down(md) {
     padding-top: 2rem;
-
-    @include forVersion(6.1) {
-      padding-inline-start: 0;
-    }
+    padding-inline-start: 0;
   }
 
   @include media-breakpoint-down(sm) {

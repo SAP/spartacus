@@ -7,20 +7,15 @@
   margin: 0;
 
   .cx-summary-heading {
-    text-transform: uppercase;
-    @include type('4');
+    text-transform: capitalize;
+    @include type('3');
     font-weight: var(--cx-font-weight-semi);
-  }
+    border-bottom: 1px solid var(--cx-color-medium);
+    padding-bottom: 1.625rem;
 
-  @include forVersion(6.3) {
-    .cx-summary-heading {
-      border-bottom: 1px solid var(--cx-color-medium);
-      padding-bottom: 2.188rem;
-
-      @include media-breakpoint-down(md) {
-        margin-bottom: 0.438rem;
-        padding-bottom: 0.938rem;
-      }
+    @include media-breakpoint-down(md) {
+      margin-bottom: 0.438rem;
+      padding-bottom: 0.938rem;
     }
   }
 

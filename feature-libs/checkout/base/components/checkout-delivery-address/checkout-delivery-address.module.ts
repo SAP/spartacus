@@ -14,14 +14,11 @@ import {
   provideDefaultConfig,
   FeaturesConfigModule,
 } from '@spartacus/core';
-import {
-  AddressFormModule,
-  CardModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
+import { AddressFormModule } from '@spartacus/user/profile/components';
 
 @NgModule({
   imports: [

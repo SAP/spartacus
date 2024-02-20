@@ -22,6 +22,7 @@ import { CommonConfiguratorTestUtilsService } from '../../../common/testing/comm
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import {
   ATTRIBUTE_1_CHECKBOX,
   CONFIGURATOR_ROUTE,
@@ -30,16 +31,15 @@ import {
   GROUP_ID_4,
   GROUP_ID_5,
   GROUP_ID_7,
+  PRODUCT_CODE,
   mockRouterState,
   productConfiguration,
   productConfigurationWithConflicts,
-  PRODUCT_CODE,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;
@@ -1655,20 +1655,18 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
   });
 
-  describe('isConflictGroupTypeAllowingUndefined', () => {
+  describe('isConflictGroupType', () => {
     it('should know conflict group ', () => {
       isConflictGroupType = true;
       expect(
-        component.isConflictGroupTypeAllowingUndefined(
+        component.isConflictGroupType(
           Configurator.GroupType.CONFLICT_HEADER_GROUP
         )
       ).toBe(true);
     });
 
     it('should return false for undefined input', () => {
-      expect(component.isConflictGroupTypeAllowingUndefined(undefined)).toBe(
-        false
-      );
+      expect(component.isConflictGroupType(undefined)).toBe(false);
     });
   });
 });

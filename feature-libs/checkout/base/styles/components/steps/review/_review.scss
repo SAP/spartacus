@@ -16,14 +16,10 @@
 
   .cx-review-summary {
     margin: 0;
-    background-color: var(--cx-color-background);
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-
-    @include forVersion(6.3) {
-      background-color: var(--cx-color-inverse);
-    }
+    background-color: var(--cx-color-inverse);
 
     @include media-breakpoint-up(lg) {
       margin-top: 1.5rem;
@@ -31,13 +27,8 @@
 
     @include media-breakpoint-down(sm) {
       flex-direction: column;
-      padding: 20px;
-    }
-
-    @include forVersion(6.3) {
-      @include media-breakpoint-down(sm) {
-        padding: 0;
-      }
+      padding: 0;
+      margin-top: 32px;
     }
 
     &-wrapper {
@@ -60,35 +51,23 @@
       margin: 30px;
       background-color: theme-color('inverse');
       width: 45%;
-      border: 1px solid var(--cx-color-light);
+      flex-grow: 1;
+      border: 1px solid var(--cx-color-medium);
       border-radius: 10px;
-
-      @include forVersion(6.3) {
-        flex-grow: 1;
-        border: 1px solid var(--cx-color-medium);
-      }
 
       @include media-breakpoint-up(md) {
         &:first-child {
           margin-top: 30px;
-          margin-inline-start: 25px;
+          margin-inline-start: 0px;
           margin-bottom: 40px;
           margin-inline-end: 15px;
-
-          @include forVersion(6.3) {
-            margin-inline-start: 0px;
-          }
         }
 
         &:last-child {
           margin-top: 30px;
           margin-inline-start: 15px;
           margin-bottom: 40px;
-          margin-inline-end: 25px;
-
-          @include forVersion(6.3) {
-            margin-inline-end: 0px;
-          }
+          margin-inline-end: 0px;
         }
       }
 
@@ -103,13 +82,9 @@
 
     .cx-review-summary-card-container {
       width: 45%;
-      border: 1px solid var(--cx-color-light);
+      border: 1px solid var(--cx-color-medium);
       border-radius: 10px;
       flex-grow: 1;
-
-      @include forVersion(6.3) {
-        border: 1px solid var(--cx-color-medium);
-      }
 
       @include media-breakpoint-up(md) {
         &:first-child {

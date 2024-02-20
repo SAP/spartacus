@@ -10,12 +10,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  asmFeatureModulePath,
   ASM_FEATURE_NAME,
-  LibraryOptions as SpartacusAsmOptions,
-  SpartacusOptions,
   SPARTACUS_ASM,
   SPARTACUS_SCHEMATICS,
+  LibraryOptions as SpartacusAsmOptions,
+  SpartacusOptions,
+  asmFeatureModulePath,
   userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -45,6 +45,7 @@ describe('Spartacus Asm schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

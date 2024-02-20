@@ -1,0 +1,99 @@
+<div
+  #dialog
+  class="cx-modal-container"
+  [cxFocus]="focusConfig"
+  (esc)="dismissModal('Escape clicked')"
+  role="dialog"
+  aria-modal="true"
+>
+  <div
+    class="cx-modal-content"
+    *ngIf="confirmationContext$ | async as confirmationContext"
+  >
+    <!-- Modal Header -->
+    <div class="cx-dialog-header modal-header">
+      <div class="cx-dialog-title modal-title">
+        {{
+          confirmationContext.title
+            | cxTranslate: { code: confirmationContext.quote.code }
+        }}
+      </div>
+      <button
+        type="button"
+        class="close"
+        [attr.aria-label]="confirmationContext.a11y.close | cxTranslate"
+        (click)="dismissModal('Cross click')"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <div class="cx-content-container">
+        <div class="cx-name">
+          <div class="cx-heading">
+            {{ 'quote.confirmDialog.name' | cxTranslate }}
+          </div>
+          <div class="cx-content">
+            {{ confirmationContext.quote.name }}
+          </div>
+        </div>
+        <div
+          class="cx-description"
+          *ngIf="confirmationContext.quote.description"
+        >
+          <div class="cx-heading">
+            {{ 'quote.confirmDialog.description' | cxTranslate }}
+          </div>
+          <div class="cx-content">
+            {{ confirmationContext.quote.description }}
+          </div>
+        </div>
+      </div>
+      <div class="cx-notes-container">
+        <p *ngIf="confirmationContext.warningNote">
+          {{ confirmationContext.warningNote | cxTranslate }}
+        </p>
+        <p
+          *ngIf="
+            confirmationContext.validity &&
+            confirmationContext.quote.expirationTime
+          "
+        >
+          {{
+            confirmationContext.validity
+              | cxTranslate
+                : {
+                    expirationTime:
+                      confirmationContext.quote.expirationTime | cxDate
+                  }
+          }}
+        </p>
+        <p>
+          {{ confirmationContext.confirmNote | cxTranslate }}
+        </p>
+      </div>
+      <div class="cx-buttons-container">
+        <button class="btn btn-secondary" (click)="dismissModal('no')">
+          {{ 'quote.confirmDialog.option.no' | cxTranslate }}
+        </button>
+        <button class="btn btn-primary" (click)="dismissModal('yes')">
+          {{ 'quote.confirmDialog.option.yes' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- For screen reader purposes (not visual)-->
+    <div
+      class="cx-visually-hidden"
+      aria-live="polite"
+      role="alert"
+      aria-atomic="true"
+    >
+      {{ getA11yModalText(confirmationContext) }}
+    </div>
+  </div>
+</div>

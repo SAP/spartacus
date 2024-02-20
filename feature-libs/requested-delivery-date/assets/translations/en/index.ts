@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { requestedDeliveryDate } from './requested-delivery-date';
+import requestedDeliveryDate from './requestedDeliveryDate.json';
 
 export const en = {
   requestedDeliveryDate,

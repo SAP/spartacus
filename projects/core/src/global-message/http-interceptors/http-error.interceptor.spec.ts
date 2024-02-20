@@ -105,7 +105,7 @@ describe('HttpErrorInterceptor', () => {
       it('should call handleError for ' + handlerClass.name, function () {
         http
           .get('/123')
-          .pipe(catchError((error: any) => throwError(error)))
+          .pipe(catchError((error: any) => throwError(() => error)))
           .subscribe({
             error: (error) => (this.error = error),
           });
@@ -147,7 +147,7 @@ describe('HttpErrorInterceptor', () => {
 
         http
           .get('/validation-error')
-          .pipe(catchError((error: any) => throwError(error)))
+          .pipe(catchError((error: any) => throwError(() => error)))
           .subscribe({
             error: (error) => ({
               if(this) {
@@ -172,7 +172,7 @@ describe('HttpErrorInterceptor', () => {
         spyOn(console, 'warn');
         http
           .get('/unknown')
-          .pipe(catchError((error: any) => throwError(error)))
+          .pipe(catchError((error: any) => throwError(() => error)))
           .subscribe({
             error: (error) => ({
               if(this) {

@@ -5,9 +5,9 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { LoggerService } from '@spartacus/core';
 import { formatWithOptions } from 'util';
+import { REQUEST } from '../../tokens/express.tokens';
 import { EXPRESS_SERVER_LOGGER } from '../loggers';
 
 /**

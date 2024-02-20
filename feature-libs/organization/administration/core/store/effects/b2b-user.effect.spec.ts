@@ -6,11 +6,12 @@ import { StoreModule } from '@ngrx/store';
 import {
   AuthActions,
   B2BUser,
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
   RoutingService,
   SearchConfig,
   UserIdService,
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
   OrganizationActions,
@@ -37,7 +38,7 @@ const httpErrorResponse = new HttpErrorResponse({
   statusText: 'Unknown error',
   url: '/xxx',
 });
-const error = normalizeHttpError(httpErrorResponse);
+
 const userId = 'testUser';
 const orgCustomerId = 'orgCustomerId';
 
@@ -83,6 +84,14 @@ const mockCurrentUser = {
   customerId: orgCustomerId,
   displayUid: 'newemail@test.test',
 };
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
 class MockRoutingService {
   go = createSpy('go').and.stub();
@@ -133,6 +142,8 @@ class MockUserIdService implements Partial<UserIdService> {
   getUserId = createSpy().and.returnValue(of('current'));
 }
 
+const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+
 describe('B2B User Effects', () => {
   let actions$: Observable<B2BUserActions.B2BUserAction>;
   let b2bUserConnector: B2BUserConnector;
@@ -172,6 +183,7 @@ describe('B2B User Effects', () => {
         provideMockActions(() => actions$),
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: UserIdService, useClass: MockUserIdService },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
@@ -194,7 +206,7 @@ describe('B2B User Effects', () => {
 
     it('should return LoadB2BUserFail action if user not loaded', () => {
       b2bUserConnector.get = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new B2BUserActions.LoadB2BUser({ userId, orgCustomerId });
       const completion = new B2BUserActions.LoadB2BUserFail({
@@ -226,7 +238,7 @@ describe('B2B User Effects', () => {
 
     it('should return LoadB2BUsersFail action if B2B Users not loaded', () => {
       b2bUserConnector.getList = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new B2BUserActions.LoadB2BUsers({ userId, params });
       const completion = new B2BUserActions.LoadB2BUsersFail({ error, params });
@@ -264,7 +276,7 @@ describe('B2B User Effects', () => {
 
     it('should return LoadB2BUserUserGroupsFail action if B2BUser UserGroup not loaded', () => {
       b2bUserConnector.getUserGroups = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new B2BUserActions.LoadB2BUserUserGroups({
         userId,
@@ -309,7 +321,7 @@ describe('B2B User Effects', () => {
 
     it('should return CreateB2BUserFail action if user not created', () => {
       b2bUserConnector.create = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new B2BUserActions.CreateB2BUser({ userId, orgCustomer });
       const completion1 = new B2BUserActions.CreateB2BUserFail({
@@ -348,7 +360,7 @@ describe('B2B User Effects', () => {
 
     it('should return UpdateB2BUserFail action if user not updated', () => {
       b2bUserConnector.update = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new B2BUserActions.UpdateB2BUser({
         userId,
@@ -419,7 +431,7 @@ describe('B2B User Effects', () => {
 
     it('should return LoadB2BUserApproversFail action if approvers not loaded', () => {
       b2bUserConnector.getApprovers = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new B2BUserActions.LoadB2BUserApprovers({
         userId,
@@ -471,7 +483,7 @@ describe('B2B User Effects', () => {
 
     it('should return LoadB2BUserApproversFail action if Permissions not loaded', () => {
       b2bUserConnector.getPermissions = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new B2BUserActions.LoadB2BUserPermissions({
         userId,
@@ -519,7 +531,7 @@ describe('B2B User Effects', () => {
 
     it('should return AssignB2BUserApproverFail action if approver not assigned', () => {
       b2bUserConnector.assignApprover = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new B2BUserActions.AssignB2BUserApprover({
         userId,
@@ -568,7 +580,7 @@ describe('B2B User Effects', () => {
 
     it('should return UnassignB2BUserApproverFail action if approver not unassigned', () => {
       b2bUserConnector.unassignApprover = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new B2BUserActions.UnassignB2BUserApprover({
         userId,
@@ -618,7 +630,7 @@ describe('B2B User Effects', () => {
 
     it('should return AssignB2BUserPermissionFail action if permission not assigned', () => {
       b2bUserConnector.assignPermission = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new B2BUserActions.AssignB2BUserPermission({
         userId,
@@ -668,7 +680,7 @@ describe('B2B User Effects', () => {
 
     it('should return UnassignB2BUserPermissionFail action if permission not unassigned', () => {
       b2bUserConnector.unassignPermission = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new B2BUserActions.UnassignB2BUserPermission({
         userId,
@@ -718,7 +730,7 @@ describe('B2B User Effects', () => {
 
     it('should return AssignB2BUserUserGroupFail action if UserGroup was not assigned', () => {
       b2bUserConnector.assignUserGroup = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new B2BUserActions.AssignB2BUserUserGroup({
         userId,
@@ -768,7 +780,7 @@ describe('B2B User Effects', () => {
 
     it('should return UnassignB2BUserUserGroupFail action if UserGroup was not unassigned', () => {
       b2bUserConnector.unassignUserGroup = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new B2BUserActions.UnassignB2BUserUserGroup({
         userId,

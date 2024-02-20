@@ -1,0 +1,28 @@
+%cx-quote-summary-prices {
+  &:not(:empty) {
+    .cx-price-heading {
+      @include type('4');
+      padding-block-end: 20px;
+    }
+
+    .cx-price-footer {
+      font-style: italic;
+      font-size: var(--cx-font-size, 0.85rem);
+      font-weight: var(--cx-font-weight-normal);
+    }
+
+    .cx-price-row {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+    }
+
+    .cx-price-savings {
+      color: var(--cx-color-success);
+    }
+
+    .cx-price-total {
+      font-weight: var(--cx-font-weight-bold);
+    }
+  }
+}

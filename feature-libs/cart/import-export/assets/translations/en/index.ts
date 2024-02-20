@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { importExport } from './import-export.i18n';
+import importExport from './importExport.json';
 
 export const en = {
   importExport,

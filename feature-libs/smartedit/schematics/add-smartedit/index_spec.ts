@@ -10,12 +10,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  smartEditFeatureModulePath,
   SMARTEDIT_FEATURE_NAME,
-  SpartacusOptions,
-  SpartacusSmartEditOptions,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_SMARTEDIT,
+  SpartacusOptions,
+  SpartacusSmartEditOptions,
+  smartEditFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -43,6 +43,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

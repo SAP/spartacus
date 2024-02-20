@@ -1,0 +1,25 @@
+<ng-container *ngIf="quoteDetails$ | async as quoteDetails">
+  <section>
+    <ul>
+      <li>
+        <a
+          [attr.aria-label]="'quote.links.a11y.newCart' | cxTranslate"
+          (click)="goToNewCart()"
+          class="link cx-action-link"
+          tabindex="0"
+        >
+          {{ 'quote.links.newCart' | cxTranslate }}
+        </a>
+      </li>
+      <li>
+        <a
+          [attr.aria-label]="'quote.links.a11y.quotes' | cxTranslate"
+          [routerLink]="{ cxRoute: 'quotes' } | cxUrl"
+          class="link cx-action-link"
+        >
+          {{ 'quote.links.quotes' | cxTranslate }}
+        </a>
+      </li>
+    </ul>
+  </section>
+</ng-container>

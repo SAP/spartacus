@@ -103,7 +103,9 @@ export class ConfiguratorCommonsService {
           owner
         );
       }
-      case CommonConfigurator.OwnerType.ORDER_ENTRY: {
+      case CommonConfigurator.OwnerType.ORDER_ENTRY:
+      case CommonConfigurator.OwnerType.QUOTE_ENTRY:
+      case CommonConfigurator.OwnerType.SAVED_CART_ENTRY: {
         return this.configuratorCartService.readConfigurationForOrderEntry(
           owner
         );

@@ -89,7 +89,7 @@ export class CDCRegisterComponentService extends RegisterComponentService {
    */
   register(user: UserSignUp): Observable<User> {
     if (!user.firstName || !user.lastName || !user.uid || !user.password) {
-      return throwError(`The provided user is not valid: ${user}`);
+      return throwError(() => `The provided user is not valid: ${user}`);
     }
     /** fill the user preferences */
     user.preferences = this.generatePreferencesObject();

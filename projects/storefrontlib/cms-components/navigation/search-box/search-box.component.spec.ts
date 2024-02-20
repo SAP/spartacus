@@ -11,7 +11,7 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, ReplaySubject } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
@@ -112,6 +112,9 @@ describe('SearchBoxComponent', () => {
   class SearchBoxComponentServiceSpy
     implements Partial<SearchBoxComponentService>
   {
+    chosenWord = new ReplaySubject<string>();
+    sharedEvent = new ReplaySubject<KeyboardEvent>();
+
     launchSearchPage = jasmine.createSpy('launchSearchPage');
     getResults = jasmine.createSpy('search').and.callFake(() =>
       of(<SearchResults>{

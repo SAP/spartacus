@@ -108,7 +108,7 @@ describe('CdcLoginComponentService', () => {
     it('should handle a failed request through CDC SDK', () => {
       cdcJsService.didLoad = createSpy().and.returnValue(of(true));
       (cdcJsService.loginUserWithoutScreenSet as jasmine.Spy).and.returnValue(
-        throwError('test error: such email does not exist!')
+        throwError(() => 'test error: such email does not exist!')
       );
       cdcLoginService.login();
       expect(cdcLoginService['busy$'].value).toBe(false);

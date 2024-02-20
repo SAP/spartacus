@@ -13,9 +13,15 @@ import {
   ProfileTagPushEventsService,
   TrackingModule,
 } from './profiletag';
+import { RecentSearchesModule } from './recent-searches/recent-searches.module';
 
 @NgModule({
-  imports: [ProfileTagModule, TrackingModule, MerchandisingModule],
+  imports: [
+    ProfileTagModule,
+    TrackingModule,
+    MerchandisingModule,
+    RecentSearchesModule,
+  ],
 })
 export class CdsModule {
   static forRoot(config?: CdsConfig): ModuleWithProviders<CdsModule> {

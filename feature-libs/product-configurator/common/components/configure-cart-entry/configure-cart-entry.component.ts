@@ -4,9 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { Params } from '@angular/router';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import {
+  AbstractOrderKey,
+  AbstractOrderType,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
+
+import { AbstractOrderContext } from '@spartacus/cart/base/components';
+import { Observable, of } from 'rxjs';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
@@ -21,6 +33,14 @@ export class ConfigureCartEntryComponent {
   @Input() msgBanner: boolean;
   @Input() disabled: boolean;
 
+  abstractOrderContext = inject(AbstractOrderContext, { optional: true });
+
+  // we default to active cart as owner in case no context is provided
+  // in this case no id of abstract order is needed
+  abstractOrderKey$: Observable<AbstractOrderKey> = this.abstractOrderContext
+    ? this.abstractOrderContext.key$
+    : of({ type: AbstractOrderType.CART });
+
   /**
    * Verifies whether the entry has any issues.
    *
@@ -31,6 +51,7 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
+   * @deprecated Use retrieveOwnerTypeFromAbstractOrderType instead
    * Verifies whether the cart entry has an order code and returns a corresponding owner type.
    *
    * @returns - an owner type
@@ -42,6 +63,31 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
+   * Retrieves owner for an abstract order type
+   *
+   * @returns - an owner type
+   */
+  retrieveOwnerTypeFromAbstractOrderType(
+    abstractOrderKey: AbstractOrderKey
+  ): CommonConfigurator.OwnerType {
+    switch (abstractOrderKey.type) {
+      case AbstractOrderType.ORDER: {
+        return CommonConfigurator.OwnerType.ORDER_ENTRY;
+      }
+      case AbstractOrderType.QUOTE: {
+        return CommonConfigurator.OwnerType.QUOTE_ENTRY;
+      }
+      case AbstractOrderType.SAVED_CART: {
+        return CommonConfigurator.OwnerType.SAVED_CART_ENTRY;
+      }
+      default: {
+        return CommonConfigurator.OwnerType.CART_ENTRY;
+      }
+    }
+  }
+
+  /**
+   * @deprecated Use retrieveEntityKey instead
    * Verifies whether the cart entry has an order code, retrieves a composed owner ID
    * and concatenates a corresponding entry number.
    *
@@ -56,6 +102,25 @@ export class ConfigureCartEntryComponent {
     return this.cartEntry.orderCode
       ? this.commonConfigUtilsService.getComposedOwnerId(
           this.cartEntry.orderCode,
+          entryNumber
+        )
+      : entryNumber.toString();
+  }
+
+  /**
+   * Verifies whether the cart entry has an order code, retrieves a composed owner ID
+   * and concatenates a corresponding entry number.
+   *
+   * @returns - an entry key
+   */
+  retrieveEntityKey(abstractOrderKey: AbstractOrderKey): string {
+    const entryNumber = this.cartEntry.entryNumber;
+    if (entryNumber === undefined) {
+      throw new Error('No entryNumber present in entry');
+    }
+    return abstractOrderKey.type !== AbstractOrderType.CART
+      ? this.commonConfigUtilsService.getComposedOwnerId(
+          abstractOrderKey.id,
           entryNumber
         )
       : entryNumber.toString();

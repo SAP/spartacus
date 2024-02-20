@@ -88,6 +88,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   isStable(): Observable<boolean> {
     return of(true);
   }
+
   addEntries(_cartEntries: OrderEntry[]): void {}
 }
 

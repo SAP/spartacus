@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { pdfInvoices } from './pdf-invoices';
+import pdfInvoices from './pdfInvoices.json';
 
 export const en = {
   pdfInvoices,

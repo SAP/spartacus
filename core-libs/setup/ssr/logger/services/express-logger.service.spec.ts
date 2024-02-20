@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { Request } from 'express';
+import { REQUEST } from '../../tokens/express.tokens';
 import { EXPRESS_SERVER_LOGGER, ExpressServerLogger } from '../loggers';
 import { ExpressLoggerService } from './express-logger.service';
 

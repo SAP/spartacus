@@ -159,7 +159,6 @@ export class ConfiguratorTextfieldEffects {
         (action: ConfiguratorTextfieldActions.ReadOrderEntryConfiguration) => {
           const parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
             action.payload;
-
           return this.configuratorTextfieldConnector
             .readConfigurationForOrderEntry(parameters)
             .pipe(
