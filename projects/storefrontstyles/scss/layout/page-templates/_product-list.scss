@@ -20,7 +20,6 @@
     @include media-breakpoint-only(xs) {
       padding-top: 35px;
     }
-    
   }
   .ProductListSlot,
   .ProductGridSlot {
@@ -35,7 +34,6 @@
       @include media-breakpoint-only(xs) {
         padding-top: 0;
       }
-  }
-
+    }
   }
 }

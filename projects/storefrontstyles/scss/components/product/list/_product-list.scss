@@ -37,12 +37,18 @@
       padding: 25px 0 0px 0;
     }
 
-    .col-auto {
-      @include media-breakpoint-only(xs) {
-        padding: 0;
+    @include media-breakpoint-only(xs) {
+      .row {
+        .col-auto:first-of-type {
+          padding-right: 0;
+          padding-left: 10px;
+        }
+        .col-auto:last-of-type {
+          padding-right: 10px;
+          padding-left: 0;
+        }
       }
     }
-
   }
 
   .cx-pagination {
@@ -58,6 +64,11 @@
     height: 48px;
     align-items: center;
     display: flex;
+    @include media-breakpoint-only(xs) {
+      display: unset;
+      height: 80px;
+    }
+
     span {
       margin-inline-end: 0.5rem;
       flex: none;

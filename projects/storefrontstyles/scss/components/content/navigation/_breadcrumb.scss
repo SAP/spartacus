@@ -25,7 +25,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
     text-transform: capitalize;
     @include media-breakpoint-only(xs) {
       white-space: wrap;
-      @include type("4");
+      @include type('4');
     }
   }
 
