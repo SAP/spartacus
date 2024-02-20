@@ -155,7 +155,7 @@ export class AppServerModule {}
 `;
 
 exports[`add-ssr app.module.ts should be updated 1`] = `
-"import { HttpClientModule } from "@angular/common/http";
+"import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
 import { NgModule } from '@angular/core';
 import { BrowserModule,  } from '@angular/platform-browser';
 import { EffectsModule } from "@ngrx/effects";
@@ -170,14 +170,12 @@ import { SpartacusModule } from './spartacus/spartacus.module';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
     StoreModule.forRoot({}),
+    AppRoutingModule,
     EffectsModule.forRoot([]),
     SpartacusModule
   ],
-  providers: [
-  ],
+  providers: [provideHttpClient(withFetch(), withInterceptorsFromDi()),],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
