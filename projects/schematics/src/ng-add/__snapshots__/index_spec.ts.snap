@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 1`] = `
-"import { HttpClientModule } from "@angular/common/http";
+"import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
 import { NgModule } from '@angular/core';
 import { BrowserModule,  } from '@angular/platform-browser';
 import { EffectsModule } from "@ngrx/effects";
@@ -16,14 +16,12 @@ import { SpartacusModule } from './spartacus/spartacus.module';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
     StoreModule.forRoot({}),
+    AppRoutingModule,
     EffectsModule.forRoot([]),
     SpartacusModule
   ],
-  providers: [
-  ],
+  providers: [provideHttpClient(withFetch(), withInterceptorsFromDi()),],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
@@ -61,11 +59,11 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "@ngrx/effects": "^17.0.1",
     "@ngrx/router-store": "^17.0.1",
     "@ngrx/store": "^17.0.1",
-    "@spartacus/assets": "~2211.19.0-3",
-    "@spartacus/core": "~2211.19.0-3",
-    "@spartacus/setup": "~2211.19.0-3",
-    "@spartacus/storefront": "~2211.19.0-3",
-    "@spartacus/styles": "~2211.19.0-3",
+    "@spartacus/assets": "~2211.19.0",
+    "@spartacus/core": "~2211.19.0",
+    "@spartacus/setup": "~2211.19.0",
+    "@spartacus/storefront": "~2211.19.0",
+    "@spartacus/styles": "~2211.19.0",
     "angular-oauth2-oidc": "^17.0.1",
     "bootstrap": "^4.6.2",
     "express": "^4.18.2",
@@ -80,17 +78,23 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.0.5",
+    "@angular-devkit/core": "^17.0.5",
+    "@angular-devkit/schematics": "^17.0.5",
     "@angular/cli": "^0.5.0",
+    "@angular/compiler": "^17.0.5",
     "@angular/compiler-cli": "^17.0.0",
+    "@schematics/angular": "^17.0.5",
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
     "jasmine-core": "~5.1.0",
+    "jsonc-parser": "^3.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "parse5": "^7.1.2",
     "typescript": "~5.2.2"
   }
 }"

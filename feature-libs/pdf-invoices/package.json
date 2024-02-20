@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/pdf-invoices",
-  "version": "2211.19.0-3",
+  "version": "2211.19.0",
   "description": "Invoices library for Spartacus",
   "keywords": [
     "spartacus",
@@ -29,10 +29,10 @@
     "@angular/common": "^17.0.5",
     "@angular/core": "^17.0.5",
     "@angular/forms": "^17.0.5",
-    "@spartacus/core": "2211.19.0-3",
-    "@spartacus/schematics": "2211.19.0-3",
-    "@spartacus/storefront": "2211.19.0-3",
-    "@spartacus/styles": "2211.19.0-3",
+    "@spartacus/core": "2211.19.0",
+    "@spartacus/schematics": "2211.19.0",
+    "@spartacus/storefront": "2211.19.0",
+    "@spartacus/styles": "2211.19.0",
     "rxjs": "^7.8.0"
   },
   "publishConfig": {
