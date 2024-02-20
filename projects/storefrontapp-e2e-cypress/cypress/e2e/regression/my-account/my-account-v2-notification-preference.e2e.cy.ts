@@ -15,9 +15,9 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
-describe('My Account V2 Notification preference', () => {
+describe('My Account V2 Notification preference (CXSPA-4468)', () => {
   viewportContext(['mobile'], () => {
-    describe('Logged in user', () => {
+    describe('Logged in user (CXSPA-4468)', () => {
       before(() => {
         clearAllStorage();
         registerAndLogin();
@@ -30,7 +30,7 @@ describe('My Account V2 Notification preference', () => {
   });
 
   viewportContext(['mobile', 'desktop'], () => {
-    describe('Anonymous user', () => {
+    describe('Anonymous user (CXSPA-4468)', () => {
       before(() => {
         clearAllStorage();
       });
@@ -41,7 +41,7 @@ describe('My Account V2 Notification preference', () => {
       });
     });
 
-    describe('Logged in user', () => {
+    describe('Logged in user (CXSPA-4468)', () => {
       before(() => {
         clearAllStorage();
         registerAndLogin();
