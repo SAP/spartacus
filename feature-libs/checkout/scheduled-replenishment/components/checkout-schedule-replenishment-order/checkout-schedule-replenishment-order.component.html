@@ -1,8 +1,12 @@
 <div class="cx-order-type-card">
   <div class="cx-label-container">
-    <h5 class="cx-order-replenishment-header">
+    <!-- TODO: (CXSPA-6306) - Remove feature flag next major release -->
+    <h3 *cxFeatureLevel="'6.8'" class="cx-order-replenishment-header">
       {{ 'checkoutScheduledReplenishment.autoReplenishOrder' | cxTranslate }}
-    </h5>
+    </h3>
+    <h3 *cxFeatureLevel="'!6.8'" class="cx-order-replenishment-header">
+      {{ 'checkoutScheduledReplenishment.autoReplenishOrder' | cxTranslate }}
+    </h3>
     <cx-icon [type]="iconTypes.CLOCK"></cx-icon>
   </div>
   <div
