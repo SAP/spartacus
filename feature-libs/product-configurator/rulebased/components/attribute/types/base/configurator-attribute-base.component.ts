@@ -196,6 +196,28 @@ export class ConfiguratorAttributeBaseComponent {
       : 'configurator.a11y.valueOfAttributeFull';
   }
 
+  /**
+   * Retrieves the styling classes for the image element.
+   *
+   * @param attribute
+   * @param value
+   * @param styleClass
+   * @return - corresponding style classes for the image element
+   */
+  getImgStyleClasses(
+    attribute: Configurator.Attribute,
+    value: Configurator.Value,
+    styleClass: string
+  ): string {
+    if (!this.isReadOnly(attribute)) {
+      styleClass += ' cx-img-hover';
+      if (value.selected) {
+        styleClass += ' cx-img-selected';
+      }
+    }
+    return styleClass;
+  }
+
   protected getValuePrice(value: Configurator.Value | undefined): string {
     if (value?.valuePrice?.value && !value.selected) {
       if (value.valuePrice.value < 0) {

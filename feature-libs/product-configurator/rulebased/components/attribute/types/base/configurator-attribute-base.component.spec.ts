@@ -155,6 +155,66 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
   });
 
+  describe('getImgStyleClasses', () => {
+    const imgStyleClass = 'cx-img';
+    const hoverClass = imgStyleClass + ' cx-img-hover';
+    const selectedClasses = hoverClass + ' cx-img-selected';
+
+    it('should return passed image style class without adding further classes if attribute is READ_ONLY_MULTI_SELECTION_IMAGE', () => {
+      currentAttribute.uiType =
+        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      const value: Configurator.Value = { valueCode: 'val', selected: false };
+
+      expect(
+        classUnderTest.getImgStyleClasses(
+          currentAttribute,
+          value,
+          imgStyleClass
+        )
+      ).toEqual(imgStyleClass);
+    });
+
+    it('should return passed image style class without adding further classes if attribute is READ_ONLY_SINGLE_SELECTION_IMAGE', () => {
+      currentAttribute.uiType =
+        Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+      const value: Configurator.Value = { valueCode: 'val', selected: false };
+
+      expect(
+        classUnderTest.getImgStyleClasses(
+          currentAttribute,
+          value,
+          imgStyleClass
+        )
+      ).toEqual(imgStyleClass);
+    });
+
+    it('should append cx-img-hover style class if attribute is not read-only UI type', () => {
+      currentAttribute.uiType = Configurator.UiType.DROPDOWN;
+      const value: Configurator.Value = { valueCode: 'val', selected: false };
+
+      expect(
+        classUnderTest.getImgStyleClasses(
+          currentAttribute,
+          value,
+          imgStyleClass
+        )
+      ).toEqual(hoverClass);
+    });
+
+    it('should append cx-img-selected style class if attribute is not read-only UI type and value is selected', () => {
+      currentAttribute.uiType = Configurator.UiType.RADIOBUTTON;
+      const value: Configurator.Value = { valueCode: 'val', selected: true };
+
+      expect(
+        classUnderTest.getImgStyleClasses(
+          currentAttribute,
+          value,
+          imgStyleClass
+        )
+      ).toEqual(selectedClasses);
+    });
+  });
+
   it('should generate focus id for attribute value', () => {
     expect(classUnderTest.createFocusId('attrCode', 'valueCode')).toBe(
       'attrCode--valueCode--focus'
