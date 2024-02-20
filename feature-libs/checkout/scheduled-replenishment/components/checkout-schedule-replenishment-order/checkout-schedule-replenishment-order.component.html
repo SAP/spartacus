@@ -120,11 +120,16 @@
     </div>
 
     <div class="cx-replenishment-form-data-container">
-      <span class="form-data-label">{{
+      <!-- TODO: (CXSPA-6306) - Remove feature flag next major release -->
+      <label *cxFeatureLevel="'6.8'" for="datepicker" class="form-data-label">{{
+        'checkoutScheduledReplenishment.startOn' | cxTranslate
+      }}</label>
+      <span *cxFeatureLevel="'!6.8'" class="form-data-label">{{
         'checkoutScheduledReplenishment.startOn' | cxTranslate
       }}</span>
       <div class="cx-replenishment-date">
         <input
+          id="datepicker"
           type="date"
           placeholder="yyyy-mm-dd"
           [value]="currentDate"
