@@ -125,27 +125,19 @@ export class ConfiguratorStorefrontUtilsService {
    * Focus the first attribute in the form.
    */
   focusFirstAttribute(): void {
-    if (!this.windowRef.isBrowser()) {
-      return;
-    }
-    const form = this.getElement('cx-configurator-form');
-    if (form) {
-      const focusableElements: HTMLElement[] =
-        this.keyboardFocusService.findFocusable(form);
-      if (focusableElements && focusableElements.length > 0) {
-        focusableElements[0].focus();
-      }
-    }
+    this.focusFirstActiveElement('cx-configurator-form');
   }
 
   /**
-   * Focus the active element in the tab-bar.
+   * Focus the first active element inside the given host element
+   *
+   * @param hostQuerySelector - query selector of the host element
    */
-  focusActiveTabBarElement(): void {
+  focusFirstActiveElement(hostQuerySelector: string) {
     if (!this.windowRef.isBrowser()) {
       return;
     }
-    const tabBar = this.getElement('cx-configurator-tab-bar');
+    const tabBar = this.getElement(hostQuerySelector);
     if (tabBar) {
       const focusableElements: HTMLElement[] =
         this.keyboardFocusService.findFocusable(tabBar);

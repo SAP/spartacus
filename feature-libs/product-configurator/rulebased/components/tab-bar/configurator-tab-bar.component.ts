@@ -118,7 +118,7 @@ export class ConfiguratorTabBarComponent {
         delay(0) //we need to consider the re-rendering of the page
       )
       .subscribe(() => {
-        this.configUtils.focusActiveTabBarElement();
+        this.configUtils.focusFirstActiveElement('cx-configurator-tab-bar');
       });
   }
 
@@ -140,7 +140,7 @@ export class ConfiguratorTabBarComponent {
         delay(0) //we need to consider the re-rendering of the page
       )
       .subscribe(() => {
-        this.configUtils.focusActiveTabBarElement();
+        this.configUtils.focusFirstActiveElement('cx-configurator-tab-bar');
       });
   }
 

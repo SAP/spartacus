@@ -159,7 +159,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         delay(0) //we need to consider the re-rendering of the page
       )
       .subscribe(() => {
-        this.configUtils.focusActiveTabBarElement();
+        this.configUtils.focusFirstActiveElement('cx-configurator-tab-bar');
       });
   }
 
