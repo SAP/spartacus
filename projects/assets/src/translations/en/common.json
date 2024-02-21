@@ -212,6 +212,9 @@
     "informationLabel": "{{author}}. {{text}} at {{date}}",
     "messages": "Messages",
     "addMessagePlaceHolder": "Start Typing...",
-    "characterLimitAlert": "Characters limit reached."
+    "characterLimitAlert": "Characters limit reached.",
+    "a11y": {
+      "itemListBoxLabel": "Select the item to which the message should apply."
+    }
   }
 }

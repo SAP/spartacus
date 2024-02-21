@@ -37,6 +37,17 @@ export function clickContinueToCartBtnOnOP(): void {
 }
 
 /**
+ * Clicks on 'Close' on the product overview page and expects the quote details page to appear
+ */
+export function clickContinueToCartBtnOnOPAndExpectQuote(): void {
+  cy.get(continueToCartButtonSelector)
+    .click()
+    .then(() => {
+      cy.get('cx-quote-header-overview').should('be.visible');
+    });
+}
+
+/**
  * Waits for the notification banner to display the correct number of issues
  *
  * @param {number} numberOfIssues - Expected number of issues

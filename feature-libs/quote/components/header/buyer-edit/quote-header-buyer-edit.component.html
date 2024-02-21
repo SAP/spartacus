@@ -1,0 +1,106 @@
+<div *ngIf="content" class="cx-card">
+  <!-- Card Body -->
+  <div class="card-body cx-card-body cx-card-edit">
+    <!-- Card title -->
+    <span class="cx-card-title">
+      {{ 'quote.header.overview.information' | cxTranslate }}
+    </span>
+    <!-- Card Content -->
+    <div class="cx-card-container">
+      <!-- Card Label -->
+      <div class="cx-card-label-container">
+        <form [formGroup]="editForm">
+          <div class="cx-card-paragraph">
+            <div
+              class="cx-card-paragraph-title"
+              id="cx-quote-header-buyer-edit-name"
+            >
+              {{ 'quote.header.overview.name' | cxTranslate }}
+            </div>
+            <div class="form-group">
+              <input
+                aria-labelledby="cx-quote-header-buyer-edit-name"
+                class="form-control"
+                [maxLength]="content.charactersLimit"
+                type="text"
+                name="name"
+                formControlName="name"
+              />
+              <ng-container
+                *ngTemplateOutlet="
+                  showInfoText;
+                  context: {
+                    formControlName: 'name',
+                    charactersLimit: content.charactersLimit
+                  }
+                "
+              >
+              </ng-container>
+            </div>
+          </div>
+          <div class="cx-card-paragraph">
+            <div
+              class="cx-card-paragraph-title"
+              id="cx-quote-header-buyer-edit-description"
+            >
+              {{ 'quote.header.overview.description' | cxTranslate }}
+            </div>
+            <div class="form-group">
+              <textarea
+                aria-labelledby="cx-quote-header-buyer-edit-description"
+                class="form-control"
+                [maxLength]="content.charactersLimit"
+                rows="4"
+                name="description"
+                formControlName="description"
+              ></textarea>
+              <ng-container
+                *ngTemplateOutlet="
+                  showInfoText;
+                  context: {
+                    formControlName: 'description',
+                    charactersLimit: content.charactersLimit
+                  }
+                "
+              >
+              </ng-container>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Edit Mode Actions -->
+    <div class="cx-card-button-container">
+      <button
+        [attr.aria-label]="'quote.header.buyerEdit.a11y.cancel' | cxTranslate"
+        class="btn btn-tertiary"
+        (click)="cancel()"
+      >
+        {{ 'common.cancel' | cxTranslate }}
+      </button>
+      <button
+        [attr.aria-label]="'quote.header.buyerEdit.a11y.save' | cxTranslate"
+        class="btn btn-block btn-secondary"
+        (click)="save()"
+      >
+        {{ 'common.save' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template
+  #showInfoText
+  let-formControlName="formControlName"
+  let-charactersLimit="charactersLimit"
+>
+  <p *ngIf="charactersLimit" class="cx-info-text">
+    {{
+      'quote.header.overview.charactersLeft'
+        | cxTranslate
+          : {
+              count: getCharactersLeft(formControlName, charactersLimit)
+            }
+    }}
+  </p>
+</ng-template>
