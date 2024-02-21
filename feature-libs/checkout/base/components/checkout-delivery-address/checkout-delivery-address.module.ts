@@ -8,17 +8,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CartValidationGuard } from '@spartacus/cart/base/core';
-import {
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-  FeaturesConfigModule,
-} from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
+import { AddressFormModule } from '@spartacus/user/profile/components';
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
-import { AddressFormModule } from '@spartacus/user/profile/components';
 
 @NgModule({
   imports: [
@@ -28,7 +23,6 @@ import { AddressFormModule } from '@spartacus/user/profile/components';
     CardModule,
     SpinnerModule,
     I18nModule,
-    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
