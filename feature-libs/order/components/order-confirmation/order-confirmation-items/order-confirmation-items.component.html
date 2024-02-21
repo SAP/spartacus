@@ -1,4 +1,5 @@
 <div class="cx-order-items container" *ngIf="order$ | async as order">
+  <!-- TODO: (CXSPA-6313) - Remove feature flag next major release -->
   <h3 *cxFeatureLevel="'6.8'" class="cx-order-items-header">
     {{ 'checkoutOrderConfirmation.orderItems' | cxTranslate }}
   </h3>
