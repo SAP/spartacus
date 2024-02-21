@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -82,7 +82,7 @@ describe('ConfigAttributeFooterComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [FeaturesConfigModule, I18nTestingModule, IconModule],
+        imports: [I18nTestingModule, IconModule],
         declarations: [
           ConfiguratorAttributeFooterComponent,
           MockFeatureLevelDirective,
