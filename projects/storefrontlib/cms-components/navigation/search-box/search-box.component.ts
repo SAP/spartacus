@@ -28,6 +28,7 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
+import { SearchBoxOutlets } from './search-box-outlets.model';
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,
@@ -36,6 +37,8 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   maxProducts: 5,
   maxSuggestions: 5,
   displayProductImages: true,
+  recentSearches: true,
+  maxRecentSearches: 5,
 };
 const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
 
@@ -45,6 +48,7 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
+  readonly searchBoxOutlets = SearchBoxOutlets;
   @Input() config: SearchBoxConfig;
 
   /**
@@ -59,13 +63,17 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   iconTypes = ICON_TYPE;
 
+  searchBoxActive: boolean = false;
+
   /**
    * In some occasions we need to ignore the close event,
    * for example when we click inside the search result section.
    */
   private ignoreCloseEvent = false;
+
   chosenWord = '';
-  public subscription: Subscription;
+
+  protected subscriptions = new Subscription();
 
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
@@ -107,7 +115,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
-    this.subscription = this.routingService
+    const routeStateSubscription = this.routingService
       .getRouterState()
       .pipe(filter((data) => !data.nextState))
       .subscribe((data) => {
@@ -120,6 +128,24 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           this.chosenWord = '';
         }
       });
+
+    this.subscriptions.add(routeStateSubscription);
+
+    const chosenWordSubscription =
+      this.searchBoxComponentService.chosenWord.subscribe((chosenWord) => {
+        this.updateChosenWord(chosenWord);
+      });
+
+    this.subscriptions.add(chosenWordSubscription);
+
+    const UIEventSubscription =
+      this.searchBoxComponentService.sharedEvent.subscribe(
+        (event: KeyboardEvent) => {
+          this.propagateEvent(event);
+        }
+      );
+
+    this.subscriptions.add(UIEventSubscription);
   }
 
   /**
@@ -136,6 +162,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    */
   open(): void {
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
+    this.searchBoxActive = true;
   }
 
   /**
@@ -170,6 +197,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   protected blurSearchBox(event: UIEvent): void {
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
+    this.searchBoxActive = false;
     if (event && event.target) {
       (<HTMLElement>event.target).blur();
     }
@@ -199,7 +227,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   private getResultElements(): HTMLElement[] {
     return Array.from(
       this.winRef.document.querySelectorAll(
-        '.products > li a, .suggestions > li a'
+        '.products > li a, .suggestions > li a, .recent-searches > li a'
       )
     );
   }
@@ -215,6 +243,27 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   private getFocusedIndex(): number {
     return this.getResultElements().indexOf(this.getFocusedElement());
+  }
+
+  private propagateEvent(event: KeyboardEvent) {
+    if (event.code) {
+      switch (event.code) {
+        case 'Escape':
+        case 'Enter':
+          this.close(event, true);
+          return;
+        case 'ArrowUp':
+          this.focusPreviousChild(event);
+          return;
+        case 'ArrowDown':
+          this.focusNextChild(event);
+          return;
+        default:
+          return;
+      }
+    } else if (event.type === 'blur') {
+      this.close(event);
+    }
   }
 
   // Focus on previous item in results list
@@ -293,6 +342,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.subscriptions?.unsubscribe();
   }
 }

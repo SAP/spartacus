@@ -67,6 +67,10 @@
         </h2>
         <div class="cx-list-item">
           <ng-template
+            [cxAbstractOrderContext]="{
+              id: order.code,
+              type: abstractOrderType.ORDER
+            }"
             [cxOutlet]="CartOutlets.CART_ITEM_LIST"
             [cxOutletContext]="{
               items: deliveryUnConsignedEntries,
@@ -89,6 +93,10 @@
         </h2>
         <div class="cx-list-item">
           <ng-template
+            [cxAbstractOrderContext]="{
+              id: order.code,
+              type: abstractOrderType.ORDER
+            }"
             [cxOutlet]="CartOutlets.CART_ITEM_LIST"
             [cxOutletContext]="{
               items: pickupUnconsignedEntries,

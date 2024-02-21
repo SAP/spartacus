@@ -18,7 +18,7 @@ export const newPassword = 'newPassword123!';
 import { signOutUser } from '../helpers/login';
 import { generateMail, randomString } from '../helpers/user';
 
-export function testUpdatePassword() {
+export function testUpdatePassword(myAccountV2?: boolean) {
   it('should update the password with success', () => {
     alerts.getSuccessAlert().should('not.exist');
     cy.get('[formcontrolname="oldPassword"]').type(
@@ -26,7 +26,11 @@ export function testUpdatePassword() {
     );
     cy.get('[formcontrolname="newPassword"]').type(newPassword);
     cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
-    cy.get('cx-update-password button.btn-primary').click();
+    if (myAccountV2) {
+      cy.get('cx-my-account-v2-password button.btn-primary').click();
+    } else {
+      cy.get('cx-update-password button.btn-primary').click();
+    }
     cy.title().should('eq', PAGE_TITLE_LOGIN);
     alerts.getSuccessAlert().should('exist');
     cy.url().should('contain', '/login');
@@ -36,7 +40,7 @@ export function testUpdatePassword() {
   });
 }
 
-export function testUpdatePasswordLoggedInUser() {
+export function testUpdatePasswordLoggedInUser(myAccountV2?: boolean) {
   describe('update password test for logged in user', () => {
     before(() => {
       standardUser.registrationData.email = generateMail(randomString(), true);
@@ -51,7 +55,7 @@ export function testUpdatePasswordLoggedInUser() {
       });
     });
 
-    testUpdatePassword();
+    testUpdatePassword(myAccountV2);
 
     afterEach(() => {
       cy.saveLocalStorage();

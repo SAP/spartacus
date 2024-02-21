@@ -1,0 +1,84 @@
+<ng-container *ngIf="quoteDetails$ | async as quoteDetails; else ghostDetails">
+  <div
+    role="region"
+    tabindex="-1"
+    [attr.aria-label]="'quote.header.overview.regionTitle' | cxTranslate"
+  >
+    <div class="cx-header-container">
+      <h2 class="cx-header">
+        {{ 'quote.header.overview.id' | cxTranslate }}:
+        {{ quoteDetails.code }}
+      </h2>
+      <h2 class="cx-status">
+        {{ 'quote.header.overview.status' | cxTranslate }}:
+        {{ 'quote.states.' + quoteDetails.state | cxTranslate }}
+      </h2>
+    </div>
+    <div class="cx-container">
+      <div class="cx-summary-card">
+        <ng-container *ngIf="!editMode">
+          <cx-card
+            [content]="
+              getQuoteInformation(quoteDetails.name, quoteDetails.description)
+                | async
+            "
+            [truncateParagraphText]="true"
+            [charactersLimit]="getCharactersLimitForCardTile()"
+          ></cx-card>
+          <button
+            [attr.aria-label]="'quote.header.overview.a11y.edit' | cxTranslate"
+            *ngIf="isQuoteEditableForBuyer(quoteDetails)"
+            class="link cx-action-link cx-edit-btn"
+            (click)="toggleEditMode()"
+          >
+            <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+          </button>
+        </ng-container>
+        <cx-quote-header-buyer-edit
+          *ngIf="editMode"
+          [content]="
+            getEditQuoteInformation(quoteDetails.name, quoteDetails.description)
+          "
+          (saveCard)="save(quoteDetails, $event)"
+          (cancelCard)="cancel()"
+        ></cx-quote-header-buyer-edit>
+      </div>
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="
+            getEstimatedTotalAndExpiryDate(
+              quoteDetails,
+              quoteDetails.expirationTime | cxDate
+            ) | async
+          "
+        ></cx-card>
+      </div>
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="
+            getCreatedAndUpdatedDates(
+              quoteDetails.creationTime | cxDate,
+              quoteDetails.updatedTime | cxDate
+            ) | async
+          "
+        ></cx-card>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #ghostDetails>
+  <div class="cx-ghost-heading">
+    <div class="cx-ghost-column">
+      <div class="cx-ghost-header ghost"></div>
+      <div class="cx-ghost-status ghost"></div>
+    </div>
+  </div>
+  <div class="cx-ghost-cards">
+    <div class="cx-ghost-row">
+      <ng-container *ngFor="let number of [0, 1, 2]">
+        <div class="cx-ghost-card ghost"></div>
+      </ng-container>
+    </div>
+  </div>
+</ng-template>
