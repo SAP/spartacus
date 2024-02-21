@@ -28,6 +28,41 @@ export class QuoteFeatureModule { }
 "
 `;
 
+exports[`Spartacus Quote schematics: ng-add Quote feature general setup b2b features should be added for quote library 1`] = `
+"import { NgModule } from '@angular/core';
+import { translationChunksConfig, translations } from "@spartacus/assets";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
+import { defaultB2bOccConfig } from "@spartacus/setup";
+import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
+
+@NgModule({
+  declarations: [],
+  imports: [
+  ],
+  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
+    backend: {
+      occ: {
+        baseUrl: 'https://localhost:9002',
+      }
+    },
+  }), provideConfig(<SiteContextConfig>{
+    context: {},
+  }), provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunksConfig,
+      fallbackLang: 'en'
+    },
+  }), provideConfig(<FeaturesConfig>{
+    features: {
+      level: '2211.20'
+    }
+  }), provideConfig(defaultB2bOccConfig)]
+})
+export class SpartacusConfigurationModule { }
+"
+`;
+
 exports[`Spartacus Quote schematics: ng-add Quote feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
@@ -74,42 +109,6 @@ import { QuoteRootModule, QUOTE_CART_GUARD_FEATURE, QUOTE_FEATURE, QUOTE_REQUEST
 export class QuoteFeatureModule { }
 "
 `;
-
-exports[`Spartacus Quote schematics: ng-add Quote feature general setup b2b features should be added for quote library 1`] = `
-"import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
-import { defaultB2bOccConfig } from "@spartacus/setup";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
-
-@NgModule({
-  declarations: [],
-  imports: [
-  ],
-  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
-    backend: {
-      occ: {
-        baseUrl: 'https://localhost:9002',
-      }
-    },
-  }), provideConfig(<SiteContextConfig>{
-    context: {},
-  }), provideConfig(<I18nConfig>{
-    i18n: {
-      resources: translations,
-      chunks: translationChunksConfig,
-      fallbackLang: 'en'
-    },
-  }), provideConfig(<FeaturesConfig>{
-    features: {
-      level: '2211.19'
-    }
-  }), provideConfig(defaultB2bOccConfig)]
-})
-export class SpartacusConfigurationModule { }
-"
-`;
-
 
 exports[`Spartacus Quote schematics: ng-add Quote feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";

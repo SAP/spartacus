@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/customer-ticketing",
-  "version": "2211.19.0",
+  "version": "2211.20.0-1",
   "description": "Customer-Ticketing library for Spartacus",
   "keywords": [
     "spartacus",
@@ -30,11 +30,11 @@
     "@angular/core": "^17.0.5",
     "@angular/forms": "^17.0.5",
     "@angular/router": "^17.0.5",
-    "@spartacus/cart": "2211.19.0",
-    "@spartacus/core": "2211.19.0",
-    "@spartacus/schematics": "2211.19.0",
-    "@spartacus/storefront": "2211.19.0",
-    "@spartacus/styles": "2211.19.0",
+    "@spartacus/cart": "2211.20.0-1",
+    "@spartacus/core": "2211.20.0-1",
+    "@spartacus/schematics": "2211.20.0-1",
+    "@spartacus/storefront": "2211.20.0-1",
+    "@spartacus/styles": "2211.20.0-1",
     "rxjs": "^7.8.0"
   },
   "publishConfig": {
