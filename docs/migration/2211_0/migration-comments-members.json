@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "apiElementName": "ConfiguratorAttributeFooterComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "needsUserInputMessage",
+    "migrationComment": "Use method needsUserInputMsg instead."
+  },
+  {
+    "apiElementName": "ConfiguratorAttributeHeaderComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "isRequiredAttributeWithDomain",
+    "migrationComment": "Use method isRequiredAttributeWithoutErrorMsg instead."
+  },
+  {
+    "apiElementName": "ConfiguratorAttributeHeaderComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "isAttributeWithDomain",
+    "migrationComment": "A replacement is not available and not needed, since its caller was deleted method `isRequiredAttributeWithDomain`."
+  },
+  {
+    "apiElementName": "ConfiguratorGroupMenuComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "isConflictGroupTypeAllowingUndefined",
+    "migrationComment": "Use method isConflictGroupType instead."
+  },
+  {
+    "apiElementName": "AddressFormComponent",
+    "entryPoint": "@spartacus/storefront",
+    "memberName": "userService",
+    "migrationComment": "Use UserProfileFacade instead."
+  }
+]

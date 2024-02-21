@@ -10,7 +10,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -134,7 +134,6 @@ describe('ConfigAttributeDropDownComponent', () => {
           ReactiveFormsModule,
           NgSelectModule,
           I18nTestingModule,
-          FeaturesConfigModule,
           StoreModule.forRoot({}),
           StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
         ],
