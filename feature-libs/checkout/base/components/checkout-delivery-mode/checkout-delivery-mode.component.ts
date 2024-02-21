@@ -102,7 +102,7 @@ export class CheckoutDeliveryModeComponent {
   ) {}
 
   /**
-   * We capture the kayboard activated option,
+   * We capture the keyboard activated option,
    * then restore the focus to it after the data is updated.
    */
   updateMethod(code: string | undefined, event: Event): void {
