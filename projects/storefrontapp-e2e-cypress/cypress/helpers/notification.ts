@@ -132,9 +132,7 @@ export function updateEmailV2(): String {
 
   navigateToUpdateEmailPage();
 
-  if (Cypress.env('CX_MY_ACCOUNT_V2') === true) {
-    cy.get('.editButton').click();
-  }
+  cy.get('.editButton').click();
 
   cy.get('[formcontrolname="email"]').type(newUid);
   cy.get('[formcontrolname="confirmEmail"]').type(newUid);
