@@ -11,15 +11,25 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core';
+import { RoutingService } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import {} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  map,
+  filter,
+  switchMap,
+  take,
+  tap,
+  delay,
+  distinctUntilKeyChanged,
+} from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-tab-bar',
@@ -51,6 +61,88 @@ export class ConfiguratorTabBarComponent {
         routerData.pageType === ConfiguratorRouter.PageType.OVERVIEW
     )
   );
+
+  /**
+   * Navigates to the overview page and sets the focus on the overview element in the tab-bar.
+   * @param routerData - Router data
+   */
+  navigateToOverview(routerData: ConfiguratorRouter.Data) {
+    this.routingService
+      .go({
+        cxRoute: 'configureOverview' + routerData.owner.configuratorType,
+        params: {
+          entityKey: routerData.owner.id,
+          ownerType: routerData.owner.type,
+        },
+      })
+      .then(() => {
+        this.focusOverviewInTabBar();
+      });
+  }
+
+  /**
+   * Navigates to the configuration page and sets the focus on the configuration element in the tab-bar.
+   * @param routerData - Router data
+   */
+  navigateToConfiguration(routerData: ConfiguratorRouter.Data) {
+    this.routingService
+      .go({
+        cxRoute: 'configure' + routerData.owner.configuratorType,
+        params: {
+          entityKey: routerData.owner.id,
+          ownerType: routerData.owner.type,
+        },
+      })
+      .then(() => {
+        this.focusConfigurationInTabBar();
+      });
+  }
+
+  protected focusOverviewInTabBar(): void {
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getOrCreateConfiguration(
+            routerData.owner
+          )
+        ),
+        distinctUntilKeyChanged('configId'),
+        switchMap((configuration) =>
+          this.configuratorCommonsService.getConfigurationWithOverview(
+            configuration
+          )
+        ),
+        filter((configuration) => configuration.overview != null),
+        take(1),
+        delay(0) //we need to consider the re-rendering of the page
+      )
+      .subscribe(() => {
+        this.configUtils.focusActiveTabBarElement();
+      });
+  }
+
+  protected focusConfigurationInTabBar(): void {
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        filter(
+          (routerData) =>
+            routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
+        ),
+        switchMap((routerData) => {
+          return this.configuratorCommonsService.getOrCreateConfiguration(
+            routerData.owner,
+            routerData.configIdTemplate
+          );
+        }),
+        take(1),
+        delay(0) //we need to consider the re-rendering of the page
+      )
+      .subscribe(() => {
+        this.configUtils.focusActiveTabBarElement();
+      });
+  }
 
   /**
    * Returns the tabindex for the configuration tab.
@@ -100,6 +192,8 @@ export class ConfiguratorTabBarComponent {
 
   constructor(
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected routingService: RoutingService,
+    protected configUtils: ConfiguratorStorefrontUtilsService
   ) {}
 }

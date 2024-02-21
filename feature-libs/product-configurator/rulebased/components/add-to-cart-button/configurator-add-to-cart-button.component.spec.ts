@@ -130,6 +130,14 @@ class MockConfiguratorCommonsService {
     return productConfigurationObservable;
   }
 
+  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
+    return productConfigurationObservable;
+  }
+
+  getConfigurationWithOverview(): Observable<Configurator.Configuration> {
+    return productConfigurationObservable;
+  }
+
   removeConfiguration() {}
 
   removeUiState() {}
@@ -286,7 +294,7 @@ class MockRoutingService {
     return routerStateObservable;
   }
 
-  go() {}
+  go = () => Promise.resolve(true);
 }
 
 class MockConfiguratorAddToCartButtonComponent {

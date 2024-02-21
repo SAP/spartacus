@@ -138,6 +138,23 @@ export class ConfiguratorStorefrontUtilsService {
     }
   }
 
+  /**
+   * Focus the active element in the tab-bar.
+   */
+  focusActiveTabBarElement(): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
+    const tabBar = this.getElement('cx-configurator-tab-bar');
+    if (tabBar) {
+      const focusableElements: HTMLElement[] =
+        this.keyboardFocusService.findFocusable(tabBar);
+      if (focusableElements && focusableElements.length > 0) {
+        focusableElements[0].focus();
+      }
+    }
+  }
+
   protected getFocusableElementById(
     focusableElements: HTMLElement[],
     id?: string

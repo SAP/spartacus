@@ -14,6 +14,8 @@ import {
 import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorStorefrontUtilsService } from '../service';
+import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
@@ -49,6 +51,8 @@ class MockConfiguratorCommonsService {
   }
 }
 
+class MockConfiguratorGroupsService {}
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -77,6 +81,13 @@ describe('ConfigTabBarComponent', () => {
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+          },
+          {
+            provide: ConfiguratorGroupsService,
+            useClass: MockConfiguratorGroupsService,
           },
         ],
       })
