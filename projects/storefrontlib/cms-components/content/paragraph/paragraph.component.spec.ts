@@ -159,7 +159,6 @@ describe('CmsParagraphComponent in CmsLib', () => {
 
     it('should not pass root url to router navigation for internal links ', () => {
       const url = window.location.href + '#001';
-      console.log(url);
       const link = setupLink(url);
       link.click();
 
