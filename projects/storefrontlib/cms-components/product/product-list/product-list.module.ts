@@ -9,7 +9,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -38,7 +37,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
   imports: [
     AtMessageModule,
     CommonModule,
-    FeaturesConfigModule,
     I18nModule,
     IconModule,
     InfiniteScrollModule,

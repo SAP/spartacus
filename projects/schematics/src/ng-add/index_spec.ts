@@ -9,7 +9,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
-import { NGUNIVERSAL_EXPRESS_ENGINE, UTF_8 } from '../shared/constants';
+import { ANGULAR_SSR, UTF_8 } from '../shared/constants';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
 import { getPathResultsForFile } from '../shared/utils/file-utils';
 
@@ -36,6 +36,7 @@ describe('Spartacus Schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const defaultOptions: SpartacusOptions = {
@@ -85,7 +86,7 @@ describe('Spartacus Schematics: ng-add', () => {
     expect(packageJsonBuffer).toBeTruthy();
     const appServerModulePath = getPathResultsForFile(
       tree,
-      'app.server.module.ts',
+      'app.module.server.ts',
       '/src'
     )[0];
     const appServerModuleBuffer = tree.read(appServerModulePath);
@@ -95,7 +96,7 @@ describe('Spartacus Schematics: ng-add', () => {
 
     if (packageJsonBuffer) {
       const packageJSON = JSON.parse(packageJsonBuffer.toString(UTF_8));
-      expect(packageJSON.dependencies[NGUNIVERSAL_EXPRESS_ENGINE]).toBeTruthy();
+      expect(packageJSON.dependencies[ANGULAR_SSR]).toBeTruthy();
       expect(packageJSON.dependencies['@angular/platform-server']).toBeTruthy();
     }
   });
@@ -117,7 +118,7 @@ describe('Spartacus Schematics: ng-add', () => {
     const packageJson = tree.readContent('/package.json');
     expect(packageJson).toMatchSnapshot();
 
-    const appServerModule = tree.readContent('src/app/app.server.module.ts');
+    const appServerModule = tree.readContent('src/app/app.module.server.ts');
     expect(appServerModule).toMatchSnapshot();
   });
 });

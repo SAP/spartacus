@@ -1,0 +1,241 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus Quote schematics: ng-add Quote feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { QuoteModule } from "@spartacus/quote";
+import { quoteTranslationChunksConfig, quoteTranslations } from "@spartacus/quote/assets";
+import { QuoteCartGuardComponentModule } from "@spartacus/quote/components/cart-guard";
+import { QuoteRequestButtonModule } from "@spartacus/quote/components/request-button";
+import { QuoteRootModule } from "@spartacus/quote/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    QuoteRootModule,
+    QuoteModule,
+    QuoteCartGuardComponentModule,
+    QuoteRequestButtonModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: quoteTranslations,
+      chunks: quoteTranslationChunksConfig,
+    },
+  })]
+})
+export class QuoteFeatureModule { }
+"
+`;
+
+exports[`Spartacus Quote schematics: ng-add Quote feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
+import { quoteTranslationChunksConfig, quoteTranslations } from "@spartacus/quote/assets";
+import { QuoteRootModule, QUOTE_CART_GUARD_FEATURE, QUOTE_FEATURE, QUOTE_REQUEST_FEATURE } from "@spartacus/quote/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    QuoteRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [QUOTE_FEATURE]: {
+        module: () =>
+          import('@spartacus/quote').then((m) => m.QuoteModule),
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [QUOTE_CART_GUARD_FEATURE]: {
+        module: () =>
+          import('@spartacus/quote/components/cart-guard').then((m) => m.QuoteCartGuardComponentModule),
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [QUOTE_REQUEST_FEATURE]: {
+        module: () =>
+          import('@spartacus/quote/components/request-button').then((m) => m.QuoteRequestButtonModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: quoteTranslations,
+      chunks: quoteTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class QuoteFeatureModule { }
+"
+`;
+
+exports[`Spartacus Quote schematics: ng-add Quote feature general setup b2b features should be added for quote library 1`] = `
+"import { NgModule } from '@angular/core';
+import { translationChunksConfig, translations } from "@spartacus/assets";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
+import { defaultB2bOccConfig } from "@spartacus/setup";
+import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
+
+@NgModule({
+  declarations: [],
+  imports: [
+  ],
+  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
+    backend: {
+      occ: {
+        baseUrl: 'https://localhost:9002',
+      }
+    },
+  }), provideConfig(<SiteContextConfig>{
+    context: {},
+  }), provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunksConfig,
+      fallbackLang: 'en'
+    },
+  }), provideConfig(<FeaturesConfig>{
+    features: {
+      level: '2211.19'
+    }
+  }), provideConfig(defaultB2bOccConfig)]
+})
+export class SpartacusConfigurationModule { }
+"
+`;
+
+
+exports[`Spartacus Quote schematics: ng-add Quote feature general setup styling should create a proper scss file 1`] = `
+"@import "../../styles-config";
+@import "@spartacus/quote";
+"
+`;
+
+exports[`Spartacus Quote schematics: ng-add Quote feature general setup styling should update angular.json 1`] = `
+"{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "schematics-test": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/schematics-test",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/quote.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ]
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "2.5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "schematics-test:build:production"
+            },
+            "development": {
+              "buildTarget": "schematics-test:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "schematics-test:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/quote.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}"
+`;

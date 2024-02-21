@@ -1,0 +1,120 @@
+%cx-quote-items {
+  @include cx-quote-toggle();
+
+  .cx-ghost-table-header,
+  .cx-ghost-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .cx-ghost-table-header {
+    .cx-ghost-title {
+      width: 100%;
+      @include cx-ghost-bar();
+
+      @include media-breakpoint-up(md) {
+        height: 45px;
+      }
+    }
+  }
+
+  .cx-ghost-table {
+    padding-block-end: 1rem;
+
+    .cx-ghost-row {
+      justify-content: space-between;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--cx-color-light);
+      padding-block-start: 1rem;
+      padding-block-end: 1rem;
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+      }
+
+      .cx-ghost-image,
+      .cx-ghost-info,
+      .cx-ghost-qty,
+      .cx-ghost-total,
+      .cx-ghost-action {
+        background-color: var(--cx-color-ghost);
+      }
+
+      .cx-ghost-image-container {
+        width: 20%;
+        padding: 1rem;
+
+        @include media-breakpoint-down(sm) {
+          padding: 1rem 0;
+        }
+
+        .cx-ghost-image {
+          width: 70%;
+          min-width: 80px;
+          min-height: 80px;
+        }
+      }
+
+      .cx-ghost-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        width: 75%;
+
+        @include media-breakpoint-up(md) {
+          align-items: center;
+        }
+
+        @include media-breakpoint-down(sm) {
+          flex-direction: column;
+          gap: 1rem;
+          padding: 1rem 0;
+          width: 100%;
+        }
+
+        .cx-ghost-info-container {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          width: 25%;
+
+          @include media-breakpoint-down(sm) {
+            width: 80%;
+          }
+
+          .cx-ghost-info {
+            height: 15px;
+          }
+        }
+
+        .cx-ghost-qty {
+          width: 10%;
+          height: 25px;
+
+          @include media-breakpoint-down(sm) {
+            width: 50%;
+          }
+        }
+
+        .cx-ghost-total {
+          width: 25%;
+          height: 35px;
+
+          @include media-breakpoint-down(sm) {
+            width: 60%;
+          }
+        }
+
+        .cx-ghost-action {
+          width: 10%;
+          height: 35px;
+
+          @include media-breakpoint-down(sm) {
+            width: 50%;
+          }
+        }
+      }
+    }
+  }
+}

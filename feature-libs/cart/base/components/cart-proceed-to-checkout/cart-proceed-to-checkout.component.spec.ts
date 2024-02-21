@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { Event, NavigationEnd, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ProgressButtonModule } from '@spartacus/storefront';
@@ -15,7 +15,7 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-let mockRouterEvents$ = new Subject<RouterEvent>();
+let mockRouterEvents$ = new Subject<Event>();
 class MockRouter implements Partial<Router> {
   events = mockRouterEvents$;
   routerState = { snapshot: { root: {} } } as any;

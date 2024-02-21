@@ -4,14 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  Country,
-  FeaturesConfig,
-  FeaturesConfigModule,
-  I18nTestingModule,
-  Region,
-  Title,
-} from '@spartacus/core';
+import { Country, I18nTestingModule, Region, Title } from '@spartacus/core';
 import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import {
   FormErrorsModule,
@@ -131,7 +124,6 @@ describe('UserRegistrationFormComponent', () => {
           I18nTestingModule,
           FormErrorsModule,
           RouterTestingModule,
-          FeaturesConfigModule,
         ],
         declarations: [
           UserRegistrationFormComponent,
@@ -143,13 +135,6 @@ describe('UserRegistrationFormComponent', () => {
           {
             provide: UserRegistrationFormService,
             useClass: MockUserRegistrationFormService,
-          },
-          // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.2' },
-            },
           },
         ],
       });

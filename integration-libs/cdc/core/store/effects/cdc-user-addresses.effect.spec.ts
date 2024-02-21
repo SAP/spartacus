@@ -130,7 +130,7 @@ describe('CDC User Addresses effect', () => {
       };
 
       spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
-        throwError(error)
+        throwError(() => error)
       );
 
       const expected = cold('-#', null, error);
@@ -178,7 +178,7 @@ describe('CDC User Addresses effect', () => {
       const expected = cold('-#', null, error);
 
       spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
-        throwError(error)
+        throwError(() => error)
       );
 
       expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
@@ -224,7 +224,7 @@ describe('CDC User Addresses effect', () => {
       const expected = cold('-#', null, error);
 
       spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
-        throwError(error)
+        throwError(() => error)
       );
 
       expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
@@ -274,7 +274,7 @@ describe('CDC User Addresses effect', () => {
       const expected = cold('-#', null, error);
 
       spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
-        throwError(error)
+        throwError(() => error)
       );
 
       expect(cdcUserAddressesEffect.cdcDeleteUserAddress$).toBeObservable(

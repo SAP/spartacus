@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { UntypedFormControl } from '@angular/forms';
+import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   I18nTestingModule,
@@ -15,6 +17,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE, IntersectionService } from '@spartacus/storefront';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -22,16 +25,15 @@ import { ConfiguratorCartService } from '../../core/facade/configurator-cart.ser
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorQuantityService } from '../../core/services/configurator-quantity.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../service';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { UntypedFormControl } from '@angular/forms';
-import { ConfiguratorQuantityService } from '../../core/services/configurator-quantity.service';
 
 const CART_ENTRY_KEY = '001+1';
 const ORDER_ENTRY_KEY = '001+1';
+const QUOTE_CODE = '003';
+const QUOTE_ENTRY_KEY = QUOTE_CODE + '+1';
 const QUANTITY = 99;
 const QUANTITY_CHANGED = 7;
 
@@ -62,8 +64,6 @@ const navParamsOverview: any = {
 };
 
 const mockOwner = mockProductConfiguration.owner;
-const parts: string[] = mockOwner.id.split('+');
-
 const mockRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
   isOwnerCartEntry: false,
@@ -164,8 +164,10 @@ class MockConfiguratorGroupsService {
 }
 
 class MockCommonConfiguratorUtilsService {
-  decomposeOwnerId(): any {
-    return { documentId: parts[0], entryNumber: parts[1] };
+  decomposeOwnerId(ownerId: string): any {
+    const parts: string[] = ownerId.split('+');
+    const result = { documentId: parts[0], entryNumber: parts[1] };
+    return result;
   }
 }
 
@@ -186,6 +188,12 @@ class MockConfiguratorRouterExtractorService {
 class MockIntersectionService {
   isIntersecting(): Observable<boolean> {
     return of(false);
+  }
+}
+const cart: Cart = { quoteCode: QUOTE_CODE };
+class MockMultiCartFacade implements Partial<MultiCartFacade> {
+  getCart(): Observable<Cart> {
+    return of(cart);
   }
 }
 
@@ -234,6 +242,32 @@ function setRouterTestDataReadOnlyOrder() {
   mockRouterData.isOwnerCartEntry = false;
   mockRouterData.owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
   mockRouterData.owner.id = ORDER_ENTRY_KEY;
+  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+  mockRouterData.displayOnly = true;
+}
+
+function setRouterTestDataReadOnlyQuote() {
+  mockRouterState.state.params = {
+    entityKey: QUOTE_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.QUOTE_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.isOwnerCartEntry = false;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.QUOTE_ENTRY;
+  mockRouterData.owner.id = QUOTE_ENTRY_KEY;
+  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+  mockRouterData.displayOnly = true;
+}
+
+function setRouterTestDataReadOnlySavedCart() {
+  mockRouterState.state.params = {
+    entityKey: QUOTE_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.SAVED_CART_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.isOwnerCartEntry = false;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.SAVED_CART_ENTRY;
+  mockRouterData.owner.id = QUOTE_ENTRY_KEY;
   mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
   mockRouterData.displayOnly = true;
 }
@@ -364,6 +398,10 @@ describe('ConfigAddToCartButtonComponent', () => {
           {
             provide: IntersectionService,
             useClass: MockIntersectionService,
+          },
+          {
+            provide: MultiCartFacade,
+            useClass: MockMultiCartFacade,
           },
         ],
       })
@@ -507,14 +545,6 @@ describe('ConfigAddToCartButtonComponent', () => {
       initialize();
       expect(component.quantityControl.value).toBe(QUANTITY);
     });
-
-    it('should not set quantity in case quantity service not available', () => {
-      initialize();
-      component.quantityControl.setValue(QUANTITY_CHANGED);
-      component['configuratorQuantityService'] = undefined;
-      component.ngOnInit();
-      expect(component.quantityControl.value).toBe(QUANTITY_CHANGED);
-    });
   });
 
   describe('quantityChange', () => {
@@ -524,13 +554,6 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(
         QUANTITY_CHANGED
       );
-    });
-
-    it('should cope with qty service not being available', () => {
-      initialize();
-      component['configuratorQuantityService'] = undefined;
-      component.quantityControl.setValue(QUANTITY_CHANGED);
-      expect(configuratorQuantityService.setQuantity).toHaveBeenCalledTimes(0);
     });
   });
 
@@ -693,6 +716,26 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'orderDetails',
         params: mockOrder,
+      });
+    });
+
+    it('should navigate to quote details in case owner is quote entry', () => {
+      setRouterTestDataReadOnlySavedCart();
+      initialize();
+      component.leaveConfigurationOverview();
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'quoteDetails',
+        params: { quoteId: QUOTE_CODE },
+      });
+    });
+
+    it('should navigate to quote details in case owner is saved cart entry and saved cart is bound to a quote', () => {
+      setRouterTestDataReadOnlyQuote();
+      initialize();
+      component.leaveConfigurationOverview();
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'quoteDetails',
+        params: { quoteId: QUOTE_CODE },
       });
     });
   });

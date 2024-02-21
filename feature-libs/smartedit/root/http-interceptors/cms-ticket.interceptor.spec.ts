@@ -5,7 +5,6 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed, inject } from '@angular/core/testing';
 import {
-  FeatureConfigService,
   PageContext,
   PageType,
   RoutingService,
@@ -37,7 +36,6 @@ describe('CmsTicketInterceptor', () => {
   let httpMock: HttpTestingController;
   let service: SmartEditLauncherService;
   let routingService: RoutingService;
-  let featureConfig: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -62,7 +60,6 @@ describe('CmsTicketInterceptor', () => {
     httpMock = TestBed.inject(HttpTestingController);
     service = TestBed.inject(SmartEditLauncherService);
     routingService = TestBed.inject(RoutingService);
-    featureConfig = TestBed.inject(FeatureConfigService);
   });
 
   afterEach(() => {
@@ -149,7 +146,6 @@ describe('CmsTicketInterceptor', () => {
   it('should add parameters for productList requests: cmsTicketId, categoryCode', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOn(featureConfig, 'isLevel').and.returnValue(true);
       spyOnProperty(service, 'cmsTicketId', 'get').and.returnValue(
         'mockCmsTicketId'
       );
@@ -172,7 +168,6 @@ describe('CmsTicketInterceptor', () => {
   it('should add only one parameter for productList requests when pageContext is partial: cmsTicketId', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOn(featureConfig, 'isLevel').and.returnValue(true);
       spyOn(routingService, 'getPageContext').and.returnValue(
         of({
           ...mockPageContext,

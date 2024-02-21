@@ -149,7 +149,7 @@ describe('OrderReturnRequestService', () => {
 
   it('should NOT load order return requests list when user is anonymous', () => {
     spyOn(userIdService, 'takeUserId').and.callFake(() => {
-      return throwError('Error');
+      return throwError(() => 'Error');
     });
 
     orderReturnRequestService.loadOrderReturnRequestList(10, 1, 'byDate');

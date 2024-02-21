@@ -10,8 +10,8 @@ import {
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
 import { CpqConfiguratorOccAdapter } from './cpq-configurator-occ.adapter';
+import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
@@ -98,6 +98,7 @@ describe('CpqConfiguratorOccAdapter', () => {
       'readConfigurationOverview',
       'readConfigurationForCartEntry',
       'readConfigurationForOrderEntry',
+      'readConfigurationForQuoteEntry',
     ]);
 
     asSpy(mockedOccService.createConfiguration).and.callFake(() => {

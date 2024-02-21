@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { CardModule } from '../../shared/card/card.module';
 import { DisableInfoModule } from '../../shared/detail/disable-info/disable-info.module';
@@ -26,7 +26,6 @@ import { UserDetailsComponent } from './user-details.component';
     ItemExistsModule,
     DisableInfoModule,
     KeyboardFocusModule,
-    FeaturesConfigModule,
   ],
   declarations: [UserDetailsComponent],
   exports: [UserDetailsComponent],

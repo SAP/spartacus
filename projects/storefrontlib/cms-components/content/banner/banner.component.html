@@ -8,17 +8,11 @@
     <cx-media [container]="getImage(data)"></cx-media>
     <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
   </cx-generic-link>
-  <ng-container *cxFeatureLevel="'6.3'">
-    <ng-container *ngIf="!routerLink">
-      <div class="no-link">
-        <p
-          class="headline"
-          *ngIf="data.headline"
-          [innerHTML]="data.headline"
-        ></p>
-        <cx-media [container]="getImage(data)"></cx-media>
-        <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
-      </div>
-    </ng-container>
+  <ng-container *ngIf="!routerLink">
+    <div class="no-link">
+      <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
+      <cx-media [container]="getImage(data)"></cx-media>
+      <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
+    </div>
   </ng-container>
 </ng-container>

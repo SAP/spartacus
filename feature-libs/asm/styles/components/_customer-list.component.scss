@@ -4,13 +4,7 @@ $sapFioriContent_LabelColor: #6a6d70;
 
 %cx-customer-list {
   .cx-modal-content {
-    @include forVersion(1, 6) {
-      min-height: 426px;
-    }
-
-    @include forVersion(6.1) {
-      min-height: 352px;
-    }
+    min-height: 352px;
   }
 
   .cx-dialog-header {
@@ -23,12 +17,6 @@ $sapFioriContent_LabelColor: #6a6d70;
     .title {
       font-size: 1.25rem;
       font-weight: 900;
-    }
-    @include forVersion(1, 6) {
-      .close {
-        font-size: 1rem;
-        color: $sapFioriTextColor;
-      }
     }
   }
 
@@ -67,11 +55,9 @@ $sapFioriContent_LabelColor: #6a6d70;
             background-color: #ffffff;
           }
         }
-        @include forVersion(6.1) {
-          .form-control::-webkit-input-placeholder {
-            color: #74777a;
-            font-style: italic;
-          }
+        .form-control::-webkit-input-placeholder {
+          color: #74777a;
+          font-style: italic;
         }
 
         cx-icon {
@@ -155,9 +141,7 @@ $sapFioriContent_LabelColor: #6a6d70;
 
   .cx-dialog-body {
     padding-top: 0;
-    @include forVersion(6.1) {
-      padding-bottom: 0;
-    }
+    padding-bottom: 0;
     max-height: calc(100vh - 260px);
     @include media-breakpoint-down(xs) {
       max-height: calc(100vh - 470px);
@@ -203,32 +187,9 @@ $sapFioriContent_LabelColor: #6a6d70;
     width: fit-content;
   }
 
-  @include forVersion(6.1) {
-    .cx-avatar-cell {
-      width: 65px;
-      vertical-align: top;
-    }
-  }
-
-  @include forVersion(1, 6) {
-    .cx-avatar-cell {
-      width: 65px;
-      vertical-align: top;
-      .cx-avatar {
-        width: 44px;
-        height: 44px;
-        line-height: 44px;
-        border-radius: 50%;
-        color: #fff;
-        text-align: center;
-        background: #9259cd;
-        text-transform: uppercase;
-        margin-top: 2px;
-        margin-inline-end: 10px;
-        margin-bottom: 2px;
-        margin-inline-start: 0;
-      }
-    }
+  .cx-avatar-cell {
+    width: 65px;
+    vertical-align: top;
   }
 
   .cx-cell-container {
@@ -256,10 +217,8 @@ $sapFioriContent_LabelColor: #6a6d70;
         border-radius: 50%;
       }
     }
-    @include forVersion(6.1) {
-      .cx-cart {
-        padding-inline-end: 18px;
-      }
+    .cx-cart {
+      padding-inline-end: 18px;
     }
   }
 
@@ -306,121 +265,117 @@ $sapFioriContent_LabelColor: #6a6d70;
     }
   }
 
-  @include forVersion(6.1) {
-    cx-pagination {
-      float: right;
-      a {
-        margin-top: 10px;
-        width: 24px;
+  cx-pagination {
+    float: right;
+    a {
+      margin-top: 10px;
+      width: 24px;
+      height: 26px;
+      font-family: '72';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      color: #0064d9;
+      border-color: #ffffff;
+      &:first-child {
+        width: 48px;
+        height: 26px;
+        font-family: 'SAP-icons';
+        font-style: normal;
+        font-weight: 800;
+        font-size: 20px;
+        line-height: 16px;
+        text-align: center;
+        color: #0064d9;
+        margin-top: 8px;
+      }
+      &:last-child {
+        width: 48px;
+        height: 26px;
+        font-family: 'SAP-icons';
+        font-style: normal;
+        font-weight: 800;
+        font-size: 20px;
+        line-height: 16px;
+        text-align: center;
+        color: #0064d9;
+        border-color: #ffffff;
+        margin-top: 8px;
+      }
+      &.current {
+        width: 32px;
         height: 26px;
         font-family: '72';
         font-style: normal;
-        font-weight: 400;
+        font-weight: 700;
         font-size: 14px;
         line-height: 16px;
-        color: #0064d9;
+        text-align: center;
+        color: #1d2d3e;
+        background: #eaecee;
+        border-radius: 8px;
         border-color: #ffffff;
-        &:first-child {
-          width: 48px;
-          height: 26px;
-          font-family: 'SAP-icons';
-          font-style: normal;
-          font-weight: 800;
-          font-size: 20px;
-          line-height: 16px;
-          text-align: center;
-          color: #0064d9;
-          margin-top: 8px;
-        }
-        &:last-child {
-          width: 48px;
-          height: 26px;
-          font-family: 'SAP-icons';
-          font-style: normal;
-          font-weight: 800;
-          font-size: 20px;
-          line-height: 16px;
-          text-align: center;
-          color: #0064d9;
-          border-color: #ffffff;
-          margin-top: 8px;
-        }
-        &.current {
-          width: 32px;
-          height: 26px;
-          font-family: '72';
-          font-style: normal;
-          font-weight: 700;
-          font-size: 14px;
-          line-height: 16px;
-          text-align: center;
-          color: #1d2d3e;
-          background: #eaecee;
-          border-radius: 8px;
-          border-color: #ffffff;
-        }
       }
     }
   }
 
-  @include forVersion(6.1) {
-    .cx-asm-create-customer-btn {
-      background-color: #eaecee;
-      border-color: #eaecee;
-      border-radius: 8px;
-      padding: 0px 10px 0px 10px;
+  .cx-asm-create-customer-btn {
+    background-color: #eaecee;
+    border-color: #eaecee;
+    border-radius: 8px;
+    padding: 0px 10px 0px 10px;
+    color: #1d2d3e;
+    text-decoration: none;
+    font-family: '72';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    min-height: 42px;
+    min-width: 70px;
+
+    cx-icon {
       color: #1d2d3e;
-      text-decoration: none;
-      font-family: '72';
-      font-style: normal;
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 16px;
-      min-height: 42px;
-      min-width: 70px;
-
-      cx-icon {
-        color: #1d2d3e;
-        margin-inline-end: 3px;
-      }
-
-      &:hover {
-        background-color: #ffffff;
-        border-width: 1px;
-        border-color: #d6dade;
-        border-style: solid;
-      }
-
-      &:focus {
-        box-shadow: none;
-      }
+      margin-inline-end: 3px;
     }
 
-    .cx-asm-customer-list-btn-cancel {
+    &:hover {
+      background-color: #ffffff;
+      border-width: 1px;
+      border-color: #d6dade;
+      border-style: solid;
+    }
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  .cx-asm-customer-list-btn-cancel {
+    color: #0064d8;
+    font-family: '72';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    border-radius: 8px;
+    border-color: #ffffff;
+    min-height: 42px;
+
+    margin: 0px 20px 0px 0px;
+    padding: 0px 10px 0px 10px;
+
+    &:hover {
       color: #0064d8;
-      font-family: '72';
-      font-style: normal;
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 19px;
-      border-radius: 8px;
-      border-color: #ffffff;
-      min-height: 42px;
-
-      margin: 0px 20px 0px 0px;
-      padding: 0px 10px 0px 10px;
-
-      &:hover {
-        color: #0064d8;
-        background-color: #d9d9d9;
-      }
-
-      &:focus {
-        box-shadow: none;
-      }
+      background-color: #d9d9d9;
     }
-    .ng-dropdown-panel {
-      width: auto;
+
+    &:focus {
+      box-shadow: none;
     }
+  }
+  .ng-dropdown-panel {
+    width: auto;
   }
 }

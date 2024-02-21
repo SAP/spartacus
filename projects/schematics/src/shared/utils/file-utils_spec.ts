@@ -33,9 +33,10 @@ import {
 } from '../constants';
 import { SPARTACUS_CORE, SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
+  ClassType,
+  InsertDirection,
   addConstructorParam,
   buildSpartacusComment,
-  ClassType,
   commitChanges,
   defineProperty,
   findConstructor,
@@ -49,7 +50,6 @@ import {
   insertCommentAboveConfigProperty,
   insertCommentAboveIdentifier,
   insertComponentSelectorComment,
-  InsertDirection,
   insertHtmlComment,
   isCandidateForConstructorDeprecation,
   isInheriting,
@@ -313,6 +313,7 @@ describe('File utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
   const defaultOptions = {
     project: 'schematics-test',
@@ -923,7 +924,7 @@ describe('File utils', () => {
         commentToInsert
       );
       expect(changes).toEqual([
-        new InsertChange(filePath, 161, commentToInsert),
+        new InsertChange(filePath, 158, commentToInsert),
       ]);
     });
   });
@@ -937,7 +938,7 @@ describe('File utils', () => {
 
       const changes = renameIdentifierNode(filePath, source, oldName, newName);
       expect(changes).toEqual([
-        new ReplaceChange(filePath, 174, oldName, newName),
+        new ReplaceChange(filePath, 171, oldName, newName),
       ]);
     });
   });

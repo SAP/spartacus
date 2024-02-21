@@ -1,9 +1,12 @@
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   CustomerTicketingFacade,
   STATUS,
   STATUS_NAME,
+  TicketEvent,
 } from '@spartacus/customer-ticketing/root';
 import {
   FileUploadModule,
@@ -12,17 +15,17 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { EMPTY } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog.component';
 import createSpy = jasmine.createSpy;
-import { Component, Directive, Input } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
+
 class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
   createTicketEvent = createSpy().and.returnValue(EMPTY);
+  uploadAttachment = createSpy().and.returnValue(EMPTY);
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -98,23 +101,53 @@ describe('CustomerTicketingReopenDialogComponent', () => {
       expect(customerTicketingFacade.createTicketEvent).not.toHaveBeenCalled();
     });
 
-    it('should call createTicketEvent if the form is valid', () => {
-      const mockEvent = {
-        message: 'mockMessage',
-        toStatus: {
-          id: STATUS.INPROCESS,
-          name: STATUS_NAME.INPROCESS,
-        },
-      };
-      const mustWaitForAttachment = false;
+    describe('when the form is valid', () => {
+      beforeEach(() => {
+        component.form.get('message')?.setValue('mockMessage');
+      });
 
-      component.form.get('message')?.setValue('mockMessage');
-      component.reopenRequest();
+      it('should call createTicketEvent if the form is valid', () => {
+        const mockEvent = {
+          message: 'mockMessage',
+          toStatus: {
+            id: STATUS.INPROCESS,
+            name: STATUS_NAME.INPROCESS,
+          },
+        };
+        const mustWaitForAttachment = false;
 
-      expect(customerTicketingFacade.createTicketEvent).toHaveBeenCalledWith(
-        mockEvent,
-        mustWaitForAttachment
-      );
+        component.reopenRequest();
+
+        expect(customerTicketingFacade.createTicketEvent).toHaveBeenCalledWith(
+          mockEvent,
+          mustWaitForAttachment
+        );
+      });
+
+      it('should upload attachements after creating ticket', () => {
+        const mockFileList: File[] = [
+          new File(['foo'], 'foo.txt', {
+            type: 'text/plain',
+          }),
+        ];
+        (mockFileList as any).item = (i: number) => mockFileList[i]; // mock FileList's accessor
+        component.form.get('file')?.setValue(mockFileList);
+        const mockTicketEvent: TicketEvent = {
+          code: 'code-000001',
+          createdAt: 'mock-create-date',
+          author: 'mock-author',
+          message: 'mock-message',
+          addedByAgent: true,
+          ticketEventAttachments: [{}],
+        };
+        (
+          customerTicketingFacade.createTicketEvent as jasmine.Spy
+        ).and.returnValue(of(mockTicketEvent));
+
+        component.reopenRequest();
+
+        expect(customerTicketingFacade.uploadAttachment).toHaveBeenCalled();
+      });
     });
   });
 });

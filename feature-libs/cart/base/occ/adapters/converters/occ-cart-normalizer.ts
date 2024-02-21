@@ -26,6 +26,7 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
     }
 
     this.removeDuplicatePromotions(source, target);
+    this.handleQuoteCode(source, target);
 
     if (source.entries) {
       target.entries = source.entries.map((entry) => ({
@@ -39,6 +40,12 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
     }
 
     return target;
+  }
+
+  protected handleQuoteCode(source: Occ.Cart, target: Cart) {
+    if (source.sapQuote) {
+      target.quoteCode = source.sapQuote.code;
+    }
   }
 
   /**

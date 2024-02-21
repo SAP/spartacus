@@ -1,14 +1,18 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventService, I18nTestingModule } from '@spartacus/core';
 import {
+  CustomerTicketingConfig,
   CustomerTicketingFacade,
+  STATUS_NAME,
+  TicketDetails,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
+import { MessageEvent, MessagingConfigs } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
 import createSpy = jasmine.createSpy;
-import { Component, Input } from '@angular/core';
-import { MessagingConfigs } from '@spartacus/storefront';
+import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
 
 describe('CustomerTicketMessagesComponent', () => {
   let component: CustomerTicketingMessagesComponent;
@@ -23,12 +27,13 @@ describe('CustomerTicketMessagesComponent', () => {
   const mockResponse = { message: mockSendEvent.message, code: 'mockCode' };
 
   const createTicketResponse$ = new BehaviorSubject<TicketEvent>({});
+  const getTicket$ = new BehaviorSubject<TicketDetails>({});
 
   class MockCustomerTicketingFacade
     implements Partial<CustomerTicketingFacade>
   {
     createTicketEvent = () => createTicketResponse$;
-    getTicket = createSpy().and.returnValue(EMPTY);
+    getTicket = createSpy().and.returnValue(getTicket$.asObservable());
     downloadAttachment = createSpy().and.returnValue(EMPTY);
     uploadAttachment = createSpy().and.returnValue(EMPTY);
   }
@@ -39,6 +44,7 @@ describe('CustomerTicketMessagesComponent', () => {
 
   @Component({
     selector: 'cx-messaging',
+    template: '',
   })
   class MockCxMessagingComponent {
     @Input() messageEvents$: Observable<Array<MessageEvent>>;
@@ -54,6 +60,7 @@ describe('CustomerTicketMessagesComponent', () => {
         MockCxMessagingComponent,
       ],
       providers: [
+        CustomerTicketingMessagesComponentService,
         {
           provide: CustomerTicketingFacade,
           useClass: MockCustomerTicketingFacade,
@@ -132,5 +139,61 @@ describe('CustomerTicketMessagesComponent', () => {
       'mockCode',
       'mockId'
     );
+  });
+
+  describe('messaging', () => {
+    let mockTicketDetails: TicketDetails;
+
+    beforeEach(() => {
+      mockTicketDetails = {
+        ticketEvents: [
+          {
+            createdAt: 'mock-create-date',
+            author: 'mock-author',
+            message: 'mock-message',
+            addedByAgent: true,
+            ticketEventAttachments: [{}],
+          },
+        ],
+        status: { id: 'mock-status-id', name: STATUS_NAME.OPEN },
+      };
+
+      getTicket$.next(mockTicketDetails);
+    });
+
+    it('should provide the ticket events as messages', () => {
+      const expected: MessageEvent[] = [
+        {
+          createdAt: 'mock-create-date',
+          author: 'mock-author',
+          message: 'mock-message',
+          addedByAgent: true,
+          ticketEventAttachments: [{}],
+          text: 'mock-message',
+          rightAlign: true,
+          attachments: [{}],
+        } as MessageEvent & { message: string },
+      ];
+
+      component.messageEvents$.subscribe((actual) => {
+        expect(actual).toEqual(expected);
+      });
+    });
+
+    it('should generate a messages config', () => {
+      const customerTicketingConfig = TestBed.inject(CustomerTicketingConfig);
+      const actual = component.messagingConfigs;
+
+      actual.displayAddMessageSection?.subscribe((displayAddMessageSection) =>
+        expect(displayAddMessageSection).toBe(true)
+      );
+      expect(actual.attachmentRestrictions).toEqual(
+        customerTicketingConfig.customerTicketing?.attachmentRestrictions
+      );
+      expect(actual.charactersLimit).toEqual(
+        customerTicketingConfig.customerTicketing?.inputCharactersLimit
+      );
+      expect(actual.enableFileUploadOption).toBe(true);
+    });
   });
 });
