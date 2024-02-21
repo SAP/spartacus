@@ -23,6 +23,11 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 import { SelectFocusUtility } from '../../../layout/a11y/index';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 
+enum ClickEventSource {
+  Key = 0,
+  Mouse = 1,
+}
+
 @Component({
   selector: 'cx-scroll-to-top',
   templateUrl: './scroll-to-top.component.html',
@@ -37,20 +42,8 @@ export class ScrollToTopComponent implements OnInit {
   protected window: Window | undefined = this.winRef.nativeWindow;
   protected scrollBehavior: ScrollBehavior = ScrollBehavior.SMOOTH;
   protected displayThreshold: number = (this.window?.innerHeight ?? 400) / 2;
-
-  @HostListener('window:scroll', ['$event'])
-  onScroll(): void {
-    if (this.window) {
-      this.display =
-        this.window.scrollY > this.displayThreshold ||
-        this.button.nativeElement === document.activeElement;
-
-      console.log(
-        'button focused',
-        this.button.nativeElement === document.activeElement
-      );
-    }
-  }
+  protected clickEventSource: ClickEventSource | undefined;
+  protected wasClicked = false;
 
   @ViewChild('button')
   button: ElementRef;
@@ -65,6 +58,47 @@ export class ScrollToTopComponent implements OnInit {
     this.setConfig();
   }
 
+  @HostListener('window:scroll', ['$event'])
+  onScroll(): void {
+    this.switchDisplay();
+  }
+
+  /**
+   * Scroll back to the top of the page and set focus on top most focusable element.
+   */
+  scrollToTop(event: MouseEvent): void {
+    this.window?.scrollTo({
+      top: 0,
+      behavior: this.scrollBehavior,
+    });
+
+    this.clickEventSource = event.detail;
+    this.wasClicked = true;
+  }
+
+  focusOut(): void {
+    if (this.display) {
+      this.switchDisplay();
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    if (
+      document.activeElement === this.button.nativeElement &&
+      this.wasClicked &&
+      event.key === 'Tab' &&
+      !event.shiftKey
+    ) {
+      event.preventDefault();
+
+      // Focus first focusable element within the html body
+      this.selectFocusUtility
+        .findFirstFocusable(this.winRef.document.body, { autofocus: '' })
+        ?.focus();
+    }
+  }
+
   protected setConfig(): void {
     this.componentData.data$.pipe(take(1)).subscribe((data) => {
       this.scrollBehavior = data.scrollBehavior ?? this.scrollBehavior;
@@ -72,78 +106,14 @@ export class ScrollToTopComponent implements OnInit {
     });
   }
 
-  /**
-   * Scroll back to the top of the page and set focus on top most focusable element.
-   */
-  scrollToTop(): void {
-    // Focus first focusable element within the html body
-    // this.selectFocusUtility
-    //   .findFirstFocusable(this.winRef.document.body, { autofocus: '' })
-    //   ?.focus();
+  private switchDisplay(): void {
+    this.display =
+      (this.window && this.window.scrollY > this.displayThreshold) ||
+      (!this.clickEventSource &&
+        this.button.nativeElement === document.activeElement);
 
-    // this.button.nativeElement?.focus();
-
-    this.window?.scrollTo({
-      top: 0,
-      behavior: this.scrollBehavior,
-    });
-  }
-
-  focus() {
-    console.log('focus');
-    const x = this.selectFocusUtility.findFirstFocusable(
-      this.winRef.document.body,
-      { autofocus: '' }
-    );
-
-    // x?.focus();
-    console.log('focus on ', x);
-  }
-
-  focusOut() {
-    // console.log('focus out');
-    // const x = this.selectFocusUtility.findFirstFocusable(
-    //   this.winRef.document.body,
-    //   { autofocus: '' }
-    // );
-    // // debugger;
-    // x?.focus();
-    // console.log(
-    //   this.selectFocusUtility.findFocusable(this.winRef.document.body)
-    // );
-    // console.log('new element', x);
-    // console.log('active element', document.activeElement);
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    const focusableElements = this.selectFocusUtility.findFocusable(
-      this.winRef.document.body
-    );
-    const firstElement = focusableElements[0];
-    const lastElement = focusableElements[focusableElements.length - 1];
-
-    if (
-      !event.shiftKey &&
-      document.activeElement === lastElement &&
-      event.key === 'Tab'
-    ) {
-      event.preventDefault();
-      firstElement?.focus();
-    } else if (
-      event.shiftKey &&
-      document.activeElement === firstElement &&
-      event.key === 'Tab'
-    ) {
-      event.preventDefault();
-      lastElement?.focus();
+    if (!this.display) {
+      this.wasClicked = false;
     }
   }
-
-  // focusNext() {
-  //   console.log('focus next');
-  //   this.selectFocusUtility
-  //     .findFirstFocusable(this.winRef.document.body, { autofocus: '' })
-  //     ?.focus();
-  // }
 }
