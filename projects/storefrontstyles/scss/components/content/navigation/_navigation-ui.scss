@@ -90,7 +90,7 @@
       color: currentColor;
 
       &:hover {
-        color: var(--cx-color-inverse);
+        color: var(--cx-color-medium);
       }
 
       &:focus {
@@ -106,7 +106,7 @@
           position: relative;
         }
         &:hover {
-          color: var(--cx-color-inverse);
+          color: var(--cx-color-medium);
         }
       }
     }
