@@ -41,6 +41,8 @@ export class ConfiguratorTabBarComponent {
   @ViewChild('configTab') configTab: ElementRef<HTMLElement>;
   @ViewChild('overviewTab') overviewTab: ElementRef<HTMLElement>;
 
+  private static readonly TAB_BAR_QUERY_SELECTOR = 'cx-configurator-tab-bar';
+
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
@@ -118,7 +120,9 @@ export class ConfiguratorTabBarComponent {
         delay(0) //we need to consider the re-rendering of the page
       )
       .subscribe(() => {
-        this.configUtils.focusFirstActiveElement('cx-configurator-tab-bar');
+        this.configUtils.focusFirstActiveElement(
+          ConfiguratorTabBarComponent.TAB_BAR_QUERY_SELECTOR
+        );
       });
   }
 
@@ -140,7 +144,9 @@ export class ConfiguratorTabBarComponent {
         delay(0) //we need to consider the re-rendering of the page
       )
       .subscribe(() => {
-        this.configUtils.focusFirstActiveElement('cx-configurator-tab-bar');
+        this.configUtils.focusFirstActiveElement(
+          ConfiguratorTabBarComponent.TAB_BAR_QUERY_SELECTOR
+        );
       });
   }
 
