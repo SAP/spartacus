@@ -102,14 +102,17 @@ export class OnNavigateService {
     currentRoute: Scroll,
     position: [number, number] | null
   ): void {
-    const scrollTo = (anchor: string | null, position: [number, number]) => {
+    const scrollTo = (
+      anchor: string | null,
+      scrollPosition: [number, number]
+    ) => {
       if (
         anchor &&
         (this.router as any).options?.anchorScrolling === 'enabled'
       ) {
         this.viewportScroller.scrollToAnchor(anchor);
       } else {
-        this.viewportScroller.scrollToPosition(position);
+        this.viewportScroller.scrollToPosition(scrollPosition);
       }
     };
 
