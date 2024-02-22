@@ -167,7 +167,6 @@ describe('ConfigTabBarComponent', () => {
       'focusFirstActiveElement'
     ).and.callThrough();
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
-    console.log(routingService);
   });
 
   it('should create component', () => {
