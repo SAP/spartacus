@@ -58,7 +58,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.19'
+      level: '2211.20'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -307,7 +307,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.19'
+      level: '2211.20'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -542,7 +542,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.19'
+      level: '2211.20'
     }
   })]
 })
