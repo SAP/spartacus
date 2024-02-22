@@ -4,10 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DestroyRef, inject } from '@angular/core';
+import { DestroyRef, assertInInjectionContext, inject } from '@angular/core';
 import { FeatureStylesService } from '../directives/feature-styles.service';
 
 export function useFeatureStyles(feature: string): void {
+  assertInInjectionContext(useFeatureStyles);
+
   const featureStylesService = inject(FeatureStylesService);
   const destroyRef = inject(DestroyRef);
 
