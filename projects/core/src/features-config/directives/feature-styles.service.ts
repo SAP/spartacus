@@ -16,8 +16,8 @@ import { FeatureConfigService } from '../services/feature-config.service';
 
 @Injectable({ providedIn: 'root' })
 export class FeatureStylesService {
-  protected featureConfig = inject(FeatureConfigService);
   private rendererFactory = inject(RendererFactory2); // private, because needed only to create a renderer
+  protected featureConfig = inject(FeatureConfigService);
   protected logger = inject(LoggerService);
 
   protected readonly CSS_FEATURE_FLAG_PREFIX = 'cxFeat_';
@@ -30,7 +30,7 @@ export class FeatureStylesService {
     this.targetElement = _rootComponent.location.nativeElement;
 
     // Handle edge-case:
-    // Add classes for all features that were used (called `registerUsage()`) before before `init()` was invoked.
+    // Add classes for all features that were used (called `registerUsage()`) before `init()` was invoked.
     // (e.g. it's the case when `registerUsage` was called in the constructor of the root component,
     //       which happens before the hook APP_BOOTSTRAP_LISTENER is invoked by Angular, therefore before `init` is invoked.)
     for (const [feature, count] of this.usagesCounter.entries()) {
