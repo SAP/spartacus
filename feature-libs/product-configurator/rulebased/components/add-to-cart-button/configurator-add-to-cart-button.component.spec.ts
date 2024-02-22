@@ -214,18 +214,6 @@ function setRouterTestDataProductBoundAndConfigPage() {
   mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
 }
 
-function setRouterTestDataReadOnlyCart() {
-  mockRouterState.state.params = {
-    entityKey: CART_ENTRY_KEY,
-    ownerType: CommonConfigurator.OwnerType.CART_ENTRY,
-  };
-  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
-  mockRouterData.isOwnerCartEntry = true;
-  mockRouterData.owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
-  mockRouterData.owner.id = CART_ENTRY_KEY;
-  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
-}
-
 function setRouterTestDataReadOnlyOrder() {
   mockRouterState.state.params = {
     entityKey: ORDER_ENTRY_KEY,
@@ -247,6 +235,19 @@ function setRouterTestDataReadOnlyQuote() {
   mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
   mockRouterData.isOwnerCartEntry = false;
   mockRouterData.owner.type = CommonConfigurator.OwnerType.QUOTE_ENTRY;
+  mockRouterData.owner.id = QUOTE_ENTRY_KEY;
+  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+  mockRouterData.displayOnly = true;
+}
+
+function setRouterTestDataReadOnlyCart() {
+  mockRouterState.state.params = {
+    entityKey: QUOTE_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.CART_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.isOwnerCartEntry = false;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
   mockRouterData.owner.id = QUOTE_ENTRY_KEY;
   mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
   mockRouterData.displayOnly = true;
@@ -706,15 +707,6 @@ describe('ConfigAddToCartButtonComponent', () => {
   });
 
   describe('leaveConfigurationOverview', () => {
-    it('should navigate to review order', () => {
-      setRouterTestDataReadOnlyCart();
-      initialize();
-      component.leaveConfigurationOverview();
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'cart',
-      });
-    });
-
     it('should navigate to order details', () => {
       setRouterTestDataReadOnlyOrder();
       initialize();
@@ -742,6 +734,24 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'quoteDetails',
         params: { quoteId: QUOTE_CODE },
+      });
+    });
+
+    it('should navigate to cart details', () => {
+      setRouterTestDataReadOnlyCart();
+      initialize();
+      component.leaveConfigurationOverview();
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'cart',
+      });
+    });
+
+    it('should navigate to review order', () => {
+      setRouterTestDataReadOnlyCart();
+      initialize();
+      component.leaveConfigurationOverview();
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'cart',
       });
     });
 

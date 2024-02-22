@@ -90,16 +90,16 @@ describe('ConfigureCartEntryComponent', () => {
     expect(component.getRoute()).toBe('configureOverview' + configuratorType);
   });
 
-  describe('getDisplayOnly', () => {
+  describe('isDisplayOnly', () => {
     it('should return true in case readOnly is true', () => {
       component.readOnly = true;
-      expect(component.getDisplayOnly()).toBe(true);
+      expect(component.isDisplayOnly()).toBe(true);
     });
 
     it('should return true in case readOnly is false and product is undefined', () => {
       component.readOnly = false;
       component.cartEntry.product = {};
-      expect(component.getDisplayOnly()).toBe(true);
+      expect(component.isDisplayOnly()).toBe(true);
     });
 
     it('should return true in case readOnly is false and configurator type is undefined', () => {
@@ -107,7 +107,7 @@ describe('ConfigureCartEntryComponent', () => {
       component.cartEntry.product = {
         configuratorType: undefined,
       };
-      expect(component.getDisplayOnly()).toBe(true);
+      expect(component.isDisplayOnly()).toBe(true);
     });
 
     it('should return true in case readOnly is false and configurator type contains readOnly postfix', () => {
@@ -115,7 +115,7 @@ describe('ConfigureCartEntryComponent', () => {
       component.cartEntry.product = {
         configuratorType: ConfiguratorType.VARIANT + ReadOnlyPostfix,
       };
-      expect(component.getDisplayOnly()).toBe(true);
+      expect(component.isDisplayOnly()).toBe(true);
     });
 
     it('should return false in case readOnly is false and configurator type is CPQCONFIGURATOR', () => {
@@ -123,7 +123,7 @@ describe('ConfigureCartEntryComponent', () => {
       component.cartEntry.product = {
         configuratorType: ConfiguratorType.VARIANT,
       };
-      expect(component.getDisplayOnly()).toBe(false);
+      expect(component.isDisplayOnly()).toBe(false);
     });
   });
 
@@ -295,7 +295,7 @@ describe('ConfigureCartEntryComponent', () => {
     describe('getDisplayOnly', () => {
       it('should derive result from component if available', () => {
         component.readOnly = true;
-        expect(component.getDisplayOnly()).toBe(true);
+        expect(component.isDisplayOnly()).toBe(true);
       });
     });
 

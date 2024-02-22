@@ -44,12 +44,12 @@ export class ConfigureProductComponent {
    * Retrieves a translation key depending on the condition.
    *
    * @param configuratorType - configurator type
-   * @returns - If the configurator type contains a read-only postfix then 'configurator.header.toconfigReadOnly' translation key will be returned,
+   * @returns - If the configurator type contains a read-only postfix then 'configurator.header.toConfigReadOnly' translation key will be returned,
    * otherwise 'configurator.header.toconfig'.
    */
   getTranslationKey(configuratorType?: string): string {
     return this.isConfiguratorTypeReadOnly(configuratorType)
-      ? 'configurator.header.toconfigReadOnly'
+      ? 'configurator.header.toConfigReadOnly'
       : 'configurator.header.toconfig';
   }
 

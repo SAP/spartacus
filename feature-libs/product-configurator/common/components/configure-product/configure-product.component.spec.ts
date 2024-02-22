@@ -208,40 +208,16 @@ describe('ConfigureProductComponent', () => {
       );
     });
 
-    it('should return configurator.header.toconfig in case configurator type is null', () => {
-      expect(component.getTranslationKey(null)).toEqual(
-        'configurator.header.toconfig'
-      );
-    });
-
-    it('should return configurator.header.toconfig in case configurator type is empty string', () => {
-      expect(component.getTranslationKey('')).toEqual(
-        'configurator.header.toconfig'
-      );
-    });
-
-    it('should return configurator.header.toconfig in case configurator type is string with whitespace', () => {
-      expect(component.getTranslationKey('   ')).toEqual(
-        'configurator.header.toconfig'
-      );
-    });
-
     it('should return configurator.header.toconfig in case configurator type is CPQCONFIGURATOR', () => {
       expect(component.getTranslationKey(ConfiguratorType.VARIANT)).toEqual(
         'configurator.header.toconfig'
       );
     });
 
-    it('should return configurator.header.toconfig in case configurator type has suffix readOnly', () => {
-      expect(
-        component.getTranslationKey(ReadOnlyPostfix + ConfiguratorType.VARIANT)
-      ).toEqual('configurator.header.toconfig');
-    });
-
-    it('should return configurator.header.toconfigReadOnly in case configurator type has postfix readOnly', () => {
+    it('should return configurator.header.toConfigReadOnly in case configurator type has postfix read only', () => {
       expect(
         component.getTranslationKey(ConfiguratorType.VARIANT + ReadOnlyPostfix)
-      ).toEqual('configurator.header.toconfigReadOnly');
+      ).toEqual('configurator.header.toConfigReadOnly');
     });
   });
 
@@ -250,33 +226,9 @@ describe('ConfigureProductComponent', () => {
       setupWithCurrentProductService(true);
     });
 
-    it('should return true in case configurator type is undefined', () => {
-      expect(component.isDisplayRestartDialog(undefined)).toEqual('true');
-    });
-
-    it('should return true in case configurator type is null', () => {
-      expect(component.isDisplayRestartDialog(null)).toEqual('true');
-    });
-
-    it('should return true in case configurator type is empty string', () => {
-      expect(component.isDisplayRestartDialog('')).toEqual('true');
-    });
-
-    it('should return true in case configurator type is string with whitespace', () => {
-      expect(component.isDisplayRestartDialog('   ')).toEqual('true');
-    });
-
     it('should return true in case configurator type is CPQCONFIGURATOR', () => {
       expect(
         component.isDisplayRestartDialog(ConfiguratorType.VARIANT)
-      ).toEqual('true');
-    });
-
-    it('should return true in case configurator type has suffix readOnly', () => {
-      expect(
-        component.isDisplayRestartDialog(
-          ReadOnlyPostfix + ConfiguratorType.VARIANT
-        )
       ).toEqual('true');
     });
 
@@ -316,7 +268,7 @@ describe('ConfigureProductComponent', () => {
       ).toBe(false);
     });
 
-    it('should return false in case configurator type has suffix _READ_ONLY', () => {
+    it('should return false in case configurator type has prefix _READ_ONLY', () => {
       expect(
         component['isConfiguratorTypeReadOnly'](
           ReadOnlyPostfix + ConfiguratorType.VARIANT

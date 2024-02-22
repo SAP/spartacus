@@ -29,11 +29,7 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
  * @param {number} cartItemIndex - Index of cart item
  */
 export function clickOnDisplayConfigurationLink(cartItemIndex: number): void {
-  cy.get('cx-cart-item-list .cx-item-list-row')
-    .eq(cartItemIndex)
-    .find('cx-configure-cart-entry')
-    .as('aElement');
-
+  locateCartConfiguratorElement(cartItemIndex);
   cy.get('@aElement')
     .find('a:contains("Display")')
     .click({
