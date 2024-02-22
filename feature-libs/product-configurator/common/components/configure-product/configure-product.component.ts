@@ -41,6 +41,19 @@ export class ConfigureProductComponent {
     CommonConfigurator.OwnerType.PRODUCT;
 
   /**
+   * Retrieves a translation key for aria-label depending on the condition.
+   *
+   * @param configuratorType - configurator type
+   * @returns - If the configurator type contains a read-only postfix then 'configurator.a11y.showDetailsProduct' translation key will be returned,
+   * otherwise 'configurator.a11y.configureProduct'.
+   */
+  getAriaLabelTranslationKey(configuratorType?: string): string {
+    return this.isConfiguratorTypeReadOnly(configuratorType)
+      ? 'configurator.a11y.showDetailsProduct'
+      : 'configurator.a11y.configureProduct';
+  }
+
+  /**
    * Retrieves a translation key depending on the condition.
    *
    * @param configuratorType - configurator type

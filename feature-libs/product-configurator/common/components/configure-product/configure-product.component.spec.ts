@@ -197,6 +197,32 @@ describe('ConfigureProductComponent', () => {
     });
   });
 
+  describe('getAriaLabelTranslationKey', () => {
+    beforeEach(() => {
+      setupWithCurrentProductService(true);
+    });
+
+    it('should return configurator.a11y.configureProduct in case configurator type is undefined', () => {
+      expect(component.getAriaLabelTranslationKey(undefined)).toEqual(
+        'configurator.a11y.configureProduct'
+      );
+    });
+
+    it('should return configurator.a11y.configureProduct in case configurator type is CPQCONFIGURATOR', () => {
+      expect(
+        component.getAriaLabelTranslationKey(ConfiguratorType.VARIANT)
+      ).toEqual('configurator.a11y.configureProduct');
+    });
+
+    it('should return configurator.a11y.showDetailsProduct in case configurator type has postfix read only', () => {
+      expect(
+        component.getAriaLabelTranslationKey(
+          ConfiguratorType.VARIANT + ReadOnlyPostfix
+        )
+      ).toEqual('configurator.a11y.showDetailsProduct');
+    });
+  });
+
   describe('getTranslationKey', () => {
     beforeEach(() => {
       setupWithCurrentProductService(true);

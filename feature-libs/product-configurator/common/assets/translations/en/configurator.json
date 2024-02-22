@@ -137,6 +137,7 @@
     },
     "a11y": {
       "configureProduct": "Configure product",
+      "showDetailsProduct": "Show details of the product",
       "cartEntryBundleInfo": "There is an item ",
       "cartEntryBundleInfo_other": "There are {{items}} items ",
       "cartEntryBundleName": "Item {{ name }}",
