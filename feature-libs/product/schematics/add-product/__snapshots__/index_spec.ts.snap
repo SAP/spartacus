@@ -152,7 +152,7 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -371,7 +371,7 @@ exports[`Spartacus Product schematics: ng-add FutureStock feature general setup 
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -555,7 +555,7 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -739,7 +739,7 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
