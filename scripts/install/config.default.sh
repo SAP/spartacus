@@ -70,6 +70,7 @@ SSR_PWA_APP_NAME="ssr-pwa"
 ADD_B2B_LIBS=false
 
 ADD_CPQ=false
+ADD_QUOTE=false
 ADD_CDC=false
 # config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
 ADD_EPD_VISUALIZATION=false
