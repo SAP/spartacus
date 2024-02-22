@@ -1,5 +1,16 @@
-import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ChangeDetectionStrategy,
+  Pipe,
+  PipeTransform,
+  Type,
+} from '@angular/core';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -45,10 +56,31 @@ class MockRoutingService {
 
 let configurationObs: Observable<Configurator.Configuration>;
 
+const configWithOverview: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration(
+    'CONFIG_ID',
+    ConfiguratorModelUtils.createInitialOwner()
+  ),
+  productCode: PRODUCT_CODE,
+  overview: { configId: 'CONFIG_ID', productCode: PRODUCT_CODE },
+};
+let configurationWithOverviewObs = of(configWithOverview);
+
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return configurationObs;
   }
+  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
+    return configurationObs;
+  }
+
+  getConfigurationWithOverview(): Observable<Configurator.Configuration> {
+    return configurationWithOverviewObs;
+  }
+}
+
+class MockConfigUtilsService {
+  focusFirstActiveElement(): void {}
 }
 
 class MockConfiguratorGroupsService {}
@@ -64,6 +96,8 @@ describe('ConfigTabBarComponent', () => {
   let component: ConfiguratorTabBarComponent;
   let fixture: ComponentFixture<ConfiguratorTabBarComponent>;
   let htmlElem: HTMLElement;
+  let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
+  let configuratorCommonsService: ConfiguratorCommonsService;
 
   beforeEach(
     waitForAsync(() => {
@@ -84,6 +118,7 @@ describe('ConfigTabBarComponent', () => {
           },
           {
             provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
           },
           {
             provide: ConfiguratorGroupsService,
@@ -110,6 +145,17 @@ describe('ConfigTabBarComponent', () => {
       )
     );
     component.ghostStyle = false;
+
+    configuratorCommonsService = TestBed.inject(
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+    );
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    );
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'focusFirstActiveElement'
+    ).and.callThrough();
   });
 
   it('should create component', () => {
@@ -404,5 +450,36 @@ describe('ConfigTabBarComponent', () => {
         'configurator.tabBar.configuration'
       );
     });
+  });
+
+  describe('Focus handling on navigation', () => {
+    it('focusOverviewInTabBar should call focusFirstActiveElement', fakeAsync(() => {
+      component['focusOverviewInTabBar']();
+      tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      expect(
+        configuratorStorefrontUtilsService.focusFirstActiveElement
+      ).toHaveBeenCalledTimes(1);
+    }));
+
+    it('focusOverviewInTabBar should not call focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
+      spyOn(
+        configuratorCommonsService,
+        'getConfigurationWithOverview'
+      ).and.returnValue(configurationObs);
+
+      component['focusOverviewInTabBar']();
+      tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      expect(
+        configuratorStorefrontUtilsService.focusFirstActiveElement
+      ).toHaveBeenCalledTimes(0);
+    }));
+
+    it('focusConfigurationInTabBar should call focusFirstActiveElement', fakeAsync(() => {
+      component['focusConfigurationInTabBar']();
+      tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      expect(
+        configuratorStorefrontUtilsService.focusFirstActiveElement
+      ).toHaveBeenCalledTimes(1);
+    }));
   });
 });
