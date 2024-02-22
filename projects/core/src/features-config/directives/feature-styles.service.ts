@@ -14,20 +14,48 @@ import {
 import { LoggerService } from '../../logger/logger.service';
 import { FeatureConfigService } from '../services/feature-config.service';
 
+/**
+ * Service that automatically adds/removes CSS classes to/from the root element of the application,
+ * based on the usage of feature flags.
+ *
+ * The CSS classes are added only for flags that are currently used and enabled in the config.
+ *
+ * The CSS classes for flags that are enabled BUT NOT USED are NOT ADDED to the root element.
+ */
 @Injectable({ providedIn: 'root' })
 export class FeatureStylesService {
   private rendererFactory = inject(RendererFactory2); // private, because needed only to create a renderer
   protected featureConfig = inject(FeatureConfigService);
   protected logger = inject(LoggerService);
 
+  /**
+   * Prefix for feature's CSS classes that are added to the root element
+   */
   protected readonly CSS_FEATURE_FLAG_PREFIX = 'cxFeat_';
 
   protected renderer = this.rendererFactory.createRenderer(null, null);
   protected targetElement: HTMLElement | undefined;
+
+  /**
+   * Tracks the number of usages of each feature flag.
+   *
+   * - when a counter becomes >0, the feature's CSS class will be added to the root element.
+   * - when a counter becomes =0, the feature's CSS class will be removed from the root element.
+   */
   protected usagesCounter = new Map<string, number>();
 
-  init(_rootComponent: ComponentRef<any>): void {
-    this.targetElement = _rootComponent.location.nativeElement;
+  /**
+   * Saves the root element of the application for later usage of the service.
+   *
+   * In edge cases, if some usages of feature flags are registered
+   * before the `init()` method was called, this method immediately adds
+   * CSS classes to the root element for the already registered features usages.
+   *
+   * Note: the root element becomes available only once the app is bootstrapped,
+   * i.e. on Angular's hook `APP_BOOTSTRAP_LISTENER`
+   */
+  init(rootComponent: ComponentRef<any>): void {
+    this.targetElement = rootComponent.location.nativeElement;
 
     // Handle edge-case:
     // Add classes for all features that were used (called `registerUsage()`) before `init()` was invoked.
@@ -40,6 +68,16 @@ export class FeatureStylesService {
     }
   }
 
+  /**
+   * Registers the usage of a given feature flag.
+   *
+   * - If the feature flag enabled, this method adds the feature's CSS class
+   *    to the root element.
+   * - If the feature flag is disabled, this method does nothing.
+   *
+   * Note: Please mind to call `unregisterUsage()` when the feature is not used anymore.
+   *       Otherwise, the feature's CSS class will be added to the root element forever.
+   */
   registerUsage(feature: string): void {
     const currentCounter = this.usagesCounter.get(feature) ?? 0;
     if (this.isEnabled(feature) && currentCounter === 0) {
@@ -48,6 +86,12 @@ export class FeatureStylesService {
     this.usagesCounter.set(feature, currentCounter + 1);
   }
 
+  /**
+   * Unregisters the usage of a feature flag.
+   *
+   * If the feature flag is enabled, this method removes the feature's CSS class
+   * from the root element (unless there are other registered usages of the same feature yet).
+   */
   unregisterUsage(feature: string): void {
     const currentCounter = this.usagesCounter.get(feature) ?? 0;
     if (currentCounter === 0 && isDevMode()) {
@@ -66,6 +110,12 @@ export class FeatureStylesService {
     return this.featureConfig.isEnabled(feature);
   }
 
+  /**
+   * Adds the feature's CSS class to the root element.
+   *
+   * It does nothing if the feature flag is disabled
+   * or if the root element is not yet available.
+   */
   protected addClass(feature: string) {
     const cssClass = this.getCssClass(feature);
     if (!this.targetElement || !cssClass) {
@@ -74,6 +124,12 @@ export class FeatureStylesService {
     this.renderer.addClass(this.targetElement, cssClass);
   }
 
+  /**
+   * Removes the feature's CSS class from the root element.
+   *
+   * It does nothing if the feature flag is disabled
+   * or if the root element is not yet available.
+   */
   protected removeClass(feature: string) {
     const cssClass = this.getCssClass(feature);
     if (!this.targetElement || !cssClass) {
@@ -82,6 +138,12 @@ export class FeatureStylesService {
     this.renderer.removeClass(this.targetElement, cssClass);
   }
 
+  /**
+   * Returns a feature flag's CSS class name.
+   *
+   * The CSS class name consists of the prefix `cxFeat_`
+   * and the feature flag name.
+   */
   protected getCssClass(feature: string): string | undefined {
     return this.featureConfig.isEnabled(feature)
       ? `${this.CSS_FEATURE_FLAG_PREFIX}${feature}`
