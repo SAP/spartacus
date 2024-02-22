@@ -12,7 +12,6 @@ import {
   DeleteCartSuccessEvent,
   DeliveryMode,
   MultiCartFacade,
-  ProductData,
 } from '@spartacus/cart/base/root';
 import {
   CheckoutBillingAddressFacade,
@@ -53,39 +52,6 @@ export class OpfCartHandlerService implements OpfCartHandlerInterface {
   protected eventService = inject(EventService);
   protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
   protected opfGlobalMessageService = inject(OpfGlobalMessageService);
-
-  protected createCart(productData: ProductData): Observable<string> {
-    console.log('createCart');
-    let _userId = '';
-    return this.userIdService.takeUserId().pipe(
-      switchMap((userId: string) => {
-        console.log('userId', userId);
-        _userId = userId;
-        return this.multiCartFacade
-          .createCart({
-            userId,
-            extraData: { active: false },
-          })
-          .pipe(
-            map((cart: Cart) => {
-              console.log('cart created', cart);
-              return _userId === 'current'
-                ? (cart.code as string)
-                : (cart.guid as string);
-            }),
-            tap((cartId: string) => {
-              console.log('addEntry on ', cartId);
-              return this.multiCartFacade.addEntry(
-                userId,
-                cartId,
-                productData.productCode,
-                productData.quantity
-              );
-            })
-          );
-      })
-    );
-  }
 
   addProductToCart(
     productCode: string,

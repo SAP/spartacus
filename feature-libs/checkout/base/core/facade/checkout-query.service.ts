@@ -20,7 +20,7 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 
@@ -64,6 +64,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
    * Performs the necessary checkout preconditions.
    */
   protected checkoutPreconditions(): Observable<[string, string]> {
+    console.log('original checkoutPreconditions');
     return combineLatest([
       this.userIdService.takeUserId(),
       this.activeCartFacade.takeActiveCartId(),

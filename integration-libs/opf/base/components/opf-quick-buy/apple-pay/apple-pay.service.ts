@@ -332,14 +332,17 @@ export class ApplePayService {
             JSON.stringify(applePayPayment.token.paymentData)
           );
 
-          return this.opfPaymentFacade.submitPayment({
-            additionalData: [],
-            paymentSessionId: '',
-            callbackArray: [() => {}, () => {}, () => {}],
-            paymentMethod: PaymentMethod.APPLE_PAY,
-            encryptedToken,
-            cartId,
-          });
+          return this.opfPaymentFacade.submitPayment(
+            {
+              additionalData: [],
+              paymentSessionId: '',
+              callbackArray: [() => {}, () => {}, () => {}],
+              paymentMethod: PaymentMethod.APPLE_PAY,
+              encryptedToken,
+              cartId,
+            },
+            true
+          );
         })
       );
   }

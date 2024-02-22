@@ -8,7 +8,7 @@
 import { ElementRef, Injectable, inject } from '@angular/core';
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
 import { Address, Product } from '@spartacus/core';
-import { OpfCartHandlerService } from '@spartacus/opf/base/core';
+import { OpfMultiCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ActiveConfiguration,
   OpfPaymentFacade,
@@ -38,7 +38,7 @@ export class OpfGooglePayService {
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);
   protected itemCounterService = inject(ItemCounterService);
   protected currentProductService = inject(CurrentProductService);
-  protected opfCartHandlerService = inject(OpfCartHandlerService);
+  protected opfCartHandlerService = inject(OpfMultiCartHandlerService);
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected opfQuickBuyService = inject(OpfQuickBuyService);
 
@@ -192,23 +192,23 @@ export class OpfGooglePayService {
     return this.currentProductService.getProduct().pipe(
       take(1),
       switchMap((product: Product | null) => {
-        return this.opfCartHandlerService.deleteCurrentCart().pipe(
-          switchMap(() => {
-            return this.opfCartHandlerService.addProductToCart(
-              product?.code || '',
-              this.itemCounterService.getCounter()
-            );
-          }),
-          tap(() => {
-            this.updateTransactionInfo({
-              totalPrice: this.estimateTotalPrice(product?.price?.value),
-              currencyCode:
-                product?.price?.currencyIso ||
-                this.initialTransactionInfo.currencyCode,
-              totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
-            });
-          })
-        );
+        return this.opfCartHandlerService
+          .addProductToCart(
+            product?.code || '',
+            this.itemCounterService.getCounter()
+          )
+          .pipe(
+            take(1),
+            tap(() => {
+              this.updateTransactionInfo({
+                totalPrice: this.estimateTotalPrice(product?.price?.value),
+                currencyCode:
+                  product?.price?.currencyIso ||
+                  this.initialTransactionInfo.currencyCode,
+                totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
+              });
+            })
+          );
       })
     );
   }

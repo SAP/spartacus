@@ -4,8 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { inject, Injectable } from '@angular/core';
+import {
+  ActiveCartFacade,
+  CartType,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   RoutingService,
@@ -47,6 +51,7 @@ import { getBrowserInfo } from '../utils/opf-payment-utils';
 
 @Injectable()
 export class OpfPaymentHostedFieldsService {
+  protected multiCartFacade = inject(MultiCartFacade);
   constructor(
     protected opfPaymentConnector: OpfPaymentConnector,
     protected winRef: WindowRef,
@@ -59,7 +64,10 @@ export class OpfPaymentHostedFieldsService {
     protected opfPaymentErrorHandlerService: OpfPaymentErrorHandlerService
   ) {}
 
-  submitPayment(submitInput: SubmitInput): Observable<boolean> {
+  submitPayment(
+    submitInput: SubmitInput,
+    isMultiCart?: boolean
+  ): Observable<boolean> {
     const {
       paymentMethod,
       cartId,
@@ -82,17 +90,17 @@ export class OpfPaymentHostedFieldsService {
     if (encryptedToken) {
       submitRequest.encryptedToken = encryptedToken;
     }
-
-    return combineLatest([
-      this.userIdService.getUserId(),
-      this.activeCartFacade.getActiveCartId(),
-    ]).pipe(
+    const cartId$ = isMultiCart
+      ? this.multiCartFacade.getCartIdByType(CartType.NEW_CREATED)
+      : this.activeCartFacade.getActiveCartId();
+    return combineLatest([this.userIdService.getUserId(), cartId$]).pipe(
       filter(
-        ([userId, activeCartId]: [string, string]) => !!activeCartId && !!userId
+        ([userId, currentCartId]: [string, string]) =>
+          !!currentCartId && !!userId
       ),
-      switchMap(([userId, activeCartId]: [string, string]) => {
-        submitRequest.cartId = activeCartId;
-        return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
+      switchMap(([userId, currentCartId]: [string, string]) => {
+        submitRequest.cartId = currentCartId;
+        return this.opfOtpFacade.generateOtpKey(userId, currentCartId);
       }),
       filter((response) => Boolean(response?.accessCode)),
       take(1),
@@ -104,7 +112,11 @@ export class OpfPaymentHostedFieldsService {
         )
       ),
       concatMap((response: SubmitResponse) =>
-        this.paymentResponseHandler(response, submitInput.callbackArray)
+        this.paymentResponseHandler(
+          response,
+          submitInput.callbackArray,
+          isMultiCart
+        )
       ),
       tap((order: Order) => {
         if (order) {
@@ -177,14 +189,15 @@ export class OpfPaymentHostedFieldsService {
       MerchantCallback,
       MerchantCallback,
       MerchantCallback
-    ]
+    ],
+    isMultiCart?: boolean
   ) {
     if (
       response.status === SubmitStatus.ACCEPTED ||
       response.status === SubmitStatus.DELAYED
     ) {
       return from(Promise.resolve(submitSuccess(response))).pipe(
-        concatMap(() => this.opfOrderFacade.placeOpfOrder(true))
+        concatMap(() => this.opfOrderFacade.placeOpfOrder(true, isMultiCart))
       );
     } else if (response.status === SubmitStatus.PENDING) {
       return from(Promise.resolve(submitPending(response))).pipe(
