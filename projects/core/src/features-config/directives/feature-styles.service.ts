@@ -16,8 +16,8 @@ import { FeatureConfigService } from '../services/feature-config.service';
 
 @Injectable({ providedIn: 'root' })
 export class FeatureStylesService {
-  protected featureConfig = inject(FeatureConfigService);
   private rendererFactory = inject(RendererFactory2); // private, because needed only to create a renderer
+  protected featureConfig = inject(FeatureConfigService);
   protected logger = inject(LoggerService);
 
   protected readonly CSS_FEATURE_FLAG_PREFIX = 'cxFeat_';
