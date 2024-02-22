@@ -21,6 +21,7 @@ import {
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
+  ConfiguratorRouter,
 } from '@spartacus/product-configurator/common';
 import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -52,6 +53,8 @@ class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return routerStateObservable;
   }
+
+  go = () => Promise.resolve(true);
 }
 
 let configurationObs: Observable<Configurator.Configuration>;
@@ -65,6 +68,12 @@ const configWithOverview: Configurator.Configuration = {
   overview: { configId: 'CONFIG_ID', productCode: PRODUCT_CODE },
 };
 let configurationWithOverviewObs = of(configWithOverview);
+
+const mockRouterData: ConfiguratorRouter.Data = {
+  pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+  isOwnerCartEntry: false,
+  owner: configWithOverview.owner,
+};
 
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
@@ -98,6 +107,7 @@ describe('ConfigTabBarComponent', () => {
   let htmlElem: HTMLElement;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
+  let routingService: RoutingService;
 
   beforeEach(
     waitForAsync(() => {
@@ -156,6 +166,8 @@ describe('ConfigTabBarComponent', () => {
       configuratorStorefrontUtilsService,
       'focusFirstActiveElement'
     ).and.callThrough();
+    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
+    console.log(routingService);
   });
 
   it('should create component', () => {
@@ -466,7 +478,6 @@ describe('ConfigTabBarComponent', () => {
         configuratorCommonsService,
         'getConfigurationWithOverview'
       ).and.returnValue(configurationObs);
-
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(
@@ -476,7 +487,39 @@ describe('ConfigTabBarComponent', () => {
 
     it('focusConfigurationInTabBar should call focusFirstActiveElement', fakeAsync(() => {
       component['focusConfigurationInTabBar']();
+      tick(1); // needed because of delay(0) in focusConfigurationInTabBar
+      expect(
+        configuratorStorefrontUtilsService.focusFirstActiveElement
+      ).toHaveBeenCalledTimes(1);
+    }));
+
+    it('navigateToOverview should navigate to overview page and should call focusFirstActiveElement inside focusOverviewInTabBar', fakeAsync(() => {
+      spyOn(routingService, 'go').and.callThrough();
+      component['navigateToOverview'](mockRouterData);
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'configureOverview' + mockRouterData.owner.configuratorType,
+        params: {
+          entityKey: mockRouterData.owner.id,
+          ownerType: mockRouterData.owner.type,
+        },
+      });
+      expect(
+        configuratorStorefrontUtilsService.focusFirstActiveElement
+      ).toHaveBeenCalledTimes(1);
+    }));
+
+    it('navigateToConfiguration should navigate to configuration page and should call focusFirstActiveElement inside focusConfigurationInTabBar', fakeAsync(() => {
+      spyOn(routingService, 'go').and.callThrough();
+      component['navigateToConfiguration'](mockRouterData);
+      tick(1); // needed because of delay(0) in focusConfigurationInTabBar
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'configure' + mockRouterData.owner.configuratorType,
+        params: {
+          entityKey: mockRouterData.owner.id,
+          ownerType: mockRouterData.owner.type,
+        },
+      });
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
