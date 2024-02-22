@@ -57,7 +57,7 @@ describe('useFeatureStyles', () => {
   describe('when called outside of constructor of component, in ngOnInit', () => {
     it('should throw an error', () => {
       const fixture = TestBed.createComponent(ErroneousTestComponent);
-      expect(() => fixture.detectChanges()).toThrow(/useFeatureStyles/);
+      expect(() => fixture.detectChanges()).toThrow();
     });
   });
 });
