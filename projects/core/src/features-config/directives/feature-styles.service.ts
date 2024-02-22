@@ -45,14 +45,11 @@ export class FeatureStylesService {
   protected usagesCounter = new Map<string, number>();
 
   /**
-   * Saves the root element of the application for later usage of the service.
+   * Saves the root element of the application for later usage in this service.
    *
-   * In edge cases, if some usages of feature flags are registered
+   * In edge cases, if some usages of feature flags were registered
    * before the `init()` method was called, this method immediately adds
    * CSS classes to the root element for the already registered features usages.
-   *
-   * Note: the root element becomes available only once the app is bootstrapped,
-   * i.e. on Angular's hook `APP_BOOTSTRAP_LISTENER`
    */
   init(rootComponent: ComponentRef<any>): void {
     this.targetElement = rootComponent.location.nativeElement;
@@ -106,12 +103,15 @@ export class FeatureStylesService {
     this.usagesCounter.set(feature, Math.max(currentCounter - 1, 0));
   }
 
+  /**
+   * Returns whether the given feature flag is enabled.
+   */
   protected isEnabled(feature: string): boolean {
     return this.featureConfig.isEnabled(feature);
   }
 
   /**
-   * Adds the feature's CSS class to the root element.
+   * Adds the feature's CSS class to the root element, if the flag is enabled.
    *
    * It does nothing if the feature flag is disabled
    * or if the root element is not yet available.
@@ -125,7 +125,7 @@ export class FeatureStylesService {
   }
 
   /**
-   * Removes the feature's CSS class from the root element.
+   * Removes the feature's CSS class from the root element, if the flag is enabled.
    *
    * It does nothing if the feature flag is disabled
    * or if the root element is not yet available.
