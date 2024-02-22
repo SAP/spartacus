@@ -14,7 +14,7 @@ exports[`Workspace utils getProject should return project 1`] = `
         "production": {
           "budgets": [
             {
-              "maximumError": "2.5mb",
+              "maximumError": "3.5mb",
               "maximumWarning": "500kb",
               "type": "initial",
             },
@@ -127,7 +127,7 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
       "production": {
         "budgets": [
           {
-            "maximumError": "2.5mb",
+            "maximumError": "3.5mb",
             "maximumWarning": "500kb",
             "type": "initial",
           },
