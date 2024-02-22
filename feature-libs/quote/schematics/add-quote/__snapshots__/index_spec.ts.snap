@@ -172,7 +172,7 @@ exports[`Spartacus Quote schematics: ng-add Quote feature general setup styling 
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
