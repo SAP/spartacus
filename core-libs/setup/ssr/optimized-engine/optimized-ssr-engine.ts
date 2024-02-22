@@ -77,7 +77,10 @@ export class OptimizedSsrEngine {
         }
       : undefined;
 
-    this.logger = this.ssrOptions?.logger as ExpressServerLogger; // we are sure the logger is defined in this place
+    if (!this.ssrOptions?.logger) {
+      throw new Error('`SsrOptimizationOptions.logger` is not defined');
+    }
+    this.logger = this.ssrOptions?.logger;
     this.logOptions();
   }
 
