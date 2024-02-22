@@ -15,8 +15,8 @@ import { LoggerService } from '../../logger/logger.service';
 import { FeatureConfigService } from '../services/feature-config.service';
 
 /**
- * Service that automatically adds/removes CSS classes to/from the root element of the application,
- * based on the usage of feature flags.
+ * Automatically adds/removes CSS classes to/from the root element of the application,
+ * based on the explicitly registered usage of feature flags.
  *
  * The CSS classes are added only for flags that are currently used and enabled in the config.
  *
