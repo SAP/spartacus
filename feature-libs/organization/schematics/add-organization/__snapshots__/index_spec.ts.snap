@@ -152,7 +152,7 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -371,7 +371,7 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -590,7 +590,7 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -809,7 +809,7 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -1028,7 +1028,7 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
