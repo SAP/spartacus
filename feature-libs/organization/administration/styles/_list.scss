@@ -75,6 +75,9 @@
 
 %organizationTitle {
   .title {
+    cx-popover {
+      text-transform: initial;
+    }
     h3 {
       button {
         border: none;
