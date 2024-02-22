@@ -13,7 +13,7 @@
           params: {
             ownerType: retrieveOwnerTypeFromAbstractOrderType(abstractOrderKey),
             entityKey: retrieveEntityKey(abstractOrderKey),
-            displayOnly: isDisplayOnly()
+            displayOnly: getDisplayOnly()
           }
         } | cxUrl
       "
@@ -26,16 +26,16 @@
   </ng-container>
 
   <ng-template #configureText>
-    <ng-container *ngIf="isDisplayOnly()">
+    <ng-container *ngIf="getDisplayOnly()">
       {{
         'configurator.header.displayConfiguration' | cxTranslate
       }}</ng-container
     >
-    <ng-container *ngIf="!isDisplayOnly() && !msgBanner">
+    <ng-container *ngIf="!getDisplayOnly() && !msgBanner">
       {{ 'configurator.header.editConfiguration' | cxTranslate }}
     </ng-container>
 
-    <ng-container *ngIf="!isDisplayOnly() && msgBanner">
+    <ng-container *ngIf="!getDisplayOnly() && msgBanner">
       {{ 'configurator.header.resolveIssues' | cxTranslate }}
     </ng-container>
   </ng-template>

@@ -142,11 +142,11 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
-   * Verifies whether the configuration is display only.
+   * Retrieves the state of the configuration.
    *
    *  @returns - 'true' if the configuration is read only or configurator type contains a read-only postfix, otherwise 'false'
    */
-  isDisplayOnly(): boolean {
+  getDisplayOnly(): boolean {
     const configuratorType = this.cartEntry.product?.configuratorType;
     return (
       this.readOnly ||
@@ -171,7 +171,7 @@ export class ConfigureCartEntryComponent {
    */
   getResolveIssuesA11yDescription(): string | undefined {
     const errorMsgId = 'cx-error-msg-' + this.cartEntry.entryNumber;
-    return !this.isDisplayOnly() && this.msgBanner ? errorMsgId : undefined;
+    return !this.getDisplayOnly() && this.msgBanner ? errorMsgId : undefined;
   }
 
   /**
