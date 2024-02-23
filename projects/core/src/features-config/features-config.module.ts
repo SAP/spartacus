@@ -37,9 +37,9 @@ export class FeaturesConfigModule {
           provide: APP_BOOTSTRAP_LISTENER,
           multi: true,
           useFactory: (): ((compRef: ComponentRef<any>) => void) => {
-            const featureCssService = inject(FeatureStylesService);
+            const featureStylesService = inject(FeatureStylesService);
             return (compRef: ComponentRef<any>) =>
-              featureCssService.init(compRef);
+              featureStylesService.init(compRef);
           },
         },
       ],
