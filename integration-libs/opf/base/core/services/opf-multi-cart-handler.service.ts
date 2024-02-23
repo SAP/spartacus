@@ -72,12 +72,36 @@ export class OpfMultiCartHandlerService implements OpfCartHandlerInterface {
     this.isMulticart = true;
   }
 
+  protected addProductToActiveCart(
+    productCode: string,
+    quantity: number,
+    pickupStore?: string | undefined
+  ): Observable<boolean> {
+    console.log('addProductToActiveCart');
+    this.activeCartFacade.addEntry(productCode, quantity, pickupStore);
+    return this.checkStableCart();
+  }
+
   addProductToCart(
     productCode: string,
     quantity: number,
     pickupStore?: string | undefined
   ): Observable<boolean> {
-    console.log('createCart');
+    return this.isMulticart
+      ? this.addMultipleProductToMultipleCart(
+          productCode,
+          quantity,
+          pickupStore
+        )
+      : this.addProductToActiveCart(productCode, quantity, pickupStore);
+  }
+
+  protected addMultipleProductToMultipleCart(
+    productCode: string,
+    quantity: number,
+    pickupStore?: string | undefined
+  ): Observable<boolean> {
+    console.log('addMultipleProductToMultipleCart');
     let _userId = '';
     return this.userIdService.takeUserId().pipe(
       switchMap((userId: string) => {
@@ -111,65 +135,55 @@ export class OpfMultiCartHandlerService implements OpfCartHandlerInterface {
           pickupStore
         );
         return this.checkStableCart();
-      }),
-      tap(() => {
-        this.setMultipleCart(true);
-        this.setDeliveryAddress({
-          firstName: 'Jane',
-          lastName: 'Smith',
-          line1: '45 - 3rd floor',
-          line2: '456 Elm St',
-          town: 'Townsville',
-          postalCode: '67890',
-          phone: '555-5678',
-          region: { isocode: 'JP-27' },
-          country: {
-            isocode: 'JP',
-            name: 'Japan',
-          },
-        }).subscribe((address) => {
-          console.log('address', address);
-        });
-
-        this.setBillingAddress({
-          firstName: 'Jane',
-          lastName: 'Smith',
-          line1: '45 - 3rd floor',
-          line2: '456 Elm St',
-          town: 'Townsville',
-          postalCode: '67890',
-          phone: '555-5678',
-          region: { isocode: 'JP-27' },
-          country: {
-            isocode: 'JP',
-            name: 'Japan',
-          },
-        }).subscribe((address) => {
-          console.log('address', address);
-          this.getSupportedDeliveryModes().subscribe((list) => {
-            console.log('getSupportedDeliveryModes', list);
-            this.setDeliveryMode(list[0].code as any).subscribe({
-              next: (value) => {
-                console.log('setDeliveryMode', value);
-              },
-              error: (error) => {
-                console.log('setDeliveryMode error', error);
-              },
-            });
-          });
-        });
-
-        // this.setDeliveryMode('standard-gross').subscribe(
-        //   {
-        //     next: (value) => {
-        //       console.log('setDeliveryMode', value);
-        //     },
-        //     error: (error) => {
-        //       console.log('setDeliveryMode error', error);
-        //     },
-        //   }
-        // );
       })
+      // tap(() => {
+      //   this.setMultipleCart(true);
+      //   this.setDeliveryAddress({
+      //     firstName: 'Jane',
+      //     lastName: 'Smith',
+      //     line1: '45 - 3rd floor',
+      //     line2: '456 Elm St',
+      //     town: 'Townsville',
+      //     postalCode: '67890',
+      //     phone: '555-5678',
+      //     region: { isocode: 'JP-27' },
+      //     country: {
+      //       isocode: 'JP',
+      //       name: 'Japan',
+      //     },
+      //   }).subscribe((address) => {
+      //     console.log('address', address);
+      //   });
+
+      //   this.setBillingAddress({
+      //     firstName: 'Jane',
+      //     lastName: 'Smith',
+      //     line1: '45 - 3rd floor',
+      //     line2: '456 Elm St',
+      //     town: 'Townsville',
+      //     postalCode: '67890',
+      //     phone: '555-5678',
+      //     region: { isocode: 'JP-27' },
+      //     country: {
+      //       isocode: 'JP',
+      //       name: 'Japan',
+      //     },
+      //   }).subscribe((address) => {
+      //     console.log('address', address);
+      //     this.getSupportedDeliveryModes().subscribe((list) => {
+      //       console.log('getSupportedDeliveryModes', list);
+      //       this.setDeliveryMode(list[0].code as any).subscribe({
+      //         next: (value) => {
+      //           console.log('setDeliveryMode', value);
+      //         },
+      //         error: (error) => {
+      //           console.log('setDeliveryMode error', error);
+      //         },
+      //       });
+      //     });
+      //   });
+
+      // })
     );
   }
 

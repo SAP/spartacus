@@ -189,6 +189,7 @@ export class OpfGooglePayService {
   }
 
   handleSingleProductTransaction(): Observable<Product | boolean | null> {
+    this.opfCartHandlerService.setMultipleCart(true);
     return this.currentProductService.getProduct().pipe(
       take(1),
       switchMap((product: Product | null) => {
@@ -214,6 +215,7 @@ export class OpfGooglePayService {
   }
 
   handleActiveCartTransaction(): Observable<Cart> {
+    this.opfCartHandlerService.setMultipleCart(false);
     return this.opfCartHandlerService.getCurrentCart().pipe(
       take(1),
       tap((cart: Cart) => {

@@ -133,14 +133,15 @@ export class ApplePayService {
     quantity: number
   ): Observable<boolean> {
     if (product.code) {
-      return this.cartHandlerService.deleteCurrentCart().pipe(
-        switchMap(() => {
-          return this.cartHandlerService.addProductToCart(
-            product.code as string,
-            quantity
-          );
-        })
+      this.cartHandlerService.setMultipleCart(true);
+      // return this.cartHandlerService.deleteCurrentCart().pipe(
+      //   switchMap(() => {
+      return this.cartHandlerService.addProductToCart(
+        product.code as string,
+        quantity
       );
+      //  })
+      //  );
     }
     return throwError('Product code unknown');
   }
