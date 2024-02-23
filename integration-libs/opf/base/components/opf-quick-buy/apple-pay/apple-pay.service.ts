@@ -45,7 +45,7 @@ export class ApplePayService {
     quantity: 0,
     product: undefined,
     addressIds: [],
-    isPdp: true,
+    isPdp: false,
     total: {
       label: '',
       amount: '',
@@ -333,17 +333,14 @@ export class ApplePayService {
             JSON.stringify(applePayPayment.token.paymentData)
           );
 
-          return this.opfPaymentFacade.submitPayment(
-            {
-              additionalData: [],
-              paymentSessionId: '',
-              callbackArray: [() => {}, () => {}, () => {}],
-              paymentMethod: PaymentMethod.APPLE_PAY,
-              encryptedToken,
-              cartId,
-            },
-            true
-          );
+          return this.opfPaymentFacade.submitPayment({
+            additionalData: [],
+            paymentSessionId: '',
+            callbackArray: [() => {}, () => {}, () => {}],
+            paymentMethod: PaymentMethod.APPLE_PAY,
+            encryptedToken,
+            cartId,
+          });
         })
       );
   }
