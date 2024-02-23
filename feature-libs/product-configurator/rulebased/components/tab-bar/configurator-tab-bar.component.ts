@@ -10,6 +10,7 @@ import {
   HostBinding,
   ViewChild,
   ElementRef,
+  inject,
 } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import {
@@ -42,6 +43,8 @@ export class ConfiguratorTabBarComponent {
   @ViewChild('overviewTab') overviewTab: ElementRef<HTMLElement>;
 
   private static readonly TAB_BAR_QUERY_SELECTOR = 'cx-configurator-tab-bar';
+  protected routingService = inject(RoutingService);
+  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
 
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
@@ -198,8 +201,6 @@ export class ConfiguratorTabBarComponent {
 
   constructor(
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected routingService: RoutingService,
-    protected configUtils: ConfiguratorStorefrontUtilsService
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {}
 }
