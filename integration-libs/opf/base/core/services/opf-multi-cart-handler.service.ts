@@ -113,7 +113,7 @@ export class OpfMultiCartHandlerService implements OpfCartHandlerInterface {
       switchMap((userId) => {
         return this.multiCartFacade.createCart({
           userId,
-          extraData: { active: false },
+          extraData: { active: true },
         });
       }),
       take(1),
@@ -267,6 +267,7 @@ export class OpfMultiCartHandlerService implements OpfCartHandlerInterface {
   }
 
   setDeliveryMode(mode: string): Observable<DeliveryMode | undefined> {
+    console.log('setDeliveryMode');
     return this.checkoutDeliveryModesFacade.setDeliveryMode(mode).pipe(
       switchMap(() =>
         this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState()
