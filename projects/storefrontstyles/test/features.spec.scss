@@ -1,5 +1,5 @@
 @import '../../sass-true/sass/true';
-@import '../scss/feature-flags';
+@import '../scss/features';
 
 @include describe('Feature flags') {
   @include describe('getFeatureCssClass') {
