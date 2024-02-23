@@ -65,11 +65,11 @@ export class OpfMultiCartHandlerService implements OpfCartHandlerInterface {
 
   setMultipleCart(value: boolean) {
     console.log('setMultipleCart');
+    this.isMulticart = value;
     this.checkoutDeliveryAddressFacade.setMultipleCart(value);
     this.checkoutBillingAddressFacade.setMultipleCart(value);
     this.checkoutDeliveryModesFacade.setMultipleCart(value);
     this.checkoutQueryFacade.setMultipleCart(value);
-    this.isMulticart = true;
   }
 
   protected addProductToActiveCart(
