@@ -1,0 +1,89 @@
+name: Minor Release Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., 2211.20.0 or 2211.20.0-1)'
+        required: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: develop 
+
+      - name: Configure Git
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com' 
+
+      - name: Create Release Branch
+        run: |
+          version="${{ github.event.inputs.version }}"
+          if [[ $version == *-* ]]; then
+            IFS='-' read -ra VERSION_AND_PRERELEASE <<< "$version"
+            prerelease="${VERSION_AND_PRERELEASE[*]:1}"
+            version_part=${VERSION_AND_PRERELEASE[0]}
+          else
+            version_part=$version
+            prerelease=""
+          fi
+          
+          IFS='.' read -ra ADDR <<< "$version_part"
+          major=${ADDR[0]}
+          minor=${ADDR[1]}
+          patch=${ADDR[2]}
+          release_branch="release-${major}.${minor}.${patch}"
+          
+          if [[ -n $prerelease ]]; then
+            release_branch="${release_branch}-${prerelease// /-}"
+          fi
+
+          echo "RELEASE_BRANCH=$release_branch" >> $GITHUB_ENV
+          git checkout -b "release-${{ github.event.inputs.version }}"
+
+      - name: Update SCSS Versioning
+        run: |
+            major=$(echo "${{ github.event.inputs.version }}" | cut -d '.' -f 1)
+            minor=$(echo "${{ github.event.inputs.version }}" | cut -d '.' -f 2)
+            patch=$(echo "${{ github.event.inputs.version }}" | cut -d '.' -f 3 | cut -d '-' -f 1)
+            sed -i "s/major: [0-9]\\{1,\\},/major: $major,/" projects/storefrontstyles/scss/_versioning.scss
+            sed -i "s/minor: [0-9]\\{1,\\},/minor: $minor,/" projects/storefrontstyles/scss/_versioning.scss
+            sed -i "s/patch: [0-9]\\{1,\\},/patch: $patch,/" projects/storefrontstyles/scss/_versioning.scss
+            echo "Updated versions in projects/storefrontstyles/scss/_versioning.scss."
+
+      - name: Update Publishing Version
+        run: |
+          version="${{ github.event.inputs.version }}"
+          sed -i "s/export const PUBLISHING_VERSION = '.*';/export const PUBLISHING_VERSION = '$version';/" ./tools/config/const.ts
+          echo "Updated PUBLISHING_VERSION in ./tools/config/const.ts."
+        
+      - name: Run NPM Commands
+        run: |
+          if ! npm run config:update; then
+            echo "Error: The configuration file is not up to date. Regenerating dependencies..."
+            npm run generate:deps
+            npm run config:update
+          fi
+          npm run generate:deps
+          npm run test:all-schematics
+  
+      - name: Push Changes
+        run: |
+          git add .
+          git commit -m "Release ${{ github.event.inputs.version }}"
+          git push origin HEAD:"release-${{ github.event.inputs.version }}"
+  
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: "release-${{ github.event.inputs.version }}" 
+          delete-branch: true 
+          title: "Release ${{ github.event.inputs.version }}"
+          body: "Automated pull request to merge the release branch into develop."
+          base: "develop"
+          token: ${{ secrets.GITHUB_TOKEN }}
