@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   ActivatedRouterStateSnapshot,
   CurrencyService,
-  FeatureConfigService,
   LanguageService,
   ProductSearchPage,
   ProductSearchService,
@@ -53,12 +52,6 @@ class MockLanguageService {
   }
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(): boolean {
-    return true;
-  }
-}
-
 describe('ProductListComponentService', () => {
   let service: ProductListComponentService;
   let activatedRoute: ActivatedRoute;
@@ -89,7 +82,6 @@ describe('ProductListComponentService', () => {
         { provide: ProductSearchService, useClass: MockProductSearchService },
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: LanguageService, useClass: MockLanguageService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         provideDefaultConfig(<ViewConfig>defaultViewConfig),
       ],
     });

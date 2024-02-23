@@ -8,7 +8,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 
 import { StoreModule } from '@ngrx/store';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -206,7 +206,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           I18nTestingModule,
           RouterTestingModule,
           UrlTestingModule,
-          FeaturesConfigModule,
           StoreModule.forRoot({}),
           StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
         ],

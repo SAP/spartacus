@@ -117,7 +117,7 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature g
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",

@@ -11,7 +11,6 @@ import {
 import {
   CustomerCouponSearchResult,
   CustomerCouponService,
-  FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
@@ -73,12 +72,7 @@ describe('CartCouponComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          ReactiveFormsModule,
-          FeaturesConfigModule,
-          FormErrorsModule,
-        ],
+        imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
         declarations: [CartCouponComponent, MockAppliedCouponsComponent],
         providers: [
           { provide: ActiveCartFacade, useValue: mockActiveCartService },

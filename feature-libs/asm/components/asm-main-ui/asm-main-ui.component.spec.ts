@@ -18,7 +18,6 @@ import {
 import {
   AuthService,
   FeatureConfigService,
-  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
@@ -177,7 +176,7 @@ describe('AsmMainUiComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, FeaturesConfigModule],
+        imports: [I18nTestingModule],
         declarations: [
           AsmMainUiComponent,
           MockAsmToggleUiComponent,
