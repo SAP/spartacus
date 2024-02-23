@@ -133,7 +133,7 @@ export class ApplePayService {
     quantity: number
   ): Observable<boolean> {
     if (product.code) {
-      this.cartHandlerService.setMultipleCart(true);
+      this.cartHandlerService.setMultipleCart(false);
       // return this.cartHandlerService.deleteCurrentCart().pipe(
       //   switchMap(() => {
       return this.cartHandlerService.addProductToCart(
