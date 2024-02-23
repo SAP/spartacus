@@ -136,14 +136,14 @@ export class ApplePayService {
     if (product.code) {
       this.cartHandlerService.setMultipleCart(true);
       this.localCart.isPdp = true;
-      return this.cartHandlerService.deleteCurrentCart().pipe(
-        switchMap(() => {
-          return this.cartHandlerService.addProductToCart(
-            product.code as string,
-            quantity
-          );
-        })
+      // return this.cartHandlerService.deleteCurrentCart().pipe(
+      //   switchMap(() => {
+      return this.cartHandlerService.addProductToCart(
+        product.code as string,
+        quantity
       );
+      //   })
+      // );
     }
     return throwError('Product code unknown');
   }
