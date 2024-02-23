@@ -20,6 +20,16 @@ $CSS_FEATURE_FLAG_PREFIX: 'cxFeat_';
 //            Otherwise the feature-flagged styles MIGHT NOT be activated
 //            EVEN if the flag is enabled in the Spartacus configuration!
 //
+//            For instance, if the SCSS of your component you have:
+//            ```scss
+//            %cx-my-component {
+//              ...
+//                ...
+//                  @include forFeature('myFeatureFlag') { ... }
+//            }
+//            ```
+//            ...then you should also call `useFeatureStyles('myFeatureFlag')` in the constructor of this component.
+//
 // Use case: Breaking style changes can be added for a specific feature flag
 // and customers can only use those styles if they explicitly enable a feature flag.
 //
