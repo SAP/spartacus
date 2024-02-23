@@ -36,6 +36,7 @@ $CSS_FEATURE_FLAG_PREFIX: 'cxFeat_';
   @if (not index(('ancestorSelector', 'currentSelector'), $classTarget)) {
     @error "forFeature: $classTarget must be either 'ancestorSelector' or 'currentSelector', but #{$classTarget} was provided.";
   }
+  // Validate params end
 
   $featureClass: getFeatureCssClass($feature);
   @if ($classTarget == 'ancestorSelector') {
