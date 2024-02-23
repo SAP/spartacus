@@ -134,7 +134,8 @@ export class ApplePayService {
     quantity: number
   ): Observable<boolean> {
     if (product.code) {
-      this.cartHandlerService.setMultipleCart(false);
+      this.cartHandlerService.setMultipleCart(true);
+      this.localCart.isPdp = true;
       return this.cartHandlerService.deleteCurrentCart().pipe(
         switchMap(() => {
           return this.cartHandlerService.addProductToCart(
@@ -334,14 +335,17 @@ export class ApplePayService {
             JSON.stringify(applePayPayment.token.paymentData)
           );
 
-          return this.opfPaymentFacade.submitPayment({
-            additionalData: [],
-            paymentSessionId: '',
-            callbackArray: [() => {}, () => {}, () => {}],
-            paymentMethod: PaymentMethod.APPLE_PAY,
-            encryptedToken,
-            cartId,
-          });
+          return this.opfPaymentFacade.submitPayment(
+            {
+              additionalData: [],
+              paymentSessionId: '',
+              callbackArray: [() => {}, () => {}, () => {}],
+              paymentMethod: PaymentMethod.APPLE_PAY,
+              encryptedToken,
+              cartId,
+            },
+            this.localCart.isPdp
+          );
         })
       );
   }
