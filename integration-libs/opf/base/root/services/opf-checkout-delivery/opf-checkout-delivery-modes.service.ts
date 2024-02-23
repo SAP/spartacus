@@ -15,16 +15,14 @@ import {
   CheckoutDeliveryModesService,
 } from '@spartacus/checkout/base/core';
 import {
-  Command,
   CommandService,
-  CommandStrategy,
   EventService,
   OCC_USER_ID_ANONYMOUS,
   QueryService,
   UserIdService,
 } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { OpfCheckoutQueryService } from './opf-checkout-query.service';
 
 @Injectable()
@@ -32,22 +30,30 @@ export class OpfCheckoutDeliveryModesService extends CheckoutDeliveryModesServic
   protected multiCartFacade = inject(MultiCartFacade);
   protected multipleCartCart = false;
 
-  protected setDeliveryModeCommand: Command<string, unknown> =
-    this.commandService.create<string>(
-      (deliveryModeCode) =>
-        this.checkoutPreconditions().pipe(
-          switchMap(([userId, cartId]) =>
-            this.checkoutDeliveryModesConnector.setMode(
-              userId,
-              cartId,
-              deliveryModeCode
-            )
-          )
-        ),
-      {
-        strategy: CommandStrategy.CancelPrevious,
-      }
-    );
+  // protected setDeliveryModeCommand: Command<string, unknown> =
+  //   this.commandService.create<string>(
+  //     (deliveryModeCode) =>
+  //       this.checkoutPreconditions().pipe(
+  //         switchMap(([userId, cartId]) =>
+  //           this.checkoutDeliveryModesConnector.setMode(
+  //             userId,
+  //             cartId,
+  //             deliveryModeCode
+  //           )
+  //           .pipe(
+  //             tap(() => {
+  //               this.eventService.dispatch(
+  //                 { userId, cartId, cartCode: cartId, deliveryModeCode },
+  //                 CheckoutDeliveryModeSetEvent
+  //               );
+  //             })
+  //           )
+  //         )
+  //       ),
+  //     {
+  //       strategy: CommandStrategy.CancelPrevious,
+  //     }
+  //   );
 
   setMultipleCart(multiple: boolean) {
     this.multipleCartCart = multiple;
