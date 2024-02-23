@@ -88,8 +88,6 @@ if (!environment.production) {
       // For the development environment and CI, feature level is always the highest.
       features: {
         level: '*',
-        cartItemActionsRoundedButtons: true,
-        darkMode: true,
       },
     }),
     provideConfig(<StoreFinderConfig>{

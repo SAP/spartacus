@@ -24,7 +24,7 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import { UserIdService, useFeatureStyles } from '@spartacus/core';
+import { UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
@@ -91,9 +91,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected multiCartService: MultiCartFacade,
     protected cd: ChangeDetectorRef,
     @Optional() protected outlet?: OutletContextData<ItemListContext>
-  ) {
-    useFeatureStyles('cartItemActionsRoundedButtons');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(this.getInputsFromContext());
