@@ -35,8 +35,17 @@ export class FeatureStylesService {
    */
   protected readonly CSS_FEATURE_FLAG_PREFIX = 'cxFeat_';
 
+  /**
+   * Angular Renderer util to add/remove CSS classes to/from the root element.
+   */
   protected renderer = this.rendererFactory.createRenderer(null, null);
-  protected targetElement: HTMLElement | undefined;
+
+  /**
+   * The root HTML element of the application to apply CSS classes to.
+   *
+   * It's set by the `init()` method.
+   */
+  protected rootElement: HTMLElement | undefined;
 
   /**
    * Tracks the number of usages of each feature flag.
@@ -54,7 +63,7 @@ export class FeatureStylesService {
    * CSS classes to the root element for the already registered features usages.
    */
   init(rootComponent: ComponentRef<any>): void {
-    this.targetElement = rootComponent.location.nativeElement;
+    this.rootElement = rootComponent.location.nativeElement;
 
     // Handle edge-case:
     // Add classes for all features that were used (called `registerUsage()`) before `init()` was invoked.
@@ -120,10 +129,10 @@ export class FeatureStylesService {
    */
   protected addClass(feature: string) {
     const cssClass = this.getCssClass(feature);
-    if (!this.targetElement || !cssClass) {
+    if (!this.rootElement || !cssClass) {
       return;
     }
-    this.renderer.addClass(this.targetElement, cssClass);
+    this.renderer.addClass(this.rootElement, cssClass);
   }
 
   /**
@@ -134,10 +143,10 @@ export class FeatureStylesService {
    */
   protected removeClass(feature: string) {
     const cssClass = this.getCssClass(feature);
-    if (!this.targetElement || !cssClass) {
+    if (!this.rootElement || !cssClass) {
       return;
     }
-    this.renderer.removeClass(this.targetElement, cssClass);
+    this.renderer.removeClass(this.rootElement, cssClass);
   }
 
   /**
