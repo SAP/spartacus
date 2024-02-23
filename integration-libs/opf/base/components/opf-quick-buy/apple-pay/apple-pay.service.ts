@@ -103,9 +103,10 @@ export class ApplePayService {
       })
       .pipe(
         catchError((error) => {
-          return this.cartHandlerService
-            .deleteCurrentCart()
-            .pipe(switchMap(() => throwError(error)));
+          // return this.cartHandlerService
+          // .deleteCurrentCart()
+          // .pipe(switchMap(() => throwError(error)));
+          return throwError(error);
         }),
         finalize(() => {
           this.cartHandlerService.deleteUserAddresses([
