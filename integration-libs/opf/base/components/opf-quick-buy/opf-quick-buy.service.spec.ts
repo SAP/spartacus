@@ -9,6 +9,7 @@ import { AuthService, BaseSiteService, RoutingService } from '@spartacus/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { OpfPaymentFacade } from '../../root/facade';
 import {
+  DigitalWalletQuickBuy,
   OpfPaymentProviderType,
   OpfProviderType,
   OpfQuickBuyLocation,
@@ -239,6 +240,31 @@ describe('OpfQuickBuyService', () => {
       service.getQuickBuyLocationContext().subscribe((context) => {
         expect(context).toBe(OpfQuickBuyLocation.CART);
       });
+    });
+  });
+
+  describe('getQuickBuyProviderConfig', () => {
+    const config: DigitalWalletQuickBuy = {
+      provider: OpfProviderType.GOOGLE_PAY,
+      googlePayGateway: 'test',
+      merchantId: 'test',
+      merchantName: 'test',
+      enabled: true,
+    };
+
+    it('should return config for specific provider', () => {
+      const activeConfiguration = {
+        digitalWalletQuickBuy: [
+          { provider: OpfProviderType.APPLE_PAY, enabled: true },
+          config,
+        ],
+      };
+
+      const result = service.getQuickBuyProviderConfig(
+        OpfProviderType.GOOGLE_PAY,
+        activeConfiguration
+      );
+      expect(result).toBe(config);
     });
   });
 });
