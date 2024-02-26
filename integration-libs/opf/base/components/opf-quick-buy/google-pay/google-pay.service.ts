@@ -193,23 +193,22 @@ export class OpfGooglePayService {
     return this.currentProductService.getProduct().pipe(
       take(1),
       switchMap((product: Product | null) => {
-        return this.opfCartHandlerService.deleteCurrentCart().pipe(
-          switchMap(() => {
-            return this.opfCartHandlerService.addProductToCart(
-              product?.code || '',
-              this.itemCounterService.getCounter()
-            );
-          }),
-          tap(() => {
-            this.updateTransactionInfo({
-              totalPrice: this.estimateTotalPrice(product?.price?.value),
-              currencyCode:
-                product?.price?.currencyIso ||
-                this.initialTransactionInfo.currencyCode,
-              totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
-            });
-          })
-        );
+        return this.opfCartHandlerService
+          .addProductToCart(
+            product?.code || '',
+            this.itemCounterService.getCounter()
+          )
+          .pipe(
+            tap(() => {
+              this.updateTransactionInfo({
+                totalPrice: this.estimateTotalPrice(product?.price?.value),
+                currencyCode:
+                  product?.price?.currencyIso ||
+                  this.initialTransactionInfo.currencyCode,
+                totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
+              });
+            })
+          );
       })
     );
   }

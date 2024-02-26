@@ -24,8 +24,8 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { OpfGlobalMessageService } from '@spartacus/opf/base/root';
-import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, filter, map, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -121,8 +121,9 @@ export class OpfCartHandlerService {
     quantity: number,
     pickupStore?: string | undefined
   ): Observable<boolean> {
-    this.activeCartFacade.takeActiveCartId().pipe(
+    return this.activeCartFacade.takeActiveCartId().pipe(
       switchMap((cartId) => {
+        console.log('takeActiveCartId', cartId);
         return cartId
           ? this.addMultipleProductToMultipleCart(
               productCode,
@@ -130,10 +131,12 @@ export class OpfCartHandlerService {
               pickupStore
             )
           : this.addProductToActiveCart(productCode, quantity, pickupStore);
+      }),
+      catchError((error) => {
+        console.log('flo error', error);
+        return throwError(error);
       })
     );
-    this.activeCartFacade.addEntry(productCode, quantity, pickupStore);
-    return this.checkStableCart();
   }
 
   loadPreviousCart(): Observable<boolean> {
