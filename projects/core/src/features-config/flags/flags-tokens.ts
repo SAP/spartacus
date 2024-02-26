@@ -11,33 +11,39 @@ import { Injectable, InjectionToken, inject } from '@angular/core';
  */
 @Injectable({
   providedIn: 'root',
-  useFactory: () => Object.assign({}, inject(DefaultFlags), inject(RootFlags)),
+  useFactory: () =>
+    Object.assign({}, inject(DefaultFeatureFlags), inject(RootFeatureFlags)),
 })
-export abstract class Flags {}
+export abstract class FeatureFlags {}
 
 /**
- * Default Flags token, used to build Global Flags, built from DefaultFlagsChunks
+ * Default Flags token, used to build Global Flags, built from DefaultFeatureFlagsChunks
  */
-export const DefaultFlags = new InjectionToken('DefaultFlags', {
+export const DefaultFeatureFlags = new InjectionToken('DefaultFeatureFlags', {
   providedIn: 'root',
   factory: () =>
-    Object.assign({}, ...(inject(DefaultFlagsChunk, { optional: true }) ?? [])),
+    Object.assign(
+      {},
+      ...(inject(DefaultFeatureFlagsChunk, { optional: true }) ?? [])
+    ),
 });
 
 /**
- * Root Flags token, used to build Global Flags, built from FlagsChunks
+ * Root Flags token, used to build Global Flags, built from FeatureFlagsChunks
  */
-export const RootFlags = new InjectionToken('RootFlags', {
+export const RootFeatureFlags = new InjectionToken('RootFeatureFlags', {
   providedIn: 'root',
   factory: () =>
-    Object.assign({}, ...(inject(FlagsChunk, { optional: true }) ?? [])),
+    Object.assign({}, ...(inject(FeatureFlagsChunk, { optional: true }) ?? [])),
 });
 
 /**
  * Flags chunk token, can be used to provide configuration chunk and contribute to the global configuration object.
- * Should not be used directly, use `provideFlags` or import `FlagsModule.withFlags` instead.
+ * Should not be used directly, use `provideFeatureFlags` or import `FlagsModule.withFlags` instead.
  */
-export const FlagsChunk = new InjectionToken<Flags[]>('FlagsChunk');
+export const FeatureFlagsChunk = new InjectionToken<FeatureFlags[]>(
+  'FeatureFlagsChunk'
+);
 
 /**
  * Flags chunk token, can be used to provide configuration chunk and contribute to the default configuration.
@@ -45,6 +51,6 @@ export const FlagsChunk = new InjectionToken<Flags[]>('FlagsChunk');
  *
  * General rule is, that all config provided in libraries should be provided as default config.
  */
-export const DefaultFlagsChunk = new InjectionToken<Flags[]>(
-  'DefaultFlagsChunk'
+export const DefaultFeatureFlagsChunk = new InjectionToken<FeatureFlags[]>(
+  'DefaultFeatureFlagsChunk'
 );

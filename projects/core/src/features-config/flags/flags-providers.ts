@@ -5,9 +5,13 @@
  */
 
 import { FactoryProvider, ValueProvider } from '@angular/core';
-import { DefaultFlagsChunk, Flags, FlagsChunk } from './flags-tokens';
+import {
+  DefaultFeatureFlagsChunk,
+  FeatureFlags,
+  FeatureFlagsChunk,
+} from './flags-tokens';
 
-export type FlagsFactory = (...props: any[]) => Flags;
+export type FlagsFactory = (...props: any[]) => FeatureFlags;
 
 /**
  * Helper function to provide flags chunk using FlagsChunk token
@@ -16,12 +20,12 @@ export type FlagsFactory = (...props: any[]) => Flags;
  *
  * @param flags Flags object to merge with the global flags
  */
-export function provideFlags(
-  flags: Flags = {},
+export function provideFeatureFlags(
+  flags: FeatureFlags = {},
   defaultFlags = false
 ): ValueProvider {
   return {
-    provide: defaultFlags ? DefaultFlagsChunk : FlagsChunk,
+    provide: defaultFlags ? DefaultFeatureFlagsChunk : FeatureFlagsChunk,
     useValue: flags,
     multi: true,
   };
@@ -35,41 +39,43 @@ export function provideFlags(
  * @param flagsFactory Factory Function that will generate flags object
  * @param deps Optional dependencies to a factory function
  */
-export function provideFlagsFactory(
+export function provideFeatureFlagsFactory(
   flagsFactory: FlagsFactory,
   defaultFlags = false
 ): FactoryProvider {
   return {
-    provide: defaultFlags ? DefaultFlagsChunk : FlagsChunk,
+    provide: defaultFlags ? DefaultFeatureFlagsChunk : FeatureFlagsChunk,
     useFactory: flagsFactory,
     multi: true,
   };
 }
 
 /**
- * Helper function to provide default flags chunk using DefaultFlagsChunk token
+ * Helper function to provide default flags chunk using DefaultFeatureFlagsChunk token
  *
  * @param flags Flags object to merge with the default flags
  */
-export function provideDefaultFlags(flags: Flags = {}): ValueProvider {
+export function provideDefaultFeatureFlags(
+  flags: FeatureFlags = {}
+): ValueProvider {
   return {
-    provide: DefaultFlagsChunk,
+    provide: DefaultFeatureFlagsChunk,
     useValue: flags,
     multi: true,
   };
 }
 
 /**
- * Helper function to provide default flags with factory function, using DefaultFlagsChunk token
+ * Helper function to provide default flags with factory function, using DefaultFeatureFlagsChunk token
  *
  * @param flagsFactory Factory Function that will generate flags object
  * @param deps Optional dependencies to a factory function
  */
-export function provideDefaultFlagsFactory(
+export function provideDefaultFeatureFlagsFactory(
   flagsFactory: FlagsFactory
 ): FactoryProvider {
   return {
-    provide: DefaultFlagsChunk,
+    provide: DefaultFeatureFlagsChunk,
     useFactory: flagsFactory,
     multi: true,
   };
