@@ -176,7 +176,7 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",

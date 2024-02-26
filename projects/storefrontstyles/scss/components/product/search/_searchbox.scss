@@ -219,6 +219,22 @@
         display: block;
       }
     }
+
+    .recent-searches {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      padding-inline-start: 0;
+      margin-bottom: 0;
+      border-top: solid 1px var(--cx-color-light);
+      li,
+      a {
+        flex: 100%;
+        line-height: 2rem;
+        display: block;
+      }
+    }
+
     .products {
       list-style: none;
       padding-inline-start: 0;

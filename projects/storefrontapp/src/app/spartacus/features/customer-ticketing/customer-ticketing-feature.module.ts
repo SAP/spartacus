@@ -22,8 +22,8 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
       featureModules: {
         [CUSTOMER_TICKETING_FEATURE]: {
           module: () =>
-            import('@spartacus/customer-ticketing').then(
-              (m) => m.CustomerTicketingModule
+            import('./customer-ticketing-wrapper.module').then(
+              (m) => m.CustomerTicketingWrapperModule
             ),
         },
       },
