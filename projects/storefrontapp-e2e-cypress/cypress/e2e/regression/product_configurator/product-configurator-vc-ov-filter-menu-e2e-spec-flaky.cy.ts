@@ -112,7 +112,7 @@ function completeDigitalCameraConfiguration() {
   if (pricing) {
     configVc.registerConfigurationPricingRoute();
   }
-  configVc.goToConfigurationPage(electronicsShop, testProduct);
+  configVc.goToConfigurationPage(electronicsShop, testProduct, pricing);
   configVc.selectAttributeAndWait('CAMERA_MODE', RB, 'P', pricing);
   configVc.selectAttributeAndWait('CAMERA_COLOR', RB, 'BLACK', pricing);
 
