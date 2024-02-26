@@ -1,0 +1,134 @@
+@import '../../sass-true/sass/true';
+@import '../scss/feature-flags';
+
+@include describe('Conditional styles based on feature flags') {
+  @include describe('getTopSelectors') {
+    @include it('should return simple selector') {
+      @include assert-equal(getTopSelector('.simple'), '.simple');
+      @include assert-equal(getTopSelector('simple'), 'simple');
+    }
+
+    @include it('should return top selector, when nested') {
+      @include assert-equal(getTopSelector('.top .some .nested'), '.top');
+      @include assert-equal(getTopSelector('top some nested'), 'top');
+    }
+
+    // SPIKE TODO: FIX IT
+    @include it('should return ALL top selectors, when nested') {
+      @include assert-equal(
+        getTopSelector('.top1 .some2 .nested2, .top2 .some2 .nested2'),
+        '.top1, .top2'
+      );
+      @include assert-equal(
+        getTopSelector('top1 some2 nested2, top2 some2 nested2'),
+        'top1, top2'
+      );
+    }
+  }
+
+  @include describe('forFeature') {
+    @include it('should apply class on a selector, when no nesting') {
+      @include assert {
+        @include output(false) {
+          cx-component {
+            color: yellow;
+
+            @include forFeature('someFeature') {
+              color: blue;
+            }
+          }
+        }
+        @include expect(false) {
+          cx-component {
+            color: yellow;
+          }
+          cx-component.cx-feat-someFeature {
+            color: blue;
+          }
+        }
+      }
+    }
+
+    @include it('should apply class on a top selector, when simple nesting') {
+      @include assert {
+        @include output(false) {
+          cx-component {
+            .container {
+              color: yellow;
+
+              @include forFeature('someFeature') {
+                color: blue;
+              }
+            }
+          }
+        }
+        @include expect(false) {
+          cx-component .container {
+            color: yellow;
+          }
+          cx-component.cx-feat-someFeature .container {
+            color: blue;
+          }
+        }
+      }
+    }
+
+    @include it('should apply class on a top selector, when deep nesting') {
+      @include assert {
+        @include output(false) {
+          cx-component {
+            .deep {
+              .nesting {
+                color: yellow;
+
+                @include forFeature('someFeature') {
+                  color: blue;
+                }
+              }
+            }
+          }
+        }
+        @include expect(false) {
+          cx-component .deep .nesting {
+            color: yellow;
+          }
+          cx-component.cx-feat-someFeature .deep .nesting {
+            color: blue;
+          }
+        }
+      }
+    }
+
+    // SPIKE TODO FIX IT:
+
+    // @include it('should apply class on ALL top selectors, when deep nesting') {
+    //   @include assert {
+    //     @include output(false) {
+    //       cx-component-1,
+    //       cx-component-2 {
+    //         .deep {
+    //           .nesting {
+    //             color: yellow;
+
+    //             @include forFeature('someFeature') {
+    //               color: blue;
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //     @include contains(false) {
+    //       cx-component-1 .deep .nesting,
+    //       cx-component-2 .deep .nesting {
+    //         color: yellow;
+    //       }
+
+    //       cx-component-1.cx-feat-someFeature .deep .nesting,
+    //       cx-component-2.cx-feat-someFeature .deep .nesting {
+    //         color: blue;
+    //       }
+    //     }
+    //   }
+    // }
+  }
+}

@@ -1,0 +1,76 @@
+/* CAUTION 🚨
+For the top selector being  ".spike ~ #id  + %cx-my-component.hello"
+it returns `.spike` but not `#id` or `%cx-my-component.hello`
+*/
+@function getTopSelector($selector) {
+  @return (nth(nth(selector-parse($selector), 1), 1));
+}
+
+@function getManyTopSelectors($selector) {
+  $topSelectors: ();
+  $parsedSelector: selector-parse(
+    $selector
+  ); // array of arrays. first level separates `,`-separated selectors. second level separates space-separated selectors
+  // for each item in $parsedSelector
+  @for $i from 1 through length($parsedSelector) {
+    $topSelectors: append(
+      $topSelectors,
+      getTopSelector(nth($parsedSelector, 1)),
+      comma
+    );
+  }
+
+  @return $topSelectors;
+}
+
+/*
+For the given featureName string, it returns a css class of the shape ".cx-feat-{featureFlag}"
+*/
+@function getFeatureClass($featureName) {
+  @return '.cx-feat-' + $featureName;
+}
+
+/*
+Wraps the given content with the feature flag class applied on the top level selector.
+For example, for the SCSS nested styles:
+```scss
+%cx-my-component {
+  display: block;
+
+  cx-reusable-component {
+    .c1 {
+      .c2. {
+        .c3 {
+          background-color: yellow;
+
+          @include forFeature("featureName") {
+            background-color: blue;
+          }
+        }
+      }
+    }
+  }
+}
+```
+The output will be:
+```scss
+%cx-my-component cx-reusable-component .c1 .c2 .c3 {
+  background-color: yellow;
+}
+
+%cx-my-component.cx-feat-featureName cx-reusable-component .c1 .c2 .c3 {
+  background-color: yellow;
+}
+```
+*/
+@mixin forFeature($featureName) {
+  $selector: getTopSelector(&);
+
+  $featureClass: getFeatureClass($featureName);
+  $selectorReplacement: $selector + $featureClass;
+  $resultSelector: selector-replace(&, $selector, $selectorReplacement);
+
+  @at-root #{$resultSelector} {
+    @content;
+  }
+}
