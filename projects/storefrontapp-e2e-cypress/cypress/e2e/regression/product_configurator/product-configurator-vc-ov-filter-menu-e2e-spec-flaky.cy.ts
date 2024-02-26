@@ -103,40 +103,41 @@ context('Product Configuration', () => {
 });
 
 function completeDigitalCameraConfiguration() {
-  configurationVc.registerConfigurationRoute();
-  configurationVc.registerConfigurationUpdateRoute();
-  configurationVc.goToConfigurationPage(electronicsShop, testProduct);
-  configurationVc.selectAttributeAndWait('CAMERA_MODE', RB, 'P');
-  configurationVc.selectAttributeAndWait('CAMERA_COLOR', RB, 'BLACK');
+  const commerceRelease: configurationVc.CommerceRelease = {};
+  const configVc = configurationVc;
+  configVc.registerConfigurationRoute();
+  configVc.registerConfigurationUpdateRoute();
+  configVc.checkCommerceRelease(electronicsShop, testProduct, commerceRelease);
+  const pricing = false; //(commerceRelease.isPricingEnabled = false);
+  if (pricing) {
+    configVc.registerConfigurationPricingRoute();
+  }
+  configVc.goToConfigurationPage(electronicsShop, testProduct);
+  configVc.selectAttributeAndWait('CAMERA_MODE', RB, 'P', pricing);
+  configVc.selectAttributeAndWait('CAMERA_COLOR', RB, 'BLACK', pricing);
 
-  configurationVc.clickOnNextBtnAndWait('Specification');
-  configurationVc.selectAttributeAndWait('CAMERA_PIXELS', RB, 'P16');
-  configurationVc.selectAttributeAndWait('CAMERA_SENSOR', RB, 'F');
-  configurationVc.selectAttributeAndWait('CAMERA_VIEWFINDER', RB, 'R');
-  configurationVc.selectAttributeAndWait('CAMERA_SD_CARD', CBL, 'SDHC');
-  configurationVc.selectAttributeAndWait('CAMERA_SD_CARD', CBL, 'SDXC');
-  configurationVc.selectAttributeAndWait('CAMERA_SECOND_SLOT', RB, 'Y');
-  configurationVc.selectAttributeAndWait('CAMERA_FORMAT_PICTURES', RB, 'RAW');
-  configurationVc.selectAttributeAndWait('CAMERA_MAX_ISO', RB, '25600');
+  configVc.clickOnNextBtnAndWait('Specification', pricing);
+  configVc.selectAttributeAndWait('CAMERA_PIXELS', RB, 'P16', pricing);
+  configVc.selectAttributeAndWait('CAMERA_SENSOR', RB, 'F', pricing);
+  configVc.selectAttributeAndWait('CAMERA_VIEWFINDER', RB, 'R', pricing);
+  configVc.selectAttributeAndWait('CAMERA_SD_CARD', CBL, 'SDHC', pricing);
+  configVc.selectAttributeAndWait('CAMERA_SD_CARD', CBL, 'SDXC', pricing);
+  configVc.selectAttributeAndWait('CAMERA_SECOND_SLOT', RB, 'Y', pricing);
+  configVc.selectAttributeAndWait('CAMERA_FORMAT_PICTURES', RB, 'RAW', pricing);
+  configVc.selectAttributeAndWait('CAMERA_MAX_ISO', RB, '25600', pricing);
 
-  configurationVc.clickOnNextBtnAndWait('Display');
-  configurationVc.selectAttributeAndWait('CAMERA_DISPLAY', RB, 'P10');
-  configurationVc.selectAttributeAndWait('CAMERA_TOUCHSCREEN', RB, 'Y');
-  configurationVc.selectAttributeAndWait('CAMERA_TILTABLE', RB, 'Y');
+  configVc.clickOnNextBtnAndWait('Display', pricing);
+  configVc.selectAttributeAndWait('CAMERA_DISPLAY', RB, 'P10', pricing);
+  configVc.selectAttributeAndWait('CAMERA_TOUCHSCREEN', RB, 'Y', pricing);
+  configVc.selectAttributeAndWait('CAMERA_TILTABLE', RB, 'Y', pricing);
 
-  configurationVc.clickOnNextBtnAndWait('Lens');
-  configurationVc.selectAttributeAndWait(
-    'CAMERA_LENS_MANUFACTURER',
-    RB,
-    'LEICA'
-  );
-  configurationVc.selectAttributeAndWait(
-    'CAMERA_LENS_TYPE',
-    RB,
-    'STANDARD_ZOOM_24_70'
-  );
+  configVc.clickOnNextBtnAndWait('Lens', pricing);
+  const CAM_LENS_MANU = 'CAMERA_LENS_MANUFACTURER';
+  configVc.selectAttributeAndWait(CAM_LENS_MANU, RB, 'LEICA', pricing);
+  const ST_24_79 = 'STANDARD_ZOOM_24_70';
+  configVc.selectAttributeAndWait('CAMERA_LENS_TYPE', RB, ST_24_79, pricing);
 
-  configurationVc.clickOnNextBtnAndWait('Options');
-  configurationVc.selectAttributeAndWait('CAMERA_OPTIONS', CBL, 'W');
-  configurationVc.selectAttributeAndWait('CAMERA_OPTIONS', CBL, 'I');
+  configVc.clickOnNextBtnAndWait('Options', pricing);
+  configVc.selectAttributeAndWait('CAMERA_OPTIONS', CBL, 'W', pricing);
+  configVc.selectAttributeAndWait('CAMERA_OPTIONS', CBL, 'I', pricing);
 }
