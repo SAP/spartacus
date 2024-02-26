@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './order-detail-items.component';
-export * from './consignment-tracking/consignment-tracking.component';
-export * from './consignment-tracking/tracking-events/tracking-events.component';
+export * from './consignment-tracking/index';
 export * from './order-consigned-entries/order-consigned-entries.component';
+export * from './order-detail-items.component';
+

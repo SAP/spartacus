@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './my-account-v2-augmented-feature-flags.model';
+export * from './augmented-feature-flags.model';
 export * from './my-account-v2-consent-management/index';
 export * from './my-account-v2-navigation/index';
 export * from './my-account-v2-notification-preference/index';
