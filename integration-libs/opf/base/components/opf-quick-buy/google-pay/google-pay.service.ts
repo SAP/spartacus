@@ -12,6 +12,7 @@ import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ActiveConfiguration,
   OpfPaymentFacade,
+  OpfProviderType,
   OpfQuickBuyLocation,
   OpfResourceLoaderService,
   PaymentMethod,
@@ -375,6 +376,11 @@ export class OpfGooglePayService {
   protected setAllowedPaymentMethodsConfig(
     activeConfiguration: ActiveConfiguration
   ): void {
+    const googlePayConfig = this.opfQuickBuyService.getQuickBuyProviderConfig(
+      OpfProviderType.GOOGLE_PAY,
+      activeConfiguration
+    );
+
     this.googlePaymentRequest.allowedPaymentMethods = [
       {
         parameters: {
@@ -390,7 +396,7 @@ export class OpfGooglePayService {
         },
         tokenizationSpecification: {
           parameters: {
-            gateway: String(activeConfiguration.displayName),
+            gateway: String(googlePayConfig?.googlePayGateway),
             gatewayMerchantId: String(activeConfiguration.merchantId),
           },
           type: activeConfiguration.providerType as any,

@@ -58,6 +58,7 @@ describe('OpfGooglePayService', () => {
     ]);
     mockQuickBuyService = jasmine.createSpyObj('OpfQuickBuyService', [
       'getQuickBuyLocationContext',
+      'getQuickBuyProviderConfig',
     ]);
 
     const googlePayApiMock = {

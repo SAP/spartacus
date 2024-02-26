@@ -9,6 +9,7 @@ import { CheckoutConfig } from '@spartacus/checkout/base/root';
 import { AuthService, BaseSiteService, RoutingService } from '@spartacus/core';
 import {
   ActiveConfiguration,
+  DigitalWalletQuickBuy,
   OpfPaymentFacade,
   OpfPaymentProviderType,
   OpfProviderType,
@@ -39,6 +40,20 @@ export class OpfQuickBuyService {
             )[0]
         )
       );
+  }
+
+  getQuickBuyProviderConfig(
+    provider: OpfProviderType,
+    activeConfiguration: ActiveConfiguration
+  ): DigitalWalletQuickBuy | undefined {
+    let config;
+    if (activeConfiguration && activeConfiguration.digitalWalletQuickBuy) {
+      config = activeConfiguration?.digitalWalletQuickBuy.find(
+        (item) => item.provider === provider
+      );
+    }
+
+    return config;
   }
 
   isQuickBuyProviderEnabled(
