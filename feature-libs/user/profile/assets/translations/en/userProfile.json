@@ -31,6 +31,7 @@
     "resetPassword": "Reset Password",
     "createAccount": "Create an account",
     "title": "Title",
+    "titleOptional": "Title (optional)",
     "firstName": {
       "label": "First name",
       "placeholder": "First name"
