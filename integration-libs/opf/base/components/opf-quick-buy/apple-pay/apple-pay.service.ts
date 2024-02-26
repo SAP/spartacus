@@ -112,6 +112,7 @@ export class ApplePayService {
             ...this.localCart.addressIds,
           ]);
           this.paymentInProgress = false;
+          this.cartHandlerService.loadPreviousCart().subscribe();
         })
       );
   }

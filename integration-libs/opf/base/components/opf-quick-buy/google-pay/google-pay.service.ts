@@ -281,7 +281,10 @@ export class OpfGooglePayService {
               )
             ),
             catchError(() => of({ transactionState: 'ERROR' })),
-            finalize(() => this.deleteAssociatedAddresses())
+            finalize(() => {
+              this.opfCartHandlerService.loadPreviousCart().subscribe();
+              this.deleteAssociatedAddresses();
+            })
           )
           .toPromise()
           .then((result) => {
