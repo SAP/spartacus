@@ -6,3 +6,4 @@
 
 export * from './context';
 export * from './converters';
+export * from './use-my-account-v2-order';
