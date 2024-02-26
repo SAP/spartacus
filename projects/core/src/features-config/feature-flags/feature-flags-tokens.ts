@@ -7,7 +7,7 @@
 import { Injectable, InjectionToken, inject } from '@angular/core';
 
 /**
- * Global Flags, can be used to inject Flags configuration to any part of the app
+ * Global Feature Flags, can be used to inject Feature Flags configuration to any part of the app
  */
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ import { Injectable, InjectionToken, inject } from '@angular/core';
 export abstract class FeatureFlags {}
 
 /**
- * Default Flags token, used to build Global Flags, built from DefaultFeatureFlagsChunks
+ * Default Feature Flags token, used to build Global Feature Flags, built from DefaultFeatureFlagsChunks
  */
 export const DefaultFeatureFlags = new InjectionToken('DefaultFeatureFlags', {
   providedIn: 'root',
@@ -29,7 +29,7 @@ export const DefaultFeatureFlags = new InjectionToken('DefaultFeatureFlags', {
 });
 
 /**
- * Root Flags token, used to build Global Flags, built from FeatureFlagsChunks
+ * Root Feature Flags token, used to build Global Feature Flags, built from FeatureFlagsChunks
  */
 export const RootFeatureFlags = new InjectionToken('RootFeatureFlags', {
   providedIn: 'root',
@@ -38,7 +38,7 @@ export const RootFeatureFlags = new InjectionToken('RootFeatureFlags', {
 });
 
 /**
- * Flags chunk token, can be used to provide configuration chunk and contribute to the global configuration object.
+ * Feature Flags chunk token, can be used to provide configuration chunk and contribute to the global configuration object.
  * Should not be used directly, use `provideFeatureFlags` or import `FlagsModule.withFlags` instead.
  */
 export const FeatureFlagsChunk = new InjectionToken<FeatureFlags[]>(
@@ -46,7 +46,7 @@ export const FeatureFlagsChunk = new InjectionToken<FeatureFlags[]>(
 );
 
 /**
- * Flags chunk token, can be used to provide configuration chunk and contribute to the default configuration.
+ * Feature Flags chunk token, can be used to provide configuration chunk and contribute to the default configuration.
  * Should not be used directly, use `provideDefaultFlags` or `provideDefaultFlagsFactory` instead.
  *
  * General rule is, that all config provided in libraries should be provided as default config.

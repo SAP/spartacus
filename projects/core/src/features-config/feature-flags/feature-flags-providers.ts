@@ -9,7 +9,7 @@ import {
   DefaultFeatureFlagsChunk,
   FeatureFlags,
   FeatureFlagsChunk,
-} from './flags-tokens';
+} from './feature-flags-tokens';
 
 export type FlagsFactory = (...props: any[]) => FeatureFlags;
 
@@ -18,7 +18,7 @@ export type FlagsFactory = (...props: any[]) => FeatureFlags;
  *
  * To provide default flags in libraries provideDefaultFlags should be used instead.
  *
- * @param flags Flags object to merge with the global flags
+ * @param flags FeatureFlags object to merge with the global flags
  */
 export function provideFeatureFlags(
   flags: FeatureFlags = {},
@@ -53,7 +53,7 @@ export function provideFeatureFlagsFactory(
 /**
  * Helper function to provide default flags chunk using DefaultFeatureFlagsChunk token
  *
- * @param flags Flags object to merge with the default flags
+ * @param flags FeatureFlags object to merge with the default flags
  */
 export function provideDefaultFeatureFlags(
   flags: FeatureFlags = {}

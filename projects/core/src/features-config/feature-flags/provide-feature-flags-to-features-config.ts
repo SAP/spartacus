@@ -6,12 +6,12 @@
 
 import { FactoryProvider, inject } from '@angular/core';
 import { provideDefaultConfigFactory } from '../../config';
-import { FeatureFlags } from './flags-tokens';
+import { FeatureFlags } from './feature-flags-tokens';
 
 /**
- * Copies Flags to FeaturesConfig
+ * Copies FeatureFlags to FeaturesConfig
  */
-export const provideCopyFlagsToFeaturesConfig: () => FactoryProvider = () =>
+export const provideFeatureFlagsToFeaturesConfig: () => FactoryProvider = () =>
   provideDefaultConfigFactory(() => {
     const flags = inject(FeatureFlags);
     return {
