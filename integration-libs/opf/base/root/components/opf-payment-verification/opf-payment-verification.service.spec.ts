@@ -125,6 +125,38 @@ describe('OpfPaymentVerificationService', () => {
       });
     });
 
+    it('should return paymentSessionId from local storage if not in params', (done) => {
+      const mockPaymentSessionId = 'sessionIdFromLocalStorage';
+      const mockRouteSnapshot: ActivatedRoute = {
+        routeConfig: {
+          data: {
+            cxRoute: 'paymentVerificationResult',
+          },
+        },
+        queryParams: of({ afterRedirectScriptFlag: 'true' }),
+      } as unknown as ActivatedRoute;
+
+      const mockOpfPaymentMetadata: OpfPaymentMetadata = {
+        isPaymentInProgress: true,
+        selectedPaymentOptionId: 111,
+        termsAndConditionsChecked: true,
+        paymentSessionId: mockPaymentSessionId,
+      };
+
+      opfServiceMock.getOpfMetadataState.and.returnValue(
+        of(mockOpfPaymentMetadata)
+      );
+
+      service.verifyResultUrl(mockRouteSnapshot).subscribe((result) => {
+        expect(result.paymentSessionId).toEqual(mockPaymentSessionId);
+        expect(result.paramsMap).toEqual([
+          { key: 'afterRedirectScriptFlag', value: 'true' },
+        ]);
+        expect(result.afterRedirectScriptFlag).toEqual('true');
+        done();
+      });
+    });
+
     it('should throw an error if the route cxRoute is not "paymentVerificationResult"', (done) => {
       const mockOtherRouteSnapshot: ActivatedRoute = {
         routeConfig: {
@@ -142,7 +174,18 @@ describe('OpfPaymentVerificationService', () => {
       );
     });
 
-    it('should throw an error if queryParams is undefined', (done) => {
+    it('should throw an error if queryParams is undefined and paymentSessionId not in local storage', (done) => {
+      const mockOpfPaymentMetadata: OpfPaymentMetadata = {
+        isPaymentInProgress: true,
+        selectedPaymentOptionId: 111,
+        termsAndConditionsChecked: true,
+        paymentSessionId: undefined,
+      };
+
+      opfServiceMock.getOpfMetadataState.and.returnValue(
+        of(mockOpfPaymentMetadata)
+      );
+
       const mockRoute: ActivatedRoute = {
         routeConfig: {
           data: {
@@ -162,7 +205,18 @@ describe('OpfPaymentVerificationService', () => {
       );
     });
 
-    it('should throw an error if paymentSessionId is missing', (done) => {
+    it('should throw an error if paymentSessionId is missing in url params and local storage', (done) => {
+      const mockOpfPaymentMetadata: OpfPaymentMetadata = {
+        isPaymentInProgress: true,
+        selectedPaymentOptionId: 111,
+        termsAndConditionsChecked: true,
+        paymentSessionId: undefined,
+      };
+
+      opfServiceMock.getOpfMetadataState.and.returnValue(
+        of(mockOpfPaymentMetadata)
+      );
+
       const mockRoute: ActivatedRoute = {
         routeConfig: {
           data: {
@@ -455,6 +509,7 @@ describe('OpfPaymentVerificationService', () => {
         isPaymentInProgress: true,
         selectedPaymentOptionId: 111,
         termsAndConditionsChecked: true,
+        paymentSessionId: '111111',
       };
 
       opfServiceMock.getOpfMetadataState.and.returnValue(
@@ -473,6 +528,7 @@ describe('OpfPaymentVerificationService', () => {
         isPaymentInProgress: false,
         selectedPaymentOptionId: 111,
         termsAndConditionsChecked: true,
+        paymentSessionId: '111111',
       };
 
       opfServiceMock.getOpfMetadataState.and.returnValue(

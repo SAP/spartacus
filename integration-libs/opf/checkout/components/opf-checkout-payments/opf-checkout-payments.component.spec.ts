@@ -65,6 +65,7 @@ const mockOpfPaymentMetadata: OpfPaymentMetadata = {
   selectedPaymentOptionId: 111,
   termsAndConditionsChecked: true,
   defaultSelectedPaymentOptionId: 1,
+  paymentSessionId: '111111',
 };
 
 describe('OpfCheckoutPaymentsComponent', () => {
@@ -160,6 +161,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
         selectedPaymentOptionId: undefined,
         termsAndConditionsChecked: true,
         defaultSelectedPaymentOptionId,
+        paymentSessionId: '111111',
       })
     );
 

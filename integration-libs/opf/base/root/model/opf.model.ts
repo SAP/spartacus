@@ -11,6 +11,7 @@ export interface OpfPaymentMetadata {
   selectedPaymentOptionId: number | undefined;
   defaultSelectedPaymentOptionId?: number | undefined;
   isPaymentInProgress: boolean;
+  paymentSessionId: string | undefined;
 }
 
 export interface KeyValuePair {

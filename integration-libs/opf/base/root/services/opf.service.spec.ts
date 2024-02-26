@@ -68,6 +68,7 @@ describe('OpfService', () => {
       isPaymentInProgress: true,
       selectedPaymentOptionId: 111,
       termsAndConditionsChecked: true,
+      paymentSessionId: '111111',
     };
 
     const mockObservable = new BehaviorSubject<OpfPaymentMetadata>(

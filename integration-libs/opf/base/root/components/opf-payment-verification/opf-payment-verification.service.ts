@@ -57,9 +57,11 @@ export class OpfPaymentVerificationService {
   };
 
   protected getParamsMap(params: Params): Array<KeyValuePair> {
-    return Object.entries(params).map((pair) => {
-      return { key: pair[0], value: pair[1] as string };
-    });
+    return params
+      ? Object.entries(params).map((pair) => {
+          return { key: pair[0], value: pair[1] as string };
+        })
+      : [];
   }
 
   protected findInParamsMap(
@@ -77,23 +79,17 @@ export class OpfPaymentVerificationService {
     paramsMap: Array<KeyValuePair>;
     afterRedirectScriptFlag: string | undefined;
   }> {
+    let paramsMap: Array<KeyValuePair>;
     return route?.routeConfig?.data?.cxRoute === OpfPage.RESULT_PAGE
       ? route.queryParams.pipe(
           concatMap((params: Params) => {
-            if (!params) {
-              return throwError(this.defaultError);
-            }
-
-            const paramsMap: Array<KeyValuePair> = this.getParamsMap(params);
-
-            const paymentSessionId = this.findInParamsMap(
-              OpfPaymenVerificationUrlInput.PAYMENT_SESSION_ID,
-              paramsMap
-            );
+            paramsMap = this.getParamsMap(params);
+            return this.getPaymentSessionId(paramsMap);
+          }),
+          concatMap((paymentSessionId: string | undefined) => {
             if (!paymentSessionId) {
               return throwError(this.defaultError);
             }
-
             return of({
               paymentSessionId,
               paramsMap,
@@ -108,6 +104,28 @@ export class OpfPaymentVerificationService {
           ...this.defaultError,
           message: 'opf.payment.errors.cancelPayment',
         });
+  }
+
+  protected getPaymentSessionId(
+    paramMap: Array<KeyValuePair>
+  ): Observable<string | undefined> {
+    if (paramMap?.length) {
+      const paymentSessionId = this.findInParamsMap(
+        OpfPaymenVerificationUrlInput.PAYMENT_SESSION_ID,
+        paramMap
+      );
+      return paymentSessionId
+        ? of(paymentSessionId)
+        : this.getPaymentSessionIdFromStorage();
+    }
+    return this.getPaymentSessionIdFromStorage();
+  }
+
+  protected getPaymentSessionIdFromStorage(): Observable<string | undefined> {
+    return this.opfService.getOpfMetadataState().pipe(
+      take(1),
+      map((opfMetaData) => opfMetaData?.paymentSessionId)
+    );
   }
 
   protected placeOrder(): Observable<Order> {

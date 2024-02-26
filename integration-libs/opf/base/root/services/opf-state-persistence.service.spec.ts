@@ -17,6 +17,7 @@ const mockOpfMetadata: OpfPaymentMetadata = {
   isPaymentInProgress: true,
   selectedPaymentOptionId: 111,
   termsAndConditionsChecked: true,
+  paymentSessionId: '111111',
 };
 
 describe('OpfStatePersistenceService', () => {

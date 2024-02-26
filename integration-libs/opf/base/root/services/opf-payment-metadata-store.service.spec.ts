@@ -11,12 +11,14 @@ const initialState = {
   termsAndConditionsChecked: false,
   selectedPaymentOptionId: undefined,
   isPaymentInProgress: false,
+  paymentSessionId: undefined,
 };
 
 const state: OpfPaymentMetadata = {
   isPaymentInProgress: true,
   selectedPaymentOptionId: 111,
   termsAndConditionsChecked: true,
+  paymentSessionId: '111111',
 };
 
 describe('OpfPaymentMetadataStoreService', () => {
@@ -73,6 +75,7 @@ describe('OpfPaymentMetadataStoreService', () => {
       isPaymentInProgress: true,
       termsAndConditionsChecked: true,
       selectedPaymentOptionId: 111,
+      paymentSessionId: '111111',
     };
 
     service.opfPaymentMetadataState.next(state);
