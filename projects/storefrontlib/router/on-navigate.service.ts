@@ -72,7 +72,7 @@ export class OnNavigateService {
           const position = currentRoute.position;
           if (position) {
             // allow the pages to be repainted before scrolling to proper position
-            setTimeout(() => this.viewportScroller.scrollToPosition(position));
+            this.scrollToPosition(currentRoute, position);
           } else {
             if (
               this.config.enableResetViewOnNavigate?.ignoreQueryString &&
@@ -85,15 +85,47 @@ export class OnNavigateService {
               return;
             }
 
-            setTimeout(
-              () => this.viewportScroller.scrollToPosition([0, 0]),
-              100
-            );
+            this.scrollToPosition(currentRoute, position);
           }
 
           this.hostComponent?.location?.nativeElement.focus();
         });
     }
+  }
+
+  /**
+   * Scrolls to a specified position or anchor based on the current route and configuration.
+   * @param currentRoute The current route containing scroll information.
+   * @param position The target scroll position as [x, y] coordinates, or null.
+   */
+  private scrollToPosition(
+    currentRoute: Scroll,
+    position: [number, number] | null
+  ): void {
+    const scrollTo = (
+      anchor: string | null,
+      scrollPosition: [number, number]
+    ) => {
+      if (
+        anchor &&
+        (this.router as any).options?.anchorScrolling === 'enabled'
+      ) {
+        this.viewportScroller.scrollToAnchor(anchor);
+      } else {
+        this.viewportScroller.scrollToPosition(scrollPosition);
+      }
+    };
+
+    const defaultPosition: [number, number] = [0, 0];
+
+    setTimeout(
+      () => {
+        const anchor = currentRoute.anchor;
+        const positionToScroll = position || defaultPosition;
+        scrollTo(anchor, positionToScroll);
+      },
+      position ? 0 : 100
+    );
   }
 
   /**
