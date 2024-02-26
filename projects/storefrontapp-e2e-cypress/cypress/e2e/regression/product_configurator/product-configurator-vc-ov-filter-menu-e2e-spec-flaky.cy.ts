@@ -108,7 +108,7 @@ function completeDigitalCameraConfiguration() {
   configVc.registerConfigurationRoute();
   configVc.registerConfigurationUpdateRoute();
   configVc.checkCommerceRelease(electronicsShop, testProduct, commerceRelease);
-  const pricing = false; //(commerceRelease.isPricingEnabled = false);
+  const pricing = commerceRelease.isPricingEnabled;
   if (pricing) {
     configVc.registerConfigurationPricingRoute();
   }
