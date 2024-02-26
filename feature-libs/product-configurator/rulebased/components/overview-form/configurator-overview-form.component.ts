@@ -8,6 +8,7 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import {
+  delay,
   distinctUntilKeyChanged,
   filter,
   switchMap,
@@ -44,7 +45,9 @@ export class ConfiguratorOverviewFormComponent {
       filter((configuration) => configuration.overview != null),
       tap(() => {
         this.ghostStyle = false;
-      })
+      }),
+      //ensure view takes new ghost style into account
+      delay(0)
     );
 
   constructor(
