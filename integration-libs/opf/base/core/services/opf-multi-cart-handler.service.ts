@@ -103,6 +103,7 @@ export class OpfMultiCartHandlerService implements OpfCartHandlerInterface {
   ): Observable<boolean> {
     console.log('addMultipleProductToMultipleCart');
     let _userId = '';
+    let _cartId = '';
     return this.userIdService.takeUserId().pipe(
       switchMap((userId: string) => {
         console.log('userId', userId);
@@ -134,6 +135,14 @@ export class OpfMultiCartHandlerService implements OpfCartHandlerInterface {
           quantity,
           pickupStore
         );
+        return this.checkStableCart();
+      }),
+      switchMap(() => {
+        this.multiCartFacade.loadCart({
+          cartId: _cartId,
+          userId: _userId,
+          extraData: { active: true },
+        });
         return this.checkStableCart();
       })
       // tap(() => {
