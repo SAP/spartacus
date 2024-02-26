@@ -8,8 +8,6 @@ import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
-  DeleteCartFailEvent,
-  DeleteCartSuccessEvent,
   DeliveryMode,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
@@ -26,15 +24,8 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { OpfGlobalMessageService } from '@spartacus/opf/base/root';
-import { Observable, merge, of } from 'rxjs';
-import {
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -253,18 +244,20 @@ export class OpfCartHandlerService {
   }
 
   deleteCurrentCart(): Observable<boolean> {
-    return this.activeCartFacade.getActiveCartId().pipe(
-      withLatestFrom(this.userIdService.getUserId()),
-      take(1),
-      tap(([cartId, userId]: [string, string]) => {
-        this.multiCartFacade.deleteCart(cartId, userId);
-      }),
-      switchMap(() =>
-        merge(
-          this.eventService.get(DeleteCartSuccessEvent).pipe(map(() => true)),
-          this.eventService.get(DeleteCartFailEvent).pipe(map(() => false))
-        ).pipe(take(1))
-      )
-    );
+    console.log('deleteCurrentCart');
+    return of(true);
+    // return this.activeCartFacade.getActiveCartId().pipe(
+    //   withLatestFrom(this.userIdService.getUserId()),
+    //   take(1),
+    //   tap(([cartId, userId]: [string, string]) => {
+    //     this.multiCartFacade.deleteCart(cartId, userId);
+    //   }),
+    //   switchMap(() =>
+    //     merge(
+    //       this.eventService.get(DeleteCartSuccessEvent).pipe(map(() => true)),
+    //       this.eventService.get(DeleteCartFailEvent).pipe(map(() => false))
+    //     ).pipe(take(1))
+    //   )
+    // );
   }
 }
