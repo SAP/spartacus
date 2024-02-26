@@ -6,6 +6,7 @@
 
 import { FactoryProvider, inject } from '@angular/core';
 import { provideDefaultConfigFactory } from '../../config';
+import '../config/features-config';
 import { FeatureFlags } from './feature-flags-tokens';
 
 /**
@@ -20,3 +21,7 @@ export const provideFeatureFlagsToFeaturesConfig: () => FactoryProvider = () =>
       },
     };
   });
+
+declare module '../config/features-config' {
+  interface FeaturesConfigContent extends FeatureFlags {}
+}
