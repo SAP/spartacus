@@ -25,7 +25,7 @@ $CSS_FEATURE_FLAG_PREFIX: 'cxFeat_';
 //            %cx-my-component {
 //              ...
 //                ...
-//                  @include forFeature('myFeatureFlag') { ... }
+//                  @include useFeatureStyles('myFeatureFlag') { ... }
 //            }
 //            ```
 //            ...then you should also call `useFeatureStyles('myFeatureFlag')` in the constructor of this component.
@@ -38,13 +38,13 @@ $CSS_FEATURE_FLAG_PREFIX: 'cxFeat_';
 // The second argument with value `'currentSelector'` should be passed ONLY
 // in one edge case, when the feature-flagged styles are defined
 // for the Angular root element, i.e. `cx-storefront`.
-@mixin forFeature($feature, $classTarget: 'ancestorSelector') {
+@mixin useFeatureStyles($feature, $classTarget: 'ancestorSelector') {
   // Validate params
   @if (type-of($feature) != 'string') {
-    @error "forFeature: $feature param must be a string, but #{type-of($feature)} was provided.";
+    @error "useFeatureStyles: $feature param must be a string, but #{type-of($feature)} was provided.";
   }
   @if (not index(('ancestorSelector', 'currentSelector'), $classTarget)) {
-    @error "forFeature: $classTarget must be either 'ancestorSelector' or 'currentSelector', but #{$classTarget} was provided.";
+    @error "useFeatureStyles: $classTarget must be either 'ancestorSelector' or 'currentSelector', but #{$classTarget} was provided.";
   }
   // Validate params end
 

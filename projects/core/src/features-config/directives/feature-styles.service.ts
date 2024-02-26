@@ -31,7 +31,7 @@ export class FeatureStylesService {
   /**
    * Prefix for feature's CSS classes that are added to the root element
    *
-   * The same as the one used in the SCSS mixin `@include forFeature()`
+   * The same as the one used in the SCSS mixin `@include useFeatureStyles()`
    */
   protected readonly CSS_FEATURE_FLAG_PREFIX = 'cxFeat_';
 
