@@ -17,7 +17,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { CheckoutBillingAddressConnector } from '../connectors/checkout-billing-address/checkout-billing-address.connector';
 

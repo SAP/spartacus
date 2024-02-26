@@ -4,8 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { inject, Injectable } from '@angular/core';
+import {
+  ActiveCartFacade,
+  CartType,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
 import {
   Command,
   CommandService,
@@ -23,12 +27,21 @@ import { OpfOrderConnector } from '../connectors/opf-order.connector';
 
 @Injectable()
 export class OpfOrderService implements OpfOrderFacade {
-  protected placeOpfOrderCommand: Command<boolean, Order> =
-    this.commandService.create<boolean, Order>(
-      (payload) =>
-        this.checkoutPreconditions().pipe(
-          switchMap(([userId, cartId]) =>
-            this.opfOrderConnector.placeOpfOrder(userId, cartId, payload).pipe(
+  protected multiCartFacade = inject(MultiCartFacade);
+
+  protected placeOpfOrderCommand: Command<
+    { termsChecked: boolean; multipleCart: boolean },
+    Order
+  > = this.commandService.create<
+    { termsChecked: boolean; multipleCart: boolean },
+    Order
+  >(
+    (payload) =>
+      this.checkoutPreconditions(payload.multipleCart).pipe(
+        switchMap(([userId, cartId]) =>
+          this.opfOrderConnector
+            .placeOpfOrder(userId, cartId, payload.termsChecked)
+            .pipe(
               tap((order) => {
                 this.orderFacade.setPlacedOrder(order);
                 this.eventService.dispatch(
@@ -46,12 +59,12 @@ export class OpfOrderService implements OpfOrderFacade {
                 );
               })
             )
-          )
-        ),
-      {
-        strategy: CommandStrategy.CancelPrevious,
-      }
-    );
+        )
+      ),
+    {
+      strategy: CommandStrategy.CancelPrevious,
+    }
+  );
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,
@@ -65,10 +78,15 @@ export class OpfOrderService implements OpfOrderFacade {
   /**
    * Performs the necessary checkout preconditions.
    */
-  protected checkoutPreconditions(): Observable<[string, string]> {
+  protected checkoutPreconditions(
+    multiCart: boolean
+  ): Observable<[string, string]> {
+    const cartId$ = multiCart
+      ? this.multiCartFacade.getCartIdByType(CartType.NEW_CREATED)
+      : this.activeCartFacade.takeActiveCartId();
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.activeCartFacade.takeActiveCartId(),
+      cartId$,
       this.activeCartFacade.isGuestCart(),
     ]).pipe(
       take(1),
@@ -85,7 +103,10 @@ export class OpfOrderService implements OpfOrderFacade {
     );
   }
 
-  placeOpfOrder(termsChecked: boolean): Observable<Order> {
-    return this.placeOpfOrderCommand.execute(termsChecked);
+  placeOpfOrder(
+    termsChecked: boolean,
+    multipleCart = false
+  ): Observable<Order> {
+    return this.placeOpfOrderCommand.execute({ termsChecked, multipleCart });
   }
 }

@@ -48,11 +48,13 @@ export class OpfPaymentService implements OpfPaymentFacade {
   protected submitPaymentCommand: Command<
     {
       submitInput: SubmitInput;
+      isMultiCart: boolean;
     },
     boolean
   > = this.commandService.create((payload) => {
     return this.opfPaymentHostedFieldsService.submitPayment(
-      payload.submitInput
+      payload.submitInput,
+      payload.isMultiCart
     );
   });
 
@@ -121,9 +123,13 @@ export class OpfPaymentService implements OpfPaymentFacade {
     });
   }
 
-  submitPayment(submitInput: SubmitInput): Observable<boolean> {
+  submitPayment(
+    submitInput: SubmitInput,
+    isMultiCart = false
+  ): Observable<boolean> {
     return this.submitPaymentCommand.execute({
       submitInput,
+      isMultiCart,
     });
   }
 

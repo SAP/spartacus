@@ -24,5 +24,8 @@ export abstract class CheckoutBillingAddressFacade {
   /**
    * Sets the billing address to the cart
    */
-  abstract setBillingAddress(address: Address): Observable<unknown>;
+  abstract setBillingAddress(
+    address: Address,
+    multiCartId?: string
+  ): Observable<unknown>;
 }

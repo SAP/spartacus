@@ -55,7 +55,10 @@ export abstract class OpfPaymentFacade {
    *
    * @param submitInput
    */
-  abstract submitPayment(submitInput: SubmitInput): Observable<boolean>;
+  abstract submitPayment(
+    submitInput: SubmitInput,
+    isMultiCart?: boolean
+  ): Observable<boolean>;
 
   /**
    * abstract method to submit-complete payment for Hosted Fields pattern.

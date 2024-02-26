@@ -35,11 +35,12 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { OpfCartHandlerInterface } from './opf-cart-handler-interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OpfCartHandlerService {
+export class OpfCartHandlerService implements OpfCartHandlerInterface {
   protected activeCartFacade = inject(ActiveCartFacade);
   protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
   protected checkoutDeliveryAddressFacade = inject(

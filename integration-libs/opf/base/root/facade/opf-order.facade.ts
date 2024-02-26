@@ -23,5 +23,8 @@ export abstract class OpfOrderFacade {
   /**
    * Places an order
    */
-  abstract placeOpfOrder(termsChecked: boolean): Observable<Order>;
+  abstract placeOpfOrder(
+    termsChecked: boolean,
+    multicart?: boolean
+  ): Observable<Order>;
 }

@@ -8,7 +8,7 @@
 import { ElementRef, Injectable, inject } from '@angular/core';
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
 import { Address, Product } from '@spartacus/core';
-import { OpfCartHandlerService } from '@spartacus/opf/base/core';
+import { OpfMultiCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ActiveConfiguration,
   OpfPaymentFacade,
@@ -39,7 +39,7 @@ export class OpfGooglePayService {
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);
   protected itemCounterService = inject(ItemCounterService);
   protected currentProductService = inject(CurrentProductService);
-  protected opfCartHandlerService = inject(OpfCartHandlerService);
+  protected opfCartHandlerService = inject(OpfMultiCartHandlerService);
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected opfQuickBuyService = inject(OpfQuickBuyService);
 
@@ -190,31 +190,33 @@ export class OpfGooglePayService {
   }
 
   handleSingleProductTransaction(): Observable<Product | boolean | null> {
+    this.opfCartHandlerService.setMultipleCart(true);
     return this.currentProductService.getProduct().pipe(
       take(1),
       switchMap((product: Product | null) => {
-        return this.opfCartHandlerService.deleteCurrentCart().pipe(
-          switchMap(() => {
-            return this.opfCartHandlerService.addProductToCart(
-              product?.code || '',
-              this.itemCounterService.getCounter()
-            );
-          }),
-          tap(() => {
-            this.updateTransactionInfo({
-              totalPrice: this.estimateTotalPrice(product?.price?.value),
-              currencyCode:
-                product?.price?.currencyIso ||
-                this.initialTransactionInfo.currencyCode,
-              totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
-            });
-          })
-        );
+        return this.opfCartHandlerService
+          .addProductToCart(
+            product?.code || '',
+            this.itemCounterService.getCounter()
+          )
+          .pipe(
+            take(1),
+            tap(() => {
+              this.updateTransactionInfo({
+                totalPrice: this.estimateTotalPrice(product?.price?.value),
+                currencyCode:
+                  product?.price?.currencyIso ||
+                  this.initialTransactionInfo.currencyCode,
+                totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
+              });
+            })
+          );
       })
     );
   }
 
   handleActiveCartTransaction(): Observable<Cart> {
+    this.opfCartHandlerService.setMultipleCart(false);
     return this.opfCartHandlerService.getCurrentCart().pipe(
       take(1),
       tap((cart: Cart) => {
@@ -281,7 +283,10 @@ export class OpfGooglePayService {
               )
             ),
             catchError(() => of({ transactionState: 'ERROR' })),
-            finalize(() => this.deleteAssociatedAddresses())
+            finalize(() => {
+              this.opfCartHandlerService.loadPreviousCart().subscribe();
+              this.deleteAssociatedAddresses();
+            })
           )
           .toPromise()
           .then((result) => {

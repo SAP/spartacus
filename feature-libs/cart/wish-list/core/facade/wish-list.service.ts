@@ -16,7 +16,7 @@ import {
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -99,7 +99,7 @@ export class WishListService implements WishListFacade {
   }
 
   protected getWishListId(): Observable<string> {
-    return this.multiCartFacade.getCartIdByType(CartType.WISH_LIST);
+    return this.multiCartFacade.getCartIdByType(CartType.NEW_CREATED);
   }
 
   private getWishListIdWithUserId(): Observable<string[]> {

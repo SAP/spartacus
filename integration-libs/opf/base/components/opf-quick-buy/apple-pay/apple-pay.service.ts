@@ -17,7 +17,7 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import { OpfCartHandlerService } from '@spartacus/opf/base/core';
+import { OpfMultiCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ApplePaySessionVerificationRequest,
   ApplePaySessionVerificationResponse,
@@ -38,14 +38,14 @@ export class ApplePayService {
   protected applePaySession = inject(ApplePaySessionFactory);
   protected applePayObservable = inject(ApplePayObservableFactory);
   protected winRef = inject(WindowRef);
-  protected cartHandlerService = inject(OpfCartHandlerService);
+  protected cartHandlerService = inject(OpfMultiCartHandlerService);
 
   protected paymentInProgress = false;
   protected localCart: LocalCart = {
     quantity: 0,
     product: undefined,
     addressIds: [],
-    isPdp: true,
+    isPdp: false,
     total: {
       label: '',
       amount: '',
@@ -103,15 +103,17 @@ export class ApplePayService {
       })
       .pipe(
         catchError((error) => {
-          return this.cartHandlerService
-            .deleteCurrentCart()
-            .pipe(switchMap(() => throwError(error)));
+          // return this.cartHandlerService
+          // .deleteCurrentCart()
+          // .pipe(switchMap(() => throwError(error)));
+          return throwError(error);
         }),
         finalize(() => {
           this.cartHandlerService.deleteUserAddresses([
             ...this.localCart.addressIds,
           ]);
           this.paymentInProgress = false;
+          this.cartHandlerService.loadPreviousCart();
         })
       );
   }
@@ -133,14 +135,16 @@ export class ApplePayService {
     quantity: number
   ): Observable<boolean> {
     if (product.code) {
-      return this.cartHandlerService.deleteCurrentCart().pipe(
-        switchMap(() => {
-          return this.cartHandlerService.addProductToCart(
-            product.code as string,
-            quantity
-          );
-        })
+      this.cartHandlerService.setMultipleCart(true);
+      this.localCart.isPdp = true;
+      // return this.cartHandlerService.deleteCurrentCart().pipe(
+      //   switchMap(() => {
+      return this.cartHandlerService.addProductToCart(
+        product.code as string,
+        quantity
       );
+      //   })
+      // );
     }
     return throwError('Product code unknown');
   }
@@ -332,14 +336,17 @@ export class ApplePayService {
             JSON.stringify(applePayPayment.token.paymentData)
           );
 
-          return this.opfPaymentFacade.submitPayment({
-            additionalData: [],
-            paymentSessionId: '',
-            callbackArray: [() => {}, () => {}, () => {}],
-            paymentMethod: PaymentMethod.APPLE_PAY,
-            encryptedToken,
-            cartId,
-          });
+          return this.opfPaymentFacade.submitPayment(
+            {
+              additionalData: [],
+              paymentSessionId: '',
+              callbackArray: [() => {}, () => {}, () => {}],
+              paymentMethod: PaymentMethod.APPLE_PAY,
+              encryptedToken,
+              cartId,
+            },
+            this.localCart.isPdp
+          );
         })
       );
   }
