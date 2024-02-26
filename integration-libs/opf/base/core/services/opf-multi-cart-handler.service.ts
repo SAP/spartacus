@@ -299,9 +299,10 @@ export class OpfMultiCartHandlerService implements OpfCartHandlerInterface {
   }
 
   getCurrentCartId(): Observable<string> {
-    return this.isMulticart
-      ? this.multiCartFacade.getCartIdByType(CartType.NEW_CREATED)
-      : this.activeCartFacade.takeActiveCartId();
+    return of(this.currentCartId);
+    // return this.isMulticart
+    //   ? this.multiCartFacade.getCartIdByType(CartType.NEW_CREATED)
+    //   : this.activeCartFacade.takeActiveCartId();
   }
 
   getCurrentCartTotalPrice(): Observable<number | undefined> {
