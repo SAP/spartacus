@@ -5,22 +5,30 @@
  */
 
 import { FactoryProvider, inject } from '@angular/core';
-import { provideDefaultConfigFactory } from '../../config';
+import {
+  provideConfigFactory,
+  provideDefaultConfigFactory,
+} from '../../config';
 import '../config/features-config';
-import { FeatureFlags } from './feature-flags-tokens';
+import {
+  DefaultFeatureFlags,
+  FeatureFlags,
+  RootFeatureFlags,
+} from './feature-flags-tokens';
 
-/**
- * Copies FeatureFlags to FeaturesConfig
- */
-export const provideFeatureFlagsToFeaturesConfig: () => FactoryProvider = () =>
+export const provideFeatureFlagsToFeatureConfig: FactoryProvider[] = [
+  // Copies RootFeatureFlags to RootConfig
+  provideConfigFactory(() => {
+    const flags = inject(RootFeatureFlags);
+    return { features: { ...flags } };
+  }),
+
+  // Copies DefaultFeatureFlags to DefaultFeaturesConfig
   provideDefaultConfigFactory(() => {
-    const flags = inject(FeatureFlags);
-    return {
-      features: {
-        ...flags,
-      },
-    };
-  });
+    const flags = inject(DefaultFeatureFlags);
+    return { features: { ...flags } };
+  }),
+];
 
 declare module '../config/features-config' {
   interface FeaturesConfigContent extends FeatureFlags {}

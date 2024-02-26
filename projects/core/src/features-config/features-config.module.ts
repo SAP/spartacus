@@ -9,7 +9,7 @@ import { provideDefaultConfig } from '../config/config-providers';
 import { FeaturesConfig } from './config/features-config';
 import { FeatureLevelDirective } from './directives/feature-level.directive';
 import { FeatureDirective } from './directives/feature.directive';
-import { provideFeatureFlagsToFeaturesConfig } from './feature-flags/provide-feature-flags-to-features-config';
+import { provideFeatureFlagsToFeatureConfig } from './feature-flags/provide-feature-flags-to-features-config';
 
 @NgModule({
   declarations: [FeatureLevelDirective, FeatureDirective],
@@ -22,7 +22,7 @@ export class FeaturesConfigModule {
     return {
       ngModule: FeaturesConfigModule,
       providers: [
-        provideFeatureFlagsToFeaturesConfig(),
+        ...provideFeatureFlagsToFeatureConfig,
         provideDefaultConfig(<FeaturesConfig>{
           features: {
             level: defaultLevel || '*',
