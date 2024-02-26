@@ -1,14 +1,29 @@
 <ng-container *ngIf="data$ | async as data">
-  <cx-generic-link
-    *ngIf="routerLink"
-    [url]="routerLink"
-    [target]="getTarget(data)"
-    [ariaLabel]="data.headline"
-  >
-    <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
-    <cx-media [container]="getImage(data)"></cx-media>
-    <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
-  </cx-generic-link>
+  <ng-container *cxFeatureLevel="'6.8'">
+    <ng-container *ngIf="routerLink">
+      <cx-generic-link
+        [url]="routerLink"
+        [target]="getTarget(data)"
+        [ariaLabel]="data.headline"
+      >
+      </cx-generic-link>
+      <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
+      <cx-media [container]="getImage(data)"></cx-media>
+      <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
+    </ng-container>
+  </ng-container>
+  <ng-container *cxFeatureLevel="'!6.8'">
+    <cx-generic-link
+      *ngIf="routerLink"
+      [url]="routerLink"
+      [target]="getTarget(data)"
+      [ariaLabel]="data.headline"
+    >
+      <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
+      <cx-media [container]="getImage(data)"></cx-media>
+      <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
+    </cx-generic-link>
+  </ng-container>
   <ng-container *cxFeatureLevel="'6.3'">
     <ng-container *ngIf="!routerLink">
       <div class="no-link">
