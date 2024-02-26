@@ -113,7 +113,7 @@ export class OpfMultiCartHandlerService implements OpfCartHandlerInterface {
       switchMap((userId) => {
         return this.multiCartFacade.createCart({
           userId,
-          extraData: { active: true },
+          extraData: { active: false },
         });
       }),
       take(1),
