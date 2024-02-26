@@ -114,7 +114,7 @@ export class OpfMultiCartHandlerService implements OpfCartHandlerInterface {
       switchMap((userId) => {
         return this.multiCartFacade.createCart({
           userId,
-          extraData: { active: false },
+          extraData: { active: true },
         });
       }),
       take(1),
@@ -144,6 +144,13 @@ export class OpfMultiCartHandlerService implements OpfCartHandlerInterface {
           extraData: { active: true },
         });
         return this.checkStableCart();
+      }),
+      switchMap(() => {
+        return this.activeCartFacade.takeActiveCartId();
+      }),
+      switchMap((cartId: string) => {
+        console.log('flo cartId in addMultipleProductToMultipleCart', cartId);
+        return of(true);
       })
       // tap(() => {
       //   this.setMultipleCart(true);
