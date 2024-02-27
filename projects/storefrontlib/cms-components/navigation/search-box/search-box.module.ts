@@ -13,10 +13,11 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { MediaModule } from '../../../shared/components/media/media.module';
-import { IconModule } from '../../misc/icon/icon.module';
+import { MediaModule } from '../../../shared';
+import { IconModule } from '../../misc';
 import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponent } from './search-box.component';
+import { OutletModule } from '../../../cms-structure';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { SearchBoxComponent } from './search-box.component';
     IconModule,
     UrlModule,
     I18nModule,
+    OutletModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
