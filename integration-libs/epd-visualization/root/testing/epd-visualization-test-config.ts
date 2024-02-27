@@ -10,8 +10,7 @@ export function getTestConfig(): EpdVisualizationConfig {
   return {
     epdVisualization: {
       apis: {
-        baseUrl:
-          'https://fake.visualization.application.domain.sap',
+        baseUrl: 'https://fake.visualization.application.domain.sap',
       },
       ui5: {
         bootstrapUrl: 'https://ui5.sap.com/1.108/resources/sap-ui-core.js',
