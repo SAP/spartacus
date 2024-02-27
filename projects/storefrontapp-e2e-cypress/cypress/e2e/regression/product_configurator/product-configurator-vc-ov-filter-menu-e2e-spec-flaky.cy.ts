@@ -14,10 +14,17 @@ const GROUP_ID_OPTIONS = '5';
 const GROUP_ID_LENS = '4';
 
 context('Product Configuration', () => {
+  const commerceRelease: configurationVc.CommerceRelease = {};
+
   beforeEach(() => {
     cy.visit('/');
     configurationOverviewVc.registerConfigurationOverviewRoute();
     configurationOverviewVc.registerConfigurationOverviewUpdateRoute();
+    configurationVc.checkCommerceRelease(
+      electronicsShop,
+      testProduct,
+      commerceRelease
+    );
   });
 
   it('should display sidebar with filter and menu on overview page', () => {
@@ -40,7 +47,7 @@ context('Product Configuration', () => {
   it('should be able filter the overview page', () => {
     cy.viewport(1000, 660);
     clickAllowAllFromBanner();
-    completeDigitalCameraConfiguration();
+    completeDigitalCameraConfiguration(commerceRelease.isPricingEnabled);
     configuration.navigateToOverviewPage();
 
     // no filter
@@ -102,7 +109,7 @@ context('Product Configuration', () => {
   });
 });
 
-function completeDigitalCameraConfiguration() {
+function completeDigitalCameraConfiguration(isPricingEnabled?: boolean) {
   configurationVc.registerConfigurationRoute();
   configurationVc.registerConfigurationUpdateRoute();
   configurationVc.goToConfigurationPage(electronicsShop, testProduct);
@@ -113,8 +120,19 @@ function completeDigitalCameraConfiguration() {
   configurationVc.selectAttributeAndWait('CAMERA_PIXELS', RB, 'P16');
   configurationVc.selectAttributeAndWait('CAMERA_SENSOR', RB, 'F');
   configurationVc.selectAttributeAndWait('CAMERA_VIEWFINDER', RB, 'R');
-  configurationVc.selectAttributeAndWait('CAMERA_SD_CARD', CBL, 'SDHC');
-  configurationVc.selectAttributeAndWait('CAMERA_SD_CARD', CBL, 'SDXC');
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_SD_CARD',
+    CBL,
+    'SDHC',
+    isPricingEnabled
+  );
+
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_SD_CARD',
+    CBL,
+    'SDXC',
+    isPricingEnabled
+  );
   configurationVc.selectAttributeAndWait('CAMERA_SECOND_SLOT', RB, 'Y');
   configurationVc.selectAttributeAndWait('CAMERA_FORMAT_PICTURES', RB, 'RAW');
   configurationVc.selectAttributeAndWait('CAMERA_MAX_ISO', RB, '25600');
@@ -137,6 +155,16 @@ function completeDigitalCameraConfiguration() {
   );
 
   configurationVc.clickOnNextBtnAndWait('Options');
-  configurationVc.selectAttributeAndWait('CAMERA_OPTIONS', CBL, 'W');
-  configurationVc.selectAttributeAndWait('CAMERA_OPTIONS', CBL, 'I');
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_OPTIONS',
+    CBL,
+    'W',
+    isPricingEnabled
+  );
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_OPTIONS',
+    CBL,
+    'I',
+    isPricingEnabled
+  );
 }
