@@ -113,8 +113,8 @@ export interface ApplePayAuthorizationResult {
 }
 
 export interface ApplePayTransactionInput {
-  product?: Product | undefined;
-  cart?: Cart | undefined;
+  product?: Product;
+  cart?: Cart;
   quantity?: number;
   countryCode?: string;
 }
