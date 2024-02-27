@@ -11,14 +11,14 @@
     }
   }
 
-  @include describe('useFeatureStyles') {
+  @include describe('forFeature') {
     @include it('should prepend the feature class to the ancestor selector') {
       @include assert {
         @include output(false) {
           .test {
             color: yellow;
 
-            @include useFeatureStyles('someFeatureFlag') {
+            @include forFeature('someFeatureFlag') {
               color: green;
             }
           }
@@ -42,7 +42,7 @@
           .deep {
             .nest {
               color: yellow;
-              @include useFeatureStyles('someFeatureFlag') {
+              @include forFeature('someFeatureFlag') {
                 color: green;
               }
             }
@@ -68,7 +68,7 @@
               .nest1,
               .nest2 {
                 color: yellow;
-                @include useFeatureStyles('someFeatureFlag') {
+                @include forFeature('someFeatureFlag') {
                   color: green;
                 }
               }
@@ -99,7 +99,7 @@
             .deep1 + .deep2 {
               .nest1 ~ .nest2 {
                 color: yellow;
-                @include useFeatureStyles('someFeatureFlag') {
+                @include forFeature('someFeatureFlag') {
                   color: green;
                 }
               }
@@ -124,7 +124,7 @@
           @include output(false) {
             .test {
               color: yellow;
-              @include useFeatureStyles('someFeatureFlag', 'currentSelector') {
+              @include forFeature('someFeatureFlag', 'currentSelector') {
                 color: green;
               }
             }
@@ -147,10 +147,7 @@
             .deep {
               .nest {
                 color: yellow;
-                @include useFeatureStyles(
-                  'someFeatureFlag',
-                  'currentSelector'
-                ) {
+                @include forFeature('someFeatureFlag', 'currentSelector') {
                   color: green;
                 }
               }
@@ -176,10 +173,7 @@
               .nest1,
               .nest2 {
                 color: yellow;
-                @include useFeatureStyles(
-                  'someFeatureFlag',
-                  'currentSelector'
-                ) {
+                @include forFeature('someFeatureFlag', 'currentSelector') {
                   color: green;
                 }
               }
@@ -210,10 +204,7 @@
             .deep1 + .deep2 {
               .nest1 ~ .nest2 {
                 color: yellow;
-                @include useFeatureStyles(
-                  'someFeatureFlag',
-                  'currentSelector'
-                ) {
+                @include forFeature('someFeatureFlag', 'currentSelector') {
                   color: green;
                 }
               }
