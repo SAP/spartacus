@@ -21,8 +21,10 @@ import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ApplePaySessionVerificationRequest,
   ApplePaySessionVerificationResponse,
-  LocalCart,
+  ApplePayTransactionDetails,
+  ApplePayTransactionInput,
   OpfPaymentFacade,
+  OpfQuickBuyLocation,
   PaymentMethod,
 } from '@spartacus/opf/base/root';
 
@@ -41,44 +43,77 @@ export class ApplePayService {
   protected cartHandlerService = inject(OpfCartHandlerService);
 
   protected paymentInProgress = false;
-  protected localCart: LocalCart = {
-    quantity: 0,
+
+  protected initialTransactionDetails: ApplePayTransactionDetails = {
+    context: OpfQuickBuyLocation.PRODUCT,
     product: undefined,
+    cart: undefined,
+    quantity: 0,
     addressIds: [],
-    isPdp: true,
     total: {
       label: '',
       amount: '',
+      currency: '',
     },
   };
 
-  protected initLocalCart(product: Product, quantity: number): LocalCart {
-    return {
-      quantity,
-      product,
-      addressIds: [],
-      isPdp: true,
-      total: {
-        amount: ((product.price?.value as number) * quantity).toString(),
-        label:
-          quantity > 1
-            ? `${product?.name as string} x ${quantity}`
-            : `${product?.name as string}`,
-      },
-    };
+  protected transactionDetails = this.initialTransactionDetails;
+
+  protected initTransactionDetails(
+    transactionInput: ApplePayTransactionInput
+  ): ApplePayTransactionDetails {
+    this.transactionDetails = { ...this.initialTransactionDetails };
+
+    if (transactionInput?.cart) {
+      this.transactionDetails = {
+        ...this.transactionDetails,
+        context: OpfQuickBuyLocation.CART,
+        cart: transactionInput.cart,
+        total: {
+          amount: `${transactionInput.cart.totalPrice?.value}`,
+          label: `${transactionInput.cart.code}`,
+          currency: transactionInput.cart?.totalPrice?.currencyIso as string,
+        },
+      };
+    }
+
+    if (transactionInput?.product && transactionInput?.quantity) {
+      const productPrice = transactionInput.product.price?.value as number;
+      const totalPrice = productPrice * transactionInput.quantity;
+
+      this.transactionDetails = {
+        ...this.transactionDetails,
+        context: OpfQuickBuyLocation.PRODUCT,
+        product: transactionInput.product,
+        quantity: transactionInput.quantity,
+        total: {
+          amount: totalPrice.toString(),
+          label: `${transactionInput.product?.name as string}${
+            transactionInput.quantity > 1
+              ? ` x ${transactionInput.quantity}`
+              : ''
+          }`,
+          currency: transactionInput.product?.price?.currencyIso as string,
+        },
+      };
+    }
+
+    return this.transactionDetails;
   }
 
-  start(product: Product, quantity: number, countryCode: string): any {
+  start(transactionInput: ApplePayTransactionInput): any {
     if (this.paymentInProgress) {
       return throwError('Apple Pay is already in progress');
     }
     this.paymentInProgress = true;
-    this.localCart = this.initLocalCart(product, quantity);
+
+    this.transactionDetails = this.initTransactionDetails(transactionInput);
+    const countryCode = transactionInput?.countryCode || '';
     const initialRequest: ApplePayJS.ApplePayPaymentRequest = {
-      currencyCode: product?.price?.currencyIso as string,
+      currencyCode: this.transactionDetails.total.currency,
       total: {
-        amount: this.localCart.total.amount,
-        label: this.localCart.total.label,
+        amount: this.transactionDetails.total.amount,
+        label: this.transactionDetails.total.label,
       },
       shippingMethods: [],
       merchantCapabilities: ['supports3DS'],
@@ -91,8 +126,7 @@ export class ApplePayService {
     return this.applePayObservable
       .initApplePayEventsHandler({
         request: initialRequest,
-        validateMerchant: (event) =>
-          this.handleValidation(event, this.localCart),
+        validateMerchant: (event) => this.handleValidation(event),
         shippingContactSelected: (event) =>
           this.handleShippingContactSelected(event),
         paymentMethodSelected: (event) =>
@@ -102,14 +136,9 @@ export class ApplePayService {
         paymentAuthorized: (event) => this.handlePaymentAuthorized(event),
       })
       .pipe(
-        catchError((error) => {
-          return this.cartHandlerService
-            .deleteCurrentCart()
-            .pipe(switchMap(() => throwError(error)));
-        }),
         finalize(() => {
           this.cartHandlerService.deleteUserAddresses([
-            ...this.localCart.addressIds,
+            ...this.transactionDetails.addressIds,
           ]);
           this.paymentInProgress = false;
         })
@@ -117,18 +146,19 @@ export class ApplePayService {
   }
 
   private handleValidation(
-    event: ApplePayJS.ApplePayValidateMerchantEvent,
-    localCart: LocalCart
+    event: ApplePayJS.ApplePayValidateMerchantEvent
   ): Observable<ApplePaySessionVerificationResponse> {
-    if (!localCart?.product || !localCart?.quantity) {
-      return throwError('Empty product or quantity');
+    if (this.transactionDetails?.product && this.transactionDetails?.quantity) {
+      return this.handleSingleProductTransaction(
+        this.transactionDetails.product,
+        this.transactionDetails.quantity
+      ).pipe(switchMap(() => this.validateOpfAppleSession(event)));
     }
-    return this.addProductToCart(localCart.product, localCart.quantity).pipe(
-      switchMap(() => this.validateOpfAppleSession(event))
-    );
+
+    return this.validateOpfAppleSession(event);
   }
 
-  protected addProductToCart(
+  protected handleSingleProductTransaction(
     product: Product,
     quantity: number
   ): Observable<boolean> {
@@ -194,7 +224,7 @@ export class ApplePayService {
     );
 
     const result: ApplePayJS.ApplePayShippingContactUpdate =
-      this.updateApplePayForm({ ...this.localCart.total });
+      this.updateApplePayForm({ ...this.transactionDetails.total });
 
     return this.cartHandlerService.setDeliveryAddress(partialAddress).pipe(
       tap((addrId: string) => {
@@ -231,7 +261,7 @@ export class ApplePayService {
         if (!price) {
           return throwError('Total Price not available');
         }
-        this.localCart.total.amount = price.toString();
+        this.transactionDetails.total.amount = price.toString();
         result.newTotal.amount = price.toString();
         return of(result);
       })
@@ -242,7 +272,7 @@ export class ApplePayService {
     _event: ApplePayJS.ApplePayPaymentMethodSelectedEvent
   ): Observable<any> {
     const result: ApplePayJS.ApplePayPaymentMethodUpdate =
-      this.updateApplePayForm({ ...this.localCart.total });
+      this.updateApplePayForm({ ...this.transactionDetails.total });
     return of(result);
   }
 
@@ -250,7 +280,7 @@ export class ApplePayService {
     _event: ApplePayJS.ApplePayShippingMethodSelectedEvent
   ): Observable<any> {
     const result: ApplePayJS.ApplePayShippingContactUpdate =
-      this.updateApplePayForm({ ...this.localCart.total });
+      this.updateApplePayForm({ ...this.transactionDetails.total });
 
     return this.cartHandlerService
       .setDeliveryMode(_event.shippingMethod.identifier)
@@ -262,7 +292,8 @@ export class ApplePayService {
             return throwError('Total Price not available');
           }
           result.newTotal.amount = cart.totalPrice.value.toString();
-          this.localCart.total.amount = cart.totalPrice.value.toString();
+          this.transactionDetails.total.amount =
+            cart.totalPrice.value.toString();
           return of(result);
         })
       );
@@ -300,8 +331,8 @@ export class ApplePayService {
   }
 
   protected recordDeliveryAddress(addrId: string): void {
-    if (!this.localCart.addressIds?.includes(addrId)) {
-      this.localCart.addressIds?.push(addrId);
+    if (!this.transactionDetails.addressIds?.includes(addrId)) {
+      this.transactionDetails.addressIds?.push(addrId);
     }
   }
 

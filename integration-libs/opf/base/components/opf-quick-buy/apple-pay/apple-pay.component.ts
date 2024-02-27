@@ -8,10 +8,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnDestroy,
   OnInit,
   inject,
 } from '@angular/core';
+import { Cart } from '@spartacus/cart/base/root';
 import { Product } from '@spartacus/core';
 import {
   OpfCartHandlerService,
@@ -20,15 +20,16 @@ import {
 import {
   ActiveConfiguration,
   DigitalWalletQuickBuy,
-  OpfPaymentError,
   OpfProviderType,
+  OpfQuickBuyLocation,
 } from '@spartacus/opf/base/root';
 import {
   CurrentProductService,
   ItemCounterService,
 } from '@spartacus/storefront';
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
+import { OpfQuickBuyService } from '../opf-quick-buy.service';
 import { ApplePaySessionFactory } from './apple-pay-session';
 import { ApplePayService } from './apple-pay.service';
 
@@ -37,7 +38,7 @@ import { ApplePayService } from './apple-pay.service';
   templateUrl: './apple-pay.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ApplePayComponent implements OnInit, OnDestroy {
+export class ApplePayComponent implements OnInit {
   @Input() activeConfiguration: ActiveConfiguration;
 
   protected applePayService = inject(ApplePayService);
@@ -46,8 +47,8 @@ export class ApplePayComponent implements OnInit, OnDestroy {
   protected cartHandlerService = inject(OpfCartHandlerService);
   protected applePaySession = inject(ApplePaySessionFactory);
   protected paymentErrorHandlerService = inject(OpfPaymentErrorHandlerService);
+  protected opfQuickBuyService = inject(OpfQuickBuyService);
 
-  protected sub: Subscription;
   isApplePaySupported$: Observable<boolean>;
   applePayDigitalWallet?: DigitalWalletQuickBuy;
 
@@ -68,31 +69,47 @@ export class ApplePayComponent implements OnInit, OnDestroy {
     );
   }
 
-  quickBuyProduct(): void {
-    this.sub = combineLatest([
+  initSingleProductTransaction(): Observable<unknown> {
+    return combineLatest([
       this.currentProductService.getProduct(),
       this.cartHandlerService.checkStableCart(),
-    ])
-      .pipe(
-        switchMap(([product, _]) =>
-          this.applePayService.start(
-            product as Product,
-            this.itemCounterService.getCounter(),
-            this.applePayDigitalWallet?.countryCode as string
-          )
-        )
+    ]).pipe(
+      take(1),
+      switchMap(([product, _]) =>
+        this.applePayService.start({
+          product: product as Product,
+          quantity: this.itemCounterService.getCounter(),
+          countryCode: this.applePayDigitalWallet?.countryCode as string,
+        })
       )
-      .subscribe({
-        error: (error: OpfPaymentError | string | undefined) =>
-          this.paymentErrorHandlerService.handlePaymentError(
-            typeof error === 'string' ? { message: error } : error
-          ),
-      });
+    );
   }
 
-  ngOnDestroy(): void {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
+  initActiveCartTransaction(): Observable<unknown> {
+    return this.cartHandlerService.getCurrentCart().pipe(
+      take(1),
+      switchMap((cart: Cart) => {
+        return this.applePayService.start({
+          cart: cart,
+          countryCode: this.applePayDigitalWallet?.countryCode as string,
+        });
+      })
+    );
+  }
+
+  initTransaction(): void {
+    this.opfQuickBuyService
+      .getQuickBuyLocationContext()
+      .pipe(
+        take(1),
+        switchMap((context: OpfQuickBuyLocation) => {
+          if (context === OpfQuickBuyLocation.PRODUCT) {
+            return this.initSingleProductTransaction();
+          }
+
+          return this.initActiveCartTransaction();
+        })
+      )
+      .subscribe();
   }
 }

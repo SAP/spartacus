@@ -5,6 +5,7 @@
  */
 
 /// <reference types="@types/applepayjs" />
+import { Cart } from '@spartacus/cart/base/root';
 import { Product } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OpfDynamicScript } from './opf.model';
@@ -74,9 +75,9 @@ export interface CtaScript {
   dynamicScript: OpfDynamicScript;
 }
 
-export interface LocalCart {
-  isPdp?: boolean;
-  cartId?: string;
+export interface ApplePayTransactionDetails {
+  context?: OpfQuickBuyLocation;
+  cart?: Cart;
   product?: Product;
   quantity?: number;
   pickup?: boolean;
@@ -84,6 +85,7 @@ export interface LocalCart {
   total: {
     amount: string;
     label: string;
+    currency: string;
   };
 }
 
@@ -108,6 +110,13 @@ export interface ApplePaySessionVerificationResponse {
 export interface ApplePayAuthorizationResult {
   authResult: any;
   payment: any;
+}
+
+export interface ApplePayTransactionInput {
+  product?: Product | undefined;
+  cart?: Cart | undefined;
+  quantity?: number;
+  countryCode?: string;
 }
 
 export interface ApplePayObservableConfig {

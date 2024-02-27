@@ -3,14 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { ApplePayComponent } from './apple-pay.component';
-import {
-  CurrentProductService,
-  ItemCounterService,
-} from '@spartacus/storefront';
-import { ApplePayService } from './apple-pay.service';
-import { ApplePaySessionFactory } from './apple-pay-session';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Product } from '@spartacus/core';
 import {
   OpfCartHandlerService,
   OpfPaymentErrorHandlerService,
@@ -18,11 +12,18 @@ import {
 import {
   ActiveConfiguration,
   DigitalWalletQuickBuy,
-  OpfPaymentError,
   OpfProviderType,
+  OpfQuickBuyLocation,
 } from '@spartacus/opf/base/root';
-import { of, throwError } from 'rxjs';
-import { Product } from '@spartacus/core';
+import {
+  CurrentProductService,
+  ItemCounterService,
+} from '@spartacus/storefront';
+import { of } from 'rxjs';
+import { OpfQuickBuyService } from '../opf-quick-buy.service';
+import { ApplePaySessionFactory } from './apple-pay-session';
+import { ApplePayComponent } from './apple-pay.component';
+import { ApplePayService } from './apple-pay.service';
 
 const mockProduct: Product = {
   name: 'mockProduct',
@@ -53,6 +54,7 @@ describe('ApplePayComponent', () => {
   let mockCartHandlerService: jasmine.SpyObj<OpfCartHandlerService>;
   let mockApplePaySessionFactory: jasmine.SpyObj<ApplePaySessionFactory>;
   let mockOpfPaymentErrorHandlerService: jasmine.SpyObj<OpfPaymentErrorHandlerService>;
+  let mockOpfQuickBuyService: jasmine.SpyObj<OpfQuickBuyService>;
   const mockCountryCode = 'US';
   const mockCounter = 2;
 
@@ -75,6 +77,9 @@ describe('ApplePayComponent', () => {
       'OpfPaymentErrorHandlerService',
       ['handlePaymentError']
     );
+    mockOpfQuickBuyService = jasmine.createSpyObj('OpfQuickBuyService', [
+      'getQuickBuyLocationContext',
+    ]);
 
     TestBed.configureTestingModule({
       declarations: [ApplePayComponent],
@@ -91,6 +96,10 @@ describe('ApplePayComponent', () => {
           provide: OpfPaymentErrorHandlerService,
           useValue: mockOpfPaymentErrorHandlerService,
         },
+        {
+          provide: OpfQuickBuyService,
+          useValue: mockOpfQuickBuyService,
+        },
       ],
     }).compileComponents();
 
@@ -105,10 +114,11 @@ describe('ApplePayComponent', () => {
     mockCartHandlerService.checkStableCart.and.returnValue(
       mockCartCheckObservable
     );
+    mockOpfQuickBuyService.getQuickBuyLocationContext.and.returnValue(
+      of(OpfQuickBuyLocation.PRODUCT)
+    );
   });
-  afterEach(() => {
-    component.ngOnDestroy();
-  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -165,39 +175,9 @@ describe('ApplePayComponent', () => {
     component.activeConfiguration = mockActiveConfiguration;
     fixture.detectChanges();
 
-    component.quickBuyProduct();
+    component.initTransaction();
     expect(
       mockOpfPaymentErrorHandlerService.handlePaymentError
     ).not.toHaveBeenCalled();
-  });
-
-  it('should call applePayService with correct parameters', () => {
-    const mockError: OpfPaymentError = { message: 'Payment error' };
-    mockApplePayService.start.and.returnValue(throwError(mockError));
-
-    component.activeConfiguration = {
-      digitalWalletQuickBuy: [
-        {
-          provider: OpfProviderType.APPLE_PAY,
-          countryCode: mockCountryCode,
-          merchantId: 'merchant.com.adyen.upscale.test',
-        },
-      ],
-    };
-    component.activeConfiguration = mockActiveConfiguration;
-    fixture.detectChanges();
-
-    component.quickBuyProduct();
-    expect(mockCurrentProductService.getProduct).toHaveBeenCalled();
-    expect(mockItemCounterService.getCounter).toHaveBeenCalled();
-    expect(mockCartHandlerService.checkStableCart).toHaveBeenCalled();
-    expect(mockApplePayService.start).toHaveBeenCalledWith(
-      mockProduct,
-      mockCounter,
-      mockCountryCode
-    );
-    expect(
-      mockOpfPaymentErrorHandlerService.handlePaymentError
-    ).toHaveBeenCalledWith(mockError);
   });
 });
