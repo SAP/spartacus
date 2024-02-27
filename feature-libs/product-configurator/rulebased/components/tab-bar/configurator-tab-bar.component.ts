@@ -69,6 +69,7 @@ export class ConfiguratorTabBarComponent {
 
   /**
    * Navigates to the overview page and sets the focus on the overview element in the tab-bar.
+   *
    * @param routerData - Router data
    */
   navigateToOverview(routerData: ConfiguratorRouter.Data) {
@@ -87,6 +88,7 @@ export class ConfiguratorTabBarComponent {
 
   /**
    * Navigates to the configuration page and sets the focus on the configuration element in the tab-bar.
+   *
    * @param routerData - Router data
    */
   navigateToConfiguration(routerData: ConfiguratorRouter.Data) {

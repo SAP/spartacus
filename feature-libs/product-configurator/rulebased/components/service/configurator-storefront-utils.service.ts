@@ -131,16 +131,16 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Focus the first active element inside the given host element
    *
-   * @param hostQuerySelector - query selector of the host element
+   * @param selector - query selector of the host element
    */
-  focusFirstActiveElement(hostQuerySelector: string) {
+  focusFirstActiveElement(selector: string) {
     if (!this.windowRef.isBrowser()) {
       return;
     }
-    const tabBar = this.getElement(hostQuerySelector);
-    if (tabBar) {
+    const element = this.getElement(selector);
+    if (element) {
       const focusableElements: HTMLElement[] =
-        this.keyboardFocusService.findFocusable(tabBar);
+        this.keyboardFocusService.findFocusable(element);
       if (focusableElements && focusableElements.length > 0) {
         focusableElements[0].focus();
       }
