@@ -4,6 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import * as configurationOverview from './product-configurator-overview';
+import * as configurationVc from './product-configurator-vc';
+
 const cartItemQuantityStepperSelector = '.cx-value cx-item-counter';
 
 /**
@@ -81,7 +84,8 @@ export function navigateToOrderDetails(): void {
     .first()
     .click()
     .then(() => {
-      cy.get('cx-configurator-overview-form').should('be.visible');
+      configurationOverview.checkConfigOverviewPageDisplayed();
+      configurationVc.checkGhostAnimationNotDisplayed();
     });
 }
 
