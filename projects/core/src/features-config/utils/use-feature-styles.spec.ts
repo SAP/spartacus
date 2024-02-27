@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { FeatureStylesService } from '../directives/feature-styles.service';
+import { FeatureStylesService } from '../services/feature-styles.service';
 import { useFeatureStyles } from './use-feature-styles';
 
 class MockFeatureStylesService {

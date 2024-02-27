@@ -14,8 +14,8 @@ import {
 import { provideDefaultConfig } from '../config/config-providers';
 import { FeaturesConfig } from './config/features-config';
 import { FeatureLevelDirective } from './directives/feature-level.directive';
-import { FeatureStylesService } from './directives/feature-styles.service';
 import { FeatureDirective } from './directives/feature.directive';
+import { FeatureStylesService } from './services/feature-styles.service';
 
 @NgModule({
   declarations: [FeatureLevelDirective, FeatureDirective],

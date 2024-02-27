@@ -5,7 +5,7 @@
  */
 
 import { DestroyRef, assertInInjectionContext, inject } from '@angular/core';
-import { FeatureStylesService } from '../directives/feature-styles.service';
+import { FeatureStylesService } from '../services/feature-styles.service';
 
 /**
  * Registers the usage of the feature flag's styles in the component. Must be called in the component's constructor.

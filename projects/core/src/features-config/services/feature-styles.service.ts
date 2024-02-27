@@ -12,7 +12,7 @@ import {
   isDevMode,
 } from '@angular/core';
 import { LoggerService } from '../../logger/logger.service';
-import { FeatureConfigService } from '../services/feature-config.service';
+import { FeatureConfigService } from './feature-config.service';
 
 /**
  * Automatically adds/removes CSS classes to/from the root element of the application,
