@@ -123,10 +123,6 @@
         .cx-message-input {
           display: flex;
           gap: 1rem;
-          //TODO TIGER take final feature concept into account
-          @if $featureMessagingItems {
-            padding-block-start: 0.5rem;
-          }
         }
       }
 
