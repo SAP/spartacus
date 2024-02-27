@@ -7,7 +7,7 @@
     "node": "^18.13.0 || ^20.10.0"
   },
   "scripts": {
-    "build:analyze": "npm run build --stats-json && npx --yes webpack-bundle-analyzer dist/storefrontapp/stats.json",
+    "build:analyze": "npm run build -- --stats-json && npx --yes webpack-bundle-analyzer dist/storefrontapp/stats.json",
     "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV nx build storefrontapp --configuration production",
     "build:core": "nx build core --configuration production",
     "build:storefrontlib": "nx build storefrontlib --configuration production",
@@ -141,7 +141,7 @@
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^17.0.0",
-    "@angular-devkit/build-angular": "^17.1.1",
+    "@angular-devkit/build-angular": "^17.2.1",
     "@angular-devkit/core": "^17.0.5",
     "@angular-devkit/schematics": "^17.0.5",
     "@angular-eslint/builder": "^17.1.0",

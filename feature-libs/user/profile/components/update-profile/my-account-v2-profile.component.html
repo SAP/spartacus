@@ -102,19 +102,18 @@
         <cx-form-errors [control]="form.get('customerId')"></cx-form-errors>
       </label>
     </form>
-    <div class="btn-group-row">
-      <div class="btn-group">
-        <button class="btn button-cancel button" (click)="cancelEdit()">
-          {{ 'common.cancel' | cxTranslate }}
-        </button>
-        <button
-          class="btn btn-primary button"
-          (click)="onSubmit()"
-          [disabled]="form.disabled"
-        >
-          {{ 'common.save' | cxTranslate }}
-        </button>
-      </div>
+
+    <div class="btn-group">
+      <button class="btn button-cancel button" (click)="cancelEdit()">
+        {{ 'common.cancel' | cxTranslate }}
+      </button>
+      <button
+        class="btn btn-primary button"
+        (click)="onSubmit()"
+        [disabled]="form.disabled"
+      >
+        {{ 'common.save' | cxTranslate }}
+      </button>
     </div>
   </div>
 </div>

@@ -250,7 +250,7 @@ function increaseBudgets(options: SpartacusOptions): Rule {
       if (budget.type === 'initial') {
         return {
           ...budget,
-          maximumError: '2.5mb',
+          maximumError: '3.5mb',
         };
       }
       return budget;
