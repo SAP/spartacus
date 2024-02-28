@@ -8,16 +8,17 @@ import {
   StatePersistenceService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OpfMiniCartComponentService extends MiniCartComponentService {
   freezeMiniCart$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  protected acceptUpdate$ = this.freezeMiniCart$
-    .asObservable()
-    .pipe(filter((freeze) => !freeze));
+  protected acceptUpdate$ = this.freezeMiniCart$.asObservable().pipe(
+    tap((val) => console.log('freeze', val)),
+    filter((freeze) => !freeze)
+  );
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected authService: AuthService,
