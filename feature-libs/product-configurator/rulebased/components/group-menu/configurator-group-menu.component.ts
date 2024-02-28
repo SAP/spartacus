@@ -120,7 +120,7 @@ export class ConfiguratorGroupMenuComponent {
     protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
-  click(group: Configurator.Group): void {
+  click(group: Configurator.Group, currentGroup?: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (configuration.interactionState.currentGroup === group.id) {
         return;
@@ -137,11 +137,14 @@ export class ConfiguratorGroupMenuComponent {
           configuration.owner,
           group.id
         );
+        if (currentGroup) {
+          this.setFocusForSubGroup(group, currentGroup.id);
+        }
       }
     });
   }
 
-  navigateUp(): void {
+  navigateUp(currentGroup?: Configurator.Group): void {
     this.displayedParentGroup$
       .pipe(take(1))
       .subscribe((displayedParentGroup) => {
@@ -158,6 +161,9 @@ export class ConfiguratorGroupMenuComponent {
           });
         }
       });
+    if (currentGroup) {
+      this.setFocusForMainMenu(currentGroup.id);
+    }
   }
 
   /**
@@ -390,13 +396,11 @@ export class ConfiguratorGroupMenuComponent {
       );
     } else if (this.isForwardsNavigation(event)) {
       if (targetGroup && this.hasSubGroups(targetGroup)) {
-        this.click(targetGroup);
-        this.setFocusForSubGroup(targetGroup, currentGroup.id);
+        this.click(targetGroup, currentGroup);
       }
     } else if (this.isBackNavigation(event)) {
       if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
-        this.navigateUp();
-        this.setFocusForMainMenu(currentGroup.id);
+        this.navigateUp(currentGroup);
       }
     }
   }

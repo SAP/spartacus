@@ -432,7 +432,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       });
   });
 
-  it('should navigate up', () => {
+  it('should navigate up (and not set focus)', () => {
     spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
       of(mockProductConfiguration.groups[0])
     );
@@ -445,6 +445,24 @@ describe('ConfigurationGroupMenuComponent', () => {
     component.navigateUp();
     expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
     expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+    expect(configUtils.setFocus).toHaveBeenCalledTimes(0);
+  });
+
+  it('should navigate up and set focus if current group is provided', () => {
+    spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+      of(mockProductConfiguration.groups[0])
+    );
+    productConfigurationObservable = of(mockProductConfiguration);
+    routerStateObservable = of(mockRouterState);
+    spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
+      mockProductConfiguration.groups[0]
+    );
+    initialize();
+
+    component.navigateUp(mockProductConfiguration.groups[0]);
+    expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+    expect(configUtils.setFocus).toHaveBeenCalled();
   });
 
   it('should navigate up, parent group null', () => {
@@ -472,6 +490,20 @@ describe('ConfigurationGroupMenuComponent', () => {
     //Display subgroups
     component.click(mockProductConfiguration.groups[2]);
     expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+    expect(configUtils.setFocus).toHaveBeenCalledTimes(0);
+  });
+
+  it('should call correct methods for subgroups and set focus if current group is provided', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
+    routerStateObservable = of(mockRouterState);
+    initialize();
+
+    component.click(
+      mockProductConfiguration.groups[2],
+      mockProductConfiguration.groups[0]
+    );
+    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+    expect(configUtils.setFocus).toHaveBeenCalled();
   });
 
   it('should return number of conflicts only for conflict header group', () => {
