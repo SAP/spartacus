@@ -8,6 +8,7 @@ import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
+  CartType,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
   DeliveryMode,
@@ -129,7 +130,8 @@ export class OpfCartHandlerService {
     quantity: number,
     pickupStore?: string | undefined
   ): Observable<boolean> {
-    return this.activeCartFacade.takeActiveCartId().pipe(
+    return this.multiCartFacade.getCartIdByType(CartType.ACTIVE).pipe(
+      take(1),
       switchMap((cartId) => {
         console.log('takeActiveCartId', cartId);
         if (cartId) {
