@@ -26,7 +26,10 @@ import {
   UserAddressService,
   UserIdService,
 } from '@spartacus/core';
-import { OpfGlobalMessageService } from '@spartacus/opf/base/root';
+import {
+  OpfGlobalMessageService,
+  OpfMiniCartComponentService,
+} from '@spartacus/opf/base/root';
 import { Observable, combineLatest, merge, of, throwError } from 'rxjs';
 import {
   catchError,
@@ -53,6 +56,7 @@ export class OpfCartHandlerService {
   protected eventService = inject(EventService);
   protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
   protected opfGlobalMessageService = inject(OpfGlobalMessageService);
+  protected opfMiniCartComponentService = inject(OpfMiniCartComponentService);
   protected currentCartId: string;
   protected previousCartId: string;
   protected currentUserId: string;
@@ -142,6 +146,7 @@ export class OpfCartHandlerService {
       this.activeCartFacade.isStable(),
     ]).pipe(
       take(1),
+      tap(() => this.opfMiniCartComponentService.freezeMiniCart$.next(true)),
       switchMap(([userId, cartId, isStable]) => {
         console.log('isStable', isStable);
         console.log('takeActiveCartId', cartId);
@@ -177,7 +182,9 @@ export class OpfCartHandlerService {
       userId: this.currentUserId,
       extraData: { active: true },
     });
-    return this.checkStableCart();
+    return this.checkStableCart().pipe(
+      tap(() => this.opfMiniCartComponentService.freezeMiniCart$.next(false))
+    );
   }
 
   checkStableCart(cartId?: string): Observable<boolean> {
