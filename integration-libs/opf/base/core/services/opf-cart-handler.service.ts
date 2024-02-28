@@ -8,7 +8,6 @@ import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
-  CartType,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
   DeliveryMode,
@@ -27,7 +26,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { OpfGlobalMessageService } from '@spartacus/opf/base/root';
-import { Observable, merge, of, throwError } from 'rxjs';
+import { Observable, combineLatest, merge, of, throwError } from 'rxjs';
 import {
   catchError,
   filter,
@@ -68,51 +67,56 @@ export class OpfCartHandlerService {
     let _userId = '';
     let _cartId = '';
 
-    return this.userIdService.takeUserId().pipe(
-      map((userId: string) => {
-        console.log('userId', userId);
-        console.log('previousCartId', this.previousCartId);
-        _userId = userId;
-        this.currentUserId = userId;
-        return userId;
-      }),
-      take(1),
-      switchMap((userId) => {
-        return this.multiCartFacade.createCart({
-          userId,
-          extraData: { active: true },
-        });
-      }),
-      map((cart: Cart) => {
-        console.log('cart created', cart);
-        console.log('_userId', _userId);
-        return _userId === 'current'
-          ? (cart.code as string)
-          : (cart.guid as string);
-      }),
-      take(1),
-      switchMap((cartId: string) => {
-        console.log('addEntry on ', cartId);
-        this.currentCartId = cartId;
-        this.multiCartFacade.addEntry(
-          _userId,
-          cartId,
-          productCode,
-          quantity,
-          pickupStore
-        );
-        return this.checkStableCart(cartId);
-      }),
-      take(1),
-      switchMap(() => {
-        this.multiCartFacade.loadCart({
-          cartId: _cartId,
-          userId: _userId,
-          extraData: { active: true },
-        });
-        return this.checkStableCart(_cartId);
+    return this.multiCartFacade
+      .createCart({
+        userId: this.currentUserId,
+        extraData: { active: true },
       })
-    );
+      .pipe(
+        // map((userId: string) => {
+        //   console.log('userId', userId);
+        //   console.log('previousCartId', this.previousCartId);
+        //   _userId = userId;
+        //   this.currentUserId = userId;
+        //   return userId;
+        // }),
+        // take(1),
+        // switchMap((userId) => {
+        //   return this.multiCartFacade.createCart({
+        //     userId,
+        //     extraData: { active: true },
+        //   });
+        // }),
+        map((cart: Cart) => {
+          console.log('cart created', cart);
+          console.log('_userId', this.currentUserId);
+          return this.currentUserId === 'current'
+            ? (cart.code as string)
+            : (cart.guid as string);
+        }),
+        take(1),
+        switchMap((cartId: string) => {
+          console.log('addEntry on ', cartId);
+          this.currentCartId = cartId;
+          this.multiCartFacade.addEntry(
+            this.currentUserId,
+            cartId,
+            productCode,
+            quantity,
+            pickupStore
+          );
+          return this.checkStableCart(cartId);
+        }),
+        take(1),
+        switchMap(() => {
+          this.multiCartFacade.loadCart({
+            cartId: _cartId,
+            userId: _userId,
+            extraData: { active: true },
+          });
+          return this.checkStableCart(_cartId);
+        })
+      );
   }
 
   protected addProductToActiveCart(
@@ -130,10 +134,15 @@ export class OpfCartHandlerService {
     quantity: number,
     pickupStore?: string | undefined
   ): Observable<boolean> {
-    return this.multiCartFacade.getCartIdByType(CartType.ACTIVE).pipe(
+    this.previousCartId = '';
+    return combineLatest([
+      this.userIdService.takeUserId(),
+      this.activeCartFacade.takeActiveCartId(),
+    ]).pipe(
       take(1),
-      switchMap((cartId) => {
+      switchMap(([userId, cartId]) => {
         console.log('takeActiveCartId', cartId);
+        this.currentUserId = userId;
         if (cartId) {
           return this.addMultipleProductToMultipleCart(
             productCode,
