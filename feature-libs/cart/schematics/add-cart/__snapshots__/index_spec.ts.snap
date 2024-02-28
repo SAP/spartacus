@@ -137,7 +137,7 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -321,7 +321,7 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -505,7 +505,7 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -689,7 +689,7 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -883,7 +883,7 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",

@@ -16,6 +16,7 @@ import {
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatMessagingModule } from '@spartacus/storefront';
+import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { ChatMessagingModule } from '@spartacus/storefront';
     FormsModule,
   ],
   providers: [
+    CustomerTicketingMessagesComponentService,
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         SupportTicketUpdateComponent: {

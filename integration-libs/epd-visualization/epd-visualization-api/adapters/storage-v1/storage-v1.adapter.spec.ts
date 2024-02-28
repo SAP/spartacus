@@ -51,7 +51,7 @@ describe('StorageV1Adapter', () => {
         (req) =>
           req.method === 'GET' &&
           req.url ===
-            'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes'
+            'https://fake.visualization.application.domain.sap/vis/public/storage/v1/scenes/123/nodes'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -68,7 +68,7 @@ describe('StorageV1Adapter', () => {
         (req) =>
           req.method === 'GET' &&
           req.url ===
-            'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes?id=4&id=5'
+            'https://fake.visualization.application.domain.sap/vis/public/storage/v1/scenes/123/nodes?id=4&id=5'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -87,7 +87,7 @@ describe('StorageV1Adapter', () => {
         (req) =>
           req.method === 'GET' &&
           req.url ===
-            'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes?$expand=metadata,mesh'
+            'https://fake.visualization.application.domain.sap/vis/public/storage/v1/scenes/123/nodes?$expand=metadata,mesh'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -109,7 +109,7 @@ describe('StorageV1Adapter', () => {
         (req) =>
           req.method === 'GET' &&
           req.url ===
-            'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes?$filter=metadata[sourceNameValue].categoryNameValue.keyNameValue,name.nameValue'
+            'https://fake.visualization.application.domain.sap/vis/public/storage/v1/scenes/123/nodes?$filter=metadata[sourceNameValue].categoryNameValue.keyNameValue,name.nameValue'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -128,7 +128,7 @@ describe('StorageV1Adapter', () => {
         (req) =>
           req.method === 'GET' &&
           req.url ===
-            'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes?contentType=Hotspot'
+            'https://fake.visualization.application.domain.sap/vis/public/storage/v1/scenes/123/nodes?contentType=Hotspot'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
