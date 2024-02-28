@@ -113,13 +113,38 @@ function completeDigitalCameraConfiguration(isPricingEnabled?: boolean) {
   configurationVc.registerConfigurationRoute();
   configurationVc.registerConfigurationUpdateRoute();
   configurationVc.goToConfigurationPage(electronicsShop, testProduct);
-  configurationVc.selectAttributeAndWait('CAMERA_MODE', RB, 'P');
-  configurationVc.selectAttributeAndWait('CAMERA_COLOR', RB, 'BLACK');
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_MODE',
+    RB,
+    'P',
+    isPricingEnabled
+  );
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_COLOR',
+    RB,
+    'BLACK',
+    isPricingEnabled
+  );
 
   configurationVc.clickOnNextBtnAndWait('Specification');
-  configurationVc.selectAttributeAndWait('CAMERA_PIXELS', RB, 'P16');
-  configurationVc.selectAttributeAndWait('CAMERA_SENSOR', RB, 'F');
-  configurationVc.selectAttributeAndWait('CAMERA_VIEWFINDER', RB, 'R');
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_PIXELS',
+    RB,
+    'P16',
+    isPricingEnabled
+  );
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_SENSOR',
+    RB,
+    'F',
+    isPricingEnabled
+  );
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_VIEWFINDER',
+    RB,
+    'R',
+    isPricingEnabled
+  );
   configurationVc.selectAttributeAndWait(
     'CAMERA_SD_CARD',
     CBL,
@@ -133,25 +158,57 @@ function completeDigitalCameraConfiguration(isPricingEnabled?: boolean) {
     'SDXC',
     isPricingEnabled
   );
-  configurationVc.selectAttributeAndWait('CAMERA_SECOND_SLOT', RB, 'Y');
-  configurationVc.selectAttributeAndWait('CAMERA_FORMAT_PICTURES', RB, 'RAW');
-  configurationVc.selectAttributeAndWait('CAMERA_MAX_ISO', RB, '25600');
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_SECOND_SLOT',
+    RB,
+    'Y',
+    isPricingEnabled
+  );
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_FORMAT_PICTURES',
+    RB,
+    'RAW',
+    isPricingEnabled
+  );
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_MAX_ISO',
+    RB,
+    '25600',
+    isPricingEnabled
+  );
 
   configurationVc.clickOnNextBtnAndWait('Display');
-  configurationVc.selectAttributeAndWait('CAMERA_DISPLAY', RB, 'P10');
-  configurationVc.selectAttributeAndWait('CAMERA_TOUCHSCREEN', RB, 'Y');
-  configurationVc.selectAttributeAndWait('CAMERA_TILTABLE', RB, 'Y');
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_DISPLAY',
+    RB,
+    'P10',
+    isPricingEnabled
+  );
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_TOUCHSCREEN',
+    RB,
+    'Y',
+    isPricingEnabled
+  );
+  configurationVc.selectAttributeAndWait(
+    'CAMERA_TILTABLE',
+    RB,
+    'Y',
+    isPricingEnabled
+  );
 
   configurationVc.clickOnNextBtnAndWait('Lens');
   configurationVc.selectAttributeAndWait(
     'CAMERA_LENS_MANUFACTURER',
     RB,
-    'LEICA'
+    'LEICA',
+    isPricingEnabled
   );
   configurationVc.selectAttributeAndWait(
     'CAMERA_LENS_TYPE',
     RB,
-    'STANDARD_ZOOM_24_70'
+    'STANDARD_ZOOM_24_70',
+    isPricingEnabled
   );
 
   configurationVc.clickOnNextBtnAndWait('Options');
