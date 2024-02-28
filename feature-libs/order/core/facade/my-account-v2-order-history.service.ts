@@ -47,11 +47,11 @@ export class MyAccountV2OrderHistoryService {
     orderCode: string
   ): Observable<OrderView | undefined> {
     return this.getOrderDetails(orderCode).pipe(
-      switchMap((order: Order) => {
+      switchMap((order: Order | undefined) => {
         //-----------------> filling consignment tracking
         const orderView: OrderView = { ...order };
         orderView.consignments = [];
-        const requests = (order.consignments ?? []).map(
+        const requests = (order?.consignments ?? []).map(
           (consignment: Consignment) => {
             const consignmentView: ConsignmentView = { ...consignment };
             if (consignment.code && consignment.trackingID) {
@@ -174,9 +174,7 @@ export class MyAccountV2OrderHistoryService {
   }
 
   protected getOrderDetailsValue(code: string): Observable<Order> {
-    return this.store
-      .select(getOrderById(code))
-      .pipe(filter((order) => Boolean(order)));
+    return this.store.select(getOrderById(code));
   }
 
   protected getOrderDetailsState(
@@ -197,7 +195,7 @@ export class MyAccountV2OrderHistoryService {
     });
   }
 
-  getOrderDetails(code: string): Observable<Order> {
+  getOrderDetails(code: string): Observable<Order | undefined> {
     const loading$ = this.getOrderDetailsState(code).pipe(
       auditTime(0),
       tap((state) => {
@@ -206,9 +204,11 @@ export class MyAccountV2OrderHistoryService {
         }
       })
     );
-    return using(
-      () => loading$.subscribe(),
-      () => this.getOrderDetailsValue(code)
+    return loading$.pipe(
+      filter((state) => (state.success || state.error) ?? false),
+      map((state) => {
+        return state.value;
+      })
     );
   }
 
