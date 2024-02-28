@@ -8,6 +8,7 @@ import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
+  CartType,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
   DeliveryMode,
@@ -137,10 +138,12 @@ export class OpfCartHandlerService {
     this.previousCartId = '';
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.activeCartFacade.takeActiveCartId(),
+      this.multiCartFacade.getCartIdByType(CartType.ACTIVE),
+      this.activeCartFacade.isStable(),
     ]).pipe(
       take(1),
-      switchMap(([userId, cartId]) => {
+      switchMap(([userId, cartId, isStable]) => {
+        console.log('isStable', isStable);
         console.log('takeActiveCartId', cartId);
         this.currentUserId = userId;
         if (cartId) {
