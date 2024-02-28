@@ -120,6 +120,12 @@ export class ConfiguratorGroupMenuComponent {
     protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
+  /**
+   * Selects group or navigates to sub-group depending on clicked group
+   *
+   * @param {Configurator.Group} group - Target Group
+   * @param {Configurator.Group} currentGroup - Current group
+   */
   click(group: Configurator.Group, currentGroup?: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (configuration.interactionState.currentGroup === group.id) {
@@ -144,6 +150,11 @@ export class ConfiguratorGroupMenuComponent {
     });
   }
 
+  /**
+   * Navigate up and set focus if current group information is provided
+   *
+   * @param {Configurator.Group} currentGroup - Current group
+   */
   navigateUp(currentGroup?: Configurator.Group): void {
     this.displayedParentGroup$
       .pipe(take(1))
