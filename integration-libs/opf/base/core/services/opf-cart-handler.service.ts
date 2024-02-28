@@ -134,19 +134,19 @@ export class OpfCartHandlerService {
   ): Observable<boolean> {
     return this.activeCartFacade.getActiveCartId().pipe(
       switchMap((cartId) => {
-        console.log('takeActiveCartId', cartId);
-        // if (cartId) {
-        return this.addMultipleProductToMultipleCart(
+        console.log('getActiveCartId', cartId);
+        if (cartId) {
+          return this.addMultipleProductToMultipleCart(
+            productCode,
+            quantity,
+            pickupStore
+          );
+        }
+        return this.addProductToActiveCart(
           productCode,
           quantity,
           pickupStore
-        );
-        // }
-        // return this.addProductToActiveCart(
-        //   productCode,
-        //   quantity,
-        //   pickupStore
-        // ).pipe(take(1));
+        ).pipe(take(1));
       }),
       catchError((error) => {
         console.log('flo error', error);
