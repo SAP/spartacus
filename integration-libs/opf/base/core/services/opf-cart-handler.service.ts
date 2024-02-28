@@ -59,18 +59,15 @@ export class OpfCartHandlerService {
   protected addMultipleProductToMultipleCart(
     productCode: string,
     quantity: number,
+    originalCartId: string,
     pickupStore?: string | undefined
   ): Observable<boolean> {
     console.log('addMultipleProductToMultipleCart');
-    this.previousCartId = '';
+    this.previousCartId = originalCartId;
     let _userId = '';
     let _cartId = '';
-    return this.activeCartFacade.getActiveCartId().pipe(
-      switchMap((activeCart) => {
-        console.log('flooo activeCart', activeCart);
-        this.previousCartId = activeCart;
-        return this.userIdService.takeUserId();
-      }),
+
+    return this.userIdService.takeUserId().pipe(
       map((userId: string) => {
         console.log('userId', userId);
         console.log('previousCartId', this.previousCartId);
@@ -132,13 +129,14 @@ export class OpfCartHandlerService {
     quantity: number,
     pickupStore?: string | undefined
   ): Observable<boolean> {
-    return this.activeCartFacade.getActiveCartId().pipe(
+    return this.activeCartFacade.takeActiveCartId().pipe(
       switchMap((cartId) => {
-        console.log('getActiveCartId', cartId);
+        console.log('takeActiveCartId', cartId);
         if (cartId) {
           return this.addMultipleProductToMultipleCart(
             productCode,
             quantity,
+            cartId,
             pickupStore
           );
         }
