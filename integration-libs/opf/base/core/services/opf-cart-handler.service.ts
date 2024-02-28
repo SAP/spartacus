@@ -65,8 +65,9 @@ export class OpfCartHandlerService {
     this.previousCartId = '';
     let _userId = '';
     let _cartId = '';
-    return this.activeCartFacade.takeActiveCartId().pipe(
+    return this.activeCartFacade.getActiveCartId().pipe(
       switchMap((activeCart) => {
+        console.log('flooo activeCart', activeCart);
         this.previousCartId = activeCart;
         return this.userIdService.takeUserId();
       }),
@@ -131,16 +132,21 @@ export class OpfCartHandlerService {
     quantity: number,
     pickupStore?: string | undefined
   ): Observable<boolean> {
-    return this.activeCartFacade.takeActiveCartId().pipe(
+    return this.activeCartFacade.getActiveCartId().pipe(
       switchMap((cartId) => {
         console.log('takeActiveCartId', cartId);
-        return cartId
-          ? this.addMultipleProductToMultipleCart(
-              productCode,
-              quantity,
-              pickupStore
-            )
-          : this.addProductToActiveCart(productCode, quantity, pickupStore);
+        // if (cartId) {
+        return this.addMultipleProductToMultipleCart(
+          productCode,
+          quantity,
+          pickupStore
+        );
+        // }
+        // return this.addProductToActiveCart(
+        //   productCode,
+        //   quantity,
+        //   pickupStore
+        // ).pipe(take(1));
       }),
       catchError((error) => {
         console.log('flo error', error);
