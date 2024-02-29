@@ -195,6 +195,7 @@ export class MyAccountV2OrderHistoryService {
     });
   }
 
+  //TODO: CXINT-2896: Remove this method in next major release
   getOrderDetails(code: string): Observable<Order> {
     const loading$ = this.getOrderDetailsState(code).pipe(
       auditTime(0),
@@ -210,6 +211,7 @@ export class MyAccountV2OrderHistoryService {
     );
   }
 
+  //TODO: CXINT-2896: Rename this method to `getOrderDetails` in next major release
   getOrderDetailsV2(code: string): Observable<Order | undefined> {
     const loading$ = this.getOrderDetailsState(code).pipe(
       auditTime(0),
