@@ -115,8 +115,8 @@ export class OpfCartHandlerService {
         take(1),
         switchMap(() => {
           this.multiCartFacade.loadCart({
-            cartId: _cartId,
-            userId: _userId,
+            cartId: this.currentCartId,
+            userId: this.currentUserId,
             extraData: { active: true },
           });
           return this.checkStableCart(_cartId);
