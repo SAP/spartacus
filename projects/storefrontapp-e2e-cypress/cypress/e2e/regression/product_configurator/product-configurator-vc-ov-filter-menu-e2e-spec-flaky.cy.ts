@@ -49,7 +49,6 @@ context('Product Configuration', () => {
     completeDigitalCameraConfiguration(commerceRelease.isPricingEnabled);
     configurationVc.navigateToOverviewPage();
 
-
     // no filter
     configurationOverviewVc.checkNumberOfMenuEntriesDisplayed(5);
     configurationOverview.checkNumberOfGroupHeadersDisplayed(5);
