@@ -61,7 +61,7 @@ export class OpfCartHandlerService {
   protected previousCartId: string;
   protected currentUserId: string;
 
-  protected addMultipleProductToMultipleCart(
+  protected addProductToNewCart(
     productCode: string,
     quantity: number,
     originalCartId: string,
@@ -73,44 +73,25 @@ export class OpfCartHandlerService {
     return this.multiCartFacade
       .createCart({
         userId: this.currentUserId,
-        extraData: { active: true },
+        extraData: { active: false },
       })
       .pipe(
-        // map((userId: string) => {
-        //   console.log('userId', userId);
-        //   console.log('previousCartId', this.previousCartId);
-        //   _userId = userId;
-        //   this.currentUserId = userId;
-        //   return userId;
-        // }),
-        // take(1),
-        // switchMap((userId) => {
-        //   return this.multiCartFacade.createCart({
-        //     userId,
-        //     extraData: { active: true },
-        //   });
-        // }),
-        map((cart: Cart) => {
-          console.log('cart created', cart);
-          console.log('_userId', this.currentUserId);
-          return this.currentUserId === 'current'
-            ? (cart.code as string)
-            : (cart.guid as string);
-        }),
         take(1),
-        switchMap((cartId: string) => {
-          console.log('addEntry on ', cartId);
-          this.currentCartId = cartId;
+        switchMap((cart: Cart) => {
+          console.log('addEntry on ', cart.code);
+          if (!cart?.code) {
+            return throwError('CartId missing from new created cart');
+          }
+          this.currentCartId = cart.code;
           this.multiCartFacade.addEntry(
             this.currentUserId,
-            cartId,
+            this.currentCartId,
             productCode,
             quantity,
             pickupStore
           );
-          return this.checkStableCart(cartId);
+          return this.checkStableCart(this.currentCartId);
         }),
-        take(1),
         switchMap(() => {
           this.multiCartFacade.loadCart({
             cartId: this.currentCartId,
@@ -144,13 +125,13 @@ export class OpfCartHandlerService {
       this.activeCartFacade.isStable(),
     ]).pipe(
       take(1),
-      tap(() => this.opfMiniCartComponentService.setFreeze(true)),
+      tap(() => this.opfMiniCartComponentService.blockUpdate(true)),
       switchMap(([userId, cartId, isStable]) => {
         console.log('isStable', isStable);
         console.log('takeActiveCartId', cartId);
         this.currentUserId = userId;
         if (cartId) {
-          return this.addMultipleProductToMultipleCart(
+          return this.addProductToNewCart(
             productCode,
             quantity,
             cartId,
@@ -170,10 +151,10 @@ export class OpfCartHandlerService {
     );
   }
 
-  loadPreviousCart(): Observable<boolean> {
+  loadOriginalCart(): Observable<boolean> {
     console.log('flo load previous cart', this.previousCartId);
     if (!this.previousCartId) {
-      this.opfMiniCartComponentService.setFreeze(false);
+      this.opfMiniCartComponentService.blockUpdate(false);
       return of(true);
     }
     this.multiCartFacade.loadCart({
@@ -182,7 +163,7 @@ export class OpfCartHandlerService {
       extraData: { active: true },
     });
     return this.checkStableCart().pipe(
-      tap(() => this.opfMiniCartComponentService.setFreeze(false))
+      tap(() => this.opfMiniCartComponentService.blockUpdate(false))
     );
   }
 

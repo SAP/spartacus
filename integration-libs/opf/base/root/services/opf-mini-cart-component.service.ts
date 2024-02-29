@@ -7,23 +7,18 @@ import {
   SiteContextParamsService,
   StatePersistenceService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OpfMiniCartComponentService extends MiniCartComponentService {
-  freezeMiniCart$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  protected acceptUpdate$ = this.freezeMiniCart$.asObservable().pipe(
-    tap((val) => console.log('freeze', val)),
-    filter((freeze) => !freeze)
-  );
-  protected freeze = false;
+  protected isUpdateBlocked = false;
 
-  setFreeze(val: boolean) {
-    console.log('freeze', val);
-    this.freeze = val;
+  blockUpdate(val: boolean) {
+    console.log('blockUpdate', val);
+    this.isUpdateBlocked = val;
   }
   constructor(
     protected activeCartFacade: ActiveCartFacade,
@@ -42,10 +37,10 @@ export class OpfMiniCartComponentService extends MiniCartComponentService {
   }
 
   getQuantity(): Observable<number> {
-    return super.getQuantity().pipe(filter(() => !this.freeze));
+    return super.getQuantity().pipe(filter(() => !this.isUpdateBlocked));
   }
 
   getTotalPrice(): Observable<string> {
-    return super.getTotalPrice().pipe(filter(() => !this.freeze));
+    return super.getTotalPrice().pipe(filter(() => !this.isUpdateBlocked));
   }
 }

@@ -279,9 +279,14 @@ export class OpfGooglePayService {
                 })
               )
             ),
-            catchError(() => of({ transactionState: 'ERROR' })),
+            catchError(() => {
+              return this.opfCartHandlerService
+                .deleteCurrentCart()
+                .pipe(map(() => of({ transactionState: 'ERROR' })));
+            }),
             finalize(() => {
-              this.opfCartHandlerService.loadPreviousCart().subscribe();
+              console.log('google pay finalize');
+              this.opfCartHandlerService.loadOriginalCart().subscribe();
               this.deleteAssociatedAddresses();
             })
           )
