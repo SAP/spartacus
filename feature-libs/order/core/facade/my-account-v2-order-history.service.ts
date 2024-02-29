@@ -196,6 +196,9 @@ export class MyAccountV2OrderHistoryService {
   }
 
   //TODO: CXINT-2896: Remove this method in next major release
+  /**
+   * @deprecated since 2211.20. Use getOrderDetailsV2 instead
+   */
   getOrderDetails(code: string): Observable<Order> {
     const loading$ = this.getOrderDetailsState(code).pipe(
       auditTime(0),
