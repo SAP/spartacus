@@ -73,21 +73,38 @@ describe('ConfigureCartEntryComponent', () => {
     });
   });
 
-  it('should compile correct route for cart entry', () => {
-    component.cartEntry = {
-      entryNumber: 0,
-      product: { configuratorType: configuratorType },
-    };
-    expect(component.getRoute()).toBe('configure' + configuratorType);
-  });
+  describe('getRoute', () => {
+    beforeEach(() => {
+      configureTestingModule().compileComponents();
+      assignTestArtifacts();
+    });
 
-  it('should compile correct route for order entry', () => {
-    component.readOnly = true;
-    component.cartEntry = {
-      entryNumber: 0,
-      product: { configuratorType: configuratorType },
-    };
-    expect(component.getRoute()).toBe('configureOverview' + configuratorType);
+    it('should compile correct route for cart entry', () => {
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+      };
+      expect(component.getRoute()).toBe('configure' + configuratorType);
+    });
+
+    it('should compile correct route for order entry', () => {
+      component.readOnly = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+      };
+      expect(component.getRoute()).toBe('configureOverview' + configuratorType);
+    });
+
+    it('should compile correct route for read-only configurator type', () => {
+      const readOnlyConfiguratorType = configuratorType + ReadOnlyPostfix;
+      component.readOnly = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: readOnlyConfiguratorType },
+      };
+      expect(component.getRoute()).toBe('configure' + readOnlyConfiguratorType);
+    });
   });
 
   describe('getDisplayOnly', () => {
@@ -273,23 +290,6 @@ describe('ConfigureCartEntryComponent', () => {
         component.readOnly = true;
         expect(component.getEntityKey()).toBe(orderCode + '+0');
       });
-    });
-
-    it('should compile correct route for cart entry', () => {
-      component.cartEntry = {
-        entryNumber: 0,
-        product: { configuratorType: configuratorType },
-      };
-      expect(component.getRoute()).toBe('configure' + configuratorType);
-    });
-
-    it('should compile correct route for order entry', () => {
-      component.readOnly = true;
-      component.cartEntry = {
-        entryNumber: 0,
-        product: { configuratorType: configuratorType },
-      };
-      expect(component.getRoute()).toBe('configureOverview' + configuratorType);
     });
 
     describe('getDisplayOnly', () => {

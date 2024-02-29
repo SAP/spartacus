@@ -135,10 +135,10 @@ export class ConfigureCartEntryComponent {
    * @returns - a route
    */
   getRoute(): string {
-    const configuratorType = this.cartEntry.product?.configuratorType;
-    return this.readOnly
-      ? 'configureOverview' + configuratorType
-      : 'configure' + configuratorType;
+    let configuratorType = this.cartEntry.product?.configuratorType;
+    return !this.readOnly || configuratorType.endsWith(ReadOnlyPostfix)
+      ? 'configure' + configuratorType
+      : 'configureOverview' + configuratorType;
   }
 
   /**

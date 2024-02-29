@@ -752,24 +752,6 @@ describe('ConfigAddToCartButtonComponent', () => {
       });
     });
 
-    it('should navigate to cart details', () => {
-      setRouterTestDataReadOnlyCart();
-      initialize();
-      component.leaveConfigurationOverview();
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'cart',
-      });
-    });
-
-    it('should navigate to review order', () => {
-      setRouterTestDataReadOnlyCart();
-      initialize();
-      component.leaveConfigurationOverview();
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'cart',
-      });
-    });
-
     it('should navigate to product details', () => {
       setRouterTestDataReadOnlyProduct();
       initialize();
@@ -779,6 +761,15 @@ describe('ConfigAddToCartButtonComponent', () => {
         params: {
           code: PRODUCT_ENTRY_KEY,
         },
+      });
+    });
+
+    it('should navigate to review order', () => {
+      setRouterTestDataReadOnlyCart();
+      initialize();
+      component.leaveConfigurationOverview();
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'cart',
       });
     });
   });
