@@ -20,7 +20,7 @@ const epdVisualizationConfig: EpdVisualizationConfig = {
   epdVisualization: {
     apis: {
       baseUrl:
-        'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com',
+        'https://epd-acc-eu20-consumer.visualization.eu20.acc.epd.dev.sap',
     },
 
     ui5: {

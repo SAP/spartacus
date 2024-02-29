@@ -11,4 +11,4 @@ BACKEND_URL=https://api.cp96avkh5f-integrati1-d1-public.model-t.cc.commerce.onde
 BASE_SITE=powertools-epdvisualization-spa,electronics-epdvisualization-spa
 
 # The base URL (origin) of the SAP EPD environment used for integration tests
-EPD_VISUALIZATION_BASE_URL=https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com
+EPD_VISUALIZATION_BASE_URL=https://epd-acc-eu20-consumer.visualization.eu20.acc.epd.dev.sap
