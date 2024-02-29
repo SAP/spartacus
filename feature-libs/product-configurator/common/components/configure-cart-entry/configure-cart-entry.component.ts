@@ -135,7 +135,7 @@ export class ConfigureCartEntryComponent {
    * @returns - a route
    */
   getRoute(): string {
-    let configuratorType = this.cartEntry.product?.configuratorType;
+    const configuratorType = this.cartEntry.product?.configuratorType;
     return !this.readOnly || configuratorType.endsWith(ReadOnlyPostfix)
       ? 'configure' + configuratorType
       : 'configureOverview' + configuratorType;
