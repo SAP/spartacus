@@ -8,7 +8,7 @@ import {
   StatePersistenceService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +19,12 @@ export class OpfMiniCartComponentService extends MiniCartComponentService {
     tap((val) => console.log('freeze', val)),
     filter((freeze) => !freeze)
   );
+  protected freeze = false;
+
+  setFreeze(val: boolean) {
+    console.log('freeze', val);
+    this.freeze = val;
+  }
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected authService: AuthService,
@@ -36,10 +42,10 @@ export class OpfMiniCartComponentService extends MiniCartComponentService {
   }
 
   getQuantity(): Observable<number> {
-    return this.acceptUpdate$.pipe(switchMap(() => super.getQuantity()));
+    return super.getQuantity().pipe(filter(() => !this.freeze));
   }
 
   getTotalPrice(): Observable<string> {
-    return this.acceptUpdate$.pipe(switchMap(() => super.getTotalPrice()));
+    return super.getTotalPrice().pipe(filter(() => !this.freeze));
   }
 }

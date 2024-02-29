@@ -146,7 +146,7 @@ export class OpfCartHandlerService {
       this.activeCartFacade.isStable(),
     ]).pipe(
       take(1),
-      tap(() => this.opfMiniCartComponentService.freezeMiniCart$.next(true)),
+      tap(() => this.opfMiniCartComponentService.setFreeze(true)),
       switchMap(([userId, cartId, isStable]) => {
         console.log('isStable', isStable);
         console.log('takeActiveCartId', cartId);
@@ -175,6 +175,7 @@ export class OpfCartHandlerService {
   loadPreviousCart(): Observable<boolean> {
     console.log('flo load previous cart', this.previousCartId);
     if (!this.previousCartId) {
+      this.opfMiniCartComponentService.setFreeze(false);
       return of(true);
     }
     this.multiCartFacade.loadCart({
@@ -183,7 +184,7 @@ export class OpfCartHandlerService {
       extraData: { active: true },
     });
     return this.checkStableCart().pipe(
-      tap(() => this.opfMiniCartComponentService.freezeMiniCart$.next(false))
+      tap(() => this.opfMiniCartComponentService.setFreeze(false))
     );
   }
 
