@@ -46,7 +46,7 @@ export class MyAccountV2OrderHistoryService {
   getOrderDetailsWithTracking(
     orderCode: string
   ): Observable<OrderView | undefined> {
-    return this.getOrderDetails(orderCode).pipe(
+    return this.getOrderDetailsV2(orderCode).pipe(
       switchMap((order: Order | undefined) => {
         //-----------------> filling consignment tracking
         const orderView: OrderView = { ...order };
@@ -195,7 +195,22 @@ export class MyAccountV2OrderHistoryService {
     });
   }
 
-  getOrderDetails(code: string): Observable<Order | undefined> {
+  getOrderDetails(code: string): Observable<Order> {
+    const loading$ = this.getOrderDetailsState(code).pipe(
+      auditTime(0),
+      tap((state) => {
+        if (!(state.loading || state.success || state.error)) {
+          this.loadOrderDetails(code);
+        }
+      })
+    );
+    return using(
+      () => loading$.subscribe(),
+      () => this.getOrderDetailsValue(code)
+    );
+  }
+
+  getOrderDetailsV2(code: string): Observable<Order | undefined> {
     const loading$ = this.getOrderDetailsState(code).pipe(
       auditTime(0),
       tap((state) => {
