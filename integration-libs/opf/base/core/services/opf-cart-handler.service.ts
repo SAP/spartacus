@@ -69,8 +69,6 @@ export class OpfCartHandlerService {
   ): Observable<boolean> {
     console.log('addMultipleProductToMultipleCart');
     this.previousCartId = originalCartId;
-    let _userId = '';
-    let _cartId = '';
 
     return this.multiCartFacade
       .createCart({
@@ -119,7 +117,7 @@ export class OpfCartHandlerService {
             userId: this.currentUserId,
             extraData: { active: true },
           });
-          return this.checkStableCart(_cartId);
+          return this.checkStableCart(this.currentCartId);
         })
       );
   }
