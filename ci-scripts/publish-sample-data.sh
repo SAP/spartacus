@@ -64,6 +64,7 @@ echo "-----"
 echo "Create a release with created tag"
 
 gh release create $TAG_NAME ./$SAMPLE_DATA_ASSETS_FOLDER/** --repo "https://$GH_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.git" --title "Spartacus Sample Data"  --notes "Spartacus sample data releases: 
+2211-x: current release 
 6-x: previous release 
 5-x: previous release
 4-x: previous release
