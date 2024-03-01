@@ -31,7 +31,7 @@ jobs:
             echo "version=2209.10.0" >> $GITHUB_ENV
           else
             echo "version=${{ github.event.inputs.version }}" >> $GITHUB_ENV
-          fi
+          fi;
 
       - name: Create Release Branch
         run: |
@@ -43,7 +43,7 @@ jobs:
           else
             version_part=$version
             prerelease=""
-          fi
+          fi;
           
           IFS='.' read -ra ADDR <<< "$version_part"
           echo "major=${ADDR[0]}" >> $GITHUB_ENV
@@ -53,7 +53,7 @@ jobs:
           
           if [[ -n $prerelease ]]; then
             release_branch="${release_branch}-${prerelease// /-}"
-          fi
+          fi;
 
           echo "RELEASE_BRANCH=$release_branch" >> $GITHUB_ENV
 
@@ -87,7 +87,8 @@ jobs:
             echo "Error: The configuration file is not up to date. Regenerating dependencies..."
             npm run generate:deps
             npm run config:update
-          fi
+          fi;
+
           npm run generate:deps
           npm run test:all-schematics
 
