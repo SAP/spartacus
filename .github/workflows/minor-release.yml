@@ -67,8 +67,6 @@ jobs:
             git checkout -b "$release_branch"
           fi
 
-          git checkout -b "$release_branch"
-
       - name: Update SCSS Versioning
         run: |
           major=${{ env.major }}
