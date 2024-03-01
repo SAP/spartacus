@@ -9,15 +9,9 @@
           [class.active]="!(isOverviewPage$ | async)"
           [attr.aria-selected]="!(isOverviewPage$ | async)"
           (keydown)="switchTabOnArrowPress($event, '#configTab')"
-          [routerLink]="
-            {
-              cxRoute: 'configure' + routerData.owner.configuratorType,
-              params: {
-                entityKey: routerData.owner.id,
-                ownerType: routerData.owner.type
-              }
-            } | cxUrl
-          "
+          (keydown.enter)="navigateToConfiguration(routerData)"
+          (keydown.space)="navigateToConfiguration(routerData)"
+          (click)="navigateToConfiguration(routerData)"
           [attr.aria-label]="
             !(isOverviewPage$ | async)
               ? ('configurator.a11y.configurationPage' | cxTranslate)
@@ -32,15 +26,9 @@
           [class.active]="isOverviewPage$ | async"
           [attr.aria-selected]="isOverviewPage$ | async"
           (keydown)="switchTabOnArrowPress($event, '#overviewTab')"
-          [routerLink]="
-            {
-              cxRoute: 'configureOverview' + routerData.owner.configuratorType,
-              params: {
-                entityKey: routerData.owner.id,
-                ownerType: routerData.owner.type
-              }
-            } | cxUrl
-          "
+          (keydown.enter)="navigateToOverview(routerData)"
+          (keydown.space)="navigateToOverview(routerData)"
+          (click)="navigateToOverview(routerData)"
           [attr.aria-label]="
             (isOverviewPage$ | async)
               ? ('configurator.a11y.overviewPage' | cxTranslate)

@@ -66,16 +66,13 @@ export function verifyNotificationBannerInCart(
 /**
  * Checks Terms & Conditions.
  */
-export function checkTermsAndConditions(currency: string = 'USD'): void {
+export function checkTermsAndConditions(): void {
   cy.log("Check 'Terms & Conditions'");
-  cy.findByText('Terms & Conditions')
-    .should('have.attr', 'target', '_blank')
-    .should(
-      'have.attr',
-      'href',
-      `/${Cypress.env('BASE_SITE')}/en/${currency}/terms-and-conditions`
-    );
-  cy.get('input[formcontrolname="termsAndConditions"]').check();
+  cy.get('input[formcontrolname="termsAndConditions"]')
+    .check()
+    .then(() => {
+      cy.get('cx-place-order form').should('have.class', 'ng-valid');
+    });
 }
 
 /**
@@ -101,9 +98,9 @@ export function completeCheckout(): void {
   checkoutForms.fillShippingAddress(shippingAddressData, true);
   checkout.verifyDeliveryMethod();
   cy.log('Fulfill payment details form');
-  checkoutForms.fillPaymentDetails(paymentDetailsData, billingAddress);
-  this.checkTermsAndConditions();
-  this.placeOrder();
+  checkoutForms.fillPaymentDetails(paymentDetailsData, billingAddress, true);
+  checkTermsAndConditions();
+  placeOrder();
   cy.log('Define order number alias');
   configurationCart.defineOrderNumberAlias();
 }
