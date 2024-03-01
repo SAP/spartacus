@@ -57,7 +57,7 @@ export class ApplePayService {
     },
   };
 
-  protected transactionDetails = this.initialTransactionDetails;
+  protected transactionDetails = { ...this.initialTransactionDetails };
 
   protected initTransactionDetails(
     transactionInput: ApplePayTransactionInput
