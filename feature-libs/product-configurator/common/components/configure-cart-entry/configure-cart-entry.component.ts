@@ -181,7 +181,7 @@ export class ConfigureCartEntryComponent {
    * Compiles query parameters for the router link.
    * 'resolveIssues' is only set if the component is
    * rendered in the context of the message banner, and if issues exist at all
-   * 'isCartPage' is set to 'true' if one is located in the cart, otherwise set to 'false'
+   * 'isCartPage' is set to 'true' if one is located in the cart or added a product to the cart on the product detail page, otherwise set to 'false'
    *
    * @returns Query parameters
    */
@@ -189,25 +189,28 @@ export class ConfigureCartEntryComponent {
     return {
       forceReload: true,
       resolveIssues: this.msgBanner && this.hasIssues(),
-      isCartPage: this.isUrlContainsCart(),
+      isCartPage: this.isCartPageRelevant(),
     };
   }
 
-  protected isUrlContainsCart(): boolean {
-    let isUrlContainsCart = false;
+  protected isCartPageRelevant(): boolean {
+    let isCartRelevant = false;
+    const locations = ['cart', 'product', 'search'];
     this.routingService
       .getRouterState()
       .pipe(
         map((routerState) => {
-          if (routerState.state.url.indexOf('cart') >= 0) {
-            return true;
-          } else {
-            return false;
-          }
+          let isFound = false;
+          locations.forEach((location) => {
+            if (routerState.state.semanticRoute === location) {
+              isFound = true;
+            }
+          });
+          return isFound;
         })
       )
-      .subscribe((value) => (isUrlContainsCart = value));
-    return isUrlContainsCart;
+      .subscribe((value) => (isCartRelevant = value));
+    return isCartRelevant;
   }
 
   constructor(

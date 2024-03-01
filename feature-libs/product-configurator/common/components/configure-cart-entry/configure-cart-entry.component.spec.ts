@@ -37,7 +37,7 @@ class MockUrlPipe implements PipeTransform {
 
 const mockRouterState: any = {
   state: {
-    url: 'electronics-spa/en/USD/',
+    semanticRoute: 'home',
   },
 };
 
@@ -170,14 +170,24 @@ describe('ConfigureCartEntryComponent', () => {
     });
   });
 
-  describe('isUrlContainsCart', () => {
+  describe('isCartPageRelevant', () => {
     it('should return false in case the url does not contain cart', () => {
-      expect(component['isUrlContainsCart']()).toBe(false);
+      expect(component['isCartPageRelevant']()).toBe(false);
     });
 
-    it('should return true in case the url contains cart', () => {
-      mockRouterState.state.url = 'electronics-spa/en/USD/cart';
-      expect(component['isUrlContainsCart']()).toBe(true);
+    it('should return true in case the url contains cart in case one comes from the cart', () => {
+      mockRouterState.state.semanticRoute = 'cart';
+      expect(component['isCartPageRelevant']()).toBe(true);
+    });
+
+    it('should return true in case the url contains product in case one comes from the product detail page', () => {
+      mockRouterState.state.semanticRoute = 'product';
+      expect(component['isCartPageRelevant']()).toBe(true);
+    });
+
+    it('should return true in case the url contains product in case one comes from the catalog', () => {
+      mockRouterState.state.semanticRoute = 'search';
+      expect(component['isCartPageRelevant']()).toBe(true);
     });
   });
 
