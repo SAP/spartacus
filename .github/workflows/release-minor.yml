@@ -6,6 +6,9 @@ on:
       version:
         description: 'Release version (e.g., 2211.20.0 or 2211.20.0-1)'
         required: true
+  push:
+    branches:  
+      - workflow-for-releasing   
 
 jobs:
   release:
