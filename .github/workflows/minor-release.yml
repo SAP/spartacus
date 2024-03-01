@@ -83,9 +83,6 @@ jobs:
           sed -i "s/export const PUBLISHING_VERSION = '.*';/export const PUBLISHING_VERSION = '$version';/" ./tools/config/const.ts
           echo "Updated PUBLISHING_VERSION in ./tools/config/const.ts."
 
-      - name: Package installation
-        run: npm ci
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
