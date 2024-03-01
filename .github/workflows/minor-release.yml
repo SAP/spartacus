@@ -59,14 +59,6 @@ jobs:
 
           echo "Checking for existence of the branch: $release_branch"
 
-          if git ls-remote --heads origin "$release_branch" | grep -q "$release_branch"; then
-            echo "Error: Branch $release_branch already exists. Please check the branch before proceeding."
-            exit 1
-          else
-            echo "Branch $release_branch does not exist. Creating new one."
-            git checkout -b "$release_branch"
-          fi
-
       - name: Update SCSS Versioning
         run: |
           major=${{ env.major }}
@@ -82,11 +74,6 @@ jobs:
           version="${{ env.major }}.${{ env.minor }}.${{ env.patch }}"
           sed -i "s/export const PUBLISHING_VERSION = '.*';/export const PUBLISHING_VERSION = '$version';/" ./tools/config/const.ts
           echo "Updated PUBLISHING_VERSION in ./tools/config/const.ts."
-
-      - name: Push Changes
-        run: |
-          git add .
-          git commit -m "Release ${{ env.RELEASE_BRANCH }}"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
