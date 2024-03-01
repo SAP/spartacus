@@ -189,12 +189,12 @@ export class ConfigureCartEntryComponent {
     return {
       forceReload: true,
       resolveIssues: this.msgBanner && this.hasIssues(),
-      isCartPage: this.isCartPageDisplayed(),
+      isCartPage: this.isUrlContainsCart(),
     };
   }
 
-  protected isCartPageDisplayed(): boolean {
-    let isCartPage = false;
+  protected isUrlContainsCart(): boolean {
+    let isUrlContainsCart = false;
     this.routingService
       .getRouterState()
       .pipe(
@@ -206,8 +206,8 @@ export class ConfigureCartEntryComponent {
           }
         })
       )
-      .subscribe((isUrlContainsCart) => (isCartPage = isUrlContainsCart));
-    return isCartPage;
+      .subscribe((value) => (isUrlContainsCart = value));
+    return isUrlContainsCart;
   }
 
   constructor(

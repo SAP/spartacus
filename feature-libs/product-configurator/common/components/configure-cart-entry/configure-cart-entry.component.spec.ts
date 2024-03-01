@@ -170,14 +170,14 @@ describe('ConfigureCartEntryComponent', () => {
     });
   });
 
-  describe('isCartPageDisplayed', () => {
+  describe('isUrlContainsCart', () => {
     it('should return false in case the url does not contain cart', () => {
-      expect(component['isCartPageDisplayed']()).toBe(false);
+      expect(component['isUrlContainsCart']()).toBe(false);
     });
 
     it('should return true in case the url contains cart', () => {
       mockRouterState.state.url = 'electronics-spa/en/USD/cart';
-      expect(component['isCartPageDisplayed']()).toBe(true);
+      expect(component['isUrlContainsCart']()).toBe(true);
     });
   });
 
