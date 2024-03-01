@@ -57,6 +57,15 @@ jobs:
 
           echo "RELEASE_BRANCH=$release_branch" >> $GITHUB_ENV
 
+          echo "Checking for existence of the branch: $release_branch"
+
+          branch_exists=$(git ls-remote --heads origin | awk '{print $2}' | grep "^refs/heads/$release_branch$")
+          if [ -n "$branch_exists" ]; then
+            echo "Error: Branch $release_branch already exists. Please check the branch before proceeding."
+            exit 1
+          else
+            echo "Branch $release_branch does not exist. Creating new one."
+            git checkout -b "$release_branch"
   
           git checkout -b "$release_branch"
 
