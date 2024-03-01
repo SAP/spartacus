@@ -13,6 +13,7 @@ import {
   DeleteCartSuccessEvent,
   DeliveryMode,
   MultiCartFacade,
+  OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
   CheckoutBillingAddressFacade,
@@ -60,6 +61,8 @@ export class OpfCartHandlerService {
   protected currentCartId: string;
   protected previousCartId: string;
   protected currentUserId: string;
+  protected currentProductCode: string;
+  protected currentQuantity: number;
 
   protected addProductToNewCart(
     productCode: string,
@@ -83,6 +86,7 @@ export class OpfCartHandlerService {
             return throwError('CartId missing from new created cart');
           }
           this.currentCartId = cart.code;
+          this.currentQuantity = quantity;
           this.multiCartFacade.addEntry(
             this.currentUserId,
             this.currentCartId,
@@ -119,6 +123,7 @@ export class OpfCartHandlerService {
     pickupStore?: string | undefined
   ): Observable<boolean> {
     this.previousCartId = '';
+    this.currentProductCode = productCode;
     return combineLatest([
       this.userIdService.takeUserId(),
       this.multiCartFacade.getCartIdByType(CartType.ACTIVE),
@@ -276,6 +281,25 @@ export class OpfCartHandlerService {
           this.eventService.get(DeleteCartFailEvent).pipe(map(() => false))
         ).pipe(take(1))
       )
+    );
+  }
+
+  removeProductFromOriginalCart(): Observable<boolean> {
+    return this.activeCartFacade.getEntry(this.currentProductCode).pipe(
+      map((entry: OrderEntry | undefined) => {
+        if (!entry || !entry?.quantity || !entry?.entryNumber) {
+          return false;
+        }
+        if (entry.quantity <= this.currentQuantity) {
+          this.activeCartFacade.removeEntry(entry);
+          return true;
+        }
+        this.activeCartFacade.updateEntry(
+          entry.entryNumber,
+          this.currentQuantity - entry.quantity
+        );
+        return true;
+      })
     );
   }
 }
