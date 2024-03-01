@@ -85,22 +85,6 @@ jobs:
 
       - name: Package installation
         run: npm ci
-        
-      - name: Run NPM Commands
-        run: |
-          if ! npm run config:update; then
-            echo "Error: The configuration file is not up to date. Regenerating dependencies..."
-            npm run generate:deps
-            npm run config:update
-          fi
-          npm run generate:deps
-          npm run test:all-schematics
-
-      - name: Push Changes
-        run: |
-          git add .
-          git commit -m "Release ${{ env.RELEASE_BRANCH }}"
-          git push origin ${{ env.RELEASE_BRANCH }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
