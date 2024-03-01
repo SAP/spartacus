@@ -59,6 +59,13 @@ jobs:
 
           echo "Checking for existence of the branch: $release_branch"
 
+          remote_branches=$(git ls-remote --heads origin)
+          echo "$remote_branches" # Check what is actually returned here
+          
+          filtered_branch=$(echo "$remote_branches" | awk '{print $2}' | grep "^refs/heads/$release_branch$")
+          echo "Filtered branch result: $filtered_branch"
+          
+          
           branch_exists=$(git ls-remote --heads origin | awk '{print $2}' | grep "^refs/heads/$release_branch$")
           if [ -n "$branch_exists" ]; then
             echo "Error: Branch $release_branch already exists. Please check the branch before proceeding."
