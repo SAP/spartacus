@@ -1,12 +1,15 @@
 name: Minor Release Workflow
 
 on:
+  push:
+    branches:
+      - steps-for-rls-worklfow
   workflow_dispatch:
     inputs:
       version:
         description: 'Release version (e.g., 2211.20.0 or 2211.20.0-1)'
-        required: true 
-
+        required: false
+  
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -21,9 +24,18 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com' 
 
+      - name: Set Default Version
+        run: |
+          if [ -z "${{ github.event.inputs.version }}" ]; then
+            echo "No version provided, setting default version."
+            echo "version=2209.10.0" >> $GITHUB_ENV
+          else
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+          fi
+
       - name: Create Release Branch
         run: |
-          version="${{ github.event.inputs.version }}"
+          version="${{ env.version }}"
           if [[ $version == *-* ]]; then
             IFS='-' read -ra VERSION_AND_PRERELEASE <<< "$version"
             prerelease="${VERSION_AND_PRERELEASE[*]:1}"
@@ -90,7 +102,7 @@ jobs:
         with:
           branch: "${{ env.RELEASE_BRANCH }}" 
           delete-branch: true 
-          title: "Release ${{ github.event.inputs.version }}"
+          title: "Release ${{ env.version }}"
           body: "Automated pull request to merge the release branch into develop."
           base: "develop"
           token: ${{ secrets.GITHUB_TOKEN }}
