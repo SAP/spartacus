@@ -157,7 +157,7 @@ export class OpfCartHandlerService {
     console.log('flo load previous cart', this.previousCartId);
     if (!this.previousCartId) {
       this.opfMiniCartComponentService.blockUpdate(false);
-      return of(true);
+      return of(false);
     }
     this.multiCartFacade.loadCart({
       cartId: this.previousCartId,

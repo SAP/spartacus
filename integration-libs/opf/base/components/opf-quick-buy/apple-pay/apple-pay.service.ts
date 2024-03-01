@@ -382,8 +382,9 @@ export class ApplePayService {
       this.cartHandlerService
         .loadOriginalCart()
         .pipe(
-          switchMap(() => {
+          switchMap((cartLoaded) => {
             if (
+              cartLoaded &&
               orderPlaced &&
               this.transactionDetails?.product?.code &&
               this.transactionDetails?.quantity
