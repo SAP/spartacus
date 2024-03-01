@@ -59,14 +59,14 @@ jobs:
 
           echo "Checking for existence of the branch: $release_branch"
 
-          branch_exists=$(git branch --list $release_branch);
-          if [ -n "$branch_exists" ]; then
+          if git ls-remote --heads origin "$release_branch" | grep -q "$release_branch"; then
             echo "Error: Branch $release_branch already exists. Please check the branch before proceeding."
             exit 1
           else
             echo "Branch $release_branch does not exist. Creating new one."
             git checkout -b "$release_branch"
-  
+          fi
+          
           git checkout -b "$release_branch"
 
       - name: Update SCSS Versioning
