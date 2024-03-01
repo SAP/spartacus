@@ -28,7 +28,7 @@ jobs:
         run: |
           if [ -z "${{ github.event.inputs.version }}" ]; then
             echo "No version provided, setting default version."
-            echo "version=2209.10.0" >> $GITHUB_ENV
+            echo "version=2208.12.0" >> $GITHUB_ENV
           else
             echo "version=${{ github.event.inputs.version }}" >> $GITHUB_ENV
           fi
@@ -102,7 +102,7 @@ jobs:
         run: |
           git add .
           git commit -m "Release ${{ env.RELEASE_BRANCH }}"
-          git push origin HEAD:refs/heads/${{ env.RELEASE_BRANCH }}
+          git push origin ${{ env.RELEASE_BRANCH }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
