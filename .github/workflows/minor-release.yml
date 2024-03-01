@@ -66,7 +66,7 @@ jobs:
             echo "Branch $release_branch does not exist. Creating new one."
             git checkout -b "$release_branch"
           fi
-          
+
           git checkout -b "$release_branch"
 
       - name: Update SCSS Versioning
@@ -102,7 +102,7 @@ jobs:
         run: |
           git add .
           git commit -m "Release ${{ env.RELEASE_BRANCH }}"
-          git push origin HEAD:"$release_branch"
+          git push origin HEAD:refs/heads/${{ env.RELEASE_BRANCH }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
