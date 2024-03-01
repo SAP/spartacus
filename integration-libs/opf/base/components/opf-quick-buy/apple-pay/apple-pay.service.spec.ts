@@ -4,18 +4,18 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { ApplePayService } from './apple-pay.service';
+import { DeliveryMode } from '@spartacus/cart/base/root';
+import { Product, WindowRef } from '@spartacus/core';
+import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ApplePayObservableConfig,
   OpfPaymentFacade,
 } from '@spartacus/opf/base/root';
-import { Product, WindowRef } from '@spartacus/core';
-import { OpfCartHandlerService } from '@spartacus/opf/base/core';
-import { ApplePayObservableFactory } from './observable/apple-pay-observable.factory';
-import { ApplePaySessionFactory } from './apple-pay-session/apple-pay-session.factory';
 import { Subject, of, throwError } from 'rxjs';
-import { DeliveryMode } from '@spartacus/cart/base/root';
 import { map } from 'rxjs/operators';
+import { ApplePaySessionFactory } from './apple-pay-session/apple-pay-session.factory';
+import { ApplePayService } from './apple-pay.service';
+import { ApplePayObservableFactory } from './observable/apple-pay-observable.factory';
 
 interface ApplePaySessionVerificationResponse {
   epochTimestamp: number;
@@ -39,7 +39,7 @@ const mockApplePaySessionVerificationResponse: ApplePaySessionVerificationRespon
     signature: '123',
   };
 
-const mocProduct: Product = {
+const mockProduct: Product = {
   name: 'Product Name',
   code: 'PRODUCT_CODE',
   images: {
@@ -182,7 +182,6 @@ describe('ApplePayService', () => {
       let event: ApplePayJS.ApplePayValidateMerchantEvent;
 
       event = <ApplePayJS.ApplePayValidateMerchantEvent>{};
-
       cartHandlerServiceMock.deleteCurrentCart.and.returnValue(of(true));
       cartHandlerServiceMock.addProductToCart.and.returnValue(of(true));
       cartHandlerServiceMock.getCurrentCartId.and.returnValue(of('cartId01'));
@@ -190,10 +189,15 @@ describe('ApplePayService', () => {
         of(mockApplePaySessionVerificationResponse)
       );
 
-      service.start(mocProduct, 2, 'us').subscribe();
+      service
+        .start({
+          product: mockProduct,
+          quantity: 2,
+          countryCode: 'us',
+        })
+        .subscribe();
       config.validateMerchant(event).subscribe(() => {});
 
-      expect(cartHandlerServiceMock.deleteCurrentCart).toHaveBeenCalled();
       expect(cartHandlerServiceMock.addProductToCart).toHaveBeenCalled();
       expect(cartHandlerServiceMock.getCurrentCartId).toHaveBeenCalled();
     });
@@ -222,7 +226,13 @@ describe('ApplePayService', () => {
       );
       cartHandlerServiceMock.getCurrentCartTotalPrice.and.returnValue(of(100));
 
-      service.start(mocProduct, 1, 'us').subscribe();
+      service
+        .start({
+          product: mockProduct,
+          quantity: 1,
+          countryCode: 'us',
+        })
+        .subscribe();
       config
         .validateMerchant(<ApplePayJS.ApplePayValidateMerchantEvent>{})
         .subscribe();
@@ -253,14 +263,20 @@ describe('ApplePayService', () => {
         },
       };
 
-      service.start(mocProduct, quantity, 'us').subscribe();
+      service
+        .start({
+          product: mockProduct,
+          quantity: quantity,
+          countryCode: 'us',
+        })
+        .subscribe();
       config
         .paymentMethodSelected(event)
         .subscribe((actual) => (paymentMethodChangeResult = actual));
 
       expect(paymentMethodChangeResult.newTotal).toEqual({
-        amount: mocProduct.price?.value?.toString(),
-        label: mocProduct.name,
+        amount: mockProduct.price?.value?.toString(),
+        label: mockProduct.name,
       });
     });
 
@@ -284,13 +300,19 @@ describe('ApplePayService', () => {
       );
       cartHandlerServiceMock.getCurrentCart.and.returnValue(of(mockCart));
 
-      service.start(mocProduct, 1, 'us').subscribe();
+      service
+        .start({
+          product: mockProduct,
+          quantity: 1,
+          countryCode: 'us',
+        })
+        .subscribe();
       config
         .shippingMethodSelected(event)
         .subscribe((actural) => (shippingMethodChangeResult = actural));
       expect(shippingMethodChangeResult.newTotal).toEqual({
         amount: mockCart.totalPrice?.value?.toString(),
-        label: mocProduct.name,
+        label: mockProduct.name,
       });
     });
 
@@ -324,7 +346,13 @@ describe('ApplePayService', () => {
       cartHandlerServiceMock.getCurrentCartId.and.returnValue(of('cartId01'));
       opfPaymentServiceMock.submitPayment.and.returnValue(of(true));
 
-      service.start(mocProduct, 1, 'us').subscribe();
+      service
+        .start({
+          product: mockProduct,
+          quantity: 1,
+          countryCode: 'us',
+        })
+        .subscribe();
       config
         .paymentAuthorized(event)
         .subscribe((actural) => (paymentAuthorizedChangeResult = actural));
@@ -364,7 +392,13 @@ describe('ApplePayService', () => {
       cartHandlerServiceMock.getCurrentCartId.and.returnValue(of('cartId01'));
       opfPaymentServiceMock.submitPayment.and.returnValue(throwError('error'));
 
-      service.start(mocProduct, 1, 'us').subscribe();
+      service
+        .start({
+          product: mockProduct,
+          quantity: 1,
+          countryCode: 'us',
+        })
+        .subscribe();
       config
         .paymentAuthorized(event)
         .subscribe((actural) => (paymentAuthorizedChangeResult = actural));
@@ -383,19 +417,23 @@ describe('ApplePayService', () => {
         }
       );
 
-      cartHandlerServiceMock.deleteCurrentCart.and.returnValue(of(true));
       cartHandlerServiceMock.addProductToCart.and.returnValue(of(true));
       cartHandlerServiceMock.getCurrentCartId.and.returnValue(of('cartId01'));
       opfPaymentServiceMock.getApplePayWebSession.and.returnValue(
         of(mockApplePaySessionVerificationResponse)
       );
-      const newmocProduct = { ...mocProduct };
-      newmocProduct.code = '';
-      service.start(newmocProduct, 2, 'us').subscribe({
-        error: () => {},
-      });
+      const newmockProduct = { ...mockProduct };
+      newmockProduct.code = '';
+      service
+        .start({
+          product: newmockProduct,
+          quantity: 2,
+          countryCode: 'us',
+        })
+        .subscribe({
+          error: () => {},
+        });
 
-      expect(cartHandlerServiceMock.deleteCurrentCart).toHaveBeenCalled();
       expect(cartHandlerServiceMock.addProductToCart).not.toHaveBeenCalled();
       expect(cartHandlerServiceMock.getCurrentCartId).not.toHaveBeenCalled();
     });
@@ -410,7 +448,6 @@ describe('ApplePayService', () => {
             .pipe(map(() => <ApplePayJS.ApplePayPaymentAuthorizationResult>{}));
         }
       );
-
       cartHandlerServiceMock.deleteCurrentCart.and.returnValue(of(true));
       cartHandlerServiceMock.addProductToCart.and.returnValue(of(true));
       cartHandlerServiceMock.getCurrentCartId.and.returnValue(of('cartId01'));
@@ -418,13 +455,13 @@ describe('ApplePayService', () => {
         of(mockApplePaySessionVerificationResponse)
       );
 
-      service.start(mocProduct, 0, 'us').subscribe({
-        error: () => {},
-      });
+      service
+        .start({ product: mockProduct, quantity: 0, countryCode: 'us' })
+        .subscribe({
+          error: () => {},
+        });
 
-      expect(cartHandlerServiceMock.deleteCurrentCart).toHaveBeenCalled();
       expect(cartHandlerServiceMock.addProductToCart).not.toHaveBeenCalled();
-      expect(cartHandlerServiceMock.getCurrentCartId).not.toHaveBeenCalled();
     });
 
     it('should handle error when supported delivery methods are empty', () => {
@@ -443,7 +480,6 @@ describe('ApplePayService', () => {
         }
       );
 
-      cartHandlerServiceMock.deleteCurrentCart.and.returnValue(of(true));
       cartHandlerServiceMock.setDeliveryAddress.and.returnValue(
         of('addresId01')
       );
@@ -455,7 +491,9 @@ describe('ApplePayService', () => {
       cartHandlerServiceMock.getSupportedDeliveryModes.and.returnValue(of([]));
       cartHandlerServiceMock.getCurrentCartTotalPrice.and.returnValue(of(100));
 
-      service.start(mocProduct, 1, 'us').subscribe({ error: () => {} });
+      service
+        .start({ product: mockProduct, quantity: 1, countryCode: 'us' })
+        .subscribe({ error: () => {} });
 
       expect(cartHandlerServiceMock.setDeliveryAddress).toHaveBeenCalled();
       expect(shippingAddressChangeResult.newShippingMethods).toBeFalsy();
@@ -473,7 +511,6 @@ describe('ApplePayService', () => {
         }
       );
 
-      cartHandlerServiceMock.deleteCurrentCart.and.returnValue(of(true));
       cartHandlerServiceMock.setDeliveryAddress.and.returnValue(
         of('addresId01')
       );
@@ -487,12 +524,13 @@ describe('ApplePayService', () => {
         of(totalPriceResult)
       );
 
-      service.start(mocProduct, 0, 'us').subscribe({
-        error: () => {},
-      });
+      service
+        .start({ product: mockProduct, quantity: 0, countryCode: 'us' })
+        .subscribe({
+          error: () => {},
+        });
 
       expect(cartHandlerServiceMock.setDeliveryAddress).toHaveBeenCalled();
-      expect(cartHandlerServiceMock.deleteCurrentCart).toHaveBeenCalled();
     });
 
     it('should handle error when total price value is 0', () => {
@@ -522,23 +560,25 @@ describe('ApplePayService', () => {
             .pipe(map(() => <ApplePayJS.ApplePayPaymentAuthorizationResult>{}));
         }
       );
-      service.start(mocProduct, 1, 'us').subscribe({ error: () => {} });
-      expect(cartHandlerServiceMock.deleteCurrentCart).toHaveBeenCalled();
+      service
+        .start({ product: mockProduct, quantity: 1, countryCode: 'us' })
+        .subscribe({ error: () => {} });
     });
   });
 
   it('should handle errors during Apple Pay session start', () => {
     service = TestBed.inject(ApplePayService);
-    cartHandlerServiceMock.deleteCurrentCart.and.returnValue(of(true));
+
     applePayObservableFactoryMock.initApplePayEventsHandler.and.returnValue(
       throwError('Error')
     );
 
-    service.start(mocProduct, 1, 'us').subscribe({
-      error: (err) => {
-        expect(err).toBe('Error');
-      },
-    });
-    expect(cartHandlerServiceMock.deleteCurrentCart).toHaveBeenCalled();
+    service
+      .start({ product: mockProduct, quantity: 1, countryCode: 'us' })
+      .subscribe({
+        error: (err: any) => {
+          expect(err).toBe('Error');
+        },
+      });
   });
 });
