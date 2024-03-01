@@ -89,6 +89,13 @@ export interface ApplePayTransactionDetails {
   };
 }
 
+export interface GooglePayTransactionDetails {
+  context?: OpfQuickBuyLocation;
+  cart?: Cart;
+  product?: Product | null;
+  quantity?: number;
+}
+
 export interface ApplePaySessionVerificationRequest {
   cartId: string;
   validationUrl: string;

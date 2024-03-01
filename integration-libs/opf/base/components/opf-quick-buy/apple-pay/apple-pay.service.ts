@@ -141,7 +141,6 @@ export class ApplePayService {
             ...this.transactionDetails.addressIds,
           ]);
           this.paymentInProgress = false;
-          this.cartHandlerService.loadOriginalCart().subscribe();
         })
       );
   }
@@ -305,11 +304,13 @@ export class ApplePayService {
 
     return this.placeOrderAfterPayment(event.payment).pipe(
       map((success) => {
+        this.loadPdpOriginalCart(success);
         return success
           ? result
           : { ...result, status: this.applePaySession.statusFailure };
       }),
       catchError((error) => {
+        this.loadPdpOriginalCart();
         return of({
           ...result,
           status: this.applePaySession.statusFailure,
@@ -370,6 +371,31 @@ export class ApplePayService {
           });
         })
       );
+  }
+
+  protected loadPdpOriginalCart(orderPlaced?: boolean) {
+    console.log('loadPdpOriginalCart orderPlaced', orderPlaced);
+    if (this.transactionDetails.context === OpfQuickBuyLocation.PRODUCT) {
+      this.cartHandlerService
+        .loadOriginalCart()
+        .pipe(
+          switchMap(() => {
+            if (
+              orderPlaced &&
+              this.transactionDetails?.product?.code &&
+              this.transactionDetails?.quantity
+            ) {
+              return this.cartHandlerService.removeProductFromOriginalCart(
+                this.transactionDetails?.product?.code,
+                this.transactionDetails?.quantity
+              );
+            }
+            return of(true);
+          }),
+          take(1)
+        )
+        .subscribe();
+    }
   }
 
   protected updateApplePayForm(total: { amount: string; label: string }) {

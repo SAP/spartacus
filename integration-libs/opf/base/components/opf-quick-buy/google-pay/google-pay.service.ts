@@ -11,6 +11,7 @@ import { Address, Product } from '@spartacus/core';
 import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ActiveConfiguration,
+  GooglePayTransactionDetails,
   OpfPaymentFacade,
   OpfProviderType,
   OpfQuickBuyLocation,
@@ -85,6 +86,13 @@ export class OpfGooglePayService {
     totalPriceStatus: 'ESTIMATED',
     currencyCode: 'USD',
   };
+
+  protected initialTransactionDetails: GooglePayTransactionDetails = {
+    context: OpfQuickBuyLocation.PRODUCT,
+    product: undefined,
+    quantity: 0,
+  };
+  protected transactionDetails = { ...this.initialTransactionDetails };
 
   loadProviderResources(): Promise<void> {
     return this.opfResourceLoaderService.loadProviderResources([
@@ -193,11 +201,11 @@ export class OpfGooglePayService {
     return this.currentProductService.getProduct().pipe(
       take(1),
       switchMap((product: Product | null) => {
+        const counter = this.itemCounterService.getCounter();
+        this.transactionDetails.product = product;
+        this.transactionDetails.quantity = counter;
         return this.opfCartHandlerService
-          .addProductToCart(
-            product?.code || '',
-            this.itemCounterService.getCounter()
-          )
+          .addProductToCart(product?.code || '', counter)
           .pipe(
             tap(() => {
               this.updateTransactionInfo({
@@ -229,14 +237,16 @@ export class OpfGooglePayService {
   }
 
   initTransaction(): void {
+    this.transactionDetails = { ...this.initialTransactionDetails };
     this.opfQuickBuyService
       .getQuickBuyLocationContext()
       .pipe(
         switchMap((context: OpfQuickBuyLocation) => {
           if (context === OpfQuickBuyLocation.PRODUCT) {
+            this.transactionDetails.context = OpfQuickBuyLocation.PRODUCT;
             return this.handleSingleProductTransaction();
           }
-
+          this.transactionDetails.context = OpfQuickBuyLocation.CART;
           return this.handleActiveCartTransaction();
         })
       )
@@ -280,19 +290,42 @@ export class OpfGooglePayService {
               )
             ),
             catchError(() => {
-              return this.opfCartHandlerService
-                .deleteCurrentCart()
-                .pipe(map(() => of({ transactionState: 'ERROR' })));
+              return this.opfCartHandlerService.deleteCurrentCart().pipe(
+                map(() => of({ transactionState: 'ERROR' })),
+                tap(() => this.loadPdpOriginalCart())
+              );
             }),
             finalize(() => {
               console.log('google pay finalize');
-              this.opfCartHandlerService.loadOriginalCart().subscribe();
+              // if (
+              //   this.transactionDetails.context === OpfQuickBuyLocation.PRODUCT
+              // ) {
+              //   this.opfCartHandlerService
+              //     .loadOriginalCart()
+              //     .pipe(
+              //       switchMap(() => {
+              //         if (
+              //           this.transactionDetails?.product?.code &&
+              //           this.transactionDetails?.quantity
+              //         ) {
+              //           return this.opfCartHandlerService.removeProductFromOriginalCart(
+              //             this.transactionDetails?.product?.code,
+              //             this.transactionDetails?.quantity
+              //           );
+              //         }
+              //         return of(true);
+              //       }),
+              //       take(1)
+              //     )
+              //     .subscribe();
+              // }
               this.deleteAssociatedAddresses();
             })
           )
           .toPromise()
           .then((result) => {
             const isSuccess = result;
+            this.loadPdpOriginalCart(!!isSuccess);
             return { transactionState: isSuccess ? 'SUCCESS' : 'ERROR' };
           });
       },
@@ -337,6 +370,31 @@ export class OpfGooglePayService {
           .toPromise();
       },
     };
+  }
+
+  protected loadPdpOriginalCart(orderPlaced?: boolean) {
+    console.log('loadPdpOriginalCart orderPlaced', orderPlaced);
+    if (this.transactionDetails.context === OpfQuickBuyLocation.PRODUCT) {
+      this.opfCartHandlerService
+        .loadOriginalCart()
+        .pipe(
+          switchMap(() => {
+            if (
+              orderPlaced &&
+              this.transactionDetails?.product?.code &&
+              this.transactionDetails?.quantity
+            ) {
+              return this.opfCartHandlerService.removeProductFromOriginalCart(
+                this.transactionDetails?.product?.code,
+                this.transactionDetails?.quantity
+              );
+            }
+            return of(true);
+          }),
+          take(1)
+        )
+        .subscribe();
+    }
   }
 
   protected estimateTotalPrice(productPrice: number = 0): string {
