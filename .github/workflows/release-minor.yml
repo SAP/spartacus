@@ -85,7 +85,7 @@ jobs:
       - name: Push Changes
         run: |
           git add .
-          git commit -m "Release "${{ env.RELEASE_BRANCH }}"
+          git commit -m "Release ${{ env.RELEASE_BRANCH }}"
           git push origin HEAD:"$release_branch"
 
       - name: Create Pull Request
