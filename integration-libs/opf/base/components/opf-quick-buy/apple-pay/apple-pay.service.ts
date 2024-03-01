@@ -66,7 +66,10 @@ export class ApplePayService {
       'this.initialTransactionDetails',
       this.initialTransactionDetails
     );
-    this.transactionDetails = { ...this.initialTransactionDetails };
+    this.transactionDetails = {
+      ...this.initialTransactionDetails,
+      addressIds: [],
+    };
 
     if (transactionInput?.cart) {
       this.transactionDetails = {
