@@ -57,11 +57,15 @@ export class ApplePayService {
     },
   };
 
-  protected transactionDetails = { ...this.initialTransactionDetails };
+  protected transactionDetails = this.initialTransactionDetails;
 
   protected initTransactionDetails(
     transactionInput: ApplePayTransactionInput
   ): ApplePayTransactionDetails {
+    console.log(
+      'this.initialTransactionDetails',
+      this.initialTransactionDetails
+    );
     this.transactionDetails = { ...this.initialTransactionDetails };
 
     if (transactionInput?.cart) {
