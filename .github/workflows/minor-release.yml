@@ -59,7 +59,7 @@ jobs:
 
           echo "Checking for existence of the branch: $release_branch"
 
-          branch_exists=$(git branch --list $release_branch)
+          branch_exists=$(git branch --list $release_branch);
           if [ -n "$branch_exists" ]; then
             echo "Error: Branch $release_branch already exists. Please check the branch before proceeding."
             exit 1
