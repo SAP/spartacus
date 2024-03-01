@@ -282,6 +282,41 @@ describe('ConfigRouterExtractorService', () => {
         })
         .unsubscribe();
     });
+
+    it('should check whether isCartPage was set via query parameter', () => {
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.isCartPage).toBe(false);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL if we have come from the cart page', () => {
+      mockRouterState.state.queryParams = { isCartPage: 'true' };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.isCartPage).toBe(true);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL if we have not come from the cart page', () => {
+      mockRouterState.state.queryParams = { isCartPage: 'false' };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.isCartPage).toBe(false);
+        })
+        .unsubscribe();
+    });
   });
 
   describe('createOwnerFromRouterState', () => {

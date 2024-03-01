@@ -379,7 +379,8 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         this.goToSavedCartDetails(container.routerData.owner);
       } else if (
         container.routerData.owner.type ===
-        CommonConfigurator.OwnerType.CART_ENTRY
+          CommonConfigurator.OwnerType.CART_ENTRY &&
+        container.routerData.isCartPage
       ) {
         this.routingService.go({ cxRoute: 'cart' });
       } else if (

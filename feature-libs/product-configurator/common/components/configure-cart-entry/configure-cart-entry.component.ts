@@ -11,6 +11,7 @@ import {
   inject,
 } from '@angular/core';
 import { Params } from '@angular/router';
+import { RoutingService } from '@spartacus/core';
 import {
   AbstractOrderKey,
   AbstractOrderType,
@@ -24,6 +25,7 @@ import {
   ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-configure-cart-entry',
@@ -31,11 +33,12 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigureCartEntryComponent {
+  protected routingService = inject(RoutingService);
+
   @Input() cartEntry: OrderEntry;
   @Input() readOnly: boolean;
   @Input() msgBanner: boolean;
   @Input() disabled: boolean;
-
   abstractOrderContext = inject(AbstractOrderContext, { optional: true });
 
   // we default to active cart as owner in case no context is provided
@@ -136,7 +139,7 @@ export class ConfigureCartEntryComponent {
    */
   getRoute(): string {
     const configuratorType = this.cartEntry.product?.configuratorType;
-    return !this.readOnly || configuratorType.endsWith(ReadOnlyPostfix)
+    return !this.readOnly || configuratorType?.endsWith(ReadOnlyPostfix)
       ? 'configure' + configuratorType
       : 'configureOverview' + configuratorType;
   }
@@ -175,15 +178,36 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
-   * Compiles query parameters for the router link. 'resolveIssues' is only set if the component is
+   * Compiles query parameters for the router link.
+   * 'resolveIssues' is only set if the component is
    * rendered in the context of the message banner, and if issues exist at all
+   * 'isCartPage' is set to 'true' if one is located in the cart, otherwise set to 'false'
+   *
    * @returns Query parameters
    */
   getQueryParams(): Params {
     return {
       forceReload: true,
       resolveIssues: this.msgBanner && this.hasIssues(),
+      isCartPage: this.isCartPageDisplayed(),
     };
+  }
+
+  protected isCartPageDisplayed(): boolean {
+    let isCartPage = false;
+    this.routingService
+      .getRouterState()
+      .pipe(
+        map((routerState) => {
+          if (routerState.state.url.indexOf('cart') >= 0) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+      )
+      .subscribe((isUrlContainsCart) => (isCartPage = isUrlContainsCart));
+    return isCartPage;
   }
 
   constructor(

@@ -4,9 +4,13 @@ import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AbstractOrderContext } from '@spartacus/cart/base/components';
 import { AbstractOrderType, OrderEntry } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  RoutingService,
+  RouterState,
+} from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -31,6 +35,20 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+const mockRouterState: any = {
+  state: {
+    url: 'electronics-spa/en/USD/',
+  },
+};
+
+let routerStateObservable: any = null;
+
+class MockRoutingService {
+  getRouterState(): Observable<RouterState> {
+    return of(routerStateObservable);
+  }
+}
+
 describe('ConfigureCartEntryComponent', () => {
   let component: ConfigureCartEntryComponent;
   let fixture: ComponentFixture<ConfigureCartEntryComponent>;
@@ -39,9 +57,17 @@ describe('ConfigureCartEntryComponent', () => {
   const orderOrCartEntry: OrderEntry = {};
 
   function configureTestingModule(): TestBed {
+    routerStateObservable = mockRouterState;
+
     return TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule, RouterModule],
       declarations: [ConfigureCartEntryComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+      ],
     });
   }
 
@@ -141,6 +167,17 @@ describe('ConfigureCartEntryComponent', () => {
         configuratorType: ConfiguratorType.VARIANT,
       };
       expect(component.getDisplayOnly()).toBe(false);
+    });
+  });
+
+  describe('isCartPageDisplayed', () => {
+    it('should return false in case the url does not contain cart', () => {
+      expect(component['isCartPageDisplayed']()).toBe(false);
+    });
+
+    it('should return true in case the url contains cart', () => {
+      mockRouterState.state.url = 'electronics-spa/en/USD/cart';
+      expect(component['isCartPageDisplayed']()).toBe(true);
     });
   });
 
@@ -299,15 +336,17 @@ describe('ConfigureCartEntryComponent', () => {
       });
     });
 
-    it("should return 'false' for disabled when readOnly true", () => {
-      component.readOnly = true;
-      expect(component.isDisabled()).toBe(false);
-    });
+    describe('isDisabled', () => {
+      it("should return 'false' for disabled when readOnly true", () => {
+        component.readOnly = true;
+        expect(component.isDisabled()).toBe(false);
+      });
 
-    it('should return disabled value when readOnly false', () => {
-      component.readOnly = false;
-      component.disabled = true;
-      expect(component.isDisabled()).toBe(component.disabled);
+      it('should return disabled value when readOnly false', () => {
+        component.readOnly = false;
+        component.disabled = true;
+        expect(component.isDisabled()).toBe(component.disabled);
+      });
     });
 
     describe('Link text', () => {

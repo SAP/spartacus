@@ -33,7 +33,7 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorQuantityService } from '../../core/services/configurator-quantity.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
-import { ConfiguratorStorefrontUtilsService } from '../service';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
 
 const CART_ENTRY_KEY = '001+1';
@@ -265,6 +265,21 @@ function setRouterTestDataReadOnlyCart() {
   mockRouterData.owner.id = QUOTE_ENTRY_KEY;
   mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
   mockRouterData.displayOnly = true;
+  mockRouterData.isCartPage = true;
+}
+
+function setRouterTestDataReadOnlyCheckout() {
+  mockRouterState.state.params = {
+    entityKey: QUOTE_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.CART_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.isOwnerCartEntry = false;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
+  mockRouterData.owner.id = QUOTE_ENTRY_KEY;
+  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+  mockRouterData.displayOnly = true;
+  mockRouterData.isCartPage = false;
 }
 
 function setRouterTestDataReadOnlySavedCart() {
@@ -764,12 +779,21 @@ describe('ConfigAddToCartButtonComponent', () => {
       });
     });
 
-    it('should navigate to review order', () => {
+    it('should navigate to cart', () => {
       setRouterTestDataReadOnlyCart();
       initialize();
       component.leaveConfigurationOverview();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'cart',
+      });
+    });
+
+    it('should navigate to checkout review order', () => {
+      setRouterTestDataReadOnlyCheckout();
+      initialize();
+      component.leaveConfigurationOverview();
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'checkoutReviewOrder',
       });
     });
   });
