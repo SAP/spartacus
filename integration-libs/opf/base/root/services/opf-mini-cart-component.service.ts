@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { MiniCartComponentService } from '@spartacus/cart/base/components/mini-cart';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
