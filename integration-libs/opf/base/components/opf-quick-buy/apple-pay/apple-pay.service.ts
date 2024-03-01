@@ -136,10 +136,10 @@ export class ApplePayService {
         paymentAuthorized: (event) => this.handlePaymentAuthorized(event),
       })
       .pipe(
-        catchError(error=>{
+        catchError((error) => {
           this.loadPdpOriginalCart();
           return throwError(error);
-        })
+        }),
         finalize(() => {
           this.cartHandlerService.deleteUserAddresses([
             ...this.transactionDetails.addressIds,
@@ -313,7 +313,7 @@ export class ApplePayService {
           ? result
           : { ...result, status: this.applePaySession.statusFailure };
       }),
-      catchError((error) => {       
+      catchError((error) => {
         return of({
           ...result,
           status: this.applePaySession.statusFailure,
