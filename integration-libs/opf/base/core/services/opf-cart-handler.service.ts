@@ -103,7 +103,14 @@ export class OpfCartHandlerService {
   ): Observable<boolean> {
     console.log('addProductToActiveCart');
     this.activeCartFacade.addEntry(productCode, quantity, pickupStore);
-    return this.checkStableCart();
+    return this.checkStableCart().pipe(
+      switchMap(() => this.getCurrentCartId()),
+      map((cartId) => {
+        console.log('currentCartId', cartId);
+        this.currentCartId = cartId;
+        return true;
+      })
+    );
   }
 
   allowMiniCartUpdate() {
