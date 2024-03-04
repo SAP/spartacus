@@ -5,20 +5,21 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
-  backOff,
   ConverterService,
   InterceptorUtil,
-  isJaloError,
-  normalizeHttpError,
+  LoggerService,
+  OCC_USER_ID_ANONYMOUS,
   Occ,
   OccEndpointsService,
-  OCC_USER_ID_ANONYMOUS,
   USE_CLIENT_TOKEN,
+  backOff,
+  isJaloError,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { OpfOrderAdapter } from '@spartacus/opf/base/core';
-import { Order, ORDER_NORMALIZER } from '@spartacus/order/root';
+import { ORDER_NORMALIZER, Order } from '@spartacus/order/root';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -29,6 +30,8 @@ import {
 
 @Injectable()
 export class OccOpfOrderAdapter implements OpfOrderAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -55,7 +58,9 @@ export class OccOpfOrderAdapter implements OpfOrderAdapter {
         { headers }
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         backOff({
           shouldRetry: isJaloError,
         }),

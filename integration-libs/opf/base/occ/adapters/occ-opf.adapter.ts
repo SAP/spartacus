@@ -5,9 +5,10 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
+  LoggerService,
   backOff,
   isJaloError,
   normalizeHttpError,
@@ -46,6 +47,8 @@ import { isHttp500Error } from '../utils/opf-occ-http-error-handlers';
 
 @Injectable()
 export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected converter: ConverterService,
@@ -85,7 +88,9 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
         }
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         backOff({
           shouldRetry: isJaloError,
         }),
@@ -109,7 +114,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     const url = this.getSubmitPaymentEndpoint(paymentSessionId);
 
     return this.http.post<SubmitResponse>(url, submitRequest, { headers }).pipe(
-      catchError((error) => throwError(normalizeHttpError(error))),
+      catchError((error) => throwError(normalizeHttpError(error, this.logger))),
       backOff({
         shouldRetry: isJaloError,
       }),
@@ -135,7 +140,9 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     return this.http
       .post<SubmitCompleteResponse>(url, submitCompleteRequest, { headers })
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         backOff({
           shouldRetry: isJaloError,
         }),
@@ -181,7 +188,9 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
         headers,
       })
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         backOff({
           shouldRetry: isJaloError,
         }),
@@ -202,7 +211,9 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     return this.http
       .post<SubmitResponse>(url, ctaScriptsRequest, { headers })
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         backOff({
           shouldRetry: isJaloError,
         }),
@@ -231,7 +242,9 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
         { headers }
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         backOff({
           shouldRetry: isJaloError,
         }),
