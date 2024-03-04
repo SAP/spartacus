@@ -5,22 +5,25 @@
  */
 
 import {
-  Directive,
-  ElementRef,
-  Input,
-  TemplateRef,
-  ViewContainerRef,
+  ChangeDetectorRef,
   ComponentFactoryResolver,
   ComponentRef,
-  Renderer2,
-  ChangeDetectorRef,
-  Output,
+  Directive,
+  ElementRef,
   EventEmitter,
   HostListener,
+  Input,
   OnInit,
+  Optional,
+  Output,
+  Renderer2,
+  TemplateRef,
+  ViewContainerRef,
+  inject,
 } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
-import { Subject } from 'rxjs';
+import { FeatureConfigService, WindowRef } from '@spartacus/core';
+import { SelectFocusUtility } from '@spartacus/storefront';
+import { Subject, take } from 'rxjs';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverOptions } from './popover.model';
@@ -33,6 +36,8 @@ import { PopoverService } from './popover.service';
   selector: '[cxPopover]',
 })
 export class PopoverDirective implements OnInit {
+  @Optional() featureFlagService = inject(FeatureConfigService);
+  @Optional() selectFocusUtility = inject(SelectFocusUtility);
   /**
    * Template or string to be rendered inside popover wrapper component.
    */
@@ -141,24 +146,38 @@ export class PopoverDirective implements OnInit {
   /**
    * Method performs open action for popover component.
    */
+  // TODO: (CXSPA-6442) - remove feature flags next major release
   open(event: PopoverEvent) {
     if (!this.cxPopoverOptions?.disable) {
+      if (this.featureFlagService.isLevel('6.8')) {
+        if (event === PopoverEvent.OPEN_BY_KEYBOARD) {
+          this.removePopoverWrapper();
+        }
+      }
       this.isOpen = true;
       this.focusConfig = this.popoverService.getFocusConfig(
         event,
         this.cxPopoverOptions?.appendToBody || false
       );
       this.renderPopover();
-      this.openPopover.emit();
+      if (!this.featureFlagService.isLevel('6.8')) {
+        this.openPopover.emit();
+      }
     }
   }
 
   /**
    * Method performs close action for popover component.
    */
+  // TODO: (CXSPA-6442) - remove feature flags next major release
   close() {
     this.isOpen = false;
     this.viewContainer.clear();
+    if (this.featureFlagService.isLevel('6.8')) {
+      if (this.cxPopoverOptions?.appendToBody) {
+        this.removePopoverWrapper();
+      }
+    }
     this.closePopover.emit();
   }
 
@@ -166,13 +185,22 @@ export class PopoverDirective implements OnInit {
    * Method subscribes for events emitted by popover component
    * and based on event performs specific action.
    */
+  // TODO: (CXSPA-6442) - remove feature flags next major release
   handlePopoverEvents() {
     this.eventSubject.subscribe((event: PopoverEvent) => {
       if (this.openTriggerEvents.includes(event)) {
         this.open(event);
       }
       if (this.focusPopoverTriggerEvents.includes(event)) {
-        this.popoverContainer.location.nativeElement.focus();
+        if (this.featureFlagService.isLevel('6.8')) {
+          this.openPopover.pipe(take(1)).subscribe(() => {
+            this.selectFocusUtility
+              .findFocusable(this.popoverContainer.location.nativeElement)[0]
+              ?.focus();
+          });
+        } else {
+          this.popoverContainer.location.nativeElement.focus();
+        }
       }
       if (this.closeTriggerEvents.includes(event)) {
         this.close();
@@ -190,6 +218,7 @@ export class PopoverDirective implements OnInit {
   /**
    * Method creates instance and pass parameters to popover component.
    */
+  // TODO: (CXSPA-6442) - remove feature flags next major release
   renderPopover() {
     const containerFactory =
       this.componentFactoryResolver.resolveComponentFactory(PopoverComponent);
@@ -214,13 +243,50 @@ export class PopoverDirective implements OnInit {
         this.cxPopoverOptions?.autoPositioning;
 
       if (this.cxPopoverOptions?.appendToBody) {
-        this.renderer.appendChild(
-          this.winRef.document.body,
-          this.popoverContainer.location.nativeElement
-        );
+        if (this.featureFlagService.isLevel('6.8')) {
+          this.appendPopoverToBody();
+          return;
+        } else {
+          this.renderer.appendChild(
+            this.winRef.document.body,
+            this.popoverContainer.location.nativeElement
+          );
+        }
       }
-
+      if (this.featureFlagService.isLevel('6.8')) {
+        this.openPopover.emit();
+      }
       this.popoverContainer.changeDetectorRef.detectChanges();
+    }
+  }
+
+  /**
+   * To ensure screen reader readout, this method first creates
+   * an aria-live wrapper then nests the popover.
+   */
+  appendPopoverToBody(): void {
+    const popoverWrapper = this.renderer.createElement('div');
+    const observer = new MutationObserver((_mutation, observer) => {
+      this.renderer.appendChild(
+        popoverWrapper,
+        this.popoverContainer.location.nativeElement
+      );
+      this.popoverContainer.instance.positionPopover();
+      this.popoverContainer.changeDetectorRef.detectChanges();
+      observer.disconnect();
+      this.openPopover.emit();
+    });
+    observer.observe(this.winRef.document.body, { childList: true });
+    this.renderer.setAttribute(popoverWrapper, 'aria-live', 'polite');
+    this.renderer.setProperty(popoverWrapper, 'id', 'popoverWrapper');
+    this.renderer.appendChild(this.winRef.document.body, popoverWrapper);
+  }
+
+  removePopoverWrapper(): void {
+    const popoverWrapper =
+      this.winRef.document.getElementById('popoverWrapper');
+    if (popoverWrapper) {
+      this.renderer.removeChild(this.winRef.document.body, popoverWrapper);
     }
   }
 
