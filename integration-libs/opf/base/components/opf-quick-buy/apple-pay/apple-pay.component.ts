@@ -54,6 +54,7 @@ export class ApplePayComponent implements OnInit, OnDestroy {
   applePayDigitalWallet?: DigitalWalletQuickBuy;
 
   ngOnDestroy(): void {
+    console.log('ngOnDestroy ApplePayComponent');
     this.cartHandlerService.allowMiniCartUpdate();
   }
   ngOnInit(): void {

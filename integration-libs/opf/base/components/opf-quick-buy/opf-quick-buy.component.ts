@@ -7,7 +7,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
   OnInit,
   inject,
 } from '@angular/core';
@@ -20,7 +19,7 @@ import { OpfQuickBuyService } from './opf-quick-buy.service';
   templateUrl: './opf-quick-buy.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpfQuickBuyComponent implements OnInit, OnDestroy {
+export class OpfQuickBuyComponent implements OnInit {
   protected opfQuickBuyService = inject(OpfQuickBuyService);
 
   protected paymentGatewayConfig$: Observable<ActiveConfiguration>;
@@ -33,9 +32,6 @@ export class OpfQuickBuyComponent implements OnInit, OnDestroy {
       this.opfQuickBuyService.getPaymentGatewayConfiguration();
     this.isUserGuestOrLoggedIn$ =
       this.opfQuickBuyService.isUserGuestOrLoggedIn();
-  }
-  ngOnDestroy(): void {
-    console.log('onDestroy');
   }
 
   isPaymentMethodEnabled(
