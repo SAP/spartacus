@@ -29,6 +29,7 @@ import {
 } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 import { SearchBoxOutlets } from './search-box-outlets.model';
+import { SearchBoxFeatures } from './search-box-features.model';
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,
@@ -49,6 +50,7 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
   readonly searchBoxOutlets = SearchBoxOutlets;
+  readonly searchBoxFeatures = SearchBoxFeatures;
   @Input() config: SearchBoxConfig;
 
   /**
