@@ -19,7 +19,7 @@ context('Product Configuration', () => {
     clickAllowAllFromBanner();
   });
 
-  describe.only('Support Make-to-Stock for Product Variants (CXSPA-5951)', () => {
+  describe('Support Make-to-Stock for Product Variants (CXSPA-5951)', () => {
     describe('support back navigation to the product detail page after clicking Show Details button', () => {
       it('should display a product overview from the catalog', () => {
         configuration.searchForProduct(testProduct);
@@ -70,7 +70,7 @@ context('Product Configuration', () => {
       });
     });
 
-    describe.only('support back navigation to the checkout page after clicking Display Configuration link', () => {
+    describe('support back navigation to the checkout page after clicking Display Configuration link', () => {
       it('should proceed to checkout and display a product overview', () => {
         configuration.completeOrderProcess(testProduct);
         configurationCart.clickOnDisplayConfigurationLink(0);
