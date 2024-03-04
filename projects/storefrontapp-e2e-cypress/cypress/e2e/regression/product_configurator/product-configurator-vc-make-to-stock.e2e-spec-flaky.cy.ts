@@ -78,31 +78,5 @@ context('Product Configuration', () => {
         configurationOverview.clickCloseBtnOnOP(false, false, true);
       });
     });
-
-    // TODO: clarify with Alexander Kuschner why there are more than one variant item in the cart are not merged
-    xdescribe('support merging of product variants', () => {
-      it('should merge same variants when more than one is added to the cart', () => {
-        const products = [];
-        for (let index = 0; index < 3; index++) {
-          let product = {
-            code: testProduct,
-            name: 'Digital Camera Standard Metallic',
-          };
-          products.push(product);
-        }
-
-        products.forEach((product) => {
-          common.goToPDPage(electronicsShop, product.code);
-          common.clickOnAddToCartBtnOnPD();
-        });
-
-        configurationVc.goToCart(electronicsShop);
-        cart.verifyCartNotEmpty();
-        configurationCart.checkItemsList(1);
-        configurationCart.checkQuantityStepper(0, 3);
-        configurationVc.removeAllItemsFromCart(products);
-        configurationCart.checkCartEmpty();
-      });
-    });
   });
 });

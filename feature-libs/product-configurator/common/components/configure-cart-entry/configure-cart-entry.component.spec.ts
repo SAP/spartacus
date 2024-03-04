@@ -19,6 +19,7 @@ import {
 } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
+import { delay, take } from 'rxjs/operators';
 
 const orderCode = '01008765';
 const savedCartCode = '0108336';
@@ -41,11 +42,11 @@ const mockRouterState: any = {
   },
 };
 
-let routerStateObservable: any = null;
+let routerState: RouterState;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(routerStateObservable);
+    return of(routerState);
   }
 }
 
@@ -57,7 +58,7 @@ describe('ConfigureCartEntryComponent', () => {
   const orderOrCartEntry: OrderEntry = {};
 
   function configureTestingModule(): TestBed {
-    routerStateObservable = mockRouterState;
+    routerState = mockRouterState;
 
     return TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule, RouterModule],
@@ -170,24 +171,24 @@ describe('ConfigureCartEntryComponent', () => {
     });
   });
 
-  describe('isCartRelevant', () => {
-    it('should return false in case the url does not contain cart', () => {
-      expect(component['isCartRelevant']()).toBe(false);
+  describe('isCheckoutRelevant', () => {
+    it('should return false in case the url does not contain checkoutReviewOrder', (done) => {
+      component['isCheckoutRelevant']()
+        .pipe(take(1), delay(0))
+        .subscribe((isCheckoutRelevant) => {
+          expect(isCheckoutRelevant).toBe(false);
+          done();
+        });
     });
 
-    it('should return true in case the url contains cart in case one comes from the cart', () => {
-      mockRouterState.state.semanticRoute = 'cart';
-      expect(component['isCartRelevant']()).toBe(true);
-    });
-
-    it('should return true in case the url contains product in case one comes from the product detail page', () => {
-      mockRouterState.state.semanticRoute = 'product';
-      expect(component['isCartRelevant']()).toBe(true);
-    });
-
-    it('should return true in case the url contains product in case one comes from the catalog', () => {
-      mockRouterState.state.semanticRoute = 'search';
-      expect(component['isCartRelevant']()).toBe(true);
+    it('should return true in case the url contains checkoutReviewOrder in case one comes from the checkout', (done) => {
+      mockRouterState.state.semanticRoute = 'checkoutReviewOrder';
+      component['isCheckoutRelevant']()
+        .pipe(take(1), delay(0))
+        .subscribe((isCheckoutRelevant) => {
+          expect(isCheckoutRelevant).toBe(true);
+          done();
+        });
     });
   });
 
@@ -517,9 +518,14 @@ describe('ConfigureCartEntryComponent', () => {
         expect(component.getQueryParams().resolveIssues).toBe(false);
       });
 
-      it('should set "navigateToCart" parameter in case the navigation to the cart is relevant', () => {
-        mockRouterState.state.semanticRoute = 'cart';
-        expect(component.getQueryParams().navigateToCart).toBe(true);
+      it('should set "navigateToCheckout" parameter in case the navigation to the cart is relevant', (done) => {
+        mockRouterState.state.semanticRoute = 'checkoutReviewOrder';
+        component.queryParams$
+          .pipe(take(1), delay(0))
+          .subscribe((queryParams) => {
+            expect(queryParams.navigateToCheckout).toBe(true);
+            done();
+          });
       });
     });
 

@@ -178,10 +178,10 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
+   * @deprecated use instead queryParams$
    * Compiles query parameters for the router link.
    * 'resolveIssues' is only set if the component is
    * rendered in the context of the message banner, and if issues exist at all
-   * 'navigateToCart' is set to 'true' if the navigation to the cart is relevant, otherwise set to 'false'
    *
    * @returns Query parameters
    */
@@ -189,28 +189,27 @@ export class ConfigureCartEntryComponent {
     return {
       forceReload: true,
       resolveIssues: this.msgBanner && this.hasIssues(),
-      navigateToCart: this.isCartRelevant(),
     };
   }
 
-  protected isCartRelevant(): boolean {
-    let isCartRelevant = false;
-    const locations = ['cart', 'product', 'search'];
-    this.routingService
-      .getRouterState()
-      .pipe(
-        map((routerState) => {
-          let isFound = false;
-          locations.forEach((location) => {
-            if (routerState.state.semanticRoute === location) {
-              isFound = true;
-            }
-          });
-          return isFound;
-        })
-      )
-      .subscribe((value) => (isCartRelevant = value));
-    return isCartRelevant;
+  queryParams$: Observable<{
+    forceReload: boolean;
+    resolveIssues: boolean;
+    navigateToCheckout: boolean;
+  }> = this.isCheckoutRelevant().pipe(
+    map((isCheckoutRelevant) => ({
+      forceReload: true,
+      resolveIssues: this.msgBanner && this.hasIssues(),
+      navigateToCheckout: isCheckoutRelevant,
+    }))
+  );
+
+  protected isCheckoutRelevant(): Observable<boolean> {
+    return this.routingService.getRouterState().pipe(
+      map((routerState) => {
+        return routerState.state.semanticRoute === 'checkoutReviewOrder';
+      })
+    );
   }
 
   constructor(

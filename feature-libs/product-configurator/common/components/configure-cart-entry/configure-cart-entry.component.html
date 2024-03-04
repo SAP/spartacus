@@ -17,7 +17,7 @@
           }
         } | cxUrl
       "
-      [queryParams]="getQueryParams()"
+      [queryParams]="queryParams$ | async"
       cxAutoFocus
       attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
     >

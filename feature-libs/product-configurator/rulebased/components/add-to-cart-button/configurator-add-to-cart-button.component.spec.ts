@@ -265,7 +265,7 @@ function setRouterTestDataReadOnlyCart() {
   mockRouterData.owner.id = QUOTE_ENTRY_KEY;
   mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
   mockRouterData.displayOnly = true;
-  mockRouterData.navigateToCart = true;
+  mockRouterData.navigateToCheckout = false;
 }
 
 function setRouterTestDataReadOnlyCheckout() {
@@ -279,7 +279,7 @@ function setRouterTestDataReadOnlyCheckout() {
   mockRouterData.owner.id = QUOTE_ENTRY_KEY;
   mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
   mockRouterData.displayOnly = true;
-  mockRouterData.navigateToCart = false;
+  mockRouterData.navigateToCheckout = true;
 }
 
 function setRouterTestDataReadOnlySavedCart() {

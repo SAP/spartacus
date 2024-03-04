@@ -55,8 +55,8 @@ export class ConfiguratorRouterExtractorService {
             semanticRoute.includes(this.ROUTE_FRAGMENT_OVERVIEW)
               ? ConfiguratorRouter.PageType.OVERVIEW
               : ConfiguratorRouter.PageType.CONFIGURATION,
-          navigateToCart:
-            routingData.state.queryParams?.navigateToCart === 'true',
+          navigateToCheckout:
+            routingData.state.queryParams?.navigateToCheckout === 'true',
         };
 
         return routerData;

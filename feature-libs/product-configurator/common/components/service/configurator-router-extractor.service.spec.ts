@@ -283,37 +283,37 @@ describe('ConfigRouterExtractorService', () => {
         .unsubscribe();
     });
 
-    it('should check whether navigateToCart was set via query parameter', () => {
+    it('should check whether navigateToCheckout was set via query parameter', () => {
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
         .subscribe((data) => {
           routerData = data;
-          expect(routerData.navigateToCart).toBe(false);
+          expect(routerData.navigateToCheckout).toBe(false);
         })
         .unsubscribe();
     });
 
-    it('should tell from the URL if the navigation to the cart is relevant', () => {
-      mockRouterState.state.queryParams = { navigateToCart: 'true' };
+    it('should tell from the URL if the navigation to the checkout is relevant', () => {
+      mockRouterState.state.queryParams = { navigateToCheckout: 'true' };
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
         .subscribe((data) => {
           routerData = data;
-          expect(routerData.navigateToCart).toBe(true);
+          expect(routerData.navigateToCheckout).toBe(true);
         })
         .unsubscribe();
     });
 
-    it('should tell from the URL if the navigation to the cart is not relevant', () => {
-      mockRouterState.state.queryParams = { navigateToCart: 'false' };
+    it('should tell from the URL if the navigation to the checkout is not relevant', () => {
+      mockRouterState.state.queryParams = { navigateToCheckout: 'false' };
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
         .subscribe((data) => {
           routerData = data;
-          expect(routerData.navigateToCart).toBe(false);
+          expect(routerData.navigateToCheckout).toBe(false);
         })
         .unsubscribe();
     });
