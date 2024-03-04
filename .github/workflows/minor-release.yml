@@ -1,9 +1,6 @@
 name: Minor Release Workflow
 
 on:
-  push:
-    branches:
-      - steps-for-rls-worklfow
   workflow_dispatch:
     inputs:
       version:
@@ -24,14 +21,9 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com' 
 
-      - name: Set Default Version
+      - name: Set Version
         run: |
-          if [ -z "${{ github.event.inputs.version }}" ]; then
-            echo "No version provided, setting default version."
-            echo "version=2208.12.0" >> $GITHUB_ENV
-          else
-            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_ENV
-          fi
+          echo "version=${{ github.event.inputs.version }}" >> $GITHUB_ENV
 
       - name: Create Release Branch
         run: |
@@ -83,7 +75,7 @@ jobs:
       - name: Package installation
         run: npm ci
         
-      - name: Run NPM Commands
+      - name: Run Config Update
         run: |
           if ! npm run config:update; then
             echo "Error: The configuration file is not up to date. Regenerating dependencies..."
@@ -91,12 +83,15 @@ jobs:
             npm run config:update
           fi
           npm run generate:deps
+
+      - name: Run Schematics Tests
+        run: |
           npm run test:all-schematics
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          branch: "${{ env.RELEASE_BRANCH }}" 
+          branch: "${{ env.version }}" 
           delete-branch: true 
           title: "Release ${{ github.event.inputs.version }}"
           body: "Automated pull request to merge the release branch into develop."
