@@ -266,7 +266,7 @@ export class PopoverDirective implements OnInit {
    */
   appendPopoverToBody(): void {
     const popoverWrapper = this.renderer.createElement('div');
-    const observer = new MutationObserver((_mutation, observer) => {
+    const wrapperObserver = new MutationObserver((_mutation, observer) => {
       this.renderer.appendChild(
         popoverWrapper,
         this.popoverContainer.location.nativeElement
@@ -276,7 +276,7 @@ export class PopoverDirective implements OnInit {
       observer.disconnect();
       this.openPopover.emit();
     });
-    observer.observe(this.winRef.document.body, { childList: true });
+    wrapperObserver.observe(this.winRef.document.body, { childList: true });
     this.renderer.setAttribute(popoverWrapper, 'aria-live', 'polite');
     this.renderer.setProperty(popoverWrapper, 'id', 'popoverWrapper');
     this.renderer.appendChild(this.winRef.document.body, popoverWrapper);
