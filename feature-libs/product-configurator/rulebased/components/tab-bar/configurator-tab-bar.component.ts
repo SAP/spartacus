@@ -76,11 +76,14 @@ export class ConfiguratorTabBarComponent {
    * @returns - page type
    */
   pageType$: Observable<ConfiguratorRouter.PageType> = this.routerData$.pipe(
-    map(
-      (routerData) =>
-        routerData.pageType ?? ConfiguratorRouter.PageType.CONFIGURATION
-    )
+    map((routerData) => this.determinePageFromRouterData(routerData))
   );
+
+  protected determinePageFromRouterData(
+    routerData: ConfiguratorRouter.Data
+  ): ConfiguratorRouter.PageType {
+    return routerData.pageType ?? ConfiguratorRouter.PageType.CONFIGURATION;
+  }
 
   /**
    * Checks whether the current page is the overview page.
