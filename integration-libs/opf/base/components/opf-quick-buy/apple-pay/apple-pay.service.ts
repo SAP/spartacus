@@ -383,16 +383,20 @@ export class ApplePayService {
       );
   }
 
-  protected loadPdpOriginalCart(orderPlaced?: boolean) {
-    console.log('loadPdpOriginalCart orderPlaced', orderPlaced);
+  protected loadPdpOriginalCart(orderSuccess?: boolean) {
+    console.log('loadPdpOriginalCart orderPlaced', orderSuccess);
     if (this.transactionDetails.context === OpfQuickBuyLocation.PRODUCT) {
       this.cartHandlerService
         .loadOriginalCart()
         .pipe(
           switchMap((cartLoaded) => {
+            // No initial cart and order placed successfully: don't delete cart as done oob
+            if (!cartLoaded && orderSuccess) {
+              return of(true);
+            }
             if (
               cartLoaded &&
-              orderPlaced &&
+              orderSuccess &&
               this.transactionDetails?.product?.code &&
               this.transactionDetails?.quantity
             ) {
@@ -400,9 +404,8 @@ export class ApplePayService {
                 this.transactionDetails?.product?.code,
                 this.transactionDetails?.quantity
               );
-            } else {
-              return this.cartHandlerService.deleteCurrentCart();
             }
+            return this.cartHandlerService.deleteCurrentCart();
           }),
           take(1)
         )
