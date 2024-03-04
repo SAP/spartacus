@@ -292,7 +292,7 @@ export class OpfCartHandlerService {
           return true;
         }
         const count = entry.quantity - quantity;
-        console.log('removeProductFromOriginalCart2', count);
+        console.log('removeProductFromOriginalCart2', entry.quantity, count);
         this.activeCartFacade.updateEntry(entry.entryNumber, count);
         return true;
       }),
