@@ -58,9 +58,11 @@
     [innerHTML]="result.message"
   ></div>
   <!--RESULT  SUGGESTIONS-->
-  <div class="message" *ngIf="result?.suggestions?.length">
-    {{ 'searchBox.suggestions' | cxTranslate }}
-  </div>
+  <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
+    <div class="message" *ngIf="result?.suggestions?.length">
+      {{ 'searchBox.suggestions' | cxTranslate }}
+    </div>
+  </ng-container>
   <ul
     class="suggestions"
     attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
@@ -109,9 +111,11 @@
   </ng-container>
 
   <!--RESULT  PRODUCTS-->
-  <div class="message" *ngIf="result.products?.length">
-    {{ 'searchBox.products' | cxTranslate }}
-  </div>
+  <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
+    <div class="message" *ngIf="result.products?.length">
+      {{ 'searchBox.products' | cxTranslate }}
+    </div>
+  </ng-container>
   <ul
     class="products"
     *ngIf="result.products"
