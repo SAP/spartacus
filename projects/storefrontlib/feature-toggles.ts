@@ -27,5 +27,6 @@ export interface FeatureToggles {
      */
     disableConfigUpdates?: boolean;
     showPromotionsInPDP?: boolean;
+    sortMapping?: boolean;
   };
 }
