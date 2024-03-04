@@ -400,8 +400,9 @@ export class ApplePayService {
                 this.transactionDetails?.product?.code,
                 this.transactionDetails?.quantity
               );
+            } else {
+              return this.cartHandlerService.deleteCurrentCart();
             }
-            return of(true);
           }),
           take(1)
         )

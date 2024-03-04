@@ -32,15 +32,7 @@ import {
   OpfMiniCartComponentService,
 } from '@spartacus/opf/base/root';
 import { Observable, combineLatest, merge, of, throwError } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -265,12 +257,12 @@ export class OpfCartHandlerService {
 
   deleteCurrentCart(): Observable<boolean> {
     console.log('deleteCurrentCart');
-    // return of(true);
-    return this.activeCartFacade.getActiveCartId().pipe(
-      withLatestFrom(this.userIdService.getUserId()),
-      take(1),
-      tap(([cartId, userId]: [string, string]) => {
-        this.multiCartFacade.deleteCart(cartId, userId);
+    if (this.currentCartId || this.currentUserId) {
+      return of(false);
+    }
+    return of(true).pipe(
+      tap(() => {
+        this.multiCartFacade.deleteCart(this.currentCartId, this.currentUserId);
       }),
       switchMap(() =>
         merge(
