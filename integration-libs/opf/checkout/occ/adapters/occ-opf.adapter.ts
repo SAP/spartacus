@@ -5,17 +5,21 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ConverterService, normalizeHttpError } from '@spartacus/core';
+import { Injectable, inject } from '@angular/core';
+import {
+  ConverterService,
+  LoggerService,
+  normalizeHttpError,
+} from '@spartacus/core';
 import { OPF_CC_OTP_KEY } from '@spartacus/opf/base/root';
 import {
+  OPF_PAYMENT_CONFIG_SERIALIZER,
   OpfAdapter,
   OpfEndpointsService,
-  OPF_PAYMENT_CONFIG_SERIALIZER,
 } from '@spartacus/opf/checkout/core';
 import {
-  OpfConfig,
   OPF_CC_PUBLIC_KEY,
+  OpfConfig,
   PaymentInitiationConfig,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
@@ -25,6 +29,8 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccOpfAdapter implements OpfAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected converter: ConverterService,
@@ -59,7 +65,11 @@ export class OccOpfAdapter implements OpfAdapter {
 
     return this.http
       .post<PaymentSessionData>(url, paymentConfig?.config, { headers })
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        )
+      );
   }
 
   protected getInitiatePaymentEndpoint(): string {
