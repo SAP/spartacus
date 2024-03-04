@@ -106,6 +106,11 @@ export class OpfCartHandlerService {
     return this.checkStableCart();
   }
 
+  allowMiniCartUpdate() {
+    console.log('allowMiniCartUpdate');
+    this.opfMiniCartComponentService.blockUpdate(false);
+  }
+
   addProductToCart(
     productCode: string,
     quantity: number,
