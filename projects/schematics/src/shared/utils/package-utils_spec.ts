@@ -37,6 +37,7 @@ describe('Package utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
   const defaultOptions = {
     project: 'schematics-test',
@@ -100,8 +101,8 @@ describe('Package utils', () => {
       const version = getSpartacusSchematicsVersion();
       const featureLevel = getSpartacusCurrentFeatureLevel();
       expect(featureLevel).toBeTruthy();
-      expect(featureLevel.length).toEqual(3);
-      expect(featureLevel).toEqual(version.substring(0, 3));
+      expect(featureLevel.length).toEqual(7);
+      expect(featureLevel).toEqual(version.substring(0, 7));
     });
   });
 });

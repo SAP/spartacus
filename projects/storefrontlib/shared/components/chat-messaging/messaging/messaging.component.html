@@ -2,6 +2,7 @@
   <div class="container">
     <div class="cx-avatar-line"></div>
     <div
+      role="list"
       class="cx-messages"
       id="cx-messages"
       (keydown.arrowdown)="focusNextChild($any($event))"
@@ -11,18 +12,18 @@
       <ng-container *ngFor="let message of messageEvents; let i = index">
         <div
           class="cx-message-card"
-          [ngClass]="{ 'cx-message-display': message?.rightAlign ?? false }"
+          [ngClass]="{ 'cx-message-display': message.rightAlign ?? false }"
         >
-          <cx-avatar [message]="message!"> </cx-avatar>
+          <cx-avatar [message]="message"> </cx-avatar>
 
           <div>
             <label>{{
-              (message?.createdAt | cxDate: messagingConfigs?.dateFormat) ??
+              (message.createdAt | cxDate: messagingConfigs?.dateFormat) ??
                 dateFormat
             }}</label>
             <div
               [ngClass]="
-                message?.rightAlign ?? false
+                message.rightAlign ?? false
                   ? 'cx-message-right-align-text'
                   : 'cx-message-left-align-text'
               "
@@ -32,25 +33,31 @@
                 'chatMessaging.informationLabel'
                   | cxTranslate
                     : {
-                        author: message?.author!,
-                        text: message?.text!,
+                        author: message.author,
+                        text: getMessageText(message),
                         date:
-                          (message?.createdAt
+                          (message.createdAt
                             | cxDate: messagingConfigs?.dateFormat) ??
                           dateFormat
                       }
               "
             >
-              {{ message?.text! }}
+              <a
+                *ngIf="message.item"
+                class="cx-message-item-link"
+                (click)="onItemClicked(message.item)"
+                >{{ message.item.name }}:</a
+              >
+              {{ message.text }}
             </div>
             <a
-              *ngFor="let attachment of message?.attachments ?? []"
+              *ngFor="let attachment of message.attachments ?? []"
               class="cx-attachment"
               (click)="
                 triggerDownload(
-                  message?.code,
-                  attachment?.id,
-                  attachment?.filename
+                  message.code,
+                  attachment.id,
+                  attachment.filename
                 )
               "
               target="_blank"
@@ -71,12 +78,25 @@
     *ngIf="messagingConfigs?.displayAddMessageSection | async"
   >
     <div class="cx-message-box">
-      <label class="cx-footer-label">
+      <label class="cx-footer-label" id="cx-messaging-footer-label">
         <span>
           {{ 'chatMessaging.addNewMessage' | cxTranslate }}
+          <select
+            [attr.aria-label]="
+              'chatMessaging.a11y.itemListBoxLabel' | cxTranslate
+            "
+            *ngIf="messagingConfigs?.itemList$ | async as itemList"
+            class="cx-message-item-selection"
+            formControlName="item"
+          >
+            <option *ngFor="let item of itemList" value="{{ item.id }}">
+              {{ item.name }}
+            </option>
+          </select>
         </span>
         <div class="cx-message-input">
           <input
+            aria-labelledby="cx-messaging-footer-label"
             formControlName="message"
             type="text"
             class="form-control"
@@ -96,7 +116,16 @@
           >
             {{ 'chatMessaging.characterLimitAlert' | cxTranslate }}
           </span>
-          <button class="btn btn-block btn-primary cx-send" (click)="onSend()">
+          <button
+            aria-labelledby="cx-messaging-footer-label"
+            class="btn btn-block cx-send"
+            [ngClass]="
+              !!messagingConfigs?.sendBtnIsNotPrimary
+                ? 'btn-secondary'
+                : 'btn-primary'
+            "
+            (click)="onSend()"
+          >
             {{ 'chatMessaging.send' | cxTranslate }}
           </button>
         </div>

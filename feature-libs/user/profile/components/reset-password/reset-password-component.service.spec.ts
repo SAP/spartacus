@@ -174,7 +174,7 @@ describe('ResetPasswordComponentService', () => {
           const error = new HttpErrorModel();
           error.details = [{ message: 'error message' }];
           spyOn(userPasswordService, 'reset').and.returnValue(
-            throwError(error)
+            throwError(() => error)
           );
           service.resetPassword(resetToken);
           expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -184,13 +184,17 @@ describe('ResetPasswordComponentService', () => {
         });
 
         it('should not show error message', () => {
-          spyOn(userPasswordService, 'reset').and.returnValue(throwError(null));
+          spyOn(userPasswordService, 'reset').and.returnValue(
+            throwError(() => null)
+          );
           service.resetPassword(resetToken);
           expect(globalMessageService.add).not.toHaveBeenCalled();
         });
 
         it('should not show error message', () => {
-          spyOn(userPasswordService, 'reset').and.returnValue(throwError({}));
+          spyOn(userPasswordService, 'reset').and.returnValue(
+            throwError(() => ({}))
+          );
           service.resetPassword(resetToken);
           expect(globalMessageService.add).not.toHaveBeenCalled();
         });
@@ -198,7 +202,9 @@ describe('ResetPasswordComponentService', () => {
     });
 
     it('should not reset invalid form', () => {
-      spyOn(userPasswordService, 'reset').and.returnValue(throwError({}));
+      spyOn(userPasswordService, 'reset').and.returnValue(
+        throwError(() => ({}))
+      );
       passwordConfirm.setValue('Diff123!');
       service.resetPassword(resetToken);
       expect(userPasswordService.reset).not.toHaveBeenCalled();

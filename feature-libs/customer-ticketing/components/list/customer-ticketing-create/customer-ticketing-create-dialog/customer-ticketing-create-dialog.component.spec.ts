@@ -1,4 +1,6 @@
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
@@ -11,6 +13,8 @@ import {
 } from '@spartacus/core';
 import {
   CustomerTicketingFacade,
+  STATUS_NAME,
+  TicketDetails,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import {
@@ -23,8 +27,6 @@ import {
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog.component';
 import createSpy = jasmine.createSpy;
-import { Component, Directive, Input } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 
 const mockCategories = [
   {
@@ -58,6 +60,7 @@ const mockTicketStarter: TicketStarter = {
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
+
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
@@ -69,6 +72,7 @@ class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
   getTicketAssociatedObjects = createSpy().and.returnValue(
     of(mockTicketAssociatedObjects)
   );
+  uploadAttachment = createSpy().and.returnValue(EMPTY);
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -155,14 +159,64 @@ describe('CustomerTicketingCreateDialogComponent', () => {
   });
 
   describe('trigger create ticket request', () => {
-    it('should call createTicket if the form is valid', () => {
-      component.form.get('message')?.setValue(mockTicketStarter.message);
-      component.form.get('subject')?.setValue(mockTicketStarter.subject);
-      component.form.get('ticketCategory')?.setValue(mockCategories);
-      component.form.get('associatedTo')?.setValue(mockTicketAssociatedObjects);
-      component.createTicketRequest();
+    describe('when the form is valid', () => {
+      beforeEach(() => {
+        component.form.get('message')?.setValue(mockTicketStarter.message);
+        component.form.get('subject')?.setValue(mockTicketStarter.subject);
+        component.form.get('ticketCategory')?.setValue(mockCategories);
+        component.form
+          .get('associatedTo')
+          ?.setValue(mockTicketAssociatedObjects);
+      });
 
-      expect(customerTicketingFacade.createTicket).toHaveBeenCalled();
+      it('should call createTicket if the form is valid', () => {
+        component.createTicketRequest();
+
+        expect(customerTicketingFacade.createTicket).toHaveBeenCalled();
+      });
+
+      it('should upload attachments after creating the ticket', () => {
+        const mockFileList: File[] = [
+          new File(['foo'], 'foo.txt', {
+            type: 'text/plain',
+          }),
+        ];
+        component.form.get('file')?.setValue(mockFileList);
+        const mockTicketDetails: TicketDetails = {
+          id: '000001',
+
+          status: { id: 'mock-status-id', name: STATUS_NAME.OPEN },
+          ticketEvents: [
+            {
+              code: 'code-000001',
+              createdAt: 'mock-create-date',
+              author: 'mock-author',
+              message: 'mock-message',
+              addedByAgent: true,
+              ticketEventAttachments: [{}],
+            },
+          ],
+        };
+
+        (customerTicketingFacade.createTicket as jasmine.Spy).and.returnValue(
+          of(mockTicketDetails)
+        );
+
+        component.createTicketRequest();
+
+        expect(customerTicketingFacade.uploadAttachment).toHaveBeenCalled();
+      });
+
+      it('should close if there is an error creating the ticket', () => {
+        spyOn(component, 'close').and.callThrough();
+        (customerTicketingFacade.createTicket as jasmine.Spy).and.returnValue(
+          throwError(() => 'error')
+        );
+
+        component.createTicketRequest();
+
+        expect(component.close).toHaveBeenCalledWith('Something went wrong');
+      });
     });
 
     it('should not call createTicket if the form is invalid', () => {

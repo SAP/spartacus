@@ -23,6 +23,7 @@
           "Quick-Order",
           "CDC",
           "CDC-B2B",
+          "CDP",
           "CDS",
           "Cart",
           "WishList",
@@ -58,7 +59,8 @@
           "TMS-AEPL",
           "Pickup-In-Store",
           "User-Account",
-          "User-Profile"
+          "User-Profile",
+          "Quote"
         ],
         "type": "string"
       },
@@ -111,6 +113,10 @@
           {
             "value": "CDC-B2B",
             "label": "Customer Data Cloud Integration - B2B"
+          },
+          {
+            "value": "CDP",
+            "label": "Customer Data Platform Integration"
           },
           {
             "value": "CDS",
@@ -247,6 +253,10 @@
           {
             "value": "User-Profile",
             "label": "User - Profile"
+          },
+          {
+            "value": "Quote",
+            "label": "Quote"
           },
           {
             "value": "Customer-Ticketing",

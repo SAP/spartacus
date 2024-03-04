@@ -6,6 +6,7 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+import { firstValueFrom } from 'rxjs';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { NGRX_STORE } from '../constants';
 import { CART_BASE_MODULE } from '../lib-configs/cart-schematics-config';
@@ -58,6 +59,7 @@ describe('Import utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -94,8 +96,8 @@ describe('Import utils', () => {
     buildPath = getProjectTsConfigPaths(tree, BASE_OPTIONS.project)
       .buildPaths[0];
 
-    tree = await schematicRunner
-      .callRule(
+    tree = await firstValueFrom(
+      schematicRunner.callRule(
         addFeatures(BASE_OPTIONS, [
           USER_ACCOUNT_FEATURE_NAME,
           USER_PROFILE_FEATURE_NAME,
@@ -103,7 +105,7 @@ describe('Import utils', () => {
         ]),
         tree
       )
-      .toPromise();
+    );
   });
 
   describe('isImportedFromSpartacusLibs', () => {
