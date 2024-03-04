@@ -256,12 +256,13 @@ export class OpfCartHandlerService {
   }
 
   deleteCurrentCart(): Observable<boolean> {
-    console.log('deleteCurrentCart');
+    console.log('deleteCurrentCart', this.currentCartId, this.currentUserId);
     if (this.currentCartId || this.currentUserId) {
       return of(false);
     }
     return of(true).pipe(
       tap(() => {
+        console.log('deleteCart tap');
         this.multiCartFacade.deleteCart(this.currentCartId, this.currentUserId);
       }),
       switchMap(() =>
