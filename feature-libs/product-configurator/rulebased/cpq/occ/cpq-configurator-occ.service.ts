@@ -7,8 +7,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  CartModification,
   CART_MODIFICATION_NORMALIZER,
+  CartModification,
 } from '@spartacus/cart/base/root';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -16,16 +16,16 @@ import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
-  CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
-  CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
-} from './converters/cpq-configurator-occ.converters';
-import {
   CPQ_CONFIGURATOR_NORMALIZER,
   CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
   CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
 } from '../common/converters/cpq-configurator.converters';
 import { Cpq } from '../common/cpq.models';
+import {
+  CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
+  CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
+} from './converters/cpq-configurator-occ.converters';
 
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorOccService {
@@ -324,16 +324,42 @@ export class CpqConfiguratorOccService {
   protected callReadConfigurationForOrderEntry(
     parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<Cpq.Configuration> {
-    const url = this.occEndpointsService.buildUrl(
-      'readCpqConfigurationForOrderEntryFull',
-      {
-        urlParams: {
-          userId: parameters.userId,
-          orderId: parameters.orderId,
-          orderEntryNumber: parameters.orderEntryNumber,
-        },
-      }
-    );
+    let url;
+    const ownerType = parameters.owner.type;
+    if (ownerType === CommonConfigurator.OwnerType.ORDER_ENTRY) {
+      url = this.occEndpointsService.buildUrl(
+        'readCpqConfigurationForOrderEntryFull',
+        {
+          urlParams: {
+            userId: parameters.userId,
+            orderId: parameters.orderId,
+            orderEntryNumber: parameters.orderEntryNumber,
+          },
+        }
+      );
+    } else if (ownerType === CommonConfigurator.OwnerType.QUOTE_ENTRY) {
+      url = this.occEndpointsService.buildUrl(
+        'readCpqConfigurationForQuoteEntryFull',
+        {
+          urlParams: {
+            userId: parameters.userId,
+            quoteId: parameters.orderId,
+            quoteEntryNumber: parameters.orderEntryNumber,
+          },
+        }
+      );
+    } else {
+      url = this.occEndpointsService.buildUrl(
+        'readCpqConfigurationForSavedCartEntryFull',
+        {
+          urlParams: {
+            userId: parameters.userId,
+            savedCartId: parameters.orderId,
+            entryNumber: parameters.orderEntryNumber,
+          },
+        }
+      );
+    }
     return this.http.get<Cpq.Configuration>(url);
   }
 }

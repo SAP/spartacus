@@ -70,7 +70,7 @@ const VAL_CAM_PROF_Y = '8953';
 /** Insurance */
 const ATTR_CAM_INS = '2899';
 /** No Option Selcted */
-const VAL_NO_OPT_SEL = '0';
+const VAL_NO_OPT_SEL = '###RETRACT_VALUE_CODE###';
 /** Insurance Select 2 years */
 const VAL_CB_INS_Y2 = '8735';
 /** Insurance Pro 4 years */

@@ -8,7 +8,7 @@
 import { verifyTabbingOrder } from '../../../../helpers/accessibility/tabbing-order';
 import { TabElement } from '../../../../helpers/accessibility/tabbing-order.model';
 
-const containerSelector = 'cx-my-new-account-v2-profile';
+const containerSelector = 'cx-my-account-v2-profile';
 
 export function myAccountV2UserProfileManagementTabbingOrder(
   config: TabElement[],
@@ -24,7 +24,7 @@ export function myAccountV2UserProfileManagementTabbingOrder(
 
   cy.wait('@getComponents');
   if (isEdit) {
-    cy.get('.myaccount-enhancedUI-editButton').click();
+    cy.get('.editButton').click();
   }
 
   verifyTabbingOrder(containerSelector, config);

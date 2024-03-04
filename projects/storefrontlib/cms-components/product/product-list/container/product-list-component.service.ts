@@ -4,12 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ActivatedRouterStateSnapshot,
   CurrencyService,
-  FeatureConfigService,
   LanguageService,
   ProductSearchPage,
   ProductSearchService,
@@ -40,12 +39,6 @@ import { ProductListRouteParams, SearchCriteria } from './product-list.model';
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
   protected readonly RELEVANCE_ALLCATEGORIES = ':relevance:allCategories:';
-
-  // TODO: Remove in 7.0
-  protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
-
   constructor(
     protected productSearchService: ProductSearchService,
     protected routing: RoutingService,
@@ -92,12 +85,7 @@ export class ProductListComponentService {
           state.queryParams
         );
 
-        // TODO: Remove featureLevel condition in 7.0
-        if (this.featureConfigService?.isLevel('6.7')) {
-          this.searchIfCriteriaHasChanged(criteria);
-        } else {
-          this.search(criteria);
-        }
+        this.searchIfCriteriaHasChanged(criteria);
       })
     );
 

@@ -4,11 +4,10 @@ import { By } from '@angular/platform-browser';
 import {
   FeatureModulesService,
   FeaturesConfig,
-  FeaturesConfigModule,
   I18nTestingModule,
   User,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -63,7 +62,7 @@ describe('CustomerEmulationComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, FeaturesConfigModule],
+        imports: [I18nTestingModule],
         declarations: [
           CustomerEmulationComponent,
           MockFeatureLevelDirective,
