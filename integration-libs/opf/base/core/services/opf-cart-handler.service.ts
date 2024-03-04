@@ -278,19 +278,27 @@ export class OpfCartHandlerService {
     productCode: string,
     quantity: number
   ): Observable<boolean> {
-    console.log('removeProductFromOriginalCart');
+    console.log('removeProductFromOriginalCart', productCode, quantity);
     return this.activeCartFacade.getEntry(productCode).pipe(
       map((entry: OrderEntry | undefined) => {
+        console.log('removeProductFromOriginalCart0');
         if (!entry || !entry?.quantity || entry?.entryNumber === undefined) {
+          console.log('removeProductFromOriginalCart05 false');
           return false;
         }
         if (entry.quantity <= quantity) {
+          console.log('removeProductFromOriginalCart1');
           this.activeCartFacade.removeEntry(entry);
           return true;
         }
         const count = entry.quantity - quantity;
+        console.log('removeProductFromOriginalCart2', count);
         this.activeCartFacade.updateEntry(entry.entryNumber, count);
         return true;
+      }),
+      catchError((error) => {
+        console.log('removeProductFromOriginalCart3 in catch', error);
+        return throwError(error);
       })
     );
   }
