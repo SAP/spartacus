@@ -6,6 +6,7 @@
 
 import * as configuration from './product-configurator';
 import * as common from './common';
+import { registerCartRefreshRoute, removeCartItem } from './cart';
 
 const addToCartButtonSelector =
   'cx-configurator-add-to-cart-button button.cx-add-to-cart-btn';
@@ -105,6 +106,14 @@ export function goToCart(shopName: string) {
     cy.location('pathname').should('contain', location);
     cy.get('cx-cart-details').should('be.visible');
   });
+}
+
+export function removeAllItemsFromCart(products) {
+  registerCartRefreshRoute();
+  products.forEach((product) => {
+    removeCartItem(product);
+  });
+  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 }
 
 /**

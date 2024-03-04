@@ -170,24 +170,24 @@ describe('ConfigureCartEntryComponent', () => {
     });
   });
 
-  describe('isCartPageRelevant', () => {
+  describe('isCartRelevant', () => {
     it('should return false in case the url does not contain cart', () => {
-      expect(component['isCartPageRelevant']()).toBe(false);
+      expect(component['isCartRelevant']()).toBe(false);
     });
 
     it('should return true in case the url contains cart in case one comes from the cart', () => {
       mockRouterState.state.semanticRoute = 'cart';
-      expect(component['isCartPageRelevant']()).toBe(true);
+      expect(component['isCartRelevant']()).toBe(true);
     });
 
     it('should return true in case the url contains product in case one comes from the product detail page', () => {
       mockRouterState.state.semanticRoute = 'product';
-      expect(component['isCartPageRelevant']()).toBe(true);
+      expect(component['isCartRelevant']()).toBe(true);
     });
 
     it('should return true in case the url contains product in case one comes from the catalog', () => {
       mockRouterState.state.semanticRoute = 'search';
-      expect(component['isCartPageRelevant']()).toBe(true);
+      expect(component['isCartRelevant']()).toBe(true);
     });
   });
 
@@ -515,6 +515,11 @@ describe('ConfigureCartEntryComponent', () => {
           ],
         };
         expect(component.getQueryParams().resolveIssues).toBe(false);
+      });
+
+      it('should set "navigateToCart" parameter in case the navigation to the cart is relevant', () => {
+        mockRouterState.state.semanticRoute = 'cart';
+        expect(component.getQueryParams().navigateToCart).toBe(true);
       });
     });
 

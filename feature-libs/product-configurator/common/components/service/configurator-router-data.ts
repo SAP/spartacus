@@ -22,6 +22,6 @@ export namespace ConfiguratorRouter {
     configIdTemplate?: string;
     displayRestartDialog?: boolean;
     navigationId?: number;
-    isCartPage?: boolean;
+    navigateToCart?: boolean;
   }
 }
