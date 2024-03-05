@@ -23,7 +23,6 @@ export class OpfMiniCartComponentService extends MiniCartComponentService {
   protected isUpdateBlocked = false;
 
   blockUpdate(val: boolean) {
-    console.log('blockUpdate', val);
     this.isUpdateBlocked = val;
   }
   constructor(
