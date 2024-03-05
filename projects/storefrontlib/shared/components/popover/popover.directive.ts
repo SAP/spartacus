@@ -22,9 +22,9 @@ import {
   inject,
 } from '@angular/core';
 import { FeatureConfigService, WindowRef } from '@spartacus/core';
-import { SelectFocusUtility } from 'projects/storefrontlib/layout/a11y';
 import { Subject, take } from 'rxjs';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
+import { SelectFocusUtility } from '../../../layout/a11y/keyboard-focus/services';
 import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverOptions } from './popover.model';
 import { PopoverService } from './popover.service';
