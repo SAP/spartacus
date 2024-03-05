@@ -21,6 +21,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
   FeaturesConfig,
+  CmsConfig,
   I18nConfig,
   OccConfig,
   RoutingConfig,
@@ -104,6 +105,15 @@ if (!environment.production) {
       provide: USE_LEGACY_MEDIA_COMPONENT,
       useValue: false,
     },
+    provideConfig(<CmsConfig>{
+      cmsComponents: {
+        ProductAddToCartComponent: {
+          data: {
+            inventoryDisplay: true,
+          },
+        },
+      },
+    }),
   ],
   bootstrap: [StorefrontComponent],
 })
