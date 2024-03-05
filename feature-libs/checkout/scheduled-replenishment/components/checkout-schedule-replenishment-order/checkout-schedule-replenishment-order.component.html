@@ -128,26 +128,50 @@
         />
       </div>
     </div>
-
-    <div
-      *ngIf="isWeekly"
-      class="cx-replenishment-form-data-container cx-repeat-days-container"
-    >
-      <span class="cx-repeat-days form-data-label">{{
-        'checkoutScheduledReplenishment.repeatOnDays' | cxTranslate
-      }}</span>
-      <div *ngFor="let day of daysOfWeek" class="form-check">
-        <label for="day-{{ day }}" class="cx-week-day">{{
-          day | titlecase
-        }}</label
-        ><input
-          id="day-{{ day }}"
-          type="checkbox"
-          class="form-check-input"
-          [checked]="hasDaysOfWeekChecked(day)"
-          (change)="changeRepeatDays(day, $event.target.checked)"
-        />
+    <!-- TODO: (CXSPA-6446) Remove feature flag next major release -->
+    <ng-container *cxFeatureLevel="'6.8'">
+      <fieldset
+        *ngIf="isWeekly"
+        class="cx-replenishment-form-data-container cx-repeat-days-container"
+      >
+        <legend class="cx-repeat-days form-data-label">
+          {{ 'checkoutScheduledReplenishment.repeatOnDays' | cxTranslate }}
+        </legend>
+        <div *ngFor="let day of daysOfWeek" class="form-check">
+          <label for="day-{{ day }}" class="cx-week-day">{{
+            day | titlecase
+          }}</label
+          ><input
+            id="day-{{ day }}"
+            type="checkbox"
+            class="form-check-input"
+            [checked]="hasDaysOfWeekChecked(day)"
+            (change)="changeRepeatDays(day, $event.target.checked)"
+          />
+        </div>
+      </fieldset>
+    </ng-container>
+    <ng-container *cxFeatureLevel="'!6.8'">
+      <div
+        *ngIf="isWeekly"
+        class="cx-replenishment-form-data-container cx-repeat-days-container"
+      >
+        <span class="cx-repeat-days form-data-label">{{
+          'checkoutScheduledReplenishment.repeatOnDays' | cxTranslate
+        }}</span>
+        <div *ngFor="let day of daysOfWeek" class="form-check">
+          <label for="day-{{ day }}" class="cx-week-day">{{
+            day | titlecase
+          }}</label
+          ><input
+            id="day-{{ day }}"
+            type="checkbox"
+            class="form-check-input"
+            [checked]="hasDaysOfWeekChecked(day)"
+            (change)="changeRepeatDays(day, $event.target.checked)"
+          />
+        </div>
       </div>
-    </div>
+    </ng-container>
   </ng-container>
 </div>

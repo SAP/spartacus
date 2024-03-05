@@ -99,6 +99,10 @@
         }
 
         .cx-repeat-days {
+          //TODO: (CXSPA-6446) Remove feature flag next major release
+          @include forVersion(6.8) {
+            font-size: inherit;
+          }
           flex: 0 100%;
           margin-bottom: 14px;
           align-self: start;
