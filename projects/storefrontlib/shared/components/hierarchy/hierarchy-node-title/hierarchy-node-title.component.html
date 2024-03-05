@@ -1,0 +1,6 @@
+<div class="cx-hierarchy-node-title">
+    <span class="node-title">{{ tree.name }}</span>
+    <button *ngIf="!readonly" (click)="removeBundle(tree.value?.entryGroupNumber)" class="btn btn-tertiary" type="button">
+      {{ 'common.remove' | cxTranslate }}
+    </button>
+  </div>

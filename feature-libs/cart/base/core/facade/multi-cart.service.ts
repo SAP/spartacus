@@ -11,6 +11,7 @@ import {
   CartType,
   MultiCartFacade,
   OrderEntry,
+  OrderEntryGroup
 } from '@spartacus/cart/base/root';
 import { isNotUndefined, StateUtils, UserIdService } from '@spartacus/core';
 import { Observable, of, timer } from 'rxjs';
@@ -185,6 +186,16 @@ export class MultiCartService implements MultiCartFacade {
   getEntries(cartId: string): Observable<OrderEntry[]> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartEntriesSelectorFactory(cartId))
+    );
+  }
+
+  /**
+   * Get cart entry groups as an observable
+   * @param cartId
+   */
+  getEntryGroups(cartId: string): Observable<OrderEntryGroup[]> {
+    return this.store.pipe(
+      select(MultiCartSelectors.getCartEntryGroupsSelectorFactory(cartId))
     );
   }
 
@@ -395,6 +406,54 @@ export class MultiCartService implements MultiCartFacade {
     return this.store.pipe(
       select(MultiCartSelectors.getCartIdByTypeFactory(cartType)),
       distinctUntilChanged()
+    );
+  }
+
+  /**
+   * Remove entry group from cart
+   *
+   * @param userId
+   * @param cartId
+   * @param entryGroupNumber
+   */
+  removeEntryGroup(
+    userId: string,
+    cartId: string,
+    entryGroupNumber: number
+  ): void {
+    this.store.dispatch(
+      new CartActions.CartRemoveEntryGroup({
+        userId,
+        cartId,
+        entryGroupNumber,
+      })
+    );
+  }
+
+  /**
+   * Add product to cart entry group
+   *
+   * @param userId
+   * @param cartId
+   * @param entryGroupNumber
+   * @param productCode
+   * @param quantity
+   */
+  addToEntryGroup(
+    userId: string,
+    cartId: string,
+    entryGroupNumber: number,
+    productCode: string,
+    quantity: number = 1,
+  ): void {
+    this.store.dispatch(
+      new CartActions.CartAddToEntryGroup({
+        userId,
+        cartId,
+        entryGroupNumber,
+        productCode,
+        quantity,
+      })
     );
   }
 }

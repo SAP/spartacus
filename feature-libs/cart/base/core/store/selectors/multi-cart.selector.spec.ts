@@ -18,6 +18,33 @@ describe('Multi Cart selectors', () => {
       { entryNumber: 0, product: { code: '1234' } },
       { entryNumber: 1, product: { code: '01234' } },
       { entryNumber: 2, product: { code: '3234' } },
+      { entryNumber: 3, product: { code: '3235' } },
+    ],
+    entryGroups: [
+      {
+        entryGroupNumber: 1,
+        type: 'STANDALONE',
+        label: '',
+        entries: [{ entryNumber: 0, product: { code: '1234' } }],
+      },
+      {
+        entryGroupNumber: 2,
+        type: 'STANDALONE',
+        label: '',
+        entries: [{ entryNumber: 1, product: { code: '01234' } }],
+      },
+      {
+        entryGroupNumber: 3,
+        type: 'STANDALONE',
+        label: '',
+        entries: [{ entryNumber: 2, product: { code: '3234' } }],
+      },
+      {
+        entryGroupNumber: 4,
+        type: 'CONFIGURABLEBUNDLE',
+        label: '',
+        entries: [{ entryNumber: 3, product: { code: '3234' } }],
+      }    
     ],
     totalPrice: {
       currencyIso: 'USD',
@@ -287,6 +314,25 @@ describe('Multi Cart selectors', () => {
       loadCart();
 
       expect(result).toEqual(testCart.entries);
+    });
+  });
+
+  describe('getCartEntryGroupsSelectorFactory', () => {
+    it('should return cart entry groups', () => {
+      let result;
+      store
+        .pipe(
+          select(
+            MultiCartSelectors.getCartEntryGroupsSelectorFactory(testCart.code!)
+          )
+        )
+        .subscribe((value) => (result = value));
+
+      expect(result).toEqual([]);
+
+      loadCart();
+
+      expect(result).toEqual(testCart.entryGroups);
     });
   });
 

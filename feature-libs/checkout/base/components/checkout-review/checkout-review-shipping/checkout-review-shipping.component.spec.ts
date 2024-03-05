@@ -6,7 +6,7 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, Country, I18nTestingModule } from '@spartacus/core';
+import { Address, Country, FeatureConfigService, FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
@@ -23,7 +23,7 @@ import {
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { Card, OutletModule } from '@spartacus/storefront';
+import { Card, HierarchyComponentService, OutletModule } from '@spartacus/storefront';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 
@@ -105,7 +105,15 @@ class MockCheckoutStepService {
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   getDeliveryEntries = createSpy().and.returnValue(of(mockEntries));
+  getDeliveryEntryGroups = createSpy().and.returnValue(of([{}]));
 }
+
+
+class MockHierachyService implements Partial<HierarchyComponentService>{
+  getEntriesFromGroups = createSpy().and.returnValue(of([{}]));
+  getBundlesFromGroups = createSpy().and.returnValue(of([]));
+}
+
 
 @Pipe({
   name: 'cxUrl',
@@ -132,6 +140,7 @@ class MockCardComponent {
 describe('CheckoutReviewShippingComponent', () => {
   let component: CheckoutReviewShippingComponent;
   let fixture: ComponentFixture<CheckoutReviewShippingComponent>;
+  const mockFeatureConfigService = jasmine.createSpyObj('FeatureConfigService', ['isEnabled']);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -140,6 +149,7 @@ describe('CheckoutReviewShippingComponent', () => {
         RouterTestingModule,
         IconTestingModule,
         OutletModule,
+        FeaturesConfigModule
       ],
       declarations: [
         CheckoutReviewShippingComponent,
@@ -163,6 +173,13 @@ describe('CheckoutReviewShippingComponent', () => {
         {
           provide: ChangeDetectorRef,
           useValue: { markForCheck: createSpy('markForCheck') },
+        },
+        {
+          provide: HierarchyComponentService,
+          useClass: MockHierachyService,
+        },
+        { provide: FeatureConfigService,
+          useValue: mockFeatureConfigService,
         },
       ],
     }).compileComponents();
@@ -239,5 +256,12 @@ describe('CheckoutReviewShippingComponent', () => {
     expect(component.deliveryAddressStepRoute).toEqual(
       mockCheckoutStep.routeName
     );
+  });
+
+  it('should set entries$ and bundles$ if isEntryGroupsEnabled feature is enabled', () => {
+    mockFeatureConfigService.isEnabled.and.returnValue(true);
+    component.ngOnInit();
+    expect(component.entries$).toBeDefined();
+    expect(component.bundles$).toBeDefined();
   });
 });

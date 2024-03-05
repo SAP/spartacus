@@ -11,6 +11,7 @@ import {
   CartType,
   MultiCartFacade,
   OrderEntry,
+  OrderEntryGroup,
 } from '@spartacus/cart/base/root';
 import {
   OAUTH_REDIRECT_FLOW_KEY,
@@ -210,6 +211,17 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       distinctUntilChanged()
     );
   }
+
+  /**
+   * Returns cart entry groups
+   */
+  getEntryGroups(): Observable<OrderEntryGroup[]> {
+    return this.activeCartId$.pipe(
+      switchMap((cartId) => this.multiCartFacade.getEntryGroups(cartId)),
+      distinctUntilChanged()
+    );
+  }
+
 
   /**
    * Returns last cart entry for provided product code.
@@ -616,6 +628,94 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         entries.filter((entry) => entry.deliveryPointOfService === undefined)
       )
     );
+  }
+
+  /**
+   * Return cart's pickup entry groups
+   */
+  getPickupEntryGroups(): Observable<OrderEntryGroup[]> {
+    return this.getFilteredEntryGroups(entry => entry.deliveryPointOfService !== undefined);
+  }
+  /**
+   * Return cart's delivery entry groups
+   */
+  getDeliveryEntryGroups(): Observable<OrderEntryGroup[]> {
+    return this.getFilteredEntryGroups(entry => entry.deliveryPointOfService === undefined);
+    }
+
+  /**
+   * Return cart's entry groups based on a filter condition
+   * @param predicate - Function to determine the filtering condition for entries
+   */
+  private getFilteredEntryGroups(predicate: (entry: OrderEntry) => boolean): Observable<OrderEntryGroup[]> {
+    return this.getEntryGroups().pipe(
+      map(entryGroups => {
+        function traverse(groups: OrderEntryGroup[]): OrderEntryGroup[] {
+          let localResult: OrderEntryGroup[] = [];
+
+          for (const group of groups) {
+            const newGroup = { ...group };
+            const hasMatchingEntry = group.entries?.some(predicate);
+
+            if (hasMatchingEntry) {
+              localResult.push(newGroup);
+            }
+
+            if (group.entryGroups && group.entryGroups.length > 0) {
+              const childGroups = traverse(group.entryGroups);
+              if (childGroups.length > 0) {
+                newGroup.entryGroups = childGroups;
+                localResult.push(newGroup);
+              }
+            }
+          }
+          return localResult;
+        }
+        return traverse(entryGroups);
+      })
+    );
+  }
+
+  /**
+   * Remove entry group
+   *
+   * @param entryGroupNumber
+   */
+  removeEntryGroup(entryGroupNumber: number): void {
+    this.activeCartId$
+      .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+      .subscribe(([cartId, userId]) => {
+        this.multiCartFacade.removeEntryGroup(
+          userId,
+          cartId,
+          entryGroupNumber
+        );
+      });
+  }
+
+  /**
+   * Adds a product to a specific entry group in the cart.
+   *
+   * @param entryGroupNumber
+   * @param productCode
+   * @param quantity
+   */
+  addToEntryGroup(
+    entryGroupNumber: number,
+    productCode: string,
+    quantity: number = 1
+  ): void {
+    this.requireLoadedCart()
+    .pipe(withLatestFrom(this.userIdService.getUserId()))
+    .subscribe(([cart, userId]) => {
+      this.multiCartFacade.addToEntryGroup(
+        userId,
+        getCartIdByUserId(cart, userId),
+        entryGroupNumber,
+        productCode,
+        quantity,
+      );
+    });
   }
 
   ngOnDestroy(): void {

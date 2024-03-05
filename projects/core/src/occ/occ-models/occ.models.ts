@@ -1062,6 +1062,8 @@ export namespace Occ {
 
     entries?: OrderEntry[];
 
+    entryGroups?: OrderEntryGroup[];
+
     expirationTime?: Date;
 
     guid?: string;
@@ -1109,6 +1111,19 @@ export namespace Occ {
     user?: Principal;
 
     sapQuote?: SapQuote;
+  }
+ 
+  /**
+   *
+   * An interface representing the entry groups.
+   */
+  export interface OrderEntryGroup {
+    entryGroupNumber?: number;
+    erroneous?: boolean;
+    label?: string;
+    type?: string;
+    entries?: OrderEntry[];
+    entryGroups?: OrderEntryGroup[];
   }
 
   /**
@@ -1516,6 +1531,8 @@ export namespace Occ {
     deliveryStatusDisplay?: string;
 
     entries?: OrderEntry[];
+
+    entryGroups?: OrderEntryGroup[];
 
     guestCustomer?: boolean;
 
