@@ -35,6 +35,33 @@
           </div>
         </div>
       </div>
+      
+      <ng-container *cxFeature="'isEntryGroupsEnabled'">
+        <div class="cx-pickup-items-list">
+          <div *ngIf="getEntriesFromGroups(deliveryPointOfService?.entryGroups ?? []) | async as entries"
+          [ngClass]="entries.length === 0 ? 'emptyList' : 'noneEmptyList'">
+            <ng-template
+              [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+              [cxOutletContext]="{
+                items: entries,
+                readonly: true
+              }"
+            >
+            </ng-template>
+          </div>
+          
+          <ng-container *ngFor="let bundle of deliveryPointOfService.hierachyTrees ">
+            <cx-hierarchy 
+              [tree]="bundle" 
+              [template]="bundlesTemplate"
+              [titleReadonly]="true"
+              [collasibleReadonly]="true">      
+            </cx-hierarchy>
+          </ng-container>
+        </div>
+      </ng-container>
+
+    <ng-container *cxFeature="'!isEntryGroupsEnabled'">
       <div
         [ngClass]="'d-none d-md-flex'"
         class="row cx-delivery-pointof-service-item-header"
@@ -52,6 +79,7 @@
           {{ 'cartItems.total' | cxTranslate }}
         </div>
       </div>
+
       <div
         class="cx-delivery-pointof-service-item"
         *ngFor="let item of deliveryPointOfService.value"
@@ -146,6 +174,17 @@
           </div>
         </div>
       </div>
+    </ng-container>
     </div>
   </ng-container>
 </div>
+
+<ng-template #bundlesTemplate let-items>
+  <ng-template 
+  [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+  [cxOutletContext]="{
+    items: items,
+    hasHeader: false,
+    readonly: true
+    }"/>
+</ng-template>

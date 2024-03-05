@@ -130,11 +130,11 @@
 </ng-container>
 
 <ng-container *ngIf="activeCartFacade.hasPickupItems() | async">
-  <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
-    {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
-  </h2>
-
-  <ng-template
+  <ng-container *cxFeature="'!isEntryGroupsEnabled'">
+    <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
+      {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
+    </h2>
+    <ng-template
     [cxOutlet]="CartOutlets.CART_ITEM_LIST"
     [cxOutletContext]="{
       items: activeCartFacade.getDeliveryEntries() | async,
@@ -142,6 +142,38 @@
     }"
   >
   </ng-template>
+  </ng-container>
+  <!-- CART ITEM AND HIERACHYTREE SECTION -->
+  <ng-container *cxFeature="'isEntryGroupsEnabled'">
+    <h2 class="cx-delivery-mode-header">
+      {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
+    </h2>
+    <ng-container *ngIf="entries$ | async as entries">
+      <ng-container *ngIf="entryGroups$ | async as entryGroups">
+        <div class="cx-delivery-mode-cart-item">
+          <div [ngClass]="entries.length === 0 ? 'emptyList' : 'noneEmptyList'">
+            <ng-template
+              [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+              [cxOutletContext]="{
+                items: entries,
+                readonly: true
+              }"
+            >
+            </ng-template>
+          </div>
+          <ng-container *ngFor="let bundle of bundles$ | async">
+              <cx-hierarchy 
+                [tree]="bundle" 
+                [template]="bundlesTemplate"
+                [activeCartService]="activeCartFacade"
+                [titleReadonly]="true"
+                [collasibleReadonly]="true">      
+            </cx-hierarchy>
+          </ng-container>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-container>
 </ng-container>
 
 <ng-template #loading>
@@ -168,3 +200,13 @@
     </button>
   </div>
 </div>
+
+<ng-template #bundlesTemplate let-items>
+  <ng-template 
+  [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+  [cxOutletContext]="{
+    items: items,
+    hasHeader: false,
+    readonly: true
+    }"/>
+</ng-template>

@@ -1,64 +1,160 @@
 <ng-container *ngIf="entries$ | async as entries">
-  <ng-container *ngIf="entries.length > 0">
-    <h2 class="cx-review-header">
-      {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
-    </h2>
+  <ng-container *cxFeature="'!isEntryGroupsEnabled'">
+    <ng-container *ngIf="entries.length > 0">
+      <h2 class="cx-review-header">
+        {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
+      </h2>
+  
+      <div class="cx-review-summary cx-review-shipping-summary">
+        <!-- DELIVERY ADDRESS SECTION -->
+        <div class="cx-review-summary-card-container">
+          <div
+            *ngIf="deliveryAddress$ | async as deliveryAddress"
+            class="cx-review-summary-card cx-review-card-address"
+          >
+            <cx-card
+              [content]="getDeliveryAddressCard(deliveryAddress) | async"
+            ></cx-card>
+            <div class="cx-review-summary-edit-step">
+              <a
+                [attr.aria-label]="
+                  'checkoutReview.editDeliveryAddressDetails' | cxTranslate
+                "
+                [routerLink]="
+                  {
+                    cxRoute: deliveryAddressStepRoute
+                  } | cxUrl
+                "
+                ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
+              ></a>
+            </div>
+          </div>
+        </div>
+  
+        <!-- DELIVERY MODE SECTION -->
+        <div class="cx-review-summary-card-container">
+          <div class="cx-review-summary-card cx-review-card-address">
+            <cx-card
+              *ngIf="deliveryMode$ | async as deliveryMode"
+              [content]="getDeliveryModeCard(deliveryMode) | async"
+            ></cx-card>
+            <div class="cx-review-summary-edit-step">
+              <a
+                [attr.aria-label]="
+                  'checkoutReview.editDeliveryMode' | cxTranslate
+                "
+                [routerLink]="{ cxRoute: deliveryModeStepRoute } | cxUrl"
+              >
+                <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
+              </a>
+            </div>
+          </div>
+        </div>
 
-    <div class="cx-review-summary cx-review-shipping-summary">
-      <!-- DELIVERY ADDRESS SECTION -->
-      <div class="cx-review-summary-card-container">
-        <div
-          *ngIf="deliveryAddress$ | async as deliveryAddress"
-          class="cx-review-summary-card cx-review-card-address"
-        >
-          <cx-card
-            [content]="getDeliveryAddressCard(deliveryAddress) | async"
-          ></cx-card>
-          <div class="cx-review-summary-edit-step">
-            <a
-              [attr.title]="
-                'checkoutReview.editDeliveryAddressDetails' | cxTranslate
-              "
-              [routerLink]="
-                {
-                  cxRoute: deliveryAddressStepRoute
-                } | cxUrl
-              "
-              ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
-            ></a>
+        <!-- CART ITEM SECTION -->
+        <div class="cx-review-cart-item">
+          <ng-template
+            [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+            [cxOutletContext]="{
+              items: entries,
+              readonly: true
+            }"
+          >
+          </ng-template>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *cxFeature="'isEntryGroupsEnabled'">
+    <ng-container *ngIf="entryGroups$ | async as entryGroups">
+      <ng-container *ngIf="entries.length > 0 || entryGroups.length > 0 "> 
+      <h2 class="cx-review-header">
+        {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
+      </h2>
+  
+      <div class="cx-review-summary cx-review-shipping-summary">
+        <!-- DELIVERY ADDRESS SECTION -->
+        <div class="cx-review-summary-card-container">
+          <div
+            *ngIf="deliveryAddress$ | async as deliveryAddress"
+            class="cx-review-summary-card cx-review-card-address"
+          >
+            <cx-card
+              [content]="getDeliveryAddressCard(deliveryAddress) | async"
+            ></cx-card>
+            <div class="cx-review-summary-edit-step">
+              <a
+                [attr.aria-label]="
+                  'checkoutReview.editDeliveryAddressDetails' | cxTranslate
+                "
+                [routerLink]="
+                  {
+                    cxRoute: deliveryAddressStepRoute
+                  } | cxUrl
+                "
+                ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
+              ></a>
+            </div>
+          </div>
+        </div>
+  
+        <!-- DELIVERY MODE SECTION -->
+        <div class="cx-review-summary-card-container">
+          <div class="cx-review-summary-card cx-review-card-address">
+            <cx-card
+              *ngIf="deliveryMode$ | async as deliveryMode"
+              [content]="getDeliveryModeCard(deliveryMode) | async"
+            ></cx-card>
+            <div class="cx-review-summary-edit-step">
+              <a
+                [attr.aria-label]="
+                  'checkoutReview.editDeliveryMode' | cxTranslate
+                "
+                [routerLink]="{ cxRoute: deliveryModeStepRoute } | cxUrl"
+              >
+                <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-
-      <!-- DELIVERY MODE SECTION -->
-      <div class="cx-review-summary-card-container">
-        <div class="cx-review-summary-card cx-review-card-address">
-          <cx-card
-            *ngIf="deliveryMode$ | async as deliveryMode"
-            [content]="getDeliveryModeCard(deliveryMode) | async"
-          ></cx-card>
-          <div class="cx-review-summary-edit-step">
-            <a
-              [attr.title]="'checkoutReview.editDeliveryMode' | cxTranslate"
-              [routerLink]="{ cxRoute: deliveryModeStepRoute } | cxUrl"
+  
+      <!-- CART ITEM SECTION -->
+        <div class="cx-review-cart-item">
+          <div [ngClass]="entries.length === 0 ? 'emptyList' : 'noneEmptyList'">
+            <ng-template
+              [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+              [cxOutletContext]="{
+                items: entries,
+                readonly: true
+              }"
             >
-              <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
-            </a>
+            </ng-template>
           </div>
+          <ng-container *cxFeature="'isEntryGroupsEnabled'">
+            <ng-container *ngFor="let bundle of bundles$ | async">
+                <cx-hierarchy 
+                  [tree]="bundle" 
+                  [template]="bundlesTemplate"
+                  [activeCartService]="activeCartFacade"
+                  [titleReadonly]="true"
+                  [collasibleReadonly]="true">      
+              </cx-hierarchy>
+            </ng-container>
+          </ng-container>
         </div>
-      </div>
-    </div>
-
-    <!-- CART ITEM SECTION -->
-    <div class="cx-review-cart-item">
-      <ng-template
-        [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-        [cxOutletContext]="{
-          items: entries,
-          readonly: true
-        }"
-      >
-      </ng-template>
-    </div>
+      </ng-container>
+    </ng-container>
   </ng-container>
 </ng-container>
+
+<ng-template #bundlesTemplate let-items>
+  <ng-template 
+  [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+  [cxOutletContext]="{
+    items: items,
+    hasHeader: false,
+    readonly: true
+    }"/>
+</ng-template>

@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry, OrderEntryGroup } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import {
@@ -13,6 +13,7 @@ import {
   getProperty,
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
+import { CollapsibleNode, HierarchyComponentService, HierarchyNode } from '@spartacus/storefront';
 import { combineLatest, iif, Observable, of } from 'rxjs';
 import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
@@ -26,7 +27,8 @@ export class DeliveryPointsService {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected pickupLocationsSearchFacade: PickupLocationsSearchFacade,
-    protected orderFacade: OrderFacade
+    protected orderFacade: OrderFacade,
+    protected hierarchyService: HierarchyComponentService
   ) {}
 
   /*
@@ -51,6 +53,72 @@ export class DeliveryPointsService {
     return this.activeCartFacade.getPickupEntries().pipe(
       filter((entries) => !!entries && !!entries.length),
       switchMap((entries) => this.getDeliveryPointsOfService(entries))
+    );
+  }
+
+  getDeliveryPointsOfServiceFromCartWithEntryGroups(): Observable<Array<DeliveryPointOfService>> {
+    return combineLatest([
+      this.activeCartFacade.getPickupEntries(),
+      this.activeCartFacade.getPickupEntryGroups(),
+    ]).pipe(
+      filter(([entries, entryGroups]) => !!entries?.length && !!entryGroups?.length),
+      switchMap(([entries, entryGroups]) =>
+        this.getDeliveryPointsOfService(entries).pipe(
+          map((deliveryPoints) =>
+            deliveryPoints.map((deliveryPoint) => {
+              // Define a function to find matching entry groups while preserving the original structure
+              const findMatchingEntryGroups = (group: OrderEntryGroup): OrderEntryGroup | null => {
+                // Check if current group matches
+                const matches = group.entries?.some(entry =>
+                  deliveryPoint.value.some(dEntry => dEntry.entryNumber === entry.entryNumber)
+                );
+
+                if (matches) {
+                  // Create a copy of the group with its entryGroups
+                  return {
+                    ...group,
+                    entryGroups: group.entryGroups?.map(findMatchingEntryGroups).filter(Boolean) as OrderEntryGroup[]
+                  };
+                }
+
+                // Recursively check children if not a match
+                if (group.entryGroups?.length) {
+                  const filteredGroups = group.entryGroups
+                    .map(findMatchingEntryGroups)
+                    .filter(Boolean) as OrderEntryGroup[];
+                  if (filteredGroups.length > 0) {
+                    return { ...group, entryGroups: filteredGroups };
+                  }
+                }
+
+                return null;
+              };
+
+              // Apply the recursive function to filter and map entryGroups
+              const relatedEntryGroups = entryGroups.map(findMatchingEntryGroups).filter(Boolean) as OrderEntryGroup[];
+
+              // Convert entryGroups to HierarchyNode
+              const bundles: HierarchyNode[] = [];
+              relatedEntryGroups.forEach(entryGroup => {
+                if (entryGroup.type === 'CONFIGURABLEBUNDLE') {
+                  const root = new CollapsibleNode('ROOT', {
+                    children: [],
+                  });
+                  this.hierarchyService.buildHierarchyTree([entryGroup], root);
+                  bundles.push(root);
+                }
+              });
+
+              // Return the delivery point with matched entry groups
+              return {
+                ...deliveryPoint,
+                entryGroups: relatedEntryGroups,
+                hierachyTrees: bundles,  // Add the bundles property here
+              };
+            })
+          )
+        )
+      )
     );
   }
 

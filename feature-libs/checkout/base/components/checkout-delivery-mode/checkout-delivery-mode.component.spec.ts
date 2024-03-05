@@ -23,7 +23,7 @@ import {
   I18nTestingModule,
   QueryState,
 } from '@spartacus/core';
-import { OutletModule } from '@spartacus/storefront';
+import { HierarchyComponentService, OutletModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -109,6 +109,7 @@ class MockCartService implements Partial<ActiveCartFacade> {
   hasPickupItems = () => hasPickupItems$.asObservable();
   getPickupEntries = createSpy().and.returnValue(of([]));
   getActive = () => cart$.asObservable();
+  getDeliveryEntryGroups = createSpy().and.returnValue(of([{}]));
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -119,6 +120,11 @@ class MockFeatureConfigService implements Partial<FeatureConfigService> {
   isEnabled(_feature: string): boolean {
     return true;
   }
+}
+
+class MockHierachyService implements Partial<HierarchyComponentService>{
+  getEntriesFromGroups = createSpy().and.returnValue(of([{}]));
+  getBundlesFromGroups = createSpy().and.returnValue(of([]));
 }
 
 describe('CheckoutDeliveryModeComponent', () => {
@@ -152,6 +158,10 @@ describe('CheckoutDeliveryModeComponent', () => {
         { provide: ActiveCartFacade, useClass: MockCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        {
+          provide: HierarchyComponentService,
+          useClass: MockHierachyService,
+        },
       ],
     }).compileComponents();
 
@@ -293,6 +303,13 @@ describe('CheckoutDeliveryModeComponent', () => {
       deliveryModeId: lastFocusedId,
     });
   }));
+
+  it('should set entries$ and bundles$ if isEntryGroupsEnabled feature is enabled', () => {
+    component.ngOnInit();
+    expect(component.entryGroups$).toBeDefined();
+    expect(component.entries$).toBeDefined();
+    expect(component.bundles$).toBeDefined();
+  });
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>

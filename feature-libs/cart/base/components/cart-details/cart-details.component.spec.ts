@@ -7,15 +7,18 @@ import {
   ActiveCartFacade,
   Cart,
   OrderEntry,
+  OrderEntryGroup,
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import {
   AuthService,
+  FeatureConfigService,
+  FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
-import { PromotionsModule } from '@spartacus/storefront';
+import { HierarchyComponentService, HierarchyNode, PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CartDetailsComponent } from './cart-details.component';
 
@@ -29,8 +32,20 @@ class MockActiveCartService {
   getEntries(): Observable<OrderEntry[]> {
     return of([{}]);
   }
+  getEntryGroups(): Observable<OrderEntryGroup[]> {
+    return of([{}]);
+  }
   isStable(): Observable<boolean> {
     return of(true);
+  }
+}
+
+class MockHierachyService {
+  getEntriesFromGroups(): Observable<OrderEntry[]> {
+    return of([{}]);
+  }
+  getBundlesFromGroups(): Observable<HierarchyNode[]> {
+    return of([]);
   }
 }
 
@@ -94,9 +109,11 @@ describe('CartDetailsComponent', () => {
 
   const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
 
+  const mockFeatureConfigService = jasmine.createSpyObj('FeatureConfigService', ['isEnabled']);
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
+      imports: [RouterTestingModule, PromotionsModule, I18nTestingModule, FeaturesConfigModule],
       declarations: [
         CartDetailsComponent,
         MockCartItemListComponent,
@@ -114,6 +131,13 @@ describe('CartDetailsComponent', () => {
         {
           provide: CartConfigService,
           useValue: mockCartConfig,
+        },
+        {
+          provide: HierarchyComponentService,
+          useClass: MockHierachyService,
+        },
+        { provide: FeatureConfigService,
+          useValue: mockFeatureConfigService,
         },
       ],
     }).compileComponents();
@@ -184,5 +208,13 @@ describe('CartDetailsComponent', () => {
     const el = fixture.debugElement.query(By.css('.cx-total'));
     const cartName = el.nativeElement.innerText;
     expect(cartName).toEqual('cartDetails.cartName code:123');
+  });
+
+  it('should set entries$ and bundles$ if isEntryGroupsEnabled feature is enabled', () => {
+    mockFeatureConfigService.isEnabled.and.returnValue(true);
+    fixture.detectChanges();
+    expect(component.entryGroups$).toBeDefined();
+    expect(component.entries$).toBeDefined();
+    expect(component.bundles$).toBeDefined();
   });
 });

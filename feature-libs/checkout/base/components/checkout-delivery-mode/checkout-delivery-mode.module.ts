@@ -14,6 +14,7 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import {
+  HierarchyModule,
   OutletModule,
   PageComponentModule,
   SpinnerModule,
@@ -31,6 +32,7 @@ import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.componen
     OutletModule,
     PageComponentModule,
     FeaturesConfigModule,
+    HierarchyModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

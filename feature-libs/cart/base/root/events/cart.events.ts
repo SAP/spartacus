@@ -5,7 +5,7 @@
  */
 
 import { CxEvent } from '@spartacus/core';
-import { OrderEntry } from '../models/cart.model';
+import { OrderEntry, OrderEntryGroup } from '../models/cart.model';
 
 /**
  * Base cart event. Most cart events should have these properties.
@@ -236,4 +236,20 @@ export class RemoveCartVoucherFailEvent extends RemoveCartVoucherEvent {
    */
   static readonly type = 'RemoveCartVoucherFailEvent';
   error: unknown;
+}
+
+export class CartRemoveEntryGroupFailEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CartRemoveEntryGroupFailEvent';
+  entryGroup: OrderEntryGroup;
+}
+
+export class CartRemoveEntryGroupSuccessEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CartRemoveEntryGroupSuccessEvent';
+  entryGroup: OrderEntryGroup;
 }
