@@ -7,9 +7,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   HostBinding,
   ViewChild,
-  ElementRef,
   inject,
 } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
@@ -17,16 +17,15 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import {} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
-  map,
+  delay,
+  distinctUntilKeyChanged,
   filter,
+  map,
   switchMap,
   take,
   tap,
-  delay,
-  distinctUntilKeyChanged,
 } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -35,7 +34,8 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-tab-bar',
   templateUrl: './configurator-tab-bar.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ConfiguratorTabBarComponent {
   @HostBinding('class.ghost') ghostStyle = true;
@@ -60,12 +60,40 @@ export class ConfiguratorTabBarComponent {
       )
     );
 
+  /**
+   * @deprecated Use getPageType$ and isOverviewPage(ConfiguratorRouter.PageType)
+   * instead
+   */
   isOverviewPage$: Observable<boolean> = this.routerData$.pipe(
     map(
       (routerData) =>
         routerData.pageType === ConfiguratorRouter.PageType.OVERVIEW
     )
   );
+  /**
+   * Retrieves current page type.
+   *
+   * @returns - page type
+   */
+  pageType$: Observable<ConfiguratorRouter.PageType> = this.routerData$.pipe(
+    map((routerData) => this.determinePageFromRouterData(routerData))
+  );
+
+  protected determinePageFromRouterData(
+    routerData: ConfiguratorRouter.Data
+  ): ConfiguratorRouter.PageType {
+    return routerData.pageType ?? ConfiguratorRouter.PageType.CONFIGURATION;
+  }
+
+  /**
+   * Checks whether the current page is the overview page.
+   *
+   * @param pageType - Page type
+   * @returns Page is overview page?
+   */
+  isOverviewPage(pageType: ConfiguratorRouter.PageType): boolean {
+    return pageType === ConfiguratorRouter.PageType.OVERVIEW;
+  }
 
   /**
    * Navigates to the overview page and sets the focus on the overview element in the tab-bar.
@@ -156,7 +184,10 @@ export class ConfiguratorTabBarComponent {
   }
 
   /**
+   * @deprecated Use getTabIndexForConfigTab instead.
+   *
    * Returns the tabindex for the configuration tab.
+   *
    * The configuration tab is excluded from the tab chain if currently the overview page is displayed.
    * @returns tabindex of the configuration tab
    */
@@ -171,6 +202,20 @@ export class ConfiguratorTabBarComponent {
   }
 
   /**
+   * Returns the tabindex for the configuration tab.
+   *
+   * The configuration tab is excluded from the tab chain if currently the overview page is displayed.
+   * @param pageType - Page type
+   * @returns tabindex of the configuration tab
+   */
+  getTabIndexForConfigTab(pageType: ConfiguratorRouter.PageType): number {
+    return this.isOverviewPage(pageType) ? -1 : 0;
+  }
+
+  /**
+   * @deprecated Use getTabIndexForOverviewTab instead.
+   *
+   *
    * Returns the tabindex for the overview tab.
    * The overview tab is excluded from the tab chain if currently the configuration page is displayed.
    * @returns tabindex of the overview tab
@@ -183,6 +228,15 @@ export class ConfiguratorTabBarComponent {
       }
     });
     return tabIndex;
+  }
+  /**
+   * Returns the tabindex for the overview tab.
+   * The overview tab is excluded from the tab chain if currently the configuration page is displayed.
+   * @param pageType
+   * @returns tabindex of the overview tab
+   */
+  getTabIndexForOverviewTab(pageType: ConfiguratorRouter.PageType): number {
+    return this.isOverviewPage(pageType) ? 0 : -1;
   }
 
   /**

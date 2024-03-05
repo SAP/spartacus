@@ -26,10 +26,10 @@ import {
 import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { ConfiguratorStorefrontUtilsService } from '../service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorStorefrontUtilsService } from '../service';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -205,6 +205,24 @@ describe('ConfigTabBarComponent', () => {
       .unsubscribe();
   });
 
+  it('should return proper page type from route', () => {
+    mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
+    component.pageType$
+      .subscribe((pageType) =>
+        expect(pageType).toBe(ConfiguratorRouter.PageType.OVERVIEW)
+      )
+      .unsubscribe();
+  });
+
+  it('should return configuration page in case router does not specify page', () => {
+    mockRouterState.state.semanticRoute = undefined;
+    component.pageType$
+      .subscribe((pageType) =>
+        expect(pageType).toBe(ConfiguratorRouter.PageType.CONFIGURATION)
+      )
+      .unsubscribe();
+  });
+
   describe('Accessibility', () => {
     describe('Configuration tag', () => {
       it("should contain an element with 'aria-label' attribute that defines an accessible name to label the current element I", () => {
@@ -373,6 +391,24 @@ describe('ConfigTabBarComponent', () => {
     });
   });
 
+  describe('getTabIndexForOverviewTab', () => {
+    it('should return tabindex 0 if on overview page', () => {
+      expect(
+        component.getTabIndexForOverviewTab(
+          ConfiguratorRouter.PageType.OVERVIEW
+        )
+      ).toBe(0);
+    });
+
+    it('should return tabindex -1 if on configuration page', () => {
+      expect(
+        component.getTabIndexForOverviewTab(
+          ConfiguratorRouter.PageType.CONFIGURATION
+        )
+      ).toBe(-1);
+    });
+  });
+
   describe('getTabIndexConfigTab', () => {
     it('should return tabindex -1 if on overview page', () => {
       mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
@@ -382,6 +418,33 @@ describe('ConfigTabBarComponent', () => {
     it('should return tabindex 0 if on configuration page', () => {
       mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
       expect(component.getTabIndexConfigTab()).toBe(0);
+    });
+  });
+
+  describe('getTabIndeForConfigTab', () => {
+    it('should return tabindex -1 if on overview page', () => {
+      expect(
+        component.getTabIndexForConfigTab(ConfiguratorRouter.PageType.OVERVIEW)
+      ).toBe(-1);
+    });
+
+    it('should return tabindex 0 if on configuration page', () => {
+      expect(
+        component.getTabIndexForConfigTab(
+          ConfiguratorRouter.PageType.CONFIGURATION
+        )
+      ).toBe(0);
+    });
+  });
+
+  describe('determinePageFromRouterData', () => {
+    it('should return configuration page in case router data does not specify a page', () => {
+      const routerData: ConfiguratorRouter.Data = {
+        owner: configWithOverview.owner,
+      };
+      expect(component['determinePageFromRouterData'](routerData)).toBe(
+        ConfiguratorRouter.PageType.CONFIGURATION
+      );
     });
   });
 
