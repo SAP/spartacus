@@ -17,7 +17,6 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import {} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   delay,
@@ -72,7 +71,8 @@ export class ConfiguratorTabBarComponent {
     )
   );
   /**
-   * Retrieves current page type
+   * Retrieves current page type.
+   *
    * @returns - page type
    */
   pageType$: Observable<ConfiguratorRouter.PageType> = this.routerData$.pipe(
@@ -87,6 +87,7 @@ export class ConfiguratorTabBarComponent {
 
   /**
    * Checks whether the current page is the overview page.
+   *
    * @param pageType - Page type
    * @returns Page is overview page?
    */
@@ -186,6 +187,7 @@ export class ConfiguratorTabBarComponent {
    * @deprecated Use getTabIndexForConfigTab instead.
    *
    * Returns the tabindex for the configuration tab.
+   *
    * The configuration tab is excluded from the tab chain if currently the overview page is displayed.
    * @returns tabindex of the configuration tab
    */
@@ -201,6 +203,7 @@ export class ConfiguratorTabBarComponent {
 
   /**
    * Returns the tabindex for the configuration tab.
+   *
    * The configuration tab is excluded from the tab chain if currently the overview page is displayed.
    * @param pageType - Page type
    * @returns tabindex of the configuration tab
