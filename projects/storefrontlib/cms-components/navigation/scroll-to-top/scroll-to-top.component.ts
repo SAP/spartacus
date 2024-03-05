@@ -34,7 +34,7 @@ enum ClickEventSource {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScrollToTopComponent implements OnInit {
-  iconTypes = ICON_TYPE;
+  readonly iconTypes = ICON_TYPE;
 
   @HostBinding('class.display')
   display: boolean | undefined;
@@ -43,7 +43,6 @@ export class ScrollToTopComponent implements OnInit {
   protected scrollBehavior: ScrollBehavior = ScrollBehavior.SMOOTH;
   protected displayThreshold: number = (this.window?.innerHeight ?? 400) / 2;
   protected clickEventSource: ClickEventSource | undefined;
-  protected wasClicked = false;
 
   @ViewChild('button')
   button: ElementRef;
@@ -73,7 +72,6 @@ export class ScrollToTopComponent implements OnInit {
     });
 
     this.clickEventSource = event.detail;
-    this.wasClicked = true;
   }
 
   focusOut(): void {
@@ -86,7 +84,7 @@ export class ScrollToTopComponent implements OnInit {
   handleKeyboardEvent(event: KeyboardEvent): void {
     if (
       document.activeElement === this.button.nativeElement &&
-      this.wasClicked &&
+      this.clickEventSource !== undefined &&
       event.key === 'Tab' &&
       !event.shiftKey
     ) {
@@ -113,7 +111,11 @@ export class ScrollToTopComponent implements OnInit {
         this.button.nativeElement === document.activeElement);
 
     if (!this.display) {
-      this.wasClicked = false;
+      this.resetClickEventSource();
     }
+  }
+
+  private resetClickEventSource(): void {
+    this.clickEventSource = undefined;
   }
 }
