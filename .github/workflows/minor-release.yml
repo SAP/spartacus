@@ -88,14 +88,16 @@ jobs:
         run: |
           npm run test:all-schematics
 
+      - name: Push Changes
+        run: |
+          git add .
+          git commit -m "Release ${{ env.version }}"
+          git push origin "${{ env.RELEASE_BRANCH }}"
+
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          branch: "${{ env.RELEASE_BRANCH }}"
-          commit-message: |
-            "Release ${{ env.version }}"
-          delete-branch: true 
-          title: "Release ${{ env.version }}"
-          body: "Automated pull request to merge the release branch into develop."
-          base: "develop"
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh auth setup-git
+          gh pr create --title "Release ${{ env.version }}" --body "Automated pull request to merge the release branch into develop." --base develop --head ${{ env.RELEASE_BRANCH }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
