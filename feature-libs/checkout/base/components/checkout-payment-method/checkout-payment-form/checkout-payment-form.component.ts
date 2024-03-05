@@ -17,7 +17,6 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -25,9 +24,11 @@ import {
 import {
   Address,
   AddressValidation,
+  CardType,
   Country,
   GlobalMessageService,
   GlobalMessageType,
+  PaymentDetails,
   Region,
   TranslationService,
   UserAddressService,

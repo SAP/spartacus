@@ -26,7 +26,7 @@ import {
   defaultErrorDialogOptions,
 } from '@spartacus/opf/base/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import { finalize, take } from 'rxjs/operators';
 
 @Injectable()
@@ -204,23 +204,24 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
           MerchantCallback
         ] = [submitSuccess, submitPending, submitFailure];
 
-        return this.opfPaymentFacade
-          .submitPayment({
-            additionalData,
-            paymentSessionId,
-            cartId,
-            callbackArray,
-            paymentMethod,
-            returnPath: undefined,
-          })
-          .pipe(
-            finalize(() => {
-              if (overlayedSpinner) {
-                this.stopLoaderSpinner(overlayedSpinner);
-              }
+        return lastValueFrom(
+          this.opfPaymentFacade
+            .submitPayment({
+              additionalData,
+              paymentSessionId,
+              cartId,
+              callbackArray,
+              paymentMethod,
+              returnPath: undefined,
             })
-          )
-          .toPromise();
+            .pipe(
+              finalize(() => {
+                if (overlayedSpinner) {
+                  this.stopLoaderSpinner(overlayedSpinner);
+                }
+              })
+            )
+        );
       });
     };
   }
@@ -239,22 +240,23 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         overlayedSpinner = this.startLoaderSpinner(vcr);
       }
 
-      return this.opfPaymentFacade
-        .submitCompletePayment({
-          additionalData,
-          paymentSessionId,
-          cartId,
-          callbackArray,
-          returnPath,
-        })
-        .pipe(
-          finalize(() => {
-            if (overlayedSpinner) {
-              this.stopLoaderSpinner(overlayedSpinner);
-            }
+      return lastValueFrom(
+        this.opfPaymentFacade
+          .submitCompletePayment({
+            additionalData,
+            paymentSessionId,
+            cartId,
+            callbackArray,
+            returnPath,
           })
-        )
-        .toPromise();
+          .pipe(
+            finalize(() => {
+              if (overlayedSpinner) {
+                this.stopLoaderSpinner(overlayedSpinner);
+              }
+            })
+          )
+      );
     });
   }
 

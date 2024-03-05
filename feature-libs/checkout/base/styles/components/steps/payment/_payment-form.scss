@@ -37,9 +37,7 @@
     margin: 0;
   }
 
-  @include forVersion(6.3) {
-    .label-content {
-      white-space: nowrap;
-    }
+  .label-content {
+    white-space: nowrap;
   }
 }

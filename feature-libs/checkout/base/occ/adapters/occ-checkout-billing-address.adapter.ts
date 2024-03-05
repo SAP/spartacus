@@ -5,13 +5,14 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { CheckoutBillingAddressAdapter } from '@spartacus/checkout/base/core';
 import {
   Address,
   backOff,
   ConverterService,
   isJaloError,
+  LoggerService,
   normalizeHttpError,
   OccEndpointsService,
 } from '@spartacus/core';
@@ -22,6 +23,8 @@ import { catchError } from 'rxjs/operators';
 export class OccCheckoutBillingAddressAdapter
   implements CheckoutBillingAddressAdapter
 {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -36,7 +39,9 @@ export class OccCheckoutBillingAddressAdapter
     return this.http
       .put<unknown>(this.getSetBillingAddressEndpoint(userId, cartId), address)
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         backOff({
           shouldRetry: isJaloError,
         })

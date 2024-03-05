@@ -28,14 +28,12 @@ export class ParagraphComponent {
     if (event.target instanceof HTMLAnchorElement) {
       const element = event.target as HTMLAnchorElement;
       const href = element?.getAttribute('href');
-
-      const documentHost =
-        element.ownerDocument.URL.split('://')[1].split('/')[0];
+      const documentUrlObject = new URL(element.ownerDocument.URL);
 
       // Use router for internal link navigation
-      if (href && documentHost === element.host) {
+      if (href && documentUrlObject.host === element.host) {
         event.preventDefault();
-        this.router.navigateByUrl(href);
+        this.router.navigateByUrl(href.replace(documentUrlObject.origin, ''));
       }
     }
   }

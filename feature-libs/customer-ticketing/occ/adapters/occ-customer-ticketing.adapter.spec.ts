@@ -3,18 +3,26 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
 import {
-  TicketDetails,
-  TicketEvent,
-  TicketList,
-  TicketStarter,
-} from '@spartacus/customer-ticketing/root';
+  ConverterService,
+  HttpErrorModel,
+  OccConfig,
+  OccEndpoints,
+} from '@spartacus/core';
 import {
   CUSTOMER_TICKETING_CREATE_NORMALIZER,
   CUSTOMER_TICKETING_EVENT_NORMALIZER,
   CUSTOMER_TICKETING_FILE_NORMALIZER,
 } from '@spartacus/customer-ticketing/core';
+import {
+  AssociatedObjectsList,
+  CategoriesList,
+  Category,
+  TicketDetails,
+  TicketEvent,
+  TicketList,
+  TicketStarter,
+} from '@spartacus/customer-ticketing/root';
 import { take } from 'rxjs/operators';
 import { OccCustomerTicketingAdapter } from './occ-customer-ticketing.adapter';
 
@@ -363,6 +371,85 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(converter.pipeable).toHaveBeenCalledWith(
         CUSTOMER_TICKETING_CREATE_NORMALIZER
       );
+    });
+  });
+
+  describe('getTicketAssociatedObjects', () => {
+    it('should send a request to the occ API', () => {
+      const response: AssociatedObjectsList = {
+        ticketAssociatedObjects: [
+          { code: 'mock-code', type: 'mock-type', modifiedAt: '' },
+        ],
+      };
+
+      service.getTicketAssociatedObjects(mockCustomerId).subscribe((actual) => {
+        expect(actual).toEqual(response.ticketAssociatedObjects);
+      });
+
+      httpMock
+        .expectOne({
+          method: 'GET',
+          url: `users/${mockCustomerId}/ticketAssociatedObjects`,
+        })
+        .flush(response);
+    });
+
+    it('should handle an error from the occ API', () => {
+      const errorStatus = 500;
+      const errorText = 'INTERNAL SERVER ERROR';
+
+      service.getTicketAssociatedObjects(mockCustomerId).subscribe({
+        error: (errObject) => {
+          expect(errObject instanceof HttpErrorModel).toBe(true);
+          expect((errObject as HttpErrorModel).status).toBe(errorStatus);
+          expect((errObject as HttpErrorModel).statusText).toEqual(errorText);
+        },
+      });
+
+      httpMock
+        .expectOne({
+          method: 'GET',
+          url: `users/${mockCustomerId}/ticketAssociatedObjects`,
+        })
+        .flush({}, { status: errorStatus, statusText: errorText });
+    });
+  });
+  describe('getTicketCategories', () => {
+    it('should send a request to the occ API', () => {
+      const response: CategoriesList = {
+        ticketCategories: [{ id: 'mock-id', name: 'mock-name' }],
+      };
+
+      service.getTicketCategories().subscribe((actual) => {
+        expect(actual).toEqual(response.ticketCategories as Category[]);
+      });
+
+      httpMock
+        .expectOne({
+          method: 'GET',
+          url: `/ticketCategories`,
+        })
+        .flush(response);
+    });
+
+    it('should handle an error from the occ API', () => {
+      const errorStatus = 500;
+      const errorText = 'INTERNAL SERVER ERROR';
+
+      service.getTicketCategories().subscribe({
+        error: (errObject) => {
+          expect(errObject instanceof HttpErrorModel).toBe(true);
+          expect((errObject as HttpErrorModel).status).toBe(errorStatus);
+          expect((errObject as HttpErrorModel).statusText).toEqual(errorText);
+        },
+      });
+
+      httpMock
+        .expectOne({
+          method: 'GET',
+          url: `/ticketCategories`,
+        })
+        .flush({}, { status: errorStatus, statusText: errorText });
     });
   });
 });

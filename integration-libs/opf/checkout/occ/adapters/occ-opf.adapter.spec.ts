@@ -13,16 +13,17 @@ import {
   BaseOccUrlProperties,
   ConverterService,
   DynamicAttributes,
+  LoggerService,
   normalizeHttpError,
 } from '@spartacus/core';
 import { OPF_CC_OTP_KEY } from '@spartacus/opf/base/root';
 import {
-  OpfEndpointsService,
   OPF_PAYMENT_CONFIG_SERIALIZER,
+  OpfEndpointsService,
 } from '@spartacus/opf/checkout/core';
 import {
-  OpfConfig,
   OPF_CC_PUBLIC_KEY,
+  OpfConfig,
   PaymentInitiationConfig,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
@@ -46,8 +47,6 @@ const mockPaymentConfig: PaymentInitiationConfig = {
 };
 
 const mockError = new HttpErrorResponse({ error: 'error' });
-
-const normalizedError = normalizeHttpError(mockError);
 
 export class MockOpfEndpointsService implements Partial<OpfEndpointsService> {
   buildUrl(
@@ -80,6 +79,7 @@ describe('OccOpfAdapter', () => {
   let http: HttpClient;
   let converter: ConverterService;
   let opfEndpointsService: OpfEndpointsService;
+  let logger: LoggerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -102,6 +102,7 @@ describe('OccOpfAdapter', () => {
     http = TestBed.inject(HttpClient);
     converter = TestBed.inject(ConverterService);
     opfEndpointsService = TestBed.inject(OpfEndpointsService);
+    logger = TestBed.inject(LoggerService);
     spyOn(converter, 'convert').and.callThrough();
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(opfEndpointsService, 'buildUrl').and.callThrough();
@@ -215,6 +216,7 @@ describe('OccOpfAdapter', () => {
     });
 
     it('should handle errors', (done) => {
+      const normalizedError = normalizeHttpError(mockError, logger);
       spyOn(http, 'post').and.returnValue(throwError(mockError));
       occOpfAdapter.initiatePayment(mockPaymentConfig).subscribe({
         error: (error) => {

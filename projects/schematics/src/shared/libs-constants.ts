@@ -186,6 +186,10 @@ export const SPARTACUS_USER_PROFILE_ROOT = `@spartacus/user/profile/root`;
 
 export const SPARTACUS_CDS = `@spartacus/cds`;
 
+export const SPARTACUS_CDP = `@spartacus/cdp`;
+export const SPARTACUS_CDP_CUSTOMER_TICKETING =
+  '@spartacus/cdp/customer-ticketing';
+
 export const SPARTACUS_CDC = `@spartacus/cdc`;
 export const SPARTACUS_CDC_ROOT = `@spartacus/cdc/root`;
 export const SPARTACUS_CDC_ASSETS = `@spartacus/cdc/assets`;
@@ -200,6 +204,14 @@ export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/as
 export const SPARTACUS_EPD_VISUALIZATION = `@spartacus/epd-visualization`;
 export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/root`;
 export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
+
+export const SPARTACUS_QUOTE = '@spartacus/quote';
+export const SPARTACUS_QUOTE_CART_GUARD =
+  '@spartacus/quote/components/cart-guard';
+export const SPARTACUS_QUOTE_REQUEST =
+  '@spartacus/quote/components/request-button';
+export const SPARTACUS_QUOTE_ROOT = `@spartacus/quote/root`;
+export const SPARTACUS_QUOTE_ASSETS = `@spartacus/quote/assets`;
 
 export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
@@ -290,7 +302,11 @@ export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
 export const CDC_FEATURE_NAME = 'CDC';
 export const CDC_B2B_FEATURE_NAME = 'CDC-B2B';
 
+export const CDP_FEATURE_NAME = 'CDP';
+
 export const CDS_FEATURE_NAME = 'CDS';
+
+export const QUOTE_FEATURE_NAME = 'Quote';
 
 export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 

@@ -256,7 +256,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
   });
 
   describe('Focused elements', () => {
-    describe('focusFirstAttribute', () => {
+    describe('focusFirstActiveElement', () => {
       it('should delegate to keyboard focus service', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
         const focusedElements = createFocusedElements('ATTR', 2, 3);
@@ -266,7 +266,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
           focusedElements
         );
-        classUnderTest.focusFirstAttribute();
+        classUnderTest.focusFirstActiveElement('elementSelector');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
       });
 
@@ -276,14 +276,14 @@ describe('ConfiguratorStorefrontUtilsService', () => {
           .createSpy('HTML Element')
           .and.returnValue(undefined);
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
-        classUnderTest.focusFirstAttribute();
+        classUnderTest.focusFirstActiveElement('elementSelector');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
       });
 
       it('should not delegate to keyboard focus service because there are no focused elements in form', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(false);
         spyOn(keyboardFocusService, 'findFocusable').and.callThrough();
-        classUnderTest.focusFirstAttribute();
+        classUnderTest.focusFirstActiveElement('elementSelector');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
       });
 
@@ -294,7 +294,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
           .createSpy('HTML Element')
           .and.returnValue(focusedElements);
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
-        classUnderTest.focusFirstAttribute();
+        classUnderTest.focusFirstActiveElement('elementSelector');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
       });
     });

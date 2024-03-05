@@ -10,13 +10,14 @@ import {
   B2BUser,
   EntitiesModel,
   ListModel,
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
   SearchConfig,
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
-  OrganizationActions,
   OrgUnitConnector,
+  OrganizationActions,
 } from '@spartacus/organization/administration/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
@@ -34,7 +35,7 @@ const httpErrorResponse = new HttpErrorResponse({
   statusText: 'Unknown error',
   url: '/xxx',
 });
-const error = normalizeHttpError(httpErrorResponse);
+
 const userId = 'testUser';
 
 const orgUnitId = 'testOrgUnitId';
@@ -80,6 +81,16 @@ class MockOrgUnitConnector {
   getTree = createSpy().and.returnValue(of(unitNode));
 }
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+
 describe('OrgUnit Effects', () => {
   let actions$: Observable<OrgUnitActions.OrgUnitAction>;
   let orgUnitConnector: OrgUnitConnector;
@@ -113,6 +124,7 @@ describe('OrgUnit Effects', () => {
       providers: [
         { provide: OrgUnitConnector, useClass: MockOrgUnitConnector },
         { provide: OccConfig, useValue: mockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.OrgUnitEffects,
         provideMockActions(() => actions$),
       ],
@@ -137,7 +149,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return LoadOrgUnitFail action if orgUnit not updated', () => {
       orgUnitConnector.get = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId });
       const completion = new OrgUnitActions.LoadOrgUnitFail({
@@ -167,7 +179,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return LoadOrgUnitNodesFail action if orgUnits not loaded', () => {
       orgUnitConnector.getList = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.LoadOrgUnitNodes({ userId });
       const completion = new OrgUnitActions.LoadOrgUnitNodesFail({ error });
@@ -193,7 +205,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return LoadOrgUnitNodesFail action if orgUnits not loaded', () => {
       orgUnitConnector.create = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.CreateUnit({ userId, unit: orgUnit });
       const completion1 = new OrgUnitActions.CreateUnitFail({
@@ -231,7 +243,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return UpdateOrgUnitNodesFail action if orgUnits not loaded', () => {
       orgUnitConnector.update = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.UpdateUnit({
         userId,
@@ -284,7 +296,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return CreateAddressFail action if address is not loaded', () => {
       orgUnitConnector.createAddress = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.CreateAddress({
         userId,
@@ -334,7 +346,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return UpdateAddressFail action if address is not loaded', () => {
       orgUnitConnector.updateAddress = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.UpdateAddress({
         userId,
@@ -382,7 +394,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return DeleteAddressFail action if address is not loaded', () => {
       orgUnitConnector.deleteAddress = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.DeleteAddress({
         userId,
@@ -431,7 +443,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return AssignRoleFail action if address is not loaded', () => {
       orgUnitConnector.assignRole = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.AssignRole({
         userId,
@@ -479,7 +491,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return UnassignRoleFail action if address is not loaded', () => {
       orgUnitConnector.unassignRole = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.UnassignRole({
         userId,
@@ -530,7 +542,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return AssignApproverFail action if address is not loaded', () => {
       orgUnitConnector.assignApprover = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.AssignApprover({
         userId,
@@ -584,7 +596,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return UnassignApproverFail action if address is not loaded', () => {
       orgUnitConnector.unassignApprover = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.UnassignApprover({
         userId,
@@ -629,7 +641,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return LoadApprovalProcessesFail action if address is not loaded', () => {
       orgUnitConnector.getApprovalProcesses = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.LoadApprovalProcesses({
         userId,
@@ -683,7 +695,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return LoadUsersFail action if address is not loaded', () => {
       orgUnitConnector.getUsers = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.LoadAssignedUsers({
         userId,
@@ -725,7 +737,7 @@ describe('OrgUnit Effects', () => {
 
     it('should return LoadTreeFail action if address is not loaded', () => {
       orgUnitConnector.getTree = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.LoadTree({
         userId,

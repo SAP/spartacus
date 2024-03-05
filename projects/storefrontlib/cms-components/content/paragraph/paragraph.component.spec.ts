@@ -157,6 +157,18 @@ describe('CmsParagraphComponent in CmsLib', () => {
       expect(bypassSecurityTrustHtmlSpy).toHaveBeenCalled();
     });
 
+    it('should not pass root url to router navigation for internal links ', () => {
+      const url = window.location.href + '#001';
+      const link = setupLink(url);
+      link.click();
+
+      const documentUrlObject = new URL(window.location.href + '#001');
+
+      expect(router.navigateByUrl).toHaveBeenCalledWith(
+        documentUrlObject.pathname + documentUrlObject.hash
+      );
+    });
+
     function setupLink(url: string): HTMLLinkElement {
       const dataWithLinks = Object.assign({}, componentData);
       dataWithLinks.content = `<a href="${url}">Link</a>`;

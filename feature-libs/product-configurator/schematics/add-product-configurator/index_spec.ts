@@ -8,18 +8,18 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  cartBaseFeatureModulePath,
-  checkoutFeatureModulePath,
-  LibraryOptions as SpartacusProductConfiguratorOptions,
-  orderFeatureModulePath,
-  productConfiguratorFeatureModulePath,
-  productConfiguratorRulebasedWrapperModulePath,
   PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME,
   PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
   PRODUCT_CONFIGURATOR_VC_FEATURE_NAME,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_SCHEMATICS,
+  LibraryOptions as SpartacusProductConfiguratorOptions,
+  cartBaseFeatureModulePath,
+  checkoutFeatureModulePath,
+  orderFeatureModulePath,
+  productConfiguratorFeatureModulePath,
+  productConfiguratorRulebasedWrapperModulePath,
   userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -49,6 +49,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const libraryNoFeaturesOptions: SpartacusProductConfiguratorOptions = {

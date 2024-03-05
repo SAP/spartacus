@@ -21,7 +21,7 @@ import {
   CurrentProductService,
   ItemCounterService,
 } from '@spartacus/storefront';
-import { Observable, forkJoin, of } from 'rxjs';
+import { Observable, forkJoin, lastValueFrom, of } from 'rxjs';
 import {
   catchError,
   finalize,
@@ -291,8 +291,8 @@ export class OpfGooglePayService {
       },
 
       onPaymentDataChanged: (intermediatePaymentData) => {
-        return this.setDeliveryAddress(intermediatePaymentData.shippingAddress)
-          .pipe(
+        return lastValueFrom(
+          this.setDeliveryAddress(intermediatePaymentData.shippingAddress).pipe(
             switchMap(() => this.getShippingOptionParameters()),
             switchMap((shippingOptions) => {
               const selectedMode =
@@ -327,7 +327,7 @@ export class OpfGooglePayService {
               );
             })
           )
-          .toPromise();
+        );
       },
     };
   }

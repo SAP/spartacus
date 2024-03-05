@@ -9,7 +9,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
-import { NGUNIVERSAL_EXPRESS_ENGINE } from '../shared/constants';
+import { ANGULAR_SSR } from '../shared/constants';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
 import { getPathResultsForFile } from '../shared/utils/file-utils';
 
@@ -36,6 +36,7 @@ describe('add-ssr', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const defaultOptions: SpartacusOptions = {
@@ -80,17 +81,16 @@ describe('add-ssr', () => {
       const depPackageList = Object.keys(packageObj.dependencies);
 
       expect(depPackageList.includes('@angular/platform-server')).toBe(true);
-      expect(depPackageList.includes(NGUNIVERSAL_EXPRESS_ENGINE)).toBe(true);
+      expect(depPackageList.includes(ANGULAR_SSR)).toBe(true);
       expect(depPackageList.includes('@spartacus/setup')).toBe(true);
     });
+  });
 
-    it('should contain additional build scripts', async () => {
-      const packageJson = appTree.readContent('package.json');
-
-      const packageJsonFileObject = JSON.parse(packageJson);
-      expect(packageJsonFileObject.scripts['build:ssr']).toBeTruthy();
-      expect(packageJsonFileObject.scripts['serve:ssr']).toBeTruthy();
-      expect(packageJsonFileObject.scripts['dev:ssr']).toBeTruthy();
+  describe('angular.json', () => {
+    it('should be configured properly', async () => {
+      const angularJson = appTree.readContent('/angular.json');
+      const angularObj = JSON.parse(angularJson);
+      expect(angularObj).toMatchSnapshot();
     });
   });
 
@@ -101,9 +101,16 @@ describe('add-ssr', () => {
     });
   });
 
-  describe('app.server.module.ts', () => {
+  describe('app.module.server.ts', () => {
     it('should be updated', () => {
-      const content = appTree.readContent('./src/app/app.server.module.ts');
+      const content = appTree.readContent('./src/app/app.module.server.ts');
+      expect(content).toMatchSnapshot();
+    });
+  });
+
+  describe('app.module.ts', () => {
+    it('should be updated', () => {
+      const content = appTree.readContent('./src/app/app.module.ts');
       expect(content).toMatchSnapshot();
     });
   });

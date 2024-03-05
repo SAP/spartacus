@@ -6,18 +6,18 @@
 
 import { basename, normalize, strings } from '@angular-devkit/core';
 import {
-  apply,
-  applyTemplates,
-  chain,
-  externalSchematic,
   MergeStrategy,
-  mergeWith,
-  move,
-  noop,
   Rule,
   SchematicContext,
   SchematicsException,
   Tree,
+  apply,
+  applyTemplates,
+  chain,
+  externalSchematic,
+  mergeWith,
+  move,
+  noop,
   url,
 } from '@angular-devkit/schematics';
 import {
@@ -43,6 +43,7 @@ import {
   SPARTACUS_STOREFRONTLIB,
 } from '../shared/libs-constants';
 import {
+  InsertDirection,
   commitChanges,
   defineProperty,
   findConstructor,
@@ -50,7 +51,6 @@ import {
   getPathResultsForFile,
   getTsSourceFile,
   injectService,
-  InsertDirection,
 } from '../shared/utils/file-utils';
 import {
   addToModuleDeclarations,
@@ -453,6 +453,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         style,
         viewEncapsulation,
         skipImport,
+        standalone: false,
       }),
       mergeWith(templateSource, MergeStrategy.Overwrite),
       updateModule(options),
