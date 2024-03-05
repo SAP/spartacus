@@ -124,7 +124,6 @@ export class OpfCartHandlerService {
     quantity: number,
     pickupStore?: string | undefined
   ): Observable<boolean> {
-    // this.previousCartId = '';
     this.cartHandlerState = { ...this.initiateCartHandlerState };
     return combineLatest([
       this.userIdService.takeUserId(),

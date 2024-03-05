@@ -379,7 +379,7 @@ export class ApplePayService {
       );
   }
 
-  protected loadPdpOriginalCart(orderSuccess?: boolean): void {
+  protected loadPdpOriginalCart(orderSuccess = false): void {
     if (this.transactionDetails.context === OpfQuickBuyLocation.PRODUCT) {
       this.cartHandlerService
         .loadOriginalCart()
