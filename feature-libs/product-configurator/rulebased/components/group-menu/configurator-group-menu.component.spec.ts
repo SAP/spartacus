@@ -22,6 +22,7 @@ import { CommonConfiguratorTestUtilsService } from '../../../common/testing/comm
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import {
   ATTRIBUTE_1_CHECKBOX,
   CONFIGURATOR_ROUTE,
@@ -30,16 +31,15 @@ import {
   GROUP_ID_4,
   GROUP_ID_5,
   GROUP_ID_7,
+  PRODUCT_CODE,
   mockRouterState,
   productConfiguration,
   productConfigurationWithConflicts,
-  PRODUCT_CODE,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;
@@ -380,28 +380,6 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
   });
 
-  it('should set current group in case of clicking on a different group', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    initialize();
-
-    component.click(mockProductConfiguration.groups[0]);
-
-    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
-    expect(hamburgerMenuService.toggle).toHaveBeenCalled();
-  });
-
-  it('should not set current group and not execute navigation in case of clicking on same group', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    initialize();
-
-    component.click(mockProductConfiguration.groups[1]);
-
-    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledTimes(0);
-    expect(hamburgerMenuService.toggle).toHaveBeenCalledTimes(0);
-  });
-
   it('should condense groups', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
@@ -432,46 +410,106 @@ describe('ConfigurationGroupMenuComponent', () => {
       });
   });
 
-  it('should navigate up', () => {
-    spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-      of(mockProductConfiguration.groups[0])
-    );
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
-      mockProductConfiguration.groups[0]
-    );
-    initialize();
-    component.navigateUp();
-    expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
-    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+  describe('navigateUp', () => {
+    it('should navigate up (and not set focus)', () => {
+      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+        of(mockProductConfiguration.groups[0])
+      );
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
+        mockProductConfiguration.groups[0]
+      );
+      initialize();
+      component.navigateUp();
+      expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      expect(configUtils.setFocus).toHaveBeenCalledTimes(0);
+    });
+
+    it('should navigate up and set focus if current group is provided', () => {
+      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+        of(mockProductConfiguration.groups[0])
+      );
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
+        mockProductConfiguration.groups[0]
+      );
+      initialize();
+
+      component.navigateUp(mockProductConfiguration.groups[0]);
+      expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      expect(configUtils.setFocus).toHaveBeenCalled();
+    });
+
+    it('should navigate up, parent group null', () => {
+      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+        of(mockProductConfiguration.groups[0])
+      );
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
+      initialize();
+      component.navigateUp();
+      expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+    });
   });
 
-  it('should navigate up, parent group null', () => {
-    spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-      of(mockProductConfiguration.groups[0])
-    );
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
-    initialize();
-    component.navigateUp();
-    expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
-    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
-  });
+  describe('click', () => {
+    it('should call correct methods for groups with and without subgroups', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+      //Set group
+      component.click(mockProductConfiguration.groups[2].subGroups[0]);
+      expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
+      expect(hamburgerMenuService.toggle).toHaveBeenCalled();
 
-  it('should call correct methods for groups with and without subgroups', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    initialize();
-    //Set group
-    component.click(mockProductConfiguration.groups[2].subGroups[0]);
-    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
-    expect(hamburgerMenuService.toggle).toHaveBeenCalled();
+      //Display subgroups
+      component.click(mockProductConfiguration.groups[2]);
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      expect(configUtils.setFocus).toHaveBeenCalledTimes(0);
+    });
 
-    //Display subgroups
-    component.click(mockProductConfiguration.groups[2]);
-    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+    it('should call correct methods for subgroups and set focus if current group is provided', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component.click(
+        mockProductConfiguration.groups[2],
+        mockProductConfiguration.groups[0]
+      );
+      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      expect(configUtils.setFocus).toHaveBeenCalled();
+    });
+
+    it('should set current group in case of clicking on a different group', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component.click(mockProductConfiguration.groups[0]);
+
+      expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
+      expect(hamburgerMenuService.toggle).toHaveBeenCalled();
+    });
+
+    it('should not set current group and not execute navigation in case of clicking on same group', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component.click(mockProductConfiguration.groups[1]);
+
+      expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledTimes(
+        0
+      );
+      expect(hamburgerMenuService.toggle).toHaveBeenCalledTimes(0);
+    });
   });
 
   it('should return number of conflicts only for conflict header group', () => {
@@ -1655,20 +1693,18 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
   });
 
-  describe('isConflictGroupTypeAllowingUndefined', () => {
+  describe('isConflictGroupType', () => {
     it('should know conflict group ', () => {
       isConflictGroupType = true;
       expect(
-        component.isConflictGroupTypeAllowingUndefined(
+        component.isConflictGroupType(
           Configurator.GroupType.CONFLICT_HEADER_GROUP
         )
       ).toBe(true);
     });
 
     it('should return false for undefined input', () => {
-      expect(component.isConflictGroupTypeAllowingUndefined(undefined)).toBe(
-        false
-      );
+      expect(component.isConflictGroupType(undefined)).toBe(false);
     });
   });
 });

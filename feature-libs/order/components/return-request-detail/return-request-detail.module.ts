@@ -9,7 +9,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -26,14 +25,7 @@ const components = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    MediaModule,
-    FeaturesConfigModule,
-  ],
+  imports: [CommonModule, RouterModule, UrlModule, I18nModule, MediaModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

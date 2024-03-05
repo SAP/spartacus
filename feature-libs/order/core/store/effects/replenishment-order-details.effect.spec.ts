@@ -105,7 +105,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
     });
 
     it('should return an error when it fails to load a replenishment order details', () => {
-      spyOn(connector, 'load').and.returnValue(throwError(mockError));
+      spyOn(connector, 'load').and.returnValue(throwError(() => mockError));
 
       const action = new OrderActions.LoadReplenishmentOrderDetails({
         userId: mockUserId,
@@ -148,7 +148,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
 
     it('should return an error when it fails to cancel a replenishment order', () => {
       spyOn(connector, 'cancelReplenishmentOrder').and.returnValue(
-        throwError(mockError)
+        throwError(() => mockError)
       );
 
       const action = new OrderActions.CancelReplenishmentOrder({

@@ -12,6 +12,7 @@ import {
   ConverterService,
   HttpErrorModel,
   InterceptorUtil,
+  LoggerService,
   OCC_USER_ID_ANONYMOUS,
   Occ,
   OccEndpointsService,
@@ -57,6 +58,7 @@ describe('OccOpfOrderAdapter', () => {
   let converter: ConverterService;
   let occEndpointsService: OccEndpointsService;
   let httpClient: HttpClient;
+  let logger: LoggerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -73,6 +75,7 @@ describe('OccOpfOrderAdapter', () => {
     httpClient = TestBed.inject(HttpClient);
     converter = TestBed.inject(ConverterService);
     occEndpointsService = TestBed.inject(OccEndpointsService);
+    logger = TestBed.inject(LoggerService);
     spyOn(converter, 'pipeable').and.callThrough();
   });
 
@@ -113,7 +116,7 @@ describe('OccOpfOrderAdapter', () => {
 
     service.placeOpfOrder(userId, cartId, termsChecked).subscribe({
       error: (error) => {
-        expect(error).toEqual(normalizeHttpError(mock500Error));
+        expect(error).toEqual(normalizeHttpError(mock500Error, logger));
         done();
       },
     });
@@ -254,7 +257,7 @@ describe('OccOpfOrderAdapter', () => {
       });
 
     tick(4800);
-    expect(result).toEqual(normalizeHttpError(mock500Error));
+    expect(result).toEqual(normalizeHttpError(mock500Error, logger));
 
     subscription.unsubscribe();
   }));

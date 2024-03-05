@@ -10,13 +10,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule } from '@spartacus/core';
 import {
-  AddressFormModule,
   CardModule,
   FormErrorsModule,
   IconModule,
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { AddressFormModule } from '@spartacus/user/profile/components';
 import { GetAddressCardContent } from './get-address-card-content.pipe';
 import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
@@ -33,8 +33,8 @@ import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-add
     I18nModule,
     IconModule,
     FormErrorsModule,
-    AddressFormModule,
     SpinnerModule,
+    AddressFormModule,
   ],
   providers: [OpfCheckoutBillingAddressFormService],
 })

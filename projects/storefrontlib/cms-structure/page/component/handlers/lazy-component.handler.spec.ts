@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LazyComponentHandler } from './lazy-component.handler';
 import { Priority } from '@spartacus/core';
 import { DefaultComponentHandler } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { lastValueFrom, of } from 'rxjs';
+import { LazyComponentHandler } from './lazy-component.handler';
 import createSpy = jasmine.createSpy;
 
 class MockDefaultComponentHandler {
@@ -50,9 +50,9 @@ describe('LazyComponentHandler', () => {
     it('should resolve component and pass it to standard launcher', async () => {
       const resolvedComponent = 'testData';
       const mapping = () => new Promise((res) => res(resolvedComponent));
-      await service
-        .launcher({ component: mapping }, undefined, undefined)
-        .toPromise();
+      await lastValueFrom(
+        service.launcher({ component: mapping }, undefined, undefined)
+      );
 
       const defaultHandler = TestBed.inject(DefaultComponentHandler);
 

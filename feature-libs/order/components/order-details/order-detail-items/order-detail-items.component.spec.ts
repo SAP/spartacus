@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsOrderDetailItemsComponent,
-  FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
 import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
@@ -166,7 +165,6 @@ describe('OrderDetailItemsComponent', () => {
           CardModule,
           I18nTestingModule,
           PromotionsModule,
-          FeaturesConfigModule,
           RouterTestingModule,
           OutletModule,
         ],

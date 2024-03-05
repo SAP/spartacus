@@ -18,7 +18,6 @@ import {
 import {
   AuthService,
   FeatureConfigService,
-  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
@@ -177,7 +176,7 @@ describe('AsmMainUiComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, FeaturesConfigModule],
+        imports: [I18nTestingModule],
         declarations: [
           AsmMainUiComponent,
           MockAsmToggleUiComponent,
@@ -661,8 +660,9 @@ describe('AsmMainUiComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
   });
 
-  it('should not call naviate when starting session with active cartId and ticketId in parameters', () => {
+  it('should call naviate when starting session with active cartId and ticketId in parameters', () => {
     spyOn(routingService, 'go').and.stub();
+    spyOn(asmComponentService, 'handleDeepLinkNavigation').and.stub();
 
     component.startCustomerEmulationSession(
       { customerId: '123' },
@@ -670,17 +670,19 @@ describe('AsmMainUiComponent', () => {
     );
 
     expect(routingService.go).not.toHaveBeenCalled();
+    expect(asmComponentService.handleDeepLinkNavigation).toHaveBeenCalled();
   });
 
-  it('should not call navigate when starting session with inactive cartId and ticketId in parameters', () => {
+  it('should call navigate when starting session with inactive cartId and ticketId in parameters', () => {
     spyOn(routingService, 'go').and.stub();
+    spyOn(asmComponentService, 'handleDeepLinkNavigation').and.stub();
 
     component.startCustomerEmulationSession(
       { customerId: '123' },
       { cartId: '456', cartType: 'inactive', ticketId: '123' }
     );
-
     expect(routingService.go).not.toHaveBeenCalled();
+    expect(asmComponentService.handleDeepLinkNavigation).toHaveBeenCalled();
   });
 
   it('should emit false when close inactive cart info', () => {

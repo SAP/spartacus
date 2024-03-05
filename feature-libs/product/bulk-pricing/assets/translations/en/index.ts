@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { bulkPricing } from './bulk-pricing.i18n';
+import bulkPricing from './bulkPricing.json';
 
 export const en = {
   bulkPricing,

@@ -47,6 +47,7 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

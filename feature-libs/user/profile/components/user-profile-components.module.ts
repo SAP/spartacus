@@ -12,6 +12,7 @@ import { ResetPasswordModule } from './reset-password/reset-password.module';
 import { UpdateEmailModule } from './update-email/update-email.module';
 import { UpdatePasswordModule } from './update-password/update-password.module';
 import { UpdateProfileModule } from './update-profile/update-profile.module';
+import { AddressBookModule } from './address-book';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { UpdateProfileModule } from './update-profile/update-profile.module';
     ForgotPasswordModule,
     ResetPasswordModule,
     CloseAccountModule,
+    AddressBookModule,
   ],
 })
 export class UserProfileComponentsModule {}

@@ -10,7 +10,6 @@ import {
 import {
   Address,
   FeaturesConfig,
-  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
@@ -142,7 +141,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, FeaturesConfigModule],
+        imports: [I18nTestingModule],
         declarations: [
           CheckoutDeliveryAddressComponent,
           MockAddressFormComponent,

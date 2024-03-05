@@ -41,6 +41,7 @@ describe('add-spartacus', () => {
     routing: false,
     style: Style.Scss,
     skipTests: false,
+    standalone: false,
   };
 
   const defaultOptions: SpartacusOptions = {
@@ -69,6 +70,38 @@ describe('add-spartacus', () => {
     );
   });
 
+  it('should throw an error if app.module.ts not found', async () => {
+    let standaloneAppTree: UnitTestTree;
+
+    standaloneAppTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+    standaloneAppTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      { ...appOptions, standalone: true },
+      standaloneAppTree
+    );
+
+    await expect(
+      schematicRunner.runSchematic(
+        'add-spartacus',
+        defaultOptions,
+        standaloneAppTree
+      )
+    ).rejects.toMatchInlineSnapshot(`
+      [Error: File "app.module.ts" not found. Please re-create your application:
+      1. remove your application code
+      2. make sure to pass the flag "--standalone=false" to the command "ng new". For more, see https://angular.io/cli/new#options
+      3. try again installing Spartacus with a command "ng add @spartacus/schematics" ...
+              
+      Note: Since version 17, Angular's command "ng new" by default creates an app without a file "app.module.ts" (in a so-called "standalone" mode). But Spartacus installer requires this file to be present.
+      ]
+    `);
+  });
+
   it('should add spartacus deps', async () => {
     const tree = await schematicRunner.runSchematic(
       'add-spartacus',
@@ -84,7 +117,7 @@ describe('add-spartacus', () => {
     expect(depPackageList.includes(SPARTACUS_STYLES)).toBe(true);
   });
 
-  it('Import necessary modules in app.module', async () => {
+  it('should import necessary modules in app.module', async () => {
     const tree = await schematicRunner.runSchematic(
       'add-spartacus',
       defaultOptions,
@@ -96,7 +129,7 @@ describe('add-spartacus', () => {
     );
 
     const appModuleImports = [
-      `import { HttpClientModule } from "@angular/common/http";`,
+      `import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";`,
       `import { AppRoutingModule } from "@spartacus/storefront";`,
       `import { StoreModule } from "@ngrx/store";`,
       `import { EffectsModule } from "@ngrx/effects";`,
@@ -105,6 +138,9 @@ describe('add-spartacus', () => {
 
     appModuleImports.forEach((appImport) =>
       expect(appModule.includes(appImport)).toBe(true)
+    );
+    expect(appModule).toContain(
+      'provideHttpClient(withFetch(), withInterceptorsFromDi())'
     );
   });
 

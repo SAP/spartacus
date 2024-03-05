@@ -3,15 +3,16 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
 import {
   Address,
   ConverterService,
   HttpErrorModel,
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
   OccEndpoints,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -49,13 +50,13 @@ const mockJaloError = new HttpErrorResponse({
     ],
   },
 });
-const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
 
 describe(`OccCheckoutBillingAddressAdapter`, () => {
   let service: OccCheckoutBillingAddressAdapter;
   let httpClient: HttpClient;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
+  let logger: LoggerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -69,6 +70,7 @@ describe(`OccCheckoutBillingAddressAdapter`, () => {
     httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
+    logger = TestBed.inject(LoggerService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -115,6 +117,10 @@ describe(`OccCheckoutBillingAddressAdapter`, () => {
 
         tick(4200);
 
+        const mockNormalizedJaloError = normalizeHttpError(
+          mockJaloError,
+          logger
+        );
         expect(result).toEqual(mockNormalizedJaloError);
 
         subscription.unsubscribe();
