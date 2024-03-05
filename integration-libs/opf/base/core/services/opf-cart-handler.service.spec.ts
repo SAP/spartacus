@@ -22,6 +22,7 @@ import {
   UserAddressService,
   UserIdService,
 } from '@spartacus/core';
+import { CartHandlerState } from '@spartacus/opf/base/root';
 import { of, throwError } from 'rxjs';
 import {
   OpfGlobalMessageService,
@@ -573,10 +574,14 @@ describe('OpfCartHandlerService', () => {
     it('should delete the current cart and return true on success', (done) => {
       const mockCartId = '12345';
       const mockUserId = 'user123';
+      const mockPreviousCartId = '';
       const mockEvent = new DeleteCartSuccessEvent();
 
-      (service as any).currentCartId = mockCartId;
-      (service as any).currentUserId = mockUserId;
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
 
       multiCartFacade.deleteCart.and.callThrough();
       eventService.get.and.returnValue(of(mockEvent));
@@ -604,11 +609,15 @@ describe('OpfCartHandlerService', () => {
 
   describe('loadOriginalCart', () => {
     it('should call multiCartFacade loadCart and truthy when previousCartId exist', (done) => {
-      const mockPreviousCartId = '12345';
+      const mockPreviousCartId = 'mockPreviousCartId';
+      const mockCartId = 'mockCartId';
       const mockUserId = 'user123';
 
-      (service as any).previousCartId = mockPreviousCartId;
-      (service as any).currentUserId = mockUserId;
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
 
       multiCartFacade.loadCart.and.callThrough();
       activeCartFacade.isStable.and.returnValue(of(true));
@@ -626,10 +635,14 @@ describe('OpfCartHandlerService', () => {
 
     it('should be falsy when previousCartId dose not exist', (done) => {
       const mockPreviousCartId = '';
+      const mockCartId = 'mockCartId';
       const mockUserId = 'user123';
 
-      (service as any).previousCartId = mockPreviousCartId;
-      (service as any).currentUserId = mockUserId;
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
 
       multiCartFacade.loadCart.and.callThrough();
       activeCartFacade.isStable.and.returnValue(of(true));

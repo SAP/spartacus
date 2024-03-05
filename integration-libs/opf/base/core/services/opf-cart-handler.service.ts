@@ -51,12 +51,9 @@ export class OpfCartHandlerService {
   protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
   protected opfGlobalMessageService = inject(OpfGlobalMessageService);
   protected opfMiniCartComponentService = inject(OpfMiniCartComponentService);
-  // protected currentCartId: string;
-  // protected previousCartId: string;
-  // protected currentUserId: string;
   protected initiateCartHandlerState: CartHandlerState = {
-    currentCartId: '',
-    currentUserId: '',
+    cartId: '',
+    userId: '',
     previousCartId: '',
   };
   protected cartHandlerState: CartHandlerState = {
@@ -69,38 +66,36 @@ export class OpfCartHandlerService {
     originalCartId: string,
     pickupStore?: string | undefined
   ): Observable<boolean> {
-    console.log('addMultipleProductToMultipleCart');
     this.cartHandlerState.previousCartId = originalCartId;
 
     return this.multiCartFacade
       .createCart({
-        userId: this.cartHandlerState.currentUserId,
+        userId: this.cartHandlerState.userId,
         extraData: { active: false },
       })
       .pipe(
         take(1),
         switchMap((cart: Cart) => {
-          console.log('addEntry on ', cart.code);
           if (!cart?.code) {
             return throwError('CartId missing from new created cart');
           }
-          this.cartHandlerState.currentCartId = cart.code;
+          this.cartHandlerState.cartId = cart.code;
           this.multiCartFacade.addEntry(
-            this.cartHandlerState.currentUserId,
-            this.cartHandlerState.currentCartId,
+            this.cartHandlerState.userId,
+            this.cartHandlerState.cartId,
             productCode,
             quantity,
             pickupStore
           );
-          return this.checkStableCart(this.cartHandlerState.currentCartId);
+          return this.checkStableCart(this.cartHandlerState.cartId);
         }),
         switchMap(() => {
           this.multiCartFacade.loadCart({
-            cartId: this.cartHandlerState.currentCartId,
-            userId: this.cartHandlerState.currentUserId,
+            cartId: this.cartHandlerState.cartId,
+            userId: this.cartHandlerState.userId,
             extraData: { active: true },
           });
-          return this.checkStableCart(this.cartHandlerState.currentCartId);
+          return this.checkStableCart(this.cartHandlerState.cartId);
         })
       );
   }
@@ -110,20 +105,17 @@ export class OpfCartHandlerService {
     quantity: number,
     pickupStore?: string | undefined
   ): Observable<boolean> {
-    console.log('addProductToActiveCart');
     this.activeCartFacade.addEntry(productCode, quantity, pickupStore);
     return this.checkStableCart().pipe(
       switchMap(() => this.getCurrentCartId()),
       map((cartId) => {
-        console.log('currentCartId', cartId);
-        this.cartHandlerState.currentCartId = cartId;
+        this.cartHandlerState.cartId = cartId;
         return true;
       })
     );
   }
 
   allowMiniCartUpdate() {
-    console.log('allowMiniCartUpdate');
     this.opfMiniCartComponentService.blockUpdate(false);
   }
 
@@ -141,10 +133,8 @@ export class OpfCartHandlerService {
     ]).pipe(
       take(1),
       tap(() => this.opfMiniCartComponentService.blockUpdate(true)),
-      switchMap(([userId, cartId, isStable]) => {
-        console.log('isStable', isStable);
-        console.log('takeActiveCartId', cartId);
-        this.cartHandlerState.currentUserId = userId;
+      switchMap(([userId, cartId, _]) => {
+        this.cartHandlerState.userId = userId;
         if (cartId) {
           return this.addProductToNewCart(
             productCode,
@@ -163,14 +153,13 @@ export class OpfCartHandlerService {
   }
 
   loadOriginalCart(): Observable<boolean> {
-    console.log('flo load previous cart', this.cartHandlerState.previousCartId);
     if (!this.cartHandlerState.previousCartId) {
       this.opfMiniCartComponentService.blockUpdate(false);
       return of(false);
     }
     this.multiCartFacade.loadCart({
       cartId: this.cartHandlerState.previousCartId,
-      userId: this.cartHandlerState.currentUserId,
+      userId: this.cartHandlerState.userId,
       extraData: { active: true },
     });
     return this.checkStableCart().pipe(
@@ -273,54 +262,39 @@ export class OpfCartHandlerService {
   }
 
   deleteCurrentCart(): Observable<boolean> {
-    console.log(
-      'deleteCurrentCart',
-      this.cartHandlerState.currentCartId,
-      this.cartHandlerState.currentUserId
-    );
-    if (
-      !this.cartHandlerState.currentCartId ||
-      !this.cartHandlerState.currentUserId
-    ) {
+    if (!this.cartHandlerState.cartId || !this.cartHandlerState.userId) {
       return of(false);
     }
-    return of(true).pipe(
-      tap(() => {
-        console.log('deleteCart tap');
-        this.multiCartFacade.deleteCart(
-          this.cartHandlerState.currentCartId,
-          this.cartHandlerState.currentUserId
-        );
-      }),
-      switchMap(() =>
-        merge(
-          this.eventService.get(DeleteCartSuccessEvent).pipe(map(() => true)),
-          this.eventService.get(DeleteCartFailEvent).pipe(map(() => false))
-        ).pipe(take(1))
-      )
+
+    this.multiCartFacade.deleteCart(
+      this.cartHandlerState.cartId,
+      this.cartHandlerState.userId
     );
+
+    return merge(
+      this.eventService.get(DeleteCartSuccessEvent).pipe(map(() => true)),
+      this.eventService.get(DeleteCartFailEvent).pipe(map(() => false))
+    ).pipe(take(1));
   }
 
   removeProductFromOriginalCart(
     productCode: string,
     quantity: number
   ): Observable<boolean> {
-    console.log('removeProductFromOriginalCart', productCode, quantity);
     return this.activeCartFacade.getEntry(productCode).pipe(
       map((entry: OrderEntry | undefined) => {
-        console.log('removeProductFromOriginalCart0');
         if (!entry || !entry?.quantity || entry?.entryNumber === undefined) {
-          console.log('removeProductFromOriginalCart05 false');
           return false;
         }
         if (entry.quantity <= quantity) {
-          console.log('removeProductFromOriginalCart1');
           this.activeCartFacade.removeEntry(entry);
           return true;
         }
-        const count = entry.quantity - quantity;
-        console.log('removeProductFromOriginalCart2', entry.quantity, count);
-        this.activeCartFacade.updateEntry(entry.entryNumber, count);
+
+        this.activeCartFacade.updateEntry(
+          entry.entryNumber,
+          entry.quantity - quantity
+        );
         return true;
       })
     );
