@@ -22,7 +22,7 @@ import {
   inject,
 } from '@angular/core';
 import { FeatureConfigService, WindowRef } from '@spartacus/core';
-import { SelectFocusUtility } from '@spartacus/storefront';
+import { SelectFocusUtility } from 'projects/storefrontlib/layout/a11y';
 import { Subject, take } from 'rxjs';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PopoverComponent } from './popover.component';
@@ -36,8 +36,6 @@ import { PopoverService } from './popover.service';
   selector: '[cxPopover]',
 })
 export class PopoverDirective implements OnInit {
-  @Optional() featureFlagService = inject(FeatureConfigService);
-  @Optional() selectFocusUtility = inject(SelectFocusUtility);
   /**
    * Template or string to be rendered inside popover wrapper component.
    */
@@ -149,10 +147,11 @@ export class PopoverDirective implements OnInit {
   // TODO: (CXSPA-6442) - remove feature flags next major release
   open(event: PopoverEvent) {
     if (!this.cxPopoverOptions?.disable) {
-      if (this.featureFlagService.isLevel('6.8')) {
-        if (event === PopoverEvent.OPEN_BY_KEYBOARD) {
-          this.removePopoverWrapper();
-        }
+      if (
+        this.featureFlagService.isLevel('6.8') &&
+        event === PopoverEvent.OPEN_BY_KEYBOARD
+      ) {
+        this.removePopoverWrapper();
       }
       this.isOpen = true;
       this.focusConfig = this.popoverService.getFocusConfig(
@@ -173,10 +172,11 @@ export class PopoverDirective implements OnInit {
   close() {
     this.isOpen = false;
     this.viewContainer.clear();
-    if (this.featureFlagService.isLevel('6.8')) {
-      if (this.cxPopoverOptions?.appendToBody) {
-        this.removePopoverWrapper();
-      }
+    if (
+      this.featureFlagService.isLevel('6.8') &&
+      this.cxPopoverOptions?.appendToBody
+    ) {
+      this.removePopoverWrapper();
     }
     this.closePopover.emit();
   }
@@ -195,7 +195,7 @@ export class PopoverDirective implements OnInit {
         if (this.featureFlagService.isLevel('6.8')) {
           this.openPopover.pipe(take(1)).subscribe(() => {
             this.selectFocusUtility
-              .findFocusable(this.popoverContainer.location.nativeElement)[0]
+              .findFirstFocusable(this.popoverContainer.location.nativeElement)
               ?.focus();
           });
         } else {
@@ -303,4 +303,6 @@ export class PopoverDirective implements OnInit {
     protected popoverService: PopoverService,
     protected winRef: WindowRef
   ) {}
+  @Optional() featureFlagService = inject(FeatureConfigService);
+  @Optional() selectFocusUtility = inject(SelectFocusUtility);
 }
