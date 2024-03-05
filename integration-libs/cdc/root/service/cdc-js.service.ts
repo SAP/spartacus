@@ -584,20 +584,16 @@ export class CdcJsService implements OnDestroy {
    * handle toast message on profile update
    * @param response
    *
-  */
-  handleProfileUpdateTostMessage(response?: any)
-  {
-    if(response.response.errorCode === 0)
-    {
+   */
+  handleProfileUpdateTostMessage(response?: any) {
+    if (response.response.errorCode === 0) {
       this.globalMessageService.add(
         {
           key: 'profile.profileDetailUpdateSuccess',
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
-    }
-    else
-    {
+    } else {
       this.globalMessageService.add(
         {
           key: 'profile.profileDetailUpdateFailure',

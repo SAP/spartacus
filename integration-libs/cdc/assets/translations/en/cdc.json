@@ -5,9 +5,8 @@
       "description": "We still need your consent for the following"
     }
   },
-  "profile":
-  {
-    "profileDetailUpdateSuccess" : "Profile details successfully updated",
-    "profileDetailUpdateFailure" : "Failed to update profile details"
+  "profile": {
+    "profileDetailUpdateSuccess": "Profile details successfully updated",
+    "profileDetailUpdateFailure": "Failed to update profile details"
   }
 }

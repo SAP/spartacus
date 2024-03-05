@@ -620,23 +620,24 @@ describe('CdcJsService', () => {
     });
   });
 
-  describe('handleProfileUpdateTostMessage',()=>{
-    it('should not show error message on success',() => {
-      spyOn(globalMessageService,'add');
-      spyOn(globalMessageService,'remove');
-      service['handleProfileUpdateTostMessage']({response:{errorCode:0}});
-      expect(globalMessageService.add).toHaveBeenCalledWith({
-        key: 'profile.profileDetailUpdateSuccess',
+  describe('handleProfileUpdateTostMessage', () => {
+    it('should not show error message on success', () => {
+      spyOn(globalMessageService, 'add');
+      spyOn(globalMessageService, 'remove');
+      service['handleProfileUpdateTostMessage']({ response: { errorCode: 0 } });
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'profile.profileDetailUpdateSuccess',
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
       expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
 
-    it('should show error message on failure',() => {
-      spyOn(globalMessageService,'add');
-      spyOn(globalMessageService,'remove');
-      service['handleProfileUpdateTostMessage']({response:{errorCode:1}});
+    it('should show error message on failure', () => {
+      spyOn(globalMessageService, 'add');
+      spyOn(globalMessageService, 'remove');
+      service['handleProfileUpdateTostMessage']({ response: { errorCode: 1 } });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
           key: 'profile.profileDetailUpdateFailure',
@@ -646,8 +647,6 @@ describe('CdcJsService', () => {
       expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
   });
-
-
 
   describe('handleResetPassResponse', () => {
     it('should Error with no response', () => {
@@ -1031,7 +1030,7 @@ describe('CdcJsService', () => {
         },
         response: {
           errorCode: 0,
-        }
+        },
       };
 
       service.onProfileUpdateEventHandler(response);
@@ -1058,7 +1057,7 @@ describe('CdcJsService', () => {
         },
         response: {
           errorCode: 0,
-        }
+        },
       };
       userProfileFacade.get = createSpy().and.returnValue(
         of({ uid: newEmail })
