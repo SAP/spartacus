@@ -62,10 +62,6 @@ export class ApplePayService {
   protected initTransactionDetails(
     transactionInput: ApplePayTransactionInput
   ): ApplePayTransactionDetails {
-    console.log(
-      'this.initialTransactionDetails',
-      this.initialTransactionDetails
-    );
     this.transactionDetails = {
       ...this.initialTransactionDetails,
       addressIds: [],
@@ -384,7 +380,6 @@ export class ApplePayService {
   }
 
   protected loadPdpOriginalCart(orderSuccess?: boolean): void {
-    console.log('loadPdpOriginalCart orderPlaced', orderSuccess);
     if (this.transactionDetails.context === OpfQuickBuyLocation.PRODUCT) {
       this.cartHandlerService
         .loadOriginalCart()
