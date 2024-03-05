@@ -21,7 +21,7 @@ const MockCmsComponentData = <CmsComponentData<any>>{
   data$: of(mockData),
 };
 
-fdescribe('ScrollToTopComponent', () => {
+describe('ScrollToTopComponent', () => {
   let component: ScrollToTopComponent;
   let fixture: ComponentFixture<ScrollToTopComponent>;
   let focusUtility: SelectFocusUtility;
