@@ -28,11 +28,12 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
+  CartHandlerState,
   OpfGlobalMessageService,
   OpfMiniCartComponentService,
 } from '@spartacus/opf/base/root';
 import { Observable, combineLatest, merge, of, throwError } from 'rxjs';
-import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -50,9 +51,17 @@ export class OpfCartHandlerService {
   protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
   protected opfGlobalMessageService = inject(OpfGlobalMessageService);
   protected opfMiniCartComponentService = inject(OpfMiniCartComponentService);
-  protected currentCartId: string;
-  protected previousCartId: string;
-  protected currentUserId: string;
+  // protected currentCartId: string;
+  // protected previousCartId: string;
+  // protected currentUserId: string;
+  protected initiateCartHandlerState: CartHandlerState = {
+    currentCartId: '',
+    currentUserId: '',
+    previousCartId: '',
+  };
+  protected cartHandlerState: CartHandlerState = {
+    ...this.initiateCartHandlerState,
+  };
 
   protected addProductToNewCart(
     productCode: string,
@@ -61,11 +70,11 @@ export class OpfCartHandlerService {
     pickupStore?: string | undefined
   ): Observable<boolean> {
     console.log('addMultipleProductToMultipleCart');
-    this.previousCartId = originalCartId;
+    this.cartHandlerState.previousCartId = originalCartId;
 
     return this.multiCartFacade
       .createCart({
-        userId: this.currentUserId,
+        userId: this.cartHandlerState.currentUserId,
         extraData: { active: false },
       })
       .pipe(
@@ -75,23 +84,23 @@ export class OpfCartHandlerService {
           if (!cart?.code) {
             return throwError('CartId missing from new created cart');
           }
-          this.currentCartId = cart.code;
+          this.cartHandlerState.currentCartId = cart.code;
           this.multiCartFacade.addEntry(
-            this.currentUserId,
-            this.currentCartId,
+            this.cartHandlerState.currentUserId,
+            this.cartHandlerState.currentCartId,
             productCode,
             quantity,
             pickupStore
           );
-          return this.checkStableCart(this.currentCartId);
+          return this.checkStableCart(this.cartHandlerState.currentCartId);
         }),
         switchMap(() => {
           this.multiCartFacade.loadCart({
-            cartId: this.currentCartId,
-            userId: this.currentUserId,
+            cartId: this.cartHandlerState.currentCartId,
+            userId: this.cartHandlerState.currentUserId,
             extraData: { active: true },
           });
-          return this.checkStableCart(this.currentCartId);
+          return this.checkStableCart(this.cartHandlerState.currentCartId);
         })
       );
   }
@@ -107,7 +116,7 @@ export class OpfCartHandlerService {
       switchMap(() => this.getCurrentCartId()),
       map((cartId) => {
         console.log('currentCartId', cartId);
-        this.currentCartId = cartId;
+        this.cartHandlerState.currentCartId = cartId;
         return true;
       })
     );
@@ -123,8 +132,8 @@ export class OpfCartHandlerService {
     quantity: number,
     pickupStore?: string | undefined
   ): Observable<boolean> {
-    this.previousCartId = '';
-
+    // this.previousCartId = '';
+    this.cartHandlerState = { ...this.initiateCartHandlerState };
     return combineLatest([
       this.userIdService.takeUserId(),
       this.multiCartFacade.getCartIdByType(CartType.ACTIVE),
@@ -135,7 +144,7 @@ export class OpfCartHandlerService {
       switchMap(([userId, cartId, isStable]) => {
         console.log('isStable', isStable);
         console.log('takeActiveCartId', cartId);
-        this.currentUserId = userId;
+        this.cartHandlerState.currentUserId = userId;
         if (cartId) {
           return this.addProductToNewCart(
             productCode,
@@ -149,23 +158,19 @@ export class OpfCartHandlerService {
           quantity,
           pickupStore
         ).pipe(take(1));
-      }),
-      catchError((error) => {
-        console.log('flo error', error);
-        return throwError(error);
       })
     );
   }
 
   loadOriginalCart(): Observable<boolean> {
-    console.log('flo load previous cart', this.previousCartId);
-    if (!this.previousCartId) {
+    console.log('flo load previous cart', this.cartHandlerState.previousCartId);
+    if (!this.cartHandlerState.previousCartId) {
       this.opfMiniCartComponentService.blockUpdate(false);
       return of(false);
     }
     this.multiCartFacade.loadCart({
-      cartId: this.previousCartId,
-      userId: this.currentUserId,
+      cartId: this.cartHandlerState.previousCartId,
+      userId: this.cartHandlerState.currentUserId,
       extraData: { active: true },
     });
     return this.checkStableCart().pipe(
@@ -268,14 +273,24 @@ export class OpfCartHandlerService {
   }
 
   deleteCurrentCart(): Observable<boolean> {
-    console.log('deleteCurrentCart', this.currentCartId, this.currentUserId);
-    if (!this.currentCartId || !this.currentUserId) {
+    console.log(
+      'deleteCurrentCart',
+      this.cartHandlerState.currentCartId,
+      this.cartHandlerState.currentUserId
+    );
+    if (
+      !this.cartHandlerState.currentCartId ||
+      !this.cartHandlerState.currentUserId
+    ) {
       return of(false);
     }
     return of(true).pipe(
       tap(() => {
         console.log('deleteCart tap');
-        this.multiCartFacade.deleteCart(this.currentCartId, this.currentUserId);
+        this.multiCartFacade.deleteCart(
+          this.cartHandlerState.currentCartId,
+          this.cartHandlerState.currentUserId
+        );
       }),
       switchMap(() =>
         merge(
@@ -307,10 +322,6 @@ export class OpfCartHandlerService {
         console.log('removeProductFromOriginalCart2', entry.quantity, count);
         this.activeCartFacade.updateEntry(entry.entryNumber, count);
         return true;
-      }),
-      catchError((error) => {
-        console.log('removeProductFromOriginalCart3 in catch', error);
-        return throwError(error);
       })
     );
   }

@@ -96,6 +96,12 @@ export interface GooglePayTransactionDetails {
   quantity?: number;
 }
 
+export interface CartHandlerState {
+  currentCartId: string;
+  currentUserId: string;
+  previousCartId: string;
+}
+
 export interface ApplePaySessionVerificationRequest {
   cartId: string;
   validationUrl: string;
