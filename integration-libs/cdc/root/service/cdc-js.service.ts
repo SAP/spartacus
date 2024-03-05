@@ -574,11 +574,38 @@ export class CdcJsService implements OnDestroy {
           if (currentEmail !== userDetails.uid) {
             this.logoutUser();
           }
+          this.handleProfileUpdateTostMessage(response);
         });
       });
     }
   }
 
+  /**
+   * handle toast message on profile update
+   * @param response
+   *
+  */
+  handleProfileUpdateTostMessage(response?: any)
+  {
+    if(response.response.errorCode === 0)
+    {
+      this.globalMessageService.add(
+        {
+          key: 'profile.profileDetailUpdateSuccess',
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    }
+    else
+    {
+      this.globalMessageService.add(
+        {
+          key: 'profile.profileDetailUpdateFailure',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
+  }
   /**
    * Trigger CDC user email update.
    *
