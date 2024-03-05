@@ -101,10 +101,6 @@ if (!environment.production) {
       // without a key, for development or demo purposes.
       googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
     }),
-    {
-      provide: USE_LEGACY_MEDIA_COMPONENT,
-      useValue: false,
-    },
     provideConfig(<CmsConfig>{
       cmsComponents: {
         ProductAddToCartComponent: {
@@ -114,6 +110,10 @@ if (!environment.production) {
         },
       },
     }),
+    {
+      provide: USE_LEGACY_MEDIA_COMPONENT,
+      useValue: false,
+    },
   ],
   bootstrap: [StorefrontComponent],
 })
