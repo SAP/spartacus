@@ -98,4 +98,4 @@ jobs:
           title: "Release ${{ env.version }}"
           body: "Automated pull request to merge the release branch into develop."
           base: "develop"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
