@@ -1,19 +1,23 @@
 <ng-container *ngIf="routerData$ | async as routerData">
   <ng-container *ngIf="configuration$ | async; else ghostTabBar">
     <ng-container *ngIf="!routerData.displayOnly">
-      <div class="cx-tab-bar" role="tablist">
+      <div
+        class="cx-tab-bar"
+        role="tablist"
+        *ngIf="pageType$ | async as pageType"
+      >
         <a
           #configTab
-          [tabindex]="getTabIndexConfigTab()"
+          [tabindex]="getTabIndexForConfigTab(pageType)"
           role="tab"
-          [class.active]="!(isOverviewPage$ | async)"
-          [attr.aria-selected]="!(isOverviewPage$ | async)"
+          [class.active]="!isOverviewPage(pageType)"
+          [attr.aria-selected]="!isOverviewPage(pageType)"
           (keydown)="switchTabOnArrowPress($event, '#configTab')"
           (keydown.enter)="navigateToConfiguration(routerData)"
           (keydown.space)="navigateToConfiguration(routerData)"
           (click)="navigateToConfiguration(routerData)"
           [attr.aria-label]="
-            !(isOverviewPage$ | async)
+            !isOverviewPage(pageType)
               ? ('configurator.a11y.configurationPage' | cxTranslate)
               : ('configurator.a11y.configurationPageLink' | cxTranslate)
           "
@@ -21,16 +25,16 @@
         >
         <a
           #overviewTab
-          [tabindex]="getTabIndexOverviewTab()"
+          [tabindex]="getTabIndexForOverviewTab(pageType)"
           role="tab"
-          [class.active]="isOverviewPage$ | async"
-          [attr.aria-selected]="isOverviewPage$ | async"
+          [class.active]="isOverviewPage(pageType)"
+          [attr.aria-selected]="isOverviewPage(pageType)"
           (keydown)="switchTabOnArrowPress($event, '#overviewTab')"
           (keydown.enter)="navigateToOverview(routerData)"
           (keydown.space)="navigateToOverview(routerData)"
           (click)="navigateToOverview(routerData)"
           [attr.aria-label]="
-            (isOverviewPage$ | async)
+            isOverviewPage(pageType)
               ? ('configurator.a11y.overviewPage' | cxTranslate)
               : ('configurator.a11y.overviewPageLink' | cxTranslate)
           "
