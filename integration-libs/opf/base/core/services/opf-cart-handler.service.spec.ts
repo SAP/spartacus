@@ -225,43 +225,6 @@ describe('OpfCartHandlerService', () => {
     });
   });
 
-  // describe('addProductToCart with no initial cart', () => {
-  //   it('should call addEntry and check if the cart is stable', (done) => {
-  //     const productCode = 'testProduct';
-  //     const quantity = 1;
-  //     const pickupStore = 'testStore';
-  //     const mockInitialCartId = '';
-  //     const mockCartId = 'mockCartId';
-  //     const mockUserId = 'mockUserId';
-  //     const mockCart: Cart = { guid: 'testId', code: mockCartId };
-
-  //     opfMiniCartComponentService.blockUpdate.and.callThrough();
-  //     multiCartFacade.addEntry.and.callThrough();
-  //     multiCartFacade.loadCart.and.callThrough();
-  //     activeCartFacade.isStable.and.returnValue(of(true));
-  //     activeCartFacade.takeActiveCartId.and.returnValue(of(mockCartId));
-  //     multiCartFacade.isStable.and.returnValue(of(true));
-  //     multiCartFacade.getCartIdByType.and.returnValue(of(mockInitialCartId));
-  //     multiCartFacade.createCart.and.returnValue(of(mockCart));
-  //     userIdService.takeUserId.and.returnValue(of(mockUserId));
-
-  //     service
-  //       .addProductToCart(productCode, quantity, pickupStore)
-  //       .subscribe((result) => {
-  //         expect(activeCartFacade.isStable).toHaveBeenCalled();
-  //         expect(activeCartFacade.addEntry).toHaveBeenCalled();
-  //         expect(activeCartFacade.takeActiveCartId).toHaveBeenCalled();
-  //         expect(multiCartFacade.addEntry).not.toHaveBeenCalled();
-  //         expect(opfMiniCartComponentService.blockUpdate).toHaveBeenCalledWith(
-  //           true
-  //         );
-
-  //         expect(result).toBeTruthy();
-  //         done();
-  //       });
-  //   });
-  // });
-
   describe('checkStableCart', () => {
     it('should return true if the cart is stable', fakeAsync(() => {
       activeCartFacade.isStable.and.returnValue(of(true));
