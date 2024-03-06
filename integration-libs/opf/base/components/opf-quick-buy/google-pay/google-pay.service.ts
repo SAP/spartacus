@@ -67,6 +67,8 @@ export class OpfGooglePayService {
       'PAYMENT_AUTHORIZATION',
     ],
 
+    emailRequired: true,
+
     // @ts-ignore
     merchantInfo: {
       // merchantId: 'spartacusStorefront',
@@ -87,6 +89,11 @@ export class OpfGooglePayService {
   };
 
   loadProviderResources(): Promise<void> {
+    this.opfCartHandlerService
+      .isAnonymousUser()
+      .subscribe((isAnonymousUser) => {
+        console.log('isAnonymousUser', isAnonymousUser);
+      });
     return this.opfResourceLoaderService.loadProviderResources([
       { url: this.GOOGLE_PAY_JS_URL },
     ]);
@@ -261,25 +268,35 @@ export class OpfGooglePayService {
         return this.opfCartHandlerService
           .getCurrentCartId()
           .pipe(
-            switchMap((cartId) =>
-              this.setDeliveryAddress(paymentDataResponse.shippingAddress).pipe(
-                switchMap(() => {
-                  const encryptedToken = btoa(
-                    paymentDataResponse.paymentMethodData.tokenizationData.token
-                  );
-                  return forkJoin({
-                    submitPayment: this.opfPaymentFacade.submitPayment({
-                      additionalData: [],
-                      paymentSessionId: '',
-                      callbackArray: [() => {}, () => {}, () => {}],
-                      paymentMethod: PaymentMethod.GOOGLE_PAY,
-                      encryptedToken,
-                      cartId,
-                    }),
-                  });
-                })
-              )
-            ),
+            switchMap((cartId) => {
+              console.log(
+                'email addr from response',
+                paymentDataResponse.email
+              );
+              return this.opfCartHandlerService
+                .updateGuestEmail(paymentDataResponse.email)
+                .pipe(
+                  switchMap(() =>
+                    this.setDeliveryAddress(paymentDataResponse.shippingAddress)
+                  ),
+                  switchMap(() => {
+                    const encryptedToken = btoa(
+                      paymentDataResponse.paymentMethodData.tokenizationData
+                        .token
+                    );
+                    return forkJoin({
+                      submitPayment: this.opfPaymentFacade.submitPayment({
+                        additionalData: [],
+                        paymentSessionId: '',
+                        callbackArray: [() => {}, () => {}, () => {}],
+                        paymentMethod: PaymentMethod.GOOGLE_PAY,
+                        encryptedToken,
+                        cartId,
+                      }),
+                    });
+                  })
+                );
+            }),
             catchError(() => of({ transactionState: 'ERROR' })),
             finalize(() => this.deleteAssociatedAddresses())
           )
