@@ -173,7 +173,9 @@ export class ConfiguratorCommonsService {
 
   /**
    * Returns a configuration with an overview. Emits valid configurations which
-   * include the overview aspect
+   * include the overview aspect.
+   * When calling this function it is assumed that the configuration itself is already
+   * available (or its loading is triggered). If not, the function will return an empty observable.
    *
    * @param configuration - Configuration
    * @returns Observable of configurations including the overview
@@ -183,11 +185,20 @@ export class ConfiguratorCommonsService {
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(
-        ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
+        ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
+          configuration.owner.key
+        )
       ),
-      filter((config) => this.configuratorUtils.isConfigurationCreated(config)),
-      tap((configurationState) => {
-        if (!this.hasConfigurationOverview(configurationState)) {
+      filter((configurationState) => configurationState.loading === false),
+      filter((configurationState) =>
+        this.configuratorUtils.isConfigurationCreated(configurationState.value)
+      ),
+      map(
+        (configurationState) =>
+          configurationState.value as Configurator.Configuration
+      ),
+      tap((config) => {
+        if (!this.hasConfigurationOverview(config)) {
           this.store.dispatch(
             new ConfiguratorActions.GetConfigurationOverview(configuration)
           );

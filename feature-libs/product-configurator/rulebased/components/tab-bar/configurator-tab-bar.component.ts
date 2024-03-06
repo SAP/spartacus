@@ -138,16 +138,9 @@ export class ConfiguratorTabBarComponent {
       .extractRouterData()
       .pipe(
         switchMap((routerData) =>
-          this.configuratorCommonsService.getOrCreateConfiguration(
-            routerData.owner
-          )
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
         ),
         distinctUntilKeyChanged('configId'),
-        switchMap((configuration) =>
-          this.configuratorCommonsService.getConfigurationWithOverview(
-            configuration
-          )
-        ),
         filter((configuration) => configuration.overview != null),
         take(1),
         delay(0) //we need to consider the re-rendering of the page
@@ -168,9 +161,8 @@ export class ConfiguratorTabBarComponent {
             routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
         ),
         switchMap((routerData) => {
-          return this.configuratorCommonsService.getOrCreateConfiguration(
-            routerData.owner,
-            routerData.configIdTemplate
+          return this.configuratorCommonsService.getConfiguration(
+            routerData.owner
           );
         }),
         take(1),

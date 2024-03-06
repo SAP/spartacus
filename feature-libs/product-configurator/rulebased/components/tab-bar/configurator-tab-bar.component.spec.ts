@@ -67,7 +67,7 @@ const configWithOverview: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   overview: { configId: 'CONFIG_ID', productCode: PRODUCT_CODE },
 };
-let configurationWithOverviewObs = of(configWithOverview);
+
 
 const mockRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
@@ -78,14 +78,7 @@ const mockRouterData: ConfiguratorRouter.Data = {
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return configurationObs;
-  }
-  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-
-  getConfigurationWithOverview(): Observable<Configurator.Configuration> {
-    return configurationWithOverviewObs;
-  }
+  } 
 }
 
 class MockConfigUtilsService {
@@ -528,6 +521,10 @@ describe('ConfigTabBarComponent', () => {
 
   describe('Focus handling on navigation', () => {
     it('focusOverviewInTabBar should call focusFirstActiveElement', fakeAsync(() => {
+      spyOn(
+        configuratorCommonsService,
+        'getConfiguration'
+      ).and.returnValue(of(configWithOverview));
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(
@@ -538,7 +535,7 @@ describe('ConfigTabBarComponent', () => {
     it('focusOverviewInTabBar should not call focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
       spyOn(
         configuratorCommonsService,
-        'getConfigurationWithOverview'
+        'getConfiguration'
       ).and.returnValue(configurationObs);
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar

@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  waitForAsync,
   fakeAsync,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
@@ -980,7 +980,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     it('focusOverviewInTabBar should not call focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
       spyOn(
         configuratorCommonsService,
-        'getConfigurationWithOverview'
+        'getConfiguration'
       ).and.returnValue(of(mockProductConfigurationWithoutBasePrice));
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar

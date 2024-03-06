@@ -144,16 +144,9 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       .extractRouterData()
       .pipe(
         switchMap((routerData) =>
-          this.configuratorCommonsService.getOrCreateConfiguration(
-            routerData.owner
-          )
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
         ),
         distinctUntilKeyChanged('configId'),
-        switchMap((configuration) =>
-          this.configuratorCommonsService.getConfigurationWithOverview(
-            configuration
-          )
-        ),
         filter((configuration) => configuration.overview != null),
         take(1),
         delay(0) //we need to consider the re-rendering of the page
