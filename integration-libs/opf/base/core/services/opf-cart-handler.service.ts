@@ -280,22 +280,24 @@ export class OpfCartHandlerService {
     productCode: string,
     quantity: number
   ): Observable<boolean> {
-    return this.activeCartFacade.getEntry(productCode).pipe(
-      map((entry: OrderEntry | undefined) => {
-        if (!entry || !entry?.quantity || entry?.entryNumber === undefined) {
-          return false;
-        }
-        if (entry.quantity <= quantity) {
-          this.activeCartFacade.removeEntry(entry);
-          return true;
-        }
+    return this.multiCartFacade
+      .getEntry(this.cartHandlerState.previousCartId, productCode)
+      .pipe(
+        map((entry: OrderEntry | undefined) => {
+          if (!entry || !entry?.quantity || entry?.entryNumber === undefined) {
+            return false;
+          }
+          if (entry.quantity <= quantity) {
+            this.activeCartFacade.removeEntry(entry);
+            return true;
+          }
 
-        this.activeCartFacade.updateEntry(
-          entry.entryNumber,
-          entry.quantity - quantity
-        );
-        return true;
-      })
-    );
+          this.activeCartFacade.updateEntry(
+            entry.entryNumber,
+            entry.quantity - quantity
+          );
+          return true;
+        })
+      );
   }
 }
