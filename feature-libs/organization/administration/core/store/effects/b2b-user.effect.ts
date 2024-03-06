@@ -89,10 +89,12 @@ export class B2BUserEffects {
               take(1),
               tap((route) => this.redirectToDetails(route, data)),
               switchMap(() => {
+                console.log(orgCustomer);
                 const successActions = [
                   new B2BUserActions.CreateB2BUserSuccess(data),
                   new B2BUserActions.CreateB2BUserSuccess({
-                    customerId: undefined,
+                    customerId: orgCustomer.customerId,
+                    orgUnit: orgCustomer.orgUnit,
                   }),
                   new OrganizationActions.OrganizationClearData(),
                 ] as any[];
