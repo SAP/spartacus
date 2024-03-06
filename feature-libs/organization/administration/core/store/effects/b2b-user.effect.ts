@@ -19,8 +19,6 @@ import {
   User,
   UserIdService,
   normalizeHttpError,
-  GlobalMessageActions,
-  GlobalMessageType,
 } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, from, of } from 'rxjs';
@@ -97,10 +95,6 @@ export class B2BUserEffects {
                     customerId: undefined,
                   }),
                   new OrganizationActions.OrganizationClearData(),
-                  new GlobalMessageActions.AddMessage({
-                    text: { key: 'orgUnitUsers.create.success' },
-                    type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-                  }),
                 ] as any[];
                 if (isAssignedToApprovers) {
                   successActions.splice(
@@ -114,10 +108,6 @@ export class B2BUserEffects {
                     })
                   );
                 }
-
-                // TODO: ADD FEATURE FLAG TO METHOD BEFORE MERGE
-                this.routingService.traverseNavigation();
-
                 return successActions;
               })
             );

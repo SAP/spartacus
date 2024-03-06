@@ -318,10 +318,7 @@
     "info": {
       "disabledCreate": "User can not be created for disabled unit."
     },
-    "hint": "Users are the buyers, approvers, managers, and administrators of your organization. Each user is assigned a role for making or approving purchases. Users \"inherit\" child units, meaning buyers have access to cost centers and delivery addresses of child units when checking out.",
-    "create": {
-      "success": "User created successfully"
-    }
+    "hint": "Users are the buyers, approvers, managers, and administrators of your organization. Each user is assigned a role for making or approving purchases. Users \"inherit\" child units, meaning buyers have access to cost centers and delivery addresses of child units when checking out."
   },
   "orgUnitUserRoles": {
     "title": "User roles and rights",
@@ -368,8 +365,7 @@
       "title": "Edit Address"
     },
     "create": {
-      "title": "Create Address",
-      "success": "Address created successfully"
+      "title": "Create Address"
     },
     "form": {
       "subtitle": "Unit: {{item.name}}"

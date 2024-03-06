@@ -15,8 +15,6 @@ import {
   LoggerService,
   StateUtils,
   normalizeHttpError,
-  GlobalMessageActions,
-  GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, from, of } from 'rxjs';
@@ -389,24 +387,11 @@ export class OrgUnitEffects {
         this.orgUnitConnector
           .createAddress(payload.userId, payload.orgUnitId, payload.address)
           .pipe(
-            switchMap((data) => {
-              const successActions = [
-                new OrgUnitActions.CreateAddressSuccess(data),
-                new OrgUnitActions.CreateAddressSuccess({ id: undefined }),
-                new OrganizationActions.OrganizationClearData(),
-                new GlobalMessageActions.AddMessage({
-                  text: {
-                    key: 'orgUnitAddress.create.success',
-                  },
-                  type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-                }),
-              ] as any[];
-
-              // TODO: Remove optional flag in next major.
-              this.routingService?.traverseNavigation();
-
-              return successActions;
-            }),
+            switchMap((data) => [
+              new OrgUnitActions.CreateAddressSuccess(data),
+              new OrgUnitActions.CreateAddressSuccess({ id: 'new' }),
+              new OrganizationActions.OrganizationClearData(),
+            ]),
             catchError((error: HttpErrorResponse) =>
               from([
                 new OrgUnitActions.CreateAddressFail({
