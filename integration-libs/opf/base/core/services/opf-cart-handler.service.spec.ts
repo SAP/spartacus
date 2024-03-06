@@ -52,9 +52,6 @@ describe('OpfCartHandlerService', () => {
       'deleteCart',
       'takeActiveCartId',
       'getActiveCartId',
-      'getEntry',
-      'removeEntry',
-      'updateEntry',
     ]);
     checkoutDeliveryModesFacade = jasmine.createSpyObj(
       'CheckoutDeliveryModesFacade',
@@ -78,6 +75,9 @@ describe('OpfCartHandlerService', () => {
       'addEntry',
       'isStable',
       'loadCart',
+      'getEntry',
+      'removeEntry',
+      'updateEntry',
     ]);
     userIdService = jasmine.createSpyObj('UserIdService', [
       'getUserId',
@@ -563,7 +563,7 @@ describe('OpfCartHandlerService', () => {
   describe('allowMiniCartUpdate', () => {
     it('should call opfMiniCartComponentService blockUpdate with false value', () => {
       opfMiniCartComponentService.blockUpdate.and.callThrough();
-      service.allowMiniCartUpdate();
+      service.blockMiniCartComponentUpdate(false);
       expect(opfMiniCartComponentService.blockUpdate).toHaveBeenCalledWith(
         false
       );
@@ -624,12 +624,44 @@ describe('OpfCartHandlerService', () => {
   });
 
   describe('removeProductFromOriginalCart', () => {
+    it('should be falsy when no previousCart value exists', (done) => {
+      const productCode = 'testProduct';
+      const quantity = 1;
+      const mockEntry = {};
+      const mockCartId = '12345';
+      const mockUserId = 'user123';
+      const mockPreviousCartId = '';
+
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
+
+      multiCartFacade.getEntry.and.returnValue(of(mockEntry));
+
+      service
+        .removeProductFromOriginalCart(productCode, quantity)
+        .subscribe((result) => {
+          expect(result).toBeFalsy();
+          done();
+        });
+    });
     it('should be falsy when pdp product does not exists in active cart', (done) => {
       const productCode = 'testProduct';
       const quantity = 1;
       const mockEntry = {};
+      const mockCartId = '12345';
+      const mockUserId = 'user123';
+      const mockPreviousCartId = '5678';
 
-      activeCartFacade.getEntry.and.returnValue(of(mockEntry));
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
+
+      multiCartFacade.getEntry.and.returnValue(of(mockEntry));
 
       service
         .removeProductFromOriginalCart(productCode, quantity)
@@ -642,14 +674,27 @@ describe('OpfCartHandlerService', () => {
       const productCode = 'testProduct';
       const quantity = 2;
       const mockEntry = { quantity, entryNumber: 0 };
+      const mockCartId = '12345';
+      const mockUserId = 'user123';
+      const mockPreviousCartId = '5678';
 
-      activeCartFacade.getEntry.and.returnValue(of(mockEntry));
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
+
+      multiCartFacade.getEntry.and.returnValue(of(mockEntry));
 
       service
         .removeProductFromOriginalCart(productCode, quantity)
         .subscribe((result) => {
           expect(result).toBeTruthy();
-          expect(activeCartFacade.removeEntry).toHaveBeenCalledWith(mockEntry);
+          expect(multiCartFacade.removeEntry).toHaveBeenCalledWith(
+            mockUserId,
+            mockPreviousCartId,
+            mockEntry.entryNumber
+          );
           done();
         });
     });
@@ -658,19 +703,40 @@ describe('OpfCartHandlerService', () => {
       const quantity = 2;
       const entryQuantity = 5;
       const mockEntry = { quantity: entryQuantity, entryNumber: 0 };
+      const mockCartId = '12345';
+      const mockUserId = 'user123';
+      const mockPreviousCartId = '5678';
 
-      activeCartFacade.getEntry.and.returnValue(of(mockEntry));
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
+
+      multiCartFacade.getEntry.and.returnValue(of(mockEntry));
 
       service
         .removeProductFromOriginalCart(productCode, quantity)
         .subscribe((result) => {
           expect(result).toBeTruthy();
-          expect(activeCartFacade.updateEntry).toHaveBeenCalledWith(
+          expect(multiCartFacade.updateEntry).toHaveBeenCalledWith(
+            mockUserId,
+            mockPreviousCartId,
             mockEntry.entryNumber,
             entryQuantity - quantity
           );
           done();
         });
+    });
+  });
+
+  describe('blockMiniCartComponentUpdate', () => {
+    it('should call opfMiniCartComponentService blockUpdate with same value', () => {
+      const decision = true;
+      service.blockMiniCartComponentUpdate(decision);
+      expect(opfMiniCartComponentService.blockUpdate).toHaveBeenCalledWith(
+        decision
+      );
     });
   });
 });

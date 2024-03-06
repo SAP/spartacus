@@ -280,7 +280,10 @@ export class OpfCartHandlerService {
     productCode: string,
     quantity: number
   ): Observable<boolean> {
-    if (!this.cartHandlerState.previousCartId) {
+    if (
+      !this.cartHandlerState.previousCartId ||
+      !this.cartHandlerState.userId
+    ) {
       return of(false);
     }
     return this.multiCartFacade
