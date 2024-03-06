@@ -245,48 +245,4 @@ describe('RoutingService', () => {
       );
     });
   });
-
-  describe('traverseNavigation()', () => {
-    it('should traverse by one param by default', () => {
-      spyOn(service, 'getUrl').and.returnValue('1/2');
-      const urlSpy = spyOn(service, 'goByUrl');
-      service.traverseNavigation();
-      expect(urlSpy).toHaveBeenCalledWith('1');
-    });
-
-    it('should traverse by one param when deeper', () => {
-      spyOn(service, 'getUrl').and.returnValue('1/2/3');
-      const urlSpy = spyOn(service, 'goByUrl');
-      service.traverseNavigation();
-      expect(urlSpy).toHaveBeenCalledWith('1/2');
-    });
-
-    it('should traverse by two params', () => {
-      spyOn(service, 'getUrl').and.returnValue('1/2/3/4');
-      const urlSpy = spyOn(service, 'goByUrl');
-      service.traverseNavigation(2);
-      expect(urlSpy).toHaveBeenCalledWith('1/2');
-    });
-
-    it('should NOT traverse when jumps = 0', () => {
-      spyOn(service, 'getUrl').and.returnValue('1/2/3/4');
-      const urlSpy = spyOn(service, 'goByUrl');
-      service.traverseNavigation(0);
-      expect(urlSpy).toHaveBeenCalledWith('1/2/3/4');
-    });
-
-    it('should navigate to root when one level below', () => {
-      spyOn(service, 'getUrl').and.returnValue('1');
-      const urlSpy = spyOn(service, 'goByUrl');
-      service.traverseNavigation();
-      expect(urlSpy).toHaveBeenCalledWith('');
-    });
-
-    it('should navigate to root when at root', () => {
-      spyOn(service, 'getUrl').and.returnValue('');
-      const urlSpy = spyOn(service, 'goByUrl');
-      service.traverseNavigation();
-      expect(urlSpy).toHaveBeenCalledWith('');
-    });
-  });
 });

@@ -170,19 +170,4 @@ export class RoutingService {
   protected navigate(path: any[], extras?: NavigationExtras): Promise<boolean> {
     return this.router.navigate(path, extras);
   }
-
-  /**
-   * Navigates to the upper level route (next path behind the '/') in the URL.
-   * @param levels: Number of levels to navigate upwards (default = 1).
-   * @example Navigates from "example.com/1/2" to "example.com/1".
-   */
-  traverseNavigation(levels = 1) {
-    const url = this.getUrl([]).split('/');
-    while (levels > 0) {
-      url.pop();
-      levels--;
-    }
-    const traverseUrl = url.join('/');
-    this.goByUrl(traverseUrl);
-  }
 }
