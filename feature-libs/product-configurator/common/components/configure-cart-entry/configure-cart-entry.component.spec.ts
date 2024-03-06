@@ -6,11 +6,12 @@ import { AbstractOrderContext } from '@spartacus/cart/base/components';
 import { AbstractOrderType, OrderEntry } from '@spartacus/cart/base/root';
 import {
   I18nTestingModule,
-  RoutingService,
   RouterState,
+  RoutingService,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { delay, take } from 'rxjs/operators';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -19,7 +20,6 @@ import {
 } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
-import { delay, take } from 'rxjs/operators';
 
 const orderCode = '01008765';
 const savedCartCode = '0108336';
@@ -175,8 +175,8 @@ describe('ConfigureCartEntryComponent', () => {
     it('should return false in case the url does not contain checkoutReviewOrder', (done) => {
       component['isInCheckout']()
         .pipe(take(1), delay(0))
-        .subscribe((isCheckoutRelevant) => {
-          expect(isCheckoutRelevant).toBe(false);
+        .subscribe((isInCheckout) => {
+          expect(isInCheckout).toBe(false);
           done();
         });
     });
@@ -185,8 +185,8 @@ describe('ConfigureCartEntryComponent', () => {
       mockRouterState.state.semanticRoute = 'checkoutReviewOrder';
       component['isInCheckout']()
         .pipe(take(1), delay(0))
-        .subscribe((isCheckoutRelevant) => {
-          expect(isCheckoutRelevant).toBe(true);
+        .subscribe((isInCheckout) => {
+          expect(isInCheckout).toBe(true);
           done();
         });
     });

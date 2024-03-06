@@ -11,21 +11,21 @@ import {
   inject,
 } from '@angular/core';
 import { Params } from '@angular/router';
-import { RoutingService } from '@spartacus/core';
 import {
   AbstractOrderKey,
   AbstractOrderType,
   OrderEntry,
 } from '@spartacus/cart/base/root';
+import { RoutingService } from '@spartacus/core';
 
 import { AbstractOrderContext } from '@spartacus/cart/base/components';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {
   CommonConfigurator,
   ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-configure-cart-entry',
@@ -52,10 +52,10 @@ export class ConfigureCartEntryComponent {
     resolveIssues: boolean;
     navigateToCheckout: boolean;
   }> = this.isInCheckout().pipe(
-    map((isCheckoutRelevant) => ({
+    map((isInCheckout) => ({
       forceReload: true,
       resolveIssues: this.msgBanner && this.hasIssues(),
-      navigateToCheckout: isCheckoutRelevant,
+      navigateToCheckout: isInCheckout,
     }))
   );
 
