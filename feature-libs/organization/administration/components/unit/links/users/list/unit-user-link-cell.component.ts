@@ -18,14 +18,28 @@ import { CellComponent } from '../../../../shared/table/cell.component';
 @Component({
   selector: 'cx-org-unit-user-link-cell',
   template: `
-    <a
-      *ngIf="isUpdatingUserAllowed && hasItem && (unitKey$ | async) as uid"
-      [routerLink]="
-        { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
-      "
-    >
-      {{ 'orgUser.links.rolesAndRights' | cxTranslate }}
-    </a>
+    <!--  TODO: (CXSPA-6457) - Remove feature flag next major release -->
+    <ng-container *cxFeatureLevel="'6.8'">
+      <a
+        class="button"
+        *ngIf="isUpdatingUserAllowed && hasItem && (unitKey$ | async) as uid"
+        [routerLink]="
+          { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
+        "
+      >
+        {{ 'orgUser.links.rolesAndRights' | cxTranslate }}
+      </a>
+    </ng-container>
+    <ng-container *cxFeatureLevel="'!6.8'">
+      <a
+        *ngIf="isUpdatingUserAllowed && hasItem && (unitKey$ | async) as uid"
+        [routerLink]="
+          { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
+        "
+      >
+        {{ 'orgUser.links.rolesAndRights' | cxTranslate }}
+      </a>
+    </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

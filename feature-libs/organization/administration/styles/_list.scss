@@ -303,6 +303,13 @@
           display: none;
         }
         tr {
+          // TODO: (CXSPA-6457) - Remove feature flag next major release
+
+          @include forVersion(6.8) {
+            &:focus-within {
+              outline: none;
+            }
+          }
           td {
             &.actions {
               width: 1px;
@@ -353,7 +360,14 @@
 
     td:last-child a {
       // last cell will have an icon, which is why we add additional padding
-      padding-inline-end: 40px;
+      // TODO: (CXSPA-6457) - Remove feature flag next major release
+
+      @include forVersion(1, 6.7) {
+        padding-inline-end: 40px;
+      }
+      @include forVersion(6.8) {
+        margin-inline-end: 40px;
+      }
     }
 
     td:last-child span {
@@ -408,7 +422,11 @@
         display: flex;
         align-items: center;
         width: 100%;
-        min-height: 74px;
+        // TODO: (CXSPA-6457) - Remove feature flag next major release
+
+        @include forVersion(1, 6.7) {
+          min-height: 74px;
+        }
 
         @include media-breakpoint-up(lg) {
           .text {
