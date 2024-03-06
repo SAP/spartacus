@@ -35,7 +35,6 @@ import { Observable, Subscription, of } from 'rxjs';
 import {
   delay,
   distinctUntilChanged,
-  distinctUntilKeyChanged,
   filter,
   map,
   switchMap,
@@ -146,7 +145,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         switchMap((routerData) =>
           this.configuratorCommonsService.getConfiguration(routerData.owner)
         ),
-        distinctUntilKeyChanged('configId'),
         filter((configuration) => configuration.overview != null),
         take(1),
         delay(0) //we need to consider the re-rendering of the page
