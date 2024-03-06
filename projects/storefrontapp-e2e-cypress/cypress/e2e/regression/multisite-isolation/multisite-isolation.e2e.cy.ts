@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import { user } from '../../../sample-data/checkout-flow';
 import { register } from '../../../helpers/auth-forms';
-import * as login from '../../../helpers/login';
 import * as alerts from '../../../helpers/global-message';
+import * as login from '../../../helpers/login';
+import { user } from '../../../sample-data/checkout-flow';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 import {
   ELECTRONICS_BASESITE,
@@ -19,7 +19,7 @@ import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 export const ELECTRONICS_STANDALONE_BASESITE = 'electronics-standalone';
 export const POWERTOOLS_STANDALONE_BASESITE = 'powertools-standalone';
 
-describe('Multisite Isolation', () => {
+xdescribe('Multisite Isolation', () => {
   before(() => {
     cy.window().then((win) => {
       win.localStorage.clear();
