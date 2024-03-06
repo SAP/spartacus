@@ -74,32 +74,25 @@ jobs:
           sed -i "s/export const PUBLISHING_VERSION = '.*';/export const PUBLISHING_VERSION = '$version';/" ./tools/config/const.ts
           echo "Updated PUBLISHING_VERSION in ./tools/config/const.ts."
 
-      # - name: Package installation
-      #   run: npm ci
+      - name: Package installation
+        run: npm ci
         
-      # - name: Run Config Update
-      #   run: |
-      #     if ! npm run config:update; then
-      #       echo "Error: The configuration file is not up to date. Regenerating dependencies..."
-      #       npm run generate:deps
-      #       npm run config:update
-      #     fi
-      #     npm run generate:deps
+      - name: Run Config Update
+        run: |
+          if ! npm run config:update; then
+            echo "Error: The configuration file is not up to date. Regenerating dependencies..."
+            npm run generate:deps
+            npm run config:update
+          fi
+          npm run generate:deps
 
-      # - name: Run Schematics Tests
-      #   run: |
-      #     npm run test:all-schematics
+      - name: Run Schematics Tests
+        run: |
+          npm run test:all-schematics
 
       - name: Push Changes
         run: |
           git add .
           git commit -m "Release ${{ env.version }}"
           git push origin "${{ env.RELEASE_BRANCH }}"
-
-      - name: Create Pull Request
-        run: |
-          gh auth setup-git
-          gh pr create --draft --title "Release ${{ env.version }}" --body "Automated pull request to merge the release branch into develop." --base develop --head ${{ env.RELEASE_BRANCH }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
