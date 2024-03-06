@@ -15,7 +15,6 @@ import {
   LoggerService,
   StateUtils,
   normalizeHttpError,
-  RoutingService,
 } from '@spartacus/core';
 import { Observable, from, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
@@ -30,8 +29,6 @@ import {
 @Injectable()
 export class OrgUnitEffects {
   protected logger = inject(LoggerService);
-  // TODO: Remove optional flag from this service in next major.
-  protected routingService = inject(RoutingService, { optional: true });
 
   loadOrgUnit$: Observable<
     | OrgUnitActions.LoadOrgUnitSuccess
@@ -389,7 +386,9 @@ export class OrgUnitEffects {
           .pipe(
             switchMap((data) => [
               new OrgUnitActions.CreateAddressSuccess(data),
-              new OrgUnitActions.CreateAddressSuccess({ id: 'new' }),
+              new OrgUnitActions.CreateAddressSuccess({
+                id: payload.address.id,
+              }),
               new OrganizationActions.OrganizationClearData(),
             ]),
             catchError((error: HttpErrorResponse) =>
