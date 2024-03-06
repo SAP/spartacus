@@ -171,9 +171,9 @@ describe('ConfigureCartEntryComponent', () => {
     });
   });
 
-  describe('isCheckoutRelevant', () => {
+  describe('isInCheckout', () => {
     it('should return false in case the url does not contain checkoutReviewOrder', (done) => {
-      component['isCheckoutRelevant']()
+      component['isInCheckout']()
         .pipe(take(1), delay(0))
         .subscribe((isCheckoutRelevant) => {
           expect(isCheckoutRelevant).toBe(false);
@@ -183,7 +183,7 @@ describe('ConfigureCartEntryComponent', () => {
 
     it('should return true in case the url contains checkoutReviewOrder in case one comes from the checkout', (done) => {
       mockRouterState.state.semanticRoute = 'checkoutReviewOrder';
-      component['isCheckoutRelevant']()
+      component['isInCheckout']()
         .pipe(take(1), delay(0))
         .subscribe((isCheckoutRelevant) => {
           expect(isCheckoutRelevant).toBe(true);

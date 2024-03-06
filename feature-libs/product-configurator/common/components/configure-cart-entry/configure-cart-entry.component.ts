@@ -47,6 +47,18 @@ export class ConfigureCartEntryComponent {
     ? this.abstractOrderContext.key$
     : of({ type: AbstractOrderType.CART });
 
+  queryParams$: Observable<{
+    forceReload: boolean;
+    resolveIssues: boolean;
+    navigateToCheckout: boolean;
+  }> = this.isInCheckout().pipe(
+    map((isCheckoutRelevant) => ({
+      forceReload: true,
+      resolveIssues: this.msgBanner && this.hasIssues(),
+      navigateToCheckout: isCheckoutRelevant,
+    }))
+  );
+
   /**
    * Verifies whether the entry has any issues.
    *
@@ -192,19 +204,7 @@ export class ConfigureCartEntryComponent {
     };
   }
 
-  queryParams$: Observable<{
-    forceReload: boolean;
-    resolveIssues: boolean;
-    navigateToCheckout: boolean;
-  }> = this.isCheckoutRelevant().pipe(
-    map((isCheckoutRelevant) => ({
-      forceReload: true,
-      resolveIssues: this.msgBanner && this.hasIssues(),
-      navigateToCheckout: isCheckoutRelevant,
-    }))
-  );
-
-  protected isCheckoutRelevant(): Observable<boolean> {
+  protected isInCheckout(): Observable<boolean> {
     return this.routingService.getRouterState().pipe(
       map((routerState) => {
         return routerState.state.semanticRoute === 'checkoutReviewOrder';
