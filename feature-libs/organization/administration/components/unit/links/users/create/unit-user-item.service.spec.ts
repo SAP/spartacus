@@ -72,6 +72,7 @@ describe('ChildUnitItemService', () => {
     expect(userService.create).toHaveBeenCalledWith({
       name: 'User name',
       orgUnit: { uid: 'unit-uid' },
+      customerId: 'new',
     });
   });
 
