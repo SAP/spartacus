@@ -103,7 +103,6 @@ export class RulebasedConfiguratorConnector {
   getConfigurationOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Overview> {
-    console.log('connector getConfigurationOverview');
     return this.getAdapter(
       configuration.owner.configuratorType
     ).getConfigurationOverview(configuration.configId);
