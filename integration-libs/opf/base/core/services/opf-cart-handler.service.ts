@@ -77,7 +77,9 @@ export class OpfCartHandlerService {
         take(1),
         switchMap((cart: Cart) => {
           if (!cart?.code) {
-            return throwError('CartId missing from new created cart');
+            return throwError(
+              () => new Error('CartId missing from new created cart')
+            );
           }
           this.cartHandlerState.cartId = cart.code;
           this.multiCartFacade.addEntry(
