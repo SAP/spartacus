@@ -45,7 +45,10 @@ export class UserItemService extends ItemService<B2BUser> {
   protected create(
     value: B2BUser
   ): Observable<OrganizationItemStatus<B2BUser>> {
-    // Note: No id or code is provided when creating a new user so we cannot store a value in the ngrx state to check that user to be created via the loading state. That is why we need to assign some temporary value to the id.
+    // Note: No id or code is provided when creating a new user so we
+    // cannot store a value in the ngrx state to check that user to be
+    // created via the loading state. That is why we need to assign
+    // some temporary value to the id.
     value.customerId = 'new';
 
     this.userService.create(value);

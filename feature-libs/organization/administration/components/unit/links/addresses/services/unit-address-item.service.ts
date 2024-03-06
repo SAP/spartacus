@@ -54,7 +54,10 @@ export class UnitAddressItemService extends ItemService<Address> {
   protected create(
     value: Address
   ): Observable<OrganizationItemStatus<Address>> {
-    // Note: No id or code is provided when creating a new address so we cannot store a value in the ngrx state to check that address to be created via the loading state. That is why we need to assign some temporary value to the id.
+    // Note: No id or code is provided when creating a new address so we
+    // cannot store a value in the ngrx state to check that address to be
+    // created via the loading state. That is why we need to assign some
+    // temporary value to the id.
     value.id = 'new';
 
     this.unitRouteParam$
