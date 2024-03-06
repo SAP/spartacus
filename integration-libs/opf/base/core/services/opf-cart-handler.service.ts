@@ -51,13 +51,13 @@ export class OpfCartHandlerService {
   protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
   protected opfGlobalMessageService = inject(OpfGlobalMessageService);
   protected opfMiniCartComponentService = inject(OpfMiniCartComponentService);
-  protected initiateCartHandlerState: CartHandlerState = {
+  protected defaultCartHandlerState: CartHandlerState = {
     cartId: '',
     userId: '',
     previousCartId: '',
   };
   protected cartHandlerState: CartHandlerState = {
-    ...this.initiateCartHandlerState,
+    ...this.defaultCartHandlerState,
   };
 
   protected addProductToNewCart(
@@ -115,8 +115,8 @@ export class OpfCartHandlerService {
     );
   }
 
-  allowMiniCartUpdate() {
-    this.opfMiniCartComponentService.blockUpdate(false);
+  blockMiniCartComponentUpdate(decision: boolean) {
+    this.opfMiniCartComponentService.blockUpdate(decision);
   }
 
   addProductToCart(
@@ -124,14 +124,14 @@ export class OpfCartHandlerService {
     quantity: number,
     pickupStore?: string | undefined
   ): Observable<boolean> {
-    this.cartHandlerState = { ...this.initiateCartHandlerState };
+    this.cartHandlerState = { ...this.defaultCartHandlerState };
     return combineLatest([
       this.userIdService.takeUserId(),
       this.multiCartFacade.getCartIdByType(CartType.ACTIVE),
       this.activeCartFacade.isStable(),
     ]).pipe(
       take(1),
-      tap(() => this.opfMiniCartComponentService.blockUpdate(true)),
+      tap(() => this.blockMiniCartComponentUpdate(true)),
       switchMap(([userId, cartId, _]) => {
         this.cartHandlerState.userId = userId;
         if (cartId) {
@@ -162,7 +162,7 @@ export class OpfCartHandlerService {
       extraData: { active: true },
     });
     return this.checkStableCart().pipe(
-      tap(() => this.opfMiniCartComponentService.blockUpdate(false))
+      tap(() => this.blockMiniCartComponentUpdate(false))
     );
   }
 

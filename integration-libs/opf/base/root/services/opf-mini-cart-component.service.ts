@@ -22,6 +22,9 @@ import { filter } from 'rxjs/operators';
 export class OpfMiniCartComponentService extends MiniCartComponentService {
   protected isUpdateBlocked = false;
 
+  // Block Mini Cart UI so Active Cart can be switched without being noticed by user.
+  // It is required while paying with OPF QuickBuy on PDP, Mini Cart must keep original values.
+
   blockUpdate(val: boolean) {
     this.isUpdateBlocked = val;
   }

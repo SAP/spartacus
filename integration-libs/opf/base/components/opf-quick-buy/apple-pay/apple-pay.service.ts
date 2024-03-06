@@ -106,7 +106,7 @@ export class ApplePayService {
 
   start(transactionInput: ApplePayTransactionInput): any {
     if (this.paymentInProgress) {
-      return throwError('Apple Pay is already in progress');
+      return throwError(() => new Error('Apple Pay is already in progress'));
     }
     this.paymentInProgress = true;
 
@@ -140,8 +140,8 @@ export class ApplePayService {
       })
       .pipe(
         catchError((error) => {
-          this.loadPdpOriginalCart();
-          return throwError(error);
+          this.loadCartAfterSingleProductTransaction();
+          return throwError(() => error);
         }),
         finalize(() => {
           this.cartHandlerService.deleteUserAddresses([
@@ -175,7 +175,7 @@ export class ApplePayService {
         quantity
       );
     }
-    return throwError('Product code unknown');
+    return throwError(() => new Error('Product code unknown'));
   }
 
   private validateOpfAppleSession(
@@ -262,7 +262,7 @@ export class ApplePayService {
       }),
       switchMap((price: number | undefined) => {
         if (!price) {
-          return throwError('Total Price not available');
+          return throwError(() => new Error('Total Price not available'));
         }
         this.transactionDetails.total.amount = price.toString();
         result.newTotal.amount = price.toString();
@@ -292,7 +292,7 @@ export class ApplePayService {
         take(1),
         switchMap((cart: Cart) => {
           if (!cart?.totalPrice?.value) {
-            return throwError('Total Price not available');
+            return throwError(() => new Error('Total Price not available'));
           }
           result.newTotal.amount = cart.totalPrice.value.toString();
           this.transactionDetails.total.amount =
@@ -311,7 +311,7 @@ export class ApplePayService {
 
     return this.placeOrderAfterPayment(event.payment).pipe(
       map((success) => {
-        this.loadPdpOriginalCart(success);
+        this.loadCartAfterSingleProductTransaction(success);
         return success
           ? result
           : { ...result, status: this.applePaySession.statusFailure };
@@ -379,7 +379,7 @@ export class ApplePayService {
       );
   }
 
-  protected loadPdpOriginalCart(orderSuccess = false): void {
+  protected loadCartAfterSingleProductTransaction(orderSuccess = false): void {
     if (this.transactionDetails.context === OpfQuickBuyLocation.PRODUCT) {
       this.cartHandlerService
         .loadOriginalCart()
