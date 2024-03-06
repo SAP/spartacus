@@ -68,7 +68,6 @@ const configWithOverview: Configurator.Configuration = {
   overview: { configId: 'CONFIG_ID', productCode: PRODUCT_CODE },
 };
 
-
 const mockRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
   isOwnerCartEntry: false,
@@ -78,7 +77,7 @@ const mockRouterData: ConfiguratorRouter.Data = {
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return configurationObs;
-  } 
+  }
 }
 
 class MockConfigUtilsService {
@@ -521,10 +520,9 @@ describe('ConfigTabBarComponent', () => {
 
   describe('Focus handling on navigation', () => {
     it('focusOverviewInTabBar should call focusFirstActiveElement', fakeAsync(() => {
-      spyOn(
-        configuratorCommonsService,
-        'getConfiguration'
-      ).and.returnValue(of(configWithOverview));
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(configWithOverview)
+      );
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(
@@ -533,10 +531,9 @@ describe('ConfigTabBarComponent', () => {
     }));
 
     it('focusOverviewInTabBar should not call focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
-      spyOn(
-        configuratorCommonsService,
-        'getConfiguration'
-      ).and.returnValue(configurationObs);
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        configurationObs
+      );
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(
@@ -553,6 +550,9 @@ describe('ConfigTabBarComponent', () => {
     }));
 
     it('navigateToOverview should navigate to overview page and should call focusFirstActiveElement inside focusOverviewInTabBar', fakeAsync(() => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(configWithOverview)
+      );
       spyOn(routingService, 'go').and.callThrough();
       component['navigateToOverview'](mockRouterData);
       tick(1); // needed because of delay(0) in focusOverviewInTabBar

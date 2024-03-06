@@ -978,10 +978,9 @@ describe('ConfigAddToCartButtonComponent', () => {
     }));
 
     it('focusOverviewInTabBar should not call focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
-      spyOn(
-        configuratorCommonsService,
-        'getConfiguration'
-      ).and.returnValue(of(mockProductConfigurationWithoutBasePrice));
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(mockProductConfigurationWithoutBasePrice)
+      );
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
       expect(
