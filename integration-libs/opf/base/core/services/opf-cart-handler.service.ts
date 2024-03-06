@@ -291,11 +291,17 @@ export class OpfCartHandlerService {
             return false;
           }
           if (entry.quantity <= quantity) {
-            this.activeCartFacade.removeEntry(entry);
+            this.multiCartFacade.removeEntry(
+              this.cartHandlerState.userId,
+              this.cartHandlerState.previousCartId,
+              entry.entryNumber
+            );
             return true;
           }
 
-          this.activeCartFacade.updateEntry(
+          this.multiCartFacade.updateEntry(
+            this.cartHandlerState.userId,
+            this.cartHandlerState.previousCartId,
             entry.entryNumber,
             entry.quantity - quantity
           );
