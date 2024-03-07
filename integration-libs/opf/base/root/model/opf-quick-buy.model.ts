@@ -89,6 +89,12 @@ export interface ApplePayTransactionDetails {
   };
 }
 
+export interface CartHandlerState {
+  cartId: string;
+  userId: string;
+  previousCartId: string;
+}
+
 export interface ApplePaySessionVerificationRequest {
   cartId: string;
   validationUrl: string;

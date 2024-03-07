@@ -22,8 +22,12 @@ import {
   UserAddressService,
   UserIdService,
 } from '@spartacus/core';
+import { CartHandlerState } from '@spartacus/opf/base/root';
 import { of, throwError } from 'rxjs';
-import { OpfGlobalMessageService } from '../../root/services';
+import {
+  OpfGlobalMessageService,
+  OpfMiniCartComponentService,
+} from '../../root/services';
 import { OpfCartHandlerService } from './opf-cart-handler.service';
 
 describe('OpfCartHandlerService', () => {
@@ -37,6 +41,7 @@ describe('OpfCartHandlerService', () => {
   let eventService: jasmine.SpyObj<EventService>;
   let checkoutBillingAddressFacade: jasmine.SpyObj<CheckoutBillingAddressFacade>;
   let opfGlobalMessageService: jasmine.SpyObj<OpfGlobalMessageService>;
+  let opfMiniCartComponentService: jasmine.SpyObj<OpfMiniCartComponentService>;
 
   beforeEach(() => {
     activeCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
@@ -63,8 +68,21 @@ describe('OpfCartHandlerService', () => {
     userAddressService = jasmine.createSpyObj('UserAddressService', [
       'deleteUserAddress',
     ]);
-    multiCartFacade = jasmine.createSpyObj('MultiCartFacade', ['deleteCart']);
-    userIdService = jasmine.createSpyObj('UserIdService', ['getUserId']);
+    multiCartFacade = jasmine.createSpyObj('MultiCartFacade', [
+      'deleteCart',
+      'getCartIdByType',
+      'createCart',
+      'addEntry',
+      'isStable',
+      'loadCart',
+      'getEntry',
+      'removeEntry',
+      'updateEntry',
+    ]);
+    userIdService = jasmine.createSpyObj('UserIdService', [
+      'getUserId',
+      'takeUserId',
+    ]);
     eventService = jasmine.createSpyObj('EventService', ['get']);
     checkoutBillingAddressFacade = jasmine.createSpyObj(
       'CheckoutBillingAddressFacade',
@@ -73,6 +91,10 @@ describe('OpfCartHandlerService', () => {
     opfGlobalMessageService = jasmine.createSpyObj('OpfGlobalMessageService', [
       'disableGlobalMessage',
     ]);
+    opfMiniCartComponentService = jasmine.createSpyObj(
+      'OpfMiniCartComponentService',
+      ['blockUpdate']
+    );
 
     TestBed.configureTestingModule({
       providers: [
@@ -95,6 +117,10 @@ describe('OpfCartHandlerService', () => {
           useValue: checkoutBillingAddressFacade,
         },
         { provide: OpfGlobalMessageService, useValue: opfGlobalMessageService },
+        {
+          provide: OpfMiniCartComponentService,
+          useValue: opfMiniCartComponentService,
+        },
       ],
     });
 
@@ -102,24 +128,97 @@ describe('OpfCartHandlerService', () => {
   });
 
   describe('addProductToCart', () => {
-    it('should call addEntry and check if the cart is stable', (done) => {
+    it('should create, addEntry & load new cart when initial cart exists', (done) => {
       const productCode = 'testProduct';
       const quantity = 1;
       const pickupStore = 'testStore';
+      const mockCartId = 'mockCartId';
+      const mockUserId = 'mockUserId';
+      const mockCart: Cart = { guid: 'testId', code: mockCartId };
+      const mockCreateCartInput = {
+        userId: mockUserId,
+        extraData: { active: false },
+      };
+      const mockLoadCartInput = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        extraData: { active: true },
+      };
 
-      activeCartFacade.addEntry.and.callThrough();
+      opfMiniCartComponentService.blockUpdate.and.callThrough();
+      multiCartFacade.addEntry.and.callThrough();
+      multiCartFacade.loadCart.and.callThrough();
       activeCartFacade.isStable.and.returnValue(of(true));
+      multiCartFacade.isStable.and.returnValue(of(true));
+      multiCartFacade.getCartIdByType.and.returnValue(of(mockCartId));
+      multiCartFacade.createCart.and.returnValue(of(mockCart));
+      userIdService.takeUserId.and.returnValue(of(mockUserId));
 
       service
         .addProductToCart(productCode, quantity, pickupStore)
         .subscribe((result) => {
-          expect(activeCartFacade.addEntry).toHaveBeenCalledWith(
+          expect(multiCartFacade.addEntry).toHaveBeenCalledWith(
+            mockUserId,
+            mockCartId,
             productCode,
             quantity,
             pickupStore
           );
+          expect(opfMiniCartComponentService.blockUpdate).toHaveBeenCalledWith(
+            true
+          );
+          expect(multiCartFacade.createCart).toHaveBeenCalledWith(
+            mockCreateCartInput
+          );
+          expect(activeCartFacade.addEntry).not.toHaveBeenCalled();
+          expect(multiCartFacade.addEntry).toHaveBeenCalledWith(
+            mockUserId,
+            mockCartId,
+            productCode,
+            quantity,
+            pickupStore
+          );
+          expect(multiCartFacade.createCart).toHaveBeenCalledWith(
+            mockCreateCartInput
+          );
+          expect(multiCartFacade.loadCart).toHaveBeenCalledWith(
+            mockLoadCartInput
+          );
+          expect(result).toBeTruthy();
+          done();
+        });
+    });
 
+    it('should call addEntry and check if the cart is stable when no initial cart', (done) => {
+      const productCode = 'testProduct';
+      const quantity = 1;
+      const pickupStore = 'testStore';
+      const mockInitialCartId = '';
+      const mockCartId = 'mockCartId';
+      const mockUserId = 'mockUserId';
+      const mockCart: Cart = { guid: 'testId', code: mockCartId };
+
+      opfMiniCartComponentService.blockUpdate.and.callThrough();
+      multiCartFacade.addEntry.and.callThrough();
+      multiCartFacade.loadCart.and.callThrough();
+      activeCartFacade.isStable.and.returnValue(of(true));
+      activeCartFacade.takeActiveCartId.and.returnValue(of(mockCartId));
+      multiCartFacade.isStable.and.returnValue(of(true));
+      multiCartFacade.getCartIdByType.and.returnValue(of(mockInitialCartId));
+      multiCartFacade.createCart.and.returnValue(of(mockCart));
+      userIdService.takeUserId.and.returnValue(of(mockUserId));
+
+      service
+        .addProductToCart(productCode, quantity, pickupStore)
+        .subscribe((result) => {
           expect(activeCartFacade.isStable).toHaveBeenCalled();
+          expect(activeCartFacade.addEntry).toHaveBeenCalled();
+          expect(activeCartFacade.takeActiveCartId).toHaveBeenCalled();
+          expect(multiCartFacade.addEntry).not.toHaveBeenCalled();
+          expect(opfMiniCartComponentService.blockUpdate).toHaveBeenCalledWith(
+            true
+          );
+
           expect(result).toBeTruthy();
           done();
         });
@@ -129,6 +228,7 @@ describe('OpfCartHandlerService', () => {
   describe('checkStableCart', () => {
     it('should return true if the cart is stable', fakeAsync(() => {
       activeCartFacade.isStable.and.returnValue(of(true));
+      multiCartFacade.isStable.and.returnValue(of(true));
 
       service.checkStableCart().subscribe((isStable) => {
         expect(isStable).toBeTruthy();
@@ -437,23 +537,206 @@ describe('OpfCartHandlerService', () => {
     it('should delete the current cart and return true on success', (done) => {
       const mockCartId = '12345';
       const mockUserId = 'user123';
+      const mockPreviousCartId = '';
       const mockEvent = new DeleteCartSuccessEvent();
 
-      activeCartFacade.getActiveCartId.and.returnValue(of(mockCartId));
-      userIdService.getUserId.and.returnValue(of(mockUserId));
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
+
       multiCartFacade.deleteCart.and.callThrough();
       eventService.get.and.returnValue(of(mockEvent));
 
       service.deleteCurrentCart().subscribe((result) => {
         expect(result).toBeTruthy();
-        expect(activeCartFacade.getActiveCartId).toHaveBeenCalled();
-        expect(userIdService.getUserId).toHaveBeenCalled();
         expect(multiCartFacade.deleteCart).toHaveBeenCalledWith(
           mockCartId,
           mockUserId
         );
         done();
       });
+    });
+  });
+
+  describe('allowMiniCartUpdate', () => {
+    it('should call opfMiniCartComponentService blockUpdate with false value', () => {
+      opfMiniCartComponentService.blockUpdate.and.callThrough();
+      service.blockMiniCartComponentUpdate(false);
+      expect(opfMiniCartComponentService.blockUpdate).toHaveBeenCalledWith(
+        false
+      );
+    });
+  });
+
+  describe('loadOriginalCart', () => {
+    it('should call multiCartFacade loadCart and truthy when previousCartId exist', (done) => {
+      const mockPreviousCartId = 'mockPreviousCartId';
+      const mockCartId = 'mockCartId';
+      const mockUserId = 'user123';
+
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
+
+      multiCartFacade.loadCart.and.callThrough();
+      activeCartFacade.isStable.and.returnValue(of(true));
+
+      service.loadOriginalCart().subscribe((result) => {
+        expect(result).toBeTruthy();
+        expect(activeCartFacade.isStable).toHaveBeenCalled();
+        expect(multiCartFacade.loadCart).toHaveBeenCalled();
+        expect(opfMiniCartComponentService.blockUpdate).toHaveBeenCalledWith(
+          false
+        );
+        done();
+      });
+    });
+
+    it('should be falsy when previousCartId dose not exist', (done) => {
+      const mockPreviousCartId = '';
+      const mockCartId = 'mockCartId';
+      const mockUserId = 'user123';
+
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
+
+      multiCartFacade.loadCart.and.callThrough();
+      activeCartFacade.isStable.and.returnValue(of(true));
+
+      service.loadOriginalCart().subscribe((result) => {
+        expect(result).toBeFalsy();
+        expect(activeCartFacade.isStable).not.toHaveBeenCalled();
+        expect(multiCartFacade.loadCart).not.toHaveBeenCalled();
+        expect(opfMiniCartComponentService.blockUpdate).toHaveBeenCalledWith(
+          false
+        );
+        done();
+      });
+    });
+    // });
+  });
+
+  describe('removeProductFromOriginalCart', () => {
+    it('should be falsy when no previousCart value exists', (done) => {
+      const productCode = 'testProduct';
+      const quantity = 1;
+      const mockEntry = {};
+      const mockCartId = '12345';
+      const mockUserId = 'user123';
+      const mockPreviousCartId = '';
+
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
+
+      multiCartFacade.getEntry.and.returnValue(of(mockEntry));
+
+      service
+        .removeProductFromOriginalCart(productCode, quantity)
+        .subscribe((result) => {
+          expect(result).toBeFalsy();
+          done();
+        });
+    });
+    it('should be falsy when pdp product does not exists in active cart', (done) => {
+      const productCode = 'testProduct';
+      const quantity = 1;
+      const mockEntry = {};
+      const mockCartId = '12345';
+      const mockUserId = 'user123';
+      const mockPreviousCartId = '5678';
+
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
+
+      multiCartFacade.getEntry.and.returnValue(of(mockEntry));
+
+      service
+        .removeProductFromOriginalCart(productCode, quantity)
+        .subscribe((result) => {
+          expect(result).toBeFalsy();
+          done();
+        });
+    });
+    it('should removeEntry if pdp product exists in active cart with same quantity', (done) => {
+      const productCode = 'testProduct';
+      const quantity = 2;
+      const mockEntry = { quantity, entryNumber: 0 };
+      const mockCartId = '12345';
+      const mockUserId = 'user123';
+      const mockPreviousCartId = '5678';
+
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
+
+      multiCartFacade.getEntry.and.returnValue(of(mockEntry));
+
+      service
+        .removeProductFromOriginalCart(productCode, quantity)
+        .subscribe((result) => {
+          expect(result).toBeTruthy();
+          expect(multiCartFacade.removeEntry).toHaveBeenCalledWith(
+            mockUserId,
+            mockPreviousCartId,
+            mockEntry.entryNumber
+          );
+          done();
+        });
+    });
+    it('should updateEntry if pdp product exists in active cart with lower quantity', (done) => {
+      const productCode = 'testProduct';
+      const quantity = 2;
+      const entryQuantity = 5;
+      const mockEntry = { quantity: entryQuantity, entryNumber: 0 };
+      const mockCartId = '12345';
+      const mockUserId = 'user123';
+      const mockPreviousCartId = '5678';
+
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
+
+      multiCartFacade.getEntry.and.returnValue(of(mockEntry));
+
+      service
+        .removeProductFromOriginalCart(productCode, quantity)
+        .subscribe((result) => {
+          expect(result).toBeTruthy();
+          expect(multiCartFacade.updateEntry).toHaveBeenCalledWith(
+            mockUserId,
+            mockPreviousCartId,
+            mockEntry.entryNumber,
+            entryQuantity - quantity
+          );
+          done();
+        });
+    });
+  });
+
+  describe('blockMiniCartComponentUpdate', () => {
+    it('should call opfMiniCartComponentService blockUpdate with same value', () => {
+      const decision = true;
+      service.blockMiniCartComponentUpdate(decision);
+      expect(opfMiniCartComponentService.blockUpdate).toHaveBeenCalledWith(
+        decision
+      );
     });
   });
 });

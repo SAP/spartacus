@@ -62,7 +62,10 @@ export class ApplePayService {
   protected initTransactionDetails(
     transactionInput: ApplePayTransactionInput
   ): ApplePayTransactionDetails {
-    this.transactionDetails = { ...this.initialTransactionDetails };
+    this.transactionDetails = {
+      ...this.initialTransactionDetails,
+      addressIds: [],
+    };
 
     if (transactionInput?.cart) {
       this.transactionDetails = {
@@ -103,7 +106,7 @@ export class ApplePayService {
 
   start(transactionInput: ApplePayTransactionInput): any {
     if (this.paymentInProgress) {
-      return throwError('Apple Pay is already in progress');
+      return throwError(() => new Error('Apple Pay is already in progress'));
     }
     this.paymentInProgress = true;
 
@@ -136,6 +139,10 @@ export class ApplePayService {
         paymentAuthorized: (event) => this.handlePaymentAuthorized(event),
       })
       .pipe(
+        catchError((error) => {
+          this.loadCartAfterSingleProductTransaction();
+          return throwError(() => error);
+        }),
         finalize(() => {
           this.cartHandlerService.deleteUserAddresses([
             ...this.transactionDetails.addressIds,
@@ -163,16 +170,12 @@ export class ApplePayService {
     quantity: number
   ): Observable<boolean> {
     if (product.code) {
-      return this.cartHandlerService.deleteCurrentCart().pipe(
-        switchMap(() => {
-          return this.cartHandlerService.addProductToCart(
-            product.code as string,
-            quantity
-          );
-        })
+      return this.cartHandlerService.addProductToCart(
+        product.code as string,
+        quantity
       );
     }
-    return throwError('Product code unknown');
+    return throwError(() => new Error('Product code unknown'));
   }
 
   private validateOpfAppleSession(
@@ -259,7 +262,7 @@ export class ApplePayService {
       }),
       switchMap((price: number | undefined) => {
         if (!price) {
-          return throwError('Total Price not available');
+          return throwError(() => new Error('Total Price not available'));
         }
         this.transactionDetails.total.amount = price.toString();
         result.newTotal.amount = price.toString();
@@ -289,7 +292,7 @@ export class ApplePayService {
         take(1),
         switchMap((cart: Cart) => {
           if (!cart?.totalPrice?.value) {
-            return throwError('Total Price not available');
+            return throwError(() => new Error('Total Price not available'));
           }
           result.newTotal.amount = cart.totalPrice.value.toString();
           this.transactionDetails.total.amount =
@@ -308,6 +311,7 @@ export class ApplePayService {
 
     return this.placeOrderAfterPayment(event.payment).pipe(
       map((success) => {
+        this.loadCartAfterSingleProductTransaction(success);
         return success
           ? result
           : { ...result, status: this.applePaySession.statusFailure };
@@ -373,6 +377,35 @@ export class ApplePayService {
           });
         })
       );
+  }
+
+  protected loadCartAfterSingleProductTransaction(orderSuccess = false): void {
+    if (this.transactionDetails.context === OpfQuickBuyLocation.PRODUCT) {
+      this.cartHandlerService
+        .loadOriginalCart()
+        .pipe(
+          switchMap((cartLoaded) => {
+            // No initial cart and order placed successfully: don't delete cart as done oob
+            if (!cartLoaded && orderSuccess) {
+              return of(true);
+            }
+            if (
+              cartLoaded &&
+              orderSuccess &&
+              this.transactionDetails?.product?.code &&
+              this.transactionDetails?.quantity
+            ) {
+              return this.cartHandlerService.removeProductFromOriginalCart(
+                this.transactionDetails?.product?.code,
+                this.transactionDetails?.quantity
+              );
+            }
+            return this.cartHandlerService.deleteCurrentCart();
+          }),
+          take(1)
+        )
+        .subscribe();
+    }
   }
 
   protected updateApplePayForm(total: { amount: string; label: string }) {

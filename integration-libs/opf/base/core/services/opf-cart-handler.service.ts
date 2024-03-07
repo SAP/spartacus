@@ -8,10 +8,12 @@ import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
+  CartType,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
   DeliveryMode,
   MultiCartFacade,
+  OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
   CheckoutBillingAddressFacade,
@@ -25,16 +27,13 @@ import {
   UserAddressService,
   UserIdService,
 } from '@spartacus/core';
-import { OpfGlobalMessageService } from '@spartacus/opf/base/root';
-import { Observable, merge } from 'rxjs';
 import {
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+  CartHandlerState,
+  OpfGlobalMessageService,
+  OpfMiniCartComponentService,
+} from '@spartacus/opf/base/root';
+import { Observable, combineLatest, merge, of, throwError } from 'rxjs';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -51,21 +50,134 @@ export class OpfCartHandlerService {
   protected eventService = inject(EventService);
   protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
   protected opfGlobalMessageService = inject(OpfGlobalMessageService);
+  protected opfMiniCartComponentService = inject(OpfMiniCartComponentService);
+  protected defaultCartHandlerState: CartHandlerState = {
+    cartId: '',
+    userId: '',
+    previousCartId: '',
+  };
+  protected cartHandlerState: CartHandlerState = {
+    ...this.defaultCartHandlerState,
+  };
+
+  protected addProductToNewCart(
+    productCode: string,
+    quantity: number,
+    originalCartId: string,
+    pickupStore?: string | undefined
+  ): Observable<boolean> {
+    this.cartHandlerState.previousCartId = originalCartId;
+
+    return this.multiCartFacade
+      .createCart({
+        userId: this.cartHandlerState.userId,
+        extraData: { active: false },
+      })
+      .pipe(
+        take(1),
+        switchMap((cart: Cart) => {
+          if (!cart?.code) {
+            return throwError(
+              () => new Error('CartId missing from new created cart')
+            );
+          }
+          this.cartHandlerState.cartId = cart.code;
+          this.multiCartFacade.addEntry(
+            this.cartHandlerState.userId,
+            this.cartHandlerState.cartId,
+            productCode,
+            quantity,
+            pickupStore
+          );
+          return this.checkStableCart(this.cartHandlerState.cartId);
+        }),
+        switchMap(() => {
+          this.multiCartFacade.loadCart({
+            cartId: this.cartHandlerState.cartId,
+            userId: this.cartHandlerState.userId,
+            extraData: { active: true },
+          });
+          return this.checkStableCart(this.cartHandlerState.cartId);
+        })
+      );
+  }
+
+  protected addProductToActiveCart(
+    productCode: string,
+    quantity: number,
+    pickupStore?: string | undefined
+  ): Observable<boolean> {
+    this.activeCartFacade.addEntry(productCode, quantity, pickupStore);
+    return this.checkStableCart().pipe(
+      switchMap(() => this.getCurrentCartId()),
+      map((cartId) => {
+        this.cartHandlerState.cartId = cartId;
+        return true;
+      })
+    );
+  }
+
+  blockMiniCartComponentUpdate(decision: boolean) {
+    this.opfMiniCartComponentService.blockUpdate(decision);
+  }
 
   addProductToCart(
     productCode: string,
     quantity: number,
     pickupStore?: string | undefined
   ): Observable<boolean> {
-    this.activeCartFacade.addEntry(productCode, quantity, pickupStore);
-    return this.checkStableCart();
+    this.cartHandlerState = { ...this.defaultCartHandlerState };
+    return combineLatest([
+      this.userIdService.takeUserId(),
+      this.multiCartFacade.getCartIdByType(CartType.ACTIVE),
+      this.activeCartFacade.isStable(),
+    ]).pipe(
+      take(1),
+      tap(() => this.blockMiniCartComponentUpdate(true)),
+      switchMap(([userId, cartId, _]) => {
+        this.cartHandlerState.userId = userId;
+        if (cartId) {
+          return this.addProductToNewCart(
+            productCode,
+            quantity,
+            cartId,
+            pickupStore
+          );
+        }
+        return this.addProductToActiveCart(
+          productCode,
+          quantity,
+          pickupStore
+        ).pipe(take(1));
+      })
+    );
   }
 
-  checkStableCart(): Observable<boolean> {
-    return this.activeCartFacade.isStable().pipe(
-      filter((isStable) => !!isStable),
-      take(1)
+  loadOriginalCart(): Observable<boolean> {
+    if (!this.cartHandlerState.previousCartId) {
+      this.opfMiniCartComponentService.blockUpdate(false);
+      return of(false);
+    }
+    this.multiCartFacade.loadCart({
+      cartId: this.cartHandlerState.previousCartId,
+      userId: this.cartHandlerState.userId,
+      extraData: { active: true },
+    });
+    return this.checkStableCart().pipe(
+      tap(() => this.blockMiniCartComponentUpdate(false))
     );
+  }
+
+  checkStableCart(cartId?: string): Observable<boolean> {
+    return cartId
+      ? this.multiCartFacade.isStable(cartId).pipe(
+          filter((isStable) => !!isStable),
+          take(1)
+        )
+      : this.activeCartFacade.isStable().pipe(
+          filter((isStable) => !!isStable),
+          take(1)
+        );
   }
 
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
@@ -151,18 +263,55 @@ export class OpfCartHandlerService {
   }
 
   deleteCurrentCart(): Observable<boolean> {
-    return this.activeCartFacade.getActiveCartId().pipe(
-      withLatestFrom(this.userIdService.getUserId()),
-      take(1),
-      tap(([cartId, userId]: [string, string]) => {
-        this.multiCartFacade.deleteCart(cartId, userId);
-      }),
-      switchMap(() =>
-        merge(
-          this.eventService.get(DeleteCartSuccessEvent).pipe(map(() => true)),
-          this.eventService.get(DeleteCartFailEvent).pipe(map(() => false))
-        ).pipe(take(1))
-      )
+    if (!this.cartHandlerState.cartId || !this.cartHandlerState.userId) {
+      return of(false);
+    }
+
+    this.multiCartFacade.deleteCart(
+      this.cartHandlerState.cartId,
+      this.cartHandlerState.userId
     );
+
+    return merge(
+      this.eventService.get(DeleteCartSuccessEvent).pipe(map(() => true)),
+      this.eventService.get(DeleteCartFailEvent).pipe(map(() => false))
+    ).pipe(take(1));
+  }
+
+  removeProductFromOriginalCart(
+    productCode: string,
+    quantity: number
+  ): Observable<boolean> {
+    if (
+      !this.cartHandlerState.previousCartId ||
+      !this.cartHandlerState.userId
+    ) {
+      return of(false);
+    }
+    return this.multiCartFacade
+      .getEntry(this.cartHandlerState.previousCartId, productCode)
+      .pipe(
+        map((entry: OrderEntry | undefined) => {
+          if (!entry || !entry?.quantity || entry?.entryNumber === undefined) {
+            return false;
+          }
+          if (entry.quantity <= quantity) {
+            this.multiCartFacade.removeEntry(
+              this.cartHandlerState.userId,
+              this.cartHandlerState.previousCartId,
+              entry.entryNumber
+            );
+            return true;
+          }
+
+          this.multiCartFacade.updateEntry(
+            this.cartHandlerState.userId,
+            this.cartHandlerState.previousCartId,
+            entry.entryNumber,
+            entry.quantity - quantity
+          );
+          return true;
+        })
+      );
   }
 }

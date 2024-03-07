@@ -138,6 +138,8 @@ describe('ApplePayService', () => {
       'setDeliveryMode',
       'getSelectedDeliveryMode',
       'deleteUserAddresses',
+      'loadOriginalCart',
+      'removeProductFromOriginalCart',
     ]);
     TestBed.configureTestingModule({
       providers: [
@@ -568,6 +570,12 @@ describe('ApplePayService', () => {
 
   it('should handle errors during Apple Pay session start', () => {
     service = TestBed.inject(ApplePayService);
+
+    cartHandlerServiceMock.loadOriginalCart.and.returnValue(of(true));
+    cartHandlerServiceMock.removeProductFromOriginalCart.and.returnValue(
+      of(true)
+    );
+    cartHandlerServiceMock.deleteCurrentCart.and.returnValue(of(true));
 
     applePayObservableFactoryMock.initApplePayEventsHandler.and.returnValue(
       throwError('Error')
