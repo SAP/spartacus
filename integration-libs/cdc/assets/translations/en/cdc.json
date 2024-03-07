@@ -6,7 +6,7 @@
     }
   },
   "profile": {
-    "profileDetailUpdateSuccess": "Profile details successfully updated",
-    "profileDetailUpdateFailure": "Failed to update profile details"
+    "profileUpdateSuccess": "Profile details successfully updated",
+    "profileUpdateFailure": "Failed to update profile details"
   }
 }

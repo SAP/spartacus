@@ -589,14 +589,14 @@ export class CdcJsService implements OnDestroy {
     if (response.response.errorCode === 0) {
       this.globalMessageService.add(
         {
-          key: 'profile.profileDetailUpdateSuccess',
+          key: 'profile.profileUpdateSuccess',
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     } else {
       this.globalMessageService.add(
         {
-          key: 'profile.profileDetailUpdateFailure',
+          key: 'profile.profileUpdateFailure',
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
