@@ -170,6 +170,11 @@ function prepareDependencies(): NodeDependency[] {
   return spartacusDependencies.concat(thirdPartyDependencies);
 }
 
+/**
+ * Adds `build:ssr` script to `package.json` as it's required for CCv2 build - process fails when script is missing.
+ *
+ * TODO: CXSPA-6466 Can be removed if Model T adjust their build process to not require this script.
+ */
 function addBuildSsrScript(spartacusOptions: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     if (spartacusOptions.debug) {
