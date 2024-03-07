@@ -12,6 +12,7 @@ import {
   SearchConfig,
   UserIdService,
   normalizeHttpError,
+  FeatureConfigService,
 } from '@spartacus/core';
 import {
   OrganizationActions,
@@ -142,6 +143,13 @@ class MockUserIdService implements Partial<UserIdService> {
   getUserId = createSpy().and.returnValue(of('current'));
 }
 
+// TODO: Remove mock next major release
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('B2B User Effects', () => {
@@ -184,6 +192,10 @@ describe('B2B User Effects', () => {
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: LoggerService, useClass: MockLoggerService },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     });
 
