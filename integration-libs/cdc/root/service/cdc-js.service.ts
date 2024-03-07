@@ -574,7 +574,7 @@ export class CdcJsService implements OnDestroy {
           if (currentEmail !== userDetails.uid) {
             this.logoutUser();
           }
-          this.handleProfileUpdateTostMessage(response);
+          this.handleProfileUpdateToastMessage(response);
         });
       });
     }
@@ -585,7 +585,7 @@ export class CdcJsService implements OnDestroy {
    * @param response
    *
    */
-  handleProfileUpdateTostMessage(response?: any) {
+  handleProfileUpdateToastMessage(response?: any) {
     if (response.response.errorCode === 0) {
       this.globalMessageService.add(
         {

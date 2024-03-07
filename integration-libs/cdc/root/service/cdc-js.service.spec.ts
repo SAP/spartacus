@@ -620,11 +620,13 @@ describe('CdcJsService', () => {
     });
   });
 
-  describe('handleProfileUpdateTostMessage', () => {
+  describe('handleProfileUpdateToastMessage', () => {
     it('should not show error message on success', () => {
       spyOn(globalMessageService, 'add');
       spyOn(globalMessageService, 'remove');
-      service['handleProfileUpdateTostMessage']({ response: { errorCode: 0 } });
+      service['handleProfileUpdateToastMessage']({
+        response: { errorCode: 0 },
+      });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
           key: 'profile.profileDetailUpdateSuccess',
@@ -637,7 +639,9 @@ describe('CdcJsService', () => {
     it('should show error message on failure', () => {
       spyOn(globalMessageService, 'add');
       spyOn(globalMessageService, 'remove');
-      service['handleProfileUpdateTostMessage']({ response: { errorCode: 1 } });
+      service['handleProfileUpdateToastMessage']({
+        response: { errorCode: 1 },
+      });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
           key: 'profile.profileDetailUpdateFailure',
