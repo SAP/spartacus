@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { B2BUser, RoutingService } from '@spartacus/core';
+import { inject, Injectable } from '@angular/core';
+import { B2BUser, FeatureConfigService, RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
   OrganizationItemStatus,
@@ -19,6 +19,11 @@ import { CurrentUserService } from './current-user.service';
   providedIn: 'root',
 })
 export class UserItemService extends ItemService<B2BUser> {
+  // TODO: Remove service in next major.
+  protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
   constructor(
     protected currentItemService: CurrentUserService,
     protected routingService: RoutingService,
@@ -45,14 +50,21 @@ export class UserItemService extends ItemService<B2BUser> {
   protected create(
     value: B2BUser
   ): Observable<OrganizationItemStatus<B2BUser>> {
-    // Note: No id or code is provided when creating a new user so we
-    // cannot store a value in the ngrx state to check that user to be
-    // created via the loading state. That is why we need to assign
-    // some temporary value to the id.
-    value.customerId = 'new';
+    // TODO: Remove feature flag in next major.
+    if (this.featureConfigService?.isEnabled('fixMyCompanyUnitUserCreation')) {
+      // Note: No id or code is provided when creating a new user so we
+      // cannot store a value in the ngrx state to check that user to be
+      // created via the loading state. That is why we need to assign
+      // some temporary value to the id.
+      value.customerId = 'new';
+    }
 
     this.userService.create(value);
-    return this.userService.getLoadingStatus(value.customerId ?? '');
+
+    // TODO: Remove feature flag in next major.
+    return this.featureConfigService?.isEnabled('fixMyCompanyUnitUserCreation')
+      ? this.userService.getLoadingStatus(value.customerId ?? '')
+      : this.userService.getLoadingStatus(value.uid ?? '');
   }
 
   protected getDetailsRoute(): string {
