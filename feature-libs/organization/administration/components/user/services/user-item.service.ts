@@ -19,7 +19,7 @@ import { CurrentUserService } from './current-user.service';
   providedIn: 'root',
 })
 export class UserItemService extends ItemService<B2BUser> {
-  // TODO: Remove service in next major.
+  // TODO (CXSPA-5630): Remove service in next major.
   protected featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
@@ -50,7 +50,7 @@ export class UserItemService extends ItemService<B2BUser> {
   protected create(
     value: B2BUser
   ): Observable<OrganizationItemStatus<B2BUser>> {
-    // TODO: Remove feature flag in next major.
+    // TODO (CXSPA-5630): Remove feature flag in next major.
     if (this.featureConfigService?.isEnabled('fixMyCompanyUnitUserCreation')) {
       // Note: No id or code is provided when creating a new user so we
       // cannot store a value in the ngrx state to check that user to be
@@ -61,7 +61,7 @@ export class UserItemService extends ItemService<B2BUser> {
 
     this.userService.create(value);
 
-    // TODO: Remove feature flag in next major.
+    // TODO (CXSPA-5630): Remove feature flag in next major.
     return this.featureConfigService?.isEnabled('fixMyCompanyUnitUserCreation')
       ? this.userService.getLoadingStatus(value.customerId ?? '')
       : this.userService.getLoadingStatus(value.uid ?? '');

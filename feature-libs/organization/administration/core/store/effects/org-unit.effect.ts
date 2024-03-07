@@ -31,7 +31,7 @@ import {
 export class OrgUnitEffects {
   protected logger = inject(LoggerService);
 
-  // TODO: Remove service in next major.
+  // TODO (CXSPA-5630): Remove service in next major.
   protected featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
@@ -393,7 +393,7 @@ export class OrgUnitEffects {
             switchMap((data) => [
               new OrgUnitActions.CreateAddressSuccess(data),
               new OrgUnitActions.CreateAddressSuccess(
-                // TODO: Remove feature flag in next major.
+                // TODO (CXSPA-5630): Remove feature flag in next major.
                 this.featureConfigService?.isEnabled(
                   'fixMyCompanyUnitAddressCreation'
                 )

@@ -26,7 +26,7 @@ import { CurrentUnitAddressService } from './current-unit-address.service';
   providedIn: 'root',
 })
 export class UnitAddressItemService extends ItemService<Address> {
-  // TODO: Remove service in next major.
+  // TODO (CXSPA-5630): Remove service in next major.
   protected featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
@@ -64,7 +64,7 @@ export class UnitAddressItemService extends ItemService<Address> {
   protected create(
     value: Address
   ): Observable<OrganizationItemStatus<Address>> {
-    // TODO: Remove feature flag in next major.
+    // TODO (CXSPA-5630): Remove feature flag in next major.
     if (
       this.featureConfigService?.isEnabled('fixMyCompanyUnitAddressCreation')
     ) {

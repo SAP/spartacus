@@ -82,7 +82,7 @@ class MockOrgUnitConnector {
   getTree = createSpy().and.returnValue(of(unitNode));
 }
 
-// TODO: Remove mock next major release
+// TODO (CXSPA-5630): Remove mock next major release
 class MockFeatureConfigService {
   isEnabled() {
     return true;

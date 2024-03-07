@@ -48,7 +48,7 @@ import {
 export class B2BUserEffects {
   protected logger = inject(LoggerService);
 
-  // TODO: Remove service in next major.
+  // TODO (CXSPA-5630): Remove service in next major.
   protected featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
@@ -98,7 +98,7 @@ export class B2BUserEffects {
                 const successActions = [
                   new B2BUserActions.CreateB2BUserSuccess(data),
                   new B2BUserActions.CreateB2BUserSuccess(
-                    // TODO: Remove feature flag in next major.
+                    // TODO (CXSPA-5630): Remove feature flag in next major.
                     this.featureConfigService?.isEnabled(
                       'fixMyCompanyUnitUserCreation'
                     )
