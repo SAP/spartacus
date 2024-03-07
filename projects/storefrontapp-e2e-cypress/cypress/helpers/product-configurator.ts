@@ -8,8 +8,6 @@ import * as login from './login';
 import * as configurationCartVc from './product-configurator-cart-vc';
 import * as productSearch from './product-search';
 import * as common from './common';
-import * as productConfiguratorOverviewVc from './product-configurator-overview-vc';
-import * as productConfiguratorVc from './product-configurator-vc';
 import { verifyGlobalMessageAfterRegistration } from './register';
 
 const nextBtnSelector =
@@ -452,13 +450,9 @@ export function checkTotalPrice(formattedPrice: string): void {
  * Navigates to the overview page via the overview tab.
  */
 export function navigateToOverviewPage(): void {
-  cy.get('cx-configurator-tab-bar a:contains("Overview")')
-    .click({
-      force: true,
-    })
-    .then(() => {
-      cy.wait(productConfiguratorOverviewVc.READ_CONFIG_OV_ALIAS);
-    });
+  cy.get('cx-configurator-tab-bar a:contains("Overview")').click({
+    force: true,
+  });
 }
 
 /**

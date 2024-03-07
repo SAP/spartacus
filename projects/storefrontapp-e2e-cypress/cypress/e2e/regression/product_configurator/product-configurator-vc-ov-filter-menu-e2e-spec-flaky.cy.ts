@@ -1,4 +1,3 @@
-import * as configuration from '../../../helpers/product-configurator';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
 import * as configurationOverview from '../../../helpers/product-configurator-overview';
 import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
@@ -48,7 +47,7 @@ context('Product Configuration', () => {
     cy.viewport(1000, 660);
     clickAllowAllFromBanner();
     completeDigitalCameraConfiguration(commerceRelease.isPricingEnabled);
-    configuration.navigateToOverviewPage();
+    configurationVc.navigateToOverviewPage();
 
     // no filter
     configurationOverviewVc.checkNumberOfMenuEntriesDisplayed(5);
