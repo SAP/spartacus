@@ -22,6 +22,7 @@ import { delay, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { KeyboardFocusService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-tab-bar',
@@ -37,6 +38,7 @@ export class ConfiguratorTabBarComponent {
   private static readonly TAB_BAR_QUERY_SELECTOR = 'cx-configurator-tab-bar';
   protected routingService = inject(RoutingService);
   protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+  protected focusService = inject(KeyboardFocusService);
 
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
@@ -137,6 +139,7 @@ export class ConfiguratorTabBarComponent {
         delay(0) //we need to consider the re-rendering of the page
       )
       .subscribe(() => {
+        this.focusService.clear();
         this.configUtils.focusFirstActiveElement(
           ConfiguratorTabBarComponent.TAB_BAR_QUERY_SELECTOR
         );
@@ -160,6 +163,7 @@ export class ConfiguratorTabBarComponent {
         delay(0) //we need to consider the re-rendering of the page
       )
       .subscribe(() => {
+        this.focusService.clear();
         this.configUtils.focusFirstActiveElement(
           ConfiguratorTabBarComponent.TAB_BAR_QUERY_SELECTOR
         );
