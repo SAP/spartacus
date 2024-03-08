@@ -417,18 +417,6 @@ describe('OpfGooglePayService', () => {
 
   describe('resetAssociatedAddresses', () => {
     it('should clear all associated address IDs', () => {
-      // protected initialTransactionDetails: QuickBuyTransactionDetails = {
-      //   context: OpfQuickBuyLocation.PRODUCT,
-      //   product: undefined,
-      //   cart: undefined,
-      //   quantity: 0,
-      //   addressIds: [],
-      //   total: {
-      //     label: '',
-      //     amount: '',
-      //     currency: '',
-      //   },
-      // };
       service['initialTransactionDetails']['addressIds'] = [
         'address1',
         'address2',
@@ -514,7 +502,6 @@ describe('OpfGooglePayService', () => {
       );
       const mockProduct = { code: 'productCode', price: { value: 100 } };
       const counter = 1;
-
       mockCurrentProductService.getProduct.and.returnValue(of(mockProduct));
       mockItemCounterService.getCounter.and.returnValue(counter);
       mockCartHandlerService.deleteCurrentCart.and.returnValue(of(true));
