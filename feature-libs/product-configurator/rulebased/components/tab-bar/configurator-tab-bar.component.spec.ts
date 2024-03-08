@@ -30,6 +30,7 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service';
+import { KeyboardFocusService } from '@spartacus/storefront';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -100,6 +101,7 @@ describe('ConfigTabBarComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let routingService: RoutingService;
+  let keyboardFocusService: KeyboardFocusService;
 
   beforeEach(
     waitForAsync(() => {
@@ -154,6 +156,10 @@ describe('ConfigTabBarComponent', () => {
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
     );
+    keyboardFocusService = TestBed.inject(
+      KeyboardFocusService as Type<KeyboardFocusService>
+    );
+    spyOn(keyboardFocusService, 'clear').and.callThrough();
     spyOn(
       configuratorStorefrontUtilsService,
       'focusFirstActiveElement'
@@ -519,31 +525,34 @@ describe('ConfigTabBarComponent', () => {
   });
 
   describe('Focus handling on navigation', () => {
-    it('focusOverviewInTabBar should call focusFirstActiveElement', fakeAsync(() => {
+    it('focusOverviewInTabBar should call clear and focusFirstActiveElement', fakeAsync(() => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(configWithOverview)
       );
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
     }));
 
-    it('focusOverviewInTabBar should not call focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
+    it('focusOverviewInTabBar should not call clear and focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         configurationObs
       );
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      expect(keyboardFocusService.clear).toHaveBeenCalledTimes(0);
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(0);
     }));
 
-    it('focusConfigurationInTabBar should call focusFirstActiveElement', fakeAsync(() => {
+    it('focusConfigurationInTabBar should call clear and focusFirstActiveElement', fakeAsync(() => {
       component['focusConfigurationInTabBar']();
       tick(1); // needed because of delay(0) in focusConfigurationInTabBar
+      expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
