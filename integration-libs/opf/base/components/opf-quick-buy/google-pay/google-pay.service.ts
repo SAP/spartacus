@@ -47,8 +47,6 @@ export class OpfGooglePayService {
   protected readonly GOOGLE_PAY_JS_URL =
     'https://pay.google.com/gp/p/js/pay.js';
 
-  // protected associatedShippingAddressIds: string[] = [];
-
   private googlePaymentClient: google.payments.api.PaymentsClient;
 
   private googlePaymentClientOptions: google.payments.api.PaymentOptions = {
@@ -436,37 +434,5 @@ export class OpfGooglePayService {
         type: 'CARD',
       },
     ];
-  }
-
-  protected loadCartAfterSingleProductTransaction(
-    transactionDetails: QuickBuyTransactionDetails,
-    orderSuccess = false
-  ): void {
-    if (transactionDetails.context === OpfQuickBuyLocation.PRODUCT) {
-      this.opfCartHandlerService
-        .loadOriginalCart()
-        .pipe(
-          switchMap((cartLoaded) => {
-            // No initial cart and order placed successfully: don't delete cart as done oob
-            if (!cartLoaded && orderSuccess) {
-              return of(true);
-            }
-            if (
-              cartLoaded &&
-              orderSuccess &&
-              transactionDetails?.product?.code &&
-              transactionDetails?.quantity
-            ) {
-              return this.opfCartHandlerService.removeProductFromOriginalCart(
-                transactionDetails?.product?.code,
-                transactionDetails?.quantity
-              );
-            }
-            return this.opfCartHandlerService.deleteCurrentCart();
-          }),
-          take(1)
-        )
-        .subscribe();
-    }
   }
 }
