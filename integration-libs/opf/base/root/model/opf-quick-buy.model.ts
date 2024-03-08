@@ -75,7 +75,7 @@ export interface CtaScript {
   dynamicScript: OpfDynamicScript;
 }
 
-export interface ApplePayTransactionDetails {
+export interface QuickBuyTransactionDetails {
   context?: OpfQuickBuyLocation;
   cart?: Cart;
   product?: Product;

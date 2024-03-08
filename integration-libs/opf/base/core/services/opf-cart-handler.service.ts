@@ -31,6 +31,8 @@ import {
   CartHandlerState,
   OpfGlobalMessageService,
   OpfMiniCartComponentService,
+  OpfQuickBuyLocation,
+  QuickBuyTransactionDetails,
 } from '@spartacus/opf/base/root';
 import { Observable, combineLatest, merge, of, throwError } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
@@ -313,5 +315,36 @@ export class OpfCartHandlerService {
           return true;
         })
       );
+  }
+
+  loadCartAfterSingleProductTransaction(
+    transactionDetails: QuickBuyTransactionDetails,
+    orderSuccess = false
+  ): void {
+    if (transactionDetails.context === OpfQuickBuyLocation.PRODUCT) {
+      this.loadOriginalCart()
+        .pipe(
+          switchMap((cartLoaded) => {
+            // No initial cart and order placed successfully: don't delete cart as done oob
+            if (!cartLoaded && orderSuccess) {
+              return of(true);
+            }
+            if (
+              cartLoaded &&
+              orderSuccess &&
+              transactionDetails?.product?.code &&
+              transactionDetails?.quantity
+            ) {
+              return this.removeProductFromOriginalCart(
+                transactionDetails?.product?.code,
+                transactionDetails?.quantity
+              );
+            }
+            return this.deleteCurrentCart();
+          }),
+          take(1)
+        )
+        .subscribe();
+    }
   }
 }
