@@ -14,10 +14,17 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
+  inject,
 } from '@angular/core';
+import {
+  FeatureConfigService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import { Subscription, timer } from 'rxjs';
-import { delayWhen } from 'rxjs/operators';
+import { delayWhen, distinctUntilChanged } from 'rxjs/operators';
 import { SplitViewService } from '../split-view.service';
 
 /**
@@ -65,6 +72,9 @@ export class ViewComponent implements OnInit, OnDestroy {
   @Output()
   hiddenChange = new EventEmitter();
 
+  @Input()
+  viewTitle?: string;
+
   protected subscription: Subscription;
 
   constructor(
@@ -72,6 +82,9 @@ export class ViewComponent implements OnInit, OnDestroy {
     protected elementRef: ElementRef,
     protected cd: ChangeDetectorRef
   ) {}
+
+  @Optional() protected globalMessageService = inject(GlobalMessageService);
+  @Optional() featureConfigService = inject(FeatureConfigService);
 
   ngOnInit() {
     const hidden = this._hidden ? { hidden: this._hidden } : {};
@@ -88,6 +101,10 @@ export class ViewComponent implements OnInit, OnDestroy {
         this.disappeared = view.hidden;
         this.cd.markForCheck();
       });
+    // TODO: (CXSPA-6475) - Remove feature flag next major release
+    if (this.featureConfigService.isLevel('6.8')) {
+      this.showAssistiveMessage();
+    }
   }
 
   /**
@@ -127,6 +144,24 @@ export class ViewComponent implements OnInit, OnDestroy {
     } else {
       return 300;
     }
+  }
+
+  protected showAssistiveMessage() {
+    this.subscription.add(
+      this.splitService
+        .getActiveView()
+        .pipe(distinctUntilChanged())
+        .subscribe((activeView) => {
+          if (this.viewPosition !== activeView || !this.viewTitle) {
+            return;
+          }
+          this.globalMessageService.add(
+            this.viewTitle,
+            GlobalMessageType.MSG_TYPE_ASSISTIVE,
+            500
+          );
+        })
+    );
   }
 
   /**
