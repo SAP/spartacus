@@ -22,7 +22,11 @@ import {
   UserAddressService,
   UserIdService,
 } from '@spartacus/core';
-import { CartHandlerState } from '@spartacus/opf/base/root';
+import {
+  CartHandlerState,
+  OpfQuickBuyLocation,
+  QuickBuyTransactionDetails,
+} from '@spartacus/opf/base/root';
 import { of, throwError } from 'rxjs';
 import {
   OpfGlobalMessageService,
@@ -737,6 +741,111 @@ describe('OpfCartHandlerService', () => {
       expect(opfMiniCartComponentService.blockUpdate).toHaveBeenCalledWith(
         decision
       );
+    });
+  });
+
+  describe('loadCartAfterSingleProductTransaction', () => {
+    it('should call deleteCurrentCart when order fails', () => {
+      const mockCartId = '12345';
+      const mockUserId = 'user123';
+      const mockPreviousCartId = 'previousCartId';
+      const mockEvent = new DeleteCartSuccessEvent();
+      const initialTransactionDetails: QuickBuyTransactionDetails = {
+        context: OpfQuickBuyLocation.PRODUCT,
+        product: {},
+        cart: undefined,
+        quantity: 0,
+        addressIds: [],
+        total: {
+          label: '',
+          amount: '',
+          currency: '',
+        },
+      };
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
+
+      multiCartFacade.deleteCart.and.callThrough();
+      eventService.get.and.returnValue(of(mockEvent));
+      activeCartFacade.isStable.and.returnValue(of(true));
+      multiCartFacade.isStable.and.returnValue(of(true));
+      multiCartFacade.deleteCart.and.callThrough();
+
+      service.loadCartAfterSingleProductTransaction(initialTransactionDetails);
+      expect(multiCartFacade.deleteCart).toHaveBeenCalled();
+    });
+
+    it('should removeProductFromOriginalCart when order is successfull', () => {
+      const mockCartId = '12345';
+      const mockUserId = 'user123';
+      const mockPreviousCartId = 'previousCartId';
+      const mockEvent = new DeleteCartSuccessEvent();
+      const mockEntry = { quantity: 1, entryNumber: 0 };
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
+      const initialTransactionDetails: QuickBuyTransactionDetails = {
+        context: OpfQuickBuyLocation.PRODUCT,
+        product: { code: '123' },
+        cart: undefined,
+        quantity: 1,
+        addressIds: [],
+        total: {
+          label: '',
+          amount: '',
+          currency: '',
+        },
+      };
+
+      multiCartFacade.deleteCart.and.callThrough();
+      eventService.get.and.returnValue(of(mockEvent));
+      activeCartFacade.isStable.and.returnValue(of(true));
+      multiCartFacade.isStable.and.returnValue(of(true));
+      multiCartFacade.getEntry.and.returnValue(of(mockEntry));
+
+      service.loadCartAfterSingleProductTransaction(
+        initialTransactionDetails,
+        true
+      );
+      expect(multiCartFacade.getEntry).toHaveBeenCalled();
+      expect(multiCartFacade.deleteCart).not.toHaveBeenCalled();
+    });
+
+    it('should not deleteCurrentCart when order is successfull and initial cart empty', () => {
+      const mockCartId = '12345';
+      const mockUserId = 'user123';
+      const mockPreviousCartId = '';
+
+      ((service as any).cartHandlerState as CartHandlerState) = {
+        cartId: mockCartId,
+        userId: mockUserId,
+        previousCartId: mockPreviousCartId,
+      };
+
+      const initialTransactionDetails: QuickBuyTransactionDetails = {
+        context: OpfQuickBuyLocation.PRODUCT,
+        product: { code: '123' },
+        cart: undefined,
+        quantity: 1,
+        addressIds: [],
+        total: {
+          label: '',
+          amount: '',
+          currency: '',
+        },
+      };
+
+      service.loadCartAfterSingleProductTransaction(
+        initialTransactionDetails,
+        true
+      );
+      expect(multiCartFacade.getEntry).not.toHaveBeenCalled();
+      expect(multiCartFacade.deleteCart).not.toHaveBeenCalled();
     });
   });
 });

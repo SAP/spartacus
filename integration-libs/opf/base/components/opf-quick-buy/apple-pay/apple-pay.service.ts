@@ -21,11 +21,11 @@ import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ApplePaySessionVerificationRequest,
   ApplePaySessionVerificationResponse,
-  ApplePayTransactionDetails,
   ApplePayTransactionInput,
   OpfPaymentFacade,
   OpfQuickBuyLocation,
   PaymentMethod,
+  QuickBuyTransactionDetails,
 } from '@spartacus/opf/base/root';
 
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
@@ -44,7 +44,7 @@ export class ApplePayService {
 
   protected paymentInProgress = false;
 
-  protected initialTransactionDetails: ApplePayTransactionDetails = {
+  protected initialTransactionDetails: QuickBuyTransactionDetails = {
     context: OpfQuickBuyLocation.PRODUCT,
     product: undefined,
     cart: undefined,
@@ -61,7 +61,7 @@ export class ApplePayService {
 
   protected initTransactionDetails(
     transactionInput: ApplePayTransactionInput
-  ): ApplePayTransactionDetails {
+  ): QuickBuyTransactionDetails {
     this.transactionDetails = {
       ...this.initialTransactionDetails,
       addressIds: [],
@@ -140,7 +140,9 @@ export class ApplePayService {
       })
       .pipe(
         catchError((error) => {
-          this.loadCartAfterSingleProductTransaction();
+          this.cartHandlerService.loadCartAfterSingleProductTransaction(
+            this.transactionDetails
+          );
           return throwError(() => error);
         }),
         finalize(() => {
@@ -311,7 +313,10 @@ export class ApplePayService {
 
     return this.placeOrderAfterPayment(event.payment).pipe(
       map((success) => {
-        this.loadCartAfterSingleProductTransaction(success);
+        this.cartHandlerService.loadCartAfterSingleProductTransaction(
+          this.transactionDetails,
+          success
+        );
         return success
           ? result
           : { ...result, status: this.applePaySession.statusFailure };
@@ -377,35 +382,6 @@ export class ApplePayService {
           });
         })
       );
-  }
-
-  protected loadCartAfterSingleProductTransaction(orderSuccess = false): void {
-    if (this.transactionDetails.context === OpfQuickBuyLocation.PRODUCT) {
-      this.cartHandlerService
-        .loadOriginalCart()
-        .pipe(
-          switchMap((cartLoaded) => {
-            // No initial cart and order placed successfully: don't delete cart as done oob
-            if (!cartLoaded && orderSuccess) {
-              return of(true);
-            }
-            if (
-              cartLoaded &&
-              orderSuccess &&
-              this.transactionDetails?.product?.code &&
-              this.transactionDetails?.quantity
-            ) {
-              return this.cartHandlerService.removeProductFromOriginalCart(
-                this.transactionDetails?.product?.code,
-                this.transactionDetails?.quantity
-              );
-            }
-            return this.cartHandlerService.deleteCurrentCart();
-          }),
-          take(1)
-        )
-        .subscribe();
-    }
   }
 
   protected updateApplePayForm(total: { amount: string; label: string }) {

@@ -43,15 +43,23 @@ describe('OpfGooglePayService', () => {
       'getProduct',
     ]);
     mockCartHandlerService = jasmine.createSpyObj('OpfCartHandlerService', [
+      'deleteCurrentCart',
+      'deleteUserAddresses',
+      'addProductToCart',
+      'checkStableCart',
       'getSupportedDeliveryModes',
       'setDeliveryAddress',
-      'setDeliveryMode',
-      'deleteCurrentCart',
-      'addProductToCart',
-      'getCurrentCartId',
-      'deleteUserAddresses',
+      'setBillingAddress',
+      'getDeliveryAddress',
       'getCurrentCart',
+      'getCurrentCartId',
+      'getCurrentCartTotalPrice',
+      'setDeliveryMode',
       'getSelectedDeliveryMode',
+      'deleteUserAddresses',
+      'loadOriginalCart',
+      'removeProductFromOriginalCart',
+      'loadCartAfterSingleProductTransaction',
     ]);
     mockPaymentFacade = jasmine.createSpyObj('OpfPaymentFacade', [
       'submitPayment',
@@ -364,7 +372,9 @@ describe('OpfGooglePayService', () => {
 
       service['associateAddressId'](addressId);
 
-      expect(service['associatedShippingAddressIds']).toContain(addressId);
+      expect(service['initialTransactionDetails']['addressIds']).toContain(
+        addressId
+      );
     });
 
     it('should not add an address ID if it is already present', () => {
@@ -374,7 +384,7 @@ describe('OpfGooglePayService', () => {
       service['associateAddressId'](addressId);
 
       expect(
-        service['associatedShippingAddressIds'].filter(
+        service['initialTransactionDetails']['addressIds'].filter(
           (id: any) => id === addressId
         ).length
       ).toBe(1);
@@ -384,7 +394,7 @@ describe('OpfGooglePayService', () => {
   describe('isAddressIdAssociated', () => {
     it('should return true if address ID is already associated', () => {
       const addressId = 'existingAddressId';
-      service['associatedShippingAddressIds'].push(addressId);
+      service['initialTransactionDetails']['addressIds'].push(addressId);
 
       const result = service['isAddressIdAssociated'](addressId);
 
@@ -393,9 +403,11 @@ describe('OpfGooglePayService', () => {
 
     it('should return false if address ID is not associated', () => {
       const addressId = 'newAddressId';
-      service['associatedShippingAddressIds'] = (
+      service['initialTransactionDetails']['addressIds'] = (
         service as any
-      ).associatedShippingAddressIds.filter((id: any) => id !== addressId);
+      ).initialTransactionDetails.addressIds.filter(
+        (id: any) => id !== addressId
+      );
 
       const result = service['isAddressIdAssociated'](addressId);
 
@@ -405,18 +417,24 @@ describe('OpfGooglePayService', () => {
 
   describe('resetAssociatedAddresses', () => {
     it('should clear all associated address IDs', () => {
-      service['associatedShippingAddressIds'] = ['address1', 'address2'];
+      service['initialTransactionDetails']['addressIds'] = [
+        'address1',
+        'address2',
+      ];
 
       service['resetAssociatedAddresses']();
 
-      expect(service['associatedShippingAddressIds']).toEqual([]);
-      expect(service['associatedShippingAddressIds'].length).toBe(0);
+      expect(service['initialTransactionDetails']['addressIds']).toEqual([]);
+      expect(service['initialTransactionDetails']['addressIds'].length).toBe(0);
     });
   });
 
   describe('deleteAssociatedAddresses', () => {
     it('should call deleteUserAddresses and reset associated addresses', () => {
-      service['associatedShippingAddressIds'] = ['address1', 'address2'];
+      service['initialTransactionDetails']['addressIds'] = [
+        'address1',
+        'address2',
+      ];
 
       service['deleteAssociatedAddresses']();
 
@@ -425,11 +443,11 @@ describe('OpfGooglePayService', () => {
         'address2',
       ]);
 
-      expect(service['associatedShippingAddressIds']).toEqual([]);
+      expect(service['initialTransactionDetails']['addressIds']).toEqual([]);
     });
 
     it('should not call deleteUserAddresses if there are no associated addresses', () => {
-      (service as any).associatedShippingAddressIds = null;
+      (service as any).associatedShippingAddressIds = [];
 
       service['deleteAssociatedAddresses']();
 
@@ -467,11 +485,17 @@ describe('OpfGooglePayService', () => {
         'isReadyToPay',
       ]);
       service['googlePaymentClient'] = mockGooglePaymentClient;
+      service['googlePaymentClient'].loadPaymentData = () =>
+        Promise.resolve({} as google.payments.api.PaymentData);
     });
 
     it('should initiate a transaction process for single product', (done) => {
       spyOn(service, 'handleActiveCartTransaction').and.callThrough();
       spyOn(service, 'handleSingleProductTransaction').and.callThrough();
+      spyOn(
+        service['googlePaymentClient'],
+        'loadPaymentData'
+      ).and.callThrough();
 
       mockQuickBuyService.getQuickBuyLocationContext.and.returnValue(
         of(OpfQuickBuyLocation.PRODUCT)
@@ -483,6 +507,7 @@ describe('OpfGooglePayService', () => {
       mockCartHandlerService.deleteCurrentCart.and.returnValue(of(true));
       mockCartHandlerService.addProductToCart.and.returnValue(of(true));
       mockCartHandlerService.getCurrentCart.and.returnValue(of({}));
+      mockCartHandlerService.loadCartAfterSingleProductTransaction.and.returnValue();
 
       service.initTransaction();
 
@@ -490,7 +515,7 @@ describe('OpfGooglePayService', () => {
         expect(service.handleActiveCartTransaction).not.toHaveBeenCalled();
         expect(service.handleSingleProductTransaction).toHaveBeenCalled();
         expect(mockCurrentProductService.getProduct).toHaveBeenCalled();
-        expect(mockCartHandlerService.deleteCurrentCart).toHaveBeenCalled();
+        expect(mockCartHandlerService.deleteCurrentCart).not.toHaveBeenCalled();
         expect(mockCartHandlerService.addProductToCart).toHaveBeenCalledWith(
           mockProduct.code,
           counter
@@ -505,7 +530,10 @@ describe('OpfGooglePayService', () => {
     it('should initiate a transaction process for active cart', () => {
       spyOn(service, 'handleActiveCartTransaction').and.callThrough();
       spyOn(service, 'handleSingleProductTransaction').and.callThrough();
-
+      spyOn(
+        service['googlePaymentClient'],
+        'loadPaymentData'
+      ).and.callThrough();
       mockQuickBuyService.getQuickBuyLocationContext.and.returnValue(
         of(OpfQuickBuyLocation.CART)
       );

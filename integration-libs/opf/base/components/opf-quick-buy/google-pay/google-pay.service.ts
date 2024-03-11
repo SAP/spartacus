@@ -16,6 +16,7 @@ import {
   OpfQuickBuyLocation,
   OpfResourceLoaderService,
   PaymentMethod,
+  QuickBuyTransactionDetails,
 } from '@spartacus/opf/base/root';
 import {
   CurrentProductService,
@@ -45,8 +46,6 @@ export class OpfGooglePayService {
 
   protected readonly GOOGLE_PAY_JS_URL =
     'https://pay.google.com/gp/p/js/pay.js';
-
-  protected associatedShippingAddressIds: string[] = [];
 
   private googlePaymentClient: google.payments.api.PaymentsClient;
 
@@ -85,6 +84,21 @@ export class OpfGooglePayService {
     totalPriceStatus: 'ESTIMATED',
     currencyCode: 'USD',
   };
+
+  protected initialTransactionDetails: QuickBuyTransactionDetails = {
+    context: OpfQuickBuyLocation.PRODUCT,
+    product: undefined,
+    cart: undefined,
+    quantity: 0,
+    addressIds: [],
+    total: {
+      label: '',
+      amount: '',
+      currency: '',
+    },
+  };
+
+  protected transactionDetails = this.initialTransactionDetails;
 
   loadProviderResources(): Promise<void> {
     return this.opfResourceLoaderService.loadProviderResources([
@@ -193,28 +207,29 @@ export class OpfGooglePayService {
     return this.currentProductService.getProduct().pipe(
       take(1),
       switchMap((product: Product | null) => {
-        return this.opfCartHandlerService.deleteCurrentCart().pipe(
-          switchMap(() => {
-            return this.opfCartHandlerService.addProductToCart(
-              product?.code || '',
-              this.itemCounterService.getCounter()
-            );
-          }),
-          tap(() => {
-            this.updateTransactionInfo({
-              totalPrice: this.estimateTotalPrice(product?.price?.value),
-              currencyCode:
-                product?.price?.currencyIso ||
-                this.initialTransactionInfo.currencyCode,
-              totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
-            });
-          })
-        );
+        const count = this.itemCounterService.getCounter();
+        this.transactionDetails.product = product as Product;
+        this.transactionDetails.quantity = count;
+        this.transactionDetails.context = OpfQuickBuyLocation.PRODUCT;
+        return this.opfCartHandlerService
+          .addProductToCart(product?.code || '', count)
+          .pipe(
+            tap(() => {
+              this.updateTransactionInfo({
+                totalPrice: this.estimateTotalPrice(product?.price?.value),
+                currencyCode:
+                  product?.price?.currencyIso ||
+                  this.initialTransactionInfo.currencyCode,
+                totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
+              });
+            })
+          );
       })
     );
   }
 
   handleActiveCartTransaction(): Observable<Cart> {
+    this.transactionDetails.context = OpfQuickBuyLocation.CART;
     return this.opfCartHandlerService.getCurrentCart().pipe(
       take(1),
       tap((cart: Cart) => {
@@ -230,6 +245,11 @@ export class OpfGooglePayService {
   }
 
   initTransaction(): void {
+    this.transactionDetails = {
+      ...this.initialTransactionDetails,
+      addressIds: [],
+    };
+
     this.opfQuickBuyService
       .getQuickBuyLocationContext()
       .pipe(
@@ -242,7 +262,16 @@ export class OpfGooglePayService {
         })
       )
       .subscribe(() => {
-        this.googlePaymentClient.loadPaymentData(this.googlePaymentRequest);
+        this.googlePaymentClient
+          .loadPaymentData(this.googlePaymentRequest)
+          .catch((err) => {
+            // If err.statusCode === 'CANCELED' it means that customer closed popup
+            if (err.statusCode === 'CANCELED') {
+              this.opfCartHandlerService.loadCartAfterSingleProductTransaction(
+                this.transactionDetails
+              );
+            }
+          });
       });
   }
 
@@ -258,36 +287,37 @@ export class OpfGooglePayService {
   private handlePaymentCallbacks(): google.payments.api.PaymentDataCallbacks {
     return {
       onPaymentAuthorized: (paymentDataResponse) => {
-        return this.opfCartHandlerService
-          .getCurrentCartId()
-          .pipe(
+        return lastValueFrom(
+          this.opfCartHandlerService.getCurrentCartId().pipe(
             switchMap((cartId) =>
               this.setDeliveryAddress(paymentDataResponse.shippingAddress).pipe(
                 switchMap(() => {
                   const encryptedToken = btoa(
                     paymentDataResponse.paymentMethodData.tokenizationData.token
                   );
-                  return forkJoin({
-                    submitPayment: this.opfPaymentFacade.submitPayment({
-                      additionalData: [],
-                      paymentSessionId: '',
-                      callbackArray: [() => {}, () => {}, () => {}],
-                      paymentMethod: PaymentMethod.GOOGLE_PAY,
-                      encryptedToken,
-                      cartId,
-                    }),
+                  return this.opfPaymentFacade.submitPayment({
+                    additionalData: [],
+                    paymentSessionId: '',
+                    callbackArray: [() => {}, () => {}, () => {}],
+                    paymentMethod: PaymentMethod.GOOGLE_PAY,
+                    encryptedToken,
+                    cartId,
                   });
                 })
               )
             ),
-            catchError(() => of({ transactionState: 'ERROR' })),
+            catchError(() => {
+              return of(false);
+            }),
             finalize(() => this.deleteAssociatedAddresses())
           )
-          .toPromise()
-          .then((result) => {
-            const isSuccess = result;
-            return { transactionState: isSuccess ? 'SUCCESS' : 'ERROR' };
-          });
+        ).then((isSuccess) => {
+          this.opfCartHandlerService.loadCartAfterSingleProductTransaction(
+            this.transactionDetails,
+            isSuccess
+          );
+          return { transactionState: isSuccess ? 'SUCCESS' : 'ERROR' };
+        });
       },
 
       onPaymentDataChanged: (intermediatePaymentData) => {
@@ -342,22 +372,22 @@ export class OpfGooglePayService {
 
   protected associateAddressId(addressId: string): void {
     if (!this.isAddressIdAssociated(addressId)) {
-      this.associatedShippingAddressIds.push(addressId);
+      this.transactionDetails.addressIds.push(addressId);
     }
   }
 
   protected isAddressIdAssociated(addressId: string): boolean {
-    return this.associatedShippingAddressIds.includes(addressId);
+    return this.transactionDetails.addressIds.includes(addressId);
   }
 
   protected resetAssociatedAddresses(): void {
-    this.associatedShippingAddressIds = [];
+    this.transactionDetails.addressIds = [];
   }
 
   protected deleteAssociatedAddresses(): void {
-    if (this.associatedShippingAddressIds) {
+    if (this.transactionDetails.addressIds?.length) {
       this.opfCartHandlerService.deleteUserAddresses(
-        this.associatedShippingAddressIds
+        this.transactionDetails.addressIds
       );
       this.resetAssociatedAddresses();
     }

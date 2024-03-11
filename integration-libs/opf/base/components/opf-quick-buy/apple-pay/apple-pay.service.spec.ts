@@ -140,6 +140,7 @@ describe('ApplePayService', () => {
       'deleteUserAddresses',
       'loadOriginalCart',
       'removeProductFromOriginalCart',
+      'loadCartAfterSingleProductTransaction',
     ]);
     TestBed.configureTestingModule({
       providers: [
