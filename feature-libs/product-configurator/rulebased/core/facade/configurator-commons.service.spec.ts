@@ -401,21 +401,40 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   describe('getConfigurationWithOverview', () => {
-    beforeEach(() => {
-      configurationWithOverview = {
-        ...ConfiguratorTestUtils.createConfiguration(
-          CONFIG_ID,
-          ConfiguratorModelUtils.createInitialOwner()
-        ),
-        overview: { configId: CONFIG_ID, productCode: PRODUCT_CODE },
+    configurationWithOverview = {
+      ...ConfiguratorTestUtils.createConfiguration(
+        CONFIG_ID,
+        ConfiguratorModelUtils.createInitialOwner()
+      ),
+      overview: { configId: CONFIG_ID, productCode: PRODUCT_CODE },
+    };
+    const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+      {
+        loading: false,
+        value: productConfiguration,
       };
-    });
+    const productConfigurationLoaderStateLoading: StateUtils.LoaderState<Configurator.Configuration> =
+      {
+        loading: true,
+        value: productConfiguration,
+      };
+    const productConfigurationLoaderStateWithOv: StateUtils.LoaderState<Configurator.Configuration> =
+      {
+        loading: false,
+        value: configurationWithOverview,
+      };
 
     it('should read OV by triggering respective action if that is not present', (done) => {
       expect(productConfiguration.overview).toBeUndefined();
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(productConfiguration, configurationWithOverview)
+        () => () =>
+          of(
+            productConfigurationLoaderState,
+            productConfigurationLoaderStateLoading,
+            productConfigurationLoaderStateWithOv
+          )
       );
+
       spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest
         .getConfigurationWithOverview(productConfiguration)
@@ -429,11 +448,26 @@ describe('ConfiguratorCommonsService', () => {
         })
         .unsubscribe();
     });
+    describe('through filterNotLoadingAndCreatedConfiguration', () => {
+      it('should not emit as long as loader state is `loading`', () => {
+        expect(
+          serviceUnderTest['filterNotLoadingAndCreatedConfiguration'](
+            cold('a-a-b', {
+              a: productConfigurationLoaderStateLoading,
+              b: productConfigurationLoaderState,
+            })
+          )
+        ).toBeObservable(
+          cold('----b', { b: productConfigurationLoaderState.value })
+        );
+      });
+    });
 
     it('should not dispatch an action if overview is already present', (done) => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(configurationWithOverview)
+        () => () => of(productConfigurationLoaderStateWithOv)
       );
+
       spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest
         .getConfigurationWithOverview(productConfiguration)
@@ -446,7 +480,7 @@ describe('ConfiguratorCommonsService', () => {
 
     it('should return configuration with OV if that is already present in store', (done) => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(configurationWithOverview)
+        () => () => of(productConfigurationLoaderStateWithOv)
       );
       spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest
