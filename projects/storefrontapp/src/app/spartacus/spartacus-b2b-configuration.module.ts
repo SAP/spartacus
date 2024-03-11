@@ -6,7 +6,11 @@
 
 import { NgModule } from '@angular/core';
 import { defaultB2BCheckoutConfig } from '@spartacus/checkout/b2b/root';
-import { provideConfig, SiteContextConfig } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  provideConfig,
+  SiteContextConfig,
+} from '@spartacus/core';
 import { defaultB2bOccConfig } from '@spartacus/setup';
 import {
   defaultCmsContentProviders,
@@ -41,6 +45,13 @@ if (environment.epdVisualization) {
       pwa: {
         enabled: true,
         addToHomeScreen: true,
+      },
+    }),
+    // TODO: REMOVE THESE, TESTING ONLY
+    provideConfig(<FeaturesConfig>{
+      features: {
+        fixMyCompanyUnitAddressCreation: true,
+        fixMyCompanyUnitUserCreation: true,
       },
     }),
   ],
