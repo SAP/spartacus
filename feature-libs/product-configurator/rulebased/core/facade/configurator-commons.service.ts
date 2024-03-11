@@ -7,7 +7,7 @@
 import { Injectable, inject, isDevMode } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { LoggerService } from '@spartacus/core';
+import { LoggerService, StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -183,20 +183,15 @@ export class ConfiguratorCommonsService {
   getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    return this.store.pipe(
-      select(
-        ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
-          configuration.owner.key
+    return this.filterNotLoadingAndCreatedConfiguration(
+      this.store.pipe(
+        select(
+          ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
+            configuration.owner.key
+          )
         )
-      ),
-      filter((configurationState) => configurationState.loading === false),
-      filter((configurationState) =>
-        this.configuratorUtils.isConfigurationCreated(configurationState.value)
-      ),
-      map(
-        (configurationState) =>
-          configurationState.value as Configurator.Configuration
-      ),
+      )
+    ).pipe(
       tap((config) => {
         if (!this.hasConfigurationOverview(config)) {
           this.store.dispatch(
@@ -205,6 +200,21 @@ export class ConfiguratorCommonsService {
         }
       }),
       filter((config) => this.hasConfigurationOverview(config))
+    );
+  }
+
+  protected filterNotLoadingAndCreatedConfiguration(
+    loaderState$: Observable<StateUtils.LoaderState<Configurator.Configuration>>
+  ): Observable<Configurator.Configuration> {
+    return loaderState$.pipe(
+      filter((configurationState) => configurationState.loading === false),
+      filter((configurationState) =>
+        this.configuratorUtils.isConfigurationCreated(configurationState.value)
+      ),
+      map(
+        (configurationState) =>
+          configurationState.value as Configurator.Configuration
+      )
     );
   }
 

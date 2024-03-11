@@ -448,6 +448,20 @@ describe('ConfiguratorCommonsService', () => {
         })
         .unsubscribe();
     });
+    describe('through filterNotLoadingAndCreatedConfiguration', () => {
+      it('should not emit as long as loader state is `loading`', () => {
+        expect(
+          serviceUnderTest['filterNotLoadingAndCreatedConfiguration'](
+            cold('a-a-b', {
+              a: productConfigurationLoaderStateLoading,
+              b: productConfigurationLoaderState,
+            })
+          )
+        ).toBeObservable(
+          cold('----b', { b: productConfigurationLoaderState.value })
+        );
+      });
+    });
 
     it('should not dispatch an action if overview is already present', (done) => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(
