@@ -7,7 +7,7 @@ on:
         description: Branch to sync to the private repository (leave empty for default branch)
         required: false
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [opened, reopened]
     branches:
       - 'release-*'
 
