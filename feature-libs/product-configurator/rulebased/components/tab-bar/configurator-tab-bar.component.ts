@@ -18,18 +18,11 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import {
-  delay,
-  distinctUntilKeyChanged,
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { delay, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { KeyboardFocusService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-tab-bar',
@@ -45,6 +38,7 @@ export class ConfiguratorTabBarComponent {
   private static readonly TAB_BAR_QUERY_SELECTOR = 'cx-configurator-tab-bar';
   protected routingService = inject(RoutingService);
   protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+  protected focusService = inject(KeyboardFocusService);
 
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
@@ -138,21 +132,14 @@ export class ConfiguratorTabBarComponent {
       .extractRouterData()
       .pipe(
         switchMap((routerData) =>
-          this.configuratorCommonsService.getOrCreateConfiguration(
-            routerData.owner
-          )
-        ),
-        distinctUntilKeyChanged('configId'),
-        switchMap((configuration) =>
-          this.configuratorCommonsService.getConfigurationWithOverview(
-            configuration
-          )
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
         ),
         filter((configuration) => configuration.overview != null),
         take(1),
         delay(0) //we need to consider the re-rendering of the page
       )
       .subscribe(() => {
+        this.focusService.clear();
         this.configUtils.focusFirstActiveElement(
           ConfiguratorTabBarComponent.TAB_BAR_QUERY_SELECTOR
         );
@@ -168,15 +155,15 @@ export class ConfiguratorTabBarComponent {
             routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
         ),
         switchMap((routerData) => {
-          return this.configuratorCommonsService.getOrCreateConfiguration(
-            routerData.owner,
-            routerData.configIdTemplate
+          return this.configuratorCommonsService.getConfiguration(
+            routerData.owner
           );
         }),
         take(1),
         delay(0) //we need to consider the re-rendering of the page
       )
       .subscribe(() => {
+        this.focusService.clear();
         this.configUtils.focusFirstActiveElement(
           ConfiguratorTabBarComponent.TAB_BAR_QUERY_SELECTOR
         );

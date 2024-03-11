@@ -30,12 +30,12 @@ import {
   ICON_TYPE,
   IntersectionOptions,
   IntersectionService,
+  KeyboardFocusService,
 } from '@spartacus/storefront';
 import { Observable, Subscription, of } from 'rxjs';
 import {
   delay,
   distinctUntilChanged,
-  distinctUntilKeyChanged,
   filter,
   map,
   switchMap,
@@ -58,6 +58,7 @@ const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
 export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
   protected multiCartFacade = inject(MultiCartFacade);
+  protected focusService = inject(KeyboardFocusService);
   quantityControl = new UntypedFormControl(1);
   iconType = ICON_TYPE;
 
@@ -144,21 +145,14 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       .extractRouterData()
       .pipe(
         switchMap((routerData) =>
-          this.configuratorCommonsService.getOrCreateConfiguration(
-            routerData.owner
-          )
-        ),
-        distinctUntilKeyChanged('configId'),
-        switchMap((configuration) =>
-          this.configuratorCommonsService.getConfigurationWithOverview(
-            configuration
-          )
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
         ),
         filter((configuration) => configuration.overview != null),
         take(1),
         delay(0) //we need to consider the re-rendering of the page
       )
       .subscribe(() => {
+        this.focusService.clear();
         this.configUtils.focusFirstActiveElement('cx-configurator-tab-bar');
       });
   }
