@@ -120,7 +120,13 @@ export class ConfiguratorGroupMenuComponent {
     protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
-  click(group: Configurator.Group): void {
+  /**
+   * Selects group or navigates to sub-group depending on clicked group
+   *
+   * @param {Configurator.Group} group - Target Group
+   * @param {Configurator.Group} currentGroup - Current group
+   */
+  click(group: Configurator.Group, currentGroup?: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (configuration.interactionState.currentGroup === group.id) {
         return;
@@ -137,11 +143,19 @@ export class ConfiguratorGroupMenuComponent {
           configuration.owner,
           group.id
         );
+        if (currentGroup) {
+          this.setFocusForSubGroup(group, currentGroup.id);
+        }
       }
     });
   }
 
-  navigateUp(): void {
+  /**
+   * Navigate up and set focus if current group information is provided
+   *
+   * @param {Configurator.Group} currentGroup - Current group
+   */
+  navigateUp(currentGroup?: Configurator.Group): void {
     this.displayedParentGroup$
       .pipe(take(1))
       .subscribe((displayedParentGroup) => {
@@ -158,6 +172,9 @@ export class ConfiguratorGroupMenuComponent {
           });
         }
       });
+    if (currentGroup) {
+      this.setFocusForMainMenu(currentGroup.id);
+    }
   }
 
   /**
@@ -390,13 +407,11 @@ export class ConfiguratorGroupMenuComponent {
       );
     } else if (this.isForwardsNavigation(event)) {
       if (targetGroup && this.hasSubGroups(targetGroup)) {
-        this.click(targetGroup);
-        this.setFocusForSubGroup(targetGroup, currentGroup.id);
+        this.click(targetGroup, currentGroup);
       }
     } else if (this.isBackNavigation(event)) {
       if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
-        this.navigateUp();
-        this.setFocusForMainMenu(currentGroup.id);
+        this.navigateUp(currentGroup);
       }
     }
   }

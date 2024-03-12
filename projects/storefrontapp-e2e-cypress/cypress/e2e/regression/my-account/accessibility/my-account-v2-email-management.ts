@@ -8,7 +8,7 @@
 import { verifyTabbingOrder } from '../../../../helpers/accessibility/tabbing-order';
 import { TabElement } from '../../../../helpers/accessibility/tabbing-order.model';
 
-const containerSelector = 'cx-my-new-account-v2-email';
+const containerSelector = 'cx-my-account-v2-email';
 
 export function myAccountV2UserEmailManagementTabbingOrder(
   config: TabElement[],
@@ -25,7 +25,7 @@ export function myAccountV2UserEmailManagementTabbingOrder(
   cy.wait('@getComponents');
 
   if (isEdit) {
-    cy.get('.email-enhancedUI-editButton').click();
+    cy.get('.editButton').click();
   }
 
   verifyTabbingOrder(containerSelector, config);
