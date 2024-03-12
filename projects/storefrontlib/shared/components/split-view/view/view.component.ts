@@ -83,8 +83,14 @@ export class ViewComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef
   ) {}
 
-  @Optional() protected globalMessageService = inject(GlobalMessageService);
-  @Optional() featureConfigService = inject(FeatureConfigService);
+  @Optional()
+  protected globalMessageService = inject(GlobalMessageService, {
+    optional: true,
+  });
+  @Optional()
+  featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   ngOnInit() {
     const hidden = this._hidden ? { hidden: this._hidden } : {};
@@ -102,7 +108,7 @@ export class ViewComponent implements OnInit, OnDestroy {
         this.cd.markForCheck();
       });
     // TODO: (CXSPA-6475) - Remove feature flag next major release
-    if (this.featureConfigService.isLevel('6.8')) {
+    if (this.featureConfigService?.isLevel('6.8')) {
       this.showAssistiveMessage();
     }
   }
@@ -155,7 +161,7 @@ export class ViewComponent implements OnInit, OnDestroy {
           if (this.viewPosition !== activeView || !this.viewTitle) {
             return;
           }
-          this.globalMessageService.add(
+          this.globalMessageService?.add(
             this.viewTitle,
             GlobalMessageType.MSG_TYPE_ASSISTIVE,
             500
