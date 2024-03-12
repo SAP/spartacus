@@ -2,17 +2,19 @@
   @include cx-configurator-attribute-type();
   @include cx-configurator-form-group();
 
-  .form-group {
-    @include media-breakpoint-up(md) {
-      select {
-        width: 80%;
+  @include forFeature('attributeTypesV2') {
+    .form-group {
+      @include media-breakpoint-up(md) {
+        select {
+          width: 80%;
+        }
       }
-    }
-    @include media-breakpoint-down(sm) {
-      flex-direction: column;
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
 
-      select {
-        width: 100%;
+        select {
+          width: 100%;
+        }
       }
     }
   }
