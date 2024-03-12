@@ -106,7 +106,7 @@ export class ApplePayComponent implements OnInit, OnDestroy {
   initTransaction(): void {
     let businessName: string;
     this.opfQuickBuyService
-      .getQuickBuyLocationContext()
+      .getBusinessName()
       .pipe(
         switchMap((name) => {
           businessName = name;
