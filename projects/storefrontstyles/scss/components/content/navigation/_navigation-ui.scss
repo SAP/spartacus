@@ -106,7 +106,8 @@
           position: relative;
         }
         &:hover {
-          color: var(--cx-color-medium);
+          color: var(--cx-color-inverse);
+          text-decoration: underline;
         }
       }
     }
