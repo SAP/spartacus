@@ -15,11 +15,10 @@ import {
 } from '@spartacus/cart/saved-cart/root';
 import {
   FeaturesConfig,
-  FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
@@ -94,7 +93,7 @@ describe('SavedCartListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule, FeaturesConfigModule],
+      imports: [I18nTestingModule, RouterTestingModule],
       declarations: [SavedCartListComponent, MockUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },

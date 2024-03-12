@@ -13,7 +13,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
-describe('My Account V2 - Update Password', () => {
+describe('My Account V2 - Update Password (CXSPA-4455)', () => {
   viewportContext(['mobile'], () => {
     before(() =>
       cy.window().then((win) => {
@@ -31,7 +31,7 @@ describe('My Account V2 - Update Password', () => {
       })
     );
 
-    describe('update password test for anonymous user', () => {
+    describe('update password test for anonymous user (CXSPA-4455)', () => {
       it('should redirect to login page for anonymous user', () => {
         cy.visit(updatePassword.PAGE_URL_UPDATE_PASSWORD);
         cy.url().should('contain', '/login');
@@ -39,7 +39,7 @@ describe('My Account V2 - Update Password', () => {
     });
 
     describe(
-      'update password test for logged in user',
+      'update password test for logged in user (CXSPA-4455)',
       { testIsolation: false },
       () => {
         isolateTests();

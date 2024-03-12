@@ -5,7 +5,6 @@ import { StoreModule } from '@ngrx/store';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   FeaturesConfig,
-  FeaturesConfigModule,
   I18nTestingModule,
   ImageType,
   PriceType,
@@ -117,7 +116,6 @@ describe('ExportOrderEntriesComponent', () => {
         StoreModule.forRoot({}),
         I18nTestingModule,
         RouterTestingModule,
-        FeaturesConfigModule,
       ],
       providers: [
         {

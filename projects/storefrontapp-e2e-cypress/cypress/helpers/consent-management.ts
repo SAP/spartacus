@@ -27,16 +27,8 @@ export function giveConsent() {
   alerts.getSuccessAlert().should('contain', 'Consent successfully given');
 }
 
-export function giveConsentV2() {
-  cy.get('input[type="checkbox"]').first().should('not.be.checked');
-  cy.get('input[type="checkbox"]').first().check({ force: true });
-  cy.get('input[type="checkbox"]').first().should('be.checked');
-
-  alerts.getSuccessAlert().should('contain', 'Consent successfully given');
-}
-
 export function checkConsentGivenDate() {
-  cy.get('span[class="form-check-label description"]').contains('Approved on');
+  cy.get('span[class="description"]').contains('Approved on');
 }
 
 export function withdrawConsent() {
@@ -81,7 +73,7 @@ export function myAccountV2consentManagementTest() {
   });
 
   it('should successfully give a consent and show give data', () => {
-    giveConsentV2();
+    giveConsent();
     checkConsentGivenDate();
   });
 

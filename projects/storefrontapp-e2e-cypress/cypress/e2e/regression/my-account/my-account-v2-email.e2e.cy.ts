@@ -43,25 +43,25 @@ describe('My Account - Update Email', () => {
 
       it('should click edit email and go to edit menu, and cancel works as expected (CXSPA-4442)', () => {
         cy.get('.cx-message-info').should('not.exist');
-        cy.get('.email-enhancedUI-value').should('exist');
+        cy.get('.value').should('exist');
 
         cy.log('--> click edit button');
-        cy.get('.email-enhancedUI-editButton').click();
+        cy.get('.editButton').click();
 
         cy.log('--> should show email message bar');
         cy.get('.cx-message-info').should('exist');
-        cy.get('email-enhancedUI-value').should('not.exist');
-        cy.get('.email-enhancedUI-button-cancel').should('exist');
+        cy.get('.value').should('not.exist');
+        cy.get('.button-cancel').should('exist');
 
         cy.log('--> click cancel button');
-        cy.get('.email-enhancedUI-button-cancel').click();
+        cy.get('.button-cancel').click();
 
         cy.log('--> should show email content');
         cy.get('.cx-message-info').should('not.exist');
-        cy.get('.email-enhancedUI-value').should('exist');
+        cy.get('.value').should('exist');
 
         cy.log('--> click edit button');
-        cy.get('.email-enhancedUI-editButton').click();
+        cy.get('.editButton').click();
       });
 
       // Core e2e test. Check with different view port.
