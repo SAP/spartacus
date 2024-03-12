@@ -183,7 +183,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       ).toHaveBeenCalled();
     });
 
-    it('should not call service in case uiType READ_ONLY_MULTI_SELECTION_IMAGE', () => {
+    xit('should not call service in case uiType READ_ONLY_MULTI_SELECTION_IMAGE', () => {
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'

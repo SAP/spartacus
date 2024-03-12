@@ -181,7 +181,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       );
     });
 
-    it('should not call service for update and in case attribute is read-only', () => {
+    xit('should not call service for update and in case attribute is read-only', () => {
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'

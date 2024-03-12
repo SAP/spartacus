@@ -3,9 +3,9 @@
   class="cx-row"
   role="radiogroup"
 >
-  <ng-container *ngFor="let value of attribute.values">
+  <ng-container *ngIf="!config.features?.attributeTypesV2">
     <div
-      *ngIf="isValueDisplayed(attribute, value)"
+      *ngFor="let value of attribute.values"
       id="{{
         createAttributeValueIdForConfigurator(attribute, value.valueCode)
       }}"
@@ -33,19 +33,19 @@
         "
         [attr.aria-label]="
           value.valuePrice && value.valuePrice?.value !== 0
-            ? (getAriaLabelForValueWithPrice(isReadOnly(attribute))
+            ? ('configurator.a11y.valueOfAttributeFullWithPrice'
               | cxTranslate
                 : {
                     value: value.valueDisplay,
                     attribute: attribute.label,
                     price: value.valuePrice.formattedValue
                   })
-            : (getAriaLabelForValue(isReadOnly(attribute))
+            : ('configurator.a11y.valueOfAttributeFull'
               | cxTranslate
                 : { value: value.valueDisplay, attribute: attribute.label })
         "
         [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
-        (click)="!isReadOnly(attribute) && onClick(value.valueCode)"
+        (click)="onClick(value.valueCode)"
         [cxFocus]="{ key: attribute.name + '-' + value.name }"
         role="radio"
       />
@@ -58,19 +58,14 @@
           }}"
           aria-hidden="true"
           class="form-check-label form-radio-label"
-          [style.cursor]="!isReadOnly(attribute) ? 'pointer' : 'default'"
-          title="{{ getLabel(expMode, value.valueDisplay, value.valueCode) }}"
         >
           <img
             *ngIf="getImage(value)"
-            [ngClass]="getImgStyleClasses(attribute, value, 'cx-img')"
+            class="cx-img"
             src="{{ getImage(value)?.url }}"
             alt="{{ getImage(value)?.altText }}"
           />
-          <div
-            *ngIf="!getImage(value)"
-            [ngClass]="getImgStyleClasses(attribute, value, 'cx-img-dummy')"
-          ></div>
+          <div *ngIf="!getImage(value)" class="cx-img-dummy"></div>
           {{ getLabel(expMode, value.valueDisplay, value.valueCode) }}
           <cx-configurator-price
             [formula]="extractValuePriceFormulaParameters(value)"
@@ -78,5 +73,93 @@
         </label>
       </div>
     </div>
+  </ng-container>
+  <ng-container *ngIf="config.features?.attributeTypesV2">
+    <ng-container *ngFor="let value of attribute.values">
+      <div
+        *ngIf="isValueDisplayed(attribute, value)"
+        id="{{
+          createAttributeValueIdForConfigurator(attribute, value.valueCode)
+        }}"
+        class="cx-configurator-select"
+      >
+        <input
+          id="{{
+            createAttributeValueIdForConfigurator(attribute, value.valueCode) +
+              '-input'
+          }}"
+          type="radio"
+          class="form-input"
+          [value]="value.valueCode"
+          formcontrolname="attributeRadioButtonForm"
+          [formControl]="attributeRadioButtonForm"
+          [value]="value.valueCode"
+          name="{{ createAttributeIdForConfigurator(attribute) }}"
+          attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
+          [attr.required]="attribute.required"
+          [attr.checked]="
+            attributeRadioButtonForm.value === value.valueCode
+              ? 'checked'
+              : null
+          "
+          [attr.aria-checked]="
+            attributeRadioButtonForm.value === value.valueCode
+              ? 'true'
+              : 'false'
+          "
+          [attr.aria-label]="
+            value.valuePrice && value.valuePrice?.value !== 0
+              ? (getAriaLabelForValueWithPrice(isReadOnly(attribute))
+                | cxTranslate
+                  : {
+                      value: value.valueDisplay,
+                      attribute: attribute.label,
+                      price: value.valuePrice.formattedValue
+                    })
+              : (getAriaLabelForValue(isReadOnly(attribute))
+                | cxTranslate
+                  : { value: value.valueDisplay, attribute: attribute.label })
+          "
+          [attr.aria-describedby]="
+            createAttributeUiKey('label', attribute.name)
+          "
+          (click)="!isReadOnly(attribute) && onClick(value.valueCode)"
+          [cxFocus]="{ key: attribute.name + '-' + value.name }"
+          role="radio"
+        />
+        <div class="cx-label-container">
+          <label
+            id="{{
+              createValueUiKey('label', attribute.name, value.valueCode)
+            }}"
+            for="{{
+              createAttributeValueIdForConfigurator(
+                attribute,
+                value.valueCode
+              ) + '-input'
+            }}"
+            aria-hidden="true"
+            class="form-check-label form-radio-label"
+            [style.cursor]="!isReadOnly(attribute) ? 'pointer' : 'default'"
+            title="{{ getLabel(expMode, value.valueDisplay, value.valueCode) }}"
+          >
+            <img
+              *ngIf="getImage(value)"
+              [ngClass]="getImgStyleClasses(attribute, value, 'cx-img')"
+              src="{{ getImage(value)?.url }}"
+              alt="{{ getImage(value)?.altText }}"
+            />
+            <div
+              *ngIf="!getImage(value)"
+              [ngClass]="getImgStyleClasses(attribute, value, 'cx-img-dummy')"
+            ></div>
+            {{ getLabel(expMode, value.valueDisplay, value.valueCode) }}
+            <cx-configurator-price
+              [formula]="extractValuePriceFormulaParameters(value)"
+            ></cx-configurator-price>
+          </label>
+        </div>
+      </div>
+    </ng-container>
   </ng-container>
 </div>
