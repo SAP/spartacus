@@ -10,9 +10,12 @@ import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
 import { Address, Product } from '@spartacus/core';
 import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
+  ADDRESS_FIELD_PLACEHOLDER,
   ActiveConfiguration,
+  GooglePayTransactionState,
   OpfPaymentFacade,
   OpfProviderType,
+  OpfQuickBuyDeliveryType,
   OpfQuickBuyLocation,
   OpfResourceLoaderService,
   PaymentMethod,
@@ -46,38 +49,10 @@ export class OpfGooglePayService {
   protected readonly GOOGLE_PAY_JS_URL =
     'https://pay.google.com/gp/p/js/pay.js';
 
-  protected associatedShippingAddressIds: string[] = [];
-
-  private googlePaymentClient: google.payments.api.PaymentsClient;
-
-  private googlePaymentClientOptions: google.payments.api.PaymentOptions = {
-    environment: 'TEST',
-    paymentDataCallbacks: this.handlePaymentCallbacks(),
-  };
-
-  private googlePaymentRequest: google.payments.api.PaymentDataRequest = {
-    /**
-     * TODO: Move this part into configuration layer.
-     */
-    apiVersion: 2,
-    apiVersionMinor: 0,
-    callbackIntents: [
-      'SHIPPING_ADDRESS',
-      'SHIPPING_OPTION',
-      'PAYMENT_AUTHORIZATION',
-    ],
-
-    // @ts-ignore
-    merchantInfo: {
-      // merchantId: 'spartacusStorefront',
-      merchantName: 'Spartacus Storefront',
-    },
-    shippingOptionRequired: true,
-    shippingAddressRequired: true,
-    // @ts-ignore
-    shippingAddressParameters: {
-      phoneNumberRequired: false,
-    },
+  protected initialGooglePayTransactionState: GooglePayTransactionState = {
+    context: OpfQuickBuyLocation.CART,
+    deliveryType: OpfQuickBuyDeliveryType.SHIPPING,
+    addressIds: [],
   };
 
   private initialTransactionInfo: google.payments.api.TransactionInfo = {
@@ -86,17 +61,83 @@ export class OpfGooglePayService {
     currencyCode: 'USD',
   };
 
+  private initialGooglePaymentRequest: google.payments.api.PaymentDataRequest =
+    {
+      /**
+       * TODO: Move this part into configuration layer.
+       */
+      apiVersion: 2,
+      apiVersionMinor: 0,
+      callbackIntents: [
+        'PAYMENT_AUTHORIZATION',
+        'SHIPPING_ADDRESS',
+        'SHIPPING_OPTION',
+      ],
+
+      // @ts-ignore
+      merchantInfo: {
+        // merchantId: 'spartacusStorefront',
+        merchantName: 'Spartacus Storefront',
+      },
+      shippingOptionRequired: true,
+      shippingAddressRequired: true,
+      // @ts-ignore
+      shippingAddressParameters: {
+        phoneNumberRequired: false,
+      },
+    };
+
+  protected googlePayTransactionState = this.initialGooglePayTransactionState;
+
+  private googlePaymentRequest = this.initialGooglePaymentRequest;
+
+  private googlePaymentClient: google.payments.api.PaymentsClient;
+
+  private googlePaymentClientOptions: google.payments.api.PaymentOptions = {
+    environment: 'TEST',
+  };
+
+  updateGooglePaymentClient(): void {
+    this.googlePaymentClient = new google.payments.api.PaymentsClient(
+      this.googlePaymentClientOptions
+    );
+  }
+
   loadProviderResources(): Promise<void> {
     return this.opfResourceLoaderService.loadProviderResources([
       { url: this.GOOGLE_PAY_JS_URL },
     ]);
   }
 
+  setGooglePaymentRequestConfig(deliveryType: OpfQuickBuyDeliveryType) {
+    if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {
+      this.googlePaymentClientOptions = {
+        ...this.googlePaymentClientOptions,
+        paymentDataCallbacks: {
+          onPaymentAuthorized:
+            this.handlePaymentCallbacks().onPaymentAuthorized,
+        },
+      };
+      this.googlePaymentRequest = {
+        ...this.initialGooglePaymentRequest,
+        shippingAddressRequired: false,
+        shippingOptionRequired: false,
+        callbackIntents: ['PAYMENT_AUTHORIZATION'],
+      };
+    } else {
+      this.googlePaymentClientOptions = {
+        ...this.googlePaymentClientOptions,
+        paymentDataCallbacks: this.handlePaymentCallbacks(),
+      };
+      this.googlePaymentRequest = this.initialGooglePaymentRequest;
+    }
+
+    this.updateGooglePaymentClient();
+  }
+
   initClient(activeConfiguration: ActiveConfiguration): void {
     this.setAllowedPaymentMethodsConfig(activeConfiguration);
-    this.googlePaymentClient = new google.payments.api.PaymentsClient(
-      this.googlePaymentClientOptions
-    );
+    this.updateGooglePaymentClient();
   }
 
   private getClient(): google.payments.api.PaymentsClient {
@@ -152,8 +193,6 @@ export class OpfGooglePayService {
   private setDeliveryAddress(
     address: google.payments.api.Address | undefined
   ): Observable<string> {
-    const ADDRESS_FIELD_PLACEHOLDER = '[FIELD_NOT_SET]';
-
     let deliveryAddress: Address = {
       firstName: ADDRESS_FIELD_PLACEHOLDER,
       lastName: ADDRESS_FIELD_PLACEHOLDER,
@@ -173,12 +212,21 @@ export class OpfGooglePayService {
         ...this.getFirstAndLastName(address?.name),
       };
     }
+    console.log(this.googlePayTransactionState);
+    if (
+      this.googlePayTransactionState.deliveryType ===
+      OpfQuickBuyDeliveryType.SHIPPING
+    ) {
+      return this.opfCartHandlerService
+        .setDeliveryAddress(deliveryAddress)
+        .pipe(
+          tap((addressId) => {
+            this.associateAddressId(addressId);
+          })
+        );
+    }
 
-    return this.opfCartHandlerService.setDeliveryAddress(deliveryAddress).pipe(
-      tap((addressId) => {
-        this.associateAddressId(addressId);
-      })
-    );
+    return of('');
   }
 
   setDeliveryMode(
@@ -233,15 +281,23 @@ export class OpfGooglePayService {
     this.opfQuickBuyService
       .getQuickBuyLocationContext()
       .pipe(
+        take(1),
         switchMap((context: OpfQuickBuyLocation) => {
+          this.googlePayTransactionState.context = context;
           if (context === OpfQuickBuyLocation.PRODUCT) {
             return this.handleSingleProductTransaction();
           }
-
           return this.handleActiveCartTransaction();
-        })
+        }),
+        switchMap(() =>
+          this.opfQuickBuyService.getQuickBuyDeliveryType(
+            this.googlePayTransactionState.context as OpfQuickBuyLocation
+          )
+        )
       )
-      .subscribe(() => {
+      .subscribe((deliveryType: OpfQuickBuyDeliveryType) => {
+        this.setGooglePaymentRequestConfig(deliveryType);
+        this.googlePayTransactionState.deliveryType = deliveryType;
         this.googlePaymentClient.loadPaymentData(this.googlePaymentRequest);
       });
   }
@@ -258,9 +314,8 @@ export class OpfGooglePayService {
   private handlePaymentCallbacks(): google.payments.api.PaymentDataCallbacks {
     return {
       onPaymentAuthorized: (paymentDataResponse) => {
-        return this.opfCartHandlerService
-          .getCurrentCartId()
-          .pipe(
+        return lastValueFrom(
+          this.opfCartHandlerService.getCurrentCartId().pipe(
             switchMap((cartId) =>
               this.setDeliveryAddress(paymentDataResponse.shippingAddress).pipe(
                 switchMap(() => {
@@ -283,11 +338,10 @@ export class OpfGooglePayService {
             catchError(() => of({ transactionState: 'ERROR' })),
             finalize(() => this.deleteAssociatedAddresses())
           )
-          .toPromise()
-          .then((result) => {
-            const isSuccess = result;
-            return { transactionState: isSuccess ? 'SUCCESS' : 'ERROR' };
-          });
+        ).then((result) => {
+          const isSuccess = result;
+          return { transactionState: isSuccess ? 'SUCCESS' : 'ERROR' };
+        });
       },
 
       onPaymentDataChanged: (intermediatePaymentData) => {
@@ -342,22 +396,24 @@ export class OpfGooglePayService {
 
   protected associateAddressId(addressId: string): void {
     if (!this.isAddressIdAssociated(addressId)) {
-      this.associatedShippingAddressIds.push(addressId);
+      this.googlePayTransactionState.addressIds?.push(addressId);
     }
   }
 
   protected isAddressIdAssociated(addressId: string): boolean {
-    return this.associatedShippingAddressIds.includes(addressId);
+    return this.googlePayTransactionState.addressIds?.includes(
+      addressId
+    ) as boolean;
   }
 
   protected resetAssociatedAddresses(): void {
-    this.associatedShippingAddressIds = [];
+    this.googlePayTransactionState.addressIds = [];
   }
 
   protected deleteAssociatedAddresses(): void {
-    if (this.associatedShippingAddressIds) {
+    if (this.googlePayTransactionState.addressIds) {
       this.opfCartHandlerService.deleteUserAddresses(
-        this.associatedShippingAddressIds
+        this.googlePayTransactionState.addressIds
       );
       this.resetAssociatedAddresses();
     }

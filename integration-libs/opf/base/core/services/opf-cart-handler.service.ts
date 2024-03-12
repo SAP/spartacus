@@ -165,4 +165,8 @@ export class OpfCartHandlerService {
       )
     );
   }
+
+  hasActiveCartDeliveryItems(): Observable<boolean> {
+    return this.activeCartFacade.hasDeliveryItems();
+  }
 }

@@ -8,13 +8,19 @@ import { Injectable, inject } from '@angular/core';
 import { CheckoutConfig } from '@spartacus/checkout/base/root';
 import { AuthService, BaseSiteService, RoutingService } from '@spartacus/core';
 import {
+  OpfCartHandlerService,
+  OpfPickupInStoreHandlerService,
+} from '@spartacus/opf/base/core';
+import {
   ActiveConfiguration,
   DigitalWalletQuickBuy,
   OpfPaymentFacade,
   OpfPaymentProviderType,
   OpfProviderType,
+  OpfQuickBuyDeliveryType,
   OpfQuickBuyLocation,
 } from '@spartacus/opf/base/root';
+import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 
@@ -27,6 +33,11 @@ export class OpfQuickBuyService {
   protected baseSiteService = inject(BaseSiteService);
   protected authService = inject(AuthService);
   protected routingService = inject(RoutingService);
+  protected opfCartHandlerService = inject(OpfCartHandlerService);
+  protected currentProductService = inject(CurrentProductService);
+  protected opfPickupInStoreHandlerService = inject(
+    OpfPickupInStoreHandlerService
+  );
 
   getPaymentGatewayConfiguration(): Observable<ActiveConfiguration> {
     return this.opfPaymentFacade
@@ -93,5 +104,24 @@ export class OpfQuickBuyService {
           routerState?.state?.semanticRoute?.toLocaleUpperCase() as OpfQuickBuyLocation
       )
     );
+  }
+
+  getQuickBuyDeliveryType(
+    context: OpfQuickBuyLocation
+  ): Observable<OpfQuickBuyDeliveryType> {
+    if (context === OpfQuickBuyLocation.CART) {
+      return this.opfCartHandlerService.hasActiveCartDeliveryItems().pipe(
+        take(1),
+        map((hasDeliveryItems) =>
+          hasDeliveryItems
+            ? OpfQuickBuyDeliveryType.SHIPPING
+            : OpfQuickBuyDeliveryType.PICKUP
+        )
+      );
+    } else {
+      return this.opfPickupInStoreHandlerService
+        .getSingleProductDeliveryType()
+        .pipe(take(1));
+    }
   }
 }

@@ -128,7 +128,20 @@ export interface ApplePayObservableConfig {
   paymentAuthorized: (event: any) => Observable<any>;
 }
 
+export interface GooglePayTransactionState {
+  context?: OpfQuickBuyLocation;
+  deliveryType?: OpfQuickBuyDeliveryType;
+  addressIds?: string[];
+}
+
 export enum OpfQuickBuyLocation {
   CART = 'CART',
   PRODUCT = 'PRODUCT',
 }
+
+export enum OpfQuickBuyDeliveryType {
+  SHIPPING = 'SHIPPING',
+  PICKUP = 'PICKUP',
+}
+
+export const ADDRESS_FIELD_PLACEHOLDER = '[FIELD_NOT_SET]';
