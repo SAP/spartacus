@@ -26,10 +26,11 @@ import {
 import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { ConfiguratorStorefrontUtilsService } from '../service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorStorefrontUtilsService } from '../service';
+import { KeyboardFocusService } from '@spartacus/storefront';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -67,7 +68,6 @@ const configWithOverview: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   overview: { configId: 'CONFIG_ID', productCode: PRODUCT_CODE },
 };
-let configurationWithOverviewObs = of(configWithOverview);
 
 const mockRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
@@ -78,13 +78,6 @@ const mockRouterData: ConfiguratorRouter.Data = {
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return configurationObs;
-  }
-  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-
-  getConfigurationWithOverview(): Observable<Configurator.Configuration> {
-    return configurationWithOverviewObs;
   }
 }
 
@@ -108,6 +101,7 @@ describe('ConfigTabBarComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let routingService: RoutingService;
+  let keyboardFocusService: KeyboardFocusService;
 
   beforeEach(
     waitForAsync(() => {
@@ -162,6 +156,10 @@ describe('ConfigTabBarComponent', () => {
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
     );
+    keyboardFocusService = TestBed.inject(
+      KeyboardFocusService as Type<KeyboardFocusService>
+    );
+    spyOn(keyboardFocusService, 'clear').and.callThrough();
     spyOn(
       configuratorStorefrontUtilsService,
       'focusFirstActiveElement'
@@ -202,6 +200,24 @@ describe('ConfigTabBarComponent', () => {
     mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
     component.isOverviewPage$
       .subscribe((isOv) => expect(isOv).toBe(false))
+      .unsubscribe();
+  });
+
+  it('should return proper page type from route', () => {
+    mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
+    component.pageType$
+      .subscribe((pageType) =>
+        expect(pageType).toBe(ConfiguratorRouter.PageType.OVERVIEW)
+      )
+      .unsubscribe();
+  });
+
+  it('should return configuration page in case router does not specify page', () => {
+    mockRouterState.state.semanticRoute = undefined;
+    component.pageType$
+      .subscribe((pageType) =>
+        expect(pageType).toBe(ConfiguratorRouter.PageType.CONFIGURATION)
+      )
       .unsubscribe();
   });
 
@@ -373,6 +389,24 @@ describe('ConfigTabBarComponent', () => {
     });
   });
 
+  describe('getTabIndexForOverviewTab', () => {
+    it('should return tabindex 0 if on overview page', () => {
+      expect(
+        component.getTabIndexForOverviewTab(
+          ConfiguratorRouter.PageType.OVERVIEW
+        )
+      ).toBe(0);
+    });
+
+    it('should return tabindex -1 if on configuration page', () => {
+      expect(
+        component.getTabIndexForOverviewTab(
+          ConfiguratorRouter.PageType.CONFIGURATION
+        )
+      ).toBe(-1);
+    });
+  });
+
   describe('getTabIndexConfigTab', () => {
     it('should return tabindex -1 if on overview page', () => {
       mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
@@ -382,6 +416,33 @@ describe('ConfigTabBarComponent', () => {
     it('should return tabindex 0 if on configuration page', () => {
       mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
       expect(component.getTabIndexConfigTab()).toBe(0);
+    });
+  });
+
+  describe('getTabIndeForConfigTab', () => {
+    it('should return tabindex -1 if on overview page', () => {
+      expect(
+        component.getTabIndexForConfigTab(ConfiguratorRouter.PageType.OVERVIEW)
+      ).toBe(-1);
+    });
+
+    it('should return tabindex 0 if on configuration page', () => {
+      expect(
+        component.getTabIndexForConfigTab(
+          ConfiguratorRouter.PageType.CONFIGURATION
+        )
+      ).toBe(0);
+    });
+  });
+
+  describe('determinePageFromRouterData', () => {
+    it('should return configuration page in case router data does not specify a page', () => {
+      const routerData: ConfiguratorRouter.Data = {
+        owner: configWithOverview.owner,
+      };
+      expect(component['determinePageFromRouterData'](routerData)).toBe(
+        ConfiguratorRouter.PageType.CONFIGURATION
+      );
     });
   });
 
@@ -464,35 +525,43 @@ describe('ConfigTabBarComponent', () => {
   });
 
   describe('Focus handling on navigation', () => {
-    it('focusOverviewInTabBar should call focusFirstActiveElement', fakeAsync(() => {
+    it('focusOverviewInTabBar should call clear and focusFirstActiveElement', fakeAsync(() => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(configWithOverview)
+      );
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
     }));
 
-    it('focusOverviewInTabBar should not call focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
-      spyOn(
-        configuratorCommonsService,
-        'getConfigurationWithOverview'
-      ).and.returnValue(configurationObs);
+    it('focusOverviewInTabBar should not call clear and focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        configurationObs
+      );
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      expect(keyboardFocusService.clear).toHaveBeenCalledTimes(0);
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(0);
     }));
 
-    it('focusConfigurationInTabBar should call focusFirstActiveElement', fakeAsync(() => {
+    it('focusConfigurationInTabBar should call clear and focusFirstActiveElement', fakeAsync(() => {
       component['focusConfigurationInTabBar']();
       tick(1); // needed because of delay(0) in focusConfigurationInTabBar
+      expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
     }));
 
     it('navigateToOverview should navigate to overview page and should call focusFirstActiveElement inside focusOverviewInTabBar', fakeAsync(() => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(configWithOverview)
+      );
       spyOn(routingService, 'go').and.callThrough();
       component['navigateToOverview'](mockRouterData);
       tick(1); // needed because of delay(0) in focusOverviewInTabBar

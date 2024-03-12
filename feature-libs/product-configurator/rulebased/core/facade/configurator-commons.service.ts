@@ -7,7 +7,7 @@
 import { Injectable, inject, isDevMode } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { LoggerService } from '@spartacus/core';
+import { LoggerService, StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -173,7 +173,9 @@ export class ConfiguratorCommonsService {
 
   /**
    * Returns a configuration with an overview. Emits valid configurations which
-   * include the overview aspect
+   * include the overview aspect.
+   * When calling this function it is assumed that the configuration itself is already
+   * available (or its loading is triggered). If not, the function will return an empty observable.
    *
    * @param configuration - Configuration
    * @returns Observable of configurations including the overview
@@ -181,19 +183,38 @@ export class ConfiguratorCommonsService {
   getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    return this.store.pipe(
-      select(
-        ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
-      ),
-      filter((config) => this.configuratorUtils.isConfigurationCreated(config)),
-      tap((configurationState) => {
-        if (!this.hasConfigurationOverview(configurationState)) {
+    return this.filterNotLoadingAndCreatedConfiguration(
+      this.store.pipe(
+        select(
+          ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
+            configuration.owner.key
+          )
+        )
+      )
+    ).pipe(
+      tap((config) => {
+        if (!this.hasConfigurationOverview(config)) {
           this.store.dispatch(
             new ConfiguratorActions.GetConfigurationOverview(configuration)
           );
         }
       }),
       filter((config) => this.hasConfigurationOverview(config))
+    );
+  }
+
+  protected filterNotLoadingAndCreatedConfiguration(
+    loaderState$: Observable<StateUtils.LoaderState<Configurator.Configuration>>
+  ): Observable<Configurator.Configuration> {
+    return loaderState$.pipe(
+      filter((configurationState) => configurationState.loading === false),
+      filter((configurationState) =>
+        this.configuratorUtils.isConfigurationCreated(configurationState.value)
+      ),
+      map(
+        (configurationState) =>
+          configurationState.value as Configurator.Configuration
+      )
     );
   }
 
