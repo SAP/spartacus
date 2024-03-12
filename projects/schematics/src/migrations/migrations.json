@@ -191,52 +191,52 @@
 
     "00-migration-v2211-ssr": {
       "version": "2211.19.0",
-      "factory": "./2211_0/ssr/ssr#migrate",
+      "factory": "./2211_19/ssr/ssr#migrate",
       "description": "Updates the SSR setup"
     },
     "01-migration-v2211-config-deprecations": {
       "version": "2211.19.0",
-      "factory": "./2211_0/config-deprecations/config-deprecations#migrate",
+      "factory": "./2211_19/config-deprecations/config-deprecations#migrate",
       "description": "Handle deprecated configuration properties"
     },
     "02-migration-v2211-constructor-deprecations": {
       "version": "2211.19.0",
-      "factory": "./2211_0/constructor-deprecations/constructor-deprecations#migrate",
+      "factory": "./2211_19/constructor-deprecations/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
     },
     "03-migration-v2211-css": {
       "version": "2211.19.0",
-      "factory": "./2211_0/css/css#migrate",
+      "factory": "./2211_19/css/css#migrate",
       "description": "Handle deprecated CSS"
     },
     "04-migration-v2211-dependency-management": {
       "version": "2211.19.0",
-      "factory": "./2211_0/dependency-management/dependency-management#migrate",
+      "factory": "./2211_19/dependency-management/dependency-management#migrate",
       "description": "Update dependencies"
     },
     "05-migration-v2211-methods-and-properties-deprecations": {
       "version": "2211.19.0",
-      "factory": "./2211_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
+      "factory": "./2211_19/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
       "description": "Comment about usage of removed public methods or properties"
     },
     "06-migration-v2211-missing-packages": {
       "version": "2211.19.0",
-      "factory": "./2211_0/missing-packages/missing-packages#migrate",
+      "factory": "./2211_19/missing-packages/missing-packages#migrate",
       "description": "Check missing packages"
     },
     "07-migration-v2211-removed-public-api-deprecations": {
       "version": "2211.19.0",
-      "factory": "./2211_0/removed-public-api-deprecations/removed-public-api-deprecations#migrate",
+      "factory": "./2211_19/removed-public-api-deprecations/removed-public-api-deprecations#migrate",
       "description": "Comment about usage of removed public api"
     },
     "08-migration-v2211-rename-symbol": {
       "version": "2211.19.0",
-      "factory": "./2211_0/rename-symbol/rename-symbol#migrate",
+      "factory": "./2211_19/rename-symbol/rename-symbol#migrate",
       "description": "Rename import symbols that were moved/changed in majors"
     },
     "09-migration-v2211-angular-json-styling": {
       "version": "2211.19.0",
-      "factory": "./2211_0/angular-json-styles/angular-json-styles#migrate",
+      "factory": "./2211_19/angular-json-styles/angular-json-styles#migrate",
       "description": "Update the angular.json with the style preprocessor options"
     }
   }

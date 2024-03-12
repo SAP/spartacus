@@ -38,7 +38,8 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:schematics-test": "node dist/schematics-test/server/server.mjs"
+    "serve:ssr:schematics-test": "node dist/schematics-test/server/server.mjs",
+    "build:ssr": "ng build"
   },
   "private": true,
   "dependencies": {
