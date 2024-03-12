@@ -8,7 +8,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import { Config, I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -41,6 +41,10 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
+class MockConfig {
+  features = [{ attributeTypesV2: false }];
+}
+
 describe('ConfigAttributeSingleSelectionImageComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionImageComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionImageComponent>;
@@ -48,6 +52,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   const ownerKey = 'theOwnerKey';
   const groupId = 'testGroup';
   const attributeName = 'attributeName';
+  let config: Config;
 
   beforeEach(
     waitForAsync(() => {
@@ -72,6 +77,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
           },
+          { provide: Config, useClass: MockConfig },
         ],
       })
         .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
@@ -131,6 +137,8 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       values: values,
     };
     component.ownerKey = ownerKey;
+    config = TestBed.inject(Config);
+    config.features.attributeTypesV2 = false;
     fixture.detectChanges();
   });
 
@@ -166,7 +174,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   });
 
   describe('select single image', () => {
-    it('should call service for update', () => {
+    it('should call service for update when attributeTypesV2 feature flag is disabled', () => {
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
@@ -181,7 +189,8 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       );
     });
 
-    xit('should not call service for update and in case attribute is read-only', () => {
+    it('should not call service for update and in case attribute is read-only and attributeTypesV2 feature flag is enabled', () => {
+      config.features.attributeTypesV2 = true;
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
@@ -205,6 +214,22 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       expect(
         component['configuratorCommonsService'].updateConfiguration
       ).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('label styling', () => {
+    it('should set cursor to default in case attributeTypesV2 feature flag is enabled', () => {
+      config.features.attributeTypesV2 = true;
+      component.attribute.uiType =
+        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      value1.selected = true;
+
+      fixture.detectChanges();
+
+      const labelId =
+        '#cx-configurator--label--attributeName--' + value1.valueCode;
+      const styles = fixture.debugElement.query(By.css(labelId)).styles;
+      expect(styles['cursor']).toEqual('default');
     });
   });
 
