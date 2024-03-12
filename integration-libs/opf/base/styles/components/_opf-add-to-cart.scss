@@ -1,5 +1,5 @@
 %cx-opf-add-to-cart {
-  @media (min-width: 992px) {
+  @include media-breakpoint-up(lg) {
     padding: 20px;
   }
 }
