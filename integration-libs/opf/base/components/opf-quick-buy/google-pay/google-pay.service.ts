@@ -251,8 +251,12 @@ export class OpfGooglePayService {
     };
 
     this.opfQuickBuyService
-      .getQuickBuyLocationContext()
+      .getBusinessName()
       .pipe(
+        switchMap((businessName) => {
+          this.googlePaymentRequest.merchantInfo.merchantName = businessName;
+          return this.opfQuickBuyService.getQuickBuyLocationContext();
+        }),
         switchMap((context: OpfQuickBuyLocation) => {
           if (context === OpfQuickBuyLocation.PRODUCT) {
             return this.handleSingleProductTransaction();

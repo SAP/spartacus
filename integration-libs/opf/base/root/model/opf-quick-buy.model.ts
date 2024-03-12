@@ -123,6 +123,7 @@ export interface ApplePayTransactionInput {
   cart?: Cart;
   quantity?: number;
   countryCode?: string;
+  merchantName: string;
 }
 
 export interface ApplePayObservableConfig {
@@ -138,3 +139,5 @@ export enum OpfQuickBuyLocation {
   CART = 'CART',
   PRODUCT = 'PRODUCT',
 }
+
+export const defaultBusinessName: string = '';

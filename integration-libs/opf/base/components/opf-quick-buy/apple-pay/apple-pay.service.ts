@@ -74,7 +74,7 @@ export class ApplePayService {
         cart: transactionInput.cart,
         total: {
           amount: `${transactionInput.cart.totalPrice?.value}`,
-          label: `${transactionInput.cart.code}`,
+          label: transactionInput.merchantName,
           currency: transactionInput.cart?.totalPrice?.currencyIso as string,
         },
       };
@@ -91,11 +91,7 @@ export class ApplePayService {
         quantity: transactionInput.quantity,
         total: {
           amount: totalPrice.toString(),
-          label: `${transactionInput.product?.name as string}${
-            transactionInput.quantity > 1
-              ? ` x ${transactionInput.quantity}`
-              : ''
-          }`,
+          label: transactionInput.merchantName,
           currency: transactionInput.product?.price?.currencyIso as string,
         },
       };

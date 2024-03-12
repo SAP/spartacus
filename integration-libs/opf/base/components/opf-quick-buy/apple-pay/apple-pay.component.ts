@@ -73,7 +73,7 @@ export class ApplePayComponent implements OnInit, OnDestroy {
     );
   }
 
-  initSingleProductTransaction(): Observable<unknown> {
+  initSingleProductTransaction(merchantName: string): Observable<unknown> {
     return combineLatest([
       this.currentProductService.getProduct(),
       this.cartHandlerService.checkStableCart(),
@@ -84,34 +84,41 @@ export class ApplePayComponent implements OnInit, OnDestroy {
           product: product as Product,
           quantity: this.itemCounterService.getCounter(),
           countryCode: this.applePayDigitalWallet?.countryCode as string,
+          merchantName,
         })
       )
     );
   }
 
-  initActiveCartTransaction(): Observable<unknown> {
+  initActiveCartTransaction(merchantName: string): Observable<unknown> {
     return this.cartHandlerService.getCurrentCart().pipe(
       take(1),
       switchMap((cart: Cart) => {
         return this.applePayService.start({
           cart: cart,
           countryCode: this.applePayDigitalWallet?.countryCode as string,
+          merchantName,
         });
       })
     );
   }
 
   initTransaction(): void {
+    let businessName: string;
     this.opfQuickBuyService
       .getQuickBuyLocationContext()
       .pipe(
+        switchMap((name) => {
+          businessName = name;
+          return this.opfQuickBuyService.getQuickBuyLocationContext();
+        }),
         take(1),
         switchMap((context: OpfQuickBuyLocation) => {
           if (context === OpfQuickBuyLocation.PRODUCT) {
-            return this.initSingleProductTransaction();
+            return this.initSingleProductTransaction(businessName);
           }
 
-          return this.initActiveCartTransaction();
+          return this.initActiveCartTransaction(businessName);
         })
       )
       .subscribe();
