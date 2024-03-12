@@ -17,7 +17,6 @@ import { UntypedFormControl } from '@angular/forms';
 import {
   LoggerService,
   TranslationService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -71,7 +70,6 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       configuratorStorefrontUtilsService
     );
     this.language = attributeComponentContext.language;
-    useFeatureStyles('attributeTypesV2');
   }
 
   /**

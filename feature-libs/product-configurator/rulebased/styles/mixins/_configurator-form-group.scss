@@ -13,6 +13,7 @@
       }
     }
     @include media-breakpoint-down(sm) {
+      flex-direction: column;
       select {
         width: 100%;
       }
