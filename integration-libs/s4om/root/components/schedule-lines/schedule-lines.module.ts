@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,6 @@ import { ScheduleLinesComponent } from './schedule-lines.component';
   imports: [CommonModule, UrlModule, I18nModule, IconModule],
 
   declarations: [ScheduleLinesComponent],
-  entryComponents: [ScheduleLinesComponent],
   exports: [ScheduleLinesComponent],
 })
 export class ScheduleLinesModule {}

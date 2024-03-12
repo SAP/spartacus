@@ -2,7 +2,7 @@ import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -10,14 +10,14 @@ import {
 import {
   Address,
   FeaturesConfig,
-  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
+  PaymentDetails,
   QueryState,
   UserPaymentService,
 } from '@spartacus/core';
 import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Subject, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
 import createSpy = jasmine.createSpy;
@@ -150,6 +150,10 @@ class MockPaymentFormComponent {
   paymentMethodsCount: number;
   @Input()
   setAsDefaultField: boolean;
+  @Input()
+  loading: boolean;
+  @Input()
+  paymentDetails?: PaymentDetails;
 }
 
 @Component({
@@ -170,7 +174,7 @@ describe('CheckoutPaymentMethodComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, FeaturesConfigModule],
+        imports: [I18nTestingModule],
         declarations: [
           CheckoutPaymentMethodComponent,
           MockPaymentFormComponent,

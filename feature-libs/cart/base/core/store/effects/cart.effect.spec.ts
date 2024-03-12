@@ -6,8 +6,9 @@ import { StoreModule } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
 import {
   CLIENT_AUTH_FEATURE,
-  OccConfig,
+  LoggerService,
   OCC_CART_ID_CURRENT,
+  OccConfig,
   SiteContextActions,
   USER_FEATURE,
   tryNormalizeHttpError,
@@ -38,6 +39,14 @@ const testCart: Cart = {
 };
 
 const tempCartId = 'tempCartId';
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
 describe('Cart effect', () => {
   let cartEffects: fromEffects.CartEffects;
@@ -87,6 +96,7 @@ describe('Cart effect', () => {
           useClass: MockCartConnector,
         },
         fromEffects.CartEffects,
+        { provide: LoggerService, useClass: MockLoggerService },
         { provide: OccConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$),
       ],
@@ -165,13 +175,13 @@ describe('Cart effect', () => {
         extraData: { active: true },
       });
       loadMock.and.returnValue(
-        throwError({
+        throwError(() => ({
           error: {
             errors: [
               { reason: 'notFound', subjectType: 'cart', subject: '123456' },
             ],
           },
-        })
+        }))
       );
       const removeCartCompletion = new CartActions.RemoveCart({ cartId });
       actions$ = hot('-a', { a: action });
@@ -199,10 +209,10 @@ describe('Cart effect', () => {
         },
       });
       const action = new CartActions.LoadCart(payload);
-      loadMock.and.returnValue(throwError(httpError));
+      loadMock.and.returnValue(throwError(() => httpError));
       const removeCartCompletion = new CartActions.LoadCartFail({
         ...payload,
-        error: tryNormalizeHttpError(httpError),
+        error: tryNormalizeHttpError(httpError, new MockLoggerService()),
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {

@@ -6,13 +6,10 @@ import {
   Cart,
   CartItemComponentOptions,
   OrderEntry,
+  PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import {
-  CmsService,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { CmsService, I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SaveForLaterComponent } from './save-for-later.component';
 @Component({
@@ -23,6 +20,7 @@ class MockCartItemListComponent {
   @Input() readonly = false;
   @Input() items: OrderEntry[];
   @Input() cartIsLoading: Observable<boolean>;
+  @Input() promotionLocation: PromotionLocation;
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,
@@ -52,7 +50,7 @@ describe('SaveForLaterComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [SaveForLaterComponent, MockCartItemListComponent],
-        imports: [FeaturesConfigModule, I18nTestingModule],
+        imports: [I18nTestingModule],
         providers: [
           { provide: CmsService, useValue: mockCmsService },
           { provide: ActiveCartFacade, useValue: mockActiveCartService },

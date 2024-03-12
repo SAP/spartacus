@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,11 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  FeaturesConfigModule,
-  I18nModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   FormErrorsModule,
   IconModule,
@@ -62,7 +58,6 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     SortingModule,
     PaginationModule,
     MessageComponentModule,
-    FeaturesConfigModule,
   ],
   declarations: [
     AsmBindCartDialogComponent,

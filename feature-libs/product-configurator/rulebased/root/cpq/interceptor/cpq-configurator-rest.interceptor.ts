@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -81,7 +81,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
         );
       }
     }
-    return throwError(errorResponse); //propagate error
+    return throwError(() => errorResponse); //propagate error
   }
 
   protected extractCpqSessionId(response: HttpEvent<any>) {

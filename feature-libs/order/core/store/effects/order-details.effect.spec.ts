@@ -4,6 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   GlobalMessageService,
+  LoggerService,
   SiteContextActions,
   UserIdService,
 } from '@spartacus/core';
@@ -34,6 +35,14 @@ class MockGlobalMessageService {
   add(): void {}
 }
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return of('testUserId');
@@ -60,6 +69,7 @@ describe('Order Details effect', () => {
         { provide: OrderHistoryAdapter, useValue: {} },
         { provide: UserIdService, useClass: MockUserIdService },
         provideMockActions(() => actions$),
+        { provide: LoggerService, useClass: MockLoggerService },
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
@@ -91,7 +101,9 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for load order details', () => {
-      spyOn(orderHistoryConnector, 'get').and.returnValue(throwError(error));
+      spyOn(orderHistoryConnector, 'get').and.returnValue(
+        throwError(() => error)
+      );
 
       const action = new OrderActions.LoadOrderDetails(mockOrderDetailsParams);
 
@@ -119,7 +131,9 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for cancel an order', () => {
-      spyOn(orderHistoryConnector, 'cancel').and.returnValue(throwError(error));
+      spyOn(orderHistoryConnector, 'cancel').and.returnValue(
+        throwError(() => error)
+      );
 
       const action = new OrderActions.CancelOrder(mockCancelOrderParams);
 

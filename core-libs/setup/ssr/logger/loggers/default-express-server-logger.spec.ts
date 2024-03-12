@@ -1,4 +1,11 @@
-import * as angularCore from '@angular/core';
+jest.mock('@angular/core', () => {
+  return {
+    ...jest.requireActual('@angular/core'),
+    isDevMode: jest.fn(),
+  };
+});
+
+import { isDevMode } from '@angular/core';
 import { Request } from 'express';
 import { DefaultExpressServerLogger } from './default-express-server-logger';
 
@@ -7,7 +14,16 @@ const request = {
   res: {
     locals: {
       cx: {
-        request: { uuid: 'test', timeReceived: new Date('2023-05-26') },
+        request: {
+          uuid: 'test',
+          timeReceived: new Date('2023-05-26'),
+          traceContext: {
+            version: '00',
+            traceId: 'd745f6735b44e81c0ae5410cb1fc8a0c',
+            parentId: '1b527c3828976b39',
+            traceFlags: '01',
+          },
+        },
       },
     },
   },
@@ -26,63 +42,9 @@ describe('DefaultExpressServerLogger', () => {
       expect(logger).toBeDefined();
     });
 
-    it('should log message', () => {
-      const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-
-      logger.log('test', { request: {} as Request });
-
-      expect(logSpy).toHaveBeenCalledWith(
-        logger['stringifyWithContext']('test', { request: {} as Request })
-      );
-    });
-
-    it('should warn message', () => {
-      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-
-      logger.warn('test', { request: {} as Request });
-
-      expect(warnSpy).toHaveBeenCalledWith(
-        logger['stringifyWithContext']('test', { request: {} as Request })
-      );
-    });
-
-    it('should error message', () => {
-      const errorSpy = jest
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
-
-      logger.error('test', { request: {} as Request });
-
-      expect(errorSpy).toHaveBeenCalledWith(
-        logger['stringifyWithContext']('test', { request: {} as Request })
-      );
-    });
-
-    it('should info message', () => {
-      const infoSpy = jest.spyOn(console, 'info').mockImplementation(() => {});
-
-      logger.info('test', { request: {} as Request });
-
-      expect(infoSpy).toHaveBeenCalledWith(
-        logger['stringifyWithContext']('test', { request: {} as Request })
-      );
-    });
-
-    it('should debug message', () => {
-      const debugSpy = jest
-        .spyOn(console, 'debug')
-        .mockImplementation(() => {});
-
-      logger.debug('test', { request: {} as Request });
-
-      expect(debugSpy).toHaveBeenCalledWith(
-        logger['stringifyWithContext']('test', { request: {} as Request })
-      );
-    });
-
     describe('is not dev mode', () => {
       beforeEach(() => {
-        jest.spyOn(angularCore, 'isDevMode').mockReturnValue(false);
+        (isDevMode as jest.Mock).mockReturnValue(false);
       });
 
       it('should log proper shape of the JSON', () => {
@@ -94,7 +56,7 @@ describe('DefaultExpressServerLogger', () => {
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
           [
-            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z","traceContext":{"version":"00","traceId":"d745f6735b44e81c0ae5410cb1fc8a0c","parentId":"1b527c3828976b39","traceFlags":"01"}}}}",
           ]
         `);
       });
@@ -108,7 +70,7 @@ describe('DefaultExpressServerLogger', () => {
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
           [
-            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z","traceContext":{"version":"00","traceId":"d745f6735b44e81c0ae5410cb1fc8a0c","parentId":"1b527c3828976b39","traceFlags":"01"}}}}",
           ]
         `);
       });
@@ -122,23 +84,12 @@ describe('DefaultExpressServerLogger', () => {
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
           [
-            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z","traceContext":{"version":"00","traceId":"d745f6735b44e81c0ae5410cb1fc8a0c","parentId":"1b527c3828976b39","traceFlags":"01"}}}}",
           ]
         `);
       });
 
       it('should info proper shape of the JSON', () => {
-        const request = {
-          originalUrl: 'test',
-          res: {
-            locals: {
-              cx: {
-                request: { uuid: 'test', timeReceived: new Date() },
-              },
-            },
-          },
-        } as unknown as Request;
-
         const debugSpy = jest
           .spyOn(console, 'info')
           .mockImplementation(() => {});
@@ -147,7 +98,7 @@ describe('DefaultExpressServerLogger', () => {
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
           [
-            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z","traceContext":{"version":"00","traceId":"d745f6735b44e81c0ae5410cb1fc8a0c","parentId":"1b527c3828976b39","traceFlags":"01"}}}}",
           ]
         `);
       });
@@ -161,7 +112,7 @@ describe('DefaultExpressServerLogger', () => {
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
           [
-            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z","traceContext":{"version":"00","traceId":"d745f6735b44e81c0ae5410cb1fc8a0c","parentId":"1b527c3828976b39","traceFlags":"01"}}}}",
           ]
         `);
       });
@@ -169,7 +120,7 @@ describe('DefaultExpressServerLogger', () => {
 
     describe('is dev mode', () => {
       beforeEach(() => {
-        jest.spyOn(angularCore, 'isDevMode').mockReturnValue(true);
+        (isDevMode as jest.Mock).mockReturnValue(true);
       });
 
       it('should log proper shape of the JSON', () => {
@@ -188,7 +139,13 @@ describe('DefaultExpressServerLogger', () => {
               "request": {
                 "url": "test",
                 "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z"
+                "timeReceived": "2023-05-26T00:00:00.000Z",
+                "traceContext": {
+                  "version": "00",
+                  "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
+                  "parentId": "1b527c3828976b39",
+                  "traceFlags": "01"
+                }
               }
             }
           }",
@@ -212,7 +169,13 @@ describe('DefaultExpressServerLogger', () => {
               "request": {
                 "url": "test",
                 "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z"
+                "timeReceived": "2023-05-26T00:00:00.000Z",
+                "traceContext": {
+                  "version": "00",
+                  "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
+                  "parentId": "1b527c3828976b39",
+                  "traceFlags": "01"
+                }
               }
             }
           }",
@@ -236,7 +199,13 @@ describe('DefaultExpressServerLogger', () => {
               "request": {
                 "url": "test",
                 "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z"
+                "timeReceived": "2023-05-26T00:00:00.000Z",
+                "traceContext": {
+                  "version": "00",
+                  "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
+                  "parentId": "1b527c3828976b39",
+                  "traceFlags": "01"
+                }
               }
             }
           }",
@@ -260,7 +229,13 @@ describe('DefaultExpressServerLogger', () => {
               "request": {
                 "url": "test",
                 "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z"
+                "timeReceived": "2023-05-26T00:00:00.000Z",
+                "traceContext": {
+                  "version": "00",
+                  "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
+                  "parentId": "1b527c3828976b39",
+                  "traceFlags": "01"
+                }
               }
             }
           }",
@@ -284,7 +259,13 @@ describe('DefaultExpressServerLogger', () => {
               "request": {
                 "url": "test",
                 "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z"
+                "timeReceived": "2023-05-26T00:00:00.000Z",
+                "traceContext": {
+                  "version": "00",
+                  "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
+                  "parentId": "1b527c3828976b39",
+                  "traceFlags": "01"
+                }
               }
             }
           }",
@@ -303,7 +284,7 @@ describe('DefaultExpressServerLogger', () => {
 
     it('should return message with request', () => {
       const logMessage = logger['stringifyWithContext']('test', {
-        request: {} as Request,
+        request,
       });
 
       expect(logMessage).toContain('request');
@@ -331,6 +312,12 @@ describe('DefaultExpressServerLogger', () => {
         {
           "request": {
             "timeReceived": 2023-05-26T00:00:00.000Z,
+            "traceContext": {
+              "parentId": "1b527c3828976b39",
+              "traceFlags": "01",
+              "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
+              "version": "00",
+            },
             "url": "test",
             "uuid": "test",
           },
@@ -342,23 +329,47 @@ describe('DefaultExpressServerLogger', () => {
 
   describe('map request', () => {
     it('should return mapped request', () => {
-      const request = {
+      const mappedRequest = logger['mapRequest'](request);
+
+      expect(mappedRequest).toMatchInlineSnapshot(`
+        {
+          "timeReceived": 2023-05-26T00:00:00.000Z,
+          "traceContext": {
+            "parentId": "1b527c3828976b39",
+            "traceFlags": "01",
+            "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
+            "version": "00",
+          },
+          "url": "test",
+          "uuid": "test",
+        }
+      `);
+    });
+
+    it('should return mapped request without traceContext prop if traceparent is not available', () => {
+      const requestWithoutTraceContext = {
         originalUrl: 'test',
         res: {
           locals: {
             cx: {
-              request: { uuid: 'test', timeReceived: new Date() },
+              request: {
+                uuid: 'test',
+                timeReceived: new Date('2023-05-26'),
+              },
             },
           },
         },
-      } as any;
+      } as unknown as Request;
 
-      const mappedRequest = logger['mapRequest'](request);
+      const mappedRequest = logger['mapRequest'](requestWithoutTraceContext);
 
-      expect(mappedRequest).toEqual({
-        url: 'test',
-        ...request.res?.locals.cx.request,
-      });
+      expect(mappedRequest).toMatchInlineSnapshot(`
+        {
+          "timeReceived": 2023-05-26T00:00:00.000Z,
+          "url": "test",
+          "uuid": "test",
+        }
+      `);
     });
   });
 });

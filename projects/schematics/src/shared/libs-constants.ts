@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,10 @@ export const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE];
 export const SPARTACUS_ASM = `@spartacus/asm`;
 export const SPARTACUS_ASM_ROOT = `@spartacus/asm/root`;
 export const SPARTACUS_ASM_ASSETS = `@spartacus/asm/assets`;
+
+export const SPARTACUS_ASM_CUSTOMER_360 = `@spartacus/asm/customer-360`;
+export const SPARTACUS_ASM_CUSTOMER_360_ROOT = `@spartacus/asm/customer-360/root`;
+export const SPARTACUS_ASM_CUSTOMER_360_ASSETS = `@spartacus/asm/customer-360/assets`;
 
 export const SPARTACUS_PICKUP_IN_STORE = '@spartacus/pickup-in-store';
 export const SPARTACUS_PICKUP_IN_STORE_ASSETS = `@spartacus/pickup-in-store/assets`;
@@ -182,6 +186,10 @@ export const SPARTACUS_USER_PROFILE_ROOT = `@spartacus/user/profile/root`;
 
 export const SPARTACUS_CDS = `@spartacus/cds`;
 
+export const SPARTACUS_CDP = `@spartacus/cdp`;
+export const SPARTACUS_CDP_CUSTOMER_TICKETING =
+  '@spartacus/cdp/customer-ticketing';
+
 export const SPARTACUS_CDC = `@spartacus/cdc`;
 export const SPARTACUS_CDC_ROOT = `@spartacus/cdc/root`;
 export const SPARTACUS_CDC_ASSETS = `@spartacus/cdc/assets`;
@@ -196,6 +204,14 @@ export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/as
 export const SPARTACUS_EPD_VISUALIZATION = `@spartacus/epd-visualization`;
 export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/root`;
 export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
+
+export const SPARTACUS_QUOTE = '@spartacus/quote';
+export const SPARTACUS_QUOTE_CART_GUARD =
+  '@spartacus/quote/components/cart-guard';
+export const SPARTACUS_QUOTE_REQUEST =
+  '@spartacus/quote/components/request-button';
+export const SPARTACUS_QUOTE_ROOT = `@spartacus/quote/root`;
+export const SPARTACUS_QUOTE_ASSETS = `@spartacus/quote/assets`;
 
 export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
@@ -219,6 +235,7 @@ export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 
 /***** Feature name start *****/
 export const ASM_FEATURE_NAME = 'ASM';
+export const ASM_CUSTOMER_360_FEATURE_NAME = 'ASM-Customer-360';
 
 export const CART_BASE_FEATURE_NAME = 'Cart';
 export const CART_IMPORT_EXPORT_FEATURE_NAME = 'Import-Export';
@@ -271,8 +288,13 @@ export const USER_ACCOUNT_FEATURE_NAME = 'User-Account';
 export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
 
 export const CDC_FEATURE_NAME = 'CDC';
+export const CDC_B2B_FEATURE_NAME = 'CDC-B2B';
+
+export const CDP_FEATURE_NAME = 'CDP';
 
 export const CDS_FEATURE_NAME = 'CDS';
+
+export const QUOTE_FEATURE_NAME = 'Quote';
 
 export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 

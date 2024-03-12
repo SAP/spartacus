@@ -1,39 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy, Optional } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { ConfiguratorCartService } from '../configurator-cart.service';
 import { ConfiguratorQuantityService } from '../../services/configurator-quantity.service';
+import { ConfiguratorCartService } from '../configurator-cart.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorRouterListener implements OnDestroy {
   protected subscription = new Subscription();
 
-  // TODO (CXSPA-3392): make configuratorQuantityService a required dependency
-  constructor(
-    configuratorCartService: ConfiguratorCartService,
-    routingService: RoutingService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configuratorQuantityService: ConfiguratorQuantityService
-  );
-
-  /**
-   * @deprecated since 6.1
-   */
-  constructor(
-    configuratorCartService: ConfiguratorCartService,
-    routingService: RoutingService
-  );
   constructor(
     protected configuratorCartService: ConfiguratorCartService,
     protected routingService: RoutingService,
-    @Optional()
-    protected configuratorQuantityService?: ConfiguratorQuantityService
+    protected configuratorQuantityService: ConfiguratorQuantityService
   ) {
     this.observeRouterChanges();
   }
@@ -43,9 +27,7 @@ export class ConfiguratorRouterListener implements OnDestroy {
       this.routingService.getRouterState().subscribe((routerState) => {
         if (!this.isConfiguratorRelatedRoute(routerState.state.semanticRoute)) {
           this.configuratorCartService.removeCartBoundConfigurations();
-          if (this.configuratorQuantityService) {
-            this.configuratorQuantityService.setQuantity(1);
-          }
+          this.configuratorQuantityService.setQuantity(1);
         }
       })
     );

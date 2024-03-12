@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,13 +40,16 @@ export class OrderHistoryComponent implements OnDestroy {
     .getOrderHistoryList(this.PAGE_SIZE)
     .pipe(
       tap((orders: OrderHistoryList | undefined) => {
-        if (orders?.pagination?.sort) {
-          this.sortType = orders.pagination.sort;
-        }
-        this.hasPONumber =
-          orders?.orders?.[0]?.purchaseOrderNumber !== undefined;
+        this.setOrderHistoryParams(orders);
       })
     );
+
+  setOrderHistoryParams(orders: OrderHistoryList | undefined) {
+    if (orders?.pagination?.sort) {
+      this.sortType = orders.pagination.sort;
+    }
+    this.hasPONumber = orders?.orders?.[0]?.purchaseOrderNumber !== undefined;
+  }
 
   hasReplenishmentOrder$: Observable<boolean> =
     this.replenishmentOrderHistoryFacade

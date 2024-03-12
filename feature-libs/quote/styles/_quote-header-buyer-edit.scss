@@ -1,0 +1,42 @@
+@import '@spartacus/styles/scss/components/misc/card/_card';
+
+%cx-quote-header-buyer-edit {
+  .cx-card-paragraph {
+    textarea,
+    input {
+      width: 100%;
+      border: 1px solid var(--cx-color-medium);
+    }
+
+    .cx-info-text {
+      font-size: var(--cx-font-size, 0.75rem);
+      font-style: italic;
+      text-align: end;
+      margin: 0;
+    }
+  }
+
+  .cx-card-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-block-start: 1rem;
+    gap: 0.5rem;
+
+    @include media-breakpoint-down(sm) {
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      @include media-breakpoint-up(sm) {
+        width: fit-content;
+      }
+
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+      }
+    }
+  }
+
+  @extend %cx-card !optional;
+}

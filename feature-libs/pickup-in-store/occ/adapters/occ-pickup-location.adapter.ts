@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,7 @@ import {
   PointOfService,
 } from '@spartacus/core';
 import { PickupLocationAdapter } from '@spartacus/pickup-in-store/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -36,9 +36,9 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
         })
       )
       .pipe(
-        catchError((error: any) =>
-          throwError(normalizeHttpError(error, this.logger))
-        )
+        catchError((error: any) => {
+          throw normalizeHttpError(error, this.logger);
+        })
       );
   }
 }

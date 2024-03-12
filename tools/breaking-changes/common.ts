@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,7 @@ import stringifyObject from 'stringify-object';
 
 // shared configs
 
-export const NEW_MAJOR_VERSION = '6'; // Increment this number to match the current release for which the script is used.
+export const NEW_MAJOR_VERSION = '2211'; // Increment this number to match the current release for which the script is used.
 export const BREAKING_CHANGES_FILE_PATH = `data/${NEW_MAJOR_VERSION}_0/breaking-changes.json`;
 export const MAJOR_VERSION_DOC_HOME = `../../docs/migration/${NEW_MAJOR_VERSION}_0`;
 export const API_ELEMENT_MIGRATION_COMMENTS_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/migration-comments-api-elements.json`;

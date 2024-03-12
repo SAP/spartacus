@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,6 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
 } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
@@ -22,7 +21,6 @@ import {
 } from '@spartacus/asm/root';
 import {
   AuthService,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -84,31 +82,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
   constructor(
-    authService: AuthService,
-    csAgentAuthService: CsAgentAuthService,
-    asmComponentService: AsmComponentService,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService,
-    asmService: AsmService,
-    userAccountFacade: UserAccountFacade,
-    launchDialogService: LaunchDialogService
-  );
-  /**
-   * @deprecated since 7.0
-   */
-  constructor(
-    authService: AuthService,
-    csAgentAuthService: CsAgentAuthService,
-    asmComponentService: AsmComponentService,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService,
-    asmService: AsmService,
-    userAccountFacade: UserAccountFacade,
-    launchDialogService: LaunchDialogService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfig: FeatureConfigService
-  );
-  constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
     protected asmComponentService: AsmComponentService,
@@ -116,8 +89,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService: LaunchDialogService,
-    @Optional() protected featureConfig?: FeatureConfigService
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -188,42 +160,39 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    * call startSessionWithParameters
    */
   protected subscribeForDeeplink(): void {
-    if (this.featureConfig?.isLevel('6.2')) {
-      if (this.asmComponentService.isEmulateInURL()) {
-        //Always route to home page to avoid 404
-        this.routingService.go('/');
-      }
-      // TODO(CXSPA-3090): Use asmDeepLinkService only in 7.0.
-      const parameters = this.asmComponentService.getDeepLinkUrlParams() ?? {
-        customerId: this.asmComponentService.getSearchParameter('customerId'),
-        orderId: this.asmComponentService.getSearchParameter('orderId'),
-        ticketId: this.asmComponentService.getSearchParameter('ticketId'),
-        cartId: this.asmComponentService.getSearchParameter('cartId'),
-        cartType: this.asmComponentService.getSearchParameter('cartType'),
-        emulated: false,
-      };
-      this.deeplinkCartAlertKey = CART_TYPE_KEY[parameters.cartType || ''];
-      this.subscription.add(
-        combineLatest([
-          this.customerSupportAgentLoggedIn$,
-          this.authService.isUserLoggedIn(),
-          this.asmComponentService.isEmulatedByDeepLink(),
-        ]).subscribe(([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
-          if (agentLoggedIn && parameters.customerId) {
-            if (!isEmulatedByDeepLink && userLoggedin) {
-              this.confirmSwitchCustomer(parameters.customerId);
-            } else {
-              setTimeout(() =>
-                this.startSessionWithParameters({
-                  ...parameters,
-                  emulated: isEmulatedByDeepLink,
-                })
-              );
-            }
-          }
-        })
-      );
+    if (this.asmComponentService.isEmulateInURL()) {
+      //Always route to home page to avoid 404
+      this.routingService.go('/');
     }
+    const parameters = this.asmComponentService.getDeepLinkUrlParams() ?? {
+      customerId: this.asmComponentService.getSearchParameter('customerId'),
+      orderId: this.asmComponentService.getSearchParameter('orderId'),
+      ticketId: this.asmComponentService.getSearchParameter('ticketId'),
+      cartId: this.asmComponentService.getSearchParameter('cartId'),
+      cartType: this.asmComponentService.getSearchParameter('cartType'),
+      emulated: false,
+    };
+    this.deeplinkCartAlertKey = CART_TYPE_KEY[parameters.cartType || ''];
+    this.subscription.add(
+      combineLatest([
+        this.customerSupportAgentLoggedIn$,
+        this.authService.isUserLoggedIn(),
+        this.asmComponentService.isEmulatedByDeepLink(),
+      ]).subscribe(([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
+        if (agentLoggedIn && parameters.customerId) {
+          if (!isEmulatedByDeepLink && userLoggedin) {
+            this.confirmSwitchCustomer(parameters.customerId);
+          } else {
+            setTimeout(() =>
+              this.startSessionWithParameters({
+                ...parameters,
+                emulated: isEmulatedByDeepLink,
+              })
+            );
+          }
+        }
+      })
+    );
   }
 
   protected confirmSwitchCustomer(switchCustomerId: string): void {
@@ -308,51 +277,16 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.showCustomerEmulationInfoAlert = true;
       this.showCreateCustomerSuccessfullyAlert = false;
       if (parameters) {
-        // TODO(CXSPA-3090): Remove feature flag in 7.0
-        if (this.featureConfig?.isLevel('6.3')) {
-          this.asmComponentService.handleDeepLinkNavigation({
-            customerId,
-            ...parameters,
-          });
-        } else {
-          // TODOi(CXSPA-3090): Remove this implementation in 7.0
-          this.handleDeepLinkParamsAfterStartSession(parameters);
-        }
+        this.asmComponentService.handleDeepLinkNavigation({
+          customerId,
+          ...parameters,
+        });
       }
     } else {
       this.globalMessageService.add(
         { key: 'asm.error.noCustomerId' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-    }
-  }
-
-  protected handleDeepLinkParamsAfterStartSession(
-    parameters: AsmDeepLinkParameters
-  ) {
-    if (
-      (parameters.cartType === 'active' ||
-        parameters.cartType === 'inactive') &&
-      parameters.cartId
-    ) {
-      return;
-    }
-
-    if (parameters.cartType === 'saved' && parameters.cartId) {
-      // Navigate to saved cart
-      this.routingService.go('my-account/saved-cart/' + parameters.cartId);
-    } else if (parameters.orderId) {
-      // Navigate to order details
-      this.routingService.go({
-        cxRoute: 'orderDetails',
-        params: { code: parameters.orderId },
-      });
-    } else if (parameters.ticketId) {
-      // Navigate to support ticket details
-      this.routingService.go({
-        cxRoute: 'supportTicketDetails',
-        params: { ticketCode: parameters.ticketId },
-      });
     }
   }
 

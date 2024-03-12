@@ -1,11 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { registerLocaleData } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
@@ -16,7 +20,6 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
-  ErrorHandlingModule,
   FeaturesConfig,
   I18nConfig,
   OccConfig,
@@ -26,7 +29,11 @@ import {
 } from '@spartacus/core';
 import { StoreFinderConfig } from '@spartacus/storefinder/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
-import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
+import {
+  AppRoutingModule,
+  StorefrontComponent,
+  USE_LEGACY_MEDIA_COMPONENT,
+} from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
@@ -42,19 +49,18 @@ if (!environment.production) {
 
 @NgModule({
   imports: [
-    BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
-    HttpClientModule,
+    BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     SpartacusModule,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
-    ErrorHandlingModule.forRoot(), // custom error handling that delegates to LoggerService. Remove for 7.0 as it will be the part of BaseCoreModule (CXSPA-3680).
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
   ],
   providers: [
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideConfig(<OccConfig>{
       backend: {
         occ: {
@@ -94,6 +100,10 @@ if (!environment.production) {
       // without a key, for development or demo purposes.
       googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
     }),
+    {
+      provide: USE_LEGACY_MEDIA_COMPONENT,
+      useValue: false,
+    },
   ],
   bootstrap: [StorefrontComponent],
 })

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,7 @@ import {
   ICON_TYPE,
   KeyboardFocusService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
@@ -46,7 +46,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   loading$?: Observable<boolean>;
   attributeId: number;
   attributeLabel?: string;
-  attributeName?: string;
+  attributeName: string;
   itemCount: number;
   itemIndex: number;
 }
@@ -109,14 +109,6 @@ export class ConfiguratorAttributeProductCardComponent
         this.productCardOptions.multiSelect) ??
       false
     );
-  }
-  //TODO(CXSPA-3392) for next major: turn ConfiguratorAttributeProductCardComponentOptions#attributeName
-  //into a required field and get rid of this method, use this.productCardOptions.attributeName instead
-  get attributeName(): string {
-    const attributeName = this.productCardOptions.attributeName;
-    return attributeName
-      ? attributeName
-      : this.productCardOptions.attributeId.toString();
   }
 
   get focusConfig(): FocusConfig {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,6 @@ import {
   UserOccModule,
 } from '@spartacus/core';
 import {
-  AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
   BannerCarouselModule,
@@ -34,6 +33,7 @@ import {
   LogoutModule,
   MyCouponsModule,
   MyInterestsModule,
+  MyAccountV2Module,
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
@@ -57,9 +57,12 @@ import {
   StockNotificationModule,
   TabParagraphContainerModule,
   VideoModule,
+  USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
+  USE_MY_ACCOUNT_V2_CONSENT,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AsmFeatureModule } from './features/asm/asm-feature.module';
+import { AsmCustomer360FeatureModule } from './features/asm/asm-customer-360-feature.module';
 import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module';
 import { ImportExportFeatureModule } from './features/cart/cart-import-export-feature.module';
 import { QuickOrderFeatureModule } from './features/cart/cart-quick-order-feature.module';
@@ -68,6 +71,7 @@ import { WishListFeatureModule } from './features/cart/wish-list-feature.module'
 import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
+import { QuoteFeatureModule } from './features/quote-feature.module';
 import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
@@ -113,6 +117,7 @@ if (environment.b2b) {
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
 }
+
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
@@ -163,10 +168,10 @@ if (environment.requestedDeliveryDate) {
     UserModule,
     UserOccModule,
     // User UI
-    AddressBookModule,
     PaymentMethodsModule,
     NotificationPreferenceModule,
     MyInterestsModule,
+    MyAccountV2Module,
     StockNotificationModule,
     ConsentManagementModule,
     MyCouponsModule,
@@ -223,6 +228,7 @@ if (environment.requestedDeliveryDate) {
     TrackingFeatureModule,
 
     AsmFeatureModule,
+    AsmCustomer360FeatureModule,
 
     StorefinderFeatureModule,
 
@@ -233,11 +239,23 @@ if (environment.requestedDeliveryDate) {
     VariantsFeatureModule,
     ImageZoomFeatureModule,
 
+    QuoteFeatureModule,
     CustomerTicketingFeatureModule,
 
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
     ...featureModules,
+  ],
+  providers: [
+    // Adding the provider here because consents feature is not code-splitted to separate library and not lazy-loaded
+    {
+      provide: USE_MY_ACCOUNT_V2_CONSENT,
+      useValue: environment.myAccountV2,
+    },
+    {
+      provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
+      useValue: environment.myAccountV2,
+    },
   ],
 })
 export class SpartacusFeaturesModule {}

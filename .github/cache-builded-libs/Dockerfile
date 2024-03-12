@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:18
 
 COPY package.json /
 COPY package-lock.json /

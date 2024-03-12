@@ -17,10 +17,13 @@
       "items": {
         "enum": [
           "ASM",
+          "ASM-Customer-360",
           "Import-Export",
           "Saved-Cart",
           "Quick-Order",
           "CDC",
+          "CDC-B2B",
+          "CDP",
           "CDS",
           "Cart",
           "WishList",
@@ -55,12 +58,14 @@
           "TMS-AEPL",
           "Pickup-In-Store",
           "User-Account",
-          "User-Profile"
+          "User-Profile",
+          "Quote"
         ],
         "type": "string"
       },
       "default": [
         "ASM",
+        "ASM-Customer-360",
         "Cart",
         "WishList",
         "Checkout",
@@ -85,6 +90,10 @@
             "label": "Assisted Services Module"
           },
           {
+            "value": "ASM-Customer-360",
+            "label": "ASM Customer 360"
+          },
+          {
             "value": "Import-Export",
             "label": "Import/Export"
           },
@@ -98,7 +107,15 @@
           },
           {
             "value": "CDC",
-            "label": "Customer Data Cloud Integration"
+            "label": "Customer Data Cloud Integration - B2C"
+          },
+          {
+            "value": "CDC-B2B",
+            "label": "Customer Data Cloud Integration - B2B"
+          },
+          {
+            "value": "CDP",
+            "label": "Customer Data Platform Integration"
           },
           {
             "value": "CDS",
@@ -231,6 +248,10 @@
           {
             "value": "User-Profile",
             "label": "User - Profile"
+          },
+          {
+            "value": "Quote",
+            "label": "Quote"
           },
           {
             "value": "Customer-Ticketing",

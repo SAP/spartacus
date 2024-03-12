@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, CartOutlets } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -31,6 +31,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutDeliveryModeComponent {
+  protected globalMessageService = inject(GlobalMessageService);
   protected busy$ = new BehaviorSubject(false);
   protected readonly isSetDeliveryModeHttpErrorSub = new BehaviorSubject(false);
 
@@ -90,36 +91,13 @@ export class CheckoutDeliveryModeComponent {
     return this.mode.controls['deliveryModeId'].invalid;
   }
 
-  // TODO(CXSPA-3976): make globalMessageService a required dependency
-  constructor(
-    fb: UntypedFormBuilder,
-    checkoutConfigService: CheckoutConfigService,
-    activatedRoute: ActivatedRoute,
-    checkoutStepService: CheckoutStepService,
-    checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    activeCartFacade: ActiveCartFacade,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    globalMessageService: GlobalMessageService
-  );
-  /**
-   * @deprecated since 6.2
-   */
-  constructor(
-    fb: UntypedFormBuilder,
-    checkoutConfigService: CheckoutConfigService,
-    activatedRoute: ActivatedRoute,
-    checkoutStepService: CheckoutStepService,
-    checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    activeCartFacade: ActiveCartFacade
-  );
   constructor(
     protected fb: UntypedFormBuilder,
     protected checkoutConfigService: CheckoutConfigService,
     protected activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected activeCartFacade: ActiveCartFacade,
-    @Optional() protected globalMessageService?: GlobalMessageService
+    protected activeCartFacade: ActiveCartFacade
   ) {}
 
   changeMode(code: string | undefined): void {

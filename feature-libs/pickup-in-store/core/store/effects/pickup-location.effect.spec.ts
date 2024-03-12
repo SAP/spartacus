@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { normalizeHttpError } from '@spartacus/core';
+import { tryNormalizeHttpError } from '@spartacus/core';
 
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
@@ -18,6 +18,14 @@ import {
   SetStoreDetailsSuccess,
 } from '../actions/pickup-location.action';
 import { PickupLocationEffect } from './pickup-location.effect';
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
 describe('PickupLocationEffect', () => {
   let pickupLocationEffects: PickupLocationEffect;
@@ -83,7 +91,7 @@ describe('PickupLocationEffect with Error', () => {
     const error = new HttpErrorResponse({ error: 'error' });
 
     const actionFailure = SetStoreDetailsFailure({
-      error: normalizeHttpError(error),
+      error: tryNormalizeHttpError(error, new MockLoggerService()),
     });
     actions$ = hot('-a', { a: action });
     const expected = cold('-(b)', { b: actionFailure });

@@ -5,13 +5,13 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpErrorModel } from '../model';
 import { LoggerService } from '../logger';
+import { HttpErrorModel } from '../model';
 import { normalizeHttpError } from './normalize-http-error';
 
 export function tryNormalizeHttpError(
   error: HttpErrorResponse | HttpErrorModel | any,
-  logger?: LoggerService
+  logger: LoggerService
 ): HttpErrorModel | Error {
   return normalizeHttpError(error, logger) ?? error;
 }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,8 @@ import { CmsModule } from './cms/cms.module';
 import { ConfigInitializerModule } from './config/config-initializer/config-initializer.module';
 import { ConfigValidatorModule } from './config/config-validator/config-validator.module';
 import { ConfigModule } from './config/config.module';
+import { ErrorHandlingModule, HttpErrorHandlerModule } from './error-handling';
+import { EffectsErrorHandlerModule } from './error-handling/effects-error-handler/effects-error-handler.module';
 import { FeaturesConfigModule } from './features-config/features-config.module';
 import { GlobalMessageModule } from './global-message/global-message.module';
 import { HttpModule } from './http/http.module';
@@ -19,8 +21,6 @@ import { MetaTagConfigModule } from './occ/config/meta-tag-config.module';
 import { ProcessModule } from './process/process.module';
 import { SiteContextModule } from './site-context/site-context.module';
 import { StateModule } from './state/state.module';
-import { HttpErrorHandlerModule } from './error-handling';
-import { EffectsErrorHandlerModule } from './error-handling/effects-error-handler/effects-error-handler.module';
 
 @NgModule({
   imports: [
@@ -39,9 +39,7 @@ import { EffectsErrorHandlerModule } from './error-handling/effects-error-handle
     BaseOccModule.forRoot(),
     LazyLoadingModule.forRoot(),
     HttpModule.forRoot(),
-
-    /* This module should be imported by default starting from version 7.0 (CXSPA-3680)*/
-    //ErrorHandlingModule.forRoot(),
+    ErrorHandlingModule.forRoot(),
     EffectsErrorHandlerModule.forRoot(),
   ],
 })

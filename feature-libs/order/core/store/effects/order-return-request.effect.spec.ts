@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { LoggerService } from '@spartacus/core';
 import {
   ReturnRequest,
   ReturnRequestEntryInputList,
@@ -36,6 +37,13 @@ const mockCancelReturnRequest = {
 };
 
 const error = new Error('error');
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
 describe('Order Return Request effect', () => {
   let orderReturnRequestEffect: fromOrderReturnRequestEffect.OrderReturnRequestEffect;
@@ -50,6 +58,7 @@ describe('Order Return Request effect', () => {
         fromOrderReturnRequestEffect.OrderReturnRequestEffect,
         { provide: OrderHistoryAdapter, useValue: {} },
         provideMockActions(() => actions$),
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
@@ -83,7 +92,9 @@ describe('Order Return Request effect', () => {
     });
 
     it('should handle failures for create order return request', () => {
-      spyOn(orderHistoryConnector, 'return').and.returnValue(throwError(error));
+      spyOn(orderHistoryConnector, 'return').and.returnValue(
+        throwError(() => error)
+      );
 
       const action = new OrderActions.CreateOrderReturnRequest({
         userId: 'userId',
@@ -125,7 +136,7 @@ describe('Order Return Request effect', () => {
 
     it('should handle failures for load return request list', () => {
       spyOn(orderHistoryConnector, 'getReturnRequestList').and.returnValue(
-        throwError(error)
+        throwError(() => error)
       );
       const action = new OrderActions.LoadOrderReturnRequestList({
         userId: 'test@sap.com',
@@ -167,7 +178,7 @@ describe('Order Return Request effect', () => {
 
     it('should handle failures for load an order return request', () => {
       spyOn(orderHistoryConnector, 'getReturnRequestDetail').and.returnValue(
-        throwError(error)
+        throwError(() => error)
       );
 
       const action = new OrderActions.LoadOrderReturnRequest({
@@ -208,7 +219,7 @@ describe('Order Return Request effect', () => {
 
     it('should handle failures for cancel return request', () => {
       spyOn(orderHistoryConnector, 'cancelReturnRequest').and.returnValue(
-        throwError(error)
+        throwError(() => error)
       );
 
       const action = new OrderActions.CancelOrderReturnRequest(

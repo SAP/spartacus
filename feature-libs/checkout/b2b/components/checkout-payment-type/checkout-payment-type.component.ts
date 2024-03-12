@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Optional,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -20,14 +19,14 @@ import {
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
+  getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
-  OccHttpErrorType,
-  getLastValueSync,
   isNotUndefined,
+  OccHttpErrorType,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -66,8 +65,7 @@ export class CheckoutPaymentTypeComponent {
       tap(() => (this.paymentTypesError = false)),
       catchError((error: HttpErrorModel) => {
         if (
-          error.details?.[0]?.type === OccHttpErrorType.CLASS_MISMATCH_ERROR &&
-          this.globalMessageService
+          error.details?.[0]?.type === OccHttpErrorType.CLASS_MISMATCH_ERROR
         ) {
           this.globalMessageService.add(
             { key: 'httpHandlers.forbidden' },
@@ -136,30 +134,11 @@ export class CheckoutPaymentTypeComponent {
       distinctUntilChanged()
     );
 
-  // TODO(CXSPA-3334): make globalMessageService a required dependency
-  constructor(
-    checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    checkoutStepService: CheckoutStepService,
-    activatedRoute: ActivatedRoute,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    globalMessageService?: GlobalMessageService
-  );
-
-  /**
-   * @deprecated since 6.3
-   */
-  constructor(
-    checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    checkoutStepService: CheckoutStepService,
-    activatedRoute: ActivatedRoute,
-    globalMessageService: GlobalMessageService
-  );
-
   constructor(
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
     protected activatedRoute: ActivatedRoute,
-    @Optional() protected globalMessageService?: GlobalMessageService
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   changeType(code: string): void {

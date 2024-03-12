@@ -2,6 +2,7 @@ import {
   Component,
   DebugElement,
   EventEmitter,
+  Injectable,
   Input,
   Output,
 } from '@angular/core';
@@ -22,7 +23,11 @@ import {
   RoutingService,
   User,
 } from '@spartacus/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
@@ -32,6 +37,14 @@ class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of(false);
   }
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
 
 class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
@@ -125,7 +138,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
-
+@Injectable()
 class MockAsmComponentService extends AsmComponentService {
   logoutCustomerSupportAgentAndCustomer(): void {}
   unload() {}
@@ -171,6 +184,7 @@ describe('AsmMainUiComponent', () => {
           MockCustomerSelectionComponent,
           MockAsmSessionTimerComponent,
           MockCustomerEmulationComponent,
+          MockCxIconComponent,
         ],
         providers: [
           { provide: AuthService, useClass: MockAuthService },
@@ -646,8 +660,9 @@ describe('AsmMainUiComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
   });
 
-  it('should not call naviate when starting session with active cartId and ticketId in parameters', () => {
+  it('should call naviate when starting session with active cartId and ticketId in parameters', () => {
     spyOn(routingService, 'go').and.stub();
+    spyOn(asmComponentService, 'handleDeepLinkNavigation').and.stub();
 
     component.startCustomerEmulationSession(
       { customerId: '123' },
@@ -655,17 +670,19 @@ describe('AsmMainUiComponent', () => {
     );
 
     expect(routingService.go).not.toHaveBeenCalled();
+    expect(asmComponentService.handleDeepLinkNavigation).toHaveBeenCalled();
   });
 
-  it('should not call navigate when starting session with inactive cartId and ticketId in parameters', () => {
+  it('should call navigate when starting session with inactive cartId and ticketId in parameters', () => {
     spyOn(routingService, 'go').and.stub();
+    spyOn(asmComponentService, 'handleDeepLinkNavigation').and.stub();
 
     component.startCustomerEmulationSession(
       { customerId: '123' },
       { cartId: '456', cartType: 'inactive', ticketId: '123' }
     );
-
     expect(routingService.go).not.toHaveBeenCalled();
+    expect(asmComponentService.handleDeepLinkNavigation).toHaveBeenCalled();
   });
 
   it('should emit false when close inactive cart info', () => {

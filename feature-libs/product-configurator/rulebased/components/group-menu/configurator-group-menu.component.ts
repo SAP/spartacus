@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,9 +27,9 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Component({
   selector: 'cx-configurator-group-menu',
@@ -120,7 +120,13 @@ export class ConfiguratorGroupMenuComponent {
     protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
-  click(group: Configurator.Group): void {
+  /**
+   * Selects group or navigates to sub-group depending on clicked group
+   *
+   * @param {Configurator.Group} group - Target Group
+   * @param {Configurator.Group} currentGroup - Current group
+   */
+  click(group: Configurator.Group, currentGroup?: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (configuration.interactionState.currentGroup === group.id) {
         return;
@@ -137,11 +143,19 @@ export class ConfiguratorGroupMenuComponent {
           configuration.owner,
           group.id
         );
+        if (currentGroup) {
+          this.setFocusForSubGroup(group, currentGroup.id);
+        }
       }
     });
   }
 
-  navigateUp(): void {
+  /**
+   * Navigate up and set focus if current group information is provided
+   *
+   * @param {Configurator.Group} currentGroup - Current group
+   */
+  navigateUp(currentGroup?: Configurator.Group): void {
     this.displayedParentGroup$
       .pipe(take(1))
       .subscribe((displayedParentGroup) => {
@@ -158,6 +172,9 @@ export class ConfiguratorGroupMenuComponent {
           });
         }
       });
+    if (currentGroup) {
+      this.setFocusForMainMenu(currentGroup.id);
+    }
   }
 
   /**
@@ -267,21 +284,7 @@ export class ConfiguratorGroupMenuComponent {
    * @param {Configurator.GroupType} groupType - Group type
    * @return {boolean} - 'True' if the current group is conflict one, otherwise 'false'.
    */
-  isConflictGroupType(groupType: Configurator.GroupType): boolean {
-    return this.configuratorGroupsService.isConflictGroupType(groupType);
-  }
-
-  //TODO(CXSPA-3392) get rid of this method in next major. Change signature of
-  //isConflictGroupType to allow undefined, and use this method instead
-  /**
-   * Verifies whether the current group is conflict one but allows for undefined input
-   *
-   * @param {Configurator.GroupType} groupType - Group type
-   * @return {boolean} - 'True' if the current group is conflict one, otherwise 'false'.
-   */
-  isConflictGroupTypeAllowingUndefined(
-    groupType: Configurator.GroupType | undefined
-  ): boolean {
+  isConflictGroupType(groupType: Configurator.GroupType | undefined): boolean {
     return groupType
       ? this.configuratorGroupsService.isConflictGroupType(groupType)
       : false;
@@ -404,13 +407,11 @@ export class ConfiguratorGroupMenuComponent {
       );
     } else if (this.isForwardsNavigation(event)) {
       if (targetGroup && this.hasSubGroups(targetGroup)) {
-        this.click(targetGroup);
-        this.setFocusForSubGroup(targetGroup, currentGroup.id);
+        this.click(targetGroup, currentGroup);
       }
     } else if (this.isBackNavigation(event)) {
       if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
-        this.navigateUp();
-        this.setFocusForMainMenu(currentGroup.id);
+        this.navigateUp(currentGroup);
       }
     }
   }

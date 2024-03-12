@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ export const ANGULAR_CORE = '@angular/core';
 export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
 export const ANGULAR_HTTP = '@angular/common/http';
+export const ANGULAR_SSR = '@angular/ssr';
 
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
@@ -23,7 +24,6 @@ export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
 export const NGRX_ROUTER_STORE = '@ngrx/router-store';
 
-export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
 export const NG_BOOTSTRAP = '@ng-bootstrap/ng-bootstrap';
 
 /***** Imports end *****/
@@ -866,6 +866,7 @@ export const LOGIN_MODULE = 'LoginModule';
 export const LOGIN_FORM_MODULE = 'LoginFormModule';
 export const LOGIN_REGISTER_COMPONENT = 'LoginRegisterComponent';
 export const LOGIN_REGISTER_MODULE = 'LoginRegisterModule';
+
 export const UPDATE_EMAIL_MODULE = 'UpdateEmailModule';
 export const UPDATE_PASSWORD_MODULE = 'UpdatePasswordModule';
 export const UPDATE_PROFILE_MODULE = 'UpdateProfileModule';
@@ -1143,3 +1144,11 @@ export const GENERIC_LINK_COMPONENT = 'GenericLinkComponent';
 export const GENERIC_LINK_COMPONENT_SERVICE = 'GenericLinkComponentService';
 
 export const CDC_JS_SERVICE = 'CdcJsService';
+
+export const SERVER_FILENAME = 'server.ts';
+export const SERVER_BAK_FILENAME = 'server.ts.bak';
+export const OLD_ZONE_IMPORT = 'zone.js/dist/zone-node';
+export const NEW_ZONE_IMPORT = 'zone.js/node';
+export const NGUNIVERSAL_IMPORT = '@nguniversal/express-engine';
+export const SSR_SETUP_IMPORT = '@spartacus/setup/ssr';
+export const EXPRESS_TOKENS = 'express.tokens';

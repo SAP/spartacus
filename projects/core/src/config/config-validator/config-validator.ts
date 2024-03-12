@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,14 +37,12 @@ export function provideConfigValidator(
 export function validateConfig(
   config: Config,
   configValidators: ConfigValidator[],
-  logger?: LoggerService
+  logger: LoggerService
 ) {
   for (const validate of configValidators) {
     const warning = validate(config);
     if (warning) {
-      // CXSPA-3680 - remove console.log before 7.0 release and make `logger` required param
-      /* eslint-disable-next-line no-console */
-      logger ? logger.warn(warning) : console.warn(warning);
+      logger.warn(warning);
     }
   }
 }

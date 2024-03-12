@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -390,6 +390,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   notificationPreference: [
     { value: 'Email', type: TabbingOrderTypes.CHECKBOX_WITH_LABEL },
   ],
+  myAccountV2NotificationPreference: [
+    { value: 'Email', type: TabbingOrderTypes.CHECKBOX_WITH_LABEL },
+  ],
   updateEmail: [
     { value: 'email', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'confirmEmail', type: TabbingOrderTypes.FORM_FIELD },
@@ -516,6 +519,56 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
       value: 'I approve to this sample STORE USER INFORMATION consent',
+    },
+  ],
+  myAccountV2ConsentManagement: [
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Disable all',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Enable all',
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+  ],
+  myAccountV2Password: [
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cancel',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Save',
+      type: TabbingOrderTypes.BUTTON,
     },
   ],
   addToCart: [
@@ -2359,7 +2412,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.BUTTON,
-      value: 'Start Emulation',
+      value: 'Start Session',
     },
   ],
   asmWithSelectedUser: [
@@ -2383,7 +2436,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.BUTTON,
-      value: 'Start Emulation',
+      value: 'Start Session',
     },
   ],
   asmWithCustomerLists: [
@@ -2440,5 +2493,20 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.GENERIC_BUTTON,
       value: 'Cancel',
     },
+  ],
+  asmCustomer360CouponList: [
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
+  ],
+  asmCustomer360CustomerCouponList: [
+    { type: TabbingOrderTypes.BUTTON, value: 'Available' },
+    { type: TabbingOrderTypes.BUTTON, value: 'Sent' },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    // uncomment the following line to test againt S4,S7
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
   ],
 };

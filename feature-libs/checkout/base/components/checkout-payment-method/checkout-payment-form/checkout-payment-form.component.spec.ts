@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -11,9 +10,11 @@ import {
 import {
   Address,
   AddressValidation,
+  CardType,
   Country,
   GlobalMessageService,
   I18nTestingModule,
+  PaymentDetails,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
@@ -21,6 +22,7 @@ import {
   FormErrorsModule,
   ICON_TYPE,
   LaunchDialogService,
+  NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
@@ -180,6 +182,7 @@ describe('CheckoutPaymentFormComponent', () => {
         imports: [
           ReactiveFormsModule,
           NgSelectModule,
+          NgSelectA11yModule,
           I18nTestingModule,
           FormErrorsModule,
         ],

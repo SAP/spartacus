@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,6 +33,17 @@ export function clickContinueToCartBtnOnOP(): void {
     .click()
     .then(() => {
       cy.get('cx-cart-details').should('be.visible');
+    });
+}
+
+/**
+ * Clicks on 'Close' on the product overview page and expects the quote details page to appear
+ */
+export function clickContinueToCartBtnOnOPAndExpectQuote(): void {
+  cy.get(continueToCartButtonSelector)
+    .click()
+    .then(() => {
+      cy.get('cx-quote-header-overview').should('be.visible');
     });
 }
 

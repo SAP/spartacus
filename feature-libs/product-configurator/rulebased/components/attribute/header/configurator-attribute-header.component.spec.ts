@@ -1,54 +1,53 @@
 import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  FeatureConfigService,
-  FeaturesConfig,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
-import { Configurator } from '../../../core/model/configurator.model';
-import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
-import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
-import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
-import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
-import * as ConfigurationTestData from '../../../testing/configurator-test-data';
-import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import {
+  ICON_TYPE,
   IconLoaderService,
   IconModule,
-  ICON_TYPE,
 } from '@spartacus/storefront';
-import { cold } from 'jasmine-marbles';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { getTestScheduler } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { TestScheduler } from 'rxjs/testing';
+import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
+import { Configurator } from '../../../core/model/configurator.model';
+import * as ConfigurationTestData from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
+import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
+import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
     return false;
   }
+
   getStyleClasses(_iconType: ICON_TYPE): string {
     return 'fas fa-exclamation-circle';
   }
+
   addLinkResource() {}
+
   getHtml(_iconType: ICON_TYPE) {}
+
   getFlipDirection(): void {}
 }
 
 let isCartEntryOrGroupVisited = true;
+
 class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
     return of(isCartEntryOrGroupVisited);
   }
 
   focusValue(): void {}
+
   scrollToConfigurationElement(): void {}
 }
 
@@ -72,12 +71,6 @@ class MockConfiguratorCommonsService {
 
 class MockConfiguratorGroupsService {
   navigateToGroup(): void {}
-}
-
-class MockFeatureConfigService {
-  isLevel(): boolean {
-    return true;
-  }
 }
 
 describe('ConfigAttributeHeaderComponent', () => {
@@ -121,11 +114,8 @@ describe('ConfigAttributeHeaderComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [FeaturesConfigModule, I18nTestingModule, IconModule],
-        declarations: [
-          ConfiguratorAttributeHeaderComponent,
-          MockFeatureLevelDirective,
-        ],
+        imports: [I18nTestingModule, IconModule],
+        declarations: [ConfiguratorAttributeHeaderComponent],
         providers: [
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
           {
@@ -144,7 +134,7 @@ describe('ConfigAttributeHeaderComponent', () => {
             provide: ConfiguratorUISettingsConfig,
             useValue: TestConfiguratorUISettings,
           },
-          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+
           {
             provide: ConfiguratorAttributeCompositionContext,
             useValue: ConfiguratorTestUtils.getAttributeContext(),
@@ -182,6 +172,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
     component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
     component.isNavigationToGroupEnabled = true;
+    component['logError'] = () => {};
     fixture.detectChanges();
 
     configurationGroupsService = TestBed.inject(
@@ -969,12 +960,9 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('Focus selected value', () => {
     it('should call focusValue with attribute', () => {
-      const testScheduler = new TestScheduler((actual, expected) => {
-        expect(actual).toEqual(expected);
-      });
       //we need to run the test in a test scheduler
       //because of the delay() in method focusAttribute
-      testScheduler.run(() => {
+      getTestScheduler().run(({ cold, flush }) => {
         component.groupType = Configurator.GroupType.CONFLICT_GROUP;
         component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
         const configurationLoading = cold('-a-b', {
@@ -990,22 +978,21 @@ describe('ConfigAttributeHeaderComponent', () => {
 
         fixture.detectChanges();
         component['focusValue'](component.attribute);
-      });
 
-      expect(
-        configuratorStorefrontUtilsService.focusValue
-      ).toHaveBeenCalledTimes(1);
+        flush();
+
+        expect(
+          configuratorStorefrontUtilsService.focusValue
+        ).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
   describe('Scroll to configuration element', () => {
     it('should call scrollToConfigurationElement', () => {
-      const testScheduler = new TestScheduler((actual, expected) => {
-        expect(actual).toEqual(expected);
-      });
       //we need to run the test in a test scheduler
       //because of the delay() in method focusAttribute
-      testScheduler.run(() => {
+      getTestScheduler().run(({ cold, flush }) => {
         component.groupType = Configurator.GroupType.CONFLICT_GROUP;
         component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
 
@@ -1026,11 +1013,13 @@ describe('ConfigAttributeHeaderComponent', () => {
         fixture.detectChanges();
 
         component['scrollToAttribute'](ConfigurationTestData.GROUP_ID_2);
-      });
 
-      expect(
-        configuratorStorefrontUtilsService.scrollToConfigurationElement
-      ).toHaveBeenCalledTimes(1);
+        flush();
+
+        expect(
+          configuratorStorefrontUtilsService.scrollToConfigurationElement
+        ).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
@@ -1126,38 +1115,6 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
-  describe('isAttributeWithDomain', () => {
-    it('should return `false` because attribute UI type is `Configurator.UiType.NOT_IMPLEMENTED`', () => {
-      component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
-      fixture.detectChanges();
-      expect(
-        component['isAttributeWithDomain'](component.attribute.uiType)
-      ).toBe(false);
-    });
-
-    it('should return `false` because attribute UI type is `Configurator.UiType.STRING`', () => {
-      component.attribute.uiType = Configurator.UiType.STRING;
-      fixture.detectChanges();
-      expect(
-        component['isAttributeWithDomain'](component.attribute.uiType)
-      ).toBe(false);
-    });
-
-    it('should return `false` because attribute UI type is `Configurator.UiType.NUMERIC`', () => {
-      component.attribute.uiType = Configurator.UiType.NUMERIC;
-      fixture.detectChanges();
-      expect(
-        component['isAttributeWithDomain'](component.attribute.uiType)
-      ).toBe(false);
-    });
-
-    it('should return `true` because attribute UI type is `RADIOBUTTON`', () => {
-      expect(
-        component['isAttributeWithDomain'](component.attribute.uiType)
-      ).toBe(true);
-    });
-  });
-
   describe('isRequiredAttributeWithoutErrorMsg', () => {
     it('should return `false` because because required attribute is `undefined`', () => {
       component.attribute.required = undefined;
@@ -1183,34 +1140,6 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       fixture.detectChanges();
       expect(component['isRequiredAttributeWithoutErrorMsg']()).toBe(true);
-    });
-  });
-
-  describe('isRequiredAttributeWithDomain', () => {
-    it('should return `false` because because required attribute is `undefined`', () => {
-      component.attribute.required = undefined;
-      fixture.detectChanges();
-      expect(component['isRequiredAttributeWithDomain']()).toBe(false);
-    });
-
-    it('should return `false` because definition of attribute incompleteness is `undefined`', () => {
-      component.attribute.incomplete = undefined;
-      fixture.detectChanges();
-      expect(component['isRequiredAttributeWithDomain']()).toBe(false);
-    });
-
-    it('should return `false` because attribute attribute UI type is `Configurator.UiType.NUMERIC`', () => {
-      component.attribute.required = true;
-      component.attribute.uiType = Configurator.UiType.NUMERIC;
-      fixture.detectChanges();
-      expect(component['isRequiredAttributeWithDomain']()).toBe(false);
-    });
-
-    it('should return `true` because attribute attribute UI type is `Configurator.UiType.DROPDOWN_PRODUCT`', () => {
-      component.attribute.required = true;
-      component.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
-      fixture.detectChanges();
-      expect(component['isRequiredAttributeWithDomain']()).toBe(true);
     });
   });
 

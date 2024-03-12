@@ -16,7 +16,7 @@ import {
   TicketReopenedEvent,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CustomerTicketingConnector } from '../connectors';
 import { CustomerTicketingService } from './customer-ticketing.service';
@@ -345,6 +345,27 @@ describe('CustomerTicketingService', () => {
           });
           done();
         });
+    });
+
+    it('should handle error response', () => {
+      const errorResponse = {
+        loading: false,
+        data: null,
+        error: 'Some error message',
+      };
+
+      spyOn(service, 'getTicketAssociatedObjectsState').and.returnValue(
+        throwError(errorResponse.error)
+      );
+
+      service.getTicketAssociatedObjects().subscribe(
+        () => {
+          fail('Should not reach here');
+        },
+        (error) => {
+          expect(error).toEqual(errorResponse.error);
+        }
+      );
     });
   });
 
