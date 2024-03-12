@@ -250,14 +250,13 @@ export class OpfGooglePayService {
       addressIds: [],
     };
 
-    this.opfQuickBuyService
-      .getBusinessName()
+    forkJoin({
+      context: this.opfQuickBuyService.getQuickBuyLocationContext(),
+      merchantName: this.opfQuickBuyService.getMerchantName(),
+    })
       .pipe(
-        switchMap((businessName) => {
-          this.googlePaymentRequest.merchantInfo.merchantName = businessName;
-          return this.opfQuickBuyService.getQuickBuyLocationContext();
-        }),
-        switchMap((context: OpfQuickBuyLocation) => {
+        switchMap(({ context, merchantName }) => {
+          this.googlePaymentRequest.merchantInfo.merchantName = merchantName;
           if (context === OpfQuickBuyLocation.PRODUCT) {
             return this.handleSingleProductTransaction();
           }

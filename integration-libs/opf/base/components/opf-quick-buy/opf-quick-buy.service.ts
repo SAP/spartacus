@@ -96,7 +96,7 @@ export class OpfQuickBuyService {
     );
   }
 
-  getBusinessName(): Observable<string> {
+  getMerchantName(): Observable<string> {
     return this.baseSiteService.get().pipe(
       take(1),
       map((baseSite) => baseSite?.name ?? defaultBusinessName)

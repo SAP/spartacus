@@ -28,7 +28,7 @@ import {
   CurrentProductService,
   ItemCounterService,
 } from '@spartacus/storefront';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, forkJoin } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { OpfQuickBuyService } from '../opf-quick-buy.service';
 import { ApplePaySessionFactory } from './apple-pay-session';
@@ -104,21 +104,17 @@ export class ApplePayComponent implements OnInit, OnDestroy {
   }
 
   initTransaction(): void {
-    let businessName: string;
-    this.opfQuickBuyService
-      .getBusinessName()
+    forkJoin({
+      context: this.opfQuickBuyService.getQuickBuyLocationContext(),
+      merchantName: this.opfQuickBuyService.getMerchantName(),
+    })
       .pipe(
-        switchMap((name) => {
-          businessName = name;
-          return this.opfQuickBuyService.getQuickBuyLocationContext();
-        }),
-        take(1),
-        switchMap((context: OpfQuickBuyLocation) => {
+        switchMap(({ context, merchantName }) => {
           if (context === OpfQuickBuyLocation.PRODUCT) {
-            return this.initSingleProductTransaction(businessName);
+            return this.initSingleProductTransaction(merchantName);
           }
 
-          return this.initActiveCartTransaction(businessName);
+          return this.initActiveCartTransaction(merchantName);
         })
       )
       .subscribe();
