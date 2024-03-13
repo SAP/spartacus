@@ -526,14 +526,16 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
 
     it('should return default value if valueDescriptionLength setting is not provided', () => {
-      (configuratorUISettingsConfig.productConfigurator.descriptions ??=
-        {}).valueDescriptionLength = undefined;
+      (
+        configuratorUISettingsConfig.productConfigurator?.descriptions ?? {}
+      ).valueDescriptionLength = undefined;
       expect(classUnderTest.getValueDescriptionLength()).toEqual(70);
     });
 
     it('should return set value if valueDescriptionLength setting is 80', () => {
-      (configuratorUISettingsConfig.productConfigurator.descriptions ??=
-        {}).valueDescriptionLength = 80;
+      (
+        configuratorUISettingsConfig.productConfigurator?.descriptions ?? {}
+      ).valueDescriptionLength = 80;
       expect(classUnderTest.getValueDescriptionLength()).toEqual(80);
     });
 

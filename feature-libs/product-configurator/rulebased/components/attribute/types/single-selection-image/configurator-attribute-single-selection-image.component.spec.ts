@@ -154,7 +154,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     };
     component.ownerKey = ownerKey;
     config = TestBed.inject(Config);
-    config.features.attributeTypesV2 = false;
+    (config.features ?? {}).attributeTypesV2 = false;
     fixture.detectChanges();
   });
 
@@ -187,7 +187,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     );
     expect(description).toBeTruthy();
     expect(description.nativeElement.innerText).toBe(
-      component.attribute.values[1].description
+      (component.attribute.values ?? [{}])[1].description
     );
   });
 
@@ -228,7 +228,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     });
 
     it('should not call service for update and in case attribute is read-only and attributeTypesV2 feature flag is enabled', () => {
-      config.features.attributeTypesV2 = true;
+      (config.features ?? {}).attributeTypesV2 = true;
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
@@ -257,7 +257,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
 
   describe('label styling', () => {
     it('should set cursor to default in case attributeTypesV2 feature flag is enabled', () => {
-      config.features.attributeTypesV2 = true;
+      (config.features ?? {}).attributeTypesV2 = true;
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
       value1.selected = true;
