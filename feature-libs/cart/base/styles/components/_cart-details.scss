@@ -14,4 +14,16 @@
       line-height: 1.6;
     }
   }
+
+  cdk-nested-tree-node { display: block; background-color: #c7c4c4; padding: 10px; padding-left: 5px; margin: 2px 2px; }
+  cdk-nested-tree-node.bundle-name { background-color: white; padding-left: 0px; }   
+  cdk-nested-tree-node .bundle-invisible { display: none; }
+  cdk-nested-tree-node .bundle-operation {     
+    position: absolute;
+    left: 58%;
+    padding-top: 0px;
+    padding-bottom: 20px;
+  }
+  cdk-nested-tree-node .bundle-expand-collapse { font-weight: bold; font-size: x-large; }
+
 }

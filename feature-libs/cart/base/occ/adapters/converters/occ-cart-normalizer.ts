@@ -7,7 +7,9 @@
 import { Injectable } from '@angular/core';
 import {
   Cart,
+  OrderEntryGroup,
   ORDER_ENTRY_PROMOTIONS_NORMALIZER,
+  OrderEntryGroupType,
 } from '@spartacus/cart/base/root';
 import {
   Converter,
@@ -31,6 +33,7 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
     if (source.entries) {
       target.entries = source.entries.map((entry) => ({
         ...entry,
+        inBundle: false,
         product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
         promotions: this.converter.convert(
           { item: entry, promotions: target?.appliedProductPromotions },
@@ -39,6 +42,26 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
       }));
     }
 
+    if (source.entryGroups) {
+      const mapEntryGroups = (groups: Occ.OrderEntryGroup[]): OrderEntryGroup[] =>
+        groups.filter(group => group.type === OrderEntryGroupType.CONFIGURABLEBUNDLE).map(
+          (group) =>
+            ({
+              ...group,
+              entries: group.entries?.map(e => {
+                let entry = target?.entries?.find(entry => entry.entryNumber === e.entryNumber)!;
+                entry.inBundle = true;
+                return entry;
+              }),
+              ...(group.entryGroups?.length && {
+                entryGroups: mapEntryGroups(group.entryGroups),
+              }),
+            } as OrderEntryGroup)
+        );
+      target.entryGroups = mapEntryGroups(source.entryGroups);
+    }
+
+    console.log('target', target);
     return target;
   }
 

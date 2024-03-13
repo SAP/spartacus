@@ -11,6 +11,7 @@ import {
   CartType,
   MultiCartFacade,
   OrderEntry,
+  OrderEntryGroup,
 } from '@spartacus/cart/base/root';
 import {
   OAUTH_REDIRECT_FLOW_KEY,
@@ -210,6 +211,27 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       distinctUntilChanged()
     );
   }
+
+  /**
+   * Returns cart entries
+   */
+  getStandaloneEntries(): Observable<OrderEntry[]> {
+    return this.activeCartId$.pipe(
+      switchMap((cartId) => this.multiCartFacade.getStandaloneEntries(cartId)),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
+   * Returns cart entry groups
+   */
+  getBundleEntryGroups(): Observable<OrderEntryGroup[]> {
+    return this.activeCartId$.pipe(
+      switchMap((cartId) => this.multiCartFacade.getBundleEntryGroups(cartId)),
+      distinctUntilChanged()
+    );
+  }
+
 
   /**
    * Returns last cart entry for provided product code.
@@ -616,6 +638,23 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         entries.filter((entry) => entry.deliveryPointOfService === undefined)
       )
     );
+  }
+
+  /**
+   * Remove entry group
+   *
+   * @param entryGroup
+   */
+  removeEntryGroup(entryGroup: OrderEntryGroup): void {
+    this.activeCartId$
+      .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+      .subscribe(([cartId, userId]) => {
+        this.multiCartFacade.removeEntryGroup(
+          userId,
+          cartId,
+          entryGroup.entryGroupNumber
+        );
+      });
   }
 
   ngOnDestroy(): void {

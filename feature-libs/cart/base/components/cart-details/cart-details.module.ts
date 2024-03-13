@@ -7,6 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CdkTreeModule } from '@angular/cdk/tree';
 import {
   CmsConfig,
   I18nModule,
@@ -29,6 +30,7 @@ import { CartValidationWarningsModule } from '../validation/cart-warnings/cart-v
     PromotionsModule,
     I18nModule,
     CartValidationWarningsModule,
+    CdkTreeModule, 
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

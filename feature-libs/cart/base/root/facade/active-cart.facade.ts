@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, User } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_BASE_CORE_FEATURE } from '../feature-name';
-import { Cart, OrderEntry } from '../models/cart.model';
+import { Cart, OrderEntry, OrderEntryGroup } from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +22,8 @@ import { Cart, OrderEntry } from '../models/cart.model';
         'getActiveCartId',
         'takeActiveCartId',
         'getEntries',
+        'getStandaloneEntries',
+        'getBundleEntryGroups',
         'getLastEntry',
         'getLoading',
         'isStable',
@@ -39,6 +41,7 @@ import { Cart, OrderEntry } from '../models/cart.model';
         'hasDeliveryItems',
         'getPickupEntries',
         'getDeliveryEntries',
+        'removeEntryGroup',
       ],
       async: true,
     }),
@@ -68,6 +71,16 @@ export abstract class ActiveCartFacade {
    * Returns cart entries
    */
   abstract getEntries(): Observable<OrderEntry[]>;
+
+  /**
+   * Returns standalone cart entries
+   */
+  abstract getStandaloneEntries(): Observable<OrderEntry[]>;
+
+  /**
+   * Returns cart entry groups for bundle
+   */
+  abstract getBundleEntryGroups(): Observable<OrderEntryGroup[]>;
 
   /**
    * Returns last cart entry for provided product code.
@@ -179,4 +192,11 @@ export abstract class ActiveCartFacade {
    * Return cart's delivery entries
    */
   abstract getDeliveryEntries(): Observable<OrderEntry[]>;
+
+  /**
+   * Remove entry group
+   *
+   * @param entryGroup
+   */
+  abstract removeEntryGroup(entryGroup: OrderEntryGroup): void;
 }

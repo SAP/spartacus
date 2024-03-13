@@ -49,7 +49,12 @@ export interface CartOccEndpoints {
    * @member {string} [removeEntries]
    */
   removeEntries?: string | OccEndpoint;
-
+  /**
+   * Deletes cart entry group
+   *
+   * @member {string} [removeEntryGroup]
+   */
+  removeEntryGroup?: string | OccEndpoint;
   /**
    * Assign email to cart
    *

@@ -24,6 +24,48 @@
           optionalBtn: saveForLaterBtn
         }"
       ></cx-cart-item-list>
+      
+      <cdk-tree [dataSource]="treeDataSource" [treeControl]="treeControl">
+        <!-- This is the tree node template for leaf nodes -->
+        <cdk-nested-tree-node *cdkTreeNodeDef="let node">
+          {{node.label}}
+          
+          <button #element (click)="editBundle(node.entryGroupNumber)" class="btn btn-tertiary bundle-operation" type="button">
+            {{ 'bundle.editBundle' | cxTranslate }}
+          </button>
+
+          <cx-cart-item-list
+            *ngIf="node.entries.length > 0"
+            [items]="node.entries"
+            [hasHeader]="false"
+            [cartIsLoading]="!(cartLoaded$ | async)"
+            [promotionLocation]="promotionLocation"
+            [options]="{ isSaveForLater: false }"
+          ></cx-cart-item-list>  
+        </cdk-nested-tree-node>
+
+        <!-- This is the tree node template for expandable nodes -->
+        <cdk-nested-tree-node #treeNode *cdkTreeNodeDef="let node; when: hasChild" [class.bundle-name]="treeNode.ariaLevel === '1'">
+          {{node.label}}
+          
+          <ng-container *ngIf="treeNode.ariaLevel === '1'; else children">
+            {{ treeControl.expand(node) }}
+            <button #element (click)="removeBundle(treeNode, node)" class="btn btn-tertiary bundle-operation" type="button">
+              {{ 'bundle.removeBundle' | cxTranslate }}
+            </button>
+          </ng-container>
+
+          <ng-template #children>
+            <button type="button" class="btn btn-tertiary bundle-operation" cdkTreeNodeToggle>
+              <span class="bundle-expand-collapse">{{treeControl.isExpanded(node) ? '-' : '+'}}</span>              
+            </button>
+          </ng-template>
+
+          <div [class.bundle-invisible]="!treeControl.isExpanded(node)">
+            <ng-container cdkTreeNodeOutlet></ng-container>
+          </div>
+        </cdk-nested-tree-node>
+      </cdk-tree>
     </div>
   </ng-container>
 </ng-container>
@@ -36,6 +78,6 @@
     (click)="saveForLater(ctx.item)"
     type="button"
   >
-    {{ 'saveForLaterItems.saveForLater' | cxTranslate }}
+  {{ 'saveForLaterItems.saveForLater' | cxTranslate }}
   </button>
 </ng-template>

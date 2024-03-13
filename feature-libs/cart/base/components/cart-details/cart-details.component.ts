@@ -10,12 +10,15 @@ import {
   ActiveCartFacade,
   Cart,
   OrderEntry,
+  OrderEntryGroup,
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import { AuthService, RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService, UserIdService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
+import { ArrayDataSource } from '@angular/cdk/collections';
+import { NestedTreeControl } from '@angular/cdk/tree';
 
 @Component({
   selector: 'cx-cart-details',
@@ -25,12 +28,16 @@ import { filter, map, tap } from 'rxjs/operators';
 export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
+  entryGroups$: Observable<OrderEntryGroup[]>;
+  treeControl: NestedTreeControl<OrderEntryGroup>;
+  treeDataSource: ArrayDataSource<OrderEntryGroup>;
   cartLoaded$: Observable<boolean>;
   loggedIn = false;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   selectiveCartEnabled: boolean;
-
+  
   constructor(
+    protected userIdService: UserIdService,
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
     protected authService: AuthService,
@@ -42,9 +49,16 @@ export class CartDetailsComponent implements OnInit {
     this.cart$ = this.activeCartService.getActive();
 
     this.entries$ = this.activeCartService
-      .getEntries()
+      .getStandaloneEntries()
       .pipe(filter((entries) => entries.length > 0));
+    
+    this.entryGroups$ = this.activeCartService
+      .getBundleEntryGroups()
+      .pipe(filter((entryGroups) => entryGroups.length > 0)),
 
+    this.treeControl = new NestedTreeControl<OrderEntryGroup>(group => group.entryGroups);
+    this.treeDataSource = new ArrayDataSource(this.entryGroups$);
+  
     this.selectiveCartEnabled = this.cartConfig.isSelectiveCartEnabled();
 
     this.cartLoaded$ = combineLatest([
@@ -73,5 +87,18 @@ export class CartDetailsComponent implements OnInit {
     } else {
       this.routingService.go({ cxRoute: 'login' });
     }
+  }
+
+  hasChild(_: number, group: OrderEntryGroup) {
+    return group.entryGroups && group.entryGroups.length > 0;
+  }
+
+  removeBundle(e: HTMLElement, item: OrderEntryGroup) {
+    this.activeCartService.removeEntryGroup(item);
+    e.remove();
+  }
+
+  editBundle(entryGroupNumber: number) {
+    console.log(`editBundle with entryGroupNumber: ${entryGroupNumber}`);
   }
 }

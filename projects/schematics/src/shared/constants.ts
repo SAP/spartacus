@@ -198,6 +198,7 @@ export const USER_AUTHENTICATION_TOKEN_SERVICE =
 export const OCC_ENDPOINTS_SERVICE = 'OccEndpointsService';
 export const AUTH_CONFIG = 'AuthConfig';
 export const OCC_CART_ENTRY_ADAPTER = 'OccCartEntryAdapter';
+export const OCC_CART_ENTRYGROUP_ADAPTER = 'OccCartEntryGroupAdapter';
 export const OCC_CART_ADAPTER = 'OccCartAdapter';
 export const OCC_USER_ORDER_ADAPTER = 'OccUserOrderAdapter';
 export const OCC_USER_ADAPTER = 'OccUserAdapter';

@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_BASE_CORE_FEATURE } from '../feature-name';
-import { Cart, CartType, OrderEntry } from '../models/cart.model';
+import { Cart, CartType, OrderEntry, OrderEntryGroup } from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +36,7 @@ import { Cart, CartType, OrderEntry } from '../models/cart.model';
         'deleteCart',
         'reloadCart',
         'getCartIdByType',
+        'removeEntryGroup',
       ],
       async: true,
     }),
@@ -126,6 +127,18 @@ export abstract class MultiCartFacade {
    * @param cartId
    */
   abstract getEntries(cartId: string): Observable<OrderEntry[]>;
+
+  /**
+   * Get standalone cart entries as an observable
+   * @param cartId
+   */
+  abstract getStandaloneEntries(cartId: string): Observable<OrderEntry[]>;
+
+  /**
+   * Get cart entry groups of bundle as an observable
+   * @param cartId
+   */
+  abstract getBundleEntryGroups(cartId: string): Observable<OrderEntryGroup[]>;
 
   /**
    * Get last entry for specific product code from cart.
@@ -252,4 +265,14 @@ export abstract class MultiCartFacade {
    * @param cartType
    */
   abstract getCartIdByType(cartType: CartType): Observable<string>;
+
+  /**
+   * Remove entry group from cart
+   *
+   * @param userId
+   * @param cartId
+   * @param entryGroupNumber
+   */
+  abstract removeEntryGroup(userId: string, cartId: string, entryGroupNumber: number): void;
+  
 }
