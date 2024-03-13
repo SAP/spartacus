@@ -1,0 +1,98 @@
+name: Minor Release Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., 2211.20.0 or 2211.20.0-1)'
+        required: false
+  
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: develop 
+
+      - name: Configure Git
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com' 
+
+      - name: Set Version
+        run: |
+          echo "version=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+
+      - name: Create Release Branch
+        run: |
+          version="${{ env.version }}"
+          if [[ $version == *-* ]]; then
+            IFS='-' read -ra VERSION_AND_PRERELEASE <<< "$version"
+            prerelease="${VERSION_AND_PRERELEASE[*]:1}"
+            version_part=${VERSION_AND_PRERELEASE[0]}
+          else
+            version_part=$version
+            prerelease=""
+          fi
+          
+          IFS='.' read -ra ADDR <<< "$version_part"
+          echo "major=${ADDR[0]}" >> $GITHUB_ENV
+          echo "minor=${ADDR[1]}" >> $GITHUB_ENV
+          echo "patch=${ADDR[2]}" >> $GITHUB_ENV
+          release_branch="release-${ADDR[0]}.${ADDR[1]}.${ADDR[2]}"
+          
+          if [[ -n $prerelease ]]; then
+            release_branch="${release_branch}-${prerelease// /-}"
+          fi
+
+          echo "RELEASE_BRANCH=$release_branch" >> $GITHUB_ENV
+
+          echo "Checking for existence of the branch: $release_branch"
+
+          if git ls-remote --heads origin "$release_branch" | grep -q "$release_branch"; then
+            echo "Error: Branch $release_branch already exists. Please check the branch before proceeding."
+            exit 1
+          fi
+
+          git checkout -b $release_branch
+
+      - name: Update SCSS Versioning
+        run: |
+          major=${{ env.major }}
+          minor=${{ env.minor }}
+          patch=${{ env.patch }}
+          sed -i "s/major: [0-9]\\{1,\\},/major: $major,/" projects/storefrontstyles/scss/_versioning.scss
+          sed -i "s/minor: [0-9]\\{1,\\},/minor: $minor,/" projects/storefrontstyles/scss/_versioning.scss
+          sed -i "s/patch: [0-9]\\{1,\\},/patch: $patch,/" projects/storefrontstyles/scss/_versioning.scss
+          echo "Updated versions in projects/storefrontstyles/scss/_versioning.scss."
+
+      - name: Update Publishing Version
+        run: |
+          version="${{ env.major }}.${{ env.minor }}.${{ env.patch }}"
+          sed -i "s/export const PUBLISHING_VERSION = '.*';/export const PUBLISHING_VERSION = '$version';/" ./tools/config/const.ts
+          echo "Updated PUBLISHING_VERSION in ./tools/config/const.ts."
+
+      - name: Package installation
+        run: npm ci
+        
+      - name: Run Config Update
+        run: |
+          if ! npm run config:update; then
+            echo "Error: The configuration file is not up to date. Regenerating dependencies..."
+            npm run generate:deps
+            npm run config:update
+          fi
+          npm run generate:deps
+
+      - name: Run Schematics Tests
+        run: |
+          npm run test:all-schematics
+
+      - name: Push Changes
+        run: |
+          git add .
+          git commit -m "Release ${{ env.version }}"
+          git push origin "${{ env.RELEASE_BRANCH }}"
+  
