@@ -169,7 +169,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     expect(htmlElem.querySelectorAll('.cx-img').length).toBe(3);
   });
 
-  it('should render info icon at value level when value has a description', () => {
+  it('should render info icon at value level if value has a description', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
