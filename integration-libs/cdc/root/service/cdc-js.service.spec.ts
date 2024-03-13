@@ -629,7 +629,7 @@ describe('CdcJsService', () => {
       });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
-          key: 'profile.profileUpdateSuccess',
+          key: 'cdcProfile.profileUpdateSuccess',
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
@@ -644,7 +644,7 @@ describe('CdcJsService', () => {
       });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
-          key: 'profile.profileUpdateFailure',
+          key: 'cdcProfile.profileUpdateFailure',
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
