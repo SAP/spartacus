@@ -1,5 +1,4 @@
 <ng-container *ngIf="isCartEmpty$ | async">
-  CHHI1
   <p
     *ngIf="data$ | async as data"
     [innerHTML]="data.content"
@@ -8,7 +7,6 @@
 </ng-container>
 
 <ng-container *ngIf="saveForLater$ | async as saveForLater">
-  CHHI2
   <ng-container *ngIf="entries$ | async as entries">
     <div *ngIf="saveForLater.totalItems > 0" class="cart-details-wrapper">
       <div class="cx-total">
