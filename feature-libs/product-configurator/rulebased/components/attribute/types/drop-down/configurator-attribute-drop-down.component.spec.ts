@@ -10,7 +10,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
-import { I18nTestingModule } from '@spartacus/core';
+import { Config, I18nTestingModule } from '@spartacus/core';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -61,6 +61,16 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
+@Component({
+  selector: 'cx-configurator-show-more',
+  template: '',
+})
+class MockConfiguratorShowMoreComponent {
+  @Input() text: string;
+  @Input() textSize = 60;
+  @Input() productName: string;
+}
+
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
@@ -72,10 +82,15 @@ class MockConfigUtilsService {
   }
 }
 
+class MockConfig {
+  features = [{ attributeTypesV2: false }];
+}
+
 describe('ConfigAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
+  let config: Config;
 
   const ownerKey = 'theOwnerKey';
   const name = 'attributeName';
@@ -114,6 +129,8 @@ describe('ConfigAttributeDropDownComponent', () => {
       values,
     };
 
+    config = TestBed.inject(Config);
+    (config.features ?? {}).attributeTypesV2 = false;
     fixture.detectChanges();
     return component;
   }
@@ -129,6 +146,7 @@ describe('ConfigAttributeDropDownComponent', () => {
           MockConfiguratorAttributeQuantityComponent,
           MockConfiguratorPriceComponent,
           MockFeatureLevelDirective,
+          MockConfiguratorShowMoreComponent,
         ],
         imports: [
           ReactiveFormsModule,
@@ -150,6 +168,7 @@ describe('ConfigAttributeDropDownComponent', () => {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: MockConfigUtilsService,
           },
+          { provide: Config, useClass: MockConfig },
         ],
       })
         .overrideComponent(ConfiguratorAttributeDropDownComponent, {
@@ -182,6 +201,54 @@ describe('ConfigAttributeDropDownComponent', () => {
       expect,
       htmlElem,
       'select.cx-required-error-msg'
+    );
+  });
+
+  it('should not render cx-value-label-pair div in case attributeTypesV2 feature flag is disabled', () => {
+    createComponentWithData();
+    (component.attribute.values ?? [{ description: '' }])[0].description =
+      'Here is a description at value level';
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-value-label-pair'
+    );
+  });
+
+  it('should render cx-value-label-pair div in case attributeTypesV2 feature flag is enabled', () => {
+    createComponentWithData();
+    (config.features ?? {}).attributeTypesV2 = true;
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-value-label-pair'
+    );
+  });
+
+  it('should not render description in case attributeTypesV2 feature flag is disabled', () => {
+    createComponentWithData();
+    (component.attribute.values ?? [{ description: '' }])[0].description =
+      'Here is a description at value level';
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-show-more'
+    );
+  });
+
+  it('should render description in case attributeTypesV2 feature flag is enabled', () => {
+    createComponentWithData();
+    (config.features ?? {}).attributeTypesV2 = true;
+    (component.attribute.values ?? [{ description: '' }])[0].description =
+      'Here is a description at value level';
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-show-more'
     );
   });
 
@@ -301,6 +368,14 @@ describe('ConfigAttributeDropDownComponent', () => {
         htmlElem,
         'cx-configurator-price'
       );
+    });
+  });
+
+  describe('getSelectedValueDescription', () => {
+    it('should return blank if no description provided at model level on any selected value', () => {
+      createComponentWithData();
+      component.attribute.values = [];
+      expect(component.getSelectedValueDescription()).toBe('');
     });
   });
 

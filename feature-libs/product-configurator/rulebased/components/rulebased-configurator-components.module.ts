@@ -5,6 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
+import { FeaturesConfig, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorAddToCartButtonModule } from './add-to-cart-button/configurator-add-to-cart-button.module';
 import { ConfiguratorAttributeCompositionModule } from './attribute/composition/configurator-attribute-composition.module';
 import { ConfiguratorConflictAndErrorMessagesModule } from './configurator-conflict-and-error-messages/configurator-conflict-and-error-messages.module';
@@ -56,6 +57,13 @@ import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurat
     ConfiguratorOverviewSidebarModule,
     ConfiguratorConflictSolverDialogModule,
     ConfiguratorRestartDialogModule,
+  ],
+  providers: [
+    provideDefaultConfig(<FeaturesConfig>{
+      features: {
+        attributeTypesV2: false,
+      },
+    }),
   ],
 })
 export class RulebasedConfiguratorComponentsModule {}
