@@ -230,7 +230,9 @@ export class OpfGooglePayService {
             this.associateAddressId(addressId);
           })
         );
-    } else return of(OpfQuickBuyDeliveryType.PICKUP);
+    } else {
+      return of(OpfQuickBuyDeliveryType.PICKUP);
+    }
   }
 
   setDeliveryMode(
