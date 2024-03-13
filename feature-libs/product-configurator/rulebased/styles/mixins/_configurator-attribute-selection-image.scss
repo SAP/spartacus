@@ -19,20 +19,25 @@
       input[type='radio'].form-input {
         opacity: 0;
         position: absolute;
+
         &:focus:not(:focus-visible) + .cx-label-container {
           outline: none; //remove visible focus when clicking by a mouse
         }
+
         &:focus + .cx-label-container {
           @include visible-focus();
         }
       }
 
+      // TODO: this block should be remove after attributeTypesV2 feature flag has been removed
+      // TODO: start of the block
       input[checked='checked'] + .cx-label-container {
         .cx-img,
         .cx-img-dummy {
           border: var(--cx-color-primary) 3px solid;
         }
       }
+      // TODO: end of the block
 
       .cx-label-container {
         margin-inline-start: 5px;
@@ -41,9 +46,30 @@
         margin-block-end: 5px;
 
         label {
+          // TODO: this block should be remove after attributeTypesV2 feature flag has been removed
+          // TODO: start of the block
           cursor: pointer;
+          // TODO: end of the block
+
           text-align: center;
           line-break: anywhere;
+
+          button {
+            border: none;
+            background-color: inherit;
+            padding-inline-start: 0;
+
+            cx-icon {
+              pointer-events: none;
+              color: var(--cx-color, var(--cx-color-secondary));
+            }
+          }
+
+          @include forFeature('attributeTypesV2') {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
 
           .cx-img,
           .cx-img-dummy {
@@ -60,10 +86,29 @@
 
           .cx-img-dummy {
             block-size: 75%;
+
+            @include forFeature('attributeTypesV2') {
+              max-width: 100px;
+              min-height: 100px;
+            }
+          }
+
+          @include forFeature('attributeTypesV2') {
+            .cx-img-hover:hover {
+              border: var(--cx-color-secondary) 3px solid;
+            }
+
+            .cx-img-selected {
+              border: var(--cx-color-primary) 3px solid;
+            }
           }
         }
 
         cx-configurator-price {
+          @include forFeature('attributeTypesV2') {
+            min-height: 27px;
+            max-width: 100%;
+          }
           align-items: center;
         }
       }

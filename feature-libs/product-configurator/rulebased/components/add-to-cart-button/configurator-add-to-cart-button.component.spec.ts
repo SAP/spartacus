@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  waitForAsync,
   fakeAsync,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
@@ -34,6 +34,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorQuantityService } from '../../core/services/configurator-quantity.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../service';
+import { KeyboardFocusService } from '@spartacus/storefront';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
 
 const CART_ENTRY_KEY = '001+1';
@@ -350,6 +351,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let intersectionService: IntersectionService;
   let configuratorQuantityService: ConfiguratorQuantityService;
+  let keyboardFocusService: KeyboardFocusService;
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -453,6 +455,10 @@ describe('ConfigAddToCartButtonComponent', () => {
       IntersectionService as Type<IntersectionService>
     );
 
+    keyboardFocusService = TestBed.inject(
+      KeyboardFocusService as Type<KeyboardFocusService>
+    );
+
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
@@ -467,6 +473,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       configuratorStorefrontUtilsService,
       'focusFirstActiveElement'
     ).and.callThrough();
+    spyOn(keyboardFocusService, 'clear').and.callThrough();
   });
 
   afterEach(() => {
@@ -969,21 +976,22 @@ describe('ConfigAddToCartButtonComponent', () => {
   });
 
   describe('Focus handling on navigation', () => {
-    it('focusOverviewInTabBar should call focusFirstActiveElement', fakeAsync(() => {
+    it('focusOverviewInTabBar should call clear and focusFirstActiveElement', fakeAsync(() => {
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
     }));
 
-    it('focusOverviewInTabBar should not call focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
-      spyOn(
-        configuratorCommonsService,
-        'getConfigurationWithOverview'
-      ).and.returnValue(of(mockProductConfigurationWithoutBasePrice));
+    it('focusOverviewInTabBar should not call clear and focusFirstActiveElement if overview data is not present in configuration', fakeAsync(() => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(mockProductConfigurationWithoutBasePrice)
+      );
       component['focusOverviewInTabBar']();
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
+      expect(keyboardFocusService.clear).toHaveBeenCalledTimes(0);
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(0);

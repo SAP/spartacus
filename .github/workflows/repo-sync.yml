@@ -1,11 +1,15 @@
 on:
   schedule:
-    - cron:  '0 0 * * 1,4'
+    - cron: '0 0 * * 1,4'
   workflow_dispatch:
     inputs:
       branch_to_sync:
-        description: Branch to sync to the private repository (repo default branch if left empty)
+        description: Branch to sync to the private repository (leave empty for default branch)
         required: false
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - 'release-*'
 
 name: Sync a branch to private repo
 
@@ -19,11 +23,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}
+          ref: ${{ github.event.inputs.branch_to_sync || github.ref_name || env.DEFAULT_BRANCH_TO_SYNC }}
           fetch-depth: 0
       - name: Push a branch to the private repository
-        run: | 
-          git push -u https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }} -f
+        run: |
+          git push -u https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git ${{ github.event.inputs.branch_to_sync || github.ref_name || env.DEFAULT_BRANCH_TO_SYNC }} -f
       - name: Include remaining pipeline files to the private remote's branch
         run: |
           PIPELINE_CONFIG_PATH="./.pipeline/config.yml"
@@ -34,7 +38,7 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Clone repo"
 
-          git clone -b ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }} https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git
+          git clone -b ${{ github.event.inputs.branch_to_sync || github.ref_name || env.DEFAULT_BRANCH_TO_SYNC }} https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git
           cd ${{ secrets.GHT_SPARTACUS_REPO }}
 
           git config --global user.email ${{ secrets.GHT_EMAIL }}
@@ -48,12 +52,12 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Configure pipeline"
 
-          sed -i "s%productiveBranch:%productiveBranch: '${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}'%gi" $PIPELINE_CONFIG_PATH
+          sed -i "s%productiveBranch:%productiveBranch: '${{ github.event.inputs.branch_to_sync || github.ref_name || env.DEFAULT_BRANCH_TO_SYNC }}'%gi" $PIPELINE_CONFIG_PATH
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Verify productiveBranch has been updated with the synched branch name"
 
-          if grep -Fq "productiveBranch: '${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}'" $PIPELINE_CONFIG_PATH
+          if grep -Fq "productiveBranch: '${{ github.event.inputs.branch_to_sync || github.ref_name || env.DEFAULT_BRANCH_TO_SYNC }}'" $PIPELINE_CONFIG_PATH 
           then
               echo "Branch name has successfully been added to the productiveBranch"
           else
@@ -64,12 +68,12 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Configure azure pipeline trigger"
 
-          sed -i "s%trigger:%trigger:\n  - ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}%gi" $AZURE_CONFIG_PATH
-          
+          sed -i "s%trigger:%trigger:\n  - ${{ github.event.inputs.branch_to_sync || github.ref_name || env.DEFAULT_BRANCH_TO_SYNC }}%gi" $AZURE_CONFIG_PATH
+
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Verify trigger has been updated with the synched branch name"
 
-          if grep -Pzo "trigger:\n  - ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}" $AZURE_CONFIG_PATH
+          if grep -Pzo "trigger:\n  - ${{ github.event.inputs.branch_to_sync || github.ref_name || env.DEFAULT_BRANCH_TO_SYNC }}" $AZURE_CONFIG_PATH 
           then
               echo "Branch name has successfully been added to the trigger"
           else
@@ -81,14 +85,15 @@ jobs:
           echo "Configure azure pipeline build packages list"
 
           RELEASE_PACKAGES=$($RELEASE_PACKAGES_LIST_GENERATOR)
-          
+
           FORMATTED_RELEASE_PACKAGES=""
+
           for PACKAGE in $RELEASE_PACKAGES; do
             FORMATTED_RELEASE_PACKAGES+="    - ${PACKAGE}\n"
           done
 
           sed -i "s%buildPackages:%buildPackages:\n${FORMATTED_RELEASE_PACKAGES}%gi" $AZURE_CONFIG_PATH
-          
+
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Verify buildPackages parameter has been updated with the generated release packages list"
 
@@ -103,12 +108,12 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Configure sonar"
 
-          sed -i "s%sonar.branch.name=%sonar.branch.name=${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}%gi" $SONAR_PATH
+          sed -i "s%sonar.branch.name=%sonar.branch.name=${{ github.event.inputs.branch_to_sync || github.ref_name || env.DEFAULT_BRANCH_TO_SYNC }}%gi" $SONAR_PATH
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Verify sonar.branch.name has been updated with the synched branch name"
 
-          if grep -Fq "sonar.branch.name=${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}" $SONAR_PATH
+          if grep -Fq "sonar.branch.name=${{ github.event.inputs.branch_to_sync || github.ref_name || env.DEFAULT_BRANCH_TO_SYNC }}" $SONAR_PATH
           then
               echo "Branch name has successfully been added to the sonar.branch.name"
           else
@@ -121,4 +126,4 @@ jobs:
 
           git add .
           git commit -m "include remaining pipeline files"
-          git push origin ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}
+          git push origin ${{ github.event.inputs.branch_to_sync || github.ref_name || env.DEFAULT_BRANCH_TO_SYNC }}
