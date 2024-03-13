@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StockNotificationComponent } from './stock-notification.component';
 import {
-  CmsConfig,
+
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -31,7 +31,7 @@ import { defaultStockNotificationLayoutConfig } from './stock-notification-dialo
   ],
   providers: [
     provideDefaultConfig(defaultStockNotificationLayoutConfig),
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         StockNotificationComponent: {
           component: StockNotificationComponent,

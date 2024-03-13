@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
-  CmsConfig,
+
   FeaturesConfig,
   I18nModule,
   provideDefaultConfig,

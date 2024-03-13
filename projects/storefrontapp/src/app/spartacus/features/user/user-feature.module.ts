@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {  I18nConfig, provideConfig } from '@spartacus/core';
 import {
   userAccountTranslationChunksConfig,
   userAccountTranslations,
@@ -32,7 +32,7 @@ import { environment } from '../../../../environments/environment';
 @NgModule({
   imports: [UserAccountRootModule, UserProfileRootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [USER_ACCOUNT_FEATURE]: {
           module: () =>
@@ -49,7 +49,7 @@ import { environment } from '../../../../environments/environment';
         fallbackLang: 'en',
       },
     }),
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [USER_PROFILE_FEATURE]: {
           module: () =>

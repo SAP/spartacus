@@ -4,25 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Type } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Route,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
-import {
-  CmsComponentChildRoutesConfig,
-  CmsRoute,
-  deepMerge,
-  PageContext,
-  PageType,
-} from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
-import { CmsComponentsService } from './cms-components.service';
-import { CmsGuardsService } from './cms-guards.service';
+import {Injectable, Type} from '@angular/core';
+import {ActivatedRouteSnapshot, Route, Router, RouterStateSnapshot, UrlTree,} from '@angular/router';
+import {CmsComponentChildRoutesConfig, CmsRoute, deepMerge, PageContext, PageType,} from '@spartacus/core';
+import {Observable} from 'rxjs';
+import {PageLayoutComponent} from '../page/page-layout/page-layout.component';
+import {CmsComponentsService} from './cms-components.service';
+import {CmsGuardsService} from './cms-guards.service';
 
 // This service should be exposed in public API only after the refactor planned in https://github.com/SAP/spartacus/issues/7070
 @Injectable({ providedIn: 'root' })

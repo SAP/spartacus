@@ -6,7 +6,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {  I18nConfig, provideConfig } from '@spartacus/core';
 import {
   requestedDeliveryDateTranslationChunksConfig,
   requestedDeliveryDateTranslations,
@@ -19,7 +19,7 @@ import {
 @NgModule({
   imports: [RequestedDeliveryDateRootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [REQUESTED_DELIVERY_DATE_FEATURE]: {
           module: () =>

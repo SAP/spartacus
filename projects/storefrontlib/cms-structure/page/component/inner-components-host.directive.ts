@@ -13,8 +13,6 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import {
-  CmsComponent,
-  DynamicAttributeService,
   EventService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -24,6 +22,8 @@ import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { CmsInjectorService } from './services/cms-injector.service';
 import { ComponentHandlerService } from './services/component-handler.service';
+import {CmsComponent} from "../../../../cms/model/cms.model";
+import {DynamicAttributeService} from "../../../../cms";
 
 @Directive({
   selector: '[cxInnerComponentsHost]',

@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
   AuthGuard,
-  CmsConfig,
+
   ConfigModule,
   I18nModule,
   UrlModule,
@@ -38,7 +38,7 @@ import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview
     SpinnerModule,
     OutletModule,
     AddToCartModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    ConfigModule.withConfig({
       cmsComponents: {
         SavedCartDetailsOverviewComponent: {
           component: SavedCartDetailsOverviewComponent,

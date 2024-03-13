@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  CmsConfig,
+
   PageMetaModule,
   provideDefaultConfig,
   I18nModule,
@@ -18,7 +18,7 @@ import { BreadcrumbComponent } from './breadcrumb.component';
 @NgModule({
   imports: [CommonModule, RouterModule, PageMetaModule, I18nModule],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         BreadcrumbComponent: {
           component: BreadcrumbComponent,

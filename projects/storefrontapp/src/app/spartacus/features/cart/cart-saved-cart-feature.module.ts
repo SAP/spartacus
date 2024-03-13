@@ -13,12 +13,12 @@ import {
   CART_SAVED_CART_FEATURE,
   SavedCartRootModule,
 } from '@spartacus/cart/saved-cart/root';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {  I18nConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [SavedCartRootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [CART_SAVED_CART_FEATURE]: {
           module: () =>

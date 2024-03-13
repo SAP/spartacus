@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  CmsConfig,
+
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -32,7 +32,7 @@ import { OutletModule } from '../../../cms-structure';
     FeaturesConfigModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         SearchBoxComponent: {
           component: SearchBoxComponent,

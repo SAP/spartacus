@@ -11,7 +11,7 @@ import {
   CartNotEmptyGuard,
   CheckoutAuthGuard,
 } from '@spartacus/checkout/base/components';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import {  ConfigModule, I18nModule } from '@spartacus/core';
 import { CheckoutCostCenterComponent } from './checkout-cost-center.component';
 
 @NgModule({

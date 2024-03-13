@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { Injector, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  CmsConfig,
+
   ContextServiceMap,
   provideDefaultConfig,
   SiteContextModule,
@@ -22,7 +22,7 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
 @NgModule({
   imports: [CommonModule, RouterModule, SiteContextModule, IconModule],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         CMSSiteContextComponent: {
           component: SiteContextSelectorComponent,

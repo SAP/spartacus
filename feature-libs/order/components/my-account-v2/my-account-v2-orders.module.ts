@@ -12,7 +12,7 @@ import {
   UrlModule,
   I18nModule,
   provideDefaultConfig,
-  CmsConfig,
+
   AuthGuard,
 } from '@spartacus/core';
 import { MediaModule, SpinnerModule } from '@spartacus/storefront';
@@ -31,7 +31,7 @@ import { MyAccountV2OrdersComponent } from './my-account-v2-orders.component';
   declarations: [MyAccountV2OrdersComponent],
   exports: [MyAccountV2OrdersComponent],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         MyAccountViewOrderComponent: {
           component: MyAccountV2OrdersComponent,

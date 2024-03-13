@@ -6,14 +6,14 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { I18nModule, CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { I18nModule,  provideDefaultConfig } from '@spartacus/core';
 import { IconModule } from '../../misc/icon/icon.module';
 import { ScrollToTopComponent } from './scroll-to-top.component';
 
 @NgModule({
   imports: [CommonModule, IconModule, I18nModule],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ScrollToTopComponent: {
           component: ScrollToTopComponent,

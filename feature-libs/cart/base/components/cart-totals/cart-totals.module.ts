@@ -6,14 +6,14 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import {  provideDefaultConfig } from '@spartacus/core';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartTotalsComponent } from './cart-totals.component';
 
 @NgModule({
   imports: [CommonModule, CartSharedModule],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         CartTotalsComponent: {
           component: CartTotalsComponent,

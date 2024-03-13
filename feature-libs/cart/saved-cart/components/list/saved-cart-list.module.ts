@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
-  CmsConfig,
+
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -27,7 +27,7 @@ import { SavedCartListComponent } from './saved-cart-list.component';
     SpinnerModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         AccountSavedCartHistoryComponent: {
           component: SavedCartListComponent,

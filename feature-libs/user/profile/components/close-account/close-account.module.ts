@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
-  CmsConfig,
+
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -34,7 +34,7 @@ import { CloseAccountComponent } from './components/close-account/close-account.
     KeyboardFocusModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         CloseAccountComponent: {
           component: CloseAccountComponent,

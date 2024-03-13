@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
-  CmsConfig,
+
   GlobalMessageService,
   I18nModule,
   NotAuthGuard,
@@ -37,7 +37,7 @@ import { ResetPasswordComponent } from './reset-password.component';
     PasswordVisibilityToggleModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ResetPasswordComponent: {
           component: ResetPasswordComponent,

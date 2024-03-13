@@ -13,12 +13,13 @@ import {
   CustomerTicketingRootModule,
   CUSTOMER_TICKETING_FEATURE,
 } from '@spartacus/customer-ticketing/root';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {  I18nConfig, provideConfig } from '@spartacus/core';
+import {CmsConfig} from "../../../../../../cms";
 
 @NgModule({
   imports: [CustomerTicketingRootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [CUSTOMER_TICKETING_FEATURE]: {
           module: () =>

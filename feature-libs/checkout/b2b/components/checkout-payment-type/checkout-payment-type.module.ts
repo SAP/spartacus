@@ -11,7 +11,7 @@ import {
   CartNotEmptyGuard,
   CheckoutAuthGuard,
 } from '@spartacus/checkout/base/components';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import {  ConfigModule, I18nModule } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
 

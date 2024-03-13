@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
-  CmsConfig,
+
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -26,7 +26,7 @@ import { OrderReturnRequestListComponent } from './order-return-request-list.com
     I18nModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         OrderReturnRequestListComponent: {
           component: OrderReturnRequestListComponent,

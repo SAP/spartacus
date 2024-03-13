@@ -10,7 +10,7 @@ import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  CmsConfig,
+
   GlobalMessageService,
   I18nModule,
   NotAuthGuard,
@@ -41,7 +41,7 @@ import { RegisterComponent } from './register.component';
     PasswordVisibilityToggleModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         RegisterCustomerComponent: {
           component: RegisterComponent,

@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import {
-  CmsConfig,
+
   provideDefaultConfigFactory,
   UserProfileFacadeTransitionalToken,
 } from '@spartacus/core';

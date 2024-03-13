@@ -7,8 +7,8 @@
 import { Injectable, NgModuleRef } from '@angular/core';
 import { EMPTY, Observable, defer, forkJoin, of, throwError } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
-import { CmsConfig, FeatureModuleConfig } from '../cms/config/cms-config';
 import { LazyModulesService } from './lazy-modules.service';
+import {CmsConfig, FeatureModuleConfig} from "../../../cms";
 
 @Injectable({
   providedIn: 'root',

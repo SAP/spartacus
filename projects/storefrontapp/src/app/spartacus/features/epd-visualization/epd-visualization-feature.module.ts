@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {  I18nConfig, provideConfig } from '@spartacus/core';
 import {
   epdVisualizationTranslationChunksConfig,
   epdVisualizationTranslations,
@@ -42,7 +42,7 @@ const epdVisualizationConfig: EpdVisualizationConfig = {
 
     provideConfig(epdVisualizationConfig),
 
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [EPD_VISUALIZATION_FEATURE]: {
           module: () =>

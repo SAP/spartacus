@@ -5,7 +5,6 @@
  */
 
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { CmsModule } from './cms/cms.module';
 import { ConfigInitializerModule } from './config/config-initializer/config-initializer.module';
 import { ConfigValidatorModule } from './config/config-validator/config-validator.module';
 import { ConfigModule } from './config/config.module';
@@ -28,7 +27,6 @@ import { StateModule } from './state/state.module';
     ConfigInitializerModule.forRoot(),
     ConfigValidatorModule.forRoot(),
     I18nModule.forRoot(),
-    CmsModule.forRoot(),
     GlobalMessageModule.forRoot(),
     ProcessModule.forRoot(),
     FeaturesConfigModule.forRoot(),

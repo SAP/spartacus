@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {  I18nConfig, provideConfig } from '@spartacus/core';
 import {
   productImageZoomTranslationChunksConfig,
   productImageZoomTranslations,
@@ -18,7 +18,7 @@ import {
 @NgModule({
   imports: [ProductImageZoomRootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [PRODUCT_IMAGE_ZOOM_FEATURE]: {
           module: () =>

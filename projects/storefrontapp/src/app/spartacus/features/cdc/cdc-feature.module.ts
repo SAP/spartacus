@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {  I18nConfig, provideConfig } from '@spartacus/core';
 import {
   cdcTranslations,
   cdcTranslationChunksConfig,
@@ -28,7 +28,7 @@ import {
         },
       ],
     }),
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [CDC_FEATURE]: {
           module: () => import('@spartacus/cdc').then((m) => m.CdcModule),

@@ -12,7 +12,7 @@ import {
   CheckoutAuthGuard,
 } from '@spartacus/checkout/base/components';
 import {
-  CmsConfig,
+
   I18nModule,
   UrlModule,
   provideDefaultConfig,

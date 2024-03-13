@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {NgModule} from '@angular/core';
+import { I18nConfig, provideConfig} from '@spartacus/core';
 import {
   bulkPricingTranslationChunksConfig,
   bulkPricingTranslations,
@@ -18,7 +18,7 @@ import {
 @NgModule({
   imports: [BulkPricingRootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [PRODUCT_BULK_PRICING_FEATURE]: {
           module: () =>
@@ -36,4 +36,5 @@ import {
     }),
   ],
 })
-export class BulkPricingFeatureModule {}
+export class BulkPricingFeatureModule {
+}

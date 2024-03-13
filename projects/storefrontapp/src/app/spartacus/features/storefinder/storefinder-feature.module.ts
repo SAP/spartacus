@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {  I18nConfig, provideConfig } from '@spartacus/core';
 import {
   storeFinderTranslationChunksConfig,
   storeFinderTranslations,
@@ -18,7 +18,7 @@ import {
 @NgModule({
   imports: [StoreFinderRootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [STORE_FINDER_FEATURE]: {
           module: () =>

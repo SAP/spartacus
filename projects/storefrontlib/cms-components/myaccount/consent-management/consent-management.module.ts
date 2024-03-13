@@ -9,7 +9,7 @@ import { NgModule, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   AuthGuard,
-  CmsConfig,
+
   I18nModule,
   provideDefaultConfig,
   provideDefaultConfigFactory,
@@ -42,7 +42,7 @@ const myAccountV2CmsMapping: CmsConfig = {
   ],
   providers: [
     ConsentManagementComponentService,
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ConsentManagementComponent: {
           component: ConsentManagementComponent,

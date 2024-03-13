@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   AuthGuard,
-  CmsConfig,
+
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
@@ -19,7 +19,7 @@ import { PaymentMethodsComponent } from './payment-methods.component';
 @NgModule({
   imports: [CommonModule, CardModule, SpinnerModule, I18nModule],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         AccountPaymentDetailsComponent: {
           component: PaymentMethodsComponent,

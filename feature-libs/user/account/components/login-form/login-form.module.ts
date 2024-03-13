@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   AuthService,
-  CmsConfig,
+
   GlobalMessageService,
   I18nModule,
   NotAuthGuard,
@@ -39,7 +39,7 @@ import { LoginFormComponent } from './login-form.component';
     PasswordVisibilityToggleModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ReturningCustomerLoginComponent: {
           component: LoginFormComponent,

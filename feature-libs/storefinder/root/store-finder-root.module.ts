@@ -4,14 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
-import {
-  CmsConfig,
-  provideDefaultConfig,
-  provideDefaultConfigFactory,
-} from '@spartacus/core';
-import { defaultStoreFinderLayoutConfig } from './config/default-store-finder-layout-config';
-import { STORE_FINDER_FEATURE } from './feature-name';
+import {NgModule} from '@angular/core';
+import {provideDefaultConfig, provideDefaultConfigFactory,} from '@spartacus/core';
+import {defaultStoreFinderLayoutConfig} from './config/default-store-finder-layout-config';
+import {STORE_FINDER_FEATURE} from './feature-name';
+import {CmsConfig} from "../../../projects/cms";
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultStoreFinderComponentsConfig(): CmsConfig {

@@ -9,7 +9,7 @@ import { NgModule, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
-  CmsConfig,
+
   I18nModule,
   provideDefaultConfig,
   provideDefaultConfigFactory,
@@ -46,7 +46,7 @@ const myAccountV2CmsMapping: CmsConfig = {
     ]),
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         NotificationPreferenceComponent: {
           component: NotificationPreferenceComponent,

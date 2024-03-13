@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { CART_BASE_FEATURE } from '@spartacus/cart/base/root';
 import {
-  CmsConfig,
+
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';

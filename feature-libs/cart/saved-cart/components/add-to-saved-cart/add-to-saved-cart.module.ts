@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  CmsConfig,
+
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -18,7 +18,7 @@ import { AddToSavedCartComponent } from './add-to-saved-cart.component';
 @NgModule({
   imports: [CommonModule, RouterModule, I18nModule, UrlModule],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         AddToSavedCartsComponent: {
           component: AddToSavedCartComponent,

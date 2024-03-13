@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import {  provideConfig } from '@spartacus/core';
 import {
   SmartEditRootModule,
   SMART_EDIT_FEATURE,
@@ -14,7 +14,7 @@ import {
 @NgModule({
   imports: [SmartEditRootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [SMART_EDIT_FEATURE]: {
           module: () =>

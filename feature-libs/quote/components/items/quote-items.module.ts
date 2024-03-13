@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { AbstractOrderContextModule } from '@spartacus/cart/base/components';
 import {
   AuthGuard,
-  CmsConfig,
+
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';

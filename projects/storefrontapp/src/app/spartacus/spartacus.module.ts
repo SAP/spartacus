@@ -10,6 +10,7 @@ import { environment } from '../../environments/environment';
 import { SpartacusB2bConfigurationModule } from './spartacus-b2b-configuration.module';
 import { SpartacusB2cConfigurationModule } from './spartacus-b2c-configuration.module';
 import { SpartacusFeaturesModule } from './spartacus-features.module';
+import {CmsModule} from "../../../../cms";
 
 let SpartacusConfigurationModule = SpartacusB2cConfigurationModule;
 
@@ -20,6 +21,7 @@ if (environment.b2b) {
 @NgModule({
   imports: [
     BaseStorefrontModule,
+    CmsModule.forRoot(),
     SpartacusFeaturesModule,
     SpartacusConfigurationModule,
   ],

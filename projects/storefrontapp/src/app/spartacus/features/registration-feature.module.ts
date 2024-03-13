@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {  I18nConfig, provideConfig } from '@spartacus/core';
 import {
   organizationUserRegistrationTranslationChunksConfig,
   organizationUserRegistrationTranslations,
@@ -18,7 +18,7 @@ import {
 @NgModule({
   imports: [OrganizationUserRegistrationRootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [ORGANIZATION_USER_REGISTRATION_FEATURE]: {
           module: () =>

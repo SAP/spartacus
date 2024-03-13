@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {  I18nConfig, provideConfig } from '@spartacus/core';
 import {
   orderTranslationChunksConfig,
   orderTranslations,
@@ -20,7 +20,7 @@ import { environment } from '../../../../environments/environment';
 @NgModule({
   imports: [OrderRootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [ORDER_FEATURE]: {
           module: () => import('@spartacus/order').then((m) => m.OrderModule),

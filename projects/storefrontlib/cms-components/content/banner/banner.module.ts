@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import {  provideDefaultConfig } from '@spartacus/core';
 import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { BannerComponent } from './banner.component';
@@ -15,7 +15,7 @@ import { BannerComponent } from './banner.component';
 @NgModule({
   imports: [CommonModule, RouterModule, GenericLinkModule, MediaModule],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         SimpleResponsiveBannerComponent: {
           component: BannerComponent,

@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
-  CmsConfig,
+
   I18nModule,
   provideDefaultConfig,
   provideDefaultConfigFactory,
@@ -60,7 +60,7 @@ const moduleComponents = [
   declarations: [OrderHistoryComponent, ...moduleComponents],
   exports: [OrderHistoryComponent, ...moduleComponents],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         AccountOrderHistoryComponent: {
           component: OrderHistoryComponent,

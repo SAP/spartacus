@@ -5,8 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import {  provideDefaultConfigFactory } from '@spartacus/core';
 import { PRODUCT_BULK_PRICING_FEATURE } from './feature-name';
+import {CmsConfig} from "../../../../projects/cms";
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultProductBulkPricingComponentsConfig(): CmsConfig {

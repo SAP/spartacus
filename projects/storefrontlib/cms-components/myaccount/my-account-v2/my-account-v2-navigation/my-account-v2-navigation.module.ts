@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MyAccountV2NavigationComponent } from './my-account-v2-navigation.component';
 import {
   AuthGuard,
-  CmsConfig,
+
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
@@ -17,7 +17,7 @@ import { NavigationModule } from '../../../navigation/navigation/navigation.modu
 
 @NgModule({
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         MyAccountSideNavigationComponent: {
           component: MyAccountV2NavigationComponent,

@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { AuthGuard, CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { AuthGuard,  provideDefaultConfig } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { AmendOrderActionsModule } from '../../amend-order-actions/amend-order-actions.module';
 import { AmendOrderItemsModule } from '../../amend-order-items/amend-order-items.module';
@@ -22,7 +22,7 @@ import { ReturnOrderComponent } from './return-order.component';
     FormErrorsModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ReturnOrderComponent: {
           component: ReturnOrderComponent,

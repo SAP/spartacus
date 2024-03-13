@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
-  CmsConfig,
+
   ConfigModule,
   I18nModule,
   UrlModule,
@@ -20,7 +20,7 @@ import { ImportExportOrderEntriesComponent } from './import-export-order-entries
 @NgModule({
   imports: [
     PageComponentModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    ConfigModule.withConfig({
       cmsComponents: {
         ImportExportOrderEntriesComponent: {
           component: ImportExportOrderEntriesComponent,

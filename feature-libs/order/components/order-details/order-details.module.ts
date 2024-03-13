@@ -11,7 +11,7 @@ import { AbstractOrderContextModule } from '@spartacus/cart/base/components';
 import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
   AuthGuard,
-  CmsConfig,
+
   FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,

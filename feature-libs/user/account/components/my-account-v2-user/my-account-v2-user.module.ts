@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   AuthGuard,
-  CmsConfig,
+
   I18nModule,
   UrlModule,
   provideDefaultConfig,
@@ -18,7 +18,7 @@ import { MyAccountV2UserComponent } from './my-account-v2-user.component';
 
 @NgModule({
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         MyAccountViewUserComponent: {
           component: MyAccountV2UserComponent,

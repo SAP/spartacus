@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  CmsConfig,
+
   ConfigModule,
   I18nModule,
   provideDefaultConfig,
@@ -36,7 +36,7 @@ import { ImportOrderEntriesComponent } from './import-entries/import-order-entri
     KeyboardFocusModule,
     FileUploadModule,
     I18nModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    ConfigModule.withConfig({
       cmsComponents: {
         ImportOrderEntriesComponent: {
           component: ImportOrderEntriesComponent,

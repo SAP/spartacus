@@ -12,7 +12,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   AuthGuard,
-  CmsConfig,
+
   provideDefaultConfig,
   provideDefaultConfigFactory,
   RoutingConfig,

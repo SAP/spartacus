@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {  I18nConfig, provideConfig } from '@spartacus/core';
 import {
   productVariantsTranslationChunksConfig,
   productVariantsTranslations,
@@ -18,7 +18,7 @@ import {
 @NgModule({
   imports: [ProductVariantsRootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [PRODUCT_VARIANTS_FEATURE]: {
           module: () =>

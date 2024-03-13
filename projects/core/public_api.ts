@@ -11,7 +11,6 @@ export * from './src/anonymous-consents/index';
 export * from './src/auth/index';
 export * from './src/base-core.module';
 export * from './src/checkout/index';
-export * from './src/cms/index';
 export * from './src/config/index';
 export * from './src/cost-center/index';
 export * from './src/error-handling/index';

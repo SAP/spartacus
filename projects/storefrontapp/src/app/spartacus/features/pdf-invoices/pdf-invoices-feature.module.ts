@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {  I18nConfig, provideConfig } from '@spartacus/core';
 import {
   pdfInvoicesTranslationChunksConfig,
   pdfInvoicesTranslations,
@@ -18,7 +18,7 @@ import {
 @NgModule({
   imports: [PDFInvoicesRootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [PDF_INVOICES_FEATURE]: {
           module: () =>

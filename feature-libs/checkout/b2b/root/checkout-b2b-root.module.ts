@@ -10,7 +10,7 @@ import {
   CHECKOUT_FEATURE,
 } from '@spartacus/checkout/base/root';
 import {
-  CmsConfig,
+
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';

@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {  I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ProductReviewsComponent } from './product-reviews.component';
 import { StarRatingModule, FormErrorsModule } from '../../../../shared/index';
 
@@ -22,7 +22,7 @@ import { StarRatingModule, FormErrorsModule } from '../../../../shared/index';
     FormErrorsModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ProductReviewsTabComponent: {
           component: ProductReviewsComponent,

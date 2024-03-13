@@ -12,7 +12,7 @@ import {
   AuthGuard,
   AuthRedirectService,
   AuthService,
-  CmsConfig,
+
   GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
@@ -57,7 +57,7 @@ const myAccountV2EmailMapping: CmsConfig = {
   declarations: [UpdateEmailComponent, MyAccountV2EmailComponent],
   exports: [UpdateEmailComponent, MyAccountV2EmailComponent],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         UpdateEmailComponent: {
           component: UpdateEmailComponent,

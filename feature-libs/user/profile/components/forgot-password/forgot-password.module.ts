@@ -10,7 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   AuthConfigService,
-  CmsConfig,
+
   GlobalMessageService,
   I18nModule,
   NotAuthGuard,
@@ -34,7 +34,7 @@ import { ForgotPasswordComponent } from './forgot-password.component';
     SpinnerModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ForgotPasswordComponent: {
           component: ForgotPasswordComponent,

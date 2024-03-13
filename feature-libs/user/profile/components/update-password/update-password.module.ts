@@ -12,7 +12,7 @@ import {
   AuthGuard,
   AuthRedirectService,
   AuthService,
-  CmsConfig,
+
   GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
@@ -55,7 +55,7 @@ const myAccountV2PasswordMapping: CmsConfig = {
     MessageComponentModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         UpdatePasswordComponent: {
           component: UpdatePasswordComponent,

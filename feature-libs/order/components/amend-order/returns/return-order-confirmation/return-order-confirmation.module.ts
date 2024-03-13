@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   AuthGuard,
-  CmsConfig,
+
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
@@ -29,7 +29,7 @@ import { ReturnOrderConfirmationComponent } from './return-order-confirmation.co
     AmendOrderActionsModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         ReturnOrderConfirmationComponent: {
           component: ReturnOrderConfirmationComponent,

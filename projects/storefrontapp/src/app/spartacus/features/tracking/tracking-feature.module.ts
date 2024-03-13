@@ -9,7 +9,7 @@ import {
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
 } from '@spartacus/cart/base/root';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import {  provideConfig } from '@spartacus/core';
 import { NavigationEvent } from '@spartacus/storefront';
 import {
   PersonalizationRootModule,
@@ -37,7 +37,7 @@ import { GtmModule } from '@spartacus/tracking/tms/gtm';
         },
       },
     }),
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [PERSONALIZATION_FEATURE]: {
           module: () =>

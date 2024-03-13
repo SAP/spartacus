@@ -15,13 +15,13 @@ import {
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
-  CmsConfig,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
 import { CustomerTicketingCreateModule } from '../customer-ticketing-create/customer-ticketing-create.module';
+import {CmsConfig} from "../../../../../projects/cms";
 
 @NgModule({
   imports: [

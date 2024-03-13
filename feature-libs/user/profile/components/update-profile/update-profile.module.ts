@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
-  CmsConfig,
+
   GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
@@ -53,7 +53,7 @@ const myAccountV2ProfileMapping: CmsConfig = {
   declarations: [UpdateProfileComponent, MyAccountV2ProfileComponent],
   exports: [UpdateProfileComponent, MyAccountV2ProfileComponent],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         UpdateProfileComponent: {
           component: UpdateProfileComponent,

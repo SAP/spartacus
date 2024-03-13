@@ -1,15 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  BreadcrumbMeta,
-  ContentPageMetaResolver,
   I18nTestingModule,
-  PageRobotsMeta,
   RouterState,
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
 import { firstValueFrom, Observable, of } from 'rxjs';
 import { AccountSummaryPageMetaResolver } from './account-summary-page-meta.resolver';
+import {BreadcrumbMeta, ContentPageMetaResolver, PageRobotsMeta} from "../../../../projects/cms";
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {

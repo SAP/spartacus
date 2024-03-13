@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   AuthGuard,
-  CmsConfig,
+
   I18nModule,
   provideDefaultConfig,
   UserAddressService,
@@ -29,7 +29,7 @@ import { CardModule, SpinnerModule } from '@spartacus/storefront';
   declarations: [AddressBookComponent],
   exports: [AddressBookComponent],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         AccountAddressBookComponent: {
           component: AddressBookComponent,

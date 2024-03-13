@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  CmsConfig,
-  CmsService,
-  CMSTabParagraphContainer,
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
@@ -13,6 +10,8 @@ import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
+import {CmsConfig, CmsService} from "../../../../cms";
+import {CMSTabParagraphContainer} from "../../../../cms/model/cms.model";
 
 @Component({
   selector: 'cx-test-cmp',

@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import {  provideConfig } from '@spartacus/core';
 import {
   QualtricsRootModule,
   QUALTRICS_FEATURE,
@@ -14,7 +14,7 @@ import {
 @NgModule({
   imports: [QualtricsRootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [QUALTRICS_FEATURE]: {
           module: () =>

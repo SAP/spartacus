@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   AuthGuard,
-  CmsConfig,
+
   provideDefaultConfig,
   I18nModule,
 } from '@spartacus/core';
@@ -32,7 +32,7 @@ import { CancelOrderComponent } from './cancel-order.component';
     MessageComponentModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         CancelOrderComponent: {
           component: CancelOrderComponent,

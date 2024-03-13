@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AuthGuard, CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { AuthGuard,  provideDefaultConfig } from '@spartacus/core';
 import { AmendOrderActionsModule } from '../../amend-order-actions/amend-order-actions.module';
 import { AmendOrderItemsModule } from '../../amend-order-items/amend-order-items.module';
 import { OrderAmendService } from '../../amend-order.service';
@@ -23,7 +23,7 @@ import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.co
     AmendOrderActionsModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         CancelOrderConfirmationComponent: {
           component: CancelOrderConfirmationComponent,

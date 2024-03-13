@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
-  CmsConfig,
+
   DeferLoadingStrategy,
   I18nModule,
   provideDefaultConfig,
@@ -21,7 +21,7 @@ import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-con
   imports: [CommonModule, I18nModule, KeyboardFocusModule],
   providers: [
     provideDefaultConfig(defaultAnonymousConsentLayoutConfig),
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         AnonymousConsentManagementBannerComponent: {
           component: AnonymousConsentManagementBannerComponent,

@@ -13,12 +13,12 @@ import {
   AsmCustomer360RootModule,
   ASM_CUSTOMER_360_FEATURE,
 } from '@spartacus/asm/customer-360/root';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {  I18nConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [AsmCustomer360RootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [ASM_CUSTOMER_360_FEATURE]: {
           module: () =>

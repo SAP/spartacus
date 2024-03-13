@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import {  I18nConfig, provideConfig } from '@spartacus/core';
 import {
   unitOrderTranslationChunksConfig,
   unitOrderTranslations,
@@ -18,7 +18,7 @@ import {
 @NgModule({
   imports: [UnitOrderRootModule],
   providers: [
-    provideConfig(<CmsConfig>{
+    provideConfig({
       featureModules: {
         [ORGANIZATION_UNIT_ORDER_FEATURE]: {
           module: () =>
