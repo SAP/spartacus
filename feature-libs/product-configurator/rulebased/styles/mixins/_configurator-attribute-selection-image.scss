@@ -54,6 +54,17 @@
           text-align: center;
           line-break: anywhere;
 
+          button {
+            border: none;
+            background-color: inherit;
+            padding-inline-start: 0;
+
+            cx-icon {
+              pointer-events: none;
+              color: var(--cx-color, var(--cx-color-secondary));
+            }
+          }
+
           @include forFeature('attributeTypesV2') {
             white-space: nowrap;
             overflow: hidden;

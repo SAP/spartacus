@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { IconModule, PopoverModule } from '@spartacus/storefront';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
@@ -20,7 +21,9 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
     ReactiveFormsModule,
     CommonModule,
     I18nModule,
+    IconModule,
     ConfiguratorPriceModule,
+    PopoverModule,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
