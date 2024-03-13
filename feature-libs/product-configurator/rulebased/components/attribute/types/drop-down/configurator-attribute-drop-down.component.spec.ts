@@ -130,7 +130,7 @@ describe('ConfigAttributeDropDownComponent', () => {
     };
 
     config = TestBed.inject(Config);
-    config.features.attributeTypesV2 = false;
+    (config.features??{}).attributeTypesV2 = false;
     fixture.detectChanges();
     return component;
   }
