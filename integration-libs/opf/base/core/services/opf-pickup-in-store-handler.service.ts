@@ -5,13 +5,12 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { Store, select } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { Product } from '@spartacus/core';
 import { OpfQuickBuyDeliveryType } from '@spartacus/opf/base/root';
-import { PickupLocationsSelectors } from '@spartacus/pickup-in-store/core';
+import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
 import { CurrentProductService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
@@ -20,29 +19,30 @@ import { map, switchMap, take } from 'rxjs/operators';
 export class OpfPickupInStoreHandlerService {
   protected currentProductService = inject(CurrentProductService);
   protected activeCartFacade = inject(ActiveCartFacade);
-  protected store = inject(Store);
+  protected intendedPickupLocationFacade = inject(IntendedPickupLocationFacade);
 
   /**
    * Retrieves the delivery type for a single product based on the intended pickup location.
    * @return An observable emitting the delivery type (pickup or shipping).
    */
   getSingleProductDeliveryType(): Observable<OpfQuickBuyDeliveryType> {
+    if (!this.intendedPickupLocationFacade) {
+      return of(OpfQuickBuyDeliveryType.SHIPPING);
+    }
+
     return this.currentProductService.getProduct().pipe(
       take(1),
-      switchMap((product: Product | null) => {
-        return this.store.pipe(
-          select(
-            PickupLocationsSelectors.getIntendedPickupLocationByProductCode(
-              product?.code || ''
-            )
+      switchMap((product: Product | null) =>
+        this.intendedPickupLocationFacade
+          .getIntendedLocation(product?.code as string)
+          .pipe(
+            map((intendedLocation) => {
+              return intendedLocation?.pickupOption === 'pickup'
+                ? OpfQuickBuyDeliveryType.PICKUP
+                : OpfQuickBuyDeliveryType.SHIPPING;
+            })
           )
-        );
-      }),
-      map((intendedLocation) => {
-        return intendedLocation?.pickupOption === 'pickup'
-          ? OpfQuickBuyDeliveryType.PICKUP
-          : OpfQuickBuyDeliveryType.SHIPPING;
-      })
+      )
     );
   }
 
