@@ -50,6 +50,7 @@ import {
   ProductPageEventModule,
   ProductReferencesModule,
   ProductSummaryModule,
+  ProductBundlesModule,
   ProductTabsModule,
   ScrollToTopModule,
   SearchBoxModule,
@@ -197,6 +198,7 @@ if (environment.requestedDeliveryDate) {
     ProductReferencesModule,
     ProductImagesModule,
     ProductSummaryModule,
+    ProductBundlesModule,
     ProductIntroModule,
 
     // Cost Center

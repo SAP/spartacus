@@ -446,6 +446,20 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       });
   }
 
+  startBundle(productCode: string, quantity: number, templateId: string): void {
+    this.requireLoadedCart()
+      .pipe(withLatestFrom(this.userIdService.getUserId()))
+      .subscribe(([cart, userId]) => {
+        this.multiCartFacade.startBundle(
+          userId,
+          getCartIdByUserId(cart, userId),
+          templateId,
+          productCode,
+          quantity
+        );
+      });
+  }
+
   /**
    * Remove entry
    *

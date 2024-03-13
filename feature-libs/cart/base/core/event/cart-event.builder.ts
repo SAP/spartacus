@@ -15,6 +15,9 @@ import {
   CartAddEntryEvent,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
+  CartStartBundleEvent,
+  CartStartBundleFailEvent,
+  CartStartBundleSuccessEvent,
   CartRemoveEntryFailEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntryFailEvent,
@@ -59,6 +62,7 @@ export class CartEventBuilder {
    */
   protected register() {
     this.registerCreateCart();
+    this.registerStartBundle();
     this.registerAddEntry();
     this.registerRemoveEntry();
     this.registerUpdateEntry();
@@ -83,6 +87,21 @@ export class CartEventBuilder {
     this.registerMapped({
       action: CartActions.CART_ADD_ENTRY_FAIL,
       event: CartAddEntryFailEvent,
+    });
+  }
+
+  protected registerStartBundle(): void {
+    this.registerMapped({
+      action: CartActions.START_BUNDLE,
+      event: CartStartBundleEvent,
+    });
+    this.registerMapped({
+      action: CartActions.START_BUNDLE_SUCCESS,
+      event: CartStartBundleSuccessEvent,
+    });
+    this.registerMapped({
+      action: CartActions.START_BUNDLE_FAIL,
+      event: CartStartBundleFailEvent,
     });
   }
 

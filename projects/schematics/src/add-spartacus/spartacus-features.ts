@@ -194,6 +194,7 @@ function configureSpartacusModules(
         'ProductImagesModule,',
         'ProductSummaryModule,',
         'ProductIntroModule,',
+        'ProductBundlesModule',
       ].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
@@ -214,6 +215,7 @@ function configureSpartacusModules(
                 'ProductPageEventModule',
                 'ProductReferencesModule',
                 'ProductSummaryModule',
+                'ProductBundlesModule',
                 'ProductTabsModule',
                 'SearchBoxModule',
               ],

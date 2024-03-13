@@ -43,6 +43,7 @@ export class MultiCartFacadeStub {
   }
   createCart() {}
   mergeToCurrentCart() {}
+  startBundle() {}
   addEntry() {}
   addEntries() {}
   isStable() {}
@@ -453,6 +454,26 @@ describe('ActiveCartService', () => {
       service['load'](OCC_CART_ID_CURRENT, OCC_USER_ID_ANONYMOUS);
 
       expect(multiCartFacade['loadCart']).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('startBundle', () => {
+    it('should just add bundle after start bundle', () => {
+      spyOn<any>(service, 'requireLoadedCart').and.returnValue(
+        of({ code: 'code', guid: 'guid' })
+      );
+      spyOn(multiCartFacade, 'startBundle').and.callThrough();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      service.startBundle('productCode', 1, 'templateId');
+
+      expect(multiCartFacade['startBundle']).toHaveBeenCalledWith(
+        OCC_USER_ID_ANONYMOUS,
+        'guid',
+        'templateId',
+        'productCode',
+        1
+      );
     });
   });
 

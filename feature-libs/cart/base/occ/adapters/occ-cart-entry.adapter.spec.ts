@@ -67,6 +67,42 @@ describe('OccCartEntryAdapter', () => {
     httpMock.verify();
   });
 
+  describe('add bundle to cart', () => {
+    it('should add bundle to cart for given user id, cart id, product code, product quantity and bundle template id', () => {
+      let result;
+      occCartEntryAdapter
+        .startBundle(userId, cartId, '147852', 1, 'testBundleTemplateId')
+        .subscribe((res) => (result = res));
+
+      const mockReq = httpMock.expectOne({ method: 'POST', url: 'startBundles' });
+
+      expect(mockReq.request.headers.get('Content-Type')).toEqual(
+        'application/json'
+      );
+
+      expect(mockReq.request.body).toEqual({
+        productCode: '147852',
+        quantity: 1,
+        templateId: 'testBundleTemplateId',
+      });
+
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('startBundles', {
+        urlParams: {
+          userId,
+          cartId,
+        },
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(cartModified);
+      expect(result).toEqual(cartModified);
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        CART_MODIFICATION_NORMALIZER
+      );
+    });
+  });
+
   describe('add entry to cart', () => {
     it('should add entry to cart for given user id, cart id, product code and product quantity', () => {
       let result;

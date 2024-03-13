@@ -10,7 +10,9 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import { CmsPageGuard } from '../../../../projects/storefrontlib/cms-structure/guards/cms-page.guard'
+import { PageLayoutComponent } from  '../../../../projects/storefrontlib/cms-structure/page/page-layout/page-layout.component'
+// import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultCartConfig } from './config/default-cart-config';
 import { defaultCartRoutingConfig } from './config/default-cart-routing-config';
 import { ORDER_ENTRIES_CONTEXT } from './context/order-entires.context';

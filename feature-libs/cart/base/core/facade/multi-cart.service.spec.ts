@@ -390,6 +390,22 @@ describe('MultiCartService', () => {
     });
   });
 
+  describe('startBundle', () => {
+    it('should dispatch startBundle action', () => {
+      service.startBundle('userId', 'cartId', 'templateId', 'productCode', 1);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.StartBundle({
+          cartId: 'cartId',
+          userId: 'userId',
+          productCode: 'productCode',
+          quantity: 1,
+          templateId: 'templateId',
+        })
+      );
+    });
+  });
+
   describe('addEntry', () => {
     it('should dispatch addEntry action', () => {
       service.addEntry('userId', 'cartId', 'productCode', 2);

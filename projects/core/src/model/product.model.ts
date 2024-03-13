@@ -169,6 +169,7 @@ export interface Product {
   averageRating?: number;
   baseOptions?: BaseOption[];
   baseProduct?: string;
+  bundleTemplates?: bundleTemplate[];
   categories?: Category[];
   classifications?: Classification[];
   code?: string;
@@ -240,4 +241,10 @@ export interface StoreFinderStockSearchPage {
   sourceLatitude?: number;
   sourceLongitude?: number;
   stores?: PointOfServiceStock[];
+}
+
+export interface bundleTemplate {
+  id?: string;
+  name?: string;
+  rootBundleTemplateName?: string;
 }

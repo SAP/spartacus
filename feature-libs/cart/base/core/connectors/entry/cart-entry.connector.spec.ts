@@ -6,6 +6,7 @@ import createSpy = jasmine.createSpy;
 
 describe('CartEntryConnector', () => {
   class MockCartEntryAdapter implements CartEntryAdapter {
+    startBundle = createSpy().and.returnValue(of({}));
     add = createSpy().and.returnValue(of({}));
     update = createSpy().and.returnValue(of({}));
     remove = createSpy().and.returnValue(of({}));
@@ -25,6 +26,18 @@ describe('CartEntryConnector', () => {
 
   it('should be created', () => {
     expect(service).toBeDefined();
+  });
+
+  it('start bundle should call adapter', () => {
+    const adapter = TestBed.inject(CartEntryAdapter);
+    service.startBundle('userId', 'cartId', 'productCode', 1, 'templateId').subscribe();
+    expect(adapter.startBundle).toHaveBeenCalledWith(
+      'userId',
+      'cartId',
+      'productCode',
+      1,
+      'templateId'
+    );
   });
 
   it('add should call adapter', () => {

@@ -1,0 +1,39 @@
+<ng-container *ngIf="product$ | async as product">
+  <ng-container *ngIf="bundleTemplates$ | async as bundleTemplates">
+    <ng-container *ngIf="bundleTemplates.length">
+      <label class="header">{{ 'productBundles.buyItemInBundle' | cxTranslate }}</label>
+      <cx-carousel
+      [items]="bundleTemplates"
+      itemWidth="250px"
+      [template]="bundleTemplate"
+      [hideIndicators]="true"
+      ></cx-carousel>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #bundleTemplate let-item="item">
+    <div class="bundle">
+      <div class="title" [attr.aria-label]="'productBundles.bundleTempalte' | cxTranslate">
+        {{ item.rootBundleTemplateName }}
+      </div>
+      <div class="content" [attr.aria-label]="'productBundles.bundleComponent' | cxTranslate">
+        {{ item.name }}
+      </div>
+      <button
+        (click)="addBundleToCart(product.code, item.id)"
+        class="btn btn-secondary"
+        type="button"
+        [attr.aria-label]="
+        'productBundles.AddBundleToCart'
+          | cxTranslate
+            : {
+                component: item.name,
+                template: item.rootBundleTemplateName
+              }
+        "
+      >
+        {{ 'productBundles.startBundle' | cxTranslate }}
+      </button>
+    </div>
+  </ng-template>
+</ng-container>

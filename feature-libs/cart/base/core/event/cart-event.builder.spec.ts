@@ -21,6 +21,9 @@ import {
   RemoveCartVoucherFailEvent,
   RemoveCartVoucherSuccessEvent,
   MergeCartSuccessEvent,
+  CartStartBundleEvent,
+  CartStartBundleSuccessEvent,
+  CartStartBundleFailEvent,
 } from '@spartacus/cart/base/root';
 import { createFrom, EventService } from '@spartacus/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
@@ -137,6 +140,111 @@ describe('CartEventBuilder', () => {
       expect(activeCartIdSubscribed).toBeTruthy();
 
       subscription.unsubscribe();
+    });
+
+    describe('Cart Start Bundle Events', () => {
+      describe('CartStartBundleEvent', () => {
+        it('should emit the event when the action is fired', () => {
+          const payload = {
+            templateId: 'templateId',
+            productCode: 'productCode',
+            quantity: 1
+          };
+
+          const eventData: CartStartBundleEvent = {
+            cartCode: MOCK_ACTIVE_CART.code,
+            ...payload,
+            ...MOCK_ACTIVE_CART_EVENT,
+          };
+
+          let results: CartStartBundleEvent[] = [];
+          const subscription = eventService
+            .get(CartStartBundleEvent)
+            .subscribe((e) => results.push(e));
+
+          actions$.next(
+            new CartActions.StartBundle({
+              ...payload,
+              ...MOCK_ACTIVE_CART_EVENT,
+            })
+          );
+
+          expect(results.length).toBe(1);
+          expect(results[0].constructor).toEqual(CartStartBundleEvent);
+          expect(results[0]).toEqual(jasmine.objectContaining(eventData));
+
+          subscription.unsubscribe();
+        });
+      });
+
+      describe('CartStartBundleSuccessEvent', () => {
+        it('should emit the event when the action is fired', () => {
+          const payload = {
+            templateId: 'templateId',
+            productCode: 'productCode',
+            quantity: 1
+          };
+
+          const eventData: CartStartBundleSuccessEvent = {
+            cartCode: MOCK_ACTIVE_CART.code,
+            ...payload,
+            ...MOCK_ACTIVE_CART_EVENT,
+          };
+
+          let results: CartStartBundleSuccessEvent[] = [];
+          const subscription = eventService
+            .get(CartStartBundleSuccessEvent)
+            .subscribe((e) => results.push(e));
+
+          actions$.next(
+            new CartActions.StartBundleSuccess({
+              ...payload,
+              ...MOCK_ACTIVE_CART_EVENT,
+            })
+          );
+
+          expect(results.length).toBe(1);
+          expect(results[0].constructor).toEqual(CartStartBundleSuccessEvent);
+          expect(results[0]).toEqual(jasmine.objectContaining(eventData));
+
+          subscription.unsubscribe();
+        });
+      });
+
+      describe('CartStartBundleFailEvent', () => {
+        it('should emit the event when the action is fired', () => {
+          const payload = {
+            templateId: 'templateId',
+            productCode: 'productCode',
+            quantity: 1,
+            error: { error: 'error' },
+          };
+
+          const eventData: CartStartBundleFailEvent = {
+            cartCode: MOCK_ACTIVE_CART.code,
+            ...payload,
+            ...MOCK_ACTIVE_CART_EVENT,
+          };
+
+          let results: CartStartBundleFailEvent[] = [];
+          const subscription = eventService
+            .get(CartStartBundleFailEvent)
+            .subscribe((e) => results.push(e));
+
+          actions$.next(
+            new CartActions.StartBundleFail({
+              ...payload,
+              ...MOCK_ACTIVE_CART_EVENT,
+            })
+          );
+
+          expect(results.length).toBe(1);
+          expect(results[0].constructor).toEqual(CartStartBundleFailEvent);
+          expect(results[0]).toEqual(jasmine.objectContaining(eventData));
+
+          subscription.unsubscribe();
+        });
+      });
     });
 
     describe('Cart Add Entry Events', () => {

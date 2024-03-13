@@ -21,6 +21,74 @@ describe('Cart-entry Actions', () => {
     };
   });
 
+  describe('StartBundle Actions', () => {
+    describe('StartBundle', () => {
+      it('should create the action', () => {
+        const payload = {
+          cartId,
+          userId,
+          templateId: 'testBundleTemplate',
+          productCode,
+          quantity: 1,
+        };
+        const action = new CartActions.StartBundle(payload);
+        expect({ ...action }).toEqual({
+          type: CartActions.START_BUNDLE,
+          payload: payload,
+          meta: StateUtils.entityProcessesIncrementMeta(
+            MULTI_CART_DATA,
+            cartId
+          ),
+        });
+      });
+    });
+
+    describe('StartBundleFail', () => {
+      it('should create the action', () => {
+        const error = 'anError';
+        const payload = {
+          error,
+          cartId,
+          userId,
+          templateId: 'testBundleTemplate',
+          productCode,
+          quantity: 1,
+        };
+        const action = new CartActions.StartBundleFail(payload);
+
+        expect({ ...action }).toEqual({
+          type: CartActions.START_BUNDLE_FAIL,
+          payload,
+          meta: StateUtils.entityProcessesDecrementMeta(
+            MULTI_CART_DATA,
+            cartId
+          ),
+        });
+      });
+    });
+
+    describe('StartBundleSuccess', () => {
+      it('should create the action', () => {
+        const payload = {
+          cartId,
+          userId,
+          templateId: 'testBundleTemplate',
+          productCode,
+          quantity: 1,
+        };
+        const action = new CartActions.StartBundleSuccess(payload);
+        expect({ ...action }).toEqual({
+          type: CartActions.START_BUNDLE_SUCCESS,
+          payload,
+          meta: StateUtils.entityProcessesDecrementMeta(
+            MULTI_CART_DATA,
+            cartId
+          ),
+        });
+      });
+    });
+  });
+
   describe('AddCartEntry Actions', () => {
     describe('CartAddEntry', () => {
       it('should create the action', () => {

@@ -28,6 +28,7 @@ import { Cart, CartType, OrderEntry } from '../models/cart.model';
         'getLastEntry',
         'addEntry',
         'addEntries',
+        'startBundle',
         'removeEntry',
         'updateEntry',
         'getEntry',
@@ -155,6 +156,14 @@ export abstract class MultiCartFacade {
     productCode: string,
     quantity: number,
     pickupStore?: string
+  ): void;
+
+  abstract startBundle(
+    userId: string,
+    cartId: string,
+    templateId: string,
+    productCode: string,
+    quantity: number
   ): void;
 
   /**

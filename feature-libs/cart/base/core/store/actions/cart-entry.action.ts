@@ -11,6 +11,11 @@ import { MULTI_CART_DATA } from '../multi-cart-state';
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';
 export const CART_ADD_ENTRY_SUCCESS = '[Cart-entry] Add Entry Success';
 export const CART_ADD_ENTRY_FAIL = '[Cart-entry] Add Entry Fail';
+
+export const START_BUNDLE = '[Bundle] Start Bundle';
+export const START_BUNDLE_SUCCESS = '[Bundle] Start Bundle Success';
+export const START_BUNDLE_FAIL = '[Bundle] Start Bundle Fail';
+
 export const CART_REMOVE_ENTRY = '[Cart-entry] Remove Entry';
 export const CART_REMOVE_ENTRY_SUCCESS = '[Cart-entry] Remove Entry Success';
 export const CART_REMOVE_ENTRY_FAIL = '[Cart-entry] Remove Entry Fail';
@@ -64,6 +69,52 @@ export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction 
       productCode: string;
       quantity: number;
       pickupStore?: string;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class StartBundle extends StateUtils.EntityProcessesIncrementAction {
+  readonly type = START_BUNDLE;
+  constructor(
+    public payload: {
+      cartId: string;
+      userId: string;
+      templateId: string;
+      productCode: string;
+      quantity: number;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class StartBundleSuccess extends StateUtils.EntityProcessesDecrementAction {
+  readonly type = START_BUNDLE_SUCCESS;
+  constructor(
+    public payload: {
+      cartId: string;
+      userId: string;
+      templateId: string;
+      productCode: string;
+      quantity: number;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class StartBundleFail extends StateUtils.EntityProcessesDecrementAction {
+  readonly type = START_BUNDLE_FAIL;
+  constructor(
+    public payload: {
+      error: any;
+      cartId: string;
+      userId: string;
+      templateId: string;
+      productCode: string;
+      quantity: number;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -155,6 +206,9 @@ export type CartEntryAction =
   | CartAddEntry
   | CartAddEntrySuccess
   | CartAddEntryFail
+  | StartBundle
+  | StartBundleSuccess
+  | StartBundleFail
   | CartRemoveEntry
   | CartRemoveEntrySuccess
   | CartRemoveEntryFail

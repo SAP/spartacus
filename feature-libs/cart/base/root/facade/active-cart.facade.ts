@@ -26,6 +26,7 @@ import { Cart, OrderEntry } from '../models/cart.model';
         'getLoading',
         'isStable',
         'addEntry',
+        'startBundle',
         'removeEntry',
         'updateEntry',
         'getEntry',
@@ -101,6 +102,12 @@ export abstract class ActiveCartFacade {
     productCode: string,
     quantity: number,
     pickupStore?: string
+  ): void;
+
+  abstract startBundle(
+    productCode: string,
+    quantity: number,
+    templateId: string
   ): void;
 
   /**

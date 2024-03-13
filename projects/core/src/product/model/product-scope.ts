@@ -13,4 +13,5 @@ export const enum ProductScope {
   /** Fetch the default stock information. */
   STOCK = 'stock',
   PROMOTIONS = 'promotions',
+  BUNDLES = 'bundles',
 }

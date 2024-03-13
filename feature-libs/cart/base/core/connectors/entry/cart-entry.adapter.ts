@@ -25,6 +25,14 @@ export abstract class CartEntryAdapter {
     pickupStore?: string
   ): Observable<CartModification>;
 
+  abstract startBundle(
+    userId: string,
+    cartId: string,
+    productCode: string,
+    quantity: number,
+    templateId: string
+  ): Observable<CartModification>;
+
   /**
    * Abstract method used to update entry in cart
    * @param userId

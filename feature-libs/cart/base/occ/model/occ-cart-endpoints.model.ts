@@ -37,6 +37,12 @@ export interface CartOccEndpoints {
    * @member {string} [addEntries]
    */
   addEntries?: string | OccEndpoint;
+    /**
+   * Adds a bundle to the cart
+   *
+   * @member {string} [startBundles]
+   */
+  startBundles?: string | OccEndpoint;
   /**
    * Update quantity and store the details of a cart entry
    *

@@ -8,6 +8,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import {
   CartAddEntryFailEvent,
   CartUiEventAddToCart,
+  CartStartBundleFailEvent,
 } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
@@ -36,6 +37,12 @@ export class AddedToCartDialogEventListener implements OnDestroy {
 
     this.subscription.add(
       this.eventService.get(CartAddEntryFailEvent).subscribe((event) => {
+        this.closeModal(event);
+      })
+    );
+
+    this.subscription.add(
+      this.eventService.get(CartStartBundleFailEvent).subscribe((event) => {
         this.closeModal(event);
       })
     );

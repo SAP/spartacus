@@ -72,6 +72,48 @@ export class CartEntryEffects {
     )
   );
 
+  startBundle$: Observable<
+  | CartActions.StartBundleSuccess
+  | CartActions.StartBundleFail
+  | CartActions.LoadCart
+  > = createEffect(() =>
+  this.actions$.pipe(
+    ofType(CartActions.START_BUNDLE),
+    map((action: CartActions.StartBundle) => action.payload),
+    concatMap((payload) => {
+      return this.cartEntryConnector
+        .startBundle(
+          payload.userId,
+          payload.cartId,
+          payload.productCode,
+          payload.quantity,
+          payload.templateId
+        )
+        .pipe(
+          map(
+            () =>
+              new CartActions.StartBundleSuccess({
+                ...payload,
+              })
+          ),
+          catchError((error) =>
+            from([
+              new CartActions.StartBundleFail({
+                ...payload,
+                error: normalizeHttpError(error, this.logger),
+              }),
+              new CartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+            ])
+          )
+        );
+    }),
+    withdrawOn(this.contextChange$)
+  )
+);
+
   removeEntry$: Observable<
     | CartActions.CartRemoveEntrySuccess
     | CartActions.CartRemoveEntryFail

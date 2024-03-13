@@ -62,6 +62,37 @@ export class CartAddEntryEvent extends CartEvent {
   quantity: number;
 }
 
+export class CartStartBundleEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CartStartBundleEvent';
+  productCode: string;
+  quantity: number;
+  templateId: string;
+}
+
+export class CartStartBundleSuccessEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CartStartBundleSuccessEvent';
+  productCode: string;
+  quantity: number;
+  templateId: string;
+}
+
+export class CartStartBundleFailEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CartStartBundleFailEvent';
+  productCode: string;
+  quantity: number;
+  templateId: string;
+  error?: unknown;
+}
+
 export class CartAddEntrySuccessEvent extends CartEvent {
   /**
    * Event's type

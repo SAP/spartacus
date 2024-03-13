@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   CartAddEntryFailEvent,
   CartUiEventAddToCart,
+  CartStartBundleFailEvent,
 } from '@spartacus/cart/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
@@ -36,6 +37,8 @@ mockEvent.pickupStoreName = 'testStore';
 
 const mockFailEvent = new CartAddEntryFailEvent();
 mockFailEvent.error = {};
+const mockStartBundleFailEvent = new CartStartBundleFailEvent();
+mockStartBundleFailEvent.error = {};
 
 describe('AddToCartDialogEventListener', () => {
   let listener: AddedToCartDialogEventListener;
@@ -67,10 +70,16 @@ describe('AddToCartDialogEventListener', () => {
       expect(listener['openModal']).toHaveBeenCalledWith(mockEvent);
     });
 
-    it('Should close modal on fail event', () => {
+    it('Should close modal on add cart fail event', () => {
       spyOn(listener as any, 'closeModal').and.stub();
       mockEventStream$.next(mockFailEvent);
       expect(listener['closeModal']).toHaveBeenCalledWith(mockFailEvent);
+    });
+
+    it('Should close modal on start bundle fail event', () => {
+      spyOn(listener as any, 'closeModal').and.stub();
+      mockEventStream$.next(mockStartBundleFailEvent);
+      expect(listener['closeModal']).toHaveBeenCalledWith(mockStartBundleFailEvent);
     });
   });
 

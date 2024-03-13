@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PageEvent } from '@spartacus/storefront';
+// import { PageEvent } from '@spartacus/storefront';
+import { PageEvent } from '../../../../../projects/storefrontlib/events/page/page.events'
 
 /**
  * Indicates that a user visited a cart page.

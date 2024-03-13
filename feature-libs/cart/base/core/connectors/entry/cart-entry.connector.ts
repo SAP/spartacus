@@ -25,6 +25,16 @@ export class CartEntryConnector {
     return this.adapter.add(userId, cartId, productCode, quantity, pickupStore);
   }
 
+  public startBundle(
+    userId: string,
+    cartId: string,
+    productCode: string,
+    quantity: number,
+    templateId: string
+  ): Observable<CartModification> {
+    return this.adapter.startBundle(userId, cartId, productCode, quantity, templateId);
+  }
+
   public update(
     userId: string,
     cartId: string,

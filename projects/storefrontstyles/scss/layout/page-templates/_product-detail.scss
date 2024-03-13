@@ -35,6 +35,11 @@
           grid-row: 3;
         }
 
+        cx-product-bundles {
+          grid-column: 2;
+          grid-row: 6;
+        }
+
         cx-add-to-cart {
           grid-column: 2;
           grid-row: 3;
@@ -42,6 +47,11 @@
           padding-inline-end: 20px;
           padding-bottom: 0px;
           padding-inline-start: 20px;
+        }
+        
+        cx-add-to-wishlist {
+          grid-column: 2;
+          grid-row: 5;
         }
 
         cx-stock-notification {

@@ -63,6 +63,32 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
+  public startBundle(
+    userId: string,
+    cartId: string,
+    productCode: string,
+    quantity: number = 1,
+    templateId: string,
+  ): Observable<CartModification> {
+    const url = this.occEndpointsService.buildUrl('startBundles', {
+      urlParams: { userId, cartId },
+    });
+
+    const bundle = {
+      quantity,
+      productCode,
+      templateId,
+    };
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http
+      .post<CartModification>(url, bundle, { headers })
+      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+  }
+
   public update(
     userId: string,
     cartId: string,

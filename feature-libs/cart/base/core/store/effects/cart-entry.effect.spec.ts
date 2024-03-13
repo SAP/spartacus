@@ -39,6 +39,7 @@ describe('Cart effect', () => {
     };
 
     const mockCartEntryConnector: Partial<CartEntryConnector> = {
+      startBundle: createSpy().and.returnValue(of(mockCartModification)),
       add: createSpy().and.returnValue(of(mockCartModification)),
       remove: createSpy().and.returnValue(of({})),
       update: createSpy().and.returnValue(of(mockCartModification)),
@@ -55,6 +56,25 @@ describe('Cart effect', () => {
     });
 
     entryEffects = TestBed.inject(fromEffects.CartEntryEffects);
+  });
+
+  describe('startBundle$', () => {
+    it('should start a bundle', () => {
+      const payload = {
+        cartId: cartId,
+        userId: userId,
+        templateId: 'testBundleTemplateId',
+        productCode: 'testProductCode',
+        quantity: 1
+      };
+      const action = new CartActions.StartBundle(payload);
+      const completion = new CartActions.StartBundleSuccess(payload);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.startBundle$).toBeObservable(expected);
+    });
   });
 
   describe('addEntry$', () => {
