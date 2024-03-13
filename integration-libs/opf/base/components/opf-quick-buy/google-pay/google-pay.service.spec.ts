@@ -67,6 +67,7 @@ describe('OpfGooglePayService', () => {
     mockQuickBuyService = jasmine.createSpyObj('OpfQuickBuyService', [
       'getQuickBuyLocationContext',
       'getQuickBuyProviderConfig',
+      'getMerchantName',
     ]);
 
     const googlePayApiMock = {
@@ -500,6 +501,8 @@ describe('OpfGooglePayService', () => {
       mockQuickBuyService.getQuickBuyLocationContext.and.returnValue(
         of(OpfQuickBuyLocation.PRODUCT)
       );
+      const mockMerchantName = 'mockMerchantName';
+      mockQuickBuyService.getMerchantName.and.returnValue(of(mockMerchantName));
       const mockProduct = { code: 'productCode', price: { value: 100 } };
       const counter = 1;
       mockCurrentProductService.getProduct.and.returnValue(of(mockProduct));
@@ -537,6 +540,8 @@ describe('OpfGooglePayService', () => {
       mockQuickBuyService.getQuickBuyLocationContext.and.returnValue(
         of(OpfQuickBuyLocation.CART)
       );
+      const mockMerchantName = 'mockMerchantName';
+      mockQuickBuyService.getMerchantName.and.returnValue(of(mockMerchantName));
       mockCartHandlerService.getCurrentCart.and.returnValue(of({}));
 
       service.initTransaction();

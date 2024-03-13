@@ -79,6 +79,7 @@ describe('ApplePayComponent', () => {
     );
     mockOpfQuickBuyService = jasmine.createSpyObj('OpfQuickBuyService', [
       'getQuickBuyLocationContext',
+      'getMerchantName',
     ]);
 
     TestBed.configureTestingModule({
@@ -116,6 +117,10 @@ describe('ApplePayComponent', () => {
     );
     mockOpfQuickBuyService.getQuickBuyLocationContext.and.returnValue(
       of(OpfQuickBuyLocation.PRODUCT)
+    );
+    const mockMerchantName = 'mockMerchantName';
+    mockOpfQuickBuyService.getMerchantName.and.returnValue(
+      of(mockMerchantName)
     );
   });
 

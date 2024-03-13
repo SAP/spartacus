@@ -157,7 +157,7 @@ export class OpfCartHandlerService {
 
   loadOriginalCart(): Observable<boolean> {
     if (!this.cartHandlerState.previousCartId) {
-      this.opfMiniCartComponentService.blockUpdate(false);
+      this.blockMiniCartComponentUpdate(false);
       return of(false);
     }
     this.multiCartFacade.loadCart({

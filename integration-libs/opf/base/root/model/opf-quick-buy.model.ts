@@ -140,4 +140,4 @@ export enum OpfQuickBuyLocation {
   PRODUCT = 'PRODUCT',
 }
 
-export const defaultBusinessName: string = '';
+export const defaultMerchantName: string = '';
