@@ -8,16 +8,18 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+
 import { Config, I18nTestingModule } from '@spartacus/core';
+import { IconTestingModule, PopoverModule } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
@@ -62,7 +64,13 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
           MockFocusDirective,
           MockConfiguratorPriceComponent,
         ],
-        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+        imports: [
+          ReactiveFormsModule,
+          NgSelectModule,
+          I18nTestingModule,
+          IconTestingModule,
+          PopoverModule,
+        ],
         providers: [
           ConfiguratorStorefrontUtilsService,
           {
@@ -101,7 +109,8 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     code: string,
     name: string,
     isSelected: boolean,
-    configImages: Configurator.Image[]
+    configImages: Configurator.Image[],
+    description?: string
   ): Configurator.Value {
     const value: Configurator.Value = {
       valueCode: code,
@@ -109,13 +118,20 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       name: name,
       selected: isSelected,
       images: configImages,
+      description: description,
     };
     return value;
   }
   const image = createImage('url', 'altText');
   const images: Configurator.Image[] = [image, image, image];
   const value1 = createValue('1', 'val1', false, images);
-  const value2 = createValue('2', VALUE_DISPLAY_NAME, false, images);
+  const value2 = createValue(
+    '2',
+    VALUE_DISPLAY_NAME,
+    false,
+    images,
+    'Here is a long description at value level'
+  );
   const value3 = createValue('3', 'val3', false, images);
   const values: Configurator.Value[] = [value1, value2, value3];
 
@@ -138,7 +154,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     };
     component.ownerKey = ownerKey;
     config = TestBed.inject(Config);
-    config.features.attributeTypesV2 = false;
+    (config.features ?? {}).attributeTypesV2 = false;
     fixture.detectChanges();
   });
 
@@ -151,6 +167,28 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     fixture.detectChanges();
 
     expect(htmlElem.querySelectorAll('.cx-img').length).toBe(3);
+  });
+
+  it('should render info icon at value level if value has a description', () => {
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      "cx-icon[ng-reflect-type='INFO']"
+    );
+  });
+
+  it('should render popover with description at value level after clicking on info icon', () => {
+    const infoButton = fixture.debugElement.query(
+      By.css('button[ng-reflect-cx-popover]')
+    ).nativeElement;
+    infoButton.click();
+    const description = fixture.debugElement.query(
+      By.css('cx-popover > .popover-body > span')
+    );
+    expect(description).toBeTruthy();
+    expect(description.nativeElement.innerText).toBe(
+      (component.attribute.values ?? [{}])[1].description
+    );
   });
 
   it('should init with val3', () => {
@@ -190,7 +228,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     });
 
     it('should not call service for update and in case attribute is read-only and attributeTypesV2 feature flag is enabled', () => {
-      config.features.attributeTypesV2 = true;
+      (config.features ?? {}).attributeTypesV2 = true;
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
@@ -219,7 +257,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
 
   describe('label styling', () => {
     it('should set cursor to default in case attributeTypesV2 feature flag is enabled', () => {
-      config.features.attributeTypesV2 = true;
+      (config.features ?? {}).attributeTypesV2 = true;
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
       value1.selected = true;
@@ -282,6 +320,18 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
         1,
         'aria-hidden',
         'true'
+      );
+    });
+
+    it("should contain button elements with 'aria-label' attribute that point out that there is a description for the current value", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        '',
+        0,
+        'aria-label',
+        'configurator.a11y.description'
       );
     });
   });

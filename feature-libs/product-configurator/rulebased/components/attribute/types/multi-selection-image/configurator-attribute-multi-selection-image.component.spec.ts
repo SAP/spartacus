@@ -18,6 +18,7 @@ import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurato
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { IconTestingModule, PopoverModule } from '@spartacus/storefront';
 
 class MockGroupService {}
 
@@ -60,7 +61,13 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
           MockFocusDirective,
           MockConfiguratorPriceComponent,
         ],
-        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+        imports: [
+          ReactiveFormsModule,
+          NgSelectModule,
+          I18nTestingModule,
+          IconTestingModule,
+          PopoverModule,
+        ],
         providers: [
           ConfiguratorStorefrontUtilsService,
           {
@@ -99,7 +106,8 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     code: string,
     name: string,
     isSelected: boolean,
-    images: Configurator.Image[]
+    images: Configurator.Image[],
+    description?: string
   ): Configurator.Value {
     const value: Configurator.Value = {
       valueCode: code,
@@ -107,6 +115,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       name: name,
       selected: isSelected,
       images: images,
+      description: description,
     };
     return value;
   }
@@ -117,9 +126,21 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     const image = createImage('url', 'altText');
     const images: Configurator.Image[] = [image, image, image];
     value1 = createValue('1', 'val1', false, images);
-    const value2 = createValue('2', 'val2', true, images);
+    const value2 = createValue(
+      '2',
+      'val2',
+      true,
+      images,
+      'Here is a long description at value level'
+    );
     const value3 = createValue('3', VALUE_NAME_3, true, images);
-    const value4 = createValue('4', 'val4', false, images);
+    const value4 = createValue(
+      '4',
+      'val4',
+      false,
+      images,
+      'Here is a long description at value level'
+    );
     const values: Configurator.Value[] = [value1, value2, value3, value4];
 
     fixture = TestBed.createComponent(
@@ -151,6 +172,29 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     fixture.detectChanges();
 
     expect(htmlElem.querySelectorAll('.cx-img').length).toBe(4);
+  });
+
+  it('should render 2 info icons at value level when value has a description', () => {
+    CommonConfiguratorTestUtilsService.expectNumberOfElements(
+      expect,
+      htmlElem,
+      "cx-icon[ng-reflect-type='INFO']",
+      2
+    );
+  });
+
+  it('should render popover with description at value level after clicking on info icon', () => {
+    const infoButton = fixture.debugElement.query(
+      By.css('button[ng-reflect-cx-popover]')
+    ).nativeElement;
+    infoButton.click();
+    const description = fixture.debugElement.query(
+      By.css('cx-popover > .popover-body > span')
+    );
+    expect(description).toBeTruthy();
+    expect(description.nativeElement.innerText).toBe(
+      component.attribute.values[1].description
+    );
   });
 
   it('should mark two values as selected', () => {
@@ -287,6 +331,18 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
         2,
         'aria-hidden',
         'true'
+      );
+    });
+
+    it("should contain button elements with 'aria-label' attribute that point out that there is a description for the current value", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        '',
+        1,
+        'aria-label',
+        'configurator.a11y.description'
       );
     });
   });
