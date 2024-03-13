@@ -7,7 +7,6 @@
 /*
  * Public API Surface of core
  */
-export * from './src/anonymous-consents/index';
 export * from './src/auth/index';
 export * from './src/base-core.module';
 export * from './src/checkout/index';

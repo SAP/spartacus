@@ -1,0 +1,60 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {InjectionToken, Provider} from '@angular/core';
+import {Action, ActionReducer, ActionReducerMap, combineReducers, MetaReducer,} from '@ngrx/store';
+import {AuthActions} from '../../../auth/index';
+import {ConsentTemplate} from '../../../model/consent.model';
+import {SiteContextActions} from '../../../site-context/index';
+import {loaderReducer} from '../../../state/utils/loader/loader.reducer';
+import {ANONYMOUS_CONSENTS, AnonymousConsentsState,} from '../anonymous-consents-state';
+import * as fromAnonymousConsentsBanner from './anonymous-consents-banner.reducer';
+import * as fromAnonymousConsentsUpdate from './anonymous-consents-update.reducer';
+import * as fromAnonymousConsents from './anonymous-consents.reducer';
+
+export function getReducers(): ActionReducerMap<AnonymousConsentsState, any> {
+  return {
+    templates: loaderReducer<ConsentTemplate[]>(ANONYMOUS_CONSENTS),
+    consents: fromAnonymousConsents.reducer,
+    ui: combineReducers({
+      bannerDismissed: fromAnonymousConsentsBanner.reducer,
+      updated: fromAnonymousConsentsUpdate.reducer,
+    }),
+  };
+}
+
+export const reducerToken: InjectionToken<
+  ActionReducerMap<AnonymousConsentsState>
+> = new InjectionToken<ActionReducerMap<AnonymousConsentsState>>(
+  'AnonymousConsentsReducers'
+);
+
+export const reducerProvider: Provider = {
+  provide: reducerToken,
+  useFactory: getReducers,
+};
+
+export function clearAnonymousConsentTemplates(
+  reducer: ActionReducer<AnonymousConsentsState, Action>
+): ActionReducer<AnonymousConsentsState, Action> {
+  return function (state, action) {
+    if (
+      state !== undefined &&
+      (action.type === AuthActions.LOGOUT ||
+        action.type === SiteContextActions.LANGUAGE_CHANGE)
+    ) {
+      state = {
+        ...state,
+        templates: {},
+      };
+    }
+    return reducer(state, action);
+  };
+}
+
+export const metaReducers: MetaReducer<any>[] = [
+  clearAnonymousConsentTemplates,
+];

@@ -6,7 +6,6 @@
 
 import { NgModule } from '@angular/core';
 import {
-  AnonymousConsentsModule,
   AuthModule,
   CostCenterOccModule,
   ExternalRoutesModule,
@@ -97,6 +96,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import {AnonymousConsentsModule} from "../../../../anonymous-consents";
 
 const featureModules = [];
 
