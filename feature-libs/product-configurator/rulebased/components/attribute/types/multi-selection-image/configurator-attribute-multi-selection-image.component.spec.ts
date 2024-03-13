@@ -8,7 +8,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import { Config, I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -29,6 +29,7 @@ const VALUE_NAME_3 = 'val3';
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
+
 @Component({
   selector: 'cx-configurator-price',
   template: '',
@@ -41,10 +42,15 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
+class MockConfig {
+  features = [{ attributeTypesV2: false }];
+}
+
 describe('ConfigAttributeMultiSelectionImageComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionImageComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeMultiSelectionImageComponent>;
   let htmlElem: HTMLElement;
+  let config: Config;
 
   beforeEach(
     waitForAsync(() => {
@@ -69,6 +75,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
           },
+          { provide: Config, useClass: MockConfig },
         ],
       })
         .overrideComponent(ConfiguratorAttributeMultiSelectionImageComponent, {
@@ -103,6 +110,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     };
     return value;
   }
+
   let value1: Configurator.Value;
 
   beforeEach(() => {
@@ -129,6 +137,8 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       groupId: 'testGroup',
       values: values,
     };
+    config = TestBed.inject(Config);
+    config.features.attributeTypesV2 = false;
     fixture.detectChanges();
   });
 
@@ -169,6 +179,63 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     fixture.detectChanges();
     expect(valueToSelect.checked).toBe(false);
     expect(component.attributeCheckBoxForms[0].value).toEqual(false);
+  });
+
+  describe('select multi images', () => {
+    it('should call service for update when attributeTypesV2 feature flag is disabled', () => {
+      spyOn(
+        component['configuratorCommonsService'],
+        'updateConfiguration'
+      ).and.callThrough();
+      component.onSelect(0);
+      expect(
+        component['configuratorCommonsService'].updateConfiguration
+      ).toHaveBeenCalled();
+    });
+
+    it('should not call service in case uiType READ_ONLY_MULTI_SELECTION_IMAGE and attributeTypesV2 feature flag is enabled', () => {
+      config.features.attributeTypesV2 = true;
+      spyOn(
+        component['configuratorCommonsService'],
+        'updateConfiguration'
+      ).and.callThrough();
+      component.attribute.uiType =
+        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      value1.selected = true;
+      fixture.detectChanges();
+
+      const singleSelectionImageId =
+        '#cx-configurator--' +
+        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE +
+        '--' +
+        component.attribute.name +
+        '--' +
+        value1.valueCode +
+        '-input';
+      const valueToSelect = fixture.debugElement.query(
+        By.css(singleSelectionImageId)
+      ).nativeElement;
+      valueToSelect.click();
+      expect(
+        component['configuratorCommonsService'].updateConfiguration
+      ).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('label styling', () => {
+    it('should set cursor to default in case attributeTypesV2 feature flag is enabled', () => {
+      config.features.attributeTypesV2 = true;
+      component.attribute.uiType =
+        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      value1.selected = true;
+
+      fixture.detectChanges();
+
+      const labelId =
+        '#cx-configurator--label--attributeName--' + value1.valueCode;
+      const styles = fixture.debugElement.query(By.css(labelId)).styles;
+      expect(styles['cursor']).toEqual('default');
+    });
   });
 
   describe('Accessibility', () => {
