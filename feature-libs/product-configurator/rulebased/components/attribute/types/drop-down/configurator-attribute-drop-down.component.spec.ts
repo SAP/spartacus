@@ -206,7 +206,7 @@ describe('ConfigAttributeDropDownComponent', () => {
 
   it('should not render cx-value-label-pair div in case attributeTypesV2 feature flag is disabled', () => {
     createComponentWithData();
-    component.attribute.values[0].description =
+    (component.attribute.values ?? [{ description: '' }])[0].description =
       'Here is a description at value level';
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -218,7 +218,7 @@ describe('ConfigAttributeDropDownComponent', () => {
 
   it('should render cx-value-label-pair div in case attributeTypesV2 feature flag is enabled', () => {
     createComponentWithData();
-    config.features.attributeTypesV2 = true;
+    (config.features ?? {}).attributeTypesV2 = true;
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -229,7 +229,7 @@ describe('ConfigAttributeDropDownComponent', () => {
 
   it('should not render description in case attributeTypesV2 feature flag is disabled', () => {
     createComponentWithData();
-    component.attribute.values[0].description =
+    (component.attribute.values ?? [{ description: '' }])[0].description =
       'Here is a description at value level';
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -241,8 +241,8 @@ describe('ConfigAttributeDropDownComponent', () => {
 
   it('should render description in case attributeTypesV2 feature flag is enabled', () => {
     createComponentWithData();
-    config.features.attributeTypesV2 = true;
-    component.attribute.values[0].description =
+    (config.features ?? {}).attributeTypesV2 = true;
+    (component.attribute.values ?? [{ description: '' }])[0].description =
       'Here is a description at value level';
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -373,6 +373,7 @@ describe('ConfigAttributeDropDownComponent', () => {
 
   describe('getSelectedValueDescription', () => {
     it('should return blank if no description provided at model level on any selected value', () => {
+      createComponentWithData();
       component.attribute.values = [];
       expect(component.getSelectedValueDescription()).toBe('');
     });
