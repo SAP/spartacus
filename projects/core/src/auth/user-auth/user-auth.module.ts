@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {
+  APP_INITIALIZER,
+  ModuleWithProviders,
+  NgModule,
+  PLATFORM_ID,
+} from '@angular/core';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 import { lastValueFrom } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -25,17 +30,20 @@ import { AuthStorageService } from './services/auth-storage.service';
  */
 export function checkOAuthParamsInUrl(
   authService: AuthService,
-  configInit: ConfigInitializerService
+  configInit: ConfigInitializerService,
+  platformId: Object
 ): () => Promise<void> {
   return () =>
-    lastValueFrom(
-      configInit.getStable().pipe(
-        switchMap(() =>
-          // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
-          authService.checkOAuthParamsInUrl()
+    isPlatformBrowser(platformId)
+      ? lastValueFrom(
+          configInit.getStable().pipe(
+            switchMap(() =>
+              // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
+              authService.checkOAuthParamsInUrl()
+            )
+          )
         )
-      )
-    );
+      : Promise.resolve(); // Do nothing in SSR
 }
 
 export function authStatePersistenceFactory(
@@ -73,7 +81,7 @@ export class UserAuthModule {
         {
           provide: APP_INITIALIZER,
           useFactory: checkOAuthParamsInUrl,
-          deps: [AuthService, ConfigInitializerService],
+          deps: [AuthService, ConfigInitializerService, PLATFORM_ID],
           multi: true,
         },
       ],
