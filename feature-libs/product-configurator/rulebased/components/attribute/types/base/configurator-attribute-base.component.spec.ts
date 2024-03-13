@@ -127,6 +127,94 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
   });
 
+  describe('getAriaLabelForValueWithPrice', () => {
+    it('should return translation key for read-only', () => {
+      expect(classUnderTest.getAriaLabelForValueWithPrice(true)).toEqual(
+        'configurator.a11y.readOnlyValueOfAttributeFullWithPrice'
+      );
+    });
+
+    it('should return translation key for another attribute types as read-only', () => {
+      expect(classUnderTest.getAriaLabelForValueWithPrice(false)).toEqual(
+        'configurator.a11y.valueOfAttributeFullWithPrice'
+      );
+    });
+  });
+
+  describe('getAriaLabelForValue', () => {
+    it('should return translation key for read-only', () => {
+      expect(classUnderTest.getAriaLabelForValue(true)).toEqual(
+        'configurator.a11y.readOnlyValueOfAttributeFull'
+      );
+    });
+
+    it('should return translation key for another attribute types as read-only', () => {
+      expect(classUnderTest.getAriaLabelForValue(false)).toEqual(
+        'configurator.a11y.valueOfAttributeFull'
+      );
+    });
+  });
+
+  describe('getImgStyleClasses', () => {
+    const imgStyleClass = 'cx-img';
+    const hoverClass = imgStyleClass + ' cx-img-hover';
+    const selectedClasses = hoverClass + ' cx-img-selected';
+
+    it('should return passed image style class without adding further classes if attribute is READ_ONLY_MULTI_SELECTION_IMAGE', () => {
+      currentAttribute.uiType =
+        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      const value: Configurator.Value = { valueCode: 'val', selected: false };
+
+      expect(
+        classUnderTest.getImgStyleClasses(
+          currentAttribute,
+          value,
+          imgStyleClass
+        )
+      ).toEqual(imgStyleClass);
+    });
+
+    it('should return passed image style class without adding further classes if attribute is READ_ONLY_SINGLE_SELECTION_IMAGE', () => {
+      currentAttribute.uiType =
+        Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+      const value: Configurator.Value = { valueCode: 'val', selected: false };
+
+      expect(
+        classUnderTest.getImgStyleClasses(
+          currentAttribute,
+          value,
+          imgStyleClass
+        )
+      ).toEqual(imgStyleClass);
+    });
+
+    it('should append cx-img-hover style class if attribute is not read-only UI type', () => {
+      currentAttribute.uiType = Configurator.UiType.DROPDOWN;
+      const value: Configurator.Value = { valueCode: 'val', selected: false };
+
+      expect(
+        classUnderTest.getImgStyleClasses(
+          currentAttribute,
+          value,
+          imgStyleClass
+        )
+      ).toEqual(hoverClass);
+    });
+
+    it('should append cx-img-selected style class if attribute is not read-only UI type and value is selected', () => {
+      currentAttribute.uiType = Configurator.UiType.RADIOBUTTON;
+      const value: Configurator.Value = { valueCode: 'val', selected: true };
+
+      expect(
+        classUnderTest.getImgStyleClasses(
+          currentAttribute,
+          value,
+          imgStyleClass
+        )
+      ).toEqual(selectedClasses);
+    });
+  });
+
   it('should generate focus id for attribute value', () => {
     expect(classUnderTest.createFocusId('attrCode', 'valueCode')).toBe(
       'attrCode--valueCode--focus'
@@ -400,6 +488,70 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         ConfiguratorTestUtils.createValue('789', 20),
       ];
       expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(false);
+    });
+  });
+
+  describe('isReadOnly', () => {
+    it('should return false in case uiType is undefined', () => {
+      currentAttribute.uiType = undefined;
+      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(false);
+    });
+
+    it('should return false in case uiType is RADIOBUTTON', () => {
+      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(false);
+    });
+
+    it('should return true in case uiType is READ_ONLY', () => {
+      currentAttribute.uiType = Configurator.UiType.READ_ONLY;
+      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(true);
+    });
+
+    it('should return true in case uiType is READ_ONLY_SINGLE_SELECTION_IMAGE', () => {
+      currentAttribute.uiType =
+        Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(true);
+    });
+
+    it('should return true in case uiType is READ_ONLY_MULTI_SELECTION_IMAGE', () => {
+      currentAttribute.uiType =
+        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      expect(classUnderTest['isReadOnly'](currentAttribute)).toBe(true);
+    });
+  });
+
+  describe('isValueDisplayed', () => {
+    it('should return false in case uiType is READ_ONLY_MULTI_SELECTION_IMAGE and value is not selected', () => {
+      currentAttribute.uiType =
+        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      const value: Configurator.Value = { valueCode: 'val', selected: false };
+      expect(classUnderTest['isValueDisplayed'](currentAttribute, value)).toBe(
+        false
+      );
+    });
+
+    it('should return true in case uiType is READ_ONLY_MULTI_SELECTION_IMAGE and value is selected', () => {
+      currentAttribute.uiType =
+        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      const value: Configurator.Value = { valueCode: 'val', selected: true };
+      expect(classUnderTest['isValueDisplayed'](currentAttribute, value)).toBe(
+        true
+      );
+    });
+
+    it('should return true in case uiType is RADIOBUTTON and value is not selected', () => {
+      currentAttribute.uiType = Configurator.UiType.RADIOBUTTON;
+      const value: Configurator.Value = { valueCode: 'val', selected: false };
+      expect(classUnderTest['isValueDisplayed'](currentAttribute, value)).toBe(
+        true
+      );
+    });
+
+    it('should return true in case uiType is RADIOBUTTON and value is selected', () => {
+      currentAttribute.uiType = Configurator.UiType.RADIOBUTTON;
+      const value: Configurator.Value = { valueCode: 'val', selected: true };
+      expect(classUnderTest['isValueDisplayed'](currentAttribute, value)).toBe(
+        true
+      );
     });
   });
 });
