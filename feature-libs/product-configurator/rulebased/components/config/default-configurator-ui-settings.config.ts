@@ -15,5 +15,10 @@ export const defaultConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig =
       },
       addRetractOption: false,
       enableNavigationToConflict: true,
+      descriptions: {
+        addDescriptions: false,
+        attributeDescriptionLength: 100,
+        valueDescriptionLength: 70,
+      },
     },
   };

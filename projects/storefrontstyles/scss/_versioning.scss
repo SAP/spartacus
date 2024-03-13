@@ -1,3 +1,7 @@
+// 🚨 CAUTION. The approach of using `forVersion($level)` in this file is deprecated
+// and superseded by the recommendation of using named feature flags with mixin `forFeature($featureName)`.
+// =====================================================================================
+
 // The Spartacus team is cautious with introducing style changes in a minor release,
 // as it would conflict with the [semantic versioning](https://semver.org/)
 // model. To improve the style layer during minor releases, without breaking the
@@ -56,6 +60,7 @@ $useLatestStyles: false !default;
 //
 // The version related content is only created if the user opt-in for breaking changes.
 
+// @deprecated since 2211.20, use `forFeature($feature)` mixin instead
 @mixin forVersion($from, $to: 0) {
   // convert variable to version map {major: number, minor: number, patch: number}
   $from: getVersion($from);

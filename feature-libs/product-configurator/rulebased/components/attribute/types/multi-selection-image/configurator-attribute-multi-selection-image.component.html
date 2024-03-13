@@ -1,59 +1,150 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}" class="cx-row">
-  <div
-    *ngFor="let value of attribute.values; let i = index"
-    id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
-    class="cx-configurator-select"
-  >
-    <input
+  <ng-container *ngIf="!config.features?.attributeTypesV2">
+    <div
+      *ngFor="let value of attribute.values; let i = index"
       id="{{
-        createAttributeValueIdForConfigurator(attribute, value.valueCode) +
-          '-input'
+        createAttributeValueIdForConfigurator(attribute, value.valueCode)
       }}"
-      type="checkbox"
-      class="form-input"
-      [value]="value.valueCode"
-      [formControl]="attributeCheckBoxForms[i]"
-      name="{{ createAttributeIdForConfigurator(attribute) }}"
-      (click)="onSelect(i)"
-      [attr.aria-label]="
-        value.valuePrice && value.valuePrice?.value !== 0
-          ? ('configurator.a11y.valueOfAttributeFullWithPrice'
-            | cxTranslate
-              : {
-                  value: value.valueDisplay,
-                  attribute: attribute.label,
-                  price: value.valuePrice.formattedValue
-                })
-          : ('configurator.a11y.valueOfAttributeFull'
-            | cxTranslate
-              : { value: value.valueDisplay, attribute: attribute.label })
-      "
-      [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
-      [attr.checked]="attributeCheckBoxForms[i].value ? 'checked' : null"
-      [cxFocus]="{ key: attribute.name + '-' + value.name }"
-    />
-    <div class="cx-label-container">
-      <label
-        id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
-        for="{{
+      class="cx-configurator-select"
+    >
+      <input
+        id="{{
           createAttributeValueIdForConfigurator(attribute, value.valueCode) +
             '-input'
         }}"
-        aria-hidden="true"
-        class="form-check-label"
-      >
-        <img
-          *ngIf="getImage(value) as image"
-          class="cx-img"
-          src="{{ image?.url }}"
-          alt="{{ image?.altText }}"
-        />
-        <div *ngIf="!getImage(value)" class="cx-img-dummy"></div>
-        {{ getLabel(expMode, value.valueDisplay, value.valueCode) }}
-        <cx-configurator-price
-          [formula]="extractValuePriceFormulaParameters(value)"
-        ></cx-configurator-price>
-      </label>
+        type="checkbox"
+        class="form-input"
+        [value]="value.valueCode"
+        [formControl]="attributeCheckBoxForms[i]"
+        name="{{ createAttributeIdForConfigurator(attribute) }}"
+        (click)="onSelect(i)"
+        [attr.aria-label]="
+          value.valuePrice && value.valuePrice?.value !== 0
+            ? ('configurator.a11y.valueOfAttributeFullWithPrice'
+              | cxTranslate
+                : {
+                    value: value.valueDisplay,
+                    attribute: attribute.label,
+                    price: value.valuePrice.formattedValue
+                  })
+            : ('configurator.a11y.valueOfAttributeFull'
+              | cxTranslate
+                : { value: value.valueDisplay, attribute: attribute.label })
+        "
+        [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
+        [attr.checked]="attributeCheckBoxForms[i].value ? 'checked' : null"
+        [cxFocus]="{ key: attribute.name + '-' + value.name }"
+      />
+      <div class="cx-label-container">
+        <label
+          id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
+          for="{{
+            createAttributeValueIdForConfigurator(attribute, value.valueCode) +
+              '-input'
+          }}"
+          aria-hidden="true"
+          class="form-check-label"
+        >
+          <img
+            *ngIf="getImage(value) as image"
+            class="cx-img"
+            src="{{ image?.url }}"
+            alt="{{ image?.altText }}"
+          />
+          <div *ngIf="!getImage(value)" class="cx-img-dummy"></div>
+          {{ getLabel(expMode, value.valueDisplay, value.valueCode) }}
+          <button
+            *ngIf="value.description"
+            [cxPopover]="value.description"
+            [cxPopoverOptions]="{
+                placement: 'auto',
+                class: 'cx-value-description',
+                appendToBody: true,
+                displayCloseButton: true,
+              }"
+            [attr.aria-label]="'configurator.a11y.description' | cxTranslate"
+          >
+            <cx-icon [type]="iconTypes.INFO"> </cx-icon>
+          </button>
+          <cx-configurator-price
+            [formula]="extractValuePriceFormulaParameters(value)"
+          ></cx-configurator-price>
+        </label>
+      </div>
     </div>
-  </div>
+  </ng-container>
+  <ng-container *ngIf="config.features?.attributeTypesV2">
+    <ng-container *ngFor="let value of attribute.values; let i = index">
+      <div
+        *ngIf="isValueDisplayed(attribute, value)"
+        id="{{
+          createAttributeValueIdForConfigurator(attribute, value.valueCode)
+        }}"
+        class="cx-configurator-select"
+      >
+        <input
+          id="{{
+            createAttributeValueIdForConfigurator(attribute, value.valueCode) +
+              '-input'
+          }}"
+          type="checkbox"
+          class="form-input"
+          [value]="value.valueCode"
+          [formControl]="attributeCheckBoxForms[i]"
+          name="{{ createAttributeIdForConfigurator(attribute) }}"
+          (click)="!isReadOnly(attribute) && onSelect(i)"
+          [attr.aria-label]="
+            value.valuePrice && value.valuePrice?.value !== 0
+              ? (getAriaLabelForValueWithPrice(isReadOnly(attribute))
+                | cxTranslate
+                  : {
+                      value: value.valueDisplay,
+                      attribute: attribute.label,
+                      price: value.valuePrice.formattedValue
+                    })
+              : (getAriaLabelForValue(isReadOnly(attribute))
+                | cxTranslate
+                  : { value: value.valueDisplay, attribute: attribute.label })
+          "
+          [attr.aria-describedby]="
+            createAttributeUiKey('label', attribute.name)
+          "
+          [attr.checked]="attributeCheckBoxForms[i].value ? 'checked' : null"
+          [cxFocus]="{ key: attribute.name + '-' + value.name }"
+        />
+        <div class="cx-label-container">
+          <label
+            id="{{
+              createValueUiKey('label', attribute.name, value.valueCode)
+            }}"
+            for="{{
+              createAttributeValueIdForConfigurator(
+                attribute,
+                value.valueCode
+              ) + '-input'
+            }}"
+            aria-hidden="true"
+            class="form-check-label"
+            [style.cursor]="!isReadOnly(attribute) ? 'pointer' : 'default'"
+            title="{{ getLabel(expMode, value.valueDisplay, value.valueCode) }}"
+          >
+            <img
+              *ngIf="getImage(value) as image"
+              [ngClass]="getImgStyleClasses(attribute, value, 'cx-img')"
+              src="{{ image?.url }}"
+              alt="{{ image?.altText }}"
+            />
+            <div
+              *ngIf="!getImage(value)"
+              [ngClass]="getImgStyleClasses(attribute, value, 'cx-img-dummy')"
+            ></div>
+            {{ getLabel(expMode, value.valueDisplay, value.valueCode) }}
+            <cx-configurator-price
+              [formula]="extractValuePriceFormulaParameters(value)"
+            ></cx-configurator-price>
+          </label>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
 </div>
