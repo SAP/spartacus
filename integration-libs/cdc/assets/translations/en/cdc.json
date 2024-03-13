@@ -5,7 +5,7 @@
       "description": "We still need your consent for the following"
     }
   },
-  "profile": {
+  "cdcProfile": {
     "profileUpdateSuccess": "Profile details successfully updated",
     "profileUpdateFailure": "Failed to update profile details"
   }
