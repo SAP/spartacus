@@ -57,9 +57,14 @@ const occAttributeWithValues: OccConfigurator.Attribute = {
   required: requiredFlag,
   type: OccConfigurator.UiType.RADIO_BUTTON,
   key: groupKey,
+  longText: 'Here is a description at attribute level',
   domainValues: [
     { key: valueKey, images: [occImage] },
-    { key: valueKey2, selected: selectedFlag },
+    {
+      key: valueKey2,
+      selected: selectedFlag,
+      longText: 'Here is a description at value level',
+    },
   ],
 };
 const attributeRBWithValues: Configurator.Attribute = {
@@ -395,6 +400,22 @@ describe('OccConfiguratorVariantNormalizer', () => {
       const result = occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.complete).toBe(true);
       expect(result.consistent).toBe(true);
+    });
+
+    it('should convert a configuration and support description at attribute and value level', () => {
+      (configUISettingsConfig.productConfigurator.descriptions ??=
+        {}).addDescriptions = true;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.groups[0].attributes[0].description).toBeDefined();
+      expect(result.groups[0].attributes[0].description).toBe(
+        configuration.groups[0].attributes[0].longText
+      );
+      expect(
+        result.groups[0].attributes[0].values[1].description
+      ).toBeDefined();
+      expect(result.groups[0].attributes[0].values[1].description).toBe(
+        configuration.groups[0].attributes[0].domainValues[1].longText
+      );
     });
 
     it('should not touch isRequiredCartUpdate and isCartEntryUpdatePending when converting a configuration', () => {
@@ -1269,6 +1290,44 @@ describe('OccConfiguratorVariantNormalizer', () => {
           sourceAttribute
         )
       ).toBe(true);
+    });
+  });
+
+  describe('geDescription', () => {
+    it("should return undefined because the 'addDescriptions' mode is not activated", () => {
+      (configUISettingsConfig.productConfigurator.descriptions ??=
+        {}).addDescriptions = false;
+
+      expect(
+        occConfiguratorVariantNormalizer['geDescription']()
+      ).toBeUndefined();
+    });
+
+    it("should return undefined despite 'longText' is defined BUT the 'addDescriptions' mode is not activated", () => {
+      (configUISettingsConfig.productConfigurator.descriptions ??=
+        {}).addDescriptions = false;
+
+      expect(
+        occConfiguratorVariantNormalizer['geDescription']('longText')
+      ).toBeUndefined();
+    });
+
+    it("should return undefined despite the 'addDescriptions' mode is not activated BUT 'longText' is undefined", () => {
+      (configUISettingsConfig.productConfigurator.descriptions ??=
+        {}).addDescriptions = true;
+
+      expect(
+        occConfiguratorVariantNormalizer['geDescription']()
+      ).toBeUndefined();
+    });
+
+    it('should return long text', () => {
+      (configUISettingsConfig.productConfigurator.descriptions ??=
+        {}).addDescriptions = true;
+
+      expect(
+        occConfiguratorVariantNormalizer['geDescription']('longText')
+      ).toBe('longText');
     });
   });
 

@@ -104,6 +104,13 @@ export class OccConfiguratorVariantNormalizer
     return key.replace('@' + name, '');
   }
 
+  protected geDescription(longText?: string): string | undefined {
+    return this.uiSettingsConfig?.productConfigurator?.descriptions
+      ?.addDescriptions
+      ? longText
+      : undefined;
+  }
+
   convertAttribute(
     sourceAttribute: OccConfigurator.Attribute,
     attributeList: Configurator.Attribute[]
@@ -157,6 +164,7 @@ export class OccConfiguratorVariantNormalizer
       key: sourceAttribute.key,
       validationType: sourceAttribute.validationType,
       visible: sourceAttribute.visible,
+      description: this.geDescription(sourceAttribute.longText),
     };
 
     this.setSelectedSingleValue(attribute);
@@ -285,6 +293,7 @@ export class OccConfiguratorVariantNormalizer
       name: occValue.name,
       selected: occValue.selected,
       images: valueImages,
+      description: this.geDescription(occValue.longText),
     };
 
     values.push(value);
