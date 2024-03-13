@@ -785,6 +785,11 @@ describe('OccConfiguratorVariantNormalizer', () => {
       OccConfigurator.UiType.NOT_IMPLEMENTED
     );
 
+    afterEach(() => {
+      sourceAttribute.retractBlocked = undefined;
+      sourceAttribute.conflicts = undefined;
+    });
+
     it('should return UIType Radio Button for Radio Button occ configurator type', () => {
       sourceAttribute.type = OccConfigurator.UiType.RADIO_BUTTON;
       expect(
@@ -821,6 +826,62 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(
         occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.RADIOBUTTON);
+    });
+
+    it('should convert read_only_single_selection_image attribute type correctly', () => {
+      sourceAttribute.type =
+        OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE);
+    });
+
+    it("should convert read_only_single_selection_image attribute type correctly when isRetractBlocked is set to 'true'", () => {
+      sourceAttribute.type =
+        OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+      sourceAttribute.retractBlocked = true;
+      sourceAttribute.conflicts = ['conflict1'];
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE);
+    });
+
+    it("should return UIType single_selection_image attribute type correctly if isConflicting is set to 'true'", () => {
+      sourceAttribute.type =
+        OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+      sourceAttribute.retractBlocked = false;
+      sourceAttribute.conflicts = ['conflict1'];
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.SINGLE_SELECTION_IMAGE);
+    });
+
+    it('should convert read_only_multi_selection_image attribute type correctly', () => {
+      sourceAttribute.type =
+        OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE);
+    });
+
+    it("should convert read_only_multi_selection_image attribute type correctly if isRetractBlocked is set to 'true'", () => {
+      sourceAttribute.type =
+        OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      sourceAttribute.retractBlocked = true;
+      sourceAttribute.conflicts = ['conflict1'];
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE);
+    });
+
+    it("should return UIType multi_selection_image attribute type correctly if isConflicting is set to 'true'", () => {
+      sourceAttribute.type =
+        OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      sourceAttribute.retractBlocked = false;
+      sourceAttribute.conflicts = ['conflict1'];
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.MULTI_SELECTION_IMAGE);
     });
 
     it('should return UIType Drop Down for Drop Down occ configurator type', () => {
@@ -1316,6 +1377,18 @@ describe('OccConfiguratorVariantNormalizer', () => {
         'configurator.attribute.noOptionSelectedMsg'
       );
     });
+
+    it("should return 'No option selected' for single selection images list", () => {
+      const value: Configurator.Value = createValue('valueCode', true);
+
+      occConfiguratorVariantNormalizer['setRetractValueDisplay'](
+        Configurator.UiType.SINGLE_SELECTION_IMAGE,
+        value
+      );
+      expect(value.valueDisplay).toEqual(
+        'configurator.attribute.noOptionSelectedMsg'
+      );
+    });
   });
 
   describe('addRetractValue', () => {
@@ -1392,6 +1465,26 @@ describe('OccConfiguratorVariantNormalizer', () => {
       (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
         false;
       sourceAttribute.type = OccConfigurator.UiType.READ_ONLY;
+      sourceAttribute.conflicts = ['conflict1'];
+      sourceAttribute.retractBlocked = false;
+
+      expect(values.length).toEqual(0);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
+      expect(values.length).toEqual(1);
+      expect(values[0].valueCode).toEqual(Configurator.RetractValueCode);
+      expect(values[0].valueDisplay).toEqual(
+        'configurator.attribute.noOptionSelectedMsg'
+      );
+    });
+
+    it('should add a retract value to the list of values for a read-only-single-selection-image that is involved in a conflict', () => {
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        false;
+      sourceAttribute.type =
+        OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
       sourceAttribute.conflicts = ['conflict1'];
       sourceAttribute.retractBlocked = false;
 
@@ -1627,10 +1720,38 @@ describe('OccConfiguratorVariantNormalizer', () => {
         );
       expect(isSourceAttributeTypeReadOnly).toBeTruthy();
     });
+
+    it("should return 'true' in case type is READ_ONLY_SINGLE_SELECTION_IMAGE", () => {
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: 'sourceAttribute',
+        key: 'key',
+        type: OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE,
+      };
+
+      const isSourceAttributeTypeReadOnly =
+        occConfiguratorVariantNormalizer['isSourceAttributeTypeReadOnly'](
+          sourceAttribute
+        );
+      expect(isSourceAttributeTypeReadOnly).toBeTruthy();
+    });
+
+    it("should return 'true' in case type is READ_ONLY_MULTI_SELECTION_IMAGE", () => {
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: 'sourceAttribute',
+        key: 'key',
+        type: OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE,
+      };
+
+      const isSourceAttributeTypeReadOnly =
+        occConfiguratorVariantNormalizer['isSourceAttributeTypeReadOnly'](
+          sourceAttribute
+        );
+      expect(isSourceAttributeTypeReadOnly).toBeTruthy();
+    });
   });
 
   describe('isRetractBlocked', () => {
-    it("should return 'false' because retractBlocked is not defined", () => {
+    it("should return 'false' in case retractBlocked is not defined", () => {
       const sourceAttribute: OccConfigurator.Attribute = {
         name: 'sourceAttribute',
         key: 'key',
@@ -1641,7 +1762,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(isRetractBlocked).toBeFalsy();
     });
 
-    it("should return 'false' because retractBlocked set to 'false'", () => {
+    it("should return 'false' in case retractBlocked set to 'false'", () => {
       const sourceAttribute: OccConfigurator.Attribute = {
         name: 'sourceAttribute',
         key: 'key',
@@ -1653,7 +1774,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(isRetractBlocked).toBeFalsy();
     });
 
-    it("should return 'false' because retractBlocked set to 'true'", () => {
+    it("should return 'false' in case retractBlocked set to 'true'", () => {
       const sourceAttribute: OccConfigurator.Attribute = {
         name: 'sourceAttribute',
         key: 'key',

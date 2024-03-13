@@ -31,6 +31,8 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
         assignment: {
           AttributeType_multi_selection_image:
             ConfiguratorAttributeMultiSelectionImageComponent,
+          AttributeType_read_only_multi_selection_image:
+            ConfiguratorAttributeMultiSelectionImageComponent,
         },
       },
     }),

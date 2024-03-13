@@ -31,6 +31,8 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
         assignment: {
           AttributeType_single_selection_image:
             ConfiguratorAttributeSingleSelectionImageComponent,
+          AttributeType_read_only_single_selection_image:
+            ConfiguratorAttributeSingleSelectionImageComponent,
         },
       },
     }),
