@@ -171,6 +171,34 @@ function prepareDependencies(): NodeDependency[] {
 }
 
 /**
+ * Adds `build:ssr` script to `package.json` as it's required for CCv2 build - process fails when script is missing.
+ *
+ * TODO: CXSPA-6466 Can be removed if Model T adjust their build process to not require this script.
+ */
+function addBuildSsrScript(spartacusOptions: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    if (spartacusOptions.debug) {
+      context.logger.info(
+        `⌛️ Adding "build:ssr" script to "package.json"... (CCv2 purposes)`
+      );
+    }
+    const pkgPath = '/package.json';
+    const pkg = tree.readJson(pkgPath) as {
+      scripts?: Record<string, string>;
+    } | null;
+    if (pkg === null) {
+      throw new SchematicsException('Could not find package.json');
+    }
+    pkg.scripts = {
+      ...pkg.scripts,
+      'build:ssr': 'ng build',
+    };
+
+    tree.overwrite(pkgPath, JSON.stringify(pkg, null, 2));
+  };
+}
+
+/**
  * Fixes the configuration for SSR and Prerendering to be able to work with Spartacus.
  */
 function disableSsrAndPrerenderingInAngularJson(
@@ -467,6 +495,7 @@ export function addSSR(options: SpartacusOptions): Rule {
       externalSchematic(ANGULAR_SSR, 'ng-add', {
         project: options.project,
       }),
+      addBuildSsrScript(options),
       modifyAppServerModuleFile(),
       removeClientHydration(options),
       modifyIndexHtmlFile(options),
