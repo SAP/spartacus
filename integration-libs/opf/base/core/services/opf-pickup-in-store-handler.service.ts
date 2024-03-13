@@ -22,8 +22,11 @@ export class OpfPickupInStoreHandlerService {
   protected activeCartFacade = inject(ActiveCartFacade);
   protected store = inject(Store);
 
+  /**
+   * Retrieves the delivery type for a single product based on the intended pickup location.
+   * @return An observable emitting the delivery type (pickup or shipping).
+   */
   getSingleProductDeliveryType(): Observable<OpfQuickBuyDeliveryType> {
-    console.log('Run getSingleProductDeliveryType');
     return this.currentProductService.getProduct().pipe(
       take(1),
       switchMap((product: Product | null) => {
@@ -43,8 +46,11 @@ export class OpfPickupInStoreHandlerService {
     );
   }
 
+  /**
+   * Retrieves the delivery type for the active cart based on the presence of delivery items.
+   * @return An observable emitting the delivery type (shipping or pickup) for the active cart.
+   */
   getActiveCartDeliveryType(): Observable<OpfQuickBuyDeliveryType> {
-    console.log('Run getActiveCartDeliveryType');
     return this.activeCartFacade.hasDeliveryItems().pipe(
       take(1),
       map((hasDeliveryItems: boolean) =>

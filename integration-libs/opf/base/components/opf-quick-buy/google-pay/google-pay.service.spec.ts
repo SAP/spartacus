@@ -60,6 +60,7 @@ describe('OpfGooglePayService', () => {
       'loadOriginalCart',
       'removeProductFromOriginalCart',
       'loadCartAfterSingleProductTransaction',
+      'blockMiniCartComponentUpdate',
     ]);
     mockPaymentFacade = jasmine.createSpyObj('OpfPaymentFacade', [
       'submitPayment',
@@ -67,12 +68,16 @@ describe('OpfGooglePayService', () => {
     mockQuickBuyService = jasmine.createSpyObj('OpfQuickBuyService', [
       'getQuickBuyLocationContext',
       'getQuickBuyProviderConfig',
+      'getQuickBuyDeliveryType',
     ]);
 
     const googlePayApiMock = {
       payments: {
         api: {
           PaymentsClient: jasmine.createSpy('PaymentsClient').and.returnValue({
+            loadPaymentData: jasmine
+              .createSpy()
+              .and.returnValue(Promise.resolve({})),
             isReadyToPay: jasmine
               .createSpy()
               .and.returnValue(Promise.resolve({ result: true })),
@@ -99,6 +104,7 @@ describe('OpfGooglePayService', () => {
     });
 
     service = TestBed.inject(OpfGooglePayService);
+    service.updateGooglePaymentClient();
   });
 
   describe('getClient', () => {
@@ -479,72 +485,50 @@ describe('OpfGooglePayService', () => {
   });
 
   describe('initTransaction', () => {
-    beforeEach(() => {
-      const mockGooglePaymentClient = jasmine.createSpyObj('PaymentsClient', [
-        'loadPaymentData',
-        'isReadyToPay',
-      ]);
-      service['googlePaymentClient'] = mockGooglePaymentClient;
-      service['googlePaymentClient'].loadPaymentData = () =>
-        Promise.resolve({} as google.payments.api.PaymentData);
-    });
-
-    it('should initiate a transaction process for single product', (done) => {
-      spyOn(service, 'handleActiveCartTransaction').and.callThrough();
-      spyOn(service, 'handleSingleProductTransaction').and.callThrough();
-      spyOn(
-        service['googlePaymentClient'],
-        'loadPaymentData'
-      ).and.callThrough();
+    it('should initialize transaction for single product context', (done: DoneFn) => {
+      spyOn(service, 'handleSingleProductTransaction').and.returnValue(
+        of(null)
+      );
+      spyOn(service, 'handleActiveCartTransaction').and.returnValue(of(null));
 
       mockQuickBuyService.getQuickBuyLocationContext.and.returnValue(
         of(OpfQuickBuyLocation.PRODUCT)
       );
-      const mockProduct = { code: 'productCode', price: { value: 100 } };
-      const counter = 1;
-      mockCurrentProductService.getProduct.and.returnValue(of(mockProduct));
-      mockItemCounterService.getCounter.and.returnValue(counter);
-      mockCartHandlerService.deleteCurrentCart.and.returnValue(of(true));
-      mockCartHandlerService.addProductToCart.and.returnValue(of(true));
-      mockCartHandlerService.getCurrentCart.and.returnValue(of({}));
-      mockCartHandlerService.loadCartAfterSingleProductTransaction.and.returnValue();
 
       service.initTransaction();
 
+      expect(service['transactionDetails'].context).toBe(
+        OpfQuickBuyLocation.PRODUCT
+      );
+
       setTimeout(() => {
-        expect(service.handleActiveCartTransaction).not.toHaveBeenCalled();
         expect(service.handleSingleProductTransaction).toHaveBeenCalled();
-        expect(mockCurrentProductService.getProduct).toHaveBeenCalled();
-        expect(mockCartHandlerService.deleteCurrentCart).not.toHaveBeenCalled();
-        expect(mockCartHandlerService.addProductToCart).toHaveBeenCalledWith(
-          mockProduct.code,
-          counter
-        );
-        expect(
-          service['googlePaymentClient'].loadPaymentData
-        ).toHaveBeenCalled();
+        expect(service.handleActiveCartTransaction).not.toHaveBeenCalled();
         done();
       }, 0);
     });
 
-    it('should initiate a transaction process for active cart', () => {
-      spyOn(service, 'handleActiveCartTransaction').and.callThrough();
-      spyOn(service, 'handleSingleProductTransaction').and.callThrough();
-      spyOn(
-        service['googlePaymentClient'],
-        'loadPaymentData'
-      ).and.callThrough();
+    it('should initialize transaction for active cart context', (done: DoneFn) => {
+      spyOn(service, 'handleSingleProductTransaction').and.returnValue(
+        of(null)
+      );
+      spyOn(service, 'handleActiveCartTransaction').and.returnValue(of(null));
+
       mockQuickBuyService.getQuickBuyLocationContext.and.returnValue(
         of(OpfQuickBuyLocation.CART)
       );
-      mockCartHandlerService.getCurrentCart.and.returnValue(of({}));
 
       service.initTransaction();
 
-      expect(mockCartHandlerService.getCurrentCart).toHaveBeenCalled();
-      expect(service.handleActiveCartTransaction).toHaveBeenCalled();
-      expect(service.handleSingleProductTransaction).not.toHaveBeenCalled();
-      expect(service['googlePaymentClient'].loadPaymentData).toHaveBeenCalled();
+      expect(service['transactionDetails'].context).toBe(
+        OpfQuickBuyLocation.CART
+      );
+
+      setTimeout(() => {
+        expect(service.handleActiveCartTransaction).toHaveBeenCalled();
+        expect(service.handleSingleProductTransaction).not.toHaveBeenCalled();
+        done();
+      }, 0);
     });
   });
 

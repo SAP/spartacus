@@ -68,6 +68,7 @@ describe('ApplePayComponent', () => {
     ]);
     mockCartHandlerService = jasmine.createSpyObj('OpfCartHandlerService', [
       'checkStableCart',
+      'blockMiniCartComponentUpdate',
     ]);
     mockApplePaySessionFactory = jasmine.createSpyObj(
       'ApplePaySessionFactory',
