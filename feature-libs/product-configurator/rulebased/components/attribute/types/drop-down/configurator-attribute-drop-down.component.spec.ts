@@ -371,6 +371,13 @@ describe('ConfigAttributeDropDownComponent', () => {
     });
   });
 
+  describe('getSelectedValueDescription', () => {
+    it('should return blank if no description provided at model level on any selected value', () => {
+      component.attribute.values = [];
+      expect(component.getSelectedValueDescription()).toBe('');
+    });
+  });
+
   describe('Rendering for additional value', () => {
     beforeEach(() => {
       createComponentWithData();

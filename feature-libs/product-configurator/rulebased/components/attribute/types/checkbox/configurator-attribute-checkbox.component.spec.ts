@@ -10,12 +10,12 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
-import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
-import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 
 @Directive({
   selector: '[cxFocus]',
@@ -149,7 +149,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
   });
 
   describe('rendering description at value level', () => {
-    it('should not render description', () => {
+    it('should not render description in case description not present on model', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -157,8 +157,8 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       );
     });
 
-    it('should render description', () => {
-      component.attribute.values[0].description =
+    it('should render description in case description present on model', () => {
+      (component.attribute.values ?? [{ description: '' }])[0].description =
         'Here is a description at value level';
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(

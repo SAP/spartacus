@@ -251,7 +251,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   });
 
   describe('rendering description at value level', () => {
-    it('should not render description', () => {
+    it('should not render description in case no desciption present on model', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -259,7 +259,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       );
     });
 
-    it('should render description', () => {
+    it('should render description in case description present on model', () => {
       component.attribute.values = myValues;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
