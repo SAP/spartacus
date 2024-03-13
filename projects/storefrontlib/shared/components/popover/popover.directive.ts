@@ -141,6 +141,16 @@ export class PopoverDirective implements OnInit {
     PopoverEvent.CLOSE_BUTTON_KEYDOWN,
   ];
 
+  @Optional()
+  featureFlagService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
+  @Optional()
+  selectFocusUtility = inject(SelectFocusUtility, {
+    optional: true,
+  });
+
   /**
    * Method performs open action for popover component.
    */
@@ -148,7 +158,7 @@ export class PopoverDirective implements OnInit {
   open(event: PopoverEvent) {
     if (!this.cxPopoverOptions?.disable) {
       if (
-        this.featureFlagService.isLevel('6.8') &&
+        this.featureFlagService?.isLevel('6.8') &&
         event === PopoverEvent.OPEN_BY_KEYBOARD
       ) {
         this.removePopoverWrapper();
@@ -159,7 +169,7 @@ export class PopoverDirective implements OnInit {
         this.cxPopoverOptions?.appendToBody || false
       );
       this.renderPopover();
-      if (!this.featureFlagService.isLevel('6.8')) {
+      if (!this.featureFlagService?.isLevel('6.8')) {
         this.openPopover.emit();
       }
     }
@@ -173,7 +183,7 @@ export class PopoverDirective implements OnInit {
     this.isOpen = false;
     this.viewContainer.clear();
     if (
-      this.featureFlagService.isLevel('6.8') &&
+      this.featureFlagService?.isLevel('6.8') &&
       this.cxPopoverOptions?.appendToBody
     ) {
       this.removePopoverWrapper();
@@ -192,10 +202,10 @@ export class PopoverDirective implements OnInit {
         this.open(event);
       }
       if (this.focusPopoverTriggerEvents.includes(event)) {
-        if (this.featureFlagService.isLevel('6.8')) {
+        if (this.featureFlagService?.isLevel('6.8')) {
           this.openPopover.pipe(take(1)).subscribe(() => {
             this.selectFocusUtility
-              .findFirstFocusable(this.popoverContainer.location.nativeElement)
+              ?.findFirstFocusable(this.popoverContainer.location.nativeElement)
               ?.focus();
           });
         } else {
@@ -243,7 +253,7 @@ export class PopoverDirective implements OnInit {
         this.cxPopoverOptions?.autoPositioning;
 
       if (this.cxPopoverOptions?.appendToBody) {
-        if (this.featureFlagService.isLevel('6.8')) {
+        if (this.featureFlagService?.isLevel('6.8')) {
           this.appendPopoverToBody();
           return;
         } else {
@@ -253,7 +263,7 @@ export class PopoverDirective implements OnInit {
           );
         }
       }
-      if (this.featureFlagService.isLevel('6.8')) {
+      if (this.featureFlagService?.isLevel('6.8')) {
         this.openPopover.emit();
       }
       this.popoverContainer.changeDetectorRef.detectChanges();
@@ -303,6 +313,4 @@ export class PopoverDirective implements OnInit {
     protected popoverService: PopoverService,
     protected winRef: WindowRef
   ) {}
-  @Optional() featureFlagService = inject(FeatureConfigService);
-  @Optional() selectFocusUtility = inject(SelectFocusUtility);
 }
