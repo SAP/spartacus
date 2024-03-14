@@ -115,6 +115,7 @@ export class ApplePayService {
         label: this.transactionDetails.total.label,
       },
       shippingMethods: [],
+      shippingType: 'storePickup',
       merchantCapabilities: ['supports3DS'],
       supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
       requiredShippingContactFields: ['email', 'name', 'postalAddress'],
