@@ -515,7 +515,7 @@ describe('ConfiguratorGroupComponent', () => {
     it('should support drop-down attribute type with additional numeric value', () => {
       const element = htmlElem.querySelector(
         '#cx-configurator--dropdown_add--ATTRIBUTE_2_DROPDOWN_NUMERIC_ADDITIONAL_INPUT'
-      ).parentElement.parentElement;
+      ).parentElement.parentElement.parentElement;
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         element,
@@ -526,7 +526,7 @@ describe('ConfiguratorGroupComponent', () => {
     it('should support drop-down attribute type with additional alphanumeric value', () => {
       const element = htmlElem.querySelector(
         '#cx-configurator--dropdown_add--ATTRIBUTE_2_DROPDOWN_ALPHANUMERIC_ADDITIONAL_INPUT'
-      ).parentElement.parentElement;
+      ).parentElement.parentElement.parentElement;
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         element,

@@ -221,7 +221,8 @@
       "filterOverviewByMySelections": "Filter configuration overview by your selections",
       "filterOverviewByGroup": "Filter configuration overview by group {{groupName}}",
       "closeConflictSolverModal": "Close conflict solver modal",
-      "closeRestartDialog": "Close the \"Unfinished Configuration\" dialog and navigate back to the product details page"
+      "closeRestartDialog": "Close the \"Unfinished Configuration\" dialog and navigate back to the product details page",
+      "description": "Click to see a description for this value"
     },
     "variantCarousel": {
       "title": "Pre-configured Versions"
