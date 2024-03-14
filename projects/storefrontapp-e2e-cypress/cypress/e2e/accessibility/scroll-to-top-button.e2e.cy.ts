@@ -23,35 +23,38 @@ describe('Scroll to top button', () => {
     cy.window().its('scrollY').should('equal', 0);
   });
 
-  describe('when focused', () => {
+  context('when focused', () => {
     beforeEach(() => {
       cy.get('@scrollBtn').focus();
     });
 
-    it('should lost focus but remain visible on tab press', () => {
-      cy.pressTab();
+    it('should lose focus but remain visible on tab press', () => {
+      cy.pressTab(true);
       cy.get('@scrollBtn').should('not.have.focus').should('be.visible');
     });
 
-    it('should scroll to top when key clicked', () => {
+    it('should scroll to top when key pressed', () => {
       cy.get('@scrollBtn').type('{enter}').should('be.visible');
       cy.window().its('scrollY').should('equal', 0);
     });
+  });
 
-    describe('when scrolled to top by key click', () => {
-      beforeEach(() => {
-        cy.get('@scrollBtn').type('{enter}');
-      });
+  context('after scrolled to top by a key press', () => {
+    beforeEach(() => {
+      cy.get('@scrollBtn').type('{enter}');
+      cy.window().its('scrollY').should('equal', 0);
+    });
 
-      it('should still be visible and focused', () => {
-        cy.get('@scrollBtn').should('be.visible').should('have.focus');
-      });
+    it('should still be visible and focused', () => {
+      cy.get('@scrollBtn').should('be.visible').should('have.focus');
+    });
 
-      it('on tab press should lost focus, disapper and skip to header button should be focused', () => {
-        cy.pressTab();
-        cy.get('@scrollBtn').should('not.have.focus').should('not.be.visible');
-        cy.get('cx-skip-link').get('button').first().should('be.focused');
+    it('focuses first focusable element after a Tab press', () => {
+      cy.get('@scrollBtn').trigger('keydown', {
+        key: 'Tab',
       });
+      cy.get('cx-storefront').should('be.focused');
+      cy.get('@scrollBtn').should('not.be.visible');
     });
   });
 });

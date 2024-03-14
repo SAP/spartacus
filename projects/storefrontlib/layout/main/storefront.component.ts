@@ -38,7 +38,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   @HostBinding('attr.role') role = 'presentation';
 
   // required by esc focus
-  @HostBinding('tabindex') tabindex = '-1';
+  @HostBinding('tabindex') tabindex = '0';
 
   @ViewChild(SkipLinkComponent) child: SkipLinkComponent;
 

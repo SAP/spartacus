@@ -6,7 +6,11 @@
 
 import { NgModule } from '@angular/core';
 import { CartConfig } from '@spartacus/cart/base/root';
-import { provideConfig, SiteContextConfig } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  provideConfig,
+  SiteContextConfig,
+} from '@spartacus/core';
 import {
   defaultCmsContentProviders,
   layoutConfig,
@@ -50,6 +54,11 @@ const baseSite = environment.epdVisualization
         selectiveCart: {
           enabled: true,
         },
+      },
+    }),
+    provideConfig(<FeaturesConfig>{
+      features: {
+        a11yScrollToTop: true,
       },
     }),
   ],

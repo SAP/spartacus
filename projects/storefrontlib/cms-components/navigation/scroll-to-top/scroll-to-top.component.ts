@@ -11,10 +11,13 @@ import {
   HostBinding,
   HostListener,
   OnInit,
+  Optional,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   CmsScrollToTopComponent,
+  FeatureConfigService,
   ScrollBehavior,
   WindowRef,
 } from '@spartacus/core';
@@ -22,11 +25,6 @@ import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SelectFocusUtility } from '../../../layout/a11y/index';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
-
-enum ClickEventSource {
-  Key = 0,
-  Mouse = 1,
-}
 
 @Component({
   selector: 'cx-scroll-to-top',
@@ -37,15 +35,19 @@ export class ScrollToTopComponent implements OnInit {
   readonly iconTypes = ICON_TYPE;
 
   @HostBinding('class.display')
-  display: boolean | undefined;
+  display: boolean = false;
 
   protected window: Window | undefined = this.winRef.nativeWindow;
   protected scrollBehavior: ScrollBehavior = ScrollBehavior.SMOOTH;
   protected displayThreshold: number = (this.window?.innerHeight ?? 400) / 2;
-  protected clickEventSource: ClickEventSource | undefined;
+  protected triggedByKeypress: boolean = false;
 
   @ViewChild('button')
   button: ElementRef;
+
+  @Optional() protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   constructor(
     protected winRef: WindowRef,
@@ -63,34 +65,52 @@ export class ScrollToTopComponent implements OnInit {
   }
 
   /**
-   * Scroll back to the top of the page and set focus on top most focusable element.
+   * Scroll back to the top of the page, and recognize if triggerd by keyboard.
    */
-  scrollToTop(event: MouseEvent): void {
+  scrollToTop(event?: MouseEvent): void {
     this.window?.scrollTo({
       top: 0,
       behavior: this.scrollBehavior,
     });
 
-    this.clickEventSource = event.detail;
+    if (this.featureConfigService?.isEnabled('a11yScrollToTop')) {
+      this.triggedByKeypress = event?.detail === 0;
+    } else {
+      // Focus first focusable element within the html body
+      this.selectFocusUtility
+        .findFirstFocusable(this.winRef.document.body, { autofocus: '' })
+        ?.focus();
+    }
   }
 
-  focusOut(): void {
-    if (this.display) {
+  onFocusOut(): void {
+    if (
+      this.display &&
+      this.featureConfigService?.isEnabled('a11yScrollToTop')
+    ) {
       this.switchDisplay();
     }
   }
 
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent): void {
+  /**
+   * After scrolling to top, pressing Tab should focus first focusable element within body.
+   */
+  protected onTab(event: Event): void {
+    if (this.featureConfigService?.isEnabled('a11yScrollToTop')) {
+      return;
+    }
+    const tabEvent = event as KeyboardEvent;
+    const scrollToTopHasFocus =
+      document.activeElement === this.button.nativeElement;
+    const isAtTopOfPage = this.window?.scrollY === 0;
+
     if (
-      document.activeElement === this.button.nativeElement &&
-      this.clickEventSource !== undefined &&
-      event.key === 'Tab' &&
-      !event.shiftKey
+      scrollToTopHasFocus &&
+      isAtTopOfPage &&
+      tabEvent.key === 'Tab' &&
+      !tabEvent.shiftKey
     ) {
       event.preventDefault();
-
-      // Focus first focusable element within the html body
       this.selectFocusUtility
         .findFirstFocusable(this.winRef.document.body, { autofocus: '' })
         ?.focus();
@@ -104,18 +124,19 @@ export class ScrollToTopComponent implements OnInit {
     });
   }
 
-  private switchDisplay(): void {
+  /**
+   * This methods decides when the ScrollToTop button should be displayed.
+   */
+  protected switchDisplay(): void {
+    const isPastThreshold =
+      this.window && this.window.scrollY > this.displayThreshold;
+    const buttonHasFocus = this.button.nativeElement === document.activeElement;
+
     this.display =
-      (this.window && this.window.scrollY > this.displayThreshold) ||
-      (!this.clickEventSource &&
-        this.button.nativeElement === document.activeElement);
+      isPastThreshold || (this.triggedByKeypress && buttonHasFocus);
 
     if (!this.display) {
-      this.resetClickEventSource();
+      this.triggedByKeypress = false;
     }
-  }
-
-  private resetClickEventSource(): void {
-    this.clickEventSource = undefined;
   }
 }

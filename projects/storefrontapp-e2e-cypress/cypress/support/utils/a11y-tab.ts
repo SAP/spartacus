@@ -20,7 +20,7 @@ export function getNextFocusableElement(
   elements: HTMLElement[],
   activeElementIndex: number
 ): HTMLElement {
-  return activeElementIndex + 1 < elements.length
+  return activeElementIndex + 1 <= elements.length
     ? elements[activeElementIndex + 1]
     : elements[0];
 }
