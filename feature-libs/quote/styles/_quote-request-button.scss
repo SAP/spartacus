@@ -1,0 +1,8 @@
+%cx-quote-request-button {
+  padding-block-end: 1rem;
+  padding-inline-start: 3rem;
+
+  @include media-breakpoint-down(md) {
+    padding-inline-start: 0;
+  }
+}

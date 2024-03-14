@@ -10,7 +10,7 @@
     [innerHTML]="textToShow"
   ></span>
 
-  <button (click)="toggleShowMore()" *ngIf="showMore" tabindex="-1">
+  <button (click)="toggleShowMore()" *ngIf="showMore" tabindex="{{ tabIndex }}">
     <ng-container *ngIf="showHiddenText; else less"
       >&nbsp;... {{ 'configurator.button.less' | cxTranslate }}</ng-container
     >

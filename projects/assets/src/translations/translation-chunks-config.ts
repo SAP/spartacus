@@ -67,4 +67,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
   user: ['anonymousConsents', 'loginRegister', 'checkoutLogin', 'authMessages'],
   video: ['player'],
   deliveryMode: ['setDeliveryMode'],
+  myAccountV2NotifiationPerference: ['myAccountV2NotifiationPerference'],
+  myAccountV2Consent: ['myAccountV2Consent'],
 };
