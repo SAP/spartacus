@@ -69,6 +69,10 @@
         color: var(--cx-color-text);
         cursor: pointer;
       }
+
+      .cx-message-item-link {
+        cursor: pointer;
+      }
     }
   }
 
@@ -113,6 +117,9 @@
 
       .cx-footer-label {
         font-weight: var(--cx-font-weight-semi);
+        .cx-message-item-selection {
+          margin-inline-start: 0.5rem;
+        }
         .cx-message-input {
           display: flex;
           gap: 1rem;

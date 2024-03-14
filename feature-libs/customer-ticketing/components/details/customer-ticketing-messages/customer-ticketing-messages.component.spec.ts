@@ -12,6 +12,7 @@ import { MessageEvent, MessagingConfigs } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
 import createSpy = jasmine.createSpy;
+import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
 
 describe('CustomerTicketMessagesComponent', () => {
   let component: CustomerTicketingMessagesComponent;
@@ -59,6 +60,7 @@ describe('CustomerTicketMessagesComponent', () => {
         MockCxMessagingComponent,
       ],
       providers: [
+        CustomerTicketingMessagesComponentService,
         {
           provide: CustomerTicketingFacade,
           useClass: MockCustomerTicketingFacade,

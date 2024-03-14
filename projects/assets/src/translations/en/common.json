@@ -64,8 +64,10 @@
     "ariaLabelSuggestions": "typing suggestions",
     "ariaLabelProducts": "product results",
     "initialDescription": "When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.",
+    "suggestions": "Suggested Keywords",
     "suggestionsResult": "{{ count }} suggestion and ",
     "suggestionsResult_other": "{{ count }} suggestions and ",
+    "products": "Recommended Products",
     "productsResult": "{{ count }} product is available.",
     "productsResult_other": "{{ count }} products are available.",
     "resetLabel": "Reset Search",
@@ -210,6 +212,9 @@
     "informationLabel": "{{author}}. {{text}} at {{date}}",
     "messages": "Messages",
     "addMessagePlaceHolder": "Start Typing...",
-    "characterLimitAlert": "Characters limit reached."
+    "characterLimitAlert": "Characters limit reached.",
+    "a11y": {
+      "itemListBoxLabel": "Select the item to which the message should apply."
+    }
   }
 }

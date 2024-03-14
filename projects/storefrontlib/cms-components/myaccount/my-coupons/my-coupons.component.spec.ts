@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -13,7 +13,6 @@ import {
   CustomerCouponSearchResult,
   CustomerCouponService,
   FeaturesConfig,
-  FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -169,12 +168,7 @@ describe('MyCouponsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          RouterTestingModule,
-          SpinnerModule,
-          FeaturesConfigModule,
-        ],
+        imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
         declarations: [
           MyCouponsComponent,
           MockedCouponCardComponent,

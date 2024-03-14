@@ -9,8 +9,10 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -28,6 +30,7 @@ import {
   ICON_TYPE,
   IntersectionOptions,
   IntersectionService,
+  KeyboardFocusService,
 } from '@spartacus/storefront';
 import { Observable, Subscription, of } from 'rxjs';
 import {
@@ -54,6 +57,8 @@ const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
 })
 export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
+  protected multiCartFacade = inject(MultiCartFacade);
+  protected focusService = inject(KeyboardFocusService);
   quantityControl = new UntypedFormControl(1);
   iconType = ICON_TYPE;
 
@@ -125,10 +130,31 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     configuratorType: string,
     owner: CommonConfigurator.Owner
   ): void {
-    this.routingService.go({
-      cxRoute: 'configureOverview' + configuratorType,
-      params: { ownerType: 'cartEntry', entityKey: owner.id },
-    });
+    this.routingService
+      .go({
+        cxRoute: 'configureOverview' + configuratorType,
+        params: { ownerType: 'cartEntry', entityKey: owner.id },
+      })
+      .then(() => {
+        this.focusOverviewInTabBar();
+      });
+  }
+
+  protected focusOverviewInTabBar(): void {
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
+        ),
+        filter((configuration) => configuration.overview != null),
+        take(1),
+        delay(0) //we need to consider the re-rendering of the page
+      )
+      .subscribe(() => {
+        this.focusService.clear();
+        this.configUtils.focusFirstActiveElement('cx-configurator-tab-bar');
+      });
   }
 
   protected displayConfirmationMessage(key: string): void {
@@ -335,6 +361,16 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         CommonConfigurator.OwnerType.ORDER_ENTRY
       ) {
         this.goToOrderDetails(container.routerData.owner);
+      } else if (
+        container.routerData.owner.type ===
+        CommonConfigurator.OwnerType.QUOTE_ENTRY
+      ) {
+        this.goToQuoteDetails(container.routerData.owner);
+      } else if (
+        container.routerData.owner.type ===
+        CommonConfigurator.OwnerType.SAVED_CART_ENTRY
+      ) {
+        this.goToSavedCartDetails(container.routerData.owner);
       } else {
         this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
       }
@@ -354,6 +390,35 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       .subscribe((order: Order) =>
         this.routingService.go({ cxRoute: 'orderDetails', params: order })
       );
+  }
+
+  protected goToQuoteDetails(owner: CommonConfigurator.Owner): void {
+    const entryKeys = this.commonConfiguratorUtilsService.decomposeOwnerId(
+      owner.id
+    );
+    this.routingService.go({
+      cxRoute: 'quoteDetails',
+      params: { quoteId: entryKeys.documentId },
+    });
+  }
+  /**
+   * Navigates to the quote that is attached to the saved cart. At the moment we
+   * only support saved carts if linked to quotes.
+   * @param owner Configuration owner
+   */
+  protected goToSavedCartDetails(owner: CommonConfigurator.Owner): void {
+    const entryKeys = this.commonConfiguratorUtilsService.decomposeOwnerId(
+      owner.id
+    );
+    this.multiCartFacade
+      .getCart(entryKeys.documentId)
+      .pipe(take(1))
+      .subscribe((cart) => {
+        this.routingService.go({
+          cxRoute: 'quoteDetails',
+          params: { quoteId: cart.quoteCode },
+        });
+      });
   }
 
   extractConfigPrices(configuration: Configurator.Configuration) {

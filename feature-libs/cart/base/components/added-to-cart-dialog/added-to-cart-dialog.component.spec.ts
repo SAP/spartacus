@@ -22,7 +22,6 @@ import {
 import {
   ActivatedRouterStateSnapshot,
   FeaturesConfig,
-  FeaturesConfigModule,
   I18nTestingModule,
   RouterState,
   RoutingService,
@@ -144,7 +143,6 @@ describe('AddedToCartDialogComponent', () => {
         SpinnerModule,
         I18nTestingModule,
         PromotionsModule,
-        FeaturesConfigModule,
         KeyboardFocusTestingModule,
       ],
       declarations: [

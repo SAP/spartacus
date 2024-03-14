@@ -7,6 +7,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { FeatureConfigService } from '@spartacus/core';
 import {
   B2BApprovalProcess,
   B2BUnit,
@@ -29,6 +30,11 @@ import {
 @Injectable()
 export class OrgUnitEffects {
   protected logger = inject(LoggerService);
+
+  // TODO (CXSPA-5630): Remove service in next major.
+  protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   loadOrgUnit$: Observable<
     | OrgUnitActions.LoadOrgUnitSuccess
@@ -386,7 +392,14 @@ export class OrgUnitEffects {
           .pipe(
             switchMap((data) => [
               new OrgUnitActions.CreateAddressSuccess(data),
-              new OrgUnitActions.CreateAddressSuccess({ id: undefined }),
+              new OrgUnitActions.CreateAddressSuccess(
+                // TODO (CXSPA-5630): Remove feature flag in next major.
+                this.featureConfigService?.isEnabled(
+                  'fixMyCompanyUnitAddressCreation'
+                )
+                  ? { id: payload.address.id }
+                  : { id: undefined }
+              ),
               new OrganizationActions.OrganizationClearData(),
             ]),
             catchError((error: HttpErrorResponse) =>
