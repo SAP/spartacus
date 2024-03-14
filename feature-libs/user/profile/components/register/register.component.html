@@ -7,7 +7,7 @@
     <div class="col-md-6">
       <div class="cx-section">
         <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-        <p *cxFeatureLevel="'6.8'" class="form-legend">
+        <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
           {{ 'formLegend.required' | cxTranslate }}
         </p>
         <form (ngSubmit)="submitForm()" [formGroup]="registerForm">
@@ -239,7 +239,7 @@
 
 <ng-template #requiredAsterisk>
   <abbr
-    *cxFeatureLevel="'6.8'"
+    *cxFeature="'a11yRequiredAsterisks'"
     class="text-decoration-none"
     title="{{ 'common.required' | cxTranslate }}"
     >*</abbr
