@@ -118,10 +118,20 @@ export class ApplePayService {
       shippingType: 'storePickup',
       merchantCapabilities: ['supports3DS'],
       supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
-      requiredShippingContactFields: ['email', 'name', 'postalAddress'],
+      requiredShippingContactFields: ['email', 'postalAddress'],
       requiredBillingContactFields: ['email', 'name', 'postalAddress'],
       countryCode,
     };
+
+    const addr: ApplePayJS.ApplePayPaymentContact = {
+      emailAddress: 'flo.let@flo.com',
+      addressLines: ['5 rue du cerisier'],
+      postalCode: 'H3H4H5',
+      countryCode: 'fr',
+      country: 'France',
+    };
+
+    initialRequest.shippingContact = addr;
 
     return this.applePayObservable
       .initApplePayEventsHandler({
