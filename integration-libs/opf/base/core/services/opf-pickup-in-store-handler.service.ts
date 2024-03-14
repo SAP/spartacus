@@ -37,7 +37,8 @@ export class OpfPickupInStoreHandlerService {
           .getIntendedLocation(product?.code as string)
           .pipe(
             map((intendedLocation) => {
-              return intendedLocation?.pickupOption === 'pickup'
+              return intendedLocation?.pickupOption ===
+                OpfQuickBuyDeliveryType.PICKUP.toLowerCase()
                 ? OpfQuickBuyDeliveryType.PICKUP
                 : OpfQuickBuyDeliveryType.SHIPPING;
             })

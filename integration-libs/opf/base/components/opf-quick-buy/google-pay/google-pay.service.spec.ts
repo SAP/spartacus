@@ -104,7 +104,7 @@ describe('OpfGooglePayService', () => {
     });
 
     service = TestBed.inject(OpfGooglePayService);
-    service.updateGooglePaymentClient();
+    service['updateGooglePaymentClient']();
   });
 
   describe('getClient', () => {

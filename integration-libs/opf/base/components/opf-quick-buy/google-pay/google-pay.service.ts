@@ -105,13 +105,15 @@ export class OpfGooglePayService {
 
   protected transactionDetails = this.initialTransactionDetails;
 
-  updateGooglePaymentClient(): void {
+  protected updateGooglePaymentClient(): void {
     this.googlePaymentClient = new google.payments.api.PaymentsClient(
       this.googlePaymentClientOptions
     );
   }
 
-  setGooglePaymentRequestConfig(deliveryType: OpfQuickBuyDeliveryType) {
+  protected setGooglePaymentRequestConfig(
+    deliveryType: OpfQuickBuyDeliveryType
+  ) {
     if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {
       this.googlePaymentClientOptions = {
         ...this.googlePaymentClientOptions,
@@ -267,7 +269,6 @@ export class OpfGooglePayService {
               const count = this.itemCounterService.getCounter();
               this.transactionDetails.product = product as Product;
               this.transactionDetails.quantity = count;
-              this.transactionDetails.context = OpfQuickBuyLocation.PRODUCT;
               return this.opfCartHandlerService
                 .addProductToCart(product?.code || '', count)
                 .pipe(
