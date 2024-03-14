@@ -4,7 +4,7 @@ To make sure we get an accurate diff, do not update the dependencies of this too
 
 # Configuration
 
-Set the current new version of Spartacus in the `common.ts` file.
+Set the new version of Spartacus in the `common.ts` file.
 
 ```
 export const NEW_VERSION = '2211.19';
