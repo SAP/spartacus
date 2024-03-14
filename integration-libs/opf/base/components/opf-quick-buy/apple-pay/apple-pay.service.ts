@@ -118,8 +118,6 @@ export class ApplePayService {
       shippingType: 'storePickup',
       merchantCapabilities: ['supports3DS'],
       supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
-      requiredShippingContactFields: ['email', 'name', 'postalAddress'],
-      requiredBillingContactFields: ['email', 'name', 'postalAddress'],
       countryCode,
     };
 
