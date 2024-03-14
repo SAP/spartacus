@@ -197,6 +197,7 @@ describe('ApplePayService', () => {
           product: mockProduct,
           quantity: 2,
           countryCode: 'us',
+          merchantName: '',
         })
         .subscribe();
       config.validateMerchant(event).subscribe(() => {});
@@ -234,6 +235,7 @@ describe('ApplePayService', () => {
           product: mockProduct,
           quantity: 1,
           countryCode: 'us',
+          merchantName: '',
         })
         .subscribe();
       config
@@ -258,6 +260,7 @@ describe('ApplePayService', () => {
         newTotal: { amount: '', label: '' },
       };
       const quantity = 1;
+      const mockMerchantName = 'mockMerchantName';
       event = <ApplePayJS.ApplePayPaymentMethodSelectedEvent>{
         paymentMethod: {
           displayName: 'Test Visa 1111',
@@ -271,6 +274,7 @@ describe('ApplePayService', () => {
           product: mockProduct,
           quantity: quantity,
           countryCode: 'us',
+          merchantName: mockMerchantName,
         })
         .subscribe();
       config
@@ -279,7 +283,7 @@ describe('ApplePayService', () => {
 
       expect(paymentMethodChangeResult.newTotal).toEqual({
         amount: mockProduct.price?.value?.toString(),
-        label: mockProduct.name,
+        label: mockMerchantName,
       });
     });
 
@@ -302,12 +306,13 @@ describe('ApplePayService', () => {
         of(mockDeliveryMode)
       );
       cartHandlerServiceMock.getCurrentCart.and.returnValue(of(mockCart));
-
+      const mockMerchantName = 'mockMerchantName';
       service
         .start({
           product: mockProduct,
           quantity: 1,
           countryCode: 'us',
+          merchantName: mockMerchantName,
         })
         .subscribe();
       config
@@ -315,7 +320,7 @@ describe('ApplePayService', () => {
         .subscribe((actural) => (shippingMethodChangeResult = actural));
       expect(shippingMethodChangeResult.newTotal).toEqual({
         amount: mockCart.totalPrice?.value?.toString(),
-        label: mockProduct.name,
+        label: mockMerchantName,
       });
     });
 
@@ -354,6 +359,7 @@ describe('ApplePayService', () => {
           product: mockProduct,
           quantity: 1,
           countryCode: 'us',
+          merchantName: '',
         })
         .subscribe();
       config
@@ -400,6 +406,7 @@ describe('ApplePayService', () => {
           product: mockProduct,
           quantity: 1,
           countryCode: 'us',
+          merchantName: '',
         })
         .subscribe();
       config
@@ -432,6 +439,7 @@ describe('ApplePayService', () => {
           product: newmockProduct,
           quantity: 2,
           countryCode: 'us',
+          merchantName: '',
         })
         .subscribe({
           error: () => {},
@@ -459,7 +467,12 @@ describe('ApplePayService', () => {
       );
 
       service
-        .start({ product: mockProduct, quantity: 0, countryCode: 'us' })
+        .start({
+          product: mockProduct,
+          quantity: 0,
+          countryCode: 'us',
+          merchantName: '',
+        })
         .subscribe({
           error: () => {},
         });
@@ -495,7 +508,12 @@ describe('ApplePayService', () => {
       cartHandlerServiceMock.getCurrentCartTotalPrice.and.returnValue(of(100));
 
       service
-        .start({ product: mockProduct, quantity: 1, countryCode: 'us' })
+        .start({
+          product: mockProduct,
+          quantity: 1,
+          countryCode: 'us',
+          merchantName: '',
+        })
         .subscribe({ error: () => {} });
 
       expect(cartHandlerServiceMock.setDeliveryAddress).toHaveBeenCalled();
@@ -528,7 +546,12 @@ describe('ApplePayService', () => {
       );
 
       service
-        .start({ product: mockProduct, quantity: 0, countryCode: 'us' })
+        .start({
+          product: mockProduct,
+          quantity: 0,
+          countryCode: 'us',
+          merchantName: '',
+        })
         .subscribe({
           error: () => {},
         });
@@ -564,7 +587,12 @@ describe('ApplePayService', () => {
         }
       );
       service
-        .start({ product: mockProduct, quantity: 1, countryCode: 'us' })
+        .start({
+          product: mockProduct,
+          quantity: 1,
+          countryCode: 'us',
+          merchantName: '',
+        })
         .subscribe({ error: () => {} });
     });
   });
@@ -583,7 +611,12 @@ describe('ApplePayService', () => {
     );
 
     service
-      .start({ product: mockProduct, quantity: 1, countryCode: 'us' })
+      .start({
+        product: mockProduct,
+        quantity: 1,
+        countryCode: 'us',
+        merchantName: '',
+      })
       .subscribe({
         error: (err: any) => {
           expect(err).toBe('Error');

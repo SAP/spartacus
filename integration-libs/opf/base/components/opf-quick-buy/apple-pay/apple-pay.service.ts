@@ -74,7 +74,7 @@ export class ApplePayService {
         cart: transactionInput.cart,
         total: {
           amount: `${transactionInput.cart.totalPrice?.value}`,
-          label: `${transactionInput.cart.code}`,
+          label: transactionInput.merchantName,
           currency: transactionInput.cart?.totalPrice?.currencyIso as string,
         },
       };
@@ -91,11 +91,7 @@ export class ApplePayService {
         quantity: transactionInput.quantity,
         total: {
           amount: totalPrice.toString(),
-          label: `${transactionInput.product?.name as string}${
-            transactionInput.quantity > 1
-              ? ` x ${transactionInput.quantity}`
-              : ''
-          }`,
+          label: transactionInput.merchantName,
           currency: transactionInput.product?.price?.currencyIso as string,
         },
       };
@@ -119,12 +115,22 @@ export class ApplePayService {
         label: this.transactionDetails.total.label,
       },
       shippingMethods: [],
+      shippingType: 'storePickup',
       merchantCapabilities: ['supports3DS'],
       supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
-      requiredShippingContactFields: ['email', 'name', 'postalAddress'],
-      requiredBillingContactFields: ['email', 'name', 'postalAddress'],
       countryCode,
     };
+
+    const addr: ApplePayJS.ApplePayPaymentContact = {
+      emailAddress: 'flo.let@flo.com',
+      addressLines: ['5 rue du cerisier'],
+      postalCode: 'H3H4H5',
+      countryCode: 'fr',
+      country: 'France',
+      givenName: 'StoreToPickup',
+    };
+
+    initialRequest.shippingContact = addr;
 
     return this.applePayObservable
       .initApplePayEventsHandler({

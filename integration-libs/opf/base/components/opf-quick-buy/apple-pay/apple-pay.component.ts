@@ -28,7 +28,7 @@ import {
   CurrentProductService,
   ItemCounterService,
 } from '@spartacus/storefront';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, forkJoin } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { OpfQuickBuyService } from '../opf-quick-buy.service';
 import { ApplePaySessionFactory } from './apple-pay-session';
@@ -73,7 +73,7 @@ export class ApplePayComponent implements OnInit, OnDestroy {
     );
   }
 
-  initSingleProductTransaction(): Observable<unknown> {
+  initSingleProductTransaction(merchantName: string): Observable<unknown> {
     return combineLatest([
       this.currentProductService.getProduct(),
       this.cartHandlerService.checkStableCart(),
@@ -84,34 +84,37 @@ export class ApplePayComponent implements OnInit, OnDestroy {
           product: product as Product,
           quantity: this.itemCounterService.getCounter(),
           countryCode: this.applePayDigitalWallet?.countryCode as string,
+          merchantName,
         })
       )
     );
   }
 
-  initActiveCartTransaction(): Observable<unknown> {
+  initActiveCartTransaction(merchantName: string): Observable<unknown> {
     return this.cartHandlerService.getCurrentCart().pipe(
       take(1),
       switchMap((cart: Cart) => {
         return this.applePayService.start({
           cart: cart,
           countryCode: this.applePayDigitalWallet?.countryCode as string,
+          merchantName,
         });
       })
     );
   }
 
   initTransaction(): void {
-    this.opfQuickBuyService
-      .getQuickBuyLocationContext()
+    forkJoin({
+      context: this.opfQuickBuyService.getQuickBuyLocationContext(),
+      merchantName: this.opfQuickBuyService.getMerchantName(),
+    })
       .pipe(
-        take(1),
-        switchMap((context: OpfQuickBuyLocation) => {
+        switchMap(({ context, merchantName }) => {
           if (context === OpfQuickBuyLocation.PRODUCT) {
-            return this.initSingleProductTransaction();
+            return this.initSingleProductTransaction(merchantName);
           }
 
-          return this.initActiveCartTransaction();
+          return this.initActiveCartTransaction(merchantName);
         })
       )
       .subscribe();
