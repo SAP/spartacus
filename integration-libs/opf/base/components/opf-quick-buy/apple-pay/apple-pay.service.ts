@@ -129,6 +129,7 @@ export class ApplePayService {
       postalCode: 'H3H4H5',
       countryCode: 'fr',
       country: 'France',
+      givenName: 'StoreToPickup',
     };
 
     initialRequest.shippingContact = addr;
