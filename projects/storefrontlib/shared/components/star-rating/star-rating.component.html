@@ -1,4 +1,4 @@
-<ng-container *cxFeatureLevel="'6.8'">
+<ng-container *cxFeature="'a11yStarRating'">
   <div
     *ngIf="disabled; else starRating"
     role="img"
@@ -31,7 +31,7 @@
 </ng-container>
 
 <!-- TODO: (CXSPA-5707) Remove feature flag next major -->
-<ng-container *cxFeatureLevel="'!6.8'">
+<ng-container *cxFeature="'!a11yStarRating'">
   <cx-icon
     *ngFor="let i of [1, 2, 3, 4, 5]"
     [type]="icon"
