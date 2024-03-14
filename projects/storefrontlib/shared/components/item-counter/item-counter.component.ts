@@ -85,7 +85,7 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
 
   // TODO: (CXSPA-6034) Remove HostListener and @ViewChild('qty') next major release
   @HostListener('click') handleClick() {
-    if (this.featureConfigService?.isLevel('!6.8')) {
+    if (!this.featureConfigService?.isEnabled('a11yQuantityOrderTabbing')) {
       this.input.nativeElement.focus();
     }
   }
