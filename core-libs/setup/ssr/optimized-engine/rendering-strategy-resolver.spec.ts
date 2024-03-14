@@ -59,4 +59,15 @@ describe('RenderingStrategyResolver', () => {
 
     expect(strategy).toBe(RenderingStrategy.ALWAYS_CSR);
   });
+
+  it('should return ALWAYS_CSR rendering strategy if the URL matches SmartEdit url', () => {
+    const request: Partial<Request> = {
+      query: {},
+      url: 'cx-preview',
+    };
+
+    const strategy = resolver(request as Request);
+
+    expect(strategy).toBe(RenderingStrategy.ALWAYS_CSR);
+  });
 });

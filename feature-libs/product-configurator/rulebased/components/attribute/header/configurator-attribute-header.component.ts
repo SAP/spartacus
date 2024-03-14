@@ -295,9 +295,21 @@ export class ConfiguratorAttributeHeaderComponent
   isNavigationToConflictEnabled(): boolean {
     return (
       (this.isNavigationToGroupEnabled &&
-        this.configuratorUiSettings.productConfigurator
+        this.configuratorUISettingsConfig.productConfigurator
           ?.enableNavigationToConflict) ??
       false
+    );
+  }
+
+  /**
+   * Retrieves the length of the attribute description.
+   *
+   * @returns - the length of the attribute description
+   */
+  getAttributeDescriptionLength(): number {
+    return (
+      this.configuratorUISettingsConfig.productConfigurator?.descriptions
+        ?.attributeDescriptionLength ?? 100
     );
   }
 }
