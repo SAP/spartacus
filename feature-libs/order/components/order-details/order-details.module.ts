@@ -7,6 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFactoryResolver, inject, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AbstractOrderContextModule } from '@spartacus/cart/base/components';
 import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
   AuthGuard,
@@ -107,6 +108,7 @@ const moduleComponents = [
     KeyboardFocusModule,
     IconModule,
     MyAccountV2DownloadInvoicesModule,
+    AbstractOrderContextModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{

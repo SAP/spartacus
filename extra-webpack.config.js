@@ -53,6 +53,7 @@ module.exports = {
       '@spartacus/tracking': path.join(__dirname, 'feature-libs/tracking'),
       '@spartacus/cart': path.join(__dirname, 'feature-libs/cart'),
       '@spartacus/order': path.join(__dirname, 'feature-libs/order'),
+      '@spartacus/quote': path.join( __dirname, 'feature-libs/quote'),
       '@spartacus/epd-visualization': path.join(
         __dirname,
         'integration-libs/epd-visualization'

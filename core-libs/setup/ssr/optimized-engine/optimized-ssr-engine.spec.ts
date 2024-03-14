@@ -1226,7 +1226,7 @@ describe('OptimizedSsrEngine', () => {
               "maxRenderTime": 300000,
               "reuseCurrentRendering": true,
               "debug": false,
-              "renderingStrategyResolver": "(request) => {\\n    return shouldFallbackToCsr(request, options)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}",
+              "renderingStrategyResolver": "(request) => {\\n    if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {\\n        return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;\\n    }\\n    return shouldFallbackToCsr(request, options)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}",
               "logger": "DefaultExpressServerLogger"
             }
           }
@@ -1251,6 +1251,9 @@ describe('OptimizedSsrEngine', () => {
                   "logger": "MockExpressServerLogger",
                   "maxRenderTime": 300000,
                   "renderingStrategyResolver": "(request) => {
+                if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {
+                    return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;
+                }
                 return shouldFallbackToCsr(request, options)
                     ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR
                     : ssr_optimization_options_1.RenderingStrategy.DEFAULT;

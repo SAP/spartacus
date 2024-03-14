@@ -1,0 +1,174 @@
+<ng-container *ngIf="quotesState$ | async as quotesState; else ghostList">
+  <div
+    role="region"
+    tabindex="-1"
+    [attr.aria-label]="'quote.list.regionTitle' | cxTranslate"
+  >
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <ng-container *ngIf="quotesState.data; else ghostList">
+      <ng-container
+        *ngIf="
+          quotesState.data.quotes && quotesState.data.quotes.length > 0;
+          else emptyQuoteList
+        "
+      >
+        <div class="cx-sort top">
+          <label class="cx-form-group form-group"
+            ><span class="sortBy-heading">
+              {{ 'quote.list.sortBy' | cxTranslate }}
+            </span>
+            <cx-sorting
+              [sortOptions]="sorts"
+              [sortLabels]="sortLabels$ | async"
+              (sortListEvent)="changeSorting($event)"
+              [selectedOption]="quotesState.data.pagination.sort"
+              placeholder="{{ 'quote.list.sortBy' | cxTranslate }}"
+              [ariaLabel]="'quote.list.sortQuotes' | cxTranslate"
+              ariaControls="quote-list"
+            ></cx-sorting>
+          </label>
+          <ng-container
+            *ngIf="isPaginationEnabled(quotesState.data.pagination)"
+          >
+            <cx-pagination
+              [pagination]="quotesState.data.pagination"
+              (viewPageEvent)="changePage($event)"
+            ></cx-pagination>
+          </ng-container>
+        </div>
+        <table id="quote-list" role="table" aria-describedby="quote-list-desc">
+          <caption id="quote-list-desc" class="cx-visually-hidden">
+            {{
+              'quote.list.title' | cxTranslate
+            }}
+          </caption>
+          <thead role="rowgroup">
+            <tr role="row">
+              <th role="columnheader" aria-sort="none">
+                {{ 'quote.list.name' | cxTranslate }}
+              </th>
+              <th role="columnheader" aria-sort="none">
+                {{ 'quote.header.overview.id' | cxTranslate }}
+              </th>
+              <th role="columnheader" aria-sort="none">
+                {{ 'quote.header.overview.status' | cxTranslate }}
+              </th>
+              <th role="columnheader" aria-sort="none">
+                {{ 'quote.list.updated' | cxTranslate }}
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody role="rowgroup">
+            <tr
+              role="row"
+              #row
+              *ngFor="let quote of quotesState.data.quotes"
+              [routerLink]="
+                {
+                  cxRoute: 'quoteDetails',
+                  params: { quoteId: quote.code }
+                } | cxUrl
+              "
+              (keydown.enter)="row.click()"
+              attr.aria-label="{{ 'quote.list.name' | cxTranslate }}: {{
+                quote.name
+              }} {{ 'quote.header.overview.id' | cxTranslate }}: {{
+                quote.code
+              }} {{ 'quote.header.overview.status' | cxTranslate }}: {{
+                'quote.states.' + quote.state | cxTranslate
+              }} {{ 'quote.list.updated' | cxTranslate }}: {{
+                quote?.updatedTime | cxDate: dateFormat
+              }} {{ 'quote.list.clickableRow' | cxTranslate }}"
+              attr.title="{{ quote.name }}"
+            >
+              <td role="cell" class="cx-name">
+                <div class="cx-mobile-header">
+                  {{ 'quote.list.name' | cxTranslate }}
+                </div>
+                <span aria-hidden="true">{{ quote.name }}</span>
+              </td>
+              <td role="cell" class="cx-code">
+                <div class="cx-mobile-header">
+                  {{ 'quote.header.overview.id' | cxTranslate }}
+                </div>
+                <span aria-hidden="true">{{ quote.code }}</span>
+              </td>
+              <td role="cell" class="cx-status">
+                <div class="cx-mobile-header">
+                  {{ 'quote.header.overview.status' | cxTranslate }}
+                </div>
+                <span
+                  aria-hidden="true"
+                  [ngClass]="getQuoteStateClass(quote.state)"
+                  >{{ 'quote.states.' + quote.state | cxTranslate }}</span
+                >
+              </td>
+              <td role="cell" class="cx-updated-date">
+                <div class="cx-mobile-header">
+                  {{ 'quote.list.updated' | cxTranslate }}
+                </div>
+                <span aria-hidden="true">{{
+                  quote?.updatedTime | cxDate: dateFormat
+                }}</span>
+              </td>
+              <td role="cell" class="cx-nav-caret">
+                <cx-icon
+                  [type]="iconTypes.CARET_RIGHT"
+                  aria-hidden="true"
+                  [attr.aria-label]="'quote.list.clickableRow' | cxTranslate"
+                >
+                </cx-icon>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <ng-container *ngIf="isPaginationEnabled(quotesState.data.pagination)">
+          <div class="cx-sort bottom">
+            <cx-pagination
+              [pagination]="quotesState.data.pagination"
+              (viewPageEvent)="changePage($event)"
+            ></cx-pagination>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-container>
+
+<ng-template #ghostList>
+  <div class="cx-ghost-sort-top">
+    <div class="cx-ghost-title ghost"></div>
+    <div class="cx-ghost-select ghost"></div>
+  </div>
+  <div class="cx-ghost-table">
+    <ng-container *ngFor="let number of [0, 1, 2, 3, 4, 5, 6, 7]">
+      <div class="cx-ghost-row">
+        <div class="cx-ghost-cell-name">
+          <div class="cx-ghost-name ghost"></div>
+        </div>
+        <div class="cx-ghost-cell-id">
+          <div class="cx-ghost-id ghost"></div>
+        </div>
+        <div class="cx-ghost-cell-status">
+          <div class="cx-ghost-status ghost"></div>
+        </div>
+        <div class="cx-ghost-cell-updated-date">
+          <div class="cx-ghost-updated-date ghost"></div>
+        </div>
+        <div class="cx-ghost-cell-nav-caret">
+          <div class="cx-ghost-nav-caret ghost"></div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="cx-ghost-sort-bottom">
+    <div class="cx-ghost-pagination ghost"></div>
+  </div>
+</ng-template>
+
+<ng-template #emptyQuoteList>
+  <div class="cx-empty">
+    {{ 'quote.list.empty' | cxTranslate }}
+  </div>
+</ng-template>
