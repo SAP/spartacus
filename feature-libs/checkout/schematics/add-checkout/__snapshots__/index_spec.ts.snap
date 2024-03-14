@@ -63,7 +63,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.19'
+      level: '2211.20'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -189,7 +189,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -373,7 +373,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -514,7 +514,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.19'
+      level: '2211.20'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -651,7 +651,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2.5mb"
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",

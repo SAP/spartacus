@@ -4,13 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { inject } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
  */
 
 export class ConfiguratorAttributeBaseComponent {
+  protected configuratorUISettingsConfig = inject(ConfiguratorUISettingsConfig);
+
   private static SEPERATOR = '--';
   private static PREFIX = 'cx-configurator';
   private static PREFIX_LABEL = 'label';
@@ -172,6 +176,52 @@ export class ConfiguratorAttributeBaseComponent {
     return images ? images[0] : undefined;
   }
 
+  /**
+   * Retrieves a translation key for a value with a price.
+   *
+   * @param isReadOnly - is attribute a read-only?
+   * @returns - translation key for a value with price
+   */
+  getAriaLabelForValueWithPrice(isReadOnly: boolean): string {
+    return isReadOnly
+      ? 'configurator.a11y.readOnlyValueOfAttributeFullWithPrice'
+      : 'configurator.a11y.valueOfAttributeFullWithPrice';
+  }
+
+  /**
+   * Retrieves a translation key for a value.
+   *
+   * @param isReadOnly - is attribute a read-only?
+   * @returns - translation key for a value with price
+   */
+  getAriaLabelForValue(isReadOnly: boolean): string {
+    return isReadOnly
+      ? 'configurator.a11y.readOnlyValueOfAttributeFull'
+      : 'configurator.a11y.valueOfAttributeFull';
+  }
+
+  /**
+   * Retrieves the styling classes for the image element.
+   *
+   * @param attribute
+   * @param value
+   * @param styleClass
+   * @return - corresponding style classes for the image element
+   */
+  getImgStyleClasses(
+    attribute: Configurator.Attribute,
+    value: Configurator.Value,
+    styleClass: string
+  ): string {
+    if (!this.isReadOnly(attribute)) {
+      styleClass += ' cx-img-hover';
+      if (value.selected) {
+        styleClass += ' cx-img-selected';
+      }
+    }
+    return styleClass;
+  }
+
   protected getValuePrice(value: Configurator.Value | undefined): string {
     if (value?.valuePrice?.value && !value.selected) {
       if (value.valuePrice.value < 0) {
@@ -245,5 +295,38 @@ export class ConfiguratorAttributeBaseComponent {
       return selectedValue.valueCode === Configurator.RetractValueCode;
     }
     return true;
+  }
+
+  /**
+   * Retrieves the length of the value description.
+   *
+   * @returns - the length of the value description
+   */
+  getValueDescriptionLength(): number {
+    return (
+      this.configuratorUISettingsConfig.productConfigurator?.descriptions
+        ?.valueDescriptionLength ?? 70
+    );
+  }
+  protected isReadOnly(attribute: Configurator.Attribute): boolean {
+    if (attribute.uiType) {
+      return (
+        attribute.uiType === Configurator.UiType.READ_ONLY ||
+        attribute.uiType ===
+          Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE ||
+        attribute.uiType === Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE
+      );
+    }
+    return false;
+  }
+
+  protected isValueDisplayed(
+    attribute: Configurator.Attribute,
+    value: Configurator.Value
+  ): boolean {
+    return (
+      (this.isReadOnly(attribute) && value.selected) ||
+      !this.isReadOnly(attribute)
+    );
   }
 }

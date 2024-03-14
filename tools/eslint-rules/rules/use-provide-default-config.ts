@@ -19,8 +19,8 @@
 
 import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
 
-// NOTE: The rule will be available in ESLint configs as "@nrwl/nx/workspace/use-default-provide-config"
-export const RULE_NAME = 'use-default-provide-config';
+// NOTE: The rule will be available in ESLint configs as "@nrwl/nx/workspace/use-provide-default-config"
+export const RULE_NAME = 'use-provide-default-config';
 
 export const rule = ESLintUtils.RuleCreator(() => __filename)({
   name: RULE_NAME,
@@ -32,7 +32,7 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
     },
     schema: [],
     messages: {
-      useDefaultProvideConfig:
+      useProvideDefaultConfig:
         '[Spartacus] provideConfig() is intended for library consumers. To allow for better extensibility, please provide default configs inside Spartacus libraries using provideDefaultConfig().',
     },
   },
@@ -44,7 +44,7 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
       ) {
         context.report({
           node,
-          messageId: 'useDefaultProvideConfig',
+          messageId: 'useProvideDefaultConfig',
         });
       },
     };

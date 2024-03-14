@@ -137,6 +137,12 @@ function add_product_configurator {
     fi
 }
 
+function add_quote {
+  if [ "$ADD_QUOTE" = true ] ; then
+        ng add @spartacus/quote@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+    fi
+}
+
 function add_s4om {
   if [ "$ADD_S4OM" = true ] ; then
         ng add --skip-confirmation @spartacus/s4om@${SPARTACUS_VERSION} --interactive false
@@ -181,6 +187,7 @@ function add_spartacus_csr {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    add_quote
     add_s4om
     add_requested_delivery_date
     add_pdf_invoices
@@ -205,6 +212,7 @@ function add_spartacus_ssr {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    add_quote
     add_s4om
     add_requested_delivery_date
     add_pdf_invoices
