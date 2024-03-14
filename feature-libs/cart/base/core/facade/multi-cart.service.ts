@@ -421,7 +421,7 @@ export class MultiCartService implements MultiCartFacade {
   }
 
   /**
-   * Remove entry from cart
+   * Remove entry group from cart
    *
    * @param userId
    * @param cartId
