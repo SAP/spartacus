@@ -7,7 +7,7 @@ import {
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
@@ -38,7 +38,7 @@ class MockHamburgerMenuService {
 
 // TODO: (CXSPA-5919) Remove mock next major release
 class MockFeatureConfigService {
-  isLevel() {
+  isEnabled() {
     return true;
   }
 }
@@ -97,7 +97,7 @@ const mockNode: NavigationNode = {
   ],
 };
 
-describe('Navigation UI Component', () => {
+fdescribe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
   let navigationComponent: NavigationUIComponent;
   let hamburgerMenuService: HamburgerMenuService;
@@ -111,7 +111,7 @@ describe('Navigation UI Component', () => {
         MockIconComponent,
         MockGenericLinkComponent,
         // TODO: (CXSPA-5919) Remove feature directive next major
-        MockFeatureLevelDirective,
+        MockFeatureDirective,
       ],
       providers: [
         {
