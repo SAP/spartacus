@@ -26,6 +26,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'passwordVisibility',
     'generalErrors',
     'chatMessaging',
+    'formLegend',
   ],
   payment: [
     'paymentForm',
