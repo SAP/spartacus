@@ -135,7 +135,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       if (
         this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
       ) {
-        console.log('closeIfClickedTheSameLink');
         this.reinitializeMenu();
       } else {
         this.elemRef.nativeElement
