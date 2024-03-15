@@ -97,7 +97,7 @@ const mockNode: NavigationNode = {
   ],
 };
 
-fdescribe('Navigation UI Component', () => {
+describe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
   let navigationComponent: NavigationUIComponent;
   let hamburgerMenuService: HamburgerMenuService;
