@@ -10,6 +10,7 @@ import { clickAllowAllFromBanner } from '../../helpers/anonymous-consents';
 import * as configuration from '../../helpers/product-configurator';
 import * as configurationOverview from '../../helpers/product-configurator-overview';
 import * as configurationVc from '../../helpers/product-configurator-vc';
+import * as configuratorOverviewVc from '../../helpers/product-configurator-overview-vc';
 /**
  * This suite is marked as flaky due to performance (synchronization) issues on
  * https://spartacus-devci767.eastus.cloudapp.azure.com:9002 that we analyze in
@@ -62,6 +63,7 @@ context('Product Configuration', () => {
     cy.cxConfig(configuratorCoreConfig);
     configurationVc.registerConfigurationRoute();
     configurationVc.registerConfigurationUpdateRoute();
+    configuratorOverviewVc.registerConfigurationOverviewRoute();
     cy.visit('/');
   });
 

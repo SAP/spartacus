@@ -1,0 +1,36 @@
+%cx-quote-summary-actions {
+  &:not(:empty) {
+    section {
+      @include media-breakpoint-down(sm) {
+        &.fixed {
+          width: 95%;
+          padding-inline-end: 1.5rem;
+          padding-block-start: 1.5rem;
+          padding-block-end: 1.5rem;
+          position: fixed;
+        }
+
+        &.sticky {
+          width: 100%;
+          padding-inline-end: 0;
+          padding-block-start: 1rem;
+          padding-block-end: 0;
+          position: sticky;
+          position: -webkit-sticky;
+        }
+      }
+
+      @include media-breakpoint-up(md) {
+        width: 100%;
+        padding-block-start: 1rem;
+        position: static;
+      }
+
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      justify-content: center;
+      background-color: var(--cx-color-inverse);
+    }
+  }
+}

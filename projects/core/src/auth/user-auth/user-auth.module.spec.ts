@@ -1,3 +1,4 @@
+import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
@@ -21,6 +22,7 @@ class MockConfigInitializerService
 describe(`checkOAuthParamsInUrl APP_INITIALIZER`, () => {
   let authService: AuthService;
   let configInitializerService: ConfigInitializerService;
+  const platformId = 'browser';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,6 +35,7 @@ describe(`checkOAuthParamsInUrl APP_INITIALIZER`, () => {
           provide: ConfigInitializerService,
           useClass: MockConfigInitializerService,
         },
+        { provide: PLATFORM_ID, useValue: 'browser' },
       ],
     });
     authService = TestBed.inject(AuthService);
@@ -42,7 +45,11 @@ describe(`checkOAuthParamsInUrl APP_INITIALIZER`, () => {
   it(`should check OAuth params in the URL`, (done) => {
     spyOn(authService, 'checkOAuthParamsInUrl').and.callThrough();
 
-    checkOAuthParamsInUrl(authService, configInitializerService)().then(() => {
+    checkOAuthParamsInUrl(
+      authService,
+      configInitializerService,
+      platformId
+    )().then(() => {
       expect(authService.checkOAuthParamsInUrl).toHaveBeenCalled();
       done();
     });
@@ -62,9 +69,32 @@ describe(`checkOAuthParamsInUrl APP_INITIALIZER`, () => {
       });
     });
 
-    checkOAuthParamsInUrl(authService, configInitializerService)().then(() => {
+    checkOAuthParamsInUrl(
+      authService,
+      configInitializerService,
+      platformId
+    )().then(() => {
       expect(checkingUrlParamsCompleted).toBe(true);
       done();
     });
+  });
+
+  it('should not check OAuth params in URL if platform is not browser', async () => {
+    const platformId = 'server';
+
+    const checkOAuthParamsInUrlSpy = spyOn(
+      authService,
+      'checkOAuthParamsInUrl'
+    );
+
+    const fn = checkOAuthParamsInUrl(
+      authService,
+      configInitializerService,
+      platformId
+    );
+
+    await fn();
+
+    expect(checkOAuthParamsInUrlSpy).not.toHaveBeenCalled();
   });
 });

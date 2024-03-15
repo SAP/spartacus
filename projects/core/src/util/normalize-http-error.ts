@@ -19,7 +19,7 @@ import { HttpErrorModel } from '../model/misc.model';
  */
 export function normalizeHttpError(
   error: HttpErrorResponse | HttpErrorModel | any,
-  logger?: LoggerService
+  logger: LoggerService
 ): HttpErrorModel | undefined {
   if (error instanceof HttpErrorModel) {
     return error;
@@ -50,9 +50,7 @@ export function normalizeHttpError(
   if (isDevMode()) {
     const logMessage =
       'Error passed to normalizeHttpError is not HttpErrorResponse instance';
-    // CXSPA-3680 - use logger by default and make logger required param
-    /* eslint-disable-next-line no-console */
-    logger ? logger.error(logMessage, error) : console.error(logMessage, error);
+    logger.error(logMessage, error);
   }
 
   return undefined;

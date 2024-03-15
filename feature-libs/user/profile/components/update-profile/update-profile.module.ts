@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -15,6 +15,7 @@ import {
   GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
+  provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
 import {
@@ -23,8 +24,18 @@ import {
   NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
+import { USE_MY_ACCOUNT_V2_PROFILE } from './use-my-account-v2-profile';
+import { UpdateProfileComponentService } from './update-profile-component.service';
+import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
+
+const myAccountV2ProfileMapping: CmsConfig = {
+  cmsComponents: {
+    UpdateProfileComponent: {
+      component: MyAccountV2ProfileComponent,
+    },
+  },
+};
 
 @NgModule({
   imports: [
@@ -39,6 +50,8 @@ import { UpdateProfileComponent } from './update-profile.component';
     NgSelectModule,
     NgSelectA11yModule,
   ],
+  declarations: [UpdateProfileComponent, MyAccountV2ProfileComponent],
+  exports: [UpdateProfileComponent, MyAccountV2ProfileComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -55,7 +68,9 @@ import { UpdateProfileComponent } from './update-profile.component';
         },
       },
     }),
+    provideDefaultConfigFactory(() =>
+      inject(USE_MY_ACCOUNT_V2_PROFILE) ? myAccountV2ProfileMapping : {}
+    ),
   ],
-  declarations: [UpdateProfileComponent],
 })
 export class UpdateProfileModule {}
