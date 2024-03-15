@@ -1,6 +1,7 @@
 {
   "addressForm": {
     "title": "Title",
+    "titleOptional": "Title (optional)",
     "defaultTitle": "Title",
     "firstName": {
       "label": "First name",

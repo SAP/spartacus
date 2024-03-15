@@ -68,6 +68,9 @@ export class CardComponent implements OnInit {
   truncateText = false;
 
   @Input()
+  truncateParagraphText = false;
+
+  @Input()
   charactersLimit = 100;
 
   @Input()
@@ -109,6 +112,10 @@ export class CardComponent implements OnInit {
     action: CardAction | CardLinkAction
   ): action is CardLinkAction {
     return (action as CardLinkAction).link !== undefined;
+  }
+
+  trackByIndex(index: number): number {
+    return index;
   }
 
   constructor() {

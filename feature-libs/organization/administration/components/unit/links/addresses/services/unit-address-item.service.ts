@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Address, isNotUndefined, RoutingService } from '@spartacus/core';
+import { inject, Injectable } from '@angular/core';
+import {
+  Address,
+  FeatureConfigService,
+  isNotUndefined,
+  RoutingService,
+} from '@spartacus/core';
 import {
   OrganizationItemStatus,
   OrgUnitService,
@@ -21,6 +26,11 @@ import { CurrentUnitAddressService } from './current-unit-address.service';
   providedIn: 'root',
 })
 export class UnitAddressItemService extends ItemService<Address> {
+  // TODO (CXSPA-5630): Remove service in next major.
+  protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
   constructor(
     protected currentItemService: CurrentUnitAddressService,
     protected routingService: RoutingService,
@@ -54,6 +64,17 @@ export class UnitAddressItemService extends ItemService<Address> {
   protected create(
     value: Address
   ): Observable<OrganizationItemStatus<Address>> {
+    // TODO (CXSPA-5630): Remove feature flag in next major.
+    if (
+      this.featureConfigService?.isEnabled('fixMyCompanyUnitAddressCreation')
+    ) {
+      // Note: No id or code is provided when creating a new address so we
+      // cannot store a value in the ngrx state to check that address to be
+      // created via the loading state. That is why we need to assign some
+      // temporary value to the id.
+      value.id = 'new';
+    }
+
     this.unitRouteParam$
       .pipe(first())
       .subscribe((unitCode) => this.unitService.createAddress(unitCode, value));

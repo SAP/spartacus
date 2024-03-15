@@ -20,7 +20,7 @@ export function registerAndLogin() {
 export function testUpdateEmailAndLogin() {
   it('should update his email address and login', () => {
     const newUid = generateMail(randomString(), true);
-    cy.get('cx-update-email').within(() => {
+    cy.get('cx-update-email, cx-my-account-v2-email').within(() => {
       cy.get('[formcontrolname="email"]').type(newUid);
       cy.get('[formcontrolname="confirmEmail"]').type(newUid);
       cy.get('[formcontrolname="password"]').type(password);
