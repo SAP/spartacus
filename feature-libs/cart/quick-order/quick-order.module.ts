@@ -7,8 +7,13 @@
 import { NgModule } from '@angular/core';
 import { QuickOrderComponentsModule } from '@spartacus/cart/quick-order/components';
 import { QuickOrderCoreModule } from '@spartacus/cart/quick-order/core';
+import { FeaturesConfigModule } from '@spartacus/core';
 
 @NgModule({
-  imports: [QuickOrderCoreModule, QuickOrderComponentsModule],
+  imports: [
+    QuickOrderCoreModule,
+    QuickOrderComponentsModule,
+    FeaturesConfigModule,
+  ],
 })
 export class QuickOrderModule {}
