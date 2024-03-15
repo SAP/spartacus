@@ -17,12 +17,10 @@
     "loginForm": {
       "submit": "Sign In",
       "userId": {
-        "label": "Agent ID",
-        "required": "Agent ID is required"
+        "label": "Agent ID or Email"
       },
       "password": {
-        "label": "Password",
-        "required": "Password is required"
+        "label": "Password"
       }
     },
     "customerSearch": {

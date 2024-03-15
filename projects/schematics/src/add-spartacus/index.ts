@@ -28,7 +28,10 @@ import {
   finalizeInstallation,
   installPackageJsonDependencies,
 } from '../shared/utils/lib-utils';
-import { addModuleImport } from '../shared/utils/new-module-utils';
+import {
+  addModuleImport,
+  addModuleProvider,
+} from '../shared/utils/new-module-utils';
 import {
   getPrefixedSpartacusSchematicsVersion,
   getSpartacusCurrentFeatureLevel,
@@ -247,7 +250,7 @@ function increaseBudgets(options: SpartacusOptions): Rule {
       if (budget.type === 'initial') {
         return {
           ...budget,
-          maximumError: '2.5mb',
+          maximumError: '3.5mb',
         };
       }
       return budget;
@@ -452,13 +455,16 @@ function updateAppModule(options: SpartacusOptions): Rule {
 
       for (const sourceFile of appSourceFiles) {
         if (sourceFile.getFilePath().includes(`app.module.ts`)) {
-          addModuleImport(sourceFile, {
-            order: 1,
+          addModuleProvider(sourceFile, {
             import: {
               moduleSpecifier: ANGULAR_HTTP,
-              namedImports: ['HttpClientModule'],
+              namedImports: [
+                'provideHttpClient',
+                'withFetch',
+                'withInterceptorsFromDi',
+              ],
             },
-            content: 'HttpClientModule',
+            content: 'provideHttpClient(withFetch(), withInterceptorsFromDi())',
           });
           addModuleImport(sourceFile, {
             order: 2,

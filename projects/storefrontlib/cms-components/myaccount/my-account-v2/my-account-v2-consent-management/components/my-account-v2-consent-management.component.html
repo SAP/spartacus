@@ -1,0 +1,39 @@
+<div *ngIf="loading$ | async; else consentManagementForm">
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</div>
+<ng-template #consentManagementForm>
+  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+  <ng-container *ngIf="templateList$ | async as templateList">
+    <div class="cx-consent-toggles">
+      <div class="consent-form-container">
+        <div class="header">
+          {{ 'myAccountV2Consent.header' | cxTranslate }}
+        </div>
+        <div class="cx-consent-action-links">
+          <button
+            tabindex="0"
+            class="btn btn-link cx-action-link"
+            (click)="rejectAll(templateList)"
+          >
+            {{ 'myAccountV2Consent.clearAll' | cxTranslate }}
+          </button>
+          <button
+            tabindex="0"
+            class="btn btn-link cx-action-link"
+            (click)="allowAll(templateList)"
+          >
+            {{ 'myAccountV2Consent.selectAll' | cxTranslate }}
+          </button>
+        </div>
+        <cx-my-account-v2-consent-management-form
+          *ngFor="let consentTemplate of templateList"
+          [consentTemplate]="consentTemplate"
+          [requiredConsents]="requiredConsents"
+          (consentChanged)="onConsentChange($event)"
+        ></cx-my-account-v2-consent-management-form>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

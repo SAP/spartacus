@@ -3,15 +3,10 @@
     width: 100%;
     display: flex;
     flex-direction: row;
+
+    // TODO: this block should be remove after attributeTypesV2 feature flag has been removed
+    // TODO: start of the block
     align-items: center;
-    justify-content: space-between;
-    margin-block-start: 0.5rem;
-    margin-block-end: 0.5rem;
-
-    .cx-required-error-msg {
-      border-color: var(--cx-color-danger);
-    }
-
     @include media-breakpoint-up(md) {
       select {
         width: 80%;
@@ -19,10 +14,30 @@
     }
     @include media-breakpoint-down(sm) {
       flex-direction: column;
-
       select {
         width: 100%;
       }
+    }
+    // TODO: end of the block
+
+    @include forFeature('attributeTypesV2') {
+      align-items: baseline;
+    }
+
+    justify-content: space-between;
+    margin-block-start: 0.5rem;
+    margin-block-end: 0.5rem;
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+
+    select {
+      width: 100%;
+    }
+
+    .cx-required-error-msg {
+      border-color: var(--cx-color-danger);
     }
 
     .cx-value-price {
