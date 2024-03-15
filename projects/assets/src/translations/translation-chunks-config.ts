@@ -27,13 +27,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'generalErrors',
     'chatMessaging',
   ],
-  address: [
-    'addressForm',
-    'addressBook',
-    'addressCard',
-    'addressSuggestion',
-    'addressMessages',
-  ],
   payment: [
     'paymentForm',
     'paymentMethods',
@@ -74,4 +67,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
   user: ['anonymousConsents', 'loginRegister', 'checkoutLogin', 'authMessages'],
   video: ['player'],
   deliveryMode: ['setDeliveryMode'],
+  myAccountV2NotifiationPerference: ['myAccountV2NotifiationPerference'],
+  myAccountV2Consent: ['myAccountV2Consent'],
 };

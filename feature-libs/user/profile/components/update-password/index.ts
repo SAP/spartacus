@@ -7,3 +7,5 @@
 export * from './update-password-component.service';
 export * from './update-password.component';
 export * from './update-password.module';
+export * from './use-my-account-v2-password';
+export * from './my-account-v2-password.component';

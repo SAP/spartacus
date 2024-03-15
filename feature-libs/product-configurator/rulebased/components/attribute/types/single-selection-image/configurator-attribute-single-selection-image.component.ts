@@ -4,12 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { Configurator } from '../../../../core/model/configurator.model';
+import { Config, useFeatureStyles } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
@@ -27,6 +34,9 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   ownerKey: string;
   expMode: boolean;
 
+  iconTypes = ICON_TYPE;
+  protected config = inject(Config);
+
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService
@@ -35,6 +45,8 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
+
+    useFeatureStyles('attributeTypesV2');
   }
 
   ngOnInit(): void {

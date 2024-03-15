@@ -3,17 +3,16 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeaturesConfig,
-  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   PaymentDetails,
   UserPaymentService,
 } from '@spartacus/core';
+import { FocusDirective } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../cms-components/misc/icon';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentMethodsComponent } from './payment-methods.component';
-import { FocusDirective } from '@spartacus/storefront';
 
 class MockGlobalMessageService {
   add = jasmine.createSpy();
@@ -73,7 +72,7 @@ describe('PaymentMethodsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, FeaturesConfigModule],
+        imports: [I18nTestingModule],
         declarations: [
           PaymentMethodsComponent,
           MockCxSpinnerComponent,

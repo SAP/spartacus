@@ -22,6 +22,7 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import {
+  findNode,
   getDecoratorMetadata,
   getMetadataField,
   insertImport,
@@ -167,6 +168,34 @@ function prepareDependencies(): NodeDependency[] {
   }
 
   return spartacusDependencies.concat(thirdPartyDependencies);
+}
+
+/**
+ * Adds `build:ssr` script to `package.json` as it's required for CCv2 build - process fails when script is missing.
+ *
+ * TODO: CXSPA-6466 Can be removed if Model T adjust their build process to not require this script.
+ */
+function addBuildSsrScript(spartacusOptions: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    if (spartacusOptions.debug) {
+      context.logger.info(
+        `⌛️ Adding "build:ssr" script to "package.json"... (CCv2 purposes)`
+      );
+    }
+    const pkgPath = '/package.json';
+    const pkg = tree.readJson(pkgPath) as {
+      scripts?: Record<string, string>;
+    } | null;
+    if (pkg === null) {
+      throw new SchematicsException('Could not find package.json');
+    }
+    pkg.scripts = {
+      ...pkg.scripts,
+      'build:ssr': 'ng build',
+    };
+
+    tree.overwrite(pkgPath, JSON.stringify(pkg, null, 2));
+  };
 }
 
 /**
@@ -381,6 +410,7 @@ function removeClientHydration(spartacusOptions: SpartacusOptions): Rule {
     // Remove provider
     const providerChanges = removeFromModuleProviders(
       sourceFile,
+      ts.SyntaxKind.CallExpression,
       `provideClientHydration()`
     );
 
@@ -404,10 +434,12 @@ function removeClientHydration(spartacusOptions: SpartacusOptions): Rule {
  */
 function removeFromModuleProviders(
   source: ts.SourceFile,
+  kind: ts.SyntaxKind,
   providerName: string
 ): RemoveChange[] {
   const nodes = getDecoratorMetadata(source, 'NgModule', ANGULAR_CORE);
   const node = nodes[0];
+
   if (!node || !ts.isObjectLiteralExpression(node)) {
     return [];
   }
@@ -424,21 +456,31 @@ function removeFromModuleProviders(
     return [];
   }
 
-  //find provider to remove
+  //find providers
   const providersExpression = assignment.initializer;
-  const providerToRemove = providersExpression
+  const providerNodes = providersExpression
     .getChildren()
-    .filter((e) => e.getText().includes(providerName));
+    .filter((e) => e.getText().includes(providerName))[0];
 
-  if (!providerToRemove) {
+  // return empty array if there is no `provideClientHydration` among providers
+  if (!providerNodes) {
+    return [];
+  }
+
+  // get specific provider with given kind and name;
+  const providerSpecifier = providerNodes
+    .getChildren()
+    .find((childNode) => findNode(childNode, kind, providerName));
+
+  if (!providerSpecifier) {
     return [];
   }
 
   return [
     new RemoveChange(
       source.fileName,
-      providerToRemove[0].pos,
-      `${providerToRemove[0].getFullText()}`
+      providerSpecifier.pos,
+      `${providerSpecifier.getFullText()}`
     ),
   ];
 }
@@ -453,6 +495,7 @@ export function addSSR(options: SpartacusOptions): Rule {
       externalSchematic(ANGULAR_SSR, 'ng-add', {
         project: options.project,
       }),
+      addBuildSsrScript(options),
       modifyAppServerModuleFile(),
       removeClientHydration(options),
       modifyIndexHtmlFile(options),

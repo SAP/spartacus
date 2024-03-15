@@ -24,7 +24,7 @@
                 "
                 aria-describedby="listOfGroups"
                 [cxFocus]="{ key: 'cx-menu-back' }"
-                (click)="navigateUp()"
+                (click)="navigateUp(currentGroup)"
                 (keydown)="
                   switchGroupOnArrowPress(
                     $event,
@@ -65,7 +65,7 @@
                 [cxFocus]="{
                   key: group.id
                 }"
-                (click)="click(group)"
+                (click)="click(group, currentGroup)"
                 [tabindex]="getTabIndex(group, currentGroup.id)"
                 (keydown)="
                   switchGroupOnArrowPress(
