@@ -70,9 +70,10 @@ jobs:
 
       - name: Update Publishing Version
         run: |
-          version="${{ env.major }}.${{ env.minor }}.${{ env.patch }}"
+          version="${{ env.version }}" # Use the full version
           sed -i "s/export const PUBLISHING_VERSION = '.*';/export const PUBLISHING_VERSION = '$version';/" ./tools/config/const.ts
           echo "Updated PUBLISHING_VERSION in ./tools/config/const.ts."
+      
 
       - name: Package installation
         run: npm ci
