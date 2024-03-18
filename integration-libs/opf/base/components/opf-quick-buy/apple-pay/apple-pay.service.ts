@@ -112,38 +112,6 @@ export class ApplePayService {
     }
     this.paymentInProgress = true;
 
-    // this.transactionDetails = this.initTransactionDetails(transactionInput);
-    // const countryCode = transactionInput?.countryCode || '';
-    // const initialRequest: ApplePayJS.ApplePayPaymentRequest = {
-    //   currencyCode: this.transactionDetails.total.currency,
-    //   total: {
-    //     amount: this.transactionDetails.total.amount,
-    //     label: this.transactionDetails.total.label,
-    //   },
-    //   shippingMethods: [],
-    //   merchantCapabilities: ['supports3DS'],
-    //   supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
-    //   requiredShippingContactFields: ['email', 'name', 'postalAddress'],
-    //   requiredBillingContactFields: ['email', 'name', 'postalAddress'],
-    //   countryCode,
-    // };
-
-    // const getDeliveryType$ = this.opfQuickBuyService
-    //   .getQuickBuyDeliveryType(
-    //     this.transactionDetails.context as OpfQuickBuyLocation
-    //   )
-    //   .pipe(
-    //     map((deliveryType) => {
-    //       this.transactionDetails.deliveryType = deliveryType;
-
-    //       if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {
-    //         initialRequest.shippingType = 'storePickup';
-    //         initialRequest.requiredShippingContactFields = [];
-    //       }
-    //       return initialRequest;
-    //     })
-    //   );
-
     return this.setApplePayRequestConfig(transactionInput).pipe(
       switchMap((request: ApplePayJS.ApplePayPaymentRequest) => {
         return this.applePayObservable.initApplePayEventsHandler({
@@ -182,7 +150,6 @@ export class ApplePayService {
         this.transactionDetails.quantity
       ).pipe(switchMap(() => this.validateOpfAppleSession(event)));
     }
-
     return this.validateOpfAppleSession(event);
   }
 
@@ -191,7 +158,6 @@ export class ApplePayService {
   ): Observable<ApplePayJS.ApplePayPaymentRequest> {
     this.transactionDetails = this.initTransactionDetails(transactionInput);
     const countryCode = transactionInput?.countryCode || '';
-
     const initialRequest: ApplePayJS.ApplePayPaymentRequest = {
       currencyCode: this.transactionDetails.total.currency,
       total: {
@@ -213,7 +179,6 @@ export class ApplePayService {
       .pipe(
         map((deliveryType) => {
           this.transactionDetails.deliveryType = deliveryType;
-
           if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {
             initialRequest.shippingType = 'storePickup';
             initialRequest.requiredShippingContactFields = [];
