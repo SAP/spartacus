@@ -83,10 +83,10 @@ class MockConfigUtilsService {
 }
 
 class MockConfig {
-  features = [{ attributeTypesV2: false }];
+  features = [{ productConfiguratorAttributeTypesV2: false }];
 }
 
-describe('ConfigAttributeDropDownComponent', () => {
+describe('ConfiguratorAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
@@ -130,7 +130,7 @@ describe('ConfigAttributeDropDownComponent', () => {
     };
 
     config = TestBed.inject(Config);
-    (config.features ?? {}).attributeTypesV2 = false;
+    (config.features ?? {}).productConfiguratorAttributeTypesV2 = false;
     fixture.detectChanges();
     return component;
   }
@@ -204,7 +204,7 @@ describe('ConfigAttributeDropDownComponent', () => {
     );
   });
 
-  it('should not render cx-value-label-pair div in case attributeTypesV2 feature flag is disabled', () => {
+  it('should not render cx-value-label-pair div in case productConfiguratorAttributeTypesV2 feature flag is disabled', () => {
     createComponentWithData();
     (component.attribute.values ?? [{ description: '' }])[0].description =
       'Here is a description at value level';
@@ -216,9 +216,9 @@ describe('ConfigAttributeDropDownComponent', () => {
     );
   });
 
-  it('should render cx-value-label-pair div in case attributeTypesV2 feature flag is enabled', () => {
+  it('should render cx-value-label-pair div in case productConfiguratorAttributeTypesV2 feature flag is enabled', () => {
     createComponentWithData();
-    (config.features ?? {}).attributeTypesV2 = true;
+    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -227,7 +227,7 @@ describe('ConfigAttributeDropDownComponent', () => {
     );
   });
 
-  it('should not render description in case attributeTypesV2 feature flag is disabled', () => {
+  it('should not render description in case productConfiguratorAttributeTypesV2 feature flag is disabled', () => {
     createComponentWithData();
     (component.attribute.values ?? [{ description: '' }])[0].description =
       'Here is a description at value level';
@@ -239,9 +239,9 @@ describe('ConfigAttributeDropDownComponent', () => {
     );
   });
 
-  it('should render description in case attributeTypesV2 feature flag is enabled', () => {
+  it('should render description in case productConfiguratorAttributeTypesV2 feature flag is enabled', () => {
     createComponentWithData();
-    (config.features ?? {}).attributeTypesV2 = true;
+    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
     (component.attribute.values ?? [{ description: '' }])[0].description =
       'Here is a description at value level';
     fixture.detectChanges();

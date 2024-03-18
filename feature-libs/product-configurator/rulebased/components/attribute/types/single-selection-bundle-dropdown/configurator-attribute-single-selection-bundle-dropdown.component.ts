@@ -46,7 +46,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     );
 
     this.group = attributeComponentContext.group.id;
-    useFeatureStyles('attributeTypesV2');
+    useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
   ngOnInit() {

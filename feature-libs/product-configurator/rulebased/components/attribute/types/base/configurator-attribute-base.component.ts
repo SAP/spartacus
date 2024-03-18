@@ -167,6 +167,27 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   /**
+   * Retrieves image label with or without technical name depending whether the expert mode is set or not.
+   * If the length of the label is longer than 16 singes, it will be shorten and ellipsis will be added at the end.
+   *
+   * @param expMode - Is expert mode set?
+   * @param label - value label
+   * @param techName - value technical name
+   * @param value - Configurator value
+   */
+  getImageLabel(
+    expMode: boolean,
+    label: string | undefined,
+    techName: string | undefined,
+    value?: Configurator.Value
+  ): string {
+    let labelForImage = this.getLabel(expMode, label, techName, value);
+    return labelForImage?.trim().length >= 16
+      ? labelForImage.substring(0, 16).concat('...')
+      : labelForImage;
+  }
+
+  /**
    * Fetches the first image for a given value
    * @param value Value
    * @returns Image
@@ -308,6 +329,7 @@ export class ConfiguratorAttributeBaseComponent {
         ?.valueDescriptionLength ?? 70
     );
   }
+
   protected isReadOnly(attribute: Configurator.Attribute): boolean {
     if (attribute.uiType) {
       return (

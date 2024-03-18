@@ -2,7 +2,7 @@
   @include cx-configurator-attribute-type();
   @include cx-configurator-form-group();
 
-  @include forFeature('attributeTypesV2') {
+  @include forFeature('productConfiguratorAttributeTypesV2') {
     .form-group {
       @include media-breakpoint-up(md) {
         select {
