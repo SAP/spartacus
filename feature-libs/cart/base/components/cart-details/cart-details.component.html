@@ -31,7 +31,7 @@
           {{node.label}}
           
           <button #element (click)="editBundle(node.entryGroupNumber)" class="btn btn-tertiary bundle-operation" type="button">
-            {{ 'bundle.editBundle' | cxTranslate }}
+            {{ 'common.edit' | cxTranslate }}
           </button>
 
           <cx-cart-item-list
@@ -51,7 +51,7 @@
           <ng-container *ngIf="treeNode.ariaLevel === '1'; else children">
             {{ treeControl.expand(node) }}
             <button #element (click)="removeBundle(treeNode, node)" class="btn btn-tertiary bundle-operation" type="button">
-              {{ 'bundle.removeBundle' | cxTranslate }}
+              {{ 'common.remove' | cxTranslate }}
             </button>
           </ng-container>
 
