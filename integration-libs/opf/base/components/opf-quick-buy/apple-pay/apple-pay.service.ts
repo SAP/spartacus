@@ -181,7 +181,7 @@ export class ApplePayService {
           this.transactionDetails.deliveryType = deliveryType;
           if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {
             initialRequest.shippingType = 'storePickup';
-            initialRequest.requiredShippingContactFields = [];
+            initialRequest.requiredShippingContactFields = ['email', 'name'];
           }
           return initialRequest;
         })
