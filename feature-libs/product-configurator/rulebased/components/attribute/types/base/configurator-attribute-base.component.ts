@@ -181,7 +181,7 @@ export class ConfiguratorAttributeBaseComponent {
     techName: string | undefined,
     value?: Configurator.Value
   ): string {
-    let labelForImage = this.getLabel(expMode, label, techName, value);
+    const labelForImage = this.getLabel(expMode, label, techName, value);
     return labelForImage?.trim().length >= 16
       ? labelForImage.substring(0, 16).concat('...')
       : labelForImage;
