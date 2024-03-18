@@ -39,13 +39,15 @@
   "devDependencies": {
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.2",
+    "@continuum/continuum-javascript-professional": "file:./lib/continuum-continuum-javascript-professional-6.2.0.tgz",
     "@cypress/webpack-preprocessor": "^6.0.0",
     "@testing-library/cypress": "10.0.1",
     "babel-loader": "^9.0.0",
-    "cypress": "13.2.0",
+    "cypress": "^13.6.0",
     "cypress-file-upload": "^5.0.8",
+    "global-agent": "^3.0.0",
+    "selenium-webdriver": "^4.7.1",
     "ts-loader": "^9.4.2",
-    "typescript": "^4.2.4",
-    "webpack": "^5.76.0"
+    "typescript": "^4.2.4"
   }
 }

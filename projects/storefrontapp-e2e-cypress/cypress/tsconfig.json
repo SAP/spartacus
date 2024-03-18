@@ -4,7 +4,12 @@
     "allowJs": true,
     "baseUrl": "../node_modules",
     "strict": false,
-    "types": ["cypress", "@testing-library/cypress", "cypress-file-upload"],
+    "types": [
+      "cypress",
+      "@testing-library/cypress",
+      "cypress-file-upload",
+      "node"
+    ],
     "target": "es5",
     "lib": ["esnext", "dom"]
   },
