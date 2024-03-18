@@ -75,6 +75,16 @@ export class ViewComponent implements OnInit, OnDestroy {
   @Input()
   viewTitle?: string;
 
+  @Optional()
+  protected globalMessageService = inject(GlobalMessageService, {
+    optional: true,
+  });
+
+  @Optional()
+  featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
   protected subscription: Subscription;
 
   constructor(
@@ -82,15 +92,6 @@ export class ViewComponent implements OnInit, OnDestroy {
     protected elementRef: ElementRef,
     protected cd: ChangeDetectorRef
   ) {}
-
-  @Optional()
-  protected globalMessageService = inject(GlobalMessageService, {
-    optional: true,
-  });
-  @Optional()
-  featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
 
   ngOnInit() {
     const hidden = this._hidden ? { hidden: this._hidden } : {};
@@ -108,8 +109,10 @@ export class ViewComponent implements OnInit, OnDestroy {
         this.cd.markForCheck();
       });
     // TODO: (CXSPA-6475) - Remove feature flag next major release
-    if (this.featureConfigService?.isLevel('6.8')) {
-      this.showAssistiveMessage();
+    if (
+      this.featureConfigService?.isEnabled('a11yViewChangeAssistiveMessage')
+    ) {
+      this.onViewChangeShowAssistiveMessage();
     }
   }
 
@@ -152,7 +155,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected showAssistiveMessage() {
+  protected onViewChangeShowAssistiveMessage() {
     this.subscription.add(
       this.splitService
         .getActiveView()
