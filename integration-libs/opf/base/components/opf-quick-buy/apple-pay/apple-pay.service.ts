@@ -376,18 +376,34 @@ export class ApplePayService {
     if (!shippingContact || !billingContact) {
       throw new Error('Error: empty Contact');
     }
-    return this.cartHandlerService
-      .setDeliveryAddress(this.convertAppleToOpfAddress(shippingContact))
+
+    const obs =  this.transactionDetails.deliveryType  === OpfQuickBuyDeliveryType.PICKUP ? this.cartHandlerService.setDeliveryMode(OpfQuickBuyDeliveryType.PICKUP.toLocaleLowerCase()).pipe(
+      switchMap(() => this.cartHandlerService.getCurrentCartId())
+    ) : this.cartHandlerService
+    .setDeliveryAddress(this.convertAppleToOpfAddress(shippingContact))
+    .pipe(
+      tap((addrId: string) => {
+        this.recordDeliveryAddress(addrId);
+      }),
+      switchMap(() => {
+        return this.cartHandlerService.setBillingAddress(
+          this.convertAppleToOpfAddress(billingContact)
+        );
+      }),
+      switchMap(() => this.cartHandlerService.getCurrentCartId())
+      );
+
+    return obs
       .pipe(
-        tap((addrId: string) => {
-          this.recordDeliveryAddress(addrId);
-        }),
-        switchMap(() => {
-          return this.cartHandlerService.setBillingAddress(
-            this.convertAppleToOpfAddress(billingContact)
-          );
-        }),
-        switchMap(() => this.cartHandlerService.getCurrentCartId()),
+        // tap((addrId: string) => {
+        //   this.recordDeliveryAddress(addrId);
+        // }),
+        // switchMap(() => {
+        //   return this.cartHandlerService.setBillingAddress(
+        //     this.convertAppleToOpfAddress(billingContact)
+        //   );
+        // }),
+        // switchMap(() => this.cartHandlerService.getCurrentCartId()),
         switchMap((cartId: string) => {
           const encryptedToken = btoa(
             JSON.stringify(applePayPayment.token.paymentData)
