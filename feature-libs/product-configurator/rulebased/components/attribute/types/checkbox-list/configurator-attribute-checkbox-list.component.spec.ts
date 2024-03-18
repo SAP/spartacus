@@ -66,7 +66,7 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
-describe('ConfiguratorAttributeCheckBoxListComponent', () => {
+describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxListComponent>;
   let htmlElem: HTMLElement;

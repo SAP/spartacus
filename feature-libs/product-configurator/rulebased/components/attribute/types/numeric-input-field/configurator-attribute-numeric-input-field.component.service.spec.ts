@@ -5,7 +5,7 @@ import {
 } from './configurator-attribute-numeric-input-field.component.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 
-describe('ConfiguratorAttributeNumericInputFieldService', () => {
+describe('ConfigAttributeNumericInputFieldService', () => {
   let serviceUnderTest: ConfiguratorAttributeNumericInputFieldService;
 
   beforeEach(() => {

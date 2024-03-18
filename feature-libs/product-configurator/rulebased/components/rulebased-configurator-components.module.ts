@@ -61,7 +61,7 @@ import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurat
   providers: [
     provideDefaultConfig(<FeaturesConfig>{
       features: {
-        productConfiguratorAttributeTypesV2: true,
+        productConfiguratorAttributeTypesV2: false,
       },
     }),
   ],

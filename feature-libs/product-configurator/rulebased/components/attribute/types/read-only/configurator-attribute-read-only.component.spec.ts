@@ -57,7 +57,7 @@ const myValues: Configurator.Value[] = [
   },
 ];
 
-describe('ConfiguratorAttributeReadOnlyComponent', () => {
+describe('ConfigAttributeReadOnlyComponent', () => {
   let component: ConfiguratorAttributeReadOnlyComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeReadOnlyComponent>;
   let htmlElem: HTMLElement;

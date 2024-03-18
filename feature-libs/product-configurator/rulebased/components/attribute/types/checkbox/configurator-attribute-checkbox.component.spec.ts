@@ -46,7 +46,7 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
-describe('ConfiguratorAttributeCheckBoxComponent', () => {
+describe('ConfigAttributeInputFieldComponent', () => {
   let component: ConfiguratorAttributeCheckBoxComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxComponent>;
   let htmlElem: HTMLElement;
