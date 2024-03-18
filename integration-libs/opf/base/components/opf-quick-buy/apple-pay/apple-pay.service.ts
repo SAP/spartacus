@@ -384,8 +384,11 @@ export class ApplePayService {
       return of(false);
     }
     const { shippingContact, billingContact } = applePayPayment;
-    if (!shippingContact || !billingContact) {
-      throw new Error('Error: empty Contact');
+    if(!billingContact){
+      throw new Error('Error: empty billingContact');
+    }
+    if (this.transactionDetails.deliveryType === OpfQuickBuyDeliveryType.SHIPPING && !shippingContact) {
+      throw new Error('Error: empty shippingContact');
     }
 
     const deliveryTypeHandlingObservable =  this.transactionDetails.deliveryType  === OpfQuickBuyDeliveryType.PICKUP ?
@@ -396,7 +399,7 @@ export class ApplePayService {
       );
     }),switchMap(()=>this.cartHandlerService.getCurrentCartId()),)
    : this.cartHandlerService
-    .setDeliveryAddress(this.convertAppleToOpfAddress(shippingContact))
+    .setDeliveryAddress(this.convertAppleToOpfAddress(shippingContact as ApplePayJS.ApplePayPaymentContact))
     .pipe(
       tap((addrId: string) => {
         this.recordDeliveryAddress(addrId);
