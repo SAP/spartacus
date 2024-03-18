@@ -17,7 +17,7 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import { OpfCartHandlerService } from '@spartacus/opf/base/core';
+import { OpfCartHandlerService, OpfPickupInStoreHandlerService } from '@spartacus/opf/base/core';
 import {
   ApplePaySessionVerificationRequest,
   ApplePaySessionVerificationResponse,
@@ -44,6 +44,9 @@ export class ApplePayService {
   protected winRef = inject(WindowRef);
   protected cartHandlerService = inject(OpfCartHandlerService);
   protected opfQuickBuyService = inject(OpfQuickBuyService);
+  protected opfPickupInStoreHandlerService = inject(
+    OpfPickupInStoreHandlerService
+  );
   protected paymentInProgress = false;
 
   protected initialTransactionDetails: QuickBuyTransactionDetails = {
@@ -57,6 +60,8 @@ export class ApplePayService {
       amount: '',
       currency: '',
     },
+    deliveryPosName:undefined,
+    deliveryType:undefined,
   };
 
   protected transactionDetails = this.initialTransactionDetails;
@@ -182,7 +187,7 @@ export class ApplePayService {
           if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {
             initialRequest.shippingType = 'storePickup';
             initialRequest.requiredShippingContactFields = ['email', 'name'];
-            return this.opfQuickBuyService.getQuickBuyProductPickUpLocationName();
+            return this.opfPickupInStoreHandlerService.getSingleProductPickupLocationName();
           }
           return of(undefined)
         }),
@@ -383,7 +388,13 @@ export class ApplePayService {
       throw new Error('Error: empty Contact');
     }
 
-    const deliveryTypeHandlingObservable =  this.transactionDetails.deliveryType  === OpfQuickBuyDeliveryType.PICKUP ? this.cartHandlerService.setDeliveryMode(OpfQuickBuyDeliveryType.PICKUP.toLocaleLowerCase()).pipe(switchMap(()=>this.cartHandlerService.getCurrentCartId()))
+    const deliveryTypeHandlingObservable =  this.transactionDetails.deliveryType  === OpfQuickBuyDeliveryType.PICKUP ?
+    this.cartHandlerService.setDeliveryMode(OpfQuickBuyDeliveryType.PICKUP.toLocaleLowerCase())
+    .pipe(switchMap(() => {
+      return this.cartHandlerService.setBillingAddress(
+        this.convertAppleToOpfAddress(billingContact)
+      );
+    }),switchMap(()=>this.cartHandlerService.getCurrentCartId()),)
    : this.cartHandlerService
     .setDeliveryAddress(this.convertAppleToOpfAddress(shippingContact))
     .pipe(
