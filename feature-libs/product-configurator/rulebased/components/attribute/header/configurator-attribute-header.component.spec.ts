@@ -119,7 +119,6 @@ describe('ConfigAttributeHeaderComponent', () => {
     productConfigurator: {
       enableNavigationToConflict: false,
       descriptions: {
-        addDescriptions: true,
         attributeDescriptionLength: 100,
         valueDescriptionLength: 70,
       },
