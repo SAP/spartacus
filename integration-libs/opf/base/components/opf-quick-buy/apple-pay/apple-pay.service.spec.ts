@@ -10,9 +10,11 @@ import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ApplePayObservableConfig,
   OpfPaymentFacade,
+  OpfQuickBuyDeliveryType,
 } from '@spartacus/opf/base/root';
 import { Subject, of, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { OpfQuickBuyService } from '../opf-quick-buy.service';
 import { ApplePaySessionFactory } from './apple-pay-session/apple-pay-session.factory';
 import { ApplePayService } from './apple-pay.service';
 import { ApplePayObservableFactory } from './observable/apple-pay-observable.factory';
@@ -110,7 +112,14 @@ describe('ApplePayService', () => {
   let applePayObservableFactoryMock: jasmine.SpyObj<ApplePayObservableFactory>;
   let applePaySessionFactoryMock: jasmine.SpyObj<ApplePaySessionFactory>;
   let applePayObservableTestController: Subject<ApplePayJS.ApplePayPaymentAuthorizationResult>;
+  let opfQuickBuyServiceMock: jasmine.SpyObj<OpfQuickBuyService>;
   beforeEach(() => {
+    opfQuickBuyServiceMock = jasmine.createSpyObj('OpfQuickBuyService', [
+      'getQuickBuyLocationContext',
+      'getQuickBuyProviderConfig',
+      'getQuickBuyDeliveryType',
+    ]);
+
     applePaySessionFactoryMock = jasmine.createSpyObj(
       'ApplePaySessionFactory',
       ['startApplePaySession']
@@ -156,6 +165,7 @@ describe('ApplePayService', () => {
           provide: ApplePaySessionFactory,
           useValue: applePaySessionFactoryMock,
         },
+        { provide: OpfQuickBuyService, useValue: opfQuickBuyServiceMock },
       ],
     });
     service = TestBed.inject(ApplePayService);
@@ -179,6 +189,9 @@ describe('ApplePayService', () => {
         config = actualConfig;
         return applePayObservableTestController;
       });
+      opfQuickBuyServiceMock.getQuickBuyDeliveryType.and.returnValue(
+        of(OpfQuickBuyDeliveryType.PICKUP)
+      );
     });
 
     it('should handle validateMerchant change', () => {
@@ -575,6 +588,9 @@ describe('ApplePayService', () => {
     cartHandlerServiceMock.loadOriginalCart.and.returnValue(of(true));
     cartHandlerServiceMock.removeProductFromOriginalCart.and.returnValue(
       of(true)
+    );
+    opfQuickBuyServiceMock.getQuickBuyDeliveryType.and.returnValue(
+      of(OpfQuickBuyDeliveryType.PICKUP)
     );
     cartHandlerServiceMock.deleteCurrentCart.and.returnValue(of(true));
 

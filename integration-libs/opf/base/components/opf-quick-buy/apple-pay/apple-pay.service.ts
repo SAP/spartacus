@@ -23,12 +23,14 @@ import {
   ApplePaySessionVerificationResponse,
   ApplePayTransactionInput,
   OpfPaymentFacade,
+  OpfQuickBuyDeliveryType,
   OpfQuickBuyLocation,
   PaymentMethod,
   QuickBuyTransactionDetails,
 } from '@spartacus/opf/base/root';
 
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
+import { OpfQuickBuyService } from '../opf-quick-buy.service';
 import { ApplePaySessionFactory } from './apple-pay-session/apple-pay-session.factory';
 import { ApplePayObservableFactory } from './observable/apple-pay-observable.factory';
 
@@ -41,7 +43,7 @@ export class ApplePayService {
   protected applePayObservable = inject(ApplePayObservableFactory);
   protected winRef = inject(WindowRef);
   protected cartHandlerService = inject(OpfCartHandlerService);
-
+  protected opfQuickBuyService = inject(OpfQuickBuyService);
   protected paymentInProgress = false;
 
   protected initialTransactionDetails: QuickBuyTransactionDetails = {
@@ -110,8 +112,86 @@ export class ApplePayService {
     }
     this.paymentInProgress = true;
 
+    // this.transactionDetails = this.initTransactionDetails(transactionInput);
+    // const countryCode = transactionInput?.countryCode || '';
+    // const initialRequest: ApplePayJS.ApplePayPaymentRequest = {
+    //   currencyCode: this.transactionDetails.total.currency,
+    //   total: {
+    //     amount: this.transactionDetails.total.amount,
+    //     label: this.transactionDetails.total.label,
+    //   },
+    //   shippingMethods: [],
+    //   merchantCapabilities: ['supports3DS'],
+    //   supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
+    //   requiredShippingContactFields: ['email', 'name', 'postalAddress'],
+    //   requiredBillingContactFields: ['email', 'name', 'postalAddress'],
+    //   countryCode,
+    // };
+
+    // const getDeliveryType$ = this.opfQuickBuyService
+    //   .getQuickBuyDeliveryType(
+    //     this.transactionDetails.context as OpfQuickBuyLocation
+    //   )
+    //   .pipe(
+    //     map((deliveryType) => {
+    //       this.transactionDetails.deliveryType = deliveryType;
+
+    //       if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {
+    //         initialRequest.shippingType = 'storePickup';
+    //         initialRequest.requiredShippingContactFields = [];
+    //       }
+    //       return initialRequest;
+    //     })
+    //   );
+
+    return this.setApplePayRequestConfig(transactionInput).pipe(
+      switchMap((request: ApplePayJS.ApplePayPaymentRequest) => {
+        return this.applePayObservable.initApplePayEventsHandler({
+          request,
+          validateMerchant: (event) => this.handleValidation(event),
+          shippingContactSelected: (event) =>
+            this.handleShippingContactSelected(event),
+          paymentMethodSelected: (event) =>
+            this.handlePaymentMethodSelected(event),
+          shippingMethodSelected: (event) =>
+            this.handleShippingMethodSelected(event),
+          paymentAuthorized: (event) => this.handlePaymentAuthorized(event),
+        });
+      }),
+      catchError((error) => {
+        this.cartHandlerService.loadCartAfterSingleProductTransaction(
+          this.transactionDetails
+        );
+        return throwError(() => error);
+      }),
+      finalize(() => {
+        this.cartHandlerService.deleteUserAddresses([
+          ...this.transactionDetails.addressIds,
+        ]);
+        this.paymentInProgress = false;
+      })
+    );
+  }
+
+  private handleValidation(
+    event: ApplePayJS.ApplePayValidateMerchantEvent
+  ): Observable<ApplePaySessionVerificationResponse> {
+    if (this.transactionDetails?.product && this.transactionDetails?.quantity) {
+      return this.handleSingleProductTransaction(
+        this.transactionDetails.product,
+        this.transactionDetails.quantity
+      ).pipe(switchMap(() => this.validateOpfAppleSession(event)));
+    }
+
+    return this.validateOpfAppleSession(event);
+  }
+
+  protected setApplePayRequestConfig(
+    transactionInput: ApplePayTransactionInput
+  ): Observable<ApplePayJS.ApplePayPaymentRequest> {
     this.transactionDetails = this.initTransactionDetails(transactionInput);
     const countryCode = transactionInput?.countryCode || '';
+
     const initialRequest: ApplePayJS.ApplePayPaymentRequest = {
       currencyCode: this.transactionDetails.total.currency,
       total: {
@@ -126,45 +206,21 @@ export class ApplePayService {
       countryCode,
     };
 
-    return this.applePayObservable
-      .initApplePayEventsHandler({
-        request: initialRequest,
-        validateMerchant: (event) => this.handleValidation(event),
-        shippingContactSelected: (event) =>
-          this.handleShippingContactSelected(event),
-        paymentMethodSelected: (event) =>
-          this.handlePaymentMethodSelected(event),
-        shippingMethodSelected: (event) =>
-          this.handleShippingMethodSelected(event),
-        paymentAuthorized: (event) => this.handlePaymentAuthorized(event),
-      })
+    return this.opfQuickBuyService
+      .getQuickBuyDeliveryType(
+        this.transactionDetails.context as OpfQuickBuyLocation
+      )
       .pipe(
-        catchError((error) => {
-          this.cartHandlerService.loadCartAfterSingleProductTransaction(
-            this.transactionDetails
-          );
-          return throwError(() => error);
-        }),
-        finalize(() => {
-          this.cartHandlerService.deleteUserAddresses([
-            ...this.transactionDetails.addressIds,
-          ]);
-          this.paymentInProgress = false;
+        map((deliveryType) => {
+          this.transactionDetails.deliveryType = deliveryType;
+
+          if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {
+            initialRequest.shippingType = 'storePickup';
+            initialRequest.requiredShippingContactFields = [];
+          }
+          return initialRequest;
         })
       );
-  }
-
-  private handleValidation(
-    event: ApplePayJS.ApplePayValidateMerchantEvent
-  ): Observable<ApplePaySessionVerificationResponse> {
-    if (this.transactionDetails?.product && this.transactionDetails?.quantity) {
-      return this.handleSingleProductTransaction(
-        this.transactionDetails.product,
-        this.transactionDetails.quantity
-      ).pipe(switchMap(() => this.validateOpfAppleSession(event)));
-    }
-
-    return this.validateOpfAppleSession(event);
   }
 
   protected handleSingleProductTransaction(
