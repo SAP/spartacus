@@ -80,6 +80,7 @@ export interface QuickBuyTransactionDetails {
   cart?: Cart;
   product?: Product;
   quantity?: number;
+  deliveryPosName?:string;
   deliveryType?: OpfQuickBuyDeliveryType;
   addressIds: string[];
   total: {

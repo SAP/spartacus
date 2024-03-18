@@ -129,7 +129,6 @@ export class OpfCartHandlerService {
     pickupStore?: string | undefined
   ): Observable<boolean> {
     this.cartHandlerState = { ...this.defaultCartHandlerState };
-    const pickupInStore =  !!pickupStore ? 'Tokio Hotel Metropolitan Tokyo' : undefined;
     return combineLatest([
       this.userIdService.takeUserId(),
       this.multiCartFacade.getCartIdByType(CartType.ACTIVE),
@@ -144,13 +143,13 @@ export class OpfCartHandlerService {
             productCode,
             quantity,
             cartId,
-            pickupInStore
+            pickupStore
           );
         }
         return this.addProductToActiveCart(
           productCode,
           quantity,
-          pickupInStore
+          pickupStore
         ).pipe(take(1));
       })
     );

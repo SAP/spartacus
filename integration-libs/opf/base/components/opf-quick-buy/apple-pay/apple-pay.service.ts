@@ -177,12 +177,17 @@ export class ApplePayService {
         this.transactionDetails.context as OpfQuickBuyLocation
       )
       .pipe(
-        map((deliveryType) => {
+        switchMap((deliveryType) => {
           this.transactionDetails.deliveryType = deliveryType;
           if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {
             initialRequest.shippingType = 'storePickup';
             initialRequest.requiredShippingContactFields = ['email', 'name'];
+            return this.opfQuickBuyService.getQuickBuyProductPickUpLocationName();
           }
+          return of(undefined)
+        }),
+        map(location =>{
+          this.transactionDetails.deliveryPosName = location;
           return initialRequest;
         })
       );
@@ -196,7 +201,7 @@ export class ApplePayService {
       return this.cartHandlerService.addProductToCart(
         product.code as string,
         quantity,
-        this.transactionDetails.deliveryType  === OpfQuickBuyDeliveryType.PICKUP ? 'Shinbashi' : undefined
+        this.transactionDetails.deliveryPosName,
       );
     }
     return throwError(() => new Error('Product code unknown'));
@@ -378,9 +383,8 @@ export class ApplePayService {
       throw new Error('Error: empty Contact');
     }
 
-    const obs =  this.transactionDetails.deliveryType  === OpfQuickBuyDeliveryType.PICKUP ? this.cartHandlerService.setDeliveryMode(OpfQuickBuyDeliveryType.PICKUP.toLocaleLowerCase()).pipe(
-      switchMap(() => this.cartHandlerService.getCurrentCartId())
-    ) : this.cartHandlerService
+    const obs =  this.transactionDetails.deliveryType  === OpfQuickBuyDeliveryType.PICKUP ? this.cartHandlerService.getCurrentCartId()
+   : this.cartHandlerService
     .setDeliveryAddress(this.convertAppleToOpfAddress(shippingContact))
     .pipe(
       tap((addrId: string) => {

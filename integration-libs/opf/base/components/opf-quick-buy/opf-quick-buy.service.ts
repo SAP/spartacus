@@ -110,4 +110,9 @@ export class OpfQuickBuyService {
 
     return deliveryTypeObservable.pipe(take(1));
   }
+
+  getQuickBuyProductPickUpLocationName(): Observable<string|undefined> {
+    return this.opfPickupInStoreHandlerService.getSingleProductPickupLocationName().pipe(take(1));
+  }
+  
 }

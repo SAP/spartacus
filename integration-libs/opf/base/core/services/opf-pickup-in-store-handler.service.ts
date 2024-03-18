@@ -47,6 +47,26 @@ export class OpfPickupInStoreHandlerService {
     );
   }
 
+  getSingleProductPickupLocationName(): Observable<string|undefined> {
+    if (!this.intendedPickupLocationFacade) {
+      return of(undefined);
+    }
+    return this.currentProductService.getProduct().pipe(
+      take(1),
+      switchMap((product: Product | null) =>
+        this.intendedPickupLocationFacade
+          .getIntendedLocation(product?.code as string)
+          .pipe(
+            map((intendedLocation) => {
+              return intendedLocation?.pickupOption ===
+                OpfQuickBuyDeliveryType.PICKUP.toLowerCase() && intendedLocation?.name ? intendedLocation.name : undefined
+                
+            })
+          )
+      )
+    );
+  }
+
   /**
    * Retrieves the delivery type for the active cart based on the presence of delivery items.
    * @return An observable emitting the delivery type (shipping or pickup) for the active cart.
