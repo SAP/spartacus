@@ -28,6 +28,7 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
+  standaloneEntries$: Observable<OrderEntry[]>;
   entryGroups$: Observable<OrderEntryGroup[]>;
   treeControl: NestedTreeControl<OrderEntryGroup>;
   treeDataSource: ArrayDataSource<OrderEntryGroup>;
@@ -49,6 +50,10 @@ export class CartDetailsComponent implements OnInit {
     this.cart$ = this.activeCartService.getActive();
 
     this.entries$ = this.activeCartService
+      .getEntries()
+      .pipe(filter((entries) => entries.length > 0));
+
+    this.standaloneEntries$ = this.activeCartService
       .getStandaloneEntries()
       .pipe(filter((entries) => entries.length > 0));
     
