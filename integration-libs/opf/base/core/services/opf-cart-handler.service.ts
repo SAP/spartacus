@@ -89,7 +89,7 @@ export class OpfCartHandlerService {
             this.cartHandlerState.cartId,
             productCode,
             quantity,
-            !!pickupStore ? 'Shinbashi' : undefined
+            pickupStore,
           );
           return this.checkStableCart(this.cartHandlerState.cartId);
         }),
@@ -129,6 +129,7 @@ export class OpfCartHandlerService {
     pickupStore?: string | undefined
   ): Observable<boolean> {
     this.cartHandlerState = { ...this.defaultCartHandlerState };
+    const pickupInStore =  !!pickupStore ? 'Tokio Hotel Metropolitan Tokyo' : undefined;
     return combineLatest([
       this.userIdService.takeUserId(),
       this.multiCartFacade.getCartIdByType(CartType.ACTIVE),
@@ -143,13 +144,13 @@ export class OpfCartHandlerService {
             productCode,
             quantity,
             cartId,
-            pickupStore
+            pickupInStore
           );
         }
         return this.addProductToActiveCart(
           productCode,
           quantity,
-          pickupStore
+          pickupInStore
         ).pipe(take(1));
       })
     );
