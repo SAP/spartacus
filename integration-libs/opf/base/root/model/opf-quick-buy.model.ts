@@ -80,7 +80,7 @@ export interface QuickBuyTransactionDetails {
   cart?: Cart;
   product?: Product;
   quantity?: number;
-  pickup?: boolean;
+  deliveryType?: OpfQuickBuyDeliveryType;
   addressIds: string[];
   total: {
     amount: string;
@@ -138,3 +138,10 @@ export enum OpfQuickBuyLocation {
   CART = 'CART',
   PRODUCT = 'PRODUCT',
 }
+
+export enum OpfQuickBuyDeliveryType {
+  SHIPPING = 'SHIPPING',
+  PICKUP = 'PICKUP',
+}
+
+export const ADDRESS_FIELD_PLACEHOLDER = '[FIELD_NOT_SET]';

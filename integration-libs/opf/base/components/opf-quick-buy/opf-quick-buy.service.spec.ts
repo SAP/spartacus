@@ -4,6 +4,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
 import { CheckoutConfig } from '@spartacus/checkout/base/root';
 import { AuthService, BaseSiteService, RoutingService } from '@spartacus/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
@@ -36,6 +37,7 @@ describe('OpfQuickBuyService', () => {
     ]);
 
     TestBed.configureTestingModule({
+      imports: [StoreModule.forRoot({})],
       providers: [
         OpfQuickBuyService,
         { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
