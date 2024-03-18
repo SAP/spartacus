@@ -383,7 +383,7 @@ export class ApplePayService {
       throw new Error('Error: empty Contact');
     }
 
-    const obs =  this.transactionDetails.deliveryType  === OpfQuickBuyDeliveryType.PICKUP ? this.cartHandlerService.getCurrentCartId()
+    const deliveryTypeHandlingObservable =  this.transactionDetails.deliveryType  === OpfQuickBuyDeliveryType.PICKUP ? this.cartHandlerService.setDeliveryMode(OpfQuickBuyDeliveryType.PICKUP.toLocaleLowerCase()).pipe(switchMap(()=>this.cartHandlerService.getCurrentCartId()))
    : this.cartHandlerService
     .setDeliveryAddress(this.convertAppleToOpfAddress(shippingContact))
     .pipe(
@@ -398,17 +398,8 @@ export class ApplePayService {
       switchMap(() => this.cartHandlerService.getCurrentCartId())
       );
 
-    return obs
+    return deliveryTypeHandlingObservable
       .pipe(
-        // tap((addrId: string) => {
-        //   this.recordDeliveryAddress(addrId);
-        // }),
-        // switchMap(() => {
-        //   return this.cartHandlerService.setBillingAddress(
-        //     this.convertAppleToOpfAddress(billingContact)
-        //   );
-        // }),
-        // switchMap(() => this.cartHandlerService.getCurrentCartId()),
         switchMap((cartId: string) => {
           const encryptedToken = btoa(
             JSON.stringify(applePayPayment.token.paymentData)
