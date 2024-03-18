@@ -195,7 +195,8 @@ export class ApplePayService {
     if (product.code) {
       return this.cartHandlerService.addProductToCart(
         product.code as string,
-        quantity
+        quantity,
+        this.transactionDetails.deliveryType  === OpfQuickBuyDeliveryType.PICKUP ? 'Shinbashi' : undefined
       );
     }
     return throwError(() => new Error('Product code unknown'));

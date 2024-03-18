@@ -89,7 +89,7 @@ export class OpfCartHandlerService {
             this.cartHandlerState.cartId,
             productCode,
             quantity,
-            pickupStore
+            !!pickupStore ? 'Shinbashi' : undefined
           );
           return this.checkStableCart(this.cartHandlerState.cartId);
         }),
