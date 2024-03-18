@@ -1,8 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  AuthService,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
-import { of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteRequestButtonComponent } from './quote-request-button.component';
 import createSpy = jasmine.createSpy;
@@ -22,6 +26,13 @@ const mockCreatedQuote: Quote = {
 class MockQuoteFacade implements Partial<QuoteFacade> {
   createQuote = createSpy().and.returnValue(of(mockCreatedQuote));
 }
+
+const loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+class MockAuthService implements Partial<AuthService> {
+  isUserLoggedIn(): Observable<boolean> {
+    return loggedIn.asObservable();
+  }
+}
 describe('QuoteRequestButtonComponent', () => {
   let fixture: ComponentFixture<QuoteRequestButtonComponent>;
   let component: QuoteRequestButtonComponent;
@@ -37,6 +48,10 @@ describe('QuoteRequestButtonComponent', () => {
           provide: QuoteFacade,
           useClass: MockQuoteFacade,
         },
+        {
+          provide: AuthService,
+          useClass: MockAuthService,
+        },
         { provide: RoutingService, useValue: mockRoutingService },
       ],
     }).compileComponents();
@@ -47,7 +62,6 @@ describe('QuoteRequestButtonComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteRequestButtonComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -60,5 +74,15 @@ describe('QuoteRequestButtonComponent', () => {
       cxRoute: 'quoteDetails',
       params: { quoteId: quoteCode },
     });
+  });
+  it('should render button in case user is logged in', () => {
+    loggedIn.next(true);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('button')).not.toBe(null);
+  });
+  it('should not render button in case user is anonymous', () => {
+    loggedIn.next(false);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('button')).toBe(null);
   });
 });
