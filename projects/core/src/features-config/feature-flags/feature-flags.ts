@@ -1,17 +1,10 @@
-/*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
+import { FeatureFlags } from './feature-flags-tokens';
 
-export interface FeatureToggles {
-  features?: {
+declare module './feature-flags-tokens' {
+  interface FeatureFlags {
     /**
-     * Configure feature level.
-     * Value corresponds to minor (feature) release version number: '1.0', '1.1', etc.
-     * Each subsequent level contains all of the features from previous one.
+     * Enables consignment tracking feature
      */
-    level?: string;
     consignmentTracking?: boolean;
 
     /**
@@ -26,5 +19,21 @@ export interface FeatureToggles {
      *    lazy loaded modules, it will have to use ConfigurationService.unifiedConfig$
      */
     disableConfigUpdates?: boolean;
-  };
+
+    /**
+     * Enables truncating the paragraph in the CardComponent from @spartacus/storefront,
+     * similarly to the Card's label
+     */
+    storeFrontLibCardParagraphTruncated?: boolean;
+
+    /**
+     * Enables displaying promotions in PDP
+     */
+    showPromotionsInPDP?: boolean;
+
+    /**
+     * Enables displaying the recent searches in the main search box
+     */
+    recentSearches?: boolean;
+  }
 }
