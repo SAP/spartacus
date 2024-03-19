@@ -7,7 +7,7 @@
 import { Injectable, InjectionToken, inject } from '@angular/core';
 
 /**
- * Global Feature Flags, can be used to inject Feature Flags configuration to any part of the app
+ * Global BreakingChangesFlags, can be used to inject BreakingChangesFlags configuration to any part of the app
  */
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ import { Injectable, InjectionToken, inject } from '@angular/core';
 export abstract class BreakingChangesFlags {}
 
 /**
- * Default Feature Flags token, used to build Global Feature Flags, built from DefaultBreakingChangesFlagsChunks
+ * Default BreakingChangesFlags token, used to build Global BreakingChangesFlags, built from DefaultBreakingChangesFlagsChunks
  */
 export const DefaultBreakingChangesFlags = new InjectionToken(
   'DefaultBreakingChangesFlags',
@@ -36,7 +36,7 @@ export const DefaultBreakingChangesFlags = new InjectionToken(
 );
 
 /**
- * Root Feature Flags token, used to build Global Feature Flags, built from BreakingChangesFlagsChunks
+ * Root BreakingChangesFlags token, used to build Global BreakingChangesFlags, built from BreakingChangesFlagsChunks
  */
 export const RootBreakingChangesFlags = new InjectionToken(
   'RootBreakingChangesFlags',
@@ -51,7 +51,7 @@ export const RootBreakingChangesFlags = new InjectionToken(
 );
 
 /**
- * Feature Flags chunk token, can be used to provide configuration chunk and contribute to the global configuration object.
+ * BreakingChangesFlags chunk token, can be used to provide configuration chunk and contribute to the global configuration object.
  * Should not be used directly, use `provideBreakingChangesFlags` or import `FlagsModule.withFlags` instead.
  */
 export const BreakingChangesFlagsChunk = new InjectionToken<
@@ -59,7 +59,7 @@ export const BreakingChangesFlagsChunk = new InjectionToken<
 >('BreakingChangesFlagsChunk');
 
 /**
- * Feature Flags chunk token, can be used to provide configuration chunk and contribute to the default configuration.
+ * BreakingChangesFlags chunk token, can be used to provide configuration chunk and contribute to the default configuration.
  * Should not be used directly, use `provideDefaultFlags` or `provideDefaultFlagsFactory` instead.
  *
  * General rule is, that all config provided in libraries should be provided as default config.
