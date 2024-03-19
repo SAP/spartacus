@@ -16,7 +16,7 @@ import {
   RootBreakingChangesFlags,
 } from './breaking-changes-flags-tokens';
 
-export const provideBreakingChangesFlagsToFeatureConfig: FactoryProvider[] = [
+export const populateBreakingChangesFlagsToFeatureConfig: FactoryProvider[] = [
   // Copies RootBreakingChangesFlags to RootConfig
   provideConfigFactory(() => {
     const flags = inject(RootBreakingChangesFlags);
