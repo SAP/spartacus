@@ -11,11 +11,12 @@ import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
+  provideDefaultBreakingChangesFlags,
   provideDefaultConfig,
 } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
-import { ProductSummaryComponent } from './product-summary.component';
 import { PromotionsModule } from '../../misc/promotions/promotions.module';
+import { ProductSummaryComponent } from './product-summary.component';
 
 @NgModule({
   providers: [
@@ -25,9 +26,9 @@ import { PromotionsModule } from '../../misc/promotions/promotions.module';
           component: ProductSummaryComponent,
         },
       },
-      features: {
-        showPromotionsInPDP: false,
-      },
+    }),
+    provideDefaultBreakingChangesFlags({
+      showPromotionsInPDP: false,
     }),
   ],
   declarations: [ProductSummaryComponent],

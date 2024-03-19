@@ -9,16 +9,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
   FeaturesConfigModule,
+  I18nModule,
+  UrlModule,
+  provideDefaultBreakingChangesFlags,
+  provideDefaultConfig,
 } from '@spartacus/core';
+import { OutletModule } from '../../../cms-structure';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { IconModule } from '../../misc/icon/icon.module';
 import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponent } from './search-box.component';
-import { OutletModule } from '../../../cms-structure';
 
 @NgModule({
   imports: [
@@ -38,9 +39,9 @@ import { OutletModule } from '../../../cms-structure';
           component: SearchBoxComponent,
         },
       },
-      features: {
-        recentSearches: false,
-      },
+    }),
+    provideDefaultBreakingChangesFlags({
+      recentSearches: false,
     }),
   ],
   declarations: [SearchBoxComponent, HighlightPipe],
