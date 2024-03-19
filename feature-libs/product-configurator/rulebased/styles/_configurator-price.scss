@@ -1,5 +1,5 @@
 %cx-configurator-price {
-  // TODO: this block should be remove after attributeTypesV2 feature flag has been removed
+  // TODO: this block should be remove after productConfiguratorAttributeTypesV2 feature flag has been removed
   // TODO: start of the block
   display: none;
 
@@ -25,7 +25,7 @@
   }
   // TODO: end of the block
 
-  @include forFeature('attributeTypesV2') {
+  @include forFeature('productConfiguratorAttributeTypesV2') {
     display: flex;
     flex-direction: column;
     align-items: flex-end;

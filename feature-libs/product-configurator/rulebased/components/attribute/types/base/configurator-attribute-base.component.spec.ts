@@ -345,6 +345,26 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
   });
 
+  describe('getImageLabel', () => {
+    it('should return image label without ellipsis', () => {
+      const label = 'BLACK';
+      const techName = 'BLK';
+      const techLabel = label + ' / [' + techName + ']';
+      expect(classUnderTest.getImageLabel(true, label, techName)).toEqual(
+        techLabel
+      );
+    });
+
+    it('should return image label with ellipsis', () => {
+      const label = 'String value 0 make text long make text long';
+      const techName = 'techName';
+      const techLabel = label.substring(0, 16).concat('...');
+      expect(classUnderTest.getImageLabel(true, label, techName)).toEqual(
+        techLabel
+      );
+    });
+  });
+
   describe('getValuePrice', () => {
     it('should return empty string in case value is undefined', () => {
       expect(classUnderTest['getValuePrice'](undefined)).toEqual('');
