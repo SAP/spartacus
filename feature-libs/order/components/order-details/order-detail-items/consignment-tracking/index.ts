@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './augmented-breaking-changes-flags.model';
+export * from './augmented-features-config.model';
 export * from './consignment-tracking.component';
 export * from './tracking-events/tracking-events.component';

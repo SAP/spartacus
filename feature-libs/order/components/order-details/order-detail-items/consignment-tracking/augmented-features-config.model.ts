@@ -7,9 +7,9 @@
 import '@spartacus/core';
 
 declare module '@spartacus/core' {
-  interface FeaturesConfigContent {
+  interface FeaturesConfig {
     /**
-     * Flag to enable the consignment tracking feature.
+     * Enables displaying consignment tracking info in the order details view
      */
     consignmentTracking?: boolean;
   }
