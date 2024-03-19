@@ -52,7 +52,7 @@ export const RootBreakingChangesFlags = new InjectionToken(
 
 /**
  * BreakingChangesFlags chunk token, can be used to provide configuration chunk and contribute to the global configuration object.
- * Should not be used directly, use `provideBreakingChangesFlags` or import `FlagsModule.withFlags` instead.
+ * Should not be used directly, use `provideBreakingChangesFlags` or `provideBreakingChangesFlagsFactory` instead.
  */
 export const BreakingChangesFlagsChunk = new InjectionToken<
   BreakingChangesFlags[]
@@ -60,9 +60,9 @@ export const BreakingChangesFlagsChunk = new InjectionToken<
 
 /**
  * BreakingChangesFlags chunk token, can be used to provide configuration chunk and contribute to the default configuration.
- * Should not be used directly, use `provideDefaultFlags` or `provideDefaultFlagsFactory` instead.
+ * Should not be used directly, use `provideDefaultBreakingChangesFlags` or `provideDefaultBreakingChangesFlagsFactory` instead.
  *
- * General rule is, that all config provided in libraries should be provided as default config.
+ * General rule is, that all BreakingChangesFlags provided in libraries should be provided as `default`.
  */
 export const DefaultBreakingChangesFlagsChunk = new InjectionToken<
   BreakingChangesFlags[]
