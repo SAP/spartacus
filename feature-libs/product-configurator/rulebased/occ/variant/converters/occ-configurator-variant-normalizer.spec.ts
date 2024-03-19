@@ -404,15 +404,24 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     it('should convert a configuration and support description at attribute and value level', () => {
       const result = occConfiguratorVariantNormalizer.convert(configuration);
-      expect(result.groups[0].attributes[0].description).toBeDefined();
-      expect(result.groups[0].attributes[0].description).toBe(
-        configuration.groups[0].attributes[0].longText
-      );
       expect(
-        result.groups[0].attributes[0].values[1].description
+        (result.groups[0].attributes ?? [{ description: '' }])[0].description
       ).toBeDefined();
-      expect(result.groups[0].attributes[0].values[1].description).toBe(
-        configuration.groups[0].attributes[0].domainValues[1].longText
+      expect(
+        (result.groups[0].attributes ?? [{ description: '' }])[0].description
+      ).toBe(
+        ((configuration.groups ??= [])[0].attributes ?? [{ longText: '' }])[0]
+          .longText
+      );
+
+      expect(
+        ((result.groups[0].attributes ??= [])[0].values ??= [])[1].description
+      ).toBeDefined();
+      expect(
+        ((result.groups[0].attributes ??= [])[0].values ??= [])[1].description
+      ).toBe(
+        (((configuration.groups ??= [])[0].attributes ??=
+          [])[0].domainValues ??= [])[1].longText
       );
     });
 
