@@ -5,19 +5,19 @@
  */
 
 import {
-  Directive,
-  ElementRef,
-  Input,
-  TemplateRef,
-  ViewContainerRef,
+  ChangeDetectorRef,
   ComponentFactoryResolver,
   ComponentRef,
-  Renderer2,
-  ChangeDetectorRef,
-  Output,
+  Directive,
+  ElementRef,
   EventEmitter,
   HostListener,
+  Input,
   OnInit,
+  Output,
+  Renderer2,
+  TemplateRef,
+  ViewContainerRef,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { Subject } from 'rxjs';
@@ -178,11 +178,7 @@ export class PopoverDirective implements OnInit {
         this.close();
       }
       if (this.focusDirectiveTriggerEvents.includes(event)) {
-        this.popoverService.setFocusOnElement(
-          this.element,
-          this.focusConfig,
-          this.cxPopoverOptions?.appendToBody
-        );
+        this.popoverService.setFocusOnElement(this.element);
       }
     });
   }

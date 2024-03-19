@@ -31,13 +31,9 @@ export class PopoverService {
     return config;
   }
 
-  setFocusOnElement(
-    element: ElementRef,
-    focusConfig: FocusConfig,
-    appendToBody?: boolean
-  ) {
-    if (focusConfig && appendToBody) {
+  setFocusOnElement(element: ElementRef) {
+    setTimeout(() => {
       element.nativeElement.focus();
-    }
+    }, 0);
   }
 }
