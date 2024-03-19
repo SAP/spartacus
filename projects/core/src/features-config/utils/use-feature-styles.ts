@@ -18,7 +18,7 @@ import { FeatureStylesService } from '../services/feature-styles.service';
  * %cx-my-component {
  *   ...
  *     ...
- *       @include forBreakingChangesFlag('myFeatureFlag') { ... }
+ *       @include forFeature('myFeatureFlag') { ... }
  * }
  * ```
  * ... then you should also call `useFeatureStyles('myFeatureFlag')` in the constructor of this component.
