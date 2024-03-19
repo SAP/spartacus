@@ -4,12 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import {
+  APP_BOOTSTRAP_LISTENER,
+  ComponentRef,
+  ModuleWithProviders,
+  NgModule,
+  inject,
+} from '@angular/core';
 import { provideDefaultConfig } from '../config/config-providers';
 import { FeaturesConfig } from './config/features-config';
 import { FeatureLevelDirective } from './directives/feature-level.directive';
 import { FeatureDirective } from './directives/feature.directive';
 import { provideFeatureFlagsToFeatureConfig } from './feature-flags/provide-feature-flags-to-features-config';
+import { FeatureStylesService } from './services/feature-styles.service';
 
 @NgModule({
   declarations: [FeatureLevelDirective, FeatureDirective],
@@ -28,6 +35,15 @@ export class FeaturesConfigModule {
             level: defaultLevel || '*',
           },
         }),
+        {
+          provide: APP_BOOTSTRAP_LISTENER,
+          multi: true,
+          useFactory: (): ((compRef: ComponentRef<any>) => void) => {
+            const featureStylesService = inject(FeatureStylesService);
+            return (compRef: ComponentRef<any>) =>
+              featureStylesService.init(compRef);
+          },
+        },
       ],
     };
   }

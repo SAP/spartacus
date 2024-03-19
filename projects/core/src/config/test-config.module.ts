@@ -78,8 +78,9 @@ export class TestConfigModule {
           provide: TEST_CONFIG_COOKIE_NAME,
           useValue: options?.cookie,
         },
-        provideConfigFactory(() => inject(TEST_CONFIG)),
+        // eslint-disable-next-line @nx/workspace/use-provide-default-config-factory
         provideFeatureFlagsFactory(() => (inject(TEST_CONFIG) ?? {}).features),
+        provideConfigFactory(() => inject(TEST_CONFIG)),
       ],
     };
   }

@@ -8,7 +8,6 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import {
-  delay,
   distinctUntilKeyChanged,
   filter,
   switchMap,
@@ -22,7 +21,8 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-form',
   templateUrl: './configurator-overview-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ConfiguratorOverviewFormComponent {
   @HostBinding('class.ghost') ghostStyle = true;
@@ -45,9 +45,7 @@ export class ConfiguratorOverviewFormComponent {
       filter((configuration) => configuration.overview != null),
       tap(() => {
         this.ghostStyle = false;
-      }),
-      //ensure view takes new ghost style into account
-      delay(0)
+      })
     );
 
   constructor(
