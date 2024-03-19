@@ -10,7 +10,7 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { CarouselModule } from '../../../shared/components/carousel/index';
 import { ProductBundlesComponent } from './product-bundles.component';
-import { CartBaseRootModule } from 'feature-libs/cart/base/root/cart-base-root.module';
+import { CartBaseRootModule } from '@spartacus/cart/base/root';
 // import { ProductDetailsDialogModule } from '../product-details-dialog/product-details-dialog.module';
 
 @NgModule({

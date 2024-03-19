@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ProductSearchPage } from '../../model/product-search.model';
+import { BundleSearchParams, ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
@@ -29,6 +29,22 @@ export class ProductSearchService {
       );
     }
   }
+
+  bundleSearch(urlParams: BundleSearchParams, queryText: string | undefined, searchConfig?: SearchConfig): void {
+    if (urlParams) {
+      this.store.dispatch(
+        new ProductActions.SearchBundleProducts(
+          {
+            userId: urlParams.userId || 'current',
+            cartId: urlParams.cartId,
+            entryGroupNumber: urlParams.entryGroupNumber,
+          },
+          { queryText, searchConfig }
+        )
+      );
+    }
+  }
+
 
   getResults(): Observable<ProductSearchPage> {
     return this.store.pipe(select(ProductSelectors.getSearchResults));

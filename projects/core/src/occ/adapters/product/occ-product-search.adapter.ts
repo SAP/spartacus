@@ -9,6 +9,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
+  BundleSearchParams,
   ProductSearchPage,
   Suggestion,
 } from '../../../model/product-search.model';
@@ -47,6 +48,29 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
       .pipe(this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER));
   }
 
+  searchInBundle(
+    urlParams: BundleSearchParams,
+    query: string,
+    searchConfig: SearchConfig = this.DEFAULT_SEARCH_CONFIG
+  ): Observable<ProductSearchPage> {
+    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
+      sendUserIdAsHeader: true,
+    });
+
+    return this.http
+      .get(
+        this.getBundleAllowedProductsSearchEndpoint(
+          urlParams,
+          query,
+          searchConfig
+        ),
+        {
+          context,
+        }
+      )
+      .pipe(this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER));
+  }
+
   loadSuggestions(
     term: string,
     pageSize: number = 3
@@ -73,6 +97,17 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
   protected getSuggestionEndpoint(term: string, max: string): string {
     return this.occEndpoints.buildUrl('productSuggestions', {
       queryParams: { term, max },
+    });
+  }
+
+  protected getBundleAllowedProductsSearchEndpoint(
+    urlParams: BundleSearchParams,
+    query: string | undefined,
+    searchConfig: SearchConfig
+  ): string {
+    return this.occEndpoints.buildUrl('bundleAllowedProductsSearch', {
+      urlParams,
+      queryParams: { query, ...searchConfig },
     });
   }
 }

@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import {
   Suggestion,
   ProductSearchPage,
+  BundleSearchParams,
 } from '../../../model/product-search.model';
 
 export abstract class ProductSearchAdapter {
@@ -22,4 +23,10 @@ export abstract class ProductSearchAdapter {
     term: string,
     pageSize?: number
   ): Observable<Suggestion[]>;
+
+  abstract searchInBundle(
+    urlParams: BundleSearchParams,
+    query: string | undefined,
+    searchConfig?: SearchConfig
+  ): Observable<ProductSearchPage>;
 }

@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ActivatedRouterStateSnapshot,
+  BundleSearchParams,
   CurrencyService,
   LanguageService,
   ProductSearchPage,
@@ -84,8 +85,11 @@ export class ProductListComponentService {
           state.params,
           state.queryParams
         );
-
-        this.searchIfCriteriaHasChanged(criteria);
+        if (state.params['cartId'] && state.params['entryGroupNumber']) {
+          this.bundleSearch(state.params as BundleSearchParams, criteria);
+        } else {
+          this.searchIfCriteriaHasChanged(criteria);
+        }
       })
     );
 
@@ -233,6 +237,24 @@ export class ProductListComponentService {
     const sort = criteria.sortCode;
 
     this.productSearchService.search(
+      criteria.query,
+      // TODO: consider dropping this complex passing of cleaned object
+      Object.assign(
+        {},
+        currentPage && { currentPage },
+        pageSize && { pageSize },
+        sort && { sort }
+      )
+    );
+  }
+
+  protected bundleSearch(urlParams: BundleSearchParams, criteria: SearchCriteria): void {
+    const currentPage = criteria.currentPage;
+    const pageSize = criteria.pageSize;
+    const sort = criteria.sortCode;
+
+    this.productSearchService.bundleSearch(
+      urlParams,
       criteria.query,
       // TODO: consider dropping this complex passing of cleaned object
       Object.assign(

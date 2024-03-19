@@ -17,6 +17,46 @@ import { ProductActions } from '../actions/index';
 export class ProductsSearchEffects {
   protected logger = inject(LoggerService);
 
+  searchBundleProducts$: Observable<
+    | ProductActions.SearchProductsSuccess
+    | ProductActions.SearchProductsFail
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.SEARCH_BUNDLE_PRODUCTS),
+      groupBy(
+        (action: ProductActions.SearchBundleProducts) => action.auxiliary
+      ),
+      mergeMap((group) =>
+        group.pipe(
+          switchMap((action: ProductActions.SearchBundleProducts) => {
+            return this.productSearchConnector
+              .searchInBundle(
+                action.urlParams,
+                action.payload.queryText,
+                action.payload.searchConfig
+              )
+              .pipe(
+                map((data) => {
+                  return new ProductActions.SearchProductsSuccess(
+                    data,
+                    action.auxiliary
+                  );
+                }),
+                catchError((error) =>
+                  of(
+                    new ProductActions.SearchProductsFail(
+                      normalizeHttpError(error, this.logger),
+                      action.auxiliary
+                    )
+                  )
+                )
+              );
+          })
+        )
+      )
+    )
+  );
+
   searchProducts$: Observable<
     ProductActions.SearchProductsSuccess | ProductActions.SearchProductsFail
   > = createEffect(() =>

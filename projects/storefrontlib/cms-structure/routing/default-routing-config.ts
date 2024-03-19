@@ -41,6 +41,10 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   brand: { paths: ['Brands/:brandName/c/:brandCode'] },
 
+  bundleSearch: {
+    paths: ['carts/:cartId/entrygroups/:entryGroupNumber'],
+  },
+
   // pdp routes
   product: {
     paths: ['product/:productCode/:name'],

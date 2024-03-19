@@ -36,6 +36,13 @@ import { PRODUCT_LISTING_URL_MATCHER } from './product-listing-url-matcher';
         component: PageLayoutComponent,
         data: { cxRoute: 'category' },
       },
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'bundleSearch' },
+      }
     ]),
   ],
   providers: [

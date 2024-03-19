@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import {
   Suggestion,
   ProductSearchPage,
+  BundleSearchParams,
 } from '../../../model/product-search.model';
 
 @Injectable({
@@ -24,6 +25,14 @@ export class ProductSearchConnector {
     searchConfig?: SearchConfig
   ): Observable<ProductSearchPage> {
     return this.adapter.search(query, searchConfig);
+  }
+
+  searchInBundle(
+    urlParams: BundleSearchParams,
+    query: string | undefined,
+    searchConfig?: SearchConfig
+  ): Observable<ProductSearchPage> {
+    return this.adapter.searchInBundle(urlParams, query, searchConfig);
   }
 
   getSuggestions(term: string, pageSize?: number): Observable<Suggestion[]> {

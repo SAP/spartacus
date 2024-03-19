@@ -86,3 +86,9 @@ export interface ClearSearch {
   clearPageResults?: boolean;
   clearSearchboxResults?: boolean;
 }
+
+export interface BundleSearchParams {
+  userId: string;
+  cartId: string;
+  entryGroupNumber: number;
+}

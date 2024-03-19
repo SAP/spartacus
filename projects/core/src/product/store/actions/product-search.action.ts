@@ -7,6 +7,7 @@
 import { Action } from '@ngrx/store';
 import { ErrorModel } from '../../../model/misc.model';
 import {
+  BundleSearchParams,
   ClearSearch,
   ProductSearchPage,
   Suggestion,
@@ -14,6 +15,7 @@ import {
 import { SearchConfig } from '../../model/search-config';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';
+export const SEARCH_BUNDLE_PRODUCTS = '[Product] Search Products In Bundle';
 export const SEARCH_PRODUCTS_FAIL = '[Product] Search Products Fail';
 export const SEARCH_PRODUCTS_SUCCESS = '[Product] Search Products Success';
 export const GET_PRODUCT_SUGGESTIONS = '[Product] Get Product Suggestions';
@@ -28,6 +30,18 @@ export class SearchProducts implements Action {
   readonly type = SEARCH_PRODUCTS;
   constructor(
     public payload: { queryText: string; searchConfig?: SearchConfig },
+    public auxiliary?: boolean
+  ) {}
+}
+
+export class SearchBundleProducts implements Action {
+  readonly type = SEARCH_BUNDLE_PRODUCTS;
+  constructor(
+    public urlParams: BundleSearchParams,
+    public payload: {
+      queryText: string | undefined;
+      searchConfig?: SearchConfig;
+    },
     public auxiliary?: boolean
   ) {}
 }

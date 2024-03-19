@@ -127,6 +127,8 @@
     "
     class="cx-actions"
   >
+    <button (click)="editBundle(2)"  class="btn btn-tertiary" >Edit</button>
+
     <ng-container *ngIf="!isProductOutOfStock(item.product)">
       <ng-container
         *ngTemplateOutlet="

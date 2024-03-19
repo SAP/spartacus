@@ -7,6 +7,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import {
+  ActiveCartFacade,
   CartItemComponentOptions,
   CartItemContext,
   CartOutlets,
@@ -15,6 +16,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-item',
@@ -42,7 +44,11 @@ export class CartItemComponent implements OnChanges {
   iconTypes = ICON_TYPE;
   readonly CartOutlets = CartOutlets;
 
-  constructor(protected cartItemContextSource: CartItemContextSource) {}
+  constructor(
+    protected cartItemContextSource: CartItemContextSource,
+    protected activeCartService: ActiveCartFacade,
+    protected routingService: RoutingService
+  ) {}
 
   ngOnChanges(changes?: SimpleChanges) {
     if (changes?.compact) {
@@ -77,5 +83,21 @@ export class CartItemComponent implements OnChanges {
   removeItem() {
     this.quantityControl.setValue(0);
     this.quantityControl.markAsDirty();
+  }
+
+  editBundle(entryGroupNumber: number | undefined) {
+    if (entryGroupNumber) {
+      this.activeCartService.getActiveCartId().subscribe(
+        cartId => {
+          this.routingService.go({
+            cxRoute: 'bundleSearch',
+            params: {
+              cartId,
+              entryGroupNumber,
+            }
+          });
+        }
+      );
+    }
   }
 }
