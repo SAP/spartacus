@@ -4,19 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Optional,
+  inject,
+} from '@angular/core';
 import {
   CartModification,
   CartModificationList,
   CartValidationStatusCode,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { OCC_CART_ID_CURRENT } from '@spartacus/core';
+import { FeatureConfigService, OCC_CART_ID_CURRENT } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
+  SelectFocusUtility,
 } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 
@@ -40,6 +47,15 @@ export class ReorderDialogComponent {
   showDecisionPrompt$ = new BehaviorSubject(true);
   data$ = this.launchDialogService.data$;
 
+  @Optional() selectFocusUtility = inject(SelectFocusUtility, {
+    optional: true,
+  });
+
+  @Optional() elementRef = inject(ElementRef, { optional: true });
+  @Optional() featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected reorderOrderFacade: ReorderOrderFacade,
@@ -55,7 +71,17 @@ export class ReorderDialogComponent {
         this.multiCartFacade.reloadCart(OCC_CART_ID_CURRENT);
         this.cartModifications = cartModificationList.cartModifications;
         this.loading$.next(false);
+        this.recaptureFocus();
       });
+  }
+
+  recaptureFocus(): void {
+    if (!this.featureConfigService?.isEnabled('a11yReorderDialog')) {
+      return;
+    }
+    this.selectFocusUtility
+      ?.findFirstFocusable(this.elementRef?.nativeElement)
+      ?.focus();
   }
 
   close(reason: string): void {
