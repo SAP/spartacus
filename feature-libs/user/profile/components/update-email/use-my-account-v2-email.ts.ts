@@ -5,13 +5,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { InjectionToken, inject } from '@angular/core';
-import { FeatureFlags } from '@spartacus/core';
+import { InjectionToken } from '@angular/core';
 
 export const USE_MY_ACCOUNT_V2_EMAIL = new InjectionToken<boolean>(
   'feature flag to enable enhanced UI for email related pages under My-Account',
-  {
-    providedIn: 'root',
-    factory: () => Boolean(inject(FeatureFlags).myAccountV2),
-  }
+  { providedIn: 'root', factory: () => false }
 );
