@@ -22,6 +22,10 @@
   flex-direction: column;
 
   cx-configurator-attribute-product-card {
+    @include forFeature('productConfiguratorAttributeTypesV2') {
+      width: 100%;
+    }
+
     &:first-of-type {
       .cx-product-card-rows {
         padding-inline-start: 0px;

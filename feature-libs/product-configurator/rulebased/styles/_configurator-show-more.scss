@@ -3,6 +3,10 @@
     font-size: 14px;
     line-height: 1.2;
 
+    @include forFeature('productConfiguratorAttributeTypesV2') {
+      padding-block-end: 10px;
+    }
+
     button {
       background-color: transparent;
       border: none;
