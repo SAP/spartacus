@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+import { MockFeatureDirective } from '../../test/mock-feature-directive';
 import { StarRatingComponent } from './star-rating.component';
 
 @Component({
@@ -19,7 +20,12 @@ describe('StarRatingComponent in product', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [MockIconComponent, StarRatingComponent],
+      // TODO: (CXSPA-5707) Remove MockFeatureLevelDirective next major
+      declarations: [
+        MockIconComponent,
+        StarRatingComponent,
+        MockFeatureDirective,
+      ],
       providers: [],
     }).compileComponents();
   });
