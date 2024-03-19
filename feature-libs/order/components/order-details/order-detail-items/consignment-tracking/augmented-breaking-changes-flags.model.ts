@@ -7,7 +7,7 @@
 import '@spartacus/core';
 
 declare module '@spartacus/core' {
-  interface BreakingChangesFlags {
+  interface FeaturesConfigContent {
     /**
      * Flag to enable the consignment tracking feature.
      */
