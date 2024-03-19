@@ -236,7 +236,9 @@ describe('ConfiguratorGroupMenuService', () => {
     });
 
     it('should return `true` because there is a group with class `active` in the group menu', () => {
-      groups.toArray()[1].nativeElement.setAttribute('class', 'cx-menu active');
+      groups
+        .toArray()[1]
+        .nativeElement.setAttribute('class', 'active cx-menu-item');
       expect(classUnderTest['isActiveGroupInGroupList'](groups)).toBe(true);
     });
   });
