@@ -36,7 +36,7 @@ class MockGlobalMessageService {
 }
 
 class MockFeatureConfigService {
-  isLevel() {
+  isEnabled() {
     return true;
   }
 }
