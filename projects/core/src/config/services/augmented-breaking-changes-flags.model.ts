@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import '../../features-config/feature-flags/feature-flags-tokens';
+import '../../features-config/breaking-changes-flags/breaking-changes-flags-tokens';
 
-declare module '../../features-config/feature-flags/feature-flags-tokens' {
-  interface FeatureFlags {
+declare module '../../features-config/breaking-changes-flags/breaking-changes-flags-tokens' {
+  interface BreakingChangesFlags {
     /**
      * The 3.0 version introduced an unified configuration that emits new configuration
      * every time lazy loaded module is instantiated. To ease transition to this new

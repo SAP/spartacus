@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './augmented-feature-flags.model';
+export * from './augmented-breaking-changes-flags.model';
 export * from './product-summary.component';
 export * from './product-summary.module';

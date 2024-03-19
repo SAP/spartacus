@@ -11,10 +11,10 @@ import {
 } from '../../config';
 import '../config/features-config';
 import {
+  BreakingChangesFlags,
   DefaultFeatureFlags,
-  FeatureFlags,
   RootFeatureFlags,
-} from './feature-flags-tokens';
+} from './breaking-changes-flags-tokens';
 
 export const provideFeatureFlagsToFeatureConfig: FactoryProvider[] = [
   // Copies RootFeatureFlags to RootConfig
@@ -31,5 +31,5 @@ export const provideFeatureFlagsToFeatureConfig: FactoryProvider[] = [
 ];
 
 declare module '../config/features-config' {
-  interface FeaturesConfigContent extends FeatureFlags {}
+  interface FeaturesConfigContent extends BreakingChangesFlags {}
 }

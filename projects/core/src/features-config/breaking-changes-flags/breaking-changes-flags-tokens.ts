@@ -14,7 +14,7 @@ import { Injectable, InjectionToken, inject } from '@angular/core';
   useFactory: () =>
     Object.assign({}, inject(DefaultFeatureFlags), inject(RootFeatureFlags)),
 })
-export abstract class FeatureFlags {}
+export abstract class BreakingChangesFlags {}
 
 /**
  * Default Feature Flags token, used to build Global Feature Flags, built from DefaultFeatureFlagsChunks
@@ -41,7 +41,7 @@ export const RootFeatureFlags = new InjectionToken('RootFeatureFlags', {
  * Feature Flags chunk token, can be used to provide configuration chunk and contribute to the global configuration object.
  * Should not be used directly, use `provideFeatureFlags` or import `FlagsModule.withFlags` instead.
  */
-export const FeatureFlagsChunk = new InjectionToken<FeatureFlags[]>(
+export const FeatureFlagsChunk = new InjectionToken<BreakingChangesFlags[]>(
   'FeatureFlagsChunk'
 );
 
@@ -51,6 +51,6 @@ export const FeatureFlagsChunk = new InjectionToken<FeatureFlags[]>(
  *
  * General rule is, that all config provided in libraries should be provided as default config.
  */
-export const DefaultFeatureFlagsChunk = new InjectionToken<FeatureFlags[]>(
-  'DefaultFeatureFlagsChunk'
-);
+export const DefaultFeatureFlagsChunk = new InjectionToken<
+  BreakingChangesFlags[]
+>('DefaultFeatureFlagsChunk');

@@ -6,22 +6,22 @@
 
 import { FactoryProvider, ValueProvider } from '@angular/core';
 import {
+  BreakingChangesFlags,
   DefaultFeatureFlagsChunk,
-  FeatureFlags,
   FeatureFlagsChunk,
-} from './feature-flags-tokens';
+} from './breaking-changes-flags-tokens';
 
-export type FlagsFactory = (...props: any[]) => FeatureFlags;
+export type FlagsFactory = (...props: any[]) => BreakingChangesFlags;
 
 /**
  * Helper function to provide flags chunk using FlagsChunk token
  *
  * To provide default flags in libraries provideDefaultFlags should be used instead.
  *
- * @param flags FeatureFlags object to merge with the global flags
+ * @param flags BreakingChangesFlags object to merge with the global flags
  */
 export function provideFeatureFlags(
-  flags: FeatureFlags = {},
+  flags: BreakingChangesFlags = {},
   defaultFlags = false
 ): ValueProvider {
   return {
@@ -53,10 +53,10 @@ export function provideFeatureFlagsFactory(
 /**
  * Helper function to provide default flags chunk using DefaultFeatureFlagsChunk token
  *
- * @param flags FeatureFlags object to merge with the default flags
+ * @param flags BreakingChangesFlags object to merge with the default flags
  */
 export function provideDefaultFeatureFlags(
-  flags: FeatureFlags = {}
+  flags: BreakingChangesFlags = {}
 ): ValueProvider {
   return {
     provide: DefaultFeatureFlagsChunk,

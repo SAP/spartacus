@@ -12,10 +12,10 @@ import {
   inject,
 } from '@angular/core';
 import { provideDefaultConfig } from '../config/config-providers';
+import { provideFeatureFlagsToFeatureConfig } from './breaking-changes-flags/provide-breaking-changes-flags-to-features-config';
 import { FeaturesConfig } from './config/features-config';
 import { FeatureLevelDirective } from './directives/feature-level.directive';
 import { FeatureDirective } from './directives/feature.directive';
-import { provideFeatureFlagsToFeatureConfig } from './feature-flags/provide-feature-flags-to-features-config';
 import { FeatureStylesService } from './services/feature-styles.service';
 
 @NgModule({
