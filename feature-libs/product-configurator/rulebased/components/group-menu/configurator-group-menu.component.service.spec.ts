@@ -229,4 +229,15 @@ describe('ConfiguratorGroupMenuService', () => {
       }
     });
   });
+
+  describe('isActiveGroupInGroupList', () => {
+    it('should return `false` because there is no group with class `active` in the group menu', () => {
+      expect(classUnderTest['isActiveGroupInGroupList'](groups)).toBe(false);
+    });
+
+    it('should return `true` because there is a group with class `active` in the group menu', () => {
+      groups.toArray()[1].nativeElement.setAttribute('class', 'cx-menu active');
+      expect(classUnderTest['isActiveGroupInGroupList'](groups)).toBe(true);
+    });
+  });
 });
