@@ -78,10 +78,10 @@ export class TestConfigModule {
           provide: TEST_CONFIG_COOKIE_NAME,
           useValue: options?.cookie,
         },
-        // eslint-disable-next-line @nx/workspace/use-provide-default-config-factory
         provideBreakingChangesFlagsFactory(
           () => (inject(TEST_CONFIG) ?? {}).features
         ),
+        // eslint-disable-next-line @nx/workspace/use-provide-default-config-factory
         provideConfigFactory(() => inject(TEST_CONFIG)),
       ],
     };
