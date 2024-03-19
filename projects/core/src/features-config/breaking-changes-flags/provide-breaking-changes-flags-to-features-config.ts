@@ -12,20 +12,20 @@ import {
 import '../config/features-config';
 import {
   BreakingChangesFlags,
-  DefaultFeatureFlags,
-  RootFeatureFlags,
+  DefaultBreakingChangesFlags,
+  RootBreakingChangesFlags,
 } from './breaking-changes-flags-tokens';
 
-export const provideFeatureFlagsToFeatureConfig: FactoryProvider[] = [
-  // Copies RootFeatureFlags to RootConfig
+export const provideBreakingChangesFlagsToFeatureConfig: FactoryProvider[] = [
+  // Copies RootBreakingChangesFlags to RootConfig
   provideConfigFactory(() => {
-    const flags = inject(RootFeatureFlags);
+    const flags = inject(RootBreakingChangesFlags);
     return { features: { ...flags } };
   }),
 
-  // Copies DefaultFeatureFlags to DefaultFeaturesConfig
+  // Copies DefaultBreakingChangesFlags to DefaultFeaturesConfig
   provideDefaultConfigFactory(() => {
-    const flags = inject(DefaultFeatureFlags);
+    const flags = inject(DefaultBreakingChangesFlags);
     return { features: { ...flags } };
   }),
 ];

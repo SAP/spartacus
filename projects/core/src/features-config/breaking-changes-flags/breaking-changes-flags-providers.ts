@@ -7,8 +7,8 @@
 import { FactoryProvider, ValueProvider } from '@angular/core';
 import {
   BreakingChangesFlags,
-  DefaultFeatureFlagsChunk,
-  FeatureFlagsChunk,
+  BreakingChangesFlagsChunk,
+  DefaultBreakingChangesFlagsChunk,
 } from './breaking-changes-flags-tokens';
 
 export type FlagsFactory = (...props: any[]) => BreakingChangesFlags;
@@ -20,12 +20,14 @@ export type FlagsFactory = (...props: any[]) => BreakingChangesFlags;
  *
  * @param flags BreakingChangesFlags object to merge with the global flags
  */
-export function provideFeatureFlags(
+export function provideBreakingChangesFlags(
   flags: BreakingChangesFlags = {},
   defaultFlags = false
 ): ValueProvider {
   return {
-    provide: defaultFlags ? DefaultFeatureFlagsChunk : FeatureFlagsChunk,
+    provide: defaultFlags
+      ? DefaultBreakingChangesFlagsChunk
+      : BreakingChangesFlagsChunk,
     useValue: flags,
     multi: true,
   };
@@ -39,43 +41,45 @@ export function provideFeatureFlags(
  * @param flagsFactory Factory Function that will generate flags object
  * @param deps Optional dependencies to a factory function
  */
-export function provideFeatureFlagsFactory(
+export function provideBreakingChangesFlagsFactory(
   flagsFactory: FlagsFactory,
   defaultFlags = false
 ): FactoryProvider {
   return {
-    provide: defaultFlags ? DefaultFeatureFlagsChunk : FeatureFlagsChunk,
+    provide: defaultFlags
+      ? DefaultBreakingChangesFlagsChunk
+      : BreakingChangesFlagsChunk,
     useFactory: flagsFactory,
     multi: true,
   };
 }
 
 /**
- * Helper function to provide default flags chunk using DefaultFeatureFlagsChunk token
+ * Helper function to provide default flags chunk using DefaultBreakingChangesFlagsChunk token
  *
  * @param flags BreakingChangesFlags object to merge with the default flags
  */
-export function provideDefaultFeatureFlags(
+export function provideDefaultBreakingChangesFlags(
   flags: BreakingChangesFlags = {}
 ): ValueProvider {
   return {
-    provide: DefaultFeatureFlagsChunk,
+    provide: DefaultBreakingChangesFlagsChunk,
     useValue: flags,
     multi: true,
   };
 }
 
 /**
- * Helper function to provide default flags with factory function, using DefaultFeatureFlagsChunk token
+ * Helper function to provide default flags with factory function, using DefaultBreakingChangesFlagsChunk token
  *
  * @param flagsFactory Factory Function that will generate flags object
  * @param deps Optional dependencies to a factory function
  */
-export function provideDefaultFeatureFlagsFactory(
+export function provideDefaultBreakingChangesFlagsFactory(
   flagsFactory: FlagsFactory
 ): FactoryProvider {
   return {
-    provide: DefaultFeatureFlagsChunk,
+    provide: DefaultBreakingChangesFlagsChunk,
     useFactory: flagsFactory,
     multi: true,
   };

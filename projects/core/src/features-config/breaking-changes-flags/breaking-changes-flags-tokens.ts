@@ -12,38 +12,51 @@ import { Injectable, InjectionToken, inject } from '@angular/core';
 @Injectable({
   providedIn: 'root',
   useFactory: () =>
-    Object.assign({}, inject(DefaultFeatureFlags), inject(RootFeatureFlags)),
+    Object.assign(
+      {},
+      inject(DefaultBreakingChangesFlags),
+      inject(RootBreakingChangesFlags)
+    ),
 })
 export abstract class BreakingChangesFlags {}
 
 /**
- * Default Feature Flags token, used to build Global Feature Flags, built from DefaultFeatureFlagsChunks
+ * Default Feature Flags token, used to build Global Feature Flags, built from DefaultBreakingChangesFlagsChunks
  */
-export const DefaultFeatureFlags = new InjectionToken('DefaultFeatureFlags', {
-  providedIn: 'root',
-  factory: () =>
-    Object.assign(
-      {},
-      ...(inject(DefaultFeatureFlagsChunk, { optional: true }) ?? [])
-    ),
-});
+export const DefaultBreakingChangesFlags = new InjectionToken(
+  'DefaultBreakingChangesFlags',
+  {
+    providedIn: 'root',
+    factory: () =>
+      Object.assign(
+        {},
+        ...(inject(DefaultBreakingChangesFlagsChunk, { optional: true }) ?? [])
+      ),
+  }
+);
 
 /**
- * Root Feature Flags token, used to build Global Feature Flags, built from FeatureFlagsChunks
+ * Root Feature Flags token, used to build Global Feature Flags, built from BreakingChangesFlagsChunks
  */
-export const RootFeatureFlags = new InjectionToken('RootFeatureFlags', {
-  providedIn: 'root',
-  factory: () =>
-    Object.assign({}, ...(inject(FeatureFlagsChunk, { optional: true }) ?? [])),
-});
+export const RootBreakingChangesFlags = new InjectionToken(
+  'RootBreakingChangesFlags',
+  {
+    providedIn: 'root',
+    factory: () =>
+      Object.assign(
+        {},
+        ...(inject(BreakingChangesFlagsChunk, { optional: true }) ?? [])
+      ),
+  }
+);
 
 /**
  * Feature Flags chunk token, can be used to provide configuration chunk and contribute to the global configuration object.
- * Should not be used directly, use `provideFeatureFlags` or import `FlagsModule.withFlags` instead.
+ * Should not be used directly, use `provideBreakingChangesFlags` or import `FlagsModule.withFlags` instead.
  */
-export const FeatureFlagsChunk = new InjectionToken<BreakingChangesFlags[]>(
-  'FeatureFlagsChunk'
-);
+export const BreakingChangesFlagsChunk = new InjectionToken<
+  BreakingChangesFlags[]
+>('BreakingChangesFlagsChunk');
 
 /**
  * Feature Flags chunk token, can be used to provide configuration chunk and contribute to the default configuration.
@@ -51,6 +64,6 @@ export const FeatureFlagsChunk = new InjectionToken<BreakingChangesFlags[]>(
  *
  * General rule is, that all config provided in libraries should be provided as default config.
  */
-export const DefaultFeatureFlagsChunk = new InjectionToken<
+export const DefaultBreakingChangesFlagsChunk = new InjectionToken<
   BreakingChangesFlags[]
->('DefaultFeatureFlagsChunk');
+>('DefaultBreakingChangesFlagsChunk');
