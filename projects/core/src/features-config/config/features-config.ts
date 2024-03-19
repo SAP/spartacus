@@ -20,6 +20,8 @@ export interface FeaturesConfigContent {
    * Configure feature level.
    * Value corresponds to minor (feature) release version number: '1.0', '1.1', etc.
    * Each subsequent level contains all of the features from previous one.
+   *
+   * LEGACY. Please use named feature flags instead
    */
   level?: string;
   [featureToggle: string]: string | boolean | undefined;
