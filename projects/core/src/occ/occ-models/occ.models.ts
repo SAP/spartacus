@@ -1118,12 +1118,12 @@ export namespace Occ {
    * An interface representing the entry groups.
    */
   export interface OrderEntryGroup {
-    entryGroupNumber: number;
-    erroneous: boolean;
-    label: string;
-    type: string;
-    entries: OrderEntry[];
-    entryGroups: OrderEntryGroup[];
+    entryGroupNumber?: number;
+    erroneous?: boolean;
+    label?: string;
+    type?: string;
+    entries?: OrderEntry[];
+    entryGroups?: OrderEntryGroup[];
   }  
 
   /**

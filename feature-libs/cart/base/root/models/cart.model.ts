@@ -165,12 +165,12 @@ export interface OrderEntry {
 }
 
 export interface OrderEntryGroup {
-  entryGroupNumber: number;
-  erroneous: boolean;
-  label: string;
-  type: `${OrderEntryGroupType}`;
-  entries: OrderEntry[];
-  entryGroups: OrderEntryGroup[];
+  entryGroupNumber?: number;
+  erroneous?: boolean;
+  label?: string;
+  type?: `${OrderEntryGroupType}`;
+  entries?: OrderEntry[];
+  entryGroups?: OrderEntryGroup[];
 }
 
 export interface PickupOrderEntryGroup {

@@ -7,6 +7,7 @@ import {
   ActiveCartFacade,
   Cart,
   OrderEntry,
+  OrderEntryGroup,
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
@@ -27,6 +28,12 @@ class MockActiveCartService {
     return of({ code: '123', totalItems: 1 } as Cart);
   }
   getEntries(): Observable<OrderEntry[]> {
+    return of([{}]);
+  }
+  getStandaloneEntries(): Observable<OrderEntry[]> {
+    return of([{}]);
+  }
+  getBundleEntryGroups(): Observable<OrderEntryGroup[]> {
     return of([{}]);
   }
   isStable(): Observable<boolean> {
