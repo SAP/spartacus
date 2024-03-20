@@ -435,7 +435,7 @@ export class ConfiguratorGroupMenuComponent {
       .isDown(BREAKPOINT.md)
       .pipe(take(1))
       .subscribe((isMobile) => {
-        if (isMobile && event.code === 'Tab') {
+        if (isMobile && event.code === 'Tab' && !event.shiftKey) {
           if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
             if (
               !this.configGroupMenuService.isActiveGroupInGroupList(this.groups)

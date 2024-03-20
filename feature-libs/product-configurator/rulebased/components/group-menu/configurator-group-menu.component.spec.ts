@@ -1745,6 +1745,18 @@ describe('ConfigurationGroupMenuComponent', () => {
       expect(configGroupMenuService.isBackBtnFocused).not.toHaveBeenCalled();
     });
 
+    it('should not execute focus loop code if shift-tab-key is pressed and we are in mobile mode', () => {
+      breakpointObservable = of(true);
+      const event = new KeyboardEvent('keydown', {
+        code: 'Tab',
+        shiftKey: true,
+      });
+      spyOn(configGroupMenuService, 'isBackBtnFocused').and.stub();
+      initialize();
+      component['handleFocusLoopInMobileMode'](event);
+      expect(configGroupMenuService.isBackBtnFocused).not.toHaveBeenCalled();
+    });
+
     it('should execute focusFirstActiveElement if tab-key is pressed in mobile mode and focus was on back button and there is no active groups in the group list', () => {
       breakpointObservable = of(true);
       const event = new KeyboardEvent('keydown', {
