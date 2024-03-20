@@ -60,8 +60,8 @@ export class ApplePayService {
       amount: '',
       currency: '',
     },
-    deliveryPosName:undefined,
-    deliveryType:undefined,
+    deliveryInfo:{type:OpfQuickBuyDeliveryType.SHIPPING,pickupDetails:undefined
+    },
   };
 
   protected transactionDetails = this.initialTransactionDetails;
@@ -182,17 +182,20 @@ export class ApplePayService {
         this.transactionDetails.context as OpfQuickBuyLocation
       )
       .pipe(
-        switchMap((deliveryType) => {
-          this.transactionDetails.deliveryType = deliveryType;
+        switchMap((deliveryType:OpfQuickBuyDeliveryType) => {
+          this.transactionDetails.deliveryInfo ={ type:deliveryType,pickupDetails:undefined};
           if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {
             initialRequest.shippingType = 'storePickup';
             initialRequest.requiredShippingContactFields = [];
-            return this.opfPickupInStoreHandlerService.getSingleProductPickupLocationName();
+            return this.opfPickupInStoreHandlerService.getSingleProductDeliveryInfo();
           }
           return of(undefined)
         }),
-        map(location =>{
-          this.transactionDetails.deliveryPosName = location;
+        map(opfQuickBuyDeliveryInfo =>{
+          if(!opfQuickBuyDeliveryInfo){
+            return initialRequest
+          }
+          this.transactionDetails.deliveryInfo = opfQuickBuyDeliveryInfo;
           return initialRequest;
         })
       );
@@ -206,7 +209,7 @@ export class ApplePayService {
       return this.cartHandlerService.addProductToCart(
         product.code as string,
         quantity,
-        this.transactionDetails.deliveryPosName,
+        this.transactionDetails.deliveryInfo?.pickupDetails?.name,
       );
     }
     return throwError(() => new Error('Product code unknown'));
@@ -387,11 +390,11 @@ export class ApplePayService {
     if(!billingContact){
       throw new Error('Error: empty billingContact');
     }
-    if (this.transactionDetails.deliveryType === OpfQuickBuyDeliveryType.SHIPPING && !shippingContact) {
+    if (this.transactionDetails.deliveryInfo?.type === OpfQuickBuyDeliveryType.SHIPPING && !shippingContact) {
       throw new Error('Error: empty shippingContact');
     }
 
-    const deliveryTypeHandlingObservable =  this.transactionDetails.deliveryType  === OpfQuickBuyDeliveryType.PICKUP ?
+    const deliveryTypeHandlingObservable =  this.transactionDetails.deliveryInfo?.type  === OpfQuickBuyDeliveryType.PICKUP ?
     this.cartHandlerService.setDeliveryMode(OpfQuickBuyDeliveryType.PICKUP.toLocaleLowerCase())
     .pipe(switchMap(() => {
       return this.cartHandlerService.setBillingAddress(

@@ -6,8 +6,8 @@
 
 import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { Product } from '@spartacus/core';
-import { OpfQuickBuyDeliveryType } from '@spartacus/opf/base/root';
+import { PointOfService, Product } from '@spartacus/core';
+import { OpfQuickBuyDeliveryInfo, OpfQuickBuyDeliveryType } from '@spartacus/opf/base/root';
 import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -25,31 +25,13 @@ export class OpfPickupInStoreHandlerService {
    * Retrieves the delivery type for a single product based on the intended pickup location.
    * @return An observable emitting the delivery type (pickup or shipping).
    */
-  getSingleProductDeliveryType(): Observable<OpfQuickBuyDeliveryType> {
+  getSingleProductDeliveryInfo(): Observable<OpfQuickBuyDeliveryInfo> {
+    const shippingTypeInfo:OpfQuickBuyDeliveryInfo ={
+      type:OpfQuickBuyDeliveryType.SHIPPING,
+      pickupDetails: undefined,
+    };
     if (!this.intendedPickupLocationFacade) {
-      return of(OpfQuickBuyDeliveryType.SHIPPING);
-    }
-
-    return this.currentProductService.getProduct().pipe(
-      take(1),
-      switchMap((product: Product | null) =>
-        this.intendedPickupLocationFacade
-          .getIntendedLocation(product?.code as string)
-          .pipe(
-            map((intendedLocation) => {
-              return intendedLocation?.pickupOption ===
-                OpfQuickBuyDeliveryType.PICKUP.toLowerCase()
-                ? OpfQuickBuyDeliveryType.PICKUP
-                : OpfQuickBuyDeliveryType.SHIPPING;
-            })
-          )
-      )
-    );
-  }
-
-  getSingleProductPickupLocationName(): Observable<string|undefined> {
-    if (!this.intendedPickupLocationFacade) {
-      return of(undefined);
+      return of(shippingTypeInfo);
     }
     return this.currentProductService.getProduct().pipe(
       take(1),
@@ -57,12 +39,13 @@ export class OpfPickupInStoreHandlerService {
         this.intendedPickupLocationFacade
           .getIntendedLocation(product?.code as string)
           .pipe(
-            map((intendedLocation) => {
-              return intendedLocation?.pickupOption ===
-                OpfQuickBuyDeliveryType.PICKUP.toLowerCase() && intendedLocation?.name ? intendedLocation.name : undefined
-                
-            })
-          )
+            map((pickupDetails:PointOfService | undefined) => {
+              return pickupDetails ? {
+                type:OpfQuickBuyDeliveryType.PICKUP,
+                pickupDetails,
+              } : shippingTypeInfo;
+          })
+)
       )
     );
   }

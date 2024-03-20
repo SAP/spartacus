@@ -106,7 +106,7 @@ export class OpfQuickBuyService {
     const deliveryTypeObservable =
       context === OpfQuickBuyLocation.CART
         ? this.opfPickupInStoreHandlerService.getActiveCartDeliveryType()
-        : this.opfPickupInStoreHandlerService.getSingleProductDeliveryType();
+        : this.opfPickupInStoreHandlerService.getSingleProductDeliveryInfo().pipe(map(p =>p.type));
 
     return deliveryTypeObservable.pipe(take(1));
   }
