@@ -90,7 +90,7 @@
       color: currentColor;
 
       &:hover {
-        color: var(--cx-color-primary);
+        color: var(--cx-color-medium);
       }
 
       &:focus {
@@ -104,6 +104,10 @@
         &:focus {
           z-index: 1;
           position: relative;
+        }
+        &:hover {
+          color: var(--cx-color-inverse);
+          text-decoration: underline;
         }
       }
     }
@@ -367,6 +371,9 @@
 
       .childs {
         display: flex;
+        a:hover {
+          color: var(--cx-color-primary);
+        }
       }
 
       .wrapper cx-icon {

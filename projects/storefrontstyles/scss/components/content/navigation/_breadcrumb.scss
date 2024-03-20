@@ -52,9 +52,14 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
           content: '/';
         }
         a {
+          @include type('7');
+          color: var(--cx-color-primary-accent);
+          text-decoration: underline;
           text-transform: capitalize;
-          color: inherit;
           padding: 0px 5px;
+          &:hover {
+            color: var(--cx-color-primary-accent);
+          }
         }
       }
     }

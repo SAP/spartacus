@@ -27,11 +27,11 @@
 
   &:not(.readonly) {
     border-radius: 4px;
-    border: solid 1px var(--cx-color-light);
+    border: solid 1px var(--cx-color-secondary);
     display: inline-flex;
 
     input {
-      border: solid 1px var(--cx-color-light);
+      border: solid 1px var(--cx-color-secondary);
       border-width: 0 1px;
       padding: 12px 9px;
       max-height: 48px;
@@ -64,10 +64,11 @@
       color: var(--cx-color, var(--cx-color-primary));
       cursor: pointer;
       font-weight: var(--cx-font-weight-bold);
+      z-index: 1;
     }
 
     &:disabled {
-      color: var(--cx-color-light);
+      color: var(--cx-color-medium);
     }
   }
 

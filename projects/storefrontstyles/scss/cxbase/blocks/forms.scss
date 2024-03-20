@@ -5,8 +5,9 @@
 .form-control {
   margin-bottom: 0.25rem;
   color: var(--cx-color-text);
+  border-color: var(--cx-color-secondary);
   &:focus {
-    border-color: var(--cx-color-secondary);
+    border-color: var(--cx-color-text);
     box-shadow: none;
     -webkit-box-shadow: none;
   }

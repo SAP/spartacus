@@ -190,7 +190,10 @@ $space: 0.5rem;
 
     .SiteLinks {
       justify-content: flex-end;
-      color: var(--cx-color-primary);
+      color: var(--cx-color-primary-accent);
+      a:hover {
+        color: var(--cx-color-primary-accent);
+      }
     }
 
     .SiteLogin {

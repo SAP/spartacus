@@ -19,26 +19,26 @@ $font-family-sans-serif: 'Open Sans', -apple-system, BlinkMacSystemFont,
 $font-url: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' !default;
 
 // change theme-colors here
-$primary: #1f7bc0 !default;
-$primary-accent: #055f9f !default;
-$secondary: #6c7079 !default;
-$success: #38871f !default;
+$primary: #055f9f !default;
+$primary-accent: #0f4880 !default;
+$secondary: #556b82 !default;
+$success: #256f3a !default;
 $success-accent: #f0fbe4 !default;
-$danger: #db0002 !default;
+$danger: #aa0808 !default;
 $danger-accent: #fff1f1 !default;
-$warning: #ffc107 !default;
+$warning: #b44f00 !default;
 $warning-accent: #fff5df !default;
-$info: #17a2b8 !default;
+$info: #0064d8 !default;
 $info-accent: #deeffe !default;
 $light: #f1f1f1 !default;
 $medium: #d3d6db !default;
-$dark: #6c7079 !default;
+$dark: #77818b !default;
 $background: #f4f4f4 !default;
 $background-dark: #212738 !default;
 $inverse: #ffffff !default;
 $text: #14293a !default;
 $transparent: transparent !default;
-$visual-focus: #6d9df7 !default;
+$visual-focus: #1f3a93 !default;
 $background-focus: rgba(80, 176, 244, 0.1);
 $border-focus: rgba(166, 204, 232, 0.6);
 
@@ -117,7 +117,7 @@ $label-margin-bottom: 0.375rem;
 $alert-padding-y: 20px;
 $alert-border-radius: 0;
 
-$input-placeholder-color: lighten($body-color, 50);
+$input-placeholder-color: lighten($dark, 60);
 $input-border-color: theme-color('light');
 $input-focus-border-color: theme-color('dark');
 $input-focus-bg: theme-color('background');

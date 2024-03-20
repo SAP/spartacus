@@ -1,7 +1,5 @@
 @mixin visible-focus {
-  outline-style: solid;
-  outline-color: var(--cx-color-visual-focus);
-  outline-width: var(--cx-visual-focus-width, 2px);
-  outline-offset: 4px;
-  transition: none;
+  outline: 2px var(--cx-color-inverse) solid;
+  outline-offset: 0;
+  box-shadow: 0 0 0 4px var(--cx-color-visual-focus);
 }
