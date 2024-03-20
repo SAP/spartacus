@@ -7,7 +7,10 @@
 import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { PointOfService, Product } from '@spartacus/core';
-import { OpfQuickBuyDeliveryInfo, OpfQuickBuyDeliveryType } from '@spartacus/opf/base/root';
+import {
+  OpfQuickBuyDeliveryInfo,
+  OpfQuickBuyDeliveryType,
+} from '@spartacus/opf/base/root';
 import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -26,8 +29,8 @@ export class OpfPickupInStoreHandlerService {
    * @return An observable emitting the delivery type (pickup or shipping).
    */
   getSingleProductDeliveryInfo(): Observable<OpfQuickBuyDeliveryInfo> {
-    const shippingTypeInfo:OpfQuickBuyDeliveryInfo ={
-      type:OpfQuickBuyDeliveryType.SHIPPING,
+    const shippingTypeInfo: OpfQuickBuyDeliveryInfo = {
+      type: OpfQuickBuyDeliveryType.SHIPPING,
       pickupDetails: undefined,
     };
     if (!this.intendedPickupLocationFacade) {
@@ -40,13 +43,15 @@ export class OpfPickupInStoreHandlerService {
           .getIntendedLocation(product?.code as string)
           .pipe(
             take(1),
-            map((pickupDetails:PointOfService | undefined) => {
-              return pickupDetails ? {
-                type:OpfQuickBuyDeliveryType.PICKUP,
-                pickupDetails,
-              } : shippingTypeInfo;
-          })
-)
+            map((pickupDetails: PointOfService | undefined) => {
+              return pickupDetails
+                ? {
+                    type: OpfQuickBuyDeliveryType.PICKUP,
+                    pickupDetails,
+                  }
+                : shippingTypeInfo;
+            })
+          )
       )
     );
   }

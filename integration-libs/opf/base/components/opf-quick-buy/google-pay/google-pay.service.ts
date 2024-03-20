@@ -92,7 +92,9 @@ export class OpfGooglePayService {
     product: undefined,
     cart: undefined,
     quantity: 0,
-    deliveryInfo:{type:OpfQuickBuyDeliveryType.SHIPPING,pickupDetails:undefined
+    deliveryInfo: {
+      type: OpfQuickBuyDeliveryType.SHIPPING,
+      pickupDetails: undefined,
     },
     addressIds: [],
     total: {
@@ -224,7 +226,8 @@ export class OpfGooglePayService {
       };
     }
     if (
-      this.transactionDetails?.deliveryInfo?.type === OpfQuickBuyDeliveryType.SHIPPING
+      this.transactionDetails?.deliveryInfo?.type ===
+      OpfQuickBuyDeliveryType.SHIPPING
     ) {
       return this.opfCartHandlerService
         .setDeliveryAddress(deliveryAddress)
@@ -261,7 +264,10 @@ export class OpfGooglePayService {
       .getQuickBuyDeliveryType(this.transactionDetails.context)
       .pipe(
         switchMap((deliveryType) => {
-          this.transactionDetails.deliveryInfo = { type:deliveryType,pickupDetails:undefined};
+          this.transactionDetails.deliveryInfo = {
+            type: deliveryType,
+            pickupDetails: undefined,
+          };
           this.setGooglePaymentRequestConfig(deliveryType);
 
           return this.currentProductService.getProduct().pipe(
@@ -303,7 +309,10 @@ export class OpfGooglePayService {
       .getQuickBuyDeliveryType(this.transactionDetails.context)
       .pipe(
         switchMap((deliveryType) => {
-          this.transactionDetails.deliveryInfo = { type:deliveryType,pickupDetails:undefined};
+          this.transactionDetails.deliveryInfo = {
+            type: deliveryType,
+            pickupDetails: undefined,
+          };
           this.setGooglePaymentRequestConfig(deliveryType);
 
           return this.setDeliveryMode(undefined, deliveryType).pipe(

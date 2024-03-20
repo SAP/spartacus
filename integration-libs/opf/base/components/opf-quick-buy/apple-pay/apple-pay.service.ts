@@ -17,7 +17,10 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import { OpfCartHandlerService, OpfPickupInStoreHandlerService } from '@spartacus/opf/base/core';
+import {
+  OpfCartHandlerService,
+  OpfPickupInStoreHandlerService,
+} from '@spartacus/opf/base/core';
 import {
   ApplePaySessionVerificationRequest,
   ApplePaySessionVerificationResponse,
@@ -61,9 +64,9 @@ export class ApplePayService {
       amount: '',
       currency: '',
     },
-    deliveryInfo:{
-      type:OpfQuickBuyDeliveryType.SHIPPING,
-      pickupDetails:undefined
+    deliveryInfo: {
+      type: OpfQuickBuyDeliveryType.SHIPPING,
+      pickupDetails: undefined,
     },
   };
 
@@ -76,7 +79,6 @@ export class ApplePayService {
       ...this.initialTransactionDetails,
       addressIds: [],
     };
-    console.log('transactionDetails', this.transactionDetails);
 
     if (transactionInput?.cart) {
       this.transactionDetails = {
@@ -186,18 +188,24 @@ export class ApplePayService {
         this.transactionDetails.context as OpfQuickBuyLocation
       )
       .pipe(
-        switchMap((deliveryType:OpfQuickBuyDeliveryType) => {
-          this.transactionDetails.deliveryInfo ={ type:deliveryType,pickupDetails:undefined};
-          if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {           
+        switchMap((deliveryType: OpfQuickBuyDeliveryType) => {
+          this.transactionDetails.deliveryInfo = {
+            type: deliveryType,
+            pickupDetails: undefined,
+          };
+          if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {
             initialRequest.shippingType = ApplePayShippingType.STORE_PICKUP;
             initialRequest.requiredShippingContactFields = [];
-            return this.transactionDetails.context ===  OpfQuickBuyLocation.PRODUCT ? this.opfPickupInStoreHandlerService.getSingleProductDeliveryInfo():of(undefined);
+            return this.transactionDetails.context ===
+              OpfQuickBuyLocation.PRODUCT
+              ? this.opfPickupInStoreHandlerService.getSingleProductDeliveryInfo()
+              : of(undefined);
           }
-          return of(undefined)
+          return of(undefined);
         }),
-        map(opfQuickBuyDeliveryInfo =>{
-          if(!opfQuickBuyDeliveryInfo){
-            return initialRequest
+        map((opfQuickBuyDeliveryInfo) => {
+          if (!opfQuickBuyDeliveryInfo) {
+            return initialRequest;
           }
           this.transactionDetails.deliveryInfo = opfQuickBuyDeliveryInfo;
           return initialRequest;
@@ -213,7 +221,7 @@ export class ApplePayService {
       return this.cartHandlerService.addProductToCart(
         product.code as string,
         quantity,
-        this.transactionDetails.deliveryInfo?.pickupDetails?.name,
+        this.transactionDetails.deliveryInfo?.pickupDetails?.name
       );
     }
     return throwError(() => new Error('Product code unknown'));
@@ -387,56 +395,68 @@ export class ApplePayService {
   private placeOrderAfterPayment(
     applePayPayment: ApplePayJS.ApplePayPayment
   ): Observable<boolean> {
-    console.log('transactionDetails')
     if (!applePayPayment) {
       return of(false);
     }
     const { shippingContact, billingContact } = applePayPayment;
-    if(!billingContact){
+    if (!billingContact) {
       throw new Error('Error: empty billingContact');
     }
-    if (this.transactionDetails.deliveryInfo?.type === OpfQuickBuyDeliveryType.SHIPPING && !shippingContact) {
+    if (
+      this.transactionDetails.deliveryInfo?.type ===
+        OpfQuickBuyDeliveryType.SHIPPING &&
+      !shippingContact
+    ) {
       throw new Error('Error: empty shippingContact');
     }
 
-    const deliveryTypeHandlingObservable =  this.transactionDetails.deliveryInfo?.type  === OpfQuickBuyDeliveryType.PICKUP ?
-    this.cartHandlerService.setDeliveryMode(OpfQuickBuyDeliveryType.PICKUP.toLocaleLowerCase())
-    .pipe(switchMap(() => {
-      return this.cartHandlerService.setBillingAddress(
-        this.convertAppleToOpfAddress(billingContact)
-      );
-    }),switchMap(()=>this.cartHandlerService.getCurrentCartId()),)
-   : this.cartHandlerService
-    .setDeliveryAddress(this.convertAppleToOpfAddress(shippingContact as ApplePayJS.ApplePayPaymentContact))
-    .pipe(
-      tap((addrId: string) => {
-        this.recordDeliveryAddress(addrId);
-      }),
-      switchMap(() => {
-        return this.cartHandlerService.setBillingAddress(
-          this.convertAppleToOpfAddress(billingContact)
+    const deliveryTypeHandlingObservable =
+      this.transactionDetails.deliveryInfo?.type ===
+      OpfQuickBuyDeliveryType.PICKUP
+        ? this.cartHandlerService
+            .setDeliveryMode(OpfQuickBuyDeliveryType.PICKUP.toLocaleLowerCase())
+            .pipe(
+              switchMap(() => {
+                return this.cartHandlerService.setBillingAddress(
+                  this.convertAppleToOpfAddress(billingContact)
+                );
+              }),
+              switchMap(() => this.cartHandlerService.getCurrentCartId())
+            )
+        : this.cartHandlerService
+            .setDeliveryAddress(
+              this.convertAppleToOpfAddress(
+                shippingContact as ApplePayJS.ApplePayPaymentContact
+              )
+            )
+            .pipe(
+              tap((addrId: string) => {
+                this.recordDeliveryAddress(addrId);
+              }),
+              switchMap(() => {
+                return this.cartHandlerService.setBillingAddress(
+                  this.convertAppleToOpfAddress(billingContact)
+                );
+              }),
+              switchMap(() => this.cartHandlerService.getCurrentCartId())
+            );
+
+    return deliveryTypeHandlingObservable.pipe(
+      switchMap((cartId: string) => {
+        const encryptedToken = btoa(
+          JSON.stringify(applePayPayment.token.paymentData)
         );
-      }),
-      switchMap(() => this.cartHandlerService.getCurrentCartId())
-      );
 
-    return deliveryTypeHandlingObservable
-      .pipe(
-        switchMap((cartId: string) => {
-          const encryptedToken = btoa(
-            JSON.stringify(applePayPayment.token.paymentData)
-          );
-
-          return this.opfPaymentFacade.submitPayment({
-            additionalData: [],
-            paymentSessionId: '',
-            callbackArray: [() => {}, () => {}, () => {}],
-            paymentMethod: PaymentMethod.APPLE_PAY,
-            encryptedToken,
-            cartId,
-          });
-        })
-      );
+        return this.opfPaymentFacade.submitPayment({
+          additionalData: [],
+          paymentSessionId: '',
+          callbackArray: [() => {}, () => {}, () => {}],
+          paymentMethod: PaymentMethod.APPLE_PAY,
+          encryptedToken,
+          cartId,
+        });
+      })
+    );
   }
 
   protected updateApplePayForm(total: { amount: string; label: string }) {

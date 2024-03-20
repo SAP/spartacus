@@ -76,8 +76,8 @@ export interface CtaScript {
 }
 
 export interface OpfQuickBuyDeliveryInfo {
-  type: OpfQuickBuyDeliveryType,
-  pickupDetails?: PointOfService
+  type: OpfQuickBuyDeliveryType;
+  pickupDetails?: PointOfService;
 }
 
 export interface QuickBuyTransactionDetails {
@@ -151,10 +151,10 @@ export enum OpfQuickBuyDeliveryType {
 
 export const ADDRESS_FIELD_PLACEHOLDER = '[FIELD_NOT_SET]';
 
-// Mirror ApplePayShippingType type from applepayjs 
-export enum ApplePayShippingType  {
-  SHIPPING='shipping',
-  DELIVERY='delivery', 
-  STORE_PICKUP= 'storePickup', 
-  SERVICE_PICKUP= 'servicePickup'
+// Mirror ApplePayShippingType type from applepayjs
+export enum ApplePayShippingType {
+  SHIPPING = 'shipping',
+  DELIVERY = 'delivery',
+  STORE_PICKUP = 'storePickup',
+  SERVICE_PICKUP = 'servicePickup',
 }

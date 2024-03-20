@@ -89,7 +89,7 @@ export class OpfCartHandlerService {
             this.cartHandlerState.cartId,
             productCode,
             quantity,
-            pickupStore,
+            pickupStore
           );
           return this.checkStableCart(this.cartHandlerState.cartId);
         }),
