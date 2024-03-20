@@ -32,13 +32,13 @@ $info: #17a2b8 !default;
 $info-accent: #deeffe !default;
 $light: #f1f1f1 !default;
 $medium: #d3d6db !default;
-$dark: #6c7079 !default;
+$dark: #1d2d3e !default;
 $background: #f4f4f4 !default;
 $background-dark: #212738 !default;
 $inverse: #ffffff !default;
 $text: #14293a !default;
 $transparent: transparent !default;
-$visual-focus: #6d9df7 !default;
+$visual-focus: #1f3a93 !default;
 $background-focus: rgba(80, 176, 244, 0.1);
 $border-focus: rgba(166, 204, 232, 0.6);
 
@@ -117,7 +117,7 @@ $label-margin-bottom: 0.375rem;
 $alert-padding-y: 20px;
 $alert-border-radius: 0;
 
-$input-placeholder-color: lighten($body-color, 50);
+$input-placeholder-color: lighten($dark, 60);
 $input-border-color: theme-color('light');
 $input-focus-border-color: theme-color('dark');
 $input-focus-bg: theme-color('background');
