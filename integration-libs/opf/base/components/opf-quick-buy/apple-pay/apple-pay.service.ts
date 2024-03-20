@@ -191,7 +191,7 @@ export class ApplePayService {
           if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {           
             initialRequest.shippingType = ApplePayShippingType.STORE_PICKUP;
             initialRequest.requiredShippingContactFields = [];
-            return this.opfPickupInStoreHandlerService.getSingleProductDeliveryInfo();
+            return this.transactionDetails.context ===  OpfQuickBuyLocation.PRODUCT ? this.opfPickupInStoreHandlerService.getSingleProductDeliveryInfo():of(undefined);
           }
           return of(undefined)
         }),
@@ -387,6 +387,7 @@ export class ApplePayService {
   private placeOrderAfterPayment(
     applePayPayment: ApplePayJS.ApplePayPayment
   ): Observable<boolean> {
+    console.log('transactionDetails')
     if (!applePayPayment) {
       return of(false);
     }
