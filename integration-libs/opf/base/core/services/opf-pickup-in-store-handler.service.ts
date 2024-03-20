@@ -39,6 +39,7 @@ export class OpfPickupInStoreHandlerService {
         this.intendedPickupLocationFacade
           .getIntendedLocation(product?.code as string)
           .pipe(
+            take(1),
             map((pickupDetails:PointOfService | undefined) => {
               return pickupDetails ? {
                 type:OpfQuickBuyDeliveryType.PICKUP,
