@@ -178,4 +178,25 @@ describe('ConfiguratorVariantEffect', () => {
 
     expect(configEffects.searchVariants$).toBeObservable(expected);
   });
+
+  describe('searchVariantsInCaseNotActive', () => {
+    it('should emit success in case it is called with the variant feature not enabled (in order to reset loading status)', () => {
+      const action = new ConfiguratorActions.SearchVariants(
+        productConfiguration
+      );
+      if (configuratorCoreConfig.productConfigurator) {
+        configuratorCoreConfig.productConfigurator.enableVariantSearch = false;
+      }
+      const completion = new ConfiguratorActions.SearchVariantsSuccess({
+        ownerKey: productConfiguration.owner.key,
+        variants: [],
+      });
+      actions$ = cold('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(configEffects.searchVariantsInCaseNotActive$).toBeObservable(
+        expected
+      );
+    });
+  });
 });
