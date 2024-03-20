@@ -22,4 +22,9 @@ export class ProductReviewsConnector {
   add(productCode: string, review: any): Observable<Review> {
     return this.adapter.post(productCode, review);
   }
+
+  getOverallReview(aiPrompt: any): Observable<any>
+  {
+    return this.adapter.getOverallReview(aiPrompt);
+  }
 }

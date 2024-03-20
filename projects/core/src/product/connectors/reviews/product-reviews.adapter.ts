@@ -25,4 +25,5 @@ export abstract class ProductReviewsAdapter {
    * @param review Review to post
    */
   abstract post(productCode: string, review: any): Observable<Review>;
+  abstract getOverallReview(aiPrompt: any): Observable<any>;
 }

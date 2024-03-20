@@ -17,6 +17,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {
+  aiSentiments,
   isNotNullable,
   Product,
   ProductReviewService,
@@ -135,4 +136,45 @@ export class ProductReviewsComponent {
       reviewerName: '',
     });
   }
+  aiSentiment$ = this.reviews$.pipe(
+    filter(isNotNullable),
+    map((reviews) => reviews ?? []),
+    distinctUntilChanged(),
+    switchMap((reviews) => {
+      return this.reviewService.getOverallReview(reviews, 'sentiments').pipe(
+        map((sentiments) => {
+          let sentimentArray =
+            sentiments?.choices[0]?.message?.content.split('\n');
+          let resp: aiSentiments = { positive: [], negative: [], neutral: [] };
+          sentimentArray.forEach((senti: string) => {
+            if (senti.includes('Positive:')) {
+              let x = this.getString(senti, true);
+              if (x) resp.positive?.push(x);
+            } else if (senti.includes('Negative:')) {
+              let x = this.getString(senti, false);
+              if (x) resp.negative?.push(x);
+            } else {
+              resp.neutral?.push(senti);
+            }
+          });
+          return resp;
+        })
+      );
+    })
+  );
+
+  getString(input: string, positive: boolean): string | undefined {
+    let x: string | undefined;
+    if (positive) x = input.split('Positive: ').pop();
+    else x = input.split('Negative: ').pop();
+    return x;
+  }
+  aiSummary$ = this.reviews$.pipe(
+    filter(isNotNullable),
+    map((reviews) => reviews ?? []),
+    distinctUntilChanged(),
+    switchMap((reviews) =>
+      this.reviewService.getOverallReview(reviews, 'summary')
+    )
+  );
 }

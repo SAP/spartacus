@@ -241,3 +241,33 @@ export interface StoreFinderStockSearchPage {
   sourceLongitude?: number;
   stores?: PointOfServiceStock[];
 }
+
+export interface aiPrompt {
+  prompt?: aiRoleContent[];
+}
+
+export interface aiRoleContent {
+  role?: string;
+  content?: string;
+}
+
+export interface aiResponse {
+  choices?: aiChoice[];
+  id?: string;
+  model?: string;
+  object?: string;
+}
+
+export interface aiChoice {
+  index?: number;
+  message?: {
+    content?: string;
+    role?: string;
+  };
+}
+
+export interface aiSentiments {
+  positive?: string[];
+  negative?: string[];
+  neutral?: string[];
+}

@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Review } from '../../../model/product.model';
+import { Review, aiPrompt } from '../../../model/product.model';
 import {
   PRODUCT_REVIEW_NORMALIZER,
   PRODUCT_REVIEW_SERIALIZER,
@@ -26,6 +26,10 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
     protected converter: ConverterService
   ) {}
 
+  getOverallReview(aiPrompt: aiPrompt): Observable<any> {
+    let aiUrl = 'http://10.136.237.97:5002/generate-text';
+    return this.http.post(aiUrl, aiPrompt);
+  }
   load(productCode: string, maxCount?: number): Observable<Review[]> {
     return this.http
       .get<Occ.Product>(this.getEndpoint(productCode, maxCount))

@@ -24,6 +24,28 @@
 
     <ng-container *ngIf="!isWritingReview; else writeReview">
       <ng-container *ngIf="reviews$ | async as reviews">
+        <div class="ai-upgrade">
+          <ng-container *ngIf="aiSummary$ | async as aiSummary">
+            <h3>{{ 'Overall Review Summary' }}</h3>
+            {{ aiSummary.choices[0].message.content | json }}
+          </ng-container>
+          <ng-container *ngIf="aiSentiment$ | async as aiSentiments">
+            <div *ngFor="let sentiment of aiSentiments.neutral">
+              {{ sentiment }}
+            </div>
+            <div class="positive-sentiment"
+              *ngFor="let sentiment of aiSentiments.positive"
+
+            >
+              {{ sentiment }}
+            </div>
+            <div class="negative-sentiment"
+              *ngFor="let sentiment of aiSentiments.negative"
+            >
+              {{ sentiment }}
+            </div>
+          </ng-container>
+        </div>
         <div
           class="review"
           tabindex="0"

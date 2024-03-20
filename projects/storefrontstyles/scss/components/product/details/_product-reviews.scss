@@ -22,6 +22,23 @@ $gutterSize: 15px;
     }
   }
 
+  .ai-upgrade{
+    .positive-sentiment {
+      display: block;
+      color: green;
+      font-size: var(--cx-font-size);
+      font-weight: var(--cx-font-weight-normal);
+      font-family: $font-family-base;
+    }
+    .negative-sentiment {
+      display: block;
+      color: red;
+      font-size: var(--cx-font-size);
+      font-weight: var(--cx-font-weight-normal);
+       font-family: $font-family-base;
+    }
+  }
+
   .review {
     display: grid;
     grid-template-columns: auto auto 10vw;
