@@ -5,14 +5,22 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ConverterService, OccEndpointsService } from '@spartacus/core';
-import { OtpAdapter } from '@spartacus/opf/base/core';
-
-import { Observable } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import {
+  ConverterService,
+  LoggerService,
+  OccEndpointsService,
+  backOff,
+  normalizeHttpError,
+} from '@spartacus/core';
+import { OTP_NORMALIZER, OtpAdapter } from '@spartacus/opf/base/core';
+import { Observable, catchError, throwError } from 'rxjs';
+import { isHttp500Error } from '../utils/opf-occ-http-error-handlers';
 
 @Injectable()
 export class OccOtpAdapter implements OtpAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
@@ -23,10 +31,21 @@ export class OccOtpAdapter implements OtpAdapter {
     userId: string,
     cartId: string
   ): Observable<string | undefined> {
-    return this.http.post<string | undefined>(
-      this.getGenerateOtpKeyEndpoint(userId, cartId),
-      null
-    );
+    return this.http
+      .post<string | undefined>(
+        this.getGenerateOtpKeyEndpoint(userId, cartId),
+        null
+      )
+      .pipe(
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
+        backOff({
+          shouldRetry: isHttp500Error,
+          maxTries: 2,
+        }),
+        this.converterService.pipeable(OTP_NORMALIZER)
+      );
   }
 
   protected getGenerateOtpKeyEndpoint(userId: string, cartId: string): string {
