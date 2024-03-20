@@ -17,6 +17,12 @@
         class="rating"
         [rating]="product.averageRating"
       ></cx-star-rating>
+      <div
+          class="review"
+          tabindex="0"
+        >
+          <div class="text" *ngIf="productAverageReview$ | async as averageReview">{{ averageReview }}</div>
+        </div>
       <div class="rating" *ngIf="!product.averageRating">
         {{ 'productDetails.noReviews' | cxTranslate }}
       </div>

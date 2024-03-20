@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import {
   isNotNullable,
+  isNotUndefined,
   Product,
   ProductReviewService,
   Review,
@@ -32,6 +33,7 @@ import {
 } from 'rxjs/operators';
 import { CustomFormValidators } from '../../../../shared/index';
 import { CurrentProductService } from '../../current-product.service';
+import { ProductReviewSummarizerService } from './product-review-summarizer.service';
 
 @Component({
   selector: 'cx-product-reviews',
@@ -66,9 +68,17 @@ export class ProductReviewsComponent {
     })
   );
 
+  productAverageReview$: Observable<string|undefined> = this.reviews$.pipe(
+    distinctUntilChanged(),
+    filter(isNotUndefined),
+    //tap((reviews) => console.log(reviews)),
+    switchMap((reviews) => this.productReviewSummarizationService.summarizeReviews(reviews)),
+  );
+
   constructor(
     protected reviewService: ProductReviewService,
     protected currentProductService: CurrentProductService,
+    protected productReviewSummarizationService: ProductReviewSummarizerService,
     private fb: UntypedFormBuilder,
     protected cd: ChangeDetectorRef
   ) {}

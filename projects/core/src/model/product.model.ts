@@ -167,6 +167,7 @@ export interface BaseOption {
 export interface Product {
   availableForPickup?: boolean;
   averageRating?: number;
+  averageReview?: string;
   baseOptions?: BaseOption[];
   baseProduct?: string;
   categories?: Category[];

@@ -43,6 +43,7 @@ export class JsonLdProductReviewBuilder implements JsonLdBuilder<Product> {
     };
     if (product.averageRating) {
       aggregated.ratingValue = product.averageRating;
+      aggregated.reviewValue = product.averageReview;
     }
     if (reviews) {
       aggregated.ratingCount = reviews.filter((rev) => !!rev.rating).length;

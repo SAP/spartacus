@@ -137,7 +137,8 @@
     "rxjs": "^7.8.0",
     "ts-loader": "^9.4.4",
     "tslib": "^2.6.2",
-    "zone.js": "0.14.2"
+    "zone.js": "0.14.2",
+    "@sap/llm-commons": "v0.12.0"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^17.0.0",
