@@ -25,7 +25,8 @@
     "clear": "Clear",
     "loaded": "Loaded",
     "results": "Results",
-    "of": "of"
+    "of": "of",
+    "required": "required"
   },
   "pageMetaResolver": {
     "category": {
@@ -203,6 +204,9 @@
   },
   "generalErrors": {
     "pageFailure": "The page could not be loaded. Please try again later."
+  },
+  "formLegend": {
+    "required": "The following fields marked with \"*\" are required."
   },
   "chatMessaging": {
     "charactersLeft": "characters left: {{count}}",
