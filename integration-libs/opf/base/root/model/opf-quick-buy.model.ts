@@ -150,3 +150,11 @@ export enum OpfQuickBuyDeliveryType {
 }
 
 export const ADDRESS_FIELD_PLACEHOLDER = '[FIELD_NOT_SET]';
+
+// Mirror ApplePayShippingType type from applepayjs 
+export enum ApplePayShippingType  {
+  SHIPPING='shipping',
+  DELIVERY='delivery', 
+  STORE_PICKUP= 'storePickup', 
+  SERVICE_PICKUP= 'servicePickup'
+}

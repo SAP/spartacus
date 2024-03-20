@@ -21,6 +21,7 @@ import { OpfCartHandlerService, OpfPickupInStoreHandlerService } from '@spartacu
 import {
   ApplePaySessionVerificationRequest,
   ApplePaySessionVerificationResponse,
+  ApplePayShippingType,
   ApplePayTransactionInput,
   OpfPaymentFacade,
   OpfQuickBuyDeliveryType,
@@ -60,7 +61,9 @@ export class ApplePayService {
       amount: '',
       currency: '',
     },
-    deliveryInfo:{type:OpfQuickBuyDeliveryType.SHIPPING,pickupDetails:undefined
+    deliveryInfo:{
+      type:OpfQuickBuyDeliveryType.SHIPPING,
+      pickupDetails:undefined
     },
   };
 
@@ -73,6 +76,7 @@ export class ApplePayService {
       ...this.initialTransactionDetails,
       addressIds: [],
     };
+    console.log('transactionDetails', this.transactionDetails);
 
     if (transactionInput?.cart) {
       this.transactionDetails = {
@@ -184,8 +188,8 @@ export class ApplePayService {
       .pipe(
         switchMap((deliveryType:OpfQuickBuyDeliveryType) => {
           this.transactionDetails.deliveryInfo ={ type:deliveryType,pickupDetails:undefined};
-          if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {
-            initialRequest.shippingType = 'storePickup';
+          if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {           
+            initialRequest.shippingType = ApplePayShippingType.STORE_PICKUP;
             initialRequest.requiredShippingContactFields = [];
             return this.opfPickupInStoreHandlerService.getSingleProductDeliveryInfo();
           }
