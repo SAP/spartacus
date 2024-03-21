@@ -6,7 +6,7 @@
 
 import { ElementRef, Injectable, Optional, inject } from '@angular/core';
 import { FeatureConfigService } from '@spartacus/core';
-import { FocusConfig } from '@spartacus/storefront';
+import { FocusConfig } from 'projects/storefrontlib/layout';
 import { PopoverEvent } from './popover.model';
 
 @Injectable({
