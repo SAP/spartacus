@@ -114,6 +114,6 @@ export class OpfQuickBuyService {
           )
         : this.opfPickupInStoreHandlerService.getSingleProductDeliveryInfo();
 
-    return deliveryTypeObservable;
+    return deliveryTypeObservable.pipe(take(1));
   }
 }

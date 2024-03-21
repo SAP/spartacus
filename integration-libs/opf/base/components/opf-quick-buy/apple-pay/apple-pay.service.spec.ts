@@ -124,7 +124,7 @@ describe('ApplePayService', () => {
     opfQuickBuyServiceMock = jasmine.createSpyObj('OpfQuickBuyService', [
       'getQuickBuyLocationContext',
       'getQuickBuyProviderConfig',
-      'OpfQuickBuyDeliveryInfo',
+      'getQuickBuyDeliveryInfo',
     ]);
 
     applePaySessionFactoryMock = jasmine.createSpyObj(
@@ -642,6 +642,10 @@ describe('ApplePayService', () => {
       };
 
       opfQuickBuyServiceMock.getQuickBuyDeliveryInfo.and.returnValue(
+        of(deliveryInfoMock)
+      );
+
+      opfPickupInStoreHandlerServiceMock.getSingleProductDeliveryInfo.and.returnValue(
         of(deliveryInfoMock)
       );
 

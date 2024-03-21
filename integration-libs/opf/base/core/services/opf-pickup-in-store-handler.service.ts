@@ -6,7 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { PointOfService, Product } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import {
   OpfQuickBuyDeliveryInfo,
   OpfQuickBuyDeliveryType,
@@ -29,30 +29,37 @@ export class OpfPickupInStoreHandlerService {
    * @return An observable emitting the delivery type (pickup or shipping).
    */
   getSingleProductDeliveryInfo(): Observable<OpfQuickBuyDeliveryInfo> {
-    const shippingTypeInfo: OpfQuickBuyDeliveryInfo = {
+    let deliveryInfo: OpfQuickBuyDeliveryInfo = {
       type: OpfQuickBuyDeliveryType.SHIPPING,
-      pickupDetails: undefined,
     };
+
     if (!this.intendedPickupLocationFacade) {
-      return of(shippingTypeInfo);
+      return of(deliveryInfo);
     }
+
     return this.currentProductService.getProduct().pipe(
       take(1),
-      switchMap((product: Product | null) =>
-        this.intendedPickupLocationFacade
-          .getIntendedLocation(product?.code as string)
+      switchMap((product: Product | null) => {
+        const productCode = product?.code as string;
+        return this.intendedPickupLocationFacade
+          .getIntendedLocation(productCode)
           .pipe(
-            map((pickupDetails: PointOfService | undefined) => {
-              return pickupDetails
-                ? {
-                    type: OpfQuickBuyDeliveryType.PICKUP,
-                    pickupDetails,
-                  }
-                : shippingTypeInfo;
-            }),
-            take(1)
-          )
-      )
+            map((intendedLocation) => {
+              if (
+                intendedLocation &&
+                intendedLocation.pickupOption ===
+                  OpfQuickBuyDeliveryType.PICKUP.toLowerCase()
+              ) {
+                deliveryInfo = {
+                  type: OpfQuickBuyDeliveryType.PICKUP,
+                  pickupDetails: intendedLocation,
+                };
+              }
+
+              return deliveryInfo;
+            })
+          );
+      })
     );
   }
 
