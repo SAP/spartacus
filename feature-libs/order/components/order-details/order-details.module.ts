@@ -139,9 +139,6 @@ const moduleComponents = [
         AccountOrderDetailsOverviewComponent: {
           component: OrderOverviewComponent,
           guards: [AuthGuard],
-          data: {
-            simple: true,
-          },
         },
         AccountOrderDetailsSimpleOverviewComponent: {
           component: OrderOverviewComponent,
