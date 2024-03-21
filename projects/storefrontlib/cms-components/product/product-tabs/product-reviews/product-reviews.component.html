@@ -29,22 +29,26 @@
             <h3>{{ 'Overall Review Summary' }}</h3>
             {{ aiSummary.choices[0].message.content | json }}
           </ng-container>
-          <ng-container *ngIf="aiSentiment$ | async as aiSentiments">
-            <div *ngFor="let sentiment of aiSentiments.neutral">
-              {{ sentiment }}
-            </div>
-            <div class="positive-sentiment"
-              *ngFor="let sentiment of aiSentiments.positive"
-
-            >
-              {{ sentiment }}
-            </div>
-            <div class="negative-sentiment"
-              *ngFor="let sentiment of aiSentiments.negative"
-            >
-              {{ sentiment }}
-            </div>
+          <div class="sentiments">
+            <ng-container
+            *ngIf="aiPositiveSentiments$ | async as aiPositiveSentiments"
+          >
+            <ul class="positive-sentiments">
+              <li *ngFor="let sentiment of aiPositiveSentiments">
+                <i class="fa fa-thumbs-up thumbsUp" aria-hidden="true"></i> {{ sentiment }}
+              </li>
+            </ul>
           </ng-container>
+          <ng-container
+            *ngIf="aiNegativeSentiments$ | async as aiNegativeSentiments"
+          >
+            <ul class="negative-sentiments">
+              <li *ngFor="let sentiment of aiNegativeSentiments">
+                <i class="fa fa-thumbs-down thumbsDown" aria-hidden="true"></i> {{ sentiment }}
+              </li>
+            </ul>
+          </ng-container>
+          </div>
         </div>
         <div
           class="review"
@@ -106,6 +110,14 @@
           <span class="label-content"
             >{{ 'productReview.writeYourComments' | cxTranslate }}
             <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <button
+              type="button"
+              title="Ask AI to generate review based on Review Title and Rating you have entered"
+              class="btn btn-link button-add cx-action-link"
+              (click)="getReview(product)"
+            >
+              <i class='fas fa-robot fa-2x'></i>
+            </button>
           </span>
           <textarea
             required="true"

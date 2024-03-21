@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductReviewsAdapter } from './product-reviews.adapter';
-import { Review } from '../../../model/product.model';
+import { Review, aiPrompt, aiResponse } from '../../../model/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +23,8 @@ export class ProductReviewsConnector {
     return this.adapter.post(productCode, review);
   }
 
-  getOverallReview(aiPrompt: any): Observable<any>
+  getAiResponse(aiPrompt: aiPrompt): Observable<aiResponse>
   {
-    return this.adapter.getOverallReview(aiPrompt);
+    return this.adapter.getAiResponse(aiPrompt);
   }
 }

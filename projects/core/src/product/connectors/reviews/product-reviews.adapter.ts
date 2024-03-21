@@ -5,7 +5,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { Review } from '../../../model/product.model';
+import { Review, aiPrompt, aiResponse } from '../../../model/product.model';
 
 export abstract class ProductReviewsAdapter {
   /**
@@ -25,5 +25,5 @@ export abstract class ProductReviewsAdapter {
    * @param review Review to post
    */
   abstract post(productCode: string, review: any): Observable<Review>;
-  abstract getOverallReview(aiPrompt: any): Observable<any>;
+  abstract getAiResponse(aiPrompt: aiPrompt): Observable<aiResponse>;
 }
