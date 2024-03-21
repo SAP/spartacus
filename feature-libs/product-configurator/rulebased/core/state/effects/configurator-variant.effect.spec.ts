@@ -198,5 +198,25 @@ describe('ConfiguratorVariantEffect', () => {
         expected
       );
     });
+
+    it('should emit success in case it is called with the variant feature enabled but for wrong configurator type (in order to reset loading status)', () => {
+      const action = new ConfiguratorActions.SearchVariants(
+        productConfiguration
+      );
+      action.payload.owner.configuratorType = ConfiguratorType.CPQ;
+      if (configuratorCoreConfig.productConfigurator) {
+        configuratorCoreConfig.productConfigurator.enableVariantSearch = true;
+      }
+      const completion = new ConfiguratorActions.SearchVariantsSuccess({
+        ownerKey: productConfiguration.owner.key,
+        variants: [],
+      });
+      actions$ = cold('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(configEffects.searchVariantsInCaseNotActive$).toBeObservable(
+        expected
+      );
+    });
   });
 });

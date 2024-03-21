@@ -58,7 +58,7 @@ export class ConfiguratorVariantEffects {
     )
   );
   /**
-   * Effect for handling the variant search action in case the feature is not active.
+   * Effect for handling the variant search action in case the feature is not active or the configurator type does not support it.
    * We return the corresponding success action in this case in order to reset the loading state.
    */
   searchVariantsInCaseNotActive$: Observable<ConfiguratorActions.SearchVariantsSuccess> =
@@ -66,9 +66,10 @@ export class ConfiguratorVariantEffects {
       this.actions$.pipe(
         ofType(ConfiguratorActions.SEARCH_VARIANTS),
         filter(
-          () =>
+          (action: ConfiguratorActions.SearchVariants) =>
             this.configuratorCoreConfig.productConfigurator
-              ?.enableVariantSearch === false
+              ?.enableVariantSearch === false ||
+            action.payload.owner.configuratorType !== ConfiguratorType.VARIANT
         ),
         map(
           (action: ConfiguratorActions.SearchVariants) =>
