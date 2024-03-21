@@ -8,10 +8,7 @@
 import { ElementRef, Injectable, inject } from '@angular/core';
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
 import { Address, Product } from '@spartacus/core';
-import {
-  OpfCartHandlerService,
-  OpfPickupInStoreHandlerService,
-} from '@spartacus/opf/base/core';
+import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ADDRESS_FIELD_PLACEHOLDER,
   ActiveConfiguration,
@@ -49,9 +46,6 @@ export class OpfGooglePayService {
   protected opfCartHandlerService = inject(OpfCartHandlerService);
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected opfQuickBuyService = inject(OpfQuickBuyService);
-  protected opfPickupInStoreHandlerService = inject(
-    OpfPickupInStoreHandlerService
-  );
 
   protected readonly GOOGLE_PAY_JS_URL =
     'https://pay.google.com/gp/p/js/pay.js';
