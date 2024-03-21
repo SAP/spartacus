@@ -78,7 +78,7 @@ export class ProductReviewSummarizerService {
             }).pipe(
                 map((response) => {
                 //let res = JSON.parse(JSON.stringify(response)).choices[0].text;
-                let res = JSON.parse(JSON.stringify(response)).choices[0].message.content;
+                let res = JSON.parse(JSON.stringify(response)).choices[0].message.content || '';
                 res = res.replaceAll("\n", "<br>");
                 console.log(`res is ${res}`);
                 return res;
