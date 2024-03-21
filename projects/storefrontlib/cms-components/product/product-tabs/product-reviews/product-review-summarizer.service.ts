@@ -23,11 +23,11 @@ export class ProductReviewSummarizerService {
         max_tokens: 500
     };
 
-    REVIEWS_PLACE_HOLDER = "REVIEWS";
+    REVIEWS_PLACE_HOLDER = "REVIEWS_PLACE_HOLDER";
     messagePayload: LLMMessageRequestPayloadType = {
         messages: [
             {role: "system", content: "You are an assistant designed to summarize text."},
-            {role: "user", content: `The following JSON document contains a list of product reviews (negative and positive). Please write me a single review that works as a summary of the list. The result should be formatted as a bullet point list with not more than 5 items. Also highlight important keywords and format as HTML. The list of reviews:[${this.REVIEWS_PLACE_HOLDER}]`}
+            {role: "user", content: `The following JSON document contains a list of product reviews (negative and positive). Please write me a single review that works as a summary of the list. The result should be formatted as a bullet point list with not more than 5 items. Also highlight important keywords and format as HTML. The list of reviews: [${this.REVIEWS_PLACE_HOLDER}]`}
         ],
         n: 1,
         deployment_id: "gpt-35-turbo",
@@ -66,8 +66,10 @@ export class ProductReviewSummarizerService {
     }*/
 
     summarizeReviews(reviews: Review[]): Observable<string|undefined> {
-        let reviewComments = reviews.map((r) => r.comment);
-        this.messagePayload.messages[1].content.replace(this.REVIEWS_PLACE_HOLDER, reviewComments.toString());
+        if (reviews.length > 0){
+            let reviewComments = reviews.map((r) => r.comment);
+            this.messagePayload.messages[1].content = this.messagePayload.messages[1].content.replace(this.REVIEWS_PLACE_HOLDER, reviewComments.toString().substring(0, 250))
+        }
         return this.http.post(`${this.llmProxyUrl}`, JSON.stringify(this.messagePayload), {
                 headers: {
                     Authorization: `Bearer ${this.token}`,
@@ -77,9 +79,8 @@ export class ProductReviewSummarizerService {
                 map((response) => {
                 //let res = JSON.parse(JSON.stringify(response)).choices[0].text;
                 let res = JSON.parse(JSON.stringify(response)).choices[0].message.content;
-                const parser = new DOMParser();
-                const document = parser.parseFromString(res, "text/html");
-                console.log(`res is ${document}`);
+                res = res.replaceAll("\n", "<br>");
+                console.log(`res is ${res}`);
                 return res;
                 })
             );
