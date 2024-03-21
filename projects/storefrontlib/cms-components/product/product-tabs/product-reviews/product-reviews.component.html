@@ -28,7 +28,8 @@
           class="review"
           tabindex="0"
         >
-          <div *ngIf="productAverageReview$ | async as averageReview" [innerHTML]="averageReview">{{ averageReview }}</div>
+          <div class="title" *ngIf="productAverageReviewHeadline$ | async as averageReviewHeadline" [innerHTML]="averageReviewHeadline">{{ averageReviewHeadline }}</div>
+          <div class="text" *ngIf="productAverageReview$ | async as averageReview" [innerHTML]="averageReview">{{ averageReview }}</div>
         </div>
       <div class="rating" *ngIf="!product.averageRating">
         {{ 'productDetails.noReviews' | cxTranslate }}

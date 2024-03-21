@@ -24,14 +24,26 @@ export class ProductReviewSummarizerService {
     };
 
     REVIEWS_PLACE_HOLDER = "REVIEWS_PLACE_HOLDER";
+    REVIEW_TITLES_PLACE_HOLDER = "REVIEW_TITLES_PLACE_HOLDER";
     messagePayload: LLMMessageRequestPayloadType = {
         messages: [
             {role: "system", content: "You are an assistant designed to summarize text."},
-            {role: "user", content: `The following JSON document contains a list of product reviews (negative and positive). Please write me a single review that works as a summary of the list. The result should be formatted as a bullet point list with not more than 5 items. Also highlight important keywords and format as HTML. The list of reviews: [${this.REVIEWS_PLACE_HOLDER}]`}
+            {role: "user", content: `The following JSON document contains a list of product reviews. Please write me a single review that works as a summary of the list. The result should be formatted as a bullet point list with not more than 3 items. Also highlight important keywords and format as HTML. The list of reviews: [${this.REVIEWS_PLACE_HOLDER}].`}
         ],
         n: 1,
         deployment_id: "gpt-35-turbo",
-        temperature: 0.5,
+        temperature: 0.1,
+        max_tokens: 500
+    };
+
+    messagePayloadForHeadline: LLMMessageRequestPayloadType = {
+        messages: [
+            {role: "system", content: "You are an assistant designed to summarize text."},
+            {role: "user", content: `The following JSON document contains a list of product review headlines (negative and positive). Please write me a single review headline that works as a summary of the list. The result should be formatted as a one line text not exceeding 8 words. The list of review headlines: [${this.REVIEW_TITLES_PLACE_HOLDER}].`}
+        ],
+        n: 1,
+        deployment_id: "gpt-35-turbo",
+        temperature: 0.1,
         max_tokens: 500
     };
 
@@ -65,10 +77,29 @@ export class ProductReviewSummarizerService {
         return token;
     }*/
 
+    summarizeReviewHeadlines(reviews: Review[]): Observable<string|undefined> {
+        if (reviews.length > 0){
+            let reviewHeadlines = reviews.map((r) => r.headline);
+            this.messagePayloadForHeadline.messages[1].content = this.messagePayloadForHeadline.messages[1].content.replace(this.REVIEW_TITLES_PLACE_HOLDER, reviewHeadlines.toString().substring(0, 250));
+        }
+        return this.http.post(`${this.llmProxyUrl}`, JSON.stringify(this.messagePayloadForHeadline), {
+                headers: {
+                    Authorization: `Bearer ${this.token}`,
+                    "Content-Type": "application/json"
+                },
+            }).pipe(
+                map((response) => {
+                let res = JSON.parse(JSON.stringify(response)).choices[0].message.content || '';
+                res = res.replaceAll("\n", "<br>");
+                return res;
+                })
+            );
+    }
+
     summarizeReviews(reviews: Review[]): Observable<string|undefined> {
         if (reviews.length > 0){
             let reviewComments = reviews.map((r) => r.comment);
-            this.messagePayload.messages[1].content = this.messagePayload.messages[1].content.replace(this.REVIEWS_PLACE_HOLDER, reviewComments.toString().substring(0, 250))
+            this.messagePayload.messages[1].content = this.messagePayload.messages[1].content.replace(this.REVIEWS_PLACE_HOLDER, reviewComments.toString().substring(0, 250));
         }
         return this.http.post(`${this.llmProxyUrl}`, JSON.stringify(this.messagePayload), {
                 headers: {

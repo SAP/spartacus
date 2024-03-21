@@ -75,6 +75,12 @@ export class ProductReviewsComponent {
     //switchMap((reviews) => this.productReviewSummarizationService.summarizeReviewsWithBtpClient(reviews)),
   );
 
+  productAverageReviewHeadline$: Observable<string|undefined> = this.reviews$.pipe(
+    distinctUntilChanged(),
+    filter(isNotUndefined),
+    switchMap((reviews) => this.productReviewSummarizationService.summarizeReviewHeadlines(reviews)),
+  );
+
   constructor(
     protected reviewService: ProductReviewService,
     protected currentProductService: CurrentProductService,
