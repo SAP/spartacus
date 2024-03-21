@@ -138,8 +138,7 @@ export class ApplePayService {
           paymentAuthorized: (event) => this.handlePaymentAuthorized(event),
         });
       }),
-      tap(() => console.log('flo')),
-
+      take(1),
       catchError((error) => {
         this.cartHandlerService.loadCartAfterSingleProductTransaction(
           this.transactionDetails
@@ -418,7 +417,6 @@ export class ApplePayService {
         ? this.cartHandlerService
             .setDeliveryMode(OpfQuickBuyDeliveryType.PICKUP.toLocaleLowerCase())
             .pipe(
-              take(1),
               switchMap(() => {
                 return this.cartHandlerService.setBillingAddress(
                   this.convertAppleToOpfAddress(billingContact)
@@ -444,7 +442,6 @@ export class ApplePayService {
 
     return deliveryTypeHandlingObservable.pipe(
       switchMap(() => this.cartHandlerService.getCurrentCartId()),
-      take(1),
       switchMap((cartId: string) => {
         const encryptedToken = btoa(
           JSON.stringify(applePayPayment.token.paymentData)
