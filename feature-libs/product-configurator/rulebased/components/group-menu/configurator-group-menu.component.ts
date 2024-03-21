@@ -10,6 +10,7 @@ import {
   ElementRef,
   QueryList,
   ViewChildren,
+  inject,
 } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import {
@@ -21,6 +22,8 @@ import {
   DirectionService,
   HamburgerMenuService,
   ICON_TYPE,
+  BREAKPOINT,
+  BreakpointService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
@@ -38,6 +41,8 @@ import { ConfiguratorGroupMenuService } from './configurator-group-menu.componen
 })
 export class ConfiguratorGroupMenuComponent {
   @ViewChildren('groupItem') groups: QueryList<ElementRef<HTMLElement>>;
+
+  protected breakpointService = inject(BreakpointService);
 
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
@@ -399,6 +404,7 @@ export class ConfiguratorGroupMenuComponent {
     targetGroup: Configurator.Group,
     currentGroup: Configurator.Group
   ): void {
+    this.handleFocusLoopInMobileMode(event);
     if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
       this.configGroupMenuService.switchGroupOnArrowPress(
         event,
@@ -414,6 +420,35 @@ export class ConfiguratorGroupMenuComponent {
         this.navigateUp(currentGroup);
       }
     }
+  }
+
+  /**
+   * In mobile mode the focus should be set to the first element of the menu ('X') if tab is pressed on the active group menu item.
+   * If the focus is currently on the back-button it needs to be checked if the active group is currently in the list of displayed groups.
+   * Only if the active group is not in the list of displayed groups, the focus should be set to the first element of the menu ('X') otherwise
+   * the focus is set to the active group menu item.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  protected handleFocusLoopInMobileMode(event: KeyboardEvent): void {
+    this.breakpointService
+      .isDown(BREAKPOINT.md)
+      .pipe(take(1))
+      .subscribe((isMobile) => {
+        if (isMobile && event.code === 'Tab' && !event.shiftKey) {
+          if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
+            if (
+              !this.configGroupMenuService.isActiveGroupInGroupList(this.groups)
+            ) {
+              event.preventDefault();
+              this.configUtils.focusFirstActiveElement('cx-hamburger-menu');
+            }
+          } else {
+            event.preventDefault();
+            this.configUtils.focusFirstActiveElement('cx-hamburger-menu');
+          }
+        }
+      });
   }
 
   /**
