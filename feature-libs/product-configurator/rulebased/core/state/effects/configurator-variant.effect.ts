@@ -9,7 +9,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import { ConfiguratorType } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { catchError, filter, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCoreConfig } from '../../config/configurator-core.config';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { Configurator } from '../../model/configurator.model';
@@ -57,6 +57,28 @@ export class ConfiguratorVariantEffects {
       })
     )
   );
+  /**
+   * Effect for handling the variant search action in case the feature is not active.
+   * We return the corresponding success action in this case in order to reset the loading state.
+   */
+  searchVariantsInCaseNotActive$: Observable<ConfiguratorActions.SearchVariantsSuccess> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(ConfiguratorActions.SEARCH_VARIANTS),
+        filter(
+          () =>
+            this.configuratorCoreConfig.productConfigurator
+              ?.enableVariantSearch === false
+        ),
+        map(
+          (action: ConfiguratorActions.SearchVariants) =>
+            new ConfiguratorActions.SearchVariantsSuccess({
+              ownerKey: action.payload.owner.key,
+              variants: [],
+            })
+        )
+      )
+    );
 
   constructor(
     protected actions$: Actions,
