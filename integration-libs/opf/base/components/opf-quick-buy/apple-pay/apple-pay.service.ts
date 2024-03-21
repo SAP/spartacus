@@ -27,6 +27,7 @@ import {
   ApplePayShippingType,
   ApplePayTransactionInput,
   OpfPaymentFacade,
+  OpfQuickBuyDeliveryInfo,
   OpfQuickBuyDeliveryType,
   OpfQuickBuyLocation,
   PaymentMethod,
@@ -184,16 +185,13 @@ export class ApplePayService {
     };
 
     return this.opfQuickBuyService
-      .getQuickBuyDeliveryType(
+      .getQuickBuyDeliveryInfo(
         this.transactionDetails.context as OpfQuickBuyLocation
       )
       .pipe(
-        switchMap((deliveryType: OpfQuickBuyDeliveryType) => {
-          this.transactionDetails.deliveryInfo = {
-            type: deliveryType,
-            pickupDetails: undefined,
-          };
-          if (deliveryType === OpfQuickBuyDeliveryType.PICKUP) {
+        switchMap((deliveryInfo: OpfQuickBuyDeliveryInfo) => {
+          this.transactionDetails.deliveryInfo = deliveryInfo;
+          if (deliveryInfo.type === OpfQuickBuyDeliveryType.PICKUP) {
             // Don't display shipping contact form on payment sheet
             initialRequest.requiredShippingContactFields = [];
             initialRequest.shippingType = ApplePayShippingType.STORE_PICKUP;

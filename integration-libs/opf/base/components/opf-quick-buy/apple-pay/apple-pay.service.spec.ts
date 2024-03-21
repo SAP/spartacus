@@ -124,7 +124,7 @@ describe('ApplePayService', () => {
     opfQuickBuyServiceMock = jasmine.createSpyObj('OpfQuickBuyService', [
       'getQuickBuyLocationContext',
       'getQuickBuyProviderConfig',
-      'getQuickBuyDeliveryType',
+      'getQuickBuyDeliveryInfo',
     ]);
 
     applePaySessionFactoryMock = jasmine.createSpyObj(
@@ -204,8 +204,10 @@ describe('ApplePayService', () => {
         config = actualConfig;
         return applePayObservableTestController;
       });
-      opfQuickBuyServiceMock.getQuickBuyDeliveryType.and.returnValue(
-        of(OpfQuickBuyDeliveryType.SHIPPING)
+      opfQuickBuyServiceMock.getQuickBuyDeliveryInfo.and.returnValue(
+        of({
+          type: OpfQuickBuyDeliveryType.SHIPPING,
+        })
       );
     });
 
@@ -604,16 +606,13 @@ describe('ApplePayService', () => {
         countryCode: 'us',
       };
 
-      const deliverInfoMock: OpfQuickBuyDeliveryInfo = {
+      const deliveryInfoMock: OpfQuickBuyDeliveryInfo = {
         type: OpfQuickBuyDeliveryType.PICKUP,
         pickupDetails: { name: 'Nakano' },
       };
-      opfQuickBuyServiceMock.getQuickBuyDeliveryType.and.returnValue(
-        of(OpfQuickBuyDeliveryType.PICKUP)
-      );
 
-      opfPickupInStoreHandlerServiceMock.getSingleProductDeliveryInfo.and.returnValue(
-        of(deliverInfoMock)
+      opfQuickBuyServiceMock.getQuickBuyDeliveryInfo.and.returnValue(
+        of(deliveryInfoMock)
       );
 
       const setApplePayRequestConfig = service['setApplePayRequestConfig'](
@@ -637,16 +636,17 @@ describe('ApplePayService', () => {
         countryCode: 'us',
       };
 
-      const deliverInfoMock: OpfQuickBuyDeliveryInfo = {
+      const deliveryInfoMock: OpfQuickBuyDeliveryInfo = {
         type: OpfQuickBuyDeliveryType.PICKUP,
         pickupDetails: { name: 'Nakano' },
       };
-      opfQuickBuyServiceMock.getQuickBuyDeliveryType.and.returnValue(
-        of(OpfQuickBuyDeliveryType.PICKUP)
+
+      opfQuickBuyServiceMock.getQuickBuyDeliveryInfo.and.returnValue(
+        of(deliveryInfoMock)
       );
 
       opfPickupInStoreHandlerServiceMock.getSingleProductDeliveryInfo.and.returnValue(
-        of(deliverInfoMock)
+        of(deliveryInfoMock)
       );
 
       const setApplePayRequestConfig = service['setApplePayRequestConfig'](
@@ -665,8 +665,10 @@ describe('ApplePayService', () => {
 
   it('should handle errors during Apple Pay session start', () => {
     service = TestBed.inject(ApplePayService);
-    opfQuickBuyServiceMock.getQuickBuyDeliveryType.and.returnValue(
-      of(OpfQuickBuyDeliveryType.SHIPPING)
+    opfQuickBuyServiceMock.getQuickBuyDeliveryInfo.and.returnValue(
+      of({
+        type: OpfQuickBuyDeliveryType.SHIPPING,
+      })
     );
     cartHandlerServiceMock.loadOriginalCart.and.returnValue(of(true));
     cartHandlerServiceMock.removeProductFromOriginalCart.and.returnValue(
