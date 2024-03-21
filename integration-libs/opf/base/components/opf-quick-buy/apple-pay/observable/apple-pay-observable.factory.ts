@@ -8,6 +8,7 @@
 import { Injectable, inject } from '@angular/core';
 import {
   ApplePayObservableConfig,
+  ApplePayShippingType,
   PaymentErrorType,
 } from '@spartacus/opf/base/root';
 import { Observable } from 'rxjs';
@@ -61,7 +62,10 @@ export class ApplePayObservableFactory {
         });
       }
 
-      if (config.shippingContactSelected) {
+      if (
+        config.shippingContactSelected &&
+        config.request.shippingType != ApplePayShippingType.STORE_PICKUP
+      ) {
         session.addEventListener('shippingcontactselected', (event: Event) => {
           config
             .shippingContactSelected(<any>event)
@@ -72,7 +76,10 @@ export class ApplePayObservableFactory {
         });
       }
 
-      if (config.shippingMethodSelected) {
+      if (
+        config.shippingMethodSelected &&
+        config.request.shippingType != ApplePayShippingType.STORE_PICKUP
+      ) {
         session.addEventListener('shippingmethodselected', (event: Event) => {
           config
             .shippingMethodSelected(<any>event)
