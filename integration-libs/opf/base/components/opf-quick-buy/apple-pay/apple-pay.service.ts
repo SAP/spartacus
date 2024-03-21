@@ -444,6 +444,7 @@ export class ApplePayService {
 
     return deliveryTypeHandlingObservable.pipe(
       switchMap(() => this.cartHandlerService.getCurrentCartId()),
+      take(1),
       switchMap((cartId: string) => {
         const encryptedToken = btoa(
           JSON.stringify(applePayPayment.token.paymentData)
